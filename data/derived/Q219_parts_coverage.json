@@ -1,18 +1,18 @@
 {
- "generated": "2026-10-11",
+ "generated": "2026-10-12",
  "note": "Coverage of the parts table over (a) the data/ entity list (side-agnostic ids) and (b) the structures of the four bodies. 'with_parts' = at least one sourced part row. Rows marked unverified count as covered but are flagged in the table.",
- "parts_total": 347,
- "structures_with_parts": 101,
+ "parts_total": 391,
+ "structures_with_parts": 123,
  "by_part_type": {
-  "head_belly": 46,
-  "origin_part": 22,
-  "insertion_point": 94,
+  "head_belly": 58,
+  "origin_part": 31,
+  "insertion_point": 105,
   "muscle_tendon_junction": 14,
-  "ligament_component": 137,
-  "fascial_passage": 34
+  "ligament_component": 148,
+  "fascial_passage": 35
  },
  "by_verification": {
-  "verified": 315,
+  "verified": 359,
   "unverified": 32
  },
  "entity_classes": {
@@ -104,8 +104,8 @@
   },
   "fascia": {
    "entities": 95,
-   "with_parts": 18,
-   "without_parts": 77,
+   "with_parts": 19,
+   "without_parts": 76,
    "with_parts_ids": [
     "adductor_canal",
     "antebrachial_fascia",
@@ -113,6 +113,7 @@
     "arcade_of_struthers",
     "crural_fascia",
     "cubital_tunnel_retinaculum",
+    "erector_spinae_aponeurosis",
     "extensor_retinaculum",
     "fascia_lata",
     "flexor_retinaculum",
@@ -150,7 +151,6 @@
     "diaphragmatic_fascia",
     "dorsal_forearm_compartment",
     "endothoracic_fascia",
-    "erector_spinae_aponeurosis",
     "extensor_retinaculum_ankle",
     "external_oblique_aponeurosis",
     "femoral_canal",
@@ -208,10 +208,12 @@
   },
   "ligaments": {
    "entities": 51,
-   "with_parts": 21,
-   "without_parts": 30,
+   "with_parts": 24,
+   "without_parts": 27,
    "with_parts_ids": [
+    "acromioclavicular_ligament",
     "anterior_cruciate_ligament",
+    "coracoacromial_ligament",
     "coracoclavicular_ligament",
     "coracohumeral_ligament",
     "deltoid_ligament",
@@ -225,6 +227,7 @@
     "plantar_ligament_complex",
     "posterior_cruciate_ligament",
     "radial_collateral_ligament_complex_elbow",
+    "sternoclavicular_ligament",
     "superior_transverse_scapular_ligament",
     "thumb_mcp_rcl",
     "thumb_mcp_ucl",
@@ -234,12 +237,10 @@
     "wrist_ligament_complex"
    ],
    "without_parts_ids": [
-    "acromioclavicular_ligament",
     "annular_ligament",
     "anterior_longitudinal_ligament",
     "anterior_sacroiliac_ligament",
     "arcuate_pubic_ligament",
-    "coracoacromial_ligament",
     "costal_ligament_complex",
     "costoclavicular_ligament",
     "craniovertebral_ligament_complex",
@@ -257,7 +258,6 @@
     "quadrate_ligament",
     "sacrospinous_ligament",
     "sacrotuberous_ligament",
-    "sternoclavicular_ligament",
     "sternocostal_ligament_complex",
     "superior_pubic_ligament",
     "supraspinous_ligament",
@@ -268,9 +268,11 @@
   },
   "muscles": {
    "entities": 220,
-   "with_parts": 42,
-   "without_parts": 178,
+   "with_parts": 60,
+   "without_parts": 160,
    "with_parts_ids": [
+    "abductor_digiti_minimi_hand",
+    "abductor_pollicis_brevis",
     "abductor_pollicis_longus",
     "adductor_brevis",
     "adductor_longus",
@@ -280,25 +282,40 @@
     "brachialis",
     "deltoid",
     "dorsal_interossei_hand",
+    "extensor_carpi_radialis_brevis",
     "extensor_digiti_minimi",
     "extensor_digitorum",
     "external_anal_sphincter",
     "fibularis_longus",
     "fibularis_tertius",
+    "flexor_carpi_ulnaris",
+    "flexor_digiti_minimi_brevis_hand",
+    "flexor_digitorum_profundus",
     "flexor_digitorum_superficialis",
+    "flexor_pollicis_brevis",
+    "flexor_pollicis_longus",
     "gastrocnemius",
     "gluteus_maximus",
     "gluteus_medius",
     "gluteus_minimus",
+    "iliocostalis",
+    "iliopsoas",
     "infraspinatus",
+    "latissimus_dorsi",
     "levator_ani",
+    "levator_scapulae",
+    "longissimus",
     "lumbricals_hand",
+    "opponens_digiti_minimi",
+    "opponens_pollicis",
     "palmar_interossei",
     "pectoralis_major",
+    "pectoralis_minor",
     "piriformis",
     "popliteus",
     "pronator_quadratus",
     "pronator_teres",
+    "quadratus_lumborum",
     "rectus_abdominis",
     "rectus_femoris",
     "semimembranosus",
@@ -306,6 +323,7 @@
     "serratus_anterior",
     "soleus",
     "subscapularis",
+    "supinator",
     "supraspinatus",
     "teres_major",
     "tibialis_posterior",
@@ -316,9 +334,7 @@
    ],
    "without_parts_ids": [
     "abductor_digiti_minimi_foot",
-    "abductor_digiti_minimi_hand",
     "abductor_hallucis",
-    "abductor_pollicis_brevis",
     "adductor_hallucis",
     "adductor_magnus",
     "anconeus",
@@ -343,7 +359,6 @@
     "diaphragm",
     "digastric",
     "dorsal_interossei_foot",
-    "extensor_carpi_radialis_brevis",
     "extensor_carpi_radialis_longus",
     "extensor_carpi_ulnaris",
     "extensor_digitorum_brevis",
@@ -357,16 +372,11 @@
     "external_oblique",
     "fibularis_brevis",
     "flexor_carpi_radialis",
-    "flexor_carpi_ulnaris",
     "flexor_digiti_minimi_brevis_foot",
-    "flexor_digiti_minimi_brevis_hand",
     "flexor_digitorum_brevis",
     "flexor_digitorum_longus",
-    "flexor_digitorum_profundus",
     "flexor_hallucis_brevis",
     "flexor_hallucis_longus",
-    "flexor_pollicis_brevis",
-    "flexor_pollicis_longus",
     "frontalis",
     "gemellus_inferior",
     "gemellus_superior",
@@ -376,8 +386,6 @@
     "helicis_major",
     "helicis_minor",
     "hyoglossus",
-    "iliocostalis",
-    "iliopsoas",
     "inferior_longitudinal_tongue",
     "inferior_oblique",
     "inferior_pharyngeal_constrictor",
@@ -391,14 +399,11 @@
     "lateral_cricoarytenoid",
     "lateral_pterygoid",
     "lateral_rectus",
-    "latissimus_dorsi",
     "levator_anguli_oris",
     "levator_labii_superioris",
     "levator_palpebrae_superioris",
-    "levator_scapulae",
     "levator_veli_palatini",
     "levatores_costarum",
-    "longissimus",
     "longus_capitis",
     "longus_colli",
     "lumbricals_foot",
@@ -419,8 +424,6 @@
     "obturator_internus",
     "occipitofrontalis",
     "omohyoid",
-    "opponens_digiti_minimi",
-    "opponens_pollicis",
     "orbicularis_oculi",
     "orbicularis_oris",
     "palatoglossus",
@@ -428,7 +431,6 @@
     "palmaris_brevis",
     "palmaris_longus",
     "pectineus",
-    "pectoralis_minor",
     "plantar_interossei",
     "plantaris",
     "platysma",
@@ -436,7 +438,6 @@
     "procerus",
     "pyramidalis",
     "quadratus_femoris",
-    "quadratus_lumborum",
     "quadratus_plantae",
     "rectus_capitis_anterior",
     "rectus_capitis_lateralis",
@@ -473,7 +474,6 @@
     "superior_oblique",
     "superior_pharyngeal_constrictor",
     "superior_rectus",
-    "supinator",
     "temporalis",
     "tensor_fasciae_latae",
     "tensor_tympani",
@@ -552,7 +552,7 @@
     },
     "muscle": {
      "structures": 367,
-     "with_parts": 108
+     "with_parts": 147
     },
     "nerve": {
      "structures": 13,
@@ -572,7 +572,7 @@
     }
    },
    "structures_total": 561,
-   "structures_with_parts": 128,
+   "structures_with_parts": 167,
    "dedicated_part_meshes_present": []
   },
   "vhf": {
@@ -591,11 +591,11 @@
     },
     "ligament": {
      "structures": 11,
-     "with_parts": 9
+     "with_parts": 11
     },
     "muscle": {
      "structures": 390,
-     "with_parts": 111
+     "with_parts": 157
     },
     "nerve": {
      "structures": 16,
@@ -615,7 +615,7 @@
     }
    },
    "structures_total": 608,
-   "structures_with_parts": 133,
+   "structures_with_parts": 181,
    "dedicated_part_meshes_present": [
     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
    ]
@@ -648,7 +648,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 24
+     "with_parts": 28
     },
     "lymph": {
      "structures": 162,
@@ -656,7 +656,7 @@
     },
     "muscle": {
      "structures": 424,
-     "with_parts": 73
+     "with_parts": 107
     },
     "nerve": {
      "structures": 337,
@@ -676,7 +676,7 @@
     }
    },
    "structures_total": 2966,
-   "structures_with_parts": 116,
+   "structures_with_parts": 154,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -788,7 +788,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 24
+     "with_parts": 28
     },
     "lymph": {
      "structures": 162,
@@ -796,7 +796,7 @@
     },
     "muscle": {
      "structures": 426,
-     "with_parts": 73
+     "with_parts": 107
     },
     "nerve": {
      "structures": 337,
@@ -816,7 +816,7 @@
     }
    },
    "structures_total": 2942,
-   "structures_with_parts": 116,
+   "structures_with_parts": 154,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -913,6 +913,7 @@
   "triceps_brachii": 7,
   "first_carpometacarpal": 7,
   "pectoralis_major": 6,
+  "trapezius": 6,
   "deltoid_ligament": 6,
   "rectus_abdominis": 6,
   "extensor_retinaculum": 6,
@@ -924,6 +925,7 @@
   "linea_alba": 5,
   "levator_ani": 5,
   "rectum": 5,
+  "coracoacromial_ligament": 5,
   "supraspinatus": 4,
   "radial_collateral_ligament_complex_elbow": 4,
   "flexor_retinaculum": 4,
@@ -939,8 +941,9 @@
   "collateral_interphalangeal_ligaments_of_hand": 4,
   "dorsal_interossei_hand": 4,
   "palmar_interossei": 4,
+  "extensor_digitorum": 4,
   "medial_patellofemoral_ligament": 4,
-  "trapezius": 3,
+  "latissimus_dorsi": 4,
   "serratus_anterior": 3,
   "ulnar_collateral_ligament_elbow": 3,
   "lumbricals_hand": 3,
@@ -951,9 +954,11 @@
   "plantar_ligament_complex": 3,
   "gastrocnemius": 3,
   "finger_mcp_collateral_and_plate_complex": 3,
-  "extensor_digitorum": 3,
   "adductor_pollicis": 3,
   "cuneometatarsal_interosseous_ligaments": 3,
+  "pectoralis_minor": 3,
+  "supinator": 3,
+  "flexor_pollicis_brevis": 3,
   "infraspinatus": 2,
   "coracohumeral_ligament": 2,
   "coracoclavicular_ligament": 2,
@@ -969,6 +974,7 @@
   "fibularis_tertius": 2,
   "external_anal_sphincter": 2,
   "pudendal_n": 2,
+  "middle_layer_tlf": 2,
   "palmar_interphalangeal_ligaments": 2,
   "thumb_mcp_ucl": 2,
   "antebrachial_fascia": 2,
@@ -977,6 +983,10 @@
   "adductor_canal": 2,
   "vastus_medialis": 2,
   "adductor_longus": 2,
+  "erector_spinae_aponeurosis": 2,
+  "acromioclavicular_ligament": 2,
+  "flexor_digiti_minimi_brevis_hand": 2,
+  "abductor_digiti_minimi_hand": 2,
   "subscapularis": 1,
   "rotator_cuff_tendon_complex": 1,
   "teres_major": 1,
@@ -984,7 +994,6 @@
   "vastus_lateralis": 1,
   "iliotibial_tract": 1,
   "plantar_aponeurosis": 1,
-  "middle_layer_tlf": 1,
   "thumb_mcp_rcl": 1,
   "extensor_digiti_minimi": 1,
   "extensor_hood": 1,
@@ -1002,7 +1011,20 @@
   "superior_transverse_scapular_ligament": 1,
   "common_extensor_tendon": 1,
   "adductor_brevis": 1,
-  "lumbar_intervertebral_discs": 1
+  "lumbar_intervertebral_discs": 1,
+  "iliocostalis": 1,
+  "longissimus": 1,
+  "levator_scapulae": 1,
+  "sternoclavicular_ligament": 1,
+  "extensor_carpi_radialis_brevis": 1,
+  "flexor_carpi_ulnaris": 1,
+  "abductor_pollicis_brevis": 1,
+  "opponens_pollicis": 1,
+  "opponens_digiti_minimi": 1,
+  "flexor_pollicis_longus": 1,
+  "flexor_digitorum_profundus": 1,
+  "quadratus_lumborum": 1,
+  "iliopsoas": 1
  },
  "unverified_rows": [
   "deltoid.origin_lateral_third_clavicle",

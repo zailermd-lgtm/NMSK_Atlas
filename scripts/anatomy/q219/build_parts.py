@@ -12,6 +12,10 @@ sys.path.insert(0, str(HERE))
 REPO = HERE.parents[2]
 import rows_common
 import rows_upper, rows_lower, rows_trunk_hand, rows_hand_passages  # noqa: F401  (import fills rows_common.ROWS / SETS)
+import refs_q222  # noqa: F401  (Q222: extends refs.REFS)
+import importlib, pkgutil
+for _m in sorted(m.name for m in pkgutil.iter_modules([str(HERE)]) if m.name.startswith('rows_q222_')):
+    importlib.import_module(_m)  # Q222 row modules fill rows_common.ROWS / SETS
 from refs import REFS
 
 BODIES = ["vhm", "vhf", "zan_m", "zan_f"]
