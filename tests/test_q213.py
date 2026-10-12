@@ -273,6 +273,9 @@ def test_q213_motor_points_lie_in_their_structure_on_the_q213_page(vk, page_html
     q217 = (REPO / "build/q217/viewer_m_hr/atlas_viewer_male.html", REPO / "build/viewer_m_hr_q217/bundle.bin")
     if vk == "vhm" and q217[0].exists() and q217[1].exists():            # Q217: the own male motor points are regenerated on the Q217 page
         page_html, page_bin = q217
+    q225 = REPO / "build/q225_fit/viewer_zan_female/atlas_viewer_zan_female.html"
+    if vk == "zan_f" and q225.exists():                                  # Q225: the Z female fitted motor points are regenerated on the Q225 page (left elbow / patella / rib re-seat, wrist / shoulder carried)
+        page_html = q225
     mp = json.loads((REPO / "clinical" / "data" / "motor_points.json").read_text())["viewers"][vk]["points"]
     saved = M.VIEWERS[vk]
     M.VIEWERS[vk] = {**saved, "html": page_html, **({"bin": page_bin} if page_bin else {})}
