@@ -805,7 +805,7 @@
       fireResize(); fitControls();
       setTimeout(function () { fitControls(); relayoutViews(); }, 60);
     }
-    function fitControls() { if (!root) return; var h = root.getBoundingClientRect().height; root.classList.toggle("ctl-tabs", h > 0 && h < 860); }
+    function fitControls() { if (!root) return; var h = root.getBoundingClientRect().height; root.classList.toggle("ctl-tabs", h > 0 && h < 1000); }
 
     function build() {
       if (root) return;
@@ -1194,6 +1194,7 @@
       frames: function () { return frames; }, views: function () { return views; }, perf: function () { return perf; },
       /* one-off frame for tests / timing: spec {tilt, dir, off, rot, maxDim} -> Promise(frame) */
       frameNow: function (spec, q) { return loadTable().then(function () { return computeFrame(Object.assign({id: 0, tilt: 0, dir: 0, off: 0, label: "test"}, spec), q || {maxDim: 480, maxLines: 256}, null); }); },
+      screenOf: function (p) { return api.toScreen(p); }, focusOn: function (p, d) { api.focus(p, d); }, view: function () { return api.view(); },
       overlayItems: function () { var it = overlayItems(); return it ? it.map(function (x) { return [x[0], x[1].count()]; }) : null; }
     };
     return {};
