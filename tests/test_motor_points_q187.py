@@ -83,6 +83,9 @@ def test_points_inside_their_muscle(mp, vk):
     q216 = {"vhf": (REPO / "build/q216/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q216/bundle.bin")}.get(vk)
     if q216 and q216[0].exists() and q216[1].exists():
         vw["html"], vw["bin"] = q216
+    q217 = {"vhm": (REPO / "build/q217/viewer_m_hr/atlas_viewer_male.html", REPO / "build/viewer_m_hr_q217/bundle.bin")}.get(vk)
+    if q217 and q217[0].exists() and q217[1].exists():                       # Q217: the own male motor points are regenerated on the Q217 page
+        vw["html"], vw["bin"] = q217
     if not Path(vw["html"]).exists():
         pytest.skip(f"{vw['html']} not built")
     saved = M.VIEWERS[vk]

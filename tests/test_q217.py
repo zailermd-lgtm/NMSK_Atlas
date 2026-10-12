@@ -186,19 +186,59 @@ def test_zan_changed_muscles_are_inside_the_skin_and_out_of_the_bones_and_overla
         assert x["in_bone_pct"] <= 2.0, (i, x["in_bone_pct"])
 
 
+def _keyed(B):
+    seen, out = {}, {}
+    for it in B.items:
+        i = it["e"]["id"]
+        k = (i, seen.get(i, 0))
+        seen[i] = seen.get(i, 0) + 1
+        out[k] = it
+    return out
+
+
 def test_own_bundle_keeps_every_other_entry_byte_for_byte_and_the_source_class():
     _need(NEW_BUNDLE / "bundle.json")
     from scripts.transfer.q200_bundle import Bundle
-    A, N = Bundle(OLD_BUNDLE), Bundle(NEW_BUNDLE)
+    A, N = _keyed(Bundle(OLD_BUNDLE)), _keyed(Bundle(NEW_BUNDLE))
     rep = json.loads((DER / "Q217_own_report.json").read_text())
     listed = set(rep["replaced"]) | set(rep["added"]) | set(rep["removed"])
-    na = {it["e"]["id"]: it for it in N.items}
-    for it in A.items:
-        i = it["e"]["id"]
-        if i in listed:
+    for k, it in A.items():
+        if k[0] in listed:
             continue
-        assert i in na and na[i]["raw"] == it["raw"] and na[i]["e"] == it["e"], i
-    for i in rep["added"]:
-        assert na[i]["e"]["subject"] == "xfer_zan2vhm_arm_q217"
-    for i in rep["replaced"]:
-        assert na[i]["e"]["subject"].startswith("xfer_zan2vhm_limb") or na[i]["e"]["subject"].startswith("xfer_zan2")
+        assert k in N and N[k]["raw"] == it["raw"] and N[k]["e"] == it["e"], k
+    for k, it in N.items():
+        if k[0] in rep["added"]:
+            assert it["e"]["subject"] == "xfer_zan2vhm_arm_q217"
+        elif k[0] in rep["replaced"]:
+            assert it["e"]["subject"].startswith("xfer_zan2")
+        else:
+            assert k in A, k                                      # nothing else appeared
+
+
+def test_own_vertex_diff_has_no_unlisted_or_problem_entries():
+    _need(DER / "Q217_vertex_diff.json")
+    d = json.loads((DER / "Q217_vertex_diff.json").read_text())
+    assert d["unlisted_changes"] == [] and d["problems"] == [] and d["order_kept"] and d["quantum_same"]
+    assert len(d["replaced"]) == 13 and len(d["added"]) == 8 and len(d["removed"]) == 9
+
+
+def test_elbow_audit_numbers_on_both_male_pages_fell_below_the_brief_thresholds():
+    _need(DER / "Q217_elbow_before_after.json")
+    r = json.loads((DER / "Q217_elbow_before_after.json").read_text())
+    for k in ("own_m", "zan_m"):
+        b, a = r[k]["before"]["l"], r[k]["after"]["l"]
+        assert a["overlap_mean_pct"] < 0.6 * b["overlap_mean_pct"], k
+        assert a["muscles_over_40"] == 0 and a["muscles_over_60"] == 0, k
+        assert a["detached_ends_over_5mm"] <= b["detached_ends_over_5mm"], k
+        assert a["muscles_outside_skin_over_1pct"] == 0 and a["muscles_in_bone_over_5pct"] == 0, k
+    for k in ("own_m", "zan_m"):                                  # the right arm is not touched
+        assert r[k]["before"]["r"] == r[k]["after"]["r"], k
+
+
+def test_inbone_check_shows_zero_penetration_of_the_exact_bone_solid():
+    _need(DER / "Q217_inbone_check.json")
+    c = json.loads((DER / "Q217_inbone_check.json").read_text())
+    for k, o in c.items():
+        assert max(s["exact_depth_max_mm"] for s in o["structures"].values()) <= 1.0, k     # one 1 mm lattice step at most
+        for b in o["bones"].values():
+            assert b["q204_solid_cm3"] > 1.1 * b["mesh_cm3"], (k, b)                         # the Q204 solid is fatter than the mesh

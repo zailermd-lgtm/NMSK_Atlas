@@ -9,7 +9,7 @@ root, rel, three, audit, which = sys.argv[1:6]
 s = socket.socket(); s.bind(("127.0.0.1", 0)); port = s.getsockname()[1]; s.close()
 srv = subprocess.Popen([sys.executable, "-m", "http.server", str(port), "--bind", "127.0.0.1", "-d", root], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 time.sleep(1)
-HOOK = ("var cutCtl = null;", "var cutCtl = null; window.__T = {meshes:meshes, groups:groups, order:order};")
+HOOK = ("var cutCtl = null, partsCtl = null;", "var cutCtl = null, partsCtl = null; window.__T = {meshes:meshes, groups:groups, order:order};")
 res = {}
 try:
     with sync_playwright() as p:

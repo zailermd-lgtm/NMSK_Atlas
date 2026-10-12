@@ -270,6 +270,9 @@ def test_q213_motor_points_lie_in_their_structure_on_the_q213_page(vk, page_html
     q216 = (REPO / "build/q216/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q216/bundle.bin")
     if vk == "vhf" and q216[0].exists() and q216[1].exists():            # Q216: ... regenerated on the Q216 page (nerve corridor, ends, islands, flat facets)
         page_html, page_bin = q216
+    q217 = (REPO / "build/q217/viewer_m_hr/atlas_viewer_male.html", REPO / "build/viewer_m_hr_q217/bundle.bin")
+    if vk == "vhm" and q217[0].exists() and q217[1].exists():            # Q217: the own male motor points are regenerated on the Q217 page
+        page_html, page_bin = q217
     mp = json.loads((REPO / "clinical" / "data" / "motor_points.json").read_text())["viewers"][vk]["points"]
     saved = M.VIEWERS[vk]
     M.VIEWERS[vk] = {**saved, "html": page_html, **({"bin": page_bin} if page_bin else {})}

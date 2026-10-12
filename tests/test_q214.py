@@ -320,6 +320,9 @@ def test_q214_motor_points_lie_in_their_structure_and_cover_the_added_muscles(bo
     q216 = (REPO / "build/q216/viewer_f_hr", REPO / "build/viewer_f_hr_q216")
     if body == "vhf" and (q216[0] / html).exists() and q216[1].exists():     # Q216: ... regenerated on the Q216 page (nerve corridor, ends, islands, flat facets)
         page, bundle = q216
+    q217 = (REPO / "build/q217/viewer_m_hr", REPO / "build/viewer_m_hr_q217")
+    if body == "vhm" and (q217[0] / html).exists() and q217[1].exists():     # Q217: the own male motor points are regenerated on the Q217 page (left forearm muscles carried)
+        page, bundle = q217
     mp = json.loads((REPO / "clinical" / "data" / "motor_points.json").read_text())["viewers"][body]["points"]
     saved = M.VIEWERS[body]
     M.VIEWERS[body] = {**saved, "html": page / html, "bin": bundle / "bundle.bin"}

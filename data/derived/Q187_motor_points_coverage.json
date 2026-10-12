@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-11",
+ "generated": "2026-10-12",
  "fail_threshold_mm": 5.0,
  "sources": {
   "kwon2009": {
@@ -211,8 +211,8 @@
  "viewers": {
   "vhm": {
    "label": "own male (Visible Human male)",
-   "points": 166,
-   "muscle_sides_with_points": 96,
+   "points": 168,
+   "muscle_sides_with_points": 97,
    "muscles_with_points": [
     "abductor_digiti_minimi_hand",
     "adductor_brevis",
@@ -226,7 +226,6 @@
     "extensor_carpi_radialis_brevis",
     "extensor_carpi_radialis_longus",
     "fibularis_longus",
-    "flexor_carpi_ulnaris",
     "flexor_digiti_minimi_brevis_hand",
     "flexor_digitorum_longus",
     "flexor_digitorum_profundus",
@@ -238,6 +237,7 @@
     "infraspinatus",
     "levator_scapulae",
     "opponens_digiti_minimi",
+    "palmaris_longus",
     "pectoralis_major",
     "pectoralis_minor",
     "piriformis",
@@ -291,10 +291,10 @@
     "extensor_carpi_radialis_longus_r": 1,
     "fibularis_longus_l": 2,
     "fibularis_longus_r": 2,
-    "flexor_carpi_ulnaris_l": 1,
     "flexor_digiti_minimi_brevis_hand_l": 1,
     "flexor_digitorum_longus_l": 1,
     "flexor_digitorum_longus_r": 1,
+    "flexor_digitorum_profundus_l": 1,
     "flexor_digitorum_profundus_r": 1,
     "flexor_digitorum_superficialis_l": 1,
     "flexor_digitorum_superficialis_r": 1,
@@ -311,6 +311,7 @@
     "levator_scapulae_l": 1,
     "levator_scapulae_r": 1,
     "opponens_digiti_minimi_r": 1,
+    "palmaris_longus_l": 1,
     "pectoralis_major_l": 3,
     "pectoralis_major_r": 2,
     "pectoralis_minor_r": 1,
@@ -318,7 +319,7 @@
     "piriformis_r": 2,
     "popliteus_l": 1,
     "popliteus_r": 1,
-    "pronator_teres_l": 1,
+    "pronator_teres_l": 2,
     "rectus_femoris_l": 2,
     "rectus_femoris_r": 2,
     "rhomboid_major_l": 1,
@@ -481,9 +482,9 @@
     "mp.triceps_brachii_r.4": 346.5,
     "mp.triceps_brachii_l.4": 337.6,
     "mp.brachioradialis_r.1": 303.1,
-    "mp.brachioradialis_l.1": 233.3,
+    "mp.brachioradialis_l.1": 312.5,
     "mp.brachioradialis_r.2": 303.1,
-    "mp.brachioradialis_l.2": 233.3,
+    "mp.brachioradialis_l.2": 312.5,
     "mp.supraspinatus_r.1": 142.5,
     "mp.supraspinatus_l.1": 128.8,
     "mp.infraspinatus_r.1": 152.5,
@@ -507,17 +508,19 @@
     "mp.pectoralis_major_r.2": 226.8,
     "mp.pectoralis_major_l.3": 203.0,
     "mp.pectoralis_minor_r.1": 226.8,
-    "mp.flexor_carpi_ulnaris_l.1": 258.6,
+    "mp.palmaris_longus_l.1": 258.6,
     "mp.pronator_teres_l.1": 258.6,
+    "mp.pronator_teres_l.2": 258.6,
     "mp.flexor_digitorum_superficialis_r.1": 235.9,
     "mp.flexor_digitorum_superficialis_l.1": 258.6,
     "mp.flexor_digitorum_profundus_r.1": 235.9,
+    "mp.flexor_digitorum_profundus_l.1": 258.6,
     "mp.extensor_carpi_radialis_longus_r.1": 305.1,
-    "mp.extensor_carpi_radialis_longus_l.1": 293.5,
+    "mp.extensor_carpi_radialis_longus_l.1": 325.1,
     "mp.extensor_carpi_radialis_brevis_r.1": 342.0,
-    "mp.extensor_carpi_radialis_brevis_l.1": 315.8,
+    "mp.extensor_carpi_radialis_brevis_l.1": 317.0,
     "mp.supinator_r.1": 110.5,
-    "mp.supinator_l.1": 133.6,
+    "mp.supinator_l.1": 112.2,
     "mp.abductor_digiti_minimi_hand_l.1": 95.3,
     "mp.flexor_digiti_minimi_brevis_hand_l.1": 86.5,
     "mp.opponens_digiti_minimi_r.1": 81.5,
@@ -580,15 +583,15 @@
     },
     {
      "rule": "flexor_carpi_radialis_l zhou2023 innervation_zone",
-     "why": "FAILED: nearest point inside flexor_carpi_radialis_l is 6.5 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: nearest point inside flexor_carpi_radialis_l is 17.9 mm from the rule plane/line (> 5.0 mm)"
+    },
+    {
+     "rule": "flexor_carpi_ulnaris_l zhou2023 innervation_zone",
+     "why": "FAILED: nearest point inside flexor_carpi_ulnaris_l is 6.5 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "pronator_teres_r zhou2023 humeral head",
      "why": "FAILED: nearest point inside pronator_teres_r is 5.8 mm from the rule plane/line (> 5.0 mm)"
-    },
-    {
-     "rule": "pronator_teres_l zhou2023 humeral head",
-     "why": "FAILED: nearest point inside pronator_teres_l_zfill is 7.5 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "pronator_teres_r zhou2023 ulnar head",
@@ -600,11 +603,15 @@
     },
     {
      "rule": "flexor_digitorum_superficialis_l zhou2023 distal target",
-     "why": "FAILED: nearest point inside flexor_digitorum_superficialis_l is 9.2 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: no point at least 1 mm inside flexor_digitorum_superficialis_l near the rule plane/line"
     },
     {
      "rule": "flexor_digitorum_profundus_r zhou2023 ulnar half",
      "why": "FAILED: no point at least 1 mm inside flexor_digitorum_profundus_r near the rule plane/line"
+    },
+    {
+     "rule": "flexor_digitorum_profundus_l zhou2023 ulnar half",
+     "why": "FAILED: nearest point inside flexor_digitorum_profundus_l is 20.4 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "flexor_pollicis_longus_r zhou2023 innervation_zone",
@@ -612,7 +619,7 @@
     },
     {
      "rule": "flexor_pollicis_longus_l zhou2023 innervation_zone",
-     "why": "FAILED: nearest point inside flexor_pollicis_longus_l is 18.1 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: nearest point inside flexor_pollicis_longus_l is 15.9 mm from the rule plane/line (> 5.0 mm)"
     }
    ],
    "not_placed": [
@@ -643,18 +650,6 @@
     {
      "rule": "palmaris_longus_r zhou2023 innervation_zone",
      "why": "no structure palmaris_longus_r in this viewer"
-    },
-    {
-     "rule": "palmaris_longus_l zhou2023 innervation_zone",
-     "why": "no structure palmaris_longus_l in this viewer"
-    },
-    {
-     "rule": "flexor_digitorum_profundus_l zhou2023 radial half",
-     "why": "no structure flexor_digitorum_profundus_l in this viewer"
-    },
-    {
-     "rule": "flexor_digitorum_profundus_l zhou2023 ulnar half",
-     "why": "no structure flexor_digitorum_profundus_l in this viewer"
     },
     {
      "rule": "abductor_pollicis_brevis_r xie2012 innervation_zone",
