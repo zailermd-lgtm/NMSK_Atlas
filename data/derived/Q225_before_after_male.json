@@ -21,8 +21,8 @@
    ],
    "q225_after": [
     37,
-    104,
-    122
+    103,
+    123
    ]
   },
   "elbow_L_R_verdict": {
@@ -55,8 +55,8 @@
    "after": {
     "l": [
      1,
-     8,
-     8
+     7,
+     9
     ],
     "r": [
      1,
@@ -273,8 +273,8 @@
     "bone_penetration_mm_now": 1.5,
     "major_moderate_minor_now": [
      1,
-     12,
-     8
+     11,
+     9
     ]
    },
    {
@@ -415,7 +415,7 @@
   "q225_after": [
    49,
    128,
-   211
+   210
   ]
  },
  "q204_regions_13_major_moderate_minor_structures": {
@@ -476,7 +476,7 @@
    "after": [
     0,
     7,
-    10
+    9
    ]
   },
   "wrist_hand": {
@@ -658,7 +658,7 @@
    "soft_in_bone": [
     17,
     22,
-    68
+    67
    ],
    "muscle_in_muscle": [
     0,
@@ -1219,13 +1219,13 @@
    "elbow_l": {
     "zone_structures": 48,
     "adjacent_pairs": 5554,
-    "frac_gt3": 0.5191,
-    "frac_gt5": 0.2731,
+    "frac_gt3": 0.2758,
+    "frac_gt5": 0.0519,
     "frac_gt10": 0.0,
-    "tear_p50_mm": 3.27,
-    "tear_p99_mm": 8.03,
-    "tear_max_mm": 9.3,
-    "n_pair_structures_with_tear_gt5": 18,
+    "tear_p50_mm": 1.54,
+    "tear_p99_mm": 5.73,
+    "tear_max_mm": 6.7,
+    "n_pair_structures_with_tear_gt5": 8,
     "n_offset_gt10": 13,
     "n_offset_gt5": 21
    },
@@ -1271,13 +1271,13 @@
    "wrist_r": {
     "zone_structures": 86,
     "adjacent_pairs": 15418,
-    "frac_gt3": 0.3655,
-    "frac_gt5": 0.3052,
-    "frac_gt10": 0.2332,
-    "tear_p50_mm": 1.99,
+    "frac_gt3": 0.3563,
+    "frac_gt5": 0.2971,
+    "frac_gt10": 0.2328,
+    "tear_p50_mm": 1.97,
     "tear_p99_mm": 16.78,
     "tear_max_mm": 37.7,
-    "n_pair_structures_with_tear_gt5": 64,
+    "n_pair_structures_with_tear_gt5": 62,
     "n_offset_gt10": 2,
     "n_offset_gt5": 19
    }
@@ -2412,21 +2412,18 @@
  },
  "structures_changed_by_stage": {
   "bone": 8,
-  "follow": 172,
-  "zone": 205,
-  "final": 10
+  "follow": 174,
+  "zone": 207,
+  "final": 9
  },
  "final_guards": {
   "island_gap_reverted": [],
   "attachment_guard": {
-   "biceps_brachii_l": 0.25,
+   "biceps_brachii_l": 0.75,
    "extensor_carpi_ulnaris_l": 0.75,
-   "pronator_teres_l": 0.25,
    "supinator_l": 0.5,
-   "rectus_femoris_l": 0.0,
    "flexor_carpi_radialis_r": 0.75,
    "pronator_quadratus_r": 0.75,
-   "zan_lumbrical_muscles_of_hand_r": 0.0,
    "levator_scapulae_l": 0.5,
    "rhomboid_minor_l": 0.5,
    "teres_major_r": 0.75,

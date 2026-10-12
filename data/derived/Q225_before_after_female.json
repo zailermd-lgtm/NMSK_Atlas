@@ -21,8 +21,8 @@
    ],
    "q225_after": [
     24,
-    96,
-    150
+    97,
+    152
    ]
   },
   "elbow_L_R_verdict": {
@@ -55,13 +55,13 @@
    "after": {
     "l": [
      1,
-     2,
+     3,
      15
     ],
     "r": [
      2,
      5,
-     11
+     13
     ]
    }
   },
@@ -273,7 +273,7 @@
     "bone_penetration_mm_now": 1.5,
     "major_moderate_minor_now": [
      1,
-     5,
+     6,
      15
     ]
    },
@@ -285,7 +285,7 @@
     "major_moderate_minor_now": [
      2,
      7,
-     11
+     13
     ]
    },
    {
@@ -658,7 +658,7 @@
    "soft_in_bone": [
     21,
     25,
-    36
+    37
    ],
    "muscle_in_muscle": [
     0,
@@ -1269,21 +1269,21 @@
     "tear_p99_mm": 12.41,
     "tear_max_mm": 16.4,
     "n_pair_structures_with_tear_gt5": 12,
-    "n_offset_gt10": 4,
+    "n_offset_gt10": 5,
     "n_offset_gt5": 21
    },
    "wrist_r": {
     "zone_structures": 85,
     "adjacent_pairs": 15256,
-    "frac_gt3": 0.1045,
-    "frac_gt5": 0.0354,
-    "frac_gt10": 0.0081,
-    "tear_p50_mm": 1.52,
-    "tear_p99_mm": 9.73,
-    "tear_max_mm": 18.7,
-    "n_pair_structures_with_tear_gt5": 32,
+    "frac_gt3": 0.0999,
+    "frac_gt5": 0.0331,
+    "frac_gt10": 0.0073,
+    "tear_p50_mm": 1.49,
+    "tear_p99_mm": 9.52,
+    "tear_max_mm": 14.9,
+    "n_pair_structures_with_tear_gt5": 30,
     "n_offset_gt10": 2,
-    "n_offset_gt5": 17
+    "n_offset_gt5": 18
    }
   }
  },
@@ -1315,10 +1315,10 @@
   "after": {
    "l": {
     "n_muscles": 21,
-    "overlap_mean_pct": 38.2,
-    "overlap_max_pct": 70.9,
-    "muscles_over_40": 9,
-    "muscles_over_60": 2,
+    "overlap_mean_pct": 38.6,
+    "overlap_max_pct": 69.9,
+    "muscles_over_40": 10,
+    "muscles_over_60": 3,
     "detached_ends_over_5mm": 1,
     "bone_surface_gap_mm": 0.3,
     "bone_max_penetration_mm": 1.5,
@@ -1326,9 +1326,9 @@
    },
    "r": {
     "n_muscles": 21,
-    "overlap_mean_pct": 40.9,
-    "overlap_max_pct": 63.8,
-    "muscles_over_40": 10,
+    "overlap_mean_pct": 41.0,
+    "overlap_max_pct": 64.2,
+    "muscles_over_40": 11,
     "muscles_over_60": 2,
     "detached_ends_over_5mm": 1,
     "bone_surface_gap_mm": 0.1,
@@ -2495,10 +2495,10 @@
    "tear_gt5_before": 0.5732,
    "tear_gt2_before": 0.8975,
    "tear_median_before_mm": 5.73,
-   "tear_gt5_after": 0.0106,
-   "tear_gt2_after": 0.1918,
-   "tear_median_after_mm": 1.44,
-   "moved": 56
+   "tear_gt5_after": 0.0083,
+   "tear_gt2_after": 0.1721,
+   "tear_median_after_mm": 1.42,
+   "moved": 57
   },
   "shoulder_l": {
    "structures": 67,
@@ -2527,15 +2527,17 @@
  },
  "structures_changed_by_stage": {
   "bone": 9,
-  "follow": 188,
-  "zone": 230,
+  "follow": 186,
+  "zone": 231,
   "final": 8
  },
  "final_guards": {
   "island_gap_reverted": [],
   "attachment_guard": {
    "extensor_carpi_radialis_brevis_l": 0.5,
+   "extensor_digitorum_l": 0.0,
    "flexor_carpi_radialis_l": 0.5,
+   "zan_long_head_of_triceps_brachii_l": 0.0,
    "abductor_digiti_minimi_hand_r": 0.5,
    "extensor_pollicis_brevis_r": 0.5,
    "flexor_carpi_radialis_r": 0.5,
