@@ -247,7 +247,7 @@ function NMSKParts(E){
     if (M.length && E.toolbar && !btn){
       btn = document.createElement("button");
       btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false");
-      btn.textContent = "Parts markers";
+      btn.innerHTML = 'Parts<span class="pm-more"> markers</span>';
       btn.title = "Show the point markers of every placed part (otherwise only those of the selected structure)";
       btn.addEventListener("click", function(){ setShowAll(!showAll); });
       E.toolbar.appendChild(btn);

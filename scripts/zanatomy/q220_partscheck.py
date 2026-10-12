@@ -139,11 +139,25 @@ try:
                 check(T, "no_hscroll", pg.evaluate("document.documentElement.scrollWidth<=window.innerWidth"))
 
                 # ---------------- card rows
+                def expand():
+                    # phones open the details minimised (existing behaviour: '+' expands); the Parts rows live in the expanded card
+                    if kind == "own":
+                        if mobile:
+                            pg.evaluate("document.getElementById('m-info').getAttribute('aria-pressed')==='false' && document.getElementById('m-info').click()")
+                        pg.evaluate("document.getElementById('inspector').classList.contains('min') && document.getElementById('insp-min').click()")
+                    else:
+                        pg.evaluate("document.getElementById('info').classList.contains('min') && document.getElementById('im').click()")
+                    pg.wait_for_timeout(300)
+
+                def close_sheet():
+                    # own phone layout: the details sheet (z 30, 62 % of the screen) covers the stage; a user looking at the model closes it
+                    if kind == "own" and mobile:
+                        pg.evaluate("document.getElementById('m-info').getAttribute('aria-pressed')==='true' && document.getElementById('m-info').click()")
+                        pg.wait_for_timeout(300)
+
                 def card_info(sid):
                     pg.evaluate("__T.select(%s)" % json.dumps(sid)); pg.wait_for_timeout(700)
-                    if mobile and kind == "own":
-                        pg.evaluate("document.getElementById('m-info').getAttribute('aria-pressed')==='false' && document.getElementById('m-info').click()")
-                        pg.wait_for_timeout(300)
+                    expand()
                     return pg.evaluate("""(function(card){ var sec=document.querySelector(card+' .pm-sec'); if(!sec) return null;
                       var rows=Array.from(sec.querySelectorAll('.pm-row'));
                       return {n:rows.length, mesh:sec.getAttribute('data-pm-mesh'),
@@ -185,6 +199,7 @@ try:
                 # choose a structure: the deltoid (or the first placed part's structure)
                 sid_marker = IDS.get("deltoid")
                 pg.evaluate("__T.select(%s)" % json.dumps(sid_marker)); pg.wait_for_timeout(500)
+                close_sheet()
                 S = pg.evaluate("__partsState()")
                 selm = [m for m in S["markers"] if m["why"] != "off"]
                 check(T, "markers_for_selected_structure", len(selm) >= 1, [m["part"] for m in selm][:6])
@@ -250,21 +265,20 @@ try:
 
                 # ---------------- row click: placed -> focus, unplaced -> text only
                 pg.evaluate("__T.select(%s)" % json.dumps(sid_marker)); pg.wait_for_timeout(500)
-                if mobile and kind == "own":
-                    pg.evaluate("document.getElementById('m-info').getAttribute('aria-pressed')==='false' && document.getElementById('m-info').click()"); pg.wait_for_timeout(300)
+                expand()
                 rows = pg.evaluate("Array.from(document.querySelectorAll(%s+' .pm-row')).map(function(r){return {pi:r.getAttribute('data-pi'), placed:!!r.querySelector('.pm-pl'), name:r.querySelector('.pm-nm').textContent};})" % json.dumps(CARD))
                 placed_rows = [r for r in rows if r["placed"]]
                 text_rows = [r for r in rows if not r["placed"]]
                 check(T, "card_marks_placed_vs_text_rows", len(placed_rows) >= 1 and len(text_rows) >= 1, {"placed": len(placed_rows), "text": len(text_rows)})
                 if text_rows:
                     row = pg.locator(CARD + ' .pm-row[data-pi="%s"]' % text_rows[0]["pi"])
-                    row.scroll_into_view_if_needed(); (row.tap() if mobile else row.click()); pg.wait_for_timeout(300)
+                    row.evaluate("e=>e.scrollIntoView({block:'center'})"); (row.tap() if mobile else row.click()); pg.wait_for_timeout(300)
                     msg = row.locator(".pm-msg").inner_text()
                     check(T, "unplaced_row_says_text_only", msg.startswith("text only (no placement)"), msg[:140])
                 if placed_rows:
                     pg.evaluate("__T.cam(0.4, 0.05, 1800, [0,0,0])" if kind == "zan" else "__T.cam(0.4, 0.05, 2300, [0,0,0])"); pg.wait_for_timeout(500)
                     row = pg.locator(CARD + ' .pm-row[data-pi="%s"]' % placed_rows[0]["pi"])
-                    row.scroll_into_view_if_needed(); (row.tap() if mobile else row.click()); pg.wait_for_timeout(900)
+                    row.evaluate("e=>e.scrollIntoView({block:'center'})"); (row.tap() if mobile else row.click()); pg.wait_for_timeout(900)
                     S4 = pg.evaluate("__partsState()")
                     fm = S4["markers"][S4["focus"]] if S4["focus"] >= 0 else None
                     cam_dist = pg.evaluate("__T.cam().dist")
@@ -276,6 +290,7 @@ try:
                     pg.evaluate("document.querySelector('#pm-card .pm-x') && document.querySelector('#pm-card .pm-x').click()")
 
                 # ---------------- cut and slab
+                close_sheet()
                 S5 = pg.evaluate("__partsState()")
                 vm = [m for m in S5["markers"] if m["vis"]]
                 if vm:
@@ -317,6 +332,7 @@ try:
 
                     # ---------------- depth test / x-ray: pixel colour of the solid dot (DOM layer hidden), markers of every placed part, nothing selected
                     pg.evaluate("__T.select(null)"); pg.wait_for_timeout(300)
+                    close_sheet()
                     if pg.locator("#t-parts").get_attribute("aria-pressed") != "true":
                         tap("#t-parts")
                     pg.wait_for_timeout(300)
