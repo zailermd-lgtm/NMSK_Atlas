@@ -21,6 +21,11 @@
     <div class="cp-row cp-steps" id="cut-thick">
       <button type="button" data-th="2">2</button><button type="button" data-th="5">5</button><button type="button" data-th="10">10</button><button type="button" data-th="25">25</button><button type="button" data-th="0" title="Keep the whole rest of the body behind the plane">all</button>
     </div>
+    <div class="cp-lbl">Cut face</div>
+    <div class="cp-row" id="cut-face">
+      <button type="button" id="cut-fill" aria-pressed="false" title="Fill the cut surface of every shown structure in its own colour (a cross-section of the meshes; meshes that are not closed get an outline only)">Fill cross-section</button><button type="button" id="cut-look" title="Turn the camera to look straight at the cut face">Look at the cut face</button>
+    </div>
+    <p id="cut-capinfo" class="cp-hint" aria-live="polite"></p>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
 </div>

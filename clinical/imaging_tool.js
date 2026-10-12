@@ -768,7 +768,7 @@
         if (k === "text") e.textContent = attrs[k]; else if (k === "html") e.innerHTML = attrs[k];
         else if (k.slice(0, 2) === "on") e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]);
       });
-      (kids || []).forEach(function (c) { if (c) e.appendChild(c); });
+      (function add(list) { list.forEach(function (c) { if (Array.isArray(c)) add(c); else if (c) e.appendChild(c); }); })(kids || []);
       return e;
     }
     function chooseLayout() {

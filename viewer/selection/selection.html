@@ -1,0 +1,27 @@
+<section id="sel-sec" class="ss" aria-label="Marked structures and saved selections">
+  <p class="ss-eyebrow">Marked structures <span id="sel-count" class="ss-count">0</span></p>
+  <div id="sel-chips" class="ss-chips"></div>
+  <p id="sel-empty" class="ss-hint">Tick structures in the list below, Shift/Ctrl-click or long-press them in 3D, or press <b>Mark by clicking</b> and tap them.</p>
+  <div class="ss-row">
+    <button type="button" id="sel-markcur" title="Mark the structure whose card is open">Mark selected</button><button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button>
+  </div>
+  <div class="ss-row">
+    <button type="button" id="sel-only" aria-pressed="false" title="Show only the marked structures; everything else disappears">Show only marked</button><button type="button" id="sel-hide" aria-pressed="false" title="Hide the marked structures">Hide marked</button><button type="button" id="sel-ghost" aria-pressed="false" title="Draw the structures that would be hidden as faint ghosts instead">Ghost the rest</button>
+  </div>
+  <div class="ss-row">
+    <button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button>
+  </div>
+  <details id="sel-saved" class="ss-det">
+    <summary>Saved selections</summary>
+    <div class="ss-row"><input id="sel-name" type="text" maxlength="40" autocomplete="off" placeholder="Name for this selection" aria-label="Name for the saved selection"><button type="button" id="sel-save">Save</button></div>
+    <div class="ss-row"><select id="sel-sets" aria-label="Saved selections"></select><button type="button" id="sel-load">Load</button><button type="button" id="sel-del">Delete</button></div>
+    <label class="ss-check"><input type="checkbox" id="sel-remember" checked> Remember my last selection</label>
+    <p id="sel-store" class="ss-hint"></p>
+  </details>
+  <details id="sel-share" class="ss-det">
+    <summary>Export, import, share</summary>
+    <textarea id="sel-io" rows="4" spellcheck="false" aria-label="Saved selections as text (copy to keep, paste to import)"></textarea>
+    <div class="ss-row"><button type="button" id="sel-export">Export</button><button type="button" id="sel-import">Import</button><button type="button" id="sel-link">Copy link</button></div>
+  </details>
+  <p id="sel-status" class="ss-hint" aria-live="polite"></p>
+</section>
