@@ -73,10 +73,10 @@ def percentile_patch(c, patch_mm=6.0, q=5.0):
 class Fit:
     """bones: dict name -> (v, f) of the FITTED page; fixed = ('humerus_l',); moving = ('ulna_l', 'radius_l'); gaps = {(a, b): joint space on the base (mm)}; own = {name: (v, f)} evidence"""
 
-    def __init__(self, bones, own, gaps, elbow_pt, moving=("ulna_l", "radius_l"), fixed=("humerus_l",), h=1.0, log=print, w_ev=0.6, w_reg=0.02, w_pull=4.0, w_gap=6.0, ev_cap=8.0, taper=TAPER, floor_frac=0.5, rigid=False):
+    def __init__(self, bones, own, gaps, elbow_pt, moving=("ulna_l", "radius_l"), fixed=("humerus_l",), h=1.0, log=print, w_ev=0.6, w_reg=0.02, w_pull=4.0, w_gap=6.0, ev_cap=8.0, taper=TAPER, floor_frac=0.5, rigid=False, w_rot=1.0):
         self.bones, self.own, self.gaps, self.moving, self.fixed, self.log = bones, own, gaps, list(moving), list(fixed), log
         self.names = list(fixed) + list(moving)
-        self.w_ev, self.w_reg, self.w_pull, self.w_gap, self.ev_cap, self.floor_frac = w_ev, w_reg, w_pull, w_gap, ev_cap, floor_frac
+        self.w_ev, self.w_reg, self.w_pull, self.w_gap, self.ev_cap, self.floor_frac, self.w_rot = w_ev, w_reg, w_pull, w_gap, ev_cap, floor_frac, w_rot
         self.sdf = {n: J.Sdf(*bones[n], h=h) for n in self.names}
         self.tp = {n: Taper(bones[n][0], elbow_pt, taper, rigid) for n in self.moving}
         self.samp = {}
@@ -134,7 +134,7 @@ class Fit:
                 res.append(self.w_ev * d1 / np.sqrt(len(d1)) * 3.0)
         for n in self.moving:
             p = par[n]
-            res.append(np.array([self.w_reg * np.linalg.norm(p[:3]), self.w_reg * np.linalg.norm(p[3:]) * self.tp[n].L * min(self.tp[n].taper, 1.0) * 0.5]))
+            res.append(np.array([self.w_reg * np.linalg.norm(p[:3]), self.w_rot * self.w_reg * np.linalg.norm(p[3:]) * self.tp[n].L * min(self.tp[n].taper, 1.0) * 0.5]))
         return np.concatenate(res)
 
     def solve(self, x0=None, max_nfev=80):

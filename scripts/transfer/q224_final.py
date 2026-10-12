@@ -59,31 +59,41 @@ def final(body):
     kept_reasons = {sid: r["why"] for sid, r in results.items() if not r.get("accepted")}
     ov0 = page.overlap_state({})
     ov1 = ov0
-    for rnd in range(4):
-        ov1 = page.overlap_state({sid: (r["v"], r["f"]) for sid, r in accepted.items()})
+    visible = lambda sid: bool(page.pieces(sid)[0])                       # a hidden-by-default muscle is not in the page's overlap field (Q185): nothing there to cross
+    for rnd in range(6):
+        ov1 = page.overlap_state({sid: (r["v"], r["f"]) for sid, r in accepted.items() if visible(sid)})
         bad = []
         for sid in accepted:
+            if not visible(sid):
+                continue
             o0, o1 = ov0.get(sid, 0.0), ov1.get(sid, 0.0)
-            if o1 > X.OVERLAP_MAX or (o1 > o0 + X.OVERLAP_RISE_MAX and o1 > 40.0):
+            if (o1 > X.OVERLAP_MAX and o1 > o0 + 2.0) or (o1 > o0 + X.OVERLAP_RISE_MAX and o1 > 40.0):          # a muscle that already sat above 60 % (its neighbours cut from the same labels) is not reverted for staying there
                 bad.append((sid, o0, o1))
-        # neighbours (not candidates) that this set pushes across the 40 / 60 % lines
-        for mid, o1 in ov1.items():
+        crossed = []
+        for mid, o1 in ov1.items():                                       # neighbours (not candidates) that this set pushes across the 40 / 60 % lines
             if mid in accepted:
                 continue
             o0 = ov0.get(mid, 0.0)
             if (o1 > 60.0 >= o0) or (o1 > 40.0 >= o0 and o1 > o0 + 5.0):
-                bad.append((f"neighbour:{mid}", o0, o1))
-        log(f"overlap round {rnd}: {len(accepted)} accepted, bad {bad}")
-        if not bad:
+                crossed.append((mid, o0, o1))
+        log(f"overlap round {rnd}: {len(accepted)} accepted, bad {bad}, neighbours across the line {crossed}")
+        if not bad and not crossed:
             break
         for sid, o0, o1 in bad:
-            if sid.startswith("neighbour:"):
-                continue
-            kept_reasons[sid] = [f"{o1} % of its volume inside the other muscles after all changes (before {o0} %; gate {X.OVERLAP_MAX:g}, rise <= {X.OVERLAP_RISE_MAX:g} above 40 %)"]
+            kept_reasons[sid] = [f"{o1} % of its volume inside the other muscles after all changes (before {o0} %; gate: above {X.OVERLAP_MAX:g} % and rising > 2 points, or rising > {X.OVERLAP_RISE_MAX:g} points above 40 %)"]
             accepted.pop(sid, None)
-        nb = [b for b in bad if b[0].startswith("neighbour:")]
-        if nb and rnd == 3:
-            log("neighbours still across the lines:", nb)
+        for mid, o0, o1 in crossed:
+            # revert the nearest accepted candidate(s) whose box touches the neighbour (the cause is a candidate next to it)
+            g = B.get(mid)
+            if g is None:
+                continue
+            lo, hi = g["v"].min(0) - 3.0, g["v"].max(0) + 3.0
+            near = [sid for sid, r in accepted.items() if visible(sid) and not ((r["v"].max(0) < lo).any() or (r["v"].min(0) > hi).any())]
+            for sid in near:                                              # which of them alone brings the neighbour across the line?
+                o_single = page.overlap_state({sid: (accepted[sid]["v"], accepted[sid]["f"])}).get(mid, o0)
+                if (o_single > 60.0 >= o0) or (o_single > 40.0 >= o0 and o_single > o0 + 5.0) or len(near) == 1:
+                    kept_reasons[sid] = [f"it alone pushes the neighbouring {mid} from {o0} % to {o_single} % of its volume inside other muscles, across the 40 / 60 % line"]
+                    accepted.pop(sid, None)
     changed = {}
     for sid, r in accepted.items():
         k = B.find(sid)
