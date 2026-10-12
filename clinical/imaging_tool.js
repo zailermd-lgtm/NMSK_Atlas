@@ -201,6 +201,7 @@
         var keep = [];
         for (i = 0; i < all.length; i++) {
           var st = all[i]; bb = st * 6;
+          if (R.mask && !g.skin[st] && !R.mask[st]) continue;                 // Q228: optional exclusion list (hidden structures); skin is never excluded
           var dmn = 1e30, dmx = -1e30, xmn = 1e30, xmx = -1e30, ymn = 1e30, ymx = -1e30;
           for (c = 0; c < 8; c++) {
             var X = g.bbox[bb + ((c & 1) ? 3 : 0)] - Ox, Y = g.bbox[bb + 1 + ((c & 2) ? 3 : 0)] - Oy, Z = g.bbox[bb + 2 + ((c & 4) ? 3 : 0)] - Oz;
@@ -413,11 +414,10 @@
     return parts.join("") || "?";
   }
 
-  /* ---- node test hook ---- */
-  if (typeof document === "undefined") {
-    G.NMSKImagingLib = {KERNEL_FACTORY: KERNEL_FACTORY, compileTable: compileTable, classify: classify, mrTable: mrTable, ctTable: ctTable, basis: basis, dirLabel: dirLabel, VERSION: VERSION};
-    return;
-  }
+  /* ---- node test hook (also exported in the browser since Q228: companions such as the ultrasound add-on reuse the kernel and the mapping) ---- */
+  var LIB = {KERNEL_FACTORY: KERNEL_FACTORY, compileTable: compileTable, classify: classify, mrTable: mrTable, ctTable: ctTable, basis: basis, dirLabel: dirLabel, VERSION: VERSION};
+  G.NMSKImagingLib = LIB;
+  if (typeof document === "undefined") return;
 
   /* ========================================================================================================
    * 3 + 4 + 5. ENGINE, UI, ATTACH (browser only)
@@ -520,7 +520,13 @@
         } catch (e) { local(); }
       });
     }
-    function runSlice(R) {                                                  // -> Promise(result)
+    var sliceChain = Promise.resolve();
+    function runSlice(R) {                                                  // -> Promise(result); serialised (the worker has one job slot; Q228 companions share it)
+      var p = sliceChain.then(function () { return runSliceRaw(R); });
+      sliceChain = p.then(function () {}, function () {});
+      return p;
+    }
+    function runSliceRaw(R) {
       return new Promise(function (resolve, reject) {
         var id = ++msgSeq;
         if (worker && workerOk) {
@@ -1197,6 +1203,7 @@
     function setOpen(on) {
       if (on === S.open) return;
       if (on) {
+        try { if (G.NMSKUltrasound && G.NMSKUltrasound.isOpen()) G.NMSKUltrasound.close(); } catch (e) {}   // Q228: one split screen at a time
         build(); S.open = true; S.tab = "image"; applyLayout();
         if (ui.btn) ui.btn.setAttribute("aria-pressed", "true");
         setStatus("Loading tissue table ...");
@@ -1287,7 +1294,38 @@
       lut: function (mod, seqKey) { if (mod === "ct") return Array.from(ctTable(C)); var sp = JSON.parse(JSON.stringify(T.mr_sequences.filter(function (q) { return q.key === seqKey; })[0])); return Array.from(mrTable(C, sp).sig); }
     };
     tablePromise = loadTable();
-    return {};
+    /* Q228: services handed to companion add-ons (the ultrasound tool): the shared geometry package + worker, table, kernel parameters */
+    return {
+      lib: LIB, version: VERSION,
+      ensure: function (progress) { return tablePromise.then(function () { if (tableErr || !C) throw new Error(tableErr || "tissue table missing"); return buildGeometry(progress); }).then(function () { return {geo: geo, C: C, T: T}; }); },
+      runSlice: runSlice, boneParams: boneParams,
+      isOpen: function () { return S.open; }, close: function () { setOpen(false); }
+    };
+  }
+
+  /* companion add-ons staged beside the page (optional; a 404 is silent for the viewer): loaded by this file so that the public templates carry no extra line */
+  function loadCompanions(api, shared) {
+    if (!shared) return;
+    ["clinical_ultrasound_tool.js"].forEach(function (name) {
+      try {
+        var sc = document.createElement("script");
+        sc.src = SCRIPT_BASE + name; sc.async = true;
+        sc.onload = function () { try { if (G.NMSKUltrasoundAddon && typeof G.NMSKUltrasoundAddon.attach === "function") G.NMSKUltrasoundAddon.attach(api, shared); } catch (e) { console.error("ultrasound add-on failed to start; imaging unaffected:", e); } };
+        document.head.appendChild(sc);
+      } catch (e) {}
+    });
+  }
+  /* one click handler slot in the page API: keep the needle add-on's handler and let companions go first while they are armed */
+  var clickers = [], legacyClick = null, dispatcherOn = false;
+  function installClickDispatcher(api) {
+    if (dispatcherOn || typeof api.setClickHandler !== "function") return;
+    var orig = api.setClickHandler;
+    api.setClickHandler = function (fn) { legacyClick = fn || null; };
+    orig.call(api, function (e) {
+      for (var i = 0; i < clickers.length; i++) { var r = false; try { r = clickers[i](e); } catch (err) { console.error(err); } if (r) return true; }
+      return legacyClick ? legacyClick(e) : false;
+    });
+    dispatcherOn = true;
   }
 
   /* ========================================================================================================
@@ -1295,9 +1333,12 @@
    * ====================================================================================================== */
   var prev = G.NMSKClinical, chained = Object.assign({}, prev || {});
   chained.attach = function (api) {
-    var r = null;
+    var r = null, sh = null;
+    installClickDispatcher(api);
     if (prev && typeof prev.attach === "function") { try { r = prev.attach(api); } catch (e) { console.error("needle add-on failed to start:", e); } }
-    try { attachImaging(api); } catch (e2) { console.error("imaging add-on failed to start; anatomy viewer unaffected:", e2); }
+    try { sh = attachImaging(api); } catch (e2) { console.error("imaging add-on failed to start; anatomy viewer unaffected:", e2); }
+    if (sh) { sh.addClickHandler = function (fn) { clickers.push(fn); }; sh.api = api; }
+    loadCompanions(api, sh);
     return r;
   };
   chained.imaging = VERSION;
