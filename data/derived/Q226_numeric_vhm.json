@@ -1,0 +1,106 @@
+{
+ "femur_shaft": {
+  "id": "femur_r",
+  "cat": "bone",
+  "cls": "bone_cortical",
+  "kind": 1,
+  "pixels": 3117,
+  "area_mm2": 685,
+  "hist": {
+   "bone_cortical": 1980,
+   "marrow_yellow": 1137
+  },
+  "centreClass": "marrow_yellow",
+  "centreOwner": true,
+  "nearestClass": "marrow_yellow",
+  "hu_centre": -50,
+  "parityBad": 0,
+  "ms": 6
+ },
+ "femur_end": {
+  "id": "femur_r",
+  "cat": "bone",
+  "cls": "bone_cortical",
+  "kind": 1,
+  "pixels": 8394,
+  "area_mm2": 3279,
+  "hist": {
+   "bone_cortical": 1135,
+   "bone_cancellous": 7259
+  },
+  "centreClass": "bone_cortical",
+  "centreOwner": true,
+  "nearestClass": "bone_cortical",
+  "hu_centre": 1300,
+  "parityBad": 0,
+  "ms": 5
+ },
+ "muscle": {
+  "id": "rectus_femoris_r",
+  "cat": "muscle",
+  "cls": "muscle",
+  "kind": 0,
+  "pixels": 2000,
+  "area_mm2": 1907,
+  "hist": {
+   "muscle": 2000
+  },
+  "centreClass": "muscle",
+  "centreOwner": true,
+  "nearestClass": "muscle",
+  "hu_centre": 52,
+  "parityBad": 0,
+  "ms": 6
+ },
+ "liver": {
+  "id": "liver",
+  "cat": "organ",
+  "cls": "liver",
+  "kind": 0,
+  "pixels": 5966,
+  "area_mm2": 14565,
+  "hist": {
+   "liver": 5966
+  },
+  "centreClass": "liver",
+  "centreOwner": true,
+  "nearestClass": "liver",
+  "hu_centre": 60,
+  "parityBad": 0,
+  "ms": 23
+ },
+ "vessel": {
+  "id": "abdominal_aorta",
+  "cat": "vessel",
+  "cls": "blood_artery",
+  "kind": 0,
+  "pixels": 509,
+  "area_mm2": 175,
+  "hist": {
+   "blood_artery": 509
+  },
+  "centreClass": "blood_artery",
+  "centreOwner": true,
+  "nearestClass": "blood_artery",
+  "hu_centre": 45,
+  "parityBad": 0,
+  "ms": 22
+ },
+ "lung": {
+  "id": "lung_r",
+  "cat": "organ",
+  "cls": "lung",
+  "kind": 0,
+  "pixels": 4608,
+  "area_mm2": 11250,
+  "hist": {
+   "lung": 4608
+  },
+  "centreClass": "lung",
+  "centreOwner": true,
+  "nearestClass": "lung",
+  "hu_centre": -800,
+  "parityBad": 0,
+  "ms": 21
+ }
+}
