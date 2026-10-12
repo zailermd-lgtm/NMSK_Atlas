@@ -59,4 +59,5 @@ def test_built_audit_is_consistent():
 
 def test_hub_names_the_two_kinds():
     hub = (REPO / "viewer" / "atlas_hub.html").read_text()
-    assert "Base atlas model" in hub and "Reconstructed from imaging" in hub and "adapted to the reconstruction" in hub and "badged as a fill" in hub
+    assert "Base models" in hub and "Imaging-based models" in hub and "Combined models" in hub and "badged as a fill" in hub  # Q231 unified names
+    assert hub.count("Latest · v") == 6
