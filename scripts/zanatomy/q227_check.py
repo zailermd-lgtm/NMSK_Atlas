@@ -1,6 +1,6 @@
 """Q227: drive the selection sets and the filled cut face of a built viewer page in headless Chromium (swiftshader).
 
-    python3 scripts/zanatomy/q227_check.py ROOT_DIR PAGE.html own|zan OUT_PREFIX THREE_MIN_JS PAGE_NAME [--json data/derived/Q227_browser_check_<page>.json]
+    python3 scripts/zanatomy/q227_check.py ROOT_DIR PAGE.html own|zan OUT_PREFIX THREE_MIN_JS PAGE_NAME [--json data/derived/Q227_browser_check_<page>.json] [--merge]
 
 Viewports (env Q227_VIEWPORTS=name,name; default all): desktop 1440x900, laptop 1024x640, tablet 820x1180, tablet_l 1180x820, phone 390x844, phone_l 844x390.
 Per viewport: 0 page errors, no horizontal scroll, touch targets >= 38 px where the phone layout is on; selection flow (tick two list rows, chips, only /
@@ -407,7 +407,11 @@ def cap_checks(pg, ctx, name, touch, tap, js, R, light=False):
         pg.wait_for_timeout(200)
     # the cap follows a layer toggle (fewer structures) and X-ray (colour/alpha) without a new section for the latter
     b0 = js("window.__capState().builds")
-    js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(1200)
+    js("document.querySelector(%r).click()" % XRAY)
+    try:
+        pg.wait_for_function("window.__capState().recolors>=1 || window.__capState().builds>%d" % b0, timeout=30000)
+    except Exception:
+        pass
     cs = js("window.__capState()")
     ok["xray_recolours_the_cap"] = cs["recolors"] >= 1 or cs["builds"] > b0
     js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(800)
@@ -421,6 +425,11 @@ def cap_checks(pg, ctx, name, touch, tap, js, R, light=False):
 
 
 res = {"page": page_name, "kind": kind, "viewports": {}}
+if json_out and "--merge" in sys.argv and os.path.exists(json_out):          # re-run a few viewports and keep the others
+    try:
+        res = json.load(open(json_out))
+    except Exception:
+        pass
 try:
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path="/opt/pw-browsers/chromium", args=["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"])

@@ -299,7 +299,7 @@ var NMSKCapCore = (function(){
 /* The controller. Adaptor E:
    cut() -> {on, kn, c, th} (the kept part is 0 <= kn.p + c <= th, th = 0: whole rest)   items() -> the VISIBLE structures [{key, name, cat, rgb, alpha, geom}]
    upload(face, res | null)  face 0 = the cut plane, 1 = the far face of a slice; res = NMSKCapCore.build() output after recolor() (null removes it)
-   show(face, bool) hides / shows an uploaded face   lookAt(dirFromTarget, target, extent)   bounds() -> {min,max}   (optional) pref get/set via localStorage */
+   show(face, bool) hides / shows an uploaded face   lookAt(dirFromTarget, target, extent, free)   bounds() -> {min,max}   canvasRect()   redraw() */
 function NMSKCap(E){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
@@ -352,7 +352,7 @@ function NMSKCap(E){
     for (var f = 0; f < 2; f++){
       if (!s.pl[f]){ if (st.res[f]){ E.upload(f, null); st.res[f] = null; } continue; }
       var res = NMSKCapCore.build(items, s.pl[f], {gap:1.0});
-      NMSKCapCore.recolor(res, items);
+      NMSKCapCore.recolor(res, items); res._cut = null;           // the per-structure contours are not needed any more (the lines and the id raster are)
       st.res[f] = res; E.upload(f, res); E.show(f, true);
       if (f === 0) stats = res.stats;
     }
@@ -394,6 +394,21 @@ function NMSKCap(E){
       }
       return best;
     },
+    /* the part of the canvas the cut panel does not cover (the camera frames the cut face there): centre and size as fractions of the canvas */
+    freeRegion: function(){
+      var out = {cx:0.5, cy:0.5, w:1, h:1}, p = $("cut-panel"), c = E.canvasRect ? E.canvasRect() : null;
+      if (!c || !p || p.hidden || !c.width || !c.height) return out;
+      var r = p.getBoundingClientRect();
+      if (!(r.width > 0) || Math.min(c.right, r.right) <= Math.max(c.left, r.left) || Math.min(c.bottom, r.bottom) <= Math.max(c.top, r.top)) return out;
+      var cand = [];
+      if (r.top - c.top > 0.2 * c.height) cand.push([c.left, c.top, c.right, r.top]);
+      if (r.left - c.left > 0.2 * c.width) cand.push([c.left, c.top, r.left, c.bottom]);
+      if (c.bottom - r.bottom > 0.2 * c.height) cand.push([c.left, r.bottom, c.right, c.bottom]);
+      var best = null, ba = 0;
+      cand.forEach(function(q){ var a = (q[2] - q[0]) * (q[3] - q[1]); if (a > ba){ ba = a; best = q; } });
+      if (!best) return out;
+      return {cx:((best[0] + best[2]) / 2 - c.left) / c.width, cy:((best[1] + best[3]) / 2 - c.top) / c.height, w:(best[2] - best[0]) / c.width, h:(best[3] - best[1]) / c.height};
+    },
     lookAtFace: function(){
       var c = E.cut(); if (!c || !c.on) return false;
       var bnd = E.bounds(), ctr = [(bnd.min[0] + bnd.max[0]) / 2, (bnd.min[1] + bnd.max[1]) / 2, (bnd.min[2] + bnd.max[2]) / 2];
@@ -404,7 +419,7 @@ function NMSKCap(E){
         tgt = [r.O[0] + r.U[0]*uc + r.V[0]*vc, r.O[1] + r.U[1]*uc + r.V[1]*vc, r.O[2] + r.U[2]*uc + r.V[2]*vc];
         ext = Math.max(r.w, r.h) * r.px;
       }
-      E.lookAt([-kn[0], -kn[1], -kn[2]], tgt, ext);        // the eye lies on the REMOVED side, looking along the kept normal
+      E.lookAt([-kn[0], -kn[1], -kn[2]], tgt, ext, api.freeRegion());        // the eye lies on the REMOVED side, looking along the kept normal; the face is framed in the free part of the canvas
       return true;
     },
     state: function(){

@@ -272,13 +272,14 @@ def stage_final(which, log=print, src="zones"):
                 st.log.pop(i)
     log(f"final: {len(rep['reverted_island_gap'])} vessels / nerves back to the published mesh (island gap): {list(rep['reverted_island_gap'])}")
     bones = [i for i in pg.ids if pg.sys(i) == "bone"]
-    tree = cKDTree(np.vstack([st.v(b) for b in bones]))
+    tree = cKDTree(np.vstack([st.v(b) for b in bones]))              # the bones as they are NOW (re-seated ones included)
+    tree0 = cKDTree(np.vstack([pg.v(b) for b in bones]))             # the bones of the source page: the page muscle's ends are measured against THEIR bones (Q225: bones moved)
     blended = {}
     for i in list(st.V):
         if pg.sys(i) not in ("muscle", "tendon"):
             continue
         v0, v1 = pg.v(i).astype(float), st.V[i]
-        d0 = SF.end_distances(v0, tree)
+        d0 = SF.end_distances(v0, tree0)
         for fct in (1.0, 0.75, 0.5, 0.25, 0.0):
             v = v0 + fct * (v1 - v0)
             d1 = SF.end_distances(v, tree)

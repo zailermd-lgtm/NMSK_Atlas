@@ -92,3 +92,145 @@ def test_dense_own_tree_sees_triangle_interiors():
     v, f = box((0, 0, 0), (40, 40, 40))
     t = EL.own_tree(v, f, spacing=2.0)
     assert t.query(np.array([[0.0, 0.0, 20.0]]))[0][0] < 2.5          # centre of a 40 mm face: its vertices are 28 mm away
+
+
+# ------------------------------------------------------------------------------------------------ built pages
+EXPECTED_BONES = {"ulna_l", "radius_l", "patella_l", "patella_r", "zan_eleventh_rib_l", "zan_eleventh_rib_r", "zan_twelfth_rib_l", "zan_twelfth_rib_r", "zan_second_rib_l"}
+MEAS = {w: DER / f"Q225_bone_measures_{w}_q225.json" for w in FIT}
+MEAS0 = {w: DER / f"Q225_bone_measures_{w}_src.json" for w in FIT}
+BA = {w: DER / f"Q225_before_after_{w}.json" for w in FIT}
+
+
+def pr(d, k):
+    a, b = k.split("|")
+    return d.get(k) or d.get(f"{b}|{a}")
+
+
+@built
+@pytest.mark.parametrize("which", ["male", "female"])
+def test_ship_diff_scope_zero_unlisted(which):
+    r = json.loads(SHIP[which].read_text())
+    assert r["geometry_changed_but_not_listed"] == [] and r["added"] == [] and r["removed"] == [] and r["card_only"] == []
+    assert r["unchanged"] > 2500
+    changed = set(r["geometry_changed"])
+    assert changed == set(r["stages"])                                     # every listed structure changed, every changed one is listed
+    pg = K5.load(which, src=FIT[which])
+    sysd = {i: pg.sys(i) for i in changed}
+    assert not [i for i, s in sysd.items() if s == "skin"]                 # skin untouched (byte identical)
+    bones = {i for i, s in sysd.items() if s == "bone"}
+    assert bones == EXPECTED_BONES - ({"zan_second_rib_l"} if which == "male" else set())
+
+
+@built
+@pytest.mark.parametrize("which", ["male", "female"])
+def test_every_changed_card_carries_numbers_and_bone_cards_the_exact_check(which):
+    r = json.loads(SHIP[which].read_text())
+    pg = K5.load(which, src=FIT[which])
+    for i in r["geometry_changed"]:
+        badge = (pg.S[i]["m"].get("rec") or {}).get("procedural_badge", "")
+        assert "Q225" in badge, i
+        if pg.sys(i) == "bone":
+            assert "Exact bone-bone check" in badge and "Rule-based, nothing invented" in badge, i
+            if i in ("ulna_l", "radius_l"):
+                assert "joint space on the unfitted base model" in badge and "Fit error to" in badge, i
+        else:
+            assert "Before -> after" in badge or "Before (published page) -> after" in badge, i
+
+
+@built
+@pytest.mark.parametrize("which", ["male", "female"])
+def test_left_elbow_bones_no_longer_interpenetrate_and_have_a_joint_space(which):
+    a, b = json.loads(MEAS[which].read_text())["pairs"], json.loads(MEAS0[which].read_text())["pairs"]
+    for k in ("humerus_l|ulna_l", "humerus_l|radius_l", "radius_l|ulna_l"):
+        assert pr(b, k)["max_penetration_mm"] >= 2.5, k                      # the defect existed
+        assert pr(a, k)["max_penetration_mm"] <= 1.0, k                      # the exact (0.5 mm solid) penetration is one lattice step at most
+        sp = pr(a, k)["joint_space_p05_mm"]
+        assert sp is not None and 0.3 <= sp <= 5.5, k                         # a joint space (base model 0.8 / 4.6 / 1.6 mm), not a gap of centimetres
+
+
+@built
+@pytest.mark.parametrize("which", ["male", "female"])
+def test_patellae_and_floating_ribs_sit_on_their_bones(which):
+    a, b = json.loads(MEAS[which].read_text())["pairs"], json.loads(MEAS0[which].read_text())["pairs"]
+    pats = [k for k in a if "patella" in k]
+    assert len(pats) == 2
+    for k in pats:
+        assert pr(b, k)["min_clearance_mm"] > 8.0 and pr(a, k)["min_clearance_mm"] < 3.0 and pr(a, k)["max_penetration_mm"] <= 1.0
+    ribs = [k for k in a if "rib" in k]
+    assert len(ribs) == (5 if which == "female" else 4)
+    for k in ribs:
+        assert pr(b, k)["min_clearance_mm"] > 5.5 and pr(a, k)["min_clearance_mm"] < 1.5 and pr(a, k)["max_penetration_mm"] <= 1.0
+
+
+@built
+@pytest.mark.parametrize("which", ["male", "female"])
+def test_bone_moves_are_bounded_and_the_wrist_end_is_untouched(which):
+    r = json.loads(SHIP[which].read_text())
+    pgb, pga = K5.load(which), K5.load(which, src=FIT[which])
+    for n in EXPECTED_BONES - ({"zan_second_rib_l"} if which == "male" else set()):
+        d = np.linalg.norm(pga.v(n) - pgb.v(n), axis=1)
+        assert d.max() <= 20.0 and d.max() > 0.5, n
+        if n in ("ulna_l", "radius_l"):
+            v = pgb.v(n)
+            c = v.mean(0)
+            ax = np.linalg.svd(v - c, full_matrices=False)[2][0]
+            t = (v - c) @ ax
+            lo, hi = d[t < t.min() + 0.38 * (t.max() - t.min())].max(), d[t > t.min() + 0.62 * (t.max() - t.min())].max()
+            assert min(lo, hi) < 0.2                                           # one end of the bone is not moved at all (the wrist end)
+    m = json.loads((DER / f"Q225_moved_{which}.json").read_text())["all_changed"]
+    assert all(v["max_mm"] <= 40.0 for k, v in m.items() if v["sys"] != "bone")
+
+
+@pytest.mark.skipif(not all(p.exists() for p in BA.values()), reason="Q225 before/after not built")
+@pytest.mark.parametrize("which", ["male", "female"])
+def test_wrist_tears_and_junction_numbers_improved_no_new_majors(which):
+    d = json.loads(BA[which].read_text())
+    fs = d["fit_seams_q198"]
+    for jn in ("wrist_l", "wrist_r"):
+        assert fs["after"][jn]["frac_gt5"] < fs["before"][jn]["frac_gt5"] - 0.2, jn
+    assert fs["after"]["elbow_l"]["frac_gt5"] <= fs["before"]["elbow_l"]["frac_gt5"] + 0.01
+    sev = d["q198_junction_audit"]["severity_major_moderate_minor"]
+    assert sev["q225_after"][0] <= sev["q223_before"][0]                       # no new junction majors
+    j = {(x["junction"], x["side"]): x for x in d["q198_junction_audit"]["junctions_after"]}
+    jb = {(x["junction"], x["side"]): x for x in d["q198_junction_audit"]["junctions_before"]}
+    for key in (("elbow", "l"), ("knee", "l"), ("knee", "r")):
+        assert j[key]["bone_penetration_mm_now"] <= max(jb[key]["bone_penetration_mm_now"], 1.5) + 0.01, key
+
+
+@final
+def test_final_pages_carry_parts_sidecar_and_the_right_clinical_files():
+    for w in FINAL:
+        p = json.loads((FINAL[w] / "parts_data.json").read_text())
+        assert "nmsk.parts_sidecar" in json.dumps(p)[:600]
+        assert len(p["geometry"]["dropped"]) == 0
+        assert p["geometry"].get("placements", p.get("placements", 1))
+    fem = FINAL["female"]
+    assert (fem / "clinical_motor_points.json").exists() and (fem / "clinical_risk.json").exists()
+    assert (fem / "clinical_needle_tool.js").read_bytes() == (REPO / "clinical" / "needle_tool.js").read_bytes()
+    assert json.loads((fem / "clinical_motor_points.json").read_text())["points"]
+    assert not list(FINAL["male"].glob("clinical_*"))                           # the Z male fitted page has no clinical files
+    assert (fem / "index.html").read_bytes() == (fem / "atlas_viewer_zan_female.html").read_bytes()
+
+
+@final
+def test_regen_verify_files_ok():
+    for n in ("viewer_zan_vhm", "viewer_zan_female"):
+        v = json.loads((REPO / "build" / "q225" / "_verify" / f"{n}.json").read_text())
+        assert v["literals_identical"] and v["geo_identical"] and v["new_equals_current_template_plus_same_data"]
+
+
+@final
+def test_final_geometry_is_the_fitted_page_geometry_byte_for_byte():
+    for w, stem in (("male", "atlas_viewer_zan_male_fitted"), ("female", "atlas_viewer_zan_female")):
+        for g in sorted(FIT[w].glob(f"{stem}_geo_*.txt")):
+            assert g.read_bytes() == (FINAL[w] / g.name).read_bytes()
+
+
+@pytest.mark.skipif(not (DER / "Q225_motor_points_coverage_before.json").exists(), reason="clinical regeneration not run")
+def test_female_motor_points_regenerated_and_other_viewers_kept():
+    mp = json.loads((REPO / "clinical" / "data" / "motor_points.json").read_text())["viewers"]
+    assert set(mp) >= {"vhm", "vhf", "zan_m", "zan_f"} and len(mp["zan_f"]["points"]) >= 190
+    before = json.loads((DER / "Q225_motor_points_coverage_before.json").read_text())
+    assert before["viewer"] == "zan_f" and before["n_points"] >= 190
+    risk = json.loads((REPO / "clinical" / "data" / "risk_zan_f.json").read_text())
+    assert risk and len(json.dumps(risk)) > 1000

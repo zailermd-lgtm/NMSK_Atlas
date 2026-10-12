@@ -429,3 +429,31 @@ def test_browser_check_results(page):
         assert v["errors"] == [], (name, v["errors"])
         bad = [k for k, ok in v["checks"].items() if ok is False]
         assert not bad, (name, bad)
+
+
+# ---------------------------------------------------------------- the six regenerated pages (build/q227, git-ignored: skipped where absent)
+SOURCES = {  # page dir name -> candidate source dirs (first that exists), the geometry must be byte identical to it
+    "viewer_m_hr": ["build/q224/viewer_m_hr"], "viewer_f_hr": ["build/q224/viewer_f_hr"],
+    "viewer_zan_vhm": ["build/q225/viewer_zan_vhm", "build/q221/viewer_zan_vhm"], "viewer_zan_female": ["build/q225/viewer_zan_female", "build/q222/viewer_zan_female"],
+    "viewer_base_female": ["build/q222/viewer_base_female"], "viewer_zan_atlas": ["build/q222/viewer_zan_atlas"]}
+
+
+@pytest.mark.parametrize("name", sorted(SOURCES))
+def test_regenerated_page_has_the_blocks_and_identical_geometry(name):
+    import hashlib
+    d = REPO / "build" / "q227" / name
+    if not d.is_dir():
+        pytest.skip("run scripts/regen_cut_q218.sh with Q218_OUT=build/q227 (see PROJECT_STATE Q227)")
+    src = next((REPO / s for s in SOURCES[name] if (REPO / s).is_dir()), None)
+    if src is None:
+        pytest.skip("source dir absent")
+    html = next(d.glob("atlas_viewer*.html"))
+    t = html.read_text(encoding="utf-8")
+    for needle in ("function NMSKSelect(E)", "function NMSKCap(E)", "var NMSKCapCore", 'id="sel-sec"', 'id="cut-fill"'):
+        assert needle in t, needle
+    geo = sorted(d.glob("*_geo_*.txt"))
+    assert geo, "no geo files"
+    for g in geo:
+        assert hashlib.sha256(g.read_bytes()).hexdigest() == hashlib.sha256((src / g.name).read_bytes()).hexdigest(), g.name
+    v = json.loads((REPO / "build" / "q227" / "_verify" / f"{name}.json").read_text())
+    assert v["OK"] and v["geo_identical"] and v["literals_identical"] and v["new_equals_current_template_plus_same_data"]
