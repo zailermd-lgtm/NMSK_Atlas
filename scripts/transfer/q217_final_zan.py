@@ -23,19 +23,13 @@ STEM = "atlas_viewer_zan_male_fitted"
 SKIN_MIN_MM = 1.0
 
 
-def clamp(src="zan_polish.pkl", dst="zan_clamp.pkl", rounds=6):
-    """vertices outside the skin / closer than SKIN_MIN_MM to it go inward, vertices > 0.5 mm inside a bone go out (displacement field smoothed over the mesh, so no spikes); held vertices (y outside the window) stay"""
-    B, P = load_pages()
-    d = pickle.load(open(CACHE / src, "rb"))
-    S = C.zan_left("zan_m")
-    G = C.SkinGuard([s for s in S.values() if s["sys"] == "skin"])
-    bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
-    bv = C.BoneVox(bones)
+def clamp_meshes(d, G, bv, rounds=6, win=(100.0, 300.0)):
+    """vertices outside the skin / closer than SKIN_MIN_MM to it go inward, vertices > 0.5 mm inside a bone go out (displacement field smoothed over the mesh, so no spikes); vertices outside `win` stay"""
     out = {}
     for i, (v, f) in d.items():
         x = v.copy()
         Lap = laplacian(len(x), f)
-        anch = 60.0 * np.maximum(SL.smooth_ramp(x[:, 1], 100.0, 20.0), 1.0 - SL.smooth_ramp(x[:, 1], 300.0, 20.0))
+        anch = 60.0 * np.maximum(SL.smooth_ramp(x[:, 1], win[0], 20.0), 1.0 - SL.smooth_ramp(x[:, 1], win[1], 20.0))
         for _ in range(rounds):
             t = np.zeros_like(x)
             sg = G.signed(x)
@@ -60,10 +54,18 @@ def clamp(src="zan_polish.pkl", dst="zan_clamp.pkl", rounds=6):
             w = ((np.linalg.norm(t, axis=1) > 0)).astype(float) * 30.0
             if not w.any():
                 break
-            dsp = SL.solve_disp(Lap, w, t, 1.0, anch)
-            x = x + dsp
+            x = x + SL.solve_disp(Lap, w, t, 1.0, anch)
         out[i] = (x, f)
-    pickle.dump(out, open(CACHE / dst, "wb"))
+    return out
+
+
+def clamp(src="zan_polish.pkl", dst="zan_clamp.pkl", rounds=6):
+    B, P = load_pages()
+    d = pickle.load(open(CACHE / src, "rb"))
+    S = C.zan_left("zan_m")
+    G = C.SkinGuard([s for s in S.values() if s["sys"] == "skin"])
+    bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
+    pickle.dump(clamp_meshes(d, G, C.BoneVox(bones), rounds), open(CACHE / dst, "wb"))
 
 
 def ends(src="zan_clamp.pkl", dst="zan_ends.pkl"):
