@@ -397,3 +397,44 @@ def test_recorded_browser_runs(page):
             assert max(r["perf"]["axial512_ms"]) < 1000, (vp, r["perf"])
     assert res["390x844"]["layout"]["cls"].find("img-tab") >= 0 and res["844x390"]["layout"]["cls"].find("img-tab") >= 0
     assert "img-side" in res["1440x900"]["layout"]["cls"] and "img-stack" in res["820x1180"]["layout"]["cls"]
+
+
+@pytest.mark.parametrize("page", ["vhm", "zan_f"])
+def test_recorded_slab_behaviour_on_real_meshes(page):
+    n = _numeric(page)
+    if "_slab" not in n:
+        pytest.skip("slab record missing (re-run q226_check.py with --numeric)")
+    s = n["_slab"]
+    assert s["sub"] == 21 and s["order_ok"], s                               # MIP >= average >= MinIP at every sampled pixel
+    assert s["strict_mip"] > 50 and s["strict_min"] > 50                       # the three combinations really differ
+    b = s["bone_pixels"]
+    assert b["mip20"] >= b["mip5"] >= b["single"] * 0.98 and b["min20"] <= b["avg20"] <= b["mip20"], b
+
+
+def test_recorded_numeric_female_kidney_spleen():
+    f = REPO / "data" / "derived" / "Q226_numeric_vhf.json"
+    if not f.is_file():
+        pytest.skip("Q226_numeric_vhf.json not recorded here")
+    n = json.loads(f.read_text(encoding="utf-8"))
+    for k, cls in (("kidney", "kidney"), ("spleen", "spleen"), ("liver", "liver")):
+        assert not n[k].get("missing"), k
+        assert n[k]["hist"].get(cls, 0) > 0.8 * n[k]["pixels"], (k, n[k]["hist"])
+
+
+@pytest.mark.parametrize("page", ["vhm", "zan_f"])
+def test_recorded_interaction_run(page):
+    f = REPO / "data" / "derived" / f"Q226_browser_interact_{page}.json"
+    if not f.is_file():
+        pytest.skip("interaction run not recorded here")
+    res = json.loads(f.read_text(encoding="utf-8"))
+    assert set(res) == {"1440x900", "390x844"}
+    for vp, r in res.items():
+        assert not r["errors"], (vp, r["errors"])
+        i = r["interact"]
+        # crosshair <-> cut plane coupling, readout, slab modes, thickness both ways, clean close
+        assert i["click_coronal_moves_anchor"] and i["click_coronal_moves_cut_plane"] and i["axial_click_keeps_plane_y"], (vp, i)
+        assert i["readout_has_tissue_and_hu"] and i["mip_mode"] and i["thick_10"] and i["cut_panel_slab_adopted"], (vp, i)
+        assert "3.0 mm" in i["cut_th_text_after_link"], (vp, i)
+        assert all(i["views_have_content"].values()), (vp, i)
+        assert i["closed_cleanly"]["rootVisible"] == "none" and "nmsk-img" not in i["closed_cleanly"]["cls"]
+        assert i["closed_cleanly"]["canvasW"] > 0

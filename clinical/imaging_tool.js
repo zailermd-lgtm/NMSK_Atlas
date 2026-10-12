@@ -1060,6 +1060,21 @@
       try { api.setCut({normal: [0, -1, 0], point: tgt}); } catch (e) {}
       return !!cutPlane();
     }
+    /* move the page's cut plane (same orientation, same side, same slab) through P using its own position slider; false if that is not possible */
+    function movePlaneThrough(P) {
+      var pos = document.getElementById("cut-pos"), cp = cutPlane();
+      if (!pos || !cp) return false;
+      var d = dot(cp.kn, P) + cp.c;
+      if (Math.abs(d) < 0.3) return true;
+      var v0 = parseFloat(pos.value) || 0;
+      function tryDelta(delta) {
+        pos.value = String(v0 + delta); pos.dispatchEvent(new Event("input", {bubbles: true}));
+        var c2 = cutPlane(); return c2 ? Math.abs(dot(c2.kn, P) + c2.c) : 1e9;
+      }
+      var e1 = tryDelta(d);
+      if (e1 > 0.6) { var e2 = tryDelta(-d); if (e2 > e1) { e1 = tryDelta(d); } else e1 = e2; }
+      return e1 < 1.2;
+    }
     function movePointToPlane() {
       var cp = cutPlane(); if (!cp || !S.P) return;
       var d = dot(cp.kn, S.P) + cp.c; S.P = [S.P[0] - d * cp.kn[0], S.P[1] - d * cp.kn[1], S.P[2] - d * cp.kn[2]];
@@ -1122,8 +1137,10 @@
       var along = 0, p = pointOf(v, ix, iy, along);
       S.P = p;
       if (v.key !== "cut") {                                               // the clicked point leaves the cut plane: move the cut plane through it
-        var cp = cutPlane();
-        if (cp) { try { api.setCut({normal: cp.kn, point: p}); } catch (e) {} setTimeout(function () { pushSlabToCut(); }, 0); }
+        if (!movePlaneThrough(p)) {
+          var cp = cutPlane();
+          if (cp) { try { api.setCut({normal: cp.kn, point: p}); } catch (e) {} setTimeout(function () { if (S.link) pushSlabToCut(); }, 0); }
+        }
       }
       clearTimeout(timers.anchor);
       Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); });

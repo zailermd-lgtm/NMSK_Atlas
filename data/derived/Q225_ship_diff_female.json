@@ -373,6 +373,13 @@
     703
    ]
   },
+  "extensor_carpi_ulnaris_r": {
+   "max_vertex_change_mm": 11.14,
+   "vertices": [
+    703,
+    703
+   ]
+  },
   "extensor_digiti_minimi_l": {
    "max_vertex_change_mm": 12.65,
    "vertices": [
@@ -385,13 +392,6 @@
    "vertices": [
     1078,
     1078
-   ]
-  },
-  "extensor_digitorum_l": {
-   "max_vertex_change_mm": 10.39,
-   "vertices": [
-    1798,
-    1798
    ]
   },
   "extensor_indicis_r": {
@@ -1892,13 +1892,6 @@
     772
    ]
   },
-  "zan_long_head_of_triceps_brachii_l": {
-   "max_vertex_change_mm": 6.06,
-   "vertices": [
-    1802,
-    1802
-   ]
-  },
   "zan_medial_basal_segmental_artery_of_right_lung": {
    "max_vertex_change_mm": 4.61,
    "vertices": [
@@ -2874,9 +2867,9 @@
   }
  },
  "card_only": [],
- "unchanged": 2532,
+ "unchanged": 2533,
  "geometry_changed_but_not_listed": [],
- "listed_structures": 410,
+ "listed_structures": 409,
  "stages": {
   "ulna_l": [
    "bone"
@@ -2950,9 +2943,6 @@
    "follow",
    "zone:elbow_l",
    "zone:wrist_l"
-  ],
-  "extensor_digitorum_l": [
-   "follow"
   ],
   "flexor_carpi_radialis_l": [
    "follow",
@@ -3029,9 +3019,6 @@
    "follow"
   ],
   "zan_lateral_head_of_triceps_brachii_l": [
-   "follow"
-  ],
-  "zan_long_head_of_triceps_brachii_l": [
    "follow"
   ],
   "zan_medial_head_of_triceps_brachii_l": [
@@ -3744,6 +3731,9 @@
   "extensor_carpi_radialis_brevis_r": [
    "zone:wrist_r"
   ],
+  "extensor_carpi_ulnaris_r": [
+   "zone:wrist_r"
+  ],
   "extensor_digiti_minimi_r": [
    "zone:wrist_r"
   ],
@@ -4342,6 +4332,12 @@
    "mean_vertex_change_mm": 3.8,
    "share_of_vertices_over_5mm": 0.314
   },
+  "extensor_carpi_ulnaris_r": {
+   "sys": "muscle",
+   "max_vertex_change_mm": 11.14,
+   "mean_vertex_change_mm": 1.9,
+   "share_of_vertices_over_5mm": 0.061
+  },
   "extensor_digiti_minimi_l": {
    "sys": "muscle",
    "max_vertex_change_mm": 12.65,
@@ -4353,12 +4349,6 @@
    "max_vertex_change_mm": 12.16,
    "mean_vertex_change_mm": 3.53,
    "share_of_vertices_over_5mm": 0.27
-  },
-  "extensor_digitorum_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 10.39,
-   "mean_vertex_change_mm": 0.68,
-   "share_of_vertices_over_5mm": 0.069
   },
   "extensor_indicis_r": {
    "sys": "muscle",
@@ -4887,12 +4877,6 @@
    "max_vertex_change_mm": 12.68,
    "mean_vertex_change_mm": 0.57,
    "share_of_vertices_over_5mm": 0.016
-  },
-  "zan_long_head_of_triceps_brachii_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 6.06,
-   "mean_vertex_change_mm": 0.83,
-   "share_of_vertices_over_5mm": 0.051
   },
   "zan_medial_head_of_triceps_brachii_l": {
    "sys": "muscle",

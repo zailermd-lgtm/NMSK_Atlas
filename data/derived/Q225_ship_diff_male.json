@@ -108,7 +108,7 @@
    ]
   },
   "biceps_brachii_l": {
-   "max_vertex_change_mm": 2.3,
+   "max_vertex_change_mm": 6.91,
    "vertices": [
     2120,
     2120
@@ -745,7 +745,7 @@
    ]
   },
   "pronator_teres_l": {
-   "max_vertex_change_mm": 2.65,
+   "max_vertex_change_mm": 10.59,
    "vertices": [
     1802,
     1802
@@ -770,6 +770,13 @@
    "vertices": [
     394,
     394
+   ]
+  },
+  "rectus_femoris_l": {
+   "max_vertex_change_mm": 13.38,
+   "vertices": [
+    1800,
+    1800
    ]
   },
   "rectus_femoris_r": {
@@ -2543,6 +2550,13 @@
     692
    ]
   },
+  "zan_lumbrical_muscles_of_hand_r": {
+   "max_vertex_change_mm": 14.33,
+   "vertices": [
+    692,
+    692
+   ]
+  },
   "zan_medial_intermuscular_septum_of_arm_l": {
    "max_vertex_change_mm": 2.94,
    "vertices": [
@@ -2629,9 +2643,9 @@
   }
  },
  "card_only": [],
- "unchanged": 2591,
+ "unchanged": 2589,
  "geometry_changed_but_not_listed": [],
- "listed_structures": 375,
+ "listed_structures": 377,
  "stages": {
   "ulna_l": [
    "bone"
@@ -2733,8 +2747,7 @@
   ],
   "pronator_teres_l": [
    "follow",
-   "zone:elbow_l",
-   "final"
+   "zone:elbow_l"
   ],
   "radial_n_superficial_branch_l": [
    "follow"
@@ -2885,6 +2898,9 @@
    "follow"
   ],
   "knee_articular_cartilage_l": [
+   "follow"
+  ],
+  "rectus_femoris_l": [
    "follow"
   ],
   "vastus_intermedius_l": [
@@ -3495,6 +3511,9 @@
   "zan_dorsal_fascia_of_hand_r": [
    "zone:wrist_r"
   ],
+  "zan_lumbrical_muscles_of_hand_r": [
+   "zone:wrist_r"
+  ],
   "zan_tendon_sheath_of_extensor_digiti_minimi_manus_r": [
    "zone:wrist_r"
   ],
@@ -3891,6 +3910,12 @@
    "mean_vertex_change_mm": 0.16,
    "share_of_vertices_over_5mm": 0.003
   },
+  "biceps_brachii_l": {
+   "sys": "muscle",
+   "max_vertex_change_mm": 6.91,
+   "mean_vertex_change_mm": 1.06,
+   "share_of_vertices_over_5mm": 0.048
+  },
   "bicipitoradial_bursa_l": {
    "sys": "bursa",
    "max_vertex_change_mm": 9.04,
@@ -4173,6 +4198,12 @@
    "mean_vertex_change_mm": 2.42,
    "share_of_vertices_over_5mm": 0.299
   },
+  "pronator_teres_l": {
+   "sys": "muscle",
+   "max_vertex_change_mm": 10.59,
+   "mean_vertex_change_mm": 3.2,
+   "share_of_vertices_over_5mm": 0.347
+  },
   "quadratus_lumborum_l": {
    "sys": "muscle",
    "max_vertex_change_mm": 5.02,
@@ -4190,6 +4221,12 @@
    "max_vertex_change_mm": 13.95,
    "mean_vertex_change_mm": 4.75,
    "share_of_vertices_over_5mm": 0.376
+  },
+  "rectus_femoris_l": {
+   "sys": "muscle",
+   "max_vertex_change_mm": 13.38,
+   "mean_vertex_change_mm": 1.37,
+   "share_of_vertices_over_5mm": 0.124
   },
   "rectus_femoris_r": {
    "sys": "muscle",
@@ -4988,6 +5025,12 @@
    "max_vertex_change_mm": 11.15,
    "mean_vertex_change_mm": 3.79,
    "share_of_vertices_over_5mm": 0.215
+  },
+  "zan_lumbrical_muscles_of_hand_r": {
+   "sys": "muscle",
+   "max_vertex_change_mm": 14.33,
+   "mean_vertex_change_mm": 3.24,
+   "share_of_vertices_over_5mm": 0.264
   },
   "zan_medial_patellar_retinaculum_l": {
    "sys": "joint",

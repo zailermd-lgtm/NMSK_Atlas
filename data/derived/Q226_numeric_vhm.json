@@ -33,7 +33,7 @@
   "nearestClass": "bone_cortical",
   "hu_centre": 1300,
   "parityBad": 0,
-  "ms": 5
+  "ms": 6
  },
  "muscle": {
   "id": "rectus_femoris_r",
@@ -50,7 +50,7 @@
   "nearestClass": "muscle",
   "hu_centre": 52,
   "parityBad": 0,
-  "ms": 6
+  "ms": 10
  },
  "liver": {
   "id": "liver",
@@ -67,7 +67,7 @@
   "nearestClass": "liver",
   "hu_centre": 60,
   "parityBad": 0,
-  "ms": 23
+  "ms": 120
  },
  "vessel": {
   "id": "abdominal_aorta",
@@ -84,7 +84,7 @@
   "nearestClass": "blood_artery",
   "hu_centre": 45,
   "parityBad": 0,
-  "ms": 22
+  "ms": 49
  },
  "lung": {
   "id": "lung_r",
@@ -101,6 +101,19 @@
   "nearestClass": "lung",
   "hu_centre": -800,
   "parityBad": 0,
-  "ms": 21
+  "ms": 41
+ },
+ "_slab": {
+  "sub": 21,
+  "order_ok": true,
+  "strict_mip": 3198,
+  "strict_min": 3198,
+  "bone_pixels": {
+   "single": 685,
+   "mip5": 703,
+   "mip20": 748,
+   "min20": 620,
+   "avg20": 717
+  }
  }
 }

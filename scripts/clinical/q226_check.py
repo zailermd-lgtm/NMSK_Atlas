@@ -41,13 +41,91 @@ NUMERIC_JS = r"""(async function(specs){
   return out; })(__SPECS__)"""
 
 NUMERIC_SPECS = {
+    "vhf": [{"key": "femur_shaft", "re": "^femur r", "cat": "bone", "frac": 0.5, "fov": 120}, {"key": "femur_end", "re": "^femur r", "cat": "bone", "frac": 0.03, "fov": 160},
+            {"key": "muscle", "re": "^rectus femoris r", "cat": "muscle", "frac": 0.5, "fov": 250}, {"key": "liver", "re": "^liver", "cat": "organ", "fov": 400},
+            {"key": "vessel", "re": "^abdominal aorta", "cat": "vessel", "fov": 150}, {"key": "lung", "re": "^lung r", "cat": "organ", "fov": 400},
+            {"key": "kidney", "re": "^kidney r", "cat": "organ", "fov": 200}, {"key": "spleen", "re": "^spleen", "cat": "organ", "fov": 200}],
     "vhm": [{"key": "femur_shaft", "re": "^femur r", "cat": "bone", "frac": 0.5, "fov": 120}, {"key": "femur_end", "re": "^femur r", "cat": "bone", "frac": 0.03, "fov": 160},
             {"key": "muscle", "re": "^rectus femoris r", "cat": "muscle", "frac": 0.5, "fov": 250}, {"key": "liver", "re": "^liver", "cat": "organ", "fov": 400},
             {"key": "vessel", "re": "^abdominal aorta", "cat": "vessel", "fov": 150}, {"key": "lung", "re": "^lung r", "cat": "organ", "fov": 400}],
     "zan_f": [{"key": "femur_shaft", "re": "^femur r", "cat": "bone", "frac": 0.5, "fov": 120}, {"key": "femur_end", "re": "^femur r", "cat": "bone", "frac": 0.03, "fov": 160},
-              {"key": "muscle", "re": "^vastus lateralis r", "cat": "muscle", "frac": 0.5, "fov": 250}, {"key": "liver", "re": "^zan liver$", "cat": "viscera", "fov": 400},
+              {"key": "muscle", "re": "^vastus lateralis r", "cat": "muscle", "frac": 0.5, "fov": 250}, {"key": "liver", "re": "^zan liver liver$", "cat": "viscera", "fov": 400},
               {"key": "vessel", "re": "^abdominal aorta", "cat": "vessel", "fov": 150}],
 }
+def interact(pg, mobile):
+    """clicks / taps / buttons: crosshair <-> cut plane coupling, readout, slab modes, thickness, 3D slab link, close restores the page."""
+    R = {}
+    pg.set_default_timeout(30000)
+    def idle(extra=500):
+        pg.evaluate("NMSKImaging.idle()"); pg.wait_for_timeout(extra)
+    tap = (lambda x, y: pg.touchscreen.tap(x, y)) if mobile else (lambda x, y: pg.mouse.click(x, y))
+    click = (lambda sel: pg.locator(sel).first.tap()) if mobile else (lambda sel: pg.locator(sel).first.click())
+    pg.evaluate("NMSKImaging.set({layout:'mpr', modality:'ct', ctWindow:'soft', thick:5, slab:'avg'})")
+    if mobile:                                   # 4 views are stacked in a 2x2 grid even on the phone; make sure the controls do not hide them
+        pg.evaluate("document.getElementById('img-root').classList.remove('ctl-off')")
+    idle(900)
+    st0 = pg.evaluate("NMSKImaging.state()")
+    cs0 = pg.evaluate("(document.getElementById('cut-state')||{}).textContent")
+    box = pg.locator('.img-view[data-view="co"]').bounding_box()
+    tap(box["x"] + box["width"] * 0.5, box["y"] + box["height"] * 0.22)          # a point higher up in the coronal view
+    idle(1200)
+    st1 = pg.evaluate("NMSKImaging.state()"); cs1 = pg.evaluate("(document.getElementById('cut-state')||{}).textContent")
+    R["click_coronal_moves_anchor"] = abs(st1["P"][1] - st0["P"][1]) > 5
+    R["click_coronal_moves_cut_plane"] = cs0 != cs1
+    R["cut_state"] = [cs0, cs1]
+    box = pg.locator('.img-view[data-view="ax"]').bounding_box()
+    tap(box["x"] + box["width"] * 0.6, box["y"] + box["height"] * 0.5)
+    idle(900)
+    ro = pg.locator(".img-read").text_content()
+    R["readout"] = ro
+    R["readout_has_tissue_and_hu"] = (" | " in ro) and ("HU" in ro)
+    st2 = pg.evaluate("NMSKImaging.state()")
+    R["axial_click_keeps_plane_y"] = abs(st2["P"][1] - st1["P"][1]) < 1.0
+    def section(name):
+        t = pg.locator('.img-ctl .sectabs [data-sec="%s"]' % name).first
+        if t.is_visible():
+            t.tap() if mobile else t.click()
+            pg.wait_for_timeout(200)
+    section("slab")
+    click('.img-ctl [data-slab="mip"]')
+    idle(600)
+    R["mip_mode"] = pg.evaluate("NMSKImaging.state().slab") == "mip"
+    click('.img-ctl [data-th="10"]')
+    idle(600)
+    R["thick_10"] = pg.evaluate("NMSKImaging.state().thick") == 10
+    # slab set in the page's own Cut panel is adopted by the imaging panel
+    pg.evaluate("(function(){var b=document.querySelector('#cut-thick [data-th=\"25\"]'); b && b.click();})()")
+    try:
+        pg.wait_for_function("NMSKImaging.state().thick === 25", timeout=30000)
+    except Exception:
+        pass
+    R["cut_panel_slab_adopted"] = pg.evaluate("NMSKImaging.state().thick") == 25
+    # 3D slab link pushes the imaging thickness to the cut panel
+    click('.img-ctl [data-th="3"]')
+    pg.evaluate("(function(){var b=[].slice.call(document.querySelectorAll('.img-ctl button')).filter(function(x){return x.textContent==='3D slab';})[0]; b && b.click();})()")
+    pg.wait_for_timeout(600)
+    R["cut_th_text_after_link"] = pg.evaluate("(document.getElementById('cut-th')||{}).textContent")
+    # a quick numeric look at the images: not all black, not all white
+    R["views_have_content"] = pg.evaluate("""(function(){var v=NMSKImaging.views(), ok={}; Object.keys(v).forEach(function(k){var a=v[k].val; if(!a){ok[k]=false;return;} var mn=1e9,mx=-1e9; for(var i=0;i<a.length;i+=7){if(a[i]<mn)mn=a[i]; if(a[i]>mx)mx=a[i];} ok[k]=mx-mn>100;}); return ok;})()""")
+    # close restores the 3D page
+    pg.evaluate("NMSKImaging.close()")
+    pg.wait_for_timeout(1200)
+    R["closed_cleanly"] = pg.evaluate("""(function(){var c=document.querySelector('#view,#stage canvas'), r=c.getBoundingClientRect(); return {cls:document.body.className, canvasW:Math.round(r.width), innerW:innerWidth, rootVisible:getComputedStyle(document.getElementById('img-root')).display};})()""")
+    return R
+
+
+NUMERIC_SPECS_PLACEHOLDER = None
+# slab behaviour on real meshes: sub-slices 0..20 mm through the upper thigh (axial), HU per class; MIP >= average >= MinIP at every pixel, and the
+# bone pixels (HU > 300) of the MIP grow with thickness while MinIP shrinks them
+SLAB_JS = r"""(async function(){
+  var g=NMSKImaging.geo(), C=NMSKImaging.C(), lut=NMSKImaging.lut('ct'), bb=g.bodyBox, y=bb.lo[1]+0.42*(bb.hi[1]-bb.lo[1]);
+  var O=[(bb.lo[0]+bb.hi[0])/2,y,(bb.lo[2]+bb.hi[2])/2], offs=[]; for (var k=0;k<=20;k++) offs.push(k);
+  var res=await NMSKImaging.sliceNow({O:O,n:[0,-1,0],W:256,fov:300,offsets:offs}), N=256*256, L=res.labels, out={sub:L.length}, ok=true, sMip=0, sMin=0, bone={single:0,mip5:0,mip20:0,min20:0,avg20:0};
+  function stat(upTo,mode){ var c=0; for (var i=0;i<N;i++){ var mx=-1e9,mn=1e9,sum=0; for (var s=0;s<=upTo;s++){ var v=lut[L[s][i]]; if(v>mx)mx=v; if(v<mn)mn=v; sum+=v; } var val=mode==='mip'?mx:mode==='min'?mn:sum/(upTo+1); if(val>300)c++; } return c; }
+  for (var i=0;i<N;i+=3){ var mx=-1e9,mn=1e9,sum=0; for (var s=0;s<L.length;s++){ var v=lut[L[s][i]]; if(v>mx)mx=v; if(v<mn)mn=v; sum+=v; } var av=sum/L.length; if(!(mx>=av-1e-6&&av>=mn-1e-6)) ok=false; if(mx>av+1)sMip++; if(mn<av-1)sMin++; }
+  bone.single=stat(0,'avg'); bone.mip5=stat(5,'mip'); bone.mip20=stat(20,'mip'); bone.min20=stat(20,'min'); bone.avg20=stat(20,'avg');
+  out.order_ok=ok; out.strict_mip=sMip; out.strict_min=sMin; out.bone_pixels=bone; return out; })()"""
+
 VIEWPORTS_ALL = ["1440x900", "1024x640", "820x1180", "1180x820", "390x844", "844x390"]
 
 
@@ -58,7 +136,7 @@ def serve(root: str):
     return srv, port
 
 
-def run(root, rel, kind, outp, three, viewports, shots=False, eval_after=None, numeric=None):
+def run(root, rel, kind, outp, three, viewports, shots=False, eval_after=None, numeric=None, do_interact=False):
     srv, port = serve(root)
     res = {}
     try:
@@ -114,6 +192,7 @@ def run(root, rel, kind, outp, three, viewports, shots=False, eval_after=None, n
                 pg.screenshot(path=f"{outp}_{vp}_open.png")
                 if numeric:
                     R["numeric"] = pg.evaluate(NUMERIC_JS.replace("__SPECS__", json.dumps(numeric)))
+                    R["slab"] = pg.evaluate(SLAB_JS)
                 if eval_after:
                     R["eval"] = pg.evaluate(eval_after)
                 if shots:
@@ -128,6 +207,8 @@ def run(root, rel, kind, outp, three, viewports, shots=False, eval_after=None, n
                     go({"seq": "stir"}, "mr_stir_mpr")
                     go({"modality": "ct", "ctWindow": "bone", "thick": 25, "slab": "mip"}, "ct_bone_mip25")
                     go({"modality": "ct", "ctWindow": "soft", "layout": "single", "active": "cut", "thick": 5, "slab": "avg"}, "ct_soft_single")
+                if do_interact:
+                    R["interact"] = interact(pg, mobile)
                 R["errors"] = errs[:12]
                 R["bad_responses"] = bad[:12]
                 res[vp] = R
@@ -151,20 +232,30 @@ def main(argv=None) -> int:
     numeric = None
     if "--numeric" in a:
         i = a.index("--numeric"); numeric = NUMERIC_SPECS[a[i + 1]]; del a[i:i + 2]
+    do_interact = "--interact" in a
+    if do_interact:
+        a.remove("--interact")
+    numeric_only = "--numeric-only" in a
+    if numeric_only:
+        a.remove("--numeric-only")
     record = None
     if "--record" in a:
         i = a.index("--record"); record = a[i + 1]; del a[i:i + 2]
     root, rel, kind, outp, three = a[:5]
-    out = run(root, rel, kind, outp, three, vps, shots, numeric=numeric)
+    out = run(root, rel, kind, outp, three, vps, shots, numeric=numeric, do_interact=do_interact)
     print(json.dumps(out, indent=1))
     if record:
         from pathlib import Path
         d = Path(__file__).resolve().parents[2] / "data" / "derived"
         num = next((r["numeric"] for r in out.values() if r.get("numeric")), None)
+        sl = next((r["slab"] for r in out.values() if r.get("slab")), None)
+        if num and sl:
+            num = dict(num, _slab=sl)
         if num:
             (d / f"Q226_numeric_{record}.json").write_text(json.dumps(num, indent=1) + "\n", encoding="utf-8")
-        slim = {vp: {k: v for k, v in r.items() if k != "numeric"} for vp, r in out.items()}
-        (d / f"Q226_browser_{record}.json").write_text(json.dumps(slim, indent=1) + "\n", encoding="utf-8")
+        slim = {vp: {k: v for k, v in r.items() if k not in ("numeric", "slab")} for vp, r in out.items()}
+        if not numeric_only:
+            (d / f"Q226_browser_{record}.json").write_text(json.dumps(slim, indent=1) + "\n", encoding="utf-8")
     bad = [vp for vp, r in out.items() if r["errors"] or r["bad_responses"] or r["layout"]["scrollW"] > r["layout"]["innerW"]]
     return 1 if bad else 0
 
