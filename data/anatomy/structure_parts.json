@@ -485,6 +485,14 @@
    "verified": "pubmed-2026-10-12",
    "basis": "abstract: 60 ligaments from 30 cadavers; mean length 31.7 mm; 44 single-banded, 13 double-banded, 3 other; short ligamentous bands from the L5 costal process to the iliac plate in 24; fibrous membrane connected in 38; no convincing insertion on the L4 vertebra"
   },
+  "dalmau2016": {
+   "kind": "journal",
+   "citation": "Dalmau-Pastor M, Yasui Y, Calder JD, Karlsson J, Kerkhoffs GMMJ, Kennedy JG. Anatomy of the inferior extensor retinaculum and its role in lateral ankle ligament reconstruction: a pictorial essay. Knee Surg Sports Traumatol Arthrosc 2016;24(4):957-962",
+   "doi": "10.1007/s00167-016-4082-5",
+   "pmid": "27023098",
+   "verified": "pubmed-2026-10-12",
+   "basis": "abstract: the inferior extensor retinaculum is an aponeurotic structure continuous with the anterior part of the sural fascia; a non-constant oblique supero-lateral band decides whether the true IER or only the anterior sural fascia is used"
+  },
   "damjanovic2024": {
    "kind": "journal",
    "citation": "Damjanovic MM, Damjanovic IG, Hryniuk A. Variations of the rectus capitis posterior muscles: a case report. Surg Radiol Anat 2024;46(12):1995-1998",
@@ -1077,6 +1085,14 @@
    "verified": "pubmed-2026-10-12",
    "basis": "abstract: refers to the authors' earlier 10-specimen cadaver study: mean length of the peroneus brevis footprint on the fifth metatarsal base 15 mm, ending distally 15 mm from the tuberosity"
   },
+  "martin1984": {
+   "kind": "journal",
+   "citation": "Martin BF. The formation of abdomino-perineal sacs by the fasciae of Scarpa and Colles, and their clinical significance. J Anat 1984;138(Pt 4):603-616",
+   "doi": null,
+   "pmid": "6235202",
+   "verified": "pubmed-2026-10-12",
+   "basis": "abstract: dissection; Scarpa's fascia confined to an oval area on each side of the abdominal wall, attached to the deep fascia, enclosing an oblique oval sac extending into the perineum by three pocket-like diverticulae (fascia of Colles): lateral pocket into the superficial perineal pouch, medial and intermediate pockets in the scrotum / labium majus; medially it blends with the fundiform ligament; laterally the inferior margin makes the groin crease by attachment to the fascia lata"
+  },
   "mastaglia1981": {
    "kind": "journal",
    "citation": "Mastaglia FL, Venerys J, Stokes BA, Vaughan R. Compression of the tibial nerve by the tendinous arch of origin of the soleus muscle. Clin Exp Neurol 1981;18:81-85",
@@ -1412,6 +1428,14 @@
    "pmid": "18237695",
    "verified": "pubmed-2026-10-11",
    "basis": "abstract: 8 hips; two insertion sites lateral facet (438 mm2) and superoposterior facet (196.5 mm2)"
+  },
+  "rougereau2022": {
+   "kind": "journal",
+   "citation": "Rougereau G, Marty-Diloy T, Vigan M, Donadieu K, Hardy A, Vialle R, Langlais T. Anatomical and biomechanical study of the inferior extensor retinaculum by shear-wave elastography in healthy adults. Surg Radiol Anat 2022;44(2):245-252",
+   "doi": "10.1007/s00276-022-02884-0",
+   "pmid": "35059808",
+   "verified": "pubmed-2026-10-12",
+   "basis": "abstract: 20 healthy adults by shear-wave elastography; the main part of the IER is the frondiform ligament, which becomes taut in valgus (4.1 m/s, 52.8 kPa)"
   },
   "rozen2008": {
    "kind": "journal",
@@ -3193,6 +3217,48 @@
     "guyons_canal.zone_1",
     "guyons_canal.zone_2",
     "guyons_canal.zone_3"
+   ]
+  },
+  {
+   "id": "colles_fascia.pockets",
+   "structure_id": "colles_fascia",
+   "part_type": "ligament_component",
+   "name": "Colles' fascia: pockets of the abdomino-perineal sac",
+   "reported_counts": [
+    {
+     "n": 3,
+     "ref": "martin1984",
+     "note": "lateral, intermediate and medial pocket-like diverticulae"
+    }
+   ],
+   "note": null,
+   "member_part_ids": [
+    "colles_fascia.lateral_pocket_superficial_perineal_pouch",
+    "colles_fascia.intermediate_pocket_spermatic_cord",
+    "colles_fascia.medial_pocket_scrotum_labium"
+   ]
+  },
+  {
+   "id": "extensor_retinaculum_ankle.parts",
+   "structure_id": "extensor_retinaculum_ankle",
+   "part_type": "ligament_component",
+   "name": "Inferior extensor retinaculum: parts",
+   "reported_counts": [
+    {
+     "n": 2,
+     "ref": "dalmau2016",
+     "note": "main retinaculum + a non-constant oblique supero-lateral band"
+    },
+    {
+     "n": 1,
+     "ref": "rougereau2022",
+     "note": "main part = the frondiform ligament"
+    }
+   ],
+   "note": null,
+   "member_part_ids": [
+    "extensor_retinaculum_ankle.frondiform_ligament_main_part",
+    "extensor_retinaculum_ankle.oblique_superolateral_band"
    ]
   },
   {
@@ -24064,6 +24130,259 @@
    "geometry_rule": null
   },
   {
+   "id": "scarpas_fascia.oval_sac_each_side",
+   "structure_id": "scarpas_fascia",
+   "structure_class": "fascia",
+   "part_type": "ligament_component",
+   "name": "Membranous layer confined to an oval area on each side of the abdominal wall",
+   "description": "Scarpa's fascia is limited to an oval area each side; by its attachment to the deep fascia it encloses an obliquely directed oval sac; medially it blends with the fundiform ligament; its inferior margin forms the groin crease by attachment to the fascia lata.",
+   "refs": [
+    "martin1984"
+   ],
+   "evidence": "dissection (J Anat 1984)",
+   "verification": "verified",
+   "variability": null,
+   "anchor": null,
+   "geometry": null,
+   "set_id": null,
+   "passes": null,
+   "related_structure_ids": [
+    "fascia_lata",
+    "colles_fascia"
+   ],
+   "note": null,
+   "citation": "Martin BF et al.  J Anat  PMID:6235202",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "colles_fascia.lateral_pocket_superficial_perineal_pouch",
+   "structure_id": "colles_fascia",
+   "structure_class": "fascia",
+   "part_type": "ligament_component",
+   "name": "Lateral pocket (continues into the superficial perineal pouch)",
+   "description": "Lateral of the three pockets arising from the Scarpa sac; it continues into the superficial perineal pouch.",
+   "refs": [
+    "martin1984"
+   ],
+   "evidence": "dissection",
+   "verification": "verified",
+   "variability": null,
+   "anchor": null,
+   "geometry": null,
+   "set_id": "colles_fascia.pockets",
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Martin BF et al.  J Anat  PMID:6235202",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "colles_fascia.intermediate_pocket_spermatic_cord",
+   "structure_id": "colles_fascia",
+   "structure_class": "fascia",
+   "part_type": "ligament_component",
+   "name": "Intermediate pocket (with the spermatic cord / round ligament)",
+   "description": "Associated with the spermatic cord or the round ligament of the uterus, blending with their coverings posteriorly; in the male it ends just above the testis.",
+   "refs": [
+    "martin1984"
+   ],
+   "evidence": "dissection",
+   "verification": "verified",
+   "variability": null,
+   "anchor": null,
+   "geometry": null,
+   "set_id": "colles_fascia.pockets",
+   "passes": null,
+   "related_structure_ids": [
+    "cremaster"
+   ],
+   "note": null,
+   "citation": "Martin BF et al.  J Anat  PMID:6235202",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "colles_fascia.medial_pocket_scrotum_labium",
+   "structure_id": "colles_fascia",
+   "structure_class": "fascia",
+   "part_type": "ligament_component",
+   "name": "Medial pocket (with the intermediate pocket occupies the scrotum or labium majus)",
+   "description": "The medial pocket together with the intermediate one occupies the scrotum or labium majus; the pockets of the two sides do not communicate with each other.",
+   "refs": [
+    "martin1984"
+   ],
+   "evidence": "dissection",
+   "verification": "verified",
+   "variability": null,
+   "anchor": null,
+   "geometry": null,
+   "set_id": "colles_fascia.pockets",
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Martin BF et al.  J Anat  PMID:6235202",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "extensor_retinaculum_ankle.frondiform_ligament_main_part",
+   "structure_id": "extensor_retinaculum_ankle",
+   "structure_class": "fascia",
+   "part_type": "ligament_component",
+   "name": "Frondiform ligament (main part of the inferior extensor retinaculum)",
+   "description": "The main part of the IER; becomes taut in the valgus position (shear-wave speed 4.1 m/s at 20 degrees valgus in 20 healthy adults).",
+   "refs": [
+    "rougereau2022"
+   ],
+   "evidence": "shear-wave elastography, 20 healthy adults",
+   "verification": "verified",
+   "variability": null,
+   "anchor": null,
+   "geometry": null,
+   "set_id": "extensor_retinaculum_ankle.parts",
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Rougereau G et al. 2022 Surg Radiol Anat 44(2):245-252 doi:10.1007/s00276-022-02884-0 PMID:35059808",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "extensor_retinaculum_ankle.oblique_superolateral_band",
+   "structure_id": "extensor_retinaculum_ankle",
+   "structure_class": "fascia",
+   "part_type": "ligament_component",
+   "name": "Non-constant oblique supero-lateral band",
+   "description": "The inferior extensor retinaculum is an aponeurotic structure continuous with the anterior sural fascia; the non-constant oblique supero-lateral band defines whether true IER or only anterior sural fascia is present.",
+   "refs": [
+    "dalmau2016"
+   ],
+   "evidence": "pictorial essay (anatomical)",
+   "verification": "verified",
+   "variability": "non-constant",
+   "anchor": null,
+   "geometry": null,
+   "set_id": "extensor_retinaculum_ankle.parts",
+   "passes": null,
+   "related_structure_ids": [
+    "crural_fascia"
+   ],
+   "note": null,
+   "citation": "Dalmau-Pastor M et al. 2016 Knee Surg Sports Traumatol Arthrosc 24(4):957-962 doi:10.1007/s00167-016-4082-5 PMID:27023098",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
    "id": "temporalis.superficial_part",
    "structure_id": "temporalis",
    "structure_class": "muscle",
@@ -31370,20 +31689,20 @@
   }
  ],
  "counts": {
-  "parts": 521,
+  "parts": 527,
   "by_part_type": {
    "head_belly": 80,
    "origin_part": 40,
    "insertion_point": 123,
    "muscle_tendon_junction": 16,
-   "ligament_component": 213,
+   "ligament_component": 219,
    "fascial_passage": 49
   },
   "by_verification": {
-   "verified": 489,
+   "verified": 495,
    "unverified": 32
   },
-  "structures": 182,
-  "references": 239
+  "structures": 185,
+  "references": 242
  }
 }
