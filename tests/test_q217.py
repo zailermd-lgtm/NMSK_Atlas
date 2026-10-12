@@ -119,6 +119,7 @@ def test_separator_pulls_two_overlapping_boxes_apart_without_a_dent():
     SL.BOX_HI = np.array([60.0, 80.0, 40.0])
     sk = type("S", (), {"signed": lambda self, p: np.full(len(p), -20.0, np.float32)})()
     sp = SL.Separator({"a": (va, fa), "b": (vb, fb)}, {}, {}, None, y_win=(-100.0, 1000.0), ramp_mm=1.0, log=lambda *a: None)
+    sp.gap_pair = 0.8
     for lam in (3.0, 3.0, 1.5, 1.5, 0.75, 0.75, 0.4, 0.4, 0.2, 0.2, 0.2, 0.2):
         sp.step(lam)
     rows, tot = C.overlap_voxels({k: (sp.x[k], sp.f[k]) for k in sp.ids}, lo=(-20, -20, -20), hi=(60, 80, 40))
@@ -126,7 +127,7 @@ def test_separator_pulls_two_overlapping_boxes_apart_without_a_dent():
     from scipy.spatial import cKDTree
     pa, pb = SL.surface_samples(sp.x["a"], sp.f["a"], 0.5), SL.surface_samples(sp.x["b"], sp.f["b"], 0.5)
     dd = cKDTree(pb).query(pa)[0]
-    assert float((dd < 0.3).mean()) < 0.12                    # the 1.0 mm fascial interface (0.5 mm each): only residual contacts at edges / corners are left
+    assert float((dd < 0.3).mean()) < 0.1                    # the 1.0 mm fascial interface (0.5 mm each): only residual contacts at edges / corners are left
     v0 = abs(trimesh.Trimesh(va, fa, process=False).volume)
     for k in sp.ids:
         assert abs(abs(trimesh.Trimesh(sp.x[k], sp.f[k], process=False).volume) / v0 - 1) < 0.1

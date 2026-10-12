@@ -60,6 +60,7 @@ def polish(src="zan_ends.pkl", dst="own_polish.pkl", rounds=12):
     zone = pickle.load(open(CACHE / "zan_zone.pkl", "rb"))
     mov = {i: d[i] for i in d if i in zone and zone[i]["sys"] == "muscle" and i in C.side_ids(C.FOREARM)}
     sp = SL.Separator(mov, fixed, bones, skin)
+    sp.gap_pair = 0.8
     lams = [3.0, 1.5, 0.75, 0.75, 0.4, 0.4, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
     for k, lam in enumerate(lams[:rounds]):
         t = time.time()

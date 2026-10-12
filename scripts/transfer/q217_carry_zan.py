@@ -15,6 +15,7 @@ from scripts.transfer import q217_common as C, q217_domain as D, q217_twist as T
 
 CACHE = REPO / "build" / "q217_cache"
 Y_SEAM = 105.0
+GAP_PAIR_MM = 0.8                 # per muscle: measured on two boxes the realised facing distance is ~0.87 mm at 0.7 and ~1.17 mm at 0.9 (the solver stops at contact), so 0.8 gives the 1.0 mm fascial interface
 CARPALS = ("capitate", "hamate", "lunate", "pisiform", "scaphoid", "trapezium", "trapezoid", "triquetrum")
 
 
@@ -80,6 +81,7 @@ def polish(src="zan_carry.pkl", dst="zan_polish.pkl", rounds=12):
     fixed = {i: (P[i]["v"], P[i]["f"]) for i in C.side_ids(C.ARM) if i in P}
     bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
     sp = SL.Separator({i: d[i] for i in d}, fixed, bones, G)
+    sp.gap_pair = GAP_PAIR_MM
     lams = [3.0, 1.5, 0.75, 0.75, 0.4, 0.4, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
     for k, lam in enumerate(lams[:rounds]):
         t = time.time()

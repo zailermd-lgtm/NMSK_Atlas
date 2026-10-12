@@ -367,7 +367,7 @@ class Separator:
 
     def step(self, lam, alpha=0.8, cap=6.0, wdata=30.0):
         sd = self.muscle_sdfs()
-        T, W, why = self.targets(sd)
+        T, W, why = self.targets(sd, gap_pair=getattr(self, 'gap_pair', FASCIA_MM / 2))
         tot = {n: [0, 0.0, 0.0] for n in ("muscle", "fixed", "bone", "skin")}
         for k in self.ids:
             t = T[k]
