@@ -823,7 +823,7 @@
       ".img-info.show{display:block}",
       ".img-info h3{margin:14px 0 4px;font-size:14px}.img-info p,.img-info li{color:#c3cfdd}",
       ".img-info table{border-collapse:collapse;width:100%;font-size:11.5px;margin:4px 0}.img-info td,.img-info th{border:1px solid var(--line);padding:3px 5px;text-align:left;vertical-align:top}",
-      ".img-info .st-verified_abstract{color:#7fe0a0}.img-info .st-secondary_checked{color:#d9e58a}.img-info .st-recalled_unverified{color:#ffb38a}.img-info .st-derived{color:#9fd0ff}.img-info .st-assumption{color:#c9b8ff}",
+      ".img-info .st-verified,.img-info .st-verified_abstract{color:#7fe0a0}.img-info .st-secondary_checked{color:#d9e58a}.img-info .st-recalled_unverified{color:#ffb38a}.img-info .st-derived{color:#9fd0ff}.img-info .st-assumption{color:#c9b8ff}",
       "#img-tab3d{position:fixed;z-index:90;right:8px;top:8px;display:none;gap:4px}",
       "body.nmsk-img.img-tab.img-t3d #img-tab3d{display:flex}",
       "#img-tab3d button{background:#161d27;color:#e6edf5;border:1px solid #2a3646;border-radius:999px;padding:6px 12px;min-height:34px;font:600 13px system-ui}",
@@ -1169,12 +1169,12 @@
        "All structures are included whatever the visibility toggles of the 3D view say.",
        "Slab = sub-slices at <= 1 mm (adaptive for thick slabs and while dragging) combined as average (thick MPR), MIP or MinIP. Orthogonal views use a slab of the same thickness centred on the crosshair; the cut-plane view uses the kept slab behind the plane."].forEach(function (t) { ul2.appendChild(el("li", {text: t})); });
       box.appendChild(ul2);
-      box.appendChild(el("h3", {text: "Tissue table (" + T.classes.length + " classes) - status colour: green verified in an abstract, yellow secondary source, orange recalled/UNVERIFIED, blue derived, purple assumption"}));
+      box.appendChild(el("h3", {text: "Tissue table (" + T.classes.length + " classes) - status colour: green verified (abstract / open full text), yellow secondary source, orange recalled/UNVERIFIED, blue derived, purple assumption; the weakest value of a row sets its colour"}));
       var tb = el("table"); tb.appendChild(el("tr", {html: "<th>class</th><th>HU</th><th>CT status</th><th>MRI 1.5 T (PD, T1, T2 ms)</th><th>MRI status</th><th>sources</th>"}));
       T.classes.forEach(function (c) {
         var m = c.mri.pools.map(function (p) { return (c.mri.pools.length > 1 ? Math.round(p.frac * 100) + "%: " : "") + p.pd + ", " + p.t1 + ", " + p.t2; }).join(" + ");
         var srcs = (c.ct.src || []).concat(c.mri.src || []).filter(function (x, i, a) { return a.indexOf(x) === i; }).map(function (k) { var rf = T.references[k]; return rf ? (rf.pmid ? "PMID " + rf.pmid : k) : k; }).join(", ");
-        tb.appendChild(el("tr", {html: "<td>" + c.label + "</td><td>" + c.ct.hu + " (" + c.ct.range[0] + ".." + c.ct.range[1] + ")</td><td class='st-" + c.ct.status + "'>" + c.ct.status + "</td><td>" + m + "</td><td class='st-" + c.mri.status + "'>" + c.mri.status + "</td><td>" + srcs + "</td>"}));
+        tb.appendChild(el("tr", {html: "<td>" + c.label + "</td><td>" + c.ct.hu + " (" + c.ct.range[0] + ".." + c.ct.range[1] + ")</td><td class='st-" + c.ct.status + "'>" + c.ct.status + (c.ct.vsum ? " (" + c.ct.vsum + ")" : "") + "</td><td>" + m + "</td><td class='st-" + c.mri.status + "'>" + c.mri.status + (c.mri.vsum ? " (" + c.mri.vsum + ")" : "") + "</td><td>" + srcs + "</td>"}));
       });
       box.appendChild(tb);
       box.appendChild(el("h3", {text: "References (PubMed-checked unless marked)"}));

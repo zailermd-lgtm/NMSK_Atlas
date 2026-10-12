@@ -26,7 +26,7 @@ import stage_clinical_files as scf  # noqa: E402
 TABLE = json.loads((REPO / "clinical" / "data" / "imaging_tissues.json").read_text(encoding="utf-8"))
 TOOL = REPO / "clinical" / "imaging_tool.js"
 NODE = shutil.which("node")
-STATUSES = {"verified_abstract", "secondary_checked", "recalled_unverified", "derived", "assumption"}
+STATUSES = {"verified", "secondary_checked", "recalled_unverified", "derived", "assumption"}                      # Q229: verified_abstract -> verified
 needs_node = pytest.mark.skipif(not NODE, reason="node not installed")
 
 
@@ -63,14 +63,39 @@ def test_table_schema():
         for p in m["pools"]:
             assert 0 <= p["pd"] <= 1.0 and p["t1"] > 0 and p["t2"] > 0 and p["t2s"] > 0, c["key"]
             assert isinstance(p["fat"], bool)
-        # a 'verified_abstract' status needs a PubMed-checked reference behind it
-        for part in (ct, m):
-            if part["status"] == "verified_abstract":
-                assert any(refs[k].get("pubmed_checked") for k in part["src"]), c["key"]
+        # Q229: every value has a 'ver' entry; a part's status is the weakest of its values; 'verified' needs an OPENED source
+        for part, fields in ((ct, ("hu",)), (m, ("pd", "t1", "t2", "t2s"))):
+            assert set(part["ver"]) == set(fields), c["key"]
+            rank = {"recalled_unverified": 0, "assumption": 1, "secondary_checked": 2, "derived": 3, "verified": 4}
+            assert part["status"] == min((e["s"] for e in part["ver"].values()), key=rank.get), c["key"]
+            for f, e in part["ver"].items():
+                assert e["s"] in STATUSES and e["d"] and e["src"], (c["key"], f)
+                for k in e["src"]:
+                    assert k in refs, (c["key"], f, k)
+                if e["s"] == "verified":
+                    assert any(refs[k].get("pubmed_checked") or refs[k].get("opened") for k in e["src"]), (c["key"], f)
+                if e["s"] == "recalled_unverified":
+                    assert e["d"].startswith("not verified"), (c["key"], f)       # one-line reason
     # CT scale fixed points
     by = {c["key"]: c for c in TABLE["classes"]}
     assert by["air"]["ct"]["hu"] == -1000 and by["fat"]["ct"]["hu"] < -50 and by["bone_cortical"]["ct"]["hu"] > 800
     assert -950 < by["lung"]["ct"]["hu"] < -600 and 0 <= by["fluid_free"]["ct"]["hu"] <= 15
+
+
+def test_q229_verification_report_matches_table():
+    rep = json.loads((REPO / "data" / "derived" / "Q229_tissue_verification.json").read_text(encoding="utf-8"))
+    summ = TABLE["verification_summary"]
+    vals = [(c["key"], p, f, c[p]["ver"][f]["s"]) for c in TABLE["classes"] for p, fs in (("ct", ("hu",)), ("mri", ("pd", "t1", "t2", "t2s"))) for f in fs]
+    assert rep["totals"]["numeric_values"] == summ["numeric_values"] == len(vals) == 33 * 5
+    for s, n in summ["counts"].items():
+        assert n == sum(1 for v in vals if v[3] == s) == rep["totals"][s], s
+    assert rep["totals"]["still_unverified"] == len(vals) - rep["totals"]["verified"] - rep["totals"]["derived"]
+    assert rep["totals"]["changed_gt_10pct"] == summ["changed_gt_10pct"] == len(rep["changed_gt_10pct"])
+    assert len(rep["tissues"]) == len(TABLE["classes"])
+    assert "Q229" in " ".join(TABLE["honesty"])                                # the panel's info text carries the status line
+    # the honesty line quotes the same counts as the report
+    line = [h for h in TABLE["honesty"] if h.startswith("Q229 verification")][0]
+    assert f"{summ['counts']['verified']} verified" in line and f"{summ['counts']['recalled_unverified']} recalled" in line
 
 
 def test_references_are_citable():
