@@ -55,6 +55,8 @@ SCENE_JS = r"""(async function(sp, sidRe){
   // mean dB per class along the central +-3 mm lateral band
   var hist={}, Wo=sim.Wo, Ho=sim.Ho;
   for (var oy=0; oy<Ho; oy++) for (var ox=0; ox<Wo; ox++){ var x=pl.xo0+(ox+.5)*pl.px, yy=pl.yo0+(oy+.5)*pl.px; if (yy<0||Math.abs(x)>3) continue; var d=sim.db[oy*Wo+ox]; if (d<-150) continue; var rr=Math.floor((yy+sim.ysk-pl.yr0)/pl.px), rx=Math.floor((x-pl.xr0)/pl.px), cl2=C.T.classes[fr.lab[rr*pl.W+rx]].key; var h=hist[cl2]||(hist[cl2]={n:0,s:0,max:-1e9}); h.n++; h.s+=d; if(d>h.max)h.max=d; }
+  var cs=0,cn=0; for (var oy2=0; oy2<Ho; oy2++) for (var ox2=0; ox2<Wo; ox2++){ var x2=pl.xo0+(ox2+.5)*pl.px, y2=pl.yo0+(oy2+.5)*pl.px; if (Math.abs(x2)>3||y2<8||y2>Math.min(sp.depth*10,60)) continue; var d2=sim.db[oy2*Wo+ox2]; cs+=Math.max(d2,-120); cn++; }
+  out.central_mean_db=Math.round(cs/Math.max(1,cn)*10)/10;
   out.byClass={}; Object.keys(hist).forEach(function(k){ out.byClass[k]={n:hist[k].n, mean:Math.round(hist[k].s/hist[k].n*10)/10, max:Math.round(hist[k].max*10)/10}; });
   var mean=0,n=0,mn=1e9,mx=-1e9; for (var i=0;i<sim.db.length;i++){ var v=sim.db[i]; if(v>-150){ mean+=v; n++; if(v<mn)mn=v; if(v>mx)mx=v; } } out.img={mean:Math.round(mean/n*10)/10, min:Math.round(mn), max:Math.round(mx), valid_frac:Math.round(n/sim.db.length*1000)/1000};
   return out; })(__SPEC__, null)"""
