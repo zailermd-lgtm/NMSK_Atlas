@@ -524,7 +524,7 @@
     "cap_pixel_equals_the_texel_colour": true,
     "click_on_cap_selects_the_structure": true,
     "click_on_cap_shows_its_card": true,
-    "xray_recolours_the_cap": false,
+    "xray_changes_the_cap": true,
     "fill_off_removes_the_cap": true
    },
    "info": {
@@ -537,13 +537,13 @@
     ],
     "cap_with_selection": {
      "structures": 2,
-     "ms": 14
+     "ms": 27
     },
-    "probe_structure": "zan_dorsal_digital_veins_of_hand_r",
-    "link_chars": 59,
+    "probe_structure": "zan_dorsal_fascia_of_hand_r",
+    "link_chars": 52,
     "sel_state": {
      "marks": [
-      "zan_dorsal_digital_veins_of_hand_r"
+      "zan_dorsal_fascia_of_hand_r"
      ],
      "mode": "all",
      "ghost": false,
@@ -558,54 +558,69 @@
     "cap": {
      "planes": {
       "femoral_shaft": {
-       "structures_cut": 50,
-       "filled": 50,
-       "outline_only": 0,
-       "ms": 22,
-       "odd_rows": 0,
-       "rows": 3476
+       "structures_cut": 62,
+       "filled": 56,
+       "outline_only": 6,
+       "ms": 52,
+       "odd_rows": 637,
+       "rows": 6962
       },
       "thigh": {
-       "structures_cut": 71,
-       "filled": 69,
-       "outline_only": 0,
-       "ms": 435,
-       "odd_rows": 0,
-       "rows": 4221
+       "structures_cut": 88,
+       "filled": 80,
+       "outline_only": 6,
+       "ms": 44,
+       "odd_rows": 506,
+       "rows": 7839
       },
       "forearm": {
-       "structures_cut": 160,
-       "filled": 158,
-       "outline_only": 1,
-       "ms": 73,
-       "odd_rows": 11,
-       "rows": 7585
+       "structures_cut": 192,
+       "filled": 179,
+       "outline_only": 11,
+       "ms": 60,
+       "odd_rows": 1191,
+       "rows": 12548
       },
       "thorax": {
-       "structures_cut": 229,
-       "filled": 214,
-       "outline_only": 13,
-       "ms": 43,
-       "odd_rows": 425,
-       "rows": 11431
+       "structures_cut": 259,
+       "filled": 234,
+       "outline_only": 24,
+       "ms": 329,
+       "odd_rows": 2592,
+       "rows": 16854
       }
      },
+     "cap_pixel_match": [
+      41,
+      41
+     ],
      "cap_pixel": {
-      "key": "sciatic_n_r",
+      "key": "adductor_longus_r",
       "texel": [
-       217,
-       195,
-       63,
+       178,
+       72,
+       61,
        255
       ],
       "screen_rgb": [
-       217,
-       195,
-       63
+       211,
+       150,
+       144
       ],
-      "max_dev": 0.0
+      "max_dev": 63.0
      },
-     "card": "Sciatic nerve (right)"
+     "card": "Adductor longus",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 10,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      9,
+      1
+     ]
     }
    },
    "errors": [],
@@ -613,7 +628,7 @@
     "404 clinical_imaging_tool.js",
     "404 clinical_needle_tool.js"
    ],
-   "seconds": 166.3
+   "seconds": 178.0
   },
   "phone_l": {
    "checks": {
@@ -658,8 +673,11 @@
     "cap_build_under_500ms": true,
     "cap_changes_the_picture": true,
     "look_at_cut_face_is_perpendicular": true,
-    "cap_texel_candidates_on_screen": false,
-    "xray_recolours_the_cap": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_changes_the_cap": true,
     "fill_off_removes_the_cap": true
    },
    "info": {
@@ -667,7 +685,7 @@
     "min_tap_px": 38,
     "cap_with_selection": {
      "structures": 2,
-     "ms": 14
+     "ms": 194
     },
     "probe_structure": "zan_third_metacarpal_bone_r",
     "link_chars": 52,
@@ -691,11 +709,38 @@
        "structures_cut": 54,
        "filled": 54,
        "outline_only": 0,
-       "ms": 42,
+       "ms": 55,
        "odd_rows": 0,
        "rows": 5458
       }
-     }
+     },
+     "cap_pixel": {
+      "key": "adductor_magnus_r",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Adductor magnus",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 8,
+      "recolors": 1,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      7,
+      1
+     ]
     }
    },
    "errors": [],
@@ -703,7 +748,7 @@
     "404 clinical_imaging_tool.js",
     "404 clinical_needle_tool.js"
    ],
-   "seconds": 66.8
+   "seconds": 86.3
   }
  }
 }

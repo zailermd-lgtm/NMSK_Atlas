@@ -387,7 +387,14 @@ def cap_checks(pg, ctx, name, touch, tap, js, R, light=False):
                 im = shot(pg); px = im[int(round(c0["sy"])), int(round(c0["sx"]))]
                 near = [im[int(round(c0["sy"])) + dy, int(round(c0["sx"])) + dx] for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
                 dev = min(float(np.abs(n - np.array(c0["rgba"][:3])).max()) for n in near)
-                ok["cap_pixel_equals_the_texel_colour"] = dev <= 8 if c0["rgba"][3] == 255 else True
+                # a spread of texels (the plane's 'removed' label and the toolbar can overlay a few): the rendered pixel must equal the texel for >= 85 %
+                spread = pick[::max(1, len(pick) // 40)]
+                hits = 0
+                for cc in spread:
+                    yy, xx = int(round(cc["sy"])), int(round(cc["sx"]))
+                    if min(float(np.abs(im[yy + dy, xx + dx] - np.array(cc["rgba"][:3])).max()) for dx in (-1, 0, 1) for dy in (-1, 0, 1)) <= 8: hits += 1
+                ok["cap_pixel_equals_the_texel_colour"] = hits >= 0.85 * len(spread)
+                info["cap_pixel_match"] = [hits, len(spread)]
                 info["cap_pixel"] = {"key": c0["key"], "texel": c0["rgba"], "screen_rgb": [int(v) for v in px], "max_dev": dev}
                 if kind == "own":
                     own_col = js("__T.color(%s)" % json.dumps(c0["key"]))

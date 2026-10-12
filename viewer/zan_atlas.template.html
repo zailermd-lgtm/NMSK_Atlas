@@ -1830,8 +1830,8 @@ function NMSKSelect(E){
     var ids = (p && p.ids || []).filter(has), dropped = ((p && p.ids) || []).length - ids.length;
     marks = []; set = {};
     ids.forEach(function(id){ if (set[id] !== 1){ set[id] = 1; marks.push(id); } });
-    mode = marks.length && (p.mode === "only" || p.mode === "hide") ? p.mode : "all";
-    ghost = marks.length && mode !== "all" && !!p.ghost;
+    mode = marks.length && (p && (p.mode === "only" || p.mode === "hide")) ? p.mode : "all";
+    ghost = marks.length > 0 && mode !== "all" && !!(p && p.ghost);
     if (mode === "only" && E.reveal) E.reveal(marks);
     return dropped;
   }
