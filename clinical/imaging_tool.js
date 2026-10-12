@@ -775,6 +775,7 @@
       "body.nmsk-img.img-stack.img-z #view{height:calc(100vh - var(--img-h,62vh))!important;bottom:auto!important}",
       "body.nmsk-img.img-side.img-z #topright{right:calc(var(--img-w,50vw) + .9rem)!important}",
       "body.nmsk-img.img-side.img-z #cut-panel{right:calc(var(--img-w,50vw) + 12px)!important}",
+      "@media (max-width:1300px){body.nmsk-img.img-side.img-z #topright{top:calc(2.7rem + var(--safe-t,0px))!important}}",
       "#img-div{position:absolute;z-index:3;background:transparent}",
       "body.img-side #img-div{left:-5px;top:0;bottom:0;width:10px;cursor:col-resize}",
       "body.img-stack #img-div{top:-5px;left:0;right:0;height:10px;cursor:row-resize}",

@@ -15,7 +15,7 @@
   "nearestClass": "marrow_yellow",
   "hu_centre": -50,
   "parityBad": 0,
-  "ms": 4
+  "ms": 5
  },
  "femur_end": {
   "id": "femur_r",
@@ -50,7 +50,7 @@
   "nearestClass": "muscle",
   "hu_centre": 52,
   "parityBad": 0,
-  "ms": 3
+  "ms": 5
  },
  "liver": {
   "id": "zan_liver",
@@ -67,7 +67,7 @@
   "nearestClass": "liver",
   "hu_centre": 60,
   "parityBad": 4,
-  "ms": 14
+  "ms": 23
  },
  "vessel": {
   "id": "abdominal_aorta",
@@ -84,6 +84,19 @@
   "nearestClass": "blood_artery",
   "hu_centre": 45,
   "parityBad": 31,
-  "ms": 16
+  "ms": 11
+ },
+ "_slab": {
+  "sub": 21,
+  "order_ok": true,
+  "strict_mip": 2212,
+  "strict_min": 2270,
+  "bone_pixels": {
+   "single": 475,
+   "mip5": 545,
+   "mip20": 719,
+   "min20": 212,
+   "avg20": 609
+  }
  }
 }
