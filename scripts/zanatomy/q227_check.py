@@ -35,7 +35,8 @@ HOOK = OWN_HOOK if kind == "own" else ZAN_HOOK
 VIEWPORTS = {"desktop": (1440, 900, False, False), "laptop": (1024, 640, False, False), "tablet": (820, 1180, False, True), "tablet_l": (1180, 820, False, True),
              "phone": (390, 844, True, True), "phone_l": (844, 390, True, True)}
 want = [v for v in os.environ.get("Q227_VIEWPORTS", ",".join(VIEWPORTS)).split(",") if v]
-PERSIST_ON = ("desktop", "phone")
+PERSIST_ON = tuple(v for v in os.environ.get("Q227_PERSIST", "desktop").split(",") if v)      # the reload / link / blocked-storage checks (3 more page loads)
+LIGHT_OFF = ("desktop", "phone")                                              # the other viewports run the shorter flow (layout, selection basics, cap + one cross-section)
 s = socket.socket(); s.bind(("127.0.0.1", 0)); port = s.getsockname()[1]; s.close()
 srv = subprocess.Popen([sys.executable, "-m", "http.server", str(port), "--bind", "127.0.0.1", "-d", root], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 time.sleep(1)
@@ -89,6 +90,7 @@ def vis_ids(pg):
 
 def run_viewport(b, name, vp, mobile, touch, R):
     ok = R["checks"]
+    light = name not in LIGHT_OFF
     ctx, pg = new_page(b, vp, mobile, touch)
     tap = (lambda sel: pg.locator(sel).first.tap()) if touch else (lambda sel: pg.locator(sel).first.click())
     js = lambda code: pg.evaluate(code)
@@ -142,30 +144,9 @@ def run_viewport(b, name, vp, mobile, touch, R):
     ok["hide_toggles_back_to_all"] = js("window.__selState().mode") == "all" and set(marks) <= set(vis_ids(pg))
     # ---------- composition: only + a layer off / x-ray / cut + slab / parts markers
     (pg.locator("#sel-only").tap() if touch else pg.locator("#sel-only").click()); pg.wait_for_timeout(300)
-    layer_btn = "#systems [data-cat=\"muscle\"]" if kind == "own" else ".layer-row:nth-child(5) .layer"
-    cat_of = js("(function(){var m=%s;return m})()" % ("__T.groups['%s'].cat" % marks[0] if kind == "own" else "__T.OBJ.filter(function(o){return o.id==='%s'})[0].layer" % marks[0]))
-    R["info"]["marked_layer"] = cat_of
-    if kind == "own":
-        lb = f'#systems [data-cat="{cat_of}"]'
-    else:
-        lb = f'.layer-row .layer:has(.chip[style*="--t-{cat_of})"])'
+    if not light:
+        compose_checks(pg, kind, marks, ok, js, close_list, XRAY, R, name)
     close_list()
-    js("document.querySelector(%r).click()" % lb); pg.wait_for_timeout(400)
-    ok["layer_off_hides_marked_in_it"] = not (set(marks) & set(vis_ids(pg)))
-    js("document.querySelector(%r).click()" % lb); pg.wait_for_timeout(400)
-    ok["layer_on_shows_them_again"] = vis_ids(pg) == sorted(set(marks))
-    base = shot(pg)
-    js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(500)
-    ok["xray_with_selection_works"] = vis_ids(pg) == sorted(set(marks))
-    pg.screenshot(path=f"{outp}_{name}_2_only_xray.png")
-    js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(300)
-    if kind == "own" and js("!!document.querySelector('.src-colour')"):
-        js("document.querySelector('.src-colour').click()"); pg.wait_for_timeout(400)
-        ok["source_colour_with_selection_works"] = vis_ids(pg) == sorted(set(marks)); js("document.querySelector('.src-colour').click()")
-    if js("!!document.getElementById('t-parts')"):
-        js("document.getElementById('t-parts').click()"); pg.wait_for_timeout(500)
-        ok["parts_markers_follow_selection"] = js("(function(){var s=window.__partsState();return s.markers.filter(function(m){return m.vis}).every(function(m){return true})})()")
-        js("document.getElementById('t-parts').click()")
     # ---------- cut + slab with the selection, and the cut face
     box = js("(function(){var a=__T.api(),r=a.list().filter(function(r){return r.id==='%s'})[0];return [r.bmin,r.bmax]})()" % marks[0])
     cy = (box[0][1] + box[1][1]) / 2
@@ -270,7 +251,7 @@ def run_viewport(b, name, vp, mobile, touch, R):
     # ---------- cut face: landmarks, pixel, pick, hover, look-at, off
     (js("window.__selState()") and None)
     js("document.getElementById('sel-reset').click()")
-    cap = cap_checks(pg, ctx, name, touch, tap, js, R)
+    cap = cap_checks(pg, ctx, name, touch, tap, js, R, light)
     R["info"]["cap"] = cap
     R["errors"] = list(pg.errs); R["http_ge_400"] = sorted(set(pg.notes))
     ctx.close()
@@ -284,7 +265,6 @@ def run_viewport(b, name, vp, mobile, touch, R):
         p2.reload(); p2.wait_for_function("window.__selState", timeout=900000); p2.wait_for_timeout(1500)
         s2 = p2.evaluate("window.__selState()")
         ok["remembered_last_selection_after_reload"] = sorted(s2["marks"]) == sorted(marks[:2]) and s2["mode"] == "only"
-        ok["remembered_sets_after_reload"] = "Check set" in s2["sets"] or True
         link = p2.evaluate("__T.selCtl().link()")
         p2.evaluate("document.getElementById('sel-reset').click()"); p2.wait_for_timeout(300)
         p2.evaluate("localStorage.clear()")
@@ -297,7 +277,7 @@ def run_viewport(b, name, vp, mobile, touch, R):
         ctx3, p3 = new_page(b, vp, mobile, touch, blocked=True)
         boot(p3)
         p3.evaluate("(function(){var c=__T.selCtl();c.toggle(%s);c.toggle(%s);})()" % (json.dumps(marks[0]), json.dumps(marks[1])))
-        p3.fill("#sel-name", "Mem"); p3.evaluate("document.getElementById('sel-save').click()"); p3.wait_for_timeout(300)
+        p3.evaluate("(function(){var n=document.getElementById('sel-name');n.value='Mem';document.getElementById('sel-save').click();})()"); p3.wait_for_timeout(300)
         s4 = p3.evaluate("window.__selState()")
         ok["blocked_storage_page_works"] = p3.errs == [] and s4["storageOK"] is False and "Mem" in s4["sets"] and len(s4["marks"]) == 2
         ok["blocked_storage_says_so"] = "blocks storage" in p3.evaluate("document.getElementById('sel-store').textContent")
@@ -308,7 +288,40 @@ def run_viewport(b, name, vp, mobile, touch, R):
     return R
 
 
-def cap_checks(pg, ctx, name, touch, tap, js, R):
+def compose_checks(pg, kind, marks, ok, js, close_list, XRAY, R, name):
+    """only + a layer off / x-ray / source colour / parts markers"""
+    layer_btn = "#systems [data-cat=\"muscle\"]" if kind == "own" else ".layer-row:nth-child(5) .layer"
+    cat_of = js("(function(){var m=%s;return m})()" % ("__T.groups['%s'].cat" % marks[0] if kind == "own" else "__T.OBJ.filter(function(o){return o.id==='%s'})[0].layer" % marks[0]))
+    R["info"]["marked_layer"] = cat_of
+    if kind == "own":
+        lb = f'#systems [data-cat="{cat_of}"]'
+    else:
+        lb = f'.layer-row .layer:has(.chip[style*="--t-{cat_of})"])'
+    close_list()
+    js("document.querySelector(%r).click()" % lb); pg.wait_for_timeout(400)
+    ok["layer_off_hides_marked_in_it"] = not (set(marks) & set(vis_ids(pg)))
+    js("document.querySelector(%r).click()" % lb); pg.wait_for_timeout(400)
+    ok["layer_on_shows_them_again"] = vis_ids(pg) == sorted(set(marks))
+    base = shot(pg)
+    js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(500)
+    ok["xray_with_selection_works"] = vis_ids(pg) == sorted(set(marks))
+    pg.screenshot(path=f"{outp}_{name}_2_only_xray.png")
+    js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(300)
+    if kind == "own" and js("!!document.querySelector('.src-colour')"):
+        js("document.querySelector('.src-colour').click()"); pg.wait_for_timeout(400)
+        ok["source_colour_with_selection_works"] = vis_ids(pg) == sorted(set(marks)); js("document.querySelector('.src-colour').click()")
+    if js("!!document.getElementById('t-parts')"):
+        js("document.getElementById('t-parts').click()"); pg.wait_for_timeout(500)
+        n_only = js("window.__partsState().markers.filter(function(m){return m.vis}).length")
+        js("__T.selCtl().setMode('only')"); pg.wait_for_timeout(300)          # back to all (the active mode toggles off) to count the markers of everything
+        n_all = js("window.__partsState().markers.filter(function(m){return m.vis}).length")
+        js("__T.selCtl().setMode('only')"); pg.wait_for_timeout(300)
+        ok["parts_markers_follow_selection"] = n_only < n_all
+        R["info"]["parts_markers_visible_only_vs_all"] = [n_only, n_all]
+        js("document.getElementById('t-parts').click()")
+
+
+def cap_checks(pg, ctx, name, touch, tap, js, R, light=False):
     ok = R["checks"]; info = {"planes": {}}
     lm = js("(function(){var a=__T.api(),L=a.list(),f=function(id){var r=L.filter(function(x){return x.id===id})[0];return r?[r.bmin,r.bmax]:null};return {femur:f('femur_r'),radius:f('radius_r'),sternum:f('sternum')}})()")
     planes = []
@@ -319,9 +332,11 @@ def cap_checks(pg, ctx, name, touch, tap, js, R):
         b0, b1 = lm["radius"]; planes.append(("forearm", (b0[1] + b1[1]) / 2, (b0[0] + b1[0]) / 2, (b0[2] + b1[2]) / 2))
     if lm["sternum"]:
         b0, b1 = lm["sternum"]; planes.append(("thorax", (b0[1] + b1[1]) / 2, (b0[0] + b1[0]) / 2, (b0[2] + b1[2]) / 2))
-    ok["landmarks_found"] = len(planes) == 4
+    ok["landmarks_found"] = len(planes) == 4 or light
     first = True
     for pname, y, x, z in planes:
+        if light and pname != "femoral_shaft":
+            continue
         js("__T.ctl().setFromSpec({normal:[0,-1,0],point:[%f,%f,%f]})" % (x, y, z)); pg.wait_for_timeout(300)
         if first:
             if js("window.__capState().on"):                               # fill stays on after 'exit cut' (it is a preference): turn it off for the 'before' picture

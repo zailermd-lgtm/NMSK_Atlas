@@ -34,6 +34,7 @@ body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;display:none;overflow:visible}
 #cut-svg .cut-fill{fill:var(--cp-accent);fill-opacity:.13;stroke:var(--cp-accent);stroke-width:1.6;stroke-opacity:.95;stroke-linejoin:round}
 #cut-svg .cut-back{fill-opacity:.07;stroke-dasharray:5 4}
+#cut-svg .cut-nofill{fill:none}
 #cut-svg .cut-arrow{stroke:var(--cp-warn);stroke-width:2.4;stroke-linecap:round;fill:none}
 #cut-svg .cut-head{fill:var(--cp-warn)}
 #cut-svg .cut-pt{fill:none;stroke:var(--cp-warn);stroke-width:2}

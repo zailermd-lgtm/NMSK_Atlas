@@ -375,7 +375,7 @@ function NMSKCap(E){
     },
     itemsChanged: function(){ if (st.on) schedule(40); },
     set: function(on){
-      st.on = !!on; pref(st.on);
+      st.on = !!on; pref(st.on); if (E.redraw) E.redraw();
       if (!on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clear(); }
       else schedule(0);
       ui();

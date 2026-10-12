@@ -338,7 +338,7 @@ def test_sel_marks_rules_and_modes(basic):
     assert o["toolbar"] == ["t-mark", "t-only"]
     assert o["marks"] == ["biceps_r", "femur_r"] and o["revealed"] == ["biceps_r", "femur_r"]            # the list tick reveals the layer; 'nope' is ignored
     assert o["rule_all"] == ["", ""]
-    assert o["rule_only"] == ["", "", "hide", "hide"] or o["rule_only"] == ["", "", "hide", "hide"]
+    assert o["rule_only"] == ["", "", "hide", "hide"]
     assert o["rule_ghost"] == ["", "ghost"] and o["ghosting"] is True
     assert o["rule_hide_ghost"] == ["ghost", ""] and o["rule_hide"] == ["hide", ""]
     assert o["mode_back_to_all"] == "all" and o["marked_flags"] == [True, False]

@@ -89,11 +89,12 @@ function NMSKCutMode(E){
     function at(x, y){ return axpy(axpy(O, U, x), V, y); }
     var poly = nearClip([at(ua, va), at(ub, va), at(ub, vb), at(ua, vb)].map(E.project));
     var s = "";
-    if (poly.length >= 3) s += '<polygon class="cut-fill" points="' + poly.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
+    var nf = E.capOn && E.capOn() ? " cut-nofill" : "";           // Q227: with the cut face filled, the plane's tint is not drawn over it (its edge is)
+    if (poly.length >= 3) s += '<polygon class="cut-fill' + nf + '" points="' + poly.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
     if (S.th > 0){                                         // the far face of the slice, th mm behind the plane
       var O2 = axpy(O, S.n0, -S.rs * S.th);
       var poly2 = nearClip([[ua, va], [ub, va], [ub, vb], [ua, vb]].map(function(q){ return E.project(axpy(axpy(O2, U, q[0]), V, q[1])); }));
-      if (poly2.length >= 3) s += '<polygon class="cut-fill cut-back" points="' + poly2.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
+      if (poly2.length >= 3) s += '<polygon class="cut-fill cut-back' + nf + '" points="' + poly2.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
     }
     var c0 = (S.placed || S.ori === "view") ? axpy(S.anchor, S.n0, S.a - dot(S.n0, S.anchor)) : at((ua + ub) / 2, (va + vb) / 2);
     var L = 0.11 * Math.max(ub - ua, vb - va), tip = axpy(c0, S.n0, S.rs * L), q0 = E.project(c0), q1 = E.project(tip);
