@@ -66,5 +66,64 @@ def clamp(src="zan_polish.pkl", dst="zan_clamp.pkl", rounds=6):
     pickle.dump(out, open(CACHE / dst, "wb"))
 
 
+def ends(src="zan_clamp.pkl", dst="zan_ends.pkl"):
+    """pull every muscle end that lies > END_GATE_MM from the bone its card names onto that bone (<= CAP_MM), the other end held: forearm origins + the arm muscles' distal ends (biceps -> radius ...)"""
+    from scripts.transfer.q216_fix import pull_anchored
+    B, P = load_pages()
+    d = pickle.load(open(CACHE / src, "rb"))
+    bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
+    bt = E.bone_trees(bones)
+    items = dict(d)
+    for i in C.side_ids(C.ARM):
+        if i in P:
+            items[i] = (P[i]["v"], P[i]["f"])
+    out, rep = dict(d), {}
+    for i, (v, f) in items.items():
+        rec = P[i].get("rec")
+        zs, u, t = E.zones(v)
+        pulls, anchors, info = [], [], []
+        for nm, z, bid, p5, mn in E.plan(v, rec, bt):
+            other = zs["hi" if nm == "lo" else "lo"]
+            info.append(dict(end=nm, bone=bid, p5_before=round(p5, 1)))
+            if p5 > E.END_GATE_MM and p5 <= E.CAP_MM:
+                pulls.append((z, bt[bid][1], 0.0))
+                anchors.append(other)
+        if not pulls:
+            rep[i] = dict(ends=info, pulled=False)
+            continue
+        nv, pinfo = pull_anchored(v, f, pulls, anchors)
+        if nv is None:
+            rep[i] = dict(ends=info, pulled=False, refused=pinfo)
+            continue
+        out[i] = (nv, f)
+        after = [round(E.zone_dist(nv, z, bt[bid][0])[0], 1) for (nm, z, bid, p5, mn) in E.plan(v, rec, bt) if p5 > E.END_GATE_MM and p5 <= E.CAP_MM]
+        rep[i] = dict(ends=info, pulled=True, applied_mm=[round(x.get("applied_mm", 0), 1) for x in pinfo], p5_after=after, max_move_mm=round(float(np.linalg.norm(nv - v, axis=1).max()), 1))
+        print(i[:40].ljust(40), rep[i], flush=True)
+    pickle.dump(out, open(CACHE / dst, "wb"))
+    pickle.dump(rep, open(CACHE / "zan_ends_rep.pkl", "wb"))
+
+
+def metrics(src="zan_ends.pkl"):
+    B, P = load_pages()
+    d = pickle.load(open(CACHE / src, "rb"))
+    fm = [i for i in C.side_ids(C.FOREARM) if i in d]
+    fx = [i for i in C.side_ids(C.ARM) if i in P]
+    S = C.zan_left("zan_m")
+    G = C.SkinGuard([s for s in S.values() if s["sys"] == "skin"])
+    bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
+    bv = C.BoneVox(bones)
+    res = {}
+    for tag, mm, fixed in (("before", {i: (P[i]["v"], P[i]["f"]) for i in fm}, {i: (P[i]["v"], P[i]["f"]) for i in fx}),
+                           ("after", {i: d[i] for i in fm}, {i: d.get(i, (P[i]["v"], P[i]["f"])) for i in fx})):
+        out, tot = C.muscle_metrics(mm, fixed, G, bv, ids=fm)
+        res[tag] = dict(per_muscle=out, total_shared_cm3=tot, mean_shared_pct=round(float(np.mean([o["shared_pct"] for o in out.values()])), 1))
+        print(tag, "total shared", tot, "mean", res[tag]["mean_shared_pct"], flush=True)
+    (REPO / "data/derived/Q217_zan_metrics.json").write_text(json.dumps(res, indent=1, default=str))
+    for i in fm:
+        a, b = res["before"]["per_muscle"][i], res["after"]["per_muscle"][i]
+        print(i[:34].ljust(34), "vol", a["vol_cm3"], "->", b["vol_cm3"], "shared", a["shared_pct"], "->", b["shared_pct"], "outside skin", a["outside_skin_pct"], "->", b["outside_skin_pct"],
+              "in bone", a["in_bone_pct"], "->", b["in_bone_pct"], "depth", a["bone_depth_max_mm"], "->", b["bone_depth_max_mm"], flush=True)
+
+
 if __name__ == "__main__":
-    {"clamp": clamp}[sys.argv[1]]()
+    {"clamp": clamp, "ends": ends, "metrics": metrics}[sys.argv[1]]()

@@ -46,22 +46,17 @@ def zone_dist(v, mask, tree):
 
 
 def plan(v, rec, bone_tree, which=None):
-    """-> list of (end name, zone mask, target bone id, p5 distance) for the ends that are off their bone"""
+    """-> list of (end name, zone mask, target bone id, p5 distance, min distance): the proximal ('hi', upper end in y) end belongs to the bone named as ORIGIN, the distal ('lo') end to the one named as INSERTION; an end whose bone
+    is not among the displayed bones given is not planned"""
     zs, u, t = zones(v)
     nb = named_bones(rec)
     out = []
-    for nm, z in zs.items():
-        for bid in [b for b in nb if b and (which is None or b in which)]:
-            if bid not in bone_tree:
-                continue
-            p5, mn = zone_dist(v, z, bone_tree[bid][0])
-            out.append((nm, z, bid, p5, mn))
-    # per end: the nearest of its candidate bones
-    best = {}
-    for nm, z, bid, p5, mn in out:
-        if nm not in best or p5 < best[nm][3]:
-            best[nm] = (nm, z, bid, p5, mn)
-    return list(best.values())
+    for nm, bid in (("hi", nb[0]), ("lo", nb[1])):
+        if not bid or bid not in bone_tree or (which is not None and bid not in which):
+            continue
+        p5, mn = zone_dist(v, zs[nm], bone_tree[bid][0])
+        out.append((nm, zs[nm], bid, p5, mn))
+    return out
 
 
 def bone_trees(bones, spacing=1.0):
