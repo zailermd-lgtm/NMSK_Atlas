@@ -83,14 +83,24 @@ def jobs(which, pg):
     return J
 
 
-def stage_bones(which, log=print, only=None):
-    st = State(which)
+def stage_bones(which, log=print, only=None, names=None, opts_override=None):
+    """names: re-run only the jobs with these names on top of the saved `bones` state (opts_override: {job name: opts})"""
+    st = State.load(which, "bones") if names else State(which)
+    if names:
+        for n in list(st.V):
+            if any(n in j["moving"] for j in jobs(which, st.pg) if j["name"] in names):
+                st.V.pop(n)
+                st.log.pop(n, None)
     pg, base = st.pg, st.base
     own = K5.own_bones(which)
     rep = {}
     for j in jobs(which, pg):
         if only and j["kind"] not in only:
             continue
+        if names and j["name"] not in names:
+            continue
+        if opts_override and j["name"] in opts_override:
+            j["opts"] = {**j["opts"], **opts_override[j["name"]]}
         t0 = time.time()
         gaps, bgap, ogap = {}, {}, {}
         for a, b in j["pairs"]:
@@ -154,9 +164,9 @@ def stage_bones(which, log=print, only=None):
         if ok:
             for n in j["moving"]:
                 st.set(n, R["W"][n], stage="bone", kind=j["kind"], job=j["name"], bone=n, bone_report=r["bones"][n], joint_before=r["joint_before"], joint_after=r["joint_after"], base_gaps=r["base_gaps"], own_gaps=r["own_gaps_p05_mm"], targets=r["target_gaps_mm"])
-    st.reports["bones"] = rep
+    st.reports.setdefault("bones", {}).update(rep)
     st.save("bones")
-    (K5.BUILD / f"{which}_bones_report.json").write_text(json.dumps(rep, indent=1, default=float))
+    (K5.BUILD / f"{which}_bones_report.json").write_text(json.dumps(st.reports["bones"], indent=1, default=float))
     return st
 
 
