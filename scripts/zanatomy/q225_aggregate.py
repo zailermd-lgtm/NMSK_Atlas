@@ -13,6 +13,6 @@ if not t.exists():
     t.symlink_to(REPO / "data/derived/Q198_anatomy_audit.json")
 A.DER = TMP
 A.RAW = REPO / "build" / "q225_raw"; A.RAWM = REPO / "build" / "q225_raw_merged"
-A.PAGE_DIR.update({"z_male": "build/q222/viewer_zan_atlas", "z_base_f": "build/q222/viewer_base_female", "z_male_fit": "build/q225/fit_zan_vhm", "z_female_fit": "build/q225/fit_zan_female",
+A.PAGE_DIR.update({"z_male": "build/q222/viewer_zan_atlas", "z_base_f": "build/q222/viewer_base_female", "z_male_fit": "build/q225_fit/viewer_zan_vhm", "z_female_fit": "build/q225_fit/viewer_zan_female",
                    "own_m": "build/q221/viewer_m_hr (+build/viewer_m_hr_q217)", "own_f": "build/q222/viewer_f_hr (+build/viewer_f_hr_q216)"})
 A.main()

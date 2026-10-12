@@ -16,7 +16,7 @@ import motor_points_q187 as m  # noqa: E402
 R = m.REPO
 ap = argparse.ArgumentParser()
 ap.add_argument("--viewers", default="zan_f")
-ap.add_argument("--zanf-html", default=str(R / "build/q225/fit_zan_female/atlas_viewer_zan_female.html"))
+ap.add_argument("--zanf-html", default=str(R / "build/q225_fit/viewer_zan_female/atlas_viewer_zan_female.html"))
 ap.add_argument("--out", default=str(m.OUT_JSON))
 ap.add_argument("--coverage", default=str(m.OUT_COVERAGE))
 ap.add_argument("--jobs", type=int, default=2)

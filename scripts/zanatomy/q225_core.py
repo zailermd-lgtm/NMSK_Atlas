@@ -13,9 +13,9 @@ sys.path.insert(0, str(REPO))
 from scripts.zanatomy import q207_core as C7  # noqa: E402
 
 PAGES = {
-    "male": dict(src=REPO / "build/q221/viewer_zan_vhm", stem="atlas_viewer_zan_male_fitted", out=REPO / "build/q225/fit_zan_vhm", final=REPO / "build/q225/viewer_zan_vhm",
+    "male": dict(src=REPO / "build/q221/viewer_zan_vhm", stem="atlas_viewer_zan_male_fitted", out=REPO / "build/q225_fit/viewer_zan_vhm", final=REPO / "build/q225/viewer_zan_vhm",
                  base=REPO / "build/q222/viewer_zan_atlas", base_stem="atlas_viewer_zan_atlas", own="own_m", fit_key="z_male_fit", base_key="z_male", who="his"),
-    "female": dict(src=REPO / "build/q222/viewer_zan_female", stem="atlas_viewer_zan_female", out=REPO / "build/q225/fit_zan_female", final=REPO / "build/q225/viewer_zan_female",
+    "female": dict(src=REPO / "build/q222/viewer_zan_female", stem="atlas_viewer_zan_female", out=REPO / "build/q225_fit/viewer_zan_female", final=REPO / "build/q225/viewer_zan_female",
                    base=REPO / "build/q222/viewer_base_female", base_stem="atlas_viewer_base_female", own="own_f", fit_key="z_female_fit", base_key="z_base_f", who="her"),
 }
 BUILD = REPO / "build" / "q225"

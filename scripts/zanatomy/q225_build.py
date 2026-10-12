@@ -28,7 +28,8 @@ State = B11.State
 ELBOW_OPTS = dict(taper=0.4, w_reg=0.3, w_pull=2.0, w_ev=0.6, ev_cap=5.0, floor_frac=0.8)
 PATELLA_OPTS = dict(rigid=True, w_rot=8.0, w_reg=0.3, w_pull=4.0, w_ev=0.6, ev_cap=5.0, floor_frac=0.8)
 RIB_OPTS = dict(taper=0.4, w_reg=0.3, w_pull=2.0, w_ev=0.6, ev_cap=5.0, floor_frac=0.8)
-GUARDS = dict(max_penetration_mm=1.0, max_move_mm=20.0, max_fit_error_rise_mm=4.0, volume_ratio=(0.93, 1.07), joint_space_band_mm=(-1.5, 2.5))
+GUARDS = dict(max_penetration_mm=1.0, max_move_mm=20.0, max_fit_error_rise_mm=4.0, volume_ratio=(0.92, 1.10), edge_ratio=(0.80, 1.30), joint_space_band_mm=(-1.5, 2.5))
+OWN_FLOOR_MM = 0.5     # a joint space is never targeted below this (bones touching)
 ZONE_BONES = {"elbow": ("humerus", "radius", "ulna"), "shoulder": ("scapula", "humerus"), "wrist": ("radius", "ulna")}
 CARPALS = ("capitate", "hamate", "lunate", "pisiform", "scaphoid", "trapezium", "trapezoid", "triquetrum")
 
@@ -53,6 +54,22 @@ def base_gap(base_pg, a, b):
     return max(float(g), 0.3), t
 
 
+def own_gap(own, a, b):
+    """joint space (5th percentile of the contact patch, mm) between the person's OWN meshes of a and b, or None when they have no contact patch (>= 30 samples within 6 mm)"""
+    if a not in own or b not in own:
+        return None
+    t = EL.pair_table({a: own[a][0], b: own[b][0]}, {a: own[a][1], b: own[b][1]}, [(a, b)])[f"{a}|{b}"]
+    return t["joint_space_p05_mm"] if t["patch_samples"] >= 30 else None
+
+
+def axis_length(v):
+    v = np.asarray(v, float)
+    c = v.mean(0)
+    u, s_, vt = np.linalg.svd(v - c, full_matrices=False)
+    p = (v - c) @ vt[0]
+    return float(p.max() - p.min())
+
+
 def jobs(which, pg):
     J = [dict(name="left elbow (radius + ulna on the humerus)", kind="elbow_reseat", moving=["ulna_l", "radius_l"], fixed=["humerus_l"], own_for={}, opts=ELBOW_OPTS,
               pairs=[("humerus_l", "ulna_l"), ("humerus_l", "radius_l"), ("radius_l", "ulna_l")], anchor=None)]
@@ -75,9 +92,12 @@ def stage_bones(which, log=print, only=None):
         if only and j["kind"] not in only:
             continue
         t0 = time.time()
-        gaps, bgap = {}, {}
+        gaps, bgap, ogap = {}, {}, {}
         for a, b in j["pairs"]:
-            gaps[(a, b)], bgap[f"{a}|{b}"] = base_gap(base, a, b)
+            g, bgap[f"{a}|{b}"] = base_gap(base, a, b)
+            og = own_gap(own, a, b) if j["kind"] != "rib_reseat" else None
+            ogap[f"{a}|{b}"] = None if og is None else round(float(og), 2)
+            gaps[(a, b)] = g if og is None else float(min(g, max(og, OWN_FLOOR_MM)))     # base joint space, capped by the person's own measured joint space where his / her own meshes show a contact patch
         names = j["fixed"] + j["moving"]
         bones = {n: (pg.v(n), pg.f(n)) for n in names}
         anchor = pg.v(j["fixed"][0])
@@ -105,6 +125,11 @@ def stage_bones(which, log=print, only=None):
             vr = mesh_volume(v1, f) / mesh_volume(v0, f)
             b["volume_ratio"] = round(vr, 3)
             b["edge_ratio_p01_p99"] = edge_stretch(v0, v1, f)
+            b["axis_length_mm_before_after_own"] = [round(axis_length(v0), 1), round(axis_length(v1), 1), round(axis_length(own[j["own_for"].get(n, n)][0]), 1) if (j["own_for"].get(n, n) in own and not j["own_for"]) else None]
+            e1, e2 = b["edge_ratio_p01_p99"]
+            if e1 < GUARDS["edge_ratio"][0] or e2 > GUARDS["edge_ratio"][1]:
+                ok = False
+                why.append(f"stretch {n} {e1}-{e2}")
             if not (GUARDS["volume_ratio"][0] <= vr <= GUARDS["volume_ratio"][1]):
                 ok = False
                 why.append(f"volume {n} x{vr:.3f}")
@@ -118,6 +143,7 @@ def stage_bones(which, log=print, only=None):
                     why.append(f"fit error {n} +{rise:.1f} mm")
         r["base_gaps"] = {k: dict(joint_space_p05_mm=v["joint_space_p05_mm"], min_clearance_mm=v["min_clearance_mm"], max_penetration_mm=v["max_penetration_mm"]) for k, v in bgap.items()}
         r["target_gaps_mm"] = {f"{a}|{b}": round(g, 2) for (a, b), g in gaps.items()}
+        r["own_gaps_p05_mm"] = ogap
         r["accepted"], r["reasons_if_not"] = ok, why
         rep[j["name"]] = r
         log(f"{which} {j['name']}: accepted={ok} {why} [{time.time() - t0:.0f}s]")
@@ -127,7 +153,7 @@ def stage_bones(which, log=print, only=None):
             log("   " + n + ": " + json.dumps(r["bones"][n]))
         if ok:
             for n in j["moving"]:
-                st.set(n, R["W"][n], stage="bone", kind=j["kind"], job=j["name"], bone=n, bone_report=r["bones"][n], joint_before=r["joint_before"], joint_after=r["joint_after"], base_gaps=r["base_gaps"])
+                st.set(n, R["W"][n], stage="bone", kind=j["kind"], job=j["name"], bone=n, bone_report=r["bones"][n], joint_before=r["joint_before"], joint_after=r["joint_after"], base_gaps=r["base_gaps"], own_gaps=r["own_gaps_p05_mm"], targets=r["target_gaps_mm"])
     st.reports["bones"] = rep
     st.save("bones")
     (K5.BUILD / f"{which}_bones_report.json").write_text(json.dumps(rep, indent=1, default=float))
