@@ -42,7 +42,7 @@ def carry():
         if i not in B or i not in P:
             continue
         a_v = tm(B[i]["v"])
-        v, f, inf = CA.join(a_v, B[i]["f"], P[i]["v"], P[i]["f"], Y_SEAM)
+        v, f, inf = CA.join_closed(a_v, B[i]["f"], P[i]["v"], P[i]["f"], Y_SEAM)
         out[i] = (v, f)
         info[i] = inf
         print(i[:40].ljust(40), len(v), len(f), inf, flush=True)
