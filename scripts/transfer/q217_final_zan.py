@@ -21,6 +21,8 @@ SRC = REPO / "build/q211/viewer_zan_vhm"
 OUT = REPO / "build/q217/viewer_zan_vhm"
 STEM = "atlas_viewer_zan_male_fitted"
 SKIN_MIN_MM = 1.0
+# carried vessels / nerves whose Q198 tube measures (level jump along the centreline, gap between the pieces) got worse than on the Q211 page: kept at the Q211 mesh
+REVERT = ("radial_n_l", "zan_basilic_vein_l", "zan_cephalic_vein_l", "zan_muscular_branches_of_median_nerve_l")
 
 
 def clamp_meshes(d, G, bv, rounds=6, win=(100.0, 300.0)):
@@ -194,7 +196,7 @@ def pack(src="zan_final.pkl"):
         rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + " " + badge_forearm(i, a, b, mv, info.get(i, {}).get("seam_shift_mm"), ends)).strip()
         replace[i] = (v, f, rec)
     for i, (v, f) in ex.items():
-        if i not in pg:
+        if i not in pg or i in REVERT:
             continue
         rec = dict(pg[i]["m"].get("rec") or {})
         be = ae = None

@@ -1,4 +1,100 @@
 {
+ "own_m": {
+  "before": {
+   "l": {
+    "n_muscles": 13,
+    "overlap_mean_pct": 37.1,
+    "overlap_max_pct": 76.5,
+    "muscles_over_40": 5,
+    "muscles_over_60": 2,
+    "detached_ends_over_5mm": 1,
+    "detached": [
+     [
+      "supinator_l",
+      "prox",
+      9.09
+     ]
+    ],
+    "flat_cut_muscles": 2,
+    "muscles_with_islands": 5,
+    "muscles_in_bone_over_5pct": 0,
+    "muscles_outside_skin_over_1pct": 0,
+    "tubes": 16,
+    "tubes_gap_over_5mm": 0,
+    "tubes_level_jump_over_25mm": 5,
+    "bone_surface_gap_mm": 0.0,
+    "bone_max_penetration_mm": 3.0
+   },
+   "r": {
+    "n_muscles": 14,
+    "overlap_mean_pct": 47.4,
+    "overlap_max_pct": 78.3,
+    "muscles_over_40": 8,
+    "muscles_over_60": 5,
+    "detached_ends_over_5mm": 1,
+    "detached": [
+     [
+      "supinator_r",
+      "prox",
+      5.93
+     ]
+    ],
+    "flat_cut_muscles": 5,
+    "muscles_with_islands": 4,
+    "muscles_in_bone_over_5pct": 1,
+    "muscles_outside_skin_over_1pct": 0,
+    "tubes": 14,
+    "tubes_gap_over_5mm": 0,
+    "tubes_level_jump_over_25mm": 2,
+    "bone_surface_gap_mm": 0.01,
+    "bone_max_penetration_mm": 3.0
+   }
+  },
+  "after": {
+   "l": {
+    "n_muscles": 19,
+    "overlap_mean_pct": 21.1,
+    "overlap_max_pct": 36.9,
+    "muscles_over_40": 0,
+    "muscles_over_60": 0,
+    "detached_ends_over_5mm": 0,
+    "detached": [],
+    "flat_cut_muscles": 2,
+    "muscles_with_islands": 4,
+    "muscles_in_bone_over_5pct": 0,
+    "muscles_outside_skin_over_1pct": 0,
+    "tubes": 16,
+    "tubes_gap_over_5mm": 0,
+    "tubes_level_jump_over_25mm": 5,
+    "bone_surface_gap_mm": 0.0,
+    "bone_max_penetration_mm": 3.0
+   },
+   "r": {
+    "n_muscles": 14,
+    "overlap_mean_pct": 47.4,
+    "overlap_max_pct": 78.3,
+    "muscles_over_40": 8,
+    "muscles_over_60": 5,
+    "detached_ends_over_5mm": 1,
+    "detached": [
+     [
+      "supinator_r",
+      "prox",
+      5.93
+     ]
+    ],
+    "flat_cut_muscles": 5,
+    "muscles_with_islands": 4,
+    "muscles_in_bone_over_5pct": 1,
+    "muscles_outside_skin_over_1pct": 0,
+    "tubes": 14,
+    "tubes_gap_over_5mm": 0,
+    "tubes_level_jump_over_25mm": 2,
+    "bone_surface_gap_mm": 0.01,
+    "bone_max_penetration_mm": 3.0
+   }
+  }
+ },
  "zan_m": {
   "before": {
    "l": {
@@ -19,6 +115,9 @@
     "muscles_with_islands": 1,
     "muscles_in_bone_over_5pct": 0,
     "muscles_outside_skin_over_1pct": 1,
+    "tubes": 34,
+    "tubes_gap_over_5mm": 5,
+    "tubes_level_jump_over_25mm": 0,
     "bone_surface_gap_mm": 0.09,
     "bone_max_penetration_mm": 1.5
    },
@@ -34,6 +133,9 @@
     "muscles_with_islands": 2,
     "muscles_in_bone_over_5pct": 0,
     "muscles_outside_skin_over_1pct": 0,
+    "tubes": 33,
+    "tubes_gap_over_5mm": 5,
+    "tubes_level_jump_over_25mm": 1,
     "bone_surface_gap_mm": 0.17,
     "bone_max_penetration_mm": 1.5
    }
@@ -41,16 +143,19 @@
   "after": {
    "l": {
     "n_muscles": 21,
-    "overlap_mean_pct": 19.7,
-    "overlap_max_pct": 34.2,
+    "overlap_mean_pct": 20.5,
+    "overlap_max_pct": 32.4,
     "muscles_over_40": 0,
     "muscles_over_60": 0,
     "detached_ends_over_5mm": 0,
     "detached": [],
-    "flat_cut_muscles": 1,
+    "flat_cut_muscles": 0,
     "muscles_with_islands": 1,
     "muscles_in_bone_over_5pct": 0,
     "muscles_outside_skin_over_1pct": 0,
+    "tubes": 34,
+    "tubes_gap_over_5mm": 5,
+    "tubes_level_jump_over_25mm": 0,
     "bone_surface_gap_mm": 0.09,
     "bone_max_penetration_mm": 1.5
    },
@@ -66,6 +171,9 @@
     "muscles_with_islands": 2,
     "muscles_in_bone_over_5pct": 0,
     "muscles_outside_skin_over_1pct": 0,
+    "tubes": 33,
+    "tubes_gap_over_5mm": 5,
+    "tubes_level_jump_over_25mm": 1,
     "bone_surface_gap_mm": 0.17,
     "bone_max_penetration_mm": 1.5
    }

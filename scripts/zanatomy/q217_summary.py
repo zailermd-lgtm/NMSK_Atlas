@@ -30,6 +30,8 @@ def one(key):
                       muscles_over_40=sum(1 for v in ov.values() if v > 40), muscles_over_60=sum(1 for v in ov.values() if v > 60), detached_ends_over_5mm=len(det), detached=det,
                       flat_cut_muscles=sum(1 for x in soft if x.get("flat_caps")), muscles_with_islands=sum(1 for x in soft if x.get("islands", 1) > 1 and x.get("max_island_gap_mm", 0) > 2.0),
                       muscles_in_bone_over_5pct=sum(1 for x in soft if x.get("inside_bone_pct", 0) > 5), muscles_outside_skin_over_1pct=sum(1 for x in soft if x.get("outside_skin_pct", 0) > 1),
+                      tubes=len([x for x in j['tubes'] if x['id'].endswith('_l' if s == 'l' else '_r')]), tubes_gap_over_5mm=sum(1 for x in j['tubes'] if x['id'].endswith('_' + s) and x.get('max_island_gap_mm', 0) > 5),
+                      tubes_level_jump_over_25mm=sum(1 for x in j['tubes'] if x['id'].endswith('_' + s) and x.get('max_level_jump_mm', 0) > 25),
                       bone_surface_gap_mm=j["bones"].get("surface_gap_mm"), bone_max_penetration_mm=j["bones"].get("max_penetration_mm"))
     return out
 
@@ -45,7 +47,7 @@ if __name__ == "__main__":
         for s in ("l", "r"):
             b = v["before"][s]
             a = v["after"][s] if v["after"] else None
-            f = lambda x: f"n {x['n_muscles']}, overlap mean {x['overlap_mean_pct']} max {x['overlap_max_pct']}, >40: {x['muscles_over_40']}, >60: {x['muscles_over_60']}, detached ends {x['detached_ends_over_5mm']}, flat {x['flat_cut_muscles']}, islands {x['muscles_with_islands']}, in bone {x['muscles_in_bone_over_5pct']}, outside skin {x['muscles_outside_skin_over_1pct']}"
+            f = lambda x: f"n {x['n_muscles']}, overlap mean {x['overlap_mean_pct']} max {x['overlap_max_pct']}, >40: {x['muscles_over_40']}, >60: {x['muscles_over_60']}, detached ends {x['detached_ends_over_5mm']}, flat {x['flat_cut_muscles']}, islands {x['muscles_with_islands']}, in bone {x['muscles_in_bone_over_5pct']}, outside skin {x['muscles_outside_skin_over_1pct']}, tubes {x['tubes']} (gap>5mm {x['tubes_gap_over_5mm']}, jump>25mm {x['tubes_level_jump_over_25mm']})"
             print(k, s, "before:", f(b))
             if a:
                 print(k, s, " after:", f(a))
