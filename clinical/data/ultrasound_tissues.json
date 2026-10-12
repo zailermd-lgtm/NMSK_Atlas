@@ -23,8 +23,8 @@
   "global": {
     "c_display_m_s": 1540,
     "c_note": "The depth axis uses the scanner convention c = 1540 m/s everywhere; no speed-of-sound displacement artefact is simulated.",
-    "tgc_alpha_ref_db_cm_mhz": 0.5,
-    "tgc_note": "Time-gain compensation assumes this nominal soft-tissue attenuation (an ASSUMPTION; scanners use 0.5-0.7). Anything that attenuates less (fluid) therefore looks brighter behind it (posterior enhancement); anything that attenuates more (bone, lung) is darker (shadow).",
+    "tgc_alpha_ref_db_cm_mhz": 0.6,
+    "tgc_note": "Time-gain compensation assumes this nominal soft-tissue attenuation (an ASSUMPTION; scanners use 0.5-0.7; 0.6 here). Anything that attenuates less (fluid) therefore looks brighter behind it (posterior enhancement); anything that attenuates more (bone, lung) is darker (shadow).",
     "bs0": 1e-4,
     "bs0_note": "Backscattered fraction of the incident intensity per resolution cell for liver (0 dB row). Order of magnitude only (chosen so that a bone surface, R ~ 0.4, is ~36 dB above liver parenchyma, as on a real image).",
     "display_ref_fraction": 0.55,

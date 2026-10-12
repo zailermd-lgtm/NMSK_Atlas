@@ -186,6 +186,12 @@
     var ZS = new Float32Array(W * H), N = W * H;
     for (i = 0; i < N; i++) ZS[i] = AC.logz[lab[i]];
     blur3(ZS, W, H, Math.max(1, Math.round(0.9 / px)));
+    function zsAt(X, Y) {                                                     // bilinear smoothed log-impedance at a plane position
+      var fx = (X - pl.xr0) / px - 0.5, fy = (Y - pl.yr0) / px - 0.5, x0 = Math.floor(fx), y0 = Math.floor(fy), tx = fx - x0, ty = fy - y0;
+      if (x0 < 0) { x0 = 0; tx = 0; } if (y0 < 0) { y0 = 0; ty = 0; } if (x0 > W - 2) { x0 = W - 2; tx = 1; } if (y0 > H - 2) { y0 = H - 2; ty = 1; }
+      var b = y0 * W + x0;
+      return (ZS[b] * (1 - tx) + ZS[b + 1] * tx) * (1 - ty) + (ZS[b + W] * (1 - tx) + ZS[b + W + 1] * tx) * ty;
+    }
     /* the seat: first non-air pixel on the centre line (x = 0) between the top of the raster and +margin */
     var ix0 = Math.round((0 - pl.xr0) / px), ysk = 0, contact = false, iy;
     if (ix0 >= 0 && ix0 < W) for (iy = 0; iy < H; iy++) { if (lab[iy * W + ix0] !== AIR) { ysk = pl.yr0 + (iy + 0.5) * px; contact = iy > 0 && ysk <= pl.margin + 1e-6; break; } }
@@ -211,6 +217,12 @@
         var Z2 = cls === GEL ? Zgel : AC.z[cls];
         if (cls !== prevCls) {
           var R = (Z2 - prevZ) / (Z2 + prevZ); R *= R;
+          var fq = 1;
+          if (k > 0 && prevCls !== GEL) {                                    // sub-sample position of the interface: where the smoothed log-impedance crosses the mid-level between the two classes
+            var za = AC.logz[prevCls], zb = AC.logz[cls], mid = (za + zb) / 2, v0 = zsAt(X - dx * ds, Y - dy * ds), v1 = zsAt(X, Y);
+            if (Math.abs(v1 - v0) > 1e-6) { fq = (mid - v0) / (v1 - v0); fq = fq < 0 ? 0 : fq > 1 ? 1 : fq; }
+            T *= Math.pow(10, -(AC.alpha[cls] - AC.alpha[prevCls]) * f * (1 - fq) * ds / 100);   // the last step spent (1 - fq) of its length in the new class
+          }
           if (R > 1e-5) {
             var ang = 1, sg = cls === GEL ? 0.4 : Math.max(AC.sig[cls === GEL ? prevCls : cls], prevCls === GEL ? 0 : AC.sig[prevCls]), df = cls === GEL ? 0.25 : Math.max(AC.diff[cls], prevCls === GEL ? 0 : AC.diff[prevCls]);
             if (pix >= 0 && jx > 0 && jy > 0 && jx < W - 1 && jy < H - 1) {
@@ -221,7 +233,8 @@
               }
             }
             var sp = T * T * R * ang;
-            P[k * nL + L] += sp * Gt[k]; nStats.specCount++;
+            if (k > 0 && fq < 1) P[(k - 1) * nL + L] += sp * Gt[k - 1] * (1 - fq);
+            P[k * nL + L] += sp * Gt[k] * fq; nStats.specCount++;
             if (o.reverb && firstRev < 0 && R >= AC.art.reverb.r_min && k > 3) { firstRev = k; revVal = sp; }
             T *= (1 - R);
           }
@@ -876,7 +889,8 @@
       ui.placeBtn = btn("Place on skin", "Arm, then click / tap the skin in the 3D view", function () { S.placing = !S.placing; syncUi(); setStatus(S.placing ? "Click or tap the skin in the 3D view." : ""); });
       var r4 = el("div", {class: "us-row"}, [ui.placeBtn, btn("Screen centre", "Put the probe on the skin at the centre of the 3D view", function () { defaultPlacement(); S.sel = 0; refresh(true); }),
         (ui.orLong = btn("Longitudinal", "Long axis along the body / limb axis, marker cranial (screen left = cranial)", function () { S.refKey = "long"; S.rot = 0; syncUi(); refresh(); })),
-        (ui.orTrans = btn("Transverse", "Long axis across, marker to the patient's right (screen left = patient right)", function () { S.refKey = "trans"; S.rot = 0; syncUi(); refresh(); }))]);
+        (ui.orTrans = btn("Transverse", "Long axis across, marker to the patient's right (screen left = patient right)", function () { S.refKey = "trans"; S.rot = 0; syncUi(); refresh(); })),
+        btn("Zoom to probe", "Move the 3D camera close to the probe", function () { if (S.P) { api.focus(S.P, 420); } })]);
       var r5 = slider("Rotate", 0, 359, 1, "rot", function (v) { return Math.round(v) + "°"; }, function (v) { S.rot = v; refresh(); }, "Free rotation of the probe about the skin normal");
       /* mode section */
       ui.starBox = el("div", {style: "display:grid;gap:6px"}, [slider("Tilt", 5, 30, 1, "tilt", function (v) { return v + "°"; }, function (v) { S.tilt = v; refresh(); }, "Tilt angle of the surrounding images"),
@@ -1045,7 +1059,7 @@
         ctx.closePath(); ctx.fill(); ctx.stroke();
       } else if (g.type === "sector") {
         ctx.beginPath(); ctx.moveTo(X(-g.w / 2), Y(-6)); ctx.lineTo(X(g.w / 2), Y(-6)); ctx.lineTo(X(g.w * 0.12), Y(0)); ctx.lineTo(X(-g.w * 0.12), Y(0)); ctx.closePath(); ctx.fill(); ctx.stroke();
-      } else { ctx.fillRect(X(-g.w / 2), Y(-5), g.w * sc, 5 * sc); ctx.strokeRect(X(-g.w / 2), Y(-5), g.w * sc, 5 * sc); }
+      } else { ctx.fillRect(X(-g.w / 2), Y(-3), g.w * sc, 3 * sc); ctx.strokeRect(X(-g.w / 2), Y(-3), g.w * sc, 3 * sc); }
       var mx = g.type === "sector" ? -g.w / 2 + 2 : -g.w / 2 + 3;
       ctx.fillStyle = "#ff5a3c"; ctx.beginPath(); ctx.arc(X(mx), Y(g.type === "convex" ? g.R * Math.cos(mx / g.R) - g.R - 2 : -3), tiny ? 2.5 : 3.5, 0, 6.2832); ctx.fill();
       /* depth scale (right edge, cm) */
