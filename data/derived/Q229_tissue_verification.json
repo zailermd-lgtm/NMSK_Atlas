@@ -8,12 +8,12 @@
  "totals": {
   "numeric_values": 165,
   "verified": 32,
-  "derived": 10,
-  "secondary_checked": 4,
-  "assumption": 76,
-  "recalled_unverified": 43,
-  "still_unverified": 123,
-  "verified_or_derived": 42,
+  "derived": 12,
+  "secondary_checked": 5,
+  "assumption": 75,
+  "recalled_unverified": 41,
+  "still_unverified": 121,
+  "verified_or_derived": 44,
   "changed_gt_10pct": 11
  },
  "changed_gt_10pct": [
@@ -986,10 +986,10 @@
    "mri_status": "recalled_unverified",
    "counts": {
     "verified": 0,
-    "derived": 0,
+    "derived": 1,
     "secondary_checked": 0,
     "assumption": 1,
-    "recalled_unverified": 4
+    "recalled_unverified": 3
    },
    "values": [
     {
@@ -1066,22 +1066,32 @@
      "field": "t2",
      "unit": "ms",
      "previous": 60,
-     "value": 60,
-     "change_pct": 0.0,
+     "value": 64.5,
+     "change_pct": 7.5,
      "changed_gt_10pct": false,
-     "status": "recalled_unverified",
-     "statistic": "single value",
-     "range": null,
+     "status": "derived",
+     "statistic": "3 T sciatic-nerve mean 64.54 ms (n=21; range = +- 1 SD 8.2), T2 taken as field independent",
+     "range": [
+      56.3,
+      72.7
+     ],
      "sources": [
       {
-       "key": "bottomley1984",
-       "pmid": "6482839",
-       "doi": "10.1118/1.595535",
+       "key": "preisner2021",
+       "pmid": "34104997",
+       "doi": "10.1007/s00330-021-08072-9",
+       "pmcid": "PMC8589742",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "johnson1985",
+       "pmid": "2991980",
+       "doi": "10.1148/radiology.156.3.2991980",
        "pmcid": null,
        "opened": "PubMed record"
       }
      ],
-     "detail": "not verified: Stanisz 2005 (3 T, ex vivo) table not readable; no 1.5 T in-vivo abstract value found"
+     "detail": "Preisner 2021 abstract (3 T); Johnson 1985 abstract: T2 independent of field; T1 of nerve stays unverified"
     },
     {
      "part": "mri",
@@ -2832,9 +2842,9 @@
    "mri_status": "assumption",
    "counts": {
     "verified": 0,
-    "derived": 0,
+    "derived": 1,
     "secondary_checked": 0,
-    "assumption": 4,
+    "assumption": 3,
     "recalled_unverified": 1
    },
    "values": [
@@ -2912,22 +2922,32 @@
      "field": "t2",
      "unit": "ms",
      "previous": 75,
-     "value": 75,
-     "change_pct": 0.0,
+     "value": 74.5,
+     "change_pct": -0.67,
      "changed_gt_10pct": false,
-     "status": "assumption",
-     "statistic": "single value",
-     "range": null,
+     "status": "derived",
+     "statistic": "mean of 3 T cervical-cord white matter 73 +- 6 and gray matter 76 +- 3 ms (T2 taken as field independent)",
+     "range": [
+      73,
+      76
+     ],
      "sources": [
       {
-       "key": "stanisz2005",
-       "pmid": "16086319",
-       "doi": "10.1002/mrm.20605",
+       "key": "smith2008",
+       "pmid": "18581383",
+       "doi": "10.1002/mrm.21596",
+       "pmcid": "PMC2887301",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "johnson1985",
+       "pmid": "2991980",
+       "doi": "10.1148/radiology.156.3.2991980",
        "pmcid": null,
        "opened": "PubMed record"
       }
      ],
-     "detail": "assumption: modelling choice (no single source)"
+     "detail": "Smith 2008 abstract (3 T); T1 (field dependent) and T2* are NOT taken from 3 T"
     },
     {
      "part": "mri",
@@ -3241,9 +3261,9 @@
    "counts": {
     "verified": 0,
     "derived": 0,
-    "secondary_checked": 0,
+    "secondary_checked": 1,
     "assumption": 1,
-    "recalled_unverified": 4
+    "recalled_unverified": 3
    },
    "values": [
     {
@@ -3337,26 +3357,29 @@
      "value": 35,
      "change_pct": 0.0,
      "changed_gt_10pct": false,
-     "status": "recalled_unverified",
-     "statistic": "single value",
-     "range": null,
+     "status": "secondary_checked",
+     "statistic": "single value 35 ms kept; verified range 30.1-45.2 ms (3 T MESE, regional / depth means of normal knee cartilage)",
+     "range": [
+      30.1,
+      45.2
+     ],
      "sources": [
       {
-       "key": "gold2004",
-       "pmid": "15269023",
-       "doi": "10.2214/ajr.183.2.1830343",
-       "pmcid": null,
+       "key": "delattre2026",
+       "pmid": "42147918",
+       "doi": "10.21037/qims-2025-1-2462",
+       "pmcid": "PMC13178380",
        "opened": "PubMed record"
       },
       {
-       "key": "stanisz2005",
-       "pmid": "16086319",
-       "doi": "10.1002/mrm.20605",
-       "pmcid": null,
-       "opened": "PubMed record"
+       "key": "baselice2014",
+       "pmid": null,
+       "doi": null,
+       "pmcid": "PMC3958261",
+       "opened": null
       }
      ],
-     "detail": "not verified: Gold 2004 table not readable; the Sensors-table excerpt gives 1038/44 ms (not opened), conflicting with 1000/35 here"
+     "detail": "35 ms lies inside the Delattre 2026 range; the Sensors-table excerpt (1.5 T) gives 44 ms and no single mean could be read, so the value stays secondary_checked"
     },
     {
      "part": "mri",
