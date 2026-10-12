@@ -72,3 +72,14 @@ def pair_metrics(va, fa, vb, fb, nmax=4000):
     out["min_vertex_gap_mm"] = round(gap, 2)
     out["max_depth_mm"] = max(out["a_in_b"]["max_mm"], out["b_in_a"]["max_mm"])
     return out
+
+
+def patch_q211():
+    """point the Q211 machinery (State, env, soft-tissue ladder, relaxation) at the Q225 pages: sources = the Q221 / Q222 pages, bases = the Q222 bases, state pickles under build/q225"""
+    from scripts.zanatomy import q211_core as Q
+    Q.BUILD = BUILD
+    for w in ("male", "female"):
+        c = PAGES[w]
+        Q.PAGES[w].update(src=c["src"], stem=c["stem"], out=c["out"], base=c["base"], base_stem=c["base_stem"], key0=f"q225_{w[0]}")
+        C7.PAGES[w]["src"] = c["src"]
+    return Q

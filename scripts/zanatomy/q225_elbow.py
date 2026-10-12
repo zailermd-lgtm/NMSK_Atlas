@@ -123,8 +123,12 @@ class Fit:
             g = self.gaps.get((a, b), self.gaps.get((b, a)))
             c = np.concatenate([ca, cb])
             res.append(self.w_gap * np.maximum(self.floor_frac * g - c, 0.0) / np.sqrt(len(c)) * 6.0)
-            k = max(5, int(0.04 * len(c)))
-            m = float(np.sort(c)[:k].mean())        # joint space of the closest 4 % of the surface samples (also defined when the bones do not touch yet)
+            pt = c[c < 6.0]
+            if len(pt) >= 30:
+                m = float(np.percentile(pt, 5))      # joint space of the contact patch (the reported measure)
+            else:
+                k = max(5, int(0.04 * len(c)))
+                m = float(np.sort(c)[:k].mean())    # bones not touching yet: closest 4 % of the surface samples
             res.append(np.array([self.w_pull * (m - g)]))
         for n in self.moving:
             if n in self.ev:
