@@ -477,12 +477,14 @@
       S.P = h.point; S.N = nrm; S.skinStruct = h.struct; axisCache.__follow = null;
       return h;
     }
-    function defaultPlacement() {
+    function abdomenPlacement() {                                              // first open: the anterior upper abdomen on the midline (62 % of the body height), a useful acoustic window on every page
+      var bb = geo.bodyBox, cx = (bb.lo[0] + bb.hi[0]) / 2, cy = bb.lo[1] + 0.62 * (bb.hi[1] - bb.lo[1]), cz = (bb.lo[2] + bb.hi[2]) / 2;
+      return placeRay([cx, cy, bb.hi[2] + 600], [0, 0, -1], true);
+    }
+    function defaultPlacement(fromView) {                                      // "Screen centre": the skin under the centre of the 3D view
+      if (!fromView && abdomenPlacement()) return;
       var v = api.view(), o = v.eye, d = [v.target[0] - v.eye[0], v.target[1] - v.eye[1], v.target[2] - v.eye[2]];
-      if (!placeRay(o, d, true)) {
-        var bb = geo.bodyBox, cx = (bb.lo[0] + bb.hi[0]) / 2, cy = bb.lo[1] + 0.62 * (bb.hi[1] - bb.lo[1]), cz = (bb.lo[2] + bb.hi[2]) / 2;
-        placeRay([cx, cy, bb.hi[2] + 600], [0, 0, -1], true);
-      }
+      if (!placeRay(o, d, true)) abdomenPlacement();
     }
     function onPlaceClick(e) {
       if (!S.open || (!S.placing && !S.pick3d) || !geo) return false;
@@ -902,7 +904,7 @@
       var r2 = el("div", {class: "us-row"}, [el("label", {text: "MHz"}), [3.5, 5, 7.5, 12].map(function (f) { return (ui.freqBtns[f] = btn(String(f), "Frequency preset: higher = finer resolution, more attenuation, less depth", function () { S.freq = f; syncUi(); refresh(); })); })]);
       var r3 = slider("Depth", 2, 15, 0.5, "depth", function (v) { return v.toFixed(1) + " cm"; }, function (v) { S.depthCm = v; if (S.focusCm > v) { S.focusCm = v * 0.6; setSlider("focus", S.focusCm); } refresh(); }, "Depth in cm");
       ui.placeBtn = btn("Place on skin", "Arm, then click / tap the skin in the 3D view", function () { S.placing = !S.placing; syncUi(); setStatus(S.placing ? "Click or tap the skin in the 3D view." : ""); });
-      var r4 = el("div", {class: "us-row"}, [ui.placeBtn, btn("Screen centre", "Put the probe on the skin at the centre of the 3D view", function () { defaultPlacement(); S.sel = 0; refresh(true); }),
+      var r4 = el("div", {class: "us-row"}, [ui.placeBtn, btn("Screen centre", "Put the probe on the skin at the centre of the 3D view", function () { defaultPlacement(true); S.sel = 0; refresh(true); }),
         (ui.orLong = btn("Longitudinal", "Long axis along the body / limb axis, marker cranial (screen left = cranial)", function () { S.refKey = "long"; S.rot = 0; syncUi(); refresh(); })),
         (ui.orTrans = btn("Transverse", "Long axis across, marker to the patient's right (screen left = patient right)", function () { S.refKey = "trans"; S.rot = 0; syncUi(); refresh(); })),
         btn("Zoom to probe", "Move the 3D camera close to the probe", function () { if (S.P) { api.focus(S.P, 420); } })]);
