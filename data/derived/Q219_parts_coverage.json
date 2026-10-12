@@ -1,18 +1,18 @@
 {
  "generated": "2026-10-12",
  "note": "Coverage of the parts table over (a) the data/ entity list (side-agnostic ids) and (b) the structures of the four bodies. 'with_parts' = at least one sourced part row. Rows marked unverified count as covered but are flagged in the table.",
- "parts_total": 422,
- "structures_with_parts": 136,
+ "parts_total": 449,
+ "structures_with_parts": 144,
  "by_part_type": {
   "head_belly": 63,
   "origin_part": 37,
   "insertion_point": 112,
   "muscle_tendon_junction": 16,
-  "ligament_component": 157,
-  "fascial_passage": 37
+  "ligament_component": 178,
+  "fascial_passage": 43
  },
  "by_verification": {
-  "verified": 390,
+  "verified": 417,
   "unverified": 32
  },
  "entity_classes": {
@@ -104,13 +104,14 @@
   },
   "fascia": {
    "entities": 95,
-   "with_parts": 21,
-   "without_parts": 74,
+   "with_parts": 25,
+   "without_parts": 70,
    "with_parts_ids": [
     "adductor_canal",
     "antebrachial_fascia",
     "arcade_of_frohse",
     "arcade_of_struthers",
+    "bicipital_aponeurosis",
     "crural_fascia",
     "cubital_tunnel_retinaculum",
     "erector_spinae_aponeurosis",
@@ -119,11 +120,14 @@
     "flexor_retinaculum",
     "flexor_retinaculum_ankle",
     "gluteal_fascia",
+    "guyons_canal",
     "iliotibial_tract",
     "inguinal_ligament",
     "interosseous_membrane_forearm",
+    "latissimus_dorsi_aponeurosis",
     "linea_alba",
     "middle_layer_tlf",
+    "palmar_aponeurosis",
     "plantar_aponeurosis",
     "posterior_layer_tlf",
     "rectus_sheath",
@@ -138,7 +142,6 @@
     "anterior_leg_compartment",
     "anterior_thigh_compartment",
     "axillary_fascia",
-    "bicipital_aponeurosis",
     "brachial_fascia",
     "buccopharyngeal_fascia",
     "campers_fascia",
@@ -160,7 +163,6 @@
     "fibrous_flexor_sheaths",
     "fibrous_flexor_sheaths_foot",
     "gerotas_fascia",
-    "guyons_canal",
     "hypothenar_compartment",
     "iliac_fascia",
     "iliopsoas_bursa_fascia",
@@ -174,14 +176,12 @@
     "lateral_intermuscular_septum",
     "lateral_intermuscular_septum_thigh",
     "lateral_leg_compartment",
-    "latissimus_dorsi_aponeurosis",
     "medial_foot_compartment",
     "medial_intermuscular_septum",
     "medial_intermuscular_septum_thigh",
     "medial_thigh_compartment",
     "mobile_wad",
     "nuchal_ligament",
-    "palmar_aponeurosis",
     "pectoral_fascia",
     "pelvic_diaphragm_fascia",
     "peroneal_retinaculum",
@@ -208,10 +208,11 @@
   },
   "ligaments": {
    "entities": 51,
-   "with_parts": 24,
-   "without_parts": 27,
+   "with_parts": 28,
+   "without_parts": 23,
    "with_parts_ids": [
     "acromioclavicular_ligament",
+    "annular_ligament",
     "anterior_cruciate_ligament",
     "coracoacromial_ligament",
     "coracoclavicular_ligament",
@@ -221,12 +222,15 @@
     "finger_mcp_collateral_and_plate_complex",
     "glenohumeral_ligament_complex",
     "hip_ligament_complex",
+    "iliolumbar_ligament",
     "lateral_ligament_complex_ankle",
     "medial_patellofemoral_ligament",
     "meniscofemoral_ligaments",
     "plantar_ligament_complex",
+    "popliteofibular_ligament",
     "posterior_cruciate_ligament",
     "radial_collateral_ligament_complex_elbow",
+    "sacrotuberous_ligament",
     "sternoclavicular_ligament",
     "superior_transverse_scapular_ligament",
     "thumb_mcp_rcl",
@@ -237,7 +241,6 @@
     "wrist_ligament_complex"
    ],
    "without_parts_ids": [
-    "annular_ligament",
     "anterior_longitudinal_ligament",
     "anterior_sacroiliac_ligament",
     "arcuate_pubic_ligament",
@@ -245,19 +248,16 @@
     "costoclavicular_ligament",
     "craniovertebral_ligament_complex",
     "first_mtp_plantar_plate_complex",
-    "iliolumbar_ligament",
     "interclavicular_ligament",
     "interspinous_ligament",
     "intertransverse_ligament",
     "ligamentum_flavum",
     "ligamentum_nuchae",
     "patellar_ligament",
-    "popliteofibular_ligament",
     "posterior_longitudinal_ligament",
     "posterior_sacroiliac_ligament",
     "quadrate_ligament",
     "sacrospinous_ligament",
-    "sacrotuberous_ligament",
     "sternocostal_ligament_complex",
     "superior_pubic_ligament",
     "supraspinous_ligament",
@@ -640,7 +640,7 @@
     },
     "fascia": {
      "structures": 59,
-     "with_parts": 14
+     "with_parts": 16
     },
     "insertion": {
      "structures": 4,
@@ -648,7 +648,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 28
+     "with_parts": 36
     },
     "lymph": {
      "structures": 162,
@@ -676,7 +676,7 @@
     }
    },
    "structures_total": 2966,
-   "structures_with_parts": 170,
+   "structures_with_parts": 180,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -780,7 +780,7 @@
     },
     "fascia": {
      "structures": 59,
-     "with_parts": 14
+     "with_parts": 16
     },
     "insertion": {
      "structures": 4,
@@ -788,7 +788,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 28
+     "with_parts": 36
     },
     "lymph": {
      "structures": 162,
@@ -816,7 +816,7 @@
     }
    },
    "structures_total": 2942,
-   "structures_with_parts": 170,
+   "structures_with_parts": 180,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -910,6 +910,7 @@
   "biceps_brachii": 9,
   "semimembranosus": 9,
   "fibularis_longus": 8,
+  "palmar_aponeurosis": 8,
   "triceps_brachii": 7,
   "first_carpometacarpal": 7,
   "pectoralis_major": 6,
@@ -944,6 +945,8 @@
   "palmar_interossei": 4,
   "extensor_digitorum": 4,
   "medial_patellofemoral_ligament": 4,
+  "guyons_canal": 4,
+  "annular_ligament": 4,
   "diaphragm": 4,
   "transversus_abdominis": 4,
   "latissimus_dorsi": 4,
@@ -959,6 +962,9 @@
   "finger_mcp_collateral_and_plate_complex": 3,
   "adductor_pollicis": 3,
   "cuneometatarsal_interosseous_ligaments": 3,
+  "bicipital_aponeurosis": 3,
+  "iliolumbar_ligament": 3,
+  "popliteofibular_ligament": 3,
   "extensor_hallucis_longus": 3,
   "pectoralis_minor": 3,
   "supinator": 3,
@@ -1019,6 +1025,8 @@
   "common_extensor_tendon": 1,
   "adductor_brevis": 1,
   "lumbar_intervertebral_discs": 1,
+  "latissimus_dorsi_aponeurosis": 1,
+  "sacrotuberous_ligament": 1,
   "gluteal_fascia": 1,
   "fibularis_brevis": 1,
   "transversalis_fascia": 1,

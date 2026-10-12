@@ -11,6 +11,8 @@ V2 = "pubmed-2026-10-12"
 
 def J2(key, authors, title, journal, year, vol, pages, doi, pmid, basis):
     k, d = J(key, authors, title, journal, year, vol, pages, doi, pmid, basis)
+    assert k not in REFS, f'ref key {k} already exists in refs.py'
+    assert all(v.get('pmid') != pmid for v in REFS.values()), f'PMID {pmid} already present (key {k})'
     d["verified"] = V2
     REFS[k] = d
 
@@ -93,3 +95,33 @@ J2("kampelmann2025", "Kampelmann M, Grindley C, Muhlfeld C, Schmiedl A.", "Macro
    "10.1111/joa.70057", "41123084", "abstract: 10 embalmed donors; plate-shaped tissue 4-5 mm thick above the perineal membrane, about 80 % connective tissue; males about 10 % smooth + just over 10 % striated muscle, females about 20 % muscle cells with under 1 % striated; no clearly definable striated deep transverse perineal muscle in either sex")
 J2("lannes2026", "Lannes W, Alves-Pereira JL, Ribeiro EM, Alves EF, Favorito LA.", "Applied Anatomy of Bulbospongiosus Muscle: a Narrative Review.", "Int Braz J Urol", 2026, "52(1)", "n/a",
    "10.1590/S1677-5538.IBJU.2025.9917", "41032754", "abstract: bulbospongiosus is a paired striated muscle originating from the perineal body and enveloping the bulbar urethra; deep branch of the pudendal nerve innervates it")
+# ---- ligaments
+J2("dabrowski2023", "Dabrowski K, Ciszek B.", "Anatomy and morphology of iliolumbar ligament.", "Surg Radiol Anat", 2023, "45(2)", "169-173",
+   "10.1007/s00276-022-03070-y", "36592184", "abstract: 60 ligaments from 30 cadavers; mean length 31.7 mm; 44 single-banded, 13 double-banded, 3 other; short ligamentous bands from the L5 costal process to the iliac plate in 24; fibrous membrane connected in 38; no convincing insertion on the L4 vertebra")
+J2("hanson1994", "Hanson P, Sonesson B.", "The anatomy of the iliolumbar ligament.", "Arch Phys Med Rehabil", 1994, "75(11)", "1245-1246",
+   "10.1016/0003-9993(94)90013-2", "7979937", "abstract: ligament found to consist of two parts, anterior and posterior, both attaching to the L5 transverse process and to the upper part of the iliac tuberosity; earlier literature described three to five parts; no part to the L4 transverse process")
+J2("rucco1996", "Rucco V, Basadonna PT, Gasparini D.", "Anatomy of the iliolumbar ligament: a review of its anatomy and a magnetic resonance study.", "Am J Phys Med Rehabil", 1996, "75(6)", "451-455",
+   "10.1097/00002060-199611000-00010", "8985109", "abstract: MR of 30 ligaments in 15 volunteers; two bands from the L5 transverse process, anterior (broad, flat, type 1 / type 2) to the iliac tuberosity and posterior (fusiform) to the anterior margin and apex of the iliac crest")
+J2("olewnik2022pfl", "Olewnik L, Gonera B, Kurtys K, Zielinska N, Ruzik K, Aragones P, Sanudo JR, Danowska-Klonowska D, LaPrade RF.", "Classification of the popliteofibular ligament.", "Clin Anat", 2022, "35(3)", "375-382",
+   "10.1002/ca.23842", "35119143", "abstract: 137 limbs; PFL present in 88.3 %; type I 72.3 % (apex of the fibular head), type II 8.7 % (bifurcated: anterior slope and posterior surface of the styloid process), type III 7.3 % (double PFL: from popliteus tendon and from the popliteus musculotendinous junction)")
+J2("barnes2018", "Barnes JW, Chouhan VL, Egekeze NC, Rinaldi CE, Cil A.", "The annular ligament-revisited.", "J Shoulder Elbow Surg", 2018, "27(1)", "e16-e19",
+   "10.1016/j.jse.2017.07.031", "28993111", "abstract: 19 elbows; superior oblique band (SOB) 15/19, inferior oblique band (IOB) 13/19, anterior oblique band 8/19; IOB inserts on the anterior proximal ulna; accessory lateral collateral ligament is a thickening arising from the supinator insertion")
+# ---- hand / elbow fascia, thoracolumbar fascia
+J2("rayan1999", "Rayan GM.", "Palmar fascial complex anatomy and pathology in Dupuytren's disease.", "Hand Clin", 1999, "15(1)", "73-86, vi-vii",
+   None, "10050244", "abstract: gross and microdissection; the palmar fascial complex has five components: radial aponeurosis, ulnar aponeurosis, central (palmar) aponeurosis, palmo-digital fascia, digital fascia")
+J2("doyle1990", "Doyle JR.", "Anatomy and function of the palmar aponeurosis pulley.", "J Hand Surg Am", 1990, "15(1)", "78-82",
+   "10.1016/s0363-5023(09)91109-1", "2299172", "abstract: transverse fibres of the palmar aponeurosis attached by vertical septa to the transverse metacarpal ligament, forming a pulley over the flexor tendons; constant retinacular structure over the synovial sheath")
+J2("watson1991", "Watson HK, Paul H.", "Pathologic anatomy.", "Hand Clin", 1991, "7(4)", "661-668",
+   None, "1769988", "abstract: Dupuytren bands over the flexor tendons connected by the transverse palmar fascia; vertical septae pass between tendon and neurovascular tunnel; natatory ligaments; central band forks distal to the PIP joint into bundles passing deep to the neurovascular bundle to the flexor sheath of the middle phalanx; Grayson's ligaments")
+J2("posner2000", "Posner MA.", "Compressive neuropathies of the ulnar nerve at the elbow and wrist.", "Instr Course Lect", 2000, "49", "305-317",
+   None, "10829185", "abstract: compression in the canal of Guyon in 1 of 3 zones; zone 1 the most proximal portion, nerve a single structure with motor and sensory fascicles; zones 2 and 3 distal where the nerve has divided into motor and sensory branches")
+J2("murata2003", "Murata K, Shih JT, Tsai TM.", "Causes of ulnar tunnel syndrome: a retrospective study of 31 subjects.", "J Hand Surg Am", 2003, "28(4)", "647-651",
+   "10.1016/s0363-5023(03)00147-3", "12877855", "abstract: 31 patients; compression sites classified into 3 zones: zone 1 in 28, zone 2 in 6, zone 3 in 19 cases; 17 (55 %) in more than one zone; release of Guyon's canal and/or the pisohamate tunnel")
+J2("snoeck2021", "Snoeck O, Coupier J, Beyer B, Salvia P, Lefevre P, Van Sint Jan S, Rooze M, Feipel V.", "The biomechanical role of the lacertus fibrosus of the biceps brachii Muscle.", "Surg Radiol Anat", 2021, "43(10)", "1587-1594",
+   "10.1007/s00276-021-02739-0", "33751178", "abstract: 7 fresh-frozen limbs; lacertus fibrosus released in two steps, superficial part (R) and deep part (R2); lever arm decreases 28 % in flexion and 50 % in supination after release")
+J2("archambault2023", "Archambault G, Boudier-Reveret M, Hagert E, Effatparvar MR, Sobczak S.", "Effect of lacertus fibrosus release on perineural pressure of the median nerve at the elbow: a cadaveric study.", "Int Orthop", 2023, "47(5)", "1277-1284",
+   "10.1007/s00264-023-05735-8", "36840778", "abstract: 7 limbs of 4 cadavers; the lacertus fibrosus (bicipital aponeurosis) is a potential site of proximal median neuropathy; release lowered maximal perineural pressure from 669 to 77 mmHg during elbow flexion")
+J2("bouredoucen2026", "Bouredoucen H, Boudabbous S, Poletti PA, Taihi L.", "Imaging of the intrinsic muscles of the hand - part I: high-resolution ultrasound and 3T MRI appearance of symptomatic anatomical variants.", "Rofo", 2026, "198(4)", "457-478",
+   "10.1055/a-2761-4259", "41506640", "abstract: accessory abductor digiti minimi may compress the ulnar nerve within Guyon's canal; variants of the intrinsic hand muscles incl. extensor digitorum brevis manus, lumbrical variants, accessory FDS indicis")
+J2("saran2025", "Saran S, Reddy PS, Shirodkar K, Shah AB, Agarwal A, Shah A, Iyengar KP, Botchu R.", "Unveiling Guyon's Canal: Insights into Clinical Anatomy, Pathology, and Imaging.", "Diagnostics (Basel)", 2025, "15(5)", "n/a",
+   "10.3390/diagnostics15050592", "40075839", "abstract: review; the canal's anatomy is defined by surrounding ligaments and bones, divided into three zones each containing distinct neural structures")
