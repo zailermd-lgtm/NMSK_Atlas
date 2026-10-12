@@ -204,7 +204,7 @@ var NMSKCapCore = (function(){
       cut.push({it:it, ii:ii, S:S, dup:dup, cg:cg, box:[u0, v0, u1, v1], rank:rankOf(it.cat), area:(u1 - u0) * (v1 - v0)});
     });
     var res = {n:n, d:d, U:U, V:V, O:[n[0]*d, n[1]*d, n[2]*d], w:0, h:0, px:0, u0:0, v0:0, ids:null, items:[], lines:null, stats:null, ms:0};
-    var stats = {items_total:items.length, structures_cut:cut.length, filled:0, outline_only:0, thin:0, rows:0, odd_rows:0, repaired_rows:0,
+    var stats = {items_total:items.length, structures_cut:cut.length, filled:0, outline_only:0, thin:0, rows:0, odd_rows:0, odd_rows_in_filled:0, odd_rows_in_outline_only:0, rows_in_filled:0, filled_with_repair:0, repaired_rows:0,
                  open_ends_before:0, open_ends_after:0, joined:0, duplicate_segments:0, segments:0, by_cat:{}, outline_only_names:[]};
     if (!cut.length){ res.stats = stats; res.ms = Date.now() - t0; return res; }
     var U0 = 1e30, U1 = -1e30, V0 = 1e30, V1 = -1e30;
@@ -224,6 +224,8 @@ var NMSKCapCore = (function(){
       stats[status === "filled" ? "filled" : status === "outline" ? "outline_only" : "thin"]++;
       if (status === "outline" && stats.outline_only_names.length < 40) stats.outline_only_names.push(it.key);
       stats.rows += fs.rows; stats.odd_rows += fs.odd; stats.repaired_rows += fs.repaired;
+      if (status === "outline") stats.odd_rows_in_outline_only += fs.odd;
+      else { stats.odd_rows_in_filled += fs.odd; stats.rows_in_filled += fs.rows; if (fs.repaired) stats.filled_with_repair++; }
       stats.open_ends_before += c.cg.before; stats.open_ends_after += c.cg.after; stats.joined += c.cg.joined; stats.duplicate_segments += c.dup;
       stats.segments += c.S.sa.length;
       res.items.push({code:code, key:it.key, name:it.name, cat:it.cat, ii:c.ii, status:status, odd:fs.odd, rows:fs.rows, repaired:fs.repaired,

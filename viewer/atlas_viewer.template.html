@@ -274,6 +274,53 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 .pm-sec .pm-msg:empty{display:none}
 .pm-sec .pm-msg.pm-t{color:var(--pm-dim)}
 /* PARTS-UI css end */
+/* SELECTION css begin */
+#sel-sec{--ss-bg:#fff;--ss-ink:#111;--ss-dim:#667;--ss-line:#ccd;--ss-accent:#0a6e8e;--ss-accent-ink:#fff;--ss-sunk:#eef1f4;--ss-mark:#e8a317}
+#sel-sec,.ss-lrow,.ss-mk{box-sizing:border-box}
+#sel-sec{padding:12px 14px;border-bottom:1px solid var(--ss-line);color:var(--ss-ink);font:12px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#sel-sec .ss-eyebrow{margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ss-dim)}
+#sel-sec .ss-count{display:inline-block;min-width:18px;padding:0 5px;margin-left:4px;border-radius:9px;background:var(--ss-sunk);color:var(--ss-ink);text-align:center;letter-spacing:0}
+#sel-sec.has-marks .ss-count{background:var(--ss-mark);color:#1b1b1b}
+#sel-sec .ss-hint{margin:4px 0;font-size:11px;line-height:1.4;color:var(--ss-dim)}
+#sel-sec .ss-hint:empty{display:none}
+#sel-sec.has-marks #sel-empty{display:none}
+#sel-sec .ss-chips{display:flex;flex-wrap:wrap;gap:4px;max-height:132px;overflow-y:auto;margin-bottom:6px;-webkit-overflow-scrolling:touch}
+#sel-sec .ss-chips:empty{display:none}
+#sel-sec .ss-chip{display:inline-flex;align-items:center;max-width:100%;border:1px solid var(--ss-mark);border-radius:14px;background:var(--ss-sunk);padding:0 0 0 8px;min-height:24px}
+#sel-sec .ss-chip .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;font-size:11.5px}
+#sel-sec .ss-chip button{flex:0 0 auto;width:24px;min-height:24px;border:0;border-radius:0 14px 14px 0;background:transparent;color:var(--ss-ink);font-size:15px;line-height:1;cursor:pointer;padding:0}
+#sel-sec .ss-chip button:hover{background:var(--ss-mark);color:#1b1b1b}
+#sel-sec .ss-row{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 4px}
+#sel-sec .ss-row>button,#sel-sec .ss-row>select,#sel-sec .ss-row>input[type=text]{flex:1 1 auto;min-width:0}
+#sel-sec button,#sel-sec select,#sel-sec input[type=text],#sel-sec textarea{font:inherit;font-size:11.5px;color:var(--ss-ink);background:var(--ss-bg);border:1px solid var(--ss-line);border-radius:6px;padding:4px 7px;min-height:28px;touch-action:manipulation}
+#sel-sec button{cursor:pointer;background:transparent}
+#sel-sec button:hover:not(:disabled){border-color:var(--ss-accent)}
+#sel-sec button:disabled{opacity:.45;cursor:default}
+#sel-sec button[aria-pressed="true"]{background:var(--ss-accent);color:var(--ss-accent-ink);border-color:var(--ss-accent)}
+#sel-sec .ss-primary{font-weight:600;border-color:var(--ss-accent)}
+#sel-sec .ss-det{margin:4px 0 0;border-top:1px solid var(--ss-line);padding-top:4px}
+#sel-sec .ss-det>summary{cursor:pointer;font-weight:600;font-size:11.5px;padding:4px 0;min-height:24px}
+#sel-sec textarea{display:block;width:100%;margin:2px 0 4px;resize:vertical;font:11px/1.35 ui-monospace,Menlo,Consolas,monospace}
+#sel-sec .ss-check{display:flex;align-items:center;gap:6px;margin:2px 0;font-size:11.5px}
+#sel-sec .ss-check input{width:16px;height:16px}
+.ss-lrow{display:flex;align-items:stretch;gap:3px;width:100%}
+.ss-lrow>:last-child{flex:1 1 auto;min-width:0}
+.ss-mk{flex:0 0 auto;width:26px;border:1px solid var(--ss-line,#ccd);border-radius:5px;background:transparent;color:transparent;font-size:14px;line-height:1;cursor:pointer;padding:0;touch-action:manipulation}
+.ss-mk:hover{border-color:var(--ss-accent,#0a6e8e)}
+.ss-mk[aria-pressed="true"]{background:var(--ss-mark,#e8a317);border-color:var(--ss-mark,#e8a317);color:#1b1b1b}
+.ss-tb[hidden]{display:none!important}
+body.ss-marking canvas{cursor:copy!important}
+.ss-phone #sel-sec button,.ss-phone #sel-sec select,.ss-phone #sel-sec input[type=text]{min-height:38px;font-size:13px}
+.ss-phone #sel-sec .ss-chip{min-height:38px;border-radius:19px;padding-left:12px}
+.ss-phone #sel-sec .ss-chip .t{font-size:13px;max-width:46vw}
+.ss-phone #sel-sec .ss-chip button{width:38px;min-height:38px;font-size:19px;border-radius:0 19px 19px 0}
+.ss-phone #sel-sec .ss-det>summary{min-height:38px;display:flex;align-items:center;font-size:13px}
+.ss-phone #sel-sec .ss-check input{width:22px;height:22px}
+.ss-phone #sel-sec .ss-chips{max-height:170px}
+.ss-phone .ss-mk{width:38px;min-height:38px}
+/* SELECTION css end */
+#sel-sec,.ss-mk,.ss-lrow{--ss-bg:var(--surface);--ss-ink:var(--ink);--ss-dim:var(--muted);--ss-line:var(--line);--ss-accent:var(--accent);--ss-accent-ink:var(--accent-ink);--ss-sunk:var(--sunk)}
+#sel-sec{padding:12px 14px;border-bottom:1px solid var(--line-2);font:inherit;font-size:12px}
 #pm-layer,#pm-card,.pm-sec{--pm-bg:var(--surface);--pm-ink:var(--ink);--pm-dim:var(--muted);--pm-line:var(--line);--pm-accent:var(--accent);--pm-sunk:var(--sunk);--pm-warn:var(--risk)}
 #inspector .pm-sec{background:transparent}
 #cut-panel{position:absolute;right:12px;top:48px}
@@ -338,6 +385,35 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
       <div id="src-list"></div>
       <p class="srcnote" id="src-note"></p>
     </div>
+    <!-- SELECTION html begin -->
+<section id="sel-sec" class="ss" aria-label="Marked structures and saved selections">
+  <p class="ss-eyebrow">Marked structures <span id="sel-count" class="ss-count">0</span></p>
+  <div id="sel-chips" class="ss-chips"></div>
+  <p id="sel-empty" class="ss-hint">Tick structures in the list below, Shift/Ctrl-click or long-press them in 3D, or press <b>Mark by clicking</b> and tap them.</p>
+  <div class="ss-row">
+    <button type="button" id="sel-markcur" title="Mark the structure whose card is open">Mark selected</button><button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button>
+  </div>
+  <div class="ss-row">
+    <button type="button" id="sel-only" aria-pressed="false" title="Show only the marked structures; everything else disappears">Show only marked</button><button type="button" id="sel-hide" aria-pressed="false" title="Hide the marked structures">Hide marked</button><button type="button" id="sel-ghost" aria-pressed="false" title="Draw the structures that would be hidden as faint ghosts instead">Ghost the rest</button>
+  </div>
+  <div class="ss-row">
+    <button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button>
+  </div>
+  <details id="sel-saved" class="ss-det">
+    <summary>Saved selections</summary>
+    <div class="ss-row"><input id="sel-name" type="text" maxlength="40" autocomplete="off" placeholder="Name for this selection" aria-label="Name for the saved selection"><button type="button" id="sel-save">Save</button></div>
+    <div class="ss-row"><select id="sel-sets" aria-label="Saved selections"></select><button type="button" id="sel-load">Load</button><button type="button" id="sel-del">Delete</button></div>
+    <label class="ss-check"><input type="checkbox" id="sel-remember" checked> Remember my last selection</label>
+    <p id="sel-store" class="ss-hint"></p>
+  </details>
+  <details id="sel-share" class="ss-det">
+    <summary>Export, import, share</summary>
+    <textarea id="sel-io" rows="4" spellcheck="false" aria-label="Saved selections as text (copy to keep, paste to import)"></textarea>
+    <div class="ss-row"><button type="button" id="sel-export">Export</button><button type="button" id="sel-import">Import</button><button type="button" id="sel-link">Copy link</button></div>
+  </details>
+  <p id="sel-status" class="ss-hint" aria-live="polite"></p>
+</section>
+<!-- SELECTION html end -->
     <div class="sec">
       <p class="eyebrow">Structures</p>
       <input id="q" type="search" placeholder="Search 130 structures" autocomplete="off">
@@ -753,6 +829,7 @@ window.addEventListener("pointerup", function(e){
   if (wasPinch){ drag = null; return; }
   if (drag && drag.moved < 5){
     if (cutCtl && cutCtl.consumeClick(e)) { /* "Place on model" is armed: the click set the cut plane */ }
+    else if (selCtl && selCtl.consumeClick(e)) { /* Q227: Mark mode / Shift-Ctrl-click / long press marked or unmarked a structure */ }
     else if (addonClick && addonClick(e)) { /* consumed by the add-on */ }
     else { var h = pick(e); select(h ? h.userData.id : null); }
   }
@@ -775,12 +852,25 @@ function pickHit(e, skip){
   ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
   ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
   ray.setFromCamera(ndc, camera);
-  var hits = ray.intersectObjects(meshes.filter(function(m){ return m.visible && m !== skip; }), false);
-  if (cut.on) hits = hits.filter(function(h){ return cutWorld.distanceToPoint(h.point) >= 0 && cutWorld2.distanceToPoint(h.point) >= 0; });
+  var live = meshes.filter(function(m){ return m.visible && m !== skip; });
+  var gh = selCtl && selCtl.ghosting() ? live.filter(function(m){ return selCtl.rule(m.userData.id) === "ghost"; }) : [];   // Q227: a ghost is only hit when nothing solid is under the pointer
+  function keep(hs){ return cut.on ? hs.filter(function(h){ return cutWorld.distanceToPoint(h.point) >= 0 && cutWorld2.distanceToPoint(h.point) >= 0; }) : hs; }
+  var hits = keep(ray.intersectObjects(gh.length ? live.filter(function(m){ return gh.indexOf(m) < 0; }) : live, false));
+  if (!hits.length && gh.length) hits = keep(ray.intersectObjects(gh, false));
   return hits.length ? hits[0] : null;
 }
+/* Q227: a filled cut face is hit before anything behind the plane (its structure comes from the id raster) */
+function capHitAt(e, h){
+  if (!capCtl || !capCtl.isOn()) return null;
+  var r = renderer.domElement.getBoundingClientRect();
+  ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1; ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+  ray.setFromCamera(ndc, camera);
+  var o = root.worldToLocal(ray.ray.origin.clone()), d = ray.ray.direction, ch = capCtl.hit([o.x, o.y, o.z], [d.x, d.y, d.z]);
+  return ch && (!h || ch.t <= h.distance + 0.05) ? ch : null;
+}
 function pick(e){
-  var h = pickHit(e, null);
+  var h = pickHit(e, null), ch = capHitAt(e, h);
+  if (ch && groups[ch.item.key]) return groups[ch.item.key].meshes[0];
   return h ? h.object : null;
 }
 
@@ -793,7 +883,7 @@ function resize(){
   if (!fitted){ dist = fitDistance(); HOME.dist = dist; fitted = true; }
   place(); draw();
 }
-var cutCtl = null, partsCtl = null;
+var cutCtl = null, partsCtl = null, selCtl = null, capCtl = null;
 function draw(){
   if (partsCtl) partsCtl.update();          // Q220: which part markers are drawn (selection / toggle, cut + slab, layer state)
   renderer.render(scene, camera);
@@ -878,7 +968,7 @@ meshes.forEach(function(m){ var s = m.userData; s.src = classifySource(s.subject
 })();
 
 /* ---------- list ---------- */
-var listBox = document.getElementById("list"), qEl = document.getElementById("q");
+var listBox = document.getElementById("list"), qEl = document.getElementById("q"), listRowIds = [];
 qEl.placeholder = "Search " + BUNDLE.structures.length + " structures";
 function renderList(){
   var q = qEl.value.trim().toLowerCase();
@@ -887,6 +977,7 @@ function renderList(){
     var n = (s.rec && s.rec.name ? s.rec.name : "") + " " + s.id;
     return n.toLowerCase().indexOf(q) >= 0;
   });
+  listRowIds = rows.map(function(s){ return s.id; });
   listBox.innerHTML = "";
   if (!rows.length){ listBox.innerHTML = '<p class="hint">Nothing matches that.</p>'; return; }
   rows.slice(0, 400).forEach(function(s){
@@ -912,7 +1003,8 @@ function renderList(){
       if (s.hidden_default) hdShown[s.id] = true;   // Q184: picking a hidden-by-default structure shows it
       select(s.id); frameOn(s.id);
     });
-    listBox.appendChild(b);
+    if (selCtl){ var lw = document.createElement("div"); lw.className = "ss-lrow"; lw.appendChild(selCtl.markButton(s.id)); lw.appendChild(b); listBox.appendChild(lw); }   // Q227: tick to mark
+    else listBox.appendChild(b);
   });
 }
 qEl.addEventListener("input", renderList);
@@ -923,6 +1015,7 @@ var selected = null, iso = false, xray = false;
 /* Q184: a bundle entry with hidden_default:true (e.g. geometry kept from another specimen that failed placement
    checks) starts hidden even when its system is on; picking it in the list or the inspector's Show button reveals it. */
 var hdShown = {};
+function markHex(h){ var r = (h >> 16) & 255, g = (h >> 8) & 255, b = h & 255; return (Math.round(r * 0.55 + 232 * 0.45) << 16) | (Math.round(g * 0.55 + 163 * 0.45) << 8) | Math.round(b * 0.55 + 19 * 0.45); }   // Q227: a marked structure's colour toward amber
 function apply(){
   var seen = {}, shown = 0, tris = 0;
   meshes.forEach(function(m){
@@ -930,23 +1023,28 @@ function apply(){
     var vis = on[s.cat] && (!s.hidden_default || !!hdShown[s.id]);
     if (srcOn[s.src] === false) vis = false;   // Q189 source facet (all classes on by default)
     if (iso && selected) vis = (s.id === selected);
+    var sr = selCtl ? selCtl.rule(s.id) : "";    // Q227: marked-structure selection only ever adds a veto ("hide") or a ghost; layers / facet / x-ray / cut still apply
+    if (sr === "hide") vis = false;
     m.visible = vis;
     if (vis){ tris += s.nf; if (!seen[s.id]){ seen[s.id] = 1; shown++; } }
     var isSel = (s.id === selected);
     var tis = TISSUE[s.cat] || TISSUE.other;
-    m.material.color.setHex(isSel ? 0x0A6E8E : (srcColour && SRC_BY[s.src] ? SRC_BY[s.src].hex : tis.hex));
-    m.material.emissive.setHex(isSel ? 0x0A2C38 : 0x000000);
+    var mk = !!(selCtl && selCtl.isMarked(s.id)), bh = srcColour && SRC_BY[s.src] ? SRC_BY[s.src].hex : tis.hex;
+    m.material.color.setHex(isSel ? 0x0A6E8E : (mk ? markHex(bh) : bh));
+    m.material.emissive.setHex(isSel ? 0x0A2C38 : (mk ? 0x2A1C00 : 0x000000));
     var base = (s.cat === "muscle" && xray) ? 0.34 : (xray && s.cat !== "bone" ? 0.5 : 1);
     if (s.cat === "organ" && FADED_ORGANS[s.id]) base = Math.min(base, 0.55);   // Q193: the big organs (lungs, liver, bowel, ...) show faded so what lies behind them stays visible
     var ov = opacityOverride ? opacityOverride(s.cat, s.id) : null;   // Q188 add-on hook (null = no change)
     if (ov != null) base = Math.min(base, ov);
     m.material.opacity = (isSel && ov == null) ? 1 : base;
+    if (sr === "ghost" && !isSel) m.material.opacity = Math.min(m.material.opacity, 0.1);
     m.material.transparent = m.material.opacity < 1;
     m.material.depthWrite = m.material.opacity > 0.85;
   });
   document.getElementById("s-str").textContent = shown;
   document.getElementById("s-tri").textContent = tris.toLocaleString();
   changeHooks.forEach(function(f){ try { f(); } catch (err){ console.error(err); } });
+  if (capCtl) capCtl.itemsChanged();       // Q227: the filled cut face follows layers, isolation, x-ray and colours
   draw();
 }
 document.getElementById("t-iso").addEventListener("click", function(){
@@ -1652,6 +1750,745 @@ function NMSKParts(E){
   };
 }
 /* PARTS-UI js end */
+/* SELECTION js begin */
+/* Marked structures, "show only marked", saved selection sets (Q227). One controller for both viewers. The engine is reached only through the adaptor E:
+   modelId() items() -> [{id,name}] (one per structure, in list order)   refresh() re-apply visibility   selected() select(id)   reveal(ids) (switch the layers /
+   source classes / hide flags of these structures on)   listIds() (ids the search box shows)   pickId(ev) (cap-aware)   clearHover()   resetEngine() (the
+   engine's own isolation / hide / fade / solo / box)   canvas   toolbar + toolClass   isPhone()   [frame(ids)].
+   The engine asks rule(id): "" = as the layers say, "hide" = not drawn, "ghost" = drawn as a faint ghost and not pickable; isMarked(id) tints a marked
+   structure. A selection composes with everything else because it only ADDS a veto: the layer toggles, the source facet, X-ray, the cut plane + slab and the
+   parts markers all still apply to what it leaves.
+   Persistence: localStorage (try/catch; keyed per model because structure ids differ between models) with an in-memory fallback, plus export / import as text
+   and a link (#nmsksel=...). */
+function NMSKSelect(E){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var MODEL = String(E.modelId()), KEY = "nmsk.sel.v1:" + MODEL, LP_MS = 520, MARKLIMIT = 400;
+  var marks = [], set = {}, mode = "all", ghost = false, markMode = false, storageOK = true, suppress = false;
+  var data = {v:1, model:MODEL, sets:{}, last:null, remember:true};
+  var names = {}, order = [];
+  E.items().forEach(function(it){ if (!(it.id in names)){ names[it.id] = it.name || it.id; order.push(it.id); } });
+  var sec = $("sel-sec"), chipsEl = $("sel-chips"), cntEl = $("sel-count"), statusEl = $("sel-status"), nameEl = $("sel-name"), setsEl = $("sel-sets"),
+      ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember");
+  var tbMark = null, tbOnly = null, tbAll = null;
+
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function has(id){ return Object.prototype.hasOwnProperty.call(names, id); }
+  function name(id){ return has(id) ? names[id] : id; }
+  function say(m){ if (statusEl) statusEl.textContent = m || ""; }
+  /* ---- storage: always mirrored in memory; the browser store is a convenience that may be blocked (private window, artifact origin) ---- */
+  function storeRead(){
+    try { var r = localStorage.getItem(KEY); storageOK = true; return r ? JSON.parse(r) : null; }
+    catch (err){ storageOK = false; return null; }
+  }
+  function storeWrite(){
+    try { localStorage.setItem(KEY, JSON.stringify(data)); storageOK = true; }
+    catch (err){ storageOK = false; }
+    storeNote();
+  }
+  function storeNote(){
+    if (!storeEl) return;
+    storeEl.textContent = storageOK ? "Saved selections stay in this browser for this model (" + Object.keys(data.sets).length + " saved)."
+      : "This browser blocks storage here: selections are kept only until you close the page. Use Export (copy the text) or Copy link to keep one.";
+  }
+  function pack(){ return {ids:marks.slice(), mode:mode, ghost:ghost}; }
+  function persistLast(){
+    data.remember = !remEl || !!remEl.checked;
+    data.last = data.remember ? pack() : null;
+    storeWrite();
+  }
+  /* ---- the selection itself ---- */
+  function rule(id){
+    if (mode === "all" || !marks.length) return "";
+    var m = set[id] === 1, hideIt = mode === "only" ? !m : m;
+    return hideIt ? (ghost ? "ghost" : "hide") : "";
+  }
+  function ghosting(){ return ghost && mode !== "all" && marks.length > 0; }
+  function activeState(){ return marks.length > 0 || mode !== "all" || ghost; }
+  function syncButtons(){
+    var l = document.querySelectorAll(".ss-mk[data-id]");
+    for (var i = 0; i < l.length; i++) l[i].setAttribute("aria-pressed", String(set[l[i].getAttribute("data-id")] === 1));
+  }
+  function renderChips(){
+    if (chipsEl){
+      var h = "", n = Math.min(marks.length, MARKLIMIT);
+      for (var i = 0; i < n; i++) h += '<span class="ss-chip"><span class="t" title="' + esc(name(marks[i])) + '">' + esc(name(marks[i])) +
+        '</span><button type="button" data-id="' + esc(marks[i]) + '" aria-label="Unmark ' + esc(name(marks[i])) + '" title="Unmark">&times;</button></span>';
+      if (marks.length > n) h += '<span class="ss-chip"><span class="t">+' + (marks.length - n) + ' more</span></span>';
+      chipsEl.innerHTML = h;
+    }
+    if (cntEl) cntEl.textContent = String(marks.length);
+    if (sec && sec.classList) sec.classList.toggle("has-marks", marks.length > 0);
+  }
+  function ui(){
+    var n = marks.length;
+    function pr(id, v){ var e = $(id); if (e) e.setAttribute("aria-pressed", String(v)); }
+    pr("sel-only", mode === "only"); pr("sel-hide", mode === "hide"); pr("sel-ghost", ghost); pr("sel-markmode", markMode);
+    ["sel-only", "sel-hide", "sel-clear"].forEach(function(id){ var e = $(id); if (e) e.disabled = !n; });
+    if (tbMark){ tbMark.setAttribute("aria-pressed", String(markMode)); tbMark.textContent = n ? "Mark · " + n : "Mark"; }
+    if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(mode === "only")); tbOnly.hidden = !n; tbOnly.textContent = "Only marked"; }
+    if (tbAll) tbAll.hidden = !activeState();
+    if (document.body && document.body.classList) document.body.classList.toggle("ss-marking", markMode);
+  }
+  function changed(){
+    renderChips(); syncButtons(); ui(); persistLast(); E.refresh();
+  }
+  function mark(id, on){
+    if (!has(id)) return false;
+    var is = set[id] === 1;
+    if (on === undefined) on = !is;
+    if (on && !is){ set[id] = 1; marks.push(id); }
+    else if (!on && is){ delete set[id]; marks.splice(marks.indexOf(id), 1); if (!marks.length && mode !== "all"){ mode = "all"; ghost = false; } }
+    else return false;
+    return true;
+  }
+  function toggle(id, fromList){
+    if (!has(id)) return false;
+    var was = set[id] === 1;
+    mark(id);
+    if (!was && fromList && E.reveal) E.reveal([id]);
+    say(name(id) + (was ? " unmarked." : " marked.") + " " + marks.length + " marked.");
+    changed();
+    return true;
+  }
+  function setMode(m){
+    if (m !== "all" && !marks.length){ say("Mark at least one structure first."); mode = "all"; changed(); return; }
+    mode = (mode === m) ? "all" : m;
+    if (mode === "all") ghost = ghost && false;
+    if (mode === "only" && E.reveal) E.reveal(marks);       // an explicit choice beats a switched-off layer
+    say(mode === "only" ? "Showing only the " + marks.length + " marked." : mode === "hide" ? "Marked structures hidden." : "Showing everything again.");
+    changed();
+  }
+  function setGhost(v){
+    ghost = v === undefined ? !ghost : !!v;
+    say(ghost ? "The rest is drawn as faint ghosts." : "Ghosting off.");
+    changed();
+  }
+  function clearMarks(){ marks = []; set = {}; mode = "all"; ghost = false; say("Marks cleared."); changed(); }
+  function resetAll(){
+    marks = []; set = {}; mode = "all"; ghost = false; markMode = false;
+    if (E.select) E.select(null);
+    if (E.clearHover) E.clearHover();
+    if (E.resetEngine) E.resetEngine();
+    say("Selection reset: everything is shown again (layers, X-ray and the cut plane are unchanged).");
+    changed();
+  }
+  function applyPack(p){
+    var ids = (p && p.ids || []).filter(has), dropped = ((p && p.ids) || []).length - ids.length;
+    marks = []; set = {};
+    ids.forEach(function(id){ if (set[id] !== 1){ set[id] = 1; marks.push(id); } });
+    mode = marks.length && (p.mode === "only" || p.mode === "hide") ? p.mode : "all";
+    ghost = marks.length && mode !== "all" && !!p.ghost;
+    if (mode === "only" && E.reveal) E.reveal(marks);
+    return dropped;
+  }
+  /* ---- saved sets ---- */
+  function listSets(){
+    if (!setsEl) return;
+    var h = "", ks = Object.keys(data.sets).sort();
+    ks.forEach(function(k){ h += '<option value="' + esc(k) + '">' + esc(k) + " (" + data.sets[k].ids.length + ")</option>"; });
+    if (!ks.length) h = '<option value="">(none saved yet)</option>';
+    setsEl.innerHTML = h;
+    storeNote();
+  }
+  function save(nm){
+    nm = String(nm == null ? (nameEl && nameEl.value) : nm).trim().slice(0, 40);
+    if (!marks.length){ say("Nothing is marked, so there is nothing to save."); return false; }
+    if (!nm) nm = "Selection " + (Object.keys(data.sets).length + 1);
+    var existed = Object.prototype.hasOwnProperty.call(data.sets, nm);
+    data.sets[nm] = pack();
+    persistLast(); listSets();
+    if (setsEl) setsEl.value = nm;
+    say((existed ? "Updated '" : "Saved '") + nm + "' (" + marks.length + " structures)" + (storageOK ? "." : ", for this session only: storage is blocked here, use Export to keep it."));
+    return true;
+  }
+  function load(nm){
+    nm = nm == null ? (setsEl && setsEl.value) : nm;
+    if (!nm || !Object.prototype.hasOwnProperty.call(data.sets, nm)){ say("Choose a saved selection first."); return false; }
+    var dropped = applyPack(data.sets[nm]);
+    say("Loaded '" + nm + "': " + marks.length + " marked" + (dropped ? " (" + dropped + " not in this model were skipped)" : "") + ".");
+    changed();
+    return true;
+  }
+  function del(nm){
+    nm = nm == null ? (setsEl && setsEl.value) : nm;
+    if (!nm || !Object.prototype.hasOwnProperty.call(data.sets, nm)){ say("Choose a saved selection first."); return false; }
+    delete data.sets[nm]; persistLast(); listSets(); say("Deleted '" + nm + "'.");
+    return true;
+  }
+  /* ---- export / import / link ---- */
+  function exportText(){
+    var o = {nmsk_selection:1, model:MODEL, sets:data.sets, current:pack()};
+    var t = JSON.stringify(o, null, 1);
+    if (ioEl) ioEl.value = t;
+    return t;
+  }
+  function hashOf(p){ return "#nmsksel=" + [encodeURIComponent(MODEL), p.mode, p.ghost ? 1 : 0, p.ids.map(encodeURIComponent).join(",")].join("~"); }
+  function parseHash(h){
+    var m = /nmsksel=([^&]*)/.exec(h || ""); if (!m) return null;
+    var f = m[1].split("~"); if (f.length < 4) return null;
+    var ids = f[3] ? f[3].split(",").map(function(s){ try { return decodeURIComponent(s); } catch (err){ return s; } }) : [];
+    var model; try { model = decodeURIComponent(f[0]); } catch (err){ model = f[0]; }
+    return {model:model, pack:{ids:ids, mode:f[1], ghost:f[2] === "1"}};
+  }
+  function importText(t){
+    t = String(t == null ? (ioEl && ioEl.value) : t).trim();
+    if (!t){ say("Paste exported text (or a link) into the box first."); return false; }
+    var added = 0, dropped = 0, o = null;
+    if (t.indexOf("nmsksel=") >= 0){
+      var ph = parseHash(t);
+      if (!ph){ say("That link is not a selection link."); return false; }
+      if (ph.model !== MODEL) say("This link is for another model (" + ph.model + "); only the ids that exist here are used.");
+      dropped = applyPack(ph.pack); changed();
+      say("Imported " + marks.length + " marked from the link" + (dropped ? " (" + dropped + " unknown here)" : "") + ".");
+      return true;
+    }
+    try { o = JSON.parse(t); } catch (err){ say("That text is not valid JSON."); return false; }
+    if (Array.isArray(o)) o = {sets:{"Imported":{ids:o, mode:"all", ghost:false}}};
+    if (!o || typeof o !== "object" || (!o.sets && !o.current)){ say("That text is not an exported selection."); return false; }
+    Object.keys(o.sets || {}).forEach(function(k){
+      var s = o.sets[k]; if (!s || !Array.isArray(s.ids)) return;
+      var ids = s.ids.filter(function(x){ return typeof x === "string" && has(x); }), nm = String(k).slice(0, 40);
+      dropped += s.ids.length - ids.length;
+      if (!ids.length) return;
+      data.sets[nm] = {ids:ids, mode:s.mode === "only" || s.mode === "hide" ? s.mode : "all", ghost:!!s.ghost}; added++;
+    });
+    persistLast(); listSets();
+    say("Imported " + added + " saved selection" + (added === 1 ? "" : "s") + (dropped ? "; " + dropped + " ids are not in this model and were skipped" : "") +
+        (o.model && o.model !== MODEL ? " (exported from " + o.model + ")" : "") + ".");
+    return added > 0;
+  }
+  function copyLink(){
+    if (!marks.length){ say("Nothing is marked."); return ""; }
+    var base = ""; try { base = String(location.href).split("#")[0]; } catch (err){}
+    var url = base + hashOf(pack());
+    if (ioEl){ ioEl.value = url; }
+    var done = function(){ say("Link copied (" + marks.length + " marked)."); }, fail = function(){ say("Copy the link from the box below."); var d = $("sel-share"); if (d) d.open = true; };
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, fail); else fail(); } catch (err){ fail(); }
+    return url;
+  }
+  /* ---- clicks in 3D ---- */
+  function consumeClick(e){
+    if (suppress){ suppress = false; return true; }
+    var multi = markMode || (e && (e.shiftKey || e.ctrlKey || e.metaKey));
+    if (!multi) return false;
+    var id = E.pickId ? E.pickId(e) : null;
+    if (id) toggle(id, false);
+    else say("Nothing under the pointer.");
+    return true;
+  }
+  var lp = null;
+  function lpCancel(){ if (lp){ clearTimeout(lp.t); lp = null; } }
+  function lpDown(e){
+    suppress = false;
+    if (e.pointerType === "mouse"){ lpCancel(); return; }
+    if (lp){ lpCancel(); return; }                          // a second finger: pinch / pan, not a long press
+    var x = e.clientX, y = e.clientY;
+    lp = {x:x, y:y, t:setTimeout(function(){
+      lp = null;
+      var id = E.pickId ? E.pickId({clientX:x, clientY:y}) : null;
+      if (id){ suppress = true; toggle(id, false); try { if (navigator.vibrate) navigator.vibrate(18); } catch (err){} }
+    }, LP_MS)};
+  }
+  function lpMove(e){ if (lp && Math.hypot(e.clientX - lp.x, e.clientY - lp.y) > 9) lpCancel(); }
+  /* ---- wiring ---- */
+  function bind(id, f){ var e = $(id); if (e) e.addEventListener("click", f); }
+  bind("sel-markcur", function(){ var s = E.selected && E.selected(); if (s && has(s)){ if (set[s] !== 1) toggle(s, true); else say(name(s) + " is already marked."); } else say("Select a structure first (click it or pick it from the list)."); });
+  bind("sel-markall", function(){
+    var ids = (E.listIds ? E.listIds() : []).filter(has), n = 0;
+    ids.forEach(function(id){ if (set[id] !== 1){ mark(id, true); n++; } });
+    if (n && E.reveal) E.reveal(ids);
+    say(n ? n + " structures from the list marked." : "No new structures in the list."); changed();
+  });
+  bind("sel-clear", clearMarks);
+  bind("sel-only", function(){ setMode("only"); });
+  bind("sel-hide", function(){ setMode("hide"); });
+  bind("sel-ghost", function(){ setGhost(); });
+  bind("sel-markmode", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
+  bind("sel-reset", resetAll);
+  bind("sel-save", function(){ save(); });
+  bind("sel-load", function(){ load(); });
+  bind("sel-del", function(){ del(); });
+  bind("sel-export", function(){ exportText(); say("Copy this text to keep or move your saved selections."); var d = $("sel-share"); if (d) d.open = true; });
+  bind("sel-import", function(){ importText(); });
+  bind("sel-link", copyLink);
+  if (remEl) remEl.addEventListener("change", function(){ persistLast(); say(remEl.checked ? "The last selection is remembered." : "The last selection is no longer remembered."); });
+  if (chipsEl) chipsEl.addEventListener("click", function(e){
+    var b = e.target && e.target.closest ? e.target.closest("button[data-id]") : null;
+    if (b){ var id = b.getAttribute("data-id"); mark(id, false); say(name(id) + " unmarked."); changed(); }
+  });
+  if (nameEl) nameEl.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); save(); } });
+  if (E.canvas){
+    E.canvas.addEventListener("pointerdown", lpDown, true);
+    E.canvas.addEventListener("pointermove", lpMove, true);
+    E.canvas.addEventListener("pointerup", lpCancel, true);
+    E.canvas.addEventListener("pointercancel", lpCancel, true);
+  }
+  function tb(id, label, title, f){
+    if (!E.toolbar) return null;
+    var b = document.createElement("button");
+    b.type = "button"; b.id = id; b.className = (E.toolClass || "") + " ss-tb"; b.textContent = label; b.title = title; b.setAttribute("aria-pressed", "false");
+    b.addEventListener("click", f); E.toolbar.appendChild(b); return b;
+  }
+  tbMark = tb("t-mark", "Mark", "While on, a click or tap on the model marks / unmarks the structure under it (Shift/Ctrl-click or a long press does the same at any time)", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
+  tbOnly = tb("t-only", "Only marked", "Show only the marked structures", function(){ setMode("only"); });
+  tbAll = tb("t-showall", "Show all", "Clear the marks, the isolation and the ghosting and show everything again", resetAll);
+  if (tbAll) tbAll.removeAttribute("aria-pressed");
+  function layout(){ var r = document.documentElement; if (r && r.classList) r.classList.toggle("ss-phone", !!(E.isPhone && E.isPhone())); }
+  window.addEventListener("resize", layout);
+  /* ---- start: stored sets, then (in this order of priority) a link in the address, the remembered last selection ---- */
+  var stored = storeRead();
+  if (stored && stored.v === 1){
+    data.sets = stored.sets && typeof stored.sets === "object" ? stored.sets : {};
+    data.last = stored.last || null; data.remember = stored.remember !== false;
+    Object.keys(data.sets).forEach(function(k){ var s = data.sets[k]; if (!s || !Array.isArray(s.ids)) delete data.sets[k]; });
+  }
+  if (remEl) remEl.checked = data.remember;
+  layout(); listSets(); renderChips(); ui();
+  var restored = "";
+  try {
+    var ph = parseHash(location.hash);
+    if (ph && (ph.model === MODEL)){ applyPack(ph.pack); restored = "Opened the selection from the link: " + marks.length + " marked."; }
+    else if (data.remember && data.last && data.last.ids && data.last.ids.length){ applyPack(data.last); restored = "Restored your last selection: " + marks.length + " marked" + (mode === "all" ? "." : mode === "only" ? ", showing only those." : ", hidden."); }
+  } catch (err){}
+  if (restored){ say(restored); changed(); } else storeNote();
+  return {
+    rule:rule, isMarked:function(id){ return set[id] === 1; }, ghosting:ghosting, active:activeState, markButton:function(id){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "ss-mk"; b.textContent = "✓"; b.setAttribute("data-id", id);
+      b.setAttribute("aria-pressed", String(set[id] === 1)); b.setAttribute("aria-label", "Mark " + name(id)); b.title = "Mark / unmark for the selection";
+      b.addEventListener("click", function(e){ e.stopPropagation(); toggle(id, true); });
+      return b;
+    },
+    consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
+    setMode:setMode, setGhost:setGhost, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
+    link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
+    state:function(){ return {marks:marks.slice(), mode:mode, ghost:ghost, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets), model:MODEL, remember:data.remember}; }
+  };
+}
+/* SELECTION js end */
+/* CUT-CAP js begin */
+/* Cut-face fill ("cap") for Cut mode (Q227). CPU cross-section of the ACTUAL meshes with the cut plane:
+   signed distance of the vertices -> triangle/plane segments -> gaps of the open ends closed (<= 1 mm) -> even-odd scanline fill of every
+   structure into an id raster (painter order: tissue rank, then large before small, so vessels / nerves / bones are not hidden by muscle or fat)
+   -> colour texture from the structures' CURRENT display colours + a crisp vector outline (the segments themselves, drawn as 1 px lines).
+   The meshes are NOT watertight (Q197 note): rows with an odd number of crossings are counted (leak statistics), repaired from the nearest valid row
+   when they are few, and a structure that fails the parity sanity test is drawn as an OUTLINE only (never a wrong fill).
+   Pure functions in NMSKCapCore (no DOM, runs under node); the controller NMSKCap(E) owns the toggle, the debounce and the camera button; the engine
+   (three.js Mesh + LineSegments / raw-WebGL textured quad) only uploads what the controller hands over through the adaptor E. */
+var NMSKCapCore = (function(){
+  "use strict";
+  var RANK = {skin:0, fascia:1, bursa:1, other:2, fat:2, muscle:3, insertion:3, tendon:3, organ:4, viscera:4, lymph:4, cns:4,
+              cartilage:5, joint:5, ligament:5, bone:6, nerve:7, vessel:8};       // painter order: lower first (underneath)
+  function cross(a, b){ return [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]]; }
+  function unit(a){ var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; }
+  function basis(n){ var up = Math.abs(n[1]) < 0.99 ? [0,1,0] : [1,0,0], u = unit(cross(up, n)); return [u, cross(n, u)]; }   // same as the cut-mode overlay
+  function rankOf(cat){ var r = RANK[cat]; return r == null ? 3 : r; }
+
+  /* does the plane n.p = d cross the box? */
+  function boxCrosses(bmin, bmax, n, d){
+    var lo = -d, hi = -d;
+    for (var k = 0; k < 3; k++){ var a = n[k]*bmin[k], b = n[k]*bmax[k]; lo += Math.min(a, b); hi += Math.max(a, b); }
+    return lo < 0 && hi > 0;
+  }
+
+  /* ---- 1. triangles x plane -> segments between "edge points" (a point is identified by the mesh edge it lies on) ----
+     returns null when no triangle straddles the plane, else {pu, pv, sa, sb} (plane coordinates u = p.U, v = p.V) */
+  function slice(pos, idx, n, d, U, V){
+    var nv = pos.length / 3, sd = new Float32Array(nv), nx = n[0], ny = n[1], nz = n[2], lo = 1e30, hi = -1e30, i;
+    for (i = 0; i < nv; i++){
+      var s = nx*pos[3*i] + ny*pos[3*i+1] + nz*pos[3*i+2] - d;
+      if (s === 0) s = 1e-7;                                           // a vertex exactly on the plane counts as "above": consistent, so closed meshes give closed contours
+      sd[i] = s; if (s < lo) lo = s; if (s > hi) hi = s;
+    }
+    if (lo > 0 || hi < 0) return null;
+    var map = new Map(), pu = [], pv = [], sa = [], sb = [], nt = idx.length / 3;
+    function pt(a, b){
+      if (a > b){ var t0 = a; a = b; b = t0; }
+      var key = a * nv + b, id = map.get(key);
+      if (id !== undefined) return id;
+      var s0 = sd[a], s1 = sd[b], t = s0 / (s0 - s1);
+      var x = pos[3*a] + t * (pos[3*b] - pos[3*a]), y = pos[3*a+1] + t * (pos[3*b+1] - pos[3*a+1]), z = pos[3*a+2] + t * (pos[3*b+2] - pos[3*a+2]);
+      pu.push(x*U[0] + y*U[1] + z*U[2]); pv.push(x*V[0] + y*V[1] + z*V[2]);
+      id = pu.length - 1; map.set(key, id); return id;
+    }
+    for (var k = 0; k < nt; k++){
+      var a = idx[3*k], b = idx[3*k+1], c = idx[3*k+2], pa = sd[a] > 0, pb = sd[b] > 0, pc = sd[c] > 0, p0, p1;
+      if (pa === pb && pb === pc) continue;
+      if (pa === pb){ p0 = pt(a, c); p1 = pt(b, c); }
+      else if (pa === pc){ p0 = pt(a, b); p1 = pt(c, b); }
+      else { p0 = pt(a, b); p1 = pt(a, c); }
+      sa.push(p0); sb.push(p1);
+    }
+    if (!sa.length) return null;
+    return {pu:pu, pv:pv, sa:sa, sb:sb};
+  }
+
+  /* ---- 2. drop duplicate segments (double-sided / duplicated faces would cancel in the even-odd count) ---- */
+  function dedupe(S){
+    var seen = new Set(), sa = [], sb = [], dup = 0;
+    for (var k = 0; k < S.sa.length; k++){
+      var a = S.sa[k], b = S.sb[k], lo = a < b ? a : b, hi = a < b ? b : a, key = lo * 67108864 + hi;
+      if (seen.has(key)){ dup++; continue; }
+      seen.add(key); sa.push(a); sb.push(b);
+    }
+    S.sa = sa; S.sb = sb; return dup;
+  }
+
+  /* ---- 3. close the open ends: a contour point of odd degree is an end of an open chain (a tear in the mesh, a duplicated vertex);
+     ends closer than `gap` mm are joined (greedy, nearest pairs first). Returns {before, after, joined}. */
+  function closeGaps(S, gap){
+    var np = S.pu.length, deg = new Uint8Array(np), k, i;
+    for (k = 0; k < S.sa.length; k++){ if (deg[S.sa[k]] < 255) deg[S.sa[k]]++; if (deg[S.sb[k]] < 255) deg[S.sb[k]]++; }
+    var open = [];
+    for (i = 0; i < np; i++) if (deg[i] & 1) open.push(i);
+    var r = {before:open.length, after:open.length, joined:0};
+    if (!open.length || !(gap > 0)) return r;
+    var cell = gap, grid = new Map(), g2 = gap * gap;
+    function key(cx, cy){ return cx * 1000003 + cy; }
+    open.forEach(function(p){
+      var kk = key(Math.floor(S.pu[p] / cell), Math.floor(S.pv[p] / cell)), l = grid.get(kk);
+      if (l) l.push(p); else grid.set(kk, [p]);
+    });
+    var pairs = [];
+    open.forEach(function(p){
+      var cx = Math.floor(S.pu[p] / cell), cy = Math.floor(S.pv[p] / cell);
+      for (var dx = -1; dx <= 1; dx++) for (var dy = -1; dy <= 1; dy++){
+        var l = grid.get(key(cx + dx, cy + dy)); if (!l) continue;
+        for (var j = 0; j < l.length; j++){
+          var q = l[j]; if (q <= p) continue;
+          var ex = S.pu[p] - S.pu[q], ey = S.pv[p] - S.pv[q], dd = ex*ex + ey*ey;
+          if (dd <= g2) pairs.push([dd, p, q]);
+        }
+      }
+    });
+    pairs.sort(function(a, b){ return a[0] - b[0]; });
+    var used = new Uint8Array(np);
+    pairs.forEach(function(pr){
+      if (used[pr[1]] || used[pr[2]]) return;
+      used[pr[1]] = used[pr[2]] = 1; S.sa.push(pr[1]); S.sb.push(pr[2]); r.joined++;
+    });
+    r.after = open.length - 2 * r.joined;
+    return r;
+  }
+
+  /* ---- 4. crossings of the segments with the pixel rows (row r has its centre at v0 + (r + 0.5) px); half-open so a vertex is counted once ---- */
+  function crossings(S, g){
+    var np = S.pu.length, xs = new Float64Array(np), ys = new Float64Array(np), inv = 1 / g.px, i, k;
+    var ymin = 1e30, ymax = -1e30, xmin = 1e30, xmax = -1e30;
+    for (i = 0; i < np; i++){
+      xs[i] = (S.pu[i] - g.u0) * inv; ys[i] = (S.pv[i] - g.v0) * inv;
+      if (ys[i] < ymin) ymin = ys[i]; if (ys[i] > ymax) ymax = ys[i];
+      if (xs[i] < xmin) xmin = xs[i]; if (xs[i] > xmax) xmax = xs[i];
+    }
+    var r0 = Math.max(0, Math.ceil(ymin - 0.5)), r1 = Math.min(g.h - 1, Math.ceil(ymax - 0.5) - 1), nrow = r1 - r0 + 1;
+    var out = {r0:r0, nrow:Math.max(0, nrow), start:null, x:null, cnt:null, xmin:xmin, xmax:xmax, ymin:ymin, ymax:ymax};
+    if (nrow <= 0) return out;
+    var cnt = new Int32Array(nrow + 1), ns = S.sa.length, ra, rb, y0, y1, lo, hi, r;
+    for (k = 0; k < ns; k++){
+      y0 = ys[S.sa[k]]; y1 = ys[S.sb[k]]; if (y0 === y1) continue;
+      lo = y0 < y1 ? y0 : y1; hi = y0 < y1 ? y1 : y0;
+      ra = Math.max(r0, Math.ceil(lo - 0.5)); rb = Math.min(r1, Math.ceil(hi - 0.5) - 1);
+      for (r = ra; r <= rb; r++) cnt[r - r0 + 1]++;
+    }
+    var start = new Int32Array(nrow + 1);
+    for (r = 0; r < nrow; r++) start[r + 1] = start[r] + cnt[r + 1];
+    var fillp = start.slice(0, nrow), x = new Float64Array(start[nrow]), xa, xb, ya, yb;
+    for (k = 0; k < ns; k++){
+      xa = xs[S.sa[k]]; ya = ys[S.sa[k]]; xb = xs[S.sb[k]]; yb = ys[S.sb[k]]; if (ya === yb) continue;
+      if (ya < yb){ lo = ya; hi = yb; } else { lo = yb; hi = ya; }
+      ra = Math.max(r0, Math.ceil(lo - 0.5)); rb = Math.min(r1, Math.ceil(hi - 0.5) - 1);
+      var sl = (xb - xa) / (yb - ya);
+      for (r = ra; r <= rb; r++) x[fillp[r - r0]++] = xa + (r + 0.5 - ya) * sl;
+    }
+    out.start = start; out.x = x; out.cnt = cnt;
+    return out;
+  }
+
+  function sortRow(x, a, b){                                  // sort x[a..b) in place (rows are short)
+    var n = b - a, i, j, v;
+    if (n > 24){ var sub = x.subarray(a, b); sub.sort(); return; }
+    for (i = a + 1; i < b; i++){ v = x[i]; for (j = i - 1; j >= a && x[j] > v; j--) x[j+1] = x[j]; x[j+1] = v; }
+  }
+
+  /* ---- 5. even-odd fill of one structure into the id raster. Returns the parity statistics; paints nothing when the sanity test fails. ---- */
+  function fillItem(S, g, ids, code, opt){
+    var cr = crossings(S, g), st = {rows:0, odd:0, repaired:0, maxOddRun:0, painted:0, failed:false, reason:""};
+    if (!cr.nrow || !cr.x) return st;
+    var nrow = cr.nrow, r, i, odd = new Uint8Array(nrow), run = 0, nonEmpty = 0;
+    for (r = 0; r < nrow; r++){
+      var n = cr.start[r + 1] - cr.start[r];
+      if (!n){ run = 0; continue; }
+      nonEmpty++;
+      if (n & 1){ odd[r] = 1; st.odd++; run++; if (run > st.maxOddRun) st.maxOddRun = run; } else run = 0;
+    }
+    st.rows = nonEmpty;
+    if (!nonEmpty) return st;
+    if (st.odd / nonEmpty > opt.maxOddFrac || st.maxOddRun > opt.maxOddRun){ st.failed = true; st.reason = "parity"; return st; }
+    var w = g.w;
+    function span(row, a, b, from){                              // paint pixels whose centre lies in [a, b) on raster row `row`
+      var c0 = Math.max(0, Math.ceil(a - 0.5)), c1 = Math.min(w - 1, Math.ceil(b - 0.5) - 1);
+      for (var c = c0; c <= c1; c++){ ids[row * w + c] = code; }
+      return c1 >= c0 ? c1 - c0 + 1 : 0;
+    }
+    function paintRow(rowIdx, srcIdx){                           // paint the spans of crossing row srcIdx onto raster row of rowIdx
+      var a = cr.start[srcIdx], b = cr.start[srcIdx + 1], px = 0;
+      for (var q = a; q + 1 < b; q += 2) px += span(cr.r0 + rowIdx, cr.x[q], cr.x[q+1]);
+      return px;
+    }
+    for (r = 0; r < nrow; r++){
+      var a0 = cr.start[r], b0 = cr.start[r + 1];
+      if (a0 === b0 || odd[r]) continue;
+      sortRow(cr.x, a0, b0);
+      st.painted += paintRow(r, r);
+    }
+    for (r = 0; r < nrow; r++){                                  // repair: an odd row takes the spans of the nearest valid row (<= maxOddRun rows away)
+      if (!odd[r]) continue;
+      var src = -1;
+      for (i = 1; i <= opt.maxOddRun && src < 0; i++){
+        if (r - i >= 0 && !odd[r - i] && cr.start[r - i + 1] > cr.start[r - i]) src = r - i;
+        else if (r + i < nrow && !odd[r + i] && cr.start[r + i + 1] > cr.start[r + i]) src = r + i;
+      }
+      if (src >= 0){ st.painted += paintRow(r, src); st.repaired++; }
+    }
+    return st;
+  }
+
+  /* ---- 6. build everything for one plane ----
+     items: [{key, name, cat, rgb:[r,g,b] 0..1, alpha, geom:function()->{pos,idx,bmin,bmax}}] (visible structures only)
+     plane: {n:[unit normal], d: offset (n.p = d)}
+     opt: {gap:1.0, minPx:0.4, maxDim:2048, px:override, maxOddFrac:0.12, maxOddRun:30, outline:true} */
+  function build(items, plane, opt){
+    opt = opt || {};
+    var o = {gap:opt.gap == null ? 1.0 : opt.gap, minPx:opt.minPx || 0.4, maxDim:opt.maxDim || 2048, px:opt.px || 0,
+             maxOddFrac:opt.maxOddFrac == null ? 0.12 : opt.maxOddFrac, maxOddRun:opt.maxOddRun || 30, outline:opt.outline !== false};
+    var t0 = Date.now(), n = unit(plane.n), d = plane.d, UV = basis(n), U = UV[0], V = UV[1];
+    var cut = [], k;
+    items.forEach(function(it, ii){
+      if (!(it.alpha > 0.02)) return;
+      var gm = it.geom(); if (!gm || !boxCrosses(gm.bmin, gm.bmax, n, d)) return;
+      var S = slice(gm.pos, gm.idx, n, d, U, V);
+      if (!S) return;
+      var dup = dedupe(S), cg = closeGaps(S, o.gap), np = S.pu.length, u0 = 1e30, u1 = -1e30, v0 = 1e30, v1 = -1e30;
+      for (var i = 0; i < np; i++){ var u = S.pu[i], v = S.pv[i]; if (u < u0) u0 = u; if (u > u1) u1 = u; if (v < v0) v0 = v; if (v > v1) v1 = v; }
+      cut.push({it:it, ii:ii, S:S, dup:dup, cg:cg, box:[u0, v0, u1, v1], rank:rankOf(it.cat), area:(u1 - u0) * (v1 - v0)});
+    });
+    var res = {n:n, d:d, U:U, V:V, O:[n[0]*d, n[1]*d, n[2]*d], w:0, h:0, px:0, u0:0, v0:0, ids:null, items:[], lines:null, stats:null, ms:0};
+    var stats = {items_total:items.length, structures_cut:cut.length, filled:0, outline_only:0, thin:0, rows:0, odd_rows:0, odd_rows_in_filled:0, odd_rows_in_outline_only:0, rows_in_filled:0, filled_with_repair:0, repaired_rows:0,
+                 open_ends_before:0, open_ends_after:0, joined:0, duplicate_segments:0, segments:0, by_cat:{}, outline_only_names:[]};
+    if (!cut.length){ res.stats = stats; res.ms = Date.now() - t0; return res; }
+    var U0 = 1e30, U1 = -1e30, V0 = 1e30, V1 = -1e30;
+    cut.forEach(function(c){ U0 = Math.min(U0, c.box[0]); V0 = Math.min(V0, c.box[1]); U1 = Math.max(U1, c.box[2]); V1 = Math.max(V1, c.box[3]); });
+    var ext = Math.max(U1 - U0, V1 - V0, 1), px = o.px || Math.max(o.minPx, ext / o.maxDim);
+    var pad = 2 * px;
+    res.px = px; res.u0 = U0 - pad; res.v0 = V0 - pad;
+    res.w = Math.max(2, Math.ceil((U1 - U0 + 2 * pad) / px)); res.h = Math.max(2, Math.ceil((V1 - V0 + 2 * pad) / px));
+    var ids = res.ids = new Int32Array(res.w * res.h), g = {px:px, u0:res.u0, v0:res.v0, w:res.w, h:res.h};
+    cut.sort(function(a, b){ return a.rank - b.rank || b.area - a.area; });          // painter order: later paints over earlier
+    cut.forEach(function(c, order){
+      var code = order + 1, it = c.it, fs = fillItem(c.S, g, ids, code, o);
+      c.order = order; c.stat = fs;
+      var status = fs.failed ? "outline" : (fs.painted ? "filled" : "thin");
+      var bc = stats.by_cat[it.cat] || (stats.by_cat[it.cat] = {cut:0, filled:0, outline_only:0, thin:0, odd_rows:0, rows:0});
+      bc.cut++; bc[status === "filled" ? "filled" : status === "outline" ? "outline_only" : "thin"]++; bc.odd_rows += fs.odd; bc.rows += fs.rows;
+      stats[status === "filled" ? "filled" : status === "outline" ? "outline_only" : "thin"]++;
+      if (status === "outline" && stats.outline_only_names.length < 40) stats.outline_only_names.push(it.key);
+      stats.rows += fs.rows; stats.odd_rows += fs.odd; stats.repaired_rows += fs.repaired;
+      if (status === "outline") stats.odd_rows_in_outline_only += fs.odd;
+      else { stats.odd_rows_in_filled += fs.odd; stats.rows_in_filled += fs.rows; if (fs.repaired) stats.filled_with_repair++; }
+      stats.open_ends_before += c.cg.before; stats.open_ends_after += c.cg.after; stats.joined += c.cg.joined; stats.duplicate_segments += c.dup;
+      stats.segments += c.S.sa.length;
+      res.items.push({code:code, key:it.key, name:it.name, cat:it.cat, ii:c.ii, status:status, odd:fs.odd, rows:fs.rows, repaired:fs.repaired,
+                      open_before:c.cg.before, open_after:c.cg.after});
+      c.status = status;
+    });
+    stats.odd_row_fraction = stats.rows ? +(stats.odd_rows / stats.rows).toFixed(5) : 0;
+    res.stats = stats; res._cut = cut; res._o = o;
+    outlines(res, items);
+    res.ms = Date.now() - t0;
+    return res;
+  }
+
+  /* ---- 7. vector outline: the contour segments of every drawn structure in model coordinates (x6 floats per segment), hidden when another
+     structure painted later covers the segment's midpoint ---- */
+  function outlines(res, items){
+    var cut = res._cut, n = 0, i;
+    cut.forEach(function(c){ n += c.S.sa.length; });
+    var pos = new Float32Array(n * 6), owner = new Int32Array(n), m = 0, U = res.U, V = res.V, O = res.O, w = res.w, h = res.h, inv = 1 / res.px;
+    cut.forEach(function(c){
+      var S = c.S, code = c.order + 1;
+      for (var k = 0; k < S.sa.length; k++){
+        var a = S.sa[k], b = S.sb[k], ua = S.pu[a], va = S.pv[a], ub = S.pu[b], vb = S.pv[b];
+        var cx = Math.floor(((ua + ub) / 2 - res.u0) * inv), cy = Math.floor(((va + vb) / 2 - res.v0) * inv);
+        if (cx >= 0 && cy >= 0 && cx < w && cy < h){ var oc = res.ids[cy * w + cx]; if (oc > code) continue; }
+        pos[6*m] = O[0] + U[0]*ua + V[0]*va; pos[6*m+1] = O[1] + U[1]*ua + V[1]*va; pos[6*m+2] = O[2] + U[2]*ua + V[2]*va;
+        pos[6*m+3] = O[0] + U[0]*ub + V[0]*vb; pos[6*m+4] = O[1] + U[1]*ub + V[1]*vb; pos[6*m+5] = O[2] + U[2]*ub + V[2]*vb;
+        owner[m++] = code;
+      }
+    });
+    res.lines = {pos:pos.subarray(0, m * 6), owner:owner.subarray(0, m), count:m};
+  }
+
+  /* ---- 8. colours: rgba texture and line colours from the structures' CURRENT display colours (a colour-only change needs no new cross-section) ---- */
+  function recolor(res, items){
+    if (!res.w) return res;
+    var pal = new Uint32Array(res.items.length + 1), lc = new Float32Array(res.items.length * 3 + 3), by = items;
+    res.items.forEach(function(r){
+      var it = by[r.ii], a = Math.round(Math.max(0, Math.min(1, it.alpha)) * 255), c = it.rgb;
+      var R = Math.round(Math.max(0, Math.min(1, c[0])) * 255), G = Math.round(Math.max(0, Math.min(1, c[1])) * 255), B = Math.round(Math.max(0, Math.min(1, c[2])) * 255);
+      pal[r.code] = r.status === "filled" ? ((a << 24) | (B << 16) | (G << 8) | R) >>> 0 : 0;
+      lc[3*r.code] = c[0] * 0.45; lc[3*r.code+1] = c[1] * 0.45; lc[3*r.code+2] = c[2] * 0.45;
+    });
+    var n = res.w * res.h;
+    if (!res.rgba || res.rgba.length !== n * 4) res.rgba = new Uint8Array(n * 4);
+    var px32 = new Uint32Array(res.rgba.buffer, res.rgba.byteOffset, n), ids = res.ids;
+    for (var i = 0; i < n; i++) px32[i] = pal[ids[i]];
+    var L = res.lines, col = new Float32Array(L.count * 6);
+    for (var k = 0; k < L.count; k++){
+      var o = L.owner[k];
+      col[6*k] = col[6*k+3] = lc[3*o]; col[6*k+1] = col[6*k+4] = lc[3*o+1]; col[6*k+2] = col[6*k+5] = lc[3*o+2];
+    }
+    L.col = col;
+    return res;
+  }
+
+  /* ---- 9. which structure lies at the plane point p (model coordinates)? null when the pixel is empty / outside the raster ---- */
+  function lookup(res, p){
+    if (!res || !res.w) return null;
+    var u = p[0]*res.U[0] + p[1]*res.U[1] + p[2]*res.U[2], v = p[0]*res.V[0] + p[1]*res.V[1] + p[2]*res.V[2];
+    var x = Math.floor((u - res.u0) / res.px), y = Math.floor((v - res.v0) / res.px);
+    if (x < 0 || y < 0 || x >= res.w || y >= res.h) return null;
+    var c = res.ids[y * res.w + x];
+    return c ? res.items[c - 1] : null;
+  }
+
+  return {RANK:RANK, basis:basis, boxCrosses:boxCrosses, slice:slice, dedupe:dedupe, closeGaps:closeGaps, crossings:crossings,
+          fillItem:fillItem, build:build, recolor:recolor, lookup:lookup, rankOf:rankOf};
+})();
+
+/* The controller. Adaptor E:
+   cut() -> {on, kn, c, th} (the kept part is 0 <= kn.p + c <= th, th = 0: whole rest)   items() -> the VISIBLE structures [{key, name, cat, rgb, alpha, geom}]
+   upload(face, res | null)  face 0 = the cut plane, 1 = the far face of a slice; res = NMSKCapCore.build() output after recolor() (null removes it)
+   show(face, bool) hides / shows an uploaded face   lookAt(dirFromTarget, target, extent)   bounds() -> {min,max}   (optional) pref get/set via localStorage */
+function NMSKCap(E){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var btn = $("cut-fill"), look = $("cut-look"), info = $("cut-capinfo");
+  var st = {on:false, res:[null, null], planeSig:"", itemsSig:"", palSig:"", timer:0, dirty:false, busy:false, builds:0, recolors:0, ms:0, msTotal:0, stats:null, showing:false};
+  var items = [];
+  function pref(v){ try { if (v === undefined) return localStorage.getItem("nmsk-capfill") === "1"; localStorage.setItem("nmsk-capfill", v ? "1" : "0"); } catch (err){} return false; }
+  function r4(v){ return Math.round(v * 1e4) / 1e4; }
+  function planes(){
+    var c = E.cut();
+    if (!c || !c.on) return null;
+    var out = [{n:c.kn.slice(), d:-c.c}];
+    if (c.th > 0) out.push({n:c.kn.slice(), d:c.th - c.c});
+    return out;
+  }
+  function sigs(){
+    var pl = planes(), ps = pl ? pl.map(function(p){ return p.n.map(r4).join(",") + "|" + r4(p.d); }).join(";") : "";
+    var is = "", pal = "";
+    items.forEach(function(it){ is += it.key + (it.alpha > 0.02 ? "" : "~") + ";"; pal += it.rgb.map(function(x){ return Math.round(x * 255); }).join(",") + ":" + Math.round(it.alpha * 100) + ";"; });
+    return {plane:ps, items:is, pal:pal, pl:pl};
+  }
+  function ui(){
+    if (btn){ btn.setAttribute("aria-pressed", String(st.on)); btn.classList.toggle("on", st.on); }
+    if (!info) return;
+    if (!st.on){ info.textContent = ""; return; }
+    var s = st.stats;
+    if (!s){ info.textContent = st.busy ? "Filling the cut face..." : "The plane does not cut any shown structure."; return; }
+    info.textContent = "Cut face: " + s.filled + " filled" + (s.outline_only ? ", " + s.outline_only + " outline only (open meshes)" : "") +
+      (s.thin ? ", " + s.thin + " too thin to fill" : "") + " - " + (st.ms / 1000).toFixed(2) + " s";
+  }
+  function clear(){
+    for (var f = 0; f < 2; f++){ if (st.res[f]) E.upload(f, null); st.res[f] = null; }
+    st.stats = null; st.planeSig = st.itemsSig = st.palSig = ""; st.showing = false;
+  }
+  function flush(){
+    st.timer = 0; st.dirty = false;
+    if (!st.on){ clear(); ui(); return; }
+    items = E.items();
+    var s = sigs();
+    if (!s.pl){ clear(); ui(); return; }
+    var same = s.plane === st.planeSig && s.items === st.itemsSig;
+    if (same && s.pal === st.palSig){ for (var f0 = 0; f0 < 2; f0++) if (st.res[f0]) E.show(f0, true); st.showing = true; ui(); return; }
+    var t0 = Date.now();
+    if (same){                                             // only colours / opacities changed: no new cross-section needed
+      for (var f1 = 0; f1 < 2; f1++) if (st.res[f1]){ NMSKCapCore.recolor(st.res[f1], items); E.upload(f1, st.res[f1]); E.show(f1, true); }
+      st.palSig = s.pal; st.recolors++; ui(); return;
+    }
+    st.busy = true; ui();
+    var stats = null, tot = {filled:0, outline_only:0, thin:0, structures_cut:0};
+    for (var f = 0; f < 2; f++){
+      if (!s.pl[f]){ if (st.res[f]){ E.upload(f, null); st.res[f] = null; } continue; }
+      var res = NMSKCapCore.build(items, s.pl[f], {gap:1.0});
+      NMSKCapCore.recolor(res, items);
+      st.res[f] = res; E.upload(f, res); E.show(f, true);
+      if (f === 0) stats = res.stats;
+    }
+    st.stats = stats; st.planeSig = s.plane; st.itemsSig = s.items; st.palSig = s.pal; st.builds++;
+    st.ms = Date.now() - t0; st.msTotal += st.ms; st.busy = false; st.showing = true; ui();
+  }
+  function schedule(delay){
+    if (st.timer){ st.dirty = true; return; }
+    st.timer = setTimeout(flush, delay);
+  }
+  var api = {
+    /* the engine calls these: a plane move / cut on-off, any visibility or colour change */
+    planeChanged: function(){
+      if (!st.on) return;
+      var c = E.cut(), pl = planes();
+      if (!pl){ clear(); ui(); return; }
+      var s = sigs();                                      // hide the old face at once: it no longer lies in the plane
+      if (s.plane !== st.planeSig){ for (var f = 0; f < 2; f++) if (st.res[f]) E.show(f, false); st.showing = false; }
+      schedule(90);
+    },
+    itemsChanged: function(){ if (st.on) schedule(40); },
+    set: function(on){
+      st.on = !!on; pref(st.on);
+      if (!on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clear(); }
+      else schedule(0);
+      ui();
+    },
+    isOn: function(){ return st.on; },
+    result: function(f){ return st.res[f || 0]; },
+    /* ray (model coordinates) against the uploaded faces: the nearest filled texel */
+    hit: function(o, d){
+      var best = null;
+      for (var f = 0; f < 2; f++){
+        var res = st.res[f]; if (!res || !st.showing) continue;
+        var nd = res.n[0]*d[0] + res.n[1]*d[1] + res.n[2]*d[2]; if (Math.abs(nd) < 1e-9) continue;
+        var t = (res.d - (res.n[0]*o[0] + res.n[1]*o[1] + res.n[2]*o[2])) / nd; if (!(t > 0)) continue;
+        var p = [o[0] + d[0]*t, o[1] + d[1]*t, o[2] + d[2]*t], r = NMSKCapCore.lookup(res, p);
+        if (r && (!best || t < best.t)) best = {t:t, point:p, item:r, face:f};
+      }
+      return best;
+    },
+    lookAtFace: function(){
+      var c = E.cut(); if (!c || !c.on) return false;
+      var bnd = E.bounds(), ctr = [(bnd.min[0] + bnd.max[0]) / 2, (bnd.min[1] + bnd.max[1]) / 2, (bnd.min[2] + bnd.max[2]) / 2];
+      var kn = c.kn, sdist = kn[0]*ctr[0] + kn[1]*ctr[1] + kn[2]*ctr[2] + c.c, tgt = [ctr[0] - sdist*kn[0], ctr[1] - sdist*kn[1], ctr[2] - sdist*kn[2]], ext = 0;
+      var r = st.res[0];
+      if (r && r.w){                                       // centre of what was actually cut
+        var uc = r.u0 + r.w * r.px / 2, vc = r.v0 + r.h * r.px / 2;
+        tgt = [r.O[0] + r.U[0]*uc + r.V[0]*vc, r.O[1] + r.U[1]*uc + r.V[1]*vc, r.O[2] + r.U[2]*uc + r.V[2]*vc];
+        ext = Math.max(r.w, r.h) * r.px;
+      }
+      E.lookAt([-kn[0], -kn[1], -kn[2]], tgt, ext);        // the eye lies on the REMOVED side, looking along the kept normal
+      return true;
+    },
+    state: function(){
+      return {on:st.on, showing:st.showing, builds:st.builds, recolors:st.recolors, ms:st.ms, msTotal:st.msTotal, busy:st.busy, stats:st.stats,
+              faces:st.res.map(function(r){ return r ? {w:r.w, h:r.h, px:r.px, items:r.items.length, lines:r.lines.count, ms:r.ms} : null; })};
+    },
+    flushNow: function(){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } flush(); }
+  };
+  if (btn) btn.addEventListener("click", function(){ api.set(!st.on); });
+  if (look) look.addEventListener("click", function(){ api.lookAtFace(); });
+  if (pref()) api.preferred = true;
+  return api;
+}
+/* CUT-CAP js end */
 var cut = {on:false};
 var cutLocal = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0), cutWorld = new THREE.Plane(), cutWorld2 = new THREE.Plane();
 var cutPlanes = [cutWorld, cutWorld2];      // the 2nd plane is the far face of the slice (Q218); with no slice it lies 1e7 mm away
@@ -1668,6 +2505,7 @@ cutCtl = NMSKCutMode({
     cutWorld2.constant = (th > 0 ? th : 1e7) - c - cutWorld2.normal.dot(root.position);
     meshes.concat([originMarker, insertionMarker]).forEach(function(m){ m.material.clippingPlanes = on ? cutPlanes : null; });
     changeHooks.forEach(function(f){ try { f(); } catch (err){ console.error(err); } });
+    if (capCtl) capCtl.planeChanged();     // Q227
     draw();
   },
   project:function(p){
@@ -1676,7 +2514,7 @@ cutCtl = NMSKCutMode({
     return [v.x, v.y, v.z, v.w];
   },
   canvasRect:function(){ return renderer.domElement.getBoundingClientRect(); },
-  pickPoint:function(e){ var h = pickHit(e, null); return h ? [h.point.x - root.position.x, h.point.y - root.position.y, h.point.z - root.position.z] : null; },
+  pickPoint:function(e){ var h = pickHit(e, null), ch = capHitAt(e, h); if (ch) return ch.point; return h ? [h.point.x - root.position.x, h.point.y - root.position.y, h.point.z - root.position.z] : null; },
   isPhone:function(){ return app.classList.contains("phone"); }
 });
 
@@ -1851,6 +2689,7 @@ function applyLayout(){
   var pref = layoutPref();
   var phone = pref === "phone" || (pref === "auto" && window.innerWidth < 760);
   app.classList.toggle("phone", phone);
+  if (selCtl) selCtl.layout();            // Q227
   document.getElementById("t-layout").textContent = phone ? "Desktop layout" : "Phone layout";
   if (!phone) openSheet(null);
   resize();
@@ -1867,6 +2706,95 @@ if (window.NMSKClinical && typeof window.NMSKClinical.attach === "function"){
   try { addon = window.NMSKClinical.attach(anatomyApi()) || null; }
   catch (err){ addon = null; console.error("optional add-on failed to start; anatomy viewer unaffected:", err); }
 }
+/* ---------- Q227: marked structures + saved selections, and the filled cut face ---------- */
+/* Shared controllers viewer/selection/ and viewer/cut_cap/ (scripts/sync_q227.py). Engine side: the selection adds a veto in apply() ("hide" / "ghost") and an
+   amber tint for marked structures; the cut face is a textured quad + line segments under `root`, lying in the cut plane (and one more at the far face of a
+   slice). The meshes are cut with the plane on the CPU (NMSKCapCore), the quad only shows the result. */
+var capFaces = [null, null];
+function capDispose(f){
+  var o = capFaces[f]; if (!o) return;
+  root.remove(o.quad); root.remove(o.lines);
+  o.quad.geometry.dispose(); o.quad.material.map.dispose(); o.quad.material.dispose(); o.lines.geometry.dispose(); o.lines.material.dispose();
+  capFaces[f] = null;
+}
+function capUpload(f, res){
+  var old = capFaces[f];
+  if (old && res && old.res === res){            // only the colours changed: same raster, new texels
+    old.quad.material.map.needsUpdate = true;
+    old.lines.geometry.setAttribute("color", new THREE.BufferAttribute(res.lines.col, 3));
+    draw(); return;
+  }
+  capDispose(f);
+  if (!res || !res.w){ draw(); return; }
+  var tex = new THREE.DataTexture(res.rgba, res.w, res.h, THREE.RGBAFormat, THREE.UnsignedByteType);
+  tex.magFilter = THREE.NearestFilter; tex.minFilter = THREE.NearestFilter; tex.generateMipmaps = false; tex.needsUpdate = true;
+  var u0 = res.u0, v0 = res.v0, u1 = u0 + res.w * res.px, v1 = v0 + res.h * res.px, P = [];
+  [[u0, v0], [u1, v0], [u1, v1], [u0, v1]].forEach(function(q){ for (var k = 0; k < 3; k++) P.push(res.O[k] + res.U[k] * q[0] + res.V[k] * q[1]); });
+  var g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(P), 3));
+  g.setAttribute("uv", new THREE.BufferAttribute(new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]), 2));
+  g.setIndex([0, 1, 2, 0, 2, 3]);
+  var quad = new THREE.Mesh(g, new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide, depthWrite:false, polygonOffset:true, polygonOffsetFactor:2, polygonOffsetUnits:2}));
+  quad.renderOrder = 900; quad.frustumCulled = false;
+  var lg = new THREE.BufferGeometry();
+  lg.setAttribute("position", new THREE.BufferAttribute(res.lines.pos, 3));
+  lg.setAttribute("color", new THREE.BufferAttribute(res.lines.col, 3));
+  var lines = new THREE.LineSegments(lg, new THREE.LineBasicMaterial({vertexColors:true}));
+  lines.renderOrder = 901; lines.frustumCulled = false;
+  root.add(quad, lines);
+  capFaces[f] = {quad:quad, lines:lines, res:res};
+  draw();
+}
+selCtl = NMSKSelect({
+  modelId:function(){ return "own:" + (SUBJECTS.every(function(s){ return s.startsWith("ct_vhf") || s.startsWith("xfer_"); }) ? "vhf" : "vhm"); },
+  items:function(){ return order.map(function(g){ return {id:g.id, name:(g.rec && g.rec.name) || g.id}; }); },
+  refresh:function(){ apply(); },
+  selected:function(){ return selected; },
+  select:function(id){ select(id); },
+  reveal:function(ids){                          // an explicit choice beats a switched-off layer / source class / default-hidden flag / isolate
+    iso = false; document.getElementById("t-iso").setAttribute("aria-pressed", "false");
+    ids.forEach(function(id){
+      var g = groups[id]; if (!g) return;
+      if (g.src && srcOn[g.src] === false){ srcOn[g.src] = true; var sb = document.querySelector('#src-list [data-src="' + g.src + '"]'); if (sb) sb.setAttribute("aria-pressed", "true"); }
+      if (!on[g.cat]){ on[g.cat] = true; var cb = sysBox.querySelector('[data-cat="' + g.cat + '"]'); if (cb) cb.setAttribute("aria-pressed", "true"); }
+      if (g.hidden_default) hdShown[id] = true;
+    });
+  },
+  listIds:function(){ return qEl.value.trim() ? listRowIds.slice() : []; },
+  pickId:function(e){ var h = pick(e); return h ? h.userData.id : null; },
+  clearHover:function(){ document.getElementById("hover").hidden = true; },
+  resetEngine:function(){ iso = false; document.getElementById("t-iso").setAttribute("aria-pressed", "false"); },
+  canvas:renderer.domElement, toolbar:document.getElementById("tools"), toolClass:"tool",
+  isPhone:function(){ return !!app && app.classList.contains("phone"); }
+});
+capCtl = NMSKCap({
+  cut:function(){ return cut.on ? {on:true, kn:[cutLocal.normal.x, cutLocal.normal.y, cutLocal.normal.z], c:cutLocal.constant, th:cutCtl.state().th} : {on:false}; },
+  items:function(){
+    var out = [];
+    meshes.forEach(function(m){
+      if (!m.visible) return;
+      var s = m.userData, c = m.material.color;
+      out.push({key:s.id, name:(s.rec && s.rec.name) || s.id, cat:s.cat, rgb:[c.r, c.g, c.b], alpha:m.material.opacity,
+                geom:function(){ var gg = m.geometry; return {pos:gg.attributes.position.array, idx:gg.index.array, bmin:gg.boundingBox.min.toArray(), bmax:gg.boundingBox.max.toArray()}; }});
+    });
+    return out;
+  },
+  upload:capUpload,
+  show:function(f, v){ var o = capFaces[f]; if (o){ o.quad.visible = o.lines.visible = v; draw(); } },
+  bounds:function(){ return {min:[minv.x, minv.y, minv.z], max:[maxv.x, maxv.y, maxv.z]}; },
+  lookAt:function(dir, tgt, ext){                 // dir = unit vector from the target toward the eye (the removed side); ext = size of the cut face in mm
+    target.set(tgt[0], tgt[1], tgt[2]).add(root.position);
+    az = Math.abs(dir[1]) > 0.98 ? Math.PI : Math.atan2(dir[0], dir[2]);       // looking straight down / up: anterior at the top of the screen
+    el = Math.max(-1.55, Math.min(1.55, Math.asin(Math.max(-1, Math.min(1, dir[1])))));
+    if (ext > 0){ var tv = Math.tan(camera.fov * Math.PI / 360), tw = tv * camera.aspect; dist = Math.max(radius * 0.16, Math.min(radius * 7, ext * 0.5 / Math.min(tv, tw) * 1.15)); }
+    place(); draw();
+  }
+});
+window.__selState = function(){ return selCtl.state(); };
+window.__capState = function(){ return capCtl.state(); };
+window.__capResult = function(f){ return capCtl.result(f); };
+apply();                                         // the controllers may have restored a remembered selection
+if (capCtl.preferred) capCtl.set(true);
 var layoutReady = false;
 renderList();
 applyLayout();
