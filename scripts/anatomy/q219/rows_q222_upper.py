@@ -144,3 +144,21 @@ P("iliopsoas", "psoas_attachment_transverse_process_anteromedial", "origin_part"
   ev="cadaver, 18 embalmed", anchor=dict(bone="lumbar_vertebrae", landmark="anteromedial surface of the transverse process"))
 P("middle_layer_tlf", "transverse_process_tip_thickening", "ligament_component", "Thickened attachment to the tips of the lumbar transverse processes", "The middle layer is thicker at the level of the transverse processes (0.62 mm) than between them (0.40 mm) and attaches to the tips; in 3 cadavers tension on it fractured a transverse process.", ["barker2007"], cls="fascia",
   ev="cadaver, 18 embalmed", related=["transversus_abdominis", "quadratus_lumborum"])
+
+# ================================================================== batch 2 (forearm variants, ECU subsheath, EPL tendon)
+P("palmaris_longus", "muscle_belly_variable_presence", "head_belly", "Muscle belly (absent in 37-60 % depending on the series)", "Clinical (Schaeffer / Thompson) series: absent in 37.2 % of 500 forearms (Pakistani sample) and in 59.75 % of 82 individuals of 20 families; the sources do not agree and use clinical tests, not dissection.", ["javaid2023", "vucinic2025"],
+  ev="clinical tests, n=500 forearms; n=82 individuals", var="agenesis 37.2 % vs 59.75 %", note="Prevalence of absence is population- and method-dependent (ethnicity differences reported); not a count of parts.")
+S("brachioradialis.accessory_forms", "brachioradialis", "head_belly", "Brachioradialis: accessory forms", [
+    (2, "triantafyllou2024abr", "typical belly + accessory brachioradialis (brachioradialis brevis) in 2.4 % of 83 limbs"),
+    (2, "triantafyllou2024brl", "typical belly + 'brachioradialis longus' accessory form (single case)")])
+P("brachioradialis", "accessory_brachioradialis_brevis", "head_belly", "Accessory brachioradialis (to the proximal third of the radius, 2.4 %)", "Origin alongside the typical BR, insertion on the anterior surface of the proximal third of the radius (radial tuberosity in earlier reports), radial nerve supply coursing deep.", ["triantafyllou2024abr"],
+  ev="dissection of 83 limbs", var="2.4 %", setid="brachioradialis.accessory_forms", anchor=dict(bone="radius", landmark="anterior surface, proximal third"))
+P("brachioradialis", "accessory_brachioradialis_longus_case", "head_belly", "Variant 'brachioradialis longus' (single case)", "From the lateral humerus between deltoid and triceps lateral head, joined by a second head from brachialis, inserting on the radial styloid process.", ["triantafyllou2024brl"],
+  ev="case report", var="case report", setid="brachioradialis.accessory_forms", anchor=dict(bone="radius", landmark="styloid process"))
+P("extensor_carpi_ulnaris", "subsheath_distal_ulna", "ligament_component", "ECU subsheath at the distal ulna (about 9 mm wide, 10 mm long)", "Distinct subsheath 8.9 mm wide proximally and 9.0 mm distally; its distal ulnar insertion lies 0.5 mm proximal to the styloid tip and stretches 10.2 mm proximally; roughly 1 cm square; groove depth up to 2.5 mm; sectioning increases tendon travel from 3.3 to 5.4 mm.", ["shoap2022"],
+  ev="fresh-frozen upper extremities n=12", anchor=dict(bone="ulna", landmark="ulnar styloid (distal ulna groove)"), related=["tfcc_disc", "extensor_retinaculum"])
+P("extensor_pollicis_longus_tendon", "normal_third_compartment_ulnar_to_lister", "fascial_passage", "Normal course: third compartment, ulnar to Lister's tubercle", "The normal EPL tendon occupies the third dorsal compartment ulnar to Lister's tubercle.", ["munn2023"], cls="tendon",
+  ev="case report (statement of the normal course)", passes=dict(kind="tendon", traversing=["extensor_pollicis_longus"], through="third dorsal compartment of the extensor retinaculum"), related=["extensor_retinaculum"],
+  note="Only a statement within a case report; no separate anatomical series retrieved.")
+P("extensor_pollicis_longus_tendon", "accessory_tendon_fourth_compartment", "insertion_point", "Variant: accessory EPL tendon (and accessory EIP tendon) in the fourth compartment (single case)", "Two anomalous accessory tendons, an accessory EPL and an accessory extensor indicis proprius, were present in the fourth compartment of a 57-year-old patient.", ["munn2023"], cls="tendon",
+  ev="case report", var="case report")
