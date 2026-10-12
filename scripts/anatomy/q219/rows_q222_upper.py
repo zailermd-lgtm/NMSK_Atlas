@@ -20,7 +20,7 @@ S("latissimus_dorsi.humeral_tendon", "latissimus_dorsi", "insertion_point", "Lat
     (2, "kwon2025ld", "partially combined, 34.4 %"), (3, "kwon2025ld", "fully separated, 25.0 %")],
   note="Three insertion patterns (combined / partially combined / separated), not three insertions.")
 P("latissimus_dorsi", "insertion_humerus_tendon_combined", "insertion_point", "Humeral insertion: tendon fully combined with teres major", "Latissimus and teres major tendons fully combined at the humerus.", ["kwon2025ld"],
-  ev="dissection, 32 tendons in 16 Korean cadavers", var="40.6 %", anchor=dict(bone="humerus", landmark="intertubercular groove region (landmark wording not in the abstract)"), setid="latissimus_dorsi.humeral_tendon")
+  ev="dissection, 32 tendons in 16 Korean cadavers", var="40.6 %", anchor=dict(bone="humerus"), setid="latissimus_dorsi.humeral_tendon")
 P("latissimus_dorsi", "insertion_humerus_tendon_partial", "insertion_point", "Humeral insertion: tendon partially combined with teres major", "Partially combined tendons.", ["kwon2025ld"],
   ev="dissection, 32 tendons", var="34.4 %", anchor=dict(bone="humerus"), setid="latissimus_dorsi.humeral_tendon")
 P("latissimus_dorsi", "insertion_humerus_tendon_separate", "insertion_point", "Humeral insertion: tendon fully separate from teres major", "Separate tendons; mean tendon width / length / thickness 48.4 / 56.2 / 6.2 mm (all 32 tendons).", ["kwon2025ld"],

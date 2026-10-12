@@ -186,6 +186,14 @@ def main():
         "entity_classes": cov_ent, "bodies": cov_body,
         "structures_by_part_count": {k: len(v) for k, v in sorted(have_parts.items(), key=lambda kv: -len(kv[1]))},
         "unverified_rows": [r["id"] for r in out_rows if r["verification"] == "unverified"],
+        "q222": {
+            "note": "Q222 extension: rows with added_in == 'Q222' (all journal-verified against the PubMed record's abstract/title on 2026-10-12).",
+            "parts_added": sum(1 for r in out_rows if r["added_in"] == "Q222"),
+            "structures_before": len({r["structure_id"] for r in out_rows if r["added_in"] == "Q219"}),
+            "structures_after": len(have_parts),
+            "structures_added": sorted({r["structure_id"] for r in out_rows} - {r["structure_id"] for r in out_rows if r["added_in"] == "Q219"}),
+            "parts_added_to_existing_structures": sorted({r["structure_id"] for r in out_rows if r["added_in"] == "Q222"} & {r["structure_id"] for r in out_rows if r["added_in"] == "Q219"}),
+        },
     }
     COV.write_text(json.dumps(cov, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     for k, v in cov_ent.items():

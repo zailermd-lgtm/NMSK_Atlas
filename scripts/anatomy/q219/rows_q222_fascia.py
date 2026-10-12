@@ -4,14 +4,14 @@ from rows_common import P, S
 # ------------------------------------------------------------------ palmar aponeurosis
 S("palmar_fascial_complex.components", "palmar_aponeurosis", "ligament_component", "Palmar fascial complex: components", [
     (5, "rayan1999", "radial aponeurosis, ulnar aponeurosis, central (palmar) aponeurosis, palmo-digital fascia, digital fascia")])
-for slug, nm, ds in [("radial_aponeurosis", "Radial aponeurosis", "First of the five components of the palmar fascial complex."),
-                     ("ulnar_aponeurosis", "Ulnar aponeurosis", "Second component (ulnar side of the palm)."),
-                     ("central_aponeurosis", "Central (palmar) aponeurosis", "The classical palmar aponeurosis; thickened longitudinal bands overlie the flexor tendons and are linked by the transverse palmar fascia."),
-                     ("palmo_digital_fascia", "Palmo-digital fascia", "Transition between the palm and the fingers (the natatory ligaments belong here in the pathology literature)."),
-                     ("digital_fascia", "Digital fascia", "Fifth component; Grayson's ligaments and the bundles that pass deep to the neurovascular bundle at the flexor sheath of the middle phalanx are described in the Dupuytren literature.")]:
-    P("palmar_aponeurosis", slug, "ligament_component", nm, ds, ["rayan1999"] + (["watson1991"] if slug in ("central_aponeurosis", "palmo_digital_fascia", "digital_fascia") else []), cls="fascia",
+for slug, nm, ds in [("radial_aponeurosis", "Radial aponeurosis", "Named component of the palmar fascial complex; the abstract lists it without describing its extent."),
+                     ("ulnar_aponeurosis", "Ulnar aponeurosis", "Named component of the palmar fascial complex; the abstract lists it without describing its extent."),
+                     ("central_aponeurosis", "Central (palmar) aponeurosis", "Named component (Rayan 1999). Thickened bands overlying the flexor tendons in the palm, linked by the transverse palmar fascia, are described in the Dupuytren pathologic anatomy (Watson 1991)."),
+                     ("palmo_digital_fascia", "Palmo-digital fascia", "Named component of the palmar fascial complex; the abstract lists it without describing its extent."),
+                     ("digital_fascia", "Digital fascia", "Named component of the palmar fascial complex; the abstract lists it without describing its extent.")]:
+    P("palmar_aponeurosis", slug, "ligament_component", nm, ds, ["rayan1999"] + (["watson1991"] if slug == "central_aponeurosis" else []), cls="fascia",
       ev="gross + microdissection (Rayan 1999); Dupuytren pathologic anatomy (Watson 1991)", setid="palmar_fascial_complex.components",
-      note="Component list from Rayan 1999; 'what sub-structure belongs to which component' is an interpretation of the two abstracts and is not stated by either.")
+      note="Component list from Rayan 1999 only; which sub-structure (natatory ligaments, Grayson's ligaments, spiral bands) belongs to which component is not stated in the retrieved abstracts and is not assigned here.")
 P("palmar_aponeurosis", "pulley_transverse_fibres_vertical_septa", "ligament_component", "Palmar aponeurosis pulley: transverse fibres + vertical septa to the transverse metacarpal ligament", "Transverse fibres attached by vertical septa to the underlying transverse metacarpal ligament form a pulley over the flexor tendons; constant and substantial, overlying the synovial sheath.", ["doyle1990"], cls="fascia",
   ev="anatomic study (J Hand Surg 1990)", related=["flexor_tendon_pulley_system_hand"])
 P("palmar_aponeurosis", "vertical_septa_tendon_neurovascular_passages", "fascial_passage", "Vertical septa between the flexor tendons and the neurovascular tunnels", "Vertical septa fix the longitudinal bands to the deep fascia and the transverse metacarpal ligaments and pass deep between the tendon and the neurovascular tunnel.", ["watson1991"], cls="fascia",
