@@ -43,6 +43,7 @@ time.sleep(1)
 URL = f"http://127.0.0.1:{port}/{rel}"
 SEARCH = "#q" if kind == "own" else "#search"
 XRAY = "#t-xray" if kind == "own" else "#btn-xray"
+XRAY_OFF = "#t-xray" if kind == "own" else "#btn-solid"      # own: the same toggle; Z: the x-ray preset is not a toggle, "all" (solid) puts it back
 
 
 def patch(route):
@@ -290,6 +291,7 @@ def run_viewport(b, name, vp, mobile, touch, R):
 
 
 def compose_checks(pg, kind, marks, ok, js, close_list, XRAY, R, name):
+    XRAY_OFF = globals()["XRAY_OFF"]
     """only + a layer off / x-ray / source colour / parts markers"""
     layer_btn = "#systems [data-cat=\"muscle\"]" if kind == "own" else ".layer-row:nth-child(5) .layer"
     cat_of = js("(function(){var m=%s;return m})()" % ("__T.groups['%s'].cat" % marks[0] if kind == "own" else "__T.OBJ.filter(function(o){return o.id==='%s'})[0].layer" % marks[0]))
@@ -307,7 +309,7 @@ def compose_checks(pg, kind, marks, ok, js, close_list, XRAY, R, name):
     js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(500)
     ok["xray_with_selection_works"] = vis_ids(pg) == sorted(set(marks))
     pg.screenshot(path=f"{outp}_{name}_2_only_xray.png")
-    js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(300)
+    js("document.querySelector(%r).click()" % XRAY_OFF); pg.wait_for_timeout(300)
     if kind == "own" and js("!!document.querySelector('.src-colour')"):
         js("document.querySelector('.src-colour').click()"); pg.wait_for_timeout(400)
         ok["source_colour_with_selection_works"] = vis_ids(pg) == sorted(set(marks)); js("document.querySelector('.src-colour').click()")
@@ -381,6 +383,7 @@ def cap_checks(pg, ctx, name, touch, tap, js, R, light=False):
                 # prefer a bone / muscle texel with an opaque colour
                 pick = [c for c in pick if c["rgba"][3] == 255] or pick
                 c0 = pick[len(pick) // 2]
+                js("new Promise(function(r){requestAnimationFrame(function(){requestAnimationFrame(function(){requestAnimationFrame(r)})})})"); pg.wait_for_timeout(1500)   # let the (slow) software renderer catch up with the state
                 im = shot(pg); px = im[int(round(c0["sy"])), int(round(c0["sx"]))]
                 near = [im[int(round(c0["sy"])) + dy, int(round(c0["sx"])) + dx] for dx in (-1, 0, 1) for dy in (-1, 0, 1)]
                 dev = min(float(np.abs(n - np.array(c0["rgba"][:3])).max()) for n in near)
@@ -407,16 +410,21 @@ def cap_checks(pg, ctx, name, touch, tap, js, R, light=False):
                 ok["click_on_cap_shows_its_card"] = bool(card) and card != "Select a structure"
         pg.wait_for_timeout(200)
     # the cap follows a layer toggle (fewer structures) and X-ray (colour/alpha) without a new section for the latter
-    b0 = js("window.__capState().builds")
+    if kind == "own" and js("document.querySelector(%r).getAttribute('aria-pressed')" % XRAY) == "true":
+        js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(800)
+    elif kind == "zan":
+        js("document.querySelector(%r).click()" % XRAY_OFF); pg.wait_for_timeout(800)
+    pg.wait_for_function("!window.__capState().busy", timeout=60000)
+    cs0 = js("window.__capState()"); b0, r0 = cs0["builds"], cs0["recolors"]
     js("document.querySelector(%r).click()" % XRAY)
     try:
-        pg.wait_for_function("window.__capState().recolors>=1 || window.__capState().builds>%d" % b0, timeout=30000)
+        pg.wait_for_function("window.__capState().recolors>%d || window.__capState().builds>%d" % (r0, b0), timeout=60000)
     except Exception:
         pass
     cs = js("window.__capState()")
-    ok["xray_recolours_the_cap"] = cs["recolors"] >= 1 or cs["builds"] > b0
-    info["xray_cap_state"] = {k: cs[k] for k in ("on", "builds", "recolors", "busy", "showing")}; info["xray_builds_before"] = b0
-    js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(800)
+    ok["xray_changes_the_cap"] = cs["recolors"] > r0 or cs["builds"] > b0
+    info["xray_cap_state"] = {k: cs[k] for k in ("on", "builds", "recolors", "busy", "showing")}; info["xray_builds_before"] = [b0, r0]
+    js("document.querySelector(%r).click()" % XRAY_OFF); pg.wait_for_timeout(800)
     # fill off removes it
     js("document.getElementById('cut-fill').click()"); pg.wait_for_timeout(500)
     cs = js("window.__capState()")

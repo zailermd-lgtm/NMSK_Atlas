@@ -102,8 +102,8 @@ the removed side; choose the removed side with the two side buttons or **flip si
 facing me the side nearer the viewer); move the plane along its normal with the mm slider, the -10/-1/+1/+10 mm
 buttons, arrow keys (Shift or PageUp/PageDown = 10 mm) or the wheel over the slider; **reset cut**, **exit cut**.
 The removed part is clipped for real (every material / fragment, incl. skin and the add-on's halos; the needle
-trajectory itself is not clipped, so it stays visible); picking ignores the removed half. No cap is drawn: the cut
-shows the open surfaces. **Slice thickness** (Q218): how much is kept behind the plane, from the whole rest of the body (slider at
+trajectory itself is not clipped, so it stays visible); picking ignores the removed half. By default no cap is drawn: the cut
+shows the open surfaces (**Fill cross-section**, Q227, below, fills them). **Slice thickness** (Q218): how much is kept behind the plane, from the whole rest of the body (slider at
 its far end, button *all*, the default) down to a slice of 0.5-100 mm (slider, or the 2 / 5 / 10 / 25 mm buttons); the far face of
 the slice is drawn as a dashed outline, rendering, picking and the add-on's halos stay inside the slab, *reset cut* and the add-on's
 *Cut through target* go back to the whole rest. For the add-on `api.cut()` is unchanged (the kept half); the optional
