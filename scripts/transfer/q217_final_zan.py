@@ -105,7 +105,7 @@ def ends(src="zan_clamp.pkl", dst="zan_ends.pkl"):
     pickle.dump(rep, open(CACHE / "zan_ends_rep.pkl", "wb"))
 
 
-def metrics(src="zan_ends.pkl"):
+def metrics(src="zan_final.pkl"):
     B, P = load_pages()
     d = pickle.load(open(CACHE / src, "rb"))
     fm = [i for i in C.side_ids(C.FOREARM) if i in d]
@@ -144,7 +144,7 @@ def badge_forearm(i, a, b, mv, seam, ends):
             f"not filled (volumes are not inflated beyond the Z source). A position and boundary estimate, not a segmentation.")
 
 
-def pack(src="zan_ends.pkl"):
+def pack(src="zan_final.pkl"):
     from scripts.zanatomy import q205_pages as P5
     from scripts.zanatomy import q205_shipdiff as SD
     d = pickle.load(open(CACHE / src, "rb"))
@@ -186,5 +186,22 @@ def pack(src="zan_ends.pkl"):
     print("page", OUT, "replaced", len(replace), "geometry_changed", len(r["geometry_changed"]), "unlisted", r["geometry_changed_but_not_listed"], "added", len(r["added"]), "removed", len(r["removed"]), "card_only", len(r["card_only"]), "unchanged", r["unchanged"])
 
 
+def post(src="zan_ends.pkl", dst="zan_final.pkl"):
+    """clamp (skin / bone) the muscles whose ends were pulled: the pull lands the end zone on the bone surface, the smoothing can leave a few vertices inside it"""
+    B, P = load_pages()
+    d = pickle.load(open(CACHE / src, "rb"))
+    erep = pickle.load(open(CACHE / "zan_ends_rep.pkl", "rb"))
+    todo = {i: d[i] for i in d if erep.get(i, {}).get("pulled")}
+    S = C.zan_left("zan_m")
+    G = C.SkinGuard([s for s in S.values() if s["sys"] == "skin"])
+    bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
+    # keep the attachment: the end zone itself (the 10 % at the pulled end) is held, the rest is cleared out of the bone
+    out = dict(d)
+    cl = clamp_meshes(todo, G, C.BoneVox(bones), rounds=8)
+    for i, (x, f) in cl.items():
+        out[i] = (x, f)
+    pickle.dump(out, open(CACHE / dst, "wb"))
+
+
 if __name__ == "__main__":
-    {"clamp": clamp, "ends": ends, "metrics": metrics, "pack": pack}[sys.argv[1]]()
+    {"clamp": clamp, "ends": ends, "post": post, "metrics": metrics, "pack": pack}[sys.argv[1]]()
