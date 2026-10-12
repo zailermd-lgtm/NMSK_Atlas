@@ -300,7 +300,7 @@ def process(env, B, sid, cand, log=print):
                 which.append(en)
         res["cap_ends"] = dict(ends_to_pull=which, caps=[(c["axis"], c["plane_mm"], c["area_mm2"]) for c in caps])
         if which:
-            v1, f1, inf = X.op_ends(env, sid, which, v, f, log)
+            v1, f1, inf = X.op_ends(env, sid, which, v, f, log, quick=True)
             if v1 is None or inf.get("why"):
                 res["skipped"].append(dict(step="extend", why=(inf or {}).get("why") or (inf or {}).get("skipped"), pulled=(inf or {}).get("pulled"), skipped_ends=(inf or {}).get("skipped")))
             else:

@@ -21,6 +21,7 @@ class Sdf:
     """signed distance (mm; > 0 outside, < 0 inside) of the closed solid of (v, f) on a 0.5 mm grid around the bbox + pad (outside the box: distance to the box)"""
 
     def __init__(self, v, f, pad=14.0, h=H):
+        # h = 0.5 mm: the Q223 / Q217 solid (reporting); h = 1.0 mm: optimisation (8x faster, trilinear values good to ~0.4 mm)
         v = np.asarray(v, float)
         self.g = VoxGrid(v.min(0) - pad, v.max(0) + pad, h)
         occ = D.bone_solid(self.g, v, np.asarray(f, np.int64))
