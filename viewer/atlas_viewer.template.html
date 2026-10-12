@@ -1682,13 +1682,13 @@ var partsPts = (function(){
   g2.fillStyle = "#1b1b1b"; g2.beginPath(); g2.arc(32, 32, 31, 0, 6.2832); g2.fill();
   g2.fillStyle = "#ffffff"; g2.beginPath(); g2.arc(32, 32, 24, 0, 6.2832); g2.fill();
   var tex = new THREE.CanvasTexture(cv), MAXP = 400;
-  return [9, 15].map(function(px){
+  return [12, 18].map(function(px){
     var gg = new THREE.BufferGeometry();
     gg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(MAXP * 3), 3));
     gg.setAttribute("color", new THREE.BufferAttribute(new Float32Array(MAXP * 3), 3));
     gg.setDrawRange(0, 0);
-    var o = new THREE.Points(gg, new THREE.PointsMaterial({size:px, sizeAttenuation:false, vertexColors:true, map:tex, alphaTest:0.5, transparent:false, depthTest:true, depthWrite:false}));
-    o.frustumCulled = false; o.renderOrder = 998; o.visible = false; root.add(o);
+    var o = new THREE.Points(gg, new THREE.PointsMaterial({size:px, sizeAttenuation:false, vertexColors:true, map:tex, alphaTest:0.5, transparent:true, depthTest:true, depthWrite:false}));
+    o.frustumCulled = false; o.renderOrder = 998; o.visible = false; root.add(o);       // transparent + last: drawn after the (translucent) muscles, which do not write depth
     return o;
   });
 })();

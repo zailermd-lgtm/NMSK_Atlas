@@ -163,7 +163,7 @@ def test_controller_card_rows_notes_and_links(sidecars):
     for n in ("<b>3</b>", "<b>5</b>", "<b>6</b>"):          # semimembranosus: 3 / 5 / 6 insertions
         assert n in card
     assert "https://pubmed.ncbi.nlm.nih.gov/" in card and "https://doi.org/" in card
-    assert "pm-ty pm-ty-insertion_point" in card and "pm-unv" in card.replace("pm-unv", "pm-unv")      # type badge; the unverified badge class exists for flagged rows
+    assert 'class="pm-ty pm-ty-insertion_point">insertion<' in card and 'class="pm-ty pm-ty-origin_part">origin<' in card      # type badges
     d = run_node(f, "deltoid_r")
     assert d["card"].count('class="pm-row"') >= 3
     assert re.search(r'pm-ty-head_belly">head<', d["card"])
@@ -233,15 +233,15 @@ def test_sidecar_content_per_page(key):
     # every text-only part says why; nothing placed is also listed as text-only except a one-sided placement
     for pid, why in j["text_only"].items():
         assert why
-    unv = [p for p in j["parts"] if p.get("u")]
-    assert all(p["r"] and (p.get("note") or True) for p in unv)
-    # verified rows cite a journal reference with a PMID, unverified rows do not pretend to
+    # verified rows cite a journal reference with a PMID; unverified rows (textbook / owner) cite their source and carry the flag + note
     for p in j["parts"]:
         refs = [j["refs"][k] for k in p["r"]]
+        assert refs, p["id"]
         if p.get("u"):
-            assert not any(r["k"] == "journal" and False for r in refs)
+            assert p.get("note") and all(r["k"] != "journal" or r["pmid"] for r in refs), p["id"]
         else:
             assert any(r["k"] == "journal" and r["pmid"] for r in refs), p["id"]
+    assert j["counts"]["unverified"] == sum(1 for p in j["parts"] if p.get("u")) > 0
     # the owner's examples are reachable on this page
     st = {p["st"] for p in j["parts"]}
     assert {"deltoid", "semimembranosus", "tibialis_posterior"} <= st

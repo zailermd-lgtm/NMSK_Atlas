@@ -109,6 +109,19 @@ the slice is drawn as a dashed outline, rendering, picking and the add-on's halo
 *Cut through target* go back to the whole rest. For the add-on `api.cut()` is unchanged (the kept half); the optional
 `api.cutSlab()` (mm, 0 = all) and, on the WebGL pages, `ctx.clip2` give the far face. Shared source: `viewer/cut_mode/`, synced into both templates by `scripts/sync_cut_mode_q197.py`.
 
+**Parts** (Q220, on the Q219 parts model): every structure that has rows in `data/anatomy/structure_parts.json` shows a *Parts* list in
+its card (own viewers: the details sheet; Z viewers: the info panel): part name, a type badge (head / origin / insertion / ligament
+component / MTJ / fascial passage), a one-line description, the citation (PMID / DOI links), an *unverified* badge where the row is
+textbook- or owner-only, and, where the literature disagrees on how many parts there are (semimembranosus 3 / 5 / 6, deltoid 3 / 7,
+tibialis posterior 1-4), the disputed counts. Parts that have a position on this body (rule-based on the person's own mesh, or the
+place of a Z-Anatomy mesh; never measured) are drawn as point markers for the selected structure, or for all placed parts with the
+**Parts markers** button: a hollow ring + label (hover on desktop, tap on touch: source class, error bound, method, citation) and a solid
+dot that is depth-tested (hidden behind opaque tissue, visible in x-ray). Markers disappear where Cut mode removes their position
+(incl. the slice thickness) and with their structure's layer. Clicking a row focuses its marker, or says *text only (no placement)*.
+Data: the sidecar `parts_data.json` beside the page (public anatomy layer, built by `scripts/anatomy/q220/build_parts_sidecar.py`;
+absent = no Parts section and no button, nothing else changes). Shared source: `viewer/parts_ui/`, synced into both templates by
+`scripts/sync_parts_ui_q220.py`.
+
 With the add-on present, the **Needle** button opens its panel. The original measurement is kept:
 the first click on any structure sets the entry point (normally the skin, so switch its system on
 first); the second sets the target, looking through the entry structure. The panel reports:

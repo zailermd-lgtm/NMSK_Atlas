@@ -1644,7 +1644,7 @@ function NMSKParts(E){
           a[i*6]=p[0]+dx/l*3; a[i*6+1]=p[1]+dy/l*3; a[i*6+2]=p[2]+dz/l*3; a[i*6+3]=d.c[0]; a[i*6+4]=d.c[1]; a[i*6+5]=d.c[2];
         });
         gl.bufferData(gl.ARRAY_BUFFER,a,gl.DYNAMIC_DRAW);
-        gl.uniform1f(PDU.uSize, Math.min(maxPx,(big?15:9)*dpr));
+        gl.uniform1f(PDU.uSize, Math.min(maxPx,(big?18:12)*dpr));
         gl.drawArrays(gl.POINTS,0,list.length);
       });
       gl.depthMask(true);
