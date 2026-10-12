@@ -53,7 +53,7 @@ def own_context(B):
     return fixed, bones, skin
 
 
-def polish(src="zan_ends.pkl", dst="own_polish.pkl", rounds=12):
+def polish(src="zan_final.pkl", dst="own_polish.pkl", rounds=12):
     B = Bundle(SRC_BUNDLE)
     fixed, bones, skin = own_context(B)
     d = pickle.load(open(CACHE / src, "rb"))
