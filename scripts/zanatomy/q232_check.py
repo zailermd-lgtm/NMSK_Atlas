@@ -124,8 +124,10 @@ def run_viewport(b, name, vp, mobile, touch, R):
     pg.locator(SEARCH).fill("biceps"); pg.wait_for_timeout(400)
     pg.locator("#sel-sec").scroll_into_view_if_needed()
     if phone_cls:
-        sizes = js("Array.from(document.querySelectorAll('#sel-sec button,.ss-mk,#sel-sec select,#sel-sec input,#sel-sec summary')).filter(function(e){return e.offsetParent&&e.getBoundingClientRect().width>0}).map(function(e){var r=e.getBoundingClientRect();return Math.min(r.width,r.height)})")
+        sel = '#sel-sec button,.ss-mk,#sel-sec select,#sel-sec input:not([type=checkbox]),#sel-sec label.ss-check,#sel-sec summary'
+        sizes = js("Array.from(document.querySelectorAll(%r)).filter(function(e){return e.offsetParent&&e.getBoundingClientRect().width>0}).map(function(e){var r=e.getBoundingClientRect();return Math.min(r.width,r.height)})" % sel)
         info["min_tap_px"] = round(min(sizes), 1) if sizes else None
+        info["small_targets"] = js("Array.from(document.querySelectorAll(%r)).filter(function(e){var r=e.getBoundingClientRect();return e.offsetParent&&r.width>0&&Math.min(r.width,r.height)<37.5}).map(function(e){return (e.id||e.className||e.tagName)+':'+Math.round(Math.min(e.getBoundingClientRect().width,e.getBoundingClientRect().height))})" % sel)
         ok["touch_targets_ge_38px"] = bool(sizes) and min(sizes) >= 37.5
     # the panel scrolls: its scroll container has overflow auto/scroll and the section fits horizontally
     ok["panel_scrollable_no_overflow_x"] = js("(function(){var e=document.getElementById('sel-sec'),p=e.parentElement;while(p&&p!==document.body){var o=getComputedStyle(p).overflowY;if(o==='auto'||o==='scroll')break;p=p.parentElement;}"
@@ -233,7 +235,7 @@ def run_viewport(b, name, vp, mobile, touch, R):
         js("__T.selCtl().onKey({key:'i',target:document.body,preventDefault:function(){},stopImmediatePropagation:function(){}})")
         ok["key_i_inverts_and_back"] = a and not st()["inverted"]
     # ---------- Mark layer
-    tap("#sel-reset")
+    open_list(); tap("#sel-reset")
     cats = js("Array.from(document.querySelectorAll('#sel-cat option')).map(function(o){return o.value})")
     ok["layer_select_filled"] = len(cats) >= 2
     mus = "muscle"
