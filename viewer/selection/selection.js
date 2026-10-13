@@ -76,7 +76,7 @@ function NMSKSelect(E){
   function ghosting(){ return marks.length > 0 && (ss === "ghost" || os === "ghost"); }
   function translucent(){ return marks.length > 0 && [ss, os].some(function(s){ return s === "fade" || s === "ghost" || s === "xray"; }); }
   function activeState(){ return marks.length > 0 || ss !== "show" || os !== "show" || ghostPref; }
-  function tinted(id){ return tintOn && ss === "show" && set[id] === 1; }
+  function tinted(id){ return tintOn && !inv && ss === "show" && set[id] === 1; }          // no amber tint while inverted: the marked set is the whole rest of the body
   function hlHex(){ return parseInt(hl.slice(1), 16); }
   function fixStates(){
     if (!STATES[ss]) ss = "show";

@@ -47,21 +47,22 @@ body.ss-marking canvas{cursor:copy!important}
 #sel-sec .ss-chip.ss-all{border-color:var(--ss-mark);background:var(--ss-mark);color:#1b1b1b;font-weight:600;padding-right:8px}
 #sel-sec .ss-chip.ss-exc button:hover{background:var(--ss-accent);color:var(--ss-accent-ink)}
 #sel-sec .ss-disp{margin:6px 0 4px;padding:6px 0 2px;border-top:1px solid var(--ss-line)}
-#sel-sec .ss-grp{display:flex;align-items:flex-start;gap:6px;margin:0 0 4px}
-#sel-sec .ss-gl{flex:0 0 58px;padding-top:6px;font-size:11px;font-weight:700;color:var(--ss-dim)}
-#sel-sec .ss-gb{display:flex;flex:1 1 auto;flex-wrap:wrap;gap:4px;min-width:0}
-#sel-sec .ss-gb>button{flex:1 1 52px;min-width:0}
-#sel-sec .ss-opt{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:2px 0 4px;font-size:11.5px}
-#sel-sec .ss-opt>label:first-child{flex:0 0 96px;color:var(--ss-dim);font-weight:600}
-#sel-sec .ss-opt input[type=range]{flex:1 1 90px;min-width:0;height:22px;accent-color:var(--ss-accent)}
-#sel-sec .ss-opt output{flex:0 0 40px;text-align:right;font-variant-numeric:tabular-nums}
+#sel-sec .ss-grp{display:block;margin:0 0 6px}
+#sel-sec .ss-gl{display:block;margin:0 0 3px;font-size:11px;font-weight:700;color:var(--ss-dim)}
+#sel-sec .ss-gb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+#sel-sec .ss-gb>button{min-width:0;padding-left:3px;padding-right:3px}
+#sel-sec .ss-opt{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;margin:2px 0 6px;font-size:11.5px}
+#sel-sec .ss-opt>label:first-child{flex:1 1 auto;color:var(--ss-dim);font-weight:600}
+#sel-sec .ss-opt input[type=range]{order:3;flex:1 1 100%;min-width:0;height:22px;margin:0;accent-color:var(--ss-accent)}
+#sel-sec .ss-opt output{flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums}
 #sel-sec .ss-opt input[type=color]{width:38px;height:28px;padding:1px;border:1px solid var(--ss-line);border-radius:6px;background:var(--ss-bg)}
 #sel-sec .ss-opt .ss-check{margin-left:auto}
+#sel-sec .ss-opt:has(input[type=color])>label:first-child{flex:0 0 auto}
 #sel-sec .ss-presets>button{flex:1 1 44%}
-#sel-sec .ss-catrow>select{flex:1 1 120px}
+#sel-sec .ss-catrow>select{flex:1 1 100%}
 #sel-sec .ss-keys{margin-top:6px}
-.ss-phone #sel-sec .ss-gb>button{flex:1 1 30%;min-height:38px}
-.ss-phone #sel-sec .ss-gl{flex-basis:52px;padding-top:10px}
+.ss-phone #sel-sec .ss-gb>button{min-height:38px}
+.ss-phone #sel-sec .ss-gl{font-size:12px}
 .ss-phone #sel-sec .ss-opt{min-height:38px}
 .ss-phone #sel-sec .ss-opt input[type=range]{height:38px}
 .ss-phone #sel-sec .ss-opt input[type=color]{width:46px;height:38px}
