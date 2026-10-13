@@ -8,7 +8,7 @@ import numpy as np, trimesh
 from scipy.spatial import cKDTree
 REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO / "scripts" / "anatomy"))
-HRA = Path("/home/user/z-anatomy/ccfrel/v1.3/models")
+HRA = REPO / "third_party" / "hra_vh_f"          # copies of the HRA v1.3 VH_F models (CC BY 4.0), see third_party/hra_vh_f/NOTICE.md
 
 def hra_mesh(name):
     """-> list of (node_name, V mm in atlas axis convention, F)"""
@@ -71,3 +71,48 @@ def register_to(S_list, ids=("hip_bone_l", "hip_bone_r", "coccyx", "sacrum"), se
 def apply(T, v):
     s, R, t = T[:3]
     return s * v @ R.T + t
+
+
+# ---------------------------------------------------------------------------------------------------------------- closed surfaces from the HRA parts
+from scipy import ndimage as ndi
+from skimage.measure import marching_cubes
+
+
+def parts_world(name, T):
+    return [(n, apply(T, v), f) for n, v, f in hra_mesh(name)]
+
+
+def closed_surface(parts, pitch=0.6, close_it=2, sigma=0.7, pad=5.0, seed=0):
+    """union of the (open or closed) part surfaces -> voxel shell -> closing -> hole fill -> Gaussian -> marching cubes. -> (V, F, info)"""
+    V = np.vstack([v for _, v, _ in parts])
+    lo = V.min(0) - pad
+    shape = tuple(np.ceil((V.max(0) + pad - lo) / pitch).astype(int))
+    g = np.zeros(shape, bool)
+    for _, v, f in parts:
+        m = trimesh.Trimesh(v, f, process=False)
+        pts = m.sample(int(m.area / (pitch * pitch * 0.12)) + 2000)
+        idx = np.clip(np.floor((pts - lo) / pitch).astype(int), 0, np.array(shape) - 1)
+        g[tuple(idx.T)] = True
+    gc = ndi.binary_closing(g, iterations=close_it)
+    fl = ndi.binary_fill_holes(gc)
+    lab, k = ndi.label(fl)
+    if k > 1:
+        sizes = ndi.sum(fl, lab, range(1, k + 1))
+        fl = lab == (1 + int(np.argmax(sizes)))
+    fld = ndi.gaussian_filter(fl.astype(np.float32), sigma)
+    vv, ff, _, _ = marching_cubes(fld, 0.5, spacing=(pitch,) * 3)
+    vv = vv + lo
+    m = trimesh.Trimesh(vv, ff, process=True)
+    trimesh.repair.fix_normals(m)
+    info = dict(volume_cm3=round(float(abs(m.volume)) / 1000, 2), watertight=bool(m.is_watertight), components=int(len(m.split(only_watertight=False))),
+                shell_voxel_cm3=round(float(g.sum()) * pitch ** 3 / 1000, 2), pitch_mm=pitch, closing_iterations=close_it)
+    # fidelity: every source-surface sample lies within x mm of the closed surface
+    t = cKDTree(m.sample(60000))
+    src = np.vstack([trimesh.Trimesh(v, f, process=False).sample(8000) for _, v, f in parts])
+    d = t.query(src)[0]
+    info["source_to_closed_surface_mm"] = dict(median=round(float(np.median(d)), 2), p95=round(float(np.quantile(d, .95)), 2), max=round(float(d.max()), 2),
+                                               note="includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error")
+    ts = cKDTree(np.vstack([trimesh.Trimesh(v, f, process=False).sample(30000) for _, v, f in parts]))
+    d2 = ts.query(m.sample(30000))[0]
+    info["closed_surface_to_source_mm"] = dict(median=round(float(np.median(d2)), 2), p95=round(float(np.quantile(d2, .95)), 2), max=round(float(d2.max()), 2))
+    return np.asarray(m.vertices), np.asarray(m.faces), info

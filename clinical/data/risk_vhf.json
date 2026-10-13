@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"vhf",
-"generated":"2026-10-12",
+"generated":"2026-10-13",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -10,7 +10,7 @@
 "artery":26,
 "nerve":16,
 "vein":22,
-"organ":18,
+"organ":23,
 "lung":2
 },
 "structures":[
@@ -319,6 +319,22 @@
 "rays_hit":299
 },
 {
+"id":"ovary_l",
+"name":"Ovary (left)",
+"class":"organ",
+"r_mm":3.9,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"ovary_r",
+"name":"Ovary (right)",
+"class":"organ",
+"r_mm":3.92,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"pancreas",
 "name":"Pancreas",
 "class":"organ",
@@ -491,6 +507,30 @@
 "name":"Urinary bladder",
 "class":"organ",
 "r_mm":12.07,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_tube_l",
+"name":"Uterine tube (left)",
+"class":"organ",
+"r_mm":1.3,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_tube_r",
+"name":"Uterine tube (right)",
+"class":"organ",
+"r_mm":0.79,
+"r_method":"sdf",
+"rays_hit":298
+},
+{
+"id":"uterus",
+"name":"Uterus (with cervix)",
+"class":"organ",
+"r_mm":10.9,
 "r_method":"sdf",
 "rays_hit":300
 },
