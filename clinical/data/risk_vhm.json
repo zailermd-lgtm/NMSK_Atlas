@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"vhm",
-"generated":"2026-10-12",
+"generated":"2026-10-13",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -10,7 +10,7 @@
 "artery":25,
 "nerve":13,
 "vein":23,
-"organ":11,
+"organ":25,
 "lung":3
 },
 "structures":[
@@ -135,12 +135,76 @@
 "rays_hit":299
 },
 {
+"id":"corpus_cavernosum_penis",
+"name":"Corpora cavernosa of the penis",
+"class":"organ",
+"r_mm":4.55,
+"r_method":"sdf",
+"rays_hit":204
+},
+{
+"id":"corpus_spongiosum_penis",
+"name":"Corpus spongiosum of the penis",
+"class":"organ",
+"r_mm":5.96,
+"r_method":"sdf",
+"rays_hit":220
+},
+{
 "id":"descending_thoracic_aorta",
 "name":"Descending thoracic aorta",
 "class":"artery",
 "r_mm":10.82,
 "r_method":"sdf",
 "rays_hit":298
+},
+{
+"id":"ductus_deferens_l",
+"name":"Ductus deferens (left)",
+"class":"organ",
+"r_mm":1.61,
+"r_method":"sdf",
+"rays_hit":224
+},
+{
+"id":"ductus_deferens_r",
+"name":"Ductus deferens (right)",
+"class":"organ",
+"r_mm":1.57,
+"r_method":"sdf",
+"rays_hit":225
+},
+{
+"id":"ejaculatory_duct_l",
+"name":"Ejaculatory duct (left)",
+"class":"organ",
+"r_mm":0.82,
+"r_method":"sdf",
+"rays_hit":223
+},
+{
+"id":"ejaculatory_duct_r",
+"name":"Ejaculatory duct (right)",
+"class":"organ",
+"r_mm":0.86,
+"r_method":"sdf",
+"rays_hit":229
+},
+{
+"id":"epididymis_l",
+"name":"Epididymis (left)",
+"class":"organ",
+"r_mm":2.56,
+"r_method":"sdf",
+"rays_hit":218
+},
+{
+"id":"epididymis_r",
+"name":"Epididymis (right)",
+"class":"organ",
+"r_mm":3.2,
+"r_method":"sdf",
+"rays_hit":218
 },
 {
 "id":"esophagus",
@@ -181,6 +245,14 @@
 "r_mm":3.75,
 "r_method":"sdf",
 "rays_hit":300
+},
+{
+"id":"glans_penis",
+"name":"Glans penis",
+"class":"organ",
+"r_mm":1.4,
+"r_method":"sdf",
+"rays_hit":186
 },
 {
 "id":"heart",
@@ -351,6 +423,22 @@
 "rays_hit":300
 },
 {
+"id":"seminal_vesicle_l",
+"name":"Seminal vesicle (left)",
+"class":"organ",
+"r_mm":2.76,
+"r_method":"sdf",
+"rays_hit":182
+},
+{
+"id":"seminal_vesicle_r",
+"name":"Seminal vesicle (right)",
+"class":"organ",
+"r_mm":2.68,
+"r_method":"sdf",
+"rays_hit":182
+},
+{
 "id":"sigmoid_colon",
 "name":"Sigmoid colon (pelvic part, below the pelvic inlet)",
 "class":"organ",
@@ -399,6 +487,22 @@
 "rays_hit":300
 },
 {
+"id":"testis_l",
+"name":"Testis (left)",
+"class":"organ",
+"r_mm":12.2,
+"r_method":"sdf",
+"rays_hit":226
+},
+{
+"id":"testis_r",
+"name":"Testis (right)",
+"class":"organ",
+"r_mm":11.77,
+"r_method":"sdf",
+"rays_hit":226
+},
+{
 "id":"tibial_n",
 "name":"Tibial nerve",
 "class":"nerve",
@@ -429,6 +533,14 @@
 "r_mm":0.6,
 "r_method":"sdf",
 "rays_hit":269
+},
+{
+"id":"urethra_male",
+"name":"Urethra (male, penile and prostatic part)",
+"class":"organ",
+"r_mm":1.22,
+"r_method":"sdf",
+"rays_hit":208
 },
 {
 "id":"urinary_bladder",

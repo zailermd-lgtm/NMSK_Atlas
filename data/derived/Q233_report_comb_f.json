@@ -1,0 +1,210 @@
+{
+ "page": "comb_f",
+ "registration": {
+  "scale": 0.95057,
+  "rotation": [
+   [
+    0.999996,
+    0.002691,
+    -0.001043
+   ],
+   [
+    -0.002701,
+    0.999948,
+    -0.009803
+   ],
+   [
+    0.001016,
+    0.009806,
+    0.999951
+   ]
+  ],
+  "translation_mm": [
+   -9.047,
+   -13.784,
+   58.041
+  ],
+  "n_source": 29144,
+  "n_target": 160000,
+  "residual_mm": {
+   "median": 1.25,
+   "p90": 3.49,
+   "rms": 2.07,
+   "max": 9.1
+  },
+  "det_R": 1.0,
+  "residual_by_part_mm_median": {
+   "hip_bone": 1.46,
+   "coccyx": 2.08,
+   "sacrum": 0.97
+  }
+ },
+ "organs": {
+  "uterus": {
+   "hra_object": "VH_F_Uterus",
+   "gates": {
+    "volume_cm3": 24.52,
+    "voxel_mask_cm3": 7.02,
+    "skin_distance_min_mm": 68.3,
+    "bone_min_mm": 30.39,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_urinary_bladder": 0.271
+    },
+    "overlap_by_system_cm3": {
+     "viscera": 0.271
+    },
+    "overlap_total_pct_of_mask": 3.86,
+    "watertight": true,
+    "triangles": 9000,
+    "soft_overlap_flag_gt10pct": false,
+    "pass": true
+   }
+  },
+  "ovary_l": {
+   "hra_object": "VH_F_Ovary_L",
+   "gates": {
+    "volume_cm3": 0.99,
+    "voxel_mask_cm3": 1.4,
+    "skin_distance_min_mm": 74.8,
+    "bone_min_mm": 17.35,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_descending_colon": 0.241,
+     "zan_external_iliac_vein_l": 0.096,
+     "zan_medial_external_iliac_nodes_l": 0.014,
+     "zan_omental_taenia": 0.064
+    },
+    "overlap_by_system_cm3": {
+     "viscera": 0.305,
+     "vessel": 0.096,
+     "lymph": 0.014
+    },
+    "overlap_total_pct_of_mask": 29.6,
+    "watertight": true,
+    "triangles": 1400,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   }
+  },
+  "ovary_r": {
+   "hra_object": "VH_F_Ovary_R",
+   "gates": {
+    "volume_cm3": 1.0,
+    "voxel_mask_cm3": 1.43,
+    "skin_distance_min_mm": 71.9,
+    "bone_min_mm": 13.11,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_external_iliac_artery_r": 0.18,
+     "zan_external_iliac_vein_r": 0.135,
+     "zan_iliopsoas_fascia_r": 0.14,
+     "zan_inferior_epigastric_artery_r": 0.055,
+     "zan_inferior_epigastric_vein_r": 0.013,
+     "zan_jejunum": 0.012,
+     "zan_psoas_major_r": 0.046
+    },
+    "overlap_by_system_cm3": {
+     "vessel": 0.383,
+     "fascia": 0.14,
+     "viscera": 0.012,
+     "muscle": 0.046
+    },
+    "overlap_total_pct_of_mask": 40.66,
+    "watertight": true,
+    "triangles": 1400,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   }
+  },
+  "uterine_tube_l": {
+   "hra_object": "VH_F_Fallopian_Tube_L",
+   "gates": {
+    "volume_cm3": 0.57,
+    "voxel_mask_cm3": 1.27,
+    "skin_distance_min_mm": 70.9,
+    "bone_min_mm": 22.69,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_descending_colon": 0.156,
+     "zan_external_iliac_vein_l": 0.141
+    },
+    "overlap_by_system_cm3": {
+     "viscera": 0.156,
+     "vessel": 0.141
+    },
+    "overlap_total_pct_of_mask": 23.29,
+    "watertight": true,
+    "triangles": 14000,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   }
+  },
+  "uterine_tube_r": {
+   "hra_object": "VH_F_Fallopian_Tube_R",
+   "gates": {
+    "volume_cm3": 0.33,
+    "voxel_mask_cm3": 0.91,
+    "skin_distance_min_mm": 71.1,
+    "bone_min_mm": 20.06,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_external_iliac_artery_r": 0.087,
+     "zan_external_iliac_vein_r": 0.095,
+     "zan_iliopsoas_fascia_r": 0.027,
+     "zan_inferior_epigastric_artery_r": 0.009,
+     "zan_inferior_epigastric_vein_r": 0.001,
+     "zan_intermediate_external_iliac_nodes_r": 0.015,
+     "zan_jejunum": 0.098,
+     "zan_medial_external_iliac_nodes_r": 0.005
+    },
+    "overlap_by_system_cm3": {
+     "vessel": 0.192,
+     "fascia": 0.027,
+     "lymph": 0.02,
+     "viscera": 0.098
+    },
+    "overlap_total_pct_of_mask": 37.24,
+    "watertight": true,
+    "triangles": 13000,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   }
+  }
+ },
+ "subject_text": "HuBMAP Human Reference Atlas, 3D Reference Object Library v1.3 (CC BY 4.0), Kristen Browne and Heidi Schlehlein, created from the National Library of Medicine Visible Human FEMALE data (VH_F_Uterus, VH_F_Ovary_L/R, VH_F_Fallopian_Tube_L/R, VH_F_Pelvis; https://humanatlas.io/3d-reference-library, DOI 10.48539/HBM228.JBNJ.299). Registered onto this page's pelvis by this atlas (Q233); derived data, CC BY 4.0 attribution kept (third_party/hra_vh_f/NOTICE.md).",
+ "ship_diff": {
+  "source": "/home/user/NMSK_Atlas/build/q225/viewer_zan_female",
+  "new": "/home/user/NMSK_Atlas/build/q233_pre/viewer_zan_female",
+  "added": [
+   "ovary_l",
+   "ovary_r",
+   "uterine_tube_l",
+   "uterine_tube_r",
+   "uterus"
+  ],
+  "added_expected": [
+   "ovary_l",
+   "ovary_r",
+   "uterine_tube_l",
+   "uterine_tube_r",
+   "uterus"
+  ],
+  "removed": [],
+  "geometry_changed": [],
+  "card_only": [
+   "coccyx",
+   "hip_bone_l",
+   "hip_bone_r",
+   "sacrum"
+  ],
+  "card_only_expected": [
+   "coccyx",
+   "hip_bone_l",
+   "hip_bone_r",
+   "sacrum"
+  ],
+  "unchanged": 2938,
+  "unlisted": []
+ }
+}

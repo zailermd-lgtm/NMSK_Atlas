@@ -67,6 +67,7 @@ def keyed(B):
 
 
 def main(out_dir):
+    np.random.seed(0)
     src = REPO / "build/viewer_f_hr_q224"
     B = Bundle(src)
     A0 = Bundle(src)
@@ -111,7 +112,7 @@ def main(out_dir):
         if e["cat"] == "bone" and e["id"].split("#")[0] in ("hip_bone_l", "hip_bone_r", "sacrum"):
             bonem |= mask_of(*B.mesh(it), lo, shape, pitch) & False  # placeholder (hollow bone shells are not filled reliably): bone is checked by surface distance below
     # ---- build the organs
-    new, report = [], {}
+    new, report, organs_npz = [], {}, {}
     for sid, obj, side, name, latin, pitch_o, clo, ntri in ORGANS:
         V, F, info = H.closed_surface(H.parts_world(obj, T), pitch=pitch_o, close_it=clo)
         V, F = decimate(V, F, ntri)
@@ -128,6 +129,7 @@ def main(out_dir):
                      overlap_cm3=ov, overlap_total_pct=round(100 * sum(ov.values()) / max(vol, 1e-9), 2), watertight=bool(m.is_watertight), triangles=int(len(F)), volume_cm3=round(vol, 2))
         gates["pass"] = bool(inside_skin and gates["bone_min_mm"] >= 0.5 and gates["overlap_total_pct"] <= 5.0 and len(V) < 65000)
         report[sid] = dict(hra_object=obj, envelope=info, gates=gates)
+        organs_npz[sid + "_v"] = np.asarray(V, np.float32); organs_npz[sid + "_f"] = np.asarray(F, np.int32)
         print(sid, gates, flush=True)
         if not gates["pass"]:
             report[sid]["held"] = True
@@ -161,6 +163,7 @@ def main(out_dir):
                         f"{reg['residual_by_part_mm_median'].get('coccyx')} mm of it). The separate `coccyx` entry that Q44 had transferred from the MALE body (a second, male-derived coccyx 13 mm lower) was removed in Q233.").strip()}
             card_only.append("sacrum")
             break
+    np.savez_compressed(REPO / "data/derived/Q233_organs_vhf.npz", **organs_npz)       # the five meshes in HER atlas frame (mm, float32): reused by the Combined female page
     n_bytes = B.write(out_dir, new_subject_attribution={SUBJECT: ATTR}, copy_clinical=True)
     # ---- ship diff
     N = Bundle(out_dir)

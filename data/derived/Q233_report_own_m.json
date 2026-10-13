@@ -1,0 +1,245 @@
+{
+ "subject": "xfer_zan2vhm_genital_q233",
+ "organs": {
+  "testis_l": {
+   "z_id": "zan_testis_l",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 0.8,
+    "bone_min_mm": 78.83,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 9.63,
+    "watertight": true,
+    "vertices": 226,
+    "pass": true
+   }
+  },
+  "testis_r": {
+   "z_id": "zan_testis_r",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 2.2,
+    "bone_min_mm": 78.72,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 9.61,
+    "watertight": true,
+    "vertices": 226,
+    "pass": true
+   }
+  },
+  "epididymis_l": {
+   "z_id": "zan_epididymis_l",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 16.6,
+    "bone_min_mm": 73.61,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 1.13,
+    "watertight": true,
+    "vertices": 218,
+    "pass": true
+   }
+  },
+  "epididymis_r": {
+   "z_id": "zan_epididymis_r",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 6.7,
+    "bone_min_mm": 74.11,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 1.28,
+    "watertight": true,
+    "vertices": 218,
+    "pass": true
+   }
+  },
+  "ductus_deferens_l": {
+   "z_id": "zan_ductus_deferens_l",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 1.5,
+    "bone_min_mm": 4.11,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "sigmoid_colon": 0.086
+    },
+    "overlap_total_pct": 3.06,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 2.81,
+    "watertight": false,
+    "vertices": 229,
+    "pass": true
+   }
+  },
+  "ductus_deferens_r": {
+   "z_id": "zan_ductus_deferens_r",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 12.9,
+    "bone_min_mm": 8.49,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 2.67,
+    "watertight": false,
+    "vertices": 228,
+    "pass": true
+   }
+  },
+  "seminal_vesicle_l": {
+   "z_id": "zan_seminal_gland_l",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 76.3,
+    "bone_min_mm": 14.18,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "rectum": 0.174,
+     "prostate": 0.108
+    },
+    "overlap_total_pct": 9.83,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 2.87,
+    "watertight": true,
+    "vertices": 182,
+    "pass": true
+   }
+  },
+  "seminal_vesicle_r": {
+   "z_id": "zan_seminal_gland_r",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 78.9,
+    "bone_min_mm": 16.16,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "rectum": 0.032,
+     "prostate": 0.199
+    },
+    "overlap_total_pct": 8.1,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 2.85,
+    "watertight": true,
+    "vertices": 182,
+    "pass": true
+   }
+  },
+  "corpus_cavernosum_penis": {
+   "z_id": "zan_corpus_cavernosum_of_penis",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 0.9,
+    "bone_min_mm": 0.76,
+    "vertices_within_1mm_of_bone": 1,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 44.47,
+    "watertight": false,
+    "vertices": 226,
+    "pass": true
+   }
+  },
+  "corpus_spongiosum_penis": {
+   "z_id": "zan_corpus_spongiosum_of_penis",
+   "gates": {
+    "inside_skin_pct": 99.1,
+    "skin_depth_min_mm": 0.5,
+    "bone_min_mm": 12.07,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 21.89,
+    "watertight": true,
+    "vertices": 227,
+    "pass": true
+   }
+  },
+  "glans_penis": {
+   "z_id": "zan_glans_penis",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 0.9,
+    "bone_min_mm": 75.82,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0,
+    "volume_cm3": 2.75,
+    "watertight": false,
+    "vertices": 225,
+    "pass": true
+   }
+  },
+  "urethra_male": {
+   "z_id": "zan_urethra",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 0.7,
+    "bone_min_mm": 12.4,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "prostate": 0.044
+    },
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0.044,
+    "volume_cm3": 0.85,
+    "watertight": false,
+    "vertices": 228,
+    "pass": true
+   }
+  },
+  "ejaculatory_duct_l": {
+   "z_id": "zan_ejaculatory_duct_l",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 84.7,
+    "bone_min_mm": 26.56,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "rectum": 0.03,
+     "prostate": 0.096
+    },
+    "overlap_total_pct": 53.24,
+    "overlap_inherent_prostate_cm3": 0.096,
+    "volume_cm3": 0.06,
+    "watertight": false,
+    "vertices": 237,
+    "pass": true
+   }
+  },
+  "ejaculatory_duct_r": {
+   "z_id": "zan_ejaculatory_duct_r",
+   "gates": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 86.5,
+    "bone_min_mm": 25.95,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "prostate": 0.119
+    },
+    "overlap_total_pct": 0.0,
+    "overlap_inherent_prostate_cm3": 0.119,
+    "volume_cm3": 0.06,
+    "watertight": false,
+    "vertices": 237,
+    "pass": true
+   }
+  }
+ },
+ "attribution": "Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D, CC BY-SA 2.1 Japan): the male genital organs his own scans do not give (testes, epididymides, deferent ducts, seminal vesicles, penis, male urethra, ejaculatory ducts), taken from the Z-Anatomy male fitted to his body (Q195 fit, Q186c skin clamp) and checked against his own skin, bones and pelvic organs (Q233). Z-Anatomy: models by the Z-Anatomy project, app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this derivative remains CC BY-SA 4.0 (ShareAlike)."
+}

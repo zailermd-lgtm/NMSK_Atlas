@@ -1248,10 +1248,15 @@ VHF_WORDING = [
     ("    <div class=\"licence\">",
      "    <p><strong>Fitted to a real body (Q168).</strong> In this female variant every Z-Anatomy structure has been "
      "moved onto the skeleton of the Visible Human female (U.S. National Library of Medicine), bone by bone; soft "
-     "tissue follows the nearest bones. Male-only structures are removed. No female reproductive organs are shown: "
-     "Z-Anatomy's reproductive organs are male and her own scans carry no uterus or ovary label, so nothing was "
-     "invented. Every structure's card states its fit error, measured against her own CT mesh where one exists "
-     "and otherwise estimated from its body region. Fits and errors: <code>data/derived/Q168_zan_to_vhf.json</code>.</p>\n"
+     "tissue follows the nearest bones. Male-only structures are removed. Z-Anatomy has NO female reproductive organs "
+     "(its source is one male-derived body; its own to-do list names a female model as a future goal), and her own CT has "
+     "no uterus / ovary / tube label. The uterus, both ovaries and both uterine tubes shown (Q233) are therefore the HuBMAP "
+     "Human Reference Atlas reference organs of the SAME donor, the Visible Human female (CC BY 4.0, Browne and Schlehlein), "
+     "registered onto her own CT pelvis and badged as such on their cards; the vagina, vulva, breasts' gland and ligaments "
+     "of the uterus are not available from any open source reached and are not drawn. The rest of the body is the Z-Anatomy "
+     "male-derived shape fitted to her: its pelvic bones keep a male-derived shape (measurements: "
+     "<code>data/derived/Q233_sex_audit.md</code>). Every structure's card states its fit error, measured against her own CT mesh where "
+     "one exists and otherwise estimated from its body region. Fits and errors: <code>data/derived/Q168_zan_to_vhf.json</code>.</p>\n"
      "    <div class=\"licence\">"),
 ]
 
@@ -1285,16 +1290,20 @@ NATIVE_FEMALE_WORDING = [
     ("<h2>NMSK Atlas — Z-Anatomy</h2>", "<h2>NMSK Atlas — Female base model (unadapted)</h2>"),
     ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Female base</h1>"),
     ('matched+" atlas-linked · "+partOf+" part-of-linked";',
-     'matched+" atlas-linked · "+partOf+" part-of-linked · generic Z-Anatomy body, male-only organs removed, not fitted to any specimen";'),
+     'matched+" atlas-linked · "+partOf+" part-of-linked · male-derived Z-Anatomy body, male-only organs removed, female organs from the HRA (same donor, CC BY 4.0)";'),
     ("    <div class=\"licence\">",
-     "    <p><strong>Source limitation (Q196).</strong> The source has no female body: Z-Anatomy (and BodyParts3D "
-     "under it) ships ONE male-derived body. This page is the generic Z-Anatomy body in its own frame with the "
+     "    <p><strong>Source limitation (Q196, revised Q233): this is NOT a female body.</strong> Z-Anatomy (and BodyParts3D "
+     "under it) ships ONE male-derived body; the Z-Anatomy repository's own to-do list names a female model as a future "
+     "goal, and a female Z-Anatomy / BodyParts3D release does not exist (checked Q233: the 2023 Blender file with its 7,184 objects, the 2022 "
+     "mobile project, the BodyParts3D parts list). This page is the generic Z-Anatomy body in its own frame with the "
      "male-only organs removed (penis, scrotum and male external skin, testes, epididymides, seminal glands, "
-     "prostate and their vessels). No female reproductive organs are shown and none were invented. Nothing is "
-     "fitted to any specimen, scan or Visible Human; body proportions, breasts and pelvis are the source's. "
+     "prostate and their vessels). Its skeleton (pelvis, sacrum, skull), body proportions and chest skin are the male-derived source's. "
+     "The only female organs shown (uterus, both ovaries, both uterine tubes) are the HuBMAP Human Reference Atlas reference organs of the "
+     "Visible Human female (CC BY 4.0, Browne and Schlehlein), registered by bone ICP onto this body's pelvis (scaled "
+     "to it, position approximate, badged on each card); the vagina, vulva and breasts' gland are not available from any open source reached "
+     "and are not drawn. Nothing else is fitted to any specimen. "
      "Same repairs as the male base page (a few mirrored left-side objects, muscle gaps closed to a 1 mm "
-     "interface). A genuinely female open atlas was searched for and not found: "
-     "<code>data/derived/Q196_female_base_sources.json</code>.</p>\n"
+     "interface). Searches: <code>data/derived/Q196_female_base_sources.json</code>, <code>data/derived/Q233_sex_audit.md</code>.</p>\n"
      "    <div class=\"licence\">"),
 ]
 

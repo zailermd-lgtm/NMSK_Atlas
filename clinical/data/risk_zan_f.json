@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"zan_f",
-"generated":"2026-10-12",
+"generated":"2026-10-13",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"Z-Anatomy model frame (mm, +Y superior)",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -10,7 +10,7 @@
 "artery":431,
 "nerve":361,
 "vein":220,
-"organ":253,
+"organ":258,
 "lung":35
 },
 "structures":[
@@ -719,6 +719,22 @@
 "rays_hit":300
 },
 {
+"id":"ovary_l",
+"name":"Ovary (left)",
+"class":"organ",
+"r_mm":3.88,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"ovary_r",
+"name":"Ovary (right)",
+"class":"organ",
+"r_mm":3.9,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"posterior_femoral_cutaneous_n_l",
 "name":"Posterior femoral cutaneous nerve (left)",
 "class":"nerve",
@@ -1189,6 +1205,30 @@
 "r_mm":0.26,
 "r_method":"sdf",
 "rays_hit":233
+},
+{
+"id":"uterine_tube_l",
+"name":"Uterine tube (left)",
+"class":"organ",
+"r_mm":1.31,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_tube_r",
+"name":"Uterine tube (right)",
+"class":"organ",
+"r_mm":0.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterus",
+"name":"Uterus (with cervix)",
+"class":"organ",
+"r_mm":10.85,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"vestibulocochlear_n_l",

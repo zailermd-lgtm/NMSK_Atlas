@@ -14,7 +14,7 @@ NAMES = {
     "atlas_viewer_male.html": "Imaging-based · Male",
     "atlas_viewer_female.html": "Imaging-based · Female",
     "atlas_viewer_zan_atlas.html": "Base · Male",
-    "atlas_viewer_base_female.html": "Base · Female",
+    "atlas_viewer_base_female.html": "Base · Female (male-derived body)",   # Q233: the Z-Anatomy source has no female body; the page says so in its name
     "atlas_viewer_zan_male_fitted.html": "Combined · Male",
     "atlas_viewer_zan_female.html": "Combined · Female",
 }

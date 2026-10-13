@@ -271,3 +271,42 @@ def sciatic_notch(S):
     if not res:
         return {}
     return dict(sciatic_notch_hull_angle_deg=round(float(np.mean([r[0] for r in res])), 1), sciatic_notch_depth_mm=round(float(np.mean([r[1] for r in res])), 1))
+
+
+def _surface_points(S, pred, n=200000):
+    ms = [trimesh.Trimesh(x["v"], x["f"], process=False) for x in S if pred(x)]
+    if not ms:
+        return None
+    m = trimesh.util.concatenate(ms)
+    return m.sample(n)
+
+
+def breast_projection(S):
+    """anterior skin protrusion over the rib cage at the level of the breast: for x = +-(55..115) mm, y within the middle 40-70 % of the sternum, the
+    difference between the most anterior skin point and the most anterior rib / costal-cartilage / sternum point in the same column (4 mm wide); the
+    mean over the columns minus the same quantity at x = 0 +-15 (the sternal column) = the lateral soft-tissue bulge. Supine cadaver, a gland is not modelled:
+    this is a surface-envelope measure (skin vs ribs), not a breast volume."""
+    skin = _surface_points(S, lambda x: x["sys"] == "skin" or x["id"] == "skin", 260000)
+    rib = _surface_points(S, lambda x: x["sys"] in ("bone", "cartilage") and (x["id"].startswith(("rib", "costal")) or x["id"].split("#")[0] in ("sternum",) or "rib" in x["id"]), 120000)
+    st = bone(S, "sternum")
+    if skin is None or rib is None or st is None:
+        return {}
+    y0, y1 = st.vertices[:, 1].min(), st.vertices[:, 1].max()
+    ys = np.linspace(y0 + 0.40 * (y1 - y0), y0 + 0.70 * (y1 - y0), 7)
+    def col(P, x, y, w=4.0):
+        m = P[(np.abs(P[:, 0] - x) < w) & (np.abs(P[:, 1] - y) < w)]
+        return m[:, 2].max() if len(m) else np.nan
+    lat, mid = [], []
+    for y in ys:
+        for x in (-115, -95, -75, -55, 55, 75, 95, 115):
+            a, b = col(skin, x, y), col(rib, x, y)
+            if not (np.isnan(a) or np.isnan(b)):
+                lat.append(a - b)
+        for x in (-15, -5, 5, 15):
+            a, b = col(skin, x, y), col(rib, x, y)
+            if not (np.isnan(a) or np.isnan(b)):
+                mid.append(a - b)
+    if len(lat) < 6 or len(mid) < 3:
+        return {}
+    return dict(skin_over_ribs_lateral_mm=round(float(np.mean(lat)), 1), skin_over_sternum_mm=round(float(np.mean(mid)), 1),
+                breast_bulge_mm=round(float(np.mean(lat) - np.mean(mid)), 1))
