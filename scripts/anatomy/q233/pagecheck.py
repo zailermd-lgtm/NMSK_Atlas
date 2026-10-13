@@ -47,7 +47,7 @@ with sync_playwright() as p:
                 pg.route("**/*.html", patch)
                 pg.goto(f"http://127.0.0.1:{port}/{rel}", wait_until="load")
                 try:
-                    pg.wait_for_function("window.__T && ((window.__T.OBJ && window.__T.OBJ.length > 0) || (window.__T.meshes && window.__T.meshes.length > 50))", timeout=240000)
+                    pg.wait_for_function("window.__T && ((window.__T.OBJ && window.__T.OBJ.length > 0) || (window.__T.meshes && window.__T.meshes.length > 50))", timeout=25000)
                 except Exception:
                     pass
                 time.sleep(3)
@@ -58,6 +58,17 @@ with sync_playwright() as p:
                     return out; }""")
                 for e in expect:
                     present[e] = any(e.lower() in n.lower() for n in names)
+                if not names:     # own template: no hook -> the page's own search box + list (#q / #list)
+                    for e in expect:
+                        try:
+                            present[e] = bool(pg.evaluate("""(t) => { var q = document.getElementById('q'); if (!q) return false; q.value = t; q.dispatchEvent(new Event('input', {bubbles: true}));
+                                var l = document.getElementById('list'); return !!(l && l.textContent.toLowerCase().indexOf(t.toLowerCase()) >= 0); }""", e))
+                        except Exception as ex:
+                            present[e] = "ERR " + str(ex)[:50]
+                    try:
+                        pg.evaluate("() => { var q = document.getElementById('q'); if (q) { q.value = ''; q.dispatchEvent(new Event('input', {bubbles: true})); } }")
+                    except Exception:
+                        pass
                 present["_structures_seen"] = len(names)
                 txt = pg.evaluate("() => document.body.innerText")
                 info = dict(title=pg.title(), scrollW=pg.evaluate("document.documentElement.scrollWidth"), innerW=pg.evaluate("window.innerWidth"), text_len=len(txt),

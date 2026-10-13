@@ -212,7 +212,7 @@ def test_final_pages_if_built():
         by = {m["id"]: m for m in man["meshes"]}
         assert set(NEW_ORGANS) <= set(by) and all(by[i]["sys"] == "viscera" for i in NEW_ORGANS)
         assert "HuBMAP Human Reference Atlas" in man["attribution"]
-        assert "SAME donor" in by["uterus"]["rec"]["procedural_badge"]
+        assert "SAME DONOR" in by["uterus"]["rec"]["procedural_badge"]
         assert not any(i in by for i in ("zan_testis_l", "zan_prostate", "zan_glans_penis"))
     html = (b / "viewer_base_female/atlas_viewer_base_female.html").read_text(encoding="utf-8")
     assert "<title>NMSK Atlas — Base · Female (male-derived body)</title>" in html and "NOT a female body" in html

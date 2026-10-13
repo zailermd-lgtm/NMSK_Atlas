@@ -182,7 +182,7 @@ def main(out_dir):
         else:
             unlisted.append(k[0])
     added = [k[0] for k in Nk if k not in Ak]
-    diff = dict(source="build/viewer_f_hr_q224", new=str(Path(out_dir)), entries_old=len(A0.items), entries_new=len(N.items), identical=ident, removed=removed, added=added, card_only=card_only,
+    diff = dict(source="build/viewer_f_hr_q224", new=str(Path(out_dir).resolve().relative_to(REPO)), entries_old=len(A0.items), entries_new=len(N.items), identical=ident, removed=removed, added=added, card_only=card_only,
                 unlisted_changes=unlisted, problems=bad, triangles_old=A0.j["triangles"], triangles_new=N.j["triangles"])
     (REPO / "data/derived/Q233_vertex_diff_f.json").write_text(json.dumps(diff, indent=1) + "\n")
     rep = dict(registration=reg, organs=report, removed=removed, subject=SUBJECT, attribution=ATTR, hra_commit="b036a91aaf7234f462b1249d4a5f4fb0e982f412", hra_files="third_party/hra_vh_f")

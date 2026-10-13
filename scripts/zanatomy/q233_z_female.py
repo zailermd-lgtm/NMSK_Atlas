@@ -37,6 +37,9 @@ def side_code(side):
 
 def run(which, src, out):
     np.random.seed(0)
+    import os
+    if os.environ.get("Q233_ZAN_TEMPLATE"):          # pre-pages are rendered from a COMMITTED template revision (so regen verification can find it in git), see scripts/q233_build_all.sh
+        P5.B.TEMPLATE_PATH = Path(os.environ["Q233_ZAN_TEMPLATE"])
     cfg = CFG[which]
     src, out = Path(src), Path(out)
     man, blob = P5.load_page(src, cfg["stem"])
@@ -128,7 +131,8 @@ def run(which, src, out):
         import shutil; shutil.copy2(f, out / f.name)
     r = SD.diff(src, out, cfg["stem"], [])
     listed_added = sorted(e["id"] for e, _, _ in add)
-    diff = dict(source=str(src), new=str(out), added=r["added"], added_expected=listed_added, removed=r["removed"], geometry_changed=sorted(r["geometry_changed"]), card_only=sorted(r["card_only"]),
+    rel = lambda p: str(p.resolve().relative_to(REPO)) if str(p.resolve()).startswith(str(REPO)) else str(p)
+    diff = dict(source=rel(src), new=rel(out), added=r["added"], added_expected=listed_added, removed=r["removed"], geometry_changed=sorted(r["geometry_changed"]), card_only=sorted(r["card_only"]),
                 card_only_expected=sorted(meta), unchanged=r["unchanged"], unlisted=sorted(set(r["added"]) ^ set(listed_added)) + sorted(set(r["card_only"]) - set(meta)) + sorted(r["geometry_changed"]) + sorted(r["removed"]))
     rep = dict(page=which, registration=reg, organs=report, subject_text=HRA_ATTR, ship_diff=diff)
     (REPO / f"data/derived/Q233_report_{which}.json").write_text(json.dumps(rep, indent=1, default=float) + "\n")

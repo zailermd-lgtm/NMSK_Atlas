@@ -89,7 +89,7 @@ def main(out_dir):
         else:
             unlisted.append(k[0])
     added = [k[0] for k in Nk if k not in Ak]
-    diff = dict(source="build/viewer_m_hr_q224", new=str(Path(out_dir)), entries_old=len(A0.items), entries_new=len(N.items), identical=ident, added=added, removed=[], card_only=[], unlisted_changes=unlisted, problems=[],
+    diff = dict(source="build/viewer_m_hr_q224", new=str(Path(out_dir).resolve().relative_to(REPO)), entries_old=len(A0.items), entries_new=len(N.items), identical=ident, added=added, removed=[], card_only=[], unlisted_changes=unlisted, problems=[],
                 triangles_old=A0.j["triangles"], triangles_new=N.j["triangles"])
     (REPO / "data/derived/Q233_vertex_diff_m.json").write_text(json.dumps(diff, indent=1) + "\n")
     (REPO / "data/derived/Q233_report_own_m.json").write_text(json.dumps(dict(subject=SUBJECT, organs=report, attribution=ATTR), indent=1, default=float) + "\n")

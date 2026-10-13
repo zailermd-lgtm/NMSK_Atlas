@@ -83,6 +83,7 @@ def parts_world(name, T):
 
 
 def closed_surface(parts, pitch=0.6, close_it=2, sigma=0.7, pad=5.0, seed=0):
+    np.random.seed(seed)                                                       # trimesh surface sampling draws from the global numpy RNG: reproducible builds
     """union of the (open or closed) part surfaces -> voxel shell -> closing -> hole fill -> Gaussian -> marching cubes. -> (V, F, info)"""
     V = np.vstack([v for _, v, _ in parts])
     lo = V.min(0) - pad
@@ -93,8 +94,10 @@ def closed_surface(parts, pitch=0.6, close_it=2, sigma=0.7, pad=5.0, seed=0):
         pts = m.sample(int(m.area / (pitch * pitch * 0.12)) + 2000)
         idx = np.clip(np.floor((pts - lo) / pitch).astype(int), 0, np.array(shape) - 1)
         g[tuple(idx.T)] = True
-    gc = ndi.binary_closing(g, iterations=close_it)
-    fl = ndi.binary_fill_holes(gc)
+    ball = np.ones((3, 3, 3), bool)
+    gd = ndi.binary_dilation(g, structure=ball, iterations=1)                  # 26-connected one-voxel thickening: a point-sampled shell may touch only diagonally, 6-connected background would leak
+    gc = ndi.binary_closing(gd, iterations=close_it)
+    fl = ndi.binary_erosion(ndi.binary_fill_holes(gc), structure=ball, iterations=1)
     lab, k = ndi.label(fl)
     if k > 1:
         sizes = ndi.sum(fl, lab, range(1, k + 1))
@@ -103,6 +106,9 @@ def closed_surface(parts, pitch=0.6, close_it=2, sigma=0.7, pad=5.0, seed=0):
     vv, ff, _, _ = marching_cubes(fld, 0.5, spacing=(pitch,) * 3)
     vv = vv + lo
     m = trimesh.Trimesh(vv, ff, process=True)
+    trimesh.repair.fix_normals(m)
+    # the shell voxels are centred ON the source surface, so the filled solid is one half voxel too large on every side: move the surface back along its normals
+    m.vertices = m.vertices - m.vertex_normals * (0.5 * pitch)
     trimesh.repair.fix_normals(m)
     info = dict(volume_cm3=round(float(abs(m.volume)) / 1000, 2), watertight=bool(m.is_watertight), components=int(len(m.split(only_watertight=False))),
                 shell_voxel_cm3=round(float(g.sum()) * pitch ** 3 / 1000, 2), pitch_mm=pitch, closing_iterations=close_it)

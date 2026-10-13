@@ -205,7 +205,7 @@ What the owner would need to provide: If a Z-Anatomy female model exists, the ex
 
 ## Fixes applied in Q233
 
-- **Imaging-based · Female**: ADDED uterus (with cervix), ovary L / R, uterine tube L / R (HuBMAP HRA 3D reference organs of the SAME donor (Visible Human female), CC BY 4.0, registered on her own CT pelvis: scale x0.95057, surface residual median 1.25 mm (p90 3.49))
+- **Imaging-based · Female**: ADDED uterus (with cervix), ovary L / R, uterine tube L / R (HuBMAP HRA 3D reference organs of the SAME donor (Visible Human female), CC BY 4.0, registered on her own CT pelvis: scale x0.95043, surface residual median 1.24 mm (p90 3.53))
 - **Imaging-based · Female**: REMOVED the male coccyx (xfer_vhm2vhf, Q44) (her own coccyx is in her CT sacrum mesh; card note added to the sacrum)
 - **Combined · Female**: ADDED the same five organs in her coordinates (her frame) (HRA same-donor organs, same transform as the Imaging-based female)
 - **Base · Female**: ADDED the same organs registered on the Z-Anatomy pelvis; renamed 'Base · Female (male-derived body)'; wording and card notes say plainly that the body is male-derived ()

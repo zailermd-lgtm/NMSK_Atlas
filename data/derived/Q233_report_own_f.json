@@ -1,40 +1,40 @@
 {
  "registration": {
-  "scale": 0.95057,
+  "scale": 0.95043,
   "rotation": [
    [
-    0.999996,
-    0.002691,
-    -0.001043
+    1.0,
+    0.000687,
+    -0.000252
    ],
    [
-    -0.002701,
-    0.999948,
-    -0.009803
+    -0.00069,
+    0.999947,
+    -0.01032
    ],
    [
-    0.001016,
-    0.009806,
-    0.999951
+    0.000245,
+    0.01032,
+    0.999947
    ]
   ],
   "translation_mm": [
-   -9.047,
-   -13.784,
-   58.041
+   -8.761,
+   -13.772,
+   57.975
   ],
   "n_source": 29144,
   "n_target": 160000,
   "residual_mm": {
-   "median": 1.25,
-   "p90": 3.49,
+   "median": 1.24,
+   "p90": 3.53,
    "rms": 2.07,
-   "max": 9.1
+   "max": 10.1
   },
   "det_R": 1.0,
   "residual_by_part_mm_median": {
    "hip_bone": 1.46,
-   "coccyx": 2.08,
+   "coccyx": 2.11,
    "sacrum": 0.97
   }
  },
@@ -42,79 +42,44 @@
   "uterus": {
    "hra_object": "VH_F_Uterus",
    "envelope": {
-    "volume_cm3": 24.53,
+    "volume_cm3": 22.98,
     "watertight": true,
     "components": 1,
-    "shell_voxel_cm3": 5.95,
+    "shell_voxel_cm3": 5.92,
     "pitch_mm": 0.6,
     "closing_iterations": 2,
     "source_to_closed_surface_mm": {
-     "median": 0.66,
-     "p95": 7.33,
-     "max": 9.88,
+     "median": 0.44,
+     "p95": 7.07,
+     "max": 9.62,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
-     "median": 0.42,
-     "p95": 0.83,
-     "max": 1.36
+     "median": 0.22,
+     "p95": 0.53,
+     "max": 1.69
     }
    },
    "gates": {
     "inside_skin": true,
-    "skin_depth_min_mm": 76.6,
-    "bone_min_mm": 29.51,
+    "skin_depth_min_mm": 76.9,
+    "bone_min_mm": 29.8,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {
-     "rectum": 0.001,
-     "levator_ani_l": 0.24,
-     "levator_ani_r": 0.207
+     "levator_ani_l": 0.388,
+     "levator_ani_r": 0.455
     },
-    "overlap_total_pct": 1.83,
+    "overlap_total_pct": 3.67,
     "watertight": true,
     "triangles": 9000,
-    "volume_cm3": 24.52,
+    "volume_cm3": 22.97,
     "pass": true
    }
   },
   "ovary_l": {
    "hra_object": "VH_F_Ovary_L",
    "envelope": {
-    "volume_cm3": 0.99,
-    "watertight": true,
-    "components": 1,
-    "shell_voxel_cm3": 0.27,
-    "pitch_mm": 0.4,
-    "closing_iterations": 1,
-    "source_to_closed_surface_mm": {
-     "median": 0.24,
-     "p95": 0.58,
-     "max": 0.68,
-     "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
-    },
-    "closed_surface_to_source_mm": {
-     "median": 0.29,
-     "p95": 0.59,
-     "max": 0.7
-    }
-   },
-   "gates": {
-    "inside_skin": true,
-    "skin_depth_min_mm": 81.9,
-    "bone_min_mm": 17.83,
-    "vertices_within_1mm_of_bone": 0,
-    "overlap_cm3": {},
-    "overlap_total_pct": 0.0,
-    "watertight": true,
-    "triangles": 1400,
-    "volume_cm3": 0.99,
-    "pass": true
-   }
-  },
-  "ovary_r": {
-   "hra_object": "VH_F_Ovary_R",
-   "envelope": {
-    "volume_cm3": 1.01,
+    "volume_cm3": 0.88,
     "watertight": true,
     "components": 1,
     "shell_voxel_cm3": 0.27,
@@ -122,94 +87,128 @@
     "closing_iterations": 1,
     "source_to_closed_surface_mm": {
      "median": 0.23,
-     "p95": 0.54,
-     "max": 0.67,
+     "p95": 0.37,
+     "max": 0.5,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
-     "median": 0.27,
-     "p95": 0.55,
-     "max": 0.68
+     "median": 0.24,
+     "p95": 0.38,
+     "max": 0.51
     }
    },
    "gates": {
     "inside_skin": true,
-    "skin_depth_min_mm": 78.7,
-    "bone_min_mm": 13.77,
+    "skin_depth_min_mm": 82.1,
+    "bone_min_mm": 18.08,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {},
     "overlap_total_pct": 0.0,
     "watertight": true,
     "triangles": 1400,
-    "volume_cm3": 1.0,
+    "volume_cm3": 0.88,
+    "pass": true
+   }
+  },
+  "ovary_r": {
+   "hra_object": "VH_F_Ovary_R",
+   "envelope": {
+    "volume_cm3": 0.89,
+    "watertight": true,
+    "components": 1,
+    "shell_voxel_cm3": 0.27,
+    "pitch_mm": 0.4,
+    "closing_iterations": 1,
+    "source_to_closed_surface_mm": {
+     "median": 0.19,
+     "p95": 0.34,
+     "max": 0.47,
+     "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
+    },
+    "closed_surface_to_source_mm": {
+     "median": 0.2,
+     "p95": 0.36,
+     "max": 0.5
+    }
+   },
+   "gates": {
+    "inside_skin": true,
+    "skin_depth_min_mm": 79.0,
+    "bone_min_mm": 13.97,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {},
+    "overlap_total_pct": 0.0,
+    "watertight": true,
+    "triangles": 1400,
+    "volume_cm3": 0.89,
     "pass": true
    }
   },
   "uterine_tube_l": {
    "hra_object": "VH_F_Fallopian_Tube_L",
    "envelope": {
-    "volume_cm3": 0.57,
+    "volume_cm3": 0.42,
     "watertight": true,
-    "components": 2,
+    "components": 1,
     "shell_voxel_cm3": 0.5,
     "pitch_mm": 0.4,
     "closing_iterations": 1,
     "source_to_closed_surface_mm": {
-     "median": 0.26,
-     "p95": 0.9,
-     "max": 1.3,
+     "median": 0.22,
+     "p95": 0.74,
+     "max": 1.56,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
-     "median": 0.27,
-     "p95": 0.58,
-     "max": 0.79
+     "median": 0.2,
+     "p95": 0.4,
+     "max": 1.26
     }
    },
    "gates": {
     "inside_skin": true,
-    "skin_depth_min_mm": 76.2,
-    "bone_min_mm": 23.09,
+    "skin_depth_min_mm": 76.5,
+    "bone_min_mm": 23.55,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {},
     "overlap_total_pct": 0.0,
     "watertight": true,
     "triangles": 14000,
-    "volume_cm3": 0.57,
+    "volume_cm3": 0.42,
     "pass": true
    }
   },
   "uterine_tube_r": {
    "hra_object": "VH_F_Fallopian_Tube_R",
    "envelope": {
-    "volume_cm3": 0.33,
+    "volume_cm3": 0.21,
     "watertight": true,
     "components": 1,
     "shell_voxel_cm3": 0.33,
     "pitch_mm": 0.4,
     "closing_iterations": 1,
     "source_to_closed_surface_mm": {
-     "median": 0.26,
-     "p95": 0.65,
-     "max": 1.11,
+     "median": 0.17,
+     "p95": 0.5,
+     "max": 0.95,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
-     "median": 0.25,
-     "p95": 0.52,
-     "max": 0.83
+     "median": 0.15,
+     "p95": 0.36,
+     "max": 1.07
     }
    },
    "gates": {
     "inside_skin": true,
-    "skin_depth_min_mm": 78.7,
-    "bone_min_mm": 18.69,
+    "skin_depth_min_mm": 78.9,
+    "bone_min_mm": 18.83,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {},
     "overlap_total_pct": 0.0,
     "watertight": true,
-    "triangles": 13000,
-    "volume_cm3": 0.33,
+    "triangles": 12900,
+    "volume_cm3": 0.21,
     "pass": true
    }
   }
