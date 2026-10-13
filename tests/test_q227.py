@@ -49,13 +49,13 @@ def test_cut_panel_has_the_cap_controls_in_both_templates():
 @pytest.mark.parametrize("tpl", [OWN, ZAN], ids=["own", "zan"])
 def test_engines_wire_selection_and_cap(tpl):
     t = tpl.read_text(encoding="utf-8")
-    for needle in ("selCtl = NMSKSelect({", "capCtl = NMSKCap({", "selCtl.rule(", "selCtl.isMarked(", "selCtl.consumeClick(e)", "selCtl.markButton(",
+    for needle in ("selCtl = NMSKSelect({", "capCtl = NMSKCap({", "selCtl.look(", "selCtl.tinted(", "selCtl.consumeClick(e)", "selCtl.markButton(",
                    "capCtl.planeChanged()", "capUpload", "window.__selState", "window.__capState", "lookAt:function"):
         assert needle in t, (tpl.name, needle)
     # the selection click is tried after the cut placing click and before the add-on's
     i = t.index("selCtl.consumeClick(e)")
     assert t.index("cutCtl.consumeClick(e)") < i < t.index("addonClick(e)", i - 300)
-    assert 'rule(o.id) === "hide"' in t or 'rule(s.id)' in t
+    assert ('rule(o.id) === "hide"' in t) or ('selCtl.look(s.id)' in t)
 
 
 def test_own_engine_uses_a_textured_quad_and_line_segments():
@@ -335,7 +335,7 @@ def basic():
 def test_sel_marks_rules_and_modes(basic):
     o = basic
     assert o["initial"]["marks"] == [] and o["initial"]["mode"] == "all" and o["initial"]["model"] == "own:vhm"
-    assert o["toolbar"] == ["t-mark", "t-only"]
+    assert o["toolbar"] == ["t-mark", "t-only", "t-invert"]
     assert o["marks"] == ["biceps_r", "femur_r"] and o["revealed"] == ["biceps_r", "femur_r"]            # the list tick reveals the layer; 'nope' is ignored
     assert o["rule_all"] == ["", ""]
     assert o["rule_only"] == ["", "", "hide", "hide"]

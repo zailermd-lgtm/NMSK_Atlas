@@ -363,6 +363,32 @@ body.ss-marking canvas{cursor:copy!important}
 .ss-phone #sel-sec .ss-check input{width:22px;height:22px}
 .ss-phone #sel-sec .ss-chips{max-height:170px}
 .ss-phone .ss-mk{width:38px;min-height:38px}
+/* Q232: invert, per-group display states, fade slider, presets */
+#sel-sec .ss-hint[hidden]{display:none}
+#sel-sec .ss-chip.ss-exc{border-style:dashed;border-color:var(--ss-dim)}
+#sel-sec .ss-chip.ss-all{border-color:var(--ss-mark);background:var(--ss-mark);color:#1b1b1b;font-weight:600;padding-right:8px}
+#sel-sec .ss-chip.ss-exc button:hover{background:var(--ss-accent);color:var(--ss-accent-ink)}
+#sel-sec .ss-disp{margin:6px 0 4px;padding:6px 0 2px;border-top:1px solid var(--ss-line)}
+#sel-sec .ss-grp{display:flex;align-items:flex-start;gap:6px;margin:0 0 4px}
+#sel-sec .ss-gl{flex:0 0 58px;padding-top:6px;font-size:11px;font-weight:700;color:var(--ss-dim)}
+#sel-sec .ss-gb{display:flex;flex:1 1 auto;flex-wrap:wrap;gap:4px;min-width:0}
+#sel-sec .ss-gb>button{flex:1 1 52px;min-width:0}
+#sel-sec .ss-opt{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:2px 0 4px;font-size:11.5px}
+#sel-sec .ss-opt>label:first-child{flex:0 0 96px;color:var(--ss-dim);font-weight:600}
+#sel-sec .ss-opt input[type=range]{flex:1 1 90px;min-width:0;height:22px;accent-color:var(--ss-accent)}
+#sel-sec .ss-opt output{flex:0 0 40px;text-align:right;font-variant-numeric:tabular-nums}
+#sel-sec .ss-opt input[type=color]{width:38px;height:28px;padding:1px;border:1px solid var(--ss-line);border-radius:6px;background:var(--ss-bg)}
+#sel-sec .ss-opt .ss-check{margin-left:auto}
+#sel-sec .ss-presets>button{flex:1 1 44%}
+#sel-sec .ss-catrow>select{flex:1 1 120px}
+#sel-sec .ss-keys{margin-top:6px}
+.ss-phone #sel-sec .ss-gb>button{flex:1 1 30%;min-height:38px}
+.ss-phone #sel-sec .ss-gl{flex-basis:52px;padding-top:10px}
+.ss-phone #sel-sec .ss-opt{min-height:38px}
+.ss-phone #sel-sec .ss-opt input[type=range]{height:38px}
+.ss-phone #sel-sec .ss-opt input[type=color]{width:46px;height:38px}
+.ss-phone #sel-sec .ss-presets>button{flex:1 1 44%}
+.ss-phone #sel-sec .ss-keys{display:none}
 /* SELECTION css end */
   #sel-sec,.ss-mk,.ss-lrow{--ss-bg:var(--panel-2);--ss-ink:var(--ink);--ss-dim:var(--ink-dim);--ss-line:var(--line-strong);--ss-accent:var(--accent);--ss-accent-ink:var(--ground);--ss-sunk:var(--panel-2)}
   #sel-sec{padding:.1rem 0 .7rem;border-bottom:1px solid var(--line);font-family:var(--f-body);font-size:12px}
@@ -518,13 +544,27 @@ body.ss-marking canvas{cursor:copy!important}
   <div id="sel-chips" class="ss-chips"></div>
   <p id="sel-empty" class="ss-hint">Tick structures in the list below, Shift/Ctrl-click or long-press them in 3D, or press <b>Mark by clicking</b> and tap them.</p>
   <div class="ss-row">
-    <button type="button" id="sel-markcur" title="Mark the structure whose card is open">Mark selected</button><button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button>
+    <button type="button" id="sel-markcur" title="Mark the structure whose card is open">Mark selected</button><button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-markvis" title="Mark every structure that is shown now (layers, hidden flags, source facet, side filter)">Mark all visible</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button>
+  </div>
+  <div class="ss-row ss-catrow">
+    <select id="sel-cat" aria-label="Layer / category"></select><button type="button" id="sel-markcat" title="Mark every structure of this layer">Mark layer</button><button type="button" id="sel-unmarkcat" title="Remove the marks of this layer">Unmark layer</button>
+  </div>
+  <div class="ss-row">
+    <button type="button" id="sel-invert" class="ss-primary" aria-pressed="false" title="Swap (key I): mark everything else that is shown and unmark the marked ones. Press again to swap back.">Invert</button><button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button>
+  </div>
+  <p id="sel-invnote" class="ss-hint" hidden>Inverted: the marked set is everything else that is shown. Press Invert again to swap back; the left-out structures are listed above.</p>
+  <div class="ss-disp" role="group" aria-label="Display of the selected structures and of the others">
+    <p class="ss-eyebrow">Display</p>
+    <div class="ss-grp" role="group" aria-label="Selected structures"><span class="ss-gl">Selected</span><span class="ss-gb"><button type="button" class="ss-st" data-g="sel" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="sel" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="sel" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="sel" data-s="hl" aria-pressed="false" title="Solid highlight colour">Highlight</button><button type="button" class="ss-st" data-g="sel" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="sel" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
+    <div class="ss-grp" role="group" aria-label="All other structures"><span class="ss-gl">Others</span><span class="ss-gb"><button type="button" class="ss-st" data-g="oth" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="oth" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="oth" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="oth" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="oth" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
+    <div class="ss-opt"><label for="sel-fade">Fade opacity</label><input type="range" id="sel-fade" min="0" max="100" step="1" value="15" aria-label="Opacity of faded structures"><output id="sel-fade-v" for="sel-fade">15 %</output></div>
+    <div class="ss-opt"><label for="sel-hl">Highlight colour</label><input type="color" id="sel-hl" value="#ffb000" aria-label="Highlight colour"><label class="ss-check"><input type="checkbox" id="sel-tint" checked> Tint marked</label></div>
+    <div class="ss-row ss-presets">
+      <button type="button" id="sel-p-isolate" aria-pressed="false" title="Show the selected, hide all others">Isolate selected</button><button type="button" id="sel-p-fadeoth" aria-pressed="false" title="Selected normal, all others faded (key F)">Fade others</button><button type="button" id="sel-p-fadesel" aria-pressed="false" title="Selected faded, all others normal (Shift+F)">Fade selected</button><button type="button" id="sel-p-hidesel" aria-pressed="false" title="Hide the selected (key H)">Hide selected</button><button type="button" id="sel-p-hlsel" aria-pressed="false" title="Colour the selected in the highlight colour">Highlight selected</button>
+    </div>
   </div>
   <div class="ss-row">
     <button type="button" id="sel-only" aria-pressed="false" title="Show only the marked structures; everything else disappears">Show only marked</button><button type="button" id="sel-hide" aria-pressed="false" title="Hide the marked structures">Hide marked</button><button type="button" id="sel-ghost" aria-pressed="false" title="Draw the structures that would be hidden as faint ghosts instead">Ghost the rest</button>
-  </div>
-  <div class="ss-row">
-    <button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button>
   </div>
   <details id="sel-saved" class="ss-det">
     <summary>Saved selections</summary>
@@ -538,6 +578,7 @@ body.ss-marking canvas{cursor:copy!important}
     <textarea id="sel-io" rows="4" spellcheck="false" aria-label="Saved selections as text (copy to keep, paste to import)"></textarea>
     <div class="ss-row"><button type="button" id="sel-export">Export</button><button type="button" id="sel-import">Import</button><button type="button" id="sel-link">Copy link</button></div>
   </details>
+  <p class="ss-hint ss-keys">Keys (while structures are marked): <b>I</b> invert, <b>F</b> fade the others, <b>H</b> hide the selected; add Shift for the other group.</p>
   <p id="sel-status" class="ss-hint" aria-live="polite"></p>
 </section>
 <!-- SELECTION html end -->
@@ -855,10 +896,19 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     readColors();
 
     // Q161: veins drawn blue within the cardiovascular layer
-    var markCols = new Map();
+    var markCols = new Map(), hlC = {h:-1, c:null};
+    function hlCol(h) { if (hlC.h !== h) hlC = {h:h, c:[((h >> 16) & 255) / 255, ((h >> 8) & 255) / 255, (h & 255) / 255]}; return hlC.c; }   // one stable array per highlight colour
+    /* Q232 selection display states: opacity of a structure that the marked / other group has put in "fade" (user opacity), "xray" (the x-ray preset's per-layer
+       opacity) or "ghost"; "hl" is solid, "hide" is a veto in vis(). A per-structure fade (the card's fade button) keeps its own 0.18 and wins. */
+    var XRAY_A = {bone:1, cartilage:.85, joint:.5, insertion:.9, muscle:.22, fascia:.15, bursa:.5, nerve:1, cns:.9, vessel:.8, lymph:.2, viscera:.25, skin:.06};
+    function selLook(o) { return selCtl ? selCtl.look(o.id) : ""; }
+    function selAlpha(k, layer, fa) {
+      return k === "fade" ? Math.min(selCtl.fadeAlpha(), fa) : k === "xray" ? Math.min(XRAY_A[layer] == null ? 0.3 : XRAY_A[layer], fa) : k === "ghost" ? Math.min(0.12, fa) : 1;
+    }
     function colOf(o) {
       var c = (o.vt === "v" && COL.vein) ? COL.vein : (COL[o.layer] || [0.6,0.6,0.6]);
-      if (selCtl && selCtl.isMarked(o.id)) {      // Q227: a marked structure's colour toward amber (one stable array per base colour: draw runs compare by reference)
+      if (selCtl && selCtl.look(o.id) === "hl") return hlCol(selCtl.hlHex());      // Q232: the selected group in a solid highlight colour
+      if (selCtl && selCtl.tinted(o.id)) {      // Q227: a marked structure's colour toward amber (one stable array per base colour: draw runs compare by reference)
         var m = markCols.get(c); if (!m) { m = [c[0]*0.55+0.91*0.45, c[1]*0.55+0.64*0.45, c[2]*0.55+0.075*0.45]; markCols.set(c, m); }
         return m;
       }
@@ -979,12 +1029,14 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         if (soloLayer && B.layer!==soloLayer) return;
         (layerAlpha(B.layer)>=0.999?opa:tra).push(B);
       });
-      function solid(e){ return vis(e) && !faded.has(e) && !isGhost(e); }
+      function solid(e){ return vis(e) && !faded.has(e) && selLook(e) === ""; }
       function isFaded(e){ return vis(e) && faded.has(e); }
-      function ghostOnly(e){ return vis(e) && !faded.has(e) && isGhost(e); }
+      function selIs(k){ return function(e){ return vis(e) && !faded.has(e) && selLook(e) === k; }; }
+      var hlOnly = selIs("hl"), fadeSel = selIs("fade"), xraySel = selIs("xray"), ghostOnly = selIs("ghost");
 
       gl.disable(gl.BLEND); gl.depthMask(true);
       opa.forEach(function(B){ paint(B,1,solid); });
+      if (selCtl && selCtl.active()) opa.concat(tra).forEach(function(B){ paint(B,1,hlOnly); });     // Q232: a highlighted structure is solid whatever its layer opacity
 
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
       tra.forEach(function(B){ paint(B,layerAlpha(B.layer),solid); });
@@ -992,7 +1044,11 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         if (!on[B.layer]) return;
         if (soloLayer && B.layer!==soloLayer) return;
         paint(B, Math.min(0.18, alphaFor[B.layer]), isFaded);
-        if (selCtl && selCtl.ghosting()) paint(B, Math.min(0.12, alphaFor[B.layer]), ghostOnly);     // Q227: the structures a selection would hide, drawn as faint ghosts
+        if (selCtl && selCtl.translucent()) {     // Q227/Q232: faded / x-ray / ghost groups of a selection, each at its own opacity
+          paint(B, selAlpha("fade", B.layer, layerAlpha(B.layer)), fadeSel);
+          paint(B, selAlpha("xray", B.layer, layerAlpha(B.layer)), xraySel);
+          paint(B, selAlpha("ghost", B.layer, alphaFor[B.layer]), ghostOnly);
+        }
       });
       gl.depthMask(true); gl.disable(gl.BLEND);
 
@@ -1093,7 +1149,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // Structures a click should land on: visible, not faded, and in a layer drawn at
     // least 35% opaque (an x-ray-thin muscle layer lets the click through to what is behind).
     function pickable(o, all) {
-      return vis(o) && (all || (!faded.has(o) && !isGhost(o) && alphaFor[o.layer] >= 0.35));
+      return vis(o) && (all || (!faded.has(o) && !isThin(o) && alphaFor[o.layer] >= 0.35));
     }
     function renderIds(all, depth) {
       var PP = depth ? dprog : pprog, PU = depth ? DU : PUid;
@@ -1145,7 +1201,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       if (pickKey !== key) { renderIds(false); pickKey = key; }
       else gl.bindFramebuffer(gl.FRAMEBUFFER, pfb);
       var hit = readId(mx, my);
-      var thin = faded.size > 0 || (selCtl && selCtl.ghosting()) || LK.some(function (k) { return on[k] && alphaFor[k] > 0.01 && alphaFor[k] < 0.35; });
+      var thin = faded.size > 0 || (selCtl && selCtl.translucent()) || LK.some(function (k) { return on[k] && alphaFor[k] > 0.01 && alphaFor[k] < 0.35; });
       lastPickAll = false;
       if (!hit && thin) { renderIds(true); pickKey = null; hit = readId(mx, my); lastPickAll = true; }
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -1708,6 +1764,10 @@ function NMSKParts(E){
    modelId() items() -> [{id,name}] (one per structure, in list order)   refresh() re-apply visibility   selected() select(id)   reveal(ids) (switch the layers /
    source classes / hide flags of these structures on)   listIds() (ids the search box shows)   pickId(ev) (cap-aware)   clearHover()   resetEngine() (the
    engine's own isolation / hide / fade / solo / box)   canvas   toolbar + toolClass   isPhone()   [frame(ids)].
+   Q232 adds [eligible()] (ids shown by the layers / hidden flags / source facet / side filter, ignoring the selection itself), [categories()] +
+   [idsOfCategory(key)] (cheap "mark a whole layer"), and look(id) = the display state of the group (marked = "selected", rest = "others") a structure belongs to:
+   "" (as the layers say) | "fade" (opacity fadeAlpha()) | "hide" | "ghost" | "xray" | "hl" (solid colour hlHex(); selected group only). rule(id) is the
+   Q227 view of it ("" | "hide" | "ghost") and stays valid. tinted(id) = the amber mark tint.
    The engine asks rule(id): "" = as the layers say, "hide" = not drawn, "ghost" = drawn as a faint ghost and not pickable; isMarked(id) tints a marked
    structure. A selection composes with everything else because it only ADDS a veto: the layer toggles, the source facet, X-ray, the cut plane + slab and the
    parts markers all still apply to what it leaves.
@@ -1717,13 +1777,15 @@ function NMSKSelect(E){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
   var MODEL = String(E.modelId()), KEY = "nmsk.sel.v1:" + MODEL, LP_MS = 520, MARKLIMIT = 400;
-  var marks = [], set = {}, mode = "all", ghost = false, markMode = false, storageOK = true, suppress = false;
+  var marks = [], set = {}, ss = "show", os = "show", ghostPref = false, markMode = false, storageOK = true, suppress = false;
+  var fade = 0.15, hl = "#ffb000", tintOn = true, inv = null;                   // Q232: fade opacity 0..1, highlight colour, amber tint of marked structures, inv = {id:1} ids left out by Invert (null = not inverted)
+  var STATES = {show:1, fade:1, hide:1, ghost:1, xray:1, hl:1};
   var data = {v:1, model:MODEL, sets:{}, last:null, remember:true};
   var names = {}, order = [];
   E.items().forEach(function(it){ if (!(it.id in names)){ names[it.id] = it.name || it.id; order.push(it.id); } });
-  var sec = $("sel-sec"), chipsEl = $("sel-chips"), cntEl = $("sel-count"), statusEl = $("sel-status"), nameEl = $("sel-name"), setsEl = $("sel-sets"),
+  var sec = $("sel-sec"), fadeEl = $("sel-fade"), fadeVEl = $("sel-fade-v"), hlEl = $("sel-hl"), tintEl = $("sel-tint"), invNoteEl = $("sel-invnote"), chipsEl = $("sel-chips"), cntEl = $("sel-count"), statusEl = $("sel-status"), nameEl = $("sel-name"), setsEl = $("sel-sets"),
       ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember");
-  var tbMark = null, tbOnly = null;
+  var tbMark = null, tbOnly = null, tbInv = null;
 
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function has(id){ return Object.prototype.hasOwnProperty.call(names, id); }
@@ -1744,55 +1806,100 @@ function NMSKSelect(E){
     storeEl.textContent = storageOK ? "Saved selections stay in this browser for this model (" + Object.keys(data.sets).length + " saved)."
       : "This browser blocks storage here: selections are kept only until you close the page. Use Export (copy the text) or Copy link to keep one.";
   }
-  function pack(){ return {ids:marks.slice(), mode:mode, ghost:ghost}; }
+  function modeOf(){
+    if (!marks.length) return "all";
+    if (ss === "show" && (os === "hide" || os === "ghost")) return "only";
+    if ((ss === "hide" || ss === "ghost") && os === "show") return "hide";
+    return "all";
+  }
+  function ghostOf(){ return ghostPref || ss === "ghost" || os === "ghost"; }
+  function baseIds(){ return inv ? order.filter(function(id){ return inv[id] === 1; }) : marks.slice(); }
+  /* the stored / exported / linked form: when inverted only the ids that were LEFT OUT are kept ("inverse of these"), so the set is small and is re-evaluated
+     against whatever is eligible when it is loaded; the older fields (mode, ghost) stay for Q227 readers */
+  function pack(){
+    var p = {ids:baseIds(), mode:modeOf(), ghost:ghostOf(), ss:ss, os:os, fade:Math.round(fade * 100) / 100, hl:hl};
+    if (inv) p.inv = true;
+    return p;
+  }
   function persistLast(){
     data.remember = !remEl || !!remEl.checked;
     data.last = data.remember ? pack() : null;
+    data.tint = tintOn;
     storeWrite();
   }
-  /* ---- the selection itself ---- */
-  function rule(id){
-    if (mode === "all" || !marks.length) return "";
-    var m = set[id] === 1, hideIt = mode === "only" ? !m : m;
-    return hideIt ? (ghost ? "ghost" : "hide") : "";
+  /* ---- the selection itself: two groups, "selected" (marked) and "others", each with its own display state ---- */
+  function stateOf(id){
+    if (!marks.length) return "";
+    var s = set[id] === 1 ? ss : os;
+    if (s === "fade" && fade <= 0.005) s = "hide";            // 0 % opacity = not drawn at all (no pick, no cap)
+    return s === "show" ? "" : s;
   }
-  function ghosting(){ return ghost && mode !== "all" && marks.length > 0; }
-  function activeState(){ return marks.length > 0 || mode !== "all" || ghost; }
+  function rule(id){ var s = stateOf(id); return s === "hide" ? "hide" : s === "ghost" ? "ghost" : ""; }
+  function ghosting(){ return marks.length > 0 && (ss === "ghost" || os === "ghost"); }
+  function translucent(){ return marks.length > 0 && [ss, os].some(function(s){ return s === "fade" || s === "ghost" || s === "xray"; }); }
+  function activeState(){ return marks.length > 0 || ss !== "show" || os !== "show" || ghostPref; }
+  function tinted(id){ return tintOn && ss === "show" && set[id] === 1; }
+  function hlHex(){ return parseInt(hl.slice(1), 16); }
+  function fixStates(){
+    if (!STATES[ss]) ss = "show";
+    if (!STATES[os] || os === "hl") os = "show";
+    if (!marks.length){ ss = os = "show"; ghostPref = false; inv = null; }
+  }
   function syncButtons(){
     var l = document.querySelectorAll(".ss-mk[data-id]");
     for (var i = 0; i < l.length; i++) l[i].setAttribute("aria-pressed", String(set[l[i].getAttribute("data-id")] === 1));
   }
   function renderChips(){
     if (chipsEl){
-      var h = "", n = Math.min(marks.length, MARKLIMIT);
-      for (var i = 0; i < n; i++) h += '<span class="ss-chip"><span class="t" title="' + esc(name(marks[i])) + '">' + esc(name(marks[i])) +
-        '</span><button type="button" data-id="' + esc(marks[i]) + '" aria-label="Unmark ' + esc(name(marks[i])) + '" title="Unmark">&times;</button></span>';
-      if (marks.length > n) h += '<span class="ss-chip"><span class="t">+' + (marks.length - n) + ' more</span></span>';
+      var h = "", n, i;
+      if (inv){                                              // inverted: show what was LEFT OUT (the marked set is everything else eligible)
+        var ex = baseIds(); n = Math.min(ex.length, MARKLIMIT);
+        h += '<span class="ss-chip ss-all"><span class="t">Inverted: all other ' + marks.length + '</span></span>';
+        for (i = 0; i < n; i++) h += '<span class="ss-chip ss-exc"><span class="t" title="Left out: ' + esc(name(ex[i])) + '">not ' + esc(name(ex[i])) +
+          '</span><button type="button" data-exc="' + esc(ex[i]) + '" aria-label="Mark ' + esc(name(ex[i])) + ' too" title="Mark this one too">+</button></span>';
+        if (ex.length > n) h += '<span class="ss-chip"><span class="t">+' + (ex.length - n) + ' more left out</span></span>';
+      } else {
+        n = Math.min(marks.length, MARKLIMIT);
+        for (i = 0; i < n; i++) h += '<span class="ss-chip"><span class="t" title="' + esc(name(marks[i])) + '">' + esc(name(marks[i])) +
+          '</span><button type="button" data-id="' + esc(marks[i]) + '" aria-label="Unmark ' + esc(name(marks[i])) + '" title="Unmark">&times;</button></span>';
+        if (marks.length > n) h += '<span class="ss-chip"><span class="t">+' + (marks.length - n) + ' more</span></span>';
+      }
       chipsEl.innerHTML = h;
     }
     if (cntEl) cntEl.textContent = String(marks.length);
-    if (sec && sec.classList) sec.classList.toggle("has-marks", marks.length > 0);
+    if (sec && sec.classList){ sec.classList.toggle("has-marks", marks.length > 0); sec.classList.toggle("is-inverted", !!inv); }
   }
+  var PRESETS = {isolate:["show", "hide"], fadeoth:["show", "fade"], fadesel:["fade", "show"], hidesel:["hide", "show"], hlsel:["hl", "show"]};
   function ui(){
-    var n = marks.length;
+    var n = marks.length, md = modeOf();
     function pr(id, v){ var e = $(id); if (e) e.setAttribute("aria-pressed", String(v)); }
-    pr("sel-only", mode === "only"); pr("sel-hide", mode === "hide"); pr("sel-ghost", ghost); pr("sel-markmode", markMode);
-    ["sel-only", "sel-hide", "sel-clear"].forEach(function(id){ var e = $(id); if (e) e.disabled = !n; });
+    pr("sel-only", md === "only"); pr("sel-hide", md === "hide"); pr("sel-ghost", ghostOf()); pr("sel-markmode", markMode); pr("sel-invert", !!inv);
+    ["sel-only", "sel-hide", "sel-clear", "sel-ghost"].forEach(function(id){ var e = $(id); if (e) e.disabled = !n; });
+    var gb = document.querySelectorAll(".ss-st[data-g]");
+    for (var i = 0; i < gb.length; i++){ var g = gb[i].getAttribute("data-g"), st = gb[i].getAttribute("data-s");
+      gb[i].setAttribute("aria-pressed", String((g === "sel" ? ss : os) === st)); gb[i].disabled = !n; }
+    Object.keys(PRESETS).forEach(function(k){ var e = $("sel-p-" + k); if (!e) return; e.disabled = !n; e.setAttribute("aria-pressed", String(n > 0 && ss === PRESETS[k][0] && os === PRESETS[k][1])); });
+    if (fadeEl){ fadeEl.value = String(Math.round(fade * 100)); } if (fadeVEl) fadeVEl.textContent = Math.round(fade * 100) + " %";
+    if (hlEl && hlEl.value !== hl) hlEl.value = hl;
+    if (tintEl) tintEl.checked = tintOn;
+    if (invNoteEl) invNoteEl.hidden = !inv;
     if (tbMark){ tbMark.setAttribute("aria-pressed", String(markMode)); tbMark.textContent = n ? "Mark · " + n : "Mark"; }
-    if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(mode === "only")); tbOnly.hidden = !n; tbOnly.textContent = mode === "only" ? "Show all" : "Only marked";
-      tbOnly.title = mode === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
+    if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(md === "only")); tbOnly.hidden = !n; tbOnly.textContent = md === "only" ? "Show all" : "Only marked";
+      tbOnly.title = md === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
+    if (tbInv){ tbInv.setAttribute("aria-pressed", String(!!inv)); tbInv.hidden = !n; }
     if (document.body && document.body.classList) document.body.classList.toggle("ss-marking", markMode);
   }
   function changed(){
-    renderChips(); syncButtons(); ui(); persistLast(); E.refresh();
+    fixStates(); renderChips(); syncButtons(); ui(); persistLast(); E.refresh();
   }
   function mark(id, on){
     if (!has(id)) return false;
     var is = set[id] === 1;
     if (on === undefined) on = !is;
-    if (on && !is){ set[id] = 1; marks.push(id); }
-    else if (!on && is){ delete set[id]; marks.splice(marks.indexOf(id), 1); if (!marks.length && mode !== "all"){ mode = "all"; ghost = false; } }
+    if (on && !is){ set[id] = 1; marks.push(id); if (inv) delete inv[id]; }
+    else if (!on && is){ delete set[id]; marks.splice(marks.indexOf(id), 1); if (inv) inv[id] = 1; }
     else return false;
+    if (!marks.length){ ss = os = "show"; ghostPref = false; inv = null; }
     return true;
   }
   function toggle(id, fromList){
@@ -1805,41 +1912,123 @@ function NMSKSelect(E){
     return true;
   }
   function setMode(m){
-    if (m !== "all" && !marks.length){ say("Mark at least one structure first."); mode = "all"; changed(); return; }
-    mode = (mode === m) ? "all" : m;
-    if (mode === "all") ghost = ghost && false;
-    if (mode === "only" && E.reveal) E.reveal(marks);       // an explicit choice beats a switched-off layer
-    say(mode === "only" ? "Showing only the " + marks.length + " marked." : mode === "hide" ? "Marked structures hidden." : "Showing everything again.");
+    if (m !== "all" && !marks.length){ say("Mark at least one structure first."); ss = os = "show"; changed(); return; }
+    var cur = modeOf();
+    if (cur === m || m === "all"){ ss = os = "show"; ghostPref = false; }
+    else if (m === "only"){ ss = "show"; os = ghostPref ? "ghost" : "hide"; }
+    else if (m === "hide"){ ss = ghostPref ? "ghost" : "hide"; os = "show"; }
+    if (modeOf() === "only" && E.reveal) E.reveal(marks);       // an explicit choice beats a switched-off layer
+    var md = modeOf();
+    say(md === "only" ? "Showing only the " + marks.length + " marked." : md === "hide" ? "Marked structures hidden." : "Showing everything again.");
     changed();
   }
   function setGhost(v){
-    ghost = v === undefined ? !ghost : !!v;
-    say(ghost ? "The rest is drawn as faint ghosts." : "Ghosting off.");
+    if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
+    ghostPref = v === undefined ? !ghostOf() : !!v;
+    if (ghostPref){ if (ss === "hide") ss = "ghost"; if (os === "hide") os = "ghost"; }
+    else { if (ss === "ghost") ss = "hide"; if (os === "ghost") os = "hide"; }
+    say(ghostPref ? "The rest is drawn as faint ghosts." : "Ghosting off.");
     changed();
   }
-  function clearMarks(){ marks = []; set = {}; mode = "all"; ghost = false; say("Marks cleared."); changed(); }
+  var WORD = {show:"shown normally", fade:"faded", hide:"hidden", ghost:"drawn as ghosts", xray:"drawn as X-ray", hl:"highlighted"};
+  /* group = "sel" (the marked structures) or "oth" (everything else); clicking the active state again goes back to "show" */
+  function setGroup(g, st, noToggle){
+    if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
+    if (!STATES[st] || (g === "oth" && st === "hl")) return;
+    var cur = g === "sel" ? ss : os;
+    if (cur === st && !noToggle && st !== "show") st = "show";
+    if (g === "sel") ss = st; else os = st;
+    if (ss !== "ghost" && os !== "ghost") ghostPref = false;
+    if (g === "oth" && st === "hide" && E.reveal && ss === "show") E.reveal(marks);
+    say((g === "sel" ? "Selected (" + marks.length + ")" : "Others") + ": " + WORD[st] + (st === "fade" ? " at " + Math.round(fade * 100) + " %" : "") + ".");
+    changed();
+  }
+  function preset(k){
+    var p = PRESETS[k]; if (!p) return;
+    if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
+    if (ss === p[0] && os === p[1]){ ss = os = "show"; ghostPref = false; say("Back to showing everything normally."); }
+    else {
+      ss = p[0]; os = p[1]; ghostPref = false;
+      if (k === "isolate" && E.reveal) E.reveal(marks);
+      say({isolate:"Isolated: only the " + marks.length + " selected are shown.", fadeoth:"Others faded to " + Math.round(fade * 100) + " %.", fadesel:"Selected faded to " + Math.round(fade * 100) + " %.",
+        hidesel:"Selected hidden.", hlsel:"Selected highlighted."}[k]);
+    }
+    changed();
+  }
+  function setFade(v, quiet){
+    v = Math.max(0, Math.min(1, +v)); if (!(v === v)) return;
+    fade = v; if (!quiet) say("Fade opacity " + Math.round(v * 100) + " %" + (v <= 0.005 ? " (faded structures are not drawn)." : "."));
+    changed();
+  }
+  function setHl(c){ if (/^#[0-9a-f]{6}$/i.test(c)){ hl = c.toLowerCase(); changed(); } }
+  function setTint(v){ tintOn = !!v; changed(); }
+  /* Invert: the marked set becomes everything else that is eligible (layers, hidden flags, source facet, side filter); Invert again swaps back */
+  function eligibleIds(){
+    var ids = E.eligible ? E.eligible() : order;
+    return ids.filter(has);
+  }
+  function invert(){
+    if (inv){                                              // back: the left-out ids are the marked set again
+      var b = baseIds(); marks = []; set = {}; inv = null;
+      b.forEach(function(id){ set[id] = 1; marks.push(id); });
+      if (!marks.length){ ss = os = "show"; ghostPref = false; }
+      say("Inverted back: " + marks.length + " marked."); changed(); return true;
+    }
+    var left = {}, elig = eligibleIds();
+    marks.forEach(function(id){ left[id] = 1; });
+    var nm = elig.filter(function(id){ return left[id] !== 1; });
+    if (!nm.length){ say(marks.length ? "Everything that is shown is already marked: nothing to invert to." : "Nothing is shown, so there is nothing to mark."); return false; }
+    marks = nm; set = {}; nm.forEach(function(id){ set[id] = 1; }); inv = left;
+    say("Inverted: the other " + nm.length + " shown structures are marked now; " + Object.keys(left).length + " are left out."); changed(); return true;
+  }
+  function markVisible(){
+    var ids = eligibleIds(), n = 0;
+    ids.forEach(function(id){ if (set[id] !== 1 && mark(id, true)) n++; });
+    say(n ? n + " visible structures marked." : "Every visible structure is already marked."); changed();
+  }
+  function markCategory(key, on){
+    var ids = ((E.idsOfCategory && key) ? E.idsOfCategory(key) : []).filter(has), n = 0;
+    ids.forEach(function(id){ if (mark(id, on)) n++; });
+    if (on && n && E.reveal && modeOf() === "only") E.reveal(ids);
+    say(n ? n + " structures " + (on ? "marked." : "unmarked.") : "Nothing to " + (on ? "mark" : "unmark") + " in that layer."); changed();
+  }
+  function clearMarks(){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
   function resetAll(){
-    marks = []; set = {}; mode = "all"; ghost = false; markMode = false;
+    marks = []; set = {}; ss = os = "show"; ghostPref = false; markMode = false; inv = null;
     if (E.select) E.select(null);
     if (E.clearHover) E.clearHover();
     if (E.resetEngine) E.resetEngine();
     say("Selection reset: everything is shown again (layers, X-ray and the cut plane are unchanged).");
     changed();
   }
+  function stOK(s, isOth){ return typeof s === "string" && STATES[s] === 1 && !(isOth && s === "hl"); }
   function applyPack(p){
-    var ids = (p && p.ids || []).filter(has), dropped = ((p && p.ids) || []).length - ids.length;
-    marks = []; set = {};
-    ids.forEach(function(id){ if (set[id] !== 1){ set[id] = 1; marks.push(id); } });
-    mode = marks.length && (p && (p.mode === "only" || p.mode === "hide")) ? p.mode : "all";
-    ghost = marks.length > 0 && mode !== "all" && !!(p && p.ghost);
-    if (mode === "only" && E.reveal) E.reveal(marks);
+    p = p || {};
+    var src = p.ids || [], ids = src.filter(has), dropped = src.length - ids.length;
+    marks = []; set = {}; inv = null;
+    if (p.inv){
+      var left = {}; ids.forEach(function(id){ left[id] = 1; });
+      eligibleIds().forEach(function(id){ if (left[id] !== 1){ set[id] = 1; marks.push(id); } });
+      if (marks.length) inv = left;
+    } else ids.forEach(function(id){ if (set[id] !== 1){ set[id] = 1; marks.push(id); } });
+    if (stOK(p.ss, false) || stOK(p.os, true)){ ss = stOK(p.ss, false) ? p.ss : "show"; os = stOK(p.os, true) ? p.os : "show"; ghostPref = false; }
+    else {                                                  // a Q227 pack: mode + ghost
+      var gh = !!p.ghost;
+      ss = p.mode === "hide" ? (gh ? "ghost" : "hide") : "show";
+      os = p.mode === "only" ? (gh ? "ghost" : "hide") : "show";
+      ghostPref = false;
+    }
+    if (typeof p.fade === "number" && p.fade >= 0 && p.fade <= 1) fade = p.fade;
+    if (typeof p.hl === "string" && /^#[0-9a-f]{6}$/i.test(p.hl)) hl = p.hl.toLowerCase();
+    fixStates();
+    if (modeOf() === "only" && E.reveal) E.reveal(marks);
     return dropped;
   }
   /* ---- saved sets ---- */
   function listSets(){
     if (!setsEl) return;
     var h = "", ks = Object.keys(data.sets).sort();
-    ks.forEach(function(k){ h += '<option value="' + esc(k) + '">' + esc(k) + " (" + data.sets[k].ids.length + ")</option>"; });
+    ks.forEach(function(k){ h += '<option value="' + esc(k) + '">' + esc(k) + " (" + data.sets[k].ids.length + (data.sets[k].inv ? ", inverse" : "") + ")</option>"; });
     if (!ks.length) h = '<option value="">(none saved yet)</option>';
     setsEl.innerHTML = h;
     storeNote();
@@ -1852,7 +2041,7 @@ function NMSKSelect(E){
     data.sets[nm] = pack();
     persistLast(); listSets();
     if (setsEl) setsEl.value = nm;
-    say((existed ? "Updated '" : "Saved '") + nm + "' (" + marks.length + " structures)" + (storageOK ? "." : ", for this session only: storage is blocked here, use Export to keep it."));
+    say((existed ? "Updated '" : "Saved '") + nm + "' (" + (inv ? "inverse of " + baseIds().length + " left out; " : "") + marks.length + " structures)" + (storageOK ? "." : ", for this session only: storage is blocked here, use Export to keep it."));
     return true;
   }
   function load(nm){
@@ -1876,13 +2065,21 @@ function NMSKSelect(E){
     if (ioEl) ioEl.value = t;
     return t;
   }
-  function hashOf(p){ return "#nmsksel=" + [encodeURIComponent(MODEL), p.mode, p.ghost ? 1 : 0, p.ids.map(encodeURIComponent).join(",")].join("~"); }
+  function hashOf(p){      // #nmsksel=model~mode~ghost~ids[~selState.othState.fade%.inverse.highlight] (the last field is new in Q232; older links have four)
+    return "#nmsksel=" + [encodeURIComponent(MODEL), p.mode, p.ghost ? 1 : 0, p.ids.map(encodeURIComponent).join(","),
+      [p.ss || "show", p.os || "show", Math.round((p.fade == null ? 0.15 : p.fade) * 100), p.inv ? 1 : 0, String(p.hl || "#ffb000").replace("#", "")].join(".")].join("~");
+  }
   function parseHash(h){
     var m = /nmsksel=([^&]*)/.exec(h || ""); if (!m) return null;
     var f = m[1].split("~"); if (f.length < 4) return null;
     var ids = f[3] ? f[3].split(",").map(function(s){ try { return decodeURIComponent(s); } catch (err){ return s; } }) : [];
     var model; try { model = decodeURIComponent(f[0]); } catch (err){ model = f[0]; }
-    return {model:model, pack:{ids:ids, mode:f[1], ghost:f[2] === "1"}};
+    var pk = {ids:ids, mode:f[1], ghost:f[2] === "1"};
+    if (f[4]){
+      var q = f[4].split(".");
+      if (q.length >= 4){ pk.ss = q[0]; pk.os = q[1]; pk.fade = Math.max(0, Math.min(100, parseFloat(q[2]))) / 100; pk.inv = q[3] === "1"; if (q[4]) pk.hl = "#" + q[4]; }
+    }
+    return {model:model, pack:pk};
   }
   function importText(t){
     t = String(t == null ? (ioEl && ioEl.value) : t).trim();
@@ -1904,7 +2101,12 @@ function NMSKSelect(E){
       var ids = s.ids.filter(function(x){ return typeof x === "string" && has(x); }), nm = String(k).slice(0, 40);
       dropped += s.ids.length - ids.length;
       if (!ids.length) return;
-      data.sets[nm] = {ids:ids, mode:s.mode === "only" || s.mode === "hide" ? s.mode : "all", ghost:!!s.ghost}; added++;
+      var one = {ids:ids, mode:s.mode === "only" || s.mode === "hide" ? s.mode : "all", ghost:!!s.ghost};
+      if (stOK(s.ss, false)) one.ss = s.ss; if (stOK(s.os, true)) one.os = s.os;
+      if (typeof s.fade === "number" && s.fade >= 0 && s.fade <= 1) one.fade = s.fade;
+      if (typeof s.hl === "string" && /^#[0-9a-f]{6}$/i.test(s.hl)) one.hl = s.hl.toLowerCase();
+      if (s.inv) one.inv = true;
+      data.sets[nm] = one; added++;
     });
     persistLast(); listSets();
     say("Imported " + added + " saved selection" + (added === 1 ? "" : "s") + (dropped ? "; " + dropped + " ids are not in this model and were skipped" : "") +
@@ -1957,6 +2159,15 @@ function NMSKSelect(E){
   bind("sel-only", function(){ setMode("only"); });
   bind("sel-hide", function(){ setMode("hide"); });
   bind("sel-ghost", function(){ setGhost(); });
+  bind("sel-invert", invert);
+  bind("sel-markvis", markVisible);
+  bind("sel-markcat", function(){ markCategory(catEl && catEl.value, true); });
+  bind("sel-unmarkcat", function(){ markCategory(catEl && catEl.value, false); });
+  Array.prototype.forEach.call(document.querySelectorAll(".ss-st[data-g]"), function(b){ b.addEventListener("click", function(){ setGroup(b.getAttribute("data-g"), b.getAttribute("data-s")); }); });
+  Object.keys(PRESETS).forEach(function(k){ bind("sel-p-" + k, function(){ preset(k); }); });
+  if (fadeEl) fadeEl.addEventListener("input", function(){ setFade(parseFloat(fadeEl.value) / 100, true); });
+  if (hlEl) hlEl.addEventListener("input", function(){ setHl(hlEl.value); });
+  if (tintEl) tintEl.addEventListener("change", function(){ setTint(tintEl.checked); });
   bind("sel-markmode", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
   bind("sel-reset", resetAll);
   bind("sel-save", function(){ save(); });
@@ -1968,7 +2179,9 @@ function NMSKSelect(E){
   if (remEl) remEl.addEventListener("change", function(){ persistLast(); say(remEl.checked ? "The last selection is remembered." : "The last selection is no longer remembered."); });
   if (chipsEl) chipsEl.addEventListener("click", function(e){
     var b = e.target && e.target.closest ? e.target.closest("button[data-id]") : null;
-    if (b){ var id = b.getAttribute("data-id"); mark(id, false); say(name(id) + " unmarked."); changed(); }
+    if (b){ var id = b.getAttribute("data-id"); mark(id, false); say(name(id) + " unmarked."); changed(); return; }
+    var x = e.target && e.target.closest ? e.target.closest("button[data-exc]") : null;
+    if (x){ var xi = x.getAttribute("data-exc"); mark(xi, true); say(name(xi) + " marked too."); changed(); }
   });
   if (nameEl) nameEl.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); save(); } });
   if (E.canvas){
@@ -1985,6 +2198,28 @@ function NMSKSelect(E){
   }
   tbMark = tb("t-mark", "Mark", "While on, a click or tap on the model marks / unmarks the structure under it (Shift/Ctrl-click or a long press does the same at any time)", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
   tbOnly = tb("t-only", "Only marked", "Show only the marked structures", function(){ setMode("only"); });
+  tbInv = tb("t-invert", "Invert", "Swap: mark everything else that is shown and unmark the marked ones (key I); press again to swap back", invert);
+  if (tbInv) tbInv.hidden = true;
+  var catEl = $("sel-cat");
+  function fillCats(){
+    if (!catEl || !E.categories) return;
+    var h = ""; E.categories().forEach(function(c){ h += '<option value="' + esc(c.key) + '">' + esc(c.label) + (c.count != null ? " (" + c.count + ")" : "") + "</option>"; });
+    catEl.innerHTML = h;
+  }
+  /* keys: I = invert, F = fade the others (Shift+F: fade the selected), H = hide the selected (Shift+H: hide the others = isolate). Only while something is
+     marked (the Z page's own i / f / h keys, which act on the one open structure, keep working otherwise) and never while typing */
+  function onKey(e){
+    if (e.ctrlKey || e.metaKey || e.altKey || e.repeat || !marks.length) return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
+    var k = String(e.key || "").toLowerCase(), used = true;
+    if (k === "i") invert();
+    else if (k === "f") setGroup(e.shiftKey ? "sel" : "oth", "fade");
+    else if (k === "h") setGroup(e.shiftKey ? "oth" : "sel", "hide");
+    else used = false;
+    if (used){ e.preventDefault(); e.stopImmediatePropagation(); }
+  }
+  window.addEventListener("keydown", onKey, true);
   function layout(){ var r = document.documentElement; if (r && r.classList) r.classList.toggle("ss-phone", !!(E.isPhone && E.isPhone())); }
   window.addEventListener("resize", layout);
   /* ---- start: stored sets, then (in this order of priority) a link in the address, the remembered last selection ---- */
@@ -1995,16 +2230,18 @@ function NMSKSelect(E){
     Object.keys(data.sets).forEach(function(k){ var s = data.sets[k]; if (!s || !Array.isArray(s.ids)) delete data.sets[k]; });
   }
   if (remEl) remEl.checked = data.remember;
-  layout(); listSets(); renderChips(); ui();
+  if (stored && stored.tint === false) tintOn = false;
+  layout(); fillCats(); listSets(); renderChips(); ui();
   var restored = "";
   try {
     var ph = parseHash(location.hash);
     if (ph && (ph.model === MODEL)){ applyPack(ph.pack); restored = "Opened the selection from the link: " + marks.length + " marked."; }
-    else if (data.remember && data.last && data.last.ids && data.last.ids.length){ applyPack(data.last); restored = "Restored your last selection: " + marks.length + " marked" + (mode === "all" ? "." : mode === "only" ? ", showing only those." : ", hidden."); }
+    else if (data.remember && data.last && data.last.ids && (data.last.ids.length || data.last.inv)){ applyPack(data.last); restored = "Restored your last selection: " + marks.length + " marked" + (modeOf() === "all" ? "." : modeOf() === "only" ? ", showing only those." : ", hidden."); }
   } catch (err){}
   if (restored){ say(restored); changed(); } else storeNote();
   return {
-    rule:rule, isMarked:function(id){ return set[id] === 1; }, ghosting:ghosting, active:activeState, markButton:function(id){
+    rule:rule, look:stateOf, isMarked:function(id){ return set[id] === 1; }, tinted:tinted, ghosting:ghosting, translucent:translucent, active:activeState,
+    fadeAlpha:function(){ return fade; }, hlHex:hlHex, markButton:function(id){
       var b = document.createElement("button");
       b.type = "button"; b.className = "ss-mk"; b.textContent = "✓"; b.setAttribute("data-id", id);
       b.setAttribute("aria-pressed", String(set[id] === 1)); b.setAttribute("aria-label", "Mark " + name(id)); b.title = "Mark / unmark for the selection";
@@ -2012,9 +2249,10 @@ function NMSKSelect(E){
       return b;
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
-    setMode:setMode, setGhost:setGhost, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
+    setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
+    markCategory:markCategory, onKey:onKey, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
-    state:function(){ return {marks:marks.slice(), mode:mode, ghost:ghost, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
+    state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
   };
 }
 /* SELECTION js end */
@@ -2630,7 +2868,7 @@ function NMSKCap(E){
       g = capGeomCache[i] = {pos:pos, idx:new Uint16Array(BIN.buffer, BIN.byteOffset + rec.io, rec.ic * 3), bmin:o.bmin, bmax:o.bmax};
       return g;
     }
-    function isGhost(o){ return !!selCtl && selCtl.ghosting() && selCtl.rule(o.id) === "ghost"; }
+    function isThin(o){ var k = selLook(o); return k === "ghost" || ((k === "fade" || k === "xray") && selAlpha(k, o.layer, 1) < 0.35); }    // drawn so faintly that a click goes through it unless nothing solid is under the pointer
     selCtl = NMSKSelect({
       modelId:function(){ return "zan:" + ((MAN && MAN.variant) || "base_male"); },
       items:function(){ return OBJ.map(function(o){ return {id:o.id, name:o.name + (o.side === "l" || o.side === "r" ? " (" + o.side.toUpperCase() + ")" : "")}; }); },
@@ -2647,6 +2885,13 @@ function NMSKCap(E){
         sync(); need = true;
       },
       listIds:function(){ return searchEl.value.trim() ? listAllIds.slice() : []; },
+      eligible:function(){                        // Q232: what Invert / Mark all visible work on = layers on, not hidden, solo layer, side filter (the selection itself, the cut and the 3D box are ignored)
+        var seen = {}, out = [];
+        OBJ.forEach(function(o){ if (seen[o.id] || !on[o.layer] || alphaFor[o.layer] <= 0.01 || hidden.has(o) || (soloLayer && o.layer !== soloLayer) || !sideOK(o)) return; seen[o.id] = 1; out.push(o.id); });
+        return out;
+      },
+      categories:function(){ return LAYERS.filter(function(L){ return counts[L.k]; }).map(function(L){ return {key:L.k, label:L.label, count:counts[L.k]}; }); },
+      idsOfCategory:function(k){ var seen = {}, out = []; OBJ.forEach(function(o){ if (o.layer === k && !seen[o.id]){ seen[o.id] = 1; out.push(o.id); } }); return out; },
       pickId:function(e){ var r = canvas.getBoundingClientRect(), o = pick((e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr); return o ? o.id : null; },
       clearHover:function(){ hovered = null; need = true; },
       resetEngine:function(){
@@ -2663,7 +2908,7 @@ function NMSKCap(E){
         var out = [];
         OBJ.forEach(function(o, i){
           if (!vis(o)) return;
-          var a = faded.has(o) ? Math.min(0.18, alphaFor[o.layer]) : (isGhost(o) ? Math.min(0.12, alphaFor[o.layer]) : layerAlpha(o.layer)), c = colOf(o);
+          var lk = selLook(o), a = faded.has(o) ? Math.min(0.18, alphaFor[o.layer]) : (lk === "ghost" || lk === "fade" || lk === "xray" ? selAlpha(lk, o.layer, lk === "ghost" ? alphaFor[o.layer] : layerAlpha(o.layer)) : (lk === "hl" ? 1 : layerAlpha(o.layer))), c = colOf(o);     // a faded structure fades its cut face too (< 20 %: no face)
           if (selected === o) c = [c[0] * 0.4 + 0.21, c[1] * 0.4 + 0.48, c[2] * 0.4 + 0.576];     // the shader mixes the selected structure toward light blue
           out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});
         });
