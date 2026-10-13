@@ -315,3 +315,52 @@ def test_zan_engine_fade_hide_highlight_pick_cap_and_addon_contract():
     cap = t[i:t.index("upload:capUpload", i)]
     assert "selAlpha(lk" in cap and "if (!vis(o)) return;" in cap and "colOf(o)" in cap
     assert "visible:function(i){ var o=OBJ[i]; return vis(o)&&!faded.has(o); }" in t               # add-on contract unchanged
+
+
+# ---------------------------------------------------------------- the six regenerated pages (build/q232, git-ignored: skipped where absent)
+import set_titles_q231 as titles  # noqa: E402
+
+PAGES = {  # page dir -> (published source dir, page file); the unified title comes from scripts/set_titles_q231.py (Q233 renamed the Base female)
+    "viewer_m_hr": ("build/q224/viewer_m_hr", "atlas_viewer_male.html"), "viewer_f_hr": ("build/q224/viewer_f_hr", "atlas_viewer_female.html"),
+    "viewer_zan_vhm": ("build/q225/viewer_zan_vhm", "atlas_viewer_zan_male_fitted.html"), "viewer_zan_female": ("build/q225/viewer_zan_female", "atlas_viewer_zan_female.html"),
+    "viewer_base_female": ("build/q222/viewer_base_female", "atlas_viewer_base_female.html"), "viewer_zan_atlas": ("build/q222/viewer_zan_atlas", "atlas_viewer_zan_atlas.html")}
+
+
+@pytest.mark.parametrize("name", sorted(PAGES))
+def test_regenerated_page(name):
+    import hashlib
+    d = REPO / "build" / "q232" / name
+    src = REPO / PAGES[name][0]
+    if not d.is_dir() or not src.is_dir():
+        pytest.skip("run scripts/regen_q232.sh (see PROJECT_STATE Q232)")
+    page = next(d.glob("atlas_viewer*.html"))
+    t = page.read_text(encoding="utf-8")
+    for name_, (path, b, e) in sync.BLOCKS.items():
+        frag = path.read_text(encoding="utf-8").rstrip("\n")
+        assert t[t.index(b) + len(b):t.index(e)] == "\n" + frag + "\n", f"{page.name}: {name_} is not the current fragment (re-run scripts/regen_q232.sh)"
+    assert f"<title>{titles.PREFIX}{titles.NAMES[PAGES[name][1]]}</title>" in t and (d / "index.html").read_text(encoding="utf-8") == t
+    h = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+    geo = sorted(d.glob("*_geo_*.txt"))
+    assert geo and all(h(g) == h(src / g.name) for g in geo), "geometry must be byte-identical to the published source"
+    assert h(d / "parts_data.json") == h(src / "parts_data.json")
+    for f in src.glob("clinical_*"):                                          # the needle files of the source are carried over
+        assert (d / f.name).exists(), f.name
+    for f in ("clinical_imaging_tool.js", "clinical_imaging_tissues.json", "clinical_ultrasound_tool.js", "clinical_ultrasound_tissues.json"):
+        assert (d / f).exists(), f
+    v = json.loads((REPO / "build" / "q232" / "_verify" / f"{name}.json").read_text())
+    # (v["OK"] also needs a template revision that reproduces the SOURCE page, which a source that already carries the Q231 titles cannot have)
+    assert v["geo_identical"] and v["literals_identical"] and v["siblings_ok"] and v["new_equals_current_template_plus_same_data"]
+
+
+def test_browser_check_results():
+    bad = []
+    for p in ("own_m", "own_f", "zan_m", "zan_f", "base_f", "base_m"):
+        f = REPO / "data" / "derived" / f"Q232_browser_check_{p}.json"
+        if not f.exists():
+            pytest.skip("browser-check JSON absent")
+        d = json.loads(f.read_text())
+        assert sorted(d["viewports"]) == ["desktop", "laptop", "phone", "phone_l", "tablet", "tablet_l"], p
+        for n, v in d["viewports"].items():
+            bad += [(p, n, k) for k, x in v["checks"].items() if x is not True]
+            assert v["errors"] == [], (p, n)
+    assert not bad, bad
