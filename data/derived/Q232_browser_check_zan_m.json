@@ -134,7 +134,7 @@
    "checks": {
     "no_hscroll": true,
     "new_controls_present": true,
-    "touch_targets_ge_38px": false,
+    "touch_targets_ge_38px": true,
     "panel_scrollable_no_overflow_x": true,
     "two_marked": true,
     "invert_marks_the_rest": true,
@@ -160,11 +160,16 @@
     "owner_sequence_invert_then_fade_selected": true,
     "key_ignored_while_typing": true,
     "key_i_inverts_and_back": true,
-    "completed": false
+    "layer_select_filled": true,
+    "mark_layer_marks_muscles": true,
+    "unmark_layer": true,
+    "reset_clears_everything": true,
+    "no_page_errors": true
    },
    "info": {
     "ss_phone_class": true,
-    "min_tap_px": 22,
+    "min_tap_px": 38,
+    "small_targets": [],
     "alpha_other_marked": [
      0.15,
      1
@@ -176,10 +181,8 @@
      0
     ]
    },
-   "errors": [
-    "TimeoutError('Locator.tap: Timeout 240000ms exceeded.\\nCall log:\\n  - waiting for locator(\"#sel-reset\").first\\n    - locator resolved to <button type=\"button\" id=\"sel-reset\" class=\"ss-primary\" title=\"Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)\">Reset selection</button>\\n  - attempting tap action\\n    2 \u00d7 waiting for element to be visible"
-   ],
-   "seconds": 405.6
+   "errors": [],
+   "seconds": 159.1
   },
   "tablet_l": {
    "checks": {
@@ -236,7 +239,7 @@
    "checks": {
     "no_hscroll": true,
     "new_controls_present": true,
-    "touch_targets_ge_38px": false,
+    "touch_targets_ge_38px": true,
     "panel_scrollable_no_overflow_x": true,
     "two_marked": true,
     "invert_marks_the_rest": true,
@@ -262,11 +265,30 @@
     "owner_sequence_invert_then_fade_selected": true,
     "key_ignored_while_typing": true,
     "key_i_inverts_and_back": true,
-    "completed": false
+    "layer_select_filled": true,
+    "mark_layer_marks_muscles": true,
+    "unmark_layer": true,
+    "invert_respects_layer_toggle": true,
+    "xray_with_fade_works": true,
+    "saved_set_is_inverse_of": true,
+    "saved_option_says_inverse": true,
+    "load_restores_inverse_and_states": true,
+    "export_has_inverse_flag": true,
+    "link_has_state_field": true,
+    "import_link_restores": true,
+    "cap_has_the_selected_structure": true,
+    "cap_has_other_structures": true,
+    "faded_cap_alpha_follows_slider": true,
+    "selected_cap_stays_solid": true,
+    "hidden_selected_has_no_cap": true,
+    "highlight_colours_the_cap": true,
+    "reset_clears_everything": true,
+    "no_page_errors": true
    },
    "info": {
     "ss_phone_class": true,
-    "min_tap_px": 22,
+    "min_tap_px": 38,
+    "small_targets": [],
     "alpha_other_marked": [
      0.15,
      1
@@ -276,18 +298,24 @@
      255,
      176,
      0
+    ],
+    "cap_alpha_faded_others": [
+     115,
+     115,
+     115,
+     115,
+     115,
+     115
     ]
    },
-   "errors": [
-    "TimeoutError('Locator.tap: Timeout 240000ms exceeded.\\nCall log:\\n  - waiting for locator(\"#sel-reset\").first\\n    - locator resolved to <button type=\"button\" id=\"sel-reset\" class=\"ss-primary\" title=\"Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)\">Reset selection</button>\\n  - attempting tap action\\n    2 \u00d7 waiting for element to be visible"
-   ],
-   "seconds": 384.8
+   "errors": [],
+   "seconds": 266.2
   },
   "phone_l": {
    "checks": {
     "no_hscroll": true,
     "new_controls_present": true,
-    "touch_targets_ge_38px": false,
+    "touch_targets_ge_38px": true,
     "panel_scrollable_no_overflow_x": true,
     "two_marked": true,
     "invert_marks_the_rest": true,
@@ -313,11 +341,16 @@
     "owner_sequence_invert_then_fade_selected": true,
     "key_ignored_while_typing": true,
     "key_i_inverts_and_back": true,
-    "completed": false
+    "layer_select_filled": true,
+    "mark_layer_marks_muscles": true,
+    "unmark_layer": true,
+    "reset_clears_everything": true,
+    "no_page_errors": true
    },
    "info": {
     "ss_phone_class": true,
-    "min_tap_px": 22,
+    "min_tap_px": 38,
+    "small_targets": [],
     "alpha_other_marked": [
      0.15,
      1
@@ -329,10 +362,8 @@
      0
     ]
    },
-   "errors": [
-    "TimeoutError('Locator.tap: Timeout 240000ms exceeded.\\nCall log:\\n  - waiting for locator(\"#sel-reset\").first\\n    - locator resolved to <button type=\"button\" id=\"sel-reset\" class=\"ss-primary\" title=\"Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)\">Reset selection</button>\\n  - attempting tap action\\n    2 \u00d7 waiting for element to be visible"
-   ],
-   "seconds": 336.0
+   "errors": [],
+   "seconds": 102.9
   }
  }
 }
