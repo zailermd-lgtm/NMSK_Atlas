@@ -151,3 +151,21 @@ def test_browser_check_has_no_page_errors():
 def test_renders_were_saved():
     for n in ("own_f_perineum_inferior", "own_f_perineum_sagittal_midline", "comb_f_perineum_inferior", "comb_f_perineum_sagittal"):
         assert (D / f"Q235_render_{n}.png").exists()
+
+
+def test_round_ligaments_are_on_the_correct_side_by_position_and_by_course():
+    import numpy as np
+    from scipy.spatial import cKDTree
+    sys.path.insert(0, str(REPO))
+    from scripts.transfer.q200_bundle import Bundle
+    b = REPO / "build/viewer_f_hr_q235"
+    if not b.exists():
+        pytest.skip("bundle not built")
+    B = Bundle(b)
+    M = {it["e"]["id"]: B.mesh(it)[0] for it in B.items if it["e"]["id"].startswith(("round_ligament", "uterine_tube", "ovary", "uterus", "cardinal"))}
+    for s, sign in (("l", -1), ("r", 1)):
+        assert np.sign(M["round_ligament_uterus_" + s][:, 0].mean()) == sign and np.sign(M["ovary_" + s][:, 0].mean()) == sign
+        rl = M["round_ligament_uterus_" + s]
+        medial = rl[np.argmin(cKDTree(M["uterus"]).query(rl)[0])]            # the end at the uterus (cornu)
+        near = {t: cKDTree(M["uterine_tube_" + t]).query(medial)[0] for t in "lr"}
+        assert near[s] < near["r" if s == "l" else "l"], (s, near)         # attaches next to the tube of its own side

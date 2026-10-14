@@ -146,3 +146,18 @@ def test_template_has_the_reference_model_class_and_both_subjects():
         assert re.search(r"^\s*" + sub + r': "', t, re.M), sub
     assert "SCULPTED" not in t.split("xfer_hra2vhf_q234")[1].split("\n")[0]            # the vagina / ligament label does not claim the breast provenance
     assert "NOT donor data" in t.split("xfer_hrasculpt2vhf_q234")[1].split("\n")[0]
+
+
+def test_left_right_ligaments_lie_on_their_own_side():
+    """Q235 fix: the HRA round-ligament nodes are labelled opposite to the rest of the file; every *_l ligament must lie at negative X (patient left, atlas +X = right), every *_r at positive X"""
+    import numpy as np
+    z = np.load(REPO / "data/derived/Q234_hra_meshes.npz")
+    n = 0
+    for sid in json.loads((REPO / "data/derived/Q234_hra_meshes.json").read_text())["structures"]:
+        if sid.endswith(("_l", "_r")) and "ligament" in sid or sid.endswith(("_l", "_r")) and sid.startswith(("mesovarium", "mesosalpinx")):
+            x = z[sid + "_v"][:, 0].mean()
+            assert (x < 0) == sid.endswith("_l"), (sid, x)
+            n += 1
+    assert n >= 12
+    info = json.loads((REPO / "data/derived/Q234_hra_meshes.json").read_text())["structures"]
+    assert info["round_ligament_uterus_l"]["parts"] == ["VH_F_right_round_ligament_of_uterus"]       # source names are swapped (see hra_q234.py)

@@ -77,11 +77,13 @@ def dev(v, f, v0, f0, n=20000):
 
 # id, display name, Terminologia name, cat, folder, region, side, hra file, [part-name substrings or None], mode ("closed": voxel envelope; "surface": the HRA surface as is, decimated), pitch, closing, triangles
 LIG = "v1.2_VH_F_Ligaments_Uterus_Ovaries"
+# Q235 fix: the HRA nodes 'left_round_ligament' / 'right_round_ligament' lie on the side OPPOSITE to every other left / right ligament of this file (left round X +63 vs left cardinal -28, atlas frame +X = right) and the
+# 'left' one attaches at the uterine cornu next to the RIGHT tube: the source names are swapped, so the left structure reads the node named 'right_round_ligament' and vice versa.
 GL = "v1.3_VH_F_mammary_gland_{}"
 STRUCTS = [
     ("vagina", "Vagina", "Vagina", "organ", "viscera", "pelvis", None, "v1.2_VH_F_Vagina", ["VH_F_vagina", "VH_F_cervicovaginal_junction"], "closed", 0.5, 1, 6000),
-    ("round_ligament_uterus_l", "Round ligament of the uterus (left)", "Ligamentum teres uteri sinistrum", "ligament", "ligaments", "pelvis", "left", LIG, ["left_round_ligament"], "surface", 0, 0, 1100),
-    ("round_ligament_uterus_r", "Round ligament of the uterus (right)", "Ligamentum teres uteri dextrum", "ligament", "ligaments", "pelvis", "right", LIG, ["right_round_ligament"], "surface", 0, 0, 1100),
+    ("round_ligament_uterus_l", "Round ligament of the uterus (left)", "Ligamentum teres uteri sinistrum", "ligament", "ligaments", "pelvis", "left", LIG, ["right_round_ligament"], "surface", 0, 0, 1100),
+    ("round_ligament_uterus_r", "Round ligament of the uterus (right)", "Ligamentum teres uteri dextrum", "ligament", "ligaments", "pelvis", "right", LIG, ["left_round_ligament"], "surface", 0, 0, 1100),
     ("uterosacral_ligament_l", "Uterosacral ligament (left)", "Ligamentum sacrouterinum sinistrum", "ligament", "ligaments", "pelvis", "left", LIG, ["left_uterosacral"], "surface", 0, 0, 2000),
     ("uterosacral_ligament_r", "Uterosacral ligament (right)", "Ligamentum sacrouterinum dextrum", "ligament", "ligaments", "pelvis", "right", LIG, ["right_uterosacral"], "surface", 0, 0, 2000),
     ("cardinal_ligament_uterus_l", "Cardinal ligament of the uterus (left)", "Ligamentum cardinale sinistrum", "ligament", "ligaments", "pelvis", "left", LIG, ["left_cardinal"], "surface", 0, 0, 3000),

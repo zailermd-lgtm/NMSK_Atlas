@@ -55,30 +55,6 @@
    "side": "left",
    "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
    "mode": "HRA surface as is",
-   "triangles_full": 1024,
-   "triangles": 1024,
-   "watertight": true,
-   "volume_cm3": 0.304,
-   "area_cm2": 8.18,
-   "area_full_cm2": 8.18,
-   "decimation_deviation_mm": {
-    "median": 0.09,
-    "p95": 0.2,
-    "max": 0.4
-   },
-   "parts": [
-    "VH_F_left_round_ligament_of_uterus"
-   ]
-  },
-  "round_ligament_uterus_r": {
-   "name": "Round ligament of the uterus (right)",
-   "latin": "Ligamentum teres uteri dextrum",
-   "cat": "ligament",
-   "folder": "ligaments",
-   "region": "pelvis",
-   "side": "right",
-   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
-   "mode": "HRA surface as is",
    "triangles_full": 902,
    "triangles": 902,
    "watertight": true,
@@ -92,6 +68,30 @@
    },
    "parts": [
     "VH_F_right_round_ligament_of_uterus"
+   ]
+  },
+  "round_ligament_uterus_r": {
+   "name": "Round ligament of the uterus (right)",
+   "latin": "Ligamentum teres uteri dextrum",
+   "cat": "ligament",
+   "folder": "ligaments",
+   "region": "pelvis",
+   "side": "right",
+   "hra_file": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "triangles_full": 1024,
+   "triangles": 1024,
+   "watertight": true,
+   "volume_cm3": 0.304,
+   "area_cm2": 8.18,
+   "area_full_cm2": 8.18,
+   "decimation_deviation_mm": {
+    "median": 0.09,
+    "p95": 0.2,
+    "max": 0.4
+   },
+   "parts": [
+    "VH_F_left_round_ligament_of_uterus"
    ]
   },
   "uterosacral_ligament_l": {
