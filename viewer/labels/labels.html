@@ -1,0 +1,41 @@
+<svg id="lab-layer" aria-hidden="true"></svg>
+<div id="lab-panel" hidden role="group" aria-label="Labels">
+  <div class="lb-head" id="lab-head"><b>Labels</b><span id="lab-status" class="lb-dim">off</span><span class="lb-sp"></span><button type="button" id="lab-min" aria-expanded="true" aria-label="Collapse or expand the labels panel" title="Collapse / expand">&#9662;</button><button type="button" id="lab-close" aria-label="Close the labels panel" title="Close">&times;</button></div>
+  <div class="lb-body">
+    <div class="lb-lbl">Show</div>
+    <div class="lb-row" id="lab-show">
+      <button type="button" data-v="off" aria-pressed="false" title="No labels">Off</button><button type="button" data-v="sel" aria-pressed="false" title="Only the selected, hovered and marked structures">Selected</button><button type="button" data-v="vis" aria-pressed="false" title="The largest visible structures, up to Max labels">Visible</button><button type="button" data-v="all" aria-pressed="false" title="Every visible structure (the largest 160 on screen)">All</button>
+    </div>
+    <div class="lb-lbl">Text</div>
+    <div class="lb-row" id="lab-text">
+      <button type="button" data-v="full" aria-pressed="false">Full name</button><button type="button" data-v="abbr" aria-pressed="false" title="Short codes such as RF-R; the list explains them">Abbreviation</button>
+    </div>
+    <div class="lb-lbl">Callouts</div>
+    <div class="lb-row" id="lab-callout">
+      <button type="button" data-v="auto" aria-pressed="false" title="On the structure where it fits, outside the body with a leader line where crowded">Auto</button><button type="button" data-v="out" aria-pressed="false" title="Always beside the body, joined to the structure by a leader line">Outside</button><button type="button" data-v="in" aria-pressed="false" title="Always on the structure (labels that would overlap are left out)">Inline</button>
+    </div>
+    <div class="lb-lbl">Max labels <output id="lab-dens-v" for="lab-dens"></output></div>
+    <input id="lab-dens" type="range" min="3" max="120" step="1" value="24" aria-label="Maximum number of labels in Visible mode">
+    <div class="lb-lbl">Font size <output id="lab-font-v" for="lab-font"></output></div>
+    <input id="lab-font" type="range" min="9" max="22" step="1" value="12" aria-label="Label font size in pixels">
+    <div class="lb-lbl">Colour</div>
+    <div class="lb-row" id="lab-colour">
+      <button type="button" data-v="own" aria-pressed="false" title="The colour the structure is drawn in, darkened or lightened until it reads on the background">Structure</button><button type="button" data-v="neutral" aria-pressed="false">Neutral</button>
+    </div>
+    <label class="lb-chk"><input type="checkbox" id="lab-side"> R / L marks on full names</label>
+    <label class="lb-chk"><input type="checkbox" id="lab-occl"> Hide labels of hidden-behind structures</label>
+    <div class="lb-row lb-end"><button type="button" id="lab-legend-btn" aria-pressed="false">Abbreviation list</button><button type="button" id="lab-cutfill" hidden title="Fill the cut surface so labels sit on the cross-section">Fill cut face</button><button type="button" id="lab-reset">Reset</button></div>
+    <p id="lab-hint" class="lb-hint" aria-live="polite"></p>
+  </div>
+</div>
+<div id="lab-legend" hidden role="dialog" aria-label="Abbreviations">
+  <div class="lg-head" id="lg-head"><b>Abbreviations</b><span class="lb-sp"></span><span class="lg-sizes"><button type="button" data-size="S" aria-pressed="false" title="Small window">S</button><button type="button" data-size="M" aria-pressed="true" title="Medium window">M</button><button type="button" data-size="L" aria-pressed="false" title="Large window">L</button></span><button type="button" id="lg-close" aria-label="Close the abbreviation list" title="Close">&times;</button></div>
+  <div class="lg-tools">
+    <input id="lg-q" type="search" placeholder="Search abbreviation or name" autocomplete="off" aria-label="Search the abbreviations">
+    <div class="lb-row"><span id="lg-only" class="lg-only"><button type="button" data-v="shown" aria-pressed="true">On screen</button><button type="button" data-v="all" aria-pressed="false">All structures</button></span>
+      <span class="lg-font"><button type="button" id="lg-fdn" aria-label="Smaller text" title="Smaller text">A&minus;</button><input id="lg-font" type="range" min="10" max="24" step="1" value="13" aria-label="Legend font size"><button type="button" id="lg-fup" aria-label="Larger text" title="Larger text">A+</button><output id="lg-font-v"></output></span></div>
+  </div>
+  <div class="lg-list" id="lg-list" role="list"></div>
+  <p class="lg-foot"><span id="lg-count"></span> &middot; <b>RF-R</b> = base code + side (R / L). Upright = established abbreviation, <i>italic</i> = generated for this atlas. Click a row to select the structure.</p>
+  <div class="lg-grip" id="lg-grip" role="separator" aria-label="Drag to resize" title="Drag to resize"></div>
+</div>
