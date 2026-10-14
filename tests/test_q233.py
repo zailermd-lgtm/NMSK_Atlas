@@ -76,11 +76,12 @@ def test_female_organs_present_after_q233_on_all_three_female_pages():
         assert {"uterus", "ovary", "uterine_tube"} <= set(inv), (k, list(inv))
         ids = {h["id"] for hs in inv.values() for h in hs}
         assert set(NEW_ORGANS) <= ids, (k, ids)
-        for hs in inv.values():
-            assert all("HRA reference organ of the SAME donor" in h["provenance"] for h in hs)
+        for hs in inv.values():     # Q233 organs: reference organs of the same donor; Q234 additions (vagina, ligaments, breasts): HRA objects / sculpted reference model (never "measured")
+            assert all(("HRA reference organ of the SAME donor" in h["provenance"]) or ("HRA" in h["provenance"] and "not measured" in h["provenance"]) for h in hs)
     for k in FEMALE_PAGES:      # before: none of the three had any
         assert not AUDIT["pages"][k]["before_q233"]["inventory"]["female_only_present"], k
-    assert "vagina" in AUDIT["pages"]["own_f"]["after_q233"]["inventory"]["female_only_absent"]          # honestly absent, not invented
+    absent = AUDIT["pages"]["own_f"]["after_q233"]["inventory"]["female_only_absent"]
+    assert "vagina" not in absent and {"labia_majora", "labia_minora", "clitoris", "female_urethra"} <= set(absent)       # Q234 added the vagina; the vulva etc. stay honestly absent, not invented
 
 
 def test_male_genitalia_on_his_own_page():

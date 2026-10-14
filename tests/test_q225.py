@@ -213,6 +213,9 @@ def test_final_pages_carry_parts_sidecar_and_the_right_clinical_files():
     # Q233 regenerated clinical/data/risk_zan_f.json with the five HRA female organs added: the Q225 page's file must equal it minus those rows (and the generation date)
     q225_risk, repo_risk = json.loads((fem / "clinical_risk.json").read_text()), json.loads((REPO / "clinical" / "data" / "risk_zan_f.json").read_text())
     q233_ids = {"uterus", "ovary_l", "ovary_r", "uterine_tube_l", "uterine_tube_r"}
+    _q234 = REPO / "data" / "derived" / "Q234_hra_meshes.json"      # Q234 regenerated the table again with the HRA vagina / ligaments / breast structures (organ rows)
+    if _q234.exists():
+        q233_ids |= set(json.loads(_q234.read_text())["structures"])
     strip = lambda d: {k: ([r for r in v if r.get("id") not in q233_ids] if k == "structures" else ({c: n for c, n in v.items() if c != "organ"} if k == "counts" else v)) for k, v in d.items() if k != "generated"}
     assert strip(q225_risk) == strip(repo_risk)
     assert not list(FINAL["male"].glob("clinical_*"))                           # the Z male fitted page has no clinical files

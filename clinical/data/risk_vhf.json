@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"vhf",
-"generated":"2026-10-13",
+"generated":"2026-10-14",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -9,8 +9,8 @@
 "counts":{
 "artery":26,
 "nerve":16,
+"organ":34,
 "vein":22,
-"organ":23,
 "lung":2
 },
 "structures":[
@@ -47,6 +47,22 @@
 "rays_hit":300
 },
 {
+"id":"areola_l",
+"name":"Areola (left)",
+"class":"organ",
+"r_mm":0.34,
+"r_method":"sdf",
+"rays_hit":278
+},
+{
+"id":"areola_r",
+"name":"Areola (right)",
+"class":"organ",
+"r_mm":0.37,
+"r_method":"sdf",
+"rays_hit":262
+},
+{
 "id":"brachiocephalic_trunk_r",
 "name":"Brachiocephalic trunk",
 "class":"artery",
@@ -75,6 +91,22 @@
 "name":"Brain",
 "class":"organ",
 "r_mm":61.9,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"breast_fat_l",
+"name":"Breast: fat pad (left)",
+"class":"organ",
+"r_mm":9.82,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"breast_fat_r",
+"name":"Breast: fat pad (right)",
+"class":"organ",
+"r_mm":12.92,
 "r_method":"sdf",
 "rays_hit":300
 },
@@ -255,6 +287,22 @@
 "rays_hit":300
 },
 {
+"id":"lactiferous_ducts_l",
+"name":"Lactiferous ducts and sinuses (left)",
+"class":"organ",
+"r_mm":0.54,
+"r_method":"sdf",
+"rays_hit":291
+},
+{
+"id":"lactiferous_ducts_r",
+"name":"Lactiferous ducts and sinuses (right)",
+"class":"organ",
+"r_mm":0.58,
+"r_method":"sdf",
+"rays_hit":296
+},
+{
 "id":"liver",
 "name":"Liver",
 "class":"organ",
@@ -277,6 +325,22 @@
 "r_mm":32.61,
 "r_method":"sdf",
 "rays_hit":300
+},
+{
+"id":"mammary_gland_l",
+"name":"Mammary gland: lobes (left)",
+"class":"organ",
+"r_mm":1.15,
+"r_method":"sdf",
+"rays_hit":289
+},
+{
+"id":"mammary_gland_r",
+"name":"Mammary gland: lobes (right)",
+"class":"organ",
+"r_mm":1.54,
+"r_method":"sdf",
+"rays_hit":296
 },
 {
 "id":"median_n_lateral_root_l",
@@ -309,6 +373,22 @@
 "r_mm":0.88,
 "r_method":"sdf",
 "rays_hit":264
+},
+{
+"id":"nipple_l",
+"name":"Nipple (left)",
+"class":"organ",
+"r_mm":0.33,
+"r_method":"sdf",
+"rays_hit":293
+},
+{
+"id":"nipple_r",
+"name":"Nipple (right)",
+"class":"organ",
+"r_mm":0.37,
+"r_method":"sdf",
+"rays_hit":293
 },
 {
 "id":"optic_n",
@@ -516,7 +596,7 @@
 "class":"organ",
 "r_mm":1.12,
 "r_method":"sdf",
-"rays_hit":290
+"rays_hit":291
 },
 {
 "id":"uterine_tube_r",
@@ -531,6 +611,14 @@
 "name":"Uterus (with cervix)",
 "class":"organ",
 "r_mm":10.69,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"vagina",
+"name":"Vagina",
+"class":"organ",
+"r_mm":1.01,
 "r_method":"sdf",
 "rays_hit":300
 },

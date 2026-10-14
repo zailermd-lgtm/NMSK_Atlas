@@ -48,6 +48,10 @@ def provenance_of(x):
     src = x["src"] or ""
     rec = x.get("rec") or {}
     if str(rec.get("source", "")).startswith("HuBMAP"):
+        if "sculpted reference model" in str(rec.get("source", "")):
+            return "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+        if "Q234" in str(rec.get("source", "")):
+            return "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
         return "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
     if src == "zan":
         b = str(rec.get("procedural_badge", ""))
@@ -55,6 +59,8 @@ def provenance_of(x):
         if "Q168" in b: return "Z-Anatomy male-derived structure fitted to the Visible Human female's skeleton (estimate, not measured)"
         return "Z-Anatomy / BodyParts3D (one male-derived body), unadapted"
     if src.startswith("xfer_zan2"): return "filled from Z-Anatomy (male-derived reference model), fitted to this body: not measured"
+    if src.startswith("xfer_hrasculpt2"): return "HRA breast: reference model sculpted by the library author (CC BY 4.0), NOT donor data, fitted into her skin envelope (Q234): not measured"
+    if src.startswith("xfer_hra2vhf_q234"): return "HRA object of the Visible Human female frame (vagina / ligaments, CC BY 4.0), registered on her CT pelvis (Q234): not measured"
     if src.startswith("xfer_hra2"): return "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on her CT pelvis (Q233): not measured"
     if "xfer" in src: return "transferred from the other Visible Human body (" + src + "): not measured here"
     return "measured / rule-based on this body's own CT or cryosections (subject " + src + ")"
@@ -230,6 +236,11 @@ def q44_transfers(bundle_dir):
 
 FINAL_DIRS = {"own_m": "build/q233/viewer_m_hr", "own_f": "build/q233/viewer_f_hr", "base_m": "build/q233/viewer_zan_atlas", "base_f": "build/q233/viewer_base_female",
               "comb_m": "build/q233/viewer_zan_vhm", "comb_f": "build/q233/viewer_zan_female"}
+# Q234: the three female pages are read from build/q234 (vagina, ligaments of the uterus / ovary, breasts added) where those dirs exist
+for _k in ("own_f", "base_f", "comb_f"):
+    _q = FINAL_DIRS[_k].replace("build/q233/", "build/q234/")
+    if (REPO / _q).exists():
+        FINAL_DIRS[_k] = _q
 
 
 def load_state(key, dirpath=None):
@@ -266,7 +277,9 @@ ZAN_SEARCH = dict(
         dict(what="Zenodo search (reachable): visible human female organs, female pelvis uterus ovary, BodyParts3D female, Z-Anatomy", result="no female organ mesh set (Zenodo 15882019 = Visible Human MALE organs; 11047831 = male-derived torso organs)"),
         dict(what="HuBMAP Human Reference Atlas 3D Reference Object Library (github.com/hubmapconsortium/ccf-releases, commit b036a91a, public, served by the git proxy; the cdn.humanatlas.io host stays blocked)",
              result="FOUND: Visible Human FEMALE reference organs, CC BY 4.0: VH_F_Uterus, VH_F_Ovary_L/R, VH_F_Fallopian_Tube_L/R, VH_F_Urinary_Bladder, VH_F_Ureter_L/R, VH_F_Pelvis (v1.3, one body frame), mammary glands 3d-vh-f-mammary-gland-l/r (v1.3; sculpted from atlases, "
-                    "NOT from the donor: not used), VH_F_Skin; no vagina / vulva / labia / clitoris. Used for the uterus, ovaries, tubes (third_party/hra_vh_f)."),
+                    "NOT from the donor: not used in Q233, used in Q234 as a badged REFERENCE MODEL), VH_F_Skin; no vulva / labia / clitoris. Used for the uterus, ovaries, tubes (third_party/hra_vh_f). "
+                    "Q234 (2026-10-14): the library repository github.com/hubmapconsortium/ccf-3d-reference-object-library (commit f1a3a63f) also holds VH_F_Vagina and VH_F_Ligaments_Uterus_Ovaries (v1.2, objects of the "
+                    "same frame, construction not documented): used for the vagina and the ligaments of the uterus / ovary."),
     ],
     what_the_owner_would_need_to_provide="If a Z-Anatomy female model exists, the exact file is needed: an export (FBX / OBJ / .blend) of that female body or of its female genital collection, or the release URL (the live atlas https://www.z-anatomy.com/ and the Z-Anatomy/The-app repository are not reachable from the sandbox; The-app answers 'not found' to anonymous git). "
                                           "For a vagina / vulva / clitoris / labia, any CC BY / CC BY-SA mesh set of the female external genitalia + vagina would do.")
@@ -290,7 +303,7 @@ LIMITS = [
     "Only the subpubic angle has a verified numeric reference (PMID 32274246); the other measures have a verified DIRECTION (PubMed abstracts) and are scored against the two real donors measured identically (n = 1 + 1, not a norm).",
     "Skull dimorphism (mastoid, glabella, mental eminence, orbital margin) was NOT scored: the skull meshes exist (own pages: cranium, mandible, temporal, zygomatic; Z pages: frontal, occipital, maxilla, temporal, zygomatic, mandible) but automatic landmarking on 7,500-vertex decimated shells is not reliable; qualitative review of renders is left to the owner.",
     "Obturator foramen shape was not measured (the foramen is a thin hole in a decimated shell; two attempts gave no stable outline). The pelvic inlet transverse / AP ratio was attempted by sectioning the P-SU plane and failed (the plane cuts the iliac blades, not the arcuate lines): reported as not measured instead of a wrong number.",
-    "Breast volume and gynoid / android fat could not be measured from the skin envelope (supine cadavers with arms on the trunk; no mammary gland modelled): the only fat-distribution evidence is the cryosection fat fractions of Q44 (below).",
+    "Breast volume and gynoid / android fat could not be measured from the skin envelope (supine cadavers with arms on the trunk; the breasts added in Q234 are a sculpted reference model compressed into the skin envelope, not a measurement): the only fat-distribution evidence is the cryosection fat fractions of Q44 (below).",
 ]
 FAT = dict(source="data/derived/subject_anthropometrics.json (Q44, cryosection colour classes, same method on both donors)",
            own_m=dict(thigh_fat_pct=23, thigh_muscle_cm2=442, trunk_fat_pct_levels="45 / 28", bmi=27.8, age=39, stature_cm=180.3, mass_kg=90),
@@ -346,13 +359,23 @@ def build(measures_path):
         r = rep["base_f"]
         fixes.append(dict(page="Base · Female", what="ADDED the same organs registered on the Z-Anatomy pelvis; renamed 'Base · Female (male-derived body)'; wording and card notes say plainly that the body is male-derived",
                           registration=dict(scale=r["registration"]["scale"], residual_mm=r["registration"]["residual_mm"]), volumes_cm3={k: v["gates"]["volume_cm3"] for k, v in r["organs"].items()}))
+    for k, lab in (("own_f", "Imaging-based · Female"), ("comb_f", "Combined · Female"), ("base_f", "Base · Female (male-derived body)")):
+        r = rj(f"Q234_report_{k}.json")
+        if r:
+            st = r["structures"]
+            fixes.append(dict(page=lab, what="Q234: ADDED the vagina, the ligaments of the uterus and ovary (HRA objects of the Visible Human female frame, same pelvis registration as the uterus) and both breasts "
+                              "(HRA sculpted reference model, registered on the thoracic vertebrae, compressed into the page's skin envelope)",
+                              pelvis_registration=dict(scale=r["pelvis_registration"]["scale"], residual_mm=r["pelvis_registration"]["residual_mm"]),
+                              thorax_registration=dict(scale=r["thorax_registration"]["scale"], residual_mm=r["thorax_registration"]["residual_mm"]),
+                              added=sorted(x for x, v in st.items() if not v.get("held")), held=sorted(x for x, v in st.items() if v.get("held")),
+                              volumes_cm3={x: v["gates"].get("volume_cm3") for x, v in st.items() if v["gates"].get("volume_cm3") is not None}))
     if rep["own_m"]:
         r = rep["own_m"]
         fixes.append(dict(page="Imaging-based · Male", what="ADDED the male genital organs his scans do not give (testes, epididymides, deferent ducts, seminal vesicles, penis corpora + glans, male urethra, ejaculatory ducts) as badged Z-Anatomy fills",
                           source="Z-Anatomy male fitted to him (Combined · Male page, his frame), inside his CT skin, out of his bones and pelvic organs", added=[k for k, v in r["organs"].items() if not v.get("held")], held=[k for k, v in r["organs"].items() if v.get("held")]))
     cannot = [
-        "Vagina, vulva (labia majora / minora), clitoris, vestibular glands / bulbs, mons pubis, female urethra differences, ligaments of the uterus / ovary, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented.",
-        "Breasts: the Z-Anatomy chest skin is the male contour (all three Z female-side pages); the HRA mammary glands are sculpted from atlas drawings (not from the donor) and were not used; her own CT skin carries her breast contour only on the Imaging-based female page.",
+        "Vulva (labia majora / minora), clitoris, vestibular glands / bulbs, mons pubis, female urethra, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented. (Q234 added the vagina and the ligaments of the uterus / ovary from HRA objects.)",
+        "Breasts: the Z-Anatomy chest skin is the male contour (all three Z female-side pages) and her own CT chest is flat (supine cadaver). Q234 added the HRA breasts (a reference model SCULPTED by its author from textbook atlases, NOT donor data) registered on the thoracic vertebrae and compressed into each page's skin envelope: a badged reference model, not a measured breast and not her tissue.",
         "Z-Anatomy-derived skeletons (Base female, Combined female) keep the male-derived pelvis / sacrum / skull shape: Combined female's bones follow hers within ~2 mm median but its subpubic angle reads 62.7 deg (male range) against her 87.3 deg. Replacing those bones with her own would break the fitted ligament / muscle attachments: not done.",
         "Imaging-based male: scrotal / penile SKIN comes from his CT skin (present); his testes etc. are Z fills, not measured; seminal vesicles are not separable on his frozen CT.",
     ]
@@ -376,7 +399,7 @@ def md(A):
     for k, p in A["pages"].items():
         for st in ("before_q233", "after_q233"):
             s = p[st]; inv = s["inventory"]
-            L.append(f"### {p['label']} - {'published sources' if st == 'before_q233' else 'Q233 pages'} ({s['structures']} structures)")
+            L.append(f"### {p['label']} - {'published sources' if st == 'before_q233' else 'Q233 pages (Q234 for the three female pages)'} ({s['structures']} structures)")
             L.append(f"- male-only present: " + ("; ".join(f"{i} ({', '.join(h['id'] for h in hs)})" for i, hs in inv["male_only_present"].items()) or "none"))
             L.append(f"- female-only present: " + ("; ".join(f"{i} ({', '.join(h['id'] for h in hs)})" for i, hs in inv["female_only_present"].items()) or "none"))
             L.append(f"- surface patches: " + ("; ".join(f"{i} ({', '.join(h['id'] for h in hs)})" for i, hs in inv["surface_patches"].items()) or "none"))

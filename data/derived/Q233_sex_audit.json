@@ -1,7 +1,7 @@
 {
  "schema": "q233_sex_audit_v1",
  "task": "Q233 sex-correctness audit of the six current models",
- "generated": "2026-10-13",
+ "generated": "2026-10-14",
  "owner_request": "You must make sure the female model is really a woman, and the male is a man.",
  "pages": {
   "own_m": {
@@ -1006,9 +1006,9 @@
    "after_q233": {
     "label": "Imaging-based \u00b7 Female",
     "declared_sex": "female",
-    "source_dir": "build/q233/viewer_f_hr",
+    "source_dir": "build/q234/viewer_f_hr",
     "what_the_body_is": "The Visible Human FEMALE (59 y, 157 cm, 88 kg): her own CT + cryosections, reconstructed (measured / rule-based / transferred from the male / Z-filled structures, each with a Source class).",
-    "structures": 634,
+    "structures": 662,
     "inventory": {
      "male_only_present": {},
      "female_only_present": {
@@ -1020,6 +1020,14 @@
         "source": "xfer_hra2vhf_q233",
         "triangles": 9000,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       },
+       {
+        "id": "broad_ligament_uterus",
+        "name": "Broad ligament of the uterus",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 7000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ],
       "ovary": [
@@ -1038,6 +1046,38 @@
         "source": "xfer_hra2vhf_q233",
         "triangles": 1400,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_l",
+        "name": "Ligament of the ovary (left)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 200,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_r",
+        "name": "Ligament of the ovary (right)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 198,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "suspensory_ligament_ovary_l",
+        "name": "Suspensory ligament of the ovary (left)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 1270,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "suspensory_ligament_ovary_r",
+        "name": "Suspensory ligament of the ovary (right)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 880,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ],
       "uterine_tube": [
@@ -1056,6 +1096,156 @@
         "source": "xfer_hra2vhf_q233",
         "triangles": 12900,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       }
+      ],
+      "uterine_ovarian_ligaments": [
+       {
+        "id": "round_ligament_uterus_l",
+        "name": "Round ligament of the uterus (left)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 1024,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "round_ligament_uterus_r",
+        "name": "Round ligament of the uterus (right)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 902,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "uterosacral_ligament_l",
+        "name": "Uterosacral ligament (left)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 1948,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "uterosacral_ligament_r",
+        "name": "Uterosacral ligament (right)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 1990,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "cardinal_ligament_uterus_l",
+        "name": "Cardinal ligament of the uterus (left)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 3000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "cardinal_ligament_uterus_r",
+        "name": "Cardinal ligament of the uterus (right)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 3000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "broad_ligament_uterus",
+        "name": "Broad ligament of the uterus",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 7000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_l",
+        "name": "Ligament of the ovary (left)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 200,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_r",
+        "name": "Ligament of the ovary (right)",
+        "system": "ligament",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 198,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       }
+      ],
+      "vagina": [
+       {
+        "id": "vagina",
+        "name": "Vagina",
+        "system": "organ",
+        "source": "xfer_hra2vhf_q234",
+        "triangles": 6000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       }
+      ],
+      "mammary_gland": [
+       {
+        "id": "breast_fat_l",
+        "name": "Breast: fat pad (left)",
+        "system": "organ",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 7798,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "mammary_gland_l",
+        "name": "Mammary gland: lobes (left)",
+        "system": "organ",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 8997,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "lactiferous_ducts_l",
+        "name": "Lactiferous ducts and sinuses (left)",
+        "system": "organ",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 6500,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "breast_suspensory_ligaments_l",
+        "name": "Suspensory ligaments of the breast (left)",
+        "system": "ligament",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 5000,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "breast_fat_r",
+        "name": "Breast: fat pad (right)",
+        "system": "organ",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 8022,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "mammary_gland_r",
+        "name": "Mammary gland: lobes (right)",
+        "system": "organ",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 8999,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "lactiferous_ducts_r",
+        "name": "Lactiferous ducts and sinuses (right)",
+        "system": "organ",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 6500,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "breast_suspensory_ligaments_r",
+        "name": "Suspensory ligaments of the breast (right)",
+        "system": "ligament",
+        "source": "xfer_hrasculpt2vhf_q234",
+        "triangles": 5000,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
        }
       ]
      },
@@ -1081,11 +1271,8 @@
       "female_urethra",
       "labia_majora",
       "labia_minora",
-      "mammary_gland",
       "mons_pubis",
       "ovarian_vessels",
-      "uterine_ovarian_ligaments",
-      "vagina",
       "vestibular_glands_bulb"
      ]
     },
@@ -1338,7 +1525,10 @@
     "female_only_organs_after": [
      "uterus",
      "ovary",
-     "uterine_tube"
+     "uterine_tube",
+     "uterine_ovarian_ligaments",
+     "vagina",
+     "mammary_gland"
     ],
     "wrong_sex_after": []
    }
@@ -2714,9 +2904,9 @@
    "after_q233": {
     "label": "Base \u00b7 Female",
     "declared_sex": "female",
-    "source_dir": "build/q233/viewer_base_female",
+    "source_dir": "build/q234/viewer_base_female",
     "what_the_body_is": "Z-Anatomy / BodyParts3D: the SAME male-derived body as Base \u00b7 Male (identical skeleton and soft tissue, 2,939 shared structures) with the 27 male-only objects removed (Q196) and nothing added.",
-    "structures": 2945,
+    "structures": 2961,
     "inventory": {
      "male_only_present": {},
      "female_only_present": {
@@ -2728,6 +2918,14 @@
         "source": "zan",
         "triangles": 9000,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       },
+       {
+        "id": "broad_ligament_uterus",
+        "name": "Broad ligament of the uterus",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 7000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ],
       "ovary": [
@@ -2746,6 +2944,38 @@
         "source": "zan",
         "triangles": 1400,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_l",
+        "name": "Ligament of the ovary (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 200,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_r",
+        "name": "Ligament of the ovary (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 198,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "suspensory_ligament_ovary_l",
+        "name": "Suspensory ligament of the ovary (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1270,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "suspensory_ligament_ovary_r",
+        "name": "Suspensory ligament of the ovary (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 880,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ],
       "uterine_tube": [
@@ -2764,6 +2994,90 @@
         "source": "zan",
         "triangles": 9604,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       }
+      ],
+      "uterine_ovarian_ligaments": [
+       {
+        "id": "round_ligament_uterus_l",
+        "name": "Round ligament of the uterus (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1024,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "round_ligament_uterus_r",
+        "name": "Round ligament of the uterus (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 902,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "uterosacral_ligament_l",
+        "name": "Uterosacral ligament (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1948,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "uterosacral_ligament_r",
+        "name": "Uterosacral ligament (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1990,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "cardinal_ligament_uterus_l",
+        "name": "Cardinal ligament of the uterus (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 3000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "cardinal_ligament_uterus_r",
+        "name": "Cardinal ligament of the uterus (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 3000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "broad_ligament_uterus",
+        "name": "Broad ligament of the uterus",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 7000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_l",
+        "name": "Ligament of the ovary (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 200,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_r",
+        "name": "Ligament of the ovary (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 198,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       }
+      ],
+      "vagina": [
+       {
+        "id": "vagina",
+        "name": "Vagina",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 6000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ]
      },
@@ -2821,8 +3135,6 @@
       "mammary_gland",
       "mons_pubis",
       "ovarian_vessels",
-      "uterine_ovarian_ligaments",
-      "vagina",
       "vestibular_glands_bulb"
      ]
     },
@@ -3078,7 +3390,9 @@
     "female_only_organs_after": [
      "uterus",
      "ovary",
-     "uterine_tube"
+     "uterine_tube",
+     "uterine_ovarian_ligaments",
+     "vagina"
     ],
     "wrong_sex_after": []
    }
@@ -4454,9 +4768,9 @@
    "after_q233": {
     "label": "Combined \u00b7 Female",
     "declared_sex": "female",
-    "source_dir": "build/q233/viewer_zan_female",
+    "source_dir": "build/q234/viewer_zan_female",
     "what_the_body_is": "The Z-Anatomy MALE-derived body fitted bone by bone to the Visible Human FEMALE's skeleton (her frame); male-only organs removed; no female organ (before Q233).",
-    "structures": 2947,
+    "structures": 2975,
     "inventory": {
      "male_only_present": {},
      "female_only_present": {
@@ -4468,6 +4782,14 @@
         "source": "zan",
         "triangles": 9000,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       },
+       {
+        "id": "broad_ligament_uterus",
+        "name": "Broad ligament of the uterus",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 7000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ],
       "ovary": [
@@ -4486,6 +4808,38 @@
         "source": "zan",
         "triangles": 1400,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_l",
+        "name": "Ligament of the ovary (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 200,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_r",
+        "name": "Ligament of the ovary (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 198,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "suspensory_ligament_ovary_l",
+        "name": "Suspensory ligament of the ovary (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1270,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "suspensory_ligament_ovary_r",
+        "name": "Suspensory ligament of the ovary (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 880,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ],
       "uterine_tube": [
@@ -4504,6 +4858,156 @@
         "source": "zan",
         "triangles": 12900,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
+       }
+      ],
+      "uterine_ovarian_ligaments": [
+       {
+        "id": "round_ligament_uterus_l",
+        "name": "Round ligament of the uterus (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1024,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "round_ligament_uterus_r",
+        "name": "Round ligament of the uterus (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 902,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "uterosacral_ligament_l",
+        "name": "Uterosacral ligament (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1948,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "uterosacral_ligament_r",
+        "name": "Uterosacral ligament (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 1990,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "cardinal_ligament_uterus_l",
+        "name": "Cardinal ligament of the uterus (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 3000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "cardinal_ligament_uterus_r",
+        "name": "Cardinal ligament of the uterus (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 3000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "broad_ligament_uterus",
+        "name": "Broad ligament of the uterus",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 7000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_l",
+        "name": "Ligament of the ovary (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 200,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       },
+       {
+        "id": "ovarian_ligament_r",
+        "name": "Ligament of the ovary (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 198,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       }
+      ],
+      "vagina": [
+       {
+        "id": "vagina",
+        "name": "Vagina",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 6000,
+        "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       }
+      ],
+      "mammary_gland": [
+       {
+        "id": "breast_fat_l",
+        "name": "Breast: fat pad (left)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 7798,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "mammary_gland_l",
+        "name": "Mammary gland: lobes (left)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 8997,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "lactiferous_ducts_l",
+        "name": "Lactiferous ducts and sinuses (left)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 6500,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "breast_suspensory_ligaments_l",
+        "name": "Suspensory ligaments of the breast (left)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 5000,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "breast_fat_r",
+        "name": "Breast: fat pad (right)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 8022,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "mammary_gland_r",
+        "name": "Mammary gland: lobes (right)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 8999,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "lactiferous_ducts_r",
+        "name": "Lactiferous ducts and sinuses (right)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 6500,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       },
+       {
+        "id": "breast_suspensory_ligaments_r",
+        "name": "Suspensory ligaments of the breast (right)",
+        "system": "joint",
+        "source": "zan",
+        "triangles": 5000,
+        "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
        }
       ]
      },
@@ -4558,11 +5062,8 @@
       "female_urethra",
       "labia_majora",
       "labia_minora",
-      "mammary_gland",
       "mons_pubis",
       "ovarian_vessels",
-      "uterine_ovarian_ligaments",
-      "vagina",
       "vestibular_glands_bulb"
      ]
     },
@@ -4818,7 +5319,10 @@
     "female_only_organs_after": [
      "uterus",
      "ovary",
-     "uterine_tube"
+     "uterine_tube",
+     "uterine_ovarian_ligaments",
+     "vagina",
+     "mammary_gland"
     ],
     "wrong_sex_after": []
    }
@@ -5217,7 +5721,7 @@
    },
    {
     "what": "HuBMAP Human Reference Atlas 3D Reference Object Library (github.com/hubmapconsortium/ccf-releases, commit b036a91a, public, served by the git proxy; the cdn.humanatlas.io host stays blocked)",
-    "result": "FOUND: Visible Human FEMALE reference organs, CC BY 4.0: VH_F_Uterus, VH_F_Ovary_L/R, VH_F_Fallopian_Tube_L/R, VH_F_Urinary_Bladder, VH_F_Ureter_L/R, VH_F_Pelvis (v1.3, one body frame), mammary glands 3d-vh-f-mammary-gland-l/r (v1.3; sculpted from atlases, NOT from the donor: not used), VH_F_Skin; no vagina / vulva / labia / clitoris. Used for the uterus, ovaries, tubes (third_party/hra_vh_f)."
+    "result": "FOUND: Visible Human FEMALE reference organs, CC BY 4.0: VH_F_Uterus, VH_F_Ovary_L/R, VH_F_Fallopian_Tube_L/R, VH_F_Urinary_Bladder, VH_F_Ureter_L/R, VH_F_Pelvis (v1.3, one body frame), mammary glands 3d-vh-f-mammary-gland-l/r (v1.3; sculpted from atlases, NOT from the donor: not used in Q233, used in Q234 as a badged REFERENCE MODEL), VH_F_Skin; no vulva / labia / clitoris. Used for the uterus, ovaries, tubes (third_party/hra_vh_f). Q234 (2026-10-14): the library repository github.com/hubmapconsortium/ccf-3d-reference-object-library (commit f1a3a63f) also holds VH_F_Vagina and VH_F_Ligaments_Uterus_Ovaries (v1.2, objects of the same frame, construction not documented): used for the vagina and the ligaments of the uterus / ovary."
    }
   ],
   "what_the_owner_would_need_to_provide": "If a Z-Anatomy female model exists, the exact file is needed: an export (FBX / OBJ / .blend) of that female body or of its female genital collection, or the release URL (the live atlas https://www.z-anatomy.com/ and the Z-Anatomy/The-app repository are not reachable from the sandbox; The-app answers 'not found' to anonymous git). For a vagina / vulva / clitoris / labia, any CC BY / CC BY-SA mesh set of the female external genitalia + vagina would do."
@@ -5320,6 +5824,220 @@
    }
   },
   {
+   "page": "Imaging-based \u00b7 Female",
+   "what": "Q234: ADDED the vagina, the ligaments of the uterus and ovary (HRA objects of the Visible Human female frame, same pelvis registration as the uterus) and both breasts (HRA sculpted reference model, registered on the thoracic vertebrae, compressed into the page's skin envelope)",
+   "pelvis_registration": {
+    "scale": 0.95043,
+    "residual_mm": {
+     "median": 1.24,
+     "p90": 3.53,
+     "rms": 2.07,
+     "max": 10.1
+    }
+   },
+   "thorax_registration": {
+    "scale": 1.0025,
+    "residual_mm": {
+     "median": 0.7,
+     "p90": 1.76,
+     "rms": 1.08
+    }
+   },
+   "added": [
+    "areola_l",
+    "areola_r",
+    "breast_fat_l",
+    "breast_fat_r",
+    "breast_suspensory_ligaments_l",
+    "breast_suspensory_ligaments_r",
+    "broad_ligament_uterus",
+    "cardinal_ligament_uterus_l",
+    "cardinal_ligament_uterus_r",
+    "lactiferous_ducts_l",
+    "lactiferous_ducts_r",
+    "mammary_gland_l",
+    "mammary_gland_r",
+    "mesosalpinx_l",
+    "mesosalpinx_r",
+    "mesovarium_l",
+    "mesovarium_r",
+    "nipple_l",
+    "nipple_r",
+    "ovarian_ligament_l",
+    "ovarian_ligament_r",
+    "round_ligament_uterus_l",
+    "round_ligament_uterus_r",
+    "suspensory_ligament_ovary_l",
+    "suspensory_ligament_ovary_r",
+    "uterosacral_ligament_l",
+    "uterosacral_ligament_r",
+    "vagina"
+   ],
+   "held": [],
+   "volumes_cm3": {
+    "vagina": 11.73,
+    "round_ligament_uterus_l": 0.261,
+    "round_ligament_uterus_r": 0.302,
+    "uterosacral_ligament_l": 0.218,
+    "uterosacral_ligament_r": 0.19,
+    "cardinal_ligament_uterus_l": 1.406,
+    "cardinal_ligament_uterus_r": 1.733,
+    "suspensory_ligament_ovary_l": 0.224,
+    "suspensory_ligament_ovary_r": 0.195,
+    "breast_fat_l": 322.46,
+    "areola_l": 0.3,
+    "nipple_l": 0.05,
+    "breast_suspensory_ligaments_l": 0.11,
+    "breast_fat_r": 376.31,
+    "areola_r": 0.3,
+    "nipple_r": 0.06,
+    "breast_suspensory_ligaments_r": 0.07
+   }
+  },
+  {
+   "page": "Combined \u00b7 Female",
+   "what": "Q234: ADDED the vagina, the ligaments of the uterus and ovary (HRA objects of the Visible Human female frame, same pelvis registration as the uterus) and both breasts (HRA sculpted reference model, registered on the thoracic vertebrae, compressed into the page's skin envelope)",
+   "pelvis_registration": {
+    "scale": 0.95043,
+    "residual_mm": {
+     "median": 1.24,
+     "p90": 3.53,
+     "rms": 2.07,
+     "max": 10.1
+    }
+   },
+   "thorax_registration": {
+    "scale": 0.9881,
+    "residual_mm": {
+     "median": 1.41,
+     "p90": 4.19,
+     "rms": 2.5
+    }
+   },
+   "added": [
+    "areola_l",
+    "areola_r",
+    "breast_fat_l",
+    "breast_fat_r",
+    "breast_suspensory_ligaments_l",
+    "breast_suspensory_ligaments_r",
+    "broad_ligament_uterus",
+    "cardinal_ligament_uterus_l",
+    "cardinal_ligament_uterus_r",
+    "lactiferous_ducts_l",
+    "lactiferous_ducts_r",
+    "mammary_gland_l",
+    "mammary_gland_r",
+    "mesosalpinx_l",
+    "mesosalpinx_r",
+    "mesovarium_l",
+    "mesovarium_r",
+    "nipple_l",
+    "nipple_r",
+    "ovarian_ligament_l",
+    "ovarian_ligament_r",
+    "round_ligament_uterus_l",
+    "round_ligament_uterus_r",
+    "suspensory_ligament_ovary_l",
+    "suspensory_ligament_ovary_r",
+    "uterosacral_ligament_l",
+    "uterosacral_ligament_r",
+    "vagina"
+   ],
+   "held": [],
+   "volumes_cm3": {
+    "vagina": 11.73,
+    "round_ligament_uterus_l": 0.261,
+    "round_ligament_uterus_r": 0.302,
+    "uterosacral_ligament_l": 0.219,
+    "uterosacral_ligament_r": 0.19,
+    "cardinal_ligament_uterus_l": 1.406,
+    "cardinal_ligament_uterus_r": 1.685,
+    "suspensory_ligament_ovary_l": 0.224,
+    "suspensory_ligament_ovary_r": 0.195,
+    "breast_fat_l": 224.96,
+    "areola_l": 0.13,
+    "nipple_l": 0.02,
+    "breast_suspensory_ligaments_l": 0.06,
+    "breast_fat_r": 272.72,
+    "areola_r": 0.28,
+    "nipple_r": 0.05,
+    "breast_suspensory_ligaments_r": 0.05
+   }
+  },
+  {
+   "page": "Base \u00b7 Female (male-derived body)",
+   "what": "Q234: ADDED the vagina, the ligaments of the uterus and ovary (HRA objects of the Visible Human female frame, same pelvis registration as the uterus) and both breasts (HRA sculpted reference model, registered on the thoracic vertebrae, compressed into the page's skin envelope)",
+   "pelvis_registration": {
+    "scale": 0.81708,
+    "residual_mm": {
+     "median": 2.52,
+     "p90": 6.56,
+     "rms": 4.21,
+     "max": 18.4
+    }
+   },
+   "thorax_registration": {
+    "scale": 0.9715,
+    "residual_mm": {
+     "median": 1.74,
+     "p90": 4.74,
+     "rms": 2.83
+    }
+   },
+   "added": [
+    "broad_ligament_uterus",
+    "cardinal_ligament_uterus_l",
+    "cardinal_ligament_uterus_r",
+    "mesosalpinx_l",
+    "mesosalpinx_r",
+    "mesovarium_l",
+    "mesovarium_r",
+    "ovarian_ligament_l",
+    "ovarian_ligament_r",
+    "round_ligament_uterus_l",
+    "round_ligament_uterus_r",
+    "suspensory_ligament_ovary_l",
+    "suspensory_ligament_ovary_r",
+    "uterosacral_ligament_l",
+    "uterosacral_ligament_r",
+    "vagina"
+   ],
+   "held": [
+    "areola_l",
+    "areola_r",
+    "breast_fat_l",
+    "breast_fat_r",
+    "breast_suspensory_ligaments_l",
+    "breast_suspensory_ligaments_r",
+    "lactiferous_ducts_l",
+    "lactiferous_ducts_r",
+    "mammary_gland_l",
+    "mammary_gland_r",
+    "nipple_l",
+    "nipple_r"
+   ],
+   "volumes_cm3": {
+    "vagina": 7.45,
+    "round_ligament_uterus_l": 0.161,
+    "round_ligament_uterus_r": 0.2,
+    "uterosacral_ligament_l": 0.136,
+    "uterosacral_ligament_r": 0.119,
+    "cardinal_ligament_uterus_l": 0.893,
+    "cardinal_ligament_uterus_r": 0.975,
+    "suspensory_ligament_ovary_l": 0.142,
+    "suspensory_ligament_ovary_r": 0.124,
+    "breast_fat_l": 53.47,
+    "areola_l": 0.03,
+    "nipple_l": 0.0,
+    "breast_suspensory_ligaments_l": 0.01,
+    "breast_fat_r": 54.97,
+    "areola_r": 0.05,
+    "nipple_r": 0.01,
+    "breast_suspensory_ligaments_r": 0.01
+   }
+  },
+  {
    "page": "Imaging-based \u00b7 Male",
    "what": "ADDED the male genital organs his scans do not give (testes, epididymides, deferent ducts, seminal vesicles, penis corpora + glans, male urethra, ejaculatory ducts) as badged Z-Anatomy fills",
    "source": "Z-Anatomy male fitted to him (Combined \u00b7 Male page, his frame), inside his CT skin, out of his bones and pelvic organs",
@@ -5343,8 +6061,8 @@
   }
  ],
  "cannot_be_fixed": [
-  "Vagina, vulva (labia majora / minora), clitoris, vestibular glands / bulbs, mons pubis, female urethra differences, ligaments of the uterus / ovary, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented.",
-  "Breasts: the Z-Anatomy chest skin is the male contour (all three Z female-side pages); the HRA mammary glands are sculpted from atlas drawings (not from the donor) and were not used; her own CT skin carries her breast contour only on the Imaging-based female page.",
+  "Vulva (labia majora / minora), clitoris, vestibular glands / bulbs, mons pubis, female urethra, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented. (Q234 added the vagina and the ligaments of the uterus / ovary from HRA objects.)",
+  "Breasts: the Z-Anatomy chest skin is the male contour (all three Z female-side pages) and her own CT chest is flat (supine cadaver). Q234 added the HRA breasts (a reference model SCULPTED by its author from textbook atlases, NOT donor data) registered on the thoracic vertebrae and compressed into each page's skin envelope: a badged reference model, not a measured breast and not her tissue.",
   "Z-Anatomy-derived skeletons (Base female, Combined female) keep the male-derived pelvis / sacrum / skull shape: Combined female's bones follow hers within ~2 mm median but its subpubic angle reads 62.7 deg (male range) against her 87.3 deg. Replacing those bones with her own would break the fitted ligament / muscle attachments: not done.",
   "Imaging-based male: scrotal / penile SKIN comes from his CT skin (present); his testes etc. are Z fills, not measured; seminal vesicles are not separable on his frozen CT."
  ],
@@ -5353,7 +6071,7 @@
   "Only the subpubic angle has a verified numeric reference (PMID 32274246); the other measures have a verified DIRECTION (PubMed abstracts) and are scored against the two real donors measured identically (n = 1 + 1, not a norm).",
   "Skull dimorphism (mastoid, glabella, mental eminence, orbital margin) was NOT scored: the skull meshes exist (own pages: cranium, mandible, temporal, zygomatic; Z pages: frontal, occipital, maxilla, temporal, zygomatic, mandible) but automatic landmarking on 7,500-vertex decimated shells is not reliable; qualitative review of renders is left to the owner.",
   "Obturator foramen shape was not measured (the foramen is a thin hole in a decimated shell; two attempts gave no stable outline). The pelvic inlet transverse / AP ratio was attempted by sectioning the P-SU plane and failed (the plane cuts the iliac blades, not the arcuate lines): reported as not measured instead of a wrong number.",
-  "Breast volume and gynoid / android fat could not be measured from the skin envelope (supine cadavers with arms on the trunk; no mammary gland modelled): the only fat-distribution evidence is the cryosection fat fractions of Q44 (below)."
+  "Breast volume and gynoid / android fat could not be measured from the skin envelope (supine cadavers with arms on the trunk; the breasts added in Q234 are a sculpted reference model compressed into the skin envelope, not a measurement): the only fat-distribution evidence is the cryosection fat fractions of Q44 (below)."
  ],
  "honest_names": {
   "base_f": "Base \u00b7 Female (male-derived body)",
