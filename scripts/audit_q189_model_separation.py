@@ -62,6 +62,8 @@ def base_subject(s: str) -> str:
 def classify(subject: str, badge: str | None) -> tuple[str, str]:
     """(class, why). Mirrors classifySource() in viewer/atlas_viewer.template.html."""
     b = base_subject(subject or "")
+    if b.startswith("mirror_"):
+        return "mirrored_opposite", "subject mirror_* (Q237: the missing side as the mirror of the opposite side)"
     if b.startswith("xfer_zan2"):
         return "filled_zan", "subject xfer_zan2*"
     if re.search(r"(^|_)xfer", b):

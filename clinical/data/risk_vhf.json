@@ -7,10 +7,10 @@
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
 "table_version":1,
 "counts":{
-"artery":26,
-"nerve":16,
+"artery":28,
+"nerve":18,
 "organ":42,
-"vein":22,
+"vein":24,
 "lung":2
 },
 "structures":[
@@ -215,6 +215,14 @@
 "rays_hit":300
 },
 {
+"id":"femoral_a_l",
+"name":"Femoral artery",
+"class":"artery",
+"r_mm":2.4,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"femoral_a_r",
 "name":"Femoral artery",
 "class":"artery",
@@ -227,6 +235,22 @@
 "name":"Femoral nerve",
 "class":"nerve",
 "r_mm":2.68,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_n_l",
+"name":"Femoral nerve",
+"class":"nerve",
+"r_mm":2.67,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_v_l",
+"name":"Femoral vein",
+"class":"vein",
+"r_mm":3.49,
 "r_method":"sdf",
 "rays_hit":300
 },
@@ -455,12 +479,28 @@
 "rays_hit":299
 },
 {
+"id":"popliteal_a_l",
+"name":"Popliteal artery",
+"class":"artery",
+"r_mm":1.97,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"popliteal_a_r",
 "name":"Popliteal artery",
 "class":"artery",
 "r_mm":2.0,
 "r_method":"sdf",
 "rays_hit":299
+},
+{
+"id":"popliteal_v_l",
+"name":"Popliteal vein",
+"class":"vein",
+"r_mm":2.36,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"popliteal_v_r",
@@ -595,6 +635,14 @@
 "name":"Tibial nerve",
 "class":"nerve",
 "r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"tibial_n_l",
+"name":"Tibial nerve",
+"class":"nerve",
+"r_mm":2.23,
 "r_method":"sdf",
 "rays_hit":300
 },

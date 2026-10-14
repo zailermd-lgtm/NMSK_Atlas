@@ -20,6 +20,7 @@ import re
 import shutil
 from pathlib import Path
 
+import os
 import sys
 
 REPO = Path(__file__).resolve().parents[1]
@@ -66,7 +67,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("built")
     ap.add_argument("-o", "--out", required=True)
-    ap.add_argument("--template", default=str(REPO / "viewer" / "atlas_viewer.template.html"))
+    ap.add_argument("--template", default=str(Path(os.environ.get("NMSK_TEMPLATE_DIR", REPO / "viewer")) / "atlas_viewer.template.html"))   # Q237: NMSK_TEMPLATE_DIR = private template copies
     ap.add_argument("--old-template", default=None)
     a = ap.parse_args(argv)
     built, out = Path(a.built).resolve(), Path(a.out).resolve()

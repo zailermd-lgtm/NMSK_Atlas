@@ -250,6 +250,17 @@ body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg text{fill:var(--cp-warn);font:600 11px system-ui,sans-serif;paint-order:stroke;stroke:var(--cp-bg);stroke-width:3px}
 /* CUT-MODE css end */
   #cut-panel,#cut-svg{--cp-bg:color-mix(in srgb,var(--panel) 97%,transparent);--cp-ink:var(--ink);--cp-dim:var(--ink-dim);--cp-line:var(--line-strong);--cp-accent:var(--accent);--cp-accent-ink:var(--ground);--cp-warn:#d9562a;--cp-shadow:var(--shadow)}
+  /* SYMVIEW css begin */
+#sym-select{font:inherit;font-size:11.5px;max-width:13.5em;padding:5px 6px;border:1px solid #8a93a0;border-radius:6px;background:transparent;color:inherit;cursor:pointer;min-height:26px}
+#sym-select.sv-on{background:#e0a800;border-color:#e0a800;color:#2b1d00;font-weight:600}
+#sym-select option{color:#111;background:#fff}
+#sym-banner{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:34;max-width:min(560px,calc(100vw - 16px));box-sizing:border-box;padding:6px 10px;border:1px solid #e0a800;border-radius:8px;background:#fff3cd;color:#4a3200;font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;pointer-events:auto}
+#sym-banner[hidden]{display:none}
+#sym-banner b{font-weight:700;white-space:nowrap}
+#sym-banner .sv-txt{min-width:0;font-size:11px;opacity:.85}
+#sym-banner button{flex:0 0 auto;font:inherit;font-size:11.5px;padding:2px 9px;min-height:24px;border:1px solid #8a6d00;border-radius:6px;background:transparent;color:inherit;cursor:pointer}
+@media (max-width:900px){#sym-banner{bottom:calc(64px + env(safe-area-inset-bottom,0px));font-size:11.5px;flex-wrap:wrap}#sym-banner .sv-txt{flex:1 1 100%}#sym-select{min-height:34px;font-size:12.5px;max-width:9.5em}}
+/* SYMVIEW css end */
   /* PARTS-UI css begin */
 #pm-layer,#pm-card,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
 #pm-layer{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:21;overflow:hidden}
@@ -498,6 +509,9 @@ body.ss-marking canvas{cursor:copy!important}
   </div>
 </div>
 <!-- CUT-MODE html end -->
+<!-- SYMVIEW html begin -->
+<div id="sym-banner" role="status" aria-live="polite" hidden><b>Symmetric view: not measured data</b><span class="sv-txt" id="sym-banner-txt"></span><button type="button" id="sym-off" title="Back to the measured model">Off</button></div>
+<!-- SYMVIEW html end -->
 <!-- PARTS-UI html begin -->
 <div id="pm-layer" aria-hidden="false"></div>
 <div id="pm-card" role="dialog" aria-label="Part marker" hidden></div>
@@ -821,9 +835,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     });
 
     // ================= shaders (with clip plane + isolation box) =================
-    var VS = "attribute vec3 aPos;attribute vec3 aNrm;uniform mat4 uMVP;uniform mat3 uN;" +
+    var VS = "attribute vec3 aPos;attribute vec3 aNrm;uniform mat4 uMVP;uniform mat3 uN;uniform float uSymOn;uniform vec4 uSym;" +      // Q237: uSym = (n, d) of the midsagittal plane, reflected when uSymOn is set
              "varying vec3 vN;varying vec3 vP;" +
-             "void main(){vN=uN*aNrm;vP=aPos;gl_Position=uMVP*vec4(aPos,1.0);}";
+             "void main(){vec3 p=aPos;vec3 q=aNrm;if(uSymOn>0.5){float s=dot(p,uSym.xyz)-uSym.w;p=p-2.0*s*uSym.xyz;q=q-2.0*dot(q,uSym.xyz)*uSym.xyz;}vN=uN*q;vP=p;gl_Position=uMVP*vec4(p,1.0);}";
     var FS = "precision mediump float;varying vec3 vN;varying vec3 vP;" +
       "uniform vec3 uColor;uniform float uAlpha;uniform float uHL;" +
       "uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
@@ -850,7 +864,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     gl.useProgram(prog);
     var U = {};
-    ["uMVP","uN","uColor","uAlpha","uHL","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
+    ["uMVP","uN","uColor","uAlpha","uHL","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn","uSymOn","uSym"].forEach(function (n) {
       U[n] = gl.getUniformLocation(prog, n);
     });
 
@@ -922,11 +936,12 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
     function vis(o) {
       if (!on[o.layer] || alphaFor[o.layer] <= 0.01) return false;
+      if (symPass ? !symIsSrc(o) : symHide(o)) return false;      // Q237 Symmetric view: the mirrored pass paints only the source side; the other side's originals are hidden while it is on
       if (hidden.has(o)) return false;
       if (selCtl && selCtl.rule(o.id) === "hide") return false;      // Q227: marked-structure selection only ever adds a veto (hide) or a ghost
       if (soloLayer && o.layer !== soloLayer) return false;
       if (!passClip(o) || !passBox(o)) return false;
-      return sideOK(o);
+      return symPass ? symSideOK(o) : sideOK(o);
     }
 
     // The shader does the pixel-exact cut with discard; these AABB tests throw
@@ -941,7 +956,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function passClip(o) {
       if (!clip.on) return true;
       var P = clipPlane(), m = P[3], P2 = clipPlane2(), m2 = P2[3];
-      for (var k = 0; k < 3; k++){ m += P[k] * (P[k] > 0 ? o.bmin[k] : o.bmax[k]); m2 += P2[k] * (P2[k] > 0 ? o.bmin[k] : o.bmax[k]); }
+      var bn = o.bmin, bx = o.bmax; if (symPass){ var sb = symBox(o); bn = sb[0]; bx = sb[1]; }      // Q237: the mirrored copy is tested with the reflected box
+      for (var k = 0; k < 3; k++){ m += P[k] * (P[k] > 0 ? bn[k] : bx[k]); m2 += P2[k] * (P2[k] > 0 ? bn[k] : bx[k]); }
       return m <= 0 && m2 <= 0;
     }
     // Q188 add-on hook state (inert without the add-on)
@@ -949,8 +965,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function layerAlpha(k) { var v = addonOpacity ? addonOpacity(k) : null; return v == null ? alphaFor[k] : Math.min(alphaFor[k], v); }
     function passBox(o) {
       if (!box.on) return true;
-      return !(o.bmax[0] < box.min[0] || o.bmax[1] < box.min[1] || o.bmax[2] < box.min[2] ||
-               o.bmin[0] > box.max[0] || o.bmin[1] > box.max[1] || o.bmin[2] > box.max[2]);
+      var bn = o.bmin, bx = o.bmax; if (symPass){ var sb = symBox(o); bn = sb[0]; bx = sb[1]; }      // Q237
+      return !(bx[0] < box.min[0] || bx[1] < box.min[1] || bx[2] < box.min[2] ||
+               bn[0] > box.max[0] || bn[1] > box.max[1] || bn[2] > box.max[2]);
     }
 
     var W=0,H=0,dpr=1,need=true,spinning=true;
@@ -1025,6 +1042,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         gl.uniform1f(U.uHL,hl||0);
         bind(B); runs(B,test);
       }
+      function scenePass(){      // Q237: the whole scene is painted once, and once more (mirrored) when the Symmetric view is on
       var opa=[],tra=[];
       BATCHES.forEach(function (B) {
         if (!on[B.layer]||layerAlpha(B.layer)<=0.01) return;
@@ -1053,6 +1071,12 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         }
       });
       gl.depthMask(true); gl.disable(gl.BLEND);
+      }
+      scenePass();
+      if (sym){
+        gl.uniform1f(U.uSymOn,1); gl.uniform4f(U.uSym,sym.plane.n[0],sym.plane.n[1],sym.plane.n[2],sym.plane.d); gl.frontFace(gl.CW); symPass = true;
+        try { scenePass(); } finally { symPass = false; gl.frontFace(gl.CCW); gl.uniform1f(U.uSymOn,0); }
+      }
 
       var hi2 = selected || hovered;
       if (hi2 && hi2.batch && vis(hi2)) {
@@ -1471,6 +1495,78 @@ function NMSKCutMode(E){
   };
 }
 /* CUT-MODE js end */
+/* SYMVIEW js begin */
+/* Symmetric view (Q237): DISPLAY ONLY, no data change. For the structures classified as paired (data/derived/Q237_pairing.json, sidecar symmetry_q237.json next to the page: the
+   model's midsagittal plane + the left/right twins; lateralised organs and one-sided structures are not in it) it draws the MIRROR IMAGE of the chosen side about the model's
+   midsagittal plane and hides the original of the other side while it is on. Choices: Off / Mirror right onto left / Mirror left onto right. A banner says it is not measured data.
+   The engine (three.js meshes with a reflection matrix, or the WebGL vertex-shader reflection) is reached only through the adaptor E:
+   url (sidecar)   toolbar + toolClass (where the control goes)   has(id) -> bool   apply(spec) (spec = null to leave; else {src:"r"|"l", matrix:[16 row-major], plane:{n,d}, srcIds, hideIds, srcSet, hideSet})
+   The engine owns the clipping (Cut mode): the mirrored copy is clipped by the same cut planes as everything else. */
+function NMSKSymView(E){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var data = null, mode = "off", sel = null, banner = $("sym-banner"), btxt = $("sym-banner-txt"), bOff = $("sym-off"), lists = {r: null, l: null}, plane = null;
+  function nonEmpty(a){ return a && a.length; }
+  function build(d){
+    if (!d || !d.plane || !d.plane.n || !d.pairs) return false;
+    var n = d.plane.n, dd = d.plane.d;
+    var M = [1 - 2*n[0]*n[0], -2*n[0]*n[1], -2*n[0]*n[2], 2*dd*n[0],
+             -2*n[1]*n[0], 1 - 2*n[1]*n[1], -2*n[1]*n[2], 2*dd*n[1],
+             -2*n[2]*n[0], -2*n[2]*n[1], 1 - 2*n[2]*n[2], 2*dd*n[2],
+             0, 0, 0, 1];
+    plane = {n: n, d: dd, matrix: M, tilt: d.plane.tilt_deg};
+    lists = {r: {src: [], hide: []}, l: {src: [], hide: []}};
+    d.pairs.forEach(function(p){
+      var R = (p[0] || []).filter(E.has), L = (p[1] || []).filter(E.has);
+      if (!R.length || !L.length) return;
+      R.forEach(function(i){ lists.r.src.push(i); lists.l.hide.push(i); });      // "right onto left": draw the mirrored right, hide the left original
+      L.forEach(function(i){ lists.l.src.push(i); lists.r.hide.push(i); });
+    });
+    return lists.r.src.length > 0;
+  }
+  function set(m){
+    if (m !== "r" && m !== "l") m = "off";
+    mode = m;
+    if (sel){ sel.value = m; sel.classList.toggle("sv-on", m !== "off"); }
+    if (m === "off"){
+      if (banner) banner.hidden = true;
+      E.apply(null);
+      return;
+    }
+    var src = m, hideSide = m === "r" ? "l" : "r", set1 = {}, set2 = {};
+    lists[src].src.forEach(function(i){ set1[i] = 1; });
+    lists[src].hide.forEach(function(i){ set2[i] = 1; });
+    E.apply({src: src, matrix: plane.matrix, plane: {n: plane.n, d: plane.d}, srcIds: lists[src].src, hideIds: lists[src].hide, srcSet: set1, hideSet: set2});
+    if (banner){
+      banner.hidden = false;
+      btxt.textContent = (m === "r" ? "Right side mirrored onto the left" : "Left side mirrored onto the right") + " about this model's midsagittal plane (" + (plane.tilt != null ? "tilt " + Number(plane.tilt).toFixed(1) + "°, " : "") +
+        lists[src].src.length + " paired structures); the " + (hideSide === "l" ? "left" : "right") + " originals are hidden. Lateralised organs are not mirrored.";
+    }
+  }
+  function ui(){
+    if (!E.toolbar) return;
+    sel = document.createElement("select");
+    sel.id = "sym-select"; sel.className = (E.toolClass || "") + " sv-sel";
+    sel.title = "Symmetric view (display only): mirror one side of the paired structures onto the other. Not measured data."; sel.setAttribute("aria-label", "Symmetric view");
+    [["off", "Symmetric view: off"], ["r", "Mirror right onto left"], ["l", "Mirror left onto right"]].forEach(function(o){
+      var op = document.createElement("option"); op.value = o[0]; op.textContent = o[1]; sel.appendChild(op);
+    });
+    sel.addEventListener("change", function(){ set(sel.value); });
+    E.toolbar.appendChild(sel);
+    if (bOff) bOff.addEventListener("click", function(){ set("off"); });
+  }
+  var ready = false;
+  try {
+    fetch(E.url).then(function(r){ if (!r.ok) throw new Error("no symmetry sidecar"); return r.json(); }).then(function(d){
+      data = d; if (build(d)){ ready = true; ui(); }
+    }).catch(function(){});
+  } catch (err){}
+  return {
+    set: set, mode: function(){ return mode; }, ready: function(){ return ready; }, data: function(){ return data; },
+    state: function(){ return {mode: mode, ready: ready, pairs: data ? data.pairs.length : 0, src: mode === "off" ? 0 : lists[mode].src.length, hidden: mode === "off" ? 0 : lists[mode].hide.length}; }
+  };
+}
+/* SYMVIEW js end */
 /* PARTS-UI js begin */
 /* The sourced PARTS of a structure (Q220, on the Q219 parts model): a Parts list in the structure card and point markers on the model.
    Data = the page's sidecar parts_data.json (public anatomy layer), fetched with a graceful fallback: absent or invalid = no Parts section,
@@ -2914,6 +3010,7 @@ function NMSKCap(E){
           if (selected === o) c = [c[0] * 0.4 + 0.21, c[1] * 0.4 + 0.48, c[2] * 0.4 + 0.576];     // the shader mixes the selected structure toward light blue
           out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});
         });
+        symCap(out);          // Q237: mirrored copies of the Symmetric view
         return out;
       },
       upload:capUpload, redraw:function(){ need = true; },
@@ -2934,6 +3031,47 @@ function NMSKCap(E){
         stopSpin(); need = true;
       }
     });
+    /* SYMVIEW glue begin */
+/* Q237 Symmetric view, WebGL engine: the main shader reflects the vertex about the midsagittal plane when uSymOn is set (position AND normal; the clip / box tests in the fragment
+   shader use the reflected position, so uClip / uClip2 cut the mirrored copy like everything else); draw() paints the scene a second time for the source side with
+   frontFace CW (the reflection reverses the winding); the other side's originals are vetoed in vis(). Nothing is written to the data. */
+var symCtl = null, sym = null, symPass = false, symIds = null;
+function symApply(spec){ sym = spec || null; need = true; if (capCtl && capCtl.itemsChanged) capCtl.itemsChanged(); }
+function symHide(o){ return !!(sym && sym.hideSet[o.id]); }
+function symIsSrc(o){ return !!(sym && sym.srcSet[o.id]); }
+function symSideOK(o){ return sideFilter === "both" || o.side === "m" || sideFilter === (o.side === "r" ? "l" : "r"); }     // the mirrored copy sits on the OPPOSITE side
+function symBox(o){          /* axis-aligned box of the reflected box (for the cut / isolation AABB tests of the mirrored pass) */
+  var n = sym.plane.n, d = sym.plane.d, lo = [1e18, 1e18, 1e18], hi = [-1e18, -1e18, -1e18], i, k;
+  for (i = 0; i < 8; i++){
+    var p = [(i & 1) ? o.bmax[0] : o.bmin[0], (i & 2) ? o.bmax[1] : o.bmin[1], (i & 4) ? o.bmax[2] : o.bmin[2]], t = 2 * (p[0]*n[0] + p[1]*n[1] + p[2]*n[2] - d);
+    for (k = 0; k < 3; k++){ var v = p[k] - t * n[k]; if (v < lo[k]) lo[k] = v; if (v > hi[k]) hi[k] = v; }
+  }
+  return [lo, hi];
+}
+function symCap(out){          /* the filled cut face also takes the mirrored copies */
+  if (!sym) return;
+  var n = sym.plane.n, d = sym.plane.d;
+  symPass = true;
+  try {
+    OBJ.forEach(function(o, i){
+      if (!symIsSrc(o) || !vis(o)) return;
+      var lk = selLook(o), a = faded.has(o) ? Math.min(0.18, alphaFor[o.layer]) : (lk === "ghost" || lk === "fade" || lk === "xray" ? selAlpha(lk, o.layer, lk === "ghost" ? alphaFor[o.layer] : layerAlpha(o.layer)) : (lk === "hl" ? 1 : layerAlpha(o.layer))), c = colOf(o);
+      out.push({key:o.id, name:o.name + " (mirror image)", cat:o.layer, rgb:c, alpha:a, geom:function(){
+        var g = capGeom(i, o), p = g.pos, q = new Float32Array(p.length), k, j, b = symBox(o);
+        for (j = 0; j < p.length; j += 3){
+          var t = 2 * (p[j]*n[0] + p[j+1]*n[1] + p[j+2]*n[2] - d);
+          for (k = 0; k < 3; k++) q[j+k] = p[j+k] - t * n[k];
+        }
+        return {pos:q, idx:g.idx, bmin:b[0], bmax:b[1]};
+      }});
+    });
+  } finally { symPass = false; }
+}
+symCtl = NMSKSymView({url:"symmetry_q237.json", toolbar:document.getElementById("topright"), toolClass:"pill",
+  has:function(id){ if (!symIds){ symIds = {}; OBJ.forEach(function(o){ symIds[o.id] = 1; }); } return symIds[id] === 1; }, apply:symApply});
+window.__symState = function(){ return symCtl.state(); };
+window.__symDebug = function(){ return {on: !!sym, clipOn: !!clip.on, srcObjects: sym ? OBJ.filter(symIsSrc).length : 0, hiddenObjects: sym ? OBJ.filter(symHide).length : 0}; };
+/* SYMVIEW glue end */
     window.__selState = function(){ return selCtl.state(); };
     window.__capState = function(){ return capCtl.state(); };
     window.__capResult = function(f){ return capCtl.result(f); };

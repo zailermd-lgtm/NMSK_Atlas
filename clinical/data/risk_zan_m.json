@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"zan_m",
-"generated":"2026-10-01",
+"generated":"2026-10-14",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"Z-Anatomy model frame (mm, +Y superior)",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -6812,7 +6812,7 @@
 "class":"artery",
 "r_mm":0.35,
 "r_method":"sdf",
-"rays_hit":291
+"rays_hit":273
 },
 {
 "id":"zan_ophthalmic_nerve_l",

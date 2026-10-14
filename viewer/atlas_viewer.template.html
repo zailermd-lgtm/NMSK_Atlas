@@ -206,6 +206,17 @@ body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg text{fill:var(--cp-warn);font:600 11px system-ui,sans-serif;paint-order:stroke;stroke:var(--cp-bg);stroke-width:3px}
 /* CUT-MODE css end */
 #cut-panel,#cut-svg{--cp-bg:var(--surface);--cp-ink:var(--ink);--cp-dim:var(--muted);--cp-line:var(--line);--cp-accent:var(--accent);--cp-accent-ink:var(--accent-ink);--cp-warn:var(--risk);--cp-shadow:var(--shadow)}
+/* SYMVIEW css begin */
+#sym-select{font:inherit;font-size:11.5px;max-width:13.5em;padding:5px 6px;border:1px solid #8a93a0;border-radius:6px;background:transparent;color:inherit;cursor:pointer;min-height:26px}
+#sym-select.sv-on{background:#e0a800;border-color:#e0a800;color:#2b1d00;font-weight:600}
+#sym-select option{color:#111;background:#fff}
+#sym-banner{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:34;max-width:min(560px,calc(100vw - 16px));box-sizing:border-box;padding:6px 10px;border:1px solid #e0a800;border-radius:8px;background:#fff3cd;color:#4a3200;font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.2);display:flex;align-items:center;gap:8px;pointer-events:auto}
+#sym-banner[hidden]{display:none}
+#sym-banner b{font-weight:700;white-space:nowrap}
+#sym-banner .sv-txt{min-width:0;font-size:11px;opacity:.85}
+#sym-banner button{flex:0 0 auto;font:inherit;font-size:11.5px;padding:2px 9px;min-height:24px;border:1px solid #8a6d00;border-radius:6px;background:transparent;color:inherit;cursor:pointer}
+@media (max-width:900px){#sym-banner{bottom:calc(64px + env(safe-area-inset-bottom,0px));font-size:11.5px;flex-wrap:wrap}#sym-banner .sv-txt{flex:1 1 100%}#sym-select{min-height:34px;font-size:12.5px;max-width:9.5em}}
+/* SYMVIEW css end */
 /* PARTS-UI css begin */
 #pm-layer,#pm-card,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
 #pm-layer{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:21;overflow:hidden}
@@ -506,6 +517,9 @@ body.ss-marking canvas{cursor:copy!important}
   </div>
 </div>
 <!-- CUT-MODE html end -->
+<!-- SYMVIEW html begin -->
+<div id="sym-banner" role="status" aria-live="polite" hidden><b>Symmetric view: not measured data</b><span class="sv-txt" id="sym-banner-txt"></span><button type="button" id="sym-off" title="Back to the measured model">Off</button></div>
+<!-- SYMVIEW html end -->
     <!-- PARTS-UI html begin -->
 <div id="pm-layer" aria-hidden="false"></div>
 <div id="pm-card" role="dialog" aria-label="Part marker" hidden></div>
@@ -571,6 +585,7 @@ var SUBJECT_LABELS = {
   xfer_hra2vhf_q233: "REFERENCE ORGAN OF THE SAME DONOR, not segmented on this scan: uterus, ovaries and uterine tubes of the Visible Human female from the HuBMAP Human Reference Atlas 3D library (CC BY 4.0), registered onto her CT pelvis; the badge states the registration error",
   xfer_hra2vhf_q234: "REFERENCE STRUCTURE OF THE SAME DONOR FRAME, not segmented on this scan: the vagina and the ligaments of the uterus and ovary (round, uterosacral, cardinal, broad, ovarian, suspensory of the ovary, mesosalpinx, mesovarium) from the HuBMAP Human Reference Atlas 3D library (CC BY 4.0), objects of the Visible Human female frame (the library does not document how these two objects were built), registered onto her CT pelvis with the same transform as her uterus; the badge states the registration error",
   xfer_hrasculpt2vhf_q234: "REFERENCE MODEL, NOT donor data and not segmented on this scan: both breasts (fat pad, mammary gland lobes, lactiferous ducts, areola, nipple, suspensory ligaments) of the HuBMAP Human Reference Atlas 3D library (CC BY 4.0), which its author sculpted from scratch from textbook atlases (Krstic 1994, Thieme 2008), registered onto her thoracic vertebrae and fitted into her own skin envelope (her CT chest is flatter than the library breast, so the shape is compressed); the badge states the registration error, the compression and the volume",
+  mirror_q237: "MIRROR IMAGE of the opposite side, fitted to this side's bones; not measured on this side: the structure of this body's own opposite side, reflected about the model's midsagittal plane and fitted to this side's bones (rigid + uniform scale from the neighbouring bones, a bounded conform step out of the bones and inside the skin); the card gives the source, the fit error and the guard numbers. A real left / right difference is not represented (Q237).",
   xfer_cvh2vhf_q235: "ANOTHER PERSON'S REAL ANATOMY, registered onto this body, not segmented from this scan: the vulvar, perineal and urethral structures (cavernous body of the clitoris, vestibular bulbs, Bartholin's glands, bulbospongiosus, ischiocavernosus, superficial and deep transverse perineal muscles, urethral sphincter layers and lumen, perineal body) of the Chinese Visible Human young female (Wu et al. 2015, PLOS ONE, S3 Fig, CC BY 4.0), registered onto this body's pelvis by bones only (rigid + uniform scale); the badge states the residuals, volumes and guard results",
   xfer_zan2vhm_genital_q233: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on him: male genitalia carried onto his pelvis; the badge states the fit error",
   xfer_vhm2vhf: "TRANSFERRED from the Visible Human male, not measured on her: his structure carried onto her bones by piecewise affine maps and, for the lower-limb muscles, re-placed inside her muscle compartment as measured on her cryosections; the boundaries between muscles are his. An estimate -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
@@ -678,6 +693,7 @@ var SRC = [
   {k:"reference_model", name:"Reference model (sculpted, not donor data)", hex:0x3FB8C4, say:"Reference model sculpted by its authors from textbook atlases (HuBMAP Human Reference Atlas, CC BY 4.0), fitted into this body's skin envelope \u2014 not measured, not donor data."},
   {k:"filled_zan",     name:"Filled from Z-Anatomy",             hex:0x2A7DE1, say:"Filled from Z-Anatomy (reference model), fitted to this body \u2014 not measured here."},
   {k:"registered_other_person", name:"Another person's real anatomy, registered", hex:0xA3C640, say:"Chinese Visible Human female (Wu et al. 2015, CC BY 4.0), registered onto this body, not segmented from this scan \u2014 another person's real segmentation, not this body's geometry."},  {k:"filled_zan",     name:"Filled from Z-Anatomy",             hex:0x2A7DE1, say:"Filled from Z-Anatomy (reference model), fitted to this body \u2014 not measured here."},
+  {k:"mirrored_opposite", name:"Mirrored from the opposite side", hex:0xE0583A, say:"Mirror image of the opposite side, fitted to this side's bones \u2014 not measured on this side."},
   {k:"other_specimen", name:"Another person's CT",               hex:0x8A8F98, say:"Another person's CT (TotalSegmentator case s1159) \u2014 NOT this body's geometry; hidden by default."}
 ];
 var SRC_BY = {}; SRC.forEach(function(c){ SRC_BY[c.k] = c; });
@@ -688,6 +704,7 @@ function baseSubject(sub){
 }
 function classifySource(sub, badge){
   var b = baseSubject(sub);
+  if (b.indexOf("mirror_") === 0) return "mirrored_opposite";      // Q237: the missing side as the mirror of the opposite side
   if (b.indexOf("xfer_zan2") === 0) return "filled_zan";
   if (b.indexOf("xfer_hrasculpt2") === 0) return "reference_model";
   if (b.indexOf("xfer_cvh2") === 0) return "registered_other_person";
@@ -1519,6 +1536,78 @@ function NMSKCutMode(E){
   };
 }
 /* CUT-MODE js end */
+/* SYMVIEW js begin */
+/* Symmetric view (Q237): DISPLAY ONLY, no data change. For the structures classified as paired (data/derived/Q237_pairing.json, sidecar symmetry_q237.json next to the page: the
+   model's midsagittal plane + the left/right twins; lateralised organs and one-sided structures are not in it) it draws the MIRROR IMAGE of the chosen side about the model's
+   midsagittal plane and hides the original of the other side while it is on. Choices: Off / Mirror right onto left / Mirror left onto right. A banner says it is not measured data.
+   The engine (three.js meshes with a reflection matrix, or the WebGL vertex-shader reflection) is reached only through the adaptor E:
+   url (sidecar)   toolbar + toolClass (where the control goes)   has(id) -> bool   apply(spec) (spec = null to leave; else {src:"r"|"l", matrix:[16 row-major], plane:{n,d}, srcIds, hideIds, srcSet, hideSet})
+   The engine owns the clipping (Cut mode): the mirrored copy is clipped by the same cut planes as everything else. */
+function NMSKSymView(E){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var data = null, mode = "off", sel = null, banner = $("sym-banner"), btxt = $("sym-banner-txt"), bOff = $("sym-off"), lists = {r: null, l: null}, plane = null;
+  function nonEmpty(a){ return a && a.length; }
+  function build(d){
+    if (!d || !d.plane || !d.plane.n || !d.pairs) return false;
+    var n = d.plane.n, dd = d.plane.d;
+    var M = [1 - 2*n[0]*n[0], -2*n[0]*n[1], -2*n[0]*n[2], 2*dd*n[0],
+             -2*n[1]*n[0], 1 - 2*n[1]*n[1], -2*n[1]*n[2], 2*dd*n[1],
+             -2*n[2]*n[0], -2*n[2]*n[1], 1 - 2*n[2]*n[2], 2*dd*n[2],
+             0, 0, 0, 1];
+    plane = {n: n, d: dd, matrix: M, tilt: d.plane.tilt_deg};
+    lists = {r: {src: [], hide: []}, l: {src: [], hide: []}};
+    d.pairs.forEach(function(p){
+      var R = (p[0] || []).filter(E.has), L = (p[1] || []).filter(E.has);
+      if (!R.length || !L.length) return;
+      R.forEach(function(i){ lists.r.src.push(i); lists.l.hide.push(i); });      // "right onto left": draw the mirrored right, hide the left original
+      L.forEach(function(i){ lists.l.src.push(i); lists.r.hide.push(i); });
+    });
+    return lists.r.src.length > 0;
+  }
+  function set(m){
+    if (m !== "r" && m !== "l") m = "off";
+    mode = m;
+    if (sel){ sel.value = m; sel.classList.toggle("sv-on", m !== "off"); }
+    if (m === "off"){
+      if (banner) banner.hidden = true;
+      E.apply(null);
+      return;
+    }
+    var src = m, hideSide = m === "r" ? "l" : "r", set1 = {}, set2 = {};
+    lists[src].src.forEach(function(i){ set1[i] = 1; });
+    lists[src].hide.forEach(function(i){ set2[i] = 1; });
+    E.apply({src: src, matrix: plane.matrix, plane: {n: plane.n, d: plane.d}, srcIds: lists[src].src, hideIds: lists[src].hide, srcSet: set1, hideSet: set2});
+    if (banner){
+      banner.hidden = false;
+      btxt.textContent = (m === "r" ? "Right side mirrored onto the left" : "Left side mirrored onto the right") + " about this model's midsagittal plane (" + (plane.tilt != null ? "tilt " + Number(plane.tilt).toFixed(1) + "°, " : "") +
+        lists[src].src.length + " paired structures); the " + (hideSide === "l" ? "left" : "right") + " originals are hidden. Lateralised organs are not mirrored.";
+    }
+  }
+  function ui(){
+    if (!E.toolbar) return;
+    sel = document.createElement("select");
+    sel.id = "sym-select"; sel.className = (E.toolClass || "") + " sv-sel";
+    sel.title = "Symmetric view (display only): mirror one side of the paired structures onto the other. Not measured data."; sel.setAttribute("aria-label", "Symmetric view");
+    [["off", "Symmetric view: off"], ["r", "Mirror right onto left"], ["l", "Mirror left onto right"]].forEach(function(o){
+      var op = document.createElement("option"); op.value = o[0]; op.textContent = o[1]; sel.appendChild(op);
+    });
+    sel.addEventListener("change", function(){ set(sel.value); });
+    E.toolbar.appendChild(sel);
+    if (bOff) bOff.addEventListener("click", function(){ set("off"); });
+  }
+  var ready = false;
+  try {
+    fetch(E.url).then(function(r){ if (!r.ok) throw new Error("no symmetry sidecar"); return r.json(); }).then(function(d){
+      data = d; if (build(d)){ ready = true; ui(); }
+    }).catch(function(){});
+  } catch (err){}
+  return {
+    set: set, mode: function(){ return mode; }, ready: function(){ return ready; }, data: function(){ return data; },
+    state: function(){ return {mode: mode, ready: ready, pairs: data ? data.pairs.length : 0, src: mode === "off" ? 0 : lists[mode].src.length, hidden: mode === "off" ? 0 : lists[mode].hide.length}; }
+  };
+}
+/* SYMVIEW js end */
 /* PARTS-UI js begin */
 /* The sourced PARTS of a structure (Q220, on the Q219 parts model): a Parts list in the structure card and point markers on the model.
    Data = the page's sidecar parts_data.json (public anatomy layer), fetched with a graceful fallback: absent or invalid = no Parts section,
@@ -3041,6 +3130,7 @@ capCtl = NMSKCap({
       out.push({key:s.id, name:(s.rec && s.rec.name) || s.id, cat:s.cat, rgb:[c.r, c.g, c.b], alpha:m.material.opacity,
                 geom:function(){ var gg = m.geometry; return {pos:gg.attributes.position.array, idx:gg.index.array, bmin:gg.boundingBox.min.toArray(), bmax:gg.boundingBox.max.toArray()}; }});
     });
+    symCap(out);          // Q237: mirrored copies of the Symmetric view
     return out;
   },
   upload:capUpload, redraw:function(){ draw(); },
@@ -3061,6 +3151,59 @@ capCtl = NMSKCap({
     place(); draw();
   }
 });
+/* SYMVIEW glue begin */
+/* Q237 Symmetric view, three.js engine: a mirrored copy of every source-side mesh (the same geometry under a reflection matrix; three.js flips the winding by itself for a
+   negative determinant), a clone of the source material that follows its colour / opacity / visibility and takes the SAME clipping planes as the originals (Cut mode); the
+   hidden side's originals are switched off after every apply(). Nothing is written to the data. */
+var symCtl = null, symSpec = null, symCopies = [], symNormal = null;
+function symClear(){ symCopies.forEach(function(c){ root.remove(c); c.material.dispose(); }); symCopies = []; }
+function symSet(spec){
+  symClear(); symSpec = spec || null;
+  if (spec){
+    var M = new THREE.Matrix4(); M.set.apply(M, spec.matrix);          // row-major, in the model's millimetre frame (the children of root)
+    meshes.forEach(function(m){
+      if (!spec.srcSet[m.userData.id]) return;
+      var c = new THREE.Mesh(m.geometry, m.material.clone());
+      c.matrixAutoUpdate = false; c.matrix.copy(M); c.matrixWorldNeedsUpdate = true;
+      c.renderOrder = m.renderOrder; c.userData = {symSrc: m};
+      root.add(c); symCopies.push(c);
+    });
+  }
+  apply();
+}
+function symSync(){
+  if (!symSpec) return;
+  meshes.forEach(function(m){ if (symSpec.hideSet[m.userData.id]) m.visible = false; });
+  symCopies.forEach(function(c){
+    var m = c.userData.symSrc, a = c.material, b = m.material;
+    c.visible = m.visible; a.color.copy(b.color); a.emissive.copy(b.emissive); a.opacity = b.opacity; a.transparent = b.transparent; a.depthWrite = b.depthWrite;
+    a.clippingPlanes = cut.on ? cutPlanes : null;
+  });
+}
+function symCap(out){          /* the filled cut face also takes the mirrored copies (reflected positions; the fill is parity based, so the reversed winding does not matter) */
+  if (!symSpec) return;
+  var n = symSpec.plane.n, d = symSpec.plane.d;
+  symCopies.forEach(function(c){
+    if (!c.visible) return;
+    var m = c.userData.symSrc, s = m.userData, col = c.material.color, g = m.geometry;
+    out.push({key:s.id, name:((s.rec && s.rec.name) || s.id) + " (mirror image)", cat:s.cat, rgb:[col.r, col.g, col.b], alpha:c.material.opacity,
+              geom:function(){
+                var p = g.attributes.position.array, q = new Float32Array(p.length), lo = [1e18, 1e18, 1e18], hi = [-1e18, -1e18, -1e18], i, k;
+                for (i = 0; i < p.length; i += 3){
+                  var t = 2 * (p[i]*n[0] + p[i+1]*n[1] + p[i+2]*n[2] - d);
+                  for (k = 0; k < 3; k++){ var v = p[i+k] - t * n[k]; q[i+k] = v; if (v < lo[k]) lo[k] = v; if (v > hi[k]) hi[k] = v; }
+                }
+                return {pos:q, idx:g.index.array, bmin:lo, bmax:hi};
+              }});
+  });
+}
+changeHooks.push(symSync);
+symCtl = NMSKSymView({url:"symmetry_q237.json", toolbar:document.getElementById("tools"), toolClass:"tool", has:function(id){ return !!byId[id]; }, apply:symSet});
+window.__symState = function(){ return symCtl.state(); };
+window.__symDebug = function(){ var h = 0; if (symSpec) meshes.forEach(function(m){ if (symSpec.hideSet[m.userData.id] && !m.visible) h++; });
+  return {copies: symCopies.length, copiesVisible: symCopies.filter(function(c){ return c.visible; }).length, clipped: symCopies.filter(function(c){ return c.material.clippingPlanes && c.material.clippingPlanes.length; }).length,
+          originalsHidden: h, cutOn: !!cut.on, mirrorDet: symSpec ? new THREE.Matrix4().set.apply(new THREE.Matrix4(), symSpec.matrix).determinant() : null}; };
+/* SYMVIEW glue end */
 window.__selState = function(){ return selCtl.state(); };
 window.__capState = function(){ return capCtl.state(); };
 window.__capResult = function(f){ return capCtl.result(f); };

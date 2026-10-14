@@ -21,6 +21,7 @@ import argparse
 import hashlib
 import re
 import shutil
+import os
 import sys
 from pathlib import Path
 
@@ -85,7 +86,7 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("built", help="existing built page (its geo files are read from the same directory)")
     ap.add_argument("-o", "--out", required=True, help="output html (new directory; geo files are copied next to it)")
-    ap.add_argument("--template", default=str(REPO / "viewer" / "zan_atlas.template.html"))
+    ap.add_argument("--template", default=str(Path(os.environ.get("NMSK_TEMPLATE_DIR", REPO / "viewer")) / "zan_atlas.template.html"))   # Q237: NMSK_TEMPLATE_DIR = private template copies
     ap.add_argument("--old-template", default=None, help="re-render with this template and require a byte-identical page")
     args = ap.parse_args(argv)
 

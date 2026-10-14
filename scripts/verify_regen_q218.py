@@ -11,6 +11,7 @@
 So (source) = (old template + data) and (new) = (current template + data): nothing else differs. Prints one JSON line."""
 import hashlib
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -69,7 +70,8 @@ def main():
         except SystemExit:
             pass
     res["source_built_from_template_rev"] = found
-    cur = (REPO / tpl_rel).read_text(encoding="utf-8")
+    # Q237: NMSK_TEMPLATE_DIR names a directory with private copies of the two templates (a build that must not pick up an uncommitted edit of another change); default = viewer/
+    cur = (Path(os.environ["NMSK_TEMPLATE_DIR"]) / Path(tpl_rel).name if os.environ.get("NMSK_TEMPLATE_DIR") else REPO / tpl_rel).read_text(encoding="utf-8")
     res["new_equals_current_template_plus_same_data"] = mod.render(cur, ds) == o_html
     if found:
         old = subprocess.run(["git", "show", f"{found}:{tpl_rel}"], capture_output=True, text=True, cwd=REPO).stdout
