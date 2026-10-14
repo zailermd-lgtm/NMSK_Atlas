@@ -31,3 +31,12 @@ python3 -I rh_mesh.py s3.u3d OUT                                            # up
 python3 -I tools/build_package.py OUT .                                     # PLY + structures.json
 ```
 Other Figshare files of the item (S1/S2/S5-S8 TIFF, S4 PDF with images only, S1_Table.docx) hold no meshes.
+
+## Correction (Q235): most of the meshes are CLOSED solids
+The "open sheet" count above (42 of 47) is an artefact of the check in `tools/build_package.py`: it counts a DIRECTED edge without an opposite edge, so a closed surface whose triangles are not wound consistently reads as open.
+Counted per undirected edge on the unwelded triangles (every edge shared by exactly two triangles), the structures used by Q235 are closed: cavernous body of the clitoris, vestibular bulbs, Bartholin's glands, ischiocavernosus (both), bulbospongiosus,
+urethral compressor, urethrovaginal sphincter, raphe, submucous layer of the urethra, bladder + urethral lumen; superficial / deep transverse perineal muscles, urethral sphincter proper and the perineal body are closed except for 1-3 edges
+where two parts of the surface touch (4 triangles on one edge). Re-orienting the triangles (vertex order only, no vertex moves; `scripts/anatomy/q235/solid.py`) gives a defined volume, which an independent ray-parity Monte-Carlo
+volume confirms (e.g. clitoris 1.92 vs 1.96 +- 0.04 cm3, vestibular bulbs 0.49 / 0.54, bulbospongiosus 2.83, perineal body 3.73 + 0.65 cm3). The `volume_cm3: null` and `signed_volume_cm3` fields of `structures.json` are therefore NOT the tissue volumes of
+these structures; the Q235 values are in `data/derived/Q235_report_own_f.json`. Meshes that really stay open or non-manifold (rectum, mesorectum, veins, peritoneum, skin, vaginal wall with 7 touching edges ...) are unchanged in status.
+The CVH volumes are of the CVH specimen (cm3 in its own frame); on an atlas page they are scaled by the registration scale cubed.

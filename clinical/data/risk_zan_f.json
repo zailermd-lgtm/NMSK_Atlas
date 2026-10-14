@@ -9,7 +9,7 @@
 "counts":{
 "artery":431,
 "nerve":361,
-"organ":269,
+"organ":277,
 "vein":220,
 "lung":35
 },
@@ -117,6 +117,22 @@
 "r_mm":1.28,
 "r_method":"sdf",
 "rays_hit":287
+},
+{
+"id":"bartholin_gland_l",
+"name":"Greater vestibular gland (Bartholin, CVH), left (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":1.86,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"bartholin_gland_r",
+"name":"Greater vestibular gland (Bartholin, CVH), right (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"brachial_cord_posterior_l",
@@ -331,6 +347,14 @@
 "name":"Chorda tympani (right)",
 "class":"nerve",
 "r_mm":0.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"clitoris_cavernous_body",
+"name":"Cavernous body of the clitoris (both crura and body, CVH)",
+"class":"organ",
+"r_mm":2.25,
 "r_method":"sdf",
 "rays_hit":300
 },
@@ -815,6 +839,14 @@
 "rays_hit":300
 },
 {
+"id":"perineal_body",
+"name":"Perineal body (CVH)",
+"class":"organ",
+"r_mm":2.3,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"posterior_femoral_cutaneous_n_l",
 "name":"Posterior femoral cutaneous nerve (left)",
 "class":"nerve",
@@ -1287,6 +1319,22 @@
 "rays_hit":233
 },
 {
+"id":"urethra_female_lumen",
+"name":"Female urethra, lumen (CVH; urethral part of the bladder + urethra lumen, capped)",
+"class":"organ",
+"r_mm":0.47,
+"r_method":"sdf",
+"rays_hit":266
+},
+{
+"id":"urethra_female_submucous_layer",
+"name":"Female urethra, submucous layer (CVH)",
+"class":"organ",
+"r_mm":1.79,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"uterine_tube_l",
 "name":"Uterine tube (left)",
 "class":"organ",
@@ -1315,6 +1363,22 @@
 "name":"Vagina",
 "class":"organ",
 "r_mm":0.99,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"vestibular_bulb_l",
+"name":"Vestibular bulb (CVH), left (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":1.81,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"vestibular_bulb_r",
+"name":"Vestibular bulb (CVH), right (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":1.89,
 "r_method":"sdf",
 "rays_hit":300
 },

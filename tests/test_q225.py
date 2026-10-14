@@ -216,6 +216,9 @@ def test_final_pages_carry_parts_sidecar_and_the_right_clinical_files():
     _q234 = REPO / "data" / "derived" / "Q234_hra_meshes.json"      # Q234 regenerated the table again with the HRA vagina / ligaments / breast structures (organ rows)
     if _q234.exists():
         q233_ids |= set(json.loads(_q234.read_text())["structures"])
+    _q235 = REPO / "data" / "derived" / "Q235_report_comb_f.json"      # Q235 added the Chinese Visible Human perineal / urethral structures (organ + muscle rows)
+    if _q235.exists():
+        q233_ids |= set(json.loads(_q235.read_text())["shipped"])
     strip = lambda d: {k: ([r for r in v if r.get("id") not in q233_ids] if k == "structures" else ({c: n for c, n in v.items() if c != "organ"} if k == "counts" else v)) for k, v in d.items() if k != "generated"}
     assert strip(q225_risk) == strip(repo_risk)
     assert not list(FINAL["male"].glob("clinical_*"))                           # the Z male fitted page has no clinical files

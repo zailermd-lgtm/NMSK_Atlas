@@ -25,3 +25,9 @@ Not endorsed by the authors or PLOS. The 47 meshes are one specimen, not a popul
 **Independent checks (ours, see README.md).** Every payload is consumed to the last byte; all indices in range; paired structures mirror about a common
 midline (median nearest-neighbour distance 0.9-1.4 mm for paired structures); lumen and wall surfaces coincide (0.01 mm); anatomical order
 anterior-posterior and superior-inferior is correct. Only 5 structures are closed manifolds; the rest are open sheets (the model is cropped).
+
+**Q235 (derived use on the atlas pages).** Fourteen of the meshes (cavernous body of the clitoris, vestibular bulb, Bartholin's gland, bulbospongiosus, ischiocavernosus, superficial and deep transverse perineal muscle, urethral sphincter proper,
+raphe of the urethral sphincter, urethral compressor, urethrovaginal sphincter, submucous layer of the urethra, perineal body, and the urethral part of the bladder + urethral lumen) are shown on the Imaging-based female and Combined female pages of the
+atlas as separate structures. Changes made by the atlas (indicated on every structure card): rigid transformation + uniform scale (bone registration, scale about 1.11 into the page frame), triangle winding made consistent (vertex order only),
+components below 100 triangles omitted, the lumen mesh cut at the bladder neck and closed by a flat cap, paired structures named left / right by the registration (the file carries no side labels). The coordinates of the shipped structures are
+therefore NOT the authors' coordinates. Attribution string: `Yi Wu et al. 2015, PLoS ONE 10(8): e0132226, doi:10.1371/journal.pone.0132226, S3 Fig, CC BY 4.0`. Not endorsed by the authors or PLOS.

@@ -47,6 +47,8 @@ def provenance_of(x):
     """what the structure is, from its subject (own pages) / record (Z pages)"""
     src = x["src"] or ""
     rec = x.get("rec") or {}
+    if str(rec.get("source", "")).startswith("Chinese Visible Human") or src.startswith("xfer_cvh2"):
+        return "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
     if str(rec.get("source", "")).startswith("HuBMAP"):
         if "sculpted reference model" in str(rec.get("source", "")):
             return "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
@@ -241,6 +243,11 @@ for _k in ("own_f", "base_f", "comb_f"):
     _q = FINAL_DIRS[_k].replace("build/q233/", "build/q234/")
     if (REPO / _q).exists():
         FINAL_DIRS[_k] = _q
+# Q235: the Imaging-based and Combined female pages are read from build/q235 (clitoris, vestibular bulbs / Bartholin's glands, perineal muscles, urethra, perineal body added from the Chinese Visible Human); Base female was skipped
+for _k in ("own_f", "comb_f"):
+    _q = FINAL_DIRS[_k].replace("build/q234/", "build/q235/")
+    if (REPO / _q).exists():
+        FINAL_DIRS[_k] = _q
 
 
 def load_state(key, dirpath=None):
@@ -369,12 +376,24 @@ def build(measures_path):
                               thorax_registration=dict(scale=r["thorax_registration"]["scale"], residual_mm=r["thorax_registration"]["residual_mm"]),
                               added=sorted(x for x, v in st.items() if not v.get("held")), held=sorted(x for x, v in st.items() if v.get("held")),
                               volumes_cm3={x: v["gates"].get("volume_cm3") for x, v in st.items() if v["gates"].get("volume_cm3") is not None}))
+    for k, lab in (("own_f", "Imaging-based · Female"), ("comb_f", "Combined · Female"), ("base_f", "Base · Female (male-derived body)")):
+        r = rj(f"Q235_report_{k}.json")
+        if r:
+            st = r["structures"]
+            if r.get("skipped_page"):
+                fixes.append(dict(page=lab, what="Q235: NOTHING added: " + r["skipped_page"], held=sorted(r.get("held", []))))
+                continue
+            reg = r.get("registration", {})
+            fixes.append(dict(page=lab, what="Q235: ADDED the clitoris (cavernous body), vestibular bulbs, Bartholin's glands, bulbospongiosus, ischiocavernosus, superficial and deep transverse perineal muscles, the layers and lumen of the female "
+                              "urethra and the perineal body from the Chinese Visible Human young female (Wu et al. 2015, CC BY 4.0; another person's real segmentation, registered onto the page's pelvis by bones: rigid + uniform scale)",
+                              registration_scale=(reg.get("scale") or (reg.get("transform") or {}).get("scale")), added=sorted(r["shipped"]), held=sorted(r.get("held", [])),
+                              volumes_cm3_page={x: v["volume_page_cm3"] for x, v in st.items() if x in r["shipped"]}))
     if rep["own_m"]:
         r = rep["own_m"]
         fixes.append(dict(page="Imaging-based · Male", what="ADDED the male genital organs his scans do not give (testes, epididymides, deferent ducts, seminal vesicles, penis corpora + glans, male urethra, ejaculatory ducts) as badged Z-Anatomy fills",
                           source="Z-Anatomy male fitted to him (Combined · Male page, his frame), inside his CT skin, out of his bones and pelvic organs", added=[k for k, v in r["organs"].items() if not v.get("held")], held=[k for k, v in r["organs"].items() if v.get("held")]))
     cannot = [
-        "Vulva (labia majora / minora), clitoris, vestibular glands / bulbs, mons pubis, female urethra, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented. (Q234 added the vagina and the ligaments of the uterus / ovary from HRA objects.)",
+        "Labia majora / minora, mons pubis, vulvar skin surface, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set, the Chinese Visible Human set of Q235; the clitoris, vestibular bulbs / glands, female urethra and perineal muscles of the Imaging-based and Combined female pages are from the Chinese Visible Human, another person, since Q235; Base female has none: its male-derived pelvis does not accept them); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented. (Q234 added the vagina and the ligaments of the uterus / ovary from HRA objects.)",
         "Breasts: the Z-Anatomy chest skin is the male contour (all three Z female-side pages) and her own CT chest is flat (supine cadaver). Q234 added the HRA breasts (a reference model SCULPTED by its author from textbook atlases, NOT donor data) registered on the thoracic vertebrae and compressed into each page's skin envelope: a badged reference model, not a measured breast and not her tissue.",
         "Z-Anatomy-derived skeletons (Base female, Combined female) keep the male-derived pelvis / sacrum / skull shape: Combined female's bones follow hers within ~2 mm median but its subpubic angle reads 62.7 deg (male range) against her 87.3 deg. Replacing those bones with her own would break the fitted ligament / muscle attachments: not done.",
         "Imaging-based male: scrotal / penile SKIN comes from his CT skin (present); his testes etc. are Z fills, not measured; seminal vesicles are not separable on his frozen CT.",

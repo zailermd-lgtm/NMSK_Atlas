@@ -118,7 +118,11 @@ def test_audit_counts_the_new_structures_as_present():
         after = a["pages"][k]["after_q233"]["inventory"]
         present = set(after["female_only_present"])
         assert {"vagina", "uterine_ovarian_ligaments"} <= present, k
-        assert {"labia_majora", "labia_minora", "clitoris", "female_urethra"} <= set(after["female_only_absent"]), k
+        if k == "base_f":
+            assert {"labia_majora", "labia_minora", "clitoris", "female_urethra"} <= set(after["female_only_absent"]), k
+        else:       # Q235: the Imaging-based and Combined pages got the clitoris, vestibular bulbs / glands and the female urethra from the Chinese Visible Human; the labia, mons pubis, ovarian vessels stay absent
+            assert {"labia_majora", "labia_minora", "mons_pubis", "ovarian_vessels"} <= set(after["female_only_absent"]), k
+            assert {"clitoris", "female_urethra", "vestibular_glands_bulb"} <= present, k
         held_breast = rj(PAGES[k]["report"])["structures"]["breast_fat_l"].get("held")
         assert ("mammary_gland" in present) != bool(held_breast), k
     assert any("Q234" in json.dumps(f) for f in a["fixes_applied"])
