@@ -1,7 +1,7 @@
 {
  "key": "base_m",
  "label": "Base \u00b7 Male",
- "seconds": 29.0,
+ "seconds": 26.2,
  "counts": {
   "segments": 106,
   "joints": 80,
@@ -9,8 +9,8 @@
   "structures": 2968,
   "rigid": 1368,
   "skinned": 1600,
-  "rigid_vertices": 589895,
-  "skinned_vertices": 1000155
+  "rigid_vertices": 590056,
+  "skinned_vertices": 999994
  },
  "landmark_errors": {
   "gh_r": {
@@ -58,13 +58,6 @@
  },
  "rest_values_outside_range": [
   {
-   "joint": "forearm_r",
-   "dof": "sup",
-   "q0": 80.2,
-   "lo": -80.0,
-   "hi": 80.0
-  },
-  {
    "joint": "thumb_cmc_r",
    "dof": "flex",
    "q0": -31.6,
@@ -76,14 +69,14 @@
    "dof": "abd",
    "q0": -4.2,
    "lo": 0.0,
-   "hi": 70.0
+   "hi": 42.0
   },
   {
    "joint": "knee_r",
    "dof": "flex",
    "q0": -2.7,
    "lo": 0.0,
-   "hi": 135.0
+   "hi": 140.0
   },
   {
    "joint": "t1_ip_r",
@@ -128,13 +121,6 @@
    "hi": 60.0
   },
   {
-   "joint": "forearm_l",
-   "dof": "sup",
-   "q0": 80.2,
-   "lo": -80.0,
-   "hi": 80.0
-  },
-  {
    "joint": "thumb_cmc_l",
    "dof": "flex",
    "q0": -31.7,
@@ -146,14 +132,14 @@
    "dof": "abd",
    "q0": -4.3,
    "lo": 0.0,
-   "hi": 70.0
+   "hi": 42.0
   },
   {
    "joint": "knee_l",
    "dof": "flex",
    "q0": -2.7,
    "lo": 0.0,
-   "hi": 135.0
+   "hi": 140.0
   },
   {
    "joint": "t1_ip_l",
@@ -199,9 +185,9 @@
   }
  ],
  "embedded_kb": {
-  "rig_json_zlib": 33.8,
-  "weights_zlib": 281.9,
-  "total_base64": 420.9
+  "rig_json_zlib": 35.3,
+  "weights_zlib": 281.8,
+  "total_base64": 422.8
  },
- "weights_raw_kb": 632.2
+ "weights_raw_kb": 632.4
 }

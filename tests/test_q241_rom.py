@@ -15,11 +15,12 @@ def test_document_is_generated_from_the_table():
     assert (REPO / "docs/pose_rom_table.md").read_text(encoding="utf-8") == make_rom_doc.render(), "run: python3 scripts/anatomy/q241/make_rom_doc.py"
 
 
-def test_values_are_the_standard_averages():
+def test_values_are_the_q245_literature_bounds():
     R = rom.ROM
-    want = {"shoulder_flex": (-60, 180), "shoulder_rot": (-90, 70), "elbow_flex": (0, 150), "forearm_sup": (-80, 80), "wrist_flex": (-70, 80), "wrist_dev": (-30, 20),
-            "finger_mcp": (-45, 90), "finger_pip": (0, 100), "hip_flex": (-30, 120), "hip_abd": (-30, 45), "hip_rot": (-45, 45), "knee_flex": (0, 135), "ankle_dp": (-50, 20), "ankle_inv": (-15, 35),
-            "cerv_flex": (-45, 45), "cerv_rot": (-60, 60), "lumb_flex": (-25, 60)}
+    # Q245: the Q241 AAOS-style values were re-checked against the literature (docs/pose_rom_table.md); the values below are the Q245 bounds
+    want = {"shoulder_flex": (-60, 179), "shoulder_rot": (-93, 74), "elbow_flex": (0, 150), "forearm_sup": (-84, 91), "wrist_flex": (-76, 79), "wrist_dev": (-38, 23),
+            "finger_mcp": (-45, 90), "finger_pip": (0, 100), "hip_flex": (-18, 132), "hip_abd": (-30, 39), "hip_rot": (-40, 34), "knee_flex": (0, 140), "ankle_dp": (-50, 29), "ankle_inv": (-15, 35),
+            "cerv_flex": (-69, 66), "cerv_rot": (-81, 81), "lumb_flex": (-25, 60)}
     for k, (lo, hi) in want.items():
         assert (R[k][0], R[k][1]) == (lo, hi), k
     for k, (lo, hi, lab, src) in R.items():

@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import model as MD, rig as RG, skin as SK
-from rom import ROM
+from rom import ROM, rom_meta
 
 REPO = MD.REPO
 DATA = REPO / "data/anatomy"
@@ -151,7 +151,7 @@ def build(key, verbose=True):
     errs = {k: v["err"] for k, v in RB.K.notes.items() if v.get("err")}
     notes = "joint centres from the page's bones (hip / shoulder: head sphere fit RMS %s mm; ...); %d segments, %d joints, %d skinned structures of %d" % (
         "%.1f-%.1f" % (min(e["rms_mm"] for e in errs.values() if "rms_mm" in e), max(e["rms_mm"] for e in errs.values() if "rms_mm" in e)) if errs else "n/a", len(segs), len(rig["joints"]), len(skin), len(M.S))
-    payload = dict(v=1, key=key, count=len(M.S), nv=nv, segs=segs, joints=[cj(j) for j in rig["joints"]], regions=regions, rom=romt, rigid=rigid, skin=skin, notes=notes)
+    payload = dict(v=1, key=key, count=len(M.S), nv=nv, segs=segs, joints=[cj(j) for j in rig["joints"]], regions=regions, rom=romt, rom_meta=rom_meta(used), rigid=rigid, skin=skin, notes=notes)
     report = dict(key=key, label=MD.LABEL[key], seconds=round(time.time() - t0, 1), counts=dict(segments=len(segs), joints=len(rig["joints"]), regions=len(regions), structures=len(M.S), rigid=sum(len(g[1]) for g in rigid),
                   skinned=len(skin), rigid_vertices=int(sum(nv[i] for g in rigid for i in g[1])), skinned_vertices=int(sum(s[1] for s in skin))),
                   landmark_errors=errs, fit_rms={k: v for k, v in RB.info.items() if "rms" in k}, notes={k: v for k, v in RB.info.items() if "rms" not in k and not k.startswith("asis")},
