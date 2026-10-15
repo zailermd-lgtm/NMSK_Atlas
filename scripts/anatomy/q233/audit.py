@@ -257,6 +257,15 @@ for _k in ("own_f", "comb_f", "base_f"):
     _q = "build/q243/" + Path(FINAL_DIRS[_k]).name
     if (REPO / _q).exists():
         FINAL_DIRS[_k] = _q
+# Q250: Base and Combined female are read from build/q250 (female skeleton target / her own pelvis) where those dirs exist
+for _k in ("comb_f", "base_f"):
+    _q = "build/q250/" + Path(FINAL_DIRS[_k]).name
+    if (REPO / _q).exists():
+        FINAL_DIRS[_k] = _q
+Q250 = None
+_q250 = REPO / "data/derived/Q250_sex_indicators.json"
+if _q250.exists() and (REPO / FINAL_DIRS["base_f"]).parts[-2] == "q250":
+    Q250 = json.loads(_q250.read_text())
 
 
 def load_state(key, dirpath=None):
@@ -335,6 +344,13 @@ def page_overall(k, pages_before, pages_after):
     sub = [r for r in b["measures"] if r["key"] == "subpubic_angle"][0]
     org_m = [i for i in a["inventory"]["male_only_present"] if i != "male_urethra"]
     org_f = list(a["inventory"]["female_only_present"])
+    if Q250 and k in ("base_f", "comb_f"):          # Q250: the two Z female pages were rebuilt (female skeleton target / her own pelvis): the skeleton verdict is the Q250 measurement, the Q233 one stays under before_q233
+        P = Q250["pages"]["Base F (Q250)" if k == "base_f" else "Combined F (Q250)"]; ts = Q250["ts_women"]
+        pelvic = [x for x in ("intertuberous_mm", "bi_iliac_breadth_mm", "breadth_over_height_pct", "inlet_index_ap_over_transverse_pct", "sacral_index_breadth_over_length_pct", "sciatic_notch_hull_angle_deg") if x in ts]
+        n_in = sum(1 for x in pelvic if P.get(x) is not None and abs(P[x] - ts[x]["mean"]) <= 2 * ts[x]["sd"])
+        v = P["subpubic_angle_deg"]
+        sk = f"female (Q250: subpubic angle {v} deg >= the 78.6 cut-off; {n_in} of {len(pelvic)} pelvic indicators within the CT women mean +- 2 SD, n = {ts['subpubic_angle_deg']['n']})"
+        sub = dict(value=v, verdict="female" if v >= 78.6 else "male")
     return dict(declared_sex=d, skeleton=sk, subpubic_angle=dict(value=sub["value"], verdict=sub["verdict"]), male_only_organs_after=org_m, female_only_organs_after=org_f, wrong_sex_after=[w["id"] for w in a["wrong_sex_structures"]])
 
 
@@ -404,13 +420,15 @@ def build(measures_path):
     cannot = [
         "Labia majora / minora, mons pubis, vulvar skin surface, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set, the Chinese Visible Human set of Q235; the clitoris, vestibular bulbs / glands, female urethra and perineal muscles of the Imaging-based and Combined female pages are from the Chinese Visible Human, another person, since Q235; Base female has none: its male-derived pelvis does not accept them); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented. (Q234 added the vagina and the ligaments of the uterus / ovary from HRA objects.)",
         "Breasts: the Z-Anatomy chest skin is the male contour (all three Z female-side pages) and her own CT chest is flat (supine cadaver). Q234 added the HRA breasts (a reference model SCULPTED by its author from textbook atlases, NOT donor data) registered on the thoracic vertebrae and compressed into each page's skin envelope: a badged reference model, not a measured breast and not her tissue.",
-        "Z-Anatomy-derived skeletons (Base female, Combined female) keep the male-derived pelvis / sacrum / skull shape: Combined female's bones follow hers within ~2 mm median but its subpubic angle reads 62.7 deg (male range) against her 87.3 deg. Replacing those bones with her own would break the fitted ligament / muscle attachments: not done.",
+        ("Z-Anatomy-derived skeletons (Base female, Combined female) keep the male-derived pelvis / sacrum / skull shape: Combined female's bones follow hers within ~2 mm median but its subpubic angle reads 62.7 deg (male range) against her 87.3 deg. Replacing those bones with her own would break the fitted ligament / muscle attachments: not done."
+         if not Q250 else "Q250 (supersedes the Q233 statement that the Z-derived female skeletons keep the male-derived pelvis): the Z-Anatomy pelvis of BOTH Z female pages is now deformed onto her own pelvis (Combined) / onto the female skeleton target (Base), soft tissue carried with it; what stays male-derived: the skull, the hands and feet shapes, the muscle / organ / skin SHAPES (carried, not re-modelled), and the sex-independent proportions of Z-Anatomy; the Base target is ONE woman, not an average."),
         "Imaging-based male: scrotal / penile SKIN comes from his CT skin (present); his testes etc. are Z fills, not measured; seminal vesicles are not separable on his frozen CT.",
     ]
     return dict(schema="q233_sex_audit_v1", task="Q233 sex-correctness audit of the six current models", generated=datetime.date.today().isoformat(), owner_request="You must make sure the female model is really a woman, and the male is a man.",
                 pages=pages, references=REFS, fat_distribution=FAT, q44_transfers=dict(listing=t44, sex_specific_review=sexspec), zanatomy_female_search=ZAN_SEARCH, claims_audit=CLAIMS, fixes_applied=fixes, cannot_be_fixed=cannot, limits=LIMITS,
-                honest_names=dict(base_f="Base · Female (male-derived body)", rationale="The Base female page IS the Base male body (identical skeleton: subpubic angle 57.2 deg, same meshes) minus 27 male-only objects, plus HRA organs: it is not a woman's body; it is the male-derived Z-Anatomy body labelled female only by what it lacks and what was added.",
-                                  comb_f="Combined · Female (male-derived shapes fitted to her)" , comb_f_note="kept as 'Combined · Female' in the title; the page text states the male-derived shapes"),
+                honest_names=dict(base_f=("Base · Female" if Q250 else "Base · Female (male-derived body)"), rationale=("Q250: the Base female skeleton is now the Z-Anatomy skeleton DEFORMED onto the Visible Human female's skeleton (pelvis: non-rigid registration onto her pelvis; subpubic angle " + str((Q250 or {}).get("pages", {}).get("Base F (Q250)", {}).get("subpubic_angle_deg")) + " deg against 57.2 before), soft tissue carried: a female skeleton target (one woman), Z-Anatomy soft shapes; the name no longer needs '(male-derived body)', the page intro and every card state how it was made.") if Q250 else "The Base female page IS the Base male body (identical skeleton: subpubic angle 57.2 deg, same meshes) minus 27 male-only objects, plus HRA organs: it is not a woman's body; it is the male-derived Z-Anatomy body labelled female only by what it lacks and what was added.",
+                                  comb_f=("Combined · Female" if Q250 else "Combined · Female (male-derived shapes fitted to her)"), comb_f_note=("Q250: pelvic bones are hers" if Q250 else "kept as 'Combined · Female' in the title; the page text states the male-derived shapes")),
+                q250=Q250,
                 verdict_scheme=dict(values=["male", "female", "ambiguous", "not_measurable", "unreliable"], core_measures=list(CORE), internal_reference=INTERNAL))
 
 
@@ -423,6 +441,10 @@ def md(A):
     L += ["", "Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male range of the verified CT series, 68.6 +- 7.6; the other core measures agree, scored against the two donors); **Imaging-based Female = a woman** (subpubic angle 87.3 deg = the verified female mean 87.4 +- 6.5; the other core measures agree) and, after Q233, carries her uterus, ovaries and tubes (HRA organs of the same donor) and no male coccyx; "
           "**Base Male / Combined Male = male**; **Base Female is NOT a woman**: it is the Z-Anatomy male-derived body (the very same skeleton as Base Male) with the male-only organs removed - its honest name is 'Base · Female (male-derived body)'; "
           "**Combined Female is mixed**: Z-Anatomy male-derived shapes fitted onto her skeleton (notch and ischiopubic index follow her, subpubic angle stays male-range).", ""]
+    if A.get("q250"):
+        P = A["q250"]["pages"]
+        L += ["**Q250 update (the two Z female pages rebuilt): Base Female = a female skeleton target (Z-Anatomy deformed onto the Visible Human female; subpubic angle %s deg, was %s; one woman, not an average); Combined Female = Z bones fitted to her skeleton with HER OWN pelvis (subpubic angle %s deg, was %s).** Indicators, women reference range (CT, n = %s) and literature: `data/derived/Q250_sex_indicators.md`." % (
+              P["Base F (Q250)"]["subpubic_angle_deg"], P["Base F (before Q250)"]["subpubic_angle_deg"], P["Combined F (Q250)"]["subpubic_angle_deg"], P["Combined F (before Q250)"]["subpubic_angle_deg"], A["q250"]["ts_women"]["subpubic_angle_deg"]["n"]), ""]
     L += ["## (a) Organ inventory by sex-specific anatomy", ""]
     for k, p in A["pages"].items():
         for st in ("before_q233", "after_q233"):

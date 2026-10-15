@@ -54,8 +54,9 @@ def test_base_female_skeleton_identical_to_base_male():
     a, b = AUDIT["pages"]["base_m"]["before_q233"]["raw_measures"], AUDIT["pages"]["base_f"]["before_q233"]["raw_measures"]
     for k in ("subpubic_angle_deg", "bi_iliac_breadth_mm", "intertuberous_mm", "sciatic_notch_hull_angle_deg", "ischiopubic_index", "femoral_head_diameter_r_mm"):
         assert a[k] == b[k], k
-    assert "male-derived" in AUDIT["honest_names"]["base_f"]
-    assert AUDIT["pages"]["base_f"]["overall"]["skeleton"].startswith("mostly male")
+    # Q250 rebuilt the Base female (a female skeleton target): the audit now names it 'Base . Female'; the Q233 'before' measures above stay the historical record
+    assert AUDIT["honest_names"]["base_f"] in ("Base · Female", "Base · Female (male-derived body)")
+    assert AUDIT["pages"]["base_f"]["before_q233"]["skeletal_overall"]["verdict"].startswith("mostly male")
 
 
 def test_no_male_only_organ_on_female_pages_and_no_female_organ_on_male_pages():
@@ -149,11 +150,12 @@ def test_hra_files_and_licence():
 
 def test_wording_is_honest_about_the_base_female():
     b = (REPO / "scripts/zanatomy/build_zan_atlas_viewer.py").read_text()
-    assert "this is NOT a female body" in b and "NOT a female body" in b
+    # Q250 rewrote the Base female wording (deformed onto a female skeleton); the Q233 'NOT a female body' sentence is superseded and the honest limits are in the new text
+    assert "DEFORMS that body onto a FEMALE skeleton" in b and "not an average woman" in b and "male-derived" in b
     assert "No female reproductive organs are shown and none were invented" not in b and "No female reproductive organs are shown:" not in b
     assert "HuBMAP" in b
     t = (REPO / "scripts/set_titles_q231.py").read_text()
-    assert '"Base · Female (male-derived body)"' in t
+    assert '"atlas_viewer_base_female.html": "Base · Female",' in t         # Q250: the name no longer carries '(male-derived body)'; the page intro and the cards say how the body was made
 
 
 def test_zanatomy_search_is_recorded():

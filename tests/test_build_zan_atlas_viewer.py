@@ -333,8 +333,9 @@ def test_native_female_wording_replaces_each_template_anchor_once():
     from scripts.zanatomy.build_zan_atlas_viewer import NATIVE_FEMALE_WORDING, TEMPLATE_PATH, apply_vhf_wording
     html = apply_vhf_wording(TEMPLATE_PATH.read_text(encoding="utf-8"), NATIVE_FEMALE_WORDING)
     assert "<title>NMSK Atlas — Female base model</title>" in html
-    # Q233: the wording was revised (the Base female is NOT a female body; HRA organs added); the old 'no organs' sentence must be gone
-    assert "this is NOT a female body" in html and "ONE male-derived body" in html and "HuBMAP Human Reference Atlas" in html
+    # Q233 revised the wording (HRA organs added); Q250 rewrote it: the body is DEFORMED onto a female skeleton (one woman), the page says what it is, its limits and the difference to Combined . Female
+    assert "What this page is (Q250)" in html and "DEFORMS that body onto a FEMALE skeleton" in html and "ONE woman (59 years old)" in html and "not an average woman" in html
+    assert "HuBMAP Human Reference Atlas" in html and "Combined &middot; Female" in html and "this is NOT a female body" not in html
     assert "No female reproductive organs are shown and none were invented" not in html
 
 

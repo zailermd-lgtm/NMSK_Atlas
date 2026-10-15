@@ -1,0 +1,1410 @@
+{
+ "page": "base_f",
+ "label": "Base female",
+ "registration": {
+  "source": "fitted to this page's Z-Anatomy pelvis (bones only)",
+  "transform": {
+   "scale": 1.1406,
+   "rotation": [
+    [
+     0.99975,
+     0.01941,
+     -0.01135
+    ],
+    [
+     -0.01909,
+     0.99943,
+     0.0277
+    ],
+    [
+     0.01188,
+     -0.02748,
+     0.99955
+    ]
+   ],
+   "translation_mm": [
+    0.87,
+    116.58,
+    163.88
+   ],
+   "det_R": 1.0
+  },
+  "start_pitch_yaw": [
+   0,
+   0
+  ]
+ },
+ "residual_mm": {
+  "pubic symphysis region (|x-184|<8)": {
+   "n": 488,
+   "median": 2.07,
+   "p90": 5.35
+  },
+  "ischial tuberosity region (lowest 25 mm of the hip bones)": {
+   "n": 1194,
+   "median": 2.15,
+   "p90": 4.36
+  },
+  "ischiopubic rami / pubic arch (z 120-150 mm, 8 < |x| < 45)": {
+   "n": 1326,
+   "median": 2.06,
+   "p90": 7.8
+  },
+  "acetabulum / upper hip bone (upper half of the mesh)": {
+   "n": 4062,
+   "median": 3.2,
+   "p90": 7.45
+  },
+  "sacrum+coccyx (closed mesh), all": {
+   "n": 1206,
+   "median": 1.94,
+   "p90": 4.51
+  },
+  "coccyx (lowest 15 mm of the closed mesh)": {
+   "n": 132,
+   "median": 4.19,
+   "p90": 7.83
+  },
+  "all CVH bone vertices": {
+   "n": 9335,
+   "median": 2.61,
+   "p90": 6.65
+  }
+ },
+ "inferior_pelvis_mm": {
+  "n": 3612,
+  "median": 2.29,
+  "p90": 6.41
+ },
+ "crosscheck": {
+  "bladder wall (CVH 27) vs page bladder": {
+   "sym_nn_median_mm": 9.97,
+   "sym_nn_p90_mm": 42.27,
+   "centroid_offset_mm": [
+    3.4,
+    18.8,
+    27.5
+   ]
+  },
+  "vaginal wall (CVH 21) vs HRA vagina": {
+   "sym_nn_median_mm": 9.31,
+   "sym_nn_p90_mm": 21.31,
+   "centroid_offset_mm": [
+    2.9,
+    8.4,
+    -20.2
+   ]
+  },
+  "uterine wall (CVH 17) vs HRA uterus": {
+   "sym_nn_median_mm": 27.74,
+   "sym_nn_p90_mm": 43.59,
+   "centroid_offset_mm": [
+    -0.8,
+    19.0,
+    -36.2
+   ]
+  },
+  "ovaries (CVH 16) vs HRA ovaries": {
+   "sym_nn_median_mm": 23.72,
+   "sym_nn_p90_mm": 40.34,
+   "centroid_offset_mm": [
+    -11.4,
+    6.8,
+    -33.7
+   ]
+  },
+  "rectum smooth muscle (CVH 7) vs page rectum + sigmoid": {
+   "sym_nn_median_mm": 3.61,
+   "sym_nn_p90_mm": 14.66,
+   "centroid_offset_mm": [
+    -3.1,
+    -16.4,
+    2.1
+   ]
+  },
+  "external anal sphincter (CVH 13) vs page": {
+   "sym_nn_median_mm": 16.25,
+   "sym_nn_p90_mm": 25.18,
+   "centroid_offset_mm": [
+    0.3,
+    -23.1,
+    -8.6
+   ]
+  },
+  "levator / pubovisceral (CVH 2) vs page levator ani": {
+   "sym_nn_median_mm": 12.35,
+   "sym_nn_p90_mm": 45.22,
+   "centroid_offset_mm": [
+    1.7,
+    -12.2,
+    -21.6
+   ]
+  }
+ },
+ "order_checks": {
+  "meatus_xyz_mm": [
+   0.3,
+   -64.4,
+   43.7
+  ],
+  "hra_vagina_anterior_wall_z_at_meatus_level_mm": 42.8,
+  "meatus_anterior_to_vaginal_wall_mm": 0.9,
+  "perineal_body_centroid_z_mm": 8.9,
+  "hra_vaginal_introitus_centroid_z_mm": 36.5,
+  "page_external_anal_sphincter_centroid_z_mm": -17.6,
+  "perineal_body_anterior_to_anal_sphincter_centroid": true,
+  "clitoral_body_anterior_to_meatus_mm": 34.9
+ },
+ "structures": {
+  "clitoris_cavernous_body": {
+   "cvh_index": 39,
+   "cvh_name": "Cavernous body of clitoris",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": -3.66,
+    "vertices_inside_bone_before": 408,
+    "bone_min_mm": 0.25,
+    "vertices_moved_out_of_bone": 443,
+    "max_move_out_of_bone_mm": 4.89,
+    "vertices_within_1mm_of_bone": 541,
+    "vertices": 1172,
+    "vertices_outside_skin_envelope": 3,
+    "skin_distance_min_mm": 0.2,
+    "skin_distance_median_mm": 19.0,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": false,
+    "fail_reasons": [
+     "3 vertices outside the skin envelope",
+     "closer than 2.0 mm to the skin",
+     "bone penetration needs a shift of 4.89 mm for 443 vertices (limit 3.0 mm / 15 %)"
+    ]
+   },
+   "info": {
+    "volume_montecarlo_cm3": 1.9179,
+    "volume_montecarlo_se_cm3": 0.0416,
+    "cvh_index": 39,
+    "faces": 2344,
+    "vertices": 1172,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 1.9167,
+    "area_cvh_cm2": 17.784,
+    "euler": 0,
+    "dropped_fragments": [
+     {
+      "faces": 38,
+      "area_mm2": 6.11
+     }
+    ]
+   },
+   "components": null,
+   "volume_page_cm3": 2.844,
+   "area_page_cm2": 23.14
+  },
+  "vestibular_bulb_r": {
+   "cvh_index": 38,
+   "cvh_name": "Vestibular bulb",
+   "side": "r",
+   "gates": {
+    "bone_min_mm_before": 3.19,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 3.19,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 461,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 15.6,
+    "skin_distance_median_mm": 28.0,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 17.4,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 3.3
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.4985,
+    "volume_montecarlo_se_cm3": 0.0058,
+    "cvh_index": 38,
+    "faces": 926,
+    "vertices": 461,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.4912,
+    "area_cvh_cm2": 5.259,
+    "euler": -2,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 0.729,
+   "area_page_cm2": 6.84
+  },
+  "vestibular_bulb_l": {
+   "cvh_index": 38,
+   "cvh_name": "Vestibular bulb",
+   "side": "l",
+   "gates": {
+    "bone_min_mm_before": 3.39,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 3.39,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 445,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 16.3,
+    "skin_distance_median_mm": 27.9,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.2,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 1.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.5428,
+    "volume_montecarlo_se_cm3": 0.006,
+    "cvh_index": 38,
+    "faces": 890,
+    "vertices": 445,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.5398,
+    "area_cvh_cm2": 5.534,
+    "euler": 0,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 0.801,
+   "area_page_cm2": 7.2
+  },
+  "bartholin_gland_r": {
+   "cvh_index": 22,
+   "cvh_name": "Bartholin's gland",
+   "side": "r",
+   "gates": {
+    "bone_min_mm_before": 7.88,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 7.88,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 353,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 32.6,
+    "skin_distance_median_mm": 38.8,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 5.4,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 2.2
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.3827,
+    "volume_montecarlo_se_cm3": 0.0032,
+    "cvh_index": 22,
+    "faces": 702,
+    "vertices": 353,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.3808,
+    "area_cvh_cm2": 3.68,
+    "euler": 2,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 0.565,
+   "area_page_cm2": 4.79
+  },
+  "bartholin_gland_l": {
+   "cvh_index": 22,
+   "cvh_name": "Bartholin's gland",
+   "side": "l",
+   "gates": {
+    "bone_min_mm_before": 7.92,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 7.92,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 328,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 33.3,
+    "skin_distance_median_mm": 39.0,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.2093,
+    "volume_montecarlo_se_cm3": 0.0023,
+    "cvh_index": 22,
+    "faces": 652,
+    "vertices": 328,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.2072,
+    "area_cvh_cm2": 2.853,
+    "euler": 2,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 0.307,
+   "area_page_cm2": 3.71
+  },
+  "bulbospongiosus_cvh": {
+   "cvh_index": 37,
+   "cvh_name": "Bulbospongiosus muscle",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 0.04,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 0.04,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 7,
+    "vertices": 2462,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 8.6,
+    "skin_distance_median_mm": 31.7,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": false,
+    "fail_reasons": [
+     "0.04 mm from the nearest bone (needs >= 1.0)"
+    ]
+   },
+   "info": {
+    "volume_montecarlo_cm3": 2.8207,
+    "volume_montecarlo_se_cm3": 0.0463,
+    "cvh_index": 37,
+    "faces": 4954,
+    "vertices": 2462,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 2.8343,
+    "area_cvh_cm2": 32.985,
+    "euler": -15,
+    "dropped_fragments": [
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     }
+    ]
+   },
+   "components": null,
+   "volume_page_cm3": 4.206,
+   "area_page_cm2": 42.91
+  },
+  "ischiocavernosus_cvh_l": {
+   "cvh_index": 36,
+   "cvh_name": "Ischiocavernous muscle",
+   "side": "l",
+   "gates": {
+    "bone_min_mm_before": -1.1,
+    "vertices_inside_bone_before": 36,
+    "bone_min_mm": 0.25,
+    "vertices_moved_out_of_bone": 46,
+    "max_move_out_of_bone_mm": 1.35,
+    "vertices_within_1mm_of_bone": 103,
+    "vertices": 825,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 34.6,
+    "skin_distance_median_mm": 51.2,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 1.7217,
+    "volume_montecarlo_se_cm3": 0.032,
+    "cvh_index": 36,
+    "faces": 1650,
+    "vertices": 825,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 1.7299,
+    "area_cvh_cm2": 12.593,
+    "euler": 0,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 2.567,
+   "area_page_cm2": 16.38
+  },
+  "ischiocavernosus_cvh_r": {
+   "cvh_index": 36,
+   "cvh_name": "Ischiocavernous muscle",
+   "side": "r",
+   "gates": {
+    "bone_min_mm_before": -0.81,
+    "vertices_inside_bone_before": 13,
+    "bone_min_mm": 0.25,
+    "vertices_moved_out_of_bone": 27,
+    "max_move_out_of_bone_mm": 1.06,
+    "vertices_within_1mm_of_bone": 87,
+    "vertices": 648,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 34.2,
+    "skin_distance_median_mm": 51.9,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 1.5696,
+    "volume_montecarlo_se_cm3": 0.025,
+    "cvh_index": 36,
+    "faces": 1292,
+    "vertices": 648,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 1.5456,
+    "area_cvh_cm2": 11.046,
+    "euler": 2,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 2.293,
+   "area_page_cm2": 14.37
+  },
+  "superficial_transverse_perineal_cvh": {
+   "cvh_index": 26,
+   "cvh_name": "Superficial transverse perineal muscle",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 13.93,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 13.93,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 1518,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 9.3,
+    "skin_distance_median_mm": 23.2,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.9716,
+    "volume_montecarlo_se_cm3": 0.018,
+    "cvh_index": 26,
+    "faces": 3056,
+    "vertices": 1518,
+    "open_edges": 0,
+    "nonmanifold_edges": 1,
+    "closed": true,
+    "edge_manifold": false,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.9645,
+    "area_cvh_cm2": 13.521,
+    "euler": -9,
+    "dropped_fragments": [
+     {
+      "faces": 14,
+      "area_mm2": 1.14
+     }
+    ]
+   },
+   "components": null,
+   "volume_page_cm3": 1.431,
+   "area_page_cm2": 17.59
+  },
+  "deep_perineal_muscle_cvh": {
+   "cvh_index": 25,
+   "cvh_name": "Deep perineal muscle",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 9.97,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 9.97,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 2244,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 9.1,
+    "skin_distance_median_mm": 26.7,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 1.7777,
+    "volume_montecarlo_se_cm3": 0.0242,
+    "cvh_index": 25,
+    "faces": 4518,
+    "vertices": 2244,
+    "open_edges": 0,
+    "nonmanifold_edges": 3,
+    "closed": true,
+    "edge_manifold": false,
+    "winding_was_consistent": true,
+    "volume_cvh_cm3": 1.8001,
+    "area_cvh_cm2": 21.292,
+    "euler": -12,
+    "dropped_fragments": [
+     {
+      "faces": 16,
+      "area_mm2": 3.75
+     },
+     {
+      "faces": 14,
+      "area_mm2": 2.55
+     },
+     {
+      "faces": 4,
+      "area_mm2": 0.5
+     },
+     {
+      "faces": 4,
+      "area_mm2": 0.16
+     },
+     {
+      "faces": 4,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     }
+    ]
+   },
+   "components": null,
+   "volume_page_cm3": 2.671,
+   "area_page_cm2": 27.7
+  },
+  "urethral_sphincter_cvh": {
+   "cvh_index": 31,
+   "cvh_name": "Urethral sphincter proper",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 11.65,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 11.65,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 974,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 32.6,
+    "skin_distance_median_mm": 47.0,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 9.8,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 2.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 38.5,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 4.6
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 1.9391,
+    "volume_montecarlo_se_cm3": 0.0119,
+    "cvh_index": 31,
+    "faces": 1962,
+    "vertices": 974,
+    "open_edges": 0,
+    "nonmanifold_edges": 1,
+    "closed": true,
+    "edge_manifold": false,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 1.931,
+    "area_cvh_cm2": 15.92,
+    "euler": -6,
+    "dropped_fragments": [
+     {
+      "faces": 16,
+      "area_mm2": 8.12
+     }
+    ]
+   },
+   "components": null,
+   "volume_page_cm3": 2.865,
+   "area_page_cm2": 20.71
+  },
+  "urethral_sphincter_raphe_cvh": {
+   "cvh_index": 32,
+   "cvh_name": "Raphe of urethral sphincter",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 19.68,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 19.68,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 165,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 41.2,
+    "skin_distance_median_mm": 50.9,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 12.7,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 1.7
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.1484,
+    "volume_montecarlo_se_cm3": 0.0014,
+    "cvh_index": 32,
+    "faces": 326,
+    "vertices": 165,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.1491,
+    "area_cvh_cm2": 2.052,
+    "euler": 2,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 0.221,
+   "area_page_cm2": 2.67
+  },
+  "urethral_compressor_cvh": {
+   "cvh_index": 33,
+   "cvh_name": "Urethral compressor muscle",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 4.37,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 4.37,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 926,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 22.2,
+    "skin_distance_median_mm": 37.2,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 25.7,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 4.2
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 1.1763,
+    "volume_montecarlo_se_cm3": 0.0145,
+    "cvh_index": 33,
+    "faces": 1848,
+    "vertices": 926,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 1.1698,
+    "area_cvh_cm2": 11.909,
+    "euler": 2,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 1.736,
+   "area_page_cm2": 15.49
+  },
+  "urethrovaginal_sphincter_cvh": {
+   "cvh_index": 34,
+   "cvh_name": "Urethro-vaginal sphincter",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 9.87,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 9.87,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 646,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 28.8,
+    "skin_distance_median_mm": 36.8,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 26.5,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 4.9
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.4529,
+    "volume_montecarlo_se_cm3": 0.0097,
+    "cvh_index": 34,
+    "faces": 1296,
+    "vertices": 646,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.449,
+    "area_cvh_cm2": 8.335,
+    "euler": -2,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 0.666,
+   "area_page_cm2": 10.84
+  },
+  "urethra_female_submucous_layer": {
+   "cvh_index": 35,
+   "cvh_name": "Submucous layer of urethra",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 13.52,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 13.52,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 816,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 23.8,
+    "skin_distance_median_mm": 39.9,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 8.2,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 1.7
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 54.9,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 4.5
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 1.3726,
+    "volume_montecarlo_se_cm3": 0.0105,
+    "cvh_index": 35,
+    "faces": 1634,
+    "vertices": 816,
+    "open_edges": 0,
+    "nonmanifold_edges": 0,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 1.3807,
+    "area_cvh_cm2": 11.213,
+    "euler": -1,
+    "dropped_fragments": []
+   },
+   "components": null,
+   "volume_page_cm3": 2.049,
+   "area_page_cm2": 14.59
+  },
+  "perineal_body": {
+   "cvh_index": 24,
+   "cvh_name": "Perineal body",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 15.0,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 15.0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 3288,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 13.9,
+    "skin_distance_median_mm": 27.6,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 3.8011,
+    "volume_montecarlo_se_cm3": 0.0402,
+    "cvh_index": 24,
+    "faces": 6606,
+    "vertices": 3288,
+    "open_edges": 0,
+    "nonmanifold_edges": 1,
+    "closed": true,
+    "edge_manifold": false,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 4.3841,
+    "area_cvh_cm2": 34.708,
+    "euler": -15,
+    "dropped_fragments": [
+     {
+      "faces": 58,
+      "area_mm2": 16.06
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     },
+     {
+      "faces": 1,
+      "area_mm2": 0.0
+     }
+    ]
+   },
+   "components": [
+    {
+     "volume_montecarlo_cm3": 3.8011,
+     "volume_montecarlo_se_cm3": 0.0402,
+     "cvh_index": 24,
+     "faces": 5408,
+     "vertices": 2688,
+     "open_edges": 0,
+     "nonmanifold_edges": 1,
+     "closed": true,
+     "edge_manifold": false,
+     "winding_was_consistent": false,
+     "volume_cvh_cm3": 3.7342,
+     "area_cvh_cm2": 28.266,
+     "euler": -15,
+     "dropped_fragments": [
+      {
+       "faces": 58,
+       "area_mm2": 16.06
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      }
+     ]
+    },
+    {
+     "volume_montecarlo_cm3": 0.655,
+     "volume_montecarlo_se_cm3": 0.0066,
+     "cvh_index": 24,
+     "faces": 1198,
+     "vertices": 600,
+     "open_edges": 0,
+     "nonmanifold_edges": 1,
+     "closed": true,
+     "edge_manifold": false,
+     "winding_was_consistent": false,
+     "volume_cvh_cm3": 0.6499,
+     "area_cvh_cm2": 6.442,
+     "euler": 2,
+     "dropped_fragments": [
+      {
+       "faces": 58,
+       "area_mm2": 16.06
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      },
+      {
+       "faces": 1,
+       "area_mm2": 0.0
+      }
+     ]
+    }
+   ],
+   "volume_page_cm3": 6.505,
+   "area_page_cm2": 45.15
+  },
+  "urethra_female_lumen": {
+   "cvh_index": 30,
+   "cvh_name": "Bladder and urethral lumen",
+   "side": null,
+   "gates": {
+    "bone_min_mm_before": 6.88,
+    "vertices_inside_bone_before": 0,
+    "bone_min_mm": 6.88,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices": 266,
+    "vertices_outside_skin_envelope": 0,
+    "skin_distance_min_mm": 26.1,
+    "skin_distance_median_mm": 36.4,
+    "page_organ_overlap": {
+     "bladder": {
+      "pct_inside": 0.4,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 1.0
+     },
+     "rectum_sigmoid": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     },
+     "vagina_HRA": {
+      "pct_inside": 51.1,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 4.0
+     },
+     "uterus_HRA": {
+      "pct_inside": 0.0,
+      "pct_deeper_than_tol": 0.0,
+      "max_depth_mm": 0.0
+     }
+    },
+    "pass": true,
+    "fail_reasons": []
+   },
+   "info": {
+    "volume_montecarlo_cm3": 0.029,
+    "volume_montecarlo_se_cm3": 0.0013,
+    "cvh_index": 30,
+    "faces": 530,
+    "vertices": 266,
+    "closed": true,
+    "edge_manifold": true,
+    "winding_was_consistent": false,
+    "volume_cvh_cm3": 0.0291,
+    "area_cvh_cm2": 1.465,
+    "euler": 1,
+    "dropped_fragments": [],
+    "cut_plane": {
+     "axis_file": [
+      0.059,
+      -0.3198,
+      0.9456
+     ],
+     "origin_file_mm": [
+      182.06,
+      119.73,
+      134.19
+     ],
+     "t_mm": -8.0,
+     "lumen_cross_section_mm2": 9.65,
+     "cap_area_mm2": 9.65,
+     "lumen_length_mm": 24.2
+    },
+    "meatus_file_mm": [
+     182.69,
+     109.7,
+     155.71
+    ],
+    "capped": true
+   },
+   "components": null,
+   "volume_page_cm3": 0.043,
+   "area_page_cm2": 1.91
+  }
+ },
+ "shipped": [
+  "bartholin_gland_l",
+  "bartholin_gland_r",
+  "deep_perineal_muscle_cvh",
+  "ischiocavernosus_cvh_l",
+  "ischiocavernosus_cvh_r",
+  "perineal_body",
+  "superficial_transverse_perineal_cvh",
+  "urethra_female_lumen",
+  "urethra_female_submucous_layer",
+  "urethral_compressor_cvh",
+  "urethral_sphincter_cvh",
+  "urethral_sphincter_raphe_cvh",
+  "urethrovaginal_sphincter_cvh",
+  "vestibular_bulb_l",
+  "vestibular_bulb_r"
+ ],
+ "held": [
+  "clitoris_cavernous_body",
+  "bulbospongiosus_cvh"
+ ],
+ "skipped_page": "SKIPPED: the registration is not sound on this page. The male-derived Z pelvis (Q233: subpubic angle 57 deg, male range) does not accept the female CVH ischiopubic arch: after the best bone fit (rigid + uniform scale x1.141; inferior-pelvis residual median 2.29 mm, p90 6.41 mm; all CVH bone vertices median 2.61, p90 6.65) the bone-attached structures ['clitoris_cavernous_body', 'bulbospongiosus_cvh'] fail the bone guard (penetration of the ischiopubic rami / pubic arch beyond the allowed shift), so every structure placed by the same transform is unreliable on this page; nothing was added.",
+ "tolerances": {
+  "soft_tolerance_mm": 5.0,
+  "soft_max_share_deeper_pct": 5.0,
+  "bone_min_free_mm": 1.0,
+  "bone_min_attach_mm": 0.25,
+  "max_shift_mm": 3.0,
+  "max_shift_fraction": 0.15,
+  "skin_min_mm": 2.0
+ },
+ "not_shipped_by_choice": {
+  "vaginal wall (CVH 21) and the uterine / vaginal lumen (CVH 19)": "the page already has the HRA vagina (Q234); the CVH vaginal wall is the same organ of another person at a position that differs by 11 mm (median nearest-neighbour distance, centroid 22 mm): a second, conflicting vagina would add no structure",
+  "ovary (CVH 16), uterine tube (18), uterine wall (17), round ligament (20), ureter (28)": "covered by the HRA structures of Q233 / Q234; used only as a registration cross-check",
+  "bladder wall + bladder lumen (CVH 27, 30 above the bladder neck)": "the page has its own bladder (CT segmentation); only the urethral part of the lumen is shipped",
+  "anal sphincter complex, rectum, mesorectum, levator subdivisions, Denonvilliers' fascia, pubovesical ligament, vessels, fat, peritoneum, skin (CVH 0-15, 23, 29, 40-43, 46)": "not in the Q235 list (rectum / levator ani / external anal sphincter exist on the pages); the CVH 'Skin' is a cropped block without labia and is not used",
+  "labia majora, labia minora, mons pubis, vulvar skin surface, ovarian vessels": "not in the CVH set; remain unavailable"
+ },
+ "attribution": "Chinese Visible Human (CVH) young adult female, Yi Wu, Noshir F. Dabhoiwala, Jaco Hagoort, Jin-Lu Shan, Li-Wen Tan, Bin-Ji Fang, Shao-Xiang Zhang, Wouter H. Lamers: 3D Topography of the Young Adult Anal Sphincter Complex Reconstructed from Undeformed Serial Anatomical Sections, PLoS ONE 10(8): e0132226 (2015), doi:10.1371/journal.pone.0132226, S3 Fig (Figshare item 1519992, CC BY 4.0; third_party/cvh_wu2015). Registered onto this page's body by this atlas (Q235; bones only, rigid + uniform scale); derived data (triangles re-oriented, components below 100 triangles dropped, the urethral lumen cut and capped), CC BY 4.0 attribution kept (third_party/cvh_wu2015/NOTICE.md). Not endorsed by the authors or PLOS."
+}

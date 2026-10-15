@@ -1,59 +1,59 @@
 {
  "key": "base_f",
  "label": "Base \u00b7 Female",
- "seconds": 26.7,
+ "seconds": 26.6,
  "counts": {
   "segments": 106,
   "joints": 80,
   "regions": 3,
-  "structures": 2983,
-  "rigid": 1388,
-  "skinned": 1595,
-  "rigid_vertices": 628749,
-  "skinned_vertices": 996550
+  "structures": 2995,
+  "rigid": 1379,
+  "skinned": 1616,
+  "rigid_vertices": 630980,
+  "skinned_vertices": 1029058
  },
  "landmark_errors": {
   "gh_r": {
-   "radius_mm": 22.6,
-   "rms_mm": 0.93,
-   "inliers": 484
+   "radius_mm": 20.6,
+   "rms_mm": 0.9,
+   "inliers": 500
   },
   "gh_l": {
-   "radius_mm": 22.6,
-   "rms_mm": 0.93,
-   "inliers": 484
+   "radius_mm": 20.6,
+   "rms_mm": 0.91,
+   "inliers": 504
   },
   "hip_r": {
-   "radius_mm": 23.7,
-   "rms_mm": 0.65,
-   "inliers": 244,
-   "acetabulum_centre_distance_mm": 4.6,
-   "acetabulum_radius_mm": 30.1
+   "radius_mm": 22.0,
+   "rms_mm": 0.62,
+   "inliers": 246,
+   "acetabulum_centre_distance_mm": 10.1,
+   "acetabulum_radius_mm": 25.5
   },
   "hip_l": {
-   "radius_mm": 23.7,
-   "rms_mm": 0.65,
-   "inliers": 244,
-   "acetabulum_centre_distance_mm": 4.7,
-   "acetabulum_radius_mm": 29.9
+   "radius_mm": 22.0,
+   "rms_mm": 0.62,
+   "inliers": 246,
+   "acetabulum_centre_distance_mm": 10.2,
+   "acetabulum_radius_mm": 25.4
   }
  },
  "fit_rms": {
-  "shoulder_fit_rms_r": 9.106885210113025e-17,
-  "hip_fit_rms_r": 1.0148091149113037e-17,
-  "ankle_fit_rms_r": 1.3862359467516255e-16,
-  "shoulder_fit_rms_l": 1.1184445663091733e-16,
-  "hip_fit_rms_l": 1.1750110760680512e-16,
-  "ankle_fit_rms_l": 9.123758657523619e-17
+  "shoulder_fit_rms_r": 4.766391924220963e-17,
+  "hip_fit_rms_r": 5.3276694042594294e-17,
+  "ankle_fit_rms_r": 1.7097174243563578e-16,
+  "shoulder_fit_rms_l": 9.078593120022935e-17,
+  "hip_fit_rms_l": 1.1113066979184075e-16,
+  "ankle_fit_rms_l": 2.3537753659501896e-16
  },
  "notes": {
   "palmar_r": "forearm flexor vs extensor muscles (8 / 9 structures)",
   "fingers_r": "chains for fingers [1, 2, 3, 4, 5]",
-  "foot_rotation_r": 5.397154852789568,
+  "foot_rotation_r": 5.397093089209033,
   "toes_r": "chains for toes [1, 2, 3, 4, 5]",
   "palmar_l": "forearm flexor vs extensor muscles (8 / 9 structures)",
   "fingers_l": "chains for fingers [1, 2, 3, 4, 5]",
-  "foot_rotation_l": 5.397143363662353,
+  "foot_rotation_l": 5.396901918037246,
   "toes_l": "chains for toes [1, 2, 3, 4, 5]"
  },
  "rest_values_outside_range": [
@@ -67,7 +67,7 @@
   {
    "joint": "thumb_cmc_r",
    "dof": "abd",
-   "q0": -4.2,
+   "q0": -4.5,
    "lo": 0.0,
    "hi": 42.0
   },
@@ -81,35 +81,35 @@
   {
    "joint": "t1_ip_r",
    "dof": "flex",
-   "q0": -17.0,
+   "q0": -17.2,
    "lo": -5.0,
    "hi": 90.0
   },
   {
-   "joint": "t2_dip_r",
+   "joint": "t2_pip_r",
    "dof": "flex",
-   "q0": -0.5,
+   "q0": -0.2,
    "lo": 0.0,
-   "hi": 60.0
+   "hi": 35.0
   },
   {
    "joint": "t3_pip_r",
    "dof": "flex",
-   "q0": -7.1,
+   "q0": -7.2,
    "lo": 0.0,
    "hi": 35.0
   },
   {
    "joint": "t4_pip_r",
    "dof": "flex",
-   "q0": -8.6,
+   "q0": -8.3,
    "lo": 0.0,
    "hi": 35.0
   },
   {
    "joint": "t5_pip_r",
    "dof": "flex",
-   "q0": -4.9,
+   "q0": -5.0,
    "lo": 0.0,
    "hi": 35.0
   },
@@ -130,7 +130,7 @@
   {
    "joint": "thumb_cmc_l",
    "dof": "abd",
-   "q0": -4.3,
+   "q0": -4.6,
    "lo": 0.0,
    "hi": 42.0
   },
@@ -144,28 +144,21 @@
   {
    "joint": "t1_ip_l",
    "dof": "flex",
-   "q0": -17.1,
+   "q0": -17.0,
    "lo": -5.0,
    "hi": 90.0
   },
   {
-   "joint": "t2_dip_l",
-   "dof": "flex",
-   "q0": -0.0,
-   "lo": 0.0,
-   "hi": 60.0
-  },
-  {
    "joint": "t3_pip_l",
    "dof": "flex",
-   "q0": -7.2,
+   "q0": -7.1,
    "lo": 0.0,
    "hi": 35.0
   },
   {
    "joint": "t4_pip_l",
    "dof": "flex",
-   "q0": -5.3,
+   "q0": -5.8,
    "lo": 0.0,
    "hi": 35.0
   },
@@ -185,9 +178,9 @@
   }
  ],
  "embedded_kb": {
-  "rig_json_zlib": 35.3,
-  "weights_zlib": 281.3,
-  "total_base64": 422.2
+  "rig_json_zlib": 35.6,
+  "weights_zlib": 298.0,
+  "total_base64": 444.8
  },
- "weights_raw_kb": 631.5
+ "weights_raw_kb": 662.5
 }

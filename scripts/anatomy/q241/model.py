@@ -11,7 +11,7 @@ import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
 SRC = {"own_m": "build/q248/viewer_m_hr", "own_f": "build/q248/viewer_f_hr", "base_m": "build/q248/viewer_zan_atlas",     # Q248: the page dirs with the new ligaments (the rigs in data/anatomy are made for them)
-       "base_f": "build/q248/viewer_base_female", "comb_m": "build/q248/viewer_zan_vhm", "comb_f": "build/q248/viewer_zan_female"}
+       "base_f": "build/q250/viewer_base_female", "comb_m": "build/q248/viewer_zan_vhm", "comb_f": "build/q250/viewer_zan_female"}   # Q250: the two Z female pages (female skeleton / her pelvis) incl. the Q248 ligaments
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 

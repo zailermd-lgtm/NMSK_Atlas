@@ -1254,8 +1254,8 @@ VHF_WORDING = [
      "Human Reference Atlas reference organs of the SAME donor, the Visible Human female (CC BY 4.0, Browne and Schlehlein), "
      "registered onto her own CT pelvis and badged as such on their cards; the vagina, vulva, breasts' gland and ligaments "
      "of the uterus are not available from any open source reached and are not drawn. The rest of the body is the Z-Anatomy "
-     "male-derived shape fitted to her: its pelvic bones keep a male-derived shape (measurements: "
-     "<code>data/derived/Q233_sex_audit.md</code>). Every structure's card states its fit error, measured against her own CT mesh where "
+     "male-derived shape fitted to her; since Q250 its pelvic bones (hip bones, sacrum, coccyx) are Z-Anatomy bones deformed onto HER OWN pelvis (CT hip bones; measurements: "
+     "<code>data/derived/Q250_sex_indicators.md</code>). Every structure's card states its fit error, measured against her own CT mesh where "
      "one exists and otherwise estimated from its body region. Fits and errors: <code>data/derived/Q168_zan_to_vhf.json</code>.</p>\n"
      "    <div class=\"licence\">"),
 ]
@@ -1284,26 +1284,26 @@ def apply_vhf_wording(template: str, wording=None) -> str:
     return template
 
 
-# Q196 native female variant: page wording only (no body is fitted, nothing is invented)
+# Q196 native female variant (wording revised Q233, rewritten Q250: the body is now deformed onto a female skeleton)
 NATIVE_FEMALE_WORDING = [
     ("<title>NMSK Atlas — Z-Anatomy reference body</title>", "<title>NMSK Atlas — Female base model</title>"),
-    ("<h2>NMSK Atlas — Z-Anatomy</h2>", "<h2>NMSK Atlas — Female base model (unadapted)</h2>"),
+    ("<h2>NMSK Atlas — Z-Anatomy</h2>", "<h2>NMSK Atlas — Female base model (Z-Anatomy deformed onto a female skeleton)</h2>"),
     ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Female base</h1>"),
     ('matched+" atlas-linked · "+partOf+" part-of-linked";',
-     'matched+" atlas-linked · "+partOf+" part-of-linked · male-derived Z-Anatomy body, male-only organs removed, female organs from the HRA (same donor, CC BY 4.0)";'),
+     'matched+" atlas-linked · "+partOf+" part-of-linked · Z-Anatomy body deformed onto a female skeleton (Visible Human female, one woman), female organs from the HRA (same donor, CC BY 4.0)";'),
     ("    <div class=\"licence\">",
-     "    <p><strong>Source limitation (Q196, revised Q233): this is NOT a female body.</strong> Z-Anatomy (and BodyParts3D "
-     "under it) ships ONE male-derived body; the Z-Anatomy repository's own to-do list names a female model as a future "
-     "goal, and a female Z-Anatomy / BodyParts3D release does not exist (checked Q233: the 2023 Blender file with its 7,184 objects, the 2022 "
-     "mobile project, the BodyParts3D parts list). This page is the generic Z-Anatomy body in its own frame with the "
-     "male-only organs removed (penis, scrotum and male external skin, testes, epididymides, seminal glands, "
-     "prostate and their vessels). Its skeleton (pelvis, sacrum, skull), body proportions and chest skin are the male-derived source's. "
-     "The only female organs shown (uterus, both ovaries, both uterine tubes) are the HuBMAP Human Reference Atlas reference organs of the "
-     "Visible Human female (CC BY 4.0, Browne and Schlehlein), registered by bone ICP onto this body's pelvis (scaled "
-     "to it, position approximate, badged on each card); the vagina, vulva and breasts' gland are not available from any open source reached "
-     "and are not drawn. Nothing else is fitted to any specimen. "
-     "Same repairs as the male base page (a few mirrored left-side objects, muscle gaps closed to a 1 mm "
-     "interface). Searches: <code>data/derived/Q196_female_base_sources.json</code>, <code>data/derived/Q233_sex_audit.md</code>.</p>\n"
+     "    <p><strong>What this page is (Q250).</strong> Z-Anatomy (and BodyParts3D under it) ships ONE body, a male-derived one; a female Z-Anatomy / BodyParts3D "
+     "release does not exist (checked Q233: the 2023 Blender file with its 7,184 objects, the 2022 mobile project, the BodyParts3D parts list; the repository's own to-do list names a female model as a future goal). "
+     "This page therefore DEFORMS that body onto a FEMALE skeleton: the Z-Anatomy bones are warped onto the skeleton of the Visible Human female (U.S. National Library of Medicine; her own CT) &mdash; the pelvis "
+     "(hip bones, sacrum, coccyx) by a non-rigid registration onto her pelvis, the rest of the skeleton (skull, spine, ribs, sternum, shoulder girdle, limbs) by her bone sizes and positions &mdash; "
+     "in the Z-Anatomy standard anatomical pose (her supine cadaver pose is not copied) and left / right symmetrised. Every other structure (muscles, ligaments, vessels, nerves, organs, fascia, skin) is carried "
+     "along with the bones it attaches to by a smooth bone-anchored thin-plate-spline deformation: origins and insertions stay on the bone surface (within 1 mm); the card of each structure states its displacement, "
+     "area / volume change and any guard correction. The female organs (uterus, both ovaries, both uterine tubes, vagina, the ligaments of the uterus and ovary, the pelvic vessels) are the HuBMAP Human Reference Atlas "
+     "reference organs of the same donor (CC BY 4.0, Browne and Schlehlein), registered onto this page's new pelvis. "
+     "<strong>Limits:</strong> the target is ONE woman (59 years old), not an average woman; the shapes of muscles, organs and skin are Z-Anatomy's male-derived shapes carried along, not re-modelled; "
+     "skull, hands, feet and the distribution of fat are not female-specific. <strong>Base versus Combined:</strong> this page is the generic female base (standard pose, nothing of hers measured); "
+     "<em>Combined &middot; Female</em> is fitted bone by bone to HER skeleton and pose and carries her measured structures where available. "
+     "Searches and measurements: <code>data/derived/Q196_female_base_sources.json</code>, <code>data/derived/Q250_sex_indicators.md</code>.</p>\n"
      "    <div class=\"licence\">"),
 ]
 

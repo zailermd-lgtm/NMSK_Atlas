@@ -1,0 +1,1007 @@
+{
+ "page": "base_f",
+ "pelvis_registration": {
+  "scale": 0.94576,
+  "residual_mm": {
+   "median": 2.26,
+   "p90": 6.01,
+   "rms": 4.26,
+   "max": 40.3
+  },
+  "rotation": [
+   [
+    0.999989,
+    0.004146,
+    -0.002295
+   ],
+   [
+    -0.004071,
+    0.999494,
+    0.031555
+   ],
+   [
+    0.002425,
+    -0.031545,
+    0.999499
+   ]
+  ],
+  "translation_mm": [
+   -8.578,
+   -20.35,
+   97.626
+  ],
+  "det_R": 1.0
+ },
+ "rectal_order": {
+  "superior_rectal_v": 61.7,
+  "superior_rectal_a": 66.0,
+  "middle_rectal_v_l": 30.9,
+  "middle_rectal_v_r": 26.8,
+  "inferior_rectal_v_l": -25.3,
+  "inferior_rectal_v_r": -26.8,
+  "ok": true
+ },
+ "structures": {
+  "uterine_a_l": {
+   "hra_node": "VH_F_left_uterine_artery",
+   "gates": {
+    "vertices": 701,
+    "triangles": 1398,
+    "bone_min_mm": 12.05,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 60.0,
+    "vertices_inside_page_organ_pct": {
+     "urinary_bladder": 0.9,
+     "uterus": 3.0
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -29.8,
+    "x_range_mm": [
+     -53.4,
+     -7.5
+    ],
+    "y_range_mm": [
+     -1.2,
+     12.8
+    ],
+    "z_range_mm": [
+     16.1,
+     50.4
+    ],
+    "length_mm": 63.5,
+    "calibre_mm": 2.32,
+    "calibre_area_mm": 2.3,
+    "volume_cm3": 0.255,
+    "area_cm2": 4.59,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -29.8,
+     "mean_distance_to_hip_mm": {
+      "l": 24.3,
+      "r": 54.1
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.2,
+     "medial_end_to_uterus_mm": 3.0,
+     "lateral_end_to_uterus_mm": 42.0,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "uterine_a_r": {
+   "hra_node": "VH_F_right_uterine_artery",
+   "gates": {
+    "vertices": 707,
+    "triangles": 1410,
+    "bone_min_mm": 5.97,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 54.0,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 5.2
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 35.3,
+    "x_range_mm": [
+     16.1,
+     59.2
+    ],
+    "y_range_mm": [
+     -3.3,
+     11.7
+    ],
+    "z_range_mm": [
+     20.5,
+     52.5
+    ],
+    "length_mm": 60.6,
+    "calibre_mm": 2.33,
+    "calibre_area_mm": 2.46,
+    "volume_cm3": 0.273,
+    "area_cm2": 4.68,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 35.3,
+     "mean_distance_to_hip_mm": {
+      "l": 53.5,
+      "r": 17.7
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.1,
+     "medial_end_to_uterus_mm": 1.4,
+     "lateral_end_to_uterus_mm": 41.8,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "uterine_v_l": {
+   "hra_node": "VH_F_left_uterine_vein",
+   "gates": {
+    "vertices": 1248,
+    "triangles": 2492,
+    "bone_min_mm": 13.31,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 60.2,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 1.6,
+     "uterus": 3.1
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -33.4,
+    "x_range_mm": [
+     -51.6,
+     -8.1
+    ],
+    "y_range_mm": [
+     0.9,
+     29.0
+    ],
+    "z_range_mm": [
+     -3.1,
+     51.8
+    ],
+    "length_mm": 89.2,
+    "calibre_mm": 1.37,
+    "calibre_area_mm": 1.45,
+    "volume_cm3": 0.143,
+    "area_cm2": 4.07,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -33.4,
+     "mean_distance_to_hip_mm": {
+      "l": 23.6,
+      "r": 63.0
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.2,
+     "medial_end_to_uterus_mm": 3.5,
+     "lateral_end_to_uterus_mm": 42.2,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "uterine_v_r": {
+   "hra_node": "VH_F_right_uterine_vein",
+   "gates": {
+    "vertices": 1176,
+    "triangles": 2348,
+    "bone_min_mm": 4.32,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 54.4,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 2.7
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 43.3,
+    "x_range_mm": [
+     17.5,
+     62.2
+    ],
+    "y_range_mm": [
+     -0.9,
+     24.8
+    ],
+    "z_range_mm": [
+     11.1,
+     53.2
+    ],
+    "length_mm": 75.1,
+    "calibre_mm": 1.54,
+    "calibre_area_mm": 1.63,
+    "volume_cm3": 0.142,
+    "area_cm2": 3.84,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 43.3,
+     "mean_distance_to_hip_mm": {
+      "l": 64.4,
+      "r": 14.0
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.1,
+     "medial_end_to_uterus_mm": 1.5,
+     "lateral_end_to_uterus_mm": 49.0,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "internal_iliac_v_l": {
+   "hra_node": "VH_F_internal_iliac_vein_L",
+   "gates": {
+    "vertices": 317,
+    "triangles": 630,
+    "bone_min_mm": 3.87,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 91.9,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -57.1,
+    "x_range_mm": [
+     -64.5,
+     -49.9
+    ],
+    "y_range_mm": [
+     31.6,
+     63.8
+    ],
+    "z_range_mm": [
+     13.6,
+     27.7
+    ],
+    "length_mm": 34.4,
+    "calibre_mm": 5.47,
+    "calibre_area_mm": 6.07,
+    "volume_cm3": 0.838,
+    "area_cm2": 6.55,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -57.1,
+     "mean_distance_to_hip_mm": {
+      "l": 11.1,
+      "r": 106.5
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "superior_end_to_common_iliac_vein_mm": 60.6,
+     "ok": false
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 3,
+     "capped": 3,
+     "left_open": 0,
+     "watertight": true
+    },
+    "z_twin": {
+     "id": "zan_internal_iliac_vein_l",
+     "sym_nn_median_mm": 46.0,
+     "sym_nn_p90_mm": 57.3,
+     "centroid_offset_mm": 62.5
+    },
+    "course_not_gated_note": "distance to the Z-Anatomy common iliac vein (an estimate) is reported, not gated"
+   }
+  },
+  "internal_iliac_v_r": {
+   "hra_node": "VH_F_internal_iliac_vein_R",
+   "gates": {
+    "vertices": 449,
+    "triangles": 894,
+    "bone_min_mm": 7.94,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 95.8,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 46.3,
+    "x_range_mm": [
+     40.4,
+     51.7
+    ],
+    "y_range_mm": [
+     28.2,
+     72.0
+    ],
+    "z_range_mm": [
+     2.7,
+     26.1
+    ],
+    "length_mm": 45.3,
+    "calibre_mm": 6.14,
+    "calibre_area_mm": 6.83,
+    "volume_cm3": 1.378,
+    "area_cm2": 9.73,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 46.3,
+     "mean_distance_to_hip_mm": {
+      "l": 102.1,
+      "r": 19.5
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "superior_end_to_common_iliac_vein_mm": 51.2,
+     "ok": false
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 3,
+     "capped": 3,
+     "left_open": 0,
+     "watertight": true
+    },
+    "z_twin": {
+     "id": "zan_internal_iliac_vein_r",
+     "sym_nn_median_mm": 35.9,
+     "sym_nn_p90_mm": 48.8,
+     "centroid_offset_mm": 55.2
+    },
+    "course_not_gated_note": "distance to the Z-Anatomy common iliac vein (an estimate) is reported, not gated"
+   }
+  },
+  "internal_pudendal_v_l": {
+   "hra_node": "VH_F_internal_pudendal_vein_L",
+   "gates": {
+    "vertices": 722,
+    "triangles": 1440,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 108,
+    "moved_fraction_pct": 15.0,
+    "max_move_out_of_bone_mm": 3.06,
+    "skin_distance_min_mm": 74.0,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -64.6,
+    "x_range_mm": [
+     -69.0,
+     -57.7
+    ],
+    "y_range_mm": [
+     -31.4,
+     34.7
+    ],
+    "z_range_mm": [
+     -10.9,
+     17.7
+    ],
+    "length_mm": 77.4,
+    "calibre_mm": 3.82,
+    "calibre_area_mm": 4.12,
+    "volume_cm3": 0.883,
+    "area_cm2": 10.01,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -64.6,
+     "mean_distance_to_hip_mm": {
+      "l": 4.0,
+      "r": 100.2
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "inferior_end_to_ischial_tuberosity_mm": 24.9,
+     "fraction_within_10mm_of_same_side_hip_pct": 95.7,
+     "inferior_end_y_mm": -28.7,
+     "superior_end_y_mm": 30.7,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "z_twin": {
+     "id": "zan_internal_pudendal_vein_l",
+     "sym_nn_median_mm": 8.2,
+     "sym_nn_p90_mm": 54.7,
+     "centroid_offset_mm": 37.9
+    }
+   }
+  },
+  "internal_pudendal_v_r": {
+   "hra_node": "VH_F_internal_pudendal_vein_R",
+   "gates": {
+    "vertices": 802,
+    "triangles": 1600,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 66,
+    "moved_fraction_pct": 8.2,
+    "max_move_out_of_bone_mm": 3.47,
+    "skin_distance_min_mm": 66.3,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 55.8,
+    "x_range_mm": [
+     47.2,
+     62.3
+    ],
+    "y_range_mm": [
+     -35.3,
+     36.1
+    ],
+    "z_range_mm": [
+     -13.1,
+     7.1
+    ],
+    "length_mm": 78.6,
+    "calibre_mm": 4.21,
+    "calibre_area_mm": 4.38,
+    "volume_cm3": 1.011,
+    "area_cm2": 10.81,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 55.8,
+     "mean_distance_to_hip_mm": {
+      "l": 97.1,
+      "r": 9.8
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "inferior_end_to_ischial_tuberosity_mm": 24.3,
+     "fraction_within_10mm_of_same_side_hip_pct": 51.9,
+     "inferior_end_y_mm": -30.3,
+     "superior_end_y_mm": 32.1,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "z_twin": {
+     "id": "zan_internal_pudendal_vein_r",
+     "sym_nn_median_mm": 3.5,
+     "sym_nn_p90_mm": 47.8,
+     "centroid_offset_mm": 33.9
+    }
+   }
+  },
+  "middle_rectal_v_l": {
+   "hra_node": "VH_F_middle_rectal_vein_L",
+   "gates": {
+    "vertices": 529,
+    "triangles": 1054,
+    "bone_min_mm": 8.6,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 93.3,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 6.6
+    },
+    "vertices_deeper_3mm_in_organ_pct": {
+     "sigmoid_colon": 0.2
+    },
+    "watertight": true,
+    "centroid_x_mm": -37.1,
+    "x_range_mm": [
+     -58.1,
+     -19.8
+    ],
+    "y_range_mm": [
+     24.8,
+     43.8
+    ],
+    "z_range_mm": [
+     -11.4,
+     18.9
+    ],
+    "length_mm": 50.0,
+    "calibre_mm": 4.33,
+    "calibre_area_mm": 4.7,
+    "volume_cm3": 0.754,
+    "area_cm2": 7.38,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -37.1,
+     "mean_distance_to_hip_mm": {
+      "l": 28.4,
+      "r": 90.6
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 30.9
+    },
+    "soft_organ_deep_overlap_pct": 0.2,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "middle_rectal_v_r": {
+   "hra_node": "VH_F_middle_rectal_vein_R",
+   "gates": {
+    "vertices": 511,
+    "triangles": 1018,
+    "bone_min_mm": 21.22,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 90.9,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 7.8
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 27.9,
+    "x_range_mm": [
+     14.5,
+     45.0
+    ],
+    "y_range_mm": [
+     20.3,
+     35.4
+    ],
+    "z_range_mm": [
+     -16.6,
+     11.7
+    ],
+    "length_mm": 43.9,
+    "calibre_mm": 4.57,
+    "calibre_area_mm": 4.78,
+    "volume_cm3": 0.689,
+    "area_cm2": 6.6,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 27.9,
+     "mean_distance_to_hip_mm": {
+      "l": 84.2,
+      "r": 36.4
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 26.8
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "inferior_rectal_v_l": {
+   "hra_node": "VH_F_inferior_rectal_vein_L",
+   "gates": {
+    "vertices": 850,
+    "triangles": 1696,
+    "bone_min_mm": 3.06,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 40.4,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 18.6
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -30.7,
+    "x_range_mm": [
+     -60.9,
+     -13.7
+    ],
+    "y_range_mm": [
+     -36.0,
+     -19.8
+    ],
+    "z_range_mm": [
+     -31.7,
+     6.9
+    ],
+    "length_mm": 70.9,
+    "calibre_mm": 4.21,
+    "calibre_area_mm": 4.2,
+    "volume_cm3": 0.91,
+    "area_cm2": 9.36,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -30.7,
+     "mean_distance_to_hip_mm": {
+      "l": 34.1,
+      "r": 75.7
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": -25.3
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "inferior_rectal_v_r": {
+   "hra_node": "VH_F_inferior_rectal_vein_R",
+   "gates": {
+    "vertices": 846,
+    "triangles": 1688,
+    "bone_min_mm": 9.84,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 33.5,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 9.3
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 22.6,
+    "x_range_mm": [
+     4.3,
+     53.3
+    ],
+    "y_range_mm": [
+     -39.0,
+     -19.8
+    ],
+    "z_range_mm": [
+     -32.0,
+     4.3
+    ],
+    "length_mm": 73.5,
+    "calibre_mm": 4.09,
+    "calibre_area_mm": 3.41,
+    "volume_cm3": 0.68,
+    "area_cm2": 7.87,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 22.6,
+     "mean_distance_to_hip_mm": {
+      "l": 71.9,
+      "r": 41.6
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": -26.8
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "superior_rectal_v": {
+   "hra_node": "VH_F_superior_rectal_vein",
+   "gates": {
+    "vertices": 1808,
+    "triangles": 3612,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 707,
+    "moved_fraction_pct": 39.1,
+    "max_move_out_of_bone_mm": 2.4,
+    "skin_distance_min_mm": 62.7,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 28.5
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -8.0,
+    "x_range_mm": [
+     -19.0,
+     7.3
+    ],
+    "y_range_mm": [
+     48.7,
+     76.9
+    ],
+    "z_range_mm": [
+     -37.8,
+     18.6
+    ],
+    "length_mm": 82.5,
+    "calibre_mm": 1.55,
+    "calibre_area_mm": 1.62,
+    "volume_cm3": 0.119,
+    "area_cm2": 4.21,
+    "left_right": {
+     "name_side": null,
+     "centroid_x_mm": -8.0,
+     "mean_distance_to_hip_mm": {
+      "l": 47.6,
+      "r": 62.6
+     },
+     "midline_x_mm": -8.0,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 61.7
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "median_sacral_v": {
+   "hra_node": "VH_F_median_sacral_vein",
+   "gates": {
+    "vertices": 929,
+    "triangles": 1854,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 138,
+    "moved_fraction_pct": 14.9,
+    "max_move_out_of_bone_mm": 4.53,
+    "skin_distance_min_mm": 60.3,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 6.1
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -2.4,
+    "x_range_mm": [
+     -5.6,
+     5.9
+    ],
+    "y_range_mm": [
+     14.6,
+     126.1
+    ],
+    "z_range_mm": [
+     -47.2,
+     34.3
+    ],
+    "length_mm": 159.7,
+    "calibre_mm": 1.95,
+    "calibre_area_mm": 1.97,
+    "volume_cm3": 0.448,
+    "area_cm2": 9.9,
+    "left_right": {
+     "name_side": null,
+     "centroid_x_mm": -2.4,
+     "mean_distance_to_hip_mm": {
+      "l": 61.4,
+      "r": 65.4
+     },
+     "midline_x_mm": -2.4,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 65.8
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    }
+   }
+  },
+  "superior_rectal_a": {
+   "hra_node": "VH_F_superior_rectal_artery",
+   "gates": {
+    "vertices": 1052,
+    "triangles": 2100,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 652,
+    "moved_fraction_pct": 62.0,
+    "max_move_out_of_bone_mm": 5.18,
+    "skin_distance_min_mm": 62.0,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 16.4
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -5.9,
+    "x_range_mm": [
+     -20.0,
+     9.4
+    ],
+    "y_range_mm": [
+     50.8,
+     85.9
+    ],
+    "z_range_mm": [
+     -34.3,
+     24.1
+    ],
+    "length_mm": 80.3,
+    "calibre_mm": 2.63,
+    "calibre_area_mm": 3.41,
+    "volume_cm3": 0.381,
+    "area_cm2": 8.6,
+    "left_right": {
+     "name_side": null,
+     "centroid_x_mm": -5.9,
+     "mean_distance_to_hip_mm": {
+      "l": 51.2,
+      "r": 62.3
+     },
+     "midline_x_mm": -5.9,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 66.0
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": false,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "z_twin": {
+     "id": "zan_superior_anorectal_artery",
+     "sym_nn_median_mm": 26.8,
+     "sym_nn_p90_mm": 51.5,
+     "centroid_offset_mm": 38.2
+    }
+   },
+   "held": true
+  }
+ },
+ "attribution": "HuBMAP Human Reference Atlas (HRA) 3D Reference Object Library (CC BY 4.0; https://humanatlas.io/3d-reference-library): blood-vasculature-female v1.3, Kristen Browne and Heidi Schlehlein, https://doi.org/10.48539/HBM322.KKFC.394; created from the Visible Human Dataset. Registered onto this page's body by this atlas (Q243; the Q233 pelvis transform), open tube ends closed with flat discs; derived data, CC BY 4.0 attribution kept (third_party/hra_vh_f/SOURCES_Q242.md).",
+ "ship_diff": {
+  "source": "build/q250_pre/c234/viewer_base_female",
+  "new": "build/q250_pre/viewer_base_female",
+  "added": [
+   "inferior_rectal_v_l",
+   "inferior_rectal_v_r",
+   "internal_iliac_v_l",
+   "internal_iliac_v_r",
+   "internal_pudendal_v_l",
+   "internal_pudendal_v_r",
+   "median_sacral_v",
+   "middle_rectal_v_l",
+   "middle_rectal_v_r",
+   "superior_rectal_v",
+   "uterine_a_l",
+   "uterine_a_r",
+   "uterine_v_l",
+   "uterine_v_r"
+  ],
+  "added_expected": [
+   "inferior_rectal_v_l",
+   "inferior_rectal_v_r",
+   "internal_iliac_v_l",
+   "internal_iliac_v_r",
+   "internal_pudendal_v_l",
+   "internal_pudendal_v_r",
+   "median_sacral_v",
+   "middle_rectal_v_l",
+   "middle_rectal_v_r",
+   "superior_rectal_v",
+   "uterine_a_l",
+   "uterine_a_r",
+   "uterine_v_l",
+   "uterine_v_r"
+  ],
+  "removed": [],
+  "geometry_changed": [],
+  "card_only": [],
+  "unchanged": 2973,
+  "unlisted": []
+ },
+ "shipped": [
+  "inferior_rectal_v_l",
+  "inferior_rectal_v_r",
+  "internal_iliac_v_l",
+  "internal_iliac_v_r",
+  "internal_pudendal_v_l",
+  "internal_pudendal_v_r",
+  "median_sacral_v",
+  "middle_rectal_v_l",
+  "middle_rectal_v_r",
+  "superior_rectal_v",
+  "uterine_a_l",
+  "uterine_a_r",
+  "uterine_v_l",
+  "uterine_v_r"
+ ]
+}
