@@ -23,7 +23,7 @@ function NMSKParts(E){
   try { var rs = JSON.parse(localStorage.getItem(KEY) || "null");
     if (rs && typeof rs === "object"){ if (MODES[rs.mode] && (canCull || rs.mode !== "near")) P.mode = rs.mode; var bn = Number(rs.band); if (isFinite(bn)) P.band = Math.max(10, Math.min(100, Math.round(bn))); if (typeof rs.hid === "boolean") P.hid = rs.hid; } } catch (err){}
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
-  var cull = {sig:"", last:0, ms:0, n:0, avg:0, timer:0, dirty:true, img:null, near:0, far:0, cnt:{shown:0, occ:0, far:0, behind:0}};
+  var cull = {fails:0, cand:-1, sig:"", last:0, ms:0, n:0, avg:0, timer:0, dirty:true, img:null, near:0, far:0, cnt:{shown:0, occ:0, far:0, behind:0}};
   var DOT = {rule_based:[0.91, 0.63, 0.09], z_fill:[0.18, 0.56, 0.88]};
   var CLS = {rule_based:"Rule-based", z_fill:"Z-Anatomy fill"};
   var TYPES = {head_belly:"head", origin_part:"origin", insertion_point:"insertion", ligament_component:"ligament component",
@@ -63,7 +63,7 @@ function NMSKParts(E){
 
   /* ---------- selection and the card section ---------- */
   function select(meshId){
-    sel = null; focusI = -1; closeCard();
+    sel = null; focusI = -1; closeCard(); cull.dirty = true;
     var e = D && meshId && D.mesh_parts[meshId];
     if (e){ var set = {}; e.p.forEach(function(i){ set[i] = true; }); sel = {mesh:meshId, s:e.s, list:e.p.slice(), set:set}; }
   }
@@ -156,7 +156,7 @@ function NMSKParts(E){
   /* called by the engine before it renders: decides which markers are drawn and hands the solid dots over */
   function update(){
     if (!D || !M.length) return;
-    var dots = [], fk = forcedMap(), cn = {shown:0, occ:0, far:0, behind:0}, culling = canCull && P.mode !== "off";
+    var dots = [], fk = forcedMap(), cn = {shown:0, occ:0, far:0, behind:0}, culling = canCull && P.mode !== "off", cand = 0;
     M.forEach(function(mk){
       var why = "", pinned = mk.j === focusI || mk.j === pinI, byTissue = fk[mk.pi + "|" + mk.s] === 1, c = culling ? mk.cull | 0 : 0;
       var want = P.mode === "near" || P.mode === "all" || pinned || (P.mode === "sel" && byTissue);
@@ -164,7 +164,8 @@ function NMSKParts(E){
       if (!want) why = "off";
       else if (!kept(mk.xyz)) why = "cut";
       else if (!carriersVisible(mk)) why = "hidden";
-      else if (c){
+      else { cand++; }
+      if (why === "" && c){
         if (pinned || (byTissue && P.hid)) mk.behind = (c & 1) === 1;
         else if (P.mode === "all") mk.behind = (c & 1) === 1;
         else why = (c & 1) ? "occ" : "far";
@@ -173,7 +174,7 @@ function NMSKParts(E){
       if (mk.vis){ cn.shown++; if (mk.behind) cn.behind++; dots.push({p:mk.xyz, c:DOT[mk.c] || DOT.rule_based, big:mk.j === focusI || mk.j === hoverI || mk.j === pinI}); }
       else if (why === "occ") cn.occ++; else if (why === "far") cn.far++;
     });
-    cull.cnt = cn;
+    cull.cnt = cn; cull.cand = cand;
     E.setDots(dots);
   }
   /* ---------- view-dependent culling (Q240) ---------- */
@@ -184,12 +185,13 @@ function NMSKParts(E){
     var c = E.cut(); if (c) s += "|c" + c.kn.map(function(v){ return v.toFixed(4); }).join(",") + "," + c.c.toFixed(2) + "," + (c.th || 0);
     return s;
   }
-  function needCull(){ return canCull && !!D && M.length > 0 && P.mode !== "off" && !(P.mode === "sel" && !P.hid); }
+  function needCull(){ return canCull && !!D && M.length > 0 && P.mode !== "off" && !(P.mode === "sel" && !P.hid) && cull.cand !== 0; }        // no marker passes the cut / layer checks: no image needed
   function capture(sig){
     var t0 = nowMs(), r = E.canvasRect(), bw = Math.max(240, Math.min(560, Math.round(r.width * 0.5)));
     var zb = null;
     try { zb = E.depthImage(bw); } catch (err){ zb = null; }
     cull.img = zb && zb.z ? {w:zb.w, h:zb.h, z:zb.z, ids:null} : null;
+    if (!cull.img && ++cull.fails >= 2){ canCull = false; if (P.mode === "near") P.mode = "sel"; syncPanel(); }        // this GPU gives no depth pass (the Z engine needs highp): behave as before Q240
     if (cull.img){
       var z = cull.img.z, lo = Infinity, hi = 0;
       for (var i = 0; i < z.length; i++){ var v = z[i]; if (v > 0){ if (v < lo) lo = v; if (v > hi) hi = v; } }
@@ -240,7 +242,7 @@ function NMSKParts(E){
     if (!needCull()) return;
     var sig = viewSig();
     if (sig === cull.sig && !cull.dirty) return;
-    var t = nowMs(), gap = Math.max(170, Math.min(2500, cull.avg * 6));
+    var t = nowMs(), gap = Math.max(170, Math.min(6000, cull.avg * 6));          // like the labels' ID pass: about 1/7 of the time at most, 0.17 - 6 s
     if (t - cull.last < gap){
       if (!cull.timer) cull.timer = setTimeout(function(){ cull.timer = 0; E.redraw(); }, gap - (t - cull.last) + 5);
       return;
@@ -436,6 +438,7 @@ function NMSKParts(E){
     var h = meshId || null; if (h === hoverMesh) return;
     var had = !!(D && hoverMesh && D.mesh_parts[hoverMesh]), has = !!(D && h && D.mesh_parts[h]);
     hoverMesh = h;
+    if (had || has) cull.dirty = true;
     if (M.length && P.mode !== "off" && (had || has)) E.redraw();          // only a structure with parts changes what is shown
   }
   function dirty(){ cull.dirty = true; }

@@ -55,7 +55,7 @@ const E = {url:'x', canvasRect:()=>({left:0,top:0,right:1000,bottom:800,width:10
   cut:()=>cutState, meshVisible:(id)=>visible[id]!==false, focusAt(){}, redraw(){ redraws++; }, setDots:(l)=>{ dots = l; }, toolbar:el(), toolClass:'tool', onLoaded(){},
   marked:()=>marks};
 if (!sc.noCull){
-  E.depthImage = (w) => { depthCalls++; const im = image(); return {w:im.w, h:im.h, z:im.z}; };
+  E.depthImage = (w) => { depthCalls++; if (sc.depthNull) return null; const im = image(); return {w:im.w, h:im.h, z:im.z}; };
   E.idImage = (all, w) => { const im = image(); return {w:im.w, h:im.h, ids:im.ids}; };
   E.idOf = (id) => IDS[id] || 0;
 }
@@ -198,6 +198,17 @@ def test_throttled_capture_and_dirty():
     o = run({"surfaces": [], "steps": [{"tag": "a"}, {"tag": "b"}, {"tag": "c"}]})
     assert o["depthCalls"] == 3                                                       # one depth pass per forced capture (cullNow); the throttle applies to overlay()
     assert o["cullState"]["ms"] >= 0 and o["cullState"]["img"] == "100x80"
+
+
+def test_no_depth_pass_when_nothing_can_be_shown():
+    cut = {"kn": [1, 0, 0], "c": -5000, "th": 0}                                      # every marker is on the removed side
+    o = run({"surfaces": [], "steps": [{"tag": "a", "cut": cut}, {"tag": "b"}]})
+    assert o["a"]["vis"] == [] and o["depthCalls"] == 0
+
+
+def test_a_gpu_without_a_depth_pass_falls_back_to_selection_mode():
+    o = run({"depthNull": True, "surfaces": [], "steps": [{"tag": "a"}, {"tag": "b"}, {"tag": "c", "select": "m_back"}]})
+    assert o["c"]["mode"] == "sel" and sorted(o["c"]["vis"]) == [1, 5]
 
 
 def test_page_without_the_culling_adaptor_behaves_as_before():

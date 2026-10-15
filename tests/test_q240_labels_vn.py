@@ -38,7 +38,6 @@ def page_html(cal=CAL):
     h = h.replace("/*CSS*/", (LAB / "labels.css").read_text()).replace("<!--HTML-->", (LAB / "labels.html").read_text())
     h = h.replace("/*ABBREV*/", json.dumps(ABBREV) + '</script><script type="application/json" id="nmsk-calibre">' + json.dumps(cal))
     h = h.replace("/*JS*/", (LAB / "labels.js").read_text())
-    h = h.replace("var cam = {az:0.4", "var cam = {az:0.4", 1)
     # the extra structures are pushed after the harness's own SC definition but before make()
     h = h.replace("var cam = {az:0.4, el:0.1, dist:900}", EXTRA.replace("<script>", "").replace("</script>", "") + "\nvar cam = {az:0.4, el:0.1, dist:900}", 1)
     return h
@@ -210,7 +209,7 @@ def test_page_without_a_calibre_table(browser):
     page.evaluate("make()")
     page.evaluate("__L.setMode('vis'); __L.set('density', 60)")
     s = settle(page)["s"]
-    assert s["haveCal"] is False and s["vnShown"] == [] or True              # the fallback classifies by id / name: none of the synthetic ids look like vessels
+    assert s["haveCal"] is False and s["vnShown"] == []                      # the fallback classifies by id / name: none of the synthetic ids look like vessels
     assert page.evaluate("document.getElementById('lab-da').disabled")        # level / diameter controls are off without a table
     page.evaluate("document.getElementById('t-labels').click()")
     assert "calibre table" in page.evaluate("document.getElementById('lab-hint').textContent")

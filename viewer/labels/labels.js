@@ -1028,7 +1028,7 @@ function NMSKLabels(E){
   if (legend && P.lg.open){ legend.hidden = false; setTimeout(function(){ openLegend(true); }, 0); }
   statusText();
   return {
-    engine:function(){ return E; }, update:update, dirty:dirty, hover:hover, set:set, setMode:setMode, reset:reset, openPanel:openPanel, openLegend:openLegend, refreshNow:function(){ refresh(); layout(); },
+    engine:function(){ return E; }, core:NMSKLabelsCore, update:update, dirty:dirty, hover:hover, set:set, setMode:setMode, reset:reset, openPanel:openPanel, openLegend:openLegend, refreshNow:function(){ refresh(); layout(); },
     selectId:function(id){ if (idx[id] != null) E.select(id); },
     abbr:function(id){ var k = idx[id]; return k == null ? null : abbr[k]; }, fullName:function(id){ var k = idx[id]; return k == null ? null : full[k]; },
     settings:function(){ return JSON.parse(JSON.stringify(P)); },
