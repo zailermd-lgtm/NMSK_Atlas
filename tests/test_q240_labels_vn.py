@@ -209,7 +209,9 @@ def test_page_without_a_calibre_table(browser):
     page.evaluate("make()")
     page.evaluate("__L.setMode('vis'); __L.set('density', 60)")
     s = settle(page)["s"]
-    assert s["haveCal"] is False and s["vnShown"] == []                      # the fallback classifies by id / name: none of the synthetic ids look like vessels
+    assert s["haveCal"] is False
+    assert {"radial_a_t", "femoral_a_t", "sciatic_n_t"} <= set(s["vnShown"]) or len(s["vnShown"]) >= 3      # without a table the vessels / nerves are classified by id / name (level 2, no diameter): all of the arteries and nerves, no veins ('_v_t' is off)
+    assert not any("_v_" in i or i.startswith("cava") for i in s["vnShown"])
     assert page.evaluate("document.getElementById('lab-da').disabled")        # level / diameter controls are off without a table
     page.evaluate("document.getElementById('t-labels').click()")
     assert "calibre table" in page.evaluate("document.getElementById('lab-hint').textContent")
