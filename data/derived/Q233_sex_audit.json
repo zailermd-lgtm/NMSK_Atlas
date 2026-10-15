@@ -1,7 +1,7 @@
 {
  "schema": "q233_sex_audit_v1",
  "task": "Q233 sex-correctness audit of the six current models",
- "generated": "2026-10-14",
+ "generated": "2026-10-15",
  "owner_request": "You must make sure the female model is really a woman, and the male is a man.",
  "pages": {
   "own_m": {
@@ -55,6 +55,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -460,6 +461,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -760,6 +762,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -1006,9 +1009,9 @@
    "after_q233": {
     "label": "Imaging-based \u00b7 Female",
     "declared_sex": "female",
-    "source_dir": "build/q235/viewer_f_hr",
+    "source_dir": "build/q243/viewer_f_hr",
     "what_the_body_is": "The Visible Human FEMALE (59 y, 157 cm, 88 kg): her own CT + cryosections, reconstructed (measured / rule-based / transferred from the male / Z-filled structures, each with a Source class).",
-    "structures": 679,
+    "structures": 739,
     "inventory": {
      "male_only_present": {},
      "female_only_present": {
@@ -1309,6 +1312,40 @@
         "triangles": 530,
         "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
        }
+      ],
+      "uterine_vessels": [
+       {
+        "id": "uterine_a_l",
+        "name": "Uterine artery (left)",
+        "system": "vessel",
+        "source": "xfer_hra2vhf_q243",
+        "triangles": 1398,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_a_r",
+        "name": "Uterine artery (right)",
+        "system": "vessel",
+        "source": "xfer_hra2vhf_q243",
+        "triangles": 1410,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_v_l",
+        "name": "Uterine vein (left)",
+        "system": "vessel",
+        "source": "xfer_hra2vhf_q243",
+        "triangles": 2492,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_v_r",
+        "name": "Uterine vein (right)",
+        "system": "vessel",
+        "source": "xfer_hra2vhf_q243",
+        "triangles": 2348,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       }
       ]
      },
      "surface_patches": {},
@@ -1590,7 +1627,8 @@
      "clitoris",
      "vestibular_glands_bulb",
      "mammary_gland",
-     "female_urethra"
+     "female_urethra",
+     "uterine_vessels"
     ],
     "wrong_sex_after": []
    }
@@ -1866,6 +1904,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -2379,6 +2418,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -2717,6 +2757,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -2966,9 +3007,9 @@
    "after_q233": {
     "label": "Base \u00b7 Female",
     "declared_sex": "female",
-    "source_dir": "build/q234/viewer_base_female",
+    "source_dir": "build/q243/viewer_base_female",
     "what_the_body_is": "Z-Anatomy / BodyParts3D: the SAME male-derived body as Base \u00b7 Male (identical skeleton and soft tissue, 2,939 shared structures) with the 27 male-only objects removed (Q196) and nothing added.",
-    "structures": 2961,
+    "structures": 2975,
     "inventory": {
      "male_only_present": {},
      "female_only_present": {
@@ -3140,6 +3181,40 @@
         "source": "zan",
         "triangles": 6000,
         "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
+       }
+      ],
+      "uterine_vessels": [
+       {
+        "id": "uterine_a_l",
+        "name": "Uterine artery (left)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 1398,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_a_r",
+        "name": "Uterine artery (right)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 1410,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_v_l",
+        "name": "Uterine vein (left)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 2492,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_v_r",
+        "name": "Uterine vein (right)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 2348,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
        }
       ]
      },
@@ -3454,7 +3529,8 @@
      "ovary",
      "uterine_tube",
      "uterine_ovarian_ligaments",
-     "vagina"
+     "vagina",
+     "uterine_vessels"
     ],
     "wrong_sex_after": []
    }
@@ -3730,6 +3806,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -4243,6 +4320,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -4581,6 +4659,7 @@
       "ovary",
       "uterine_ovarian_ligaments",
       "uterine_tube",
+      "uterine_vessels",
       "uterus",
       "vagina",
       "vestibular_glands_bulb"
@@ -4830,9 +4909,9 @@
    "after_q233": {
     "label": "Combined \u00b7 Female",
     "declared_sex": "female",
-    "source_dir": "build/q235/viewer_zan_female",
+    "source_dir": "build/q243/viewer_zan_female",
     "what_the_body_is": "The Z-Anatomy MALE-derived body fitted bone by bone to the Visible Human FEMALE's skeleton (her frame); male-only organs removed; no female organ (before Q233).",
-    "structures": 2992,
+    "structures": 3009,
     "inventory": {
      "male_only_present": {},
      "female_only_present": {
@@ -5132,6 +5211,40 @@
         "source": "zan",
         "triangles": 530,
         "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
+       }
+      ],
+      "uterine_vessels": [
+       {
+        "id": "uterine_a_l",
+        "name": "Uterine artery (left)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 1398,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_a_r",
+        "name": "Uterine artery (right)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 1410,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_v_l",
+        "name": "Uterine vein (left)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 2492,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
+       },
+       {
+        "id": "uterine_v_r",
+        "name": "Uterine vein (right)",
+        "system": "vessel",
+        "source": "zan",
+        "triangles": 2348,
+        "provenance": "HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here"
        }
       ]
      },
@@ -5446,7 +5559,8 @@
      "clitoris",
      "vestibular_glands_bulb",
      "mammary_gland",
-     "female_urethra"
+     "female_urethra",
+     "uterine_vessels"
     ],
     "wrong_sex_after": []
    }

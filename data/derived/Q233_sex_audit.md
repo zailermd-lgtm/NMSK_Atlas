@@ -1,17 +1,17 @@
 # Q233 sex-correctness audit of the six models
 
-Generated 2026-10-14. Owner request: "You must make sure the female model is really a woman, and the male is a man.". Machine-readable twin: `data/derived/Q233_sex_audit.json`.
+Generated 2026-10-15. Owner request: "You must make sure the female model is really a woman, and the male is a man.". Machine-readable twin: `data/derived/Q233_sex_audit.json`.
 
 ## Verdict per page
 
 | Page | Declared | Body | Skeleton (core measures) | Subpubic angle | Male-only organs after Q233 | Female-only organs after Q233 | Wrong-sex structures after |
 |---|---|---|---|---|---|---|---|
 | Imaging-based · Male | male | Visible Human male (his CT / cryosections) | male | 70.7 deg (male) | testis, epididymis, ductus_deferens, seminal_vesicle, prostate, penis_corpora_glans, ejaculatory_duct | - | none |
-| Imaging-based · Female | female | Visible Human female (her CT / cryosections) | female | 87.3 deg (female) | - | uterus, ovary, uterine_tube, uterine_ovarian_ligaments, vagina, clitoris, vestibular_glands_bulb, mammary_gland, female_urethra | none |
+| Imaging-based · Female | female | Visible Human female (her CT / cryosections) | female | 87.3 deg (female) | - | uterus, ovary, uterine_tube, uterine_ovarian_ligaments, vagina, clitoris, vestibular_glands_bulb, mammary_gland, female_urethra, uterine_vessels | none |
 | Base · Male | male | Z-Anatomy male-derived body | mostly male (some measures ambiguous or female-like) | 57.2 deg (male) | testis, epididymis, ductus_deferens, seminal_vesicle, prostate, penis_corpora_glans, scrotum_urogenital_skin, ejaculatory_duct, testicular_vessels | - | none |
-| Base · Female | female | the SAME Z-Anatomy male-derived body | mostly male (some measures ambiguous or female-like) | 57.2 deg (male) | - | uterus, ovary, uterine_tube, uterine_ovarian_ligaments, vagina | none |
+| Base · Female | female | the SAME Z-Anatomy male-derived body | mostly male (some measures ambiguous or female-like) | 57.2 deg (male) | - | uterus, ovary, uterine_tube, uterine_ovarian_ligaments, vagina, uterine_vessels | none |
 | Combined · Male | male | Z male-derived body fitted to the VH male | male | 60.7 deg (male) | testis, epididymis, ductus_deferens, seminal_vesicle, prostate, penis_corpora_glans, scrotum_urogenital_skin, ejaculatory_duct, testicular_vessels | - | none |
-| Combined · Female | female | Z male-derived body fitted to the VH female | mostly female (some measures ambiguous or male-like) | 62.7 deg (male) | - | uterus, ovary, uterine_tube, uterine_ovarian_ligaments, vagina, clitoris, vestibular_glands_bulb, mammary_gland, female_urethra | none |
+| Combined · Female | female | Z male-derived body fitted to the VH female | mostly female (some measures ambiguous or male-like) | 62.7 deg (male) | - | uterus, ovary, uterine_tube, uterine_ovarian_ligaments, vagina, clitoris, vestibular_glands_bulb, mammary_gland, female_urethra, uterine_vessels | none |
 
 Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male range of the verified CT series, 68.6 +- 7.6; the other core measures agree, scored against the two donors); **Imaging-based Female = a woman** (subpubic angle 87.3 deg = the verified female mean 87.4 +- 6.5; the other core measures agree) and, after Q233, carries her uterus, ovaries and tubes (HRA organs of the same donor) and no male coccyx; **Base Male / Combined Male = male**; **Base Female is NOT a woman**: it is the Z-Anatomy male-derived body (the very same skeleton as Base Male) with the male-only organs removed - its honest name is 'Base · Female (male-derived body)'; **Combined Female is mixed**: Z-Anatomy male-derived shapes fitted onto her skeleton (notch and ischiopubic index follow her, subpubic angle stays male-range).
 
@@ -44,9 +44,9 @@ Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male ra
 - surface patches: none
 - wrong-sex structures: none
 
-### Imaging-based · Female - Q233 pages (Q234 for the three female pages) (679 structures)
+### Imaging-based · Female - Q233 pages (Q234 for the three female pages) (739 structures)
 - male-only present: none
-- female-only present: uterus (uterus, broad_ligament_uterus); ovary (ovary_l, ovary_r, ovarian_ligament_l, ovarian_ligament_r, suspensory_ligament_ovary_l, suspensory_ligament_ovary_r); uterine_tube (uterine_tube_l, uterine_tube_r); uterine_ovarian_ligaments (round_ligament_uterus_l, round_ligament_uterus_r, uterosacral_ligament_l, uterosacral_ligament_r, cardinal_ligament_uterus_l, cardinal_ligament_uterus_r, broad_ligament_uterus, ovarian_ligament_l, ovarian_ligament_r); vagina (vagina); clitoris (clitoris_cavernous_body); vestibular_glands_bulb (vestibular_bulb_r, vestibular_bulb_l, bartholin_gland_r, bartholin_gland_l); mammary_gland (breast_fat_l, mammary_gland_l, lactiferous_ducts_l, breast_suspensory_ligaments_l, breast_fat_r, mammary_gland_r, lactiferous_ducts_r, breast_suspensory_ligaments_r); female_urethra (urethra_female_submucous_layer, urethra_female_lumen)
+- female-only present: uterus (uterus, broad_ligament_uterus); ovary (ovary_l, ovary_r, ovarian_ligament_l, ovarian_ligament_r, suspensory_ligament_ovary_l, suspensory_ligament_ovary_r); uterine_tube (uterine_tube_l, uterine_tube_r); uterine_ovarian_ligaments (round_ligament_uterus_l, round_ligament_uterus_r, uterosacral_ligament_l, uterosacral_ligament_r, cardinal_ligament_uterus_l, cardinal_ligament_uterus_r, broad_ligament_uterus, ovarian_ligament_l, ovarian_ligament_r); vagina (vagina); clitoris (clitoris_cavernous_body); vestibular_glands_bulb (vestibular_bulb_r, vestibular_bulb_l, bartholin_gland_r, bartholin_gland_l); mammary_gland (breast_fat_l, mammary_gland_l, lactiferous_ducts_l, breast_suspensory_ligaments_l, breast_fat_r, mammary_gland_r, lactiferous_ducts_r, breast_suspensory_ligaments_r); female_urethra (urethra_female_submucous_layer, urethra_female_lumen); uterine_vessels (uterine_a_l, uterine_a_r, uterine_v_l, uterine_v_r)
 - surface patches: none
 - wrong-sex structures: none
   - uterus: HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here
@@ -58,6 +58,7 @@ Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male ra
   - vestibular_glands_bulb: ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan
   - mammary_gland: HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here
   - female_urethra: ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan
+  - uterine_vessels: HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here
 - expected-but-absent (female): cervix, labia_majora, labia_minora, mons_pubis, ovarian_vessels
 
 ### Base · Male - published sources (2966 structures)
@@ -89,9 +90,9 @@ Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male ra
 - surface patches: mammary_region_skin (zan_skin_mammary_region_l, zan_skin_mammary_region_r); perineal_closure_skin (zan_skin_perineal_closure)
 - wrong-sex structures: none
 
-### Base · Female - Q233 pages (Q234 for the three female pages) (2961 structures)
+### Base · Female - Q233 pages (Q234 for the three female pages) (2975 structures)
 - male-only present: none
-- female-only present: uterus (uterus, broad_ligament_uterus); ovary (ovary_l, ovary_r, ovarian_ligament_l, ovarian_ligament_r, suspensory_ligament_ovary_l, suspensory_ligament_ovary_r); uterine_tube (uterine_tube_l, uterine_tube_r); uterine_ovarian_ligaments (round_ligament_uterus_l, round_ligament_uterus_r, uterosacral_ligament_l, uterosacral_ligament_r, cardinal_ligament_uterus_l, cardinal_ligament_uterus_r, broad_ligament_uterus, ovarian_ligament_l, ovarian_ligament_r); vagina (vagina)
+- female-only present: uterus (uterus, broad_ligament_uterus); ovary (ovary_l, ovary_r, ovarian_ligament_l, ovarian_ligament_r, suspensory_ligament_ovary_l, suspensory_ligament_ovary_r); uterine_tube (uterine_tube_l, uterine_tube_r); uterine_ovarian_ligaments (round_ligament_uterus_l, round_ligament_uterus_r, uterosacral_ligament_l, uterosacral_ligament_r, cardinal_ligament_uterus_l, cardinal_ligament_uterus_r, broad_ligament_uterus, ovarian_ligament_l, ovarian_ligament_r); vagina (vagina); uterine_vessels (uterine_a_l, uterine_a_r, uterine_v_l, uterine_v_r)
 - surface patches: mammary_region_skin (zan_skin_mammary_region_l, zan_skin_mammary_region_r); perineal_closure_skin (zan_skin_perineal_closure)
 - wrong-sex structures: none
   - uterus: HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here
@@ -99,6 +100,7 @@ Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male ra
   - uterine_tube: HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here
   - uterine_ovarian_ligaments: HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here
   - vagina: HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here
+  - uterine_vessels: HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here
 - expected-but-absent (female): cervix, clitoris, female_urethra, labia_majora, labia_minora, mammary_gland, mons_pubis, ovarian_vessels, vestibular_glands_bulb
 
 ### Combined · Male - published sources (2966 structures)
@@ -130,9 +132,9 @@ Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male ra
 - surface patches: mammary_region_skin (zan_skin_mammary_region_l, zan_skin_mammary_region_r); perineal_closure_skin (zan_skin_perineal_closure)
 - wrong-sex structures: none
 
-### Combined · Female - Q233 pages (Q234 for the three female pages) (2992 structures)
+### Combined · Female - Q233 pages (Q234 for the three female pages) (3009 structures)
 - male-only present: none
-- female-only present: uterus (uterus, broad_ligament_uterus); ovary (ovary_l, ovary_r, ovarian_ligament_l, ovarian_ligament_r, suspensory_ligament_ovary_l, suspensory_ligament_ovary_r); uterine_tube (uterine_tube_l, uterine_tube_r); uterine_ovarian_ligaments (round_ligament_uterus_l, round_ligament_uterus_r, uterosacral_ligament_l, uterosacral_ligament_r, cardinal_ligament_uterus_l, cardinal_ligament_uterus_r, broad_ligament_uterus, ovarian_ligament_l, ovarian_ligament_r); vagina (vagina); clitoris (clitoris_cavernous_body); vestibular_glands_bulb (vestibular_bulb_r, vestibular_bulb_l, bartholin_gland_r, bartholin_gland_l); mammary_gland (breast_fat_l, mammary_gland_l, lactiferous_ducts_l, breast_suspensory_ligaments_l, breast_fat_r, mammary_gland_r, lactiferous_ducts_r, breast_suspensory_ligaments_r); female_urethra (urethra_female_submucous_layer, urethra_female_lumen)
+- female-only present: uterus (uterus, broad_ligament_uterus); ovary (ovary_l, ovary_r, ovarian_ligament_l, ovarian_ligament_r, suspensory_ligament_ovary_l, suspensory_ligament_ovary_r); uterine_tube (uterine_tube_l, uterine_tube_r); uterine_ovarian_ligaments (round_ligament_uterus_l, round_ligament_uterus_r, uterosacral_ligament_l, uterosacral_ligament_r, cardinal_ligament_uterus_l, cardinal_ligament_uterus_r, broad_ligament_uterus, ovarian_ligament_l, ovarian_ligament_r); vagina (vagina); clitoris (clitoris_cavernous_body); vestibular_glands_bulb (vestibular_bulb_r, vestibular_bulb_l, bartholin_gland_r, bartholin_gland_l); mammary_gland (breast_fat_l, mammary_gland_l, lactiferous_ducts_l, breast_suspensory_ligaments_l, breast_fat_r, mammary_gland_r, lactiferous_ducts_r, breast_suspensory_ligaments_r); female_urethra (urethra_female_submucous_layer, urethra_female_lumen); uterine_vessels (uterine_a_l, uterine_a_r, uterine_v_l, uterine_v_r)
 - surface patches: mammary_region_skin (zan_skin_mammary_region_l, zan_skin_mammary_region_r); perineal_closure_skin (zan_skin_perineal_closure)
 - wrong-sex structures: none
   - uterus: HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here
@@ -144,6 +146,7 @@ Plain reading: **Imaging-based Male = a man** (subpubic angle 70.7 deg = male ra
   - vestibular_glands_bulb: ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan
   - mammary_gland: HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here
   - female_urethra: ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan
+  - uterine_vessels: HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine (nucleus pulposus, spinal cord segments) (Q243): not measured here
 - expected-but-absent (female): cervix, labia_majora, labia_minora, mons_pubis, ovarian_vessels
 
 ## (b) Skeletal / body dimorphism measured on the meshes

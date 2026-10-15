@@ -33,7 +33,7 @@ MALE = {
 FEMALE = {
     "uterus": r"(^|_)uterus$", "cervix": r"cervix_uteri|^cervix", "ovary": r"(^|_)ovary(_|$)|ovarian", "uterine_tube": r"uterine_tube|fallopian|salping", "uterine_ovarian_ligaments": r"broad_lig|round_lig|ovarian_lig|uterosacral|cardinal_lig",
     "vagina": r"(^|_)vagina($|_)|vaginal_(wall|canal|vault)", "labia_majora": r"labium_majus|labia_majora", "labia_minora": r"labium_minus|labia_minora", "clitoris": r"clitor", "vestibular_glands_bulb": r"bartholin|vestibular_(gland|bulb)",
-    "mons_pubis": r"mons_pubis", "mammary_gland": r"mammary_gland|(^|_)breast|lactiferous", "female_urethra": r"urethra_female", "ovarian_vessels": r"ovarian_(a|v|artery|vein)",
+    "mons_pubis": r"mons_pubis", "mammary_gland": r"mammary_gland|(^|_)breast|lactiferous", "female_urethra": r"urethra_female", "ovarian_vessels": r"ovarian_(a|v|artery|vein)", "uterine_vessels": r"^uterine_(a|v)_(l|r)$",
 }
 SKIP = re.compile(r"gonadal|nasolabial|mentolabial|labial_comm|labii|(inferior|superior)_labial|vaginal_process|cervical|cervicis|cervicalis|vestibulo|vestibular_n|vestibular_nuc|vestibule|tooth|sphenoid", re.I)
 SURFACE = {"mammary_region_skin": r"skin_(in)?mammary_region", "perineal_closure_skin": r"perineal_closure"}
@@ -49,6 +49,9 @@ def provenance_of(x):
     rec = x.get("rec") or {}
     if str(rec.get("source", "")).startswith("Chinese Visible Human") or src.startswith("xfer_cvh2"):
         return "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
+    if "Q243" in str(rec.get("source", "")) and "HRA" in str(rec.get("source", "")):
+        return ("HRA reference structure of the SAME donor (Visible Human female, CC BY 4.0; v1.10 objects), registered on her pelvis (pelvic vessels, with the uterus transform) or fitted per vertebra to her spine "
+                "(nucleus pulposus, spinal cord segments) (Q243): not measured here")
     if str(rec.get("source", "")).startswith("HuBMAP"):
         if "sculpted reference model" in str(rec.get("source", "")):
             return "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
@@ -62,6 +65,7 @@ def provenance_of(x):
         return "Z-Anatomy / BodyParts3D (one male-derived body), unadapted"
     if src.startswith("xfer_zan2"): return "filled from Z-Anatomy (male-derived reference model), fitted to this body: not measured"
     if src.startswith("xfer_hrasculpt2"): return "HRA breast: reference model sculpted by the library author (CC BY 4.0), NOT donor data, fitted into her skin envelope (Q234): not measured"
+    if src.startswith("xfer_hra2vhf_q243") or src.startswith("xfer_hra2vhf_spine_q243"): return "HRA v1.10 reference structure of the SAME donor (pelvic vessels / nucleus pulposus / spinal cord segments, CC BY 4.0), registered on her CT (Q243): not measured"
     if src.startswith("xfer_hra2vhf_q234"): return "HRA object of the Visible Human female frame (vagina / ligaments, CC BY 4.0), registered on her CT pelvis (Q234): not measured"
     if src.startswith("xfer_hra2"): return "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on her CT pelvis (Q233): not measured"
     if "xfer" in src: return "transferred from the other Visible Human body (" + src + "): not measured here"
@@ -246,6 +250,11 @@ for _k in ("own_f", "base_f", "comb_f"):
 # Q235: the Imaging-based and Combined female pages are read from build/q235 (clitoris, vestibular bulbs / Bartholin's glands, perineal muscles, urethra, perineal body added from the Chinese Visible Human); Base female was skipped
 for _k in ("own_f", "comb_f"):
     _q = FINAL_DIRS[_k].replace("build/q234/", "build/q235/")
+    if (REPO / _q).exists():
+        FINAL_DIRS[_k] = _q
+# Q243: Imaging-based, Combined and Base female are read from build/q243 (pelvic vessels, nucleus pulposus, spinal cord segments from the HRA v1.10 objects) where those dirs exist
+for _k in ("own_f", "comb_f", "base_f"):
+    _q = "build/q243/" + Path(FINAL_DIRS[_k]).name
     if (REPO / _q).exists():
         FINAL_DIRS[_k] = _q
 

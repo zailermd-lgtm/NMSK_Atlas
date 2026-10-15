@@ -1,16 +1,16 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"zan_f",
-"generated":"2026-10-14",
+"generated":"2026-10-15",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"Z-Anatomy model frame (mm, +Y superior)",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
 "table_version":1,
 "counts":{
-"artery":431,
+"artery":434,
 "nerve":361,
 "organ":277,
-"vein":220,
+"vein":232,
 "lung":35
 },
 "structures":[
@@ -527,12 +527,60 @@
 "rays_hit":287
 },
 {
+"id":"inferior_rectal_v_l",
+"name":"Inferior rectal vein (left)",
+"class":"vein",
+"r_mm":1.96,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_rectal_v_r",
+"name":"Inferior rectal vein (right)",
+"class":"vein",
+"r_mm":1.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"inferior_vena_cava",
 "name":"Inferior vena cava",
 "class":"vein",
 "r_mm":7.78,
 "r_method":"sdf",
 "rays_hit":266
+},
+{
+"id":"internal_iliac_v_l",
+"name":"Internal iliac vein (left)",
+"class":"vein",
+"r_mm":2.75,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"internal_iliac_v_r",
+"name":"Internal iliac vein (right)",
+"class":"vein",
+"r_mm":3.0,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_pudendal_v_l",
+"name":"Internal pudendal vein (left)",
+"class":"vein",
+"r_mm":1.91,
+"r_method":"sdf",
+"rays_hit":263
+},
+{
+"id":"internal_pudendal_v_r",
+"name":"Internal pudendal vein (right)",
+"class":"vein",
+"r_mm":2.13,
+"r_method":"sdf",
+"rays_hit":289
 },
 {
 "id":"lactiferous_ducts_l",
@@ -693,6 +741,30 @@
 "r_mm":0.67,
 "r_method":"sdf",
 "rays_hit":296
+},
+{
+"id":"median_sacral_v",
+"name":"Median sacral vein",
+"class":"vein",
+"r_mm":1.05,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"middle_rectal_v_l",
+"name":"Middle rectal vein (left)",
+"class":"vein",
+"r_mm":2.14,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"middle_rectal_v_r",
+"name":"Middle rectal vein (right)",
+"class":"vein",
+"r_mm":2.22,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"musculocutaneous_n_l",
@@ -1095,6 +1167,22 @@
 "rays_hit":296
 },
 {
+"id":"superior_rectal_a",
+"name":"Superior rectal artery",
+"class":"artery",
+"r_mm":1.64,
+"r_method":"sdf",
+"rays_hit":270
+},
+{
+"id":"superior_rectal_v",
+"name":"Superior rectal vein",
+"class":"vein",
+"r_mm":0.82,
+"r_method":"sdf",
+"rays_hit":298
+},
+{
 "id":"superior_sagittal_sinus",
 "name":"Superior sagittal sinus",
 "class":"vein",
@@ -1335,6 +1423,22 @@
 "rays_hit":300
 },
 {
+"id":"uterine_a_l",
+"name":"Uterine artery (left)",
+"class":"artery",
+"r_mm":1.16,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_a_r",
+"name":"Uterine artery (right)",
+"class":"artery",
+"r_mm":1.18,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"uterine_tube_l",
 "name":"Uterine tube (left)",
 "class":"organ",
@@ -1349,6 +1453,22 @@
 "r_mm":0.61,
 "r_method":"sdf",
 "rays_hit":281
+},
+{
+"id":"uterine_v_l",
+"name":"Uterine vein (left)",
+"class":"vein",
+"r_mm":0.69,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_v_r",
+"name":"Uterine vein (right)",
+"class":"vein",
+"r_mm":0.74,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"uterus",

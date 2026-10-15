@@ -1,16 +1,16 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"vhf",
-"generated":"2026-10-14",
+"generated":"2026-10-15",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
 "table_version":1,
 "counts":{
-"artery":28,
-"nerve":18,
+"artery":31,
+"nerve":42,
 "organ":42,
-"vein":24,
+"vein":36,
 "lung":2
 },
 "structures":[
@@ -279,6 +279,22 @@
 "rays_hit":300
 },
 {
+"id":"inferior_rectal_v_l",
+"name":"Inferior rectal vein (left)",
+"class":"vein",
+"r_mm":1.96,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_rectal_v_r",
+"name":"Inferior rectal vein (right)",
+"class":"vein",
+"r_mm":1.8,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
 "id":"inferior_vena_cava",
 "name":"Inferior vena cava",
 "class":"vein",
@@ -303,6 +319,22 @@
 "rays_hit":300
 },
 {
+"id":"internal_iliac_v_l",
+"name":"Internal iliac vein (left)",
+"class":"vein",
+"r_mm":2.75,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"internal_iliac_v_r",
+"name":"Internal iliac vein (right)",
+"class":"vein",
+"r_mm":3.02,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"internal_jugular_v_l",
 "name":"Internal jugular vein",
 "class":"vein",
@@ -317,6 +349,22 @@
 "r_mm":5.58,
 "r_method":"sdf",
 "rays_hit":300
+},
+{
+"id":"internal_pudendal_v_l",
+"name":"Internal pudendal vein (left)",
+"class":"vein",
+"r_mm":1.94,
+"r_method":"sdf",
+"rays_hit":266
+},
+{
+"id":"internal_pudendal_v_r",
+"name":"Internal pudendal vein (right)",
+"class":"vein",
+"r_mm":2.1,
+"r_method":"sdf",
+"rays_hit":290
 },
 {
 "id":"kidney_l",
@@ -405,6 +453,30 @@
 "r_mm":0.67,
 "r_method":"sdf",
 "rays_hit":260
+},
+{
+"id":"median_sacral_v",
+"name":"Median sacral vein",
+"class":"vein",
+"r_mm":1.03,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"middle_rectal_v_l",
+"name":"Middle rectal vein (left)",
+"class":"vein",
+"r_mm":2.14,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"middle_rectal_v_r",
+"name":"Middle rectal vein (right)",
+"class":"vein",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"musculocutaneous_n_l",
@@ -575,6 +647,198 @@
 "rays_hit":300
 },
 {
+"id":"spinal_cord_segment_c1",
+"name":"Spinal cord, C1 segment",
+"class":"nerve",
+"r_mm":4.2,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c2",
+"name":"Spinal cord, C2 segment",
+"class":"nerve",
+"r_mm":4.03,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c3",
+"name":"Spinal cord, C3 segment",
+"class":"nerve",
+"r_mm":3.95,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c4",
+"name":"Spinal cord, C4 segment",
+"class":"nerve",
+"r_mm":3.42,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c5",
+"name":"Spinal cord, C5 segment",
+"class":"nerve",
+"r_mm":3.45,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"spinal_cord_segment_c6",
+"name":"Spinal cord, C6 segment",
+"class":"nerve",
+"r_mm":3.95,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c7",
+"name":"Spinal cord, C7 segment",
+"class":"nerve",
+"r_mm":3.99,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c8",
+"name":"Spinal cord, C8 segment",
+"class":"nerve",
+"r_mm":3.75,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"spinal_cord_segment_l3",
+"name":"Spinal cord, L3 segment",
+"class":"nerve",
+"r_mm":3.79,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_l4",
+"name":"Spinal cord, L4 segment",
+"class":"nerve",
+"r_mm":3.17,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"spinal_cord_segment_l5",
+"name":"Spinal cord, L5 segment",
+"class":"nerve",
+"r_mm":3.0,
+"r_method":"sdf",
+"rays_hit":298
+},
+{
+"id":"spinal_cord_segment_s1",
+"name":"Spinal cord, S1 segment",
+"class":"nerve",
+"r_mm":2.62,
+"r_method":"sdf",
+"rays_hit":297
+},
+{
+"id":"spinal_cord_segment_s2",
+"name":"Spinal cord, S2 segment",
+"class":"nerve",
+"r_mm":2.41,
+"r_method":"sdf",
+"rays_hit":295
+},
+{
+"id":"spinal_cord_segment_s3",
+"name":"Spinal cord, S3 segment",
+"class":"nerve",
+"r_mm":2.12,
+"r_method":"sdf",
+"rays_hit":293
+},
+{
+"id":"spinal_cord_segment_s4",
+"name":"Spinal cord, S4 segment",
+"class":"nerve",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":287
+},
+{
+"id":"spinal_cord_segment_t1",
+"name":"Spinal cord, T1 segment",
+"class":"nerve",
+"r_mm":3.83,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t2",
+"name":"Spinal cord, T2 segment",
+"class":"nerve",
+"r_mm":3.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t3",
+"name":"Spinal cord, T3 segment",
+"class":"nerve",
+"r_mm":3.56,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t4",
+"name":"Spinal cord, T4 segment",
+"class":"nerve",
+"r_mm":3.01,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t5",
+"name":"Spinal cord, T5 segment",
+"class":"nerve",
+"r_mm":3.16,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t6",
+"name":"Spinal cord, T6 segment",
+"class":"nerve",
+"r_mm":3.15,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t7",
+"name":"Spinal cord, T7 segment",
+"class":"nerve",
+"r_mm":3.51,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t8",
+"name":"Spinal cord, T8 segment",
+"class":"nerve",
+"r_mm":3.92,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t9",
+"name":"Spinal cord, T9 segment",
+"class":"nerve",
+"r_mm":4.02,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"spleen",
 "name":"Spleen",
 "class":"organ",
@@ -605,6 +869,22 @@
 "r_mm":4.82,
 "r_method":"sdf",
 "rays_hit":300
+},
+{
+"id":"superior_rectal_a",
+"name":"Superior rectal artery",
+"class":"artery",
+"r_mm":1.6,
+"r_method":"sdf",
+"rays_hit":296
+},
+{
+"id":"superior_rectal_v",
+"name":"Superior rectal vein",
+"class":"vein",
+"r_mm":0.8,
+"r_method":"sdf",
+"rays_hit":296
 },
 {
 "id":"superior_vena_cava",
@@ -687,6 +967,22 @@
 "rays_hit":300
 },
 {
+"id":"uterine_a_l",
+"name":"Uterine artery (left)",
+"class":"artery",
+"r_mm":1.15,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_a_r",
+"name":"Uterine artery (right)",
+"class":"artery",
+"r_mm":1.16,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"uterine_tube_l",
 "name":"Uterine tube (left)",
 "class":"organ",
@@ -701,6 +997,22 @@
 "r_mm":0.62,
 "r_method":"sdf",
 "rays_hit":288
+},
+{
+"id":"uterine_v_l",
+"name":"Uterine vein (left)",
+"class":"vein",
+"r_mm":0.7,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_v_r",
+"name":"Uterine vein (right)",
+"class":"vein",
+"r_mm":0.72,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"uterus",

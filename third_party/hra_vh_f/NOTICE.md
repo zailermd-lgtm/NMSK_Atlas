@@ -29,3 +29,16 @@ Licence: Creative Commons Attribution 4.0 International (CC BY 4.0), compatible 
 - `v1.2` `VH_F_Vertebrae.glb`: downloaded on demand, used only as the registration anchor of the thorax (thoracic vertebrae T1-T12 of the same Visible Human female frame); not shipped.
 - Derived data kept in the repo: `data/derived/Q234_hra_meshes.npz` (decimated meshes, HRA frame) and `.json` (volumes, decimation deviations). Shown on the pages: the vagina and the ligaments registered onto each page's pelvis
   (the same transform as the Q233 uterus), the breasts registered on each page's thoracic vertebrae and compressed into each page's skin envelope (Q234 badges state the fit); all with the CC BY 4.0 attribution on the pages.
+
+## Q243 (2026-10-15): objects of the HRA 3D Reference Object Library v1.10 (CDN, CC BY 4.0) shown on the pages
+
+Source: https://cdn.humanatlas.io/digital-objects/ref-organ/ (URLs + sha256 of every file: `data/derived/Q242_hra_manifest.json`; the GLBs stay OUT of the repo and are downloaded + sha256-checked on demand by `scripts/anatomy/q243/hra.py`).
+Licence of every object used: Creative Commons Attribution 4.0 International, https://creativecommons.org/licenses/by/4.0/ (checked per object in Q242). Creators: Kristen Browne and Heidi Schlehlein (HuBMAP / HRA, funded by the National Institutes of Health); source data
+the Visible Human Project, National Library of Medicine.
+- `blood-vasculature-female` v1.3 (DOI 10.48539/HBM322.KKFC.394): the pelvic vessels (uterine a./v., internal iliac v., internal pudendal v., middle / inferior / superior rectal v., median sacral v., superior rectal a.), registered with the Q233 pelvis transform,
+  open tube ends closed with flat discs. Library defects found and handled: the crosswalk label of the VEIN node `VH_F_superior_rectal_vein` reads 'superior rectal artery' (node name and geometry used); left / right of all 15 nodes verified (name = x position = nearer same-side hip bone).
+- `united-female` v1.10 (DOI 10.48539/HBM637.DWBM.744; nodes `VH_F_nucleus_pulposus_of_intervertebral_disk_of_*`, `VH_F_*_spinal_cord_segment`, `VH_F_*_vertebra_*`, uterus and tube sub-part nodes), `spinal-cord-female` v1.1 (DOI 10.48539/HBM242.QQQB.777; the library says the model was prepared with
+  Frostell et al. 2016 as reference and that 'The Visible Human Female has 6 lumbar vertebrae') and `intervertebral-disk-female` v1.0 (DOI 10.48539/HBM824.BNBP.227; modelled by Kristen Browne, fitted to the spine by Heidi Schlehlein): nucleus pulposus and spinal cord segments fitted per vertebra
+  onto her CT vertebrae; the uterus / tube sub-part names, ontology ids and marker positions as parts of the shipped uterus and tubes.
+- `united-male` v1.10 (DOI 10.48539/HBM833.WZWN.425) and `pelvis-male` v1.3 (DOI 10.48539/HBM384.SBWX.873): the prostate zones were registered and guarded but NOT shipped (the registered HRA prostate does not coincide with the page's prostate; `data/derived/Q243_report_own_m.json`).
+Derived data kept in the repo: `data/derived/Q243_report_*.json`, `Q243_spine_fits_own_f.json`, `Q243_parts_hra.json`, `data/anatomy/structure_parts_hra_q243.json`.
