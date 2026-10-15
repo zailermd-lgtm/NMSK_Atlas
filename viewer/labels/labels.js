@@ -8,6 +8,9 @@
    bg() -> [r,g,b]   obstacles() -> [Element] (HUD panels labels and windows keep clear of)   canvasRect() -> DOMRect   redraw()   toolbar + toolClass   isPhone().
    The engine calls update() at the end of every draw, hover(id) when the pointer moves over another structure, and dirty() when something that is not in the view
    changed. Nothing here changes geometry, colours or visibility of the model: the labels are a DOM / SVG overlay.
+   Vessels and nerves (Q240): the page's table #nmsk-calibre {v:1,c:{id:[kind a|v|n, diameter_mm, level 1..4, promoted]}} (scripts/anatomy/q240/make_calibre.py) gives each artery /
+   vein / nerve its calibre and level; Arteries / Nerves are labelled by default in Visible and All (Veins on request), filtered by the level and the minimum diameter, main
+   trunks first and with a reserved share of the label budget; their anchor is the middle of the longest visible run, not the centroid; "Hide vessel / nerve labels" switches all off.
    Pure geometry (silhouette mask, callout placement without overlaps / crossings) lives in NMSKLabelsCore so it can be tested without a browser. */
 var NMSKLabelsCore = (function(){
   "use strict";
@@ -233,6 +236,7 @@ function NMSKLabels(E){
   function dflt(){
     var ph = !!(E.isPhone && E.isPhone());
     return {mode:"off", text:"full", callout:"auto", density:ph ? 12 : 24, font:ph ? 11 : 12, colour:"own", side:true, occl:true,
+            vn:{hide:false, a:true, v:false, n:true, lva:2, lvn:2, da:0, dn:0},
             lg:{open:false, x:null, y:null, w:350, h:340, font:13, only:"shown", size:"M"}, pn:{x:null, y:null, min:false}};
   }
   var P = dflt();
@@ -250,6 +254,11 @@ function NMSKLabels(E){
     P.density = Math.round(num(r.density, 3, 120, P.density)); P.font = Math.round(num(r.font, 9, 22, P.font));
     if (typeof r.side === "boolean") P.side = r.side;
     if (typeof r.occl === "boolean") P.occl = r.occl;
+    var vv = r.vn;
+    if (vv && typeof vv === "object"){
+      ["hide", "a", "v", "n"].forEach(function(k){ if (typeof vv[k] === "boolean") P.vn[k] = vv[k]; });
+      P.vn.lva = Math.round(num(vv.lva, 1, 4, P.vn.lva)); P.vn.lvn = Math.round(num(vv.lvn, 1, 4, P.vn.lvn)); P.vn.da = num(vv.da, 0, 20, 0); P.vn.dn = num(vv.dn, 0, 12, 0);
+    }
     var g = r.lg;
     if (g && typeof g === "object"){
       P.lg.open = g.open === true; P.lg.w = Math.round(num(g.w, 200, 900, P.lg.w)); P.lg.h = Math.round(num(g.h, 140, 900, P.lg.h)); P.lg.font = Math.round(num(g.font, 10, 24, P.lg.font));
@@ -284,6 +293,32 @@ function NMSKLabels(E){
     if (!t){ var k = a.toLowerCase(); if (used[k]){ used[k]++; a = a + "." + used[k]; } else used[k] = 1; }
     abbr[i] = a; gen[i] = g; full[i] = f;
   });
+  /* ---- vessels and nerves: kind / diameter / level per structure (the page's calibre table; a name-based fallback without it) ---- */
+  var VK = new Array(N), VD = new Array(N), VL = new Array(N), VP = new Array(N), haveCal = false, calCount = 0;
+  var CAL = {};
+  try { var ct = $("nmsk-calibre"); if (ct && ct.textContent.trim().length > 2){ var cj = JSON.parse(ct.textContent); if (cj && cj.c){ CAL = cj.c; haveCal = true; } } } catch (err){ CAL = {}; }
+  var RX_N = /(^|_)(n|nn|nerve|nerves|plexus|trunk|trunks|root|roots|rami|ramus|branch|branches|cord|cords|div|division|divisions|ansa|ganglion|ganglia|chorda)(_|$)/,
+      RX_V = /(^|_)(vein|veins|vena|v|sinus|sinuses|venous|plexus)(_|$)/, RX_A = /(^|_)(artery|arteries|a|aorta|arterial|trunk|arch|branch|branches|anastomosis|circle)(_|$)|aort|arter/,
+      RX_X = /atrium|ventricle|leaflet|papillary|valve|unnamed|(^|_)x(_|$)|chordae|septum/;
+  S.forEach(function(s, i){
+    var c = CAL[s.id]; VK[i] = ""; VD[i] = null; VL[i] = 4; VP[i] = 0;
+    if (c){ VK[i] = c[0]; VD[i] = c[1]; VL[i] = c[2]; VP[i] = c[3] ? 1 : 0; calCount++; return; }
+    if (haveCal) return;
+    var n = String(s.id).replace(/^zan_/, "").replace(/_(l|r)$/, "");
+    if (s.cat === "nerve" && RX_N.test(n)) { VK[i] = "n"; VL[i] = 2; }
+    else if (s.cat === "vessel" && !RX_X.test(n)) { if (RX_V.test(n)) { VK[i] = "v"; VL[i] = 2; } else if (RX_A.test(n)) { VK[i] = "a"; VL[i] = 2; } }
+  });
+  var LVN = {a:["Main", "+ secondary", "+ tertiary", "All"], n:["Main trunks", "+ branches", "+ small", "All"]};
+  /* does the vessel / nerve filter let structure i have a label (forced ones - selected, hovered, marked - skip it) */
+  function vnPass(i){
+    var k = VK[i]; if (!k) return true;
+    if (P.vn.hide || (k === "a" && !P.vn.a) || (k === "v" && !P.vn.v) || (k === "n" && !P.vn.n)) return false;
+    if (!haveCal) return true;
+    if (VL[i] > (k === "n" ? P.vn.lvn : P.vn.lva)) return false;
+    var dm = k === "n" ? P.vn.dn : P.vn.da;
+    return !(dm > 0 && VD[i] != null && VD[i] < dm);
+  }
+  function vnPrio(i){ var k = VK[i]; return !k ? 0 : VL[i] === 1 ? 1 : VL[i] === 2 ? 0.5 : 0.25; }
   /* ---- text measuring ---- */
   var cvs = null, ctx = null, mcache = {}, mfont = 0;
   function fontCss(px, w){ return (w || 600) + " " + px + 'px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif'; }
@@ -379,6 +414,46 @@ function NMSKLabels(E){
     }
     return {bd:bd, bx:bx, by:by, sp:sp};
   }
+  /* long structures (vessels, nerves): the anchor is the middle part of the longest visible run along the structure's own main axis (nearest to the canvas centre there),
+     not the centroid of its pixels, which for a curved or forked structure lies off it. want = flags per id (index + 1); -> {id1: {x, y, len}} in ID image pixels */
+  function longAnchors(buf, want){
+    var ids = buf.ids, w = buf.w, h = buf.h, lists = {}, x, y, o = 0, v, any = false;
+    for (y = 0; y < h; y++) for (x = 0; x < w; x++){
+      v = ids[o++]; if (!v || !want[v]) continue;
+      var a = lists[v] || (lists[v] = []); if (a.length < 16000){ a.push(x, y); any = true; }
+    }
+    var out = {};
+    if (!any) return out;
+    for (var key in lists){
+      var L = lists[key], n = L.length / 2, i, sx = 0, sy = 0;
+      if (n < 12) continue;
+      for (i = 0; i < n; i++){ sx += L[i * 2]; sy += L[i * 2 + 1]; }
+      var mx = sx / n, my = sy / n, sxx = 0, sxy = 0, syy = 0;
+      for (i = 0; i < n; i++){ var dx = L[i * 2] - mx, dy = L[i * 2 + 1] - my; sxx += dx * dx; sxy += dx * dy; syy += dy * dy; }
+      var th = 0.5 * Math.atan2(2 * sxy, sxx - syy), ax = Math.cos(th), ay = Math.sin(th), tmin = 1e9, tmax = -1e9, t = new Float32Array(n);
+      for (i = 0; i < n; i++){ var tt = (L[i * 2] - mx) * ax + (L[i * 2 + 1] - my) * ay; t[i] = tt; if (tt < tmin) tmin = tt; if (tt > tmax) tmax = tt; }
+      var nb = Math.ceil(tmax - tmin) + 2, occ = new Int32Array(nb);
+      for (i = 0; i < n; i++) occ[Math.floor(t[i] - tmin)]++;
+      var best = null, b0 = -1, last = -1, cnt = 0;
+      for (var b = 0; b <= nb + 3; b++){          // runs of occupied 1 px bins; a gap of up to 2 px bridges (aliasing of a thin diagonal line)
+        var on = b < nb && occ[b] > 0;
+        if (on){ if (b0 < 0){ b0 = b; cnt = 0; } last = b; cnt += occ[b]; }
+        else if (b0 >= 0 && b - last > 2){
+          var run = {b0:b0, b1:last, len:last - b0, cnt:cnt};
+          if (!best || run.len > best.len || (run.len === best.len && run.cnt > best.cnt)) best = run;
+          b0 = -1;
+        }
+      }
+      if (!best || best.len < 6) continue;
+      var lo = best.b0 + best.len * 0.25, hi = best.b0 + best.len * 0.75, bd = 1e18, px = -1, py = -1, cx = w / 2, cy = h / 2;
+      for (i = 0; i < n; i++){
+        var tb = t[i] - tmin; if (tb < lo || tb > hi) continue;
+        var ddx = L[i * 2] - cx, ddy = L[i * 2 + 1] - cy, dd = ddx * ddx + ddy * ddy; if (dd < bd){ bd = dd; px = L[i * 2]; py = L[i * 2 + 1]; }
+      }
+      if (px >= 0) out[key] = {x:px, y:py, len:best.len};
+    }
+    return out;
+  }
   /* ---- the heavy refresh: which structures are visible (ID image), which get a label, where their anchors are ---- */
   var wantLive = {};
   function forcedIds(){
@@ -396,6 +471,9 @@ function NMSKLabels(E){
       var mx = 0, my = 0;
       if (cnt > 0){ mx = st.sx[k + 1] / cnt; my = st.sy[k + 1] / cnt; }
       var id1 = k + 1, sc = al[k] >= OPQ || !scA ? scB : scA, bestD = sc.bd[k + 1], bpx = sc.bx[k + 1], bpy = sc.by[k + 1], spread = sc.sp[k + 1] || [];
+      var la = (al[k] >= OPQ || !C.laA ? C.laB : C.laA);
+      la = la && la[id1];
+      if (la && cnt > 0){ bpx = la.x; bpy = la.y; bestD = 0; mx = la.x; my = la.y; it.long = la.len; }
       if (cnt > 0){
         if (bpx < 0){ bpx = Math.round(mx); bpy = Math.round(my); }
         it.ax = rect.left + (bpx + 0.5) / bw2 * rect.width; it.ay = rect.top + (bpy + 0.5) / bh2 * rect.height; it.u = bpx; it.v = bpy;
@@ -468,19 +546,30 @@ function NMSKLabels(E){
       cand.push({i:k, px:vp(k), forced:true, score:1e15});
     });
     if (P.mode !== "sel"){
-      var pool = [];
+      var pool = [], vpool = [];
       for (i = 0; i < N; i++){
         if (isForced[i] || al[i] < AMIN) continue;
         var px = vp(i); if (px < minPx) continue;
-        pool.push({i:i, px:px, forced:false, score:px * (wantLive[i] ? 1.35 : 1) * (CATW[S[i].cat] || 1)});
+        if (VK[i]){
+          if (!vnPass(i)) continue;
+          vpool.push({i:i, px:px, forced:false, score:(5 - VL[i]) * 1e7 + px});         // main trunks first, then by the visible length
+        } else pool.push({i:i, px:px, forced:false, score:px * (wantLive[i] ? 1.35 : 1) * (CATW[S[i].cat] || 1)});
       }
       pool.sort(function(a, b){ return b.score - a.score || (a.i - b.i); });
-      var cap = P.mode === "all" ? ALLCAP : Math.max(0, P.density - cand.length), seenT = {}, keep = [];
+      vpool.sort(function(a, b){ return b.score - a.score || (a.i - b.i); });
+      var cap = P.mode === "all" ? ALLCAP : Math.max(0, P.density - cand.length), seenT = {}, keep = [], vkeep = [];
       cand.forEach(function(c){ seenT[dupKey(c.i)] = 1; });
-      for (var pi = 0; pi < pool.length && keep.length < cap; pi++){        // one label per name + side (a structure continued by a gap-filling mesh is one entity to the reader)
-        var dk = dupKey(pool[pi].i); if (seenT[dk]) continue; seenT[dk] = 1; keep.push(pool[pi]);
+      var vq = P.mode === "all" ? cap : Math.min(vpool.length, Math.max(3, Math.round(cap * 0.4)));          // vessels / nerves get a reserved share of the budget (thin structures never win on pixel area)
+      function takeFrom(list, into, limit){
+        for (var pi = 0; pi < list.length && into.length < limit; pi++){        // one label per name + side (a structure continued by a gap-filling mesh is one entity to the reader)
+          if (list[pi].taken) continue;
+          var dk = dupKey(list[pi].i); if (seenT[dk]) continue; seenT[dk] = 1; list[pi].taken = 1; into.push(list[pi]);
+        }
       }
-      cand = cand.concat(keep);
+      takeFrom(vpool, vkeep, vq);
+      takeFrom(pool, keep, cap - vkeep.length);
+      if (keep.length + vkeep.length < cap) takeFrom(vpool, vkeep, cap - keep.length);
+      cand = cand.concat(vkeep, keep);
     } else cand = cand.slice(0, SEL_CAP);
     var rect = v.rect, bwid = bufB.w, bh = bufB.h, ids = bufB.ids, cutS = E.cut(), cutOn = !!(cutS && cutS.on), eyeKept = true;
     if (cutOn){ var se = cutS.kn[0] * v.eye[0] + cutS.kn[1] * v.eye[1] + cutS.kn[2] * v.eye[2] + cutS.c; eyeKept = se >= 0; }
@@ -488,14 +577,18 @@ function NMSKLabels(E){
     var wantB = new Uint8Array(N + 1), wantA = new Uint8Array(N + 1);
     cand.forEach(function(c){ (al[c.i] >= OPQ || !stA ? wantB : wantA)[c.i + 1] = 1; });
     var scB = bufScan(bufB, stB, wantB, N), scA = stA ? bufScan(bufA, stA, wantA, N) : null;
-    var cap0 = {v:v, rect:rect, al:al, bufB:bufB, bufA:bufA, stB:stB, stA:stA, scB:scB, scA:scA, cand:cand, capOn:capOn};
+    var lwB = new Uint8Array(N + 1), lwA = new Uint8Array(N + 1), anyLB = false, anyLA = false;
+    cand.forEach(function(c){ if (!VK[c.i]) return; if (al[c.i] >= OPQ || !stA){ lwB[c.i + 1] = 1; anyLB = true; } else { lwA[c.i + 1] = 1; anyLA = true; } });
+    var laB = anyLB ? longAnchors(bufB, lwB) : null, laA = anyLA && bufA ? longAnchors(bufA, lwA) : null;
+    var cap0 = {v:v, rect:rect, al:al, bufB:bufB, bufA:bufA, stB:stB, stA:stA, scB:scB, scA:scA, laB:laB, laA:laA, cand:cand, capOn:capOn};
     var built = buildItems(cap0), out = built.out, deferred = built.deferred;
     /* body silhouette for the callouts: every pixel any structure drew */
     var occ = new Uint8Array(mbuf.w * mbuf.h), ii = mbuf.ids, nn = occ.length;
     for (var o = 0; o < nn; o++) occ[o] = ii[o] ? 1 : 0;
     var mask = NMSKLabelsCore.makeMask(occ, mbuf.w, mbuf.h, rect.left, rect.top, rect.width / mbuf.w, rect.height / mbuf.h);
     var visCount = 0; for (i = 0; i < N; i++) if (al[i] >= AMIN && vp(i) > 0) visCount++;
-    cur = {items:out, buf:bufB, mask:mask, rect:rect, visible:visCount, cutOn:cutOn, capOn:!!capOn, hasTable:haveTable};
+    var vnVis = 0; for (i = 0; i < N; i++) if (VK[i] && al[i] >= AMIN && vp(i) > 0) vnVis++;
+    cur = {items:out, buf:bufB, mask:mask, rect:rect, visible:visCount, vnVisible:vnVis, cutOn:cutOn, capOn:!!capOn, hasTable:haveTable};
     items = out; wantLive = {}; out.forEach(function(it){ wantLive[it.i] = 1; });
     lastHeavyMs = nowMs() - t0; forcedSig = sigForced();
     if (deferred) sliceLater(cur, cap0);          // surface samples of the remaining structures are made in the next slice (no new ID pass)
@@ -548,7 +641,7 @@ function NMSKLabels(E){
       if (ax < rect.left + 2 || ay < rect.top + 2 || ax > rect.left + rect.width - 2 || ay > rect.top + rect.height - 2) return;
       it.sx = ax; it.sy = ay;
       var text = labelText(it.i), w = measure(text, fs) + 8, h = fs * 1.3 + 3;
-      L.push({it:it, text:text, w:w, h:h, ax:ax, ay:ay, prio:(it.i === idx[sel] ? 3 : it.forced ? 2 : 0), id:it.id});
+      L.push({it:it, text:text, w:w, h:h, ax:ax, ay:ay, prio:(it.i === idx[sel] ? 3 : it.forced ? 2 : vnPrio(it.i)), id:it.id});
     });
     /* inline or callout */
     var inl = [], out = [], placedBoxes = [];
@@ -666,7 +759,10 @@ function NMSKLabels(E){
   function statusText(){
     var s = $("lab-status"), h = $("lab-hint"); if (!s) return;
     if (P.mode === "off"){ s.textContent = "off"; }
-    else s.textContent = shown.length + " labelled" + (cur ? " / " + cur.visible + " visible" : "");
+    else {
+      var nv = 0; shown.forEach(function(k){ if (VK[k]) nv++; });
+      s.textContent = shown.length + " labelled" + (cur ? " / " + cur.visible + " visible" : "") + (nv ? " (" + nv + " vessels / nerves)" : "");
+    }
     if (h){
       var msg = "";
       if (P.mode !== "off" && cur){
@@ -676,6 +772,11 @@ function NMSKLabels(E){
       }
       if (P.mode === "sel") msg = "Selected, hovered and marked structures. Tap a structure to label it.";
       if (!haveTable && P.text === "abbr") msg = "This page has no abbreviation table: abbreviations are generated on the fly.";
+      else if (!haveCal && P.mode !== "off" && P.mode !== "sel") msg = (msg ? msg + " " : "") + "This page has no calibre table: vessel / nerve levels and diameters do not apply (all of them by name).";
+      else if (P.mode !== "off" && P.mode !== "sel" && cur && cur.vnVisible > 0 && !P.vn.hide){
+        var nv2 = 0; shown.forEach(function(k){ if (VK[k]) nv2++; });
+        if (nv2 < cur.vnVisible) msg = (msg ? msg + " " : "") + (cur.vnVisible - nv2) + " visible vessels / nerves are not labelled (level, minimum diameter, group or Max labels).";
+      }
       h.textContent = msg;
     }
     var cf = $("lab-cutfill"); if (cf) cf.hidden = !(cur && cur.cutOn && !cur.capOn);
@@ -692,6 +793,13 @@ function NMSKLabels(E){
     if (panel) panel.classList.toggle("lb-min", !!P.pn.min);
     var mn = $("lab-min"); if (mn){ mn.setAttribute("aria-expanded", String(!P.pn.min)); mn.innerHTML = P.pn.min ? "&#9652;" : "&#9662;"; }
     var lb = $("lab-legend-btn"); if (lb) lb.setAttribute("aria-pressed", String(!!P.lg.open));
+    setSeg("lab-lva", String(P.vn.lva)); setSeg("lab-lvn", String(P.vn.lvn));
+    [["a", "ga"], ["v", "gv"], ["n", "gn"]].forEach(function(g){ var b = $("lab-g-" + g[0]); if (b){ b.setAttribute("aria-pressed", String(!!P.vn[g[0]] && !P.vn.hide)); b.disabled = !!P.vn.hide; } });
+    var vh = $("lab-vhide"); if (vh) vh.checked = !!P.vn.hide;
+    var da = $("lab-da"), dn = $("lab-dn"), dav = $("lab-da-v"), dnv = $("lab-dn-v");
+    if (da){ da.value = P.vn.da; da.disabled = !haveCal || P.vn.hide; } if (dn){ dn.value = P.vn.dn; dn.disabled = !haveCal || P.vn.hide; }
+    if (dav) dav.textContent = P.vn.da > 0 ? "\u2265 " + P.vn.da.toFixed(1).replace(/\.0$/, "") + " mm" : "no minimum"; if (dnv) dnv.textContent = P.vn.dn > 0 ? "\u2265 " + P.vn.dn.toFixed(1).replace(/\.0$/, "") + " mm" : "no minimum";
+    [].forEach.call(document.querySelectorAll("#lab-lva button, #lab-lvn button"), function(b){ b.disabled = !haveCal || !!P.vn.hide; });
   }
   function setMode(m, quiet){
     if (!MODES[m]) return; P.mode = m; applyUI(); persist();
@@ -701,8 +809,11 @@ function NMSKLabels(E){
   function set(key, val){
     if (key === "text" && TEXTS[val]) P.text = val; else if (key === "callout" && CALLS[val]) P.callout = val; else if (key === "colour" && COLS[val]) P.colour = val;
     else if (key === "density") P.density = Math.round(num(val, 3, 120, P.density)); else if (key === "font") P.font = Math.round(num(val, 9, 22, P.font));
-    else if (key === "side") P.side = !!val; else if (key === "occl") P.occl = !!val; else return;
-    applyUI(); persist(); needHeavy = key === "occl" || key === "density" || key === "colour" ? true : needHeavy;
+    else if (key === "side") P.side = !!val; else if (key === "occl") P.occl = !!val;
+    else if (key === "vhide") P.vn.hide = !!val; else if (key === "ga") P.vn.a = !!val; else if (key === "gv") P.vn.v = !!val; else if (key === "gn") P.vn.n = !!val;
+    else if (key === "lva") P.vn.lva = Math.round(num(val, 1, 4, P.vn.lva)); else if (key === "lvn") P.vn.lvn = Math.round(num(val, 1, 4, P.vn.lvn));
+    else if (key === "da") P.vn.da = num(val, 0, 20, P.vn.da); else if (key === "dn") P.vn.dn = num(val, 0, 12, P.vn.dn); else return;
+    applyUI(); persist(); needHeavy = key === "occl" || key === "density" || key === "colour" || /^(vhide|ga|gv|gn|lva|lvn|da|dn)$/.test(key) ? true : needHeavy;
     if (key === "font" || key === "text" || key === "side"){ if (cur) layout(); }
     if (key === "colour"){ for (var id in elMap) elMap[id].col = null; if (cur) layout(); }
     if (key === "callout"){ inlineMode = {}; solved = {}; }
@@ -835,7 +946,7 @@ function NMSKLabels(E){
     ids.forEach(function(k){
       var c = E.color(k) || [150, 150, 150];
       html += '<div class="lg-row' + (S[k].id === sel ? " lg-sel" : "") + '" role="listitem" data-i="' + k + '"><span class="lg-sw" style="background:rgb(' + Math.round(c[0]) + "," + Math.round(c[1]) + "," + Math.round(c[2]) +
-              ')"></span><b class="lg-ab' + (gen[k] ? " lg-gen" : "") + '">' + esc(abbr[k]) + '</b><span class="lg-nm">' + esc(full[k]) + "</span></div>";
+              ')"></span><b class="lg-ab' + (gen[k] ? " lg-gen" : "") + '">' + esc(abbr[k]) + '</b><span class="lg-nm">' + esc(full[k]) + (VK[k] && haveCal ? ' <span class="lg-d">' + (VK[k] === "n" ? "nerve" : VK[k] === "v" ? "vein" : "artery") + (VD[k] != null ? " &middot; \u00d8 " + VD[k].toFixed(1) + " mm" : "") + " &middot; level " + VL[k] + "</span>" : "") + "</span></div>";
     });
     if (!ids.length) html = '<p class="lg-none">' + (P.lg.only === "shown" ? "No labels on screen yet. Switch Labels on, or choose All structures." : "No match.") + "</p>";
     list.innerHTML = html;
@@ -858,6 +969,10 @@ function NMSKLabels(E){
     $("lab-side").addEventListener("change", function(){ set("side", this.checked); });
     $("lab-occl").addEventListener("change", function(){ set("occl", this.checked); });
     $("lab-reset").addEventListener("click", reset);
+    bindSeg("lab-lva", "lva"); bindSeg("lab-lvn", "lvn");
+    $("lab-vhide").addEventListener("change", function(){ set("vhide", this.checked); });
+    ["a", "v", "n"].forEach(function(k){ $("lab-g-" + k).addEventListener("click", function(){ set("g" + k, !P.vn[k]); }); });
+    $("lab-da").addEventListener("input", function(){ set("da", this.value); }); $("lab-dn").addEventListener("input", function(){ set("dn", this.value); });
     $("lab-close").addEventListener("click", function(){ openPanel(false); });
     $("lab-min").addEventListener("click", function(){ P.pn.min = !P.pn.min; applyUI(); persist(); placeWin(panel, P.pn); });
     $("lab-legend-btn").addEventListener("click", function(){ openLegend(legend.hidden); });
@@ -913,7 +1028,7 @@ function NMSKLabels(E){
   if (legend && P.lg.open){ legend.hidden = false; setTimeout(function(){ openLegend(true); }, 0); }
   statusText();
   return {
-    update:update, dirty:dirty, hover:hover, set:set, setMode:setMode, reset:reset, openPanel:openPanel, openLegend:openLegend, refreshNow:function(){ refresh(); layout(); },
+    engine:function(){ return E; }, update:update, dirty:dirty, hover:hover, set:set, setMode:setMode, reset:reset, openPanel:openPanel, openLegend:openLegend, refreshNow:function(){ refresh(); layout(); },
     selectId:function(id){ if (idx[id] != null) E.select(id); },
     abbr:function(id){ var k = idx[id]; return k == null ? null : abbr[k]; }, fullName:function(id){ var k = idx[id]; return k == null ? null : full[k]; },
     settings:function(){ return JSON.parse(JSON.stringify(P)); },
@@ -921,6 +1036,7 @@ function NMSKLabels(E){
       return {mode:P.mode, text:P.text, callout:P.callout, density:P.density, font:P.font, colour:P.colour, shown:shown.map(function(k){ return S[k].id; }), visible:cur ? cur.visible : 0,
               heavyMs:Math.round(lastHeavyMs * 10) / 10, idMs:Math.round(lastIdMs * 10) / 10, layoutMs:Math.round(layoutMs * 100) / 100, heavyCount:heavyCount, storageOK:storageOK, hasTable:haveTable,
               animating:animating, modes:JSON.parse(JSON.stringify(inlineMode)), legendOpen:!!(legend && !legend.hidden), panelOpen:!!(panel && !panel.hidden), cutOn:!!(cur && cur.cutOn), capOn:!!(cur && cur.capOn),
+              vn:JSON.parse(JSON.stringify(P.vn)), haveCal:haveCal, calCount:calCount, vnShown:shown.filter(function(k){ return !!VK[k]; }).map(function(k){ return S[k].id; }), vnVisible:cur ? cur.vnVisible : 0,
               kinds:cur ? cur.items.reduce(function(a, it){ a[it.kind] = (a[it.kind] || 0) + 1; return a; }, {}) : {}};
     },
     boxes:function(){        // the drawn label boxes, for tests: [{id, x,y,w,h, mode, ax,ay}]
@@ -929,7 +1045,8 @@ function NMSKLabels(E){
       return out;
     },
     mask:function(){ return cur && cur.mask; },
-    anchors:function(){ return cur ? cur.items.map(function(it){ return {id:it.id, kind:it.kind, p3:it.p3}; }) : []; },
+    anchors:function(){ return cur ? cur.items.map(function(it){ return {id:it.id, kind:it.kind, p3:it.p3, long:it.long || 0, sx:it.sx, sy:it.sy}; }) : []; },
+    calibre:function(id){ var k = idx[id]; return k == null ? null : {kind:VK[k], diameter:VD[k], level:VL[k], promoted:VP[k]}; },
     /* geometry self-check of what is drawn now (tests / browser checks): overlaps between label boxes, callout boxes touching the body silhouette, boxes outside the canvas or
        inside a HUD panel, crossing leader lines, leader lengths */
     selfCheck:function(){

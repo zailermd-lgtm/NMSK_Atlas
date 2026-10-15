@@ -262,7 +262,7 @@ body.cut-armed canvas{cursor:crosshair!important}
 @media (max-width:900px){#sym-banner{bottom:calc(64px + env(safe-area-inset-bottom,0px));font-size:11.5px;flex-wrap:wrap}#sym-banner .sv-txt{flex:1 1 100%}#sym-select{min-height:34px;font-size:12.5px;max-width:9.5em}}
 /* SYMVIEW css end */
   /* PARTS-UI css begin */
-#pm-layer,#pm-card,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
+#pm-layer,#pm-card,#pm-panel,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
 #pm-layer{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:21;overflow:hidden}
 #pm-layer .pm{position:absolute;left:0;top:0;width:0;height:0;padding:0;margin:0;border:0;background:none;pointer-events:none;overflow:visible;font:600 11px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--pm-ink)}
 #pm-layer .pm[hidden]{display:none}
@@ -329,6 +329,30 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 .pm-sec .pm-msg{margin:4px 0 0;font-size:11px;font-weight:600;color:var(--pm-accent)}
 .pm-sec .pm-msg:empty{display:none}
 .pm-sec .pm-msg.pm-t{color:var(--pm-dim)}
+#pm-layer .pm.pm-behind .pm-ring{border-style:dashed;opacity:.95;background:rgba(255,255,255,.28);box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-rule)}
+#pm-layer .pm.pm-behind.pm-z .pm-ring{box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-zfill)}
+#pm-layer .pm.pm-behind .pm-lab::after{content:" \00b7  behind tissue";font-weight:500;color:var(--pm-dim)}
+#pm-panel{position:fixed;left:12px;top:60px;z-index:47;box-sizing:border-box;width:min(292px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:8px 10px 9px;border-radius:9px;
+  background:var(--pm-bg);color:var(--pm-ink);border:1px solid var(--pm-line);box-shadow:0 8px 24px rgba(0,0,0,.22);font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto}
+#pm-panel[hidden]{display:none}
+#pm-panel .pp-h{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+#pm-panel .pp-h b{font-size:13px}
+#pm-panel .pp-st{flex:1;color:var(--pm-dim);font-size:11px;text-align:right}
+#pm-panel .pp-x{border:0;background:none;color:var(--pm-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#pm-panel .pp-l{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pm-dim)}
+#pm-panel output{float:right;font-variant-numeric:tabular-nums;color:var(--pm-ink);font-weight:600;text-transform:none;letter-spacing:0}
+#pm-panel .pp-seg{display:flex;gap:4px;flex-wrap:wrap}
+#pm-panel .pp-seg button{flex:1 1 auto;font:inherit;font-size:11.5px;color:var(--pm-ink);background:transparent;border:1px solid var(--pm-line);border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#pm-panel .pp-seg button[hidden]{display:none}
+#pm-panel .pp-seg button[aria-pressed="true"]{background:var(--pm-accent);color:#fff;border-color:var(--pm-accent)}
+#pm-panel input[type=range]{display:block;width:100%;margin:2px 0 0;height:26px;accent-color:var(--pm-accent);touch-action:pan-y}
+#pm-panel .pp-sc{display:flex;justify-content:space-between;font-size:10px;color:var(--pm-dim);margin-bottom:4px}
+#pm-panel .pp-c{display:flex;align-items:center;gap:6px;margin:3px 0;font-size:11.5px;cursor:pointer}
+#pm-panel .pp-c input{width:16px;height:16px;accent-color:var(--pm-accent)}
+#pm-panel .pp-hint{margin:3px 0 0;font-size:11px;font-weight:600;color:var(--pm-accent)}
+#pm-panel .pp-hint:empty{display:none}
+#pm-panel .pp-help{margin:5px 0 0;font-size:10.5px;line-height:1.4;color:var(--pm-dim)}
+@media (hover:none){#pm-panel .pp-seg button{min-height:38px;font-size:13px}#pm-panel input[type=range]{height:34px}}
 /* PARTS-UI css end */
 /* LABELS css begin */
 #lab-panel,#lab-legend,#lab-layer{--lb-bg:#fff;--lb-ink:#111;--lb-dim:#667;--lb-line:#ccd;--lb-accent:#0a6e8e;--lb-accent-ink:#fff;--lb-sunk:#eef1f4;--lb-shadow:0 8px 24px rgba(0,0,0,.18);--lb-halo:rgba(255,255,255,.88)}
@@ -365,6 +389,10 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 #lab-panel .lb-chk{display:flex;align-items:center;gap:6px;margin:3px 0;font-size:11.5px;cursor:pointer}
 #lab-panel .lb-chk input{width:16px;height:16px;accent-color:var(--lb-accent)}
 #lab-panel .lb-hint{margin:2px 0 0;font-size:10.5px}
+#lab-panel .lb-help{margin:5px 0 2px;font-size:10.5px;line-height:1.4;color:var(--lb-dim)}
+#lab-panel .lb-help summary{cursor:pointer;font-weight:600;color:var(--lb-ink);min-height:22px}
+#lab-panel .lb-help p{margin:4px 0}
+#lab-panel .lb-row button:disabled,#lab-panel input:disabled{opacity:.45;cursor:default}
 #lab-panel .lb-hint:empty{display:none}
 #lab-panel.lb-min .lb-body{display:none}
 #lab-panel.lb-phone{left:8px;right:8px;top:auto;bottom:calc(var(--lb-bottom,64px) + env(safe-area-inset-bottom,0px));width:auto;max-height:52vh;padding:6px 8px 8px;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -392,6 +420,7 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 #lab-legend .lg-ab{flex:0 0 5.6em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 #lab-legend .lg-ab.lg-gen{font-style:italic;font-weight:600}
 #lab-legend .lg-nm{flex:1 1 auto;min-width:0;color:var(--lb-ink);overflow-wrap:anywhere}
+#lab-legend .lg-d{color:var(--lb-dim);font-size:.82em;white-space:nowrap}
 #lab-legend .lg-none{margin:.8em .4em;color:var(--lb-dim)}
 #lab-legend .lg-foot{flex:0 0 auto;margin:4px 14px 0 0;font-size:10.5px;color:var(--lb-dim)}
 #lab-legend .lg-grip{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;touch-action:none;background:linear-gradient(135deg,transparent 52%,var(--lb-dim) 52%,var(--lb-dim) 60%,transparent 60%,transparent 72%,var(--lb-dim) 72%,var(--lb-dim) 80%,transparent 80%);border-bottom-right-radius:9px}
@@ -589,6 +618,7 @@ body.ss-marking canvas{cursor:copy!important}
 <!-- PARTS-UI html begin -->
 <div id="pm-layer" aria-hidden="false"></div>
 <div id="pm-card" role="dialog" aria-label="Part marker" hidden></div>
+<div id="pm-panel" role="group" aria-label="Part markers" hidden></div>
 <!-- PARTS-UI html end -->
 <!-- LABELS html begin -->
 <svg id="lab-layer" aria-hidden="true"></svg>
@@ -615,6 +645,23 @@ body.ss-marking canvas{cursor:copy!important}
     <div class="lb-row" id="lab-colour">
       <button type="button" data-v="own" aria-pressed="false" title="The colour the structure is drawn in, darkened or lightened until it reads on the background">Structure</button><button type="button" data-v="neutral" aria-pressed="false">Neutral</button>
     </div>
+    <div class="lb-lbl">Vessels &amp; nerves</div>
+    <label class="lb-chk"><input type="checkbox" id="lab-vhide"> Hide vessel / nerve labels</label>
+    <div class="lb-row" id="lab-groups" role="group" aria-label="Which vessels and nerves are labelled">
+      <button type="button" id="lab-g-a" aria-pressed="true" title="Label the arteries">Arteries</button><button type="button" id="lab-g-v" aria-pressed="false" title="Label the veins">Veins</button><button type="button" id="lab-g-n" aria-pressed="true" title="Label the nerves">Nerves</button>
+    </div>
+    <div class="lb-lbl">Artery / vein level</div>
+    <div class="lb-row" id="lab-lva"><button type="button" data-v="1" aria-pressed="false" title="Aorta, vena cava, carotid, subclavian, iliac, femoral, brachial ... (6 mm and larger, and the named trunks)">Main</button><button type="button" data-v="2" aria-pressed="false" title="Main + 3 to 6 mm (radial, ulnar, tibial, deep femoral ...)">+ secondary</button><button type="button" data-v="3" aria-pressed="false" title="Secondary + 1.5 to 3 mm">+ tertiary</button><button type="button" data-v="4" aria-pressed="false" title="Every artery / vein, down to the smallest the model has">All</button></div>
+    <div class="lb-lbl">Artery / vein min. diameter <output id="lab-da-v" for="lab-da"></output></div>
+    <input id="lab-da" type="range" min="0" max="20" step="0.5" value="0" aria-label="Smallest artery or vein diameter that is labelled, in millimetres (0 = no minimum)">
+    <div class="lb-lbl">Nerve level</div>
+    <div class="lb-row" id="lab-lvn"><button type="button" data-v="1" aria-pressed="false" title="Sciatic, femoral, median, ulnar, radial, tibial, brachial plexus trunks, cranial nerves ... (4 mm and larger, and the named trunks)">Main trunks</button><button type="button" data-v="2" aria-pressed="false" title="Trunks + 2 to 4 mm branches">+ branches</button><button type="button" data-v="3" aria-pressed="false" title="Branches + 1 to 2 mm">+ small</button><button type="button" data-v="4" aria-pressed="false" title="Every nerve, down to the finest digital branches">All</button></div>
+    <div class="lb-lbl">Nerve min. diameter <output id="lab-dn-v" for="lab-dn"></output></div>
+    <input id="lab-dn" type="range" min="0" max="12" step="0.5" value="0" aria-label="Smallest nerve diameter that is labelled, in millimetres (0 = no minimum)">
+    <details class="lb-help"><summary>What the levels mean</summary>
+      <p><b>Arteries and veins</b> (diameter = mean tube diameter measured on the model's mesh): <b>Main</b> 6 mm and larger, plus the named trunks (aorta, venae cavae, carotid, subclavian, iliac, femoral, popliteal, brachial ...); <b>+ secondary</b> 3 to 6 mm; <b>+ tertiary</b> 1.5 to 3 mm; <b>All</b> also those under 1.5 mm.</p>
+      <p><b>Nerves:</b> <b>Main trunks</b> 4 mm and larger, plus the named trunks (sciatic, femoral, median, ulnar, radial, tibial, plexus trunks, cranial nerves ...); <b>+ branches</b> 2 to 4 mm; <b>+ small</b> 1 to 2 mm; <b>All</b> also under 1 mm.</p>
+      <p>The minimum diameter slider cuts at any size on top of the level. Main trunks are labelled first and keep a share of the label budget; the label sits on the longest visible stretch of the structure. Only labelled when visible; selected, hovered and marked ones always are. "Hide vessel / nerve labels" turns all of them off.</p></details>
     <label class="lb-chk"><input type="checkbox" id="lab-side"> R / L marks on full names</label>
     <label class="lb-chk"><input type="checkbox" id="lab-occl"> Hide labels of hidden-behind structures</label>
     <div class="lb-row lb-end"><button type="button" id="lab-legend-btn" aria-pressed="false">Abbreviation list</button><button type="button" id="lab-cutfill" hidden title="Fill the cut surface so labels sit on the cross-section">Fill cut face</button><button type="button" id="lab-reset">Reset</button></div>
@@ -629,11 +676,12 @@ body.ss-marking canvas{cursor:copy!important}
       <span class="lg-font"><button type="button" id="lg-fdn" aria-label="Smaller text" title="Smaller text">A&minus;</button><input id="lg-font" type="range" min="10" max="24" step="1" value="13" aria-label="Legend font size"><button type="button" id="lg-fup" aria-label="Larger text" title="Larger text">A+</button><output id="lg-font-v"></output></span></div>
   </div>
   <div class="lg-list" id="lg-list" role="list"></div>
-  <p class="lg-foot"><span id="lg-count"></span> &middot; <b>RF-R</b> = base code + side (R / L). Upright = established abbreviation, <i>italic</i> = generated for this atlas. Click a row to select the structure.</p>
+  <p class="lg-foot"><span id="lg-count"></span> &middot; <b>RF-R</b> = base code + side (R / L). Upright = established abbreviation, <i>italic</i> = generated for this atlas. Click a row to select the structure. Arteries, veins and nerves also show their calibre (mean diameter measured on the mesh) and level 1 = main trunk to 4 = smallest; the Labels panel chooses which levels are labelled (help there).</p>
   <div class="lg-grip" id="lg-grip" role="separator" aria-label="Drag to resize" title="Drag to resize"></div>
 </div>
 <!-- LABELS html end -->
 <!-- NMSK-ABBREV begin --><script type="application/json" id="nmsk-abbrev">{}</script><!-- NMSK-ABBREV end -->
+<!-- NMSK-CALIBRE begin --><script type="application/json" id="nmsk-calibre">{}</script><!-- NMSK-CALIBRE end -->
 
 <aside id="rail">
   <div class="rail-body">
@@ -1412,6 +1460,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         var sl=sliders[k]; if(sl) sl.value=Math.round(alphaFor[k]*100);
       });
       if(labelsCtl) labelsCtl.dirty();       // Q236
+      if(partsCtl) partsCtl.dirty();         // Q240
     }
     function setA(k,v){ alphaFor[k]=v; }
 
@@ -1696,11 +1745,24 @@ function NMSKSymView(E){
    A marker is a position derived by a stated rule on THIS model (rule-based) or the place of a Z-Anatomy mesh (Z-fill): always shown
    with its source class and error bound, never as measured. Markers appear for the selected structure, or for every placed part with the
    toggle; they follow Cut mode (incl. the slice thickness), the layer / hide / isolate state of their structure, and x-ray (the solid dot is
-   depth-tested by the engine: hidden behind opaque tissue, seen through x-ray; the hollow ring + label stay). */
+   depth-tested by the engine: hidden behind opaque tissue, seen through x-ray; the hollow ring + label stay).
+   Q240 view-dependent culling (optional adaptor members idImage(all,w) -> {w,h,ids}, depthImage(w) -> {w,h,z} (linear view depth in mm, 0 = empty, row 0 = top),
+   idOf(meshId) -> index+1 as in idImage, marked(), and the hover(meshId) / dirty() calls from the engine): Markers = Off / Visible + near (default) / Selected only / All.
+   In "Visible + near" a marker is drawn only when (1) its 3D point is not hidden by other opaque tissue (depth image: its view depth within a tolerance of the
+   nearest surface at its pixel, or the surface there is one of its own structures), (2) it lies within the depth band (front N % of the visible model depth, slider) and
+   (3) the Cut mode keeps it. Markers of selected / marked / hovered structures are exempt (drawn see-through, dashed ring + halo, when hidden or far) unless
+   "Show hidden ones of selected muscles" is off. The depth / ID images are low resolution and throttled (camera settle + a low rate while orbiting). */
 function NMSKParts(E){
   "use strict";
-  var D = null, M = [], sel = null, showAll = false, focusI = -1, hoverI = -1, pinI = -1;
-  var btn = null, layer = null, card = null, errEl = null;
+  var D = null, M = [], sel = null, focusI = -1, hoverI = -1, pinI = -1, hoverMesh = null;
+  var btn = null, layer = null, card = null, errEl = null, panel = null, panelBuilt = false;
+  var KEY = "nmsk.parts.v1", MODES = {off:1, near:1, sel:1, all:1}, CARRIER_ALLOW = 45;
+  var canCull = !!(E.depthImage && E.idOf);
+  var P = {mode:canCull ? "near" : "sel", band:55, hid:true};
+  try { var rs = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (rs && typeof rs === "object"){ if (MODES[rs.mode] && (canCull || rs.mode !== "near")) P.mode = rs.mode; var bn = Number(rs.band); if (isFinite(bn)) P.band = Math.max(10, Math.min(100, Math.round(bn))); if (typeof rs.hid === "boolean") P.hid = rs.hid; } } catch (err){}
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
+  var cull = {sig:"", last:0, ms:0, n:0, avg:0, timer:0, dirty:true, img:null, near:0, far:0, cnt:{shown:0, occ:0, far:0, behind:0}};
   var DOT = {rule_based:[0.91, 0.63, 0.09], z_fill:[0.18, 0.56, 0.88]};
   var CLS = {rule_based:"Rule-based", z_fill:"Z-Anatomy fill"};
   var TYPES = {head_belly:"head", origin_part:"origin", insertion_point:"insertion", ligament_component:"ligament component",
@@ -1815,23 +1877,123 @@ function NMSKParts(E){
     for (var i = 0; i < mk.car.length; i++) if (E.meshVisible(mk.car[i])) return true;
     return false;
   }
+  /* the structures whose markers are always shown: selected, marked (Selection layer), hovered. Key = part index + side. */
+  var fSig = "", fKeys = {};
+  function forcedMap(){
+    if (!D) return fKeys;
+    var marks = E.marked ? (E.marked() || []) : [];
+    var sig = (sel ? sel.mesh : "") + "|" + (hoverMesh || "") + "|" + marks.length + ":" + (marks.length ? marks[0] + "," + marks[marks.length - 1] : "");
+    if (sig === fSig) return fKeys;
+    fSig = sig; fKeys = {};
+    var ids = []; if (sel) ids.push(sel.mesh); if (hoverMesh) ids.push(hoverMesh); marks.forEach(function(m){ ids.push(m); });
+    ids.forEach(function(id){
+      var e = D.mesh_parts[id]; if (!e) return;
+      e.p.forEach(function(pi){ if (e.s === "m"){ fKeys[pi + "|r"] = fKeys[pi + "|l"] = fKeys[pi + "|m"] = 1; } else fKeys[pi + "|" + e.s] = 1; });
+    });
+    return fKeys;
+  }
   /* called by the engine before it renders: decides which markers are drawn and hands the solid dots over */
   function update(){
     if (!D || !M.length) return;
-    var dots = [];
+    var dots = [], fk = forcedMap(), cn = {shown:0, occ:0, far:0, behind:0}, culling = canCull && P.mode !== "off";
     M.forEach(function(mk){
-      var why = "";
-      if (!(showAll || inSel(mk))) why = "off";
+      var why = "", pinned = mk.j === focusI || mk.j === pinI, byTissue = fk[mk.pi + "|" + mk.s] === 1, c = culling ? mk.cull | 0 : 0;
+      var want = P.mode === "near" || P.mode === "all" || pinned || (P.mode === "sel" && byTissue);
+      mk.behind = false;
+      if (!want) why = "off";
       else if (!kept(mk.xyz)) why = "cut";
       else if (!carriersVisible(mk)) why = "hidden";
-      mk.vis = why === ""; mk.why = why;
-      if (mk.vis) dots.push({p:mk.xyz, c:DOT[mk.c] || DOT.rule_based, big:mk.j === focusI || mk.j === hoverI || mk.j === pinI});
+      else if (c){
+        if (pinned || (byTissue && P.hid)) mk.behind = (c & 1) === 1;
+        else if (P.mode === "all") mk.behind = (c & 1) === 1;
+        else why = (c & 1) ? "occ" : "far";
+      }
+      mk.vis = why === ""; mk.why = why; mk.forced = byTissue || pinned;
+      if (mk.vis){ cn.shown++; if (mk.behind) cn.behind++; dots.push({p:mk.xyz, c:DOT[mk.c] || DOT.rule_based, big:mk.j === focusI || mk.j === hoverI || mk.j === pinI}); }
+      else if (why === "occ") cn.occ++; else if (why === "far") cn.far++;
     });
+    cull.cnt = cn;
     E.setDots(dots);
   }
+  /* ---------- view-dependent culling (Q240) ---------- */
+  function nowMs(){ return (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now(); }
+  function viewSig(){
+    var r = E.canvasRect(), s = Math.round(r.width) + "," + Math.round(r.height);
+    [[0,0,0],[1000,0,0],[0,1000,0],[0,0,1000]].forEach(function(p){ var q = E.project(p); s += "|" + q[0].toFixed(3) + "," + q[1].toFixed(3) + "," + q[2].toFixed(3) + "," + q[3].toFixed(2); });
+    var c = E.cut(); if (c) s += "|c" + c.kn.map(function(v){ return v.toFixed(4); }).join(",") + "," + c.c.toFixed(2) + "," + (c.th || 0);
+    return s;
+  }
+  function needCull(){ return canCull && !!D && M.length > 0 && P.mode !== "off" && !(P.mode === "sel" && !P.hid); }
+  function capture(sig){
+    var t0 = nowMs(), r = E.canvasRect(), bw = Math.max(240, Math.min(560, Math.round(r.width * 0.5)));
+    var zb = null;
+    try { zb = E.depthImage(bw); } catch (err){ zb = null; }
+    cull.img = zb && zb.z ? {w:zb.w, h:zb.h, z:zb.z, ids:null} : null;
+    if (cull.img){
+      var z = cull.img.z, lo = Infinity, hi = 0;
+      for (var i = 0; i < z.length; i++){ var v = z[i]; if (v > 0){ if (v < lo) lo = v; if (v > hi) hi = v; } }
+      cull.near = lo === Infinity ? 0 : lo; cull.far = hi;
+      decide();
+      /* the ID image (a second pass) only when a marker sits just behind a surface (within CARRIER_ALLOW), where "that surface is the marker's own muscle / tendon" can save it */
+      if (E.idImage && M.some(function(mk){ return mk.rescue; })){
+        var ib = null;
+        try { ib = E.idImage(false, bw); } catch (err){ ib = null; }
+        if (ib && ib.ids && ib.w === zb.w && ib.h === zb.h){ cull.img.ids = ib.ids; cull.idPass = (cull.idPass | 0) + 1; decide(); }
+      }
+    }
+    cull.sig = sig; cull.dirty = false; cull.last = nowMs(); cull.ms = cull.last - t0; cull.n++; cull.avg += (cull.ms - cull.avg) / Math.min(cull.n, 8);
+  }
+  function visKey(){ var k = ""; M.forEach(function(mk){ k += mk.vis ? (mk.behind ? "b" : "v") : "-"; }); return k; }
+  /* per marker: 1 = hidden behind other tissue, 2 = outside the depth band (farther than front N % of the visible model depth), 3 = both */
+  function decide(){
+    var im = cull.img, changed = false, bandFar = (P.band < 100 && cull.far > cull.near) ? cull.near + (cull.far - cull.near) * P.band / 100 : Infinity;
+    M.forEach(function(mk){
+      var c = 0;
+      if (im){
+        var q = E.project(mk.xyz), dm = q[3];
+        if (dm > 0){
+          var u = Math.floor((q[0] / dm * 0.5 + 0.5) * im.w), v = Math.floor((0.5 - 0.5 * q[1] / dm) * im.h);
+          if (u >= 0 && v >= 0 && u < im.w && v < im.h){
+            if (!mk.cid) mk.cid = (mk.car || []).map(function(id){ return E.idOf(id); }).filter(function(k){ return k > 0; });
+            var zmin = Infinity, zc = Infinity, x0 = Math.max(0, u - 1), x1 = Math.min(im.w - 1, u + 1), y0 = Math.max(0, v - 1), y1 = Math.min(im.h - 1, v + 1);
+            for (var yy = y0; yy <= y1; yy++) for (var xx = x0; xx <= x1; xx++){
+              var o = yy * im.w + xx, zz = im.z[o];
+              if (zz > 0){ if (zz < zmin) zmin = zz; if (im.ids && zz < zc && mk.cid.indexOf(im.ids[o]) >= 0) zc = zz; }
+            }
+            mk.dm = dm; mk.zmin = zmin;
+            mk.rescue = false;
+            if (zmin < Infinity){
+              var ok = dm <= zmin + Math.max(6, 0.012 * dm);
+              if (!ok && zc < Infinity) ok = dm <= zc + CARRIER_ALLOW;        // the marker lies under the surface of its own muscle / tendon (centre of a part mesh, bone under an insertion)
+              if (!ok){ c |= 1; mk.rescue = !im.ids && mk.cid.length > 0 && dm <= zmin + CARRIER_ALLOW; }
+            }
+          }
+          if (dm > bandFar) c |= 2;
+        } else c |= 2;
+      }
+      if ((mk.cull | 0) !== c){ mk.cull = c; changed = true; }
+    });
+    return changed;
+  }
+  function cullStep(){        /* in overlay(), after the engine rendered: take a new depth / ID image when the view changed (throttled) */
+    if (!needCull()) return;
+    var sig = viewSig();
+    if (sig === cull.sig && !cull.dirty) return;
+    var t = nowMs(), gap = Math.max(170, Math.min(2500, cull.avg * 6));
+    if (t - cull.last < gap){
+      if (!cull.timer) cull.timer = setTimeout(function(){ cull.timer = 0; E.redraw(); }, gap - (t - cull.last) + 5);
+      return;
+    }
+    var before = visKey();
+    capture(sig); update();
+    if (visKey() !== before) E.redraw();          // the solid dots are drawn by the engine: only a changed set needs another frame
+  }
+  function setBand(v){ P.band = Math.max(10, Math.min(100, Math.round(Number(v) || 55))); persist(); if (cull.img) decide(); syncPanel(); E.redraw(); }
+
   /* called by the engine after it rendered: positions of the rings / labels / card */
   function overlay(){
     if (!D || !layer || !M.length) return;
+    cullStep();
     var r = E.canvasRect();
     layer.style.clipPath = "inset(" + Math.max(0, r.top) + "px " + Math.max(0, document.documentElement.clientWidth - r.right) + "px " +
       Math.max(0, document.documentElement.clientHeight - r.bottom) + "px " + Math.max(0, r.left) + "px)";
@@ -1847,6 +2009,7 @@ function NMSKParts(E){
       if (mk.el.hidden) mk.el.hidden = false;
       mk.el.style.transform = "translate(" + mk.sx.toFixed(1) + "px," + mk.sy.toFixed(1) + "px)";
       mk.el.classList.toggle("pm-sel", inSel(mk));
+      mk.el.classList.toggle("pm-behind", !!mk.behind);
       mk.el.classList.toggle("pm-focus", mk.j === focusI || mk.j === pinI);
       mk.el.classList.toggle("pm-lab-on", inSel(mk) || mk.j === act);
     });
@@ -1936,18 +2099,85 @@ function NMSKParts(E){
     });
     if (M.length && E.toolbar && !btn){
       btn = document.createElement("button");
-      btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false");
+      btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
       btn.innerHTML = 'Parts<span class="pm-more"> markers</span>';
-      btn.title = "Show the point markers of every placed part (otherwise only those of the selected structure)";
-      btn.addEventListener("click", function(){ setShowAll(!showAll); });
+      btn.title = "Part markers: which origins / insertions / heads are marked on the model (visible + near, selected only, all), depth band";
+      btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
       E.toolbar.appendChild(btn);
     }
+    buildPanel();
   }
-  function setShowAll(v){
-    showAll = !!v; if (btn) btn.setAttribute("aria-pressed", String(showAll));
-    if (!showAll && !sel){ focusI = -1; closeCard(); }
-    E.redraw();
+  /* ---------- the Parts markers panel (Q240) ---------- */
+  function panelOpen(){ return !!panel && !panel.hidden; }
+  function $p(sel){ return panel ? panel.querySelector(sel) : null; }
+  function buildPanel(){
+    if (panelBuilt) return;
+    panel = document.getElementById("pm-panel"); if (!panel) return;
+    panelBuilt = true;
+    panel.innerHTML = '<div class="pp-h"><b>Part markers</b><span class="pp-st" aria-live="polite"></span><button type="button" class="pp-x" aria-label="Close the part markers panel" title="Close">&times;</button></div>' +
+      '<div class="pp-l">Markers</div>' +
+      '<div class="pp-seg" role="group" aria-label="Which markers to show">' +
+        '<button type="button" data-v="off" title="No part markers">Off</button>' +
+        '<button type="button" data-v="near" title="Markers that are not hidden behind other tissue and lie in the near part of the model (default)">Visible + near</button>' +
+        '<button type="button" data-v="sel" title="Only the markers of the selected, marked and hovered structures">Selected only</button>' +
+        '<button type="button" data-v="all" title="Every placed marker (hidden ones are dashed)">All</button></div>' +
+      '<div class="pp-l">Depth band <output class="pp-bv"></output></div>' +
+      '<input class="pp-band" type="range" min="10" max="100" step="5" aria-label="Depth band: markers farther than this share of the visible model depth are left out">' +
+      '<div class="pp-sc"><span>near</span><span>all</span></div>' +
+      '<label class="pp-c"><input class="pp-hid" type="checkbox"> Show hidden ones of selected muscles</label>' +
+      '<p class="pp-hint"></p>' +
+      '<p class="pp-help"><b>Visible + near</b> shows a marker only when its point is not hidden behind other tissue and lies within the depth band (the front part of the visible model, measured from the viewer). ' +
+      'Markers of selected, marked or hovered structures are always shown, drawn dashed with a halo when they are behind tissue; switch the box off to cull them like the rest. Cut mode: markers on the removed side are hidden.</p>';
+    panel.querySelector(".pp-x").addEventListener("click", function(){ openPanel(false); });
+    panel.querySelector(".pp-seg").addEventListener("click", function(e){
+      var b = e.target && e.target.closest ? e.target.closest("button") : null; if (!b) return;
+      setMode(b.getAttribute("data-v"));
+    });
+    panel.querySelector(".pp-band").addEventListener("input", function(){ setBand(this.value); });
+    panel.querySelector(".pp-hid").addEventListener("change", function(){ P.hid = !!this.checked; persist(); syncPanel(); E.redraw(); });
+    syncPanel();
   }
+  function syncPanel(){
+    if (!panel) return;
+    Array.prototype.forEach.call(panel.querySelectorAll(".pp-seg button"), function(b){
+      var v = b.getAttribute("data-v"); b.setAttribute("aria-pressed", String(v === P.mode)); if (v === "near") b.hidden = !canCull;
+    });
+    var bd = $p(".pp-band"), bv = $p(".pp-bv"), hd = $p(".pp-hid"), ht = $p(".pp-hint"), st = $p(".pp-st");
+    if (bd){ bd.value = P.band; bd.disabled = !canCull || P.mode !== "near"; }
+    if (bv) bv.textContent = P.band >= 100 ? "all depths" : "front " + P.band + " %";
+    if (hd) hd.checked = P.hid;
+    var c = cull.cnt;
+    if (st) st.textContent = P.mode === "off" ? "off" : c.shown + " shown";
+    if (ht) ht.textContent = !canCull ? "This page cannot test what is hidden: markers follow the selection or the All switch." :
+      (P.mode === "near" ? c.shown + " shown" + (c.occ ? ", " + c.occ + " hidden behind tissue" : "") + (c.far ? ", " + c.far + " beyond the depth band" : "") + (c.behind ? ", " + c.behind + " seen through (selected)" : "") + "." : "");
+    if (btn) btn.setAttribute("aria-pressed", String(panelOpen()));
+  }
+  function placePanel(){
+    if (!panel || panel.hidden) return;
+    var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight, w = panel.offsetWidth || 290, h = panel.offsetHeight || 260;
+    var br = btn && btn.getBoundingClientRect ? btn.getBoundingClientRect() : {left:12, bottom:50, top:12};
+    if (vw < 560){ panel.style.left = "8px"; panel.style.top = Math.max(8, Math.min(vh - h - 8, br.bottom + 6)) + "px"; return; }
+    var x = Math.max(8, Math.min(vw - w - 8, br.left)), y = br.bottom + 6; if (y + h > vh - 8) y = Math.max(8, vh - h - 8);
+    panel.style.left = Math.round(x) + "px"; panel.style.top = Math.round(y) + "px";
+  }
+  function openPanel(on){
+    if (!panel) return;
+    panel.hidden = !on; if (on){ syncPanel(); placePanel(); } syncPanel();
+  }
+  function setMode(m){
+    if (!MODES[m] || (m === "near" && !canCull)) return;
+    P.mode = m; persist(); cull.dirty = true;
+    if (m === "off" && !sel){ focusI = -1; closeCard(); }
+    syncPanel(); E.redraw();
+  }
+  function setShowAll(v){ setMode(v ? "all" : "sel"); }
+  function hover(meshId){
+    var h = meshId || null; if (h === hoverMesh) return;
+    var had = !!(D && hoverMesh && D.mesh_parts[hoverMesh]), has = !!(D && h && D.mesh_parts[h]);
+    hoverMesh = h;
+    if (M.length && P.mode !== "off" && (had || has)) E.redraw();          // only a structure with parts changes what is shown
+  }
+  function dirty(){ cull.dirty = true; }
   document.addEventListener("pointerdown", function(e){
     if (!card || card.hidden || pinI < 0) return;
     if (card.contains(e.target) || (e.target.closest && e.target.closest(".pm-ring, .pm-row"))) return;
@@ -1955,6 +2185,7 @@ function NMSKParts(E){
   }, true);
   document.addEventListener("keydown", function(e){
     if (e.key === "Escape" && card && !card.hidden && pinI >= 0){ closeCard(); E.redraw(); e.stopImmediatePropagation(); }
+    else if (e.key === "Escape" && panelOpen() && panel.contains(document.activeElement)){ openPanel(false); }
   }, true);
 
   function load(){
@@ -1968,11 +2199,13 @@ function NMSKParts(E){
   }
   return {
     load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll,
+    hover:hover, dirty:dirty, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
+    cullNow:function(){ if (needCull()){ capture(viewSig()); E.redraw(); } },
     /* read-only view for tests / debugging */
     state:function(){
-      return {loaded:!!D, parts:D ? D.parts.length : 0, placements:M.length, showAll:showAll, focus:focusI, pinned:pinI,
+      return {loaded:!!D, parts:D ? D.parts.length : 0, placements:M.length, showAll:P.mode === "all", mode:P.mode, band:P.band, hid:P.hid, canCull:canCull, panel:panelOpen(), cull:{n:cull.n, ms:Math.round(cull.ms * 10) / 10, avgMs:Math.round(cull.avg * 10) / 10, near:Math.round(cull.near), far:Math.round(cull.far), img:cull.img ? cull.img.w + "x" + cull.img.h : null, cnt:cull.cnt}, focus:focusI, pinned:pinI,
               sel:sel ? {mesh:sel.mesh, side:sel.s, n:sel.list.length} : null,
-              markers:M.map(function(mk){ return {j:mk.j, part:D.parts[mk.pi].id, side:mk.s, xyz:mk.xyz, cls:mk.c, e:mk.e, vis:mk.vis, why:mk.why, sx:mk.sx, sy:mk.sy, shown:!mk.el.hidden}; })};
+              markers:M.map(function(mk){ return {j:mk.j, part:D.parts[mk.pi].id, side:mk.s, xyz:mk.xyz, cls:mk.c, e:mk.e, vis:mk.vis, why:mk.why, sx:mk.sx, sy:mk.sy, shown:!mk.el.hidden, cull:mk.cull | 0, behind:!!mk.behind, forced:!!mk.forced, dm:mk.dm == null ? null : Math.round(mk.dm), z:mk.zmin == null || mk.zmin === Infinity ? null : Math.round(mk.zmin)}; })};
     }
   };
 }
@@ -1988,6 +2221,9 @@ function NMSKParts(E){
    bg() -> [r,g,b]   obstacles() -> [Element] (HUD panels labels and windows keep clear of)   canvasRect() -> DOMRect   redraw()   toolbar + toolClass   isPhone().
    The engine calls update() at the end of every draw, hover(id) when the pointer moves over another structure, and dirty() when something that is not in the view
    changed. Nothing here changes geometry, colours or visibility of the model: the labels are a DOM / SVG overlay.
+   Vessels and nerves (Q240): the page's table #nmsk-calibre {v:1,c:{id:[kind a|v|n, diameter_mm, level 1..4, promoted]}} (scripts/anatomy/q240/make_calibre.py) gives each artery /
+   vein / nerve its calibre and level; Arteries / Nerves are labelled by default in Visible and All (Veins on request), filtered by the level and the minimum diameter, main
+   trunks first and with a reserved share of the label budget; their anchor is the middle of the longest visible run, not the centroid; "Hide vessel / nerve labels" switches all off.
    Pure geometry (silhouette mask, callout placement without overlaps / crossings) lives in NMSKLabelsCore so it can be tested without a browser. */
 var NMSKLabelsCore = (function(){
   "use strict";
@@ -2213,6 +2449,7 @@ function NMSKLabels(E){
   function dflt(){
     var ph = !!(E.isPhone && E.isPhone());
     return {mode:"off", text:"full", callout:"auto", density:ph ? 12 : 24, font:ph ? 11 : 12, colour:"own", side:true, occl:true,
+            vn:{hide:false, a:true, v:false, n:true, lva:2, lvn:2, da:0, dn:0},
             lg:{open:false, x:null, y:null, w:350, h:340, font:13, only:"shown", size:"M"}, pn:{x:null, y:null, min:false}};
   }
   var P = dflt();
@@ -2230,6 +2467,11 @@ function NMSKLabels(E){
     P.density = Math.round(num(r.density, 3, 120, P.density)); P.font = Math.round(num(r.font, 9, 22, P.font));
     if (typeof r.side === "boolean") P.side = r.side;
     if (typeof r.occl === "boolean") P.occl = r.occl;
+    var vv = r.vn;
+    if (vv && typeof vv === "object"){
+      ["hide", "a", "v", "n"].forEach(function(k){ if (typeof vv[k] === "boolean") P.vn[k] = vv[k]; });
+      P.vn.lva = Math.round(num(vv.lva, 1, 4, P.vn.lva)); P.vn.lvn = Math.round(num(vv.lvn, 1, 4, P.vn.lvn)); P.vn.da = num(vv.da, 0, 20, 0); P.vn.dn = num(vv.dn, 0, 12, 0);
+    }
     var g = r.lg;
     if (g && typeof g === "object"){
       P.lg.open = g.open === true; P.lg.w = Math.round(num(g.w, 200, 900, P.lg.w)); P.lg.h = Math.round(num(g.h, 140, 900, P.lg.h)); P.lg.font = Math.round(num(g.font, 10, 24, P.lg.font));
@@ -2264,6 +2506,32 @@ function NMSKLabels(E){
     if (!t){ var k = a.toLowerCase(); if (used[k]){ used[k]++; a = a + "." + used[k]; } else used[k] = 1; }
     abbr[i] = a; gen[i] = g; full[i] = f;
   });
+  /* ---- vessels and nerves: kind / diameter / level per structure (the page's calibre table; a name-based fallback without it) ---- */
+  var VK = new Array(N), VD = new Array(N), VL = new Array(N), VP = new Array(N), haveCal = false, calCount = 0;
+  var CAL = {};
+  try { var ct = $("nmsk-calibre"); if (ct && ct.textContent.trim().length > 2){ var cj = JSON.parse(ct.textContent); if (cj && cj.c){ CAL = cj.c; haveCal = true; } } } catch (err){ CAL = {}; }
+  var RX_N = /(^|_)(n|nn|nerve|nerves|plexus|trunk|trunks|root|roots|rami|ramus|branch|branches|cord|cords|div|division|divisions|ansa|ganglion|ganglia|chorda)(_|$)/,
+      RX_V = /(^|_)(vein|veins|vena|v|sinus|sinuses|venous|plexus)(_|$)/, RX_A = /(^|_)(artery|arteries|a|aorta|arterial|trunk|arch|branch|branches|anastomosis|circle)(_|$)|aort|arter/,
+      RX_X = /atrium|ventricle|leaflet|papillary|valve|unnamed|(^|_)x(_|$)|chordae|septum/;
+  S.forEach(function(s, i){
+    var c = CAL[s.id]; VK[i] = ""; VD[i] = null; VL[i] = 4; VP[i] = 0;
+    if (c){ VK[i] = c[0]; VD[i] = c[1]; VL[i] = c[2]; VP[i] = c[3] ? 1 : 0; calCount++; return; }
+    if (haveCal) return;
+    var n = String(s.id).replace(/^zan_/, "").replace(/_(l|r)$/, "");
+    if (s.cat === "nerve" && RX_N.test(n)) { VK[i] = "n"; VL[i] = 2; }
+    else if (s.cat === "vessel" && !RX_X.test(n)) { if (RX_V.test(n)) { VK[i] = "v"; VL[i] = 2; } else if (RX_A.test(n)) { VK[i] = "a"; VL[i] = 2; } }
+  });
+  var LVN = {a:["Main", "+ secondary", "+ tertiary", "All"], n:["Main trunks", "+ branches", "+ small", "All"]};
+  /* does the vessel / nerve filter let structure i have a label (forced ones - selected, hovered, marked - skip it) */
+  function vnPass(i){
+    var k = VK[i]; if (!k) return true;
+    if (P.vn.hide || (k === "a" && !P.vn.a) || (k === "v" && !P.vn.v) || (k === "n" && !P.vn.n)) return false;
+    if (!haveCal) return true;
+    if (VL[i] > (k === "n" ? P.vn.lvn : P.vn.lva)) return false;
+    var dm = k === "n" ? P.vn.dn : P.vn.da;
+    return !(dm > 0 && VD[i] != null && VD[i] < dm);
+  }
+  function vnPrio(i){ var k = VK[i]; return !k ? 0 : VL[i] === 1 ? 1 : VL[i] === 2 ? 0.5 : 0.25; }
   /* ---- text measuring ---- */
   var cvs = null, ctx = null, mcache = {}, mfont = 0;
   function fontCss(px, w){ return (w || 600) + " " + px + 'px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif'; }
@@ -2359,6 +2627,46 @@ function NMSKLabels(E){
     }
     return {bd:bd, bx:bx, by:by, sp:sp};
   }
+  /* long structures (vessels, nerves): the anchor is the middle part of the longest visible run along the structure's own main axis (nearest to the canvas centre there),
+     not the centroid of its pixels, which for a curved or forked structure lies off it. want = flags per id (index + 1); -> {id1: {x, y, len}} in ID image pixels */
+  function longAnchors(buf, want){
+    var ids = buf.ids, w = buf.w, h = buf.h, lists = {}, x, y, o = 0, v, any = false;
+    for (y = 0; y < h; y++) for (x = 0; x < w; x++){
+      v = ids[o++]; if (!v || !want[v]) continue;
+      var a = lists[v] || (lists[v] = []); if (a.length < 16000){ a.push(x, y); any = true; }
+    }
+    var out = {};
+    if (!any) return out;
+    for (var key in lists){
+      var L = lists[key], n = L.length / 2, i, sx = 0, sy = 0;
+      if (n < 12) continue;
+      for (i = 0; i < n; i++){ sx += L[i * 2]; sy += L[i * 2 + 1]; }
+      var mx = sx / n, my = sy / n, sxx = 0, sxy = 0, syy = 0;
+      for (i = 0; i < n; i++){ var dx = L[i * 2] - mx, dy = L[i * 2 + 1] - my; sxx += dx * dx; sxy += dx * dy; syy += dy * dy; }
+      var th = 0.5 * Math.atan2(2 * sxy, sxx - syy), ax = Math.cos(th), ay = Math.sin(th), tmin = 1e9, tmax = -1e9, t = new Float32Array(n);
+      for (i = 0; i < n; i++){ var tt = (L[i * 2] - mx) * ax + (L[i * 2 + 1] - my) * ay; t[i] = tt; if (tt < tmin) tmin = tt; if (tt > tmax) tmax = tt; }
+      var nb = Math.ceil(tmax - tmin) + 2, occ = new Int32Array(nb);
+      for (i = 0; i < n; i++) occ[Math.floor(t[i] - tmin)]++;
+      var best = null, b0 = -1, last = -1, cnt = 0;
+      for (var b = 0; b <= nb + 3; b++){          // runs of occupied 1 px bins; a gap of up to 2 px bridges (aliasing of a thin diagonal line)
+        var on = b < nb && occ[b] > 0;
+        if (on){ if (b0 < 0){ b0 = b; cnt = 0; } last = b; cnt += occ[b]; }
+        else if (b0 >= 0 && b - last > 2){
+          var run = {b0:b0, b1:last, len:last - b0, cnt:cnt};
+          if (!best || run.len > best.len || (run.len === best.len && run.cnt > best.cnt)) best = run;
+          b0 = -1;
+        }
+      }
+      if (!best || best.len < 6) continue;
+      var lo = best.b0 + best.len * 0.25, hi = best.b0 + best.len * 0.75, bd = 1e18, px = -1, py = -1, cx = w / 2, cy = h / 2;
+      for (i = 0; i < n; i++){
+        var tb = t[i] - tmin; if (tb < lo || tb > hi) continue;
+        var ddx = L[i * 2] - cx, ddy = L[i * 2 + 1] - cy, dd = ddx * ddx + ddy * ddy; if (dd < bd){ bd = dd; px = L[i * 2]; py = L[i * 2 + 1]; }
+      }
+      if (px >= 0) out[key] = {x:px, y:py, len:best.len};
+    }
+    return out;
+  }
   /* ---- the heavy refresh: which structures are visible (ID image), which get a label, where their anchors are ---- */
   var wantLive = {};
   function forcedIds(){
@@ -2376,6 +2684,9 @@ function NMSKLabels(E){
       var mx = 0, my = 0;
       if (cnt > 0){ mx = st.sx[k + 1] / cnt; my = st.sy[k + 1] / cnt; }
       var id1 = k + 1, sc = al[k] >= OPQ || !scA ? scB : scA, bestD = sc.bd[k + 1], bpx = sc.bx[k + 1], bpy = sc.by[k + 1], spread = sc.sp[k + 1] || [];
+      var la = (al[k] >= OPQ || !C.laA ? C.laB : C.laA);
+      la = la && la[id1];
+      if (la && cnt > 0){ bpx = la.x; bpy = la.y; bestD = 0; mx = la.x; my = la.y; it.long = la.len; }
       if (cnt > 0){
         if (bpx < 0){ bpx = Math.round(mx); bpy = Math.round(my); }
         it.ax = rect.left + (bpx + 0.5) / bw2 * rect.width; it.ay = rect.top + (bpy + 0.5) / bh2 * rect.height; it.u = bpx; it.v = bpy;
@@ -2448,19 +2759,30 @@ function NMSKLabels(E){
       cand.push({i:k, px:vp(k), forced:true, score:1e15});
     });
     if (P.mode !== "sel"){
-      var pool = [];
+      var pool = [], vpool = [];
       for (i = 0; i < N; i++){
         if (isForced[i] || al[i] < AMIN) continue;
         var px = vp(i); if (px < minPx) continue;
-        pool.push({i:i, px:px, forced:false, score:px * (wantLive[i] ? 1.35 : 1) * (CATW[S[i].cat] || 1)});
+        if (VK[i]){
+          if (!vnPass(i)) continue;
+          vpool.push({i:i, px:px, forced:false, score:(5 - VL[i]) * 1e7 + px});         // main trunks first, then by the visible length
+        } else pool.push({i:i, px:px, forced:false, score:px * (wantLive[i] ? 1.35 : 1) * (CATW[S[i].cat] || 1)});
       }
       pool.sort(function(a, b){ return b.score - a.score || (a.i - b.i); });
-      var cap = P.mode === "all" ? ALLCAP : Math.max(0, P.density - cand.length), seenT = {}, keep = [];
+      vpool.sort(function(a, b){ return b.score - a.score || (a.i - b.i); });
+      var cap = P.mode === "all" ? ALLCAP : Math.max(0, P.density - cand.length), seenT = {}, keep = [], vkeep = [];
       cand.forEach(function(c){ seenT[dupKey(c.i)] = 1; });
-      for (var pi = 0; pi < pool.length && keep.length < cap; pi++){        // one label per name + side (a structure continued by a gap-filling mesh is one entity to the reader)
-        var dk = dupKey(pool[pi].i); if (seenT[dk]) continue; seenT[dk] = 1; keep.push(pool[pi]);
+      var vq = P.mode === "all" ? cap : Math.min(vpool.length, Math.max(3, Math.round(cap * 0.4)));          // vessels / nerves get a reserved share of the budget (thin structures never win on pixel area)
+      function takeFrom(list, into, limit){
+        for (var pi = 0; pi < list.length && into.length < limit; pi++){        // one label per name + side (a structure continued by a gap-filling mesh is one entity to the reader)
+          if (list[pi].taken) continue;
+          var dk = dupKey(list[pi].i); if (seenT[dk]) continue; seenT[dk] = 1; list[pi].taken = 1; into.push(list[pi]);
+        }
       }
-      cand = cand.concat(keep);
+      takeFrom(vpool, vkeep, vq);
+      takeFrom(pool, keep, cap - vkeep.length);
+      if (keep.length + vkeep.length < cap) takeFrom(vpool, vkeep, cap - keep.length);
+      cand = cand.concat(vkeep, keep);
     } else cand = cand.slice(0, SEL_CAP);
     var rect = v.rect, bwid = bufB.w, bh = bufB.h, ids = bufB.ids, cutS = E.cut(), cutOn = !!(cutS && cutS.on), eyeKept = true;
     if (cutOn){ var se = cutS.kn[0] * v.eye[0] + cutS.kn[1] * v.eye[1] + cutS.kn[2] * v.eye[2] + cutS.c; eyeKept = se >= 0; }
@@ -2468,14 +2790,18 @@ function NMSKLabels(E){
     var wantB = new Uint8Array(N + 1), wantA = new Uint8Array(N + 1);
     cand.forEach(function(c){ (al[c.i] >= OPQ || !stA ? wantB : wantA)[c.i + 1] = 1; });
     var scB = bufScan(bufB, stB, wantB, N), scA = stA ? bufScan(bufA, stA, wantA, N) : null;
-    var cap0 = {v:v, rect:rect, al:al, bufB:bufB, bufA:bufA, stB:stB, stA:stA, scB:scB, scA:scA, cand:cand, capOn:capOn};
+    var lwB = new Uint8Array(N + 1), lwA = new Uint8Array(N + 1), anyLB = false, anyLA = false;
+    cand.forEach(function(c){ if (!VK[c.i]) return; if (al[c.i] >= OPQ || !stA){ lwB[c.i + 1] = 1; anyLB = true; } else { lwA[c.i + 1] = 1; anyLA = true; } });
+    var laB = anyLB ? longAnchors(bufB, lwB) : null, laA = anyLA && bufA ? longAnchors(bufA, lwA) : null;
+    var cap0 = {v:v, rect:rect, al:al, bufB:bufB, bufA:bufA, stB:stB, stA:stA, scB:scB, scA:scA, laB:laB, laA:laA, cand:cand, capOn:capOn};
     var built = buildItems(cap0), out = built.out, deferred = built.deferred;
     /* body silhouette for the callouts: every pixel any structure drew */
     var occ = new Uint8Array(mbuf.w * mbuf.h), ii = mbuf.ids, nn = occ.length;
     for (var o = 0; o < nn; o++) occ[o] = ii[o] ? 1 : 0;
     var mask = NMSKLabelsCore.makeMask(occ, mbuf.w, mbuf.h, rect.left, rect.top, rect.width / mbuf.w, rect.height / mbuf.h);
     var visCount = 0; for (i = 0; i < N; i++) if (al[i] >= AMIN && vp(i) > 0) visCount++;
-    cur = {items:out, buf:bufB, mask:mask, rect:rect, visible:visCount, cutOn:cutOn, capOn:!!capOn, hasTable:haveTable};
+    var vnVis = 0; for (i = 0; i < N; i++) if (VK[i] && al[i] >= AMIN && vp(i) > 0) vnVis++;
+    cur = {items:out, buf:bufB, mask:mask, rect:rect, visible:visCount, vnVisible:vnVis, cutOn:cutOn, capOn:!!capOn, hasTable:haveTable};
     items = out; wantLive = {}; out.forEach(function(it){ wantLive[it.i] = 1; });
     lastHeavyMs = nowMs() - t0; forcedSig = sigForced();
     if (deferred) sliceLater(cur, cap0);          // surface samples of the remaining structures are made in the next slice (no new ID pass)
@@ -2528,7 +2854,7 @@ function NMSKLabels(E){
       if (ax < rect.left + 2 || ay < rect.top + 2 || ax > rect.left + rect.width - 2 || ay > rect.top + rect.height - 2) return;
       it.sx = ax; it.sy = ay;
       var text = labelText(it.i), w = measure(text, fs) + 8, h = fs * 1.3 + 3;
-      L.push({it:it, text:text, w:w, h:h, ax:ax, ay:ay, prio:(it.i === idx[sel] ? 3 : it.forced ? 2 : 0), id:it.id});
+      L.push({it:it, text:text, w:w, h:h, ax:ax, ay:ay, prio:(it.i === idx[sel] ? 3 : it.forced ? 2 : vnPrio(it.i)), id:it.id});
     });
     /* inline or callout */
     var inl = [], out = [], placedBoxes = [];
@@ -2646,7 +2972,10 @@ function NMSKLabels(E){
   function statusText(){
     var s = $("lab-status"), h = $("lab-hint"); if (!s) return;
     if (P.mode === "off"){ s.textContent = "off"; }
-    else s.textContent = shown.length + " labelled" + (cur ? " / " + cur.visible + " visible" : "");
+    else {
+      var nv = 0; shown.forEach(function(k){ if (VK[k]) nv++; });
+      s.textContent = shown.length + " labelled" + (cur ? " / " + cur.visible + " visible" : "") + (nv ? " (" + nv + " vessels / nerves)" : "");
+    }
     if (h){
       var msg = "";
       if (P.mode !== "off" && cur){
@@ -2656,6 +2985,11 @@ function NMSKLabels(E){
       }
       if (P.mode === "sel") msg = "Selected, hovered and marked structures. Tap a structure to label it.";
       if (!haveTable && P.text === "abbr") msg = "This page has no abbreviation table: abbreviations are generated on the fly.";
+      else if (!haveCal && P.mode !== "off" && P.mode !== "sel") msg = (msg ? msg + " " : "") + "This page has no calibre table: vessel / nerve levels and diameters do not apply (all of them by name).";
+      else if (P.mode !== "off" && P.mode !== "sel" && cur && cur.vnVisible > 0 && !P.vn.hide){
+        var nv2 = 0; shown.forEach(function(k){ if (VK[k]) nv2++; });
+        if (nv2 < cur.vnVisible) msg = (msg ? msg + " " : "") + (cur.vnVisible - nv2) + " visible vessels / nerves are not labelled (level, minimum diameter, group or Max labels).";
+      }
       h.textContent = msg;
     }
     var cf = $("lab-cutfill"); if (cf) cf.hidden = !(cur && cur.cutOn && !cur.capOn);
@@ -2672,6 +3006,13 @@ function NMSKLabels(E){
     if (panel) panel.classList.toggle("lb-min", !!P.pn.min);
     var mn = $("lab-min"); if (mn){ mn.setAttribute("aria-expanded", String(!P.pn.min)); mn.innerHTML = P.pn.min ? "&#9652;" : "&#9662;"; }
     var lb = $("lab-legend-btn"); if (lb) lb.setAttribute("aria-pressed", String(!!P.lg.open));
+    setSeg("lab-lva", String(P.vn.lva)); setSeg("lab-lvn", String(P.vn.lvn));
+    [["a", "ga"], ["v", "gv"], ["n", "gn"]].forEach(function(g){ var b = $("lab-g-" + g[0]); if (b){ b.setAttribute("aria-pressed", String(!!P.vn[g[0]] && !P.vn.hide)); b.disabled = !!P.vn.hide; } });
+    var vh = $("lab-vhide"); if (vh) vh.checked = !!P.vn.hide;
+    var da = $("lab-da"), dn = $("lab-dn"), dav = $("lab-da-v"), dnv = $("lab-dn-v");
+    if (da){ da.value = P.vn.da; da.disabled = !haveCal || P.vn.hide; } if (dn){ dn.value = P.vn.dn; dn.disabled = !haveCal || P.vn.hide; }
+    if (dav) dav.textContent = P.vn.da > 0 ? "\u2265 " + P.vn.da.toFixed(1).replace(/\.0$/, "") + " mm" : "no minimum"; if (dnv) dnv.textContent = P.vn.dn > 0 ? "\u2265 " + P.vn.dn.toFixed(1).replace(/\.0$/, "") + " mm" : "no minimum";
+    [].forEach.call(document.querySelectorAll("#lab-lva button, #lab-lvn button"), function(b){ b.disabled = !haveCal || !!P.vn.hide; });
   }
   function setMode(m, quiet){
     if (!MODES[m]) return; P.mode = m; applyUI(); persist();
@@ -2681,8 +3022,11 @@ function NMSKLabels(E){
   function set(key, val){
     if (key === "text" && TEXTS[val]) P.text = val; else if (key === "callout" && CALLS[val]) P.callout = val; else if (key === "colour" && COLS[val]) P.colour = val;
     else if (key === "density") P.density = Math.round(num(val, 3, 120, P.density)); else if (key === "font") P.font = Math.round(num(val, 9, 22, P.font));
-    else if (key === "side") P.side = !!val; else if (key === "occl") P.occl = !!val; else return;
-    applyUI(); persist(); needHeavy = key === "occl" || key === "density" || key === "colour" ? true : needHeavy;
+    else if (key === "side") P.side = !!val; else if (key === "occl") P.occl = !!val;
+    else if (key === "vhide") P.vn.hide = !!val; else if (key === "ga") P.vn.a = !!val; else if (key === "gv") P.vn.v = !!val; else if (key === "gn") P.vn.n = !!val;
+    else if (key === "lva") P.vn.lva = Math.round(num(val, 1, 4, P.vn.lva)); else if (key === "lvn") P.vn.lvn = Math.round(num(val, 1, 4, P.vn.lvn));
+    else if (key === "da") P.vn.da = num(val, 0, 20, P.vn.da); else if (key === "dn") P.vn.dn = num(val, 0, 12, P.vn.dn); else return;
+    applyUI(); persist(); needHeavy = key === "occl" || key === "density" || key === "colour" || /^(vhide|ga|gv|gn|lva|lvn|da|dn)$/.test(key) ? true : needHeavy;
     if (key === "font" || key === "text" || key === "side"){ if (cur) layout(); }
     if (key === "colour"){ for (var id in elMap) elMap[id].col = null; if (cur) layout(); }
     if (key === "callout"){ inlineMode = {}; solved = {}; }
@@ -2815,7 +3159,7 @@ function NMSKLabels(E){
     ids.forEach(function(k){
       var c = E.color(k) || [150, 150, 150];
       html += '<div class="lg-row' + (S[k].id === sel ? " lg-sel" : "") + '" role="listitem" data-i="' + k + '"><span class="lg-sw" style="background:rgb(' + Math.round(c[0]) + "," + Math.round(c[1]) + "," + Math.round(c[2]) +
-              ')"></span><b class="lg-ab' + (gen[k] ? " lg-gen" : "") + '">' + esc(abbr[k]) + '</b><span class="lg-nm">' + esc(full[k]) + "</span></div>";
+              ')"></span><b class="lg-ab' + (gen[k] ? " lg-gen" : "") + '">' + esc(abbr[k]) + '</b><span class="lg-nm">' + esc(full[k]) + (VK[k] && haveCal ? ' <span class="lg-d">' + (VK[k] === "n" ? "nerve" : VK[k] === "v" ? "vein" : "artery") + (VD[k] != null ? " &middot; \u00d8 " + VD[k].toFixed(1) + " mm" : "") + " &middot; level " + VL[k] + "</span>" : "") + "</span></div>";
     });
     if (!ids.length) html = '<p class="lg-none">' + (P.lg.only === "shown" ? "No labels on screen yet. Switch Labels on, or choose All structures." : "No match.") + "</p>";
     list.innerHTML = html;
@@ -2838,6 +3182,10 @@ function NMSKLabels(E){
     $("lab-side").addEventListener("change", function(){ set("side", this.checked); });
     $("lab-occl").addEventListener("change", function(){ set("occl", this.checked); });
     $("lab-reset").addEventListener("click", reset);
+    bindSeg("lab-lva", "lva"); bindSeg("lab-lvn", "lvn");
+    $("lab-vhide").addEventListener("change", function(){ set("vhide", this.checked); });
+    ["a", "v", "n"].forEach(function(k){ $("lab-g-" + k).addEventListener("click", function(){ set("g" + k, !P.vn[k]); }); });
+    $("lab-da").addEventListener("input", function(){ set("da", this.value); }); $("lab-dn").addEventListener("input", function(){ set("dn", this.value); });
     $("lab-close").addEventListener("click", function(){ openPanel(false); });
     $("lab-min").addEventListener("click", function(){ P.pn.min = !P.pn.min; applyUI(); persist(); placeWin(panel, P.pn); });
     $("lab-legend-btn").addEventListener("click", function(){ openLegend(legend.hidden); });
@@ -2893,7 +3241,7 @@ function NMSKLabels(E){
   if (legend && P.lg.open){ legend.hidden = false; setTimeout(function(){ openLegend(true); }, 0); }
   statusText();
   return {
-    update:update, dirty:dirty, hover:hover, set:set, setMode:setMode, reset:reset, openPanel:openPanel, openLegend:openLegend, refreshNow:function(){ refresh(); layout(); },
+    engine:function(){ return E; }, update:update, dirty:dirty, hover:hover, set:set, setMode:setMode, reset:reset, openPanel:openPanel, openLegend:openLegend, refreshNow:function(){ refresh(); layout(); },
     selectId:function(id){ if (idx[id] != null) E.select(id); },
     abbr:function(id){ var k = idx[id]; return k == null ? null : abbr[k]; }, fullName:function(id){ var k = idx[id]; return k == null ? null : full[k]; },
     settings:function(){ return JSON.parse(JSON.stringify(P)); },
@@ -2901,6 +3249,7 @@ function NMSKLabels(E){
       return {mode:P.mode, text:P.text, callout:P.callout, density:P.density, font:P.font, colour:P.colour, shown:shown.map(function(k){ return S[k].id; }), visible:cur ? cur.visible : 0,
               heavyMs:Math.round(lastHeavyMs * 10) / 10, idMs:Math.round(lastIdMs * 10) / 10, layoutMs:Math.round(layoutMs * 100) / 100, heavyCount:heavyCount, storageOK:storageOK, hasTable:haveTable,
               animating:animating, modes:JSON.parse(JSON.stringify(inlineMode)), legendOpen:!!(legend && !legend.hidden), panelOpen:!!(panel && !panel.hidden), cutOn:!!(cur && cur.cutOn), capOn:!!(cur && cur.capOn),
+              vn:JSON.parse(JSON.stringify(P.vn)), haveCal:haveCal, calCount:calCount, vnShown:shown.filter(function(k){ return !!VK[k]; }).map(function(k){ return S[k].id; }), vnVisible:cur ? cur.vnVisible : 0,
               kinds:cur ? cur.items.reduce(function(a, it){ a[it.kind] = (a[it.kind] || 0) + 1; return a; }, {}) : {}};
     },
     boxes:function(){        // the drawn label boxes, for tests: [{id, x,y,w,h, mode, ax,ay}]
@@ -2909,7 +3258,8 @@ function NMSKLabels(E){
       return out;
     },
     mask:function(){ return cur && cur.mask; },
-    anchors:function(){ return cur ? cur.items.map(function(it){ return {id:it.id, kind:it.kind, p3:it.p3}; }) : []; },
+    anchors:function(){ return cur ? cur.items.map(function(it){ return {id:it.id, kind:it.kind, p3:it.p3, long:it.long || 0, sx:it.sx, sy:it.sy}; }) : []; },
+    calibre:function(id){ var k = idx[id]; return k == null ? null : {kind:VK[k], diameter:VD[k], level:VL[k], promoted:VP[k]}; },
     /* geometry self-check of what is drawn now (tests / browser checks): overlaps between label boxes, callout boxes touching the body silhouette, boxes outside the canvas or
        inside a HUD panel, crossing leader lines, leader lengths */
     selfCheck:function(){
@@ -3938,9 +4288,14 @@ function NMSKCap(E){
       setDots:function(list){ partDotList=list; },
       toolbar:document.getElementById("topright"), toolClass:"pill",
       isPhone:function(){ return window.innerWidth<=900; },
+      // Q240 view-dependent culling: the low-res ID / depth image of the labels adaptor (the labels adaptor's idImage: the picking pass in a corner of its buffer, same camera / clip / isolation as the screen)
+      idImage:function(all,w){ return labelsCtl ? labelsCtl.engine().idImage(all,w,false) : null; },
+      depthImage:function(w){ return labelsCtl ? labelsCtl.engine().idImage(false,w,true) : null; },
+      idOf:function(id){ return typeof labIdx!=="undefined" && labIdx[id]!=null ? labIdx[id]+1 : 0; },
+      marked:function(){ var s=selCtl&&selCtl.state(); return s&&!s.inverted ? s.marks : []; },
       onLoaded:function(){ if(selected) select(selected,false); }
     });
-    window.__partsState=function(){ return partsCtl.state(); };
+    window.__partsState=function(){ return partsCtl.state(); }; window.__partsCtl = partsCtl;
     // ---- Q227: filled cut face + marked structures / saved selections (shared controllers viewer/cut_cap/ and viewer/selection/, scripts/sync_q227.py) ----
     // The meshes are cut with the plane on the CPU (NMSKCapCore, from the quantised geometry kept in BIN); the result is one RGBA texture + one id texture on a
     // quad lying in the plane (and one more at the far face of a slice) plus the contour segments as 1 px GL lines. The id texture is also drawn in the ID pass and
@@ -4110,6 +4465,22 @@ function NMSKCap(E){
 // ---- Q236 structure labels (shared controller viewer/labels/, synced by scripts/sync_labels_q236.py) ----
     // Engine side only: what is drawn (alphas), the camera, a small ID image from the existing picking pass (every visible structure in its own ID colour, same camera /
     // clip planes / isolation box as the screen, rendered into a corner of the picking buffer), the surface geometry for anchor samples and the cut face lookup.
+    function zDepthImage(w){        // Q240: the depth pass in the same corner of the picking buffer -> {w,h,z} linear view depth in mm (0 = empty), row 0 = top
+      if (!lastMVP || !depthOK) return null;
+      var sc = Math.min(1, w / W), vw = Math.max(1, Math.round(W * sc)), vh = Math.max(1, Math.round(H * sc));
+      renderIds(false, true, sc);
+      var buf = new Uint8Array(vw * vh * 4); gl.readPixels(0, 0, vw, vh, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H); pickKey = null;
+      var zf = new Float32Array(vw * vh), n0 = HGT * 0.02, f0 = HGT * 14;
+      for (var y1 = 0; y1 < vh; y1++){
+        var s1 = (vh - 1 - y1) * vw * 4, d1 = y1 * vw;
+        for (var x1 = 0; x1 < vw; x1++, s1 += 4){
+          var dep = buf[s1] / 255 + buf[s1 + 1] / 65025 + buf[s1 + 2] / 16581375 + buf[s1 + 3] / 4228250625;
+          zf[d1 + x1] = dep > 0 && dep < 1 ? 2 * f0 * n0 / ((f0 + n0) - (2 * dep - 1) * (f0 - n0)) : 0;
+        }
+      }
+      return {w:vw, h:vh, z:zf};
+    }
     var labU = [], labIdx = {}, labOf = new Int32Array(OBJ.length + 1), labAl = null;
     OBJ.forEach(function(o){ if (!(o.id in labIdx)){ labIdx[o.id] = labU.length; labU.push(o); } labOf[o.pid] = labIdx[o.id] + 1; });
     labelsCtl = NMSKLabels({
@@ -4131,7 +4502,8 @@ function NMSKCap(E){
       color:function(i){ var c = colOf(labU[i]); return [c[0] * 255, c[1] * 255, c[2] * 255]; },
       geometry:function(i){ return (objsById[labU[i].id] || []).map(function(o){ var g = capGeom(o.pid - 1, o); return {pos:g.pos, idx:g.idx}; }); },
       view:function(){ return lastMVP ? {m:lastMVP, eye:lastEye, rect:canvas.getBoundingClientRect()} : null; },
-      idImage:function(all, w){
+      idImage:function(all, w, depth){        // depth (Q240): the depth pass instead -> {w,h,z} linear view depth in mm, 0 = empty
+        if (depth) return zDepthImage(w);
         if (!lastMVP) return null;
         var sc = Math.min(1, w / W), vw = Math.max(1, Math.round(W * sc)), vh = Math.max(1, Math.round(H * sc));
         renderIds(all, false, sc);
@@ -4350,7 +4722,7 @@ window.__symDebug = function(){ return {on: !!sym, clipOn: !!clip.on, srcObjects
         if(window.matchMedia("(hover:hover)").matches){
           var r0=canvas.getBoundingClientRect();
           var h0=pick((e.clientX-r0.left)*dpr,(e.clientY-r0.top)*dpr);
-          if(h0!==hovered){hovered=h0;need=true; if(labelsCtl) labelsCtl.hover(h0?h0.id:null);}
+          if(h0!==hovered){hovered=h0;need=true; if(labelsCtl) labelsCtl.hover(h0?h0.id:null); if(partsCtl) partsCtl.hover(h0?h0.id:null);}
           canvas.style.cursor=h0?"pointer":(panToggle?"move":"grab");
         }
         return;

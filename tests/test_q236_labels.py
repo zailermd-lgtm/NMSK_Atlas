@@ -101,7 +101,9 @@ def test_regenerated_page_has_the_labels(key):
     if not p.exists():
         pytest.skip("build/q236 not present")
     s = p.read_text(encoding="utf-8")
-    assert sync.render(s) == s                                              # the page carries the current labels block
+    # the page carries the labels block of the generation it was built with (Q240 extended the fragment: the build/q240 pages carry the current one, tests/test_q240_parts_cull.py)
+    assert s.count("/* LABELS js begin */") == 1 and s.count("/* LABELS js end */") == 1 and "function NMSKLabels(E)" in s
+    assert sync.render(s) == s or "nmsk-calibre" not in s                  # a page with the current calibre table has the current block
     assert 'id="nmsk-abbrev"' in s and 'id="t-labels"' not in s            # the toolbar button is made by the controller, not in the markup
     assert "<title>NMSK Atlas — " in s
     v = json.loads((REPO / "build" / "q236" / "_verify" / f"{d}.json").read_text()) if (REPO / "build" / "q236" / "_verify" / f"{d}.json").exists() else None

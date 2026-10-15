@@ -22,6 +22,23 @@
     <div class="lb-row" id="lab-colour">
       <button type="button" data-v="own" aria-pressed="false" title="The colour the structure is drawn in, darkened or lightened until it reads on the background">Structure</button><button type="button" data-v="neutral" aria-pressed="false">Neutral</button>
     </div>
+    <div class="lb-lbl">Vessels &amp; nerves</div>
+    <label class="lb-chk"><input type="checkbox" id="lab-vhide"> Hide vessel / nerve labels</label>
+    <div class="lb-row" id="lab-groups" role="group" aria-label="Which vessels and nerves are labelled">
+      <button type="button" id="lab-g-a" aria-pressed="true" title="Label the arteries">Arteries</button><button type="button" id="lab-g-v" aria-pressed="false" title="Label the veins">Veins</button><button type="button" id="lab-g-n" aria-pressed="true" title="Label the nerves">Nerves</button>
+    </div>
+    <div class="lb-lbl">Artery / vein level</div>
+    <div class="lb-row" id="lab-lva"><button type="button" data-v="1" aria-pressed="false" title="Aorta, vena cava, carotid, subclavian, iliac, femoral, brachial ... (6 mm and larger, and the named trunks)">Main</button><button type="button" data-v="2" aria-pressed="false" title="Main + 3 to 6 mm (radial, ulnar, tibial, deep femoral ...)">+ secondary</button><button type="button" data-v="3" aria-pressed="false" title="Secondary + 1.5 to 3 mm">+ tertiary</button><button type="button" data-v="4" aria-pressed="false" title="Every artery / vein, down to the smallest the model has">All</button></div>
+    <div class="lb-lbl">Artery / vein min. diameter <output id="lab-da-v" for="lab-da"></output></div>
+    <input id="lab-da" type="range" min="0" max="20" step="0.5" value="0" aria-label="Smallest artery or vein diameter that is labelled, in millimetres (0 = no minimum)">
+    <div class="lb-lbl">Nerve level</div>
+    <div class="lb-row" id="lab-lvn"><button type="button" data-v="1" aria-pressed="false" title="Sciatic, femoral, median, ulnar, radial, tibial, brachial plexus trunks, cranial nerves ... (4 mm and larger, and the named trunks)">Main trunks</button><button type="button" data-v="2" aria-pressed="false" title="Trunks + 2 to 4 mm branches">+ branches</button><button type="button" data-v="3" aria-pressed="false" title="Branches + 1 to 2 mm">+ small</button><button type="button" data-v="4" aria-pressed="false" title="Every nerve, down to the finest digital branches">All</button></div>
+    <div class="lb-lbl">Nerve min. diameter <output id="lab-dn-v" for="lab-dn"></output></div>
+    <input id="lab-dn" type="range" min="0" max="12" step="0.5" value="0" aria-label="Smallest nerve diameter that is labelled, in millimetres (0 = no minimum)">
+    <details class="lb-help"><summary>What the levels mean</summary>
+      <p><b>Arteries and veins</b> (diameter = mean tube diameter measured on the model's mesh): <b>Main</b> 6 mm and larger, plus the named trunks (aorta, venae cavae, carotid, subclavian, iliac, femoral, popliteal, brachial ...); <b>+ secondary</b> 3 to 6 mm; <b>+ tertiary</b> 1.5 to 3 mm; <b>All</b> also those under 1.5 mm.</p>
+      <p><b>Nerves:</b> <b>Main trunks</b> 4 mm and larger, plus the named trunks (sciatic, femoral, median, ulnar, radial, tibial, plexus trunks, cranial nerves ...); <b>+ branches</b> 2 to 4 mm; <b>+ small</b> 1 to 2 mm; <b>All</b> also under 1 mm.</p>
+      <p>The minimum diameter slider cuts at any size on top of the level. Main trunks are labelled first and keep a share of the label budget; the label sits on the longest visible stretch of the structure. Only labelled when visible; selected, hovered and marked ones always are. "Hide vessel / nerve labels" turns all of them off.</p></details>
     <label class="lb-chk"><input type="checkbox" id="lab-side"> R / L marks on full names</label>
     <label class="lb-chk"><input type="checkbox" id="lab-occl"> Hide labels of hidden-behind structures</label>
     <div class="lb-row lb-end"><button type="button" id="lab-legend-btn" aria-pressed="false">Abbreviation list</button><button type="button" id="lab-cutfill" hidden title="Fill the cut surface so labels sit on the cross-section">Fill cut face</button><button type="button" id="lab-reset">Reset</button></div>
@@ -36,6 +53,6 @@
       <span class="lg-font"><button type="button" id="lg-fdn" aria-label="Smaller text" title="Smaller text">A&minus;</button><input id="lg-font" type="range" min="10" max="24" step="1" value="13" aria-label="Legend font size"><button type="button" id="lg-fup" aria-label="Larger text" title="Larger text">A+</button><output id="lg-font-v"></output></span></div>
   </div>
   <div class="lg-list" id="lg-list" role="list"></div>
-  <p class="lg-foot"><span id="lg-count"></span> &middot; <b>RF-R</b> = base code + side (R / L). Upright = established abbreviation, <i>italic</i> = generated for this atlas. Click a row to select the structure.</p>
+  <p class="lg-foot"><span id="lg-count"></span> &middot; <b>RF-R</b> = base code + side (R / L). Upright = established abbreviation, <i>italic</i> = generated for this atlas. Click a row to select the structure. Arteries, veins and nerves also show their calibre (mean diameter measured on the mesh) and level 1 = main trunk to 4 = smallest; the Labels panel chooses which levels are labelled (help there).</p>
   <div class="lg-grip" id="lg-grip" role="separator" aria-label="Drag to resize" title="Drag to resize"></div>
 </div>
