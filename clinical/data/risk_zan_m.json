@@ -1,14 +1,14 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"zan_m",
-"generated":"2026-10-14",
+"generated":"2026-10-15",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"Z-Anatomy model frame (mm, +Y superior)",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
 "table_version":1,
 "counts":{
 "artery":437,
-"nerve":361,
+"nerve":414,
 "vein":224,
 "organ":268,
 "lung":35
@@ -37,6 +37,22 @@
 "r_mm":0.35,
 "r_method":"sdf",
 "rays_hit":298
+},
+{
+"id":"anococcygeal_n_l",
+"name":"Anococcygeal nerve (left)",
+"class":"nerve",
+"r_mm":0.4,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"anococcygeal_n_r",
+"name":"Anococcygeal nerve (right)",
+"class":"nerve",
+"r_mm":0.4,
+"r_method":"sdf",
+"rays_hit":162
 },
 {
 "id":"anterior_interosseous_n_l",
@@ -303,6 +319,22 @@
 "rays_hit":300
 },
 {
+"id":"coccygeal_plexus_l",
+"name":"Coccygeal plexus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"coccygeal_plexus_r",
+"name":"Coccygeal plexus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"common_fibular_n_l",
 "name":"Common fibular (peroneal) nerve (left)",
 "class":"nerve",
@@ -349,6 +381,22 @@
 "r_mm":10.42,
 "r_method":"sdf",
 "rays_hit":177
+},
+{
+"id":"dorsal_n_penis_l",
+"name":"Dorsal nerve of the penis (left)",
+"class":"nerve",
+"r_mm":1.32,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"dorsal_n_penis_r",
+"name":"Dorsal nerve of the penis (right)",
+"class":"nerve",
+"r_mm":1.32,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"dorsal_scapular_n_l",
@@ -447,6 +495,22 @@
 "rays_hit":300
 },
 {
+"id":"hypogastric_n_l",
+"name":"Hypogastric nerve (left)",
+"class":"nerve",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"hypogastric_n_r",
+"name":"Hypogastric nerve (right)",
+"class":"nerve",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"hypoglossal_n_l",
 "name":"Hypoglossal nerve (left)",
 "class":"nerve",
@@ -479,6 +543,54 @@
 "rays_hit":299
 },
 {
+"id":"ilioinguinal_n_l",
+"name":"Ilioinguinal nerve (left)",
+"class":"nerve",
+"r_mm":1.1,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"ilioinguinal_n_r",
+"name":"Ilioinguinal nerve (right)",
+"class":"nerve",
+"r_mm":1.1,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_gluteal_n_l",
+"name":"Inferior gluteal nerve (left)",
+"class":"nerve",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_gluteal_n_r",
+"name":"Inferior gluteal nerve (right)",
+"class":"nerve",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_hypogastric_plexus_l",
+"name":"Inferior hypogastric (pelvic) plexus (left)",
+"class":"nerve",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"inferior_hypogastric_plexus_r",
+"name":"Inferior hypogastric (pelvic) plexus (right)",
+"class":"nerve",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
 "id":"inferior_mesenteric_a",
 "name":"Inferior mesenteric artery",
 "class":"artery",
@@ -487,12 +599,44 @@
 "rays_hit":290
 },
 {
+"id":"inferior_rectal_n_l",
+"name":"Inferior rectal nerve (left)",
+"class":"nerve",
+"r_mm":0.75,
+"r_method":"sdf",
+"rays_hit":242
+},
+{
+"id":"inferior_rectal_n_r",
+"name":"Inferior rectal nerve (right)",
+"class":"nerve",
+"r_mm":0.75,
+"r_method":"sdf",
+"rays_hit":242
+},
+{
 "id":"inferior_vena_cava",
 "name":"Inferior vena cava",
 "class":"vein",
 "r_mm":8.98,
 "r_method":"sdf",
 "rays_hit":270
+},
+{
+"id":"l5_dorsal_ramus_medial_branch_l",
+"name":"Medial branch of the L5 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"l5_dorsal_ramus_medial_branch_r",
+"name":"Medial branch of the L5 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":154
 },
 {
 "id":"lateral_femoral_cutaneous_n_l",
@@ -567,6 +711,86 @@
 "rays_hit":297
 },
 {
+"id":"lumbar_medial_branch_l1_l",
+"name":"Medial branch of the L1 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l1_r",
+"name":"Medial branch of the L1 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l2_l",
+"name":"Medial branch of the L2 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l2_r",
+"name":"Medial branch of the L2 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l3_l",
+"name":"Medial branch of the L3 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l3_r",
+"name":"Medial branch of the L3 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l4_l",
+"name":"Medial branch of the L4 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l4_r",
+"name":"Medial branch of the L4 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbosacral_trunk_l",
+"name":"Lumbosacral trunk (left)",
+"class":"nerve",
+"r_mm":3.45,
+"r_method":"sdf",
+"rays_hit":182
+},
+{
+"id":"lumbosacral_trunk_r",
+"name":"Lumbosacral trunk (right)",
+"class":"nerve",
+"r_mm":3.45,
+"r_method":"sdf",
+"rays_hit":182
+},
+{
 "id":"medial_pectoral_n_l",
 "name":"Medial pectoral nerve (left)",
 "class":"nerve",
@@ -637,6 +861,54 @@
 "r_mm":1.0,
 "r_method":"sdf",
 "rays_hit":297
+},
+{
+"id":"nerve_to_coccygeus_l",
+"name":"Nerve to coccygeus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"nerve_to_coccygeus_r",
+"name":"Nerve to coccygeus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"nerve_to_levator_ani_l",
+"name":"Nerve to levator ani (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_levator_ani_r",
+"name":"Nerve to levator ani (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_obturator_internus_l",
+"name":"Nerve to obturator internus (+ superior gemellus) (left)",
+"class":"nerve",
+"r_mm":1.0,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_obturator_internus_r",
+"name":"Nerve to obturator internus (+ superior gemellus) (right)",
+"class":"nerve",
+"r_mm":1.0,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"nerve_to_piriformis_l",
@@ -735,6 +1007,70 @@
 "rays_hit":300
 },
 {
+"id":"pelvic_splanchnic_n_s2_l",
+"name":"Pelvic splanchnic nerve S2 (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"pelvic_splanchnic_n_s2_r",
+"name":"Pelvic splanchnic nerve S2 (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"pelvic_splanchnic_n_s3_l",
+"name":"Pelvic splanchnic nerve S3 (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":232
+},
+{
+"id":"pelvic_splanchnic_n_s3_r",
+"name":"Pelvic splanchnic nerve S3 (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"pelvic_splanchnic_n_s4_l",
+"name":"Pelvic splanchnic nerve S4 (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":272
+},
+{
+"id":"pelvic_splanchnic_n_s4_r",
+"name":"Pelvic splanchnic nerve S4 (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":212
+},
+{
+"id":"perineal_n_l",
+"name":"Perineal nerve - posterior scrotal branches (left)",
+"class":"nerve",
+"r_mm":1.0,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"perineal_n_r",
+"name":"Perineal nerve - posterior scrotal branches (right)",
+"class":"nerve",
+"r_mm":1.0,
+"r_method":"sdf",
+"rays_hit":272
+},
+{
 "id":"posterior_femoral_cutaneous_n_l",
 "name":"Posterior femoral cutaneous nerve (left)",
 "class":"nerve",
@@ -813,6 +1149,86 @@
 "r_mm":0.5,
 "r_method":"sdf",
 "rays_hit":294
+},
+{
+"id":"recurrent_branch_of_median_n_l",
+"name":"Recurrent (thenar) branch of the median nerve (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"recurrent_branch_of_median_n_r",
+"name":"Recurrent (thenar) branch of the median nerve (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"s1_ventral_ramus_l",
+"name":"Ventral ramus of S1 (left)",
+"class":"nerve",
+"r_mm":3.05,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s1_ventral_ramus_r",
+"name":"Ventral ramus of S1 (right)",
+"class":"nerve",
+"r_mm":3.05,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s2_ventral_ramus_l",
+"name":"Ventral ramus of S2 (left)",
+"class":"nerve",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s2_ventral_ramus_r",
+"name":"Ventral ramus of S2 (right)",
+"class":"nerve",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s3_ventral_ramus_l",
+"name":"Ventral ramus of S3 (left)",
+"class":"nerve",
+"r_mm":1.75,
+"r_method":"sdf",
+"rays_hit":272
+},
+{
+"id":"s3_ventral_ramus_r",
+"name":"Ventral ramus of S3 (right)",
+"class":"nerve",
+"r_mm":1.75,
+"r_method":"sdf",
+"rays_hit":272
+},
+{
+"id":"s4_ventral_ramus_l",
+"name":"Ventral ramus of S4 (left)",
+"class":"nerve",
+"r_mm":1.25,
+"r_method":"sdf",
+"rays_hit":192
+},
+{
+"id":"s4_ventral_ramus_r",
+"name":"Ventral ramus of S4 (right)",
+"class":"nerve",
+"r_mm":1.25,
+"r_method":"sdf",
+"rays_hit":192
 },
 {
 "id":"saphenous_n_infrapatellar_branch_l",
@@ -973,6 +1389,14 @@
 "r_mm":0.62,
 "r_method":"sdf",
 "rays_hit":296
+},
+{
+"id":"superior_hypogastric_plexus",
+"name":"Superior hypogastric plexus",
+"class":"nerve",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":222
 },
 {
 "id":"superior_mesenteric_a",

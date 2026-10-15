@@ -73,7 +73,7 @@ def classify(subject: str, badge: str | None) -> tuple[str, str]:
     lab = LABELS.get(b, "")
     if re.search(r"rule", lab, re.I):
         return "rule_based", "subject description says rule"
-    if badge and re.match(r"\s*rule-based", badge, re.I):
+    if badge and re.match(r"\s*(procedural/)?rule-based", badge, re.I):
         return "rule_based", "badge starts RULE-BASED"
     return "measured", "own segmentation (no rule / transfer marker)"
 
