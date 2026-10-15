@@ -1,0 +1,137 @@
+{
+ "key": "comb_f",
+ "label": "Combined \u00b7 Female",
+ "seconds": 81.0,
+ "counts": {
+  "segments": 106,
+  "joints": 80,
+  "regions": 3,
+  "structures": 2994,
+  "rigid": 1380,
+  "skinned": 1614,
+  "rigid_vertices": 631809,
+  "skinned_vertices": 1044341
+ },
+ "landmark_errors": {
+  "gh_r": {
+   "radius_mm": 20.6,
+   "rms_mm": 0.88,
+   "inliers": 459
+  },
+  "gh_l": {
+   "radius_mm": 20.9,
+   "rms_mm": 0.88,
+   "inliers": 454
+  },
+  "hip_r": {
+   "radius_mm": 22.1,
+   "rms_mm": 0.62,
+   "inliers": 246,
+   "acetabulum_centre_distance_mm": 6.9,
+   "acetabulum_radius_mm": 29.4
+  },
+  "hip_l": {
+   "radius_mm": 21.9,
+   "rms_mm": 0.62,
+   "inliers": 246,
+   "acetabulum_centre_distance_mm": 6.9,
+   "acetabulum_radius_mm": 29.0
+  }
+ },
+ "fit_rms": {
+  "shoulder_fit_rms_r": 8.592282265780382e-17,
+  "hip_fit_rms_r": 8.416140654138432e-17,
+  "ankle_fit_rms_r": 9.309503074677274e-17,
+  "shoulder_fit_rms_l": 1.389512421408389e-16,
+  "hip_fit_rms_l": 1.9080205909350096e-16,
+  "ankle_fit_rms_l": 5.796272760900328e-17
+ },
+ "notes": {
+  "palmar_r": "forearm flexor vs extensor muscles (8 / 9 structures)",
+  "fingers_r": "chains for fingers [1, 2, 3, 4, 5]",
+  "foot_rotation_r": -2.3020110276794754,
+  "toes_r": "chains for toes [1, 2, 3, 4, 5]",
+  "palmar_l": "forearm flexor vs extensor muscles (8 / 9 structures)",
+  "fingers_l": "chains for fingers [1, 2, 3, 4, 5]",
+  "foot_rotation_l": -3.687560831517418,
+  "toes_l": "chains for toes [1, 2, 3, 4, 5]"
+ },
+ "rest_values_outside_range": [
+  {
+   "joint": "f4_dip_r",
+   "dof": "flex",
+   "q0": -3.7,
+   "lo": 0.0,
+   "hi": 80.0
+  },
+  {
+   "joint": "t2_pip_r",
+   "dof": "flex",
+   "q0": -8.8,
+   "lo": 0.0,
+   "hi": 35.0
+  },
+  {
+   "joint": "t2_dip_r",
+   "dof": "flex",
+   "q0": -10.0,
+   "lo": 0.0,
+   "hi": 60.0
+  },
+  {
+   "joint": "t4_pip_r",
+   "dof": "flex",
+   "q0": -1.6,
+   "lo": 0.0,
+   "hi": 35.0
+  },
+  {
+   "joint": "t5_pip_r",
+   "dof": "flex",
+   "q0": -7.7,
+   "lo": 0.0,
+   "hi": 35.0
+  },
+  {
+   "joint": "thumb_cmc_l",
+   "dof": "flex",
+   "q0": -23.2,
+   "lo": -20.0,
+   "hi": 15.0
+  },
+  {
+   "joint": "t1_ip_l",
+   "dof": "flex",
+   "q0": -20.5,
+   "lo": -5.0,
+   "hi": 90.0
+  },
+  {
+   "joint": "t4_pip_l",
+   "dof": "flex",
+   "q0": -2.2,
+   "lo": 0.0,
+   "hi": 35.0
+  },
+  {
+   "joint": "t5_pip_l",
+   "dof": "flex",
+   "q0": -9.1,
+   "lo": 0.0,
+   "hi": 35.0
+  },
+  {
+   "joint": "t5_dip_l",
+   "dof": "flex",
+   "q0": -56.0,
+   "lo": 0.0,
+   "hi": 60.0
+  }
+ ],
+ "embedded_kb": {
+  "rig_json_zlib": 35.2,
+  "weights_zlib": 300.2,
+  "total_base64": 447.1
+ },
+ "weights_raw_kb": 674.6
+}
