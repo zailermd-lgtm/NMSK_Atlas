@@ -15,7 +15,7 @@ Fetched 2026-10-15 for the audit `data/derived/Q242_hra_v110_audit.md`. NOTHING 
 ## Attribution lines to use if any v1.10 object is later shown (CC BY 4.0)
 
 - "3D Reference Organ Set for Female / Male, v1.10", Kristen Browne and Heidi Schlehlein, HuBMAP / Human Reference Atlas 3D Reference Object Library, funded by the National Institutes of Health,
-  CC BY 4.0. Female: https://doi.org/10.48539/HBM637.DWBM.744. Male: DOI in the manifest (`united-male`). Source data: the Visible Human Project, National Library of Medicine (Spitzer and Whitlock 2002;
+  CC BY 4.0. Female: https://doi.org/10.48539/HBM637.DWBM.744. Male: https://doi.org/10.48539/HBM833.WZWN.425. Source data: the Visible Human Project, National Library of Medicine (Spitzer and Whitlock 2002;
   Spitzer et al. 1996; Ackerman 1998).
 - Single objects: the same two creators with the DOI of the object (manifest `doi`), except Heidi Schlehlein alone for adipose, intervertebral disk, sternum, manubrium, mouth, omentum, epiploic appendage and
   mammary gland (sculpted from scratch; Krstic 1991; Gilroy et al. 2008), Li Yao for lymph nodes, Kristen Browne for heart-male.
