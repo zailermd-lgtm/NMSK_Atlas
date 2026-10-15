@@ -16,7 +16,7 @@
 (function (G) {
   "use strict";
   if (G.NMSKClinical && G.NMSKClinical.imaging) return;                   // Q239: the code is pasted into the page AND the file beside it may load too: the first one wins
-  var VERSION = "q226.2";
+  var VERSION = "q226.3";                                                   // Q246: continuity (partial volume, hole fill, 3-D coherent noise) keeps the q226 line
 
   /* ========================================================================================================
    * 1. KERNEL -- self-contained (no outer references): its source text is evaluated inside a Worker.
@@ -25,7 +25,7 @@
     var Gm = null, cacheKey = null, cand = [], VX = new Float32Array(0), VY = new Float32Array(0), VD = new Float32Array(0);
     var vOff = null, sdmin = null, sdmax = null, segs = new Float32Array(1 << 16), xs = new Float32Array(1 << 16);
     var rowCnt = new Int32Array(0), rowPtr = new Int32Array(0), axisInfo = null, M = new Uint8Array(0), DTb = new Uint16Array(0);
-    var bx0 = 0, bx1 = -1, by0 = 0, by1 = -1, parityBad = 0, triCount = 0;
+    var bx0 = 0, bx1 = -1, by0 = 0, by1 = -1, parityBad = 0, repaired = 0, triCount = 0;
     var prevSp = new Float64Array(2048), curBuf = new Int32Array(0);
 
     function setGeometry(g) {
@@ -102,25 +102,54 @@
         var sl = (x1 - x0) / (y1 - y0);
         for (j = j0; j <= j1; j++) xs[rowPtr[j] + cur[j]++] = x0 + (j + 0.5 - y0) * sl;
       }
-      var prevN = -1, prevRow = -2, sp;
-      for (j = 0; j < H; j++) {
+      var sp, nOdd = 0;
+      for (j = 0; j < H; j++) {                                               // pass 1: sort every row, paint the even ones
         var n = cur[j], base = rowPtr[j], e, i, v;
-        if (n === 0) { prevN = 0; prevRow = j; continue; }
+        if (n === 0) continue;
         for (i = 1; i < n; i++) { v = xs[base + i]; e = i - 1; while (e >= 0 && xs[base + e] > v) { xs[base + e + 1] = xs[base + e]; e--; } xs[base + e + 1] = v; }
-        var npair;
-        if (n & 1) {
-          parityBad++;
-          if (prevRow === j - 1 && prevN > 0) {                             // repeat the previous row's spans
-            for (sp = 0; sp < prevN; sp += 2) paintSpan(prevSp[sp], prevSp[sp + 1], j, W, m);
-          }
-          prevRow = -2; prevN = -1;
-          continue;
-        }
-        if (n > prevSp.length) prevSp = new Float64Array(n * 2);
-        for (sp = 0; sp < n; sp += 2) { prevSp[sp] = xs[base + sp]; prevSp[sp + 1] = xs[base + sp + 1]; paintSpan(prevSp[sp], prevSp[sp + 1], j, W, m); }
-        prevN = n; prevRow = j;
+        if (n & 1) { parityBad++; nOdd++; continue; }
+        for (sp = 0; sp < n; sp += 2) paintSpan(xs[base + sp], xs[base + sp + 1], j, W, m);
       }
+      if (nOdd) for (j = 0; j < H; j++) if (cur[j] & 1) repairRow(j, cur, W, H, m);
     }
+    /* Q246: an odd crossing count = an open seam, a self-intersection or a non-manifold edge of the mesh on that scan line.  The row is repaired with the rule "the span set of the row must
+       agree best with the rows above and below" (smallest total length of the symmetric difference): candidates = drop one crossing, or add one partner at a boundary of the neighbour rows.
+       No new tissue is invented: a repaired row is the same structure's own crossings plus at most one partner on the neighbours' outline; with no even neighbour the row is left empty. */
+    var cA = new Float64Array(256), cBest = new Float64Array(256);
+    function xorLen(a, na, b, nb) {
+      var i = 0, j = 0, fa = 0, fb = 0, pos = 0, len = 0, x;
+      while (i < na || j < nb) {
+        if (j >= nb || (i < na && a[i] <= b[j])) { x = a[i++]; if (fa !== fb) len += x - pos; fa ^= 1; } else { x = b[j++]; if (fa !== fb) len += x - pos; fb ^= 1; }
+        pos = x;
+      }
+      return len;
+    }
+    function repairRow(j, cur, W, H, m) {
+      var n = cur[j], base = rowPtr[j], i, q, refs = [], wts = [], c, dU = 0, dL = 0, r;
+      if (n >= 120) return;
+      for (r = j - 1; r >= 0 && j - r <= 80; r--) if (cur[r] > 0 && !(cur[r] & 1)) { refs.push(r); dU = j - r; break; }          // nearest consistent row above and below (a run of odd rows is repaired from its ends)
+      for (r = j + 1; r < H && r - j <= 80; r++) if (cur[r] > 0 && !(cur[r] & 1)) { refs.push(r); dL = r - j; break; }
+      if (!refs.length) return;
+      if (refs.length === 2) { wts = [dL / (dU + dL), dU / (dU + dL)]; } else wts = [1];
+      var best = 1e30, nb = 0;
+      function score(arr, na) { var t = 0; for (var k = 0; k < refs.length; k++) t += wts[k] * xorLen(arr, na, xs.subarray(rowPtr[refs[k]], rowPtr[refs[k]] + cur[refs[k]]), cur[refs[k]]); return t; }
+      for (i = 0; i < n; i++) {                                               // drop crossing i
+        var na = 0; for (q = 0; q < n; q++) if (q !== i) cA[na++] = xs[base + q];
+        var sc = score(cA, na); if (sc < best) { best = sc; nb = na; cBest.set(cA.subarray(0, na)); }
+      }
+      for (r = 0; r < refs.length; r++) {                                     // add one partner at a boundary of a neighbour row
+        var rb = rowPtr[refs[r]], rn = cur[refs[r]];
+        for (c = 0; c < rn; c++) {
+          var p = xs[rb + c], na2 = 0, put = false;
+          for (q = 0; q < n; q++) { if (!put && p < xs[base + q]) { cA[na2++] = p; put = true; } cA[na2++] = xs[base + q]; }
+          if (!put) cA[na2++] = p;
+          var sc2 = score(cA, na2); if (sc2 < best) { best = sc2; nb = na2; cBest.set(cA.subarray(0, na2)); }
+        }
+      }
+      for (i = 0; i + 1 < nb; i += 2) paintSpan(cBest[i], cBest[i + 1], j, W, m);
+      repaired++;
+    }
+    function clearBox(W) { for (var j = by0; j <= by1; j++) M.fill(0, j * W + bx0, j * W + bx1 + 1); }
     function paintSpan(a, b, j, W, m) {
       var i0 = Math.ceil(a - 0.5), i1 = Math.ceil(b - 0.5) - 1;
       if (i0 < 0) i0 = 0; if (i1 > W - 1) i1 = W - 1;
@@ -128,13 +157,14 @@
       m.fill(1, j * W + i0, j * W + i1 + 1);
       if (i0 < bx0) bx0 = i0; if (i1 > bx1) bx1 = i1; if (j < by0) by0 = j; if (j > by1) by1 = j;
     }
-    function drawLabel(ns, W, H, lab, sid, cls, st) {
+    function drawLabel(ns, W, H, lab, sid, cls, st, ss) {                   // a sheet is drawn one IMAGE pixel wide (ss x ss sub-pixels per point), positioned to 1/ss pixel
+      var h = ss >> 1;
       for (var k = 0; k < ns; k++) {
         var x0 = segs[4 * k], y0 = segs[4 * k + 1], x1 = segs[4 * k + 2], y1 = segs[4 * k + 3];
-        var len = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0)), n = Math.ceil(len * 2) + 1, q;
+        var len = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0)), n = Math.ceil(len * 2 / ss) + 1, q, a, b;
         for (q = 0; q <= n; q++) {
-          var f = n ? q / n : 0, xi = Math.floor(x0 + (x1 - x0) * f), yi = Math.floor(y0 + (y1 - y0) * f);
-          if (xi >= 0 && xi < W && yi >= 0 && yi < H) { lab[yi * W + xi] = cls; if (sid) sid[yi * W + xi] = st; }
+          var f = n ? q / n : 0, xi = Math.floor(x0 + (x1 - x0) * f) - h, yi = Math.floor(y0 + (y1 - y0) * f) - h;
+          for (b = 0; b < ss; b++) for (a = 0; a < ss; a++) { var xx = xi + a, yy = yi + b; if (xx >= 0 && xx < W && yy >= 0 && yy < H) { lab[yy * W + xx] = cls; if (sid) sid[yy * W + xx] = st; } }
         }
       }
     }
@@ -190,8 +220,9 @@
     /* ---- the slice ----
      * R: {key, W, H, O[3], u[3], v[3], n[3], u0, v0, px, s (offset), wantSid, skinMm, ids{air,fat,skin,cort,canc,marrow}, bone{kind->params}} */
     function slice(R) {
-      var t0 = Date.now(), g = Gm, W = R.W, H = R.H, N = W * H, px = R.px, s = R.s, i, j, k;
-      parityBad = 0; triCount = 0;
+      /* Q246: R.ss > 1 rasterises at ss x the pixel resolution (same plane, same window): `fine` = that label image (area coverage = partial volume), `lab` / `sid` = its centre samples */
+      var t0 = Date.now(), g = Gm, ss = R.ss > 1 ? Math.min(4, R.ss | 0) : 1, Wc = R.W, Hc = R.H, W = Wc * ss, H = Hc * ss, N = W * H, px = R.px / ss, s = R.s, i, j, k;
+      parityBad = 0; repaired = 0; triCount = 0;
       if (R.key !== cacheKey) {                                             // vertex pass once per plane / window
         cacheKey = R.key; cand.length = 0;
         var Ox = R.O[0], Oy = R.O[1], Oz = R.O[2], ux = R.u[0], uy = R.u[1], uz = R.u[2], vx = R.v[0], vy = R.v[1], vz = R.v[2], nx = R.n[0], ny = R.n[1], nz = R.n[2];
@@ -230,6 +261,7 @@
       var lab = new Uint8Array(N); lab.fill(255);
       var sid = R.wantSid ? new Uint16Array(N) : null; if (sid) sid.fill(65535);
       if (M.length < N) M = new Uint8Array(N);
+      M.fill(0, 0, N);                                                       // M stays clean between structures: only the bounding box of what was painted is cleared again
       var body = new Uint8Array(N), ids = R.ids, nSeg = 0, nCand = 0, badSt = [];
       /* skin: union of all skin structures' segments -> one even-odd fill + outline */
       var sk = 0, skSegs = null;
@@ -245,9 +277,9 @@
         if (segs.length < sk * 4) segs = new Float32Array(sk * 4);
         var off = 0;
         for (i = 0; i < skSegs.length; i++) { segs.set(skSegs[i], off); off += skSegs[i].length; }
-        M.fill(0, 0, N);
         fillMask(sk, W, H, M);
         for (k = 0; k < N; k++) body[k] = M[k];
+        clearBox(W);
         drawOutline(sk, W, H, body);
       }
       /* the other structures in paint order (sheets are drawn after the solids) */
@@ -257,7 +289,6 @@
         if (s < sdmin[st3] || s >= sdmax[st3]) continue;
         var n3 = collect(st3, s); if (!n3) continue;
         nCand++; nSeg += n3;
-        M.fill(0, 0, N);
         var pb0 = parityBad;
         fillMask(n3, W, H, M);
         if (parityBad > pb0) badSt.push([st3, parityBad - pb0]);
@@ -269,6 +300,7 @@
             for (k = bx0; k <= bx1; k++) if (M[rb + k]) { lab[rb + k] = cls; if (sid) sid[rb + k] = st3; }
           }
         } else boneFill(st3, kd, R, lab, sid, W, H, px, s);
+        clearBox(W);
       }
       for (i = 0; i < cand.length; i++) {                                   // thin sheets (fascia, septa, capsules, dura): a one-pixel line, never a filled volume
         var st4 = cand[i];
@@ -276,13 +308,13 @@
         if (s < sdmin[st4] || s >= sdmax[st4]) continue;
         var n4 = collect(st4, s); if (!n4) continue;
         nCand++; nSeg += n4;
-        drawLabel(n4, W, H, lab, sid, g.cls[st4], st4);
+        drawLabel(n4, W, H, lab, sid, g.cls[st4], st4, ss);
       }
       /* body = skin fill + outline + everything painted; exterior = flood from the border over the rest */
       for (k = 0; k < N; k++) if (lab[k] !== 255) body[k] = 1;
       var ext = new Uint8Array(N), stack = new Int32Array(N), sp2 = 0;
-      for (i = 0; i < W; i++) { if (!body[i]) { ext[i] = 1; stack[sp2++] = i; } var bi = (H - 1) * W + i; if (!body[bi] && !ext[bi]) { ext[bi] = 1; stack[sp2++] = bi; } }
-      for (j = 1; j < H - 1; j++) { var l0 = j * W, r0 = j * W + W - 1; if (!body[l0] && !ext[l0]) { ext[l0] = 1; stack[sp2++] = l0; } if (!body[r0] && !ext[r0]) { ext[r0] = 1; stack[sp2++] = r0; } }
+      for (i = 0; i < W; i++) { if (!body[i]) { ext[i] = 1; stack[sp2++] = i; } var bi = (H - 1) * W + i; if (!R.extTop && !body[bi] && !ext[bi]) { ext[bi] = 1; stack[sp2++] = bi; } }
+      if (!R.extTop) for (j = 1; j < H - 1; j++) { var l0 = j * W, r0 = j * W + W - 1; if (!body[l0] && !ext[l0]) { ext[l0] = 1; stack[sp2++] = l0; } if (!body[r0] && !ext[r0]) { ext[r0] = 1; stack[sp2++] = r0; } }   // Q246 R.extTop (ultrasound window: the image top is the outside): only the top edge seeds the exterior, the body that runs out of the window at the sides / bottom is not mistaken for air
       while (sp2) {
         var p = stack[--sp2], xx = p % W, yy = (p - xx) / W, nb;
         if (xx > 0) { nb = p - 1; if (!body[nb] && !ext[nb]) { ext[nb] = 1; stack[sp2++] = nb; } }
@@ -290,6 +322,7 @@
         if (yy > 0) { nb = p - W; if (!body[nb] && !ext[nb]) { ext[nb] = 1; stack[sp2++] = nb; } }
         if (yy < H - 1) { nb = p + W; if (!body[nb] && !ext[nb]) { ext[nb] = 1; stack[sp2++] = nb; } }
       }
+      var holes = ss * ss * (R.holeMax == null ? 1.5 : R.holeMax) > 0 ? fillHoles(lab, sid, ext, W, H, Math.floor(ss * ss * (R.holeMax == null ? 1.5 : R.holeMax)), stack) / (ss * ss) : 0;
       for (k = 0; k < N; k++) if (lab[k] === 255) lab[k] = ext[k] ? ids.air : ids.fat;
       var bodyPx = 0;
       if (R.skinMm > 0 && sk) {                                             // thin skin rim = body pixels within skinMm of the exterior
@@ -299,7 +332,40 @@
         var thr = Math.max(R.skinMm, px) / px * 3;
         for (k = 0; k < N; k++) if (!ext[k]) { bodyPx++; if (D[k] <= thr) { lab[k] = ids.skin; if (sid) sid[k] = 65534; } }
       }
-      return {lab: lab, sid: sid, ms: Date.now() - t0, nCand: nCand, nSeg: nSeg, tris: triCount, parityBad: parityBad, bodyPx: bodyPx, badSt: badSt};
+      var out = {lab: lab, sid: sid, ms: 0, nCand: nCand, nSeg: nSeg, tris: triCount, parityBad: parityBad, repairedRows: repaired, holesFilled: holes, bodyPx: bodyPx / (ss * ss), badSt: badSt, ss: ss};
+      if (ss > 1) {                                                          // centre samples as the pixel-resolution label / structure images; `fine` carries the coverage
+        var labC = new Uint8Array(Wc * Hc), sidC = sid ? new Uint16Array(Wc * Hc) : null, c0 = ss >> 1, y, x;
+        for (y = 0; y < Hc; y++) for (x = 0; x < Wc; x++) { var fi = (y * ss + c0) * W + x * ss + c0; labC[y * Wc + x] = lab[fi]; if (sidC) sidC[y * Wc + x] = sid[fi]; }
+        out.fine = lab; out.lab = labC; out.sid = sidC;
+      }
+      out.ms = Date.now() - t0;
+      return out;
+    }
+    /* Q246: small enclosed uncovered pixels inside the body (a crack where two shells do not meet, the hole of an open seam) take the class that surrounds them most (4-neighbour contacts);
+       components larger than maxPx sub-pixels, and ones touching the exterior, stay as the documented baseline (fat).  Returns the number of sub-pixels filled. */
+    var tally = new Int32Array(256);
+    function fillHoles(lab, sid, ext, W, H, maxPx, stack) {
+      var filled = 0, N = W * H, p, q, top, cnt, best, bc, c, touched = [], comp = [], k, nb, xx, yy, seen = new Uint8Array(N);
+      for (p = 0; p < N; p++) {
+        if (lab[p] !== 255 || ext[p] || seen[p]) continue;
+        top = 0; stack[top++] = p; seen[p] = 1; comp.length = 0; touched.length = 0; cnt = 0;
+        while (top) {
+          q = stack[--top]; cnt++; if (cnt <= maxPx) comp.push(q);
+          xx = q % W; yy = (q - xx) / W;
+          for (k = 0; k < 4; k++) {
+            if (k === 0) { if (xx === 0) continue; nb = q - 1; } else if (k === 1) { if (xx === W - 1) continue; nb = q + 1; } else if (k === 2) { if (yy === 0) continue; nb = q - W; } else { if (yy === H - 1) continue; nb = q + W; }
+            c = lab[nb];
+            if (c === 255) { if (!ext[nb] && !seen[nb]) { seen[nb] = 1; stack[top++] = nb; } else if (ext[nb]) cnt = 1e9; }
+            else { if (!tally[c]) touched.push(c); tally[c]++; }
+          }
+        }
+        if (cnt <= maxPx) {
+          best = -1; bc = 0; for (k = 0; k < touched.length; k++) if (tally[touched[k]] > bc) { bc = tally[touched[k]]; best = touched[k]; }
+          if (best >= 0) { for (k = 0; k < comp.length; k++) { lab[comp[k]] = best; } filled += comp.length; }
+        }
+        for (k = 0; k < touched.length; k++) tally[touched[k]] = 0;
+      }
+      return filled;
     }
 
     function boneFill(st, kd, R, lab, sid, W, H, px, s) {
@@ -333,7 +399,7 @@
           }
           var tc = P.tthin + w * (tmaxEff - P.tthin); if (tc < P.tthin) tc = P.tthin;
           var c;
-          if (dmm <= Math.max(tc, 0.5 * px)) c = ids.cort; else if (P.canal && w > 0.5) c = ids.marrow; else c = ids.canc;
+          if (dmm <= Math.max(tc, 0.5 * px)) c = ids.cort; else if (P.canal && w > 0 && dmm > tc + (1 - w) * Rmm) c = ids.marrow; else c = ids.canc;   // Q246: the canal grows continuously over the ramp (radius ~ w) instead of switching on at w = 0.5
           lab[p] = c; if (sid) sid[p] = st;
         }
       }
@@ -415,8 +481,101 @@
     return parts.join("") || "?";
   }
 
+  /* ---- Q246: label stacks -> value images (area-weighted partial volume, slab combination, 3-D coherent noise and coil bias) ---------------------------------------------
+   * A view = a stack of sub-slice label images (the slab) at ss x ss samples per pixel.  The value of a pixel is the AREA-weighted mean of the class values of its ss x ss samples
+   * (partial volume: a boundary pixel is a mix of both tissues, a thin structure a faint line, and an edge moves continuously with the plane); a slab then averages the sub-slices
+   * (midpoint rule, so thickness and plane position change the image continuously) or takes the max / min of their area-weighted values (MIP / MinIP). */
+  var DEFAULTS = {ssFinal: 3, ssBudget: 64, noiseCorrCT: 1.2, noiseCorrMR: 1.5, biasWavelengthMm: 650, seed: 20246};
+  function chooseSS(nSub, tier, cap) {                                      // quality tier 0 (while the plane is dragged) = 1; the full pass spends a fixed budget of ss^2 x sub-slices
+    if (tier === 0) return 1;
+    var m = Math.floor(Math.sqrt(DEFAULTS.ssBudget / Math.max(1, nSub))); return Math.max(1, Math.min(cap || DEFAULTS.ssFinal, m));
+  }
+  function slabOffsets(lo, hi, th, maxN) {                                  // midpoint rule: n cells of thickness th/n <= 1 mm (capped), one sample at the centre of each
+    if (!(th > 0.01)) return [(lo + hi) / 2];
+    var n = Math.max(1, Math.min(maxN || 25, Math.ceil(th / 1.0))), out = [], k;
+    for (k = 0; k < n; k++) out.push(lo + (hi - lo) * (k + 0.5) / n);
+    return out;
+  }
+  function areaValues(lab, fine, ss, W, H, lut, dst, acc) {                  // dst[k] (+)= area-weighted mean of lut over the ss x ss samples of pixel k
+    var N = W * H, x, y, a, b, k;
+    if (!fine || ss <= 1) { var L0 = fine || lab; if (acc) for (k = 0; k < N; k++) dst[k] += lut[L0[k]]; else for (k = 0; k < N; k++) dst[k] = lut[L0[k]]; return; }
+    var Wf = W * ss, inv = 1 / (ss * ss);
+    for (y = 0; y < H; y++) for (x = 0; x < W; x++) {
+      var sum = 0, o = y * ss * Wf + x * ss;
+      for (b = 0; b < ss; b++, o += Wf) for (a = 0; a < ss; a++) sum += lut[fine[o + a]];
+      if (acc) dst[y * W + x] += sum * inv; else dst[y * W + x] = sum * inv;
+    }
+  }
+  function combineSlab(res, lut, slab, thick) {                              // res: {W, H, ss, labels[], fine[]|null, mid}
+    var W = res.W, H = res.H, N = W * H, nS = res.labels.length, out = new Float32Array(N), ss = res.ss || 1, s, k, tmp;
+    if (nS === 1 || thick <= 0.01) { var m = Math.min(res.mid || 0, nS - 1); areaValues(res.labels[m], res.fine && res.fine[m], ss, W, H, lut, out, false); return out; }
+    if (slab === "avg") { for (s = 0; s < nS; s++) areaValues(res.labels[s], res.fine && res.fine[s], ss, W, H, lut, out, true); var inv = 1 / nS; for (k = 0; k < N; k++) out[k] *= inv; return out; }
+    tmp = new Float32Array(N);
+    if (slab === "mip") out.fill(-1e9); else out.fill(1e9);
+    for (s = 0; s < nS; s++) {
+      areaValues(res.labels[s], res.fine && res.fine[s], ss, W, H, lut, tmp, false);
+      if (slab === "mip") { for (k = 0; k < N; k++) if (tmp[k] > out[k]) out[k] = tmp[k]; } else { for (k = 0; k < N; k++) if (tmp[k] < out[k]) out[k] = tmp[k]; }
+    }
+    return out;
+  }
+  function gaussBlur(a, W, H, sg) {
+    var r = Math.max(1, Math.ceil(sg * 3)), ker = new Float32Array(2 * r + 1), s = 0, i, x, y;
+    for (i = -r; i <= r; i++) { ker[i + r] = Math.exp(-i * i / (2 * sg * sg)); s += ker[i + r]; }
+    for (i = 0; i < ker.length; i++) ker[i] /= s;
+    var tmp = new Float32Array(a.length), out = new Float32Array(a.length);
+    for (y = 0; y < H; y++) for (x = 0; x < W; x++) { var acc = 0; for (i = -r; i <= r; i++) { var xx = Math.min(W - 1, Math.max(0, x + i)); acc += a[y * W + xx] * ker[i + r]; } tmp[y * W + x] = acc; }
+    for (y = 0; y < H; y++) for (x = 0; x < W; x++) { var ac = 0; for (i = -r; i <= r; i++) { var yy = Math.min(H - 1, Math.max(0, y + i)); ac += tmp[yy * W + x] * ker[i + r]; } out[y * W + x] = ac; }
+    return out;
+  }
+  /* seeded lattice noise in ATLAS (world) coordinates: the value at a point of the body does not depend on the plane that is cut through it, so a moving, tilted or zoomed plane sees the
+     same noise pattern attached to the tissue (a pan shifts it, a 1 mm step changes it only as far as the lattice cell does).  Unit variance at every position. */
+  function hash3(a, b, c, sd) {
+    var h = Math.imul(a | 0, 0x27d4eb2d) ^ Math.imul(b | 0, 0x165667b1) ^ Math.imul(c | 0, 0x85ebca6b) ^ Math.imul(sd | 0, 0xc2b2ae35);
+    h ^= h >>> 15; h = Math.imul(h, 0x2c1b3c6d); h ^= h >>> 12; h = Math.imul(h, 0x297a2d39); h ^= h >>> 15;
+    return h >>> 0;
+  }
+  function g4(h) { return (((h & 255) + ((h >>> 8) & 255) + ((h >>> 16) & 255) + (h >>> 24)) - 510) * 0.006766; }          // ~ N(0,1)
+  function gnoise(x, y, z, sd) {
+    var ix = Math.floor(x), iy = Math.floor(y), iz = Math.floor(z), fx = x - ix, fy = y - iy, fz = z - iz;
+    fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy); fz = fz * fz * (3 - 2 * fz);
+    var wx0 = 1 - fx, wy0 = 1 - fy, wz0 = 1 - fz, acc = 0, a, b, c;
+    for (c = 0; c < 2; c++) for (b = 0; b < 2; b++) for (a = 0; a < 2; a++) acc += (a ? fx : wx0) * (b ? fy : wy0) * (c ? fz : wz0) * g4(hash3(ix + a, iy + b, iz + c, sd));
+    return acc / Math.sqrt((wx0 * wx0 + fx * fx) * (wy0 * wy0 + fy * fy) * (wz0 * wz0 + fz * fz));
+  }
+  /* smooth multiplicative receive-coil sensitivity of an MRI (1 + A F, F a sum of three low-order plane waves of wavelength ~ 0.5-1 m, |F| <= 1): continuous in 3-D by construction */
+  var BIAS_WAVES = [[0.6, 0.55, 0.3, 0.5, 0.9, 0.0], [0.3, -0.5, 0.7, 0.45, 2.1, 1.3], [0.1, 0.3, -0.6, 0.8, 4.0, 2.2]];
+  function biasField(X, Y, Z, amp, wl) {
+    var f = 0, i, k = 2 * Math.PI / (wl || DEFAULTS.biasWavelengthMm);
+    for (i = 0; i < 3; i++) { var w = BIAS_WAVES[i], q = Math.hypot(w[0], w[1], w[2]); f += w[3] * Math.sin(k * (w[0] * X + w[1] * Y + w[2] * Z) / q * (1 + 0.35 * i) + w[4]); }
+    return 1 + amp * f / 1.8;
+  }
+  /* res + view geometry -> final Float32 values.  o: {modality, slab, thick, blur (mm), noise (CT: HU; MR: % of the reference signal), bias (MR: fraction), seed, px, plane:{O,u,v,n,u0,v0}, offs[], mid} */
+  function renderValues(res, lut, o) {
+    var W = res.W, H = res.H, N = W * H, mr = o.modality !== "ct", val = combineSlab(res, lut, o.slab || "avg", o.thick || 0), k, x, y, px = o.px || res.px, pl = o.plane || res.plane;
+    if (o.blur > 0) val = gaussBlur(val, W, H, o.blur / px);
+    var useN = o.noise > 0, useB = mr && o.bias > 0;
+    if (!(useN || useB) || !pl) return val;
+    var offs = o.offs || res.offs || [0], sm = offs.length ? (offs[0] + offs[offs.length - 1]) / 2 : 0, th = Math.max(o.thick || 0, 0), sd = (o.seed | 0) || DEFAULTS.seed;
+    var corr = mr ? DEFAULTS.noiseCorrMR : DEFAULTS.noiseCorrCT, inv = 1 / corr, sg = mr ? o.noise / 100 : o.noise;
+    if (o.slab === "avg" && th > corr) sg /= Math.sqrt(th / corr);          // an average over a slab of several correlation cells has proportionally less noise
+    var Ox = pl.O[0] + pl.n[0] * sm, Oy = pl.O[1] + pl.n[1] * sm, Oz = pl.O[2] + pl.n[2] * sm;
+    for (y = 0; y < H; y++) {
+      var vv = pl.v0 - (y + 0.5) * px;
+      for (x = 0; x < W; x++) {
+        var uu = pl.u0 + (x + 0.5) * px, X = Ox + pl.u[0] * uu + pl.v[0] * vv, Y = Oy + pl.u[1] * uu + pl.v[1] * vv, Z = Oz + pl.u[2] * uu + pl.v[2] * vv, i = y * W + x;
+        if (useB) val[i] *= biasField(X, Y, Z, o.bias);
+        if (useN) {
+          if (!mr) val[i] += sg * gnoise(X * inv, Y * inv, Z * inv, sd);
+          else { var n1 = sg * gnoise(X * inv, Y * inv, Z * inv, sd), n2 = sg * gnoise(X * inv, Y * inv, Z * inv, sd + 7919), a = val[i] + n1; val[i] = Math.sqrt(a * a + n2 * n2); }
+        }
+      }
+    }
+    return val;
+  }
+
   /* ---- node test hook (also exported in the browser since Q228: companions such as the ultrasound add-on reuse the kernel and the mapping) ---- */
-  var LIB = {KERNEL_FACTORY: KERNEL_FACTORY, compileTable: compileTable, classify: classify, mrTable: mrTable, ctTable: ctTable, basis: basis, dirLabel: dirLabel, VERSION: VERSION};
+  var LIB = {KERNEL_FACTORY: KERNEL_FACTORY, compileTable: compileTable, classify: classify, mrTable: mrTable, ctTable: ctTable, basis: basis, dirLabel: dirLabel, VERSION: VERSION,
+    DEFAULTS: DEFAULTS, chooseSS: chooseSS, slabOffsets: slabOffsets, areaValues: areaValues, combineSlab: combineSlab, gaussBlur: gaussBlur, gnoise: gnoise, hash3: hash3, biasField: biasField, renderValues: renderValues};
   G.NMSKImagingLib = LIB;
   if (typeof document === "undefined") return;
 
@@ -505,7 +664,7 @@
     var S = {
       open: false, modality: "ct", ctWin: "soft", ctW: 400, ctL: 40, seq: "t1_se", sp: null, mrW: 1, mrL: 0.5, auto: true,
       thick: 5, slab: "avg", layout: "mpr", active: "cut", fov: {cut: 450, ax: 450, co: 700, sa: 700}, res: 320,
-      P: null, noise: 0, blur: 0, cross: true, labels: true, tab: "image", lay: "auto", link: false
+      P: null, noise: 0, blur: 0, bias: 0, ssCap: 0, cross: true, labels: true, tab: "image", lay: "auto", link: false
     };
     var views = {};
     var VIEWS = [["cut", "Cut plane"], ["ax", "Axial"], ["co", "Coronal"], ["sa", "Sagittal"]];
@@ -581,7 +740,7 @@
           resolve();
         }
         try {
-          var src = "var K=(" + KERNEL_FACTORY.toString() + ")();onmessage=function(e){var m=e.data;if(m.type==='init'){K.setGeometry(m.g);postMessage({type:'ready'});}else if(m.type==='slice'){var r;try{r=K.slice(m.R);}catch(err){postMessage({type:'error',id:m.id,msg:String(err&&err.stack||err)});return;}var tr=[r.lab.buffer];if(r.sid)tr.push(r.sid.buffer);postMessage({type:'slice',id:m.id,r:r},tr);}};";
+          var src = "var K=(" + KERNEL_FACTORY.toString() + ")();onmessage=function(e){var m=e.data;if(m.type==='init'){K.setGeometry(m.g);postMessage({type:'ready'});}else if(m.type==='slice'){var r;try{r=K.slice(m.R);}catch(err){postMessage({type:'error',id:m.id,msg:String(err&&err.stack||err)});return;}var tr=[r.lab.buffer];if(r.sid)tr.push(r.sid.buffer);if(r.fine)tr.push(r.fine.buffer);postMessage({type:'slice',id:m.id,r:r},tr);}};";
           var url = URL.createObjectURL(new Blob([src], {type: "application/javascript"}));
           worker = new Worker(url);
           var t = setTimeout(function () { if (!worker) return; try { worker.terminate(); } catch (e) {} local(); }, 8000);
@@ -636,9 +795,7 @@
     function offsetsFor(spec, tier) {
       var th = S.thick;
       if (th <= 0.01) return [0];
-      var maxN = tier === 0 ? 5 : (S.layout === "mpr" ? 25 : 49), n = Math.max(2, Math.min(maxN, Math.ceil(th / 1.0) + 1)), out = [], k;
-      for (k = 0; k < n; k++) out.push(spec.lo + (spec.hi - spec.lo) * k / (n - 1));
-      return out;
+      return slabOffsets(spec.lo, spec.hi, th, tier === 0 ? 5 : (S.layout === "mpr" ? 25 : 49));       // Q246: midpoint rule, <= 1 mm cells
     }
 
     /* ---------- view objects ---------- */
@@ -686,26 +843,27 @@
       var rel = [cp[0] - spec.O[0], cp[1] - spec.O[1], cp[2] - spec.O[2]], cu = dot(spec.u, rel), cv = dot(spec.v, rel);
       var u0 = cu - W * px / 2, v0 = cv + H * px / 2, offs = offsetsFor(spec, tier);
       var key = [spec.O.map(function (x) { return x.toFixed(3); }).join(","), spec.n.map(function (x) { return x.toFixed(5); }).join(","), u0.toFixed(2), v0.toFixed(2), px.toFixed(4), W, offs[0].toFixed(3), offs[offs.length - 1].toFixed(3), ++msgSeq].join("|");
-      var base = {key: key, W: W, H: H, O: spec.O, u: spec.u, v: spec.v, n: spec.n, u0: u0, v0: v0, px: px, smin: Math.min.apply(null, offs), smax: Math.max.apply(null, offs), skinMm: T.bone_model.skin_thickness_mm, ids: C.ids,
+      var ssN = chooseSS(offs.length, tier, S.ssCap || 0);                       // Q246: 1 while dragging, then area-coverage supersampling within a fixed budget
+      var base = {key: key, ss: ssN, W: W, H: H, O: spec.O, u: spec.u, v: spec.v, n: spec.n, u0: u0, v0: v0, px: px, smin: Math.min.apply(null, offs), smax: Math.max.apply(null, offs), skinMm: T.bone_model.skin_thickness_mm, ids: C.ids,
         bone: boneParams()};
-      var mid = Math.floor((offs.length - 1) / 2), labels = [], t0 = Date.now(), sidMid = null, st = {nCand: 0, tris: 0, parityBad: 0, ms: 0}, k = 0;
+      var mid = Math.floor((offs.length - 1) / 2), labels = [], fines = [], t0 = Date.now(), sidMid = null, st = {nCand: 0, tris: 0, parityBad: 0, holes: 0, rep: 0, ms: 0}, k = 0;
       setStatus("Computing " + v.label + " ...");
       function next() {
         if (v.gen !== gen) return Promise.resolve("stale");                  // superseded: stop between sub-slices
         if (k >= offs.length) return Promise.resolve("done");
         var R = Object.assign({}, base, {s: offs[k], wantSid: k === mid});
         return runSlice(R).then(function (r) {
-          labels.push(r.lab); if (k === mid) sidMid = r.sid;
-          st.nCand = Math.max(st.nCand, r.nCand); st.tris += r.tris; st.parityBad += r.parityBad; st.ms += r.ms; k++;
-          if (k === 1 || k === offs.length || tier === 0) { v.labels = labels.slice(); v.sid = sidMid; v.mid = Math.min(mid, labels.length - 1); v.W = W; v.H = H; v.spec = spec; v.offs = offs.slice(0, labels.length); v.px = px; v.cu = cu; v.cv = cv; v.partial = k < offs.length; renderView(v); }
+          labels.push(r.lab); fines.push(r.fine || null); if (k === mid) sidMid = r.sid;
+          st.nCand = Math.max(st.nCand, r.nCand); st.tris += r.tris; st.parityBad += r.parityBad; st.holes += r.holesFilled || 0; st.rep += r.repairedRows || 0; st.ms += r.ms; k++;
+          if (k === 1 || k === offs.length || tier === 0) { v.labels = labels.slice(); v.fine = fines.slice(); v.ss = ssN; v.sid = sidMid; v.mid = Math.min(mid, labels.length - 1); v.W = W; v.H = H; v.spec = spec; v.offs = offs.slice(0, labels.length); v.px = px; v.cu = cu; v.cv = cv; v.partial = k < offs.length; renderView(v); }
           return next();
         });
       }
       return next().then(function (res2) {
         if (res2 === "done") {
-          v.labels = labels; v.sid = sidMid; v.mid = mid; v.W = W; v.H = H; v.spec = spec; v.offs = offs; v.px = px; v.cu = cu; v.cv = cv; v.partial = false;
-          v.dirty = v.gen !== gen; v.tierDone = tier; v.stats = {ms: Date.now() - t0, kernelMs: st.ms, sub: offs.length, cand: st.nCand, tris: st.tris, parityBad: st.parityBad, W: W, tier: tier};
-          perf.last = {view: v.key, ms: v.stats.ms, sub: offs.length, W: W, tier: tier, cand: st.nCand, parityBad: st.parityBad}; perf.history.push(perf.last); if (perf.history.length > 60) perf.history.shift();
+          v.labels = labels; v.fine = fines; v.ss = ssN; v.sid = sidMid; v.mid = mid; v.W = W; v.H = H; v.spec = spec; v.offs = offs; v.px = px; v.cu = cu; v.cv = cv; v.partial = false;
+          v.dirty = v.gen !== gen; v.tierDone = tier; v.stats = {ms: Date.now() - t0, kernelMs: st.ms, sub: offs.length, cand: st.nCand, tris: st.tris, parityBad: st.parityBad, holes: Math.round(st.holes), repaired: st.rep, ss: ssN, W: W, tier: tier};
+          perf.last = {view: v.key, ms: v.stats.ms, sub: offs.length, W: W, tier: tier, ss: ssN, cand: st.nCand, parityBad: st.parityBad, holes: Math.round(st.holes)}; perf.history.push(perf.last); if (perf.history.length > 60) perf.history.shift();
           renderView(v);
         }
       });
@@ -724,35 +882,12 @@
       if (lutCache.key !== key) { var m = mrTable(C, P); lutCache = {key: key, lut: m.sig, norm: m.norm}; }
       return lutCache;
     }
-    function combine(v) {
-      var lut = currentLut().lut, N = v.W * v.H, nS = v.labels.length, out = new Float32Array(N), s, k;
-      if (nS === 1 || S.thick <= 0.01) { var L0 = v.labels[Math.min(v.mid, nS - 1)]; for (k = 0; k < N; k++) out[k] = lut[L0[k]]; return out; }
-      if (S.slab === "avg") { for (s = 0; s < nS; s++) { var Ls = v.labels[s]; for (k = 0; k < N; k++) out[k] += lut[Ls[k]]; } var inv = 1 / nS; for (k = 0; k < N; k++) out[k] *= inv; }
-      else if (S.slab === "mip") { out.fill(-1e9); for (s = 0; s < nS; s++) { var Lm = v.labels[s]; for (k = 0; k < N; k++) { var a = lut[Lm[k]]; if (a > out[k]) out[k] = a; } } }
-      else { out.fill(1e9); for (s = 0; s < nS; s++) { var Ln = v.labels[s]; for (k = 0; k < N; k++) { var b = lut[Ln[k]]; if (b < out[k]) out[k] = b; } } }
-      return out;
-    }
-    var seed = 12345;
-    function rnd() { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; return ((seed >>> 0) + 0.5) / 4294967296; }
-    function gauss() { return Math.sqrt(-2 * Math.log(rnd())) * Math.cos(6.283185307 * rnd()); }
-    function blurImg(a, W, H, sg) {
-      var r = Math.max(1, Math.ceil(sg * 3)), ker = new Float32Array(2 * r + 1), s = 0, i, x, y;
-      for (i = -r; i <= r; i++) { ker[i + r] = Math.exp(-i * i / (2 * sg * sg)); s += ker[i + r]; }
-      for (i = 0; i < ker.length; i++) ker[i] /= s;
-      var tmp = new Float32Array(a.length), out = new Float32Array(a.length);
-      for (y = 0; y < H; y++) for (x = 0; x < W; x++) { var acc = 0; for (i = -r; i <= r; i++) { var xx = Math.min(W - 1, Math.max(0, x + i)); acc += a[y * W + xx] * ker[i + r]; } tmp[y * W + x] = acc; }
-      for (y = 0; y < H; y++) for (x = 0; x < W; x++) { var ac = 0; for (i = -r; i <= r; i++) { var yy = Math.min(H - 1, Math.max(0, y + i)); ac += tmp[yy * W + x] * ker[i + r]; } out[y * W + x] = ac; }
-      return out;
-    }
     function renderView(v) {
       if (!v.img || !v.labels.length) return;
-      var W = v.W, H = v.H, N = W * H, val = combine(v), k;
-      if (S.blur > 0) val = blurImg(val, W, H, S.blur / v.px);
-      if (S.noise > 0) {
-        var sg = S.modality === "ct" ? S.noise : S.noise / 100;             // CT: HU; MR: fraction of the reference signal
-        if (S.modality === "ct") for (k = 0; k < N; k++) val[k] += sg * gauss();
-        else for (k = 0; k < N; k++) { var n1 = sg * gauss(), n2 = sg * gauss(); val[k] = Math.sqrt((val[k] + n1) * (val[k] + n1) + n2 * n2); }
-      }
+      var W = v.W, H = v.H, N = W * H, k;
+      var sp = v.spec, mid = Math.min(v.mid, v.labels.length - 1), plane = sp ? {O: sp.O, u: sp.u, v: sp.v, n: sp.n, u0: v.cu - W * v.px / 2, v0: v.cv + H * v.px / 2} : null;
+      var val = renderValues({W: W, H: H, ss: v.ss || 1, labels: v.labels, fine: v.fine || null, mid: mid}, currentLut().lut,
+        {modality: S.modality, slab: S.slab, thick: S.thick, blur: S.blur, noise: S.noise, bias: S.bias, px: v.px, plane: plane, offs: v.offs, seed: DEFAULTS.seed});   // Q246: area-weighted, noise attached to the 3-D position
       v.val = val;
       var cv = v.img, ctx = v.ctx;
       if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; v.imgData = null; }
@@ -810,7 +945,7 @@
       txt(t1, box.x + 8, box.y + 10, "left"); if (!tiny) txt(t2, box.x + 8, box.y + 24, "left", "#9fd0ff");
       if (v.spec && !tiny) {
         txt("FOV " + Math.round(v.px * v.W) + " mm \u00B7 " + v.px.toFixed(2) + " mm/px", box.x + 8, box.y + 38, "left", "#b8c4d2");
-        if (S.noise > 0 || S.blur > 0) txt("synthetic " + (S.noise > 0 ? "noise " : "") + (S.blur > 0 ? "blur" : ""), box.x + 8, box.y + 52, "left", "#ff9d8a");
+        if (S.noise > 0 || S.blur > 0 || (S.bias > 0 && S.modality !== "ct")) txt("synthetic " + (S.noise > 0 ? "noise " : "") + (S.blur > 0 ? "blur " : "") + (S.bias > 0 && S.modality !== "ct" ? "coil bias" : ""), box.x + 8, box.y + 52, "left", "#ff9d8a");
       }
       txt("SIMULATED – NOT A SCAN", box.x + box.s - 8, box.y + box.s - 10, "right", "#ff9d8a");
     }
@@ -878,7 +1013,7 @@
       ".img-views.single{grid-template-columns:1fr;grid-template-rows:1fr}",
       ".img-view{position:relative;min-width:0;min-height:0;overflow:hidden;background:#000;border:1px solid #1d2733;touch-action:none}",
       ".img-view.act{border-color:var(--acc)}",
-      ".img-view canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}",
+      ".img-view canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);image-rendering:auto}",       /* Q246: always smooth (bilinear) resampling when the view is scaled */
       ".img-view .ann{pointer-events:none}",
       "#img-root.ctl-off .img-ctl{display:none}",
       ".img-ctl .sec{display:contents}.img-ctl .sectabs{display:none;gap:4px}.img-ctl .modrow{grid-column:1/-1}",
@@ -1060,6 +1195,7 @@
       ui.optRow = el("div", {class: "img-row"}, [
         el("label", {text: "Noise"}), (ui.noise = el("input", {type: "range", min: "0", max: "10", step: "0.5", class: "grow", "aria-label": "Synthetic noise (default off)", oninput: function () { S.noise = +ui.noise.value * (S.modality === "ct" ? 5 : 1); ui.noiseOut.textContent = S.noise ? "synthetic noise" : "off"; rerenderAll(); }})), (ui.noiseOut = el("output", {text: "off"})),
         el("label", {text: "Blur"}), (ui.blur = el("input", {type: "range", min: "0", max: "4", step: "0.25", class: "grow", "aria-label": "Synthetic blur in mm (default off)", oninput: function () { S.blur = +ui.blur.value; ui.blurOut.textContent = S.blur ? S.blur + " mm" : "off"; rerenderAll(); }})), (ui.blurOut = el("output", {text: "off"})),
+        el("label", {text: "Coil bias"}), (ui.bias = el("input", {type: "range", min: "0", max: "30", step: "5", class: "grow", "aria-label": "Synthetic MRI coil sensitivity bias, smooth in 3-D (default off)", oninput: function () { S.bias = +ui.bias.value / 100; ui.biasOut.textContent = S.bias ? "±" + ui.bias.value + " %" : "off"; rerenderAll(); }})), (ui.biasOut = el("output", {text: "off"})),
         (ui.crossBtn = el("button", {type: "button", text: "crosshair", "aria-pressed": "true", onclick: function () { S.cross = !S.cross; ui.crossBtn.setAttribute("aria-pressed", String(S.cross)); rerenderAll(); }})),
         (ui.lblBtn = el("button", {type: "button", text: "labels", "aria-pressed": "true", onclick: function () { S.labels = !S.labels; ui.lblBtn.setAttribute("aria-pressed", String(S.labels)); rerenderAll(); }}))
       ]);
@@ -1102,7 +1238,7 @@
       if (!ui.status) return;
       if (t) ui.status.textContent = t;
       else {
-        var p = perf.last; ui.status.textContent = p ? (p.view + ": " + p.ms + " ms, " + p.sub + " sub-slice" + (p.sub > 1 ? "s" : "") + ", " + p.W + "²" + (p.parityBad ? ", " + p.parityBad + " open-mesh rows repaired" : "")) : "";
+        var p = perf.last; ui.status.textContent = p ? (p.view + ": " + p.ms + " ms, " + p.sub + " sub-slice" + (p.sub > 1 ? "s" : "") + ", " + p.W + "²" + (p.ss > 1 ? " x" + p.ss + "²" : "") + (p.parityBad ? ", " + p.parityBad + " open-mesh rows repaired" : "") + (p.holes ? ", " + p.holes + " px of small gaps filled with the surrounding tissue" : "")) : "";
       }
     }
     function syncCt() {
@@ -1258,15 +1394,16 @@
       var box = ui.info; box.innerHTML = "";
       if (!T) { box.appendChild(el("p", {text: tableErr ? "Tissue table not loaded: " + tableErr : "Loading tissue table ..."})); return; }
       box.appendChild(el("h3", {text: "What you are looking at"}));
-      box.appendChild(el("p", {html: "<b>A simulation computed from this viewer's segmented anatomical meshes – not a scan.</b> The cut plane (and slab) is intersected with every mesh, each pixel gets the tissue class of the top-most structure, and CT numbers / MRI signal come from the table below. Reconstruction, noise, artefacts, motion, contrast kinetics and disease are not simulated unless a control says so (noise and blur are off by default and clearly synthetic)."}));
+      box.appendChild(el("p", {html: "<b>A simulation computed from this viewer's segmented anatomical meshes – not a scan.</b> The cut plane (and slab) is intersected with every mesh, each pixel gets the AREA-weighted mean of the tissue values of the structures that cover it (partial volume, painter order = tissue priority of the table), and CT numbers / MRI signal come from the table below. Reconstruction, artefacts, motion, contrast kinetics and disease are not simulated unless a control says so (noise, blur and coil bias are off by default and clearly synthetic; noise and bias are attached to the position in the body, so they stay with the tissue when the plane moves)."}));
       var ul = el("ul"); T.honesty.forEach(function (h) { ul.appendChild(el("li", {text: h})); }); box.appendChild(ul);
       box.appendChild(el("h3", {text: "Geometry assumptions"}));
       var ul2 = el("ul");
       ["Only the outer surface of each structure exists. Cortical vs cancellous bone and the medullary canal are MODELLED from the slice (" + T.bone_model.note + ")",
        "Space inside the skin that no structure covers: " + T.baseline.note,
-       "Thin skin rim: " + T.bone_model.skin_note + ". Meshes with open surfaces can leave a few mis-filled scan lines; they are repaired from the line above and counted in the status line.",
+       "Thin skin rim: " + T.bone_model.skin_note + ". Meshes with open surfaces can leave a few mis-filled scan lines; they are repaired from the lines above and below (best agreement of the span sets) and counted in the status line.",
        "All structures are included whatever the visibility toggles of the 3D view say.",
-       "Slab = sub-slices at <= 1 mm (adaptive for thick slabs and while dragging) combined as average (thick MPR), MIP or MinIP. Orthogonal views use a slab of the same thickness centred on the crosshair; the cut-plane view uses the kept slab behind the plane."].forEach(function (t) { ul2.appendChild(el("li", {text: t})); });
+       "Slab = sub-slices at <= 1 mm (midpoint rule; fewer for thick slabs and while dragging) combined as average (thick MPR), MIP or MinIP. Orthogonal views use a slab of the same thickness centred on the crosshair; the cut-plane view uses the kept slab behind the plane.",
+       "Continuity (Q246): while the plane is dragged a quick one-sample-per-pixel preview is drawn; when it rests the image is recomputed with up to 3 x 3 samples per pixel (edges are anti-aliased, a boundary pixel is a mix of both tissues). Small enclosed gaps (smaller than ~1.5 pixels) inside the body are given the tissue around them instead of the fat baseline and counted in the status line; scan lines the mesh leaves open are repaired from the lines above and below. Nothing else is invented."].forEach(function (t) { ul2.appendChild(el("li", {text: t})); });
       box.appendChild(ul2);
       box.appendChild(el("h3", {text: "Tissue table (" + T.classes.length + " classes) - status colour: green verified (abstract / open full text), yellow secondary source, orange recalled/UNVERIFIED, blue derived, purple assumption; the weakest value of a row sets its colour"}));
       var tb = el("table"); tb.appendChild(el("tr", {html: "<th>class</th><th>HU</th><th>CT status</th><th>MRI 1.5 T (PD, T1, T2 ms)</th><th>MRI status</th><th>sources</th>"}));
@@ -1293,7 +1430,7 @@
     function savePng() {
       var v = views[S.active]; if (!v || !v.labels.length) return;
       var r = v.wrap.getBoundingClientRect(), s = Math.round(Math.min(r.width, r.height) * (window.devicePixelRatio || 1)), out = document.createElement("canvas"); out.width = out.height = Math.max(256, s);
-      var c = out.getContext("2d"); c.imageSmoothingEnabled = true; c.drawImage(v.img, 0, 0, out.width, out.height);
+      var c = out.getContext("2d"); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high"; c.drawImage(v.img, 0, 0, out.width, out.height);
       var a = v.ann, box = v.box; if (a && box) c.drawImage(a, box.x * (a.width / parseFloat(a.style.width)), box.y * (a.height / parseFloat(a.style.height)), box.s * (a.width / parseFloat(a.style.width)), box.s * (a.height / parseFloat(a.style.height)), 0, 0, out.width, out.height);
       out.toBlob(function (b) { var u = URL.createObjectURL(b), l = document.createElement("a"); l.href = u; l.download = "simulated_" + S.modality + "_" + v.key + ".png"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 3000); });
     }
@@ -1371,7 +1508,8 @@
           else if (k === "P") { S.P = p.P.slice(); markDirty(null, false); } else if (k === "active") { S.active = p.active; syncAll(); markDirty(null, false); }
           else if (k === "fov") { Object.keys(p.fov).forEach(function (a) { S.fov[a] = p.fov[a]; }); syncAll(); markDirty(null, false); }
           else if (k === "res") { S.res = p.res; syncAll(); markDirty(null, false); }
-          else if (k === "noise") { S.noise = p.noise; rerenderAll(); } else if (k === "blur") { S.blur = p.blur; rerenderAll(); }
+          else if (k === "noise") { S.noise = p.noise; rerenderAll(); } else if (k === "blur") { S.blur = p.blur; rerenderAll(); } else if (k === "bias") { S.bias = p.bias; rerenderAll(); }
+          else if (k === "ssCap") { S.ssCap = p.ssCap; markDirty(null, false); }
           else if (k === "tab") { S.tab = p.tab; applyLayout(); } else if (k === "lay") { S.lay = p.lay; applyLayout(); updateLayoutUI(); }
           else if (k === "seqParams") { Object.assign(S.sp, p.seqParams); syncMr(); rerenderAll(); }
         });
@@ -1385,11 +1523,11 @@
       sliceNow: function (spec) {
         var b = basis(spec.n), W = spec.W || 256, H = spec.H || W, px = (spec.fov || 400) / W, cen = spec.center || spec.O;
         var rel = [cen[0] - spec.O[0], cen[1] - spec.O[1], cen[2] - spec.O[2]], cu = dot(b.u, rel), cv = dot(b.v, rel), u0 = cu - W * px / 2, v0 = cv + H * px / 2;
-        var offs = spec.offsets || [0], key = "t" + (++msgSeq), out = {labels: [], sid: null}, k = 0;
-        var base = {key: key, W: W, H: H, O: spec.O, u: b.u, v: b.v, n: b.n, u0: u0, v0: v0, px: px, smin: Math.min.apply(null, offs), smax: Math.max.apply(null, offs), skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: boneParams()};
+        var offs = spec.offsets || [0], key = "t" + (++msgSeq), out = {labels: [], fine: [], sid: null, ss: spec.ss > 1 ? spec.ss : 1}, k = 0;
+        var ss = spec.ss > 1 ? spec.ss : 1, base = {key: key, ss: ss, W: W, H: H, O: spec.O, u: b.u, v: b.v, n: b.n, u0: u0, v0: v0, px: px, smin: Math.min.apply(null, offs), smax: Math.max.apply(null, offs), skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: boneParams()};
         function nxt() {
           if (k >= offs.length) { out.px = px; out.basis = b; out.u0 = u0; out.v0 = v0; return out; }
-          return runSlice(Object.assign({}, base, {s: offs[k], wantSid: true})).then(function (r) { out.labels.push(r.lab); out.sid = r.sid; out.stats = r; k++; return nxt(); });
+          return runSlice(Object.assign({}, base, {s: offs[k], wantSid: true})).then(function (r) { out.labels.push(r.lab); out.fine.push(r.fine || null); out.sid = r.sid; out.stats = r; k++; return nxt(); });
         }
         return buildGeometry().then(nxt);
       },

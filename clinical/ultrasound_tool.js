@@ -12,7 +12,7 @@
  * the physics above. Everything is listed in the Info panel. A test hook is exported on globalThis.NMSKUltrasoundLib (node). */
 (function (G) {
   "use strict";
-  var VERSION = "q228.2";
+  var VERSION = "q228.3";                                                   // Q246: body-fixed speckle keeps the q228 line
   var DEG = Math.PI / 180;
 
   /* ========================================================================================================
@@ -200,8 +200,9 @@
     ysk = Math.max(-pl.margin + 1, Math.min(pl.margin - 1, ysk));
     var P = new Float32Array(nS * nL), reverb = [], tex = !!o.textures, spk = !!o.speckle, seed = (o.seed | 0) || 1;
     var cellAx = GL.speckle.cell_ax_wavelengths * lam, cellZ = GL.speckle.elev_mm, elev = o.elevMm || 0, frame = o.frame, nStats = {specCount: 0, lost: 0, texSamples: 0};
-    var latCell = new Float32Array(nS);
+    var latCell = new Float32Array(nS), ref = o.ref || null;
     for (k = 0; k < nS; k++) latCell[k] = Math.max(0.4, latFw(k * ds) * 0.8);
+    function latCellAt(y) { return Math.max(0.4, latFw(y < 0 ? 0 : y) * 0.8); }
     var lastSid = -1, lastAxis = null;
     var tp = AC.tex_p;
     for (L = 0; L < nL; L++) {
@@ -271,7 +272,13 @@
               }
             }
             var sc = AC.speck[cls];
-            if (spk && sc > 0.01) m *= 1 - sc + sc * speckleE(X / latCell[k], Y / cellAx, (elev + (frame && frame.zoff || 0)) / cellZ, seed);
+            if (spk && sc > 0.01) {
+              if (ref && frame) {                                              // Q246: the speckle lattice is fixed in the body (reference frame of the star / sweep), so a tilted, slid or swept plane meets the same grain
+                var qx = frame.O[0] + frame.u[0] * X + frame.b[0] * Y - ref.O[0], qy = frame.O[1] + frame.u[1] * X + frame.b[1] * Y - ref.O[1], qz = frame.O[2] + frame.u[2] * X + frame.b[2] * Y - ref.O[2];
+                var rx = qx * ref.u[0] + qy * ref.u[1] + qz * ref.u[2], ry = qx * ref.b[0] + qy * ref.b[1] + qz * ref.b[2], rz = qx * ref.e[0] + qy * ref.e[1] + qz * ref.e[2];
+                m *= 1 - sc + sc * speckleE(rx / latCellAt(ry), ry / cellAx, rz / cellZ, seed);
+              } else m *= 1 - sc + sc * speckleE(X / latCell[k], Y / cellAx, (elev + (frame && frame.zoff || 0)) / cellZ, seed);
+            }
             P[k * nL + L] += bsl * T * T * m * Gt[k];
           }
           T *= attStep[cls];
@@ -323,7 +330,15 @@
         if (fl < -0.5 || fl > nL - 0.5 || sr < 0 || sr > depth || (sr < 0.01 && !contact)) { db[idx] = -200; continue; }
         var kf = sr / ds, k0 = Math.min(nS - 2, Math.floor(kf)), tk = kf - k0, l0 = Math.max(0, Math.min(nL - 2, Math.floor(fl))), tl = Math.min(1, Math.max(0, fl - l0));
         var b0 = k0 * nL + l0, v = (P[b0] * (1 - tl) + P[b0 + 1] * tl) * (1 - tk) + (P[b0 + nL] * (1 - tl) + P[b0 + nL + 1] * tl) * tk;
-        if (o.noise) { var hh = hash3(ox, oy, 91, nseed), u1 = ((hh >>> 8) + 0.5) / 16777216; v += nzF * -Math.log(u1); }
+        if (o.noise) {
+          var hh, u1;
+          if (ref && frame) {                                                // Q246: system noise is seeded by the position in the body (cell = one output pixel), not by the screen pixel
+            var wy = Yo + ysk, qx2 = frame.O[0] + frame.u[0] * Xo + frame.b[0] * wy - ref.O[0], qy2 = frame.O[1] + frame.u[1] * Xo + frame.b[1] * wy - ref.O[1], qz2 = frame.O[2] + frame.u[2] * Xo + frame.b[2] * wy - ref.O[2];
+            var nc = Math.max(px, 0.25);
+            hh = hash3(Math.floor((qx2 * ref.u[0] + qy2 * ref.u[1] + qz2 * ref.u[2]) / nc), Math.floor((qx2 * ref.b[0] + qy2 * ref.b[1] + qz2 * ref.b[2]) / nc), Math.floor((qx2 * ref.e[0] + qy2 * ref.e[1] + qz2 * ref.e[2]) / nc), nseed);
+          } else hh = hash3(ox, oy, 91, nseed);
+          u1 = ((hh >>> 8) + 0.5) / 16777216; v += nzF * -Math.log(u1);
+        }
         db[idx] = v > 1e-30 ? 4.342945 * Math.log(v / bs0) : -200;
       }
     }
@@ -422,7 +437,7 @@
   }
 
   var LIB = {VERSION: VERSION, probeFrame: probeFrame, REF: REF, starTilts: starTilts, sweepOffsets: sweepOffsets, matrixDims: matrixDims, fanGeom: fanGeom, lineStart: lineStart,
-    planRaster: planRaster, compileAcoustics: compileAcoustics, simulate: simulate, toGray: toGray, skinHit: skinHit, smoothNormal: smoothNormal, pcaAxis: pcaAxis,
+    planRaster: planRaster, compileAcoustics: compileAcoustics, simulate: simulate, hash3: hash3, toGray: toGray, skinHit: skinHit, smoothNormal: smoothNormal, pcaAxis: pcaAxis,
     followRotation: followRotation, angleDeg: angleDeg, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES};
   G.NMSKUltrasoundLib = LIB;
   if (typeof document === "undefined") return;
@@ -571,11 +586,15 @@
       if (S.mode === "star") return idx === S.sel ? {maxDim: 480, maxLines: 256} : {maxDim: 320, maxLines: 192};
       return S.n <= 4 ? {maxDim: 440, maxLines: 256} : S.n <= 6 ? {maxDim: 380, maxLines: 224} : {maxDim: 320, maxLines: 192};
     }
+    function refFrame(spec) {                                                   // fixed frame of the whole star / sweep: the centre (perpendicular) frame, or the sweep's own tilt
+      var rot = spec.rotOverride != null ? spec.rotOverride : S.rot, pf = LIB.probeFrame(S.N, orientRef(), rot, S.mode === "star" ? 0 : spec.tilt, S.mode === "star" ? 0 : spec.dir);
+      return {O: S.P, u: pf.u, b: pf.b, e: pf.e};
+    }
     function simOpts(fr, extra) {
       var p = US.probes[S.probe];
       return Object.assign({AC: AC, geom: fr.geom, plan: fr.plan, lab: fr.lab, sid: fr.sid, freq: S.freq, depthMm: S.depthCm * 10, gainDb: S.gain, tgcDb: S.tgc, focusMm: S.focusCm * 10,
-        speckle: S.speckle, textures: S.textures, reverb: S.reverb, noise: S.noise, seed: S.mode === "star" ? S.seed + 131 * (fr.spec.id || 0) : S.seed,
-        elevMm: S.mode === "star" ? 0 : fr.spec.off, frame: {O: fr.O, u: fr.pf.u, b: fr.pf.b, zoff: S.mode === "star" ? 0 : 0}, axisOf: axisOf}, extra || {});
+        speckle: S.speckle, textures: S.textures, reverb: S.reverb, noise: S.noise, seed: S.seed,        // Q246: ONE seed for every frame: the speckle belongs to the body, not to the frame
+        elevMm: S.mode === "star" ? 0 : fr.spec.off, frame: {O: fr.O, u: fr.pf.u, b: fr.pf.b, e: fr.pf.e, zoff: 0}, ref: refFrame(fr.spec), axisOf: axisOf}, extra || {});
     }
     function rasterKey(spec, q) { return [S.probe, probeW(), S.depthCm, S.P.map(function (x) { return x.toFixed(2); }).join(), S.N.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0].join("|"); }
     function computeFrame(spec, q, prev) {                                    // -> Promise(frame)
@@ -588,7 +607,7 @@
       else {
         var u = pose.pf.u, v = pose.pf.N, n = LIB.cross(u, v);
         var R = {key: "us" + (++keySeq), W: plan.W, H: plan.H, O: pose.O, u: u, v: v, n: n, u0: plan.xr0, v0: -plan.yr0, px: plan.px, smin: 0, smax: 0, s: 0, wantSid: true,
-          skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null};
+          skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true};
         pr = sh.runSlice(R).then(function (r) { fr.lab = r.lab; fr.sid = r.sid; fr.kms = r.ms; });
       }
       return pr.then(function () {
@@ -803,7 +822,7 @@
       ".us-views.single{grid-template-columns:1fr;grid-template-rows:1fr}",
       ".us-view{position:relative;min-width:0;min-height:0;overflow:hidden;background:#000;border:1px solid #1d2733;touch-action:manipulation;cursor:pointer}",
       ".us-view.us-act{border-color:var(--acc)}",
-      ".us-view canvas{position:absolute}",
+      ".us-view canvas{position:absolute;image-rendering:auto}",
       ".us-view .ann{pointer-events:none;left:0;top:0}",
       "#us-root.ctl-off .us-ctl{display:none}",
       ".us-ctl .sec{display:contents}.us-ctl .sectabs{display:none;gap:4px;flex-wrap:wrap}.us-ctl .modrow{grid-column:1/-1}",
@@ -1161,7 +1180,7 @@
     function savePng() {
       var v = views[S.sel], fr = frames[S.sel]; if (!v || !fr || !fr.sim) return;
       var r = v.wrap.getBoundingClientRect(), s = window.devicePixelRatio || 1, out = document.createElement("canvas"); out.width = Math.max(256, Math.round(r.width * s)); out.height = Math.max(256, Math.round(r.height * s));
-      var c = out.getContext("2d"); c.fillStyle = "#000"; c.fillRect(0, 0, out.width, out.height); c.imageSmoothingEnabled = true;
+      var c = out.getContext("2d"); c.fillStyle = "#000"; c.fillRect(0, 0, out.width, out.height); c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
       c.drawImage(v.img, v.box.x * s, v.box.y * s, v.box.w * s, v.box.h * s); c.drawImage(v.ann, 0, 0, out.width, out.height);
       out.toBlob(function (b) { var u = URL.createObjectURL(b), l = document.createElement("a"); l.href = u; l.download = "simulated_ultrasound_" + S.mode + "_" + (S.sel + 1) + ".png"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 3000); });
     }
