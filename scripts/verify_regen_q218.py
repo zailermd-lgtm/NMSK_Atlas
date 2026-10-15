@@ -19,7 +19,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "scripts"))
 sys.path.insert(0, str(REPO / "scripts" / "zanatomy"))
+sys.path.insert(0, str(REPO / "scripts" / "clinical"))
 from platform_wrap import unwrap  # noqa: E402
+from inline_clinical_q239 import uninline  # noqa: E402  Q239: a source page with the imaging / ultrasound code pasted in is compared as the page it was before
 import rebuild_own_html_from_built as ro  # noqa: E402
 import rebuild_html_from_built as rz  # noqa: E402
 
@@ -37,7 +39,7 @@ def main():
     tpl_rel = "viewer/atlas_viewer.template.html" if kind == "own" else "viewer/zan_atlas.template.html"
     mod = ro if kind == "own" else rz
     html_name = next(p.name for p in src.glob("atlas_viewer*.html"))
-    s_html = unwrap((src / html_name).read_text(encoding="utf-8"))
+    s_html = uninline(unwrap((src / html_name).read_text(encoding="utf-8")))
     o_html = (out / html_name).read_text(encoding="utf-8")
     ext = ro.extract if kind == "own" else rz.extract_data
     ds, do = ext(s_html), ext(o_html)

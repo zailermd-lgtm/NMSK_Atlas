@@ -12,7 +12,7 @@
  * the physics above. Everything is listed in the Info panel. A test hook is exported on globalThis.NMSKUltrasoundLib (node). */
 (function (G) {
   "use strict";
-  var VERSION = "q228.1";
+  var VERSION = "q228.2";
   var DEG = Math.PI / 180;
 
   /* ========================================================================================================
@@ -436,7 +436,9 @@
   })();
   var BADGE = "Simulated from meshes – not an ultrasound";
 
+  var CODE_SRC = (function () { try { var cs = document.currentScript; return cs && cs.src ? "file" : "inline"; } catch (e) { return "inline"; } })();   // Q239
   function attachUltrasound(api, sh) {
+    var tableSrc = "", usErr = null;
     var US = null, AC = null, C = null, T = null, geo = null, loadErr = null, loadPromise = null;
     var S = {
       open: false, mode: "star", probe: "linear", widths: {linear: 44, convex: 65, sector: 22}, freq: 7.5, depthCm: 5, gain: 0, tgc: 0, focusCm: 2.5, dr: 60,
@@ -447,12 +449,33 @@
     var frames = [], views = [], root = null, ui = {}, timers = {}, gen = 0, keySeq = 0, perf = {last: null, hist: []}, axisCache = {}, firing = false, busy = false, overlay = null, lastOverlayKey = "";
 
     /* ---------- table + geometry ---------- */
+    var acousticP = null;
+    function acousticTable() {                                                 // Q239: the table pasted into the page first, the sibling file (fetch, then XHR) as a fallback
+      if (acousticP) return acousticP;
+      var inl = sh.inline("nmsk-ultrasound-tissues"), p = null;
+      if (inl) { try { var tj = JSON.parse(inl); tableSrc = "inline"; p = Promise.resolve(tj); } catch (e) { p = null; } }
+      if (!p) { tableSrc = "file"; p = sh.loadJson("clinical_ultrasound_tissues.json"); }
+      acousticP = p.then(function (t) { US = t; usErr = null; setDiag(); return t; }, function (e) { usErr = String(e && e.message || e); setDiag(); throw e; });
+      return acousticP;
+    }
+    function nClasses() { var c = US && US.classes; return !c ? 0 : Array.isArray(c) ? c.length : Object.keys(c).length; }
+    function diagText() {
+      if (usErr) return {ok: false, text: "Ultrasound tool: NOT ready – acoustic table: " + usErr};
+      if (!US) return {ok: null, text: "Ultrasound tool: loading acoustic table …"};
+      if (loadErr) return {ok: false, text: "Ultrasound tool: NOT ready – " + loadErr};
+      return {ok: true, text: "Ultrasound tool: ready (v" + VERSION + ", tissues " + nClasses() + ", code " + CODE_SRC + ", table " + tableSrc + ")"};
+    }
+    function setDiag() {
+      var d = diagText(); sh.setUsDiag(d.ok, d.text, {version: VERSION, tissues: US ? nClasses() : 0, code: CODE_SRC, table: tableSrc});
+      if (ui.diag) { ui.diag.textContent = d.text; ui.diag.className = "us-diag" + (d.ok === false ? " bad" : ""); ui.diag.title = d.text; }
+    }
     function loadTable() {
       if (loadPromise) return loadPromise;
-      loadPromise = fetch(SCRIPT_BASE + "clinical_ultrasound_tissues.json", {cache: "no-cache"}).then(function (r) { if (!r.ok) throw new Error("clinical_ultrasound_tissues.json: HTTP " + r.status); return r.json(); })
+      loadPromise = acousticTable()
         .then(function (t) { US = t; return sh.ensure(function (m) { setStatus(m); }); })
         .then(function (x) { geo = x.geo; C = x.C; T = x.T; AC = LIB.compileAcoustics(US, C); if (S.P == null) defaultPlacement(); })
-        .catch(function (e) { loadErr = String(e && e.message || e); console.error("ultrasound:", e); });
+        .catch(function (e) { loadErr = String(e && e.message || e); console.error("ultrasound:", e); })
+        .then(function () { setDiag(); });
       return loadPromise;
     }
     function axisOf(sid) {
@@ -806,6 +829,10 @@
       "body.nmsk-us.us-tab.us-t3d #us-tab3d{display:flex}",
       "#us-tab3d button{background:#161d27;color:#e6edf5;border:1px solid #2a3646;border-radius:999px;padding:6px 12px;min-height:34px;font:600 13px system-ui}",
       "#us-tab3d button[aria-pressed=true]{background:#1f3b5c;border-color:#6cb4ff}",
+      ".us-diag{flex:0 0 auto;padding:2px 8px;font-size:11px;color:var(--dim);border-bottom:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+      ".us-diag.bad{color:var(--warn);white-space:normal}",
+      ".us-hint{flex:0 0 auto;padding:6px 8px;font-size:12px;background:#12263b;border-bottom:1px solid var(--acc);color:var(--ink)}",
+      ".us-hint button{min-height:24px!important;padding:1px 8px!important;margin-left:6px}",
       "@media (max-width:520px),(max-height:520px){#us-root button{min-height:36px}#us-root select,#us-root input[type=number]{min-height:36px}}"
     ].join("\n");
     function el(tag, attrs, kids) {
@@ -850,6 +877,7 @@
         el("button", {type: "button", title: "Close ultrasound", "aria-label": "Close ultrasound", onclick: function () { setOpen(false); }, text: "✕"})
       ]);
       ui.info = el("div", {class: "us-info"});
+      ui.diag = el("div", {class: "us-diag"}); ui.hint = el("div", {class: "us-hint", role: "note"}); ui.hint.style.display = "none";
       ui.views = el("div", {class: "us-views star"});
       ui.read = el("div", {class: "us-read", text: "Click the skin in the 3D view to place the probe; hover an image for tissue, structure, depth and echo level."});
       ui.ctl = el("div", {class: "us-ctl"}); buildControls(ui.ctl);
@@ -864,7 +892,7 @@
         var up = function () { div.classList.remove("drag"); div.removeEventListener("pointermove", mv); div.removeEventListener("pointerup", up); };
         div.addEventListener("pointermove", mv); div.addEventListener("pointerup", up);
       });
-      [div, head, ui.info, ui.views, ui.read, ui.ctl].forEach(function (x) { root.appendChild(x); });
+      [div, head, ui.diag, ui.hint, ui.info, ui.views, ui.read, ui.ctl].forEach(function (x) { root.appendChild(x); });
       document.body.appendChild(root);
       var tabs = el("div", {id: "us-tab3d"}, [el("button", {type: "button", text: "3D", "aria-pressed": "true"}), el("button", {type: "button", text: "Place probe", onclick: function () { S.placing = true; syncUi(); setStatus("Tap the skin to place the probe."); }}),
         el("button", {type: "button", text: "Image ▸", onclick: function () { S.tab = "image"; applyLayout(); relayoutViews(); }})]);
@@ -1170,13 +1198,20 @@
 
     /* ---------- toolbar button, open / close, test API ---------- */
     function addButton() {
-      var host = api.toolbar; if (!host) return;
+      var host = sh.toolbarHost();                                            // the page's toolbar, else the floating bar (Q239: the button is always there)
       var b = el("button", {type: "button", id: "t-ultrasound", title: "Ultrasound: simulated B-mode from the meshes (not a scan)", "aria-pressed": "false", text: "Ultrasound", onclick: function () { setOpen(!S.open); }});
       var im = document.getElementById("t-imaging"), cut = document.getElementById("t-cut"), ref = im && im.parentNode === host ? im : cut;
       if (ref && ref.parentNode === host) host.insertBefore(b, ref.nextSibling); else host.appendChild(b);
-      b.className = ref ? ref.className : (api.kind === "webgl" ? "pill" : "tool");
+      b.className = ref && ref.parentNode === host ? ref.className : (api.kind === "webgl" ? "pill" : "tool");
       if (api.kind === "webgl") b.textContent = "ultrasound";
       ui.btn = b;
+    }
+    function showUsHint() {                                                    // first-use hint, once per browser
+      var seen = false; try { seen = localStorage.getItem("nmsk-ultrasound-hint") === "1"; } catch (e) {}
+      if (seen || !ui.hint) return;
+      ui.hint.textContent = "Simulated B-mode from the meshes (not a scan). The probe was put on the skin automatically; use \u201CPlace probe\u201D and tap the skin to move it. Probe type, tilt and the sweep matrix (3 to 9 frames) are under the images. ";
+      ui.hint.appendChild(el("button", {type: "button", text: "OK", onclick: function () { ui.hint.style.display = "none"; try { localStorage.setItem("nmsk-ultrasound-hint", "1"); } catch (e) {} }}));
+      ui.hint.style.display = "";
     }
     function setOpen(on) {
       if (on === S.open) return;
@@ -1184,6 +1219,7 @@
         try { if (sh.isOpen()) sh.close(); } catch (e) {}
         build(); S.open = true; S.tab = "image"; applyLayout(); updateLayoutUi();
         if (ui.btn) ui.btn.setAttribute("aria-pressed", "true");
+        setDiag(); showUsHint();
         setStatus("Loading acoustic table and geometry ...");
         loadTable().then(function () {
           if (!S.open) return;
@@ -1200,6 +1236,7 @@
     }
     sh.addClickHandler(onPlaceClick);
     addButton();
+    acousticTable().then(function () {}, function () {}); setDiag();           // the cheap table now (state in the button tooltip); the geometry only when the panel opens
     var poll = setInterval(function () {                                       // keep the overlay's tube radius in step with the camera distance
       if (!S.open || !frames.length) return;
       var vw; try { vw = api.view(); } catch (e) { return; }

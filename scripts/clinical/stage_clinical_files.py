@@ -20,6 +20,9 @@ It needs no per-viewer data, so it also works on the pages that have no needle f
 
 --remove deletes exactly those names again (an anatomy-only build).
 
+Q239: --ultrasound / --imaging-only ALSO paste the imaging (+ ultrasound) code and tissue tables into the page html (scripts/clinical/inline_clinical_q239.py), so the
+tools no longer depend on four sibling files being served; the files beside the page stay as the fallback. --no-inline skips that, --uninline undoes it.
+
 Usage:
     python3 scripts/clinical/stage_clinical_files.py build/viewer_m_hr
     python3 scripts/clinical/stage_clinical_files.py --all
@@ -33,6 +36,8 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from inline_clinical_q239 import inline_dir, uninline  # noqa: E402  Q239: the imaging + ultrasound code and tables are also pasted into the page
 CLINICAL = REPO / "clinical"
 # published viewer build dirs (see the hub, viewer/atlas_hub.html) -> viewer key
 DIR_VIEWER = {
@@ -127,18 +132,33 @@ def main(argv=None) -> int:
     ap.add_argument("--imaging", action="store_true", help="Q226: also stage the imaging add-on (clinical_imaging_tool.js + clinical_imaging_tissues.json)")
     ap.add_argument("--imaging-only", action="store_true", help="Q226: stage ONLY the imaging add-on (any build dir, no needle files)")
     ap.add_argument("--ultrasound", action="store_true", help="Q228: stage the imaging add-on AND its ultrasound companion (no needle files); any build dir")
+    ap.add_argument("--no-inline", action="store_true", help="Q239: with --ultrasound / --imaging-only, do NOT paste the code + tissue tables into the page html (sibling files only)")
+    ap.add_argument("--uninline", action="store_true", help="Q239: take the pasted code out of the page html again (the template's hook line is restored)")
     ap.add_argument("--remove", action="store_true", help="delete the staged add-on files (anatomy-only build), needle and imaging")
     a = ap.parse_args(argv)
     dirs = [REPO / "build" / d for d in DIR_VIEWER] if a.all else [Path(d) for d in a.build_dir]
     if not dirs:
         ap.error("give a build dir or --all")
     for d in dirs:
-        if a.remove:
+        if a.uninline:
+            for p in sorted(Path(d).glob("*.html")):
+                t = p.read_text(encoding="utf-8")
+                if uninline(t) != t:
+                    p.write_text(uninline(t), encoding="utf-8"); print(f"{p}: pasted code removed")
+        elif a.remove:
             print(f"{d}: removed {[p.name for p in remove(d)]}")
+            for p in sorted(Path(d).glob("*.html")):          # an anatomy-only build has no pasted add-on code either
+                t = p.read_text(encoding="utf-8")
+                if uninline(t) != t:
+                    p.write_text(uninline(t), encoding="utf-8")
         elif a.ultrasound:
             print(f"{d}: staged {[p.name for p in stage_ultrasound(d)]}")
+            if not a.no_inline:
+                print(f"{d}: code + tissue tables pasted into {[p.name for p in inline_dir(d, ultrasound=True)]} (Q239)")
         elif a.imaging_only:
             print(f"{d}: staged {[p.name for p in stage_imaging(d)]}")
+            if not a.no_inline:
+                print(f"{d}: imaging code + table pasted into {[p.name for p in inline_dir(d, ultrasound=False)]} (Q239)")
         else:
             files = stage(d, a.viewer, Path(a.motor_points) if a.motor_points else None)
             if a.imaging:

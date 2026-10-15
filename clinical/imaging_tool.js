@@ -1,7 +1,7 @@
 /* NMSK Atlas -- PRIVATE clinical layer (clinical/LICENSE_PRIVATE.md): IMAGING mode, phase 1 = CT + MRI simulation (Q226).
  *
  * Staged beside a viewer page as clinical_imaging_tool.js (+ clinical_imaging_tissues.json) by
- * scripts/clinical/stage_clinical_files.py. The public pages only carry a generic <script> hook; without this file they are
+ * scripts/clinical/stage_clinical_files.py. The public pages only carry a generic script-tag hook; without this file they are
  * plain atlases. The tool chains onto window.NMSKClinical.attach (the needle add-on, if present, still gets the same API).
  *
  * WHAT IT IS: a SIMULATION computed from the segmented anatomical MESHES of the viewer. The cut plane (and its slab) is
@@ -15,7 +15,8 @@
  * globalThis.NMSKImagingLib in node. */
 (function (G) {
   "use strict";
-  var VERSION = "q226.1";
+  if (G.NMSKClinical && G.NMSKClinical.imaging) return;                   // Q239: the code is pasted into the page AND the file beside it may load too: the first one wins
+  var VERSION = "q226.2";
 
   /* ========================================================================================================
    * 1. KERNEL -- self-contained (no outer references): its source text is evaluated inside a Worker.
@@ -426,9 +427,79 @@
     try { var cs = document.currentScript; if (cs && cs.src) return cs.src.replace(/[^\/]*$/, ""); } catch (e) {}
     return "";
   })();
+  /* Q239: where this code came from ("inline" = pasted into the page by scripts/clinical/stage_clinical_files.py, "file" = clinical_imaging_tool.js beside it) */
+  var CODE_SRC = (function () { try { var cs = document.currentScript; return cs && cs.src ? "file" : "inline"; } catch (e) { return "inline"; } })();
+  var DIAG = G.NMSKClinicalDiag = G.NMSKClinicalDiag || {};          // {imaging: {ok, text}, ultrasound: {ok, text}} for support / tests
+  function inlineText(id) { try { var e = document.getElementById(id); return e ? e.textContent : null; } catch (e2) { return null; } }
+  /* text of a sibling file, robust against hosting differences: fetch, then XMLHttpRequest, for the script-relative URL and the document-relative one;
+     rejects with ONE message that names every attempt (HTTP status, network error, "host answered with a page") */
+  function fetchText(name) {
+    var urls = [SCRIPT_BASE + name]; if (urls.indexOf(name) < 0) urls.push(name);
+    var why = [];
+    function xhr(u) {
+      return new Promise(function (res, rej) {
+        try {
+          var x = new XMLHttpRequest(); x.open("GET", u);
+          x.onload = function () { if (x.status >= 200 && x.status < 300 && x.responseText) res(x.responseText); else rej(new Error("xhr HTTP " + x.status)); };
+          x.onerror = function () { rej(new Error("xhr network error")); };
+          x.send();
+        } catch (e) { rej(e); }
+      });
+    }
+    function one(i) {
+      if (i >= urls.length) return Promise.reject(new Error(name + " not loadable (" + why.join("; ") + ")"));
+      var u = urls[i], f;
+      try { f = fetch(u, {cache: "no-cache"}).then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); }); } catch (e) { f = Promise.reject(e); }
+      return f.catch(function (e) { why.push("fetch " + (e && e.message || e)); return xhr(u); })
+        .catch(function (e) { why.push(String(e && e.message || e)); return one(i + 1); });
+    }
+    return one(0);
+  }
+  function fetchJson(name) {
+    return fetchText(name).then(function (t) {
+      if (/^\s*</.test(t)) throw new Error(name + ": the host answered with a web page instead of the file");
+      try { return JSON.parse(t); } catch (e) { throw new Error(name + ": not valid JSON (" + e.message + ")"); }
+    });
+  }
+  /* a one-line notice that fades by itself (role=status), used for the first-use hints and "tool not available" answers */
+  function toast(msg, ms) {
+    try {
+      var t = document.getElementById("nmsk-clinical-toast");
+      if (!t) {
+        t = document.createElement("div"); t.id = "nmsk-clinical-toast"; t.setAttribute("role", "status");
+        t.style.cssText = "position:fixed;left:50%;bottom:72px;transform:translateX(-50%);max-width:min(560px,92vw);z-index:200;background:#161d27;color:#e6edf5;border:1px solid #6cb4ff;border-radius:10px;padding:9px 14px;font:13px/1.4 system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.45);display:none";
+        document.body.appendChild(t);
+      }
+      t.textContent = msg; t.style.display = "block"; clearTimeout(t._h); t._h = setTimeout(function () { t.style.display = "none"; }, ms || 9000);
+    } catch (e) {}
+  }
+  /* the toolbar of the page; when a page has none (or it is clipped / hidden on a small screen) the buttons live in a small floating bar instead */
+  function floatBar() {
+    var b = document.getElementById("nmsk-clinical-bar");
+    if (!b) { b = document.createElement("div"); b.id = "nmsk-clinical-bar"; b.style.cssText = "position:fixed;top:8px;right:8px;z-index:70;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end"; document.body.appendChild(b); }
+    return b;
+  }
+  function visibleOnScreen(el) {
+    if (!el || !el.isConnected) return false;
+    var r = el.getBoundingClientRect(), cs = getComputedStyle(el);
+    if (cs.display === "none" || cs.visibility === "hidden" || r.width < 8 || r.height < 8) return false;
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    return cx > 0 && cy > 0 && cx < window.innerWidth && cy < window.innerHeight;
+  }
+  function rescueButtons() {                                         // a button that cannot be seen is moved to the floating bar
+    ["t-imaging", "t-ultrasound"].forEach(function (id) {
+      var b = document.getElementById(id);
+      if (b && !visibleOnScreen(b) && !(document.body.classList.contains("nmsk-img") || document.body.classList.contains("nmsk-us"))) floatBar().appendChild(b);
+    });
+  }
+  function setBtnTip(btn, base, ok, text) {
+    if (!btn) return;
+    btn.title = base + " | " + text; btn.setAttribute("data-diag", ok ? "ok" : "bad");
+    btn.style.opacity = ok === false ? "0.7" : "";
+  }
 
   function attachImaging(api) {
-    var C = null, T = null, tableErr = null;
+    var C = null, T = null, tableErr = null, tableSrc = "", geoErr = "", shared = null;
     var geo = null, geoState = "idle", kernelLocal = null, worker = null, workerOk = true, jobCb = null, msgSeq = 0;
     var perf = {last: null, history: []};
     var S = {
@@ -443,9 +514,12 @@
 
     /* ---------- table ---------- */
     function loadTable() {
-      return fetch(SCRIPT_BASE + "clinical_imaging_tissues.json", {cache: "no-cache"}).then(function (r) { if (!r.ok) throw new Error("clinical_imaging_tissues.json: HTTP " + r.status); return r.json(); })
-        .then(function (t) { T = t; C = compileTable(t); S.sp = JSON.parse(JSON.stringify(t.mr_sequences.filter(function (q) { return q.key === S.seq; })[0])); })
-        .catch(function (e) { tableErr = String(e && e.message || e); });
+      var inl = inlineText("nmsk-imaging-tissues"), p = null;                 // Q239: the table pasted into the page first, the sibling file only as a fallback
+      if (inl) { try { var tj = JSON.parse(inl); tableSrc = "inline"; p = Promise.resolve(tj); } catch (e) { p = null; } }
+      if (!p) { tableSrc = "file"; p = fetchJson("clinical_imaging_tissues.json"); }
+      return p.then(function (t) { T = t; C = compileTable(t); S.sp = JSON.parse(JSON.stringify(t.mr_sequences.filter(function (q) { return q.key === S.seq; })[0])); })
+        .catch(function (e) { tableErr = String(e && e.message || e); })
+        .then(function () { setDiag(); });
     }
 
     /* ---------- geometry package ---------- */
@@ -498,6 +572,7 @@
     }
     function startKernel(g) {
       return new Promise(function (resolve) {
+        var starting = true;                                                  // Q239: a worker that cannot start (CSP, sandbox) falls back to the main-thread kernel at once, not after 8 s
         var payload = {n: g.n, pos: g.pos, idx: g.idx, vStart: g.vStart, tStart: g.tStart, bbox: g.bbox, cls: g.cls, kind: g.kind, skin: g.skin, render: g.render, order: g.order, skinList: g.skinList};
         function local() {
           workerOk = false; worker = null;
@@ -512,10 +587,10 @@
           var t = setTimeout(function () { if (!worker) return; try { worker.terminate(); } catch (e) {} local(); }, 8000);
           worker.onmessage = function (e) {
             var m = e.data;
-            if (m.type === "ready") { clearTimeout(t); resolve(); return; }
+            if (m.type === "ready") { starting = false; clearTimeout(t); resolve(); return; }
             if (jobCb) jobCb(m);
           };
-          worker.onerror = function (e) { if (geoState === "loading") { clearTimeout(t); try { worker.terminate(); } catch (e2) {} local(); } else console.error("imaging worker:", e && e.message); };
+          worker.onerror = function (e) { if (starting) { starting = false; clearTimeout(t); try { worker.terminate(); } catch (e2) {} local(); } else console.error("imaging worker:", e && e.message); };
           worker.postMessage({type: "init", g: payload});                    // copies (structured clone): the page keeps its own arrays
         } catch (e) { local(); }
       });
@@ -827,6 +902,10 @@
       "#img-tab3d{position:fixed;z-index:90;right:8px;top:8px;display:none;gap:4px}",
       "body.nmsk-img.img-tab.img-t3d #img-tab3d{display:flex}",
       "#img-tab3d button{background:#161d27;color:#e6edf5;border:1px solid #2a3646;border-radius:999px;padding:6px 12px;min-height:34px;font:600 13px system-ui}",
+      ".img-diag{flex:0 0 auto;padding:2px 8px;font-size:11px;color:var(--dim);border-bottom:1px solid var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+      ".img-diag.bad{color:var(--warn);white-space:normal}",
+      ".img-hint{flex:0 0 auto;padding:6px 8px;font-size:12px;background:#12263b;border-bottom:1px solid var(--acc);color:var(--ink)}",
+      ".img-hint button{min-height:24px!important;padding:1px 8px!important;margin-left:6px}",
       "@media (max-width:520px),(max-height:520px){#img-root button{min-height:36px}#img-root select,#img-root input[type=number]{min-height:36px}}"
     ].join("\n");
     function el(tag, attrs, kids) {
@@ -871,6 +950,7 @@
         el("button", {type: "button", title: "Close imaging", "aria-label": "Close imaging", onclick: function () { setOpen(false); }, text: "✕"})
       ]);
       ui.info = el("div", {class: "img-info"});
+      ui.diag = el("div", {class: "img-diag"}); ui.hint = el("div", {class: "img-hint", role: "note"}); ui.hint.style.display = "none";
       ui.views = el("div", {class: "img-views mpr"});
       VIEWS.forEach(function (d) {
         var v = views[d[0]] = makeView(d[0], d[1]);
@@ -899,14 +979,14 @@
         var up = function () { div.classList.remove("drag"); div.removeEventListener("pointermove", mv); div.removeEventListener("pointerup", up); };
         div.addEventListener("pointermove", mv); div.addEventListener("pointerup", up);
       });
-      root.appendChild(div); root.appendChild(head); root.appendChild(ui.info); root.appendChild(ui.views); root.appendChild(ui.read); root.appendChild(ctl);
+      root.appendChild(div); root.appendChild(head); root.appendChild(ui.diag); root.appendChild(ui.hint); root.appendChild(ui.info); root.appendChild(ui.views); root.appendChild(ui.read); root.appendChild(ctl);
       document.body.appendChild(root);
       var tabs = el("div", {id: "img-tab3d"}, [el("button", {type: "button", text: "3D", "aria-pressed": "true"}), el("button", {type: "button", text: "Image ▸", onclick: function () { S.tab = "image"; applyLayout(); pumpAfterShow(); }})]);
       document.body.appendChild(tabs); ui.tabs = tabs;
       /* in tab layout, the panel header gets a 3D button */
       head.insertBefore(ui.to3d = el("button", {type: "button", text: "◂ 3D", title: "Back to the 3D model", onclick: function () { S.tab = "3d"; applyLayout(); }}), head.children[1]);
       window.addEventListener("resize", function () { if (S.open && !firing) { applyLayout(); updateLayoutUI(); } });
-      renderInfo();
+      renderInfo(); setDiag();
     }
     function pumpAfterShow() { Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); }); markDirty(null, false); }
     function cycleLayout() {
@@ -998,6 +1078,25 @@
       if (!root) return;
       var h = root.getBoundingClientRect().height;
       root.classList.toggle("ctl-tabs", h > 0 && h < 860);
+    }
+    var BTN_TIP = "CT / MRI: simulated CT and MRI of the cut plane (not a scan)";
+    function diagText() {                                                  // Q239: the one-line state of the tool, shown in the panel and in the button's tooltip
+      if (tableErr) return {ok: false, text: "Imaging tool: NOT ready – tissue table: " + tableErr};
+      if (!T) return {ok: null, text: "Imaging tool: loading tissue table …"};
+      if (geoErr) return {ok: false, text: "Imaging tool: NOT ready – " + geoErr + " (v" + VERSION + ")"};
+      return {ok: true, text: "Imaging tool: ready (v" + VERSION + ", tissues " + T.classes.length + ", code " + CODE_SRC + ", table " + tableSrc + ")"};
+    }
+    function setDiag() {
+      var d = diagText(); DIAG.imaging = {ok: d.ok, text: d.text, version: VERSION, tissues: T ? T.classes.length : 0, code: CODE_SRC, table: tableSrc};
+      if (ui.diag) { ui.diag.textContent = d.text; ui.diag.className = "img-diag" + (d.ok === false ? " bad" : ""); ui.diag.title = d.text; }
+      setBtnTip(ui.btn, BTN_TIP, d.ok, d.text);
+    }
+    function showHint(text, always) {                                       // first-use hint (once per browser) or an always-shown note
+      var seen = false; try { seen = localStorage.getItem("nmsk-imaging-hint") === "1"; } catch (e) {}
+      if (!ui.hint || (seen && !always)) return;
+      ui.hint.textContent = ""; ui.hint.appendChild(document.createTextNode(text + " "));
+      ui.hint.appendChild(el("button", {type: "button", text: "OK", onclick: function () { ui.hint.style.display = "none"; try { localStorage.setItem("nmsk-imaging-hint", "1"); } catch (e) {} }}));
+      ui.hint.style.display = "";
     }
     function setStatus(t) {
       if (!ui.status) return;
@@ -1222,8 +1321,11 @@
       applyLayout(); syncAll();
       setStatus("Preparing geometry ...");
       buildGeometry(function (m) { setStatus(m); }).then(function () {
-        geoState = "ready"; mappingReport();
+        geoState = "ready"; geoErr = ""; mappingReport(); setDiag();
+        var hadCut = !!cutPlane();
         ensureCut(); lastCut = null;
+        if (!hadCut && cutPlane()) { showHint("No cut was set, so an axial cut through the upper abdomen was created for you. Click or drag in any image to move it, or use the Cut panel of the 3D view.", true); toast("CT / MRI: no cut was set – an axial cut through the upper abdomen was created.", 7000); }
+        else showHint("Simulated CT / MRI of the cut plane (not a scan). Click or drag in an image to move the cut; Contrast, Slab (MIP / MinIP / thickness) and View (MPR / single / split) are under the image.", false);
         var c = api.cut(); lastPlaneKey = c ? c.map(function (x) { return x.toFixed(4); }).join(",") : "off"; lastSlab = api.cutSlab ? api.cutSlab() : 0;
         if (!S.P) S.P = pickAnchor();
         movePointToPlane();
@@ -1233,7 +1335,7 @@
         markDirty(null, true);
         clearInterval(polling); polling = setInterval(pollCut, 140);
         setStatus("");
-      }, function (e) { setStatus("Imaging unavailable: " + (e && e.message || e)); console.error(e); });
+      }, function (e) { geoErr = "geometry: " + (e && e.message || e); geoState = "error"; setDiag(); setStatus("Imaging unavailable: " + (e && e.message || e)); console.error(e); });
     }
     function pickAnchor() {
       var cp = cutPlane(), t = api.view().target.slice();
@@ -1245,14 +1347,14 @@
     }
 
     /* ---------- toolbar button ---------- */
-    function addButton() {
-      var host = api.toolbar; if (!host) return;
-      var btn = el("button", {type: "button", id: "t-imaging", title: "Imaging: simulated CT and MRI of the cut plane (not a scan)", "aria-pressed": "false", text: "Imaging", onclick: function () { setOpen(!S.open); }});
+    function addButton() {                                                   // always present: in the page's toolbar, else in the floating bar (Q239)
+      var host = api.toolbar || floatBar();
+      var btn = el("button", {type: "button", id: "t-imaging", title: BTN_TIP, "aria-pressed": "false", text: "CT / MRI", onclick: function () { setOpen(!S.open); }});
       var cut = document.getElementById("t-cut");
       if (cut && cut.parentNode === host) host.insertBefore(btn, cut.nextSibling); else host.appendChild(btn);
-      btn.className = cut ? cut.className : (api.kind === "webgl" ? "pill" : "tool");
-      if (api.kind === "webgl") btn.textContent = "imaging";
-      ui.btn = btn;
+      btn.className = cut && host === api.toolbar ? cut.className : (api.kind === "webgl" ? "pill" : "tool");
+      if (api.kind === "webgl") btn.textContent = "ct / mri";
+      ui.btn = btn; setDiag();
     }
     addButton();
     /* ---------- debug / test API ---------- */
@@ -1295,25 +1397,58 @@
     };
     tablePromise = loadTable();
     /* Q228: services handed to companion add-ons (the ultrasound tool): the shared geometry package + worker, table, kernel parameters */
-    return {
+    shared = {
       lib: LIB, version: VERSION,
+      loadJson: fetchJson, inline: inlineText, toast: toast, toolbarHost: function () { return api.toolbar || floatBar(); }, kind: api.kind,
+      setUsDiag: function (ok, text, extra) { DIAG.ultrasound = Object.assign({ok: ok, text: text}, extra || {}); setBtnTip(document.getElementById("t-ultrasound"), US_TIP, ok, text); },
       ensure: function (progress) { return tablePromise.then(function () { if (tableErr || !C) throw new Error(tableErr || "tissue table missing"); return buildGeometry(progress); }).then(function () { return {geo: geo, C: C, T: T}; }); },
       runSlice: runSlice, boneParams: boneParams,
       isOpen: function () { return S.open; }, close: function () { setOpen(false); }
     };
+    setTimeout(rescueButtons, 1500); setTimeout(rescueButtons, 5000);
+    return shared;
   }
+  var US_TIP = "Ultrasound: simulated B-mode from the meshes (not a scan)";
 
-  /* companion add-ons staged beside the page (optional; a 404 is silent for the viewer): loaded by this file so that the public templates carry no extra line */
+  /* companion add-ons (the ultrasound tool): the code pasted into the page (Q239) or the file beside it, loaded by a script tag, then by fetch + inline script
+     (a host that refuses the file as a script still serves it as text); when none works the Ultrasound button is STILL there and says why (the public templates carry no extra line) */
   function loadCompanions(api, shared) {
     if (!shared) return;
-    ["clinical_ultrasound_tool.js"].forEach(function (name) {
-      try {
-        var sc = document.createElement("script");
-        sc.src = SCRIPT_BASE + name; sc.async = true;
-        sc.onload = function () { try { if (G.NMSKUltrasoundAddon && typeof G.NMSKUltrasoundAddon.attach === "function") G.NMSKUltrasoundAddon.attach(api, shared); } catch (e) { console.error("ultrasound add-on failed to start; imaging unaffected:", e); } };
-        document.head.appendChild(sc);
-      } catch (e) {}
-    });
+    var name = "clinical_ultrasound_tool.js", done = false;
+    function start(how) {
+      if (done) return true;
+      if (!(G.NMSKUltrasoundAddon && typeof G.NMSKUltrasoundAddon.attach === "function")) return false;
+      done = true;
+      try { G.NMSKUltrasoundAddon.attach(api, shared); } catch (e) { console.error("ultrasound add-on failed to start; imaging unaffected:", e); fail("start-up error: " + (e && e.message || e)); }
+      return true;
+    }
+    function fail(reason) {
+      done = true;
+      var text = "Ultrasound tool: NOT available – " + reason;
+      shared.setUsDiag(false, text);
+      if (document.getElementById("t-ultrasound")) return;
+      var host = shared.toolbarHost(), cut = document.getElementById("t-imaging") || document.getElementById("t-cut"), b = document.createElement("button");
+      b.type = "button"; b.id = "t-ultrasound"; b.textContent = shared.kind === "webgl" ? "ultrasound" : "Ultrasound"; b.title = text;
+      b.className = cut && cut.parentNode === host ? cut.className : (shared.kind === "webgl" ? "pill" : "tool");
+      if (cut && cut.parentNode === host) host.insertBefore(b, cut.nextSibling); else host.appendChild(b);
+      b.style.opacity = "0.7"; b.setAttribute("data-diag", "bad");
+      b.addEventListener("click", function () { shared.toast(text, 12000); });
+    }
+    if (start("inline")) return;
+    function viaText(why) {
+      fetchText(name).then(function (src) {
+        if (/^\s*</.test(src)) throw new Error("the host answered with a web page instead of the file");
+        var sc = document.createElement("script"); sc.text = src; document.head.appendChild(sc);
+        if (!start("text")) fail("file loaded but it defines no ultrasound tool (placeholder or wrong file?)");
+      }).catch(function (e) { fail(name + ": " + why + "; " + (e && e.message || e)); });
+    }
+    try {
+      var sc = document.createElement("script");
+      sc.src = SCRIPT_BASE + name; sc.async = true;
+      sc.onload = function () { try { if (!start("file")) viaText("script loaded but defines no ultrasound tool"); } catch (e) { fail(String(e && e.message || e)); } };
+      sc.onerror = function () { viaText("script tag refused or not found"); };
+      document.head.appendChild(sc);
+    } catch (e) { viaText("could not add a script tag: " + (e && e.message || e)); }
   }
   /* one click handler slot in the page API: keep the needle add-on's handler and let companions go first while they are armed */
   var clickers = [], legacyClick = null, dispatcherOn = false;
@@ -1336,7 +1471,11 @@
     var r = null, sh = null;
     installClickDispatcher(api);
     if (prev && typeof prev.attach === "function") { try { r = prev.attach(api); } catch (e) { console.error("needle add-on failed to start:", e); } }
-    try { sh = attachImaging(api); } catch (e2) { console.error("imaging add-on failed to start; anatomy viewer unaffected:", e2); }
+    try { sh = attachImaging(api); } catch (e2) {
+      console.error("imaging add-on failed to start; anatomy viewer unaffected:", e2);
+      var msg = "Imaging tool: NOT ready – start-up error: " + (e2 && e2.message || e2); DIAG.imaging = {ok: false, text: msg};
+      try { var fb = document.createElement("button"); fb.type = "button"; fb.id = "t-imaging"; fb.textContent = "CT / MRI"; fb.title = msg; fb.className = api.kind === "webgl" ? "pill" : "tool"; fb.style.opacity = "0.7"; (api.toolbar || floatBar()).appendChild(fb); fb.addEventListener("click", function () { toast(msg, 12000); }); } catch (e3) {}
+    }
     if (sh) { sh.addClickHandler = function (fn) { clickers.push(fn); }; sh.api = api; }
     loadCompanions(api, sh);
     return r;
