@@ -104,6 +104,7 @@ aside{border-right:1px solid var(--line)}
 .tool{padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface);
       font-size:11.5px;font-weight:500;box-shadow:var(--shadow)}
 .tool[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+a.tool{text-decoration:none;color:inherit;cursor:pointer;display:inline-flex;align-items:center}
 #hover{left:0;top:0;padding:3px 7px;border-radius:4px;background:var(--surface);border:1px solid var(--line);
        font-size:11.5px;box-shadow:var(--shadow);white-space:nowrap;transform:translate(-50%,-160%)}
 #scalebar{right:12px;bottom:14px;text-align:right;font-size:10.5px;color:var(--muted)}
@@ -646,6 +647,7 @@ body.ss-marking canvas{cursor:copy!important}
   <div id="stage">
     <svg id="cut-svg" aria-hidden="true"></svg>
     <div class="overlay" id="tools">
+      <a class="tool" id="t-hub" href="https://claude.ai/artifact/LyQVpCZcYWXQT5Ek8M984T" target="_blank" rel="noopener" title="Back to the atlas hub — choose a different model">Hub</a>
       <button class="tool" id="t-iso" aria-pressed="false">Isolate</button>
       <button class="tool" id="t-xray" aria-pressed="false">X-ray</button>
       <button class="tool" id="t-cut" aria-pressed="false" title="Cut the model with a movable plane (sagittal, axial, coronal or facing you) to expose deep tissue">Cut</button>

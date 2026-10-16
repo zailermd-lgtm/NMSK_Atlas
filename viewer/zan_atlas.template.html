@@ -79,6 +79,7 @@
     backdrop-filter:blur(10px)}
   .pill:hover,.pill.on{border-color:var(--accent);color:var(--accent)}
   .pill.on{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+  a.pill{text-decoration:none;color:inherit;cursor:pointer;display:inline-block}
 
   #topright{position:fixed;top:calc(.7rem + var(--safe-t));right:calc(.9rem + var(--safe-r));
     z-index:25;display:flex;gap:.35rem}
@@ -637,6 +638,7 @@ body.ss-marking canvas{cursor:copy!important}
 </div>
 
 <div id="topright">
+  <a class="pill" id="t-hub" href="https://claude.ai/artifact/LyQVpCZcYWXQT5Ek8M984T" target="_blank" rel="noopener" title="Back to the atlas hub — choose a different model">hub</a>
   <button class="pill" id="btn-panel">layers</button>
   <button class="pill" id="t-cut" aria-pressed="false" title="Cut the model with a movable plane (sagittal, axial, coronal, facing you, or through a point you click) and lift the chosen side away">cut</button>
   <button class="pill" id="about-btn">sources</button>

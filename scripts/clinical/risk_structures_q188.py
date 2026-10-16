@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Q188 -- risk-structure classes and calibres for the PRIVATE needle-planning add-on.
 
-Writes clinical/data/risk_<viewer>.json (viewer = vhm, vhf, zan_m, zan_f): for every
+Writes clinical/data/risk_<viewer>.json (viewer = vhm, vhf, zan_m, zan_f, zan_vhm, base_f -- Q251: all six
+published pages, the last two were missing from this table): for every
 structure the add-on treats as a risk structure (artery, vein, nerve, pleura/lung,
 other organ), its class and an approximate calibre RADIUS in mm. The file holds
 measurements only -- no geometry -- and is published next to the viewer as
@@ -45,6 +46,9 @@ VIEWERS = {
     "vhf": {"kind": "bundle", "dir": REPO / "build" / "viewer_f_hr"},
     "zan_m": {"kind": "zan", "html": REPO / "build" / "viewer_zan_atlas" / "atlas_viewer_zan_atlas.html"},
     "zan_f": {"kind": "zan", "html": REPO / "build" / "viewer_zan_female" / "atlas_viewer_zan_female.html"},
+    # Q251: the two pages this table historically skipped (needle add-on was silently missing there)
+    "zan_vhm": {"kind": "zan", "html": REPO / "build" / "viewer_zan_vhm" / "atlas_viewer_zan_male_fitted.html"},
+    "base_f": {"kind": "zan", "html": REPO / "build" / "viewer_base_female" / "atlas_viewer_base_female.html"},
 }
 LICENCE = ("PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for "
            "redistribution. Holds measurements about the anatomy model, not the model.")

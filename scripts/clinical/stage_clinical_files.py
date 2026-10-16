@@ -15,7 +15,7 @@ Q226 (--imaging / --imaging-only): the IMAGING add-on (simulated CT / MRI of the
     clinical_imaging_tool.js       <- clinical/imaging_tool.js
     clinical_imaging_tissues.json  <- clinical/data/imaging_tissues.json   (tissue table, mapping rules, sources)
 
-It needs no per-viewer data, so it also works on the pages that have no needle files (Z male fitted, base female).
+It needs no per-viewer data, so it also works where --all is not used (e.g. a one-off build dir).
 --imaging-only stages just these two files (no needle tool, risk or motor points) -- any build dir name is accepted.
 
 --remove deletes exactly those names again (an anatomy-only build).
@@ -45,14 +45,16 @@ DIR_VIEWER = {
     "viewer_f_hr": "vhf",
     "viewer_zan_atlas": "zan_m",
     "viewer_zan_female": "zan_f",
+    "viewer_zan_vhm": "zan_vhm",       # Q251: was missing (silent gap: --all staged only the four above)
+    "viewer_base_female": "base_f",    # Q251: was missing (same gap)
 }
 NAMES = ("clinical_needle_tool.js", "clinical_risk.json", "clinical_motor_points.json")
 IMAGING_NAMES = ("clinical_imaging_tool.js", "clinical_imaging_tissues.json")
 # Q228: the ULTRASOUND companion (loaded by the imaging add-on, never by a template); needs the imaging files beside it
 ULTRASOUND_NAMES = ("clinical_ultrasound_tool.js", "clinical_ultrasound_tissues.json")
-# all six pages (Q226): build dir name -> viewer key (only the first four have needle data)
-ALL_PAGES = {"viewer_m_hr": "vhm", "viewer_f_hr": "vhf", "viewer_zan_atlas": "zan_m", "viewer_zan_female": "zan_f",
-             "viewer_zan_vhm": "zan_vhm", "viewer_base_female": "base_f"}
+# all six pages (Q226): build dir name -> viewer key. Same as DIR_VIEWER (Q251: every page now has needle data);
+# kept as a separate name since other scripts import ALL_PAGES to mean "every published page".
+ALL_PAGES = DIR_VIEWER
 
 
 def viewer_for(build_dir: Path) -> str:
