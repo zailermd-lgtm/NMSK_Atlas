@@ -129,7 +129,7 @@ def _fake_clinical(tmp_path, with_mp=True):
     c = tmp_path / "clinical"
     (c / "data").mkdir(parents=True)
     (c / "needle_tool.js").write_text("/* private */")
-    for v in ("vhm", "vhf", "zan_m", "zan_f"):
+    for v in ("vhm", "vhf", "zan_m", "zan_f", "zan_vhm", "base_f"):   # Q251 added these two viewer keys to DIR_VIEWER
         (c / "data" / f"risk_{v}.json").write_text(json.dumps({"viewer": v}))
     if with_mp:
         (c / "data" / "motor_points.json").write_text('{"schema":"nmsk.motor_points.v1"}')

@@ -17,7 +17,7 @@ KEYS = ["own_f", "comb_f", "base_f", "own_m", "comb_m", "base_m"]
 DIRS = {"own_m": "viewer_m_hr", "own_f": "viewer_f_hr", "base_m": "viewer_zan_atlas", "base_f": "viewer_base_female", "comb_m": "viewer_zan_vhm", "comb_f": "viewer_zan_female"}
 Z_HAS = ("pudendal_n_", "nerve_to_quadratus_femoris_", "posterior_femoral_cutaneous_n_", "genitofemoral_n_", "iliohypogastric_n_")
 CORE = ["s1_ventral_ramus", "s2_ventral_ramus", "s3_ventral_ramus", "s4_ventral_ramus", "lumbosacral_trunk", "inferior_gluteal_n", "nerve_to_obturator_internus", "nerve_to_levator_ani", "nerve_to_coccygeus",
-        "coccygeal_plexus", "anococcygeal_n", "hypogastric_n", "pelvic_splanchnic_n_s3"]
+        "coccygeal_plexus", "hypogastric_n", "pelvic_splanchnic_n_s3"]
 
 
 def J(name):
@@ -74,7 +74,15 @@ def test_the_core_pelvic_set_ships_on_both_sides(key):
     ids = set(sh)
     for c in CORE:
         assert f"{c}_l" in ids and f"{c}_r" in ids, c
-    assert any(i.startswith("perineal_n_") for i in ids)               # at least one side (the other may be held by the guards: documented in the report)
+    # perineal_n / anococcygeal_n: a free terminal search with no anchor organ, whose candidate family's end point is
+    # checked against the page's own local perineal skin envelope since Q251 (Z pages: a page-wide unsigned nearest
+    # distance couldn't tell outside from inside at all; own pages have one closed skin mesh and are unaffected,
+    # same guarantee as before). On a Z page that envelope can rule out every candidate in the documented direction
+    # family (held, reason on the card); on the own (CT-segmented) pages, where it is reliable everywhere, at least
+    # one side still ships.
+    if key.startswith("own"):
+        assert any(i.startswith("perineal_n_") for i in ids)
+        assert f"anococcygeal_n_l" in ids and f"anococcygeal_n_r" in ids
     assert "superior_hypogastric_plexus" in ids or key == "comb_m"
 
 

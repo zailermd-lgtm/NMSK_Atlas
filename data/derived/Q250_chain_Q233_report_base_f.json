@@ -1,34 +1,34 @@
 {
  "page": "base_f",
  "registration": {
-  "scale": 0.94576,
+  "scale": 0.94458,
   "residual_mm": {
-   "median": 2.26,
-   "p90": 6.01,
-   "rms": 4.26,
-   "max": 40.3
+   "median": 2.31,
+   "p90": 6.03,
+   "rms": 4.31,
+   "max": 40.5
   },
   "rotation": [
    [
-    0.999989,
-    0.004146,
-    -0.002295
+    0.999992,
+    0.003358,
+    -0.002202
    ],
    [
-    -0.004071,
-    0.999494,
-    0.031555
+    -0.003289,
+    0.999528,
+    0.030542
    ],
    [
-    0.002425,
-    -0.031545,
-    0.999499
+    0.002304,
+    -0.030535,
+    0.999531
    ]
   ],
   "translation_mm": [
-   -8.578,
-   -20.35,
-   97.626
+   -8.505,
+   -20.679,
+   97.538
   ],
   "det_R": 1.0
  },
@@ -36,41 +36,41 @@
   "uterus": {
    "hra_object": "VH_F_Uterus",
    "gates": {
-    "volume_cm3": 22.65,
-    "voxel_mask_cm3": 25.91,
-    "skin_distance_min_mm": 46.3,
-    "bone_min_mm": 25.34,
+    "volume_cm3": 22.57,
+    "voxel_mask_cm3": 25.85,
+    "skin_distance_min_mm": 46.2,
+    "bone_min_mm": 24.76,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {
-     "zan_jejunum": 1.169,
-     "zan_urinary_bladder": 0.961
+     "zan_jejunum": 1.033,
+     "zan_urinary_bladder": 0.944
     },
     "overlap_by_system_cm3": {
-     "viscera": 2.13
+     "viscera": 1.977
     },
-    "overlap_total_pct_of_mask": 8.22,
+    "overlap_total_pct_of_mask": 7.65,
     "watertight": true,
     "triangles": 9000,
     "soft_overlap_flag_gt10pct": false,
     "pass": true
    },
    "envelope": {
-    "volume_cm3": 22.66,
+    "volume_cm3": 22.57,
     "watertight": true,
     "components": 1,
-    "shell_voxel_cm3": 5.88,
+    "shell_voxel_cm3": 5.86,
     "pitch_mm": 0.6,
     "closing_iterations": 2,
     "source_to_closed_surface_mm": {
      "median": 0.45,
-     "p95": 7.02,
-     "max": 9.53,
+     "p95": 7.01,
+     "max": 9.58,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
      "median": 0.23,
      "p95": 0.54,
-     "max": 1.79
+     "max": 1.76
     }
    }
   },
@@ -78,27 +78,27 @@
    "hra_object": "VH_F_Ovary_L",
    "gates": {
     "volume_cm3": 0.86,
-    "voxel_mask_cm3": 1.24,
-    "skin_distance_min_mm": 57.5,
-    "bone_min_mm": 15.74,
+    "voxel_mask_cm3": 1.25,
+    "skin_distance_min_mm": 57.4,
+    "bone_min_mm": 15.33,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {
-     "zan_descending_colon": 0.055,
-     "zan_external_iliac_artery_l": 0.021,
-     "zan_external_iliac_vein_l": 0.198
+     "zan_descending_colon": 0.063,
+     "zan_external_iliac_artery_l": 0.017,
+     "zan_external_iliac_vein_l": 0.189
     },
     "overlap_by_system_cm3": {
-     "viscera": 0.055,
-     "vessel": 0.219
+     "viscera": 0.063,
+     "vessel": 0.206
     },
-    "overlap_total_pct_of_mask": 22.08,
+    "overlap_total_pct_of_mask": 21.57,
     "watertight": true,
     "triangles": 1400,
     "soft_overlap_flag_gt10pct": true,
     "pass": true
    },
    "envelope": {
-    "volume_cm3": 0.87,
+    "volume_cm3": 0.86,
     "watertight": true,
     "components": 1,
     "shell_voxel_cm3": 0.27,
@@ -106,14 +106,14 @@
     "closing_iterations": 1,
     "source_to_closed_surface_mm": {
      "median": 0.24,
-     "p95": 0.37,
+     "p95": 0.38,
      "max": 0.5,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
      "median": 0.25,
-     "p95": 0.39,
-     "max": 0.53
+     "p95": 0.4,
+     "max": 0.52
     }
    }
   },
@@ -121,22 +121,22 @@
    "hra_object": "VH_F_Ovary_R",
    "gates": {
     "volume_cm3": 0.88,
-    "voxel_mask_cm3": 1.27,
+    "voxel_mask_cm3": 1.26,
     "skin_distance_min_mm": 55.6,
-    "bone_min_mm": 9.55,
+    "bone_min_mm": 9.31,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {
-     "zan_external_iliac_artery_r": 0.2,
-     "zan_iliopsoas_fascia_r": 0.159,
-     "zan_inferior_epigastric_artery_r": 0.091,
-     "zan_psoas_major_r": 0.12
+     "zan_external_iliac_artery_r": 0.201,
+     "zan_iliopsoas_fascia_r": 0.146,
+     "zan_inferior_epigastric_artery_r": 0.099,
+     "zan_psoas_major_r": 0.113
     },
     "overlap_by_system_cm3": {
-     "vessel": 0.291,
-     "fascia": 0.159,
-     "muscle": 0.12
+     "vessel": 0.3,
+     "fascia": 0.146,
+     "muscle": 0.113
     },
-    "overlap_total_pct_of_mask": 44.88,
+    "overlap_total_pct_of_mask": 44.4,
     "watertight": true,
     "triangles": 1400,
     "soft_overlap_flag_gt10pct": true,
@@ -150,15 +150,15 @@
     "pitch_mm": 0.4,
     "closing_iterations": 1,
     "source_to_closed_surface_mm": {
-     "median": 0.19,
-     "p95": 0.34,
-     "max": 0.43,
+     "median": 0.2,
+     "p95": 0.35,
+     "max": 0.48,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
      "median": 0.2,
      "p95": 0.36,
-     "max": 0.46
+     "max": 0.48
     }
    }
   },
@@ -166,20 +166,20 @@
    "hra_object": "VH_F_Fallopian_Tube_L",
    "gates": {
     "volume_cm3": 0.41,
-    "voxel_mask_cm3": 1.04,
-    "skin_distance_min_mm": 53.0,
-    "bone_min_mm": 20.83,
+    "voxel_mask_cm3": 1.03,
+    "skin_distance_min_mm": 52.9,
+    "bone_min_mm": 20.58,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {
-     "zan_descending_colon": 0.23,
-     "zan_external_iliac_vein_l": 0.133,
-     "zan_inferior_epigastric_vein_l": 0.042
+     "zan_descending_colon": 0.221,
+     "zan_external_iliac_vein_l": 0.143,
+     "zan_inferior_epigastric_vein_l": 0.037
     },
     "overlap_by_system_cm3": {
-     "viscera": 0.23,
-     "vessel": 0.175
+     "viscera": 0.221,
+     "vessel": 0.18
     },
-    "overlap_total_pct_of_mask": 38.76,
+    "overlap_total_pct_of_mask": 38.86,
     "watertight": true,
     "triangles": 14000,
     "soft_overlap_flag_gt10pct": true,
@@ -194,14 +194,14 @@
     "closing_iterations": 1,
     "source_to_closed_surface_mm": {
      "median": 0.22,
-     "p95": 0.74,
-     "max": 1.48,
+     "p95": 0.73,
+     "max": 1.51,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
      "median": 0.21,
      "p95": 0.41,
-     "max": 1.17
+     "max": 1.18
     }
    }
   },
@@ -211,23 +211,23 @@
     "volume_cm3": 0.21,
     "voxel_mask_cm3": 0.71,
     "skin_distance_min_mm": 54.3,
-    "bone_min_mm": 17.17,
+    "bone_min_mm": 17.5,
     "vertices_within_1mm_of_bone": 0,
     "overlap_cm3": {
-     "zan_external_iliac_artery_r": 0.083,
-     "zan_external_iliac_vein_r": 0.046,
-     "zan_iliopsoas_fascia_r": 0.049,
-     "zan_inferior_epigastric_artery_r": 0.012,
-     "zan_psoas_major_r": 0.014
+     "zan_external_iliac_artery_r": 0.086,
+     "zan_external_iliac_vein_r": 0.043,
+     "zan_iliopsoas_fascia_r": 0.051,
+     "zan_inferior_epigastric_artery_r": 0.011,
+     "zan_psoas_major_r": 0.009
     },
     "overlap_by_system_cm3": {
-     "vessel": 0.141,
-     "fascia": 0.049,
-     "muscle": 0.014
+     "vessel": 0.14,
+     "fascia": 0.051,
+     "muscle": 0.009
     },
-    "overlap_total_pct_of_mask": 28.9,
+    "overlap_total_pct_of_mask": 28.33,
     "watertight": true,
-    "triangles": 12832,
+    "triangles": 12700,
     "soft_overlap_flag_gt10pct": true,
     "pass": true
    },
@@ -240,13 +240,13 @@
     "closing_iterations": 1,
     "source_to_closed_surface_mm": {
      "median": 0.17,
-     "p95": 0.49,
+     "p95": 0.5,
      "max": 0.94,
      "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
     },
     "closed_surface_to_source_mm": {
      "median": 0.15,
-     "p95": 0.38,
+     "p95": 0.39,
      "max": 1.15
     }
    }

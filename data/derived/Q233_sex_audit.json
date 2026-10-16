@@ -1,7 +1,7 @@
 {
  "schema": "q233_sex_audit_v1",
  "task": "Q233 sex-correctness audit of the six current models",
- "generated": "2026-10-15",
+ "generated": "2026-10-16",
  "owner_request": "You must make sure the female model is really a woman, and the male is a man.",
  "pages": {
   "own_m": {
@@ -3009,7 +3009,7 @@
     "declared_sex": "female",
     "source_dir": "build/q250/viewer_base_female",
     "what_the_body_is": "Z-Anatomy / BodyParts3D: the SAME male-derived body as Base \u00b7 Male (identical skeleton and soft tissue, 2,939 shared structures) with the 27 male-only objects removed (Q196) and nothing added.",
-    "structures": 2995,
+    "structures": 3003,
     "inventory": {
      "male_only_present": {},
      "female_only_present": {
@@ -3095,7 +3095,7 @@
         "name": "Uterine tube (right)",
         "system": "viscera",
         "source": "zan",
-        "triangles": 12832,
+        "triangles": 12700,
         "provenance": "HRA reference organ of the SAME donor (Visible Human female, CC BY 4.0), registered on the page's pelvis (Q233): not measured here"
        }
       ],
@@ -3167,6 +3167,40 @@
         "provenance": "HRA object of the Visible Human female frame (CC BY 4.0; construction not documented by the library), registered on the page's pelvis like the uterus (Q234): not measured here"
        }
       ],
+      "vestibular_glands_bulb": [
+       {
+        "id": "vestibular_bulb_r",
+        "name": "Vestibular bulb (CVH), right (side assigned by registration; not determinable from the source)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 926,
+        "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
+       },
+       {
+        "id": "vestibular_bulb_l",
+        "name": "Vestibular bulb (CVH), left (side assigned by registration; not determinable from the source)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 890,
+        "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
+       },
+       {
+        "id": "bartholin_gland_r",
+        "name": "Greater vestibular gland (Bartholin, CVH), right (side assigned by registration; not determinable from the source)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 702,
+        "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
+       },
+       {
+        "id": "bartholin_gland_l",
+        "name": "Greater vestibular gland (Bartholin, CVH), left (side assigned by registration; not determinable from the source)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 652,
+        "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
+       }
+      ],
       "mammary_gland": [
        {
         "id": "breast_fat_l",
@@ -3231,6 +3265,24 @@
         "source": "zan",
         "triangles": 5000,
         "provenance": "HRA breast: reference model SCULPTED by the library author from textbook atlases (CC BY 4.0), NOT donor data; registered on the thoracic vertebrae and compressed into the page's skin envelope (Q234): not measured here"
+       }
+      ],
+      "female_urethra": [
+       {
+        "id": "urethra_female_submucous_layer",
+        "name": "Female urethra, submucous layer (CVH)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 1634,
+        "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
+       },
+       {
+        "id": "urethra_female_lumen",
+        "name": "Female urethra, lumen (CVH; urethral part of the bladder + urethra lumen, capped)",
+        "system": "viscera",
+        "source": "zan",
+        "triangles": 530,
+        "provenance": "ANOTHER PERSON'S real segmentation (Chinese Visible Human young female, Wu et al. 2015, CC BY 4.0), registered on the page's pelvis by bones (Q235): not segmented from this scan"
        }
       ],
       "uterine_vessels": [
@@ -3316,12 +3368,10 @@
      "female_only_absent": [
       "cervix",
       "clitoris",
-      "female_urethra",
       "labia_majora",
       "labia_minora",
       "mons_pubis",
-      "ovarian_vessels",
-      "vestibular_glands_bulb"
+      "ovarian_vessels"
      ]
     },
     "wrong_sex_structures": [],
@@ -3579,7 +3629,9 @@
      "uterine_tube",
      "uterine_ovarian_ligaments",
      "vagina",
+     "vestibular_glands_bulb",
      "mammary_gland",
+     "female_urethra",
      "uterine_vessels"
     ],
     "wrong_sex_after": []
@@ -6447,7 +6499,7 @@
   }
  ],
  "cannot_be_fixed": [
-  "Labia majora / minora, mons pubis, vulvar skin surface, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set, the Chinese Visible Human set of Q235; the clitoris, vestibular bulbs / glands, female urethra and perineal muscles of the Imaging-based and Combined female pages are from the Chinese Visible Human, another person, since Q235; Base female has none: its male-derived pelvis does not accept them); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented. (Q234 added the vagina and the ligaments of the uterus / ovary from HRA objects.)",
+  "Labia majora / minora, mons pubis, vulvar skin surface, ovarian vessels: no open mesh source reached (not in Z-Anatomy, BodyParts3D, the HRA set, the Chinese Visible Human set of Q235; the vestibular bulbs / glands, female urethra and perineal muscles of all three female pages are from the Chinese Visible Human, another person, since Q235 (Q251: Base female too, once its Q250-warped pelvis fit the CVH ischiopubic arch well enough -- its clitoris cavernous body still does not: 37 % of its vertices need pushing out of the pubic bone by up to ~5 mm, a real penetration, so it alone stays held there); her own cryosection photographs show the vaginal and urethral walls and the vestibular erectile tissue as one dark mass (mappings/vhf_pelvic_floor_labels.json 'perineal_other') that cannot be separated at 1 mm. Not built, not invented. (Q234 added the vagina and the ligaments of the uterus / ovary from HRA objects.)",
   "Breasts: the Z-Anatomy chest skin is the male contour (all three Z female-side pages) and her own CT chest is flat (supine cadaver). Q234 added the HRA breasts (a reference model SCULPTED by its author from textbook atlases, NOT donor data) registered on the thoracic vertebrae and compressed into each page's skin envelope: a badged reference model, not a measured breast and not her tissue.",
   "Q250 (supersedes the Q233 statement that the Z-derived female skeletons keep the male-derived pelvis): the Z-Anatomy pelvis of BOTH Z female pages is now deformed onto her own pelvis (Combined) / onto the female skeleton target (Base), soft tissue carried with it; what stays male-derived: the skull, the hands and feet shapes, the muscle / organ / skin SHAPES (carried, not re-modelled), and the sex-independent proportions of Z-Anatomy; the Base target is ONE woman, not an average.",
   "Imaging-based male: scrotal / penile SKIN comes from his CT skin (present); his testes etc. are Z fills, not measured; seminal vesicles are not separable on his frozen CT."

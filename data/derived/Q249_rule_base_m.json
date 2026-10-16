@@ -486,8 +486,10 @@
   },
   "inferior_rectal_n_l": {
    "id": "inferior_rectal_n_l",
-   "status": "ship",
-   "held": [],
+   "status": "held",
+   "held": [
+    "closer than 3 mm to / outside the skin (-44.2 mm)"
+   ],
    "report": {
     "vertices": 242,
     "triangles": 480,
@@ -510,7 +512,7 @@
      "organ_fraction_deeper_3mm": 0.0,
      "top": {}
     },
-    "skin_min_depth_mm": 30.8,
+    "skin_min_depth_mm": -44.2,
     "waypoints": [
      [
       -30.3,
@@ -546,13 +548,6 @@
      "literature_variability": 7.0,
      "landmark_rule_allowance": 3.0,
      "bone_registration_residual": 0.0
-    },
-    "pair_symmetry": {
-     "length_l": 40.0,
-     "length_r": 40.0,
-     "length_ratio": 1.0,
-     "mirrored_path_distance_mm": 0.8,
-     "held": false
     }
    },
    "side": "l",
@@ -589,7 +584,7 @@
       "zan_corpus_cavernosum_of_penis": 29
      }
     },
-    "skin_min_depth_mm": 0.2,
+    "skin_min_depth_mm": -12.6,
     "waypoints": [
      [
       -20.3,
@@ -669,33 +664,35 @@
   },
   "perineal_n_l": {
    "id": "perineal_n_l",
-   "status": "ship",
-   "held": [],
+   "status": "held",
+   "held": [
+    "closer than 2 mm to / outside the skin (-18.4 mm)"
+   ],
    "report": {
-    "vertices": 162,
-    "triangles": 320,
+    "vertices": 242,
+    "triangles": 480,
     "watertight": true,
-    "volume_mm3": 77.3,
-    "volume_cm3": 0.0773,
+    "volume_mm3": 122.8,
+    "volume_cm3": 0.1228,
     "pushed_out_of_bone": 0,
-    "min_signed_distance_mm": 0.14,
+    "min_signed_distance_mm": -0.07,
     "vertices_deeper_1mm": 0,
-    "length_mm": 26.3,
-    "straight_distance_mm": 25.6,
+    "length_mm": 41.8,
+    "straight_distance_mm": 35.1,
     "diameter_mm": [
      2.0,
      2.0
     ],
     "raw_path_fraction_inside_bone": 0.0,
-    "push_out_displacement_max_mm": 1.0,
+    "push_out_displacement_max_mm": 1.1,
     "soft_overlap": {
      "muscle_fraction_deeper_6mm": 0.0,
-     "organ_fraction_deeper_3mm": 0.037,
+     "organ_fraction_deeper_3mm": 0.165,
      "top": {
-      "zan_corpus_cavernosum_of_penis": 6
+      "zan_corpus_cavernosum_of_penis": 40
      }
     },
-    "skin_min_depth_mm": 20.2,
+    "skin_min_depth_mm": -18.4,
     "waypoints": [
      [
       -20.4,
@@ -703,14 +700,14 @@
       19.7
      ],
      [
-      -15.3,
-      -27.4,
-      19.5
+      -11.0,
+      -31.0,
+      19.1
      ],
      [
-      -4.4,
-      -43.5,
-      19.7
+      -12.4,
+      -55.5,
+      31.7
      ]
     ],
     "junction_vessel": {
@@ -723,23 +720,16 @@
      }
     },
     "order_check_vs_pudendal_vessels": {
-     "n_samples": 11,
+     "n_samples": 14,
      "vessel": "zan_internal_pudendal_vein_l",
-     "medial_fraction": 0.545,
-     "mean_separation_mm": 5.7
+     "medial_fraction": 0.5,
+     "mean_separation_mm": 6.5
     },
     "waypoint_error_bound_mm": 8.5,
     "error_components_mm": {
      "literature_variability": 8.0,
      "landmark_rule_allowance": 3.0,
      "bone_registration_residual": 0.0
-    },
-    "pair_symmetry": {
-     "length_l": 26.3,
-     "length_r": 48.5,
-     "length_ratio": 1.84,
-     "mirrored_path_distance_mm": 12.2,
-     "held": false
     }
    },
    "side": "l",
@@ -952,8 +942,10 @@
   },
   "anococcygeal_n_l": {
    "id": "anococcygeal_n_l",
-   "status": "ship",
-   "held": [],
+   "status": "held",
+   "held": [
+    "closer than 2 mm to / outside the skin (-37.1 mm)"
+   ],
    "report": {
     "vertices": 162,
     "triangles": 320,
@@ -976,7 +968,7 @@
      "organ_fraction_deeper_3mm": 0.0,
      "top": {}
     },
-    "skin_min_depth_mm": 30.5,
+    "skin_min_depth_mm": -37.1,
     "waypoints": [
      [
       -9.1,
@@ -999,13 +991,6 @@
      "literature_variability": 8.0,
      "landmark_rule_allowance": 3.0,
      "bone_registration_residual": 0.0
-    },
-    "pair_symmetry": {
-     "length_l": 22.0,
-     "length_r": 22.2,
-     "length_ratio": 1.01,
-     "mirrored_path_distance_mm": 1.2,
-     "held": false
     }
    },
    "side": "l",
@@ -1481,8 +1466,10 @@
   },
   "inferior_rectal_n_r": {
    "id": "inferior_rectal_n_r",
-   "status": "ship",
-   "held": [],
+   "status": "held",
+   "held": [
+    "closer than 3 mm to / outside the skin (-43.7 mm)"
+   ],
    "report": {
     "vertices": 242,
     "triangles": 480,
@@ -1505,7 +1492,7 @@
      "organ_fraction_deeper_3mm": 0.0,
      "top": {}
     },
-    "skin_min_depth_mm": 30.3,
+    "skin_min_depth_mm": -43.7,
     "waypoints": [
      [
       30.2,
@@ -1541,13 +1528,6 @@
      "literature_variability": 7.0,
      "landmark_rule_allowance": 3.0,
      "bone_registration_residual": 0.0
-    },
-    "pair_symmetry": {
-     "length_l": 40.0,
-     "length_r": 40.0,
-     "length_ratio": 1.0,
-     "mirrored_path_distance_mm": 0.8,
-     "held": false
     }
    },
    "side": "r",
@@ -1582,7 +1562,7 @@
      "organ_fraction_deeper_3mm": 0.0,
      "top": {}
     },
-    "skin_min_depth_mm": 0.1,
+    "skin_min_depth_mm": -14.8,
     "waypoints": [
      [
       23.1,
@@ -1662,33 +1642,35 @@
   },
   "perineal_n_r": {
    "id": "perineal_n_r",
-   "status": "ship",
-   "held": [],
+   "status": "held",
+   "held": [
+    "closer than 2 mm to / outside the skin (-16.4 mm)"
+   ],
    "report": {
-    "vertices": 272,
-    "triangles": 540,
+    "vertices": 212,
+    "triangles": 420,
     "watertight": true,
-    "volume_mm3": 142.0,
-    "volume_cm3": 0.142,
+    "volume_mm3": 110.1,
+    "volume_cm3": 0.1101,
     "pushed_out_of_bone": 0,
-    "min_signed_distance_mm": -0.41,
+    "min_signed_distance_mm": -0.42,
     "vertices_deeper_1mm": 0,
-    "length_mm": 48.5,
-    "straight_distance_mm": 38.2,
+    "length_mm": 37.6,
+    "straight_distance_mm": 31.3,
     "diameter_mm": [
      2.0,
      2.0
     ],
-    "raw_path_fraction_inside_bone": 0.148,
-    "push_out_displacement_max_mm": 4.3,
+    "raw_path_fraction_inside_bone": 0.19,
+    "push_out_displacement_max_mm": 3.3,
     "soft_overlap": {
      "muscle_fraction_deeper_6mm": 0.0,
-     "organ_fraction_deeper_3mm": 0.011,
+     "organ_fraction_deeper_3mm": 0.175,
      "top": {
-      "zan_corpus_spongiosum_of_penis": 3
+      "zan_corpus_cavernosum_of_penis": 37
      }
     },
-    "skin_min_depth_mm": 7.4,
+    "skin_min_depth_mm": -16.4,
     "waypoints": [
      [
       22.8,
@@ -1696,14 +1678,14 @@
       20.0
      ],
      [
-      20.5,
-      -34.4,
-      30.7
+      19.9,
+      -38.0,
+      30.3
      ],
      [
       5.9,
-      -58.0,
-      22.3
+      -46.0,
+      34.3
      ]
     ],
     "junction_vessel": {
@@ -1724,13 +1706,6 @@
      "literature_variability": 8.0,
      "landmark_rule_allowance": 3.0,
      "bone_registration_residual": 0.0
-    },
-    "pair_symmetry": {
-     "length_l": 26.3,
-     "length_r": 48.5,
-     "length_ratio": 1.84,
-     "mirrored_path_distance_mm": 12.2,
-     "held": false
     }
    },
    "side": "r",
@@ -1943,8 +1918,10 @@
   },
   "anococcygeal_n_r": {
    "id": "anococcygeal_n_r",
-   "status": "ship",
-   "held": [],
+   "status": "held",
+   "held": [
+    "closer than 2 mm to / outside the skin (-37.0 mm)"
+   ],
    "report": {
     "vertices": 162,
     "triangles": 320,
@@ -1967,7 +1944,7 @@
      "organ_fraction_deeper_3mm": 0.0,
      "top": {}
     },
-    "skin_min_depth_mm": 30.2,
+    "skin_min_depth_mm": -37.0,
     "waypoints": [
      [
       9.1,
@@ -1990,13 +1967,6 @@
      "literature_variability": 8.0,
      "landmark_rule_allowance": 3.0,
      "bone_registration_residual": 0.0
-    },
-    "pair_symmetry": {
-     "length_l": 22.0,
-     "length_r": 22.2,
-     "length_ratio": 1.01,
-     "mirrored_path_distance_mm": 1.2,
-     "held": false
     }
    },
    "side": "r",
@@ -3745,21 +3715,6 @@
     "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): from the ventral divisions of L5, S1, S2, leaves the pelvis through the greater sciatic foramen below piriformis, crosses the ischial spine lateral to the pudendal vessels (0.7 cm from the spine), passes through the lesser sciatic foramen and enters obturator internus on its pelvic surface (gives the nerve to superior gemellus on the way) Calibre: no published diameter of this nerve found; 2.0 mm = ASSUMPTION (obturator nerve branches 1.8-2.6 mm, Microsurgery; small nerves 'a few mm', Skeletal Radiol 2023) (ASSUMPTION - no published diameter found); round cross-section 2.0 mm, closed end caps. Length 54.8 mm, volume 0.1604 cm3 (closed mesh). Waypoint error bound about 7.6 mm (distance from the ischial spine 0.7 cm, variability unknown (about 7 mm assumed); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 66.0 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
    }
   },
-  "inferior_rectal_n_l": {
-   "name": "Inferior rectal nerve (left)",
-   "latin": "Nervus rectalis inferior sinister",
-   "side": "l",
-   "cat": "nerve",
-   "rec": {
-    "name": "Inferior rectal nerve (left)",
-    "latin": "Nervus rectalis inferior sinister",
-    "folder": "nerves",
-    "region": "perineum",
-    "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); New, simple approach for maximal pudendal nerve exposure: anomalies and prospects for functional reconstruction. Dis Colon Rectum 2000 (Jul), doi 10.1007/BF02237358, PMID 10910242 (pudendal nerve over the ischial spine 23.9 mm long and 5.2 / 4.9 mm in diameter (right / left); trunk 55 mm (44-75) before terminal division; inferior rectal nerve 27 mm (20-34) long, 1 / 2 / 3 branches in 13 / 76 / 11 %); Anatomic variations of the pelvic floor nerves adjacent to the sacrospinous ligament: a female cadaver study. Int Urogynecol J Pelvic Floor Dysfunct 2007 (e-pub 24 Nov 2007), doi 10.1007/s00192-007-0494-6, PMID 18038107 (15 female cadavers: pudendal nerve medial to the ischial spine and posterior to the sacrospinous ligament at 0.6 +- 0.4 cm; inferior rectal nerve variant piercing the ligament 1.9 +- 0.7 cm medial to the spine in 40 %; levator ani nerve over the superior surface of the sacrospinous-coccygeus complex 2.5 +- 0.7 cm medial to the spine)",
-    "notes": "leaves the pudendal nerve in the back part of the pudendal canal, crosses the ischioanal fossa medially and divides on the lateral wall of the anal canal to supply the external anal sphincter and the perianal skin. Waypoints: junction on the canal (70 % canal point 0 + 30 % point 1), midway, nearest surface point of the external anal sphincter of this page. 1 / 2 / 3 branches in 13 / 76 / 11 % (one is drawn)",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): leaves the pudendal nerve in the back part of the pudendal canal, crosses the ischioanal fossa medially and divides on the lateral wall of the anal canal to supply the external anal sphincter and the perianal skin. Waypoints: junction on the canal (70 % canal point 0 + 30 % point 1), midway, nearest surface point of the external anal sphincter of this page. 1 / 2 / 3 branches in 13 / 76 / 11 % (one is drawn) Calibre: no adult diameter found (fetal pudendal trunk 0.98 mm); 1.5 mm = ASSUMPTION (ASSUMPTION - no published diameter found); round cross-section 1.5 mm, closed end caps. Length 40.0 mm, volume 0.0662 cm3 (closed mesh). Waypoint error bound about 7.6 mm (inferior rectal nerve length 27 mm (20-34, Dis Colon Rectum 2000); origin variants (IRN piercing the ligament in 40 %); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 30.8 mm. Order check against the pudendal vessels: not applicable (no pudendal vessel of this page within 12 mm of the nerve). An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
-   }
-  },
   "dorsal_n_penis_l": {
    "name": "Dorsal nerve of the penis (left)",
    "latin": "Nervus dorsalis penis sinister",
@@ -3772,22 +3727,7 @@
     "region": "perineum",
     "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Orr Shauly et al. The genitofemoral and ilioinguinal nerves as neurorrhaphy candidates for erectile function restoration in patients with prostatectomy-induced erectile dysfunction. Eur J Plast Surg 2021 (record read through a literature search: no DOI / PMID seen; 3 male cadavers: dorsal nerve of the penis proper 3.7 mm, its branches 1.6 mm; genitofemoral 1.8 mm; ilioinguinal 0.9 mm); Kozacioglu Z et al. Anatomy of the dorsal nerve of the penis, clinical implications. Urology 2014, doi 10.1016/j.urology.2013.07.075 (22 adult cadavers: 2-6 main branches along the shaft, branches perforating the tunica albuginea in 73 %); Genitourinary vascularized composite allotransplantation for gender affirmation in trans men: an anatomical feasibility study. J Plast Reconstr Aesthet Surg 2023, doi 10.1016/j.bjps.2023.04.002 (donor pudendal nerve 15.0 cm long, 3.0 mm; genitofemoral nerve 8.0 cm, 2.0 mm)",
     "notes": "terminal branch of the pudendal nerve; runs forward along the medial aspect of the inferior pubic ramus in the deep perineal pouch, passes beneath the pubic arch between the arcuate pubic ligament and the transverse perineal ligament, and runs on the dorsolateral surface of the penile shaft lateral to the dorsal artery to the glans. Waypoints: terminal division of the pudendal nerve (canal point 3), subpubic angle, then the dorsolateral line of the corpus cavernosum (zan_corpus_cavernosum_of_penis; shaft radius 9.5 mm measured on the page, nerve centre 11.0 mm from the axis at 10 o'clock / 2 o'clock)",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): terminal branch of the pudendal nerve; runs forward along the medial aspect of the inferior pubic ramus in the deep perineal pouch, passes beneath the pubic arch between the arcuate pubic ligament and the transverse perineal ligament, and runs on the dorsolateral surface of the penile shaft lateral to the dorsal artery to the glans. Waypoints: terminal division of the pudendal nerve (canal point 3), subpubic angle, then the dorsolateral line of the corpus cavernosum (zan_corpus_cavernosum_of_penis; shaft radius 9.5 mm measured on the page, nerve centre 11.0 mm from the axis at 10 o'clock / 2 o'clock) Calibre: dorsal nerve of the penis proper 3.7 mm, its branches 1.6 mm (Orr Shauly 2021, 3 cadavers): tapered 3.7 -> 1.6 mm (published value); round cross-section 1.6-3.7 mm, closed end caps. Length 255.5 mm, volume 1.3498 cm3 (closed mesh). Waypoint error bound about 6.7 mm (penile shaft position of the page (organ transferred / fitted), 2-6 main branches in dissections (one drawn); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 7 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 3 % inside an organ; depth inside the skin 0.2 mm. Order check against the page's zan_internal_pudendal_vein_l: 17 path samples within 12 mm of it, the nerve lies medial to the vessel at 53 % of them (textbook order at the ischial spine / in the pudendal canal: nerve medial to the vessels), mean separation 7.8 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
-   }
-  },
-  "perineal_n_l": {
-   "name": "Perineal nerve - posterior scrotal branches (left)",
-   "latin": "Nervus perinealis sinister",
-   "side": "l",
-   "cat": "nerve",
-   "rec": {
-    "name": "Perineal nerve - posterior scrotal branches (left)",
-    "latin": "Nervus perinealis sinister",
-    "folder": "nerves",
-    "region": "perineum",
-    "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Genitourinary vascularized composite allotransplantation for gender affirmation in trans men: an anatomical feasibility study. J Plast Reconstr Aesthet Surg 2023, doi 10.1016/j.bjps.2023.04.002 (donor pudendal nerve 15.0 cm long, 3.0 mm; genitofemoral nerve 8.0 cm, 2.0 mm); Anatomical Dissection of the Dorsal Nerve of the Clitoris. Aesthet Surg J 2020, doi 10.1093/asj/sjz330, PMID 31768527 (10 specimens: dorsal nerves 2.0-3.2 mm in diameter along the clitoral body, traceable to within 6 mm of the glans; descending clitoral body 37.0 mm); Anatomical study of the clitoris and its implications on female genital mutilation and surgical repair. J Plast Reconstr Aesthet Surg 2021, doi 10.1016/j.bjps.2021.05.034, PMID 34253487 (width of the dorsal nerve at the distal clitoral body 1.9 +- 0.3 mm)",
-    "notes": "the larger terminal branch of the pudendal nerve, below the perineal membrane in the superficial perineal pouch; gives the posterior scrotal (male) / posterior labial (female) nerves to the skin and the motor branches to the superficial perineal muscles. Waypoints: terminal division of the pudendal nerve (canal point 3), 5 mm medial / 8 mm down, end = the point of a family (4-16 mm medial, 14-32 mm down, 0-12 mm forward of the division) whose path stays out of bone",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): the larger terminal branch of the pudendal nerve, below the perineal membrane in the superficial perineal pouch; gives the posterior scrotal (male) / posterior labial (female) nerves to the skin and the motor branches to the superficial perineal muscles. Waypoints: terminal division of the pudendal nerve (canal point 3), 5 mm medial / 8 mm down, end = the point of a family (4-16 mm medial, 14-32 mm down, 0-12 mm forward of the division) whose path stays out of bone Calibre: no published diameter found; 2.0 mm = ASSUMPTION (between the pudendal trunk 3.0 mm and the dorsal nerve 1.9-2.6 mm) (ASSUMPTION - no published diameter found); round cross-section 2.0 mm, closed end caps. Length 26.3 mm, volume 0.0773 cm3 (closed mesh). Waypoint error bound about 8.5 mm (terminal branching pattern varies (single / double / triple trunk); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 4 % inside an organ; depth inside the skin 20.2 mm. Order check against the page's zan_internal_pudendal_vein_l: 11 path samples within 12 mm of it, the nerve lies medial to the vessel at 55 % of them (textbook order at the ischial spine / in the pudendal canal: nerve medial to the vessels), mean separation 5.7 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
+    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): terminal branch of the pudendal nerve; runs forward along the medial aspect of the inferior pubic ramus in the deep perineal pouch, passes beneath the pubic arch between the arcuate pubic ligament and the transverse perineal ligament, and runs on the dorsolateral surface of the penile shaft lateral to the dorsal artery to the glans. Waypoints: terminal division of the pudendal nerve (canal point 3), subpubic angle, then the dorsolateral line of the corpus cavernosum (zan_corpus_cavernosum_of_penis; shaft radius 9.5 mm measured on the page, nerve centre 11.0 mm from the axis at 10 o'clock / 2 o'clock) Calibre: dorsal nerve of the penis proper 3.7 mm, its branches 1.6 mm (Orr Shauly 2021, 3 cadavers): tapered 3.7 -> 1.6 mm (published value); round cross-section 1.6-3.7 mm, closed end caps. Length 255.5 mm, volume 1.3498 cm3 (closed mesh). Waypoint error bound about 6.7 mm (penile shaft position of the page (organ transferred / fitted), 2-6 main branches in dissections (one drawn); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 7 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 3 % inside an organ; depth inside the skin -12.6 mm. Order check against the page's zan_internal_pudendal_vein_l: 17 path samples within 12 mm of it, the nerve lies medial to the vessel at 53 % of them (textbook order at the ischial spine / in the pudendal canal: nerve medial to the vessels), mean separation 7.8 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
    }
   },
   "nerve_to_coccygeus_l": {
@@ -3833,21 +3773,6 @@
     "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Inferior gluteal and other nerves associated with sacrospinous ligament: a cadaver study. Am J Obstet Gynecol 2016, doi 10.1016/j.ajog.2016.06.025, PMID 27343565 (14 female cadavers: pudendal nerve closest to the ischial spine, median 0 mm (range 0-9); inferior gluteal nerve 28.5 mm (6-53) from the ischial spine, from the dorsal surface of the lumbosacral trunk + S1 (S2 in 46 %); S3 nerve 3 mm (0-11) from the superior border of the sacrospinous ligament; S3 / S4 branches perforate the ventral surface of coccygeus in 94 %)",
     "notes": "small plexus on the pelvic surface of coccygeus formed by a descending branch of S4, the S5 ventral ramus (emerging from the sacral hiatus) and the coccygeal nerve, which wrap around the lateral margin of the coccyx; the anococcygeal nerves arise from it. Waypoints: S4 ramus at 28 %, lateral margin of the sacrococcygeal column at mid-height of the lowest sacral segment and coccyx, lateral margin 6 mm above the coccygeal tip",
     "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): small plexus on the pelvic surface of coccygeus formed by a descending branch of S4, the S5 ventral ramus (emerging from the sacral hiatus) and the coccygeal nerve, which wrap around the lateral margin of the coccyx; the anococcygeal nerves arise from it. Waypoints: S4 ramus at 28 %, lateral margin of the sacrococcygeal column at mid-height of the lowest sacral segment and coccyx, lateral margin 6 mm above the coccygeal tip Calibre: no published diameter found; 1.0 mm = ASSUMPTION (fine plexus cord) (ASSUMPTION - no published diameter found); round cross-section 1.0 mm, closed end caps. Length 51.0 mm, volume 0.0374 cm3 (closed mesh). Waypoint error bound about 8.5 mm (plexus formation varies between people (S4-S5-Co1 contributions); no quantitative dissection found; plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 46.8 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
-   }
-  },
-  "anococcygeal_n_l": {
-   "name": "Anococcygeal nerve (left)",
-   "latin": "Nervus anococcygeus sinister",
-   "side": "l",
-   "cat": "nerve",
-   "rec": {
-    "name": "Anococcygeal nerve (left)",
-    "latin": "Nervus anococcygeus sinister",
-    "folder": "nerves",
-    "region": "perineum",
-    "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Inferior gluteal and other nerves associated with sacrospinous ligament: a cadaver study. Am J Obstet Gynecol 2016, doi 10.1016/j.ajog.2016.06.025, PMID 27343565 (14 female cadavers: pudendal nerve closest to the ischial spine, median 0 mm (range 0-9); inferior gluteal nerve 28.5 mm (6-53) from the ischial spine, from the dorsal surface of the lumbosacral trunk + S1 (S2 in 46 %); S3 nerve 3 mm (0-11) from the superior border of the sacrospinous ligament; S3 / S4 branches perforate the ventral surface of coccygeus in 94 %)",
-    "notes": "arises from the coccygeal plexus, pierces coccygeus and the sacrotuberous ligament and supplies the skin between the coccyx and the anus. Waypoints: lateral coccygeal margin 6 mm above the tip, midway, 7 mm lateral / 12 mm below / 8 mm behind the coccygeal tip",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): arises from the coccygeal plexus, pierces coccygeus and the sacrotuberous ligament and supplies the skin between the coccyx and the anus. Waypoints: lateral coccygeal margin 6 mm above the tip, midway, 7 mm lateral / 12 mm below / 8 mm behind the coccygeal tip Calibre: no published diameter found; 0.8 mm = ASSUMPTION (cutaneous twig) (ASSUMPTION - no published diameter found); round cross-section 0.8 mm, closed end caps. Length 22.0 mm, volume 0.0103 cm3 (closed mesh). Waypoint error bound about 8.5 mm (2-4 anococcygeal nerves in textbooks, no quantitative dissection found; plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 30.5 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
    }
   },
   "s1_ventral_ramus_r": {
@@ -3955,21 +3880,6 @@
     "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): from the ventral divisions of L5, S1, S2, leaves the pelvis through the greater sciatic foramen below piriformis, crosses the ischial spine lateral to the pudendal vessels (0.7 cm from the spine), passes through the lesser sciatic foramen and enters obturator internus on its pelvic surface (gives the nerve to superior gemellus on the way) Calibre: no published diameter of this nerve found; 2.0 mm = ASSUMPTION (obturator nerve branches 1.8-2.6 mm, Microsurgery; small nerves 'a few mm', Skeletal Radiol 2023) (ASSUMPTION - no published diameter found); round cross-section 2.0 mm, closed end caps. Length 55.2 mm, volume 0.1614 cm3 (closed mesh). Waypoint error bound about 7.6 mm (distance from the ischial spine 0.7 cm, variability unknown (about 7 mm assumed); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 66.1 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
    }
   },
-  "inferior_rectal_n_r": {
-   "name": "Inferior rectal nerve (right)",
-   "latin": "Nervus rectalis inferior dexter",
-   "side": "r",
-   "cat": "nerve",
-   "rec": {
-    "name": "Inferior rectal nerve (right)",
-    "latin": "Nervus rectalis inferior dexter",
-    "folder": "nerves",
-    "region": "perineum",
-    "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); New, simple approach for maximal pudendal nerve exposure: anomalies and prospects for functional reconstruction. Dis Colon Rectum 2000 (Jul), doi 10.1007/BF02237358, PMID 10910242 (pudendal nerve over the ischial spine 23.9 mm long and 5.2 / 4.9 mm in diameter (right / left); trunk 55 mm (44-75) before terminal division; inferior rectal nerve 27 mm (20-34) long, 1 / 2 / 3 branches in 13 / 76 / 11 %); Anatomic variations of the pelvic floor nerves adjacent to the sacrospinous ligament: a female cadaver study. Int Urogynecol J Pelvic Floor Dysfunct 2007 (e-pub 24 Nov 2007), doi 10.1007/s00192-007-0494-6, PMID 18038107 (15 female cadavers: pudendal nerve medial to the ischial spine and posterior to the sacrospinous ligament at 0.6 +- 0.4 cm; inferior rectal nerve variant piercing the ligament 1.9 +- 0.7 cm medial to the spine in 40 %; levator ani nerve over the superior surface of the sacrospinous-coccygeus complex 2.5 +- 0.7 cm medial to the spine)",
-    "notes": "leaves the pudendal nerve in the back part of the pudendal canal, crosses the ischioanal fossa medially and divides on the lateral wall of the anal canal to supply the external anal sphincter and the perianal skin. Waypoints: junction on the canal (70 % canal point 0 + 30 % point 1), midway, nearest surface point of the external anal sphincter of this page. 1 / 2 / 3 branches in 13 / 76 / 11 % (one is drawn)",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): leaves the pudendal nerve in the back part of the pudendal canal, crosses the ischioanal fossa medially and divides on the lateral wall of the anal canal to supply the external anal sphincter and the perianal skin. Waypoints: junction on the canal (70 % canal point 0 + 30 % point 1), midway, nearest surface point of the external anal sphincter of this page. 1 / 2 / 3 branches in 13 / 76 / 11 % (one is drawn) Calibre: no adult diameter found (fetal pudendal trunk 0.98 mm); 1.5 mm = ASSUMPTION (ASSUMPTION - no published diameter found); round cross-section 1.5 mm, closed end caps. Length 40.0 mm, volume 0.066 cm3 (closed mesh). Waypoint error bound about 7.6 mm (inferior rectal nerve length 27 mm (20-34, Dis Colon Rectum 2000); origin variants (IRN piercing the ligament in 40 %); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 30.3 mm. Order check against the pudendal vessels: not applicable (no pudendal vessel of this page within 12 mm of the nerve). An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
-   }
-  },
   "dorsal_n_penis_r": {
    "name": "Dorsal nerve of the penis (right)",
    "latin": "Nervus dorsalis penis dexter",
@@ -3982,22 +3892,7 @@
     "region": "perineum",
     "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Orr Shauly et al. The genitofemoral and ilioinguinal nerves as neurorrhaphy candidates for erectile function restoration in patients with prostatectomy-induced erectile dysfunction. Eur J Plast Surg 2021 (record read through a literature search: no DOI / PMID seen; 3 male cadavers: dorsal nerve of the penis proper 3.7 mm, its branches 1.6 mm; genitofemoral 1.8 mm; ilioinguinal 0.9 mm); Kozacioglu Z et al. Anatomy of the dorsal nerve of the penis, clinical implications. Urology 2014, doi 10.1016/j.urology.2013.07.075 (22 adult cadavers: 2-6 main branches along the shaft, branches perforating the tunica albuginea in 73 %); Genitourinary vascularized composite allotransplantation for gender affirmation in trans men: an anatomical feasibility study. J Plast Reconstr Aesthet Surg 2023, doi 10.1016/j.bjps.2023.04.002 (donor pudendal nerve 15.0 cm long, 3.0 mm; genitofemoral nerve 8.0 cm, 2.0 mm)",
     "notes": "terminal branch of the pudendal nerve; runs forward along the medial aspect of the inferior pubic ramus in the deep perineal pouch, passes beneath the pubic arch between the arcuate pubic ligament and the transverse perineal ligament, and runs on the dorsolateral surface of the penile shaft lateral to the dorsal artery to the glans. Waypoints: terminal division of the pudendal nerve (canal point 3), subpubic angle, then the dorsolateral line of the corpus cavernosum (zan_corpus_cavernosum_of_penis; shaft radius 9.5 mm measured on the page, nerve centre 11.0 mm from the axis at 10 o'clock / 2 o'clock)",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): terminal branch of the pudendal nerve; runs forward along the medial aspect of the inferior pubic ramus in the deep perineal pouch, passes beneath the pubic arch between the arcuate pubic ligament and the transverse perineal ligament, and runs on the dorsolateral surface of the penile shaft lateral to the dorsal artery to the glans. Waypoints: terminal division of the pudendal nerve (canal point 3), subpubic angle, then the dorsolateral line of the corpus cavernosum (zan_corpus_cavernosum_of_penis; shaft radius 9.5 mm measured on the page, nerve centre 11.0 mm from the axis at 10 o'clock / 2 o'clock) Calibre: dorsal nerve of the penis proper 3.7 mm, its branches 1.6 mm (Orr Shauly 2021, 3 cadavers): tapered 3.7 -> 1.6 mm (published value); round cross-section 1.6-3.7 mm, closed end caps. Length 246.3 mm, volume 1.309 cm3 (closed mesh). Waypoint error bound about 6.7 mm (penile shaft position of the page (organ transferred / fitted), 2-6 main branches in dissections (one drawn); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 7 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 0.1 mm. Order check against the page's zan_internal_pudendal_vein_r: 48 path samples within 12 mm of it, the nerve lies medial to the vessel at 90 % of them (textbook order at the ischial spine / in the pudendal canal: nerve medial to the vessels), mean separation 5.9 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
-   }
-  },
-  "perineal_n_r": {
-   "name": "Perineal nerve - posterior scrotal branches (right)",
-   "latin": "Nervus perinealis dexter",
-   "side": "r",
-   "cat": "nerve",
-   "rec": {
-    "name": "Perineal nerve - posterior scrotal branches (right)",
-    "latin": "Nervus perinealis dexter",
-    "folder": "nerves",
-    "region": "perineum",
-    "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Genitourinary vascularized composite allotransplantation for gender affirmation in trans men: an anatomical feasibility study. J Plast Reconstr Aesthet Surg 2023, doi 10.1016/j.bjps.2023.04.002 (donor pudendal nerve 15.0 cm long, 3.0 mm; genitofemoral nerve 8.0 cm, 2.0 mm); Anatomical Dissection of the Dorsal Nerve of the Clitoris. Aesthet Surg J 2020, doi 10.1093/asj/sjz330, PMID 31768527 (10 specimens: dorsal nerves 2.0-3.2 mm in diameter along the clitoral body, traceable to within 6 mm of the glans; descending clitoral body 37.0 mm); Anatomical study of the clitoris and its implications on female genital mutilation and surgical repair. J Plast Reconstr Aesthet Surg 2021, doi 10.1016/j.bjps.2021.05.034, PMID 34253487 (width of the dorsal nerve at the distal clitoral body 1.9 +- 0.3 mm)",
-    "notes": "the larger terminal branch of the pudendal nerve, below the perineal membrane in the superficial perineal pouch; gives the posterior scrotal (male) / posterior labial (female) nerves to the skin and the motor branches to the superficial perineal muscles. Waypoints: terminal division of the pudendal nerve (canal point 3), 5 mm medial / 8 mm down, end = the point of a family (4-16 mm medial, 14-32 mm down, 0-12 mm forward of the division) whose path stays out of bone",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): the larger terminal branch of the pudendal nerve, below the perineal membrane in the superficial perineal pouch; gives the posterior scrotal (male) / posterior labial (female) nerves to the skin and the motor branches to the superficial perineal muscles. Waypoints: terminal division of the pudendal nerve (canal point 3), 5 mm medial / 8 mm down, end = the point of a family (4-16 mm medial, 14-32 mm down, 0-12 mm forward of the division) whose path stays out of bone Calibre: no published diameter found; 2.0 mm = ASSUMPTION (between the pudendal trunk 3.0 mm and the dorsal nerve 1.9-2.6 mm) (ASSUMPTION - no published diameter found); round cross-section 2.0 mm, closed end caps. Length 48.5 mm, volume 0.142 cm3 (closed mesh). Waypoint error bound about 8.5 mm (terminal branching pattern varies (single / double / triple trunk); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 15 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 1 % inside an organ; depth inside the skin 7.4 mm. Order check against the pudendal vessels: not applicable (no pudendal vessel of this page within 12 mm of the nerve). An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
+    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): terminal branch of the pudendal nerve; runs forward along the medial aspect of the inferior pubic ramus in the deep perineal pouch, passes beneath the pubic arch between the arcuate pubic ligament and the transverse perineal ligament, and runs on the dorsolateral surface of the penile shaft lateral to the dorsal artery to the glans. Waypoints: terminal division of the pudendal nerve (canal point 3), subpubic angle, then the dorsolateral line of the corpus cavernosum (zan_corpus_cavernosum_of_penis; shaft radius 9.5 mm measured on the page, nerve centre 11.0 mm from the axis at 10 o'clock / 2 o'clock) Calibre: dorsal nerve of the penis proper 3.7 mm, its branches 1.6 mm (Orr Shauly 2021, 3 cadavers): tapered 3.7 -> 1.6 mm (published value); round cross-section 1.6-3.7 mm, closed end caps. Length 246.3 mm, volume 1.309 cm3 (closed mesh). Waypoint error bound about 6.7 mm (penile shaft position of the page (organ transferred / fitted), 2-6 main branches in dissections (one drawn); plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 7 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin -14.8 mm. Order check against the page's zan_internal_pudendal_vein_r: 48 path samples within 12 mm of it, the nerve lies medial to the vessel at 90 % of them (textbook order at the ischial spine / in the pudendal canal: nerve medial to the vessels), mean separation 5.9 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
    }
   },
   "nerve_to_coccygeus_r": {
@@ -4043,21 +3938,6 @@
     "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Inferior gluteal and other nerves associated with sacrospinous ligament: a cadaver study. Am J Obstet Gynecol 2016, doi 10.1016/j.ajog.2016.06.025, PMID 27343565 (14 female cadavers: pudendal nerve closest to the ischial spine, median 0 mm (range 0-9); inferior gluteal nerve 28.5 mm (6-53) from the ischial spine, from the dorsal surface of the lumbosacral trunk + S1 (S2 in 46 %); S3 nerve 3 mm (0-11) from the superior border of the sacrospinous ligament; S3 / S4 branches perforate the ventral surface of coccygeus in 94 %)",
     "notes": "small plexus on the pelvic surface of coccygeus formed by a descending branch of S4, the S5 ventral ramus (emerging from the sacral hiatus) and the coccygeal nerve, which wrap around the lateral margin of the coccyx; the anococcygeal nerves arise from it. Waypoints: S4 ramus at 28 %, lateral margin of the sacrococcygeal column at mid-height of the lowest sacral segment and coccyx, lateral margin 6 mm above the coccygeal tip",
     "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): small plexus on the pelvic surface of coccygeus formed by a descending branch of S4, the S5 ventral ramus (emerging from the sacral hiatus) and the coccygeal nerve, which wrap around the lateral margin of the coccyx; the anococcygeal nerves arise from it. Waypoints: S4 ramus at 28 %, lateral margin of the sacrococcygeal column at mid-height of the lowest sacral segment and coccyx, lateral margin 6 mm above the coccygeal tip Calibre: no published diameter found; 1.0 mm = ASSUMPTION (fine plexus cord) (ASSUMPTION - no published diameter found); round cross-section 1.0 mm, closed end caps. Length 51.2 mm, volume 0.0376 cm3 (closed mesh). Waypoint error bound about 8.5 mm (plexus formation varies between people (S4-S5-Co1 contributions); no quantitative dissection found; plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 47.1 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
-   }
-  },
-  "anococcygeal_n_r": {
-   "name": "Anococcygeal nerve (right)",
-   "latin": "Nervus anococcygeus dexter",
-   "side": "r",
-   "cat": "nerve",
-   "rec": {
-    "name": "Anococcygeal nerve (right)",
-    "latin": "Nervus anococcygeus dexter",
-    "folder": "nerves",
-    "region": "perineum",
-    "source": "Gray's Anatomy of the Human Body, 20th ed. 1918 (public domain): 'The Lumbosacral Plexus', 'The Pudendal Nerve', 'The Pelvic Plexuses' (bartleby.com/107); Inferior gluteal and other nerves associated with sacrospinous ligament: a cadaver study. Am J Obstet Gynecol 2016, doi 10.1016/j.ajog.2016.06.025, PMID 27343565 (14 female cadavers: pudendal nerve closest to the ischial spine, median 0 mm (range 0-9); inferior gluteal nerve 28.5 mm (6-53) from the ischial spine, from the dorsal surface of the lumbosacral trunk + S1 (S2 in 46 %); S3 nerve 3 mm (0-11) from the superior border of the sacrospinous ligament; S3 / S4 branches perforate the ventral surface of coccygeus in 94 %)",
-    "notes": "arises from the coccygeal plexus, pierces coccygeus and the sacrotuberous ligament and supplies the skin between the coccyx and the anus. Waypoints: lateral coccygeal margin 6 mm above the tip, midway, 7 mm lateral / 12 mm below / 8 mm behind the coccygeal tip",
-    "procedural_badge": "RULE-BASED (Q249): this nerve is NOT segmented from imaging, NOT dissected and NOT a Z-Anatomy object: a round tube of the cited calibre along a spline through waypoints that follow the documented course and are defined relative to bone landmarks measured on THIS page's own meshes. Course (Gray's Anatomy 1918 and the cited papers): arises from the coccygeal plexus, pierces coccygeus and the sacrotuberous ligament and supplies the skin between the coccyx and the anus. Waypoints: lateral coccygeal margin 6 mm above the tip, midway, 7 mm lateral / 12 mm below / 8 mm behind the coccygeal tip Calibre: no published diameter found; 0.8 mm = ASSUMPTION (cutaneous twig) (ASSUMPTION - no published diameter found); round cross-section 0.8 mm, closed end caps. Length 22.2 mm, volume 0.0104 cm3 (closed mesh). Waypoint error bound about 8.5 mm (2-4 anococcygeal nerves in textbooks, no quantitative dissection found; plus 3 mm landmark-rule allowance and 0.0 mm bone residual (the page's bones are the native Z-Anatomy reference bones (no fit; the nerves are placed on those bones)), summed in quadrature). Checks: 0 % of the raw path inside bone before the push-out, no vertex deeper than 1 mm inside a bone after it (0); 0 % of the vertices deeper than 6 mm inside a muscle (nerves run in fascial planes and enter their muscle: reported, not gated), 0 % inside an organ; depth inside the skin 30.2 mm. An estimate of position: the real course, calibre and branching of this nerve vary between people and are not resolved by CT or the cryosections."
    }
   },
   "superior_hypogastric_plexus": {
@@ -4478,7 +4358,7 @@
    "reason": "the Z page already carries genitofemoral_n_l/r"
   }
  ],
- "seconds": 121.4,
+ "seconds": 260.7,
  "landmarks": {
   "promontory": [
    -7.45,

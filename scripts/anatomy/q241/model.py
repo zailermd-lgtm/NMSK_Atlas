@@ -10,8 +10,8 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q249/viewer_m_hr", "own_f": "build/q249/viewer_f_hr", "base_m": "build/q249/viewer_zan_atlas",     # Q249: the page dirs with the rule-based nerves (Q248 ligaments, Q250 female skeleton included) (the rigs in data/anatomy are made for them)
-       "base_f": "build/q249/viewer_base_female", "comb_m": "build/q249/viewer_zan_vhm", "comb_f": "build/q249/viewer_zan_female"}   # Q250: the two Z female pages (female skeleton / her pelvis) incl. the Q248 ligaments
+SRC = {"own_m": "build/q252/viewer_m_hr", "own_f": "build/q252/viewer_f_hr", "base_m": "build/q252/viewer_zan_atlas",     # Q252: perineal-region nerves fixed to stay in skin (was: false "ship" outside the body on
+       "base_f": "build/q252/viewer_base_female", "comb_m": "build/q252/viewer_zan_vhm", "comb_f": "build/q252/viewer_zan_female"}   # the four Z pages); Base F also ships 16/17 CVH perineal structures + a smoothed chest taper (Q250 fixes)
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 

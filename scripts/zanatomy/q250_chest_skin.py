@@ -18,6 +18,7 @@ from scripts.anatomy.q234 import place as PL, hra_q234 as Q  # noqa: E402
 STEM = "atlas_viewer_base_female"
 GAP_MM = 3.0         # skin thickness in front of the breast surface (Q234 uses a 2.5 mm skin margin)
 TAPER_MM = 30.0
+EDGE_MM = 3.0        # smoothing radius of the lift's zero-crossing (Q251: was a hard max(dz, 0), visible as a crease)
 
 
 def run(src, out):
@@ -63,7 +64,14 @@ def run(src, out):
             # nearest footprint column's top for the taper zone
             ztop = zfull[tuple(idx[:, jx, jy])]
             tgt = ztop + GAP_MM
-            lift = np.where(inside & np.isfinite(tgt) & (V[:, 2] > tgt - 60) & (V[:, 2] < tgt + 40), np.maximum(tgt - V[:, 2], 0) * w[jx, jy], 0.0)
+            # smooth max(dz, 0) (dz = tgt - V[:,2]) instead of a hard clamp: the hard clamp is C0 but not C1 at dz = 0
+            # -- exactly the visible skin surface where the bump begins -- so the lift's SLOPE jumps there, reading
+            # as a crease / hard edge at the taper boundary; EDGE_MM softens that corner (small next to the ~30 mm
+            # lateral taper and the >= 60 mm breast dimensions, so the envelope's volume / shape intent is unchanged)
+            # while still matching max(dz, 0) exactly away from the crossing.
+            dz = tgt - V[:, 2]
+            smooth_lift = 0.5 * (dz + np.sqrt(dz ** 2 + EDGE_MM ** 2))
+            lift = np.where(inside & np.isfinite(tgt) & (V[:, 2] > tgt - 60) & (V[:, 2] < tgt + 40), smooth_lift * w[jx, jy], 0.0)
             if (lift > 0.05).any():
                 nv = new[i].copy(); nv[:, 2] += lift; new[i] = nv
                 moved += int((lift > 0.05).sum()); maxlift = max(maxlift, float(lift.max()))

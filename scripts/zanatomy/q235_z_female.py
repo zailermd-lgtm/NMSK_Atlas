@@ -57,13 +57,18 @@ def run(which, src, out):
             shipped.append((sid, it))
         else:
             held.append(sid)
+    # Q251: no longer an all-or-nothing page skip. The original reasoning ("one bone-attached structure fails the
+    # bone guard, so the whole transform is unreliable and nothing is added") predated Q250's pelvis warp: on today's
+    # registration (inferior-pelvis residual median down to 2.3 mm, p90 6.4 mm, from 3.1 / 8.4 mm) 3 of the 4
+    # bone-attached structures (both ischiocavernosus, and bulbospongiosus once its own near-zero, non-overlapping
+    # bone clearance is no longer gated as a free-structure drift -- see core.evaluate) individually PASS their own
+    # guards; blanking the whole page because one structure (clitoris_cavernous_body, which genuinely does penetrate
+    # the ischiopubic ramus: 443 of 1172 vertices need a push of up to 4.89 mm, far past the 3.0 mm / 15 % limit)
+    # still fails would throw away real, individually-verified geometry to avoid shipping one that is honestly held.
     skipped_page = None
     if which == "base_f" and any(h in held for h in BONE_ATTACHED):
-        skipped_page = ("SKIPPED: the registration is not sound on this page. The male-derived Z pelvis (Q233: subpubic angle 57 deg, male range) does not accept the female CVH ischiopubic arch: after the best bone fit "
-                        f"(rigid + uniform scale x{round(T[0], 3)}; inferior-pelvis residual median {inf['median']} mm, p90 {inf['p90']} mm; all CVH bone vertices median {res['all CVH bone vertices']['median']}, p90 {res['all CVH bone vertices']['p90']}) "
-                        f"the bone-attached structures {[h for h in held if h in BONE_ATTACHED]} fail the bone guard (penetration of the ischiopubic rami / pubic arch beyond the allowed shift), so every structure placed by the same transform is "
-                        "unreliable on this page; nothing was added.")
-        print(skipped_page)
+        print(which, "note: bone-attached structures held (not a page skip):", [h for h in held if h in BONE_ATTACHED],
+              f"-- bone fit rigid + uniform scale x{round(T[0], 3)}; inferior-pelvis residual median {inf['median']} mm, p90 {inf['p90']} mm; all CVH bone vertices median {res['all CVH bone vertices']['median']}, p90 {res['all CVH bone vertices']['p90']} mm", flush=True)
     cfg_rep = dict(page=which, label=cfg["label"], registration=reg, residual_mm=res, inferior_pelvis_mm=inf, crosscheck=cross, order_checks=run_["order"], structures=report, shipped=sorted(s_ for s_, _ in shipped), held=held,
                    skipped_page=skipped_page, tolerances=dict(soft_tolerance_mm=PL.SOFT_TOL_MM, soft_max_share_deeper_pct=PL.SOFT_MAX_PCT_DEEP, bone_min_free_mm=PL.BONE_MIN_FREE, bone_min_attach_mm=PL.BONE_MIN_ATTACH, max_shift_mm=PL.MAX_SHIFT_MM,
                    max_shift_fraction=PL.MAX_SHIFT_FRAC, skin_min_mm=PL.SKIN_MIN_MM), not_shipped_by_choice=C.NOT_SHIPPED, attribution=HRA_ATTR)
@@ -80,6 +85,17 @@ def run(which, src, out):
                    f"{cross['bladder wall (CVH 27) vs page bladder']['sym_nn_median_mm']} / {cross['vaginal wall (CVH 21) vs HRA vagina']['sym_nn_median_mm']} mm median nearest-neighbour distance: individual differences, not registration error), so the soft tissue "
                    f"relations come from the CVH woman and are only registered by bones.")
         skin_text = ("The skin of this page is the Z-Anatomy skin-region patches fitted to her body (a perineal closure patch, no labia / vulva): these structures were checked against its closed envelope only; there is no vulvar surface to check against.")
+    else:                                                                       # base_f (Q251: no longer skipped outright, see the note above)
+        reg_txt = (f"Registration (bones only, Q235): the CVH pelvic bone and the closed sacrum + coccyx mesh fitted directly to THIS page's own Z-Anatomy pelvis (rigid + uniform scale x{round(T[0], 4)}); residual against this page's "
+                   f"bones median {res['all CVH bone vertices']['median']} mm, p90 {res['all CVH bone vertices']['p90']} mm (pubic arch median {res[C.ARCH_KEY]['median']} / p90 {res[C.ARCH_KEY]['p90']} mm; inferior pelvis -- the "
+                   f"lowest 55 mm, where these structures sit -- median {inf['median']} mm, p90 {inf['p90']} mm). The soft organs of the CVH woman are NOT where this page's are (CVH bladder wall / vaginal wall differ from the page's "
+                   f"bladder / the HRA vagina by {cross['bladder wall (CVH 27) vs page bladder']['sym_nn_median_mm']} / {cross['vaginal wall (CVH 21) vs HRA vagina']['sym_nn_median_mm']} mm median nearest-neighbour distance: individual "
+                   f"differences, not registration error), so the soft tissue relations come from the CVH woman and are only registered by bones. The bone fit is imperfect in the lowest part of the pelvis (this page's pelvis, Z-Anatomy "
+                   f"warped onto the Visible Human female's own skeleton by Q250, still does not fully match the CVH woman's ischiopubic arch): "
+                   + (f"{', '.join(h for h in held if h in BONE_ATTACHED)} fail the bone-penetration guard and are held (see their own cards); the rest pass it." if any(h in held for h in BONE_ATTACHED) else "every bone-attached structure here passes the bone guard.")
+                   )
+        skin_text = ("The skin of this page is the Z-Anatomy skin-region patches fitted to the Visible Human female's own body (a perineal closure patch, no labia / vulva): these structures were checked against its closed envelope only; "
+                     "there is no vulvar surface to check against.")
     ctx = dict(scale=T[0], reg_txt=reg_txt, skin_text=skin_text, sx=sx)
     ctx["order_text"] = {k: (f"Anatomical order: the urethral meatus lies {run_['order']['meatus_anterior_to_vaginal_wall_mm']} mm in front of the anterior wall of the HRA vagina at its level (positive = anterior, as it should be), "
                              f"and the clitoral body ends {run_['order'].get('clitoral_body_anterior_to_meatus_mm')} mm in front of the meatus.")

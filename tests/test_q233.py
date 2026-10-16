@@ -84,7 +84,12 @@ def test_female_organs_present_after_q233_on_all_three_female_pages():
     absent = AUDIT["pages"]["own_f"]["after_q233"]["inventory"]["female_only_absent"]
     assert "vagina" not in absent and {"labia_majora", "labia_minora", "mons_pubis", "ovarian_vessels"} <= set(absent)       # Q234 added the vagina; the labia etc. stay honestly absent, not invented
     assert not ({"clitoris", "female_urethra", "vestibular_glands_bulb"} & set(absent))                                    # Q235 added them on the Imaging-based page from the Chinese Visible Human (another person)
-    assert {"labia_majora", "labia_minora", "clitoris", "female_urethra"} <= set(AUDIT["pages"]["base_f"]["after_q233"]["inventory"]["female_only_absent"])      # Base female was skipped in Q235
+    # Q251: base_f is no longer skipped outright by Q235 (its Q250-warped pelvis fits the CVH ischiopubic arch well
+    # enough for most of the CVH perineal structures); female_urethra and vestibular_glands_bulb now ship there too.
+    # Only the clitoris remains absent (clitoris_cavernous_body stays held: a real ~5 mm bone penetration on this
+    # page's pelvis that is not fixable without fabricating geometry).
+    assert {"labia_majora", "labia_minora", "clitoris"} <= set(AUDIT["pages"]["base_f"]["after_q233"]["inventory"]["female_only_absent"])
+    assert "female_urethra" in set(AUDIT["pages"]["base_f"]["after_q233"]["inventory"]["female_only_present"])
 
 
 def test_male_genitalia_on_his_own_page():

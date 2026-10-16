@@ -1,14 +1,14 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"zan_m",
-"generated":"2026-10-15",
+"generated":"2026-10-16",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"Z-Anatomy model frame (mm, +Y superior)",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
 "table_version":1,
 "counts":{
 "artery":437,
-"nerve":414,
+"nerve":408,
 "vein":224,
 "organ":268,
 "lung":35
@@ -37,22 +37,6 @@
 "r_mm":0.35,
 "r_method":"sdf",
 "rays_hit":298
-},
-{
-"id":"anococcygeal_n_l",
-"name":"Anococcygeal nerve (left)",
-"class":"nerve",
-"r_mm":0.4,
-"r_method":"sdf",
-"rays_hit":162
-},
-{
-"id":"anococcygeal_n_r",
-"name":"Anococcygeal nerve (right)",
-"class":"nerve",
-"r_mm":0.4,
-"r_method":"sdf",
-"rays_hit":162
 },
 {
 "id":"anterior_interosseous_n_l",
@@ -599,22 +583,6 @@
 "rays_hit":290
 },
 {
-"id":"inferior_rectal_n_l",
-"name":"Inferior rectal nerve (left)",
-"class":"nerve",
-"r_mm":0.75,
-"r_method":"sdf",
-"rays_hit":242
-},
-{
-"id":"inferior_rectal_n_r",
-"name":"Inferior rectal nerve (right)",
-"class":"nerve",
-"r_mm":0.75,
-"r_method":"sdf",
-"rays_hit":242
-},
-{
 "id":"inferior_vena_cava",
 "name":"Inferior vena cava",
 "class":"vein",
@@ -1053,22 +1021,6 @@
 "r_mm":0.5,
 "r_method":"sdf",
 "rays_hit":212
-},
-{
-"id":"perineal_n_l",
-"name":"Perineal nerve - posterior scrotal branches (left)",
-"class":"nerve",
-"r_mm":1.0,
-"r_method":"sdf",
-"rays_hit":162
-},
-{
-"id":"perineal_n_r",
-"name":"Perineal nerve - posterior scrotal branches (right)",
-"class":"nerve",
-"r_mm":1.0,
-"r_method":"sdf",
-"rays_hit":272
 },
 {
 "id":"posterior_femoral_cutaneous_n_l",

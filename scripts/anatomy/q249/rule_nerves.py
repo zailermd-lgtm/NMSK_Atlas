@@ -95,9 +95,67 @@ class Builder:
         self.P = P; self.A = Anat(P); self.gd, self.soft = self.A.gd, self.A.soft; self.ovl = NL.Overlap(P.E, self.gd)
         self.out = []; self.held = []; self.skipped = []
         self.own = P.key.startswith("own"); self.F = P.F
+        self._skin_env = None
 
     def have(self, *ids):
         return any(i in self.P.E for i in ids)
+
+    PERINEAL_SKIN_KW = ("perineal", "anal_region", "gluteal_fold", "gluteal_region", "femoral_triangle", "labi", "scrot", "mons", "pubi", "groin", "genital", "penis", "vulva")
+
+    def _skin_envelope(self):
+        """Lazily built, cached once per page: sample points + normals of the LOCAL skin patches around the perineum
+        (name-matched by `PERINEAL_SKIN_KW`), used only for region="perineum" nerve waypoints (see `skin_depth_page`).
+        `self.gd.skin_depth()` (q248/guards.py) is correct on 'own' (CT-segmented) pages, which carry ONE closed
+        'skin' mesh, but on a Z page the skin is ~250 separate open regional patches with no single enclosing mesh,
+        so it falls back there to an UNSIGNED nearest-point distance: a waypoint floating outside the body in a
+        pocket with no nearby patch (e.g. a widened perineum after a pelvis warp) reads as a large positive 'depth'
+        exactly like a point deep inside, and `min_skin` can never hold it.
+        Getting a reliable SIGNED depth generically, from every one of the page's ~250 patches, turned out not to
+        be safe: a single global flip (Q250's own skin-envelope guard, warp.py: sample every patch, then one sign
+        decided by a majority vote of bone-interior points) correctly flips the large majority of patches whose raw
+        winding points inward, but a few individual patches are wound the other way and were then wrongly inverted
+        too (e.g. a deep lumbar patch, holding the otherwise-fine lumbosacral trunk by ~85 mm outside when it was
+        actually ~85 mm inside); and orienting each patch from its OWN signed volume (`lig_pages.outward_normals`,
+        the convention this codebase already uses for muscle / organ overlap) is wrong for a different reason: these
+        are thin extruded shells (an outer, body-facing layer and an inner layer a fraction of a mm beneath it,
+        closed into one watertight solid), so the volume-correct normal is right on the outer layer and backwards on
+        the inner one. Scoped to just the handful of patches around the perineum (confirmed by direct per-face
+        offset tests: raw, UNFLIPPED winding reads correctly outward on every one of them -- unlike the rest of the
+        page, this local set is small enough, and close enough to the nerves being gated, to check by hand instead
+        of by a vote) this is no longer a problem, and the nearest-patch search stays local to the actually-relevant
+        anatomy instead of occasionally returning a distant, irrelevant patch (e.g. thigh skin) for a perineal point
+        sitting in a concave fold."""
+        if self._skin_env is not None:
+            return self._skin_env
+        from scipy.spatial import cKDTree
+        E = self.P.E
+        skin_ids = [i for i, e in E.items() if e.get("sys") == "skin" and len(e.get("f", [])) and any(k in i.lower() for k in self.PERINEAL_SKIN_KW)]
+        if not skin_ids:
+            self._skin_env = False
+            return False
+        Ps, Ns = [], []
+        for i in skin_ids:
+            m = trimesh.Trimesh(E[i]["v"], E[i]["f"], process=False)
+            n = max(20, int(m.area / 8.0))
+            p, fi = trimesh.sample.sample_surface(m, n, seed=0)
+            Ps.append(p); Ns.append(m.face_normals[fi])
+        Pp = np.vstack(Ps); Nn = np.vstack(Ns)
+        self._skin_env = (cKDTree(Pp), Nn)
+        return self._skin_env
+
+    def skin_depth_page(self, V):
+        """Signed skin depth of every vertex of V against the LOCAL perineal skin envelope (see `_skin_envelope`);
+        same sign convention as q248/guards.py Guards.skin_depth: positive = inside (how deep), negative = outside
+        (how far). Returns the worst (minimum = most-outside-or-least-inside) value, or None if the page has no
+        perineal skin patches to check against (use only for region="perineum" waypoints: elsewhere a 'nearest
+        local perineal patch' distance is meaningless)."""
+        env = self._skin_envelope()
+        if not env:
+            return None
+        tree, Nn = env
+        d, j = tree.query(V)
+        s = ((V - tree.data[j]) * Nn[j]).sum(1)
+        return round(float(np.min(np.where(s < 0, d, -d))), 1)
 
     def order_check(self, path, side, vessel_ids):
         A = self.A; sg = SG[side]
@@ -112,8 +170,11 @@ class Builder:
         dx = sg * (path[sel, 0] - C[j[sel], 0])
         return dict(n_samples=int(sel.sum()), vessel=vid, medial_fraction=round(float((dx < 0).mean()), 3), mean_separation_mm=round(float(d[sel].mean()), 1))
 
-    def best_end(self, prefix, cands, rad):
-        """the candidate end point whose spline (through prefix + candidate) has the smallest fraction of its length deeper than 1 mm inside bone (ties: the first); documented direction family only"""
+    def best_end(self, prefix, cands, rad, skin=False):
+        """the candidate end point whose spline (through prefix + candidate) has the smallest fraction of its length deeper than 1 mm inside bone (ties: the first); documented direction family only.
+        skin=True (perineal-region searches with no anchor organ to rely on): candidates that end up closer than 2 mm to / outside the page's own skin envelope (`skin_depth_page`, every skin patch, signed
+        via the bone-interior reference points -- the fix for the fact the page's skin is ~250 open regional patches, not one closed mesh) are strongly deprioritised, not merely bone-avoided; if every
+        candidate of the family is outside, the least-bad one is still returned and `mk()`'s own `min_skin` gate holds the nerve (honest: no valid in-skin endpoint exists in the documented direction family)."""
         ctx = self.P.ctx; best = None
         for c in cands:
             Pth = NL.spline(list(prefix) + [c], 40)
@@ -121,6 +182,10 @@ class Builder:
             sd = ctx.bf.signed(Pth, ids)[0] if ids else np.full(len(Pth), 9.0)
             sd_end = P_end = ctx.bf.signed(c[None], ids)[0][0] if ids else 9.0
             cost = float((sd < -1.0).mean()) + (1.0 if sd_end < rad else 0.0)
+            if skin:
+                sk = self.skin_depth_page(c[None])
+                if sk is not None and sk < 2.0:
+                    cost += 10.0 + max(0.0, 2.0 - sk)
             if best is None or cost < best[0] - 1e-9:
                 best = (cost, c)
         return best[1]
@@ -165,7 +230,17 @@ class Builder:
         mm = trimesh.Trimesh(V, Fc, process=False)
         rep = dict(vertices=int(len(V)), triangles=int(len(Fc)), watertight=bool(mm.is_watertight), volume_mm3=round(float(abs(mm.volume)), 1), volume_cm3=round(float(abs(mm.volume)) / 1000, 4), **brep)
         L = NL.path_len(Pth)
-        ov = self.ovl(V); sk = self.gd.skin_depth(V)
+        ov = self.ovl(V)
+        sk = self.gd.skin_depth(V)
+        if not self.own and region == "perineum":
+            # local perineal skin envelope (see skin_depth_page): reliable close to the perineal skin itself, but
+            # covers only a handful of patches, so a PROXIMAL waypoint (e.g. still in the pudendal canal, well inside
+            # the pelvis) can be far enough from all of them to read a spurious sign; checked on the DISTAL 40 % of
+            # the centreline only, the part of a perineal-region nerve that is actually meant to reach the skin.
+            sk_p = self.skin_depth_page(Pth[int(len(Pth) * 0.6):])
+            if sk_p is not None:                                  # more trustworthy there than the unsigned Z-page
+                sk = sk_p if sk is None else min(sk, sk_p)         # fallback, so it can only pull the reported depth
+                                                                    # DOWN (toward "more outside"), never mask it
         rep.update(length_mm=round(L, 1), straight_distance_mm=round(float(np.linalg.norm(Pth[-1] - Pth[0])), 1), diameter_mm=[round(float(dd.min()), 2), round(float(dd.max()), 2)],
                    raw_path_fraction_inside_bone=round(raw_frac, 3), push_out_displacement_max_mm=round(disp, 1), soft_overlap=ov, skin_min_depth_mm=sk, waypoints=[np.round(a, 1).tolist() for a in anchors])
         if extra_rep: rep.update(extra_rep)
@@ -356,10 +431,13 @@ def build(P, only=None, include_sex=True):
                 mids = [c for c in mids if sg * (c[0] - xm) > 4.0] or mids
                 best = None
                 for md_ in mids:
-                    t_ = B.best_end([Jpd, md_], cands, 1.3)
+                    t_ = B.best_end([Jpd, md_], cands, 1.3, skin=True)
                     Pth_ = NL.spline([Jpd, md_, t_], 40); ids_ = P.ctx.near_bones(Pth_, 25.0)
                     sd_ = P.ctx.bf.signed(Pth_, ids_)[0] if ids_ else np.full(len(Pth_), 9.0)
                     cost_ = float((sd_ < -1.0).mean())
+                    sk_ = B.skin_depth_page(t_[None])
+                    if sk_ is not None and sk_ < 2.0:
+                        cost_ += 10.0 + max(0.0, 2.0 - sk_)
                     if best is None or cost_ < best[0] - 1e-9:
                         best = (cost_, md_, t_)
                 _, Pm, Tn = best

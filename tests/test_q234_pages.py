@@ -119,7 +119,10 @@ def test_audit_counts_the_new_structures_as_present():
         present = set(after["female_only_present"])
         assert {"vagina", "uterine_ovarian_ligaments"} <= present, k
         if k == "base_f":
-            assert {"labia_majora", "labia_minora", "clitoris", "female_urethra"} <= set(after["female_only_absent"]), k
+            # Q251: base_f ships most CVH perineal structures too now (Q250's pelvis warp fits well enough); only
+            # the clitoris remains absent (clitoris_cavernous_body stays held: a real bone penetration there).
+            assert {"labia_majora", "labia_minora", "clitoris"} <= set(after["female_only_absent"]), k
+            assert {"female_urethra", "vestibular_glands_bulb"} <= present, k
         else:       # Q235: the Imaging-based and Combined pages got the clitoris, vestibular bulbs / glands and the female urethra from the Chinese Visible Human; the labia, mons pubis, ovarian vessels stay absent
             assert {"labia_majora", "labia_minora", "mons_pubis", "ovarian_vessels"} <= set(after["female_only_absent"]), k
             assert {"clitoris", "female_urethra", "vestibular_glands_bulb"} <= present, k

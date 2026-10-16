@@ -51,11 +51,28 @@ def test_every_shipped_structure_passed_every_gate(k):
         assert not r["held"]
 
 
-def test_base_female_was_skipped_with_a_reason():
-    r = rj("Q235_report_base_f.json")
-    assert r["skipped_page"] and "not sound" in r["skipped_page"] and "male-derived" in r["skipped_page"]
-    assert {"clitoris_cavernous_body", "ischiocavernosus_cvh_l", "ischiocavernosus_cvh_r"} & set(r["held"])      # the bone-attached structures fail on the male-derived pelvis
-    assert r["inferior_pelvis_mm"]["p90"] > 6 and r["registration"]["transform"]["scale"] < 1.0
+def test_base_female_ships_the_cvh_structures_the_pelvis_warp_can_support():
+    """Q251: base_f is no longer an all-or-nothing skip. Q250 deformed this page's pelvis onto the Visible Human
+    female (inferior-pelvis residual down from a median 3.1 / p90 8.4 mm on the male-derived pelvis to about 2.3-2.7
+    / 6.5-6.8 mm), which is now good enough for 3 of the 4 bone-attached structures (both ischiocavernosus muscles
+    outright; bulbospongiosus once its own near-zero, non-penetrating bone clearance is judged on its own terms, see
+    core.evaluate) and every non-bone-attached one. Only clitoris_cavernous_body remains held: a real bone
+    penetration (about 440 of 1172 vertices need pushing out of the ischiopubic ramus by up to ~5 mm, several times
+    the 3.0 mm / 15 % limit), not an overly strict gate -- shipping it would show the clitoris partly buried in
+    bone, which is not a position estimate worth badging as one.
+
+    Reads Q250_chain_Q235_report_base_f.json, not Q235_report_base_f.json: the latter is frozen at its own committed,
+    pre-Q250 content (Q235 run standalone against the never-warped, male-derived pelvis -- `scripts/q250_build_all.sh`
+    restores it with `git checkout --` right after copying it here) and is no longer how base_f's CVH layer is
+    actually produced; the Q250-chain copy is the one that reflects the real, shipped pelvis and page."""
+    r = rj("Q250_chain_Q235_report_base_f.json")
+    assert r["skipped_page"] is None
+    assert r["held"] == ["clitoris_cavernous_body"]
+    assert set(r["shipped"]) == ALL_IDS - {"clitoris_cavernous_body"}
+    g = r["structures"]["clitoris_cavernous_body"]["gates"]
+    assert not g["pass"] and g["max_move_out_of_bone_mm"] > 3.0 and g["vertices_moved_out_of_bone"] > 0.15 * g["vertices"]
+    assert r["inferior_pelvis_mm"]["median"] < 3.0                      # improved from the pre-Q250 3.1 mm (still not her own bones: a deformed Z pelvis)
+    assert r["registration"]["transform"]["scale"] > 1.0                # Q250 widened this pelvis (the CVH donor's is smaller again, scaled up to fit)
 
 
 @pytest.mark.parametrize("k", list(PAGES))
@@ -134,7 +151,11 @@ def test_audit_counts_the_new_structures_as_present():
         for item in ("clitoris", "vestibular_glands_bulb", "female_urethra"):
             assert all("ANOTHER PERSON'S real segmentation" in h["provenance"] for h in inv["female_only_present"][item]), (k, item)
     b = a["pages"]["base_f"]["after_q233"]["inventory"]
-    assert {"clitoris", "female_urethra", "vestibular_glands_bulb"} <= set(b["female_only_absent"])         # Base female: skipped, still absent
+    # Q251: base_f is no longer skipped outright -- female_urethra and vestibular_glands_bulb now ship there too
+    # (same Chinese Visible Human source); only the clitoris remains absent (clitoris_cavernous_body stays held:
+    # a real bone penetration on this page's pelvis, not fixable without fabricating geometry, see Q235_report_base_f.json)
+    assert "clitoris" in set(b["female_only_absent"])
+    assert {"female_urethra", "vestibular_glands_bulb"} <= set(b["female_only_present"])
     assert any("Q235" in json.dumps(f) for f in a["fixes_applied"])
 
 
