@@ -664,7 +664,9 @@
     var S = {
       open: false, modality: "ct", ctWin: "soft", ctW: 400, ctL: 40, seq: "t1_se", sp: null, mrW: 1, mrL: 0.5, auto: true,
       thick: 5, slab: "avg", layout: "mpr", active: "cut", fov: {cut: 450, ax: 450, co: 700, sa: 700}, res: 320,
-      P: null, noise: 0, blur: 0, bias: 0, ssCap: 0, cross: true, labels: true, tab: "image", lay: "auto", link: false
+      P: null, noise: 0, blur: 0, bias: 0, ssCap: 0, cross: true, labels: true, tab: "image", lay: "auto", link: false,
+      obl: {base: "ax", tilt: 0, dir: 0},                                     // Q254: oblique Cut-plane dial (item 6)
+      cine: false, fps: 3                                                     // Q254: slice-position cine (item 7)
     };
     var views = {};
     var VIEWS = [["cut", "Cut plane"], ["ax", "Axial"], ["co", "Coronal"], ["sa", "Sagittal"]];
@@ -777,6 +779,48 @@
     function cutPlane() {                                                   // {kn, c} (kept half kn.p + c >= 0) or null
       var c = api.cut(); if (!c) return null;
       var l = Math.hypot(c[0], c[1], c[2]) || 1; return {kn: [c[0] / l, c[1] / l, c[2] / l], c: c[3] / l};
+    }
+    /* ---------- Q254 item 6: a direct, discoverable oblique-plane dial for the Cut view -----------------------
+     * Before this, the only way to get a genuinely oblique CT/MRI plane was the 3-D view's Cut-mode "facing me"
+     * button, which snaps the plane to whatever direction the camera happens to be orbited to -- real, but a
+     * one-shot trick with no live angle control and nothing telling the user it exists. This dials a tilt
+     * (0-60 deg off a chosen base plane) and a direction (0-359 deg, which way the plane tilts) straight onto
+     * api.setCut(), the exact mechanism the Cut view already consumes -- same rotation pattern as the ultrasound
+     * tool's own Tilt/Direction sliders (clinical/ultrasound_tool.js probeFrame): rotate the base normal by `tilt`
+     * about the axis perpendicular to both it and the in-plane direction `dir` picks. */
+    var OBL_BASE = {ax: [0, -1, 0], co: [0, 0, 1], sa: [-1, 0, 0]};
+    function obliqueNormal(baseKey, tiltDeg, dirDeg) {
+      var b = basis(OBL_BASE[baseKey] || OBL_BASE.ax), th = (tiltDeg || 0) * Math.PI / 180, ph = (dirDeg || 0) * Math.PI / 180;
+      var ct = Math.cos(ph), st = Math.sin(ph), t = [b.u[0] * ct + b.v[0] * st, b.u[1] * ct + b.v[1] * st, b.u[2] * ct + b.v[2] * st];
+      var k = [b.n[1] * t[2] - b.n[2] * t[1], b.n[2] * t[0] - b.n[0] * t[2], b.n[0] * t[1] - b.n[1] * t[0]], kl = Math.hypot(k[0], k[1], k[2]) || 1;
+      k = [k[0] / kl, k[1] / kl, k[2] / kl];
+      var c = Math.cos(th), s = Math.sin(th), n = b.n, kv = [k[1] * n[2] - k[2] * n[1], k[2] * n[0] - k[0] * n[2], k[0] * n[1] - k[1] * n[0]], kd = (k[0] * n[0] + k[1] * n[1] + k[2] * n[2]) * (1 - c);
+      return [n[0] * c + kv[0] * s + k[0] * kd, n[1] * c + kv[1] * s + k[1] * kd, n[2] * c + kv[2] * s + k[2] * kd];
+    }
+    function applyOblique() {                                                // pushes S.obl onto the live Cut plane; pollCut() (140 ms) picks it up and redraws
+      if (!S.P) return;
+      try { api.setCut({normal: obliqueNormal(S.obl.base, S.obl.tilt, S.obl.dir), point: S.P}); } catch (e) {}
+    }
+    /* ---------- Q254 item 7: slice-position cine, with a speed control --------------------------------------
+     * Steps S.P along the ACTIVE view's own plane normal (so it plays through whatever is on screen -- axial,
+     * coronal, sagittal, or an oblique Cut plane alike), N mm per tick, fps selector modelled directly on the
+     * ultrasound tool's own cineBtn / fps <select> (1 / 2 / 3 / 5 / 8), now that Q253 made that shared UI row
+     * (ultrasound's ui.playBox). Bounces back and forth at the body's own bounding box rather than wrapping or
+     * running off; built on top of item 5's drag fix, not before it, per the brief. */
+    var CINE_STEP_MM = 2, cineDir = 1;
+    function cineTick() {
+      if (!S.open || !geo || !S.P) { setCine(false); return; }
+      var spec = viewSpec(S.active);
+      if (!spec) return;                                                    // e.g. the Cut view with no cut plane set yet -- just wait, don't stop
+      var step = CINE_STEP_MM * cineDir, np = [S.P[0] + spec.n[0] * step, S.P[1] + spec.n[1] * step, S.P[2] + spec.n[2] * step];
+      var lo = geo.bodyBox.lo, hi = geo.bodyBox.hi, margin = 15;
+      if (np[0] < lo[0] - margin || np[0] > hi[0] + margin || np[1] < lo[1] - margin || np[1] > hi[1] + margin || np[2] < lo[2] - margin || np[2] > hi[2] + margin) { cineDir = -cineDir; return; }
+      S.P = np; markDirty(null, true);
+    }
+    function setCine(on) {
+      clearInterval(timers.cine); S.cine = !!on;
+      if (S.cine) timers.cine = setInterval(cineTick, 1000 / Math.max(1, S.fps));
+      if (ui.cineBtn) ui.cineBtn.setAttribute("aria-pressed", String(S.cine));
     }
     function viewSpec(key) {                                                // plane definition of one view
       var P = S.P, th = S.thick, spec;
@@ -955,9 +999,14 @@
       var uu = dot(sp.u, rel), vv = dot(sp.v, rel), u0 = v.cu - v.W * v.px / 2, v0 = v.cv + v.H * v.px / 2;
       return [(uu - u0) / v.px, (v0 - vv) / v.px];
     }
-    function pointOf(v, ix, iy, along) {                                    // pixel -> 3D point on the plane (+ along n)
-      var sp = v.spec, u0 = v.cu - v.W * v.px / 2, v0 = v.cv + v.H * v.px / 2, uu = u0 + ix * v.px, vv = v0 - iy * v.px;
-      return [sp.O[0] + sp.u[0] * uu + sp.v[0] * vv + sp.n[0] * (along || 0), sp.O[1] + sp.u[1] * uu + sp.v[1] * vv + sp.n[1] * (along || 0), sp.O[2] + sp.u[2] * uu + sp.v[2] * vv + sp.n[2] * (along || 0)];
+    function pointOf(v, ix, iy, along, frame) {                              // pixel -> 3D point on the plane (+ along n)
+      var f = frame || {O: v.spec.O, u: v.spec.u, v: v.spec.v, n: v.spec.n, u0: v.cu - v.W * v.px / 2, v0: v.cv + v.H * v.px / 2, px: v.px};
+      var uu = f.u0 + ix * f.px, vv = f.v0 - iy * f.px;
+      return [f.O[0] + f.u[0] * uu + f.v[0] * vv + f.n[0] * (along || 0), f.O[1] + f.u[1] * uu + f.v[1] * vv + f.n[1] * (along || 0), f.O[2] + f.u[2] * uu + f.v[2] * vv + f.n[2] * (along || 0)];
+    }
+    function freezeFrame(v) {                                                // Q254: a snapshot of the view's current pixel->3D mapping, held fixed for one
+      var sp = v.spec;                                                      // whole drag gesture -- see setAnchorFromView for why (feedback-loop drift fix)
+      return {O: sp.O.slice(), u: sp.u, v: sp.v, n: sp.n, u0: v.cu - v.W * v.px / 2, v0: v.cv + v.H * v.px / 2, px: v.px};
     }
 
     /* ---------- readout ---------- */
@@ -1192,6 +1241,27 @@
         el("button", {type: "button", text: "center", title: "Center the image on the crosshair", onclick: function () { centerViews(); }}),
         el("label", {text: "px"}), (ui.resSel = el("select", {onchange: function () { S.res = +ui.resSel.value; markDirty(null, false); }}, [256, 320, 384, 512].map(function (r) { return el("option", {value: String(r), text: r + "²"}); })))
       ]);
+      /* Q254 item 6: oblique Cut-plane dial -- a genuinely oblique CT/MRI plane without orbiting the 3-D view */
+      function setObl(k, v) { S.obl[k] = v; applyOblique(); }
+      ui.oblRow = el("div", {class: "img-row"}, [
+        el("label", {text: "Oblique", title: "Tilt the Cut plane directly, off a chosen base plane -- no camera orbiting needed. (The 3-D view's Cut → \"facing me\" button still also sets an oblique Cut plane, from the current camera angle; this dial is the other way to get one.)"}),
+        [["ax", "Axial"], ["co", "Coronal"], ["sa", "Sagittal"]].map(function (d) {
+          return el("button", {type: "button", "data-ob": d[0], text: d[1], "aria-pressed": String(S.obl.base === d[0]), title: "Tilt away from the " + d[1].toLowerCase() + " plane",
+            onclick: function () { S.obl.base = d[0]; Array.prototype.forEach.call(ui.oblRow.querySelectorAll("[data-ob]"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.ob === d[0])); }); setObl("base", d[0]); }});
+        }),
+        el("label", {text: "Tilt"}), (ui.oblTilt = el("input", {type: "range", min: "0", max: "60", step: "1", class: "grow", "aria-label": "Oblique tilt angle in degrees, off the base plane", oninput: function () { ui.oblTiltOut.textContent = ui.oblTilt.value + "°"; setObl("tilt", +ui.oblTilt.value); }})),
+        (ui.oblTiltOut = el("output", {text: "0°"})),
+        el("label", {text: "Direction"}), (ui.oblDir = el("input", {type: "range", min: "0", max: "359", step: "1", class: "grow", "aria-label": "Which way the oblique plane tilts, in degrees", oninput: function () { ui.oblDirOut.textContent = ui.oblDir.value + "°"; setObl("dir", +ui.oblDir.value); }})),
+        (ui.oblDirOut = el("output", {text: "0°"})),
+        el("button", {type: "button", text: "reset", title: "Back to a plain (non-oblique) base plane", onclick: function () { S.obl.tilt = 0; S.obl.dir = 0; ui.oblTilt.value = "0"; ui.oblDir.value = "0"; ui.oblTiltOut.textContent = "0°"; ui.oblDirOut.textContent = "0°"; applyOblique(); }}),
+        el("div", {class: "img-status", text: "Drives the Cut view directly (switch to Cut / MPR to see it) -- the same oblique-plane mechanism as the 3-D view's Cut → \"facing me\" camera trick, without needing to orbit the camera."})
+      ]);
+      /* Q254 item 7: slice-position cine (fps selector modelled on the ultrasound tool's cineBtn / fps row) */
+      ui.cineRow = el("div", {class: "img-row"}, [
+        (ui.cineBtn = el("button", {type: "button", text: "▶ cine", "aria-pressed": "false", title: "Step the active view's slice position through the body, as a movie", onclick: function () { setCine(!S.cine); }})),
+        el("label", {text: "fps"}), (ui.cineFps = el("select", {"aria-label": "Cine frames per second", onchange: function () { S.fps = +ui.cineFps.value; if (S.cine) { setCine(false); setCine(true); } }}, [1, 2, 3, 5, 8].map(function (f) { return el("option", {value: String(f), text: String(f)}); })))
+      ]);
+      ui.cineFps.value = String(S.fps);
       ui.optRow = el("div", {class: "img-row"}, [
         el("label", {text: "Noise"}), (ui.noise = el("input", {type: "range", min: "0", max: "10", step: "0.5", class: "grow", "aria-label": "Synthetic noise (default off)", oninput: function () { S.noise = +ui.noise.value * (S.modality === "ct" ? 5 : 1); ui.noiseOut.textContent = S.noise ? "synthetic noise" : "off"; rerenderAll(); }})), (ui.noiseOut = el("output", {text: "off"})),
         el("label", {text: "Blur"}), (ui.blur = el("input", {type: "range", min: "0", max: "4", step: "0.25", class: "grow", "aria-label": "Synthetic blur in mm (default off)", oninput: function () { S.blur = +ui.blur.value; ui.blurOut.textContent = S.blur ? S.blur + " mm" : "off"; rerenderAll(); }})), (ui.blurOut = el("output", {text: "off"})),
@@ -1202,7 +1272,7 @@
       ui.status = el("div", {class: "img-status", text: ""});
       function sec(name, kids) { var d = el("div", {class: "sec", "data-sec": name}, kids); ui.secs[name] = d; return d; }
       ui.secs = {};
-      [mrow, sec("contrast", [ui.ctBox, ui.mrBox]), sec("slab", [ui.slabRow]), sec("view", [r1, ui.fovRow]), sec("more", [ui.optRow]), ui.status].forEach(function (x) { ctl.appendChild(x); });
+      [mrow, sec("contrast", [ui.ctBox, ui.mrBox]), sec("slab", [ui.slabRow]), sec("view", [r1, ui.fovRow, ui.oblRow, ui.cineRow]), sec("more", [ui.optRow]), ui.status].forEach(function (x) { ctl.appendChild(x); });
       setSec(S.sec || "contrast");
     }
     function setSec(name) {
@@ -1354,7 +1424,7 @@
         var ids = Object.keys(touches);
         if (ids.length >= 2) { drag = {mode: "pinch", v: v, d0: pinchDist(), f0: S.fov[v.key]}; return; }
         if (e.button === 2 || e.shiftKey || e.button === 1) { drag = {mode: "pan", v: v, x: e.clientX, y: e.clientY, cp: (v.CP || S.P).slice()}; return; }
-        drag = {mode: "cross", v: v}; if (inside) setAnchorFromView(v, q[0], q[1]);
+        drag = {mode: "cross", v: v, frame0: freezeFrame(v)}; if (inside) setAnchorFromView(v, q[0], q[1], drag.frame0);
         showReadout(v, q);
       } else if (kind === "move") {
         touches[e.pointerId] && (touches[e.pointerId] = [e.clientX, e.clientY]);
@@ -1364,7 +1434,13 @@
           v.CP = [drag.cp[0] - sp.u[0] * dx + sp.v[0] * dy, drag.cp[1] - sp.u[1] * dx + sp.v[1] * dy, drag.cp[2] - sp.u[2] * dx + sp.v[2] * dy];
           markDirty([v.key], true); return;
         }
-        if (drag && drag.mode === "cross" && drag.v === v && inside) setAnchorFromView(v, q[0], q[1]);
+        // Q254: a frozen frame (captured on pointer-down) maps pixel -> 3D for the WHOLE gesture. Without it, since
+        // each render re-centres the view on the just-set S.P (spec.O = S.P for ax/co/sa), a redraw that lands
+        // mid-drag (common once events arrive faster than the 30 ms debounce) makes the next move's point add its
+        // pixel offset on top of the already-shifted centre -- a feedback loop that can run the point kilometres
+        // outside the body within a handful of frames, after which every view is blank (and stays blank: nothing
+        // ever pulls S.P back into range). Using the gesture's own start frame throughout removes the loop.
+        if (drag && drag.mode === "cross" && drag.v === v && inside) setAnchorFromView(v, q[0], q[1], drag.frame0);
         showReadout(v, q);
       } else {
         delete touches[e.pointerId]; if (!Object.keys(touches).length) drag = null;
@@ -1375,8 +1451,8 @@
       v.hover = [q[0], q[1]];
       var r = readoutAt(v, q[0], q[1]); if (r && ui.readout) ui.readout.textContent = r.text;
     }
-    function setAnchorFromView(v, ix, iy) {
-      var along = 0, p = pointOf(v, ix, iy, along);
+    function setAnchorFromView(v, ix, iy, frame) {
+      var along = 0, p = pointOf(v, ix, iy, along, frame);
       S.P = p;
       if (v.key !== "cut") {                                               // the clicked point leaves the cut plane: move the cut plane through it
         if (!movePlaneThrough(p)) {
@@ -1445,7 +1521,7 @@
         setStatus("Loading tissue table ...");
         tablePromise.then(function () { if (S.open) openContinue(); });
       } else {
-        S.open = false; clearInterval(polling); polling = null; applyLayout();
+        S.open = false; clearInterval(polling); polling = null; setCine(false); applyLayout();
         if (ui.btn) ui.btn.setAttribute("aria-pressed", "false");
       }
     }
@@ -1461,8 +1537,8 @@
         geoState = "ready"; geoErr = ""; mappingReport(); setDiag();
         var hadCut = !!cutPlane();
         ensureCut(); lastCut = null;
-        if (!hadCut && cutPlane()) { showHint("No cut was set, so an axial cut through the upper abdomen was created for you. Click or drag in any image to move it, or use the Cut panel of the 3D view.", true); toast("CT / MRI: no cut was set – an axial cut through the upper abdomen was created.", 7000); }
-        else showHint("Simulated CT / MRI of the cut plane (not a scan). Click or drag in an image to move the cut; Contrast, Slab (MIP / MinIP / thickness) and View (MPR / single / split) are under the image.", false);
+        if (!hadCut && cutPlane()) { showHint("No cut was set, so an axial cut through the upper abdomen was created for you. Click or drag in any image to move it, or use the Cut panel of the 3D view, or the View → Oblique dial below for a tilted plane without orbiting the camera.", true); toast("CT / MRI: no cut was set – an axial cut through the upper abdomen was created.", 7000); }
+        else showHint("Simulated CT / MRI of the cut plane (not a scan). Click or drag in an image to move the cut; Contrast, Slab (MIP / MinIP / thickness) and View (MPR / single / split, an Oblique tilt dial, and a cine ▶ with an fps speed control) are under the image.", false);
         var c = api.cut(); lastPlaneKey = c ? c.map(function (x) { return x.toFixed(4); }).join(",") : "off"; lastSlab = api.cutSlab ? api.cutSlab() : 0;
         if (!S.P) S.P = pickAnchor();
         movePointToPlane();
@@ -1499,7 +1575,7 @@
       version: VERSION,
       open: function () { setOpen(true); }, close: function () { setOpen(false); },
       ready: function () { return tablePromise.then(function () { return buildGeometry(); }).then(function () { return true; }); },
-      state: function () { return JSON.parse(JSON.stringify({open: S.open, modality: S.modality, seq: S.seq, thick: S.thick, slab: S.slab, layout: S.layout, active: S.active, P: S.P, fov: S.fov, res: S.res, win: [S.ctW, S.ctL], lay: chooseLayout()})); },
+      state: function () { return JSON.parse(JSON.stringify({open: S.open, modality: S.modality, seq: S.seq, thick: S.thick, slab: S.slab, layout: S.layout, active: S.active, P: S.P, fov: S.fov, res: S.res, win: [S.ctW, S.ctL], lay: chooseLayout(), oblique: S.obl, cine: S.cine, fps: S.fps})); },
       set: function (p) {
         Object.keys(p).forEach(function (k) {
           if (k === "thick") setThick(p.thick, true); else if (k === "seq") setSeq(p.seq); else if (k === "modality") setModality(p.modality);
@@ -1512,6 +1588,8 @@
           else if (k === "ssCap") { S.ssCap = p.ssCap; markDirty(null, false); }
           else if (k === "tab") { S.tab = p.tab; applyLayout(); } else if (k === "lay") { S.lay = p.lay; applyLayout(); updateLayoutUI(); }
           else if (k === "seqParams") { Object.assign(S.sp, p.seqParams); syncMr(); rerenderAll(); }
+          else if (k === "oblique") { Object.assign(S.obl, p.oblique); applyOblique(); }
+          else if (k === "cine") { setCine(!!p.cine); } else if (k === "fps") { S.fps = p.fps; if (ui.cineFps) ui.cineFps.value = String(S.fps); if (S.cine) { setCine(false); setCine(true); } }
         });
       },
       idle: function () { return new Promise(function (res) { var t = setInterval(function () { var busy = pumping || Object.keys(views).some(function (k) { var v = views[k]; return v.dirty && visibleViews().indexOf(k) >= 0; }); if (!busy && Date.now() - lastMark > 900) { clearInterval(t); res(true); } }, 100); }); },
