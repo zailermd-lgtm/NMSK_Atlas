@@ -436,9 +436,32 @@
     return best;
   }
 
+  /* ---- Q253: probe-frequency / depth mismatch check -----------------------------------------------------
+   * Honest heuristic, not a clinical rule. Two independent checks, both grounded in numbers this tool already
+   * uses elsewhere (never invented here):
+   *   (a) low frequency on a shallow/small target: axial & lateral resolution both scale with wavelength
+   *       (this tool's own info panel: "axial ~ 1.25 wavelengths; lateral = 1.2 lambda F/D"), so a <=5 MHz
+   *       probe on a <=3 cm target (hand / wrist / foot / tendon scale) will be coarse.
+   *   (b) high frequency too deep: round-trip attenuation loss_dB = 2 x alphaRef x freq x depthCm, using
+   *       alphaRef = ultrasound_tissues.json global.tgc_alpha_ref_db_cm_mhz (the SAME nominal soft-tissue
+   *       attenuation this tool's own time-gain-compensation already assumes, 0.6 dB/cm/MHz, cited there as
+   *       "scanners use 0.5-0.7"). Above ~90 dB round trip the far field sits below any realistic gain + the
+   *       default 60 dB display range, so it will read as very dark / unreadable. */
+  function probeMismatch(freq, depthCm, alphaRef) {
+    var ar = alphaRef > 0 ? alphaRef : 0.6;
+    if (freq <= 5 && depthCm <= 3) {
+      return {kind: "shallow_lowfreq", text: freq + " MHz on a " + depthCm + " cm-deep target: a low-frequency probe gives coarse resolution here (wavelength ∝ 1/f) — prefer a 10–12 MHz probe for hand / wrist / foot / tendon."};
+    }
+    var loss = 2 * ar * freq * depthCm;
+    if (loss > 90) {
+      return {kind: "deep_highfreq", loss: loss, text: freq + " MHz to " + depthCm + " cm: round-trip attenuation ≈ " + Math.round(loss) + " dB (" + ar + " dB/cm/MHz, this tool's own TGC reference) — the far field will be very dark — prefer a 2–5 MHz probe for deep / abdominal targets."};
+    }
+    return null;
+  }
+
   var LIB = {VERSION: VERSION, probeFrame: probeFrame, REF: REF, starTilts: starTilts, sweepOffsets: sweepOffsets, matrixDims: matrixDims, fanGeom: fanGeom, lineStart: lineStart,
     planRaster: planRaster, compileAcoustics: compileAcoustics, simulate: simulate, hash3: hash3, toGray: toGray, skinHit: skinHit, smoothNormal: smoothNormal, pcaAxis: pcaAxis,
-    followRotation: followRotation, angleDeg: angleDeg, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES};
+    followRotation: followRotation, angleDeg: angleDeg, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES, probeMismatch: probeMismatch};
   G.NMSKUltrasoundLib = LIB;
   if (typeof document === "undefined") return;
 
@@ -824,6 +847,7 @@
       ".us-view.us-act{border-color:var(--acc)}",
       ".us-view canvas{position:absolute;image-rendering:auto}",
       ".us-view .ann{pointer-events:none;left:0;top:0}",
+      ".us-schem{position:absolute;left:6px;top:6px;width:84px;height:84px;background:rgba(10,14,20,.88);border:1px solid #2a3542;border-radius:7px;z-index:5;display:none;pointer-events:none}",
       "#us-root.ctl-off .us-ctl{display:none}",
       ".us-ctl .sec{display:contents}.us-ctl .sectabs{display:none;gap:4px;flex-wrap:wrap}.us-ctl .modrow{grid-column:1/-1}",
       "#us-root.ctl-tabs .us-ctl{grid-template-columns:1fr;max-height:36%}",
@@ -898,6 +922,7 @@
       ui.info = el("div", {class: "us-info"});
       ui.diag = el("div", {class: "us-diag"}); ui.hint = el("div", {class: "us-hint", role: "note"}); ui.hint.style.display = "none";
       ui.views = el("div", {class: "us-views star"});
+      ui.schem = el("canvas", {class: "us-schem", width: "84", height: "84", "aria-hidden": "true"}); ui.views.appendChild(ui.schem);
       ui.read = el("div", {class: "us-read", text: "Click the skin in the 3D view to place the probe; hover an image for tissue, structure, depth and echo level."});
       ui.ctl = el("div", {class: "us-ctl"}); buildControls(ui.ctl);
       var div = el("div", {id: "us-div", title: "Drag to resize"});
@@ -957,7 +982,7 @@
         btn("Zoom to probe", "Move the 3D camera close to the probe", function () { if (S.P) { api.focus(S.P, 420); } })]);
       var r5 = slider("Rotate", 0, 359, 1, "rot", function (v) { return Math.round(v) + "°"; }, function (v) { S.rot = v; refresh(); }, "Free rotation of the probe about the skin normal");
       /* mode section */
-      ui.starBox = el("div", {style: "display:grid;gap:6px"}, [slider("Tilt", 5, 30, 1, "tilt", function (v) { return v + "°"; }, function (v) { S.tilt = v; refresh(); }, "Tilt angle of the surrounding images"),
+      ui.starBox = el("div", {style: "display:grid;gap:6px"}, [slider("Tilt", 5, 30, 1, "tilt", function (v) { return v + "°"; }, function (v) { S.tilt = v; drawSchematic(); refresh(); }, "Tilt angle of the surrounding images"),
         el("div", {class: "us-status", text: "Centre = 90° to the skin. Ring = the handle leaning towards (clockwise from the right): away from marker (rock), away + heel, heel, toward + heel, toward marker (rock), toward + toe, toe, away + toe. Click a ring image to make it the main image."})]);
       ui.dirBtns = {};
       ui.sweepBox = el("div", {style: "display:grid;gap:6px"}, [
@@ -974,11 +999,14 @@
           (ui.followBtn = btn("follow organ", "The sweep follows the long axis (PCA of the mesh) of the chosen structure", function () { if (S.followSid < 0) { S.pick3d = true; setStatus("Click the organ in the 3D view."); syncUi(); } else { S.follow = !S.follow; syncUi(); refresh(true); } })),
           (ui.pickBtn = btn("pick organ", "Click a structure in the 3D view to follow", function () { S.pick3d = !S.pick3d; syncUi(); setStatus(S.pick3d ? "Click the organ in the 3D view." : ""); })),
           (ui.pickImgBtn = btn("organ under cursor", "Follow the structure last read under the cursor / tap in an image", function () { if (ui.lastSid != null && ui.lastSid >= 0 && ui.lastSid < 65534) setFollow(ui.lastSid); else setStatus("Hover or tap a structure in an image first."); })),
-          (ui.followOut = el("output", {text: ""}))]),
+          (ui.followOut = el("output", {text: ""}))])
+      ]);
+      /* Q253 (3/4): view / cine / frame scrub -- shared by BOTH modes (previously sweep-only, so star/tilt mode had no cine at all) */
+      ui.playBox = el("div", {style: "display:grid;gap:6px"}, [
         el("div", {class: "us-row"}, [(ui.viewBtn = btn("matrix", "Matrix of all frames / one big frame", function () { S.view = S.view === "matrix" ? "single" : "matrix"; syncUi(); relayoutViews(); })),
-          (ui.cineBtn = btn("▶ cine", "Scroll through the frames automatically", function () { setCine(!S.cine); })),
+          (ui.cineBtn = btn("▶ cine", "Play through the frames in place, as a movie (one big frame; use “matrix” / “single” above to switch views)", function () { setCine(!S.cine); })),
           el("label", {text: "fps"}), (ui.fpsSel = el("select", {"aria-label": "Cine frames per second", onchange: function () { S.fps = +ui.fpsSel.value; if (S.cine) { setCine(false); setCine(true); } }}, [1, 2, 3, 5, 8].map(function (f) { return el("option", {value: String(f), text: String(f)}); })))]),
-        slider("Frame", 1, 9, 1, "frame", function (v) { return "#" + v; }, function (v) { selectFrame(v - 1); }, "Scroll through the frames")
+        slider("Frame", 1, 9, 1, "frame", function (v) { return "#" + v; }, function (v) { selectFrame(v - 1); }, "Scroll through the frames (9 tilt directions in star mode, n planes in sweep mode)")
       ]);
       /* image section */
       var im1 = slider("Gain", -25, 25, 1, "gain", function (v) { return (v > 0 ? "+" : "") + v + " dB"; }, function (v) { S.gain = v; repaintAll(); }, "Overall gain");
@@ -995,7 +1023,7 @@
       function sec(name, kids) { var d = el("div", {class: "sec", "data-sec": name}, kids); ui.secs[name] = d; return d; }
       ui.secs = {};
       ui.sweepOnly = ui.sweepBox; ui.starOnly = ui.starBox;
-      [mrow, sec("probe", [r1, r2, r3, r4, r5]), sec("mode", [ui.starBox, ui.sweepBox]), sec("image", [im1, im2, im3, im4, im5]), sec("more", [mo1]), ui.status].forEach(function (x) { ctl.appendChild(x); });
+      [mrow, sec("probe", [r1, r2, r3, r4, r5]), sec("mode", [ui.starBox, ui.sweepBox, ui.playBox]), sec("image", [im1, im2, im3, im4, im5]), sec("more", [mo1]), ui.status].forEach(function (x) { ctl.appendChild(x); });
       setSec(S.sec);
     }
     function setSec(name) {
@@ -1035,8 +1063,8 @@
     function resetDefaults() { S.gain = 0; S.tgc = 0; S.dr = 60; S.focusCm = S.depthCm * 0.5; S.speckle = true; S.textures = true; S.reverb = true; S.noise = false; S.rot = 0; S.mTilt = 0; S.tilt = 15; syncUi(); refresh(true); }
     function selectFrame(i) { S.sel = Math.max(0, Math.min(frames.length ? frames.length - 1 : 8, i)); relayoutViews(); syncUi(); updateOverlay(); if (S.mode === "star") refresh(true); }
     function setCine(on) {
-      clearInterval(timers.cine); S.cine = !!on && S.mode === "sweep";
-      if (S.cine) timers.cine = setInterval(function () { if (!frames.length) return; S.sel = (S.sel + 1) % S.n; relayoutViews(); syncUi(); updateOverlay(); }, 1000 / S.fps);
+      clearInterval(timers.cine); S.cine = !!on;                               // Q253: cine now plays in BOTH modes (star: the 9 tilt directions; sweep: the n parallel planes)
+      if (S.cine) timers.cine = setInterval(function () { if (!frames.length) return; var nF = S.mode === "star" ? 9 : S.n; S.sel = (S.sel + 1) % nF; relayoutViews(); syncUi(); updateOverlay(); }, 1000 / S.fps);
       syncUi();
     }
     function setStatus(t) {
@@ -1066,7 +1094,8 @@
     function relayoutViews() {
       if (!ui.views) return;
       var vw = ui.views;
-      if (S.mode === "star") {
+      drawSchematic();
+      if (S.mode === "star" && S.view !== "single") {                         // Q253: star mode can now also show one big cine-able frame (S.view === "single")
         vw.className = "us-views star";
         views.forEach(function (v, i) {
           var cell;
@@ -1087,6 +1116,33 @@
       }
       views.forEach(function (v, i) { v.wrap.classList.toggle("us-act", i === S.sel); });
       clearTimeout(timers.ann); timers.ann = setTimeout(function () { views.forEach(function (v, i) { if (frames[i] && frames[i].sim) annotate(v, frames[i]); }); }, 30);
+    }
+    /* Q253 (4): a small 2-D dial next to the acquired image, showing WHICH of the 8 tilt directions is on screen (centre = 90 deg
+     * perpendicular). It reads only the already-computed spec for S.sel, so it tracks the slider AND cine automatically. */
+    function drawSchematic() {
+      if (!ui.schem) return;
+      var show = S.mode === "star"; ui.schem.style.display = show ? "" : "none";
+      if (!show || !frames.length) return;
+      var ctx = ui.schem.getContext("2d"), w = ui.schem.width, h = ui.schem.height, cx = w / 2, cy = h / 2 - 4, R = 26;
+      ctx.clearRect(0, 0, w, h); ctx.fillStyle = "#0a0e14"; ctx.fillRect(0, 0, w, h);
+      var spec = (frames[S.sel] && frames[S.sel].spec) || frameSpecs()[S.sel] || {id: 0, tilt: 0};
+      ctx.strokeStyle = "#3a4654"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.2832); ctx.stroke();
+      ctx.strokeStyle = "#263140"; ctx.beginPath(); ctx.moveTo(cx - R - 4, cy); ctx.lineTo(cx + R + 4, cy); ctx.stroke();   // skin line (this dial's own frame, not the body's)
+      var i;
+      for (i = 0; i < 8; i++) {
+        var a = i * Math.PI / 4 - Math.PI / 2, on = spec.id === i + 1;
+        ctx.fillStyle = on ? "#ff9d4a" : "#45535f";
+        ctx.beginPath(); ctx.arc(cx + Math.cos(a) * R, cy + Math.sin(a) * R, on ? 4 : 2.2, 0, 6.2832); ctx.fill();
+      }
+      if (spec.id > 0) {
+        var a2 = (spec.id - 1) * Math.PI / 4 - Math.PI / 2;
+        ctx.strokeStyle = "#ff9d4a"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(a2) * R, cy + Math.sin(a2) * R); ctx.stroke();
+      }
+      ctx.fillStyle = spec.id === 0 ? "#ff9d4a" : "#5c6b7a"; ctx.beginPath(); ctx.arc(cx, cy, 4, 0, 6.2832); ctx.fill();
+      ctx.fillStyle = "#cfe6ff"; ctx.font = "600 10px system-ui,sans-serif"; ctx.textAlign = "center";
+      ctx.fillText(spec.id === 0 ? "90°" : spec.tilt + "°", cx, h - 15);
+      ctx.font = "8.5px system-ui,sans-serif"; ctx.fillStyle = "#9fb0c2";
+      ctx.fillText(spec.id === 0 ? "perpendicular" : (LIB.STAR_NAMES[spec.id - 1] || "").replace(/\s*\(.*\)$/, ""), cx, h - 5);
     }
     function paintView(i, fr) {
       var v = views[i]; if (!v || !fr || !fr.sim) return;
@@ -1114,6 +1170,14 @@
       function Y(y) { return box.y + (y - pl.yo0) * sc; }
       ctx.font = "600 " + (tiny ? 9.5 : 11.5) + "px system-ui,sans-serif"; ctx.textBaseline = "middle";
       function txt(s, x, y, al, col) { ctx.textAlign = al; ctx.fillStyle = "rgba(0,0,0,.7)"; ctx.fillText(s, x + 1, y + 1); ctx.fillStyle = col || "#e8eef5"; ctx.fillText(s, x, y); }
+      function wrapTxt(s, x, y, maxW, col) {                                   // Q253: word-wrap a warning line inside the box width
+        var words = s.split(" "), line = "", lh = tiny ? 11 : 13, yy = y;
+        for (var wi = 0; wi < words.length; wi++) {
+          var test = line ? line + " " + words[wi] : words[wi];
+          if (ctx.measureText(test).width > maxW && line) { txt(line, x, yy, "left", col); yy += lh; line = words[wi]; } else line = test;
+        }
+        if (line) txt(line, x, yy, "left", col);
+      }
       /* probe footprint (top), marker dot on the LEFT */
       ctx.fillStyle = "#59636f"; ctx.strokeStyle = "#9aa7b4"; ctx.lineWidth = 1;
       if (g.type === "convex") {
@@ -1152,6 +1216,10 @@
         txt("tilt " + (Math.round(fr.pf.tilt * 10) / 10) + "\u00B0 \u00B7 normal " + fr.pf.N.map(function (x) { return x.toFixed(2); }).join(","), box.x + 6, box.y + 38, "left", "#b8c4d2");
         if (S.speckle || S.noise || S.textures) txt("synthetic: " + [S.speckle ? "speckle" : "", S.textures ? "textures" : "", S.noise ? "noise" : ""].filter(Boolean).join(", "), box.x + 6, box.y + 52, "left", "#ff9d8a");
         if (!sim.contact) txt("NO SKIN CONTACT", box.x + box.w / 2, box.y + box.h / 2, "center", "#ff6a5a");
+        if (v.idx === S.sel) {
+          var mm = US && LIB.probeMismatch(S.freq, S.depthCm, US.global && US.global.tgc_alpha_ref_db_cm_mhz);
+          if (mm) wrapTxt("PROBE/DEPTH MISMATCH: " + mm.text, box.x + 6, box.y + 66, box.w - 12, "#ffb13c");
+        }
       }
       var bad = BADGE.toUpperCase(), bw2 = ctx.measureText(bad).width;
       if (bw2 + 12 <= box.w) txt(bad, box.x + box.w - 6, box.y + box.h - 8, "right", "#ff9d8a");
