@@ -3859,6 +3859,15 @@ bodies). Still needed from you:
 
 ## Autonomous queue (2026-09-11; user away for days, session self-wakes hourly)
 
+**Note added 2026-10-16:** this queue (the `ct_vhm_*`/`ct_vhf_*` cryo-section subjects, artifacts
+c5d01522/0651399d) predates and is superseded by the six-page NMSK Atlas project (Base/Imaging-based/
+Combined x Male/Female + hub, Q1xx-Q254 and counting) that is now the live, owner-facing work --
+see the "Main session" entries from Q224 onward and `docs/OPEN_ITEMS_FOR_OWNER.md` for what is
+actually active. Its remaining unchecked items below are left as historical record, not an active
+backlog: do not resume them on a bare hourly wake without the owner naming this old project again.
+When no owner request is pending, an hourly wake should just confirm the six current pages + hub are
+published and synced (see the newer Q-numbered sections and the hub artifact), not scan this section.
+
 Operational lessons (16:35, 17:25): never edit a bash chain while it runs (bash reads the file incrementally; the female chain died with a syntax error after the in-place idempotency patch, so pass 2 had to be started by hand at 17:21); never pkill/pgrep-kill with a pattern that also appears in the killing shell's own command line (it kills the tool shell: exit 144, twice today); the container is reclaimed when the session idles and every background job dies -- keep a background waiter running while long jobs run, and make chains idempotent (skip outputs that exist); the scratchpad filesystem filled (14 GB of intermediates) and killed the female `total` run mid-chunk -- chains now refuse to start under 2.5 GB free, and superseded intermediates (DICOM series already converted, silhouettes, hand full-res crops) were deleted.
 
 If no unchecked item is feasible: check both viewers are the latest published versions, run the tests, and end the wake without churn (do not re-run finished work).
