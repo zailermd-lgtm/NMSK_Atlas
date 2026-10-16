@@ -1,0 +1,266 @@
+# NMSK Atlas — Data Model Reference
+
+Canonical definitions live in `schema/*.schema.json` (JSON Schema draft-07,
+validated by `tests/test_schema_validation.py`). This is a human-readable
+walkthrough with a worked example per entity.
+
+## File layout of `data/`
+
+```
+data/
+  skeleton/
+    bones.json            # all 206 bones (schema/bone.schema.json)
+    joints.json            # joint hierarchy + ROM (schema/joint.schema.json)
+  muscles/
+    muscle_index.json      # whole-body muscle list (name/O/I/nerve/action) — breadth
+    upper_limb/*.json       # flagship depth: full functional_compartments per muscle
+  nerves/
+    spinal_and_cranial_nerve_roots.json
+    brachial_plexus.json
+    lumbosacral_plexus.json
+  vascular/
+    upper_limb_arterial.json
+    upper_limb_venous.json
+    lower_limb_arterial.json
+    lower_limb_venous.json
+  fascia/
+    upper_limb_fascia.json
+    lower_limb_fascia.json
+  ligaments/
+    shoulder_ligaments.json  # bone-to-bone stabilizers (schema/ligament.schema.json)
+    knee_ligaments.json      # ...one file per major joint region; see docs/ROADMAP.md
+  cartilage/
+    articular_cartilage_major_joints.json  # schema/cartilage.schema.json
+    menisci.json              # ...and other fibrocartilage/costal structures
+  tendons/
+    upper_limb_tendons.json  # schema/tendon.schema.json
+    lower_limb_tendons.json  # ...and trunk_tendons.json, head_neck_tendons.json
+  rig/
+    skeleton_hierarchy.json  # kinematic parent/child + root
+    anchors.json              # generated: every RigAnchor across all above data
+```
+
+## Ligaments, cartilage, and tendons: bands/parts, not fiber fields
+
+`data/ligaments/*.json`, `data/cartilage/*.json`, and
+`data/tendons/*.json` follow the same "one-or-more functionally
+distinct pieces per named structure" idea as muscle's
+`functional_compartments`, but they don't drive a procedural
+fiber-field generator the way muscles do — a ligament's `bands[]` (e.g.
+the ACL's anteromedial/posterolateral bundles), a cartilage structure's
+`parts[]` (e.g. a meniscus's anterior horn/body/posterior horn), and a
+tendon's `parts[]` (e.g. the quadriceps tendon's 3 fiber layers) are
+directly-authored attachment + mechanical-role records, not seed
+regions for `engine/fiber_field.py`. All three reference `bone_a`/
+`bone_b` (ligaments), `parent_bone`/`attachments` (cartilage), or
+`proximal_attachment`/`distal_attachment` (tendons) exactly like muscle
+attachments do, so `engine/validators.py:validate_bone_references` and
+the rig anchor pipeline treat them the same way — a ligament band's or
+tendon's attachment point is just as valid an anchor candidate as a
+muscle insertion. Tendons additionally carry `parent_muscles[]`
+(checked against the muscle id set the same validator collects), since
+unlike ligaments/cartilage a tendon is always the continuation of one
+or more specific muscles — this is also why `schema/tendon.schema.json`
+deliberately does NOT duplicate every muscle's ordinary insertion as
+its own tendon entity: `muscle.schema.json`'s `attachments.insertion_
+bone`/`insertion_landmark` already IS that tendon's attachment for the
+vast majority of muscles. `data/tendons/` is reserved for tendons with
+standalone identity beyond a single simple muscle's insertion —
+multi-muscle convergence, documented internal layering, pulley/sheath
+systems, or a clinically-distinct name — see
+`schema/tendon.schema.json`'s description for the full scoping
+rationale.
+
+## Naming note: nerves are side-generic, vessels are not
+
+**Nerves.** `data/nerves/*.json` model *one* plexus or tree (`median_n`,
+`axillary_n`), standing for both sides. Only two nerve entities carry a side
+suffix (the recurrent laryngeal branches). A side-generic nerve's `targets`
+therefore name **both** sides' compartments — `deltoid_r_anterior` and
+`deltoid_l_anterior` — and its `motor_entry_point.target_muscle_compartment`
+is a list naming both. For a long time neither did: 359 target references
+pointed right and none left, and 71 of 74 motor points named the right side
+alone, so "what does the axillary nerve supply?" answered with half the body.
+Tests in `tests/test_symmetry.py` now hold both sides present.
+
+**Vessels.** `data/vascular/*.json` are sided, `_r`/`_l`, like muscles and
+bones. The trunk trees always were; the limb and head/neck trees were
+right-side only until `scripts/mirror_lateral_vessels.py` built the left
+(129 entities). One vessel is deliberately unilateral, the brachiocephalic
+trunk, and the test that demands a counterpart for every sided vessel lists
+it with the reason.
+
+**A muscle's innervation.** `innervation.nerve` is a nerve entity id, or a
+**list** of them for a muscle with more than one nerve — adductor magnus is
+obturator and sciatic, biceps femoris is tibial-division long head and
+common-fibular-division short head. Every element must resolve
+(`engine/validators.py`). Which nerve reaches *which* compartment is on the
+compartment: `innervation_branch` is the prose ("tibial division of sciatic
+n."), and `innervation_branch_ids` is its resolvable counterpart, present on
+**every** compartment (534 of 534). It was derived from the nerve tree by
+`scripts/derive_compartment_innervation.py`: the nerve entities whose
+targets name the compartment, or failing that the muscle, plus the muscle's
+own stated nerve where that is a different claim rather than an ancestor of
+one already found (the orbital orbicularis oculi: temporal branch in the
+tree, zygomatic branch on the muscle, both true). Every nerve so named
+lists the compartment back in `targets`, and a test holds the two
+directions together. On the dually innervated muscles the compartment, not
+the muscle, is the unit that has one nerve, and that is the unit a nerve
+block or a botulinum plan works in. Two nerves were once packed into a
+single pseudo-id string
+(`femoral_n_and_obturator_n`) that resolved to nothing; an allow-list in the
+validator excused 22 such strings, which is how 64 muscles came to point at
+no nerve while every check passed. That form is no longer accepted.
+
+## Worked example: how one muscle becomes 1mm fiber geometry
+
+`data/muscles/upper_limb/deltoid.json` (excerpt, illustrative):
+
+```json
+{
+  "id": "deltoid_r",
+  "name_ta": "Musculus deltoideus",
+  "side": "right",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "clavicle_r", "origin_landmark": "lateral third, anterior border",
+    "insertion_bone": "humerus_r", "insertion_landmark": "deltoid tuberosity"
+  },
+  "innervation": { "nerve": "axillary_n", "root_levels": "C5-C6" },
+  "functional_compartments": [
+    {
+      "id": "deltoid_r_anterior_1",
+      "name": "Anterior (clavicular) fibers",
+      "innervation_branch": "axillary n., anterior branch, proximal fascicle",
+      "innervation_branch_ids": ["axillary_n"],
+      "fiber_architecture": { "architecture_type": "parallel_strap", "pennation_deg": 0, ... },
+      "neuromuscular_junction_zone": { "position_fraction_along_fascicle": 0.5 },
+      "source": "..."
+    },
+    { "id": "deltoid_r_acromial_middle_1", "...": "multipennate, ~7 segments per Brown et al." }
+  ]
+}
+```
+
+`engine/build_atlas.py deltoid_r` then:
+
+1. Loads `bone[origin_bone].local_frame`/`landmarks` and the same for
+   `insertion_bone` → resolves the origin/insertion **anchors** to global
+   coordinates at the current rig pose (`rig.py:forward_kinematics`).
+2. For each `functional_compartments[i]`, calls
+   `fiber_field.generate(architecture, seed_region, origin_anchor,
+   insertion_anchor, resolution_mm=1.0)`, which:
+   - seeds fascicle start points 1mm apart along the compartment's origin
+     polygon,
+   - for `parallel_strap`/`fusiform`: straight-line or gently-bowed
+     centerlines to the matched insertion point;
+   - for `unipennate`/`bipennate`/`multipennate`: routes fibers onto the
+     internal aponeurosis surface at the documented pennation angle, then
+     to the tendon, split per-compartment so e.g. deltoid's 7 documented
+     segments come out as 7 distinct, correctly-angled fiber groups sharing
+     one muscle belly;
+   - places the NMJ marker at `position_fraction_along_fascicle` on every
+     generated fascicle.
+3. Tags every generated point/segment with `compartment_id`, so downstream
+   consumers (animation, EMG-simulation, visualization) can select "just the
+   posterior deltoid fibers" as a first-class query.
+
+## Worked example: rig anchors survive rotation
+
+`data/rig/anchors.json` never stores a global XYZ. An anchor like the
+deltoid insertion is:
+
+```json
+{ "id": "anchor_deltoid_r_insertion", "anchor_type": "muscle_insertion",
+  "owner_entity": "deltoid_r", "parent_bone_frame": "humerus_r",
+  "local_position_mm": [12.4, -145.2, 8.1] }
+```
+
+At any glenohumeral pose, `rig.py:resolve_anchor("anchor_deltoid_r_insertion",
+pose)` = `global_transform(humerus_r, pose) @ [12.4,-145.2,8.1,1]`. Rotating
+the shoulder 90° abducted, or the full documented ROM including axial
+rotation, moves the anchor exactly with the humerus — because it is
+mathematically defined relative to the humerus, not fit to a snapshot.
+`tests/test_rig_preserves_anchors.py` samples the joint's full ROM (from
+`joints.json`, including combined-axis end-of-range poses) and asserts this
+holds for every anchor.
+
+### Landmarks and anchors scale with the bone's measured length (Q43, 2026-09-14)
+
+`position_local_mm` (and every anchor's `local_position_mm`, which is copied
+from it) is a coordinate on the **Visible Human male**: the along-axis value
+is his millimetres down his bone. Put on the female, whose femur is 0.88 of
+his and tibia 0.84, every distal landmark of the femur, fibula and humerus
+fell 50-70 mm beyond the end of her bone. So a bone whose local frame has a
+fitted long axis (femur, tibia, fibula, humerus, radius, ulna, clavicle)
+also carries
+
+```json
+"reference_length_mm": 476.7,
+"reference_length_note": "Length of the VH MALE bone along the local frame's long axis (+Y) ... Measured as: ..."
+```
+
+the male's length along the frame's +Y (1st-99th percentile extent of his
+vertices; the note names the subject folder and the function). The stored
+coordinates are never rewritten. A consumer that has **measured** the
+subject's own length `L` of that bone places a landmark at
+`[x, y * L / reference_length_mm, z]`: only the along-axis coordinate
+scales, the two across-axis coordinates stay in millimetres (bone widths do
+not follow length between these two bodies -- her pelvis is as large as
+his). Bones without the field (pelvis, scapula, sternum, tarsals ...) are
+used exactly as stored.
+
+This lives in one place, `engine/geometry.py`:
+`scale_local_to_length(local_mm, reference_length_mm, measured_length_mm)`
+and `local_to_world(local_mm, origin, basis, reference_length_mm,
+measured_length_mm)`; `bone_length_along_axis(mesh, origin, axis)` is the
+length definition. `scripts/audit_landmarks_vs_geometry.py:build_frames`
+returns the measured length as each frame's fifth element and its `place()`
+wraps the lookup; the audit, the viewer export (`resolve_anchor_points`) and
+`validate_moment_arms.py` all go through it. On the male the factor is 1.0.
+On a bone cut by a CT field of view the measured length is the truncation,
+not the bone, and the factor is wrong by construction -- the audit prints the
+factor with each bone so that case is visible.
+
+
+**Truncated bones.** A bone cut by a scan's field of view measures its truncation, not its length: her
+torso block's femora end at mid-thigh at 0.34 of a femur. `engine.geometry.scale_local_to_length`
+therefore applies the along-axis factor only when measured/reference lies within `TRUNCATION_GUARD`
+(0.6-1.5); outside it the landmarks are placed unscaled and the audit prints the factor so the
+truncation is visible.
+
+### Owner's clinical reference block: `clinical` (Q60, 2026-09-14)
+
+The repository owner (a physician) compiled his own per-region muscle
+references -- shoulder (v1, 31/08/2026), elbow (v2, 04/09/2026), wrist (v2,
+31/08/2026) and hand intrinsics (v1, 03/09/2026) -- each with function and
+biomechanics, adjacent structures, trigger points and referred pain in both
+directions, clinical tests with sensitivity/specificity where a primary study
+exists, per-muscle references and a verification appendix. They are ingested
+verbatim as an optional top-level array `clinical` on the muscle record
+(schema: `schema/muscle.schema.json`, `properties.clinical`), one entry per
+source document that profiles the muscle, so the 14 muscles covered by both
+the elbow and the wrist file (and biceps/triceps by shoulder and elbow) carry
+two entries. Both sides get the identical block.
+
+Each entry carries `document`, `compiled`, `compiled_by` (owner + the
+document's own sources-policy sentence), `function_biomechanics`,
+`adjacent_structures`, `trigger_points[]` (`location`, `referred_pain`,
+`activation_perpetuating_factors`, `notes`, `source`),
+`pain_referred_into_this_muscle_from[]` with the document's own territory
+heading in `pain_referred_into_territory`, optional
+`non_myofascial_differential`, `movement_restrictions_aggravators`, `tests[]`
+(`name`, `performance`, `positive_finding`, `structures_loaded` /
+`muscle_basis`, `sensitivity`, `specificity` as percent or null, the verbatim
+`accuracy` statement, `source`) with the table's framing `tests_caveat`,
+`notes`, the document's verbatim evidence-quality `caveat` (Travell & Simons
+referral maps are expert consensus, not validated criteria) and `sources`
+(full reference strings resolved from the document's reference list; a
+leading `[n]` is the number used inside that document's text, kept so the
+bracket citations inside the fields stay resolvable). Nothing in the block
+is written by the atlas: it changes only with a new version of his
+documents. It is distinct from the atlas's own top-level `trigger_points`.
+`tests/test_clinical_blocks.py` checks that every entry has sources and a
+caveat, that every trigger point and test carries a source, and that both
+sides match. The head/neck document's extraction contained only its header
+and reference list, so no head/neck muscle has a block yet.

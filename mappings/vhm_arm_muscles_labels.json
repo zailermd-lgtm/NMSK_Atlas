@@ -1,0 +1,61 @@
+{
+ "_README": [
+  "Label id -> structure name for the upper-arm MUSCLE volume derived from the Visible Human male colour cryosections by scripts/cryo/name_arm_muscles_from_cryo.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. Geometry: the arm's muscle mass in the photographs, split by rules from standard anatomy (Gray's Anatomy 42nd ed.): posterior compartment = triceps brachii; anterior compartment within 22 mm of the humerus in the distal 65 % of the arm = brachialis; proximal 35 %, medial to the humerus and within 15 mm of it = coracobrachialis; the rest of the anterior compartment = biceps brachii. The boundaries between biceps and brachialis and around coracobrachialis are RULE-BASED, not traced along fascial planes; triceps is the most reliable (bounded by the septa and the humerus). Volumes (right/left): biceps 514/506, brachialis 164/221, coracobrachialis 44/50, triceps 713/789 cm3 -- the biceps is over-counted at the expense of brachialis by perhaps 100 cm3."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male colour cryosections, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md). Rules: Standring S (ed.), Gray's Anatomy, 42nd ed., Elsevier 2021, 'Shoulder girdle and arm'.",
+ "task": "vhm_arm_muscles",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "biceps_right",
+  "2": "brachialis_right",
+  "3": "coracobrachialis_right",
+  "4": "triceps_right",
+  "5": "biceps_left",
+  "6": "brachialis_left",
+  "7": "coracobrachialis_left",
+  "8": "triceps_left"
+ },
+ "atlas": {
+  "biceps_right": {
+   "atlas_id": "biceps_brachii_r",
+   "relationship": "exact",
+   "note": "superficial anterior compartment; boundary with brachialis rule-based"
+  },
+  "brachialis_right": {
+   "atlas_id": "brachialis_r",
+   "relationship": "exact",
+   "note": "anterior compartment within 22 mm of the humerus, distal 65 %"
+  },
+  "coracobrachialis_right": {
+   "atlas_id": "coracobrachialis_r",
+   "relationship": "exact",
+   "note": "proximal-medial anterior compartment; rule-based"
+  },
+  "triceps_right": {
+   "atlas_id": "triceps_brachii_r",
+   "relationship": "exact",
+   "note": "whole posterior compartment; three heads not separated"
+  },
+  "biceps_left": {
+   "atlas_id": "biceps_brachii_l",
+   "relationship": "exact",
+   "note": "superficial anterior compartment; boundary with brachialis rule-based"
+  },
+  "brachialis_left": {
+   "atlas_id": "brachialis_l",
+   "relationship": "exact",
+   "note": "anterior compartment within 22 mm of the humerus, distal 65 %"
+  },
+  "coracobrachialis_left": {
+   "atlas_id": "coracobrachialis_l",
+   "relationship": "exact",
+   "note": "proximal-medial anterior compartment; rule-based"
+  },
+  "triceps_left": {
+   "atlas_id": "triceps_brachii_l",
+   "relationship": "exact",
+   "note": "whole posterior compartment; three heads not separated"
+  }
+ }
+}

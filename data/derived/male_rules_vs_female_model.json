@@ -1,0 +1,78 @@
+{
+ "_README": [
+  "Male (rule-based or hybrid-CT, cm3, r/l) against female (TotalSegmentator on the unfrozen CT, cm3, r/l). Different bodies (90-kg man vs 59-year-old woman), so only the pattern is informative: a male value more than ~2x the female one points at over-inclusion by the rule."
+ ],
+ "source": "Derived from the volumes recorded in PROJECT_STATE.md and the vhf_* task outputs in this repository.",
+ "rows": [
+  {
+   "structure": "pectoralis_major",
+   "male_r": 152,
+   "male_l": 268,
+   "female_r": 198.5,
+   "female_l": 209.8
+  },
+  {
+   "structure": "serratus_anterior",
+   "male_r": 186,
+   "male_l": 149,
+   "female_r": 122.3,
+   "female_l": 126.3
+  },
+  {
+   "structure": "latissimus_dorsi",
+   "male_r": 412,
+   "male_l": 373,
+   "female_r": 316.1,
+   "female_l": 273.2
+  },
+  {
+   "structure": "rectus_abdominis",
+   "male_r": 181,
+   "male_l": 189,
+   "female_r": 98.6,
+   "female_l": 93.7
+  },
+  {
+   "structure": "external_oblique",
+   "male_r": 176,
+   "male_l": 322,
+   "female_r": 145.6,
+   "female_l": 159.6
+  },
+  {
+   "structure": "internal_oblique",
+   "male_r": 44,
+   "male_l": 116,
+   "female_r": 68.8,
+   "female_l": 73.2
+  },
+  {
+   "structure": "quadratus_lumborum",
+   "male_r": null,
+   "male_l": null,
+   "female_r": 43.1,
+   "female_l": 41.5
+  },
+  {
+   "structure": "erector_spinae_columns_sum",
+   "male_r": 800,
+   "male_l": 796,
+   "female_r": 440.2,
+   "female_l": 422.3
+  },
+  {
+   "structure": "transversospinalis",
+   "male_r": 214,
+   "male_l": 205,
+   "female_r": 185.2,
+   "female_l": 172.9
+  },
+  {
+   "structure": "trapezius",
+   "male_r": 314,
+   "male_l": 306,
+   "female_r": 156.6,
+   "female_l": 166.7
+  }
+ ]
+}

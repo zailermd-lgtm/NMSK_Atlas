@@ -1,0 +1,130 @@
+{
+ "id": "levator_scapulae_r",
+ "name_ta": "Levator scapulae",
+ "name_common": "Levator scapulae",
+ "side": "right",
+ "region": "trunk",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "cervical_vertebrae",
+  "origin_landmark": "transverse processes C1-C4",
+  "insertion_bone": "scapula_r",
+  "insertion_landmark": "superior angle of scapula",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "dorsal_scapular_n",
+   "cervical_plexus_root_C3",
+   "cervical_plexus_root_C4"
+  ],
+  "root_levels": "C3-C5",
+  "was_packed_as": "dorsal_scapular_n_and_c3_c4"
+ },
+ "actions": [
+  "elevates the scapula, assists downward rotation"
+ ],
+ "functional_compartments": [
+  {
+   "id": "levator_scapulae_r_main",
+   "name": "Single fiber population",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 100,
+    "physiological_cross_section_area_mm2": 120,
+    "max_isometric_force_N": 27.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     10,
+     250,
+     -20
+    ],
+    [
+     -135,
+     80,
+     -35
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Named literally for its action; runs from the upper 4 cervical transverse processes down to the scapula's superior angle, often a site of tension/trigger points from prolonged neck postures.",
+   "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+   "innervation_branch_ids": [
+    "dorsal_scapular_n",
+    "cervical_plexus_root_C3",
+    "cervical_plexus_root_C4"
+   ],
+   "motor_endplate_zones": [
+    {
+     "zone_percent_range": [
+      30,
+      70
+     ],
+     "reference_line_from": "transverse processes of C1-C4 (origin)",
+     "reference_line_to": "superior angle of the scapula (insertion)",
+     "method": "whole-mount nerve staining, intramuscular arborization mapping",
+     "notes": "Innervated by the posterior rami of C3-C5. Most intramuscular nerve terminals fall in the middle 40% of the muscle's length; the authors note this band corresponds surface-wise to roughly the level of the cricoid cartilage (C6).",
+     "source": "Lee JH, Lee KW, Yi KH, Lee HJ, 'Anatomical analysis of the intramuscular distribution patterns of the levator scapulae and the clinical implications for pain management', Surg Radiol Anat 45(7):859 (2023), doi:10.1007/s00276-023-03146-3 -- 20 levator scapulae from 16 Korean cadavers, whole-mount nerve staining. Retrieved via PubMed."
+    }
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+ "trigger_points": [
+  {
+   "location_description": "TrP1, at the angle of the neck where the muscle emerges from under trapezius' free border",
+   "referred_pain_pattern": "Pain concentrated at the angle of the neck, spreading along the medial border of the scapula and to the posterior shoulder; classic acute wry-neck/'stiff neck' presentation.",
+   "activation_perpetuating_factors": "Sharply limited ipsilateral cervical rotation (turning to reverse the car); inability to hold the head turned (phone cradling); pain with sustained shrug or heavy shoulder bags.",
+   "notes": "Among the most prevalent neck-shoulder trigger points.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+  },
+  {
+   "location_description": "TrP2, lower, near the superior-angle insertion",
+   "referred_pain_pattern": "Pain concentrated at the angle of the neck, spreading along the medial border of the scapula and to the posterior shoulder; classic acute wry-neck/'stiff neck' presentation.",
+   "activation_perpetuating_factors": "Sharply limited ipsilateral cervical rotation (turning to reverse the car); inability to hold the head turned (phone cradling); pain with sustained shrug or heavy shoulder bags.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+  }
+ ],
+ "clinical": [
+  {
+   "document": "shoulder_muscles_reference_v1.html",
+   "compiled": "31/08/2026",
+   "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+   "function_biomechanics": "Elevates the scapula and, with the rhomboids and pectoralis minor, downwardly rotates it (antagonist couple to trapezius–serratus); with the scapula fixed it side-flexes and ipsilaterally rotates the neck and checks contralateral rotation. Chronically overloaded when the upward rotators fail (accessory-nerve palsy, serratus weakness) and in sustained protracted postures.",
+   "adjacent_structures": "Adjacent bursae: Inconstant bursa at its insertion beneath the superomedial angle (one of the minor scapulothoracic bursae; a source of superomedial snapping/bursitis). Adjacent structures — mutual influence: Cervical facets C2–C4 mechanically coupled; dorsal scapular nerve entrapment (through/near scalenus medius) gives medial-border ache with levator/rhomboid dysfunction; scapulothoracic superomedial bursa beneath its insertion; first-rib/scalene complex anterior.",
+   "trigger_points": [
+    {
+     "location": "TrP1 at the angle of the neck where the muscle emerges from under the trapezius’ free border; TrP2 lower, near the superior-angle insertion. Among the most prevalent neck–shoulder TrPs.",
+     "referred_pain": "Pain concentrated at the angle of the neck, spreading along the medial border of the scapula and to the posterior shoulder; classic acute wry-neck/“stiff neck” with sharply limited ipsilateral rotation (turning to reverse the car).",
+     "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+    }
+   ],
+   "pain_referred_into_this_muscle_from": [
+    "Into its felt zone: upper trapezius, scaleni, splenius cervicis, supraspinatus and infraspinatus overlap at the angle of neck/superomedial scapula",
+    "C3–C4/C4–C5 facet referral covers the same area",
+    "superomedial scapulothoracic bursitis is felt identically."
+   ],
+   "movement_restrictions_aggravators": "Marked loss of ipsilateral cervical rotation and inability to hold the head turned (phone cradling); pain with sustained shrug or heavy shoulder bags.",
+   "notes": "Differentiate from C4–C5 facet syndrome by rotation-specific limitation + taut band; treat perpetuators (monitor height, armrests) or it recurs.",
+   "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+   "sources": [
+    "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+    "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+    "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+    "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+    "Williams GR Jr, Shakil M, Klimkiewicz J, Iannotti JP. Anatomy of the scapulothoracic articulation. Clin Orthop Relat Res. 1999;(359):237–246. doi:10.1097/00003086-199902000-00027. PMID 10078149. [retrieved 31/08/2026]",
+    "Kuhn JE, Plancher KD, Hawkins RJ. Symptomatic scapulothoracic crepitus and bursitis. J Am Acad Orthop Surg. 1998;6(5):267–273.",
+    "Dwyer A, Aprill C, Bogduk N. Cervical zygapophyseal joint pain patterns. I: A study in normal volunteers. Spine. 1990;15(6):453–457. PMID 2402682. [retrieved 31/08/2026]",
+    "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+    "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+    "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+   ]
+  }
+ ]
+}

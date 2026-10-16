@@ -1,0 +1,1075 @@
+{
+ "source": "Q62 step 5 (scripts/transfer/zan_to_vhf_foot_intrinsics.py): Z-Anatomy foot intrinsic muscles (CC BY-SA 4.0) carried onto the VH female's own foot bones by the Q168 per-bone fits (data/derived/Q168_zan_to_vhf.json).",
+ "gates": {
+  "max_inside_bone_frac": 0.05,
+  "max_outside_skin_preclip_frac": 0.5,
+  "max_bone_fit_mm": 3.0,
+  "max_overlap_frac": 0.1,
+  "push_bound_mm": 3.0
+ },
+ "summary": {
+  "shipped": [
+   "abductor_digiti_minimi_foot_l",
+   "abductor_digiti_minimi_foot_r",
+   "abductor_hallucis_r",
+   "dorsal_interossei_foot_l",
+   "extensor_digitorum_brevis_l",
+   "extensor_digitorum_brevis_r",
+   "extensor_hallucis_brevis_l",
+   "extensor_hallucis_brevis_r",
+   "flexor_digitorum_brevis_l",
+   "flexor_digitorum_brevis_r",
+   "flexor_hallucis_brevis_l",
+   "lumbricals_foot_l"
+  ],
+  "dropped": {
+   "flexor_hallucis_brevis_r": "7.6% of vertices still inside her foot bones after the bounded push-out (> 5%; 26.5% before)",
+   "lumbricals_foot_r": "20.8% of vertices inside other foot muscles (> 10%; mostly adductor_hallucis_r)"
+  },
+  "skipped_existing": [
+   "abductor_hallucis_l",
+   "adductor_hallucis_l",
+   "adductor_hallucis_r",
+   "dorsal_interossei_foot_r",
+   "flexor_digiti_minimi_brevis_foot_l",
+   "flexor_digiti_minimi_brevis_foot_r",
+   "plantar_interossei_l",
+   "plantar_interossei_r",
+   "quadratus_plantae_l",
+   "quadratus_plantae_r"
+  ],
+  "n_shipped": 12,
+  "volume_totals_per_foot": {
+   "r": {
+    "new_cm3": 61.4,
+    "existing_cm3": 32.7,
+    "all_cm3": 94.1,
+    "plantar_cm3": 77.2
+   },
+   "l": {
+    "new_cm3": 54.2,
+    "existing_cm3": 36.6,
+    "all_cm3": 90.9,
+    "plantar_cm3": 76.0
+   }
+  }
+ },
+ "published_volumes": {
+  "plantar_intrinsics_contractile_cm3": {
+   "value": 113.3,
+   "what": "mean contractile volume, all plantar intrinsic foot muscles, healthy feet (MRI, n=8)",
+   "ref": "Chang R, Kent-Braun JA, Hamill J. Clin Biomech 2012;27(5):500-5. doi:10.1016/j.clinbiomech.2011.11.007"
+  },
+  "all_intrinsic_foot_muscles_cm3": {
+   "value": 168,
+   "sd": 42,
+   "what": "total volume of the intrinsic foot muscles, healthy controls (MRI stereology, n=23)",
+   "ref": "Andersen H, Gjerstad MD, Jakobsen J. Diabetes Care 2004;27(10):2382-5. doi:10.2337/diacare.27.10.2382"
+  }
+ },
+ "published_note": "no per-muscle published volume could be read in this session (see PUBLISHED); per-muscle rows compare with the Z-Anatomy source only. Z-Anatomy meshes include tendon/aponeurosis, MRI contractile volumes do not.",
+ "rows": {
+  "abductor_hallucis_r": {
+   "atlas_id": "abductor_hallucis_r",
+   "zanatomy_object": "Abductor hallucis.r",
+   "zanatomy_mesh_id": "abductor_hallucis_r",
+   "vertices": 844,
+   "triangles": 1687,
+   "watertight": false,
+   "inside_bone_frac_before": 0.0308,
+   "inside_bone_by_bone": {
+    "metatarsals": 26
+   },
+   "outside_skin_frac_before": 0.0083,
+   "outside_skin_depth_mm": {
+    "p95": 0.54,
+    "max": 0.6
+   },
+   "pushed_off_bone": 25,
+   "inside_bone_deeper_than_bound": 1,
+   "inside_bone_frac_after_push": 0.0012,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "calcaneus_r",
+      "share": 0.34,
+      "fit_residual_mm": 2.0956
+     },
+     {
+      "piece": "zan_first_metatarsal_bone_r",
+      "share": 0.274,
+      "fit_residual_mm": 2.14
+     },
+     {
+      "piece": "cuneiform_medial_r",
+      "share": 0.273,
+      "fit_residual_mm": 0.9207
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_first_finger_of_foot_r",
+      "share": 0.058,
+      "fit_residual_mm": 4.15
+     },
+     {
+      "piece": "navicular_r",
+      "share": 0.031,
+      "fit_residual_mm": 1.3822
+     },
+     {
+      "piece": "cuboid_r",
+      "share": 0.018,
+      "fit_residual_mm": 1.6968
+     }
+    ],
+    "weighted_median_fit_mm": 2.1,
+    "max_fit_mm": 4.15
+   },
+   "clipped_to_skin": 7,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 3.62
+   },
+   "inside_bone_frac_after": 0.0012,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 11.51,
+   "volume_zanatomy_cm3": 11.68,
+   "volume_cm3": 11.52,
+   "volume_ratio": 0.987,
+   "overlap_frac_inside_other": {
+    "flexor_digitorum_brevis_r": 0.0178,
+    "quadratus_plantae_r": 0.0036
+   },
+   "overlap_frac_total": 0.0214,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 2.1 mm median surface residual (worst of them 4.2 mm). Volume 11.5 cm3; 25 vertices pushed off her bones, 7 clipped to her skin."
+  },
+  "flexor_digitorum_brevis_r": {
+   "atlas_id": "flexor_digitorum_brevis_r",
+   "zanatomy_object": "Flexor digitorum brevis.r",
+   "zanatomy_mesh_id": "flexor_digitorum_brevis_r",
+   "vertices": 1610,
+   "triangles": 3224,
+   "watertight": true,
+   "inside_bone_frac_before": 0.0814,
+   "inside_bone_by_bone": {
+    "calcaneus": 3,
+    "metatarsals": 10,
+    "phalanges_foot": 118
+   },
+   "outside_skin_frac_before": 0.0273,
+   "outside_skin_depth_mm": {
+    "p95": 2.01,
+    "max": 2.07
+   },
+   "pushed_off_bone": 131,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "calcaneus_r",
+      "share": 0.196,
+      "fit_residual_mm": 2.0956
+     },
+     {
+      "piece": "zan_fifth_metatarsal_bone_r",
+      "share": 0.127,
+      "fit_residual_mm": 2.13
+     },
+     {
+      "piece": "zan_fourth_metatarsal_bone_r",
+      "share": 0.119,
+      "fit_residual_mm": 1.49
+     },
+     {
+      "piece": "cuboid_r",
+      "share": 0.072,
+      "fit_residual_mm": 1.6968
+     },
+     {
+      "piece": "zan_first_metatarsal_bone_r",
+      "share": 0.065,
+      "fit_residual_mm": 2.14
+     },
+     {
+      "piece": "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+      "share": 0.052,
+      "fit_residual_mm": 1.45
+     }
+    ],
+    "weighted_median_fit_mm": 2.1,
+    "max_fit_mm": 3.91
+   },
+   "clipped_to_skin": 44,
+   "fix_move_mm": {
+    "p95": 1.89,
+    "max": 3.87
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 23.6,
+   "volume_zanatomy_cm3": 19.43,
+   "volume_cm3": 23.64,
+   "volume_ratio": 1.217,
+   "overlap_frac_inside_other": {
+    "abductor_hallucis_r": 0.0149,
+    "adductor_hallucis_r": 0.0137,
+    "abductor_digiti_minimi_foot_r": 0.0112,
+    "quadratus_plantae_r": 0.0056,
+    "flexor_digiti_minimi_brevis_foot_r": 0.0019
+   },
+   "overlap_frac_total": 0.0473,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 2.1 mm median surface residual (worst of them 3.9 mm). Volume 23.6 cm3; 131 vertices pushed off her bones, 44 clipped to her skin."
+  },
+  "flexor_digitorum_brevis_l": {
+   "atlas_id": "flexor_digitorum_brevis_l",
+   "zanatomy_object": "Flexor digitorum brevis.l",
+   "zanatomy_mesh_id": "flexor_digitorum_brevis_l",
+   "vertices": 1610,
+   "triangles": 3224,
+   "watertight": true,
+   "inside_bone_frac_before": 0.0578,
+   "inside_bone_by_bone": {
+    "calcaneus": 5,
+    "metatarsals": 12,
+    "phalanges_foot": 76
+   },
+   "outside_skin_frac_before": 0.0329,
+   "outside_skin_depth_mm": {
+    "p95": 2.31,
+    "max": 2.78
+   },
+   "pushed_off_bone": 93,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0006,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "calcaneus_l",
+      "share": 0.196,
+      "fit_residual_mm": 2.1093
+     },
+     {
+      "piece": "zan_fifth_metatarsal_bone_l",
+      "share": 0.127,
+      "fit_residual_mm": 1.46
+     },
+     {
+      "piece": "zan_fourth_metatarsal_bone_l",
+      "share": 0.119,
+      "fit_residual_mm": 1.4
+     },
+     {
+      "piece": "cuboid_l",
+      "share": 0.072,
+      "fit_residual_mm": 1.9828
+     },
+     {
+      "piece": "zan_first_metatarsal_bone_l",
+      "share": 0.065,
+      "fit_residual_mm": 1.25
+     },
+     {
+      "piece": "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+      "share": 0.052,
+      "fit_residual_mm": 2.61
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 9.7
+   },
+   "clipped_to_skin": 53,
+   "fix_move_mm": {
+    "p95": 1.39,
+    "max": 5.33
+   },
+   "inside_bone_frac_after": 0.0006,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 19.13,
+   "volume_zanatomy_cm3": 19.43,
+   "volume_cm3": 19.08,
+   "volume_ratio": 0.982,
+   "overlap_frac_inside_other": {
+    "adductor_hallucis_l": 0.0273,
+    "abductor_hallucis_l": 0.0106,
+    "abductor_digiti_minimi_foot_l": 0.0087,
+    "quadratus_plantae_l": 0.0037,
+    "flexor_digiti_minimi_brevis_foot_l": 0.0012
+   },
+   "overlap_frac_total": 0.0515,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 2.0 mm median surface residual (worst of them 9.7 mm). Volume 19.1 cm3; 93 vertices pushed off her bones, 53 clipped to her skin."
+  },
+  "abductor_digiti_minimi_foot_r": {
+   "atlas_id": "abductor_digiti_minimi_foot_r",
+   "zanatomy_object": "Abductor digiti minimi of foot.r",
+   "zanatomy_mesh_id": "abductor_digiti_minimi_foot_r",
+   "vertices": 640,
+   "triangles": 1280,
+   "watertight": true,
+   "inside_bone_frac_before": 0.2453,
+   "inside_bone_by_bone": {
+    "calcaneus": 62,
+    "cuboid": 3,
+    "metatarsals": 92
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 156,
+   "inside_bone_deeper_than_bound": 1,
+   "inside_bone_frac_after_push": 0.0016,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_fifth_metatarsal_bone_r",
+      "share": 0.445,
+      "fit_residual_mm": 2.13
+     },
+     {
+      "piece": "calcaneus_r",
+      "share": 0.4,
+      "fit_residual_mm": 2.0956
+     },
+     {
+      "piece": "cuboid_r",
+      "share": 0.08,
+      "fit_residual_mm": 1.6968
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_fifth_finger_of_foot_r",
+      "share": 0.075,
+      "fit_residual_mm": 3.91
+     }
+    ],
+    "weighted_median_fit_mm": 2.13,
+    "max_fit_mm": 3.91
+   },
+   "clipped_to_skin": 0,
+   "fix_move_mm": {
+    "p95": 2.74,
+    "max": 3.83
+   },
+   "inside_bone_frac_after": 0.0016,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 8.78,
+   "volume_zanatomy_cm3": 6.24,
+   "volume_cm3": 9.34,
+   "volume_ratio": 1.496,
+   "overlap_frac_inside_other": {
+    "flexor_digitorum_brevis_r": 0.0547,
+    "quadratus_plantae_r": 0.0172,
+    "abductor_hallucis_r": 0.0016
+   },
+   "overlap_frac_total": 0.0735,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 2.1 mm median surface residual (worst of them 3.9 mm). Volume 9.3 cm3; 156 vertices pushed off her bones, 0 clipped to her skin."
+  },
+  "abductor_digiti_minimi_foot_l": {
+   "atlas_id": "abductor_digiti_minimi_foot_l",
+   "zanatomy_object": "Abductor digiti minimi of foot.l",
+   "zanatomy_mesh_id": "abductor_digiti_minimi_foot_l",
+   "vertices": 640,
+   "triangles": 1280,
+   "watertight": true,
+   "inside_bone_frac_before": 0.2203,
+   "inside_bone_by_bone": {
+    "calcaneus": 100,
+    "cuboid": 37,
+    "metatarsals": 4
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 145,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0203,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_fifth_metatarsal_bone_l",
+      "share": 0.445,
+      "fit_residual_mm": 1.46
+     },
+     {
+      "piece": "calcaneus_l",
+      "share": 0.4,
+      "fit_residual_mm": 2.1093
+     },
+     {
+      "piece": "cuboid_l",
+      "share": 0.08,
+      "fit_residual_mm": 1.9828
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+      "share": 0.075,
+      "fit_residual_mm": 9.7
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 9.7
+   },
+   "clipped_to_skin": 0,
+   "fix_move_mm": {
+    "p95": 2.37,
+    "max": 3.89
+   },
+   "inside_bone_frac_after": 0.0203,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 7.0,
+   "volume_zanatomy_cm3": 6.24,
+   "volume_cm3": 6.46,
+   "volume_ratio": 1.034,
+   "overlap_frac_inside_other": {
+    "flexor_digitorum_brevis_l": 0.0672,
+    "quadratus_plantae_l": 0.0234
+   },
+   "overlap_frac_total": 0.0906,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 2.0 mm median surface residual (worst of them 9.7 mm). Volume 6.5 cm3; 145 vertices pushed off her bones, 0 clipped to her skin."
+  },
+  "lumbricals_foot_r": {
+   "atlas_id": "lumbricals_foot_r",
+   "zanatomy_object": "Lumbrical muscles of foot",
+   "zanatomy_mesh_id": "zan_lumbrical_muscles_of_foot_r",
+   "vertices": 207,
+   "triangles": 418,
+   "watertight": true,
+   "inside_bone_frac_before": 0.2415,
+   "inside_bone_by_bone": {
+    "metatarsals": 49,
+    "phalanges_foot": 1
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 47,
+   "inside_bone_deeper_than_bound": 3,
+   "inside_bone_frac_after_push": 0.0145,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_metatarsal_bone_r",
+      "share": 0.498,
+      "fit_residual_mm": 2.14
+     },
+     {
+      "piece": "cuneiform_medial_r",
+      "share": 0.261,
+      "fit_residual_mm": 0.9207
+     },
+     {
+      "piece": "cuboid_r",
+      "share": 0.097,
+      "fit_residual_mm": 1.6968
+     },
+     {
+      "piece": "zan_second_metatarsal_bone_r",
+      "share": 0.097,
+      "fit_residual_mm": 1.39
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_second_finger_of_foot_r",
+      "share": 0.039,
+      "fit_residual_mm": 1.6
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_first_finger_of_foot_r",
+      "share": 0.01,
+      "fit_residual_mm": 4.15
+     }
+    ],
+    "weighted_median_fit_mm": 2.14,
+    "max_fit_mm": 4.15
+   },
+   "clipped_to_skin": 0,
+   "fix_move_mm": {
+    "p95": 2.85,
+    "max": 3.76
+   },
+   "inside_bone_frac_after": 0.0145,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 1.74,
+   "volume_zanatomy_cm3": 1.88,
+   "volume_cm3": 1.74,
+   "volume_ratio": 0.925,
+   "overlap_frac_inside_other": {
+    "adductor_hallucis_r": 0.2077
+   },
+   "overlap_frac_total": 0.2077,
+   "dropped": "20.8% of vertices inside other foot muscles (> 10%; mostly adductor_hallucis_r)"
+  },
+  "lumbricals_foot_l": {
+   "atlas_id": "lumbricals_foot_l",
+   "zanatomy_object": "Lumbrical muscles of foot",
+   "zanatomy_mesh_id": "zan_lumbrical_muscles_of_foot_l",
+   "vertices": 207,
+   "triangles": 418,
+   "watertight": true,
+   "inside_bone_frac_before": 0.0725,
+   "inside_bone_by_bone": {
+    "metatarsals": 15
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 15,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_metatarsal_bone_l",
+      "share": 0.498,
+      "fit_residual_mm": 1.25
+     },
+     {
+      "piece": "cuneiform_medial_l",
+      "share": 0.261,
+      "fit_residual_mm": 0.8252
+     },
+     {
+      "piece": "cuboid_l",
+      "share": 0.097,
+      "fit_residual_mm": 1.9828
+     },
+     {
+      "piece": "zan_second_metatarsal_bone_l",
+      "share": 0.097,
+      "fit_residual_mm": 1.0
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_second_finger_of_foot_l",
+      "share": 0.039,
+      "fit_residual_mm": 2.21
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_first_finger_of_foot_l",
+      "share": 0.01,
+      "fit_residual_mm": 2.92
+     }
+    ],
+    "weighted_median_fit_mm": 1.25,
+    "max_fit_mm": 2.92
+   },
+   "clipped_to_skin": 0,
+   "fix_move_mm": {
+    "p95": 1.41,
+    "max": 3.96
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 1.39,
+   "volume_zanatomy_cm3": 1.88,
+   "volume_cm3": 1.22,
+   "volume_ratio": 0.648,
+   "overlap_frac_inside_other": {
+    "adductor_hallucis_l": 0.0773,
+    "flexor_hallucis_brevis_l": 0.0097
+   },
+   "overlap_frac_total": 0.087,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 1.2 mm median surface residual (worst of them 2.9 mm). Volume 1.2 cm3; 15 vertices pushed off her bones, 0 clipped to her skin."
+  },
+  "flexor_hallucis_brevis_r": {
+   "atlas_id": "flexor_hallucis_brevis_r",
+   "zanatomy_object": "Lateral head of flexor hallucis brevis.r",
+   "zanatomy_mesh_id": "flexor_hallucis_brevis_r",
+   "vertices": 740,
+   "triangles": 1480,
+   "watertight": true,
+   "inside_bone_frac_before": 0.2649,
+   "inside_bone_by_bone": {
+    "cuneiform_medial": 110,
+    "metatarsals": 86
+   },
+   "outside_skin_frac_before": 0.0243,
+   "outside_skin_depth_mm": {
+    "p95": 2.82,
+    "max": 3.18
+   },
+   "pushed_off_bone": 180,
+   "inside_bone_deeper_than_bound": 22,
+   "inside_bone_frac_after_push": 0.0757,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_metatarsal_bone_r",
+      "share": 0.555,
+      "fit_residual_mm": 2.14
+     },
+     {
+      "piece": "cuneiform_medial_r",
+      "share": 0.355,
+      "fit_residual_mm": 0.9207
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_first_finger_of_foot_r",
+      "share": 0.089,
+      "fit_residual_mm": 4.15
+     }
+    ],
+    "weighted_median_fit_mm": 2.14,
+    "max_fit_mm": 4.15
+   },
+   "dropped": "7.6% of vertices still inside her foot bones after the bounded push-out (> 5%; 26.5% before)"
+  },
+  "flexor_hallucis_brevis_l": {
+   "atlas_id": "flexor_hallucis_brevis_l",
+   "zanatomy_object": "Lateral head of flexor hallucis brevis.l",
+   "zanatomy_mesh_id": "flexor_hallucis_brevis_l",
+   "vertices": 740,
+   "triangles": 1480,
+   "watertight": true,
+   "inside_bone_frac_before": 0.3986,
+   "inside_bone_by_bone": {
+    "cuneiform_medial": 129,
+    "metatarsals": 166
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 294,
+   "inside_bone_deeper_than_bound": 11,
+   "inside_bone_frac_after_push": 0.0446,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_metatarsal_bone_l",
+      "share": 0.555,
+      "fit_residual_mm": 1.25
+     },
+     {
+      "piece": "cuneiform_medial_l",
+      "share": 0.355,
+      "fit_residual_mm": 0.8252
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_first_finger_of_foot_l",
+      "share": 0.089,
+      "fit_residual_mm": 2.92
+     }
+    ],
+    "weighted_median_fit_mm": 1.25,
+    "max_fit_mm": 2.92
+   },
+   "clipped_to_skin": 0,
+   "fix_move_mm": {
+    "p95": 3.12,
+    "max": 6.98
+   },
+   "inside_bone_frac_after": 0.0446,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 7.49,
+   "volume_zanatomy_cm3": 9.71,
+   "volume_cm3": 7.91,
+   "volume_ratio": 0.814,
+   "overlap_frac_inside_other": {
+    "abductor_hallucis_l": 0.0473,
+    "adductor_hallucis_l": 0.0257,
+    "lumbricals_foot_l": 0.0054
+   },
+   "overlap_frac_total": 0.0784,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 1.2 mm median surface residual (worst of them 2.9 mm). Volume 7.9 cm3; 294 vertices pushed off her bones, 0 clipped to her skin."
+  },
+  "dorsal_interossei_foot_l": {
+   "atlas_id": "dorsal_interossei_foot_l",
+   "zanatomy_object": "Dorsal interossei muscles of foot.l",
+   "zanatomy_mesh_id": "dorsal_interossei_foot_l",
+   "vertices": 975,
+   "triangles": 1946,
+   "watertight": true,
+   "inside_bone_frac_before": 0.0431,
+   "inside_bone_by_bone": {
+    "metatarsals": 42
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 42,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_third_metatarsal_bone_l",
+      "share": 0.275,
+      "fit_residual_mm": 1.32
+     },
+     {
+      "piece": "zan_second_metatarsal_bone_l",
+      "share": 0.235,
+      "fit_residual_mm": 1.0
+     },
+     {
+      "piece": "zan_fourth_metatarsal_bone_l",
+      "share": 0.204,
+      "fit_residual_mm": 1.4
+     },
+     {
+      "piece": "zan_fifth_metatarsal_bone_l",
+      "share": 0.131,
+      "fit_residual_mm": 1.46
+     },
+     {
+      "piece": "zan_first_metatarsal_bone_l",
+      "share": 0.101,
+      "fit_residual_mm": 1.25
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_second_finger_of_foot_l",
+      "share": 0.032,
+      "fit_residual_mm": 2.21
+     }
+    ],
+    "weighted_median_fit_mm": 1.32,
+    "max_fit_mm": 9.7
+   },
+   "clipped_to_skin": 0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 3.26
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 4.72,
+   "volume_zanatomy_cm3": 5.59,
+   "volume_cm3": 4.64,
+   "volume_ratio": 0.83,
+   "overlap_frac_inside_other": {
+    "extensor_digitorum_brevis_l": 0.0451,
+    "adductor_hallucis_l": 0.0174,
+    "plantar_interossei_l": 0.0164,
+    "flexor_digiti_minimi_brevis_foot_l": 0.0133,
+    "extensor_hallucis_brevis_l": 0.001
+   },
+   "overlap_frac_total": 0.0932,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 1.3 mm median surface residual (worst of them 9.7 mm). Volume 4.6 cm3; 42 vertices pushed off her bones, 0 clipped to her skin."
+  },
+  "extensor_digitorum_brevis_r": {
+   "atlas_id": "extensor_digitorum_brevis_r",
+   "zanatomy_object": "Extensor digitorum brevis.r",
+   "zanatomy_mesh_id": "extensor_digitorum_brevis_r",
+   "vertices": 1596,
+   "triangles": 3184,
+   "watertight": true,
+   "inside_bone_frac_before": 0.1172,
+   "inside_bone_by_bone": {
+    "calcaneus": 13,
+    "cuboid": 57,
+    "cuneiform_lateral": 44,
+    "metatarsals": 39,
+    "phalanges_foot": 34
+   },
+   "outside_skin_frac_before": 0.1316,
+   "outside_skin_depth_mm": {
+    "p95": 2.54,
+    "max": 2.97
+   },
+   "pushed_off_bone": 186,
+   "inside_bone_deeper_than_bound": 1,
+   "inside_bone_frac_after_push": 0.0025,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "cuboid_r",
+      "share": 0.182,
+      "fit_residual_mm": 1.6968
+     },
+     {
+      "piece": "cuneiform_lateral_r",
+      "share": 0.168,
+      "fit_residual_mm": 0.8222
+     },
+     {
+      "piece": "zan_third_metatarsal_bone_r",
+      "share": 0.133,
+      "fit_residual_mm": 1.49
+     },
+     {
+      "piece": "calcaneus_r",
+      "share": 0.112,
+      "fit_residual_mm": 2.0956
+     },
+     {
+      "piece": "zan_second_metatarsal_bone_r",
+      "share": 0.103,
+      "fit_residual_mm": 1.39
+     },
+     {
+      "piece": "zan_fourth_metatarsal_bone_r",
+      "share": 0.06,
+      "fit_residual_mm": 1.49
+     }
+    ],
+    "weighted_median_fit_mm": 1.49,
+    "max_fit_mm": 3.02
+   },
+   "clipped_to_skin": 210,
+   "fix_move_mm": {
+    "p95": 2.35,
+    "max": 4.0
+   },
+   "inside_bone_frac_after": 0.0025,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 14.21,
+   "volume_zanatomy_cm3": 12.56,
+   "volume_cm3": 11.78,
+   "volume_ratio": 0.938,
+   "overlap_frac_inside_other": {
+    "dorsal_interossei_foot_r": 0.0132,
+    "extensor_hallucis_brevis_r": 0.0094,
+    "quadratus_plantae_r": 0.005,
+    "adductor_hallucis_r": 0.005,
+    "plantar_interossei_r": 0.0044
+   },
+   "overlap_frac_total": 0.037,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 1.5 mm median surface residual (worst of them 3.0 mm). Volume 11.8 cm3; 186 vertices pushed off her bones, 210 clipped to her skin."
+  },
+  "extensor_digitorum_brevis_l": {
+   "atlas_id": "extensor_digitorum_brevis_l",
+   "zanatomy_object": "Extensor digitorum brevis.l",
+   "zanatomy_mesh_id": "extensor_digitorum_brevis_l",
+   "vertices": 1596,
+   "triangles": 3184,
+   "watertight": true,
+   "inside_bone_frac_before": 0.1197,
+   "inside_bone_by_bone": {
+    "calcaneus": 22,
+    "cuboid": 43,
+    "cuneiform_intermediate": 1,
+    "cuneiform_lateral": 40,
+    "metatarsals": 40,
+    "phalanges_foot": 45
+   },
+   "outside_skin_frac_before": 0.1548,
+   "outside_skin_depth_mm": {
+    "p95": 2.71,
+    "max": 3.47
+   },
+   "pushed_off_bone": 206,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0169,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "cuboid_l",
+      "share": 0.182,
+      "fit_residual_mm": 1.9828
+     },
+     {
+      "piece": "cuneiform_lateral_l",
+      "share": 0.168,
+      "fit_residual_mm": 0.97
+     },
+     {
+      "piece": "zan_third_metatarsal_bone_l",
+      "share": 0.133,
+      "fit_residual_mm": 1.32
+     },
+     {
+      "piece": "calcaneus_l",
+      "share": 0.112,
+      "fit_residual_mm": 2.1093
+     },
+     {
+      "piece": "zan_second_metatarsal_bone_l",
+      "share": 0.103,
+      "fit_residual_mm": 1.0
+     },
+     {
+      "piece": "zan_fourth_metatarsal_bone_l",
+      "share": 0.06,
+      "fit_residual_mm": 1.4
+     }
+    ],
+    "weighted_median_fit_mm": 1.57,
+    "max_fit_mm": 5.46
+   },
+   "clipped_to_skin": 247,
+   "fix_move_mm": {
+    "p95": 2.52,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0169,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 12.06,
+   "volume_zanatomy_cm3": 12.56,
+   "volume_cm3": 10.39,
+   "volume_ratio": 0.828,
+   "overlap_frac_inside_other": {
+    "plantar_interossei_l": 0.0163,
+    "extensor_hallucis_brevis_l": 0.0138,
+    "quadratus_plantae_l": 0.0138,
+    "dorsal_interossei_foot_l": 0.0113,
+    "adductor_hallucis_l": 0.0063
+   },
+   "overlap_frac_total": 0.0615,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 1.6 mm median surface residual (worst of them 5.5 mm). Volume 10.4 cm3; 206 vertices pushed off her bones, 247 clipped to her skin."
+  },
+  "extensor_hallucis_brevis_r": {
+   "atlas_id": "extensor_hallucis_brevis_r",
+   "zanatomy_object": "Extensor hallucis brevis.r",
+   "zanatomy_mesh_id": "extensor_hallucis_brevis_r",
+   "vertices": 561,
+   "triangles": 1118,
+   "watertight": true,
+   "inside_bone_frac_before": 0.1711,
+   "inside_bone_by_bone": {
+    "talus": 8,
+    "calcaneus": 41,
+    "navicular": 30,
+    "cuboid": 9,
+    "cuneiform_lateral": 7,
+    "metatarsals": 1
+   },
+   "outside_skin_frac_before": 0.2709,
+   "outside_skin_depth_mm": {
+    "p95": 2.87,
+    "max": 4.0
+   },
+   "pushed_off_bone": 92,
+   "inside_bone_deeper_than_bound": 9,
+   "inside_bone_frac_after_push": 0.0321,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_metatarsal_bone_r",
+      "share": 0.196,
+      "fit_residual_mm": 2.14
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_first_finger_of_foot_r",
+      "share": 0.157,
+      "fit_residual_mm": 4.15
+     },
+     {
+      "piece": "cuneiform_intermediate_r",
+      "share": 0.155,
+      "fit_residual_mm": 0.9965
+     },
+     {
+      "piece": "calcaneus_r",
+      "share": 0.128,
+      "fit_residual_mm": 2.0956
+     },
+     {
+      "piece": "navicular_r",
+      "share": 0.128,
+      "fit_residual_mm": 1.3822
+     },
+     {
+      "piece": "cuneiform_lateral_r",
+      "share": 0.077,
+      "fit_residual_mm": 0.8222
+     }
+    ],
+    "weighted_median_fit_mm": 1.7,
+    "max_fit_mm": 4.15
+   },
+   "clipped_to_skin": 152,
+   "fix_move_mm": {
+    "p95": 3.03,
+    "max": 4.5
+   },
+   "inside_bone_frac_after": 0.0321,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 6.34,
+   "volume_zanatomy_cm3": 5.77,
+   "volume_cm3": 5.12,
+   "volume_ratio": 0.887,
+   "overlap_frac_inside_other": {
+    "extensor_digitorum_brevis_r": 0.0374,
+    "dorsal_interossei_foot_r": 0.0089
+   },
+   "overlap_frac_total": 0.0463,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 1.7 mm median surface residual (worst of them 4.2 mm). Volume 5.1 cm3; 92 vertices pushed off her bones, 152 clipped to her skin."
+  },
+  "extensor_hallucis_brevis_l": {
+   "atlas_id": "extensor_hallucis_brevis_l",
+   "zanatomy_object": "Extensor hallucis brevis.l",
+   "zanatomy_mesh_id": "extensor_hallucis_brevis_l",
+   "vertices": 561,
+   "triangles": 1118,
+   "watertight": true,
+   "inside_bone_frac_before": 0.1996,
+   "inside_bone_by_bone": {
+    "talus": 1,
+    "calcaneus": 45,
+    "navicular": 39,
+    "cuneiform_intermediate": 3,
+    "cuneiform_lateral": 12,
+    "metatarsals": 12
+   },
+   "outside_skin_frac_before": 0.0677,
+   "outside_skin_depth_mm": {
+    "p95": 0.9,
+    "max": 0.95
+   },
+   "pushed_off_bone": 114,
+   "inside_bone_deeper_than_bound": 2,
+   "inside_bone_frac_after_push": 0.0125,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_metatarsal_bone_l",
+      "share": 0.196,
+      "fit_residual_mm": 1.25
+     },
+     {
+      "piece": "zan_proximal_phalanx_of_first_finger_of_foot_l",
+      "share": 0.157,
+      "fit_residual_mm": 2.92
+     },
+     {
+      "piece": "cuneiform_intermediate_l",
+      "share": 0.155,
+      "fit_residual_mm": 1.7062
+     },
+     {
+      "piece": "calcaneus_l",
+      "share": 0.128,
+      "fit_residual_mm": 2.1093
+     },
+     {
+      "piece": "navicular_l",
+      "share": 0.128,
+      "fit_residual_mm": 1.2086
+     },
+     {
+      "piece": "cuneiform_lateral_l",
+      "share": 0.077,
+      "fit_residual_mm": 0.97
+     }
+    ],
+    "weighted_median_fit_mm": 1.71,
+    "max_fit_mm": 2.92
+   },
+   "clipped_to_skin": 38,
+   "fix_move_mm": {
+    "p95": 3.2,
+    "max": 6.85
+   },
+   "inside_bone_frac_after": 0.0125,
+   "outside_skin_frac_after": 0.0,
+   "volume_transferred_before_fix_cm3": 5.25,
+   "volume_zanatomy_cm3": 5.77,
+   "volume_cm3": 4.52,
+   "volume_ratio": 0.784,
+   "overlap_frac_inside_other": {
+    "extensor_digitorum_brevis_l": 0.0374,
+    "dorsal_interossei_foot_l": 0.0018
+   },
+   "overlap_frac_total": 0.0392,
+   "badge": "Q62 step 5: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto this specimen's own foot bones one bone at a time (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the foot bones it is carried by fit her CT at 1.7 mm median surface residual (worst of them 2.9 mm). Volume 4.5 cm3; 114 vertices pushed off her bones, 38 clipped to her skin."
+  }
+ }
+}

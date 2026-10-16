@@ -1,0 +1,210 @@
+{
+ "_README": [
+  "Female right hand intrinsic muscles from her full-resolution cryosections (vhf_hand_muscles_from_cryo.py); rule-based. Metacarpals tracked in the photographs (named from the CT at one level); compartments by textbook position rules in the metacarpal frame (Gray's Anatomy 42nd ed. ch. 50 'Wrist and hand'; Moore, Clinically Oriented Anatomy 8th ed. ch. 6); thenar and hypothenar split by a marker watershed on the pale septa; muscles the photographs do not separate merged into compartments.",
+  "ct_to_photo_shift_mm: photographed disc centre minus the CT centroid, [photo rows, photo cols] in mm, per metacarpal: the residual of the CT->cryo registration at the hand (used only to name the discs at the anchor level)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) and CT via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_hand_muscles_from_cryo.py), rule-based.",
+ "badge": "rule-based",
+ "version": "2026-09-16",
+ "levels": {
+  "segment": [
+   19,
+   88
+  ],
+  "segment_atlas_y_mm": [
+   117.4,
+   47.0
+  ],
+  "thenar_levels_with_mc1": [
+   19,
+   62
+  ],
+  "note": "crop level = 1 mm of atlas y; the segment runs from the carpometacarpal joints to the metacarpal heads"
+ },
+ "ct_to_photo_shift_mm": {
+  "mc1": {
+   "n_levels": 32,
+   "mean_mm": [
+    11.7,
+    -0.6
+   ],
+   "sd_mm": [
+    4.8,
+    4.8
+   ]
+  },
+  "mc2": {
+   "n_levels": 63,
+   "mean_mm": [
+    10.7,
+    0.6
+   ],
+   "sd_mm": [
+    4.0,
+    2.9
+   ]
+  },
+  "mc3": {
+   "n_levels": 80,
+   "mean_mm": [
+    13.0,
+    3.5
+   ],
+   "sd_mm": [
+    3.4,
+    4.7
+   ]
+  },
+  "mc4": {
+   "n_levels": 73,
+   "mean_mm": [
+    13.8,
+    3.4
+   ],
+   "sd_mm": [
+    3.5,
+    5.5
+   ]
+  },
+  "mc5": {
+   "n_levels": 80,
+   "mean_mm": [
+    13.2,
+    2.3
+   ],
+   "sd_mm": [
+    4.2,
+    4.6
+   ]
+  }
+ },
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volumes_cm3": {
+  "thenar_compartment": 11.28,
+  "adductor_pollicis": 10.45,
+  "abductor_digiti_minimi_hand": 5.09,
+  "flexor_digiti_minimi_brevis_hand": 2.74,
+  "opponens_digiti_minimi": 4.9,
+  "dorsal_interossei_hand": 10.45,
+  "palmar_interossei": 6.91,
+  "palmar_flexor_tendon_compartment": 4.66
+ },
+ "unassigned_muscle_cm3": 7.39,
+ "plausibility": {
+  "abductor_digiti_minimi_hand": "5.09 cm3, inside the expected 2.5-7.0 cm3 for part of the 8-15 cm3 hypothenar group",
+  "adductor_pollicis": "10.45 cm3 against the expected 5.0-8.0 cm3 for adductor pollicis, both heads: REVIEW",
+  "dorsal_interossei_hand": "10.45 cm3, inside the expected 8.0-16.0 cm3 for four dorsal interossei, 2-4 cm3 per space",
+  "flexor_digiti_minimi_brevis_hand": "2.74 cm3, inside the expected 1.0-5.0 cm3 for part of the 8-15 cm3 hypothenar group",
+  "opponens_digiti_minimi": "4.9 cm3, inside the expected 1.5-5.5 cm3 for part of the 8-15 cm3 hypothenar group",
+  "palmar_interossei": "6.91 cm3, inside the expected 4.5-12.0 cm3 for three palmar interossei, 1.5-4 cm3 each",
+  "thenar_compartment": "11.28 cm3, inside the expected 10.0-20.0 cm3 for APB + FPB + OP together"
+ },
+ "merged": {
+  "thenar_compartment": {
+   "members": [
+    "abductor_pollicis_brevis",
+    "flexor_pollicis_brevis",
+    "opponens_pollicis"
+   ],
+   "note": "APB, FPB and OP: the thenar mass photographs as one striated body from the flexor retinaculum to the thumb. Run with the merge off, the marker watershed claimed it for one seed at a time: APB appears on 16, FPB on 23 and OP on 19 of the 44 levels that have MC1, i.e. the three regions swap identity from level to level instead of forming three continuous bellies (this thumb lies off the palm, so the seeds' textbook offsets from MC1 often land in the thumb's fat or outside the palm's tissue island, and no pale septum runs through the thenar mass at most levels). Their union, 11.3 cm3, is a plausible thenar group (10-20 cm3); the parts, 3.6 / 6.1 / 1.5 cm3, are not trustworthy as named muscles."
+  }
+ },
+ "not_shipped": {
+  "palmaris_brevis": "a 1 mm subcutaneous sheet of transverse fibres in the hypothenar fat: below the muscle class's reach at 0.33 mm (it photographs as streaks in the fat, not as a body); no rule seeds it.",
+  "lumbricals_hand": "carried in palmar_flexor_tendon_compartment: in the mid-palm the four lumbricals photograph as the dark walls of the flexor sheaths radial to the profundus tendons; no muscle blob separates from the tendon mass at 0.33 mm, so lumbricals_hand_r is not shipped.",
+  "dorsal_interossei_per_space": "the four dorsal interossei are shipped as ONE structure (the atlas entity dorsal_interossei_hand_r is a group); the per-space split is in the volume's geometry only.",
+  "palmar_interossei_per_space": "the three palmar interossei are shipped as ONE structure (the atlas entity palmar_interossei_r is a group).",
+  "thumb_distal_to_the_web": "at the levels where the thumb's section leaves the palm's tissue island (this hand lies with the thumb off the palm) the thenar muscles are outside the segmented island; the thenar volume is bounded by the levels where the thumb is still attached."
+ },
+ "montage": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.png",
+ "labels": {
+  "1": "thenar_compartment",
+  "4": "adductor_pollicis",
+  "5": "abductor_digiti_minimi_hand",
+  "6": "flexor_digiti_minimi_brevis_hand",
+  "7": "opponens_digiti_minimi",
+  "8": "dorsal_interossei_hand",
+  "9": "palmar_interossei",
+  "10": "palmar_flexor_tendon_compartment"
+ },
+ "septum_support": {
+  "abductor_digiti_minimi_hand|flexor_digiti_minimi_brevis_hand": {
+   "levels": 40,
+   "median_ridge_ratio": 2.11,
+   "frac_levels_ratio_ge_1.8": 0.68,
+   "contact_mm": 21.2
+  },
+  "abductor_digiti_minimi_hand|opponens_digiti_minimi": {
+   "levels": 41,
+   "median_ridge_ratio": 2.69,
+   "frac_levels_ratio_ge_1.8": 0.66,
+   "contact_mm": 19.7
+  },
+  "abductor_pollicis_brevis|flexor_pollicis_brevis": {
+   "levels": 12,
+   "median_ridge_ratio": 2.81,
+   "frac_levels_ratio_ge_1.8": 0.83,
+   "contact_mm": 29.2
+  },
+  "abductor_pollicis_brevis|opponens_pollicis": {
+   "levels": 10,
+   "median_ridge_ratio": 3.18,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 32.3
+  },
+  "flexor_digiti_minimi_brevis_hand|opponens_digiti_minimi": {
+   "levels": 45,
+   "median_ridge_ratio": 2.47,
+   "frac_levels_ratio_ge_1.8": 0.84,
+   "contact_mm": 17.4
+  },
+  "flexor_pollicis_brevis|opponens_pollicis": {
+   "levels": 15,
+   "median_ridge_ratio": 2.19,
+   "frac_levels_ratio_ge_1.8": 0.73,
+   "contact_mm": 22.7
+  }
+ },
+ "rules": [
+  "dorsal vs palmar interossei: the plane through the adjacent metacarpal shaft centres (not a photographed border)",
+  "palmar interossei vs adductor pollicis / hypothenar / palm: the palmar bone surface + 3 mm",
+  "1st dorsal interosseous vs adductor pollicis: the MC1-MC2 centre line",
+  "thenar vs adductor: 4 mm ulnar of the MC1 surface",
+  "hypothenar vs interossei: the MC5 centre plane",
+  "thenar / hypothenar members: marker watershed on the white top-hat of the brightness (the pale septa) from the rule seeds"
+ ],
+ "limits": [
+  "boundaries are position rules in the metacarpal frame plus a marker watershed on the pale septa, not traced fascia",
+  "the dorsal / palmar interosseous border is the rule plane through the adjacent metacarpal shaft centres, not a photographed border",
+  "the adductor pollicis / 1st dorsal interosseous border is the MC1-MC2 centre line, where no septum shows",
+  "no level-to-level tracking of the muscles themselves (only the metacarpal discs are tracked)",
+  "volumes are bounded by the tracked segment: nothing proximal to the carpometacarpal joints or distal to the metacarpal heads",
+  "the CT hand bones are 3-10 mm off the photographed bones (the CT and the frozen block are not one rigid body); they name the five discs at one anchor level only, the rules run on the metacarpals as photographed"
+ ],
+ "literature": {
+  "note": "Verified through PubMed on 2026-09-14 (abstracts only).",
+  "thenar_total_cm3": {
+   "value": 13.0,
+   "range": [
+    7.6,
+    15.8
+   ],
+   "who": "13 healthy controls aged 9.5-25.4 years, right hand, quantitative MRI (total volume)",
+   "ref": "Naarding KJ et al. J Cachexia Sarcopenia Muscle 2021;12:694-703, doi:10.1002/jcsm.12711 (PMID 33963807)"
+  },
+  "architecture": {
+   "ref": "Jacobson MD, Raab R, Fazeli BM, Abrams RA, Botte MJ, Lieber RL. Architectural design of the human intrinsic hand muscles. J Hand Surg Am 1992;17:804-9, doi:10.1016/0363-5023(92)90446-v (PMID 1401784)",
+   "note": "muscle mass, length, PCSA of 18 intrinsics (cadaveric); the per-muscle masses are in the paper's tables, not verified here"
+  },
+  "hypothenar_cm3": "not verified",
+  "adductor_pollicis_cm3": "not verified",
+  "interossei_cm3": "not verified"
+ },
+ "output": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz",
+ "labels_file": "/home/user/NMSK_Atlas/mappings/vhf_hand_muscles_labels.json",
+ "mapping_file": "/home/user/NMSK_Atlas/mappings/subjects/ct_vhf_hand_volume_mapping.json"
+}

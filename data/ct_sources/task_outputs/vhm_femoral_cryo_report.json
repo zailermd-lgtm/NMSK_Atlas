@@ -1,0 +1,142 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons, re-streamed by scripts/cryo/vhm_stream_leg_crops.py and read through the Q173 photograph-to-atlas registration. Derived data (scripts/cryo/vhm_femoral_popliteal_track.py).",
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volume_cm3": {
+  "femoral_a_l": 0.81,
+  "femoral_a_r": 1.94,
+  "femoral_v_l": 21.17,
+  "femoral_v_r": 14.49
+ },
+ "tracks": {
+  "femoral_a_r:right": {
+   "levels": 53,
+   "y_top": 35,
+   "y_bottom": -17,
+   "tracked_levels": 53,
+   "seed": {
+    "y": 35,
+    "x": 52.0,
+    "z": 42.6,
+    "rule": "first gel-filled (blue) lumen >= 12 mm2 lateral of his tracked femoral vein and within 25 mm of it, from the vein's seed level (the medial member of her Q55 pair near the inguinal midpoint) down",
+    "inguinal_midpoint": {
+     "asis": [
+      118.5,
+      89.8,
+      51.5
+     ],
+     "pubic_tubercle": [
+      13.8,
+      -19.0,
+      51.5
+     ],
+     "x": 66.125,
+     "y": 35.375,
+     "z": 51.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "pair_rule_artery": {
+     "y": 35,
+     "x": 52.0,
+     "z": 42.6
+    }
+   },
+   "section_mm2_median": 35.7
+  },
+  "femoral_a_l:left": {
+   "levels": 45,
+   "y_top": 11,
+   "y_bottom": -33,
+   "tracked_levels": 38,
+   "seed": {
+    "y": 11,
+    "x": -67.9,
+    "z": 47.9,
+    "rule": "first gel-filled (blue) lumen >= 12 mm2 lateral of his tracked femoral vein and within 25 mm of it, from the vein's seed level (the medial member of her Q55 pair near the inguinal midpoint) down",
+    "inguinal_midpoint": {
+     "asis": [
+      -133.0,
+      89.5,
+      40.2
+     ],
+     "pubic_tubercle": [
+      -13.5,
+      -19.0,
+      50.8
+     ],
+     "x": -73.25,
+     "y": 35.25,
+     "z": 45.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "pair_rule_artery": {
+     "y": 33,
+     "x": -64.7,
+     "z": 38.3
+    }
+   },
+   "section_mm2_median": 16.9
+  },
+  "femoral_v_r:right": {
+   "levels": 199,
+   "y_top": 35,
+   "y_bottom": -225,
+   "tracked_levels": 193,
+   "seed": {
+    "y": 35,
+    "x": 48.6,
+    "z": 35.4,
+    "inguinal_midpoint": {
+     "asis": [
+      118.5,
+      89.8,
+      51.5
+     ],
+     "pubic_tubercle": [
+      13.8,
+      -19.0,
+      51.5
+     ],
+     "x": 66.125,
+     "y": 35.375,
+     "z": 51.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "rule": "medial member of the lumen pair near the inguinal-ligament midpoint (her Q55 rule)"
+   },
+   "section_mm2_median": 66.2
+  },
+  "femoral_v_l:left": {
+   "levels": 316,
+   "y_top": 35,
+   "y_bottom": -280,
+   "tracked_levels": 282,
+   "seed": {
+    "y": 33,
+    "x": -54.4,
+    "z": 32.8,
+    "inguinal_midpoint": {
+     "asis": [
+      -133.0,
+      89.5,
+      40.2
+     ],
+     "pubic_tubercle": [
+      -13.5,
+      -19.0,
+      50.8
+     ],
+     "x": -73.25,
+     "y": 35.25,
+     "z": 45.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "rule": "medial member of the lumen pair near the inguinal-ligament midpoint (her Q55 rule)"
+   },
+   "section_mm2_median": 49.8
+  }
+ }
+}

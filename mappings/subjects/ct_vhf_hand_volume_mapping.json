@@ -1,0 +1,98 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_hand",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz",
+  "label_map": "vhf_hand_muscles",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "thenar_compartment",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "rule-based; compartment holding abductor_pollicis_brevis, flexor_pollicis_brevis, opponens_pollicis (11.28 cm3), not split: APB, FPB and OP: the thenar mass photographs as one striated body from the flexor retinaculum to the thumb. Run with the merge off, the marker watershed claimed it for one seed at a time: APB appears on 16, FPB on 23 and OP on 19 of the 44 levels that have MC1, i.e. the three regions swap identity from level to level instead of forming three continuous bellies (this thumb lies off the palm, so the seeds' textbook offsets from MC1 often land in the thumb's fat or outside the palm's tissue island, and no pale septum runs through the thenar mass at most levels). Their union, 11.3 cm3, is a plausible thenar group (10-20 cm3); the parts, 3.6 / 6.1 / 1.5 cm3, are not trustworthy as named muscles.",
+      "candidates": [
+        "abductor_pollicis_brevis_r",
+        "flexor_pollicis_brevis_r",
+        "opponens_pollicis_r"
+      ]
+    },
+    {
+      "label": 4,
+      "source_structure": "adductor_pollicis",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "adductor_pollicis_r",
+      "relationship": "exact",
+      "note": "rule-based: position rule in the metacarpal frame (rule planes through the metacarpal centres, see the report); 10.45 cm3 against the expected 5.0-8.0 cm3 for adductor pollicis, both heads: REVIEW.",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "abductor_digiti_minimi_hand",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "abductor_digiti_minimi_hand_r",
+      "relationship": "exact",
+      "note": "rule-based: position rule in the metacarpal frame, boundary by the marker watershed on her septa; 5.09 cm3, inside the expected 2.5-7.0 cm3 for part of the 8-15 cm3 hypothenar group.",
+      "candidates": []
+    },
+    {
+      "label": 6,
+      "source_structure": "flexor_digiti_minimi_brevis_hand",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "flexor_digiti_minimi_brevis_hand_r",
+      "relationship": "exact",
+      "note": "rule-based: position rule in the metacarpal frame, boundary by the marker watershed on her septa; 2.74 cm3, inside the expected 1.0-5.0 cm3 for part of the 8-15 cm3 hypothenar group.",
+      "candidates": []
+    },
+    {
+      "label": 7,
+      "source_structure": "opponens_digiti_minimi",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "opponens_digiti_minimi_r",
+      "relationship": "exact",
+      "note": "rule-based: position rule in the metacarpal frame, boundary by the marker watershed on her septa; 4.9 cm3, inside the expected 1.5-5.5 cm3 for part of the 8-15 cm3 hypothenar group.",
+      "candidates": []
+    },
+    {
+      "label": 8,
+      "source_structure": "dorsal_interossei_hand",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "dorsal_interossei_hand_r",
+      "relationship": "exact",
+      "note": "rule-based: position rule in the metacarpal frame (rule planes through the metacarpal centres, see the report); 10.45 cm3, inside the expected 8.0-16.0 cm3 for four dorsal interossei, 2-4 cm3 per space. One structure for the whole hand: the atlas entity is a group (the per-space split is in the volume's geometry only).",
+      "candidates": []
+    },
+    {
+      "label": 9,
+      "source_structure": "palmar_interossei",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "palmar_interossei_r",
+      "relationship": "exact",
+      "note": "rule-based: position rule in the metacarpal frame (rule planes through the metacarpal centres, see the report); 6.91 cm3, inside the expected 4.5-12.0 cm3 for three palmar interossei, 1.5-4 cm3 each. One structure for the whole hand: the atlas entity is a group (the per-space split is in the volume's geometry only).",
+      "candidates": []
+    },
+    {
+      "label": 10,
+      "source_structure": "palmar_flexor_tendon_compartment",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "rule-based; muscle-class pixels palmar of the interossei between MC3 and MC4 (4.66 cm3): the lumbricals and the flexor sheaths' dark walls cannot be told apart at 0.33 mm; lumbricals_hand_r is not shipped.",
+      "candidates": [
+        "lumbricals_hand_r"
+      ]
+    }
+  ]
+}

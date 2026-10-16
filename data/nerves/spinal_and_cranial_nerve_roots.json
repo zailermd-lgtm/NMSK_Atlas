@@ -1,0 +1,43 @@
+{
+  "spinal_nerves": [
+    {"level": "C1", "myotome_muscles": "suboccipital muscles (rectus capitis post. major/minor, obliquus capitis sup./inf.); minimal/no reliable dermatome", "dermatome_region": "none reliably mapped (C1 usually has no cutaneous dermatome)"},
+    {"level": "C2", "myotome_muscles": "neck flexion (SCM accessory contribution, deep neck flexors)", "dermatome_region": "occiput and upper posterior neck"},
+    {"level": "C3", "myotome_muscles": "neck lateral flexion; diaphragm (minor, via phrenic C3-C5)", "dermatome_region": "lower posterior neck / upper shoulder region"},
+    {"level": "C4", "myotome_muscles": "shoulder elevation (trapezius accessory contribution); diaphragm (major, phrenic C3-C5: 'C3,4,5 keep the diaphragm alive')", "dermatome_region": "shoulder region (acromioclavicular area)"},
+    {"level": "C5", "myotome_muscles": "shoulder abduction (deltoid, axillary n.); elbow flexion (biceps, musculocutaneous n.)", "dermatome_region": "lateral upper arm (regimental badge area)"},
+    {"level": "C6", "myotome_muscles": "elbow flexion + wrist extension (biceps, ECRL/ECRB, radial n.)", "dermatome_region": "lateral forearm, thumb and index finger"},
+    {"level": "C7", "myotome_muscles": "elbow extension + wrist flexion (triceps, radial n.; FCR, median n.)", "dermatome_region": "middle finger"},
+    {"level": "C8", "myotome_muscles": "finger flexion (FDP/FDS, median+ulnar n.)", "dermatome_region": "ring and little finger, medial forearm"},
+    {"level": "T1", "myotome_muscles": "finger abduction/adduction (intrinsic hand muscles, ulnar n.)", "dermatome_region": "medial forearm, axilla"},
+    {"level": "T2-T12", "myotome_muscles": "intercostal muscles (respiration), abdominal wall muscles (T7-T12: rectus abdominis, obliques, transversus abdominis)", "dermatome_region": "T4 = nipple line; T10 = umbilicus; sequential thoracoabdominal bands"},
+    {"level": "L1", "myotome_muscles": "hip flexion (iliopsoas, minor contribution)", "dermatome_region": "inguinal region / upper anterior thigh"},
+    {"level": "L2", "myotome_muscles": "hip flexion (iliopsoas, femoral n.)", "dermatome_region": "anterior/upper thigh"},
+    {"level": "L3", "myotome_muscles": "knee extension (quadriceps, femoral n.)", "dermatome_region": "anterior thigh to medial knee"},
+    {"level": "L4", "myotome_muscles": "ankle dorsiflexion (tibialis anterior, deep fibular n.); knee extension", "dermatome_region": "medial leg to medial malleolus"},
+    {"level": "L5", "myotome_muscles": "great toe extension (EHL, deep fibular n.); hip abduction (gluteus medius, superior gluteal n.)", "dermatome_region": "lateral leg, dorsum of foot, great toe"},
+    {"level": "S1", "myotome_muscles": "ankle plantarflexion (gastrocnemius/soleus, tibial n.); ankle eversion (peroneus longus/brevis)", "dermatome_region": "lateral foot, little toe, posterior calf"},
+    {"level": "S2", "myotome_muscles": "knee flexion (hamstrings, sciatic n.); toe flexors", "dermatome_region": "posterior thigh, posterior leg"},
+    {"level": "S3", "myotome_muscles": "intrinsic foot muscles; bladder/bowel (parasympathetic)", "dermatome_region": "medial buttock, perineum (with S4)"},
+    {"level": "S4-S5", "myotome_muscles": "pelvic floor (levator ani, external anal/urethral sphincter)", "dermatome_region": "perianal region (saddle distribution)"},
+    {"level": "Co1", "myotome_muscles": "no significant myotome", "dermatome_region": "small area over coccyx"}
+  ],
+  "cranial_nerves": [
+    {"number": "I", "name": "Olfactory", "function": "smell (special sensory)", "foramen": "cribriform plate of ethmoid"},
+    {"number": "II", "name": "Optic", "function": "vision (special sensory)", "foramen": "optic canal (sphenoid)"},
+    {"number": "III", "name": "Oculomotor", "function": "motor to superior/inferior/medial rectus, inferior oblique, levator palpebrae superioris; parasympathetic to sphincter pupillae/ciliary muscle", "foramen": "superior orbital fissure"},
+    {"number": "IV", "name": "Trochlear", "function": "motor to superior oblique", "foramen": "superior orbital fissure"},
+    {"number": "V", "name": "Trigeminal (V1 ophthalmic, V2 maxillary, V3 mandibular)", "function": "facial/oral sensation; V3 also motor to muscles of mastication (masseter, temporalis, pterygoids, mylohyoid, anterior belly digastric, tensor tympani, tensor veli palatini)", "foramen": "V1: superior orbital fissure; V2: foramen rotundum; V3: foramen ovale"},
+    {"number": "VI", "name": "Abducens", "function": "motor to lateral rectus", "foramen": "superior orbital fissure"},
+    {"number": "VII", "name": "Facial", "function": "motor to muscles of facial expression, stapedius, posterior belly digastric, stylohyoid; taste anterior 2/3 tongue; parasympathetic to lacrimal/submandibular/sublingual glands", "foramen": "internal acoustic meatus -> facial canal -> stylomastoid foramen"},
+    {"number": "VIII", "name": "Vestibulocochlear", "function": "hearing and balance (special sensory)", "foramen": "internal acoustic meatus"},
+    {"number": "IX", "name": "Glossopharyngeal", "function": "motor to stylopharyngeus; taste posterior 1/3 tongue; sensation from pharynx/middle ear; parasympathetic to parotid gland; carotid body/sinus afferents", "foramen": "jugular foramen"},
+    {"number": "X", "name": "Vagus", "function": "motor to pharyngeal/laryngeal muscles (except stylopharyngeus and tensor veli palatini); parasympathetic to thoracic/abdominal viscera to the splenic flexure", "foramen": "jugular foramen"},
+    {"number": "XI", "name": "Accessory", "function": "motor to sternocleidomastoid and trapezius", "foramen": "jugular foramen"},
+    {"number": "XII", "name": "Hypoglossal", "function": "motor to intrinsic and most extrinsic tongue muscles (all except palatoglossus)", "foramen": "hypoglossal canal"}
+  ],
+  "sources": [
+    "AAOS/standard clinical myotome-dermatome charts (as used in ASIA International Standards for Neurological Classification of Spinal Cord Injury)",
+    "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) — chapters 4 (back), 8 (head & neck) for cranial nerve foramina",
+    "Terminologia Anatomica (FICAT 1998) for nomenclature"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhm_stream_leg_crops.py + scripts/cryo/vhf_nerve_track.py).",
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volume_cm3": {
+  "sciatic_n": 14.16
+ },
+ "tracks": {
+  "sciatic_n:right": {
+   "levels": 126,
+   "y_top": -91,
+   "y_bottom": -216,
+   "tracked_levels": 115,
+   "seed": {
+    "y": -86.0,
+    "x": 106.625,
+    "z": -37.25,
+    "rule": "midway between the ischial tuberosity and the greater trochanter, 20 mm below the tuberosity, 10 mm posterior"
+   },
+   "section_mm2_median": 48.6
+  },
+  "sciatic_n:left": {
+   "levels": 84,
+   "y_top": -89,
+   "y_bottom": -222,
+   "tracked_levels": 75,
+   "seed": {
+    "y": -86.0,
+    "x": -104.5,
+    "z": -43.375,
+    "rule": "midway between the ischial tuberosity and the greater trochanter, 20 mm below the tuberosity, 10 mm posterior"
+   },
+   "section_mm2_median": 61.4
+  }
+ }
+}

@@ -1,0 +1,122 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_s1159_neckbv",
+  "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/s1159_ts/headneck_bones_vessels.nii.gz",
+  "label_map": "totalsegmentator_headneck_bones_vessels",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "larynx_air",
+      "side": null,
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Air column, not tissue.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "thyroid_cartilage",
+      "side": null,
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "The atlas has no laryngeal cartilage entity (it carries the laryngeal muscles). Candidate for authoring.",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "hyoid",
+      "side": null,
+      "status": "curated",
+      "atlas_id": "hyoid",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "cricoid_cartilage",
+      "side": null,
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "The atlas has no laryngeal cartilage entity. Candidate for authoring.",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "zygomatic_arch_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "zygomatic_r",
+      "relationship": "part_of",
+      "note": "The arch is the temporal process of the zygomatic bone plus the zygomatic process of the temporal bone; assigned to the zygomatic bone, which carries most of it.",
+      "candidates": []
+    },
+    {
+      "label": 7,
+      "source_structure": "styloid_process_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "temporal_r",
+      "relationship": "part_of",
+      "note": "Process of the temporal bone.",
+      "candidates": []
+    },
+    {
+      "label": 8,
+      "source_structure": "styloid_process_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "temporal_l",
+      "relationship": "part_of",
+      "note": "Process of the temporal bone.",
+      "candidates": []
+    },
+    {
+      "label": 9,
+      "source_structure": "internal_carotid_artery_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "internal_carotid_a_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 10,
+      "source_structure": "internal_carotid_artery_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "internal_carotid_a_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 11,
+      "source_structure": "internal_jugular_vein_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "internal_jugular_v_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 12,
+      "source_structure": "internal_jugular_vein_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "internal_jugular_v_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    }
+  ]
+}

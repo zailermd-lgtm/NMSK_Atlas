@@ -1,0 +1,80 @@
+{
+  "source": "Q145 (2026-09-23): finishes Q144's own queued step -- a bounded 3-D (X/Y/Z) warp for the posterior interosseous nerve (PIN) arcade-of-Frohse entry into supinator, which Q144's Y-only warp could only partially correct -- plus re-sourcing the radial-nerve bifurcation landmark (d) that Q144 had left unsourced. CC BY-SA anatomy layer only (third_party/z-anatomy/NOTICE); no private/clinical content touched. See PROJECT_STATE.md's Q145 entry and data/corrections/zanatomy/radial_n.json for the correction file itself.",
+
+  "part_1_is_the_entry_metric_measured_wrong": {
+    "task_instruction": "\"First check where the supinator mesh's proximal edge actually is along the nerve: the arcade of Frohse is the proximal edge of the superficial supinator, so the real-geometry test is 'nerve enters supinator mesh at X mm from LE'. If the Z-Anatomy supinator itself sits where the literature puts entry, the right correction may be none.\"",
+    "method": "Re-ran Q144's own containment test (trimesh.Trimesh.contains() on the PIN's per-Y-bin centreline, 150 bins) on the UNCORRECTED geometry, and separately inspected the Supinator mesh's own global Y bounding box (proximal-most/distal-most vertex, any X/Z) for comparison.",
+    "findings": {
+      "containment_entry_reproduces_Q144_mm": 27.38,
+      "containment_transition_shape": "a single clean in/out crossing at 150-bin resolution (no noise, no multiple crossings near the boundary) -- checked explicitly by printing the full inside/outside flag sequence along the centreline.",
+      "supinator_global_Y_bbox_mm_distal_to_LE": {"proximal_edge": -14.67, "distal_edge": 113.28,
+        "interpretation": "the muscle's own overall extent reaches to ~14.7mm PROXIMAL to LE (not distal) -- i.e. the whole-muscle bounding box alone would suggest entry could be anywhere from there down, which is NOT the right comparison: the nerve's own path only crosses into the SOLID part of the mesh at the specific X/Z location it actually runs through, at 27.4mm distal to LE, because the model (like real anatomy) leaves an open radial-tunnel gap between the humeral/annular-ligament origin of the superficial head and the point the two heads close in around the bone."},
+      "supinator_exit_cross_check_mm": {"measured": 81.8, "aggarwal_mm": 85.4, "hazani_converted_mm": 81.3,
+        "interpretation": "the SAME containment method, applied to the exit boundary of the SAME mesh, lands within 1mm of both cited studies -- so the method is not systematically biased; only the entry side of this particular mesh sits materially proximal to the cited cadaveric average."},
+      "verdict": "NOT a measurement artifact. The Z-Anatomy supinator's local proximal border, specifically where the PIN's own path crosses it, sits genuinely ~15mm too proximal relative to the cited literature (27.4mm measured vs. ~42.5mm cited) -- a real geometry gap in this schematic model, not a mismeasured metric. Q144's original finding and correction direction are confirmed correct; Q145 proceeds to close the gap fully rather than partially."
+    }
+  },
+
+  "part_2_radial_head_measurement_for_the_hazani_conversion": {
+    "method": "Radius.r/.l proximal-most vertex (max atlas Y), the same 'fit live, never bake a number' convention lateral_epicondyle_y() uses for the LE.",
+    "result_mm_distal_to_LE": {"right": 7.2794, "left": 7.2794, "note": "confirms Q144's own reported 7.3mm on both sides, remeasured independently at Q145."},
+    "hazani_conversion": "Hazani et al. 2008 (PMID 18668182): PIN enters supinator ~3.5cm (35mm) distal to the radial head. Converted: 7.3 + 35 = 42.3mm distal to LE -- kept as a SEPARATE target field from Aggarwal's own direct-LE measurement (42.6mm), per this task's own explicit instruction not to merge the two different reference points into one pooled range (see data/corrections/zanatomy/radial_n.json's own 'hazani_conversion_note')."
+  },
+
+  "part_3_the_3d_warp": {
+    "why_y_only_plateaued": "The PIN's own centreline runs in 1-5mm clearance of the Radius shaft for essentially its whole course through the radial tunnel (measured directly, both sides) -- so any further distal Y-shift is immediately re-clipped back onto the bone surface by the mandatory bone-avoidance pass, regardless of the nominal shift size (Q144's own sweep: -12 to -32mm nominal all landed at 30-36mm achieved).",
+    "design": "Additive lateral (X/Z) push, AWAY from the Radius, computed LIVE per Y-level from the PIN's own current centreline vs. the Radius mesh's own current surface (nearest-surface-point ray direction -- never a baked XYZ vector), magnitude smoothstep-profiled by the same anchor/interpolation machinery already used for the Y-shift (0 at the bifurcation and supinator-exit anchors, a plateau across the entry region, hard-capped at 8mm), applied BEFORE the existing bone-avoidance pass (which now also guards Ulna and Humerus, not just Radius, for defense-in-depth). Implementation: scripts/zanatomy/apply_corrections.py's new _centreline_by_y(), _bone_repulsion_direction(), _load_bone_mesh(), and the `lateral_push` block in apply_correction() -- fully additive: a correction file with no `lateral_push` key runs Q144's exact original Y-only path, unchanged (back-compat, no existing tests touched, all still pass).",
+    "parameter_sweep": {
+      "note": "post-warp, post-bone-avoidance entry level (mm distal to LE) for a grid of (lateral push magnitude mm, Y-shift mm). Chosen operating point (6.5, -13.0) sits at the centre of a wide, stable plateau, not a knife-edge best fit -- values +/-0.2mm in push and +/-1-3mm in Y-shift around it all land within 42.5-44.2mm.",
+      "coarse_grid_entry_mm": {
+        "push=0": {"yshift=-12": 30.5, "yshift=-16": 33.3, "yshift=-20": 32.5},
+        "push=3": {"yshift=-12": 33.3, "yshift=-16": 34.2, "yshift=-20": 33.1},
+        "push=5": {"yshift=-12": 36.3, "yshift=-16": 34.2, "yshift=-20": 36.7},
+        "push=6.5": {"yshift=-14": 42.57, "yshift=-16": 42.68, "yshift=-18": 41.6, "yshift=-20": 40.8, "yshift=-22": 42.52},
+        "push=7": {"yshift=-16": 44.2, "yshift=-18": 44.6, "yshift=-20": 44.0, "yshift=-22": 45.9},
+        "push=9_or_12": "overshoots to a different geometric regime (entry jumps to 71-78mm) -- the lateral push has moved the nerve clear of the near part of the supinator mesh entirely; not used."
+      },
+      "stability_check_around_chosen_point": "push in [6.2, 6.6]mm x yshift in [-11,-14]mm: entry stays in a tight 42.5-42.6mm band for every combination tried (13 of 15 grid points identical to 4 decimal places); push=6.8mm already shows a discontinuous jump at some yshift values (a different regime boundary nearby) -- (6.5, -13.0) sits safely inside the stable basin, not adjacent to it."
+    },
+    "chosen_parameters": {"y_shift_mm": -13.0, "lateral_push_max_mm": 6.5, "lateral_push_hard_cap_mm": 8.0}
+  },
+
+  "part_4_results": {
+    "measured_before_Q144_mm": 27.5,
+    "achieved_after_Q144_Y_only_mm": 30.4,
+    "achieved_after_Q145_3d_warp_mm": 42.55,
+    "targets": {"aggarwal_2026_mm": 42.6, "hazani_2008_converted_mm": 42.3},
+    "diff_from_targets_mm": {"aggarwal": 0.05, "hazani_converted": 0.25},
+    "exit_unchanged_mm": 81.8,
+    "exit_cited_ranges_mm": {"aggarwal": 85.4, "hazani_converted": 81.3, "note": "kept as a fixed (zero-shift) anchor throughout Q144 and Q145; already within range, unaffected by this warp."},
+    "bone_penetration_recheck": {
+      "method": "trimesh.Trimesh.contains() of every corrected PIN vertex against Radius/Ulna/Humerus, checked BOTH on the in-memory apply_correction() output and independently on the actually-shipped build/vh/zan_ref_{msk,nv} bundle (post hip-origin subtraction, post int16 quantization for the final HTML) -- same result both ways.",
+      "n_vertices_inside": {"right": {"radius": 0, "ulna": 0, "humerus": 0}, "left": {"radius": 0, "ulna": 0, "humerus": 0}},
+      "n_vertices_total_per_side": 1020
+    },
+    "mesh_continuity": {"method": "trimesh connected-components on the PIN's own (unchanged) face array", "main_frac_right": 1.0, "main_frac_left": 1.0, "note": "trivially guaranteed unchanged before/after: only vertex coordinates move, no face/topology edit anywhere in this correction."},
+    "side_symmetry": "right and left achieved entry (42.552048 vs 42.552032mm) and exit (81.79942 vs 81.79941mm) agree to <0.001mm -- confirms Q144's own finding that the two sides' Z-Anatomy geometry mirrors exactly, still holds after this warp."
+  },
+
+  "part_5_bifurcation_landmark_d": {
+    "artico_2008_full_text_attempt": {
+      "pmid": "18795220", "doi": "10.1007/s00276-008-0412-8",
+      "result": "NOT accessible. PubMed MCP get_copyright_status returned source='not_available' (no PMC record, is_open_access=false); a pubmed_pmc find_related_articles lookup for this PMID returned no linked PMC id either. Its own abstract (re-fetched at Q145) confirms the division-point measurement was part of its stated Methods but the specific number is not given in the abstract text -- consistent with Q144's own finding, now independently reconfirmed rather than assumed."
+    },
+    "replacement_citation_found": "Qawasmi F, Goss M, Shweiki F, Grindle S, Yassin M (2025). Anatomical considerations for safe retractor placement in distal biceps repair: a cadaveric study of the posterior interosseous nerve. Surg Radiol Anat 47(1):223. PMID 41053287, PMCID PMC12500735, DOI 10.1007/s00276-025-03728-3. Open access; full text retrieved directly via the PubMed MCP tools. 29 fresh cadaveric upper extremities.",
+    "cited_value": "radial nerve bifurcates 5 +/- 3mm (SD) proximal to the radiocapitellar joint (RCJ), 95% CI 2-8mm proximal.",
+    "converted_to_LE_frame": "using this model's own live-measured radial head offset (7.3mm distal to LE) as an RCJ proxy: distal_to_LE range approx [-0.7, 5.3] mm.",
+    "measured_on_this_model_mm_distal_to_LE": {"trunk_end": 7.8, "PIN_start": 8.6},
+    "verdict": "sits 2.5-3.3mm outside the converted 95%-CI range -- of the same order as the cited study's own reported SD (3mm) on the underlying RCJ measurement, i.e. plausibly within normal single-specimen cadaveric variation even though outside the mean's own 95% CI. NOT corrected: (1) statistically a small, borderline discrepancy (not the >30%-of-target miss that justified correcting landmark (e)); (2) mechanically, fixing a bifurcation point means coordinately moving the distal end of radial_n and the proximal ends of BOTH posterior_interosseous_n and radial_n_superficial_branch (three independently stored mesh objects) without opening a gap or overlap where they currently meet -- a materially different and riskier problem than warping a single continuous nerve's own interior path, and out of this task's scope. Documented honestly rather than silently forced into 'in range' or invented a number to justify a fix."
+  },
+
+  "tests": "tests/test_zanatomy_corrections.py: 4 new tests (test_radial_n_correction_has_a_lateral_push_q145, test_centreline_by_y_tracks_a_simple_path, test_bone_repulsion_direction_points_away_from_the_bone, test_apply_correction_lateral_push_moves_vertices_away_from_named_bone -- the last built entirely on synthetic geometry under tmp_path, no build/zanatomy/ needed). Full suite: 268 passed (264 before Q145 + 4 new).",
+
+  "bundle_rebuild": {
+    "matched_entities": 662,
+    "zan_ref_nv_structures": 1402,
+    "entity_coverage_vs_specimens": 303,
+    "verify_zan_reference_result": "OK (all checks pass, see data/derived/Q143_zan_reference_verification.json, regenerated at Q145 build time)",
+    "atlas_viewer_zanatomy_nv_html_size_mb": 12.86
+  }
+}

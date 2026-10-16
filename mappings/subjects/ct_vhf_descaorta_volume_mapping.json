@@ -1,0 +1,32 @@
+{
+  "_README": [
+    "Q115: descending_thoracic_aorta-only reconversion of vhf_total.nii.gz label 52",
+    "(aorta, split by aorta_by_vertebral_level), at --smooth 0.0 instead of ct_vhf's",
+    "own 1.0. Raw source main_frac for this label is 1.000 (ONE piece) but the",
+    "shipped descending_thoracic_aorta measured 0.711 -- smoothing was the destroyer.",
+    "Only 'descending_thoracic' is mapped (to descending_thoracic_aorta); arch and",
+    "abdominal are left null so this subject claims ONLY that one atlas_id, leaving",
+    "ct_vhf's own aortic_arch_and_great_vessels/abdominal_aorta untouched."
+  ],
+  "subject": "ct_vhf_descaorta",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total.nii.gz",
+  "label_map": "totalsegmentator",
+  "entries": [
+    {
+      "label": 52,
+      "source_structure": "aorta",
+      "side": null,
+      "status": "curated",
+      "atlas_id": null,
+      "relationship": "split",
+      "splitter": "aorta_by_vertebral_level",
+      "split_parts": {
+        "arch": null,
+        "ascending": null,
+        "descending_thoracic": "descending_thoracic_aorta",
+        "abdominal": null
+      },
+      "candidates": []
+    }
+  ]
+}

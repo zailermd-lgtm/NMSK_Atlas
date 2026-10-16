@@ -1,0 +1,92 @@
+{
+  "schema": "nmsk.ultrasound_tissues.v1",
+  "title": "Acoustic table for the simulated B-mode ultrasound of the NMSK Atlas (Q228). Keys are the tissue-class keys of imaging_tissues.json (the structure -> class mapping rules are shared with the imaging mode).",
+  "licence": "PRIVATE clinical layer of the owner (clinical/LICENSE_PRIVATE.md). Not part of the CC BY-SA anatomy layer.",
+  "verified_on": "2026-10-12",
+  "honesty": [
+    "Every number below is a textbook / compilation value for a typical adult soft tissue at body temperature, NOT measured on these meshes or on any patient. Real tissue varies by +-10-30 % (attenuation by much more).",
+    "Only ONE number was read in a PubMed abstract this session: cortical-bone attenuation 13.3 +- 0.97 dB/cm across ~8 mm human skull samples (Pinton 2012, PMID 22225300; the abstract does not state the frequency, so its use as a per-MHz slope is an ASSUMPTION). The compilations (Goss 1978 PMID 361793, Goss 1980 PMID 11683186) exist in PubMed but their tables are not in the abstracts and were not read; Duck's 'Physical Properties of Tissue' (1990) and Szabo's 'Diagnostic Ultrasound Imaging: Inside Out' are books (not in PubMed, not re-read here) and the IT'IS database (itis.swiss) could not be reached from this environment. All other rows are therefore 'recalled_unverified'.",
+    "The impedance values for soft tissue 1.6, fat 1.34, muscle 1.7, blood 1.61, cortical bone 7.8, air 0.0004, liver 1.65, kidney 1.62 and tendon 1.9 MRayl are the ones named by the owner for this task ('owner_supplied'); they agree with what the author recalls from the books above, which is not a verification.",
+    "Echogenicity (the 'bs_db' column, scattering relative to liver) is QUALITATIVE: it encodes the textbook ordering (blood and fluid anechoic < cartilage < fat/kidney cortex/muscle hypoechoic < liver/spleen < thyroid/tendon hyperechoic < bone surface), not a measured backscatter coefficient. Marked 'assumption'.",
+    "Needs the owner's review of every 'recalled_unverified' / 'assumption' row before any use beyond teaching."
+  ],
+  "references": {
+    "duck1990": {"cite": "Duck FA. Physical Properties of Tissue: A Comprehensive Reference Book. Academic Press, 1990.", "pmid": null, "used_for": "impedance, speed of sound, attenuation per tissue (recalled; book, not in PubMed, not re-read)"},
+    "szabo2004": {"cite": "Szabo TL. Diagnostic Ultrasound Imaging: Inside Out. Elsevier Academic Press, 2004 (appendix tables of tissue properties).", "pmid": null, "used_for": "impedance of lung, bone, soft tissues; beam / resolution formulas (recalled; book)"},
+    "goss1978": {"cite": "Goss SA, Johnston RL, Dunn F. Comprehensive compilation of empirical ultrasonic properties of mammalian tissues. J Acoust Soc Am 1978;64:423-457.", "pmid": "361793", "used_for": "primary compilation behind most attenuation / velocity rows (PMID checked, numbers not read)"},
+    "goss1980": {"cite": "Goss SA, Johnston RL, Dunn F. Compilation of empirical ultrasonic properties of mammalian tissues. II. J Acoust Soc Am 1980;68:93-108.", "pmid": "11683186", "used_for": "continuation of the compilation (PMID checked, numbers not read)"},
+    "pinton2012": {"cite": "Pinton G, Aubry JF, Bossy E, Muller M, Pernot M, Tanter M. Attenuation, scattering, and absorption of ultrasound in the skull bone. Med Phys 2012;39:299-307.", "pmid": "22225300", "used_for": "cortical bone attenuation 13.3 +- 0.97 dB/cm across ~8 mm samples (abstract read); absorption only 2.7 dB/cm of it, the rest reflection / scattering / mode conversion"},
+    "culjat2010": {"cite": "Culjat MO, Goldenberg D, Tewari P, Singh RS. A review of tissue substitutes for ultrasound imaging. Ultrasound Med Biol 2010;36:861-873.", "pmid": "20510184", "used_for": "context for phantom-material properties (PMID checked, tables not read)"},
+    "textbook_us": {"cite": "Standard sonography teaching texts (echogenicity ordering of tissues, anisotropy of tendons, posterior enhancement / acoustic shadowing / reverberation artefacts).", "pmid": null, "used_for": "qualitative rows and artefact behaviour"},
+    "physics": {"cite": "Plane-wave reflection / transmission at normal incidence: R = ((Z2-Z1)/(Z2+Z1))^2, T = 1-R; Z = rho c; attenuation in dB = alpha f L (textbook acoustics).", "pmid": null, "used_for": "equations"}
+  },
+  "global": {
+    "c_display_m_s": 1540,
+    "c_note": "The depth axis uses the scanner convention c = 1540 m/s everywhere; no speed-of-sound displacement artefact is simulated.",
+    "tgc_alpha_ref_db_cm_mhz": 0.6,
+    "tgc_note": "Time-gain compensation assumes this nominal soft-tissue attenuation (an ASSUMPTION; scanners use 0.5-0.7; 0.6 here). Anything that attenuates less (fluid) therefore looks brighter behind it (posterior enhancement); anything that attenuates more (bone, lung) is darker (shadow).",
+    "bs0": 1e-4,
+    "bs0_note": "Backscattered fraction of the incident intensity per resolution cell for liver (0 dB row). Order of magnitude only (chosen so that a bone surface, R ~ 0.4, is ~36 dB above liver parenchyma, as on a real image).",
+    "display_ref_fraction": 0.55,
+    "display_note": "A liver-level echo (0 dB, gain 0) is displayed at 55 % of the grey range.",
+    "gel": {"z_mrayl": 1.5, "alpha_db_cm_mhz": 0.0, "max_gap_mm": 12, "note": "Air between the probe face and the skin along a beam is treated as coupling gel (water-like) up to 12 mm; larger gaps = lost contact (no signal). ASSUMPTION."},
+    "air_pocket_fill_mm": 12,
+    "air_pocket_note": "Along a beam, an air band thinner than this that tissue follows again is treated as fat: the Z pages' skin is 250 overlapping patches whose even-odd union leaves air-labelled gaps between skin layers. A real gas pocket (lung, bowel gas) is larger or has no tissue behind it.",
+    "noise_floor_db": -31,
+    "noise_note": "Optional synthetic system noise (exponential intensity statistics) at this level re liver after TGC; default off. Clearly synthetic.",
+    "axial_cycles": 2.5,
+    "resolution_note": "Axial resolution ~ 1.25 wavelengths (2.5-cycle pulse); lateral beam width = 1.2 lambda F / D at the focus, growing away from it (D = min(0.6 x probe width, 25 mm)); both are simple textbook formulas, no beam-forming simulation.",
+    "speckle": {"cell_ax_wavelengths": 1.4, "elev_mm": 3.0, "note": "Synthetic speckle: seeded value noise with fully developed (Rayleigh) statistics scaled per class by 'speck'; the pattern is attached to the sweep volume (neighbouring sweep frames within ~3 mm are correlated) but is NOT a physical speckle of these tissues."}
+  },
+  "freq_presets_mhz": [3.5, 5, 7.5, 12],
+  "probes": {
+    "linear": {"label": "Linear", "width_mm": [38, 44, 50], "width_default": 44, "radius_mm": 0, "fan_deg": 0, "freq_default": 7.5, "depth_default_cm": 5, "note": "Parallel beams; footprint 38-50 mm (typical 5-12 MHz vascular / MSK probe)."},
+    "convex": {"label": "Convex (curvilinear)", "width_mm": [60, 65, 70], "width_default": 65, "radius_mm": 60, "fan_deg": 0, "freq_default": 3.5, "depth_default_cm": 12, "note": "Fan of beams from a centre of curvature 60 mm behind the face; footprint 60-70 mm (typical 2-5 MHz abdominal probe)."},
+    "sector": {"label": "Sector (phased array)", "width_mm": [20, 22, 25], "width_default": 22, "radius_mm": 0, "fan_deg": 90, "freq_default": 3.5, "depth_default_cm": 15, "note": "Fan of beams from a small footprint of 20-25 mm, 90 degree sector (typical 2-5 MHz cardiac probe)."}
+  },
+  "classes": {
+    "air":             {"z": 0.0004, "c": 343,  "alpha": 40.0, "bs_db": -60, "speck": 0.0, "spec_sigma_deg": 25, "diffuse": 0.30, "status": "derived",           "src": ["physics"], "note": "rho 1.2 kg/m3 x 343 m/s; exterior air (and air in the airways)."},
+    "air_lumen":       {"z": 0.0004, "c": 343,  "alpha": 40.0, "bs_db": -60, "speck": 0.0, "spec_sigma_deg": 25, "diffuse": 0.30, "status": "derived",           "src": ["physics"], "note": "airway lumen, same as air."},
+    "fat":             {"z": 1.34,  "c": 1450, "alpha": 0.6,  "bs_db": -14, "speck": 0.7, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "owner_supplied",    "src": ["duck1990", "goss1978"], "note": "Z = 1.34 owner; alpha ~ 0.6 recalled (UNVERIFIED); subcutaneous fat hypoechoic with echogenic septa (qualitative)."},
+    "skin":            {"z": 1.99,  "c": 1600, "alpha": 1.8,  "bs_db": -2,  "speck": 0.5, "spec_sigma_deg": 18, "diffuse": 0.25, "status": "recalled_unverified", "src": ["duck1990"], "note": "dermis echogenic; ~1.8 dB/cm/MHz recalled (UNVERIFIED)."},
+    "synovial":        {"z": 1.52,  "c": 1500, "alpha": 0.02, "bs_db": -55, "speck": 0.0, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "recalled_unverified", "src": ["duck1990"], "note": "fluid-like, anechoic."},
+    "tendon_ligament": {"z": 1.9,   "c": 1670, "alpha": 4.7,  "bs_db": 2,   "speck": 0.5, "spec_sigma_deg": 14, "diffuse": 0.20, "status": "owner_supplied",    "src": ["duck1990", "textbook_us"], "texture": "tendon", "aniso": {"theta_deg": 8, "floor": 0.05, "min_elong": 2.5}, "note": "Z = 1.9 owner; alpha 4.7 recalled (UNVERIFIED); hyperechoic fibrillar, anisotropic (dark when the beam is > ~10 deg from perpendicular to the fibres)."},
+    "muscle":          {"z": 1.70,  "c": 1580, "alpha": 1.0,  "bs_db": -9,  "speck": 0.8, "spec_sigma_deg": 18, "diffuse": 0.25, "status": "owner_supplied",    "src": ["duck1990", "goss1978", "textbook_us"], "texture": "muscle", "aniso": {"theta_deg": 25, "floor": 0.35, "min_elong": 2.5}, "note": "Z = 1.70 owner; alpha ~1.0 mean (0.6 along, up to 1.5+ across fibres) recalled (UNVERIFIED); hypoechoic with bright fibro-adipose septa (documented texture: fibrillar lines along, 'starry night' across)."},
+    "nerve":           {"z": 1.63,  "c": 1540, "alpha": 1.0,  "bs_db": -7,  "speck": 0.7, "spec_sigma_deg": 18, "diffuse": 0.25, "status": "recalled_unverified", "src": ["textbook_us"], "aniso": {"theta_deg": 20, "floor": 0.5, "min_elong": 2.5}, "note": "fascicular hypoechoic with echogenic epineurium (not modelled), mild anisotropy."},
+    "liver":           {"z": 1.65,  "c": 1590, "alpha": 0.5,  "bs_db": 0,   "speck": 1.0, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "owner_supplied",    "src": ["duck1990", "goss1978"], "note": "Z = 1.65 owner; alpha 0.5 recalled (UNVERIFIED, literature range ~0.4-0.7); reference echogenicity (0 dB)."},
+    "spleen":          {"z": 1.64,  "c": 1570, "alpha": 0.4,  "bs_db": 1.5, "speck": 1.0, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "recalled_unverified", "src": ["duck1990", "textbook_us"], "note": "slightly more echogenic than liver (textbook)."},
+    "kidney":          {"z": 1.62,  "c": 1560, "alpha": 0.7,  "bs_db": -7,  "speck": 0.8, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "owner_supplied",    "src": ["duck1990", "textbook_us"], "note": "Z = 1.62 owner; parenchyma (cortex + medulla not separated) hypoechoic vs liver; alpha recalled (UNVERIFIED)."},
+    "solid_organ":     {"z": 1.62,  "c": 1560, "alpha": 0.6,  "bs_db": 1,   "speck": 1.0, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "assumption",        "src": ["textbook_us"], "note": "generic solid organ / gland (pancreas, prostate, salivary ...): liver-like."},
+    "thyroid":         {"z": 1.64,  "c": 1550, "alpha": 0.6,  "bs_db": 3,   "speck": 1.0, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "assumption",        "src": ["textbook_us"], "note": "hyperechoic relative to the strap muscles (textbook); alpha assumed."},
+    "gi_tract":        {"z": 1.55,  "c": 1520, "alpha": 0.8,  "bs_db": -5,  "speck": 0.6, "spec_sigma_deg": 22, "diffuse": 0.35, "status": "assumption",        "src": ["textbook_us"], "note": "wall + content as one mesh: moderate echogenicity; gas content is NOT modelled (would shadow / reverberate)."},
+    "heart":           {"z": 1.65,  "c": 1570, "alpha": 0.6,  "bs_db": -9,  "speck": 0.8, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "recalled_unverified", "src": ["duck1990"], "note": "myocardium hypoechoic like muscle; chambers are blood classes where segmented."},
+    "lung":            {"z": 0.26,  "c": 650,  "alpha": 40.0, "bs_db": -30, "speck": 0.3, "spec_sigma_deg": 25, "diffuse": 0.30, "status": "recalled_unverified", "src": ["szabo2004", "duck1990"], "note": "aerated lung: Z ~ 0.26 MRayl, very high attenuation -> the pleural line is a near-total reflector with reverberation (A-lines) and nothing visible behind it."},
+    "brain_wm":        {"z": 1.60,  "c": 1550, "alpha": 0.6,  "bs_db": -7,  "speck": 0.7, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "recalled_unverified", "src": ["duck1990"], "note": "not accessible through the intact skull (bone shadow model applies)."},
+    "brain_gm":        {"z": 1.58,  "c": 1540, "alpha": 0.6,  "bs_db": -9,  "speck": 0.7, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "recalled_unverified", "src": ["duck1990"], "note": ""},
+    "brain":           {"z": 1.59,  "c": 1545, "alpha": 0.6,  "bs_db": -8,  "speck": 0.7, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "recalled_unverified", "src": ["duck1990"], "note": ""},
+    "spinal_cord":     {"z": 1.60,  "c": 1540, "alpha": 0.6,  "bs_db": -8,  "speck": 0.7, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "recalled_unverified", "src": ["duck1990"], "note": ""},
+    "fluid_free":      {"z": 1.52,  "c": 1500, "alpha": 0.002, "bs_db": -55, "speck": 0.0, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "recalled_unverified", "src": ["duck1990", "textbook_us"], "note": "urine / bile / CSF: water-like, anechoic, negligible attenuation -> posterior enhancement."},
+    "lymph_node":      {"z": 1.60,  "c": 1550, "alpha": 0.6,  "bs_db": -10, "speck": 0.8, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "assumption",        "src": ["textbook_us"], "note": "hypoechoic cortex (hilum fat not modelled)."},
+    "cartilage":       {"z": 1.75,  "c": 1660, "alpha": 1.0,  "bs_db": -22, "speck": 0.2, "spec_sigma_deg": 18, "diffuse": 0.20, "status": "assumption",        "src": ["duck1990", "textbook_us"], "note": "hyaline cartilage: anechoic / hypoechoic band over the bone."},
+    "fibrocartilage":  {"z": 1.80,  "c": 1650, "alpha": 1.5,  "bs_db": 0,   "speck": 0.5, "spec_sigma_deg": 18, "diffuse": 0.25, "status": "assumption",        "src": ["textbook_us"], "note": "meniscus / labrum: homogeneous hyperechoic triangle."},
+    "disc":            {"z": 1.60,  "c": 1540, "alpha": 0.8,  "bs_db": -12, "speck": 0.5, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "assumption",        "src": ["textbook_us"], "note": ""},
+    "bone_cancellous": {"z": 3.0,   "c": 2300, "alpha": 10.0, "bs_db": -3,  "speck": 0.8, "spec_sigma_deg": 20, "diffuse": 0.35, "status": "assumption",        "src": ["szabo2004", "pinton2012"], "note": "cancellous bone + marrow, modelled interior of flat / short bones; strongly attenuating, scattering."},
+    "marrow_yellow":   {"z": 1.45,  "c": 1450, "alpha": 0.6,  "bs_db": -14, "speck": 0.7, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "assumption",        "src": ["duck1990"], "note": "medullary canal (fat-like); in practice always inside the bone shadow."},
+    "bone_cortical":   {"z": 7.8,   "c": 3500, "alpha": 13.3, "bs_db": -10, "speck": 0.6, "spec_sigma_deg": 12, "diffuse": 0.08, "status": "verified_abstract", "src": ["pinton2012", "szabo2004"], "note": "Z = 7.8 owner; alpha 13.3 dB/cm over ~8 mm human skull samples (Pinton 2012, abstract read) used as a per-MHz slope (ASSUMPTION: abstract gives no frequency). Specular, narrow angle acceptance: bright surface, strong shadow."},
+    "tooth":           {"z": 14.0,  "c": 5000, "alpha": 20.0, "bs_db": -6,  "speck": 0.5, "spec_sigma_deg": 12, "diffuse": 0.08, "status": "assumption",        "src": ["szabo2004"], "note": "enamel / dentine: total reflector."},
+    "blood_vein":      {"z": 1.61,  "c": 1575, "alpha": 0.15, "bs_db": -50, "speck": 0.0, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "owner_supplied",    "src": ["duck1990", "textbook_us"], "note": "Z = 1.61 owner; alpha ~0.15 recalled (UNVERIFIED); anechoic at B-mode gain (blood echoes sit ~ -45 dB re liver, colour Doppler out of scope)."},
+    "blood_artery":    {"z": 1.61,  "c": 1575, "alpha": 0.15, "bs_db": -50, "speck": 0.0, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "owner_supplied",    "src": ["duck1990", "textbook_us"], "note": "as veins."},
+    "blood_chamber":   {"z": 1.61,  "c": 1575, "alpha": 0.15, "bs_db": -50, "speck": 0.0, "spec_sigma_deg": 20, "diffuse": 0.25, "status": "owner_supplied",    "src": ["duck1990", "textbook_us"], "note": "as veins."},
+    "soft_unassigned": {"z": 1.60,  "c": 1540, "alpha": 0.7,  "bs_db": -6,  "speck": 0.8, "spec_sigma_deg": 20, "diffuse": 0.30, "status": "assumption",        "src": ["duck1990"], "note": "generic soft tissue (~1.6 MRayl, owner), structures the mapping rules could not name."}
+  },
+  "textures": {
+    "muscle": {"cell_mm": 3.2, "line_mm": 0.35, "gain": 5.0, "note": "perimysium: bright network (Worley F2-F1 lines) in the cross-section perpendicular to the muscle's PCA axis, extruded along it. Longitudinal planes show parallel bright striations, transverse planes a 'starry night' network. Synthetic, documented class texture."},
+    "tendon": {"fib_mm": 0.45, "gain": 2.5, "note": "tendon: fine parallel fibrillar lines along the PCA axis (hyperechoic), modulated by the anisotropy factor."}
+  },
+  "artefacts": {
+    "reverb": {"r_min": 0.4, "levels_db": [-12, -22], "note": "equidistant repeats (A-lines) behind any reflector with R >= 0.4 (air, lung), at 2x and 3x its depth; a simplified reverberation between probe face and reflector."},
+    "shadow": "emerges from the transmission loss (1-R) at the interface plus the high attenuation of bone / lung / air; there is no separate 'shadow switch'.",
+    "enhancement": "emerges from the fixed TGC (nominal alpha) versus the lower real attenuation of fluid.",
+    "not_modelled": ["refraction / edge shadowing", "speed-of-sound displacement", "side lobes and grating lobes", "mirror image", "multiple scattering", "elevation (slice-thickness) partial volume", "beam hardening of frequency-dependent attenuation", "gas in bowel", "Doppler (colour, spectral), elastography, harmonics", "probe pressure / tissue compression", "motion"]
+  }
+}

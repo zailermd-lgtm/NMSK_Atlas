@@ -1,0 +1,705 @@
+{
+ "page": "base_m",
+ "frame": {
+  "x_mid": -9.547918011776346e-15,
+  "half_gap": 3.52661331387809,
+  "y_top": -7.5633425650415775,
+  "y_bot": -38.22722171358816,
+  "z_front": 50.411934798199425,
+  "n": 64,
+  "zmax": 60.949
+ },
+ "structures": {
+  "tendinous_arch_levator_ani_l": {
+   "id": "tendinous_arch_levator_ani_l",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 482,
+    "pushed_out_of_bone": 0,
+    "min_signed_distance_mm": -0.76,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 424.8,
+    "volume_cm3": 0.4248,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "hip_bone_l",
+      "signed_distance_mm": 0.0
+     },
+     "end_b": {
+      "target": "hip_bone_l",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 75.5,
+    "straight_distance_mm": 75.5,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.085,
+     "organ_fraction_deeper_3mm": 0.037,
+     "top": {
+      "zan_pubo_analis_muscle_l": 36,
+      "zan_descending_colon": 18,
+      "gemellus_superior_l": 3,
+      "zan_iliococcygeus_muscle_l": 2
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 37.5,
+    "cross_section_mm": [
+     5.0,
+     5.0,
+     1.5
+    ]
+   },
+   "side": "l",
+   "name": "Tendinous arch of levator ani (left)",
+   "endpoints": {
+    "a": [
+     -28.7947900569861,
+     -16.503025703703752,
+     24.298429242517386
+    ],
+    "b": [
+     -42.54900628804075,
+     8.055170495607376,
+     -45.77184068810106
+    ]
+   }
+  },
+  "arcus_tendineus_fasciae_pelvis_l": {
+   "id": "arcus_tendineus_fasciae_pelvis_l",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 482,
+    "pushed_out_of_bone": 0,
+    "min_signed_distance_mm": -0.73,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 428.7,
+    "volume_cm3": 0.4287,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "hip_bone_l",
+      "signed_distance_mm": 0.0
+     },
+     "end_b": {
+      "target": "hip_bone_l",
+      "signed_distance_mm": -0.0
+     }
+    },
+    "length_mm": 76.2,
+    "straight_distance_mm": 76.2,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.376,
+     "organ_fraction_deeper_3mm": 0.212,
+     "top": {
+      "transversus_abdominis_l": 178,
+      "zan_urinary_bladder": 83,
+      "zan_iliococcygeus_muscle_l": 27,
+      "zan_descending_colon": 19
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 32.2,
+    "cross_section_mm": [
+     5.0,
+     5.0,
+     1.5
+    ]
+   },
+   "side": "l",
+   "name": "Arcus tendineus fasciae pelvis (left)",
+   "endpoints": {
+    "a": [
+     -20.80392155828301,
+     -28.48331035930088,
+     17.482629688826446
+    ],
+    "b": [
+     -42.54900628804075,
+     8.055170495607376,
+     -45.77184068810106
+    ]
+   }
+  },
+  "tendinous_arch_levator_ani_r": {
+   "id": "tendinous_arch_levator_ani_r",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 482,
+    "pushed_out_of_bone": 0,
+    "min_signed_distance_mm": -0.78,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 425.2,
+    "volume_cm3": 0.4252,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "hip_bone_r",
+      "signed_distance_mm": 0.0
+     },
+     "end_b": {
+      "target": "hip_bone_r",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 75.6,
+    "straight_distance_mm": 75.6,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.34,
+     "organ_fraction_deeper_3mm": 0.0,
+     "top": {
+      "obturator_externus_r": 130,
+      "zan_iliococcygeus_muscle_r": 22,
+      "external_oblique_r": 19,
+      "zan_pubococcygeus_muscle_r": 12
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 37.3,
+    "cross_section_mm": [
+     5.0,
+     5.0,
+     1.5
+    ]
+   },
+   "side": "r",
+   "name": "Tendinous arch of levator ani (right)",
+   "endpoints": {
+    "a": [
+     28.884837722439002,
+     -16.659016515652795,
+     24.313757385227795
+    ],
+    "b": [
+     42.59029147455522,
+     8.164466234086571,
+     -45.73828758617349
+    ]
+   }
+  },
+  "arcus_tendineus_fasciae_pelvis_r": {
+   "id": "arcus_tendineus_fasciae_pelvis_r",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 482,
+    "pushed_out_of_bone": 0,
+    "min_signed_distance_mm": -0.71,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 428.0,
+    "volume_cm3": 0.428,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "hip_bone_r",
+      "signed_distance_mm": 0.0
+     },
+     "end_b": {
+      "target": "hip_bone_r",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 76.1,
+    "straight_distance_mm": 76.1,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.272,
+     "organ_fraction_deeper_3mm": 0.272,
+     "top": {
+      "obturator_externus_r": 131,
+      "zan_corpus_cavernosum_of_penis": 80,
+      "zan_urinary_bladder": 46,
+      "external_oblique_r": 13
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 32.1,
+    "cross_section_mm": [
+     5.0,
+     5.0,
+     1.5
+    ]
+   },
+   "side": "r",
+   "name": "Arcus tendineus fasciae pelvis (right)",
+   "endpoints": {
+    "a": [
+     20.915800520166187,
+     -28.812525200386883,
+     17.114312270966312
+    ],
+    "b": [
+     42.59029147455522,
+     8.164466234086571,
+     -45.73828758617349
+    ]
+   }
+  },
+  "transverse_perineal_ligament": {
+   "id": "transverse_perineal_ligament",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 194,
+    "pushed_out_of_bone": 16,
+    "min_signed_distance_mm": -0.95,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 250.6,
+    "volume_cm3": 0.2506,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "hip_bone_l",
+      "signed_distance_mm": 0.0
+     },
+     "end_b": {
+      "target": "hip_bone_r",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 22.6,
+    "straight_distance_mm": 22.5,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.0,
+     "organ_fraction_deeper_3mm": 0.149,
+     "top": {
+      "zan_corpus_cavernosum_of_penis": 29
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 11.8,
+    "cross_section_mm": [
+     8.0,
+     8.0,
+     2.0
+    ]
+   },
+   "side": "m",
+   "name": "Transverse perineal ligament (of the pelvis)",
+   "endpoints": {
+    "a": [
+     -11.233268820843222,
+     -36.60010843439767,
+     36.16493891073514
+    ],
+    "b": [
+     11.307166807660792,
+     -36.38872260872096,
+     36.47370758034247
+    ]
+   }
+  },
+  "anococcygeal_ligament": {
+   "id": "anococcygeal_ligament",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 290,
+    "pushed_out_of_bone": 0,
+    "min_signed_distance_mm": -0.82,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 196.0,
+    "volume_cm3": 0.196,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "coccyx",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 8.7,
+    "straight_distance_mm": 8.6,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.497,
+     "organ_fraction_deeper_3mm": 0.0,
+     "top": {
+      "coccygeus_l": 87,
+      "coccygeus_r": 63
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 36.4,
+    "cross_section_mm": [
+     10.0,
+     10.0,
+     3.0
+    ]
+   },
+   "side": "m",
+   "name": "Anococcygeal ligament",
+   "endpoints": {
+    "a": [
+     -1.1758764823106342,
+     -30.989154525542578,
+     -67.85124922511393
+    ],
+    "b": [
+     1.0806562142366651,
+     -38.82133339436942,
+     -65.251
+    ]
+   }
+  },
+  "puboprostatic_ligament_l": {
+   "id": "puboprostatic_ligament_l",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 194,
+    "pushed_out_of_bone": 11,
+    "min_signed_distance_mm": -0.92,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 304.2,
+    "volume_cm3": 0.3042,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "hip_bone_l",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 17.8,
+    "straight_distance_mm": 17.7,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.701,
+     "organ_fraction_deeper_3mm": 0.0,
+     "top": {
+      "transversus_abdominis_l": 136,
+      "zan_iliococcygeus_muscle_l": 30,
+      "obturator_internus_l": 2
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 28.1,
+    "cross_section_mm": [
+     8.0,
+     8.0,
+     3.0
+    ]
+   },
+   "side": "l",
+   "name": "Puboprostatic ligament (left)",
+   "endpoints": {
+    "a": [
+     -15.552751399029498,
+     -29.86364453294809,
+     18.9674337170269
+    ],
+    "b": [
+     -9.263491187914854,
+     -35.45702090486,
+     3.3758685435263587
+    ]
+   }
+  },
+  "puboprostatic_ligament_r": {
+   "id": "puboprostatic_ligament_r",
+   "status": "ship",
+   "held": [],
+   "report": {
+    "vertices": 194,
+    "pushed_out_of_bone": 10,
+    "min_signed_distance_mm": -0.97,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 312.7,
+    "volume_cm3": 0.3127,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "hip_bone_r",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 18.2,
+    "straight_distance_mm": 18.2,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.211,
+     "organ_fraction_deeper_3mm": 0.0,
+     "top": {
+      "obturator_externus_r": 37,
+      "obturator_internus_r": 4
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 27.9,
+    "cross_section_mm": [
+     8.0,
+     8.0,
+     3.0
+    ]
+   },
+   "side": "r",
+   "name": "Puboprostatic ligament (right)",
+   "endpoints": {
+    "a": [
+     15.504435075522476,
+     -29.53717197871454,
+     19.292232837917147
+    ],
+    "b": [
+     9.312014648661023,
+     -35.00132051575494,
+     3.1285007248035406
+    ]
+   }
+  },
+  "patellar_ligament_l": {
+   "id": "patellar_ligament_l",
+   "status": "held",
+   "held": [
+    "length 25.3 mm outside the published range 30-60 mm (Aithal Padur 2021)"
+   ],
+   "report": {
+    "vertices": 290,
+    "pushed_out_of_bone": 1,
+    "min_signed_distance_mm": -0.35,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 2504.3,
+    "volume_cm3": 2.5043,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "patella_l",
+      "signed_distance_mm": 0.0
+     },
+     "end_b": {
+      "target": "tibia_l",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 25.3,
+    "straight_distance_mm": 24.6,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.166,
+     "organ_fraction_deeper_3mm": 0.0,
+     "top": {
+      "tibialis_anterior_l": 47,
+      "vastus_medialis_l": 1
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 1.6,
+    "cross_section_mm": [
+     23.714995361867707,
+     29.64374420233463,
+     5.0
+    ]
+   },
+   "side": "l",
+   "name": "Patellar ligament (left)",
+   "endpoints": {
+    "a": [
+     -87.118524784448,
+     -437.47701041904696,
+     10.46680527645272
+    ],
+    "b": [
+     -83.82223317633427,
+     -461.8868897049114,
+     9.913103344681378
+    ]
+   }
+  },
+  "patellar_ligament_r": {
+   "id": "patellar_ligament_r",
+   "status": "held",
+   "held": [
+    "length 25.4 mm outside the published range 30-60 mm (Aithal Padur 2021)"
+   ],
+   "report": {
+    "vertices": 290,
+    "pushed_out_of_bone": 1,
+    "min_signed_distance_mm": -0.34,
+    "vertices_deeper_1mm": 0,
+    "volume_mm3": 2519.4,
+    "volume_cm3": 2.5194,
+    "watertight": true,
+    "attachments": {
+     "end_a": {
+      "target": "patella_r",
+      "signed_distance_mm": 0.0
+     },
+     "end_b": {
+      "target": "tibia_r",
+      "signed_distance_mm": 0.0
+     }
+    },
+    "length_mm": 25.4,
+    "straight_distance_mm": 24.7,
+    "soft_overlap": {
+     "muscle_fraction_deeper_6mm": 0.114,
+     "organ_fraction_deeper_3mm": 0.0,
+     "top": {
+      "tibialis_anterior_r": 33
+     },
+     "z_filled_estimates_not_gated": {}
+    },
+    "skin_min_depth_mm": 2.0,
+    "cross_section_mm": [
+     23.714547258106364,
+     29.643184072632952,
+     5.0
+    ]
+   },
+   "side": "r",
+   "name": "Patellar ligament (right)",
+   "endpoints": {
+    "a": [
+     87.01192624947456,
+     -437.42387359102656,
+     10.522066049542335
+    ],
+    "b": [
+     83.82165281991163,
+     -461.92286496490715,
+     9.921604211657723
+    ]
+   }
+  }
+ },
+ "cards": {
+  "tendinous_arch_levator_ani_l": {
+   "name": "Tendinous arch of levator ani (left)",
+   "latin": "Arcus tendineus musculi levatoris ani sinister",
+   "side": "l",
+   "cat": "ligament",
+   "rec": {
+    "name": "Tendinous arch of levator ani (left)",
+    "latin": "Arcus tendineus musculi levatoris ani sinister",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Gray's Anatomy 1918 (20th ed., public domain), 'The Fascia and Muscles of the Pelvis' (levator ani: posterior surface of the superior ramus of the pubis, pelvic surface of the ischial spine and, between them, a thickened band of the obturator fascia); Terminologia Anatomica 'arcus tendineus musculi levatoris ani'; Kearney R, Sawhney R, DeLancey JOL. Obstet Gynecol 2004;104:168-73, doi 10.1097/01.AOG.0000128906.61529.6b, PMID 15229017",
+    "procedural_badge": "RULE-BASED (Q248): this tendinous arch of levator ani is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = posterior surface of the pubic body of the left hip bone, 22 mm lateral to the symphysial face at 25 mm above the subpubic angle (window +-6 x +-5 mm, posterior-most vertex); B = ischial spine of the left hip bone (most medial vertex of the posterior ischium -8-27 mm level, weighted toward y_top + 15 mm). Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 5.0 x 1.5 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 75.5 mm, cross-sectional area 5.9 mm2, volume 0.4248 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / 0.0 mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Gray's Anatomy 1918 (20th ed., public domain), 'The Fascia and Muscles of the Pelvis' (levator ani: posterior surface of the superior ramus of the pubis, pelvic surface of the ischial spine and, between them, a thickened band of the obturator fascia); Terminologia Anatomica 'arcus tendineus musculi levatoris ani'; Kearney R, Sawhney R, DeLancey JOL. Obstet Gynecol 2004;104:168-73, doi 10.1097/01.AOG.0000128906.61529.6b, PMID 15229017. An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "arcus_tendineus_fasciae_pelvis_l": {
+   "name": "Arcus tendineus fasciae pelvis (left)",
+   "latin": "Arcus tendineus fasciae pelvis sinister",
+   "side": "l",
+   "cat": "ligament",
+   "rec": {
+    "name": "Arcus tendineus fasciae pelvis (left)",
+    "latin": "Arcus tendineus fasciae pelvis sinister",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Terminologia Anatomica 'arcus tendineus fasciae pelvis'; DeLancey JOL. Am J Obstet Gynecol 1992;166:1717-28, PMID 1615980 (pubic bone to ischial spine); Stein TA, DeLancey JOL. Obstet Gynecol 2008;111:686-93, doi 10.1097/AOG.0b013e318163a9a5, PMID 18310372 (continuous with the perineal membrane at the pubis); length ~10 cm in the fixed female pelvis (Occelli et al. 2001, abstract only: plausibility range)",
+    "procedural_badge": "RULE-BASED (Q248): this arcus tendineus fasciae pelvis is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = posterior surface of the pubic body of the left hip bone, 12 mm lateral to the symphysial face at 14 mm above the subpubic angle (window +-6 x +-5 mm, posterior-most vertex); B = ischial spine of the left hip bone (most medial vertex of the posterior ischium -8-27 mm level, weighted toward y_top + 15 mm). Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 5.0 x 1.5 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 76.2 mm, cross-sectional area 5.9 mm2, volume 0.4287 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / -0.0 mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'arcus tendineus fasciae pelvis'; DeLancey JOL. Am J Obstet Gynecol 1992;166:1717-28, PMID 1615980 (pubic bone to ischial spine); Stein TA, DeLancey JOL. Obstet Gynecol 2008;111:686-93, doi 10.1097/AOG.0b013e318163a9a5, PMID 18310372 (continuous with the perineal membrane at the pubis); length ~10 cm in the fixed female pelvis (Occelli et al. 2001, abstract only: plausibility range). An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "tendinous_arch_levator_ani_r": {
+   "name": "Tendinous arch of levator ani (right)",
+   "latin": "Arcus tendineus musculi levatoris ani dexter",
+   "side": "r",
+   "cat": "ligament",
+   "rec": {
+    "name": "Tendinous arch of levator ani (right)",
+    "latin": "Arcus tendineus musculi levatoris ani dexter",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Gray's Anatomy 1918 (20th ed., public domain), 'The Fascia and Muscles of the Pelvis' (levator ani: posterior surface of the superior ramus of the pubis, pelvic surface of the ischial spine and, between them, a thickened band of the obturator fascia); Terminologia Anatomica 'arcus tendineus musculi levatoris ani'; Kearney R, Sawhney R, DeLancey JOL. Obstet Gynecol 2004;104:168-73, doi 10.1097/01.AOG.0000128906.61529.6b, PMID 15229017",
+    "procedural_badge": "RULE-BASED (Q248): this tendinous arch of levator ani is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = posterior surface of the pubic body of the right hip bone, 22 mm lateral to the symphysial face at 25 mm above the subpubic angle (window +-6 x +-5 mm, posterior-most vertex); B = ischial spine of the right hip bone (most medial vertex of the posterior ischium -8-27 mm level, weighted toward y_top + 15 mm). Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 5.0 x 1.5 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 75.6 mm, cross-sectional area 5.9 mm2, volume 0.4252 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / 0.0 mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Gray's Anatomy 1918 (20th ed., public domain), 'The Fascia and Muscles of the Pelvis' (levator ani: posterior surface of the superior ramus of the pubis, pelvic surface of the ischial spine and, between them, a thickened band of the obturator fascia); Terminologia Anatomica 'arcus tendineus musculi levatoris ani'; Kearney R, Sawhney R, DeLancey JOL. Obstet Gynecol 2004;104:168-73, doi 10.1097/01.AOG.0000128906.61529.6b, PMID 15229017. An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "arcus_tendineus_fasciae_pelvis_r": {
+   "name": "Arcus tendineus fasciae pelvis (right)",
+   "latin": "Arcus tendineus fasciae pelvis dexter",
+   "side": "r",
+   "cat": "ligament",
+   "rec": {
+    "name": "Arcus tendineus fasciae pelvis (right)",
+    "latin": "Arcus tendineus fasciae pelvis dexter",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Terminologia Anatomica 'arcus tendineus fasciae pelvis'; DeLancey JOL. Am J Obstet Gynecol 1992;166:1717-28, PMID 1615980 (pubic bone to ischial spine); Stein TA, DeLancey JOL. Obstet Gynecol 2008;111:686-93, doi 10.1097/AOG.0b013e318163a9a5, PMID 18310372 (continuous with the perineal membrane at the pubis); length ~10 cm in the fixed female pelvis (Occelli et al. 2001, abstract only: plausibility range)",
+    "procedural_badge": "RULE-BASED (Q248): this arcus tendineus fasciae pelvis is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = posterior surface of the pubic body of the right hip bone, 12 mm lateral to the symphysial face at 14 mm above the subpubic angle (window +-6 x +-5 mm, posterior-most vertex); B = ischial spine of the right hip bone (most medial vertex of the posterior ischium -8-27 mm level, weighted toward y_top + 15 mm). Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 5.0 x 1.5 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 76.1 mm, cross-sectional area 5.9 mm2, volume 0.428 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / 0.0 mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'arcus tendineus fasciae pelvis'; DeLancey JOL. Am J Obstet Gynecol 1992;166:1717-28, PMID 1615980 (pubic bone to ischial spine); Stein TA, DeLancey JOL. Obstet Gynecol 2008;111:686-93, doi 10.1097/AOG.0b013e318163a9a5, PMID 18310372 (continuous with the perineal membrane at the pubis); length ~10 cm in the fixed female pelvis (Occelli et al. 2001, abstract only: plausibility range). An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "transverse_perineal_ligament": {
+   "name": "Transverse perineal ligament (of the pelvis)",
+   "latin": "Ligamentum transversum perinei",
+   "side": "m",
+   "cat": "ligament",
+   "rec": {
+    "name": "Transverse perineal ligament (of the pelvis)",
+    "latin": "Ligamentum transversum perinei",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Terminologia Anatomica 'ligamentum transversum perinei'; Gray's Anatomy 1918 (public domain): the transverse ligament of the pelvis, a thickened band of the deep perineal fascia between the inferior pubic rami below the arcuate pubic ligament",
+    "procedural_badge": "RULE-BASED (Q248): this transverse perineal ligament is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A, B = surface of the left / right inferior pubic ramus nearest to a point 6 mm lateral to the symphysial face, 4 mm below the subpubic angle and 10 mm behind the anterior face. Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 8.0 x 2.0 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 22.6 mm, cross-sectional area 12.6 mm2, volume 0.2506 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / 0.0 mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'ligamentum transversum perinei'; Gray's Anatomy 1918 (public domain): the transverse ligament of the pelvis, a thickened band of the deep perineal fascia between the inferior pubic rami below the arcuate pubic ligament. An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "anococcygeal_ligament": {
+   "name": "Anococcygeal ligament",
+   "latin": "Ligamentum anococcygeum",
+   "side": "m",
+   "cat": "ligament",
+   "rec": {
+    "name": "Anococcygeal ligament",
+    "latin": "Ligamentum anococcygeum",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Terminologia Anatomica 'ligamentum anococcygeum'; Gray's Anatomy 1918 (public domain): from the tip of the coccyx to the anal canal (external anal sphincter)",
+    "procedural_badge": "RULE-BASED (Q248): this anococcygeal ligament is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = tip (lowest point) of the coccyx; B = posterior-most midline vertex of the external anal sphincter (external_anal_sphincter). Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 10.0 x 3.0 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 8.7 mm, cross-sectional area 23.6 mm2, volume 0.196 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / None mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'ligamentum anococcygeum'; Gray's Anatomy 1918 (public domain): from the tip of the coccyx to the anal canal (external anal sphincter). An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "puboprostatic_ligament_l": {
+   "name": "Puboprostatic ligament (left)",
+   "latin": "Ligamentum puboprostaticum sinister",
+   "side": "l",
+   "cat": "ligament",
+   "rec": {
+    "name": "Puboprostatic ligament (left)",
+    "latin": "Ligamentum puboprostaticum sinister",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Terminologia Anatomica 'ligamentum puboprostaticum' / 'ligamenta pubovesicalia'; Gray's Anatomy 1918 (public domain): posterior surface of the pubic body to the prostate (male) / bladder neck (female)",
+    "procedural_badge": "RULE-BASED (Q248): this puboprostatic ligament is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = posterior surface of the pubic body of the left hip bone, 8 mm lateral to the symphysial face, 35 % of the symphysial height above the subpubic angle; B = nearest vertex of the prostate (zan_prostate) to A. Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 8.0 x 3.0 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 17.8 mm, cross-sectional area 18.8 mm2, volume 0.3042 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / None mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'ligamentum puboprostaticum' / 'ligamenta pubovesicalia'; Gray's Anatomy 1918 (public domain): posterior surface of the pubic body to the prostate (male) / bladder neck (female). The organ end lies on the organ mesh of this page (not a bone). An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "puboprostatic_ligament_r": {
+   "name": "Puboprostatic ligament (right)",
+   "latin": "Ligamentum puboprostaticum dexter",
+   "side": "r",
+   "cat": "ligament",
+   "rec": {
+    "name": "Puboprostatic ligament (right)",
+    "latin": "Ligamentum puboprostaticum dexter",
+    "folder": "ligaments",
+    "region": "pelvis",
+    "source": "Terminologia Anatomica 'ligamentum puboprostaticum' / 'ligamenta pubovesicalia'; Gray's Anatomy 1918 (public domain): posterior surface of the pubic body to the prostate (male) / bladder neck (female)",
+    "procedural_badge": "RULE-BASED (Q248): this puboprostatic ligament is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = posterior surface of the pubic body of the right hip bone, 8 mm lateral to the symphysial face, 35 % of the symphysial height above the subpubic angle; B = nearest vertex of the prostate (zan_prostate) to A. Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 8.0 x 3.0 mm elliptical = MODELLING CHOICE (no published caliper found by a PubMed / web search in Q248). Length 18.2 mm, cross-sectional area 18.8 mm2, volume 0.3127 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / None mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'ligamentum puboprostaticum' / 'ligamenta pubovesicalia'; Gray's Anatomy 1918 (public domain): posterior surface of the pubic body to the prostate (male) / bladder neck (female). The organ end lies on the organ mesh of this page (not a bone). An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "patellar_ligament_l": {
+   "name": "Patellar ligament (left)",
+   "latin": "Ligamentum patellae sinister",
+   "side": "l",
+   "cat": "ligament",
+   "rec": {
+    "name": "Patellar ligament (left)",
+    "latin": "Ligamentum patellae sinister",
+    "folder": "ligaments",
+    "region": "knee",
+    "source": "Terminologia Anatomica 'ligamentum patellae'; Gray's Anatomy 1918 (public domain); Aithal Padur A et al. Surg Radiol Anat 2021;43:2039-46, doi 10.1007/s00276-021-02837-z, PMID 34570285 (length 4.8 / 4.6 cm mean right / left, range 3-6 cm, 50 limbs); Basso O, Johnson DP, Amis AA. Knee Surg Sports Traumatol Arthrosc 2001;9:2-5, doi 10.1007/s001670000133, PMID 11269580 (fibres converge toward the tibial attachment; patellar apex 39 +- 6 % of the tendon width from its medial edge)",
+    "procedural_badge": "RULE-BASED (Q248): this patellar ligament is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = patellar apex (lowest vertex of the left patella); B = tibial tuberosity (anterior-most vertex of the left tibia between 20 and 65 mm below the plateau); width at the patella = 85 % of the patellar width 15 mm above the apex, at most 30 mm (30 mm), narrowing to 80 % at the tuberosity (fibres converge distally). Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 29.64374420233463-23.714995361867707 x 5.0 mm elliptical = width = 85 % of the measured patellar width (max 30 mm), tapering to 80 % (Basso 2001: fibres converge distally); thickness 5 mm = MODELLING CHOICE (no value obtained from the cited papers). Length 25.3 mm, cross-sectional area 104.8 mm2, volume 2.5043 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / 0.0 mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'ligamentum patellae'; Gray's Anatomy 1918 (public domain); Aithal Padur A et al. Surg Radiol Anat 2021;43:2039-46, doi 10.1007/s00276-021-02837-z, PMID 34570285 (length 4.8 / 4.6 cm mean right / left, range 3-6 cm, 50 limbs); Basso O, Johnson DP, Amis AA. Knee Surg Sports Traumatol Arthrosc 2001;9:2-5, doi 10.1007/s001670000133, PMID 11269580 (fibres converge toward the tibial attachment; patellar apex 39 +- 6 % of the tendon width from its medial edge). An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  },
+  "patellar_ligament_r": {
+   "name": "Patellar ligament (right)",
+   "latin": "Ligamentum patellae dexter",
+   "side": "r",
+   "cat": "ligament",
+   "rec": {
+    "name": "Patellar ligament (right)",
+    "latin": "Ligamentum patellae dexter",
+    "folder": "ligaments",
+    "region": "knee",
+    "source": "Terminologia Anatomica 'ligamentum patellae'; Gray's Anatomy 1918 (public domain); Aithal Padur A et al. Surg Radiol Anat 2021;43:2039-46, doi 10.1007/s00276-021-02837-z, PMID 34570285 (length 4.8 / 4.6 cm mean right / left, range 3-6 cm, 50 limbs); Basso O, Johnson DP, Amis AA. Knee Surg Sports Traumatol Arthrosc 2001;9:2-5, doi 10.1007/s001670000133, PMID 11269580 (fibres converge toward the tibial attachment; patellar apex 39 +- 6 % of the tendon width from its medial edge)",
+    "procedural_badge": "RULE-BASED (Q248): this patellar ligament is NOT segmented from imaging and NOT a Z-Anatomy / atlas object: a band built from the bones of THIS page. Attachments: A = patellar apex (lowest vertex of the right patella); B = tibial tuberosity (anterior-most vertex of the right tibia between 20 and 65 mm below the plateau); width at the patella = 85 % of the patellar width 15 mm above the apex, at most 30 mm (30 mm), narrowing to 80 % at the tuberosity (fibres converge distally). Path: straight line between the attachments pushed out of the bones (clearance half the thickness + 0.3 mm) and smoothed. Cross-section 29.643184072632952-23.714547258106364 x 5.0 mm elliptical = width = 85 % of the measured patellar width (max 30 mm), tapering to 80 % (Basso 2001: fibres converge distally); thickness 5 mm = MODELLING CHOICE (no value obtained from the cited papers). Length 25.4 mm, cross-sectional area 104.8 mm2, volume 2.5194 cm3 (closed mesh). End-cap centres lie on the attachment surfaces (signed distance 0.0 / 0.0 mm; no vertex deeper than 1 mm inside a bone after the push-out: 0). Attachment description: Terminologia Anatomica 'ligamentum patellae'; Gray's Anatomy 1918 (public domain); Aithal Padur A et al. Surg Radiol Anat 2021;43:2039-46, doi 10.1007/s00276-021-02837-z, PMID 34570285 (length 4.8 / 4.6 cm mean right / left, range 3-6 cm, 50 limbs); Basso O, Johnson DP, Amis AA. Knee Surg Sports Traumatol Arthrosc 2001;9:2-5, doi 10.1007/s001670000133, PMID 11269580 (fibres converge toward the tibial attachment; patellar apex 39 +- 6 % of the tendon width from its medial edge). An estimate of position: the exact fibre course and thickness of this structure are not resolved by CT or the cryosections."
+   }
+  }
+ }
+}

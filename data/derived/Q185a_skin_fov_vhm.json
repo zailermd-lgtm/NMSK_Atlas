@@ -1,0 +1,156 @@
+{
+ "_README": [
+  "Q185a: badge HIS skin record with the CT field-of-view cut (no skin is made up beyond it).",
+  "",
+  "    python3 scripts/vhm_skin_fov_q185a.py measure [--sweep data/derived/Q185a_sweep_vhm.json]  # -> data/derived/Q185a_skin_fov_vhm.json",
+  "    python3 scripts/vhm_skin_fov_q185a.py stamp                                                 # badge build/vh/ct_vhm_skin (rebuild step)",
+  "",
+  "His skin (ct_vhm_skin, scripts/cryo/vhm_whole_body_skin.py) is surfaced from his CT blocks, whose transverse field of view",
+  "ends at atlas x = -233.4 / +246.6 mm: the surface is closed by flat caps there, and whatever of his arms lies beyond is",
+  "not covered. The placement sweep (scripts/placement_sweep_q185.py) now counts vertices beyond those planes (1 mm inside",
+  "the skin's own x extent) as \"skin unknown\", not \"outside skin\". `measure` lists the records of his bundle that have",
+  "any vertex there (from a sweep report), grouped by region; `stamp` writes the badge onto the skin record's manifest."
+ ],
+ "skin_x_extent_mm": [
+  -233.4,
+  246.6
+ ],
+ "fov_planes_mm": [
+  -232.4,
+  245.6
+ ],
+ "cap_y_range_mm": {
+  "left_x_min": [
+   163.5,
+   585.5
+  ],
+  "right_x_max": [
+   173.5,
+   587.7
+  ]
+ },
+ "n_records_beyond": 19,
+ "by_region": {
+  "muscle": [
+   {
+    "id": "extensor_carpi_radialis_longus_l",
+    "skin_unknown_frac": 0.5073,
+    "outside_skin_frac_incl_fov": 0.3565,
+    "outside_skin_frac": 0.0
+   },
+   {
+    "id": "supinator_r",
+    "skin_unknown_frac": 0.4308,
+    "outside_skin_frac_incl_fov": 0.4076,
+    "outside_skin_frac": 0.0
+   },
+   {
+    "id": "extensor_carpi_radialis_brevis_l",
+    "skin_unknown_frac": 0.4278,
+    "outside_skin_frac_incl_fov": 0.3147,
+    "outside_skin_frac": 0.0
+   },
+   {
+    "id": "pronator_teres_l",
+    "skin_unknown_frac": 0.1954,
+    "outside_skin_frac_incl_fov": 0.0983,
+    "outside_skin_frac": 0.0011
+   },
+   {
+    "id": "extensor_carpi_ulnaris_r",
+    "skin_unknown_frac": 0.1579,
+    "outside_skin_frac_incl_fov": 0.0356,
+    "outside_skin_frac": 0.0242
+   },
+   {
+    "id": "supinator_l",
+    "skin_unknown_frac": 0.1501,
+    "outside_skin_frac_incl_fov": 0.1189,
+    "outside_skin_frac": 0.0
+   },
+   {
+    "id": "extensor_digiti_minimi_r",
+    "skin_unknown_frac": 0.0417,
+    "outside_skin_frac_incl_fov": 0.0213,
+    "outside_skin_frac": 0.0186
+   },
+   {
+    "id": "extensor_carpi_radialis_brevis_r",
+    "skin_unknown_frac": 0.0267,
+    "outside_skin_frac_incl_fov": 0.0394,
+    "outside_skin_frac": 0.0337
+   },
+   {
+    "id": "brachioradialis_l",
+    "skin_unknown_frac": 0.0153,
+    "outside_skin_frac_incl_fov": 0.0276,
+    "outside_skin_frac": 0.0276
+   },
+   {
+    "id": "flexor_digitorum_superficialis_l",
+    "skin_unknown_frac": 0.0109,
+    "outside_skin_frac_incl_fov": 0.0,
+    "outside_skin_frac": 0.0
+   },
+   {
+    "id": "flexor_carpi_ulnaris_l",
+    "skin_unknown_frac": 0.0052,
+    "outside_skin_frac_incl_fov": 0.0045,
+    "outside_skin_frac": 0.0041
+   },
+   {
+    "id": "extensor_carpi_radialis_longus_r",
+    "skin_unknown_frac": 0.0048,
+    "outside_skin_frac_incl_fov": 0.0641,
+    "outside_skin_frac": 0.0619
+   }
+  ],
+  "bone": [
+   {
+    "id": "ulna_r",
+    "skin_unknown_frac": 0.2825,
+    "outside_skin_frac_incl_fov": 0.2691,
+    "outside_skin_frac": 0.0014
+   },
+   {
+    "id": "ulna_l",
+    "skin_unknown_frac": 0.2702,
+    "outside_skin_frac_incl_fov": 0.2501,
+    "outside_skin_frac": 0.002
+   },
+   {
+    "id": "humerus_l",
+    "skin_unknown_frac": 0.2176,
+    "outside_skin_frac_incl_fov": 0.2335,
+    "outside_skin_frac": 0.018
+   },
+   {
+    "id": "humerus_r",
+    "skin_unknown_frac": 0.1998,
+    "outside_skin_frac_incl_fov": 0.2176,
+    "outside_skin_frac": 0.0201
+   },
+   {
+    "id": "radius_r",
+    "skin_unknown_frac": 0.0849,
+    "outside_skin_frac_incl_fov": 0.0795,
+    "outside_skin_frac": 0.0
+   },
+   {
+    "id": "radius_l",
+    "skin_unknown_frac": 0.0113,
+    "outside_skin_frac_incl_fov": 0.0089,
+    "outside_skin_frac": 0.0
+   }
+  ],
+  "fascia": [
+   {
+    "id": "interosseous_membrane_forearm_r",
+    "skin_unknown_frac": 0.0888,
+    "outside_skin_frac_incl_fov": 0.0181,
+    "outside_skin_frac": 0.0007
+   }
+  ]
+ },
+ "sweep": "data/derived/Q185a_sweep_vhm.json"
+}

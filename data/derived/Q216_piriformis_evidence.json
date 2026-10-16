@@ -1,0 +1,99 @@
+{
+ "label_files_checked": 52,
+ "labels_checked": 639,
+ "piriformis_labels_found": [],
+ "septa_labels_51_to_57_muscles_listed": null,
+ "window_y_mm": [
+  -420.0,
+  40.0
+ ],
+ "sides": {
+  "piriformis_r": {
+   "subject": "xfer_vhm2vhf",
+   "volume_cm3": 59.2,
+   "y_range_mm": [
+    10.0,
+    62.8
+   ],
+   "share_inside_photographed_window": 0.62,
+   "q213_volumes_cm3": {
+    "vhf": 59.2,
+    "zan_f": 44.6,
+    "zbase_f": 30.9,
+    "vhm": 57.8
+   },
+   "q213_own_q204": {
+    "inside_bone_pct": 0.73,
+    "outside_skin_pct": 0.0,
+    "overlap_pct": 10.4,
+    "islands": 1,
+    "flat_caps": []
+   },
+   "q213_own_defects": [
+    [
+     "end_off_bone",
+     2,
+     "dist end lies 15.88 mm from the nearest bone and 23.3 mm from any tendon/ligament/fascia/cartilage"
+    ]
+   ]
+  },
+  "piriformis_l": {
+   "subject": "xfer_vhm2vhf",
+   "volume_cm3": 42.7,
+   "y_range_mm": [
+    3.0,
+    55.8
+   ],
+   "share_inside_photographed_window": 0.68,
+   "q213_volumes_cm3": {
+    "vhf": 42.7,
+    "zan_f": 43.4,
+    "zbase_f": 30.9,
+    "vhm": 40.7
+   },
+   "q213_own_q204": {
+    "inside_bone_pct": 1.02,
+    "outside_skin_pct": 0.0,
+    "overlap_pct": 37.0,
+    "islands": 1,
+    "flat_caps": []
+   },
+   "q213_own_defects": [
+    [
+     "end_off_bone",
+     2,
+     "prox end lies 17.19 mm from the nearest bone and 24.8 mm from any tendon/ligament/fascia/cartilage"
+    ]
+   ]
+  }
+ },
+ "q48_septa_labels": 57,
+ "q48_septa_has_piriformis": false,
+ "photographed_tissue_share_of_mesh": {
+  "piriformis_r": {
+   "voxels": 41199,
+   "musc": 0.537,
+   "non_muscle": 0.463,
+   "unknown": 0.0
+  },
+  "piriformis_l": {
+   "voxels": 34453,
+   "musc": 0.31,
+   "non_muscle": 0.69,
+   "unknown": 0.0
+  },
+  "obturator_internus_r": {
+   "voxels": 47442,
+   "musc": 0.581,
+   "non_muscle": 0.419,
+   "unknown": 0.0
+  },
+  "obturator_internus_l": {
+   "voxels": 52337,
+   "musc": 0.446,
+   "non_muscle": 0.554,
+   "unknown": 0.0
+  }
+ },
+ "conclusion": "No piriformis class exists in any of her label sets (TotalSegmentator total, the Q48 septa volume, her pelvic-floor volume, other vhf_* keys), the Q48 septa watershed has no piriformis marker, and only part of the muscle lies inside the photographed window; no evidence of her own was reached -> piriformis r / l are left as the male-carried meshes (class TRANSFERRED, male size unscaled) and recorded."
+}

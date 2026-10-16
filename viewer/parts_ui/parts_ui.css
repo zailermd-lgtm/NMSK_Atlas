@@ -1,0 +1,91 @@
+#pm-layer,#pm-card,#pm-panel,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
+#pm-layer{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:21;overflow:hidden}
+#pm-layer .pm{position:absolute;left:0;top:0;width:0;height:0;padding:0;margin:0;border:0;background:none;pointer-events:none;overflow:visible;font:600 11px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--pm-ink)}
+#pm-layer .pm[hidden]{display:none}
+#pm-layer .pm .pm-ring{position:absolute;left:-8px;top:-8px;width:16px;height:16px;box-sizing:border-box;border-radius:50%;border:2px solid var(--pm-rule);background:rgba(255,255,255,.10);pointer-events:auto;cursor:pointer;opacity:.6}
+#pm-layer .pm.pm-z .pm-ring{border-color:var(--pm-zfill)}
+#pm-layer .pm.pm-sel .pm-ring{opacity:.95;background:rgba(255,255,255,.18);left:-11px;top:-11px;width:22px;height:22px}
+#pm-layer .pm.pm-focus .pm-ring{opacity:1;border-width:3px;left:-14px;top:-14px;width:28px;height:28px;box-shadow:0 0 0 2px var(--pm-bg)}
+#pm-layer .pm .pm-ring:hover{opacity:1}
+#pm-layer .pm .pm-lab{position:absolute;left:15px;top:-9px;white-space:nowrap;padding:1px 5px;border-radius:4px;background:var(--pm-bg);border:1px solid var(--pm-line);color:var(--pm-ink);display:none;pointer-events:none;max-width:240px;overflow:hidden;text-overflow:ellipsis}
+#pm-layer .pm.pm-lab-on .pm-lab{display:block}
+#pm-layer .pm-err{position:absolute;left:0;top:0;border:1.5px dashed var(--pm-rule);border-radius:50%;pointer-events:none;box-sizing:border-box;opacity:.85}
+#pm-layer .pm-err.pm-z{border-color:var(--pm-zfill)}
+#pm-layer .pm-err[hidden]{display:none}
+body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
+@media (hover:none){#pm-layer .pm .pm-ring,#pm-layer .pm.pm-sel .pm-ring{left:-14px;top:-14px;width:28px;height:28px}}
+@media (max-width:560px){#t-parts .pm-more{display:none}}
+#pm-card{position:fixed;left:0;top:0;z-index:46;box-sizing:border-box;width:min(318px,calc(100vw - 16px));max-height:min(60vh,420px);overflow-y:auto;padding:9px 11px 10px;border-radius:9px;
+  background:var(--pm-bg);color:var(--pm-ink);border:1px solid var(--pm-line);box-shadow:0 8px 28px rgba(0,0,0,.25);font:12px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;pointer-events:auto}
+#pm-card[hidden]{display:none}
+#pm-card .pm-ch{display:flex;gap:6px;align-items:flex-start}
+#pm-card .pm-ch b{flex:1;font-size:13px;line-height:1.25}
+#pm-card .pm-x{flex:none;border:0;background:none;color:var(--pm-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#pm-card .pm-cs{margin:6px 0 4px;font-size:11.5px}
+#pm-card .pm-cls{display:inline-block;padding:1px 7px;border-radius:99px;font-weight:700;font-size:10.5px;color:#111;margin-right:4px}
+#pm-card .pm-cls-rule_based{background:var(--pm-rule)}
+#pm-card .pm-cls-z_fill{background:var(--pm-zfill);color:#fff}
+#pm-card dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 9px;margin:4px 0 0}
+#pm-card dt{color:var(--pm-dim)}
+#pm-card dd{margin:0;overflow-wrap:anywhere}
+#pm-card small{color:var(--pm-dim);font-size:10.5px}
+#pm-card .pm-not{margin:6px 0 0;padding:5px 7px;border-left:3px solid var(--pm-warn);background:var(--pm-sunk);font-size:11px}
+#pm-card a,.pm-sec a{color:var(--pm-accent)}
+#pm-card .pm-ref{display:block}
+.pm-sec{padding:12px 14px;border-bottom:1px solid var(--pm-line);color:var(--pm-ink)}
+.pm-sec summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.pm-sec summary::-webkit-details-marker{display:none}
+.pm-sec summary::before{content:"\25B8";color:var(--pm-dim);font-size:11px}
+.pm-sec details[open]>summary::before{content:"\25BE"}
+.pm-sec .pm-eb{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pm-dim)}
+.pm-sec .pm-n{font-size:11px;color:var(--pm-dim)}
+.pm-sec .pm-top{margin:6px 0;font-size:11px;line-height:1.45;color:var(--pm-dim)}
+.pm-sec .pm-set{margin:6px 0;padding:6px 8px;border-left:3px solid var(--pm-warn);background:var(--pm-sunk);font-size:11.5px;line-height:1.45}
+.pm-sec .pm-set details{margin-top:3px;font-size:11px;color:var(--pm-dim)}
+.pm-sec .pm-set details summary{display:block;cursor:pointer}
+.pm-sec .pm-set details summary::before{content:""}
+.pm-sec .pm-row{padding:7px 8px;margin:5px 0;border:1px solid var(--pm-line);border-radius:7px;cursor:pointer;background:transparent}
+.pm-sec .pm-row:hover{border-color:var(--pm-accent)}
+.pm-sec .pm-row.pm-on{border-color:var(--pm-accent);box-shadow:inset 3px 0 0 var(--pm-accent)}
+.pm-sec .pm-r1{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.pm-sec .pm-nm{font-size:12.5px;font-weight:700}
+.pm-sec .pm-ty,.pm-sec .pm-unv,.pm-sec .pm-pl{display:inline-block;padding:0 6px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.02em;border:1px solid currentColor;white-space:nowrap}
+.pm-sec .pm-ty-head_belly{color:#2f7fbf}
+.pm-sec .pm-ty-origin_part{color:#b57a00}
+.pm-sec .pm-ty-insertion_point{color:#c2410c}
+.pm-sec .pm-ty-ligament_component{color:#6b8e23}
+.pm-sec .pm-ty-muscle_tendon_junction{color:#8e44ad}
+.pm-sec .pm-ty-fascial_passage{color:#13827a}
+.pm-sec .pm-unv{color:var(--pm-warn);background:var(--pm-sunk)}
+.pm-sec .pm-pl{color:var(--pm-dim)}
+.pm-sec .pm-d{margin:3px 0 0;font-size:12px;line-height:1.45}
+.pm-sec .pm-meta,.pm-sec .pm-c,.pm-sec .pm-un{margin:3px 0 0;font-size:10.5px;line-height:1.45;color:var(--pm-dim)}
+.pm-sec .pm-un{color:var(--pm-warn)}
+.pm-sec .pm-ref{display:block}
+.pm-sec .pm-msg{margin:4px 0 0;font-size:11px;font-weight:600;color:var(--pm-accent)}
+.pm-sec .pm-msg:empty{display:none}
+.pm-sec .pm-msg.pm-t{color:var(--pm-dim)}
+#pm-layer .pm.pm-behind .pm-ring{border-style:dashed;opacity:.95;background:rgba(255,255,255,.28);box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-rule)}
+#pm-layer .pm.pm-behind.pm-z .pm-ring{box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-zfill)}
+#pm-layer .pm.pm-behind .pm-lab::after{content:" \00b7  behind tissue";font-weight:500;color:var(--pm-dim)}
+#pm-panel{position:fixed;left:12px;top:60px;z-index:47;box-sizing:border-box;width:min(292px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:8px 10px 9px;border-radius:9px;
+  background:var(--pm-bg);color:var(--pm-ink);border:1px solid var(--pm-line);box-shadow:0 8px 24px rgba(0,0,0,.22);font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto}
+#pm-panel[hidden]{display:none}
+#pm-panel .pp-h{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+#pm-panel .pp-h b{font-size:13px}
+#pm-panel .pp-st{flex:1;color:var(--pm-dim);font-size:11px;text-align:right}
+#pm-panel .pp-x{border:0;background:none;color:var(--pm-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#pm-panel .pp-l{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pm-dim)}
+#pm-panel output{float:right;font-variant-numeric:tabular-nums;color:var(--pm-ink);font-weight:600;text-transform:none;letter-spacing:0}
+#pm-panel .pp-seg{display:flex;gap:4px;flex-wrap:wrap}
+#pm-panel .pp-seg button{flex:1 1 auto;font:inherit;font-size:11.5px;color:var(--pm-ink);background:transparent;border:1px solid var(--pm-line);border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#pm-panel .pp-seg button[hidden]{display:none}
+#pm-panel .pp-seg button[aria-pressed="true"]{background:var(--pm-accent);color:#fff;border-color:var(--pm-accent)}
+#pm-panel input[type=range]{display:block;width:100%;margin:2px 0 0;height:26px;accent-color:var(--pm-accent);touch-action:pan-y}
+#pm-panel .pp-sc{display:flex;justify-content:space-between;font-size:10px;color:var(--pm-dim);margin-bottom:4px}
+#pm-panel .pp-c{display:flex;align-items:center;gap:6px;margin:3px 0;font-size:11.5px;cursor:pointer}
+#pm-panel .pp-c input{width:16px;height:16px;accent-color:var(--pm-accent)}
+#pm-panel .pp-hint{margin:3px 0 0;font-size:11px;font-weight:600;color:var(--pm-accent)}
+#pm-panel .pp-hint:empty{display:none}
+#pm-panel .pp-help{margin:5px 0 0;font-size:10.5px;line-height:1.4;color:var(--pm-dim)}
+@media (hover:none){#pm-panel .pp-seg button{min-height:38px;font-size:13px}#pm-panel input[type=range]{height:34px}}

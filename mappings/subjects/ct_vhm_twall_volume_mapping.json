@@ -1,0 +1,42 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhm_twall",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_trunk_wall.nii.gz",
+ "label_map": "vhm_trunk_wall",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "diaphragm",
+   "side": null,
+   "status": "curated",
+   "atlas_id": "diaphragm",
+   "relationship": "exact",
+   "note": "338.4 cm3; rule-based (see _README of the label key)",
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "intercostals_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "external_intercostals_r",
+   "relationship": "part_of",
+   "note": "306.9 cm3; rule-based (see _README of the label key); one sheet standing for all three intercostal layers",
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "intercostals_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "external_intercostals_l",
+   "relationship": "part_of",
+   "note": "306.7 cm3; rule-based (see _README of the label key); one sheet standing for all three intercostal layers",
+   "candidates": []
+  }
+ ]
+}

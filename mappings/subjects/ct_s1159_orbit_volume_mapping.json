@@ -1,0 +1,202 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_s1159_orbit",
+  "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/s1159_ts/oculomotor_muscles.nii.gz",
+  "label_map": "totalsegmentator_oculomotor_muscles",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "skull",
+      "side": null,
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Also produced by craniofacial_structures, which is the task mapped onto 'cranium'; not mapped twice.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "eyeball_right",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "No eyeball entity in this atlas. Candidate for authoring.",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "lateral_rectus_muscle_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "lateral_rectus_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "superior_oblique_muscle_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "superior_oblique_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "levator_palpebrae_superioris_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "levator_palpebrae_superioris_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 6,
+      "source_structure": "superior_rectus_muscle_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "superior_rectus_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 7,
+      "source_structure": "medial_rectus_muscle_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "medial_rectus_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 8,
+      "source_structure": "inferior_oblique_muscle_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "inferior_oblique_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 9,
+      "source_structure": "inferior_rectus_muscle_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "inferior_rectus_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 10,
+      "source_structure": "optic_nerve_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "optic_n",
+      "relationship": "part_of",
+      "note": "The atlas carries the optic nerve as one unsided entity.",
+      "candidates": []
+    },
+    {
+      "label": 11,
+      "source_structure": "eyeball_left",
+      "side": "left",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "No eyeball entity in this atlas. Candidate for authoring.",
+      "candidates": []
+    },
+    {
+      "label": 12,
+      "source_structure": "lateral_rectus_muscle_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "lateral_rectus_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 13,
+      "source_structure": "superior_oblique_muscle_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "superior_oblique_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 14,
+      "source_structure": "levator_palpebrae_superioris_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "levator_palpebrae_superioris_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 15,
+      "source_structure": "superior_rectus_muscle_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "superior_rectus_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 16,
+      "source_structure": "medial_rectus_muscle_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "medial_rectus_r",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 17,
+      "source_structure": "inferior_oblique_muscle_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "inferior_oblique_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 18,
+      "source_structure": "inferior_rectus_muscle_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "inferior_rectus_l",
+      "relationship": "exact",
+      "note": null,
+      "candidates": []
+    },
+    {
+      "label": 19,
+      "source_structure": "optic_nerve_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "optic_n",
+      "relationship": "part_of",
+      "note": "The atlas carries the optic nerve as one unsided entity.",
+      "candidates": []
+    }
+  ]
+}

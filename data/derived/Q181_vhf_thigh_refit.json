@@ -1,0 +1,3384 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): her colour cryosections at full resolution (0.33 mm, NCI Imaging Data Commons) re-streamed by scripts/cryo/vhm_stream_leg_crops.py --body vhf and registered to her CT femur (Q179); her CT bones and CT muscles (VH female CT, TotalSegmentator labels); her thigh muscles = the male's (DU lower-extremity release, Andreassen TE et al., Sci Data 10:34 (2023), CC BY 4.0) transferred onto her and refined to her septa (Q48); her tracked outlines Q53/Q55/Q56 (Q179 candidates). Derived data (scripts/cryo/vhf_thigh_refit_q181.py).",
+ "task": "Q181: her Q48 thigh-muscle boundaries re-fitted on the femur-registered photographs (bone / CT-muscle surfaces held); her tracked outlines to the Q179 registered + clipped + interpolated candidates; bounded Q177 snap",
+ "measure_fullres": {
+  "muscles": {
+   "adductor_brevis_l": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix_mesh",
+    "volume_cm3_mesh": [
+     119.62,
+     116.71
+    ],
+    "volume_change_pct_mesh": -2.44,
+    "volume_change_pct_voxels": -1.45,
+    "photo_share_her_rule": [
+     {
+      "levels": 11,
+      "on_photographed_muscle": 0.6594
+     },
+     {
+      "levels": 11,
+      "on_photographed_muscle": 0.7463
+     }
+    ],
+    "bone_beyond_1mm": [
+     968,
+     965
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 512,
+       "max_depth_mm": 5.4
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.48
+      },
+      "hip_bone_l": {
+       "beyond_1mm": 456,
+       "max_depth_mm": 5.58
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 513,
+       "max_depth_mm": 5.4
+      },
+      "hip_bone_l": {
+       "beyond_1mm": 452,
+       "max_depth_mm": 5.58
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 18.52,
+     "p95_mm": 11.31,
+     "moved_gt_1mm_frac": 0.8414
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "3 stray fragment(s) (0.0 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "adductor_brevis_r": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     141.81,
+     140.7
+    ],
+    "volume_change_pct_mesh": -0.79,
+    "volume_change_pct_voxels": -0.25,
+    "photo_share_her_rule": [
+     {
+      "levels": 11,
+      "on_photographed_muscle": 0.69
+     },
+     {
+      "levels": 11,
+      "on_photographed_muscle": 0.6714
+     }
+    ],
+    "bone_beyond_1mm": [
+     493,
+     493
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 76,
+       "max_depth_mm": 2.45
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 417,
+       "max_depth_mm": 5.62
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 76,
+       "max_depth_mm": 2.45
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 417,
+       "max_depth_mm": 5.62
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 9.57,
+     "p95_mm": 4.38,
+     "moved_gt_1mm_frac": 0.7391
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "adductor_longus_l": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     132.29,
+     124.27
+    ],
+    "volume_change_pct_mesh": -6.06,
+    "volume_change_pct_voxels": -3.81,
+    "photo_share_her_rule": [
+     {
+      "levels": 19,
+      "on_photographed_muscle": 0.3887
+     },
+     {
+      "levels": 16,
+      "on_photographed_muscle": 0.6503
+     }
+    ],
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_per_bone": {
+     "before": {},
+     "after": {}
+    },
+    "surface_move": {
+     "max_mm": 24.13,
+     "p95_mm": 11.7,
+     "moved_gt_1mm_frac": 0.8376
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "12 stray fragment(s) (1.0 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "adductor_longus_r": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     150.36,
+     151.47
+    ],
+    "volume_change_pct_mesh": 0.74,
+    "volume_change_pct_voxels": 1.27,
+    "photo_share_her_rule": [
+     {
+      "levels": 19,
+      "on_photographed_muscle": 0.5191
+     },
+     {
+      "levels": 19,
+      "on_photographed_muscle": 0.5256
+     }
+    ],
+    "bone_beyond_1mm": [
+     17,
+     17
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 17,
+       "max_depth_mm": 2.42
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 17,
+       "max_depth_mm": 2.42
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 11.57,
+     "p95_mm": 4.93,
+     "moved_gt_1mm_frac": 0.7551
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "adductor_magnus_l": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     625.84,
+     613.93
+    ],
+    "volume_change_pct_mesh": -1.9,
+    "volume_change_pct_voxels": -1.65,
+    "photo_share_her_rule": [
+     {
+      "levels": 25,
+      "on_photographed_muscle": 0.7327
+     },
+     {
+      "levels": 25,
+      "on_photographed_muscle": 0.7034
+     }
+    ],
+    "bone_beyond_1mm": [
+     1894,
+     1910
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 572,
+       "max_depth_mm": 4.85
+      },
+      "hip_bone_l": {
+       "beyond_1mm": 1322,
+       "max_depth_mm": 8.56
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 588,
+       "max_depth_mm": 4.85
+      },
+      "hip_bone_l": {
+       "beyond_1mm": 1322,
+       "max_depth_mm": 8.56
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 26.24,
+     "p95_mm": 10.97,
+     "moved_gt_1mm_frac": 0.8113
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "adductor_magnus_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     680.05,
+     675.78
+    ],
+    "volume_change_pct_mesh": -0.63,
+    "volume_change_pct_voxels": -0.01,
+    "photo_share_her_rule": [
+     {
+      "levels": 25,
+      "on_photographed_muscle": 0.6986
+     },
+     {
+      "levels": 24,
+      "on_photographed_muscle": 0.6733
+     }
+    ],
+    "bone_beyond_1mm": [
+     2541,
+     2597
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 1058,
+       "max_depth_mm": 6.33
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 1483,
+       "max_depth_mm": 8.9
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 1112,
+       "max_depth_mm": 6.33
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 1485,
+       "max_depth_mm": 8.9
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 18.0,
+     "p95_mm": 5.3,
+     "moved_gt_1mm_frac": 0.6911
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "44 stray fragment(s) (0.3 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "biceps_femoris_l": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     259.21,
+     257.71
+    ],
+    "volume_change_pct_mesh": -0.58,
+    "volume_change_pct_voxels": 0.35,
+    "photo_share_her_rule": [
+     {
+      "levels": 33,
+      "on_photographed_muscle": 0.6707
+     },
+     {
+      "levels": 33,
+      "on_photographed_muscle": 0.6953
+     }
+    ],
+    "bone_beyond_1mm": [
+     895,
+     899
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 895,
+       "max_depth_mm": 5.91
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 899,
+       "max_depth_mm": 5.91
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 16.49,
+     "p95_mm": 10.1,
+     "moved_gt_1mm_frac": 0.8645
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "37 stray fragment(s) (0.5 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "biceps_femoris_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     332.4,
+     325.39
+    ],
+    "volume_change_pct_mesh": -2.11,
+    "volume_change_pct_voxels": -1.31,
+    "photo_share_her_rule": [
+     {
+      "levels": 33,
+      "on_photographed_muscle": 0.5349
+     },
+     {
+      "levels": 33,
+      "on_photographed_muscle": 0.6333
+     }
+    ],
+    "bone_beyond_1mm": [
+     251,
+     251
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 251,
+       "max_depth_mm": 3.81
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 251,
+       "max_depth_mm": 3.81
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 16.0,
+     "p95_mm": 7.12,
+     "moved_gt_1mm_frac": 0.8279
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "57 stray fragment(s) (0.9 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "gastrocnemius_l": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     370.6,
+     374.37
+    ],
+    "volume_change_pct_mesh": 1.02,
+    "volume_change_pct_voxels": 1.13,
+    "photo_share_her_rule": [
+     {
+      "levels": 6,
+      "on_photographed_muscle": 0.5832
+     },
+     {
+      "levels": 6,
+      "on_photographed_muscle": 0.5885
+     }
+    ],
+    "bone_beyond_1mm": [
+     1808,
+     1808
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 1052,
+       "max_depth_mm": 6.55
+      },
+      "tibia_l": {
+       "beyond_1mm": 648,
+       "max_depth_mm": 5.32
+      },
+      "fibula_l": {
+       "beyond_1mm": 108,
+       "max_depth_mm": 1.67
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 1052,
+       "max_depth_mm": 6.55
+      },
+      "tibia_l": {
+       "beyond_1mm": 648,
+       "max_depth_mm": 5.32
+      },
+      "fibula_l": {
+       "beyond_1mm": 108,
+       "max_depth_mm": 1.67
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 10.29,
+     "p95_mm": 3.89,
+     "moved_gt_1mm_frac": 0.1449
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "gastrocnemius_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     363.01,
+     361.15
+    ],
+    "volume_change_pct_mesh": -0.51,
+    "volume_change_pct_voxels": -0.41,
+    "photo_share_her_rule": [
+     {
+      "levels": 6,
+      "on_photographed_muscle": 0.598
+     },
+     {
+      "levels": 6,
+      "on_photographed_muscle": 0.5945
+     }
+    ],
+    "bone_beyond_1mm": [
+     1407,
+     1407
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 214,
+       "max_depth_mm": 4.22
+      },
+      "tibia_r": {
+       "beyond_1mm": 1137,
+       "max_depth_mm": 5.8
+      },
+      "fibula_r": {
+       "beyond_1mm": 56,
+       "max_depth_mm": 1.94
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 214,
+       "max_depth_mm": 4.22
+      },
+      "tibia_r": {
+       "beyond_1mm": 1137,
+       "max_depth_mm": 5.8
+      },
+      "fibula_r": {
+       "beyond_1mm": 56,
+       "max_depth_mm": 1.94
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 7.96,
+     "p95_mm": 2.41,
+     "moved_gt_1mm_frac": 0.1173
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "slice gaps bridged (1 mm max, 0.1 % of volume, Q152 rule)",
+     "34 stray fragment(s) (0.2 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "gracilis_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     68.92,
+     64.87
+    ],
+    "volume_change_pct_mesh": -5.88,
+    "volume_change_pct_voxels": -6.22,
+    "photo_share_her_rule": [
+     {
+      "levels": 26,
+      "on_photographed_muscle": 0.5101
+     },
+     {
+      "levels": 25,
+      "on_photographed_muscle": 0.4273
+     }
+    ],
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_per_bone": {
+     "before": {},
+     "after": {}
+    },
+    "surface_move": {
+     "max_mm": 13.47,
+     "p95_mm": 5.63,
+     "moved_gt_1mm_frac": 0.796
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "slice gaps bridged (4 mm max, 0.7 % of volume, Q152 rule)",
+     "34 stray fragment(s) (2.1 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "obturator_externus_l": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     113.84,
+     112.07
+    ],
+    "volume_change_pct_mesh": -1.56,
+    "volume_change_pct_voxels": -1.24,
+    "photo_share_her_rule": [
+     {
+      "levels": 4,
+      "on_photographed_muscle": 0.3619
+     },
+     {
+      "levels": 4,
+      "on_photographed_muscle": 0.3276
+     }
+    ],
+    "bone_beyond_1mm": [
+     5191,
+     5190
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 5,
+       "max_depth_mm": 1.08
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 2,
+       "max_depth_mm": 1.19
+      },
+      "hip_bone_l": {
+       "beyond_1mm": 5184,
+       "max_depth_mm": 10.51
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 5,
+       "max_depth_mm": 1.08
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 2,
+       "max_depth_mm": 1.19
+      },
+      "hip_bone_l": {
+       "beyond_1mm": 5183,
+       "max_depth_mm": 10.51
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 15.62,
+     "p95_mm": 6.49,
+     "moved_gt_1mm_frac": 0.3748
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "obturator_externus_r": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     104.23,
+     104.61
+    ],
+    "volume_change_pct_mesh": 0.36,
+    "volume_change_pct_voxels": 0.51,
+    "photo_share_her_rule": [
+     {
+      "levels": 4,
+      "on_photographed_muscle": 0.4215
+     },
+     {
+      "levels": 4,
+      "on_photographed_muscle": 0.4177
+     }
+    ],
+    "bone_beyond_1mm": [
+     4602,
+     4603
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 377,
+       "max_depth_mm": 3.2
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 4225,
+       "max_depth_mm": 10.14
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 378,
+       "max_depth_mm": 3.2
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 4225,
+       "max_depth_mm": 10.14
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 9.29,
+     "p95_mm": 2.97,
+     "moved_gt_1mm_frac": 0.2474
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "obturator_internus_l": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     140.82,
+     151.55
+    ],
+    "volume_change_pct_mesh": 7.62,
+    "volume_change_pct_voxels": 7.31,
+    "photo_share_her_rule": [
+     {
+      "levels": 9,
+      "on_photographed_muscle": 0.1933
+     },
+     {
+      "levels": 9,
+      "on_photographed_muscle": 0.1907
+     }
+    ],
+    "bone_beyond_1mm": [
+     357,
+     356
+    ],
+    "bone_per_bone": {
+     "before": {
+      "hip_bone_l": {
+       "beyond_1mm": 357,
+       "max_depth_mm": 4.32
+      }
+     },
+     "after": {
+      "hip_bone_l": {
+       "beyond_1mm": 356,
+       "max_depth_mm": 4.32
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 16.13,
+     "p95_mm": 7.11,
+     "moved_gt_1mm_frac": 0.483
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "plantaris_r": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     13.55,
+     13.31
+    ],
+    "volume_change_pct_mesh": -1.75,
+    "volume_change_pct_voxels": -0.12,
+    "photo_share_her_rule": [
+     {
+      "levels": 6,
+      "on_photographed_muscle": 0.5134
+     },
+     {
+      "levels": 6,
+      "on_photographed_muscle": 0.4572
+     }
+    ],
+    "bone_beyond_1mm": [
+     445,
+     445
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 445,
+       "max_depth_mm": 4.19
+      },
+      "tibia_r": {
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.75
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 445,
+       "max_depth_mm": 4.19
+      },
+      "tibia_r": {
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.75
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 8.74,
+     "p95_mm": 4.04,
+     "moved_gt_1mm_frac": 0.4256
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "popliteus_l": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     18.58,
+     18.58
+    ],
+    "volume_change_pct_mesh": 0.0,
+    "volume_change_pct_voxels": 0.07,
+    "photo_share_her_rule": [
+     {
+      "levels": 2,
+      "on_photographed_muscle": 0.1809
+     },
+     {
+      "levels": 2,
+      "on_photographed_muscle": 0.1809
+     }
+    ],
+    "bone_beyond_1mm": [
+     1846,
+     1846
+    ],
+    "bone_per_bone": {
+     "before": {
+      "tibia_l": {
+       "beyond_1mm": 1846,
+       "max_depth_mm": 4.15
+      },
+      "fibula_l": {
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.33
+      }
+     },
+     "after": {
+      "tibia_l": {
+       "beyond_1mm": 1846,
+       "max_depth_mm": 4.15
+      },
+      "fibula_l": {
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.33
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 2.75,
+     "p95_mm": 0.0,
+     "moved_gt_1mm_frac": 0.0055
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "slice gaps bridged (1 mm max, 0.2 % of volume, Q152 rule)",
+     "5 stray fragment(s) (0.2 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "popliteus_r": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     17.88,
+     17.83
+    ],
+    "volume_change_pct_mesh": -0.31,
+    "volume_change_pct_voxels": -0.27,
+    "photo_share_her_rule": [
+     {
+      "levels": 2,
+      "on_photographed_muscle": 0.2431
+     },
+     {
+      "levels": 2,
+      "on_photographed_muscle": 0.2431
+     }
+    ],
+    "bone_beyond_1mm": [
+     1294,
+     1294
+    ],
+    "bone_per_bone": {
+     "before": {
+      "tibia_r": {
+       "beyond_1mm": 1291,
+       "max_depth_mm": 3.71
+      },
+      "fibula_r": {
+       "beyond_1mm": 3,
+       "max_depth_mm": 1.35
+      }
+     },
+     "after": {
+      "tibia_r": {
+       "beyond_1mm": 1291,
+       "max_depth_mm": 3.71
+      },
+      "fibula_r": {
+       "beyond_1mm": 3,
+       "max_depth_mm": 1.35
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 1.79,
+     "p95_mm": 0.0,
+     "moved_gt_1mm_frac": 0.0039
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "quadratus_femoris_r": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     54.43,
+     57.92
+    ],
+    "volume_change_pct_mesh": 6.42,
+    "volume_change_pct_voxels": 6.74,
+    "photo_share_her_rule": [
+     {
+      "levels": 5,
+      "on_photographed_muscle": 0.3292
+     },
+     {
+      "levels": 5,
+      "on_photographed_muscle": 0.3193
+     }
+    ],
+    "bone_beyond_1mm": [
+     2997,
+     2997
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 2413,
+       "max_depth_mm": 10.88
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 584,
+       "max_depth_mm": 6.45
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 2413,
+       "max_depth_mm": 10.88
+      },
+      "hip_bone_r": {
+       "beyond_1mm": 584,
+       "max_depth_mm": 6.45
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 6.44,
+     "p95_mm": 2.74,
+     "moved_gt_1mm_frac": 0.2503
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "rectus_femoris_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     189.77,
+     179.42
+    ],
+    "volume_change_pct_mesh": -5.46,
+    "volume_change_pct_voxels": -4.84,
+    "photo_share_her_rule": [
+     {
+      "levels": 29,
+      "on_photographed_muscle": 0.5687
+     },
+     {
+      "levels": 28,
+      "on_photographed_muscle": 0.6223
+     }
+    ],
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_per_bone": {
+     "before": {},
+     "after": {}
+    },
+    "surface_move": {
+     "max_mm": 12.97,
+     "p95_mm": 5.15,
+     "moved_gt_1mm_frac": 0.6066
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "9 stray fragment(s) (0.0 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "sartorius_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     145.78,
+     157.56
+    ],
+    "volume_change_pct_mesh": 8.08,
+    "volume_change_pct_voxels": 8.34,
+    "photo_share_her_rule": [
+     {
+      "levels": 43,
+      "on_photographed_muscle": 0.3573
+     },
+     {
+      "levels": 42,
+      "on_photographed_muscle": 0.3752
+     }
+    ],
+    "bone_beyond_1mm": [
+     61,
+     61
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_r": {
+       "beyond_1mm": 61,
+       "max_depth_mm": 1.64
+      }
+     },
+     "after": {
+      "femur_r": {
+       "beyond_1mm": 61,
+       "max_depth_mm": 1.64
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 10.8,
+     "p95_mm": 5.84,
+     "moved_gt_1mm_frac": 0.7983
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "slice gaps bridged (4 mm max, 0.2 % of volume, Q152 rule)",
+     "9 stray fragment(s) (0.0 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "semimembranosus_l": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     303.48,
+     304.51
+    ],
+    "volume_change_pct_mesh": 0.34,
+    "volume_change_pct_voxels": 0.68,
+    "photo_share_her_rule": [
+     {
+      "levels": 24,
+      "on_photographed_muscle": 0.5688
+     },
+     {
+      "levels": 24,
+      "on_photographed_muscle": 0.6895
+     }
+    ],
+    "bone_beyond_1mm": [
+     343,
+     342
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 343,
+       "max_depth_mm": 4.9
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 342,
+       "max_depth_mm": 4.9
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 16.91,
+     "p95_mm": 10.62,
+     "moved_gt_1mm_frac": 0.8848
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "semimembranosus_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix_mesh",
+    "volume_cm3_mesh": [
+     305.72,
+     288.82
+    ],
+    "volume_change_pct_mesh": -5.53,
+    "volume_change_pct_voxels": -3.2,
+    "photo_share_her_rule": [
+     {
+      "levels": 22,
+      "on_photographed_muscle": 0.6452
+     },
+     {
+      "levels": 22,
+      "on_photographed_muscle": 0.665
+     }
+    ],
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_per_bone": {
+     "before": {},
+     "after": {}
+    },
+    "surface_move": {
+     "max_mm": 18.26,
+     "p95_mm": 8.81,
+     "moved_gt_1mm_frac": 0.8547
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "57 stray fragment(s) (3.2 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "semitendinosus_l": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     153.6,
+     147.14
+    ],
+    "volume_change_pct_mesh": -4.2,
+    "volume_change_pct_voxels": -3.27,
+    "photo_share_her_rule": [
+     {
+      "levels": 27,
+      "on_photographed_muscle": 0.7798
+     },
+     {
+      "levels": 25,
+      "on_photographed_muscle": 0.7126
+     }
+    ],
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_per_bone": {
+     "before": {},
+     "after": {}
+    },
+    "surface_move": {
+     "max_mm": 25.65,
+     "p95_mm": 10.93,
+     "moved_gt_1mm_frac": 0.9137
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "29 stray fragment(s) (1.2 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "semitendinosus_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     166.72,
+     163.93
+    ],
+    "volume_change_pct_mesh": -1.68,
+    "volume_change_pct_voxels": -0.28,
+    "photo_share_her_rule": [
+     {
+      "levels": 27,
+      "on_photographed_muscle": 0.6712
+     },
+     {
+      "levels": 24,
+      "on_photographed_muscle": 0.6592
+     }
+    ],
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_per_bone": {
+     "before": {},
+     "after": {}
+    },
+    "surface_move": {
+     "max_mm": 32.85,
+     "p95_mm": 6.03,
+     "moved_gt_1mm_frac": 0.7806
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "37 stray fragment(s) (2.5 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "tensor_fasciae_latae_l": {
+    "subject_before": "xfer_vhm2vhf_sep",
+    "volume_cm3_mesh": [
+     68.51,
+     65.07
+    ],
+    "volume_change_pct_mesh": -5.02,
+    "volume_change_pct_voxels": -4.56,
+    "photo_share_her_rule": [
+     {
+      "levels": 13,
+      "on_photographed_muscle": 0.5525
+     },
+     {
+      "levels": 13,
+      "on_photographed_muscle": 0.6009
+     }
+    ],
+    "bone_beyond_1mm": [
+     43,
+     43
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 43,
+       "max_depth_mm": 2.41
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 43,
+       "max_depth_mm": 2.41
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 14.94,
+     "p95_mm": 10.91,
+     "moved_gt_1mm_frac": 0.7355
+    },
+    "smooth": 1.0,
+    "q152_note": [],
+    "status": "ship"
+   },
+   "tensor_fasciae_latae_r": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix_mesh",
+    "volume_cm3_mesh": [
+     82.32,
+     80.14
+    ],
+    "volume_change_pct_mesh": -2.65,
+    "volume_change_pct_voxels": -2.52,
+    "photo_share_her_rule": [
+     {
+      "levels": 13,
+      "on_photographed_muscle": 0.457
+     },
+     {
+      "levels": 13,
+      "on_photographed_muscle": 0.5548
+     }
+    ],
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_per_bone": {
+     "before": {},
+     "after": {}
+    },
+    "surface_move": {
+     "max_mm": 10.94,
+     "p95_mm": 4.57,
+     "moved_gt_1mm_frac": 0.5916
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "14 stray fragment(s) (0.2 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   },
+   "vastus_lateralis_l": {
+    "subject_before": "xfer_vhm2vhf_sep_contfix",
+    "volume_cm3_mesh": [
+     320.71,
+     322.3
+    ],
+    "volume_change_pct_mesh": 0.5,
+    "volume_change_pct_voxels": 1.2,
+    "photo_share_her_rule": [
+     {
+      "levels": 30,
+      "on_photographed_muscle": 0.687
+     },
+     {
+      "levels": 30,
+      "on_photographed_muscle": 0.606
+     }
+    ],
+    "bone_beyond_1mm": [
+     6157,
+     6155
+    ],
+    "bone_per_bone": {
+     "before": {
+      "femur_l": {
+       "beyond_1mm": 6157,
+       "max_depth_mm": 16.0
+      }
+     },
+     "after": {
+      "femur_l": {
+       "beyond_1mm": 6155,
+       "max_depth_mm": 16.0
+      }
+     }
+    },
+    "surface_move": {
+     "max_mm": 17.04,
+     "p95_mm": 10.07,
+     "moved_gt_1mm_frac": 0.8027
+    },
+    "smooth": 1.0,
+    "q152_note": [
+     "20 stray fragment(s) (0.3 % of volume) dropped (Q152 rule)"
+    ],
+    "status": "ship"
+   }
+  },
+  "ship": [
+   "adductor_brevis_l",
+   "adductor_brevis_r",
+   "adductor_longus_l",
+   "adductor_longus_r",
+   "adductor_magnus_l",
+   "adductor_magnus_r",
+   "biceps_femoris_l",
+   "biceps_femoris_r",
+   "gastrocnemius_l",
+   "gastrocnemius_r",
+   "gracilis_r",
+   "obturator_externus_l",
+   "obturator_externus_r",
+   "obturator_internus_l",
+   "plantaris_r",
+   "popliteus_l",
+   "popliteus_r",
+   "quadratus_femoris_r",
+   "rectus_femoris_r",
+   "sartorius_r",
+   "semimembranosus_l",
+   "semimembranosus_r",
+   "semitendinosus_l",
+   "semitendinosus_r",
+   "tensor_fasciae_latae_l",
+   "tensor_fasciae_latae_r",
+   "vastus_lateralis_l"
+  ],
+  "hold": [],
+  "bone_totals_beyond_1mm": {
+   "femur_l": [
+    9579,
+    9597
+   ],
+   "hip_bone_r": [
+    6711,
+    6713
+   ],
+   "hip_bone_l": [
+    7319,
+    7313
+   ],
+   "femur_r": [
+    4912,
+    4967
+   ],
+   "tibia_l": [
+    2494,
+    2494
+   ],
+   "fibula_l": [
+    108,
+    108
+   ],
+   "tibia_r": [
+    2428,
+    2428
+   ],
+   "fibula_r": [
+    59,
+    59
+   ]
+  },
+  "tracked_in_muscle_fullres": {
+   "sciatic_n": {
+    "before": {
+     "vertices": 65486,
+     "inside_any": 62066,
+     "beyond_1mm_any": 50970,
+     "max_depth_mm": 13.36,
+     "per_mesh": {
+      "adductor_magnus_r": {
+       "inside": 12852,
+       "beyond_1mm": 10578,
+       "max_depth_mm": 11.11
+      },
+      "biceps_femoris_l": {
+       "inside": 7499,
+       "beyond_1mm": 5519,
+       "max_depth_mm": 10.41
+      },
+      "biceps_femoris_r": {
+       "inside": 4887,
+       "beyond_1mm": 3372,
+       "max_depth_mm": 10.47
+      },
+      "semitendinosus_l": {
+       "inside": 267,
+       "beyond_1mm": 40,
+       "max_depth_mm": 1.44
+      },
+      "semitendinosus_r": {
+       "inside": 2235,
+       "beyond_1mm": 1410,
+       "max_depth_mm": 6.53
+      },
+      "adductor_magnus_l": {
+       "inside": 30959,
+       "beyond_1mm": 27630,
+       "max_depth_mm": 13.36
+      },
+      "semimembranosus_l": {
+       "inside": 2495,
+       "beyond_1mm": 1958,
+       "max_depth_mm": 6.85
+      },
+      "vastus_intermedius_l": {
+       "inside": 143,
+       "beyond_1mm": 79,
+       "max_depth_mm": 2.28
+      },
+      "vastus_intermedius_r": {
+       "inside": 729,
+       "beyond_1mm": 384,
+       "max_depth_mm": 3.64
+      }
+     }
+    },
+    "after_refit": {
+     "vertices": 64419,
+     "inside_any": 20059,
+     "beyond_1mm_any": 2416,
+     "max_depth_mm": 6.48,
+     "per_mesh": {
+      "gluteus_maximus_l": {
+       "inside": 842,
+       "beyond_1mm": 489,
+       "max_depth_mm": 4.14
+      },
+      "semimembranosus_r": {
+       "inside": 1,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.1
+      },
+      "adductor_magnus_r": {
+       "inside": 4341,
+       "beyond_1mm": 223,
+       "max_depth_mm": 2.19
+      },
+      "biceps_femoris_l": {
+       "inside": 2264,
+       "beyond_1mm": 202,
+       "max_depth_mm": 6.48
+      },
+      "biceps_femoris_r": {
+       "inside": 1527,
+       "beyond_1mm": 35,
+       "max_depth_mm": 1.56
+      },
+      "semitendinosus_l": {
+       "inside": 147,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.68
+      },
+      "semitendinosus_r": {
+       "inside": 903,
+       "beyond_1mm": 61,
+       "max_depth_mm": 1.82
+      },
+      "adductor_magnus_l": {
+       "inside": 8971,
+       "beyond_1mm": 1079,
+       "max_depth_mm": 5.45
+      },
+      "semimembranosus_l": {
+       "inside": 1057,
+       "beyond_1mm": 327,
+       "max_depth_mm": 3.83
+      },
+      "vastus_intermedius_l": {
+       "inside": 6,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.16
+      }
+     }
+    },
+    "after_snap": {
+     "vertices": 64419,
+     "inside_any": 15424,
+     "beyond_1mm_any": 2078,
+     "max_depth_mm": 5.44,
+     "per_mesh": {
+      "gluteus_maximus_l": {
+       "inside": 842,
+       "beyond_1mm": 489,
+       "max_depth_mm": 4.14
+      },
+      "semimembranosus_r": {
+       "inside": 1,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.1
+      },
+      "adductor_magnus_r": {
+       "inside": 3059,
+       "beyond_1mm": 156,
+       "max_depth_mm": 2.18
+      },
+      "biceps_femoris_l": {
+       "inside": 1664,
+       "beyond_1mm": 162,
+       "max_depth_mm": 5.44
+      },
+      "biceps_femoris_r": {
+       "inside": 917,
+       "beyond_1mm": 10,
+       "max_depth_mm": 1.32
+      },
+      "semitendinosus_l": {
+       "inside": 147,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.68
+      },
+      "semitendinosus_r": {
+       "inside": 516,
+       "beyond_1mm": 23,
+       "max_depth_mm": 1.4
+      },
+      "adductor_magnus_l": {
+       "inside": 7328,
+       "beyond_1mm": 975,
+       "max_depth_mm": 5.32
+      },
+      "semimembranosus_l": {
+       "inside": 944,
+       "beyond_1mm": 263,
+       "max_depth_mm": 3.36
+      },
+      "vastus_intermedius_l": {
+       "inside": 6,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.16
+      }
+     }
+    }
+   },
+   "femoral_a_r": {
+    "before": {
+     "vertices": 4094,
+     "inside_any": 985,
+     "beyond_1mm_any": 830,
+     "max_depth_mm": 7.23,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 8,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.16
+      },
+      "pectineus_r": {
+       "inside": 977,
+       "beyond_1mm": 830,
+       "max_depth_mm": 7.23
+      }
+     }
+    },
+    "after_refit": {
+     "vertices": 4094,
+     "inside_any": 1538,
+     "beyond_1mm_any": 1307,
+     "max_depth_mm": 9.57,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 1538,
+       "beyond_1mm": 1307,
+       "max_depth_mm": 9.57
+      }
+     }
+    },
+    "after_snap": {
+     "vertices": 4094,
+     "inside_any": 1538,
+     "beyond_1mm_any": 1307,
+     "max_depth_mm": 9.57,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 1538,
+       "beyond_1mm": 1307,
+       "max_depth_mm": 9.57
+      }
+     }
+    }
+   },
+   "femoral_v_r": {
+    "before": {
+     "vertices": 5192,
+     "inside_any": 2219,
+     "beyond_1mm_any": 1821,
+     "max_depth_mm": 6.7,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 2219,
+       "beyond_1mm": 1821,
+       "max_depth_mm": 6.7
+      }
+     }
+    },
+    "after_refit": {
+     "vertices": 5114,
+     "inside_any": 3048,
+     "beyond_1mm_any": 2719,
+     "max_depth_mm": 9.17,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 3048,
+       "beyond_1mm": 2719,
+       "max_depth_mm": 9.17
+      }
+     }
+    },
+    "after_snap": {
+     "vertices": 5114,
+     "inside_any": 3048,
+     "beyond_1mm_any": 2719,
+     "max_depth_mm": 9.17,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 3048,
+       "beyond_1mm": 2719,
+       "max_depth_mm": 9.17
+      }
+     }
+    }
+   },
+   "femoral_n": {
+    "before": {
+     "vertices": 2770,
+     "inside_any": 2427,
+     "beyond_1mm_any": 1987,
+     "max_depth_mm": 7.95,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 2427,
+       "beyond_1mm": 1987,
+       "max_depth_mm": 7.95
+      }
+     }
+    },
+    "after_refit": {
+     "vertices": 2572,
+     "inside_any": 2123,
+     "beyond_1mm_any": 1649,
+     "max_depth_mm": 5.92,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 2123,
+       "beyond_1mm": 1649,
+       "max_depth_mm": 5.92
+      }
+     }
+    },
+    "after_snap": {
+     "vertices": 2572,
+     "inside_any": 2123,
+     "beyond_1mm_any": 1649,
+     "max_depth_mm": 5.92,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 2123,
+       "beyond_1mm": 1649,
+       "max_depth_mm": 5.92
+      }
+     }
+    }
+   },
+   "popliteal_a_r": {
+    "before": {
+     "vertices": 4988,
+     "inside_any": 3114,
+     "beyond_1mm_any": 1959,
+     "max_depth_mm": 5.47,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 2198,
+       "beyond_1mm": 1523,
+       "max_depth_mm": 5.47
+      },
+      "gastrocnemius_r": {
+       "inside": 540,
+       "beyond_1mm": 281,
+       "max_depth_mm": 3.71
+      },
+      "plantaris_r": {
+       "inside": 376,
+       "beyond_1mm": 155,
+       "max_depth_mm": 3.54
+      }
+     }
+    },
+    "after_refit": {
+     "vertices": 4988,
+     "inside_any": 557,
+     "beyond_1mm_any": 9,
+     "max_depth_mm": 1.22,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 123,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.65
+      },
+      "gastrocnemius_r": {
+       "inside": 195,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.98
+      },
+      "plantaris_r": {
+       "inside": 144,
+       "beyond_1mm": 2,
+       "max_depth_mm": 1.11
+      },
+      "vastus_medialis_r": {
+       "inside": 95,
+       "beyond_1mm": 7,
+       "max_depth_mm": 1.22
+      }
+     }
+    },
+    "after_snap": {
+     "vertices": 4988,
+     "inside_any": 552,
+     "beyond_1mm_any": 8,
+     "max_depth_mm": 1.22,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 123,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.65
+      },
+      "gastrocnemius_r": {
+       "inside": 195,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.98
+      },
+      "plantaris_r": {
+       "inside": 139,
+       "beyond_1mm": 1,
+       "max_depth_mm": 1.05
+      },
+      "vastus_medialis_r": {
+       "inside": 95,
+       "beyond_1mm": 7,
+       "max_depth_mm": 1.22
+      }
+     }
+    }
+   },
+   "popliteal_v_r": {
+    "before": {
+     "vertices": 4140,
+     "inside_any": 2260,
+     "beyond_1mm_any": 1555,
+     "max_depth_mm": 5.34,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 2241,
+       "beyond_1mm": 1555,
+       "max_depth_mm": 5.34
+      },
+      "plantaris_r": {
+       "inside": 19,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.72
+      }
+     }
+    },
+    "after_refit": {
+     "vertices": 4118,
+     "inside_any": 236,
+     "beyond_1mm_any": 0,
+     "max_depth_mm": 0.57,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 199,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.57
+      },
+      "biceps_femoris_r": {
+       "inside": 22,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.23
+      },
+      "plantaris_r": {
+       "inside": 15,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.52
+      }
+     }
+    },
+    "after_snap": {
+     "vertices": 4118,
+     "inside_any": 236,
+     "beyond_1mm_any": 0,
+     "max_depth_mm": 0.57,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 199,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.57
+      },
+      "biceps_femoris_r": {
+       "inside": 22,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.23
+      },
+      "plantaris_r": {
+       "inside": 15,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.52
+      }
+     }
+    }
+   }
+  },
+  "snap": {
+   "adductor_magnus_l": {
+    "entered_by": [
+     "sciatic_n"
+    ],
+    "dir_xz": [
+     -0.775,
+     -0.632
+    ],
+    "y_range": [
+     -295.5,
+     -68.5
+    ],
+    "tracked_beyond_1mm_before": 1079,
+    "max_before": 5.45,
+    "tracked_beyond_1mm_after": 975,
+    "max_after": 5.32,
+    "volume_cm3": [
+     613.93,
+     608.8
+    ],
+    "dvol_pct": -0.84,
+    "move": {
+     "moved_vertices": 8916,
+     "surface_vertices": 24229,
+     "median_mm": 0.53,
+     "p95_mm": 2.21,
+     "max_mm": 5.25
+    },
+    "info": {
+     "surface_vertices": 24229,
+     "on_non_muscle_moved_in": 9295,
+     "on_non_muscle_no_muscle_within_cap": 3447,
+     "crossed_into_neighbour": 718,
+     "over_cap_left": 130,
+     "fold_guard_updates": 8498
+    },
+    "status": "stored",
+    "bone_beyond_1mm_after_snap": 1907
+   },
+   "adductor_magnus_r": {
+    "entered_by": [
+     "sciatic_n"
+    ],
+    "dir_xz": [
+     0.258,
+     -0.966
+    ],
+    "y_range": [
+     -228.5,
+     -67.5
+    ],
+    "tracked_beyond_1mm_before": 223,
+    "max_before": 2.19,
+    "tracked_beyond_1mm_after": 156,
+    "max_after": 2.18,
+    "volume_cm3": [
+     675.78,
+     669.1
+    ],
+    "dvol_pct": -0.99,
+    "move": {
+     "moved_vertices": 9275,
+     "surface_vertices": 24834,
+     "median_mm": 0.75,
+     "p95_mm": 2.49,
+     "max_mm": 5.43
+    },
+    "info": {
+     "surface_vertices": 24834,
+     "on_non_muscle_moved_in": 11705,
+     "on_non_muscle_no_muscle_within_cap": 5033,
+     "crossed_into_neighbour": 682,
+     "over_cap_left": 134,
+     "fold_guard_updates": 13913
+    },
+    "status": "stored",
+    "bone_beyond_1mm_after_snap": 2597
+   },
+   "biceps_femoris_l": {
+    "entered_by": [
+     "sciatic_n"
+    ],
+    "dir_xz": [
+     0.992,
+     0.128
+    ],
+    "y_range": [
+     -295.5,
+     -189.5
+    ],
+    "tracked_beyond_1mm_before": 202,
+    "max_before": 6.48,
+    "tracked_beyond_1mm_after": 162,
+    "max_after": 5.44,
+    "volume_cm3": [
+     257.71,
+     254.79
+    ],
+    "dvol_pct": -1.14,
+    "move": {
+     "moved_vertices": 4335,
+     "surface_vertices": 11534,
+     "median_mm": 0.61,
+     "p95_mm": 2.4,
+     "max_mm": 5.11
+    },
+    "info": {
+     "surface_vertices": 11534,
+     "on_non_muscle_moved_in": 5051,
+     "on_non_muscle_no_muscle_within_cap": 470,
+     "crossed_into_neighbour": 464,
+     "over_cap_left": 13,
+     "fold_guard_updates": 7890
+    },
+    "status": "stored",
+    "bone_beyond_1mm_after_snap": 898
+   },
+   "biceps_femoris_r": {
+    "entered_by": [
+     "sciatic_n"
+    ],
+    "dir_xz": [
+     -0.832,
+     0.554
+    ],
+    "y_range": [
+     -237.5,
+     -131.5
+    ],
+    "tracked_beyond_1mm_before": 35,
+    "max_before": 1.56,
+    "tracked_beyond_1mm_after": 10,
+    "max_after": 1.32,
+    "volume_cm3": [
+     325.39,
+     323.56
+    ],
+    "dvol_pct": -0.56,
+    "move": {
+     "moved_vertices": 2823,
+     "surface_vertices": 8961,
+     "median_mm": 0.59,
+     "p95_mm": 2.32,
+     "max_mm": 4.18
+    },
+    "info": {
+     "surface_vertices": 8961,
+     "on_non_muscle_moved_in": 3181,
+     "on_non_muscle_no_muscle_within_cap": 697,
+     "crossed_into_neighbour": 428,
+     "over_cap_left": 23,
+     "fold_guard_updates": 2457
+    },
+    "status": "stored",
+    "bone_beyond_1mm_after_snap": 251
+   },
+   "plantaris_r": {
+    "entered_by": [
+     "popliteal_a_r"
+    ],
+    "dir_xz": [
+     -0.769,
+     0.64
+    ],
+    "y_range": [
+     -388.5,
+     -360.5
+    ],
+    "tracked_beyond_1mm_before": 2,
+    "max_before": 1.11,
+    "tracked_beyond_1mm_after": 1,
+    "max_after": 1.05,
+    "volume_cm3": [
+     13.31,
+     13.02
+    ],
+    "dvol_pct": -2.21,
+    "move": {
+     "moved_vertices": 326,
+     "surface_vertices": 849,
+     "median_mm": 1.1,
+     "p95_mm": 2.5,
+     "max_mm": 3.36
+    },
+    "info": {
+     "surface_vertices": 849,
+     "on_non_muscle_moved_in": 386,
+     "on_non_muscle_no_muscle_within_cap": 326,
+     "crossed_into_neighbour": 14,
+     "over_cap_left": 5,
+     "fold_guard_updates": 593
+    },
+    "status": "stored",
+    "bone_beyond_1mm_after_snap": 427
+   },
+   "semimembranosus_l": {
+    "entered_by": [
+     "sciatic_n"
+    ],
+    "dir_xz": [
+     -0.826,
+     0.564
+    ],
+    "y_range": [
+     -294.5,
+     -247.5
+    ],
+    "tracked_beyond_1mm_before": 327,
+    "max_before": 3.83,
+    "tracked_beyond_1mm_after": 263,
+    "max_after": 3.36,
+    "volume_cm3": [
+     304.51,
+     303.28
+    ],
+    "dvol_pct": -0.4,
+    "move": {
+     "moved_vertices": 904,
+     "surface_vertices": 3837,
+     "median_mm": 1.61,
+     "p95_mm": 3.36,
+     "max_mm": 6.25
+    },
+    "info": {
+     "surface_vertices": 3837,
+     "on_non_muscle_moved_in": 2508,
+     "on_non_muscle_no_muscle_within_cap": 588,
+     "crossed_into_neighbour": 54,
+     "over_cap_left": 63,
+     "fold_guard_updates": 3131
+    },
+    "status": "stored",
+    "bone_beyond_1mm_after_snap": 342
+   },
+   "semitendinosus_r": {
+    "entered_by": [
+     "sciatic_n"
+    ],
+    "dir_xz": [
+     0.237,
+     0.971
+    ],
+    "y_range": [
+     -219.0,
+     -96.5
+    ],
+    "tracked_beyond_1mm_before": 61,
+    "max_before": 1.82,
+    "tracked_beyond_1mm_after": 23,
+    "max_after": 1.4,
+    "volume_cm3": [
+     163.93,
+     162.55
+    ],
+    "dvol_pct": -0.84,
+    "move": {
+     "moved_vertices": 2076,
+     "surface_vertices": 8449,
+     "median_mm": 0.69,
+     "p95_mm": 2.07,
+     "max_mm": 3.55
+    },
+    "info": {
+     "surface_vertices": 8449,
+     "on_non_muscle_moved_in": 2670,
+     "on_non_muscle_no_muscle_within_cap": 1520,
+     "crossed_into_neighbour": 288,
+     "over_cap_left": 15,
+     "fold_guard_updates": 2689
+    },
+    "status": "stored",
+    "bone_beyond_1mm_after_snap": 0
+   }
+  }
+ },
+ "refit": {
+  "held": [
+   "gemellus_inferior_l",
+   "gracilis_l",
+   "obturator_internus_r",
+   "pectineus_l",
+   "pectineus_r",
+   "plantaris_l",
+   "quadratus_femoris_l",
+   "rectus_femoris_l",
+   "sartorius_l",
+   "vastus_intermedius_l",
+   "vastus_intermedius_r",
+   "vastus_lateralis_r",
+   "vastus_medialis_l",
+   "vastus_medialis_r"
+  ],
+  "params": {
+   "erode": 3,
+   "dilate": 4,
+   "max_move": 8,
+   "hold_band_mm": 3,
+   "bone_words": [
+    "femur",
+    "patella",
+    "tibia",
+    "fibula",
+    "hip_bone",
+    "sacrum"
+   ],
+   "max_dvol_pct": 10.0
+  },
+  "changed_ids": [
+   "adductor_brevis_l",
+   "adductor_brevis_r",
+   "adductor_longus_l",
+   "adductor_longus_r",
+   "adductor_magnus_l",
+   "adductor_magnus_r",
+   "biceps_femoris_l",
+   "biceps_femoris_r",
+   "gastrocnemius_l",
+   "gastrocnemius_r",
+   "gracilis_l",
+   "gracilis_r",
+   "obturator_externus_l",
+   "obturator_externus_r",
+   "obturator_internus_l",
+   "obturator_internus_r",
+   "plantaris_l",
+   "plantaris_r",
+   "popliteus_l",
+   "popliteus_r",
+   "quadratus_femoris_r",
+   "rectus_femoris_l",
+   "rectus_femoris_r",
+   "sartorius_l",
+   "sartorius_r",
+   "semimembranosus_l",
+   "semimembranosus_r",
+   "semitendinosus_l",
+   "semitendinosus_r",
+   "tensor_fasciae_latae_l",
+   "tensor_fasciae_latae_r",
+   "vastus_intermedius_l",
+   "vastus_intermedius_r",
+   "vastus_lateralis_l",
+   "vastus_lateralis_r",
+   "vastus_medialis_l",
+   "vastus_medialis_r"
+  ],
+  "field_full_weight_levels": [
+   -386,
+   14
+  ]
+ },
+ "broken_q48_levels": {
+  "right": [
+   -131.771,
+   -130.771,
+   -129.771,
+   15.229
+  ],
+  "left": [
+   -354.771,
+   -352.771,
+   -351.771,
+   -350.771,
+   -133.771,
+   -132.771,
+   -131.771,
+   -130.771,
+   -129.771,
+   -128.771
+  ]
+ },
+ "verify_bundle": {
+  "ids_added": [],
+  "ids_removed": [],
+  "geometry_changed": [
+   "adductor_brevis_l",
+   "adductor_brevis_r",
+   "adductor_longus_l",
+   "adductor_longus_r",
+   "adductor_magnus_l",
+   "adductor_magnus_r",
+   "biceps_femoris_l",
+   "biceps_femoris_r",
+   "femoral_a_r",
+   "femoral_n",
+   "femoral_v_r",
+   "gastrocnemius_l",
+   "gastrocnemius_r",
+   "gracilis_r",
+   "obturator_externus_l",
+   "obturator_externus_r",
+   "obturator_internus_l",
+   "plantaris_r",
+   "popliteal_a_r",
+   "popliteal_v_r",
+   "popliteus_l",
+   "popliteus_r",
+   "quadratus_femoris_r",
+   "rectus_femoris_r",
+   "sartorius_r",
+   "sciatic_n",
+   "semimembranosus_l",
+   "semimembranosus_r",
+   "semitendinosus_l",
+   "semitendinosus_r",
+   "tensor_fasciae_latae_l",
+   "tensor_fasciae_latae_r",
+   "vastus_lateralis_l"
+  ],
+  "geometry_changed_unintended": [],
+  "intended_unchanged": [],
+  "metadata_changed": [
+   "adductor_brevis_l",
+   "adductor_brevis_r",
+   "adductor_longus_l",
+   "adductor_longus_r",
+   "adductor_magnus_l",
+   "adductor_magnus_r",
+   "biceps_femoris_l",
+   "biceps_femoris_r",
+   "femoral_a_r",
+   "femoral_n",
+   "femoral_v_r",
+   "gastrocnemius_l",
+   "gastrocnemius_r",
+   "gracilis_r",
+   "obturator_externus_l",
+   "obturator_externus_r",
+   "obturator_internus_l",
+   "plantaris_r",
+   "popliteal_a_r",
+   "popliteal_v_r",
+   "popliteus_l",
+   "popliteus_r",
+   "quadratus_femoris_r",
+   "rectus_femoris_r",
+   "sartorius_r",
+   "sciatic_n",
+   "semimembranosus_l",
+   "semimembranosus_r",
+   "semitendinosus_l",
+   "semitendinosus_r",
+   "tensor_fasciae_latae_l",
+   "tensor_fasciae_latae_r",
+   "vastus_lateralis_l"
+  ],
+  "structures": [
+   417,
+   417
+  ],
+  "triangles": [
+   3261437,
+   3261437
+  ],
+  "hashes": {
+   "adductor_brevis_l": [
+    "a911aba97498997f1f440aed21fc6468",
+    "8eaa430266b06e7d23798da4fdf217d8"
+   ],
+   "adductor_brevis_r": [
+    "2929a61c25f55548624999628da34d14",
+    "ecb7d242f0ef300325488f6d3b284543"
+   ],
+   "adductor_longus_l": [
+    "3610f750eb309721597f61ac0807a0c9",
+    "9b0f5d360f6e79ee5225fdd1c3940fab"
+   ],
+   "adductor_longus_r": [
+    "565800dd8ed0f5f0c2c9aad062115201",
+    "296523af753487c8daa70395615f7360"
+   ],
+   "adductor_magnus_l": [
+    "a948013ab0847d9823d2dd92e5cbe82c",
+    "5d6beb6b95a1cd04ab0a8b4ed355b55d"
+   ],
+   "adductor_magnus_r": [
+    "bf42cba604a8843bfa4705765b0f848e",
+    "639db7c1d6ee9c84fc9b07b4c9d071e0"
+   ],
+   "biceps_femoris_l": [
+    "2897c9cf02e188b69feb7db5269d20b2",
+    "cae08ef274a3e3fb07c2e30c466921b5"
+   ],
+   "biceps_femoris_r": [
+    "66c65110da55c94917140837c16e579c",
+    "58c7bd8068926ddab173bec3307924f9"
+   ],
+   "femoral_a_r": [
+    "5316b392f65ba4372d2bf6c16c2cbf05",
+    "78ad1c950140ce56baeb48748b901ee0"
+   ],
+   "femoral_n": [
+    "a6c835785fe5131d1352b75be28cc99b",
+    "90ddb31c91e17c4995fd16f740992d52"
+   ],
+   "femoral_v_r": [
+    "3481ee4354d71e247dba9e1623d4b2f2",
+    "939a47cc735ff00fd79643a667243bdc"
+   ],
+   "gastrocnemius_l": [
+    "c316a06936d503962dbd435c5029ae70",
+    "c352d0fcbaeb5ba1e52343b84e710f6e"
+   ],
+   "gastrocnemius_r": [
+    "3a69110f97ac898114b716e0aad7fc18",
+    "415b14bde3cfbcf6ec67cf74402e5954"
+   ],
+   "gracilis_r": [
+    "15b5d4fb395b55af5ecd440360d65c60",
+    "9333e9aa04160ef740c06473ab6d49d3"
+   ],
+   "obturator_externus_l": [
+    "7d692b6faf25abf7973711e0245d27e1",
+    "082c287fe4767005800cf30647c098be"
+   ],
+   "obturator_externus_r": [
+    "d4dbb324e36e72a1356526341322ff7e",
+    "2e9d9fd406db30c2ea9c64ef953e98d3"
+   ],
+   "obturator_internus_l": [
+    "14fb504d3f717170d2725411d923b127",
+    "2542ace9c6ff1d27cade4f70a1319195"
+   ],
+   "plantaris_r": [
+    "a3c02aa8f407be76e9e84f457d445202",
+    "624fce9f39c520e63cfad6b790236c4c"
+   ],
+   "popliteal_a_r": [
+    "fe6a1b8c304f3fcf0edd0b39685ca9d0",
+    "9dc75fa7c436ef3fa4631cbf4030f27b"
+   ],
+   "popliteal_v_r": [
+    "55ef42ad9d059c68e804614a2d68ea27",
+    "81a7a543f113b9b91a6a5e42a7c17a8c"
+   ],
+   "popliteus_l": [
+    "dea321ab7e1440be2d8c34289d3c1608",
+    "7f467a3897aa553dc0948d7337a4c1f9"
+   ],
+   "popliteus_r": [
+    "e2c7d49da4499eaf7632768df0bd9897",
+    "8fa1bdfc0a77308691dfef86ce8e4b6e"
+   ],
+   "quadratus_femoris_r": [
+    "2fc4e89ce03380053059bae4af9a01dc",
+    "6e3be0b7c9b164393a618cbc0e1c184f"
+   ],
+   "rectus_femoris_r": [
+    "0cb8c00cae47fae204e40ae26367b1d2",
+    "f309fc5f266a5dab7708b867c7139c5e"
+   ],
+   "sartorius_r": [
+    "83a6820a4d511c8cfe95977e0f1107b9",
+    "e9ee8313961c2f655302dd930abe1d9e"
+   ],
+   "sciatic_n": [
+    "490a926b1c493c8466c61573a5e977f9",
+    "4517b6127876c69d6040d65df4e4b384"
+   ],
+   "semimembranosus_l": [
+    "974e27764788e8f46fc6c4527056f230",
+    "25cc8689c7e2f9d56640be2854fb5161"
+   ],
+   "semimembranosus_r": [
+    "cb23201fe6f1dfdc37ca4102ee9bf1fe",
+    "f18a914bf0598e6deee6ba34fd70f47a"
+   ],
+   "semitendinosus_l": [
+    "16e0677166f176f549233f648e967037",
+    "0db09f3a52471d482185929ea92b5ba1"
+   ],
+   "semitendinosus_r": [
+    "401171898da386a1d04214042be775fd",
+    "d8c769354b36b3c9251c8a6e4d6b015e"
+   ],
+   "tensor_fasciae_latae_l": [
+    "11cb088a02c8ae3c5c036d0024d2f5b1",
+    "d464ba621a27d5a9876b241f4b7c120b"
+   ],
+   "tensor_fasciae_latae_r": [
+    "835946bd0e563ba6bf27b90108f1eee1",
+    "469becc835d837c58a0b33a90fe7950d"
+   ],
+   "vastus_lateralis_l": [
+    "b1e2b42ed5574a161fce8e614323fc14",
+    "ef6b034643fcaed5c8c1938b1e92cd49"
+   ]
+  },
+  "continuity_main_frac": {
+   "adductor_brevis_l": [
+    0.9509,
+    0.9598
+   ],
+   "adductor_brevis_r": [
+    0.9993,
+    0.9858
+   ],
+   "adductor_longus_l": [
+    0.9933,
+    0.9964
+   ],
+   "adductor_longus_r": [
+    1.0,
+    0.9603
+   ],
+   "adductor_magnus_l": [
+    0.5379,
+    0.9806
+   ],
+   "adductor_magnus_r": [
+    0.996,
+    0.9893
+   ],
+   "biceps_femoris_l": [
+    0.9896,
+    0.9645
+   ],
+   "biceps_femoris_r": [
+    0.9616,
+    0.9969
+   ],
+   "femoral_a_r": [
+    1.0,
+    1.0
+   ],
+   "femoral_n": [
+    1.0,
+    1.0
+   ],
+   "femoral_v_r": [
+    1.0,
+    1.0
+   ],
+   "gastrocnemius_l": [
+    0.9962,
+    0.9887
+   ],
+   "gastrocnemius_r": [
+    0.9818,
+    0.9829
+   ],
+   "gracilis_r": [
+    0.6152,
+    0.6324
+   ],
+   "obturator_externus_l": [
+    1.0,
+    0.9891
+   ],
+   "obturator_externus_r": [
+    1.0,
+    1.0
+   ],
+   "obturator_internus_l": [
+    0.9849,
+    0.9887
+   ],
+   "plantaris_r": [
+    1.0,
+    0.988
+   ],
+   "popliteal_a_r": [
+    1.0,
+    1.0
+   ],
+   "popliteal_v_r": [
+    1.0,
+    1.0
+   ],
+   "popliteus_l": [
+    0.984,
+    0.984
+   ],
+   "popliteus_r": [
+    0.9922,
+    0.9922
+   ],
+   "quadratus_femoris_r": [
+    1.0,
+    1.0
+   ],
+   "rectus_femoris_r": [
+    1.0,
+    0.7679
+   ],
+   "sartorius_r": [
+    0.5293,
+    0.5402
+   ],
+   "sciatic_n": [
+    0.614,
+    0.599
+   ],
+   "semimembranosus_l": [
+    0.9911,
+    0.998
+   ],
+   "semimembranosus_r": [
+    0.8528,
+    0.9621
+   ],
+   "semitendinosus_l": [
+    0.844,
+    0.832
+   ],
+   "semitendinosus_r": [
+    0.8884,
+    0.9281
+   ],
+   "tensor_fasciae_latae_l": [
+    0.9911,
+    0.9865
+   ],
+   "tensor_fasciae_latae_r": [
+    0.9962,
+    0.9552
+   ],
+   "vastus_lateralis_l": [
+    0.9821,
+    0.9942
+   ]
+  },
+  "continuity_regressions": [
+   "adductor_brevis_r",
+   "adductor_longus_r",
+   "adductor_magnus_r",
+   "biceps_femoris_l",
+   "gastrocnemius_l",
+   "obturator_externus_l",
+   "plantaris_r",
+   "rectus_femoris_r",
+   "tensor_fasciae_latae_l",
+   "tensor_fasciae_latae_r"
+  ],
+  "tracked_bundle": {
+   "sciatic_n": {
+    "muscle_before": {
+     "vertices": 14949,
+     "inside_any": 14099,
+     "beyond_1mm_any": 11639,
+     "max_depth_mm": 13.29,
+     "per_mesh": {
+      "adductor_magnus_r": {
+       "inside": 2998,
+       "beyond_1mm": 2460,
+       "max_depth_mm": 11.01
+      },
+      "biceps_femoris_l": {
+       "inside": 1597,
+       "beyond_1mm": 1149,
+       "max_depth_mm": 10.39
+      },
+      "biceps_femoris_r": {
+       "inside": 1185,
+       "beyond_1mm": 852,
+       "max_depth_mm": 10.29
+      },
+      "semitendinosus_l": {
+       "inside": 71,
+       "beyond_1mm": 21,
+       "max_depth_mm": 1.54
+      },
+      "semitendinosus_r": {
+       "inside": 557,
+       "beyond_1mm": 369,
+       "max_depth_mm": 6.68
+      },
+      "adductor_magnus_l": {
+       "inside": 7075,
+       "beyond_1mm": 6317,
+       "max_depth_mm": 13.29
+      },
+      "semimembranosus_l": {
+       "inside": 494,
+       "beyond_1mm": 376,
+       "max_depth_mm": 6.94
+      },
+      "vastus_intermedius_l": {
+       "inside": 26,
+       "beyond_1mm": 18,
+       "max_depth_mm": 2.08
+      },
+      "vastus_intermedius_r": {
+       "inside": 157,
+       "beyond_1mm": 77,
+       "max_depth_mm": 3.42
+      }
+     }
+    },
+    "muscle_after": {
+     "vertices": 14879,
+     "inside_any": 4461,
+     "beyond_1mm_any": 794,
+     "max_depth_mm": 5.6,
+     "per_mesh": {
+      "gluteus_maximus_l": {
+       "inside": 217,
+       "beyond_1mm": 128,
+       "max_depth_mm": 4.05
+      },
+      "adductor_magnus_l": {
+       "inside": 2023,
+       "beyond_1mm": 397,
+       "max_depth_mm": 5.45
+      },
+      "adductor_magnus_r": {
+       "inside": 1046,
+       "beyond_1mm": 131,
+       "max_depth_mm": 2.35
+      },
+      "biceps_femoris_l": {
+       "inside": 458,
+       "beyond_1mm": 53,
+       "max_depth_mm": 5.6
+      },
+      "biceps_femoris_r": {
+       "inside": 234,
+       "beyond_1mm": 6,
+       "max_depth_mm": 1.43
+      },
+      "semimembranosus_l": {
+       "inside": 253,
+       "beyond_1mm": 68,
+       "max_depth_mm": 3.37
+      },
+      "semimembranosus_r": {
+       "inside": 2,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.14
+      },
+      "semitendinosus_l": {
+       "inside": 51,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.92
+      },
+      "semitendinosus_r": {
+       "inside": 177,
+       "beyond_1mm": 11,
+       "max_depth_mm": 1.54
+      },
+      "vastus_intermedius_l": {
+       "inside": 1,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.06
+      }
+     }
+    },
+    "bone_beyond_1mm": [
+     9,
+     0
+    ],
+    "bone_max_mm": [
+     1.98,
+     0.0
+    ]
+   },
+   "femoral_a_r": {
+    "muscle_before": {
+     "vertices": 1877,
+     "inside_any": 547,
+     "beyond_1mm_any": 464,
+     "max_depth_mm": 7.17,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 3,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.15
+      },
+      "pectineus_r": {
+       "inside": 544,
+       "beyond_1mm": 464,
+       "max_depth_mm": 7.17
+      }
+     }
+    },
+    "muscle_after": {
+     "vertices": 1877,
+     "inside_any": 815,
+     "beyond_1mm_any": 710,
+     "max_depth_mm": 9.41,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 815,
+       "beyond_1mm": 710,
+       "max_depth_mm": 9.41
+      }
+     }
+    },
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_max_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "femoral_v_r": {
+    "muscle_before": {
+     "vertices": 1877,
+     "inside_any": 804,
+     "beyond_1mm_any": 671,
+     "max_depth_mm": 6.63,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 804,
+       "beyond_1mm": 671,
+       "max_depth_mm": 6.63
+      }
+     }
+    },
+    "muscle_after": {
+     "vertices": 1877,
+     "inside_any": 1125,
+     "beyond_1mm_any": 993,
+     "max_depth_mm": 9.1,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 1125,
+       "beyond_1mm": 993,
+       "max_depth_mm": 9.1
+      }
+     }
+    },
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_max_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "femoral_n": {
+    "muscle_before": {
+     "vertices": 1877,
+     "inside_any": 1593,
+     "beyond_1mm_any": 1277,
+     "max_depth_mm": 7.96,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 1593,
+       "beyond_1mm": 1277,
+       "max_depth_mm": 7.96
+      }
+     }
+    },
+    "muscle_after": {
+     "vertices": 1877,
+     "inside_any": 1518,
+     "beyond_1mm_any": 1155,
+     "max_depth_mm": 6.04,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 1518,
+       "beyond_1mm": 1155,
+       "max_depth_mm": 6.04
+      }
+     }
+    },
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_max_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "popliteal_a_r": {
+    "muscle_before": {
+     "vertices": 1851,
+     "inside_any": 1128,
+     "beyond_1mm_any": 708,
+     "max_depth_mm": 5.4,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 790,
+       "beyond_1mm": 550,
+       "max_depth_mm": 5.4
+      },
+      "gastrocnemius_r": {
+       "inside": 211,
+       "beyond_1mm": 103,
+       "max_depth_mm": 3.25
+      },
+      "plantaris_r": {
+       "inside": 127,
+       "beyond_1mm": 55,
+       "max_depth_mm": 3.48
+      }
+     }
+    },
+    "muscle_after": {
+     "vertices": 1851,
+     "inside_any": 214,
+     "beyond_1mm_any": 4,
+     "max_depth_mm": 1.27,
+     "per_mesh": {
+      "gastrocnemius_r": {
+       "inside": 87,
+       "beyond_1mm": 1,
+       "max_depth_mm": 1.01
+      },
+      "plantaris_r": {
+       "inside": 48,
+       "beyond_1mm": 1,
+       "max_depth_mm": 1.07
+      },
+      "semimembranosus_r": {
+       "inside": 49,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.66
+      },
+      "vastus_medialis_r": {
+       "inside": 30,
+       "beyond_1mm": 2,
+       "max_depth_mm": 1.27
+      }
+     }
+    },
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_max_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "popliteal_v_r": {
+    "muscle_before": {
+     "vertices": 1869,
+     "inside_any": 971,
+     "beyond_1mm_any": 675,
+     "max_depth_mm": 5.26,
+     "per_mesh": {
+      "semimembranosus_r": {
+       "inside": 962,
+       "beyond_1mm": 675,
+       "max_depth_mm": 5.26
+      },
+      "plantaris_r": {
+       "inside": 9,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.74
+      }
+     }
+    },
+    "muscle_after": {
+     "vertices": 1861,
+     "inside_any": 119,
+     "beyond_1mm_any": 0,
+     "max_depth_mm": 0.67,
+     "per_mesh": {
+      "biceps_femoris_r": {
+       "inside": 9,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.19
+      },
+      "plantaris_r": {
+       "inside": 7,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.47
+      },
+      "semimembranosus_r": {
+       "inside": 103,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.67
+      }
+     }
+    },
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_max_mm": [
+     0.0,
+     0.0
+    ]
+   },
+   "tibial_n": {
+    "muscle_before": {
+     "vertices": 1877,
+     "inside_any": 1157,
+     "beyond_1mm_any": 638,
+     "max_depth_mm": 4.98,
+     "per_mesh": {
+      "biceps_femoris_r": {
+       "inside": 495,
+       "beyond_1mm": 181,
+       "max_depth_mm": 2.6
+      },
+      "gastrocnemius_r": {
+       "inside": 605,
+       "beyond_1mm": 456,
+       "max_depth_mm": 4.98
+      },
+      "plantaris_r": {
+       "inside": 59,
+       "beyond_1mm": 1,
+       "max_depth_mm": 1.05
+      }
+     }
+    },
+    "muscle_after": {
+     "vertices": 1877,
+     "inside_any": 1854,
+     "beyond_1mm_any": 1647,
+     "max_depth_mm": 7.89,
+     "per_mesh": {
+      "biceps_femoris_r": {
+       "inside": 1581,
+       "beyond_1mm": 1492,
+       "max_depth_mm": 7.89
+      },
+      "gastrocnemius_r": {
+       "inside": 237,
+       "beyond_1mm": 147,
+       "max_depth_mm": 2.98
+      },
+      "plantaris_r": {
+       "inside": 37,
+       "beyond_1mm": 8,
+       "max_depth_mm": 1.58
+      }
+     }
+    },
+    "bone_beyond_1mm": [
+     0,
+     0
+    ],
+    "bone_max_mm": [
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "tracked_fullres_final": {
+   "sciatic_n": {
+    "final": {
+     "vertices": 64419,
+     "inside_any": 15424,
+     "beyond_1mm_any": 2078,
+     "max_depth_mm": 5.44,
+     "per_mesh": {
+      "gluteus_maximus_l": {
+       "inside": 842,
+       "beyond_1mm": 489,
+       "max_depth_mm": 4.14
+      },
+      "adductor_magnus_l": {
+       "inside": 7328,
+       "beyond_1mm": 975,
+       "max_depth_mm": 5.32
+      },
+      "adductor_magnus_r": {
+       "inside": 3059,
+       "beyond_1mm": 156,
+       "max_depth_mm": 2.18
+      },
+      "biceps_femoris_l": {
+       "inside": 1664,
+       "beyond_1mm": 162,
+       "max_depth_mm": 5.44
+      },
+      "biceps_femoris_r": {
+       "inside": 917,
+       "beyond_1mm": 10,
+       "max_depth_mm": 1.32
+      },
+      "semimembranosus_l": {
+       "inside": 944,
+       "beyond_1mm": 263,
+       "max_depth_mm": 3.36
+      },
+      "semimembranosus_r": {
+       "inside": 1,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.1
+      },
+      "semitendinosus_l": {
+       "inside": 147,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.68
+      },
+      "semitendinosus_r": {
+       "inside": 516,
+       "beyond_1mm": 23,
+       "max_depth_mm": 1.4
+      },
+      "vastus_intermedius_l": {
+       "inside": 6,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.16
+      }
+     }
+    },
+    "bone_beyond_1mm": 0
+   },
+   "femoral_a_r": {
+    "final": {
+     "vertices": 4094,
+     "inside_any": 1538,
+     "beyond_1mm_any": 1307,
+     "max_depth_mm": 9.57,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 1538,
+       "beyond_1mm": 1307,
+       "max_depth_mm": 9.57
+      }
+     }
+    },
+    "bone_beyond_1mm": 0
+   },
+   "femoral_v_r": {
+    "final": {
+     "vertices": 5114,
+     "inside_any": 3048,
+     "beyond_1mm_any": 2719,
+     "max_depth_mm": 9.17,
+     "per_mesh": {
+      "pectineus_r": {
+       "inside": 3048,
+       "beyond_1mm": 2719,
+       "max_depth_mm": 9.17
+      }
+     }
+    },
+    "bone_beyond_1mm": 0
+   },
+   "femoral_n": {
+    "final": {
+     "vertices": 2572,
+     "inside_any": 2123,
+     "beyond_1mm_any": 1649,
+     "max_depth_mm": 5.92,
+     "per_mesh": {
+      "iliopsoas_r": {
+       "inside": 2123,
+       "beyond_1mm": 1649,
+       "max_depth_mm": 5.92
+      }
+     }
+    },
+    "bone_beyond_1mm": 0
+   },
+   "popliteal_a_r": {
+    "final": {
+     "vertices": 4988,
+     "inside_any": 552,
+     "beyond_1mm_any": 8,
+     "max_depth_mm": 1.22,
+     "per_mesh": {
+      "gastrocnemius_r": {
+       "inside": 195,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.98
+      },
+      "plantaris_r": {
+       "inside": 139,
+       "beyond_1mm": 1,
+       "max_depth_mm": 1.05
+      },
+      "semimembranosus_r": {
+       "inside": 123,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.65
+      },
+      "vastus_medialis_r": {
+       "inside": 95,
+       "beyond_1mm": 7,
+       "max_depth_mm": 1.22
+      }
+     }
+    },
+    "bone_beyond_1mm": 0
+   },
+   "popliteal_v_r": {
+    "final": {
+     "vertices": 4118,
+     "inside_any": 236,
+     "beyond_1mm_any": 0,
+     "max_depth_mm": 0.57,
+     "per_mesh": {
+      "biceps_femoris_r": {
+       "inside": 22,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.23
+      },
+      "plantaris_r": {
+       "inside": 15,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.52
+      },
+      "semimembranosus_r": {
+       "inside": 199,
+       "beyond_1mm": 0,
+       "max_depth_mm": 0.57
+      }
+     }
+    },
+    "bone_beyond_1mm": 0
+   }
+  }
+ },
+ "status": "STOPPED after attempt 2 -- nothing shipped; build/viewer_f_hr byte-identical to pre-Q181 (md5), rebuild script and mappings restored",
+ "attempts": {
+  "rule_trial (not counted)": "her calibrated muscle rule (value<100) as the refit class: systematic shrink, 18 of 41 muscles > 10 % (gracilis_r -26 %, sartorius_r -22 %, pectineus_l -28 %) -- Q48 used cryo_classes_f class 3, so attempt 1 used that",
+  "attempt_1": {
+   "what": "Q48's step on the femur-registered 1 mm photographs, Q48's classifier, markers = Q48 labels moved by the Q179a field, bone / CT-muscle 3 mm bands held, >10 % volume -> held (carve), 13 held",
+   "tracked_fullres_beyond_1mm_after_snap": {
+    "sciatic_n": 36761,
+    "femoral_a_r": 1230,
+    "femoral_v_r": 2623,
+    "femoral_n": 1649,
+    "popliteal_a_r": 1235,
+    "popliteal_v_r": 1049
+   },
+   "why_not_clean": "her nerve is Q48 class 3 (value < 170), so the re-fitted muscles took the registered sciatic: 50,970 -> 36,761 (adductor magnus_l 20,236)"
+  },
+  "attempt_2": {
+   "what": "attempt 1 + her traced (Q179 registered/clipped/interpolated) sciatic, femoral and popliteal sections excluded from the muscle region; pectineus_l added to the held set (mesh volume -10.9 % although voxels -9.9 %)",
+   "result": "this file: measure_fullres / verify_bundle"
+  }
+ },
+ "muscle_muscle_overlap_same_side_fullres": {
+  "per_shipped_id [before, after, verts_before, verts_after, max_after_mm]": {
+   "adductor_brevis_l": [
+    0,
+    0,
+    37479,
+    40819,
+    0.0
+   ],
+   "adductor_brevis_r": [
+    0,
+    0,
+    45169,
+    47718,
+    0.0
+   ],
+   "adductor_longus_l": [
+    0,
+    0,
+    41512,
+    38190,
+    0.96
+   ],
+   "adductor_longus_r": [
+    0,
+    0,
+    48332,
+    48742,
+    0.0
+   ],
+   "adductor_magnus_l": [
+    0,
+    0,
+    116766,
+    127275,
+    0.0
+   ],
+   "adductor_magnus_r": [
+    0,
+    0,
+    124938,
+    131946,
+    0.48
+   ],
+   "biceps_femoris_l": [
+    0,
+    0,
+    65512,
+    68629,
+    0.0
+   ],
+   "biceps_femoris_r": [
+    1299,
+    1300,
+    81424,
+    82101,
+    9.04
+   ],
+   "gastrocnemius_l": [
+    0,
+    0,
+    83466,
+    86830,
+    0.73
+   ],
+   "gastrocnemius_r": [
+    0,
+    0,
+    89716,
+    89132,
+    0.0
+   ],
+   "gracilis_r": [
+    0,
+    0,
+    39336,
+    36834,
+    0.0
+   ],
+   "obturator_externus_l": [
+    0,
+    0,
+    27924,
+    30046,
+    0.0
+   ],
+   "obturator_externus_r": [
+    0,
+    0,
+    27564,
+    28579,
+    0.0
+   ],
+   "obturator_internus_l": [
+    3833,
+    4276,
+    38699,
+    40976,
+    15.53
+   ],
+   "plantaris_r": [
+    0,
+    0,
+    7894,
+    8244,
+    0.0
+   ],
+   "popliteus_l": [
+    0,
+    0,
+    9155,
+    9127,
+    0.72
+   ],
+   "popliteus_r": [
+    0,
+    0,
+    8630,
+    8610,
+    0.0
+   ],
+   "quadratus_femoris_r": [
+    1683,
+    1724,
+    14354,
+    15822,
+    6.5
+   ],
+   "rectus_femoris_r": [
+    0,
+    0,
+    51666,
+    51714,
+    0.33
+   ],
+   "sartorius_r": [
+    0,
+    0,
+    61436,
+    66728,
+    0.0
+   ],
+   "semimembranosus_l": [
+    0,
+    0,
+    59760,
+    62230,
+    0.44
+   ],
+   "semimembranosus_r": [
+    0,
+    0,
+    66119,
+    59340,
+    0.0
+   ],
+   "semitendinosus_l": [
+    93,
+    93,
+    47722,
+    44123,
+    2.06
+   ],
+   "semitendinosus_r": [
+    1073,
+    1073,
+    53291,
+    51460,
+    6.06
+   ],
+   "tensor_fasciae_latae_l": [
+    0,
+    0,
+    23488,
+    24970,
+    0.0
+   ],
+   "tensor_fasciae_latae_r": [
+    0,
+    0,
+    24378,
+    24612,
+    0.0
+   ],
+   "vastus_lateralis_l": [
+    0,
+    83,
+    89320,
+    93175,
+    2.07
+   ]
+  },
+  "note": "mostly contact with her CT gluteus maximus (held surfaces); obturator_internus_l +443 (into the transferred piriformis_l), vastus_lateralis_l 0 -> 83 (into held vastus_intermedius_l)"
+ },
+ "decision": {
+  "why_stopped": [
+   "14 of 41 thigh-range muscles held by the owner's 10 % volume rule (gemellus_inferior_l, gracilis_l, obturator_internus_r, pectineus_l/r, plantaris_l, quadratus_femoris_l, rectus_femoris_l, sartorius_l, vastus_intermedius_l/r, vastus_lateralis_r, vastus_medialis_l/r): their Q48 volumes were themselves shaped on the lost-frame photographs, and on the registered photographs they regrow 10-18 % (or neighbours shrink when they are held) -- the anterior compartment would stay in the lost frame next to re-fitted neighbours (montages: held quadriceps outlines ~10 mm into the anterior fat on the left)",
+   "pectineus_r (+10.3 %, held) keeps the registered femoral vessels inside it: full-res 830 -> 1,307 (artery) and 1,821 -> 2,719 (vein), bundle 464 -> 710 / 671 -> 993; with pectineus_r re-fitted (trial) both are 0 (max 0.59 / 0.64 mm)",
+   "tibial_n (kept as traced in the lost frame, Q179a) ends up inside the re-fitted biceps femoris_r: bundle 638 -> 1,647 vertices > 1 mm (max 4.98 -> 7.89 mm)",
+   "continuity (Q112 metric, bundle main_frac): 10 regressions -- rectus_femoris_r 1.00 -> 0.77 (full-res 0.74: a > 2 % fragment the Q152 island rule keeps), tensor_fasciae_latae_r 0.996 -> 0.955, adductor_longus_r 1.00 -> 0.96, biceps_femoris_l 0.99 -> 0.96; improved: adductor_magnus_l 0.54 -> 0.98, semimembranosus_r 0.85 -> 0.96, biceps_femoris_r 0.96 -> 0.997",
+   "photographed-muscle share (her rule) mixed: 12 up / 13 down of 27 (adductor_longus_l 0.39 -> 0.65, semimembranosus_l 0.57 -> 0.69; vastus_lateralis_l 0.69 -> 0.61, gracilis_r 0.51 -> 0.43)"
+  ],
+  "what_worked": "sciatic_n full-res > 1 mm in muscle 50,970 -> 2,078 (max 13.4 -> 5.4 mm; 489 of the rest in her CT gluteus maximus_l), bundle 11,639 -> 794; popliteal_a_r 1,959 -> 8, popliteal_v_r 1,555 -> 0; femoral_n 1,987 -> 1,649 (all in her CT iliopsoas_r); 0 tracked vertices in bone; muscle vertices > 1 mm in bone per bone +1.1 % at most (femur_r 4,912 -> 4,967; femur_l 9,579 -> 9,597)",
+  "options": [
+   "(i) relax the 10 % rule for the held muscles (or measure it against the male-transfer volume Q48 started from rather than Q48's lost-frame result) and re-run -- pectineus_r alone at +10.3 % clears the femoral vessels",
+   "(ii) ship attempt 2 as is, with the held anterior compartment disclosed, after fixing rectus_femoris_r (drop / bridge its fragment) and deciding tibial_n (re-trace it, or hide it: its outline is on another structure)",
+   "(iii) keep everything as shipped (current state)"
+  ],
+  "smoothing_note": "shipped ct_vhf_nerve and ct_vhf_popliteal are --smooth 0.0 (a 0.0 conversion reproduces them byte for byte; 1.0 does not), ct_vhf_femoral 1.0 -- the rebuild lines still say 1.0 for the first two (restored unchanged with the rest of the wiring; a one-word fix for whoever ships next)"
+ },
+ "files": {
+  "script": "scripts/cryo/vhf_thigh_refit_q181.py",
+  "tests": "tests/test_vhf_thigh_refit_q181.py",
+  "candidates_task_outputs": [
+   "vhf_xfer_lowerlimb_septa_q181.nii.gz",
+   "vhf_thigh_refit_q181.json",
+   "vhf_thigh_refit_q181_snap.npz"
+  ],
+  "scratch_q181": [
+   "montage_left.png",
+   "montage_right.png",
+   "zoom_left.png",
+   "zoom_right.png",
+   "dbg1.png (her-rule trial)",
+   "dbg_q48rule.png",
+   "dbg_final1.png",
+   "page.png (headless, candidate bundle: 0 page errors)",
+   "old_bundle.json/.bin",
+   "new_bundle/ (candidate bundle)",
+   "built_candidates/ (the four candidate subjects)",
+   "attempt1/",
+   "crops/ bbox + registration + photo_stats jsons only (npy deleted; re-stream ~40 s/side, then `photos` ~8 min)"
+  ]
+ }
+}

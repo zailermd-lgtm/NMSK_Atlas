@@ -1,0 +1,167 @@
+<title>NMSK Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;700&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a 3x2 matrix, rows = kind of model (base / reconstructed / adapted), columns = sex; stacks to one column on phones */
+:root {
+  --bg: #eef1f4;
+  --panel: #ffffff;
+  --ink: #17202b;
+  --muted: #5a6675;
+  --rule: #d3d9e1;
+  --accent: #2f4fa3;
+  --live: #1f7a4d;
+  --live-bg: #e2f2ea;
+  --wait: #8a5a00;
+  --wait-bg: #fbf0d9;
+  --f-display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --panel: #19212b; --ink: #e6ebf1; --muted: #9aa6b4; --rule: #2c3643;
+    --accent: #8fa8ee; --live: #6fd3a0; --live-bg: #16322a; --wait: #f0c26a; --wait-bg: #3a2e14;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --panel: #19212b; --ink: #e6ebf1; --muted: #9aa6b4; --rule: #2c3643;
+  --accent: #8fa8ee; --live: #6fd3a0; --live-bg: #16322a; --wait: #f0c26a; --wait-bg: #3a2e14;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--f-body); }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 56px; display: grid; gap: 28px; }
+header { display: grid; gap: 6px; }
+h1 { font: 700 2.4rem/1.05 var(--f-display); letter-spacing: 0.01em; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 62ch; }
+.matrix { display: grid; grid-template-columns: 10.5rem 1fr 1fr; gap: 12px; align-items: stretch; }
+.colhead, .rowhead { font: 500 0.78rem/1.2 var(--f-data); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.colhead { padding: 0 4px 2px; align-self: end; }
+.rowhead { padding-top: 18px; display: grid; gap: 4px; align-content: start; }
+.rowhead b { font: 700 1.05rem/1.2 var(--f-display); text-transform: none; letter-spacing: 0.01em; color: var(--ink); }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 18px 16px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px; min-width: 0; }
+.card h2 { margin: 0; font: 700 1.35rem/1.15 var(--f-display); text-wrap: balance; }
+.chip { justify-self: start; font: 500 0.72rem/1 var(--f-data); letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 8px; border-radius: 3px; }
+.chip.live { color: var(--live); background: var(--live-bg); }
+.chip.wait { color: var(--wait); background: var(--wait-bg); }
+.card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; font: 400 0.82rem/1.45 var(--f-data); font-variant-numeric: tabular-nums; border-top: 1px solid var(--rule); padding-top: 10px; }
+dt { color: var(--muted); }
+dd { margin: 0; }
+.open { justify-self: start; display: inline-flex; align-items: center; gap: 6px; font: 600 0.95rem/1 var(--f-body); color: var(--panel); background: var(--accent); text-decoration: none; padding: 10px 14px; border-radius: 4px; }
+.open:hover { filter: brightness(1.08); }
+.open:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.chip.latest { color: #fff; background: var(--live); font-weight: 700; }
+.card.is-latest { border-color: var(--live); box-shadow: inset 0 3px 0 var(--live); }
+.chip.base { color: var(--accent); background: var(--wait-bg); }
+.pending { font: 400 0.85rem/1.3 var(--f-data); color: var(--muted); padding: 10px 0 2px; }
+footer { border-top: 1px solid var(--rule); padding-top: 14px; display: grid; gap: 6px; font-size: 0.85rem; color: var(--muted); max-width: 80ch; }
+footer code { font: 0.8rem var(--f-data); color: var(--ink); }
+@media (max-width: 760px) {
+  h1 { font-size: 1.9rem; }
+  .matrix { grid-template-columns: 1fr; }
+  .colhead { display: none; }
+  .rowhead { padding-top: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>NMSK Atlas</h1>
+    <p class="lede">Six whole-body viewers in three kinds, kept apart: <b>Base</b> models are Z-Anatomy, the textbook body, with nothing fitted to a person. <b>Imaging-based</b> models are rebuilt from the Visible Human CT and cryosections, one real body each; where the scan has nothing, Z-Anatomy fills the gap and is badged as a fill. <b>Combined</b> models are the Z-Anatomy body moved onto one of those reconstructions. The green card in each row is the latest version of that model; artifacts whose title starts with OLD are superseded. Every viewer opens in its own tab and works on a phone, tablet and computer.</p>
+  </header>
+
+  <section class="matrix" aria-label="Viewers by kind of model and sex">
+    <div></div>
+    <div class="colhead">Male</div>
+    <div class="colhead">Female</div>
+
+    <div class="rowhead">Base models<b>Z-Anatomy, nothing fitted</b></div>
+
+    <article class="card is-latest">
+      <h2>Base · Male</h2>
+      <span class="chip latest">Latest · v27 · 16 Oct 2026</span>
+      <p>The generic Z-Anatomy body in its own frame, not fitted to any specimen. Documented repairs only: parallel limb muscles closed to a 1 mm fascial interface, three broken left-side objects replaced by their mirrored right side.</p>
+      <dl>
+        <dt>Structures</dt><dd>2,966</dd>
+        <dt>Triangles</dt><dd>3.14 M</dd>
+        <dt>Muscles adjusted</dt><dd>410, badged</dd>
+        <dt>Source</dt><dd>Z-Anatomy / BodyParts3D</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/HdYCRuvGP8ESbggoRWCNBF" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <article class="card is-latest">
+      <h2>Base · Female</h2>
+      <span class="chip latest">Latest · v21 · 16 Oct 2026</span>
+      <p>A woman's skeleton under the Z-Anatomy body: the Z-Anatomy / BodyParts3D body (one male-derived body; no female Z-Anatomy exists) is deformed onto the Visible Human female's skeleton (her own CT: pelvis, trunk, shoulder girdle and limb proportions; standard pose, left / right symmetrised), and every muscle, ligament, vessel, nerve, organ and the skin is carried with the bones it attaches to (origins and insertions stay on the bone; the shapes stay Z-Anatomy's). The uterus, ovaries, tubes, vagina, ligaments and pelvic vessels of the same donor (HuBMAP HRA, CC BY 4.0) are registered onto the new pelvis; the vestibular bulbs, Bartholin's glands, perineal muscles, perineal body and female urethra of another person (Chinese Visible Human, CC BY 4.0) are now registered onto it too (only the clitoris cavernous body still does not fit without a real bone penetration, so it stays out). The target is one woman, not an average, and nothing of hers is measured here: Combined · Female is fitted bone by bone to HER skeleton and pose, with her measured structures where available.</p>
+      <dl>
+        <dt>Structures</dt><dd>2,939</dd>
+        <dt>Triangles</dt><dd>3.12 M</dd>
+        <dt>Source</dt><dd>Z-Anatomy / BodyParts3D, deformed onto a female skeleton (Visible Human female CT)</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/TiXsQe3eS5ehzN64Aozyth" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <div class="rowhead">Imaging-based models<b>Rebuilt from CT and cryosections</b></div>
+
+    <article class="card is-latest">
+      <h2>Imaging-based · Male</h2>
+      <span class="chip latest">Latest · v106 · 16 Oct 2026</span>
+      <p>Rebuilt from the Visible Human male's CT and cryosections; his testes, penis and other male organs are Z-Anatomy fills. A Source control separates what is measured on him from rule-based, transferred and Z-Anatomy-filled structures; each card states which, with its error.</p>
+      <dl>
+        <dt>Structures</dt><dd>593</dd>
+        <dt>By source</dt><dd>215 measured · 90 rule-based · 43 transferred · 200 Z-fill (+13 hidden, another person's CT)</dd>
+        <dt>Triangles</dt><dd>2.56 M</dd>
+        <dt>Source</dt><dd>Visible Human male (NLM)</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/RRkf5ELjmk6E8iHdgfbTtq" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <article class="card is-latest">
+      <h2>Imaging-based · Female</h2>
+      <span class="chip latest">Latest · v93 · 16 Oct 2026</span>
+      <p>Rebuilt from the Visible Human female's CT and cryosections, with her own bladder and rectum and her uterus, ovaries, tubes, vagina, uterine and ovarian ligaments and both breasts (HRA reference models of the same donor; the breast model is sculpted from atlases, not scanned, and is badged as a reference model). Her clitoris, vestibular bulbs, Bartholin's glands, perineal muscles, urethral sphincters and perineal body come from the Chinese Visible Human female (Wu et al. 2015, CC BY 4.0), registered onto her pelvis and badged as another person's anatomy. Labia and mons pubis are not available and are not shown. A Source control separates what is measured on her from rule-based, transferred and Z-Anatomy-filled structures; each card states which, with its error.</p>
+      <dl>
+        <dt>Structures</dt><dd>630</dd>
+        <dt>By source</dt><dd>156 measured · 147 rule-based · 87 transferred · 218 Z-fill</dd>
+        <dt>Triangles</dt><dd>3.72 M</dd>
+        <dt>Source</dt><dd>Visible Human female (NLM)</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/1nFD1WUQ7jyovz9vx9pn77" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <div class="rowhead">Combined models<b>Z-Anatomy fitted to the imaging-based body</b></div>
+
+    <article class="card is-latest">
+      <h2>Combined · Male</h2>
+      <span class="chip latest">Latest · v28 · 16 Oct 2026</span>
+      <p>The Z-Anatomy body moved onto the Visible Human male's own skeleton, bone by bone, then refined onto his organs, muscles and skin. Each structure's card gives its fit error, measured on his own scan where possible. The left elbow, wrist and shoulder were re-seated onto his bones; some muscle overlaps and wrist-ligament tears remain, and each is flagged in its card.</p>
+      <dl>
+        <dt>Structures</dt><dd>2,966</dd>
+        <dt>Source</dt><dd>Z-Anatomy / BodyParts3D, fitted to the Visible Human male</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/FeFFPVVTEnPkDm2r7TyDFz" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <article class="card is-latest">
+      <h2>Combined · Female</h2>
+      <span class="chip latest">Latest · v39 · 16 Oct 2026</span>
+      <p>The Z-Anatomy body fitted onto the Visible Human female's own skeleton, bone by bone. Each structure's card gives its fit error, measured on her own scan where possible. Male-only organs are left out; her uterus, ovaries, tubes, vagina, ligaments and both breasts (HRA reference models of the same donor; the breast model is sculpted, not scanned) and the clitoris, vestibular bulbs, glands, perineal muscles and urethral sphincters (Chinese Visible Human female, CC BY 4.0, registered) are shown; since Q250 the pelvic bones (hip bones, sacrum, coccyx) are Z-Anatomy bones deformed onto her own pelvis, so the subpubic angle is in the female range.</p>
+      <dl>
+        <dt>Structures</dt><dd>2,939</dd>
+        <dt>Surface error</dt><dd>6.1 mm median (15.0 unfitted)</dd>
+        <dt>Bones</dt><dd>1.9 mm median</dd>
+        <dt>Source</dt><dd>Z-Anatomy / BodyParts3D, fitted to the Visible Human female</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/1GEpFSCZexGZ1GnM1pXxuP" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+  </section>
+
+  <footer>
+    <div>All viewers share one atlas frame: <code>+X right · +Y superior · +Z anterior</code>, millimetres, origin at the midpoint of the two hip-joint centres. The same point has the same coordinates in every viewer.</div>
+    <div>Anatomy model layer: CC BY-SA 4.0, from Z-Anatomy and BodyParts3D. Specimen images: Visible Human Project, U.S. National Library of Medicine.</div>
+  </footer>
+</div>

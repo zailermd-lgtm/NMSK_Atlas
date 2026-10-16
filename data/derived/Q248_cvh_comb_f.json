@@ -1,0 +1,60 @@
+{
+ "anococcygeal_ligament_cvh": {
+  "gates": {
+   "vertices": 2408,
+   "pushed_out_of_bone": 153,
+   "pushed_fraction": 0.064,
+   "max_push_mm": 8.71,
+   "skin_min_depth_mm": 1.8,
+   "soft_overlap": {
+    "muscle_fraction_deeper_6mm": 0.199,
+    "organ_fraction_deeper_3mm": 0.663,
+    "top": {
+     "zan_descending_colon": 1597,
+     "zan_iliococcygeus_muscle_l": 192,
+     "zan_pubo_analis_muscle_l": 118,
+     "gluteus_maximus_l": 81
+    },
+    "z_filled_estimates_not_gated": {}
+   },
+   "volume_cm3": null,
+   "watertight": false
+  },
+  "held": [
+   "> 10 % of the vertices deeper than 3 mm inside an organ",
+   "closer than 3 mm to / outside the skin",
+   "bone penetration after registration: > 15 % of the vertices or > 4 mm"
+  ],
+  "status": "held",
+  "name": "Anococcygeal ligament (Chinese Visible Human)",
+  "latin": "Ligamentum anococcygeum"
+ },
+ "pubovesical_ligament_cvh": {
+  "gates": {
+   "vertices": 239,
+   "pushed_out_of_bone": 0,
+   "pushed_fraction": 0.0,
+   "max_push_mm": 0.0,
+   "skin_min_depth_mm": 47.2,
+   "soft_overlap": {
+    "muscle_fraction_deeper_6mm": 0.004,
+    "organ_fraction_deeper_3mm": 0.046,
+    "top": {
+     "urethra_female_lumen": 9,
+     "vestibular_bulb_r": 2,
+     "zan_iliococcygeus_muscle_r": 1
+    },
+    "z_filled_estimates_not_gated": {}
+   },
+   "min_distance_to_pubis_mm": 13.7,
+   "volume_cm3": 0.285,
+   "watertight": true
+  },
+  "held": [
+   "does not reach the pubic bone (14 mm away after the registration; the pubovesical ligament attaches to the pubis)"
+  ],
+  "status": "held",
+  "name": "Pubovesical ligament (Chinese Visible Human)",
+  "latin": "Ligamentum pubovesicale"
+ }
+}

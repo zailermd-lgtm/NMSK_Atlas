@@ -1,0 +1,71 @@
+#sel-sec{--ss-bg:#fff;--ss-ink:#111;--ss-dim:#667;--ss-line:#ccd;--ss-accent:#0a6e8e;--ss-accent-ink:#fff;--ss-sunk:#eef1f4;--ss-mark:#e8a317}
+#sel-sec,.ss-lrow,.ss-mk{box-sizing:border-box}
+#sel-sec{padding:12px 14px;border-bottom:1px solid var(--ss-line);color:var(--ss-ink);font:12px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#sel-sec .ss-eyebrow{margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ss-dim)}
+#sel-sec .ss-count{display:inline-block;min-width:18px;padding:0 5px;margin-left:4px;border-radius:9px;background:var(--ss-sunk);color:var(--ss-ink);text-align:center;letter-spacing:0}
+#sel-sec.has-marks .ss-count{background:var(--ss-mark);color:#1b1b1b}
+#sel-sec .ss-hint{margin:4px 0;font-size:11px;line-height:1.4;color:var(--ss-dim)}
+#sel-sec .ss-hint:empty{display:none}
+#sel-sec.has-marks #sel-empty{display:none}
+#sel-sec .ss-chips{display:flex;flex-wrap:wrap;gap:4px;max-height:132px;overflow-y:auto;margin-bottom:6px;-webkit-overflow-scrolling:touch}
+#sel-sec .ss-chips:empty{display:none}
+#sel-sec .ss-chip{display:inline-flex;align-items:center;max-width:100%;border:1px solid var(--ss-mark);border-radius:14px;background:var(--ss-sunk);padding:0 0 0 8px;min-height:24px}
+#sel-sec .ss-chip .t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px;font-size:11.5px}
+#sel-sec .ss-chip button{flex:0 0 auto;width:24px;min-height:24px;border:0;border-radius:0 14px 14px 0;background:transparent;color:var(--ss-ink);font-size:15px;line-height:1;cursor:pointer;padding:0}
+#sel-sec .ss-chip button:hover{background:var(--ss-mark);color:#1b1b1b}
+#sel-sec .ss-row{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 4px}
+#sel-sec .ss-row>button,#sel-sec .ss-row>select,#sel-sec .ss-row>input[type=text]{flex:1 1 auto;min-width:0}
+#sel-sec button,#sel-sec select,#sel-sec input[type=text],#sel-sec textarea{font:inherit;font-size:11.5px;color:var(--ss-ink);background:var(--ss-bg);border:1px solid var(--ss-line);border-radius:6px;padding:4px 7px;min-height:28px;touch-action:manipulation}
+#sel-sec button{cursor:pointer;background:transparent}
+#sel-sec button:hover:not(:disabled){border-color:var(--ss-accent)}
+#sel-sec button:disabled{opacity:.45;cursor:default}
+#sel-sec button[aria-pressed="true"]{background:var(--ss-accent);color:var(--ss-accent-ink);border-color:var(--ss-accent)}
+#sel-sec .ss-primary{font-weight:600;border-color:var(--ss-accent)}
+#sel-sec .ss-det{margin:4px 0 0;border-top:1px solid var(--ss-line);padding-top:4px}
+#sel-sec .ss-det>summary{cursor:pointer;font-weight:600;font-size:11.5px;padding:4px 0;min-height:24px}
+#sel-sec textarea{display:block;width:100%;margin:2px 0 4px;resize:vertical;font:11px/1.35 ui-monospace,Menlo,Consolas,monospace}
+#sel-sec .ss-check{display:flex;align-items:center;gap:6px;margin:2px 0;font-size:11.5px}
+#sel-sec .ss-check input{width:16px;height:16px}
+.ss-lrow{display:flex;align-items:stretch;gap:3px;width:100%}
+.ss-lrow>:last-child{flex:1 1 auto;min-width:0}
+.ss-mk{flex:0 0 auto;width:26px;border:1px solid var(--ss-line,#ccd);border-radius:5px;background:transparent;color:transparent;font-size:14px;line-height:1;cursor:pointer;padding:0;touch-action:manipulation}
+.ss-mk:hover{border-color:var(--ss-accent,#0a6e8e)}
+.ss-mk[aria-pressed="true"]{background:var(--ss-mark,#e8a317);border-color:var(--ss-mark,#e8a317);color:#1b1b1b}
+.ss-tb[hidden]{display:none!important}
+body.ss-marking canvas{cursor:copy!important}
+.ss-phone #sel-sec button,.ss-phone #sel-sec select,.ss-phone #sel-sec input[type=text]{min-height:38px;font-size:13px}
+.ss-phone #sel-sec .ss-chip{min-height:38px;border-radius:19px;padding-left:12px}
+.ss-phone #sel-sec .ss-chip .t{font-size:13px;max-width:46vw}
+.ss-phone #sel-sec .ss-chip button{width:38px;min-height:38px;font-size:19px;border-radius:0 19px 19px 0}
+.ss-phone #sel-sec .ss-det>summary{min-height:38px;display:flex;align-items:center;font-size:13px}
+.ss-phone #sel-sec .ss-check input{width:22px;height:22px}
+.ss-phone #sel-sec .ss-chips{max-height:170px}
+.ss-phone .ss-mk{width:38px;min-height:38px}
+/* Q232: invert, per-group display states, fade slider, presets */
+#sel-sec .ss-hint[hidden]{display:none}
+#sel-sec .ss-chip.ss-exc{border-style:dashed;border-color:var(--ss-dim)}
+#sel-sec .ss-chip.ss-all{border-color:var(--ss-mark);background:var(--ss-mark);color:#1b1b1b;font-weight:600;padding-right:8px}
+#sel-sec .ss-chip.ss-exc button:hover{background:var(--ss-accent);color:var(--ss-accent-ink)}
+#sel-sec .ss-disp{margin:6px 0 4px;padding:6px 0 2px;border-top:1px solid var(--ss-line)}
+#sel-sec .ss-grp{display:block;margin:0 0 6px}
+#sel-sec .ss-gl{display:block;margin:0 0 3px;font-size:11px;font-weight:700;color:var(--ss-dim)}
+#sel-sec .ss-gb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+#sel-sec .ss-gb>button{min-width:0;padding-left:3px;padding-right:3px}
+#sel-sec .ss-opt{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px;margin:2px 0 6px;font-size:11.5px}
+#sel-sec .ss-opt>label:first-child{flex:1 1 auto;color:var(--ss-dim);font-weight:600}
+#sel-sec .ss-opt input[type=range]{order:3;flex:1 1 100%;min-width:0;height:22px;margin:0;accent-color:var(--ss-accent)}
+#sel-sec .ss-opt output{flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums}
+#sel-sec .ss-opt input[type=color]{width:38px;height:28px;padding:1px;border:1px solid var(--ss-line);border-radius:6px;background:var(--ss-bg)}
+#sel-sec .ss-opt .ss-check{margin-left:auto}
+#sel-sec .ss-opt:has(input[type=color])>label:first-child{flex:0 0 auto}
+#sel-sec .ss-presets>button{flex:1 1 44%}
+#sel-sec .ss-catrow>select{flex:1 1 100%}
+#sel-sec .ss-keys{margin-top:6px}
+.ss-phone #sel-sec .ss-gb>button{min-height:38px}
+.ss-phone #sel-sec .ss-gl{font-size:12px}
+.ss-phone #sel-sec .ss-opt{min-height:38px}
+.ss-phone #sel-sec .ss-opt input[type=range]{height:38px}
+.ss-phone #sel-sec .ss-opt input[type=color]{width:46px;height:38px}
+.ss-phone #sel-sec .ss-presets>button{flex:1 1 44%}
+.ss-phone #sel-sec .ss-keys{display:none}
+.ss-phone #sel-sec .ss-check{min-height:38px}

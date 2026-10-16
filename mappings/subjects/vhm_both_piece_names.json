@@ -1,0 +1,47 @@
+{
+ "_README": [
+  "Name the seven tarsal pieces the male bundle carries as `tarsals_r/l` (the DU release ships each bone separately;",
+  "piece order = the position among the pieces of that id in the bundle's structure list"
+ ],
+ "source": "Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2 (CC BY 4.0), Visible Human male lower-limb release; named by the geometric rule in scripts/transfer/name_tarsal_pieces.py",
+ "rename": {
+  "tarsals_r": {
+   "0": "calcaneus_r",
+   "6": "talus_r",
+   "1": "cuboid_r",
+   "5": "navicular_r",
+   "4": "cuneiform_medial_r",
+   "2": "cuneiform_intermediate_r",
+   "3": "cuneiform_lateral_r"
+  },
+  "tarsals_l": {
+   "0": "calcaneus_l",
+   "6": "talus_l",
+   "1": "cuboid_l",
+   "5": "navicular_l",
+   "4": "cuneiform_medial_l",
+   "2": "cuneiform_intermediate_l",
+   "3": "cuneiform_lateral_l"
+  }
+ },
+ "volumes_cm3": {
+  "tarsals_r": {
+   "calcaneus": 73.0,
+   "talus": 38.6,
+   "cuboid": 13.7,
+   "cuneiform_medial": 9.7,
+   "navicular": 9.6,
+   "cuneiform_lateral": 6.4,
+   "cuneiform_intermediate": 3.5
+  },
+  "tarsals_l": {
+   "calcaneus": 79.8,
+   "talus": 38.9,
+   "cuboid": 14.2,
+   "navicular": 10.0,
+   "cuneiform_medial": 10.0,
+   "cuneiform_lateral": 6.7,
+   "cuneiform_intermediate": 3.7
+  }
+ }
+}

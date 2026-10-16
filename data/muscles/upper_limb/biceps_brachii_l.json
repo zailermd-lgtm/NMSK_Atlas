@@ -1,0 +1,302 @@
+{
+  "id": "biceps_brachii_l",
+  "name_ta": "Musculus biceps brachii",
+  "name_common": "Biceps brachii",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "scapula_l",
+    "origin_landmark": "long head: supraglenoid tubercle (via intra-articular tendon through the glenohumeral joint); short head: coracoid process (with coracobrachialis)",
+    "insertion_bone": "radius_l",
+    "insertion_landmark": "radial tuberosity (+ bicipital aponeurosis blending into antebrachial fascia)",
+    "via_points": [
+      {
+        "structure": "intertubercular (bicipital) groove",
+        "bone_frame": "humerus_l",
+        "position_local_mm": [
+          -10,
+          -40,
+          15
+        ],
+        "active_over_joint_range": "all glenohumeral positions -- long head tendon is constrained within the groove by the transverse humeral ligament"
+      }
+    ]
+  },
+  "innervation": {
+    "nerve": "musculocutaneous_n",
+    "root_levels": "C5-C6"
+  },
+  "blood_supply": [
+    "brachial_a_l_muscular_branches"
+  ],
+  "actions": [
+    "flexes elbow (strongest supinated)",
+    "supinates forearm (strongest at 90deg elbow flexion)",
+    "weak shoulder flexion (long head)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "biceps_brachii_l_long_head",
+      "name": "Long head",
+      "innervation_branch": "musculocutaneous n., proximal muscular branch",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 180,
+        "physiological_cross_section_area_mm2": 380.0,
+        "max_isometric_force_N": 95.0,
+        "tendon_slack_length_mm": 272
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          0,
+          15,
+          10
+        ],
+        [
+          -8,
+          5,
+          15
+        ],
+        [
+          5,
+          5,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly single endplate band, typical of parallel-fibered muscle -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.1,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Crosses both glenohumeral and elbow joints; contributes to shoulder stability/flexion in addition to elbow flexion/supination.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            67,
+            100
+          ],
+          "reference_line_from": "the proximal end of the arm segment (acromion)",
+          "reference_line_to": "the elbow",
+          "method": "EMG motor point mapping",
+          "notes": "Moon et al., by EMG. Within the distal third the long head's motor points sit in the LATERAL portion of the muscle. The source states the location as 'the distal third of the arm', which is rendered here as 67-100% of that segment. That is arithmetic on the source's own words, not an inference about the anatomy; no narrower band is claimed than the source gave.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "musculocutaneous_n"
+      ]
+    },
+    {
+      "id": "biceps_brachii_l_short_head",
+      "name": "Short head",
+      "innervation_branch": "musculocutaneous n., distal muscular branch",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 170,
+        "physiological_cross_section_area_mm2": 360.0,
+        "max_isometric_force_N": 90.0,
+        "tendon_slack_length_mm": 190
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -25,
+          30,
+          20
+        ],
+        [
+          -30,
+          20,
+          20
+        ],
+        [
+          -20,
+          15,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly single endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.1,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Crosses only the elbow (and slightly the shoulder via coracoid); more purely an elbow flexor/supinator than the long head.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            67,
+            100
+          ],
+          "reference_line_from": "the proximal end of the arm segment (acromion)",
+          "reference_line_to": "the elbow",
+          "method": "EMG motor point mapping",
+          "notes": "Moon et al., by EMG. Within the distal third the short head's motor points sit in the MEDIAL portion of the muscle -- the medial/lateral split is what makes one probe position serve both heads. The source states the location as 'the distal third of the arm', which is rendered here as 67-100% of that segment. That is arithmetic on the source's own words, not an inference about the anatomy; no narrower band is claimed than the source gave.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "musculocutaneous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the anterior arm at the distal third. The short head is injected in the medial portion at this level and the long head in the lateral portion.",
+    "depth_layer": "Superficial to the humeral cortex, with brachialis as the second oval mass deep and lateral to it.",
+    "identification_cues": "Two oval masses at the distal third: brachialis and biceps brachii.",
+    "notes": "One probe position serves both heads because their motor points separate medially and laterally rather than along the arm.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Distal third of both heads (long and short), superficial, easily palpated with the elbow slightly flexed",
+      "referred_pain_pattern": "Upward over the muscle to the anterior deltoid region and front of the shoulder, with spillover to the suprascapular region and downward to the antecubital fossa; pain rarely extends below the elbow",
+      "activation_perpetuating_factors": "Overload in supination/flexion; associated with concurrent trigger points in brachialis, triceps (long head), supraspinatus, infraspinatus and upper trapezius",
+      "notes": "Can mimic long-head biceps tendinopathy or subdeltoid bursitis (tenderness in the bicipital groove) or distal biceps tendinopathy/bicipitoradial bursitis (distal ache); differentiate from pain referred into the anterior arm from brachialis, infraspinatus, scalenes/subclavius, supraspinatus, pronator teres, C5-C6 radiculopathy, distal biceps partial tear, bicipitoradial bursitis, or pronator/lacertus syndromes",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded elbow muscle reference document (Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed., Williams & Wilkins, 1999: ch. 30, Biceps brachii)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "Prime elbow flexor–supinator (corkscrew action). At the shoulder: short head weakly flexes; the long head’s active role is minimal — with the elbow/forearm controlled, EMG shows essentially no long-head activity during isolated shoulder motion, so its head-depressor/stabiliser effect is best regarded as passive tension (and load transmitted from elbow activity) rather than an active shoulder mover; clinically its tendon is nonetheless a major anterior pain generator (tenosynovitis, pulley lesions, SLAP, instability, rupture → Popeye sign).",
+      "adjacent_structures": "Adjacent bursae: The long-head “sheath” is a synovial extension of the joint, not a bursa; the subacromial–subdeltoid bursa overlies its intra-articular course; bicipitoradial bursa is distal (elbow). Adjacent structures — mutual influence: Superior labrum (SLAP), rotator interval/pulley and upper subscapularis (medial subluxation when torn), bicipital groove morphology, subacromial arch (interval region impinges); pectoralis major tendon crosses it; musculocutaneous nerve enters the conjoint region below the coracoid.",
+      "trigger_points": [
+        {
+          "location": "TrPs in the distal third of both heads’ bellies, palpated flat against the humerus.",
+          "referred_pain": "Superficial anterior shoulder pain over the bicipital region, extending down the anterior arm toward the antecubital fossa; occasionally a lighter projection to the suprascapular area; aggravated by lifting palm-up and reaching overhead-backwards. Mimics/overlaps bicipital tenosynovitis — palpate belly TrPs vs groove tenderness.",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Into the anterior arm/shoulder strip: infraspinatus (the deep anterior-shoulder mimic), subclavius, supraspinatus (lateral overlap), scaleni, coracobrachialis, pectoralis clavicular fibres",
+        "glenohumeral joint and interval pathology",
+        "C5–C6 root pain runs the same corridor."
+      ],
+      "movement_restrictions_aggravators": "Pain on resisted supination-flexion (Yergason/Speed patterns), overhead reaching, carrying with elbow extended.",
+      "notes": "Anterior shoulder pain relieved by an image-guided sheath injection localises the interval/biceps complex; remember the sheath communicates with the joint, so “biceps effusion” often means joint effusion.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Jost B, Koch PP, Gerber C. Anatomy and functional aspects of the rotator interval. J Shoulder Elbow Surg. 2000;9(4):336–341.",
+        "Werner A, Mueller T, Boehm D, Gohlke F. The stabilizing sling for the long head of the biceps tendon in the rotator cuff interval. A histoanatomic study. Am J Sports Med. 2000;28(1):28–31.",
+        "Levy AS, Kelly BT, Lintner SA, Osbahr DC, Speer KP. Function of the long head of the biceps at the shoulder: electromyographic analysis. J Shoulder Elbow Surg. 2001;10(3):250–255. doi:10.1067/mse.2001.113087. PMID 11408907. [retrieved 31/08/2026]",
+        "Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL. The origin of the long head of the biceps from the scapula and glenoid labrum. J Bone Joint Surg Br. 1994;76(6):951–954.",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    },
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "Biceps is the most powerful supinator when the elbow is flexed near 90°, because at that angle the tendon unwinds from the radial tuberosity with the largest supination moment arm; with the elbow extended its supination leverage falls and supinator dominates. As an elbow flexor it is most effective with the forearm supinated and contributes roughly one third of flexion torque (MRI estimate: brachialis 47%, biceps 34%, brachioradialis 19%); its flexion moment arm (~4–5 cm for the long head) is the largest of the flexors, so it operates over a wide range of its length–tension curve. Classic EMG (Basmajian & Latif) shows little biceps activity during slow flexion with the forearm pronated, when brachialis and brachioradialis do the work. Being two-joint, shoulder extension lengthens it and increases elbow-flexion force. The long head depresses and stabilises the humeral head anteriorly; the short head assists adduction. After an unrepaired distal rupture, Morrey's biomechanical series reported about 40% loss of supination strength and 30% loss of flexion strength.",
+      "adjacent_structures": "Adjacent bursae: Bicipitoradial (cubital) bursa between the distal tendon and the anterior, smooth part of the radial tuberosity; it wraps the tendon, is compressed between tendon and radial cortex in pronation, does not communicate with the joint but may communicate with the interosseous cubital bursa (between tendon, ulna and supinator). Distension of either can compress the posterior interosseous nerve. Adjacent structures and relations: Brachial artery and median nerve lie medial to the tendon in the cubital fossa; the lateral antebrachial cutaneous nerve emerges lateral to the tendon between biceps and brachialis (it can be compressed by the tendon/aponeurosis in extension–pronation); the deep branch of the radial nerve and the radial recurrent vessels lie lateral and deep near the insertion (at risk in distal biceps repair); supinator and the annular ligament lie deep to the insertion.",
+      "trigger_points": [
+        {
+          "location": "Distal third of both heads, superficial, easily palpated with the elbow slightly flexed.",
+          "referred_pain": "pain travels upward over the muscle to the anterior deltoid region and front of the shoulder; spill-over to the suprascapular region and downward to the antecubital fossa. Pain rarely extends below the elbow.",
+          "notes": "Symptoms / mimics: Anterior shoulder ache, difficulty raising the arm above shoulder height with the palm up, loss of full passive elbow extension; tenderness in the bicipital groove that imitates long-head tendinopathy or subdeltoid bursitis; distal ache misread as distal biceps tendinopathy or bicipitoradial bursitis. Entrapment: None attributed to biceps TrPs by Travell & Simons; the tendon itself can compress the lateral antebrachial cutaneous nerve (see Entrapments). Associated TrPs: Brachialis, triceps (long head), supraspinatus, infraspinatus, upper trapezius; treat biceps and brachialis together.",
+          "source": "Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed. Williams & Wilkins, 1999: ch. 30, Biceps brachii; ch. 18, pain-and-muscle guide."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "brachialis (antecubital, anterior deltoid)",
+        "infraspinatus (anterolateral arm)",
+        "scalenes and subclavius (anterior arm, characteristically skipping the elbow)",
+        "supraspinatus (lateral arm)",
+        "pronator teres (antecubital spill)",
+        "C5–C6 radiculopathy",
+        "distal biceps partial tear",
+        "bicipitoradial bursitis",
+        "pronator and lacertus syndromes."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO the anterior arm and antecubital region from elsewhere",
+      "notes": "Hook test and squeeze test for distal rupture; supination weakness is the functional loss that drives repair. Surgical exposure of the tuberosity endangers the posterior interosseous nerve (single-incision) or risks radio-ulnar synostosis (two-incision). Distension of the bicipitoradial bursa presents as an antecubital mass with radial-nerve symptoms.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Standring S (ed). Gray's Anatomy, 42nd ed. Elsevier, 2021: chapters \"Shoulder girdle and arm\" and \"Elbow and forearm\" (biceps brachii; bursae of the elbow).",
+        "Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed. Williams & Wilkins, 1999: ch. 30, Biceps brachii; ch. 18, pain-and-muscle guide.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System, 3rd ed. Elsevier, 2017: ch. 6, Elbow and forearm.",
+        "Eames MH, Bain GI, Fogg QA, van Riet RP. Distal biceps tendon anatomy: a cadaveric study. J Bone Joint Surg Am 2007;89(5):1044–1049.",
+        "Athwal GS, Steinmann SP, Rispoli DM. The distal biceps tendon: footprint and relevant clinical anatomy. J Hand Surg Am 2007;32(8):1225–1229.",
+        "Skaf AY, Boutin RD, Dantas RW, et al. Bicipitoradial bursitis: MR imaging findings in eight patients and anatomic data from contrast opacification of bursae in cadavers. Radiology 1999;212(1):111–116.",
+        "Kawakami Y, et al. Specific tension of elbow flexor and extensor muscles based on magnetic resonance imaging. Eur J Appl Physiol Occup Physiol 1994;68(2):139–147.",
+        "Murray WM, Buchanan TS, Delp SL. The isometric functional capacity of muscles that cross the elbow. J Biomech 2000;33(8):943–952.",
+        "Basmajian JV, Latif A. Integrated actions and functions of the chief flexors of the elbow. J Bone Joint Surg Am 1957;39-A(5):1106–1118.",
+        "Morrey BF, Askew LJ, An KN, Dobyns JH. Rupture of the distal tendon of the biceps brachii: a biomechanical study. J Bone Joint Surg Am 1985;67(3):418–421.",
+        "Spinner RJ, Lins RE, Collins AJ, Spinner M. Posterior interosseous nerve compression due to an enlarged bicipital bursa confirmed by MRI. J Hand Surg Br 1993;18(6):753–756.",
+        "O'Driscoll SW, Goncalves LB, Dietz P. The hook test for distal biceps tendon avulsion. Am J Sports Med. 2007;35(11):1865–1869.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260.",
+        "Ruland RT, Dunbar RP, Bowen JD. The biceps squeeze test for diagnosis of distal biceps tendon ruptures. Clin Orthop Relat Res. 2005;(437):128–131.",
+        "ElMaraghy A, Devereaux M, Tsoi K. The biceps crease interval for diagnosing complete distal biceps tendon ruptures. Clin Orthop Relat Res. 2008;466(9):2255–2262.",
+        "Johnson RK, Spinner M, Shrewsbury MM. Median nerve entrapment syndrome in the proximal forearm. J Hand Surg Am. 1979;4(1):48–51."
+      ],
+      "tests": [
+        {
+          "name": "Hook test",
+          "performance": "Index finger hooked from the lateral side under the distal tendon, elbow at 90°, forearm actively supinated",
+          "positive_finding": "No cord to hook (complete rupture); an intact lacertus can mislead if hooked medially",
+          "structures_loaded": "Distal biceps tendon",
+          "sensitivity": 100,
+          "specificity": 100,
+          "accuracy": "Sensitivity and specificity 100% in the original series, which reported MRI at 92%/85% (O'Driscoll 2007); across all biceps tests sensitivity 81–100% (Zwerus 2018)",
+          "source": "O'Driscoll SW, Goncalves LB, Dietz P. The hook test for distal biceps tendon avulsion. Am J Sports Med. 2007;35(11):1865–1869.; Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Biceps squeeze test",
+          "performance": "Squeeze the biceps belly with the forearm slightly pronated",
+          "positive_finding": "Absent supination of the forearm",
+          "structures_loaded": "Distal biceps",
+          "sensitivity": 96,
+          "specificity": null,
+          "accuracy": "Sensitivity 96% (Ruland 2005); specificity not reliably established",
+          "source": "Ruland RT, Dunbar RP, Bowen JD. The biceps squeeze test for diagnosis of distal biceps tendon ruptures. Clin Orthop Relat Res. 2005;(437):128–131."
+        },
+        {
+          "name": "Passive forearm pronation",
+          "performance": "Observe proximal–distal excursion of the muscle belly during passive rotation",
+          "positive_finding": "Loss of the normal distal migration in supination",
+          "structures_loaded": "Distal biceps",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Described; limited accuracy data (Zwerus 2018)",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Biceps crease interval",
+          "performance": "Distance from the antecubital crease to the cusp of the distal biceps; threshold 6.0 cm, or crease ratio 1.2 vs the other side",
+          "positive_finding": "Interval above threshold (retracted belly)",
+          "structures_loaded": "Distal biceps",
+          "sensitivity": 92,
+          "specificity": 100,
+          "accuracy": "Sensitivity 92%, specificity 100%, overall accuracy 93% (ElMaraghy 2008)",
+          "source": "ElMaraghy A, Devereaux M, Tsoi K. The biceps crease interval for diagnosing complete distal biceps tendon ruptures. Clin Orthop Relat Res. 2008;466(9):2255–2262."
+        },
+        {
+          "name": "Resisted elbow flexion–supination (lacertus fibrosus provocation)",
+          "performance": "Site-specific provocation: resisted pronation with the elbow extending loads the pronator teres heads; resisted elbow flexion–supination loads the lacertus fibrosus; resisted middle-finger PIP flexion loads the FDS arch (Johnson, Spinner & Shrewsbury 1979). Thenar-palm numbness (palmar cutaneous branch) and absence of nocturnal predominance separate it from carpal tunnel syndrome. No validated sensitivity/specificity data have been published for these manoeuvres; this is stated rather than estimated.",
+          "positive_finding": "",
+          "structures_loaded": "lacertus fibrosus",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No validated sensitivity/specificity data have been published for these manoeuvres; this is stated rather than estimated.",
+          "source": "Johnson RK, Spinner M, Shrewsbury MM. Median nerve entrapment syndrome in the proximal forearm. J Hand Surg Am. 1979;4(1):48–51."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    }
+  ]
+}

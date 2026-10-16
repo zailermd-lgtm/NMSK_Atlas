@@ -1,0 +1,224 @@
+{
+ "1440x900": {
+  "geometry_s": 96.79,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "mpr",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "side"
+  },
+  "geo_timing": {
+   "t0": 1791795738422,
+   "read": 1,
+   "pack": 176,
+   "worker": 29907
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    20,
+    37,
+    325
+   ],
+   "axial512_25sub_ms": 1188,
+   "coronal512_ms": 79,
+   "sagittal512_ms": 41
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 441,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-side",
+   "scrollW": 1440,
+   "innerW": 1440,
+   "scrollH": 900,
+   "innerH": 900,
+   "panel": [
+    720,
+    0,
+    720,
+    900
+   ],
+   "canvas": [
+    0,
+    135,
+    720,
+    766
+   ],
+   "smallButtons": 0,
+   "buttons": 32,
+   "ctlScrollW": 719,
+   "ctlClientW": 719
+  },
+  "interact": {
+   "click_coronal_moves_anchor": true,
+   "click_coronal_moves_cut_plane": true,
+   "cut_state": [
+    "axial, Y = 276.5 mm",
+    "axial, Y = 464.5 mm"
+   ],
+   "readout": "Skeletal muscle | Sternocleidomastoid [sternocleidomastoid_l] | HU 52 (class 52) | x -49 y 653 z 24 mm",
+   "readout_has_tissue_and_hu": true,
+   "axial_click_keeps_plane_y": true,
+   "mip_mode": true,
+   "thick_10": true,
+   "cut_panel_slab_adopted": true,
+   "cut_th_text_after_link": "3.0 mm slice",
+   "views_have_content": {
+    "cut": true,
+    "ax": true,
+    "co": true,
+    "sa": true
+   },
+   "closed_cleanly": {
+    "cls": "",
+    "canvasW": 860,
+    "innerW": 1440,
+    "rootVisible": "none"
+   }
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "390x844": {
+  "geometry_s": 90.78,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "single",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "tab"
+  },
+  "geo_timing": {
+   "t0": 1791795899365,
+   "read": 1,
+   "pack": 301,
+   "worker": 28098
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    670,
+    69,
+    177
+   ],
+   "axial512_25sub_ms": 1365,
+   "coronal512_ms": 290,
+   "sagittal512_ms": 115
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 277,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-tab",
+   "scrollW": 390,
+   "innerW": 390,
+   "scrollH": 844,
+   "innerH": 844,
+   "panel": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "canvas": [
+    0,
+    38,
+    390,
+    754
+   ],
+   "smallButtons": 0,
+   "buttons": 12,
+   "ctlScrollW": 390,
+   "ctlClientW": 390
+  },
+  "interact": {
+   "click_coronal_moves_anchor": true,
+   "click_coronal_moves_cut_plane": true,
+   "cut_state": [
+    "axial, Y = 276.5 mm",
+    "axial, Y = 537.0 mm"
+   ],
+   "readout": "Brain (gray + white not separated) | Brain [brain] | HU 33 (class 33) | x -38 y 798 z 25 mm",
+   "readout_has_tissue_and_hu": true,
+   "axial_click_keeps_plane_y": true,
+   "mip_mode": true,
+   "thick_10": true,
+   "cut_panel_slab_adopted": true,
+   "cut_th_text_after_link": "3.0 mm slice",
+   "views_have_content": {
+    "cut": true,
+    "ax": true,
+    "co": true,
+    "sa": true
+   },
+   "closed_cleanly": {
+    "cls": "",
+    "canvasW": 390,
+    "innerW": 390,
+    "rootVisible": "none"
+   }
+  },
+  "errors": [],
+  "bad_responses": []
+ }
+}
