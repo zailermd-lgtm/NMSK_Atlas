@@ -2,7 +2,7 @@
  "schema": "nmsk.parts_geometry.v1",
  "body": "zan_m",
  "label": "Z-Anatomy male fitted to the male VH (Q221 page, Q217 geometry)",
- "generated": "2026-10-12",
+ "generated": "2026-10-18",
  "frame": "atlas mm (+X right, +Y superior, +Z anterior)",
  "source": "build/q221/viewer_zan_vhm/atlas_viewer_zan_male_fitted.html",
  "source_classes": {
@@ -12,19 +12,20 @@
   "measured": "never used: no part boundary is measured from the person's own labelled evidence"
  },
  "counts": {
-  "placed": 128,
-  "parts_with_a_placement": 65,
-  "text_only": 462,
+  "placed": 229,
+  "parts_with_a_placement": 120,
+  "text_only": 623,
   "placed_by_rule": {
    "z_part_mesh": 71,
-   "end_snap_bone": 36,
+   "end_snap_bone": 135,
    "cc_ligament_ratio": 4,
    "mtj_by_distance_from_origin": 4,
-   "passage_contact": 13
+   "passage_contact": 13,
+   "mtj_interface": 2
   },
   "placed_by_class": {
    "z_fill": 84,
-   "rule_based": 44
+   "rule_based": 145
   }
  },
  "placed": [
@@ -244,7 +245,7 @@
     587.53,
     13.55
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the clavicle mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -270,7 +271,7 @@
     599.16,
     9.87
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the clavicle mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -296,7 +297,7 @@
     595.83,
     -3.9
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -322,7 +323,7 @@
     607.98,
     -8.08
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -348,7 +349,7 @@
     578.39,
     -60.68
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -374,7 +375,7 @@
     590.09,
     -62.84
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -400,7 +401,7 @@
     437.79,
     -15.42
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -428,7 +429,7 @@
     449.69,
     -23.0
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -456,7 +457,7 @@
     240.59,
     -14.83
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -482,7 +483,7 @@
     270.9,
     -26.81
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -508,7 +509,7 @@
     235.63,
     -35.4
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -534,7 +535,7 @@
     256.04,
     -36.02
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -770,7 +771,7 @@
     267.12,
     -54.38
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -798,7 +799,7 @@
     292.89,
     -58.19
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1036,7 +1037,7 @@
     577.46,
     16.21
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1062,7 +1063,7 @@
     589.54,
     15.28
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1088,7 +1089,7 @@
     576.78,
     -0.62
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1114,7 +1115,7 @@
     586.88,
     -1.28
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1140,7 +1141,7 @@
     554.37,
     20.54
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1166,7 +1167,7 @@
     570.92,
     24.42
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1735,7 +1736,7 @@
     -492.63,
     -12.69
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1761,7 +1762,7 @@
     -491.47,
     -12.53
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1787,7 +1788,7 @@
     -63.56,
     -41.76
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1813,7 +1814,7 @@
     -67.24,
     -43.6
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1923,7 +1924,7 @@
     35.66,
     29.91
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1949,7 +1950,7 @@
     33.24,
     22.41
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -1975,7 +1976,7 @@
     -21.75,
     -9.62
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -2001,7 +2002,7 @@
     -18.73,
     -23.05
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -2027,7 +2028,7 @@
     -23.02,
     -6.11
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -2053,7 +2054,7 @@
     -26.29,
     -19.54
    ],
-   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -3800,11 +3801,2695 @@
   },
   {
    "position_mm": [
+    155.04,
+    610.22,
+    -2.04
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "acromioclavicular_ligament_r",
+    "clavicle_r"
+   ],
+   "bone_mesh": "clavicle_r",
+   "n_patch_vertices": 20,
+   "gap_mm": 0.53,
+   "patch_radius_mm": 6.77,
+   "error_bound_mm": 7.77,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "acromioclavicular_ligament.origin_q256",
+   "structure_id": "acromioclavicular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -141.44,
+    624.73,
+    -10.5
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "acromioclavicular_ligament_l",
+    "clavicle_l"
+   ],
+   "bone_mesh": "clavicle_l",
+   "n_patch_vertices": 9,
+   "gap_mm": 0.55,
+   "patch_radius_mm": 3.17,
+   "error_bound_mm": 4.17,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "acromioclavicular_ligament.origin_q256",
+   "structure_id": "acromioclavicular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    176.17,
+    598.59,
+    -1.7
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "acromioclavicular_ligament_r",
+    "scapula_r"
+   ],
+   "bone_mesh": "scapula_r",
+   "n_patch_vertices": 20,
+   "gap_mm": 0.37,
+   "patch_radius_mm": 5.15,
+   "error_bound_mm": 6.15,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "acromioclavicular_ligament.insertion_q256",
+   "structure_id": "acromioclavicular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -161.66,
+    613.57,
+    -4.59
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "acromioclavicular_ligament_l",
+    "scapula_l"
+   ],
+   "bone_mesh": "scapula_l",
+   "n_patch_vertices": 21,
+   "gap_mm": 0.53,
+   "patch_radius_mm": 6.33,
+   "error_bound_mm": 7.33,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "acromioclavicular_ligament.insertion_q256",
+   "structure_id": "acromioclavicular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    239.95,
+    253.8,
+    -26.94
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "annular_ligament_r",
+    "ulna_r"
+   ],
+   "bone_mesh": "ulna_r",
+   "n_patch_vertices": 14,
+   "gap_mm": 0.18,
+   "patch_radius_mm": 1.78,
+   "error_bound_mm": 2.78,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "annular_ligament.origin_q256",
+   "structure_id": "annular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -231.49,
+    282.85,
+    -32.49
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "annular_ligament_l",
+    "ulna_l"
+   ],
+   "bone_mesh": "ulna_l",
+   "n_patch_vertices": 19,
+   "gap_mm": 1.02,
+   "patch_radius_mm": 6.92,
+   "error_bound_mm": 7.92,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "annular_ligament.origin_q256",
+   "structure_id": "annular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    239.95,
+    253.8,
+    -26.94
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "annular_ligament_r",
+    "ulna_r"
+   ],
+   "bone_mesh": "ulna_r",
+   "n_patch_vertices": 14,
+   "gap_mm": 0.18,
+   "patch_radius_mm": 1.78,
+   "error_bound_mm": 2.78,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "annular_ligament.insertion_q256",
+   "structure_id": "annular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -231.49,
+    282.85,
+    -32.49
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "annular_ligament_l",
+    "ulna_l"
+   ],
+   "bone_mesh": "ulna_l",
+   "n_patch_vertices": 19,
+   "gap_mm": 1.02,
+   "patch_radius_mm": 6.92,
+   "error_bound_mm": 7.92,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "annular_ligament.insertion_q256",
+   "structure_id": "annular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    132.57,
+    -433.89,
+    -27.66
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "anterior_cruciate_ligament_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 14,
+   "gap_mm": 1.42,
+   "patch_radius_mm": 6.11,
+   "error_bound_mm": 7.11,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "anterior_cruciate_ligament.origin_q256",
+   "structure_id": "anterior_cruciate_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -116.78,
+    -432.39,
+    -36.43
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "anterior_cruciate_ligament_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 13,
+   "gap_mm": 1.51,
+   "patch_radius_mm": 6.32,
+   "error_bound_mm": 7.32,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "anterior_cruciate_ligament.origin_q256",
+   "structure_id": "anterior_cruciate_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    124.13,
+    -456.42,
+    -8.15
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "anterior_cruciate_ligament_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 31,
+   "gap_mm": 0.88,
+   "patch_radius_mm": 5.61,
+   "error_bound_mm": 6.61,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "anterior_cruciate_ligament.insertion_q256",
+   "structure_id": "anterior_cruciate_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -111.91,
+    -456.55,
+    -15.38
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "anterior_cruciate_ligament_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 38,
+   "gap_mm": 0.44,
+   "patch_radius_mm": 5.78,
+   "error_bound_mm": 6.78,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "anterior_cruciate_ligament.insertion_q256",
+   "structure_id": "anterior_cruciate_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    135.56,
+    600.87,
+    13.18
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_conoid_ligament_r",
+    "zan_trapezoid_ligament_r",
+    "clavicle_r"
+   ],
+   "bone_mesh": "clavicle_r",
+   "n_patch_vertices": 8,
+   "gap_mm": 0.87,
+   "patch_radius_mm": 6.46,
+   "error_bound_mm": 7.46,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoclavicular_ligament.origin_q256",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -127.58,
+    612.3,
+    8.03
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_conoid_ligament_l",
+    "zan_trapezoid_ligament_l",
+    "clavicle_l"
+   ],
+   "bone_mesh": "clavicle_l",
+   "n_patch_vertices": 6,
+   "gap_mm": 1.61,
+   "patch_radius_mm": 4.16,
+   "error_bound_mm": 5.16,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoclavicular_ligament.origin_q256",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    133.08,
+    573.23,
+    -14.8
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_conoid_ligament_r",
+    "zan_trapezoid_ligament_r",
+    "scapula_r"
+   ],
+   "bone_mesh": "scapula_r",
+   "n_patch_vertices": 8,
+   "gap_mm": 2.56,
+   "patch_radius_mm": 3.22,
+   "error_bound_mm": 4.22,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoclavicular_ligament.insertion_q256",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -117.11,
+    585.28,
+    -13.92
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_conoid_ligament_l",
+    "zan_trapezoid_ligament_l",
+    "scapula_l"
+   ],
+   "bone_mesh": "scapula_l",
+   "n_patch_vertices": 9,
+   "gap_mm": 2.08,
+   "patch_radius_mm": 10.17,
+   "error_bound_mm": 11.17,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoclavicular_ligament.insertion_q256",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    154.09,
+    572.74,
+    21.29
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracohumeral_ligament_r",
+    "scapula_r"
+   ],
+   "bone_mesh": "scapula_r",
+   "n_patch_vertices": 12,
+   "gap_mm": 0.42,
+   "patch_radius_mm": 5.08,
+   "error_bound_mm": 6.08,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracohumeral_ligament.origin_q256",
+   "structure_id": "coracohumeral_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -139.78,
+    588.3,
+    22.77
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracohumeral_ligament_l",
+    "scapula_l"
+   ],
+   "bone_mesh": "scapula_l",
+   "n_patch_vertices": 10,
+   "gap_mm": 0.3,
+   "patch_radius_mm": 4.34,
+   "error_bound_mm": 5.34,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracohumeral_ligament.origin_q256",
+   "structure_id": "coracohumeral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    191.41,
+    581.54,
+    15.71
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracohumeral_ligament_r",
+    "humerus_r"
+   ],
+   "bone_mesh": "humerus_r",
+   "n_patch_vertices": 10,
+   "gap_mm": 2.16,
+   "patch_radius_mm": 4.93,
+   "error_bound_mm": 5.93,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracohumeral_ligament.insertion_q256",
+   "structure_id": "coracohumeral_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -179.05,
+    594.65,
+    14.85
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracohumeral_ligament_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 11,
+   "gap_mm": 0.92,
+   "patch_radius_mm": 5.79,
+   "error_bound_mm": 6.79,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracohumeral_ligament.insertion_q256",
+   "structure_id": "coracohumeral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    155.44,
+    -847.07,
+    -27.73
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_posterior_tibiotalar_ligament_r",
+    "zan_tibiocalcaneal_ligament_r",
+    "zan_tibionavicular_ligament_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 13,
+   "gap_mm": 0.71,
+   "patch_radius_mm": 7.5,
+   "error_bound_mm": 8.5,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "deltoid_ligament.origin_q256",
+   "structure_id": "deltoid_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -140.16,
+    -848.32,
+    -23.27
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_posterior_tibiotalar_ligament_l",
+    "zan_tibiocalcaneal_ligament_l",
+    "zan_tibionavicular_ligament_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 17,
+   "gap_mm": 0.83,
+   "patch_radius_mm": 8.67,
+   "error_bound_mm": 9.67,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "deltoid_ligament.origin_q256",
+   "structure_id": "deltoid_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    160.47,
+    -425.94,
+    -26.21
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "fibular_collateral_ligament_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 10,
+   "gap_mm": 0.23,
+   "patch_radius_mm": 3.9,
+   "error_bound_mm": 4.9,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "fibular_collateral_ligament.origin_q256",
+   "structure_id": "fibular_collateral_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -145.56,
+    -426.37,
+    -37.79
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "fibular_collateral_ligament_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 12,
+   "gap_mm": 0.66,
+   "patch_radius_mm": 4.58,
+   "error_bound_mm": 5.58,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "fibular_collateral_ligament.origin_q256",
+   "structure_id": "fibular_collateral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -162.51,
+    -474.89,
+    -53.97
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "fibular_collateral_ligament_l",
+    "fibula_l"
+   ],
+   "bone_mesh": "fibula_l",
+   "n_patch_vertices": 10,
+   "gap_mm": 0.8,
+   "patch_radius_mm": 4.91,
+   "error_bound_mm": 5.91,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "fibular_collateral_ligament.insertion_q256",
+   "structure_id": "fibular_collateral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    158.6,
+    578.45,
+    -2.33
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "glenohumeral_ligament_complex_r",
+    "scapula_r"
+   ],
+   "bone_mesh": "scapula_r",
+   "n_patch_vertices": 33,
+   "gap_mm": 0.36,
+   "patch_radius_mm": 7.38,
+   "error_bound_mm": 8.38,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "glenohumeral_ligament_complex.origin_q256",
+   "structure_id": "glenohumeral_ligament_complex",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -143.11,
+    591.59,
+    -2.86
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "glenohumeral_ligament_complex_l",
+    "scapula_l"
+   ],
+   "bone_mesh": "scapula_l",
+   "n_patch_vertices": 67,
+   "gap_mm": 0.36,
+   "patch_radius_mm": 12.98,
+   "error_bound_mm": 13.98,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "glenohumeral_ligament_complex.origin_q256",
+   "structure_id": "glenohumeral_ligament_complex",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    173.18,
+    543.95,
+    6.89
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "glenohumeral_ligament_complex_r",
+    "humerus_r"
+   ],
+   "bone_mesh": "humerus_r",
+   "n_patch_vertices": 50,
+   "gap_mm": 0.84,
+   "patch_radius_mm": 7.25,
+   "error_bound_mm": 8.25,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "glenohumeral_ligament_complex.insertion_q256",
+   "structure_id": "glenohumeral_ligament_complex",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -159.02,
+    556.7,
+    10.93
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "glenohumeral_ligament_complex_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 50,
+   "gap_mm": 1.55,
+   "patch_radius_mm": 8.57,
+   "error_bound_mm": 9.57,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "glenohumeral_ligament_complex.insertion_q256",
+   "structure_id": "glenohumeral_ligament_complex",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    100.12,
+    21.03,
+    18.2
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_descending_part_of_iliofemoral_ligament_r",
+    "zan_ischiofemoral_ligament_r",
+    "zan_pubofemoral_ligament_r",
+    "zan_transverse_part_of_iliofemoral_ligament_r",
+    "hip_bone_r"
+   ],
+   "bone_mesh": "hip_bone_r",
+   "n_patch_vertices": 126,
+   "gap_mm": 0.22,
+   "patch_radius_mm": 10.04,
+   "error_bound_mm": 11.04,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "hip_ligament_complex.origin_q256",
+   "structure_id": "hip_ligament_complex",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -103.62,
+    19.67,
+    12.13
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_descending_part_of_iliofemoral_ligament_l",
+    "zan_ischiofemoral_ligament_l",
+    "zan_pubofemoral_ligament_l",
+    "zan_transverse_part_of_iliofemoral_ligament_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 126,
+   "gap_mm": 0.39,
+   "patch_radius_mm": 9.86,
+   "error_bound_mm": 10.86,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "hip_ligament_complex.origin_q256",
+   "structure_id": "hip_ligament_complex",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    100.91,
+    -53.85,
+    -3.54
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_descending_part_of_iliofemoral_ligament_r",
+    "zan_ischiofemoral_ligament_r",
+    "zan_pubofemoral_ligament_r",
+    "zan_transverse_part_of_iliofemoral_ligament_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 84,
+   "gap_mm": 1.06,
+   "patch_radius_mm": 10.83,
+   "error_bound_mm": 11.83,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "hip_ligament_complex.insertion_q256",
+   "structure_id": "hip_ligament_complex",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -99.72,
+    -53.97,
+    -8.18
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_descending_part_of_iliofemoral_ligament_l",
+    "zan_ischiofemoral_ligament_l",
+    "zan_pubofemoral_ligament_l",
+    "zan_transverse_part_of_iliofemoral_ligament_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 83,
+   "gap_mm": 0.92,
+   "patch_radius_mm": 10.27,
+   "error_bound_mm": 11.27,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "hip_ligament_complex.insertion_q256",
+   "structure_id": "hip_ligament_complex",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    79.38,
+    148.7,
+    -32.26
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "iliolumbar_ligament_r",
+    "hip_bone_r"
+   ],
+   "bone_mesh": "hip_bone_r",
+   "n_patch_vertices": 3,
+   "gap_mm": 4.22,
+   "patch_radius_mm": 5.02,
+   "error_bound_mm": 8.16,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "iliolumbar_ligament.insertion_q256",
+   "structure_id": "iliolumbar_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -80.01,
+    147.36,
+    -42.97
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "iliolumbar_ligament_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 10,
+   "gap_mm": 3.29,
+   "patch_radius_mm": 9.92,
+   "error_bound_mm": 10.92,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "iliolumbar_ligament.insertion_q256",
+   "structure_id": "iliolumbar_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    200.58,
+    -856.59,
+    -43.74
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_anterior_talofibular_ligament_r",
+    "zan_calcaneofibular_ligament_r",
+    "zan_posterior_talofibular_ligament_r",
+    "fibula_r"
+   ],
+   "bone_mesh": "fibula_r",
+   "n_patch_vertices": 4,
+   "gap_mm": 5.29,
+   "patch_radius_mm": 5.73,
+   "error_bound_mm": 8.78,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "lateral_ligament_complex_ankle.origin_q256",
+   "structure_id": "lateral_ligament_complex_ankle",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -173.25,
+    -861.09,
+    -72.07
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_anterior_talofibular_ligament_l",
+    "zan_calcaneofibular_ligament_l",
+    "zan_posterior_talofibular_ligament_l",
+    "fibula_l"
+   ],
+   "bone_mesh": "fibula_l",
+   "n_patch_vertices": 9,
+   "gap_mm": 2.21,
+   "patch_radius_mm": 7.72,
+   "error_bound_mm": 9.17,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "lateral_ligament_complex_ankle.origin_q256",
+   "structure_id": "lateral_ligament_complex_ankle",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    149.53,
+    -443.47,
+    -32.39
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "popliteofibular_ligament_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 20,
+   "gap_mm": 8.03,
+   "patch_radius_mm": 4.94,
+   "error_bound_mm": 9.5,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "popliteofibular_ligament.origin_q256",
+   "structure_id": "popliteofibular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -132.45,
+    -442.92,
+    -43.81
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "popliteofibular_ligament_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 24,
+   "gap_mm": 7.68,
+   "patch_radius_mm": 5.31,
+   "error_bound_mm": 9.33,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "popliteofibular_ligament.origin_q256",
+   "structure_id": "popliteofibular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    167.46,
+    -477.63,
+    -53.44
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "popliteofibular_ligament_r",
+    "fibula_r"
+   ],
+   "bone_mesh": "fibula_r",
+   "n_patch_vertices": 66,
+   "gap_mm": 0.26,
+   "patch_radius_mm": 6.83,
+   "error_bound_mm": 7.83,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "popliteofibular_ligament.insertion_q256",
+   "structure_id": "popliteofibular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -148.11,
+    -472.39,
+    -63.01
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "popliteofibular_ligament_l",
+    "fibula_l"
+   ],
+   "bone_mesh": "fibula_l",
+   "n_patch_vertices": 61,
+   "gap_mm": 0.52,
+   "patch_radius_mm": 6.84,
+   "error_bound_mm": 7.84,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "popliteofibular_ligament.insertion_q256",
+   "structure_id": "popliteofibular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    112.74,
+    -438.32,
+    -20.41
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "posterior_cruciate_ligament_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 32,
+   "gap_mm": 1.84,
+   "patch_radius_mm": 7.14,
+   "error_bound_mm": 8.14,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "posterior_cruciate_ligament.origin_q256",
+   "structure_id": "posterior_cruciate_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -98.11,
+    -436.75,
+    -26.27
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "posterior_cruciate_ligament_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 33,
+   "gap_mm": 1.49,
+   "patch_radius_mm": 6.95,
+   "error_bound_mm": 7.95,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "posterior_cruciate_ligament.origin_q256",
+   "structure_id": "posterior_cruciate_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    135.09,
+    -466.85,
+    -41.0
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "posterior_cruciate_ligament_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 20,
+   "gap_mm": 2.44,
+   "patch_radius_mm": 5.91,
+   "error_bound_mm": 6.91,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "posterior_cruciate_ligament.insertion_q256",
+   "structure_id": "posterior_cruciate_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -117.83,
+    -467.8,
+    -48.37
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "posterior_cruciate_ligament_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 21,
+   "gap_mm": 2.39,
+   "patch_radius_mm": 5.67,
+   "error_bound_mm": 6.67,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "posterior_cruciate_ligament.insertion_q256",
+   "structure_id": "posterior_cruciate_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    41.27,
+    63.1,
+    -66.87
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the sacrum mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sacrospinous_ligament_r",
+    "sacrum"
+   ],
+   "bone_mesh": "sacrum",
+   "n_patch_vertices": 10,
+   "gap_mm": 1.8,
+   "patch_radius_mm": 3.83,
+   "error_bound_mm": 4.83,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sacrospinous_ligament.origin_q256",
+   "structure_id": "sacrospinous_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -12.9,
+    24.81,
+    -84.94
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the sacrum mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sacrospinous_ligament_l",
+    "sacrum"
+   ],
+   "bone_mesh": "sacrum",
+   "n_patch_vertices": 16,
+   "gap_mm": 0.29,
+   "patch_radius_mm": 11.04,
+   "error_bound_mm": 12.04,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sacrospinous_ligament.origin_q256",
+   "structure_id": "sacrospinous_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -46.6,
+    8.9,
+    -55.8
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sacrospinous_ligament_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 14,
+   "gap_mm": 1.82,
+   "patch_radius_mm": 3.45,
+   "error_bound_mm": 4.45,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sacrospinous_ligament.insertion_q256",
+   "structure_id": "sacrospinous_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    35.85,
+    47.36,
+    -73.58
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the sacrum mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sacrotuberous_ligament_r",
+    "sacrum"
+   ],
+   "bone_mesh": "sacrum",
+   "n_patch_vertices": 14,
+   "gap_mm": 0.34,
+   "patch_radius_mm": 7.63,
+   "error_bound_mm": 8.63,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sacrotuberous_ligament.origin_q256",
+   "structure_id": "sacrotuberous_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -37.98,
+    46.28,
+    -77.3
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the sacrum mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sacrotuberous_ligament_l",
+    "sacrum"
+   ],
+   "bone_mesh": "sacrum",
+   "n_patch_vertices": 14,
+   "gap_mm": 0.4,
+   "patch_radius_mm": 7.51,
+   "error_bound_mm": 8.51,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sacrotuberous_ligament.origin_q256",
+   "structure_id": "sacrotuberous_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    60.63,
+    -42.92,
+    -55.93
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sacrotuberous_ligament_r",
+    "hip_bone_r"
+   ],
+   "bone_mesh": "hip_bone_r",
+   "n_patch_vertices": 36,
+   "gap_mm": 0.46,
+   "patch_radius_mm": 12.55,
+   "error_bound_mm": 13.55,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sacrotuberous_ligament.insertion_q256",
+   "structure_id": "sacrotuberous_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -52.39,
+    -46.29,
+    -59.47
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sacrotuberous_ligament_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 36,
+   "gap_mm": 0.95,
+   "patch_radius_mm": 12.52,
+   "error_bound_mm": 13.52,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sacrotuberous_ligament.insertion_q256",
+   "structure_id": "sacrotuberous_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    14.31,
+    524.91,
+    56.15
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the sternum mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sternoclavicular_ligament_r",
+    "sternum"
+   ],
+   "bone_mesh": "sternum",
+   "n_patch_vertices": 40,
+   "gap_mm": 2.49,
+   "patch_radius_mm": 7.86,
+   "error_bound_mm": 8.86,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sternoclavicular_ligament.origin_q256",
+   "structure_id": "sternoclavicular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -11.88,
+    526.79,
+    56.27
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the sternum mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sternoclavicular_ligament_l",
+    "sternum"
+   ],
+   "bone_mesh": "sternum",
+   "n_patch_vertices": 33,
+   "gap_mm": 2.4,
+   "patch_radius_mm": 6.57,
+   "error_bound_mm": 7.64,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sternoclavicular_ligament.origin_q256",
+   "structure_id": "sternoclavicular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    28.75,
+    539.24,
+    33.2
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sternoclavicular_ligament_r",
+    "clavicle_r"
+   ],
+   "bone_mesh": "clavicle_r",
+   "n_patch_vertices": 16,
+   "gap_mm": 0.48,
+   "patch_radius_mm": 12.74,
+   "error_bound_mm": 13.74,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sternoclavicular_ligament.insertion_q256",
+   "structure_id": "sternoclavicular_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -17.56,
+    544.01,
+    31.47
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the clavicle mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "sternoclavicular_ligament_l",
+    "clavicle_l"
+   ],
+   "bone_mesh": "clavicle_l",
+   "n_patch_vertices": 7,
+   "gap_mm": 3.65,
+   "patch_radius_mm": 5.05,
+   "error_bound_mm": 6.54,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "sternoclavicular_ligament.insertion_q256",
+   "structure_id": "sternoclavicular_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    79.09,
+    -439.85,
+    -11.0
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "tibial_collateral_ligament_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 114,
+   "gap_mm": 0.31,
+   "patch_radius_mm": 7.71,
+   "error_bound_mm": 8.71,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibial_collateral_ligament.origin_q256",
+   "structure_id": "tibial_collateral_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -67.15,
+    -437.63,
+    -10.94
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the femur mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "tibial_collateral_ligament_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 58,
+   "gap_mm": 0.36,
+   "patch_radius_mm": 7.5,
+   "error_bound_mm": 8.5,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibial_collateral_ligament.origin_q256",
+   "structure_id": "tibial_collateral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    119.45,
+    -497.52,
+    3.34
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "tibial_collateral_ligament_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 70,
+   "gap_mm": 0.83,
+   "patch_radius_mm": 7.94,
+   "error_bound_mm": 8.94,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibial_collateral_ligament.insertion_q256",
+   "structure_id": "tibial_collateral_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -109.75,
+    -496.59,
+    -1.42
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "tibial_collateral_ligament_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 40,
+   "gap_mm": 0.94,
+   "patch_radius_mm": 9.72,
+   "error_bound_mm": 10.72,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibial_collateral_ligament.insertion_q256",
+   "structure_id": "tibial_collateral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    175.97,
+    -839.71,
+    -58.14
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_anterior_tibiofibular_ligament_r",
+    "zan_posterior_tibiofibular_ligament_r",
+    "zan_transverse_tibiofibular_ligament_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 46,
+   "gap_mm": 0.21,
+   "patch_radius_mm": 26.12,
+   "error_bound_mm": 27.12,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibiofibular_syndesmosis.origin_q256",
+   "structure_id": "tibiofibular_syndesmosis",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -182.32,
+    -834.11,
+    -39.87
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_anterior_tibiofibular_ligament_l",
+    "zan_posterior_tibiofibular_ligament_l",
+    "zan_transverse_tibiofibular_ligament_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 41,
+   "gap_mm": 2.73,
+   "patch_radius_mm": 8.55,
+   "error_bound_mm": 9.55,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibiofibular_syndesmosis.origin_q256",
+   "structure_id": "tibiofibular_syndesmosis",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    184.17,
+    -828.97,
+    -63.08
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_anterior_tibiofibular_ligament_r",
+    "zan_posterior_tibiofibular_ligament_r",
+    "zan_transverse_tibiofibular_ligament_r",
+    "fibula_r"
+   ],
+   "bone_mesh": "fibula_r",
+   "n_patch_vertices": 28,
+   "gap_mm": 2.43,
+   "patch_radius_mm": 13.02,
+   "error_bound_mm": 14.02,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibiofibular_syndesmosis.insertion_q256",
+   "structure_id": "tibiofibular_syndesmosis",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -184.49,
+    -841.22,
+    -51.27
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_anterior_tibiofibular_ligament_l",
+    "zan_posterior_tibiofibular_ligament_l",
+    "zan_transverse_tibiofibular_ligament_l",
+    "fibula_l"
+   ],
+   "bone_mesh": "fibula_l",
+   "n_patch_vertices": 16,
+   "gap_mm": 7.04,
+   "patch_radius_mm": 10.85,
+   "error_bound_mm": 11.85,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "tibiofibular_syndesmosis.insertion_q256",
+   "structure_id": "tibiofibular_syndesmosis",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    195.21,
+    560.2,
+    27.55
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_humeral_ligament_r",
+    "humerus_r"
+   ],
+   "bone_mesh": "humerus_r",
+   "n_patch_vertices": 4,
+   "gap_mm": 0.34,
+   "patch_radius_mm": 1.42,
+   "error_bound_mm": 2.42,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_humeral_ligament.origin_q256",
+   "structure_id": "transverse_humeral_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -187.25,
+    571.24,
+    23.27
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_humeral_ligament_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 6,
+   "gap_mm": 0.26,
+   "patch_radius_mm": 9.62,
+   "error_bound_mm": 10.62,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_humeral_ligament.origin_q256",
+   "structure_id": "transverse_humeral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    195.21,
+    560.2,
+    27.55
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_humeral_ligament_r",
+    "humerus_r"
+   ],
+   "bone_mesh": "humerus_r",
+   "n_patch_vertices": 4,
+   "gap_mm": 0.34,
+   "patch_radius_mm": 1.42,
+   "error_bound_mm": 2.42,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_humeral_ligament.insertion_q256",
+   "structure_id": "transverse_humeral_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -187.25,
+    571.24,
+    23.27
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_humeral_ligament_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 6,
+   "gap_mm": 0.26,
+   "patch_radius_mm": 9.62,
+   "error_bound_mm": 10.62,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_humeral_ligament.insertion_q256",
+   "structure_id": "transverse_humeral_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    110.45,
+    -458.17,
+    -0.97
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_ligament_of_knee_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 42,
+   "gap_mm": 1.86,
+   "patch_radius_mm": 3.78,
+   "error_bound_mm": 4.78,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_ligament_of_knee.origin_q256",
+   "structure_id": "transverse_ligament_of_knee",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -99.68,
+    -458.1,
+    -5.86
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_ligament_of_knee_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 43,
+   "gap_mm": 3.87,
+   "patch_radius_mm": 3.98,
+   "error_bound_mm": 7.81,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_ligament_of_knee.origin_q256",
+   "structure_id": "transverse_ligament_of_knee",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    110.45,
+    -458.17,
+    -0.97
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_ligament_of_knee_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 42,
+   "gap_mm": 1.86,
+   "patch_radius_mm": 3.78,
+   "error_bound_mm": 4.78,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_ligament_of_knee.insertion_q256",
+   "structure_id": "transverse_ligament_of_knee",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -99.68,
+    -458.1,
+    -5.86
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "transverse_ligament_of_knee_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 43,
+   "gap_mm": 3.87,
+   "patch_radius_mm": 3.98,
+   "error_bound_mm": 7.81,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "transverse_ligament_of_knee.insertion_q256",
+   "structure_id": "transverse_ligament_of_knee",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    143.65,
+    94.66,
+    106.57
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_dorsal_intercarpal_ligaments_r",
+    "zan_dorsal_radiocarpal_ligament_r",
+    "zan_palmar_radio_ulnar_ligament_r",
+    "zan_radioscaphocapitate_ligament_r",
+    "zan_ulnar_collateral_ligament_of_wrist_joint_r",
+    "radius_r"
+   ],
+   "bone_mesh": "radius_r",
+   "n_patch_vertices": 29,
+   "gap_mm": 2.4,
+   "patch_radius_mm": 4.63,
+   "error_bound_mm": 7.48,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "wrist_ligament_complex.origin_q256",
+   "structure_id": "wrist_ligament_complex",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -166.09,
+    107.57,
+    102.08
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_dorsal_intercarpal_ligaments_l",
+    "zan_dorsal_radiocarpal_ligament_l",
+    "zan_palmar_radio_ulnar_ligament_l",
+    "zan_radioscaphocapitate_ligament_l",
+    "zan_ulnar_collateral_ligament_of_wrist_joint_l",
+    "radius_l"
+   ],
+   "bone_mesh": "radius_l",
+   "n_patch_vertices": 32,
+   "gap_mm": 4.56,
+   "patch_radius_mm": 4.46,
+   "error_bound_mm": 9.54,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "wrist_ligament_complex.origin_q256",
+   "structure_id": "wrist_ligament_complex",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    25.06,
+    660.55,
+    59.34
+   ],
+   "method": "mtj_interface: muscle-mesh vertices within 3 mm of the tendon mesh (the junction is where the two meshes meet); one point per muscle in `per_muscle`",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "digastric_intermediate_tendon_r"
+   ],
+   "per_muscle": [
+    {
+     "muscle": "digastric",
+     "placed": true,
+     "position_mm": [
+      25.06,
+      660.55,
+      59.34
+     ],
+     "n_contact_vertices": 72,
+     "contact_radius_mm": 7.0,
+     "parent_source_class": "z_fill"
+    }
+   ],
+   "error_bound_mm": 10.0,
+   "error_basis": "contact-patch radius + 3 mm contact threshold",
+   "part_id": "digastric_intermediate_tendon.mtj_q256",
+   "structure_id": "digastric_intermediate_tendon",
+   "side": "r",
+   "rule": "mtj_interface",
+   "part_type": "muscle_tendon_junction",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -3.84,
+    661.12,
+    64.31
+   ],
+   "method": "mtj_interface: muscle-mesh vertices within 3 mm of the tendon mesh (the junction is where the two meshes meet); one point per muscle in `per_muscle`",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "digastric_intermediate_tendon_l"
+   ],
+   "per_muscle": [
+    {
+     "muscle": "digastric",
+     "placed": true,
+     "position_mm": [
+      -3.84,
+      661.12,
+      64.31
+     ],
+     "n_contact_vertices": 72,
+     "contact_radius_mm": 6.6,
+     "parent_source_class": "z_fill"
+    }
+   ],
+   "error_bound_mm": 9.6,
+   "error_basis": "contact-patch radius + 3 mm contact threshold",
+   "part_id": "digastric_intermediate_tendon.mtj_q256",
+   "structure_id": "digastric_intermediate_tendon",
+   "side": "l",
+   "rule": "mtj_interface",
+   "part_type": "muscle_tendon_junction",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    20.99,
+    655.09,
+    60.49
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hyoid mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "digastric_intermediate_tendon_r",
+    "hyoid"
+   ],
+   "bone_mesh": "hyoid",
+   "n_patch_vertices": 8,
+   "gap_mm": 0.09,
+   "patch_radius_mm": 1.68,
+   "error_bound_mm": 2.68,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "digastric_intermediate_tendon.insertion_q256",
+   "structure_id": "digastric_intermediate_tendon",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    0.3,
+    655.71,
+    64.16
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hyoid mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "digastric_intermediate_tendon_l",
+    "hyoid"
+   ],
+   "bone_mesh": "hyoid",
+   "n_patch_vertices": 7,
+   "gap_mm": 0.15,
+   "patch_radius_mm": 1.06,
+   "error_bound_mm": 2.06,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "digastric_intermediate_tendon.insertion_q256",
+   "structure_id": "digastric_intermediate_tendon",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    157.28,
+    100.28,
+    99.01
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "antebrachial_fascia_r",
+    "ulna_r"
+   ],
+   "bone_mesh": "ulna_r",
+   "n_patch_vertices": 60,
+   "gap_mm": 2.01,
+   "patch_radius_mm": 26.05,
+   "error_bound_mm": 27.05,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "antebrachial_fascia.origin_q256",
+   "structure_id": "antebrachial_fascia",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    153.85,
+    110.13,
+    107.18
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "antebrachial_fascia_r",
+    "radius_r"
+   ],
+   "bone_mesh": "radius_r",
+   "n_patch_vertices": 77,
+   "gap_mm": 0.59,
+   "patch_radius_mm": 24.86,
+   "error_bound_mm": 25.86,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "antebrachial_fascia.insertion_q256",
+   "structure_id": "antebrachial_fascia",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -159.95,
+    121.44,
+    96.2
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_antebrachial_fascia_l",
+    "radius_l"
+   ],
+   "bone_mesh": "radius_l",
+   "n_patch_vertices": 90,
+   "gap_mm": 1.43,
+   "patch_radius_mm": 28.96,
+   "error_bound_mm": 29.96,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "antebrachial_fascia.insertion_q256",
+   "structure_id": "antebrachial_fascia",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    132.47,
+    -471.84,
+    16.14
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "crural_fascia_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 48,
+   "gap_mm": 1.22,
+   "patch_radius_mm": 63.68,
+   "error_bound_mm": 64.68,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "crural_fascia.origin_q256",
+   "structure_id": "crural_fascia",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -122.19,
+    -457.85,
+    -10.46
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_crural_fascia_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 93,
+   "gap_mm": 1.09,
+   "patch_radius_mm": 64.99,
+   "error_bound_mm": 65.99,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "crural_fascia.origin_q256",
+   "structure_id": "crural_fascia",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -129.83,
+    598.35,
+    6.99
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_deltoid_fascia_l",
+    "scapula_l"
+   ],
+   "bone_mesh": "scapula_l",
+   "n_patch_vertices": 14,
+   "gap_mm": 1.0,
+   "patch_radius_mm": 32.2,
+   "error_bound_mm": 33.2,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "deltoid_fascia.origin_q256",
+   "structure_id": "deltoid_fascia",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    124.89,
+    108.75,
+    131.56
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "extensor_retinaculum_r",
+    "radius_r"
+   ],
+   "bone_mesh": "radius_r",
+   "n_patch_vertices": 15,
+   "gap_mm": 1.51,
+   "patch_radius_mm": 6.17,
+   "error_bound_mm": 7.17,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "extensor_retinaculum.origin_q256",
+   "structure_id": "extensor_retinaculum",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -145.16,
+    121.44,
+    120.02
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_extensor_retinaculum_of_wrist_l",
+    "radius_l"
+   ],
+   "bone_mesh": "radius_l",
+   "n_patch_vertices": 37,
+   "gap_mm": 1.07,
+   "patch_radius_mm": 15.78,
+   "error_bound_mm": 16.78,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "extensor_retinaculum.origin_q256",
+   "structure_id": "extensor_retinaculum",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    85.13,
+    121.82,
+    -33.21
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "fascia_lata_r",
+    "hip_bone_r"
+   ],
+   "bone_mesh": "hip_bone_r",
+   "n_patch_vertices": 25,
+   "gap_mm": 0.67,
+   "patch_radius_mm": 107.27,
+   "error_bound_mm": 108.27,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "fascia_lata.origin_q256",
+   "structure_id": "fascia_lata",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -75.68,
+    121.83,
+    -68.14
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_fascia_lata_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 51,
+   "gap_mm": 0.62,
+   "patch_radius_mm": 125.75,
+   "error_bound_mm": 126.75,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "fascia_lata.origin_q256",
+   "structure_id": "fascia_lata",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -153.66,
+    -451.13,
+    -30.35
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_fascia_lata_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 1,
+   "gap_mm": 10.72,
+   "patch_radius_mm": 0.0,
+   "error_bound_mm": 11.72,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "fascia_lata.insertion_q256",
+   "structure_id": "fascia_lata",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    142.7,
+    -844.21,
+    -35.62
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "flexor_retinaculum_ankle_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 12,
+   "gap_mm": 1.34,
+   "patch_radius_mm": 12.88,
+   "error_bound_mm": 13.88,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "flexor_retinaculum_ankle.origin_q256",
+   "structure_id": "flexor_retinaculum_ankle",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    132.69,
+    115.72,
+    18.79
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "iliotibial_tract_r",
+    "hip_bone_r"
+   ],
+   "bone_mesh": "hip_bone_r",
+   "n_patch_vertices": 30,
+   "gap_mm": 1.56,
+   "patch_radius_mm": 41.1,
+   "error_bound_mm": 42.1,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "iliotibial_tract.origin_q256",
+   "structure_id": "iliotibial_tract",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -142.63,
+    118.46,
+    6.28
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_iliotibial_tract_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 85,
+   "gap_mm": 0.36,
+   "patch_radius_mm": 39.45,
+   "error_bound_mm": 40.45,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "iliotibial_tract.origin_q256",
+   "structure_id": "iliotibial_tract",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    168.44,
+    -475.1,
+    1.78
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "iliotibial_tract_r",
+    "tibia_r"
+   ],
+   "bone_mesh": "tibia_r",
+   "n_patch_vertices": 66,
+   "gap_mm": 0.37,
+   "patch_radius_mm": 34.95,
+   "error_bound_mm": 35.95,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "iliotibial_tract.insertion_q256",
+   "structure_id": "iliotibial_tract",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -157.52,
+    -473.56,
+    -11.24
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the tibia mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_iliotibial_tract_l",
+    "tibia_l"
+   ],
+   "bone_mesh": "tibia_l",
+   "n_patch_vertices": 158,
+   "gap_mm": 0.49,
+   "patch_radius_mm": 35.84,
+   "error_bound_mm": 36.84,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "iliotibial_tract.insertion_q256",
+   "structure_id": "iliotibial_tract",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    22.15,
+    -15.36,
+    52.93
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "inguinal_ligament_r",
+    "hip_bone_r"
+   ],
+   "bone_mesh": "hip_bone_r",
+   "n_patch_vertices": 96,
+   "gap_mm": 2.43,
+   "patch_radius_mm": 10.39,
+   "error_bound_mm": 11.39,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "inguinal_ligament.origin_q256",
+   "structure_id": "inguinal_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -131.5,
+    80.14,
+    57.88
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_inguinal_ligament_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 144,
+   "gap_mm": 0.89,
+   "patch_radius_mm": 12.82,
+   "error_bound_mm": 13.82,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "inguinal_ligament.origin_q256",
+   "structure_id": "inguinal_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    22.15,
+    -15.36,
+    52.93
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "inguinal_ligament_r",
+    "hip_bone_r"
+   ],
+   "bone_mesh": "hip_bone_r",
+   "n_patch_vertices": 96,
+   "gap_mm": 2.43,
+   "patch_radius_mm": 10.39,
+   "error_bound_mm": 11.39,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "inguinal_ligament.insertion_q256",
+   "structure_id": "inguinal_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -131.5,
+    80.14,
+    57.88
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_inguinal_ligament_l",
+    "hip_bone_l"
+   ],
+   "bone_mesh": "hip_bone_l",
+   "n_patch_vertices": 144,
+   "gap_mm": 0.89,
+   "patch_radius_mm": 12.82,
+   "error_bound_mm": 13.82,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "inguinal_ligament.insertion_q256",
+   "structure_id": "inguinal_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    152.07,
+    106.22,
+    104.2
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the radius mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "interosseous_membrane_forearm_r",
+    "radius_r"
+   ],
+   "bone_mesh": "radius_r",
+   "n_patch_vertices": 60,
+   "gap_mm": 0.76,
+   "patch_radius_mm": 12.14,
+   "error_bound_mm": 13.14,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "interosseous_membrane_forearm.origin_q256",
+   "structure_id": "interosseous_membrane_forearm",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    157.53,
+    100.27,
+    101.48
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the ulna mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "interosseous_membrane_forearm_r",
+    "ulna_r"
+   ],
+   "bone_mesh": "ulna_r",
+   "n_patch_vertices": 61,
+   "gap_mm": 0.84,
+   "patch_radius_mm": 12.07,
+   "error_bound_mm": 13.07,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "interosseous_membrane_forearm.insertion_q256",
+   "structure_id": "interosseous_membrane_forearm",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    198.83,
+    -868.52,
+    -62.11
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "peroneal_retinaculum_r",
+    "fibula_r"
+   ],
+   "bone_mesh": "fibula_r",
+   "n_patch_vertices": 8,
+   "gap_mm": 9.8,
+   "patch_radius_mm": 5.73,
+   "error_bound_mm": 11.31,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "peroneal_retinaculum.origin_q256",
+   "structure_id": "peroneal_retinaculum",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
     118.13,
     99.14,
     47.89
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -3830,7 +6515,7 @@
     97.12,
     37.5
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the hip_bone mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -3856,7 +6541,7 @@
     -611.58,
     -43.31
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -3882,7 +6567,7 @@
     -604.06,
     -52.47
    ],
-   "method": "end_snap_bone: the proximal end of the muscle mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the fibula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -3908,7 +6593,7 @@
     572.14,
     4.19
    ],
-   "method": "end_snap_bone: the lateral end of the muscle mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the lateral end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -3934,7 +6619,7 @@
     585.88,
     7.0
    ],
-   "method": "end_snap_bone: the lateral end of the muscle mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "method": "end_snap_bone: the lateral end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
    "source_class": "rule_based",
    "parent_source_class": "z_fill",
    "mesh_ids": [
@@ -4393,7 +7078,7 @@
   },
   {
    "part_id": "gluteus_maximus.insertion_femur",
-   "reason": "r: muscle mesh end is 25.3 mm from the femur surface (> tolerance 12 mm); tendon/continuation not modelled; l: muscle mesh end is 19.9 mm from the femur surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "reason": "r: the structure's mesh end is 25.3 mm from the femur surface (> tolerance 12 mm); tendon/continuation not modelled; l: the structure's mesh end is 19.9 mm from the femur surface (> tolerance 12 mm); tendon/continuation not modelled",
    "rule_tried": "end_snap_bone"
   },
   {
@@ -5114,6 +7799,837 @@
   {
    "part_id": "anterior_cruciate_ligament.am_pl_attachment_centres",
    "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "anterior_longitudinal_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "anterior_longitudinal_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "anterior_sacroiliac_ligament.origin_q256",
+   "reason": "r: structure anterior_sacroiliac_ligament absent on side r; l: structure anterior_sacroiliac_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "anterior_sacroiliac_ligament.insertion_q256",
+   "reason": "r: structure anterior_sacroiliac_ligament absent on side r; l: structure anterior_sacroiliac_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "arcuate_pubic_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "arcuate_pubic_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "coracoacromial_ligament.origin_q256",
+   "reason": "r: structure coracoacromial_ligament absent on side r; l: structure coracoacromial_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "coracoacromial_ligament.insertion_q256",
+   "reason": "r: structure coracoacromial_ligament absent on side r; l: structure coracoacromial_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "costal_ligament_complex.origin_q256",
+   "reason": "r: structure costal_ligament_complex absent on side r; l: structure costal_ligament_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "costal_ligament_complex.insertion_q256",
+   "reason": "r: structure costal_ligament_complex absent on side r; l: structure costal_ligament_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "costoclavicular_ligament.origin_q256",
+   "reason": "r: structure costoclavicular_ligament absent on side r; l: structure costoclavicular_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "costoclavicular_ligament.insertion_q256",
+   "reason": "r: structure costoclavicular_ligament absent on side r; l: structure costoclavicular_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "craniovertebral_ligament_complex.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "craniovertebral_ligament_complex.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid_ligament.insertion_q256",
+   "reason": "r: bone mesh tarsals absent; l: bone mesh tarsals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "fibular_collateral_ligament.insertion_q256",
+   "reason": "one side only: r: the structure's mesh end is 10.4 mm from the fibula surface (> tolerance 10 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "finger_mcp_collateral_and_plate_complex.origin_q256",
+   "reason": "r: bone mesh metacarpals absent; l: bone mesh metacarpals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "finger_mcp_collateral_and_plate_complex.insertion_q256",
+   "reason": "r: bone mesh phalanges_hand absent; l: bone mesh phalanges_hand absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "first_mtp_plantar_plate_complex.origin_q256",
+   "reason": "r: structure first_mtp_plantar_plate_complex absent on side r; l: structure first_mtp_plantar_plate_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "first_mtp_plantar_plate_complex.insertion_q256",
+   "reason": "r: structure first_mtp_plantar_plate_complex absent on side r; l: structure first_mtp_plantar_plate_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "iliolumbar_ligament.origin_q256",
+   "reason": "r: bone mesh lumbar_vertebrae absent; l: bone mesh lumbar_vertebrae absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "interclavicular_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interclavicular_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interspinous_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interspinous_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "intertransverse_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "intertransverse_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "lateral_ligament_complex_ankle.insertion_q256",
+   "reason": "r: bone mesh tarsals absent; l: bone mesh tarsals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "ligamentum_flavum.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "ligamentum_flavum.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "ligamentum_nuchae.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "ligamentum_nuchae.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "medial_patellofemoral_ligament.origin_q256",
+   "reason": "r: structure medial_patellofemoral_ligament absent on side r; l: structure medial_patellofemoral_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "medial_patellofemoral_ligament.insertion_q256",
+   "reason": "r: structure medial_patellofemoral_ligament absent on side r; l: structure medial_patellofemoral_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "meniscofemoral_ligaments.origin_q256",
+   "reason": "r: structure meniscofemoral_ligaments absent on side r; l: structure meniscofemoral_ligaments absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "meniscofemoral_ligaments.insertion_q256",
+   "reason": "r: structure meniscofemoral_ligaments absent on side r; l: structure meniscofemoral_ligaments absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "patellar_ligament.origin_q256",
+   "reason": "r: structure patellar_ligament absent on side r; l: structure patellar_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "patellar_ligament.insertion_q256",
+   "reason": "r: structure patellar_ligament absent on side r; l: structure patellar_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "plantar_ligament_complex.origin_q256",
+   "reason": "r: bone mesh tarsals absent; l: bone mesh tarsals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "plantar_ligament_complex.insertion_q256",
+   "reason": "r: bone mesh metatarsals absent; l: bone mesh metatarsals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "posterior_longitudinal_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_longitudinal_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_sacroiliac_ligament.origin_q256",
+   "reason": "r: structure posterior_sacroiliac_ligament absent on side r; l: structure posterior_sacroiliac_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "posterior_sacroiliac_ligament.insertion_q256",
+   "reason": "r: structure posterior_sacroiliac_ligament absent on side r; l: structure posterior_sacroiliac_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "quadrate_ligament.origin_q256",
+   "reason": "r: structure quadrate_ligament absent on side r; l: structure quadrate_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "quadrate_ligament.insertion_q256",
+   "reason": "r: structure quadrate_ligament absent on side r; l: structure quadrate_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "radial_collateral_ligament_complex_elbow.origin_q256",
+   "reason": "r: structure radial_collateral_ligament_complex_elbow absent on side r; l: structure radial_collateral_ligament_complex_elbow absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "radial_collateral_ligament_complex_elbow.insertion_q256",
+   "reason": "r: structure radial_collateral_ligament_complex_elbow absent on side r; l: structure radial_collateral_ligament_complex_elbow absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "sacrospinous_ligament.insertion_q256",
+   "reason": "one side only: r: the structure's mesh end is 10.6 mm from the hip_bone surface (> tolerance 10 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "sternocostal_ligament_complex.origin_q256",
+   "reason": "r: structure sternocostal_ligament_complex absent on side r; l: structure sternocostal_ligament_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "sternocostal_ligament_complex.insertion_q256",
+   "reason": "r: structure sternocostal_ligament_complex absent on side r; l: structure sternocostal_ligament_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "superior_pubic_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "superior_pubic_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "superior_transverse_scapular_ligament.origin_q256",
+   "reason": "r: structure superior_transverse_scapular_ligament absent on side r; l: structure superior_transverse_scapular_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "superior_transverse_scapular_ligament.insertion_q256",
+   "reason": "r: structure superior_transverse_scapular_ligament absent on side r; l: structure superior_transverse_scapular_ligament absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "supraspinous_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "supraspinous_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "thumb_mcp_rcl.origin_q256",
+   "reason": "r: structure thumb_mcp_rcl absent on side r; l: structure thumb_mcp_rcl absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "thumb_mcp_rcl.insertion_q256",
+   "reason": "r: structure thumb_mcp_rcl absent on side r; l: structure thumb_mcp_rcl absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "thumb_mcp_ucl.origin_q256",
+   "reason": "r: structure thumb_mcp_ucl absent on side r; l: structure thumb_mcp_ucl absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "thumb_mcp_ucl.insertion_q256",
+   "reason": "r: structure thumb_mcp_ucl absent on side r; l: structure thumb_mcp_ucl absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "tmj_ligament_complex.origin_q256",
+   "reason": "r: structure tmj_ligament_complex absent on side r; l: structure tmj_ligament_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "tmj_ligament_complex.insertion_q256",
+   "reason": "r: structure tmj_ligament_complex absent on side r; l: structure tmj_ligament_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "ulnar_collateral_ligament_elbow.origin_q256",
+   "reason": "r: structure ulnar_collateral_ligament_elbow absent on side r; l: structure ulnar_collateral_ligament_elbow absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "ulnar_collateral_ligament_elbow.insertion_q256",
+   "reason": "r: structure ulnar_collateral_ligament_elbow absent on side r; l: structure ulnar_collateral_ligament_elbow absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "wrist_ligament_complex.insertion_q256",
+   "reason": "r: bone mesh carpals absent; l: bone mesh carpals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "achilles_tendon.mtj_q256",
+   "reason": "r: tendon mesh achilles_tendon absent in this body; l: tendon mesh achilles_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "achilles_tendon.insertion_q256",
+   "reason": "r: structure achilles_tendon absent on side r; l: structure achilles_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "adductor_magnus_distal_tendon.mtj_q256",
+   "reason": "r: tendon mesh adductor_magnus_distal_tendon absent in this body; l: tendon mesh adductor_magnus_distal_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "adductor_magnus_distal_tendon.insertion_q256",
+   "reason": "r: structure adductor_magnus_distal_tendon absent on side r; l: structure adductor_magnus_distal_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "biceps_brachii_tendon_complex.mtj_q256",
+   "reason": "r: tendon mesh biceps_brachii_tendon_complex absent in this body; l: tendon mesh biceps_brachii_tendon_complex absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "biceps_brachii_tendon_complex.insertion_q256",
+   "reason": "r: structure biceps_brachii_tendon_complex absent on side r; l: structure biceps_brachii_tendon_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "central_tendon_diaphragm.mtj_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "central_tendon_diaphragm.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "common_extensor_tendon.mtj_q256",
+   "reason": "r: tendon mesh common_extensor_tendon absent in this body; l: tendon mesh common_extensor_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "common_extensor_tendon.insertion_q256",
+   "reason": "r: structure common_extensor_tendon absent on side r; l: structure common_extensor_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "common_flexor_tendon.mtj_q256",
+   "reason": "r: tendon mesh common_flexor_tendon absent in this body; l: tendon mesh common_flexor_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "common_flexor_tendon.insertion_q256",
+   "reason": "r: structure common_flexor_tendon absent on side r; l: structure common_flexor_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "conjoint_tendon.mtj_q256",
+   "reason": "r: tendon mesh conjoint_tendon absent in this body; l: tendon mesh conjoint_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "conjoint_tendon.insertion_q256",
+   "reason": "r: structure conjoint_tendon absent on side r; l: structure conjoint_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "extensor_hood.mtj_q256",
+   "reason": "r: tendon mesh extensor_hood absent in this body; l: tendon mesh extensor_hood absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "extensor_hood.insertion_q256",
+   "reason": "r: structure extensor_hood absent on side r; l: structure extensor_hood absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "extensor_pollicis_longus_tendon.mtj_q256",
+   "reason": "r: tendon mesh extensor_pollicis_longus_tendon absent in this body; l: tendon mesh extensor_pollicis_longus_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "extensor_pollicis_longus_tendon.insertion_q256",
+   "reason": "r: structure extensor_pollicis_longus_tendon absent on side r; l: structure extensor_pollicis_longus_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "fibularis_tendon_complex.mtj_q256",
+   "reason": "r: tendon mesh fibularis_tendon_complex absent in this body; l: tendon mesh fibularis_tendon_complex absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "fibularis_tendon_complex.insertion_q256",
+   "reason": "r: structure fibularis_tendon_complex absent on side r; l: structure fibularis_tendon_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "first_dorsal_compartment.mtj_q256",
+   "reason": "r: tendon mesh first_dorsal_compartment absent in this body; l: tendon mesh first_dorsal_compartment absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "first_dorsal_compartment.insertion_q256",
+   "reason": "r: structure first_dorsal_compartment absent on side r; l: structure first_dorsal_compartment absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.mtj_q256",
+   "reason": "r: tendon mesh flexor_tendon_pulley_system_hand absent in this body; l: tendon mesh flexor_tendon_pulley_system_hand absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.insertion_q256",
+   "reason": "r: bone mesh phalanges_hand absent; l: bone mesh phalanges_hand absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "gluteal_tendon_complex.mtj_q256",
+   "reason": "r: tendon mesh gluteal_tendon_complex absent in this body; l: tendon mesh gluteal_tendon_complex absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "gluteal_tendon_complex.insertion_q256",
+   "reason": "r: structure gluteal_tendon_complex absent on side r; l: structure gluteal_tendon_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "iliopsoas_tendon.mtj_q256",
+   "reason": "r: tendon mesh iliopsoas_tendon absent in this body; l: tendon mesh iliopsoas_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "iliopsoas_tendon.insertion_q256",
+   "reason": "r: structure iliopsoas_tendon absent on side r; l: structure iliopsoas_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "omohyoid_intermediate_tendon.mtj_q256",
+   "reason": "r: tendon mesh omohyoid_intermediate_tendon absent in this body; l: tendon mesh omohyoid_intermediate_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "omohyoid_intermediate_tendon.insertion_q256",
+   "reason": "r: structure omohyoid_intermediate_tendon absent on side r; l: structure omohyoid_intermediate_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "palmaris_longus_tendon.mtj_q256",
+   "reason": "r: tendon mesh palmaris_longus_tendon absent in this body; l: tendon mesh palmaris_longus_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "palmaris_longus_tendon.insertion_q256",
+   "reason": "r: structure palmaris_longus_tendon absent on side r; l: structure palmaris_longus_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "pectoralis_major_tendon.mtj_q256",
+   "reason": "r: tendon mesh pectoralis_major_tendon absent in this body; l: tendon mesh pectoralis_major_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "pectoralis_major_tendon.insertion_q256",
+   "reason": "r: structure pectoralis_major_tendon absent on side r; l: structure pectoralis_major_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "pes_anserinus.mtj_q256",
+   "reason": "r: tendon mesh pes_anserinus absent in this body; l: tendon mesh pes_anserinus absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "pes_anserinus.insertion_q256",
+   "reason": "r: structure pes_anserinus absent on side r; l: structure pes_anserinus absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "proximal_hamstring_tendon.mtj_q256",
+   "reason": "r: tendon mesh proximal_hamstring_tendon absent in this body; l: tendon mesh proximal_hamstring_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "proximal_hamstring_tendon.insertion_q256",
+   "reason": "r: structure proximal_hamstring_tendon absent on side r; l: structure proximal_hamstring_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "quadriceps_tendon.mtj_q256",
+   "reason": "r: tendon mesh quadriceps_tendon absent in this body; l: tendon mesh quadriceps_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "quadriceps_tendon.insertion_q256",
+   "reason": "r: structure quadriceps_tendon absent on side r; l: structure quadriceps_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "rotator_cuff_tendon_complex.mtj_q256",
+   "reason": "r: tendon mesh rotator_cuff_tendon_complex absent in this body; l: tendon mesh rotator_cuff_tendon_complex absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "rotator_cuff_tendon_complex.insertion_q256",
+   "reason": "r: structure rotator_cuff_tendon_complex absent on side r; l: structure rotator_cuff_tendon_complex absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "semimembranosus_distal_tendon.mtj_q256",
+   "reason": "r: tendon mesh semimembranosus_distal_tendon absent in this body; l: tendon mesh semimembranosus_distal_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "semimembranosus_distal_tendon.insertion_q256",
+   "reason": "r: structure semimembranosus_distal_tendon absent on side r; l: structure semimembranosus_distal_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "temporalis_tendon.mtj_q256",
+   "reason": "r: tendon mesh temporalis_tendon absent in this body; l: tendon mesh temporalis_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "temporalis_tendon.insertion_q256",
+   "reason": "r: structure temporalis_tendon absent on side r; l: structure temporalis_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "tibialis_posterior_tendon.mtj_q256",
+   "reason": "r: tendon mesh tibialis_posterior_tendon absent in this body; l: tendon mesh tibialis_posterior_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "tibialis_posterior_tendon.insertion_q256",
+   "reason": "r: structure tibialis_posterior_tendon absent on side r; l: structure tibialis_posterior_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "triceps_brachii_tendon.mtj_q256",
+   "reason": "r: tendon mesh triceps_brachii_tendon absent in this body; l: tendon mesh triceps_brachii_tendon absent in this body",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "triceps_brachii_tendon.insertion_q256",
+   "reason": "r: structure triceps_brachii_tendon absent on side r; l: structure triceps_brachii_tendon absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "antebrachial_fascia.origin_q256",
+   "reason": "one side only: l: the mesh end nearest the ulna is the distal end, not the expected proximal end",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "anterior_layer_tlf.origin_q256",
+   "reason": "r: bone mesh lumbar_vertebrae absent; l: structure anterior_layer_tlf absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "anterior_layer_tlf.insertion_q256",
+   "reason": "r: bone mesh ribs absent; l: structure anterior_layer_tlf absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "brachial_fascia.origin_q256",
+   "reason": "r: the mesh end nearest the humerus is the distal end, not the expected proximal end; l: the mesh end nearest the humerus is the distal end, not the expected proximal end",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "brachial_fascia.insertion_q256",
+   "reason": "r: the structure's mesh end is 65.3 mm from the scapula surface (> tolerance 12 mm); tendon/continuation not modelled; l: the structure's mesh end is 57.0 mm from the scapula surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "crural_fascia.insertion_q256",
+   "reason": "r: the mesh end nearest the fibula is the proximal end, not the expected distal end; l: the mesh end nearest the fibula is the proximal end, not the expected distal end",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "cubital_tunnel_retinaculum.origin_q256",
+   "reason": "r: structure cubital_tunnel_retinaculum absent on side r; l: structure cubital_tunnel_retinaculum absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "cubital_tunnel_retinaculum.insertion_q256",
+   "reason": "r: structure cubital_tunnel_retinaculum absent on side r; l: structure cubital_tunnel_retinaculum absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "deltoid_fascia.origin_q256",
+   "reason": "one side only: r: the structure's mesh end is 16.6 mm from the scapula surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "deltoid_fascia.insertion_q256",
+   "reason": "r: the mesh end nearest the clavicle is the proximal end, not the expected distal end; l: the mesh end nearest the clavicle is the proximal end, not the expected distal end",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "erector_spinae_aponeurosis.origin_q256",
+   "reason": "r: structure erector_spinae_aponeurosis absent on side r; l: structure erector_spinae_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "erector_spinae_aponeurosis.insertion_q256",
+   "reason": "r: structure erector_spinae_aponeurosis absent on side r; l: structure erector_spinae_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "extensor_retinaculum.insertion_q256",
+   "reason": "r: bone mesh carpals absent; l: bone mesh carpals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "extensor_retinaculum_ankle.origin_q256",
+   "reason": "r: structure extensor_retinaculum_ankle absent on side r; l: structure extensor_retinaculum_ankle absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "extensor_retinaculum_ankle.insertion_q256",
+   "reason": "r: structure extensor_retinaculum_ankle absent on side r; l: structure extensor_retinaculum_ankle absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "external_oblique_aponeurosis.origin_q256",
+   "reason": "r: structure external_oblique_aponeurosis absent on side r; l: structure external_oblique_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "external_oblique_aponeurosis.insertion_q256",
+   "reason": "r: structure external_oblique_aponeurosis absent on side r; l: structure external_oblique_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "fascia_lata.insertion_q256",
+   "reason": "one side only: r: the structure's mesh end is 14.5 mm from the tibia surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "flexor_retinaculum_ankle.origin_q256",
+   "reason": "one side only: l: structure flexor_retinaculum_ankle absent on side l",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "flexor_retinaculum_ankle.insertion_q256",
+   "reason": "r: bone mesh tarsals absent; l: structure flexor_retinaculum_ankle absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "gluteal_fascia.origin_q256",
+   "reason": "r: structure gluteal_fascia absent on side r; l: structure gluteal_fascia absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "gluteal_fascia.insertion_q256",
+   "reason": "r: structure gluteal_fascia absent on side r; l: structure gluteal_fascia absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "internal_oblique_aponeurosis.origin_q256",
+   "reason": "r: structure internal_oblique_aponeurosis absent on side r; l: structure internal_oblique_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "internal_oblique_aponeurosis.insertion_q256",
+   "reason": "r: structure internal_oblique_aponeurosis absent on side r; l: structure internal_oblique_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "interosseous_membrane_forearm.origin_q256",
+   "reason": "one side only: l: structure interosseous_membrane_forearm absent on side l",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "interosseous_membrane_forearm.insertion_q256",
+   "reason": "one side only: l: structure interosseous_membrane_forearm absent on side l",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "interosseous_membrane_leg.origin_q256",
+   "reason": "r: the mesh end nearest the tibia is the distal end, not the expected proximal end; l: structure interosseous_membrane_leg absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "interosseous_membrane_leg.insertion_q256",
+   "reason": "r: the mesh end nearest the fibula is the proximal end, not the expected distal end; l: structure interosseous_membrane_leg absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "latissimus_dorsi_aponeurosis.origin_q256",
+   "reason": "r: structure latissimus_dorsi_aponeurosis absent on side r; l: structure latissimus_dorsi_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "latissimus_dorsi_aponeurosis.insertion_q256",
+   "reason": "r: structure latissimus_dorsi_aponeurosis absent on side r; l: structure latissimus_dorsi_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "linea_alba.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "linea_alba.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "nuchal_ligament.origin_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "nuchal_ligament.insertion_q256",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pectoral_fascia.origin_q256",
+   "reason": "r: the mesh end nearest the sternum is the distal end, not the expected proximal end; l: the mesh end nearest the sternum is the distal end, not the expected proximal end",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "pectoral_fascia.insertion_q256",
+   "reason": "r: the mesh end nearest the clavicle is the proximal end, not the expected distal end; l: the mesh end nearest the clavicle is the proximal end, not the expected distal end",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "peroneal_retinaculum.origin_q256",
+   "reason": "one side only: l: structure peroneal_retinaculum absent on side l",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "peroneal_retinaculum.insertion_q256",
+   "reason": "r: bone mesh tarsals absent; l: structure peroneal_retinaculum absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "plantar_aponeurosis.origin_q256",
+   "reason": "r: bone mesh tarsals absent; l: bone mesh tarsals absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "plantar_aponeurosis.insertion_q256",
+   "reason": "r: bone mesh phalanges_foot absent; l: bone mesh phalanges_foot absent",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "popliteal_fascia.origin_q256",
+   "reason": "r: the structure's mesh end is 13.0 mm from the femur surface (> tolerance 12 mm); tendon/continuation not modelled; l: the structure's mesh end is 12.5 mm from the femur surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "popliteal_fascia.insertion_q256",
+   "reason": "r: the structure's mesh end is 26.4 mm from the tibia surface (> tolerance 12 mm); tendon/continuation not modelled; l: the structure's mesh end is 29.5 mm from the tibia surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "pretracheal_layer_cervical_fascia.origin_q256",
+   "reason": "r: structure pretracheal_layer_cervical_fascia absent on side r; l: structure pretracheal_layer_cervical_fascia absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "pretracheal_layer_cervical_fascia.insertion_q256",
+   "reason": "r: structure pretracheal_layer_cervical_fascia absent on side r; l: structure pretracheal_layer_cervical_fascia absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "prevertebral_layer_cervical_fascia.origin_q256",
+   "reason": "r: structure prevertebral_layer_cervical_fascia absent on side r; l: structure prevertebral_layer_cervical_fascia absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "prevertebral_layer_cervical_fascia.insertion_q256",
+   "reason": "r: structure prevertebral_layer_cervical_fascia absent on side r; l: structure prevertebral_layer_cervical_fascia absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "quadrangular_space.origin_q256",
+   "reason": "r: structure quadrangular_space absent on side r; l: structure quadrangular_space absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "quadrangular_space.insertion_q256",
+   "reason": "r: structure quadrangular_space absent on side r; l: structure quadrangular_space absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "rectus_sheath.origin_q256",
+   "reason": "r: structure rectus_sheath absent on side r; l: structure rectus_sheath absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "rectus_sheath.insertion_q256",
+   "reason": "r: structure rectus_sheath absent on side r; l: structure rectus_sheath absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "soleal_arch.origin_q256",
+   "reason": "r: structure soleal_arch absent on side r; l: structure soleal_arch absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "soleal_arch.insertion_q256",
+   "reason": "r: structure soleal_arch absent on side r; l: structure soleal_arch absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "transversus_abdominis_aponeurosis.origin_q256",
+   "reason": "r: structure transversus_abdominis_aponeurosis absent on side r; l: structure transversus_abdominis_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "transversus_abdominis_aponeurosis.insertion_q256",
+   "reason": "r: structure transversus_abdominis_aponeurosis absent on side r; l: structure transversus_abdominis_aponeurosis absent on side l",
+   "rule_tried": "end_snap_bone"
   },
   {
    "part_id": "glenoid_labrum.superior_anterosuperior_sector_variable",

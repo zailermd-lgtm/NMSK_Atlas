@@ -570,6 +570,39 @@ body.ss-marking canvas{cursor:copy!important}
 .ss-phone #sel-sec .ss-keys{display:none}
 .ss-phone #sel-sec .ss-check{min-height:38px}
 /* SELECTION css end */
+/* NERVE-GROUPS css begin */
+#ng-panel{--ng-bg:#fff;--ng-ink:#111;--ng-dim:#667;--ng-line:#ccd;--ng-accent:#0a6e8e;--ng-sunk:#eef1f4;--ng-warn:#b3400c;
+  position:fixed;left:12px;top:60px;z-index:47;box-sizing:border-box;width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:8px 10px 9px;border-radius:9px;
+  background:var(--ng-bg);color:var(--ng-ink);border:1px solid var(--ng-line);box-shadow:0 8px 24px rgba(0,0,0,.22);font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto}
+#ng-panel[hidden]{display:none}
+#ng-panel .ng-h{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+#ng-panel .ng-h b{font-size:13px}
+#ng-panel .ng-st{flex:1;color:var(--ng-dim);font-size:11px;text-align:right}
+#ng-panel .ng-x{border:0;background:none;color:var(--ng-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#ng-panel .ng-l{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ng-dim)}
+#ng-panel .ng-seg{display:flex;gap:4px;flex-wrap:wrap}
+#ng-panel .ng-seg button{flex:1 1 auto;font:inherit;font-size:11.5px;color:var(--ng-ink);background:transparent;border:1px solid var(--ng-line);border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#ng-panel .ng-seg button[hidden]{display:none}
+#ng-panel .ng-seg button[aria-pressed="true"]{background:var(--ng-accent);color:#fff;border-color:var(--ng-accent)}
+#ng-panel .ng-search{display:block;width:100%;box-sizing:border-box;margin:2px 0 4px;padding:5px 7px;border:1px solid var(--ng-line);border-radius:6px;font:inherit;background:var(--ng-bg);color:var(--ng-ink)}
+#ng-panel .ng-list{max-height:40vh;overflow-y:auto;border:1px solid var(--ng-line);border-radius:7px}
+#ng-panel .ng-lvl{padding:3px 8px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ng-dim);background:var(--ng-sunk);position:sticky;top:0}
+#ng-panel .ng-row{display:flex;gap:6px;align-items:baseline;padding:6px 8px;cursor:pointer;border-top:1px solid var(--ng-line)}
+#ng-panel .ng-row:first-child{border-top:0}
+#ng-panel .ng-row:hover{background:var(--ng-sunk)}
+#ng-panel .ng-row.ng-on{box-shadow:inset 3px 0 0 var(--ng-accent);background:var(--ng-sunk)}
+#ng-panel .ng-row .ng-nm{flex:1;font-weight:600;overflow-wrap:anywhere}
+#ng-panel .ng-row .ng-cnt{flex:none;font-size:10.5px;color:var(--ng-dim);white-space:nowrap}
+#ng-panel .ng-empty{padding:12px 8px;color:var(--ng-dim);font-size:11.5px;text-align:center}
+#ng-panel .ng-hint{margin:5px 0 0;font-size:11px;font-weight:600;color:var(--ng-accent)}
+#ng-panel .ng-hint:empty{display:none}
+#ng-panel .ng-help{margin:6px 0 0;padding:5px 7px;border-left:3px solid var(--ng-warn);background:var(--ng-sunk);font-size:10.5px;line-height:1.4;color:var(--ng-dim)}
+#ng-panel .ng-actions{display:flex;gap:6px;margin-top:6px}
+#ng-panel .ng-actions button{flex:1;font:inherit;font-size:11.5px;color:var(--ng-ink);background:transparent;border:1px solid var(--ng-line);border-radius:6px;padding:5px 8px;min-height:30px;cursor:pointer}
+#ng-panel .ng-actions button:hover{border-color:var(--ng-accent)}
+@media (hover:none){#ng-panel .ng-seg button,#ng-panel .ng-actions button{min-height:38px;font-size:13px}#ng-panel .ng-row{padding:9px 8px}}
+@media (max-width:560px){#t-nervegroups .ng-more{display:none}}
+/* NERVE-GROUPS css end */
   #sel-sec,.ss-mk,.ss-lrow{--ss-bg:var(--panel-2);--ss-ink:var(--ink);--ss-dim:var(--ink-dim);--ss-line:var(--line-strong);--ss-accent:var(--accent);--ss-accent-ink:var(--ground);--ss-sunk:var(--panel-2)}
   #sel-sec{padding:.1rem 0 .7rem;border-bottom:1px solid var(--line);font-family:var(--f-body);font-size:12px}
   #pm-layer,#pm-card,.pm-sec{--pm-bg:var(--panel);--pm-ink:var(--ink);--pm-dim:var(--ink-dim);--pm-line:var(--line-strong);--pm-accent:var(--accent);--pm-sunk:var(--panel-2);--pm-warn:#d9562a}
@@ -839,6 +872,9 @@ body.ss-marking canvas{cursor:copy!important}
   <p id="sel-status" class="ss-hint" aria-live="polite"></p>
 </section>
 <!-- SELECTION html end -->
+<!-- NERVE-GROUPS html begin -->
+<div id="ng-panel" role="group" aria-label="Nerve groups" hidden></div>
+<!-- NERVE-GROUPS html end -->
     <div>
       <p class="lbl">Structures</p>
       <input id="search" type="search" autocomplete="off" autocorrect="off" autocapitalize="off">
@@ -2310,11 +2346,14 @@ function NMSKPose(E){
    part is 0 <= kn.p + c <= th, th = 0 = no far face), meshVisible(id), focusAt(p), redraw(), setDots(list) (engine-drawn, depth-tested
    dots), toolbar + toolClass (host of the "Parts markers" toggle), onLoaded().
    A marker is a position derived by a stated rule on THIS model (rule-based) or the place of a Z-Anatomy mesh (Z-fill): always shown
-   with its source class and error bound, never as measured. Markers appear for the selected structure, or for every placed part with the
-   toggle; they follow Cut mode (incl. the slice thickness), the layer / hide / isolate state of their structure, and x-ray (the solid dot is
-   depth-tested by the engine: hidden behind opaque tissue, seen through x-ray; the hollow ring + label stay).
+   with its source class and error bound, never as measured. Q256: these dots are what the project elsewhere calls "not valid / needs
+   checking" indicators, so the whole marker layer is OFF by default (opt-in only, same convention as Labels Q236) and is never drawn
+   in the normal, unopened-panel display; turning it on (the "Parts markers" toolbar button -> panel) is what makes markers appear for
+   the selected structure, or for every placed part. When on, they follow Cut mode (incl. the slice thickness), the layer / hide / isolate
+   state of their structure, and x-ray (the solid dot is depth-tested by the engine: hidden behind opaque tissue, seen through x-ray; the
+   hollow ring + label stay).
    Q240 view-dependent culling (optional adaptor members idImage(all,w) -> {w,h,ids}, depthImage(w) -> {w,h,z} (linear view depth in mm, 0 = empty, row 0 = top),
-   idOf(meshId) -> index+1 as in idImage, marked(), and the hover(meshId) / dirty() calls from the engine): Markers = Off / Visible + near (default) / Selected only / All.
+   idOf(meshId) -> index+1 as in idImage, marked(), and the hover(meshId) / dirty() calls from the engine): Markers = Off (default) / Visible + near / Selected only / All.
    In "Visible + near" a marker is drawn only when (1) its 3D point is not hidden by other opaque tissue (depth image: its view depth within a tolerance of the
    nearest surface at its pixel, or the surface there is one of its own structures), (2) it lies within the depth band (front N % of the visible model depth, slider) and
    (3) the Cut mode keeps it. Markers of selected / marked / hovered structures are exempt (drawn see-through, dashed ring + halo, when hidden or far) unless
@@ -2325,7 +2364,7 @@ function NMSKParts(E){
   var btn = null, layer = null, card = null, errEl = null, panel = null, panelBuilt = false;
   var KEY = "nmsk.parts.v1", MODES = {off:1, near:1, sel:1, all:1}, CARRIER_ALLOW = 45;
   var canCull = !!(E.depthImage && E.idOf);
-  var P = {mode:canCull ? "near" : "sel", band:55, hid:true};
+  var P = {mode:"off", band:55, hid:true};              // Q256: opt-in, not seen in the normal display until the user turns it on
   try { var rs = JSON.parse(localStorage.getItem(KEY) || "null");
     if (rs && typeof rs === "object"){ if (MODES[rs.mode] && (canCull || rs.mode !== "near")) P.mode = rs.mode; var bn = Number(rs.band); if (isFinite(bn)) P.band = Math.max(10, Math.min(100, Math.round(bn))); if (typeof rs.hid === "boolean") P.hid = rs.hid; } } catch (err){}
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
@@ -2670,7 +2709,7 @@ function NMSKParts(E){
       btn = document.createElement("button");
       btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
       btn.innerHTML = 'Parts<span class="pm-more"> markers</span>';
-      btn.title = "Part markers: which origins / insertions / heads are marked on the model (visible + near, selected only, all), depth band";
+      btn.title = "Part markers (off by default): opt in to see which origins / insertions / heads are marked on the model, colour-coded rule-based / Z-Anatomy fill (visible + near, selected only, all), depth band";
       btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
       E.toolbar.appendChild(btn);
     }
@@ -2686,8 +2725,8 @@ function NMSKParts(E){
     panel.innerHTML = '<div class="pp-h"><b>Part markers</b><span class="pp-st" aria-live="polite"></span><button type="button" class="pp-x" aria-label="Close the part markers panel" title="Close">&times;</button></div>' +
       '<div class="pp-l">Markers</div>' +
       '<div class="pp-seg" role="group" aria-label="Which markers to show">' +
-        '<button type="button" data-v="off" title="No part markers">Off</button>' +
-        '<button type="button" data-v="near" title="Markers that are not hidden behind other tissue and lie in the near part of the model (default)">Visible + near</button>' +
+        '<button type="button" data-v="off" title="No part markers (default: not shown until you choose one of the other options here)">Off</button>' +
+        '<button type="button" data-v="near" title="Markers that are not hidden behind other tissue and lie in the near part of the model">Visible + near</button>' +
         '<button type="button" data-v="sel" title="Only the markers of the selected, marked and hovered structures">Selected only</button>' +
         '<button type="button" data-v="all" title="Every placed marker (hidden ones are dashed)">All</button></div>' +
       '<div class="pp-l">Depth band <output class="pp-bv"></output></div>' +
@@ -2695,7 +2734,8 @@ function NMSKParts(E){
       '<div class="pp-sc"><span>near</span><span>all</span></div>' +
       '<label class="pp-c"><input class="pp-hid" type="checkbox"> Show hidden ones of selected muscles</label>' +
       '<p class="pp-hint"></p>' +
-      '<p class="pp-help"><b>Visible + near</b> shows a marker only when its point is not hidden behind other tissue and lies within the depth band (the front part of the visible model, measured from the viewer). ' +
+      '<p class="pp-help">Off by default: these dots mark positions that are NOT measured on this body (orange = rule-based estimate, blue = Z-Anatomy fill) &mdash; this panel is how you choose to see them. ' +
+      '<b>Visible + near</b> shows a marker only when its point is not hidden behind other tissue and lies within the depth band (the front part of the visible model, measured from the viewer). ' +
       'Markers of selected, marked or hovered structures are always shown, drawn dashed with a halo when they are behind tissue; switch the box off to cull them like the rest. Cut mode: markers on the removed side are hidden.</p>';
     panel.querySelector(".pp-x").addEventListener("click", function(){ openPanel(false); });
     panel.querySelector(".pp-seg").addEventListener("click", function(e){
@@ -4086,6 +4126,18 @@ function NMSKSelect(E){
     if (on && n && E.reveal && modeOf() === "only") E.reveal(ids);
     say(n ? n + " structures " + (on ? "marked." : "unmarked.") : "Nothing to " + (on ? "mark" : "unmark") + " in that layer."); changed();
   }
+  /* Q256: mark an arbitrary explicit list of ids at once (e.g. a plexus component's downstream nerves) -- same mechanism as
+     markCategory, just not tied to a predefined layer category. replace = clear the existing marks first (the normal case for a
+     fresh group pick); quiet = skip the status line (the caller reports its own, more specific message). Returns how many marked. */
+  function markIds(ids, on, replace, quiet){
+    if (replace){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; }
+    var list = (ids || []).filter(has), n = 0;
+    list.forEach(function(id){ if (mark(id, on === undefined ? true : on)) n++; });
+    if (n && E.reveal && modeOf() === "only") E.reveal(list);
+    if (!quiet) say(n ? n + " structures " + (on === false ? "unmarked." : "marked.") : "None of those structures are on this page.");
+    changed();
+    return n;
+  }
   function clearMarks(){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
   function resetAll(){
     marks = []; set = {}; ss = os = "show"; ghostPref = false; markMode = false; inv = null;
@@ -4344,12 +4396,145 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    markCategory:markCategory, onKey:onKey, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
+    markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
     state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
   };
 }
 /* SELECTION js end */
+/* NERVE-GROUPS js begin */
+/* Q256: "Nerve groups" -- mark/select nerves by a common plexus component (a root, a trunk, a division, a cord, or any named
+   branch), so picking e.g. "Posterior cord" selects every nerve this project's own cited plexus lineage (data/nerves/{brachial,
+   lumbosacral}_plexus.json, walked by scripts/anatomy/q256/plexus_groups.py) says is anatomically downstream of it, on THIS page's
+   own actual nerve meshes (checked per page by scripts/anatomy/q256/build_plexus_sidecar.py's `plexus_groups.json` sidecar -- own
+   pages typically have only the named terminal/muscular/cutaneous branches, Z pages often the fuller root/trunk/division/cord tree
+   too; nothing here assumes a level exists, it is counted). This is deliberately NOT a parallel highlight system: selecting a group
+   calls straight into the existing Q232 selection controller (E.mark(ids, replace) -> selCtl.markIds, E.clear() -> selCtl.clear(),
+   E.highlight() -> selCtl.preset('hlsel')), so every Show/Fade/Hide/Ghost/X-ray/Highlight state the owner already has for a marked
+   set keeps working on a nerve group exactly as it does on a hand-picked one.
+   Data = the page's sidecar plexus_groups.json (public anatomy layer), fetched with a graceful fallback: absent or invalid = no
+   button, nothing else changes. Engine adaptor E: url, toolbar + toolClass, isPhone(), mark(ids, replace) -> count actually marked,
+   clear(), highlight() (optional), onLoaded().
+   Known, honest limitation (stated in the panel itself, not hidden): the source lineage is single-parent, so a nerve fed by TWO
+   plexus components in real anatomy (the median nerve's lateral root from the lateral cord and medial root from the medial cord)
+   is only counted under the one cord this project's data lists as its parent (the lateral cord) -- see plexus_groups.py's docstring. */
+function NMSKNerveGroups(E){
+  "use strict";
+  var D = null, btn = null, panel = null, panelBuilt = false;
+  var plexus = null, side = "r", q = "", activeNode = null;
+  var KEY = "nmsk.nervegroups.v1";
+  try { var rs = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (rs && typeof rs === "object"){ if (rs.side === "r" || rs.side === "l") side = rs.side; if (typeof rs.plexus === "string") plexus = rs.plexus; } } catch (err){}
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify({side:side, plexus:plexus})); } catch (err){} }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  var PLEXUS_LABEL = {brachial_plexus:"Brachial", lumbar_plexus:"Lumbar", sacral_plexus:"Sacral"};
+
+  function panelOpen(){ return !!panel && !panel.hidden; }
+  function $p(sel){ return panel ? panel.querySelector(sel) : null; }
+
+  function build(){
+    if (!D || !D.plexuses || !D.plexuses.length) return;
+    if (!plexus || D.by_plexus[plexus] === undefined) plexus = D.plexuses[0];
+    if (M.length && E.toolbar && !btn){
+      btn = document.createElement("button");
+      btn.type = "button"; btn.id = "t-nervegroups"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
+      btn.innerHTML = 'Nerve<span class="ng-more"> groups</span>';
+      btn.title = "Nerve groups: select every nerve downstream of a plexus root / trunk / division / cord / branch";
+      btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
+      E.toolbar.appendChild(btn);
+    }
+    buildPanel();
+  }
+  var M = [];   // placeholder list check (true once D loaded with >=1 node); keeps the same shape as NMSKParts's build() guard
+  function buildPanel(){
+    if (panelBuilt) return;
+    panel = document.getElementById("ng-panel"); if (!panel) return;
+    panelBuilt = true;
+    panel.innerHTML = '<div class="ng-h"><b>Nerve groups</b><span class="ng-st" aria-live="polite"></span><button type="button" class="ng-x" aria-label="Close the nerve groups panel" title="Close">&times;</button></div>' +
+      '<div class="ng-l">Plexus</div><div class="ng-seg ng-plx" role="group" aria-label="Which plexus"></div>' +
+      '<div class="ng-l">Side</div><div class="ng-seg ng-side" role="group" aria-label="Which side">' +
+        '<button type="button" data-v="r">Right</button><button type="button" data-v="l">Left</button></div>' +
+      '<div class="ng-l">Group</div><input class="ng-search" type="search" placeholder="Search roots / trunks / cords / branches...">' +
+      '<div class="ng-list" role="listbox" aria-label="Plexus components on this page"></div>' +
+      '<p class="ng-hint" aria-live="polite"></p>' +
+      '<div class="ng-actions"><button type="button" class="ng-clear">Clear selection</button><button type="button" class="ng-hl">Highlight</button></div>' +
+      '<p class="ng-help">Picks every nerve this project’s own cited plexus lineage says is downstream of the chosen component, on THIS page’s own meshes (counted, not assumed — the number by each row). A ligament-free, single-parent lineage: a nerve fed by two cords in real anatomy (e.g. the median nerve) is only listed under one of them here.</p>';
+    panel.querySelector(".ng-x").addEventListener("click", function(){ openPanel(false); });
+    panel.querySelector(".ng-side").addEventListener("click", function(e){
+      var b = e.target && e.target.closest ? e.target.closest("button") : null; if (!b) return;
+      side = b.getAttribute("data-v"); persist(); renderList(); syncSeg();
+    });
+    panel.querySelector(".ng-search").addEventListener("input", function(){ q = this.value.toLowerCase(); renderList(); });
+    panel.querySelector(".ng-clear").addEventListener("click", function(){ activeNode = null; if (E.clear) E.clear(); renderList(); say(""); });
+    panel.querySelector(".ng-hl").addEventListener("click", function(){ if (E.highlight) E.highlight(); });
+    var plx = panel.querySelector(".ng-plx");
+    D.plexuses.forEach(function(p){
+      var b = document.createElement("button"); b.type = "button"; b.setAttribute("data-v", p); b.textContent = PLEXUS_LABEL[p] || p;
+      b.addEventListener("click", function(){ plexus = p; activeNode = null; persist(); renderList(); syncSeg(); });
+      plx.appendChild(b);
+    });
+    syncSeg();
+    renderList();
+  }
+  function syncSeg(){
+    if (!panel) return;
+    Array.prototype.forEach.call(panel.querySelectorAll(".ng-plx button"), function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === plexus)); });
+    Array.prototype.forEach.call(panel.querySelectorAll(".ng-side button"), function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === side)); });
+  }
+  function say(m){ var st = $p(".ng-st"); if (st) st.textContent = m || ""; }
+  function hint(m){ var h = $p(".ng-hint"); if (h) h.textContent = m || ""; }
+  function renderList(){
+    var list = $p(".ng-list"); if (!list || !D) return;
+    list.innerHTML = "";
+    var ids = (D.by_plexus[plexus] || []).filter(function(nid){
+      var n = D.nodes[nid];
+      return n && n.sides && n.sides[side] && (!q || n.display_name.toLowerCase().indexOf(q) >= 0 || (n.level_label || "").toLowerCase().indexOf(q) >= 0);
+    });
+    if (!ids.length){ list.innerHTML = '<div class="ng-empty">No ' + esc((PLEXUS_LABEL[plexus] || plexus).toLowerCase()) + ' plexus nerves on the ' + (side === "r" ? "right" : "left") + ' of this page' + (q ? " match that search" : "") + '.</div>'; return; }
+    var lastLvl = null;
+    ids.forEach(function(nid){
+      var n = D.nodes[nid], s = n.sides[side];
+      if (n.level_label !== lastLvl){ var h = document.createElement("div"); h.className = "ng-lvl"; h.textContent = n.level_label; list.appendChild(h); lastLvl = n.level_label; }
+      var row = document.createElement("div"); row.className = "ng-row" + (activeNode === nid ? " ng-on" : ""); row.setAttribute("role", "option"); row.tabIndex = 0;
+      row.setAttribute("aria-selected", String(activeNode === nid));
+      row.innerHTML = '<span class="ng-nm">' + esc(n.display_name) + '</span><span class="ng-cnt">' + s.resolved_count + ' / ' + s.total + '</span>';
+      row.addEventListener("click", function(){ pick(nid); });
+      row.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); pick(nid); } });
+      list.appendChild(row);
+    });
+  }
+  function pick(nid){
+    var n = D.nodes[nid], s = n.sides[side];
+    activeNode = nid;
+    var marked = E.mark ? E.mark(s.resolved_ids, true) : 0;
+    var missing = s.total - s.resolved_count;
+    say(marked + " nerve" + (marked === 1 ? "" : "s") + " selected (" + (side === "r" ? "right" : "left") + ").");
+    hint(n.display_name + ": " + s.resolved_count + " of " + s.total + " downstream nerves present on this page" +
+      (missing ? " (" + missing + " not modelled here" + (s.missing_sample.length ? ": " + s.missing_sample.slice(0, 6).join(", ") + (s.missing_count > 6 ? ", ..." : "") : "") + ")" : "") + ".");
+    renderList();
+  }
+  function openPanel(on){
+    if (!panel) return;
+    panel.hidden = !on;
+    if (on){ buildPanel(); syncSeg(); renderList(); }
+    if (btn) btn.setAttribute("aria-pressed", String(on));
+  }
+  function load(){
+    if (!E.url || !window.fetch) return;
+    fetch(E.url).then(function(r){ if (!r.ok) throw new Error("no plexus_groups.json"); return r.json(); }).then(function(d){
+      if (!d || String(d.schema).indexOf("nmsk.plexus_sidecar") !== 0 || !d.nodes || !d.plexuses || !d.plexuses.length) throw new Error("not a plexus sidecar");
+      D = d; M = [1];      // non-empty sentinel: matches NMSKParts's "only add the button once there is something to show" convention
+      build();
+      if (E.onLoaded) E.onLoaded();
+    }).catch(function(){ D = null; });
+  }
+  return {
+    load:load, openPanel:openPanel,
+    state:function(){ return {loaded:!!D, plexus:plexus, side:side, active:activeNode, panel:panelOpen(),
+      plexuses:D ? D.plexuses.slice() : [], nodeCount:D ? Object.keys(D.nodes).length : 0}; }
+  };
+}
+/* NERVE-GROUPS js end */
 /* CUT-CAP js begin */
 /* Cut-face fill ("cap") for Cut mode (Q227). CPU cross-section of the ACTUAL meshes with the cut plane:
    signed distance of the vertices -> triangle/plane segments -> gaps of the open ends closed (<= 1 mm) -> even-odd scanline fill of every
@@ -5146,6 +5331,18 @@ symCtl = NMSKSymView({url:"symmetry_q237.json", toolbar:document.getElementById(
 window.__symState = function(){ return symCtl.state(); };
 window.__symDebug = function(){ return {on: !!sym, clipOn: !!clip.on, srcObjects: sym ? OBJ.filter(symIsSrc).length : 0, hiddenObjects: sym ? OBJ.filter(symHide).length : 0}; };
 /* SYMVIEW glue end */
+/* NERVE-GROUPS glue begin */
+var nerveGroupsCtl = NMSKNerveGroups({
+  url:"plexus_groups.json", toolbar:document.getElementById("topright"), toolClass:"pill",
+  mark:function(ids, replace){ return selCtl ? selCtl.markIds(ids, true, replace, true) : 0; },
+  clear:function(){ if (selCtl) selCtl.clear(); },
+  highlight:function(){ if (selCtl) selCtl.preset("hlsel"); },
+  isPhone:function(){ return window.innerWidth <= 900; },
+  onLoaded:function(){}
+});
+nerveGroupsCtl.load();
+window.__nerveGroupsState = function(){ return nerveGroupsCtl.state(); };
+/* NERVE-GROUPS glue end */
     /* POSE glue begin */
 /* Q241 Pose, WebGL engine. The posed geometry is BAKED into the batch vertex buffers (gl.bufferSubData of the moved structures only: positions and normals), so the shaders, the picking /
    depth passes, the CUT clipping (uClip / uClip2 work on the posed positions), selection and the Symmetric view (the shader mirrors the posed vertices) need no change. Rest positions /

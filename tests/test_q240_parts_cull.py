@@ -120,27 +120,38 @@ def full(z):
     return {"x0": 0, "x1": 100, "y0": 0, "y1": 80, "z": z}
 
 
+def test_q256_marker_layer_is_off_by_default_even_when_selected():
+    # the owner's ask: these source-reliability dots must not appear in the normal display until the user opts in
+    wall = [full(500)]
+    o = run({"surfaces": wall, "steps": [{"tag": "sel", "select": "m_back"}]})
+    assert o["init"]["mode"] == "off"
+    assert o["sel"]["mode"] == "off" and o["sel"]["vis"] == []                        # selecting a structure alone does not reveal its dots
+    o2 = run({"surfaces": wall, "steps": [{"tag": "on", "select": "m_back", "mode": "sel"}]})
+    assert o2["on"]["vis"] == [1, 5]                                                   # turning the panel on (opt-in) is what shows them
+
+
 def test_defaults_without_a_surface_everything_in_the_band_is_shown():
-    o = run({"surfaces": [], "steps": [{"tag": "a"}]})
-    assert o["init"] == {"mode": "near", "band": 55, "hid": True, "canCull": True}
+    # Q256: the marker layer itself defaults to Off (opt-in, not seen in the normal display); "near" is exercised explicitly here
+    o = run({"surfaces": [], "steps": [{"tag": "a", "mode": "near"}]})
+    assert o["init"] == {"mode": "off", "band": 55, "hid": True, "canCull": True}
     assert o["a"]["vis"] == [0, 1, 2, 3, 4, 5] and all(c == 0 for c in o["a"]["cull"])      # no surface in the image: nothing hides anything, no depth range -> no band
 
 
 def test_occlusion_by_a_nearer_surface_and_the_own_structure_exception():
     wall = [full(500)]                                          # a surface at view depth 500 over the whole image: everything behind it is hidden
-    o = run({"surfaces": wall, "steps": [{"tag": "a", "band": 100}]})
+    o = run({"surfaces": wall, "steps": [{"tag": "a", "band": 100, "mode": "near"}]})
     assert o["a"]["vis"] == [4]                                 # only the marker nearer than the wall (view depth 400)
     assert [c & 1 for c in o["a"]["cull"]] == [1, 1, 1, 1, 0, 1]
     # the front muscle's own surface at the marker's pixel (carrier id 1 at depth 1000 - 30): the marker lies under its own muscle's surface -> shown, though not within 6 mm
     own = [full(500)]
     own.append({"x0": 29, "x1": 33, "y0": 31, "y1": 35, "z": 970, "id": "m_front"})       # around marker 0's pixel (30, 32)
-    o = run({"surfaces": own, "steps": [{"tag": "a", "band": 100}]})
+    o = run({"surfaces": own, "steps": [{"tag": "a", "band": 100, "mode": "near"}]})
     assert 0 in o["a"]["vis"] and 1 not in o["a"]["vis"]
 
 
 def test_depth_band_front_share_of_the_visible_depth():
     surf = [{"x0": 0, "x1": 5, "y0": 0, "y1": 80, "z": 900}, {"x0": 95, "x1": 100, "y0": 0, "y1": 80, "z": 1800}]       # visible depth range 900 .. 1800 (edge strips; the marker pixels stay empty)
-    st = [{"tag": "b55"}, {"tag": "b100", "band": 100}, {"tag": "b20", "band": 20}, {"tag": "b55again", "band": 55}]
+    st = [{"tag": "b55", "mode": "near"}, {"tag": "b100", "band": 100}, {"tag": "b20", "band": 20}, {"tag": "b55again", "band": 55}]
     o = run({"surfaces": surf, "steps": st})
     # band 55 % -> far limit 900 + 0.55 * 900 = 1395: the markers at view depth 1000 / 1300 pass, 1700 does not
     assert 2 not in o["b55"]["vis"] and {0, 1}.issubset(o["b55"]["vis"]) and o["b55"]["cull"][2] & 2
@@ -152,12 +163,12 @@ def test_depth_band_front_share_of_the_visible_depth():
 
 def test_selected_marked_hovered_are_exempt_and_drawn_see_through():
     wall = [full(500)]
-    o = run({"surfaces": wall, "steps": [{"tag": "none"}, {"tag": "sel", "select": "m_back"}, {"tag": "off", "select": "m_back", "mode": "near"}]})
+    o = run({"surfaces": wall, "steps": [{"tag": "none", "mode": "near"}, {"tag": "sel", "select": "m_back"}, {"tag": "off", "select": "m_back", "mode": "near"}]})
     assert o["none"]["vis"] == [4]
     assert o["sel"]["vis"] == [1, 4, 5] or o["sel"]["vis"] == [1, 5, 4] or sorted(o["sel"]["vis"]) == [1, 4, 5]
     assert o["sel"]["behind"][1] is True and o["sel"]["behind"][5] is True and not o["sel"]["behind"][4]
     # hover and marks do the same
-    o = run({"surfaces": wall, "steps": [{"tag": "hov", "hover": "m_far"}, {"tag": "unhov", "hover": None}, {"tag": "mk", "marks": ["m_front"]}]})
+    o = run({"surfaces": wall, "steps": [{"tag": "hov", "hover": "m_far", "mode": "near"}, {"tag": "unhov", "hover": None}, {"tag": "mk", "marks": ["m_front"]}]})
     assert 2 in o["hov"]["vis"] and o["hov"]["behind"][2] is True
     assert 2 not in o["unhov"]["vis"]
     assert {0, 3} <= set(o["mk"]["vis"])
@@ -184,36 +195,36 @@ def test_modes():
 
 def test_cut_mode_still_hides_the_removed_side_even_for_selected():
     cut = {"kn": [1, 0, 0], "c": 0, "th": 0}                                         # kept half-space x >= 0
-    steps = [{"tag": "c", "select": "m_front", "cut": cut}]
+    steps = [{"tag": "c", "select": "m_front", "cut": cut, "mode": "near"}]
     o = run({"surfaces": [], "steps": steps})
     assert o["c"]["why"][0] == "cut" and o["c"]["why"][3] == "cut" and 4 in o["c"]["vis"] and 0 not in o["c"]["vis"]
 
 
 def test_hidden_structure_and_layer_off_still_hide():
-    o = run({"surfaces": [], "steps": [{"tag": "h", "hide": "m_front"}]})
+    o = run({"surfaces": [], "steps": [{"tag": "h", "hide": "m_front", "mode": "near"}]})
     assert o["h"]["why"][0] == "hidden" and 0 not in o["h"]["vis"]
 
 
 def test_throttled_capture_and_dirty():
-    o = run({"surfaces": [], "steps": [{"tag": "a"}, {"tag": "b"}, {"tag": "c"}]})
+    o = run({"surfaces": [], "steps": [{"tag": "a", "mode": "near"}, {"tag": "b"}, {"tag": "c"}]})
     assert o["depthCalls"] == 3                                                       # one depth pass per forced capture (cullNow); the throttle applies to overlay()
     assert o["cullState"]["ms"] >= 0 and o["cullState"]["img"] == "100x80"
 
 
 def test_no_depth_pass_when_nothing_can_be_shown():
     cut = {"kn": [1, 0, 0], "c": -5000, "th": 0}                                      # every marker is on the removed side
-    o = run({"surfaces": [], "steps": [{"tag": "a", "cut": cut}, {"tag": "b"}]})
+    o = run({"surfaces": [], "steps": [{"tag": "a", "cut": cut, "mode": "near"}, {"tag": "b"}]})
     assert o["a"]["vis"] == [] and o["depthCalls"] == 0
 
 
 def test_a_gpu_without_a_depth_pass_falls_back_to_selection_mode():
-    o = run({"depthNull": True, "surfaces": [], "steps": [{"tag": "a"}, {"tag": "b"}, {"tag": "c", "select": "m_back"}]})
+    o = run({"depthNull": True, "surfaces": [], "steps": [{"tag": "a", "mode": "near"}, {"tag": "b"}, {"tag": "c", "select": "m_back"}]})
     assert o["c"]["mode"] == "sel" and sorted(o["c"]["vis"]) == [1, 5]
 
 
 def test_page_without_the_culling_adaptor_behaves_as_before():
-    o = run({"noCull": True, "surfaces": [], "steps": [{"tag": "n", "select": "m_back"}, {"tag": "x", "mode": "near"}, {"tag": "all", "mode": "all"}]})
-    assert o["init"]["mode"] == "sel" and o["init"]["canCull"] is False
+    o = run({"noCull": True, "surfaces": [], "steps": [{"tag": "n", "select": "m_back", "mode": "sel"}, {"tag": "x", "mode": "near"}, {"tag": "all", "mode": "all"}]})
+    assert o["init"]["mode"] == "off" and o["init"]["canCull"] is False               # Q256: off by default regardless of canCull
     assert sorted(o["n"]["vis"]) == [1, 5] and o["x"]["mode"] == "sel"                 # 'near' is refused, the selection mode stays
     assert o["depthCalls"] == 0 and len(o["all"]["vis"]) == 6
 
@@ -234,6 +245,13 @@ def test_templates_carry_the_fragment_and_the_adaptor_members(tpl):
         assert re.search(r"\b" + name + r"\s*:", seg), name
     assert "partsCtl.hover(" in t and "partsCtl.dirty()" in t and "window.__partsCtl" in t
     assert 'id="pm-panel"' in t
+
+
+@pytest.mark.parametrize("tpl", [OWN, ZAN])
+def test_q256_markers_default_off_in_the_committed_templates(tpl):
+    t = tpl.read_text(encoding="utf-8")
+    assert 'var P = {mode:"off", band:55, hid:true};' in t
+    assert 'var P = {mode:canCull ? "near" : "sel"' not in t   # the pre-Q256 on-by-default initial state must be gone
 
 
 def test_engine_depth_passes():

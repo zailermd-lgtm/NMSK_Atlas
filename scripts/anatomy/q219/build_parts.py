@@ -12,6 +12,7 @@ sys.path.insert(0, str(HERE))
 REPO = HERE.parents[2]
 import rows_common
 import rows_upper, rows_lower, rows_trunk_hand, rows_hand_passages  # noqa: F401  (import fills rows_common.ROWS / SETS)
+import rows_q256_attachments  # noqa: F401  (Q256: origin/insertion rows for tendons/ligaments/fascia, generated from data/{tendons,ligaments,fascia})
 import refs_q222  # noqa: F401  (Q222: extends refs.REFS)
 import importlib, pkgutil
 for _m in sorted(m.name for m in pkgutil.iter_modules([str(HERE)]) if m.name.startswith('rows_q222_')):

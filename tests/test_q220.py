@@ -107,6 +107,7 @@ setTimeout(() => {
   C.select(scenario.mesh);
   out.card = C.cardHtml();
   out.sel = C.state().sel;
+  C.setMode('sel');           // Q256: the marker layer defaults to Off; opt in the same way the real panel does
   C.update(); out.sel_visible = C.state().markers.filter(m=>m.vis).map(m=>m.part);
   C.setShowAll(true); C.update(); out.all_visible = C.state().markers.filter(m=>m.vis).length; out.total = C.state().placements;
   C.setShowAll(false);

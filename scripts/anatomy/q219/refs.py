@@ -373,3 +373,14 @@ REFS["moore9"] = dict(kind="textbook", citation="Moore KL, Dalley AF, Agur AMR. 
                       doi=None, pmid=None, verified="not-verified-textbook", basis="general textbook statement; not page-checked")
 REFS["owner_q219"] = dict(kind="owner", citation="Owner request Q219 (2026-10-11): list of expected parts (deltoid >= 3 heads; semimembranosus ~5 insertions; tibialis posterior many insertions; finger ligaments proper + accessory; MTJ; fascial passages)",
                           doi=None, pmid=None, verified="owner-statement-not-a-literature-source", basis="owner's brief")
+# Q256: the textbooks this project's own data/tendons|ligaments|fascia/*.json records already cite in their own `source` field
+# (the origin/insertion rows below quote that exact `source` string verbatim in `note`; these keys are only the required non-journal
+# citation for an "unverified" row -- not a new, independently page-checked source).
+REFS["gray_students4"] = dict(kind="textbook", citation="Drake RL, Vogl AW, Mitchell AWM. Gray's Anatomy for Students, 4th ed. Elsevier, 2020 (section locator in the row; page not verified)",
+                              doi=None, pmid=None, verified="not-verified-textbook", basis="general textbook statement; not page-checked")
+REFS["moore8"] = dict(kind="textbook", citation="Moore KL, Dalley AF, Agur AMR. Clinically Oriented Anatomy, 8th ed. Wolters Kluwer, 2017 (section locator in the row; page not verified)",
+                      doi=None, pmid=None, verified="not-verified-textbook", basis="general textbook statement; not page-checked")
+REFS["ta1998"] = dict(kind="textbook", citation="Federative Committee on Anatomical Terminology (FCAT). Terminologia Anatomica. Thieme, 1998 (nomenclature; page not verified)",
+                      doi=None, pmid=None, verified="not-verified-textbook", basis="standard anatomical nomenclature")
+REFS["stecco2015"] = dict(kind="textbook", citation="Stecco C. Functional Atlas of the Human Fascial System. Churchill Livingstone / Elsevier, 2015 (section locator in the row; page not verified)",
+                          doi=None, pmid=None, verified="not-verified-textbook", basis="general textbook statement; not page-checked")

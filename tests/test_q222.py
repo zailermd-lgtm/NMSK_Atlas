@@ -33,7 +33,7 @@ def _by_struct(table):
 
 
 def test_every_row_tagged_and_ids_unique(table):
-    assert all(p["added_in"] in ("Q219", "Q222") for p in table["parts"])
+    assert all(re.match(r"^Q\d+$", p["added_in"]) for p in table["parts"])      # Q219 / Q222 / a later round's own rows_q<N>_*.py module
     ids = [p["id"] for p in table["parts"]]
     assert len(ids) == len(set(ids))
     c = Counter(p["added_in"] for p in table["parts"])

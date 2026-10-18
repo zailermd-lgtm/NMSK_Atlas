@@ -1,0 +1,2755 @@
+{
+ "schema": "nmsk.plexus_groups.v1",
+ "generated_by": "scripts/anatomy/q256/plexus_groups.py",
+ "note": "Node ids are the SAME base ids used elsewhere in this project for these nerve meshes (side suffix _r/_l, or none for a midline root, added per page at sidecar-build time: scripts/anatomy/q256/build_plexus_sidecar.py). 'downstream' is every node at or below this one in the real, cited parent_id tree of data/nerves/{brachial,lumbosacral}_plexus.json (single-parent: see this script's own docstring for the one known gap, the median nerve's dual cord origin).",
+ "plexuses": [
+  "brachial_plexus",
+  "lumbar_plexus",
+  "sacral_plexus"
+ ],
+ "by_plexus": {
+  "brachial_plexus": [
+   "brachial_root_C5",
+   "brachial_root_C6",
+   "brachial_root_C7",
+   "brachial_root_C8",
+   "brachial_root_T1",
+   "brachial_trunk_inferior",
+   "brachial_trunk_middle",
+   "brachial_trunk_superior",
+   "brachial_div_inferior_ant",
+   "brachial_div_inferior_post",
+   "brachial_div_middle_ant",
+   "brachial_div_middle_post",
+   "brachial_div_superior_ant",
+   "brachial_div_superior_post",
+   "brachial_cord_lateral",
+   "brachial_cord_medial",
+   "brachial_cord_posterior",
+   "anterior_interosseous_n",
+   "axillary_n",
+   "median_n",
+   "median_n_lateral_root",
+   "musculocutaneous_n",
+   "posterior_interosseous_n",
+   "radial_n",
+   "ulnar_n",
+   "ulnar_n_deep_branch",
+   "dorsal_scapular_n",
+   "lateral_pectoral_n",
+   "long_thoracic_n",
+   "lower_subscapular_n",
+   "medial_pectoral_n",
+   "median_n_recurrent_thenar_branch",
+   "nerve_to_subclavius",
+   "suprascapular_n",
+   "thoracodorsal_n",
+   "ulnar_n_lumbrical_branches",
+   "upper_subscapular_n",
+   "medial_cutaneous_n_arm",
+   "medial_cutaneous_n_forearm",
+   "median_n_palmar_digital_nn",
+   "radial_n_superficial_branch",
+   "ulnar_n_dorsal_cutaneous_branch",
+   "ulnar_n_superficial_branch"
+  ],
+  "lumbar_plexus": [
+   "lumbar_root_L1",
+   "lumbar_root_L2",
+   "lumbar_root_L3",
+   "lumbar_root_L4",
+   "lumbar_root_T12",
+   "obturator_n_anterior_division",
+   "obturator_n_posterior_division",
+   "femoral_n",
+   "genitofemoral_n",
+   "iliohypogastric_n",
+   "ilioinguinal_n",
+   "obturator_n",
+   "femoral_n_branch_to_iliacus",
+   "femoral_n_branch_to_pectineus",
+   "femoral_n_branch_to_rectus_femoris",
+   "femoral_n_branch_to_sartorius",
+   "femoral_n_branch_to_vastus_intermedius",
+   "femoral_n_branch_to_vastus_lateralis",
+   "femoral_n_branch_to_vastus_medialis",
+   "obturator_n_branch_to_adductor_brevis",
+   "obturator_n_branch_to_adductor_longus",
+   "obturator_n_branch_to_adductor_magnus_adductor_part",
+   "obturator_n_branch_to_gracilis",
+   "obturator_n_branch_to_obturator_externus",
+   "femoral_n_anterior_cutaneous_branches",
+   "lateral_femoral_cutaneous_n",
+   "obturator_n_cutaneous_branch",
+   "saphenous_n",
+   "saphenous_n_infrapatellar_branch",
+   "saphenous_n_medial_crural_branches"
+  ],
+  "sacral_plexus": [
+   "sacral_root_L4",
+   "sacral_root_L5",
+   "sacral_root_S1",
+   "sacral_root_S2",
+   "sacral_root_S3",
+   "sacral_root_S4",
+   "common_fibular_n",
+   "deep_fibular_n",
+   "lateral_plantar_n",
+   "medial_plantar_n",
+   "pudendal_n",
+   "sciatic_n",
+   "superficial_fibular_n",
+   "tibial_n",
+   "deep_fibular_n_branch_to_extensor_digitorum_longus",
+   "deep_fibular_n_branch_to_extensor_hallucis_longus",
+   "deep_fibular_n_branch_to_fibularis_tertius",
+   "deep_fibular_n_branch_to_tibialis_anterior",
+   "deep_fibular_n_lateral_terminal_branch",
+   "inferior_gluteal_n",
+   "lateral_plantar_n_deep_branch",
+   "lateral_plantar_n_muscular_branches",
+   "medial_plantar_n_muscular_branches",
+   "nerve_to_obturator_internus",
+   "nerve_to_piriformis",
+   "nerve_to_quadratus_femoris",
+   "sciatic_n_branch_to_adductor_magnus_hamstring_part",
+   "sciatic_n_branch_to_biceps_femoris_long_head",
+   "sciatic_n_branch_to_biceps_femoris_short_head",
+   "sciatic_n_branch_to_semimembranosus",
+   "sciatic_n_branch_to_semitendinosus",
+   "superficial_fibular_n_branch_to_fibularis_brevis",
+   "superficial_fibular_n_branch_to_fibularis_longus",
+   "superior_gluteal_n",
+   "tibial_n_branch_to_flexor_digitorum_longus",
+   "tibial_n_branch_to_flexor_hallucis_longus",
+   "tibial_n_branch_to_gastrocnemius",
+   "tibial_n_branch_to_plantaris",
+   "tibial_n_branch_to_popliteus",
+   "tibial_n_branch_to_soleus",
+   "tibial_n_branch_to_tibialis_posterior",
+   "common_fibular_n_lateral_sural_cutaneous_n",
+   "deep_fibular_n_medial_terminal_branch",
+   "lateral_plantar_n_superficial_branch",
+   "medial_plantar_n_digital_branches",
+   "posterior_femoral_cutaneous_n",
+   "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+   "superficial_fibular_n_medial_dorsal_cutaneous_n",
+   "sural_communicating_branch",
+   "sural_n",
+   "sural_n_lateral_dorsal_cutaneous_n",
+   "tibial_n_medial_calcaneal_branches",
+   "tibial_n_medial_sural_cutaneous_n"
+  ]
+ },
+ "nodes": {
+  "brachial_root_C5": {
+   "id": "brachial_root_C5",
+   "name": "Ventral ramus C5",
+   "plexus": "brachial_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C5",
+   "display_name": "Ventral ramus C5 (C5)",
+   "children": [
+    "brachial_trunk_superior",
+    "dorsal_scapular_n",
+    "long_thoracic_n"
+   ],
+   "downstream": [
+    "anterior_interosseous_n",
+    "axillary_n",
+    "brachial_cord_lateral",
+    "brachial_cord_posterior",
+    "brachial_div_superior_ant",
+    "brachial_div_superior_post",
+    "brachial_root_C5",
+    "brachial_trunk_superior",
+    "dorsal_scapular_n",
+    "lateral_pectoral_n",
+    "long_thoracic_n",
+    "lower_subscapular_n",
+    "median_n",
+    "median_n_lateral_root",
+    "median_n_palmar_digital_nn",
+    "median_n_recurrent_thenar_branch",
+    "musculocutaneous_n",
+    "nerve_to_subclavius",
+    "posterior_interosseous_n",
+    "radial_n",
+    "radial_n_superficial_branch",
+    "suprascapular_n",
+    "thoracodorsal_n",
+    "upper_subscapular_n"
+   ],
+   "downstream_count": 24,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_root_C6": {
+   "id": "brachial_root_C6",
+   "name": "Ventral ramus C6",
+   "plexus": "brachial_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C6",
+   "display_name": "Ventral ramus C6 (C6)",
+   "children": [],
+   "downstream": [
+    "brachial_root_C6"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_root_C7": {
+   "id": "brachial_root_C7",
+   "name": "Ventral ramus C7",
+   "plexus": "brachial_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C7",
+   "display_name": "Ventral ramus C7 (C7)",
+   "children": [
+    "brachial_trunk_middle"
+   ],
+   "downstream": [
+    "brachial_div_middle_ant",
+    "brachial_div_middle_post",
+    "brachial_root_C7",
+    "brachial_trunk_middle"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_root_C8": {
+   "id": "brachial_root_C8",
+   "name": "Ventral ramus C8",
+   "plexus": "brachial_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C8",
+   "display_name": "Ventral ramus C8 (C8)",
+   "children": [
+    "brachial_trunk_inferior"
+   ],
+   "downstream": [
+    "brachial_cord_medial",
+    "brachial_div_inferior_ant",
+    "brachial_div_inferior_post",
+    "brachial_root_C8",
+    "brachial_trunk_inferior",
+    "medial_cutaneous_n_arm",
+    "medial_cutaneous_n_forearm",
+    "medial_pectoral_n",
+    "ulnar_n",
+    "ulnar_n_deep_branch",
+    "ulnar_n_dorsal_cutaneous_branch",
+    "ulnar_n_lumbrical_branches",
+    "ulnar_n_superficial_branch"
+   ],
+   "downstream_count": 13,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_root_T1": {
+   "id": "brachial_root_T1",
+   "name": "Ventral ramus T1",
+   "plexus": "brachial_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "T1",
+   "display_name": "Ventral ramus T1 (T1)",
+   "children": [],
+   "downstream": [
+    "brachial_root_T1"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_trunk_superior": {
+   "id": "brachial_trunk_superior",
+   "name": "Superior trunk",
+   "plexus": "brachial_plexus",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "brachial_root_C5",
+   "root_contributions": "C5-C6",
+   "display_name": "Superior trunk (C5-C6)",
+   "children": [
+    "brachial_div_superior_ant",
+    "brachial_div_superior_post",
+    "nerve_to_subclavius",
+    "suprascapular_n"
+   ],
+   "downstream": [
+    "anterior_interosseous_n",
+    "axillary_n",
+    "brachial_cord_lateral",
+    "brachial_cord_posterior",
+    "brachial_div_superior_ant",
+    "brachial_div_superior_post",
+    "brachial_trunk_superior",
+    "lateral_pectoral_n",
+    "lower_subscapular_n",
+    "median_n",
+    "median_n_lateral_root",
+    "median_n_palmar_digital_nn",
+    "median_n_recurrent_thenar_branch",
+    "musculocutaneous_n",
+    "nerve_to_subclavius",
+    "posterior_interosseous_n",
+    "radial_n",
+    "radial_n_superficial_branch",
+    "suprascapular_n",
+    "thoracodorsal_n",
+    "upper_subscapular_n"
+   ],
+   "downstream_count": 21,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_trunk_middle": {
+   "id": "brachial_trunk_middle",
+   "name": "Middle trunk",
+   "plexus": "brachial_plexus",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "brachial_root_C7",
+   "root_contributions": "C7 (direct continuation)",
+   "display_name": "Middle trunk (C7 (direct continuation))",
+   "children": [
+    "brachial_div_middle_ant",
+    "brachial_div_middle_post"
+   ],
+   "downstream": [
+    "brachial_div_middle_ant",
+    "brachial_div_middle_post",
+    "brachial_trunk_middle"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_trunk_inferior": {
+   "id": "brachial_trunk_inferior",
+   "name": "Inferior trunk",
+   "plexus": "brachial_plexus",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "brachial_root_C8",
+   "root_contributions": "C8-T1",
+   "display_name": "Inferior trunk (C8-T1)",
+   "children": [
+    "brachial_div_inferior_ant",
+    "brachial_div_inferior_post"
+   ],
+   "downstream": [
+    "brachial_cord_medial",
+    "brachial_div_inferior_ant",
+    "brachial_div_inferior_post",
+    "brachial_trunk_inferior",
+    "medial_cutaneous_n_arm",
+    "medial_cutaneous_n_forearm",
+    "medial_pectoral_n",
+    "ulnar_n",
+    "ulnar_n_deep_branch",
+    "ulnar_n_dorsal_cutaneous_branch",
+    "ulnar_n_lumbrical_branches",
+    "ulnar_n_superficial_branch"
+   ],
+   "downstream_count": 12,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_div_superior_ant": {
+   "id": "brachial_div_superior_ant",
+   "name": "Superior trunk, anterior division",
+   "plexus": "brachial_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "brachial_trunk_superior",
+   "root_contributions": "C5-C6",
+   "display_name": "Superior trunk, anterior division (C5-C6)",
+   "children": [
+    "brachial_cord_lateral"
+   ],
+   "downstream": [
+    "anterior_interosseous_n",
+    "brachial_cord_lateral",
+    "brachial_div_superior_ant",
+    "lateral_pectoral_n",
+    "median_n",
+    "median_n_lateral_root",
+    "median_n_palmar_digital_nn",
+    "median_n_recurrent_thenar_branch",
+    "musculocutaneous_n"
+   ],
+   "downstream_count": 9,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_div_superior_post": {
+   "id": "brachial_div_superior_post",
+   "name": "Superior trunk, posterior division",
+   "plexus": "brachial_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "brachial_trunk_superior",
+   "root_contributions": "C5-C6",
+   "display_name": "Superior trunk, posterior division (C5-C6)",
+   "children": [
+    "brachial_cord_posterior"
+   ],
+   "downstream": [
+    "axillary_n",
+    "brachial_cord_posterior",
+    "brachial_div_superior_post",
+    "lower_subscapular_n",
+    "posterior_interosseous_n",
+    "radial_n",
+    "radial_n_superficial_branch",
+    "thoracodorsal_n",
+    "upper_subscapular_n"
+   ],
+   "downstream_count": 9,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_div_middle_ant": {
+   "id": "brachial_div_middle_ant",
+   "name": "Middle trunk, anterior division",
+   "plexus": "brachial_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "brachial_trunk_middle",
+   "root_contributions": "C7",
+   "display_name": "Middle trunk, anterior division (C7)",
+   "children": [],
+   "downstream": [
+    "brachial_div_middle_ant"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_div_middle_post": {
+   "id": "brachial_div_middle_post",
+   "name": "Middle trunk, posterior division",
+   "plexus": "brachial_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "brachial_trunk_middle",
+   "root_contributions": "C7",
+   "display_name": "Middle trunk, posterior division (C7)",
+   "children": [],
+   "downstream": [
+    "brachial_div_middle_post"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_div_inferior_ant": {
+   "id": "brachial_div_inferior_ant",
+   "name": "Inferior trunk, anterior division",
+   "plexus": "brachial_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "brachial_trunk_inferior",
+   "root_contributions": "C8-T1",
+   "display_name": "Inferior trunk, anterior division (C8-T1)",
+   "children": [
+    "brachial_cord_medial"
+   ],
+   "downstream": [
+    "brachial_cord_medial",
+    "brachial_div_inferior_ant",
+    "medial_cutaneous_n_arm",
+    "medial_cutaneous_n_forearm",
+    "medial_pectoral_n",
+    "ulnar_n",
+    "ulnar_n_deep_branch",
+    "ulnar_n_dorsal_cutaneous_branch",
+    "ulnar_n_lumbrical_branches",
+    "ulnar_n_superficial_branch"
+   ],
+   "downstream_count": 10,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_div_inferior_post": {
+   "id": "brachial_div_inferior_post",
+   "name": "Inferior trunk, posterior division",
+   "plexus": "brachial_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "brachial_trunk_inferior",
+   "root_contributions": "C8-T1",
+   "display_name": "Inferior trunk, posterior division (C8-T1)",
+   "children": [],
+   "downstream": [
+    "brachial_div_inferior_post"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_cord_lateral": {
+   "id": "brachial_cord_lateral",
+   "name": "Lateral cord",
+   "plexus": "brachial_plexus",
+   "level": "cord",
+   "level_label": "Cord",
+   "parent_id": "brachial_div_superior_ant",
+   "root_contributions": "C5-C7",
+   "display_name": "Lateral cord (C5-C7)",
+   "children": [
+    "lateral_pectoral_n",
+    "median_n_lateral_root",
+    "musculocutaneous_n"
+   ],
+   "downstream": [
+    "anterior_interosseous_n",
+    "brachial_cord_lateral",
+    "lateral_pectoral_n",
+    "median_n",
+    "median_n_lateral_root",
+    "median_n_palmar_digital_nn",
+    "median_n_recurrent_thenar_branch",
+    "musculocutaneous_n"
+   ],
+   "downstream_count": 8,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_cord_posterior": {
+   "id": "brachial_cord_posterior",
+   "name": "Posterior cord",
+   "plexus": "brachial_plexus",
+   "level": "cord",
+   "level_label": "Cord",
+   "parent_id": "brachial_div_superior_post",
+   "root_contributions": "C5-C8, T1",
+   "display_name": "Posterior cord (C5-C8, T1)",
+   "children": [
+    "axillary_n",
+    "lower_subscapular_n",
+    "radial_n",
+    "thoracodorsal_n",
+    "upper_subscapular_n"
+   ],
+   "downstream": [
+    "axillary_n",
+    "brachial_cord_posterior",
+    "lower_subscapular_n",
+    "posterior_interosseous_n",
+    "radial_n",
+    "radial_n_superficial_branch",
+    "thoracodorsal_n",
+    "upper_subscapular_n"
+   ],
+   "downstream_count": 8,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "brachial_cord_medial": {
+   "id": "brachial_cord_medial",
+   "name": "Medial cord",
+   "plexus": "brachial_plexus",
+   "level": "cord",
+   "level_label": "Cord",
+   "parent_id": "brachial_div_inferior_ant",
+   "root_contributions": "C8-T1",
+   "display_name": "Medial cord (C8-T1)",
+   "children": [
+    "medial_cutaneous_n_arm",
+    "medial_cutaneous_n_forearm",
+    "medial_pectoral_n",
+    "ulnar_n"
+   ],
+   "downstream": [
+    "brachial_cord_medial",
+    "medial_cutaneous_n_arm",
+    "medial_cutaneous_n_forearm",
+    "medial_pectoral_n",
+    "ulnar_n",
+    "ulnar_n_deep_branch",
+    "ulnar_n_dorsal_cutaneous_branch",
+    "ulnar_n_lumbrical_branches",
+    "ulnar_n_superficial_branch"
+   ],
+   "downstream_count": 9,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "dorsal_scapular_n": {
+   "id": "dorsal_scapular_n",
+   "name": "Dorsal scapular nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_root_C5",
+   "root_contributions": "C5",
+   "display_name": "Dorsal scapular nerve (C5)",
+   "children": [],
+   "downstream": [
+    "dorsal_scapular_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "long_thoracic_n": {
+   "id": "long_thoracic_n",
+   "name": "Long thoracic nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_root_C5",
+   "root_contributions": "C5-C7",
+   "display_name": "Long thoracic nerve (C5-C7)",
+   "children": [],
+   "downstream": [
+    "long_thoracic_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "suprascapular_n": {
+   "id": "suprascapular_n",
+   "name": "Suprascapular nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_trunk_superior",
+   "root_contributions": "C5-C6",
+   "display_name": "Suprascapular nerve (C5-C6)",
+   "children": [],
+   "downstream": [
+    "suprascapular_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "nerve_to_subclavius": {
+   "id": "nerve_to_subclavius",
+   "name": "Nerve to subclavius",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_trunk_superior",
+   "root_contributions": "C5-C6",
+   "display_name": "Nerve to subclavius (C5-C6)",
+   "children": [],
+   "downstream": [
+    "nerve_to_subclavius"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lateral_pectoral_n": {
+   "id": "lateral_pectoral_n",
+   "name": "Lateral pectoral nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_cord_lateral",
+   "root_contributions": "C5-C7",
+   "display_name": "Lateral pectoral nerve (C5-C7)",
+   "children": [],
+   "downstream": [
+    "lateral_pectoral_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "musculocutaneous_n": {
+   "id": "musculocutaneous_n",
+   "name": "Musculocutaneous nerve",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "brachial_cord_lateral",
+   "root_contributions": "C5-C7",
+   "display_name": "Musculocutaneous nerve (C5-C7)",
+   "children": [],
+   "downstream": [
+    "musculocutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "median_n_lateral_root": {
+   "id": "median_n_lateral_root",
+   "name": "Median nerve, lateral root",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "brachial_cord_lateral",
+   "root_contributions": "C5-C7 (lateral root fibers)",
+   "display_name": "Median nerve, lateral root (C5-C7 (lateral root fibers))",
+   "children": [
+    "median_n"
+   ],
+   "downstream": [
+    "anterior_interosseous_n",
+    "median_n",
+    "median_n_lateral_root",
+    "median_n_palmar_digital_nn",
+    "median_n_recurrent_thenar_branch"
+   ],
+   "downstream_count": 5,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "upper_subscapular_n": {
+   "id": "upper_subscapular_n",
+   "name": "Upper subscapular nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_cord_posterior",
+   "root_contributions": "C5-C6",
+   "display_name": "Upper subscapular nerve (C5-C6)",
+   "children": [],
+   "downstream": [
+    "upper_subscapular_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "thoracodorsal_n": {
+   "id": "thoracodorsal_n",
+   "name": "Thoracodorsal nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_cord_posterior",
+   "root_contributions": "C6-C8",
+   "display_name": "Thoracodorsal nerve (C6-C8)",
+   "children": [],
+   "downstream": [
+    "thoracodorsal_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lower_subscapular_n": {
+   "id": "lower_subscapular_n",
+   "name": "Lower subscapular nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_cord_posterior",
+   "root_contributions": "C5-C6",
+   "display_name": "Lower subscapular nerve (C5-C6)",
+   "children": [],
+   "downstream": [
+    "lower_subscapular_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "axillary_n": {
+   "id": "axillary_n",
+   "name": "Axillary nerve",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "brachial_cord_posterior",
+   "root_contributions": "C5-C6",
+   "display_name": "Axillary nerve (C5-C6)",
+   "children": [],
+   "downstream": [
+    "axillary_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "radial_n": {
+   "id": "radial_n",
+   "name": "Radial nerve",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "brachial_cord_posterior",
+   "root_contributions": "C5-T1",
+   "display_name": "Radial nerve (C5-T1)",
+   "children": [
+    "posterior_interosseous_n",
+    "radial_n_superficial_branch"
+   ],
+   "downstream": [
+    "posterior_interosseous_n",
+    "radial_n",
+    "radial_n_superficial_branch"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "posterior_interosseous_n": {
+   "id": "posterior_interosseous_n",
+   "name": "Posterior interosseous nerve (deep branch of radial n.)",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "radial_n",
+   "root_contributions": "C7-C8",
+   "display_name": "Posterior interosseous nerve (deep branch of radial n.) (C7-C8)",
+   "children": [],
+   "downstream": [
+    "posterior_interosseous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "radial_n_superficial_branch": {
+   "id": "radial_n_superficial_branch",
+   "name": "Superficial branch of radial nerve",
+   "plexus": "brachial_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "radial_n",
+   "root_contributions": "C6-C8",
+   "display_name": "Superficial branch of radial nerve (C6-C8)",
+   "children": [],
+   "downstream": [
+    "radial_n_superficial_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "medial_pectoral_n": {
+   "id": "medial_pectoral_n",
+   "name": "Medial pectoral nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "brachial_cord_medial",
+   "root_contributions": "C8-T1",
+   "display_name": "Medial pectoral nerve (C8-T1)",
+   "children": [],
+   "downstream": [
+    "medial_pectoral_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "medial_cutaneous_n_arm": {
+   "id": "medial_cutaneous_n_arm",
+   "name": "Medial cutaneous nerve of arm",
+   "plexus": "brachial_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "brachial_cord_medial",
+   "root_contributions": "C8-T1",
+   "display_name": "Medial cutaneous nerve of arm (C8-T1)",
+   "children": [],
+   "downstream": [
+    "medial_cutaneous_n_arm"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "medial_cutaneous_n_forearm": {
+   "id": "medial_cutaneous_n_forearm",
+   "name": "Medial cutaneous nerve of forearm",
+   "plexus": "brachial_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "brachial_cord_medial",
+   "root_contributions": "C8-T1",
+   "display_name": "Medial cutaneous nerve of forearm (C8-T1)",
+   "children": [],
+   "downstream": [
+    "medial_cutaneous_n_forearm"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "ulnar_n": {
+   "id": "ulnar_n",
+   "name": "Ulnar nerve",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "brachial_cord_medial",
+   "root_contributions": "C8-T1",
+   "display_name": "Ulnar nerve (C8-T1)",
+   "children": [
+    "ulnar_n_deep_branch",
+    "ulnar_n_dorsal_cutaneous_branch",
+    "ulnar_n_superficial_branch"
+   ],
+   "downstream": [
+    "ulnar_n",
+    "ulnar_n_deep_branch",
+    "ulnar_n_dorsal_cutaneous_branch",
+    "ulnar_n_lumbrical_branches",
+    "ulnar_n_superficial_branch"
+   ],
+   "downstream_count": 5,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "median_n": {
+   "id": "median_n",
+   "name": "Median nerve (lateral root + medial root union)",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "median_n_lateral_root",
+   "root_contributions": "C5-T1",
+   "display_name": "Median nerve (lateral root + medial root union) (C5-T1)",
+   "children": [
+    "anterior_interosseous_n",
+    "median_n_palmar_digital_nn",
+    "median_n_recurrent_thenar_branch"
+   ],
+   "downstream": [
+    "anterior_interosseous_n",
+    "median_n",
+    "median_n_palmar_digital_nn",
+    "median_n_recurrent_thenar_branch"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "anterior_interosseous_n": {
+   "id": "anterior_interosseous_n",
+   "name": "Anterior interosseous nerve",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "median_n",
+   "root_contributions": "C8-T1",
+   "display_name": "Anterior interosseous nerve (C8-T1)",
+   "children": [],
+   "downstream": [
+    "anterior_interosseous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "median_n_recurrent_thenar_branch": {
+   "id": "median_n_recurrent_thenar_branch",
+   "name": "Recurrent (thenar) branch of median nerve",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "median_n",
+   "root_contributions": "C8-T1",
+   "display_name": "Recurrent (thenar) branch of median nerve (C8-T1)",
+   "children": [],
+   "downstream": [
+    "median_n_recurrent_thenar_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "median_n_palmar_digital_nn": {
+   "id": "median_n_palmar_digital_nn",
+   "name": "Common + proper palmar digital nerves (median n.)",
+   "plexus": "brachial_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "median_n",
+   "root_contributions": "C6-T1",
+   "display_name": "Common + proper palmar digital nerves (median n.) (C6-T1)",
+   "children": [],
+   "downstream": [
+    "median_n_palmar_digital_nn"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "ulnar_n_dorsal_cutaneous_branch": {
+   "id": "ulnar_n_dorsal_cutaneous_branch",
+   "name": "Dorsal cutaneous branch of ulnar nerve",
+   "plexus": "brachial_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "ulnar_n",
+   "root_contributions": "C8-T1",
+   "display_name": "Dorsal cutaneous branch of ulnar nerve (C8-T1)",
+   "children": [],
+   "downstream": [
+    "ulnar_n_dorsal_cutaneous_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "ulnar_n_superficial_branch": {
+   "id": "ulnar_n_superficial_branch",
+   "name": "Superficial branch of ulnar nerve",
+   "plexus": "brachial_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "ulnar_n",
+   "root_contributions": "C8-T1",
+   "display_name": "Superficial branch of ulnar nerve (C8-T1)",
+   "children": [],
+   "downstream": [
+    "ulnar_n_superficial_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "ulnar_n_deep_branch": {
+   "id": "ulnar_n_deep_branch",
+   "name": "Deep branch of ulnar nerve",
+   "plexus": "brachial_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "ulnar_n",
+   "root_contributions": "C8-T1",
+   "display_name": "Deep branch of ulnar nerve (C8-T1)",
+   "children": [
+    "ulnar_n_lumbrical_branches"
+   ],
+   "downstream": [
+    "ulnar_n_deep_branch",
+    "ulnar_n_lumbrical_branches"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "ulnar_n_lumbrical_branches": {
+   "id": "ulnar_n_lumbrical_branches",
+   "name": "Ulnar n. branches to lumbricals 3-4",
+   "plexus": "brachial_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "ulnar_n_deep_branch",
+   "root_contributions": "C8-T1",
+   "display_name": "Ulnar n. branches to lumbricals 3-4 (C8-T1)",
+   "children": [],
+   "downstream": [
+    "ulnar_n_lumbrical_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lumbar_root_T12": {
+   "id": "lumbar_root_T12",
+   "name": "Ventral ramus T12",
+   "plexus": "lumbar_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "T12",
+   "display_name": "Ventral ramus T12 (T12)",
+   "children": [],
+   "downstream": [
+    "lumbar_root_T12"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "lumbar_root_L1": {
+   "id": "lumbar_root_L1",
+   "name": "Ventral ramus L1",
+   "plexus": "lumbar_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "L1",
+   "display_name": "Ventral ramus L1 (L1)",
+   "children": [
+    "genitofemoral_n",
+    "iliohypogastric_n",
+    "ilioinguinal_n"
+   ],
+   "downstream": [
+    "genitofemoral_n",
+    "iliohypogastric_n",
+    "ilioinguinal_n",
+    "lumbar_root_L1"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "lumbar_root_L2": {
+   "id": "lumbar_root_L2",
+   "name": "Ventral ramus L2",
+   "plexus": "lumbar_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "L2",
+   "display_name": "Ventral ramus L2 (L2)",
+   "children": [
+    "femoral_n",
+    "lateral_femoral_cutaneous_n",
+    "obturator_n"
+   ],
+   "downstream": [
+    "femoral_n",
+    "femoral_n_anterior_cutaneous_branches",
+    "femoral_n_branch_to_iliacus",
+    "femoral_n_branch_to_pectineus",
+    "femoral_n_branch_to_rectus_femoris",
+    "femoral_n_branch_to_sartorius",
+    "femoral_n_branch_to_vastus_intermedius",
+    "femoral_n_branch_to_vastus_lateralis",
+    "femoral_n_branch_to_vastus_medialis",
+    "lateral_femoral_cutaneous_n",
+    "lumbar_root_L2",
+    "obturator_n",
+    "obturator_n_anterior_division",
+    "obturator_n_branch_to_adductor_brevis",
+    "obturator_n_branch_to_adductor_longus",
+    "obturator_n_branch_to_adductor_magnus_adductor_part",
+    "obturator_n_branch_to_gracilis",
+    "obturator_n_branch_to_obturator_externus",
+    "obturator_n_cutaneous_branch",
+    "obturator_n_posterior_division",
+    "saphenous_n",
+    "saphenous_n_infrapatellar_branch",
+    "saphenous_n_medial_crural_branches"
+   ],
+   "downstream_count": 23,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "lumbar_root_L3": {
+   "id": "lumbar_root_L3",
+   "name": "Ventral ramus L3",
+   "plexus": "lumbar_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "L3",
+   "display_name": "Ventral ramus L3 (L3)",
+   "children": [],
+   "downstream": [
+    "lumbar_root_L3"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "lumbar_root_L4": {
+   "id": "lumbar_root_L4",
+   "name": "Ventral ramus L4",
+   "plexus": "lumbar_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "L4",
+   "display_name": "Ventral ramus L4 (L4)",
+   "children": [],
+   "downstream": [
+    "lumbar_root_L4"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "iliohypogastric_n": {
+   "id": "iliohypogastric_n",
+   "name": "Iliohypogastric nerve",
+   "plexus": "lumbar_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lumbar_root_L1",
+   "root_contributions": "T12-L1",
+   "display_name": "Iliohypogastric nerve (T12-L1)",
+   "children": [],
+   "downstream": [
+    "iliohypogastric_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "ilioinguinal_n": {
+   "id": "ilioinguinal_n",
+   "name": "Ilioinguinal nerve",
+   "plexus": "lumbar_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lumbar_root_L1",
+   "root_contributions": "L1",
+   "display_name": "Ilioinguinal nerve (L1)",
+   "children": [],
+   "downstream": [
+    "ilioinguinal_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "genitofemoral_n": {
+   "id": "genitofemoral_n",
+   "name": "Genitofemoral nerve",
+   "plexus": "lumbar_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lumbar_root_L1",
+   "root_contributions": "L1-L2",
+   "display_name": "Genitofemoral nerve (L1-L2)",
+   "children": [],
+   "downstream": [
+    "genitofemoral_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "lateral_femoral_cutaneous_n": {
+   "id": "lateral_femoral_cutaneous_n",
+   "name": "Lateral femoral cutaneous nerve",
+   "plexus": "lumbar_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "lumbar_root_L2",
+   "root_contributions": "L2-L3",
+   "display_name": "Lateral femoral cutaneous nerve (L2-L3)",
+   "children": [],
+   "downstream": [
+    "lateral_femoral_cutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "obturator_n": {
+   "id": "obturator_n",
+   "name": "Obturator nerve",
+   "plexus": "lumbar_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lumbar_root_L2",
+   "root_contributions": "L2-L4",
+   "display_name": "Obturator nerve (L2-L4)",
+   "children": [
+    "obturator_n_anterior_division",
+    "obturator_n_posterior_division"
+   ],
+   "downstream": [
+    "obturator_n",
+    "obturator_n_anterior_division",
+    "obturator_n_branch_to_adductor_brevis",
+    "obturator_n_branch_to_adductor_longus",
+    "obturator_n_branch_to_adductor_magnus_adductor_part",
+    "obturator_n_branch_to_gracilis",
+    "obturator_n_branch_to_obturator_externus",
+    "obturator_n_cutaneous_branch",
+    "obturator_n_posterior_division"
+   ],
+   "downstream_count": 9,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "femoral_n": {
+   "id": "femoral_n",
+   "name": "Femoral nerve",
+   "plexus": "lumbar_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lumbar_root_L2",
+   "root_contributions": "L2-L4",
+   "display_name": "Femoral nerve (L2-L4)",
+   "children": [
+    "femoral_n_anterior_cutaneous_branches",
+    "femoral_n_branch_to_iliacus",
+    "femoral_n_branch_to_pectineus",
+    "femoral_n_branch_to_rectus_femoris",
+    "femoral_n_branch_to_sartorius",
+    "femoral_n_branch_to_vastus_intermedius",
+    "femoral_n_branch_to_vastus_lateralis",
+    "femoral_n_branch_to_vastus_medialis",
+    "saphenous_n"
+   ],
+   "downstream": [
+    "femoral_n",
+    "femoral_n_anterior_cutaneous_branches",
+    "femoral_n_branch_to_iliacus",
+    "femoral_n_branch_to_pectineus",
+    "femoral_n_branch_to_rectus_femoris",
+    "femoral_n_branch_to_sartorius",
+    "femoral_n_branch_to_vastus_intermedius",
+    "femoral_n_branch_to_vastus_lateralis",
+    "femoral_n_branch_to_vastus_medialis",
+    "saphenous_n",
+    "saphenous_n_infrapatellar_branch",
+    "saphenous_n_medial_crural_branches"
+   ],
+   "downstream_count": 12,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "sacral_root_L4": {
+   "id": "sacral_root_L4",
+   "name": "Ventral ramus L4",
+   "plexus": "sacral_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "L4",
+   "display_name": "Ventral ramus L4 (L4)",
+   "children": [
+    "nerve_to_quadratus_femoris",
+    "sciatic_n",
+    "superior_gluteal_n"
+   ],
+   "downstream": [
+    "common_fibular_n",
+    "common_fibular_n_lateral_sural_cutaneous_n",
+    "deep_fibular_n",
+    "deep_fibular_n_branch_to_extensor_digitorum_longus",
+    "deep_fibular_n_branch_to_extensor_hallucis_longus",
+    "deep_fibular_n_branch_to_fibularis_tertius",
+    "deep_fibular_n_branch_to_tibialis_anterior",
+    "deep_fibular_n_lateral_terminal_branch",
+    "deep_fibular_n_medial_terminal_branch",
+    "lateral_plantar_n",
+    "lateral_plantar_n_deep_branch",
+    "lateral_plantar_n_muscular_branches",
+    "lateral_plantar_n_superficial_branch",
+    "medial_plantar_n",
+    "medial_plantar_n_digital_branches",
+    "medial_plantar_n_muscular_branches",
+    "nerve_to_quadratus_femoris",
+    "sacral_root_L4",
+    "sciatic_n",
+    "sciatic_n_branch_to_adductor_magnus_hamstring_part",
+    "sciatic_n_branch_to_biceps_femoris_long_head",
+    "sciatic_n_branch_to_biceps_femoris_short_head",
+    "sciatic_n_branch_to_semimembranosus",
+    "sciatic_n_branch_to_semitendinosus",
+    "superficial_fibular_n",
+    "superficial_fibular_n_branch_to_fibularis_brevis",
+    "superficial_fibular_n_branch_to_fibularis_longus",
+    "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+    "superficial_fibular_n_medial_dorsal_cutaneous_n",
+    "superior_gluteal_n",
+    "sural_communicating_branch",
+    "sural_n",
+    "sural_n_lateral_dorsal_cutaneous_n",
+    "tibial_n",
+    "tibial_n_branch_to_flexor_digitorum_longus",
+    "tibial_n_branch_to_flexor_hallucis_longus",
+    "tibial_n_branch_to_gastrocnemius",
+    "tibial_n_branch_to_plantaris",
+    "tibial_n_branch_to_popliteus",
+    "tibial_n_branch_to_soleus",
+    "tibial_n_branch_to_tibialis_posterior",
+    "tibial_n_medial_calcaneal_branches",
+    "tibial_n_medial_sural_cutaneous_n"
+   ],
+   "downstream_count": 43,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "sacral_root_L5": {
+   "id": "sacral_root_L5",
+   "name": "Ventral ramus L5",
+   "plexus": "sacral_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "L5",
+   "display_name": "Ventral ramus L5 (L5)",
+   "children": [
+    "inferior_gluteal_n",
+    "nerve_to_obturator_internus"
+   ],
+   "downstream": [
+    "inferior_gluteal_n",
+    "nerve_to_obturator_internus",
+    "sacral_root_L5"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "sacral_root_S1": {
+   "id": "sacral_root_S1",
+   "name": "Ventral ramus S1",
+   "plexus": "sacral_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "S1",
+   "display_name": "Ventral ramus S1 (S1)",
+   "children": [
+    "nerve_to_piriformis",
+    "posterior_femoral_cutaneous_n"
+   ],
+   "downstream": [
+    "nerve_to_piriformis",
+    "posterior_femoral_cutaneous_n",
+    "sacral_root_S1"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "sacral_root_S2": {
+   "id": "sacral_root_S2",
+   "name": "Ventral ramus S2",
+   "plexus": "sacral_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "S2",
+   "display_name": "Ventral ramus S2 (S2)",
+   "children": [
+    "pudendal_n"
+   ],
+   "downstream": [
+    "pudendal_n",
+    "sacral_root_S2"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "sacral_root_S3": {
+   "id": "sacral_root_S3",
+   "name": "Ventral ramus S3",
+   "plexus": "sacral_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "S3",
+   "display_name": "Ventral ramus S3 (S3)",
+   "children": [],
+   "downstream": [
+    "sacral_root_S3"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "sacral_root_S4": {
+   "id": "sacral_root_S4",
+   "name": "Ventral ramus S4",
+   "plexus": "sacral_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "S4",
+   "display_name": "Ventral ramus S4 (S4)",
+   "children": [],
+   "downstream": [
+    "sacral_root_S4"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "superior_gluteal_n": {
+   "id": "superior_gluteal_n",
+   "name": "Superior gluteal nerve",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sacral_root_L4",
+   "root_contributions": "L4-S1",
+   "display_name": "Superior gluteal nerve (L4-S1)",
+   "children": [],
+   "downstream": [
+    "superior_gluteal_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "inferior_gluteal_n": {
+   "id": "inferior_gluteal_n",
+   "name": "Inferior gluteal nerve",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sacral_root_L5",
+   "root_contributions": "L5-S2",
+   "display_name": "Inferior gluteal nerve (L5-S2)",
+   "children": [],
+   "downstream": [
+    "inferior_gluteal_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "nerve_to_piriformis": {
+   "id": "nerve_to_piriformis",
+   "name": "Nerve to piriformis",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sacral_root_S1",
+   "root_contributions": "S1-S2",
+   "display_name": "Nerve to piriformis (S1-S2)",
+   "children": [],
+   "downstream": [
+    "nerve_to_piriformis"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "nerve_to_obturator_internus": {
+   "id": "nerve_to_obturator_internus",
+   "name": "Nerve to obturator internus (and superior gemellus)",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sacral_root_L5",
+   "root_contributions": "L5-S2",
+   "display_name": "Nerve to obturator internus (and superior gemellus) (L5-S2)",
+   "children": [],
+   "downstream": [
+    "nerve_to_obturator_internus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "nerve_to_quadratus_femoris": {
+   "id": "nerve_to_quadratus_femoris",
+   "name": "Nerve to quadratus femoris (and inferior gemellus)",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sacral_root_L4",
+   "root_contributions": "L4-S1",
+   "display_name": "Nerve to quadratus femoris (and inferior gemellus) (L4-S1)",
+   "children": [],
+   "downstream": [
+    "nerve_to_quadratus_femoris"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "posterior_femoral_cutaneous_n": {
+   "id": "posterior_femoral_cutaneous_n",
+   "name": "Posterior femoral cutaneous nerve",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "sacral_root_S1",
+   "root_contributions": "S1-S3",
+   "display_name": "Posterior femoral cutaneous nerve (S1-S3)",
+   "children": [],
+   "downstream": [
+    "posterior_femoral_cutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "pudendal_n": {
+   "id": "pudendal_n",
+   "name": "Pudendal nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "sacral_root_S2",
+   "root_contributions": "S2-S4",
+   "display_name": "Pudendal nerve (S2-S4)",
+   "children": [],
+   "downstream": [
+    "pudendal_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "sciatic_n": {
+   "id": "sciatic_n",
+   "name": "Sciatic nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "sacral_root_L4",
+   "root_contributions": "L4-S3",
+   "display_name": "Sciatic nerve (L4-S3)",
+   "children": [
+    "common_fibular_n",
+    "sciatic_n_branch_to_adductor_magnus_hamstring_part",
+    "sciatic_n_branch_to_biceps_femoris_long_head",
+    "sciatic_n_branch_to_biceps_femoris_short_head",
+    "sciatic_n_branch_to_semimembranosus",
+    "sciatic_n_branch_to_semitendinosus",
+    "tibial_n"
+   ],
+   "downstream": [
+    "common_fibular_n",
+    "common_fibular_n_lateral_sural_cutaneous_n",
+    "deep_fibular_n",
+    "deep_fibular_n_branch_to_extensor_digitorum_longus",
+    "deep_fibular_n_branch_to_extensor_hallucis_longus",
+    "deep_fibular_n_branch_to_fibularis_tertius",
+    "deep_fibular_n_branch_to_tibialis_anterior",
+    "deep_fibular_n_lateral_terminal_branch",
+    "deep_fibular_n_medial_terminal_branch",
+    "lateral_plantar_n",
+    "lateral_plantar_n_deep_branch",
+    "lateral_plantar_n_muscular_branches",
+    "lateral_plantar_n_superficial_branch",
+    "medial_plantar_n",
+    "medial_plantar_n_digital_branches",
+    "medial_plantar_n_muscular_branches",
+    "sciatic_n",
+    "sciatic_n_branch_to_adductor_magnus_hamstring_part",
+    "sciatic_n_branch_to_biceps_femoris_long_head",
+    "sciatic_n_branch_to_biceps_femoris_short_head",
+    "sciatic_n_branch_to_semimembranosus",
+    "sciatic_n_branch_to_semitendinosus",
+    "superficial_fibular_n",
+    "superficial_fibular_n_branch_to_fibularis_brevis",
+    "superficial_fibular_n_branch_to_fibularis_longus",
+    "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+    "superficial_fibular_n_medial_dorsal_cutaneous_n",
+    "sural_communicating_branch",
+    "sural_n",
+    "sural_n_lateral_dorsal_cutaneous_n",
+    "tibial_n",
+    "tibial_n_branch_to_flexor_digitorum_longus",
+    "tibial_n_branch_to_flexor_hallucis_longus",
+    "tibial_n_branch_to_gastrocnemius",
+    "tibial_n_branch_to_plantaris",
+    "tibial_n_branch_to_popliteus",
+    "tibial_n_branch_to_soleus",
+    "tibial_n_branch_to_tibialis_posterior",
+    "tibial_n_medial_calcaneal_branches",
+    "tibial_n_medial_sural_cutaneous_n"
+   ],
+   "downstream_count": 40,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "tibial_n": {
+   "id": "tibial_n",
+   "name": "Tibial nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "sciatic_n",
+   "root_contributions": "L4-S3 (tibial division)",
+   "display_name": "Tibial nerve (L4-S3 (tibial division))",
+   "children": [
+    "lateral_plantar_n",
+    "medial_plantar_n",
+    "tibial_n_branch_to_flexor_digitorum_longus",
+    "tibial_n_branch_to_flexor_hallucis_longus",
+    "tibial_n_branch_to_gastrocnemius",
+    "tibial_n_branch_to_plantaris",
+    "tibial_n_branch_to_popliteus",
+    "tibial_n_branch_to_soleus",
+    "tibial_n_branch_to_tibialis_posterior",
+    "tibial_n_medial_calcaneal_branches",
+    "tibial_n_medial_sural_cutaneous_n"
+   ],
+   "downstream": [
+    "lateral_plantar_n",
+    "lateral_plantar_n_deep_branch",
+    "lateral_plantar_n_muscular_branches",
+    "lateral_plantar_n_superficial_branch",
+    "medial_plantar_n",
+    "medial_plantar_n_digital_branches",
+    "medial_plantar_n_muscular_branches",
+    "sural_n",
+    "sural_n_lateral_dorsal_cutaneous_n",
+    "tibial_n",
+    "tibial_n_branch_to_flexor_digitorum_longus",
+    "tibial_n_branch_to_flexor_hallucis_longus",
+    "tibial_n_branch_to_gastrocnemius",
+    "tibial_n_branch_to_plantaris",
+    "tibial_n_branch_to_popliteus",
+    "tibial_n_branch_to_soleus",
+    "tibial_n_branch_to_tibialis_posterior",
+    "tibial_n_medial_calcaneal_branches",
+    "tibial_n_medial_sural_cutaneous_n"
+   ],
+   "downstream_count": 19,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "common_fibular_n": {
+   "id": "common_fibular_n",
+   "name": "Common fibular (peroneal) nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "sciatic_n",
+   "root_contributions": "L4-S2 (fibular division)",
+   "display_name": "Common fibular (peroneal) nerve (L4-S2 (fibular division))",
+   "children": [
+    "common_fibular_n_lateral_sural_cutaneous_n",
+    "deep_fibular_n",
+    "superficial_fibular_n",
+    "sural_communicating_branch"
+   ],
+   "downstream": [
+    "common_fibular_n",
+    "common_fibular_n_lateral_sural_cutaneous_n",
+    "deep_fibular_n",
+    "deep_fibular_n_branch_to_extensor_digitorum_longus",
+    "deep_fibular_n_branch_to_extensor_hallucis_longus",
+    "deep_fibular_n_branch_to_fibularis_tertius",
+    "deep_fibular_n_branch_to_tibialis_anterior",
+    "deep_fibular_n_lateral_terminal_branch",
+    "deep_fibular_n_medial_terminal_branch",
+    "superficial_fibular_n",
+    "superficial_fibular_n_branch_to_fibularis_brevis",
+    "superficial_fibular_n_branch_to_fibularis_longus",
+    "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+    "superficial_fibular_n_medial_dorsal_cutaneous_n",
+    "sural_communicating_branch"
+   ],
+   "downstream_count": 15,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "superficial_fibular_n": {
+   "id": "superficial_fibular_n",
+   "name": "Superficial fibular (peroneal) nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "common_fibular_n",
+   "root_contributions": "L4-S1",
+   "display_name": "Superficial fibular (peroneal) nerve (L4-S1)",
+   "children": [
+    "superficial_fibular_n_branch_to_fibularis_brevis",
+    "superficial_fibular_n_branch_to_fibularis_longus",
+    "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+    "superficial_fibular_n_medial_dorsal_cutaneous_n"
+   ],
+   "downstream": [
+    "superficial_fibular_n",
+    "superficial_fibular_n_branch_to_fibularis_brevis",
+    "superficial_fibular_n_branch_to_fibularis_longus",
+    "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+    "superficial_fibular_n_medial_dorsal_cutaneous_n"
+   ],
+   "downstream_count": 5,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "deep_fibular_n": {
+   "id": "deep_fibular_n",
+   "name": "Deep fibular (peroneal) nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "common_fibular_n",
+   "root_contributions": "L4-S1",
+   "display_name": "Deep fibular (peroneal) nerve (L4-S1)",
+   "children": [
+    "deep_fibular_n_branch_to_extensor_digitorum_longus",
+    "deep_fibular_n_branch_to_extensor_hallucis_longus",
+    "deep_fibular_n_branch_to_fibularis_tertius",
+    "deep_fibular_n_branch_to_tibialis_anterior",
+    "deep_fibular_n_lateral_terminal_branch",
+    "deep_fibular_n_medial_terminal_branch"
+   ],
+   "downstream": [
+    "deep_fibular_n",
+    "deep_fibular_n_branch_to_extensor_digitorum_longus",
+    "deep_fibular_n_branch_to_extensor_hallucis_longus",
+    "deep_fibular_n_branch_to_fibularis_tertius",
+    "deep_fibular_n_branch_to_tibialis_anterior",
+    "deep_fibular_n_lateral_terminal_branch",
+    "deep_fibular_n_medial_terminal_branch"
+   ],
+   "downstream_count": 7,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "medial_plantar_n": {
+   "id": "medial_plantar_n",
+   "name": "Medial plantar nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "L4-S3",
+   "display_name": "Medial plantar nerve (L4-S3)",
+   "children": [
+    "medial_plantar_n_digital_branches",
+    "medial_plantar_n_muscular_branches"
+   ],
+   "downstream": [
+    "medial_plantar_n",
+    "medial_plantar_n_digital_branches",
+    "medial_plantar_n_muscular_branches"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "lateral_plantar_n": {
+   "id": "lateral_plantar_n",
+   "name": "Lateral plantar nerve",
+   "plexus": "sacral_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S3",
+   "display_name": "Lateral plantar nerve (S1-S3)",
+   "children": [
+    "lateral_plantar_n_deep_branch",
+    "lateral_plantar_n_muscular_branches",
+    "lateral_plantar_n_superficial_branch"
+   ],
+   "downstream": [
+    "lateral_plantar_n",
+    "lateral_plantar_n_deep_branch",
+    "lateral_plantar_n_muscular_branches",
+    "lateral_plantar_n_superficial_branch"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "femoral_n_branch_to_iliacus": {
+   "id": "femoral_n_branch_to_iliacus",
+   "name": "Femoral n. branch to iliacus",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L4",
+   "display_name": "Femoral n. branch to iliacus (L2-L4)",
+   "children": [],
+   "downstream": [
+    "femoral_n_branch_to_iliacus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "femoral_n_branch_to_pectineus": {
+   "id": "femoral_n_branch_to_pectineus",
+   "name": "Femoral n. branch to pectineus",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L3",
+   "display_name": "Femoral n. branch to pectineus (L2-L3)",
+   "children": [],
+   "downstream": [
+    "femoral_n_branch_to_pectineus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "femoral_n_branch_to_sartorius": {
+   "id": "femoral_n_branch_to_sartorius",
+   "name": "Femoral n. branch to sartorius",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L3",
+   "display_name": "Femoral n. branch to sartorius (L2-L3)",
+   "children": [],
+   "downstream": [
+    "femoral_n_branch_to_sartorius"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "femoral_n_branch_to_rectus_femoris": {
+   "id": "femoral_n_branch_to_rectus_femoris",
+   "name": "Femoral n. branch to rectus femoris",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L4",
+   "display_name": "Femoral n. branch to rectus femoris (L2-L4)",
+   "children": [],
+   "downstream": [
+    "femoral_n_branch_to_rectus_femoris"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "femoral_n_branch_to_vastus_lateralis": {
+   "id": "femoral_n_branch_to_vastus_lateralis",
+   "name": "Femoral n. branch to vastus lateralis",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L4",
+   "display_name": "Femoral n. branch to vastus lateralis (L2-L4)",
+   "children": [],
+   "downstream": [
+    "femoral_n_branch_to_vastus_lateralis"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "femoral_n_branch_to_vastus_medialis": {
+   "id": "femoral_n_branch_to_vastus_medialis",
+   "name": "Femoral n. branch to vastus medialis",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L4",
+   "display_name": "Femoral n. branch to vastus medialis (L2-L4)",
+   "children": [],
+   "downstream": [
+    "femoral_n_branch_to_vastus_medialis"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "femoral_n_branch_to_vastus_intermedius": {
+   "id": "femoral_n_branch_to_vastus_intermedius",
+   "name": "Femoral n. branch to vastus intermedius",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L4",
+   "display_name": "Femoral n. branch to vastus intermedius (L2-L4)",
+   "children": [],
+   "downstream": [
+    "femoral_n_branch_to_vastus_intermedius"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "femoral_n_anterior_cutaneous_branches": {
+   "id": "femoral_n_anterior_cutaneous_branches",
+   "name": "Anterior cutaneous branches of the femoral nerve",
+   "plexus": "lumbar_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L2-L3",
+   "display_name": "Anterior cutaneous branches of the femoral nerve (L2-L3)",
+   "children": [],
+   "downstream": [
+    "femoral_n_anterior_cutaneous_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "saphenous_n": {
+   "id": "saphenous_n",
+   "name": "Saphenous nerve",
+   "plexus": "lumbar_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "femoral_n",
+   "root_contributions": "L3-L4",
+   "display_name": "Saphenous nerve (L3-L4)",
+   "children": [
+    "saphenous_n_infrapatellar_branch",
+    "saphenous_n_medial_crural_branches"
+   ],
+   "downstream": [
+    "saphenous_n",
+    "saphenous_n_infrapatellar_branch",
+    "saphenous_n_medial_crural_branches"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "saphenous_n_infrapatellar_branch": {
+   "id": "saphenous_n_infrapatellar_branch",
+   "name": "Infrapatellar branch of the saphenous nerve",
+   "plexus": "lumbar_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "saphenous_n",
+   "root_contributions": "L3-L4",
+   "display_name": "Infrapatellar branch of the saphenous nerve (L3-L4)",
+   "children": [],
+   "downstream": [
+    "saphenous_n_infrapatellar_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "saphenous_n_medial_crural_branches": {
+   "id": "saphenous_n_medial_crural_branches",
+   "name": "Medial crural cutaneous branches of the saphenous nerve",
+   "plexus": "lumbar_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "saphenous_n",
+   "root_contributions": "L3-L4",
+   "display_name": "Medial crural cutaneous branches of the saphenous nerve (L3-L4)",
+   "children": [],
+   "downstream": [
+    "saphenous_n_medial_crural_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_anterior_division": {
+   "id": "obturator_n_anterior_division",
+   "name": "Obturator n., anterior division",
+   "plexus": "lumbar_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "obturator_n",
+   "root_contributions": "L2-L4",
+   "display_name": "Obturator n., anterior division (L2-L4)",
+   "children": [
+    "obturator_n_branch_to_adductor_brevis",
+    "obturator_n_branch_to_adductor_longus",
+    "obturator_n_branch_to_gracilis",
+    "obturator_n_cutaneous_branch"
+   ],
+   "downstream": [
+    "obturator_n_anterior_division",
+    "obturator_n_branch_to_adductor_brevis",
+    "obturator_n_branch_to_adductor_longus",
+    "obturator_n_branch_to_gracilis",
+    "obturator_n_cutaneous_branch"
+   ],
+   "downstream_count": 5,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_posterior_division": {
+   "id": "obturator_n_posterior_division",
+   "name": "Obturator n., posterior division",
+   "plexus": "lumbar_plexus",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "obturator_n",
+   "root_contributions": "L2-L4",
+   "display_name": "Obturator n., posterior division (L2-L4)",
+   "children": [
+    "obturator_n_branch_to_adductor_magnus_adductor_part",
+    "obturator_n_branch_to_obturator_externus"
+   ],
+   "downstream": [
+    "obturator_n_branch_to_adductor_magnus_adductor_part",
+    "obturator_n_branch_to_obturator_externus",
+    "obturator_n_posterior_division"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_branch_to_obturator_externus": {
+   "id": "obturator_n_branch_to_obturator_externus",
+   "name": "Obturator n. branch to obturator externus",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "obturator_n_posterior_division",
+   "root_contributions": "L3-L4",
+   "display_name": "Obturator n. branch to obturator externus (L3-L4)",
+   "children": [],
+   "downstream": [
+    "obturator_n_branch_to_obturator_externus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_branch_to_adductor_longus": {
+   "id": "obturator_n_branch_to_adductor_longus",
+   "name": "Obturator n. branch to adductor longus",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "obturator_n_anterior_division",
+   "root_contributions": "L2-L4",
+   "display_name": "Obturator n. branch to adductor longus (L2-L4)",
+   "children": [],
+   "downstream": [
+    "obturator_n_branch_to_adductor_longus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_branch_to_adductor_brevis": {
+   "id": "obturator_n_branch_to_adductor_brevis",
+   "name": "Obturator n. branch to adductor brevis",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "obturator_n_anterior_division",
+   "root_contributions": "L2-L4",
+   "display_name": "Obturator n. branch to adductor brevis (L2-L4)",
+   "children": [],
+   "downstream": [
+    "obturator_n_branch_to_adductor_brevis"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_branch_to_gracilis": {
+   "id": "obturator_n_branch_to_gracilis",
+   "name": "Obturator n. branch to gracilis",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "obturator_n_anterior_division",
+   "root_contributions": "L2-L4",
+   "display_name": "Obturator n. branch to gracilis (L2-L4)",
+   "children": [],
+   "downstream": [
+    "obturator_n_branch_to_gracilis"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_branch_to_adductor_magnus_adductor_part": {
+   "id": "obturator_n_branch_to_adductor_magnus_adductor_part",
+   "name": "Obturator n. branch to adductor magnus (adductor part)",
+   "plexus": "lumbar_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "obturator_n_posterior_division",
+   "root_contributions": "L2-L4",
+   "display_name": "Obturator n. branch to adductor magnus (adductor part) (L2-L4)",
+   "children": [],
+   "downstream": [
+    "obturator_n_branch_to_adductor_magnus_adductor_part"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "obturator_n_cutaneous_branch": {
+   "id": "obturator_n_cutaneous_branch",
+   "name": "Cutaneous branch of the obturator nerve",
+   "plexus": "lumbar_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "obturator_n_anterior_division",
+   "root_contributions": "L2-L4",
+   "display_name": "Cutaneous branch of the obturator nerve (L2-L4)",
+   "children": [],
+   "downstream": [
+    "obturator_n_cutaneous_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sciatic_n_branch_to_semitendinosus": {
+   "id": "sciatic_n_branch_to_semitendinosus",
+   "name": "Sciatic n. (tibial division) branch to semitendinosus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sciatic_n",
+   "root_contributions": "L5-S2",
+   "display_name": "Sciatic n. (tibial division) branch to semitendinosus (L5-S2)",
+   "children": [],
+   "downstream": [
+    "sciatic_n_branch_to_semitendinosus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sciatic_n_branch_to_semimembranosus": {
+   "id": "sciatic_n_branch_to_semimembranosus",
+   "name": "Sciatic n. (tibial division) branch to semimembranosus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sciatic_n",
+   "root_contributions": "L5-S2",
+   "display_name": "Sciatic n. (tibial division) branch to semimembranosus (L5-S2)",
+   "children": [],
+   "downstream": [
+    "sciatic_n_branch_to_semimembranosus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sciatic_n_branch_to_biceps_femoris_long_head": {
+   "id": "sciatic_n_branch_to_biceps_femoris_long_head",
+   "name": "Sciatic n. (tibial division) branch to biceps femoris, long head",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sciatic_n",
+   "root_contributions": "L5-S2",
+   "display_name": "Sciatic n. (tibial division) branch to biceps femoris, long head (L5-S2)",
+   "children": [],
+   "downstream": [
+    "sciatic_n_branch_to_biceps_femoris_long_head"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sciatic_n_branch_to_biceps_femoris_short_head": {
+   "id": "sciatic_n_branch_to_biceps_femoris_short_head",
+   "name": "Sciatic n. (common fibular division) branch to biceps femoris, short head",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sciatic_n",
+   "root_contributions": "L5-S2",
+   "display_name": "Sciatic n. (common fibular division) branch to biceps femoris, short head (L5-S2)",
+   "children": [],
+   "downstream": [
+    "sciatic_n_branch_to_biceps_femoris_short_head"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sciatic_n_branch_to_adductor_magnus_hamstring_part": {
+   "id": "sciatic_n_branch_to_adductor_magnus_hamstring_part",
+   "name": "Sciatic n. (tibial division) branch to adductor magnus (ischiocondylar part)",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "sciatic_n",
+   "root_contributions": "L4-S1",
+   "display_name": "Sciatic n. (tibial division) branch to adductor magnus (ischiocondylar part) (L4-S1)",
+   "children": [],
+   "downstream": [
+    "sciatic_n_branch_to_adductor_magnus_hamstring_part"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_branch_to_gastrocnemius": {
+   "id": "tibial_n_branch_to_gastrocnemius",
+   "name": "Tibial n. branches to gastrocnemius (medial and lateral heads)",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Tibial n. branches to gastrocnemius (medial and lateral heads) (S1-S2)",
+   "children": [],
+   "downstream": [
+    "tibial_n_branch_to_gastrocnemius"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_branch_to_soleus": {
+   "id": "tibial_n_branch_to_soleus",
+   "name": "Tibial n. branch to soleus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Tibial n. branch to soleus (S1-S2)",
+   "children": [],
+   "downstream": [
+    "tibial_n_branch_to_soleus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_branch_to_plantaris": {
+   "id": "tibial_n_branch_to_plantaris",
+   "name": "Tibial n. branch to plantaris",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Tibial n. branch to plantaris (S1-S2)",
+   "children": [],
+   "downstream": [
+    "tibial_n_branch_to_plantaris"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_branch_to_popliteus": {
+   "id": "tibial_n_branch_to_popliteus",
+   "name": "Tibial n. branch to popliteus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "L4-S1",
+   "display_name": "Tibial n. branch to popliteus (L4-S1)",
+   "children": [],
+   "downstream": [
+    "tibial_n_branch_to_popliteus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_branch_to_tibialis_posterior": {
+   "id": "tibial_n_branch_to_tibialis_posterior",
+   "name": "Tibial n. branch to tibialis posterior",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "L4-L5",
+   "display_name": "Tibial n. branch to tibialis posterior (L4-L5)",
+   "children": [],
+   "downstream": [
+    "tibial_n_branch_to_tibialis_posterior"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_branch_to_flexor_digitorum_longus": {
+   "id": "tibial_n_branch_to_flexor_digitorum_longus",
+   "name": "Tibial n. branch to flexor digitorum longus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Tibial n. branch to flexor digitorum longus (S1-S2)",
+   "children": [],
+   "downstream": [
+    "tibial_n_branch_to_flexor_digitorum_longus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_branch_to_flexor_hallucis_longus": {
+   "id": "tibial_n_branch_to_flexor_hallucis_longus",
+   "name": "Tibial n. branch to flexor hallucis longus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Tibial n. branch to flexor hallucis longus (S1-S2)",
+   "children": [],
+   "downstream": [
+    "tibial_n_branch_to_flexor_hallucis_longus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_medial_calcaneal_branches": {
+   "id": "tibial_n_medial_calcaneal_branches",
+   "name": "Medial calcaneal branches of the tibial nerve",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Medial calcaneal branches of the tibial nerve (S1-S2)",
+   "children": [],
+   "downstream": [
+    "tibial_n_medial_calcaneal_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "tibial_n_medial_sural_cutaneous_n": {
+   "id": "tibial_n_medial_sural_cutaneous_n",
+   "name": "Medial sural cutaneous nerve",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "tibial_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Medial sural cutaneous nerve (S1-S2)",
+   "children": [
+    "sural_n"
+   ],
+   "downstream": [
+    "sural_n",
+    "sural_n_lateral_dorsal_cutaneous_n",
+    "tibial_n_medial_sural_cutaneous_n"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "common_fibular_n_lateral_sural_cutaneous_n": {
+   "id": "common_fibular_n_lateral_sural_cutaneous_n",
+   "name": "Lateral sural cutaneous nerve",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "common_fibular_n",
+   "root_contributions": "L5-S2",
+   "display_name": "Lateral sural cutaneous nerve (L5-S2)",
+   "children": [],
+   "downstream": [
+    "common_fibular_n_lateral_sural_cutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sural_communicating_branch": {
+   "id": "sural_communicating_branch",
+   "name": "Sural communicating branch",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "common_fibular_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Sural communicating branch (S1-S2)",
+   "children": [],
+   "downstream": [
+    "sural_communicating_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sural_n": {
+   "id": "sural_n",
+   "name": "Sural nerve",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "tibial_n_medial_sural_cutaneous_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Sural nerve (S1-S2)",
+   "children": [
+    "sural_n_lateral_dorsal_cutaneous_n"
+   ],
+   "downstream": [
+    "sural_n",
+    "sural_n_lateral_dorsal_cutaneous_n"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sural_n_lateral_dorsal_cutaneous_n": {
+   "id": "sural_n_lateral_dorsal_cutaneous_n",
+   "name": "Lateral dorsal cutaneous nerve of the foot",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "sural_n",
+   "root_contributions": "S1-S2",
+   "display_name": "Lateral dorsal cutaneous nerve of the foot (S1-S2)",
+   "children": [],
+   "downstream": [
+    "sural_n_lateral_dorsal_cutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "deep_fibular_n_branch_to_tibialis_anterior": {
+   "id": "deep_fibular_n_branch_to_tibialis_anterior",
+   "name": "Deep fibular n. branch to tibialis anterior",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "deep_fibular_n",
+   "root_contributions": "L4-L5",
+   "display_name": "Deep fibular n. branch to tibialis anterior (L4-L5)",
+   "children": [],
+   "downstream": [
+    "deep_fibular_n_branch_to_tibialis_anterior"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "deep_fibular_n_branch_to_extensor_digitorum_longus": {
+   "id": "deep_fibular_n_branch_to_extensor_digitorum_longus",
+   "name": "Deep fibular n. branch to extensor digitorum longus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "deep_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Deep fibular n. branch to extensor digitorum longus (L5-S1)",
+   "children": [],
+   "downstream": [
+    "deep_fibular_n_branch_to_extensor_digitorum_longus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "deep_fibular_n_branch_to_extensor_hallucis_longus": {
+   "id": "deep_fibular_n_branch_to_extensor_hallucis_longus",
+   "name": "Deep fibular n. branch to extensor hallucis longus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "deep_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Deep fibular n. branch to extensor hallucis longus (L5-S1)",
+   "children": [],
+   "downstream": [
+    "deep_fibular_n_branch_to_extensor_hallucis_longus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "deep_fibular_n_branch_to_fibularis_tertius": {
+   "id": "deep_fibular_n_branch_to_fibularis_tertius",
+   "name": "Deep fibular n. branch to fibularis tertius",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "deep_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Deep fibular n. branch to fibularis tertius (L5-S1)",
+   "children": [],
+   "downstream": [
+    "deep_fibular_n_branch_to_fibularis_tertius"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "deep_fibular_n_lateral_terminal_branch": {
+   "id": "deep_fibular_n_lateral_terminal_branch",
+   "name": "Deep fibular n., lateral terminal branch",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "deep_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Deep fibular n., lateral terminal branch (L5-S1)",
+   "children": [],
+   "downstream": [
+    "deep_fibular_n_lateral_terminal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "deep_fibular_n_medial_terminal_branch": {
+   "id": "deep_fibular_n_medial_terminal_branch",
+   "name": "Deep fibular n., medial terminal branch",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "deep_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Deep fibular n., medial terminal branch (L5-S1)",
+   "children": [],
+   "downstream": [
+    "deep_fibular_n_medial_terminal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "superficial_fibular_n_branch_to_fibularis_longus": {
+   "id": "superficial_fibular_n_branch_to_fibularis_longus",
+   "name": "Superficial fibular n. branch to fibularis longus",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "superficial_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Superficial fibular n. branch to fibularis longus (L5-S1)",
+   "children": [],
+   "downstream": [
+    "superficial_fibular_n_branch_to_fibularis_longus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "superficial_fibular_n_branch_to_fibularis_brevis": {
+   "id": "superficial_fibular_n_branch_to_fibularis_brevis",
+   "name": "Superficial fibular n. branch to fibularis brevis",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "superficial_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Superficial fibular n. branch to fibularis brevis (L5-S1)",
+   "children": [],
+   "downstream": [
+    "superficial_fibular_n_branch_to_fibularis_brevis"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "superficial_fibular_n_medial_dorsal_cutaneous_n": {
+   "id": "superficial_fibular_n_medial_dorsal_cutaneous_n",
+   "name": "Medial dorsal cutaneous nerve of the foot",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "superficial_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Medial dorsal cutaneous nerve of the foot (L5-S1)",
+   "children": [],
+   "downstream": [
+    "superficial_fibular_n_medial_dorsal_cutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "superficial_fibular_n_intermediate_dorsal_cutaneous_n": {
+   "id": "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+   "name": "Intermediate dorsal cutaneous nerve of the foot",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "superficial_fibular_n",
+   "root_contributions": "L5-S1",
+   "display_name": "Intermediate dorsal cutaneous nerve of the foot (L5-S1)",
+   "children": [],
+   "downstream": [
+    "superficial_fibular_n_intermediate_dorsal_cutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "medial_plantar_n_muscular_branches": {
+   "id": "medial_plantar_n_muscular_branches",
+   "name": "Medial plantar n. muscular branches",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "medial_plantar_n",
+   "root_contributions": "S1-S3",
+   "display_name": "Medial plantar n. muscular branches (S1-S3)",
+   "children": [],
+   "downstream": [
+    "medial_plantar_n_muscular_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "medial_plantar_n_digital_branches": {
+   "id": "medial_plantar_n_digital_branches",
+   "name": "Medial plantar n. proper plantar digital nerves",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "medial_plantar_n",
+   "root_contributions": "S1-S3",
+   "display_name": "Medial plantar n. proper plantar digital nerves (S1-S3)",
+   "children": [],
+   "downstream": [
+    "medial_plantar_n_digital_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lateral_plantar_n_superficial_branch": {
+   "id": "lateral_plantar_n_superficial_branch",
+   "name": "Lateral plantar n., superficial branch",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "lateral_plantar_n",
+   "root_contributions": "S1-S3",
+   "display_name": "Lateral plantar n., superficial branch (S1-S3)",
+   "children": [],
+   "downstream": [
+    "lateral_plantar_n_superficial_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lateral_plantar_n_deep_branch": {
+   "id": "lateral_plantar_n_deep_branch",
+   "name": "Lateral plantar n., deep branch",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "lateral_plantar_n",
+   "root_contributions": "S1-S3",
+   "display_name": "Lateral plantar n., deep branch (S1-S3)",
+   "children": [],
+   "downstream": [
+    "lateral_plantar_n_deep_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lateral_plantar_n_muscular_branches": {
+   "id": "lateral_plantar_n_muscular_branches",
+   "name": "Lateral plantar n. proximal muscular branches",
+   "plexus": "sacral_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "lateral_plantar_n",
+   "root_contributions": "S1-S3",
+   "display_name": "Lateral plantar n. proximal muscular branches (S1-S3)",
+   "children": [],
+   "downstream": [
+    "lateral_plantar_n_muscular_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  }
+ }
+}

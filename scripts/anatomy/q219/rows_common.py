@@ -1,7 +1,9 @@
 """Row helper for the Q219 parts table."""
+import re
 import sys
 ROWS = []
 SETS = {}
+_MOD_ROUND = re.compile(r"^rows_(q\d+)")
 
 PART_TYPES = ["head_belly", "origin_part", "insertion_point", "ligament_component", "muscle_tendon_junction", "fascial_passage"]
 
@@ -19,7 +21,12 @@ def P(sid, slug, ptype, name, desc, refs, *, cls="muscle", ev=None, ver="verifie
     assert ptype in PART_TYPES, ptype
     assert ver in ("verified", "unverified")
     pid = f"{sid}.{slug}"
-    added_in = "Q222" if sys._getframe(1).f_globals.get("__name__", "").startswith("rows_q222_") else "Q219"
+    # Q219's original 4 modules (rows_upper / rows_lower / rows_trunk_hand / rows_hand_passages) are "Q219"; any later round's own
+    # rows_q<N>_*.py module (Q222, Q256, ...) is tagged with ITS round number, so "the Q219 rows are untouched" stays a real pin
+    # (tests/test_q222.py) as new rounds add their own modules instead of silently inflating the Q219 count.
+    modname = sys._getframe(1).f_globals.get("__name__", "")
+    m = _MOD_ROUND.match(modname)
+    added_in = m.group(1).upper() if m else "Q219"
     if ver == "unverified" and not note:
         note = "Unverified: textbook-level statement (edition cited, page not checked) or owner list; see refs."
     assert all(r["id"] != pid for r in ROWS), pid

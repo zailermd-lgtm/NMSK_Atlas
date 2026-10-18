@@ -4,11 +4,14 @@
    part is 0 <= kn.p + c <= th, th = 0 = no far face), meshVisible(id), focusAt(p), redraw(), setDots(list) (engine-drawn, depth-tested
    dots), toolbar + toolClass (host of the "Parts markers" toggle), onLoaded().
    A marker is a position derived by a stated rule on THIS model (rule-based) or the place of a Z-Anatomy mesh (Z-fill): always shown
-   with its source class and error bound, never as measured. Markers appear for the selected structure, or for every placed part with the
-   toggle; they follow Cut mode (incl. the slice thickness), the layer / hide / isolate state of their structure, and x-ray (the solid dot is
-   depth-tested by the engine: hidden behind opaque tissue, seen through x-ray; the hollow ring + label stay).
+   with its source class and error bound, never as measured. Q256: these dots are what the project elsewhere calls "not valid / needs
+   checking" indicators, so the whole marker layer is OFF by default (opt-in only, same convention as Labels Q236) and is never drawn
+   in the normal, unopened-panel display; turning it on (the "Parts markers" toolbar button -> panel) is what makes markers appear for
+   the selected structure, or for every placed part. When on, they follow Cut mode (incl. the slice thickness), the layer / hide / isolate
+   state of their structure, and x-ray (the solid dot is depth-tested by the engine: hidden behind opaque tissue, seen through x-ray; the
+   hollow ring + label stay).
    Q240 view-dependent culling (optional adaptor members idImage(all,w) -> {w,h,ids}, depthImage(w) -> {w,h,z} (linear view depth in mm, 0 = empty, row 0 = top),
-   idOf(meshId) -> index+1 as in idImage, marked(), and the hover(meshId) / dirty() calls from the engine): Markers = Off / Visible + near (default) / Selected only / All.
+   idOf(meshId) -> index+1 as in idImage, marked(), and the hover(meshId) / dirty() calls from the engine): Markers = Off (default) / Visible + near / Selected only / All.
    In "Visible + near" a marker is drawn only when (1) its 3D point is not hidden by other opaque tissue (depth image: its view depth within a tolerance of the
    nearest surface at its pixel, or the surface there is one of its own structures), (2) it lies within the depth band (front N % of the visible model depth, slider) and
    (3) the Cut mode keeps it. Markers of selected / marked / hovered structures are exempt (drawn see-through, dashed ring + halo, when hidden or far) unless
@@ -19,7 +22,7 @@ function NMSKParts(E){
   var btn = null, layer = null, card = null, errEl = null, panel = null, panelBuilt = false;
   var KEY = "nmsk.parts.v1", MODES = {off:1, near:1, sel:1, all:1}, CARRIER_ALLOW = 45;
   var canCull = !!(E.depthImage && E.idOf);
-  var P = {mode:canCull ? "near" : "sel", band:55, hid:true};
+  var P = {mode:"off", band:55, hid:true};              // Q256: opt-in, not seen in the normal display until the user turns it on
   try { var rs = JSON.parse(localStorage.getItem(KEY) || "null");
     if (rs && typeof rs === "object"){ if (MODES[rs.mode] && (canCull || rs.mode !== "near")) P.mode = rs.mode; var bn = Number(rs.band); if (isFinite(bn)) P.band = Math.max(10, Math.min(100, Math.round(bn))); if (typeof rs.hid === "boolean") P.hid = rs.hid; } } catch (err){}
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
@@ -364,7 +367,7 @@ function NMSKParts(E){
       btn = document.createElement("button");
       btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
       btn.innerHTML = 'Parts<span class="pm-more"> markers</span>';
-      btn.title = "Part markers: which origins / insertions / heads are marked on the model (visible + near, selected only, all), depth band";
+      btn.title = "Part markers (off by default): opt in to see which origins / insertions / heads are marked on the model, colour-coded rule-based / Z-Anatomy fill (visible + near, selected only, all), depth band";
       btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
       E.toolbar.appendChild(btn);
     }
@@ -380,8 +383,8 @@ function NMSKParts(E){
     panel.innerHTML = '<div class="pp-h"><b>Part markers</b><span class="pp-st" aria-live="polite"></span><button type="button" class="pp-x" aria-label="Close the part markers panel" title="Close">&times;</button></div>' +
       '<div class="pp-l">Markers</div>' +
       '<div class="pp-seg" role="group" aria-label="Which markers to show">' +
-        '<button type="button" data-v="off" title="No part markers">Off</button>' +
-        '<button type="button" data-v="near" title="Markers that are not hidden behind other tissue and lie in the near part of the model (default)">Visible + near</button>' +
+        '<button type="button" data-v="off" title="No part markers (default: not shown until you choose one of the other options here)">Off</button>' +
+        '<button type="button" data-v="near" title="Markers that are not hidden behind other tissue and lie in the near part of the model">Visible + near</button>' +
         '<button type="button" data-v="sel" title="Only the markers of the selected, marked and hovered structures">Selected only</button>' +
         '<button type="button" data-v="all" title="Every placed marker (hidden ones are dashed)">All</button></div>' +
       '<div class="pp-l">Depth band <output class="pp-bv"></output></div>' +
@@ -389,7 +392,8 @@ function NMSKParts(E){
       '<div class="pp-sc"><span>near</span><span>all</span></div>' +
       '<label class="pp-c"><input class="pp-hid" type="checkbox"> Show hidden ones of selected muscles</label>' +
       '<p class="pp-hint"></p>' +
-      '<p class="pp-help"><b>Visible + near</b> shows a marker only when its point is not hidden behind other tissue and lies within the depth band (the front part of the visible model, measured from the viewer). ' +
+      '<p class="pp-help">Off by default: these dots mark positions that are NOT measured on this body (orange = rule-based estimate, blue = Z-Anatomy fill) &mdash; this panel is how you choose to see them. ' +
+      '<b>Visible + near</b> shows a marker only when its point is not hidden behind other tissue and lies within the depth band (the front part of the visible model, measured from the viewer). ' +
       'Markers of selected, marked or hovered structures are always shown, drawn dashed with a halo when they are behind tissue; switch the box off to cull them like the rest. Cut mode: markers on the removed side are hidden.</p>';
     panel.querySelector(".pp-x").addEventListener("click", function(){ openPanel(false); });
     panel.querySelector(".pp-seg").addEventListener("click", function(e){

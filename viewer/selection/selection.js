@@ -230,6 +230,18 @@ function NMSKSelect(E){
     if (on && n && E.reveal && modeOf() === "only") E.reveal(ids);
     say(n ? n + " structures " + (on ? "marked." : "unmarked.") : "Nothing to " + (on ? "mark" : "unmark") + " in that layer."); changed();
   }
+  /* Q256: mark an arbitrary explicit list of ids at once (e.g. a plexus component's downstream nerves) -- same mechanism as
+     markCategory, just not tied to a predefined layer category. replace = clear the existing marks first (the normal case for a
+     fresh group pick); quiet = skip the status line (the caller reports its own, more specific message). Returns how many marked. */
+  function markIds(ids, on, replace, quiet){
+    if (replace){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; }
+    var list = (ids || []).filter(has), n = 0;
+    list.forEach(function(id){ if (mark(id, on === undefined ? true : on)) n++; });
+    if (n && E.reveal && modeOf() === "only") E.reveal(list);
+    if (!quiet) say(n ? n + " structures " + (on === false ? "unmarked." : "marked.") : "None of those structures are on this page.");
+    changed();
+    return n;
+  }
   function clearMarks(){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
   function resetAll(){
     marks = []; set = {}; ss = os = "show"; ghostPref = false; markMode = false; inv = null;
@@ -488,7 +500,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    markCategory:markCategory, onKey:onKey, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
+    markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
     state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
   };

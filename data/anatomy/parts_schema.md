@@ -38,6 +38,22 @@ The owner's word for the "rectum / rectus" passages is ambiguous. Both are cover
 ## Q222 extension
 `added_in` (`"Q219"` | `"Q222"`) on every row says which pass added it. Q222 rows live in `scripts/anatomy/q219/rows_q222_*.py` (auto-imported by `build_parts.py` and `build_geometry.py`) and use references from `scripts/anatomy/q219/refs_q222.py` (`verified: "pubmed-2026-10-12"`; every entry's `basis` begins `abstract:` = what the PubMed abstract supports; one registry entry per PMID; the builder refuses duplicate keys / PMIDs). All Q222 rows are `verified` (a journal record whose abstract/title holds the claim); where the evidence is a single case report the row says `case report` in `variability`, where a prevalence is quoted from a review the row note says the primary studies were not retrieved. Disputed values are recorded, never merged: `part_sets` (77 now), and as ranges in `variability` (e.g. Gantzer's muscle 20.3 % imaging vs 48 % cadaver meta-analysis; palmaris longus absence 37.2 % vs 59.75 %).
 
+## Q256 extension: origin / insertion for tendons, ligaments and fascia
+`scripts/anatomy/q219/rows_q256_attachments.py` extends the `origin_part` / `insertion_point` / `muscle_tendon_junction` part types (previously
+muscles only) to every record in `data/tendons/*.json` (51), `data/ligaments/*.json` (91) and the subset of `data/fascia/*.json` (31 of 104)
+that lists exactly two bony attachments, generated programmatically from those files' own already-authored `attachments`/`bony_attachments`
+fields and citing their own `source` string verbatim in each row's `note`. Convention used (stated in every such row, not an anatomical fact):
+a ligament's or fascia's `bone_a`/first-listed attachment is called "origin", `bone_b`/second "insertion" purely for consistency with the
+muscle markers -- ligaments and fascia have no contractile pull direction. A tendon's proximal (muscular) end is a `muscle_tendon_junction`,
+its distal (bony) end an `insertion_point`. Geometry reuses `end_snap_bone` (generalised: it was already generic to any one mesh + one named
+bone, the "muscle" in its old method string was cosmetic) and `mtj_interface`, unchanged. Deliberately NOT given an origin/insertion pair:
+73 of 104 fascia records (0 or 1 or >2 listed bony attachments: see `data/derived/Q256_attachment_coverage.json` for the exact list and
+reason per id -- most commonly "blends into adjacent fascia / skin only" or "a free margin at the other end"); per-band sub-attachments
+within a multi-band ligament (e.g. the ACL's separate anteromedial/posterolateral footprints) -- only the ligament-complex-level attachment
+is covered this round. Midline records (no left/right mesh at all, e.g. `ligamentum_flavum`, `linea_alba`, `central_tendon_diaphragm`) get
+the catalogue row (visible as text) but no `geom` key: `build_geometry.py`'s per-side resolver only ever tries sides `"r"`/`"l"`, so giving a
+midline structure a geometry rule would silently duplicate one real point under both a spurious "r" and "l" tag instead of placing it once.
+
 ## Q243 extension: HRA organ parts
 `data/anatomy/structure_parts_hra_q243.json` (same row fields; `part_type` = `organ part`: a named sub-part / region of an organ taken from a reference atlas, e.g. the fundus, walls, cervical os of the uterus or the ampulla / isthmus / infundibulum / fimbriae of the uterine tube; `references` = the HRA 3D Reference Object Library object with DOI, kind `database`; `verification` `verified` = read from the library itself, no PubMed record involved).
 Rows are NOT in `structure_parts.json` (that table is literature-based and `build_parts.py` / `tests/test_q219.py` keep their meaning). The parts are only offered for structures that ARE the HRA geometry on a page (the uterus and tubes of Q233): markers per body in `data/derived/Q243_parts_hra.json` (class `hra_reference`, error bound = the p90 of the bone registration, checked against the shipped mesh) and added to a page's `parts_data.json` by `python3 scripts/anatomy/q243/parts_hra.py --inject PAGE_DIR --body vhf|zan_f|zbase_f` (rows tagged `q: "q243"`, idempotent). The bladder sub-parts of the HRA are not offered: no page carries the HRA bladder.

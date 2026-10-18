@@ -144,7 +144,7 @@ def rule_end_snap_bone(body, part, s):
     gap = float(d.min())
     tol = float(g.get("tol_mm", 8))
     if gap > tol:
-        return None, f"muscle mesh end is {gap:.1f} mm from the {g['bone']} surface (> tolerance {tol:g} mm); tendon/continuation not modelled"
+        return None, f"the structure's mesh end is {gap:.1f} mm from the {g['bone']} surface (> tolerance {tol:g} mm); tendon/continuation not modelled"
     # limb muscles: the end touching the bone must be the expected end (proximal = higher y)
     expect = g.get("end")
     long_vertical = abs(u[1]) > 0.75 and rng > 120.0     # the proximal/distal check is only meaningful for long, vertical limb muscles
@@ -158,7 +158,7 @@ def rule_end_snap_bone(body, part, s):
     dist, q = G.tri_nearest(pc[None], BV, BF)
     rad = float(np.linalg.norm(patch - pc, axis=1).max())
     err = float(max(rad, np.median(d[d <= tol])) + 1.0)   # footprint radius or gap (+1 mm vertex-grid slack)
-    return dict(position_mm=R(q[0]), method=f"end_snap_bone: the {expect} end of the muscle mesh (axis PCA, 12 % cap) touches the {g['bone']} mesh within {tol:g} mm; point = nearest bone-surface point to the centroid of the contact patch",
+    return dict(position_mm=R(q[0]), method=f"end_snap_bone: the {expect} end of the structure's own mesh (axis PCA, 12 % cap) touches the {g['bone']} mesh within {tol:g} mm; point = nearest bone-surface point to the centroid of the contact patch",
                 source_class="rule_based", parent_source_class=body.parent_class(ids), mesh_ids=ids + [bone], bone_mesh=bone, n_patch_vertices=int(len(patch)),
                 gap_mm=round(gap, 2), patch_radius_mm=round(rad, 2), error_bound_mm=round(err, 2),
                 error_basis="max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved"), None
@@ -345,6 +345,7 @@ def main():
     # attach the Z part-mesh patterns (rows carry them in maps_to only as resolved ids -> re-derive the patterns from the module rows)
     sys.path.insert(0, str(HERE))
     import rows_common, rows_upper, rows_lower, rows_trunk_hand, rows_hand_passages  # noqa: F401
+    import rows_q256_attachments  # noqa: F401  (Q256: origin/insertion rows for tendons/ligaments/fascia)
     import importlib, pkgutil
     for _m in sorted(m.name for m in pkgutil.iter_modules([str(HERE)]) if m.name.startswith('rows_q222_')):
         importlib.import_module(_m)   # Q222 rows (z_part_ids / geometry requests)
