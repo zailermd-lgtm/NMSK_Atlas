@@ -981,6 +981,14 @@
         (ui.orTrans = btn("Transverse", "Long axis across, marker to the patient's right (screen left = patient right)", function () { S.refKey = "trans"; S.rot = 0; syncUi(); refresh(); })),
         btn("Zoom to probe", "Move the 3D camera close to the probe", function () { if (S.P) { api.focus(S.P, 420); } })]);
       var r5 = slider("Rotate", 0, 359, 1, "rot", function (v) { return Math.round(v) + "°"; }, function (v) { S.rot = v; refresh(); }, "Free rotation of the probe about the skin normal");
+      /* Q255: CW/CCW nudge buttons beside the free-rotation slider -- "rotate the probe" reads as a relative turn (as when
+         rotating from a short-axis to a long-axis view), not just an absolute 0-359 dial; this is the honest fix (unlike
+         tilt direction, free rotation has no natural handful of discrete landmark positions to offer as preset buttons, so
+         a nudge pair is the right idiom here, matching rotateBy()'s own wraparound rather than the plain slider's clamp).
+         Sense verified against LIB.probeFrame/rodrigues: N is the OUTWARD skin normal, so by the right-hand rule increasing
+         S.rot turns counter-clockwise as seen by the examiner looking down the normal at the probe on the skin. */
+      r5.appendChild(btn("⟲ CCW", "Rotate the probe 5° counter-clockwise about the skin normal (as seen looking down at the probe on the skin)", function () { rotateBy(5); }));
+      r5.appendChild(btn("CW ⟳", "Rotate the probe 5° clockwise about the skin normal (as seen looking down at the probe on the skin)", function () { rotateBy(-5); }));
       /* mode section */
       ui.starBox = el("div", {style: "display:grid;gap:6px"}, [slider("Tilt", 5, 30, 1, "tilt", function (v) { return v + "°"; }, function (v) { S.tilt = v; drawSchematic(); refresh(); }, "Tilt angle of the surrounding images"),
         el("div", {class: "us-status", text: "Centre = 90° to the skin. Ring = the handle leaning towards (clockwise from the right): away from marker (rock), away + heel, heel, toward + heel, toward marker (rock), toward + toe, toe, away + toe. Click a ring image to make it the main image."})]);
@@ -1061,6 +1069,7 @@
       S.probe = k; var p = US.probes[k]; S.freq = p.freq_default; S.depthCm = p.depth_default_cm; S.focusCm = S.depthCm * 0.5; syncUi(); refresh(true);
     }
     function resetDefaults() { S.gain = 0; S.tgc = 0; S.dr = 60; S.focusCm = S.depthCm * 0.5; S.speckle = true; S.textures = true; S.reverb = true; S.noise = false; S.rot = 0; S.mTilt = 0; S.tilt = 15; syncUi(); refresh(true); }
+    function rotateBy(deltaDeg) { S.rot = ((S.rot + deltaDeg) % 360 + 360) % 360; setSlider("rot", S.rot); refresh(); }   // Q255: CW/CCW nudge, wraps 359<->0 (the plain slider only clamps)
     function selectFrame(i) { S.sel = Math.max(0, Math.min(frames.length ? frames.length - 1 : 8, i)); relayoutViews(); syncUi(); updateOverlay(); if (S.mode === "star") refresh(true); }
     function setCine(on) {
       clearInterval(timers.cine); S.cine = !!on;                               // Q253: cine now plays in BOTH modes (star: the 9 tilt directions; sweep: the n parallel planes)
