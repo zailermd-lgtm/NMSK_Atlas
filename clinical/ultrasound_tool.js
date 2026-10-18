@@ -482,9 +482,52 @@
       open: false, mode: "star", probe: "linear", widths: {linear: 44, convex: 65, sector: 22}, freq: 7.5, depthCm: 5, gain: 0, tgc: 0, focusCm: 2.5, dr: 60,
       refKey: "long", rot: 0, tilt: 15, mTilt: 0, mTiltDir: 0, n: 6, spacing: 10, byTotal: false, total: 50, centered: false, sign: 1, follow: false, followSid: -1, followName: "",
       speckle: true, textures: true, reverb: true, noise: false, hidden: false, P: null, N: null, sel: 0, view: "matrix", lay: "auto", tab: "image", placing: false,
-      cine: false, fps: 3, sec: "probe", pick3d: false, seed: 11
+      cine: false, fps: 3, cineMode: "step", sec: "probe", pick3d: false, seed: 11
     };
     var frames = [], views = [], root = null, ui = {}, timers = {}, gen = 0, keySeq = 0, perf = {last: null, hist: []}, axisCache = {}, firing = false, busy = false, overlay = null, lastOverlayKey = "";
+    /* Q257: CONTINUOUS cine -- genuinely re-slices at every displayed position (not a snap between the step-cine's N precomputed
+     * planes), at a reduced "live" quality tier so it stays real-time (same idea as the CT/MRI imaging kernel's tier-0-while-dragging
+     * fast path). sweep mode: the elevational offset slides continuously across the configured total range, ping-ponging at the ends.
+     * star mode: the tilt direction rotates continuously at the fixed tilt angle (a continuous fan, the probe's own tilt ring made smooth).
+     * The position advances by REAL measured wall-clock time between frames, never by a fixed frame count, so a slower device shows
+     * honestly coarser steps instead of a faked constant speed. */
+    var contState = {active: false, pos: 0, dir: 1, lastT: 0, busy: false, measMs: 0, fpsActual: 0, raf: 0};
+    function contQuality() { return {maxDim: 320, maxLines: 192}; }          // Q257: real headless-Chromium timing (own female, linear 5 cm ~24 ms, convex 15 cm ~? ms -- see PROJECT_STATE Q257) comfortably clears every fps budget (<=125 ms at fps 8) at this tier, the same one already used for the star ring / 6-9 frame sweep matrix
+    function reqFrame(fn) { return G.setTimeout(function () { fn(Date.now()); }, 16); }   // Q257: setTimeout, not requestAnimationFrame -- verified empirically that rAF/BeginFrame production on this
+    function cancelFrame(id) { G.clearTimeout(id); }                                       // page's headless-Chromium test harness can stall for seconds at a time (scratchpad/q257/debug_rafonly.py), the same
+                                                                                             // reason every other timed loop in this file (timers.cine, the overlay poll) already uses setInterval/setTimeout, never rAF
+    function contRangeMm() { var half = spacing() * Math.max(1, S.n - 1) / 2; return half; }               // same physical extent as the discrete sweep's own step x (n-1)
+    function contOneWaySec() { return 6 / Math.max(1, S.fps); }              // fps selector reused as a SPEED proxy in continuous mode (fps 1 -> 6 s one-way / one turn, fps 8 -> 0.75 s)
+    function contSpecSweep(offMm) {
+      var sr = sweepRot(S.mTilt, S.mTiltDir);
+      return {id: S.sel, tilt: S.mTilt, dir: S.mTiltDir, off: offMm, rotOverride: sr.rot,
+        label: "live sweep  " + (offMm >= 0 ? "+" : "−") + Math.abs(Math.round(offMm * 10) / 10) + " mm", short: "live " + (offMm >= 0 ? "+" : "−") + Math.abs(Math.round(offMm)) + " mm"};
+    }
+    function contSpecStar(dirDeg) {
+      return {id: S.sel, tilt: S.tilt, dir: dirDeg, off: 0, label: "live tilt " + S.tilt + "° · dir " + Math.round(dirDeg) + "°", short: "live " + Math.round(dirDeg) + "°"};
+    }
+    function contTick(now) {
+      if (!contState.active) return;
+      if (contState.busy || !frames.length) { contState.raf = reqFrame(contTick); return; }
+      var dt = contState.lastT ? Math.min(250, now - contState.lastT) / 1000 : 0; contState.lastT = now;
+      var spec;
+      if (S.mode === "star") {
+        var degPerSec = 360 / contOneWaySec(); contState.pos = ((contState.pos + degPerSec * dt) % 360 + 360) % 360; spec = contSpecStar(contState.pos);
+      } else {
+        var half = contRangeMm(), mmPerSec = (half * 2) / Math.max(0.2, contOneWaySec());
+        contState.pos += contState.dir * mmPerSec * dt;
+        if (contState.pos > half) { contState.pos = half; contState.dir = -1; } else if (contState.pos < -half) { contState.pos = -half; contState.dir = 1; }
+        spec = contSpecSweep(contState.pos);
+      }
+      contState.busy = true; var t0 = Date.now();
+      computeFrame(spec, contQuality(), frames[S.sel]).then(function (fr) {
+        contState.busy = false; if (!contState.active) return;
+        contState.measMs = Date.now() - t0; contState.fpsActual = Math.round((1000 / Math.max(1, contState.measMs)) * 10) / 10;
+        frames[S.sel] = fr; paintView(S.sel, fr); if (S.mode === "star") drawSchematic(); updateOverlay(); updateContReadout();
+        contState.raf = reqFrame(contTick);
+      }, function (err) { contState.busy = false; console.error("continuous cine:", err); contState.raf = reqFrame(contTick); });
+    }
+    function updateContReadout() { if (ui.contOut) ui.contOut.textContent = contState.active ? ("live ≈ " + contState.fpsActual + " fps (" + contState.measMs + " ms/frame)") : ""; }
 
     /* ---------- table + geometry ---------- */
     var acousticP = null;
@@ -646,7 +689,8 @@
     }
     function pump() {
       pumpPending = false;
-      if (!S.open || !AC || !S.P) return;
+      if (!S.open || !AC || !S.P || contState.active) return;                 // Q257: continuous cine owns frames[S.sel] directly; the step pipeline stays out of its way while it plays
+
       var my = ++gen, specs = frameSpecs(), order = [], i, tAll = Date.now();
       ensureViews(specs);
       for (i = 0; i < specs.length; i++) order.push(i);
@@ -1011,10 +1055,12 @@
       ]);
       /* Q253 (3/4): view / cine / frame scrub -- shared by BOTH modes (previously sweep-only, so star/tilt mode had no cine at all) */
       ui.playBox = el("div", {style: "display:grid;gap:6px"}, [
-        el("div", {class: "us-row"}, [(ui.viewBtn = btn("matrix", "Matrix of all frames / one big frame", function () { S.view = S.view === "matrix" ? "single" : "matrix"; syncUi(); relayoutViews(); })),
+        el("div", {class: "us-row"}, [(ui.viewBtn = btn("matrix", "Matrix of all frames / one big frame", function () { if (S.view === "single" && S.cine && S.cineMode === "continuous") setCine(false); S.view = S.view === "matrix" ? "single" : "matrix"; syncUi(); relayoutViews(); })),
           (ui.cineBtn = btn("▶ cine", "Play through the frames in place, as a movie (one big frame; use “matrix” / “single” above to switch views)", function () { setCine(!S.cine); })),
-          el("label", {text: "fps"}), (ui.fpsSel = el("select", {"aria-label": "Cine frames per second", onchange: function () { S.fps = +ui.fpsSel.value; if (S.cine) { setCine(false); setCine(true); } }}, [1, 2, 3, 5, 8].map(function (f) { return el("option", {value: String(f), text: String(f)}); })))]),
-        slider("Frame", 1, 9, 1, "frame", function (v) { return "#" + v; }, function (v) { selectFrame(v - 1); }, "Scroll through the frames (9 tilt directions in star mode, n planes in sweep mode)")
+          el("label", {text: "fps"}), (ui.fpsSel = el("select", {"aria-label": "Cine frames per second / continuous speed", onchange: function () { S.fps = +ui.fpsSel.value; if (S.cine) { setCine(false); setCine(true); } }}, [1, 2, 3, 5, 8].map(function (f) { return el("option", {value: String(f), text: String(f)}); })))]),
+        el("div", {class: "us-row"}, [(ui.cineModeBtn = btn("continuous", "Continuous: the probe genuinely slides / fans through a smooth range of positions, re-slicing a new frame at every step (at a reduced “live” resolution to stay real-time) instead of snapping between the step mode's precomputed frames", function () { if (S.cine) setCine(false); S.cineMode = S.cineMode === "continuous" ? "step" : "continuous"; syncUi(); })),
+          (ui.contOut = el("output", {text: ""}))]),
+        slider("Frame", 1, 9, 1, "frame", function (v) { return "#" + v; }, function (v) { selectFrame(v - 1); }, "Scroll through the frames (9 tilt directions in star mode, n planes in sweep mode); disabled while continuous cine plays")
       ]);
       /* image section */
       var im1 = slider("Gain", -25, 25, 1, "gain", function (v) { return (v > 0 ? "+" : "") + v + " dB"; }, function (v) { S.gain = v; repaintAll(); }, "Overall gain");
@@ -1061,6 +1107,7 @@
       ui.step.disabled = S.byTotal; ui.total.disabled = !S.byTotal; ui.totOut.textContent = totalText();
       ui.followBtn.setAttribute("aria-pressed", String(S.follow)); ui.pickBtn.setAttribute("aria-pressed", String(S.pick3d)); ui.followOut.textContent = S.followSid >= 0 ? (S.followName + (S.follow ? "" : " (off)")) : "no organ chosen";
       ui.viewBtn.textContent = S.view === "matrix" ? "matrix" : "single"; ui.viewBtn.setAttribute("aria-pressed", String(S.view === "matrix")); ui.cineBtn.setAttribute("aria-pressed", String(S.cine));
+      ui.cineModeBtn.setAttribute("aria-pressed", String(S.cineMode === "continuous")); if (ui.frame) ui.frame.disabled = S.cine && S.cineMode === "continuous"; updateContReadout();
       Object.keys(ui.togs).forEach(function (k) { ui.togs[k].setAttribute("aria-pressed", String(!!S[k])); });
       if (ui.tabs) ui.tabs.children[1].setAttribute("aria-pressed", String(S.placing));
     }
@@ -1072,9 +1119,16 @@
     function rotateBy(deltaDeg) { S.rot = ((S.rot + deltaDeg) % 360 + 360) % 360; setSlider("rot", S.rot); refresh(); }   // Q255: CW/CCW nudge, wraps 359<->0 (the plain slider only clamps)
     function selectFrame(i) { S.sel = Math.max(0, Math.min(frames.length ? frames.length - 1 : 8, i)); relayoutViews(); syncUi(); updateOverlay(); if (S.mode === "star") refresh(true); }
     function setCine(on) {
-      clearInterval(timers.cine); S.cine = !!on;                               // Q253: cine now plays in BOTH modes (star: the 9 tilt directions; sweep: the n parallel planes)
-      if (S.cine) timers.cine = setInterval(function () { if (!frames.length) return; var nF = S.mode === "star" ? 9 : S.n; S.sel = (S.sel + 1) % nF; relayoutViews(); syncUi(); updateOverlay(); }, 1000 / S.fps);
-      syncUi();
+      clearInterval(timers.cine); contState.active = false; contState.busy = false; if (contState.raf) { cancelFrame(contState.raf); contState.raf = 0; }
+      S.cine = !!on;                                                           // Q253: cine plays in BOTH modes; Q257 adds a genuinely continuous re-slicing mode alongside the step-through one
+      if (S.cine && S.cineMode === "continuous") {
+        if (S.view !== "single") { S.view = "single"; relayoutViews(); }       // a continuously sliding plane is one image, not a matrix of stale neighbours
+        contState.pos = S.mode === "star" ? ((frames[S.sel] && frames[S.sel].spec && frames[S.sel].spec.dir) || 0) : 0;
+        contState.dir = 1; contState.lastT = 0; contState.measMs = 0; contState.fpsActual = 0; contState.active = true; contState.raf = reqFrame(contTick);
+      } else if (S.cine) {
+        timers.cine = setInterval(function () { if (!frames.length) return; var nF = S.mode === "star" ? 9 : S.n; S.sel = (S.sel + 1) % nF; relayoutViews(); syncUi(); updateOverlay(); }, 1000 / S.fps);
+      }
+      updateContReadout(); syncUi();
     }
     function setStatus(t) {
       if (!ui.status) return;
@@ -1275,6 +1329,7 @@
         "Orientation: the marker is on the screen LEFT (and the dot on the probe). Longitudinal: marker cranial (screen left = cranial). Transverse: marker to the patient's right (screen left = patient right, the CT convention). Depth scale in cm on the right edge, footprint at the top.",
         "Tilt = the probe handle leans by the stated angle (rigid rotation about the contact point). 'Away / toward marker' = rocking inside the image plane; 'heel / toe' = fanning (the plane swings sideways). Which heel/toe side faces the examiner depends on where the examiner stands.",
         "Sweep: parallel planes, frame k at k × step along the plane normal (perpendicular to the image plane); 'follow organ' rotates the probe about the skin normal so that this direction lies as close as possible to the PCA long axis of the chosen structure.",
+        "Cine: 'step' plays back the already-computed set of frames (the 9 tilt directions / n sweep planes) in place, as a movie. 'continuous' instead genuinely RE-SLICES a new frame at every displayed position as it slides (sweep) or fans (star tilt direction) smoothly through the range -- a real re-slice of the meshes each time, not an interpolation between the step frames -- at a reduced resolution so it keeps up in real time; the fps selector sets the target sweep/fan speed, and the readout next to it shows the actually achieved re-slice rate on this device, which can fall behind the target on a slow machine (shown honestly, not hidden).",
         "Model artefacts handled: an air band thinner than " + US.global.air_pocket_fill_mm + " mm along a beam that tissue follows again is treated as fat (the Z pages' skin is a set of overlapping patches; the slice kernel then labels gaps between skin layers as air); thin fascia / septa meshes are drawn one pixel wide and can show as bright lines with a stair-step on oblique planes.",
         "Synthetic parts: speckle (seeded value noise with Rayleigh statistics, attached to the sweep volume), muscle septa / tendon fibril textures, optional system noise: all labelled on the image and switchable off. Not modelled: " + US.artefacts.not_modelled.join("; ") + "."];
       var ul = el("ul"); how.forEach(function (t) { ul.appendChild(el("li", {text: t})); }); box.appendChild(ul);
@@ -1359,6 +1414,7 @@
       geo: function () { return geo; }, C: function () { return C; }, table: function () { return US; }, AC: function () { return AC; },
       idle: function () { return new Promise(function (res) { var t0 = Date.now(), t = setInterval(function () { if (!busy && !pumpPending && frames.length && Date.now() - t0 > 150) { clearInterval(t); res(true); } if (Date.now() - t0 > 120000) { clearInterval(t); res(false); } }, 60); }); },
       frames: function () { return frames; }, views: function () { return views; }, perf: function () { return perf; },
+      cineStatus: function () { return {active: contState.active, pos: contState.pos, dir: contState.dir, measMs: contState.measMs, fpsActual: contState.fpsActual}; },
       /* one-off frame for tests / timing: spec {tilt, dir, off, rot, maxDim} -> Promise(frame) */
       frameNow: function (spec, q) { return loadTable().then(function () { return computeFrame(Object.assign({id: 0, tilt: 0, dir: 0, off: 0, label: "test"}, spec), q || {maxDim: 480, maxLines: 256}, null); }); },
       screenOf: function (p) { return api.toScreen(p); }, focusOn: function (p, d) { api.focus(p, d); }, view: function () { return api.view(); },
