@@ -45,9 +45,27 @@ class Guards:
                     top=dict(sorted(who.items(), key=lambda x: -x[1])[:4]), z_filled_estimates_not_gated=dict(sorted(zf.items(), key=lambda x: -x[1])[:3]))
 
     def skin_depth(self, V):
-        """own pages: signed depth inside the closed 'skin' mesh; Z pages: UNSIGNED distance to the union of the skin pieces (the pieces are open; the ligaments are inside the body by construction)"""
+        """own pages: signed depth inside the closed 'skin' mesh -- EXACT (trimesh's own watertight winding-number
+        signed distance), not the nearest-SAMPLED-point + its normal approximation this used before Q263. That
+        approximation is what Q260 found and reported as a false "tens of mm outside the skin" reading in the
+        superior neck on own pages: verified directly (Q263) that it is a genuine sign flip, not just noise -- e.g.
+        own_f at (-10, 693.8, 10) is a real 65.7 mm INSIDE (trimesh exact), but the nearest SAMPLED surface point is
+        on the far side of a sharp fold near the ear/jaw only 12.6 mm away along the surface yet pointing an almost
+        opposite normal, so the dot-product sign flips to "69 mm outside". This is inherent to a sparse random
+        surface-point sample in any concave, tightly-folded region (ear, jaw angle, neck) -- no amount of resampling
+        fixes it generically, only querying the mesh itself does. Switched to the exact method (already proven
+        correct and fast enough at this codebase's own call sizes by Q260's own rule_vagus_own.py, which used it only
+        to correct its own cards after the fact) -- cached per Guards instance, built once, reused by every mk() call
+        on the same page. Z pages: UNSIGNED distance to the union of the skin pieces (unchanged: those pieces are
+        open, there is no closed mesh to query exactly against)."""
         sk = self.E.get("skin")
         if sk is not None:
+            if not hasattr(self, "_skin_pq"):
+                m = PG.mesh(sk)
+                self._skin_pq = trimesh.proximity.ProximityQuery(m) if m.is_watertight else None
+            if self._skin_pq is not None:
+                return round(float(self._skin_pq.signed_distance(V).min()), 1)
+            # defensive fallback only: not watertight (not the case on any current own page, checked directly)
             kd, nn = self._field("skin")
             d, k = kd.query(V)
             s = ((V - kd.data[k]) * nn[k]).sum(1)

@@ -82,16 +82,16 @@ def _vessel_xz_at_y(E, ids, y):
 
 
 def _skin_depth_trimesh(E, V):
-    """own pages: a single closed 'skin' mesh -- trimesh's own watertight signed distance (exact, winding-number
-    based) rather than this codebase's shared Guards.skin_depth (a nearest-sample-point + its normal approximation).
-    Found in passing, this round: Guards.skin_depth gives a false 'tens of mm outside the skin' reading for points in
-    the SUPERIOR neck on these pages (verified directly: trimesh.contains() / signed_distance say the same points
-    are 40+ mm genuinely inside) -- almost certainly because the nearest sampled skin point there, for some query
-    points, comes from a totally different region (a sparse-sampling / local-geometry artifact of that
-    approximation, not a real 'outside the body' condition), giving a wrong-signed normal-dot-offset. NOT fixed in
-    the shared module this round (out of scope, a precedent-matching 'named, not fixed' call, like Q258/Q259's own
-    own-page sliceNow() quirks) -- this function is used ONLY to report the correct number for THIS module's own
-    cards, not to patch guards.py."""
+    """Q260 found Guards.skin_depth (the shared q248/guards.py utility) gave a false 'tens of mm outside the skin'
+    reading for points in the superior neck on own pages, and worked around it HERE ONLY (not in the shared module,
+    named 'not fixed' at the time) by recomputing the same exact trimesh watertight signed distance this function
+    still contains. Q263 root-caused it (a sparse random surface-point sample's nearest-SAMPLED-point + its normal
+    flips sign across sharp folds -- e.g. the ear/jaw region -- because two points 12.6 mm apart ON THE SURFACE can
+    have near-opposite normals there) and fixed `Guards.skin_depth` itself the same way, generically, for every
+    caller. This function is now REDUNDANT (confirmed: its own output is byte-identical to the fixed
+    `Guards.skin_depth` on all 4 vagus builds, own_m/own_f x l/r) -- kept only so `build()`'s own
+    `skin_min_depth_mm_guards`/`skin_min_depth_mm` reporting below still runs unchanged; the two numbers will simply
+    read the same now instead of differing."""
     import trimesh as _tm
     sk = E["skin"]
     m = _tm.Trimesh(sk["v"], sk["f"], process=False)
@@ -190,8 +190,8 @@ def build(key, root="build/q259"):
             if sk2 is not None:
                 e["report"]["skin_min_depth_mm_guards"] = e["report"]["skin_min_depth_mm"]
                 e["report"]["skin_min_depth_mm"] = sk2
-                e["report"]["skin_min_depth_mm_note"] = ("corrected with trimesh's exact watertight signed distance; this codebase's shared Guards.skin_depth (nearest-sample-point approximation) gave "
-                                                           f"{e['report']['skin_min_depth_mm_guards']} mm for this same tube, a false reading for the superior neck on own pages found in passing this round, not fixed in the shared module (see docstring).")
+                e["report"]["skin_min_depth_mm_note"] = ("cross-checked against trimesh's exact watertight signed distance (see _skin_depth_trimesh docstring): Q263 fixed the shared Guards.skin_depth itself to use this "
+                                                           f"same exact method, so the two numbers now agree ({e['report']['skin_min_depth_mm_guards']} mm both) -- kept as a standing cross-check, not because they still differ.")
         out.append(e)
         notes[f"vagus_{s}_anchors"] = [np.round(a, 1).tolist() for a in anchors]
     return out, notes
