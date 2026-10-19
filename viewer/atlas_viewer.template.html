@@ -32,6 +32,12 @@
   --canvas-top:#161D23; --canvas-bot:#0A0E11;
 }
 *{box-sizing:border-box}
+/* Q264: match the Z-engine's own already-established document-root guard (zan_atlas.template.html's html,body rule)
+   -- without it a touch-scroll that reaches a panel's own scroll boundary can rubber-band/chain into the document
+   itself on real mobile browsers (and, on Chrome for Android, trigger a pull-to-refresh reload, which would reset
+   every tool's state, not just the needle's). This page never scrolls at the document level by design (#app fills
+   one viewport, every panel scrolls its own overflow), so this has no effect beyond blocking that chaining. */
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
 body{
   margin:0; background:var(--bg); color:var(--ink);
   font-family:Archivo,"Helvetica Neue",Arial,sans-serif;

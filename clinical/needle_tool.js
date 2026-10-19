@@ -497,15 +497,26 @@ var CSS = [
 "  --ncl-bg:var(--panel,#fff);--ncl-sunk:var(--sunk,var(--panel-2,#eef2f5));font-size:12px;line-height:1.45;color:var(--ink,#16202a)}",
 ".ncl{padding:11px 13px;background:var(--ncl-bg);border-bottom:1px solid var(--ncl-line)}",
 ".ncl.ncl-float{position:fixed;top:calc(3.3rem + env(safe-area-inset-top,0px));right:.9rem;width:340px;max-height:calc(100vh - 8rem);",
-"  overflow-y:auto;z-index:26;border:1px solid var(--ncl-line);border-radius:12px;box-shadow:0 10px 34px rgba(22,32,42,.18)}",
+/* Q264: overscroll-behavior:contain on this own scroll container -- a touch-drag that scrolls this panel to its own
+   top/bottom boundary and keeps going must not chain into the page/canvas beneath it (root cause of a mobile scroll
+   being misread as "cancel the tool"; see PROJECT_STATE.md Q264). Stopped at this layer so it applies with or without
+   a page-root guard. */
+"  overflow-y:auto;overscroll-behavior:contain;z-index:26;border:1px solid var(--ncl-line);border-radius:12px;box-shadow:0 10px 34px rgba(22,32,42,.18)}",
 "@media (max-width:900px){.ncl.ncl-float{left:.6rem;right:.6rem;width:auto;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom,0px));max-height:52vh}}",
-".ncl.ncl-stage{position:absolute;left:12px;top:12px;width:330px;max-height:calc(100% - 150px);overflow-y:auto;z-index:5;",
+".ncl.ncl-stage{position:absolute;left:12px;top:12px;width:330px;max-height:calc(100% - 150px);overflow-y:auto;overscroll-behavior:contain;z-index:5;",
 "  border:1px solid var(--ncl-line);border-radius:10px;box-shadow:0 8px 26px rgba(15,21,26,.16)}",
 /* a clip-path keeps Chromium from leaving the scrolled-out panel content as a hole over the WebGL canvas */
 ".ncl.ncl-stage,.ncl.ncl-float{clip-path:inset(0 round 10px)}",
 "@media (max-width:760px){.ncl.ncl-stage{left:8px;right:8px;width:auto;top:auto;bottom:8px;max-height:46%}}",
 ".ncl h3{margin:0;font-size:13px;font-weight:700}",
 ".ncl-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}.ncl-head h3{flex:1}",
+/* Q264: compact/minimize toggle -- same small-chevron idiom + visual language as Q262's per-system .sys-exp drill-down
+   toggle in the two page templates (small square button, aria-expanded, highlighted in its non-default state), kept
+   self-contained here since this file ships its own scoped CSS independent of either template. */
+".ncl-min{flex:0 0 auto;width:26px;min-height:26px;border:1px solid transparent;border-radius:5px;background:none;color:var(--ncl-mut);font-size:11px;cursor:pointer}",
+".ncl-min:hover{border-color:var(--ncl-line);background:var(--ncl-sunk)}",
+".ncl-min[aria-expanded=false]{background:var(--ncl-sunk);color:var(--ncl-acc)}",
+".ncl.ncl-collapsed>*:not(.ncl-head){display:none}",
 ".ncl button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--ncl-line);background:var(--ncl-sunk);border-radius:5px;padding:2px 8px;font-size:11px}",
 ".ncl button:hover{border-color:var(--ncl-acc)}",
 ".ncl button[aria-pressed=true]{background:var(--ncl-acc);color:#fff;border-color:var(--ncl-acc)}",
@@ -529,7 +540,7 @@ var CSS = [
 ".ncl .lg{display:flex;flex-wrap:wrap;gap:4px 10px;margin:4px 0;font-size:11px}",
 ".ncl .formula{font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--ncl-sunk);padding:5px 6px;border-radius:5px;overflow-wrap:anywhere}",
 ".ncl .grid2{display:grid;grid-template-columns:repeat(3,auto);gap:3px 8px;align-items:center;font-size:11px}",
-".ncl .res{max-height:170px;overflow-y:auto;margin-top:4px}",
+".ncl .res{max-height:170px;overflow-y:auto;overscroll-behavior:contain;margin-top:4px}",
 ".ncl .res button{display:block;width:100%;text-align:left;margin:2px 0;padding:4px 6px}",
 ".ncl .warn{color:var(--risk,#B3400C);font-size:11px;margin:4px 0}",
 ".ncl .pill-g{color:#1E8A4F;font-weight:700}.ncl .pill-a{color:#B07300;font-weight:700}.ncl .pill-r{color:#C23232;font-weight:700}",
@@ -769,7 +780,9 @@ TP.buildUI = function () {
     return "<span>" + esc(CLASSES[k].label.split(" (")[0].split(" /")[0]) + '</span><input type="number" step="0.05" min="0" max="3" data-mult="' + k + '" value="' + self.P.mult[k] + '"><span></span>';
   }).join("");
   el.innerHTML =
-    '<div class="ncl-head"><h3>Needle planning</h3><button type="button" id="needle-clear">Clear</button>' +
+    '<div class="ncl-head"><h3>Needle planning</h3>' +
+    '<button type="button" id="ncl-min" class="ncl-min" aria-expanded="true" aria-label="Minimize the needle panel" title="Compact mode: collapse to just the title bar">&#9662;</button>' +
+    '<button type="button" id="needle-clear">Clear</button>' +
     '<button type="button" id="ncl-close" title="Close the needle tool">&times;</button></div>' +
     '<p class="ncl-disc"><b>Planning / education aid only &mdash; not clinical guidance.</b> Model anatomy (decimated viewing meshes, one body), ' +
     'not the patient. Risk halos are a heuristic planning margin, not validated safety distances.</p>' +
@@ -816,6 +829,11 @@ TP.buildUI = function () {
   this.$ = $;
   $("needle-clear").onclick = function () { self.clear(); };
   $("ncl-close").onclick = function () { self.toggle(false); };
+  $("ncl-min").onclick = function () {       // Q264: compact/minimized panel, on request (not forced), off by default
+    var wasOpen = $("ncl-min").getAttribute("aria-expanded") !== "false";
+    $("ncl-min").setAttribute("aria-expanded", String(!wasOpen));
+    el.classList.toggle("ncl-collapsed", wasOpen);
+  };
   el.querySelectorAll("#ncl-modes button").forEach(function (b) { b.onclick = function () { self.setMode(b.dataset.mode); }; });
   $("ncl-useview").onclick = function () { self.dir.src = "view"; self.dir.view = api.view().dir; self.update(); };
   $("ncl-usenormal").onclick = function () { self.dir.src = "normal"; $("ncl-tilt").value = 0; self.dir.tilt = 0; self.update(); };

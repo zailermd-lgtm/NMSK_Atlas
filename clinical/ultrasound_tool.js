@@ -898,7 +898,9 @@
       "#us-root.ctl-tabs .sectabs{display:flex}",
       "#us-root.ctl-tabs .sec{display:grid;gap:6px}",
       "#us-root.ctl-tabs .sec:not(.us-act){display:none}",
-      ".us-ctl{flex:0 0 auto;max-height:46%;overflow:auto;padding:6px 8px 8px;border-top:1px solid var(--line);display:grid;gap:6px 14px;background:var(--bg);grid-template-columns:repeat(auto-fit,minmax(380px,1fr));align-content:start}",
+      /* Q264: overscroll-behavior:contain -- a touch-drag that scrolls this panel to its own boundary must not chain
+         into the page/canvas beneath it (see PROJECT_STATE.md Q264). */
+      ".us-ctl{flex:0 0 auto;max-height:46%;overflow:auto;overscroll-behavior:contain;padding:6px 8px 8px;border-top:1px solid var(--line);display:grid;gap:6px 14px;background:var(--bg);grid-template-columns:repeat(auto-fit,minmax(380px,1fr));align-content:start}",
       ".us-ctl>.us-status{grid-column:1/-1}",
       "body.us-tab .us-ctl{max-height:40%}",
       ".us-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}",
@@ -907,7 +909,7 @@
       ".us-row output{min-width:3.4em;color:#cfe6ff;font:12px ui-monospace,Menlo,monospace}",
       ".us-read{font:12px/1.3 ui-monospace,Menlo,monospace;color:#cfe6ff;min-height:32px;padding:3px 8px;border-top:1px solid var(--line);flex:0 0 auto;word-break:break-word;max-height:3.9em;overflow:hidden}",
       ".us-status{color:var(--dim);font-size:11.5px}",
-      ".us-info{position:absolute;inset:36px 0 0 0;background:var(--bg);z-index:5;overflow:auto;padding:10px 12px 40px;display:none}",
+      ".us-info{position:absolute;inset:36px 0 0 0;background:var(--bg);z-index:5;overflow:auto;overscroll-behavior:contain;padding:10px 12px 40px;display:none}",
       ".us-info.show{display:block}",
       ".us-info h3{margin:14px 0 4px;font-size:14px}.us-info p,.us-info li{color:#c3cfdd}",
       ".us-info table{border-collapse:collapse;width:100%;font-size:11.5px;margin:4px 0}.us-info td,.us-info th{border:1px solid var(--line);padding:3px 5px;text-align:left;vertical-align:top}",
