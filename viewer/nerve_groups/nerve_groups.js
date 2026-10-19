@@ -27,16 +27,20 @@ function NMSKNerveGroups(E){
   function panelOpen(){ return !!panel && !panel.hidden; }
   function $p(sel){ return panel ? panel.querySelector(sel) : null; }
 
+  /* Q262: lives inside the Nerves system row (E.mount(), re-resolved on every build() call since the systems strip can
+     rebuild that row later than this module loads) rather than the top toolbar; E.toolbar is kept as the fallback mount
+     so the button still appears somewhere if the host page never supplies E.mount (e.g. a page with no "nerve" category). */
   function build(){
     if (!D || !D.plexuses || !D.plexuses.length) return;
     if (!plexus || D.by_plexus[plexus] === undefined) plexus = D.plexuses[0];
-    if (M.length && E.toolbar && !btn){
+    var mount = (E.mount && E.mount()) || E.toolbar;
+    if (M.length && mount && !btn){
       btn = document.createElement("button");
-      btn.type = "button"; btn.id = "t-nervegroups"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
+      btn.type = "button"; btn.id = "t-nervegroups"; btn.className = (E.mount ? "ng-sysbtn " : "") + (E.toolClass || ""); btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
       btn.innerHTML = 'Nerve<span class="ng-more"> groups</span>';
       btn.title = "Nerve groups: select every nerve downstream of a plexus root / trunk / division / cord / branch";
-      btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
-      E.toolbar.appendChild(btn);
+      btn.addEventListener("click", function(e){ e.stopPropagation(); openPanel(!panelOpen()); });
+      mount.appendChild(btn);
     }
     buildPanel();
   }

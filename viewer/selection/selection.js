@@ -17,12 +17,13 @@ function NMSKSelect(E){
   var MODEL = String(E.modelId()), KEY = "nmsk.sel.v1:" + MODEL, LP_MS = 520, MARKLIMIT = 400;
   var marks = [], set = {}, ss = "show", os = "show", ghostPref = false, markMode = false, storageOK = true, suppress = false;
   var fade = 0.15, hl = "#ffb000", tintOn = true, inv = null;                   // Q232: fade opacity 0..1, highlight colour, amber tint of marked structures, inv = {id:1} ids left out by Invert (null = not inverted)
+  var undoStack = [], UNDO_MAX = 20;                                           // Q262: a short-depth undo over pack()-shaped snapshots (ids, mode, ghost, ss/os, fade, hl, inv) -- a convenience, not a full command stack
   var STATES = {show:1, fade:1, hide:1, ghost:1, xray:1, hl:1};
   var data = {v:1, model:MODEL, sets:{}, last:null, remember:true};
   var names = {}, order = [];
   E.items().forEach(function(it){ if (!(it.id in names)){ names[it.id] = it.name || it.id; order.push(it.id); } });
   var sec = $("sel-sec"), fadeEl = $("sel-fade"), fadeVEl = $("sel-fade-v"), hlEl = $("sel-hl"), tintEl = $("sel-tint"), invNoteEl = $("sel-invnote"), chipsEl = $("sel-chips"), cntEl = $("sel-count"), statusEl = $("sel-status"), nameEl = $("sel-name"), setsEl = $("sel-sets"),
-      ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember");
+      ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember"), undoEl = $("sel-undo");
   var tbMark = null, tbOnly = null, tbInv = null;
 
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
@@ -125,10 +126,29 @@ function NMSKSelect(E){
     if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(md === "only")); tbOnly.hidden = !n; tbOnly.textContent = md === "only" ? "Show all" : "Only marked";
       tbOnly.title = md === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
     if (tbInv){ tbInv.setAttribute("aria-pressed", String(!!inv)); tbInv.hidden = !n; }
+    if (undoEl) undoEl.disabled = !undoStack.length;
     if (document.body && document.body.classList) document.body.classList.toggle("ss-marking", markMode);
   }
   function changed(){
     fixStates(); renderChips(); syncButtons(); ui(); persistLast(); E.refresh();
+  }
+  /* Q262: a short-depth undo. Each state-changing action pushes a snapshot of the state it is ABOUT to replace (the same
+     ids/mode/ghost/ss/os/fade/hl/inv shape pack() already produces); Undo pops the last one and re-applies it via applyPack,
+     the same path Load/Import already use. Deliberately lightweight (a bounded stack, not a full command pattern): good enough
+     to back out of the last few marks/presets/resets, not a multi-branch history. */
+  function beginChange(){
+    try { undoStack.push(JSON.stringify(pack())); } catch (err){}
+    if (undoStack.length > UNDO_MAX) undoStack.shift();
+    if (undoEl) undoEl.disabled = false;
+  }
+  function undo(){
+    if (!undoStack.length){ say("Nothing to undo."); return false; }
+    var raw = undoStack.pop(), p;
+    try { p = JSON.parse(raw); } catch (err){ ui(); return false; }
+    applyPack(p);
+    say("Undid the last change.");
+    changed();
+    return true;
   }
   function mark(id, on){
     if (!has(id)) return false;
@@ -142,6 +162,7 @@ function NMSKSelect(E){
   }
   function toggle(id, fromList){
     if (!has(id)) return false;
+    beginChange();
     var was = set[id] === 1;
     mark(id);
     if (!was && fromList && E.reveal) E.reveal([id]);
@@ -151,6 +172,7 @@ function NMSKSelect(E){
   }
   function setMode(m){
     if (m !== "all" && !marks.length){ say("Mark at least one structure first."); ss = os = "show"; changed(); return; }
+    beginChange();
     var cur = modeOf();
     if (cur === m || m === "all"){ ss = os = "show"; ghostPref = false; }
     else if (m === "only"){ ss = "show"; os = ghostPref ? "ghost" : "hide"; }
@@ -162,6 +184,7 @@ function NMSKSelect(E){
   }
   function setGhost(v){
     if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
+    beginChange();
     ghostPref = v === undefined ? !ghostOf() : !!v;
     if (ghostPref){ if (ss === "hide") ss = "ghost"; if (os === "hide") os = "ghost"; }
     else { if (ss === "ghost") ss = "hide"; if (os === "ghost") os = "hide"; }
@@ -173,6 +196,7 @@ function NMSKSelect(E){
   function setGroup(g, st, noToggle){
     if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
     if (!STATES[st] || (g === "oth" && st === "hl")) return;
+    beginChange();
     var cur = g === "sel" ? ss : os;
     if (cur === st && !noToggle && st !== "show") st = "show";
     if (g === "sel") ss = st; else os = st;
@@ -184,6 +208,7 @@ function NMSKSelect(E){
   function preset(k){
     var p = PRESETS[k]; if (!p) return;
     if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
+    beginChange();
     if (ss === p[0] && os === p[1]){ ss = os = "show"; ghostPref = false; say("Back to showing everything normally."); }
     else {
       ss = p[0]; os = p[1]; ghostPref = false;
@@ -207,6 +232,7 @@ function NMSKSelect(E){
   }
   function invert(){
     if (inv){                                              // back: the left-out ids are the marked set again
+      beginChange();
       var b = baseIds(); marks = []; set = {}; inv = null;
       b.forEach(function(id){ set[id] = 1; marks.push(id); });
       if (!marks.length){ ss = os = "show"; ghostPref = false; }
@@ -216,15 +242,18 @@ function NMSKSelect(E){
     marks.forEach(function(id){ left[id] = 1; });
     var nm = elig.filter(function(id){ return left[id] !== 1; });
     if (!nm.length){ say(marks.length ? "Everything that is shown is already marked: nothing to invert to." : "Nothing is shown, so there is nothing to mark."); return false; }
+    beginChange();
     marks = nm; set = {}; nm.forEach(function(id){ set[id] = 1; }); inv = left;
     say("Inverted: the other " + nm.length + " shown structures are marked now; " + Object.keys(left).length + " are left out."); changed(); return true;
   }
   function markVisible(){
+    beginChange();
     var ids = eligibleIds(), n = 0;
     ids.forEach(function(id){ if (set[id] !== 1 && mark(id, true)) n++; });
     say(n ? n + " visible structures marked." : "Every visible structure is already marked."); changed();
   }
   function markCategory(key, on){
+    beginChange();
     var ids = ((E.idsOfCategory && key) ? E.idsOfCategory(key) : []).filter(has), n = 0;
     ids.forEach(function(id){ if (mark(id, on)) n++; });
     if (on && n && E.reveal && modeOf() === "only") E.reveal(ids);
@@ -234,6 +263,7 @@ function NMSKSelect(E){
      markCategory, just not tied to a predefined layer category. replace = clear the existing marks first (the normal case for a
      fresh group pick); quiet = skip the status line (the caller reports its own, more specific message). Returns how many marked. */
   function markIds(ids, on, replace, quiet){
+    beginChange();
     if (replace){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; }
     var list = (ids || []).filter(has), n = 0;
     list.forEach(function(id){ if (mark(id, on === undefined ? true : on)) n++; });
@@ -242,8 +272,9 @@ function NMSKSelect(E){
     changed();
     return n;
   }
-  function clearMarks(){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
+  function clearMarks(){ beginChange(); marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
   function resetAll(){
+    beginChange();
     marks = []; set = {}; ss = os = "show"; ghostPref = false; markMode = false; inv = null;
     if (E.select) E.select(null);
     if (E.clearHover) E.clearHover();
@@ -297,6 +328,7 @@ function NMSKSelect(E){
   function load(nm){
     nm = nm == null ? (setsEl && setsEl.value) : nm;
     if (!nm || !Object.prototype.hasOwnProperty.call(data.sets, nm)){ say("Choose a saved selection first."); return false; }
+    beginChange();
     var dropped = applyPack(data.sets[nm]);
     say("Loaded '" + nm + "': " + marks.length + " marked" + (dropped ? " (" + dropped + " not in this model were skipped)" : "") + ".");
     changed();
@@ -420,6 +452,7 @@ function NMSKSelect(E){
   if (tintEl) tintEl.addEventListener("change", function(){ setTint(tintEl.checked); });
   bind("sel-markmode", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
   bind("sel-reset", resetAll);
+  bind("sel-undo", undo);
   bind("sel-save", function(){ save(); });
   bind("sel-load", function(){ load(); });
   bind("sel-del", function(){ del(); });
@@ -470,6 +503,15 @@ function NMSKSelect(E){
     if (used){ e.preventDefault(); e.stopImmediatePropagation(); }
   }
   window.addEventListener("keydown", onKey, true);
+  /* Ctrl/Cmd+Z: undo, independent of onKey's "only while something is marked" guard above (undoing a Clear/Reset has 0 marks
+     right up until it runs), and never while typing in a field */
+  function onUndoKey(e){
+    if (!(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey || e.repeat || String(e.key || "").toLowerCase() !== "z") return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
+    e.preventDefault(); e.stopImmediatePropagation(); undo();
+  }
+  window.addEventListener("keydown", onUndoKey, true);
   function layout(){ var r = document.documentElement; if (r && r.classList) r.classList.toggle("ss-phone", !!(E.isPhone && E.isPhone())); }
   window.addEventListener("resize", layout);
   /* ---- start: stored sets, then (in this order of priority) a link in the address, the remembered last selection ---- */
@@ -500,7 +542,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
+    markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
     state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
   };

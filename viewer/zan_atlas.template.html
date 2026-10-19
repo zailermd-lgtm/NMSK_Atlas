@@ -113,6 +113,23 @@
   .nm{flex:1}
   .ct{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-dim);font-variant-numeric:tabular-nums}
   .layer-row input[type=range]{width:100%;accent-color:var(--accent);height:18px;margin:0}
+  /* ---------- Q262: per-layer drill-down (group / structure picker) ---------- */
+  .sys-exp{flex:0 0 auto;width:22px;min-height:22px;border:1px solid transparent;border-radius:5px;background:none;color:var(--ink-dim);font-size:.66rem;cursor:pointer}
+  .sys-exp:hover{border-color:var(--line);background:var(--panel-2)}
+  .sys-exp[aria-expanded="true"]{background:var(--panel-2);color:var(--ink)}
+  .sys-dd[hidden]{display:none}
+  .sys-dd{margin:.1rem 0 .3rem .3rem;padding:.35rem .45rem;border-left:2px solid var(--line);background:var(--panel-2);border-radius:0 6px 6px 0;font-size:.74rem}
+  .sys-dd .sys-l{margin:.35rem 0 .15rem;font-family:var(--f-mono);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim)}
+  .sys-dd .sys-l:first-child{margin-top:0}
+  .sys-grp{display:flex;flex-wrap:wrap;gap:.25rem}
+  .sys-grpbtn{font:inherit;font-size:.68rem;padding:.2rem .45rem;min-height:24px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);cursor:pointer}
+  .sys-grpbtn[aria-pressed="true"]{background:var(--accent);color:var(--ground,#fff);border-color:var(--accent)}
+  .sys-q{display:block;width:100%;box-sizing:border-box;margin:.1rem 0 .25rem;padding:.3rem .4rem;border:1px solid var(--line);border-radius:6px;font:inherit;font-size:.74rem;background:var(--panel);color:var(--ink)}
+  .sys-list{max-height:140px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .sys-list .ss-lrow{margin:1px 0}
+  .sys-list .none{margin:.25rem 0;color:var(--ink-dim);font-size:.7rem}
+  /* .sys-exp deliberately stays this same compact size on touch too, matching .solo/.layer in this same cramped row (item 5) */
+  @media (hover:none){.sys-grpbtn{min-height:32px;font-size:.78rem}.sys-q{min-height:32px;font-size:.82rem}.sys-list{max-height:190px}}
 
   #sides,#presets,#clip-axis,#clip-acts,#box-acts{display:flex;gap:.28rem;flex-wrap:wrap}
   #sides button,#presets button,#clip-axis button,#clip-acts button,#box-acts button{
@@ -135,6 +152,9 @@
   .act button{flex:1;min-width:66px;font-family:var(--f-mono);font-size:.62rem;
     background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:.4rem .2rem}
   .act button:hover{border-color:var(--accent);color:var(--accent)}
+  /* .act-mark keeps .ss-mk's own default color:transparent (the check glyph only shows once aria-pressed is true) */
+  .act .act-mark{flex:1;min-width:66px;width:auto;height:auto;min-height:0;font-size:1rem;border:1px solid var(--line);border-radius:6px;background:var(--panel-2)}
+  .act .act-mark[aria-pressed="true"]{border-color:var(--accent);color:var(--ground,#fff);background:var(--accent)}
 
   #search{width:100%;padding:.5rem .55rem;border-radius:7px;border:1px solid var(--line-strong);
     background:var(--panel-2);color:var(--ink);font-family:var(--f-body);font-size:16px}
@@ -571,6 +591,16 @@ body.ss-marking canvas{cursor:copy!important}
 .ss-phone #sel-sec .ss-check{min-height:38px}
 /* SELECTION css end */
 /* NERVE-GROUPS css begin */
+/* Q262: the "Nerve groups" button itself now lives inside the Nerves system row (host markup, see sync_nerve_groups_q256.py's
+   glue files), not the top toolbar, so it needs its own small, in-row style instead of the toolbar's "tool"/"pill" classes.
+   Falls back to the host's own --accent/--line tokens (both templates define these at :root) rather than the --ng-* ones
+   above, which are scoped to #ng-panel's own subtree and are not in scope out at the system row. */
+.ng-sysbtn{flex:0 0 auto;font:inherit;font-size:10.5px;font-weight:600;padding:3px 8px;min-height:24px;border:1px solid var(--line,#ccd);border-radius:12px;background:transparent;color:inherit;cursor:pointer;white-space:nowrap}
+.ng-sysbtn:hover{border-color:var(--accent,#0a6e8e)}
+.ng-sysbtn[aria-pressed="true"]{background:var(--accent,#0a6e8e);color:var(--accent-ink,#fff);border-color:var(--accent,#0a6e8e)}
+.ss-phone .ng-sysbtn{min-height:26px}
+/* Deliberately no (hover:none) touch bump here: the Z-engine's own .layer-head row (.solo, .sys-exp) stays at this
+   same compact fixed size on touch too, and growing just this one button risks wrapping that cramped row (item 5). */
 #ng-panel{--ng-bg:#fff;--ng-ink:#111;--ng-dim:#667;--ng-line:#ccd;--ng-accent:#0a6e8e;--ng-sunk:#eef1f4;--ng-warn:#b3400c;
   position:fixed;left:12px;top:60px;z-index:47;box-sizing:border-box;width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:8px 10px 9px;border-radius:9px;
   background:var(--ng-bg);color:var(--ng-ink);border:1px solid var(--ng-line);box-shadow:0 8px 24px rgba(0,0,0,.22);font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto}
@@ -840,7 +870,7 @@ body.ss-marking canvas{cursor:copy!important}
     <select id="sel-cat" aria-label="Layer / category"></select><button type="button" id="sel-markcat" title="Mark every structure of this layer">Mark layer</button><button type="button" id="sel-unmarkcat" title="Remove the marks of this layer">Unmark layer</button>
   </div>
   <div class="ss-row">
-    <button type="button" id="sel-invert" class="ss-primary" aria-pressed="false" title="Swap (key I): mark everything else that is shown and unmark the marked ones. Press again to swap back.">Invert</button><button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button>
+    <button type="button" id="sel-invert" class="ss-primary" aria-pressed="false" title="Swap (key I): mark everything else that is shown and unmark the marked ones. Press again to swap back.">Invert</button><button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button><button type="button" id="sel-undo" title="Undo the last mark / display / reset change (Ctrl/Cmd+Z)" disabled>Undo</button>
   </div>
   <p id="sel-invnote" class="ss-hint" hidden>Inverted: the marked set is everything else that is shown. Press Invert again to swap back; the left-out structures are listed above.</p>
   <div class="ss-disp" role="group" aria-label="Display of the selected structures and of the others">
@@ -1549,19 +1579,75 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     var counts={}; OBJ.forEach(function(o){counts[o.layer]=(counts[o.layer]||0)+1;});
     var sliders={}, layerBtns={}, soloBtns={};
     var layersEl=document.getElementById("layers");
+    /* Q262: a per-layer drill-down (same idea, same markup class names as the own-page engine's #systems, so nerve_groups.css's
+       .ng-sysbtn rule works unchanged on both): "by group" (this layer's distinct atlas regions) and "by structure" (a small
+       searchable list, same mark tick as the main list below), opened in place -- the layer's own existing opacity slider and
+       solo button are untouched. */
+    function layerObjs(k){ return OBJ.filter(function(o){ return o.layer===k; }).sort(function(a,b){ return a.name.localeCompare(b.name); }); }
+    function buildLayerDD(k,dd){
+      if(dd.dataset.built) return;
+      dd.dataset.built="1";
+      var objs=layerObjs(k), regions={};
+      objs.forEach(function(o){ var rg=(o.atlas&&o.atlas.region)||""; if(rg) (regions[rg]=regions[rg]||[]).push(o.id); });
+      var regionKeys=Object.keys(regions).sort();
+      var h="";
+      if(regionKeys.length>1){
+        h+='<p class="sys-l">By group</p><div class="sys-grp" role="group" aria-label="Groups">';
+        regionKeys.forEach(function(rg){ h+='<button type="button" class="sys-grpbtn" data-rg="'+esc(rg)+'" aria-pressed="false">'+esc(rg.replace(/_/g," "))+' <span class="ct">'+regions[rg].length+'</span></button>'; });
+        h+='</div>';
+      }
+      h+='<p class="sys-l">By structure</p><input type="search" class="sys-q" placeholder="Search '+objs.length+' structures" aria-label="Search structures in this layer">'+
+         '<div class="sys-list" role="listbox" aria-label="Structures in this layer"></div>';
+      dd.innerHTML=h;
+      Array.prototype.forEach.call(dd.querySelectorAll(".sys-grpbtn"),function(gb){
+        gb.addEventListener("click",function(){
+          var rg=gb.getAttribute("data-rg"), ids=regions[rg]||[];
+          var allMarked=!!(selCtl&&ids.length&&ids.every(function(id){return selCtl.isMarked(id);}));
+          if(selCtl) selCtl.markIds(ids,!allMarked,false);
+          gb.setAttribute("aria-pressed",String(!allMarked));
+        });
+      });
+      var qEl2=dd.querySelector(".sys-q"), listEl2=dd.querySelector(".sys-list");
+      function renderMini(){
+        var q2=qEl2.value.trim().toLowerCase();
+        var rows=objs.filter(function(o){ return !q2||o.name.toLowerCase().indexOf(q2)>=0; });
+        listEl2.innerHTML="";
+        if(!rows.length){ listEl2.innerHTML='<p class="none">No match.</p>'; return; }
+        rows.slice(0,200).forEach(function(o){
+          var rb=document.createElement("button");
+          rb.className="item"+(o===selected?" sel":"")+(hidden.has(o)?" hid":"");
+          rb.innerHTML='<span class="dot" style="background:var(--t-'+o.layer+')"></span><span class="t">'+esc(o.name)+'</span>';
+          rb.onclick=function(){ select(o,true); closeSheet(); };
+          if(selCtl){ var lw2=document.createElement("div"); lw2.className="ss-lrow"; lw2.appendChild(selCtl.markButton(o.id)); lw2.appendChild(rb); listEl2.appendChild(lw2); }
+          else listEl2.appendChild(rb);
+        });
+      }
+      qEl2.addEventListener("input",renderMini);
+      renderMini();
+    }
     LAYERS.forEach(function(L){
       if(!counts[L.k]) return;
-      var row=document.createElement("div"); row.className="layer-row";
-      row.innerHTML='<div class="layer-head">'+
+      var row=document.createElement("div"); row.className="layer-row"; row.dataset.cat=L.k;
+      row.innerHTML='<div class="layer-head sys-row" data-cat="'+L.k+'">'+
         '<button class="layer" aria-pressed="true"><span class="chip" style="background:var(--t-'+L.k+')"></span>'+
         '<span class="nm">'+L.label+'</span><span class="ct">'+counts[L.k]+'</span></button>'+
-        '<button class="solo" title="Show only this layer">solo</button></div>'+
-        '<input type="range" min="0" max="100" value="'+Math.round(alphaFor[L.k]*100)+'" aria-label="'+L.label+' opacity">';
-      var btn=row.querySelector(".layer"), sl=row.querySelector("input"), so=row.querySelector(".solo");
+        '<button class="solo" title="Show only this layer">solo</button>'+
+        '<button type="button" class="sys-exp" aria-expanded="false" aria-label="Groups, structures for '+esc(L.label)+'" title="Groups / structures in this layer">▾</button></div>'+
+        '<input type="range" min="0" max="100" value="'+Math.round(alphaFor[L.k]*100)+'" aria-label="'+L.label+' opacity">'+
+        '<div class="sys-dd" hidden></div>';
+      var btn=row.querySelector(".layer"), sl=row.querySelector("input"), so=row.querySelector(".solo"), exp=row.querySelector(".sys-exp"), dd=row.querySelector(".sys-dd");
       sliders[L.k]=sl; layerBtns[L.k]=btn; soloBtns[L.k]=so;
       btn.onclick=function(){ on[L.k]=!on[L.k]; sync(); need=true; };
       so.onclick=function(){ soloLayer=(soloLayer===L.k)?null:L.k; sync(); need=true; };
       sl.oninput=function(){ alphaFor[L.k]=sl.value/100; need=true; };
+      exp.addEventListener("click",function(e){
+        e.stopPropagation();
+        var opening=dd.hidden;
+        Array.prototype.forEach.call(layersEl.querySelectorAll(".sys-dd"),function(o){ if(o!==dd) o.hidden=true; });
+        Array.prototype.forEach.call(layersEl.querySelectorAll(".sys-exp"),function(o){ if(o!==exp) o.setAttribute("aria-expanded","false"); });
+        dd.hidden=!opening; exp.setAttribute("aria-expanded",String(opening));
+        if(opening) buildLayerDD(L.k,dd);
+      });
       layersEl.appendChild(row);
     });
     function sync(){
@@ -3913,12 +3999,13 @@ function NMSKSelect(E){
   var MODEL = String(E.modelId()), KEY = "nmsk.sel.v1:" + MODEL, LP_MS = 520, MARKLIMIT = 400;
   var marks = [], set = {}, ss = "show", os = "show", ghostPref = false, markMode = false, storageOK = true, suppress = false;
   var fade = 0.15, hl = "#ffb000", tintOn = true, inv = null;                   // Q232: fade opacity 0..1, highlight colour, amber tint of marked structures, inv = {id:1} ids left out by Invert (null = not inverted)
+  var undoStack = [], UNDO_MAX = 20;                                           // Q262: a short-depth undo over pack()-shaped snapshots (ids, mode, ghost, ss/os, fade, hl, inv) -- a convenience, not a full command stack
   var STATES = {show:1, fade:1, hide:1, ghost:1, xray:1, hl:1};
   var data = {v:1, model:MODEL, sets:{}, last:null, remember:true};
   var names = {}, order = [];
   E.items().forEach(function(it){ if (!(it.id in names)){ names[it.id] = it.name || it.id; order.push(it.id); } });
   var sec = $("sel-sec"), fadeEl = $("sel-fade"), fadeVEl = $("sel-fade-v"), hlEl = $("sel-hl"), tintEl = $("sel-tint"), invNoteEl = $("sel-invnote"), chipsEl = $("sel-chips"), cntEl = $("sel-count"), statusEl = $("sel-status"), nameEl = $("sel-name"), setsEl = $("sel-sets"),
-      ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember");
+      ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember"), undoEl = $("sel-undo");
   var tbMark = null, tbOnly = null, tbInv = null;
 
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
@@ -4021,10 +4108,29 @@ function NMSKSelect(E){
     if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(md === "only")); tbOnly.hidden = !n; tbOnly.textContent = md === "only" ? "Show all" : "Only marked";
       tbOnly.title = md === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
     if (tbInv){ tbInv.setAttribute("aria-pressed", String(!!inv)); tbInv.hidden = !n; }
+    if (undoEl) undoEl.disabled = !undoStack.length;
     if (document.body && document.body.classList) document.body.classList.toggle("ss-marking", markMode);
   }
   function changed(){
     fixStates(); renderChips(); syncButtons(); ui(); persistLast(); E.refresh();
+  }
+  /* Q262: a short-depth undo. Each state-changing action pushes a snapshot of the state it is ABOUT to replace (the same
+     ids/mode/ghost/ss/os/fade/hl/inv shape pack() already produces); Undo pops the last one and re-applies it via applyPack,
+     the same path Load/Import already use. Deliberately lightweight (a bounded stack, not a full command pattern): good enough
+     to back out of the last few marks/presets/resets, not a multi-branch history. */
+  function beginChange(){
+    try { undoStack.push(JSON.stringify(pack())); } catch (err){}
+    if (undoStack.length > UNDO_MAX) undoStack.shift();
+    if (undoEl) undoEl.disabled = false;
+  }
+  function undo(){
+    if (!undoStack.length){ say("Nothing to undo."); return false; }
+    var raw = undoStack.pop(), p;
+    try { p = JSON.parse(raw); } catch (err){ ui(); return false; }
+    applyPack(p);
+    say("Undid the last change.");
+    changed();
+    return true;
   }
   function mark(id, on){
     if (!has(id)) return false;
@@ -4038,6 +4144,7 @@ function NMSKSelect(E){
   }
   function toggle(id, fromList){
     if (!has(id)) return false;
+    beginChange();
     var was = set[id] === 1;
     mark(id);
     if (!was && fromList && E.reveal) E.reveal([id]);
@@ -4047,6 +4154,7 @@ function NMSKSelect(E){
   }
   function setMode(m){
     if (m !== "all" && !marks.length){ say("Mark at least one structure first."); ss = os = "show"; changed(); return; }
+    beginChange();
     var cur = modeOf();
     if (cur === m || m === "all"){ ss = os = "show"; ghostPref = false; }
     else if (m === "only"){ ss = "show"; os = ghostPref ? "ghost" : "hide"; }
@@ -4058,6 +4166,7 @@ function NMSKSelect(E){
   }
   function setGhost(v){
     if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
+    beginChange();
     ghostPref = v === undefined ? !ghostOf() : !!v;
     if (ghostPref){ if (ss === "hide") ss = "ghost"; if (os === "hide") os = "ghost"; }
     else { if (ss === "ghost") ss = "hide"; if (os === "ghost") os = "hide"; }
@@ -4069,6 +4178,7 @@ function NMSKSelect(E){
   function setGroup(g, st, noToggle){
     if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
     if (!STATES[st] || (g === "oth" && st === "hl")) return;
+    beginChange();
     var cur = g === "sel" ? ss : os;
     if (cur === st && !noToggle && st !== "show") st = "show";
     if (g === "sel") ss = st; else os = st;
@@ -4080,6 +4190,7 @@ function NMSKSelect(E){
   function preset(k){
     var p = PRESETS[k]; if (!p) return;
     if (!marks.length){ say("Mark at least one structure first."); changed(); return; }
+    beginChange();
     if (ss === p[0] && os === p[1]){ ss = os = "show"; ghostPref = false; say("Back to showing everything normally."); }
     else {
       ss = p[0]; os = p[1]; ghostPref = false;
@@ -4103,6 +4214,7 @@ function NMSKSelect(E){
   }
   function invert(){
     if (inv){                                              // back: the left-out ids are the marked set again
+      beginChange();
       var b = baseIds(); marks = []; set = {}; inv = null;
       b.forEach(function(id){ set[id] = 1; marks.push(id); });
       if (!marks.length){ ss = os = "show"; ghostPref = false; }
@@ -4112,15 +4224,18 @@ function NMSKSelect(E){
     marks.forEach(function(id){ left[id] = 1; });
     var nm = elig.filter(function(id){ return left[id] !== 1; });
     if (!nm.length){ say(marks.length ? "Everything that is shown is already marked: nothing to invert to." : "Nothing is shown, so there is nothing to mark."); return false; }
+    beginChange();
     marks = nm; set = {}; nm.forEach(function(id){ set[id] = 1; }); inv = left;
     say("Inverted: the other " + nm.length + " shown structures are marked now; " + Object.keys(left).length + " are left out."); changed(); return true;
   }
   function markVisible(){
+    beginChange();
     var ids = eligibleIds(), n = 0;
     ids.forEach(function(id){ if (set[id] !== 1 && mark(id, true)) n++; });
     say(n ? n + " visible structures marked." : "Every visible structure is already marked."); changed();
   }
   function markCategory(key, on){
+    beginChange();
     var ids = ((E.idsOfCategory && key) ? E.idsOfCategory(key) : []).filter(has), n = 0;
     ids.forEach(function(id){ if (mark(id, on)) n++; });
     if (on && n && E.reveal && modeOf() === "only") E.reveal(ids);
@@ -4130,6 +4245,7 @@ function NMSKSelect(E){
      markCategory, just not tied to a predefined layer category. replace = clear the existing marks first (the normal case for a
      fresh group pick); quiet = skip the status line (the caller reports its own, more specific message). Returns how many marked. */
   function markIds(ids, on, replace, quiet){
+    beginChange();
     if (replace){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; }
     var list = (ids || []).filter(has), n = 0;
     list.forEach(function(id){ if (mark(id, on === undefined ? true : on)) n++; });
@@ -4138,8 +4254,9 @@ function NMSKSelect(E){
     changed();
     return n;
   }
-  function clearMarks(){ marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
+  function clearMarks(){ beginChange(); marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
   function resetAll(){
+    beginChange();
     marks = []; set = {}; ss = os = "show"; ghostPref = false; markMode = false; inv = null;
     if (E.select) E.select(null);
     if (E.clearHover) E.clearHover();
@@ -4193,6 +4310,7 @@ function NMSKSelect(E){
   function load(nm){
     nm = nm == null ? (setsEl && setsEl.value) : nm;
     if (!nm || !Object.prototype.hasOwnProperty.call(data.sets, nm)){ say("Choose a saved selection first."); return false; }
+    beginChange();
     var dropped = applyPack(data.sets[nm]);
     say("Loaded '" + nm + "': " + marks.length + " marked" + (dropped ? " (" + dropped + " not in this model were skipped)" : "") + ".");
     changed();
@@ -4316,6 +4434,7 @@ function NMSKSelect(E){
   if (tintEl) tintEl.addEventListener("change", function(){ setTint(tintEl.checked); });
   bind("sel-markmode", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
   bind("sel-reset", resetAll);
+  bind("sel-undo", undo);
   bind("sel-save", function(){ save(); });
   bind("sel-load", function(){ load(); });
   bind("sel-del", function(){ del(); });
@@ -4366,6 +4485,15 @@ function NMSKSelect(E){
     if (used){ e.preventDefault(); e.stopImmediatePropagation(); }
   }
   window.addEventListener("keydown", onKey, true);
+  /* Ctrl/Cmd+Z: undo, independent of onKey's "only while something is marked" guard above (undoing a Clear/Reset has 0 marks
+     right up until it runs), and never while typing in a field */
+  function onUndoKey(e){
+    if (!(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey || e.repeat || String(e.key || "").toLowerCase() !== "z") return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
+    e.preventDefault(); e.stopImmediatePropagation(); undo();
+  }
+  window.addEventListener("keydown", onUndoKey, true);
   function layout(){ var r = document.documentElement; if (r && r.classList) r.classList.toggle("ss-phone", !!(E.isPhone && E.isPhone())); }
   window.addEventListener("resize", layout);
   /* ---- start: stored sets, then (in this order of priority) a link in the address, the remembered last selection ---- */
@@ -4396,7 +4524,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
+    markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
     state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
   };
@@ -4432,16 +4560,20 @@ function NMSKNerveGroups(E){
   function panelOpen(){ return !!panel && !panel.hidden; }
   function $p(sel){ return panel ? panel.querySelector(sel) : null; }
 
+  /* Q262: lives inside the Nerves system row (E.mount(), re-resolved on every build() call since the systems strip can
+     rebuild that row later than this module loads) rather than the top toolbar; E.toolbar is kept as the fallback mount
+     so the button still appears somewhere if the host page never supplies E.mount (e.g. a page with no "nerve" category). */
   function build(){
     if (!D || !D.plexuses || !D.plexuses.length) return;
     if (!plexus || D.by_plexus[plexus] === undefined) plexus = D.plexuses[0];
-    if (M.length && E.toolbar && !btn){
+    var mount = (E.mount && E.mount()) || E.toolbar;
+    if (M.length && mount && !btn){
       btn = document.createElement("button");
-      btn.type = "button"; btn.id = "t-nervegroups"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
+      btn.type = "button"; btn.id = "t-nervegroups"; btn.className = (E.mount ? "ng-sysbtn " : "") + (E.toolClass || ""); btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
       btn.innerHTML = 'Nerve<span class="ng-more"> groups</span>';
       btn.title = "Nerve groups: select every nerve downstream of a plexus root / trunk / division / cord / branch";
-      btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
-      E.toolbar.appendChild(btn);
+      btn.addEventListener("click", function(e){ e.stopPropagation(); openPanel(!panelOpen()); });
+      mount.appendChild(btn);
     }
     buildPanel();
   }
@@ -5334,6 +5466,7 @@ window.__symDebug = function(){ return {on: !!sym, clipOn: !!clip.on, srcObjects
 /* NERVE-GROUPS glue begin */
 var nerveGroupsCtl = NMSKNerveGroups({
   url:"plexus_groups.json", toolbar:document.getElementById("topright"), toolClass:"pill",
+  mount:function(){ return document.querySelector('#layers .sys-row[data-cat="nerve"]'); },   // Q262: inside the Nerves layer row, not the top toolbar
   mark:function(ids, replace){ return selCtl ? selCtl.markIds(ids, true, replace, true) : 0; },
   clear:function(){ if (selCtl) selCtl.clear(); },
   highlight:function(){ if (selCtl) selCtl.preset("hlsel"); },
@@ -5474,6 +5607,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       h+='<div class="act">'+
          '<button id="a-hide">'+(hidden.has(o)?"unhide":"hide")+'</button>'+
          '<button id="a-fade">'+(faded.has(o)?"unfade":"fade")+'</button>'+
+         '<span id="a-mark-slot"></span>'+   // Q262: filled below with selCtl.markButton(), the same factory the list row's own mark tick uses (keeps pressed state in sync however it gets (un)marked)
          '<button id="a-iso">isolate 3D</button>'+
          '<button id="a-solo">solo layer</button></div>';
       h+='<div class="info-more">';
@@ -5525,6 +5659,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         if(faded.has(o)) faded.delete(o); else { faded.add(o); hidden.delete(o); }
         select(o,false); need=true;
       };
+      var amkSlot=document.getElementById("a-mark-slot");
+      if(amkSlot&&selCtl){ var amkBtn=selCtl.markButton(o.id); amkBtn.id="a-mark"; amkBtn.classList.add("act-mark"); amkSlot.replaceWith(amkBtn); }
       document.getElementById("a-iso").onclick=function(){ isolateAround(o,1); };
       document.getElementById("a-solo").onclick=function(){ soloLayer=(soloLayer===o.layer)?null:o.layer; sync(); need=true; };
       renderList(); need=true;
