@@ -1096,6 +1096,45 @@
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
  },
  {
+  "id": "vagus_n_oesophageal_trunk",
+  "name": "Vagus n., oesophageal (thoracic) trunk",
+  "plexus": "vagus_n",
+  "parent_id": "vagus_n_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "oesophageal plexus (periesophageal, on the oesophagus)"
+  ],
+  "notes": "Q265: added this round (Q261 had flagged real targets -- zan_oesophagus, zan_stomach, lung meshes -- but no registry node yet). Below the roots of the lungs each vagus breaks up into several rami that re-form a plexus directly on the oesophagus's own surface (the oesophageal plexus), continuing down to the diaphragm; this atlas represents the whole plexus, per side, as one continuing round tube along the real oesophagus's own surface rather than modelling the individual rami, stated as a simplification.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4 'Thorax'; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "vagus_n_abdominal_trunk",
+  "name": "Vagus n., abdominal (anterior/posterior) trunk",
+  "plexus": "vagus_n",
+  "parent_id": "vagus_n_oesophageal_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "stomach (lesser/greater curvature, near the oesophagogastric junction)"
+  ],
+  "notes": "Q265: at the oesophageal hiatus the periesophageal plexus re-condenses into a predominantly-left ANTERIOR vagal trunk (on the stomach's anterior surface) and a predominantly-right POSTERIOR vagal trunk (posterior surface) -- a real, well-documented left/right asymmetry this atlas does not re-derive (no fibre-tracing data exists in any source file here); represented honestly as each side's own trunk continuing to its own nearest real stomach surface, not literally crossing to the opposite side.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.5 'Abdomen'; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "vagus_n_coeliac_branch",
+  "name": "Vagus n., coeliac branch (posterior trunk)",
+  "plexus": "vagus_n",
+  "parent_id": "vagus_n_abdominal_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "coeliac plexus (around the coeliac trunk's origin from the aorta)"
+  ],
+  "notes": "Q265: the posterior vagal trunk's major coeliac branch, joining the coeliac plexus/ganglia that also receive the greater splanchnic nerve (already built, Q259) -- same coeliac-trunk-origin target and the same own-page abdominal-aorta proxy Q259 already established and cites, reused here rather than re-derived.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.5 'Abdomen'; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
   "id": "glossopharyngeal_n_tympanic_branch",
   "name": "Tympanic branch (nerve of Jacobson)",
   "plexus": "pharyngeal_plexus",

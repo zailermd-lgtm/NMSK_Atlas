@@ -212,6 +212,7 @@
    "deep_fibular_n_medial_terminal_branch",
    "lateral_plantar_n_superficial_branch",
    "medial_plantar_n_digital_branches",
+   "perforating_cutaneous_n",
    "posterior_femoral_cutaneous_n",
    "posterior_femoral_cutaneous_n_perineal_branch",
    "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
@@ -287,7 +288,10 @@
   ],
   "vagus_n": [
    "vagus_n_trunk",
+   "vagus_n_abdominal_trunk",
    "vagus_n_cardiac_branches",
+   "vagus_n_coeliac_branch",
+   "vagus_n_oesophageal_trunk",
    "vagus_n_recurrent_laryngeal_branch_l",
    "vagus_n_recurrent_laryngeal_branch_r",
    "vagus_n_superior_laryngeal_branch"
@@ -1587,13 +1591,15 @@
    "root_contributions": "S2",
    "display_name": "Ventral ramus S2 (S2)",
    "children": [
+    "perforating_cutaneous_n",
     "pudendal_n"
    ],
    "downstream": [
+    "perforating_cutaneous_n",
     "pudendal_n",
     "sacral_root_S2"
    ],
-   "downstream_count": 2,
+   "downstream_count": 3,
    "is_leaf": false,
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
   },
@@ -1752,6 +1758,23 @@
    "downstream_count": 1,
    "is_leaf": true,
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "perforating_cutaneous_n": {
+   "id": "perforating_cutaneous_n",
+   "name": "Perforating cutaneous nerve",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "sacral_root_S2",
+   "root_contributions": "S2-S3",
+   "display_name": "Perforating cutaneous nerve (S2-S3)",
+   "children": [],
+   "downstream": [
+    "perforating_cutaneous_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters; Terminologia Anatomica (FICAT 1998)"
   },
   "pudendal_n": {
    "id": "pudendal_n",
@@ -4246,18 +4269,22 @@
    "display_name": "Vagus nerve (CN X), cervical trunk (dorsal motor nucleus, nucleus ambiguus, nucleus of the solitary tract)",
    "children": [
     "vagus_n_cardiac_branches",
+    "vagus_n_oesophageal_trunk",
     "vagus_n_recurrent_laryngeal_branch_l",
     "vagus_n_recurrent_laryngeal_branch_r",
     "vagus_n_superior_laryngeal_branch"
    ],
    "downstream": [
+    "vagus_n_abdominal_trunk",
     "vagus_n_cardiac_branches",
+    "vagus_n_coeliac_branch",
+    "vagus_n_oesophageal_trunk",
     "vagus_n_recurrent_laryngeal_branch_l",
     "vagus_n_recurrent_laryngeal_branch_r",
     "vagus_n_superior_laryngeal_branch",
     "vagus_n_trunk"
    ],
-   "downstream_count": 5,
+   "downstream_count": 8,
    "is_leaf": false,
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
   },
@@ -4328,6 +4355,64 @@
    "downstream_count": 1,
    "is_leaf": true,
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_oesophageal_trunk": {
+   "id": "vagus_n_oesophageal_trunk",
+   "name": "Vagus n., oesophageal (thoracic) trunk",
+   "plexus": "vagus_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "vagus_n_trunk",
+   "root_contributions": "",
+   "display_name": "Vagus n., oesophageal (thoracic) trunk",
+   "children": [
+    "vagus_n_abdominal_trunk"
+   ],
+   "downstream": [
+    "vagus_n_abdominal_trunk",
+    "vagus_n_coeliac_branch",
+    "vagus_n_oesophageal_trunk"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4 'Thorax'; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_abdominal_trunk": {
+   "id": "vagus_n_abdominal_trunk",
+   "name": "Vagus n., abdominal (anterior/posterior) trunk",
+   "plexus": "vagus_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "vagus_n_oesophageal_trunk",
+   "root_contributions": "",
+   "display_name": "Vagus n., abdominal (anterior/posterior) trunk",
+   "children": [
+    "vagus_n_coeliac_branch"
+   ],
+   "downstream": [
+    "vagus_n_abdominal_trunk",
+    "vagus_n_coeliac_branch"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.5 'Abdomen'; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_coeliac_branch": {
+   "id": "vagus_n_coeliac_branch",
+   "name": "Vagus n., coeliac branch (posterior trunk)",
+   "plexus": "vagus_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "vagus_n_abdominal_trunk",
+   "root_contributions": "",
+   "display_name": "Vagus n., coeliac branch (posterior trunk)",
+   "children": [],
+   "downstream": [
+    "vagus_n_coeliac_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.5 'Abdomen'; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
   },
   "glossopharyngeal_n_tympanic_branch": {
    "id": "glossopharyngeal_n_tympanic_branch",
