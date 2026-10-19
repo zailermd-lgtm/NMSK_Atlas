@@ -80,7 +80,16 @@ def groups():
 
 def test_plexus_groups_schema_and_tree(groups):
     assert groups["schema"] == "nmsk.plexus_groups.v1"
-    assert set(groups["plexuses"]) == {"brachial_plexus", "lumbar_plexus", "sacral_plexus"}
+    # Q261: SOURCES extended to data/nerves/{cranial_and_cervical_nerves,autonomic_nervous_system}.json, queued by
+    # Q259/Q260's own open-items entry -- the picker now also indexes the cervical plexus, the individual cranial
+    # nerve groups (facial_n, trigeminal_n_v1/v2/v3, glossopharyngeal_n, vagus_n, accessory_n, hypoglossal_n,
+    # vestibulocochlear_n, olfactory_n, optic_n, extraocular_cranial_nerves, pharyngeal_plexus) and the autonomic
+    # sympathetic_trunk tree, alongside the original three limb plexuses.
+    assert set(groups["plexuses"]) == {"brachial_plexus", "lumbar_plexus", "sacral_plexus", "cervical_plexus",
+                                        "facial_n", "trigeminal_n_v1", "trigeminal_n_v2", "trigeminal_n_v3",
+                                        "vagus_n", "accessory_n", "hypoglossal_n",
+                                        "vestibulocochlear_n", "olfactory_n", "optic_n", "extraocular_cranial_nerves",
+                                        "pharyngeal_plexus", "sympathetic_trunk"}
     for nid, n in groups["nodes"].items():
         assert nid in n["downstream"]                                   # a node is its own downstream member
         for c in n["children"]:

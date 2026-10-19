@@ -3,11 +3,30 @@
  "generated_by": "scripts/anatomy/q256/plexus_groups.py",
  "note": "Node ids are the SAME base ids used elsewhere in this project for these nerve meshes (side suffix _r/_l, or none for a midline root, added per page at sidecar-build time: scripts/anatomy/q256/build_plexus_sidecar.py). 'downstream' is every node at or below this one in the real, cited parent_id tree of data/nerves/{brachial,lumbosacral}_plexus.json (single-parent: see this script's own docstring for the one known gap, the median nerve's dual cord origin).",
  "plexuses": [
+  "accessory_n",
   "brachial_plexus",
+  "cervical_plexus",
+  "extraocular_cranial_nerves",
+  "facial_n",
+  "hypoglossal_n",
   "lumbar_plexus",
-  "sacral_plexus"
+  "olfactory_n",
+  "optic_n",
+  "pharyngeal_plexus",
+  "sacral_plexus",
+  "sympathetic_trunk",
+  "trigeminal_n_v1",
+  "trigeminal_n_v2",
+  "trigeminal_n_v3",
+  "vagus_n",
+  "vestibulocochlear_n"
  ],
  "by_plexus": {
+  "accessory_n": [
+   "accessory_n",
+   "accessory_n_scm_branch",
+   "accessory_n_trapezius_branch"
+  ],
   "brachial_plexus": [
    "brachial_root_C5",
    "brachial_root_C6",
@@ -53,6 +72,50 @@
    "ulnar_n_dorsal_cutaneous_branch",
    "ulnar_n_superficial_branch"
   ],
+  "cervical_plexus": [
+   "cervical_plexus_root_C1",
+   "cervical_plexus_root_C2",
+   "cervical_plexus_root_C3",
+   "cervical_plexus_root_C4",
+   "ansa_cervicalis_inferior_root",
+   "ansa_cervicalis_superior_root",
+   "phrenic_n",
+   "ansa_cervicalis_loop",
+   "cervical_plexus_to_scalenes_and_prevertebrals",
+   "phrenic_n_terminal",
+   "great_auricular_n",
+   "lesser_occipital_n",
+   "supraclavicular_n",
+   "transverse_cervical_n"
+  ],
+  "extraocular_cranial_nerves": [
+   "abducens_n",
+   "oculomotor_n",
+   "trochlear_n",
+   "ciliary_ganglion",
+   "abducens_n_terminal",
+   "oculomotor_n_inferior_division",
+   "oculomotor_n_superior_division",
+   "trochlear_n_terminal"
+  ],
+  "facial_n": [
+   "facial_n_trunk",
+   "chorda_tympani_n",
+   "facial_n_buccal_branch",
+   "facial_n_cervical_branch",
+   "facial_n_marginal_mandibular_branch",
+   "facial_n_temporal_branch",
+   "facial_n_zygomatic_branch",
+   "greater_petrosal_n",
+   "pterygopalatine_ganglion",
+   "submandibular_ganglion",
+   "facial_n_digastric_branch",
+   "facial_n_posterior_auricular_branch"
+  ],
+  "hypoglossal_n": [
+   "hypoglossal_n",
+   "hypoglossal_n_lingual_branches"
+  ],
   "lumbar_plexus": [
    "lumbar_root_L1",
    "lumbar_root_L2",
@@ -84,6 +147,24 @@
    "saphenous_n",
    "saphenous_n_infrapatellar_branch",
    "saphenous_n_medial_crural_branches"
+  ],
+  "olfactory_n": [
+   "olfactory_n"
+  ],
+  "optic_n": [
+   "optic_n"
+  ],
+  "pharyngeal_plexus": [
+   "glossopharyngeal_n",
+   "vagus_n_pharyngeal_contribution",
+   "glossopharyngeal_n_carotid_branch",
+   "glossopharyngeal_n_lingual_branch",
+   "glossopharyngeal_n_tonsillar_branches",
+   "glossopharyngeal_n_tympanic_branch",
+   "lesser_petrosal_n",
+   "otic_ganglion",
+   "glossopharyngeal_n_stylopharyngeus_branch",
+   "pharyngeal_plexus_to_constrictors"
   ],
   "sacral_plexus": [
    "sacral_root_L4",
@@ -132,6 +213,7 @@
    "lateral_plantar_n_superficial_branch",
    "medial_plantar_n_digital_branches",
    "posterior_femoral_cutaneous_n",
+   "posterior_femoral_cutaneous_n_perineal_branch",
    "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
    "superficial_fibular_n_medial_dorsal_cutaneous_n",
    "sural_communicating_branch",
@@ -139,6 +221,81 @@
    "sural_n_lateral_dorsal_cutaneous_n",
    "tibial_n_medial_calcaneal_branches",
    "tibial_n_medial_sural_cutaneous_n"
+  ],
+  "sympathetic_trunk": [
+   "superior_cervical_ganglion_l",
+   "superior_cervical_ganglion_r",
+   "lumbar_sympathetic_chain_l",
+   "lumbar_sympathetic_chain_r",
+   "middle_cervical_ganglion_l",
+   "middle_cervical_ganglion_r",
+   "sacral_sympathetic_chain_l",
+   "sacral_sympathetic_chain_r",
+   "stellate_ganglion_l",
+   "stellate_ganglion_r",
+   "superior_hypogastric_plexus",
+   "thoracic_sympathetic_chain_l",
+   "thoracic_sympathetic_chain_r",
+   "celiac_plexus",
+   "ganglion_impar",
+   "greater_splanchnic_n_l",
+   "greater_splanchnic_n_r",
+   "inferior_hypogastric_plexus_l",
+   "inferior_hypogastric_plexus_r",
+   "internal_carotid_nerve_l",
+   "internal_carotid_nerve_r",
+   "least_splanchnic_n_l",
+   "least_splanchnic_n_r",
+   "lesser_splanchnic_n_l",
+   "lesser_splanchnic_n_r",
+   "lumbar_splanchnic_n_l",
+   "lumbar_splanchnic_n_r",
+   "sacral_splanchnic_n_l",
+   "sacral_splanchnic_n_r"
+  ],
+  "trigeminal_n_v1": [
+   "trigeminal_n_v1_trunk",
+   "trigeminal_n_v1_anterior_ethmoidal_branch",
+   "trigeminal_n_v1_frontal_branch",
+   "trigeminal_n_v1_infratrochlear_branch",
+   "trigeminal_n_v1_lacrimal_branch",
+   "trigeminal_n_v1_nasociliary_branch",
+   "trigeminal_n_v1_supraorbital_branch",
+   "trigeminal_n_v1_supratrochlear_branch"
+  ],
+  "trigeminal_n_v2": [
+   "trigeminal_n_v2_trunk",
+   "trigeminal_n_v2_palatine_branches",
+   "trigeminal_n_v2_superior_alveolar_branches",
+   "trigeminal_n_v2_infraorbital_branch",
+   "trigeminal_n_v2_zygomatic_branch"
+  ],
+  "trigeminal_n_v3": [
+   "trigeminal_n_v3_trunk",
+   "trigeminal_n_v3_inferior_alveolar_branch",
+   "trigeminal_n_v3_lingual_branch",
+   "trigeminal_n_v3_tensor_tympani_branch",
+   "trigeminal_n_v3_tensor_veli_palatini_branch",
+   "trigeminal_n_v3_deep_temporal_branches",
+   "trigeminal_n_v3_lateral_pterygoid_branch",
+   "trigeminal_n_v3_masseteric_branch",
+   "trigeminal_n_v3_medial_pterygoid_branch",
+   "trigeminal_n_v3_mylohyoid_branch",
+   "trigeminal_n_v3_auriculotemporal_branch",
+   "trigeminal_n_v3_buccal_branch",
+   "trigeminal_n_v3_mental_branch"
+  ],
+  "vagus_n": [
+   "vagus_n_trunk",
+   "vagus_n_cardiac_branches",
+   "vagus_n_recurrent_laryngeal_branch_l",
+   "vagus_n_recurrent_laryngeal_branch_r",
+   "vagus_n_superior_laryngeal_branch"
+  ],
+  "vestibulocochlear_n": [
+   "vestibulocochlear_n",
+   "vestibulocochlear_n_cochlear_division",
+   "vestibulocochlear_n_vestibular_division"
   ]
  },
  "nodes": {
@@ -1413,9 +1570,10 @@
    "downstream": [
     "nerve_to_piriformis",
     "posterior_femoral_cutaneous_n",
+    "posterior_femoral_cutaneous_n_perineal_branch",
     "sacral_root_S1"
    ],
-   "downstream_count": 3,
+   "downstream_count": 4,
    "is_leaf": false,
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
   },
@@ -1567,9 +1725,29 @@
    "parent_id": "sacral_root_S1",
    "root_contributions": "S1-S3",
    "display_name": "Posterior femoral cutaneous nerve (S1-S3)",
+   "children": [
+    "posterior_femoral_cutaneous_n_perineal_branch"
+   ],
+   "downstream": [
+    "posterior_femoral_cutaneous_n",
+    "posterior_femoral_cutaneous_n_perineal_branch"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+  },
+  "posterior_femoral_cutaneous_n_perineal_branch": {
+   "id": "posterior_femoral_cutaneous_n_perineal_branch",
+   "name": "Posterior femoral cutaneous nerve, perineal branch",
+   "plexus": "sacral_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "posterior_femoral_cutaneous_n",
+   "root_contributions": "S1-S3",
+   "display_name": "Posterior femoral cutaneous nerve, perineal branch (S1-S3)",
    "children": [],
    "downstream": [
-    "posterior_femoral_cutaneous_n"
+    "posterior_femoral_cutaneous_n_perineal_branch"
    ],
    "downstream_count": 1,
    "is_leaf": true,
@@ -2750,6 +2928,2263 @@
    "downstream_count": 1,
    "is_leaf": true,
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_trunk": {
+   "id": "facial_n_trunk",
+   "name": "Facial nerve, extracranial trunk",
+   "plexus": "facial_n",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN VII",
+   "display_name": "Facial nerve, extracranial trunk (CN VII)",
+   "children": [
+    "chorda_tympani_n",
+    "facial_n_buccal_branch",
+    "facial_n_cervical_branch",
+    "facial_n_digastric_branch",
+    "facial_n_marginal_mandibular_branch",
+    "facial_n_posterior_auricular_branch",
+    "facial_n_temporal_branch",
+    "facial_n_zygomatic_branch",
+    "greater_petrosal_n"
+   ],
+   "downstream": [
+    "chorda_tympani_n",
+    "facial_n_buccal_branch",
+    "facial_n_cervical_branch",
+    "facial_n_digastric_branch",
+    "facial_n_marginal_mandibular_branch",
+    "facial_n_posterior_auricular_branch",
+    "facial_n_temporal_branch",
+    "facial_n_trunk",
+    "facial_n_zygomatic_branch",
+    "greater_petrosal_n",
+    "pterygopalatine_ganglion",
+    "submandibular_ganglion"
+   ],
+   "downstream_count": 12,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_digastric_branch": {
+   "id": "facial_n_digastric_branch",
+   "name": "Digastric branch",
+   "plexus": "facial_n",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Digastric branch",
+   "children": [],
+   "downstream": [
+    "facial_n_digastric_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_temporal_branch": {
+   "id": "facial_n_temporal_branch",
+   "name": "Temporal branch",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Temporal branch",
+   "children": [],
+   "downstream": [
+    "facial_n_temporal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_zygomatic_branch": {
+   "id": "facial_n_zygomatic_branch",
+   "name": "Zygomatic branch",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Zygomatic branch",
+   "children": [],
+   "downstream": [
+    "facial_n_zygomatic_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_buccal_branch": {
+   "id": "facial_n_buccal_branch",
+   "name": "Buccal branch",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Buccal branch",
+   "children": [],
+   "downstream": [
+    "facial_n_buccal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_marginal_mandibular_branch": {
+   "id": "facial_n_marginal_mandibular_branch",
+   "name": "Marginal mandibular branch",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Marginal mandibular branch",
+   "children": [],
+   "downstream": [
+    "facial_n_marginal_mandibular_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_cervical_branch": {
+   "id": "facial_n_cervical_branch",
+   "name": "Cervical branch",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Cervical branch",
+   "children": [],
+   "downstream": [
+    "facial_n_cervical_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_trunk": {
+   "id": "trigeminal_n_v3_trunk",
+   "name": "Trigeminal n., mandibular division (V3)",
+   "plexus": "trigeminal_n_v3",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN V3",
+   "display_name": "Trigeminal n., mandibular division (V3) (CN V3)",
+   "children": [
+    "trigeminal_n_v3_auriculotemporal_branch",
+    "trigeminal_n_v3_buccal_branch",
+    "trigeminal_n_v3_deep_temporal_branches",
+    "trigeminal_n_v3_inferior_alveolar_branch",
+    "trigeminal_n_v3_lateral_pterygoid_branch",
+    "trigeminal_n_v3_lingual_branch",
+    "trigeminal_n_v3_masseteric_branch",
+    "trigeminal_n_v3_medial_pterygoid_branch",
+    "trigeminal_n_v3_mylohyoid_branch",
+    "trigeminal_n_v3_tensor_tympani_branch",
+    "trigeminal_n_v3_tensor_veli_palatini_branch"
+   ],
+   "downstream": [
+    "trigeminal_n_v3_auriculotemporal_branch",
+    "trigeminal_n_v3_buccal_branch",
+    "trigeminal_n_v3_deep_temporal_branches",
+    "trigeminal_n_v3_inferior_alveolar_branch",
+    "trigeminal_n_v3_lateral_pterygoid_branch",
+    "trigeminal_n_v3_lingual_branch",
+    "trigeminal_n_v3_masseteric_branch",
+    "trigeminal_n_v3_medial_pterygoid_branch",
+    "trigeminal_n_v3_mental_branch",
+    "trigeminal_n_v3_mylohyoid_branch",
+    "trigeminal_n_v3_tensor_tympani_branch",
+    "trigeminal_n_v3_tensor_veli_palatini_branch",
+    "trigeminal_n_v3_trunk"
+   ],
+   "downstream_count": 13,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_masseteric_branch": {
+   "id": "trigeminal_n_v3_masseteric_branch",
+   "name": "Masseteric branch",
+   "plexus": "trigeminal_n_v3",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": null,
+   "display_name": "Masseteric branch",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_masseteric_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_deep_temporal_branches": {
+   "id": "trigeminal_n_v3_deep_temporal_branches",
+   "name": "Deep temporal branches",
+   "plexus": "trigeminal_n_v3",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": null,
+   "display_name": "Deep temporal branches",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_deep_temporal_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_medial_pterygoid_branch": {
+   "id": "trigeminal_n_v3_medial_pterygoid_branch",
+   "name": "Medial pterygoid branch",
+   "plexus": "trigeminal_n_v3",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": null,
+   "display_name": "Medial pterygoid branch",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_medial_pterygoid_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_lateral_pterygoid_branch": {
+   "id": "trigeminal_n_v3_lateral_pterygoid_branch",
+   "name": "Lateral pterygoid branch",
+   "plexus": "trigeminal_n_v3",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": null,
+   "display_name": "Lateral pterygoid branch",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_lateral_pterygoid_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_mylohyoid_branch": {
+   "id": "trigeminal_n_v3_mylohyoid_branch",
+   "name": "Mylohyoid nerve",
+   "plexus": "trigeminal_n_v3",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": null,
+   "display_name": "Mylohyoid nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_mylohyoid_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_tensor_tympani_branch": {
+   "id": "trigeminal_n_v3_tensor_tympani_branch",
+   "name": "Nerve to tensor tympani",
+   "plexus": "trigeminal_n_v3",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": null,
+   "display_name": "Nerve to tensor tympani",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_tensor_tympani_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_tensor_veli_palatini_branch": {
+   "id": "trigeminal_n_v3_tensor_veli_palatini_branch",
+   "name": "Nerve to tensor veli palatini",
+   "plexus": "trigeminal_n_v3",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": null,
+   "display_name": "Nerve to tensor veli palatini",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_tensor_veli_palatini_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "oculomotor_n": {
+   "id": "oculomotor_n",
+   "name": "Oculomotor nerve",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN III",
+   "display_name": "Oculomotor nerve (CN III)",
+   "children": [
+    "oculomotor_n_inferior_division",
+    "oculomotor_n_superior_division"
+   ],
+   "downstream": [
+    "ciliary_ganglion",
+    "oculomotor_n",
+    "oculomotor_n_inferior_division",
+    "oculomotor_n_superior_division"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "oculomotor_n_superior_division": {
+   "id": "oculomotor_n_superior_division",
+   "name": "Superior division",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "oculomotor_n",
+   "root_contributions": null,
+   "display_name": "Superior division",
+   "children": [],
+   "downstream": [
+    "oculomotor_n_superior_division"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "oculomotor_n_inferior_division": {
+   "id": "oculomotor_n_inferior_division",
+   "name": "Inferior division",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "oculomotor_n",
+   "root_contributions": null,
+   "display_name": "Inferior division",
+   "children": [
+    "ciliary_ganglion"
+   ],
+   "downstream": [
+    "ciliary_ganglion",
+    "oculomotor_n_inferior_division"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trochlear_n": {
+   "id": "trochlear_n",
+   "name": "Trochlear nerve",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN IV",
+   "display_name": "Trochlear nerve (CN IV)",
+   "children": [
+    "trochlear_n_terminal"
+   ],
+   "downstream": [
+    "trochlear_n",
+    "trochlear_n_terminal"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "trochlear_n_terminal": {
+   "id": "trochlear_n_terminal",
+   "name": "Trochlear n. terminal branch",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "trochlear_n",
+   "root_contributions": null,
+   "display_name": "Trochlear n. terminal branch",
+   "children": [],
+   "downstream": [
+    "trochlear_n_terminal"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "abducens_n": {
+   "id": "abducens_n",
+   "name": "Abducens nerve",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN VI",
+   "display_name": "Abducens nerve (CN VI)",
+   "children": [
+    "abducens_n_terminal"
+   ],
+   "downstream": [
+    "abducens_n",
+    "abducens_n_terminal"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "abducens_n_terminal": {
+   "id": "abducens_n_terminal",
+   "name": "Abducens n. terminal branch",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "abducens_n",
+   "root_contributions": null,
+   "display_name": "Abducens n. terminal branch",
+   "children": [],
+   "downstream": [
+    "abducens_n_terminal"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "hypoglossal_n": {
+   "id": "hypoglossal_n",
+   "name": "Hypoglossal nerve",
+   "plexus": "hypoglossal_n",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN XII",
+   "display_name": "Hypoglossal nerve (CN XII)",
+   "children": [
+    "hypoglossal_n_lingual_branches"
+   ],
+   "downstream": [
+    "hypoglossal_n",
+    "hypoglossal_n_lingual_branches"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "hypoglossal_n_lingual_branches": {
+   "id": "hypoglossal_n_lingual_branches",
+   "name": "Lingual muscular branches",
+   "plexus": "hypoglossal_n",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "hypoglossal_n",
+   "root_contributions": null,
+   "display_name": "Lingual muscular branches",
+   "children": [],
+   "downstream": [
+    "hypoglossal_n_lingual_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_pharyngeal_contribution": {
+   "id": "vagus_n_pharyngeal_contribution",
+   "name": "Vagus n., pharyngeal plexus contribution",
+   "plexus": "pharyngeal_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN X",
+   "display_name": "Vagus n., pharyngeal plexus contribution (CN X)",
+   "children": [
+    "pharyngeal_plexus_to_constrictors"
+   ],
+   "downstream": [
+    "pharyngeal_plexus_to_constrictors",
+    "vagus_n_pharyngeal_contribution"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "pharyngeal_plexus_to_constrictors": {
+   "id": "pharyngeal_plexus_to_constrictors",
+   "name": "Pharyngeal plexus branch to constrictors",
+   "plexus": "pharyngeal_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "vagus_n_pharyngeal_contribution",
+   "root_contributions": null,
+   "display_name": "Pharyngeal plexus branch to constrictors",
+   "children": [],
+   "downstream": [
+    "pharyngeal_plexus_to_constrictors"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "glossopharyngeal_n": {
+   "id": "glossopharyngeal_n",
+   "name": "Glossopharyngeal nerve",
+   "plexus": "pharyngeal_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "CN IX",
+   "display_name": "Glossopharyngeal nerve (CN IX)",
+   "children": [
+    "glossopharyngeal_n_carotid_branch",
+    "glossopharyngeal_n_lingual_branch",
+    "glossopharyngeal_n_stylopharyngeus_branch",
+    "glossopharyngeal_n_tonsillar_branches",
+    "glossopharyngeal_n_tympanic_branch"
+   ],
+   "downstream": [
+    "glossopharyngeal_n",
+    "glossopharyngeal_n_carotid_branch",
+    "glossopharyngeal_n_lingual_branch",
+    "glossopharyngeal_n_stylopharyngeus_branch",
+    "glossopharyngeal_n_tonsillar_branches",
+    "glossopharyngeal_n_tympanic_branch",
+    "lesser_petrosal_n",
+    "otic_ganglion"
+   ],
+   "downstream_count": 8,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "glossopharyngeal_n_stylopharyngeus_branch": {
+   "id": "glossopharyngeal_n_stylopharyngeus_branch",
+   "name": "Branch to stylopharyngeus",
+   "plexus": "pharyngeal_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "glossopharyngeal_n",
+   "root_contributions": null,
+   "display_name": "Branch to stylopharyngeus",
+   "children": [],
+   "downstream": [
+    "glossopharyngeal_n_stylopharyngeus_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "cervical_plexus_root_C1": {
+   "id": "cervical_plexus_root_C1",
+   "name": "Cervical plexus root, ventral ramus C1",
+   "plexus": "cervical_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C1",
+   "display_name": "Cervical plexus root, ventral ramus C1 (C1)",
+   "children": [
+    "ansa_cervicalis_inferior_root",
+    "ansa_cervicalis_superior_root"
+   ],
+   "downstream": [
+    "ansa_cervicalis_inferior_root",
+    "ansa_cervicalis_loop",
+    "ansa_cervicalis_superior_root",
+    "cervical_plexus_root_C1"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "cervical_plexus_root_C2": {
+   "id": "cervical_plexus_root_C2",
+   "name": "Cervical plexus root, ventral ramus C2",
+   "plexus": "cervical_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C2",
+   "display_name": "Cervical plexus root, ventral ramus C2 (C2)",
+   "children": [
+    "great_auricular_n",
+    "lesser_occipital_n",
+    "transverse_cervical_n"
+   ],
+   "downstream": [
+    "cervical_plexus_root_C2",
+    "great_auricular_n",
+    "lesser_occipital_n",
+    "transverse_cervical_n"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "cervical_plexus_root_C3": {
+   "id": "cervical_plexus_root_C3",
+   "name": "Cervical plexus root, ventral ramus C3",
+   "plexus": "cervical_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C3",
+   "display_name": "Cervical plexus root, ventral ramus C3 (C3)",
+   "children": [
+    "cervical_plexus_to_scalenes_and_prevertebrals",
+    "supraclavicular_n"
+   ],
+   "downstream": [
+    "cervical_plexus_root_C3",
+    "cervical_plexus_to_scalenes_and_prevertebrals",
+    "supraclavicular_n"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "cervical_plexus_root_C4": {
+   "id": "cervical_plexus_root_C4",
+   "name": "Cervical plexus root, ventral ramus C4",
+   "plexus": "cervical_plexus",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C4",
+   "display_name": "Cervical plexus root, ventral ramus C4 (C4)",
+   "children": [
+    "phrenic_n"
+   ],
+   "downstream": [
+    "cervical_plexus_root_C4",
+    "phrenic_n",
+    "phrenic_n_terminal"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "ansa_cervicalis_superior_root": {
+   "id": "ansa_cervicalis_superior_root",
+   "name": "Ansa cervicalis, superior root (descendens hypoglossi)",
+   "plexus": "cervical_plexus",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "cervical_plexus_root_C1",
+   "root_contributions": null,
+   "display_name": "Ansa cervicalis, superior root (descendens hypoglossi)",
+   "children": [],
+   "downstream": [
+    "ansa_cervicalis_superior_root"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "ansa_cervicalis_inferior_root": {
+   "id": "ansa_cervicalis_inferior_root",
+   "name": "Ansa cervicalis, inferior root (descendens cervicalis)",
+   "plexus": "cervical_plexus",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "cervical_plexus_root_C1",
+   "root_contributions": "C2-C3",
+   "display_name": "Ansa cervicalis, inferior root (descendens cervicalis) (C2-C3)",
+   "children": [
+    "ansa_cervicalis_loop"
+   ],
+   "downstream": [
+    "ansa_cervicalis_inferior_root",
+    "ansa_cervicalis_loop"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "ansa_cervicalis_loop": {
+   "id": "ansa_cervicalis_loop",
+   "name": "Ansa cervicalis (loop)",
+   "plexus": "cervical_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "ansa_cervicalis_inferior_root",
+   "root_contributions": null,
+   "display_name": "Ansa cervicalis (loop)",
+   "children": [],
+   "downstream": [
+    "ansa_cervicalis_loop"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "phrenic_n": {
+   "id": "phrenic_n",
+   "name": "Phrenic nerve",
+   "plexus": "cervical_plexus",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "cervical_plexus_root_C4",
+   "root_contributions": "C3-C5",
+   "display_name": "Phrenic nerve (C3-C5)",
+   "children": [
+    "phrenic_n_terminal"
+   ],
+   "downstream": [
+    "phrenic_n",
+    "phrenic_n_terminal"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "phrenic_n_terminal": {
+   "id": "phrenic_n_terminal",
+   "name": "Phrenic n. terminal branches",
+   "plexus": "cervical_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "phrenic_n",
+   "root_contributions": null,
+   "display_name": "Phrenic n. terminal branches",
+   "children": [],
+   "downstream": [
+    "phrenic_n_terminal"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "cervical_plexus_to_scalenes_and_prevertebrals": {
+   "id": "cervical_plexus_to_scalenes_and_prevertebrals",
+   "name": "Cervical plexus muscular branches (scalenes, longus colli)",
+   "plexus": "cervical_plexus",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "cervical_plexus_root_C3",
+   "root_contributions": null,
+   "display_name": "Cervical plexus muscular branches (scalenes, longus colli)",
+   "children": [],
+   "downstream": [
+    "cervical_plexus_to_scalenes_and_prevertebrals"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "lesser_occipital_n": {
+   "id": "lesser_occipital_n",
+   "name": "Lesser occipital nerve",
+   "plexus": "cervical_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "cervical_plexus_root_C2",
+   "root_contributions": "C2",
+   "display_name": "Lesser occipital nerve (C2)",
+   "children": [],
+   "downstream": [
+    "lesser_occipital_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "great_auricular_n": {
+   "id": "great_auricular_n",
+   "name": "Great auricular nerve",
+   "plexus": "cervical_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "cervical_plexus_root_C2",
+   "root_contributions": "C2-C3",
+   "display_name": "Great auricular nerve (C2-C3)",
+   "children": [],
+   "downstream": [
+    "great_auricular_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "transverse_cervical_n": {
+   "id": "transverse_cervical_n",
+   "name": "Transverse cervical nerve",
+   "plexus": "cervical_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "cervical_plexus_root_C2",
+   "root_contributions": "C2-C3",
+   "display_name": "Transverse cervical nerve (C2-C3)",
+   "children": [],
+   "downstream": [
+    "transverse_cervical_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "supraclavicular_n": {
+   "id": "supraclavicular_n",
+   "name": "Supraclavicular nerves",
+   "plexus": "cervical_plexus",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "cervical_plexus_root_C3",
+   "root_contributions": "C3-C4",
+   "display_name": "Supraclavicular nerves (C3-C4)",
+   "children": [],
+   "downstream": [
+    "supraclavicular_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  "olfactory_n": {
+   "id": "olfactory_n",
+   "name": "Olfactory nerve (CN I)",
+   "plexus": "olfactory_n",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "special sensory",
+   "display_name": "Olfactory nerve (CN I) (special sensory)",
+   "children": [],
+   "downstream": [
+    "olfactory_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "optic_n": {
+   "id": "optic_n",
+   "name": "Optic nerve (CN II)",
+   "plexus": "optic_n",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "special sensory",
+   "display_name": "Optic nerve (CN II) (special sensory)",
+   "children": [],
+   "downstream": [
+    "optic_n"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_trunk": {
+   "id": "trigeminal_n_v1_trunk",
+   "name": "Trigeminal n., ophthalmic division (V1)",
+   "plexus": "trigeminal_n_v1",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "purely sensory",
+   "display_name": "Trigeminal n., ophthalmic division (V1) (purely sensory)",
+   "children": [
+    "trigeminal_n_v1_frontal_branch",
+    "trigeminal_n_v1_lacrimal_branch",
+    "trigeminal_n_v1_nasociliary_branch"
+   ],
+   "downstream": [
+    "trigeminal_n_v1_anterior_ethmoidal_branch",
+    "trigeminal_n_v1_frontal_branch",
+    "trigeminal_n_v1_infratrochlear_branch",
+    "trigeminal_n_v1_lacrimal_branch",
+    "trigeminal_n_v1_nasociliary_branch",
+    "trigeminal_n_v1_supraorbital_branch",
+    "trigeminal_n_v1_supratrochlear_branch",
+    "trigeminal_n_v1_trunk"
+   ],
+   "downstream_count": 8,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_frontal_branch": {
+   "id": "trigeminal_n_v1_frontal_branch",
+   "name": "Frontal nerve",
+   "plexus": "trigeminal_n_v1",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v1_trunk",
+   "root_contributions": "",
+   "display_name": "Frontal nerve",
+   "children": [
+    "trigeminal_n_v1_supraorbital_branch",
+    "trigeminal_n_v1_supratrochlear_branch"
+   ],
+   "downstream": [
+    "trigeminal_n_v1_frontal_branch",
+    "trigeminal_n_v1_supraorbital_branch",
+    "trigeminal_n_v1_supratrochlear_branch"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_supraorbital_branch": {
+   "id": "trigeminal_n_v1_supraorbital_branch",
+   "name": "Supraorbital nerve",
+   "plexus": "trigeminal_n_v1",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v1_frontal_branch",
+   "root_contributions": "",
+   "display_name": "Supraorbital nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v1_supraorbital_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_supratrochlear_branch": {
+   "id": "trigeminal_n_v1_supratrochlear_branch",
+   "name": "Supratrochlear nerve",
+   "plexus": "trigeminal_n_v1",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v1_frontal_branch",
+   "root_contributions": "",
+   "display_name": "Supratrochlear nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v1_supratrochlear_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_lacrimal_branch": {
+   "id": "trigeminal_n_v1_lacrimal_branch",
+   "name": "Lacrimal nerve",
+   "plexus": "trigeminal_n_v1",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v1_trunk",
+   "root_contributions": "",
+   "display_name": "Lacrimal nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v1_lacrimal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_nasociliary_branch": {
+   "id": "trigeminal_n_v1_nasociliary_branch",
+   "name": "Nasociliary nerve",
+   "plexus": "trigeminal_n_v1",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v1_trunk",
+   "root_contributions": "",
+   "display_name": "Nasociliary nerve",
+   "children": [
+    "trigeminal_n_v1_anterior_ethmoidal_branch",
+    "trigeminal_n_v1_infratrochlear_branch"
+   ],
+   "downstream": [
+    "trigeminal_n_v1_anterior_ethmoidal_branch",
+    "trigeminal_n_v1_infratrochlear_branch",
+    "trigeminal_n_v1_nasociliary_branch"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_anterior_ethmoidal_branch": {
+   "id": "trigeminal_n_v1_anterior_ethmoidal_branch",
+   "name": "Anterior ethmoidal nerve",
+   "plexus": "trigeminal_n_v1",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v1_nasociliary_branch",
+   "root_contributions": "",
+   "display_name": "Anterior ethmoidal nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v1_anterior_ethmoidal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v1_infratrochlear_branch": {
+   "id": "trigeminal_n_v1_infratrochlear_branch",
+   "name": "Infratrochlear nerve",
+   "plexus": "trigeminal_n_v1",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v1_nasociliary_branch",
+   "root_contributions": "",
+   "display_name": "Infratrochlear nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v1_infratrochlear_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v2_trunk": {
+   "id": "trigeminal_n_v2_trunk",
+   "name": "Trigeminal n., maxillary division (V2)",
+   "plexus": "trigeminal_n_v2",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "purely sensory",
+   "display_name": "Trigeminal n., maxillary division (V2) (purely sensory)",
+   "children": [
+    "trigeminal_n_v2_infraorbital_branch",
+    "trigeminal_n_v2_palatine_branches",
+    "trigeminal_n_v2_superior_alveolar_branches",
+    "trigeminal_n_v2_zygomatic_branch"
+   ],
+   "downstream": [
+    "trigeminal_n_v2_infraorbital_branch",
+    "trigeminal_n_v2_palatine_branches",
+    "trigeminal_n_v2_superior_alveolar_branches",
+    "trigeminal_n_v2_trunk",
+    "trigeminal_n_v2_zygomatic_branch"
+   ],
+   "downstream_count": 5,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v2_infraorbital_branch": {
+   "id": "trigeminal_n_v2_infraorbital_branch",
+   "name": "Infraorbital nerve",
+   "plexus": "trigeminal_n_v2",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v2_trunk",
+   "root_contributions": "",
+   "display_name": "Infraorbital nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v2_infraorbital_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v2_superior_alveolar_branches": {
+   "id": "trigeminal_n_v2_superior_alveolar_branches",
+   "name": "Superior alveolar nerves (anterior, middle, posterior)",
+   "plexus": "trigeminal_n_v2",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "trigeminal_n_v2_trunk",
+   "root_contributions": "",
+   "display_name": "Superior alveolar nerves (anterior, middle, posterior)",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v2_superior_alveolar_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v2_zygomatic_branch": {
+   "id": "trigeminal_n_v2_zygomatic_branch",
+   "name": "Zygomatic nerve (zygomaticotemporal + zygomaticofacial)",
+   "plexus": "trigeminal_n_v2",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v2_trunk",
+   "root_contributions": "",
+   "display_name": "Zygomatic nerve (zygomaticotemporal + zygomaticofacial)",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v2_zygomatic_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v2_palatine_branches": {
+   "id": "trigeminal_n_v2_palatine_branches",
+   "name": "Nasopalatine and greater/lesser palatine nerves",
+   "plexus": "trigeminal_n_v2",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "trigeminal_n_v2_trunk",
+   "root_contributions": "",
+   "display_name": "Nasopalatine and greater/lesser palatine nerves",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v2_palatine_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_auriculotemporal_branch": {
+   "id": "trigeminal_n_v3_auriculotemporal_branch",
+   "name": "Auriculotemporal nerve",
+   "plexus": "trigeminal_n_v3",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": "",
+   "display_name": "Auriculotemporal nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_auriculotemporal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_inferior_alveolar_branch": {
+   "id": "trigeminal_n_v3_inferior_alveolar_branch",
+   "name": "Inferior alveolar nerve",
+   "plexus": "trigeminal_n_v3",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": "",
+   "display_name": "Inferior alveolar nerve",
+   "children": [
+    "trigeminal_n_v3_mental_branch"
+   ],
+   "downstream": [
+    "trigeminal_n_v3_inferior_alveolar_branch",
+    "trigeminal_n_v3_mental_branch"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_mental_branch": {
+   "id": "trigeminal_n_v3_mental_branch",
+   "name": "Mental nerve",
+   "plexus": "trigeminal_n_v3",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v3_inferior_alveolar_branch",
+   "root_contributions": "",
+   "display_name": "Mental nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_mental_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_buccal_branch": {
+   "id": "trigeminal_n_v3_buccal_branch",
+   "name": "Buccal nerve (sensory, V3)",
+   "plexus": "trigeminal_n_v3",
+   "level": "cutaneous_branch",
+   "level_label": "Cutaneous branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": "",
+   "display_name": "Buccal nerve (sensory, V3)",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_buccal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "trigeminal_n_v3_lingual_branch": {
+   "id": "trigeminal_n_v3_lingual_branch",
+   "name": "Lingual nerve",
+   "plexus": "trigeminal_n_v3",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "trigeminal_n_v3_trunk",
+   "root_contributions": "",
+   "display_name": "Lingual nerve",
+   "children": [],
+   "downstream": [
+    "trigeminal_n_v3_lingual_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vestibulocochlear_n": {
+   "id": "vestibulocochlear_n",
+   "name": "Vestibulocochlear nerve (CN VIII)",
+   "plexus": "vestibulocochlear_n",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "special sensory",
+   "display_name": "Vestibulocochlear nerve (CN VIII) (special sensory)",
+   "children": [
+    "vestibulocochlear_n_cochlear_division",
+    "vestibulocochlear_n_vestibular_division"
+   ],
+   "downstream": [
+    "vestibulocochlear_n",
+    "vestibulocochlear_n_cochlear_division",
+    "vestibulocochlear_n_vestibular_division"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vestibulocochlear_n_cochlear_division": {
+   "id": "vestibulocochlear_n_cochlear_division",
+   "name": "Cochlear division (CN VIII)",
+   "plexus": "vestibulocochlear_n",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "vestibulocochlear_n",
+   "root_contributions": "",
+   "display_name": "Cochlear division (CN VIII)",
+   "children": [],
+   "downstream": [
+    "vestibulocochlear_n_cochlear_division"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vestibulocochlear_n_vestibular_division": {
+   "id": "vestibulocochlear_n_vestibular_division",
+   "name": "Vestibular division (CN VIII)",
+   "plexus": "vestibulocochlear_n",
+   "level": "division",
+   "level_label": "Division",
+   "parent_id": "vestibulocochlear_n",
+   "root_contributions": "",
+   "display_name": "Vestibular division (CN VIII)",
+   "children": [],
+   "downstream": [
+    "vestibulocochlear_n_vestibular_division"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "accessory_n": {
+   "id": "accessory_n",
+   "name": "Accessory nerve (CN XI), spinal root",
+   "plexus": "accessory_n",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "C1-C5/C6 spinal accessory nucleus",
+   "display_name": "Accessory nerve (CN XI), spinal root (C1-C5/C6 spinal accessory nucleus)",
+   "children": [
+    "accessory_n_scm_branch",
+    "accessory_n_trapezius_branch"
+   ],
+   "downstream": [
+    "accessory_n",
+    "accessory_n_scm_branch",
+    "accessory_n_trapezius_branch"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "accessory_n_scm_branch": {
+   "id": "accessory_n_scm_branch",
+   "name": "Accessory n. branch to sternocleidomastoid",
+   "plexus": "accessory_n",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "accessory_n",
+   "root_contributions": "C1-C3, with a cervical plexus contribution",
+   "display_name": "Accessory n. branch to sternocleidomastoid (C1-C3, with a cervical plexus contribution)",
+   "children": [],
+   "downstream": [
+    "accessory_n_scm_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "accessory_n_trapezius_branch": {
+   "id": "accessory_n_trapezius_branch",
+   "name": "Accessory n. branch to trapezius",
+   "plexus": "accessory_n",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "accessory_n",
+   "root_contributions": "motor from the spinal accessory nucleus; C3-C4 adds proprioceptive/sensory fibres",
+   "display_name": "Accessory n. branch to trapezius (motor from the spinal accessory nucleus; C3-C4 adds proprioceptive/sensory fibres)",
+   "children": [],
+   "downstream": [
+    "accessory_n_trapezius_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_trunk": {
+   "id": "vagus_n_trunk",
+   "name": "Vagus nerve (CN X), cervical trunk",
+   "plexus": "vagus_n",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": "dorsal motor nucleus, nucleus ambiguus, nucleus of the solitary tract",
+   "display_name": "Vagus nerve (CN X), cervical trunk (dorsal motor nucleus, nucleus ambiguus, nucleus of the solitary tract)",
+   "children": [
+    "vagus_n_cardiac_branches",
+    "vagus_n_recurrent_laryngeal_branch_l",
+    "vagus_n_recurrent_laryngeal_branch_r",
+    "vagus_n_superior_laryngeal_branch"
+   ],
+   "downstream": [
+    "vagus_n_cardiac_branches",
+    "vagus_n_recurrent_laryngeal_branch_l",
+    "vagus_n_recurrent_laryngeal_branch_r",
+    "vagus_n_superior_laryngeal_branch",
+    "vagus_n_trunk"
+   ],
+   "downstream_count": 5,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_superior_laryngeal_branch": {
+   "id": "vagus_n_superior_laryngeal_branch",
+   "name": "Superior laryngeal nerve",
+   "plexus": "vagus_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "vagus_n_trunk",
+   "root_contributions": "",
+   "display_name": "Superior laryngeal nerve",
+   "children": [],
+   "downstream": [
+    "vagus_n_superior_laryngeal_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_recurrent_laryngeal_branch_r": {
+   "id": "vagus_n_recurrent_laryngeal_branch_r",
+   "name": "Recurrent laryngeal nerve, right",
+   "plexus": "vagus_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "vagus_n_trunk",
+   "root_contributions": "",
+   "display_name": "Recurrent laryngeal nerve, right",
+   "children": [],
+   "downstream": [
+    "vagus_n_recurrent_laryngeal_branch_r"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_recurrent_laryngeal_branch_l": {
+   "id": "vagus_n_recurrent_laryngeal_branch_l",
+   "name": "Recurrent laryngeal nerve, left",
+   "plexus": "vagus_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "vagus_n_trunk",
+   "root_contributions": "",
+   "display_name": "Recurrent laryngeal nerve, left",
+   "children": [],
+   "downstream": [
+    "vagus_n_recurrent_laryngeal_branch_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "vagus_n_cardiac_branches": {
+   "id": "vagus_n_cardiac_branches",
+   "name": "Vagal cardiac branches (cervical and thoracic)",
+   "plexus": "vagus_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "vagus_n_trunk",
+   "root_contributions": "",
+   "display_name": "Vagal cardiac branches (cervical and thoracic)",
+   "children": [],
+   "downstream": [
+    "vagus_n_cardiac_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+  },
+  "glossopharyngeal_n_tympanic_branch": {
+   "id": "glossopharyngeal_n_tympanic_branch",
+   "name": "Tympanic branch (nerve of Jacobson)",
+   "plexus": "pharyngeal_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "glossopharyngeal_n",
+   "root_contributions": null,
+   "display_name": "Tympanic branch (nerve of Jacobson)",
+   "children": [
+    "lesser_petrosal_n"
+   ],
+   "downstream": [
+    "glossopharyngeal_n_tympanic_branch",
+    "lesser_petrosal_n",
+    "otic_ganglion"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lesser_petrosal_n": {
+   "id": "lesser_petrosal_n",
+   "name": "Lesser petrosal nerve",
+   "plexus": "pharyngeal_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "glossopharyngeal_n_tympanic_branch",
+   "root_contributions": null,
+   "display_name": "Lesser petrosal nerve",
+   "children": [
+    "otic_ganglion"
+   ],
+   "downstream": [
+    "lesser_petrosal_n",
+    "otic_ganglion"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "glossopharyngeal_n_carotid_branch": {
+   "id": "glossopharyngeal_n_carotid_branch",
+   "name": "Carotid sinus branch",
+   "plexus": "pharyngeal_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "glossopharyngeal_n",
+   "root_contributions": null,
+   "display_name": "Carotid sinus branch",
+   "children": [],
+   "downstream": [
+    "glossopharyngeal_n_carotid_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "glossopharyngeal_n_tonsillar_branches": {
+   "id": "glossopharyngeal_n_tonsillar_branches",
+   "name": "Tonsillar branches",
+   "plexus": "pharyngeal_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "glossopharyngeal_n",
+   "root_contributions": null,
+   "display_name": "Tonsillar branches",
+   "children": [],
+   "downstream": [
+    "glossopharyngeal_n_tonsillar_branches"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "glossopharyngeal_n_lingual_branch": {
+   "id": "glossopharyngeal_n_lingual_branch",
+   "name": "Lingual branches",
+   "plexus": "pharyngeal_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "glossopharyngeal_n",
+   "root_contributions": null,
+   "display_name": "Lingual branches",
+   "children": [],
+   "downstream": [
+    "glossopharyngeal_n_lingual_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "otic_ganglion": {
+   "id": "otic_ganglion",
+   "name": "Otic ganglion",
+   "plexus": "pharyngeal_plexus",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lesser_petrosal_n",
+   "root_contributions": null,
+   "display_name": "Otic ganglion",
+   "children": [],
+   "downstream": [
+    "otic_ganglion"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "greater_petrosal_n": {
+   "id": "greater_petrosal_n",
+   "name": "Greater petrosal nerve",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Greater petrosal nerve",
+   "children": [
+    "pterygopalatine_ganglion"
+   ],
+   "downstream": [
+    "greater_petrosal_n",
+    "pterygopalatine_ganglion"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "pterygopalatine_ganglion": {
+   "id": "pterygopalatine_ganglion",
+   "name": "Pterygopalatine (sphenopalatine) ganglion",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "greater_petrosal_n",
+   "root_contributions": null,
+   "display_name": "Pterygopalatine (sphenopalatine) ganglion",
+   "children": [],
+   "downstream": [
+    "pterygopalatine_ganglion"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998); Piagkou M et al., Pain Pract 12:399 (2012) [SPG block anatomy]"
+  },
+  "chorda_tympani_n": {
+   "id": "chorda_tympani_n",
+   "name": "Chorda tympani",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Chorda tympani",
+   "children": [
+    "submandibular_ganglion"
+   ],
+   "downstream": [
+    "chorda_tympani_n",
+    "submandibular_ganglion"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "submandibular_ganglion": {
+   "id": "submandibular_ganglion",
+   "name": "Submandibular ganglion",
+   "plexus": "facial_n",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "chorda_tympani_n",
+   "root_contributions": null,
+   "display_name": "Submandibular ganglion",
+   "children": [],
+   "downstream": [
+    "submandibular_ganglion"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "ciliary_ganglion": {
+   "id": "ciliary_ganglion",
+   "name": "Ciliary ganglion",
+   "plexus": "extraocular_cranial_nerves",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "oculomotor_n_inferior_division",
+   "root_contributions": null,
+   "display_name": "Ciliary ganglion",
+   "children": [],
+   "downstream": [
+    "ciliary_ganglion"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "facial_n_posterior_auricular_branch": {
+   "id": "facial_n_posterior_auricular_branch",
+   "name": "Posterior auricular branch",
+   "plexus": "facial_n",
+   "level": "muscular_branch",
+   "level_label": "Muscular branch",
+   "parent_id": "facial_n_trunk",
+   "root_contributions": null,
+   "display_name": "Posterior auricular branch",
+   "children": [],
+   "downstream": [
+    "facial_n_posterior_auricular_branch"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998). Added 2026-09-14 (Q65) with the auricular muscles."
+  },
+  "superior_cervical_ganglion_r": {
+   "id": "superior_cervical_ganglion_r",
+   "name": "Superior cervical ganglion",
+   "plexus": "sympathetic_trunk",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": null,
+   "display_name": "Superior cervical ganglion",
+   "children": [
+    "internal_carotid_nerve_r",
+    "middle_cervical_ganglion_r"
+   ],
+   "downstream": [
+    "celiac_plexus",
+    "ganglion_impar",
+    "greater_splanchnic_n_r",
+    "inferior_hypogastric_plexus_l",
+    "inferior_hypogastric_plexus_r",
+    "internal_carotid_nerve_r",
+    "least_splanchnic_n_r",
+    "lesser_splanchnic_n_r",
+    "lumbar_splanchnic_n_r",
+    "lumbar_sympathetic_chain_r",
+    "middle_cervical_ganglion_r",
+    "sacral_splanchnic_n_r",
+    "sacral_sympathetic_chain_r",
+    "stellate_ganglion_r",
+    "superior_cervical_ganglion_r",
+    "superior_hypogastric_plexus",
+    "thoracic_sympathetic_chain_r"
+   ],
+   "downstream_count": 17,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "superior_cervical_ganglion_l": {
+   "id": "superior_cervical_ganglion_l",
+   "name": "Superior cervical ganglion",
+   "plexus": "sympathetic_trunk",
+   "level": "root",
+   "level_label": "Root",
+   "parent_id": null,
+   "root_contributions": null,
+   "display_name": "Superior cervical ganglion",
+   "children": [
+    "internal_carotid_nerve_l",
+    "middle_cervical_ganglion_l"
+   ],
+   "downstream": [
+    "greater_splanchnic_n_l",
+    "internal_carotid_nerve_l",
+    "least_splanchnic_n_l",
+    "lesser_splanchnic_n_l",
+    "lumbar_splanchnic_n_l",
+    "lumbar_sympathetic_chain_l",
+    "middle_cervical_ganglion_l",
+    "sacral_splanchnic_n_l",
+    "sacral_sympathetic_chain_l",
+    "stellate_ganglion_l",
+    "superior_cervical_ganglion_l",
+    "thoracic_sympathetic_chain_l"
+   ],
+   "downstream_count": 12,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "internal_carotid_nerve_r": {
+   "id": "internal_carotid_nerve_r",
+   "name": "Internal carotid nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "superior_cervical_ganglion_r",
+   "root_contributions": null,
+   "display_name": "Internal carotid nerve",
+   "children": [],
+   "downstream": [
+    "internal_carotid_nerve_r"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "internal_carotid_nerve_l": {
+   "id": "internal_carotid_nerve_l",
+   "name": "Internal carotid nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "superior_cervical_ganglion_l",
+   "root_contributions": null,
+   "display_name": "Internal carotid nerve",
+   "children": [],
+   "downstream": [
+    "internal_carotid_nerve_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "middle_cervical_ganglion_r": {
+   "id": "middle_cervical_ganglion_r",
+   "name": "Middle cervical ganglion",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "superior_cervical_ganglion_r",
+   "root_contributions": null,
+   "display_name": "Middle cervical ganglion",
+   "children": [
+    "stellate_ganglion_r"
+   ],
+   "downstream": [
+    "celiac_plexus",
+    "ganglion_impar",
+    "greater_splanchnic_n_r",
+    "inferior_hypogastric_plexus_l",
+    "inferior_hypogastric_plexus_r",
+    "least_splanchnic_n_r",
+    "lesser_splanchnic_n_r",
+    "lumbar_splanchnic_n_r",
+    "lumbar_sympathetic_chain_r",
+    "middle_cervical_ganglion_r",
+    "sacral_splanchnic_n_r",
+    "sacral_sympathetic_chain_r",
+    "stellate_ganglion_r",
+    "superior_hypogastric_plexus",
+    "thoracic_sympathetic_chain_r"
+   ],
+   "downstream_count": 15,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "middle_cervical_ganglion_l": {
+   "id": "middle_cervical_ganglion_l",
+   "name": "Middle cervical ganglion",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "superior_cervical_ganglion_l",
+   "root_contributions": null,
+   "display_name": "Middle cervical ganglion",
+   "children": [
+    "stellate_ganglion_l"
+   ],
+   "downstream": [
+    "greater_splanchnic_n_l",
+    "least_splanchnic_n_l",
+    "lesser_splanchnic_n_l",
+    "lumbar_splanchnic_n_l",
+    "lumbar_sympathetic_chain_l",
+    "middle_cervical_ganglion_l",
+    "sacral_splanchnic_n_l",
+    "sacral_sympathetic_chain_l",
+    "stellate_ganglion_l",
+    "thoracic_sympathetic_chain_l"
+   ],
+   "downstream_count": 10,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "stellate_ganglion_r": {
+   "id": "stellate_ganglion_r",
+   "name": "Stellate (cervicothoracic) ganglion",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "middle_cervical_ganglion_r",
+   "root_contributions": "C8-T1 (fused inferior cervical and first thoracic ganglia)",
+   "display_name": "Stellate (cervicothoracic) ganglion (C8-T1 (fused inferior cervical and first thoracic ganglia))",
+   "children": [
+    "thoracic_sympathetic_chain_r"
+   ],
+   "downstream": [
+    "celiac_plexus",
+    "ganglion_impar",
+    "greater_splanchnic_n_r",
+    "inferior_hypogastric_plexus_l",
+    "inferior_hypogastric_plexus_r",
+    "least_splanchnic_n_r",
+    "lesser_splanchnic_n_r",
+    "lumbar_splanchnic_n_r",
+    "lumbar_sympathetic_chain_r",
+    "sacral_splanchnic_n_r",
+    "sacral_sympathetic_chain_r",
+    "stellate_ganglion_r",
+    "superior_hypogastric_plexus",
+    "thoracic_sympathetic_chain_r"
+   ],
+   "downstream_count": 14,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Bhatia A, Flamer D, Peng PWH, Reg Anesth Pain Med 37:12 (2012) [stellate ganglion block technique]"
+  },
+  "stellate_ganglion_l": {
+   "id": "stellate_ganglion_l",
+   "name": "Stellate (cervicothoracic) ganglion",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "middle_cervical_ganglion_l",
+   "root_contributions": "C8-T1 (fused inferior cervical and first thoracic ganglia)",
+   "display_name": "Stellate (cervicothoracic) ganglion (C8-T1 (fused inferior cervical and first thoracic ganglia))",
+   "children": [
+    "thoracic_sympathetic_chain_l"
+   ],
+   "downstream": [
+    "greater_splanchnic_n_l",
+    "least_splanchnic_n_l",
+    "lesser_splanchnic_n_l",
+    "lumbar_splanchnic_n_l",
+    "lumbar_sympathetic_chain_l",
+    "sacral_splanchnic_n_l",
+    "sacral_sympathetic_chain_l",
+    "stellate_ganglion_l",
+    "thoracic_sympathetic_chain_l"
+   ],
+   "downstream_count": 9,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Bhatia A, Flamer D, Peng PWH, Reg Anesth Pain Med 37:12 (2012) [stellate ganglion block technique]"
+  },
+  "thoracic_sympathetic_chain_r": {
+   "id": "thoracic_sympathetic_chain_r",
+   "name": "Thoracic sympathetic chain",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "stellate_ganglion_r",
+   "root_contributions": "T1-T12 (12 paravertebral ganglia, modeled as one chain entry)",
+   "display_name": "Thoracic sympathetic chain (T1-T12 (12 paravertebral ganglia, modeled as one chain entry))",
+   "children": [
+    "greater_splanchnic_n_r",
+    "least_splanchnic_n_r",
+    "lesser_splanchnic_n_r",
+    "lumbar_sympathetic_chain_r"
+   ],
+   "downstream": [
+    "celiac_plexus",
+    "ganglion_impar",
+    "greater_splanchnic_n_r",
+    "inferior_hypogastric_plexus_l",
+    "inferior_hypogastric_plexus_r",
+    "least_splanchnic_n_r",
+    "lesser_splanchnic_n_r",
+    "lumbar_splanchnic_n_r",
+    "lumbar_sympathetic_chain_r",
+    "sacral_splanchnic_n_r",
+    "sacral_sympathetic_chain_r",
+    "superior_hypogastric_plexus",
+    "thoracic_sympathetic_chain_r"
+   ],
+   "downstream_count": 13,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "thoracic_sympathetic_chain_l": {
+   "id": "thoracic_sympathetic_chain_l",
+   "name": "Thoracic sympathetic chain",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "stellate_ganglion_l",
+   "root_contributions": "T1-T12 (12 paravertebral ganglia, modeled as one chain entry)",
+   "display_name": "Thoracic sympathetic chain (T1-T12 (12 paravertebral ganglia, modeled as one chain entry))",
+   "children": [
+    "greater_splanchnic_n_l",
+    "least_splanchnic_n_l",
+    "lesser_splanchnic_n_l",
+    "lumbar_sympathetic_chain_l"
+   ],
+   "downstream": [
+    "greater_splanchnic_n_l",
+    "least_splanchnic_n_l",
+    "lesser_splanchnic_n_l",
+    "lumbar_splanchnic_n_l",
+    "lumbar_sympathetic_chain_l",
+    "sacral_splanchnic_n_l",
+    "sacral_sympathetic_chain_l",
+    "thoracic_sympathetic_chain_l"
+   ],
+   "downstream_count": 8,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "greater_splanchnic_n_r": {
+   "id": "greater_splanchnic_n_r",
+   "name": "Greater splanchnic nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "thoracic_sympathetic_chain_r",
+   "root_contributions": "T5-T9",
+   "display_name": "Greater splanchnic nerve (T5-T9)",
+   "children": [
+    "celiac_plexus"
+   ],
+   "downstream": [
+    "celiac_plexus",
+    "greater_splanchnic_n_r"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "greater_splanchnic_n_l": {
+   "id": "greater_splanchnic_n_l",
+   "name": "Greater splanchnic nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "thoracic_sympathetic_chain_l",
+   "root_contributions": "T5-T9",
+   "display_name": "Greater splanchnic nerve (T5-T9)",
+   "children": [],
+   "downstream": [
+    "greater_splanchnic_n_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lesser_splanchnic_n_r": {
+   "id": "lesser_splanchnic_n_r",
+   "name": "Lesser splanchnic nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "thoracic_sympathetic_chain_r",
+   "root_contributions": "T10-T11",
+   "display_name": "Lesser splanchnic nerve (T10-T11)",
+   "children": [],
+   "downstream": [
+    "lesser_splanchnic_n_r"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lesser_splanchnic_n_l": {
+   "id": "lesser_splanchnic_n_l",
+   "name": "Lesser splanchnic nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "thoracic_sympathetic_chain_l",
+   "root_contributions": "T10-T11",
+   "display_name": "Lesser splanchnic nerve (T10-T11)",
+   "children": [],
+   "downstream": [
+    "lesser_splanchnic_n_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "least_splanchnic_n_r": {
+   "id": "least_splanchnic_n_r",
+   "name": "Least (lowest) splanchnic nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "thoracic_sympathetic_chain_r",
+   "root_contributions": "T12",
+   "display_name": "Least (lowest) splanchnic nerve (T12)",
+   "children": [],
+   "downstream": [
+    "least_splanchnic_n_r"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "least_splanchnic_n_l": {
+   "id": "least_splanchnic_n_l",
+   "name": "Least (lowest) splanchnic nerve",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "thoracic_sympathetic_chain_l",
+   "root_contributions": "T12",
+   "display_name": "Least (lowest) splanchnic nerve (T12)",
+   "children": [],
+   "downstream": [
+    "least_splanchnic_n_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lumbar_sympathetic_chain_r": {
+   "id": "lumbar_sympathetic_chain_r",
+   "name": "Lumbar sympathetic chain",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "thoracic_sympathetic_chain_r",
+   "root_contributions": "L1-L5 (typically 4 paravertebral ganglia, modeled as one chain entry)",
+   "display_name": "Lumbar sympathetic chain (L1-L5 (typically 4 paravertebral ganglia, modeled as one chain entry))",
+   "children": [
+    "lumbar_splanchnic_n_r",
+    "sacral_sympathetic_chain_r",
+    "superior_hypogastric_plexus"
+   ],
+   "downstream": [
+    "ganglion_impar",
+    "inferior_hypogastric_plexus_l",
+    "inferior_hypogastric_plexus_r",
+    "lumbar_splanchnic_n_r",
+    "lumbar_sympathetic_chain_r",
+    "sacral_splanchnic_n_r",
+    "sacral_sympathetic_chain_r",
+    "superior_hypogastric_plexus"
+   ],
+   "downstream_count": 8,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Nebab EG, Florence IM, Anesth Analg 95:1687 (2002) [lumbar sympathetic block technique]"
+  },
+  "lumbar_sympathetic_chain_l": {
+   "id": "lumbar_sympathetic_chain_l",
+   "name": "Lumbar sympathetic chain",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "thoracic_sympathetic_chain_l",
+   "root_contributions": "L1-L5 (typically 4 paravertebral ganglia, modeled as one chain entry)",
+   "display_name": "Lumbar sympathetic chain (L1-L5 (typically 4 paravertebral ganglia, modeled as one chain entry))",
+   "children": [
+    "lumbar_splanchnic_n_l",
+    "sacral_sympathetic_chain_l"
+   ],
+   "downstream": [
+    "lumbar_splanchnic_n_l",
+    "lumbar_sympathetic_chain_l",
+    "sacral_splanchnic_n_l",
+    "sacral_sympathetic_chain_l"
+   ],
+   "downstream_count": 4,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Nebab EG, Florence IM, Anesth Analg 95:1687 (2002) [lumbar sympathetic block technique]"
+  },
+  "sacral_sympathetic_chain_r": {
+   "id": "sacral_sympathetic_chain_r",
+   "name": "Sacral sympathetic chain",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "lumbar_sympathetic_chain_r",
+   "root_contributions": "S1-S4 (typically 4-5 paravertebral ganglia, modeled as one chain entry)",
+   "display_name": "Sacral sympathetic chain (S1-S4 (typically 4-5 paravertebral ganglia, modeled as one chain entry))",
+   "children": [
+    "ganglion_impar",
+    "sacral_splanchnic_n_r"
+   ],
+   "downstream": [
+    "ganglion_impar",
+    "sacral_splanchnic_n_r",
+    "sacral_sympathetic_chain_r"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sacral_sympathetic_chain_l": {
+   "id": "sacral_sympathetic_chain_l",
+   "name": "Sacral sympathetic chain",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "lumbar_sympathetic_chain_l",
+   "root_contributions": "S1-S4 (typically 4-5 paravertebral ganglia, modeled as one chain entry)",
+   "display_name": "Sacral sympathetic chain (S1-S4 (typically 4-5 paravertebral ganglia, modeled as one chain entry))",
+   "children": [
+    "sacral_splanchnic_n_l"
+   ],
+   "downstream": [
+    "sacral_splanchnic_n_l",
+    "sacral_sympathetic_chain_l"
+   ],
+   "downstream_count": 2,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "ganglion_impar": {
+   "id": "ganglion_impar",
+   "name": "Ganglion impar (of Walther)",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "sacral_sympathetic_chain_r",
+   "root_contributions": null,
+   "display_name": "Ganglion impar (of Walther)",
+   "children": [],
+   "downstream": [
+    "ganglion_impar"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Oh CS et al., Reg Anesth Pain Med 29:270 (2004) [ganglion impar block technique]"
+  },
+  "celiac_plexus": {
+   "id": "celiac_plexus",
+   "name": "Celiac plexus (solar plexus)",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "greater_splanchnic_n_r",
+   "root_contributions": null,
+   "display_name": "Celiac plexus (solar plexus)",
+   "children": [],
+   "downstream": [
+    "celiac_plexus"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Malfertheiner P et al. (celiac plexus neurolysis literature, general reference)"
+  },
+  "superior_hypogastric_plexus": {
+   "id": "superior_hypogastric_plexus",
+   "name": "Superior hypogastric plexus",
+   "plexus": "sympathetic_trunk",
+   "level": "trunk",
+   "level_label": "Trunk",
+   "parent_id": "lumbar_sympathetic_chain_r",
+   "root_contributions": null,
+   "display_name": "Superior hypogastric plexus",
+   "children": [
+    "inferior_hypogastric_plexus_l",
+    "inferior_hypogastric_plexus_r"
+   ],
+   "downstream": [
+    "inferior_hypogastric_plexus_l",
+    "inferior_hypogastric_plexus_r",
+    "superior_hypogastric_plexus"
+   ],
+   "downstream_count": 3,
+   "is_leaf": false,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Plancarte R et al., Anesthesiology 73:236 (1990) [superior hypogastric plexus block technique]"
+  },
+  "inferior_hypogastric_plexus_r": {
+   "id": "inferior_hypogastric_plexus_r",
+   "name": "Inferior hypogastric (pelvic) plexus",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "superior_hypogastric_plexus",
+   "root_contributions": null,
+   "display_name": "Inferior hypogastric (pelvic) plexus",
+   "children": [],
+   "downstream": [
+    "inferior_hypogastric_plexus_r"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "inferior_hypogastric_plexus_l": {
+   "id": "inferior_hypogastric_plexus_l",
+   "name": "Inferior hypogastric (pelvic) plexus",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "superior_hypogastric_plexus",
+   "root_contributions": null,
+   "display_name": "Inferior hypogastric (pelvic) plexus",
+   "children": [],
+   "downstream": [
+    "inferior_hypogastric_plexus_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lumbar_splanchnic_n_r": {
+   "id": "lumbar_splanchnic_n_r",
+   "name": "Lumbar splanchnic nerves",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lumbar_sympathetic_chain_r",
+   "root_contributions": "L1-L4",
+   "display_name": "Lumbar splanchnic nerves (L1-L4)",
+   "children": [],
+   "downstream": [
+    "lumbar_splanchnic_n_r"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "lumbar_splanchnic_n_l": {
+   "id": "lumbar_splanchnic_n_l",
+   "name": "Lumbar splanchnic nerves",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "lumbar_sympathetic_chain_l",
+   "root_contributions": "L1-L4",
+   "display_name": "Lumbar splanchnic nerves (L1-L4)",
+   "children": [],
+   "downstream": [
+    "lumbar_splanchnic_n_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sacral_splanchnic_n_r": {
+   "id": "sacral_splanchnic_n_r",
+   "name": "Sacral splanchnic nerves",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "sacral_sympathetic_chain_r",
+   "root_contributions": "S1-S4",
+   "display_name": "Sacral splanchnic nerves (S1-S4)",
+   "children": [],
+   "downstream": [
+    "sacral_splanchnic_n_r"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  "sacral_splanchnic_n_l": {
+   "id": "sacral_splanchnic_n_l",
+   "name": "Sacral splanchnic nerves",
+   "plexus": "sympathetic_trunk",
+   "level": "terminal_branch",
+   "level_label": "Terminal branch",
+   "parent_id": "sacral_sympathetic_chain_l",
+   "root_contributions": "S1-S4",
+   "display_name": "Sacral splanchnic nerves (S1-S4)",
+   "children": [],
+   "downstream": [
+    "sacral_splanchnic_n_l"
+   ],
+   "downstream_count": 1,
+   "is_leaf": true,
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
   }
  }
 }

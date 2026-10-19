@@ -24,7 +24,14 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 OUT = REPO / "data/derived/Q256_plexus_groups.json"
-SOURCES = [REPO / "data/nerves/brachial_plexus.json", REPO / "data/nerves/lumbosacral_plexus.json"]
+SOURCES = [REPO / "data/nerves/brachial_plexus.json", REPO / "data/nerves/lumbosacral_plexus.json",
+           # Q261: extends the picker to the cervical plexus / cranial-nerve groups and the autonomic (sympathetic
+           # trunk + splanchnic) tree Q259/Q260 built -- queued explicitly by Q259's own open-items entry ("a small,
+           # well-scoped follow-up: add the two files to SOURCES, update the one test assertion"). Every record in
+           # both files already carries 'plexus', 'level' and 'source' fields in the same shape as the two files
+           # above (checked directly before adding, not assumed) -- this is purely an indexing extension, no new
+           # registry node is added or changed here.
+           REPO / "data/nerves/cranial_and_cervical_nerves.json", REPO / "data/nerves/autonomic_nervous_system.json"]
 LEVEL_LABEL = {"root": "Root", "trunk": "Trunk", "division": "Division", "cord": "Cord",
                "terminal_branch": "Terminal branch", "muscular_branch": "Muscular branch", "cutaneous_branch": "Cutaneous branch"}
 LEVEL_ORDER = ["root", "trunk", "division", "cord", "terminal_branch", "muscular_branch", "cutaneous_branch"]

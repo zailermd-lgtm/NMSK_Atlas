@@ -10,8 +10,8 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q260/viewer_m_hr", "own_f": "build/q260/viewer_f_hr", "base_m": "build/q260/viewer_zan_atlas",     # Q260: own-page vagus cervical trunk + lumbar-plexus roots in psoas + femoral/tibial/sciatic
-       "base_f": "build/q260/viewer_base_female", "comb_m": "build/q260/viewer_zan_vhm", "comb_f": "build/q260/viewer_zan_female"}   # muscular branches + thoracic dorsal-ramus medial branches added -- same "point the rig source at the new build" pattern Q249/Q252/Q258/Q259 each used
+SRC = {"own_m": "build/q261/viewer_m_hr", "own_f": "build/q261/viewer_f_hr", "base_m": "build/q261/viewer_zan_atlas",     # Q261: cranial nerves' 10 Q247-absent rows' branches (4 Z pages) + the pelvic floor's last
+       "base_f": "build/q261/viewer_base_female", "comb_m": "build/q261/viewer_zan_vhm", "comb_f": "build/q261/viewer_zan_female"}   # absent row (posterior femoral cutaneous n. perineal branch) added -- same "point the rig source at the new build" pattern Q249/Q252/Q258/Q259/Q260 each used
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 
