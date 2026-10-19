@@ -28,6 +28,15 @@ def resolve(nid: str, side: str, idset: set[str]) -> str | None:
     for c in (f"{nid}_{side}", f"zan_{nid}_{side}", nid, f"zan_{nid}"):
         if c in idset:
             return c
+    # Q258: the registry's brachial root ids are mixed-case (brachial_root_C5 ...) while every mesh id on every page
+    # is lowercase-only (checked: no page carries a single uppercase-letter id otherwise) -- a case-insensitive
+    # fallback lets the new C5-T1 root meshes resolve without renaming the registry or introducing the one
+    # mixed-case id this codebase would otherwise have.
+    low = nid.lower()
+    if low != nid:
+        for c in (f"{low}_{side}", f"zan_{low}_{side}", low, f"zan_{low}"):
+            if c in idset:
+                return c
     return None
 
 
