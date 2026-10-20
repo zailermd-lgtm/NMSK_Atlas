@@ -716,6 +716,7 @@ function Tool(api) {
   this.mp = {data: null, points: [], on: false, msg: "loading...", sel: null};
   /* Q268: (1) injection-planning preset, (2) live distance readout to vessels / nerves, (3) suggested entry candidates.
      near / far are DISPLAY band thresholds only (editable in the panel); R is the neighbourhood radius (mm) shared by all three. */
+  this.hooks = [];   // Q272: mode-layer change hooks
   this.corr = {near: CORR_DEFAULTS.near, far: CORR_DEFAULTS.far, R: CORR_DEFAULTS.R, halo: true, items: [], n: 0, ms: 0, what: "", timer: 0};
   this.plan = {i: null, msg: "", posture: "rest", side: "r"};
   this.sugg = {cands: [], shown: [], msg: ""};
@@ -1076,6 +1077,7 @@ TP.clear = function () {
   this.clearSuggestions(); this.renderSuggestions(); this.scheduleCorridor();   // Q268
   if (this.risk.on) this.refreshHalos();
   this.render(); this.api.redraw();
+  this.notify();
 };
 
 /* ---------- interaction ---------- */
@@ -1124,6 +1126,7 @@ TP.update = function () {
   this.scheduleCorridor();   // Q268 (2): throttled to the placement change, not per frame
   this.render();
   this.api.redraw();
+  this.notify();
 };
 TP.onHostChange = function () { if (this.active && this.entry && this.target) this.render(); if (this.risk.on) this.refreshHalos(); };
 
@@ -1681,6 +1684,7 @@ TP.renderCorridor = function () {
   }).join("") + "</ol>" + (c.items.length > 12 ? '<p class="ncl-status">' + (c.items.length - 12) + " more farther away.</p>" : "");
   h += '<p class="cite">Bands: &lt; ' + c.near + " mm, " + c.near + "&ndash;" + c.far + " mm, &gt; " + c.far + " mm -- display only, set above; no safe / unsafe judgement is made or implied.</p>";
   out.innerHTML = h;
+  this.notify();
 };
 TP.drawCorridor = function () {
   var ov = this.ov; ["corr-in", "corr-out"].forEach(ov.remove, ov);
@@ -1737,6 +1741,7 @@ TP.renderSuggestions = function () {
         (isFinite(c.minD) ? c.minD.toFixed(1) + " mm" + (c.nearest ? ' <span class="ncl-status">(' + esc(c.nearest.name) + ")</span>" : "") : "&gt; R (nothing within " + self.corr.R + " mm)") + "</li>";
     }).join("") + '</ol><p class="cite">A simple sampling heuristic on the model\'s skin and decimated meshes, not an optimiser and not a recommendation.</p>';
   out.querySelectorAll("[data-sg]").forEach(function (b) { b.onclick = function () { self.adoptSuggestion(self.sugg.shown[+b.dataset.sg]); }; });
+  this.notify();
 };
 TP.suggAt = function (e) {
   var api = this.api, T = api.toScreen(this.target ? this.target.p : null), best = null, bd = 9; if (!T) return null;
@@ -1808,12 +1813,14 @@ TP.planPick = function (i) {
   this.plan.msg = "Target <b>" + esc(r.name) + "</b>: " + msgs.map(esc).join("; ") + ". Now click the target point inside it (Cut through target exposes deep tissue).";
   this.$("ncl-plan-msg").innerHTML = this.plan.msg;
   this.update();
+  this.notify();
 };
 TP.planRelease = function () {
   var sel = this.api.selection ? this.api.selection() : null;
   if (sel && sel.clear && this.plan.i != null) sel.clear();
   this.plan.i = null; this.plan.msg = ""; this.$("ncl-plan-msg").innerHTML = ""; this.$("ncl-plan-q").value = "";
   this.api.redraw();
+  this.notify();
 };
 /* posture preset through the page's own pose rig (window-level Q241 controller handed over by the host as api.pose()) */
 TP.applyPosture = function (key, side) {
@@ -1838,6 +1845,203 @@ TP.applyPosture = function (key, side) {
   setTimeout(function () { self.scheduleCorridor(); }, 50);
   return {applied: applied, skipped: skipped};
 };
+
+/* Q272: change hooks for the workspace-mode re-skin (viewer/modes/): called after every render that changes what a card shows */
+TP.notify = function () { var hs = this.hooks || []; for (var k = 0; k < hs.length; k++) { try { hs[k](); } catch (e) { console.error(e); } } };
+/* Q272: a default target point at the structure's vertex centroid (the mode's "as automatic as possible" step: planPick() only arms
+   target-first placement; a tap inside the structure replaces this point exactly as before) */
+TP.setTargetAt = function (i) {
+  var g = this.api.geometry(i); if (!g || !g.pos || !g.pos.length) return null;
+  var p = g.pos, n = p.length / 3, c = [0, 0, 0], k;
+  for (k = 0; k < p.length; k += 3) { c[0] += p[k]; c[1] += p[k + 1]; c[2] += p[k + 2]; }
+  c = [c[0] / n, c[1] / n, c[2] / n];
+  this.entry = null; this.target = {p: c, i: i, n: null}; this.risk.safer = null;
+  this.update();
+  return c;
+};
+/* ---------- Q272: the "תכנון הזרקה" WORKSPACE MODE -- a re-skin of this tool's own Q268 logic (preset, live distance readout,
+   suggested entries, halo, posture), hosted by the page's generic mode layer (viewer/modes/, window.NMSKModes). Nothing is
+   re-implemented here: every button calls the same methods the needle panel's own buttons call. RTL Hebrew copy per the owner's
+   approved mockups. ---------- */
+function injectionMode(tool, api) {
+  var ctx = null, ui = {}, wasActive = false, posture = "off", partsOn = false, skinCat = null, popOpen = null, hookOn = false;
+  function h(tag, a, k) { return ctx.el(tag, a, k); }
+  function sideHe(r) { return ctx.side(r); }
+  function recLabel(r) { return r ? r.name + (sideHe(r) ? " · " + sideHe(r) : "") : ""; }
+  function targetRec() { return tool.plan.i != null ? tool.recs[tool.plan.i] : (tool.target && tool.target.i != null && tool.target.i >= 0 ? tool.recs[tool.target.i] : null); }
+  function fmt(d) { return (Math.round(d * 10) / 10).toFixed(1); }
+  function closePop() { if (popOpen) { popOpen.remove(); popOpen = null; } }
+  function pickTarget(i) {
+    closePop();
+    tool.planPick(i);
+    tool.setTargetAt(i);                 // a default target point at the structure's vertex centroid; a tap inside the structure replaces it
+    var parts = api.parts ? api.parts() : null;
+    if (parts && parts.setMode && parts.state && !partsOn && parts.state().mode !== "off") { parts.setMode("off"); if (parts.dirty) parts.dirty(); }
+    refresh();
+  }
+  function openPicker() {
+    closePop();
+    var inp, res, card = h("div", {class: "mc mc-pick mi"}, [
+      h("button", {type: "button", class: "mc-close", "aria-label": "סגור", onclick: closePop}, [xIcon()]),
+      h("div", {class: "mc-title", text: "בחירת מטרה (שריר / גיד)"}),
+      (inp = h("input", {type: "search", class: "mc-search", placeholder: "חיפוש מבנה…", autocomplete: "off"})),
+      (res = h("div", {class: "mc-res"}))
+    ]);
+    function render() {
+      var q = inp.value.trim().toLowerCase(), hits = tool.recs.filter(function (r) { return PLAN_CATS[r.cat] && (!q || (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0); }).slice(0, 40);
+      res.innerHTML = "";
+      if (!hits.length) { res.appendChild(h("p", {class: "mc-hint", text: "אין שריר או גיד תואם."})); return; }
+      hits.forEach(function (r) { res.appendChild(h("button", {type: "button", onclick: function () { pickTarget(r.i); }}, [recLabel(r) + " ", h("span", {class: "mono", text: r.id})])); });
+    }
+    inp.addEventListener("input", render); render();
+    ctx.main.appendChild(card); popOpen = card; try { inp.focus(); } catch (e) {}
+  }
+  function xIcon() { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", "16"); s.setAttribute("height", "16"); s.setAttribute("aria-hidden", "true"); s.innerHTML = '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'; return s; }
+  function suggest() {
+    if (!tool.target) { refresh(); return; }
+    tool.suggest(); refresh();
+    if (tool.sugg.shown.length && ui.cands) ui.cands.scrollIntoView({block: "nearest"});
+  }
+  function manualEntry() {
+    tool.setMode("tfirst", true);
+    if (tool.target) { tool.entry = null; tool.clearSuggestions(); tool.update(); }
+    ui.manualHint = true; refresh();
+  }
+  function resetAll() { closePop(); tool.clearSuggestions(); tool.clear(); tool.planRelease(); if (posture !== "off") setPosture("off"); refresh(); }
+  function cancelPath() { closePop(); tool.clearSuggestions(); tool.clear(); refresh(); }
+  function setPosture(key) {
+    var r = targetRec(), side = r && r.side === "l" ? "l" : "r";
+    var out = tool.applyPosture(key === "off" ? "rest" : key, side);
+    if (out == null && key !== "off") { posture = "off"; ui.postureMsg = "אין ריג תנוחה בעמוד זה"; }
+    else { posture = key; ui.postureMsg = key === "off" ? "" : (key === "ul" ? "דפוס כיפוף גפה עליונה (להמחשה)" : "דפוס יישור גפה תחתונה (להמחשה)"); }
+    refresh();
+  }
+  function cyclePosture() { setPosture(posture === "off" ? "ul" : posture === "ul" ? "ll" : "off"); }
+  function toggleHalo() { var b = tool.$("ncl-corr-halo"); if (b) b.click(); refresh(); }
+  function toggleParts() {
+    var parts = api.parts ? api.parts() : null; if (!parts || !parts.setMode) return;
+    partsOn = !partsOn; var r = targetRec(); if (r && parts.select) parts.select(r.id);
+    parts.setMode(partsOn ? "sel" : "off"); if (parts.dirty) parts.dirty(); refresh();
+  }
+  function toggleSkin() { if (!skinCat) return; api.setCategoryOn(skinCat, !api.categoryOn(skinCat)); refresh(); }
+  function layersPop() {
+    if (popOpen && popOpen.classList.contains("mp-pop")) { closePop(); return; }
+    closePop();
+    var seen = {}, cats = [];
+    tool.recs.forEach(function (r) { if (r.cat && !seen[r.cat]) { seen[r.cat] = 1; cats.push(r.cat); } });
+    var pop = h("div", {class: "mp-pop mi"}, cats.map(function (c) {
+      return h("button", {type: "button", "aria-pressed": String(!!api.categoryOn(c)), text: c, onclick: function () { api.setCategoryOn(c, !api.categoryOn(c)); this.setAttribute("aria-pressed", String(!!api.categoryOn(c))); }});
+    }));
+    ctx.main.appendChild(pop); popOpen = pop;
+  }
+  function moreToggle() { document.body.classList.toggle("mode-more"); }
+  function build(c) {
+    ctx = c;
+    if (!document.getElementById("inj-mode-css")) {   // the tool's own panel stays alive (its state, its 3-D overlays) but is not shown in the mode: the cards re-skin it
+      var st = document.createElement("style"); st.id = "inj-mode-css"; st.textContent = "body.mode-inj #needle-panel,body.mode-inj .ncl-tip{display:none!important}"; document.head.appendChild(st);
+    }
+    skinCat = tool.recs.some(function (r) { return r.cat === "skin"; }) ? "skin" : null;
+    /* bar: the target chip + reset / cancel */
+    ui.chipName = h("b", {text: "—"});
+    c.bar.chips.appendChild(h("div", {class: "mb-chip mi"}, [h("span", {class: "mb-dim", text: "מטרה"}), ui.chipName, h("button", {type: "button", class: "mb-mini", text: "שנה", onclick: openPicker})]));
+    ui.mobText = h("button", {type: "button", class: "mb-text mi", text: "", title: "שנה מטרה", onclick: openPicker}); c.bar.chips.appendChild(ui.mobText);
+    var endRef = c.bar.end.firstChild;
+    c.bar.end.insertBefore(h("button", {type: "button", class: "mb-btn mi", text: "איפוס", onclick: resetAll}), endRef);
+    c.bar.end.insertBefore(h("button", {type: "button", class: "mb-btn mi", text: "בטל", onclick: cancelPath}), endRef);
+    /* the model fills the whole main area */
+    ui.slot = h("div", {class: "mslot mslot-fill"}); c.main.appendChild(ui.slot); c.modelDock(ui.slot);
+    /* right: the step card (a bottom sheet on the phone) */
+    ui.step1 = h("div", {class: "mc-step"}, [h("div", {class: "mc-num", text: "1"}), h("div", {class: "mc-lbl", text: "מטרה"}), (ui.s1ok = h("div", {class: "mc-ok", text: ""}))]);
+    ui.step1Btn = h("button", {type: "button", class: "mc-sec mc-desk", text: "בחר מטרה", onclick: openPicker});
+    ui.step2 = h("div", {class: "mc-step"}, [h("div", {class: "mc-num", text: "2"}), h("div", {class: "mc-lbl", text: "נקודת כניסה"}), (ui.s2sub = h("div", {class: "mc-sub mc-mob", text: "שלב 2 מתוך 3"}))]);
+    ui.primary = h("button", {type: "button", class: "mc-primary", text: "הצע נקודות כניסה", onclick: suggest});
+    ui.manual = h("button", {type: "button", class: "mc-sec mc-desk", text: "סמן ידנית על העור", onclick: manualEntry});
+    ui.hint = h("p", {class: "mc-hint", text: ""});
+    ui.cands = h("div", {class: "mc-list"});
+    ui.mobRow = h("div", {class: "mc-row mc-mob"}, [
+      h("button", {type: "button", class: "mc-sec", text: "סמן ידנית", onclick: manualEntry}),
+      (ui.mobHalo = h("button", {type: "button", class: "mc-sec", text: "הילה", "aria-pressed": "true", onclick: toggleHalo})),
+      h("button", {type: "button", class: "mc-sec", text: "עוד…", onclick: moreToggle})
+    ]);
+    ui.step3 = h("div", {class: "mc-step off"}, [h("div", {class: "mc-num", text: "3"}), h("div", {class: "mc-lbl", text: "בדיקת מסלול"})]);
+    ui.report = h("div", {class: "mc-hint"});
+    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report]));
+    /* left: the distance card */
+    ui.rows = h("div", {class: "mc-list"});
+    ui.near = h("input", {type: "number", min: "0", max: "100", step: "0.5", "aria-label": "סף קרוב (מ\"מ)"}); ui.far = h("input", {type: "number", min: "0", max: "200", step: "0.5", "aria-label": "סף רחוק (מ\"מ)"});
+    ui.edit = h("div", {class: "mc-edit"}, ["קרוב", ui.near, "רחוק", ui.far, h("button", {type: "button", class: "mc-sec", style: "height:32px;flex:0 0 auto;padding:0 10px", text: "אישור", onclick: function () { tool.setCorr({near: +ui.near.value, far: +ui.far.value}); ui.edit.hidden = true; refresh(); }})]);
+    ui.edit.hidden = true;
+    ui.foot = h("div", {class: "mc-foot"});
+    c.main.appendChild(h("div", {class: "mc mc-left mi"}, [h("div", {class: "mc-title", text: ctx.isPhone() ? "הקרובים ביותר" : "מרחק מהמסלול"}), (ui.dhint = h("p", {class: "mc-hint", text: ""})), ui.rows, ui.foot, ui.edit]));
+    /* bottom pills */
+    ui.pHalo = h("button", {type: "button", class: "mp", text: "הילה", "aria-pressed": "true", onclick: toggleHalo});
+    ui.pPost = h("button", {type: "button", class: "mp", text: "תנוחה ספסטית", "aria-pressed": "false", onclick: cyclePosture});
+    ui.pParts = h("button", {type: "button", class: "mp", text: "אחיזות (O/I)", "aria-pressed": "false", onclick: toggleParts});
+    ui.pSkin = h("button", {type: "button", class: "mp", text: "עור", "aria-pressed": "false", onclick: toggleSkin});
+    ui.pLayers = h("button", {type: "button", class: "mp", text: "שכבות…", onclick: layersPop});
+    [ui.pHalo, ui.pPost, ui.pParts, ui.pSkin, ui.pLayers].forEach(function (b) { c.pills.appendChild(b); });
+    c.pills.hidden = false;
+    if (!(api.parts && api.parts())) ui.pParts.disabled = true;
+    if (!skinCat) ui.pSkin.hidden = true;
+  }
+  function refresh() {
+    if (!ctx) return;
+    var r = targetRec(), hasT = !!tool.target, hasE = !!tool.entry, c = tool.corr;
+    ui.chipName.textContent = r ? recLabel(r) : "בחר מטרה…"; ui.mobText.textContent = r ? recLabel(r) : "בחר מטרה…";
+    ui.s1ok.textContent = r ? "נבחרה ✓" : ""; ui.step1Btn.hidden = !!r; ui.step1.classList.toggle("off", false);
+    ui.step2.classList.toggle("off", !hasT); ui.primary.disabled = !hasT; ui.manual.disabled = !hasT;
+    ui.step3.classList.toggle("off", !(hasT && hasE));
+    var hint = "";
+    if (!r) hint = "בחר שריר או גיד: הכל מלבד המטרה וכלי-הדם / העצבים הסמוכים יועם.";
+    else if (!hasT) hint = "הקש על נקודה בתוך המטרה.";
+    else if (ui.manualHint && !hasE) hint = "הקש על העור במודל כדי לסמן את נקודת הכניסה.";
+    else if (!hasE) hint = "נקודת המטרה: מרכז המבנה (הקשה בתוכו מזיזה אותה). הצע נקודות כניסה או סמן ידנית על העור.";
+    else hint = "הקשה על העור מסמנת נקודת כניסה אחרת.";
+    if (tool.sugg.msg) hint = tool.sugg.msg;
+    ui.hint.textContent = hint;
+    ui.cands.innerHTML = "";
+    tool.sugg.shown.forEach(function (cd, k) {
+      ui.cands.appendChild(h("div", {class: "mc-cand"}, [h("b", {text: (k + 1) + "."}), h("span", {text: fmt(cd.L) + " מ\"מ · מרווח " + fmt(cd.minD) + " מ\"מ"}),
+        h("button", {type: "button", text: "השתמש", onclick: function () { tool.adoptSuggestion(cd); ui.manualHint = false; refresh(); }})]));
+    });
+    var rep = hasT && hasE ? tool.report() : null;
+    ui.report.textContent = rep ? "אורך " + fmt(rep.length_mm) + " מ\"מ · חוצה " + rep.crossings.length + " מבנים" + (rep.skin && rep.skin.depth != null ? " · עומק מהעור " + fmt(rep.skin.depth) + " מ\"מ" : "") : "";
+    /* distances */
+    ui.rows.innerHTML = "";
+    if (!hasT && !hasE) ui.dhint.textContent = "בחר מטרה: המרחקים יופיעו כאן ויתעדכנו בכל שינוי.";
+    else if (!c.items.length) ui.dhint.textContent = "אין כלי-דם או עצב ברדיוס " + c.R + " מ\"מ.";
+    else ui.dhint.textContent = hasE ? "מהמסלול (כניסה ← מטרה)" : "מנקודת המטרה";
+    c.items.slice().sort(function (a, b) { return a.d - b.d; }).slice(0, 8).forEach(function (it) {
+      ui.rows.appendChild(h("div", {class: "mc-drow band-" + tool.band(it.d)}, [h("div", {class: "bar"}), h("div", {class: "nm", text: it.name}), h("div", {class: "mm", text: fmt(it.d)}), h("div", {class: "un", text: "מ\"מ"})]));
+    });
+    if (tool.poseAway && tool.poseAway()) ui.dhint.textContent += " · התנוחה אינה במנוחה: המרחקים נמדדים על רשת המנוחה";
+    ui.foot.innerHTML = ""; ui.foot.appendChild(document.createTextNode("מדידה בלבד · ספי צבע " + c.near + " / " + c.far + " מ\"מ · "));
+    ui.foot.appendChild(h("button", {type: "button", text: "עריכה", onclick: function () { ui.near.value = c.near; ui.far.value = c.far; ui.edit.hidden = !ui.edit.hidden; }}));
+    /* pills */
+    var halo = !!c.halo; ui.pHalo.setAttribute("aria-pressed", String(halo)); ui.mobHalo.setAttribute("aria-pressed", String(halo));
+    ui.pPost.setAttribute("aria-pressed", String(posture !== "off")); ui.pPost.textContent = "תנוחה ספסטית" + (ui.postureMsg ? " · " + ui.postureMsg : "");
+    ui.pParts.setAttribute("aria-pressed", String(partsOn));
+    if (skinCat) ui.pSkin.setAttribute("aria-pressed", String(!!api.categoryOn(skinCat)));
+  }
+  function enter(c) {
+    wasActive = tool.active; partsOn = false; posture = "off"; ui.postureMsg = ""; ui.manualHint = false;
+    if (!tool.active) tool.toggle(true);
+    tool.setMode("tfirst", true);
+    tool.clearSuggestions(); tool.clear();
+    if (!hookOn) { tool.hooks.push(refresh); hookOn = true; }
+    var sid = c.selectedId(), rec = sid ? tool.recs.filter(function (r) { return r.id === sid && PLAN_CATS[r.cat]; })[0] : null;
+    if (rec) pickTarget(rec.i); else { refresh(); openPicker(); }
+  }
+  function exit() {
+    closePop();
+    var k = tool.hooks.indexOf(refresh); if (k >= 0) tool.hooks.splice(k, 1); hookOn = false;
+    if (posture !== "off") { try { tool.applyPosture("rest", "r"); } catch (e) {} posture = "off"; }
+    tool.clearSuggestions(); tool.clear(); tool.planRelease();
+    if (!wasActive && tool.active) tool.toggle(false);
+    ctx = null;
+  }
+  return {title: "תכנון הזרקה", short: "הזרקה", build: build, enter: enter, exit: exit};
+}
 
 /* ---------- facade for the host page and for test harnesses ---------- */
 TP.corridor = function () {   // Q268 test / harness hook: the live readout as data
@@ -1868,6 +2072,7 @@ global.NMSKClinical = {
   attach: function (api) {
     var tool = new Tool(api);
     global.NMSKClinicalTool = tool;
+    if (global.NMSKModes && global.NMSKModes.register) { try { global.NMSKModes.register("inj", injectionMode(tool, api)); } catch (eM) { console.error("injection mode failed to register:", eM); } }   // Q272
     global.NeedlePath = {        // compatible with the pre-Q188 in-template tool's harness API
       toggle: function (on) { tool.toggle(on); }, clear: function () { tool.clear(); },
       setPoints: function (e, t, eid, tid) { tool.setPath(e, t, eid, tid); },

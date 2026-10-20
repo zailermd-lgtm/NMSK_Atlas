@@ -647,6 +647,239 @@ body.ss-marking canvas{cursor:copy!important}
 @media (hover:none){#ng-panel .ng-seg button,#ng-panel .ng-actions button{min-height:38px;font-size:13px}#ng-panel .ng-row{padding:9px 8px}}
 @media (max-width:560px){#t-nervegroups .ng-more{display:none}}
 /* NERVE-GROUPS css end */
+/* MODES css begin */
+/* Q272 clinical WORKSPACE MODES (viewer/modes/, synced into both templates by scripts/sync_modes_q272.py).
+   A mode is a distinct screen, not a panel: body.mode-on hides every piece of the anatomy chrome below with CSS only (nothing is
+   destroyed; removing the class restores the page), the 56 px mode bar + the mode's own cards live in #mode-shell, and the
+   3-D canvas / the optional tools' own panels are "docked" (fixed-positioned onto a slot's rectangle by NMSKModes.dock()).
+   Mode colours: injection teal #0E7C86, US blue #2B6CB0, imaging compare amber #B5651D; bar slate #20242B. RTL, Hebrew. */
+#mode-switch,#mode-shell,#mode-back{font-family:Heebo,"Segoe UI",system-ui,Arial,sans-serif;color:#20242B;font-size:14px;line-height:1.4;-webkit-font-smoothing:antialiased}
+#mode-switch *,#mode-shell *{box-sizing:border-box}
+:where(#mode-switch,#mode-shell) button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0;margin:0;text-align:inherit}
+#mode-switch [hidden],#mode-shell [hidden]{display:none!important}
+#mode-switch svg,#mode-shell svg{display:block;flex:0 0 auto}
+#mode-switch[hidden],#mode-shell[hidden]{display:none!important}
+/* ---- chrome hidden in a mode (both engines; a selector that does not exist on one engine is harmless) ---- */
+body.mode-on #app>header,body.mode-on #app>aside,body.mode-on #inspector,body.mode-on .mob-bar,body.mode-on #tools,body.mode-on #hover,
+body.mode-on #frame-note,body.mode-on #axes,body.mode-on #scalebar,body.mode-on #brand,body.mode-on #topright,body.mode-on #rail,
+body.mode-on #info,body.mode-on #foot,body.mode-on #modal,body.mode-on #cut-panel,body.mode-on #lab-layer,body.mode-on #lab-panel,
+body.mode-on #pm-panel,body.mode-on #ng-panel,body.mode-on #pose-panel,body.mode-on #pose-banner,body.mode-on #sym-banner,
+body.mode-on #sym-panel,body.mode-on #nmsk-clinical-bar,body.mode-on #nmsk-clinical-toast{display:none!important}
+body.mode-on #app{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;min-height:0!important;background:#ECEFF2}
+body.mode-on #app>#stage{grid-column:1!important;grid-row:1!important}
+body.mode-on{overflow:hidden}
+#mode-back{position:fixed;inset:0;z-index:60;background:#ECEFF2;display:none}
+body.mode-us #mode-back,body.mode-cmp #mode-back{display:block}
+/* ---- the switcher ("what are we doing today?") ---- */
+#mode-switch{position:fixed;inset:0;z-index:200;background:#F3F4F6;display:flex;flex-direction:column;overflow:auto}
+.mw-top{flex:0 0 auto;min-height:64px;padding:12px 32px;background:#20242B;color:#fff;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.mw-brand{font-size:20px;font-weight:800}
+.mw-models{display:flex;gap:8px;flex-wrap:wrap;margin-inline-start:24px}
+.mw-models a{height:36px;padding:0 14px;border-radius:999px;border:1px solid #5B6472;color:#fff;font-weight:500;display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap}
+.mw-models a.cur{background:#fff;color:#20242B;border-color:#fff;font-weight:600}
+.mw-close{margin-inline-start:auto;width:44px;height:44px;border-radius:50%;border:1px solid #5B6472;color:#fff;display:flex;align-items:center;justify-content:center}
+.mw-body{flex:1 1 0;padding:56px 96px;display:flex;flex-direction:column;gap:28px;justify-content:center}
+.mw-q{margin:0;font-size:34px;font-weight:800}
+.mw-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.mw-tile{min-height:300px;padding:28px;border-radius:18px;border:2px solid #E4E1D8;background:#fff;color:#20242B;text-align:right;display:flex;flex-direction:column;gap:14px;cursor:pointer}
+.mw-tile:hover{box-shadow:0 10px 30px rgba(32,36,43,.12)}
+.mw-tile[disabled]{opacity:.45;cursor:default;box-shadow:none}
+.mw-tile .mw-ic{width:56px;height:56px;border-radius:14px;background:#EEF0F2;display:flex;align-items:center;justify-content:center;color:#5B6472}
+.mw-tile .mw-t{font-size:22px;font-weight:800}
+.mw-tile .mw-d{font-size:15px;color:#5B6472;line-height:1.5}
+.mw-tile .mw-na{font-size:13px;color:#B5651D;display:none}
+.mw-tile[disabled] .mw-na{display:block}
+.mw-tile[data-mode=inj]{border-color:#0E7C86}.mw-tile[data-mode=inj] .mw-ic{background:#E3F2F1;color:#0E7C86}.mw-tile[data-mode=inj] .mw-t{color:#0E7C86}
+.mw-tile[data-mode=us]{border-color:#2B6CB0}.mw-tile[data-mode=us] .mw-ic{background:#E8F1FA;color:#2B6CB0}.mw-tile[data-mode=us] .mw-t{color:#2B6CB0}
+.mw-tile[data-mode=cmp]{border-color:#B5651D}.mw-tile[data-mode=cmp] .mw-ic{background:#FBEEE0;color:#B5651D}.mw-tile[data-mode=cmp] .mw-t{color:#B5651D}
+.mw-note{margin:0;font-size:14px;color:#5B6472}
+/* ---- the mode shell: bar + main + pills ---- */
+#mode-shell{position:fixed;inset:0;z-index:95;pointer-events:none;--mode-c:#0E7C86;--mode-soft:#E3F2F1}
+body.mode-us #mode-shell{--mode-c:#2B6CB0;--mode-soft:#E8F1FA}
+body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
+#mode-bar{position:absolute;top:0;left:0;right:0;height:56px;padding:0 20px;background:#20242B;color:#fff;display:flex;align-items:center;gap:12px;pointer-events:auto}
+.mb-pill{height:36px;padding:0 16px;border-radius:999px;background:var(--mode-c);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;white-space:nowrap;flex:0 0 auto}
+.mb-pill .mb-short{display:none}
+.mb-chips{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 auto;overflow:hidden}
+.mb-dim{font-size:13px;color:#AEB4BD;white-space:nowrap}
+.mb-chip{height:36px;padding:0 14px;border-radius:999px;border:1px solid #5B6472;color:#fff;font-size:14px;display:flex;align-items:center;gap:8px;white-space:nowrap;min-width:0}
+.mb-chip b{overflow:hidden;text-overflow:ellipsis;max-width:32vw}
+.mb-mini{height:24px;min-width:44px;padding:0 10px;border-radius:999px;background:#3A4150;color:#fff;font-size:12px;font-weight:500}
+.mb-btn,.mb-tog{height:36px;padding:0 14px;border-radius:999px;border:1px solid #5B6472;color:#fff;font-size:14px;font-weight:500;white-space:nowrap;display:inline-flex;align-items:center}
+.mb-tog[aria-pressed=true]{background:#fff;color:#20242B;border-color:#fff;font-weight:700}
+.mb-end{margin-inline-start:auto;display:flex;gap:8px;flex:0 0 auto}
+.mb-exit{background:#fff;color:#20242B;border-color:#fff;font-weight:700}
+.mb-x{display:none;width:44px;height:44px;border-radius:50%;border:1px solid #5B6472;color:#fff;align-items:center;justify-content:center}
+.mb-text{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#mode-main{position:absolute;top:56px;left:0;right:0;bottom:0;pointer-events:none}
+#mode-main *{pointer-events:none}
+#mode-main .mi,#mode-main .mi *{pointer-events:auto}
+.mslot{position:relative;min-width:0;min-height:0}
+.mslot-fill{position:absolute;inset:0}
+/* floating cards (injection) */
+.mc{position:absolute;width:300px;padding:18px;border-radius:16px;background:rgba(255,255,255,.94);border:1px solid #E4E1D8;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 30px rgba(32,36,43,.10);max-height:calc(100% - 40px);overflow:auto}
+.mc-right{right:20px;top:20px}.mc-left{left:20px;top:20px}
+.mc-title{font-size:15px;font-weight:700}
+.mc-step{display:flex;align-items:center;gap:10px}
+.mc-step.off{opacity:.55}
+.mc-num{width:26px;height:26px;border-radius:50%;background:var(--mode-c);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.mc-step.off .mc-num{background:#AEB4BD}
+.mc-step .mc-lbl{font-size:15px;font-weight:700}
+.mc-step .mc-ok{margin-inline-start:auto;font-size:13px;color:var(--mode-c);font-weight:700}
+.mc-step .mc-sub{margin-inline-start:auto;font-size:12px;color:#5B6472}
+.mc-primary{height:48px;border-radius:12px;background:var(--mode-c);color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;width:100%}
+.mc-primary[disabled]{opacity:.5;cursor:default}
+.mc-sec{height:44px;border-radius:12px;border:1px solid #C9CDD3;background:#fff;color:#20242B;font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:center;width:100%}
+.mc-sec[aria-pressed=true]{background:var(--mode-soft);border-color:var(--mode-c);color:var(--mode-c);font-weight:700}
+.mc-hint{font-size:12.5px;color:#5B6472;margin:0}
+.mc-warn{font-size:12.5px;color:#9A5A0E;margin:0}
+.mc-row{display:flex;gap:8px}
+.mc-row>*{flex:1 1 0}
+.mc-list{display:flex;flex-direction:column;gap:6px}
+.mc-cand{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid #E4E1D8;border-radius:10px;font-size:13px}
+.mc-cand b{font-size:15px}
+.mc-cand button{margin-inline-start:auto;height:32px;padding:0 12px;border-radius:999px;background:var(--mode-c);color:#fff;font-weight:700;font-size:13px}
+.mc-drow{display:flex;align-items:center;gap:10px}
+.mc-drow .bar{width:6px;height:28px;border-radius:3px;flex:0 0 auto}
+.mc-drow .nm{font-size:14px;flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mc-drow .mm{font-size:20px;font-weight:800}
+.mc-drow .un{font-size:12px;color:#5B6472}
+.band-n .bar{background:#C53030}.band-n .mm{color:#C53030}
+.band-m .bar{background:#C97A1A}.band-m .mm{color:#9A5A0E}
+.band-f .bar{background:#2F855A}.band-f .mm{color:#276749}
+.mc-foot{font-size:12px;color:#5B6472;border-top:1px solid #E4E1D8;padding-top:8px}
+.mc-foot button{text-decoration:underline;min-height:24px}
+.mc-edit{display:flex;gap:8px;align-items:center;font-size:12.5px}
+.mc-edit input{width:64px;height:32px;border:1px solid #C9CDD3;border-radius:8px;padding:0 6px;font:inherit}
+.mc-search{height:40px;border:1px solid #C9CDD3;border-radius:10px;padding:0 10px;font:inherit;width:100%}
+.mc-res{display:flex;flex-direction:column;gap:4px;max-height:40vh;overflow:auto}
+.mc-res button{min-height:40px;padding:6px 10px;border-radius:8px;text-align:right;width:100%}
+.mc-res button:hover{background:#F3F4F6}
+.mc-res .mono{font-size:11px;color:#5B6472}
+.mc-pick{right:20px;top:20px;width:340px;z-index:2}
+.mc-close{position:absolute;left:10px;top:10px;width:32px;height:32px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center}
+.mc-handle{display:none}
+.mc-mob{display:none}
+/* bottom pill row (toggles) */
+#mode-pills{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);display:flex;gap:10px;padding:8px;border-radius:999px;background:rgba(255,255,255,.94);border:1px solid #E4E1D8;pointer-events:auto;max-width:calc(100% - 32px);flex-wrap:wrap;justify-content:center}
+#mode-pills[hidden]{display:none}
+.mp{height:44px;padding:0 18px;border-radius:999px;background:#F3F4F6;color:#20242B;font-weight:500;font-size:14px;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.mp[aria-pressed=true]{background:var(--mode-c);color:#fff;font-weight:700}
+.mp[disabled]{opacity:.45;cursor:default}
+.mp-pop{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);width:min(420px,calc(100% - 32px));padding:12px;border-radius:14px;background:rgba(255,255,255,.97);border:1px solid #E4E1D8;display:flex;flex-wrap:wrap;gap:8px;pointer-events:auto;box-shadow:0 10px 30px rgba(32,36,43,.12)}
+.mp-pop button{height:40px;padding:0 12px;border-radius:999px;border:1px solid #C9CDD3;background:#fff;font-size:13px}
+.mp-pop button[aria-pressed=true]{background:var(--mode-soft);border-color:var(--mode-c);color:var(--mode-c);font-weight:700}
+/* page-style modes (US, compare) */
+.mm-fill{position:absolute;inset:0;padding:16px;display:flex;gap:16px}
+.mm-col{display:flex;flex-direction:column;gap:10px;min-width:0;flex:1 1 0}
+.mm-side{width:400px;flex:0 0 400px;display:flex;flex-direction:column;gap:12px;min-height:0}
+.mm-hero{flex:1 1 0;position:relative;border-radius:16px;background:transparent;overflow:hidden;min-height:120px}   /* the docked panel paints its own background: the shell sits above it */
+.mm-hero .mslot{position:absolute;inset:0}
+.mm-chip{position:absolute;top:12px;right:14px;height:30px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.12);color:#fff;font-size:13px;display:flex;align-items:center;gap:8px;z-index:3;white-space:nowrap}
+.mm-chip.left{right:auto;left:14px;background:var(--mode-c);font-weight:700}
+.mm-badge{position:absolute;left:14px;bottom:12px;height:26px;padding:0 10px;border-radius:6px;background:rgba(0,0,0,.55);color:#F6AD55;font-size:12px;font-weight:700;display:flex;align-items:center;z-index:3;white-space:nowrap}
+.mm-thumb{height:300px;flex:0 0 300px;position:relative;border-radius:16px;background:transparent;overflow:hidden;border:1px solid #E4E1D8}
+.mm-thumb .mslot{position:absolute;inset:0}
+.mm-thumb .mm-cap{position:absolute;left:12px;right:12px;bottom:12px;height:36px;border-radius:10px;background:rgba(255,255,255,.94);border:1px solid #E4E1D8;font-size:13px;display:flex;align-items:center;justify-content:center;gap:4px;z-index:3}
+.mm-thumb-m{display:none}
+.mm-card{padding:16px;border-radius:16px;background:#fff;border:1px solid #E4E1D8;display:flex;flex-direction:column;gap:14px}
+.mm-sl{display:flex;flex-direction:column;gap:6px}
+.mm-sl .hd{display:flex;justify-content:space-between;font-size:14px}
+.mm-sl input[type=range]{width:100%;accent-color:var(--mode-c);min-height:28px;margin:0}
+.mm-bar{height:64px;flex:0 0 64px;padding:0 16px;border-radius:14px;background:#fff;border:1px solid #E4E1D8;display:flex;align-items:center;gap:14px}
+.mm-bar input[type=range]{flex:1 1 0;accent-color:var(--mode-c);min-width:60px}
+.mm-bar .lb{font-size:13px;color:#5B6472;white-space:nowrap}
+.mm-play{width:44px;height:44px;border-radius:50%;background:var(--mode-c);color:#fff;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.mm-tog{height:36px;padding:0 14px;border-radius:999px;border:1px solid #C9CDD3;background:#fff;color:#20242B;font-size:13px;font-weight:500;white-space:nowrap;display:inline-flex;align-items:center}
+.mm-tog[aria-pressed=true]{background:var(--mode-soft);color:var(--mode-c);border-color:var(--mode-soft);font-weight:700}
+.mm-primary{height:52px;flex:0 0 auto;border-radius:12px;background:var(--mode-c);color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;width:100%}
+.mm-primary[aria-pressed=true]{box-shadow:inset 0 0 0 3px rgba(255,255,255,.5)}
+.mm-sec{height:44px;flex:0 0 auto;border-radius:12px;border:1px solid #C9CDD3;background:#fff;color:#20242B;font-weight:500;font-size:14px;display:flex;align-items:center;justify-content:center;width:100%}
+.mm-sec[aria-pressed=true]{background:var(--mode-soft);border-color:var(--mode-c);color:var(--mode-c);font-weight:700}
+.mm-chips-m{display:none}
+.mm-pane{flex:1 1 0;display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0}
+.mm-ph{display:flex;align-items:center;gap:10px;height:32px;flex:0 0 32px}
+.mm-ph .t{font-size:16px;font-weight:800;white-space:nowrap}
+.mm-ph .tag{height:24px;padding:0 10px;border-radius:999px;background:#EEF0F2;color:#5B6472;font-size:12px;font-weight:700;display:flex;align-items:center;white-space:nowrap}
+.mm-ph .tag.warm{background:#FBEEE0;color:#B5651D}
+.mm-ph .mm-tog{margin-inline-start:auto;height:32px;padding:0 12px}
+.mm-stage{flex:1 1 0;position:relative;border-radius:16px;background:transparent;overflow:hidden;border:1px solid #E4E1D8;min-height:100px}
+.mm-stage.dark{border:0}
+.mm-stage .mslot{position:absolute;inset:0}
+.mm-stage .mm-ov{position:absolute;left:14px;bottom:12px;display:flex;gap:6px;z-index:3}
+.mm-stage .mm-ov button{height:32px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:13px}
+.mm-stage .mm-ov.light button{background:rgba(255,255,255,.94);color:#20242B;border:1px solid #E4E1D8}
+.mm-stage .mm-tagr{position:absolute;right:14px;top:12px;height:30px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.94);border:1px solid #E4E1D8;font-size:13px;display:flex;align-items:center;z-index:3;white-space:nowrap}
+.mm-stage .mm-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#5B6472;font-size:14px;text-align:center;padding:20px;z-index:2}
+.mm-lock{width:44px;flex:0 0 44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.mm-lock button{width:44px;height:44px;border-radius:50%;background:#C9CDD3;color:#fff;display:flex;align-items:center;justify-content:center}
+.mm-lock button[aria-pressed=true]{background:var(--mode-c)}
+.mm-lock .lb{font-size:11px;color:#5B6472;text-align:center;line-height:1.3}
+.mm-foot{position:absolute;left:16px;right:16px;bottom:16px;min-height:76px;padding:10px 16px;border-radius:14px;background:#fff;border:1px solid #E4E1D8;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.mm-foot .t{font-size:15px;font-weight:800;white-space:nowrap}
+.mm-foot .lb{font-size:13px;color:#5B6472}
+.mm-foot .mm-tog{height:40px}
+.mm-foot .mm-ref{margin-inline-start:auto;height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--mode-c);background:var(--mode-soft);color:var(--mode-c);font-weight:700;font-size:14px;white-space:nowrap;display:inline-flex;align-items:center}
+.mm-foot .mm-ref .short{display:none}
+.mm-drawer{position:absolute;left:16px;right:16px;bottom:108px;max-height:40%;overflow:auto;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid #E4E1D8;box-shadow:0 10px 30px rgba(32,36,43,.12);font-size:13px;direction:ltr;text-align:left}
+.mm-drawer[hidden]{display:none}
+.mm-drawer dl{display:grid;grid-template-columns:110px minmax(0,1fr);gap:4px 10px;margin:6px 0 0}
+.mm-drawer dt{color:#5B6472}.mm-drawer dd{margin:0}
+.mm-drawer .mm-dlab{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#B5651D;margin:0 0 4px}
+.mm-withfoot{bottom:108px}
+/* ---- phone (390 x 844 convention) ---- */
+@media (max-width:760px){
+  .mw-top{padding:10px 14px;gap:10px}.mw-models{margin:0;gap:6px}.mw-models a{height:32px;padding:0 10px;font-size:12px}
+  .mw-body{padding:20px 16px;gap:16px;justify-content:flex-start}.mw-q{font-size:26px}
+  .mw-tiles{grid-template-columns:1fr 1fr;gap:12px}.mw-tile{min-height:0;padding:16px;gap:8px}.mw-tile .mw-t{font-size:17px}.mw-tile .mw-d{font-size:12.5px}
+  #mode-bar{padding:0 14px;gap:10px}
+  .mb-pill{height:32px;padding:0 12px;font-size:14px}.mb-pill .mb-long{display:none}.mb-pill .mb-short{display:inline}
+  .mb-chips .mb-dim,.mb-chips .mb-chip,.mb-chips .mb-tog{display:none}
+  .mb-end .mb-btn,.mb-end .mb-exit{display:none}.mb-x{display:flex}
+  .mc{width:auto;max-height:none;box-shadow:none}
+  .mc-left{left:12px;top:12px;width:170px;padding:10px 12px;gap:6px;border-radius:12px}
+  .mc-left .mc-title{font-size:12px;color:#5B6472}
+  .mc-left .mc-drow{gap:8px}.mc-left .mc-drow .bar{width:5px;height:22px}.mc-left .mc-drow .nm{font-size:13px}.mc-left .mc-drow .mm{font-size:17px}.mc-left .mc-drow .un,.mc-left .mc-foot,.mc-left .mc-edit{display:none}
+  .mc-left .mc-drow:nth-child(n+5){display:none}
+  .mc-right{left:0;right:0;top:auto;bottom:0;border-radius:20px 20px 0 0;padding:10px 16px 20px;gap:12px;background:rgba(255,255,255,.97);max-height:60%;overflow:auto}
+  .mc-handle{display:block;width:44px;height:5px;border-radius:3px;background:#C9CDD3;margin:0 auto}
+  .mc-mob{display:flex}
+  .mc-desk{display:none!important}
+  .mc-pick{left:12px;right:12px;top:12px;width:auto;max-height:70%}
+  #mode-pills{display:none}
+  body.mode-more #mode-pills{display:flex;bottom:auto;top:12px;left:12px;right:12px;transform:none;max-width:none}
+  .mm-fill{padding:0;flex-direction:column;gap:0}
+  .mm-col{gap:0}
+  .mm-hero{flex:0 0 390px;border-radius:0}
+  .mm-thumb{display:none}
+  .mm-thumb-m{display:block;position:absolute;right:10px;bottom:10px;width:92px;height:92px;border-radius:12px;overflow:hidden;border:2px solid rgba(255,255,255,.7);z-index:3;pointer-events:none}
+  .mm-chip{height:28px;font-size:12px;right:10px;top:10px}.mm-chip.left{left:10px}
+  .mm-badge{display:none}
+  .mm-bar{height:60px;flex:0 0 60px;border-radius:0;padding:0 14px;gap:10px;border-width:0 0 1px}
+  .mm-bar .lb.fr{display:none}.mm-bar .mm-tog.m-hide{display:none}
+  .mm-play{width:40px;height:40px}
+  .mm-chips-m{display:flex;gap:8px;padding:12px 14px;overflow-x:auto;flex:0 0 auto}
+  .mm-chips-m .mm-tog{height:40px;flex:0 0 auto}
+  .mm-side{width:auto;flex:1 1 0;margin:0 10px 10px;gap:8px;min-height:0;overflow:auto}
+  .mm-card{padding:14px;gap:10px}
+  .mm-side .m-hide{display:none}
+  .mm-primary{height:46px;font-size:14px}.mm-sec{height:46px}
+  .mm-row2{display:flex;gap:8px;margin-top:auto}.mm-row2>*{flex:1 1 0;width:auto}
+  .mm-pane{flex:1 1 0;min-height:120px;gap:0}
+  .mm-ph{display:none}
+  .mm-stage{border-radius:0;border:0}
+  .mm-stage .mm-tagr{right:10px;top:10px;height:26px;font-size:12px}
+  .mm-stage .mm-ov{display:none}
+  .mm-lock{width:auto;flex:0 0 40px;flex-direction:row;gap:8px;background:#fff;border-top:1px solid #E4E1D8;border-bottom:1px solid #E4E1D8}
+  .mm-lock button{width:32px;height:32px}.mm-lock .lb br{display:none}
+  .mm-foot{left:0;right:0;bottom:0;height:150px;min-height:0;margin:0;border-radius:0;border-width:1px 0 0;padding:12px 14px;gap:8px;align-content:flex-start;overflow:auto}
+  .mm-foot .t,.mm-foot .lb{display:none}
+  .mm-foot .mm-ref{margin:0;width:100%;height:44px;border-radius:10px;justify-content:center;font-size:13px}
+  .mm-foot .mm-ref .long{display:none}.mm-foot .mm-ref .short{display:inline}
+  .mm-drawer{bottom:auto;top:12px;left:12px;right:12px;max-height:60%}
+  .mm-withfoot{bottom:150px}
+}
+/* MODES css end */
   #sel-sec,.ss-mk,.ss-lrow{--ss-bg:var(--panel-2);--ss-ink:var(--ink);--ss-dim:var(--ink-dim);--ss-line:var(--line-strong);--ss-accent:var(--accent);--ss-accent-ink:var(--ground);--ss-sunk:var(--panel-2)}
   #sel-sec{padding:.1rem 0 .7rem;border-bottom:1px solid var(--line);font-family:var(--f-body);font-size:12px}
   #pm-layer,#pm-card,.pm-sec{--pm-bg:var(--panel);--pm-ink:var(--ink);--pm-dim:var(--ink-dim);--pm-line:var(--line-strong);--pm-accent:var(--accent);--pm-sunk:var(--panel-2);--pm-warn:#d9562a}
@@ -994,6 +1227,46 @@ body.ss-marking canvas{cursor:copy!important}
 <!-- Q188: optional add-on, published as a separate file next to this page (absent in an anatomy-only build;
      the viewer then runs unchanged). It reaches the anatomy only through the generic API object built below. -->
 <script src="clinical_needle_tool.js"></script>
+<!-- MODES html begin -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap">
+<div id="mode-back" aria-hidden="true"></div>
+<div id="mode-switch" dir="rtl" hidden role="dialog" aria-modal="true" aria-label="בחירת מצב עבודה">
+  <div class="mw-top">
+    <div class="mw-brand">NMSK Atlas</div>
+    <nav class="mw-models" id="mw-models" aria-label="מודלים">
+      <a href="https://claude.ai/artifact/RRkf5ELjmk6E8iHdgfbTtq" data-page="Imaging-based · Male">Imaging · זכר</a>
+      <a href="https://claude.ai/artifact/1nFD1WUQ7jyovz9vx9pn77" data-page="Imaging-based · Female">Imaging · נקבה</a>
+      <a href="https://claude.ai/artifact/HdYCRuvGP8ESbggoRWCNBF" data-page="Base · Male">Base · זכר</a>
+      <a href="https://claude.ai/artifact/TiXsQe3eS5ehzN64Aozyth" data-page="Base · Female">Base · נקבה</a>
+      <a href="https://claude.ai/artifact/FeFFPVVTEnPkDm2r7TyDFz" data-page="Combined · Male">Combined · זכר</a>
+      <a href="https://claude.ai/artifact/1GEpFSCZexGZ1GnM1pXxuP" data-page="Combined · Female">Combined · נקבה</a>
+    </nav>
+    <button type="button" class="mw-close" id="mw-close" aria-label="סגור"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="mw-body">
+    <h2 class="mw-q">מה עושים היום?</h2>
+    <div class="mw-tiles" id="mw-tiles">
+      <button type="button" class="mw-tile" data-mode="anat"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M5 8c3 0 4 2 7 2s4-2 7-2M6 15c2 0 3 1.5 6 1.5s4-1.5 6-1.5"/></svg></span><span class="mw-t">אנטומיה</span><span class="mw-d">צפייה חופשית, שכבות, חתכים</span></button>
+      <button type="button" class="mw-tile" data-mode="inj"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20l9-9M13 11l4-4M17 7l3-3M15 5l4 4"/><circle cx="7" cy="17" r="1.5"/></svg></span><span class="mw-t">תכנון הזרקה</span><span class="mw-d">מטרה ← מסלול ← מרחק מכלי-דם ועצבים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="us"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10l-2 5H9zM9 9q3 6 6 0"/><circle cx="16" cy="17" r="4"/><path d="M15 15l3 2-3 2z" fill="currentColor" stroke="none"/></svg></span><span class="mw-t">US אבחנתי</span><span class="mw-d">סריקה דינמית, CINE, השוואת צדדים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="cmp"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="1.5"/><rect x="13" y="5" width="8" height="14" rx="1.5"/><path d="M12 9v6"/></svg></span><span class="mw-t">השוואת דימות</span><span class="mw-d">דימות המטופל מול האטלס, סימון פגיעה</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+    </div>
+    <p class="mw-note">כל מצב פותח מסך משלו. תמיד אפשר לחזור לכאן מהכפתור בפינה.</p>
+  </div>
+</div>
+<div id="mode-shell" dir="rtl" hidden>
+  <div id="mode-bar" role="toolbar" aria-label="סרגל המצב">
+    <div class="mb-pill" id="mb-pill"><span class="mb-long"></span><span class="mb-short"></span></div>
+    <div class="mb-chips" id="mb-chips"></div>
+    <div class="mb-end" id="mb-end">
+      <button type="button" class="mb-btn mb-exit" id="mb-exit">יציאה למצב אנטומיה</button>
+      <button type="button" class="mb-x" id="mb-exit-x" aria-label="יציאה למצב אנטומיה"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+  </div>
+  <div id="mode-main"></div>
+  <div id="mode-pills" role="group" aria-label="מתגים" hidden></div>
+</div>
+<!-- MODES html end -->
 <script src="clinical_imaging_tool.js"></script>   <!-- Q226: second optional private add-on (imaging); chains onto the first -->
 <script>
 window.__ANATOMY_BIN__="__BIN_B64__";
@@ -4686,6 +4959,208 @@ function NMSKNerveGroups(E){
   };
 }
 /* NERVE-GROUPS js end */
+/* MODES js begin */
+/* Q272 clinical WORKSPACE MODES -- the shared controller (viewer/modes/modes.js, synced into both templates).
+   Generic by design: this public template never names a private clinical tool. A mode is a key ("inj" / "us" / "cmp") whose
+   PROVIDER an optional add-on registers at attach time (NMSKModes.register(key, {title, short, build, enter, exit})); the add-on
+   keeps its own logic and only re-skins it here. Entering a mode: snapshot the anatomy screen (camera, selection, marks, categories,
+   parts markers, phone sheets), add body.mode-on + body.mode-<key> (CSS hides the chrome, nothing is destroyed), show the mode bar and
+   let the provider build its cards into #mode-main / #mode-pills; the 3-D element and the tools' own panels are DOCKED onto a slot's
+   rectangle (fixed positioning, re-placed on resize). Exiting: provider.exit(), undock everything, remove the classes, restore the
+   snapshot. The switcher ("מה עושים היום?") shows on the first load of a session (sessionStorage), from the "מצב" toolbar button and
+   from a #mode=<key> hash. */
+var NMSKModes = (function(){
+  var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null;
+  var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp"];
+  function $(id){ return document.getElementById(id); }
+  function el(tag, attrs, kids){
+    var e = document.createElement(tag);
+    if (attrs) Object.keys(attrs).forEach(function(k){
+      if (k === "text") e.textContent = attrs[k]; else if (k === "html") e.innerHTML = attrs[k];
+      else if (k.slice(0, 2) === "on") e.addEventListener(k.slice(2), attrs[k]); else if (attrs[k] != null) e.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function(c){ if (c) e.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return e;
+  }
+  function getApi(){ if (!api && host && host.api) { try { api = host.api(); } catch (err){ api = null; } } return api; }
+  function recs(){ if (!recsCache){ var a = getApi(); recsCache = a && a.list ? a.list() : []; } return recsCache; }
+  function remember(choice){ try { sessionStorage.setItem(KEY, JSON.stringify({choice:choice, at:Date.now()})); } catch (err){} }
+  function remembered(){ try { var j = JSON.parse(sessionStorage.getItem(KEY) || "null"); return j && j.choice ? j.choice : null; } catch (err){ return null; } }
+  function fireResize(){ try { window.dispatchEvent(new Event("resize")); } catch (err){} if (host && host.resized) { try { host.resized(); } catch (err2){} } }
+  /* ---------- docking: a fixed-positioned element follows a slot's rectangle ---------- */
+  function placeDock(d){
+    var slot = d.slots.filter(function(s){ var r = s.getBoundingClientRect(); return r.width > 2 && r.height > 2; })[0], st = d.el.style;
+    if (!slot || d.hidden){ st.visibility = "hidden"; st.width = "2px"; st.height = "2px"; st.left = "0px"; st.top = "0px"; return; }
+    var r = slot.getBoundingClientRect(), imp = {position:"fixed", left:r.left + "px", top:r.top + "px", width:r.width + "px", height:r.height + "px", right:"auto", bottom:"auto",
+      margin:"0", "min-width":"0", "min-height":"0", "max-width":"none", "max-height":"none", "z-index":String(d.z), overflow:"hidden", "border-radius":getComputedStyle(slot).borderRadius};
+    Object.keys(imp).forEach(function(k){ st.setProperty(k, imp[k], "important"); });   // beats the engines' and the tools' own !important layout rules
+    st.visibility = "";
+    if (d.scale && d.scale !== 1){ st.transform = "scale(" + d.scale + ")"; st.transformOrigin = "50% 50%"; st.clipPath = d.scale > 1 ? "inset(" + ((1 - 1 / d.scale) / 2 * 100).toFixed(3) + "%)" : "none"; }
+    else { st.transform = ""; st.clipPath = ""; }
+  }
+  function placeAll(){ docks.forEach(placeDock); }
+  function dock(e, slots, z, opt){
+    if (!e) return null;
+    slots = Array.isArray(slots) ? slots : [slots];
+    var d = docks.filter(function(x){ return x.el === e; })[0];
+    if (!d){ d = {el:e, style:e.getAttribute("style"), cls:e.className, slots:slots, z:z || 70, hidden:false, scale:1, model:!!(opt && opt.model)}; docks.push(d); }
+    else { d.slots = slots; d.z = z || d.z; }
+    placeDock(d); if (d.model) fireResize();
+    return d;
+  }
+  function undock(e){
+    var i = docks.map(function(x){ return x.el; }).indexOf(e); if (i < 0) return;
+    var d = docks.splice(i, 1)[0];
+    if (d.style == null) d.el.removeAttribute("style"); else d.el.setAttribute("style", d.style);
+    if (d.model) fireResize();
+  }
+  function undockAll(){ docks.slice().forEach(function(d){ undock(d.el); }); }
+  /* ---------- the anatomy screen snapshot (public APIs only) ---------- */
+  function takeSnapshot(){
+    var s = {host:null, selection:null, cats:[], parts:null, lay:null}, a = getApi();
+    try { s.host = host.snapshot(); } catch (err){}
+    try { if (window.__panelLayoutState) s.lay = window.__panelLayoutState().state; } catch (err0){}   // the Q267 one-tap layout (Model-only / Split / Compare)
+    try { var sel = a && a.selection ? a.selection() : null; if (sel && sel.state) s.selection = sel.state(); } catch (err2){}
+    try { var seen = {}; recs().forEach(function(r){ if (r.cat && !seen[r.cat]){ seen[r.cat] = 1; s.cats.push([r.cat, !!a.categoryOn(r.cat)]); } }); } catch (err3){}
+    try { var p = a && a.parts ? a.parts() : null; if (p && p.state) s.parts = p.state().mode; } catch (err4){}
+    return s;
+  }
+  function restoreSnapshot(s){
+    if (!s) return;
+    var a = getApi();
+    try { s.cats.forEach(function(c){ if (!!a.categoryOn(c[0]) !== c[1]) a.setCategoryOn(c[0], c[1]); }); } catch (err){}
+    try {
+      var sel = a && a.selection ? a.selection() : null, st = s.selection;
+      if (sel && st){
+        sel.clear();
+        if (st.marks && st.marks.length){ sel.markIds(st.marks, true, true, true); if (st.sel && st.sel !== "show") sel.setGroup("sel", st.sel, true); if (st.oth && st.oth !== "show") sel.setGroup("oth", st.oth, true); }
+      }
+    } catch (err2){}
+    try { var p = a && a.parts ? a.parts() : null; if (p && p.setMode && s.parts != null && p.state().mode !== s.parts){ p.setMode(s.parts); if (p.dirty) p.dirty(); } } catch (err3){}
+    try { if (s.host) host.restore(s.host); } catch (err4){}
+    /* the Q267 layout toggle: its own 500 ms poller reacts to the tools a mode opened / closed with a lag (and a tool closed by the mode
+       can leave it on Split); put it back exactly through its own public button, never its internals */
+    try {
+      var b3 = $("t-lay3"), n = 0;
+      while (s.lay && window.__panelLayoutState && b3 && window.__panelLayoutState().state !== s.lay && n++ < 3) b3.click();
+      if (s.lay) setTimeout(function(){ var m = 0; while (window.__panelLayoutState && b3 && window.__panelLayoutState().state !== s.lay && m++ < 3) b3.click(); }, 1200);
+    } catch (err5){}
+  }
+  /* ---------- the switcher ---------- */
+  function switcher(){ return $("mode-switch"); }
+  function syncTiles(){
+    var sw = switcher(); if (!sw) return;
+    Array.prototype.forEach.call(sw.querySelectorAll(".mw-tile"), function(t){
+      var k = t.getAttribute("data-mode"), avail = k === "anat" || !!providers[k];
+      if (avail) t.removeAttribute("disabled"); else t.setAttribute("disabled", "disabled");
+      t.setAttribute("aria-pressed", String((cur || "anat") === k));
+    });
+    var title = document.title || "";
+    Array.prototype.forEach.call(sw.querySelectorAll(".mw-models a"), function(a){ a.classList.toggle("cur", title.indexOf(a.getAttribute("data-page")) >= 0); });
+  }
+  function showSwitcher(){ var sw = switcher(); if (!sw) return; syncTiles(); sw.hidden = false; var f = sw.querySelector(".mw-tile:not([disabled])"); try { if (f) f.focus(); } catch (err){} }
+  function hideSwitcher(){ var sw = switcher(); if (sw) sw.hidden = true; }
+  function choose(k){
+    if (k === "anat"){ if (cur) exit(); remember("anat"); hideSwitcher(); return; }
+    hideSwitcher(); enter(k);
+  }
+  /* ---------- enter / exit ---------- */
+  function makeCtx(key, p){
+    var shell = $("mode-shell");
+    return {
+      key:key, host:host, api:getApi(), recs:recs, el:el, shell:shell, bar:{chips:$("mb-chips"), end:$("mb-end")}, main:$("mode-main"), pills:$("mode-pills"),
+      dock:dock, undock:undock, relayout:placeAll, fireResize:fireResize,
+      modelDock:function(slots, z){ return dock(host.model, slots, z || 70, {model:true}); },
+      setDockHidden:function(e, hidden){ var d = docks.filter(function(x){ return x.el === e; })[0]; if (d){ d.hidden = !!hidden; placeDock(d); } },
+      setDockScale:function(e, s){ var d = docks.filter(function(x){ return x.el === e; })[0]; if (d){ d.scale = s || 1; placeDock(d); } },
+      isPhone:function(){ return host.isPhone ? host.isPhone() : window.innerWidth <= 760; },
+      selectedId:function(){ try { return host.selectedId(); } catch (err){ return null; } },
+      select:function(id){ try { host.select(id); } catch (err){} },
+      recName:function(id){ var r = recs().filter(function(x){ return x.id === id; })[0]; return r ? r.name : (id || ""); },
+      side:function(r){ var s = r && r.side; return s === "r" ? "ימין" : s === "l" ? "שמאל" : (s === "right" ? "ימין" : s === "left" ? "שמאל" : ""); },
+      exit:function(){ exit(); }
+    };
+  }
+  function enter(key){
+    if (!host) return false;
+    var p = providers[key];
+    if (!p){ queued = key; remember(key); return false; }
+    if (!host.ready()){ queued = key; remember(key); waitReady(); return false; }
+    if (cur === key) return true;
+    if (cur) exit(true);
+    queued = null;
+    snap = takeSnapshot();
+    cur = key; curP = p; ctx = makeCtx(key, p);
+    document.body.classList.add("mode-on", "mode-" + key);
+    var shell = $("mode-shell"); shell.hidden = false;
+    $("mb-pill").querySelector(".mb-long").textContent = p.title || key; $("mb-pill").querySelector(".mb-short").textContent = p.short || p.title || key;
+    ctx.bar.chips.innerHTML = ""; ctx.main.innerHTML = ""; ctx.pills.innerHTML = ""; ctx.pills.hidden = true;
+    Array.prototype.slice.call(ctx.bar.end.children).forEach(function(c){ if (c.id !== "mb-exit" && c.id !== "mb-exit-x") c.remove(); });
+    try { p.build(ctx); } catch (err){ console.error("mode " + key + " failed to build:", err); }
+    try { p.enter(ctx); } catch (err2){ console.error("mode " + key + " failed to enter:", err2); }
+    placeAll(); fireResize();
+    clearInterval(tick); tick = setInterval(function(){ placeAll(); if (curP && curP.refresh){ try { curP.refresh(ctx); } catch (err3){} } }, 300);
+    remember(key); syncTiles();
+    return true;
+  }
+  function exit(silent){
+    if (!cur) return;
+    clearInterval(tick); tick = 0;
+    try { curP.exit(ctx); } catch (err){ console.error("mode exit:", err); }
+    undockAll();
+    document.body.classList.remove("mode-on", "mode-" + cur, "mode-more");
+    var shell = $("mode-shell"); shell.hidden = true; $("mode-main").innerHTML = ""; $("mb-chips").innerHTML = ""; $("mode-pills").innerHTML = "";
+    cur = null; curP = null; ctx = null;
+    restoreSnapshot(snap); snap = null;
+    fireResize();
+    if (!silent) remember("anat");
+    syncTiles();
+  }
+  function waitReady(){
+    if (pollReady) return;
+    var t0 = Date.now();
+    pollReady = setInterval(function(){
+      if (host.ready()){ clearInterval(pollReady); pollReady = 0; if (queued && providers[queued]) enter(queued); }
+      else if (Date.now() - t0 > 120000){ clearInterval(pollReady); pollReady = 0; }
+    }, 250);
+  }
+  /* ---------- wiring ---------- */
+  function init(h){
+    host = h;
+    var sw = switcher(), shell = $("mode-shell");
+    if (sw){
+      sw.addEventListener("click", function(e){ var t = e.target.closest(".mw-tile"); if (t && !t.hasAttribute("disabled")) choose(t.getAttribute("data-mode")); });
+      $("mw-close").addEventListener("click", function(){ remember(cur || "anat"); hideSwitcher(); });
+      sw.addEventListener("keydown", function(e){ if (e.key === "Escape"){ remember(cur || "anat"); hideSwitcher(); } });
+    }
+    if (shell){
+      $("mb-exit").addEventListener("click", function(){ exit(); });
+      $("mb-exit-x").addEventListener("click", function(){ exit(); });
+    }
+    var tb = host.toolbar;
+    if (tb){
+      var b = el("button", {type:"button", id:"t-mode", class:host.toolClass, title:"מצב עבודה: אנטומיה / תכנון הזרקה / US אבחנתי / השוואת דימות", text:"מצב", onclick:function(){ showSwitcher(); }});
+      var hub = $("t-hub"); if (hub && hub.parentNode === tb) tb.insertBefore(b, hub.nextSibling); else tb.insertBefore(b, tb.firstChild);
+    }
+    window.addEventListener("resize", placeAll);
+    var m = /[#&]mode=(inj|us|cmp|anat)\b/.exec(location.hash || ""), choice = m ? m[1] : remembered();
+    if (!choice){ var t0 = Date.now(), w = setInterval(function(){ if (host.ready() || Date.now() - t0 > 90000){ clearInterval(w); if (!cur) showSwitcher(); } }, 200); }
+    else if (choice !== "anat"){ queued = choice; waitReady(); }
+    syncTiles();
+  }
+  function register(key, p){
+    if (MODES.indexOf(key) < 0) return false;
+    providers[key] = p; syncTiles();
+    if (queued === key){ if (host && host.ready()) enter(key); else waitReady(); }
+    return true;
+  }
+  return {init:init, register:register, enter:enter, exit:function(){ exit(); }, show:showSwitcher, hide:hideSwitcher, current:function(){ return cur; },
+          state:function(){ var sid = null; try { sid = host ? host.selectedId() : null; } catch (err){} return {cur:cur, registered:Object.keys(providers), switcherOpen:!!(switcher() && !switcher().hidden), queued:queued, docks:docks.length, selected:sid}; },
+          el:el};
+})();
+
+window.NMSKModes = NMSKModes;   /* the optional add-ons (separate files) register their providers through the window object */
+/* MODES js end */
 /* CUT-CAP js begin */
 /* Cut-face fill ("cap") for Cut mode (Q227). CPU cross-section of the ACTUAL meshes with the cut plane:
    signed distance of the vertices -> triangle/plane segments -> gaps of the open ends closed (<= 1 mm) -> even-odd scanline fill of every
@@ -5495,6 +5970,31 @@ var nerveGroupsCtl = NMSKNerveGroups({
 nerveGroupsCtl.load();
 window.__nerveGroupsState = function(){ return nerveGroupsCtl.state(); };
 /* NERVE-GROUPS glue end */
+/* MODES glue begin */
+/* Q272 clinical workspace modes, WebGL engine: the host object hands the shared controller (viewer/modes/modes.js) the page's own
+   public things only -- the canvas to dock, the pill toolbar for the "מצב" button, the generic add-on API (anatomyApi(), the same
+   object the optional add-ons get), the current selection, the camera and the phone layer sheet for the exit snapshot / restore. */
+NMSKModes.init({
+  engine:"zan", model:document.getElementById("view"), toolbar:document.getElementById("topright"), toolClass:"pill",
+  ready:function(){ var b = document.getElementById("boot"); return !!(selCtl && OBJ.length && (!b || b.classList.contains("done"))); },
+  api:function(){ return anatomyApi(); },
+  selectedId:function(){ return selected ? (selected.id || selected.name) : null; },
+  select:function(id){ select(id && objsById[id] ? objsById[id][0] : null, false); },
+  snapshot:function(){
+    return {sel:selected ? (selected.id || selected.name) : null, cam:{az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}, sheet:!!sheetOpen};
+  },
+  restore:function(s){
+    cam.az = s.cam.az; cam.el = s.cam.el; cam.dist = s.cam.dist; cam.tgt = s.cam.tgt.slice();
+    var cur = selected ? (selected.id || selected.name) : null;
+    if (cur !== s.sel) select(s.sel && objsById[s.sel] ? objsById[s.sel][0] : null, false);
+    if (!!sheetOpen !== s.sheet){ var sb = document.getElementById("btn-panel"); if (sb) sb.click(); }
+    need = true;
+  },
+  resized:function(){ resize(); },
+  isPhone:function(){ return window.innerWidth <= 760; }
+});
+window.__modesState = function(){ return NMSKModes.state(); };
+/* MODES glue end */
     /* POSE glue begin */
 /* Q241 Pose, WebGL engine. The posed geometry is BAKED into the batch vertex buffers (gl.bufferSubData of the moved structures only: positions and normals), so the shaders, the picking /
    depth passes, the CUT clipping (uClip / uClip2 work on the posed positions), selection and the Symmetric view (the shader mirrors the posed vertices) need no change. Rest positions /

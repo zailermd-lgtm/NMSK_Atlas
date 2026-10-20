@@ -1817,6 +1817,161 @@
   }
 
   /* ========================================================================================================
+   * Q272: the "השוואת דימות" WORKSPACE MODE -- hosts Q267's reference picture-in-picture panel (local file, nothing uploaded)
+   * beside the page's own simulated slice (this tool's CT / MRI, or the ultrasound companion's B-mode) or the 3-D model, with a
+   * shared DISPLAY zoom and the page's existing injury annotation (the Mark mechanism + severity + the read-only reference card).
+   * Re-skin only: the three panels are docked into the mode's panes by the generic mode layer (viewer/modes/); every action calls
+   * the public APIs (NMSKReference / NMSKImaging / NMSKUltrasound, the page's selection controller, its own injury card buttons).
+   * No "matching slice" exists as data: the atlas pane is the page's own simulation at the probe / plane the user positions, and
+   * says so ("סימולציה מהמשים").
+   * ====================================================================================================== */
+  var cmpModeCss = [
+    "body.mode-cmp #ref-root{display:flex!important;resize:none!important;border:0!important;background:#0B0F14!important}",
+    "body.mode-cmp #ref-root .ref-head,body.mode-cmp #ref-root .ref-row{display:none!important}",
+    "body.mode-cmp #ref-root.ref-collapsed>*:not(.ref-head){display:flex!important}",
+    "body.mode-cmp #img-root .img-head,body.mode-cmp #img-root .img-ctl,body.mode-cmp #img-tab3d{display:none!important}",
+    "body.mode-cmp #img-root{border:0!important}"
+  ].join("\n");
+  function compareMode(api) {
+    var ctx = null, ui = {}, prev = null, mod = "us", locked = false, show3d = false, SEV = [["mild", "קלה"], ["moderate", "בינונית"], ["severe", "קשה"]], popOpen = null;
+    function h(tag, a, k) { return ctx.el(tag, a, k); }
+    function R() { return G.NMSKReference; } function I() { return G.NMSKImaging; } function U() { return G.NMSKUltrasound; }
+    function refRoot() { return document.getElementById("ref-root"); } function imgRoot() { return document.getElementById("img-root"); } function usRoot() { return document.getElementById("us-root"); }
+    function injuryBox() { return document.getElementById("i-injury") || document.getElementById("inj-card"); }
+    function rec() { var id = ctx.selectedId(); return id ? ctx.recs().filter(function (r) { return r.id === id; })[0] || null : null; }
+    function recLabel(r) { return r ? r.name + (ctx.side(r) ? " · " + ctx.side(r) : "") : "לא נבחר מבנה"; }
+    function closePop() { if (popOpen) { popOpen.remove(); popOpen = null; } }
+    function xIcon() { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", "16"); s.setAttribute("height", "16"); s.setAttribute("aria-hidden", "true"); s.innerHTML = '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'; return s; }
+    function lockIcon() { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", "20"); s.setAttribute("height", "20"); s.setAttribute("aria-hidden", "true"); s.innerHTML = '<path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'; return s; }
+    function openPicker() {
+      closePop();
+      var inp, res, card = h("div", {class: "mc mc-pick mi"}, [
+        h("button", {type: "button", class: "mc-close", "aria-label": "סגור", onclick: closePop}, [xIcon()]),
+        h("div", {class: "mc-title", text: "בחירת מבנה"}),
+        (inp = h("input", {type: "search", class: "mc-search", placeholder: "חיפוש מבנה…", autocomplete: "off"})),
+        (res = h("div", {class: "mc-res"}))
+      ]);
+      function render() {
+        var q = inp.value.trim().toLowerCase(), hits = ctx.recs().filter(function (r) { return !q || (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0; }).slice(0, 40);
+        res.innerHTML = "";
+        hits.forEach(function (r) { res.appendChild(h("button", {type: "button", onclick: function () { closePop(); ctx.select(r.id); refreshUi(); }}, [recLabel(r) + " ", h("span", {class: "mono", text: r.id})])); });
+      }
+      inp.addEventListener("input", render); render();
+      ctx.main.appendChild(card); popOpen = card; try { inp.focus(); } catch (e) {}
+    }
+    function setModality(k) {
+      mod = k;
+      if (k === "us") {
+        if (I()) I().close();
+        if (U()) { U().open(); U().set({lay: "tab", tab: "image"}); if (usRoot()) ctx.dock(usRoot(), ui.atlasSlot, 81); }
+      } else {
+        if (U()) U().close();
+        if (I()) { I().open(); I().set({modality: k === "ct" ? "ct" : "mr", lay: "tab", tab: "image"}); if (imgRoot()) ctx.dock(imgRoot(), ui.atlasSlot, 80); }
+      }
+      refreshUi();
+    }
+    function toolEl() { return mod === "us" ? usRoot() : imgRoot(); }
+    function toggle3d() { show3d = !show3d; refreshUi(); }
+    function toggleLock() { locked = !locked; refreshUi(); }
+    function severityClick(key) {
+      var r = rec(); if (!r) { openPicker(); return; }
+      var sel = api.selection ? api.selection() : null;
+      if (sel && sel.isMarked && !sel.isMarked(r.id)) { sel.mark(r.id, true); }          // marking IS the injury flag (Q267 item 8), through the public API
+      ctx.select(r.id);                                                                  // re-renders the page's own card (its severity row appears once marked)
+      var box = injuryBox(), b = box ? box.querySelector('[data-sev="' + key + '"]') : null;
+      if (b) b.click();
+      refreshUi();
+    }
+    function severityOf() {
+      var box = injuryBox(); if (!box) return null;
+      var on = box.querySelector('[data-sev][aria-pressed="true"]'); return on ? on.getAttribute("data-sev") : null;
+    }
+    function build(c) {
+      ctx = c;
+      if (!document.getElementById("cmp-mode-css")) { var st = document.createElement("style"); st.id = "cmp-mode-css"; st.textContent = cmpModeCss; document.head.appendChild(st); }
+      c.bar.chips.appendChild(h("span", {class: "mb-dim", text: "דימות:"}));
+      ui.mods = {};
+      [["us", "US"], ["ct", "CT"], ["mr", "MRI"]].forEach(function (m) { ui.mods[m[0]] = h("button", {type: "button", class: "mb-tog mi", "aria-pressed": "false", text: m[1], onclick: function () { setModality(m[0]); }}); c.bar.chips.appendChild(ui.mods[m[0]]); });
+      c.bar.chips.appendChild(h("span", {class: "mb-dim", text: "אזור:", style: "margin-inline-start:16px"}));
+      ui.region = h("button", {type: "button", class: "mb-chip mi", text: "", onclick: openPicker}); c.bar.chips.appendChild(ui.region);
+      ui.mobText = h("div", {class: "mb-text mi", text: ""}); c.bar.chips.appendChild(ui.mobText);
+      /* pane A: the patient's own image (local) */
+      ui.refSlot = h("div", {class: "mslot"});
+      ui.zoomBtn = h("button", {type: "button", text: "זום 100%", onclick: function () { var z = R().state().zoom, nz = z >= 3.9 ? 1 : Math.min(4, Math.round(z * 1.25 * 100) / 100); R().set({zoom: nz}); refreshUi(); }});
+      ui.brightBtn = h("button", {type: "button", text: "בהירות", onclick: function () { var b = R().state().bright, nb = b >= 190 ? 70 : b + 30; R().set({bright: nb}); refreshUi(); }});
+      ui.empty = h("div", {class: "mm-empty mi"}, [h("button", {type: "button", class: "mm-sec", style: "width:auto;padding:0 18px", text: "בחר קובץ דימות (תמונה או וידאו)", onclick: pickFile})]);
+      var paneA = h("div", {class: "mm-pane"}, [
+        h("div", {class: "mm-ph mi"}, [h("div", {class: "t", text: "דימות המטופל"}), h("div", {class: "tag warm", text: "נטען מקומית · לא נשלח"}), h("button", {type: "button", class: "mm-tog", text: "החלף קובץ", onclick: pickFile})]),
+        h("div", {class: "mm-stage dark"}, [ui.refSlot, h("div", {class: "mm-tagr mi", style: "background:rgba(181,101,29,.95);color:#fff;border:0", text: "המטופל"}), ui.empty, h("div", {class: "mm-ov mi"}, [ui.zoomBtn, ui.brightBtn])])
+      ]);
+      ui.lock = h("button", {type: "button", "aria-label": "נעל זום משותף", "aria-pressed": "false", onclick: toggleLock}, [lockIcon()]);
+      ui.lockLb = h("div", {class: "lb", html: "זום<br>משותף"});
+      var lock = h("div", {class: "mm-lock mi"}, [ui.lock, ui.lockLb]);
+      /* pane B: the atlas */
+      ui.atlasSlot = h("div", {class: "mslot"}); ui.modelSlot = h("div", {class: "mslot"});
+      ui.btn3d = h("button", {type: "button", class: "mm-tog", "aria-pressed": "false", text: "תלת-ממד", onclick: toggle3d});
+      ui.atlasTag = h("div", {class: "mm-tagr", text: ""});
+      ui.atlasNote = h("div", {class: "mm-empty", text: ""}); ui.atlasNote.hidden = true;
+      var paneB = h("div", {class: "mm-pane"}, [
+        h("div", {class: "mm-ph mi"}, [h("div", {class: "t", text: "האטלס — חתך תואם"}), h("div", {class: "tag", text: "סימולציה מהמשים"}), ui.btn3d]),
+        h("div", {class: "mm-stage"}, [ui.modelSlot, ui.atlasSlot, ui.atlasTag, ui.atlasNote])
+      ]);
+      c.main.appendChild(h("div", {class: "mm-fill mm-withfoot"}, [paneA, lock, paneB]));
+      /* the injury bar */
+      ui.structBtn = h("button", {type: "button", class: "mm-tog", text: "", onclick: openPicker});
+      ui.sev = {};
+      var foot = h("div", {class: "mm-foot mi"}, [h("div", {class: "t", text: "סימון פגיעה"}), ui.structBtn, h("div", {class: "lb", text: "חומרה:"})]);
+      SEV.forEach(function (s) { ui.sev[s[0]] = h("button", {type: "button", class: "mm-tog", "aria-pressed": "false", text: s[1], onclick: function () { severityClick(s[0]); }}); foot.appendChild(ui.sev[s[0]]); });
+      ui.refBtn = h("button", {type: "button", class: "mm-ref", "aria-expanded": "false", onclick: function () { ui.drawer.hidden = !ui.drawer.hidden; refreshUi(); }}, [h("span", {class: "long", text: "מידע רפרנס (עצבוב, אספקה) — לא אבחנה ▸"}), h("span", {class: "short", text: "מידע רפרנס — לא אבחנה ▸"})]);
+      foot.appendChild(ui.refBtn);
+      c.main.appendChild(foot);
+      ui.drawer = h("div", {class: "mm-drawer mi"}); ui.drawer.hidden = true; c.main.appendChild(ui.drawer);
+      c.modelDock(ui.modelSlot);
+    }
+    function pickFile() { var inp = refRoot() ? refRoot().querySelector("input[type=file]") : null; if (inp) inp.click(); }
+    function refreshUi() {
+      if (!ctx) return;
+      var r = rec(), rs = R() ? R().state() : null;
+      Object.keys(ui.mods).forEach(function (k) { ui.mods[k].setAttribute("aria-pressed", String(k === mod)); });
+      ui.mods.us.disabled = !U();
+      ui.region.textContent = recLabel(r); ui.structBtn.textContent = (r ? r.name : "בחר מבנה") + " ▾"; ui.atlasTag.textContent = recLabel(r);
+      ui.mobText.textContent = ui.mods[mod].textContent + (r ? " · " + r.name : "");
+      ui.empty.hidden = !!(rs && rs.loaded);
+      ui.zoomBtn.textContent = "זום " + (rs ? Math.round(rs.zoom * 100) : 100) + "%"; ui.brightBtn.textContent = "בהירות " + (rs ? rs.bright : 100) + "%";
+      ui.lock.setAttribute("aria-pressed", String(locked)); ui.lockLb.innerHTML = locked ? "זום<br>משותף פעיל" : "זום<br>משותף";
+      ui.btn3d.setAttribute("aria-pressed", String(show3d));
+      var t = toolEl();
+      if (t) { ctx.setDockHidden(t, show3d); ctx.setDockScale(t, locked && rs ? rs.zoom : 1); }
+      var other = mod === "us" ? imgRoot() : usRoot(); if (other) ctx.setDockHidden(other, true);
+      ui.atlasNote.hidden = !(mod === "us" && !U()) && !(mod !== "us" && !I());
+      ui.atlasNote.textContent = mod === "us" && !U() ? "האולטרסאונד המדומה עדיין נטען…" : "";
+      var sev = severityOf();
+      SEV.forEach(function (s) { ui.sev[s[0]].setAttribute("aria-pressed", String(sev === s[0])); });
+      var box = injuryBox(), card = box ? box.querySelector(".i-inj-card, .inj-body") : null;
+      if (!ui.drawer.hidden) {
+        ui.drawer.innerHTML = "";
+        if (card) { ui.drawer.innerHTML = card.innerHTML; var lab = ui.drawer.querySelector(".i-inj-label, .inj-lab"); if (lab) lab.className = "mm-dlab"; }
+        else ui.drawer.appendChild(h("p", {class: "mm-dlab", text: r ? "Reference information — not a diagnosis. Mark a severity first." : "Pick a structure first."}));
+      }
+      ui.refBtn.setAttribute("aria-expanded", String(!ui.drawer.hidden));
+    }
+    function enter(c) {
+      prev = {ref: R() ? R().state() : null, img: I() ? I().state() : null, us: U() ? U().state() : null};
+      locked = false; show3d = false;
+      if (R()) { R().open(); var rr = refRoot(); if (rr) { if (rr.classList.contains("ref-collapsed")) { var m = document.getElementById("ref-min"); if (m) m.click(); } c.dock(rr, ui.refSlot, 82); } }
+      setModality(U() ? "us" : "ct");
+    }
+    function exit() {
+      closePop();
+      if (R() && prev.ref && !prev.ref.open) R().close();
+      if (I()) { if (prev.img && !prev.img.open) I().close(); else I().set({lay: prev.img ? prev.img.lay : "auto", tab: "image"}); }
+      if (U()) { if (prev.us && !prev.us.open) U().close(); else U().set({lay: prev.us ? prev.us.lay : "auto", tab: "image"}); }
+      ctx = null;
+    }
+    return {title: "השוואת דימות", short: "השוואה", build: build, enter: enter, exit: exit, refresh: refreshUi};
+  }
+
+  /* ========================================================================================================
    * 5. ATTACH -- chain onto the (optional) needle add-on
    * ====================================================================================================== */
   var prev = G.NMSKClinical, chained = Object.assign({}, prev || {});
@@ -1832,6 +1987,7 @@
     if (sh) { sh.addClickHandler = function (fn) { clickers.push(fn); }; sh.api = api; }
     loadCompanions(api, sh);
     try { attachReferencePanel(api); } catch (e4) { console.error("reference panel failed to start; anatomy viewer unaffected:", e4); }
+    if (G.NMSKModes && G.NMSKModes.register) { try { G.NMSKModes.register("cmp", compareMode(api)); } catch (e5) { console.error("compare mode failed to register:", e5); } }   // Q272
     return r;
   };
   chained.imaging = VERSION;

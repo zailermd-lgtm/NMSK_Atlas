@@ -686,6 +686,7 @@
       var v = api.view(), o = v.eye, d = [v.target[0] - v.eye[0], v.target[1] - v.eye[1], v.target[2] - v.eye[2]];
       if (!placeRay(o, d, true)) abdomenPlacement();
     }
+    var modeArm = false;                                                 // Q272: the US workspace mode keeps "place on skin" armed after every tap
     function onPlaceClick(e) {
       if (!S.open || (!S.placing && !S.pick3d) || !geo) return false;
       var r = api.ray(e);
@@ -699,7 +700,7 @@
       if (S.ab && S.placeSlot === "B") {                                 // Q267 (5): "Place on skin" routes to whichever slot is currently armed
         hit = placeRay2(r.o, r.d, "B");
       } else hit = placeRay(r.o, r.d);
-      S.placing = false; syncUi();
+      S.placing = !!modeArm; syncUi();
       if (hit) { S.sel = 0; refresh(true); }
       return true;
     }
@@ -1605,6 +1606,133 @@
       var d = Math.round(Math.hypot(vw.eye[0] - vw.target[0], vw.eye[1] - vw.target[1], vw.eye[2] - vw.target[2]) / 120);
       if (String(d) !== lastOverlayKey) { lastOverlayKey = String(d); updateOverlay(); }
     }, 400);
+    /* ---------- Q272: the "US אבחנתי" WORKSPACE MODE -- a re-skin of this tool (preset, CINE, A/B, thickness), hosted by the
+       page's generic mode layer (viewer/modes/, window.NMSKModes). The B-mode panel (#us-root) itself is docked into the hero slot,
+       the 3-D canvas into the thumbnail slot; every control below calls the same functions this tool's own panel calls. ---------- */
+    var usModeCss = [
+      "body.mode-us #us-root .us-head,body.mode-us #us-root #us-div,body.mode-us #us-root .us-diag,body.mode-us #us-root .us-hint,body.mode-us #us-root .us-info,body.mode-us #us-root>.us-status,body.mode-us #us-root .us-read{display:none!important}",
+      "body.mode-us #us-root{border:0!important;background:#0B0F14!important}",
+      "body.mode-us #us-root .us-thick{position:absolute;left:14px;top:12px;z-index:5;height:30px;padding:0 12px;border-radius:999px;background:rgba(43,108,176,.9);color:#fff;border:0;font:700 13px Heebo,system-ui,sans-serif;display:flex;align-items:center;direction:rtl}",
+      "body.mode-us #us-root .us-thick[hidden]{display:none}",
+      "body.mode-us #us-root .us-wizard{direction:rtl;font-family:Heebo,system-ui,sans-serif}",
+      "body.mode-us #us-root:not(.ctl-off) .us-ctl{max-height:55%}",
+      "body.mode-cmp #us-root .us-head,body.mode-cmp #us-root #us-div,body.mode-cmp #us-root .us-ctl,body.mode-cmp #us-root .us-diag,body.mode-cmp #us-root .us-hint,body.mode-cmp #us-root .us-info,body.mode-cmp #us-root>.us-status,body.mode-cmp #us-root .us-wizard,body.mode-cmp #us-root .us-read{display:none!important}",
+      "body.mode-cmp #us-root{border:0!important}"
+    ].join("\n");
+    function usMode() {
+      var ctx = null, ui2 = {}, prev = null, FREQS = (US && US.freq_presets_mhz) || [3.5, 5, 7.5, 12];
+      function h(tag, a, k) { return ctx.el(tag, a, k); }
+      function svg(d, w) { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", w || 18); s.setAttribute("height", w || 18); s.setAttribute("aria-hidden", "true"); s.innerHTML = d; return s; }
+      function playIcon() { return svg('<path d="M7 5l12 7-12 7z" fill="currentColor"/>'); }
+      function pauseIcon() { return svg('<path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/>'); }
+      function chipSet(container, mobile) {
+        PRESETS.forEach(function (d) {
+          var label = mobile ? {tear: "קרע שריר", entrap: "entrapment", tendon: "גיד / רצועה", joint: "מפרק"}[d.key] : {tear: "קרע שריר", entrap: "entrapment עצבי", tendon: "גיד / רצועה", joint: "מפרק / בורסה"}[d.key];
+          var b = h("button", {type: "button", class: (mobile ? "mm-tog" : "mb-tog") + " mi", "data-preset": d.key, "aria-pressed": "false", text: label, onclick: function () { choosePreset(d.key); }});
+          container.appendChild(b);
+        });
+      }
+      function choosePreset(key) {
+        if (!geo) { setStatus("Loading ..."); loadTable().then(function () { choosePreset(key); }); return; }
+        applyPreset(key);
+        /* as automatic as possible: when the page's selected structure is one of the wizard's real candidates, take it */
+        if (ui.wizard && !ui.wizard.hidden) {
+          var sid = ctx.selectedId(), c = sid ? pendingCands.filter(function (x) { return x.sid === sid; })[0] : null;
+          if (c) { placeAtStructure(c.sid, "A"); setStatus("Centred near " + c.name + "."); hideWizard(); refresh(true); setCine(true); }
+        }
+        refreshUi();
+      }
+      function savePng() {
+        try {
+          var v = views[S.sel] || views[0]; if (!v || !v.img) return;
+          var a = document.createElement("a"); a.href = v.img.toDataURL("image/png"); a.download = "nmsk-us-simulation.png"; document.body.appendChild(a); a.click(); a.remove();
+        } catch (e) { setStatus("Save failed: " + e.message); }
+      }
+      function build(c) {
+        ctx = c;
+        if (!document.getElementById("us-mode-css")) { var st = document.createElement("style"); st.id = "us-mode-css"; st.textContent = usModeCss; document.head.appendChild(st); }
+        c.bar.chips.appendChild(h("span", {class: "mb-dim", text: "חשד:"}));
+        chipSet(c.bar.chips, false);
+        ui2.mobText = h("div", {class: "mb-text mi", text: ""}); c.bar.chips.appendChild(ui2.mobText);
+        c.bar.end.insertBefore(h("button", {type: "button", class: "mb-btn mi", text: "שמור תמונה", onclick: savePng}), c.bar.end.firstChild);
+        /* main: hero + cine bar | side column */
+        ui2.heroSlot = h("div", {class: "mslot"});
+        ui2.chip = h("div", {class: "mm-chip", text: ""});
+        ui2.thumbM = h("div", {class: "mm-thumb-m"}, [(ui2.thumbMSlot = h("div", {class: "mslot", style: "position:absolute;inset:0"}))]);
+        var hero = h("div", {class: "mm-hero"}, [ui2.heroSlot, ui2.chip, h("div", {class: "mm-badge", text: "סימולציה מהמשים – לא אולטרסאונד"}), ui2.thumbM]);
+        ui2.play = h("button", {type: "button", class: "mm-play", "aria-label": "הפעל/עצור", onclick: function () { setCine(!S.cine); refreshUi(); }}, [playIcon()]);
+        ui2.scrub = h("input", {type: "range", min: "0", max: "8", step: "1", value: "0", "aria-label": "CINE", oninput: function () { G.NMSKUltrasound.set({sel: +this.value}); refreshUi(); }});
+        ui2.frame = h("div", {class: "lb fr", text: ""});
+        ui2.cont = h("button", {type: "button", class: "mm-tog", "aria-pressed": "false", text: "רציף", onclick: function () { if (S.cineMode !== "continuous") ui.cineModeBtn.click(); refreshUi(); }});
+        ui2.step = h("button", {type: "button", class: "mm-tog m-hide", "aria-pressed": "false", text: "צעדים", onclick: function () { if (S.cineMode === "continuous") ui.cineModeBtn.click(); refreshUi(); }});
+        ui2.thick = h("button", {type: "button", class: "mm-tog m-hide", "aria-pressed": "false", text: "עובי רקמה: כבוי", onclick: function () { if (ui.togs && ui.togs.thickness) ui.togs.thickness.click(); refreshUi(); }});
+        var cine = h("div", {class: "mm-bar mi"}, [ui2.play, h("label", {class: "lb", text: "CINE"}), ui2.scrub, ui2.frame, ui2.cont, ui2.step, ui2.thick]);
+        ui2.chipsM = h("div", {class: "mm-chips-m"}); chipSet(ui2.chipsM, true);
+        var col = h("div", {class: "mm-col"}, [hero, cine, ui2.chipsM]);
+        /* side column */
+        ui2.thumbSlot = h("div", {class: "mslot"});
+        var thumb = h("div", {class: "mm-thumb"}, [ui2.thumbSlot, h("div", {class: "mm-cap mi", text: "הקש על העור כדי להזיז את המתמר"})]);
+        function sl(label, min, max, step, fmtv, get, set) {
+          var out = h("span", {text: ""}), inp = h("input", {type: "range", min: String(min), max: String(max), step: String(step), "aria-label": label, oninput: function () { set(+this.value); refreshUi(); }});
+          var box = h("div", {class: "mm-sl"}, [h("div", {class: "hd"}, [h("label", {}, [h("b", {text: label})]), out]), inp]);
+          box._sync = function () { var v = get(); inp.value = String(v); out.textContent = fmtv(v); };
+          return box;
+        }
+        ui2.depth = sl("עומק", 2, 15, 0.5, function (v) { return v.toFixed(1) + " ס\"מ"; }, function () { return S.depthCm; }, function (v) { S.depthCm = v; if (S.focusCm > v) S.focusCm = v * 0.6; syncUi(); refresh(); });
+        ui2.freq = sl("תדר", 0, FREQS.length - 1, 1, function (i) { return FREQS[i] + " MHz"; }, function () { var i = FREQS.indexOf(S.freq); return i < 0 ? FREQS.length - 1 : i; }, function (i) { S.freq = FREQS[i]; syncUi(); refresh(); });
+        ui2.gain = sl("הגבר", -20, 20, 1, function (v) { return (v >= 0 ? "+" : "") + v + " dB"; }, function () { return S.gain; }, function (v) { S.gain = v; syncUi(); refresh(true); });
+        ui2.gain.classList.add("m-hide");
+        ui2.orL = h("button", {type: "button", class: "mm-sec", text: "אורכי", onclick: function () { ui.orLong.click(); refreshUi(); }});
+        ui2.orT = h("button", {type: "button", class: "mm-sec", text: "רוחבי", onclick: function () { ui.orTrans.click(); refreshUi(); }});
+        ui2.rot = h("button", {type: "button", class: "mm-sec", text: "סובב", onclick: function () { S.rot = (S.rot + 15) % 360; syncUi(); refresh(); refreshUi(); }});
+        var orRow = h("div", {class: "mc-row m-hide"}, [ui2.orL, ui2.orT, ui2.rot]);
+        ui2.ab = h("button", {type: "button", class: "mm-primary", "aria-pressed": "false", text: "השווה לצד הנגדי (A/B)", onclick: function () { setAb(!S.ab); refreshUi(); }});
+        ui2.adv = h("button", {type: "button", class: "mm-sec", "aria-pressed": "false", text: "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)…", onclick: function () { ui.ctlBtn.click(); refreshUi(); }});
+        var row2 = h("div", {class: "mm-row2"}, [ui2.ab, ui2.adv]);
+        var card = h("div", {class: "mm-card mi"}, [ui2.depth, ui2.freq, ui2.gain, orRow, row2]);
+        var side = h("div", {class: "mm-side"}, [thumb, card]);
+        c.main.appendChild(h("div", {class: "mm-fill"}, [col, side]));
+        c.dock(root, ui2.heroSlot, 81);
+        c.modelDock([ui2.thumbSlot, ui2.thumbMSlot], 85);   // above the docked B-mode panel: on the phone the thumbnail sits inside the hero
+      }
+      function refreshUi() {
+        if (!ctx) return;
+        var n = Math.max(1, frames.length), cont = S.cineMode === "continuous";
+        ui2.play.innerHTML = ""; ui2.play.appendChild(S.cine ? pauseIcon() : playIcon());
+        ui2.scrub.max = String(n - 1); ui2.scrub.value = String(Math.min(S.sel, n - 1)); ui2.scrub.disabled = !!(S.cine && cont);
+        ui2.frame.textContent = "פריים " + (Math.min(S.sel, n - 1) + 1) + " / " + n;
+        ui2.cont.setAttribute("aria-pressed", String(cont)); ui2.step.setAttribute("aria-pressed", String(!cont));
+        ui2.thick.setAttribute("aria-pressed", String(!!S.thickness)); ui2.thick.textContent = "עובי רקמה: " + (S.thickness ? "פועל" : "כבוי");
+        var pr = {linear: "Linear", convex: "Convex", sector: "Sector"}[S.probe] || S.probe;
+        ui2.chip.innerHTML = ""; ui2.chip.appendChild(document.createTextNode(pr + " " + S.freq + " MHz · " + S.depthCm + " ס\"מ · ")); ui2.chip.appendChild(h("b", {text: cont ? "רציף" : "צעדים"}));
+        var pd = PRESETS.filter(function (d) { return d.key === S.preset; })[0];
+        ui2.mobText.textContent = pd ? pd.label : "";
+        Array.prototype.forEach.call(ctx.shell.querySelectorAll("[data-preset]"), function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-preset") === S.preset)); });
+        [ui2.depth, ui2.freq, ui2.gain].forEach(function (b) { b._sync(); });
+        ui2.orL.setAttribute("aria-pressed", String(S.refKey === "long")); ui2.orT.setAttribute("aria-pressed", String(S.refKey === "trans"));
+        ui2.ab.setAttribute("aria-pressed", String(!!S.ab)); ui2.ab.textContent = S.ab ? "A/B פעיל – חזרה לתצוגה אחת" : "השווה לצד הנגדי (A/B)";
+        var advOpen = root && !root.classList.contains("ctl-off");
+        ui2.adv.setAttribute("aria-pressed", String(advOpen)); ui2.adv.textContent = advOpen ? "סגור הגדרות מתקדמות" : "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)…";
+      }
+      function enter(c) {
+        prev = {open: S.open, lay: S.lay, tab: S.tab, placing: S.placing, ctlOff: !!(root && root.classList.contains("ctl-off"))};
+        if (!S.open) setOpen(true);
+        S.lay = "tab"; S.tab = "image"; applyLayout(); updateLayoutUi();
+        if (root && !root.classList.contains("ctl-off")) ui.ctlBtn.click();
+        modeArm = true; S.placing = true; syncUi();
+        c.dock(root, ui2.heroSlot, 81);
+        refreshUi();
+      }
+      function exit() {
+        modeArm = false; S.placing = false;
+        if (!prev.open) { setCine(false); setOpen(false); }
+        else { if (root && root.classList.contains("ctl-off") !== prev.ctlOff) ui.ctlBtn.click(); }
+        S.lay = prev.lay; S.tab = prev.tab; if (S.open) { applyLayout(); updateLayoutUi(); }
+        syncUi(); ctx = null;
+      }
+      return {title: "US אבחנתי", short: "US", build: build, enter: enter, exit: exit, refresh: refreshUi};
+    }
+    if (G.NMSKModes && G.NMSKModes.register) { try { G.NMSKModes.register("us", usMode()); } catch (eM) { console.error("US mode failed to register:", eM); } }
     G.NMSKUltrasound = {
       version: VERSION,
       open: function () { setOpen(true); }, close: function () { setOpen(false); }, isOpen: function () { return S.open; },
