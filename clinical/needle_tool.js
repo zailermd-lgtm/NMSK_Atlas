@@ -123,8 +123,123 @@ function fibonacciSphere(n) {
   return out;
 }
 
+/* ===================================================================== */
+/* Q268 (item 2): exact segment -> triangle-mesh distance. Pure functions,  */
+/* unit-tested in tests/test_q268_segment_distance.py (node) against an     */
+/* independent trimesh / numpy computation. The tool MEASURES and DISPLAYS  */
+/* these numbers; it never turns them into a safe / unsafe verdict.         */
+/* ===================================================================== */
+/* closest point on triangle abc to p (Ericson, Real-Time Collision Detection 5.1.5); returns [x, y, z] */
+function closestPtTri(p, a, b, c) {
+  var abx = b[0] - a[0], aby = b[1] - a[1], abz = b[2] - a[2], acx = c[0] - a[0], acy = c[1] - a[1], acz = c[2] - a[2];
+  var apx = p[0] - a[0], apy = p[1] - a[1], apz = p[2] - a[2];
+  var d1 = abx * apx + aby * apy + abz * apz, d2 = acx * apx + acy * apy + acz * apz;
+  if (d1 <= 0 && d2 <= 0) return [a[0], a[1], a[2]];
+  var bpx = p[0] - b[0], bpy = p[1] - b[1], bpz = p[2] - b[2];
+  var d3 = abx * bpx + aby * bpy + abz * bpz, d4 = acx * bpx + acy * bpy + acz * bpz;
+  if (d3 >= 0 && d4 <= d3) return [b[0], b[1], b[2]];
+  var vc = d1 * d4 - d3 * d2;
+  if (vc <= 0 && d1 >= 0 && d3 <= 0) { var v = d1 / (d1 - d3); return [a[0] + abx * v, a[1] + aby * v, a[2] + abz * v]; }
+  var cpx = p[0] - c[0], cpy = p[1] - c[1], cpz = p[2] - c[2];
+  var d5 = abx * cpx + aby * cpy + abz * cpz, d6 = acx * cpx + acy * cpy + acz * cpz;
+  if (d6 >= 0 && d5 <= d6) return [c[0], c[1], c[2]];
+  var vb = d5 * d2 - d1 * d6;
+  if (vb <= 0 && d2 >= 0 && d6 <= 0) { var w = d2 / (d2 - d6); return [a[0] + acx * w, a[1] + acy * w, a[2] + acz * w]; }
+  var va = d3 * d6 - d5 * d4;
+  if (va <= 0 && (d4 - d3) >= 0 && (d5 - d6) >= 0) {
+    var w2 = (d4 - d3) / ((d4 - d3) + (d5 - d6));
+    return [b[0] + (c[0] - b[0]) * w2, b[1] + (c[1] - b[1]) * w2, b[2] + (c[2] - b[2]) * w2];
+  }
+  var den = 1 / (va + vb + vc), v2 = vb * den, w3 = vc * den;
+  return [a[0] + abx * v2 + acx * w3, a[1] + aby * v2 + acy * w3, a[2] + abz * v2 + acz * w3];
+}
+function pointTriDist(p, a, b, c) { var q = closestPtTri(p, a, b, c); return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]); }
+/* distance between segments p1-q1 and p2-q2 (Ericson 5.1.9, closest points of two segments) */
+function segSegDist(p1, q1, p2, q2) {
+  var d1 = [q1[0] - p1[0], q1[1] - p1[1], q1[2] - p1[2]], d2 = [q2[0] - p2[0], q2[1] - p2[1], q2[2] - p2[2]], r = [p1[0] - p2[0], p1[1] - p2[1], p1[2] - p2[2]];
+  var a = d1[0] * d1[0] + d1[1] * d1[1] + d1[2] * d1[2], e = d2[0] * d2[0] + d2[1] * d2[1] + d2[2] * d2[2], f = d2[0] * r[0] + d2[1] * r[1] + d2[2] * r[2];
+  var EPSQ = 1e-12, s, t;
+  if (a <= EPSQ && e <= EPSQ) return Math.hypot(r[0], r[1], r[2]);
+  if (a <= EPSQ) { s = 0; t = f / e; t = t < 0 ? 0 : (t > 1 ? 1 : t); }
+  else {
+    var cc = d1[0] * r[0] + d1[1] * r[1] + d1[2] * r[2];
+    if (e <= EPSQ) { t = 0; s = -cc / a; s = s < 0 ? 0 : (s > 1 ? 1 : s); }
+    else {
+      var b = d1[0] * d2[0] + d1[1] * d2[1] + d1[2] * d2[2], denom = a * e - b * b;
+      s = denom !== 0 ? (b * f - cc * e) / denom : 0; s = s < 0 ? 0 : (s > 1 ? 1 : s);
+      t = (b * s + f) / e;
+      if (t < 0) { t = 0; s = -cc / a; s = s < 0 ? 0 : (s > 1 ? 1 : s); }
+      else if (t > 1) { t = 1; s = (b - cc) / a; s = s < 0 ? 0 : (s > 1 ? 1 : s); }
+    }
+  }
+  var c1 = [p1[0] + d1[0] * s, p1[1] + d1[1] * s, p1[2] + d1[2] * s], c2 = [p2[0] + d2[0] * t, p2[1] + d2[1] * t, p2[2] + d2[2] * t];
+  return Math.hypot(c1[0] - c2[0], c1[1] - c2[1], c1[2] - c2[2]);
+}
+/* Moller-Trumbore, two-sided, segment form: does the segment A-B (A + s(B-A), s in [0,1]) cross triangle abc? */
+function segCrossesTri(A, B, a, b, c) {
+  var dx = B[0] - A[0], dy = B[1] - A[1], dz = B[2] - A[2];
+  var e1x = b[0] - a[0], e1y = b[1] - a[1], e1z = b[2] - a[2], e2x = c[0] - a[0], e2y = c[1] - a[1], e2z = c[2] - a[2];
+  var px = dy * e2z - dz * e2y, py = dz * e2x - dx * e2z, pz = dx * e2y - dy * e2x, det = e1x * px + e1y * py + e1z * pz;
+  if (Math.abs(det) < 1e-12) return false;
+  var inv = 1 / det, tx = A[0] - a[0], ty = A[1] - a[1], tz = A[2] - a[2], u = (tx * px + ty * py + tz * pz) * inv;
+  if (u < 0 || u > 1) return false;
+  var qx = ty * e1z - tz * e1y, qy = tz * e1x - tx * e1z, qz = tx * e1y - ty * e1x, v = (dx * qx + dy * qy + dz * qz) * inv;
+  if (v < 0 || u + v > 1) return false;
+  var s = (e2x * qx + e2y * qy + e2z * qz) * inv;
+  return s >= 0 && s <= 1;
+}
+/* minimum distance between segment A-B and triangle abc (0 when they cross). Exact: the closest pair lies at an endpoint of
+   the segment against the triangle's face, or between the segment and one of the triangle's edges. A degenerate segment
+   (A == B) is the point case. */
+function segTriDist(A, B, a, b, c) {
+  var L2 = (B[0] - A[0]) * (B[0] - A[0]) + (B[1] - A[1]) * (B[1] - A[1]) + (B[2] - A[2]) * (B[2] - A[2]);
+  if (L2 < 1e-18) return pointTriDist(A, a, b, c);
+  if (segCrossesTri(A, B, a, b, c)) return 0;
+  var d = Math.min(pointTriDist(A, a, b, c), pointTriDist(B, a, b, c));
+  d = Math.min(d, segSegDist(A, B, a, b), segSegDist(A, B, b, c), segSegDist(A, B, c, a));
+  return d;
+}
+/* minimum distance from segment A-B to an indexed triangle mesh (pos: flat xyz, idx: triangle vertex indices), searched only
+   below `bound` (mm): {d, tri} with d = Infinity when every triangle is farther than `bound`. Each triangle is first pruned by
+   a cheap lower bound (segment -> first vertex distance minus the triangle's longest edge from it) before the exact test. */
+function meshSegDist(pos, idx, A, B, bound) {
+  var dx = B[0] - A[0], dy = B[1] - A[1], dz = B[2] - A[2], L = Math.sqrt(dx * dx + dy * dy + dz * dz), best = bound, tri = -1;
+  var u = L > 1e-9 ? [dx / L, dy / L, dz / L] : [0, 0, 0], a = [0, 0, 0], b = [0, 0, 0], c = [0, 0, 0];
+  for (var f = 0; f < idx.length; f += 3) {
+    var i0 = idx[f] * 3, i1 = idx[f + 1] * 3, i2 = idx[f + 2] * 3;
+    a[0] = pos[i0]; a[1] = pos[i0 + 1]; a[2] = pos[i0 + 2]; b[0] = pos[i1]; b[1] = pos[i1 + 1]; b[2] = pos[i1 + 2]; c[0] = pos[i2]; c[1] = pos[i2 + 1]; c[2] = pos[i2 + 2];
+    var da = segPointDist(A, u, L, a[0], a[1], a[2]);
+    var reach = Math.max(Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]), Math.hypot(c[0] - a[0], c[1] - a[1], c[2] - a[2]));
+    if (da - reach >= best) continue;
+    var d = segTriDist(A, B, a, b, c);
+    if (d < best) { best = d; tri = f / 3; if (best <= 0) break; }
+  }
+  return {d: tri >= 0 ? best : Infinity, tri: tri};
+}
+/* Q268 (item 3): rank entry candidates -- larger clearance first; candidates whose clearance is within `tie` mm of the best are
+   then ordered by path length (shorter first). A simple, stated heuristic, not an optimiser. */
+function rankCandidates(cands, tie) {
+  var out = cands.slice().sort(function (x, y) { return y.minD - x.minD; });
+  if (!out.length) return out;
+  var top = out[0].minD, group = out.filter(function (c) { return c.minD >= top - tie; }), rest = out.slice(group.length);
+  group.sort(function (x, y) { return x.L - y.L; });
+  return group.concat(rest);
+}
+/* directions within a cone of half-angle `half` (radians) around unit u, roughly uniform in solid angle (spiral) */
+function coneDirs(u, half, n) {
+  var B = perpBasis(u), e1 = B[0], e2 = B[1], out = [u.slice()], ga = Math.PI * (3 - Math.sqrt(5)), cmin = Math.cos(half);
+  for (var j = 0; j < n; j++) {
+    var ct = 1 - (1 - cmin) * (j + 0.5) / n, st = Math.sqrt(Math.max(0, 1 - ct * ct)), ph = ga * j;
+    out.push([u[0] * ct + (e1[0] * Math.cos(ph) + e2[0] * Math.sin(ph)) * st, u[1] * ct + (e1[1] * Math.cos(ph) + e2[1] * Math.sin(ph)) * st,
+              u[2] * ct + (e1[2] * Math.cos(ph) + e2[2] * Math.sin(ph)) * st]);
+  }
+  return out;
+}
+
 var PURE = {RISK_TABLE: RISK_TABLE, HALO_DEFAULTS: HALO_DEFAULTS, TOUCH_MM: TOUCH_MM, classify: classify,
-            calibreFactor: calibreFactor, haloRadius: haloRadius, scorePath: scorePath, fibonacciSphere: fibonacciSphere};
+            calibreFactor: calibreFactor, haloRadius: haloRadius, scorePath: scorePath, fibonacciSphere: fibonacciSphere,
+            closestPtTri: closestPtTri, pointTriDist: pointTriDist, segSegDist: segSegDist, segCrossesTri: segCrossesTri, segTriDist: segTriDist,
+            meshSegDist: meshSegDist, rankCandidates: rankCandidates, coneDirs: coneDirs};
 if (typeof module !== "undefined" && module.exports) { module.exports = PURE; return; }
 
 /* ===================================================================== */
@@ -544,6 +659,8 @@ var CSS = [
 ".ncl .res button{display:block;width:100%;text-align:left;margin:2px 0;padding:4px 6px}",
 ".ncl .warn{color:var(--risk,#B3400C);font-size:11px;margin:4px 0}",
 ".ncl .pill-g{color:#1E8A4F;font-weight:700}.ncl .pill-a{color:#B07300;font-weight:700}.ncl .pill-r{color:#C23232;font-weight:700}",
+".ncl .corr-list li{padding-left:4px;border-left:4px solid transparent}.ncl .corr-list li.band-n{border-left-color:#C23232}.ncl .corr-list li.band-m{border-left-color:#B07300}.ncl .corr-list li.band-f{border-left-color:#1E8A4F}",   /* Q268: display bands only */
+".ncl select{font-size:11px;max-width:150px}",
 ".ncl-tip{position:fixed;z-index:80;pointer-events:none;max-width:280px;padding:5px 8px;border-radius:6px;font-size:11.5px;",
 "  background:var(--surface,var(--panel,#fff));color:var(--ink,#16202a);border:1px solid var(--line,#ccd);box-shadow:0 6px 18px rgba(0,0,0,.18)}"
 ].join("\n");
@@ -552,6 +669,29 @@ function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function 
 function f1(v) { return '<span class="mono">' + Number(v).toFixed(1) + "</span>"; }
 function xyz1(v) { return '<span class="mono">' + v.map(function (c) { return c.toFixed(1); }).join(", ") + "</span> mm"; }
 var EPS = 0.5, MINIV = 0.05, SPACING = 2.5;
+/* Q268 defaults. near / far: display band thresholds (mm) for the live distance list -- adjustable in the panel, labelled there
+   as display thresholds, NOT clinical guidance (the number is the data; the clinician decides). R: the neighbourhood radius
+   (mm) -- a vessel / nerve counts when its bounding box lies within R of the target's bounding box (item 1) or of the needle
+   path (items 2-3). 40 mm: a generous limb-scale neighbourhood of the order of a typical injection depth, chosen so that a
+   path of the default 60 mm needle length does not silently miss a structure lying just beside it. SUGG_*: item 3's cone
+   sampling (half-angle and direction count around the nearest-skin direction) and the clearance tie band (mm) within which
+   the shorter path is preferred. */
+var CORR_DEFAULTS = {near: 5, far: 15, R: 40};
+var SUGG_HALF_DEG = 35, SUGG_N = 48, SUGG_TIE_MM = 1.0, SUGG_SHOW = 2;
+var CORR_CLASSES = {artery: 1, vein: 1, nerve: 1};
+/* Q268 (item 1) labelled flexion-pattern postures for the Q241 pose rig -- ILLUSTRATIVE typical patterns, not any patient's
+   measurement; every angle is clamped by the rig itself to the page's own normal range of motion; joints the page's rig does
+   not carry are reported as skipped, never invented. Keys are the rig's own joint ids (without the _r/_l side suffix) and
+   dof keys. */
+var POSTURES = {
+  ul: {label: "Upper limb flexion pattern (illustrative)", joints: {
+    shoulder: {abd: -20, rot: 50}, elbow: {flex: 100}, forearm: {sup: -70}, wrist: {flex: 50, dev: -15},
+    thumb_cmc: {flex: 15, abd: 0}, thumb_mcp: {flex: 40}, thumb_ip: {flex: 40},
+    f2_mcp: {flex: 60}, f2_pip: {flex: 70}, f2_dip: {flex: 40}, f3_mcp: {flex: 60}, f3_pip: {flex: 70}, f3_dip: {flex: 40},
+    f4_mcp: {flex: 60}, f4_pip: {flex: 70}, f4_dip: {flex: 40}, f5_mcp: {flex: 60}, f5_pip: {flex: 70}, f5_dip: {flex: 40}}},
+  ll: {label: "Lower limb extension + equinovarus pattern (illustrative)", joints: {
+    hip: {flex: 15, abd: -15, rot: 15}, knee: {flex: 10}, ankle: {dp: -35}, subtalar: {inv: 25}}}
+};
 var COLOUR = {green: "#2FA866", amber: "#F0A830", red: "#D64545"};
 var STEEL = {color: "#C9CED6", pass: "opaque", shin: 90, spec: 0x888888, emis: 0.05};
 var MP_COLOUR = "#FF4FD8";
@@ -574,6 +714,11 @@ function Tool(api) {
   this.len = 60; this.rDisp = 1.0;
   this.risk = {data: null, rcal: {}, on: false, transp: 0.8, saved: null, region: null, safer: null, pathEval: null};
   this.mp = {data: null, points: [], on: false, msg: "loading...", sel: null};
+  /* Q268: (1) injection-planning preset, (2) live distance readout to vessels / nerves, (3) suggested entry candidates.
+     near / far are DISPLAY band thresholds only (editable in the panel); R is the neighbourhood radius (mm) shared by all three. */
+  this.corr = {near: CORR_DEFAULTS.near, far: CORR_DEFAULTS.far, R: CORR_DEFAULTS.R, halo: true, items: [], n: 0, ms: 0, what: "", timer: 0};
+  this.plan = {i: null, msg: "", posture: "rest", side: "r"};
+  this.sugg = {cands: [], shown: [], msg: ""};
   this.gcache = new Map(); this.gverts = 0; this.orient = {};
   this.buildUI();
   this.loadData();
@@ -802,6 +947,30 @@ TP.buildUI = function () {
     '<button type="button" id="ncl-zoom" title="Centre the view on the target (or the entry)">Zoom to target</button>' +
     '<button type="button" id="ncl-cuthere" title="A cut plane facing you through the target (or the screen centre) to expose deep tissue; click the cut face to pick a deep target">Cut through target</button></div>' +
     '<div id="needle-report"></div>' +
+    /* Q268 (2): live distance readout -- measured, displayed, never judged */
+    '<div id="ncl-corr"><div class="ncl-row" style="margin-top:6px"><b>Distance to vessels &amp; nerves</b>' +
+    '<button type="button" id="ncl-corr-halo" aria-pressed="true" title="Translucent halo around the path at the two display thresholds">Halo</button></div>' +
+    '<div class="grid2"><span>near band (mm)</span><input type="number" id="ncl-corr-near" min="0" max="100" step="0.5" value="' + this.corr.near + '"><span></span>' +
+    '<span>far band (mm)</span><input type="number" id="ncl-corr-far" min="0" max="200" step="0.5" value="' + this.corr.far + '"><span></span>' +
+    '<span>neighbourhood R (mm)</span><input type="number" id="ncl-corr-r" min="5" max="200" step="1" value="' + this.corr.R + '"><span></span></div>' +
+    '<p class="cite">The two bands are adjustable DISPLAY thresholds (colour only), not clinical guidance: the number is the data, you decide. ' +
+    'R = how far from the path a vessel / nerve is measured at all (default ' + CORR_DEFAULTS.R + ' mm, the same neighbourhood the planning preset uses).</p>' +
+    '<div id="ncl-corr-out"></div>' +
+    '<div class="ncl-row"><button type="button" id="ncl-sugg" title="Sample straight candidate entries on the skin in a cone around the nearest-skin direction and rank them by measured clearance, then length">Suggest entries</button>' +
+    '<button type="button" id="ncl-sugg-x" title="Remove the suggested ghost lines">Clear suggestions</button></div><div id="ncl-sugg-out"></div></div>' +
+    /* Q268 (1): injection-planning preset -- pure wiring of mechanisms that already exist (structure list, selection controller, parts markers, pose rig) */
+    '<details id="ncl-plan" open><summary>Injection planning (preset)</summary>' +
+    '<p class="ncl-status">Pick the target muscle / tendon: the preset fades everything except the target and the vessels / nerves whose bounding box lies within R mm ' +
+    'of it, shows the target\'s origin / insertion markers when the page has them, and arms target-first placement.</p>' +
+    '<input type="search" id="ncl-plan-q" placeholder="Search a muscle or tendon to plan an injection into" autocomplete="off">' +
+    '<div class="res" id="ncl-plan-res"></div><p class="ncl-status" id="ncl-plan-msg"></p>' +
+    '<div class="ncl-row"><button type="button" id="ncl-plan-x" title="Clear the preset\'s selection (marks and fade) and the plan">Release plan</button></div>' +
+    '<div class="ncl-row"><span>Posture (pose rig)</span><select id="ncl-plan-pose"><option value="rest">Rest (model pose)</option>' +
+    Object.keys(POSTURES).map(function (k) { return '<option value="' + k + '">' + esc(POSTURES[k].label) + "</option>"; }).join("") + "</select>" +
+    '<select id="ncl-plan-side"><option value="r">right</option><option value="l">left</option></select>' +
+    '<button type="button" id="ncl-plan-pose-go">Apply</button></div>' +
+    '<p class="cite" id="ncl-plan-pose-msg">A labelled, illustrative flexion pattern driven only through the page\'s own Q241 pose rig (its joints, its normal ranges); ' +
+    'not the patient\'s posture. The needle tool measures the rest-pose meshes: distances are not valid while the pose is away from rest.</p></details>' +
     '<details id="ncl-mp" open><summary>Motor points</summary>' +
     '<p class="ncl-status" id="ncl-mp-msg"></p>' +
     '<div class="ncl-row"><button type="button" id="ncl-mp-on" aria-pressed="false">Emphasize motor points</button></div>' +
@@ -859,6 +1028,16 @@ TP.buildUI = function () {
   el.querySelectorAll("[data-p]").forEach(function (inp) { inp.onchange = function () { self.P[inp.dataset.p] = +inp.value; self.paramsChanged(); }; });
   el.querySelectorAll("[data-mult]").forEach(function (inp) { inp.onchange = function () { self.P.mult[inp.dataset.mult] = +inp.value; self.paramsChanged(); }; });
   $("ncl-rdisp").oninput = function () { self.rDisp = +this.value; $("ncl-rdisp-v").textContent = self.rDisp.toFixed(1) + " mm"; self.drawNeedle(); api.redraw(); };
+  /* Q268 bindings */
+  $("ncl-corr-near").onchange = function () { self.setCorr({near: +this.value}); };
+  $("ncl-corr-far").onchange = function () { self.setCorr({far: +this.value}); };
+  $("ncl-corr-r").onchange = function () { self.setCorr({R: +this.value}); };
+  $("ncl-corr-halo").onclick = function () { self.corr.halo = !self.corr.halo; this.setAttribute("aria-pressed", String(self.corr.halo)); self.drawCorridor(); api.redraw(); };
+  $("ncl-sugg").onclick = function () { self.suggest(); };
+  $("ncl-sugg-x").onclick = function () { self.clearSuggestions(); self.renderSuggestions(); api.redraw(); };
+  $("ncl-plan-q").oninput = function () { self.renderPlanSearch(); };
+  $("ncl-plan-x").onclick = function () { self.planRelease(); };
+  $("ncl-plan-pose-go").onclick = function () { self.applyPosture($("ncl-plan-pose").value, $("ncl-plan-side").value); };
   this.renderFormula();
   this.setMode("two", true);
 };
@@ -894,6 +1073,7 @@ TP.clear = function () {
   this.entry = this.target = null; this.risk.pathEval = null; this.risk.safer = null;
   ["n-inner", "n-inner-x", "n-outer", "n-hub", "n-tgt", "n-tgt-x", "n-entry", "sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x"].forEach(this.ov.remove, this.ov);
   this.$("ncl-safer-out").innerHTML = "";
+  this.clearSuggestions(); this.renderSuggestions(); this.scheduleCorridor();   // Q268
   if (this.risk.on) this.refreshHalos();
   this.render(); this.api.redraw();
 };
@@ -905,6 +1085,8 @@ TP.onClick = function (e) {
   if (!this.active) return false;
   var sp = this.risk.safer ? this.saferAt(e) : null;
   if (sp) { this.adopt(sp); return true; }
+  var sg = this.sugg.shown.length ? this.suggAt(e) : null;   // Q268 (3): an explicit tap on a ghost line adopts it; nothing is ever auto-placed
+  if (sg) { this.adoptSuggestion(sg); return true; }
   var m = this.mode, hit;
   if (m === "two") {
     if (!this.entry || this.target) { hit = this.pickPoint(e, null); if (hit) { this.entry = hit; this.target = null; } }
@@ -939,6 +1121,7 @@ TP.update = function () {
   this.risk.pathEval = null;
   this.drawNeedle();
   if (this.risk.on) { this.refreshHalos(); if (this.entry && this.target) this.evalCurrent(); }
+  this.scheduleCorridor();   // Q268 (2): throttled to the placement change, not per frame
   this.render();
   this.api.redraw();
 };
@@ -1439,7 +1622,229 @@ TP.shortestEntry = function () {
   }, 0);
 };
 
+/* ===================================================================== */
+/* Q268 (2): live distance readout to vessels and nerves ("corridor")      */
+/* ===================================================================== */
+TP.isCorrStruct = function (i) { return !!CORR_CLASSES[this.cls[i]]; };
+/* minimum distance from segment A-B (A == B: a single point) to the surface of every named vessel / nerve mesh whose bounding
+   box lies within R mm of the segment (padded slab test), excluding the target's own structure. Exact closest point against
+   the page's own triangles (meshSegDist). Returns {items (nearest first), n (meshes measured), ms}. */
+TP.corridorFor = function (A, B, skipId) {
+  var self = this, R = this.corr.R, t0 = performance.now(), items = [], n = 0;
+  this.recs.forEach(function (r, i) {
+    if (!self.isCorrStruct(i) || r.id === skipId || !boxHitsSegment(r.bmin, r.bmax, A, B, R)) return;
+    var g = self.geom(i); if (!g) return;
+    n++;
+    var res = meshSegDist(g.pos, g.idx, A, B, R + 1e-6);
+    if (res.d <= R) items.push({i: i, id: r.id, name: self.name(i), cls: self.cls[i], d: res.d});
+  });
+  items.sort(function (x, y) { return x.d - y.d; });
+  return {items: items, n: n, ms: performance.now() - t0, min: items.length ? items[0].d : Infinity};
+};
+TP.scheduleCorridor = function () {
+  var self = this; clearTimeout(this.corr.timer);
+  this.corr.timer = setTimeout(function () { self.corr.timer = 0; self.computeCorridor(); }, 80);
+};
+TP.computeCorridor = function () {
+  var A = this.entry ? this.entry.p : null, B = this.target ? this.target.p : null;
+  if (!A && !B) { this.corr.items = []; this.corr.n = 0; this.corr.what = ""; this.corr.seq = (this.corr.seq || 0) + 1; this.drawCorridor(); this.renderCorridor(); this.api.redraw(); return; }
+  var seg = !!(A && B); if (!A) A = B; if (!B) B = A;
+  var res = this.corrResult = this.corridorFor(A, B, this.target && this.target.i != null ? this.recs[this.target.i].id : null);
+  this.corr.items = res.items; this.corr.n = res.n; this.corr.ms = res.ms; this.corr.seq = (this.corr.seq || 0) + 1;
+  this.corr.what = (seg ? "the entry → target segment" : (this.target ? "the target point" : "the entry point")) + " to the surface triangles of " + res.n +
+    " vessel / nerve mesh" + (res.n === 1 ? "" : "es") + " whose bounding box lies within R = " + this.corr.R + " mm of it";
+  this.drawCorridor(); this.renderCorridor(); this.api.redraw();
+};
+TP.setCorr = function (o) {
+  var c = this.corr, redo = false;
+  if (o.near != null && isFinite(o.near)) c.near = clamp(o.near, 0, 100);
+  if (o.far != null && isFinite(o.far)) c.far = clamp(o.far, 0, 200);
+  if (c.far < c.near) c.far = c.near;
+  if (o.R != null && isFinite(o.R) && clamp(o.R, 5, 200) !== c.R) { c.R = clamp(o.R, 5, 200); redo = true; }
+  this.$("ncl-corr-near").value = c.near; this.$("ncl-corr-far").value = c.far; this.$("ncl-corr-r").value = c.R;
+  if (redo) this.computeCorridor(); else { this.drawCorridor(); this.renderCorridor(); this.api.redraw(); }
+};
+TP.band = function (d) { return d < this.corr.near ? "n" : (d < this.corr.far ? "m" : "f"); };
+TP.poseAway = function () {   // the page's pose rig is away from its rest pose (the add-on measures rest-pose meshes)
+  var pose = this.api.pose ? this.api.pose() : null;
+  try { return !!(pose && pose.ready() && !pose.isRest()); } catch (err) { return false; }
+};
+TP.renderCorridor = function () {
+  var out = this.$("ncl-corr-out"), c = this.corr, self = this;
+  if (!this.entry && !this.target) { out.innerHTML = '<p class="ncl-status">Place a point: the distances appear here and update with every change.</p>'; return; }
+  var h = '<p class="ncl-status">Measured: minimum distance from ' + esc(c.what) + " (" + c.ms.toFixed(0) + " ms; decimated viewing meshes, rest pose, hidden structures included; the target's own structure excluded).</p>";
+  if (this.poseAway()) h += '<p class="warn">The pose rig is away from rest: these distances are measured on the rest-pose meshes (a pose-rig limitation) and do not describe the posed body. Reset the pose for valid numbers.</p>';
+  if (!c.items.length) h += '<p class="ncl-status">No vessel or nerve within R = ' + c.R + " mm.</p>";
+  else h += '<ol class="corr-list">' + c.items.slice(0, 12).map(function (it) {
+    return '<li class="band-' + self.band(it.d) + '"><span class="dot" style="background:' + CLASSES[it.cls].color + '"></span>' + esc(it.name) +
+      ' <span class="rng mono">' + it.d.toFixed(1) + " mm</span></li>";
+  }).join("") + "</ol>" + (c.items.length > 12 ? '<p class="ncl-status">' + (c.items.length - 12) + " more farther away.</p>" : "");
+  h += '<p class="cite">Bands: &lt; ' + c.near + " mm, " + c.near + "&ndash;" + c.far + " mm, &gt; " + c.far + " mm -- display only, set above; no safe / unsafe judgement is made or implied.</p>";
+  out.innerHTML = h;
+};
+TP.drawCorridor = function () {
+  var ov = this.ov; ["corr-in", "corr-out"].forEach(ov.remove, ov);
+  if (!this.corr.halo || (!this.entry && !this.target)) return;
+  var A = this.entry ? this.entry.p : this.target.p, B = this.target ? this.target.p : this.entry.p, c = this.corr;
+  function shape(r) { return dist(A, B) < 1e-3 ? addSphere(new Geo(), A, r, 18, 12) : addTube(new Geo(), A, B, r, r, 24, {capA: true, capB: true}); }
+  if (c.near > 0) ov.set("corr-in", shape(c.near), {color: "#5B8DEF", pass: "trans", alpha: 0.14, emis: 0.2, order: 2});
+  if (c.far > c.near) ov.set("corr-out", shape(c.far), {color: "#5B8DEF", pass: "trans", alpha: 0.06, emis: 0.15, order: 1});
+};
+
+/* ===================================================================== */
+/* Q268 (3): suggested entry candidates -- a simple, stated heuristic      */
+/* ===================================================================== */
+TP.suggest = function () {
+  var self = this, out = this.$("ncl-sugg-out");
+  this.clearSuggestions();
+  if (!this.target) { this.sugg.msg = "Set a target first (target-first mode, a cut face, a motor point, or the planning preset)."; this.renderSuggestions(); return null; }
+  var T = this.target.p, reach = this.len, reg = this.region(T, reach), dirs = fibonacciSphere(600), best = null, k;
+  for (k = 0; k < 600; k++) {   // the nearest-skin direction: the shortest unobstructed straight path to the skin within the needle length
+    var u0 = [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]], e0 = this.entryFor(reg, T, u0, reach);
+    if (e0.ok && !e0.obstructed && (!best || e0.L < best.L)) best = {u: u0, L: e0.L};
+  }
+  if (!best) { this.sugg.msg = "No skin within the " + reach + " mm needle length: no candidate."; this.renderSuggestions(); return null; }
+  var tgtId = this.target.i != null ? this.recs[this.target.i].id : null, cands = [], t0 = performance.now();
+  coneDirs(best.u, SUGG_HALF_DEG * Math.PI / 180, SUGG_N).forEach(function (u) {
+    var en = self.entryFor(reg, T, u, reach); if (!en.ok || en.obstructed) return;
+    var m = self.corridorFor(en.E, T, tgtId);
+    cands.push({u: u, E: en.E, L: en.L, entryI: en.entryI, minD: m.min, nearest: m.items[0] || null, n: m.n});
+  });
+  var ranked = rankCandidates(cands, SUGG_TIE_MM), far = this.corr.far;
+  var good = ranked.filter(function (c) { return c.minD > far; });
+  this.sugg.cands = ranked; this.sugg.shown = good.slice(0, SUGG_SHOW); this.sugg.ms = performance.now() - t0; this.sugg.sampled = cands.length;
+  this.sugg.msg = good.length ? "" : "None of the " + cands.length + " sampled candidates clears the far display threshold (" + far + " mm): none shown.";
+  this.drawSuggestions(); this.renderSuggestions(); this.api.redraw();
+  return this.sugg.shown;
+};
+TP.clearSuggestions = function () { this.sugg.cands = []; this.sugg.shown = []; this.sugg.msg = ""; ["sg-0", "sg-1", "sg-0-x", "sg-1-x"].forEach(this.ov.remove, this.ov); };
+TP.drawSuggestions = function () {
+  var ov = this.ov, T = this.target.p, self = this;
+  this.sugg.shown.forEach(function (c, k) {   // faint dashed ghost: 2.5 mm dashes, 2 mm gaps
+    var g = new Geo(), L = dist(c.E, T), u = norm(sub(T, c.E)), r = 0.3 * self.rDisp + 0.12;
+    for (var s = 0; s < L; s += 4.5) addTube(g, addS(c.E, u, s), addS(c.E, u, Math.min(L, s + 2.5)), r, r, 8, {});
+    ov.set("sg-" + k, g, {color: "#9AD1FF", pass: "trans", alpha: 0.5, emis: 0.4});
+    ov.set("sg-" + k + "-x", g, {color: "#9AD1FF", pass: "xray", alpha: 0.22, emis: 0.4});
+  });
+};
+TP.renderSuggestions = function () {
+  var out = this.$("ncl-sugg-out"), s = this.sugg, self = this;
+  if (!s.shown.length) { out.innerHTML = s.msg ? '<p class="ncl-status">' + esc(s.msg) + "</p>" : ""; return; }
+  out.innerHTML = '<p class="ncl-status">' + s.sampled + " straight candidates sampled in a " + SUGG_HALF_DEG + "&deg; cone around the nearest-skin direction (" + s.ms.toFixed(0) +
+    " ms), ranked by measured clearance (larger first; within " + SUGG_TIE_MM + " mm, shorter first). Ghost lines in the model; tap <b>Use</b> or the line itself to adopt one -- nothing is placed for you.</p><ol>" +
+    s.shown.map(function (c, k) {
+      return '<li><button type="button" data-sg="' + k + '">Use</button> ' + c.L.toFixed(0) + " mm, clearance " +
+        (isFinite(c.minD) ? c.minD.toFixed(1) + " mm" + (c.nearest ? ' <span class="ncl-status">(' + esc(c.nearest.name) + ")</span>" : "") : "&gt; R (nothing within " + self.corr.R + " mm)") + "</li>";
+    }).join("") + '</ol><p class="cite">A simple sampling heuristic on the model\'s skin and decimated meshes, not an optimiser and not a recommendation.</p>';
+  out.querySelectorAll("[data-sg]").forEach(function (b) { b.onclick = function () { self.adoptSuggestion(self.sugg.shown[+b.dataset.sg]); }; });
+};
+TP.suggAt = function (e) {
+  var api = this.api, T = api.toScreen(this.target ? this.target.p : null), best = null, bd = 9; if (!T) return null;
+  this.sugg.shown.forEach(function (c) {
+    var A = api.toScreen(c.E); if (!A) return;
+    var dx = T[0] - A[0], dy = T[1] - A[1], l2 = dx * dx + dy * dy || 1, t = clamp(((e.clientX - A[0]) * dx + (e.clientY - A[1]) * dy) / l2, 0, 1);
+    var d = Math.hypot(A[0] + t * dx - e.clientX, A[1] + t * dy - e.clientY); if (d < bd) { bd = d; best = c; }
+  });
+  return best;
+};
+TP.adoptSuggestion = function (c) {
+  if (!c) return;
+  this.entry = {p: c.E.slice(), i: c.entryI, n: mul(c.u, -1)};
+  if (this.mode === "dir") this.setMode("tfirst", true);
+  this.clearSuggestions(); this.renderSuggestions();
+  this.update();
+};
+
+/* ===================================================================== */
+/* Q268 (1): injection-planning preset                                    */
+/* ===================================================================== */
+var PLAN_CATS = {muscle: 1, tendon: 1, insertion: 1};   // own pages: muscle / tendon; Z pages: muscle / insertion (= tendons)
+TP.renderPlanSearch = function () {
+  var q = this.$("ncl-plan-q").value.trim().toLowerCase(), box = this.$("ncl-plan-res"), self = this;
+  box.innerHTML = ""; if (!q) return;
+  var hits = this.recs.filter(function (r) { return PLAN_CATS[r.cat] && (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0; }).slice(0, 40);
+  if (!hits.length) { box.innerHTML = '<p class="ncl-status">No muscle or tendon matches.</p>'; return; }
+  hits.forEach(function (r) {
+    var b = document.createElement("button"); b.type = "button";
+    b.innerHTML = esc(r.name) + (r.side ? " (" + esc(r.side) + ")" : "") + ' <span class="ncl-status mono">' + esc(r.id) + "</span>";
+    b.onclick = function () { self.planPick(r.i); };
+    box.appendChild(b);
+  });
+};
+function boxDist(amin, amax, bmin, bmax) {
+  var s = 0; for (var k = 0; k < 3; k++) { var d = Math.max(bmin[k] - amax[k], 0, amin[k] - bmax[k]); s += d * d; } return Math.sqrt(s);
+}
+TP.planNeighbours = function (i) {
+  var r = this.recs[i], R = this.corr.R, self = this, ids = {};
+  this.recs.forEach(function (s, j) { if (j !== i && self.isCorrStruct(j) && boxDist(r.bmin, r.bmax, s.bmin, s.bmax) <= R) ids[s.id] = 1; });
+  return Object.keys(ids);
+};
+TP.planPick = function (i) {
+  var r = this.recs[i], api = this.api, self = this, msgs = [];
+  this.plan.i = i;
+  this.$("ncl-plan-q").value = r.name; this.$("ncl-plan-res").innerHTML = "";
+  // (b) fade everything except the target and its vessel / nerve neighbours -- through the selection controller's PUBLIC API only
+  var sel = api.selection ? api.selection() : null, nb = this.planNeighbours(i);
+  if (sel && sel.markIds && sel.setGroup) {
+    var n = sel.markIds([r.id].concat(nb), true, true, true);
+    sel.setGroup("oth", "fade", true);
+    msgs.push(n + " marked (target + " + nb.length + " vessel / nerve structures with a bounding box within R = " + this.corr.R + " mm), the rest faded");
+  } else msgs.push("no selection controller on this page: nothing faded");
+  // (c) origin / insertion markers (viewer/parts_ui) when the page has parts data for this structure, no-op otherwise
+  var parts = api.parts ? api.parts() : null;
+  if (parts && parts.select && parts.state) {
+    parts.select(r.id);
+    var ps = parts.state();
+    if (ps.loaded && ps.sel && ps.sel.n) { if (ps.mode === "off") parts.setMode("sel"); parts.dirty(); msgs.push(ps.sel.n + " origin / insertion part" + (ps.sel.n === 1 ? "" : "s") + " shown"); }
+    else msgs.push(ps.loaded ? "no origin / insertion data for this structure" : "no parts data on this page");
+  } else msgs.push("no parts markers on this page");
+  // (d) arm the needle tool, target-first, and bring the target into view (view only -- no point is placed for you)
+  if (!this.active) this.toggle(true);
+  this.entry = this.target = null; this.risk.safer = null;
+  this.setMode("tfirst", true);
+  var c = [0, 1, 2].map(function (k) { return (r.bmin[k] + r.bmax[k]) / 2; }), ext = dist(r.bmin, r.bmax);
+  if (api.focus) api.focus(c, Math.max(160, ext * 1.6));
+  if (this.plan.posture !== "rest") msgs.push("posture preview is on: reset it for valid distances");
+  this.plan.msg = "Target <b>" + esc(r.name) + "</b>: " + msgs.map(esc).join("; ") + ". Now click the target point inside it (Cut through target exposes deep tissue).";
+  this.$("ncl-plan-msg").innerHTML = this.plan.msg;
+  this.update();
+};
+TP.planRelease = function () {
+  var sel = this.api.selection ? this.api.selection() : null;
+  if (sel && sel.clear && this.plan.i != null) sel.clear();
+  this.plan.i = null; this.plan.msg = ""; this.$("ncl-plan-msg").innerHTML = ""; this.$("ncl-plan-q").value = "";
+  this.api.redraw();
+};
+/* posture preset through the page's own pose rig (window-level Q241 controller handed over by the host as api.pose()) */
+TP.applyPosture = function (key, side) {
+  var pose = this.api.pose ? this.api.pose() : null, msg = this.$("ncl-plan-pose-msg"), self = this;
+  if (!pose || !pose.ready || !pose.ready()) { msg.innerHTML = '<span class="warn">No pose rig is ready on this page: posture preview unavailable.</span>'; return null; }
+  this.plan.posture = key; this.plan.side = side;
+  if (key === "rest" || !POSTURES[key]) { pose.reset(); msg.textContent = "Pose reset to the model's rest pose; the needle tool's distances are valid again."; this.scheduleCorridor(); return {applied: [], skipped: []}; }
+  var pat = POSTURES[key], P = pose.restPose(), rig = pose.rig(), byId = {}, applied = [], skipped = [];
+  rig.joints.forEach(function (j) { byId[j.id] = j; });
+  Object.keys(pat.joints).forEach(function (jn) {
+    var id = jn + "_" + side, j = byId[id];
+    Object.keys(pat.joints[jn]).forEach(function (k) {
+      var x = j && !j.driven ? j.dof.map(function (d) { return d.k; }).indexOf(k) : -1;
+      if (x < 0) { skipped.push(id + "." + k); return; }
+      P.j[id][x] = clamp(pat.joints[jn][k], j.dof[x].lo, j.dof[x].hi); applied.push(id + "." + k);
+    });
+  });
+  pose.apply(P);
+  msg.innerHTML = esc(pat.label) + ", " + side + ": " + applied.length + " joint angles applied within this page's normal ranges" +
+    (skipped.length ? '; <span class="warn">' + skipped.length + " not in this page's rig (skipped, not invented): " + esc(skipped.join(", ")) + "</span>" : "") +
+    '. <span class="warn">The needle tool measures the rest-pose meshes: distances are not valid while posed.</span>';
+  setTimeout(function () { self.scheduleCorridor(); }, 50);
+  return {applied: applied, skipped: skipped};
+};
+
 /* ---------- facade for the host page and for test harnesses ---------- */
+TP.corridor = function () {   // Q268 test / harness hook: the live readout as data
+  var c = this.corr;
+  return {near: c.near, far: c.far, R: c.R, n: c.n, ms: Math.round(c.ms * 10) / 10, what: c.what, seq: c.seq || 0,
+          items: c.items.map(function (it) { return {id: it.id, name: it.name, cls: it.cls, d_mm: Math.round(it.d * 1000) / 1000}; })};
+};
 TP.setPath = function (entry, target, entryId, targetId) {
   if (!this.active) this.toggle(true);
   if (this.mode === "dir") this.setMode("two", true);
@@ -1467,7 +1872,14 @@ global.NMSKClinical = {
       toggle: function (on) { tool.toggle(on); }, clear: function () { tool.clear(); },
       setPoints: function (e, t, eid, tid) { tool.setPath(e, t, eid, tid); },
       report: function () { return tool.report(); },
-      toScreen: function (p) { return api.toScreen(p); }
+      toScreen: function (p) { return api.toScreen(p); },
+      /* Q268 hooks (items 1-3), used by scripts/anatomy/q268/verify_ui_q268.py and crosscheck_q268.py */
+      corridor: function () { return tool.corridor(); }, setCorr: function (o) { tool.setCorr(o); },
+      plan: function (id) { var ids = tool.byId[id] || []; if (ids.length) tool.planPick(ids[0]); return ids.length > 0; },
+      releasePlan: function () { tool.planRelease(); },
+      suggest: function () { return tool.suggest(); }, suggestions: function () { return tool.sugg.shown.map(function (c) { return {entry: c.E.slice(), length_mm: c.L, min_mm: c.minD}; }); },
+      adoptSuggestion: function (k) { tool.adoptSuggestion(tool.sugg.shown[k]); },
+      posture: function (key, side) { return tool.applyPosture(key, side); }
     };
     return {cursor: function () { return tool.cursor(); },
             setPath: function (e, t, eid, tid) { tool.setPath(e, t, eid, tid); }};

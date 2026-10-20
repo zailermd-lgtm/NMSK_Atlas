@@ -5910,6 +5910,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         categoryOn:function(k){ return !!on[k]; },
         setCategoryOn:function(k,v){ if(!(k in on)) return; on[k]=!!v; if(v&&alphaFor[k]<=0.01) alphaFor[k]=1; sync(); need=true; },
         setClickHandler:function(fn){ addonClick=fn||null; },
+        /* Q268: lazy hand-over of the page's own selection / parts / pose controllers (created after the add-on attaches); public API objects only */
+        selection:function(){ return selCtl; }, parts:function(){ return partsCtl; }, pose:function(){ return poseCtl; },
         onChange:function(){},
         catColor:function(k){ var c=(k==="vein"?COL.vein:COL[k])||[0.6,0.6,0.6]; return "rgb("+c.map(function(x){return Math.round(x*255);}).join(",")+")"; },
         showPanel:function(){}, stopMotion:stopSpin,
@@ -5932,7 +5934,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
     /* Q267 (9): one-tap layout toggle -- see the own-page template's own copy of this comment for the full rationale.
        Deliberately independent of #btn-panel (the mobile-only rail sheet toggle). */
     (function(){
-      var PANEL_LAYOUTS=["model","split","compare"], panelLay="model", lastToolKey, lay3Btn=document.getElementById("t-lay3");
+      var PANEL_LAYOUTS=["model","split","compare"], panelLay="model", lastToolKey, layNeedleCollapsed=false, lay3Btn=document.getElementById("t-lay3");
       /* Generic: see the own-page template's own copy of this comment -- never names a specific private clinical
          tool here; a private add-on reacting to "compare" watches document.body's own "lay-compare" class itself. */
       function activeToolKey(){
@@ -5946,7 +5948,10 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         document.body.classList.remove("lay-model","lay-split","lay-compare"); document.body.classList.add("lay-"+state);
         if (state==="model"){
           ["us-ctlbtn","img-ctlbtn"].forEach(function(id){ var b=document.getElementById(id); if (b && b.getAttribute("aria-pressed")!=="false") b.click(); });
-          var nmin=document.getElementById("ncl-min"); if (nmin && nmin.getAttribute("aria-expanded")!=="false") nmin.click();
+          var nmin=document.getElementById("ncl-min"); if (nmin && nmin.getAttribute("aria-expanded")!=="false"){ nmin.click(); layNeedleCollapsed=true; }
+        } else if (layNeedleCollapsed){      /* Q268: undo only this layout's own auto-collapse (see the own-page template's copy of this comment) */
+          var nmin2=document.getElementById("ncl-min"); if (nmin2 && nmin2.getAttribute("aria-expanded")==="false") nmin2.click();
+          layNeedleCollapsed=false;
         }
         if (lay3Btn) lay3Btn.textContent = state==="model"?"model only":state==="split"?"split":"compare";
         try { sessionStorage.setItem(panelLayKey(activeToolKey()), state); } catch (err){}

@@ -5486,6 +5486,8 @@ function anatomyApi(){
       apply();
     },
     setClickHandler:function(fn){ addonClick = fn || null; },
+    /* Q268: lazy hand-over of the page's own selection / parts / pose controllers (they are created after the add-on attaches); public API objects only */
+    selection:function(){ return selCtl; }, parts:function(){ return partsCtl; }, pose:function(){ return poseCtl; },
     onChange:function(fn){ changeHooks.push(fn); },
     catColor:function(c){ return hexCss((TISSUE[c] || TISSUE.other).hex); },
     showPanel:function(){ if (app.classList.contains("phone")) openSheet(null); },   // phone: close the sheets so the stage panel shows
@@ -5548,7 +5550,7 @@ window.addEventListener("resize", function(){ if (layoutPref() === "auto") apply
    currently active clinical tool (sessionStorage, the same persistence idiom Q256's nerve-groups picker already uses
    for its own small preferences, just keyed per tool here instead of globally) and auto-returning to Model-only
    whenever no tool is armed. Deliberately a THIRD, independent control from #t-layout above (phone vs desktop). */
-var PANEL_LAYOUTS = ["model", "split", "compare"], panelLay = "model", lastToolKey;
+var PANEL_LAYOUTS = ["model", "split", "compare"], panelLay = "model", lastToolKey, layNeedleCollapsed = false;
 var lay3Btn = document.getElementById("t-lay3");
 /* Generic: this public template never names a specific private clinical tool (see test_q228.py's own
    "public templates do not mention [a private tool]" guard) -- "is a tool armed" is read from the body classes /
@@ -5567,7 +5569,10 @@ function applyPanelLayout(state){
   document.body.classList.remove("lay-model", "lay-split", "lay-compare"); document.body.classList.add("lay-" + state);
   if (state === "model"){
     ["us-ctlbtn", "img-ctlbtn"].forEach(function(id){ var b = document.getElementById(id); if (b && b.getAttribute("aria-pressed") !== "false") b.click(); });
-    var nmin = document.getElementById("ncl-min"); if (nmin && nmin.getAttribute("aria-expanded") !== "false") nmin.click();
+    var nmin = document.getElementById("ncl-min"); if (nmin && nmin.getAttribute("aria-expanded") !== "false"){ nmin.click(); layNeedleCollapsed = true; }
+  } else if (layNeedleCollapsed){      /* Q268: undo ONLY this layout's own auto-collapse (never a user's Q264 compact choice) -- found by real interaction: the needle panel opened collapsed to its title bar after Q267's init pass */
+    var nmin2 = document.getElementById("ncl-min"); if (nmin2 && nmin2.getAttribute("aria-expanded") === "false") nmin2.click();
+    layNeedleCollapsed = false;
   }
   if (lay3Btn) lay3Btn.textContent = state === "model" ? "Model only" : state === "split" ? "Split" : "Compare";
   try { sessionStorage.setItem(panelLayKey(activeToolKey()), state); } catch (err){}
