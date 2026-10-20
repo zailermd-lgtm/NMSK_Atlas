@@ -95,6 +95,7 @@ separate file `clinical_needle_tool.js` next to each viewer page by
 `clinical_motor_points.json`. The page keeps only a generic hook (a script tag that loads the
 file if present, and an anatomy API object: meshes, structure records, picking, visibility,
 opacity, camera). Without the file the page is an anatomy-only atlas and shows no needle button.
+Rebuilding a page with the current templates but no geometry recompute (regen_cut_q218 -> stage_clinical_files --ultrasound -> set_titles_q231 -> abbrev / calibre / pose-rig injection -> symmetry + plexus sidecars, then a byte-level check against a reference dir) is one command since Q271: `python3 scripts/regen_template_only.py all --out /dev/shm/<round> [--ref DIR]`.
 The page itself keeps a general **Cut** mode (Q197, the same on all six pages, desktop and phone): orientation
 presets (sagittal / axial / coronal / facing me = the camera direction when pressed) or **Place on model** (then click
 or tap the model: the plane passes through that point); the plane is drawn as a translucent rectangle with an arrow to

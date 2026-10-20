@@ -214,6 +214,8 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
+    if any(a in ("-h", "--help") for a in sys.argv[1:]):   # Q271: no args = rewrite the tracked table, so never let --help fall through to it
+        print("usage: make_calibre.py [--inject DIR... | --validate]   (no args: rewrite data/anatomy/calibre.json)"); raise SystemExit(0)
     if sys.argv[1:2] == ["--validate"]:
         doc = load_out()
         for k, pg in doc["pages"].items():

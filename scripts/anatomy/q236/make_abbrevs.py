@@ -81,4 +81,6 @@ def main(argv: list[str]) -> int:
 
 
 if __name__ == "__main__":
+    if any(a in ("-h", "--help") for a in sys.argv[1:]):   # Q271: no args = rewrite the tracked table, so never let --help fall through to it
+        print("usage: make_abbrevs.py [--inject DIR...]   (no args: rewrite data/anatomy/abbreviations.json)"); raise SystemExit(0)
     raise SystemExit(main(sys.argv[1:]))
