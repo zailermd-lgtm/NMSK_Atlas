@@ -671,21 +671,25 @@ body.ss-marking canvas{cursor:copy!important}
   /* ---------- phone: rail becomes a bottom sheet, canvas always visible ---------- */
   @media (max-width:900px){
     #btn-panel{display:block}
-    #topright{flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 1.4rem)}
+    /* Q270: the wrapped toolbar starts BELOW the one-line title (h1 1.02rem, bottom ~30px) instead of covering it */
+    #topright{flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 1.4rem);top:calc(2.35rem + var(--safe-t))}
     #brand h1{font-size:1.02rem}
     #stat-line{display:none}
     #rail{top:auto;left:0;right:0;bottom:0;width:auto;border-radius:14px 14px 0 0;
       max-height:min(66vh,520px);
       transform:translateY(calc(100% + 4px));
       transition:transform .28s cubic-bezier(.32,.72,0,1);
-      padding-bottom:var(--safe-b)}
+      /* Q270: reserve the fixed #foot bar's band (.75rem offset + ~32px pills, z-index 22 on top of the sheet) under the scroll area */
+      padding-bottom:calc(3.3rem + var(--safe-b))}
     #rail.open{transform:translateY(0)}
     #rail::before{content:"";position:absolute;top:.45rem;left:50%;transform:translateX(-50%);
       width:34px;height:4px;border-radius:2px;background:var(--line-strong)}
     .rail-body{padding:1.1rem .9rem .9rem}
     #list{max-height:150px}
+    /* Q270: the open structure card stacks ABOVE the 3-4-row toolbar on the phone (its own x closes it) -- before, the
+       toolbar (z 25) covered the card's heading and action row, so Mark / hide / fade could sit under a pill */
     #info{left:.7rem;right:.7rem;width:auto;bottom:auto;
-      top:calc(3.5rem + var(--safe-t));max-height:38vh}
+      top:calc(3.5rem + var(--safe-t));max-height:38vh;z-index:26}
     #foot{bottom:calc(.75rem + var(--safe-b));left:.7rem;max-width:calc(100% - 1.4rem)}
     .pill{padding:.5rem .6rem;font-size:.68rem}
     .item{padding:.45rem .4rem;font-size:.82rem}
