@@ -67,7 +67,10 @@ def main() -> int:
         nodes[nid] = dict(id=nid, name=r.get("name", nid), plexus=r["plexus"], level=r["level"], level_label=LEVEL_LABEL.get(r["level"], r["level"]),
                            parent_id=r.get("parent_id"), root_contributions=r.get("root_contributions"), display_name=disp_name(r),
                            children=sorted(children.get(nid, [])), downstream=sorted(down), downstream_count=len(down),
-                           is_leaf=nid not in children, source=r.get("source", ""))
+                           is_leaf=nid not in children, source=r.get("source", ""),
+                           # Q267 (8): carried through verbatim from the registry record, never invented here -- the "what it
+                           # innervates" / "what it's a branch of" data the owner's injury-annotation reference card surfaces.
+                           targets=r.get("targets", []), notes=r.get("notes", ""))
     plexuses = sorted({r["plexus"] for r in recs.values()})
     by_plexus = {p: sorted([nid for nid, r in recs.items() if r["plexus"] == p],
                             key=lambda i: (LEVEL_ORDER.index(recs[i]["level"]), i)) for p in plexuses}

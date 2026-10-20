@@ -1130,7 +1130,7 @@
       var head = el("div", {class: "img-head"}, [
         el("b", {text: "Imaging"}), el("span", {class: "img-badge", text: "Simulated from meshes – not a scan"}), el("span", {class: "img-sp"}),
         (ui.layBtn = el("button", {type: "button", title: "Layout: auto / side by side / stacked / tabs", onclick: cycleLayout, text: "◫"})),
-        (ui.ctlBtn = el("button", {type: "button", title: "Show / hide the controls (more room for the image)", "aria-pressed": "true", onclick: function () { var off = root.classList.toggle("ctl-off"); ui.ctlBtn.setAttribute("aria-pressed", String(!off)); setTimeout(function () { Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); }); }, 50); }, text: "Controls"})),
+        (ui.ctlBtn = el("button", {type: "button", id: "img-ctlbtn", title: "Show / hide the controls (more room for the image)", "aria-pressed": "true", onclick: function () { var off = root.classList.toggle("ctl-off"); ui.ctlBtn.setAttribute("aria-pressed", String(!off)); setTimeout(function () { Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); }); }, 50); }, text: "Controls"})),
         el("button", {type: "button", title: "Assumptions, sources and limits of the simulation", onclick: function () { ui.info.classList.toggle("show"); }, text: "Info"}),
         el("button", {type: "button", title: "Save the active view as PNG (with the badge)", onclick: savePng, text: "PNG"}),
         el("button", {type: "button", title: "Close imaging", "aria-label": "Close imaging", onclick: function () { setOpen(false); }, text: "✕"})
@@ -1682,6 +1682,141 @@
   }
 
   /* ========================================================================================================
+   * Q267 (7): REFERENCE PICTURE-IN-PICTURE PANEL -- an independent, floating, draggable, resizable panel for a
+   * locally-loaded patient image or short video clip, for side-by-side visual reference next to the 3-D view or
+   * the simulated imaging/ultrasound. Explicitly NOT registration/fusion with the model: the clinician positions
+   * it by eye. Fully client-side: File API (an object URL, never uploaded anywhere) + <img>/<video> + a canvas
+   * only for the brightness control (drawImage with ctx.filter, no CSS filter on the media element itself) --
+   * nothing here ever creates a network request for the loaded media. Collapsed to a small toolbar icon by
+   * default (reusing Q264's compact-panel idiom -- a chevron that collapses the open panel to its own title bar).
+   * ====================================================================================================== */
+  function attachReferencePanel(api) {
+    var root = null, ui = {}, S = {open: false, kind: null, url: null, zoom: 1, panX: 0, panY: 0, bright: 100, raf: 0, collapsed: false};
+    function el(tag, attrs, kids) {
+      var e = document.createElement(tag);
+      if (attrs) Object.keys(attrs).forEach(function (k) {
+        if (k === "text") e.textContent = attrs[k]; else if (k.slice(0, 2) === "on") e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]);
+      });
+      (kids || []).forEach(function (c) { if (c) e.appendChild(c); });
+      return e;
+    }
+    var CSS = [
+      "#ref-root{position:fixed;left:16px;bottom:16px;width:360px;height:280px;min-width:220px;min-height:160px;max-width:92vw;max-height:80vh;",
+      "background:#12161d;color:#e6edf5;border:1px solid #2a3646;border-radius:9px;z-index:82;display:none;flex-direction:column;overflow:hidden;",
+      "font:13px/1.35 system-ui,-apple-system,Segoe UI,sans-serif;resize:both;box-shadow:0 6px 24px rgba(0,0,0,.4)}",
+      "#ref-root.open{display:flex}",
+      "#ref-root *{box-sizing:border-box}",
+      "#ref-root button{font:inherit;background:#1b222c;color:inherit;border:1px solid #2a3646;border-radius:6px;padding:3px 7px;cursor:pointer;min-height:26px}",
+      "#ref-root button:hover{border-color:#6cb4ff}",
+      "#ref-root button[aria-pressed=true]{background:#1f3b5c;border-color:#6cb4ff}",
+      ".ref-head{display:flex;align-items:center;gap:5px;padding:5px 7px;border-bottom:1px solid #2a3646;cursor:move;flex:0 0 auto;touch-action:none}",
+      ".ref-head b{font-size:12.5px;flex:1}",
+      ".ref-min{width:24px;padding:2px!important}",
+      "#ref-root.ref-collapsed{height:auto!important;resize:none}",
+      "#ref-root.ref-collapsed>*:not(.ref-head){display:none}",
+      ".ref-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:4px 7px;border-bottom:1px solid #2a3646;flex:0 0 auto}",
+      ".ref-row label{font-size:11px;color:#98a6b8}",
+      ".ref-row input[type=range]{flex:1 1 60px;min-width:50px}",
+      ".ref-stage{flex:1 1 0;min-height:0;position:relative;overflow:hidden;background:repeating-conic-gradient(#1a1f27 0 25%,#12161d 0 50%) 50%/16px 16px}",
+      ".ref-stage.empty::after{content:'Load an image or short video clip (local file only -- never uploaded)';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px;text-align:center;color:#8192a6;font-size:12px}",
+      ".ref-media{position:absolute;left:50%;top:50%;transform-origin:center center}",
+      ".ref-media canvas,.ref-media video{display:block;max-width:none}",
+      "#ref-root input[type=file]{font-size:11px;max-width:130px}",
+      "@media (max-width:520px){#ref-root{left:8px;right:8px;width:auto}}"
+    ].join("\n");
+    var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
+    function setOpen(on) {
+      S.open = !!on; if (!root) build();
+      root.classList.toggle("open", S.open);
+      if (ui.btn) ui.btn.setAttribute("aria-pressed", String(S.open));
+      if (!S.open) stopVideoLoop();
+    }
+    function stopVideoLoop() { if (S.raf) { cancelAnimationFrame(S.raf); S.raf = 0; } }
+    function applyTransform() { if (ui.media) ui.media.style.transform = "translate(-50%,-50%) translate(" + S.panX + "px," + S.panY + "px) scale(" + S.zoom + ")"; }
+    function drawBrightness() {                                            // Q267 (7): brightness goes through the canvas, exactly as the brief asks -- not a CSS filter on the media element
+      if (!ui.cv || !S.src) return;
+      var w = ui.cv._w, h = ui.cv._h, ctx = ui.cv.getContext("2d");
+      try { ctx.filter = "brightness(" + S.bright + "%)"; } catch (e) {}
+      ctx.clearRect(0, 0, w, h); ctx.drawImage(S.src, 0, 0, w, h);
+    }
+    function videoLoop() { drawBrightness(); if (S.kind === "video" && S.open) S.raf = requestAnimationFrame(videoLoop); }
+    function loadFile(file) {
+      if (!file) return;
+      if (S.url) { try { URL.revokeObjectURL(S.url); } catch (e) {} }
+      stopVideoLoop();
+      var isVideo = /^video\//.test(file.type) || /\.(mp4|webm|mov|m4v)$/i.test(file.name || "");
+      S.kind = isVideo ? "video" : "image"; S.url = URL.createObjectURL(file); S.zoom = 1; S.panX = 0; S.panY = 0; S.bright = 100;
+      ui.stage.classList.remove("empty");
+      if (isVideo) {
+        var v = document.createElement("video"); v.src = S.url; v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true; v.controls = true;
+        v.addEventListener("loadedmetadata", function () { ui.cv.width = ui.cv._w = v.videoWidth || 320; ui.cv.height = ui.cv._h = v.videoHeight || 240; v.play().catch(function () {}); videoLoop(); });
+        S.src = v;
+      } else {
+        var im = new Image(); im.onload = function () { ui.cv.width = ui.cv._w = im.naturalWidth || 320; ui.cv.height = ui.cv._h = im.naturalHeight || 240; drawBrightness(); }; im.src = S.url;
+        S.src = im;
+      }
+      applyTransform();
+    }
+    var drag = null;
+    function headDown(e) {
+      if (e.target && e.target.closest("button,input")) return;
+      drag = {x: e.clientX, y: e.clientY, l: root.offsetLeft, t: root.offsetTop};
+      root.style.left = drag.l + "px"; root.style.top = drag.t + "px"; root.style.right = "auto"; root.style.bottom = "auto";
+      try { ui.head.setPointerCapture(e.pointerId); } catch (e2) {}
+    }
+    function headMove(e) { if (!drag) return; root.style.left = Math.max(0, drag.l + e.clientX - drag.x) + "px"; root.style.top = Math.max(0, drag.t + e.clientY - drag.y) + "px"; }
+    function headUp() { drag = null; }
+    var panDrag = null;
+    function stageDown(e) { if (!S.src) return; panDrag = {x: e.clientX, y: e.clientY, px: S.panX, py: S.panY}; try { ui.stage.setPointerCapture(e.pointerId); } catch (e2) {} }
+    function stageMove(e) { if (!panDrag) return; S.panX = panDrag.px + (e.clientX - panDrag.x); S.panY = panDrag.py + (e.clientY - panDrag.y); applyTransform(); }
+    function stageUp() { panDrag = null; }
+    function build() {
+      root = el("div", {id: "ref-root", role: "region", "aria-label": "Reference image / video (local, not fused with the 3-D model)"});
+      ui.head = el("div", {class: "ref-head"}, [
+        el("b", {text: "Reference image"}),
+        (ui.min = el("button", {type: "button", class: "ref-min", id: "ref-min", "aria-expanded": "true", "aria-label": "Minimize the reference panel", title: "Compact mode: collapse to just the title bar", onclick: function () {
+          S.collapsed = !S.collapsed; ui.min.setAttribute("aria-expanded", String(!S.collapsed)); root.classList.toggle("ref-collapsed", S.collapsed);
+        }}, [document.createTextNode("▾")])),
+        el("button", {type: "button", "aria-label": "Close the reference panel", title: "Close", onclick: function () { setOpen(false); }}, [document.createTextNode("✕")])
+      ]);
+      ui.head.addEventListener("pointerdown", headDown); ui.head.addEventListener("pointermove", headMove); ui.head.addEventListener("pointerup", headUp); ui.head.addEventListener("pointercancel", headUp);
+      ui.file = el("input", {type: "file", accept: "image/*,video/*", "aria-label": "Load a local image or short video clip", onchange: function () { if (ui.file.files && ui.file.files[0]) loadFile(ui.file.files[0]); }});
+      var row1 = el("div", {class: "ref-row"}, [ui.file, el("button", {type: "button", title: "Reset pan / zoom", onclick: function () { S.zoom = 1; S.panX = 0; S.panY = 0; applyTransform(); }}, [document.createTextNode("reset view")])]);
+      ui.zoomOut = el("output", {text: "100%"});
+      var row2 = el("div", {class: "ref-row"}, [
+        el("label", {text: "zoom"}),
+        el("input", {type: "range", min: "0.2", max: "6", step: "0.1", value: "1", oninput: function () { S.zoom = +this.value; ui.zoomOut.textContent = Math.round(S.zoom * 100) + "%"; applyTransform(); }}),
+        ui.zoomOut,
+        el("label", {text: "brightness"}),
+        (ui.brightOut = el("output", {text: "100%"})),
+        el("input", {type: "range", min: "30", max: "250", step: "5", value: "100", oninput: function () { S.bright = +this.value; ui.brightOut.textContent = S.bright + "%"; drawBrightness(); }})
+      ]);
+      ui.stage = el("div", {class: "ref-stage empty"});
+      ui.media = el("div", {class: "ref-media"});
+      ui.cv = el("canvas", {width: "1", height: "1"}); ui.cv._w = 1; ui.cv._h = 1;
+      ui.media.appendChild(ui.cv); ui.stage.appendChild(ui.media);
+      ui.stage.addEventListener("pointerdown", stageDown); ui.stage.addEventListener("pointermove", stageMove); ui.stage.addEventListener("pointerup", stageUp); ui.stage.addEventListener("pointercancel", stageUp);
+      ui.stage.addEventListener("wheel", function (e) { if (!S.src) return; e.preventDefault(); S.zoom = Math.max(0.2, Math.min(6, S.zoom * (e.deltaY < 0 ? 1.1 : 0.9))); ui.zoomOut.textContent = Math.round(S.zoom * 100) + "%"; applyTransform(); }, {passive: false});
+      [ui.head, row1, row2, ui.stage].forEach(function (x) { root.appendChild(x); });
+      document.body.appendChild(root);
+    }
+    function addButton() {
+      var host = api.toolbar || floatBar();
+      ui.btn = el("button", {type: "button", id: "t-reference", title: "Reference image / video: a floating panel to view a local file beside the model (not fused with it; nothing is uploaded)", "aria-pressed": "false", text: api.kind === "webgl" ? "reference img" : "Reference img", onclick: function () { setOpen(!S.open); }});
+      ui.btn.className = api.kind === "webgl" ? "pill" : "tool";
+      var after = document.getElementById("t-imaging") || document.getElementById("t-cut");
+      if (after && after.parentNode === host) host.insertBefore(ui.btn, after.nextSibling); else host.appendChild(ui.btn);
+    }
+    addButton();
+    G.NMSKReference = {
+      open: function () { setOpen(true); }, close: function () { setOpen(false); }, isOpen: function () { return S.open; },
+      loadFile: loadFile, state: function () { return {open: S.open, kind: S.kind, zoom: S.zoom, panX: S.panX, panY: S.panY, bright: S.bright, collapsed: S.collapsed, loaded: !!S.src}; },
+      set: function (p) { Object.keys(p).forEach(function (k) { if (k === "zoom" || k === "panX" || k === "panY" || k === "bright") S[k] = p[k]; }); applyTransform(); drawBrightness(); }
+    };
+    return {};
+  }
+
+  /* ========================================================================================================
    * 5. ATTACH -- chain onto the (optional) needle add-on
    * ====================================================================================================== */
   var prev = G.NMSKClinical, chained = Object.assign({}, prev || {});
@@ -1696,6 +1831,7 @@
     }
     if (sh) { sh.addClickHandler = function (fn) { clickers.push(fn); }; sh.api = api; }
     loadCompanions(api, sh);
+    try { attachReferencePanel(api); } catch (e4) { console.error("reference panel failed to start; anatomy viewer unaffected:", e4); }
     return r;
   };
   chained.imaging = VERSION;

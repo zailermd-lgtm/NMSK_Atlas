@@ -59,8 +59,12 @@ def build(html: Path) -> dict:
                 sides[s] = dict(resolved_ids=sorted(resolved), resolved_count=len(resolved), total=node["downstream_count"],
                                  missing_sample=missing[:12], missing_count=len(missing))
         if sides:
+            # Q267 (8): parent_name (what it's a branch of) + targets (what it innervates, muscle ids -- resolved to
+            # real names client-side against this page's own geo.names) + source citation, so the injury-annotation
+            # reference card can show real, cited data instead of just a name -- nothing invented here.
             nodes_out[nid] = dict(name=node["name"], display_name=node["display_name"], level=node["level"], level_label=node["level_label"],
-                                   plexus=node["plexus"], parent_id=node["parent_id"], is_leaf=node["is_leaf"], sides=sides)
+                                   plexus=node["plexus"], parent_id=node["parent_id"], parent_name=(g["nodes"].get(node["parent_id"], {}) or {}).get("name"),
+                                   is_leaf=node["is_leaf"], sides=sides, targets=node.get("targets", []), source=node.get("source", ""))
             by_plexus[node["plexus"]].append(nid)
     for p in by_plexus:
         by_plexus[p].sort()

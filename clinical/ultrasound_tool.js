@@ -482,7 +482,18 @@
       open: false, mode: "star", probe: "linear", widths: {linear: 44, convex: 65, sector: 22}, freq: 7.5, depthCm: 5, gain: 0, tgc: 0, focusCm: 2.5, dr: 60,
       refKey: "long", rot: 0, tilt: 15, mTilt: 0, mTiltDir: 0, n: 6, spacing: 10, byTotal: false, total: 50, centered: false, sign: 1, follow: false, followSid: -1, followName: "",
       speckle: true, textures: true, reverb: true, noise: false, hidden: false, P: null, N: null, sel: 0, view: "matrix", lay: "auto", tab: "image", placing: false,
-      cine: false, fps: 3, cineMode: "step", sec: "probe", pick3d: false, seed: 11
+      cine: false, fps: 3, cineMode: "step", sec: "probe", pick3d: false, seed: 11,
+      /* Q267 (4): "US diagnostic" preset -- suspected-pathology pick-list (collapses Controls, defaults CINE to
+         continuous for THIS session only, pre-sets depth/dynamic-range/frequency, centres on a landmark the
+         wizard below picks from this page's own structure list). preset = null | "tear" | "entrap" | "tendon" | "joint". */
+      preset: null,
+      /* Q267 (5): A/B side-by-side compare -- two independent probe placements (P2/N2), sharing every other
+         control (depth, freq, gain, rotation, tilt/direction) with the primary placement. placeSlot picks which
+         placement "Place on skin" currently arms. */
+      ab: false, P2: null, N2: null, skinStruct2: -1, placeSlot: "A",
+      /* Q267 (6): opt-in, OFF by default, live tissue-thickness readout at the cursor/cross-hair -- a SEPARATE
+         toggle from the Q256 source-reliability dots (different system, viewer/parts_ui/parts_ui.js), per the brief. */
+      thickness: false
     };
     var frames = [], views = [], root = null, ui = {}, timers = {}, gen = 0, keySeq = 0, perf = {last: null, hist: []}, axisCache = {}, firing = false, busy = false, overlay = null, lastOverlayKey = "";
     /* Q257: CONTINUOUS cine -- genuinely re-slices at every displayed position (not a snap between the step-cine's N precomputed
@@ -559,6 +570,55 @@
         .then(function () { setDiag(); });
       return loadPromise;
     }
+    function classOf(sid) { return geo && C && geo.cls ? C.T.classes[geo.cls[sid]].key : null; }
+    /* Q267 (4): "US diagnostic" preset -- a short pick-list of suspected-pathology categories, each pre-setting depth / dynamic
+       range ("tissue contrast") / frequency (all parameters this tool already exposes, not invented), tied to the imaging
+       kernel's own tissue-class key (clinical/data/imaging_tissues.json) so the landmark search below only offers structures
+       of the relevant kind that this page's OWN geometry actually has. Depth/DR/freq are starting points for that category on
+       a typical adult body, not a cited clinical protocol -- framed as such in the button's own title. */
+    var PRESETS = [
+      {key: "tear", label: "קרע שריר", clsKey: "muscle", depthCm: 4, dr: 55, freq: 12, question: "איזה שריר?"},
+      {key: "entrap", label: "entrapment עצבי", clsKey: "nerve", depthCm: 3, dr: 50, freq: 12, question: "איזה עצב?"},
+      {key: "tendon", label: "גיד-רצועה", clsKey: "tendon_ligament", depthCm: 2.5, dr: 45, freq: 12, question: "איזה גיד / רצועה?"},
+      {key: "joint", label: "מפרק-בורסה", clsKey: "synovial", depthCm: 5, dr: 60, freq: 7.5, question: "איזה מפרק?"}
+    ];
+    function candidatesForClass(clsKey) {
+      var out = [], i; if (!geo) return out;
+      for (i = 0; i < geo.n; i++) if (classOf(i) === clsKey) out.push({sid: i, name: geo.names[i]});
+      out.sort(function (a, b) { return a.name < b.name ? -1 : a.name > b.name ? 1 : 0; });
+      return out;
+    }
+    function applyPreset(key) {
+      var d = null, i; for (i = 0; i < PRESETS.length; i++) if (PRESETS[i].key === key) d = PRESETS[i];
+      if (!d || !geo) return;
+      S.preset = key;
+      root.classList.add("ctl-off"); ui.ctlBtn.setAttribute("aria-pressed", "false");   // Q267 (4): collapse the non-imaging controls, reusing the existing Controls toggle
+      S.cineMode = "continuous";                                         // defaulted for THIS preset only, never globally (Q257's step cine stays the default elsewhere)
+      S.depthCm = d.depthCm; S.dr = d.dr; S.freq = d.freq; S.focusCm = d.depthCm * 0.5;
+      syncUi(); setStatus(d.label + ": depth " + d.depthCm + " cm, dynamic range " + d.dr + " dB, " + d.freq + " MHz (typical starting values, not a cited protocol).");
+      var cands = candidatesForClass(d.clsKey);
+      if (!cands.length) { setStatus(ui.status.textContent + " No " + d.label + " structure found on this body: probe position unchanged."); hideWizard(); refresh(true); return; }
+      if (cands.length === 1) { placeAtStructure(cands[0].sid, "A"); setStatus("Centred near " + cands[0].name + "."); hideWizard(); refresh(true); setCine(true); return; }
+      showWizard(d, cands);
+    }
+    /* Q267 (10): the inline wizard strip, only ever shown when there is a REAL question to ask (>=2 candidates). Dismissible;
+       dismissing it leaves the depth / dynamic range / CINE already applied above untouched -- only the landmark is skipped. */
+    var pendingCands = [];
+    function showWizard(d, cands) {
+      if (!ui.wizard) return;
+      pendingCands = cands; ui.wizQ.textContent = d.question; ui.wizInput.value = ""; renderWizard(""); ui.wizard.hidden = false;
+    }
+    function hideWizard() { if (ui.wizard) ui.wizard.hidden = true; }
+    function renderWizard(q) {
+      var ql = String(q || "").trim().toLowerCase(), rows = pendingCands.filter(function (c) { return !ql || c.name.toLowerCase().indexOf(ql) >= 0; }).slice(0, 60);
+      ui.wizRes.innerHTML = "";
+      rows.forEach(function (c) {
+        ui.wizRes.appendChild(btn(c.name.replace(/_/g, " "), "", function () {
+          placeAtStructure(c.sid, "A"); setStatus("Centred near " + c.name + "."); hideWizard(); refresh(true); setCine(true);
+        }));
+      });
+      if (!rows.length) ui.wizRes.appendChild(el("span", {class: "us-status", text: "No match."}));
+    }
     function axisOf(sid) {
       if (sid < 0 || sid >= geo.n) return null;
       var a = axisCache[sid];
@@ -585,6 +645,42 @@
       var bb = geo.bodyBox, cx = (bb.lo[0] + bb.hi[0]) / 2, cy = bb.lo[1] + 0.62 * (bb.hi[1] - bb.lo[1]), cz = (bb.lo[2] + bb.hi[2]) / 2;
       return placeRay([cx, cy, bb.hi[2] + 600], [0, 0, -1], true);
     }
+    /* Q267 (4/5): nearest skin point to an arbitrary 3-D point P -- NOT a single fixed-direction ray (abdomenPlacement /
+       defaultPlacement already do that, from directly above or from the camera eye), but a small fixed set of candidate
+       directions, each cast as a ray from far outside the body TOWARD P (same LIB.skinHit() every placement already
+       uses), keeping whichever hit lands closest to P. Good enough to seat a probe near a landmark that is not
+       necessarily visible from "straight down" or "from the camera" -- still a geometric approximation the clinician
+       can move afterward with "Place on skin", never claimed as exact. */
+    var NEAREST_DIRS = (function () {
+      var out = [], ax = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], a, b, c;
+      ax.forEach(function (d) { out.push(d); });
+      for (a = -1; a <= 1; a += 2) for (b = -1; b <= 1; b += 2) for (c = -1; c <= 1; c += 2) out.push(LIB.unit([a, b, c]));
+      return out;
+    })();
+    function nearestSkin(P) {
+      if (!geo) return null;
+      var best = null, i;
+      for (i = 0; i < NEAREST_DIRS.length; i++) {
+        var d = NEAREST_DIRS[i], o = [P[0] + d[0] * 700, P[1] + d[1] * 700, P[2] + d[2] * 700];
+        var h = LIB.skinHit(geo, o, [-d[0], -d[1], -d[2]], null);
+        if (h) { var dd = Math.hypot(h.point[0] - P[0], h.point[1] - P[1], h.point[2] - P[2]); if (!best || dd < best.dd) best = {h: h, dd: dd}; }
+      }
+      return best ? best.h : null;
+    }
+    /* structure centroid, cheap (stride-sampled like LIB.pcaAxis) -- used only to pick a landmark point, not a measurement */
+    function structCentroid(sid) {
+      var v0 = geo.vStart[sid], v1 = geo.vStart[sid + 1], step = Math.max(1, Math.floor((v1 - v0) / 400)), k, cx = 0, cy = 0, cz = 0, m = 0;
+      for (k = v0; k < v1; k += step) { cx += geo.pos[3 * k]; cy += geo.pos[3 * k + 1]; cz += geo.pos[3 * k + 2]; m++; }
+      return m ? [cx / m, cy / m, cz / m] : null;
+    }
+    function placeAtStructure(sid, slot) {
+      var c = structCentroid(sid); if (!c) return false;
+      var h = nearestSkin(c); if (!h) return false;
+      var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct);
+      var outward = sub(h.point, c); if (LIB.dot(nrm, outward) < 0) nrm = [-nrm[0], -nrm[1], -nrm[2]];
+      if (slot === "B") { S.P2 = h.point; S.N2 = nrm; S.skinStruct2 = h.struct; } else { S.P = h.point; S.N = nrm; S.skinStruct = h.struct; }
+      return true;
+    }
     function defaultPlacement(fromView) {                                      // "Screen centre": the skin under the centre of the 3D view
       if (!fromView && abdomenPlacement()) return;
       var v = api.view(), o = v.eye, d = [v.target[0] - v.eye[0], v.target[1] - v.eye[1], v.target[2] - v.eye[2]];
@@ -599,10 +695,22 @@
         if (h && h.i != null) setFollow(h.i); else setStatus("Nothing picked.");
         return true;
       }
-      var hit = placeRay(r.o, r.d);
+      var hit;
+      if (S.ab && S.placeSlot === "B") {                                 // Q267 (5): "Place on skin" routes to whichever slot is currently armed
+        hit = placeRay2(r.o, r.d, "B");
+      } else hit = placeRay(r.o, r.d);
       S.placing = false; syncUi();
       if (hit) { S.sel = 0; refresh(true); }
       return true;
+    }
+    function placeRay2(o, d, slot) {                                     // Q267 (5): same as placeRay(), but writes into the B slot instead of S.P/S.N
+      if (!geo) return null;
+      var h = LIB.skinHit(geo, o, LIB.unit(d), cutKeep());
+      if (!h) { setStatus("No skin under that point (the ray misses the body, or the skin there is cut away)."); return null; }
+      var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct);
+      if (LIB.dot(nrm, d) > 0) nrm = [-nrm[0], -nrm[1], -nrm[2]];
+      S.P2 = h.point; S.N2 = nrm; S.skinStruct2 = h.struct;
+      return h;
     }
     function setFollow(sid) {
       S.followSid = sid; S.followName = geo.names[sid] || ""; var a = LIB.pcaAxis(geo.pos, geo.vStart[sid], geo.vStart[sid + 1]);
@@ -625,6 +733,10 @@
       return {rot: S.rot, sign: S.sign, axis: null};
     }
     function frameSpecs() {
+      if (S.ab) {                                                        // Q267 (5): two independent placements, EVERY other control shared (depth/freq/gain/rotation/tilt/direction -- the same S.rot/S.mTilt/S.mTiltDir sliders the sweep mode already exposes)
+        return [{id: 0, tilt: S.mTilt, dir: S.mTiltDir, off: 0, P: S.P, N: S.N, label: "A", short: "A"},
+          {id: 1, tilt: S.mTilt, dir: S.mTiltDir, off: 0, P: S.P2 || S.P, N: S.N2 || S.N, label: "B", short: "B"}];
+      }
       var out = [], i;
       if (S.mode === "star") {
         LIB.starTilts(S.tilt).forEach(function (t) { out.push({id: t.id, tilt: t.tilt, dir: t.dir, off: 0, short: t.short, label: t.id === 0 ? "90° (perpendicular)" : "tilt " + S.tilt + "° " + t.name}); });
@@ -637,8 +749,9 @@
     function spacing() { return S.byTotal ? (S.n > 1 ? S.total / (S.n - 1) : S.total) : S.spacing; }
     function poseOf(spec) {
       var rot = spec.rotOverride != null ? spec.rotOverride : S.rot;
-      var pf = LIB.probeFrame(S.N, orientRef(), rot, spec.tilt, spec.dir);
-      var O = [S.P[0] + pf.e[0] * spec.off, S.P[1] + pf.e[1] * spec.off, S.P[2] + pf.e[2] * spec.off], shift = 0;
+      var P0 = spec.P || S.P, N0 = spec.N || S.N;                        // Q267 (5): an A/B-slot spec carries its OWN placement; every other spec still falls back to the single shared S.P/S.N exactly as before
+      var pf = LIB.probeFrame(N0, orientRef(), rot, spec.tilt, spec.dir);
+      var O = [P0[0] + pf.e[0] * spec.off, P0[1] + pf.e[1] * spec.off, P0[2] + pf.e[2] * spec.off], shift = 0;
       if (spec.off !== 0 && geo) {                                              // re-seat on the skin by sliding the face along the beam axis (stays in the same image plane, so planes stay parallel)
         var o2 = [O[0] + pf.N[0] * 60, O[1] + pf.N[1] * 60, O[2] + pf.N[2] * 60], h = LIB.skinHit(geo, o2, pf.b, null);
         if (h && h.t < 140) { shift = h.t - 60; O = h.point; }
@@ -649,12 +762,14 @@
       var m = new Uint8Array(geo.n), i; for (i = 0; i < geo.n; i++) { var v = true; try { v = !!api.visible(i); } catch (e) {} m[i] = v ? 1 : 0; } return m;
     }
     function quality(idx) {
+      if (S.ab) return {maxDim: 440, maxLines: 256};                     // Q267 (5): always exactly 2 slots, both full quality
       if (S.mode === "star") return idx === S.sel ? {maxDim: 480, maxLines: 256} : {maxDim: 320, maxLines: 192};
       return S.n <= 4 ? {maxDim: 440, maxLines: 256} : S.n <= 6 ? {maxDim: 380, maxLines: 224} : {maxDim: 320, maxLines: 192};
     }
     function refFrame(spec) {                                                   // fixed frame of the whole star / sweep: the centre (perpendicular) frame, or the sweep's own tilt
-      var rot = spec.rotOverride != null ? spec.rotOverride : S.rot, pf = LIB.probeFrame(S.N, orientRef(), rot, S.mode === "star" ? 0 : spec.tilt, S.mode === "star" ? 0 : spec.dir);
-      return {O: S.P, u: pf.u, b: pf.b, e: pf.e};
+      var N0 = spec.N || S.N, P0 = spec.P || S.P;
+      var rot = spec.rotOverride != null ? spec.rotOverride : S.rot, pf = LIB.probeFrame(N0, orientRef(), rot, S.mode === "star" && !S.ab ? 0 : spec.tilt, S.mode === "star" && !S.ab ? 0 : spec.dir);
+      return {O: P0, u: pf.u, b: pf.b, e: pf.e};
     }
     function simOpts(fr, extra) {
       var p = US.probes[S.probe];
@@ -662,7 +777,7 @@
         speckle: S.speckle, textures: S.textures, reverb: S.reverb, noise: S.noise, seed: S.seed,        // Q246: ONE seed for every frame: the speckle belongs to the body, not to the frame
         elevMm: S.mode === "star" ? 0 : fr.spec.off, frame: {O: fr.O, u: fr.pf.u, b: fr.pf.b, e: fr.pf.e, zoff: 0}, ref: refFrame(fr.spec), axisOf: axisOf}, extra || {});
     }
-    function rasterKey(spec, q) { return [S.probe, probeW(), S.depthCm, S.P.map(function (x) { return x.toFixed(2); }).join(), S.N.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0].join("|"); }
+    function rasterKey(spec, q) { var P0 = spec.P || S.P, N0 = spec.N || S.N; return [S.probe, probeW(), S.depthCm, P0.map(function (x) { return x.toFixed(2); }).join(), N0.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0].join("|"); }
     function computeFrame(spec, q, prev) {                                    // -> Promise(frame)
       var pose = poseOf(spec), geom = curGeom(), plan = LIB.planRaster(geom, q.maxDim, {maxLines: q.maxLines});
       var fr = {spec: spec, pf: pose.pf, O: pose.O, shift: pose.shift, geom: geom, plan: plan, lab: null, sid: null, rk: rasterKey(spec, q), sim: null, ms: 0, kms: 0};
@@ -758,17 +873,20 @@
       var vw = api.view(), dist = Math.hypot(vw.eye[0] - vw.target[0], vw.eye[1] - vw.target[1], vw.eye[2] - vw.target[2]), r = Math.max(0.5, Math.min(3, dist / 900));
       var sel = frames[S.sel] || frames[0]; if (!sel) return null;
       var probeG = new Geo(), markG = new Geo(), fillG = new Geo(), lineG = new Geo(), selLine = new Geo(), axisG = new Geo();
-      probeMesh(probeG, sel.O, sel.pf, sel.geom); markerMesh(markG, sel.O, sel.pf, sel.geom);
+      if (S.ab) {                                                        // Q267 (5): both probes are "live" at once, not just the selected slot
+        frames.forEach(function (fr) { if (fr) { probeMesh(probeG, fr.O, fr.pf, fr.geom); markerMesh(markG, fr.O, fr.pf, fr.geom); } });
+      } else { probeMesh(probeG, sel.O, sel.pf, sel.geom); markerMesh(markG, sel.O, sel.pf, sel.geom); }
       frames.forEach(function (fr, i) {
         if (!fr) return;
         var out = fanOutline(fr.geom, 14).map(function (p) { return toWorld(fr.O, fr.pf, p[0], p[1] + (fr.sim ? fr.sim.ysk : 0)); }), n = out.length, j;
-        var target = i === S.sel ? selLine : lineG;
-        for (j = 0; j < n; j++) tube(target, out[j], out[(j + 1) % n], i === S.sel ? r * 1.0 : r * 0.55);
-        if (i === S.sel || S.mode === "sweep") {
+        var isSel = S.ab || i === S.sel;                                 // Q267 (5): both A and B count as "selected" for the overlay (both are live at once)
+        var target = isSel ? selLine : lineG;
+        for (j = 0; j < n; j++) tube(target, out[j], out[(j + 1) % n], isSel ? r * 1.0 : r * 0.55);
+        if (isSel || S.mode === "sweep") {
           var cen = [0, 0, 0]; out.forEach(function (p) { cen[0] += p[0] / n; cen[1] += p[1] / n; cen[2] += p[2] / n; });
-          if (i === S.sel) for (j = 0; j < n; j++) fillG.tri(cen, out[j], out[(j + 1) % n]);
+          if (isSel) for (j = 0; j < n; j++) fillG.tri(cen, out[j], out[(j + 1) % n]);
         }
-        if (i === S.sel) tube(axisG, toWorld(fr.O, fr.pf, 0, -20 + (fr.sim ? fr.sim.ysk : 0)), toWorld(fr.O, fr.pf, 0, fr.geom.depth + (fr.sim ? fr.sim.ysk : 0)), r * 0.45);
+        if (isSel) tube(axisG, toWorld(fr.O, fr.pf, 0, -20 + (fr.sim ? fr.sim.ysk : 0)), toWorld(fr.O, fr.pf, 0, fr.geom.depth + (fr.sim ? fr.sim.ysk : 0)), r * 0.45);
       });
       return [["probe", probeG, {color: 0x39424d, alpha: 1, pass: "opaque", lit: true}], ["marker", markG, {color: 0xff5a3c, alpha: 1, pass: "opaque", lit: false}],
         ["fill", fillG, {color: 0x6cb4ff, alpha: 0.28, pass: "trans", lit: false}], ["lines", lineG, {color: 0xffd37a, alpha: 0.8, pass: "xray", lit: false}],
@@ -922,6 +1040,17 @@
       ".us-diag.bad{color:var(--warn);white-space:normal}",
       ".us-hint{flex:0 0 auto;padding:6px 8px;font-size:12px;background:#12263b;border-bottom:1px solid var(--acc);color:var(--ink)}",
       ".us-hint button{min-height:24px!important;padding:1px 8px!important;margin-left:6px}",
+      /* Q267 (10): a thin, dismissible inline bar -- never a modal */
+      ".us-wizard{flex:0 0 auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;background:#1b2a1f;border-bottom:1px solid #3a6a46}",
+      ".us-wizard[hidden]{display:none}",
+      ".us-wizard .wiz-q{font-weight:700;white-space:nowrap}",
+      ".us-wizard input{min-width:120px;flex:0 1 160px}",
+      ".us-wizard .wiz-res{display:flex;gap:4px;flex-wrap:wrap;max-height:4.6em;overflow:auto}",
+      ".us-wizard .wiz-res button{min-height:26px;padding:2px 8px;font-size:12px}",
+      ".us-wizard .wiz-x{margin-left:auto;min-height:26px;padding:1px 8px}",
+      /* Q267 (6): opt-in tissue-thickness readout, a small non-intrusive strip near the view, separate from the Q256 dots */
+      ".us-thick{flex:0 0 auto;padding:3px 8px;font:12px ui-monospace,Menlo,monospace;color:#cfe6ff;background:#10161f;border-bottom:1px solid var(--line)}",
+      ".us-thick[hidden]{display:none}",
       "@media (max-width:520px),(max-height:520px){#us-root button{min-height:36px}#us-root select,#us-root input[type=number]{min-height:36px}}"
     ].join("\n");
     function el(tag, attrs, kids) {
@@ -960,16 +1089,26 @@
       var head = el("div", {class: "us-head"}, [
         el("b", {text: "Ultrasound"}), el("span", {class: "us-badge", text: BADGE}), el("span", {class: "us-sp"}),
         (ui.layBtn = el("button", {type: "button", title: "Layout: auto / side by side / stacked / tabs", onclick: cycleLayout, text: "◫"})),
-        (ui.ctlBtn = el("button", {type: "button", title: "Show / hide the controls (more room for the images)", "aria-pressed": "true", onclick: function () { var off = root.classList.toggle("ctl-off"); ui.ctlBtn.setAttribute("aria-pressed", String(!off)); setTimeout(relayoutViews, 50); }, text: "Controls"})),
+        (ui.ctlBtn = el("button", {type: "button", id: "us-ctlbtn", title: "Show / hide the controls (more room for the images)", "aria-pressed": "true", onclick: function () { var off = root.classList.toggle("ctl-off"); ui.ctlBtn.setAttribute("aria-pressed", String(!off)); setTimeout(relayoutViews, 50); }, text: "Controls"})),
         el("button", {type: "button", title: "Assumptions, acoustic table, sources and limits of the simulation", onclick: function () { ui.info.classList.toggle("show"); }, text: "Info"}),
         el("button", {type: "button", title: "Save the selected image as PNG (with the badge)", onclick: savePng, text: "PNG"}),
         el("button", {type: "button", title: "Close ultrasound", "aria-label": "Close ultrasound", onclick: function () { setOpen(false); }, text: "✕"})
       ]);
       ui.info = el("div", {class: "us-info"});
       ui.diag = el("div", {class: "us-diag"}); ui.hint = el("div", {class: "us-hint", role: "note"}); ui.hint.style.display = "none";
+      /* Q267 (10): the inline wizard strip -- a thin, dismissible bar, never a modal; shown only when applyPreset() finds a
+         real question to ask (>=2 candidates for the chosen category). */
+      ui.wizard = el("div", {class: "us-wizard", role: "note", hidden: true}, [
+        (ui.wizQ = el("span", {class: "wiz-q"})),
+        (ui.wizInput = el("input", {type: "search", placeholder: "type to filter…", "aria-label": "Search", oninput: function () { renderWizard(ui.wizInput.value); }})),
+        (ui.wizRes = el("span", {class: "wiz-res"})),
+        btn("✕", "Dismiss (the depth / dynamic range / CINE already set above stay as they are)", hideWizard, {class: "wiz-x"})
+      ]);
       ui.views = el("div", {class: "us-views star"});
       ui.schem = el("canvas", {class: "us-schem", width: "84", height: "84", "aria-hidden": "true"}); ui.views.appendChild(ui.schem);
       ui.read = el("div", {class: "us-read", text: "Click the skin in the 3D view to place the probe; hover an image for tissue, structure, depth and echo level."});
+      /* Q267 (6): opt-in, off by default (S.thickness) -- see tog("thickness", ...) in buildControls() */
+      ui.thick = el("div", {class: "us-thick", hidden: true});
       ui.ctl = el("div", {class: "us-ctl"}); buildControls(ui.ctl);
       var div = el("div", {id: "us-div", title: "Drag to resize"});
       div.addEventListener("pointerdown", function (e) {
@@ -982,7 +1121,7 @@
         var up = function () { div.classList.remove("drag"); div.removeEventListener("pointermove", mv); div.removeEventListener("pointerup", up); };
         div.addEventListener("pointermove", mv); div.addEventListener("pointerup", up);
       });
-      [div, head, ui.diag, ui.hint, ui.info, ui.views, ui.read, ui.ctl].forEach(function (x) { root.appendChild(x); });
+      [div, head, ui.diag, ui.hint, ui.wizard, ui.info, ui.views, ui.read, ui.thick, ui.ctl].forEach(function (x) { root.appendChild(x); });
       document.body.appendChild(root);
       var tabs = el("div", {id: "us-tab3d"}, [el("button", {type: "button", text: "3D", "aria-pressed": "true"}), el("button", {type: "button", text: "Place probe", onclick: function () { S.placing = true; syncUi(); setStatus("Tap the skin to place the probe."); }}),
         el("button", {type: "button", text: "Image ▸", onclick: function () { S.tab = "image"; applyLayout(); relayoutViews(); }})]);
@@ -1021,11 +1160,24 @@
       ui.freqBtns = {};
       var r2 = el("div", {class: "us-row"}, [el("label", {text: "MHz"}), [3.5, 5, 7.5, 12].map(function (f) { return (ui.freqBtns[f] = btn(String(f), "Frequency preset: higher = finer resolution, more attenuation, less depth", function () { S.freq = f; syncUi(); refresh(); })); })]);
       var r3 = slider("Depth", 2, 15, 0.5, "depth", function (v) { return v.toFixed(1) + " cm"; }, function (v) { S.depthCm = v; if (S.focusCm > v) { S.focusCm = v * 0.6; setSlider("focus", S.focusCm); } refresh(); }, "Depth in cm");
+      /* Q267 (4): "US diagnostic" preset pick-list */
+      var rPreset = el("div", {class: "us-row"}, [el("label", {text: "US diagnostic:"})].concat(PRESETS.map(function (d) {
+        return (ui["presetBtn_" + d.key] = btn(d.label, "Depth " + d.depthCm + " cm, dynamic range " + d.dr + " dB, " + d.freq + " MHz, continuous CINE, controls collapsed, centred on a " + d.clsKey.replace("_", "/") + " landmark if one can be found and picked", function () { applyPreset(d.key); }));
+      })));
       ui.placeBtn = btn("Place on skin", "Arm, then click / tap the skin in the 3D view", function () { S.placing = !S.placing; syncUi(); setStatus(S.placing ? "Click or tap the skin in the 3D view." : ""); });
       var r4 = el("div", {class: "us-row"}, [ui.placeBtn, btn("Screen centre", "Put the probe on the skin at the centre of the 3D view", function () { defaultPlacement(true); S.sel = 0; refresh(true); }),
         (ui.orLong = btn("Longitudinal", "Long axis along the body / limb axis, marker cranial (screen left = cranial)", function () { S.refKey = "long"; S.rot = 0; syncUi(); refresh(); })),
         (ui.orTrans = btn("Transverse", "Long axis across, marker to the patient's right (screen left = patient right)", function () { S.refKey = "trans"; S.rot = 0; syncUi(); refresh(); })),
         btn("Zoom to probe", "Move the 3D camera close to the probe", function () { if (S.P) { api.focus(S.P, 420); } })]);
+      /* Q267 (5): A/B side-by-side compare -- a toggle, not a 3rd mode: two independent probe placements that share every
+         other control (depth, freq, gain, rotation, tilt/direction). "Place on skin" above arms whichever slot is picked here. */
+      var rAB = el("div", {class: "us-row"}, [
+        (ui.abBtn = btn("A / B compare", "Show two linked probe views at once (one per slot below); every slider except placement stays shared", function () { setAb(!S.ab); })),
+        el("span", {class: "us-status", text: "placing:"}),
+        (ui.slotABtn = btn("A", "“Place on skin” now arms slot A", function () { S.placeSlot = "A"; syncUi(); })),
+        (ui.slotBBtn = btn("B", "“Place on skin” now arms slot B", function () { S.placeSlot = "B"; syncUi(); })),
+        (ui.mirrorBtn = btn("mirror B ← A", "Put B at A's point reflected across the body midline, re-seated on the real skin there", mirrorBtoA))
+      ]);
       var r5 = slider("Rotate", 0, 359, 1, "rot", function (v) { return Math.round(v) + "°"; }, function (v) { S.rot = v; refresh(); }, "Free rotation of the probe about the skin normal");
       /* Q255: CW/CCW nudge buttons beside the free-rotation slider -- "rotate the probe" reads as a relative turn (as when
          rotating from a short-axis to a long-axis view), not just an absolute 0-359 dial; this is the honest fix (unlike
@@ -1072,14 +1224,15 @@
       ui.togs = {};
       function tog(key, text, title) { return (ui.togs[key] = btn(text, title, function () { S[key] = !S[key]; syncUi(); if (key === "hidden" || key === "speckle" || key === "textures" || key === "reverb" || key === "noise") refresh(true); })); }
       var im5 = el("div", {class: "us-row"}, [tog("speckle", "speckle", "Synthetic seeded speckle (clearly synthetic; off = smooth tissue levels)"), tog("textures", "muscle / tendon texture", "Documented class textures: muscle septa, tendon fibrils and anisotropy"),
-        tog("reverb", "reverberation", "A-line repeats behind air / lung"), tog("noise", "system noise", "Synthetic electronic noise floor (default off)")]);
+        tog("reverb", "reverberation", "A-line repeats behind air / lung"), tog("noise", "system noise", "Synthetic electronic noise floor (default off)"),
+        tog("thickness", "tissue thickness", "Q267: opt-in, off by default -- a live readout of the contiguous tissue band under the cursor/cross-hair, measured from this tool's own per-pixel tissue classification (no reference range shown: not citable from this project's own sources). A separate toggle from the Q256 source-reliability dots in the main Parts panel.")]);
       var mo1 = el("div", {class: "us-row"}, [tog("hidden", "hidden structures", "Leave out the structures hidden in the 3D view (virtual dissection; skin always stays). Default: the whole body is imaged, as in a real patient."),
         btn("reset", "Back to defaults (probe stays)", function () { resetDefaults(); })]);
       ui.status = el("div", {class: "us-status", text: ""});
       function sec(name, kids) { var d = el("div", {class: "sec", "data-sec": name}, kids); ui.secs[name] = d; return d; }
       ui.secs = {};
       ui.sweepOnly = ui.sweepBox; ui.starOnly = ui.starBox;
-      [mrow, sec("probe", [r1, r2, r3, r4, r5]), sec("mode", [ui.starBox, ui.sweepBox, ui.playBox]), sec("image", [im1, im2, im3, im4, im5]), sec("more", [mo1]), ui.status].forEach(function (x) { ctl.appendChild(x); });
+      [mrow, sec("probe", [r1, r2, r3, rPreset, r4, rAB, r5]), sec("mode", [ui.starBox, ui.sweepBox, ui.playBox]), sec("image", [im1, im2, im3, im4, im5]), sec("more", [mo1]), ui.status].forEach(function (x) { ctl.appendChild(x); });
       setSec(S.sec);
     }
     function setSec(name) {
@@ -1112,8 +1265,42 @@
       ui.cineModeBtn.setAttribute("aria-pressed", String(S.cineMode === "continuous")); if (ui.frame) ui.frame.disabled = S.cine && S.cineMode === "continuous"; updateContReadout();
       Object.keys(ui.togs).forEach(function (k) { ui.togs[k].setAttribute("aria-pressed", String(!!S[k])); });
       if (ui.tabs) ui.tabs.children[1].setAttribute("aria-pressed", String(S.placing));
+      /* Q267 (5) */
+      if (ui.abBtn) {
+        ui.abBtn.setAttribute("aria-pressed", String(S.ab));
+        ui.slotABtn.setAttribute("aria-pressed", String(S.placeSlot === "A")); ui.slotBBtn.setAttribute("aria-pressed", String(S.placeSlot === "B"));
+        ui.slotABtn.disabled = ui.slotBBtn.disabled = ui.mirrorBtn.disabled = !S.ab;
+        if (ui.playBox) ui.playBox.style.display = S.ab ? "none" : "";    // cine / matrix-single don't apply to a fixed 2-up compare
+      }
+      /* Q267 (6) */
+      if (ui.togs.thickness) ui.togs.thickness.setAttribute("aria-pressed", String(S.thickness));
+      if (!S.thickness && ui.thick) ui.thick.hidden = true;
     }
     function setMode(m) { S.mode = m; S.sel = 0; setCine(false); axisCache = {}; syncUi(); updateLayoutUi(); relayoutViews(); frames = []; refresh(true); }
+    function mirrorPoint(P) { var bb = geo.bodyBox, cx = (bb.lo[0] + bb.hi[0]) / 2; return [2 * cx - P[0], P[1], P[2]]; }
+    function mirrorBtoA() {                                              // Q267 (5): B <- A's point reflected across the body midline (x), re-seated on the real skin there
+      if (!S.P) { setStatus("Place A first."); return; }
+      var h = nearestSkin(mirrorPoint(S.P));
+      if (!h) { setStatus("No skin found near the mirrored point; move B manually."); return; }
+      var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct);
+      if (LIB.dot(nrm, sub(h.point, mirrorPoint(S.P))) < 0) nrm = [-nrm[0], -nrm[1], -nrm[2]];
+      S.P2 = h.point; S.N2 = nrm; S.skinStruct2 = h.struct; setStatus("B mirrored to the opposite side."); syncUi(); refresh(true);
+    }
+    function setAb(on) {                                                 // Q267 (5): side-by-side A/B compare -- two independent placements, every other control (depth/freq/gain/rotation/tilt/direction) shared
+      on = !!on; if (on === S.ab) return;
+      S.ab = on;
+      if (on) {
+        if (S.mode !== "sweep") S.mode = "sweep";                        // the sweep box carries both the Tilt AND Direction sliders this mode shares with both slots
+        setCine(false);
+        if (!S.P2 && S.P) {
+          var h = nearestSkin(mirrorPoint(S.P));
+          if (h) { S.P2 = h.point; var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct); if (LIB.dot(nrm, sub(h.point, mirrorPoint(S.P))) < 0) nrm = [-nrm[0], -nrm[1], -nrm[2]]; S.N2 = nrm; S.skinStruct2 = h.struct; }
+          else { S.P2 = S.P.slice(); S.N2 = S.N.slice(); }                // no mirrored skin found (e.g. a midline-only body region): degrade to two adjustable probes at the same start point
+        }
+        S.placeSlot = "A"; S.sel = 0;
+      }
+      syncUi(); relayoutViews(); frames = []; refresh(true);
+    }
     function setProbe(k) {
       S.probe = k; var p = US.probes[k]; S.freq = p.freq_default; S.depthCm = p.depth_default_cm; S.focusCm = S.depthCm * 0.5; syncUi(); refresh(true);
     }
@@ -1142,9 +1329,9 @@
     var STAR_CELL = {0: [2, 3], 1: [1, 3], 2: [1, 2], 3: [1, 1], 4: [2, 1], 5: [3, 1], 6: [3, 2], 7: [3, 3]};          // dir index -> [row, col]
     function ensureViews(specs) {
       var want = specs.length;
-      if (views.length === want && views.mode === S.mode) return relayoutViews();
+      if (views.length === want && views.mode === S.mode && views.ab === S.ab) return relayoutViews();
       views.forEach(function (v) { if (v.wrap.parentNode) v.wrap.parentNode.removeChild(v.wrap); });
-      views = []; views.mode = S.mode;
+      views = []; views.mode = S.mode; views.ab = S.ab;
       specs.forEach(function (sp, i) {
         var v = {idx: i, img: el("canvas", {}), ann: el("canvas", {class: "ann"}), hover: null};
         v.ctx = v.img.getContext("2d"); v.actx = v.ann.getContext("2d");
@@ -1160,7 +1347,10 @@
       if (!ui.views) return;
       var vw = ui.views;
       drawSchematic();
-      if (S.mode === "star" && S.view !== "single") {                         // Q253: star mode can now also show one big cine-able frame (S.view === "single")
+      if (S.ab) {                                                        // Q267 (5): a fixed 2-up grid, always both slots, never a cine matrix
+        vw.className = "us-views"; vw.style.gridTemplateColumns = window.innerWidth >= window.innerHeight ? "1fr 1fr" : ""; vw.style.gridTemplateRows = window.innerWidth >= window.innerHeight ? "1fr" : "1fr 1fr";
+        views.forEach(function (v) { v.wrap.style.gridRow = ""; v.wrap.style.gridColumn = ""; v.wrap.style.display = ""; });
+      } else if (S.mode === "star" && S.view !== "single") {                         // Q253: star mode can now also show one big cine-able frame (S.view === "single")
         vw.className = "us-views star";
         views.forEach(function (v, i) {
           var cell;
@@ -1307,6 +1497,20 @@
       var P = toWorld(fr.O, fr.pf, x, ry);
       ui.lastSid = sidv;
       ui.read.textContent = cls + " | " + name + " | depth " + (y / 10).toFixed(1) + " cm, lateral " + x.toFixed(1) + " mm | echo " + (db > -150 ? (db >= 0 ? "+" : "") + db.toFixed(0) + " dB re liver" : "none") + " | atlas x " + P[0].toFixed(0) + " y " + P[1].toFixed(0) + " z " + P[2].toFixed(0) + " mm";
+      /* Q267 (6): live tissue-thickness readout, opt-in -- the contiguous run of the SAME per-pixel tissue-class id
+         (fr.lab, the exact grid the simulation above and the imaging kernel already compute, nothing new) through the
+         hovered lateral column, converted to mm by the raster's own px size. No "typical range" is shown: this project
+         has no cited reference band for in-plane ultrasound tissue thickness to compare it against. */
+      if (ui.thick) {
+        if (S.thickness && rx >= 0 && rY >= 0 && rx < pl.W && rY < pl.H && fr.lab) {
+          var labId = fr.lab[rY * pl.W + rx], top = rY, bot = rY;
+          while (top > 0 && fr.lab[(top - 1) * pl.W + rx] === labId) top--;
+          while (bot < pl.H - 1 && fr.lab[(bot + 1) * pl.W + rx] === labId) bot++;
+          var mmThick = (bot - top + 1) * pl.px;
+          ui.thick.textContent = "Tissue thickness at cursor: " + C.T.classes[labId].label + " ≈ " + mmThick.toFixed(1) + " mm (live measurement; no reference range shown)";
+          ui.thick.hidden = false;
+        } else ui.thick.hidden = true;
+      }
       requestAnimationFrame(function () { annotate(v, fr); });
       return {fr: fr, cx: cx, cy: cy, sid: sidv};
     }
@@ -1391,6 +1595,11 @@
     addButton();
     acousticTable().then(function () {}, function () {}); setDiag();           // the cheap table now (state in the button tooltip); the geometry only when the panel opens
     var poll = setInterval(function () {                                       // keep the overlay's tube radius in step with the camera distance
+      /* Q267 (9): the generic, page-level layout toggle sets a body class, "lay-compare", never naming this
+         (private) tool -- watching for it here (not the other way around) keeps the public template's own layout
+         code tool-agnostic, per this project's existing architecture (clinical/* is the only place that may name
+         itself). Entering AB here only when ultrasound is ALSO the open tool (the body's own "nmsk-us" class). */
+      if (document.body.classList.contains("lay-compare") && document.body.classList.contains("nmsk-us") && S.open && !S.ab) setAb(true);
       if (!S.open || !frames.length) return;
       var vw; try { vw = api.view(); } catch (e) { return; }
       var d = Math.round(Math.hypot(vw.eye[0] - vw.target[0], vw.eye[1] - vw.target[1], vw.eye[2] - vw.target[2]) / 120);
@@ -1420,7 +1629,17 @@
       /* one-off frame for tests / timing: spec {tilt, dir, off, rot, maxDim} -> Promise(frame) */
       frameNow: function (spec, q) { return loadTable().then(function () { return computeFrame(Object.assign({id: 0, tilt: 0, dir: 0, off: 0, label: "test"}, spec), q || {maxDim: 480, maxLines: 256}, null); }); },
       screenOf: function (p) { return api.toScreen(p); }, focusOn: function (p, d) { api.focus(p, d); }, view: function () { return api.view(); },
-      overlayItems: function () { var it = overlayItems(); return it ? it.map(function (x) { return [x[0], x[1].count()]; }) : null; }
+      overlayItems: function () { var it = overlayItems(); return it ? it.map(function (x) { return [x[0], x[1].count()]; }) : null; },
+      /* Q267 test hooks */
+      setAb: function (on) { return loadTable().then(function () { setAb(on); return S.ab; }); },
+      mirrorB: function () { mirrorBtoA(); },
+      setPlaceSlot: function (slot) { S.placeSlot = slot === "B" ? "B" : "A"; syncUi(); },
+      applyPreset: function (key) { return loadTable().then(function () { applyPreset(key); return {preset: S.preset, wizard: ui.wizard && !ui.wizard.hidden, status: ui.status.textContent}; }); },
+      wizardOptions: function () { return pendingCands.slice(0, 200).map(function (c) { return {sid: c.sid, name: c.name}; }); },
+      pickWizard: function (sid) { var c = pendingCands.filter(function (x) { return x.sid === sid; })[0]; if (!c) return false; placeAtStructure(c.sid, "A"); hideWizard(); refresh(true); setCine(true); return true; },
+      dismissWizard: function () { hideWizard(); },
+      thicknessAt: function (vi) { var v = views[vi == null ? S.sel : vi]; return v && v.hover ? ui.thick.textContent : null; },
+      classOf: function (sid) { return classOf(sid); }
     };
     return {};
   }

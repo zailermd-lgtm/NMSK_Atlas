@@ -155,6 +155,20 @@
   /* .act-mark keeps .ss-mk's own default color:transparent (the check glyph only shows once aria-pressed is true) */
   .act .act-mark{flex:1;min-width:66px;width:auto;height:auto;min-height:0;font-size:1rem;border:1px solid var(--line);border-radius:6px;background:var(--panel-2)}
   .act .act-mark[aria-pressed="true"]{border-color:var(--accent);color:var(--ground,#fff);background:var(--accent)}
+  /* Q267 (8): injury severity + its read-only reference card, shown only once this structure is marked */
+  #inj-card:empty{display:none}
+  #inj-card{margin:.3rem 0 .1rem}
+  .inj-row{display:flex;gap:.28rem;align-items:center;flex-wrap:wrap}
+  .inj-row .inj-lab2{font-size:.68rem;color:var(--ink-dim)}
+  .inj-row button{font-family:var(--f-mono);font-size:.62rem;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:.25rem .45rem}
+  .inj-row button[data-sev="mild"][aria-pressed=true]{background:color-mix(in srgb,#d9e58a 70%,transparent);border-color:#d9e58a}
+  .inj-row button[data-sev="moderate"][aria-pressed=true]{background:color-mix(in srgb,#ffb13c 70%,transparent);border-color:#ffb13c}
+  .inj-row button[data-sev="severe"][aria-pressed=true]{background:var(--t-joint);border-color:var(--t-joint)}
+  .inj-body{margin-top:.35rem;padding:.4rem .5rem;border:1px solid var(--line);border-radius:7px;background:var(--panel-2)}
+  .inj-lab{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--t-joint);margin:0}
+  /* Q267 (9): Model-only hides the two floating overlay panels (#rail, #info are position:fixed, not grid cells here,
+     so hiding them alone already maximises the 3-D view -- no grid relayout needed on this engine) */
+  body.lay-model #rail,body.lay-model #info{display:none!important}
 
   #search{width:100%;padding:.5rem .55rem;border-radius:7px;border:1px solid var(--line-strong);
     background:var(--panel-2);color:var(--ink);font-family:var(--f-body);font-size:16px}
@@ -705,6 +719,7 @@ body.ss-marking canvas{cursor:copy!important}
   <button class="pill" id="btn-panel">layers</button>
   <button class="pill" id="t-cut" aria-pressed="false" title="Cut the model with a movable plane (sagittal, axial, coronal, facing you, or through a point you click) and lift the chosen side away">cut</button>
   <button class="pill" id="about-btn">sources</button>
+  <button class="pill" id="t-lay3" title="Cycle Model-only (max 3-D space) / Split (model + the active tool) / Compare (two panes)">model only</button>
 </div>
 
 <!-- CUT-MODE html begin -->
@@ -5610,6 +5625,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
          '<span id="a-mark-slot"></span>'+   // Q262: filled below with selCtl.markButton(), the same factory the list row's own mark tick uses (keeps pressed state in sync however it gets (un)marked)
          '<button id="a-iso">isolate 3D</button>'+
          '<button id="a-solo">solo layer</button></div>';
+      h+='<div id="inj-card"></div>';   // Q267 (8): injury severity + read-only reference card, filled by renderInjury() below once this structure is marked
       h+='<div class="info-more">';
       if(a){
         if(a.part_of) h+='<p class="sub2">Part of: <b>'+esc(a.part_of)+'</b></p>';
@@ -5660,10 +5676,67 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         select(o,false); need=true;
       };
       var amkSlot=document.getElementById("a-mark-slot");
-      if(amkSlot&&selCtl){ var amkBtn=selCtl.markButton(o.id); amkBtn.id="a-mark"; amkBtn.classList.add("act-mark"); amkSlot.replaceWith(amkBtn); }
+      if(amkSlot&&selCtl){ var amkBtn=selCtl.markButton(o.id); amkBtn.id="a-mark"; amkBtn.classList.add("act-mark"); amkSlot.replaceWith(amkBtn);
+        amkBtn.addEventListener("click", function(){ renderInjury(o,a); });   // Q267 (8): an EXTRA listener on the same public button, never reaching into selCtl's own internals (the Q262 lesson)
+      }
       document.getElementById("a-iso").onclick=function(){ isolateAround(o,1); };
       document.getElementById("a-solo").onclick=function(){ soloLayer=(soloLayer===o.layer)?null:o.layer; sync(); need=true; };
+      renderInjury(o,a);
       renderList(); need=true;
+    }
+    /* Q267 (8): injury annotation -- reuses the EXISTING Mark mechanism (selCtl.markButton()/isMarked()) to flag a structure
+       "injured"; only adds a severity tag once it is marked, plus a READ-ONLY reference card from data this project already
+       has (a.nerve/a.targets/a.supplies/a.source, already parsed above for the main card; for a nerve with none of its own,
+       the plexus_groups.json sidecar Q256 already ships, Q267-extended to carry targets/source through). Never a diagnosis. */
+    var INJURY_KEY="nmsk.injury.v1", injurySeverity={};
+    try{ var _inj=JSON.parse(localStorage.getItem(INJURY_KEY)||"null"); if(_inj&&typeof _inj==="object") injurySeverity=_inj; }catch(e){}
+    function injuryPersist(){ try{ localStorage.setItem(INJURY_KEY, JSON.stringify(injurySeverity)); }catch(e){} }
+    var SEVERITIES=["mild","moderate","severe"];
+    var plexusSidecarP=null;
+    function plexusSidecar(){
+      if(!plexusSidecarP) plexusSidecarP=fetch("plexus_groups.json").then(function(r){ return r.ok?r.json():null; }).catch(function(){ return null; });
+      return plexusSidecarP;
+    }
+    function renderInjury(o,a){
+      var box=document.getElementById("inj-card"); if(!box) return;
+      /* Q262's own rule, re-confirmed by tests/test_q232.py::test_engines_use_the_display_states: never reach into
+         selCtl's own marked-state getter outside the selection module -- read the SAME public #a-mark button's own
+         aria-pressed instead (selCtl's own syncButtons() already keeps it correct however the mark happened). */
+      var amk=document.getElementById("a-mark"), marked=amk&&amk.getAttribute("aria-pressed")==="true";
+      if(!marked){ box.innerHTML=""; return; }
+      a=a||{};
+      var sev=injurySeverity[o.id]||"";
+      var h='<div class="inj-row"><span class="inj-lab2">Injured, severity:</span>'+
+        SEVERITIES.map(function(s){ return '<button type="button" data-sev="'+s+'" aria-pressed="'+(s===sev)+'">'+s+"</button>"; }).join("")+"</div>";
+      h+='<div class="inj-body"><p class="inj-lab">Reference information — not a diagnosis or treatment recommendation</p>';
+      var any=false, dl="<dl class=\"facts\">";
+      if(a.nerve&&a.nerve.length){ dl+="<dt>Innervated by</dt><dd>"+esc(a.nerve.join(", ").replace(/_/g," "))+"</dd>"; any=true; }
+      if(a.targets&&a.targets.length){ dl+="<dt>Innervates</dt><dd>"+esc(a.targets.join(", "))+"</dd>"; any=true; }
+      if(a.supplies&&a.supplies.length){ dl+="<dt>Supplies</dt><dd>"+esc(a.supplies.join(", "))+"</dd>"; any=true; }
+      dl+="</dl>";
+      h+= any?dl:"";
+      if(a.source) h+='<p class="sub2" style="margin-top:4px">'+esc(a.source)+"</p>"; else if(!any) h+='<p class="sub2" style="margin-top:4px">No additional reference data for this structure.</p>';
+      h+="</div>";
+      box.innerHTML=h;
+      Array.prototype.forEach.call(box.querySelectorAll("[data-sev]"), function(b){
+        b.addEventListener("click", function(){
+          var s=b.getAttribute("data-sev");
+          injurySeverity[o.id]= injurySeverity[o.id]===s ? null : s; if(!injurySeverity[o.id]) delete injurySeverity[o.id];
+          injuryPersist(); renderInjury(o,a);
+        });
+      });
+      if(!any&&!a.source){
+        plexusSidecar().then(function(d){
+          if(selected!==o||!d||!d.nodes) return;
+          var node=d.nodes[o.id]||d.nodes[o.id.replace(/_[rl]$/,"")]; if(!node) return;
+          var dl2="<dl class=\"facts\">";
+          if(node.parent_name) dl2+="<dt>Branch of</dt><dd>"+esc(node.parent_name)+"</dd>";
+          if(node.targets&&node.targets.length) dl2+="<dt>Innervates</dt><dd>"+node.targets.map(esc).join(", ")+"</dd>";
+          dl2+="</dl>";
+          var cite=node.source?'<p class="sub2" style="margin-top:4px">'+esc(node.source)+"</p>":"";
+          var bd=box.querySelector(".inj-body"); if(bd) bd.innerHTML='<p class="inj-lab">Reference information — not a diagnosis or treatment recommendation</p>'+dl2+cite;
+        });
+      }
     }
 
     // ================= input: orbit / PAN / zoom =================
@@ -5856,6 +5929,39 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       try { window.NMSKClinical.attach(anatomyApi()); }
       catch (err) { console.error("optional add-on failed to start; anatomy viewer unaffected:", err); }
     }
+    /* Q267 (9): one-tap layout toggle -- see the own-page template's own copy of this comment for the full rationale.
+       Deliberately independent of #btn-panel (the mobile-only rail sheet toggle). */
+    (function(){
+      var PANEL_LAYOUTS=["model","split","compare"], panelLay="model", lastToolKey, lay3Btn=document.getElementById("t-lay3");
+      /* Generic: see the own-page template's own copy of this comment -- never names a specific private clinical
+         tool here; a private add-on reacting to "compare" watches document.body's own "lay-compare" class itself. */
+      function activeToolKey(){
+        var cls=["nmsk-us","nmsk-img"], i; for (i=0;i<cls.length;i++) if (document.body.classList.contains(cls[i])) return cls[i];
+        var np=document.getElementById("needle-panel"); if (np && !np.hidden) return "needle-panel";
+        return null;
+      }
+      function panelLayKey(tool){ return "nmsk.panellayout."+(tool||"none"); }
+      function applyPanelLayout(state){
+        panelLay=state;
+        document.body.classList.remove("lay-model","lay-split","lay-compare"); document.body.classList.add("lay-"+state);
+        if (state==="model"){
+          ["us-ctlbtn","img-ctlbtn"].forEach(function(id){ var b=document.getElementById(id); if (b && b.getAttribute("aria-pressed")!=="false") b.click(); });
+          var nmin=document.getElementById("ncl-min"); if (nmin && nmin.getAttribute("aria-expanded")!=="false") nmin.click();
+        }
+        if (lay3Btn) lay3Btn.textContent = state==="model"?"model only":state==="split"?"split":"compare";
+        try { sessionStorage.setItem(panelLayKey(activeToolKey()), state); } catch (err){}
+      }
+      if (lay3Btn) lay3Btn.addEventListener("click", function(){ applyPanelLayout(PANEL_LAYOUTS[(PANEL_LAYOUTS.indexOf(panelLay)+1)%3]); });
+      function pollActiveTool(){
+        var k=activeToolKey(); if (k===lastToolKey) return; lastToolKey=k;
+        if (!k){ applyPanelLayout("model"); return; }
+        var saved=null; try { saved=sessionStorage.getItem(panelLayKey(k)); } catch (err){}
+        applyPanelLayout(saved && PANEL_LAYOUTS.indexOf(saved)>=0 ? saved : "split");
+      }
+      setInterval(pollActiveTool, 500);
+      applyPanelLayout("model");
+      window.__panelLayoutState=function(){ return {state:panelLay, tool:activeToolKey()}; };
+    })();
 
     document.getElementById("stat-line").textContent=
       OBJ.length.toLocaleString()+" meshes · "+TOTAL.toLocaleString()+" tris · "+BATCHES.length+" batches · "+
