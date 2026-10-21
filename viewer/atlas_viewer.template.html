@@ -5167,7 +5167,7 @@ function NMSKNerveGroups(E){
    let the provider build its cards into #mode-main / #mode-pills; the 3-D element and the tools' own panels are DOCKED onto a slot's
    rectangle (fixed positioning, re-placed on resize). Exiting: provider.exit(), undock everything, remove the classes, restore the
    snapshot. The switcher ("מה עושים היום?") shows on the first load of a session (sessionStorage), from the "מצב" toolbar button and
-   from a #mode=<key> hash. */
+   from a #mode=<key> hash (or a ?mode=<key> query, Q273). */
 var NMSKModes = (function(){
   var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null;
   var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp"];
@@ -5342,7 +5342,7 @@ var NMSKModes = (function(){
       var hub = $("t-hub"); if (hub && hub.parentNode === tb) tb.insertBefore(b, hub.nextSibling); else tb.insertBefore(b, tb.firstChild);
     }
     window.addEventListener("resize", placeAll);
-    var m = /[#&]mode=(inj|us|cmp|anat)\b/.exec(location.hash || ""), choice = m ? m[1] : remembered();
+    var m = /[#&]mode=(inj|us|cmp|anat)\b/.exec(location.hash || "") || /[?&]mode=(inj|us|cmp|anat)\b/.exec(location.search || ""), choice = m ? m[1] : remembered();   /* Q273: ?mode= as well as #mode= */
     if (!choice){ var t0 = Date.now(), w = setInterval(function(){ if (host.ready() || Date.now() - t0 > 90000){ clearInterval(w); if (!cur) showSwitcher(); } }, 200); }
     else if (choice !== "anat"){ queued = choice; waitReady(); }
     syncTiles();

@@ -9,7 +9,13 @@ Checks: the switcher appears on first load and dismisses; entering each mode hid
 and shows the mode's own elements; the primary actions work end to end (injection: pick target -> suggest -> adopt -> readout rows;
 US: preset -> CINE running -> A/B; compare: load a local PNG -> lock zoom -> mark injury severity -> open the reference card); exiting
 restores the anatomy UI (a visibility / camera / selection snapshot compared before and after); 0 page errors. Screenshots of every
-mode at every viewport go to --shots (default: the scratchpad q272_shots dir)."""
+mode at every viewport go to --shots (default: the scratchpad q272_shots dir).
+
+Q273 polish checks: the tool's English status line is not drawn under the hero badge (bounding boxes); slot B has skin contact after
+A/B (snapped to the nearest contralateral skin, the CINE bar says so when it moved); the in-mode strings are Hebrew (B-mode overlay
+language hook, step-card hint, reference drawer label + field names); the drawer's first line is the Hebrew "not a diagnosis" label;
+"שמור תמונה" attempts a real PNG download (Playwright's download event) and shows the Hebrew toast; a hub card's mode link, clicked,
+lands directly in that mode (#mode= hash, with the ?mode= query fallback checked too)."""
 from __future__ import annotations
 import base64
 import json
@@ -134,6 +140,8 @@ def run_page(pl, page_dir, kind, viewport, errs_out, shots):
             check("inj: adopting a candidate set the entry -> readout updated (segment) + step 3 report", rep is not None and rep["length_mm"] > 0 and "segment" in cor2["what"] and pg.locator(".mc-left .mc-drow").count() > 0, errs_out)
         else:
             print("  note: no candidate cleared the far threshold for this target (the tool's own message shown) -- adopting skipped")
+        hints = pg.evaluate("() => Array.from(document.querySelectorAll('.mc-right .mc-hint')).map(e => e.textContent.trim()).filter(Boolean)")
+        check("inj (Q273-3): the step-card hints are Hebrew", bool(hints) and all(any('\u0590' <= ch <= '\u05ff' for ch in t) for t in hints), errs_out)
         pg.screenshot(path=str(shots / f"inj_{tag}.png"))
         pg.get_by_role("button", name="יציאה למצב אנטומיה").first.click() if not mobile else pg.locator("#mb-exit-x").click()
         pg.wait_for_timeout(3500)   # the page's own 500 ms layout poller (Q267 item 9) settles back to Model-only after a tool closes
@@ -155,9 +163,30 @@ def run_page(pl, page_dir, kind, viewport, errs_out, shots):
         st = pg.evaluate("() => window.NMSKUltrasound.state()")
         check("us: preset applied (depth 4 / DR 55 / 12 MHz, continuous) and CINE running", st["preset"] == "tear" and st["depthCm"] == 4 and st["cineMode"] == "continuous" and st["cine"] is True, errs_out)
         check("us: hero status chip and 'not an ultrasound' badge rendered", pg.evaluate("() => document.querySelector('.mm-chip').textContent.includes('MHz') && document.querySelector('.mm-badge').textContent.includes('לא אולטרסאונד')"), errs_out)
+        # Q273 (1): the tool's own status line ("Click the skin in the 3-D view ...") must not render under / over the hero badge
+        ov = pg.evaluate("""() => { const rd = document.querySelector('#us-root .us-read'), bd = document.querySelector('.mm-badge'); const box = e => { const r = e.getBoundingClientRect(); return {x: r.left, y: r.top, w: r.width, h: r.height, vis: getComputedStyle(e).display !== 'none' && r.width > 0 && r.height > 0}; };
+            const a = box(rd), b = box(bd); const hit = a.vis && b.vis && a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h; return {readVisible: a.vis, overlap: hit, badgeVisible: b.vis}; }""")
+        check("us (Q273-1): the English status line is hidden in the mode and does not overlap the badge", not ov["readVisible"] and not ov["overlap"], errs_out)
+        check("us (Q273-3): B-mode overlay labels drawn in Hebrew inside the mode (language hook)", pg.evaluate("() => window.NMSKUltrasound.overlayLang && window.NMSKUltrasound.overlayLang() === 'he'"), errs_out)
         pg.locator(".mm-primary").click(); pg.wait_for_timeout(900)
         check("us: 'השווה לצד הנגדי (A/B)' turned A/B on with a second placement", pg.evaluate("() => { const s = window.NMSKUltrasound.state(); return s.ab === true && s.P2 !== null; }"), errs_out)
+        pg.evaluate("() => window.NMSKUltrasound.idle()"); pg.wait_for_timeout(300)
+        ab = pg.evaluate("""() => { const fr = window.NMSKUltrasound.frames(), s = window.NMSKUltrasound.state(); const b = fr.filter(f => f && f.spec && (f.spec.slot === 'B' || /^B\b/.test(f.spec.label || '')))[0] || fr[1];
+            return {n: fr.length, contactA: !!(fr[0] && fr[0].sim && fr[0].sim.contact), contactB: !!(b && b.sim && b.sim.contact), snap: s.abSnapMm, note: (document.querySelector('.mm-note') || {textContent: ''}).textContent}; }""")
+        check(f"us (Q273-2): slot B has skin contact after A/B (snap {ab['snap'] and round(ab['snap'])} mm, note='{ab['note'][:40]}')", ab["n"] >= 2 and ab["contactA"] and ab["contactB"], errs_out)
+        if ab["snap"] is not None and ab["snap"] > 5:
+            check("us (Q273-2): the CINE bar says B was snapped to the nearest skin", "הוצמד" in ab["note"], errs_out)
         pg.screenshot(path=str(shots / f"us_{tag}.png"))
+        if not mobile:   # Q273 (5): "שמור תמונה" = a real download attempt (canvas.toBlob + anchor) + the Hebrew toast
+            try:
+                with pg.expect_download(timeout=8000) as dl:
+                    pg.get_by_role("button", name="שמור תמונה").click()
+                name = dl.value.suggested_filename
+            except Exception as e:
+                name = "(no download: %s)" % str(e)[:80]
+            pg.wait_for_timeout(200)
+            tst = pg.evaluate("() => { const t = document.querySelector('.mm-toast'); return t && !t.hidden ? t.textContent : ''; }")
+            check(f"us (Q273-5): 'שמור תמונה' attempted a PNG download ({name}) and showed a Hebrew toast", name.endswith(".png") and bool(tst) and any('\u0590' <= ch <= '\u05ff' for ch in tst), errs_out)
         pg.evaluate("() => window.NMSKUltrasound.setAb(false)")
         pg.evaluate("() => window.NMSKModes.exit()"); pg.wait_for_timeout(3500)   # the page's own 500 ms layout poller (Q267 item 9) settles back to Model-only after a tool closes
         after_vis = pg.evaluate(VIS, CHROME[kind]); after = pg.evaluate(SNAP)
@@ -184,7 +213,9 @@ def run_page(pl, page_dir, kind, viewport, errs_out, shots):
         sev = pg.evaluate("() => { const b = document.querySelector('#i-injury [data-sev=\"moderate\"], #inj-card [data-sev=\"moderate\"]'); return b ? b.getAttribute('aria-pressed') : null; }")
         check("cmp: marking an injury (moderate) went through the page's own Mark + severity mechanism", sev == "true" and pg.evaluate("() => document.querySelector('.mm-foot [aria-pressed=\"true\"]').textContent") == "בינונית", errs_out)
         pg.locator(".mm-foot .mm-ref").click(); pg.wait_for_timeout(300)
-        check("cmp: reference drawer opened with the read-only card (labelled, not a diagnosis)", pg.evaluate("() => { const d = document.querySelector('.mm-drawer'); return !d.hidden && d.textContent.includes('not a diagnosis'); }"), errs_out)
+        dr = pg.evaluate("() => { const d = document.querySelector('.mm-drawer'); const first = d.querySelector('p, dt, dd, div'); return {hidden: d.hidden, first: first ? first.textContent.trim() : '', dts: Array.from(d.querySelectorAll('dt')).map(e => e.textContent.trim()), text: d.textContent}; }")
+        check("cmp (Q273-4): reference drawer opened with the Hebrew label 'מידע רפרנס — לא אבחנה או המלצת טיפול' as its first line", not dr["hidden"] and dr["first"] == "מידע רפרנס — לא אבחנה או המלצת טיפול", errs_out)
+        check("cmp (Q273-3): the drawer's field names are Hebrew (anatomical names / citations untouched)", not any(t in ("Branch of", "Innervated by", "Innervates", "Supplies") for t in dr["dts"]) and "not a diagnosis" not in dr["text"], errs_out)
         pg.screenshot(path=str(shots / f"cmp_{tag}.png"))
         pg.evaluate("() => window.NMSKModes.exit()"); pg.wait_for_timeout(3500)   # the page's own 500 ms layout poller (Q267 item 9) settles back to Model-only after a tool closes
         after_vis = pg.evaluate(VIS, CHROME[kind]); after = pg.evaluate(SNAP)
@@ -193,6 +224,29 @@ def run_page(pl, page_dir, kind, viewport, errs_out, shots):
         check("0 page errors throughout this whole real-interaction pass", len(errs) == 0, errs_out)
         for e in errs[:10]:
             print("    PAGEERR:", e[:300])
+        if not mobile:   # Q273 (6): a hub card's mode link, clicked, lands directly in that mode (real navigation, new tab)
+            hub_dir = Path(os.environ.get("Q273_TMP", "/dev/shm")) / "q273_hub"; hub_dir.mkdir(parents=True, exist_ok=True)
+            hub_src = (REPO / "viewer" / "atlas_hub.html").read_text(encoding="utf-8")
+            n_links = hub_src.count("#mode=")
+            check("hub: every card carries the three mode links (#mode=inj|us|cmp)", n_links == 18, errs_out)
+            (hub_dir / "atlas_hub.html").write_text(hub_src, encoding="utf-8")
+            hsrv, hport = serve(hub_dir)
+            try:
+                for how, suffix in (("hash", "#mode=us"), ("query", "?mode=cmp")):
+                    ctx2 = b.new_context(viewport=viewport); ctx2.route("**/*", route); hp = ctx2.new_page()   # context-level routing: the popup page needs the three.js stand-in too
+                    hp.goto(f"http://127.0.0.1:{hport}/atlas_hub.html", wait_until="load", timeout=60000)
+                    # the live links point at claude.ai (not reachable here): retarget the first mode link at the locally served page
+                    hp.evaluate("(u) => { const a = document.querySelector('p.modes a'); a.href = u; a.textContent = 'LOCAL'; }", f"http://127.0.0.1:{port}/{html}{suffix}")
+                    with ctx2.expect_page(timeout=30000) as np_:
+                        hp.locator("p.modes a").first.click()
+                    tp = np_.value
+                    tp.wait_for_function("window.__modesState && window.__modesState().cur", timeout=90000)
+                    cur = tp.evaluate("() => window.__modesState().cur")
+                    want = "us" if how == "hash" else "cmp"
+                    check(f"hub (Q273-6): clicking a card's mode link ({how}: {suffix}) landed directly in mode '{want}' (got '{cur}')", cur == want, errs_out)
+                    ctx2.close()
+            finally:
+                hsrv.terminate()
         b.close()
     finally:
         srv.terminate()

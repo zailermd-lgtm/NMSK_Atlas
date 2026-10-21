@@ -1863,6 +1863,14 @@ TP.setTargetAt = function (i) {
    suggested entries, halo, posture), hosted by the page's generic mode layer (viewer/modes/, window.NMSKModes). Nothing is
    re-implemented here: every button calls the same methods the needle panel's own buttons call. RTL Hebrew copy per the owner's
    approved mockups. ---------- */
+/* Q273: the tool's own suggestion messages (English, shown in its own panel) rendered in Hebrew inside the mode's step card */
+function heMsg(m) {
+  var r;
+  if (/^Set a target first/.test(m)) return "בחרו מטרה תחילה.";
+  if ((r = /^No skin within the (\d+(?:\.\d+)?) mm needle length/.exec(m))) return "אין עור בטווח אורך המחט (" + r[1] + " מ\"מ): אין מועמדים.";
+  if ((r = /^None of the (\d+) sampled candidates clears the far display threshold \((\d+(?:\.\d+)?) mm\)/.exec(m))) return "אף אחד מ-" + r[1] + " המועמדים שנדגמו לא עובר את סף התצוגה הרחוק (" + r[2] + " מ\"מ): לא מוצגים. אפשר לסמן ידנית על העור.";
+  return m;
+}
 function injectionMode(tool, api) {
   var ctx = null, ui = {}, wasActive = false, posture = "off", partsOn = false, skinCat = null, popOpen = null, hookOn = false;
   function h(tag, a, k) { return ctx.el(tag, a, k); }
@@ -1997,7 +2005,7 @@ function injectionMode(tool, api) {
     else if (ui.manualHint && !hasE) hint = "הקש על העור במודל כדי לסמן את נקודת הכניסה.";
     else if (!hasE) hint = "נקודת המטרה: מרכז המבנה (הקשה בתוכו מזיזה אותה). הצע נקודות כניסה או סמן ידנית על העור.";
     else hint = "הקשה על העור מסמנת נקודת כניסה אחרת.";
-    if (tool.sugg.msg) hint = tool.sugg.msg;
+    if (tool.sugg.msg) hint = heMsg(tool.sugg.msg);
     ui.hint.textContent = hint;
     ui.cands.innerHTML = "";
     tool.sugg.shown.forEach(function (cd, k) {

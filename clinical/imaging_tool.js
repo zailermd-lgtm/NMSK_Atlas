@@ -1832,6 +1832,7 @@
     "body.mode-cmp #img-root .img-head,body.mode-cmp #img-root .img-ctl,body.mode-cmp #img-tab3d{display:none!important}",
     "body.mode-cmp #img-root{border:0!important}"
   ].join("\n");
+  var DRAWER_HE = {label: "מידע רפרנס — לא אבחנה או המלצת טיפול", "Branch of": "ענף של", "Innervated by": "עצבוב על ידי", "Innervates": "מעצבב", "Supplies": "מספק", "No additional reference data for this structure.": "אין מידע רפרנס נוסף למבנה זה."};   // Q273: the reference drawer's UI labels inside the mode
   function compareMode(api) {
     var ctx = null, ui = {}, prev = null, mod = "us", locked = false, show3d = false, SEV = [["mild", "קלה"], ["moderate", "בינונית"], ["severe", "קשה"]], popOpen = null;
     function h(tag, a, k) { return ctx.el(tag, a, k); }
@@ -1950,8 +1951,14 @@
       var box = injuryBox(), card = box ? box.querySelector(".i-inj-card, .inj-body") : null;
       if (!ui.drawer.hidden) {
         ui.drawer.innerHTML = "";
-        if (card) { ui.drawer.innerHTML = card.innerHTML; var lab = ui.drawer.querySelector(".i-inj-label, .inj-lab"); if (lab) lab.className = "mm-dlab"; }
-        else ui.drawer.appendChild(h("p", {class: "mm-dlab", text: r ? "Reference information — not a diagnosis. Mark a severity first." : "Pick a structure first."}));
+        if (card) {
+          ui.drawer.innerHTML = card.innerHTML; var lab = ui.drawer.querySelector(".i-inj-label, .inj-lab");
+          if (!lab) { lab = h("p", {}); ui.drawer.insertBefore(lab, ui.drawer.firstChild); }
+          lab.className = "mm-dlab"; lab.textContent = DRAWER_HE.label;                                       // Q273: the card's first line, Hebrew in the mode (the page's own card keeps its English line)
+          Array.prototype.forEach.call(ui.drawer.querySelectorAll("dt"), function (dt) { var t = dt.textContent.trim(); if (DRAWER_HE[t]) dt.textContent = DRAWER_HE[t]; });   // the field names only: anatomical names and citations stay as they are
+          Array.prototype.forEach.call(ui.drawer.querySelectorAll("p"), function (pp) { var t = pp.textContent.trim(); if (DRAWER_HE[t]) pp.textContent = DRAWER_HE[t]; });
+        }
+        else ui.drawer.appendChild(h("p", {class: "mm-dlab", text: DRAWER_HE.label + (r ? " · סמנו חומרה תחילה." : " · בחרו מבנה תחילה.")}));
       }
       ui.refBtn.setAttribute("aria-expanded", String(!ui.drawer.hidden));
     }

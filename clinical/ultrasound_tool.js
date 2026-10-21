@@ -490,7 +490,7 @@
       /* Q267 (5): A/B side-by-side compare -- two independent probe placements (P2/N2), sharing every other
          control (depth, freq, gain, rotation, tilt/direction) with the primary placement. placeSlot picks which
          placement "Place on skin" currently arms. */
-      ab: false, P2: null, N2: null, skinStruct2: -1, placeSlot: "A",
+      ab: false, P2: null, N2: null, skinStruct2: -1, placeSlot: "A", abSnapMm: null,   // Q273: how far B was snapped from A's mirror image to reach skin (null = not seated by mirroring)
       /* Q267 (6): opt-in, OFF by default, live tissue-thickness readout at the cursor/cross-hair -- a SEPARATE
          toggle from the Q256 source-reliability dots (different system, viewer/parts_ui/parts_ui.js), per the brief. */
       thickness: false
@@ -663,9 +663,21 @@
       for (i = 0; i < NEAREST_DIRS.length; i++) {
         var d = NEAREST_DIRS[i], o = [P[0] + d[0] * 700, P[1] + d[1] * 700, P[2] + d[2] * 700];
         var h = LIB.skinHit(geo, o, [-d[0], -d[1], -d[2]], null);
-        if (h) { var dd = Math.hypot(h.point[0] - P[0], h.point[1] - P[1], h.point[2] - P[2]); if (!best || dd < best.dd) best = {h: h, dd: dd}; }
+        if (h) { var dd = Math.hypot(h.point[0] - P[0], h.point[1] - P[1], h.point[2] - P[2]); h.out = d; h.dd = dd; if (!best || dd < best.dd) best = {h: h, dd: dd}; }   // Q273: h.out = the side the ray came from (outside the body), h.dd = how far the seat is from P
       }
       return best ? best.h : null;
+    }
+    /* Q273: seat slot B on the skin nearest to A's mirror image. The outward normal is taken from the ray that FOUND the skin
+       (it always comes from outside the body) -- Q267 oriented it "away from the mirrored point", which inverted the probe
+       whenever the mirror image itself lay outside the body (an arm hanging away from the trunk): B then started under the
+       skin and the B-mode read NO SKIN CONTACT. Returns the snap distance (mm) or null when no skin was found at all. */
+    function seatMirrorB() {
+      if (!S.P) return null;
+      var M = mirrorPoint(S.P), h = nearestSkin(M); if (!h) return null;
+      var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct);
+      if (LIB.dot(nrm, h.out) < 0) nrm = [-nrm[0], -nrm[1], -nrm[2]];
+      S.P2 = h.point; S.N2 = nrm; S.skinStruct2 = h.struct; S.abSnapMm = h.dd;
+      return h.dd;
     }
     /* structure centroid, cheap (stride-sampled like LIB.pcaAxis) -- used only to pick a landmark point, not a measurement */
     function structCentroid(sid) {
@@ -1281,11 +1293,9 @@
     function mirrorPoint(P) { var bb = geo.bodyBox, cx = (bb.lo[0] + bb.hi[0]) / 2; return [2 * cx - P[0], P[1], P[2]]; }
     function mirrorBtoA() {                                              // Q267 (5): B <- A's point reflected across the body midline (x), re-seated on the real skin there
       if (!S.P) { setStatus("Place A first."); return; }
-      var h = nearestSkin(mirrorPoint(S.P));
-      if (!h) { setStatus("No skin found near the mirrored point; move B manually."); return; }
-      var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct);
-      if (LIB.dot(nrm, sub(h.point, mirrorPoint(S.P))) < 0) nrm = [-nrm[0], -nrm[1], -nrm[2]];
-      S.P2 = h.point; S.N2 = nrm; S.skinStruct2 = h.struct; setStatus("B mirrored to the opposite side."); syncUi(); refresh(true);
+      var dd = seatMirrorB();                                            // Q273
+      if (dd == null) { setStatus("No skin found near the mirrored point; move B manually."); return; }
+      setStatus(dd > 5 ? "B mirrored to the opposite side (snapped " + dd.toFixed(0) + " mm to the nearest skin)." : "B mirrored to the opposite side."); syncUi(); refresh(true);
     }
     function setAb(on) {                                                 // Q267 (5): side-by-side A/B compare -- two independent placements, every other control (depth/freq/gain/rotation/tilt/direction) shared
       on = !!on; if (on === S.ab) return;
@@ -1294,9 +1304,8 @@
         if (S.mode !== "sweep") S.mode = "sweep";                        // the sweep box carries both the Tilt AND Direction sliders this mode shares with both slots
         setCine(false);
         if (!S.P2 && S.P) {
-          var h = nearestSkin(mirrorPoint(S.P));
-          if (h) { S.P2 = h.point; var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct); if (LIB.dot(nrm, sub(h.point, mirrorPoint(S.P))) < 0) nrm = [-nrm[0], -nrm[1], -nrm[2]]; S.N2 = nrm; S.skinStruct2 = h.struct; }
-          else { S.P2 = S.P.slice(); S.N2 = S.N.slice(); }                // no mirrored skin found (e.g. a midline-only body region): degrade to two adjustable probes at the same start point
+          S.abSnapMm = null;
+          if (seatMirrorB() == null) { S.P2 = S.P.slice(); S.N2 = S.N.slice(); }   // Q273 seat (nearest skin to the mirror image, outward by the finding ray); no skin at all: degrade to two adjustable probes at the same start point
         }
         S.placeSlot = "A"; S.sel = 0;
       }
@@ -1320,6 +1329,7 @@
       }
       updateContReadout(); syncUi();
     }
+    function modeHe() { var b = document.body.classList; return b.contains("mode-us") || b.contains("mode-cmp"); }   // Q273: inside a workspace mode the image's UI labels are Hebrew (the watermark, scale and orientation letters are not translated)
     function setStatus(t) {
       if (!ui.status) return;
       if (t) ui.status.textContent = t;
@@ -1418,7 +1428,7 @@
       var a = v.ann, ctx = v.actx; if (!a || !fr || !fr.sim) return;
       var r = v.wrap.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1), cw = Math.max(1, Math.round(r.width)), ch = Math.max(1, Math.round(r.height));
       if (a.width !== cw * dpr || a.height !== ch * dpr) { a.width = cw * dpr; a.height = ch * dpr; a.style.width = cw + "px"; a.style.height = ch + "px"; }
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cw, ch);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cw, ch); try { ctx.direction = "ltr"; } catch (eD) {}   // Q273: a Hebrew word followed by numbers must not be reordered by an RTL host
       var box = boxOf(v, fr, cw, ch); v.box = box;
       v.img.style.left = box.x + "px"; v.img.style.top = box.y + "px"; v.img.style.width = box.w + "px"; v.img.style.height = box.h + "px";
       var tiny = box.w < 200, sim = fr.sim, pl = fr.plan, g = fr.geom, sc = box.s / pl.px;       // css px per mm
@@ -1426,6 +1436,7 @@
       function Y(y) { return box.y + (y - pl.yo0) * sc; }
       ctx.font = "600 " + (tiny ? 9.5 : 11.5) + "px system-ui,sans-serif"; ctx.textBaseline = "middle";
       function txt(s, x, y, al, col) { ctx.textAlign = al; ctx.fillStyle = "rgba(0,0,0,.7)"; ctx.fillText(s, x + 1, y + 1); ctx.fillStyle = col || "#e8eef5"; ctx.fillText(s, x, y); }
+      function txtSeq(parts, x, y, col) { parts.forEach(function (pt) { txt(pt, x, y, "left", col); x += ctx.measureText(pt).width; }); }   // Q273: segments drawn left-to-right one by one, so two Hebrew words with numbers between them never get bidi-reordered
       function wrapTxt(s, x, y, maxW, col) {                                   // Q253: word-wrap a warning line inside the box width
         var words = s.split(" "), line = "", lh = tiny ? 11 : 13, yy = y;
         for (var wi = 0; wi < words.length; wi++) {
@@ -1465,16 +1476,20 @@
       txt(LIB_dirLabel(fr.pf.u, true), box.x + 6, midY, "left", "#ffd37a"); txt(LIB_dirLabel(fr.pf.u, false), box.x + box.w - 22, midY, "right", "#ffd37a");
       if (!tiny) txt(LIB_dirLabel(fr.pf.b, false) + " ↓", box.x + box.w / 2, box.y + box.h - 22, "center", "#ffd37a");
       /* header */
-      var t1 = (tiny ? "" : g.type + " " + g.w + " mm \u00B7 ") + S.freq + " MHz \u00B7 " + S.depthCm + " cm" + (tiny ? "" : " \u00B7 gain " + (S.gain >= 0 ? "+" : "") + S.gain + " dB");
+      var he = modeHe();                                                   // Q273: the UI labels drawn into the image follow the workspace mode's language
+      var iso = function (x) { return he ? "\u2066" + x + "\u2069" : x; };   // numbers after a Hebrew word: an isolated LTR run (LRI...PDI), so no bidi reordering of signs / degree marks
+      var t1 = (tiny ? "" : g.type + " " + g.w + " mm \u00B7 ") + S.freq + " MHz \u00B7 " + S.depthCm + " cm" + (tiny ? "" : " \u00B7 " + (he ? "\u05D4\u05D2\u05D1\u05E8 " : "gain ") + iso((S.gain >= 0 ? "+" : "") + S.gain + " dB"));
       if (box.h > 150) { txt(t1, box.x + 6, box.y + 10, "left"); txt(fr.spec.label, box.x + 6, box.y + (tiny ? 21 : 24), "left", "#9fd0ff"); }
       else txt(fr.spec.short || fr.spec.label, box.x + 4, box.y + 8, "left", "#9fd0ff");
       if (!tiny) {
-        txt("tilt " + (Math.round(fr.pf.tilt * 10) / 10) + "\u00B0 \u00B7 normal " + fr.pf.N.map(function (x) { return x.toFixed(2); }).join(","), box.x + 6, box.y + 38, "left", "#b8c4d2");
-        if (S.speckle || S.noise || S.textures) txt("synthetic: " + [S.speckle ? "speckle" : "", S.textures ? "textures" : "", S.noise ? "noise" : ""].filter(Boolean).join(", "), box.x + 6, box.y + 52, "left", "#ff9d8a");
-        if (!sim.contact) txt("NO SKIN CONTACT", box.x + box.w / 2, box.y + box.h / 2, "center", "#ff6a5a");
+        var tiltS = (Math.round(fr.pf.tilt * 10) / 10) + "\u00B0", normS = fr.pf.N.map(function (x) { return x.toFixed(2); }).join(",");
+        if (he) txtSeq(["\u05D4\u05D8\u05D9\u05D4 ", tiltS, " \u00B7 ", "\u05E0\u05D5\u05E8\u05DE\u05DC ", normS], box.x + 6, box.y + 38, "#b8c4d2");
+        else txt("tilt " + tiltS + " \u00B7 normal " + normS, box.x + 6, box.y + 38, "left", "#b8c4d2");
+        if (S.speckle || S.noise || S.textures) txt((he ? "\u200E\u05E1\u05D9\u05E0\u05EA\u05D8\u05D9: " : "synthetic: ") + [S.speckle ? (he ? "\u05E1\u05E4\u05E7\u05DC" : "speckle") : "", S.textures ? (he ? "\u05DE\u05E8\u05E7\u05DE\u05D9\u05DD" : "textures") : "", S.noise ? (he ? "\u05E8\u05E2\u05E9" : "noise") : ""].filter(Boolean).join(", "), box.x + 6, box.y + 52, "left", "#ff9d8a");
+        if (!sim.contact) txt(he ? "\u05D0\u05D9\u05DF \u05DE\u05D2\u05E2 \u05E2\u05DD \u05D4\u05E2\u05D5\u05E8" : "NO SKIN CONTACT", box.x + box.w / 2, box.y + box.h / 2, "center", "#ff6a5a");
         if (v.idx === S.sel) {
           var mm = US && LIB.probeMismatch(S.freq, S.depthCm, US.global && US.global.tgc_alpha_ref_db_cm_mhz);
-          if (mm) wrapTxt("PROBE/DEPTH MISMATCH: " + mm.text, box.x + 6, box.y + 66, box.w - 12, "#ffb13c");
+          if (mm) wrapTxt((he ? "\u05D0\u05D9-\u05D4\u05EA\u05D0\u05DE\u05D4 \u05DE\u05EA\u05DE\u05E8/\u05E2\u05D5\u05DE\u05E7: " : "PROBE/DEPTH MISMATCH: ") + mm.text, box.x + 6, box.y + 66, box.w - 12, "#ffb13c");
         }
       }
       var bad = BADGE.toUpperCase(), bw2 = ctx.measureText(bad).width;
@@ -1616,6 +1631,10 @@
       "body.mode-us #us-root .us-thick[hidden]{display:none}",
       "body.mode-us #us-root .us-wizard{direction:rtl;font-family:Heebo,system-ui,sans-serif}",
       "body.mode-us #us-root:not(.ctl-off) .us-ctl{max-height:55%}",
+      "body.mode-us .mm-note{font:12px Heebo,system-ui,sans-serif;color:#4a5568;direction:rtl;margin-inline-start:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+      "body.mode-us .mm-note:empty{display:none}",
+      ".mm-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:120;background:#1a202c;color:#fff;border-radius:10px;padding:9px 16px;font:600 13px Heebo,system-ui,sans-serif;direction:rtl;box-shadow:0 6px 24px rgba(0,0,0,.25)}",
+      ".mm-toast[hidden]{display:none}",
       "body.mode-cmp #us-root .us-head,body.mode-cmp #us-root #us-div,body.mode-cmp #us-root .us-ctl,body.mode-cmp #us-root .us-diag,body.mode-cmp #us-root .us-hint,body.mode-cmp #us-root .us-info,body.mode-cmp #us-root>.us-status,body.mode-cmp #us-root .us-wizard,body.mode-cmp #us-root .us-read{display:none!important}",
       "body.mode-cmp #us-root{border:0!important}"
     ].join("\n");
@@ -1642,11 +1661,28 @@
         }
         refreshUi();
       }
-      function savePng() {
+      function toast(msg, ms) {
+        if (!ui2.toast) { ui2.toast = h("div", {class: "mm-toast", role: "status"}); document.body.appendChild(ui2.toast); }
+        ui2.toast.textContent = msg; ui2.toast.hidden = false; clearTimeout(ui2.toastT); ui2.toastT = setTimeout(function () { ui2.toast.hidden = true; }, ms || 4000);
+      }
+      function embedded() { try { return window.self !== window.top; } catch (e) { return true; } }
+      function savePng() {                                                 // Q273: the active frame as a PNG through canvas.toBlob + a download anchor (a normal tab saves it;
+        var v = views[S.sel] || views[0], fr = frames[S.sel] || frames[0];   // inside the artifact viewer's frame the platform may block downloads, so the user is told instead of nothing happening)
+        if (!v || !v.img || !fr || !fr.sim) { toast("\u05D0\u05D9\u05DF \u05E2\u05D3\u05D9\u05D9\u05DF \u05EA\u05DE\u05D5\u05E0\u05D4 \u05DC\u05E9\u05DE\u05D9\u05E8\u05D4"); return; }
         try {
-          var v = views[S.sel] || views[0]; if (!v || !v.img) return;
-          var a = document.createElement("a"); a.href = v.img.toDataURL("image/png"); a.download = "nmsk-us-simulation.png"; document.body.appendChild(a); a.click(); a.remove();
-        } catch (e) { setStatus("Save failed: " + e.message); }
+          var r = v.wrap.getBoundingClientRect(), sc = window.devicePixelRatio || 1, out = document.createElement("canvas");
+          out.width = Math.max(256, Math.round(r.width * sc)); out.height = Math.max(256, Math.round(r.height * sc));
+          var c2 = out.getContext("2d"); c2.fillStyle = "#000"; c2.fillRect(0, 0, out.width, out.height);
+          if (v.box) c2.drawImage(v.img, v.box.x * sc, v.box.y * sc, v.box.w * sc, v.box.h * sc); else c2.drawImage(v.img, 0, 0, out.width, out.height);
+          if (v.ann) c2.drawImage(v.ann, 0, 0, out.width, out.height);
+          out.toBlob(function (b) {
+            if (!b) { toast("\u05D4\u05E9\u05DE\u05D9\u05E8\u05D4 \u05E0\u05DB\u05E9\u05DC\u05D4"); return; }
+            var u = URL.createObjectURL(b), a = document.createElement("a"); a.href = u; a.download = "nmsk-us-simulation-" + (S.sel + 1) + ".png"; document.body.appendChild(a); a.click(); a.remove();
+            setTimeout(function () { URL.revokeObjectURL(u); }, 3000);
+            /* a sandboxed frame without allow-downloads drops the click silently (no event reaches the page): say so instead of nothing */
+            toast(embedded() ? "\u05D0\u05DD \u05D4\u05EA\u05DE\u05D5\u05E0\u05D4 \u05DC\u05D0 \u05E0\u05E9\u05DE\u05E8\u05D4 \u2013 \u05DC\u05D0 \u05D6\u05DE\u05D9\u05DF \u05D1\u05EA\u05E6\u05D5\u05D2\u05D4 \u05D6\u05D5; \u05E4\u05EA\u05D7\u05D5 \u05D0\u05EA \u05D4\u05E2\u05DE\u05D5\u05D3 \u05D1\u05DC\u05E9\u05D5\u05E0\u05D9\u05EA \u05E0\u05E4\u05E8\u05D3\u05EA" : "\u05D4\u05EA\u05DE\u05D5\u05E0\u05D4 \u05E0\u05E9\u05DE\u05E8\u05D4 (PNG)", embedded() ? 6000 : 3000);
+          });
+        } catch (e) { toast("\u05D4\u05E9\u05DE\u05D9\u05E8\u05D4 \u05E0\u05DB\u05E9\u05DC\u05D4: " + e.message); }
       }
       function build(c) {
         ctx = c;
@@ -1666,7 +1702,8 @@
         ui2.cont = h("button", {type: "button", class: "mm-tog", "aria-pressed": "false", text: "רציף", onclick: function () { if (S.cineMode !== "continuous") ui.cineModeBtn.click(); refreshUi(); }});
         ui2.step = h("button", {type: "button", class: "mm-tog m-hide", "aria-pressed": "false", text: "צעדים", onclick: function () { if (S.cineMode === "continuous") ui.cineModeBtn.click(); refreshUi(); }});
         ui2.thick = h("button", {type: "button", class: "mm-tog m-hide", "aria-pressed": "false", text: "עובי רקמה: כבוי", onclick: function () { if (ui.togs && ui.togs.thickness) ui.togs.thickness.click(); refreshUi(); }});
-        var cine = h("div", {class: "mm-bar mi"}, [ui2.play, h("label", {class: "lb", text: "CINE"}), ui2.scrub, ui2.frame, ui2.cont, ui2.step, ui2.thick]);
+        ui2.note = h("div", {class: "mm-note", text: ""});
+        var cine = h("div", {class: "mm-bar mi"}, [ui2.play, h("label", {class: "lb", text: "CINE"}), ui2.scrub, ui2.frame, ui2.cont, ui2.step, ui2.thick, ui2.note]);
         ui2.chipsM = h("div", {class: "mm-chips-m"}); chipSet(ui2.chipsM, true);
         var col = h("div", {class: "mm-col"}, [hero, cine, ui2.chipsM]);
         /* side column */
@@ -1711,6 +1748,7 @@
         [ui2.depth, ui2.freq, ui2.gain].forEach(function (b) { b._sync(); });
         ui2.orL.setAttribute("aria-pressed", String(S.refKey === "long")); ui2.orT.setAttribute("aria-pressed", String(S.refKey === "trans"));
         ui2.ab.setAttribute("aria-pressed", String(!!S.ab)); ui2.ab.textContent = S.ab ? "A/B פעיל – חזרה לתצוגה אחת" : "השווה לצד הנגדי (A/B)";
+        ui2.note.textContent = S.ab && S.abSnapMm != null && S.abSnapMm > 5 ? "B הוצמד לעור הקרוב בצד הנגדי (" + Math.round(S.abSnapMm) + " מ\"מ מנקודת המראה)" : "";   // Q273
         var advOpen = root && !root.classList.contains("ctl-off");
         ui2.adv.setAttribute("aria-pressed", String(advOpen)); ui2.adv.textContent = advOpen ? "סגור הגדרות מתקדמות" : "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)…";
       }
@@ -1728,6 +1766,7 @@
         if (!prev.open) { setCine(false); setOpen(false); }
         else { if (root && root.classList.contains("ctl-off") !== prev.ctlOff) ui.ctlBtn.click(); }
         S.lay = prev.lay; S.tab = prev.tab; if (S.open) { applyLayout(); updateLayoutUi(); }
+        if (ui2.toast) ui2.toast.hidden = true;
         syncUi(); ctx = null;
       }
       return {title: "US אבחנתי", short: "US", build: build, enter: enter, exit: exit, refresh: refreshUi};
@@ -1767,7 +1806,8 @@
       pickWizard: function (sid) { var c = pendingCands.filter(function (x) { return x.sid === sid; })[0]; if (!c) return false; placeAtStructure(c.sid, "A"); hideWizard(); refresh(true); setCine(true); return true; },
       dismissWizard: function () { hideWizard(); },
       thicknessAt: function (vi) { var v = views[vi == null ? S.sel : vi]; return v && v.hover ? ui.thick.textContent : null; },
-      classOf: function (sid) { return classOf(sid); }
+      classOf: function (sid) { return classOf(sid); },
+      overlayLang: function () { return modeHe() ? "he" : "en"; }   // Q273 test hook: the language of the UI labels drawn into the B-mode image
     };
     return {};
   }
