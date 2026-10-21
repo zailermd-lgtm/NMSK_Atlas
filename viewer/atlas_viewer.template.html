@@ -885,7 +885,11 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 #app.phone #stage{grid-column:1}
 #app.phone aside,#app.phone #inspector{position:fixed;left:0;right:0;bottom:calc(52px + env(safe-area-inset-bottom,0px));
   max-height:62vh;max-height:62dvh;z-index:30;border:none;border-top:1px solid var(--line);border-radius:12px 12px 0 0;
-  box-shadow:0 -8px 28px rgba(15,21,26,.22);transform:translateY(120%);visibility:hidden}
+  box-shadow:0 -8px 28px rgba(15,21,26,.22);transform:translateY(120%);visibility:hidden;
+  display:block}   /* Q275: on the phone, open/closed is driven only by transform+visibility (the bottom-sheet pattern) --
+  #app always starts in the Q267 "lay-model" layout, whose own #app.lay-model aside{display:none} (desktop Model-only)
+  would otherwise permanently hide this sheet on every phone load regardless of the "open" class; same specificity,
+  this rule wins by coming later, same as #inspector needs it too */
 #app.phone.anim aside,#app.phone.anim #inspector{transition:transform .22s,visibility .22s}
 #app.phone aside.open,#app.phone #inspector.open{transform:none;visibility:visible}
 #app.phone .mob-bar{display:flex;grid-column:1;gap:6px;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));

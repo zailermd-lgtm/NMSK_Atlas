@@ -915,6 +915,12 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
       /* Q270: reserve the fixed #foot bar's band (.75rem offset + ~32px pills, z-index 22 on top of the sheet) under the scroll area */
       padding-bottom:calc(3.3rem + var(--safe-b))}
     #rail.open{transform:translateY(0)}
+    /* Q275: #app always starts in the Q267 "lay-model" layout (Model-only, the default with no clinical tool armed) --
+       body.lay-model #rail{display:none!important} above would otherwise permanently defeat this phone bottom-sheet
+       (and the structure info card) even once .open/un-hidden, regardless of tap/click; real root cause of "menus
+       don't open" on this engine, found and fixed the same way as the own engine's aside/#inspector */
+    body.lay-model #rail.open{display:flex!important}
+    body.lay-model #info:not(.hidden){display:block!important}
     #rail::before{content:"";position:absolute;top:.45rem;left:50%;transform:translateX(-50%);
       width:34px;height:4px;border-radius:2px;background:var(--line-strong)}
     .rail-body{padding:1.1rem .9rem .9rem}
