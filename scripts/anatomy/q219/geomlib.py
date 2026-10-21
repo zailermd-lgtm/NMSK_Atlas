@@ -14,7 +14,10 @@ BODIES = {
     # Q220: the two UNFITTED Z-Anatomy reference bodies (base male page, base female page). Their meshes are not in the frame of the fitted
     # pages (the fit moves structures by up to ~90 mm), so the fitted placements cannot be used on them; run the same rules on these.
     "zbase_m": dict(kind="zan", label="Z-Anatomy reference body, unfitted (base male page)", path=REPO / "build/q218/viewer_zan_atlas/atlas_viewer_zan_atlas.html"),
-    "zbase_f": dict(kind="zan", label="Z-Anatomy generic body, female variant, unfitted (base female page)", path=REPO / "build/q218/viewer_base_female/atlas_viewer_base_female.html"),
+    # Q274: zbase_f repointed from build/q218 (pre-Q250) to build/q265 (post-Q250/Q252 skeleton + CVH warp) -- the q218 snapshot
+    # predates the Q250 female-pelvis warp and the Q252 CVH-perineal additions, so positions derived on it no longer match the
+    # live Base F page geometry (58% of its origin/insertion markers were silently dropping to text-only on the check below).
+    "zbase_f": dict(kind="zan", label="Z-Anatomy generic body, female variant, unfitted (base female page)", path=REPO / "build/q265/viewer_base_female/atlas_viewer_base_female.html"),
 }
 
 

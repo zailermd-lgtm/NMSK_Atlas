@@ -39,7 +39,9 @@ PAGES = {  # page key -> (dir, html, body, kind)
 
 def page_html(key):
     d, h, _b, _k = PAGES[key]
-    for root in ("build/q220", "build/q218"):
+    # Q274: build/q265 preferred when present -- the current reference build (post-Q250/Q252 Base F skeleton warp +
+    # CVH additions); build/q220 / build/q218 are the original, now-stale Q220-round snapshots kept as a fallback only.
+    for root in ("build/q265", "build/q220", "build/q218"):
         p = REPO / root / d / h
         if p.exists():
             return p
