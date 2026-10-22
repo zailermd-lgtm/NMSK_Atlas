@@ -1,0 +1,71 @@
+{
+  "id": "rotatores_l",
+  "name_ta": "Rotatores",
+  "name_common": "Rotatores",
+  "side": "left",
+  "region": "trunk",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "thoracic_vertebrae",
+    "origin_landmark": "transverse process of one vertebra",
+    "insertion_bone": "thoracic_vertebrae",
+    "insertion_landmark": "lamina and spinous process of the vertebra one or two levels above",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "dorsal_ramus_medial_branches",
+    "root_levels": "thoracic dorsal rami (medial branches)"
+  },
+  "actions": [
+    "rotate the vertebral column to the opposite side",
+    "act largely as segmental proprioceptive sensors"
+  ],
+  "functional_compartments": [
+    {
+      "id": "rotatores_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 22,
+        "physiological_cross_section_area_mm2": 45,
+        "max_isometric_force_N": 10.1
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -12,
+          -14,
+          -22
+        ],
+        [
+          -5,
+          -4,
+          -20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "The deepest and shortest of the transversospinales, best developed in the thoracic region. Their spindle density per gram is among the highest in the body, so their proprioceptive role is generally regarded as outweighing their mechanical one.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "dorsal_ramus_medial_branches"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Linear (or curvilinear in larger patients) probe in parasagittal orientation, 2-3 cm lateral to the spinous process at the target thoracic level (T5 in the original description of the block).",
+    "depth_layer": "This is the deepest and shortest of the transversospinalis muscles, running directly on the lamina from one transverse process to the spinous process one or two levels above, deep to multifidus. The erector spinae plane (ESP) block deposits local anesthetic superficial to multifidus, which itself lies superficial to this muscle -- so the block's target plane is one muscle layer further from this muscle than from multifidus.",
+    "identification_cues": "Hyperechoic tip of the transverse process contacted by the needle; visible linear anechoic spread lifting the erector spinae muscle mass off the transversospinalis muscles (multifidus, superficial to this muscle) on injection.",
+    "structures_at_risk": [
+      "dorsal and ventral rami of the spinal nerves near the transverse process -- the likely site of action per the original cadaveric/CT dye-spread study",
+      "pleura, if the needle is walked laterally off the transverse process (the classic technique avoids this by stopping at bone contact)"
+    ],
+    "notes": "No motor-point/neural-arborization mapping for BoNT injection into this muscle's own belly was found -- consistent with this atlas's established finding that deep paraspinal motor-point data is genuinely sparse compared to limb muscles, and this is the smallest, most deeply buried muscle in that group. The erector spinae plane (ESP) block is the nearest genuinely documented clinical ultrasound technique in this region, though its target plane is superficial to multifidus rather than reaching this muscle directly; included for that anatomical context, not as a claim of a motor point within this muscle.",
+    "source": "Forero M, Adhikary SD, Lopez H, Tsui C, Chin KJ (2016) 'The Erector Spinae Plane Block: A Novel Analgesic Technique in Thoracic Neuropathic Pain', Reg Anesth Pain Med 41(5):621-627, doi:10.1097/AAP.0000000000000451 -- original description of the block, including cadaveric/CT dye-spread investigation of its likely site of action"
+  }
+}

@@ -1,0 +1,44 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only.",
+  "Only the RIGHT side was tracked; the left was not run (see the report's limits).",
+  "The common fibular nerve was attempted and is NOT shipped: it was detected on only 13 of 32 levels over 31 mm (y -328 .. -359), which is not unambiguous enough to carry the name 'common_fibular_n'. No label for it exists in this volume."
+ ],
+ "subject": "ct_vhf_popliteal",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_popliteal_cryo.nii.gz",
+ "label_map": "vhf_popliteal",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "popliteal_a_r",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "popliteal_a_r",
+   "relationship": "part_of",
+   "note": "Right popliteal artery LUMEN, tracked through her full-resolution cryosections (0.33 mm) by scripts/cryo/vhf_popliteal_track.py from a landmark-rule seed (the deep member of the lumen pair behind the popliteal surface of her femur). Covers atlas y -307 to -386 mm, i.e. from just below the adductor hiatus (lower border of adductor magnus, y = -305) to ~11 mm past the knee joint line (y = -397); the division at the lower border of popliteus (y = -490) is NOT covered. Measured lumen diameter median 4.3 mm (p10 3.7, p90 5.3) against a textbook 5-8 mm: the tracked mask is the dark clotted lumen, not the wall, and a muscular artery contracts post mortem, so this under-measures the vessel. Verified on the montage and by the depth-order check (it is the most anterior of the three at every 10 mm band).",
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "popliteal_v_r",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "popliteal_v_r",
+   "relationship": "part_of",
+   "note": "Right popliteal vein LUMEN, same run and same rules, as the superficial (posterior) member of the pair. Covers atlas y -305 to -360 mm; below that the lumen could not be separated from the fat of the fossa and the levels were dropped. Measured lumen diameter median 5.5 mm (p10 3.7, p90 6.2) against a textbook 7-11 mm: this is a cadaver and the vein is collapsed, which is reported as measured rather than forced up to the textbook figure. Lies between the artery and the tibial nerve at every band.",
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "tibial_n",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "tibial_n",
+   "relationship": "part_of",
+   "note": "Tibial nerve in the popliteal fossa (side-agnostic id, RIGHT side only in this volume), tracked by fascicle texture in the same run. Covers atlas y -340 to -374 mm only (21 verified levels over 34 mm): this is a NEW segment, NOT a duplicate of the shipped sciatic track (vhf_nerves_cryo.nii.gz, which stops at y = -235). Median section diameter 5.6 mm. It is the most superficial of the three: median 19.9 mm posterior and 15.9 mm lateral to the artery, 15.4 mm posterior to the vein, at every level. The fossa levels above y = -340 are not shipped: the detector fired there on only 2 levels.",
+   "candidates": []
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+ "source": "Q160 (2026-09-27): owner report \"picking gives the wrong name; vessels cross muscles in odd places; gaps between parallel limb muscles\". Measurements on the Z-Anatomy source meshes (s) and Q159 viewer meshes (d).",
+ "inverted_winding": {
+  "source_meshes_negative_signed_volume": {
+   "left": 278,
+   "right": 557,
+   "midline": 211,
+   "of": 1930
+  },
+  "after_orient_outward": {
+   "muscle": "461/471 outward",
+   "bone": "300/304 outward"
+  }
+ },
+ "vessel_nerve_inside_muscle_gt20pct": {
+  "naive_normals_source": 507,
+  "naive_normals_viewer": 509,
+  "oriented_normals_source": 297,
+  "of": 1133,
+  "note": "naive run used the meshes own (half inside-out) normals, hence the false L/R asymmetry; oriented run is symmetric (mean inside fraction L 0.136 / R 0.145)"
+ },
+ "limb_muscle_neighbour_gap_mm": {
+  "source_median": 2.7968758487082575,
+  "viewer_median": 2.896974744008317,
+  "n_muscles": 184
+ },
+ "picking": "bounding-sphere centre test replaced by an offscreen ID-colour render; test click at the abdomen named \"Lateral intermuscular septum of the arm\" before, the visible investing abdominal fascia after"
+}

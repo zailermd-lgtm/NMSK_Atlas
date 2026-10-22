@@ -1,0 +1,346 @@
+#!/bin/bash
+# Rebuild the Visible Human FEMALE viewer bundle from what the repository holds (task outputs in
+# data/ct_sources/task_outputs, per-subject mappings in mappings/subjects) after a container reset wiped build/.
+# The body surface (ct_vhf_skin) needs her torso CT restacked in the scratchpad (scripts/cryo/vhf_skin_and_depth.sh);
+# it is skipped when that volume is absent. Idempotent: converts every subject, then exports and builds the HTML.
+set -u; cd /home/user/NMSK_Atlas; S=/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad
+T=data/ct_sources/task_outputs; mkdir -p build/vh
+O=$(python3 scripts/ingest_volume_geometry.py inspect $T/vhf_total.nii.gz --labels totalsegmentator 2>&1 | grep -- "--origin" | head -1 | sed "s/.*--origin '\([^']*\)'.*/\1/")
+[ -z "$O" ] && { echo "NO_ORIGIN"; exit 1; }; echo "origin $O"
+conv(){ # volume labels subject [extra convert args]
+  local vol=$1 labels=$2 sub=$3; shift 3
+  [ -f "$vol" ] || { echo "missing $vol"; return; }
+  [ -z "${RECONVERT:-}" ] && [ -f build/vh/$sub/manifest.json ] && { echo "have $sub"; return; }   # idempotent: RECONVERT=1 forces
+  cp mappings/subjects/${sub}_volume_mapping.json build/vh/ 2>/dev/null || python3 scripts/ingest_volume_geometry.py propose $vol --labels $labels --subject $sub --force 2>&1 | grep -E "labels currently"
+  python3 scripts/ingest_volume_geometry.py convert $vol --labels $labels --subject $sub --origin="$O" "$@" 2>&1 | grep -E "wrote|Error|Trace"
+  cp build/vh/${sub}_volume_mapping.json mappings/subjects/
+}
+# Q115: descending_thoracic_aorta only, reconverted at --smooth 0.0 (ct_vhf's own aorta split
+# clustered a source that measures ONE piece into 2 below the vessel budget's default 1500 tris --
+# BUDGET_OVERRIDES now also covers this, but the smoothing-vs-source gap was real and worth keeping
+# separately reconverted; see PROJECT_STATE Q115). Listed BEFORE ct_vhf so it wins the one atlas_id
+# it carries; ct_vhf's own arch/abdominal aorta parts are untouched.
+# Q185k: her TS label 31 held TWO vertebral bodies (6 rib-free presacral vertebrae); the documented relabel splits them
+# (L1 + L1B, label 118) into vhf_total_q185k.nii.gz (committed; remade from vhf_total here if absent). ct_vhf, ct_vhf_descaorta (the
+# aorta cut at the T12/L1 level) and the Q185c discs read it; every other consumer still reads TS's vhf_total.
+[ -f $T/vhf_total_q185k.nii.gz ] || python3 scripts/vhf_vertebra_relabel_q185k.py relabel
+if [ -f mappings/subjects/ct_vhf_descaorta_volume_mapping.json ] && ! grep -q descending_thoracic_aorta build/vh/ct_vhf_descaorta/manifest.json 2>/dev/null; then
+  cp mappings/subjects/ct_vhf_descaorta_volume_mapping.json build/vh/
+  python3 scripts/ingest_volume_geometry.py convert $T/vhf_total_q185k.nii.gz --labels totalsegmentator --subject ct_vhf_descaorta --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
+conv $T/vhf_total_q185k.nii.gz totalsegmentator ct_vhf --smooth 1.0
+conv $T/vhf_craniofacial_structures.nii.gz totalsegmentator_craniofacial_structures ct_vhf_head --smooth 1.0
+conv $T/vhf_head_muscles.nii.gz totalsegmentator_head_muscles ct_vhf_headm --smooth 1.0
+conv $T/vhf_oculomotor_muscles.nii.gz totalsegmentator_oculomotor_muscles ct_vhf_orbit --smooth 1.0
+conv $T/vhf_headneck_muscles_merged.nii.gz totalsegmentator_headneck_muscles ct_vhf_neck --smooth 1.0
+conv $T/vhf_headneck_bones_vessels.nii.gz totalsegmentator_headneck_bones_vessels ct_vhf_neckbv --smooth 1.0
+conv $T/vhf_abdominal_muscles.nii.gz totalsegmentator_abdominal_muscles ct_vhf_abd --smooth 1.0
+[ -n "${STOP_BEFORE_LEGS:-}" ] && { echo CONV_DONE; exit 0; }   # torso subjects only (run while the legs volume is still being made)
+conv $T/vhf_lower_limb_bones.nii.gz vhf_legs ct_vhf_legs --smooth 1.0
+# her seven tarsal bones: her CT tarsal label split by the male's separately segmented tarsals transferred onto her
+# (scripts/transfer/name_tarsal_pieces.py -> cross_subject_transfer m2f -> scripts/vhf_split_tarsals.py); the split volume is in the repo
+if [ ! -f $T/vhf_tarsals_split.nii.gz ] || [ -n "${RECONVERT:-}" ]; then
+  python3 - <<'PY'
+import json,shutil,os
+b=json.load(open('data/derived/viewer_bundles/vhm_v25/bundle.json')); ren=json.load(open('mappings/subjects/vhm_both_piece_names.json'))['rename']; seen={}
+for e in b['structures']:
+    k=seen.get(e['id'],0); seen[e['id']]=k+1; new=ren.get(e['id'],{}).get(str(k))
+    if new: e['id']=new
+os.makedirs('build/vhm_named',exist_ok=True); json.dump(b,open('build/vhm_named/bundle.json','w')); shutil.copy('data/derived/viewer_bundles/vhm_v25/bundle.bin','build/vhm_named/bundle.bin')
+PY
+  python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html build/vhm_named --ids calcaneus_r talus_r cuboid_r navicular_r cuneiform_medial_r cuneiform_intermediate_r cuneiform_lateral_r calcaneus_l talus_l cuboid_l navicular_l cuneiform_medial_l cuneiform_intermediate_l cuneiform_lateral_l -o build/vh/xfer_tarsals --report data/derived/transfer_report_tarsals.json 2>&1 | grep -v Deprec | tail -1 | cut -c1-160
+  python3 scripts/vhf_split_tarsals.py --xfer build/vh/xfer_tarsals 2>&1 | grep -v Deprec | tail -3
+fi
+conv $T/vhf_tarsals_split.nii.gz vhf_tarsals ct_vhf_tarsal --smooth 1.0
+conv $T/vhf_arm_bones_ct.nii.gz vhf_arm_bones ct_vhf_armb --smooth 1.0
+# Q125: her right metacarpals I-V individually split from the merged metacarpals_right CT mask
+# (scripts/vhf_split_metacarpals.py, marker-controlled watershed on her own torso CT raw HU);
+# ct_vhf_armb's own metacarpals_r mapping is nulled out above so this replaces it, not duplicates it
+conv $T/vhf_metacarpals_split.nii.gz vhf_metacarpals_split ct_vhf_mcsplit --smooth 1.0
+conv $T/vhf_deltoid_cryo.nii.gz vhf_deltoid ct_vhf_delt --smooth 1.0
+# shoulder girdle split (Q62): infraspinatus / teres minor / teres major out of the cuff's merged mass (scripts/cryo/split_shoulder_girdle.py); listed BEFORE the cuff so the split wins
+conv $T/vhf_shoulder_split_cryo.nii.gz vhf_shoulder_split ct_vhf_shsp --smooth 1.0
+conv $T/vhf_rotator_cuff_cryo.nii.gz vhf_rotator_cuff ct_vhf_cuff --smooth 1.0
+conv $T/vhf_erector_columns.nii.gz vhf_erector ct_vhf_es --smooth 1.0
+conv $T/vhf_arm_muscles_cryo.nii.gz vhf_arm_muscles ct_vhf_armm --smooth 1.0
+# Q62 step 1: her right forearm muscles from the full-resolution crops (rule-based; twelve muscles, the rest merged/unshipped)
+conv $T/vhf_forearm_muscles_cryo.nii.gz vhf_forearm_muscles ct_vhf_forearm --smooth 1.0
+# Q71/Q97: her LEFT forearm from a proximal-only cryosection track (Q71, ~60% of the forearm length); five of
+# twenty muscles clear Q97's mesh-topology/skin-containment/render bar (extensor_digitorum_l,
+# extensor_digiti_minimi_l, abductor_pollicis_longus_l, extensor_pollicis_brevis_l, extensor_pollicis_longus_l),
+# the rest stay null (0 cm3 unseeded compartments or gross bilateral volume mismatches, confirmed defects, not
+# soft doubt)
+conv $T/vhf_left_forearm_muscles_cryo.nii.gz vhf_left_forearm_muscles ct_vhf_left_forearm --smooth 1.0
+# Q62 step 3: deep neck + suboccipitals from her 1 mm frame (rule-based; splenius and erector_cervical sinks unshipped)
+conv $T/vhf_deep_neck_cryo.nii.gz vhf_deep_neck ct_vhf_dneck --smooth 1.0
+# Q62 step 6: diaphragm + intercostal sheets from her total-task labels (rule-based, 4 mm sheet)
+conv $T/vhf_trunk_wall.nii.gz vhf_trunk_wall ct_vhf_twall --smooth 1.0
+# Q185f2: her transversus abdominis r/l from her own CT (muscle band deep to her TS internal-oblique label; needs the
+# restacked torso CT for a fresh build), stamped only when data/derived/Q185f2_transversus_vhf.json passes its gates
+[ -f $T/vhf_transversus_q185f2.nii.gz ] || python3 scripts/transversus_from_ct_q185f2.py build | tail -1
+conv $T/vhf_transversus_q185f2.nii.gz vhf_transversus ct_vhf_tam --smooth 1.0
+[ -f build/vh/ct_vhf_tam/manifest.json ] && { grep -q Q185f2 build/vh/ct_vhf_tam/manifest.json || python3 scripts/transversus_from_ct_q185f2.py stamp | tail -1; }
+# Q62 step 7a: suprahyoid + extrinsic tongue muscles from her 1 mm frame (rule-based; the straps are fragments and unshipped)
+conv $T/vhf_hyoid_muscles_cryo.nii.gz vhf_hyoid_muscles ct_vhf_hyoid --smooth 1.0
+# Q62 step 4: her right hand intrinsics from the full-resolution crops (rule-based; the thenar group stays merged and unshipped)
+conv $T/vhf_hand_muscles_cryo.nii.gz vhf_hand_muscles ct_vhf_hand --smooth 1.0
+# Q55: the femoral artery, vein and nerve trunk tracked in her full-resolution anterior-thigh crops (triangle only)
+conv $T/vhf_femoral_bundle_cryo.nii.gz vhf_femoral_bundle ct_vhf_femoral --smooth 1.0
+# Q56: the popliteal artery, vein and the tibial nerve in her popliteal fossa, same tracker
+# Q181b: --smooth 0.0 is what ships (Q179a/Q181: a 0.0 conversion reproduces the shipped build/vh/ct_vhf_popliteal and
+# ct_vhf_nerve byte for byte, 1.0 does not; ct_vhf_femoral ships at 1.0)
+conv $T/vhf_popliteal_cryo.nii.gz vhf_popliteal ct_vhf_popliteal --smooth 0.0
+# Q62: her pelvic floor and perineum from the CT labels with the 1 mm photographs as tissue evidence (rule-based)
+conv $T/vhf_pelvic_floor_cryo.nii.gz vhf_pelvic_floor ct_vhf_pfloor --smooth 1.0
+conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
+# Q169: her own pelvic viscera from vhf_total (21 urinary_bladder; 20 colon cut at her pelvic inlet and split into
+# rectum / pelvic sigmoid at the sigmoid take-off) -- same mask_surface(smooth 1.0) + origin as convert, but written by
+# the script itself because these ids have no entity in data/ (category 'organ' carried per structure in the manifest)
+if [ ! -f build/vh/ct_vhf_pelvis/manifest.json ] || [ -n "${RECONVERT:-}" ]; then
+  python3 scripts/vhf_pelvic_viscera.py --origin="$O" 2>&1 | tail -4
+fi
+# nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
+[ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 0.0
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf_mcsplit"
+[ -f build/vh/ct_vhf_descaorta/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_descaorta"
+# Q116: genioglossus_r only, reconverted at --smooth 0.0 (ct_vhf_hyoid_fix); listed BEFORE
+# ct_vhf_hyoid so it wins just this one atlas_id. Q152b: this had only a "use it if
+# present" check, never a real build step -- on a truly fresh container (build/ wiped)
+# it would silently never be produced at all. Real regeneration, same pattern as
+# ct_vhf_xfersepta_fix below (mapping committed to mappings/subjects/, --origin="$O"
+# verified to reproduce the already-shipped mesh to 0.000mm -- see PROJECT_STATE Q152b).
+if [ -f mappings/subjects/ct_vhf_hyoid_fix_volume_mapping.json ] && ! grep -q genioglossus_r build/vh/ct_vhf_hyoid_fix/manifest.json 2>/dev/null; then
+  cp mappings/subjects/ct_vhf_hyoid_fix_volume_mapping.json build/vh/
+  python3 scripts/ingest_volume_geometry.py convert $T/vhf_hyoid_muscles_cryo.nii.gz --labels vhf_hyoid_muscles --subject ct_vhf_hyoid_fix --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
+[ -f build/vh/ct_vhf_hyoid_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_hyoid_fix"
+# Q152: continuity repair -- shape-interpolation gap bridges and --smooth 0.0 decimation
+# fixes (voxel space, into <subject>_contfix) plus mesh-space stray-island drops
+# (<subject>_contfix_mesh), built from data/derived/Q152_continuity_repair.json by
+# scripts/apply_continuity_repairs_q152.py, which itself reads the base subjects converted
+# above -- so it runs here, after them, not at the top of this script. Regenerated every
+# rebuild (idempotency marker: ct_vhf_dneck_contfix, arbitrary but always produced together
+# with the rest in one run of that script). Every fix subject below is listed BEFORE its own
+# source subject in the SUBJ line that follows, so it wins only the ids it actually repairs;
+# none of these ids overlap each other, so the exact order among them does not matter.
+[ -f build/vh/ct_vhf_dneck_contfix/manifest.json ] || python3 scripts/apply_continuity_repairs_q152.py 2>&1 | tail -30
+# Q156: added ct_vhf_left_forearm_contfix (voxel-space; only the _mesh variant
+# was listed before -- a latent wiring gap, same class as the Q152b rebuild-
+# script gaps this file's own header already documents. extensor_digiti_minimi_l
+# is a GAP_BRIDGE fix on this root, which apply_continuity_repairs_q152.py
+# writes as the plain (non-mesh) '_contfix' name; without this it would build
+# in build/vh but never reach the exported bundle).
+for s in ct_vhf_armm_contfix ct_vhf_armm_contfix_mesh ct_vhf_delt_contfix ct_vhf_dneck_contfix \
+         ct_vhf_dneck_contfix_mesh ct_vhf_forearm_contfix ct_vhf_forearm_contfix_mesh \
+         ct_vhf_hyoid_contfix ct_vhf_orbit_contfix ct_vhf_pfloor_contfix ct_vhf_abd_contfix_mesh \
+         ct_vhf_cuff_contfix_mesh ct_vhf_es_contfix_mesh ct_vhf_hand_contfix_mesh \
+         ct_vhf_left_forearm_contfix ct_vhf_left_forearm_contfix_mesh ct_vhf_shsp_contfix_mesh \
+         ct_vhf_twall_contfix_mesh; do
+  [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
+done
+# Q182: her ribs_l / ribs_r re-surfaced from her own TS rib labels (scripts/ribs_from_ct_labels.py; no dilation, one
+# piece per side) replace the Q109 dilated voxel remesh build/vh/ct_vhf carries (12-13 mm outside the labels). Before ct_vhf.
+[ -f build/vh/ct_vhf_ribs/manifest.json ] || python3 scripts/ribs_from_ct_labels.py build --body vhf | tail -1
+SUBJ="$SUBJ --subject ct_vhf_ribs --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
+[ -f build/vh/ct_vhf_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_pelvis"   # Q169 pelvic viscera (ids unique to this subject)
+# Q193: organs (liver, lungs, heart, stomach, bowel, kidneys, ... whichever pass the gates) meshed from this body's own TotalSegmentator `total`
+# labels (scripts/viscera_from_ct_labels_q193.py; held organs and the reason are in data/derived/Q193_viscera_vhf.json). Ids unique; listed last.
+[ -f build/vh/ct_vhf_viscera/manifest.json ] || python3 scripts/viscera_from_ct_labels_q193.py build --body vhf 2>&1 | tail -22
+[ -f build/vh/ct_vhf_viscera/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_viscera"   # Q193
+# Q185c: intervertebral discs filled between her own adjacent vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py;
+# held levels carry the Q104 mesh re-badged). The Q104 cylinders in ct_vhf are dropped at export, C1/C2 (no disc there) included.
+[ -f build/vh/ct_vhf_discs/manifest.json ] || python3 scripts/discs_from_vertebrae_q185c.py build --body vhf | tail -1
+EXCL=(); [ -f build/vh/ct_vhf_discs/manifest.json ] && { SUBJ="$SUBJ --subject ct_vhf_discs"; EXCL=(--exclude 'ct_vhf:intervertebral_disc_*'); }
+# Q185f2: stamped (= gates passed) own-CT transversus wins those 2 ids over xfer_vhm2vhf_tva / xfer_vhm2vhf (listed later)
+grep -q Q185f2 build/vh/ct_vhf_tam/manifest.json 2>/dev/null && SUBJ="$SUBJ --subject ct_vhf_tam"
+[ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
+[ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
+SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
+if [ -f $SKIN ]; then
+  conv $SKIN vhm_skin ct_vhf_skin --smooth 1.5 --step 2; SUBJ="$SUBJ --subject ct_vhf_skin"
+elif [ -f build/vh/ct_vhf_skin/manifest.json ]; then
+  # Q116 lesson: the scratchpad-only source volume (skin_ct.nii.gz/skin_union.nii.gz) doesn't survive a
+  # container reset and regeneration can itself fail silently if ITS OWN scratchpad inputs are gone too.
+  # A prior successful conversion already sits in build/vh/ct_vhf_skin -- reuse it rather than silently
+  # dropping the skin/depth-tag subject from the bundle. --skin-nii below stays unset in this branch (no
+  # source volume to pass cross_subject_transfer.py), so the m2f transfer's own skin-containment clip is
+  # skipped this run; that transfer step already warns loudly when --skin-nii is absent.
+  echo "WARNING: skin source volume absent, REUSING existing build/vh/ct_vhf_skin (regenerate scripts/cryo/vhf_whole_body_skin.py's inputs to get a fresh conversion)" >&2
+  SUBJ="$SUBJ --subject ct_vhf_skin"; SKIN=""
+else
+  echo "WARNING: skin volume absent and no prior build/vh/ct_vhf_skin exists -- bundle will ship WITHOUT the skin subject or depth tags" >&2
+  SKIN=""
+fi
+# cross-subject transfer: everything the male has and she lacks (lower-limb muscles, ligaments, cartilage, ...) carried onto
+# her bones and inside her measured muscle compartment; badged subject, listed LAST so her own structures always win
+if [ ! -f build/vh/xfer_vhm2vhf/manifest.json ] || [ -n "${RECONVERT:-}" ]; then
+  # $SKIN can be "" (see the skin-volume fallback above) -- pass --skin-nii only when there's a real path,
+  # since an unquoted empty $SKIN would otherwise vanish and shift --skin-origin into its place.
+  SKIN_ARGS=(); [ -n "$SKIN" ] && SKIN_ARGS=(--skin-nii "$SKIN")
+  python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html data/derived/viewer_bundles/vhm_v25 \
+    --envelope-src data/derived/lean_envelope_vhm.json --envelope-dst data/derived/lean_envelope_vhf.json \
+    "${SKIN_ARGS[@]}" --skin-origin="$O" -o build/vh/xfer_vhm2vhf --report data/derived/transfer_report_vhm2vhf.json 2>&1 | grep -v Deprec | head -1 | cut -c1-200
+fi
+# the transferred lower-limb muscles with their boundaries refined to HER septa (scripts/transfer/refine_transfer_to_septa.py,
+# label volume in the repo); listed BEFORE xfer_vhm2vhf so the refined muscle wins and the unrefined transfer supplies the rest
+if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
+  conv $T/vhf_xfer_lowerlimb_septa.nii.gz vhf_xfer_septa xfer_vhm2vhf_sep --smooth 1.0
+  # Q115: extensor_hallucis_longus_l + flexor_digitorum_longus_l only, reconverted at --smooth 0.0
+  # (raw source is 0.997-1.000 main_frac but xfer_vhm2vhf_sep's own smooth=1.0 conversion shipped
+  # 0.669/0.825 for these two). extensor_hallucis_longus_r was investigated and DECLINED -- its
+  # pre-decimation mesh measures ~0.55 at EITHER smoothing value, a marching-cubes surface defect,
+  # not this bug class -- so it is deliberately excluded from this mapping and still comes from
+  # xfer_vhm2vhf_sep, unchanged. Listed BEFORE xfer_vhm2vhf_sep so it wins only these 2 ids.
+  # Q116 later extended this same subject with plantaris_l (a 3rd smoothing-bug fix, same
+  # class). Q152b: the idempotency check only ever tested ONE of the mapping's labels
+  # (flexor_digitorum_longus_l) -- a manifest left over from before plantaris_l was added
+  # would have this label already and be wrongly treated as up to date, silently shipping
+  # an incomplete subject on a container that only partially rebuilt. Checks every label
+  # the current mapping carries now.
+  if [ -f mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json ] && { ! grep -q extensor_hallucis_longus_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null || ! grep -q flexor_digitorum_longus_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null || ! grep -q plantaris_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null; }; then
+    cp mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json build/vh/
+    python3 scripts/ingest_volume_geometry.py convert $T/vhf_xfer_lowerlimb_septa.nii.gz --labels vhf_xfer_septa --subject ct_vhf_xfersepta_fix --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+  fi
+  # Q152: extensor_digitorum_longus_l's own slice-gap fix (this subject's raw source,
+  # vhf_xfer_lowerlimb_septa.nii.gz, IS ct_vhf_xfersepta_fix's own -- see
+  # apply_continuity_repairs_q152.py) plus the island drops and gap bridges/decimation fix
+  # applied directly to xfer_vhm2vhf_sep's own many transferred leg muscles. Listed BEFORE
+  # their own sources (ct_vhf_xfersepta_fix below, xfer_vhm2vhf_sep further below) so each
+  # wins only the ids it repairs -- NOT after, which would let the unrepaired original win.
+  [ -f build/vh/ct_vhf_xfersepta_fix_contfix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix_contfix"
+  [ -f build/vh/ct_vhf_xfersepta_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix"
+  [ -f build/vh/xfer_vhm2vhf_sep_contfix_mesh/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep_contfix_mesh"
+  [ -f build/vh/xfer_vhm2vhf_sep_contfix/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep_contfix"
+  [ -f build/vh/xfer_vhm2vhf_sep/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep"
+fi
+# Q149: xfer_vhm2vhf's transversus pair came from the male's MIRRORED abdominal wall (vhm_v25); re-transfer
+# just that pair from the corrected male bundle (build/viewer_m, rebuilt by scripts/vhm_rebuild_bundle.sh first)
+# and list it BEFORE xfer_vhm2vhf so it wins those two ids.
+if [ ! -f build/vh/xfer_vhm2vhf_tva/manifest.json ] && [ -f build/viewer_m/bundle.json ]; then
+  python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html build/viewer_m \
+    --ids transversus_abdominis_r transversus_abdominis_l \
+    --envelope-src data/derived/lean_envelope_vhm.json --envelope-dst data/derived/lean_envelope_vhf.json \
+    --skin-origin="$O" -o build/vh/xfer_vhm2vhf_tva --report data/derived/transfer_report_vhm2vhf_tva.json 2>&1 | grep -v Deprec | head -1 | cut -c1-200
+fi
+[ -f build/vh/xfer_vhm2vhf_tva/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_tva"
+[ -f build/vh/xfer_vhm2vhf/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf"
+# his rhomboid minor carried onto her (her own rhomboid mass was unusable, Q62 step 2); the forearm/hand transfer was
+# measured and REJECTED (see docs/GEOMETRY_SOURCES.md): that map distorts limb volumes by 2-3x
+if [ ! -f build/vh/xfer_vhm2vhf_rhom/manifest.json ]; then
+  python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html build/viewer_m/atlas_viewer_male.html --female-bundle build/viewer_f \
+    --ids rhomboid_minor_l rhomboid_minor_r -o build/vh/xfer_vhm2vhf_rhom --report data/derived/transfer_report_vhm2vhf_rhom.json 2>&1 | tail -1 | cut -c1-140
+fi
+# Q147: forearm/hand/foot soft tissue from Z-Anatomy, PER-BONE registration onto HER own bones
+# (scripts/transfer/limb_per_bone_transfer.py) -- radius vs ulna kept separate, never the broad
+# multi-bone blend the rejected m2f forearm/hand transfer above used (that map distorted limb
+# volumes 2-3x). Fills gaps only, listed LAST. Her LEFT forearm/hand has no bone at all (outside
+# her CT field of view -- same limitation as everywhere else in this file) so those ids are
+# skipped by the script itself, not shipped as ungrounded geometry.
+# 29.1mm median / 91.0mm max: centroid error validating this exact method on her own real
+# ct_vhf_forearm muscles (n=13; her 5 ct_vhf_left_forearm ids could not be validated the same way,
+# no bone to register onto) -- see PROJECT_STATE.md Q147 and data/derived/
+# Q147_validation_female.json. NOTE: re-running this by hand against an ALREADY-built
+# build/viewer_f (e.g. only to change the badge text) silently ships 0 structures -- see the
+# matching comment in scripts/vhm_rebuild_bundle.sh; Q150 worked around it with a one-off
+# pre-transfer bundle built from the SUBJ list above (everything up to and including
+# xfer_vhm2vhf).
+if [ ! -f build/vh/xfer_zan2vhf_limb/manifest.json ]; then
+  python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2f --female-bundle build/viewer_f \
+    --badge-error-mm 29.1 --badge-max-error-mm 91.0 -o build/vh/xfer_zan2vhf_limb --report data/derived/transfer_report_zan2vhf_limb.json 2>&1 | tail -1 | cut -c1-200
+fi
+# Q155 (owner decision 2026-09-25): ship the Q154 photograph-gradient watershed refinement of her
+# RIGHT forearm AND RIGHT hand compartments even though both miss the 15mm/30mm ship bar, because
+# both are clearly better than xfer_zan2vhf_limb's own raw Z-Anatomy transfer for these same ids
+# (worst case up to 91.0mm on unrefined ids -> forearm 17.2mm median/30.1mm max, hand 25.0mm
+# median/29.1mm max here) -- each shipped id badged with its own segment's honest leave-one-out
+# number (data/derived/Q154_validation_female_forearm.json / _hand.json). Two separate runs (the
+# hand has no two-bone anchor to register on the way the forearm does -- see
+# refine_transfer_photo_watershed.py's own "f_hand" specimen doc) combined into one subject with
+# q155_merge_into.py. Q112 gate: q155_finalize_photo_ship.py drops any id whose own main_frac <
+# 0.98 from EACH region before the merge, so xfer_zan2vhf_limb (listed below, still carrying every
+# one of these ids) supplies any dropped id unrefined instead -- flexor_digitorum_superficialis_r
+# failed this gate this run (0.93) and stays on Q147; every registered hand candidate (just
+# opponens_pollicis_r -- the other 3 hand mapping candidates have no Q147 mesh for this id at all,
+# see below) passed. Listed BEFORE xfer_zan2vhf_limb so it wins only the ids it actually ships.
+# Needs her own re-acquired forearm/hand cryosection
+# photographs (SCRATCH/vh_cryo_f_forearm_q151, SCRATCH/vh_cryo_f_hand_q151, public-domain source
+# imagery, never committed -- see .gitignore); silently skipped if either scratch dir is absent,
+# same as this file's other real-imaging gates.
+if [ -d SCRATCH/vh_cryo_f_forearm_q151 ] && [ -d SCRATCH/vh_cryo_f_hand_q151 ] \
+   && [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && [ ! -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ]; then
+  rm -rf build/vh/_q155_vhf_hand_photo
+  python3 scripts/transfer/refine_transfer_photo_watershed.py --specimen f \
+    --cryo-dir SCRATCH/vh_cryo_f_forearm_q151 \
+    --volume $T/vhf_forearm_muscles_cryo.nii.gz \
+    --labels mappings/vhf_forearm_muscles_labels.json \
+    --mapping build/vh/ct_vhf_forearm_volume_mapping.json --origin="$O" \
+    --target build/viewer_f --xfer build/vh/xfer_zan2vhf_limb \
+    --out build/vh/xfer_zan2vhf_limb_photo --report data/derived/Q155_ship_female_forearm.json 2>&1 | tail -3
+  python3 scripts/transfer/q155_finalize_photo_ship.py build/vh/xfer_zan2vhf_limb_photo \
+    --median 17.2 --max 30.1 --report data/derived/Q155_finalize_female_forearm.json 2>&1 | tail -6
+  python3 scripts/transfer/refine_transfer_photo_watershed.py --specimen f_hand \
+    --cryo-dir SCRATCH/vh_cryo_f_hand_q151 \
+    --volume $T/vhf_hand_muscles_cryo.nii.gz \
+    --labels mappings/vhf_hand_muscles_labels.json \
+    --mapping build/vh/ct_vhf_hand_volume_mapping.json --origin="$O" \
+    --target build/viewer_f --xfer build/vh/xfer_zan2vhf_limb \
+    --out build/vh/_q155_vhf_hand_photo --report data/derived/Q155_ship_female_hand.json 2>&1 | tail -3
+  python3 scripts/transfer/q155_finalize_photo_ship.py build/vh/_q155_vhf_hand_photo \
+    --median 25.0 --max 29.1 --report data/derived/Q155_finalize_female_hand.json 2>&1 | tail -6
+  python3 scripts/transfer/q155_merge_into.py build/vh/xfer_zan2vhf_limb_photo build/vh/_q155_vhf_hand_photo 2>&1 | tail -3
+  rm -rf build/vh/_q155_vhf_hand_photo
+fi
+# Q150/Q150b: a forearm-compartment refinement onto her OWN segmented tissue was TRIED
+# (scripts/transfer/refine_limb_transfer.py) but a lead review found the first cut's leave-one-
+# out validation leaked ground truth (a held-out id was searched for inside its OWN already-
+# known true label, scoring a fraudulent ~4mm median); the CORRECTED validation (neighbouring
+# real labels folded into the open competitive region too, a "neighbor" and a stricter
+# "whole_limb" variant -- data/derived/Q150_validation_female.json) measures forearm median
+# 18.9-20.6mm / max 25.7-32.1mm and hand median 22.2-28.9mm / max 50.9-51.5mm, both over the
+# 15mm median bar -- NOT shipped, either region. xfer_zan2vhf_limb above (its badge now also
+# discloses its own max error) stands as this specimen's forearm/hand/foot estimate, unchanged.
+# Q62 step 5: foot intrinsic muscles she had no mesh for (12 ids), Z-Anatomy carried by the Q168 per-bone fits onto her
+# own foot bones, bounded push-off-bone + pull inside her skin, per-muscle badges (scripts/transfer/
+# zan_to_vhf_foot_intrinsics.py; report data/derived/Q62s5_vhf_foot_intrinsics.json). Needs the Z-Anatomy source
+# (build/zanatomy), her built subjects and her current bundle (subject order). Ids unique to this subject.
+if [ ! -f build/vh/xfer_zan2vhf_foot/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
+   && [ -f build/viewer_f_hr/bundle.json ]; then
+  python3 scripts/transfer/zan_to_vhf_foot_intrinsics.py 2>&1 | grep -v Deprec | tail -2
+fi
+[ -f build/vh/xfer_zan2vhf_foot/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_foot"
+# Q62 step 7: head / neck / larynx muscles she had no mesh for, Z-Anatomy carried by the Q168 per-bone fits onto her
+# skull/mandible/hyoid/spine (larynx: refitted onto her CT thyroid + cricoid cartilages), bounded push-off-bone, skin,
+# air-lumen and overlap gates, per-muscle badges (scripts/transfer/zan_to_vhf_head_neck.py; report
+# data/derived/Q62s7_vhf_head_neck.json). Ids unique to this subject.
+if [ ! -f build/vh/xfer_zan2vhf_head/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
+   && [ -f build/viewer_f_hr/bundle.json ]; then
+  python3 scripts/transfer/zan_to_vhf_head_neck.py 2>&1 | grep -v Deprec | tail -2
+fi
+[ -f build/vh/xfer_zan2vhf_head/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_head"
+# Q62 step 9: trunk + small lower-limb muscles she had no mesh for (deep back, serratus posterior, chest wall,
+# pyramidalis, fibularis brevis/tertius), Z-Anatomy carried by the Q168 per-bone fits onto her spine/ribs/girdle/pelvis/
+# leg bones, same gates + a lung gate (scripts/transfer/zan_to_vh_trunk_leg.py; data/derived/Q62s9_vhf_trunk_leg.json).
+# 2026-10-01: nothing passed on either body (all held: carrier/overlap/lung). Q182 (ribs from the CT labels + rib refit):
+# subclavius passes (her _r, his _r/_l), the rest still held (overlap/lung) -> subject written; reruns only when its
+# report is absent (delete data/derived/Q62s9_vhf_trunk_leg.json to retry).
+if [ ! -f build/vh/xfer_zan2vhf_trunk/manifest.json ] && [ ! -f data/derived/Q62s9_vhf_trunk_leg.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
+   && [ -f build/viewer_f_hr/bundle.json ]; then
+  # Q182: carried by the Q168 fit REFITTED onto the label-derived ribs (only ribs_l/ribs_r fits differ from Q168's report;
+  # the Q168 Z-Anatomy viewer keeps its own report). Regenerated from this bundle when absent.
+  [ -f data/derived/Q182_q168_ribrefit_vhf.json ] || python3 scripts/transfer/zan_to_vhf_whole_body.py --target vhf --report data/derived/Q182_q168_ribrefit_vhf.json | tail -1
+  python3 scripts/transfer/zan_to_vh_trunk_leg.py --target vhf --q168 data/derived/Q182_q168_ribrefit_vhf.json 2>&1 | grep -v Deprec | tail -2
+fi
+[ -f build/vh/xfer_zan2vhf_trunk/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_trunk"
+[ -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_photo"
+[ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
+# Q169: output dir overridable (the hi-res page lives in build/viewer_f_hr: VHF_OUT=build/viewer_f_hr); the transfer
+# steps above still read build/viewer_f as their input bundle, unchanged
+OUT=${VHF_OUT:-build/viewer_f}; mkdir -p "$OUT"
+# Q185 d/e/h/i/j: soft structures inside this body's OWN bone (TS bone labels + own bone meshes) carved out in place
+# on the exact records the exporter ships (same --subject / --exclude list); bounded (<= 4 mm push, tendons trimmed at
+# the bone, cartilage only if <= 3 mm median), fold-guarded, gated; originals kept as vertices.preq185.f32 (idempotent).
+python3 scripts/bone_carve_q185.py --body vhf $SUBJ ${EXCL[@]+"${EXCL[@]}"} 2>&1 | grep -E "Q185 bone carve|Error|Trace"
+python3 scripts/export_viewer_bundle.py $SUBJ ${EXCL[@]+"${EXCL[@]}"} -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
+python3 scripts/build_viewer_html.py --bundle $OUT -o $OUT/atlas_viewer_female.html --external-bin 2>&1 | tail -1
+sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' $OUT/atlas_viewer_female.html
+echo VHF_REBUILD_DONE

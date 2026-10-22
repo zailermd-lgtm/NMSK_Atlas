@@ -1,0 +1,1796 @@
+{
+ "_README": [
+  "Q180 seeds for the Visible Human MALE right forearm, one per visible muscle belly on 5 cross-sections. seeded by Claude from the photographs, not by an anatomist; owner review pending.",
+  "x, y: section JPEG pixels (continuous, (0,0) top-left corner; mapping.json of vhm_forearm_seed_sections.py); frame_index_ijk: Q164 frame; atlas_mm: +X his right, +Y up, +Z anterior.",
+  "Cross-check: Q165 RULE label (rule-based, not truth) at the seed voxel and its majority within 2 mm."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): male cryosection photographs (IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385), resliced by scripts/cryo/vhm_forearm_seed_sections.py; seeds placed by Claude (seeded by Claude from the photographs, not by an anatomist; owner review pending).",
+ "badge": "seeded by Claude from the photographs, not by an anatomist; owner review pending",
+ "script": "scripts/cryo/vhm_forearm_seeded_q180.py",
+ "sections_script": "scripts/cryo/vhm_forearm_seed_sections.py",
+ "summary": {
+  "placed": 63,
+  "placed_primary": 61,
+  "extra_bellies": 2,
+  "absent": 19,
+  "confidence": {
+   "high": 2,
+   "medium": 23,
+   "low": 38
+  },
+  "agree_with_q165_rule": 43
+ },
+ "seeds": [
+  {
+   "section": "L1",
+   "muscle": "pronator_teres_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 240,
+   "y": 190,
+   "confidence": "medium",
+   "reason": "distinct oval anterolateral belly with oblique (concentric) fascicles, superficial to the radius, lateral-most flexor; radial vessels at its deep lateral edge",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    40.56,
+    90.21
+   ],
+   "atlas_mm": [
+    201.95,
+    248.55,
+    -12.34
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 6.5,
+   "q165_rule_label_at_seed": "flexor_carpi_radialis",
+   "q165_rule_majority_2mm": "flexor_carpi_radialis",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L1",
+   "muscle": "flexor_carpi_radialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 365,
+   "y": 130,
+   "confidence": "low",
+   "reason": "superficial strip medial to the PT oval, between its septum and the pale line at x~405",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    46.08,
+    145.4
+   ],
+   "atlas_mm": [
+    204.41,
+    228.17,
+    -30.98
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 9.12,
+   "q165_rule_label_at_seed": "palmaris_longus",
+   "q165_rule_majority_2mm": "palmaris_longus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L1",
+   "muscle": "palmaris_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 430,
+   "y": 110,
+   "confidence": "low",
+   "reason": "small superficial strip between the x~405 line and the FCU septum (x~455)",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    52.77,
+    171.76
+   ],
+   "atlas_mm": [
+    207.41,
+    217.79,
+    -39.24
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 2.5,
+   "q165_rule_label_at_seed": "palmaris_longus",
+   "q165_rule_majority_2mm": "palmaris_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "flexor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 520,
+   "y": 180,
+   "confidence": "medium",
+   "reason": "superficial anteromedial belly along the ulnar border",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    95.42,
+    187.94
+   ],
+   "atlas_mm": [
+    226.46,
+    205.31,
+    -38.2
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 15.57,
+   "q165_rule_label_at_seed": "flexor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "flexor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "flexor_digitorum_superficialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 420,
+   "y": 230,
+   "confidence": "low",
+   "reason": "intermediate layer deep to FCR/PL, anterior to the radius-ulna gap; no closed septum",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    91.68,
+    143.37
+   ],
+   "atlas_mm": [
+    224.79,
+    221.65,
+    -23.04
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 4.3,
+   "q165_rule_label_at_seed": "flexor_digitorum_superficialis",
+   "q165_rule_majority_2mm": "flexor_pollicis_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "flexor_digitorum_profundus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 500,
+   "y": 265,
+   "confidence": "low",
+   "reason": "deep belly on the anteromedial ulna",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    120.29,
+    163.41
+   ],
+   "atlas_mm": [
+    237.58,
+    210.03,
+    -25.59
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 15.51,
+   "q165_rule_label_at_seed": "flexor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "flexor_carpi_ulnaris",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L1",
+   "muscle": "flexor_pollicis_longus_r",
+   "status": "absent",
+   "reason": "arises below the radial tuberosity; no separate belly on the anterior radius at 15 %",
+   "by": "claude"
+  },
+  {
+   "section": "L1",
+   "muscle": "brachioradialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 120,
+   "y": 320,
+   "confidence": "low",
+   "reason": "upper (anterolateral) part of the lateral mass next to the radial vessels; no septum seen splitting it from ECRL",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    59.99,
+    22.16
+   ],
+   "atlas_mm": [
+    210.63,
+    269.52,
+    14.81
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 11.51,
+   "q165_rule_label_at_seed": "brachioradialis",
+   "q165_rule_majority_2mm": "brachioradialis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "extensor_carpi_radialis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 130,
+   "y": 440,
+   "confidence": "low",
+   "reason": "lower (lateral/posterolateral) part of the lateral mass; boundary with BR not visible",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    103.06,
+    0.6
+   ],
+   "atlas_mm": [
+    229.88,
+    270.31,
+    29.26
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 27.61,
+   "q165_rule_label_at_seed": "extensor_carpi_radialis_longus",
+   "q165_rule_majority_2mm": "extensor_carpi_radialis_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "extensor_carpi_radialis_brevis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 250,
+   "y": 420,
+   "confidence": "medium",
+   "reason": "darker belly medial in the lateral mass, lateral to the ED septum (x~300)",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    121.2,
+    45.76
+   ],
+   "atlas_mm": [
+    237.99,
+    251.47,
+    16.17
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 8.5,
+   "q165_rule_label_at_seed": "extensor_carpi_radialis_longus",
+   "q165_rule_majority_2mm": "extensor_carpi_radialis_longus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L1",
+   "muscle": "extensor_digitorum_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 340,
+   "y": 470,
+   "confidence": "medium",
+   "reason": "superficial posterior belly bounded by septa medial to ECRB and below the supinator",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    157.01,
+    66.09
+   ],
+   "atlas_mm": [
+    253.99,
+    238.61,
+    14.65
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 9.34,
+   "q165_rule_label_at_seed": "extensor_digitorum",
+   "q165_rule_majority_2mm": "extensor_digitorum",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "extensor_digiti_minimi_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 430,
+   "y": 465,
+   "confidence": "low",
+   "reason": "posterior belly medial to ED across the x~400 septum",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    174.04,
+    97.88
+   ],
+   "atlas_mm": [
+    261.6,
+    224.67,
+    6.11
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.41,
+   "q165_rule_label_at_seed": "extensor_digiti_minimi",
+   "q165_rule_majority_2mm": "extensor_digiti_minimi",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "extensor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 500,
+   "y": 420,
+   "confidence": "low",
+   "reason": "posteromedial belly beside the ulna",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    173.24,
+    131.15
+   ],
+   "atlas_mm": [
+    261.24,
+    213.04,
+    -5.79
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.59,
+   "q165_rule_label_at_seed": "extensor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "extensor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L1",
+   "muscle": "anconeus_r",
+   "status": "absent",
+   "reason": "not distinguishable from ECU/supinator at 15 % (anconeus is on the proximal ulna)",
+   "by": "claude"
+  },
+  {
+   "section": "L1",
+   "muscle": "supinator_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 292,
+   "y": 380,
+   "confidence": "medium",
+   "reason": "crescent wrapping the lateral/posterior radius, bounded by a curved pale septum",
+   "by": "claude",
+   "frame_index_ijk": [
+    96.0,
+    116.28,
+    68.43
+   ],
+   "atlas_mm": [
+    235.79,
+    244.24,
+    7.37
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 1.5,
+   "q165_rule_label_at_seed": "supinator",
+   "q165_rule_majority_2mm": "supinator",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "pronator_teres_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 225,
+   "y": 265,
+   "confidence": "low",
+   "reason": "deep-lateral region above the radius just medial to the oblique septum carrying the radial vessels; heading to its insertion",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    73.5,
+    88.71
+   ],
+   "atlas_mm": [
+    198.73,
+    218.57,
+    18.69
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 1.5,
+   "q165_rule_label_at_seed": "pronator_teres",
+   "q165_rule_majority_2mm": "pronator_teres",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "flexor_carpi_radialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 230,
+   "y": 130,
+   "confidence": "low",
+   "reason": "superficial anterolateral region above the curved line (y~210)",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    27.62,
+    117.26
+   ],
+   "atlas_mm": [
+    178.23,
+    215.76,
+    1.32
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 9.66,
+   "q165_rule_label_at_seed": "flexor_carpi_radialis",
+   "q165_rule_majority_2mm": "flexor_carpi_radialis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "palmaris_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 340,
+   "y": 80,
+   "confidence": "low",
+   "reason": "superficial midline; no septum separating it from FDS",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    32.11,
+    165.38
+   ],
+   "atlas_mm": [
+    180.23,
+    198.04,
+    -14.99
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 10.2,
+   "q165_rule_label_at_seed": "palmaris_longus",
+   "q165_rule_majority_2mm": "palmaris_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "flexor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 490,
+   "y": 200,
+   "confidence": "medium",
+   "reason": "anteromedial superficial belly beyond the ulnar neurovascular junction",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    103.57,
+    193.63
+   ],
+   "atlas_mm": [
+    212.17,
+    176.72,
+    -13.65
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 11.24,
+   "q165_rule_label_at_seed": "flexor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "flexor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "flexor_digitorum_superficialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 360,
+   "y": 140,
+   "confidence": "medium",
+   "reason": "intermediate belly above the oblique septum that runs from the median nerve (310,215) to the ulnar bundle",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    56.91,
+    160.41
+   ],
+   "atlas_mm": [
+    191.32,
+    195.86,
+    -9.3
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 2.69,
+   "q165_rule_label_at_seed": "palmaris_longus",
+   "q165_rule_majority_2mm": "palmaris_longus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L2",
+   "muscle": "flexor_digitorum_profundus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 400,
+   "y": 260,
+   "confidence": "medium",
+   "reason": "deep belly below the median-nerve/ulnar-bundle septum, on the anterior ulna",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    106.52,
+    150.46
+   ],
+   "atlas_mm": [
+    213.49,
+    191.51,
+    2.08
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 17.69,
+   "q165_rule_label_at_seed": "flexor_digitorum_profundus",
+   "q165_rule_majority_2mm": "flexor_digitorum_profundus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "flexor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 285,
+   "y": 285,
+   "confidence": "low",
+   "reason": "deep on the anterior radius, medial to PT",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    92.36,
+    105.57
+   ],
+   "atlas_mm": [
+    207.16,
+    209.62,
+    15.71
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 1.41,
+   "q165_rule_label_at_seed": "flexor_pollicis_longus",
+   "q165_rule_majority_2mm": "flexor_pollicis_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "brachioradialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 100,
+   "y": 240,
+   "confidence": "medium",
+   "reason": "anterolateral part of the lateral mass above a transverse septum (y~285)",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    40.0,
+    50.27
+   ],
+   "atlas_mm": [
+    183.76,
+    237.47,
+    26.97
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 11.28,
+   "q165_rule_label_at_seed": "brachioradialis",
+   "q165_rule_majority_2mm": "brachioradialis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "extensor_carpi_radialis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 95,
+   "y": 380,
+   "confidence": "low",
+   "reason": "lateral strip of the lateral mass, lateral to the vertical septum x~130",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    87.61,
+    20.73
+   ],
+   "atlas_mm": [
+    205.04,
+    240.36,
+    44.96
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 6.73,
+   "q165_rule_label_at_seed": "brachioradialis",
+   "q165_rule_majority_2mm": "brachioradialis",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L2",
+   "muscle": "extensor_carpi_radialis_brevis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 195,
+   "y": 400,
+   "confidence": "medium",
+   "reason": "dark belly between the x~130 septum and the ECRB/ED septum (x~250)",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    114.42,
+    51.48
+   ],
+   "atlas_mm": [
+    217.02,
+    225.24,
+    38.34
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 11.01,
+   "q165_rule_label_at_seed": "extensor_carpi_radialis_longus",
+   "q165_rule_majority_2mm": "extensor_carpi_radialis_longus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L2",
+   "muscle": "extensor_digitorum_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 300,
+   "y": 455,
+   "confidence": "low",
+   "reason": "superficial posterior belly below the horizontal posterior septum",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    154.37,
+    77.01
+   ],
+   "atlas_mm": [
+    234.87,
+    209.88,
+    35.64
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 8.73,
+   "q165_rule_label_at_seed": "extensor_digitorum",
+   "q165_rule_majority_2mm": "extensor_digitorum",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "extensor_digiti_minimi_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 390,
+   "y": 450,
+   "confidence": "low",
+   "reason": "posterior belly medial to ED across the x~375 septum",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    170.51,
+    109.25
+   ],
+   "atlas_mm": [
+    242.08,
+    195.92,
+    26.8
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 2.5,
+   "q165_rule_label_at_seed": "extensor_digiti_minimi",
+   "q165_rule_majority_2mm": "extensor_digiti_minimi",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "extensor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 455,
+   "y": 430,
+   "confidence": "low",
+   "reason": "posteromedial belly beside the ulna",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    176.47,
+    135.79
+   ],
+   "atlas_mm": [
+    244.75,
+    185.6,
+    18.36
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 1.0,
+   "q165_rule_label_at_seed": "extensor_digiti_minimi",
+   "q165_rule_majority_2mm": "extensor_digiti_minimi",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L2",
+   "muscle": "supinator_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 330,
+   "y": 385,
+   "confidence": "low",
+   "reason": "deep posterior layer between the bones and the horizontal septum (distal edge of supinator)",
+   "by": "claude",
+   "frame_index_ijk": [
+    136.0,
+    136.02,
+    101.33
+   ],
+   "atlas_mm": [
+    226.67,
+    204.19,
+    24.13
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 4.3,
+   "q165_rule_label_at_seed": "supinator",
+   "q165_rule_majority_2mm": "supinator",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L2",
+   "muscle": "abductor_pollicis_longus_r",
+   "status": "absent",
+   "reason": "only its origin edge expected; not distinguishable from supinator/deep layer",
+   "by": "claude"
+  },
+  {
+   "section": "L2",
+   "muscle": "extensor_pollicis_longus_r",
+   "status": "absent",
+   "reason": "only its origin edge expected; not distinguishable",
+   "by": "claude"
+  },
+  {
+   "section": "L3",
+   "muscle": "pronator_teres_r",
+   "status": "absent",
+   "reason": "at its insertion on the lateral radius; no belly separable",
+   "by": "claude"
+  },
+  {
+   "section": "L3",
+   "muscle": "flexor_carpi_radialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 185,
+   "y": 120,
+   "confidence": "low",
+   "reason": "superficial anterior region lateral to the Q166 line at x~260, above the radial-vessel Y junction",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    47.24,
+    117.91
+   ],
+   "atlas_mm": [
+    168.61,
+    186.49,
+    30.1
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 14.71,
+   "q165_rule_label_at_seed": "flexor_carpi_radialis",
+   "q165_rule_majority_2mm": "flexor_carpi_radialis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "palmaris_longus_r",
+   "status": "absent",
+   "reason": "tendon level; no belly seen",
+   "by": "claude"
+  },
+  {
+   "section": "L3",
+   "muscle": "flexor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 440,
+   "y": 200,
+   "confidence": "medium",
+   "reason": "superficial anteromedial belly along the ulnar border",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    122.44,
+    193.9
+   ],
+   "atlas_mm": [
+    202.21,
+    147.71,
+    15.15
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 9.96,
+   "q165_rule_label_at_seed": "flexor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "flexor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "flexor_digitorum_superficialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 300,
+   "y": 90,
+   "confidence": "medium",
+   "reason": "superficial/intermediate belly above the curved septum joining the median nerve (240,170) and the ulnar bundle (375,115)",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    57.66,
+    164.3
+   ],
+   "atlas_mm": [
+    173.26,
+    168.45,
+    15.35
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.32,
+   "q165_rule_label_at_seed": "flexor_digitorum_superficialis",
+   "q165_rule_majority_2mm": "flexor_digitorum_superficialis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "flexor_digitorum_profundus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 340,
+   "y": 215,
+   "confidence": "medium",
+   "reason": "deep belly below that septum, anterior to the ulna",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    109.43,
+    155.6
+   ],
+   "atlas_mm": [
+    196.4,
+    163.31,
+    26.63
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 12.02,
+   "q165_rule_label_at_seed": "flexor_digitorum_profundus",
+   "q165_rule_majority_2mm": "flexor_digitorum_profundus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "flexor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 175,
+   "y": 232,
+   "confidence": "low",
+   "reason": "deep on the anterior radius below the radial-vessel Y junction",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    85.23,
+    93.82
+   ],
+   "atlas_mm": [
+    185.58,
+    188.98,
+    44.64
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 8.0,
+   "q165_rule_label_at_seed": "brachioradialis",
+   "q165_rule_majority_2mm": "brachioradialis",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L3",
+   "muscle": "brachioradialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 95,
+   "y": 170,
+   "confidence": "medium",
+   "reason": "anterolateral superficial belly lateral to the Y junction (radial artery)",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    48.52,
+    76.75
+   ],
+   "atlas_mm": [
+    169.18,
+    200.84,
+    44.86
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 6.58,
+   "q165_rule_label_at_seed": "brachioradialis",
+   "q165_rule_majority_2mm": "brachioradialis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "extensor_carpi_radialis_longus_r",
+   "status": "absent",
+   "reason": "only a thin pale strip (tendon) lateral to ECRB",
+   "by": "claude"
+  },
+  {
+   "section": "L3",
+   "muscle": "extensor_carpi_radialis_brevis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 140,
+   "y": 310,
+   "confidence": "medium",
+   "reason": "large oval belly lateral/posterolateral to the radius, capped by the ECRL tendon line",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    106.54,
+    67.08
+   ],
+   "atlas_mm": [
+    195.11,
+    195.06,
+    57.48
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 7.78,
+   "q165_rule_label_at_seed": "extensor_carpi_radialis_longus",
+   "q165_rule_majority_2mm": "extensor_carpi_radialis_longus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L3",
+   "muscle": "extensor_digitorum_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 265,
+   "y": 415,
+   "confidence": "low",
+   "reason": "superficial posterior belly below the Q166 line at y~390",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    166.79,
+    92.27
+   ],
+   "atlas_mm": [
+    222.03,
+    176.6,
+    58.12
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.5,
+   "q165_rule_label_at_seed": "extensor_digitorum",
+   "q165_rule_majority_2mm": "extensor_digitorum",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "extensor_digiti_minimi_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 345,
+   "y": 400,
+   "confidence": "low",
+   "reason": "posterior belly medial to ED, below the ECU septum",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    176.12,
+    123.46
+   ],
+   "atlas_mm": [
+    226.2,
+    164.09,
+    48.57
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 6.02,
+   "q165_rule_label_at_seed": "extensor_digiti_minimi",
+   "q165_rule_majority_2mm": "extensor_digiti_minimi",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "extensor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 378,
+   "y": 345,
+   "confidence": "low",
+   "reason": "posteromedial belly under the ulna, above the y~370 septum",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    162.62,
+    145.27
+   ],
+   "atlas_mm": [
+    220.17,
+    158.52,
+    38.71
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 3.0,
+   "q165_rule_label_at_seed": "extensor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "extensor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L3",
+   "muscle": "abductor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 215,
+   "y": 335,
+   "confidence": "low",
+   "reason": "deep posterior layer on the posterior radius",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    129.18,
+    89.16
+   ],
+   "atlas_mm": [
+    205.22,
+    183.66,
+    53.26
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.15,
+   "q165_rule_label_at_seed": "extensor_carpi_radialis_brevis",
+   "q165_rule_majority_2mm": "extensor_carpi_radialis_brevis",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L3",
+   "muscle": "extensor_pollicis_brevis_r",
+   "status": "absent",
+   "reason": "origin edge; not distinguishable from APL",
+   "by": "claude"
+  },
+  {
+   "section": "L3",
+   "muscle": "extensor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 285,
+   "y": 328,
+   "confidence": "low",
+   "reason": "deep posterior layer between the bones",
+   "by": "claude",
+   "frame_index_ijk": [
+    177.0,
+    139.52,
+    115.33
+   ],
+   "atlas_mm": [
+    209.85,
+    172.77,
+    45.64
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.1,
+   "q165_rule_label_at_seed": "extensor_pollicis_longus",
+   "q165_rule_majority_2mm": "extensor_pollicis_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "flexor_carpi_radialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 125,
+   "y": 100,
+   "confidence": "low",
+   "reason": "anterolateral superficial belly with the median nerve (180,148) at its deep-medial corner (FCR/FDS/FPL topology); textbook expects tendon here",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    54.43,
+    111.68
+   ],
+   "atlas_mm": [
+    153.43,
+    161.64,
+    59.35
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 1.12,
+   "q165_rule_label_at_seed": "flexor_carpi_radialis",
+   "q165_rule_majority_2mm": "flexor_carpi_radialis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "palmaris_longus_r",
+   "status": "absent",
+   "reason": "tendon level",
+   "by": "claude"
+  },
+  {
+   "section": "L4",
+   "muscle": "flexor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 370,
+   "y": 150,
+   "confidence": "high",
+   "reason": "large anteromedial belly, clear septum from FDS/FDP and the ulnar bundle",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    117.01,
+    189.71
+   ],
+   "atlas_mm": [
+    181.4,
+    124.13,
+    41.67
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 11.88,
+   "q165_rule_label_at_seed": "flexor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "flexor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "flexor_digitorum_superficialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 225,
+   "y": 110,
+   "confidence": "medium",
+   "reason": "dark central superficial oval belly, septum-bounded, medial to the median nerve",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    76.27,
+    145.43
+   ],
+   "atlas_mm": [
+    163.19,
+    146.24,
+    50.88
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.02,
+   "q165_rule_label_at_seed": "flexor_digitorum_profundus",
+   "q165_rule_majority_2mm": "flexor_digitorum_profundus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L4",
+   "muscle": "flexor_digitorum_profundus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 290,
+   "y": 175,
+   "confidence": "medium",
+   "reason": "deep belly below the septum from the median nerve to the ulnar bundle",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    111.28,
+    156.67
+   ],
+   "atlas_mm": [
+    178.84,
+    136.72,
+    52.45
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 10.51,
+   "q165_rule_label_at_seed": "flexor_digitorum_superficialis",
+   "q165_rule_majority_2mm": "flexor_digitorum_superficialis",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L4",
+   "muscle": "flexor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 150,
+   "y": 185,
+   "confidence": "medium",
+   "reason": "deep belly on the anterior radius below the horizontal septum y~148",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    89.24,
+    105.04
+   ],
+   "atlas_mm": [
+    168.99,
+    158.46,
+    67.22
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 7.5,
+   "q165_rule_label_at_seed": "flexor_pollicis_longus",
+   "q165_rule_majority_2mm": "flexor_pollicis_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "brachioradialis_r",
+   "status": "absent",
+   "reason": "tendon level",
+   "by": "claude"
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_carpi_radialis_longus_r",
+   "status": "absent",
+   "reason": "tendon level",
+   "by": "claude"
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_carpi_radialis_brevis_r",
+   "status": "absent",
+   "reason": "lateral strip is tendon-coloured (yellow-brown), no belly",
+   "by": "claude"
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_digitorum_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 240,
+   "y": 333,
+   "confidence": "low",
+   "reason": "thin superficial posterior layer carrying the pale ED tendon group (195,322)",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    158.35,
+    110.0
+   ],
+   "atlas_mm": [
+    199.88,
+    145.75,
+    76.42
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 2.0,
+   "q165_rule_label_at_seed": "extensor_digitorum",
+   "q165_rule_majority_2mm": "extensor_digitorum",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_digiti_minimi_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 275,
+   "y": 318,
+   "confidence": "low",
+   "reason": "superficial posterior, medial to ED near its tendon (265,325)",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    159.41,
+    125.2
+   ],
+   "atlas_mm": [
+    200.35,
+    140.21,
+    71.21
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 3.54,
+   "q165_rule_label_at_seed": "extensor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "extensor_carpi_ulnaris",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 325,
+   "y": 290,
+   "confidence": "medium",
+   "reason": "posteromedial belly beyond the septum x~305",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    158.59,
+    148.11
+   ],
+   "atlas_mm": [
+    199.98,
+    132.24,
+    62.98
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 4.61,
+   "q165_rule_label_at_seed": "extensor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "extensor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "abductor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 130,
+   "y": 300,
+   "confidence": "low",
+   "reason": "lateral posterior belly emerging at the lateral border of ED",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    126.5,
+    76.9
+   ],
+   "atlas_mm": [
+    185.64,
+    162.5,
+    83.08
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 0.5,
+   "q165_rule_label_at_seed": "extensor_carpi_radialis_brevis",
+   "q165_rule_majority_2mm": "extensor_carpi_radialis_brevis",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_pollicis_brevis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 185,
+   "y": 262,
+   "confidence": "low",
+   "reason": "deep on the posterior radius, lateral to the vertical septum x~215",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    123.04,
+    103.41
+   ],
+   "atlas_mm": [
+    184.09,
+    153.68,
+    73.15
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.0,
+   "q165_rule_label_at_seed": "extensor_pollicis_brevis",
+   "q165_rule_majority_2mm": "extensor_pollicis_brevis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 205,
+   "y": 300,
+   "confidence": "low",
+   "reason": "deep central belly inside the Q166 enclosure",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    140.21,
+    103.58
+   ],
+   "atlas_mm": [
+    191.77,
+    150.89,
+    75.81
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 2.55,
+   "q165_rule_label_at_seed": "extensor_digitorum",
+   "q165_rule_majority_2mm": "extensor_digitorum",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L4",
+   "muscle": "extensor_indicis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 260,
+   "y": 275,
+   "confidence": "low",
+   "reason": "deep posteromedial belly towards the ulna",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    141.37,
+    127.72
+   ],
+   "atlas_mm": [
+    192.29,
+    142.18,
+    67.46
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 6.0,
+   "q165_rule_label_at_seed": "extensor_indicis",
+   "q165_rule_majority_2mm": "extensor_indicis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L4",
+   "muscle": "flexor_digitorum_superficialis_r",
+   "status": "placed",
+   "extra_belly": true,
+   "x": 295,
+   "y": 85,
+   "confidence": "low",
+   "reason": "second FDS belly superficial-medial (ring/little), septum-bounded above FDP",
+   "by": "claude",
+   "frame_index_ijk": [
+    218.0,
+    80.17,
+    174.91
+   ],
+   "atlas_mm": [
+    164.94,
+    135.21,
+    41.07
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 4.47,
+   "q165_rule_label_at_seed": "flexor_digitorum_profundus",
+   "q165_rule_majority_2mm": "flexor_digitorum_profundus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L5",
+   "muscle": "flexor_carpi_radialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 120,
+   "y": 100,
+   "confidence": "low",
+   "reason": "continuation of the L4 anterolateral belly (followed slice by slice); textbook expects tendon",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    64.0,
+    115.66
+   ],
+   "atlas_mm": [
+    139.77,
+    133.43,
+    84.73
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 4.61,
+   "q165_rule_label_at_seed": "flexor_pollicis_longus",
+   "q165_rule_majority_2mm": "flexor_pollicis_longus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L5",
+   "muscle": "palmaris_longus_r",
+   "status": "absent",
+   "reason": "tendon (pale superficial midline)",
+   "by": "claude"
+  },
+  {
+   "section": "L5",
+   "muscle": "flexor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 310,
+   "y": 125,
+   "confidence": "high",
+   "reason": "large anteromedial belly, clearly septum-bounded",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    109.49,
+    177.35
+   ],
+   "atlas_mm": [
+    160.1,
+    104.41,
+    70.13
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.0,
+   "q165_rule_label_at_seed": "flexor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "flexor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "flexor_digitorum_superficialis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 185,
+   "y": 90,
+   "confidence": "medium",
+   "reason": "central superficial belly (continuation of the dark L4 oval)",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    73.06,
+    140.35
+   ],
+   "atlas_mm": [
+    143.82,
+    123.26,
+    77.44
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 6.08,
+   "q165_rule_label_at_seed": "flexor_pollicis_longus",
+   "q165_rule_majority_2mm": "flexor_pollicis_longus",
+   "agrees_with_q165_rule": false
+  },
+  {
+   "section": "L5",
+   "muscle": "flexor_digitorum_profundus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 240,
+   "y": 135,
+   "confidence": "medium",
+   "reason": "deep medial belly below the superficial row",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    99.46,
+    150.91
+   ],
+   "atlas_mm": [
+    155.62,
+    115.34,
+    77.89
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 4.24,
+   "q165_rule_label_at_seed": "flexor_digitorum_profundus",
+   "q165_rule_majority_2mm": "flexor_digitorum_profundus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "flexor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 115,
+   "y": 160,
+   "confidence": "medium",
+   "reason": "deep lateral belly on the anterior radius",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    84.04,
+    102.3
+   ],
+   "atlas_mm": [
+    148.73,
+    134.97,
+    92.63
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 3.81,
+   "q165_rule_label_at_seed": "flexor_pollicis_longus",
+   "q165_rule_majority_2mm": "flexor_pollicis_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "pronator_quadratus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 215,
+   "y": 190,
+   "confidence": "medium",
+   "reason": "thin deep layer directly on the anterior radius/ulna and interosseous gap",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    113.88,
+    131.52
+   ],
+   "atlas_mm": [
+    162.06,
+    119.91,
+    87.03
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 5.02,
+   "q165_rule_label_at_seed": "pronator_quadratus",
+   "q165_rule_majority_2mm": "pronator_quadratus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "brachioradialis_r",
+   "status": "absent",
+   "reason": "tendon level",
+   "by": "claude"
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_carpi_radialis_longus_r",
+   "status": "absent",
+   "reason": "tendon level",
+   "by": "claude"
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_carpi_radialis_brevis_r",
+   "status": "absent",
+   "reason": "tendon level",
+   "by": "claude"
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_digitorum_r",
+   "status": "absent",
+   "reason": "tendons only (pale superficial posterior band)",
+   "by": "claude"
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_digiti_minimi_r",
+   "status": "absent",
+   "reason": "tendon level",
+   "by": "claude"
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_carpi_ulnaris_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 288,
+   "y": 262,
+   "confidence": "low",
+   "reason": "small posteromedial belly beside the ulna",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    153.21,
+    143.16
+   ],
+   "atlas_mm": [
+    179.64,
+    109.56,
+    89.15
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 3.91,
+   "q165_rule_label_at_seed": "extensor_carpi_ulnaris",
+   "q165_rule_majority_2mm": "extensor_carpi_ulnaris",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "abductor_pollicis_longus_r",
+   "status": "absent",
+   "reason": "tendon (yellow-brown lateral to the radius)",
+   "by": "claude"
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_pollicis_brevis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 120,
+   "y": 258,
+   "confidence": "low",
+   "reason": "posterolateral belly on the distal radius",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    119.32,
+    85.1
+   ],
+   "atlas_mm": [
+    164.49,
+    135.45,
+    104.31
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 8.85,
+   "q165_rule_label_at_seed": "extensor_pollicis_brevis",
+   "q165_rule_majority_2mm": "extensor_pollicis_brevis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_pollicis_longus_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 185,
+   "y": 272,
+   "confidence": "low",
+   "reason": "lateral lower part of the large posterior belly, split by a short pale line",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    136.79,
+    105.16
+   ],
+   "atlas_mm": [
+    172.3,
+    125.59,
+    99.99
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 2.5,
+   "q165_rule_label_at_seed": "extensor_pollicis_longus",
+   "q165_rule_majority_2mm": "extensor_pollicis_longus",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "extensor_indicis_r",
+   "status": "placed",
+   "extra_belly": false,
+   "x": 240,
+   "y": 240,
+   "confidence": "low",
+   "reason": "main part of the large deep posterior belly between the bones",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    136.22,
+    130.6
+   ],
+   "atlas_mm": [
+    172.05,
+    116.69,
+    90.9
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 1.8,
+   "q165_rule_label_at_seed": "extensor_indicis",
+   "q165_rule_majority_2mm": "extensor_indicis",
+   "agrees_with_q165_rule": true
+  },
+  {
+   "section": "L5",
+   "muscle": "flexor_digitorum_superficialis_r",
+   "status": "placed",
+   "extra_belly": true,
+   "x": 245,
+   "y": 78,
+   "confidence": "low",
+   "reason": "second FDS belly superficial-medial, septum-bounded",
+   "by": "claude",
+   "frame_index_ijk": [
+    258.0,
+    80.46,
+    163.68
+   ],
+   "atlas_mm": [
+    147.13,
+    113.84,
+    70.36
+   ],
+   "tissue_class_at_seed": "muscle",
+   "distance_to_q166_septum_line_mm": 3.91,
+   "q165_rule_label_at_seed": "flexor_digitorum_profundus",
+   "q165_rule_majority_2mm": "flexor_digitorum_profundus",
+   "agrees_with_q165_rule": false
+  }
+ ]
+}

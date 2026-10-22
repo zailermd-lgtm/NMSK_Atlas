@@ -1,0 +1,91 @@
+{
+ "source": "Q186b: her own CT skin (ct_vhf_skin) vs the female Z-Anatomy fitted skin; scripts/zanatomy/her_skin_transfer_q186b.py",
+ "limits": {
+  "seam_bound_mm": 15.0,
+  "slope_deg": 30.0,
+  "min_seam_fraction": 0.9,
+  "min_free_area": 0.25
+ },
+ "chest": {
+  "region": "chest (breast)",
+  "replaces": [
+   "zan_skin_inframammary_region_l",
+   "zan_skin_inframammary_region_r",
+   "zan_skin_mammary_region_l",
+   "zan_skin_mammary_region_r",
+   "zan_skin_pectoral_region_l",
+   "zan_skin_pectoral_region_r",
+   "zan_skin_presternal_region_l",
+   "zan_skin_presternal_region_r"
+  ],
+  "footprint_area_mm2": 56222,
+  "her_vertices_in_footprint": 21121,
+  "dist_her_skin_to_fitted_patches_mm": {
+   "median": 18.8,
+   "p90": 42.0,
+   "max": 52.7
+  },
+  "dist_fitted_vertices_to_her_skin_mm": {
+   "median": 19.0,
+   "p90": 32.7,
+   "max": 59.4
+  },
+  "radial_gap_her_minus_fitted_mm": {
+   "median": 21.1,
+   "p90": 45.3,
+   "max": 67.5,
+   "min": -10.2
+  },
+  "volume_between_outer_surfaces_mL": 1117.6,
+  "fitted_chest_shell_volume_mL": 128.6,
+  "seam_offset_her_minus_neighbour_mm": {
+   "median": 29.3,
+   "p90": 51.1,
+   "max": 69.0,
+   "signed_median": 29.3,
+   "signed_min": -7.2,
+   "signed_max": 69.0
+  },
+  "max_inscribed_radius_mm": 78.3,
+  "gate": {
+   "seam_fraction_within_bound": 0.207,
+   "free_area_fraction": 0.04
+  },
+  "ship": false,
+  "why_not": [
+   "only 21% of the seam is within the 15 mm blend bound (need 90%)",
+   "a <= 30 deg ramp leaves only 4.0% of her patch un-displaced (need 25%)"
+  ]
+ },
+ "perineum": {
+  "region": "perineum (opening left by the dropped male-only urogenital patches)",
+  "footprint_area_mm2": 2291,
+  "footprint_x_mm": [
+   -38.5,
+   38.5
+  ],
+  "footprint_z_mm": [
+   15.5,
+   66.5
+  ],
+  "seam_offset_her_minus_neighbour_mm": {
+   "median": 52.2,
+   "p90": 83.3,
+   "max": 87.5,
+   "signed_median": 52.2,
+   "signed_min": 35.9,
+   "signed_max": 87.5
+  },
+  "max_inscribed_radius_mm": 19.4,
+  "gate": {
+   "seam_fraction_within_bound": 0.0,
+   "free_area_fraction": 0.0
+  },
+  "ship": false,
+  "why_not": [
+   "only 0% of the seam is within the 15 mm blend bound (need 90%)",
+   "a <= 30 deg ramp leaves only 0.0% of her patch un-displaced (need 25%)"
+  ]
+ },
+ "shipped": false
+}

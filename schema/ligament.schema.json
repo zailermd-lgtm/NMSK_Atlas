@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/ligament.schema.json",
+  "title": "Ligament",
+  "description": "A named ligament: a dense fibrous-connective-tissue structure spanning two bones (or a bone and a cartilaginous/capsular structure) that constrains joint motion. Modeled analogously to muscle.schema.json's functional_compartments: many ligaments have documented mechanically-distinct bands/bundles that are taut and slack over different, often reciprocal, parts of a joint's range of motion (e.g. the ACL's anteromedial/posterolateral bundles, the deltoid ligament's four bands, the MCL's superficial/deep layers) rather than acting as one uniform strap -- a ligament with a single homogeneous band still gets exactly one bands[] entry, matching the muscle schema's convention.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name_ta": { "type": "string" },
+    "name_common": { "type": "string" },
+    "side": { "$ref": "common.schema.json#/definitions/side" },
+    "region": { "type": "string" },
+    "joint": { "type": "string", "description": "id of the joint (schema/joint.schema.json) this ligament primarily stabilizes, if it spans a single named joint (omit for structures spanning multiple motion segments, e.g. the anterior longitudinal ligament)." },
+    "structural_type": {
+      "type": "string",
+      "enum": ["capsular_thickening", "extracapsular", "intracapsular", "interosseous", "accessory"],
+      "description": "capsular_thickening: a locally-reinforced part of the joint capsule itself (e.g. glenohumeral ligaments); extracapsular: a discrete structure outside the capsule (e.g. fibular collateral ligament); intracapsular: inside the capsule but extrasynovial or partly synovial-covered (e.g. cruciate ligaments); interosseous: spans a non-synovial interosseous gap (e.g. tibiofibular interosseous ligament, distinct from schema/fascia.schema.json's broader interosseous_membrane sheets); accessory: a supplementary/variable reinforcing band."
+    },
+    "attachments": {
+      "type": "object",
+      "description": "Overall span of the ligament as a whole. For a single-band ligament this duplicates the one entry in bands[]; for a multi-band ligament it describes the composite structure's overall footprint.",
+      "properties": {
+        "bone_a": { "type": "string" },
+        "landmark_a": { "type": "string" },
+        "bone_b": { "type": "string" },
+        "landmark_b": { "type": "string" }
+      },
+      "required": ["bone_a", "landmark_a", "bone_b", "landmark_b"]
+    },
+    "bands": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Mechanically/anatomically distinct bands or bundles within this one named ligament. Most ligaments in this atlas have exactly one entry here; multi-band ligaments (ACL, PCL, deltoid ligament, MCL, etc.) enumerate each documented band separately.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "attachments": {
+            "type": "object",
+            "properties": {
+              "bone_a": { "type": "string" },
+              "landmark_a": { "type": "string" },
+              "bone_b": { "type": "string" },
+              "landmark_b": { "type": "string" }
+            },
+            "required": ["bone_a", "landmark_a", "bone_b", "landmark_b"]
+          },
+          "mechanical_role": { "type": "string", "description": "primary restraint function, e.g. 'primary restraint to anterior tibial translation'" },
+          "tension_pattern": {
+            "type": "string",
+            "enum": ["taut_throughout_rom", "taut_in_flexion", "taut_in_extension", "taut_in_neutral", "reciprocal_with_sibling_band"],
+            "description": "when in the parent joint's ROM this band is under tension -- ligament bands are frequently reciprocally taut/slack (e.g. ACL's AM bundle tautest in flexion, PL bundle tautest in extension), not uniformly loaded throughout motion."
+          },
+          "representative_length_mm": { "type": "number" },
+          "cross_sectional_area_mm2": { "type": "number" },
+          "failure_load_N": { "type": "number", "description": "representative literature ultimate tensile load, where documented (e.g. cadaveric tensile testing studies) -- an illustrative typical value, not a patient-specific measurement (see docs/SOURCES.md's representative-vs-exact-values policy)." },
+          "function_note": { "type": "string" },
+          "source": { "$ref": "common.schema.json#/definitions/citation" }
+        },
+        "required": ["id", "name", "attachments", "source"]
+      }
+    },
+    "function": { "type": "string", "description": "overall stabilizing role summary" },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "name_ta", "region", "structural_type", "attachments", "bands", "function", "source"]
+}

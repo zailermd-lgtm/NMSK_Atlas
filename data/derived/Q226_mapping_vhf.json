@@ -1,0 +1,212 @@
+{
+ "schema": "nmsk.imaging_mapping_report.v1",
+ "page": "vhf",
+ "table": "clinical/data/imaging_tissues.json",
+ "structures": 630,
+ "assigned_by_rule": 630,
+ "unassigned": 0,
+ "coverage": 1.0,
+ "by_class": {
+  "muscle": 390,
+  "bone_cortical": 97,
+  "blood_artery": 26,
+  "tendon_ligament": 24,
+  "disc": 23,
+  "blood_vein": 22,
+  "nerve": 17,
+  "cartilage": 10,
+  "gi_tract": 7,
+  "solid_organ": 3,
+  "fluid_free": 2,
+  "kidney": 2,
+  "lung": 2,
+  "liver": 1,
+  "spleen": 1,
+  "heart": 1,
+  "brain": 1,
+  "skin": 1
+ },
+ "by_rule": {
+  "1": 1,
+  "3": 17,
+  "4": 16,
+  "5": 6,
+  "6": 58,
+  "7": 23,
+  "10": 10,
+  "13": 7,
+  "14": 17,
+  "17": 390,
+  "21": 22,
+  "22": 26,
+  "26": 17,
+  "35": 2,
+  "36": 1,
+  "37": 1,
+  "38": 2,
+  "39": 2,
+  "40": 1,
+  "41": 1,
+  "42": 2,
+  "45": 7,
+  "47": 1
+ },
+ "bone_kinds": {
+  "skull": 6,
+  "long": 17,
+  "flat_irregular": 58,
+  "short_tubular": 16
+ },
+ "render": {
+  "fill": 623,
+  "sheet": 7
+ },
+ "by_category": {
+  "bone": {
+   "bone_cortical": 97
+  },
+  "vessel": {
+   "blood_artery": 26,
+   "blood_vein": 22
+  },
+  "muscle": {
+   "muscle": 390
+  },
+  "cartilage": {
+   "cartilage": 10,
+   "disc": 23
+  },
+  "tendon": {
+   "tendon_ligament": 6
+  },
+  "ligament": {
+   "tendon_ligament": 11
+  },
+  "nerve": {
+   "nerve": 17
+  },
+  "organ": {
+   "fluid_free": 2,
+   "gi_tract": 7,
+   "liver": 1,
+   "spleen": 1,
+   "solid_organ": 3,
+   "kidney": 2,
+   "lung": 2,
+   "heart": 1,
+   "brain": 1
+  },
+  "fascia": {
+   "skin": 1,
+   "tendon_ligament": 7
+  }
+ },
+ "examples": {
+  "bone_cortical": [
+   "mandible",
+   "cranium",
+   "tibia_r",
+   "fibula_r",
+   "patella_r",
+   "metatarsals_r"
+  ],
+  "blood_artery": [
+   "descending_thoracic_aorta",
+   "aortic_arch_and_great_vessels",
+   "abdominal_aorta",
+   "brachiocephalic_trunk_r",
+   "subclavian_a_r",
+   "subclavian_a_l"
+  ],
+  "muscle": [
+   "genioglossus_r",
+   "biceps_brachii_r",
+   "brachialis_r",
+   "biceps_brachii_l",
+   "triceps_brachii_l",
+   "triceps_brachii_r"
+  ],
+  "blood_vein": [
+   "brachiocephalic_v_l",
+   "brachiocephalic_v_r",
+   "superior_vena_cava",
+   "inferior_vena_cava",
+   "common_iliac_v_l",
+   "common_iliac_v_r"
+  ],
+  "cartilage": [
+   "costal_cartilage_r",
+   "costal_cartilage_l",
+   "ankle_articular_cartilage_l",
+   "ankle_articular_cartilage_r",
+   "hip_articular_cartilage_l",
+   "hip_articular_cartilage_r"
+  ],
+  "tendon_ligament": [
+   "adductor_magnus_distal_tendon_l",
+   "adductor_magnus_distal_tendon_r",
+   "iliopsoas_tendon_l",
+   "iliopsoas_tendon_r",
+   "quadriceps_tendon_l",
+   "quadriceps_tendon_r"
+  ],
+  "nerve": [
+   "optic_n",
+   "optic_n",
+   "femoral_n",
+   "tibial_n",
+   "sciatic_n",
+   "median_n_lateral_root_l"
+  ],
+  "fluid_free": [
+   "urinary_bladder",
+   "gallbladder"
+  ],
+  "gi_tract": [
+   "rectum",
+   "sigmoid_colon",
+   "stomach",
+   "duodenum",
+   "small_bowel",
+   "colon"
+  ],
+  "liver": [
+   "liver"
+  ],
+  "spleen": [
+   "spleen"
+  ],
+  "solid_organ": [
+   "pancreas",
+   "suprarenal_gland_r",
+   "suprarenal_gland_l"
+  ],
+  "kidney": [
+   "kidney_r",
+   "kidney_l"
+  ],
+  "lung": [
+   "lung_r",
+   "lung_l"
+  ],
+  "heart": [
+   "heart"
+  ],
+  "brain": [
+   "brain"
+  ],
+  "disc": [
+   "intervertebral_disc_c2_c3",
+   "intervertebral_disc_c3_c4",
+   "intervertebral_disc_c4_c5",
+   "intervertebral_disc_c5_c6",
+   "intervertebral_disc_c6_c7",
+   "intervertebral_disc_c7_t1"
+  ],
+  "skin": [
+   "skin"
+  ]
+ },
+ "unassigned_structures": [],
+ "note": "unassigned = generic 'soft tissue (unassigned)' in the simulation (HU 40, T1 1000 / T2 60 ms); structures not listed here were claimed by an explicit rule, but a rule can be coarse (e.g. every bone not long/tubular/skull is 'flat_irregular')."
+}

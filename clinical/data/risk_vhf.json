@@ -1,0 +1,1738 @@
+{
+"schema":"nmsk.clinical_risk.v1",
+"viewer":"vhf",
+"generated":"2026-10-16",
+"licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
+"frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
+"method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
+"table_version":1,
+"counts":{
+"artery":31,
+"nerve":104,
+"organ":42,
+"vein":36,
+"lung":2
+},
+"structures":[
+{
+"id":"abdominal_aorta",
+"name":"Abdominal aorta",
+"class":"artery",
+"r_mm":7.7,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"anococcygeal_n_l",
+"name":"Anococcygeal nerve (left)",
+"class":"nerve",
+"r_mm":0.39,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"anococcygeal_n_r",
+"name":"Anococcygeal nerve (right)",
+"class":"nerve",
+"r_mm":0.37,
+"r_method":"sdf",
+"rays_hit":157
+},
+{
+"id":"anterior_interosseous_n_l",
+"name":"Anterior interosseous nerve (left)",
+"class":"nerve",
+"r_mm":0.41,
+"r_method":"sdf",
+"rays_hit":277
+},
+{
+"id":"anterior_interosseous_n_r",
+"name":"Anterior interosseous nerve of forearm.r",
+"class":"nerve",
+"r_mm":0.26,
+"r_method":"sdf",
+"rays_hit":222
+},
+{
+"id":"aortic_arch_and_great_vessels",
+"name":"Aortic arch (great vessel origins)",
+"class":"artery",
+"r_mm":11.17,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"areola_l",
+"name":"Areola (left)",
+"class":"organ",
+"r_mm":0.32,
+"r_method":"sdf",
+"rays_hit":269
+},
+{
+"id":"areola_r",
+"name":"Areola (right)",
+"class":"organ",
+"r_mm":0.37,
+"r_method":"sdf",
+"rays_hit":270
+},
+{
+"id":"bartholin_gland_l",
+"name":"Greater vestibular gland (Bartholin, CVH), left (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":1.83,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"bartholin_gland_r",
+"name":"Greater vestibular gland (Bartholin, CVH), right (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":2.23,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brachiocephalic_trunk_r",
+"name":"Brachiocephalic trunk",
+"class":"artery",
+"r_mm":5.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brachiocephalic_v_l",
+"name":"Brachiocephalic (innominate) vein, left",
+"class":"vein",
+"r_mm":6.45,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brachiocephalic_v_r",
+"name":"Brachiocephalic (innominate) vein, right",
+"class":"vein",
+"r_mm":8.33,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brain",
+"name":"Brain",
+"class":"organ",
+"r_mm":61.9,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"breast_fat_l",
+"name":"Breast: fat pad (left)",
+"class":"organ",
+"r_mm":9.71,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"breast_fat_r",
+"name":"Breast: fat pad (right)",
+"class":"organ",
+"r_mm":13.13,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"clitoris_cavernous_body",
+"name":"Cavernous body of the clitoris (both crura and body, CVH)",
+"class":"organ",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":298
+},
+{
+"id":"coccygeal_plexus_l",
+"name":"Coccygeal plexus (left)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":212
+},
+{
+"id":"coccygeal_plexus_r",
+"name":"Coccygeal plexus (right)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":232
+},
+{
+"id":"colon",
+"name":"Colon above the pelvic inlet (the pelvic sigmoid and rectum are separate structures)",
+"class":"organ",
+"r_mm":12.64,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_carotid_a_l",
+"name":"Common carotid artery",
+"class":"artery",
+"r_mm":4.55,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_carotid_a_r",
+"name":"Common carotid artery",
+"class":"artery",
+"r_mm":4.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_a_l",
+"name":"Common iliac artery (left)",
+"class":"artery",
+"r_mm":3.74,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_a_r",
+"name":"Common iliac artery (right)",
+"class":"artery",
+"r_mm":3.58,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_v_l",
+"name":"Common iliac vein (left)",
+"class":"vein",
+"r_mm":5.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_v_r",
+"name":"Common iliac vein (right)",
+"class":"vein",
+"r_mm":5.83,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"descending_thoracic_aorta",
+"name":"Descending thoracic aorta",
+"class":"artery",
+"r_mm":11.45,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"dorsal_n_clitoris_l",
+"name":"Dorsal nerve of the clitoris (left)",
+"class":"nerve",
+"r_mm":1.13,
+"r_method":"sdf",
+"rays_hit":272
+},
+{
+"id":"dorsal_n_clitoris_r",
+"name":"Dorsal nerve of the clitoris (right)",
+"class":"nerve",
+"r_mm":1.11,
+"r_method":"sdf",
+"rays_hit":262
+},
+{
+"id":"duodenum",
+"name":"Duodenum",
+"class":"organ",
+"r_mm":13.05,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"esophagus",
+"name":"Oesophagus",
+"class":"organ",
+"r_mm":5.18,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_a_l",
+"name":"Femoral artery",
+"class":"artery",
+"r_mm":2.4,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_a_r",
+"name":"Femoral artery",
+"class":"artery",
+"r_mm":2.44,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_n",
+"name":"Femoral nerve",
+"class":"nerve",
+"r_mm":2.68,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_n_l",
+"name":"Femoral nerve",
+"class":"nerve",
+"r_mm":2.67,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_v_l",
+"name":"Femoral vein",
+"class":"vein",
+"r_mm":3.49,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_v_r",
+"name":"Femoral vein",
+"class":"vein",
+"r_mm":3.51,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"gallbladder",
+"name":"Gallbladder",
+"class":"organ",
+"r_mm":9.7,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"genitofemoral_n_l",
+"name":"Genitofemoral nerve (left)",
+"class":"nerve",
+"r_mm":0.93,
+"r_method":"sdf",
+"rays_hit":293
+},
+{
+"id":"genitofemoral_n_r",
+"name":"Genitofemoral nerve (right)",
+"class":"nerve",
+"r_mm":0.93,
+"r_method":"sdf",
+"rays_hit":292
+},
+{
+"id":"heart",
+"name":"Heart (four chambers and myocardium, blood-filled)",
+"class":"organ",
+"r_mm":39.79,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"hypogastric_n_l",
+"name":"Hypogastric nerve (left)",
+"class":"nerve",
+"r_mm":2.23,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"hypogastric_n_r",
+"name":"Hypogastric nerve (right)",
+"class":"nerve",
+"r_mm":2.23,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"iliohypogastric_n_l",
+"name":"Iliohypogastric nerve (left)",
+"class":"nerve",
+"r_mm":1.09,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"iliohypogastric_n_r",
+"name":"Iliohypogastric nerve (right)",
+"class":"nerve",
+"r_mm":1.08,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"ilioinguinal_n_l",
+"name":"Ilioinguinal nerve (left)",
+"class":"nerve",
+"r_mm":1.09,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"ilioinguinal_n_r",
+"name":"Ilioinguinal nerve (right)",
+"class":"nerve",
+"r_mm":1.08,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_gluteal_n_l",
+"name":"Inferior gluteal nerve (left)",
+"class":"nerve",
+"r_mm":1.48,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_gluteal_n_r",
+"name":"Inferior gluteal nerve (right)",
+"class":"nerve",
+"r_mm":1.49,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_hypogastric_plexus_l",
+"name":"Inferior hypogastric (pelvic) plexus (left)",
+"class":"nerve",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"inferior_hypogastric_plexus_r",
+"name":"Inferior hypogastric (pelvic) plexus (right)",
+"class":"nerve",
+"r_mm":1.49,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"inferior_rectal_n_l",
+"name":"Inferior rectal nerve (left)",
+"class":"nerve",
+"r_mm":0.75,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"inferior_rectal_n_r",
+"name":"Inferior rectal nerve (right)",
+"class":"nerve",
+"r_mm":0.75,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"inferior_rectal_v_l",
+"name":"Inferior rectal vein (left)",
+"class":"vein",
+"r_mm":1.96,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_rectal_v_r",
+"name":"Inferior rectal vein (right)",
+"class":"vein",
+"r_mm":1.8,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"inferior_vena_cava",
+"name":"Inferior vena cava",
+"class":"vein",
+"r_mm":7.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_carotid_a_l",
+"name":"Internal carotid artery",
+"class":"artery",
+"r_mm":1.85,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_carotid_a_r",
+"name":"Internal carotid artery",
+"class":"artery",
+"r_mm":1.52,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_iliac_v_l",
+"name":"Internal iliac vein (left)",
+"class":"vein",
+"r_mm":2.75,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"internal_iliac_v_r",
+"name":"Internal iliac vein (right)",
+"class":"vein",
+"r_mm":3.02,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_jugular_v_l",
+"name":"Internal jugular vein",
+"class":"vein",
+"r_mm":4.49,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_jugular_v_r",
+"name":"Internal jugular vein",
+"class":"vein",
+"r_mm":5.58,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_pudendal_v_l",
+"name":"Internal pudendal vein (left)",
+"class":"vein",
+"r_mm":1.94,
+"r_method":"sdf",
+"rays_hit":266
+},
+{
+"id":"internal_pudendal_v_r",
+"name":"Internal pudendal vein (right)",
+"class":"vein",
+"r_mm":2.1,
+"r_method":"sdf",
+"rays_hit":290
+},
+{
+"id":"kidney_l",
+"name":"Left kidney",
+"class":"organ",
+"r_mm":13.13,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"kidney_r",
+"name":"Right kidney",
+"class":"organ",
+"r_mm":13.18,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"l5_dorsal_ramus_medial_branch_l",
+"name":"Medial branch of the L5 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.48,
+"r_method":"sdf",
+"rays_hit":151
+},
+{
+"id":"l5_dorsal_ramus_medial_branch_r",
+"name":"Medial branch of the L5 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":157
+},
+{
+"id":"lactiferous_ducts_l",
+"name":"Lactiferous ducts and sinuses (left)",
+"class":"organ",
+"r_mm":0.53,
+"r_method":"sdf",
+"rays_hit":295
+},
+{
+"id":"lactiferous_ducts_r",
+"name":"Lactiferous ducts and sinuses (right)",
+"class":"organ",
+"r_mm":0.57,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"liver",
+"name":"Liver",
+"class":"organ",
+"r_mm":41.36,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"lumbar_medial_branch_l1_l",
+"name":"Medial branch of the L1 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l1_r",
+"name":"Medial branch of the L1 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.48,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l2_l",
+"name":"Medial branch of the L2 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l2_r",
+"name":"Medial branch of the L2 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l3_l",
+"name":"Medial branch of the L3 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.51,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l3_r",
+"name":"Medial branch of the L3 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l4_l",
+"name":"Medial branch of the L4 dorsal ramus (left)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbar_medial_branch_l4_r",
+"name":"Medial branch of the L4 dorsal ramus (right)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"lumbosacral_trunk_l",
+"name":"Lumbosacral trunk (left)",
+"class":"nerve",
+"r_mm":3.45,
+"r_method":"sdf",
+"rays_hit":182
+},
+{
+"id":"lumbosacral_trunk_r",
+"name":"Lumbosacral trunk (right)",
+"class":"nerve",
+"r_mm":3.43,
+"r_method":"sdf",
+"rays_hit":172
+},
+{
+"id":"lung_l",
+"name":"Left lung",
+"class":"lung",
+"r_mm":20.98,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"lung_r",
+"name":"Right lung",
+"class":"lung",
+"r_mm":32.61,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"mammary_gland_l",
+"name":"Mammary gland: lobes (left)",
+"class":"organ",
+"r_mm":1.27,
+"r_method":"sdf",
+"rays_hit":293
+},
+{
+"id":"mammary_gland_r",
+"name":"Mammary gland: lobes (right)",
+"class":"organ",
+"r_mm":1.52,
+"r_method":"sdf",
+"rays_hit":298
+},
+{
+"id":"median_n_lateral_root_l",
+"name":"Median nerve, lateral root (left)",
+"class":"nerve",
+"r_mm":0.73,
+"r_method":"sdf",
+"rays_hit":276
+},
+{
+"id":"median_n_lateral_root_r",
+"name":"Median nerve.r",
+"class":"nerve",
+"r_mm":0.67,
+"r_method":"sdf",
+"rays_hit":260
+},
+{
+"id":"median_sacral_v",
+"name":"Median sacral vein",
+"class":"vein",
+"r_mm":1.03,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"middle_rectal_v_l",
+"name":"Middle rectal vein (left)",
+"class":"vein",
+"r_mm":2.14,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"middle_rectal_v_r",
+"name":"Middle rectal vein (right)",
+"class":"vein",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"musculocutaneous_n_l",
+"name":"Musculocutaneous nerve (left)",
+"class":"nerve",
+"r_mm":0.79,
+"r_method":"sdf",
+"rays_hit":297
+},
+{
+"id":"musculocutaneous_n_r",
+"name":"Musculocutaneous nerve.r",
+"class":"nerve",
+"r_mm":0.88,
+"r_method":"sdf",
+"rays_hit":264
+},
+{
+"id":"nerve_to_coccygeus_l",
+"name":"Nerve to coccygeus (left)",
+"class":"nerve",
+"r_mm":0.48,
+"r_method":"sdf",
+"rays_hit":202
+},
+{
+"id":"nerve_to_coccygeus_r",
+"name":"Nerve to coccygeus (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":202
+},
+{
+"id":"nerve_to_levator_ani_l",
+"name":"Nerve to levator ani (left)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_levator_ani_r",
+"name":"Nerve to levator ani (right)",
+"class":"nerve",
+"r_mm":0.48,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_obturator_internus_l",
+"name":"Nerve to obturator internus (+ superior gemellus) (left)",
+"class":"nerve",
+"r_mm":0.98,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_obturator_internus_r",
+"name":"Nerve to obturator internus (+ superior gemellus) (right)",
+"class":"nerve",
+"r_mm":0.99,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_quadratus_femoris_l",
+"name":"Nerve to quadratus femoris (+ inferior gemellus) (left)",
+"class":"nerve",
+"r_mm":0.99,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nerve_to_quadratus_femoris_r",
+"name":"Nerve to quadratus femoris (+ inferior gemellus) (right)",
+"class":"nerve",
+"r_mm":0.98,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"nipple_l",
+"name":"Nipple (left)",
+"class":"organ",
+"r_mm":0.31,
+"r_method":"sdf",
+"rays_hit":295
+},
+{
+"id":"nipple_r",
+"name":"Nipple (right)",
+"class":"organ",
+"r_mm":0.36,
+"r_method":"sdf",
+"rays_hit":296
+},
+{
+"id":"optic_n",
+"name":"Optic nerve (CN II)",
+"class":"nerve",
+"r_mm":2.3,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"ovary_l",
+"name":"Ovary (left)",
+"class":"organ",
+"r_mm":3.65,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"ovary_r",
+"name":"Ovary (right)",
+"class":"organ",
+"r_mm":3.73,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"pancreas",
+"name":"Pancreas",
+"class":"organ",
+"r_mm":10.37,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"pelvic_splanchnic_n_s2_l",
+"name":"Pelvic splanchnic nerve S2 (left)",
+"class":"nerve",
+"r_mm":0.48,
+"r_method":"sdf",
+"rays_hit":242
+},
+{
+"id":"pelvic_splanchnic_n_s2_r",
+"name":"Pelvic splanchnic nerve S2 (right)",
+"class":"nerve",
+"r_mm":0.48,
+"r_method":"sdf",
+"rays_hit":262
+},
+{
+"id":"pelvic_splanchnic_n_s3_l",
+"name":"Pelvic splanchnic nerve S3 (left)",
+"class":"nerve",
+"r_mm":0.48,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"pelvic_splanchnic_n_s3_r",
+"name":"Pelvic splanchnic nerve S3 (right)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":182
+},
+{
+"id":"pelvic_splanchnic_n_s4_l",
+"name":"Pelvic splanchnic nerve S4 (left)",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":182
+},
+{
+"id":"pelvic_splanchnic_n_s4_r",
+"name":"Pelvic splanchnic nerve S4 (right)",
+"class":"nerve",
+"r_mm":0.51,
+"r_method":"sdf",
+"rays_hit":202
+},
+{
+"id":"perineal_body",
+"name":"Perineal body (CVH)",
+"class":"organ",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"perineal_n_r",
+"name":"Perineal nerve - posterior labial branches (right)",
+"class":"nerve",
+"r_mm":0.99,
+"r_method":"sdf",
+"rays_hit":250
+},
+{
+"id":"popliteal_a_l",
+"name":"Popliteal artery",
+"class":"artery",
+"r_mm":1.97,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"popliteal_a_r",
+"name":"Popliteal artery",
+"class":"artery",
+"r_mm":2.0,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"popliteal_v_l",
+"name":"Popliteal vein",
+"class":"vein",
+"r_mm":2.36,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"popliteal_v_r",
+"name":"Popliteal vein",
+"class":"vein",
+"r_mm":2.38,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"posterior_femoral_cutaneous_n_l",
+"name":"Posterior femoral cutaneous nerve (left)",
+"class":"nerve",
+"r_mm":1.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"posterior_femoral_cutaneous_n_r",
+"name":"Posterior femoral cutaneous nerve (right)",
+"class":"nerve",
+"r_mm":1.23,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"posterior_interosseous_n_l",
+"name":"Posterior interosseous nerve (deep branch of radial n.) (left)",
+"class":"nerve",
+"r_mm":0.41,
+"r_method":"sdf",
+"rays_hit":269
+},
+{
+"id":"posterior_interosseous_n_r",
+"name":"Deep branch of radial nerve.r",
+"class":"nerve",
+"r_mm":0.34,
+"r_method":"sdf",
+"rays_hit":275
+},
+{
+"id":"pudendal_n_l",
+"name":"Pudendal nerve (left)",
+"class":"nerve",
+"r_mm":1.91,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"pudendal_n_r",
+"name":"Pudendal nerve (right)",
+"class":"nerve",
+"r_mm":1.92,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"radial_n_l",
+"name":"Radial nerve (left)",
+"class":"nerve",
+"r_mm":0.42,
+"r_method":"sdf",
+"rays_hit":199
+},
+{
+"id":"radial_n_r",
+"name":"Radial nerve.r",
+"class":"nerve",
+"r_mm":0.44,
+"r_method":"sdf",
+"rays_hit":244
+},
+{
+"id":"rectum",
+"name":"Rectum",
+"class":"organ",
+"r_mm":22.3,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"recurrent_branch_of_median_n_l",
+"name":"Recurrent (thenar) branch of the median nerve (left)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"recurrent_branch_of_median_n_r",
+"name":"Recurrent (thenar) branch of the median nerve (right)",
+"class":"nerve",
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":162
+},
+{
+"id":"s1_ventral_ramus_l",
+"name":"Ventral ramus of S1 (left)",
+"class":"nerve",
+"r_mm":3.03,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s1_ventral_ramus_r",
+"name":"Ventral ramus of S1 (right)",
+"class":"nerve",
+"r_mm":3.03,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s2_ventral_ramus_l",
+"name":"Ventral ramus of S2 (left)",
+"class":"nerve",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s2_ventral_ramus_r",
+"name":"Ventral ramus of S2 (right)",
+"class":"nerve",
+"r_mm":2.23,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s3_ventral_ramus_l",
+"name":"Ventral ramus of S3 (left)",
+"class":"nerve",
+"r_mm":1.74,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s3_ventral_ramus_r",
+"name":"Ventral ramus of S3 (right)",
+"class":"nerve",
+"r_mm":1.74,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s4_ventral_ramus_l",
+"name":"Ventral ramus of S4 (left)",
+"class":"nerve",
+"r_mm":1.23,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"s4_ventral_ramus_r",
+"name":"Ventral ramus of S4 (right)",
+"class":"nerve",
+"r_mm":1.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"sciatic_n",
+"name":"Sciatic nerve",
+"class":"nerve",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"sigmoid_colon",
+"name":"Sigmoid colon (pelvic part, below the pelvic inlet)",
+"class":"organ",
+"r_mm":13.25,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"small_bowel",
+"name":"Small bowel (jejunum and ileum)",
+"class":"organ",
+"r_mm":11.9,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c1",
+"name":"Spinal cord, C1 segment",
+"class":"nerve",
+"r_mm":4.2,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c2",
+"name":"Spinal cord, C2 segment",
+"class":"nerve",
+"r_mm":4.03,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c3",
+"name":"Spinal cord, C3 segment",
+"class":"nerve",
+"r_mm":3.95,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c4",
+"name":"Spinal cord, C4 segment",
+"class":"nerve",
+"r_mm":3.42,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c5",
+"name":"Spinal cord, C5 segment",
+"class":"nerve",
+"r_mm":3.45,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"spinal_cord_segment_c6",
+"name":"Spinal cord, C6 segment",
+"class":"nerve",
+"r_mm":3.95,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c7",
+"name":"Spinal cord, C7 segment",
+"class":"nerve",
+"r_mm":3.99,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_c8",
+"name":"Spinal cord, C8 segment",
+"class":"nerve",
+"r_mm":3.75,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"spinal_cord_segment_l3",
+"name":"Spinal cord, L3 segment",
+"class":"nerve",
+"r_mm":3.79,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_l4",
+"name":"Spinal cord, L4 segment",
+"class":"nerve",
+"r_mm":3.17,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"spinal_cord_segment_l5",
+"name":"Spinal cord, L5 segment",
+"class":"nerve",
+"r_mm":3.0,
+"r_method":"sdf",
+"rays_hit":298
+},
+{
+"id":"spinal_cord_segment_s1",
+"name":"Spinal cord, S1 segment",
+"class":"nerve",
+"r_mm":2.62,
+"r_method":"sdf",
+"rays_hit":297
+},
+{
+"id":"spinal_cord_segment_s2",
+"name":"Spinal cord, S2 segment",
+"class":"nerve",
+"r_mm":2.41,
+"r_method":"sdf",
+"rays_hit":295
+},
+{
+"id":"spinal_cord_segment_s3",
+"name":"Spinal cord, S3 segment",
+"class":"nerve",
+"r_mm":2.12,
+"r_method":"sdf",
+"rays_hit":293
+},
+{
+"id":"spinal_cord_segment_s4",
+"name":"Spinal cord, S4 segment",
+"class":"nerve",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":287
+},
+{
+"id":"spinal_cord_segment_t1",
+"name":"Spinal cord, T1 segment",
+"class":"nerve",
+"r_mm":3.83,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t2",
+"name":"Spinal cord, T2 segment",
+"class":"nerve",
+"r_mm":3.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t3",
+"name":"Spinal cord, T3 segment",
+"class":"nerve",
+"r_mm":3.56,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t4",
+"name":"Spinal cord, T4 segment",
+"class":"nerve",
+"r_mm":3.01,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t5",
+"name":"Spinal cord, T5 segment",
+"class":"nerve",
+"r_mm":3.16,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t6",
+"name":"Spinal cord, T6 segment",
+"class":"nerve",
+"r_mm":3.15,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t7",
+"name":"Spinal cord, T7 segment",
+"class":"nerve",
+"r_mm":3.51,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t8",
+"name":"Spinal cord, T8 segment",
+"class":"nerve",
+"r_mm":3.92,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spinal_cord_segment_t9",
+"name":"Spinal cord, T9 segment",
+"class":"nerve",
+"r_mm":4.02,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"spleen",
+"name":"Spleen",
+"class":"organ",
+"r_mm":14.26,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"stomach",
+"name":"Stomach (wall and contents)",
+"class":"organ",
+"r_mm":31.94,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"subclavian_a_l",
+"name":"Subclavian artery",
+"class":"artery",
+"r_mm":4.44,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"subclavian_a_r",
+"name":"Subclavian artery",
+"class":"artery",
+"r_mm":4.82,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"superior_hypogastric_plexus",
+"name":"Superior hypogastric plexus",
+"class":"nerve",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":212
+},
+{
+"id":"superior_rectal_a",
+"name":"Superior rectal artery",
+"class":"artery",
+"r_mm":1.6,
+"r_method":"sdf",
+"rays_hit":296
+},
+{
+"id":"superior_rectal_v",
+"name":"Superior rectal vein",
+"class":"vein",
+"r_mm":0.8,
+"r_method":"sdf",
+"rays_hit":296
+},
+{
+"id":"superior_vena_cava",
+"name":"Superior vena cava",
+"class":"vein",
+"r_mm":9.1,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"suprarenal_gland_l",
+"name":"Left suprarenal (adrenal) gland",
+"class":"organ",
+"r_mm":3.87,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"suprarenal_gland_r",
+"name":"Right suprarenal (adrenal) gland",
+"class":"organ",
+"r_mm":3.3,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"tibial_n",
+"name":"Tibial nerve",
+"class":"nerve",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"tibial_n_l",
+"name":"Tibial nerve",
+"class":"nerve",
+"r_mm":2.23,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"ulnar_n_l",
+"name":"Ulnar nerve (left)",
+"class":"nerve",
+"r_mm":0.52,
+"r_method":"sdf",
+"rays_hit":275
+},
+{
+"id":"ulnar_n_r",
+"name":"Ulnar nerve.r",
+"class":"nerve",
+"r_mm":0.53,
+"r_method":"sdf",
+"rays_hit":266
+},
+{
+"id":"urethra_female_lumen",
+"name":"Female urethra, lumen (CVH; urethral part of the bladder + urethra lumen, capped)",
+"class":"organ",
+"r_mm":0.47,
+"r_method":"sdf",
+"rays_hit":260
+},
+{
+"id":"urethra_female_submucous_layer",
+"name":"Female urethra, submucous layer (CVH)",
+"class":"organ",
+"r_mm":1.83,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"urinary_bladder",
+"name":"Urinary bladder",
+"class":"organ",
+"r_mm":12.07,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_a_l",
+"name":"Uterine artery (left)",
+"class":"artery",
+"r_mm":1.15,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_a_r",
+"name":"Uterine artery (right)",
+"class":"artery",
+"r_mm":1.16,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_tube_l",
+"name":"Uterine tube (left)",
+"class":"organ",
+"r_mm":1.12,
+"r_method":"sdf",
+"rays_hit":290
+},
+{
+"id":"uterine_tube_r",
+"name":"Uterine tube (right)",
+"class":"organ",
+"r_mm":0.62,
+"r_method":"sdf",
+"rays_hit":288
+},
+{
+"id":"uterine_v_l",
+"name":"Uterine vein (left)",
+"class":"vein",
+"r_mm":0.7,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterine_v_r",
+"name":"Uterine vein (right)",
+"class":"vein",
+"r_mm":0.72,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"uterus",
+"name":"Uterus (with cervix)",
+"class":"organ",
+"r_mm":10.69,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"vagina",
+"name":"Vagina",
+"class":"organ",
+"r_mm":1.01,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"vestibular_bulb_l",
+"name":"Vestibular bulb (CVH), left (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":1.82,
+"r_method":"sdf",
+"rays_hit":298
+},
+{
+"id":"vestibular_bulb_r",
+"name":"Vestibular bulb (CVH), right (side assigned by registration; not determinable from the source)",
+"class":"organ",
+"r_mm":1.86,
+"r_method":"sdf",
+"rays_hit":297
+},
+{
+"id":"zan_basilic_vein_l",
+"name":"Basilic vein",
+"class":"vein",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":293
+},
+{
+"id":"zan_basilic_vein_r",
+"name":"Basilic vein",
+"class":"vein",
+"r_mm":1.6,
+"r_method":"sdf",
+"rays_hit":290
+},
+{
+"id":"zan_brachial_artery_l",
+"name":"Brachial artery",
+"class":"artery",
+"r_mm":1.66,
+"r_method":"sdf",
+"rays_hit":284
+},
+{
+"id":"zan_brachial_artery_r",
+"name":"Brachial artery",
+"class":"artery",
+"r_mm":1.24,
+"r_method":"sdf",
+"rays_hit":280
+},
+{
+"id":"zan_brachial_veins_l",
+"name":"Brachial veins",
+"class":"vein",
+"r_mm":1.79,
+"r_method":"sdf",
+"rays_hit":288
+},
+{
+"id":"zan_brachial_veins_r",
+"name":"Brachial veins",
+"class":"vein",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":259
+},
+{
+"id":"zan_cephalic_vein_l",
+"name":"Cephalic vein",
+"class":"vein",
+"r_mm":1.59,
+"r_method":"sdf",
+"rays_hit":280
+},
+{
+"id":"zan_cephalic_vein_r",
+"name":"Cephalic vein",
+"class":"vein",
+"r_mm":1.63,
+"r_method":"sdf",
+"rays_hit":291
+},
+{
+"id":"zan_deep_brachial_artery_l",
+"name":"Deep brachial artery",
+"class":"artery",
+"r_mm":1.24,
+"r_method":"sdf",
+"rays_hit":178
+},
+{
+"id":"zan_deep_brachial_artery_r",
+"name":"Deep brachial artery",
+"class":"artery",
+"r_mm":1.28,
+"r_method":"sdf",
+"rays_hit":141
+},
+{
+"id":"zan_inferior_ulnar_collateral_artery_l",
+"name":"Inferior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.64,
+"r_method":"sdf",
+"rays_hit":289
+},
+{
+"id":"zan_inferior_ulnar_collateral_artery_r",
+"name":"Inferior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.63,
+"r_method":"sdf",
+"rays_hit":286
+},
+{
+"id":"zan_median_cubital_vein_l",
+"name":"Median cubital vein",
+"class":"vein",
+"r_mm":1.1,
+"r_method":"sdf",
+"rays_hit":281
+},
+{
+"id":"zan_median_cubital_vein_r",
+"name":"Median cubital vein",
+"class":"vein",
+"r_mm":0.46,
+"r_method":"sdf",
+"rays_hit":177
+},
+{
+"id":"zan_middle_collateral_artery_l",
+"name":"Middle collateral artery",
+"class":"artery",
+"r_mm":0.18,
+"r_method":"sdf",
+"rays_hit":121
+},
+{
+"id":"zan_radial_collateral_artery_l",
+"name":"Radial collateral artery",
+"class":"artery",
+"r_mm":0.91,
+"r_method":"sdf",
+"rays_hit":213
+},
+{
+"id":"zan_radial_veins_l",
+"name":"Radial veins",
+"class":"vein",
+"r_mm":1.18,
+"r_method":"sdf",
+"rays_hit":290
+},
+{
+"id":"zan_radial_veins_r",
+"name":"Radial veins",
+"class":"vein",
+"r_mm":1.03,
+"r_method":"sdf",
+"rays_hit":269
+},
+{
+"id":"zan_superior_ulnar_collateral_artery_l",
+"name":"Superior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.57,
+"r_method":"sdf",
+"rays_hit":264
+},
+{
+"id":"zan_superior_ulnar_collateral_artery_r",
+"name":"Superior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.65,
+"r_method":"sdf",
+"rays_hit":252
+},
+{
+"id":"zan_ulnar_artery_l",
+"name":"Ulnar artery",
+"class":"artery",
+"r_mm":1.46,
+"r_method":"sdf",
+"rays_hit":295
+},
+{
+"id":"zan_ulnar_artery_r",
+"name":"Ulnar artery",
+"class":"artery",
+"r_mm":0.96,
+"r_method":"sdf",
+"rays_hit":219
+},
+{
+"id":"zan_ulnar_veins_l",
+"name":"Ulnar veins",
+"class":"vein",
+"r_mm":1.38,
+"r_method":"sdf",
+"rays_hit":294
+},
+{
+"id":"zan_ulnar_veins_r",
+"name":"Ulnar veins",
+"class":"vein",
+"r_mm":0.78,
+"r_method":"sdf",
+"rays_hit":227
+}
+]
+}

@@ -1,0 +1,103 @@
+{
+  "id": "nasalis_r",
+  "name_ta": "Nasalis",
+  "name_common": "Nasalis",
+  "side": "right",
+  "region": "head",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "maxilla_r",
+    "origin_landmark": "maxilla above the incisor and canine teeth",
+    "insertion_bone": "nasal_r",
+    "insertion_landmark": "nasal cartilage and the aponeurosis over the bridge of the nose",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "facial_n_zygomatic_branch",
+    "root_levels": "CN VII"
+  },
+  "actions": [
+    "compresses the nasal aperture (transverse part)",
+    "flares the nostril (alar part)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "nasalis_r_transverse_part",
+      "name": "Transverse part (compressor naris)",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 20,
+        "physiological_cross_section_area_mm2": 8,
+        "max_isometric_force_N": 1.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          8,
+          -6,
+          12
+        ],
+        [
+          2,
+          6,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Compresses the nasal aperture across the bridge.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "facial_n_zygomatic_branch"
+      ]
+    },
+    {
+      "id": "nasalis_r_alar_part",
+      "name": "Alar part (dilator naris)",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 20,
+        "physiological_cross_section_area_mm2": 6,
+        "max_isometric_force_N": 1.4
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          8,
+          -6,
+          12
+        ],
+        [
+          2,
+          6,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Draws the ala laterally and downwards, widening the nostril. Visible nasal flaring in respiratory distress is this part recruited as an accessory muscle of respiration.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "facial_n_zygomatic_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse, over the area between the medial canthus and the nasal dorsum -- the region where 'bunny line' wrinkles appear on nose-scrunching.",
+    "identification_cues": "This area is bordered by four muscles -- procerus, nasalis, orbicularis oculi and levator labii superioris alaeque nasi -- which do not meet edge-to-edge: a consistent non-muscular gap (the 'bunny triangle') separates them, sized and shaped according to the width of the procerus and nasalis. Conventional BoNT injection placed directly into the visible bunny-line wrinkle is therefore likely to land in this connective-tissue gap rather than in muscle.",
+    "structures_at_risk": [
+      "orbicularis oculi and levator labii superioris alaeque nasi, bordering nasalis at this junction -- over-injection laterally/superiorly risks eyelid or lip-elevator weakness"
+    ],
+    "notes": "Based on ultrasonography in 13 volunteers and dissection of 39 cadavers. The authors recommend targeting BoNT-A at the borders of procerus, nasalis, orbicularis oculi and levator labii superioris alaeque nasi -- not at the wrinkle itself -- for more reliable bunny-line treatment.",
+    "source": "Ahn H, Hu H, Kim SB, Lee JH, Choi YJ, Hu KS, Shah-Desai S, Abe S, Kim HJ, Clin Anat 38(6):686-691 (2024), doi:10.1002/ca.24249 (https://doi.org/10.1002/ca.24249) -- retrieved via PubMed"
+  }
+}

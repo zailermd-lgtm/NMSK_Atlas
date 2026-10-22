@@ -1,0 +1,134 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE pelvic floor and perineum volume (scripts/cryo/vhf_pelvic_floor_from_cryo.py), plus the mapping onto atlas entities. A KEY, not data. rule-based: markers by position rules relative to her bone and organ labels, boundaries by marker watershed on the pale septa of her cryosection photographs; compartments are muscles the photographs do not separate (mapped to null)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), FEMALE colour cryosections (1 mm registered frame) and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` labels (vhf_total.nii.gz) as anchors and exclusions. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 62 'True pelvis, pelvic floor and perineum', and Moore KL et al., Clinically Oriented Anatomy, 8th ed., ch. 6 'Pelvis and Perineum'. Derived data (scripts/cryo/vhf_pelvic_floor_from_cryo.py), rule-based.",
+ "task": "vhf_pelvic_floor",
+ "version": "2026-09-16",
+ "badge": "rule-based",
+ "labels": {
+  "1": "levator_ani_right",
+  "2": "coccygeus_right",
+  "3": "bulbospongiosus_right",
+  "4": "ischiocavernosus_right",
+  "5": "deep_transverse_perineal_right",
+  "6": "superficial_transverse_perineal_right",
+  "7": "obturator_internus_right",
+  "8": "perineal_other_right",
+  "9": "levator_ani_left",
+  "10": "coccygeus_left",
+  "11": "bulbospongiosus_left",
+  "12": "ischiocavernosus_left",
+  "13": "deep_transverse_perineal_left",
+  "14": "superficial_transverse_perineal_left",
+  "15": "obturator_internus_left",
+  "16": "perineal_other_left",
+  "17": "external_anal_sphincter"
+ },
+ "merged_compartments": {
+  "levator_ani": [
+   "pubococcygeus",
+   "puborectalis",
+   "iliococcygeus"
+  ]
+ },
+ "not_shipped": {
+  "obturator_internus": "the obturator internus is not a Q62 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia",
+  "perineal_other": "sink for the rest of the perineal muscle mass -- the vaginal and urethral walls and the erectile tissue of the vestibular bulb and the crus of the clitoris, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus",
+  "superficial_transverse_perineal_right": "0.8 cm3 on this side, under the 1.0 cm3 a 1 mm frame with an 8.9 mm rms z residual supports as a named muscle",
+  "superficial_transverse_perineal_left": "0.4 cm3 on this side, under the 1.0 cm3 a 1 mm frame with an 8.9 mm rms z residual supports as a named muscle",
+  "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "puborectalis": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "iliococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "external_urethral_sphincter": "a 3-5 mm collar on the membranous urethra: below the resolution of a 1 mm frame with an 8.9 mm rms z residual, and no label anchors the urethra",
+  "pubovaginalis": "not separable from the medial levator ani in these photographs",
+  "internal_anal_sphincter": "smooth muscle inside the colon label; excluded with it"
+ },
+ "atlas": {
+  "levator_ani_right": {
+   "atlas_id": "levator_ani_r",
+   "relationship": "exact",
+   "note": "36.3 cm3; rule-based: the pelvic muscle funnel medial to the obturator internus band, between the pubic arch's apex and 0 mm above the ischial spine; pubococcygeus, puborectalis and iliococcygeus are NOT separated (no septum between them at 1 mm)."
+  },
+  "coccygeus_right": {
+   "atlas_id": "coccygeus_r",
+   "relationship": "exact",
+   "note": "4.0 cm3; rule-based: the sheet posterior to the anal canal from the ischial spine down 18 mm towards the coccyx. Her coccyx is NOT labelled, so the posterior anchor is a 14 mm pad of the bony hull; the septum ratio against the levator ani is only just above the merge threshold, so the coccygeus / iliococcygeus cut is the rule's, not a septum's."
+  },
+  "bulbospongiosus_right": {
+   "atlas_id": "bulbospongiosus_r",
+   "relationship": "exact",
+   "note": "2.7 cm3; rule-based: flanking the vaginal opening, in the superficial perineal pouch. It is the muscle TOGETHER WITH the vestibular bulb it covers: erectile tissue photographs as dark as striated muscle at 1 mm and the two have no septum between them, so the shipped mass is larger than the muscle alone."
+  },
+  "ischiocavernosus_right": {
+   "atlas_id": "ischiocavernosus_r",
+   "relationship": "exact",
+   "note": "2.7 cm3; rule-based: on the ischiopubic ramus, in the superficial perineal pouch. It is the muscle TOGETHER WITH the crus of the clitoris it covers: erectile tissue photographs as dark as striated muscle at 1 mm and the two have no septum between them, so the shipped mass is larger than the muscle alone."
+  },
+  "deep_transverse_perineal_right": {
+   "atlas_id": "deep_transverse_perineal_r",
+   "relationship": "exact",
+   "note": "1.9 cm3; rule-based: position-rule marker relative to her bone and organ labels, boundary by the marker watershed on the pale septa of her cryosection photographs."
+  },
+  "superficial_transverse_perineal_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "0.8 cm3; NOT shipped by name, mapped to null: 0.8 cm3 on this side, under the 1.0 cm3 a 1 mm frame with an 8.9 mm rms z residual supports as a named muscle."
+  },
+  "obturator_internus_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "63.6 cm3; NOT shipped: the obturator internus is not a Q62 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia."
+  },
+  "perineal_other_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "2.5 cm3; NOT shipped: sink for the rest of the perineal muscle mass -- the vaginal and urethral walls and the erectile tissue of the vestibular bulb and the crus of the clitoris, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus."
+  },
+  "levator_ani_left": {
+   "atlas_id": "levator_ani_l",
+   "relationship": "exact",
+   "note": "26.4 cm3; rule-based: the pelvic muscle funnel medial to the obturator internus band, between the pubic arch's apex and 0 mm above the ischial spine; pubococcygeus, puborectalis and iliococcygeus are NOT separated (no septum between them at 1 mm)."
+  },
+  "coccygeus_left": {
+   "atlas_id": "coccygeus_l",
+   "relationship": "exact",
+   "note": "2.4 cm3; rule-based: the sheet posterior to the anal canal from the ischial spine down 18 mm towards the coccyx. Her coccyx is NOT labelled, so the posterior anchor is a 14 mm pad of the bony hull; the septum ratio against the levator ani is only just above the merge threshold, so the coccygeus / iliococcygeus cut is the rule's, not a septum's."
+  },
+  "bulbospongiosus_left": {
+   "atlas_id": "bulbospongiosus_l",
+   "relationship": "exact",
+   "note": "2.9 cm3; rule-based: flanking the vaginal opening, in the superficial perineal pouch. It is the muscle TOGETHER WITH the vestibular bulb it covers: erectile tissue photographs as dark as striated muscle at 1 mm and the two have no septum between them, so the shipped mass is larger than the muscle alone."
+  },
+  "ischiocavernosus_left": {
+   "atlas_id": "ischiocavernosus_l",
+   "relationship": "exact",
+   "note": "1.2 cm3; rule-based: on the ischiopubic ramus, in the superficial perineal pouch. It is the muscle TOGETHER WITH the crus of the clitoris it covers: erectile tissue photographs as dark as striated muscle at 1 mm and the two have no septum between them, so the shipped mass is larger than the muscle alone."
+  },
+  "deep_transverse_perineal_left": {
+   "atlas_id": "deep_transverse_perineal_l",
+   "relationship": "exact",
+   "note": "1.4 cm3; rule-based: position-rule marker relative to her bone and organ labels, boundary by the marker watershed on the pale septa of her cryosection photographs."
+  },
+  "superficial_transverse_perineal_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "0.4 cm3; NOT shipped by name, mapped to null: 0.4 cm3 on this side, under the 1.0 cm3 a 1 mm frame with an 8.9 mm rms z residual supports as a named muscle."
+  },
+  "obturator_internus_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "70.5 cm3; NOT shipped: the obturator internus is not a Q62 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia."
+  },
+  "perineal_other_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "1.9 cm3; NOT shipped: sink for the rest of the perineal muscle mass -- the vaginal and urethral walls and the erectile tissue of the vestibular bulb and the crus of the clitoris, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus."
+  },
+  "external_anal_sphincter": {
+   "atlas_id": "external_anal_sphincter",
+   "relationship": "exact",
+   "note": "19.6 cm3; rule-based: the midline ring within 10 mm of the anal canal (the colon label's caudal end) below the levator; the internal sphincter and the anal wall are inside the colon label and are excluded with it, so the ring is the striated sphincter plus whatever intersphincteric tissue the label leaves outside itself."
+  }
+ }
+}

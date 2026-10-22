@@ -1,0 +1,389 @@
+{
+  "id": "triceps_brachii_l",
+  "name_ta": "Musculus triceps brachii",
+  "name_common": "Triceps brachii",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "scapula_l",
+    "origin_landmark": "long head: infraglenoid tubercle; lateral head: posterior humerus, proximal to spiral groove (humerus_l); medial head: posterior humerus, distal to spiral groove (humerus_l)",
+    "insertion_bone": "ulna_l",
+    "insertion_landmark": "olecranon process",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "radial_n",
+    "root_levels": "C6-C8"
+  },
+  "blood_supply": [
+    "profunda_brachii_a_l",
+    "brachial_a_l_muscular_branches"
+  ],
+  "actions": [
+    "extends elbow (all heads)",
+    "extends and adducts shoulder (long head only)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "triceps_brachii_l_long_head",
+      "name": "Long head",
+      "innervation_branch": "radial n., branch to long head (proximal)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 12,
+        "optimal_fascicle_length_mm": 130,
+        "physiological_cross_section_area_mm2": 570.0,
+        "max_isometric_force_N": 142.5,
+        "tendon_slack_length_mm": 190
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          5,
+          -30,
+          -5
+        ],
+        [
+          10,
+          -40,
+          -10
+        ],
+        [
+          0,
+          -45,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Only head crossing the shoulder; contributes to shoulder extension/adduction as well as elbow extension.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            50
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Distal of two zones (Yi et al. 2023). This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        },
+        {
+          "zone_percent_range": [
+            60,
+            70
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Proximal of two zones. The clinic injects the long head at two sites accordingly -- mid posterior arm and 2 cm proximal to it. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "radial_n"
+      ]
+    },
+    {
+      "id": "triceps_brachii_l_lateral_head",
+      "name": "Lateral head",
+      "innervation_branch": "radial n., branch to lateral head (proximal, above spiral groove)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 9,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 590.0,
+        "max_isometric_force_N": 147.5,
+        "tendon_slack_length_mm": 100
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -160,
+          -15
+        ],
+        [
+          -20,
+          -170,
+          -15
+        ],
+        [
+          -10,
+          -175,
+          -10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Superficial, strongest elbow-extension moment arm of the three heads.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            40
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Single zone, the narrowest of the three heads. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "radial_n"
+      ]
+    },
+    {
+      "id": "triceps_brachii_l_medial_head_superficial",
+      "name": "Medial head, superficial subregion",
+      "innervation_branch": "radial n., branch to medial head (distal, below spiral groove)",
+      "fiber_architecture": {
+        "architecture_type": "bipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 70,
+        "physiological_cross_section_area_mm2": 450.0,
+        "max_isometric_force_N": 112.5,
+        "tendon_slack_length_mm": 80
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          -200,
+          -10
+        ],
+        [
+          5,
+          -210,
+          -10
+        ],
+        [
+          15,
+          -215,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "along the central tendinous raphe -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Deep to long/lateral heads; active across the full range of elbow extension including low-force postural tasks (documented 'workhorse' recruitment pattern).",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); architecture note consistent with described deep/superficial subdivision of the medial head in cadaveric dissection studies",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            60
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the medial head as a whole; the source does not separate its superficial and deep parts, so the same zone is recorded on each. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "radial_n"
+      ]
+    },
+    {
+      "id": "triceps_brachii_l_medial_head_deep",
+      "name": "Medial head, deep subregion (adjacent to elbow joint capsule)",
+      "innervation_branch": "radial n., distal terminal twigs to medial head (continues as ulnar collateral/articular branch)",
+      "fiber_architecture": {
+        "architecture_type": "bipennate",
+        "pennation_deg": 18,
+        "optimal_fascicle_length_mm": 55,
+        "physiological_cross_section_area_mm2": 200.0,
+        "max_isometric_force_N": 50.0,
+        "tendon_slack_length_mm": 60
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          -215,
+          -5
+        ],
+        [
+          15,
+          -225,
+          0
+        ],
+        [
+          20,
+          -220,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "along the central tendinous raphe -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Fibers blending into the posterior elbow joint capsule (articularis cubiti-like function), tensing the capsule during extension to prevent impingement.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes deepest medial-head fibers inserting into the posterior joint capsule)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            60
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the medial head as a whole; the source does not separate its superficial and deep parts, so the same zone is recorded on each. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "radial_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse at the midpoint of the posterior arm. Injection sites follow the heads: long head at mid-arm and again 2 cm proximal, lateral head at mid-arm, medial head 1 cm distal to mid-arm.",
+    "depth_layer": "Superficial and medial to the humeral cortex.",
+    "notes": "Second only to the posterior deltoid among muscles injected for the extended shoulder. In biceps-triceps co-contraction, injecting triceps reduces resistance to passive elbow flexion.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  },
+  "trigger_points": [
+    {
+      "location_description": "TrP1 -- long head, mid-arm on the medial side (the most common triceps trigger point)",
+      "referred_pain_pattern": "Up the posterior arm to the posterior shoulder with spillover to the upper trapezius/neck, and down the dorsal forearm to the lateral epicondyle",
+      "activation_perpetuating_factors": "Forceful extension (pressing, push-ups, backhand); associated trigger points in latissimus dorsi, teres major, biceps and brachialis (antagonists), anconeus, hand extensors",
+      "notes": "Produces vague posterior arm ache and limited full flexion due to stretch pain",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded elbow muscle reference document (Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed., Williams & Wilkins, 1999: ch. 32, Triceps brachii)"
+    },
+    {
+      "location_description": "TrP2 -- medial head, lateral distal fibres a few centimetres above the lateral epicondyle",
+      "referred_pain_pattern": "Lateral epicondyle and radial forearm (a tennis-elbow mimic)",
+      "activation_perpetuating_factors": "Forceful extension (pressing, push-ups, backhand)",
+      "notes": "Epicondylar tenderness from this TrP is commonly attributed to lateral epicondylar tendinopathy",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded elbow muscle reference document (Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed., Williams & Wilkins, 1999: ch. 32, Triceps brachii)"
+    },
+    {
+      "location_description": "TrP3 -- lateral head, lateral border of the arm",
+      "referred_pain_pattern": "Posterior arm, occasionally the dorsal forearm and 4th-5th fingers",
+      "activation_perpetuating_factors": "Forceful extension (pressing, push-ups, backhand)",
+      "notes": "Taut bands here can compress the radial nerve in the spiral groove, adding dorsal-forearm and hand paraesthesia and extensor weakness",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded elbow muscle reference document (Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed., Williams & Wilkins, 1999: ch. 32, Triceps brachii)"
+    },
+    {
+      "location_description": "TrP4 -- medial head, deep and distal, just above the olecranon",
+      "referred_pain_pattern": "Olecranon",
+      "activation_perpetuating_factors": "Forceful extension (pressing, push-ups, backhand)",
+      "notes": "Mimics olecranon bursitis or insertional tendinopathy",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded elbow muscle reference document (Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed., Williams & Wilkins, 1999: ch. 32, Triceps brachii)"
+    },
+    {
+      "location_description": "TrP5 -- medial head, medial border, distal",
+      "referred_pain_pattern": "Medial epicondyle, volar-ulnar forearm and 4th-5th fingers",
+      "activation_perpetuating_factors": "Forceful extension (pressing, push-ups, backhand)",
+      "notes": "A golfer's-elbow mimic",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded elbow muscle reference document (Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction, vol. 1, 2nd ed., Williams & Wilkins, 1999: ch. 32, Triceps brachii)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "At the shoulder the long head extends and adducts the humerus and supports the inferior joint (a taut long head resists inferior translation of the abducted arm — a “dynamic hammock” adjunct); it is the only biarticular head, so overhead elbow extension (throw, serve, press-out) loads it maximally; at the elbow all heads extend (anconeus assisting).",
+      "adjacent_structures": "Adjacent bursae: Shoulder level: none constant; distally the olecranon (subcutaneous) and subtendinous triceps bursae belong to the elbow. Adjacent structures — mutual influence: Quadrangular-space structures immediately lateral to its proximal tendon — hypertrophy/fibrous bands here are a described QSS mechanism; radial nerve/profunda at the triangular interval below; the infraglenoid origin transmits traction to the postero-inferior labrum (bennett-type posterior stress in throwers).",
+      "trigger_points": [
+        {
+          "location": "Five described triceps TrPs; shoulder-relevant is TrP1 in the long head, in the distal medial belly.",
+          "referred_pain": "TrP1 refers upward to the posterior shoulder and down the posterior arm to the dorsal forearm, occasionally to the upper trapezius/neck base; (other heads: lateral epicondyle “tennis-elbow” pattern from TrP2, olecranon and medial-epicondyle/ulnar-digit patterns from the medial-head points).",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Into the posterior arm/shoulder strip: teres major/minor, subscapularis, latissimus, posterior deltoid, serratus posterior superior",
+        "C7 radicular pain runs the triceps line to the middle finger",
+        "quadrilateral-space pain sits at its proximal lateral border."
+      ],
+      "movement_restrictions_aggravators": "Pain with overhead pressing/throwing follow-through and push-ups; end-range combined flexion+elbow-flexion stretch (hand-behind-head-and-down) reproduces.",
+      "notes": "Isolated long-head weakness with intact wrist/finger extension is not a radial-nerve lesion — reconsider the axillary nerve/posterior cord.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Cahill BR, Palmer RE. Quadrilateral space syndrome. J Hand Surg Am. 1983;8(1):65–69. doi:10.1016/s0363-5023(83)80056-2. PMID 6827057. [retrieved 31/08/2026]",
+        "de Sèze MP, Rezzouk J, de Sèze M, et al. Does the motor branch of the long head of the triceps brachii arise from the radial nerve? An anatomic and electromyographic study. Surg Radiol Anat. 2004;26(6):459–461. doi:10.1007/s00276-004-0253-z. PMID 15365769. [retrieved 31/08/2026]",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    },
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "The medial head is the primary extensor at every speed and load; the lateral and long heads are recruited with resistance. The three heads together have the largest cross-sectional area of any elbow muscle (about 15 cm² in Murray's series; 1.9 times the total flexor area by MRI), yet isometric extension torque averages only ~61% of flexion torque (Askew et al., 104 normal adults) because the extension moment arm (~2 cm) is roughly half that of the flexors. Extension torque, like flexion torque, peaks in mid-range flexion. Eccentric triceps work controls elbow flexion under load; concentric work drives push-off, crutch and wheelchair use, throwing and pressing. The long head also extends and adducts the shoulder and helps stabilise the humeral head in abduction. Retraction of the posterior capsule by the articularis cubiti fibres prevents capsular pinching in the olecranon fossa.",
+      "adjacent_structures": "Adjacent bursae: Subtendinous olecranon bursa between the triceps tendon and the olecranon/posterior capsule; subcutaneous olecranon bursa over the olecranon (the usual site of olecranon bursitis); an inconstant intratendinous bursa. Adjacent structures and relations: Radial nerve and profunda brachii in the radial groove between lateral and medial heads; ulnar nerve on the medial head behind the medial intermuscular septum, then behind the medial epicondyle (snapping of the medial head over the epicondyle can accompany ulnar-nerve subluxation); posterior capsule and olecranon fossa fat pad deep to the distal fibres; anconeus laterally.",
+      "trigger_points": [
+        {
+          "location": "TrP1 long head, mid-arm on the medial side (the most common); TrP2 medial head, lateral distal fibres a few centimetres above the lateral epicondyle; TrP3 lateral head, lateral border of the arm; TrP4 medial head, deep and distal, just above the olecranon; TrP5 medial head, medial border, distal.",
+          "referred_pain": "TrP1: up the posterior arm to the posterior shoulder with spill to the upper trapezius/neck, and down the dorsal forearm to the lateral epicondyle. TrP2: lateral epicondyle and radial forearm (a tennis-elbow mimic). TrP3: posterior arm, occasionally the dorsal forearm and 4th–5th fingers. TrP4: olecranon (mimics olecranon bursitis or insertional tendinopathy). TrP5: medial epicondyle, volar-ulnar forearm and 4th–5th fingers (a golfer's-elbow mimic). Anconeus TrPs refer to the lateral epicondyle.",
+          "notes": "Symptoms / mimics: Vague posterior arm ache, pain with forceful extension (pressing, push-ups, backhand), limited full flexion because of stretch pain; epicondylar tenderness attributed to tendinopathy; olecranon tenderness attributed to bursitis. Entrapment: TrP3 taut bands in the lateral head can compress the radial nerve in the spiral groove, adding dorsal-forearm and hand paraesthesia and extensor weakness. Associated TrPs: Latissimus dorsi, teres major, biceps and brachialis (antagonists), anconeus, hand extensors.",
+          "source": "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 32, Triceps brachii (and anconeus)."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "subscapularis (posterior arm to the elbow)",
+        "serratus posterior superior (deep scapular pain extending over the olecranon and ulnar forearm)",
+        "teres major and teres minor (posterior deltoid, over the long head)",
+        "latissimus dorsi (medial arm)",
+        "coracobrachialis (posterior arm and dorsal forearm, skipping the elbow)",
+        "scalenes (posterior arm)",
+        "C7 radiculopathy",
+        "olecranon bursitis",
+        "triceps tendinopathy",
+        "posteromedial impingement."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO the posterior arm / olecranon from elsewhere",
+      "notes": "The lateral expansion is the anatomical basis of the anconeus–triceps sleeve used in Bryan–Morrey and related approaches; the ~0.88 tendon-to-olecranon width ratio guides repair. Triceps tendon ruptures affect the superficial (long/lateral) tendon more than the deep medial component. Snapping medial head and ulnar-nerve subluxation coexist.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Gray's Anatomy, 42nd ed., 2021: triceps brachii; radial groove; bursae of the elbow.",
+        "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 32, Triceps brachii (and anconeus).",
+        "Neumann, 3rd ed., 2017: ch. 6. Morrey's The Elbow, 5th ed., 2018: anatomy and biomechanics chapters.",
+        "Keener JD, Chafik D, Kim HM, Galatz LM, Yamaguchi K. Insertional anatomy of the triceps brachii tendon. J Shoulder Elbow Surg 2010;19(3):399–405.",
+        "Bekler H, Wolfe VM, Rosenwasser MP. A cadaveric study of ulnar nerve innervation of the medial head of triceps brachii. Clin Orthop Relat Res 2009;467(1):235–238.",
+        "Askew LJ, An KN, Morrey BF, Chao EY. Isometric elbow strength in normal individuals. Clin Orthop Relat Res 1987;(222):261–266.",
+        "Murray WM, Buchanan TS, Delp SL. J Biomech 2000;33(8):943–952.",
+        "Kawakami Y, et al. Eur J Appl Physiol Occup Physiol 1994;68(2):139–147.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+      ],
+      "tests": [
+        {
+          "name": "Triceps rupture signs (palpable gap, weak or absent extension against gravity, modified Thompson squeeze)",
+          "performance": "Palpable gap, weak or absent extension against gravity, and the modified Thompson squeeze are the standard signs; Zwerus (2018) found no eligible accuracy studies for any triceps-rupture test. Partial tears typically preserve gravity extension, so resisted testing overhead is required.",
+          "positive_finding": "",
+          "structures_loaded": "Triceps brachii",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Zwerus (2018) found no eligible accuracy studies for any triceps-rupture test.",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    }
+  ]
+}

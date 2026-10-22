@@ -1,0 +1,3163 @@
+{
+ "pelvis_registration": {
+  "scale": 0.95043,
+  "rotation": [
+   [
+    1.0,
+    0.000687,
+    -0.000252
+   ],
+   [
+    -0.00069,
+    0.999947,
+    -0.01032
+   ],
+   [
+    0.000245,
+    0.01032,
+    0.999947
+   ]
+  ],
+  "translation_mm": [
+   -8.761,
+   -13.772,
+   57.975
+  ],
+  "n_source": 29144,
+  "n_target": 160000,
+  "residual_mm": {
+   "median": 1.24,
+   "p90": 3.53,
+   "rms": 2.07,
+   "max": 10.1
+  },
+  "det_R": 1.0,
+  "residual_by_part_mm_median": {
+   "hip_bone": 1.46,
+   "coccyx": 2.11,
+   "sacrum": 0.97
+  }
+ },
+ "lumbar_numbering": {
+  "hra": "The library names six lumbar vertebrae L1-L6 counted from the rib-bearing T12 (spinal-cord-female v1.1: 'The Visible Human Female has 6 lumbar vertebrae'; united-female nodes VH_F_lumbar_vertebra_1..6, nucleus pulposus / disk 'of the first .. sixth lumbar vertebra' = the disk BELOW that vertebra).",
+  "page": "This page has six lumbar bodies (Q185k) and names them L1, L1B, L2, L3, L4, L5; the disc between L1 and L1B is not an atlas entity (Q185k2), so the page has 23 discs (C2-C3 .. L5-S1) where the HRA has 24.",
+  "match": "Rank-matched fits (7 cervical, 12 thoracic, 6 lumbar counted from the top, then refined by ICP) give a surface residual median 0.4-0.6 mm for every level incl. all six lumbar bodies: the page's six lumbar bodies ARE the HRA's L1-L6, one to one.",
+  "mapping": {
+   "L1": {
+    "page_name": "L1",
+    "page_centroid_y_mm": 291.4,
+    "fit_residual_median_mm": 0.49,
+    "fit_scale": 0.9535,
+    "page_disc_below": null
+   },
+   "L2": {
+    "page_name": "L1B",
+    "page_centroid_y_mm": 257.5,
+    "fit_residual_median_mm": 0.54,
+    "fit_scale": 0.9461,
+    "page_disc_below": "intervertebral_disc_l1_l2"
+   },
+   "L3": {
+    "page_name": "L2",
+    "page_centroid_y_mm": 223.0,
+    "fit_residual_median_mm": 0.59,
+    "fit_scale": 0.9492,
+    "page_disc_below": "intervertebral_disc_l2_l3"
+   },
+   "L4": {
+    "page_name": "L3",
+    "page_centroid_y_mm": 188.8,
+    "fit_residual_median_mm": 0.55,
+    "fit_scale": 0.951,
+    "page_disc_below": "intervertebral_disc_l3_l4"
+   },
+   "L5": {
+    "page_name": "L4",
+    "page_centroid_y_mm": 157.2,
+    "fit_residual_median_mm": 0.53,
+    "fit_scale": 0.9523,
+    "page_disc_below": "intervertebral_disc_l4_l5"
+   },
+   "L6": {
+    "page_name": "L5",
+    "page_centroid_y_mm": 126.7,
+    "fit_residual_median_mm": 0.56,
+    "fit_scale": 0.9537,
+    "page_disc_below": "intervertebral_disc_l5_s1"
+   }
+  },
+  "consequence": "HRA numbering is RIB-ANCHORED throughout and puts the extra vertebra at the bottom: HRA L2 = the page's L1B, HRA L3 = page L2, L4 = L3, L5 = L4, L6 = L5 (page L5-S1 disc = HRA L6-S1). The page's L2..L5 are off by one against the HRA (and against the usual convention) exactly as Q185k2 says; the page's L1 and the thoracic and cervical numbering agree.",
+  "decision": "No structure of the page is renamed (Q185k2 is an owner decision). The new nuclei carry the PAGE's disc names in their id and name (nucleus_pulposus_l2_l3 sits in intervertebral_disc_l2_l3) and say on the card which HRA disk it is; the HRA L1-L2 nucleus (page L1/L1B) is not shipped because the page has no disc there."
+ },
+ "spine_global_fit": {
+  "scale": 0.976,
+  "median_mm": 1.22
+ },
+ "spine_fits": {
+  "C1": {
+   "scale": 0.9355,
+   "residual_median_mm": 0.4,
+   "residual_p90_mm": 0.88,
+   "residual_rms_mm": 0.68,
+   "reverse_median_mm": 0.64,
+   "rotation_from_global_deg": 0.67
+  },
+  "C2": {
+   "scale": 0.942,
+   "residual_median_mm": 0.4,
+   "residual_p90_mm": 0.85,
+   "residual_rms_mm": 0.56,
+   "reverse_median_mm": 0.63,
+   "rotation_from_global_deg": 0.32
+  },
+  "C3": {
+   "scale": 0.9333,
+   "residual_median_mm": 0.4,
+   "residual_p90_mm": 1.05,
+   "residual_rms_mm": 0.72,
+   "reverse_median_mm": 0.61,
+   "rotation_from_global_deg": 0.75
+  },
+  "C4": {
+   "scale": 0.9447,
+   "residual_median_mm": 0.45,
+   "residual_p90_mm": 1.04,
+   "residual_rms_mm": 0.72,
+   "reverse_median_mm": 0.65,
+   "rotation_from_global_deg": 1.04
+  },
+  "C5": {
+   "scale": 0.9421,
+   "residual_median_mm": 0.39,
+   "residual_p90_mm": 0.81,
+   "residual_rms_mm": 0.54,
+   "reverse_median_mm": 0.61,
+   "rotation_from_global_deg": 0.94
+  },
+  "C6": {
+   "scale": 0.9487,
+   "residual_median_mm": 0.4,
+   "residual_p90_mm": 0.83,
+   "residual_rms_mm": 0.56,
+   "reverse_median_mm": 0.62,
+   "rotation_from_global_deg": 0.85
+  },
+  "C7": {
+   "scale": 0.9547,
+   "residual_median_mm": 0.41,
+   "residual_p90_mm": 0.83,
+   "residual_rms_mm": 0.55,
+   "reverse_median_mm": 0.65,
+   "rotation_from_global_deg": 1.04
+  },
+  "T1": {
+   "scale": 0.9535,
+   "residual_median_mm": 0.42,
+   "residual_p90_mm": 0.83,
+   "residual_rms_mm": 0.55,
+   "reverse_median_mm": 0.67,
+   "rotation_from_global_deg": 0.74
+  },
+  "T2": {
+   "scale": 0.9534,
+   "residual_median_mm": 0.44,
+   "residual_p90_mm": 0.92,
+   "residual_rms_mm": 0.6,
+   "reverse_median_mm": 0.69,
+   "rotation_from_global_deg": 0.72
+  },
+  "T3": {
+   "scale": 0.9448,
+   "residual_median_mm": 0.46,
+   "residual_p90_mm": 1.16,
+   "residual_rms_mm": 1.84,
+   "reverse_median_mm": 0.72,
+   "rotation_from_global_deg": 1.71
+  },
+  "T4": {
+   "scale": 0.9497,
+   "residual_median_mm": 0.52,
+   "residual_p90_mm": 1.61,
+   "residual_rms_mm": 3.37,
+   "reverse_median_mm": 0.79,
+   "rotation_from_global_deg": 1.14
+  },
+  "T5": {
+   "scale": 0.952,
+   "residual_median_mm": 0.49,
+   "residual_p90_mm": 1.29,
+   "residual_rms_mm": 1.15,
+   "reverse_median_mm": 0.76,
+   "rotation_from_global_deg": 0.69
+  },
+  "T6": {
+   "scale": 0.9469,
+   "residual_median_mm": 0.45,
+   "residual_p90_mm": 0.99,
+   "residual_rms_mm": 0.65,
+   "reverse_median_mm": 0.74,
+   "rotation_from_global_deg": 0.52
+  },
+  "T7": {
+   "scale": 0.9463,
+   "residual_median_mm": 0.43,
+   "residual_p90_mm": 0.99,
+   "residual_rms_mm": 0.61,
+   "reverse_median_mm": 0.73,
+   "rotation_from_global_deg": 0.75
+  },
+  "T8": {
+   "scale": 0.9509,
+   "residual_median_mm": 0.41,
+   "residual_p90_mm": 0.85,
+   "residual_rms_mm": 0.66,
+   "reverse_median_mm": 0.69,
+   "rotation_from_global_deg": 0.45
+  },
+  "T9": {
+   "scale": 0.9559,
+   "residual_median_mm": 0.42,
+   "residual_p90_mm": 0.81,
+   "residual_rms_mm": 0.54,
+   "reverse_median_mm": 0.69,
+   "rotation_from_global_deg": 0.38
+  },
+  "T10": {
+   "scale": 0.9527,
+   "residual_median_mm": 0.47,
+   "residual_p90_mm": 0.89,
+   "residual_rms_mm": 0.6,
+   "reverse_median_mm": 0.75,
+   "rotation_from_global_deg": 0.36
+  },
+  "T11": {
+   "scale": 0.9521,
+   "residual_median_mm": 0.48,
+   "residual_p90_mm": 0.96,
+   "residual_rms_mm": 0.62,
+   "reverse_median_mm": 0.78,
+   "rotation_from_global_deg": 0.94
+  },
+  "T12": {
+   "scale": 0.952,
+   "residual_median_mm": 0.52,
+   "residual_p90_mm": 1.11,
+   "residual_rms_mm": 0.7,
+   "reverse_median_mm": 0.83,
+   "rotation_from_global_deg": 0.96
+  },
+  "L1": {
+   "scale": 0.9535,
+   "residual_median_mm": 0.49,
+   "residual_p90_mm": 0.94,
+   "residual_rms_mm": 1.25,
+   "reverse_median_mm": 0.8,
+   "rotation_from_global_deg": 0.56
+  },
+  "L2": {
+   "scale": 0.9461,
+   "residual_median_mm": 0.54,
+   "residual_p90_mm": 1.07,
+   "residual_rms_mm": 0.72,
+   "reverse_median_mm": 0.9,
+   "rotation_from_global_deg": 0.74
+  },
+  "L3": {
+   "scale": 0.9492,
+   "residual_median_mm": 0.59,
+   "residual_p90_mm": 1.08,
+   "residual_rms_mm": 0.78,
+   "reverse_median_mm": 0.96,
+   "rotation_from_global_deg": 0.58
+  },
+  "L4": {
+   "scale": 0.951,
+   "residual_median_mm": 0.55,
+   "residual_p90_mm": 1.02,
+   "residual_rms_mm": 0.68,
+   "reverse_median_mm": 0.92,
+   "rotation_from_global_deg": 0.45
+  },
+  "L5": {
+   "scale": 0.9523,
+   "residual_median_mm": 0.53,
+   "residual_p90_mm": 0.96,
+   "residual_rms_mm": 0.64,
+   "reverse_median_mm": 0.89,
+   "rotation_from_global_deg": 0.33
+  },
+  "L6": {
+   "scale": 0.9537,
+   "residual_median_mm": 0.56,
+   "residual_p90_mm": 1.07,
+   "residual_rms_mm": 0.72,
+   "reverse_median_mm": 0.93,
+   "rotation_from_global_deg": 1.28
+  },
+  "S1": {
+   "scale": 0.9538,
+   "residual_median_mm": 0.9,
+   "residual_p90_mm": 8.58,
+   "residual_rms_mm": 5.31
+  }
+ },
+ "rectal_order": {
+  "superior_rectal_v": 73.8,
+  "superior_rectal_a": 78.5,
+  "middle_rectal_v_l": 41.6,
+  "middle_rectal_v_r": 38.0,
+  "inferior_rectal_v_l": -14.4,
+  "inferior_rectal_v_r": -15.7,
+  "ok": true
+ },
+ "structures": {
+  "uterine_a_l": {
+   "hra_node": "VH_F_left_uterine_artery",
+   "gates": {
+    "vertices": 701,
+    "triangles": 1398,
+    "bone_min_mm": 14.15,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 93.2,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 3.0
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -30.3,
+    "x_range_mm": [
+     -54.0,
+     -7.9
+    ],
+    "y_range_mm": [
+     7.9,
+     22.7
+    ],
+    "z_range_mm": [
+     -22.5,
+     11.8
+    ],
+    "length_mm": 63.8,
+    "calibre_mm": 2.33,
+    "calibre_area_mm": 2.32,
+    "volume_cm3": 0.259,
+    "area_cm2": 4.64,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -30.3,
+     "mean_distance_to_hip_mm": {
+      "l": 24.9,
+      "r": 56.0
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.0,
+     "medial_end_to_uterus_mm": 2.9,
+     "lateral_end_to_uterus_mm": 42.0,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "a"
+   }
+  },
+  "uterine_a_r": {
+   "hra_node": "VH_F_right_uterine_artery",
+   "gates": {
+    "vertices": 707,
+    "triangles": 1410,
+    "bone_min_mm": 8.04,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 89.6,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 4.8
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 35.1,
+    "x_range_mm": [
+     15.9,
+     59.1
+    ],
+    "y_range_mm": [
+     5.8,
+     21.8
+    ],
+    "z_range_mm": [
+     -18.3,
+     13.8
+    ],
+    "length_mm": 60.9,
+    "calibre_mm": 2.35,
+    "calibre_area_mm": 2.47,
+    "volume_cm3": 0.278,
+    "area_cm2": 4.73,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 35.1,
+     "mean_distance_to_hip_mm": {
+      "l": 54.0,
+      "r": 18.6
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.2,
+     "medial_end_to_uterus_mm": 1.4,
+     "lateral_end_to_uterus_mm": 42.1,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "a"
+   }
+  },
+  "uterine_v_l": {
+   "hra_node": "VH_F_left_uterine_vein",
+   "gates": {
+    "vertices": 1248,
+    "triangles": 2492,
+    "bone_min_mm": 14.11,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 84.6,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 3.0,
+     "uterus": 2.8
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -33.9,
+    "x_range_mm": [
+     -52.3,
+     -8.5
+    ],
+    "y_range_mm": [
+     9.9,
+     39.9
+    ],
+    "z_range_mm": [
+     -41.1,
+     13.3
+    ],
+    "length_mm": 89.6,
+    "calibre_mm": 1.37,
+    "calibre_area_mm": 1.46,
+    "volume_cm3": 0.145,
+    "area_cm2": 4.11,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -33.9,
+     "mean_distance_to_hip_mm": {
+      "l": 24.8,
+      "r": 64.8
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.1,
+     "medial_end_to_uterus_mm": 3.4,
+     "lateral_end_to_uterus_mm": 42.4,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "uterine_v_r": {
+   "hra_node": "VH_F_right_uterine_vein",
+   "gates": {
+    "vertices": 1176,
+    "triangles": 2348,
+    "bone_min_mm": 6.49,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 89.7,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 2.2
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 43.2,
+    "x_range_mm": [
+     17.2,
+     62.1
+    ],
+    "y_range_mm": [
+     8.3,
+     35.3
+    ],
+    "z_range_mm": [
+     -27.2,
+     14.5
+    ],
+    "length_mm": 75.5,
+    "calibre_mm": 1.55,
+    "calibre_area_mm": 1.63,
+    "volume_cm3": 0.144,
+    "area_cm2": 3.87,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 43.2,
+     "mean_distance_to_hip_mm": {
+      "l": 64.9,
+      "r": 15.5
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "min_distance_to_uterus_mm": 0.1,
+     "medial_end_to_uterus_mm": 1.5,
+     "lateral_end_to_uterus_mm": 49.4,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "internal_iliac_v_l": {
+   "hra_node": "VH_F_internal_iliac_vein_L",
+   "gates": {
+    "vertices": 317,
+    "triangles": 630,
+    "bone_min_mm": 5.69,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 101.2,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -58.0,
+    "x_range_mm": [
+     -65.3,
+     -50.7
+    ],
+    "y_range_mm": [
+     41.6,
+     73.9
+    ],
+    "z_range_mm": [
+     -24.0,
+     -8.8
+    ],
+    "length_mm": 34.5,
+    "calibre_mm": 5.5,
+    "calibre_area_mm": 6.1,
+    "volume_cm3": 0.851,
+    "area_cm2": 6.62,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -58.0,
+     "mean_distance_to_hip_mm": {
+      "l": 10.4,
+      "r": 108.0
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "superior_end_to_common_iliac_vein_mm": 2.0,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 3,
+     "capped": 3,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "internal_iliac_v_r": {
+   "hra_node": "VH_F_internal_iliac_vein_R",
+   "gates": {
+    "vertices": 449,
+    "triangles": 894,
+    "bone_min_mm": 9.23,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 89.7,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 45.9,
+    "x_range_mm": [
+     40.0,
+     51.5
+    ],
+    "y_range_mm": [
+     38.9,
+     82.4
+    ],
+    "z_range_mm": [
+     -35.1,
+     -10.4
+    ],
+    "length_mm": 45.5,
+    "calibre_mm": 6.17,
+    "calibre_area_mm": 6.87,
+    "volume_cm3": 1.398,
+    "area_cm2": 9.82,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 45.9,
+     "mean_distance_to_hip_mm": {
+      "l": 98.6,
+      "r": 17.4
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "superior_end_to_common_iliac_vein_mm": 4.6,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 3,
+     "capped": 3,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "internal_pudendal_v_l": {
+   "hra_node": "VH_F_internal_pudendal_vein_L",
+   "gates": {
+    "vertices": 722,
+    "triangles": 1440,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 277,
+    "moved_fraction_pct": 38.4,
+    "max_move_out_of_bone_mm": 5.69,
+    "skin_distance_min_mm": 71.8,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -65.2,
+    "x_range_mm": [
+     -70.1,
+     -58.3
+    ],
+    "y_range_mm": [
+     -21.1,
+     44.8
+    ],
+    "z_range_mm": [
+     -52.2,
+     -20.0
+    ],
+    "length_mm": 79.1,
+    "calibre_mm": 3.99,
+    "calibre_area_mm": 5.04,
+    "volume_cm3": 0.967,
+    "area_cm2": 12.52,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -65.2,
+     "mean_distance_to_hip_mm": {
+      "l": 3.4,
+      "r": 98.8
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "inferior_end_to_ischial_tuberosity_mm": 21.8,
+     "fraction_within_10mm_of_same_side_hip_pct": 97.8,
+     "inferior_end_y_mm": -18.3,
+     "superior_end_y_mm": 40.9,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "internal_pudendal_v_r": {
+   "hra_node": "VH_F_internal_pudendal_vein_R",
+   "gates": {
+    "vertices": 802,
+    "triangles": 1600,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 130,
+    "moved_fraction_pct": 16.2,
+    "max_move_out_of_bone_mm": 4.99,
+    "skin_distance_min_mm": 69.3,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 55.4,
+    "x_range_mm": [
+     46.9,
+     64.0
+    ],
+    "y_range_mm": [
+     -24.6,
+     47.1
+    ],
+    "z_range_mm": [
+     -55.5,
+     -30.8
+    ],
+    "length_mm": 78.1,
+    "calibre_mm": 4.1,
+    "calibre_area_mm": 4.66,
+    "volume_cm3": 0.951,
+    "area_cm2": 11.45,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 55.4,
+     "mean_distance_to_hip_mm": {
+      "l": 94.4,
+      "r": 10.1
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "inferior_end_to_ischial_tuberosity_mm": 22.2,
+     "fraction_within_10mm_of_same_side_hip_pct": 55.0,
+     "inferior_end_y_mm": -19.5,
+     "superior_end_y_mm": 43.0,
+     "ok": true
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "middle_rectal_v_l": {
+   "hra_node": "VH_F_middle_rectal_vein_L",
+   "gates": {
+    "vertices": 529,
+    "triangles": 1054,
+    "bone_min_mm": 10.26,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 76.4,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 2.5
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -37.8,
+    "x_range_mm": [
+     -58.9,
+     -20.5
+    ],
+    "y_range_mm": [
+     35.4,
+     53.8
+    ],
+    "z_range_mm": [
+     -49.2,
+     -18.5
+    ],
+    "length_mm": 50.2,
+    "calibre_mm": 4.35,
+    "calibre_area_mm": 4.72,
+    "volume_cm3": 0.765,
+    "area_cm2": 7.45,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -37.8,
+     "mean_distance_to_hip_mm": {
+      "l": 27.2,
+      "r": 89.2
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 41.6
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "middle_rectal_v_r": {
+   "hra_node": "VH_F_middle_rectal_vein_R",
+   "gates": {
+    "vertices": 511,
+    "triangles": 1018,
+    "bone_min_mm": 22.36,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 70.1,
+    "vertices_inside_page_organ_pct": {
+     "sigmoid_colon": 2.9
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 27.6,
+    "x_range_mm": [
+     14.0,
+     44.7
+    ],
+    "y_range_mm": [
+     31.2,
+     46.1
+    ],
+    "z_range_mm": [
+     -54.6,
+     -26.2
+    ],
+    "length_mm": 44.1,
+    "calibre_mm": 4.59,
+    "calibre_area_mm": 4.81,
+    "volume_cm3": 0.699,
+    "area_cm2": 6.66,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 27.6,
+     "mean_distance_to_hip_mm": {
+      "l": 79.6,
+      "r": 36.5
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 38.0
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "inferior_rectal_v_l": {
+   "hra_node": "VH_F_inferior_rectal_vein_L",
+   "gates": {
+    "vertices": 850,
+    "triangles": 1696,
+    "bone_min_mm": 3.0,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 53.0,
+    "vertices_inside_page_organ_pct": {
+     "rectum": 8.8
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -31.2,
+    "x_range_mm": [
+     -61.5,
+     -14.1
+    ],
+    "y_range_mm": [
+     -24.7,
+     -8.3
+    ],
+    "z_range_mm": [
+     -71.9,
+     -33.3
+    ],
+    "length_mm": 71.3,
+    "calibre_mm": 4.23,
+    "calibre_area_mm": 4.22,
+    "volume_cm3": 0.924,
+    "area_cm2": 9.45,
+    "left_right": {
+     "name_side": "left",
+     "centroid_x_mm": -31.2,
+     "mean_distance_to_hip_mm": {
+      "l": 29.9,
+      "r": 72.3
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": -14.4
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "inferior_rectal_v_r": {
+   "hra_node": "VH_F_inferior_rectal_vein_R",
+   "gates": {
+    "vertices": 846,
+    "triangles": 1688,
+    "bone_min_mm": 9.75,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 52.5,
+    "vertices_inside_page_organ_pct": {
+     "levator_ani_r": 13.4,
+     "rectum": 12.3
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": 22.4,
+    "x_range_mm": [
+     4.0,
+     53.3
+    ],
+    "y_range_mm": [
+     -27.5,
+     -8.8
+    ],
+    "z_range_mm": [
+     -72.3,
+     -36.4
+    ],
+    "length_mm": 73.8,
+    "calibre_mm": 4.11,
+    "calibre_area_mm": 3.42,
+    "volume_cm3": 0.69,
+    "area_cm2": 7.94,
+    "left_right": {
+     "name_side": "right",
+     "centroid_x_mm": 22.4,
+     "mean_distance_to_hip_mm": {
+      "l": 68.2,
+      "r": 38.6
+     },
+     "x_sign_ok": true,
+     "nearest_hip_is_same_side": true,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": -15.7
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "superior_rectal_v": {
+   "hra_node": "VH_F_superior_rectal_vein",
+   "gates": {
+    "vertices": 1808,
+    "triangles": 3612,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 157,
+    "moved_fraction_pct": 8.7,
+    "max_move_out_of_bone_mm": 1.62,
+    "skin_distance_min_mm": 50.3,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -8.6,
+    "x_range_mm": [
+     -19.5,
+     6.7
+    ],
+    "y_range_mm": [
+     61.2,
+     88.3
+    ],
+    "z_range_mm": [
+     -75.0,
+     -17.4
+    ],
+    "length_mm": 78.7,
+    "calibre_mm": 1.97,
+    "calibre_area_mm": 2.08,
+    "volume_cm3": 0.219,
+    "area_cm2": 5.13,
+    "left_right": {
+     "name_side": null,
+     "centroid_x_mm": -8.6,
+     "mean_distance_to_hip_mm": {
+      "l": 42.5,
+      "r": 60.3
+     },
+     "midline_x_mm": -8.6,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 73.8
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "median_sacral_v": {
+   "hra_node": "VH_F_median_sacral_vein",
+   "gates": {
+    "vertices": 929,
+    "triangles": 1854,
+    "bone_min_mm": 1.61,
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "skin_distance_min_mm": 40.3,
+    "vertices_inside_page_organ_pct": {
+     "rectum": 1.3
+    },
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -3.0,
+    "x_range_mm": [
+     -6.2,
+     5.2
+    ],
+    "y_range_mm": [
+     27.1,
+     136.0
+    ],
+    "z_range_mm": [
+     -85.2,
+     0.2
+    ],
+    "length_mm": 159.0,
+    "calibre_mm": 2.06,
+    "calibre_area_mm": 2.07,
+    "volume_cm3": 0.514,
+    "area_cm2": 10.32,
+    "left_right": {
+     "name_side": null,
+     "centroid_x_mm": -3.0,
+     "mean_distance_to_hip_mm": {
+      "l": 54.6,
+      "r": 60.4
+     },
+     "midline_x_mm": -3.0,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 77.2
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "v"
+   }
+  },
+  "superior_rectal_a": {
+   "hra_node": "VH_F_superior_rectal_artery",
+   "gates": {
+    "vertices": 1052,
+    "triangles": 2100,
+    "bone_min_mm": 1.2,
+    "vertices_moved_out_of_bone": 147,
+    "moved_fraction_pct": 14.0,
+    "max_move_out_of_bone_mm": 2.4,
+    "skin_distance_min_mm": 53.7,
+    "vertices_inside_page_organ_pct": {},
+    "vertices_deeper_3mm_in_organ_pct": {},
+    "watertight": true,
+    "centroid_x_mm": -6.5,
+    "x_range_mm": [
+     -20.2,
+     8.8
+    ],
+    "y_range_mm": [
+     63.2,
+     96.0
+    ],
+    "z_range_mm": [
+     -71.3,
+     -11.4
+    ],
+    "length_mm": 77.4,
+    "calibre_mm": 3.5,
+    "calibre_area_mm": 3.49,
+    "volume_cm3": 0.628,
+    "area_cm2": 8.48,
+    "left_right": {
+     "name_side": null,
+     "centroid_x_mm": -6.5,
+     "mean_distance_to_hip_mm": {
+      "l": 46.3,
+      "r": 59.4
+     },
+     "midline_x_mm": -6.5,
+     "ok": true
+    },
+    "course": {
+     "centroid_y_mm": 78.5
+    },
+    "soft_organ_deep_overlap_pct": 0,
+    "pass": true,
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "calibre_kind": "a"
+   }
+  },
+  "nucleus_C2-C3": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_axis",
+   "page_disc": "intervertebral_disc_c2_c3",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_c2_c3",
+    "volume_cm3": 0.01,
+    "volume_hra_cm3": 0.268,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_axis",
+    "fit_upper": {
+     "scale": 0.942,
+     "residual_median_mm": 0.4,
+     "residual_p90_mm": 0.85
+    },
+    "fit_lower": {
+     "scale": 0.9333,
+     "residual_median_mm": 0.4,
+     "residual_p90_mm": 1.05
+    },
+    "skin_distance_min_mm": 65.9,
+    "height_mm": 3.4,
+    "vertices_moved_out_of_bone": 895,
+    "moved_fraction_pct": 74.5,
+    "max_move_out_of_bone_mm": 1.77,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.037,
+    "bone_min_mm": 0.99,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 0.777,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance 0.99 mm / inside her disc 100.0 % / max move 1.77 mm / volume after the fit 0.037 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_C3-C4": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_cervical_vertebra",
+   "page_disc": "intervertebral_disc_c3_c4",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_c3_c4",
+    "volume_cm3": 0.149,
+    "volume_hra_cm3": 0.304,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_cervical_vertebra",
+    "fit_upper": {
+     "scale": 0.9333,
+     "residual_median_mm": 0.4,
+     "residual_p90_mm": 1.05
+    },
+    "fit_lower": {
+     "scale": 0.9447,
+     "residual_median_mm": 0.45,
+     "residual_p90_mm": 1.04
+    },
+    "skin_distance_min_mm": 56.9,
+    "height_mm": 5.5,
+    "vertices_moved_out_of_bone": 750,
+    "moved_fraction_pct": 62.4,
+    "max_move_out_of_bone_mm": 1.37,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.49,
+    "bone_min_mm": 1.15,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 0.877,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_C4-C5": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_cervical_vertebra",
+   "page_disc": "intervertebral_disc_c4_c5",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_c4_c5",
+    "volume_cm3": 0.166,
+    "volume_hra_cm3": 0.346,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_cervical_vertebra",
+    "fit_upper": {
+     "scale": 0.9447,
+     "residual_median_mm": 0.45,
+     "residual_p90_mm": 1.04
+    },
+    "fit_lower": {
+     "scale": 0.9421,
+     "residual_median_mm": 0.39,
+     "residual_p90_mm": 0.81
+    },
+    "skin_distance_min_mm": 52.7,
+    "height_mm": 5.9,
+    "vertices_moved_out_of_bone": 728,
+    "moved_fraction_pct": 60.6,
+    "max_move_out_of_bone_mm": 1.72,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.48,
+    "bone_min_mm": 1.15,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 0.911,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_C5-C6": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_cervical_vertebra",
+   "page_disc": "intervertebral_disc_c5_c6",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_c5_c6",
+    "volume_cm3": 0.178,
+    "volume_hra_cm3": 0.357,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_cervical_vertebra",
+    "fit_upper": {
+     "scale": 0.9421,
+     "residual_median_mm": 0.39,
+     "residual_p90_mm": 0.81
+    },
+    "fit_lower": {
+     "scale": 0.9487,
+     "residual_median_mm": 0.4,
+     "residual_p90_mm": 0.83
+    },
+    "skin_distance_min_mm": 55.8,
+    "height_mm": 5.5,
+    "vertices_moved_out_of_bone": 892,
+    "moved_fraction_pct": 74.2,
+    "max_move_out_of_bone_mm": 1.32,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.499,
+    "bone_min_mm": 1.14,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 1.057,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_C6-C7": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_cervical_vertebra",
+   "page_disc": "intervertebral_disc_c6_c7",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_c6_c7",
+    "volume_cm3": 0.287,
+    "volume_hra_cm3": 0.432,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_cervical_vertebra",
+    "fit_upper": {
+     "scale": 0.9487,
+     "residual_median_mm": 0.4,
+     "residual_p90_mm": 0.83
+    },
+    "fit_lower": {
+     "scale": 0.9547,
+     "residual_median_mm": 0.41,
+     "residual_p90_mm": 0.83
+    },
+    "skin_distance_min_mm": 60.0,
+    "height_mm": 6.4,
+    "vertices_moved_out_of_bone": 490,
+    "moved_fraction_pct": 40.8,
+    "max_move_out_of_bone_mm": 1.38,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.664,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 128,
+    "page_disc_volume_cm3": 99.794,
+    "page_disc_placeholder": true,
+    "pass": true
+   }
+  },
+  "nucleus_C7-T1": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_seventh_cervical_vertebra",
+   "page_disc": "intervertebral_disc_c7_t1",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_c7_t1",
+    "volume_cm3": 0.023,
+    "volume_hra_cm3": 0.383,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_seventh_cervical_vertebra",
+    "fit_upper": {
+     "scale": 0.9547,
+     "residual_median_mm": 0.41,
+     "residual_p90_mm": 0.83
+    },
+    "fit_lower": {
+     "scale": 0.9535,
+     "residual_median_mm": 0.42,
+     "residual_p90_mm": 0.83
+    },
+    "skin_distance_min_mm": 67.5,
+    "height_mm": 4.9,
+    "vertices_moved_out_of_bone": 291,
+    "moved_fraction_pct": 24.2,
+    "max_move_out_of_bone_mm": 0.63,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.06,
+    "bone_min_mm": 0.65,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 1.212,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance 0.65 mm / inside her disc 100.0 % / max move 0.63 mm / volume after the fit 0.06 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T1-T2": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_first_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t1_t2",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t1_t2",
+    "volume_cm3": 0.028,
+    "volume_hra_cm3": 0.483,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_first_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9535,
+     "residual_median_mm": 0.42,
+     "residual_p90_mm": 0.83
+    },
+    "fit_lower": {
+     "scale": 0.9534,
+     "residual_median_mm": 0.44,
+     "residual_p90_mm": 0.92
+    },
+    "skin_distance_min_mm": 76.3,
+    "height_mm": 5.8,
+    "vertices_moved_out_of_bone": 579,
+    "moved_fraction_pct": 48.2,
+    "max_move_out_of_bone_mm": 0.58,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.058,
+    "bone_min_mm": 0.99,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 1.49,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance 0.99 mm / inside her disc 100.0 % / max move 0.58 mm / volume after the fit 0.058 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T2-T3": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_second_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t2_t3",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t2_t3",
+    "volume_cm3": 0.009,
+    "volume_hra_cm3": 0.473,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_second_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9534,
+     "residual_median_mm": 0.44,
+     "residual_p90_mm": 0.92
+    },
+    "fit_lower": {
+     "scale": 0.9448,
+     "residual_median_mm": 0.46,
+     "residual_p90_mm": 1.16
+    },
+    "skin_distance_min_mm": 86.1,
+    "height_mm": 5.4,
+    "vertices_moved_out_of_bone": 916,
+    "moved_fraction_pct": 76.2,
+    "max_move_out_of_bone_mm": 0.91,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.019,
+    "bone_min_mm": 0.13,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 1.104,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance 0.13 mm / inside her disc 100.0 % / max move 0.91 mm / volume after the fit 0.019 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T3-T4": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t3_t4",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t3_t4",
+    "volume_cm3": 0.024,
+    "volume_hra_cm3": 0.416,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9448,
+     "residual_median_mm": 0.46,
+     "residual_p90_mm": 1.16
+    },
+    "fit_lower": {
+     "scale": 0.9497,
+     "residual_median_mm": 0.52,
+     "residual_p90_mm": 1.61
+    },
+    "skin_distance_min_mm": 86.7,
+    "height_mm": 6.2,
+    "vertices_moved_out_of_bone": 1046,
+    "moved_fraction_pct": 87.0,
+    "max_move_out_of_bone_mm": 1.56,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.058,
+    "bone_min_mm": -0.72,
+    "inside_disc_pct": 95.5,
+    "page_disc_triangles": 128,
+    "page_disc_volume_cm3": 99.917,
+    "page_disc_placeholder": true,
+    "pass": false,
+    "held_reason": "bone clearance -0.72 mm / inside her disc 95.5 % / max move 1.56 mm / volume after the fit 0.058 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T4-T5": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t4_t5",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t4_t5",
+    "volume_cm3": 0.007,
+    "volume_hra_cm3": 0.588,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9497,
+     "residual_median_mm": 0.52,
+     "residual_p90_mm": 1.61
+    },
+    "fit_lower": {
+     "scale": 0.952,
+     "residual_median_mm": 0.49,
+     "residual_p90_mm": 1.29
+    },
+    "skin_distance_min_mm": 76.5,
+    "height_mm": 3.7,
+    "vertices_moved_out_of_bone": 1119,
+    "moved_fraction_pct": 93.1,
+    "max_move_out_of_bone_mm": 1.96,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.012,
+    "bone_min_mm": -0.24,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 0.874,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance -0.24 mm / inside her disc 100.0 % / max move 1.96 mm / volume after the fit 0.012 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T5-T6": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t5_t6",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t5_t6",
+    "volume_cm3": 0.009,
+    "volume_hra_cm3": 0.579,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.952,
+     "residual_median_mm": 0.49,
+     "residual_p90_mm": 1.29
+    },
+    "fit_lower": {
+     "scale": 0.9469,
+     "residual_median_mm": 0.45,
+     "residual_p90_mm": 0.99
+    },
+    "skin_distance_min_mm": 74.0,
+    "height_mm": 2.6,
+    "vertices_moved_out_of_bone": 1099,
+    "moved_fraction_pct": 91.4,
+    "max_move_out_of_bone_mm": 1.91,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.016,
+    "bone_min_mm": -0.2,
+    "inside_disc_pct": 98.1,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 1.106,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance -0.2 mm / inside her disc 98.1 % / max move 1.91 mm / volume after the fit 0.016 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T6-T7": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t6_t7",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t6_t7",
+    "volume_cm3": 0.02,
+    "volume_hra_cm3": 0.737,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9469,
+     "residual_median_mm": 0.45,
+     "residual_p90_mm": 0.99
+    },
+    "fit_lower": {
+     "scale": 0.9463,
+     "residual_median_mm": 0.43,
+     "residual_p90_mm": 0.99
+    },
+    "skin_distance_min_mm": 67.5,
+    "height_mm": 0.7,
+    "vertices_moved_out_of_bone": 629,
+    "moved_fraction_pct": 52.3,
+    "max_move_out_of_bone_mm": 0.29,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.027,
+    "bone_min_mm": 0.8,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 1.57,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance 0.8 mm / inside her disc 100.0 % / max move 0.29 mm / volume after the fit 0.027 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T7-T8": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_seventh_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t7_t8",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t7_t8",
+    "volume_cm3": 0.108,
+    "volume_hra_cm3": 0.915,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_seventh_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9463,
+     "residual_median_mm": 0.43,
+     "residual_p90_mm": 0.99
+    },
+    "fit_lower": {
+     "scale": 0.9509,
+     "residual_median_mm": 0.41,
+     "residual_p90_mm": 0.85
+    },
+    "skin_distance_min_mm": 62.7,
+    "height_mm": 1.0,
+    "vertices_moved_out_of_bone": 404,
+    "moved_fraction_pct": 33.6,
+    "max_move_out_of_bone_mm": 0.48,
+    "axial_scale": 0.2,
+    "volume_ratio_to_hra": 0.118,
+    "bone_min_mm": 0.8,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 2.371,
+    "page_disc_placeholder": false,
+    "pass": false,
+    "held_reason": "bone clearance 0.8 mm / inside her disc 100.0 % / max move 0.48 mm / volume after the fit 0.118 of the HRA nucleus (her disc space is thinner than the HRA disk; minimum 0.25)"
+   },
+   "held": true
+  },
+  "nucleus_T8-T9": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_eighth_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t8_t9",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t8_t9",
+    "volume_cm3": 0.579,
+    "volume_hra_cm3": 0.988,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_eighth_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9509,
+     "residual_median_mm": 0.41,
+     "residual_p90_mm": 0.85
+    },
+    "fit_lower": {
+     "scale": 0.9559,
+     "residual_median_mm": 0.42,
+     "residual_p90_mm": 0.81
+    },
+    "skin_distance_min_mm": 61.8,
+    "height_mm": 2.6,
+    "vertices_moved_out_of_bone": 469,
+    "moved_fraction_pct": 39.0,
+    "max_move_out_of_bone_mm": 1.54,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.586,
+    "bone_min_mm": 1.14,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 2.927,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_T9-T10": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_ninth_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t9_t10",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t9_t10",
+    "volume_cm3": 0.459,
+    "volume_hra_cm3": 1.129,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_ninth_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9559,
+     "residual_median_mm": 0.42,
+     "residual_p90_mm": 0.81
+    },
+    "fit_lower": {
+     "scale": 0.9527,
+     "residual_median_mm": 0.47,
+     "residual_p90_mm": 0.89
+    },
+    "skin_distance_min_mm": 62.8,
+    "height_mm": 2.8,
+    "vertices_moved_out_of_bone": 559,
+    "moved_fraction_pct": 46.5,
+    "max_move_out_of_bone_mm": 1.8,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.407,
+    "bone_min_mm": 1.1,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 3.031,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_T10-T11": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_tenth_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t10_t11",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t10_t11",
+    "volume_cm3": 0.857,
+    "volume_hra_cm3": 1.323,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_tenth_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9527,
+     "residual_median_mm": 0.47,
+     "residual_p90_mm": 0.89
+    },
+    "fit_lower": {
+     "scale": 0.9521,
+     "residual_median_mm": 0.48,
+     "residual_p90_mm": 0.96
+    },
+    "skin_distance_min_mm": 62.3,
+    "height_mm": 3.7,
+    "vertices_moved_out_of_bone": 574,
+    "moved_fraction_pct": 47.8,
+    "max_move_out_of_bone_mm": 1.48,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.648,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 3.744,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_T11-T12": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_eleventh_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t11_t12",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t11_t12",
+    "volume_cm3": 1.244,
+    "volume_hra_cm3": 2.474,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_eleventh_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.9521,
+     "residual_median_mm": 0.48,
+     "residual_p90_mm": 0.96
+    },
+    "fit_lower": {
+     "scale": 0.952,
+     "residual_median_mm": 0.52,
+     "residual_p90_mm": 1.11
+    },
+    "skin_distance_min_mm": 64.2,
+    "height_mm": 5.6,
+    "vertices_moved_out_of_bone": 547,
+    "moved_fraction_pct": 45.5,
+    "max_move_out_of_bone_mm": 2.76,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.503,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 4.932,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_T12-L1": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_twelfth_thoracic_vertebra",
+   "page_disc": "intervertebral_disc_t12_l1",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_t12_l1",
+    "volume_cm3": 1.325,
+    "volume_hra_cm3": 2.332,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_twelfth_thoracic_vertebra",
+    "fit_upper": {
+     "scale": 0.952,
+     "residual_median_mm": 0.52,
+     "residual_p90_mm": 1.11
+    },
+    "fit_lower": {
+     "scale": 0.9535,
+     "residual_median_mm": 0.49,
+     "residual_p90_mm": 0.94
+    },
+    "skin_distance_min_mm": 64.2,
+    "height_mm": 3.7,
+    "vertices_moved_out_of_bone": 545,
+    "moved_fraction_pct": 45.3,
+    "max_move_out_of_bone_mm": 2.33,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.568,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": 5.969,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_L1-L2": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_first_lumbar_vertebra",
+   "page_disc": null,
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": null,
+    "volume_cm3": 1.798,
+    "volume_hra_cm3": 3.145,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_first_lumbar_vertebra",
+    "fit_upper": {
+     "scale": 0.9535,
+     "residual_median_mm": 0.49,
+     "residual_p90_mm": 0.94
+    },
+    "fit_lower": {
+     "scale": 0.9461,
+     "residual_median_mm": 0.54,
+     "residual_p90_mm": 1.07
+    },
+    "skin_distance_min_mm": 70.9,
+    "height_mm": 6.0,
+    "vertices_moved_out_of_bone": 1,
+    "moved_fraction_pct": 0.1,
+    "max_move_out_of_bone_mm": 1.11,
+    "axial_scale": 0.9,
+    "volume_ratio_to_hra": 0.572,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": null,
+    "pass": false,
+    "held_reason": "no intervertebral disc of this page lies at this level (her supernumerary lumbar disc is not an atlas entity, Q185k2): a nucleus would float between two vertebrae"
+   },
+   "held": true
+  },
+  "nucleus_L2-L3": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_second_lumbar_vertebra",
+   "page_disc": "intervertebral_disc_l1_l2",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_l1_l2",
+    "volume_cm3": 4.188,
+    "volume_hra_cm3": 5.93,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_second_lumbar_vertebra",
+    "fit_upper": {
+     "scale": 0.9461,
+     "residual_median_mm": 0.54,
+     "residual_p90_mm": 1.07
+    },
+    "fit_lower": {
+     "scale": 0.9492,
+     "residual_median_mm": 0.59,
+     "residual_p90_mm": 1.08
+    },
+    "skin_distance_min_mm": 74.7,
+    "height_mm": 8.8,
+    "vertices_moved_out_of_bone": 267,
+    "moved_fraction_pct": 22.2,
+    "max_move_out_of_bone_mm": 2.91,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.706,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 14.102,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_L3-L4": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_lumbar_vertebra",
+   "page_disc": "intervertebral_disc_l2_l3",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_l2_l3",
+    "volume_cm3": 4.147,
+    "volume_hra_cm3": 6.003,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_third_lumbar_vertebra",
+    "fit_upper": {
+     "scale": 0.9492,
+     "residual_median_mm": 0.59,
+     "residual_p90_mm": 1.08
+    },
+    "fit_lower": {
+     "scale": 0.951,
+     "residual_median_mm": 0.55,
+     "residual_p90_mm": 1.02
+    },
+    "skin_distance_min_mm": 82.8,
+    "height_mm": 8.7,
+    "vertices_moved_out_of_bone": 233,
+    "moved_fraction_pct": 19.4,
+    "max_move_out_of_bone_mm": 2.72,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.691,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 99.5,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 14.19,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_L4-L5": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_lumbar_vertebra",
+   "page_disc": "intervertebral_disc_l3_l4",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_l3_l4",
+    "volume_cm3": 4.331,
+    "volume_hra_cm3": 5.935,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fourth_lumbar_vertebra",
+    "fit_upper": {
+     "scale": 0.951,
+     "residual_median_mm": 0.55,
+     "residual_p90_mm": 1.02
+    },
+    "fit_lower": {
+     "scale": 0.9523,
+     "residual_median_mm": 0.53,
+     "residual_p90_mm": 0.96
+    },
+    "skin_distance_min_mm": 81.1,
+    "height_mm": 8.0,
+    "vertices_moved_out_of_bone": 248,
+    "moved_fraction_pct": 20.6,
+    "max_move_out_of_bone_mm": 1.8,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.73,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 13.777,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_L5-L6": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_lumbar_vertebra",
+   "page_disc": "intervertebral_disc_l4_l5",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_l4_l5",
+    "volume_cm3": 3.647,
+    "volume_hra_cm3": 5.019,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_fifth_lumbar_vertebra",
+    "fit_upper": {
+     "scale": 0.9523,
+     "residual_median_mm": 0.53,
+     "residual_p90_mm": 0.96
+    },
+    "fit_lower": {
+     "scale": 0.9537,
+     "residual_median_mm": 0.56,
+     "residual_p90_mm": 1.07
+    },
+    "skin_distance_min_mm": 87.8,
+    "height_mm": 10.2,
+    "vertices_moved_out_of_bone": 291,
+    "moved_fraction_pct": 24.2,
+    "max_move_out_of_bone_mm": 2.1,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.727,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 100.0,
+    "page_disc_triangles": 2998,
+    "page_disc_volume_cm3": 12.778,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "nucleus_L6-S1": {
+   "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_lumbar_vertebra",
+   "page_disc": "intervertebral_disc_l5_s1",
+   "gates": {
+    "vertices": 1202,
+    "triangles": 2400,
+    "watertight": true,
+    "page_disc": "intervertebral_disc_l5_s1",
+    "volume_cm3": 3.906,
+    "volume_hra_cm3": 5.019,
+    "hra_node": "VH_F_nucleus_pulposus_of_intervertebral_disk_of_sixth_lumbar_vertebra",
+    "fit_upper": {
+     "scale": 0.9537,
+     "residual_median_mm": 0.56,
+     "residual_p90_mm": 1.07
+    },
+    "fit_lower": {
+     "scale": 0.9538,
+     "residual_median_mm": 0.9,
+     "residual_p90_mm": 8.58
+    },
+    "skin_distance_min_mm": 84.4,
+    "height_mm": 13.6,
+    "vertices_moved_out_of_bone": 170,
+    "moved_fraction_pct": 14.1,
+    "max_move_out_of_bone_mm": 2.24,
+    "axial_scale": 1.0,
+    "volume_ratio_to_hra": 0.778,
+    "bone_min_mm": 1.2,
+    "inside_disc_pct": 98.7,
+    "page_disc_triangles": 3000,
+    "page_disc_volume_cm3": null,
+    "page_disc_placeholder": false,
+    "pass": true
+   }
+  },
+  "cord_C1": {
+   "hra_node": "VH_F_C1_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9996,
+    "watertight": true,
+    "hra_node": "VH_F_C1_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 1,
+     "capped": 1,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.673,
+    "length_mm": 11.8,
+    "bone_min_mm": 3.95,
+    "skin_distance_min_mm": 63.2,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     682.7,
+     694.5
+    ],
+    "centroid": [
+     1.0,
+     690.2,
+     -12.1
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_C2": {
+   "hra_node": "VH_F_C2_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10032,
+    "watertight": true,
+    "hra_node": "VH_F_C2_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.622,
+    "length_mm": 11.1,
+    "bone_min_mm": 3.44,
+    "skin_distance_min_mm": 63.5,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     671.8,
+     683.0
+    ],
+    "centroid": [
+     1.1,
+     677.3,
+     -11.5
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_C3": {
+   "hra_node": "VH_F_C3_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9996,
+    "watertight": true,
+    "hra_node": "VH_F_C3_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.865,
+    "length_mm": 15.1,
+    "bone_min_mm": 1.93,
+    "skin_distance_min_mm": 64.9,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     656.8,
+     671.9
+    ],
+    "centroid": [
+     0.7,
+     664.2,
+     -10.2
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_C4": {
+   "hra_node": "VH_F_C4_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9964,
+    "watertight": true,
+    "hra_node": "VH_F_C4_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.595,
+    "length_mm": 12.5,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 63.9,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     644.3,
+     656.8
+    ],
+    "centroid": [
+     -0.9,
+     651.1,
+     -9.5
+    ],
+    "vertices_moved_out_of_bone": 7,
+    "moved_fraction_pct": 0.9,
+    "max_move_out_of_bone_mm": 0.18,
+    "pass": true
+   }
+  },
+  "cord_C5": {
+   "hra_node": "VH_F_C5_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9984,
+    "watertight": true,
+    "hra_node": "VH_F_C5_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.495,
+    "length_mm": 13.7,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 63.9,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     631.3,
+     645.0
+    ],
+    "centroid": [
+     -1.8,
+     638.4,
+     -11.2
+    ],
+    "vertices_moved_out_of_bone": 120,
+    "moved_fraction_pct": 16.0,
+    "max_move_out_of_bone_mm": 1.25,
+    "pass": true
+   }
+  },
+  "cord_C6": {
+   "hra_node": "VH_F_C6_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9964,
+    "watertight": true,
+    "hra_node": "VH_F_C6_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.62,
+    "length_mm": 14.6,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 63.8,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     620.1,
+     634.7
+    ],
+    "centroid": [
+     -2.0,
+     627.5,
+     -14.4
+    ],
+    "vertices_moved_out_of_bone": 42,
+    "moved_fraction_pct": 5.6,
+    "max_move_out_of_bone_mm": 0.45,
+    "pass": true
+   }
+  },
+  "cord_C7": {
+   "hra_node": "VH_F_C7_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9856,
+    "watertight": true,
+    "hra_node": "VH_F_C7_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.807,
+    "length_mm": 18.3,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 64.4,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     605.3,
+     623.5
+    ],
+    "centroid": [
+     -2.0,
+     614.4,
+     -20.2
+    ],
+    "vertices_moved_out_of_bone": 27,
+    "moved_fraction_pct": 3.6,
+    "max_move_out_of_bone_mm": 0.5,
+    "pass": true
+   }
+  },
+  "cord_C8": {
+   "hra_node": "VH_F_C8_segment_of_cervical_spinal_cord",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10044,
+    "watertight": true,
+    "hra_node": "VH_F_C8_segment_of_cervical_spinal_cord",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.675,
+    "length_mm": 17.2,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 69.1,
+    "canal_inside_pct": 99.6,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     591.3,
+     608.5
+    ],
+    "centroid": [
+     -1.8,
+     599.6,
+     -27.1
+    ],
+    "vertices_moved_out_of_bone": 117,
+    "moved_fraction_pct": 15.6,
+    "max_move_out_of_bone_mm": 1.45,
+    "pass": true
+   }
+  },
+  "cord_T1": {
+   "hra_node": "VH_F_first_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10004,
+    "watertight": true,
+    "hra_node": "VH_F_first_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.893,
+    "length_mm": 21.1,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 75.3,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     574.0,
+     595.1
+    ],
+    "centroid": [
+     -2.3,
+     584.4,
+     -34.0
+    ],
+    "vertices_moved_out_of_bone": 41,
+    "moved_fraction_pct": 5.5,
+    "max_move_out_of_bone_mm": 1.27,
+    "pass": true
+   }
+  },
+  "cord_T2": {
+   "hra_node": "VH_F_second_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10030,
+    "watertight": true,
+    "hra_node": "VH_F_second_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.818,
+    "length_mm": 19.5,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 78.2,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     557.8,
+     577.3
+    ],
+    "centroid": [
+     -2.7,
+     567.5,
+     -41.5
+    ],
+    "vertices_moved_out_of_bone": 84,
+    "moved_fraction_pct": 11.2,
+    "max_move_out_of_bone_mm": 0.81,
+    "pass": true
+   }
+  },
+  "cord_T3": {
+   "hra_node": "VH_F_third_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9882,
+    "watertight": true,
+    "hra_node": "VH_F_third_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.9,
+    "length_mm": 20.7,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 79.5,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     540.4,
+     561.0
+    ],
+    "centroid": [
+     -2.6,
+     550.4,
+     -48.9
+    ],
+    "vertices_moved_out_of_bone": 123,
+    "moved_fraction_pct": 16.4,
+    "max_move_out_of_bone_mm": 0.92,
+    "pass": true
+   }
+  },
+  "cord_T4": {
+   "hra_node": "VH_F_fourth_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10032,
+    "watertight": true,
+    "hra_node": "VH_F_fourth_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 1.065,
+    "length_mm": 24.0,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 71.0,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     518.9,
+     542.9
+    ],
+    "centroid": [
+     -2.9,
+     531.9,
+     -57.0
+    ],
+    "vertices_moved_out_of_bone": 7,
+    "moved_fraction_pct": 0.9,
+    "max_move_out_of_bone_mm": 0.35,
+    "pass": true
+   }
+  },
+  "cord_T5": {
+   "hra_node": "VH_F_fifth_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9984,
+    "watertight": true,
+    "hra_node": "VH_F_fifth_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 1.094,
+    "length_mm": 23.7,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 63.1,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     497.1,
+     520.7
+    ],
+    "centroid": [
+     -3.4,
+     509.2,
+     -64.5
+    ],
+    "vertices_moved_out_of_bone": 22,
+    "moved_fraction_pct": 2.9,
+    "max_move_out_of_bone_mm": 0.42,
+    "pass": true
+   }
+  },
+  "cord_T6": {
+   "hra_node": "VH_F_sixth_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9940,
+    "watertight": true,
+    "hra_node": "VH_F_sixth_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 1.197,
+    "length_mm": 26.9,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 55.7,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     472.0,
+     498.9
+    ],
+    "centroid": [
+     -3.4,
+     484.8,
+     -69.7
+    ],
+    "vertices_moved_out_of_bone": 43,
+    "moved_fraction_pct": 5.7,
+    "max_move_out_of_bone_mm": 0.7,
+    "pass": true
+   }
+  },
+  "cord_T7": {
+   "hra_node": "VH_F_seventh_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9984,
+    "watertight": true,
+    "hra_node": "VH_F_seventh_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 1.012,
+    "length_mm": 22.3,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 48.8,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     450.3,
+     472.6
+    ],
+    "centroid": [
+     -3.6,
+     461.1,
+     -73.6
+    ],
+    "vertices_moved_out_of_bone": 89,
+    "moved_fraction_pct": 11.8,
+    "max_move_out_of_bone_mm": 0.95,
+    "pass": true
+   }
+  },
+  "cord_T8": {
+   "hra_node": "VH_F_eigth_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10092,
+    "watertight": true,
+    "hra_node": "VH_F_eigth_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.973,
+    "length_mm": 18.9,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 44.2,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     431.7,
+     450.6
+    ],
+    "centroid": [
+     -3.3,
+     441.4,
+     -75.9
+    ],
+    "vertices_moved_out_of_bone": 53,
+    "moved_fraction_pct": 7.0,
+    "max_move_out_of_bone_mm": 0.94,
+    "pass": true
+   }
+  },
+  "cord_T9": {
+   "hra_node": "VH_F_ninth_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10010,
+    "watertight": true,
+    "hra_node": "VH_F_ninth_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 1.191,
+    "length_mm": 23.6,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 42.1,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     408.2,
+     431.7
+    ],
+    "centroid": [
+     -3.5,
+     419.4,
+     -76.1
+    ],
+    "vertices_moved_out_of_bone": 59,
+    "moved_fraction_pct": 7.8,
+    "max_move_out_of_bone_mm": 1.59,
+    "pass": true
+   }
+  },
+  "cord_T10": {
+   "hra_node": "VH_F_tenth_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10030,
+    "watertight": true,
+    "hra_node": "VH_F_tenth_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 1.106,
+    "length_mm": 21.0,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 41.2,
+    "canal_inside_pct": 87.8,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     387.8,
+     408.8
+    ],
+    "centroid": [
+     -3.2,
+     398.6,
+     -76.3
+    ],
+    "vertices_moved_out_of_bone": 154,
+    "moved_fraction_pct": 20.5,
+    "max_move_out_of_bone_mm": 2.14,
+    "pass": false,
+    "held_reason": "bone clearance 1.2 mm / inside the vertebral canal 87.8 % (tested 100.0 %) / max move 2.14 mm"
+   },
+   "held": true
+  },
+  "cord_T11": {
+   "hra_node": "VH_F_eleventh_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9936,
+    "watertight": true,
+    "hra_node": "VH_F_eleventh_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.719,
+    "length_mm": 18.3,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 41.3,
+    "canal_inside_pct": 83.5,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     370.1,
+     388.4
+    ],
+    "centroid": [
+     -3.9,
+     379.7,
+     -76.7
+    ],
+    "vertices_moved_out_of_bone": 308,
+    "moved_fraction_pct": 41.0,
+    "max_move_out_of_bone_mm": 3.69,
+    "pass": false,
+    "held_reason": "bone clearance 1.2 mm / inside the vertebral canal 83.5 % (tested 100.0 %) / max move 3.69 mm"
+   },
+   "held": true
+  },
+  "cord_T12": {
+   "hra_node": "VH_F_twelfth_thoracic_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9964,
+    "watertight": true,
+    "hra_node": "VH_F_twelfth_thoracic_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.922,
+    "length_mm": 18.4,
+    "bone_min_mm": 1.14,
+    "skin_distance_min_mm": 40.3,
+    "canal_inside_pct": 78.1,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     352.3,
+     370.8
+    ],
+    "centroid": [
+     -4.9,
+     361.8,
+     -76.4
+    ],
+    "vertices_moved_out_of_bone": 351,
+    "moved_fraction_pct": 46.7,
+    "max_move_out_of_bone_mm": 3.98,
+    "pass": false,
+    "held_reason": "bone clearance 1.14 mm / inside the vertebral canal 78.1 % (tested 100.0 %) / max move 3.98 mm"
+   },
+   "held": true
+  },
+  "cord_L1": {
+   "hra_node": "VH_F_first_lumbar_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9870,
+    "watertight": true,
+    "hra_node": "VH_F_first_lumbar_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.813,
+    "length_mm": 14.2,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 44.2,
+    "canal_inside_pct": 91.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     339.2,
+     353.5
+    ],
+    "centroid": [
+     -4.7,
+     345.8,
+     -74.8
+    ],
+    "vertices_moved_out_of_bone": 156,
+    "moved_fraction_pct": 20.7,
+    "max_move_out_of_bone_mm": 3.96,
+    "pass": false,
+    "held_reason": "bone clearance 1.2 mm / inside the vertebral canal 91.0 % (tested 100.0 %) / max move 3.96 mm"
+   },
+   "held": true
+  },
+  "cord_L2": {
+   "hra_node": "VH_F_second_lumbar_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9990,
+    "watertight": true,
+    "hra_node": "VH_F_second_lumbar_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.579,
+    "length_mm": 8.9,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 44.8,
+    "canal_inside_pct": 93.6,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     330.4,
+     339.2
+    ],
+    "centroid": [
+     -4.3,
+     335.1,
+     -74.0
+    ],
+    "vertices_moved_out_of_bone": 45,
+    "moved_fraction_pct": 6.0,
+    "max_move_out_of_bone_mm": 0.67,
+    "pass": false,
+    "held_reason": "bone clearance 1.2 mm / inside the vertebral canal 93.6 % (tested 100.0 %) / max move 0.67 mm"
+   },
+   "held": true
+  },
+  "cord_L3": {
+   "hra_node": "VH_F_third_lumbar_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9828,
+    "watertight": true,
+    "hra_node": "VH_F_third_lumbar_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.539,
+    "length_mm": 9.6,
+    "bone_min_mm": 1.2,
+    "skin_distance_min_mm": 45.6,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     320.9,
+     330.4
+    ],
+    "centroid": [
+     -4.2,
+     325.8,
+     -72.9
+    ],
+    "vertices_moved_out_of_bone": 26,
+    "moved_fraction_pct": 3.5,
+    "max_move_out_of_bone_mm": 0.62,
+    "pass": true
+   }
+  },
+  "cord_L4": {
+   "hra_node": "VH_F_fourth_lumbar_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9840,
+    "watertight": true,
+    "hra_node": "VH_F_fourth_lumbar_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.36,
+    "length_mm": 8.6,
+    "bone_min_mm": 2.01,
+    "skin_distance_min_mm": 47.3,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     312.4,
+     321.0
+    ],
+    "centroid": [
+     -4.7,
+     316.9,
+     -73.0
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_L5": {
+   "hra_node": "VH_F_fifth_lumbar_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10008,
+    "watertight": true,
+    "hra_node": "VH_F_fifth_lumbar_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.204,
+    "length_mm": 6.0,
+    "bone_min_mm": 3.79,
+    "skin_distance_min_mm": 47.3,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     306.4,
+     312.4
+    ],
+    "centroid": [
+     -4.7,
+     309.4,
+     -72.7
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_S1": {
+   "hra_node": "VH_F_first_sacral_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9906,
+    "watertight": true,
+    "hra_node": "VH_F_first_sacral_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.161,
+    "length_mm": 6.3,
+    "bone_min_mm": 5.05,
+    "skin_distance_min_mm": 47.3,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     300.2,
+     306.4
+    ],
+    "centroid": [
+     -4.6,
+     303.5,
+     -72.4
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_S2": {
+   "hra_node": "VH_F_second_sacral_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 10080,
+    "watertight": true,
+    "hra_node": "VH_F_second_sacral_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.106,
+    "length_mm": 5.5,
+    "bone_min_mm": 3.53,
+    "skin_distance_min_mm": 47.2,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     294.7,
+     300.2
+    ],
+    "centroid": [
+     -4.5,
+     297.6,
+     -72.3
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_S3": {
+   "hra_node": "VH_F_third_sacral_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9976,
+    "watertight": true,
+    "hra_node": "VH_F_third_sacral_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.081,
+    "length_mm": 5.6,
+    "bone_min_mm": 2.98,
+    "skin_distance_min_mm": 47.2,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     289.2,
+     294.7
+    ],
+    "centroid": [
+     -4.4,
+     291.9,
+     -71.8
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  },
+  "cord_S4": {
+   "hra_node": "VH_F_fourth_sacral_spinal_cord_segment",
+   "gates": {
+    "vertices": 752,
+    "triangles": 1500,
+    "hra_triangles": 9690,
+    "watertight": true,
+    "hra_node": "VH_F_fourth_sacral_spinal_cord_segment",
+    "caps": {
+     "boundary_loops": 2,
+     "capped": 2,
+     "left_open": 0,
+     "watertight": true
+    },
+    "volume_cm3": 0.047,
+    "length_mm": 5.8,
+    "bone_min_mm": 3.33,
+    "skin_distance_min_mm": 47.8,
+    "canal_inside_pct": 100.0,
+    "canal_tested_pct": 100.0,
+    "y_range_mm": [
+     283.4,
+     289.2
+    ],
+    "centroid": [
+     -4.5,
+     286.3,
+     -70.8
+    ],
+    "vertices_moved_out_of_bone": 0,
+    "moved_fraction_pct": 0.0,
+    "max_move_out_of_bone_mm": 0.0,
+    "pass": true
+   }
+  }
+ },
+ "shipped": [
+  "inferior_rectal_v_l",
+  "inferior_rectal_v_r",
+  "internal_iliac_v_l",
+  "internal_iliac_v_r",
+  "internal_pudendal_v_l",
+  "internal_pudendal_v_r",
+  "median_sacral_v",
+  "middle_rectal_v_l",
+  "middle_rectal_v_r",
+  "nucleus_pulposus_c3_c4",
+  "nucleus_pulposus_c4_c5",
+  "nucleus_pulposus_c5_c6",
+  "nucleus_pulposus_c6_c7",
+  "nucleus_pulposus_l1_l2",
+  "nucleus_pulposus_l2_l3",
+  "nucleus_pulposus_l3_l4",
+  "nucleus_pulposus_l4_l5",
+  "nucleus_pulposus_l5_s1",
+  "nucleus_pulposus_t10_t11",
+  "nucleus_pulposus_t11_t12",
+  "nucleus_pulposus_t12_l1",
+  "nucleus_pulposus_t8_t9",
+  "nucleus_pulposus_t9_t10",
+  "spinal_cord_segment_c1",
+  "spinal_cord_segment_c2",
+  "spinal_cord_segment_c3",
+  "spinal_cord_segment_c4",
+  "spinal_cord_segment_c5",
+  "spinal_cord_segment_c6",
+  "spinal_cord_segment_c7",
+  "spinal_cord_segment_c8",
+  "spinal_cord_segment_l3",
+  "spinal_cord_segment_l4",
+  "spinal_cord_segment_l5",
+  "spinal_cord_segment_s1",
+  "spinal_cord_segment_s2",
+  "spinal_cord_segment_s3",
+  "spinal_cord_segment_s4",
+  "spinal_cord_segment_t1",
+  "spinal_cord_segment_t2",
+  "spinal_cord_segment_t3",
+  "spinal_cord_segment_t4",
+  "spinal_cord_segment_t5",
+  "spinal_cord_segment_t6",
+  "spinal_cord_segment_t7",
+  "spinal_cord_segment_t8",
+  "spinal_cord_segment_t9",
+  "superior_rectal_a",
+  "superior_rectal_v",
+  "uterine_a_l",
+  "uterine_a_r",
+  "uterine_v_l",
+  "uterine_v_r"
+ ],
+ "subjects": [
+  "xfer_hra2vhf_q243",
+  "xfer_hra2vhf_spine_q243"
+ ],
+ "attribution": {
+  "xfer_hra2vhf_q243": "HuBMAP Human Reference Atlas (HRA) 3D Reference Object Library (CC BY 4.0; https://humanatlas.io/3d-reference-library): blood-vasculature-female v1.3, Kristen Browne and Heidi Schlehlein, https://doi.org/10.48539/HBM322.KKFC.394; created from the Visible Human Dataset. Registered onto her own CT pelvis by this atlas (Q243; the Q233 pelvis transform), open tube ends closed with flat discs; derived data, CC BY 4.0 attribution kept (third_party/hra_vh_f/SOURCES_Q242.md).",
+  "xfer_hra2vhf_spine_q243": "HuBMAP Human Reference Atlas (HRA) 3D Reference Object Library (CC BY 4.0): united-female v1.10 (https://doi.org/10.48539/HBM637.DWBM.744), spinal-cord-female v1.1 (https://doi.org/10.48539/HBM242.QQQB.777), intervertebral-disk-female v1.0 (https://doi.org/10.48539/HBM824.BNBP.227); Kristen Browne and Heidi Schlehlein; created from the Visible Human Dataset. Nucleus pulposus and spinal cord segments registered onto her own CT vertebrae by this atlas (Q243; one rigid + uniform-scale fit per vertebra, blended between vertebrae); derived data, CC BY 4.0 attribution kept."
+ }
+}

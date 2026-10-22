@@ -1,0 +1,1036 @@
+[
+  {
+    "id": "rotator_cuff_tendon_complex_r",
+    "name_ta": "Tendines musculorum rotatorum",
+    "name_common": "Rotator cuff tendon complex",
+    "side": "right",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "supraspinatus_r",
+      "infraspinatus_r",
+      "teres_minor_r",
+      "subscapularis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "supraspinatus_r",
+        "landmark": "supraspinatus muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "greater tubercle (supraspinatus/infraspinatus/teres minor) and lesser tubercle (subscapularis)"
+      }
+    },
+    "parts": [
+      {
+        "id": "rotator_cuff_r_supraspinatus",
+        "name": "Supraspinatus tendon",
+        "function_note": "Contains the hypovascular 'critical zone' -- a watershed region between the tendon's osseous and muscular blood supply, implicated in degenerative rotator cuff tearing (the ~1cm-proximal-to-insertion distance and 'single most common tear site' framing are widely repeated but trace to older/separate sources, not to the cited paper itself -- narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing.",
+        "parent_muscle": "supraspinatus_r",
+        "attachment_or_location": "greater tubercle, superior facet"
+      },
+      {
+        "id": "rotator_cuff_r_infraspinatus",
+        "name": "Infraspinatus tendon",
+        "function_note": "Blends with the supraspinatus tendon anteriorly and the teres minor tendon posteriorly, forming a continuous cuff rather than three fully separate insertions.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "infraspinatus_r",
+        "attachment_or_location": "greater tubercle, middle facet"
+      },
+      {
+        "id": "rotator_cuff_r_teres_minor",
+        "name": "Teres minor tendon",
+        "function_note": "The most posterior and, functionally, the least injured of the four rotator cuff tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "teres_minor_r",
+        "attachment_or_location": "greater tubercle, inferior facet"
+      },
+      {
+        "id": "rotator_cuff_r_subscapularis",
+        "name": "Subscapularis tendon",
+        "function_note": "The only rotator cuff tendon inserting on the lesser tubercle (anterior); its upper fibers form the floor of the bicipital (intertubercular) groove alongside the transverse humeral ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "subscapularis_r",
+        "attachment_or_location": "lesser tubercle"
+      }
+    ],
+    "function": "The confluent tendinous insertion of the four rotator cuff muscles onto the humeral tubercles, functioning as a dynamic stabilizing 'cuff' around the glenohumeral joint that centers the humeral head against the much larger deltoid's compressive/shear forces during arm elevation.",
+    "prp_injection_approach": {
+      "transducer_placement": "Arm placed in modified Crass position (hand on ipsilateral posterior hip pocket) to bring the supraspinatus tendon anterior to the acromion; probe placed longitudinally along the tendon's long axis from the greater tubercle footprint back toward the myotendinous junction, then rotated 90 degrees for a short-axis pass; posterior probe placement over the infraspinatus/teres minor footprint and anterior placement over the subscapularis/bicipital groove for those tendons.",
+      "target_zone": "The critical zone of the supraspinatus tendon -- the hypovascular watershed roughly 1 cm proximal to its greater-tubercle insertion -- and, for the other three cuff tendons, the region of documented tendinosis or partial-thickness (bursal- or articular-sided) tearing on preprocedure imaging; injection is peppered through this zone rather than delivered as a single bolus.",
+      "depth_layer": "Superficial to the tendon lies the subacromial-subdeltoid bursa and deltoid muscle; deep to the tendon is the humeral head articular cartilage and, at the critical zone, the joint capsule -- the needle should stay within tendon substance and not penetrate into the glenohumeral joint.",
+      "identification_cues": "Focal hypoechoic or heterogeneous thickening of the tendon at the critical zone, loss of the normal fibrillar echotexture, cortical irregularity of the greater tubercle, and increased Doppler flow (neovascularity) correlating with the symptomatic side; dynamic abduction/adduction can reveal subacromial impingement of the thickened tendon.",
+      "structures_at_risk": ["axillary nerve (quadrangular space, inferior to the teres minor)", "suprascapular nerve and vessels (spinoglenoid notch, posterior approach)", "long head of biceps tendon (anterior approach to subscapularis)"],
+      "notes": "Evidence is genuinely mixed and heterogeneous: a 2021 systematic review/meta-analysis of 8 RCTs found PRP injection safe and effective for pain and function in nonoperative rotator cuff tendinopathy, while other systematic reviews (e.g. Feltri et al. 2022) found PRP augmentation reduces retear rate after surgical repair but does not clearly improve nonoperative clinical outcomes over exercise/saline -- report this as real but unsettled evidence, not a slam-dunk indication.",
+      "source": "A Hamid MS, Sazlina SG (2021) 'Platelet-rich plasma for rotator cuff tendinopathy: A systematic review and meta-analysis.' PLoS One 16(5):e0251111, doi:10.1371/journal.pone.0251111 (https://doi.org/10.1371/journal.pone.0251111) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing."
+  },
+  {
+    "id": "biceps_brachii_tendon_complex_r",
+    "name_ta": "Tendines musculi bicipitis brachii",
+    "name_common": "Biceps brachii tendon complex",
+    "side": "right",
+    "region": "shoulder_elbow",
+    "tendon_type": "intra_articular",
+    "parent_muscles": [
+      "biceps_brachii_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "biceps_brachii_r",
+        "landmark": "biceps brachii muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "radius_r",
+        "landmark": "radial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "biceps_tendon_r_lh",
+        "name": "Long head tendon",
+        "function_note": "Originates from the supraglenoid tubercle and glenoid labrum (with documented variability in exactly how much of each contributes) and runs intra-articularly across the humeral head before exiting the joint capsule to descend in the intertubercular (bicipital) groove -- an unusual intra-articular-then-extra-articular course among tendons, and a common site of tendinopathy/instability.",
+        "source": "Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin. This paper's own scope is specifically the tendon's proximal origin (the roughly 50/50 labrum-vs-tubercle split it documents, with 4 distinct origin patterns); the tendon's subsequent intra-articular course across the humeral head and exit into the bicipital groove is separately well-established general anatomy (Gray's/Kenhub level), not a claim made by this specific citation (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "biceps_brachii_r",
+        "attachment_or_location": "supraglenoid tubercle / glenoid labrum"
+      },
+      {
+        "id": "biceps_tendon_r_sh",
+        "name": "Short head tendon",
+        "function_note": "Originates from the coracoid process (conjoint tendon with coracobrachialis) and, unlike the long head, has an entirely extra-articular course.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_r",
+        "attachment_or_location": "coracoid process"
+      },
+      {
+        "id": "biceps_tendon_r_distal",
+        "name": "Distal (bicipital) tendon + bicipital aponeurosis (lacertus fibrosus)",
+        "function_note": "The distal tendon inserts on the radial tuberosity; a fibrous expansion (the bicipital aponeurosis/lacertus fibrosus) fans off it medially to blend with the deep antebrachial fascia over the forearm flexor mass -- clinically relevant as a landmark protecting the underlying brachial artery and median nerve during venipuncture at the cubital fossa.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_r",
+        "attachment_or_location": "radial tuberosity"
+      }
+    ],
+    "function": "The two-headed proximal origin (glenoid/labrum + coracoid) converges into one muscle belly and one distal tendon; the long head's intra-articular course through the glenohumeral joint is anatomically unusual and a well-documented source of shoulder pain independent of rotator cuff pathology.",
+    "prp_injection_approach": {
+      "transducer_placement": "Arm adducted at the side with the elbow flexed 90 degrees and forearm neutral/slightly supinated; probe placed transversely over the anterior humeral head just distal to the anterior acromion to find the intertubercular (bicipital) groove in short axis, then rotated 90 degrees for the long-axis view along the extra-articular long head tendon.",
+      "target_zone": "The long head of biceps tendon within the intertubercular groove (bicipital groove segment), targeting the tendon sheath around the extra-articular portion where tenosynovitis/tendinosis is visualized -- distal to the point where the tendon exits the glenohumeral joint, avoiding the intra-articular segment.",
+      "depth_layer": "The tendon sits within its synovial sheath in the bicipital groove, roofed by the transverse humeral ligament and pectoralis major tendon more distally; deep to the tendon is the groove floor (proximal humerus, with subscapularis fibers forming its medial wall).",
+      "identification_cues": "Anechoic or hypoechoic fluid distending the tendon sheath (tenosynovitis), tendon thickening or hypoechoic tendinosis change, and dynamic external/internal rotation confirming tendon gliding within the groove; injectate should be seen filling the sheath around, not the substance of, the tendon.",
+      "structures_at_risk": ["ascending branch of the anterior humeral circumflex artery (runs along the lateral margin of the groove)", "glenohumeral joint (sheath communicates with the joint in most people, so injectate readily extravasates intra-articularly)"],
+      "notes": "The rigorous literature here is for ultrasound-guided sheath injection technique (anesthetic/corticosteroid) for bicipital tenosynovitis/long-head tendinopathy, confirming that a standard sheath injection reliably reaches the tendon sheath but frequently (~60% in one series) also extravasates into the glenohumeral joint given their anatomic communication; dedicated PRP-specific trials targeting the long head tendon in the groove (as distinct from the distal biceps tendon at the elbow, which does have its own small PRP cohort study) are not established -- describe this honestly as a corticosteroid/anesthetic sheath-injection technique literature repurposed for PRP delivery to the same target.",
+      "source": "Slevin J, Joyce M, Galvin JW, Mahlon MA, Grant MD, Eichinger JK, Grassbaugh JA (2021) 'Ultrasound-Guided Biceps Tendon Sheath Injections Frequently Extravasate Into the Glenohumeral Joint.' Arthroscopy 37(6):1711-1716, doi:10.1016/j.arthro.2020.12.238 (https://doi.org/10.1016/j.arthro.2020.12.238) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin."
+  },
+  {
+    "id": "pectoralis_major_tendon_r",
+    "name_ta": "Tendo musculi pectoralis majoris",
+    "name_common": "Pectoralis major tendon",
+    "side": "right",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "pectoralis_major_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "pectoralis_major_r",
+        "landmark": "pectoralis major muscle belly (representative, all 3 heads/compartments)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "lateral lip of the intertubercular (bicipital) groove, proximal humerus"
+      }
+    },
+    "parts": [
+      {
+        "id": "pectoralis_major_tendon_r_clavicular_lamina",
+        "name": "Clavicular head lamina (anterior lamina)",
+        "parent_muscle": "pectoralis_major_r",
+        "attachment_or_location": "most inferior part of the humeral footprint on the lateral lip of the intertubercular groove",
+        "function_note": "Forms the anterior of the tendon's two laminae; because the clavicular head's fibers do not spiral, it inserts most inferiorly despite originating most superiorly (proximally) on the chest wall -- the mirror image of the sternocostal/abdominal lamina.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "pectoralis_major_tendon_r_sternocostal_lamina",
+        "name": "Sternocostal/abdominal head lamina (posterior lamina)",
+        "parent_muscle": "pectoralis_major_r",
+        "attachment_or_location": "most superior part of the humeral footprint on the lateral lip of the intertubercular groove, deep to the clavicular lamina",
+        "function_note": "Forms the posterior lamina; the sternocostal and abdominal fibers spiral through roughly 180 degrees so that the most inferiorly-originating (abdominal) fibers insert most superiorly (proximally) on the humerus, deep to the clavicular head's fibers. This bilaminar, spiraled tendon is the anatomic basis for the Tietjen/Bak-type classifications of pectoralis major rupture, which distinguish isolated tears of one lamina (most often the sternocostal head, torn during the eccentric-load phase of the bench press) from complete tears of both.",
+        "source": "Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024"
+      }
+    ],
+    "function": "Transmits the combined adduction/internal-rotation (and, for the clavicular head, flexion) force of the three pectoralis major compartments to the proximal humerus via a distinctive bilaminar, spiraled tendon just lateral to the intertubercular groove.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024 -- pectoralis major tendon rupture is a well-documented, distinct clinical entity, classically occurring during the bench press, staged by the Tietjen/Bak-derived classification systems and generally managed with early surgical repair in active patients."
+  },
+  {
+    "id": "triceps_brachii_tendon_r",
+    "name_ta": "Tendo musculi tricipitis brachii",
+    "name_common": "Triceps brachii tendon",
+    "side": "right",
+    "region": "elbow",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "triceps_brachii_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "triceps_brachii_r",
+        "landmark": "triceps brachii muscle belly (representative, all 3 heads)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "ulna_r",
+        "landmark": "olecranon process"
+      }
+    },
+    "parts": [
+      {
+        "id": "triceps_tendon_r_main",
+        "name": "Triceps brachii tendon",
+        "function_note": "All three heads (long, lateral, medial) converge into one common tendon inserting on the olecranon -- unlike the rotator cuff or quadriceps, the triceps' three heads do not maintain separately identifiable insertional layers.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "triceps_brachii_r",
+        "attachment_or_location": "olecranon process"
+      }
+    ],
+    "function": "The common distal tendon of the elbow's primary extensor, transmitting the combined force of all three triceps heads to the ulna.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_flexor_tendon_r",
+    "name_ta": "Tendo communis flexorum",
+    "name_common": "Common flexor tendon",
+    "side": "right",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "pronator_teres_r",
+      "flexor_carpi_radialis_r",
+      "palmaris_longus_r",
+      "flexor_carpi_ulnaris_r",
+      "flexor_digitorum_superficialis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_carpi_radialis_r",
+        "landmark": "forearm flexor-pronator group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "medial epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_flexor_tendon_r_main",
+        "name": "Common flexor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm flexor-pronator group; repetitive-strain degeneration/microtearing here is the anatomical basis of medial epicondylitis ('golfer's elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "flexor_carpi_radialis_r",
+        "attachment_or_location": "medial epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm flexor/pronator muscles arise, rather than each having its own separate humeral attachment.",
+    "prp_injection_approach": {
+      "transducer_placement": "Elbow flexed 20-30 degrees, forearm supinated, with the probe placed longitudinally over the medial epicondyle and adjacent flexor-pronator mass, angled to capture the tendon origin in the same plane as the epicondyle's anterior/distal surface.",
+      "target_zone": "The common flexor-pronator origin at the anterior/distal medial epicondyle, predominantly involving the pronator teres and flexor carpi radialis components -- the site of documented angiofibroblastic tendinosis in medial epicondylitis ('golfer's elbow').",
+      "depth_layer": "Superficial to the tendon origin is subcutaneous fat and skin; deep to it is the medial epicondyle bone and, just posterior/deep to the origin, the ulnar collateral ligament and ulnar nerve in the cubital tunnel -- both must be avoided.",
+      "identification_cues": "Focal hypoechoic thickening or heterogeneity of the tendon origin, loss of normal fibrillar pattern, adjacent cortical irregularity of the medial epicondyle, and increased Doppler signal (neovascularity) at the deep tendon-bone interface.",
+      "structures_at_risk": ["ulnar nerve (posterior to the medial epicondyle, in the cubital tunnel)", "ulnar collateral ligament (deep/posterior to the flexor-pronator origin)"],
+      "notes": "Medial epicondylitis PRP evidence is real but thinner and lower-quality than for lateral epicondylitis -- a retrospective cohort study (not an RCT) of 209 patients found PRP produced significant pre/post improvement in pain and Mayo Elbow Performance Score for isolated medial epicondylitis, comparable in magnitude to lateral epicondylitis treated the same way, though functional gains were somewhat smaller when medial and lateral epicondylitis were treated simultaneously; treat the underlying approach/technique as extrapolated from the better-studied lateral epicondylitis literature.",
+      "source": "Park HS, Jo SM, Dasari S, Moon YL (2023) 'Comparison of Clinical Outcomes of Platelet-Rich Plasma for Epicondylitis, Elbow: Simultaneous Lateral and Medial Versus Lateral Versus Medial.' Orthop Surg 15(8):2110-2115, doi:10.1111/os.13732 (https://doi.org/10.1111/os.13732) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_extensor_tendon_r",
+    "name_ta": "Tendo communis extensorum",
+    "name_common": "Common extensor tendon",
+    "side": "right",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "extensor_carpi_radialis_brevis_r",
+      "extensor_digitorum_r",
+      "extensor_digiti_minimi_r",
+      "extensor_carpi_ulnaris_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_carpi_radialis_brevis_r",
+        "landmark": "forearm extensor group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "lateral epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_extensor_tendon_r_main",
+        "name": "Common extensor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm extensor group; repetitive-strain degeneration/microtearing here (most consistently implicating extensor carpi radialis brevis specifically) is the anatomical basis of lateral epicondylitis ('tennis elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_carpi_radialis_brevis_r",
+        "attachment_or_location": "lateral epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm extensor muscles arise, rather than each having its own separate humeral attachment.",
+    "prp_injection_approach": {
+      "transducer_placement": "Elbow flexed 20-30 degrees, forearm pronated, with the probe placed longitudinally over the lateral epicondyle and adjacent extensor mass, capturing the tendon origin and the radiocapitellar joint in the same long-axis image.",
+      "target_zone": "The anterolateral facet of the common extensor origin at the lateral epicondyle, at the undersurface of the extensor carpi radialis brevis tendon -- the specific site of the documented angiofibroblastic tendinosis that is the pathologic substrate of lateral epicondylitis ('tennis elbow').",
+      "depth_layer": "Superficial to the tendon origin is subcutaneous fat and skin; deep to it is the lateral epicondyle and radiocapitellar joint capsule, with the lateral collateral ligament complex and posterior interosseous nerve (in the radial tunnel, anterior to the joint) lying deeper still.",
+      "identification_cues": "Focal hypoechoic thickening or heterogeneity of the deep ECRB tendon fibers at the epicondyle, loss of the normal fibrillar echotexture, cortical irregularity/spurring of the lateral epicondyle, and increased Doppler flow (neovascularity) at the tendon-bone junction correlating with the symptomatic side.",
+      "structures_at_risk": ["posterior interosseous nerve (radial tunnel, anterior/deep to the extensor origin)", "lateral collateral ligament complex and radiocapitellar joint (deep to the tendon)"],
+      "notes": "This is one of the most PRP-studied tendons in orthopedics, with dozens of RCTs; a well-cited double-blind RCT with 2-year follow-up found PRP produced significantly greater and more durable reduction in pain (VAS) and disability (DASH) than corticosteroid injection, with no PRP-related complications, while corticosteroid effects regressed toward baseline over time -- cited here as a well-regarded RCT, though subsequent systematic reviews/network meta-analyses have found more mixed results for PRP versus other injectates at various follow-up points.",
+      "source": "Gosens T, Peerbooms JC, van Laar W, den Oudsten BL (2011) 'Ongoing positive effect of platelet-rich plasma versus corticosteroid injection in lateral epicondylitis: a double-blind randomized controlled trial with 2-year follow-up.' Am J Sports Med 39(6):1200-1208, doi:10.1177/0363546510397173 (https://doi.org/10.1177/0363546510397173) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "flexor_tendon_pulley_system_hand_r",
+    "name_ta": "Vaginae fibrosae digitorum manus",
+    "name_common": "Finger flexor tendon sheath and pulley system",
+    "side": "right",
+    "region": "hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "flexor_digitorum_superficialis_r",
+      "flexor_digitorum_profundus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_digitorum_profundus_r",
+        "landmark": "FDS/FDP muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_r",
+        "landmark": "FDS: middle phalanx base (split around FDP -- 'Camper's chiasm'); FDP: distal phalanx base"
+      }
+    },
+    "parts": [
+      {
+        "id": "pulley_system_r_annular",
+        "name": "Annular pulleys (A1-A5)",
+        "function_note": "Five fibro-osseous annular bands overlying the metacarpophalangeal and interphalangeal joints, resisting bowstringing of the flexor tendons away from the bone during finger flexion; A2 and A4 are the mechanically most critical for maintaining grip efficiency, and their surgical/traumatic loss produces a clinically well-documented bowstringing deformity.",
+        "source": "Lin GT, Amadio PC, An KN, Cooney WP (1989) 'Functional anatomy of the human digital flexor pulley system.' J Hand Surg Am 14(6):949-956 -- the biomechanical source of the A2/A4 pulleys' particular importance to grip efficiency and bowstringing resistance (Doyle 1988, used elsewhere in this entity for the pulley count/nomenclature, is an anatomic-description paper that does not itself address this biomechanical finding -- caught by adversarial fact-check, see docs/VERIFICATION.md).",
+        "attachment_or_location": "palmar aspect of proximal/middle phalanges and MCP/IP joints"
+      },
+      {
+        "id": "pulley_system_r_cruciate",
+        "name": "Cruciate pulleys (C1-C3)",
+        "function_note": "Three thinner, more flexible cruciform (X-shaped) bands interposed between the annular pulleys, allowing the sheath to collapse/fold during finger flexion without losing overall containment of the tendons.",
+        "source": "Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+        "attachment_or_location": "between the annular pulleys"
+      }
+    ],
+    "function": "The flexor digitorum superficialis and profundus tendons of each finger run together within one common fibrous digital sheath reinforced by this alternating annular/cruciate pulley system -- without it, tendon excursion during finger flexion would bowstring away from the phalanges rather than efficiently flexing the joints.",
+    "prp_injection_approach": {
+      "transducer_placement": "Finger extended and slightly abducted, small high-frequency (hockey-stick) probe placed longitudinally over the palmar aspect of the metacarpal head, aligned along the long axis of the flexor tendon at the level of the distal palmar crease (A1 pulley of the fingers) or a few millimeters proximal to the MCP flexion crease of the thumb.",
+      "target_zone": "The A1 pulley overlying the flexor tendon at the metacarpal head/neck level -- the site of tendon-pulley mismatch and nodular thickening responsible for the catching/locking of trigger finger; injectate is placed into the tendon sheath at this level, not into the tendon substance.",
+      "depth_layer": "The A1 pulley and flexor tendons lie just deep to the palmar skin, subcutaneous fat, and palmar fascia; the digital neurovascular bundles run along the radial and ulnar borders of the tendon sheath at this level, superficial and lateral to the injection target.",
+      "identification_cues": "Thickening/hypoechoic change of the A1 pulley, a hypoechoic halo or fluid within the tendon sheath, a palpable/visible nodule on the flexor tendon that catches as it passes under the pulley on dynamic finger flexion-extension, and loss of the normal thin hyperechoic pulley band.",
+      "structures_at_risk": ["radial and ulnar digital nerves and arteries (immediately adjacent to the tendon sheath at the metacarpal head level)"],
+      "notes": "The A1 pulley injection approach itself is extremely well-documented, but the mainstream literature is a corticosteroid procedure for trigger finger, not PRP -- report it honestly as such. A randomized trial found that adding an ultrasound-guided intra-tendon-sheath injection to percutaneous A1 pulley release gave faster early pain relief than release alone, and separate retrospective comparative studies confirm ultrasound-guided corticosteroid injection into this same sheath location improves trigger-finger outcomes; the anatomic target/technique described here transfers directly to a PRP injectate even though the outcome evidence base is for corticosteroid.",
+      "source": "Zan X, Zhou WP, Wang Y, Xu M, Zhou FS, Fang XM (2023) 'Combination of ultrasound-guided percutaneous A1 pulley release and intra-tendon sheath injection improves the therapeutic outcomes in adult trigger finger patients.' Med Ultrason 25(2):153-160, doi:10.11152/mu-3877 (https://doi.org/10.11152/mu-3877) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+    "has_synovial_sheath": true
+  },
+  {
+    "id": "extensor_hood_r",
+    "name_ta": "Expansio dorsalis digitorum manus",
+    "name_common": "Extensor hood (dorsal digital expansion)",
+    "side": "right",
+    "region": "hand",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "extensor_digitorum_r",
+      "lumbricals_hand_r",
+      "dorsal_interossei_hand_r",
+      "palmar_interossei_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_digitorum_r",
+        "landmark": "extensor digitorum + intrinsic hand muscles (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_r",
+        "landmark": "middle phalanx base (central slip) and distal phalanx base (lateral bands, via the terminal/conjoined tendon)"
+      }
+    },
+    "parts": [
+      {
+        "id": "extensor_hood_r_main",
+        "name": "Extensor hood",
+        "function_note": "A triangular fibrous expansion over the dorsum of each finger's proximal phalanx where the extrinsic extensor digitorum tendon and the intrinsic lumbrical/interosseous tendons converge -- the central slip continues to the middle phalanx while lateral bands rejoin distally to the terminal tendon, the anatomical basis for the distinct boutonniere (central slip injury) and mallet finger (terminal tendon injury) deformities.",
+        "source": "von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20.",
+        "attachment_or_location": "dorsum of each finger, proximal to middle phalanx"
+      }
+    ],
+    "function": "The site where extrinsic (extensor digitorum) and intrinsic (lumbrical, interosseous) finger muscles' tendons converge into one shared dorsal fibrous mechanism -- functionally coordinating MCP extension (extrinsic) with IP joint extension (intrinsic contribution), rather than each muscle acting in isolation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20."
+  },
+  {
+    "id": "palmaris_longus_tendon_r",
+    "name_ta": "Tendo musculi palmaris longi",
+    "name_common": "Palmaris longus tendon",
+    "side": "right",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "palmaris_longus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "palmaris_longus_r",
+        "landmark": "palmaris longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "carpals_r",
+        "landmark": "flexor retinaculum / palmar aponeurosis (no direct bony insertion)"
+      }
+    },
+    "parts": [
+      {
+        "id": "palmaris_longus_tendon_r_main",
+        "name": "Palmaris longus tendon",
+        "function_note": "Congenitally absent (unilaterally or bilaterally) in a substantial minority of the population -- classic large cadaveric surveys report roughly 10-15% absence, with documented variation by population/ethnicity -- making it, when present, a popular expendable autograft donor (e.g. for thumb UCL or other small ligament reconstructions) since its loss produces no functional deficit thanks to redundant wrist flexors.",
+        "source": "Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates.",
+        "parent_muscle": "palmaris_longus_r",
+        "attachment_or_location": "flexor retinaculum, palmar aponeurosis"
+      }
+    ],
+    "function": "A vestigial-function but clinically useful tendon (unlike most forearm flexor tendons, it inserts into soft tissue rather than bone) whose frequent congenital absence and consequent expendability make it a preferred graft donor.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates."
+  },
+  {
+    "id": "extensor_pollicis_longus_tendon_r",
+    "name_ta": "Tendo musculi extensoris pollicis longi",
+    "name_common": "Extensor pollicis longus tendon",
+    "side": "right",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "extensor_pollicis_longus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_pollicis_longus_r",
+        "landmark": "extensor pollicis longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_r",
+        "landmark": "distal phalanx of thumb"
+      }
+    },
+    "parts": [
+      {
+        "id": "epl_tendon_r_main",
+        "name": "Extensor pollicis longus tendon",
+        "function_note": "Runs through the wrist's third dorsal extensor compartment and hooks around the medial side of Lister's (dorsal radial) tubercle, which acts as a pulley redirecting its course toward the thumb -- this sharp angulation, combined with the compartment's relatively poor vascularity, makes this tendon a recognized site of attritional rupture, classically after minor distal radius fractures even when well-healed.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_pollicis_longus_r",
+        "attachment_or_location": "Lister's tubercle pulley; distal phalanx of thumb"
+      }
+    ],
+    "function": "A tendon whose sharp, pulley-like redirection around a bony tubercle (rather than a straight course) creates a well-documented, distinctive rupture risk not shared by the more medially-running abductor pollicis longus/extensor pollicis brevis tendons of the adjacent first compartment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "rotator_cuff_tendon_complex_l",
+    "name_ta": "Tendines musculorum rotatorum",
+    "name_common": "Rotator cuff tendon complex",
+    "side": "left",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "supraspinatus_l",
+      "infraspinatus_l",
+      "teres_minor_l",
+      "subscapularis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "supraspinatus_l",
+        "landmark": "supraspinatus muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "greater tubercle (supraspinatus/infraspinatus/teres minor) and lesser tubercle (subscapularis)"
+      }
+    },
+    "parts": [
+      {
+        "id": "rotator_cuff_l_supraspinatus",
+        "name": "Supraspinatus tendon",
+        "function_note": "Contains the hypovascular 'critical zone' -- a watershed region between the tendon's osseous and muscular blood supply, implicated in degenerative rotator cuff tearing (the ~1cm-proximal-to-insertion distance and 'single most common tear site' framing are widely repeated but trace to older/separate sources, not to the cited paper itself -- narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing.",
+        "parent_muscle": "supraspinatus_l",
+        "attachment_or_location": "greater tubercle, superior facet"
+      },
+      {
+        "id": "rotator_cuff_l_infraspinatus",
+        "name": "Infraspinatus tendon",
+        "function_note": "Blends with the supraspinatus tendon anteriorly and the teres minor tendon posteriorly, forming a continuous cuff rather than three fully separate insertions.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "infraspinatus_l",
+        "attachment_or_location": "greater tubercle, middle facet"
+      },
+      {
+        "id": "rotator_cuff_l_teres_minor",
+        "name": "Teres minor tendon",
+        "function_note": "The most posterior and, functionally, the least injured of the four rotator cuff tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "teres_minor_l",
+        "attachment_or_location": "greater tubercle, inferior facet"
+      },
+      {
+        "id": "rotator_cuff_l_subscapularis",
+        "name": "Subscapularis tendon",
+        "function_note": "The only rotator cuff tendon inserting on the lesser tubercle (anterior); its upper fibers form the floor of the bicipital (intertubercular) groove alongside the transverse humeral ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "subscapularis_l",
+        "attachment_or_location": "lesser tubercle"
+      }
+    ],
+    "function": "The confluent tendinous insertion of the four rotator cuff muscles onto the humeral tubercles, functioning as a dynamic stabilizing 'cuff' around the glenohumeral joint that centers the humeral head against the much larger deltoid's compressive/shear forces during arm elevation.",
+    "prp_injection_approach": {
+      "transducer_placement": "Arm placed in modified Crass position (hand on ipsilateral posterior hip pocket) to bring the supraspinatus tendon anterior to the acromion; probe placed longitudinally along the tendon's long axis from the greater tubercle footprint back toward the myotendinous junction, then rotated 90 degrees for a short-axis pass; posterior probe placement over the infraspinatus/teres minor footprint and anterior placement over the subscapularis/bicipital groove for those tendons.",
+      "target_zone": "The critical zone of the supraspinatus tendon -- the hypovascular watershed roughly 1 cm proximal to its greater-tubercle insertion -- and, for the other three cuff tendons, the region of documented tendinosis or partial-thickness (bursal- or articular-sided) tearing on preprocedure imaging; injection is peppered through this zone rather than delivered as a single bolus.",
+      "depth_layer": "Superficial to the tendon lies the subacromial-subdeltoid bursa and deltoid muscle; deep to the tendon is the humeral head articular cartilage and, at the critical zone, the joint capsule -- the needle should stay within tendon substance and not penetrate into the glenohumeral joint.",
+      "identification_cues": "Focal hypoechoic or heterogeneous thickening of the tendon at the critical zone, loss of the normal fibrillar echotexture, cortical irregularity of the greater tubercle, and increased Doppler flow (neovascularity) correlating with the symptomatic side; dynamic abduction/adduction can reveal subacromial impingement of the thickened tendon.",
+      "structures_at_risk": ["axillary nerve (quadrangular space, inferior to the teres minor)", "suprascapular nerve and vessels (spinoglenoid notch, posterior approach)", "long head of biceps tendon (anterior approach to subscapularis)"],
+      "notes": "Evidence is genuinely mixed and heterogeneous: a 2021 systematic review/meta-analysis of 8 RCTs found PRP injection safe and effective for pain and function in nonoperative rotator cuff tendinopathy, while other systematic reviews (e.g. Feltri et al. 2022) found PRP augmentation reduces retear rate after surgical repair but does not clearly improve nonoperative clinical outcomes over exercise/saline -- report this as real but unsettled evidence, not a slam-dunk indication.",
+      "source": "A Hamid MS, Sazlina SG (2021) 'Platelet-rich plasma for rotator cuff tendinopathy: A systematic review and meta-analysis.' PLoS One 16(5):e0251111, doi:10.1371/journal.pone.0251111 (https://doi.org/10.1371/journal.pone.0251111) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing."
+  },
+  {
+    "id": "biceps_brachii_tendon_complex_l",
+    "name_ta": "Tendines musculi bicipitis brachii",
+    "name_common": "Biceps brachii tendon complex",
+    "side": "left",
+    "region": "shoulder_elbow",
+    "tendon_type": "intra_articular",
+    "parent_muscles": [
+      "biceps_brachii_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "biceps_brachii_l",
+        "landmark": "biceps brachii muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "radius_l",
+        "landmark": "radial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "biceps_tendon_l_lh",
+        "name": "Long head tendon",
+        "function_note": "Originates from the supraglenoid tubercle and glenoid labrum (with documented variability in exactly how much of each contributes) and runs intra-articularly across the humeral head before exiting the joint capsule to descend in the intertubercular (bicipital) groove -- an unusual intra-articular-then-extra-articular course among tendons, and a common site of tendinopathy/instability.",
+        "source": "Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin. This paper's own scope is specifically the tendon's proximal origin (the roughly 50/50 labrum-vs-tubercle split it documents, with 4 distinct origin patterns); the tendon's subsequent intra-articular course across the humeral head and exit into the bicipital groove is separately well-established general anatomy (Gray's/Kenhub level), not a claim made by this specific citation (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "biceps_brachii_l",
+        "attachment_or_location": "supraglenoid tubercle / glenoid labrum"
+      },
+      {
+        "id": "biceps_tendon_l_sh",
+        "name": "Short head tendon",
+        "function_note": "Originates from the coracoid process (conjoint tendon with coracobrachialis) and, unlike the long head, has an entirely extra-articular course.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_l",
+        "attachment_or_location": "coracoid process"
+      },
+      {
+        "id": "biceps_tendon_l_distal",
+        "name": "Distal (bicipital) tendon + bicipital aponeurosis (lacertus fibrosus)",
+        "function_note": "The distal tendon inserts on the radial tuberosity; a fibrous expansion (the bicipital aponeurosis/lacertus fibrosus) fans off it medially to blend with the deep antebrachial fascia over the forearm flexor mass -- clinically relevant as a landmark protecting the underlying brachial artery and median nerve during venipuncture at the cubital fossa.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_l",
+        "attachment_or_location": "radial tuberosity"
+      }
+    ],
+    "function": "The two-headed proximal origin (glenoid/labrum + coracoid) converges into one muscle belly and one distal tendon; the long head's intra-articular course through the glenohumeral joint is anatomically unusual and a well-documented source of shoulder pain independent of rotator cuff pathology.",
+    "prp_injection_approach": {
+      "transducer_placement": "Arm adducted at the side with the elbow flexed 90 degrees and forearm neutral/slightly supinated; probe placed transversely over the anterior humeral head just distal to the anterior acromion to find the intertubercular (bicipital) groove in short axis, then rotated 90 degrees for the long-axis view along the extra-articular long head tendon.",
+      "target_zone": "The long head of biceps tendon within the intertubercular groove (bicipital groove segment), targeting the tendon sheath around the extra-articular portion where tenosynovitis/tendinosis is visualized -- distal to the point where the tendon exits the glenohumeral joint, avoiding the intra-articular segment.",
+      "depth_layer": "The tendon sits within its synovial sheath in the bicipital groove, roofed by the transverse humeral ligament and pectoralis major tendon more distally; deep to the tendon is the groove floor (proximal humerus, with subscapularis fibers forming its medial wall).",
+      "identification_cues": "Anechoic or hypoechoic fluid distending the tendon sheath (tenosynovitis), tendon thickening or hypoechoic tendinosis change, and dynamic external/internal rotation confirming tendon gliding within the groove; injectate should be seen filling the sheath around, not the substance of, the tendon.",
+      "structures_at_risk": ["ascending branch of the anterior humeral circumflex artery (runs along the lateral margin of the groove)", "glenohumeral joint (sheath communicates with the joint in most people, so injectate readily extravasates intra-articularly)"],
+      "notes": "The rigorous literature here is for ultrasound-guided sheath injection technique (anesthetic/corticosteroid) for bicipital tenosynovitis/long-head tendinopathy, confirming that a standard sheath injection reliably reaches the tendon sheath but frequently (~60% in one series) also extravasates into the glenohumeral joint given their anatomic communication; dedicated PRP-specific trials targeting the long head tendon in the groove (as distinct from the distal biceps tendon at the elbow, which does have its own small PRP cohort study) are not established -- describe this honestly as a corticosteroid/anesthetic sheath-injection technique literature repurposed for PRP delivery to the same target.",
+      "source": "Slevin J, Joyce M, Galvin JW, Mahlon MA, Grant MD, Eichinger JK, Grassbaugh JA (2021) 'Ultrasound-Guided Biceps Tendon Sheath Injections Frequently Extravasate Into the Glenohumeral Joint.' Arthroscopy 37(6):1711-1716, doi:10.1016/j.arthro.2020.12.238 (https://doi.org/10.1016/j.arthro.2020.12.238) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin."
+  },
+  {
+    "id": "pectoralis_major_tendon_l",
+    "name_ta": "Tendo musculi pectoralis majoris",
+    "name_common": "Pectoralis major tendon",
+    "side": "left",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "pectoralis_major_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "pectoralis_major_l",
+        "landmark": "pectoralis major muscle belly (representative, all 3 heads/compartments)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "lateral lip of the intertubercular (bicipital) groove, proximal humerus"
+      }
+    },
+    "parts": [
+      {
+        "id": "pectoralis_major_tendon_l_clavicular_lamina",
+        "name": "Clavicular head lamina (anterior lamina)",
+        "parent_muscle": "pectoralis_major_l",
+        "attachment_or_location": "most inferior part of the humeral footprint on the lateral lip of the intertubercular groove",
+        "function_note": "Forms the anterior of the tendon's two laminae; because the clavicular head's fibers do not spiral, it inserts most inferiorly despite originating most superiorly (proximally) on the chest wall -- the mirror image of the sternocostal/abdominal lamina.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "pectoralis_major_tendon_l_sternocostal_lamina",
+        "name": "Sternocostal/abdominal head lamina (posterior lamina)",
+        "parent_muscle": "pectoralis_major_l",
+        "attachment_or_location": "most superior part of the humeral footprint on the lateral lip of the intertubercular groove, deep to the clavicular lamina",
+        "function_note": "Forms the posterior lamina; the sternocostal and abdominal fibers spiral through roughly 180 degrees so that the most inferiorly-originating (abdominal) fibers insert most superiorly (proximally) on the humerus, deep to the clavicular head's fibers. This bilaminar, spiraled tendon is the anatomic basis for the Tietjen/Bak-type classifications of pectoralis major rupture, which distinguish isolated tears of one lamina (most often the sternocostal head, torn during the eccentric-load phase of the bench press) from complete tears of both.",
+        "source": "Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024"
+      }
+    ],
+    "function": "Transmits the combined adduction/internal-rotation (and, for the clavicular head, flexion) force of the three pectoralis major compartments to the proximal humerus via a distinctive bilaminar, spiraled tendon just lateral to the intertubercular groove.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024 -- pectoralis major tendon rupture is a well-documented, distinct clinical entity, classically occurring during the bench press, staged by the Tietjen/Bak-derived classification systems and generally managed with early surgical repair in active patients."
+  },
+  {
+    "id": "triceps_brachii_tendon_l",
+    "name_ta": "Tendo musculi tricipitis brachii",
+    "name_common": "Triceps brachii tendon",
+    "side": "left",
+    "region": "elbow",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "triceps_brachii_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "triceps_brachii_l",
+        "landmark": "triceps brachii muscle belly (representative, all 3 heads)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "ulna_l",
+        "landmark": "olecranon process"
+      }
+    },
+    "parts": [
+      {
+        "id": "triceps_tendon_l_main",
+        "name": "Triceps brachii tendon",
+        "function_note": "All three heads (long, lateral, medial) converge into one common tendon inserting on the olecranon -- unlike the rotator cuff or quadriceps, the triceps' three heads do not maintain separately identifiable insertional layers.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "triceps_brachii_l",
+        "attachment_or_location": "olecranon process"
+      }
+    ],
+    "function": "The common distal tendon of the elbow's primary extensor, transmitting the combined force of all three triceps heads to the ulna.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_flexor_tendon_l",
+    "name_ta": "Tendo communis flexorum",
+    "name_common": "Common flexor tendon",
+    "side": "left",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "pronator_teres_l",
+      "flexor_carpi_radialis_l",
+      "palmaris_longus_l",
+      "flexor_carpi_ulnaris_l",
+      "flexor_digitorum_superficialis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_carpi_radialis_l",
+        "landmark": "forearm flexor-pronator group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "medial epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_flexor_tendon_l_main",
+        "name": "Common flexor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm flexor-pronator group; repetitive-strain degeneration/microtearing here is the anatomical basis of medial epicondylitis ('golfer's elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "flexor_carpi_radialis_l",
+        "attachment_or_location": "medial epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm flexor/pronator muscles arise, rather than each having its own separate humeral attachment.",
+    "prp_injection_approach": {
+      "transducer_placement": "Elbow flexed 20-30 degrees, forearm supinated, with the probe placed longitudinally over the medial epicondyle and adjacent flexor-pronator mass, angled to capture the tendon origin in the same plane as the epicondyle's anterior/distal surface.",
+      "target_zone": "The common flexor-pronator origin at the anterior/distal medial epicondyle, predominantly involving the pronator teres and flexor carpi radialis components -- the site of documented angiofibroblastic tendinosis in medial epicondylitis ('golfer's elbow').",
+      "depth_layer": "Superficial to the tendon origin is subcutaneous fat and skin; deep to it is the medial epicondyle bone and, just posterior/deep to the origin, the ulnar collateral ligament and ulnar nerve in the cubital tunnel -- both must be avoided.",
+      "identification_cues": "Focal hypoechoic thickening or heterogeneity of the tendon origin, loss of normal fibrillar pattern, adjacent cortical irregularity of the medial epicondyle, and increased Doppler signal (neovascularity) at the deep tendon-bone interface.",
+      "structures_at_risk": ["ulnar nerve (posterior to the medial epicondyle, in the cubital tunnel)", "ulnar collateral ligament (deep/posterior to the flexor-pronator origin)"],
+      "notes": "Medial epicondylitis PRP evidence is real but thinner and lower-quality than for lateral epicondylitis -- a retrospective cohort study (not an RCT) of 209 patients found PRP produced significant pre/post improvement in pain and Mayo Elbow Performance Score for isolated medial epicondylitis, comparable in magnitude to lateral epicondylitis treated the same way, though functional gains were somewhat smaller when medial and lateral epicondylitis were treated simultaneously; treat the underlying approach/technique as extrapolated from the better-studied lateral epicondylitis literature.",
+      "source": "Park HS, Jo SM, Dasari S, Moon YL (2023) 'Comparison of Clinical Outcomes of Platelet-Rich Plasma for Epicondylitis, Elbow: Simultaneous Lateral and Medial Versus Lateral Versus Medial.' Orthop Surg 15(8):2110-2115, doi:10.1111/os.13732 (https://doi.org/10.1111/os.13732) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_extensor_tendon_l",
+    "name_ta": "Tendo communis extensorum",
+    "name_common": "Common extensor tendon",
+    "side": "left",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "extensor_carpi_radialis_brevis_l",
+      "extensor_digitorum_l",
+      "extensor_digiti_minimi_l",
+      "extensor_carpi_ulnaris_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_carpi_radialis_brevis_l",
+        "landmark": "forearm extensor group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "lateral epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_extensor_tendon_l_main",
+        "name": "Common extensor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm extensor group; repetitive-strain degeneration/microtearing here (most consistently implicating extensor carpi radialis brevis specifically) is the anatomical basis of lateral epicondylitis ('tennis elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_carpi_radialis_brevis_l",
+        "attachment_or_location": "lateral epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm extensor muscles arise, rather than each having its own separate humeral attachment.",
+    "prp_injection_approach": {
+      "transducer_placement": "Elbow flexed 20-30 degrees, forearm pronated, with the probe placed longitudinally over the lateral epicondyle and adjacent extensor mass, capturing the tendon origin and the radiocapitellar joint in the same long-axis image.",
+      "target_zone": "The anterolateral facet of the common extensor origin at the lateral epicondyle, at the undersurface of the extensor carpi radialis brevis tendon -- the specific site of the documented angiofibroblastic tendinosis that is the pathologic substrate of lateral epicondylitis ('tennis elbow').",
+      "depth_layer": "Superficial to the tendon origin is subcutaneous fat and skin; deep to it is the lateral epicondyle and radiocapitellar joint capsule, with the lateral collateral ligament complex and posterior interosseous nerve (in the radial tunnel, anterior to the joint) lying deeper still.",
+      "identification_cues": "Focal hypoechoic thickening or heterogeneity of the deep ECRB tendon fibers at the epicondyle, loss of the normal fibrillar echotexture, cortical irregularity/spurring of the lateral epicondyle, and increased Doppler flow (neovascularity) at the tendon-bone junction correlating with the symptomatic side.",
+      "structures_at_risk": ["posterior interosseous nerve (radial tunnel, anterior/deep to the extensor origin)", "lateral collateral ligament complex and radiocapitellar joint (deep to the tendon)"],
+      "notes": "This is one of the most PRP-studied tendons in orthopedics, with dozens of RCTs; a well-cited double-blind RCT with 2-year follow-up found PRP produced significantly greater and more durable reduction in pain (VAS) and disability (DASH) than corticosteroid injection, with no PRP-related complications, while corticosteroid effects regressed toward baseline over time -- cited here as a well-regarded RCT, though subsequent systematic reviews/network meta-analyses have found more mixed results for PRP versus other injectates at various follow-up points.",
+      "source": "Gosens T, Peerbooms JC, van Laar W, den Oudsten BL (2011) 'Ongoing positive effect of platelet-rich plasma versus corticosteroid injection in lateral epicondylitis: a double-blind randomized controlled trial with 2-year follow-up.' Am J Sports Med 39(6):1200-1208, doi:10.1177/0363546510397173 (https://doi.org/10.1177/0363546510397173) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "flexor_tendon_pulley_system_hand_l",
+    "name_ta": "Vaginae fibrosae digitorum manus",
+    "name_common": "Finger flexor tendon sheath and pulley system",
+    "side": "left",
+    "region": "hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "flexor_digitorum_superficialis_l",
+      "flexor_digitorum_profundus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_digitorum_profundus_l",
+        "landmark": "FDS/FDP muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_l",
+        "landmark": "FDS: middle phalanx base (split around FDP -- 'Camper's chiasm'); FDP: distal phalanx base"
+      }
+    },
+    "parts": [
+      {
+        "id": "pulley_system_l_annular",
+        "name": "Annular pulleys (A1-A5)",
+        "function_note": "Five fibro-osseous annular bands overlying the metacarpophalangeal and interphalangeal joints, resisting bowstringing of the flexor tendons away from the bone during finger flexion; A2 and A4 are the mechanically most critical for maintaining grip efficiency, and their surgical/traumatic loss produces a clinically well-documented bowstringing deformity.",
+        "source": "Lin GT, Amadio PC, An KN, Cooney WP (1989) 'Functional anatomy of the human digital flexor pulley system.' J Hand Surg Am 14(6):949-956 -- the biomechanical source of the A2/A4 pulleys' particular importance to grip efficiency and bowstringing resistance (Doyle 1988, used elsewhere in this entity for the pulley count/nomenclature, is an anatomic-description paper that does not itself address this biomechanical finding -- caught by adversarial fact-check, see docs/VERIFICATION.md).",
+        "attachment_or_location": "palmar aspect of proximal/middle phalanges and MCP/IP joints"
+      },
+      {
+        "id": "pulley_system_l_cruciate",
+        "name": "Cruciate pulleys (C1-C3)",
+        "function_note": "Three thinner, more flexible cruciform (X-shaped) bands interposed between the annular pulleys, allowing the sheath to collapse/fold during finger flexion without losing overall containment of the tendons.",
+        "source": "Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+        "attachment_or_location": "between the annular pulleys"
+      }
+    ],
+    "function": "The flexor digitorum superficialis and profundus tendons of each finger run together within one common fibrous digital sheath reinforced by this alternating annular/cruciate pulley system -- without it, tendon excursion during finger flexion would bowstring away from the phalanges rather than efficiently flexing the joints.",
+    "prp_injection_approach": {
+      "transducer_placement": "Finger extended and slightly abducted, small high-frequency (hockey-stick) probe placed longitudinally over the palmar aspect of the metacarpal head, aligned along the long axis of the flexor tendon at the level of the distal palmar crease (A1 pulley of the fingers) or a few millimeters proximal to the MCP flexion crease of the thumb.",
+      "target_zone": "The A1 pulley overlying the flexor tendon at the metacarpal head/neck level -- the site of tendon-pulley mismatch and nodular thickening responsible for the catching/locking of trigger finger; injectate is placed into the tendon sheath at this level, not into the tendon substance.",
+      "depth_layer": "The A1 pulley and flexor tendons lie just deep to the palmar skin, subcutaneous fat, and palmar fascia; the digital neurovascular bundles run along the radial and ulnar borders of the tendon sheath at this level, superficial and lateral to the injection target.",
+      "identification_cues": "Thickening/hypoechoic change of the A1 pulley, a hypoechoic halo or fluid within the tendon sheath, a palpable/visible nodule on the flexor tendon that catches as it passes under the pulley on dynamic finger flexion-extension, and loss of the normal thin hyperechoic pulley band.",
+      "structures_at_risk": ["radial and ulnar digital nerves and arteries (immediately adjacent to the tendon sheath at the metacarpal head level)"],
+      "notes": "The A1 pulley injection approach itself is extremely well-documented, but the mainstream literature is a corticosteroid procedure for trigger finger, not PRP -- report it honestly as such. A randomized trial found that adding an ultrasound-guided intra-tendon-sheath injection to percutaneous A1 pulley release gave faster early pain relief than release alone, and separate retrospective comparative studies confirm ultrasound-guided corticosteroid injection into this same sheath location improves trigger-finger outcomes; the anatomic target/technique described here transfers directly to a PRP injectate even though the outcome evidence base is for corticosteroid.",
+      "source": "Zan X, Zhou WP, Wang Y, Xu M, Zhou FS, Fang XM (2023) 'Combination of ultrasound-guided percutaneous A1 pulley release and intra-tendon sheath injection improves the therapeutic outcomes in adult trigger finger patients.' Med Ultrason 25(2):153-160, doi:10.11152/mu-3877 (https://doi.org/10.11152/mu-3877) -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+    "has_synovial_sheath": true
+  },
+  {
+    "id": "extensor_hood_l",
+    "name_ta": "Expansio dorsalis digitorum manus",
+    "name_common": "Extensor hood (dorsal digital expansion)",
+    "side": "left",
+    "region": "hand",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "extensor_digitorum_l",
+      "lumbricals_hand_l",
+      "dorsal_interossei_hand_l",
+      "palmar_interossei_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_digitorum_l",
+        "landmark": "extensor digitorum + intrinsic hand muscles (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_l",
+        "landmark": "middle phalanx base (central slip) and distal phalanx base (lateral bands, via the terminal/conjoined tendon)"
+      }
+    },
+    "parts": [
+      {
+        "id": "extensor_hood_l_main",
+        "name": "Extensor hood",
+        "function_note": "A triangular fibrous expansion over the dorsum of each finger's proximal phalanx where the extrinsic extensor digitorum tendon and the intrinsic lumbrical/interosseous tendons converge -- the central slip continues to the middle phalanx while lateral bands rejoin distally to the terminal tendon, the anatomical basis for the distinct boutonniere (central slip injury) and mallet finger (terminal tendon injury) deformities.",
+        "source": "von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20.",
+        "attachment_or_location": "dorsum of each finger, proximal to middle phalanx"
+      }
+    ],
+    "function": "The site where extrinsic (extensor digitorum) and intrinsic (lumbrical, interosseous) finger muscles' tendons converge into one shared dorsal fibrous mechanism -- functionally coordinating MCP extension (extrinsic) with IP joint extension (intrinsic contribution), rather than each muscle acting in isolation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20."
+  },
+  {
+    "id": "palmaris_longus_tendon_l",
+    "name_ta": "Tendo musculi palmaris longi",
+    "name_common": "Palmaris longus tendon",
+    "side": "left",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "palmaris_longus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "palmaris_longus_l",
+        "landmark": "palmaris longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "carpals_l",
+        "landmark": "flexor retinaculum / palmar aponeurosis (no direct bony insertion)"
+      }
+    },
+    "parts": [
+      {
+        "id": "palmaris_longus_tendon_l_main",
+        "name": "Palmaris longus tendon",
+        "function_note": "Congenitally absent (unilaterally or bilaterally) in a substantial minority of the population -- classic large cadaveric surveys report roughly 10-15% absence, with documented variation by population/ethnicity -- making it, when present, a popular expendable autograft donor (e.g. for thumb UCL or other small ligament reconstructions) since its loss produces no functional deficit thanks to redundant wrist flexors.",
+        "source": "Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates.",
+        "parent_muscle": "palmaris_longus_l",
+        "attachment_or_location": "flexor retinaculum, palmar aponeurosis"
+      }
+    ],
+    "function": "A vestigial-function but clinically useful tendon (unlike most forearm flexor tendons, it inserts into soft tissue rather than bone) whose frequent congenital absence and consequent expendability make it a preferred graft donor.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates."
+  },
+  {
+    "id": "extensor_pollicis_longus_tendon_l",
+    "name_ta": "Tendo musculi extensoris pollicis longi",
+    "name_common": "Extensor pollicis longus tendon",
+    "side": "left",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "extensor_pollicis_longus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_pollicis_longus_l",
+        "landmark": "extensor pollicis longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_l",
+        "landmark": "distal phalanx of thumb"
+      }
+    },
+    "parts": [
+      {
+        "id": "epl_tendon_l_main",
+        "name": "Extensor pollicis longus tendon",
+        "function_note": "Runs through the wrist's third dorsal extensor compartment and hooks around the medial side of Lister's (dorsal radial) tubercle, which acts as a pulley redirecting its course toward the thumb -- this sharp angulation, combined with the compartment's relatively poor vascularity, makes this tendon a recognized site of attritional rupture, classically after minor distal radius fractures even when well-healed.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_pollicis_longus_l",
+        "attachment_or_location": "Lister's tubercle pulley; distal phalanx of thumb"
+      }
+    ],
+    "function": "A tendon whose sharp, pulley-like redirection around a bony tubercle (rather than a straight course) creates a well-documented, distinctive rupture risk not shared by the more medially-running abductor pollicis longus/extensor pollicis brevis tendons of the adjacent first compartment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "first_dorsal_compartment_r",
+    "name_ta": "Compartimentum extensorium primum",
+    "name_common": "First dorsal (extensor) compartment of the wrist",
+    "side": "right",
+    "region": "wrist_hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "abductor_pollicis_longus_r",
+      "extensor_pollicis_brevis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "abductor_pollicis_longus_r",
+        "landmark": "abductor pollicis longus and extensor pollicis brevis muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "metacarpals_r",
+        "landmark": "APL: radial base of 1st metacarpal (frequently via multiple slips, sometimes with an accessory slip to the trapezium/thenar fascia); EPB: base of proximal phalanx of thumb (distal to the compartment itself)"
+      }
+    },
+    "parts": [
+      {
+        "id": "first_dorsal_compartment_r_apl",
+        "name": "Abductor pollicis longus tendon",
+        "parent_muscle": "abductor_pollicis_longus_r",
+        "attachment_or_location": "radial styloid groove, then radial base of 1st metacarpal",
+        "function_note": "The most anatomically variable tendon at the wrist -- 2 or more APL slips (rather than a single tendon) are common, one contributor to the anatomic variability that can make de Quervain's tenosynovitis harder to treat than a simple single-tendon sheath problem.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "first_dorsal_compartment_r_epb",
+        "name": "Extensor pollicis brevis tendon",
+        "parent_muscle": "extensor_pollicis_brevis_r",
+        "attachment_or_location": "radial styloid groove, then base of proximal phalanx of thumb",
+        "function_note": "Usually the smaller, more ulnar tendon of the pair; in a substantial proportion of wrists it runs in its own separate sub-tunnel, divided from the APL tendon(s) by a longitudinal intracompartmental septum -- a documented source of incomplete symptom relief when a corticosteroid injection or surgical release is aimed only at the compartment as a whole rather than confirmed to reach both sub-tunnels.",
+        "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+      }
+    ],
+    "function": "The shared fibro-osseous tunnel at the radial styloid through which the abductor pollicis longus and extensor pollicis brevis tendons run together to the thumb -- functionally a single named clinical entity because it is this compartment, not either tendon individually, that becomes stenotic and inflamed in de Quervain's tenosynovitis, one of the most common upper-limb conditions treated with image-guided injection.",
+    "prp_injection_approach": {
+      "transducer_placement": "Wrist in neutral rotation, thumb resting comfortably; a high-frequency linear probe is placed transversely (short-axis) directly over the radial styloid to identify the APL and EPB tendons in cross-section, then rotated 90 degrees to longitudinal (long-axis) view along the compartment for the needle pass, entering in-plane from proximal or distal to the probe.",
+      "target_zone": "The first dorsal compartment overlying the radial styloid, 1-2cm proximal to the radiocarpal joint -- the site of retinacular thickening and peritendinous fluid/hyperemia on ultrasound in symptomatic de Quervain's tenosynovitis; the injectate is placed into the tendon sheath itself, and ultrasound guidance is used specifically to confirm the needle tip and injectate reach both the APL and EPB sub-tunnels when a septum is present, since this is a well-documented reason blind (palpation-guided) injections under-treat the EPB compartment.",
+      "depth_layer": "The compartment lies directly deep to thin subcutaneous tissue at the radial wrist -- there is very little soft-tissue padding here -- with the radial artery running deep and slightly volar to the tendons and the superficial branch of the radial nerve crossing directly over the compartment, sometimes multiple small branches, making this one of the most nerve-injury-prone superficial injection sites in the upper limb.",
+      "identification_cues": "Thickened, hypoechoic/heterogeneous first-compartment retinaculum, anechoic distension of the tendon sheath, and dynamic thumb abduction/extension confirming smooth APL/EPB tendon glide is regained after injection; sonographic identification of a discrete hyperechoic septum splitting the compartment into two sub-tunnels should prompt a second, separately targeted injection into the EPB sub-tunnel.",
+      "structures_at_risk": ["superficial branch of the radial nerve (crosses directly over the compartment, often as multiple small branches -- the leading cause of injection-related complications here)", "radial artery (deep/volar to the tendons)", "cephalic vein tributaries"],
+      "notes": "This is a corticosteroid-dominant literature, not a PRP-dominant one -- report it honestly as such. Ultrasound-guided corticosteroid injection into the first compartment is one of the best-studied hand/wrist injections in existence, with systematic-review pooled complete-symptom-resolution rates around 70-75% and significantly better outcomes than palpation-guided injection, particularly attributable to detecting the intracompartmental septum/subcompartment variability described above; a head-to-head randomized trial found no significant difference between ultrasound- and palpation-guided technique in a smaller single-center cohort, so ultrasound guidance's main proven advantage is in septum detection and lower recurrence rather than a uniformly demonstrated difference in every trial. A separate randomized equivalence trial found autologous PRP comparably effective to corticosteroid at 12 weeks, with corticosteroid producing faster early (1-4 week) functional improvement -- meaning PRP is a reasonable but not clearly superior alternative here, not an established first-line replacement for corticosteroid.",
+      "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed.",
+    "has_synovial_sheath": true
+  },
+  {
+    "id": "first_dorsal_compartment_l",
+    "name_ta": "Compartimentum extensorium primum",
+    "name_common": "First dorsal (extensor) compartment of the wrist",
+    "side": "left",
+    "region": "wrist_hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "abductor_pollicis_longus_l",
+      "extensor_pollicis_brevis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "abductor_pollicis_longus_l",
+        "landmark": "abductor pollicis longus and extensor pollicis brevis muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "metacarpals_l",
+        "landmark": "APL: radial base of 1st metacarpal (frequently via multiple slips, sometimes with an accessory slip to the trapezium/thenar fascia); EPB: base of proximal phalanx of thumb (distal to the compartment itself)"
+      }
+    },
+    "parts": [
+      {
+        "id": "first_dorsal_compartment_l_apl",
+        "name": "Abductor pollicis longus tendon",
+        "parent_muscle": "abductor_pollicis_longus_l",
+        "attachment_or_location": "radial styloid groove, then radial base of 1st metacarpal",
+        "function_note": "The most anatomically variable tendon at the wrist -- 2 or more APL slips (rather than a single tendon) are common, one contributor to the anatomic variability that can make de Quervain's tenosynovitis harder to treat than a simple single-tendon sheath problem.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "first_dorsal_compartment_l_epb",
+        "name": "Extensor pollicis brevis tendon",
+        "parent_muscle": "extensor_pollicis_brevis_l",
+        "attachment_or_location": "radial styloid groove, then base of proximal phalanx of thumb",
+        "function_note": "Usually the smaller, more ulnar tendon of the pair; in a substantial proportion of wrists it runs in its own separate sub-tunnel, divided from the APL tendon(s) by a longitudinal intracompartmental septum -- a documented source of incomplete symptom relief when a corticosteroid injection or surgical release is aimed only at the compartment as a whole rather than confirmed to reach both sub-tunnels.",
+        "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+      }
+    ],
+    "function": "The shared fibro-osseous tunnel at the radial styloid through which the abductor pollicis longus and extensor pollicis brevis tendons run together to the thumb -- functionally a single named clinical entity because it is this compartment, not either tendon individually, that becomes stenotic and inflamed in de Quervain's tenosynovitis, one of the most common upper-limb conditions treated with image-guided injection.",
+    "prp_injection_approach": {
+      "transducer_placement": "Wrist in neutral rotation, thumb resting comfortably; a high-frequency linear probe is placed transversely (short-axis) directly over the radial styloid to identify the APL and EPB tendons in cross-section, then rotated 90 degrees to longitudinal (long-axis) view along the compartment for the needle pass, entering in-plane from proximal or distal to the probe.",
+      "target_zone": "The first dorsal compartment overlying the radial styloid, 1-2cm proximal to the radiocarpal joint -- the site of retinacular thickening and peritendinous fluid/hyperemia on ultrasound in symptomatic de Quervain's tenosynovitis; the injectate is placed into the tendon sheath itself, and ultrasound guidance is used specifically to confirm the needle tip and injectate reach both the APL and EPB sub-tunnels when a septum is present, since this is a well-documented reason blind (palpation-guided) injections under-treat the EPB compartment.",
+      "depth_layer": "The compartment lies directly deep to thin subcutaneous tissue at the radial wrist -- there is very little soft-tissue padding here -- with the radial artery running deep and slightly volar to the tendons and the superficial branch of the radial nerve crossing directly over the compartment, sometimes multiple small branches, making this one of the most nerve-injury-prone superficial injection sites in the upper limb.",
+      "identification_cues": "Thickened, hypoechoic/heterogeneous first-compartment retinaculum, anechoic distension of the tendon sheath, and dynamic thumb abduction/extension confirming smooth APL/EPB tendon glide is regained after injection; sonographic identification of a discrete hyperechoic septum splitting the compartment into two sub-tunnels should prompt a second, separately targeted injection into the EPB sub-tunnel.",
+      "structures_at_risk": ["superficial branch of the radial nerve (crosses directly over the compartment, often as multiple small branches -- the leading cause of injection-related complications here)", "radial artery (deep/volar to the tendons)", "cephalic vein tributaries"],
+      "notes": "This is a corticosteroid-dominant literature, not a PRP-dominant one -- report it honestly as such. Ultrasound-guided corticosteroid injection into the first compartment is one of the best-studied hand/wrist injections in existence, with systematic-review pooled complete-symptom-resolution rates around 70-75% and significantly better outcomes than palpation-guided injection, particularly attributable to detecting the intracompartmental septum/subcompartment variability described above; a head-to-head randomized trial found no significant difference between ultrasound- and palpation-guided technique in a smaller single-center cohort, so ultrasound guidance's main proven advantage is in septum detection and lower recurrence rather than a uniformly demonstrated difference in every trial. A separate randomized equivalence trial found autologous PRP comparably effective to corticosteroid at 12 weeks, with corticosteroid producing faster early (1-4 week) functional improvement -- meaning PRP is a reasonable but not clearly superior alternative here, not an established first-line replacement for corticosteroid.",
+      "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed.",
+    "has_synovial_sheath": true
+  }
+]

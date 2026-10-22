@@ -1,0 +1,1396 @@
+{
+ "source": "Q171 (2026-09-29). Evidence scripts (session scratchpad, not committed): q171/evidence.py (voxel-level: each pelvic-floor label volume placed into its own source CT label grid -- vhm_legs_total.nii.gz with z-693 for him, vhf_total.nii.gz for her -- under the stored affine and under an AP-mirrored one) and q171/verify_atlas.py (mesh level: pre-Q171 ct_vhm_pfloor/_fix vs the affine-corrected reconversion, against vhm_both hip bones/sacrum/coccyx and ct_vhm_pelvis). Inputs: data/ct_sources/task_outputs/{vhm,vhf}_pelvic_floor_cryo.nii.gz, vhm_legs_total.nii.gz, vhf_total.nii.gz, build/vh/{ct_vhm_pfloor,ct_vhm_pfloor_fix,vhm_both,ct_vhm_pelvis}.",
+ "status": "AP FLIP OF THE AFFINE CONFIRMED; NOT FIXED -- the builder's AP-dependent RULES are inverted too (not a clean flip), so the brief's stop-and-report branch was taken. Nothing shipped; all trial changes reverted.",
+ "cause": {
+  "legs_total_affine": "x = 240 - 0.9375 i, y = -239.0625 + 0.9375 j (LAS, +Y)",
+  "frame": "his legs cryo frame is legs_total's own grid zoomed 512->480 (row r ~ j), so the true in-plane RAS is x = 240 - c, y = r - 239.0625",
+  "builder_affine": "scripts/cryo/vhm_pelvic_floor_from_cryo.py main(): [[-1,0,0,240],[0,-1,0,240],...] i.e. y = 240 - r (the torso/female convention, where vhf_total/vhm_total have -Y)",
+  "female_control": "vhf_total affine y = 240 - 0.9375 j and her builder writes y = 240 - r: consistent"
+ },
+ "voxel_evidence": {
+  "vhm": {
+   "pfloor_affine_as_stored": [
+    [
+     -1.0,
+     0.0,
+     0.0,
+     240.0
+    ],
+    [
+     0.0,
+     -1.0,
+     0.0,
+     240.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     -963.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "ct_label_volume_affine_used": [
+    [
+     -0.9375,
+     -0.0,
+     0.0,
+     240.0
+    ],
+    [
+     0.0,
+     0.9375,
+     0.0,
+     -239.0625
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     -1671.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "totals_voxels_in_ct_bone_or_organ_labels": {
+    "as_stored": {
+     "in_bone": 10178,
+     "in_organ": 377,
+     "voxels": 208731
+    },
+    "ap_mirrored": {
+     "in_bone": 0,
+     "in_organ": 0,
+     "voxels": 208731
+    }
+   },
+   "per_structure": {
+    "levator_ani_right": {
+     "as_stored": {
+      "voxels": 14443,
+      "in_bone_label": 2121,
+      "in_organ_label": 2,
+      "centroid_ras": [
+       12.1,
+       28.3,
+       -927.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 75.3
+     },
+     "ap_mirrored": {
+      "voxels": 14443,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       12.1,
+       -27.3,
+       -927.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 30.4
+     }
+    },
+    "coccygeus_right": {
+     "as_stored": {
+      "voxels": 7888,
+      "in_bone_label": 1110,
+      "in_organ_label": 114,
+      "centroid_ras": [
+       22.8,
+       3.8,
+       -922.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 59.9
+     },
+     "ap_mirrored": {
+      "voxels": 7888,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       22.8,
+       -2.8,
+       -922.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 55.0
+     }
+    },
+    "bulbospongiosus_right": {
+     "as_stored": {
+      "voxels": 487,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -6.9,
+       59.0,
+       -951.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 101.6
+     },
+     "ap_mirrored": {
+      "voxels": 487,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -6.9,
+       -58.1,
+       -951.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 18.0
+     }
+    },
+    "ischiocavernosus_right": {
+     "as_stored": {
+      "voxels": 212,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       32.9,
+       55.0,
+       -937.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 106.1
+     },
+     "ap_mirrored": {
+      "voxels": 212,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       32.9,
+       -54.0,
+       -937.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 44.3
+     }
+    },
+    "deep_transverse_perineal_right": {
+     "as_stored": {
+      "voxels": 1575,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       15.4,
+       53.8,
+       -938.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 99.2
+     },
+     "ap_mirrored": {
+      "voxels": 1575,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       15.4,
+       -52.9,
+       -938.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 27.4
+     }
+    },
+    "superficial_transverse_perineal_right": {
+     "as_stored": {
+      "voxels": 972,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -6.1,
+       55.6,
+       -959.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 99.2
+     },
+     "ap_mirrored": {
+      "voxels": 972,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -6.1,
+       -54.7,
+       -959.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 20.8
+     }
+    },
+    "obturator_internus_right": {
+     "as_stored": {
+      "voxels": 35851,
+      "in_bone_label": 2,
+      "in_organ_label": 49,
+      "centroid_ras": [
+       38.3,
+       10.9,
+       -926.4
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 73.3
+     },
+     "ap_mirrored": {
+      "voxels": 35851,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       38.3,
+       -10.0,
+       -926.4
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 59.8
+     }
+    },
+    "perineal_other_right": {
+     "as_stored": {
+      "voxels": 42533,
+      "in_bone_label": 780,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       9.8,
+       29.0,
+       -946.7
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 73.8
+     },
+     "ap_mirrored": {
+      "voxels": 42533,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       9.8,
+       -28.0,
+       -946.7
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 24.1
+     }
+    },
+    "levator_ani_left": {
+     "as_stored": {
+      "voxels": 16348,
+      "in_bone_label": 3031,
+      "in_organ_label": 12,
+      "centroid_ras": [
+       -29.0,
+       29.1,
+       -927.6
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 75.5
+     },
+     "ap_mirrored": {
+      "voxels": 16348,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -29.0,
+       -28.1,
+       -927.6
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 28.6
+     }
+    },
+    "coccygeus_left": {
+     "as_stored": {
+      "voxels": 8897,
+      "in_bone_label": 1660,
+      "in_organ_label": 36,
+      "centroid_ras": [
+       -36.8,
+       7.2,
+       -922.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 60.2
+     },
+     "ap_mirrored": {
+      "voxels": 8897,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -36.8,
+       -6.3,
+       -922.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 49.8
+     }
+    },
+    "bulbospongiosus_left": {
+     "as_stored": {
+      "voxels": 37,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -15.1,
+       59.9,
+       -946.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 102.3
+     },
+     "ap_mirrored": {
+      "voxels": 37,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -15.1,
+       -59.0,
+       -946.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 18.0
+     }
+    },
+    "ischiocavernosus_left": {
+     "as_stored": {
+      "voxels": 637,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -51.4,
+       54.3,
+       -940.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 105.3
+     },
+     "ap_mirrored": {
+      "voxels": 637,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -51.4,
+       -53.4,
+       -940.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 43.5
+     }
+    },
+    "deep_transverse_perineal_left": {
+     "as_stored": {
+      "voxels": 1550,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -30.9,
+       53.3,
+       -938.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 98.0
+     },
+     "ap_mirrored": {
+      "voxels": 1550,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -30.9,
+       -52.3,
+       -938.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 24.3
+     }
+    },
+    "superficial_transverse_perineal_left": {
+     "as_stored": {
+      "voxels": 134,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -28.6,
+       55.4,
+       -953.9
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 100.0
+     },
+     "ap_mirrored": {
+      "voxels": 134,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -28.6,
+       -54.4,
+       -953.9
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 25.3
+     }
+    },
+    "obturator_internus_left": {
+     "as_stored": {
+      "voxels": 36459,
+      "in_bone_label": 0,
+      "in_organ_label": 164,
+      "centroid_ras": [
+       -55.0,
+       11.2,
+       -926.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 72.2
+     },
+     "ap_mirrored": {
+      "voxels": 36459,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -55.0,
+       -10.2,
+       -926.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 58.2
+     }
+    },
+    "perineal_other_left": {
+     "as_stored": {
+      "voxels": 39586,
+      "in_bone_label": 1469,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -31.6,
+       28.9,
+       -945.4
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 74.5
+     },
+     "ap_mirrored": {
+      "voxels": 39586,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -31.6,
+       -28.0,
+       -945.4
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 26.5
+     }
+    },
+    "external_anal_sphincter": {
+     "as_stored": {
+      "voxels": 1122,
+      "in_bone_label": 5,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -13.2,
+       42.7,
+       -937.8
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 85.1
+     },
+     "ap_mirrored": {
+      "voxels": 1122,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -13.2,
+       -41.7,
+       -937.8
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 6.5
+     }
+    }
+   },
+   "ct_landmarks_world_ras_mm": {
+    "anal_end_colon_lowest_slice": [
+     -9.4,
+     -42.2,
+     -943.0
+    ],
+    "sacrum_inferior_5mm_tip": [
+     -10.5,
+     -83.0,
+     -913.3
+    ],
+    "prostate_centroid": [
+     -4.1,
+     -17.6,
+     -914.5
+    ],
+    "bladder_centroid": [
+     -12.7,
+     20.7,
+     -896.9
+    ],
+    "pubic_symphysis_proxy_(anteriormost_midline_hip)": [
+     -14.4,
+     46.2,
+     -922.0
+    ]
+   }
+  },
+  "vhf": {
+   "pfloor_affine_as_stored": [
+    [
+     -1.0,
+     0.0,
+     0.0,
+     350.0
+    ],
+    [
+     0.0,
+     -1.0,
+     0.0,
+     240.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     -947.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "ct_label_volume_affine_used": [
+    [
+     -0.9375,
+     0.0,
+     0.0,
+     240.0
+    ],
+    [
+     0.0,
+     -0.9375,
+     0.0,
+     240.0
+    ],
+    [
+     0.0,
+     0.0,
+     1.0,
+     -1022.0
+    ],
+    [
+     0.0,
+     0.0,
+     0.0,
+     1.0
+    ]
+   ],
+   "totals_voxels_in_ct_bone_or_organ_labels": {
+    "as_stored": {
+     "in_bone": 0,
+     "in_organ": 0,
+     "voxels": 241013
+    },
+    "ap_mirrored": {
+     "in_bone": 16967,
+     "in_organ": 27823,
+     "voxels": 241013
+    }
+   },
+   "per_structure": {
+    "levator_ani_right": {
+     "as_stored": {
+      "voxels": 36344,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       28.5,
+       -5.8,
+       -902.8
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 53.5
+     },
+     "ap_mirrored": {
+      "voxels": 36344,
+      "in_bone_label": 4777,
+      "in_organ_label": 8927,
+      "centroid_ras": [
+       28.5,
+       6.7,
+       -902.8
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 59.5
+     }
+    },
+    "coccygeus_right": {
+     "as_stored": {
+      "voxels": 4008,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       31.7,
+       -43.4,
+       -892.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 62.3
+     },
+     "ap_mirrored": {
+      "voxels": 4008,
+      "in_bone_label": 313,
+      "in_organ_label": 1053,
+      "centroid_ras": [
+       31.7,
+       44.3,
+       -892.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 93.1
+     }
+    },
+    "bulbospongiosus_right": {
+     "as_stored": {
+      "voxels": 2676,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       23.4,
+       4.3,
+       -940.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 35.8
+     },
+     "ap_mirrored": {
+      "voxels": 2676,
+      "in_bone_label": 0,
+      "in_organ_label": 221,
+      "centroid_ras": [
+       23.4,
+       -3.3,
+       -940.3
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 29.4
+     }
+    },
+    "ischiocavernosus_right": {
+     "as_stored": {
+      "voxels": 2663,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       31.8,
+       6.7,
+       -931.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 44.7
+     },
+     "ap_mirrored": {
+      "voxels": 2663,
+      "in_bone_label": 68,
+      "in_organ_label": 78,
+      "centroid_ras": [
+       31.8,
+       -5.8,
+       -931.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 36.2
+     }
+    },
+    "deep_transverse_perineal_right": {
+     "as_stored": {
+      "voxels": 1877,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       22.1,
+       8.7,
+       -928.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 42.8
+     },
+     "ap_mirrored": {
+      "voxels": 1877,
+      "in_bone_label": 96,
+      "in_organ_label": 1108,
+      "centroid_ras": [
+       22.1,
+       -7.7,
+       -928.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 30.6
+     }
+    },
+    "superficial_transverse_perineal_right": {
+     "as_stored": {
+      "voxels": 786,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       25.3,
+       -8.7,
+       -943.9
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 26.0
+     },
+     "ap_mirrored": {
+      "voxels": 786,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       25.3,
+       9.7,
+       -943.9
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 41.0
+     }
+    },
+    "obturator_internus_right": {
+     "as_stored": {
+      "voxels": 63585,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       64.2,
+       -5.4,
+       -905.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 73.9
+     },
+     "ap_mirrored": {
+      "voxels": 63585,
+      "in_bone_label": 4921,
+      "in_organ_label": 23,
+      "centroid_ras": [
+       64.2,
+       6.4,
+       -905.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 78.1
+     }
+    },
+    "perineal_other_right": {
+     "as_stored": {
+      "voxels": 2474,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       25.5,
+       1.2,
+       -935.8
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 35.4
+     },
+     "ap_mirrored": {
+      "voxels": 2474,
+      "in_bone_label": 127,
+      "in_organ_label": 772,
+      "centroid_ras": [
+       25.5,
+       -0.3,
+       -935.8
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 34.3
+     }
+    },
+    "levator_ani_left": {
+     "as_stored": {
+      "voxels": 26353,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -12.6,
+       1.9,
+       -901.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 57.5
+     },
+     "ap_mirrored": {
+      "voxels": 26353,
+      "in_bone_label": 32,
+      "in_organ_label": 8759,
+      "centroid_ras": [
+       -12.6,
+       -1.0,
+       -901.2
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 56.1
+     }
+    },
+    "coccygeus_left": {
+     "as_stored": {
+      "voxels": 2351,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -25.9,
+       -44.6,
+       -890.9
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 67.4
+     },
+     "ap_mirrored": {
+      "voxels": 2351,
+      "in_bone_label": 2,
+      "in_organ_label": 217,
+      "centroid_ras": [
+       -25.9,
+       45.5,
+       -890.9
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 97.3
+     }
+    },
+    "bulbospongiosus_left": {
+     "as_stored": {
+      "voxels": 2881,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -1.9,
+       4.2,
+       -940.7
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 32.8
+     },
+     "ap_mirrored": {
+      "voxels": 2881,
+      "in_bone_label": 0,
+      "in_organ_label": 509,
+      "centroid_ras": [
+       -1.9,
+       -3.2,
+       -940.7
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 26.0
+     }
+    },
+    "ischiocavernosus_left": {
+     "as_stored": {
+      "voxels": 1241,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -23.8,
+       5.3,
+       -929.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 48.0
+     },
+     "ap_mirrored": {
+      "voxels": 1241,
+      "in_bone_label": 343,
+      "in_organ_label": 46,
+      "centroid_ras": [
+       -23.8,
+       -4.3,
+       -929.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 42.2
+     }
+    },
+    "deep_transverse_perineal_left": {
+     "as_stored": {
+      "voxels": 1413,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -5.9,
+       13.2,
+       -928.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 45.9
+     },
+     "ap_mirrored": {
+      "voxels": 1413,
+      "in_bone_label": 0,
+      "in_organ_label": 1004,
+      "centroid_ras": [
+       -5.9,
+       -12.2,
+       -928.5
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 26.9
+     }
+    },
+    "superficial_transverse_perineal_left": {
+     "as_stored": {
+      "voxels": 400,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -5.5,
+       -9.4,
+       -944.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 21.6
+     },
+     "ap_mirrored": {
+      "voxels": 400,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -5.5,
+       10.4,
+       -944.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 39.4
+     }
+    },
+    "obturator_internus_left": {
+     "as_stored": {
+      "voxels": 70520,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -46.1,
+       -6.8,
+       -904.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 71.1
+     },
+     "ap_mirrored": {
+      "voxels": 70520,
+      "in_bone_label": 4764,
+      "in_organ_label": 1095,
+      "centroid_ras": [
+       -46.1,
+       7.7,
+       -904.1
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 76.5
+     }
+    },
+    "perineal_other_left": {
+     "as_stored": {
+      "voxels": 1890,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       -3.4,
+       2.6,
+       -935.6
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 33.2
+     },
+     "ap_mirrored": {
+      "voxels": 1890,
+      "in_bone_label": 141,
+      "in_organ_label": 804,
+      "centroid_ras": [
+       -3.4,
+       -1.7,
+       -935.6
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 29.5
+     }
+    },
+    "external_anal_sphincter": {
+     "as_stored": {
+      "voxels": 19551,
+      "in_bone_label": 0,
+      "in_organ_label": 0,
+      "centroid_ras": [
+       10.6,
+       -18.7,
+       -934.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 15.8
+     },
+     "ap_mirrored": {
+      "voxels": 19551,
+      "in_bone_label": 1383,
+      "in_organ_label": 3207,
+      "centroid_ras": [
+       10.6,
+       19.6,
+       -934.0
+      ],
+      "dist_to_anal_end_colon_lowest_slice": 48.4
+     }
+    }
+   },
+   "ct_landmarks_world_ras_mm": {
+    "anal_end_colon_lowest_slice": [
+     7.0,
+     -26.8,
+     -947.0
+    ],
+    "sacrum_inferior_5mm_tip": [
+     6.4,
+     -71.1,
+     -881.2
+    ],
+    "bladder_centroid": [
+     7.3,
+     34.6,
+     -890.8
+    ],
+    "pubic_symphysis_proxy_(anteriormost_midline_hip)": [
+     -0.3,
+     58.4,
+     -908.9
+    ]
+   }
+  }
+ },
+ "voxel_evidence_summary": {
+  "vhm": "stored affine: 10,178 of 208,731 label voxels land in his hip/sacrum/femur labels and 377 in colon/bladder/prostate; AP-mirrored: 0 and 0 (the builder guarantees 0 by construction). EAS centroid to his anal end 85.1 -> 6.5 mm; levator ani 75 -> 29-30 mm.",
+  "vhf": "stored affine: 0 bone, 0 organ voxels (correct); AP-mirrored: 16,967 bone, 27,823 organ -- the control behaves as expected."
+ },
+ "mesh_evidence_after_affine_fix_only": {
+  "coccygeus_l": {
+   "centroid": [
+    -33.6,
+    -26.5,
+    -8.9
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 39.0,
+   "min_dist_mm": {
+    "coccyx": 55.1,
+    "hip_bone_l": 1.9,
+    "sacrum": 63.5,
+    "hip_bone_r": 15.0,
+    "urinary_bladder": 4.2,
+    "rectum": 2.4,
+    "sigmoid_colon": 31.1,
+    "prostate": 1.4
+   },
+   "min_dist_to_ischial_spine_same_side_mm": 19.0
+  },
+  "coccygeus_r": {
+   "centroid": [
+    29.9,
+    -26.6,
+    -7.0
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 40.9,
+   "min_dist_mm": {
+    "coccyx": 62.8,
+    "hip_bone_l": 18.5,
+    "sacrum": 69.4,
+    "hip_bone_r": 4.1,
+    "urinary_bladder": 0.6,
+    "rectum": 5.5,
+    "sigmoid_colon": 42.2,
+    "prostate": 0.1
+   },
+   "min_dist_to_ischial_spine_same_side_mm": 41.9
+  },
+  "deep_transverse_perineal_l": {
+   "centroid": [
+    -24.3,
+    -42.9,
+    -57.3
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": -9.3,
+   "min_dist_mm": {
+    "coccyx": 49.2,
+    "hip_bone_l": 9.6,
+    "sacrum": 62.9,
+    "hip_bone_r": 51.2,
+    "urinary_bladder": 50.2,
+    "rectum": 7.4,
+    "sigmoid_colon": 63.2,
+    "prostate": 23.4
+   }
+  },
+  "deep_transverse_perineal_r": {
+   "centroid": [
+    21.5,
+    -42.8,
+    -57.4
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": -9.5,
+   "min_dist_mm": {
+    "coccyx": 49.5,
+    "hip_bone_l": 50.0,
+    "sacrum": 62.1,
+    "hip_bone_r": 19.2,
+    "urinary_bladder": 48.8,
+    "rectum": 5.7,
+    "sigmoid_colon": 61.8,
+    "prostate": 18.2
+   }
+  },
+  "external_anal_sphincter": {
+   "centroid": [
+    -5.7,
+    -42.2,
+    -46.1
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 1.8,
+   "min_dist_mm": {
+    "coccyx": 56.3,
+    "hip_bone_l": 25.5,
+    "sacrum": 67.6,
+    "hip_bone_r": 31.0,
+    "urinary_bladder": 38.3,
+    "rectum": 2.3,
+    "sigmoid_colon": 59.0,
+    "prostate": 8.7
+   },
+   "centroid_to_anal_end_mm": 7.4,
+   "horizontal_offset_to_anal_end_mm": 5.5,
+   "centroid_to_pubic_symphysis_mm": 101.1
+  },
+  "levator_ani_l": {
+   "centroid": [
+    -21.8,
+    -31.8,
+    -32.7
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 15.2,
+   "min_dist_mm": {
+    "coccyx": 46.9,
+    "hip_bone_l": 2.3,
+    "sacrum": 54.5,
+    "hip_bone_r": 13.8,
+    "urinary_bladder": 4.0,
+    "rectum": 2.8,
+    "sigmoid_colon": 41.5,
+    "prostate": 1.4
+   },
+   "z_minus_prostate_z_mm": -9.5,
+   "y_minus_bladder_y_mm": -30.8
+  },
+  "levator_ani_r": {
+   "centroid": [
+    17.9,
+    -31.8,
+    -32.4
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 15.6,
+   "min_dist_mm": {
+    "coccyx": 42.6,
+    "hip_bone_l": 7.9,
+    "sacrum": 52.3,
+    "hip_bone_r": 2.6,
+    "urinary_bladder": 1.8,
+    "rectum": 0.1,
+    "sigmoid_colon": 43.3,
+    "prostate": 0.1
+   },
+   "z_minus_prostate_z_mm": -9.2,
+   "y_minus_bladder_y_mm": -30.8
+  }
+ },
+ "mesh_evidence_before": {
+  "coccygeus_l": {
+   "centroid": [
+    -33.6,
+    -26.5,
+    0.3
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 48.2,
+   "min_dist_mm": {
+    "coccyx": 73.9,
+    "hip_bone_l": 0.1,
+    "sacrum": 78.5,
+    "hip_bone_r": 8.3,
+    "urinary_bladder": 4.0,
+    "rectum": 13.4,
+    "sigmoid_colon": 28.0,
+    "prostate": 0.2
+   },
+   "min_dist_to_ischial_spine_same_side_mm": 14.3
+  },
+  "coccygeus_r": {
+   "centroid": [
+    29.9,
+    -26.6,
+    -1.7
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 46.3,
+   "min_dist_mm": {
+    "coccyx": 77.5,
+    "hip_bone_l": 11.5,
+    "sacrum": 77.4,
+    "hip_bone_r": 0.4,
+    "urinary_bladder": 0.2,
+    "rectum": 20.0,
+    "sigmoid_colon": 40.4,
+    "prostate": 0.2
+   },
+   "min_dist_to_ischial_spine_same_side_mm": 35.6
+  },
+  "deep_transverse_perineal_l": {
+   "centroid": [
+    -24.3,
+    -42.9,
+    48.6
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 96.5,
+   "min_dist_mm": {
+    "coccyx": 145.6,
+    "hip_bone_l": 11.3,
+    "sacrum": 131.2,
+    "hip_bone_r": 18.6,
+    "urinary_bladder": 29.3,
+    "rectum": 83.1,
+    "sigmoid_colon": 44.0,
+    "prostate": 57.9
+   }
+  },
+  "deep_transverse_perineal_r": {
+   "centroid": [
+    21.5,
+    -42.8,
+    48.8
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 96.7,
+   "min_dist_mm": {
+    "coccyx": 145.2,
+    "hip_bone_l": 18.5,
+    "sacrum": 132.4,
+    "hip_bone_r": 10.1,
+    "urinary_bladder": 34.1,
+    "rectum": 82.7,
+    "sigmoid_colon": 51.8,
+    "prostate": 55.4
+   }
+  },
+  "external_anal_sphincter": {
+   "centroid": [
+    -5.7,
+    -42.2,
+    37.5
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 85.4,
+   "min_dist_mm": {
+    "coccyx": 132.5,
+    "hip_bone_l": 3.8,
+    "sacrum": 128.8,
+    "hip_bone_r": 2.9,
+    "urinary_bladder": 26.3,
+    "rectum": 69.5,
+    "sigmoid_colon": 43.1,
+    "prostate": 45.3
+   },
+   "centroid_to_anal_end_mm": 85.7,
+   "horizontal_offset_to_anal_end_mm": 85.5,
+   "centroid_to_pubic_symphysis_mm": 31.3
+  },
+  "levator_ani_l": {
+   "centroid": [
+    -21.8,
+    -31.8,
+    24.0
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 72.0,
+   "min_dist_mm": {
+    "coccyx": 87.2,
+    "hip_bone_l": 0.3,
+    "sacrum": 93.1,
+    "hip_bone_r": 8.5,
+    "urinary_bladder": 1.2,
+    "rectum": 25.3,
+    "sigmoid_colon": 28.0,
+    "prostate": 7.9
+   },
+   "z_minus_prostate_z_mm": 47.2,
+   "y_minus_bladder_y_mm": -30.8
+  },
+  "levator_ani_r": {
+   "centroid": [
+    17.9,
+    -31.8,
+    23.7
+   ],
+   "z_minus_anal_end_z_mm(+ = anterior)": 71.6,
+   "min_dist_mm": {
+    "coccyx": 86.5,
+    "hip_bone_l": 1.5,
+    "sacrum": 93.0,
+    "hip_bone_r": 0.3,
+    "urinary_bladder": 1.0,
+    "rectum": 23.5,
+    "sigmoid_colon": 34.4,
+    "prostate": 2.1
+   },
+   "z_minus_prostate_z_mm": 46.9,
+   "y_minus_bladder_y_mm": -30.8
+  }
+ },
+ "landmarks_atlas_mm": {
+  "anal_end (rectum lowest pt)": [
+   -0.5,
+   -47.2,
+   -47.9
+  ],
+  "coccyx_centroid": [
+   3.5,
+   6.9,
+   -103.1
+  ],
+  "coccyx_tip (lowest 5 mm)": [
+   4.2,
+   -5.8,
+   -100.8
+  ],
+  "prostate_centroid": [
+   4.2,
+   -19.1,
+   -23.2
+  ],
+  "bladder_centroid": [
+   -2.4,
+   -1.0,
+   15.4
+  ],
+  "pubic_symphysis (anteriormost midline hip bone)": [
+   9.4,
+   -18.4,
+   51.0
+  ],
+  "ischial_spine_l (most medial posterior hip bone, Y -40..10)": [
+   -49.2,
+   -39.2,
+   -42.0
+  ],
+  "ischial_spine_r (most medial posterior hip bone, Y -40..10)": [
+   54.0,
+   3.5,
+   -55.8
+  ]
+ },
+ "anal_check_vhm_after_affine_fix_only": {
+  "pelvic_floor_subjects": [
+   "ct_vhm_pfloor_fix",
+   "ct_vhm_pfloor"
+  ],
+  "rectum_lowest_point_atlas_mm": [
+   -0.5,
+   -47.2,
+   -47.9
+  ],
+  "rectum_lowest_5mm_cap_centroid_atlas_mm": [
+   0.0,
+   -44.6,
+   -47.2
+  ],
+  "external_anal_sphincter_y_range_mm": [
+   -47.0,
+   -38.0
+  ],
+  "external_anal_sphincter_centroid_atlas_mm": [
+   -5.7,
+   -42.2,
+   -46.1
+  ],
+  "external_anal_sphincter_radius_about_its_axis_mm": [
+   2.9,
+   10.5,
+   17.6
+  ],
+  "external_anal_sphincter_watertight": true,
+  "gap_rectum_lowest_to_sphincter_top_mm": -9.1,
+  "gap_rectum_lowest_to_sphincter_bottom_mm": -0.1,
+  "rectum_vertices_within_sphincter_height": 483,
+  "min_distance_rectum_to_sphincter_mm": 2.3,
+  "distance_rectum_lowest_point_to_sphincter_mm": 7.5,
+  "horizontal_offset_rectum_cap_to_sphincter_axis_mm": 5.9,
+  "rectum_vertices_inside_sphincter": 0,
+  "sphincter_vertices_inside_rectum": 0,
+  "levator_ani_y_range_mm": [
+   -38.0,
+   -23.0
+  ],
+  "gap_rectum_lowest_to_levator_lowest_mm": -9.1,
+  "min_distance_rectum_to_levator_ani_mm": 0.1
+ },
+ "exact_mirror_check": "reconverting with only the affine Y row changed gives new = old mirrored (atlas Z' = -8.6365 - Z) to 2.5e-6 mm, faces identical, for ct_vhm_pfloor (29,816 verts) and ct_vhm_pfloor_fix (7,585); the pre-fix meshes reconvert byte-identically from the committed volume (smooth 1.0 / 0.0).",
+ "why_not_a_clean_flip": {
+  "rule_frame": "the builder's rules were ported from the female frame where +row = POSTERIOR; in his legs frame +row = ANTERIOR. dy = row - anal_row (line ~573), so every AP rule selects the opposite side",
+  "affected_rules": {
+   "coccygeus": "dy >= +8 mm 'posterior of the anal centre' -> actually 8+ mm ANTERIOR; after the affine fix its centroid sits 39-41 mm anterior of the anal end, 0.1-1.4 mm from the prostate and 55-63 mm from the coccyx",
+   "posterior_pad": "pad = dilation(hull) & (yy > arow): the 14 mm 'posterior' pad is added anteriorly",
+   "ischial_spine_level": "anchors(): post = rr > arow - 6 takes the ANTERIOR hip label; k_spine = 752 as built; with the posterior half it is 738 (the lower bound of its search window, i.e. not a clean minimum) -- the pelvic band's top level changes",
+   "perineal": "ischiocavernosus (dy <= -12), bulbospongiosus (dy <= -18), deep transverse perineal (dy -40..-8), superficial transverse perineal (dy -28..-12) are all on the wrong side of the anal centre; after the affine fix deep_transverse_perineal_l/r sit 9 mm POSTERIOR of the anal end (should be anterior, urogenital triangle)",
+   "not_affected": "external_anal_sphincter ring rule and obturator internus band are AP-symmetric; levator ani = viscera-reach funnel minus the (mis-sided) coccygeus region"
+  },
+  "needs": "re-running scripts/cryo/vhm_pelvic_floor_from_cryo.py with the affine fix AND the AP rules sign-corrected for the legs frame; that needs his legs cryo frame (SCRATCH/vh_cryo/cryo_legs_frame_{rgb,cls}.npy) and SCRATCH/vhm_ts/legs_total.nii.gz, both absent in this container (resample_cryo_to_ct_frame.py 'legs' branch + a cryo re-stream)"
+ },
+ "other_observations": {
+  "in_plane_stage2_offset": "the pfloor frame carries the legs->torso z offset (-693) but not its in-plane part (+2.72, -0.89 mm) that Q170's viscera use; with it the EAS-to-rectum-cap horizontal offset would drop from 5.9 to ~3.0 mm. Not applied.",
+  "winding": "with the corrected (det -1) affine, convert produces inward-wound triangles (signed volume negative), same as ct_vhm_foot/vhm_both; viewer uses DoubleSide + computeVertexNormals, so no visible effect.",
+  "vhm_both_vs_ct": "vhm_both coccyx tip is at atlas Y -5.8 while legs_total's sacrum label ends at Y -17.8: his photographic bones and the CT-derived subjects may differ by ~10 mm+ in the coccygeal region (not investigated)"
+ },
+ "trial_patch": "scratchpad q171/q171_builder_affine_patch.diff (volume_affine() + --reaffine mode); affine-fixed outputs kept in q171/affine_fixed_not_shipped/ -- NOT applied to the repo."
+}

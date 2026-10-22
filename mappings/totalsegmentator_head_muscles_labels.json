@@ -1,0 +1,79 @@
+{
+  "_README": [
+    "Label id -> structure name for TotalSegmentator v2's 'head_muscles' task, plus the reviewed mapping onto atlas entities.",
+    "A KEY, not data: it contains no anatomy and no geometry. Entries with atlas_id null are decisions NOT to map, each with its reason."
+  ],
+  "source": "Wasserthal J et al., TotalSegmentator (Radiology: AI 2023, doi:10.1148/ryai.230024); class map transcribed from totalsegmentator/map_to_binary.py, v2.18.0, Apache-2.0. Task listed in the project README under 'Openly available for any usage (Apache-2.0 license)'.",
+  "task": "head_muscles",
+  "version": "v2.18.0",
+  "labels": {
+    "1": "masseter_right",
+    "2": "masseter_left",
+    "3": "temporalis_right",
+    "4": "temporalis_left",
+    "5": "lateral_pterygoid_right",
+    "6": "lateral_pterygoid_left",
+    "7": "medial_pterygoid_right",
+    "8": "medial_pterygoid_left",
+    "9": "tongue",
+    "10": "digastric_right",
+    "11": "digastric_left"
+  },
+  "atlas": {
+    "masseter_right": {
+      "atlas_id": "masseter_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "masseter_left": {
+      "atlas_id": "masseter_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "temporalis_right": {
+      "atlas_id": "temporalis_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "temporalis_left": {
+      "atlas_id": "temporalis_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "lateral_pterygoid_right": {
+      "atlas_id": "lateral_pterygoid_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "lateral_pterygoid_left": {
+      "atlas_id": "lateral_pterygoid_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "medial_pterygoid_right": {
+      "atlas_id": "medial_pterygoid_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "medial_pterygoid_left": {
+      "atlas_id": "medial_pterygoid_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "digastric_right": {
+      "atlas_id": "digastric_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "digastric_left": {
+      "atlas_id": "digastric_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "tongue": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: genioglossus, hyoglossus, styloglossus, palatoglossus and the intrinsic tongue muscles."
+    }
+  }
+}

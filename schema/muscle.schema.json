@@ -1,0 +1,654 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/muscle.schema.json",
+  "title": "Muscle",
+  "description": "A named muscle, decomposed into one or more functional compartments (neuromuscular partitions). Each compartment carries a parametric fiber-architecture description consumed by engine/fiber_field.py to procedurally generate a 1mm-resolution vector field of individual fascicle centerlines between origin and insertion surfaces \u2014 this is how per-fiber-bundle direction and per-compartment grouping is produced without hand-authoring millions of fiber curves.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name_ta": {
+      "type": "string"
+    },
+    "name_common": {
+      "type": "string"
+    },
+    "side": {
+      "$ref": "common.schema.json#/definitions/side"
+    },
+    "region": {
+      "type": "string"
+    },
+    "overall_architecture_type": {
+      "type": "string",
+      "enum": [
+        "parallel_strap",
+        "fusiform",
+        "unipennate",
+        "bipennate",
+        "multipennate",
+        "circular",
+        "convergent_triangular",
+        "digastric"
+      ]
+    },
+    "attachments": {
+      "type": "object",
+      "properties": {
+        "origin_bone": {
+          "type": "string"
+        },
+        "origin_landmark": {
+          "type": "string"
+        },
+        "insertion_bone": {
+          "type": "string"
+        },
+        "insertion_landmark": {
+          "type": "string"
+        },
+        "via_points": {
+          "type": "array",
+          "description": "Wrapping/via points (retinacula, bony pulleys, sesamoids) the muscle-tendon path is constrained through, so its path deforms plausibly rather than penetrating bone during joint rotation.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "structure": {
+                "type": "string"
+              },
+              "bone_frame": {
+                "type": "string",
+                "description": "id of the bone whose local frame this via-point is rigidly attached to"
+              },
+              "position_local_mm": {
+                "$ref": "common.schema.json#/definitions/vec3_mm"
+              },
+              "active_over_joint_range": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "origin_bone",
+        "origin_landmark",
+        "insertion_bone",
+        "insertion_landmark"
+      ]
+    },
+    "innervation": {
+      "type": "object",
+      "properties": {
+        "nerve": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "uniqueItems": true
+            }
+          ],
+          "description": "Nerve entity id(s) from data/nerves. A single string for a muscle with one nerve. An ARRAY for a muscle with more than one -- adductor magnus is obturator and sciatic, biceps femoris is tibial-division long head and common-fibular-division short head -- listing every nerve entity that reaches any of its compartments. Two nerves were once packed into one pseudo-id string such as 'femoral_n_and_obturator_n', which resolved to nothing; that form is no longer accepted. Which nerve reaches WHICH compartment is on the compartment, in innervation_branch_ids."
+        },
+        "root_levels": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nerve",
+        "root_levels"
+      ]
+    },
+    "blood_supply": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "functional_compartments": {
+      "type": "array",
+      "description": "Independently-innervated or mechanically-separable fiber bundle groups within this single named muscle (e.g. deltoid's ~7 segments, biceps femoris' two heads). A muscle with a single homogeneous fiber population still gets exactly one compartment entry.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "innervation_branch": {
+            "type": "string",
+            "description": "specific nerve branch/twig serving only this compartment, when documented"
+          },
+          "fiber_architecture": {
+            "type": "object",
+            "properties": {
+              "architecture_type": {
+                "type": "string",
+                "enum": [
+                  "parallel_strap",
+                  "fusiform",
+                  "unipennate",
+                  "bipennate",
+                  "multipennate",
+                  "circular",
+                  "convergent_triangular",
+                  "digastric"
+                ]
+              },
+              "pennation_deg": {
+                "type": "number"
+              },
+              "optimal_fascicle_length_mm": {
+                "type": "number"
+              },
+              "physiological_cross_section_area_mm2": {
+                "type": "number"
+              },
+              "tendon_slack_length_mm": {
+                "type": "number"
+              },
+              "max_isometric_force_N": {
+                "type": "number"
+              },
+              "aponeurosis_definition": {
+                "type": "string",
+                "description": "how the internal aponeurosis surface(s) that fibers attach to are defined, for pennate muscles"
+              }
+            },
+            "required": [
+              "architecture_type"
+            ]
+          },
+          "fiber_field_seed_region_local_mm": {
+            "type": "array",
+            "description": "Polygon (list of vec3_mm, in origin_bone's local frame) bounding the origin footprint of this compartment's fibers on the origin surface \u2014 the seed curve fiber_field.py sows fascicle start points along.",
+            "items": {
+              "$ref": "common.schema.json#/definitions/vec3_mm"
+            }
+          },
+          "neuromuscular_junction_zone": {
+            "type": "object",
+            "description": "The NMJ/motor endplate band is a localized transverse zone (not point-uniform) documented for most human muscles, typically near the fascicle midpoint / muscle belly center.",
+            "properties": {
+              "location_description": {
+                "type": "string"
+              },
+              "position_fraction_along_fascicle": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "0=origin end, 1=insertion end; ~0.5 for most parallel/fusiform muscles per endplate-banding studies"
+              },
+              "band_width_fraction": {
+                "type": "number",
+                "description": "width of the endplate zone as a fraction of total fascicle length"
+              },
+              "evidence": {
+                "type": "string",
+                "enum": [
+                  "measured",
+                  "modelling_default"
+                ],
+                "description": "'measured' means position_fraction_along_fascicle is taken from a study of this muscle. 'modelling_default' means it is the generic mid-belly assumption (0.5) applied because no muscle-specific measurement has been entered -- see motor_endplate_zones for published, landmark-referenced data where it exists."
+              }
+            }
+          },
+          "function_note": {
+            "type": "string"
+          },
+          "source": {
+            "$ref": "common.schema.json#/definitions/citation"
+          },
+          "motor_endplate_zones": {
+            "type": "array",
+            "description": "Published motor endplate / intramuscular nerve arborization zones, recorded IN THE SOURCE'S OWN TERMS: a percentage range along a named line between two external landmarks. Deliberately NOT converted into position_fraction_along_fascicle -- the published reference lines run in varying directions relative to each muscle's origin-to-insertion axis (several run distal-to-proximal), so a silent conversion would invert some zones. It is also the form a clinician actually palpates and measures against.",
+            "items": {
+              "type": "object",
+              "required": [
+                "zone_percent_range",
+                "reference_line_from",
+                "reference_line_to",
+                "source"
+              ],
+              "properties": {
+                "zone_percent_range": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "description": "[low, high] percent along the reference line, measured from reference_line_from (0%) toward reference_line_to (100%)."
+                },
+                "reference_line_from": {
+                  "type": "string",
+                  "description": "the 0% landmark"
+                },
+                "reference_line_to": {
+                  "type": "string",
+                  "description": "the 100% landmark"
+                },
+                "method": {
+                  "type": "string",
+                  "description": "how the zone was determined, e.g. Sihler stain arborization mapping, EMG innervation-zone imaging, cadaveric dissection"
+                },
+                "recommended_as_injection_target": {
+                  "type": "boolean",
+                  "description": "Whether the source recommends putting a needle here. ABSENT means the source expressed no view, which is the usual case. FALSE means it explicitly rejected this zone -- some studies simulate the puncture and rule out nerve-dense regions that lie behind the pleura, a gland or a plexus. Such a zone is still real anatomy and is recorded, but a consumer selecting injection targets must filter on this field rather than on the presence of a zone. Where false, notes must give the reason."
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "injection_target_points": {
+            "type": "array",
+            "description": "Published body-surface puncture points with needle depth. This is a strictly richer datum than motor_endplate_zones: a zone gives only a position ALONG the muscle, while a target point adds the transverse position and the depth, so it specifies a point in the limb rather than a level. Everything is expressed as a percentage of a named line between palpable landmarks, never as an absolute distance, so it transfers across body sizes. Depth is a percentage of the limb's own thickness at that point, measured from the named surface inward.",
+            "items": {
+              "type": "object",
+              "required": [
+                "label",
+                "transverse_line_from",
+                "transverse_line_to",
+                "transverse_percent",
+                "longitudinal_line_from",
+                "longitudinal_line_to",
+                "longitudinal_percent",
+                "source"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "which target this is, when a muscle has more than one"
+                },
+                "transverse_line_from": {
+                  "type": "string",
+                  "description": "the 0% landmark of the transverse (cross-limb) reference line"
+                },
+                "transverse_line_to": {
+                  "type": "string",
+                  "description": "the 100% landmark of the transverse reference line"
+                },
+                "transverse_percent": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "longitudinal_line_from": {
+                  "type": "string",
+                  "description": "the 0% landmark of the longitudinal (along-limb) reference line"
+                },
+                "longitudinal_line_to": {
+                  "type": "string",
+                  "description": "the 100% landmark of the longitudinal reference line"
+                },
+                "longitudinal_percent": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "depth_percent_of_limb_thickness": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100,
+                  "description": "how far along the line from the surface projection point, through the target, to the opposite surface. Meaningful only together with depth_measured_from; where the source's surface could not be established, that field is omitted and notes must say so."
+                },
+                "depth_measured_from": {
+                  "type": "string",
+                  "description": "the surface the projection point lies on, e.g. 'anterior surface of the forearm'. Omitted rather than guessed when unknown."
+                },
+                "depth_mm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Absolute depth from the skin to the target, in mm. Some studies report depth this way instead of as a fraction of limb thickness. Unlike the percentage it does NOT transfer between body sizes -- it is the mean of the study's own cadaver sample -- so treat it as a starting expectation to confirm on the screen, not a setting to dial in."
+                },
+                "needle_angle_to_skin_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180,
+                  "description": "Acute angle between needle and skin at the entry point. 90 is perpendicular. Matters where a perpendicular approach would cross something it must not: longus capitis is entered at about 58 degrees for exactly that reason."
+                },
+                "needle_path": {
+                  "type": "string",
+                  "description": "Tissue layers the needle crosses, in order from skin, and the interval it is aimed through."
+                },
+                "structures_at_risk": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "What lies close enough to this specific needle path to matter. Distinct from the muscle-level ultrasound_injection_approach list, which describes the probe's window rather than one target's path."
+                },
+                "method": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "relative_muscle_spindle_abundance": {
+            "type": "object",
+            "description": "Relative muscle spindle abundance: actual spindle count divided by the count predicted from muscle mass (Banks' allometric correction), so it is comparable between muscles of very different size in a way raw spindle density is not. Recorded because it is the criterion the intramuscular localisation literature uses to choose between candidate injection sites: where a muscle has several nerve-dense regions, the spindle-richest one is the preferred botulinum target. A number here is not itself a location.",
+            "required": [
+              "value",
+              "source"
+            ],
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0,
+                "description": "actual / predicted spindle count; 1.0 means as many as mass predicts"
+              },
+              "method": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          },
+          "innervation_branch_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Nerve entity id(s) that reach THIS compartment. The resolvable counterpart of innervation_branch, which is prose. For a muscle with one nerve this repeats the muscle's; it earns its place on the dually innervated muscles, where the compartment is the unit that has one nerve and the muscle does not -- and where a nerve block or a botulinum plan needs to know which head answers to which nerve."
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "fiber_architecture",
+          "source"
+        ]
+      }
+    },
+    "source": {
+      "$ref": "common.schema.json#/definitions/citation"
+    },
+    "ultrasound_injection_approach": {
+      "type": "object",
+      "description": "How this muscle is found and safely injected under ultrasound. Distinct from motor_endplate_zones: a zone says WHERE ALONG the muscle the endplate band lies, while this says how to bring the probe and needle to it and what must not be hit on the way. Both are needed before an injection is planned.",
+      "required": [
+        "transducer_placement",
+        "source"
+      ],
+      "properties": {
+        "transducer_placement": {
+          "type": "string",
+          "description": "probe position and orientation, referenced to palpable landmarks"
+        },
+        "depth_layer": {
+          "type": "string",
+          "description": "which compartment layer the muscle occupies and what lies superficial and deep to it"
+        },
+        "identification_cues": {
+          "type": "string",
+          "description": "sonographic appearance and dynamic manoeuvres that confirm the muscle"
+        },
+        "structures_at_risk": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "nerves and vessels close enough to the needle path to matter"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "trigger_points": {
+      "type": "array",
+      "description": "Myofascial trigger point(s) and their documented referred-pain pattern (Travell & Simons framework). Distinct from motor_endplate_zones and ultrasound_injection_approach: those describe where/how to deliver a therapeutic injection into the motor point, while this describes a palpable taut-band point whose compression reproduces pain felt elsewhere -- a differential-diagnosis and manual-therapy construct, not itself an injection target, though trigger-point dry needling/injection is a real, separate procedure some sources describe. Populated only where a specific, citable source (typically Travell, Simons & Simons' Trigger Point Manual, or a peer-reviewed study) gives a location and referral pattern for this muscle.",
+      "items": {
+        "type": "object",
+        "required": ["location_description", "referred_pain_pattern", "source"],
+        "properties": {
+          "location_description": {
+            "type": "string",
+            "description": "where in the muscle the trigger point is classically found, referenced to palpable landmarks"
+          },
+          "referred_pain_pattern": {
+            "type": "string",
+            "description": "the essential (dark) referral zone, and any documented spillover zone, per Travell & Simons unless otherwise stated"
+          },
+          "activation_perpetuating_factors": {
+            "type": "string",
+            "description": "movements/postures/overuse patterns reported to activate or perpetuate this trigger point"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "relative_muscle_spindle_abundance": {
+      "type": "object",
+      "description": "Relative muscle spindle abundance: actual spindle count divided by the count predicted from muscle mass (Banks' allometric correction), so it is comparable between muscles of very different size in a way raw spindle density is not. Recorded because it is the criterion the intramuscular localisation literature uses to choose between candidate injection sites: where a muscle has several nerve-dense regions, the spindle-richest one is the preferred botulinum target. A number here is not itself a location.",
+      "required": [
+        "value",
+        "source"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "actual / predicted spindle count; 1.0 means as many as mass predicts"
+        },
+        "method": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "clinical": {
+      "type": "array",
+      "description": "Clinical reference compiled by the repository owner (physician) from his own per-region muscle reference documents (shoulder, elbow, wrist, hand-intrinsic), one entry per source document that profiles this muscle, so a muscle covered by two documents (e.g. biceps brachii in the shoulder and elbow files) carries two entries. Every field is the owner's text; his citations are carried in `sources` (full reference strings, resolved from each document's reference list; a leading [n] is the number used inside that document's text) and on every trigger point and test. Distinct from the top-level `trigger_points` (the atlas's own citable TrP record): this block is the owner's clinical view -- function, adjacent structures, referral in both directions, examination tests with published accuracy where a primary study exists -- and it must never be edited except from a new version of his documents.",
+      "items": {
+        "type": "object",
+        "required": [
+          "document",
+          "compiled_by",
+          "caveat",
+          "sources"
+        ],
+        "properties": {
+          "document": {
+            "type": "string",
+            "description": "file name of the owner's source document"
+          },
+          "compiled": {
+            "type": "string",
+            "description": "compilation date(s) as stated in the document, DD/MM/YYYY"
+          },
+          "compiled_by": {
+            "type": "string",
+            "description": "who compiled it, the document and date, and the document's own sources policy sentence"
+          },
+          "function_biomechanics": {
+            "type": "string"
+          },
+          "adjacent_structures": {
+            "type": "string",
+            "description": "adjacent bursae/sheaths, relations and coupled structures as the document lists them (labelled sub-parts)"
+          },
+          "trigger_points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "referred_pain",
+                "source"
+              ],
+              "properties": {
+                "location": {
+                  "type": "string"
+                },
+                "referred_pain": {
+                  "type": "string",
+                  "description": "referred pain FROM this muscle as described in the document (may state that Travell & Simons map no separate pattern)"
+                },
+                "activation_perpetuating_factors": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "symptoms/mimics, entrapment, associated TrPs"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "pain_referred_into_this_muscle_from": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "sources (muscles, joints, nerves, viscera) whose pain is referred INTO this muscle's territory; the document's list split at its own separators"
+          },
+          "pain_referred_into_territory": {
+            "type": "string",
+            "description": "the document's own heading naming the territory the list above refers into"
+          },
+          "non_myofascial_differential": {
+            "type": "string"
+          },
+          "movement_restrictions_aggravators": {
+            "type": "string"
+          },
+          "tests": {
+            "type": "array",
+            "description": "physical-examination tests/signs the document ties to this muscle; sensitivity/specificity are percent as reported by the cited primary study, null where the document gives none or only a range (the verbatim accuracy statement is kept in `accuracy`)",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "source"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "performance": {
+                  "type": "string"
+                },
+                "positive_finding": {
+                  "type": "string"
+                },
+                "structures_loaded": {
+                  "type": "string"
+                },
+                "muscle_basis": {
+                  "type": "string"
+                },
+                "sensitivity": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "specificity": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "accuracy": {
+                  "type": "string",
+                  "description": "the document's accuracy statement, verbatim"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "tests_caveat": {
+            "type": "string",
+            "description": "the document's framing caveat for its test-accuracy table, verbatim"
+          },
+          "notes": {
+            "type": "string",
+            "description": "clinical pearls / clinical notes / clinical anatomy paragraph"
+          },
+          "caveat": {
+            "type": "string",
+            "description": "the document's own evidence-quality statement, verbatim (Travell & Simons referral maps are expert consensus, not validated criteria)"
+          },
+          "references_as_listed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "the per-muscle reference list exactly as printed in the document, where it differs in form from `sources`"
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name_ta",
+    "attachments",
+    "innervation",
+    "actions",
+    "functional_compartments",
+    "source"
+  ]
+}

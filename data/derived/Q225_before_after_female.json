@@ -1,0 +1,2549 @@
+{
+ "task": "Q225 before (Q223 audit of the Q221 / Q222 page) vs after (Q225 page), UNCHANGED Q198 / Q204 / Q209 code and thresholds",
+ "page": "female",
+ "page_dir_after": "build/q225/viewer_zan_female",
+ "q198_junction_audit": {
+  "verdict_before_after": [
+   "partly",
+   "partly"
+  ],
+  "verdict_q209": "no",
+  "severity_major_moderate_minor": {
+   "q209": [
+    30,
+    101,
+    178
+   ],
+   "q223_before": [
+    25,
+    94,
+    153
+   ],
+   "q225_after": [
+    24,
+    97,
+    152
+   ]
+  },
+  "elbow_L_R_verdict": {
+   "q209": [
+    "DEFECT",
+    "DEFECT"
+   ],
+   "q223_before": [
+    "DEFECT",
+    "DEFECT"
+   ],
+   "q225_after": [
+    "DEFECT",
+    "DEFECT"
+   ]
+  },
+  "elbow_counts_major_moderate_minor": {
+   "before": {
+    "l": [
+     1,
+     5,
+     8
+    ],
+    "r": [
+     2,
+     4,
+     10
+    ]
+   },
+   "after": {
+    "l": [
+     1,
+     3,
+     15
+    ],
+    "r": [
+     2,
+     5,
+     13
+    ]
+   }
+  },
+  "junctions_before": [
+   {
+    "junction": "ankle",
+    "side": "l",
+    "bone_gap_mm_now": 0.28,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     0,
+     2,
+     4
+    ]
+   },
+   {
+    "junction": "ankle",
+    "side": "r",
+    "bone_gap_mm_now": 0.36,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     0,
+     2,
+     4
+    ]
+   },
+   {
+    "junction": "cervico_thoracic",
+    "side": "m",
+    "bone_gap_mm_now": 4.47,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     4,
+     12,
+     14
+    ]
+   },
+   {
+    "junction": "elbow",
+    "side": "l",
+    "bone_gap_mm_now": 0.14,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     1,
+     8,
+     8
+    ]
+   },
+   {
+    "junction": "elbow",
+    "side": "r",
+    "bone_gap_mm_now": 0.1,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     2,
+     6,
+     10
+    ]
+   },
+   {
+    "junction": "head_neck",
+    "side": "m",
+    "bone_gap_mm_now": 3.55,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     4,
+     17,
+     25
+    ]
+   },
+   {
+    "junction": "hip",
+    "side": "l",
+    "bone_gap_mm_now": 1.01,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     1,
+     7,
+     2
+    ]
+   },
+   {
+    "junction": "hip",
+    "side": "r",
+    "bone_gap_mm_now": 1.27,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     1,
+     8,
+     6
+    ]
+   },
+   {
+    "junction": "knee",
+    "side": "l",
+    "bone_gap_mm_now": 2.41,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     2,
+     1,
+     2
+    ]
+   },
+   {
+    "junction": "knee",
+    "side": "r",
+    "bone_gap_mm_now": 1.67,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     2,
+     0,
+     2
+    ]
+   },
+   {
+    "junction": "shoulder",
+    "side": "l",
+    "bone_gap_mm_now": 3.95,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     3,
+     8,
+     19
+    ]
+   },
+   {
+    "junction": "shoulder",
+    "side": "r",
+    "bone_gap_mm_now": 0.04,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     2,
+     11,
+     13
+    ]
+   },
+   {
+    "junction": "thoraco_lumbar",
+    "side": "m",
+    "bone_gap_mm_now": 1.63,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     1,
+     2,
+     17
+    ]
+   },
+   {
+    "junction": "wrist",
+    "side": "l",
+    "bone_gap_mm_now": 1.33,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     1,
+     2,
+     14
+    ]
+   },
+   {
+    "junction": "wrist",
+    "side": "r",
+    "bone_gap_mm_now": 2.97,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     1,
+     7,
+     13
+    ]
+   }
+  ],
+  "junctions_after": [
+   {
+    "junction": "ankle",
+    "side": "l",
+    "bone_gap_mm_now": 0.28,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     0,
+     2,
+     4
+    ]
+   },
+   {
+    "junction": "ankle",
+    "side": "r",
+    "bone_gap_mm_now": 0.36,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     0,
+     2,
+     4
+    ]
+   },
+   {
+    "junction": "cervico_thoracic",
+    "side": "m",
+    "bone_gap_mm_now": 4.47,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     4,
+     12,
+     14
+    ]
+   },
+   {
+    "junction": "elbow",
+    "side": "l",
+    "bone_gap_mm_now": 0.3,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     1,
+     6,
+     15
+    ]
+   },
+   {
+    "junction": "elbow",
+    "side": "r",
+    "bone_gap_mm_now": 0.1,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     2,
+     7,
+     13
+    ]
+   },
+   {
+    "junction": "head_neck",
+    "side": "m",
+    "bone_gap_mm_now": 3.55,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     4,
+     17,
+     25
+    ]
+   },
+   {
+    "junction": "hip",
+    "side": "l",
+    "bone_gap_mm_now": 1.01,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     1,
+     7,
+     2
+    ]
+   },
+   {
+    "junction": "hip",
+    "side": "r",
+    "bone_gap_mm_now": 1.27,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     1,
+     8,
+     6
+    ]
+   },
+   {
+    "junction": "knee",
+    "side": "l",
+    "bone_gap_mm_now": 2.27,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     2,
+     3,
+     1
+    ]
+   },
+   {
+    "junction": "knee",
+    "side": "r",
+    "bone_gap_mm_now": 1.67,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     2,
+     2,
+     1
+    ]
+   },
+   {
+    "junction": "shoulder",
+    "side": "l",
+    "bone_gap_mm_now": 3.95,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     3,
+     9,
+     16
+    ]
+   },
+   {
+    "junction": "shoulder",
+    "side": "r",
+    "bone_gap_mm_now": 0.04,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     2,
+     11,
+     13
+    ]
+   },
+   {
+    "junction": "thoraco_lumbar",
+    "side": "m",
+    "bone_gap_mm_now": 1.63,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     2,
+     3,
+     17
+    ]
+   },
+   {
+    "junction": "wrist",
+    "side": "l",
+    "bone_gap_mm_now": 1.3,
+    "bone_penetration_mm_now": 1.5,
+    "major_moderate_minor_now": [
+     0,
+     1,
+     12
+    ]
+   },
+   {
+    "junction": "wrist",
+    "side": "r",
+    "bone_gap_mm_now": 2.97,
+    "bone_penetration_mm_now": 0.0,
+    "major_moderate_minor_now": [
+     0,
+     6,
+     9
+    ]
+   }
+  ]
+ },
+ "q204_whole_body_structures_major_moderate_minor": {
+  "q209": {
+   "major": 73,
+   "moderate": 166,
+   "minor": 185,
+   "clean": 2267
+  },
+  "q223_before": [
+   49,
+   133,
+   188
+  ],
+  "q225_after": [
+   48,
+   131,
+   178
+  ]
+ },
+ "q204_regions_13_major_moderate_minor_structures": {
+  "head_neck": {
+   "before": [
+    17,
+    38,
+    47
+   ],
+   "after": [
+    17,
+    39,
+    46
+   ]
+  },
+  "shoulder": {
+   "before": [
+    1,
+    4,
+    11
+   ],
+   "after": [
+    1,
+    4,
+    10
+   ]
+  },
+  "arm": {
+   "before": [
+    0,
+    2,
+    6
+   ],
+   "after": [
+    0,
+    1,
+    6
+   ]
+  },
+  "elbow": {
+   "before": [
+    0,
+    3,
+    1
+   ],
+   "after": [
+    0,
+    3,
+    1
+   ]
+  },
+  "forearm": {
+   "before": [
+    0,
+    5,
+    7
+   ],
+   "after": [
+    0,
+    4,
+    5
+   ]
+  },
+  "wrist_hand": {
+   "before": [
+    0,
+    11,
+    17
+   ],
+   "after": [
+    0,
+    11,
+    18
+   ]
+  },
+  "thorax": {
+   "before": [
+    17,
+    29,
+    45
+   ],
+   "after": [
+    16,
+    30,
+    38
+   ]
+  },
+  "abdomen_pelvis": {
+   "before": [
+    2,
+    20,
+    7
+   ],
+   "after": [
+    2,
+    20,
+    7
+   ]
+  },
+  "hip": {
+   "before": [
+    2,
+    3,
+    5
+   ],
+   "after": [
+    2,
+    3,
+    5
+   ]
+  },
+  "thigh": {
+   "before": [
+    2,
+    2,
+    9
+   ],
+   "after": [
+    2,
+    2,
+    9
+   ]
+  },
+  "knee": {
+   "before": [
+    4,
+    2,
+    3
+   ],
+   "after": [
+    4,
+    2,
+    1
+   ]
+  },
+  "leg": {
+   "before": [
+    0,
+    4,
+    7
+   ],
+   "after": [
+    0,
+    4,
+    7
+   ]
+  },
+  "ankle_foot": {
+   "before": [
+    4,
+    10,
+    23
+   ],
+   "after": [
+    4,
+    8,
+    25
+   ]
+  }
+ },
+ "q204_findings_by_type_major_moderate_minor": {
+  "before": {
+   "gap": [
+    25,
+    50,
+    43
+   ],
+   "detached_piece": [
+    2,
+    10,
+    0
+   ],
+   "detached_end": [
+    0,
+    23,
+    21
+   ],
+   "flat_cut": [
+    0,
+    3,
+    0
+   ],
+   "outside_skin": [
+    0,
+    0,
+    6
+   ],
+   "bone_penetration": [
+    0,
+    6,
+    48
+   ],
+   "soft_in_bone": [
+    22,
+    24,
+    37
+   ],
+   "muscle_in_muscle": [
+    0,
+    34,
+    71
+   ],
+   "ragged_boundary": [
+    0,
+    0,
+    0
+   ]
+  },
+  "after": {
+   "gap": [
+    25,
+    50,
+    36
+   ],
+   "detached_piece": [
+    2,
+    10,
+    0
+   ],
+   "detached_end": [
+    0,
+    23,
+    19
+   ],
+   "flat_cut": [
+    0,
+    3,
+    0
+   ],
+   "outside_skin": [
+    0,
+    0,
+    4
+   ],
+   "bone_penetration": [
+    0,
+    2,
+    48
+   ],
+   "soft_in_bone": [
+    21,
+    25,
+    37
+   ],
+   "muscle_in_muscle": [
+    0,
+    35,
+    71
+   ],
+   "ragged_boundary": [
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "q204_bone_penetrating_pairs": {
+  "before": [
+   {
+    "a": "sphenoid",
+    "b": "zan_sinus_of_sphenoid_bone",
+    "vol_mm3": 5240.0,
+    "max_depth_mm": 7.48
+   },
+   {
+    "a": "humerus_l",
+    "b": "radius_l",
+    "vol_mm3": 2360.0,
+    "max_depth_mm": 6.0
+   },
+   {
+    "a": "mandible",
+    "b": "temporal_l",
+    "vol_mm3": 2088.0,
+    "max_depth_mm": 6.0
+   },
+   {
+    "a": "cuneiform_intermediate_r",
+    "b": "cuneiform_medial_r",
+    "vol_mm3": 1384.0,
+    "max_depth_mm": 5.66
+   },
+   {
+    "a": "zan_second_metatarsal_bone_r",
+    "b": "zan_third_metatarsal_bone_r",
+    "vol_mm3": 1960.0,
+    "max_depth_mm": 4.9
+   },
+   {
+    "a": "cuneiform_intermediate_l",
+    "b": "cuneiform_lateral_l",
+    "vol_mm3": 1520.0,
+    "max_depth_mm": 4.47
+   },
+   {
+    "a": "cuneiform_intermediate_l",
+    "b": "cuneiform_medial_l",
+    "vol_mm3": 912.0,
+    "max_depth_mm": 4.47
+   },
+   {
+    "a": "maxilla_l",
+    "b": "zan_upper_first_molar_tooth_l",
+    "vol_mm3": 1360.0,
+    "max_depth_mm": 4.47
+   }
+  ],
+  "after": [
+   {
+    "a": "sphenoid",
+    "b": "zan_sinus_of_sphenoid_bone",
+    "vol_mm3": 5240.0,
+    "max_depth_mm": 7.48
+   },
+   {
+    "a": "mandible",
+    "b": "temporal_l",
+    "vol_mm3": 2080.0,
+    "max_depth_mm": 6.0
+   },
+   {
+    "a": "zan_second_metatarsal_bone_r",
+    "b": "zan_third_metatarsal_bone_r",
+    "vol_mm3": 1960.0,
+    "max_depth_mm": 4.9
+   },
+   {
+    "a": "cuneiform_intermediate_r",
+    "b": "cuneiform_medial_r",
+    "vol_mm3": 1384.0,
+    "max_depth_mm": 4.9
+   },
+   {
+    "a": "cuneiform_intermediate_l",
+    "b": "cuneiform_lateral_l",
+    "vol_mm3": 1544.0,
+    "max_depth_mm": 4.47
+   },
+   {
+    "a": "cuneiform_intermediate_l",
+    "b": "cuneiform_medial_l",
+    "vol_mm3": 920.0,
+    "max_depth_mm": 4.47
+   },
+   {
+    "a": "zan_ninth_rib_l",
+    "b": "zan_vertebra_t9",
+    "vol_mm3": 904.0,
+    "max_depth_mm": 4.47
+   },
+   {
+    "a": "maxilla_l",
+    "b": "zan_upper_first_molar_tooth_l",
+    "vol_mm3": 1352.0,
+    "max_depth_mm": 4.47
+   }
+  ]
+ },
+ "q204_bone_nn_gaps_gt6mm": {
+  "before": {
+   "patella_l": [
+    8.97,
+    "femur_l"
+   ],
+   "patella_r": [
+    11.39,
+    "femur_r"
+   ],
+   "zan_eleventh_rib_l": [
+    9.87,
+    "zan_ninth_rib_l"
+   ],
+   "zan_eleventh_rib_r": [
+    11.58,
+    "zan_twelfth_rib_r"
+   ],
+   "zan_second_rib_l": [
+    6.42,
+    "zan_vertebra_t2"
+   ],
+   "zan_twelfth_rib_l": [
+    8.27,
+    "zan_vertebra_t12"
+   ],
+   "zan_twelfth_rib_r": [
+    11.58,
+    "zan_eleventh_rib_r"
+   ]
+  },
+  "after": {}
+ },
+ "inside_bone_exact": {
+  "before": {
+   "n_inside_bone_sev_ge2_q204": 46,
+   "n_real_exact_ge3mm_and_8pct_over_1mm": 8
+  },
+  "after": {
+   "n_inside_bone_sev_ge2_q204": 46,
+   "n_real_exact_ge3mm_and_8pct_over_1mm": 8
+  }
+ },
+ "bone_pairs_exact_recheck": {
+  "before": {
+   "sphenoid|zan_sinus_of_sphenoid_bone": {
+    "q204_max_depth_mm": 7.48,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    },
+    "b_in_a": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    }
+   },
+   "humerus_l|radius_l": {
+    "q204_max_depth_mm": 6.0,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 7.7,
+     "pct_over_1mm": 3.2
+    },
+    "b_in_a": {
+     "max_mm": 7.2,
+     "pct_over_1mm": 8.1
+    }
+   },
+   "mandible|temporal_l": {
+    "q204_max_depth_mm": 6.0,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 7.1,
+     "pct_over_1mm": 0.7
+    },
+    "b_in_a": {
+     "max_mm": 5.5,
+     "pct_over_1mm": 1.7
+    }
+   },
+   "cuneiform_intermediate_r|cuneiform_medial_r": {
+    "q204_max_depth_mm": 5.66,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.8,
+     "pct_over_1mm": 20.1
+    },
+    "b_in_a": {
+     "max_mm": 5.4,
+     "pct_over_1mm": 6.8
+    }
+   },
+   "zan_second_metatarsal_bone_r|zan_third_metatarsal_bone_r": {
+    "q204_max_depth_mm": 4.9,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.7,
+     "pct_over_1mm": 22.2
+    },
+    "b_in_a": {
+     "max_mm": 4.9,
+     "pct_over_1mm": 9.0
+    }
+   },
+   "cuneiform_intermediate_l|cuneiform_lateral_l": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 4.1,
+     "pct_over_1mm": 25.9
+    },
+    "b_in_a": {
+     "max_mm": 3.5,
+     "pct_over_1mm": 10.9
+    }
+   },
+   "cuneiform_intermediate_l|cuneiform_medial_l": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.0,
+     "pct_over_1mm": 14.7
+    },
+    "b_in_a": {
+     "max_mm": 5.0,
+     "pct_over_1mm": 6.8
+    }
+   },
+   "maxilla_l|zan_upper_first_molar_tooth_l": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 2.2,
+     "pct_over_1mm": 1.3
+    },
+    "b_in_a": {
+     "max_mm": 4.1,
+     "pct_over_1mm": 26.8
+    }
+   },
+   "frontal|zan_sinus_of_frontal_bone": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    },
+    "b_in_a": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    }
+   },
+   "zan_distal_phalanx_of_first_finger_of_foot_l|zan_distal_phalanx_of_first_finger_of_foot_r": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 4.6,
+     "pct_over_1mm": 16.2
+    },
+    "b_in_a": {
+     "max_mm": 3.7,
+     "pct_over_1mm": 6.4
+    }
+   },
+   "zan_proximal_phalanx_of_first_finger_of_foot_l|zan_proximal_phalanx_of_first_finger_of_foot_r": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.1,
+     "pct_over_1mm": 20.9
+    },
+    "b_in_a": {
+     "max_mm": 4.7,
+     "pct_over_1mm": 14.6
+    }
+   },
+   "zan_first_metatarsal_bone_r|zan_second_metatarsal_bone_r": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.7,
+     "pct_over_1mm": 9.2
+    },
+    "b_in_a": {
+     "max_mm": 5.7,
+     "pct_over_1mm": 6.3
+    }
+   }
+  },
+  "after": {
+   "sphenoid|zan_sinus_of_sphenoid_bone": {
+    "q204_max_depth_mm": 7.48,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    },
+    "b_in_a": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    }
+   },
+   "mandible|temporal_l": {
+    "q204_max_depth_mm": 6.0,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 7.1,
+     "pct_over_1mm": 0.7
+    },
+    "b_in_a": {
+     "max_mm": 5.5,
+     "pct_over_1mm": 1.7
+    }
+   },
+   "zan_second_metatarsal_bone_r|zan_third_metatarsal_bone_r": {
+    "q204_max_depth_mm": 4.9,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.7,
+     "pct_over_1mm": 22.2
+    },
+    "b_in_a": {
+     "max_mm": 4.9,
+     "pct_over_1mm": 9.0
+    }
+   },
+   "cuneiform_intermediate_r|cuneiform_medial_r": {
+    "q204_max_depth_mm": 4.9,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.8,
+     "pct_over_1mm": 20.1
+    },
+    "b_in_a": {
+     "max_mm": 5.4,
+     "pct_over_1mm": 6.8
+    }
+   },
+   "cuneiform_intermediate_l|cuneiform_lateral_l": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 4.1,
+     "pct_over_1mm": 25.9
+    },
+    "b_in_a": {
+     "max_mm": 3.5,
+     "pct_over_1mm": 10.9
+    }
+   },
+   "cuneiform_intermediate_l|cuneiform_medial_l": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.0,
+     "pct_over_1mm": 14.7
+    },
+    "b_in_a": {
+     "max_mm": 5.0,
+     "pct_over_1mm": 6.8
+    }
+   },
+   "zan_ninth_rib_l|zan_vertebra_t9": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 4.6,
+     "pct_over_1mm": 2.3
+    },
+    "b_in_a": {
+     "max_mm": 2.4,
+     "pct_over_1mm": 0.7
+    }
+   },
+   "maxilla_l|zan_upper_first_molar_tooth_l": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 2.2,
+     "pct_over_1mm": 1.3
+    },
+    "b_in_a": {
+     "max_mm": 4.1,
+     "pct_over_1mm": 26.8
+    }
+   },
+   "frontal|zan_sinus_of_frontal_bone": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    },
+    "b_in_a": {
+     "max_mm": 1.0,
+     "pct_over_1mm": 0.0
+    }
+   },
+   "mandible|zan_lower_canine_l": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 1.4,
+     "pct_over_1mm": 0.1
+    },
+    "b_in_a": {
+     "max_mm": 2.4,
+     "pct_over_1mm": 17.0
+    }
+   },
+   "zan_distal_phalanx_of_first_finger_of_foot_l|zan_distal_phalanx_of_first_finger_of_foot_r": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 4.6,
+     "pct_over_1mm": 16.2
+    },
+    "b_in_a": {
+     "max_mm": 3.7,
+     "pct_over_1mm": 6.4
+    }
+   },
+   "zan_proximal_phalanx_of_first_finger_of_foot_l|zan_proximal_phalanx_of_first_finger_of_foot_r": {
+    "q204_max_depth_mm": 4.47,
+    "grid_h": 0.5,
+    "a_in_b": {
+     "max_mm": 5.1,
+     "pct_over_1mm": 20.9
+    },
+    "b_in_a": {
+     "max_mm": 4.7,
+     "pct_over_1mm": 14.6
+    }
+   }
+  }
+ },
+ "skin_seam_totals": {
+  "before": {
+   "border_vertices": 1429,
+   "gap_ge_2mm": 351,
+   "gap_2_20mm": 121,
+   "max_gap_below_60mm": 23.1
+  },
+  "after": {
+   "border_vertices": 1429,
+   "gap_ge_2mm": 351,
+   "gap_2_20mm": 121,
+   "max_gap_below_60mm": 23.1
+  }
+ },
+ "fit_seams_q198": {
+  "before": {
+   "shoulder_l": {
+    "zone_structures": 85,
+    "adjacent_pairs": 17496,
+    "frac_gt3": 0.0413,
+    "frac_gt5": 0.018,
+    "frac_gt10": 0.0045,
+    "tear_p50_mm": 1.4,
+    "tear_p99_mm": 7.32,
+    "tear_max_mm": 22.0,
+    "n_pair_structures_with_tear_gt5": 14,
+    "n_offset_gt10": 9,
+    "n_offset_gt5": 12
+   },
+   "elbow_l": {
+    "zone_structures": 53,
+    "adjacent_pairs": 4312,
+    "frac_gt3": 0.2403,
+    "frac_gt5": 0.1405,
+    "frac_gt10": 0.0192,
+    "tear_p50_mm": 1.6,
+    "tear_p99_mm": 12.98,
+    "tear_max_mm": 18.9,
+    "n_pair_structures_with_tear_gt5": 17,
+    "n_offset_gt10": 6,
+    "n_offset_gt5": 19
+   },
+   "wrist_l": {
+    "zone_structures": 86,
+    "adjacent_pairs": 15980,
+    "frac_gt3": 0.4958,
+    "frac_gt5": 0.2967,
+    "frac_gt10": 0.0805,
+    "tear_p50_mm": 2.98,
+    "tear_p99_mm": 15.29,
+    "tear_max_mm": 21.2,
+    "n_pair_structures_with_tear_gt5": 117,
+    "n_offset_gt10": 1,
+    "n_offset_gt5": 10
+   },
+   "shoulder_r": {
+    "zone_structures": 85,
+    "adjacent_pairs": 17553,
+    "frac_gt3": 0.1229,
+    "frac_gt5": 0.0244,
+    "frac_gt10": 0.0043,
+    "tear_p50_mm": 1.45,
+    "tear_p99_mm": 7.59,
+    "tear_max_mm": 15.0,
+    "n_pair_structures_with_tear_gt5": 11,
+    "n_offset_gt10": 9,
+    "n_offset_gt5": 11
+   },
+   "elbow_r": {
+    "zone_structures": 52,
+    "adjacent_pairs": 4091,
+    "frac_gt3": 0.2073,
+    "frac_gt5": 0.1168,
+    "frac_gt10": 0.0125,
+    "tear_p50_mm": 1.6,
+    "tear_p99_mm": 11.34,
+    "tear_max_mm": 15.7,
+    "n_pair_structures_with_tear_gt5": 9,
+    "n_offset_gt10": 3,
+    "n_offset_gt5": 20
+   },
+   "wrist_r": {
+    "zone_structures": 85,
+    "adjacent_pairs": 15256,
+    "frac_gt3": 0.7914,
+    "frac_gt5": 0.5732,
+    "frac_gt10": 0.2013,
+    "tear_p50_mm": 5.73,
+    "tear_p99_mm": 22.18,
+    "tear_max_mm": 30.5,
+    "n_pair_structures_with_tear_gt5": 148,
+    "n_offset_gt10": 5,
+    "n_offset_gt5": 18
+   }
+  },
+  "after": {
+   "shoulder_l": {
+    "zone_structures": 85,
+    "adjacent_pairs": 17496,
+    "frac_gt3": 0.009,
+    "frac_gt5": 0.0033,
+    "frac_gt10": 0.0002,
+    "tear_p50_mm": 1.22,
+    "tear_p99_mm": 2.91,
+    "tear_max_mm": 19.9,
+    "n_pair_structures_with_tear_gt5": 7,
+    "n_offset_gt10": 9,
+    "n_offset_gt5": 12
+   },
+   "elbow_l": {
+    "zone_structures": 53,
+    "adjacent_pairs": 4312,
+    "frac_gt3": 0.1524,
+    "frac_gt5": 0.0332,
+    "frac_gt10": 0.007,
+    "tear_p50_mm": 1.52,
+    "tear_p99_mm": 7.82,
+    "tear_max_mm": 16.4,
+    "n_pair_structures_with_tear_gt5": 9,
+    "n_offset_gt10": 10,
+    "n_offset_gt5": 20
+   },
+   "wrist_l": {
+    "zone_structures": 86,
+    "adjacent_pairs": 15980,
+    "frac_gt3": 0.098,
+    "frac_gt5": 0.0422,
+    "frac_gt10": 0.0183,
+    "tear_p50_mm": 1.4,
+    "tear_p99_mm": 11.02,
+    "tear_max_mm": 13.5,
+    "n_pair_structures_with_tear_gt5": 26,
+    "n_offset_gt10": 0,
+    "n_offset_gt5": 7
+   },
+   "shoulder_r": {
+    "zone_structures": 85,
+    "adjacent_pairs": 17553,
+    "frac_gt3": 0.1222,
+    "frac_gt5": 0.0237,
+    "frac_gt10": 0.0022,
+    "tear_p50_mm": 1.34,
+    "tear_p99_mm": 7.2,
+    "tear_max_mm": 13.2,
+    "n_pair_structures_with_tear_gt5": 6,
+    "n_offset_gt10": 9,
+    "n_offset_gt5": 11
+   },
+   "elbow_r": {
+    "zone_structures": 52,
+    "adjacent_pairs": 4091,
+    "frac_gt3": 0.1973,
+    "frac_gt5": 0.1107,
+    "frac_gt10": 0.023,
+    "tear_p50_mm": 1.6,
+    "tear_p99_mm": 12.41,
+    "tear_max_mm": 16.4,
+    "n_pair_structures_with_tear_gt5": 12,
+    "n_offset_gt10": 5,
+    "n_offset_gt5": 21
+   },
+   "wrist_r": {
+    "zone_structures": 85,
+    "adjacent_pairs": 15256,
+    "frac_gt3": 0.0999,
+    "frac_gt5": 0.0331,
+    "frac_gt10": 0.0073,
+    "tear_p50_mm": 1.49,
+    "tear_p99_mm": 9.52,
+    "tear_max_mm": 14.9,
+    "n_pair_structures_with_tear_gt5": 30,
+    "n_offset_gt10": 2,
+    "n_offset_gt5": 18
+   }
+  }
+ },
+ "elbow_muscle_numbers_q217_style": {
+  "before": {
+   "l": {
+    "n_muscles": 21,
+    "overlap_mean_pct": 37.2,
+    "overlap_max_pct": 77.2,
+    "muscles_over_40": 6,
+    "muscles_over_60": 3,
+    "detached_ends_over_5mm": 0,
+    "bone_surface_gap_mm": 0.14,
+    "bone_max_penetration_mm": 1.5,
+    "tubes_gap_over_5mm": 5
+   },
+   "r": {
+    "n_muscles": 21,
+    "overlap_mean_pct": 40.1,
+    "overlap_max_pct": 62.9,
+    "muscles_over_40": 9,
+    "muscles_over_60": 2,
+    "detached_ends_over_5mm": 1,
+    "bone_surface_gap_mm": 0.1,
+    "bone_max_penetration_mm": 1.5,
+    "tubes_gap_over_5mm": 5
+   }
+  },
+  "after": {
+   "l": {
+    "n_muscles": 21,
+    "overlap_mean_pct": 38.6,
+    "overlap_max_pct": 69.9,
+    "muscles_over_40": 10,
+    "muscles_over_60": 3,
+    "detached_ends_over_5mm": 1,
+    "bone_surface_gap_mm": 0.3,
+    "bone_max_penetration_mm": 1.5,
+    "tubes_gap_over_5mm": 5
+   },
+   "r": {
+    "n_muscles": 21,
+    "overlap_mean_pct": 41.0,
+    "overlap_max_pct": 64.2,
+    "muscles_over_40": 11,
+    "muscles_over_60": 2,
+    "detached_ends_over_5mm": 1,
+    "bone_surface_gap_mm": 0.1,
+    "bone_max_penetration_mm": 1.5,
+    "tubes_gap_over_5mm": 5
+   }
+  }
+ },
+ "bone_measures_exact": {
+  "before": {
+   "pairs": {
+    "humerus_l|ulna_l": {
+     "max_penetration_mm": 4.7,
+     "pct_vertices_over_1mm": 9.5,
+     "min_clearance_mm": -4.67,
+     "joint_space_p05_mm": -3.42,
+     "joint_space_median_mm": 1.42,
+     "patch_samples": 1787
+    },
+    "humerus_l|radius_l": {
+     "max_penetration_mm": 7.01,
+     "pct_vertices_over_1mm": 8.4,
+     "min_clearance_mm": -7.71,
+     "joint_space_p05_mm": -5.77,
+     "joint_space_median_mm": 1.12,
+     "patch_samples": 1111
+    },
+    "radius_l|ulna_l": {
+     "max_penetration_mm": 2.77,
+     "pct_vertices_over_1mm": 1.5,
+     "min_clearance_mm": -2.93,
+     "joint_space_p05_mm": -1.36,
+     "joint_space_median_mm": 3.51,
+     "patch_samples": 1971
+    },
+    "femur_l|patella_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 8.62,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    },
+    "femur_r|patella_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 10.97,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    },
+    "zan_vertebra_t11|zan_eleventh_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 12.53,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    },
+    "zan_vertebra_t12|zan_twelfth_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 8.06,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    },
+    "zan_vertebra_t11|zan_eleventh_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 16.46,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    },
+    "zan_vertebra_t12|zan_twelfth_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 14.33,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    },
+    "zan_vertebra_t2|zan_second_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 6.08,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "fit_error_vs_own_bone": {
+    "ulna_l": {
+     "fit_to_own_mean_mm": 4.86,
+     "own_to_fit_mean_mm": 3.76
+    },
+    "radius_l": {
+     "fit_to_own_mean_mm": 2.91,
+     "own_to_fit_mean_mm": 2.47
+    },
+    "humerus_l": {
+     "fit_to_own_mean_mm": 7.03,
+     "own_to_fit_mean_mm": 8.67
+    },
+    "patella_l": {
+     "fit_to_own_mean_mm": 1.3,
+     "own_to_fit_mean_mm": 2.29
+    },
+    "patella_r": {
+     "fit_to_own_mean_mm": 1.33,
+     "own_to_fit_mean_mm": 2.25
+    },
+    "femur_l": {
+     "fit_to_own_mean_mm": 2.08,
+     "own_to_fit_mean_mm": 3.46
+    },
+    "femur_r": {
+     "fit_to_own_mean_mm": 2.14,
+     "own_to_fit_mean_mm": 3.51
+    },
+    "zan_eleventh_rib_l": {
+     "fit_to_own_mean_mm": 3.96,
+     "own_to_fit_mean_mm": 6.52
+    },
+    "zan_eleventh_rib_r": {
+     "fit_to_own_mean_mm": 5.2,
+     "own_to_fit_mean_mm": 5.72
+    },
+    "zan_twelfth_rib_l": {
+     "fit_to_own_mean_mm": 8.53,
+     "own_to_fit_mean_mm": 5.19
+    },
+    "zan_twelfth_rib_r": {
+     "fit_to_own_mean_mm": 16.29,
+     "own_to_fit_mean_mm": 5.4
+    },
+    "zan_second_rib_l": {
+     "fit_to_own_mean_mm": 2.36,
+     "own_to_fit_mean_mm": 12.26
+    }
+   }
+  },
+  "after": {
+   "pairs": {
+    "humerus_l|ulna_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.35,
+     "joint_space_p05_mm": 0.92,
+     "joint_space_median_mm": 3.52,
+     "patch_samples": 1020
+    },
+    "humerus_l|radius_l": {
+     "max_penetration_mm": 0.6,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": -0.6,
+     "joint_space_p05_mm": 0.67,
+     "joint_space_median_mm": 4.14,
+     "patch_samples": 391
+    },
+    "radius_l|ulna_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.45,
+     "joint_space_p05_mm": 1.42,
+     "joint_space_median_mm": 4.17,
+     "patch_samples": 1207
+    },
+    "femur_l|patella_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 2.1,
+     "joint_space_p05_mm": 2.46,
+     "joint_space_median_mm": 4.77,
+     "patch_samples": 604
+    },
+    "femur_r|patella_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 2.23,
+     "joint_space_p05_mm": 2.68,
+     "joint_space_median_mm": 5.03,
+     "patch_samples": 594
+    },
+    "zan_vertebra_t11|zan_eleventh_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.86,
+     "joint_space_p05_mm": 1.23,
+     "joint_space_median_mm": 3.66,
+     "patch_samples": 775
+    },
+    "zan_vertebra_t12|zan_twelfth_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.61,
+     "joint_space_p05_mm": 0.95,
+     "joint_space_median_mm": 4.03,
+     "patch_samples": 806
+    },
+    "zan_vertebra_t11|zan_eleventh_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.9,
+     "joint_space_p05_mm": 1.47,
+     "joint_space_median_mm": 4.26,
+     "patch_samples": 586
+    },
+    "zan_vertebra_t12|zan_twelfth_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.7,
+     "joint_space_p05_mm": 1.07,
+     "joint_space_median_mm": 3.74,
+     "patch_samples": 410
+    },
+    "zan_vertebra_t2|zan_second_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 1.08,
+     "joint_space_p05_mm": 1.34,
+     "joint_space_median_mm": 3.42,
+     "patch_samples": 722
+    }
+   },
+   "fit_error_vs_own_bone": {
+    "ulna_l": {
+     "fit_to_own_mean_mm": 3.65,
+     "own_to_fit_mean_mm": 2.94
+    },
+    "radius_l": {
+     "fit_to_own_mean_mm": 4.07,
+     "own_to_fit_mean_mm": 3.54
+    },
+    "humerus_l": {
+     "fit_to_own_mean_mm": 7.03,
+     "own_to_fit_mean_mm": 8.67
+    },
+    "patella_l": {
+     "fit_to_own_mean_mm": 2.77,
+     "own_to_fit_mean_mm": 3.32
+    },
+    "patella_r": {
+     "fit_to_own_mean_mm": 3.47,
+     "own_to_fit_mean_mm": 3.97
+    },
+    "femur_l": {
+     "fit_to_own_mean_mm": 2.08,
+     "own_to_fit_mean_mm": 3.46
+    },
+    "femur_r": {
+     "fit_to_own_mean_mm": 2.14,
+     "own_to_fit_mean_mm": 3.51
+    },
+    "zan_eleventh_rib_l": {
+     "fit_to_own_mean_mm": 4.0,
+     "own_to_fit_mean_mm": 6.59
+    },
+    "zan_eleventh_rib_r": {
+     "fit_to_own_mean_mm": 5.85,
+     "own_to_fit_mean_mm": 5.67
+    },
+    "zan_twelfth_rib_l": {
+     "fit_to_own_mean_mm": 8.46,
+     "own_to_fit_mean_mm": 4.95
+    },
+    "zan_twelfth_rib_r": {
+     "fit_to_own_mean_mm": 15.99,
+     "own_to_fit_mean_mm": 5.05
+    },
+    "zan_second_rib_l": {
+     "fit_to_own_mean_mm": 2.17,
+     "own_to_fit_mean_mm": 12.28
+    }
+   }
+  }
+ },
+ "bone_reseat_reports": {
+  "left elbow (radius + ulna on the humerus)": {
+   "options": {
+    "taper": 0.4,
+    "w_reg": 0.3,
+    "w_pull": 2.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 42,
+   "cost": 88.01403911444254,
+   "joint_before": {
+    "humerus_l|ulna_l": {
+     "max_penetration_mm": 4.7,
+     "pct_vertices_over_1mm": 9.5,
+     "min_clearance_mm": -4.67,
+     "joint_space_p05_mm": -3.42,
+     "joint_space_median_mm": 1.42,
+     "patch_samples": 1787
+    },
+    "humerus_l|radius_l": {
+     "max_penetration_mm": 7.01,
+     "pct_vertices_over_1mm": 8.4,
+     "min_clearance_mm": -7.71,
+     "joint_space_p05_mm": -5.77,
+     "joint_space_median_mm": 1.12,
+     "patch_samples": 1111
+    },
+    "ulna_l|radius_l": {
+     "max_penetration_mm": 2.77,
+     "pct_vertices_over_1mm": 1.5,
+     "min_clearance_mm": -2.93,
+     "joint_space_p05_mm": -1.36,
+     "joint_space_median_mm": 3.51,
+     "patch_samples": 1971
+    }
+   },
+   "joint_after": {
+    "humerus_l|ulna_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.51,
+     "joint_space_p05_mm": 0.92,
+     "joint_space_median_mm": 3.53,
+     "patch_samples": 1011
+    },
+    "humerus_l|radius_l": {
+     "max_penetration_mm": 0.6,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": -0.6,
+     "joint_space_p05_mm": 0.67,
+     "joint_space_median_mm": 4.13,
+     "patch_samples": 391
+    },
+    "ulna_l|radius_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.38,
+     "joint_space_p05_mm": 1.41,
+     "joint_space_median_mm": 4.12,
+     "patch_samples": 1205
+    }
+   },
+   "bones": {
+    "ulna_l": {
+     "translation_mm": [
+      -2.41,
+      -7.7,
+      0.42
+     ],
+     "rotation_deg": [
+      2.49,
+      -4.08,
+      -0.95
+     ],
+     "max_move_mm": 7.84,
+     "mean_move_mm": 4.37,
+     "taper_length_share": 0.4,
+     "bone_length_mm": 251.5,
+     "fit_error_before_zone_whole": [
+      [
+       7.44,
+       5.78
+      ],
+      [
+       4.86,
+       3.76
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       5.09,
+       4.08
+      ],
+      [
+       3.65,
+       2.94
+      ]
+     ],
+     "volume_ratio": 0.965,
+     "edge_ratio_p01_p99": [
+      0.891,
+      1.014
+     ],
+     "axis_length_mm_before_after_own": [
+      251.5,
+      245.8,
+      239.0
+     ]
+    },
+    "radius_l": {
+     "translation_mm": [
+      -9.27,
+      -3.21,
+      2.57
+     ],
+     "rotation_deg": [
+      -0.36,
+      1.53,
+      3.08
+     ],
+     "max_move_mm": 10.8,
+     "mean_move_mm": 3.47,
+     "taper_length_share": 0.4,
+     "bone_length_mm": 245.7,
+     "fit_error_before_zone_whole": [
+      [
+       2.51,
+       2.54
+      ],
+      [
+       2.91,
+       2.47
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       5.58,
+       5.34
+      ],
+      [
+       4.07,
+       3.54
+      ]
+     ],
+     "volume_ratio": 1.003,
+     "edge_ratio_p01_p99": [
+      0.959,
+      1.045
+     ],
+     "axis_length_mm_before_after_own": [
+      245.7,
+      245.4,
+      237.1
+     ]
+    }
+   },
+   "base_gaps": {
+    "humerus_l|ulna_l": {
+     "joint_space_p05_mm": 0.79,
+     "min_clearance_mm": -0.38,
+     "max_penetration_mm": 0.47
+    },
+    "humerus_l|radius_l": {
+     "joint_space_p05_mm": 4.64,
+     "min_clearance_mm": 4.5,
+     "max_penetration_mm": 0.0
+    },
+    "radius_l|ulna_l": {
+     "joint_space_p05_mm": 1.61,
+     "min_clearance_mm": 1.13,
+     "max_penetration_mm": 0.0
+    }
+   },
+   "target_gaps_mm": {
+    "humerus_l|ulna_l": 0.79,
+    "humerus_l|radius_l": 0.5,
+    "radius_l|ulna_l": 1.61
+   },
+   "own_gaps_p05_mm": {
+    "humerus_l|ulna_l": 1.69,
+    "humerus_l|radius_l": -0.3,
+    "radius_l|ulna_l": 5.15
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  },
+  "patella_l": {
+   "options": {
+    "rigid": true,
+    "w_rot": 8.0,
+    "w_reg": 0.3,
+    "w_pull": 4.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 23,
+   "cost": 35.22260066396634,
+   "joint_before": {
+    "femur_l|patella_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 8.62,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "joint_after": {
+    "femur_l|patella_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 2.1,
+     "joint_space_p05_mm": 2.46,
+     "joint_space_median_mm": 4.78,
+     "patch_samples": 604
+    }
+   },
+   "bones": {
+    "patella_l": {
+     "translation_mm": [
+      -1.86,
+      2.37,
+      -6.06
+     ],
+     "rotation_deg": [
+      0.92,
+      0.1,
+      0.06
+     ],
+     "max_move_mm": 7.08,
+     "mean_move_mm": 6.77,
+     "taper_length_share": 1000000.0,
+     "bone_length_mm": 45.8,
+     "fit_error_before_zone_whole": [
+      [
+       1.3,
+       2.29
+      ],
+      [
+       1.3,
+       2.29
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       2.77,
+       3.32
+      ],
+      [
+       2.77,
+       3.32
+      ]
+     ],
+     "volume_ratio": 1.0,
+     "edge_ratio_p01_p99": [
+      1.0,
+      1.0
+     ],
+     "axis_length_mm_before_after_own": [
+      45.8,
+      45.8,
+      46.7
+     ]
+    }
+   },
+   "base_gaps": {
+    "femur_l|patella_l": {
+     "joint_space_p05_mm": 2.25,
+     "min_clearance_mm": 1.69,
+     "max_penetration_mm": 0.0
+    }
+   },
+   "target_gaps_mm": {
+    "femur_l|patella_l": 2.13
+   },
+   "own_gaps_p05_mm": {
+    "femur_l|patella_l": 2.13
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  },
+  "patella_r": {
+   "options": {
+    "rigid": true,
+    "w_rot": 8.0,
+    "w_reg": 0.3,
+    "w_pull": 4.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 46,
+   "cost": 55.15577303016131,
+   "joint_before": {
+    "femur_r|patella_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 10.97,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "joint_after": {
+    "femur_r|patella_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 2.23,
+     "joint_space_p05_mm": 2.68,
+     "joint_space_median_mm": 5.01,
+     "patch_samples": 593
+    }
+   },
+   "bones": {
+    "patella_r": {
+     "translation_mm": [
+      2.34,
+      2.17,
+      -8.0
+     ],
+     "rotation_deg": [
+      1.39,
+      -1.26,
+      1.9
+     ],
+     "max_move_mm": 9.36,
+     "mean_move_mm": 8.64,
+     "taper_length_share": 1000000.0,
+     "bone_length_mm": 45.8,
+     "fit_error_before_zone_whole": [
+      [
+       1.33,
+       2.25
+      ],
+      [
+       1.33,
+       2.25
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       3.47,
+       3.97
+      ],
+      [
+       3.47,
+       3.97
+      ]
+     ],
+     "volume_ratio": 1.002,
+     "edge_ratio_p01_p99": [
+      1.0,
+      1.001
+     ],
+     "axis_length_mm_before_after_own": [
+      45.8,
+      45.8,
+      46.2
+     ]
+    }
+   },
+   "base_gaps": {
+    "femur_r|patella_r": {
+     "joint_space_p05_mm": 2.25,
+     "min_clearance_mm": 1.71,
+     "max_penetration_mm": 0.0
+    }
+   },
+   "target_gaps_mm": {
+    "femur_r|patella_r": 2.22
+   },
+   "own_gaps_p05_mm": {
+    "femur_r|patella_r": 2.22
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  },
+  "eleventh rib l": {
+   "options": {
+    "taper": 0.4,
+    "w_reg": 0.3,
+    "w_pull": 2.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 29,
+   "cost": 34.64393985920417,
+   "joint_before": {
+    "zan_vertebra_t11|zan_eleventh_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 12.53,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "joint_after": {
+    "zan_vertebra_t11|zan_eleventh_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.87,
+     "joint_space_p05_mm": 1.22,
+     "joint_space_median_mm": 3.62,
+     "patch_samples": 768
+    }
+   },
+   "bones": {
+    "zan_eleventh_rib_l": {
+     "translation_mm": [
+      9.57,
+      1.42,
+      -1.32
+     ],
+     "rotation_deg": [
+      4.1,
+      8.59,
+      -4.49
+     ],
+     "max_move_mm": 12.34,
+     "mean_move_mm": 3.65,
+     "taper_length_share": 0.4,
+     "bone_length_mm": 154.4,
+     "fit_error_before_zone_whole": [
+      [
+       6.42,
+       7.54
+      ],
+      [
+       3.96,
+       6.52
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       6.46,
+       7.64
+      ],
+      [
+       4.0,
+       6.59
+      ]
+     ],
+     "volume_ratio": 1.058,
+     "edge_ratio_p01_p99": [
+      0.996,
+      1.165
+     ],
+     "axis_length_mm_before_after_own": [
+      154.4,
+      162.4,
+      null
+     ]
+    }
+   },
+   "base_gaps": {
+    "zan_vertebra_t11|zan_eleventh_rib_l": {
+     "joint_space_p05_mm": 0.64,
+     "min_clearance_mm": -0.63,
+     "max_penetration_mm": 0.65
+    }
+   },
+   "target_gaps_mm": {
+    "zan_vertebra_t11|zan_eleventh_rib_l": 0.64
+   },
+   "own_gaps_p05_mm": {
+    "zan_vertebra_t11|zan_eleventh_rib_l": null
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  },
+  "twelfth rib l": {
+   "options": {
+    "taper": 0.4,
+    "w_reg": 0.3,
+    "w_pull": 2.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 29,
+   "cost": 47.59580310766804,
+   "joint_before": {
+    "zan_vertebra_t12|zan_twelfth_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 8.06,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "joint_after": {
+    "zan_vertebra_t12|zan_twelfth_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.61,
+     "joint_space_p05_mm": 0.95,
+     "joint_space_median_mm": 4.03,
+     "patch_samples": 807
+    }
+   },
+   "bones": {
+    "zan_twelfth_rib_l": {
+     "translation_mm": [
+      7.78,
+      0.72,
+      -2.07
+     ],
+     "rotation_deg": [
+      0.93,
+      -0.78,
+      -2.3
+     ],
+     "max_move_mm": 8.36,
+     "mean_move_mm": 2.62,
+     "taper_length_share": 0.4,
+     "bone_length_mm": 107.2,
+     "fit_error_before_zone_whole": [
+      [
+       16.21,
+       3.97
+      ],
+      [
+       8.53,
+       5.19
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       15.87,
+       2.68
+      ],
+      [
+       8.46,
+       4.95
+      ]
+     ],
+     "volume_ratio": 1.064,
+     "edge_ratio_p01_p99": [
+      0.978,
+      1.163
+     ],
+     "axis_length_mm_before_after_own": [
+      107.2,
+      112.6,
+      null
+     ]
+    }
+   },
+   "base_gaps": {
+    "zan_vertebra_t12|zan_twelfth_rib_l": {
+     "joint_space_p05_mm": -1.0,
+     "min_clearance_mm": -1.66,
+     "max_penetration_mm": 1.63
+    }
+   },
+   "target_gaps_mm": {
+    "zan_vertebra_t12|zan_twelfth_rib_l": 0.3
+   },
+   "own_gaps_p05_mm": {
+    "zan_vertebra_t12|zan_twelfth_rib_l": null
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  },
+  "eleventh rib r": {
+   "options": {
+    "taper": 0.4,
+    "w_reg": 0.3,
+    "w_pull": 2.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 49,
+   "cost": 45.93716554258427,
+   "joint_before": {
+    "zan_vertebra_t11|zan_eleventh_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 16.46,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "joint_after": {
+    "zan_vertebra_t11|zan_eleventh_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.9,
+     "joint_space_p05_mm": 1.5,
+     "joint_space_median_mm": 4.25,
+     "patch_samples": 588
+    }
+   },
+   "bones": {
+    "zan_eleventh_rib_r": {
+     "translation_mm": [
+      -13.93,
+      4.87,
+      0.5
+     ],
+     "rotation_deg": [
+      -0.06,
+      -7.9,
+      5.42
+     ],
+     "max_move_mm": 17.23,
+     "mean_move_mm": 5.45,
+     "taper_length_share": 0.4,
+     "bone_length_mm": 154.0,
+     "fit_error_before_zone_whole": [
+      [
+       9.33,
+       9.58
+      ],
+      [
+       5.2,
+       5.72
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       10.57,
+       9.32
+      ],
+      [
+       5.85,
+       5.67
+      ]
+     ],
+     "volume_ratio": 1.085,
+     "edge_ratio_p01_p99": [
+      0.992,
+      1.262
+     ],
+     "axis_length_mm_before_after_own": [
+      154.0,
+      167.6,
+      null
+     ]
+    }
+   },
+   "base_gaps": {
+    "zan_vertebra_t11|zan_eleventh_rib_r": {
+     "joint_space_p05_mm": 0.64,
+     "min_clearance_mm": -0.73,
+     "max_penetration_mm": 0.58
+    }
+   },
+   "target_gaps_mm": {
+    "zan_vertebra_t11|zan_eleventh_rib_r": 0.64
+   },
+   "own_gaps_p05_mm": {
+    "zan_vertebra_t11|zan_eleventh_rib_r": null
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  },
+  "twelfth rib r": {
+   "options": {
+    "taper": 0.4,
+    "w_reg": 0.3,
+    "w_pull": 2.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 20,
+   "cost": 63.81677201986506,
+   "joint_before": {
+    "zan_vertebra_t12|zan_twelfth_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 14.33,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "joint_after": {
+    "zan_vertebra_t12|zan_twelfth_rib_r": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 0.7,
+     "joint_space_p05_mm": 1.07,
+     "joint_space_median_mm": 3.74,
+     "patch_samples": 410
+    }
+   },
+   "bones": {
+    "zan_twelfth_rib_r": {
+     "translation_mm": [
+      -14.17,
+      -4.39,
+      -3.22
+     ],
+     "rotation_deg": [
+      -7.35,
+      3.6,
+      4.69
+     ],
+     "max_move_mm": 16.29,
+     "mean_move_mm": 5.0,
+     "taper_length_share": 0.4,
+     "bone_length_mm": 125.5,
+     "fit_error_before_zone_whole": [
+      [
+       34.7,
+       15.67
+      ],
+      [
+       16.29,
+       5.4
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       34.07,
+       1.72
+      ],
+      [
+       15.99,
+       5.05
+      ]
+     ],
+     "volume_ratio": 1.022,
+     "edge_ratio_p01_p99": [
+      0.873,
+      1.181
+     ],
+     "axis_length_mm_before_after_own": [
+      125.5,
+      128.8,
+      null
+     ]
+    }
+   },
+   "base_gaps": {
+    "zan_vertebra_t12|zan_twelfth_rib_r": {
+     "joint_space_p05_mm": -1.03,
+     "min_clearance_mm": -1.71,
+     "max_penetration_mm": 1.64
+    }
+   },
+   "target_gaps_mm": {
+    "zan_vertebra_t12|zan_twelfth_rib_r": 0.3
+   },
+   "own_gaps_p05_mm": {
+    "zan_vertebra_t12|zan_twelfth_rib_r": null
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  },
+  "second rib l": {
+   "options": {
+    "taper": 0.4,
+    "w_reg": 0.3,
+    "w_pull": 2.0,
+    "w_ev": 0.6,
+    "ev_cap": 5.0,
+    "floor_frac": 0.8
+   },
+   "nfev": 27,
+   "cost": 24.354419912915873,
+   "joint_before": {
+    "zan_vertebra_t2|zan_second_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 6.08,
+     "joint_space_p05_mm": null,
+     "joint_space_median_mm": null,
+     "patch_samples": 0
+    }
+   },
+   "joint_after": {
+    "zan_vertebra_t2|zan_second_rib_l": {
+     "max_penetration_mm": 0.0,
+     "pct_vertices_over_1mm": 0.0,
+     "min_clearance_mm": 1.1,
+     "joint_space_p05_mm": 1.36,
+     "joint_space_median_mm": 3.41,
+     "patch_samples": 726
+    }
+   },
+   "bones": {
+    "zan_second_rib_l": {
+     "translation_mm": [
+      5.24,
+      2.92,
+      -0.32
+     ],
+     "rotation_deg": [
+      -0.42,
+      -1.86,
+      4.81
+     ],
+     "max_move_mm": 6.65,
+     "mean_move_mm": 2.57,
+     "taper_length_share": 0.4,
+     "bone_length_mm": 130.8,
+     "fit_error_before_zone_whole": [
+      [
+       2.41,
+       12.45
+      ],
+      [
+       2.36,
+       12.26
+      ]
+     ],
+     "fit_error_after_zone_whole": [
+      [
+       2.01,
+       12.47
+      ],
+      [
+       2.17,
+       12.28
+      ]
+     ],
+     "volume_ratio": 1.019,
+     "edge_ratio_p01_p99": [
+      0.965,
+      1.102
+     ],
+     "axis_length_mm_before_after_own": [
+      130.8,
+      132.0,
+      null
+     ]
+    }
+   },
+   "base_gaps": {
+    "zan_vertebra_t2|zan_second_rib_l": {
+     "joint_space_p05_mm": 1.02,
+     "min_clearance_mm": 0.39,
+     "max_penetration_mm": 0.0
+    }
+   },
+   "target_gaps_mm": {
+    "zan_vertebra_t2|zan_second_rib_l": 1.02
+   },
+   "own_gaps_p05_mm": {
+    "zan_vertebra_t2|zan_second_rib_l": null
+   },
+   "accepted": true,
+   "reasons_if_not": []
+  }
+ },
+ "soft_tissue_zones": {
+  "elbow_l": {
+   "structures": 32,
+   "vertices": 20024,
+   "pairs": 4312,
+   "tear_gt5_before": 0.1315,
+   "tear_gt2_before": 0.3757,
+   "tear_median_before_mm": 1.63,
+   "tear_gt5_after": 0.0172,
+   "tear_gt2_after": 0.1528,
+   "tear_median_after_mm": 1.41,
+   "moved": 27
+  },
+  "wrist_l": {
+   "structures": 59,
+   "vertices": 20540,
+   "pairs": 15980,
+   "tear_gt5_before": 0.2984,
+   "tear_gt2_before": 0.7209,
+   "tear_median_before_mm": 2.97,
+   "tear_gt5_after": 0.0416,
+   "tear_gt2_after": 0.1686,
+   "tear_median_after_mm": 1.36,
+   "moved": 55
+  },
+  "wrist_r": {
+   "structures": 58,
+   "vertices": 20082,
+   "pairs": 15256,
+   "tear_gt5_before": 0.5732,
+   "tear_gt2_before": 0.8975,
+   "tear_median_before_mm": 5.73,
+   "tear_gt5_after": 0.0083,
+   "tear_gt2_after": 0.1721,
+   "tear_median_after_mm": 1.42,
+   "moved": 57
+  },
+  "shoulder_l": {
+   "structures": 67,
+   "vertices": 40377,
+   "pairs": 17496,
+   "tear_gt5_before": 0.0181,
+   "tear_gt2_before": 0.1647,
+   "tear_median_before_mm": 1.4,
+   "tear_gt5_after": 0.0033,
+   "tear_gt2_after": 0.0414,
+   "tear_median_after_mm": 1.22,
+   "moved": 60
+  },
+  "shoulder_r": {
+   "structures": 67,
+   "vertices": 36784,
+   "pairs": 17553,
+   "tear_gt5_before": 0.0244,
+   "tear_gt2_before": 0.2578,
+   "tear_median_before_mm": 1.45,
+   "tear_gt5_after": 0.023,
+   "tear_gt2_after": 0.187,
+   "tear_median_after_mm": 1.34,
+   "moved": 52
+  }
+ },
+ "structures_changed_by_stage": {
+  "bone": 9,
+  "follow": 186,
+  "zone": 231,
+  "final": 8
+ },
+ "final_guards": {
+  "island_gap_reverted": [],
+  "attachment_guard": {
+   "extensor_carpi_radialis_brevis_l": 0.5,
+   "extensor_digitorum_l": 0.0,
+   "flexor_carpi_radialis_l": 0.5,
+   "zan_long_head_of_triceps_brachii_l": 0.0,
+   "abductor_digiti_minimi_hand_r": 0.5,
+   "extensor_pollicis_brevis_r": 0.5,
+   "flexor_carpi_radialis_r": 0.5,
+   "flexor_digiti_minimi_brevis_hand_r": 0.75,
+   "flexor_pollicis_longus_r": 0.75,
+   "teres_major_r": 0.25
+  }
+ }
+}

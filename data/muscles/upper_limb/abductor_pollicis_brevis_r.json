@@ -1,0 +1,147 @@
+{
+  "id": "abductor_pollicis_brevis_r",
+  "name_ta": "Abductor pollicis brevis",
+  "name_common": "Abductor pollicis brevis",
+  "side": "right",
+  "region": "upper_limb",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "carpals_r",
+    "origin_landmark": "scaphoid, flexor retinaculum",
+    "insertion_bone": "phalanges_hand_r",
+    "insertion_landmark": "proximal phalanx of thumb (radial side)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "median_n_recurrent_thenar_branch",
+    "root_levels": "C8-T1"
+  },
+  "actions": [
+    "abducts thumb (thenar muscle)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "abductor_pollicis_brevis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 40,
+        "physiological_cross_section_area_mm2": 50,
+        "max_isometric_force_N": 11.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          -10,
+          15
+        ],
+        [
+          5,
+          5,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Most superficial of the 3 thenar muscles; its motor point (the recurrent branch of median n.) is a classic surgical landmark to avoid during carpal tunnel release.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            40
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve mapping",
+          "notes": "Nerve enters from the ulnar side at the junction of the proximal and middle thirds and its minor branches are densely distributed along the medial and lateral borders at that junction. The source states this in words rather than as a measured percentage -- it is a hand-surgery paper, not an injection-targeting one -- so the range is that wording read as thirds of muscle length, and nothing narrower is claimed.",
+          "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+        }
+      ],
+      "innervation_branch_ids": [
+        "median_n_recurrent_thenar_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the palm at the base of the thenar eminence, superficial to the first metacarpal cortex.",
+    "depth_layer": "Most superficial thenar muscle, with opponens pollicis directly deep to it.",
+    "identification_cues": "Fusiform.",
+    "notes": "The paper notes that published data on abductor pollicis brevis spasticity specifically is limited.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+  },
+  "relative_muscle_spindle_abundance": {
+    "value": 0.56,
+    "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+    "notes": "Extramuscular nerve trunk length 2.29 +/- 0.22 cm. Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+    "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+  },
+  "notes": "Has the LONGEST extramuscular nerve trunk of the thenar and hypothenar group at 2.29 +/- 0.22 cm, which is why it is usable as a transfer donor. The source warns against disrupting its continuity, because its nerve fans out from a single junction rather than running the length of the muscle. In 32 of 40 hands (80%) its deep head is innervated by a branch from the ULNAR nerve, not the median -- a variant common enough that a median block cannot be assumed to silence the whole muscle.",
+  "trigger_points": [
+    {
+      "location_description": "Lateral (radial) thenar mass, over the belly of abductor pollicis brevis deep to the thenar fascia; located by pincer palpation of the thenar eminence with the thumb abducted.",
+      "referred_pain_pattern": "No separate Travell & Simons map is published for abductor pollicis brevis alone; clinically its trigger points behave like the thenar adductor-opponens pattern (Ch. 39): deep thenar and radial-thumb ache with clumsy pinch and handwriting.",
+      "activation_perpetuating_factors": "Sustained or forceful pinch (writing, sewing, instrument grip, smartphone use), post-fracture deconditioning; coexisting carpal tunnel syndrome can act as a perpetuator.",
+      "notes": "Needle with the thumb abducted, aiming away from the recurrent median branch entry at the proximal deep surface.",
+      "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 1 -- as cited in this atlas's uploaded hand intrinsic muscle reference document (Ch. 39 thenar adductor-opponens pattern, applied by clinical analogy; no separate abductor pollicis brevis figure is published)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "hand_intrinsic_muscles_reference_v1.html",
+      "compiled": "03/09/2026",
+      "compiled_by": "repository owner (physician); hand_intrinsic_muscles_reference_v1.html, compiled 03/09/2026. Source hierarchy used. (1) Peer-reviewed anatomical and biomechanical studies (bibliographic data and abstracts retrieved via PubMed/NCBI, 01–03/09/2026; DOIs linked in the reference list); (2) reference textbooks — Standring (Gray's Anatomy, 42nd ed., 2021), Kapandji (2007), Green's Operative Hand Surgery (8th ed., 2022), Brand & Hollister (1999); (3) Simons, Travell & Simons, The Trigger Point Manual Vol. 1, 2nd ed. (1999) and 3rd ed. (2019) for trigger-point (TrP) referral patterns; (4) StatPearls/NCBI Bookshelf for cross-checking. No item below relies on blogs or unattributed aggregators; where secondary TrP summaries were used to confirm Travell & Simons figures, they are graded accordingly in the verification table.",
+      "function_biomechanics": "Palmar abduction of the thumb at CMC and MCP — lifting the thumb column perpendicular to the palm — with slight pronation; it opens the first phase of Kapandji's opposition sequence and pre-positions the pulp for pinch, then assists IP extension through its dorsal-apparatus slip [1][20][26]. Architecturally a small-force, positioning muscle (PCSA well below AdP/DI-1) [6]. Functional weight: a wrist-level median block cuts grip ~32% and key pinch ~60% (thenar + lumbrical I–II contribution) [7]. Structures it influences / is influenced by: thumb MCP volar plate–sesamoid complex (pinch loading), the carpal tunnel (thenar TrP-taut bands add symptoms in manual workers — dry needling of thenar TrPs improved Boston scores, pinch and grip in mild–moderate CTS in a pilot RCT [30]), and opponensplasty planning (all transfers aim at the APB insertion vector) [3].",
+      "adjacent_structures": "Relations · fascia · closed sacs: Most superficial radial thenar muscle under the thenar fascia; covers OP and FPB. No bursa of its own; the radial bursa (FPL sheath) lies deep/ulnar, and the 1st CMC and thumb MCP capsules with the radial sesamoid are its immediate closed-space neighbours [1][34].",
+      "trigger_points": [
+        {
+          "referred_pain": "Travell & Simons publish no separate APB map; thenar TrPs (APB/FPB) behave clinically like the adductor–opponens patterns of Ch. 39 — deep thenar and radial-thumb ache with clumsy pinch and handwriting — and are listed with them [24] (verification row V21).",
+          "notes": "Trigger points & referred pain (from this muscle)",
+          "activation_perpetuating_factors": "sustained or forceful pinch (writing, sewing, instrument grip, smartphone), post-fracture deconditioning, CTS co-existing as perpetuator. Local twitch and reproduction on pincer palpation of the lateral thenar mass; needle with the thumb abducted, aiming away from the recurrent branch entry at the proximal deep surface.",
+          "source": "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793)."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Myofascial: adductor/opponens pollicis, FPL, brachialis (base of thumb), supinator and brachioradialis (dorsal web), ECRL, scalenes, subclavius, infraspinatus, pronator teres [24].",
+        "Non-myofascial: C6 radiculopathy, median neuropathy (CTS — note the palmar cutaneous branch spares thenar skin), radial sensory neuritis (Wartenberg), CMC-1/STT osteoarthritis, De Quervain, scaphoid pathology, sesamoiditis [35]."
+      ],
+      "pain_referred_into_territory": "Pain referred TO this area (differential)",
+      "caveat": "Most myofascial hand pain is imported: shoulder-girdle, arm and forearm TrPs project distally far more often than intrinsic TrPs project proximally. Patterns below are the prototype maps of Simons, Travell & Simons (Vol. 1, 2nd ed., 1999; 3rd ed., 2019) — screening guides, not fingerprints; individual spread is wide [24][25]. Non-myofascial mimics are listed per zone for the same working position [5][29][31][35]. TrP → = habitual referred-pain direction of that muscle's trigger points (Simons, Travell & Simons 1999/2019); patterns are prototypes — individual variation is wide.",
+      "sources": [
+        "[1] Standring S (ed). Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021 — Wrist and hand: intrinsic muscles, fascial spaces, vessels and nerves.",
+        "[2] Gray H. Anatomy of the Human Body. 20th ed. Philadelphia: Lea & Febiger; 1918 — §1F \"The Muscles and Fasciæ of the Hand\" (opponens digiti quinti relations, p. 464). Public domain.",
+        "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing; updated 26/07/2025. NCBI Bookshelf NBK539810.",
+        "[6] Jacobson MD, Raab R, Fazeli BM, Abrams RA, Botte MJ, Lieber RL. Architectural design of the human intrinsic hand muscles. J Hand Surg Am. 1992;17(5):804-809. doi:10.1016/0363-5023(92)90446-V",
+        "[7] Kozin SH, Porter S, Clark P, Thoder JJ. The contribution of the intrinsic muscles to grip and pinch strength. J Hand Surg Am. 1999;24(1):64-72. doi:10.1053/jhsu.1999.jhsu24a0064",
+        "[20] Forrest WJ, Basmajian JV. Functions of human thenar and hypothenar muscles: an electromyographic study. J Bone Joint Surg Am. 1965;47(8):1585-1594.",
+        "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793).",
+        "[26] Kapandji IA. The Physiology of the Joints, Vol. 1: Upper Limb. 6th ed. Edinburgh: Churchill Livingstone; 2007 — thumb column and opposition.",
+        "[30] Rezazadeh M, et al. Dry needling of trigger points in the thenar muscles in patients with mild-to-moderate carpal tunnel syndrome: a pilot randomised trial. Physiother Theory Pract. 2023;39(5) (Epub 2022). doi:10.1080/09593985.2022.2033897",
+        "[34] Petchprapa CN / Radsource MRI Web Clinic. Palmar bursae and flexor tendon sheaths of the wrist and hand. radsource.us (accessed 03/09/2026).",
+        "[35] Wolfe SW, Pederson WC, Kozin SH, Cohen MS (eds). Green's Operative Hand Surgery. 8th ed. Elsevier; 2022 — intrinsic muscle disorders, compartment syndrome, nerve palsy chapters.",
+        "[38] Thenar muscle atrophy: clinical, electrodiagnostic and ultrasound features in 197 patients. Neurol Int. 2025. PMC12736044.",
+        "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing",
+        "updated 26/07/2025. NCBI Bookshelf NBK539810.",
+        "[26] Kapandji IA. The Physiology of the Joints, Vol. 1: Upper Limb. 6th ed. Edinburgh: Churchill Livingstone",
+        "2007 — thumb column and opposition."
+      ],
+      "tests": [
+        {
+          "name": "Ape hand / lost opposition (Kapandji score)",
+          "muscle_basis": "APB, OP, FPB superficial head",
+          "positive_finding": "Low median palsy; thumb falls into plane of palm [3][26]",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No sensitivity/specificity given in the source document.",
+          "source": "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing; updated 26/07/2025. NCBI Bookshelf NBK539810.; [26] Kapandji IA. The Physiology of the Joints, Vol. 1: Upper Limb. 6th ed. Edinburgh: Churchill Livingstone; 2007 — thumb column and opposition."
+        }
+      ]
+    }
+  ]
+}
