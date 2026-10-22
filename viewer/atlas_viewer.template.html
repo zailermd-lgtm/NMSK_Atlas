@@ -811,9 +811,21 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 .mm-withfoot{bottom:108px}
 /* ---- phone (390 x 844 convention) ---- */
 @media (max-width:760px){
-  .mw-top{padding:10px 14px;gap:10px}.mw-models{margin:0;gap:6px}.mw-models a{height:32px;padding:0 10px;font-size:12px}
-  .mw-body{padding:20px 16px;gap:16px;justify-content:flex-start}.mw-q{font-size:26px}
-  .mw-tiles{grid-template-columns:1fr 1fr;gap:12px}.mw-tile{min-height:0;padding:16px;gap:8px}.mw-tile .mw-t{font-size:17px}.mw-tile .mw-d{font-size:12.5px}
+  /* Q276: the switcher ("home screen") was running past the viewport on an ordinary phone width (measured: 360x640 needed 40px of
+     scroll before this round's fix; 390x844 had slack but no margin for a shorter real browser viewport with address-bar chrome).
+     Three changes, nothing removed: (1) the six model chips scroll in one row instead of wrapping to 2-3 (saved ~120px of height
+     by itself); (2) the per-tile description drops to one clamped line, full text still reachable via the tile's own title tooltip
+     and, in full, the instant the mode is entered; (3) the closing note is dropped here (it repeated "tap the corner button to
+     come back", already shown by the corner button itself every screen after). Every tile stays reachable and tappable; nothing a
+     phone user needs to OPERATE the switcher was removed, only text that only needs to be read once. */
+  .mw-top{padding:8px 14px;gap:8px}
+  .mw-models{margin:0;gap:6px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;mask-image:linear-gradient(to left,transparent,#000 14px)}
+  .mw-models::-webkit-scrollbar{display:none}
+  .mw-models a{height:30px;padding:0 10px;font-size:12px;flex:0 0 auto}
+  .mw-body{padding:14px 16px;gap:10px;justify-content:flex-start}.mw-q{font-size:21px;margin-bottom:2px}
+  .mw-tiles{grid-template-columns:1fr 1fr;gap:10px}.mw-tile{min-height:0;padding:14px;gap:6px}.mw-tile .mw-t{font-size:16px}
+  .mw-tile .mw-d{font-size:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
+  .mw-note{display:none}
   #mode-bar{padding:0 14px;gap:10px}
   .mb-pill{height:32px;padding:0 12px;font-size:14px}.mb-pill .mb-long{display:none}.mb-pill .mb-short{display:inline}
   .mb-chips .mb-dim,.mb-chips .mb-chip,.mb-chips .mb-tog{display:none}
@@ -1159,10 +1171,10 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   <div class="mw-body">
     <h2 class="mw-q">מה עושים היום?</h2>
     <div class="mw-tiles" id="mw-tiles">
-      <button type="button" class="mw-tile" data-mode="anat"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M5 8c3 0 4 2 7 2s4-2 7-2M6 15c2 0 3 1.5 6 1.5s4-1.5 6-1.5"/></svg></span><span class="mw-t">אנטומיה</span><span class="mw-d">צפייה חופשית, שכבות, חתכים</span></button>
-      <button type="button" class="mw-tile" data-mode="inj"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20l9-9M13 11l4-4M17 7l3-3M15 5l4 4"/><circle cx="7" cy="17" r="1.5"/></svg></span><span class="mw-t">תכנון הזרקה</span><span class="mw-d">מטרה ← מסלול ← מרחק מכלי-דם ועצבים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
-      <button type="button" class="mw-tile" data-mode="us"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10l-2 5H9zM9 9q3 6 6 0"/><circle cx="16" cy="17" r="4"/><path d="M15 15l3 2-3 2z" fill="currentColor" stroke="none"/></svg></span><span class="mw-t">US אבחנתי</span><span class="mw-d">סריקה דינמית, CINE, השוואת צדדים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
-      <button type="button" class="mw-tile" data-mode="cmp"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="1.5"/><rect x="13" y="5" width="8" height="14" rx="1.5"/><path d="M12 9v6"/></svg></span><span class="mw-t">השוואת דימות</span><span class="mw-d">דימות המטופל מול האטלס, סימון פגיעה</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="anat" title="צפייה חופשית, שכבות, חתכים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M5 8c3 0 4 2 7 2s4-2 7-2M6 15c2 0 3 1.5 6 1.5s4-1.5 6-1.5"/></svg></span><span class="mw-t">אנטומיה</span><span class="mw-d">צפייה חופשית, שכבות, חתכים</span></button>
+      <button type="button" class="mw-tile" data-mode="inj" title="מטרה ← מסלול ← מרחק מכלי-דם ועצבים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20l9-9M13 11l4-4M17 7l3-3M15 5l4 4"/><circle cx="7" cy="17" r="1.5"/></svg></span><span class="mw-t">תכנון הזרקה</span><span class="mw-d">מטרה ← מסלול ← מרחק מכלי-דם ועצבים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="us" title="סריקה דינמית, CINE, השוואת צדדים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10l-2 5H9zM9 9q3 6 6 0"/><circle cx="16" cy="17" r="4"/><path d="M15 15l3 2-3 2z" fill="currentColor" stroke="none"/></svg></span><span class="mw-t">US אבחנתי</span><span class="mw-d">סריקה דינמית, CINE, השוואת צדדים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="cmp" title="דימות המטופל מול האטלס, סימון פגיעה"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="1.5"/><rect x="13" y="5" width="8" height="14" rx="1.5"/><path d="M12 9v6"/></svg></span><span class="mw-t">השוואת דימות</span><span class="mw-d">דימות המטופל מול האטלס, סימון פגיעה</span><span class="mw-na">לא זמין בעמוד זה</span></button>
     </div>
     <p class="mw-note">כל מצב פותח מסך משלו. תמיד אפשר לחזור לכאן מהכפתור בפינה.</p>
   </div>

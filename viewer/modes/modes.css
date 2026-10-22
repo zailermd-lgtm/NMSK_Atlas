@@ -179,9 +179,21 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 .mm-withfoot{bottom:108px}
 /* ---- phone (390 x 844 convention) ---- */
 @media (max-width:760px){
-  .mw-top{padding:10px 14px;gap:10px}.mw-models{margin:0;gap:6px}.mw-models a{height:32px;padding:0 10px;font-size:12px}
-  .mw-body{padding:20px 16px;gap:16px;justify-content:flex-start}.mw-q{font-size:26px}
-  .mw-tiles{grid-template-columns:1fr 1fr;gap:12px}.mw-tile{min-height:0;padding:16px;gap:8px}.mw-tile .mw-t{font-size:17px}.mw-tile .mw-d{font-size:12.5px}
+  /* Q276: the switcher ("home screen") was running past the viewport on an ordinary phone width (measured: 360x640 needed 40px of
+     scroll before this round's fix; 390x844 had slack but no margin for a shorter real browser viewport with address-bar chrome).
+     Three changes, nothing removed: (1) the six model chips scroll in one row instead of wrapping to 2-3 (saved ~120px of height
+     by itself); (2) the per-tile description drops to one clamped line, full text still reachable via the tile's own title tooltip
+     and, in full, the instant the mode is entered; (3) the closing note is dropped here (it repeated "tap the corner button to
+     come back", already shown by the corner button itself every screen after). Every tile stays reachable and tappable; nothing a
+     phone user needs to OPERATE the switcher was removed, only text that only needs to be read once. */
+  .mw-top{padding:8px 14px;gap:8px}
+  .mw-models{margin:0;gap:6px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;mask-image:linear-gradient(to left,transparent,#000 14px)}
+  .mw-models::-webkit-scrollbar{display:none}
+  .mw-models a{height:30px;padding:0 10px;font-size:12px;flex:0 0 auto}
+  .mw-body{padding:14px 16px;gap:10px;justify-content:flex-start}.mw-q{font-size:21px;margin-bottom:2px}
+  .mw-tiles{grid-template-columns:1fr 1fr;gap:10px}.mw-tile{min-height:0;padding:14px;gap:6px}.mw-tile .mw-t{font-size:16px}
+  .mw-tile .mw-d{font-size:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
+  .mw-note{display:none}
   #mode-bar{padding:0 14px;gap:10px}
   .mb-pill{height:32px;padding:0 12px;font-size:14px}.mb-pill .mb-long{display:none}.mb-pill .mb-short{display:inline}
   .mb-chips .mb-dim,.mb-chips .mb-chip,.mb-chips .mb-tog{display:none}

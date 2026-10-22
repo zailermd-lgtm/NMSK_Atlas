@@ -710,6 +710,7 @@ function Tool(api) {
   this.ov = api.kind === "three" ? new ThreeOverlay(api) : new GLOverlay(api);
   this.P = JSON.parse(JSON.stringify(HALO_DEFAULTS));
   this.active = false; this.mode = "two"; this.entry = null; this.target = null;
+  this.savedPts = [];   // Q276: 2+ saved injection points on the same (or any) target -- each an independent {entry,target} snapshot, own marker, own distance readout
   this.dir = {src: "normal", tilt: 0, az: 0, view: null};
   this.len = 60; this.rDisp = 1.0;
   this.risk = {data: null, rcal: {}, on: false, transp: 0.8, saved: null, region: null, safer: null, pathEval: null};
@@ -958,7 +959,15 @@ TP.buildUI = function () {
     'R = how far from the path a vessel / nerve is measured at all (default ' + CORR_DEFAULTS.R + ' mm, the same neighbourhood the planning preset uses).</p>' +
     '<div id="ncl-corr-out"></div>' +
     '<div class="ncl-row"><button type="button" id="ncl-sugg" title="Sample straight candidate entries on the skin in a cone around the nearest-skin direction and rank them by measured clearance, then length">Suggest entries</button>' +
-    '<button type="button" id="ncl-sugg-x" title="Remove the suggested ghost lines">Clear suggestions</button></div><div id="ncl-sugg-out"></div></div>' +
+    '<button type="button" id="ncl-sugg-x" title="Remove the suggested ghost lines">Clear suggestions</button></div><div id="ncl-sugg-out"></div>' +
+    /* Q276: multiple saved injection points -- the current entry/target is still exactly one working placement (unchanged), but it is no
+       longer silently lost on the next placement: "Add point" records it (own marker, own distance readout, reusing corridorFor() verbatim),
+       as one of two or more sites the owner places within the same muscle. Not a recommendation of how many or where -- a recorder only. */
+    '<div class="ncl-row" style="margin-top:6px"><b>Saved points</b>' +
+    '<button type="button" id="ncl-save-add" title="Record the current entry/target as an additional saved point (does not replace it)">Add point</button>' +
+    '<button type="button" id="ncl-save-clear" title="Remove every saved point">Clear all</button></div>' +
+    '<p class="cite">For planning two or more injection sites in the same muscle. Recording is yours to do and undo -- no count or spacing is suggested.</p>' +
+    '<div id="ncl-save-out"></div></div>' +
     /* Q268 (1): injection-planning preset -- pure wiring of mechanisms that already exist (structure list, selection controller, parts markers, pose rig) */
     '<details id="ncl-plan" open><summary>Injection planning (preset)</summary>' +
     '<p class="ncl-status">Pick the target muscle / tendon: the preset fades everything except the target and the vessels / nerves whose bounding box lies within R mm ' +
@@ -1036,10 +1045,13 @@ TP.buildUI = function () {
   $("ncl-corr-halo").onclick = function () { self.corr.halo = !self.corr.halo; this.setAttribute("aria-pressed", String(self.corr.halo)); self.drawCorridor(); api.redraw(); };
   $("ncl-sugg").onclick = function () { self.suggest(); };
   $("ncl-sugg-x").onclick = function () { self.clearSuggestions(); self.renderSuggestions(); api.redraw(); };
+  $("ncl-save-add").onclick = function () { self.addSavedPoint(); };
+  $("ncl-save-clear").onclick = function () { self.clearSavedPoints(); };
   $("ncl-plan-q").oninput = function () { self.renderPlanSearch(); };
   $("ncl-plan-x").onclick = function () { self.planRelease(); };
   $("ncl-plan-pose-go").onclick = function () { self.applyPosture($("ncl-plan-pose").value, $("ncl-plan-side").value); };
   this.renderFormula();
+  this.renderSavedPoints();
   this.setMode("two", true);
 };
 TP.renderFormula = function () {
@@ -1696,6 +1708,66 @@ TP.drawCorridor = function () {
 };
 
 /* ===================================================================== */
+/* Q276: saved injection points -- bring the needle to 2+ locations in the same muscle. The working this.entry/this.target
+   placement is UNCHANGED (one at a time, overwritten by the next placement exactly as before); "Add point" snapshots it into
+   this.savedPts instead of losing it. Each saved point gets its own overlay marker (ov.set keyed per point, the exact addSphere
+   pattern n-tgt/n-entry already use) and its own distance-to-nearest-vessel/nerve readout computed with corridorFor() verbatim
+   -- no second distance-calculation path. This is a recorder: no count, spacing or pattern is ever suggested. */
+TP.addSavedPoint = function () {
+  if (!this.target) return null;
+  var nextId = 1; this.savedPts.forEach(function (s) { if (s.id >= nextId) nextId = s.id + 1; });
+  var A = this.entry ? this.entry.p : this.target.p, B = this.target.p;
+  var res = this.corridorFor(A, B, this.target.i != null ? this.recs[this.target.i].id : null);
+  var item = {
+    id: nextId,
+    entry: this.entry ? {p: this.entry.p.slice(), i: this.entry.i} : null,
+    target: {p: this.target.p.slice(), i: this.target.i},
+    targetName: this.target.i != null ? this.name(this.target.i) : (this.target.mp ? this.target.mp.muscle_name + " motor point" : null),
+    L: this.entry ? dist(this.entry.p, this.target.p) : 0,
+    corr: {items: res.items.slice(0, 8), n: res.n}
+  };
+  this.savedPts.push(item);
+  this.drawSavedPoint(item);
+  this.renderSavedPoints(); this.notify(); this.api.redraw();
+  return item;
+};
+TP.drawSavedPoint = function (item) {
+  var r = this.rDisp || 1, ov = this.ov, band = item.corr.items.length ? this.band(item.corr.items[0].d) : null;
+  var col = band === "n" ? COLOUR.red : band === "m" ? COLOUR.amber : band === "f" ? COLOUR.green : "#5B6472";
+  ov.set("n-tgt-s" + item.id, addSphere(new Geo(), item.target.p, r * 1.9), {color: col, pass: "opaque", emis: 0.25});
+  ov.set("n-tgt-s" + item.id + "-x", addSphere(new Geo(), item.target.p, r * 1.9), {color: col, pass: "xray", alpha: 0.45, emis: 0.3});
+  if (item.entry) ov.set("n-entry-s" + item.id, addSphere(new Geo(), item.entry.p, r * 1.7), {color: col, pass: "opaque"});
+};
+TP.removeSavedPoint = function (id) {
+  var idx = -1, k; for (k = 0; k < this.savedPts.length; k++) if (this.savedPts[k].id === id) { idx = k; break; }
+  if (idx < 0) return false;
+  var it = this.savedPts[idx], ov = this.ov;
+  ov.remove("n-tgt-s" + it.id); ov.remove("n-tgt-s" + it.id + "-x"); ov.remove("n-entry-s" + it.id);
+  this.savedPts.splice(idx, 1);
+  this.renderSavedPoints(); this.notify(); this.api.redraw();
+  return true;
+};
+TP.clearSavedPoints = function () {
+  var self = this;
+  this.savedPts.forEach(function (it) { self.ov.remove("n-tgt-s" + it.id); self.ov.remove("n-tgt-s" + it.id + "-x"); self.ov.remove("n-entry-s" + it.id); });
+  this.savedPts = [];
+  this.renderSavedPoints(); this.notify(); this.api.redraw();
+};
+TP.renderSavedPoints = function () {
+  var out = this.$ ? this.$("ncl-save-out") : null; if (!out) return;
+  var self = this;
+  if (!this.savedPts.length) { out.innerHTML = '<p class="ncl-status">No saved points yet. Place entry/target, then Add point to record it as one of two or more sites in the same muscle.</p>'; return; }
+  out.innerHTML = '<ol class="corr-list">' + this.savedPts.map(function (it, k) {
+    var nearest = it.corr.items[0], bnd = nearest ? self.band(nearest.d) : null;
+    return '<li' + (bnd ? ' class="band-' + bnd + '"' : "") + '><b>Point ' + (k + 1) + "</b> — " + esc(it.targetName || "target") +
+      (it.entry ? " · " + it.L.toFixed(1) + " mm" : " (target only)") +
+      (nearest ? " · nearest " + esc(nearest.name) + ' <span class="rng mono">' + nearest.d.toFixed(1) + " mm</span>" : " · no vessel/nerve within R") +
+      ' <button type="button" data-rmsaved="' + it.id + '" title="Remove this saved point">Remove</button></li>';
+  }).join("") + "</ol>";
+  Array.prototype.forEach.call(out.querySelectorAll("[data-rmsaved]"), function (b) { b.onclick = function () { self.removeSavedPoint(+b.dataset.rmsaved); }; });
+};
+
+/* ===================================================================== */
 /* Q268 (3): suggested entry candidates -- a simple, stated heuristic      */
 /* ===================================================================== */
 TP.suggest = function () {
@@ -1917,6 +1989,12 @@ function injectionMode(tool, api) {
   }
   function resetAll() { closePop(); tool.clearSuggestions(); tool.clear(); tool.planRelease(); if (posture !== "off") setPosture("off"); refresh(); }
   function cancelPath() { closePop(); tool.clearSuggestions(); tool.clear(); refresh(); }
+  /* Q276: 2+ saved points in the same muscle -- "Add point" records the current entry/target (unchanged single working placement)
+     instead of it being silently replaced by the next one; each keeps its own marker + distance readout (tool.addSavedPoint() reuses
+     corridorFor() verbatim). Not a recommendation of count or spacing -- a recorder, same as the bare tool's own panel. */
+  function addPoint() { if (!tool.target) return; tool.addSavedPoint(); refresh(); }
+  function removeSaved(id) { tool.removeSavedPoint(id); refresh(); }
+  function clearSaved() { tool.clearSavedPoints(); refresh(); }
   function setPosture(key) {
     var r = targetRec(), side = r && r.side === "l" ? "l" : "r";
     var out = tool.applyPosture(key === "off" ? "rest" : key, side);
@@ -1973,7 +2051,12 @@ function injectionMode(tool, api) {
     ]);
     ui.step3 = h("div", {class: "mc-step off"}, [h("div", {class: "mc-num", text: "3"}), h("div", {class: "mc-lbl", text: "בדיקת מסלול"})]);
     ui.report = h("div", {class: "mc-hint"});
-    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report]));
+    /* Q276: "הזרקה ל-2+ מקומות באותו שריר" -- save the current point, see every saved point of this session with its own distance readout */
+    ui.addPoint = h("button", {type: "button", class: "mc-sec", text: "הוסף נקודה", title: "שמירת נקודת הכניסה/מטרה הנוכחית כאחת מכמה באותו שריר (לא מחליפה אותה)", onclick: addPoint});
+    ui.savedTitle = h("div", {class: "mc-lbl", style: "margin-top:4px", text: "נקודות שמורות"});
+    ui.saved = h("div", {class: "mc-list"});
+    ui.savedClear = h("button", {type: "button", class: "mc-sec", text: "נקה את כל הנקודות השמורות", onclick: clearSaved});
+    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
     /* left: the distance card */
     ui.rows = h("div", {class: "mc-list"});
     ui.near = h("input", {type: "number", min: "0", max: "100", step: "0.5", "aria-label": "סף קרוב (מ\"מ)"}); ui.far = h("input", {type: "number", min: "0", max: "200", step: "0.5", "aria-label": "סף רחוק (מ\"מ)"});
@@ -2014,6 +2097,20 @@ function injectionMode(tool, api) {
     });
     var rep = hasT && hasE ? tool.report() : null;
     ui.report.textContent = rep ? "אורך " + fmt(rep.length_mm) + " מ\"מ · חוצה " + rep.crossings.length + " מבנים" + (rep.skin && rep.skin.depth != null ? " · עומק מהעור " + fmt(rep.skin.depth) + " מ\"מ" : "") : "";
+    /* Q276: saved points list -- its own marker (drawn by tool.addSavedPoint()) and its own distance readout per row */
+    ui.addPoint.disabled = !hasT;
+    ui.saved.innerHTML = "";
+    if (!tool.savedPts.length) ui.saved.appendChild(h("p", {class: "mc-hint", text: "אין נקודות שמורות עדיין. לתכנון 2+ מקומות באותו שריר: סמנו נקודה ולחצו הוסף נקודה."}));
+    tool.savedPts.forEach(function (it, k) {
+      var nearest = it.corr.items[0], band = nearest ? tool.band(nearest.d) : null;
+      var bandCol = band === "n" ? "#C53030" : band === "m" ? "#C97A1A" : band === "f" ? "#2F855A" : "";
+      ui.saved.appendChild(h("div", {class: "mc-cand"}, [
+        h("b", {text: "נקודה " + (k + 1)}),
+        h("span", {style: bandCol ? "color:" + bandCol : "", text: (it.entry ? fmt(it.L) + ' מ"מ' : "מטרה בלבד") + (nearest ? " · " + fmt(nearest.d) + ' מ"מ מ' + nearest.name : " · אין כלי-דם/עצב ברדיוס")}),
+        h("button", {type: "button", text: "הסר", title: "הסרת נקודה " + (k + 1), onclick: function () { removeSaved(it.id); }})
+      ]));
+    });
+    ui.savedClear.hidden = !tool.savedPts.length;
     /* distances */
     ui.rows.innerHTML = "";
     if (!hasT && !hasE) ui.dhint.textContent = "בחר מטרה: המרחקים יופיעו כאן ויתעדכנו בכל שינוי.";
@@ -2092,7 +2189,16 @@ global.NMSKClinical = {
       releasePlan: function () { tool.planRelease(); },
       suggest: function () { return tool.suggest(); }, suggestions: function () { return tool.sugg.shown.map(function (c) { return {entry: c.E.slice(), length_mm: c.L, min_mm: c.minD}; }); },
       adoptSuggestion: function (k) { tool.adoptSuggestion(tool.sugg.shown[k]); },
-      posture: function (key, side) { return tool.applyPosture(key, side); }
+      posture: function (key, side) { return tool.applyPosture(key, side); },
+      /* Q276: 2+ saved injection points on the same target, used by scripts/anatomy/q276/verify_q276.py */
+      addSavedPoint: function () { var it = tool.addSavedPoint(); return it ? {id: it.id, target: it.target.p.slice(), entry: it.entry ? it.entry.p.slice() : null, length_mm: it.L} : null; },
+      removeSavedPoint: function (id) { return tool.removeSavedPoint(id); },
+      clearSavedPoints: function () { tool.clearSavedPoints(); },
+      savedPoints: function () {
+        return tool.savedPts.map(function (it) {
+          return {id: it.id, target_name: it.targetName, length_mm: it.L, nearest: it.corr.items.length ? {name: it.corr.items[0].name, d_mm: it.corr.items[0].d} : null};
+        });
+      }
     };
     return {cursor: function () { return tool.cursor(); },
             setPath: function (e, t, eid, tid) { tool.setPath(e, t, eid, tid); }};
