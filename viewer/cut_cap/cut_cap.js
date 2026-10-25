@@ -542,6 +542,9 @@ function NMSKCrossSection(E){
     set:set, isOn:function(){ return st.on; },
     planeChanged:function(){ if (st.on) schedule(); },
     itemsChanged:function(){ if (st.on) schedule(); },
+    /* Q282: the same setN/setSpacing/setThickness this module's own number inputs already call, exposed so
+       another controller (the Quick view composer) can drive the stack without a second input UI */
+    setN:setN, setSpacing:setSpacing, setThickness:setThickness,
     state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms}; }
   };
 }

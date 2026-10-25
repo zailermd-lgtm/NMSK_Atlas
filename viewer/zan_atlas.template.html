@@ -288,6 +288,32 @@ body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg .cut-pt{fill:none;stroke:var(--cp-warn);stroke-width:2}
 #cut-svg text{fill:var(--cp-warn);font:600 11px system-ui,sans-serif;paint-order:stroke;stroke:var(--cp-bg);stroke-width:3px}
 /* CUT-MODE css end */
+/* QUICKVIEW css begin */
+#qv-panel{--qv-bg:#fff;--qv-ink:#111;--qv-dim:#667;--qv-line:#ccd;--qv-accent:#0a6e8e;--qv-accent-ink:#fff;--qv-shadow:0 8px 24px rgba(0,0,0,.18)}
+#qv-panel{position:fixed;left:12px;top:60px;z-index:31;box-sizing:border-box;width:280px;max-width:calc(100vw - 16px);padding:8px 10px 9px;border-radius:9px;
+  background:var(--qv-bg);color:var(--qv-ink);border:1px solid var(--qv-line);box-shadow:var(--qv-shadow);
+  font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto;max-height:calc(100vh - 16px);overflow-y:auto}
+#qv-panel[hidden]{display:none}
+#qv-panel .qv-head{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+#qv-panel .qv-head b{font-size:13px}
+#qv-panel .qv-sp{flex:1}
+#qv-panel .qv-dim,#qv-panel .qv-hint{color:var(--qv-dim)}
+#qv-panel .qv-hint:empty{display:none}
+#qv-panel .qv-lbl{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--qv-dim)}
+#qv-panel input[type=search]{width:100%;box-sizing:border-box;padding:5px 6px;border:1px solid var(--qv-line);border-radius:6px;background:var(--qv-bg);color:var(--qv-ink);font:inherit}
+#qv-panel .qv-res{display:flex;flex-direction:column;max-height:150px;overflow-y:auto;margin-top:3px}
+#qv-panel .qv-res button{text-align:left;border:0;background:none;padding:3px 4px;border-radius:5px;font:inherit}
+#qv-panel .qv-res button:hover{background:var(--qv-line)}
+#qv-panel .qv-name{font-weight:700;margin:6px 0 4px}
+#qv-panel .qv-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+#qv-panel .qv-row button,#qv-panel>#qv-sel>button{flex:1 1 auto}
+#qv-panel button{font:inherit;font-size:11.5px;color:var(--qv-ink);background:transparent;border:1px solid var(--qv-line);border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#qv-panel button:hover{border-color:var(--qv-accent)}
+#qv-panel .qv-head button{flex:0 0 auto;min-height:26px;padding:2px 8px}
+#qv-panel .qv-chk{display:flex;align-items:center;gap:6px;margin:5px 0 2px;font-size:11.5px;cursor:pointer}
+#qv-panel .qv-chk input{width:16px;height:16px;accent-color:var(--qv-accent)}
+#qv-panel #qv-mp[hidden]{display:none}
+/* QUICKVIEW css end */
   #cut-panel,#cut-svg{--cp-bg:color-mix(in srgb,var(--panel) 97%,transparent);--cp-ink:var(--ink);--cp-dim:var(--ink-dim);--cp-line:var(--line-strong);--cp-accent:var(--accent);--cp-accent-ink:var(--ground);--cp-warn:#d9562a;--cp-shadow:var(--shadow)}
   /* SYMVIEW css begin */
 #sym-select{font:inherit;font-size:11.5px;max-width:13.5em;padding:5px 6px;border:1px solid #8a93a0;border-radius:6px;background:transparent;color:inherit;cursor:pointer;min-height:26px}
@@ -1028,6 +1054,34 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   </div>
 </div>
 <!-- CUT-MODE html end -->
+<!-- QUICKVIEW html begin -->
+<div id="qv-panel" hidden role="group" aria-label="Quick view">
+  <div class="qv-head"><b>Quick view</b><span class="qv-sp"></span><button type="button" id="qv-close" aria-label="Close the quick view panel" title="Close">&times;</button></div>
+  <div class="qv-body">
+    <p class="qv-hint">Search a structure, then focus / mark &amp; highlight it, put a cross-section through it, or (where this body has the data) show its motor point -- all from here instead of four separate panels.</p>
+    <input id="qv-q" type="search" placeholder="Search a structure" autocomplete="off" aria-label="Search a structure">
+    <div class="qv-res" id="qv-res"></div>
+    <div id="qv-sel" class="qv-sel" hidden>
+      <p class="qv-name" id="qv-name"></p>
+      <div class="qv-row">
+        <button type="button" id="qv-focus" title="Move the camera to this structure">Focus</button>
+        <button type="button" id="qv-mark" title="Mark it and colour it in the highlight colour (Q227/Q232, reused as-is)">Mark &amp; highlight</button>
+      </div>
+      <button type="button" id="qv-mp" hidden title="Show this structure's motor point(s) (needs the clinical layer and motor-point data for it)">Show its motor point</button>
+      <p id="qv-mp-msg" class="qv-hint"></p>
+      <div class="qv-lbl">Cross-section through it</div>
+      <div class="qv-row" id="qv-ax">
+        <button type="button" data-ax="x" title="Plane normal along the body's left-right axis, centred on this structure">sagittal</button>
+        <button type="button" data-ax="y" title="Plane normal along the head-to-foot axis, centred on this structure">axial</button>
+        <button type="button" data-ax="z" title="Plane normal along the front-to-back axis, centred on this structure">coronal</button>
+      </div>
+      <p id="qv-xs-msg" class="qv-hint"></p>
+      <label class="qv-chk"><input type="checkbox" id="qv-abbr"> Abbreviated labels</label>
+    </div>
+    <p id="qv-msg" class="qv-hint" aria-live="polite"></p>
+  </div>
+</div>
+<!-- QUICKVIEW html end -->
 <!-- SYMVIEW html begin -->
 <div id="sym-banner" role="status" aria-live="polite" hidden><b>Symmetric view: not measured data</b><span class="sv-txt" id="sym-banner-txt"></span><button type="button" id="sym-off" title="Back to the measured model">Off</button></div>
 <!-- SYMVIEW html end -->
@@ -5773,10 +5827,153 @@ function NMSKCrossSection(E){
     set:set, isOn:function(){ return st.on; },
     planeChanged:function(){ if (st.on) schedule(); },
     itemsChanged:function(){ if (st.on) schedule(); },
+    /* Q282: the same setN/setSpacing/setThickness this module's own number inputs already call, exposed so
+       another controller (the Quick view composer) can drive the stack without a second input UI */
+    setN:setN, setSpacing:setSpacing, setThickness:setThickness,
     state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms}; }
   };
 }
 /* CUT-CAP js end */
+/* QUICKVIEW js begin */
+/* Quick view (Q282): one small panel that composes mechanisms this page already has -- search, camera focus
+   (api.focus, the same primitive the clinical tool's own "Zoom" button and the Parts markers already use),
+   mark + highlight (api.selection().mark()/preset("hlsel"), Q227/Q232, reused verbatim), a cross-section
+   centred on the picked structure (api.setCut() + the Q281 multi-slice stack via api.crossSection(), reused
+   verbatim), abbreviated labels (api.labels().setMode()/set(), Q236, reused verbatim) and, only when the
+   clinical layer is present, that structure's motor point (window.NMSKClinicalTool.emphasize(), the same
+   Q281 marked-filtered mechanism, reused verbatim -- this module never draws a marker or does geometry of
+   its own). The point is fewer clicks and less panel-hopping for a combined request such as "axial slices
+   through the right hand, abbreviated labels, highlight FPL, show its motor point" -- nothing here is
+   specific to any one structure or region; it is the same four actions for whatever is searched.
+   One controller for both viewers. The engine is reached only through api, the SAME anatomyApi() object the
+   optional clinical add-on attaches to -- this module does not touch any engine-specific variable. */
+function NMSKQuickView(api){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var panel, btn, cur = null;
+
+  function mid(r){ return [0, 1, 2].map(function(k){ return (r.bmin[k] + r.bmax[k]) / 2; }); }
+  function ext(r){ return Math.hypot(r.bmax[0] - r.bmin[0], r.bmax[1] - r.bmin[1], r.bmax[2] - r.bmin[2]); }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;"}[c]; }); }
+  function say(id, msg){ var e = $(id); if (e) e.textContent = msg || ""; }
+
+  function renderSearch(){
+    var q = $("qv-q").value.trim().toLowerCase(), box = $("qv-res");
+    box.innerHTML = "";
+    if (!q){ return; }
+    var hits = api.list().filter(function(r){ return (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0; }).slice(0, 20);
+    if (!hits.length){ box.innerHTML = '<p class="qv-hint">No structure matches.</p>'; return; }
+    hits.forEach(function(r){
+      var b = document.createElement("button"); b.type = "button";
+      b.innerHTML = esc(r.name) + (r.side ? " (" + esc(r.side) + ")" : "") + ' <span class="qv-hint mono">' + esc(r.id) + "</span>";
+      b.onclick = function(){ pick(r); };
+      box.appendChild(b);
+    });
+  }
+
+  function hasMotorPoints(){
+    return !!(window.NMSKClinicalTool && typeof window.NMSKClinicalTool.emphasize === "function" &&
+              window.NMSKClinicalTool.mp && window.NMSKClinicalTool.mp.points && window.NMSKClinicalTool.mp.points.length);
+  }
+  function structureHasMp(id){
+    var tool = window.NMSKClinicalTool;
+    if (!tool || !tool.mp || !tool.mp.points) return false;
+    return tool.mp.points.some(function(p){ return p.structure_id === id; });
+  }
+
+  function pick(r){
+    cur = r;
+    $("qv-q").value = r.name; $("qv-res").innerHTML = "";
+    $("qv-sel").hidden = false;
+    $("qv-name").textContent = r.name + (r.side ? " (" + r.side + ")" : "");
+    var mpBtn = $("qv-mp"), hasTool = hasMotorPoints();
+    mpBtn.hidden = !hasTool;
+    if (hasTool) mpBtn.disabled = !structureHasMp(r.id);
+    say("qv-mp-msg", hasTool ? (structureHasMp(r.id) ? "" : "No motor-point data for this structure.") : "No clinical layer on this page: motor points are not available.");
+    say("qv-xs-msg", "");
+    say("qv-msg", "");
+  }
+
+  function doFocus(){
+    if (!cur) return;
+    api.focus(mid(cur), Math.max(160, ext(cur) * 1.6));
+    say("qv-msg", "Camera moved to " + cur.name + ".");
+  }
+
+  function doMark(){
+    if (!cur) return;
+    var sel = api.selection ? api.selection() : null;
+    if (!sel || !sel.mark || !sel.preset){ say("qv-msg", "No selection controller on this page."); return; }
+    sel.mark(cur.id, true);
+    sel.preset("hlsel");
+    say("qv-msg", cur.name + " marked and highlighted.");
+  }
+
+  function doMp(){
+    if (!cur) return;
+    var tool = window.NMSKClinicalTool;
+    if (!tool || !tool.emphasize){ return; }
+    var sel = api.selection ? api.selection() : null;
+    if (sel && sel.mark) sel.mark(cur.id, true);      // Q281's NMJ filter shows only the marked set: make sure this one is in it
+    tool.emphasize(true);
+    say("qv-msg", structureHasMp(cur.id) ? "Motor point shown for " + cur.name + "." : "Emphasize motor points turned on, but this structure has none.");
+  }
+
+  var AX = {x:[1, 0, 0], y:[0, 1, 0], z:[0, 0, 1]}, AXNAME = {x:"sagittal", y:"axial", z:"coronal"};
+  function doCrossSection(ax){
+    if (!cur || !api.setCut) return;
+    api.setCut({normal:AX[ax], point:mid(cur)});
+    var xs = api.crossSection ? api.crossSection() : null;
+    if (xs && xs.set) xs.set(true);
+    say("qv-xs-msg", "Cut panel opened, " + AXNAME[ax] + " plane centred on " + cur.name + (xs ? " with the multi-slice stack on -- set the slice count / spacing / thickness there." : ". Turn on \"Multi-slice cross-section\" there for several slices at once."));
+  }
+
+  function doAbbr(on){
+    var lab = api.labels ? api.labels() : null;
+    if (!lab){ say("qv-msg", "No labels controller on this page."); return; }
+    if (on){
+      if (lab.state && lab.state().mode === "off") lab.setMode("sel");
+      lab.set("text", "abbr");
+    } else {
+      lab.set("text", "full");
+    }
+  }
+
+  function open(on){
+    panel.hidden = !on;
+    if (btn) btn.setAttribute("aria-pressed", String(on));
+    if (on) $("qv-q").focus();
+  }
+
+  function mountToolbar(){
+    var tb = api.toolbar; if (!tb) return;
+    btn = document.createElement("button"); btn.type = "button"; btn.id = "t-quick"; btn.className = api.toolClass || "tool";
+    btn.textContent = "Quick view"; btn.setAttribute("aria-pressed", "false");
+    btn.title = "Search a structure, then focus / mark & highlight / cross-section through it / show its motor point, all in one panel";
+    btn.addEventListener("click", function(){ open(panel.hidden); });
+    var ref = $("t-cut") || $("t-labels") || null;
+    if (ref && ref.parentNode === tb) tb.insertBefore(btn, ref.nextSibling); else tb.appendChild(btn);
+  }
+
+  panel = $("qv-panel");
+  if (!panel) return {open:function(){}, pick:function(){}};
+  mountToolbar();
+  $("qv-close").addEventListener("click", function(){ open(false); });
+  $("qv-q").addEventListener("input", renderSearch);
+  $("qv-focus").addEventListener("click", doFocus);
+  $("qv-mark").addEventListener("click", doMark);
+  $("qv-mp").addEventListener("click", doMp);
+  Array.prototype.forEach.call($("qv-ax").querySelectorAll("[data-ax]"), function(b){ b.addEventListener("click", function(){ doCrossSection(b.dataset.ax); }); });
+  $("qv-abbr").addEventListener("change", function(){ doAbbr(this.checked); });
+
+  return {
+    open:open,
+    pick:function(id){ var r = api.list().filter(function(x){ return x.id === id; })[0]; if (r) pick(r); return !!r; },
+    current:function(){ return cur ? cur.id : null; },
+    state:function(){ return {open:!panel.hidden, current:cur ? cur.id : null, hasClinical:hasMotorPoints()}; }
+  };
+}
+/* QUICKVIEW js end */
     cutCtl = NMSKCutMode({
       bounds:function(){ return {min:bbMin, max:bbMax}; },
       target:function(){ return cam.tgt.slice(); },
@@ -6613,6 +6810,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         setClickHandler:function(fn){ addonClick=fn||null; },
         /* Q268: lazy hand-over of the page's own selection / parts / pose controllers (created after the add-on attaches); public API objects only */
         selection:function(){ return selCtl; }, parts:function(){ return partsCtl; }, pose:function(){ return poseCtl; },
+        /* Q282: same lazy-handover convention as selection()/parts()/pose() above -- public API objects only */
+        labels:function(){ return labelsCtl; }, crossSection:function(){ return xsecCtl; },
         onChange:function(){},
         catColor:function(k){ var c=(k==="vein"?COL.vein:COL[k])||[0.6,0.6,0.6]; return "rgb("+c.map(function(x){return Math.round(x*255);}).join(",")+")"; },
         showPanel:function(){}, stopMotion:stopSpin,
@@ -6632,6 +6831,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       try { window.NMSKClinical.attach(anatomyApi()); }
       catch (err) { console.error("optional add-on failed to start; anatomy viewer unaffected:", err); }
     }
+    var quickCtl = NMSKQuickView(anatomyApi());    // Q282: public, always present (unlike the clinical add-on above)
+    window.quickCtl = quickCtl;                    // test/harness hook, same convention as window.xsecCtl
     /* Q267 (9): one-tap layout toggle -- see the own-page template's own copy of this comment for the full rationale.
        Deliberately independent of #btn-panel (the mobile-only rail sheet toggle). */
     (function(){
