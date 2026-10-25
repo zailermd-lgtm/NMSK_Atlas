@@ -974,6 +974,7 @@ TP.buildUI = function () {
     'of it, shows the target\'s origin / insertion markers when the page has them, and arms target-first placement.</p>' +
     '<input type="search" id="ncl-plan-q" placeholder="Search a muscle or tendon to plan an injection into" autocomplete="off">' +
     '<div class="res" id="ncl-plan-res"></div><p class="ncl-status" id="ncl-plan-msg"></p>' +
+    '<div id="ncl-plan-zone"></div>' +
     '<div class="ncl-row"><button type="button" id="ncl-plan-x" title="Clear the preset\'s selection (marks and fade) and the plan">Release plan</button></div>' +
     '<div class="ncl-row"><span>Posture (pose rig)</span><select id="ncl-plan-pose"><option value="rest">Rest (model pose)</option>' +
     Object.keys(POSTURES).map(function (k) { return '<option value="' + k + '">' + esc(POSTURES[k].label) + "</option>"; }).join("") + "</select>" +
@@ -984,6 +985,9 @@ TP.buildUI = function () {
     '<details id="ncl-mp" open><summary>Motor points</summary>' +
     '<p class="ncl-status" id="ncl-mp-msg"></p>' +
     '<div class="ncl-row"><button type="button" id="ncl-mp-on" aria-pressed="false">Emphasize motor points</button></div>' +
+    '<p class="cite">Shows the motor point(s) only of the currently <b>marked</b> muscles (Q227 marked structures, the same set the "Marked structures" ' +
+    'panel ticks) -- mark one or more muscles first. With nothing marked, nothing is shown.</p>' +
+    '<p class="ncl-status" id="ncl-mp-sel-msg"></p>' +
     '<input type="search" id="ncl-mp-q" placeholder="Search a muscle to target its motor point" autocomplete="off">' +
     '<div class="res" id="ncl-mp-res"></div><div id="ncl-mp-info"></div></details>' +
     '<details id="ncl-risk" open><summary>Risk halos &amp; safer pathways</summary>' +
@@ -1140,7 +1144,11 @@ TP.update = function () {
   this.api.redraw();
   this.notify();
 };
-TP.onHostChange = function () { if (this.active && this.entry && this.target) this.render(); if (this.risk.on) this.refreshHalos(); };
+TP.onHostChange = function () {
+  if (this.active && this.entry && this.target) this.render();
+  if (this.risk.on) this.refreshHalos();
+  if (this.mp.on) this.refreshMpOverlay();   // Q281: re-filter the shown motor points when the marked-muscle set changes -- never applyOverride() here, see refreshMpOverlay()'s own comment
+};
 
 /* ---------- needle drawing ---------- */
 TP.drawNeedle = function () {
@@ -1314,24 +1322,57 @@ TP.renderMpInfo = function (p) {
     (s.rule ? '<br><span class="ncl-status">' + esc(s.rule) + "</span>" : "") + "</dd>" +
     (p.badge ? "<dt>Badge</dt><dd>" + esc(p.badge) + "</dd>" : "") + "</dl>";
 };
-TP.emphasize = function (on) {
-  this.mp.on = !!on && this.mp.points.length > 0;
-  this.$("ncl-mp-on").setAttribute("aria-pressed", String(this.mp.on));
+/* Q281: "only in the selected muscles" -- the project's own established multi-select vocabulary is the
+   Marked-structures set (Q227, viewer/selection/selection.js), exposed to this add-on as api.selection().
+   markedIds() returns null when the host page carries no selection controller at all (older/plain pages,
+   or the Z-Anatomy template before it attaches one): in that one case emphasis falls back to the pre-Q281
+   behaviour (every motor point) rather than silently showing nothing on a page that has no way to mark
+   anything. Once a selection controller exists, an EMPTY mark set is read literally: zero muscles marked
+   means zero motor points shown, not "show all" -- that is the request's own wording. */
+TP.markedIds = function () {
+  var sel = this.api && this.api.selection && this.api.selection();
+  if (!sel || typeof sel.state !== "function") return null;
+  try { var st = sel.state(); return (st && st.marks) || []; } catch (e) { return null; }
+};
+TP.visibleMpPoints = function () {
+  var ids = this.markedIds();
+  if (ids === null) return this.mp.points;           // no selection controller on this page: unfiltered (old behaviour)
+  if (!ids.length) return [];                         // selection controller present but nothing marked: show none
+  var set = {}; ids.forEach(function (id) { set[id] = 1; });
+  return this.mp.points.filter(function (p) { return set[p.structure_id] === 1 || set[p.atlas_id] === 1; });
+};
+/* Q281: split from emphasize() itself -- this redraws the sphere overlay for the CURRENT this.mp.on state only; it
+   never touches applyOverride()/setOpacityOverride(), which is what the host's own apply()/draw() cycle calls back
+   into api.onChange() for (TP.onHostChange). emphasize() below calls applyOverride() exactly once, when the toggle
+   itself flips; onHostChange() (fired whenever the host's marked-structures set changes) calls ONLY this refresh --
+   calling applyOverride() again from inside onHostChange() would re-enter apply() -> changeHooks -> onHostChange()
+   and recurse without end (the bug this comment is here to stop a future edit from reintroducing). */
+TP.refreshMpOverlay = function () {
   ["mp-core", "mp-core-x", "mp-unc", "mp-unc-x"].forEach(this.ov.remove, this.ov);
+  var shown = [];
   if (this.mp.on) {
-    var pts = this.mp.points;
-    var cores = chunked(pts, function (g, p) { addSphere(g, p.pos, 1.8, 10, 6); });
-    var unc = chunked(pts, function (g, p) { addSphere(g, p.pos, Math.max(2, +p.uncertainty_mm || 5), 14, 9); });
+    shown = this.visibleMpPoints();
+    var cores = chunked(shown, function (g, p) { addSphere(g, p.pos, 1.8, 10, 6); });
+    var unc = chunked(shown, function (g, p) { addSphere(g, p.pos, Math.max(2, +p.uncertainty_mm || 5), 14, 9); });
     this.ov.set("mp-core", cores, {color: MP_COLOUR, pass: "opaque", emis: 0.6});
     this.ov.set("mp-core-x", cores, {color: MP_COLOUR, pass: "xray", alpha: 0.55, emis: 0.7});
     this.ov.set("mp-unc", unc, {color: MP_COLOUR, pass: "trans", alpha: 0.14, emis: 0.5});
     this.ov.set("mp-unc-x", unc, {color: MP_COLOUR, pass: "xray", alpha: 0.06, emis: 0.5});
   }
+  this.$("ncl-mp-sel-msg").innerHTML = !this.mp.on ? "" :
+    this.markedIds() === null ? "No marked-structures selection on this page -- showing every motor point."
+    : !shown.length ? '<span class="warn">No muscles marked: mark one or more muscles (tick in the structure list, or Shift/Ctrl/Cmd-click in 3-D) to see their motor points.</span>'
+    : shown.length + " motor point" + (shown.length === 1 ? "" : "s") + " in " + (this.markedIds() || []).length + " marked structure" + ((this.markedIds() || []).length === 1 ? "" : "s") + ".";
+};
+TP.emphasize = function (on) {
+  this.mp.on = !!on && this.mp.points.length > 0;
+  this.$("ncl-mp-on").setAttribute("aria-pressed", String(this.mp.on));
+  this.refreshMpOverlay();
   this.applyOverride();
 };
 TP.markerAt = function (e) {
-  var best = null, bd = 14, api = this.api;
-  this.mp.points.forEach(function (p) {
+  var best = null, bd = 14, api = this.api, pts = this.mp.on ? this.visibleMpPoints() : this.mp.points;
+  pts.forEach(function (p) {
     var s = api.toScreen(p.pos); if (!s) return;
     var d = Math.hypot(s[0] - e.clientX, s[1] - e.clientY); if (d < bd) { bd = d; best = p; }
   });
@@ -1867,14 +1908,25 @@ TP.planPick = function (i) {
     sel.setGroup("oth", "fade", true);
     msgs.push(n + " marked (target + " + nb.length + " vessel / nerve structures with a bounding box within R = " + this.corr.R + " mm), the rest faded");
   } else msgs.push("no selection controller on this page: nothing faded");
-  // (c) origin / insertion markers (viewer/parts_ui) when the page has parts data for this structure, no-op otherwise
+  // (c) origin / insertion / adjacent-tissue (fascial passage, MTJ) markers (viewer/parts_ui) when the page has parts data, no-op otherwise
   var parts = api.parts ? api.parts() : null;
   if (parts && parts.select && parts.state) {
     parts.select(r.id);
     var ps = parts.state();
-    if (ps.loaded && ps.sel && ps.sel.n) { if (ps.mode === "off") parts.setMode("sel"); parts.dirty(); msgs.push(ps.sel.n + " origin / insertion part" + (ps.sel.n === 1 ? "" : "s") + " shown"); }
+    if (ps.loaded && ps.sel && ps.sel.n) { if (ps.mode === "off") parts.setMode("sel"); parts.dirty(); msgs.push(ps.sel.n + " origin / insertion / adjacent-tissue part" + (ps.sel.n === 1 ? "" : "s") + " shown"); }
     else msgs.push(ps.loaded ? "no origin / insertion data for this structure" : "no parts data on this page");
   } else msgs.push("no parts markers on this page");
+  // (c2) Q281: the "expected injection zone" together -- this target's own bundles/heads (origin / insertion / MTJ /
+  // fascial-passage parts, grouped by their structure_parts.json part_set, i.e. this project's own bundle concept)
+  // plus its own motor point(s) (NMJ), drawn regardless of the separate global "Emphasize motor points" toggle
+  // (that one filters by the Marked-structures set; planning a target always shows THAT target's own NMJ).
+  var zone = this.planZone(r);
+  this.plan.zone = zone;   // Q281: cached so injectionMode() (the mode-inj Hebrew card) can render the same data without recomputing it
+  this.drawPlanMp(zone.mps);
+  this.renderPlanZone(r, zone);
+  if (zone.mps.length > 1) msgs.push(zone.mps.length + " motor-point bundles (injection-zone list below)");
+  else if (zone.mps.length === 1) msgs.push("1 motor point shown");
+  else msgs.push("no motor-point data for this structure");
   // (d) arm the needle tool, target-first, and bring the target into view (view only -- no point is placed for you)
   if (!this.active) this.toggle(true);
   this.entry = this.target = null; this.risk.safer = null;
@@ -1891,8 +1943,78 @@ TP.planRelease = function () {
   var sel = this.api.selection ? this.api.selection() : null;
   if (sel && sel.clear && this.plan.i != null) sel.clear();
   this.plan.i = null; this.plan.msg = ""; this.$("ncl-plan-msg").innerHTML = ""; this.$("ncl-plan-q").value = "";
+  this.drawPlanMp(null); this.$("ncl-plan-zone").innerHTML = ""; this.plan.zone = null;   // Q281
   this.api.redraw();
   this.notify();
+};
+/* Q281: a muscle's own motor point(s) for its "expected injection zone" -- matched against this project's own
+   per-viewer motor_points.json id scheme, which is not always the plain structure id verbatim (e.g. one deltoid
+   point set is keyed "deltoid_r_zfill203", a Z-Anatomy-fill variant id, while the other side is plain "deltoid_l") --
+   exact id, atlas_id, or a "<id>_" prefix all count as this structure's own point. */
+TP.planMotorPoints = function (r) {
+  var id = r.id;
+  return this.mp.points.filter(function (p) {
+    return p.structure_id === id || p.atlas_id === id || (p.structure_id || "").indexOf(id + "_") === 0;
+  });
+};
+var MP_BUNDLE_WORDS = ["anterior", "middle", "posterior", "medial", "lateral", "proximal", "distal", "superior", "inferior", "upper", "lower", "deep", "superficial", "clavicular", "acromial", "spinal", "long", "short"];
+/* Best-effort label read directly from the point's OWN cited rule text (e.g. deltoid's three points literally say
+   "anterior belly" / "middle belly" / "posterior belly", from Yi et al. 2023) -- never a fabricated index->name
+   mapping: a muscle whose points don't name a part in their own text gets no label, just "point k of N". */
+function mpBundleLabel(p) {
+  var text = (((p.source && p.source.rule) || "") + " " + (p.kind || "")).toLowerCase();
+  for (var i = 0; i < MP_BUNDLE_WORDS.length; i++) {
+    var w = MP_BUNDLE_WORDS[i];
+    if (text.indexOf(w + " belly") >= 0 || text.indexOf(w + " head") >= 0 || text.indexOf(w + " part") >= 0) return w;
+  }
+  return null;
+}
+TP.planZone = function (r) {
+  var mps = this.planMotorPoints(r);
+  var parts = this.api.parts ? this.api.parts() : null;
+  var pf = (parts && parts.partsFor) ? parts.partsFor(r.id) : [];
+  var bySet = {}, order = [];
+  pf.forEach(function (p) {
+    var key = p.set || ("ty:" + p.ty);
+    if (!bySet[key]) { bySet[key] = {name: p.setName || p.label, items: []}; order.push(key); }
+    bySet[key].items.push(p);
+  });
+  return {mps: mps, groups: order.map(function (k) { return bySet[k]; })};
+};
+TP.drawPlanMp = function (pts) {
+  ["plan-mp", "plan-mp-x"].forEach(this.ov.remove, this.ov);
+  if (!pts || !pts.length) return;
+  var cores = chunked(pts, function (g, p) { addSphere(g, p.pos, 2.0, 10, 6); });
+  this.ov.set("plan-mp", cores, {color: MP_COLOUR, pass: "opaque", emis: 0.7});
+  this.ov.set("plan-mp-x", cores, {color: MP_COLOUR, pass: "xray", alpha: 0.6, emis: 0.8});
+};
+TP.renderPlanZone = function (r, zone) {
+  var self = this, html = "";
+  if (zone.groups.length) {
+    html += '<p class="ncl-status" style="margin-top:6px"><b>Bundles / landmarks (origin, insertion, adjacent tissue)</b> -- click to jump to one:</p>';
+    zone.groups.forEach(function (g) {
+      html += '<p class="cite" style="margin:3px 0 1px">' + esc(g.name) + '</p>';
+      g.items.forEach(function (it) {
+        html += '<button type="button" class="ncl-zone-part" data-pid="' + esc(it.id) + '"' + (it.placed ? "" : " disabled") + '>' +
+          esc(it.name) + ' <span class="ncl-status">(' + esc(it.label) + (it.unverified ? ", unverified" : "") + (it.placed ? "" : ", text only, no marker") + ')</span></button>';
+      });
+    });
+  } else html += '<p class="ncl-status">No origin / insertion / adjacent-tissue part data for this structure (no parts sidecar, or none authored for it).</p>';
+  if (zone.mps.length) {
+    html += '<p class="ncl-status" style="margin-top:6px"><b>Neuromuscular junction' + (zone.mps.length > 1 ? " -- " + zone.mps.length + " documented points/bundles" : "") + '</b>: click to set it as the target.</p>';
+    zone.mps.forEach(function (p, k) {
+      var lbl = mpBundleLabel(p);
+      html += '<button type="button" class="ncl-zone-mp" data-k="' + k + '">' + (lbl ? esc(lbl) + " belly/part" : "Point " + (k + 1) + " of " + zone.mps.length) +
+        ' <span class="ncl-status">' + esc(p.nerve || "") + '</span></button>';
+    });
+  } else html += '<p class="ncl-status">No motor-point data for this structure.</p>';
+  this.$("ncl-plan-zone").innerHTML = html;
+  Array.prototype.forEach.call(this.$("ncl-plan-zone").querySelectorAll(".ncl-zone-part"), function (b) {
+    b.onclick = function () { var p = self.api.parts ? self.api.parts() : null; if (p && p.focusById) p.focusById(b.dataset.pid); };
+  });
+  Array.prototype.forEach.call(this.$("ncl-plan-zone").querySelectorAll(".ncl-zone-mp"), function (b) {
+    b.onclick = function () { self.useMotorPoint(zone.mps[+b.dataset.k]); };
+  });
 };
 /* posture preset through the page's own pose rig (window-level Q241 controller handed over by the host as api.pose()) */
 TP.applyPosture = function (key, side) {
@@ -2039,6 +2161,11 @@ function injectionMode(tool, api) {
     /* right: the step card (a bottom sheet on the phone) */
     ui.step1 = h("div", {class: "mc-step"}, [h("div", {class: "mc-num", text: "1"}), h("div", {class: "mc-lbl", text: "מטרה"}), (ui.s1ok = h("div", {class: "mc-ok", text: ""}))]);
     ui.step1Btn = h("button", {type: "button", class: "mc-sec mc-desk", text: "בחר מטרה", onclick: openPicker});
+    /* Q281: "אזור ההזרקה הצפוי" -- once a target is chosen, its own bundles/heads (origin / insertion / adjacent-tissue
+       parts, grouped exactly as structure_parts.json's own part_sets group them) and its own motor point(s) (NMJ),
+       read from tool.plan.zone (computed once in planPick(), not recomputed here). */
+    ui.zoneTitle = h("div", {class: "mc-lbl", style: "margin-top:4px", text: "אזור ההזרקה הצפוי"});
+    ui.zone = h("div", {class: "mc-list"});
     ui.step2 = h("div", {class: "mc-step"}, [h("div", {class: "mc-num", text: "2"}), h("div", {class: "mc-lbl", text: "נקודת כניסה"}), (ui.s2sub = h("div", {class: "mc-sub mc-mob", text: "שלב 2 מתוך 3"}))]);
     ui.primary = h("button", {type: "button", class: "mc-primary", text: "הצע נקודות כניסה", onclick: suggest});
     ui.manual = h("button", {type: "button", class: "mc-sec mc-desk", text: "סמן ידנית על העור", onclick: manualEntry});
@@ -2056,7 +2183,7 @@ function injectionMode(tool, api) {
     ui.savedTitle = h("div", {class: "mc-lbl", style: "margin-top:4px", text: "נקודות שמורות"});
     ui.saved = h("div", {class: "mc-list"});
     ui.savedClear = h("button", {type: "button", class: "mc-sec", text: "נקה את כל הנקודות השמורות", onclick: clearSaved});
-    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
+    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
     /* left: the distance card */
     ui.rows = h("div", {class: "mc-list"});
     ui.near = h("input", {type: "number", min: "0", max: "100", step: "0.5", "aria-label": "סף קרוב (מ\"מ)"}); ui.far = h("input", {type: "number", min: "0", max: "200", step: "0.5", "aria-label": "סף רחוק (מ\"מ)"});
@@ -2080,6 +2207,26 @@ function injectionMode(tool, api) {
     var r = targetRec(), hasT = !!tool.target, hasE = !!tool.entry, c = tool.corr;
     ui.chipName.textContent = r ? recLabel(r) : "בחר מטרה…"; ui.mobText.textContent = r ? recLabel(r) : "בחר מטרה…";
     ui.s1ok.textContent = r ? "נבחרה ✓" : ""; ui.step1Btn.hidden = !!r; ui.step1.classList.toggle("off", false);
+    /* Q281: Hebrew rendering of the same tool.plan.zone object the bare tool's own #ncl-plan-zone shows -- origin /
+       insertion / adjacent-tissue parts (grouped by bundle) and motor point(s), computed once in planPick(). */
+    ui.zone.innerHTML = ""; ui.zoneTitle.hidden = !r;
+    var zone = tool.plan.zone;
+    if (r && zone) {
+      if (zone.groups.length) zone.groups.forEach(function (g) {
+        ui.zone.appendChild(h("p", {class: "mc-hint", style: "margin:4px 0 1px", text: g.name}));
+        g.items.forEach(function (it) {
+          ui.zone.appendChild(h("button", {type: "button", class: "mc-sec", disabled: it.placed ? null : true,
+            onclick: function () { var p = api.parts ? api.parts() : null; if (p && p.focusById) p.focusById(it.id); },
+            text: it.name + (it.placed ? "" : " (אין סימון על גוף זה)")}));
+        });
+      }); else ui.zone.appendChild(h("p", {class: "mc-hint", text: "אין נתוני מקור/אחיזה/רקמה סמוכה לשריר זה."}));
+      if (zone.mps.length) zone.mps.forEach(function (p, k) {
+        var lbl = mpBundleLabel(p);
+        ui.zone.appendChild(h("button", {type: "button", class: "mc-sec",
+          onclick: function () { tool.useMotorPoint(p); refresh(); },
+          text: (lbl ? lbl + " — צומת עצב-שריר" : "צומת עצב-שריר " + (k + 1) + "/" + zone.mps.length)}));
+      }); else ui.zone.appendChild(h("p", {class: "mc-hint", text: "אין נתוני צומת עצב-שריר (NMJ) לשריר זה."}));
+    }
     ui.step2.classList.toggle("off", !hasT); ui.primary.disabled = !hasT; ui.manual.disabled = !hasT;
     ui.step3.classList.toggle("off", !(hasT && hasE));
     var hint = "";

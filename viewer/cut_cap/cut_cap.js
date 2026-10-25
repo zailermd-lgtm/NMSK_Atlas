@@ -435,3 +435,113 @@ function NMSKCap(E){
   if (pref()) api.preferred = true;
   return api;
 }
+
+/* ===================================================================== */
+/* Multi-slice cross-section (Q281): 3-12 parallel real cross-sections at once, each one a genuine cap-fill of the
+   ACTUAL meshes (NMSKCapCore.build, called once per plane -- the SAME per-structure triangle/plane-intersection +
+   even-odd scanline fill Q227's single-plane "Fill cross-section" already uses; this is not a single slice drawn
+   N times). Requires Cut mode to be ON: it borrows Cut mode's own plane orientation and current position as the
+   centre of the stack rather than adding a second, independent plane-picking UI. Each slice is a slab of the chosen
+   thickness -- 0 means an exact zero-thickness plane (one face), matching Cut mode's own "all" vs "slice thickness"
+   convention generalised: above 0, each slice becomes a near+far cap PAIR exactly like Cut mode's existing slab,
+   so N slices can need up to 2N uploaded faces. The STEP between consecutive slices (their near faces) is the
+   spacing, independent of the thickness, adjustable with the mouse wheel or a one-finger touch-drag over the panel.
+   Pure layout math in NMSKCrossSectionCore (no DOM, runs under node); the controller NMSKCrossSection(E) owns the
+   panel, the scroll/touch handling and the per-slice build/upload bookkeeping, reusing the engine's own existing
+   per-face quad/texture pool (adaptor uploadFace/showFace) under its own slot numbers so it can never collide with
+   Cut mode's own faces 0 and 1. Engine adaptor E:
+     cut() -> {on, kn, c} (Cut mode's current plane; {on:false} when Cut mode is off)   items() -> same shape NMSKCap's own items() builds
+     uploadFace(slot, res|null)   showFace(slot, bool)   redraw()   isPhone() */
+var NMSKCrossSectionCore = (function(){
+  "use strict";
+  /* n = slice count (3..12), c0 = Cut mode's current plane constant (its own n.p + c = 0 convention), spacing/thickness in mm.
+     Slices are centred on c0: offsets run from -(n-1)/2 to +(n-1)/2 steps of `spacing`. Returns one {near, far|null} pair
+     per slice, near/far each a {n, d} plane in NMSKCapCore's own n.p = d convention (d = -c). */
+  function planesFor(kn, c0, n, spacing, thickness){
+    n = Math.max(3, Math.min(12, Math.round(n) || 3));
+    spacing = spacing > 0 ? spacing : 1;
+    var half = (n - 1) / 2, out = [];
+    for (var i = 0; i < n; i++){
+      var c = c0 + (i - half) * spacing;
+      out.push({near:{n:kn.slice(), d:-c}, far:(thickness > 0) ? {n:kn.slice(), d:thickness - c} : null, c:c});
+    }
+    return out;
+  }
+  return {planesFor:planesFor};
+})();
+function NMSKCrossSection(E){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var btn = $("xsec-on"), body = $("xsec-body"), info = $("xsec-info"), nInp = $("xsec-n"), spInp = $("xsec-sp"), thInp = $("xsec-th"), steps = $("xsec-steps");
+  var FACE_BASE = 900;                 // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
+  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0};
+  var KEY = "nmsk-xsec-v1";
+  function loadPref(){ try { var p = JSON.parse(localStorage.getItem(KEY) || "null"); if (p){ if (p.n >= 3 && p.n <= 12) st.n = p.n; if (p.spacing > 0) st.spacing = p.spacing; if (p.thickness >= 0) st.thickness = p.thickness; } } catch (err){} }
+  function savePref(){ try { localStorage.setItem(KEY, JSON.stringify({n:st.n, spacing:st.spacing, thickness:st.thickness})); } catch (err){} }
+  loadPref();
+  function clearSlots(){ for (var s = 0; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null); st.slots = 0; }
+  function ui(){
+    if (btn) btn.setAttribute("aria-pressed", String(st.on));
+    if (body) body.hidden = !st.on;
+    if (nInp) nInp.value = st.n; if (spInp) spInp.value = st.spacing; if (thInp) thInp.value = st.thickness;
+    if (!info) return;
+    if (!st.on){ info.textContent = ""; return; }
+    var c = E.cut();
+    if (!c || !c.on){ info.textContent = "Cut mode is off: turn it on first (the cross-section stack uses its current plane)."; return; }
+    info.textContent = st.n + " slices, " + st.spacing + " mm apart" + (st.thickness > 0 ? ", " + st.thickness + " mm thick each" : " (zero-thickness planes)") +
+      (st.busy ? " -- building..." : " -- " + (st.ms / 1000).toFixed(2) + " s, " + st.slots + " face" + (st.slots === 1 ? "" : "s") + " uploaded");
+  }
+  function rebuild(){
+    st.timer = 0;
+    var c = E.cut();
+    if (!st.on || !c || !c.on){ clearSlots(); ui(); return; }
+    st.busy = true; ui();
+    var items = E.items(), planes = NMSKCrossSectionCore.planesFor(c.kn, c.c, st.n, st.spacing, st.thickness), t0 = Date.now(), slot = 0;
+    planes.forEach(function(pl){
+      var near = NMSKCapCore.build(items, pl.near, {gap:1.0}); NMSKCapCore.recolor(near, items); near._cut = null;
+      E.uploadFace(FACE_BASE + slot, near); E.showFace(FACE_BASE + slot, true); slot++;
+      if (pl.far){
+        var far = NMSKCapCore.build(items, pl.far, {gap:1.0}); NMSKCapCore.recolor(far, items); far._cut = null;
+        E.uploadFace(FACE_BASE + slot, far); E.showFace(FACE_BASE + slot, true); slot++;
+      }
+    });
+    for (var s = slot; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null);    // fewer faces than the previous build: drop the leftovers
+    st.slots = slot; st.builds++; st.ms = Date.now() - t0; st.busy = false; ui();
+  }
+  function schedule(delay){ if (st.timer) clearTimeout(st.timer); st.timer = setTimeout(rebuild, delay == null ? 90 : delay); }
+  function setN(v){ var nv = Math.max(3, Math.min(12, Math.round(+v) || st.n)); if (nv === st.n) return; st.n = nv; savePref(); schedule(); ui(); }
+  function setSpacing(v){ var sv = Math.max(0.5, Math.min(200, +v || st.spacing)); if (sv === st.spacing) return; st.spacing = Math.round(sv * 10) / 10; savePref(); schedule(); ui(); }
+  function setThickness(v){ var tv = Math.max(0, Math.min(100, +v || 0)); if (tv === st.thickness) return; st.thickness = tv; savePref(); schedule(); ui(); }
+  function spacingStep(cur){ return cur < 5 ? 0.5 : cur < 20 ? 1 : 5; }
+  function onWheel(e){ if (!st.on) return; e.preventDefault(); setSpacing(st.spacing + (e.deltaY > 0 ? 1 : -1) * spacingStep(st.spacing)); }
+  var touchY = null;
+  function onTouchStart(e){ if (st.on && e.touches && e.touches.length === 1) touchY = e.touches[0].clientY; }
+  function onTouchMove(e){
+    if (!st.on || touchY == null || !e.touches || e.touches.length !== 1) return;
+    var dy = touchY - e.touches[0].clientY; if (Math.abs(dy) < 6) return;
+    e.preventDefault(); setSpacing(st.spacing + (dy > 0 ? 1 : -1) * spacingStep(st.spacing)); touchY = e.touches[0].clientY;
+  }
+  function onTouchEnd(){ touchY = null; }
+  function set(on){
+    st.on = !!on; ui();
+    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    schedule(0);
+  }
+  if (btn) btn.addEventListener("click", function(){ set(!st.on); });
+  if (nInp) nInp.addEventListener("change", function(){ setN(nInp.value); });
+  if (spInp) spInp.addEventListener("change", function(){ setSpacing(spInp.value); });
+  if (thInp) thInp.addEventListener("change", function(){ setThickness(thInp.value); });
+  if (steps) steps.querySelectorAll("[data-xs]").forEach(function(b){ b.addEventListener("click", function(){ setSpacing(st.spacing + (+b.dataset.xs)); }); });
+  if (body){
+    body.addEventListener("wheel", onWheel, {passive:false});
+    body.addEventListener("touchstart", onTouchStart, {passive:true});
+    body.addEventListener("touchmove", onTouchMove, {passive:false});
+    body.addEventListener("touchend", onTouchEnd); body.addEventListener("touchcancel", onTouchEnd);
+  }
+  return {
+    set:set, isOn:function(){ return st.on; },
+    planeChanged:function(){ if (st.on) schedule(); },
+    itemsChanged:function(){ if (st.on) schedule(); },
+    state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms}; }
+  };
+}

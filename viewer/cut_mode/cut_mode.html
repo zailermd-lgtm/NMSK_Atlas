@@ -26,6 +26,20 @@
       <button type="button" id="cut-fill" aria-pressed="false" title="Fill the cut surface of every shown structure in its own colour (a cross-section of the meshes; meshes that are not closed get an outline only)">Fill cross-section</button><button type="button" id="cut-look" title="Turn the camera to look straight at the cut face">Look at the cut face</button>
     </div>
     <p id="cut-capinfo" class="cp-hint" aria-live="polite"></p>
+    <div class="cp-lbl">Cross-section (multiple slices, Q281)</div>
+    <div class="cp-row"><button type="button" id="xsec-on" aria-pressed="false" title="Show 3-12 parallel real cross-sections of the model at once, stepped along this plane's normal (uses this plane's current orientation)">Multi-slice cross-section</button></div>
+    <div id="xsec-body" hidden>
+      <div class="cp-row xs-nums">
+        <label>Slices<input id="xsec-n" type="number" min="3" max="12" step="1" value="5" aria-label="Number of slices (3 to 12)"></label>
+        <label>Step (mm)<input id="xsec-sp" type="number" min="0.5" max="200" step="0.5" value="12" aria-label="Spacing between slices in millimetres"></label>
+        <label>Thickness (mm)<input id="xsec-th" type="number" min="0" max="100" step="0.5" value="0" aria-label="Thickness of each slice in millimetres; 0 = an exact zero-thickness plane per slice"></label>
+      </div>
+      <div class="cp-row" id="xsec-steps">
+        <button type="button" data-xs="-5">&minus;5 mm step</button><button type="button" data-xs="-1">&minus;1</button><button type="button" data-xs="1">+1</button><button type="button" data-xs="5">+5 mm step</button>
+      </div>
+      <p class="cp-hint">Scroll (mouse wheel) over this panel, or drag with one finger on it, to change the step between slices. Thickness 0 = exact zero-thickness planes; above 0, each slice is its own slab (same meaning as "Slice thickness" above). Uses this plane's current orientation and position as the centre of the stack.</p>
+      <p id="xsec-info" class="cp-hint" aria-live="polite"></p>
+    </div>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
 </div>

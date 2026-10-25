@@ -130,6 +130,36 @@ function NMSKParts(E){
     E.focusAt(mk.xyz); openCard(mk.j, true); E.redraw();
   }
 
+  /* Q281: the parts of one structure, grouped by their part_set (e.g. "deltoid.heads" = its 3 named heads/bundles,
+     "deltoid.insertions" = its 3 named tendon insertions) -- used by the injection-planning preset to show the
+     target's own origin/insertion/MTJ/fascial-passage landmarks broken out per bundle instead of merged into one
+     list, without touching this module's own sel/card state. Side-independent: returns [] if this page has no
+     parts data or the mesh has none. */
+  function partsFor(meshId){
+    if (!D) return [];
+    var e = D.mesh_parts[meshId]; if (!e) return [];
+    return e.p.map(function(pi){
+      var p = D.parts[pi], placed = M.some(function(mk){ return mk.pi === pi && (e.s === "m" || mk.s === e.s); });
+      return {i:pi, id:p.id, name:p.n, ty:p.ty, label:TYPES[p.ty] || p.ty, set:p.set || null, setName:(p.set && D.sets[p.set]) ? D.sets[p.set].n : null, placed:placed, unverified:!!p.u};
+    });
+  }
+  /* Q281: focus one named part by its structure_parts.json id (e.g. "deltoid.clavicular_part") from outside this
+     module -- used by the injection-planning preset to scope a single bundle's own marker without going through
+     a DOM row click. No-op (returns false) when the part has no placed marker on this body, exactly like a click
+     on a "text only" row would report. Does not change sel/the Parts card's own structure selection. */
+  function focusById(partId){
+    if (!D) return false;
+    var pi = -1;
+    for (var i = 0; i < D.parts.length; i++) if (D.parts[i].id === partId){ pi = i; break; }
+    if (pi < 0) return false;
+    var ms = placedFor(pi);
+    if (!ms.length){ focusI = -1; closeCard(); return false; }
+    var mk = ms[0];
+    focusI = mk.j; update();
+    if (mk.vis){ E.focusAt(mk.xyz); openCard(mk.j, true); }
+    return true;
+  }
+
   /* ---------- markers ---------- */
   function kept(p){
     var c = E.cut(); if (!c) return true;
@@ -466,7 +496,7 @@ function NMSKParts(E){
     }).catch(function(){ D = null; });
   }
   return {
-    load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll,
+    load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll, focusById:focusById, partsFor:partsFor,
     hover:hover, dirty:dirty, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
     cullNow:function(){ if (needCull()){ capture(viewSig()); E.redraw(); } },
     /* read-only view for tests / debugging */

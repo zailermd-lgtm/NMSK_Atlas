@@ -30,6 +30,10 @@
 #cut-panel.cp-phone .cp-lbl{margin:5px 0 2px}
 #cut-panel.cp-phone .cp-keys{display:none}
 #cut-panel.cp-phone input[type=range]{height:34px}
+#cut-panel .xs-nums{align-items:flex-end}
+#cut-panel .xs-nums label{flex:1 1 0;display:flex;flex-direction:column;gap:2px;font-size:10px;color:var(--cp-dim);text-transform:uppercase;letter-spacing:.04em}
+#cut-panel .xs-nums input{font:inherit;width:100%;box-sizing:border-box;padding:4px 5px;border:1px solid var(--cp-line);border-radius:5px;color:var(--cp-ink);background:var(--cp-bg)}
+#xsec-body{touch-action:none}
 body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;display:none;overflow:visible}
 #cut-svg .cut-fill{fill:var(--cp-accent);fill-opacity:.13;stroke:var(--cp-accent);stroke-width:1.6;stroke-opacity:.95;stroke-linejoin:round}

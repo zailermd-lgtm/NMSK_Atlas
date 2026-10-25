@@ -255,6 +255,10 @@ button.mini:hover{background:#f2f2f2}
 #cut-panel.cp-phone .cp-lbl{margin:5px 0 2px}
 #cut-panel.cp-phone .cp-keys{display:none}
 #cut-panel.cp-phone input[type=range]{height:34px}
+#cut-panel .xs-nums{align-items:flex-end}
+#cut-panel .xs-nums label{flex:1 1 0;display:flex;flex-direction:column;gap:2px;font-size:10px;color:var(--cp-dim);text-transform:uppercase;letter-spacing:.04em}
+#cut-panel .xs-nums input{font:inherit;width:100%;box-sizing:border-box;padding:4px 5px;border:1px solid var(--cp-line);border-radius:5px;color:var(--cp-ink);background:var(--cp-bg)}
+#xsec-body{touch-action:none}
 body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;display:none;overflow:visible}
 #cut-svg .cut-fill{fill:var(--cp-accent);fill-opacity:.13;stroke:var(--cp-accent);stroke-width:1.6;stroke-opacity:.95;stroke-linejoin:round}
@@ -1037,6 +1041,20 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
       <button type="button" id="cut-fill" aria-pressed="false" title="Fill the cut surface of every shown structure in its own colour (a cross-section of the meshes; meshes that are not closed get an outline only)">Fill cross-section</button><button type="button" id="cut-look" title="Turn the camera to look straight at the cut face">Look at the cut face</button>
     </div>
     <p id="cut-capinfo" class="cp-hint" aria-live="polite"></p>
+    <div class="cp-lbl">Cross-section (multiple slices, Q281)</div>
+    <div class="cp-row"><button type="button" id="xsec-on" aria-pressed="false" title="Show 3-12 parallel real cross-sections of the model at once, stepped along this plane's normal (uses this plane's current orientation)">Multi-slice cross-section</button></div>
+    <div id="xsec-body" hidden>
+      <div class="cp-row xs-nums">
+        <label>Slices<input id="xsec-n" type="number" min="3" max="12" step="1" value="5" aria-label="Number of slices (3 to 12)"></label>
+        <label>Step (mm)<input id="xsec-sp" type="number" min="0.5" max="200" step="0.5" value="12" aria-label="Spacing between slices in millimetres"></label>
+        <label>Thickness (mm)<input id="xsec-th" type="number" min="0" max="100" step="0.5" value="0" aria-label="Thickness of each slice in millimetres; 0 = an exact zero-thickness plane per slice"></label>
+      </div>
+      <div class="cp-row" id="xsec-steps">
+        <button type="button" data-xs="-5">&minus;5 mm step</button><button type="button" data-xs="-1">&minus;1</button><button type="button" data-xs="1">+1</button><button type="button" data-xs="5">+5 mm step</button>
+      </div>
+      <p class="cp-hint">Scroll (mouse wheel) over this panel, or drag with one finger on it, to change the step between slices. Thickness 0 = exact zero-thickness planes; above 0, each slice is its own slab (same meaning as "Slice thickness" above). Uses this plane's current orientation and position as the centre of the stack.</p>
+      <p id="xsec-info" class="cp-hint" aria-live="polite"></p>
+    </div>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
 </div>
@@ -1605,7 +1623,7 @@ function resize(){
   if (!fitted){ dist = fitDistance(); HOME.dist = dist; fitted = true; }
   place(); draw();
 }
-var cutCtl = null, partsCtl = null, selCtl = null, capCtl = null, labelsCtl = null;
+var cutCtl = null, partsCtl = null, selCtl = null, capCtl = null, labelsCtl = null, xsecCtl = null;
 function draw(){
   if (partsCtl) partsCtl.update();          // Q220: which part markers are drawn (selection / toggle, cut + slab, layer state)
   renderer.render(scene, camera);
@@ -1919,6 +1937,7 @@ function apply(){
   document.getElementById("s-tri").textContent = tris.toLocaleString();
   changeHooks.forEach(function(f){ try { f(); } catch (err){ console.error(err); } });
   if (capCtl) capCtl.itemsChanged();       // Q227: the filled cut face follows layers, isolation, x-ray and colours
+  if (xsecCtl) xsecCtl.itemsChanged();     // Q281: ditto, the multi-slice cross-section stack
   if (labelsCtl) labelsCtl.dirty();        // Q236: layer / fade / hide changes re-evaluate which structures are visible
   if (partsCtl) partsCtl.dirty();          // Q240: ... and which part markers are hidden behind them
   draw();
@@ -3065,6 +3084,36 @@ function NMSKParts(E){
     E.focusAt(mk.xyz); openCard(mk.j, true); E.redraw();
   }
 
+  /* Q281: the parts of one structure, grouped by their part_set (e.g. "deltoid.heads" = its 3 named heads/bundles,
+     "deltoid.insertions" = its 3 named tendon insertions) -- used by the injection-planning preset to show the
+     target's own origin/insertion/MTJ/fascial-passage landmarks broken out per bundle instead of merged into one
+     list, without touching this module's own sel/card state. Side-independent: returns [] if this page has no
+     parts data or the mesh has none. */
+  function partsFor(meshId){
+    if (!D) return [];
+    var e = D.mesh_parts[meshId]; if (!e) return [];
+    return e.p.map(function(pi){
+      var p = D.parts[pi], placed = M.some(function(mk){ return mk.pi === pi && (e.s === "m" || mk.s === e.s); });
+      return {i:pi, id:p.id, name:p.n, ty:p.ty, label:TYPES[p.ty] || p.ty, set:p.set || null, setName:(p.set && D.sets[p.set]) ? D.sets[p.set].n : null, placed:placed, unverified:!!p.u};
+    });
+  }
+  /* Q281: focus one named part by its structure_parts.json id (e.g. "deltoid.clavicular_part") from outside this
+     module -- used by the injection-planning preset to scope a single bundle's own marker without going through
+     a DOM row click. No-op (returns false) when the part has no placed marker on this body, exactly like a click
+     on a "text only" row would report. Does not change sel/the Parts card's own structure selection. */
+  function focusById(partId){
+    if (!D) return false;
+    var pi = -1;
+    for (var i = 0; i < D.parts.length; i++) if (D.parts[i].id === partId){ pi = i; break; }
+    if (pi < 0) return false;
+    var ms = placedFor(pi);
+    if (!ms.length){ focusI = -1; closeCard(); return false; }
+    var mk = ms[0];
+    focusI = mk.j; update();
+    if (mk.vis){ E.focusAt(mk.xyz); openCard(mk.j, true); }
+    return true;
+  }
+
   /* ---------- markers ---------- */
   function kept(p){
     var c = E.cut(); if (!c) return true;
@@ -3401,7 +3450,7 @@ function NMSKParts(E){
     }).catch(function(){ D = null; });
   }
   return {
-    load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll,
+    load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll, focusById:focusById, partsFor:partsFor,
     hover:hover, dirty:dirty, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
     cullNow:function(){ if (needCull()){ capture(viewSig()); E.redraw(); } },
     /* read-only view for tests / debugging */
@@ -5814,6 +5863,116 @@ function NMSKCap(E){
   if (pref()) api.preferred = true;
   return api;
 }
+
+/* ===================================================================== */
+/* Multi-slice cross-section (Q281): 3-12 parallel real cross-sections at once, each one a genuine cap-fill of the
+   ACTUAL meshes (NMSKCapCore.build, called once per plane -- the SAME per-structure triangle/plane-intersection +
+   even-odd scanline fill Q227's single-plane "Fill cross-section" already uses; this is not a single slice drawn
+   N times). Requires Cut mode to be ON: it borrows Cut mode's own plane orientation and current position as the
+   centre of the stack rather than adding a second, independent plane-picking UI. Each slice is a slab of the chosen
+   thickness -- 0 means an exact zero-thickness plane (one face), matching Cut mode's own "all" vs "slice thickness"
+   convention generalised: above 0, each slice becomes a near+far cap PAIR exactly like Cut mode's existing slab,
+   so N slices can need up to 2N uploaded faces. The STEP between consecutive slices (their near faces) is the
+   spacing, independent of the thickness, adjustable with the mouse wheel or a one-finger touch-drag over the panel.
+   Pure layout math in NMSKCrossSectionCore (no DOM, runs under node); the controller NMSKCrossSection(E) owns the
+   panel, the scroll/touch handling and the per-slice build/upload bookkeeping, reusing the engine's own existing
+   per-face quad/texture pool (adaptor uploadFace/showFace) under its own slot numbers so it can never collide with
+   Cut mode's own faces 0 and 1. Engine adaptor E:
+     cut() -> {on, kn, c} (Cut mode's current plane; {on:false} when Cut mode is off)   items() -> same shape NMSKCap's own items() builds
+     uploadFace(slot, res|null)   showFace(slot, bool)   redraw()   isPhone() */
+var NMSKCrossSectionCore = (function(){
+  "use strict";
+  /* n = slice count (3..12), c0 = Cut mode's current plane constant (its own n.p + c = 0 convention), spacing/thickness in mm.
+     Slices are centred on c0: offsets run from -(n-1)/2 to +(n-1)/2 steps of `spacing`. Returns one {near, far|null} pair
+     per slice, near/far each a {n, d} plane in NMSKCapCore's own n.p = d convention (d = -c). */
+  function planesFor(kn, c0, n, spacing, thickness){
+    n = Math.max(3, Math.min(12, Math.round(n) || 3));
+    spacing = spacing > 0 ? spacing : 1;
+    var half = (n - 1) / 2, out = [];
+    for (var i = 0; i < n; i++){
+      var c = c0 + (i - half) * spacing;
+      out.push({near:{n:kn.slice(), d:-c}, far:(thickness > 0) ? {n:kn.slice(), d:thickness - c} : null, c:c});
+    }
+    return out;
+  }
+  return {planesFor:planesFor};
+})();
+function NMSKCrossSection(E){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var btn = $("xsec-on"), body = $("xsec-body"), info = $("xsec-info"), nInp = $("xsec-n"), spInp = $("xsec-sp"), thInp = $("xsec-th"), steps = $("xsec-steps");
+  var FACE_BASE = 900;                 // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
+  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0};
+  var KEY = "nmsk-xsec-v1";
+  function loadPref(){ try { var p = JSON.parse(localStorage.getItem(KEY) || "null"); if (p){ if (p.n >= 3 && p.n <= 12) st.n = p.n; if (p.spacing > 0) st.spacing = p.spacing; if (p.thickness >= 0) st.thickness = p.thickness; } } catch (err){} }
+  function savePref(){ try { localStorage.setItem(KEY, JSON.stringify({n:st.n, spacing:st.spacing, thickness:st.thickness})); } catch (err){} }
+  loadPref();
+  function clearSlots(){ for (var s = 0; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null); st.slots = 0; }
+  function ui(){
+    if (btn) btn.setAttribute("aria-pressed", String(st.on));
+    if (body) body.hidden = !st.on;
+    if (nInp) nInp.value = st.n; if (spInp) spInp.value = st.spacing; if (thInp) thInp.value = st.thickness;
+    if (!info) return;
+    if (!st.on){ info.textContent = ""; return; }
+    var c = E.cut();
+    if (!c || !c.on){ info.textContent = "Cut mode is off: turn it on first (the cross-section stack uses its current plane)."; return; }
+    info.textContent = st.n + " slices, " + st.spacing + " mm apart" + (st.thickness > 0 ? ", " + st.thickness + " mm thick each" : " (zero-thickness planes)") +
+      (st.busy ? " -- building..." : " -- " + (st.ms / 1000).toFixed(2) + " s, " + st.slots + " face" + (st.slots === 1 ? "" : "s") + " uploaded");
+  }
+  function rebuild(){
+    st.timer = 0;
+    var c = E.cut();
+    if (!st.on || !c || !c.on){ clearSlots(); ui(); return; }
+    st.busy = true; ui();
+    var items = E.items(), planes = NMSKCrossSectionCore.planesFor(c.kn, c.c, st.n, st.spacing, st.thickness), t0 = Date.now(), slot = 0;
+    planes.forEach(function(pl){
+      var near = NMSKCapCore.build(items, pl.near, {gap:1.0}); NMSKCapCore.recolor(near, items); near._cut = null;
+      E.uploadFace(FACE_BASE + slot, near); E.showFace(FACE_BASE + slot, true); slot++;
+      if (pl.far){
+        var far = NMSKCapCore.build(items, pl.far, {gap:1.0}); NMSKCapCore.recolor(far, items); far._cut = null;
+        E.uploadFace(FACE_BASE + slot, far); E.showFace(FACE_BASE + slot, true); slot++;
+      }
+    });
+    for (var s = slot; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null);    // fewer faces than the previous build: drop the leftovers
+    st.slots = slot; st.builds++; st.ms = Date.now() - t0; st.busy = false; ui();
+  }
+  function schedule(delay){ if (st.timer) clearTimeout(st.timer); st.timer = setTimeout(rebuild, delay == null ? 90 : delay); }
+  function setN(v){ var nv = Math.max(3, Math.min(12, Math.round(+v) || st.n)); if (nv === st.n) return; st.n = nv; savePref(); schedule(); ui(); }
+  function setSpacing(v){ var sv = Math.max(0.5, Math.min(200, +v || st.spacing)); if (sv === st.spacing) return; st.spacing = Math.round(sv * 10) / 10; savePref(); schedule(); ui(); }
+  function setThickness(v){ var tv = Math.max(0, Math.min(100, +v || 0)); if (tv === st.thickness) return; st.thickness = tv; savePref(); schedule(); ui(); }
+  function spacingStep(cur){ return cur < 5 ? 0.5 : cur < 20 ? 1 : 5; }
+  function onWheel(e){ if (!st.on) return; e.preventDefault(); setSpacing(st.spacing + (e.deltaY > 0 ? 1 : -1) * spacingStep(st.spacing)); }
+  var touchY = null;
+  function onTouchStart(e){ if (st.on && e.touches && e.touches.length === 1) touchY = e.touches[0].clientY; }
+  function onTouchMove(e){
+    if (!st.on || touchY == null || !e.touches || e.touches.length !== 1) return;
+    var dy = touchY - e.touches[0].clientY; if (Math.abs(dy) < 6) return;
+    e.preventDefault(); setSpacing(st.spacing + (dy > 0 ? 1 : -1) * spacingStep(st.spacing)); touchY = e.touches[0].clientY;
+  }
+  function onTouchEnd(){ touchY = null; }
+  function set(on){
+    st.on = !!on; ui();
+    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    schedule(0);
+  }
+  if (btn) btn.addEventListener("click", function(){ set(!st.on); });
+  if (nInp) nInp.addEventListener("change", function(){ setN(nInp.value); });
+  if (spInp) spInp.addEventListener("change", function(){ setSpacing(spInp.value); });
+  if (thInp) thInp.addEventListener("change", function(){ setThickness(thInp.value); });
+  if (steps) steps.querySelectorAll("[data-xs]").forEach(function(b){ b.addEventListener("click", function(){ setSpacing(st.spacing + (+b.dataset.xs)); }); });
+  if (body){
+    body.addEventListener("wheel", onWheel, {passive:false});
+    body.addEventListener("touchstart", onTouchStart, {passive:true});
+    body.addEventListener("touchmove", onTouchMove, {passive:false});
+    body.addEventListener("touchend", onTouchEnd); body.addEventListener("touchcancel", onTouchEnd);
+  }
+  return {
+    set:set, isOn:function(){ return st.on; },
+    planeChanged:function(){ if (st.on) schedule(); },
+    itemsChanged:function(){ if (st.on) schedule(); },
+    state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms}; }
+  };
+}
 /* CUT-CAP js end */
 var cut = {on:false};
 var cutLocal = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0), cutWorld = new THREE.Plane(), cutWorld2 = new THREE.Plane();
@@ -5832,6 +5991,7 @@ cutCtl = NMSKCutMode({
     meshes.concat([originMarker, insertionMarker]).forEach(function(m){ m.material.clippingPlanes = on ? cutPlanes : null; });
     changeHooks.forEach(function(f){ try { f(); } catch (err){ console.error(err); } });
     if (capCtl) capCtl.planeChanged();     // Q227
+    if (xsecCtl) xsecCtl.planeChanged();   // Q281
     draw();
   },
   project:function(p){
@@ -6183,6 +6343,26 @@ capCtl = NMSKCap({
     place(); draw();
   }
 });
+/* Q281: multi-slice cross-section -- same adaptor shape as capCtl just above (shares its own items() list and the
+   engine's capFaces/capUpload pool, under its own slot numbers via NMSKCrossSection's internal FACE_BASE offset,
+   so it can never collide with Cut mode's own faces 0/1). */
+xsecCtl = NMSKCrossSection({
+  cut:function(){ return cut.on ? {on:true, kn:[cutLocal.normal.x, cutLocal.normal.y, cutLocal.normal.z], c:cutLocal.constant} : {on:false}; },
+  items:function(){
+    var out = [];
+    meshes.forEach(function(m){
+      if (!m.visible) return;
+      var s = m.userData, c = m.material.color;
+      out.push({key:s.id, name:(s.rec && s.rec.name) || s.id, cat:s.cat, rgb:[c.r, c.g, c.b], alpha:m.material.opacity,
+                geom:function(){ var gg = m.geometry; return {pos:gg.attributes.position.array, idx:gg.index.array, bmin:gg.boundingBox.min.toArray(), bmax:gg.boundingBox.max.toArray()}; }});
+    });
+    symCap(out);
+    return out;
+  },
+  uploadFace:capUpload, showFace:function(f, v){ var o = capFaces[f]; if (o){ o.quad.visible = o.lines.visible = v; draw(); } },
+  redraw:function(){ draw(); }, isPhone:function(){ return !!app && app.classList.contains("phone"); }
+});
+window.xsecCtl = xsecCtl;    // Q281: a deliberate, explicit test/harness hook (same convention as window.NMSKClinicalTool / window.NeedlePath) -- this template has no other IIFE wrapper, but the Z template does, so this line's own template-local var would not otherwise be reachable from a test the same way on both pages
 /* Q236: structure labels. Engine side only: what is drawn (alphas), the camera, a small ID image (every visible structure in its own flat colour, same camera / cut planes
    as the screen, in a low-resolution render target), the surface geometry for anchor samples, the cut face lookup. The overlay itself is the shared viewer/labels block. */
 var labGeo = {idRT:null, idBuf:null, mats:[], alb:null, W:0, H:0};
