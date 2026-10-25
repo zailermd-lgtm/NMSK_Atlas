@@ -125,6 +125,10 @@ function NMSKQuickView(api){
   $("qv-q").addEventListener("input", renderSearch);
   $("qv-focus").addEventListener("click", doFocus);
   $("qv-mark").addEventListener("click", doMark);
+  $("qv-learn").addEventListener("click", function(){   // Q283: hand the picked structure to the Learn panel (window.learnCtl), if this page has it
+    if (!cur) return;
+    if (window.learnCtl && window.learnCtl.openFor){ open(false); window.learnCtl.openFor(cur.id); } else say("qv-msg", "No Learn panel on this page.");
+  });
   $("qv-mp").addEventListener("click", doMp);
   Array.prototype.forEach.call($("qv-ax").querySelectorAll("[data-ax]"), function(b){ b.addEventListener("click", function(){ doCrossSection(b.dataset.ax); }); });
   $("qv-abbr").addEventListener("change", function(){ doAbbr(this.checked); });

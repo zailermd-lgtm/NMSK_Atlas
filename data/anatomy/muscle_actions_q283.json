@@ -1,0 +1,2479 @@
+{
+ "schema": "nmsk.muscle_actions.v1",
+ "round": "Q283",
+ "doc": "Derivation table: each row maps ONE quoted action of a muscle (verbatim from data/muscles/<region>/<muscle>_r.json 'actions', or from a cited source in 'cites') to pose-rig degrees of freedom (joint, dof, sign: +1 = the dof's positive direction as labelled in data/anatomy/pose_rig_*.json, e.g. hip flex + = flexion, hip abd + = abduction, hip rot + = internal rotation, ankle dp + = dorsiflexion, subtalar inv + = inversion, forearm sup + = supination, wrist dev + = radial deviation). Joint names without side are resolved to <joint>_<side> of the picked muscle; spine regions (lumbar/thoracic/cervical) carry a 4th element 1 when the sign is for the RIGHT muscle and is mirrored for the left (lateral bend and rotation). 'c' = the functional compartment (suffix of its id) the row is limited to; rows without 'c' apply to the whole muscle and to every compartment. 'back' = animate from the opposite direction back to the model pose. Checked by scripts/anatomy/q283/build_learn.py (every quote must occur verbatim in its source).",
+ "cites": {
+  "kumazaki2022": {
+   "citation": "Kumazaki T, Takahashi T, Nakano T, Sakai T. Action and Contribution of the Iliopsoas and Rectus Femoris as Hip Flexor Agonists Examined with Anatomical Analysis. Juntendo Iji Zasshi 2022;68(4):352-362",
+   "doi": "10.14789/jmj.JMJ22-0009-OA",
+   "pmid": "39021428",
+   "pmcid": "PMC11250012",
+   "quote": "The iliopsoas (psoas major and iliacus), rectus femoris, sartorius, and adductor longus are known as the hip flexor muscles.",
+   "note": "Cadaveric moment-arm study that treats psoas major and iliacus separately; both act as hip flexors. Neither this paper nor the project's muscle data gives a hip ADDUCTION action for iliacus (searched 2026-10-25: PubMed, web) -- iliacus adduction is therefore not animated."
+  }
+ },
+ "none_reasons": {
+  "scapula": "scapula and clavicle are driven by the shoulder in the pose rig (fixed scapulohumeral rhythm), not posable on their own",
+  "segmental": "segmental action: the pose rig moves whole spinal regions, not single vertebral segments",
+  "unrigged": "no joint for this motion in the pose rig (face, eye, tongue, jaw, larynx, pharynx, ribs, pelvic floor and perineum are not rigged)",
+  "nodof": "the motion it is cited for (finger or toe abduction/adduction, opposition, knee rotation) is not a degree of freedom of the pose rig",
+  "noaction": "its cited actions are not joint motions"
+ },
+ "rows": [
+  {
+   "m": "adductor_brevis",
+   "c": null,
+   "q": "adducts hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "adductor_longus",
+   "c": null,
+   "q": "adducts and flexes hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     -1
+    ],
+    [
+     "hip",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "adductor_magnus",
+   "c": "adductor_part",
+   "q": "adducts hip (adductor part)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "adductor_magnus",
+   "c": "hamstring_part",
+   "q": "extends hip (hamstring/ischiocondylar part)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "biceps_femoris",
+   "c": "long_head",
+   "q": "extends hip (long head only)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "biceps_femoris",
+   "c": null,
+   "q": "flexes and externally rotates knee",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     1
+    ]
+   ],
+   "note": "knee rotation is not a degree of freedom of the pose rig: only the flexion is animated"
+  },
+  {
+   "m": "extensor_digitorum_longus",
+   "c": null,
+   "q": "extends toes 2-5, dorsiflexes ankle",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "t2_mtp",
+      "t3_mtp",
+      "t4_mtp",
+      "t5_mtp"
+     ],
+     "flex",
+     -1
+    ],
+    [
+     "ankle",
+     "dp",
+     1
+    ]
+   ],
+   "note": "toe extension animated at the MTP joints"
+  },
+  {
+   "m": "extensor_digitorum_brevis",
+   "c": null,
+   "q": "extends toes 2-4",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "t2_mtp",
+      "t3_mtp",
+      "t4_mtp"
+     ],
+     "flex",
+     -1
+    ]
+   ],
+   "note": "toe extension animated at the MTP joints"
+  },
+  {
+   "m": "extensor_hallucis_brevis",
+   "c": null,
+   "q": "extends the great toe",
+   "src": "actions",
+   "mv": [
+    [
+     "t1_mtp",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "animated at the MTP joint"
+  },
+  {
+   "m": "extensor_hallucis_longus",
+   "c": null,
+   "q": "extends the great toe, dorsiflexes ankle",
+   "src": "actions",
+   "mv": [
+    [
+     "t1_mtp",
+     "flex",
+     -1
+    ],
+    [
+     "ankle",
+     "dp",
+     1
+    ]
+   ],
+   "note": "great-toe extension animated at the MTP joint"
+  },
+  {
+   "m": "fibularis_brevis",
+   "c": null,
+   "q": "everts the ankle, assists plantarflexion",
+   "src": "actions",
+   "mv": [
+    [
+     "subtalar",
+     "inv",
+     -1
+    ],
+    [
+     "ankle",
+     "dp",
+     -1
+    ]
+   ],
+   "note": "eversion is given to the subtalar joint of the rig"
+  },
+  {
+   "m": "fibularis_longus",
+   "c": null,
+   "q": "everts the ankle, assists plantarflexion",
+   "src": "actions",
+   "mv": [
+    [
+     "subtalar",
+     "inv",
+     -1
+    ],
+    [
+     "ankle",
+     "dp",
+     -1
+    ]
+   ],
+   "note": "eversion is given to the subtalar joint of the rig"
+  },
+  {
+   "m": "fibularis_tertius",
+   "c": null,
+   "q": "dorsiflexes and everts the ankle",
+   "src": "actions",
+   "mv": [
+    [
+     "ankle",
+     "dp",
+     1
+    ],
+    [
+     "subtalar",
+     "inv",
+     -1
+    ]
+   ],
+   "note": "eversion is given to the subtalar joint of the rig"
+  },
+  {
+   "m": "flexor_digiti_minimi_brevis_foot",
+   "c": null,
+   "q": "flexes the little toe's MTP joint",
+   "src": "actions",
+   "mv": [
+    [
+     "t5_mtp",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_digitorum_brevis",
+   "c": null,
+   "q": "flexes the PIP joints of toes 2-5",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "t2_pip",
+      "t3_pip",
+      "t4_pip",
+      "t5_pip"
+     ],
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_digitorum_longus",
+   "c": null,
+   "q": "flexes toes 2-5, assists ankle plantarflexion",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "t2_dip",
+      "t3_dip",
+      "t4_dip",
+      "t5_dip"
+     ],
+     "flex",
+     1
+    ],
+    [
+     "ankle",
+     "dp",
+     -1
+    ]
+   ],
+   "note": "toe flexion animated at the DIP joints (its insertion on the distal phalanges)"
+  },
+  {
+   "m": "flexor_hallucis_brevis",
+   "c": null,
+   "q": "flexes the great toe's MTP joint",
+   "src": "actions",
+   "mv": [
+    [
+     "t1_mtp",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_hallucis_longus",
+   "c": null,
+   "q": "flexes the great toe, assists ankle plantarflexion",
+   "src": "actions",
+   "mv": [
+    [
+     "t1_ip",
+     "flex",
+     1
+    ],
+    [
+     "ankle",
+     "dp",
+     -1
+    ]
+   ],
+   "note": "great-toe flexion animated at the IP joint (its insertion on the distal phalanx)"
+  },
+  {
+   "m": "abductor_hallucis",
+   "c": null,
+   "q": "abducts and flexes the great toe",
+   "src": "actions",
+   "mv": [
+    [
+     "t1_mtp",
+     "flex",
+     1
+    ]
+   ],
+   "note": "toe abduction is not a degree of freedom of the pose rig: only the flexion is animated"
+  },
+  {
+   "m": "abductor_digiti_minimi_foot",
+   "c": null,
+   "q": "abducts and flexes the little toe",
+   "src": "actions",
+   "mv": [
+    [
+     "t5_mtp",
+     "flex",
+     1
+    ]
+   ],
+   "note": "toe abduction is not a degree of freedom of the pose rig: only the flexion is animated"
+  },
+  {
+   "m": "gastrocnemius",
+   "c": null,
+   "q": "plantarflexes ankle",
+   "src": "actions",
+   "mv": [
+    [
+     "ankle",
+     "dp",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "gastrocnemius",
+   "c": null,
+   "q": "flexes knee (crosses both joints, unlike soleus)",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "gemellus_inferior",
+   "c": null,
+   "q": "externally rotates hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "gemellus_superior",
+   "c": null,
+   "q": "externally rotates hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "obturator_externus",
+   "c": null,
+   "q": "externally rotates hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "quadratus_femoris",
+   "c": null,
+   "q": "externally rotates hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_maximus",
+   "c": null,
+   "q": "extends hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_maximus",
+   "c": null,
+   "q": "externally rotates hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_maximus",
+   "c": "superior",
+   "q": "upper fibers assist abduction",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_maximus",
+   "c": "inferior",
+   "q": "lower fibers assist adduction",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_medius",
+   "c": null,
+   "q": "abducts hip (prime mover)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_medius",
+   "c": "anterior",
+   "q": "anterior fibers internally rotate",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_medius",
+   "c": "posterior",
+   "q": "posterior fibers externally rotate hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "gluteus_minimus",
+   "c": null,
+   "q": "abducts and internally rotates hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     1
+    ],
+    [
+     "hip",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "gracilis",
+   "c": null,
+   "q": "adducts hip, flexes knee",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     -1
+    ],
+    [
+     "knee",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "iliopsoas",
+   "c": null,
+   "q": "flexes hip (primary/strongest hip flexor)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "iliopsoas",
+   "c": "psoas_major",
+   "q": "psoas major also laterally flexes/stabilizes the lumbar spine",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "lateral flexion to the same side (the side of the muscle)"
+  },
+  {
+   "m": "iliopsoas",
+   "c": "iliacus",
+   "q": "The iliopsoas (psoas major and iliacus), rectus femoris, sartorius, and adductor longus are known as the hip flexor muscles.",
+   "src": "cite:kumazaki2022",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "iliopsoas",
+   "c": "psoas_major",
+   "q": "The iliopsoas (psoas major and iliacus), rectus femoris, sartorius, and adductor longus are known as the hip flexor muscles.",
+   "src": "cite:kumazaki2022",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "obturator_internus",
+   "c": null,
+   "q": "externally rotates hip (extended)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "obturator_internus",
+   "c": null,
+   "q": "abducts hip (flexed)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     1
+    ]
+   ],
+   "note": "position-dependent: the source gives abduction with the hip flexed; animated from the current pose"
+  },
+  {
+   "m": "pectineus",
+   "c": null,
+   "q": "flexes and adducts hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     1
+    ],
+    [
+     "hip",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "piriformis",
+   "c": null,
+   "q": "externally rotates hip (in extension)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "piriformis",
+   "c": null,
+   "q": "abducts hip (in flexion",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "abd",
+     1
+    ]
+   ],
+   "note": "position-dependent: the source gives abduction with the hip flexed; animated from the current pose"
+  },
+  {
+   "m": "plantaris",
+   "c": null,
+   "q": "weak knee flexion/ankle plantarflexion",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     1
+    ],
+    [
+     "ankle",
+     "dp",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "rectus_femoris",
+   "c": null,
+   "q": "extends knee",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "rectus_femoris",
+   "c": null,
+   "q": "flexes hip (only quadriceps head crossing the hip joint)",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "sartorius",
+   "c": null,
+   "q": "flexes, abducts, externally rotates hip; flexes knee",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     1
+    ],
+    [
+     "hip",
+     "abd",
+     1
+    ],
+    [
+     "hip",
+     "rot",
+     -1
+    ],
+    [
+     "knee",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "semimembranosus",
+   "c": null,
+   "q": "extends hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "semimembranosus",
+   "c": null,
+   "q": "flexes and internally rotates knee",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     1
+    ]
+   ],
+   "note": "knee rotation is not a degree of freedom of the pose rig: only the flexion is animated"
+  },
+  {
+   "m": "semitendinosus",
+   "c": null,
+   "q": "extends hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "semitendinosus",
+   "c": null,
+   "q": "flexes and internally rotates knee",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     1
+    ]
+   ],
+   "note": "knee rotation is not a degree of freedom of the pose rig: only the flexion is animated"
+  },
+  {
+   "m": "soleus",
+   "c": null,
+   "q": "plantarflexes ankle",
+   "src": "actions",
+   "mv": [
+    [
+     "ankle",
+     "dp",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "tensor_fasciae_latae",
+   "c": null,
+   "q": "flexes, abducts, internally rotates hip",
+   "src": "actions",
+   "mv": [
+    [
+     "hip",
+     "flex",
+     1
+    ],
+    [
+     "hip",
+     "abd",
+     1
+    ],
+    [
+     "hip",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "tibialis_anterior",
+   "c": null,
+   "q": "dorsiflexes ankle (prime mover)",
+   "src": "actions",
+   "mv": [
+    [
+     "ankle",
+     "dp",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "tibialis_anterior",
+   "c": null,
+   "q": "inverts ankle",
+   "src": "actions",
+   "mv": [
+    [
+     "subtalar",
+     "inv",
+     1
+    ]
+   ],
+   "note": "inversion is given to the subtalar joint of the rig"
+  },
+  {
+   "m": "tibialis_posterior",
+   "c": null,
+   "q": "plantarflexes and inverts the ankle",
+   "src": "actions",
+   "mv": [
+    [
+     "ankle",
+     "dp",
+     -1
+    ],
+    [
+     "subtalar",
+     "inv",
+     1
+    ]
+   ],
+   "note": "inversion is given to the subtalar joint of the rig"
+  },
+  {
+   "m": "vastus_intermedius",
+   "c": null,
+   "q": "extends knee",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "vastus_lateralis",
+   "c": null,
+   "q": "extends knee",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "vastus_medialis",
+   "c": null,
+   "q": "extends knee",
+   "src": "actions",
+   "mv": [
+    [
+     "knee",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "lumbricals_foot",
+   "c": null,
+   "q": "flex the MTP joints while extending the IP joints of toes 2-5",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "t2_mtp",
+      "t3_mtp",
+      "t4_mtp",
+      "t5_mtp"
+     ],
+     "flex",
+     1
+    ],
+    [
+     [
+      "t2_pip",
+      "t3_pip",
+      "t4_pip",
+      "t5_pip"
+     ],
+     "flex",
+     -1
+    ],
+    [
+     [
+      "t2_dip",
+      "t3_dip",
+      "t4_dip",
+      "t5_dip"
+     ],
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "abductor_pollicis_brevis",
+   "c": null,
+   "q": "abducts thumb",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_cmc",
+     "abd",
+     1
+    ]
+   ],
+   "note": "thumb abduction animated as CMC palmar abduction"
+  },
+  {
+   "m": "abductor_pollicis_longus",
+   "c": null,
+   "q": "abducts and extends thumb CMC joint",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_cmc",
+     "abd",
+     1
+    ],
+    [
+     "thumb_cmc",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "adductor_pollicis",
+   "c": null,
+   "q": "adducts thumb CMC/MCP toward the palm",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_cmc",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "anconeus",
+   "c": null,
+   "q": "assists elbow extension",
+   "src": "actions",
+   "mv": [
+    [
+     "elbow",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "biceps_brachii",
+   "c": null,
+   "q": "flexes elbow (strongest supinated)",
+   "src": "actions",
+   "mv": [
+    [
+     "elbow",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "biceps_brachii",
+   "c": null,
+   "q": "supinates forearm (strongest at 90deg elbow flexion)",
+   "src": "actions",
+   "mv": [
+    [
+     "forearm",
+     "sup",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "biceps_brachii",
+   "c": "long_head",
+   "q": "weak shoulder flexion (long head)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "brachialis",
+   "c": null,
+   "q": "flexes elbow",
+   "src": "actions",
+   "mv": [
+    [
+     "elbow",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "brachioradialis",
+   "c": null,
+   "q": "flexes elbow (strongest in mid-pronation)",
+   "src": "actions",
+   "mv": [
+    [
+     "elbow",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "coracobrachialis",
+   "c": null,
+   "q": "flexes and adducts humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     1
+    ],
+    [
+     "shoulder",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "deltoid",
+   "c": null,
+   "q": "abducts humerus (all parts",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "abd",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "deltoid",
+   "c": "anterior_1",
+   "q": "flexes and internally rotates humerus (anterior/clavicular part)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     1
+    ],
+    [
+     "shoulder",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "deltoid",
+   "c": "anterior_2",
+   "q": "flexes and internally rotates humerus (anterior/clavicular part)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     1
+    ],
+    [
+     "shoulder",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "deltoid",
+   "c": "anterior_3",
+   "q": "flexes and internally rotates humerus (anterior/clavicular part)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     1
+    ],
+    [
+     "shoulder",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "deltoid",
+   "c": "posterior",
+   "q": "extends and externally rotates humerus (posterior/spinal part)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     -1
+    ],
+    [
+     "shoulder",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "dorsal_interossei_hand",
+   "c": null,
+   "q": "assist MCP flexion/IP extension",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_mcp",
+      "f3_mcp",
+      "f4_mcp"
+     ],
+     "flex",
+     1
+    ],
+    [
+     [
+      "f2_pip",
+      "f3_pip",
+      "f4_pip"
+     ],
+     "flex",
+     -1
+    ]
+   ],
+   "note": "the dorsal interossei act on digits 2-4; finger abduction is not a degree of freedom of the pose rig"
+  },
+  {
+   "m": "extensor_carpi_radialis_brevis",
+   "c": null,
+   "q": "extends and radially deviates wrist",
+   "src": "actions",
+   "mv": [
+    [
+     "wrist",
+     "flex",
+     -1
+    ],
+    [
+     "wrist",
+     "dev",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "extensor_carpi_radialis_longus",
+   "c": null,
+   "q": "extends and radially deviates wrist",
+   "src": "actions",
+   "mv": [
+    [
+     "wrist",
+     "flex",
+     -1
+    ],
+    [
+     "wrist",
+     "dev",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "extensor_carpi_ulnaris",
+   "c": null,
+   "q": "extends and ulnarly deviates wrist",
+   "src": "actions",
+   "mv": [
+    [
+     "wrist",
+     "flex",
+     -1
+    ],
+    [
+     "wrist",
+     "dev",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "extensor_digiti_minimi",
+   "c": null,
+   "q": "extends little finger",
+   "src": "actions",
+   "mv": [
+    [
+     "f5_mcp",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "animated at the MCP joint"
+  },
+  {
+   "m": "extensor_digitorum",
+   "c": null,
+   "q": "extends MCP joints of digits 2-5",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_mcp",
+      "f3_mcp",
+      "f4_mcp",
+      "f5_mcp"
+     ],
+     "flex",
+     -1
+    ]
+   ],
+   "note": "its tendon slips are animated together, as the whole muscle"
+  },
+  {
+   "m": "extensor_digitorum",
+   "c": null,
+   "q": "assists wrist extension",
+   "src": "actions",
+   "mv": [
+    [
+     "wrist",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "extensor_indicis",
+   "c": null,
+   "q": "extends index finger independently",
+   "src": "actions",
+   "mv": [
+    [
+     "f2_mcp",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "animated at the MCP joint"
+  },
+  {
+   "m": "extensor_pollicis_brevis",
+   "c": null,
+   "q": "extends thumb MCP joint",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_mcp",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "extensor_pollicis_longus",
+   "c": null,
+   "q": "extends thumb IP joint",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_ip",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_carpi_radialis",
+   "c": null,
+   "q": "flexes and radially deviates wrist",
+   "src": "actions",
+   "mv": [
+    [
+     "wrist",
+     "flex",
+     1
+    ],
+    [
+     "wrist",
+     "dev",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_carpi_ulnaris",
+   "c": null,
+   "q": "flexes and ulnarly deviates wrist",
+   "src": "actions",
+   "mv": [
+    [
+     "wrist",
+     "flex",
+     1
+    ],
+    [
+     "wrist",
+     "dev",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_digiti_minimi_brevis_hand",
+   "c": null,
+   "q": "flexes little finger MCP joint",
+   "src": "actions",
+   "mv": [
+    [
+     "f5_mcp",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_digitorum_profundus",
+   "c": null,
+   "q": "flexes DIP joints of digits 2-5",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_dip",
+      "f3_dip",
+      "f4_dip",
+      "f5_dip"
+     ],
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_digitorum_profundus",
+   "c": null,
+   "q": "assists PIP/MCP/wrist flexion",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_pip",
+      "f3_pip",
+      "f4_pip",
+      "f5_pip"
+     ],
+     "flex",
+     1
+    ],
+    [
+     [
+      "f2_mcp",
+      "f3_mcp",
+      "f4_mcp",
+      "f5_mcp"
+     ],
+     "flex",
+     1
+    ],
+    [
+     "wrist",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_digitorum_superficialis",
+   "c": null,
+   "q": "flexes PIP joints of digits 2-5",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_pip",
+      "f3_pip",
+      "f4_pip",
+      "f5_pip"
+     ],
+     "flex",
+     1
+    ]
+   ],
+   "note": "its tendon slips are animated together, as the whole muscle"
+  },
+  {
+   "m": "flexor_digitorum_superficialis",
+   "c": null,
+   "q": "assists MCP and wrist flexion",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_mcp",
+      "f3_mcp",
+      "f4_mcp",
+      "f5_mcp"
+     ],
+     "flex",
+     1
+    ],
+    [
+     "wrist",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_pollicis_brevis",
+   "c": null,
+   "q": "flexes thumb MCP joint",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_mcp",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_pollicis_longus",
+   "c": null,
+   "q": "flexes thumb IP joint",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_ip",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "infraspinatus",
+   "c": null,
+   "q": "externally rotates humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "lumbricals_hand",
+   "c": null,
+   "q": "flex MCP joints while extending IP joints",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_mcp",
+      "f3_mcp",
+      "f4_mcp",
+      "f5_mcp"
+     ],
+     "flex",
+     1
+    ],
+    [
+     [
+      "f2_pip",
+      "f3_pip",
+      "f4_pip",
+      "f5_pip"
+     ],
+     "flex",
+     -1
+    ],
+    [
+     [
+      "f2_dip",
+      "f3_dip",
+      "f4_dip",
+      "f5_dip"
+     ],
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "palmaris_longus",
+   "c": null,
+   "q": "weak wrist flexion",
+   "src": "actions",
+   "mv": [
+    [
+     "wrist",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "pectoralis_major",
+   "c": null,
+   "q": "adducts and internally rotates humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "abd",
+     -1
+    ],
+    [
+     "shoulder",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "pectoralis_major",
+   "c": "clavicular",
+   "q": "flexes humerus (clavicular head)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "pectoralis_major",
+   "c": "sternocostal",
+   "q": "extends flexed humerus back to neutral (sternocostal/abdominal heads)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "the source gives extension from a flexed position back to neutral: animated from flexion back to the model pose",
+   "back": 1
+  },
+  {
+   "m": "pectoralis_major",
+   "c": "abdominal",
+   "q": "extends flexed humerus back to neutral (sternocostal/abdominal heads)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "the source gives extension from a flexed position back to neutral: animated from flexion back to the model pose",
+   "back": 1
+  },
+  {
+   "m": "pronator_quadratus",
+   "c": null,
+   "q": "pronates forearm",
+   "src": "actions",
+   "mv": [
+    [
+     "forearm",
+     "sup",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "pronator_teres",
+   "c": null,
+   "q": "pronates forearm, assists elbow flexion",
+   "src": "actions",
+   "mv": [
+    [
+     "forearm",
+     "sup",
+     -1
+    ],
+    [
+     "elbow",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "subscapularis",
+   "c": null,
+   "q": "internally rotates humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "supinator",
+   "c": null,
+   "q": "supinates forearm",
+   "src": "actions",
+   "mv": [
+    [
+     "forearm",
+     "sup",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "supraspinatus",
+   "c": null,
+   "q": "initiates/assists glenohumeral abduction",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "abd",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "teres_major",
+   "c": null,
+   "q": "adducts, extends, internally rotates humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "abd",
+     -1
+    ],
+    [
+     "shoulder",
+     "flex",
+     -1
+    ],
+    [
+     "shoulder",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "teres_minor",
+   "c": null,
+   "q": "externally rotates humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "rot",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "teres_minor",
+   "c": null,
+   "q": "weakly adducts humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "triceps_brachii",
+   "c": null,
+   "q": "extends elbow (all heads)",
+   "src": "actions",
+   "mv": [
+    [
+     "elbow",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "triceps_brachii",
+   "c": "long_head",
+   "q": "extends and adducts shoulder (long head only)",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     -1
+    ],
+    [
+     "shoulder",
+     "abd",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "latissimus_dorsi",
+   "c": null,
+   "q": "extends, adducts, internally rotates the humerus",
+   "src": "actions",
+   "mv": [
+    [
+     "shoulder",
+     "flex",
+     -1
+    ],
+    [
+     "shoulder",
+     "abd",
+     -1
+    ],
+    [
+     "shoulder",
+     "rot",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "external_oblique",
+   "c": null,
+   "q": "flexes trunk (bilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "flex",
+     1
+    ],
+    [
+     "thoracic",
+     "flex",
+     1
+    ]
+   ],
+   "note": "trunk animated as the lumbar + thoracic regions of the rig"
+  },
+  {
+   "m": "external_oblique",
+   "c": null,
+   "q": "laterally flexes and contralaterally rotates trunk (unilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "thoracic",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "thoracic",
+     "rot",
+     -1,
+     1
+    ]
+   ],
+   "note": "trunk animated as the lumbar + thoracic regions of the rig; rotation given to the thoracic region (the lumbar region's rotation range is only 5 degrees)"
+  },
+  {
+   "m": "internal_oblique",
+   "c": null,
+   "q": "flexes trunk (bilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "flex",
+     1
+    ],
+    [
+     "thoracic",
+     "flex",
+     1
+    ]
+   ],
+   "note": "trunk animated as the lumbar + thoracic regions of the rig"
+  },
+  {
+   "m": "internal_oblique",
+   "c": null,
+   "q": "laterally flexes and ipsilaterally rotates trunk (unilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "thoracic",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "thoracic",
+     "rot",
+     1,
+     1
+    ]
+   ],
+   "note": "trunk animated as the lumbar + thoracic regions of the rig; rotation given to the thoracic region (the lumbar region's rotation range is only 5 degrees)"
+  },
+  {
+   "m": "rectus_abdominis",
+   "c": null,
+   "q": "flexes trunk (lumbar spine flexion)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "iliocostalis",
+   "c": null,
+   "q": "extends vertebral column (bilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "flex",
+     -1
+    ],
+    [
+     "thoracic",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "iliocostalis",
+   "c": null,
+   "q": "laterally flexes trunk (unilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "thoracic",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "trunk animated as the lumbar + thoracic regions of the rig; to the side of the muscle"
+  },
+  {
+   "m": "longissimus",
+   "c": null,
+   "q": "extends vertebral column and head (bilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "flex",
+     -1
+    ],
+    [
+     "thoracic",
+     "flex",
+     -1
+    ],
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "longissimus",
+   "c": null,
+   "q": "laterally flexes trunk/head",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "thoracic",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "to the side of the muscle; the head rotation in the same source line has no stated direction and is not animated"
+  },
+  {
+   "m": "spinalis",
+   "c": null,
+   "q": "extends vertebral column",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "flex",
+     -1
+    ],
+    [
+     "thoracic",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "semispinalis_thoracis",
+   "c": null,
+   "q": "extends the thoracic spine",
+   "src": "actions",
+   "mv": [
+    [
+     "thoracic",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "semispinalis_thoracis",
+   "c": null,
+   "q": "rotates the trunk to the opposite side",
+   "src": "actions",
+   "mv": [
+    [
+     "thoracic",
+     "rot",
+     -1,
+     1
+    ]
+   ]
+  },
+  {
+   "m": "quadratus_lumborum",
+   "c": null,
+   "q": "laterally flexes trunk (unilateral)",
+   "src": "actions",
+   "mv": [
+    [
+     "lumbar",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "to the side of the muscle"
+  },
+  {
+   "m": "longus_capitis",
+   "c": null,
+   "q": "flexes the head on the neck",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "longus_colli",
+   "c": null,
+   "q": "flexes and slightly rotates the neck",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     1
+    ]
+   ],
+   "note": "the rotation has no stated direction and is not animated"
+  },
+  {
+   "m": "obliquus_capitis_inferior",
+   "c": null,
+   "q": "rotates the atlas, and with it the head, to the same side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "rot",
+     1,
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "obliquus_capitis_superior",
+   "c": null,
+   "q": "extends the head",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "obliquus_capitis_superior",
+   "c": null,
+   "q": "bends the head laterally to the same side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "rectus_capitis_anterior",
+   "c": null,
+   "q": "flexes the head at the atlanto-occipital joint",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "rectus_capitis_lateralis",
+   "c": null,
+   "q": "bends the head laterally to the same side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "rectus_capitis_posterior_major",
+   "c": null,
+   "q": "extends the head",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "rectus_capitis_posterior_major",
+   "c": null,
+   "q": "rotates the head to the same side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "rot",
+     1,
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "rectus_capitis_posterior_minor",
+   "c": null,
+   "q": "extends the head",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "scalenus_anterior",
+   "c": null,
+   "q": "flexes/laterally flexes the neck",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     1
+    ],
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "lateral flexion to the side of the muscle"
+  },
+  {
+   "m": "scalenus_medius",
+   "c": null,
+   "q": "laterally flexes the neck",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "to the side of the muscle"
+  },
+  {
+   "m": "scalenus_posterior",
+   "c": null,
+   "q": "laterally flexes the neck",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "to the side of the muscle"
+  },
+  {
+   "m": "semispinalis_capitis",
+   "c": null,
+   "q": "extends the head",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "semispinalis_capitis",
+   "c": null,
+   "q": "assists contralateral rotation",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "rot",
+     -1,
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "semispinalis_cervicis",
+   "c": null,
+   "q": "extends the neck",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "semispinalis_cervicis",
+   "c": null,
+   "q": "rotates the neck to the opposite side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "rot",
+     -1,
+     1
+    ]
+   ]
+  },
+  {
+   "m": "splenius_capitis",
+   "c": null,
+   "q": "extends the head and neck bilaterally",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "splenius_capitis",
+   "c": null,
+   "q": "rotates and laterally flexes the head to the same side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "rot",
+     1,
+     1
+    ],
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ],
+   "note": "head + neck = the cervical region of the rig (it includes the occiput)"
+  },
+  {
+   "m": "splenius_cervicis",
+   "c": null,
+   "q": "extends the neck",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "splenius_cervicis",
+   "c": null,
+   "q": "rotates and laterally flexes the neck to the same side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "rot",
+     1,
+     1
+    ],
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ]
+   ]
+  },
+  {
+   "m": "sternocleidomastoid",
+   "c": null,
+   "q": "laterally flexes neck to the same side + rotates face to the opposite side",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "lat",
+     1,
+     1
+    ],
+    [
+     "cervical",
+     "rot",
+     -1,
+     1
+    ]
+   ]
+  },
+  {
+   "m": "sternocleidomastoid",
+   "c": null,
+   "q": "flexes neck / protracts head",
+   "src": "actions",
+   "mv": [
+    [
+     "cervical",
+     "flex",
+     1
+    ]
+   ]
+  }
+ ],
+ "not_animated": [
+  {
+   "m": "iliopsoas",
+   "c": "iliacus",
+   "what": "hip adduction",
+   "why": "No citation found for an iliacus adduction action: the atlas's own muscle data (Gray's Anatomy for Students) lists hip flexion only, and the cadaveric study that separates psoas major from iliacus (Kumazaki et al. 2022, doi:10.14789/jmj.JMJ22-0009-OA) treats both as hip flexors. Searched PubMed and the web on 2026-10-25; only hip flexion is animated for iliacus."
+  }
+ ],
+ "none_lists": {
+  "scapula": [
+   "levator_scapulae",
+   "rhomboid_major",
+   "rhomboid_minor",
+   "serratus_anterior",
+   "trapezius",
+   "pectoralis_minor",
+   "subclavius"
+  ],
+  "segmental": [
+   "interspinales",
+   "intertransversarii",
+   "rotatores",
+   "multifidus",
+   "levatores_costarum"
+  ],
+  "nodof": [
+   "opponens_pollicis",
+   "opponens_digiti_minimi",
+   "palmar_interossei",
+   "abductor_digiti_minimi_hand",
+   "dorsal_interossei_foot",
+   "plantar_interossei",
+   "adductor_hallucis",
+   "popliteus"
+  ],
+  "noaction": [
+   "articularis_genus",
+   "quadratus_plantae",
+   "palmaris_brevis",
+   "transversus_abdominis",
+   "pyramidalis"
+  ]
+ }
+}
