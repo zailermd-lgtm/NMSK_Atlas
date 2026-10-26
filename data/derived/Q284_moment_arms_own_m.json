@@ -1,0 +1,129 @@
+{
+ "key": "own_m",
+ "label": "Imaging-based · Male",
+ "seconds": 40.1,
+ "totals": {
+  "muscles": 372,
+  "with_joint": 176,
+  "none": 195
+ },
+ "coverage_by_joint": {
+  "elbow": {
+   "computed": 13,
+   "partial": 14,
+   "not_computable": 10,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 8,
+    "implausible path (mesh does not reach its bones)": 3,
+    "second end touches no bone (attachment not on this mesh)": 4,
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 2,
+    "path re-crosses the joint": 7,
+    "path crosses the joint 2 times, no slide / wrap": 1,
+    "the muscle's side of the joint is ambiguous, no wrap": 1
+   }
+  },
+  "shoulder": {
+   "computed": 2,
+   "partial": 7,
+   "not_computable": 13,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 4,
+    "path re-crosses the joint": 7,
+    "implausible path (mesh does not reach its bones)": 6,
+    "second end touches no bone (attachment not on this mesh)": 3
+   }
+  },
+  "forearm": {
+   "computed": 13,
+   "partial": 20,
+   "not_computable": 13,
+   "reasons": {
+    "path re-crosses the joint": 13,
+    "first end touches no bone (attachment not on this mesh)": 12,
+    "second end touches no bone (attachment not on this mesh)": 7,
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 2,
+    "path crosses the joint 2 times, no slide / wrap": 4,
+    "path crosses the joint 3 times, no slide / wrap": 2,
+    "path crosses the joint 4 times, no slide / wrap": 1
+   }
+  },
+  "cervical": {
+   "computed": 23,
+   "partial": 36,
+   "not_computable": 0,
+   "reasons": {
+    "second end touches no bone (attachment not on this mesh)": 29,
+    "first end touches no bone (attachment not on this mesh)": 28,
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 1
+   }
+  },
+  "thoracic": {
+   "computed": 6,
+   "partial": 36,
+   "not_computable": 0,
+   "reasons": {
+    "second end touches no bone (attachment not on this mesh)": 22,
+    "first end touches no bone (attachment not on this mesh)": 24,
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 11
+   }
+  },
+  "lumbar": {
+   "computed": 4,
+   "partial": 13,
+   "not_computable": 0,
+   "reasons": {
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 8,
+    "first end touches no bone (attachment not on this mesh)": 4,
+    "joined to its separately meshed tendon": 2,
+    "second end touches no bone (attachment not on this mesh)": 3
+   }
+  },
+  "wrist": {
+   "computed": 10,
+   "partial": 21,
+   "not_computable": 3,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 11,
+    "second end touches no bone (attachment not on this mesh)": 11,
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 2,
+    "path re-crosses the joint": 2,
+    "implausible path (mesh does not reach its bones)": 1,
+    "path crosses the joint 2 times, no slide / wrap": 1
+   }
+  },
+  "hip": {
+   "computed": 0,
+   "partial": 25,
+   "not_computable": 5,
+   "reasons": {
+    "joined to its separately meshed tendon": 4,
+    "first end touches no bone (attachment not on this mesh)": 17,
+    "second end touches no bone (attachment not on this mesh)": 15,
+    "path re-crosses the joint": 5
+   }
+  },
+  "knee": {
+   "computed": 0,
+   "partial": 6,
+   "not_computable": 0,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 5,
+    "second end touches no bone (attachment not on this mesh)": 4,
+    "joined to its separately meshed tendon": 1
+   }
+  },
+  "subtalar": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 1,
+   "reasons": {
+    "path re-crosses the joint": 1
+   }
+  }
+ },
+ "cited_action_check": {
+  "agrees": 144,
+  "disagrees": 7,
+  "agrees at some angles": 33
+ }
+}

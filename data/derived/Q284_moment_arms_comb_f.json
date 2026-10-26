@@ -1,0 +1,352 @@
+{
+ "key": "comb_f",
+ "label": "Combined · Female",
+ "seconds": 64.9,
+ "totals": {
+  "muscles": 435,
+  "with_joint": 299,
+  "none": 136
+ },
+ "coverage_by_joint": {
+  "t5_mtp": {
+   "computed": 4,
+   "partial": 0,
+   "not_computable": 4,
+   "reasons": {
+    "path re-crosses the joint": 4
+   }
+  },
+  "f5_mcp": {
+   "computed": 5,
+   "partial": 2,
+   "not_computable": 10,
+   "reasons": {
+    "path re-crosses the joint": 9,
+    "one mesh for several digits": 1
+   }
+  },
+  "ankle": {
+   "computed": 15,
+   "partial": 12,
+   "not_computable": 4,
+   "reasons": {
+    "path crosses the joint 2 times, no slide / wrap": 7,
+    "path re-crosses the joint": 4,
+    "joined to its separately meshed tendon": 4
+   }
+  },
+  "knee": {
+   "computed": 15,
+   "partial": 3,
+   "not_computable": 12,
+   "reasons": {
+    "implausible path (mesh does not reach its bones)": 4,
+    "path re-crosses the joint": 8,
+    "joined to its separately meshed tendon": 2,
+    "first end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "subtalar": {
+   "computed": 15,
+   "partial": 12,
+   "not_computable": 4,
+   "reasons": {
+    "path crosses the joint 2 times, no slide / wrap": 7,
+    "path re-crosses the joint": 4,
+    "joined to its separately meshed tendon": 4
+   }
+  },
+  "hip": {
+   "computed": 38,
+   "partial": 6,
+   "not_computable": 10,
+   "reasons": {
+    "implausible path (mesh does not reach its bones)": 5,
+    "path re-crosses the joint": 5,
+    "second end touches no bone (attachment not on this mesh)": 5,
+    "first end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "t1_mtp": {
+   "computed": 5,
+   "partial": 1,
+   "not_computable": 4,
+   "reasons": {
+    "path re-crosses the joint": 2,
+    "path crosses the joint 2 times, no slide / wrap": 8,
+    "one mesh for several digits": 2
+   }
+  },
+  "thumb_cmc": {
+   "computed": 7,
+   "partial": 7,
+   "not_computable": 5,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 5,
+    "path re-crosses the joint": 2,
+    "one mesh for several digits": 3,
+    "second end touches no bone (attachment not on this mesh)": 2
+   }
+  },
+  "wrist": {
+   "computed": 14,
+   "partial": 18,
+   "not_computable": 0,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 3,
+    "path crosses the joint 2 times, no slide / wrap": 12,
+    "second end touches no bone (attachment not on this mesh)": 2
+   }
+  },
+  "forearm": {
+   "computed": 16,
+   "partial": 12,
+   "not_computable": 10,
+   "reasons": {
+    "path re-crosses the joint": 10,
+    "second end touches no bone (attachment not on this mesh)": 4,
+    "path crosses the joint 2 times, no slide / wrap": 9,
+    "first end touches no bone (attachment not on this mesh)": 2
+   }
+  },
+  "thumb_mcp": {
+   "computed": 4,
+   "partial": 2,
+   "not_computable": 3,
+   "reasons": {
+    "path re-crosses the joint": 1,
+    "one mesh for several digits": 2,
+    "second end touches no bone (attachment not on this mesh)": 1,
+    "first end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "elbow": {
+   "computed": 17,
+   "partial": 11,
+   "not_computable": 2,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 2,
+    "second end touches no bone (attachment not on this mesh)": 3,
+    "path crosses the joint 2 times, no slide / wrap": 3,
+    "implausible path (mesh does not reach its bones)": 2
+   }
+  },
+  "shoulder": {
+   "computed": 19,
+   "partial": 8,
+   "not_computable": 4,
+   "reasons": {
+    "implausible path (mesh does not reach its bones)": 3,
+    "first end touches no bone (attachment not on this mesh)": 4,
+    "second end touches no bone (attachment not on this mesh)": 4,
+    "path re-crosses the joint": 1
+   }
+  },
+  "cervical": {
+   "computed": 65,
+   "partial": 31,
+   "not_computable": 0,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 19,
+    "second end touches no bone (attachment not on this mesh)": 21
+   }
+  },
+  "thoracic": {
+   "computed": 62,
+   "partial": 32,
+   "not_computable": 0,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 19,
+    "second end touches no bone (attachment not on this mesh)": 16
+   }
+  },
+  "lumbar": {
+   "computed": 16,
+   "partial": 16,
+   "not_computable": 0,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 12,
+    "second end touches no bone (attachment not on this mesh)": 4
+   }
+  },
+  "t2_mtp": {
+   "computed": 1,
+   "partial": 1,
+   "not_computable": 7,
+   "reasons": {
+    "one mesh for several digits": 4,
+    "path re-crosses the joint": 3,
+    "second end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "t4_mtp": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 8,
+   "reasons": {
+    "path re-crosses the joint": 8
+   }
+  },
+  "f3_mcp": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 7,
+   "reasons": {
+    "path re-crosses the joint": 6,
+    "one mesh for several digits": 1
+   }
+  },
+  "f2_mcp": {
+   "computed": 1,
+   "partial": 1,
+   "not_computable": 9,
+   "reasons": {
+    "path re-crosses the joint": 6,
+    "one mesh for several digits": 3,
+    "second end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "t2_pip": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 5,
+   "reasons": {
+    "one mesh for several digits": 4,
+    "path re-crosses the joint": 1
+   }
+  },
+  "t3_pip": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 2,
+   "reasons": {
+    "path re-crosses the joint": 2
+   }
+  },
+  "t4_pip": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 3,
+   "reasons": {
+    "path re-crosses the joint": 3
+   }
+  },
+  "t3_mtp": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 7,
+   "reasons": {
+    "path re-crosses the joint": 7
+   }
+  },
+  "f4_mcp": {
+   "computed": 0,
+   "partial": 1,
+   "not_computable": 7,
+   "reasons": {
+    "path re-crosses the joint": 6,
+    "first end touches no bone (attachment not on this mesh)": 1,
+    "one mesh for several digits": 1
+   }
+  },
+  "f2_pip": {
+   "computed": 1,
+   "partial": 1,
+   "not_computable": 1,
+   "reasons": {
+    "second end touches no bone (attachment not on this mesh)": 1,
+    "one mesh for several digits": 1
+   }
+  },
+  "thumb_ip": {
+   "computed": 3,
+   "partial": 1,
+   "not_computable": 2,
+   "reasons": {
+    "one mesh for several digits": 2,
+    "first end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "f4_dip": {
+   "computed": 0,
+   "partial": 1,
+   "not_computable": 0,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "f4_pip": {
+   "computed": 0,
+   "partial": 1,
+   "not_computable": 4,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 1,
+    "one mesh for several digits": 1,
+    "path re-crosses the joint": 3
+   }
+  },
+  "f2_dip": {
+   "computed": 0,
+   "partial": 1,
+   "not_computable": 0,
+   "reasons": {
+    "second end touches no bone (attachment not on this mesh)": 1
+   }
+  },
+  "t5_dip": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 1,
+   "reasons": {
+    "path re-crosses the joint": 1
+   }
+  },
+  "t5_pip": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 2,
+   "reasons": {
+    "path re-crosses the joint": 2
+   }
+  },
+  "f5_pip": {
+   "computed": 0,
+   "partial": 1,
+   "not_computable": 3,
+   "reasons": {
+    "path re-crosses the joint": 3
+   }
+  },
+  "f5_dip": {
+   "computed": 0,
+   "partial": 1,
+   "not_computable": 1,
+   "reasons": {
+    "path re-crosses the joint": 1
+   }
+  },
+  "t1_ip": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 2,
+   "reasons": {
+    "one mesh for several digits": 1,
+    "path re-crosses the joint": 1
+   }
+  },
+  "f3_pip": {
+   "computed": 0,
+   "partial": 0,
+   "not_computable": 2,
+   "reasons": {
+    "path re-crosses the joint": 1,
+    "one mesh for several digits": 1
+   }
+  }
+ },
+ "cited_action_check": {
+  "agrees": 275,
+  "disagrees": 20,
+  "agrees at some angles": 51
+ }
+}
