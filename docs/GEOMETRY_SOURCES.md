@@ -1656,6 +1656,37 @@ warning idiom for "this is not what it looks like," not two. This is
 metadata plumbing only: it never touches mesh geometry, and a structure with
 no `procedural_geometry` block is completely unaffected.
 
+### Her breasts from her own CT (2026-10-26, Q285)
+
+Until Q285 the only breast on the female pages was the HuBMAP HRA reference model (Q234), which its library describes
+as sculpted from atlases, not built from her images. TotalSegmentator's open `breasts` task (v2.18.0, Apache-2.0, one
+class `breast`) had never been run on her. It was run on her own torso CT (IDC series
+`b9cf8e7a-2505-4137-9ae3-f8d0cf756c13`, the same 0.9375 mm grid as `vhf_total`), CPU, in one z-chunk (z 450-680):
+a first three-chunk run left an 11 % step in the per-slice area at a chunk stitch, the single-chunk run has none
+(Dice 0.98 between the two). Label: `data/ct_sources/task_outputs/vhf_breasts.nii.gz`.
+
+Method (`scripts/anatomy/q285/breast_from_ct_q285.py`, the Q193 organ recipe): the bilateral label cut at her own
+midline (X = 2.2 mm, from the sternum label); each side kept one voxel beneath her body silhouette (HU > -300, the
+definition her skin mesh comes from), because the outermost layer over the breast is skin and the label's edge voxels
+reach into air by partial volume; largest piece (100 % of each side), holes filled, marching cubes at the level that
+keeps the voxel volume, her hip-joint origin, quadric decimation to 8000 triangles per side.
+
+Result: right 1004 cm3, left 876 cm3 (left/right difference 13.6 % of the mean). HU 94-95 % fat range, 5 %
+soft-tissue range (fibroglandular), as in a 59-year-old's breast. Gates passed: no vertex more than 1 mm outside her
+skin (max 0.31 mm), none more than 1 mm inside her CT bone labels, no edge of the field of view touched, mesh volume
+within 0.05 % of the label. It touches her pectoralis major / serratus anterior labels only at their surface (0.04-0.8 %
+of its voxels). For comparison only, not a range for her: published cohort means 771 / 764 mL (MRI volumetry, 22
+women; Behrens et al. 2025, doi:10.1007/s12282-024-01647-6) and 637 / 665 mL with a mean left/right difference of
+16.0 % (SD 12.7) (3-D surface imaging, 100 healthy participants; Killaars et al. 2026, doi:10.1007/s00266-026-06058-w).
+Report: `data/derived/Q285_vhf_breast_report.json`; slices: `data/ct_sources/task_outputs/vhf_breasts_q285.png`.
+
+Shipped on Imaging-based Female only, as `breast_ct_r` / `breast_ct_l` (subject `ct_vhf_breast`). Combined Female
+was measured and left unchanged: its skin is the Z-Anatomy (male-derived) surface fitted to her skeleton, and her
+breasts, which follow her own skin, would sit 60 % of their vertices more than 10 mm outside it (max 50 mm). The HRA
+sculpted breast set on Imaging-based Female (fat pad, gland, ducts, areola, nipple, suspensory ligaments, both sides) is
+kept and selectable, hidden by default. Pose rig: the committed rig with only the two new entries spliced in (a fresh
+rebuild of the unchanged page already differs in about ten trunk entries; the builder is not bit-reproducible).
+
 ---
 
 *This document records engineering and licensing analysis, not legal advice.

@@ -74,6 +74,12 @@ classified with `scripts/cryo/cryo_classes_f.py` (female thresholds: her frozen 
 than the male's). `vhf_pecminor_rhomboids_cryo`: position rules (`scripts/cryo/vhf_pecminor_rhomboids.py`, key
 `mappings/vhf_pecminor_rhomboids_labels.json`); only pectoralis minor is mapped. Rule-based; volumes in the report JSONs.
 
+`vhf_breasts` (Q285, 2026-10-26): TotalSegmentator v2.18.0 `breasts` task (Apache-2.0, class 1 `breast`, both sides
+in one label) on her torso CT, same grid and affine as `vhf_total`; run in ONE z-chunk (z 450-680) by
+`scripts/run_totalsegmentator_chunked.py` because a three-chunk run showed an 11 % area step at a stitch. Meshed by
+`scripts/anatomy/q285/breast_from_ct_q285.py` (midline split, skin-layer clip, Q193 recipe); slices `vhf_breasts_q285.png`,
+report `data/derived/Q285_vhf_breast_report.json`.
+
 `vhf_pelvic_viscera` (Q169, 2026-09-29): her own urinary bladder (1), rectum (2) and the pelvic part of the
 sigmoid colon (3), cut from `vhf_total` labels 21 and 20 by `scripts/vhf_pelvic_viscera.py` (colon caudal to her
 pelvic inlet plane, split at the sigmoid take-off along a lumen-seeking centreline); same grid and affine as
