@@ -26,7 +26,7 @@ def test_volumes_and_asymmetry_are_the_reported_ones():
 def test_pose_rig_has_the_two_new_entries_spliced_after_the_committed_ones():
     j = json.loads((REPO / "data/anatomy/pose_rig_own_f.json").read_text())
     rig = j["rig"]
-    assert rig["count"] == 1043 and len(rig["nv"]) == 1043
+    assert rig["count"] >= 1043 and len(rig["nv"]) == rig["count"]          # Q286 spliced five more after these
     new = [e for e in rig["skin"] if e[0] in (1041, 1042)]
     assert len(new) == 2
     w = zlib.decompress(base64.b64decode(j["weights_zlib_b64"]))

@@ -90,3 +90,10 @@ by the same script (`--body vhm`), from `vhm_total` above the torso block's lowe
 slab below it (the torso block stops above his symphysis), joined by the fixed Stage-2 offset legs->torso
 (+2.72, -0.89, -693.0) mm RAS. Grid: the torso block's affine extended 268 slices downward. Meshed into
 `build/vh/ct_vhm_pelvis`; report `data/derived/Q170_vhm_pelvic_viscera.json`.
+
+`vhm_head_glands_cavities`, `vhf_head_glands_cavities` (Q286, 2026-10-26): TotalSegmentator v2.18.0 `head_glands_cavities`
+(Apache-2.0; ids in `mappings/totalsegmentator_head_glands_cavities_labels.json`) on each body's head-and-neck grid (the grid of
+`<body>_craniofacial_structures`), run in 140-slice z-chunks with 32 slices of overlap (a single-chunk run was OOM-killed).
+`vhm_vertebrae_body`, `vhf_vertebrae_body`: `vertebrae_body` (classes 1 vertebrae_body, 2 intervertebral_discs) on the torso grid
+(= `<body>_total`), 160-slice chunks, 32 overlap. Meshed and gated by `scripts/anatomy/q286/ct_tasks_q286.py`; slice renders
+`<body>_q286_render.png`; reports `data/derived/Q286_<body>_<head|spine>_report.json`.

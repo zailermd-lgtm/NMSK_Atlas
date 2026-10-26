@@ -1,0 +1,540 @@
+{
+ "_README": [
+  "Q286 head_glands_cavities on this body's own head CT; see scripts/anatomy/q286/ct_tasks_q286.py for method, policy and gates."
+ ],
+ "body": "vhm",
+ "grid": "head-and-neck grid of vhm_craniofacial_structures.nii.gz",
+ "gates": {
+  "min_largest_share": 0.85,
+  "volume_tol": 0.03,
+  "max_outside_skin_gt1mm_frac": 0.0,
+  "max_in_bone_frac": 0.05,
+  "max_in_bone_frac_disc": 0.02,
+  "min_soft_hu_frac": 0.9,
+  "min_boundary_contrast_hu": 5.0,
+  "max_pair_asymmetry_pct": 50.0,
+  "cited_ratio": [
+   0.5,
+   2.0
+  ],
+  "eye_vs_oculomotor_ratio": [
+   0.8,
+   1.25
+  ]
+ },
+ "classes": {
+  "parotid_gland_right": {
+   "label_voxel_cm3": 3.333,
+   "largest_component_share": 0.9823,
+   "pieces_dropped_cm3": [
+    0.059
+   ],
+   "kept_voxel_cm3": 3.274,
+   "edge_touch": [],
+   "hu": {
+    "median": -6.0,
+    "p10": -21.0,
+    "p90": 12.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -4.0,
+    "boundary_contrast": 2.0
+   },
+   "mesh_full_cm3": 3.271,
+   "mesh_vs_label": 0.999,
+   "full_triangles": 9240,
+   "shipped_triangles": 6000,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -11.57,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     61.6,
+     711.0,
+     21.3
+    ],
+    [
+     78.0,
+     737.0,
+     45.4
+    ]
+   ],
+   "overlap_existing_labels": {},
+   "reference": {
+    "cite": "Brzoska T, Ittermann T, Ihler F, et al. Population Based Average Parotid Gland Volume and Prevalence of Incidental Tumors in T1-MRI. Healthcare (Basel) 2022;10(11):2310 (SHIP, 1725 MRI scans)",
+    "doi": "10.3390/healthcare10112310",
+    "pmid": "36421635",
+    "mean_cm3": {
+     "m": 27.82,
+     "f": 21.6
+    },
+    "what": "mean single-side parotid volume"
+   },
+   "ratio_to_cited_mean": 0.12
+  },
+  "parotid_gland_left": {
+   "label_voxel_cm3": 8.887,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 8.887,
+   "edge_touch": [],
+   "hu": {
+    "median": -9.0,
+    "p10": -28.0,
+    "p90": 9.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -7.0,
+    "boundary_contrast": 2.0
+   },
+   "mesh_full_cm3": 8.888,
+   "mesh_vs_label": 1.0001,
+   "full_triangles": 16368,
+   "shipped_triangles": 6000,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -6.31,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     -69.6,
+     703.9,
+     11.3
+    ],
+    [
+     -46.4,
+     727.0,
+     45.0
+    ]
+   ],
+   "overlap_existing_labels": {},
+   "reference": {
+    "cite": "Brzoska T, Ittermann T, Ihler F, et al. Population Based Average Parotid Gland Volume and Prevalence of Incidental Tumors in T1-MRI. Healthcare (Basel) 2022;10(11):2310 (SHIP, 1725 MRI scans)",
+    "doi": "10.3390/healthcare10112310",
+    "pmid": "36421635",
+    "mean_cm3": {
+     "m": 27.82,
+     "f": 21.6
+    },
+    "what": "mean single-side parotid volume"
+   },
+   "ratio_to_cited_mean": 0.32
+  },
+  "submandibular_gland_right": {
+   "label_voxel_cm3": 4.151,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 4.151,
+   "edge_touch": [],
+   "hu": {
+    "median": -8.0,
+    "p10": -19.0,
+    "p90": 4.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -9.0,
+    "boundary_contrast": 1.0
+   },
+   "mesh_full_cm3": 4.158,
+   "mesh_vs_label": 1.0017,
+   "full_triangles": 9416,
+   "shipped_triangles": 4000,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -13.26,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     38.0,
+     647.9,
+     47.6
+    ],
+    [
+     54.3,
+     677.9,
+     67.0
+    ]
+   ],
+   "overlap_existing_labels": {}
+  },
+  "submandibular_gland_left": {
+   "label_voxel_cm3": 3.868,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 3.868,
+   "edge_touch": [],
+   "hu": {
+    "median": -12.0,
+    "p10": -26.0,
+    "p90": 2.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -13.0,
+    "boundary_contrast": 1.0
+   },
+   "mesh_full_cm3": 3.87,
+   "mesh_vs_label": 1.0006,
+   "full_triangles": 9700,
+   "shipped_triangles": 4000,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -16.29,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     -39.1,
+     648.9,
+     41.8
+    ],
+    [
+     -17.5,
+     671.1,
+     65.0
+    ]
+   ],
+   "overlap_existing_labels": {}
+  },
+  "eye_right": {
+   "label_voxel_cm3": 9.352,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 9.612,
+   "edge_touch": [],
+   "hu": {
+    "median": -43.0,
+    "p10": -67.0,
+    "p90": 8.0,
+    "soft_frac_-200_300": 0.9999,
+    "shell_median": -9.0,
+    "boundary_contrast": 34.0
+   },
+   "mesh_full_cm3": 9.618,
+   "mesh_vs_label": 1.0007,
+   "full_triangles": 16328,
+   "shipped_triangles": 3998,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -5.15,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     25.8,
+     761.9,
+     88.2
+    ],
+    [
+     52.0,
+     789.0,
+     114.8
+    ]
+   ],
+   "overlap_existing_labels": {
+    "eyeball_right": 0.5834,
+    "levator_palpebrae_superioris_right": 0.0111,
+    "inferior_oblique_muscle_right": 0.006
+   },
+   "oculomotor_task_eyeball_cm3": 5.785,
+   "ratio_to_oculomotor_eyeball": 1.66,
+   "dice_vs_oculomotor_eyeball": 0.721
+  },
+  "eye_left": {
+   "label_voxel_cm3": 9.577,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 9.803,
+   "edge_touch": [],
+   "hu": {
+    "median": -43.0,
+    "p10": -67.0,
+    "p90": 10.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -9.0,
+    "boundary_contrast": 34.0
+   },
+   "mesh_full_cm3": 9.808,
+   "mesh_vs_label": 1.0005,
+   "full_triangles": 16476,
+   "shipped_triangles": 4000,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -5.48,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     -44.8,
+     758.9,
+     86.1
+    ],
+    [
+     -18.4,
+     786.0,
+     114.0
+    ]
+   ],
+   "overlap_existing_labels": {
+    "eyeball_left": 0.5238,
+    "superior_oblique_muscle_left": 0.0017,
+    "levator_palpebrae_superioris_left": 0.0317,
+    "superior_rectus_muscle_left": 0.0001,
+    "inferior_oblique_muscle_left": 0.0194
+   },
+   "oculomotor_task_eyeball_cm3": 5.266,
+   "ratio_to_oculomotor_eyeball": 1.86,
+   "dice_vs_oculomotor_eyeball": 0.676
+  },
+  "eye_lens_right": {
+   "label_voxel_cm3": 0.242,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 0.242,
+   "edge_touch": [],
+   "hu": {
+    "median": 7.0,
+    "p10": -53.0,
+    "p90": 50.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -51.0,
+    "boundary_contrast": 58.0
+   },
+   "mesh_full_cm3": 0.242,
+   "mesh_vs_label": 0.9989,
+   "full_triangles": 1240,
+   "shipped_triangles": 1240,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -8.54,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     35.1,
+     769.8,
+     104.5
+    ],
+    [
+     42.8,
+     778.2,
+     109.9
+    ]
+   ],
+   "overlap_existing_labels": {
+    "eyeball_right": 0.9633
+   }
+  },
+  "eye_lens_left": {
+   "label_voxel_cm3": 0.225,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 0.225,
+   "edge_touch": [],
+   "hu": {
+    "median": 16.0,
+    "p10": -49.0,
+    "p90": 53.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -51.0,
+    "boundary_contrast": 67.0
+   },
+   "mesh_full_cm3": 0.225,
+   "mesh_vs_label": 0.9997,
+   "full_triangles": 1232,
+   "shipped_triangles": 1232,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -7.76,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     -35.4,
+     765.8,
+     104.0
+    ],
+    [
+     -27.4,
+     774.1,
+     109.4
+    ]
+   ],
+   "overlap_existing_labels": {
+    "eyeball_left": 0.9827
+   }
+  },
+  "soft_palate": {
+   "label_voxel_cm3": 1.289,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 1.289,
+   "edge_touch": [],
+   "hu": {
+    "median": -5.0,
+    "p10": -24.0,
+    "p90": 14.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": -9.0,
+    "boundary_contrast": 4.0
+   },
+   "mesh_full_cm3": 1.287,
+   "mesh_vs_label": 0.9987,
+   "full_triangles": 4872,
+   "shipped_triangles": 4000,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -55.33,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     -2.1,
+     715.9,
+     54.4
+    ],
+    [
+     15.4,
+     727.1,
+     68.7
+    ]
+   ],
+   "overlap_existing_labels": {}
+  }
+ },
+ "shipped": [
+  "lens_r",
+  "lens_l"
+ ],
+ "held": {
+  "parotid_gland_r": [
+   "boundary contrast 2.0 HU (no visible edge)",
+   "left/right difference 92 % of the mean (one side not found)",
+   "3.3 cm3 = 0.12x the cited sex-matched mean"
+  ],
+  "parotid_gland_l": [
+   "boundary contrast 2.0 HU (no visible edge)",
+   "left/right difference 92 % of the mean (one side not found)",
+   "8.9 cm3 = 0.32x the cited sex-matched mean"
+  ],
+  "submandibular_gland_r": [
+   "boundary contrast 1.0 HU (no visible edge)"
+  ],
+  "submandibular_gland_l": [
+   "boundary contrast 1.0 HU (no visible edge)"
+  ],
+  "eyeball_r": [
+   "9.6 cm3 = 1.66x the eyeball of the oculomotor_muscles task on the same CT (Dice 0.72): the two models disagree"
+  ],
+  "eyeball_l": [
+   "9.8 cm3 = 1.86x the eyeball of the oculomotor_muscles task on the same CT (Dice 0.68): the two models disagree"
+  ],
+  "soft_palate": [
+   "boundary contrast 4.0 HU (no visible edge)"
+  ],
+  "optic_n": [
+   "optic_nerve_right: ['boundary contrast 4.0 HU (no visible edge)']"
+  ]
+ },
+ "not_shipped_by_policy": {
+  "nasopharynx": {
+   "reason": "air space (lumen), not a tissue; the project ships no air-space label",
+   "label_voxel_cm3": 0.06
+  },
+  "oropharynx": {
+   "reason": "air space (lumen), not a tissue; the project ships no air-space label",
+   "label_voxel_cm3": 1.75
+  },
+  "hypopharynx": {
+   "reason": "air space (lumen), not a tissue; the project ships no air-space label",
+   "label_voxel_cm3": 6.74
+  },
+  "nasal_cavity_right": {
+   "reason": "air space (lumen), not a tissue; the project ships no air-space label",
+   "label_voxel_cm3": 4.62
+  },
+  "nasal_cavity_left": {
+   "reason": "air space (lumen), not a tissue; the project ships no air-space label",
+   "label_voxel_cm3": 6.22
+  },
+  "auditory_canal_right": {
+   "reason": "air space (lumen), not a tissue; the project ships no air-space label",
+   "label_voxel_cm3": 1.27
+  },
+  "auditory_canal_left": {
+   "reason": "air space (lumen), not a tissue; the project ships no air-space label",
+   "label_voxel_cm3": 1.56
+  },
+  "hard_palate": {
+   "reason": "part of the maxillae / palatine bones already in this body's skull mesh",
+   "label_voxel_cm3": 2.88,
+   "frac_inside_skull_label": 0.997
+  }
+ },
+ "optic_nerve": {
+  "sides": {
+   "optic_nerve_right": {
+    "label_voxel_cm3": 0.069,
+    "largest_component_share": 1.0,
+    "pieces_dropped_cm3": [],
+    "kept_voxel_cm3": 0.069,
+    "edge_touch": [],
+    "hu": {
+     "median": -5.0,
+     "p10": -20.0,
+     "p90": 10.0,
+     "soft_frac_-200_300": 1.0,
+     "shell_median": -9.0,
+     "boundary_contrast": 4.0
+    },
+    "mesh_full_cm3": 0.069,
+    "mesh_vs_label": 1.0002,
+    "full_triangles": 700,
+    "shipped_triangles": 700,
+    "outside_skin_gt1mm_frac": 0.0,
+    "outside_skin_max_mm": -41.23,
+    "in_bone_gt1mm_frac": 0.0,
+    "bbox_atlas_mm": [
+     [
+      22.7,
+      771.8,
+      68.0
+     ],
+     [
+      29.3,
+      776.3,
+      76.0
+     ]
+    ]
+   },
+   "optic_nerve_left": {
+    "label_voxel_cm3": 0.094,
+    "largest_component_share": 1.0,
+    "pieces_dropped_cm3": [],
+    "kept_voxel_cm3": 0.094,
+    "edge_touch": [],
+    "hu": {
+     "median": -4.0,
+     "p10": -20.0,
+     "p90": 8.199999999999989,
+     "soft_frac_-200_300": 1.0,
+     "shell_median": -14.0,
+     "boundary_contrast": 10.0
+    },
+    "mesh_full_cm3": 0.094,
+    "mesh_vs_label": 1.0008,
+    "full_triangles": 904,
+    "shipped_triangles": 904,
+    "outside_skin_gt1mm_frac": 0.0,
+    "outside_skin_max_mm": -39.47,
+    "in_bone_gt1mm_frac": 0.0,
+    "bbox_atlas_mm": [
+     [
+      -23.1,
+      770.7,
+      66.7
+     ],
+     [
+      -14.9,
+      774.3,
+      77.0
+     ]
+    ]
+   }
+  },
+  "side_gate_fails": {
+   "optic_nerve_right": [
+    "boundary contrast 4.0 HU (no visible edge)"
+   ]
+  },
+  "dice_vs_oculomotor_task_optic_nerve": 0.357,
+  "oculomotor_task_cm3": 0.459
+ },
+ "asymmetry_pct_of_mean": {
+  "parotid_gland": 92.3,
+  "submandibular_gland": 7.1,
+  "eye": 2.0,
+  "eye_lens": 7.3
+ }
+}

@@ -1693,3 +1693,25 @@ rebuild of the unchanged page already differs in about ten trunk entries; the bu
 The share-alike incompatibility is a plain reading of the CC BY-SA 4.0 text
 and is not in doubt; the specific status of individual datasets should be
 confirmed with counsel before commercial release.*
+
+### Head glands and held-level discs from two open TotalSegmentator tasks (2026-10-26, Q286)
+
+TotalSegmentator v2.18.0 `head_glands_cavities` and `vertebrae_body` (both Apache-2.0, no licence key; Wasserthal J et al., Radiology:
+Artificial Intelligence 2023, doi:10.1148/ryai.230024) were run for the first time in this project, on each Visible Human body's own CT
+(IDC series 5d409385 male frozen / b9cf8e7a female fresh, restacked onto the exact grids of `<body>_craniofacial_structures` and
+`<body>_total`). Meshing and gates: `scripts/anatomy/q286/ct_tasks_q286.py` (the Q193 volume-preserving recipe; largest piece >= 85 %,
+no grid-edge contact, mesh within 3 % of the label, 0 % of vertices > 1 mm outside the page's skin, <= 5 % (discs 2 %) > 1 mm inside the
+body's CT bone, >= 90 % of voxels in [-200, 300] HU, boundary contrast >= 5 HU against a 2-voxel shell, paired organs within 50 % of each
+other, a cited value (parotid: Brzoska et al. 2022, doi:10.3390/healthcare10112310) within 0.5-2x, eyeballs within 0.8-1.25x of the same
+CT's `oculomotor_muscles` eyeball). Policy, not tuned per class: air spaces (pharynx, nasal cavities, auditory canals) and the hard palate
+(99 % inside her skull label) are not shipped; vertebral bodies are not shipped (each is part of a whole vertebra already on the page).
+
+Shipped on Imaging-based Male: his lenses (`ct_vhm_hgc`) and his C6-C7 / C7-T1 discs (`ct_vhm_disc_ts`, the two levels the Q185c
+endplate rebuild held; C6-C7 replaces the Q104 cylinder, C7-T1 had no disc). Shipped on Imaging-based Female: her submandibular glands,
+lenses and soft palate (`ct_vhf_hgc`); her two held disc levels failed the Q185c size bands again and keep their Q104 cylinders.
+Not shipped, with the measured reason in the reports: his parotids, submandibular glands, soft palate and optic nerves (frozen CT, 1-4 HU
+edge contrast), both bodies' eyeballs (the two TotalSegmentator models disagree by 1.3-1.7x), her parotids (edge contrast 3-4 HU although
+their volumes are 0.83-0.90x the cited mean -- the shell-median contrast measure is crude for a gland bordered by fat and muscle at once;
+noted for a better contrast check, not loosened). At the 21 / 21 disc levels both methods cover, the TotalSegmentator disc is
+0.47-0.89x (him) / 0.37-0.91x (her) the Q185c endplate-to-endplate volume: the Q185c meshes are kept. Reports:
+`data/derived/Q286_<body>_<head|spine>_report.json`; renders `data/ct_sources/task_outputs/<body>_q286_render.png`.
