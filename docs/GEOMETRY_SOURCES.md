@@ -1715,3 +1715,38 @@ their volumes are 0.83-0.90x the cited mean -- the shell-median contrast measure
 noted for a better contrast check, not loosened). At the 21 / 21 disc levels both methods cover, the TotalSegmentator disc is
 0.47-0.89x (him) / 0.37-0.91x (her) the Q185c endplate-to-endplate volume: the Q185c meshes are kept. Reports:
 `data/derived/Q286_<body>_<head|spine>_report.json`; renders `data/ct_sources/task_outputs/<body>_q286_render.png`.
+
+### Combined Female: her own skin, her CT breasts and their fibroglandular tissue (2026-10-27, Q287)
+
+Owner: Combined · Female is the better female model; improve it, with emphasis on the breasts and the female organs.
+Combined · Female is Z-Anatomy (BodyParts3D-derived, male-derived shapes) fitted per bone onto her own CT skeleton (Q168),
+in her atlas frame, so structures measured on her CT need no transfer: measured, 99.66 % of the sampled vertices of the
+page's non-skin structures lie inside her CT skin (2 mm tolerance). `scripts/anatomy/q287/comb_f_q287.py`, report
+`data/derived/Q287_comb_f_report.json`.
+
+- `skin_ct_vhf`: her whole body surface (the Imaging-based Female viewing mesh, CT HU > -300 united with the cryosection
+  silhouette; 37,486 vertices, watertight). Her breasts, mons pubis and labia majora are her own contour; labia minora and
+  vestibule are not resolved at 0.94 mm. A wrist / ankle cut keeping the Z hand / foot skin was measured and dropped
+  (56-67 mm p90 step). 48 Z structures (left fingertips, toes, ankle retinacula; worst 16.4 mm) cross her skin by > 2 mm over
+  > 5 % of their surface: listed on the card, not moved. In Pose mode this skin does not follow trunk / limb motion: the Q241
+  rig weights one whole-body surface like a skin patch (pelvis / thigh segments), the same limitation Imaging F's skin has.
+- `breast_ct_r` / `breast_ct_l`: the Q285 meshes unchanged (1003 / 875 cm3; 0 % of vertices > 1 mm outside her skin), faded
+  by default (new manifest flag `fd`). 15.1 / 14.9 % of their surface lies > 1 mm inside the Z pectoralis major (male-derived,
+  fitted to her skeleton, not her muscle): reported on the card, not corrected.
+- `breast_fgt_ct_r` / `breast_fgt_ct_l` (subject `ct_vhf_breast_fgt`, also on Imaging-based Female): **rule-based** on her
+  own CT (`scripts/anatomy/q287/breast_fgt_q287.py`, report `data/derived/Q287_breast_fgt_report.json`): inside the Q285
+  breast mask (rebuilt identically, volume asserted), voxels at HU >= -30, excluding her pectoralis / serratus /
+  `total` labels and the outer 2 voxels under her body surface (skin rim: 20.7 / 19.8 cm3 removed), pieces < 0.05 cm3
+  dropped; volume-preserving Gaussian(0.7 voxel) mesh. 19.3 / 17.5 cm3, glandular fraction 1.9 / 2.0 % -- at the low end of
+  the dedicated breast-CT range 1.2-71.9 % (mean 17.2 +- 14.2 %, falling with age and breast volume; Vedantham 2012,
+  doi:10.1118/1.4765050, PMID 23231281; mean 19.3 % in 2,831 women, Yaffe 2009, doi:10.1118/1.3250863, PMID 20095256).
+  Gates met: 0 % of vertices > 1 mm outside her breast, mesh 0.96 / 0.93x the voxels (tolerance 10 %). Unenhanced CT cannot
+  separate gland, ducts, fibrous stroma and small vessels; 0.94 mm voxels thicken or break thin strands.
+- Hidden by default (still listed, `unhide` on the card): the 249 Z-Anatomy skin patches (incl. the Q202 perineal surface
+  closure) and the 12 HRA sculpted breast meshes. New Z-template flags `hd` / `fd`; reset restores both.
+- **Not shipped -- her uterus from her CT**: the HRA uterus (registered, Q233) lies between her bladder and rectum, but 64 %
+  of it falls inside her TotalSegmentator `small_bowel` label and a 0-80 HU region grown from it leaks into 81 cm3 spanning
+  123 x 107 x 78 mm (Dice 0.06 with the HRA uterus): on her unenhanced CT the uterus has the density of the abutting bowel
+  loops (`data/derived/Q287_uterus_ct_feasibility.json`, `Q287_uterus_ct_check.png`). Ovaries: the HRA left ovary is 74 % fat
+  HU, the right 68 % inside her iliac vein label. Vagina / vulva: Q233's verdict stands (one dark mass in her 1 mm cryo frame).
+  Her colour cryosections could separate the uterus; the female cryo frame is not on disk (pelvis ~4.5 GB to stream + re-register).

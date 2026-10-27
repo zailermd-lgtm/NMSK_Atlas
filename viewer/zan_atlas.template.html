@@ -1561,7 +1561,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       var layer = rec.sys || "bone";
       var ob = { name: rec.name, id: rec.id, base: rec.name, side: rec.side || sideOf(rec.name), marker: null,
                  layer: layer, center: ctr, bmin: lo, bmax: hi, radius: rad, tris: ic,
-                 pos: pos, nrm: nrm, idx: idx, vc: vc, atlas: rec.rec || null, vt: rec.vt || null };
+                 pos: pos, nrm: nrm, idx: idx, vc: vc, atlas: rec.rec || null, vt: rec.vt || null, hd: !!rec.hd, fd: !!rec.fd };
       OBJ.push(ob);
       (perLayer[layer] || (perLayer[layer] = [])).push(ob);
       if ((mi & 127) === 0) { boot("Building meshes… " + mi + "/" + recs.length, 0.12 + 0.55*mi/recs.length); await nf(); }
@@ -1670,6 +1670,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     alphaFor.skin = 0.3;    // Q186: skin (Regions of human body) shown as a translucent envelope by default   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
+    function hideDefaults(){ OBJ.forEach(function(o){ if (o.hd) hidden.add(o); else if (o.fd) faded.add(o); }); }      // Q287: hidden (manifest `hd`) / faded (`fd`) by default, still listed; 'unhide' / 'unfade' on the card
+    hideDefaults();
     var clip = { on:false, P:[0,0,0,0], P2:[0,0,0,-1] };     // Q197: P = (n, w), fragments discarded where dot(p, n) + w > 0 (set by the cut-mode controller)
     var box = { on:false, min:[0,0,0], max:[0,0,0] };
     var COL = {};
@@ -6784,7 +6786,7 @@ function NMSKLearn(api){
       pickId:function(e){ var r = canvas.getBoundingClientRect(), o = pick((e.clientX - r.left) * dpr, (e.clientY - r.top) * dpr); return o ? o.id : null; },
       clearHover:function(){ hovered = null; need = true; },
       resetEngine:function(){
-        hidden.clear(); faded.clear(); soloLayer = null; box.on = false; box.src = null;
+        hidden.clear(); faded.clear(); hideDefaults(); soloLayer = null; box.on = false; box.src = null;
         var bc = document.getElementById("box-clear"); if (bc) bc.classList.remove("on");
         sync(); need = true;
       },
@@ -7324,7 +7326,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
     document.getElementById("btn-spin").onclick=function(){ spinning=!spinning; this.classList.toggle("on",spinning); need=true; };
     function resetAll(){
       cam={az:DEF.az,el:DEF.el,dist:DEF.dist,tgt:DEF.tgt.slice()};
-      hidden.clear(); faded.clear(); soloLayer=null; box.on=false; box.src=null;
+      hidden.clear(); faded.clear(); hideDefaults(); soloLayer=null; box.on=false; box.src=null;
       if(cutCtl) cutCtl.exit(true);
       if(boxClear) boxClear.classList.remove("on");
       LK.forEach(function(k){on[k]=true;alphaFor[k]=1;});
