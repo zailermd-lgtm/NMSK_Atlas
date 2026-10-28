@@ -1148,7 +1148,11 @@
         v.wrap.addEventListener("pointerup", function (e) { onPointer(v, e, "up"); });
         v.wrap.addEventListener("pointercancel", function (e) { onPointer(v, e, "up"); });
         v.wrap.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-        v.wrap.addEventListener("wheel", function (e) { e.preventDefault(); zoom(v, e.deltaY < 0 ? 0.85 : 1 / 0.85); }, {passive: false});
+        v.wrap.addEventListener("wheel", function (e) {
+          e.preventDefault();
+          if (e.ctrlKey && v.spec) { zoomAt(v, e.clientX, e.clientY, Math.exp(Math.max(-40, Math.min(40, e.deltaY)) * 0.008)); return; }   // Q290: trackpad pinch zooms to the cursor
+          zoom(v, e.deltaY < 0 ? 0.85 : 1 / 0.85);
+        }, {passive: false});
         ui.views.appendChild(v.wrap);
       });
       ui.read = ui.readout = el("div", {class: "img-read", text: "Move over an image: tissue class, structure, HU / signal, atlas position."});
@@ -1343,9 +1347,10 @@
     function setSeq(k) { S.seq = k; S.sp = JSON.parse(JSON.stringify(T.mr_sequences.filter(function (q) { return q.key === k; })[0])); S.mrW = 1; S.mrL = 0.5; syncMr(); rerenderAll(); }
     function onSeqEdit() { S.sp.tr = Math.max(1, +ui.tr.value || 1); S.sp.te = Math.max(0.1, +ui.te.value || 0.1); S.sp.ti = Math.max(0, +ui.ti.value || 0); S.sp.fa = Math.min(90, Math.max(1, +ui.fa.value || 1)); rerenderAll(); }
     function setLayout(l) { S.layout = l; if (l === "single") { S.res = Math.max(S.res, 384); } syncAll(); markDirty(null, true); }
-    function setFov(f) { VIEWS.forEach(function (d) { if (S.layout === "mpr" || d[0] === S.active) S.fov[d[0]] = f; }); syncAll(); markDirty(null, true); }
-    function zoom(v, f) { S.fov[v.key] = Math.max(60, Math.min(2400, S.fov[v.key] * f)); markDirty([v.key], true); syncAll(); }
-    function centerViews() { Object.keys(views).forEach(function (k) { views[k].CP = null; }); markDirty(null, true); }
+    function setFov(f) { VIEWS.forEach(function (d) { if (S.layout === "mpr" || d[0] === S.active) S.fov[d[0]] = f; }); pinchForget(); syncAll(); markDirty(null, true); }
+    function pinchForget() { Object.keys(views).forEach(function (k) { views[k].pzB = null; if (views[k].chip) views[k].chip.hide(); }); }   // Q290: a field-of-view button / Centre is a new 1:1
+    function zoom(v, f) { S.fov[v.key] = Math.max(60, Math.min(2400, S.fov[v.key] * f)); markDirty([v.key], true); syncAll(); pinchChip(v); }
+    function centerViews() { Object.keys(views).forEach(function (k) { views[k].CP = null; }); pinchForget(); markDirty(null, true); }
     function setThick(t, push) {
       S.thick = Math.max(0, Math.min(100, t)); syncSlab();
       if (push && S.link) pushSlabToCut();
@@ -1424,13 +1429,16 @@
         v.wrap.setPointerCapture(e.pointerId);
         touches[e.pointerId] = [e.clientX, e.clientY];
         var ids = Object.keys(touches);
-        if (ids.length >= 2) { drag = {mode: "pinch", v: v, d0: pinchDist(), f0: S.fov[v.key]}; return; }
+        if (ids.length >= 2) { drag = pinchStart(v); return; }
         if (e.button === 2 || e.shiftKey || e.button === 1) { drag = {mode: "pan", v: v, x: e.clientX, y: e.clientY, cp: (v.CP || S.P).slice()}; return; }
+        if (e.pointerType === "touch") {                                   // Q290: a finger waits for lift-off or a real drag -- a second finger makes it a pinch, not a crosshair jump
+          drag = {mode: "cross", v: v, frame0: freezeFrame(v), pend: inside ? q : null, x0: e.clientX, y0: e.clientY}; showReadout(v, q); return;
+        }
         drag = {mode: "cross", v: v, frame0: freezeFrame(v)}; if (inside) setAnchorFromView(v, q[0], q[1], drag.frame0);
         showReadout(v, q);
       } else if (kind === "move") {
         touches[e.pointerId] && (touches[e.pointerId] = [e.clientX, e.clientY]);
-        if (drag && drag.mode === "pinch" && Object.keys(touches).length >= 2) { var f = drag.d0 / Math.max(10, pinchDist()); S.fov[drag.v.key] = Math.max(60, Math.min(2400, drag.f0 * f)); markDirty([drag.v.key], true); return; }
+        if (drag && drag.mode === "pinch" && Object.keys(touches).length >= 2) { pinchMove(drag); return; }
         if (drag && drag.mode === "pan") {
           var r = v.wrap.getBoundingClientRect(), s = Math.min(r.width, r.height), mm = S.fov[v.key] / s, dx = (e.clientX - drag.x) * mm, dy = (e.clientY - drag.y) * mm, sp = v.spec;
           v.CP = [drag.cp[0] - sp.u[0] * dx + sp.v[0] * dy, drag.cp[1] - sp.u[1] * dx + sp.v[1] * dy, drag.cp[2] - sp.u[2] * dx + sp.v[2] * dy];
@@ -1442,13 +1450,49 @@
         // pixel offset on top of the already-shifted centre -- a feedback loop that can run the point kilometres
         // outside the body within a handful of frames, after which every view is blank (and stays blank: nothing
         // ever pulls S.P back into range). Using the gesture's own start frame throughout removes the loop.
+        if (drag && drag.pend && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) < 6) { showReadout(v, q); return; }   // Q290: finger jitter is not a drag
+        if (drag && drag.mode === "cross" && drag.v === v && inside) drag.pend = null;
         if (drag && drag.mode === "cross" && drag.v === v && inside) setAnchorFromView(v, q[0], q[1], drag.frame0);
         showReadout(v, q);
       } else {
+        if (drag && drag.mode === "cross" && drag.v === v && drag.pend) { setAnchorFromView(v, drag.pend[0], drag.pend[1], drag.frame0); drag.pend = null; }
+        if (drag && drag.mode === "pinch" && touches[e.pointerId]) { pinchEnd = Date.now(); syncAll(); }
+        else if (kind === "up" && e.pointerType !== "mouse" && Date.now() - pinchEnd > 400 && v.tap && v.tap(e) && v.pzB) pinchReset(v);   // double-tap: back to 1:1
         delete touches[e.pointerId]; if (!Object.keys(touches).length) drag = null;
       }
     }
     function pinchDist() { var k = Object.keys(touches), a = touches[k[0]], b = touches[k[1]]; return Math.hypot(a[0] - b[0], a[1] - b[1]); }
+    /* Q290: a pinch zooms a slice toward the point between the fingers and a two-finger drag pans it: the anatomy point first
+       under the fingers' midpoint (W) is kept under the midpoint while the field of view scales -- the view is re-rendered at
+       the new field of view (not a stretched picture), so labels, crosshair and scale stay crisp. Ctrl+wheel (a trackpad pinch)
+       does the same about the cursor. The chip (only while zoomed) or a double-tap returns the pane to its view before the pinch. */
+    var pinchEnd = 0;
+    function pinchMid() { var k = Object.keys(touches), a = touches[k[0]], b = touches[k[1]]; return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }
+    function paneOff(v, cx, cy, fov) { var r = v.wrap.getBoundingClientRect(), s = Math.max(1, Math.min(r.width, r.height)); return [(cx - r.left - r.width / 2) * fov / s, (cy - r.top - r.height / 2) * fov / s]; }
+    function paneBase(v) { if (!v.pzB) v.pzB = {fov: S.fov[v.key], CP: v.CP ? v.CP.slice() : null}; if (!v.tap && window.NMSKPinch) v.tap = NMSKPinch.dbl(); }
+    function worldAt(v, cx, cy) { var cp = v.CP || S.P, sp = v.spec, o = paneOff(v, cx, cy, S.fov[v.key]); return [0, 1, 2].map(function (i) { return cp[i] + sp.u[i] * o[0] - sp.v[i] * o[1]; }); }
+    function keepUnder(v, W, cx, cy) { var sp = v.spec, o = paneOff(v, cx, cy, S.fov[v.key]); v.CP = [0, 1, 2].map(function (i) { return W[i] - sp.u[i] * o[0] + sp.v[i] * o[1]; }); markDirty([v.key], true); pinchChip(v); }
+    function pinchStart(v) {
+      paneBase(v); var m = pinchMid();
+      return {mode: "pinch", v: v, d: Math.max(10, pinchDist()), W: worldAt(v, m[0], m[1])};
+    }
+    function pinchMove(g) {
+      var v = g.v, m = pinchMid(), d = Math.max(10, pinchDist());
+      S.fov[v.key] = Math.max(60, Math.min(2400, S.fov[v.key] * g.d / d)); g.d = d;
+      keepUnder(v, g.W, m[0], m[1]);
+    }
+    function zoomAt(v, cx, cy, f) { paneBase(v); var W = worldAt(v, cx, cy); S.fov[v.key] = Math.max(60, Math.min(2400, S.fov[v.key] * f)); keepUnder(v, W, cx, cy); syncAll(); }
+    function pinchChip(v) {
+      if (!v.pzB || !window.NMSKPinch) return;
+      if (!v.chip) v.chip = NMSKPinch.chip(v.wrap, function () { pinchReset(v); }, {pos: "bc", dy: 4});
+      var k = v.pzB.fov / S.fov[v.key], a = v.CP || S.P, b = v.pzB.CP || S.P, dd = Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+      v.chip.set(k, Math.abs(Math.log(k)) > 0.03 || dd > S.fov[v.key] * 0.01);
+    }
+    function pinchReset(v) {
+      if (v.chip) v.chip.hide();
+      if (!v.pzB) return;
+      S.fov[v.key] = v.pzB.fov; v.CP = v.pzB.CP; v.pzB = null; markDirty([v.key], true); syncAll();
+    }
     function showReadout(v, q) {
       v.hover = [q[0], q[1]];
       var r = readoutAt(v, q[0], q[1]); if (r && ui.readout) ui.readout.textContent = r.text;
@@ -1717,7 +1761,7 @@
       ".ref-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:4px 7px;border-bottom:1px solid #2a3646;flex:0 0 auto}",
       ".ref-row label{font-size:11px;color:#98a6b8}",
       ".ref-row input[type=range]{flex:1 1 60px;min-width:50px}",
-      ".ref-stage{flex:1 1 0;min-height:0;position:relative;overflow:hidden;background:repeating-conic-gradient(#1a1f27 0 25%,#12161d 0 50%) 50%/16px 16px}",
+      ".ref-stage{flex:1 1 0;min-height:0;position:relative;overflow:hidden;touch-action:none;background:repeating-conic-gradient(#1a1f27 0 25%,#12161d 0 50%) 50%/16px 16px}",
       ".ref-stage.empty::after{content:'Load an image or short video clip (local file only -- never uploaded)';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px;text-align:center;color:#8192a6;font-size:12px}",
       ".ref-media{position:absolute;left:50%;top:50%;transform-origin:center center}",
       ".ref-media canvas,.ref-media video{display:block;max-width:none}",
@@ -1767,8 +1811,15 @@
     function headMove(e) { if (!drag) return; root.style.left = Math.max(0, drag.l + e.clientX - drag.x) + "px"; root.style.top = Math.max(0, drag.t + e.clientY - drag.y) + "px"; }
     function headUp() { drag = null; }
     var panDrag = null;
-    function stageDown(e) { if (!S.src) return; panDrag = {x: e.clientX, y: e.clientY, px: S.panX, py: S.panY}; try { ui.stage.setPointerCapture(e.pointerId); } catch (e2) {} }
-    function stageMove(e) { if (!panDrag) return; S.panX = panDrag.px + (e.clientX - panDrag.x); S.panY = panDrag.py + (e.clientY - panDrag.y); applyTransform(); }
+    function stageDown(e) { if (!S.src || (refPz && refPz.active())) return; panDrag = {x: e.clientX, y: e.clientY, px: S.panX, py: S.panY}; try { ui.stage.setPointerCapture(e.pointerId); } catch (e2) {} }
+    /* Q290: two fingers zoom the reference image toward the point between them and pan it; ctrl+wheel (trackpad pinch) about the cursor */
+    var refPz = null;
+    function refZoomAt(x, y, f) {                                          // x, y: stage-local; the image centre sits at the stage centre + pan
+      var r = ui.stage.getBoundingClientRect(), z1 = Math.max(0.2, Math.min(6, S.zoom * f)), k = z1 / S.zoom, mx = x - r.width / 2, my = y - r.height / 2;
+      S.panX = mx - (mx - S.panX) * k; S.panY = my - (my - S.panY) * k; S.zoom = z1;
+      if (ui.zoomOut) ui.zoomOut.textContent = Math.round(S.zoom * 100) + "%"; applyTransform();
+    }
+    function stageMove(e) { if (!panDrag || (refPz && refPz.active())) return; S.panX = panDrag.px + (e.clientX - panDrag.x); S.panY = panDrag.py + (e.clientY - panDrag.y); applyTransform(); }
     function stageUp() { panDrag = null; }
     function build() {
       root = el("div", {id: "ref-root", role: "region", "aria-label": "Reference image / video (local, not fused with the 3-D model)"});
@@ -1796,7 +1847,8 @@
       ui.cv = el("canvas", {width: "1", height: "1"}); ui.cv._w = 1; ui.cv._h = 1;
       ui.media.appendChild(ui.cv); ui.stage.appendChild(ui.media);
       ui.stage.addEventListener("pointerdown", stageDown); ui.stage.addEventListener("pointermove", stageMove); ui.stage.addEventListener("pointerup", stageUp); ui.stage.addEventListener("pointercancel", stageUp);
-      ui.stage.addEventListener("wheel", function (e) { if (!S.src) return; e.preventDefault(); S.zoom = Math.max(0.2, Math.min(6, S.zoom * (e.deltaY < 0 ? 1.1 : 0.9))); ui.zoomOut.textContent = Math.round(S.zoom * 100) + "%"; applyTransform(); }, {passive: false});
+      if (window.NMSKPinch) refPz = NMSKPinch.track(ui.stage, {start: function () { panDrag = null; }, move: function (f, x, y, dx, dy) { if (!S.src) return; S.panX += dx; S.panY += dy; refZoomAt(x, y, f); }});
+      ui.stage.addEventListener("wheel", function (e) { if (!S.src) return; e.preventDefault(); if (e.ctrlKey) { var r = ui.stage.getBoundingClientRect(); refZoomAt(e.clientX - r.left, e.clientY - r.top, Math.exp(Math.max(-40, Math.min(40, e.deltaY)) * 0.008)); return; } S.zoom = Math.max(0.2, Math.min(6, S.zoom * (e.deltaY < 0 ? 1.1 : 0.9))); ui.zoomOut.textContent = Math.round(S.zoom * 100) + "%"; applyTransform(); }, {passive: false});
       [ui.head, row1, row2, ui.stage].forEach(function (x) { root.appendChild(x); });
       document.body.appendChild(root);
     }

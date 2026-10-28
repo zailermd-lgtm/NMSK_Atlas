@@ -195,3 +195,28 @@ into the muscle, the clinical tests with sensitivity/specificity where a primary
 evidence caveat verbatim, and the sources (collapsed). The bundle keys one compact block per muscle, shared
 by both sides (`bundle.clinical[base_id]`). It is the owner's reading of the literature he cites, not a
 measurement; the caveat in every block says what the referral maps are (expert consensus).
+
+
+## Zooming with two fingers (Q290)
+
+Every picture zooms like a page in a phone browser, without opening a menu; the menus themselves never move or scale.
+
+- **3-D model (all six pages, both engines):** pinch to zoom toward the point between your fingers (not the
+  screen centre); drag with two fingers to pan -- the anatomy stays under the fingers. One finger still rotates and
+  taps still select. On a laptop trackpad, the pinch (which the browser sends as Ctrl + wheel) zooms toward the
+  cursor; the plain mouse wheel is unchanged (zoom about the centre), as are mouse drag, right-drag and Shift-drag.
+  The cross-section stack, the Learn view and Quick view results live on this 3-D view, so they zoom the same way.
+- **Ultrasound image (panel, the US mode and both halves of the full-screen split), CT / MRI slice panes, the
+  reference image:** pinch zooms that one image about the point between the fingers and two fingers pan it. The US
+  image is magnified (1x to 8x, it never uncovers its frame) while its text -- header, orientation letters, depth
+  numbers, the "simulated" badge and the full-screen watermark -- keeps its normal size on the visible part. A CT / MRI
+  pane is re-rendered at the new field of view, so its labels stay crisp; a first finger no longer moves the
+  crosshair when a second one follows (the crosshair moves on lift-off or on a one-finger drag).
+- **Back to 1:1:** a small "2.4x | 1:1" chip appears only while a picture is zoomed; tap it, or double-tap empty
+  space (on the US / CT image: anywhere in the image). Home / reset view and the CT field-of-view buttons also clear it.
+- **Browser zoom:** the pages no longer forbid the browser's own pinch zoom (the Z-Anatomy pages carried
+  `user-scalable=no`). The pictures keep `touch-action: none`, so a pinch on a picture is the picture's zoom and a
+  pinch on a panel is the browser's. When the page is opened on its own and the browser zoom is on, the main
+  toolbars are redrawn at 1:1 on the visible part of the screen and a chip offers 1:1 (Chrome honours it; on iOS pinch
+  out). Inside the claude.ai artifact frame the browser zooms the surrounding page, which this page cannot see --
+  the in-picture zoom above is the one that always works.

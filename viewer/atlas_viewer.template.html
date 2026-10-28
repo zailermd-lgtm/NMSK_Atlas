@@ -1310,6 +1310,178 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- PINCH html begin -->
+<style>
+/* Q290: the zoom chip -- shown only while a surface is zoomed; a tap returns it to 1:1 (double-tap on empty space does the same) */
+.pz-chip{position:fixed;z-index:2147482010;display:inline-flex;align-items:center;gap:5px;margin:0;padding:3px 9px;min-height:26px;
+  border-radius:999px;border:1px solid rgba(255,255,255,.35);background:rgba(20,24,30,.78);color:#fff;
+  font:600 11.5px/1 system-ui,-apple-system,sans-serif;letter-spacing:.01em;cursor:pointer;touch-action:manipulation;
+  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.pz-chip[hidden]{display:none}
+.pz-chip .pz-k{opacity:.82;font-weight:500}
+.pz-chip .pz-r{padding-left:6px;border-left:1px solid rgba(255,255,255,.35)}
+@media (prefers-reduced-motion:no-preference){.pz-chip{transition:opacity .15s}}
+</style>
+<script>
+/* Q290: two-finger zoom on every surface. Owner: "in all modules, also on mobile, allow zooming the screen like in a browser,
+   so you can focus on specific places without playing with the menus".
+   Each surface (the 3-D canvas of either engine, and the 2-D image panes of the optional add-ons) keeps
+   its own content zoom -- a pinch zooms toward the point between the fingers and a two-finger drag pans; the menus are not
+   part of any surface, so they never move or scale. This file holds only what the surfaces share:
+     NMSKPinch.pair(pts)                  midpoint + spread of two pointers {x, y, d}
+     NMSKPinch.track(el, h)               two touch / pen pointers on el -> h.start(), h.move(f, x, y, dx, dy) (el-local x, y;
+                                          f = spread ratio since the last move; dx, dy = midpoint travel), h.end(); .busy()
+                                          is true during a pinch and for 400 ms after it (so the lifted fingers are not a tap)
+     NMSKPinch.view()                     a 2-D view transform {k, tx, ty} (screen = k * base + t): about(x, y, f) zooms about
+                                          a point, pan(dx, dy), clamp(w, h) keeps the zoomed content covering the frame, reset()
+     NMSKPinch.chip(anchor, onReset, o)   the tiny "2.4x | 1:1" chip on the anchor's rectangle, shown only while zoomed; a tap
+                                          calls onReset (o.pos = "tc" | "tl" | "tr" | "bc" | "bl" | "br", o.dy extra offset)
+     NMSKPinch.dbl()                      returns fn(e): true on the second of two quick taps at one place (touch / pen only,
+                                          so a desktop double-click keeps its old meaning)
+   Native page zoom: the viewport allows it (no user-scalable=no); the canvases keep touch-action:none, so a pinch on them is
+   the surface's own zoom, and a pinch on a panel is the browser's. While the browser zoom is on (visualViewport.scale > 1,
+   a top-level page only -- inside an embedding frame the browser zooms the embedding page and this page cannot see it), the
+   main toolbars are drawn at 1:1 on the visible part of the page and a chip offers the way back. */
+(function () {
+  "use strict";
+  if (window.NMSKPinch) return;
+
+  function pair(pts) {
+    var a = pts[0], b = pts[1];
+    return {x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, d: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y))};
+  }
+
+  function track(el, h) {
+    var pts = new Map(), g = null, endT = 0;
+    function two() { var v = []; pts.forEach(function (p) { if (v.length < 2) v.push(p); }); return pair(v); }
+    el.addEventListener("pointerdown", function (e) {
+      if (e.pointerType === "mouse") return;
+      pts.set(e.pointerId, {x: e.clientX, y: e.clientY});
+      if (pts.size === 2) { g = two(); if (h.start) h.start(); }
+    }, true);
+    el.addEventListener("pointermove", function (e) {
+      if (!pts.has(e.pointerId)) return;
+      pts.set(e.pointerId, {x: e.clientX, y: e.clientY});
+      if (!g || pts.size < 2) return;
+      var n = two(), r = el.getBoundingClientRect();
+      h.move(n.d / g.d, n.x - r.left, n.y - r.top, n.x - g.x, n.y - g.y);
+      g = n; e.stopPropagation();
+    }, true);
+    function up(e) {
+      if (!pts.delete(e.pointerId)) return;
+      if (g && pts.size < 2) { g = null; endT = Date.now(); if (h.end) h.end(); }
+    }
+    el.addEventListener("pointerup", up, true);
+    el.addEventListener("pointercancel", up, true);
+    return {busy: function () { return !!g || Date.now() - endT < 400; }, active: function () { return !!g; }};
+  }
+
+  function view(kmin, kmax) {
+    var z = {k: 1, tx: 0, ty: 0, kmin: kmin || 1, kmax: kmax || 8};
+    z.about = function (x, y, f) {
+      var k1 = Math.max(z.kmin, Math.min(z.kmax, z.k * f)); f = k1 / z.k;
+      z.tx = x - (x - z.tx) * f; z.ty = y - (y - z.ty) * f; z.k = k1; return z;
+    };
+    z.pan = function (dx, dy) { z.tx += dx; z.ty += dy; return z; };
+    z.clamp = function (w, h) {                                   // the zoomed frame never uncovers its own edges
+      z.tx = Math.min(0, Math.max(w * (1 - z.k), z.tx)); z.ty = Math.min(0, Math.max(h * (1 - z.k), z.ty)); return z;
+    };
+    z.reset = function () { z.k = 1; z.tx = 0; z.ty = 0; return z; };
+    z.zoomed = function () { return Math.abs(z.k - 1) > 0.02 || Math.abs(z.tx) > 1 || Math.abs(z.ty) > 1; };
+    z.map = function (x, y) { return [z.k * x + z.tx, z.k * y + z.ty]; };
+    return z;
+  }
+
+  function fmt(k) { return (k >= 10 ? Math.round(k) : Math.round(k * 10) / 10) + "×"; }
+
+  function chip(anchor, onReset, o) {
+    o = o || {};
+    var b = document.createElement("button"), t = 0, last = "";
+    b.type = "button"; b.className = "pz-chip"; b.hidden = true;
+    b.setAttribute("aria-label", "Reset zoom to 1:1"); b.title = "Back to 1:1 (or double-tap empty space)";
+    b.innerHTML = '<span class="pz-k"></span><span class="pz-r">1:1</span>';
+    b.addEventListener("pointerdown", function (e) { e.stopPropagation(); });
+    b.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); onReset(); });
+    function el() { return typeof anchor === "function" ? anchor() : anchor; }
+    function place() {
+      t = 0; if (b.hidden) return;
+      if (!b.parentNode) (document.body || document.documentElement).appendChild(b);
+      var a = el(), r = a && a.isConnected ? a.getBoundingClientRect() : null;
+      if (!r || r.width < 8 || r.height < 8) b.style.visibility = "hidden";
+      else {
+        var w = b.offsetWidth || 70, hh = b.offsetHeight || 26, pos = o.pos || "tc", m = o.margin == null ? 8 : o.margin;
+        var x = pos.charAt(1) === "l" ? r.left + m : pos.charAt(1) === "r" ? r.right - w - m : r.left + (r.width - w) / 2;
+        var y = pos.charAt(0) === "t" ? r.top + m + (o.dy || 0) : r.bottom - hh - m - (o.dy || 0);
+        var key = Math.round(x) + "," + Math.round(y);
+        if (key !== last) { last = key; b.style.left = Math.round(x) + "px"; b.style.top = Math.round(y) + "px"; }
+        b.style.visibility = "";
+      }
+      t = setTimeout(place, 250);                              // follow the anchor while shown (docking, panel scroll, rotation)
+    }
+    return {
+      el: b,
+      set: function (k, zoomed) {
+        if (!zoomed) return this.hide();
+        b.firstChild.textContent = fmt(k);
+        if (b.hidden) { b.hidden = false; clearTimeout(t); place(); }
+      },
+      hide: function () { b.hidden = true; clearTimeout(t); t = 0; },
+      shown: function () { return !b.hidden; }
+    };
+  }
+
+  function dbl() {
+    var last = null;
+    return function (e) {
+      if (!e || e.pointerType === "mouse") return false;
+      var now = e.timeStamp || Date.now();                      // the input's own time: a busy page handles queued taps late, not apart
+      if (last && now - last.t >= 0 && now - last.t < 380 && Math.hypot(e.clientX - last.x, e.clientY - last.y) < 32) { last = null; return true; }
+      last = {t: now, x: e.clientX, y: e.clientY}; return false;
+    };
+  }
+
+  /* ---- native page zoom: keep the main toolbars at 1:1 on the visible part of the page ---- */
+  var PIN = ["#tools", "#topright", "#mode-bar"], nat = null;
+  function natChip() {
+    if (nat) return nat;
+    nat = document.createElement("button"); nat.type = "button"; nat.className = "pz-chip pz-native"; nat.hidden = true;
+    nat.setAttribute("aria-label", "Reset the page zoom to 1:1"); nat.title = "Back to 1:1";
+    nat.innerHTML = '<span class="pz-k"></span><span class="pz-r">1:1</span>';
+    nat.addEventListener("click", function () {                  // honoured by Chromium / Android; iOS ignores it (pinch out there)
+      var m = document.querySelectorAll('meta[name="viewport"]'), mm = m[m.length - 1]; if (!mm) return;
+      var c = mm.getAttribute("content"); mm.setAttribute("content", c + ", maximum-scale=1");
+      setTimeout(function () { mm.setAttribute("content", c); }, 350);
+    });
+    (document.body || document.documentElement).appendChild(nat);
+    return nat;
+  }
+  function pinTo(el, s, ox, oy) {
+    if (!el.__pz) el.__pz = {t: el.style.transform, o: el.style.transformOrigin};
+    el.style.transform = el.__pz.t; el.style.transformOrigin = "0 0";
+    var r = el.getBoundingClientRect();
+    el.style.transform = "translate(" + (ox + r.left / s - r.left) + "px," + (oy + r.top / s - r.top) + "px) scale(" + (1 / s) + ")" + (el.__pz.t ? " " + el.__pz.t : "");
+  }
+  function unpin(el) { if (!el.__pz) return; el.style.transform = el.__pz.t; el.style.transformOrigin = el.__pz.o; el.__pz = null; }
+  function vvSync() {
+    var vv = window.visualViewport; if (!vv) return;
+    var s = vv.scale || 1, on = s > 1.01;
+    document.documentElement.classList.toggle("pz-native-on", on);
+    PIN.forEach(function (sel) { var el = document.querySelector(sel); if (el) { if (on) pinTo(el, s, vv.offsetLeft, vv.offsetTop); else unpin(el); } });
+    if (!on) { if (nat) { nat.hidden = true; unpin(nat); } return; }
+    var c = natChip(); c.hidden = false; c.firstChild.textContent = fmt(s);
+    c.style.left = "0px"; c.style.top = "0px"; c.style.transformOrigin = "0 0";
+    var w = c.offsetWidth || 70;
+    c.style.transform = "translate(" + (vv.offsetLeft + (vv.width - w / s) / 2) + "px," + (vv.offsetTop + 56 / s) + "px) scale(" + (1 / s) + ")";
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", vvSync);
+    window.visualViewport.addEventListener("scroll", vvSync);
+  }
+
+  window.NMSKPinch = {pair: pair, track: track, view: view, chip: chip, dbl: dbl, nativeSync: vvSync, PIN: PIN};
+})();
+</script>
+<!-- PINCH html end -->
 <!-- Q188: optional add-on, published as a separate file next to this page (absent in an anatomy-only build;
      the viewer then runs unchanged). It reaches the anatomy only through the generic API object built below. -->
 <script src="clinical_needle_tool.js"></script>
@@ -1672,7 +1844,7 @@ function pinchState(){
 renderer.domElement.addEventListener("pointerdown", function(e){
   touchPts.set(e.pointerId, {x:e.clientX, y:e.clientY});
   try { renderer.domElement.setPointerCapture(e.pointerId); } catch (err){}
-  if (touchPts.size === 2){ drag = null; pinch = pinchState(); return; }
+  if (touchPts.size === 2){ drag = null; pinch = pinchState(); pzBase(); return; }
   drag = {x:e.clientX, y:e.clientY, pan:(e.button === 2 || e.shiftKey), moved:0};
 });
 function endTouch(e){ touchPts.delete(e.pointerId); if (touchPts.size < 2) pinch = null; }
@@ -1681,12 +1853,9 @@ renderer.domElement.addEventListener("pointermove", function(e){
   if (touchPts.has(e.pointerId)) touchPts.set(e.pointerId, {x:e.clientX, y:e.clientY});
   if (pinch && touchPts.size >= 2){
     var now = pinchState();
-    dist = Math.max(radius * 0.16, Math.min(radius * 7, dist * pinch.d / now.d));
-    var s2 = dist / 900;
-    var right2 = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
-    var up2 = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
-    target.addScaledVector(right2, -(now.x - pinch.x) * s2).addScaledVector(up2, (now.y - pinch.y) * s2);
-    pinch = now; place(); draw(); return;
+    pzPan(now.x - pinch.x, now.y - pinch.y);                    // Q290: the content follows the fingers exactly ...
+    pzZoomAt(now.x, now.y, pinch.d / now.d);                     // ... and zooms toward the point between them
+    pinch = now; return;
   }
   var hit = pick(e);
   var hv = document.getElementById("hover");
@@ -1720,16 +1889,47 @@ window.addEventListener("pointerup", function(e){
     if (cutCtl && cutCtl.consumeClick(e)) { /* "Place on model" is armed: the click set the cut plane */ }
     else if (selCtl && selCtl.consumeClick(e)) { /* Q227: Mark mode / Shift-Ctrl-click / long press marked or unmarked a structure */ }
     else if (addonClick && addonClick(e)) { /* consumed by the add-on */ }
-    else { var h = pick(e); select(h ? h.userData.id : null); }
+    else { var h = pick(e); select(h ? h.userData.id : null); if (!h && pzTap(e)) pzReset(); }   // Q290: double-tap on empty space = 1:1
   }
   drag = null;
 });
 renderer.domElement.addEventListener("contextmenu", function(e){ e.preventDefault(); });
 renderer.domElement.addEventListener("wheel", function(e){
   e.preventDefault();
+  if (e.ctrlKey){ pzBase(); pzZoomAt(e.clientX, e.clientY, Math.exp(Math.max(-40, Math.min(40, e.deltaY)) * 0.008)); return; }   // Q290: trackpad pinch (ctrl+wheel) zooms to the cursor
   dist = Math.max(radius * 0.16, Math.min(radius * 7, dist * (1 + Math.sign(e.deltaY) * 0.11)));
-  place(); draw();
+  place(); draw(); pzChipSync();
 }, {passive:false});
+/* Q290: zoom-to-point. Scaling the camera's distance by k about a world point P (camera and target both moved by the
+   homothety P + k(X - P), orientation unchanged) keeps P exactly where it is on screen; P is the point on the plane through
+   the orbit target, facing the camera, under the pinch midpoint / cursor. A two-finger drag moves the target by exactly the
+   world size of the fingers' travel at that plane, so the anatomy stays under the fingers. pzBase() remembers the view
+   before the first pinch; the chip (shown only while zoomed) or a double-tap on empty space returns to it. */
+var pzB = null, pzChip = null, pzTap = window.NMSKPinch ? NMSKPinch.dbl() : function(){ return false; };
+function pzAxes(){ camera.updateMatrixWorld(); return [new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0), new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1)]; }
+function pzPxWorld(){ var r = renderer.domElement.getBoundingClientRect(); return 2 * dist * Math.tan(camera.fov * Math.PI / 360) / Math.max(1, r.height); }
+function pzPoint(cx, cy){
+  var r = renderer.domElement.getBoundingClientRect(), s = pzPxWorld(), ax = pzAxes();
+  return target.clone().addScaledVector(ax[0], (cx - r.left - r.width / 2) * s).addScaledVector(ax[1], -(cy - r.top - r.height / 2) * s);
+}
+function pzZoomAt(cx, cy, f){
+  var P = pzPoint(cx, cy), d1 = Math.max(radius * 0.16, Math.min(radius * 7, dist * f)), k = d1 / dist;
+  target.sub(P).multiplyScalar(k).add(P); dist = d1; place(); draw(); pzChipSync();
+}
+function pzPan(dx, dy){ var s = pzPxWorld(), ax = pzAxes(); target.addScaledVector(ax[0], -dx * s).addScaledVector(ax[1], dy * s); place(); draw(); pzChipSync(); }
+function pzBase(){ if (!pzB) pzB = {dist:dist, target:target.clone()}; }
+function pzChipSync(){
+  if (!pzB || !window.NMSKPinch) return;
+  if (!pzChip) pzChip = NMSKPinch.chip(renderer.domElement, pzReset, {pos:"bc", dy:36});
+  var k = pzB.dist / dist;
+  pzChip.set(k, Math.abs(Math.log(k)) > 0.03 || target.distanceTo(pzB.target) > dist * 0.02);
+}
+function pzReset(){
+  if (pzChip) pzChip.hide();
+  if (!pzB) return false;
+  dist = pzB.dist; target.copy(pzB.target); pzB = null; place(); draw(); return true;
+}
+function pzForget(){ pzB = null; if (pzChip) pzChip.hide(); }
 
 var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
 /* Nearest visible hit under the pointer (full intersection: object, world
@@ -2098,7 +2298,7 @@ document.getElementById("t-xray").addEventListener("click", function(){
   xray = !xray; this.setAttribute("aria-pressed", String(xray)); apply();
 });
 document.getElementById("t-reset").addEventListener("click", function(){
-  az = HOME.az; el = HOME.el; dist = fitDistance(); target.set(0, 0, 0); place(); draw();
+  az = HOME.az; el = HOME.el; dist = fitDistance(); target.set(0, 0, 0); place(); draw(); pzForget();
 });
 function frameOn(id){
   var g = groups[id]; if (!g) return;

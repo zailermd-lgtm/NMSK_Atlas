@@ -1606,7 +1606,7 @@
       ".us-views{flex:1 1 0;min-height:0;display:grid;gap:4px;padding:4px;background:#000;position:relative}",
       ".us-views.star{grid-template-columns:1fr 2fr 1fr;grid-template-rows:1fr 2fr 1fr}",
       ".us-views.single{grid-template-columns:1fr;grid-template-rows:1fr}",
-      ".us-view{position:relative;min-width:0;min-height:0;overflow:hidden;background:#000;border:1px solid #1d2733;touch-action:manipulation;cursor:pointer}",
+      ".us-view{position:relative;min-width:0;min-height:0;overflow:hidden;background:#000;border:1px solid #1d2733;touch-action:none;cursor:pointer}",
       ".us-view.us-act{border-color:var(--acc)}",
       ".us-view canvas{position:absolute;image-rendering:auto}",
       ".us-view .ann{pointer-events:none;left:0;top:0}",
@@ -1744,7 +1744,7 @@
       /* Q289: the scan-direction arrow, at the edge of the image area (shown while a CINE motion type plays) */
       ui.arrowBox = el("div", {class: "us-arrow", hidden: true, role: "img", "aria-label": "כיוון הסריקה"}, [(ui.arrow = el("canvas", {width: "92", height: "92"})), (ui.arrowTxt = el("span", {text: ""}))]);
       ui.views.appendChild(ui.arrowBox);
-      ui.views.addEventListener("click", function () { if (fs.on) { if (!fs.sheet.hidden) { fs.sheet.hidden = true; fs.more.setAttribute("aria-expanded", "false"); } else setCine(!S.cine); fsWake(); } });   // full screen: tap the image = pause / play
+      ui.views.addEventListener("click", function () { if (views.some(function (w) { return w.pz && w.pz.busy(); })) return; if (fs.on) { if (!fs.sheet.hidden) { fs.sheet.hidden = true; fs.more.setAttribute("aria-expanded", "false"); } else setCine(!S.cine); fsWake(); } });   // full screen: tap the image = pause / play
       ui.read = el("div", {class: "us-read", text: "Click the skin in the 3D view to place the probe; hover an image for tissue, structure, depth and echo level."});
       /* Q267 (6): opt-in, off by default (S.thickness) -- see tog("thickness", ...) in buildControls() */
       ui.thick = el("div", {class: "us-thick", hidden: true});
@@ -1970,18 +1970,35 @@
     function ensureViews(specs) {
       var want = specs.length;
       if (views.length === want && views.mode === S.mode && views.ab === S.ab) return relayoutViews();
-      views.forEach(function (v) { if (v.wrap.parentNode) v.wrap.parentNode.removeChild(v.wrap); });
+      views.forEach(function (v) { if (v.wrap.parentNode) v.wrap.parentNode.removeChild(v.wrap); if (v.chip) v.chip.hide(); });
       views = []; views.mode = S.mode; views.ab = S.ab;
       specs.forEach(function (sp, i) {
         var v = {idx: i, img: el("canvas", {}), ann: el("canvas", {class: "ann"}), hover: null};
         v.ctx = v.img.getContext("2d"); v.actx = v.ann.getContext("2d");
         v.wrap = el("div", {class: "us-view", "data-i": String(i), tabindex: "0", "aria-label": "frame " + (i + 1)}, [v.img, v.ann]);
-        v.wrap.addEventListener("click", function () { if (i !== S.sel) { S.sel = i; relayoutViews(); syncUi(); updateOverlay(); if (S.mode === "star") refresh(true); } });
+        pinchView(v);                                                    // Q290: two-finger zoom / pan of this image
+        v.wrap.addEventListener("click", function () { if (v.pz && v.pz.busy()) return; if (i !== S.sel) { S.sel = i; relayoutViews(); syncUi(); updateOverlay(); if (S.mode === "star") refresh(true); } });
         v.wrap.addEventListener("pointermove", function (e) { v.hover = hoverAt(v, e); });
         v.wrap.addEventListener("pointerdown", function (e) { v.hover = hoverAt(v, e); });
         ui.views.appendChild(v.wrap); views.push(v);
       });
       relayoutViews();
+    }
+    /* Q290: a pinch zooms the image toward the point between the fingers and a two-finger drag pans it (1x-8x, the image
+       never leaves its frame); the image box is scaled, the overlay is redrawn at its own size -- scale ticks, the probe
+       footprint and the fan outline follow the zoomed image, the text (header, orientation letters, badge, watermark) stays
+       at its normal size on the visible part of the frame. The chip (only while zoomed) or a double-tap returns to 1:1. */
+    function pinchView(v) {
+      var P = window.NMSKPinch; if (!P) return;
+      v.z = P.view(1, 8); v.tap = P.dbl();
+      function redraw() {
+        if (frames[v.idx]) annotate(v, frames[v.idx]);
+        if (!v.chip) v.chip = P.chip(v.wrap, function () { v.z.reset(); redraw(); }, {pos: "bc", dy: 30});
+        v.chip.set(v.z.k, v.z.zoomed());
+      }
+      v.zoomRedraw = redraw;
+      v.pz = P.track(v.wrap, {move: function (f, x, y, dx, dy) { v.z.pan(dx, dy).about(x, y, f); redraw(); }});
+      v.wrap.addEventListener("pointerup", function (e) { if (!v.pz.busy() && v.tap(e) && v.z.zoomed()) { v.z.reset(); redraw(); } });
     }
     function relayoutViews() {
       if (!ui.views) return;
@@ -2058,11 +2075,18 @@
       var r = v.wrap.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1), cw = Math.max(1, Math.round(r.width)), ch = Math.max(1, Math.round(r.height));
       if (a.width !== cw * dpr || a.height !== ch * dpr) { a.width = cw * dpr; a.height = ch * dpr; a.style.width = cw + "px"; a.style.height = ch + "px"; }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cw, ch); try { ctx.direction = "ltr"; } catch (eD) {}   // Q273: a Hebrew word followed by numbers must not be reordered by an RTL host
-      var box = boxOf(v, fr, cw, ch); v.box = box;
-      v.img.style.left = box.x + "px"; v.img.style.top = box.y + "px"; v.img.style.width = box.w + "px"; v.img.style.height = box.h + "px";
-      var tiny = box.w < 200, sim = fr.sim, pl = fr.plan, g = fr.geom, sc = box.s / pl.px;       // css px per mm
-      function X(x) { return box.x + (x - pl.xo0) * sc; }
-      function Y(y) { return box.y + (y - pl.yo0) * sc; }
+      var box = boxOf(v, fr, cw, ch), ib = box;                           // Q290: ib = the (zoomed) image, box = its visible part (the text sits there)
+      if (v.z && v.z.zoomed()) {
+        var z = v.z.clamp(cw, ch);
+        ib = {x: z.k * box.x + z.tx, y: z.k * box.y + z.ty, w: z.k * box.w, h: z.k * box.h, s: z.k * box.s};
+        var x0 = Math.max(0, ib.x), y0 = Math.max(0, ib.y);
+        box = {x: x0, y: y0, w: Math.min(cw, ib.x + ib.w) - x0, h: Math.min(ch, ib.y + ib.h) - y0, s: ib.s};
+      }
+      v.box = ib;
+      v.img.style.left = ib.x + "px"; v.img.style.top = ib.y + "px"; v.img.style.width = ib.w + "px"; v.img.style.height = ib.h + "px";
+      var tiny = box.w < 200, sim = fr.sim, pl = fr.plan, g = fr.geom, sc = ib.s / pl.px;       // css px per mm
+      function X(x) { return ib.x + (x - pl.xo0) * sc; }
+      function Y(y) { return ib.y + (y - pl.yo0) * sc; }
       ctx.font = "600 " + (tiny ? 9.5 : 11.5) + "px system-ui,sans-serif"; ctx.textBaseline = "middle";
       function txt(s, x, y, al, col) { ctx.textAlign = al; ctx.fillStyle = "rgba(0,0,0,.7)"; ctx.fillText(s, x + 1, y + 1); ctx.fillStyle = col || "#e8eef5"; ctx.fillText(s, x, y); }
       function txtSeq(parts, x, y, col) { parts.forEach(function (pt) { txt(pt, x, y, "left", col); x += ctx.measureText(pt).width; }); }   // Q273: segments drawn left-to-right one by one, so two Hebrew words with numbers between them never get bidi-reordered
