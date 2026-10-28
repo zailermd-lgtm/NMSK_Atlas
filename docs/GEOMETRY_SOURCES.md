@@ -1797,3 +1797,61 @@ vagina, urethra, ovaries, uterine tubes, labia minora / vestibule, clitoris and 
   neck to -1887, not traced to the meatus, no edge against the anterior vaginal wall); ovaries (no confident candidate on
   either pelvic wall; the ovoids found are bowel); tubes (not separable from the broad ligament); labia minora / vestibule
   (folds of 2-3 mm, no colour edge); clitoris and bulbs (erectile tissue photographs as dark as muscle, as Q62 found).
+
+
+### Base Female: her own breasts, chest skin contour and pelvic organs registered onto the Base body (2026-10-28, Q292)
+
+Owner: the breast and the pelvic structure of the Base female model need fixing (research report in Hebrew:
+`docs/research/Q292_female_breast_pelvis_sources.md`; scripts `scripts/anatomy/q292/`; reports `data/derived/Q292_base_f_report.json`,
+`Q292_page_report.json`, `Q292_validation.json`; renders `data/derived/Q292_render_*.png` before / after).
+
+- **What was wrong.** Breasts = the HRA mammary set, recorded by HRA as sculpted from scratch (Krstic 1991; Gilroy 2008), squeezed into
+  the male Z chest skin (Q234) and given a column-maximum skin lift (Q250) over coarse Z patches (spikes); the nipple lay 65 mm behind
+  the breast apex on its lateral rim. Pelvis: a male Z bladder (450 triangles) and sigmoid / rectum, HRA reference organs and CVH
+  perineal structures of another woman, mutually penetrating (vagina 17 % inside the bladder, uterus 13 %, CVH urethra 38 % inside the vagina).
+- **Registration (one map).** Her atlas frame -> Base F from the bone correspondences of the two Z skeletons (Combined F = Z bones fitted
+  to her skeleton, Base F = the same bones deformed onto it): 44 bones vertex to vertex,
+  48 by similarity ICP, 21,355 pairs; thin-plate spline through
+  3,500 control points (scale 0.9944, residual median 0.71 / p95 4.48 mm);
+  her own CT bones mapped onto the Base bones: hips median 5.1 mm, sacrum
+  4.0, ribs 2.1 / 1.8.
+- **Breasts** (`breast_ct_l/r`, her Q285 CT breasts; `breast_fgt_ct_l/r`, Q287 HU rule): the spline compressed the supine breast, so each breast
+  takes the rigid fit of her own chest wall (ribs 2-7, cartilages, half sternum) at the global scale, a depth correction (her breast-to-rib-cage
+  height kept), then RULE-BASED refits: lateral squash beyond 145 mm from the midline (x 0.35; her supine lateral spread lies against her arm in
+  the CT, the Base arm hangs there), pushes out of the arm (<= 8 mm) and rib cage (keeping 4 mm for the pectoral layer), inside the skin.
+  Volume L 639.2 / R 844.1 cm3 = 73.0 / 84.2 % of her CT breasts
+  (875.2 / 1003.1); glands 11.7 / 15.7 cm3 (VGF 1.8 / 1.9 %);
+  outside the skin 1.5 / 0.62 % of vertices, inside the rib cage 0.0 / 0.67 %.
+  Faded by default; the 12 HRA sculpted meshes hidden by default (still listed).
+- **Chest skin.** 18 Z patches (positions before the Q250 lift) subdivided to 4 mm edges (5,472 -> 144,156 triangles)
+  and fitted onto her own CT skin mapped with the breasts' transform (full over the breast, tapering to zero 30-80 mm away and at the borders with
+  unmoved patches; pushed out over the breast where her CT has no skin of her own, max 5.5 mm).
+- **Thinned under the breast** (male-derived Z shapes): sternocostal head of pectoralis major L 309.75 -> 153.79,
+  R 308.18 -> 138.75 cm3 (her own pectoralis major ~200 cm3 on CT), pectoral fascia,
+  abdominal part, lateral pectoral nerve and others (each card states it); 24 structures.
+- **Pelvic organs** (her CT, TotalSegmentator `total`; her cryosection uterus): bladder 44.4 -> 45.0,
+  rectum 146.6 -> 160.9, pelvic sigmoid 61.7 -> 68.8,
+  uterus 35.7 -> 41.5 cm3 (the Base pelvis is a little wider than hers); her rule-based
+  external anal sphincter (16.8 cm3). Hidden by default: Z bladder, Z sigmoid, Z external anal sphincter,
+  HRA uterus. The HRA / CVH female set: per structure the live placement or her-frame placement (same spline), whichever enters bone / her
+  organs / psoas less, then pushed out by <= 8 mm; urethral group moved 10.0 mm anteriorly together (urethra in front
+  of the vagina); new on the page: round ligaments, superior rectal artery, anococcygeal ligament, clitoris cavernous body; hidden by default:
+  suspensory_ligament_ovary_r (> 20 % inside psoas). Z levator parts pushed out of her organs by <= 5 mm.
+- **Validation against the literature** (`Q292_validation.json`): IMF L between the fifth and sixth ribs, R between the sixth and seventh ribs (lit. over the 5th-6th interspace);
+  superior border L between the second and third ribs, R above the third rib; sternal notch to breast apex (nipple proxy) 184.8 / 192.3 mm
+  (lit. 198-223); apex to apex 165.8 mm (lit. 203-217); apex to IMF 46.2 / 59.8 mm (lit. 77);
+  medial border 24.6 / 16.3 mm from the midline (lit. 48 cadaver); lateral border 13.6 mm
+  BEYOND the latissimus anterior edge (lit. 39-45 mm medial to it: her supine lateral spread, still too lateral); PM width / breast width
+  0.98 / 0.92 (lit. 0.82-0.85). Bony pelvis: subpubic 85.1 deg, obstetric conjugate
+  123.3, inlet transverse 149.5, interspinous 100.6, intertuberous 127.1 mm (lit. 87.4 deg; 126.9, 134.7, 113.4,
+  127.1 mm). Organs: uterus 41.48 cm3 (lit. 37.1-60.1 mL), vagina long axis 76.3 mm (lit. 62.7),
+  ovaries 0.86 / 0.81 cm3 (HRA; lit. 2.6 at 50-59 y, 1.0 at 60-69 y), urethra 30.2 mm (lit. 22-38).
+- **Mesh realness** (mean face-adjacency dihedral; CVH reference 27.6-31.7 deg): her CT organs 13-18 deg (her Imaging-F viewing meshes are
+  smoothed and decimated), glands 37-41 deg, the subdivided skin patches 4-11 deg (the subdivision is smooth; the contour is hers). The angle is
+  a roughness signature, not proof of origin; the provenance of each mesh is its documented segmentation (Q285 / Q287 / Q288).
+- **Page**: 3,228 structures, 3,647,815 triangles; 14 added, 96 geometries replaced, 17 hidden by default, 2 faded.
+  Z template: a card names its geometry source (`rec.geom_src`) instead of the fixed "Geometry from Z-Anatomy" line when one is given.
+- **Still rule-based / missing:** the breast's shape is her supine cadaver shape refitted by rules (a standing breast sits lower and projects
+  more); no nipple / areola object; no Cooper ligaments (no real open source reached); the FGT is a HU rule; ovaries / tubes / vagina remain HRA
+  reference organs and the perineum CVH (another woman); her levator ani is not used (rule-based, 1.35x), the Z levator stays; the hub's
+  structure counts and `clinical_risk.json` of Base F are not recomputed.

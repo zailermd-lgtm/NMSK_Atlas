@@ -1290,7 +1290,7 @@ NATIVE_FEMALE_WORDING = [
     ("<h2>NMSK Atlas — Z-Anatomy</h2>", "<h2>NMSK Atlas — Female base model (Z-Anatomy deformed onto a female skeleton)</h2>"),
     ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Female base</h1>"),
     ('matched+" atlas-linked · "+partOf+" part-of-linked";',
-     'matched+" atlas-linked · "+partOf+" part-of-linked · Z-Anatomy body deformed onto a female skeleton (Visible Human female, one woman), female organs from the HRA (same donor, CC BY 4.0)";'),
+     'matched+" atlas-linked · "+partOf+" part-of-linked · Z-Anatomy body deformed onto a female skeleton (Visible Human female, one woman); her own breasts and pelvic organs registered onto it (Q292)";'),
     ("    <div class=\"licence\">",
      "    <p><strong>What this page is (Q250).</strong> Z-Anatomy (and BodyParts3D under it) ships ONE body, a male-derived one; a female Z-Anatomy / BodyParts3D "
      "release does not exist (checked Q233: the 2023 Blender file with its 7,184 objects, the 2022 mobile project, the BodyParts3D parts list; the repository's own to-do list names a female model as a future goal). "
@@ -1300,8 +1300,11 @@ NATIVE_FEMALE_WORDING = [
      "along with the bones it attaches to by a smooth bone-anchored thin-plate-spline deformation: origins and insertions stay on the bone surface (within 1 mm); the card of each structure states its displacement, "
      "area / volume change and any guard correction. The female organs (uterus, both ovaries, both uterine tubes, vagina, the ligaments of the uterus and ovary, the pelvic vessels) are the HuBMAP Human Reference Atlas "
      "reference organs of the same donor (CC BY 4.0, Browne and Schlehlein), registered onto this page's new pelvis. "
+     "<strong>Since Q292</strong> her OWN breasts (her CT, TotalSegmentator `breasts`) with their fibroglandular tissue (rule-based HU threshold), her own chest skin contour (the Z-Anatomy chest skin patches fitted onto her CT skin), "
+     "her own urinary bladder, rectum and pelvic sigmoid colon (her CT) and her own uterus (her colour cryosections) are registered onto this body by its bones; the breasts are REFITTED by stated rules "
+     "(her supine lateral spread pulled medially, pushed out of the arm and rib cage) and their cards give the volume kept and every rule; the HRA sculpted breast set and the Z-Anatomy bladder / sigmoid / anal sphincter are hidden by default, still listed. "
      "<strong>Limits:</strong> the target is ONE woman (59 years old), not an average woman; the shapes of muscles, organs and skin are Z-Anatomy's male-derived shapes carried along, not re-modelled; "
-     "skull, hands, feet and the distribution of fat are not female-specific. <strong>Base versus Combined:</strong> this page is the generic female base (standard pose, nothing of hers measured); "
+     "skull, hands, feet and the distribution of fat are not female-specific. <strong>Base versus Combined:</strong> this page is the generic female base (standard pose; her own breasts and pelvic organs registered onto it since Q292, the rest Z-Anatomy's shapes); "
      "<em>Combined &middot; Female</em> is fitted bone by bone to HER skeleton and pose and carries her measured structures where available. "
      "Searches and measurements: <code>data/derived/Q196_female_base_sources.json</code>, <code>data/derived/Q250_sex_indicators.md</code>.</p>\n"
      "    <div class=\"licence\">"),

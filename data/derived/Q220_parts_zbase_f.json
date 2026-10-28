@@ -2,9 +2,9 @@
  "schema": "nmsk.parts_geometry.v1",
  "body": "zbase_f",
  "label": "Z-Anatomy generic body, female variant, unfitted (base female page)",
- "generated": "2026-10-21",
+ "generated": "2026-10-28",
  "frame": "atlas mm (+X right, +Y superior, +Z anterior)",
- "source": "build/q265/viewer_base_female/atlas_viewer_base_female.html",
+ "source": "build/q292/viewer_base_female/atlas_viewer_base_female.html",
  "source_classes": {
   "rule_based": "rule applied to this body's own mesh by a documented rule with a published or measured error",
   "z_fill": "position of a dedicated Z-Anatomy part mesh as fitted to this body (not segmented from the person)",
@@ -893,9 +893,9 @@
   },
   {
    "position_mm": [
-    79.97,
-    454.11,
-    58.7
+    77.2,
+    450.29,
+    62.54
    ],
    "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
    "source_class": "z_fill",
@@ -905,14 +905,14 @@
    ],
    "bbox_mm": [
     [
-     2.64,
-     347.73,
-     -13.39
+     2.34,
+     347.89,
+     -13.4
     ],
     [
-     178.94,
+     178.93,
      534.73,
-     97.27
+     84.17
     ]
    ],
    "n_vertices": 1611,
@@ -928,9 +928,9 @@
   },
   {
    "position_mm": [
-    -79.97,
-    454.1,
-    58.68
+    -77.2,
+    450.28,
+    62.54
    ],
    "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
    "source_class": "z_fill",
@@ -940,14 +940,14 @@
    ],
    "bbox_mm": [
     [
-     -178.94,
-     347.67,
-     -13.39
+     -178.93,
+     347.57,
+     -13.4
     ],
     [
-     -2.75,
+     -2.53,
      534.72,
-     97.28
+     85.43
     ]
    ],
    "n_vertices": 1611,
@@ -963,9 +963,9 @@
   },
   {
    "position_mm": [
-    111.45,
-    392.79,
-    59.0
+    109.51,
+    392.59,
+    56.3
    ],
    "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
    "source_class": "z_fill",
@@ -975,14 +975,14 @@
    ],
    "bbox_mm": [
     [
-     56.79,
+     56.71,
      307.43,
-     -14.19
+     -14.2
     ],
     [
-     172.33,
+     172.32,
      535.51,
-     82.06
+     80.2
     ]
    ],
    "n_vertices": 756,
@@ -998,9 +998,9 @@
   },
   {
    "position_mm": [
-    -111.46,
-    392.79,
-    58.99
+    -110.03,
+    392.67,
+    57.45
    ],
    "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
    "source_class": "z_fill",
@@ -1012,12 +1012,12 @@
     [
      -172.32,
      307.29,
-     -14.16
+     -14.17
     ],
     [
-     -56.71,
-     535.42,
-     82.04
+     -56.69,
+     535.41,
+     81.26
     ]
    ],
    "n_vertices": 756,
@@ -3178,9 +3178,9 @@
   },
   {
    "position_mm": [
-    26.62,
-    -41.59,
-    14.33
+    27.42,
+    -41.88,
+    14.04
    ],
    "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
    "source_class": "z_fill",
@@ -3190,14 +3190,14 @@
    ],
    "bbox_mm": [
     [
-     -0.03,
-     -55.89,
-     -33.69
+     0.4,
+     -56.83,
+     -34.64
     ],
     [
-     37.11,
-     -8.52,
-     62.87
+     37.13,
+     -8.82,
+     62.84
     ]
    ],
    "n_vertices": 716,
@@ -3213,9 +3213,9 @@
   },
   {
    "position_mm": [
-    -26.62,
-    -41.58,
-    14.33
+    -28.81,
+    -42.8,
+    13.28
    ],
    "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
    "source_class": "z_fill",
@@ -3225,14 +3225,14 @@
    ],
    "bbox_mm": [
     [
-     -37.08,
-     -55.94,
-     -33.68
+     -37.45,
+     -57.21,
+     -35.98
     ],
     [
-     0.05,
-     -9.12,
-     62.87
+     -0.76,
+     -10.28,
+     62.9
     ]
    ],
    "n_vertices": 716,
@@ -8638,7 +8638,7 @@
   },
   {
    "part_id": "pectoral_fascia.origin_q256",
-   "reason": "r: the structure's mesh end is 19.6 mm from the sternum surface (> tolerance 12 mm); tendon/continuation not modelled; l: the structure's mesh end is 27.7 mm from the sternum surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "reason": "r: the structure's mesh end is 16.8 mm from the sternum surface (> tolerance 12 mm); tendon/continuation not modelled; l: the structure's mesh end is 26.4 mm from the sternum surface (> tolerance 12 mm); tendon/continuation not modelled",
    "rule_tried": "end_snap_bone"
   },
   {

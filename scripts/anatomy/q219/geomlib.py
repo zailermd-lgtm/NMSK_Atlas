@@ -17,7 +17,8 @@ BODIES = {
     # Q274: zbase_f repointed from build/q218 (pre-Q250) to build/q265 (post-Q250/Q252 skeleton + CVH warp) -- the q218 snapshot
     # predates the Q250 female-pelvis warp and the Q252 CVH-perineal additions, so positions derived on it no longer match the
     # live Base F page geometry (58% of its origin/insertion markers were silently dropping to text-only on the check below).
-    "zbase_f": dict(kind="zan", label="Z-Anatomy generic body, female variant, unfitted (base female page)", path=REPO / "build/q265/viewer_base_female/atlas_viewer_base_female.html"),
+    # Q292: repointed to build/q292 (her own breasts / chest skin / pelvic organs registered onto Base F; the Z pectoralis and the chest skin moved)
+    "zbase_f": dict(kind="zan", label="Z-Anatomy generic body, female variant, unfitted (base female page)", path=REPO / "build/q292/viewer_base_female/atlas_viewer_base_female.html"),
 }
 
 

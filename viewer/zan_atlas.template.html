@@ -7325,7 +7325,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         if(a.supplies&&a.supplies.length) h+='<dl class="facts"><dt>Supplies</dt><dd>'+esc(a.supplies.join(", "))+'</dd></dl>';
         if(a.notes) h+='<p class="sub2">'+esc(a.notes)+'</p>';
         if(a.procedural_badge) h+='<div class="warn">'+esc(a.procedural_badge)+'</div>';
-        h+='<div class="ok-note">Geometry from Z-Anatomy (CC BY-SA 4.0); '+
+        h+='<div class="ok-note">'+(a.geom_src?'Geometry: '+esc(a.geom_src)+'; ':'Geometry from Z-Anatomy (CC BY-SA 4.0); ')+   // Q292: a structure from another source names it (her CT, HRA, CVH) instead of the Z-Anatomy default
            (a.part_of
              ? 'this piece is shown on its own -- the facts above are <b>'+esc(a.part_of)+'</b>\'s own cited atlas record, not independently verified for this specific piece.'
              : 'named facts from this project\'s own cited atlas records.')+
