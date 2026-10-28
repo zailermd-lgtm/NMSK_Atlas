@@ -49,7 +49,7 @@ def test_items_match_reports():
 
 
 def test_pose_rigs_keep_committed_entries_and_cover_the_pages():
-    for key, n in (("own_m", 898), ("own_f", 1050)):          # own_f: Q287 spliced two more (her breast fibroglandular tissue)
+    for key, n in (("own_m", 898), ("own_f", 1051)):          # own_f: Q287 spliced two more (her breast fibroglandular tissue), Q288 one (her uterus)
         j = json.loads((REPO / f"data/anatomy/pose_rig_{key}.json").read_text())
         rig = j["rig"]
         assert rig["count"] == n and len(rig["nv"]) == n

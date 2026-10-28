@@ -1750,3 +1750,50 @@ page's non-skin structures lie inside her CT skin (2 mm tolerance). `scripts/ana
   loops (`data/derived/Q287_uterus_ct_feasibility.json`, `Q287_uterus_ct_check.png`). Ovaries: the HRA left ovary is 74 % fat
   HU, the right 68 % inside her iliac vein label. Vagina / vulva: Q233's verdict stands (one dark mass in her 1 mm cryo frame).
   Her colour cryosections could separate the uterus; the female cryo frame is not on disk (pelvis ~4.5 GB to stream + re-register).
+
+### Her uterus from her own colour cryosections (2026-10-28, Q288)
+
+Owner (Q287 follow-up, option 1 approved): use her full-resolution colour cryosections for her own pelvic and reproductive organs.
+Shipped: her **uterus (body + cervix)** on Combined · Female and Imaging-based Female. Not shipped (reasons measured, below):
+vagina, urethra, ovaries, uterine tubes, labia minora / vestibule, clitoris and vestibular bulbs.
+
+- **Photographs.** IDC series `56f8119f-5940-48c1-96ee-8d445dc0b5fd` (VHP-F 'Fullcolor - direct digital', 5,186 photographs
+  0.33 mm apart, 1216 x 2048, public domain NLM): header index of all 5,186 objects, then one photograph per 1 mm of the
+  series' own z from cryo z -1690 to -1970 (281 levels) kept at full in-plane resolution in a fixed window (rows 60-1060,
+  cols 280-1820), streamed to `/dev/shm` and deleted after the round (`scripts/cryo/vhf_stream_pelvis_q288.py`).
+- **Registration to her CT** (`scripts/cryo/vhf_register_pelvis_q288.py`; her old 1 mm frame was lost in Q179): the method
+  of `vhf_register_cryo.py` / `vhf_resample_cryo.py` restricted to the slab -- rows flipped, 0.99 mm per 1 mm photograph pixel,
+  per level a translation by phase correlation of the body silhouettes (median-filtered over 5 levels); height torso-RAS
+  z = cryo z + 944.7 (Q154) + d, d searched over -15..+45 mm per 10th level by the NCC of fat and bone patterns and fitted as a
+  line: d = 60.16 + 0.02198 z, 24 levels, **rms 2.25 mm** (d about 19.5 mm at the hips, in line with Q179's 14-20 mm; her old
+  frame had 8.9 mm rms). Silhouette IoU p5 / median / p95 0.855 / 0.876 / 0.913 (frozen block vs fresh CT pose).
+  Checked on overlays: her CT rectum, bladder, hip bone and femoral-head labels land on the photographed ones.
+- **Segmentation** (`scripts/cryo/vhf_pelvic_organs_from_cryo.py`): 3-D random walker (Grady 2006, doi:10.1109/TPAMI.2006.233)
+  on CIE L*a*b* colour, 0.67 mm in-plane x 1 mm, cryo z -1810..-1887. Organ seeds: small discs placed by eye INSIDE the organ
+  (`data/derived/Q288_seeds.json`, 18 uterus levels; at 6 cervix levels also competing seeds in the paracervical tissue).
+  Competing seeds automatic: photographed fat, embedding gel, near-black bowel content, and her CT labels eroded 2 mm
+  (bladder; rectum only on its dark content; hip bones, femora, sacrum, gluteals, iliopsoas). Her `small_bowel` label is not
+  used (it covers her uterus on CT, Q287). No automatic competing seed within 8 mm of an organ seed (the pale cervical stroma
+  passes the fat colour rule). Holes filled per level; the 3-D piece connected to the seeds. Deterministic (re-run identical).
+- **Uterus** (`scripts/anatomy/q288/uterus_q288.py`, `data/derived/Q288_uterus_report.json`, montage
+  `Q288_uterus_montage.png`, render `Q288_uterus_render.png`): 35.7 cm3 on her CT grid, extent 54.4 x 59.1 x 41.0 mm
+  (LR x AP x SI), one piece, mesh 1.0011x the voxels, 12,000 triangles. Volume against postmenopausal ultrasound:
+  mean 37.1 ml > 5 y and 60.1 ml <= 5 y after menopause (Jirapinyo 1998, PMID 9676090); size falls with years since menopause
+  (Merz 1996, doi:10.1046/j.1469-0705.1996.07010038.x); gate 10-90 cm3. On her CT at the mapped voxels: median 30 HU
+  (p10 -34, p90 84), 10.8 % fat HU -- soft tissue where the photographs put it, an independent check
+  of the registration. Overlap with her labels: 42.5 % in `small_bowel` (expected, Q287), 0.1 % colon, 0 % bladder / bone /
+  iliac vessels; levator ani (Q62, old frame) 0.3 / 0.9 %. HRA reference uterus: centroid 11.5 mm away, Dice 0.457
+  (23.0 cm3) -- Q287's "well placed" confirmed. Limits: the body and fundus have a clean serosa / fat edge; the
+  lowest ~12 mm (cervix) has no colour edge against the paracervix and the bladder base, so that boundary may be 2-4 mm off.
+- **Pages.** Combined · Female (`scripts/anatomy/q288/comb_f_q288.py`, `data/derived/Q288_comb_f_report.json`): + `uterus_cryo_vhf`
+  (3,244 structures), HRA `uterus` hidden by default (`hd`, still listed, 'unhide'); 14.3 % of its surface lies > 1 mm inside
+  the page's Z-Anatomy urinary bladder (a fitted male-derived shape, not hers): on the card. Imaging-based Female
+  (`scripts/anatomy/q288/own_f_q288.py`, baseline from `build/q287_pre/bundle_own_f` proven geo-identical to the live page):
+  + `uterus_cryo_vhf` (1,051), HRA `uterus` `hidden_default`. Subject `ct_vhf_uterus` (Source: measured). Rig: rigid on the
+  pelvis segment (spliced, committed entries unchanged).
+- **Not shipped** (`data/derived/Q288_not_shipped.json`, evidence `Q288_vagina_urethra_attempt.png`): vagina (seen as a band
+  from the vault at -1846 and a V on a coronal reslice, but below -1864 the walker splits it: 44 of 48 levels in pieces --
+  vaginal wall, levator ani and rectal wall share one colour range at 1 mm); urethra (a 13-17 mm target ring from the bladder
+  neck to -1887, not traced to the meatus, no edge against the anterior vaginal wall); ovaries (no confident candidate on
+  either pelvic wall; the ovoids found are bowel); tubes (not separable from the broad ligament); labia minora / vestibule
+  (folds of 2-3 mm, no colour edge); clitoris and bulbs (erectile tissue photographs as dark as muscle, as Q62 found).

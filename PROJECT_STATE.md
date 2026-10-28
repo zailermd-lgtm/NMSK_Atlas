@@ -12913,3 +12913,46 @@ Owner (Hebrew, relayed): "Combined Female is better than the female model; use i
 **F. Verification.** `scripts/anatomy/q287/verify_q287.py` real Chromium 1400x900 + 390x844 touch: ALL OK (24 checks: hidden 261 / faded 2 at load and after reset, list search + tap/Enter opens gland card with HU-rule badge, unfade / unhide work, thoracic flexion moves gland 27.8 mm / breast 47.7 mm, rig 3,243 / 1,050, 0 page errors); log `data/derived/Q287_browser_check.log`. Desktop note: at 1400x900 in split layout the rail's list rows sit under the front/side/back/reset pills (pre-existing; test uses keyboard Enter). Tests: `tests/test_q287.py` 6 pass; `tests/test_q286.py` own_f count 1048 -> 1050 (intended); full suite 11 failed (the baseline set) / 1750 passed / 135 skipped. All sync scripts `--check` up to date.
 **G. Regen** (`scripts/regen_template_only.py`, out /dev/shm): Combined F vs live: every clinical file + plexus identical; data blocks identical except nmsk-abbrev (+new ids) and nmsk-pose-rig; symmetry +2 pairs only; parts_data date only. Imaging F vs build/q286: geo_03, page, abbrev (+2), symmetry (+1 pair), parts date only. Imaging M / Combined M / Base F / Base M regenerated with the new templates (inert there: no hd/fd entries, label line for a subject they lack) -- NOT republished.
 **H. Published.** Combined F v64 (page + geo_02 + symmetry), Imaging F v119 (page + geo_03 + symmetry), hub v69 (two chips + Combined F / Imaging F text), open-items v36 (section ה bullet, section ב breast note).
+
+## Q288 (2026-10-28) -- her uterus from her own colour cryosections (agent; published Combined F v65 + Imaging F v120 + hub v70 + open-items v37)
+Owner approved option 1 (Q287 follow-up): full-resolution colour cryosections via /dev/shm, nothing in build/ deleted.
+
+**A. Data** (all intermediates in /dev/shm/q288, deleted at the end; peak /dev/shm ~1.8 GB). Header index of all 5,186 photographs of IDC
+series 56f8119f (VHP-F Fullcolor); `scripts/cryo/vhf_stream_pelvis_q288.py` kept one photograph per 1 mm of cryo z, -1690..-1970 (281
+levels), full 0.33 mm resolution in the window rows 60-1060 / cols 280-1820 (1.3 GB).
+**B. Registration** (`scripts/cryo/vhf_register_pelvis_q288.py`, result committed `data/derived/Q288_pelvis_registration.json`; her old
+frame was lost in Q179): method of vhf_register_cryo / vhf_resample_cryo on the slab -- rows flipped, 0.99 mm/px, per-level silhouette
+phase correlation (median 5), height = cryo z + 944.7 (Q154) + d, d searched -15..+45 by fat/bone NCC every 10th level, line fit
+d = 60.16 + 0.02198 z (24 levels, **rms 2.25 mm**; old frame 8.9). Overlays: her CT rectum / bladder / hip / femoral head land on the photographs.
+**C. Segmentation** (`scripts/cryo/vhf_pelvic_organs_from_cryo.py segment|volume`): 3-D random walker (skimage, Lab colour, 0.67 x 0.67 x 1 mm,
+cryo z -1810..-1887, beta 90, deterministic); operator seed discs placed by eye inside organs (`data/derived/Q288_seeds.json`: uterus 18
+levels, vagina 11, urethra 7, competing 13); automatic competitors = fat, gel, dark bowel content, her CT labels eroded 2 mm (bladder; colon
+only on dark content; bones / gluteals / iliopsoas); no small_bowel label (covers her uterus on CT); no automatic competitor within 8 mm
+of an organ seed (cervical stroma passes the fat rule). Label volume `data/ct_sources/task_outputs/vhf_pelvic_organs_cryo.nii.gz`
+(her CT grid, label 1 = uterus only).
+**D. Shipped: `uterus_cryo_vhf`** (subject `ct_vhf_uterus`, `scripts/anatomy/q288/uterus_q288.py`, `data/derived/Q288_uterus_report.json`,
+montage `Q288_uterus_montage.png`, render `Q288_uterus_render.png`): 35.7 cm3 (postmenopausal 37.1 ml > 5 y / 60.1 ml <= 5 y, Jirapinyo
+1998 PMID 9676090; Merz 1996 doi:10.1046/j.1469-0705.1996.07010038.x), 54 x 59 x 41 mm, one piece, mesh 1.001x voxels, 12,000 tris;
+her CT at those voxels median 30 HU, 10.8 % fat HU; 42.5 % in TS small_bowel (expected), 0.1 % colon, 0 % bladder / bone; levator ani
+(Q62) 0.3 / 0.9 %; HRA uterus centroid 11.5 mm away, Dice 0.46 (Q287 "well placed" confirmed). Cervix boundary (lowest ~12 mm) has no
+colour edge: may be 2-4 mm off (on the card).
+**E. Not shipped** (`data/derived/Q288_not_shipped.json`, `Q288_vagina_urethra_attempt.png`): vagina (split into pieces on 44/48 levels
+below -1864: wall, levator, rectal wall one colour range); urethra (ring traced -1862..-1887 only, no edge vs anterior vaginal wall);
+ovaries (no confident candidate; ovoids found = bowel); tubes (not separable from broad ligament); labia minora / vestibule; clitoris /
+bulbs (erectile tissue as dark as muscle, as Q62).
+**F. Pages.** Combined F (`scripts/anatomy/q288/comb_f_q288.py`, report `data/derived/Q288_comb_f_report.json`): + uterus_cryo_vhf
+(3,244), HRA `uterus` `hd`; 14.3 % of its surface > 1 mm inside the Z urinary bladder (on the card). Imaging F (`own_f_q288.py`, baseline
+from build/q287_pre/bundle_own_f proven geo-identical): + uterus_cryo_vhf (1,051), HRA `uterus` hidden_default. Template: SUBJECT_LABELS
+line via new `scripts/sync_subjects_q288.py` (Source: measured). Rigs spliced (committed entries unchanged; uterus rigid on the pelvis
+segment): comb_f 3,244, own_f 1,051. `scripts/anatomy/q241/model.py` SRC own_f / comb_f -> build/q288. Final pages kept in build/q288
+(117 MB) and the own_f bundle in build/q288_pre/bundle_own_f (89 MB) as next-round base; pre pages / regen outputs in /dev/shm only.
+**G. Verification.** `scripts/anatomy/q288/verify_q288.py` real Chromium 1400x900 + 390x844 touch: 30 checks ALL OK, 0 page errors (log
+`data/derived/Q288_browser_check.log`). `tests/test_q288.py` 7 pass; test_q286 / test_q287 rig counts 1050->1051 / 3243->3244 (intended).
+Full suite 11 failed (the baseline set) / 1757 passed / 135 skipped (baseline 11 / 1750 / 135) -- 0 regressions. All sync scripts --check
+up to date. Regen: `regen_template_only.py own_f zan_f --src /dev/shm/q288/pre --ref build/q287` -> OK; live-vs-new = Imaging F: bundle-json,
+nmsk-abbrev, nmsk-pose-rig, BIN_FILES, SUBJECT_LABELS line, geo_03; Combined F: manifest / files literals, abbrev, pose-rig, geo_02;
+parts_data / symmetry differ only by date (not republished). Imaging M regenerated: only the Q287 + Q288 SUBJECT_LABELS lines (inert, not republished).
+**H. Published.** Combined F v65 (page + geo_02), Imaging F v120 (page + geo_03), hub v70 (two chips; card text: uterus now hers, HRA
+wording corrected to "reference models"), open-items v37 (section ה bullet). Each live artifact was read first and matched build/q287.
+**Next:** vagina / urethra need either finer edges (0.33 mm every level, texture features) or owner-approved manual tracing; ovaries
+need a dedicated search at 0.33 mm along the ovarian vessels.

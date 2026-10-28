@@ -10,8 +10,8 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q286/viewer_m_hr", "own_f": "build/q287/viewer_f_hr", "base_m": "build/q265/viewer_zan_atlas",     # Q265: lateral sural cutaneous n. (Z), perforating cutaneous n. (S2-S3, all six),
-       "base_f": "build/q265/viewer_base_female", "comb_m": "build/q265/viewer_zan_vhm", "comb_f": "build/q287/viewer_zan_female"}   # subcostal n. + 4 branches (all six), vagus thoracic/abdominal (all six), hypoglossal lingual branches (Z) -- same "point the rig source at the new build" pattern every prior round used
+SRC = {"own_m": "build/q286/viewer_m_hr", "own_f": "build/q288/viewer_f_hr", "base_m": "build/q265/viewer_zan_atlas",     # Q265: lateral sural cutaneous n. (Z), perforating cutaneous n. (S2-S3, all six),
+       "base_f": "build/q265/viewer_base_female", "comb_m": "build/q265/viewer_zan_vhm", "comb_f": "build/q288/viewer_zan_female"}   # subcostal n. + 4 branches (all six), vagus thoracic/abdominal (all six), hypoglossal lingual branches (Z) -- same "point the rig source at the new build" pattern every prior round used
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 
