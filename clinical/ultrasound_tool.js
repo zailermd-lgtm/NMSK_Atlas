@@ -199,11 +199,11 @@
     if (!contact) ysk = 0;
     ysk = Math.max(-pl.margin + 1, Math.min(pl.margin - 1, ysk));
     var P = new Float32Array(nS * nL), reverb = [], tex = !!o.textures, spk = !!o.speckle, seed = (o.seed | 0) || 1;
-    var cellAx = GL.speckle.cell_ax_wavelengths * lam, cellZ = GL.speckle.elev_mm, elev = o.elevMm || 0, frame = o.frame, nStats = {specCount: 0, lost: 0, texSamples: 0};
+    var cellAx = GL.speckle.cell_ax_wavelengths * lam, cellZ = GL.speckle.elev_mm, elev = o.elevMm || 0, frame = o.frame, nStats = {specCount: 0, lost: 0, texSamples: 0, archSamples: 0, sepSamples: 0};
     var latCell = new Float32Array(nS), ref = o.ref || null;
     for (k = 0; k < nS; k++) latCell[k] = Math.max(0.4, latFw(k * ds) * 0.8);
     function latCellAt(y) { return Math.max(0.4, latFw(y < 0 ? 0 : y) * 0.8); }
-    var lastSid = -1, lastAxis = null;
+    var lastSid = -1, lastAxis = null, lastArch = null;
     var tp = AC.tex_p;
     for (L = 0; L < nL; L++) {
       var ls = lineStart(g, L, nL), x0 = ls[0], y0 = ls[1], dx = ls[2], dy = ls[3];
@@ -258,13 +258,15 @@
           if (bsl > 0) {
             var m = 1;
             if (AC.aOn[cls] || (tex && AC.tex[cls])) {
-              var axs = null;
-              if (sid && pix >= 0) { var q = sid[pix]; if (q < 65534) { if (q !== lastSid) { lastSid = q; lastAxis = o.axisOf ? o.axisOf(q) : null; } axs = lastAxis; } }
-              if (axs && axs.elong >= (AC.aMin[cls] || 2.5)) {
-                if (AC.aOn[cls] && bd) { var ca = Math.abs(dot(bd, axs.a)), dev = Math.asin(Math.min(1, ca)), qq = dev / AC.aTh[cls]; m *= AC.aFl[cls] + (1 - AC.aFl[cls]) * Math.exp(-qq * qq); }
+              var axs = null, arc = null;
+              if (sid && pix >= 0) { var q = sid[pix]; if (q < 65534) { if (q !== lastSid) { lastSid = q; lastAxis = o.axisOf ? o.axisOf(q) : null; lastArch = o.archOf ? o.archOf(q) : null; } axs = lastAxis; arc = lastArch; } }
+              if ((axs && axs.elong >= (AC.aMin[cls] || 2.5)) || arc) {               // Q289: a muscle with architecture data is textured even when its mesh is not elongated (deltoid)
+                if (AC.aOn[cls] && bd && axs) { var ca = Math.abs(dot(bd, axs.a)), dev = Math.asin(Math.min(1, ca)), qq = dev / AC.aTh[cls]; m *= AC.aFl[cls] + (1 - AC.aFl[cls]) * Math.exp(-qq * qq); }
                 if (tex && AC.tex[cls] && frame) {
                   var wx = frame.O[0] + frame.u[0] * X + frame.b[0] * Y, wy = frame.O[1] + frame.u[1] * X + frame.b[1] * Y, wz = frame.O[2] + frame.u[2] * X + frame.b[2] * Y;
-                  var a = axs.a, e1 = Math.abs(a[1]) < 0.9 ? unit(cross(a, [0, 1, 0])) : unit(cross(a, [1, 0, 0])), e2 = cross(a, e1);
+                  var a = axs ? axs.a : arc.a;
+                  if (arc && AC.tex[cls] === 1) { a = fibreAt(arc, wx, wy, wz); if (arc._sep > 0.01) { m *= 1 + arc.gain * arc._sep; nStats.sepSamples++; } nStats.archSamples++; }   // Q289: the local fibre direction (pennation) + documented septa
+                  var e1 = Math.abs(a[1]) < 0.9 ? unit(cross(a, [0, 1, 0])) : unit(cross(a, [1, 0, 0])), e2 = cross(a, e1);
                   var tp1 = AC.tex[cls] === 1 ? tp.muscle : tp.tendon, cell = AC.tex[cls] === 1 ? tp1.cell_mm : tp1.fib_mm * 5, lw = AC.tex[cls] === 1 ? tp1.line_mm : tp1.fib_mm * 0.5;
                   worley((wx * e1[0] + wy * e1[1] + wz * e1[2]) / cell, (wx * e2[0] + wy * e2[1] + wz * e2[2]) / cell, 5);
                   var dd = (WF2 - WF1) * cell / lw; m *= 1 + tp1.gain * Math.exp(-dd * dd); nStats.texSamples++;
@@ -436,6 +438,86 @@
     return best;
   }
 
+  /* ---- Q289: muscle architecture -----------------------------------------------------------------------------
+   * The frame is the muscle mesh's OWN three principal axes (a = long axis / line of action, w = width, t = thickness, from the
+   * vertex covariance); the pennation angle is the cited value of ultrasound_tissues.json "architecture"; documented septa are
+   * sheets placed in that frame by the stated rule. fibreAt() gives the local fibre direction and the septum weight at a point. */
+  function eigSym3(m) {                                                    // Jacobi rotations on a symmetric 3x3 -> eigenpairs, largest first
+    var A = [m[0].slice(), m[1].slice(), m[2].slice()], V = [[1, 0, 0], [0, 1, 0], [0, 0, 1]], it, p, q, r;
+    for (it = 0; it < 30; it++) {
+      p = 0; q = 1; if (Math.abs(A[0][2]) > Math.abs(A[p][q])) { p = 0; q = 2; } if (Math.abs(A[1][2]) > Math.abs(A[p][q])) { p = 1; q = 2; }
+      if (Math.abs(A[p][q]) < 1e-12) break;
+      var th = 0.5 * Math.atan2(2 * A[p][q], A[q][q] - A[p][p]), c = Math.cos(th), s = Math.sin(th);
+      for (r = 0; r < 3; r++) { var arp = A[r][p], arq = A[r][q]; A[r][p] = c * arp - s * arq; A[r][q] = s * arp + c * arq; }
+      for (r = 0; r < 3; r++) { var apr = A[p][r], aqr = A[q][r]; A[p][r] = c * apr - s * aqr; A[q][r] = s * apr + c * aqr; }
+      for (r = 0; r < 3; r++) { var vrp = V[r][p], vrq = V[r][q]; V[r][p] = c * vrp - s * vrq; V[r][q] = s * vrp + c * vrq; }
+    }
+    return [0, 1, 2].map(function (k) { return {val: A[k][k], vec: unit([V[0][k], V[1][k], V[2][k]])}; }).sort(function (x, y) { return y.val - x.val; });
+  }
+  function pca3(pos, v0, v1) {
+    var nv = v1 - v0, st = Math.max(1, Math.floor(nv / 4000)), k, c = [0, 0, 0], m = 0;
+    for (k = v0; k < v1; k += st) { c[0] += pos[3 * k]; c[1] += pos[3 * k + 1]; c[2] += pos[3 * k + 2]; m++; }
+    if (m < 6) return null;
+    c = [c[0] / m, c[1] / m, c[2] / m];
+    var C3 = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], i, j;
+    for (k = v0; k < v1; k += st) { var d = [pos[3 * k] - c[0], pos[3 * k + 1] - c[1], pos[3 * k + 2] - c[2]]; for (i = 0; i < 3; i++) for (j = 0; j < 3; j++) C3[i][j] += d[i] * d[j] / m; }
+    var e = eigSym3(C3);
+    return {c: c, a: e[0].vec, w: e[1].vec, t: e[2].vec, ev: e.map(function (x) { return x.val; }), step: st};
+  }
+  var KIND = {unipennate: 1, bipennate: 2, multipennate: 3, layered: 4};
+  /* spec: one "architecture.muscles" row; o: {prox: a point nearer the proximal end, dirs: {anterior, medial, superior: unit vectors}, half, gain} */
+  function archFrame(pos, v0, v1, spec, o) {
+    var F = pca3(pos, v0, v1); if (!F) return null;
+    var a = F.a, w = F.w, t = F.t, c = F.c, k, ext = function (ax) { var lo = 1e9, hi = -1e9; for (k = v0; k < v1; k += F.step) { var q = (pos[3 * k] - c[0]) * ax[0] + (pos[3 * k + 1] - c[1]) * ax[1] + (pos[3 * k + 2] - c[2]) * ax[2]; if (q < lo) lo = q; if (q > hi) hi = q; } return [lo, hi]; };
+    var la = ext(a);
+    if (o.prox && Math.hypot(c[0] + a[0] * la[1] - o.prox[0], c[1] + a[1] * la[1] - o.prox[1], c[2] + a[2] * la[1] - o.prox[2]) < Math.hypot(c[0] + a[0] * la[0] - o.prox[0], c[1] + a[1] * la[0] - o.prox[1], c[2] + a[2] * la[0] - o.prox[2])) { a = mul(a, -1); la = [-la[1], -la[0]]; }
+    var toward = function (ax, name) { var d = o.dirs && o.dirs[name]; return d && dot(ax, d) < 0 ? mul(ax, -1) : ax; };
+    if (spec.parts && spec.parts.toward) w = toward(w, spec.parts.toward);
+    (spec.septa || []).forEach(function (s) { if (s.toward) { if (s.normal === "t") t = toward(t, s.toward); else w = toward(w, s.toward); } });
+    var lw = ext(w), lt = ext(t), kind = KIND[spec.t] || 0, p = (spec.p || 0) * DEG;
+    var ar = {a: a, w: w, t: t, c: c, la: la, lw: lw, lt: lt, kind: kind, p: p, p0: spec.p0 != null ? spec.p0 * DEG : null, p1: spec.p1 != null ? spec.p1 * DEG : null,
+      half: o.half || 0.6, gain: o.gain || 6, sheets: [], bands: null, cOff: (lw[0] + lw[1]) / 2, _f: [0, 0, 0], _sep: 0, _band: -1};
+    if (spec.parts && spec.parts.bands && !o.noParts) {
+      ar.bands = spec.parts.bands.map(function (b) {
+        var words = String(b[2]).toLowerCase().replace(/[()]/g, " ").split(/\s+/).filter(function (x) { return x && x !== "part" && x !== "head"; });
+        var hit = (spec.c || []).filter(function (cp) { var n = String(cp[0]).toLowerCase(); return words.some(function (wd) { return n.indexOf(wd) >= 0; }); });
+        var ws = 0, sp = 0; hit.forEach(function (cp) { var wt = Math.max(1, cp[2]); ws += wt; sp += cp[1] * wt; });
+        return {f0: b[0], f1: b[1], name: b[2], p: (ws ? sp / ws : (spec.p || 0)) * DEG, n: hit.length};
+      });
+    }
+    (spec.septa || []).forEach(function (s) {
+      var axn = s.normal === "t" ? "t" : "w", L = axn === "t" ? lt : lw, cnt = s.count || 1, j;
+      for (j = 0; j < cnt; j++) {
+        var fr = s.count ? (j + 1) / (cnt + 1) : (s.at != null ? s.at : 0.5), span = s.span_alternate ? s.span_alternate[j % 2] : (s.span || [0, 1]);
+        ar.sheets.push({ax: axn, off: L[0] + fr * (L[1] - L[0]), s0: span[0], s1: span[1], id: s.id, name: s.name});
+      }
+    });
+    if (kind === 2 && ar.sheets.length && ar.sheets[0].ax === "w") ar.cOff = ar.sheets[0].off;
+    ar.mOffs = ar.sheets.filter(function (s) { return s.ax === "w"; }).map(function (s) { return s.off; }).sort(function (x, y) { return x - y; });
+    return ar;
+  }
+  function fibreAt(ar, x, y, z) {
+    var dx = x - ar.c[0], dy = y - ar.c[1], dz = z - ar.c[2], a = ar.a, w = ar.w, t = ar.t;
+    var da = dx * a[0] + dy * a[1] + dz * a[2], dw = dx * w[0] + dy * w[1] + dz * w[2], dt = dx * t[0] + dy * t[1] + dz * t[2];
+    var ua = (da - ar.la[0]) / ((ar.la[1] - ar.la[0]) || 1); ua = ua < 0 ? 0 : ua > 1 ? 1 : ua;
+    var th = ar.p0 != null ? ar.p0 + (ar.p1 - ar.p0) * ua : ar.p, i, sep = 0;
+    ar._band = -1;
+    if (ar.bands) { var fw = (dw - ar.lw[0]) / ((ar.lw[1] - ar.lw[0]) || 1); for (i = 0; i < ar.bands.length; i++) if (fw >= ar.bands[i].f0 && fw <= ar.bands[i].f1) { th = ar.bands[i].p; ar._band = i; break; } }
+    for (i = 0; i < ar.sheets.length; i++) {
+      var s = ar.sheets[i]; if (ua < s.s0 || ua > s.s1) continue;
+      var q = ((s.ax === "t" ? dt : dw) - s.off) / ar.half, g = Math.exp(-q * q); if (g > sep) sep = g;
+    }
+    var ca = Math.cos(th), sa = Math.sin(th), sg = 1, ox = w;
+    if (ar.kind === 1) ox = t;
+    else if (ar.kind === 2) sg = dw - ar.cOff >= 0 ? -1 : 1;                              // converge distally on the central sheet
+    else if (ar.kind === 3) { var j = 0; if (ar.mOffs.length) { while (j < ar.mOffs.length && ar.mOffs[j] < dw) j++; } else j = dw >= ar.cOff ? 1 : 0; sg = j % 2 ? 1 : -1; }
+    else if (ar.kind === 4) { ox = t; var off4 = ar.sheets.length ? ar.sheets[0].off : (ar.lt[0] + ar.lt[1]) / 2; sg = dt - off4 >= 0 ? 1 : -1; }
+    else { ca = 1; sa = 0; }
+    var f = ar._f; f[0] = a[0] * ca + ox[0] * sa * sg; f[1] = a[1] * ca + ox[1] * sa * sg; f[2] = a[2] * ca + ox[2] * sa * sg;
+    ar._sep = sep;
+    return f;
+  }
+
   /* ---- Q253: probe-frequency / depth mismatch check -----------------------------------------------------
    * Honest heuristic, not a clinical rule. Two independent checks, both grounded in numbers this tool already
    * uses elsewhere (never invented here):
@@ -461,7 +543,7 @@
 
   var LIB = {VERSION: VERSION, probeFrame: probeFrame, REF: REF, starTilts: starTilts, sweepOffsets: sweepOffsets, matrixDims: matrixDims, fanGeom: fanGeom, lineStart: lineStart,
     planRaster: planRaster, compileAcoustics: compileAcoustics, simulate: simulate, hash3: hash3, toGray: toGray, skinHit: skinHit, smoothNormal: smoothNormal, pcaAxis: pcaAxis,
-    followRotation: followRotation, angleDeg: angleDeg, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES, probeMismatch: probeMismatch};
+    followRotation: followRotation, angleDeg: angleDeg, pca3: pca3, archFrame: archFrame, fibreAt: fibreAt, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES, probeMismatch: probeMismatch};
   G.NMSKUltrasoundLib = LIB;
   if (typeof document === "undefined") return;
 
@@ -473,6 +555,7 @@
     return "";
   })();
   var BADGE = "Simulated from meshes – not an ultrasound";
+  var FS_MARK = "סימולציה מהמשים – לא סריקה";                               // Q289: the tiny in-image watermark of the clean full-screen CINE view
 
   var CODE_SRC = (function () { try { var cs = document.currentScript; return cs && cs.src ? "file" : "inline"; } catch (e) { return "inline"; } })();   // Q239
   function attachUltrasound(api, sh) {
@@ -493,7 +576,10 @@
       ab: false, P2: null, N2: null, skinStruct2: -1, placeSlot: "A", abSnapMm: null,   // Q273: how far B was snapped from A's mirror image to reach skin (null = not seated by mirroring)
       /* Q267 (6): opt-in, OFF by default, live tissue-thickness readout at the cursor/cross-hair -- a SEPARATE
          toggle from the Q256 source-reliability dots (different system, viewer/parts_ui/parts_ui.js), per the brief. */
-      thickness: false
+      thickness: false,
+      /* Q289: CINE motion types (null = the Q257 continuous behaviour of the current mode) and their playback; extAuto = the 3-D window and
+         the "long" sweep span the whole body part (the nearest long bone's length), else extCm (a window length centred on the probe) */
+      fibres3d: true, motion: null, mBack: true, mLoop: true, mRev: false, mSpeed: 3, mPlane: null, extAuto: true, extCm: 30
     };
     var frames = [], views = [], root = null, ui = {}, timers = {}, gen = 0, keySeq = 0, perf = {last: null, hist: []}, axisCache = {}, firing = false, busy = false, overlay = null, lastOverlayKey = "";
     /* Q257: CONTINUOUS cine -- genuinely re-slices at every displayed position (not a snap between the step-cine's N precomputed
@@ -521,8 +607,11 @@
       if (!contState.active) return;
       if (contState.busy || !frames.length) { contState.raf = reqFrame(contTick); return; }
       var dt = contState.lastT ? Math.min(250, now - contState.lastT) / 1000 : 0; contState.lastT = now;
-      var spec;
-      if (S.mode === "star") {
+      var spec, more = true;
+      if (S.motion) {                                                          // Q289: a CINE motion type drives the probe along its mesh-derived path; the two Q257 branches below are untouched
+        if (!mPath) { contState.raf = reqFrame(contTick); return; }
+        more = motionStep(motionSpeed() * dt); spec = motionSpec(contState.pos);
+      } else if (S.mode === "star") {
         var degPerSec = 360 / contOneWaySec(); contState.pos = ((contState.pos + degPerSec * dt) % 360 + 360) % 360; spec = contSpecStar(contState.pos);
       } else {
         var half = contRangeMm(), mmPerSec = (half * 2) / Math.max(0.2, contOneWaySec());
@@ -534,11 +623,447 @@
       computeFrame(spec, contQuality(), frames[S.sel]).then(function (fr) {
         contState.busy = false; if (!contState.active) return;
         contState.measMs = Date.now() - t0; contState.fpsActual = Math.round((1000 / Math.max(1, contState.measMs)) * 10) / 10;
-        frames[S.sel] = fr; paintView(S.sel, fr); if (S.mode === "star") drawSchematic(); updateOverlay(); updateContReadout();
+        frames[S.sel] = fr; paintView(S.sel, fr); if (S.mode === "star" && !S.motion) drawSchematic(); overlayPaced(); updateContReadout();
+        if (S.motion) { drawArrow(fr); if (!more) { motionDone(); return; } }
         contState.raf = reqFrame(contTick);
       }, function (err) { contState.busy = false; console.error("continuous cine:", err); contState.raf = reqFrame(contTick); });
     }
+    /* Q289: during a CINE the image has priority; the 3-D probe / plane / fibre overlay follows at what the device can afford: no sooner
+       than 3x its own last measured cost (a GPU redraw of ~10 ms -> every 40 ms; a software renderer taking seconds no longer stalls
+       the re-slicing loop and the page's input handling behind it) */
+    var ovPace = {last: 0, cost: 0};
+    function overlayPaced() {
+      var now = Date.now(); if (now - ovPace.last < Math.max(40, 3 * ovPace.cost)) return;
+      ovPace.last = now; updateOverlay(); ovPace.cost = Date.now() - now;
+    }
     function updateContReadout() { if (ui.contOut) ui.contOut.textContent = contState.active ? ("live ≈ " + contState.fpsActual + " fps (" + contState.measMs + " ms/frame)") : ""; }
+
+    /* ---------- Q289: CINE MOTION TYPES -- an extension of the Q257 continuous cine above (same contTick loop, same live quality
+     * tier, same wall-clock pacing), not a second cine. Each type is a path computed from THIS page's own meshes, never invented:
+     *   long  = the probe slides along the body part: the nearest long bone's own PCA axis on a limb (its ends = the part's length),
+     *           the body's cranio-caudal axis on the trunk; at every sample it is re-seated on the real skin, face at 90° to it;
+     *   circ  = the probe goes round the body part at its own level: rays from the section centre outward meet the part's own skin,
+     *           and the face stays at 90° to the smoothed skin normal there (Q228's 15 mm area-weighted normal);
+     *   rot   = the probe turns about its own axis (the skin normal) on the placed point, 180° (a probe's plane repeats after 180°);
+     *   tilt  = the probe fans heel <-> toe about its contact point by ± the Tilt slider;
+     *   track = the probe follows a chosen structure: its centreline is the per-slice centroid of the structure's OWN mesh vertices
+     *           along its principal axis (a course that doubles back on that axis is not represented), and at each centreline point
+     *           the probe sits on the skin nearest above it, face at 90° to the skin.
+     * Playback: one way or back and forth, optionally looped; speed in mm/s (deg/s for rot / tilt), advanced by measured time. */
+    var MOTIONS = [["long", "אורכי"], ["circ", "היקפי"], ["rot", "סיבוב"], ["tilt", "הטיה"], ["track", "מעקב מבנה"]];
+    var MOTION_TIP = {long: "סריקה רציפה לאורך חלק הגוף (ציר העצם הארוכה הקרובה / ציר הגוף), המתמר ב-90° לעור", circ: "סריקה היקפית סביב חלק הגוף בגובה המתמר, ב-90° לעור בכל נקודה",
+      rot: "סיבוב המתמר סביב צירו במקום (180°)", tilt: "הטיית המתמר עקב ↔ בוהן סביב נקודת המגע (± זווית ההטיה)", track: "מעקב אחר מבנה נבחר לאורך קו המרכז של הרשת שלו"};
+    var M_MM_S = [5, 10, 20, 40, 80], M_DEG_S = [10, 20, 40, 80, 160];
+    var LONG_BONE = /^(humerus|radius|ulna|femur|tibia|fibula|clavicle)\b|metacarp|metatars|phalan/i;
+    var mPath = null, mGen = 0, mBuilding = false, mInfo = null;
+    function motionSpeed() { var i = Math.max(1, Math.min(5, S.mSpeed)) - 1; return mPath && mPath.unit === "deg" ? M_DEG_S[i] : M_MM_S[i]; }
+    function trunkPoint() { var bb = geo.bodyBox; return [(bb.lo[0] + bb.hi[0]) / 2, bb.lo[1] + 0.72 * (bb.hi[1] - bb.lo[1]), (bb.lo[2] + bb.hi[2]) / 2]; }   // +Y is cranial on every page (REF.long)
+    function dist3(a, b) { return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]); }
+    function perpTo(v, a) { return sub(v, mul(a, dot(v, a))); }
+    /* the skin triangles whose centroid lies inside [lo, hi]: every path ray below tests only this subset, not the whole body's skin */
+    function skinSub(lo, hi) {
+      var out = [], pos = geo.pos, idx = geo.idx, si, t;
+      for (si = 0; si < geo.skinList.length; si++) {
+        var st = geo.skinList[si], b = st * 6;
+        if (geo.bbox[b] > hi[0] || geo.bbox[b + 3] < lo[0] || geo.bbox[b + 1] > hi[1] || geo.bbox[b + 4] < lo[1] || geo.bbox[b + 2] > hi[2] || geo.bbox[b + 5] < lo[2]) continue;
+        for (t = geo.tStart[st]; t < geo.tStart[st + 1]; t++) {
+          var a = idx[3 * t] * 3, c = idx[3 * t + 1] * 3, e = idx[3 * t + 2] * 3;
+          var x = (pos[a] + pos[c] + pos[e]) / 3; if (x < lo[0] || x > hi[0]) continue;
+          var y = (pos[a + 1] + pos[c + 1] + pos[e + 1]) / 3; if (y < lo[1] || y > hi[1]) continue;
+          var z = (pos[a + 2] + pos[c + 2] + pos[e + 2]) / 3; if (z < lo[2] || z > hi[2]) continue;
+          out.push(t);
+        }
+      }
+      return Uint32Array.from(out);
+    }
+    function boxAround(pts, pad) { var lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30]; pts.forEach(function (p) { for (var a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], p[a] - pad); hi[a] = Math.max(hi[a], p[a] + pad); } }); return [lo, hi]; }
+    /* outward ray from inside the body -> the part's own skin: the first crossing, carried through any overlapping skin patches that
+       follow within 6 mm (the Z pages' skin is a set of overlapping patches, see the Info panel) */
+    function subHit(sub, o, d, maxT) {
+      var pos = geo.pos, idx = geo.idx, hits = [], k;
+      for (k = 0; k < sub.length; k++) {
+        var t = sub[k], a = idx[3 * t] * 3, b = idx[3 * t + 1] * 3, c = idx[3 * t + 2] * 3;
+        var e1x = pos[b] - pos[a], e1y = pos[b + 1] - pos[a + 1], e1z = pos[b + 2] - pos[a + 2], e2x = pos[c] - pos[a], e2y = pos[c + 1] - pos[a + 1], e2z = pos[c + 2] - pos[a + 2];
+        var px_ = d[1] * e2z - d[2] * e2y, py_ = d[2] * e2x - d[0] * e2z, pz_ = d[0] * e2y - d[1] * e2x, det = e1x * px_ + e1y * py_ + e1z * pz_;
+        if (Math.abs(det) < 1e-12) continue;
+        var inv = 1 / det, tx = o[0] - pos[a], ty = o[1] - pos[a + 1], tz = o[2] - pos[a + 2], u = (tx * px_ + ty * py_ + tz * pz_) * inv;
+        if (u < 0 || u > 1) continue;
+        var qx = ty * e1z - tz * e1y, qy = tz * e1x - tx * e1z, qz = tx * e1y - ty * e1x, v = (d[0] * qx + d[1] * qy + d[2] * qz) * inv;
+        if (v < 0 || u + v > 1) continue;
+        var tt = (e2x * qx + e2y * qy + e2z * qz) * inv;
+        if (tt > 1e-6 && tt < maxT) hits.push(tt);
+      }
+      if (!hits.length) return null;
+      hits.sort(function (x, y) { return x - y; });
+      var tEnd = hits[0]; for (k = 1; k < hits.length && hits[k] - tEnd < 6; k++) tEnd = hits[k];
+      return {t: tEnd, point: [o[0] + d[0] * tEnd, o[1] + d[1] * tEnd, o[2] + d[2] * tEnd]};
+    }
+    function subNormal(sub, P, radius, ref) {                                  // LIB.smoothNormal's area-weighted, linearly faded normal, over the subset
+      var pos = geo.pos, idx = geo.idx, acc = [0, 0, 0], k, w = 0;
+      for (k = 0; k < sub.length; k++) {
+        var t = sub[k], a = idx[3 * t] * 3, b = idx[3 * t + 1] * 3, c = idx[3 * t + 2] * 3;
+        var cx = (pos[a] + pos[b] + pos[c]) / 3 - P[0]; if (cx > radius || cx < -radius) continue;
+        var cy = (pos[a + 1] + pos[b + 1] + pos[c + 1]) / 3 - P[1]; if (cy > radius || cy < -radius) continue;
+        var cz = (pos[a + 2] + pos[b + 2] + pos[c + 2]) / 3 - P[2], dd = Math.hypot(cx, cy, cz); if (dd > radius) continue;
+        var n = triNormal(geo, t), f = 1 - dd / radius; if (dot(n, ref) < 0) n = mul(n, -1);
+        acc = add(acc, mul(n, f)); w += f;
+      }
+      return w > 0 && len(acc) > 1e-9 ? unit(acc) : unit(ref);
+    }
+    /* the body part under the probe: the nearest long bone (bone class + a long-bone name, elongated, within 150 mm) gives a limb
+       segment -- axis = that bone's own PCA axis oriented proximal -> distal (the end nearer the trunk is proximal), length = the bone's
+       own extent along it. Otherwise the trunk: the cranio-caudal axis through the middle of the body at the probe's level. */
+    function bodyRegion(P, N) {
+      var best = null, i, R = 150, T = trunkPoint();
+      for (i = 0; i < geo.n; i++) {
+        var cl = classOf(i) || "", nm = String(geo.names[i] || "").replace(/^(right|left)\s+/i, "");
+        if (cl.indexOf("bone") !== 0 || !LONG_BONE.test(nm)) continue;
+        var b = i * 6; if (P[0] < geo.bbox[b] - R || P[0] > geo.bbox[b + 3] + R || P[1] < geo.bbox[b + 1] - R || P[1] > geo.bbox[b + 4] + R || P[2] < geo.bbox[b + 2] - R || P[2] > geo.bbox[b + 5] + R) continue;
+        var v0 = geo.vStart[i], v1 = geo.vStart[i + 1], st = Math.max(1, Math.floor((v1 - v0) / 600)), k, dmin = 1e9;
+        for (k = v0; k < v1; k += st) { var dd = Math.hypot(geo.pos[3 * k] - P[0], geo.pos[3 * k + 1] - P[1], geo.pos[3 * k + 2] - P[2]); if (dd < dmin) dmin = dd; }
+        if (dmin < R && (!best || dmin < best.d)) best = {sid: i, d: dmin};
+      }
+      if (best) {
+        var ax = axisOf(best.sid);
+        if (ax && ax.elong > 3) {
+          var a = ax.a.slice(), t0 = 1e9, t1 = -1e9, w0 = geo.vStart[best.sid], w1 = geo.vStart[best.sid + 1], s2 = Math.max(1, Math.floor((w1 - w0) / 2000)), q;
+          for (q = w0; q < w1; q += s2) { var tq = (geo.pos[3 * q] - ax.c[0]) * a[0] + (geo.pos[3 * q + 1] - ax.c[1]) * a[1] + (geo.pos[3 * q + 2] - ax.c[2]) * a[2]; if (tq < t0) t0 = tq; if (tq > t1) t1 = tq; }
+          if (dist3(add(ax.c, mul(a, t1)), T) < dist3(add(ax.c, mul(a, t0)), T)) { a = mul(a, -1); var sw = t0; t0 = -t1; t1 = -sw; }
+          return {kind: "limb", sid: best.sid, name: String(geo.names[best.sid] || ""), a: a, c: ax.c, t0: t0, t1: t1, len: t1 - t0};
+        }
+      }
+      var c = sub(P, mul(N, 100)), o = sub(P, mul(N, 2)), back = mul(N, -1), h, guard = 0;   // the far side of the trunk along the inward normal (skipping overlapping patches)
+      while (guard++ < 4 && (h = LIB.skinHit(geo, o, back, null))) { if (h.t > 20) { c = mul(add(P, h.point), 0.5); break; } o = add(h.point, mul(back, 1)); }
+      var bb = geo.bodyBox;
+      return {kind: "trunk", sid: -1, name: "", a: [0, -1, 0], c: c, t0: -(bb.hi[1] - c[1]), t1: c[1] - bb.lo[1], len: null};
+    }
+    /* the window shown in 3D and swept by "long": the whole part (auto, on a limb) or a set length centred on the probe */
+    function regionWindow(reg, P) {
+      var tP = dot(sub(P, reg.c), reg.a);
+      if (S.extAuto && reg.kind === "limb") return [reg.t0, reg.t1];
+      var half = S.extCm * 5; return [Math.max(reg.t0, tP - half), Math.min(reg.t1, tP + half)];
+    }
+    function trackSid() {
+      if (S.followSid >= 0) return S.followSid;
+      var id = null; try { id = api.selectedId ? api.selectedId() : null; } catch (e) {}
+      if (id == null || !geo) return -1;
+      if (typeof id === "number") return id >= 0 && id < geo.n ? id : -1;
+      for (var i = 0; i < geo.n; i++) if (geo.recs[i] && geo.recs[i].id === id) return i;
+      return -1;
+    }
+    function rotFor(N, u) { var u0 = tangentRef(unit(N), orientRef()); return Math.atan2(dot(cross(u0, u), unit(N)), dot(u0, u)) / DEG; }
+    /* image-plane long axis per sample: "long" = along the part / structure (marker proximal = screen left), "trans" = across it (marker
+       to the patient's right where that is defined, then kept continuous along the path) */
+    function orientSamples(smp, plane) {
+      var prev = null;
+      smp.forEach(function (s) {
+        var w = s.w, u;
+        if (plane === "long") { u = perpTo(w, s.N); if (len(u) < 1e-3) u = perpTo(cross(s.N, [1, 0, 0]), s.N); u = unit(u); }
+        else {
+          u = cross(s.N, w); if (len(u) < 1e-3) u = perpTo([1, 0, 0], s.N); u = unit(u);
+          if (prev) { if (dot(u, prev) < 0) u = mul(u, -1); } else if (Math.abs(u[0]) > 0.3 && u[0] > 0) u = mul(u, -1);
+        }
+        s.u = u; s.rot = rotFor(s.N, u); prev = u;
+      });
+      var steps = smp.slice(1).map(function (s, k) { return dist3(s.P, smp[k].P); }), med = steps.slice().sort(function (x, y) { return x - y; })[steps.length >> 1] || 1, acc = 0;
+      smp.forEach(function (s, k) { if (k) acc += steps[k - 1] > 4 * med ? med : steps[k - 1]; s.s = acc; s.jump = !!(k && steps[k - 1] > 4 * med); });   // across a skipped stretch the probe jumps (one step), it is not dragged through the body
+      return acc;
+    }
+    function motionKey() {
+      var sid = S.motion === "track" ? trackSid() : -1;
+      return [S.motion, S.P && S.P.map(function (x) { return x.toFixed(1); }).join(), S.N && S.N.map(function (x) { return x.toFixed(3); }).join(), S.extAuto, S.extCm, S.mPlane || "", sid, S.rot, S.tilt, S.refKey, S.follow ? S.followSid : -1].join("|");
+    }
+    function planeOf(kind) { return S.mPlane || (kind === "circ" ? "long" : "trans"); }
+    function chunked(list, fn, done, my) {                                    // keeps the page responsive while a path is computed
+      var k = 0; (function go() { if (my !== mGen) return; var t0 = Date.now(); while (k < list.length && Date.now() - t0 < 30) fn(list[k], k++); if (k < list.length) setTimeout(go, 0); else done(); })();
+    }
+    function buildMotion(kind) {                                              // -> Promise(path) for the current probe / settings
+      var my = ++mGen, P = S.P.slice(), N = unit(S.N), reg = bodyRegion(P, N), win = regionWindow(reg, P), base = sweepRot(0, 0).rot;
+      var path = {kind: kind, key: motionKey(), region: reg, win: win, unit: "mm", plane: planeOf(kind), samples: [], total: 0, baseRot: base, P0: P, N0: N, done: false};
+      mBuilding = true; syncMotionUi(); setStatus("Computing the " + kind + " path from the meshes ...");
+      return new Promise(function (resolve, reject) {
+        function finish() {
+          mBuilding = false;
+          if (my !== mGen) return reject(new Error("superseded"));
+          if (path.unit === "mm") {
+            if (path.samples.length < 2) { syncMotionUi(); return reject(new Error(kind === "track" ? "no skin found above that structure" : "no skin found along the path")); }
+            path.total = orientSamples(path.samples, path.plane);
+          }
+          resolve(path);
+        }
+        if (kind === "rot") { path.unit = "deg"; path.total = 180; return finish(); }
+        if (kind === "tilt") { path.unit = "deg"; path.amp = Math.max(5, Math.min(30, S.tilt)); path.total = 2 * path.amp; return finish(); }
+        var a = reg.a, c = reg.c, tP = dot(sub(P, c), a), A0 = add(c, mul(a, tP)), r0 = perpTo(sub(P, A0), a), list = [], sb, k;
+        r0 = len(r0) > 1 ? unit(r0) : unit(perpTo(N, a));
+        if (kind === "long") {
+          var step = Math.max(3, (win[1] - win[0]) / 160), n = Math.max(2, Math.floor((win[1] - win[0]) / step) + 1);
+          for (k = 0; k < n; k++) list.push(win[0] + k * step);
+          var bx = boxAround([add(c, mul(a, win[0])), add(c, mul(a, win[1]))], 320); sb = skinSub(bx[0], bx[1]);
+          chunked(list, function (t) {
+            var O = add(c, mul(a, t)), h = subHit(sb, O, r0, 350);
+            if (h) path.samples.push({t: t, P: h.point, N: subNormal(sb, h.point, 15, r0), w: a});
+          }, function () {                                                     // keep the contiguous run of samples that contains the probe
+            var s = path.samples, k0 = 0, i, gap = Math.max(25, step * 3);
+            for (i = 1; i < s.length; i++) if (dist3(s[i].P, P) < dist3(s[k0].P, P)) k0 = i;
+            var lo = k0, hi = k0; while (lo > 0 && dist3(s[lo - 1].P, s[lo].P) < gap) lo--; while (hi < s.length - 1 && dist3(s[hi + 1].P, s[hi].P) < gap) hi++;
+            path.samples = s.slice(lo, hi + 1); finish();
+          }, my);
+        } else if (kind === "circ") {
+          for (k = 0; k <= 120; k++) list.push(k * 3);
+          var C = reg.kind === "limb" ? A0 : c, bx2 = boxAround([C], 320); sb = skinSub(bx2[0], bx2[1]); path.center = C;
+          chunked(list, function (deg) {
+            var r = unit(rodrigues(r0, a, deg * DEG)), h = subHit(sb, C, r, 350);
+            if (h) path.samples.push({deg: deg, P: h.point, N: subNormal(sb, h.point, 15, r), w: a, t: h.t});
+          }, function () {                                                     // where the part's skin is fused with a neighbour's (thighs at the groin, arm at the axilla) the ray
+            var ts = path.samples.map(function (q) { return q.t; }).sort(function (x, y) { return x - y; }), med = ts[ts.length >> 1] || 0;   // runs on into the other part: those directions are skipped, not invented
+            var n0 = path.samples.length; path.samples = path.samples.filter(function (q) { return q.t <= 1.6 * med; }); path.skipped = (n0 - path.samples.length) * 3; finish();
+          }, my);
+        } else if (kind === "track") {
+          var sid = trackSid(); if (sid < 0) { mBuilding = false; return reject(new Error("no structure chosen")); }
+          var cl = centreline(sid); path.sid = sid; path.name = String(geo.names[sid] || ""); path.centre = cl;
+          if (!cl || cl.length < 2) { mBuilding = false; return reject(new Error("that structure is too small for a centreline")); }
+          var bx3 = boxAround(cl, 260); sb = skinSub(bx3[0], bx3[1]);
+          var h0 = nearestSkin(cl[0]), dPrev = h0 ? unit(sub(h0.point, cl[0])) : N;
+          chunked(cl, function (Ck, i) {
+            var Tk = unit(sub(cl[Math.min(cl.length - 1, i + 1)], cl[Math.max(0, i - 1)])), dp = perpTo(dPrev, Tk), bestH = null, bestD = null;
+            dp = len(dp) > 1e-3 ? unit(dp) : unit(perpTo(N, Tk));
+            [0, 20, -20, 40, -40].forEach(function (ang) { var d = unit(rodrigues(dp, Tk, ang * DEG)), h = subHit(sb, Ck, d, 300); if (h && (!bestH || h.t < bestH.t)) { bestH = h; bestD = d; } });
+            if (bestH) { path.samples.push({i: i, P: bestH.point, N: subNormal(sb, bestH.point, 15, bestD), w: Tk, C: Ck, depth: bestH.t}); dPrev = bestD; }
+          }, finish, my);
+        } else { mBuilding = false; reject(new Error("unknown motion " + kind)); }
+      });
+    }
+    /* centreline of a structure from its own mesh: vertices binned along the PCA axis (~5 mm slices), centroid per slice (>= 3 vertices),
+       3-point smoothed, ordered proximal -> distal (the end nearer the trunk first) */
+    function centreline(sid) {
+      var ax = axisOf(sid); if (!ax) return null;
+      var v0 = geo.vStart[sid], v1 = geo.vStart[sid + 1], st = Math.max(1, Math.floor((v1 - v0) / 8000)), k, t0 = 1e9, t1 = -1e9, ts = [];
+      for (k = v0; k < v1; k += st) { var t = (geo.pos[3 * k] - ax.c[0]) * ax.a[0] + (geo.pos[3 * k + 1] - ax.c[1]) * ax.a[1] + (geo.pos[3 * k + 2] - ax.c[2]) * ax.a[2]; ts.push(t); if (t < t0) t0 = t; if (t > t1) t1 = t; }
+      var L = t1 - t0, nb = Math.max(4, Math.min(160, Math.round(L / 5))), acc = [], j;
+      for (j = 0; j < nb; j++) acc.push([0, 0, 0, 0]);
+      for (k = v0, j = 0; k < v1; k += st, j++) { var bi = Math.min(nb - 1, Math.floor((ts[j] - t0) / (L || 1) * nb)), A = acc[bi]; A[0] += geo.pos[3 * k]; A[1] += geo.pos[3 * k + 1]; A[2] += geo.pos[3 * k + 2]; A[3]++; }
+      var pts = acc.filter(function (A) { return A[3] >= 3; }).map(function (A) { return [A[0] / A[3], A[1] / A[3], A[2] / A[3]]; });
+      if (pts.length < 2) return pts;
+      var sm = pts.map(function (p, i) { if (!i || i === pts.length - 1) return p; return mul(add(add(pts[i - 1], mul(p, 2)), pts[i + 1]), 0.25); });
+      var T = trunkPoint(); if (dist3(sm[sm.length - 1], T) < dist3(sm[0], T)) sm.reverse();
+      return sm;
+    }
+    function lerp3(a, b, f) { return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f]; }
+    function sampleAt(pos) {                                                 // linear interpolation between the two path samples around arc length pos
+      var s = mPath.samples, lo = 0, hi = s.length - 1;
+      if (pos <= s[0].s) return {P: s[0].P, N: s[0].N, u: s[0].u, k: 0, f: 0};
+      if (pos >= s[hi].s) return {P: s[hi].P, N: s[hi].N, u: s[hi].u, k: hi, f: 0};
+      while (hi - lo > 1) { var m = (lo + hi) >> 1; if (s[m].s <= pos) lo = m; else hi = m; }
+      var f = (pos - s[lo].s) / Math.max(1e-9, s[hi].s - s[lo].s);
+      if (s[hi].jump) { var j = f < 0.5 ? lo : hi; return {P: s[j].P, N: s[j].N, u: s[j].u, k: j, f: 0}; }
+      var N =unit(lerp3(s[lo].N, s[hi].N, f)), u = unit(perpTo(lerp3(s[lo].u, s[hi].u, f), N));
+      return {P: lerp3(s[lo].P, s[hi].P, f), N: N, u: u, k: lo, f: f};
+    }
+    function motionSpec(pos) {
+      var m = mPath, round = function (x) { return Math.round(x); };
+      if (m.unit === "deg") {
+        if (m.kind === "rot") return {id: S.sel, P: m.P0, N: m.N0, tilt: 0, dir: 0, off: 0, rotOverride: m.baseRot + pos, label: "live rotate " + round(pos) + "° of 180°", short: "rot " + round(pos) + "°"};
+        var ang = pos - m.amp;
+        return {id: S.sel, P: m.P0, N: m.N0, tilt: Math.abs(ang), dir: ang >= 0 ? 90 : 270, off: 0, rotOverride: m.baseRot, label: "live fan " + (ang >= 0 ? "heel " : "toe ") + Math.abs(round(ang)) + "°", short: "fan " + round(ang) + "°"};
+      }
+      var q = sampleAt(pos);
+      return {id: S.sel, P: q.P, N: q.N, tilt: 0, dir: 0, off: 0, rotOverride: rotFor(q.N, q.u), label: "live " + m.kind + " " + round(pos) + " / " + round(m.total) + " mm", short: m.kind + " " + round(pos) + " mm"};
+    }
+    function motionStart() { var d0 = S.mRev ? -1 : 1; contState.pos = d0 > 0 ? 0 : mPath.total; contState.dir = d0; mPath.done = false; }
+    /* one wall-clock step along the path; false once a run that does not loop has reached its end */
+    function motionStep(dist) {
+      var T = mPath.total, d0 = S.mRev ? -1 : 1, p = contState.pos + contState.dir * dist;
+      if (p > T || p < 0) {
+        var edge = p > T ? T : 0, outbound = contState.dir === d0;
+        if (outbound && S.mBack) { contState.dir = -contState.dir; contState.pos = edge; return true; }   // turn round at the far end
+        if (S.mLoop) { contState.pos = d0 > 0 ? 0 : T; contState.dir = d0; return true; }                 // back at the start: go again
+        contState.pos = edge; return false;
+      }
+      contState.pos = p; return true;
+    }
+    function motionDone() {                                                  // a one-way / one back-and-forth run finished: keep its last frame on screen
+      if (mPath) mPath.done = true;
+      contState.active = false; if (contState.raf) { cancelFrame(contState.raf); contState.raf = 0; }
+      S.cine = false; updateOverlay(); updateContReadout(); syncUi(); setStatus("CINE run finished (" + (S.mBack ? "back and forth" : "one way") + ").");
+      if (modeRefresh) modeRefresh();
+    }
+    function ensureMotion() {                                                // (re)build the path when the probe / settings changed, then (re)start the run
+      var key = motionKey();
+      if (mPath && mPath.key === key && mPath.kind === S.motion) { if (mPath.done || !mPath.started) { motionStart(); mPath.started = true; } frameFs(); return; }
+      mPath = null; var kind = S.motion;
+      buildMotion(kind).then(function (p) {
+        if (S.motion !== kind) return;
+        mPath = p; mPath.started = true; motionStart(); setStatus(); syncMotionUi(); frameFs();
+      }, function (e) {
+        if (String(e && e.message) === "superseded") return;
+        setStatus("CINE " + kind + ": " + (e && e.message || e)); toastAll("לא ניתן לחשב מסלול: " + (e && e.message || e));
+        if (S.motion === kind) { S.motion = null; setCine(false); }
+        syncMotionUi();
+      });
+    }
+    function chooseMotion(k) {
+      if (!geo || !S.P) { loadTable().then(function () { if (geo && S.P) chooseMotion(k); }); return; }
+      if (S.motion === k && S.cine) { setCine(false); S.motion = null; if (mPath) mPath.started = false; syncMotionUi(); return; }   // a second tap on the playing type stops it
+      S.motion = k;
+      if (k === "track" && trackSid() < 0) {                                 // nothing chosen yet: the next tap on a structure in the 3D view picks it
+        setCine(false); S.pick3d = true; syncUi(); syncMotionUi(); setStatus("Tap the structure to track in the 3D view."); toastAll("הקש על המבנה למעקב במודל התלת-ממדי"); return;
+      }
+      if (S.ab) setAb(false);
+      S.cineMode = "continuous"; setCine(false); setCine(true); syncMotionUi();
+    }
+    /* the direction arrow at the edge of the US image: the probe's travel projected into the 3-D view next to it (so it points the way
+       the probe moves on screen), a curved arrow for a turn about the probe's own axis, and the anatomical name of the direction */
+    function motionInfo(fr) {
+      var m = mPath; if (!m || !fr) return null;
+      var dirS = contState.dir, he = "", trav = null, curved = 0, pos = contState.pos, reg = m.region;
+      if (m.kind === "rot") { curved = dirS > 0 ? -1 : 1; he = "סיבוב " + (dirS > 0 ? "נגד כיוון השעון" : "עם כיוון השעון") + " · " + Math.round(pos) + "°"; }
+      else if (m.kind === "tilt") { var pf0 = LIB.probeFrame(m.N0, orientRef(), m.baseRot, 0, 0); trav = mul(pf0.e0, dirS); he = "הטיה לכיוון " + (dirS > 0 ? "העקב" : "הבוהן") + " · " + Math.round(pos - m.amp) + "°"; }
+      else {
+        var a = sampleAt(Math.max(0, pos - 3)).P, b = sampleAt(Math.min(m.total, pos + 3)).P; trav = mul(unit(sub(b, a)), dirS);
+        if (m.kind === "circ") { var cw = dot(cross(sub(fr.O, m.center), trav), reg.a) > 0; he = "היקפי " + (cw ? "עם כיוון השעון" : "נגד כיוון השעון") + " (במבט מ" + (reg.kind === "limb" ? "פרוקסימלי" : "למעלה") + ") · " + Math.round(pos) + "/" + Math.round(m.total) + " מ\"מ" + (m.skipped ? " · דילוג " + m.skipped + "° (העור מחובר לחלק סמוך)" : ""); }
+        else {
+          var along = dot(trav, m.kind === "track" ? unit(sub(m.centre[m.centre.length - 1], m.centre[0])) : reg.a) >= 0, limb = m.kind === "track" ? !!(reg.kind === "limb") : reg.kind === "limb";
+          he = (m.kind === "track" ? "מעקב " + m.name.replace(/_/g, " ") + " → " : "") + (along ? (limb ? "דיסטלי" : "קאודלי") : (limb ? "פרוקסימלי" : "קרניאלי")) + " · " + Math.round(pos) + "/" + Math.round(m.total) + " מ\"מ";
+        }
+      }
+      var ang = null;
+      if (trav) { try { var s0 = api.toScreen(fr.O), s1 = api.toScreen(add(fr.O, mul(trav, 30))); if (s0 && s1 && Math.hypot(s1[0] - s0[0], s1[1] - s0[1]) > 3) ang = Math.atan2(s1[1] - s0[1], s1[0] - s0[0]) / DEG; } catch (e) {} }
+      return {kind: m.kind, he: he, ang: ang, curved: curved, toward: trav && ang == null ? (dot(trav, unit(sub(api.view().eye, fr.O))) > 0 ? "out" : "in") : null};
+    }
+    function drawArrow(fr) {
+      if (!ui.arrow) return;
+      var info = motionInfo(fr); mInfo = info; ui.arrowBox.hidden = !info; if (!info) return;
+      var cv = ui.arrow, ctx = cv.getContext("2d"), W = cv.width, H = cv.height, cx = W / 2, cy = H / 2, R = W * 0.32;
+      ctx.clearRect(0, 0, W, H); ctx.lineWidth = W * 0.07; ctx.strokeStyle = ctx.fillStyle = "#ffd37a"; ctx.lineCap = "round";
+      function head(x, y, a) { var L = W * 0.2; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - L * Math.cos(a - 0.5), y - L * Math.sin(a - 0.5)); ctx.lineTo(x - L * Math.cos(a + 0.5), y - L * Math.sin(a + 0.5)); ctx.closePath(); ctx.fill(); }
+      if (info.curved) {
+        var a0 = -2.4, a1 = 1.3, cwise = info.curved > 0;
+        ctx.beginPath(); ctx.arc(cx, cy, R, a0, a1); ctx.stroke();
+        var ae = cwise ? a1 : a0, ex = cx + R * Math.cos(ae), ey = cy + R * Math.sin(ae);
+        head(ex, ey, ae + (cwise ? Math.PI / 2 : -Math.PI / 2));
+      } else if (info.ang != null) {
+        var r = info.ang * DEG, x0 = cx - Math.cos(r) * R, y0 = cy - Math.sin(r) * R, x1 = cx + Math.cos(r) * R, y1 = cy + Math.sin(r) * R;
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1 - Math.cos(r) * W * 0.12, y1 - Math.sin(r) * W * 0.12); ctx.stroke(); head(x1, y1, r);
+      } else {                                                               // travel straight toward / away from the 3-D camera
+        ctx.beginPath(); ctx.arc(cx, cy, R, 0, 6.2832); ctx.stroke();
+        if (info.toward === "out") { ctx.beginPath(); ctx.arc(cx, cy, W * 0.08, 0, 6.2832); ctx.fill(); }
+        else { ctx.beginPath(); ctx.moveTo(cx - R * 0.6, cy - R * 0.6); ctx.lineTo(cx + R * 0.6, cy + R * 0.6); ctx.moveTo(cx + R * 0.6, cy - R * 0.6); ctx.lineTo(cx - R * 0.6, cy + R * 0.6); ctx.stroke(); }
+      }
+      ui.arrowTxt.textContent = info.he;
+      ui.arrowBox.setAttribute("data-kind", info.kind); ui.arrowBox.setAttribute("data-ang", info.ang == null ? "" : String(Math.round(info.ang)));
+    }
+
+    /* ---------- Q289: the clean split full-screen CINE view: 3-D of the part | the live image (+ direction arrow, tiny watermark),
+     * nothing else on screen. Exit: the small ✕ or Esc. The one secondary sheet (motion type, playback, speed, plane, window) opens
+     * only from the small ⋯ handle. Inside the US workspace mode the mode's own docking does the placing; elsewhere a minimal copy. */
+    var fs = {on: false, el: null, s3d: null, sUs: null, docks: [], cam: null, orbit: 0}, modeCtx = null, modeRedock = null, modeRefresh = null, FS_Z = 2147482000;
+    function fsOn() { return fs.on; }
+    function fsLayout() { return window.innerWidth >= window.innerHeight ? "row" : "col"; }   // phone portrait: 3-D above, image below; landscape / desktop: side by side
+    function fsPlace(d) {
+      var r = d.slot.getBoundingClientRect(), st = d.el.style, imp = {position: "fixed", left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px", right: "auto", bottom: "auto",
+        margin: "0", "min-width": "0", "min-height": "0", "max-width": "none", "max-height": "none", "z-index": String(FS_Z + 1), overflow: "hidden", display: d.display || "", transform: "none", visibility: "visible"};
+      Object.keys(imp).forEach(function (k) { if (imp[k] === "") st.removeProperty(k); else st.setProperty(k, imp[k], "important"); });
+    }
+    function modelEl() { return document.getElementById(api.kind === "webgl" ? "view" : "app"); }
+    function fsDockAll() {
+      if (modeCtx) { modeCtx.dock(root, fs.sUs, FS_Z + 1); modeCtx.modelDock([fs.s3d], FS_Z + 1); return; }
+      if (!fs.docks.length) [[modelEl(), fs.s3d, ""], [root, fs.sUs, "flex"]].forEach(function (x) { if (x[0]) fs.docks.push({el: x[0], slot: x[1], style: x[0].getAttribute("style"), display: x[2]}); });
+      fs.docks.forEach(fsPlace); fireResize();
+    }
+    function fsUndockAll() {
+      if (modeCtx) { if (modeRedock) modeRedock(); return; }
+      fs.docks.forEach(function (d) { if (d.style == null) d.el.removeAttribute("style"); else d.el.setAttribute("style", d.style); }); fs.docks = []; fireResize();
+    }
+    function fsRelayout() { if (!fs.on) return; fs.el.setAttribute("data-lay", fsLayout()); if (!modeCtx) fs.docks.forEach(fsPlace); fireResize(); relayoutViews(); frameFs(); }
+    var fsIdleT = 0;
+    function fsWake() { if (!fs.on) return; document.body.classList.remove("fs-idle"); clearTimeout(fsIdleT); fsIdleT = setTimeout(function () { if (fs.on && fs.sheet.hidden) document.body.classList.add("fs-idle"); }, 2600); }
+    function buildFs() {
+      if (fs.el) return;
+      fs.s3d = el("div", {class: "fs-3d"}); fs.sUs = el("div", {class: "fs-us"});
+      fs.x = el("button", {type: "button", class: "fs-x", "aria-label": "יציאה ממסך מלא (Esc)", title: "יציאה (Esc)", text: "✕", onclick: function () { setFs(false); }});
+      fs.more = el("button", {type: "button", class: "fs-more", "aria-label": "אפשרויות", "aria-expanded": "false", title: "אפשרויות: סוג תנועה, השמעה, מהירות, טווח", text: "⋯", onclick: function () { fs.sheet.hidden = !fs.sheet.hidden; fs.more.setAttribute("aria-expanded", String(!fs.sheet.hidden)); fsWake(); }});
+      fs.sheet = el("div", {class: "fs-sheet", hidden: true}, [motionSheet({open: true, inFs: true})]);
+      fs.el = el("div", {id: "us-cinefs", role: "dialog", "aria-label": "CINE מסך מלא", "data-lay": fsLayout()}, [fs.s3d, fs.sUs]);
+      ["pointermove", "pointerdown", "keydown"].forEach(function (ev) { document.addEventListener(ev, fsWake, true); });
+      [fs.el, fs.x, fs.more, fs.sheet].forEach(function (x) { document.body.appendChild(x); });   // the buttons sit above the docked halves, so outside the backdrop's stacking context
+      window.addEventListener("resize", function () { if (fs.on && !firing) fsRelayout(); });
+      document.addEventListener("keydown", function (e) { if (fs.on && (e.key === "Escape" || e.key === "Esc")) { e.preventDefault(); setFs(false); } });
+    }
+    /* frame the 3-D half on the part's window (its whole length, or the set window around the probe), looking from the probe's side */
+    function frameFs() {
+      if (!fs.on || !mPath || !geo) return;
+      var reg = mPath.region, win = mPath.win, c = reg.c, a = reg.a, mid = add(c, mul(a, (win[0] + win[1]) / 2)), Lw = Math.max(60, win[1] - win[0]);
+      if (mPath.kind === "track" && mPath.centre) { var bxT = boxAround(mPath.centre, 0); mid = mul(add(bxT[0], bxT[1]), 0.5); Lw = Math.max(Lw, dist3(bxT[0], bxT[1])); }   // the tracked structure's whole course, at least the part's window
+      var r = fs.s3d.getBoundingClientRect(), asp = r.width > 0 ? Math.max(1, r.height / r.width) : 1;
+      try { api.focus(mid, Lw * 1.3 * asp + 120); } catch (e) {}
+      var N = mPath.N0, h = Math.hypot(N[0], N[2]);
+      if (h > 0.3 && api.orbit) {
+        var azOf = function () { var v = api.view(); return Math.atan2(v.eye[0] - v.target[0], v.eye[2] - v.target[2]); };
+        var want = Math.atan2(N[0], N[2]), wrap = function (x) { while (x > Math.PI) x -= 2 * Math.PI; while (x < -Math.PI) x += 2 * Math.PI; return x; };
+        var d = wrap(want - azOf());
+        if (Math.abs(d) > 0.05) { api.orbit(d); fs.orbit += d; if (Math.abs(wrap(want - azOf())) > Math.abs(d)) { api.orbit(-2 * d); fs.orbit -= 2 * d; } }
+      }
+      if (api.redraw) api.redraw();
+    }
+    function setFs(on) {
+      on = !!on; if (on === fs.on) return;
+      if (on) {
+        if (!S.open) setOpen(true);
+        buildFs(); fs.on = true; fs.orbit = 0;
+        try { var v = api.view(); fs.cam = {t: v.target.slice(), d: dist3(v.eye, v.target)}; } catch (e) { fs.cam = null; }
+        S.tab = "image"; document.body.classList.add("us-fs"); fs.el.hidden = false; fs.el.setAttribute("data-lay", fsLayout());
+        if (S.view !== "single") { S.view = "single"; }
+        fsDockAll(); relayoutViews(); fsWake();
+        if (!S.motion) chooseMotion("long"); else if (!S.cine) { S.cineMode = "continuous"; setCine(true); } else frameFs();
+      } else {
+        fs.on = false; document.body.classList.remove("us-fs"); document.body.classList.remove("fs-idle"); fs.el.hidden = true; fs.sheet.hidden = true; fs.more.setAttribute("aria-expanded", "false");
+        fsUndockAll();
+        if (fs.cam) { try { if (fs.orbit && api.orbit) api.orbit(-fs.orbit); api.focus(fs.cam.t, fs.cam.d); } catch (e) {} }
+        applyLayout(); relayoutViews();
+      }
+      syncMotionUi(); if (modeRefresh) modeRefresh();
+    }
+    /* one compact control group, built for the panel, the US mode popover and the full-screen sheet; every copy stays in sync */
+    var moSheets = [];
+    function motionSheet(opts) {
+      opts = opts || {};
+      function b(text, attr, title, fn) { var x = el("button", Object.assign({type: "button", text: text, title: title || "", "aria-pressed": "false"}, attr)); x.addEventListener("click", function (e) { e.stopPropagation(); fn(); syncMotionUi(); }); return x; }
+      function rng(attr, min, max, step, label, fn) { var x = el("input", Object.assign({type: "range", min: String(min), max: String(max), step: String(step), "aria-label": label}, attr)); x.addEventListener("input", function () { fn(+x.value); syncMotionUi(); }); x.addEventListener("click", function (e) { e.stopPropagation(); }); return x; }
+      function restart() { if (mPath) mPath.started = false; if (S.motion && S.cine) { setCine(false); setCine(true); } }
+      var chips = el("div", {class: "mo-row mo-chips"}, MOTIONS.map(function (m) { return b(m[1], {"data-mo": m[0]}, MOTION_TIP[m[0]], function () { chooseMotion(m[0]); }); }));
+      var more = el("div", {class: "mo-more"}, [
+        el("div", {class: "mo-row"}, [b("חד-כיווני", {"data-mp": "once"}, "מתחילת המסלול לסופו", function () { S.mBack = false; }), b("הלוך ושוב", {"data-mp": "back"}, "לסוף המסלול וחזרה", function () { S.mBack = true; }),
+          b("לולאה", {"data-ml": "1"}, "חזרה על הריצה ללא הפסקה", function () { S.mLoop = !S.mLoop; }), b("⇆ מהקצה השני", {"data-mr": "1"}, "להתחיל מהקצה השני של המסלול", function () { S.mRev = !S.mRev; restart(); })]),
+        el("div", {class: "mo-row"}, [el("label", {text: "מהירות"}), rng({"data-ms": "1"}, 1, 5, 1, "מהירות", function (v) { S.mSpeed = v; }), el("output", {"data-mso": "1"})]),
+        el("div", {class: "mo-row"}, [el("label", {text: "מישור"}), b("רוחבי", {"data-pl": "trans"}, "התמונה חוצה את חלק הגוף / המבנה", function () { S.mPlane = "trans"; restart(); }), b("אורכי", {"data-pl": "long"}, "התמונה לאורך חלק הגוף / המבנה", function () { S.mPlane = "long"; restart(); })]),
+        el("div", {class: "mo-row"}, [el("label", {text: "טווח"}), b("כל חלק הגוף", {"data-ea": "1"}, "התלת-ממד והסריקה האורכית באורך העצם הארוכה של חלק הגוף", function () { S.extAuto = !S.extAuto; restart(); }),
+          rng({"data-ex": "1"}, 10, 60, 2, "טווח בס\"מ סביב המתמר", function (v) { S.extCm = v; S.extAuto = false; clearTimeout(timers.ext); timers.ext = setTimeout(restart, 250); }), el("output", {"data-exo": "1"})])
+      ]);
+      var tail = el("div", {class: "mo-row mo-tail"});
+      if (!opts.open) { var mb = el("button", {type: "button", class: "mo-morebtn", "data-mm": "1", "aria-expanded": "false", text: "⋯ עוד", title: "השמעה, מהירות, מישור, טווח"}); mb.addEventListener("click", function (e) { e.stopPropagation(); more.hidden = !more.hidden; mb.setAttribute("aria-expanded", String(!more.hidden)); }); tail.appendChild(mb); more.hidden = true; }
+      if (!opts.inFs) tail.appendChild(b("⛶ מסך מלא", {"data-fs": "1", class: "mo-fs"}, "תצוגה נקייה מפוצלת: תלת-ממד | אולטרסאונד (יציאה: ✕ או Esc)", function () { setFs(true); }));
+      tail.appendChild(el("output", {class: "mo-st", "data-mst": "1"}));
+      var box = el("div", {class: "us-mo", dir: "rtl"}, [chips, tail, more]);
+      moSheets.push(box); syncMotionUi(); return box;
+    }
+    function syncMotionUi() {
+      moSheets.forEach(function (box) {
+        Array.prototype.forEach.call(box.querySelectorAll("[data-mo]"), function (x) { x.setAttribute("aria-pressed", String(S.motion === x.getAttribute("data-mo"))); });
+        Array.prototype.forEach.call(box.querySelectorAll("[data-mp]"), function (x) { x.setAttribute("aria-pressed", String((x.getAttribute("data-mp") === "back") === !!S.mBack)); });
+        var q = function (s) { return box.querySelector(s); }, pl = S.motion ? planeOf(S.motion) : (S.mPlane || "");
+        q("[data-ml]").setAttribute("aria-pressed", String(!!S.mLoop)); q("[data-mr]").setAttribute("aria-pressed", String(!!S.mRev));
+        q("[data-ms]").value = String(S.mSpeed); q("[data-mso]").textContent = ["איטי מאוד", "איטי", "בינוני", "מהיר", "מהיר מאוד"][S.mSpeed - 1] + " (" + M_MM_S[S.mSpeed - 1] + " מ\"מ/ש')";
+        Array.prototype.forEach.call(box.querySelectorAll("[data-pl]"), function (x) { x.setAttribute("aria-pressed", String(pl === x.getAttribute("data-pl"))); x.disabled = S.motion === "rot" || S.motion === "tilt"; });
+        var reg = mPath && mPath.region, auto = !!(S.extAuto && reg && reg.kind === "limb");
+        q("[data-ea]").setAttribute("aria-pressed", String(!!S.extAuto)); q("[data-ex]").value = String(auto ? Math.min(60, Math.round(reg.len / 10)) : S.extCm);
+        q("[data-exo]").textContent = auto ? (Math.round(reg.len / 10) + " ס\"מ (" + reg.name + ")") : (S.extCm + " ס\"מ סביב המתמר");
+        q("[data-mst]").textContent = mBuilding ? "מחשב מסלול…" : (S.motion && mPath && S.cine ? "▶" : "");
+        var f = q("[data-fs]"); if (f) f.setAttribute("aria-pressed", String(fs.on));
+      });
+      if (ui.arrowBox && !S.motion) ui.arrowBox.hidden = true;
+    }
+    function toastAll(msg) { if (modeToast) modeToast(msg); else setStatus(msg); }
+    var modeToast = null;
 
     /* ---------- table + geometry ---------- */
     var acousticP = null;
@@ -618,6 +1143,34 @@
         }));
       });
       if (!rows.length) ui.wizRes.appendChild(el("span", {class: "us-status", text: "No match."}));
+    }
+    /* Q289: the architecture frame of a muscle structure (cached): its id matched to ultrasound_tissues.json "architecture" (side
+       suffix and page prefixes stripped; a separately meshed head falls back to its muscle, without the part bands) */
+    var archCache = {};
+    function archRow(sid) {
+      var A = US && US.architecture; if (!A || !geo || sid < 0 || sid >= geo.n || classOf(sid) !== "muscle") return null;
+      var id = String((geo.recs[sid] && geo.recs[sid].id) || "").toLowerCase().replace(/_zfill\d+$/, "").replace(/^zan_/, "").replace(/_(l|r)$/, ""), parts = id.split("_"), k;
+      for (k = parts.length; k > 0; k--) { var key = parts.slice(0, k).join("_"); if (A.muscles[key]) return {key: key, row: A.muscles[key], exact: k === parts.length}; }
+      return null;
+    }
+    function archOf(sid) {
+      if (archCache[sid] !== undefined) return archCache[sid];
+      var m = archRow(sid), ar = null;
+      if (m) {
+        var bb = geo.bodyBox, cc = structCentroid(sid) || [0, 0, 0], midx = (bb.lo[0] + bb.hi[0]) / 2, R = US.architecture.render || {};
+        ar = LIB.archFrame(geo.pos, geo.vStart[sid], geo.vStart[sid + 1], m.row, {prox: trunkPoint(), dirs: {anterior: [0, 0, 1], superior: [0, 1, 0], medial: [midx >= cc[0] ? 1 : -1, 0, 0]},
+          half: R.septum_half_mm, gain: R.septum_gain, noParts: !m.exact});
+        if (ar) { ar.key = m.key; ar.row = m.row; }
+      }
+      archCache[sid] = ar; return ar;
+    }
+    function archLabel(sid) {                                                // the badge line for the structure under the cursor
+      if (sid == null || sid < 0 || sid >= 65534 || !geo || classOf(sid) !== "muscle") return "";
+      var ar = archOf(sid);
+      if (!ar) return " | fibres: generic line of action (mesh long axis), no architecture data";
+      var r = ar.row, A = US.architecture, src = (r.pr && r.pr.length ? r.pr.map(function (k) { var x = A.references[k]; return x ? x.cite.split(".")[0] + " PMID " + x.pmid : k; }) : (r.s || []).map(function (i) { return A.sources[i].split(" -- ")[0]; })).join("; ");
+      var sep = ar.sheets.length ? "; septa: " + ar.row.septa.map(function (x) { return x.name + " (" + x.refs.map(function (k) { return (A.references[k] || {}).pmid ? "PMID " + A.references[k].pmid : k; }).join(", ") + ")"; }).join("; ") : "";
+      return " | fibres: " + (r.t || "?") + " " + (r.p0 != null ? r.p0 + "→" + r.p1 : r.p) + "° (" + src + ")" + sep + " -- RULE-BASED layout in this mesh";
     }
     function axisOf(sid) {
       if (sid < 0 || sid >= geo.n) return null;
@@ -729,6 +1282,7 @@
       S.followSid = sid; S.followName = geo.names[sid] || ""; var a = LIB.pcaAxis(geo.pos, geo.vStart[sid], geo.vStart[sid + 1]);
       S.follow = !!a; if (!a) setStatus("That structure has too few vertices for a long axis."); else setStatus("Following " + S.followName + " (long axis from PCA, elongation " + a.elong.toFixed(1) + ")");
       syncUi(); refresh(true);
+      if (S.motion === "track") { S.cineMode = "continuous"; setCine(false); setCine(true); }   // Q289: the structure to track was just picked
     }
 
     /* ---------- frames ---------- */
@@ -788,7 +1342,7 @@
       var p = US.probes[S.probe];
       return Object.assign({AC: AC, geom: fr.geom, plan: fr.plan, lab: fr.lab, sid: fr.sid, freq: S.freq, depthMm: S.depthCm * 10, gainDb: S.gain, tgcDb: S.tgc, focusMm: S.focusCm * 10,
         speckle: S.speckle, textures: S.textures, reverb: S.reverb, noise: S.noise, seed: S.seed,        // Q246: ONE seed for every frame: the speckle belongs to the body, not to the frame
-        elevMm: S.mode === "star" ? 0 : fr.spec.off, frame: {O: fr.O, u: fr.pf.u, b: fr.pf.b, e: fr.pf.e, zoff: 0}, ref: refFrame(fr.spec), axisOf: axisOf}, extra || {});
+        elevMm: S.mode === "star" ? 0 : fr.spec.off, frame: {O: fr.O, u: fr.pf.u, b: fr.pf.b, e: fr.pf.e, zoff: 0}, ref: refFrame(fr.spec), axisOf: axisOf, archOf: archOf}, extra || {});
     }
     function rasterKey(spec, q) { var P0 = spec.P || S.P, N0 = spec.N || S.N; return [S.probe, probeW(), S.depthCm, P0.map(function (x) { return x.toFixed(2); }).join(), N0.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0].join("|"); }
     function computeFrame(spec, q, prev) {                                    // -> Promise(frame)
@@ -901,19 +1455,53 @@
         }
         if (isSel) tube(axisG, toWorld(fr.O, fr.pf, 0, -20 + (fr.sim ? fr.sim.ysk : 0)), toWorld(fr.O, fr.pf, 0, fr.geom.depth + (fr.sim ? fr.sim.ysk : 0)), r * 0.45);
       });
+      var fibG = new Geo(), sepG = new Geo();
+      if (S.fibres3d) { try { fibreGeo(sel, r, fibG, sepG); } catch (eF) { console.error("fibre overlay:", eF); } }   // Q289
       return [["probe", probeG, {color: 0x39424d, alpha: 1, pass: "opaque", lit: true}], ["marker", markG, {color: 0xff5a3c, alpha: 1, pass: "opaque", lit: false}],
         ["fill", fillG, {color: 0x6cb4ff, alpha: 0.28, pass: "trans", lit: false}], ["lines", lineG, {color: 0xffd37a, alpha: 0.8, pass: "xray", lit: false}],
-        ["sel", selLine, {color: 0x7fe0a0, alpha: 1, pass: "xray", lit: false}], ["axis", axisG, {color: 0xff9d8a, alpha: 0.9, pass: "xray", lit: false}]];
+        ["sel", selLine, {color: 0x7fe0a0, alpha: 1, pass: "xray", lit: false}], ["axis", axisG, {color: 0xff9d8a, alpha: 0.9, pass: "xray", lit: false}],
+        ["fibres", fibG, {color: 0xffc4b8, alpha: 0.55, pass: "xray", lit: false}], ["septa", sepG, {color: 0xfff0c0, alpha: 0.35, pass: "xray", lit: false}]];
+    }
+    var OV_NAMES = ["probe", "marker", "fill", "lines", "sel", "axis", "fibres", "septa"];
+    /* Q289: faint fibre lines (+ documented septa as thin sheets) of the muscles the selected image cuts, in the 3-D view: the same
+       archFrame / fibreAt the B-mode uses, so both halves show one rule. A muscle without architecture data gets its line of action. */
+    var genCache = {};
+    function imageMuscles(fr, maxN) {
+      if (!fr || !fr.sid) return [];
+      var cnt = {}, k, n = fr.sid.length, st = Math.max(1, Math.floor(n / 6000));
+      for (k = 0; k < n; k += st) { var q = fr.sid[k]; if (q < 65534 && classOf(q) === "muscle") cnt[q] = (cnt[q] || 0) + 1; }
+      return Object.keys(cnt).map(Number).sort(function (x, y) { return cnt[y] - cnt[x]; }).slice(0, maxN);
+    }
+    function fibreGeo(fr, r, fibG, sepG) {
+      imageMuscles(fr, 6).forEach(function (sid) {
+        var ar = archOf(sid), generic = !ar;
+        if (generic) { if (genCache[sid] === undefined) genCache[sid] = LIB.archFrame(geo.pos, geo.vStart[sid], geo.vStart[sid + 1], {t: "fusiform", p: 0}, {prox: trunkPoint()}); ar = genCache[sid]; }
+        if (!ar) return;
+        var A = ar.a, W = ar.w, T = ar.t, c = ar.c, P = function (da, dw, dt) { return [c[0] + A[0] * da + W[0] * dw + T[0] * dt, c[1] + A[1] * da + W[1] * dw + T[1] * dt, c[2] + A[2] * da + W[2] * dw + T[2] * dt]; };
+        if (generic) { tube(fibG, P(ar.la[0] * 0.9, 0, 0), P(ar.la[1] * 0.9, 0, 0), r * 0.35); return; }
+        var L = Math.max(6, Math.min(28, 0.22 * (ar.la[1] - ar.la[0]))), i, j, k2;
+        for (i = 0; i < 5; i++) for (j = 0; j < 6; j++) {                      // a 5 x 6 grid over the mid-thickness section of the mesh frame
+          var da = ar.la[0] + (ar.la[1] - ar.la[0]) * (0.12 + 0.76 * i / 4), dw = ar.lw[0] * 0.75 + (ar.lw[1] - ar.lw[0]) * 0.75 * (j + 0.5) / 6, dt = (ar.lt[0] + ar.lt[1]) / 2 + (j % 2 ? 0.25 : -0.25) * (ar.lt[1] - ar.lt[0]);
+          var p0 = P(da, dw, dt), f = LIB.fibreAt(ar, p0[0], p0[1], p0[2]).slice();
+          tube(fibG, [p0[0] - f[0] * L / 2, p0[1] - f[1] * L / 2, p0[2] - f[2] * L / 2], [p0[0] + f[0] * L / 2, p0[1] + f[1] * L / 2, p0[2] + f[2] * L / 2], r * 0.3);
+        }
+        ar.sheets.forEach(function (sh) {
+          var a0 = ar.la[0] + sh.s0 * (ar.la[1] - ar.la[0]), a1 = ar.la[0] + sh.s1 * (ar.la[1] - ar.la[0]), o = ar.sheets && sh.ax === "t" ? ar.lw : ar.lt, q0 = o[0] * 0.8, q1 = o[1] * 0.8;
+          var cn = sh.ax === "t" ? [P(a0, q0, sh.off), P(a1, q0, sh.off), P(a1, q1, sh.off), P(a0, q1, sh.off)] : [P(a0, sh.off, q0), P(a1, sh.off, q0), P(a1, sh.off, q1), P(a0, sh.off, q1)];
+          sepG.tri(cn[0], cn[1], cn[2]); sepG.tri(cn[0], cn[2], cn[3]); sepG.tri(cn[0], cn[2], cn[1]); sepG.tri(cn[0], cn[3], cn[2]);
+          for (k2 = 0; k2 < 4; k2++) tube(sepG, cn[k2], cn[(k2 + 1) % 4], r * 0.25);
+        });
+      });
     }
     function updateOverlay() {
       if (!overlay) overlay = makeOverlay(api);
       if (!overlay) return;
       var items = null; try { items = overlayItems(); } catch (e) { console.error("ultrasound overlay:", e); }
-      ["probe", "marker", "fill", "lines", "sel", "axis"].forEach(function (nm) { overlay.remove(nm); });
+      OV_NAMES.forEach(function (nm) { overlay.remove(nm); });
       if (items) items.forEach(function (it) { overlay.set(it[0], [it[1]], it[2]); });
       if (api.redraw) api.redraw();
     }
-    function clearOverlay() { if (!overlay) return; ["probe", "marker", "fill", "lines", "sel", "axis"].forEach(function (nm) { overlay.remove(nm); }); if (api.redraw) api.redraw(); }
+    function clearOverlay() { if (!overlay) return; OV_NAMES.forEach(function (nm) { overlay.remove(nm); }); if (api.redraw) api.redraw(); }
     function makeOverlay(a) {
       if (a.three && a.three.THREE) return ThreeOverlay(a);
       if (a.webgl && a.webgl.gl) { try { return GLOverlay(a); } catch (e) { console.error("ultrasound GL overlay:", e); } }
@@ -1064,7 +1652,41 @@
       /* Q267 (6): opt-in tissue-thickness readout, a small non-intrusive strip near the view, separate from the Q256 dots */
       ".us-thick{flex:0 0 auto;padding:3px 8px;font:12px ui-monospace,Menlo,monospace;color:#cfe6ff;background:#10161f;border-bottom:1px solid var(--line)}",
       ".us-thick[hidden]{display:none}",
-      "@media (max-width:520px),(max-height:520px){#us-root button{min-height:36px}#us-root select,#us-root input[type=number]{min-height:36px}}"
+      "@media (max-width:520px),(max-height:520px){#us-root button{min-height:36px}#us-root select,#us-root input[type=number]{min-height:36px}}",
+      /* Q289: CINE motion types + the clean split full-screen view */
+      ".us-mo{display:grid;gap:6px;direction:rtl;font-family:Heebo,system-ui,sans-serif}",
+      ".us-mo .mo-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}",
+      ".us-mo .mo-more[hidden]{display:none}.us-mo .mo-more{display:grid;gap:6px}",
+      ".us-mo button{min-height:34px;padding:4px 11px;border-radius:999px;font:600 13px Heebo,system-ui,sans-serif}",
+      ".us-mo input[type=range]{flex:1 1 120px;min-width:110px;min-height:30px}",
+      ".us-mo output{font-size:12px;opacity:.85}",
+      ".us-mo .mo-st{margin-inline-start:auto}",
+      ".us-arrow{position:absolute;left:8px;bottom:8px;z-index:6;display:flex;align-items:center;gap:6px;pointer-events:none;max-width:70%;direction:rtl}",
+      ".us-arrow[hidden]{display:none}",
+      ".us-arrow canvas{position:static;width:46px;height:46px;flex:0 0 auto;background:rgba(0,0,0,.45);border-radius:999px}",
+      ".us-arrow span{font:700 12px Heebo,system-ui,sans-serif;color:#ffd37a;text-shadow:0 1px 2px #000,0 0 4px #000;line-height:1.25}",
+      "#us-cinefs{position:fixed;inset:0;z-index:2147482000;background:#000;display:flex;flex-direction:row}",
+      "#us-cinefs[hidden]{display:none}",
+      "#us-cinefs[data-lay=col]{flex-direction:column}",
+      "#us-cinefs .fs-3d,#us-cinefs .fs-us{flex:1 1 50%;min-width:0;min-height:0}",
+      "#us-cinefs .fs-3d{background:#0b0f14}",
+      ".fs-x,.fs-more{display:none;position:fixed;z-index:2147482003;top:calc(8px + env(safe-area-inset-top,0px));width:40px;height:40px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(10,14,20,.6);color:#fff;font:600 18px system-ui,sans-serif;cursor:pointer;transition:opacity .45s;align-items:center;justify-content:center;padding:0}",
+      ".fs-x{left:8px}.fs-more{left:56px}",
+      "body.us-fs .fs-x,body.us-fs .fs-more{display:flex}",
+      "body.us-fs.fs-idle .fs-x,body.us-fs.fs-idle .fs-more{opacity:.22}",
+      ".fs-sheet{display:none;position:fixed;z-index:2147482003;left:8px;top:calc(56px + env(safe-area-inset-top,0px));width:min(430px,calc(100vw - 16px));max-height:70vh;overflow:auto;background:rgba(14,19,26,.96);border:1px solid #2a3646;border-radius:12px;padding:10px;color:#e6edf5}",
+      "body.us-fs .fs-sheet:not([hidden]){display:block}",
+      ".fs-sheet button{background:#161d27;border:1px solid #2a3646;color:#e6edf5;cursor:pointer}",
+      ".fs-sheet button[aria-pressed=true]{background:#1f3b5c;border-color:#6cb4ff;color:#fff}",
+      ".fs-sheet input[type=range]{accent-color:#6cb4ff}",
+      "body.us-fs #us-root>*:not(.us-views){display:none!important}",
+      "body.us-fs #us-root{border:0!important;background:#000!important}",
+      "body.us-fs #us-root .us-views{padding:0;gap:0}",
+      "body.us-fs #us-root .us-view{border:0;cursor:default}",
+      "body.us-fs #us-root .us-schem{display:none!important}",
+      "body.us-fs #app>header,body.us-fs #app>aside,body.us-fs #inspector,body.us-fs .mob-bar,body.us-fs #tools,body.us-fs #hover,body.us-fs #frame-note,body.us-fs #axes,body.us-fs #scalebar,body.us-fs #brand,body.us-fs #topright,body.us-fs #rail,body.us-fs #info,body.us-fs #foot,body.us-fs #modal,body.us-fs #cut-panel,body.us-fs #lab-layer,body.us-fs #lab-panel,body.us-fs #pm-panel,body.us-fs #ng-panel,body.us-fs #pose-panel,body.us-fs #pose-banner,body.us-fs #sym-banner,body.us-fs #sym-panel,body.us-fs #nmsk-clinical-bar,body.us-fs #nmsk-clinical-toast,body.us-fs #us-tab3d{display:none!important}",
+      "body.us-fs #app{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;min-height:0!important}",
+      "body.us-fs #app>#stage{grid-column:1!important;grid-row:1!important}"
     ].join("\n");
     function el(tag, attrs, kids) {
       var e = document.createElement(tag);
@@ -1119,6 +1741,10 @@
       ]);
       ui.views = el("div", {class: "us-views star"});
       ui.schem = el("canvas", {class: "us-schem", width: "84", height: "84", "aria-hidden": "true"}); ui.views.appendChild(ui.schem);
+      /* Q289: the scan-direction arrow, at the edge of the image area (shown while a CINE motion type plays) */
+      ui.arrowBox = el("div", {class: "us-arrow", hidden: true, role: "img", "aria-label": "כיוון הסריקה"}, [(ui.arrow = el("canvas", {width: "92", height: "92"})), (ui.arrowTxt = el("span", {text: ""}))]);
+      ui.views.appendChild(ui.arrowBox);
+      ui.views.addEventListener("click", function () { if (fs.on) { if (!fs.sheet.hidden) { fs.sheet.hidden = true; fs.more.setAttribute("aria-expanded", "false"); } else setCine(!S.cine); fsWake(); } });   // full screen: tap the image = pause / play
       ui.read = el("div", {class: "us-read", text: "Click the skin in the 3D view to place the probe; hover an image for tissue, structure, depth and echo level."});
       /* Q267 (6): opt-in, off by default (S.thickness) -- see tog("thickness", ...) in buildControls() */
       ui.thick = el("div", {class: "us-thick", hidden: true});
@@ -1227,6 +1853,7 @@
           el("label", {text: "fps"}), (ui.fpsSel = el("select", {"aria-label": "Cine frames per second / continuous speed", onchange: function () { S.fps = +ui.fpsSel.value; if (S.cine) { setCine(false); setCine(true); } }}, [1, 2, 3, 5, 8].map(function (f) { return el("option", {value: String(f), text: String(f)}); })))]),
         el("div", {class: "us-row"}, [(ui.cineModeBtn = btn("continuous", "Continuous: the probe genuinely slides / fans through a smooth range of positions, re-slicing a new frame at every step (at a reduced “live” resolution to stay real-time) instead of snapping between the step mode's precomputed frames", function () { if (S.cine) setCine(false); S.cineMode = S.cineMode === "continuous" ? "step" : "continuous"; syncUi(); })),
           (ui.contOut = el("output", {text: ""}))]),
+        (ui.moBox = motionSheet({})),                                     // Q289: CINE motion types (+ "⋯ עוד" for playback / speed / plane / window, ⛶ full screen)
         slider("Frame", 1, 9, 1, "frame", function (v) { return "#" + v; }, function (v) { selectFrame(v - 1); }, "Scroll through the frames (9 tilt directions in star mode, n planes in sweep mode); disabled while continuous cine plays")
       ]);
       /* image section */
@@ -1235,9 +1862,10 @@
       var im3 = slider("Focus", 0.5, 15, 0.5, "focus", function (v) { return v.toFixed(1) + " cm"; }, function (v) { S.focusCm = v; refresh(); }, "Transmit focus depth");
       var im4 = slider("Dyn. range", 30, 90, 5, "dr", function (v) { return v + " dB"; }, function (v) { S.dr = v; repaintAll(); }, "Display dynamic range");
       ui.togs = {};
-      function tog(key, text, title) { return (ui.togs[key] = btn(text, title, function () { S[key] = !S[key]; syncUi(); if (key === "hidden" || key === "speckle" || key === "textures" || key === "reverb" || key === "noise") refresh(true); })); }
+      function tog(key, text, title) { return (ui.togs[key] = btn(text, title, function () { S[key] = !S[key]; syncUi(); if (key === "hidden" || key === "speckle" || key === "textures" || key === "reverb" || key === "noise") refresh(true); if (key === "fibres3d") updateOverlay(); })); }
       var im5 = el("div", {class: "us-row"}, [tog("speckle", "speckle", "Synthetic seeded speckle (clearly synthetic; off = smooth tissue levels)"), tog("textures", "muscle / tendon texture", "Documented class textures: muscle septa, tendon fibrils and anisotropy"),
         tog("reverb", "reverberation", "A-line repeats behind air / lung"), tog("noise", "system noise", "Synthetic electronic noise floor (default off)"),
+        tog("fibres3d", "fibre lines (3D)", "Q289: faint fibre lines (pennation from the cited architecture table, rule-based layout in the mesh) and documented septa / aponeuroses as thin sheets, for the muscles the selected image cuts"),
         tog("thickness", "tissue thickness", "Q267: opt-in, off by default -- a live readout of the contiguous tissue band under the cursor/cross-hair, measured from this tool's own per-pixel tissue classification (no reference range shown: not citable from this project's own sources). A separate toggle from the Q256 source-reliability dots in the main Parts panel.")]);
       var mo1 = el("div", {class: "us-row"}, [tog("hidden", "hidden structures", "Leave out the structures hidden in the 3D view (virtual dissection; skin always stays). Default: the whole body is imaged, as in a real patient."),
         btn("reset", "Back to defaults (probe stays)", function () { resetDefaults(); })]);
@@ -1322,12 +1950,13 @@
       S.cine = !!on;                                                           // Q253: cine plays in BOTH modes; Q257 adds a genuinely continuous re-slicing mode alongside the step-through one
       if (S.cine && S.cineMode === "continuous") {
         if (S.view !== "single") { S.view = "single"; relayoutViews(); }       // a continuously sliding plane is one image, not a matrix of stale neighbours
-        contState.pos = S.mode === "star" ? ((frames[S.sel] && frames[S.sel].spec && frames[S.sel].spec.dir) || 0) : 0;
-        contState.dir = 1; contState.lastT = 0; contState.measMs = 0; contState.fpsActual = 0; contState.active = true; contState.raf = reqFrame(contTick);
+        if (!S.motion) { contState.pos = S.mode === "star" ? ((frames[S.sel] && frames[S.sel].spec && frames[S.sel].spec.dir) || 0) : 0; contState.dir = 1; }
+        contState.lastT = 0; contState.measMs = 0; contState.fpsActual = 0; contState.active = true; contState.raf = reqFrame(contTick);
+        if (S.motion) ensureMotion();                                          // Q289: (re)build the motion path if needed, resume or restart the run
       } else if (S.cine) {
         timers.cine = setInterval(function () { if (!frames.length) return; var nF = S.mode === "star" ? 9 : S.n; S.sel = (S.sel + 1) % nF; relayoutViews(); syncUi(); updateOverlay(); }, 1000 / S.fps);
       }
-      updateContReadout(); syncUi();
+      updateContReadout(); syncUi(); syncMotionUi(); if (!S.cine && S.motion && frames.length) updateOverlay();   // Q289: the paced 3-D overlay catches up on pause
     }
     function modeHe() { var b = document.body.classList; return b.contains("mode-us") || b.contains("mode-cmp"); }   // Q273: inside a workspace mode the image's UI labels are Hebrew (the watermark, scale and orientation letters are not translated)
     function setStatus(t) {
@@ -1479,21 +2108,24 @@
       var he = modeHe();                                                   // Q273: the UI labels drawn into the image follow the workspace mode's language
       var iso = function (x) { return he ? "\u2066" + x + "\u2069" : x; };   // numbers after a Hebrew word: an isolated LTR run (LRI...PDI), so no bidi reordering of signs / degree marks
       var t1 = (tiny ? "" : g.type + " " + g.w + " mm \u00B7 ") + S.freq + " MHz \u00B7 " + S.depthCm + " cm" + (tiny ? "" : " \u00B7 " + (he ? "\u05D4\u05D2\u05D1\u05E8 " : "gain ") + iso((S.gain >= 0 ? "+" : "") + S.gain + " dB"));
-      if (box.h > 150) { txt(t1, box.x + 6, box.y + 10, "left"); txt(fr.spec.label, box.x + 6, box.y + (tiny ? 21 : 24), "left", "#9fd0ff"); }
+      if (fs.on) { /* Q289: clean full-screen view -- no header lines */ } else if (box.h > 150) { txt(t1, box.x + 6, box.y + 10, "left"); txt(fr.spec.label, box.x + 6, box.y + (tiny ? 21 : 24), "left", "#9fd0ff"); }
       else txt(fr.spec.short || fr.spec.label, box.x + 4, box.y + 8, "left", "#9fd0ff");
       if (!tiny) {
         var tiltS = (Math.round(fr.pf.tilt * 10) / 10) + "\u00B0", normS = fr.pf.N.map(function (x) { return x.toFixed(2); }).join(",");
-        if (he) txtSeq(["\u05D4\u05D8\u05D9\u05D4 ", tiltS, " \u00B7 ", "\u05E0\u05D5\u05E8\u05DE\u05DC ", normS], box.x + 6, box.y + 38, "#b8c4d2");
+        if (fs.on) { /* Q289 */ } else if (he) txtSeq(["\u05D4\u05D8\u05D9\u05D4 ", tiltS, " \u00B7 ", "\u05E0\u05D5\u05E8\u05DE\u05DC ", normS], box.x + 6, box.y + 38, "#b8c4d2");
         else txt("tilt " + tiltS + " \u00B7 normal " + normS, box.x + 6, box.y + 38, "left", "#b8c4d2");
-        if (S.speckle || S.noise || S.textures) txt((he ? "\u200E\u05E1\u05D9\u05E0\u05EA\u05D8\u05D9: " : "synthetic: ") + [S.speckle ? (he ? "\u05E1\u05E4\u05E7\u05DC" : "speckle") : "", S.textures ? (he ? "\u05DE\u05E8\u05E7\u05DE\u05D9\u05DD" : "textures") : "", S.noise ? (he ? "\u05E8\u05E2\u05E9" : "noise") : ""].filter(Boolean).join(", "), box.x + 6, box.y + 52, "left", "#ff9d8a");
+        if (!fs.on && (S.speckle || S.noise || S.textures)) txt((he ? "\u200E\u05E1\u05D9\u05E0\u05EA\u05D8\u05D9: " : "synthetic: ") + [S.speckle ? (he ? "\u05E1\u05E4\u05E7\u05DC" : "speckle") : "", S.textures ? (he ? "\u05DE\u05E8\u05E7\u05DE\u05D9\u05DD" : "textures") : "", S.noise ? (he ? "\u05E8\u05E2\u05E9" : "noise") : ""].filter(Boolean).join(", "), box.x + 6, box.y + 52, "left", "#ff9d8a");
         if (!sim.contact) txt(he ? "\u05D0\u05D9\u05DF \u05DE\u05D2\u05E2 \u05E2\u05DD \u05D4\u05E2\u05D5\u05E8" : "NO SKIN CONTACT", box.x + box.w / 2, box.y + box.h / 2, "center", "#ff6a5a");
         if (v.idx === S.sel) {
           var mm = US && LIB.probeMismatch(S.freq, S.depthCm, US.global && US.global.tgc_alpha_ref_db_cm_mhz);
           if (mm) wrapTxt((he ? "\u05D0\u05D9-\u05D4\u05EA\u05D0\u05DE\u05D4 \u05DE\u05EA\u05DE\u05E8/\u05E2\u05D5\u05DE\u05E7: " : "PROBE/DEPTH MISMATCH: ") + mm.text, box.x + 6, box.y + 66, box.w - 12, "#ffb13c");
         }
       }
+      /* Q289: the honesty watermark stays in the clean full-screen view too -- small, but always inside the image (a full-screen CINE is
+         exactly what gets screen-recorded and passed on without the page around it) */
+      if (fs.on) { ctx.font = "600 " + (box.w < 300 ? 9 : 10) + "px system-ui,sans-serif"; ctx.globalAlpha = 0.8; txt(FS_MARK, box.x + 6, box.y + 10, "left", "#ff9d8a"); ctx.globalAlpha = 1; }
       var bad = BADGE.toUpperCase(), bw2 = ctx.measureText(bad).width;
-      if (bw2 + 12 <= box.w) txt(bad, box.x + box.w - 6, box.y + box.h - 8, "right", "#ff9d8a");
+      if (fs.on) { /* the watermark above replaces the badge */ } else if (bw2 + 12 <= box.w) txt(bad, box.x + box.w - 6, box.y + box.h - 8, "right", "#ff9d8a");
       else { txt("SIMULATED \u2013", box.x + box.w - 4, box.y + box.h - 17, "right", "#ff9d8a"); txt("NOT AN ULTRASOUND", box.x + box.w - 4, box.y + box.h - 7, "right", "#ff9d8a"); }
       /* cursor */
       if (v.hover && v.hover.fr === fr) { ctx.strokeStyle = "rgba(255,80,60,.9)"; ctx.beginPath(); ctx.arc(v.hover.cx, v.hover.cy, 6, 0, 6.2832); ctx.stroke(); }
@@ -1512,7 +2144,7 @@
       }
       var P = toWorld(fr.O, fr.pf, x, ry);
       ui.lastSid = sidv;
-      ui.read.textContent = cls + " | " + name + " | depth " + (y / 10).toFixed(1) + " cm, lateral " + x.toFixed(1) + " mm | echo " + (db > -150 ? (db >= 0 ? "+" : "") + db.toFixed(0) + " dB re liver" : "none") + " | atlas x " + P[0].toFixed(0) + " y " + P[1].toFixed(0) + " z " + P[2].toFixed(0) + " mm";
+      ui.read.textContent = cls + " | " + name + " | depth " + (y / 10).toFixed(1) + " cm, lateral " + x.toFixed(1) + " mm | echo " + (db > -150 ? (db >= 0 ? "+" : "") + db.toFixed(0) + " dB re liver" : "none") + " | atlas x " + P[0].toFixed(0) + " y " + P[1].toFixed(0) + " z " + P[2].toFixed(0) + " mm" + archLabel(sidv);   // Q289
       /* Q267 (6): live tissue-thickness readout, opt-in -- the contiguous run of the SAME per-pixel tissue-class id
          (fr.lab, the exact grid the simulation above and the imaging kernel already compute, nothing new) through the
          hovered lateral column, converted to mm by the raster's own px size. No "typical range" is shown: this project
@@ -1552,11 +2184,23 @@
         "Tilt = the probe handle leans by the stated angle (rigid rotation about the contact point). 'Away / toward marker' = rocking inside the image plane; 'heel / toe' = fanning (the plane swings sideways). Which heel/toe side faces the examiner depends on where the examiner stands.",
         "Sweep: parallel planes, frame k at k × step along the plane normal (perpendicular to the image plane); 'follow organ' rotates the probe about the skin normal so that this direction lies as close as possible to the PCA long axis of the chosen structure.",
         "Cine: 'step' plays back the already-computed set of frames (the 9 tilt directions / n sweep planes) in place, as a movie. 'continuous' instead genuinely RE-SLICES a new frame at every displayed position as it slides (sweep) or fans (star tilt direction) smoothly through the range -- a real re-slice of the meshes each time, not an interpolation between the step frames -- at a reduced resolution so it keeps up in real time; the fps selector sets the target sweep/fan speed, and the readout next to it shows the actually achieved re-slice rate on this device, which can fall behind the target on a slow machine (shown honestly, not hidden).",
+        "CINE motion types (Q289, continuous re-slicing as above): 'long' slides the probe along the body part -- on a limb the axis and length of the nearest long bone (its own PCA axis and extent), on the trunk the cranio-caudal axis -- re-seated on the real skin at every sample; 'circ' goes round the part at the probe's level (rays from the section centre to the part's own skin); 'rot' turns the probe 180° about its own axis; 'tilt' fans it heel <-> toe by ± the Tilt angle; 'track' follows a chosen structure along its centreline (per-5-mm-slice centroids of its own mesh along its principal axis -- a course that doubles back on that axis is not represented), the probe on the skin straight above it. The face stays at 90° to the smoothed skin normal throughout. One way or back and forth, optionally looped; the full-screen view shows the part in 3-D beside the image, with the scan direction as an arrow.",
+        "Muscle fibres (Q289): inside a muscle the perimysium texture now follows the LOCAL fibre direction -- the mesh's own long axis tilted by the cited pennation angle (unipennate: toward the thickness axis; bipennate: converging on a central sheet; multipennate: alternating between sheets), so a longitudinal plane shows the pennation pattern and a transverse plane cross-cut fascicles, live during CINE. Documented septa / aponeuroses are hyperechoic sheets. Layout inside the mesh is rule-based; see 'Muscle fibres and septa' below.",
         "Model artefacts handled: an air band thinner than " + US.global.air_pocket_fill_mm + " mm along a beam that tissue follows again is treated as fat (the Z pages' skin is a set of overlapping patches; the slice kernel then labels gaps between skin layers as air); thin fascia / septa meshes are drawn one pixel wide and can show as bright lines with a stair-step on oblique planes.",
         "Synthetic parts: speckle (seeded value noise with Rayleigh statistics, attached to the sweep volume), muscle septa / tendon fibril textures, optional system noise: all labelled on the image and switchable off. Not modelled: " + US.artefacts.not_modelled.join("; ") + "."];
       var ul = el("ul"); how.forEach(function (t) { ul.appendChild(el("li", {text: t})); }); box.appendChild(ul);
       box.appendChild(el("h3", {text: "Honest limits"}));
       var ul2 = el("ul"); US.honesty.forEach(function (t) { ul2.appendChild(el("li", {text: t})); }); box.appendChild(ul2);
+      if (US.architecture) {                                                 // Q289: fibre direction + documented septa
+        var AR = US.architecture;
+        box.appendChild(el("h3", {text: "Muscle fibres and septa (Q289) -- RULE-BASED layout, cited angles"}));
+        var ul3 = el("ul"); AR.honesty.forEach(function (t) { ul3.appendChild(el("li", {text: t})); });
+        Object.keys(AR.muscles).filter(function (k) { return AR.muscles[k].septa && AR.muscles[k].septa.length; }).forEach(function (k) {
+          AR.muscles[k].septa.forEach(function (sp) { ul3.appendChild(el("li", {text: k.replace(/_/g, " ") + ": " + sp.name + " -- " + sp.rule + " [" + sp.refs.map(function (r) { var x = AR.references[r]; return x ? x.cite + " PMID " + x.pmid + " doi:" + x.doi : r; }).join("; ") + "]"})); });
+        });
+        ul3.appendChild(el("li", {text: Object.keys(AR.muscles).length + " muscles carry a cited pennation (the per-muscle source line is shown with the hover readout); every other muscle shows its generic line of action."}));
+        box.appendChild(ul3);
+      }
       box.appendChild(el("h3", {text: "Acoustic table (" + Object.keys(US.classes).length + " classes) – colour: green verified in an abstract, yellow owner-supplied, orange recalled / UNVERIFIED, blue derived, purple assumption"}));
       var tb = el("table"); tb.appendChild(el("tr", {html: "<th>class</th><th>Z MRayl</th><th>c m/s</th><th>α dB/cm/MHz</th><th>echo dB re liver</th><th>status</th><th>sources / note</th>"}));
       Object.keys(US.classes).forEach(function (k) {
@@ -1603,6 +2247,7 @@
           syncUi(); applyLayout(); refresh(true);
         });
       } else {
+        if (fs.on) setFs(false);                                           // Q289
         S.open = false; setCine(false); S.placing = false; S.pick3d = false; gen++; applyLayout(); clearOverlay();
         if (ui.btn) ui.btn.setAttribute("aria-pressed", "false");
       }
@@ -1635,6 +2280,12 @@
       "body.mode-us .mm-note:empty{display:none}",
       ".mm-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:120;background:#1a202c;color:#fff;border-radius:10px;padding:9px 16px;font:600 13px Heebo,system-ui,sans-serif;direction:rtl;box-shadow:0 6px 24px rgba(0,0,0,.25)}",
       ".mm-toast[hidden]{display:none}",
+      ".mm-mopop{margin-top:8px;padding:8px 10px;background:#fff;border:1px solid #E2E8F0;border-radius:12px}",
+      ".mm-mopop[hidden]{display:none}",
+      ".mm-mopop .us-mo button{background:#fff;border:1px solid #CBD5E0;color:#1A202C;cursor:pointer}",
+      ".mm-mopop .us-mo button[aria-pressed=true]{background:#2B6CB0;border-color:#2B6CB0;color:#fff}",
+      ".mm-mopop .us-mo button:disabled{opacity:.45}",
+      ".mm-mopop .us-mo output,.mm-mopop .us-mo label{color:#4A5568}",
       "body.mode-cmp #us-root .us-head,body.mode-cmp #us-root #us-div,body.mode-cmp #us-root .us-ctl,body.mode-cmp #us-root .us-diag,body.mode-cmp #us-root .us-hint,body.mode-cmp #us-root .us-info,body.mode-cmp #us-root>.us-status,body.mode-cmp #us-root .us-wizard,body.mode-cmp #us-root .us-read{display:none!important}",
       "body.mode-cmp #us-root{border:0!important}"
     ].join("\n");
@@ -1703,9 +2354,13 @@
         ui2.step = h("button", {type: "button", class: "mm-tog m-hide", "aria-pressed": "false", text: "צעדים", onclick: function () { if (S.cineMode === "continuous") ui.cineModeBtn.click(); refreshUi(); }});
         ui2.thick = h("button", {type: "button", class: "mm-tog m-hide", "aria-pressed": "false", text: "עובי רקמה: כבוי", onclick: function () { if (ui.togs && ui.togs.thickness) ui.togs.thickness.click(); refreshUi(); }});
         ui2.note = h("div", {class: "mm-note", text: ""});
-        var cine = h("div", {class: "mm-bar mi"}, [ui2.play, h("label", {class: "lb", text: "CINE"}), ui2.scrub, ui2.frame, ui2.cont, ui2.step, ui2.thick, ui2.note]);
+        /* Q289: CINE motion types -- one tap opens the short list, one tap on a type plays it; ⛶ = the clean split full screen */
+        ui2.moPop = h("div", {class: "mm-mopop mi", hidden: true}, [motionSheet({open: false})]);
+        ui2.moBtn = h("button", {type: "button", class: "mm-tog", "aria-expanded": "false", "aria-pressed": "false", text: "תנועה ▾", onclick: function () { ui2.moPop.hidden = !ui2.moPop.hidden; ui2.moBtn.setAttribute("aria-expanded", String(!ui2.moPop.hidden)); }});
+        ui2.fsBtn = h("button", {type: "button", class: "mm-tog", title: "מסך מלא: תלת-ממד | אולטרסאונד (יציאה: ✕ או Esc)", "aria-label": "מסך מלא", text: "⛶", onclick: function () { setFs(true); }});
+        var cine = h("div", {class: "mm-bar mi"}, [ui2.play, h("label", {class: "lb", text: "CINE"}), ui2.moBtn, ui2.fsBtn, ui2.scrub, ui2.frame, ui2.cont, ui2.step, ui2.thick, ui2.note]);
         ui2.chipsM = h("div", {class: "mm-chips-m"}); chipSet(ui2.chipsM, true);
-        var col = h("div", {class: "mm-col"}, [hero, cine, ui2.chipsM]);
+        var col = h("div", {class: "mm-col"}, [hero, cine, ui2.moPop, ui2.chipsM]);
         /* side column */
         ui2.thumbSlot = h("div", {class: "mslot"});
         var thumb = h("div", {class: "mm-thumb"}, [ui2.thumbSlot, h("div", {class: "mm-cap mi", text: "הקש על העור כדי להזיז את המתמר"})]);
@@ -1731,6 +2386,8 @@
         c.main.appendChild(h("div", {class: "mm-fill"}, [col, side]));
         c.dock(root, ui2.heroSlot, 81);
         c.modelDock([ui2.thumbSlot, ui2.thumbMSlot], 85);   // above the docked B-mode panel: on the phone the thumbnail sits inside the hero
+        modeRedock = function () { c.dock(root, ui2.heroSlot, 81); c.modelDock([ui2.thumbSlot, ui2.thumbMSlot], 85); };   // Q289: back from the full-screen CINE
+        modeRefresh = refreshUi; modeToast = function (m) { toast(m); };
       }
       function refreshUi() {
         if (!ctx) return;
@@ -1740,6 +2397,8 @@
         ui2.frame.textContent = "פריים " + (Math.min(S.sel, n - 1) + 1) + " / " + n;
         ui2.cont.setAttribute("aria-pressed", String(cont)); ui2.step.setAttribute("aria-pressed", String(!cont));
         ui2.thick.setAttribute("aria-pressed", String(!!S.thickness)); ui2.thick.textContent = "עובי רקמה: " + (S.thickness ? "פועל" : "כבוי");
+        var mo = MOTIONS.filter(function (m) { return m[0] === S.motion; })[0];   // Q289
+        ui2.moBtn.setAttribute("aria-pressed", String(!!mo)); ui2.moBtn.textContent = mo ? "תנועה: " + mo[1] + " ▾" : "תנועה ▾";
         var pr = {linear: "Linear", convex: "Convex", sector: "Sector"}[S.probe] || S.probe;
         ui2.chip.innerHTML = ""; ui2.chip.appendChild(document.createTextNode(pr + " " + S.freq + " MHz · " + S.depthCm + " ס\"מ · ")); ui2.chip.appendChild(h("b", {text: cont ? "רציף" : "צעדים"}));
         var pd = PRESETS.filter(function (d) { return d.key === S.preset; })[0];
@@ -1753,6 +2412,7 @@
         ui2.adv.setAttribute("aria-pressed", String(advOpen)); ui2.adv.textContent = advOpen ? "סגור הגדרות מתקדמות" : "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)…";
       }
       function enter(c) {
+        modeCtx = c;                                                     // Q289: the full-screen CINE docks through the mode while it is on
         prev = {open: S.open, lay: S.lay, tab: S.tab, placing: S.placing, ctlOff: !!(root && root.classList.contains("ctl-off"))};
         if (!S.open) setOpen(true);
         S.lay = "tab"; S.tab = "image"; applyLayout(); updateLayoutUi();
@@ -1762,6 +2422,7 @@
         refreshUi();
       }
       function exit() {
+        if (fs.on) setFs(false); modeCtx = null;                         // Q289
         modeArm = false; S.placing = false;
         if (!prev.open) { setCine(false); setOpen(false); }
         else { if (root && root.classList.contains("ctl-off") !== prev.ctlOff) ui.ctlBtn.click(); }
@@ -1782,7 +2443,7 @@
           if (k === "probe") { setProbe(p.probe); } else if (k === "mode") { setMode(p.mode); } else if (k === "sel") { S.sel = p.sel; relayoutViews(); updateOverlay(); }
           else if (k === "gain" || k === "dr") { S[k] = p[k]; repaintAll(); } else if (k === "P" || k === "N") S[k] = p[k].slice();
           else if (k === "widths") Object.assign(S.widths, p.widths); else if (k === "tab") { S.tab = p.tab; applyLayout(); } else if (k === "lay") { S.lay = p.lay; applyLayout(); updateLayoutUi(); }
-          else if (k === "cine") setCine(p.cine); else if (k === "followSid") setFollow(p.followSid); else S[k] = p[k];
+          else if (k === "cine") setCine(p.cine); else if (k === "followSid") { if (p.followSid >= 0) setFollow(p.followSid); else { S.followSid = -1; S.follow = false; S.followName = ""; } } else S[k] = p[k];
         });
         if (ui.modeBtn1) syncUi();
         refresh(true);
@@ -1807,7 +2468,22 @@
       dismissWizard: function () { hideWizard(); },
       thicknessAt: function (vi) { var v = views[vi == null ? S.sel : vi]; return v && v.hover ? ui.thick.textContent : null; },
       classOf: function (sid) { return classOf(sid); },
-      overlayLang: function () { return modeHe() ? "he" : "en"; }   // Q273 test hook: the language of the UI labels drawn into the B-mode image
+      overlayLang: function () { return modeHe() ? "he" : "en"; },  // Q273 test hook: the language of the UI labels drawn into the B-mode image
+      /* Q289 test hooks: CINE motion types + the clean full-screen view */
+      motion: function (k) { return loadTable().then(function () { chooseMotion(k); return S.motion; }); },
+      motionState: function () {
+        var m = mPath;
+        return {motion: S.motion, building: mBuilding, active: contState.active, cine: S.cine, pos: contState.pos, dir: contState.dir, done: !!(m && m.done), info: mInfo,
+          opts: {back: S.mBack, loop: S.mLoop, rev: S.mRev, speed: S.mSpeed, plane: S.mPlane, extAuto: S.extAuto, extCm: S.extCm},
+          path: m ? {kind: m.kind, unit: m.unit, total: m.total, n: m.samples.length, skipped: m.skipped || 0, plane: m.plane, win: m.win, sid: m.sid == null ? -1 : m.sid, name: m.name || "",
+            region: {kind: m.region.kind, name: m.region.name, len: m.region.len, a: m.region.a}} : null};
+      },
+      pathSamples: function () { return mPath ? mPath.samples.map(function (q) { return {P: q.P, N: q.N, u: q.u, s: q.s, depth: q.depth == null ? null : q.depth}; }) : null; },
+      fs: function (on) { setFs(on); return fs.on; },
+      archInfo: function (sid) { var a = archOf(sid); return a ? {key: a.key, kind: a.kind, type: a.row.t, p: a.row.p, sheets: a.sheets.map(function (x) { return {ax: x.ax, off: x.off, s0: x.s0, s1: x.s1, id: x.id}; }), bands: a.bands, la: a.la, lw: a.lw, lt: a.lt, a: a.a, w: a.w, t: a.t, c: a.c, label: archLabel(sid)} : {generic: true, label: archLabel(sid)}; },
+      fibreAt: function (sid, p) { var a = archOf(sid); return a ? {f: LIB.fibreAt(a, p[0], p[1], p[2]).slice(), sep: a._sep, band: a._band} : null; },
+      imageMuscles: function () { return imageMuscles(frames[S.sel], 6).map(function (q) { return {sid: q, id: geo.recs[q] && geo.recs[q].id, arch: !!archOf(q)}; }); },
+      fsState: function () { return {on: fs.on, lay: fs.el ? fs.el.getAttribute("data-lay") : null, idle: document.body.classList.contains("fs-idle"), sheet: !!(fs.sheet && !fs.sheet.hidden)}; }
     };
     return {};
   }

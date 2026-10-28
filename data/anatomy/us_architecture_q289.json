@@ -1,0 +1,76 @@
+{
+  "schema": "nmsk.us_architecture.v1",
+  "title": "Q289: muscle fibre direction and documented intramuscular septa / aponeuroses for the simulated ultrasound (private clinical add-on)",
+  "generated_by": "hand-curated (septa, parts, references); the per-muscle pennation table is merged in by scripts/clinical/q289_architecture.py from data/muscles/*/*.json",
+  "honesty": [
+    "Fibre DIRECTION is built from this page's own geometry: the muscle mesh's own principal axes (PCA of its vertices) give the line of action (long axis), the width and the thickness directions. The pennation ANGLE comes from published architecture data (the per-muscle source line, e.g. Ward 2009 lower limb, Holzbaur 2005 upper limb, van Eijden 1997 masseter). How the fibres are laid out inside the mesh (which side, which way they converge) is a RULE, badged as rule-based -- it is not a measured fibre field of this body.",
+    "Septa / aponeuroses are drawn ONLY for the muscles listed under 'muscles' below, each with its citation. Their presence is documented; their position, orientation and extent inside this body's mesh are rule-based (stated per entry). Counts are drawn only where a source gives one.",
+    "A muscle without an entry in the pennation table shows only the generic line of action (the mesh's own long axis, the Q228 perimysium texture), labelled 'generic line of action, no architecture data'."
+  ],
+  "references": {
+    "ward2009": {"cite": "Ward SR, Eng CM, Smallwood LH, Lieber RL. Are current measurements of lower extremity muscle architecture accurate? Clin Orthop Relat Res 2009;467(4):1074-1082", "pmid": "18972175", "doi": "10.1007/s11999-008-0594-8", "basis": "abstract: 27 muscles from 21 lower extremities disassembled; fibre length, PCSA (pennation values carried in data/muscles/*.json)"},
+    "hiblar2003": {"cite": "Hiblar T, Bolson EL, Hubka M, Sheehan FH, Kushmerick MJ. Three dimensional ultrasound analysis of fascicle orientation in human tibialis anterior muscle enables analysis of macroscopic torque at the cellular level. Adv Exp Med Biol 2003;538:635-644", "pmid": "15098705", "doi": "10.1007/978-1-4419-9029-7_56", "basis": "abstract: bipennate tibialis anterior; fascicles insert on the internal (central) tendon, superior and inferior to it; mean insertion angle 11 deg, decreasing from ~15 deg near the belly to ~6 deg near the ankle (3 subjects)"},
+    "raiteri2016": {"cite": "Raiteri BJ, Cresswell AG, Lichtwark GA. Three-dimensional geometrical changes of the human tibialis anterior muscle and its central aponeurosis measured with three-dimensional ultrasound during isometric contractions. PeerJ 2016;4:e2260", "pmid": "27547566", "doi": "10.7717/peerj.2260", "basis": "abstract: 3-D ultrasound of the tibialis anterior central aponeurosis (width, length) and pennation angle, n=12"},
+    "hasselman1995": {"cite": "Hasselman CT, Best TM, Hughes C 4th, Martinez S, Garrett WE Jr. An explanation for various rectus femoris strain injuries using previously undescribed muscle architecture. Am J Sports Med 1995;23(4):493-499", "pmid": "7573663", "doi": "10.1177/036354659502300421", "basis": "abstract (project-verified Q219): superficial anterior proximal tendon (direct head) + deep intramuscular tendon (indirect head); bipennate portion around the deep tendon"},
+    "sakoma2011": {"cite": "Sakoma Y, Sano H, Shinozaki N, Itoigawa Y, Yamamoto N, Ozaki T, Itoi E. Anatomical and functional segments of the deltoid muscle. J Anat 2011;218(2):185-190", "pmid": "21118198", "doi": "10.1111/j.1469-7580.2010.01325.x", "basis": "abstract (project-verified Q219): 60 shoulders, three tendinous insertions, seven segments defined by intramuscular tendons"},
+    "balius2014": {"cite": "Balius R, Rodas G, Pedret C, Capdevila L, Alomar X, Bong DA. Soleus muscle injury: sensitivity of ultrasound patterns. Skeletal Radiol 2014;43(6):805-812", "pmid": "24627005", "doi": "10.1007/s00256-014-1856-z", "basis": "abstract: soleus connective structures named by injury site -- posterior aponeurosis, anterior aponeurosis, medial aponeurosis, lateral aponeurosis, central tendon (MRI, n=55)"},
+    "muramatsu2002": {"cite": "Muramatsu T, Muraoka T, Kawakami Y, Fukunaga T. Superficial aponeurosis of human gastrocnemius is elongated during contraction: implications for modeling muscle-tendon unit. J Biomech 2002;35(2):217-223", "pmid": "11784540", "doi": "10.1016/s0021-9290(01)00196-8", "basis": "abstract: medial gastrocnemius, superficial and deep aponeuroses, fascicles between them (uni-pennate muscle-tendon unit model), ultrasonography n=7"},
+    "delgado2002": {"cite": "Delgado GJ, Chung CB, Lektrakul N, et al. Tennis leg: clinical US study of 141 patients and anatomic investigation of four cadavers with MR imaging and US. Radiology 2002;224(1):112-119", "pmid": "12091669", "doi": "10.1148/radiol.2241011067", "basis": "abstract (project-verified Q219): fluid between the aponeuroses of medial gastrocnemius and soleus"},
+    "gheorghe2021": {"cite": "Gheorghe TI, Leekam R, Lam EWN, Perschbacher S, Liebgott B, Agur AMR. A dynamic ultrasonographic in vivo study of the musculoaponeurotic architecture of the human masseter muscle. Oral Surg Oral Med Oral Pathol Oral Radiol 2021;132(5):609-615", "pmid": "33781750", "doi": "10.1016/j.oooo.2021.02.006", "basis": "abstract: superficial head and deep head, each arranged in multiple laminae; fibre bundles between superior and inferior aponeuroses and/or bone (ultrasound, n=24)"},
+    "mochizuki2008": {"cite": "Mochizuki T, Sugaya H, Uomizu M, et al. Humeral insertion of the supraspinatus and infraspinatus. New anatomical findings regarding the footprint of the rotator cuff. J Bone Joint Surg Am 2008;90(5):962-969", "pmid": "18451386", "doi": "10.2106/JBJS.G.00427", "basis": "abstract (project-verified Q219): supraspinatus long intramuscular tendinous portion in the anterior half; infraspinatus long tendinous portion in the superior half"}
+  },
+  "rules": {
+    "frame": "a = the mesh's first principal axis oriented proximal -> distal (the end nearer the trunk is proximal), w = second (width), t = third (thickness); c = vertex centroid; extents = vertex projections",
+    "fusiform": "fibres along a (pennation 0)",
+    "unipennate": "fibres at the pennation angle in the a-t plane: f = cos(p) a + sin(p) t",
+    "bipennate": "fibres at +/- the pennation angle in the a-w plane, converging distally on the central sheet: f = cos(p) a - sin(p) sign(d) w, d = signed distance to the sheet",
+    "multipennate": "between neighbouring sheets the sign of the w component alternates",
+    "layered": "a sheet across the thickness; fibres at the pennation angle in the a-t plane with opposite signs on the two sides",
+    "septum": "a hyperechoic sheet 1 mm thick (Gaussian half-width 0.6 mm), only inside the muscle class, only within its span along a"
+  },
+  "render": {"septum_gain": 6.0, "septum_half_mm": 0.6, "note": "a septum multiplies the muscle's backscatter by 1 + gain * exp(-(d / half)^2) (d = distance to the sheet): +8.5 dB at its centre, i.e. a hyperechoic line like a tendon; synthetic display constant, not a measured reflectivity"},
+  "muscles": {
+    "tibialis_anterior": {
+      "type": "bipennate", "pennation_deg": 11, "pennation_proximal_deg": 15, "pennation_distal_deg": 6, "pennation_refs": ["hiblar2003"],
+      "septa": [{"id": "central_aponeurosis", "name": "central aponeurosis (internal tendon)", "normal": "w", "at": 0.5, "span": [0.0, 1.0], "refs": ["hiblar2003", "raiteri2016"],
+        "rule": "drawn as the sheet that splits the muscle across its width, over its whole length; the sources document a central aponeurosis with fascicles on both sides, not its exact position in this body"}]
+    },
+    "rectus_femoris": {
+      "type": "bipennate", "pennation_refs": [],
+      "septa": [{"id": "deep_intramuscular_tendon", "name": "deep intramuscular tendon of the indirect head (central aponeurosis)", "normal": "w", "at": 0.5, "span": [0.05, 0.75], "refs": ["hasselman1995"],
+        "rule": "drawn mid-width from 5 % to 75 % of the muscle length; the source documents a deep intramuscular tendon making the bipennate portion, not its extent in this body"}]
+    },
+    "soleus": {
+      "type": "bipennate", "pennation_refs": [],
+      "septa": [{"id": "central_tendon", "name": "central tendon (intramuscular)", "normal": "w", "at": 0.5, "span": [0.35, 1.0], "refs": ["balius2014"],
+        "rule": "drawn mid-width over the distal 65 %; the anterior / posterior / medial / lateral aponeuroses lie on the muscle's own surfaces, which the simulation already images as interfaces"}]
+    },
+    "gastrocnemius": {
+      "type": "unipennate", "pennation_refs": [],
+      "parts": {"axis": "w", "toward": "medial", "bands": [[0.0, 0.5, "lateral head"], [0.5, 1.0, "medial head"]], "rule": "the medial and lateral heads as the two halves of the mesh across its width (the head on the body-midline side is medial); each half gets its own head's pennation"},
+      "septa": [],
+      "aponeuroses_note": {"text": "superficial and deep aponeuroses (fascicles between them, unipennate) lie on the mesh's own surfaces and are imaged as interfaces; not drawn again inside", "refs": ["muramatsu2002", "delgado2002"]}
+    },
+    "deltoid": {
+      "type": "multipennate", "pennation_refs": [],
+      "parts": {"axis": "w", "toward": "anterior", "bands": [[0.0, 0.333, "spinal (posterior) part"], [0.333, 0.667, "acromial (middle) part"], [0.667, 1.0, "clavicular (anterior) part"]], "rule": "the three parts as thirds of the mesh's width, anterior = the third on the body's anterior side; each third gets its own compartments' pennation"},
+      "septa": [{"id": "intramuscular_tendons", "name": "intramuscular tendons (seven segments)", "normal": "w", "count": 6, "span_alternate": [[0.0, 0.7], [0.3, 1.0]], "refs": ["sakoma2011"],
+        "rule": "seven segments (Sakoma 2011) = six internal sheets, evenly across the width, alternately reaching from the origin side and from the humeral side; positions and spans are rule-based"}]
+    },
+    "masseter": {
+      "type": "layered", "pennation_refs": [],
+      "septa": [{"id": "head_boundary", "name": "aponeurotic boundary between superficial and deep heads", "normal": "t", "at": 0.5, "span": [0.0, 1.0], "refs": ["gheorghe2021"],
+        "rule": "one sheet at mid-thickness for the superficial / deep head division; the multiple laminae within each head are documented but their number is not given in the source's abstract, so they are NOT drawn"}]
+    },
+    "supraspinatus": {
+      "type": "bipennate", "pennation_refs": [],
+      "septa": [{"id": "intramuscular_tendon", "name": "intramuscular tendinous portion (anterior half)", "normal": "w", "at": 0.75, "toward": "anterior", "span": [0.4, 1.0], "refs": ["mochizuki2008"],
+        "rule": "drawn at three quarters of the width toward the anterior side, over the lateral (distal) 60 %; the source places it in the anterior half, the exact position is rule-based"}]
+    },
+    "infraspinatus": {
+      "type": "bipennate", "pennation_refs": [],
+      "septa": [{"id": "intramuscular_tendon", "name": "intramuscular tendinous portion (superior half)", "normal": "w", "at": 0.75, "toward": "superior", "span": [0.4, 1.0], "refs": ["mochizuki2008"],
+        "rule": "drawn at three quarters of the width toward the superior side, over the lateral (distal) 60 %; the source places it in the superior half, the exact position is rule-based"}]
+    }
+  }
+}
