@@ -220,3 +220,23 @@ Every picture zooms like a page in a phone browser, without opening a menu; the 
   toolbars are redrawn at 1:1 on the visible part of the screen and a chip offers 1:1 (Chrome honours it; on iOS pinch
   out). Inside the claude.ai artifact frame the browser zooms the surrounding page, which this page cannot see --
   the in-picture zoom above is the one that always works.
+
+
+## Ultrasound frequency, 1 to 18 MHz (Q291)
+
+The private ultrasound add-on chooses the transmit frequency in whole MHz from **1 to 18**, the same way everywhere:
+a compact **− / N MHz / +** stepper in the panel's Probe tab, the same buttons around a slider in the US mode card,
+and in the full-screen CINE view's ⋯ sheet. It works while CINE plays.
+
+- **Defaults per probe:** linear 10 MHz, convex 4 MHz, sector 3 MHz. The "joint / bursa" diagnostic preset now uses 8 MHz
+  (was 7.5); the other presets keep 12 MHz.
+- **Typical band (a hint, never a limit):** linear 4-18 MHz (GE ML6-15-D 4-15 MHz; Philips eL18-4, nominal 18-4 MHz,
+  broadband rated 2-22 MHz on its product page), convex 1-6 MHz (GE C1-6-D 1-6 MHz; Philips C5-1 5-1 MHz), sector
+  1-5 MHz (Philips S5-1 5-1 MHz). Outside the band a short note appears under the stepper; the image is still simulated
+  with the same physics. The sources are in `clinical/data/ultrasound_tissues.json` (`freq_band_src` per probe).
+- **What changes with frequency:** wavelength 1.54 mm / f (0.086 mm at 18 MHz), axial resolution about 1.25 wavelengths,
+  lateral beam width 1.2 λ F / D, and attenuation 0.6 dB/cm/MHz each way. At 15-18 MHz the far field darkens quickly,
+  which is the real physics. The probe / depth mismatch note now also gives the highest frequency that still reaches the
+  set depth with under 90 dB round-trip loss (for example 18 MHz to 5 cm: "≤ 15 MHz").
+- **Display limit:** the image cannot show detail finer than its raster. The axial speckle grain therefore stays at least
+  two sample steps long once 1.4 wavelengths is shorter than that, instead of aliasing into pixel noise.

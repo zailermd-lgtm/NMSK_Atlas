@@ -66,7 +66,7 @@ def test_probe_presets_match_the_request():
     assert p["linear"]["width_mm"][0] == 38 and p["linear"]["width_mm"][-1] == 50
     assert p["convex"]["width_mm"][0] == 60 and p["convex"]["width_mm"][-1] == 70
     assert p["sector"]["width_mm"][0] == 20 and p["sector"]["width_mm"][-1] == 25
-    assert US["freq_presets_mhz"] == [3.5, 5, 7.5, 12]
+    assert (US["freq_range_mhz"]["min"], US["freq_range_mhz"]["max"], US["freq_range_mhz"]["step"]) == (1, 18, 1)   # Q291 (was presets 3.5 / 5 / 7.5 / 12)
 
 
 # ---------------------------------------------------------------- geometry (node)

@@ -199,7 +199,10 @@
     if (!contact) ysk = 0;
     ysk = Math.max(-pl.margin + 1, Math.min(pl.margin - 1, ysk));
     var P = new Float32Array(nS * nL), reverb = [], tex = !!o.textures, spk = !!o.speckle, seed = (o.seed | 0) || 1;
-    var cellAx = GL.speckle.cell_ax_wavelengths * lam, cellZ = GL.speckle.elev_mm, elev = o.elevMm || 0, frame = o.frame, nStats = {specCount: 0, lost: 0, texSamples: 0, archSamples: 0, sepSamples: 0};
+    /* Q291: the axial speckle cell is ~1.4 wavelengths (0.12 mm at 18 MHz), but this beam line is sampled every ds (>= 0.08 mm, usually
+     * 0.8 px): a value-noise cell shorter than two samples would alias into per-sample white noise, so the grain is floored at 2 ds --
+     * the display raster cannot show a finer grain anyway (the same floor latCell already has laterally, 0.4 mm). */
+    var cellAx = Math.max(GL.speckle.cell_ax_wavelengths * lam, 2 * ds), cellZ = GL.speckle.elev_mm, elev = o.elevMm || 0, frame = o.frame, nStats = {specCount: 0, lost: 0, texSamples: 0, archSamples: 0, sepSamples: 0};
     var latCell = new Float32Array(nS), ref = o.ref || null;
     for (k = 0; k < nS; k++) latCell[k] = Math.max(0.4, latFw(k * ds) * 0.8);
     function latCellAt(y) { return Math.max(0.4, latFw(y < 0 ? 0 : y) * 0.8); }
@@ -300,9 +303,11 @@
       }
     }
     /* resolution: axial smoothing (rows) then lateral smoothing with the beam width at each depth */
+    /* Q291: kernel half-widths reach ~2.5 sigma up to 16 (axial) / 28 (lateral) samples, so a 1-2 MHz pulse or beam is not cut to a narrower
+     * box (the old caps 6 / 14 are not reached by an axial kernel above 3 MHz); at 18 MHz the axial pulse (0.11 mm) is below one sample and its pass is skipped. */
     var sa = axFw / 2.355 / ds;
     if (sa > 0.45) {
-      var ra = Math.min(6, Math.ceil(sa * 2.5)), ka = new Float32Array(2 * ra + 1), ss = 0, tmpR = new Float32Array(nL);
+      var ra = Math.min(16, Math.ceil(sa * 2.5)), ka = new Float32Array(2 * ra + 1), ss = 0, tmpR = new Float32Array(nL);
       for (i = -ra; i <= ra; i++) { ka[i + ra] = Math.exp(-i * i / (2 * sa * sa)); ss += ka[i + ra]; }
       for (i = 0; i < ka.length; i++) ka[i] /= ss;
       var Q = new Float32Array(P.length);
@@ -313,7 +318,7 @@
     for (k = 0; k < nS; k += 1) {
       var sdep = k * ds, dxl = g.type === "linear" ? g.w / nL : 2 * g.alpha * (g.R + sdep) / nL, sl = latFw(sdep) / 2.355 / Math.max(dxl, 1e-3);
       if (sl < 0.45) continue;
-      var rl = Math.min(14, Math.ceil(sl * 2.5)), kl = new Float32Array(2 * rl + 1), sk = 0, rb = k * nL;
+      var rl = Math.min(28, Math.ceil(sl * 2.5)), kl = new Float32Array(2 * rl + 1), sk = 0, rb = k * nL;
       for (i = -rl; i <= rl; i++) { kl[i + rl] = Math.exp(-i * i / (2 * sl * sl)); sk += kl[i + rl]; }
       for (i = 0; i < kl.length; i++) kl[i] /= sk;
       for (L = 0; L < nL; L++) { var acc = 0, wsum = 0; for (i = -rl; i <= rl; i++) { var l2 = L + i; if (l2 < 0 || l2 >= nL) continue; acc += kl[i + rl] * P[rb + l2]; wsum += kl[i + rl]; } rowT[L] = acc / wsum; }
@@ -532,16 +537,31 @@
   function probeMismatch(freq, depthCm, alphaRef) {
     var ar = alphaRef > 0 ? alphaRef : 0.6;
     if (freq <= 5 && depthCm <= 3) {
-      return {kind: "shallow_lowfreq", text: freq + " MHz on a " + depthCm + " cm-deep target: a low-frequency probe gives coarse resolution here (wavelength ∝ 1/f) — prefer a 10–12 MHz probe for hand / wrist / foot / tendon."};
+      return {kind: "shallow_lowfreq", text: freq + " MHz on a " + depthCm + " cm-deep target: a low-frequency probe gives coarse resolution here (wavelength ∝ 1/f) — prefer a 10–18 MHz linear probe for hand / wrist / foot / tendon."};
     }
     var loss = 2 * ar * freq * depthCm;
-    if (loss > 90) {
-      return {kind: "deep_highfreq", loss: loss, text: freq + " MHz to " + depthCm + " cm: round-trip attenuation ≈ " + Math.round(loss) + " dB (" + ar + " dB/cm/MHz, this tool's own TGC reference) — the far field will be very dark — prefer a 2–5 MHz probe for deep / abdominal targets."};
+    if (loss > 90) {                                                     // Q291: up to 18 MHz -- the same 90 dB limit gives the highest frequency that still reaches this depth
+      var fMax = Math.floor(90 / (2 * ar * depthCm));
+      return {kind: "deep_highfreq", loss: loss, fMax: fMax, text: freq + " MHz to " + depthCm + " cm: round-trip attenuation ≈ " + Math.round(loss) + " dB (" + ar + " dB/cm/MHz, this tool's own TGC reference) — the far field will be very dark — " +
+        (fMax >= 6 ? "≤ " + fMax + " MHz keeps it under 90 dB." : "prefer a 1–5 MHz convex / sector probe for deep / abdominal targets.")};
     }
     return null;
   }
 
-  var LIB = {VERSION: VERSION, probeFrame: probeFrame, REF: REF, starTilts: starTilts, sweepOffsets: sweepOffsets, matrixDims: matrixDims, fanGeom: fanGeom, lineStart: lineStart,
+  /* ---- Q291: whole-MHz frequency range (1-18) and each probe's TYPICAL band as a soft hint, never a clamp ---------------------------- */
+  function freqRange(US) {
+    var r = US && US.freq_range_mhz, lo = r && r.min > 0 ? r.min : 1, hi = r && r.max >= lo ? r.max : 18, st = r && r.step > 0 ? r.step : 1;
+    return {min: lo, max: hi, step: st, clamp: function (f) { f = Math.round((+f - lo) / st) * st + lo; return isFinite(f) ? Math.max(lo, Math.min(hi, f)) : lo; }};
+  }
+  function freqBandNote(freq, probeKey, US) {
+    var p = US && US.probes && US.probes[probeKey], b = p && p.freq_band_mhz;
+    if (!b) return null;
+    var name = {linear: "linear", convex: "convex", sector: "sector"}[probeKey] || probeKey;
+    if (freq >= b[0] && freq <= b[1]) return {inBand: true, band: b, text: "typical " + name + " band " + b[0] + "–" + b[1] + " MHz", he: "טווח אופייני \u2066" + b[0] + "–" + b[1] + " MHz\u2069"};
+    return {inBand: false, band: b, text: freq + " MHz is outside the typical " + name + " band (" + b[0] + "–" + b[1] + " MHz) — still simulated", he: "מחוץ לטווח האופייני למתמר (\u2066" + b[0] + "–" + b[1] + " MHz\u2069) – עדיין מדומה"};
+  }
+
+  var LIB = {VERSION: VERSION, freqRange: freqRange, freqBandNote: freqBandNote, probeFrame: probeFrame, REF: REF, starTilts: starTilts, sweepOffsets: sweepOffsets, matrixDims: matrixDims, fanGeom: fanGeom, lineStart: lineStart,
     planRaster: planRaster, compileAcoustics: compileAcoustics, simulate: simulate, hash3: hash3, toGray: toGray, skinHit: skinHit, smoothNormal: smoothNormal, pcaAxis: pcaAxis,
     followRotation: followRotation, angleDeg: angleDeg, pca3: pca3, archFrame: archFrame, fibreAt: fibreAt, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES, probeMismatch: probeMismatch};
   G.NMSKUltrasoundLib = LIB;
@@ -562,7 +582,7 @@
     var tableSrc = "", usErr = null;
     var US = null, AC = null, C = null, T = null, geo = null, loadErr = null, loadPromise = null;
     var S = {
-      open: false, mode: "star", probe: "linear", widths: {linear: 44, convex: 65, sector: 22}, freq: 7.5, depthCm: 5, gain: 0, tgc: 0, focusCm: 2.5, dr: 60,
+      open: false, mode: "star", probe: "linear", widths: {linear: 44, convex: 65, sector: 22}, freq: 10, depthCm: 5, gain: 0, tgc: 0, focusCm: 2.5, dr: 60,
       refKey: "long", rot: 0, tilt: 15, mTilt: 0, mTiltDir: 0, n: 6, spacing: 10, byTotal: false, total: 50, centered: false, sign: 1, follow: false, followSid: -1, followName: "",
       speckle: true, textures: true, reverb: true, noise: false, hidden: false, P: null, N: null, sel: 0, view: "matrix", lay: "auto", tab: "image", placing: false,
       cine: false, fps: 3, cineMode: "step", sec: "probe", pick3d: false, seed: 11,
@@ -982,7 +1002,7 @@
       fs.s3d = el("div", {class: "fs-3d"}); fs.sUs = el("div", {class: "fs-us"});
       fs.x = el("button", {type: "button", class: "fs-x", "aria-label": "יציאה ממסך מלא (Esc)", title: "יציאה (Esc)", text: "✕", onclick: function () { setFs(false); }});
       fs.more = el("button", {type: "button", class: "fs-more", "aria-label": "אפשרויות", "aria-expanded": "false", title: "אפשרויות: סוג תנועה, השמעה, מהירות, טווח", text: "⋯", onclick: function () { fs.sheet.hidden = !fs.sheet.hidden; fs.more.setAttribute("aria-expanded", String(!fs.sheet.hidden)); fsWake(); }});
-      fs.sheet = el("div", {class: "fs-sheet", hidden: true}, [motionSheet({open: true, inFs: true})]);
+      fs.sheet = el("div", {class: "fs-sheet", hidden: true}, [freqStepper({he: true, label: "תדר", where: "fs"}), motionSheet({open: true, inFs: true})]);   // Q291: the frequency too, from the one ⋯ sheet
       fs.el = el("div", {id: "us-cinefs", role: "dialog", "aria-label": "CINE מסך מלא", "data-lay": fsLayout()}, [fs.s3d, fs.sUs]);
       ["pointermove", "pointerdown", "keydown"].forEach(function (ev) { document.addEventListener(ev, fsWake, true); });
       [fs.el, fs.x, fs.more, fs.sheet].forEach(function (x) { document.body.appendChild(x); });   // the buttons sit above the docked halves, so outside the backdrop's stacking context
@@ -1105,7 +1125,7 @@
       {key: "tear", label: "קרע שריר", clsKey: "muscle", depthCm: 4, dr: 55, freq: 12, question: "איזה שריר?"},
       {key: "entrap", label: "entrapment עצבי", clsKey: "nerve", depthCm: 3, dr: 50, freq: 12, question: "איזה עצב?"},
       {key: "tendon", label: "גיד-רצועה", clsKey: "tendon_ligament", depthCm: 2.5, dr: 45, freq: 12, question: "איזה גיד / רצועה?"},
-      {key: "joint", label: "מפרק-בורסה", clsKey: "synovial", depthCm: 5, dr: 60, freq: 7.5, question: "איזה מפרק?"}
+      {key: "joint", label: "מפרק-בורסה", clsKey: "synovial", depthCm: 5, dr: 60, freq: 8, question: "איזה מפרק?"}
     ];
     function candidatesForClass(clsKey) {
       var out = [], i; if (!geo) return out;
@@ -1626,6 +1646,17 @@
       ".us-row label{color:var(--dim);font-size:12px}",
       ".us-row .grow{flex:1 1 120px;min-width:90px}",
       ".us-row output{min-width:3.4em;color:#cfe6ff;font:12px ui-monospace,Menlo,monospace}",
+      /* Q291: the −/+ frequency stepper (panel, mode card, full-screen sheet): 40 x 36 px targets, the value between them, the out-of-band note below */
+      ".us-fq{display:flex;flex-direction:column;gap:4px;min-width:0}",
+      ".us-fq .fq-row{display:flex;align-items:center;gap:6px;direction:ltr}",
+      ".us-fq .fq-row label{color:inherit;opacity:.8;font-size:12.5px;direction:rtl}",
+      ".us-fq .fq-b{min-width:40px;min-height:36px!important;padding:0 10px!important;border-radius:9px;font:700 18px/1 system-ui,sans-serif;touch-action:manipulation}",
+      ".us-fq .fq-b:disabled{opacity:.4;cursor:default}",
+      ".us-fq .fq-v{min-width:4.4em;text-align:center;font:600 13px ui-monospace,Menlo,monospace;color:inherit}",
+      ".us-fq .fq-r{flex:1 1 120px;min-width:100px;min-height:30px;margin:0}",
+      ".us-fq .fq-note{font-size:11.5px;line-height:1.3;color:#ffb13c;max-width:22em}",
+      ".us-fq .fq-note:empty{display:none}",
+      ".fs-sheet .us-fq{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid #2a3646}",
       ".us-read{font:12px/1.3 ui-monospace,Menlo,monospace;color:#cfe6ff;min-height:32px;padding:3px 8px;border-top:1px solid var(--line);flex:0 0 auto;word-break:break-word;max-height:3.9em;overflow:hidden}",
       ".us-status{color:var(--dim);font-size:11.5px}",
       ".us-info{position:absolute;inset:36px 0 0 0;background:var(--bg);z-index:5;overflow:auto;overscroll-behavior:contain;padding:10px 12px 40px;display:none}",
@@ -1782,6 +1813,46 @@
     }
     function setSlider(key, v) { if (ui[key]) { ui[key].value = String(v); ui[key + "Out"].textContent = ui[key + "Fmt"](v); } }
     function btn(text, title, fn, extra) { return el("button", Object.assign({type: "button", text: text, title: title || "", onclick: fn}, extra || {})); }
+    /* Q291: the transmit frequency, 1-18 MHz in whole-MHz steps -- one compact −/+ stepper built for the panel, the US mode card (with a
+       slider between the buttons) and the full-screen sheet; every copy stays in sync. The probe's typical band is a soft hint: outside it
+       a short note appears, nothing is blocked or clamped to the band. */
+    function setFreq(f) {
+      f = LIB.freqRange(US).clamp(f); if (f === S.freq) return;
+      S.freq = f; syncUi(); syncFreqUi(); if (modeRefresh) modeRefresh(); refresh();
+    }
+    function stepFreq(d) { setFreq(S.freq + d * LIB.freqRange(US).step); }
+    function freqStepper(o) {
+      o = o || {};
+      var r = LIB.freqRange(US), he = !!o.he;
+      function b(t, d) {
+        var x = el("button", {type: "button", class: "fq-b", "data-fq": d > 0 ? "+" : "-", text: t, "aria-label": he ? (d > 0 ? "תדר גבוה ב-1 MHz" : "תדר נמוך ב-1 MHz") : (d > 0 ? "Frequency 1 MHz higher" : "Frequency 1 MHz lower"),
+          title: d > 0 ? "1 MHz higher: finer resolution, more attenuation, less depth" : "1 MHz lower: coarser resolution, less attenuation, more depth"});
+        x.addEventListener("click", function (e) { e.stopPropagation(); stepFreq(d); });
+        return x;
+      }
+      var minus = b("\u2212", -1), plus = b("+", 1), out = el("output", {class: "fq-v", "data-fqv": "1", "aria-live": "polite"}), rng = null;
+      if (o.range) {
+        rng = el("input", {type: "range", class: "fq-r", min: String(r.min), max: String(r.max), step: String(r.step), "aria-label": he ? "תדר (MHz)" : "Frequency (MHz)"});
+        rng.addEventListener("input", function () { setFreq(+rng.value); });
+        rng.addEventListener("click", function (e) { e.stopPropagation(); });
+      }
+      var lab = o.label ? el("label", {}, [el("b", {text: o.label})]) : null, note = el("div", {class: "fq-note", "data-fqn": "1"});
+      var kids = rng ? [el("div", {class: "hd"}, [lab, out]), el("div", {class: "fq-row"}, [minus, rng, plus]), note] : [el("div", {class: "fq-row"}, [lab, minus, out, plus]), note];
+      var box = el("div", {class: "us-fq" + (o.cls ? " " + o.cls : ""), "data-fq-box": o.where || ""}, kids);
+      (ui.fqSteps = ui.fqSteps || []).push({box: box, minus: minus, plus: plus, out: out, rng: rng, note: note, he: he});
+      syncFreqUi();
+      return box;
+    }
+    function syncFreqUi() {
+      var r = LIB.freqRange(US), n = LIB.freqBandNote(S.freq, S.probe, US);
+      (ui.fqSteps || []).forEach(function (q) {
+        q.out.textContent = S.freq + " MHz"; q.minus.disabled = S.freq <= r.min; q.plus.disabled = S.freq >= r.max;
+        if (q.rng) q.rng.value = String(S.freq);
+        q.note.textContent = n && !n.inBand ? (q.he ? n.he : n.text) : "";
+        q.box.title = n ? (q.he ? n.he : n.text) : "";
+        q.box.setAttribute("data-band", n ? (n.inBand ? "in" : "out") : "");
+      });
+    }
 
     function buildControls(ctl) {
       var mrow = el("div", {class: "us-row modrow"}, [
@@ -1796,8 +1867,7 @@
         ["linear", "convex", "sector"].map(function (k) { return (ui.probeBtns[k] = btn(k === "linear" ? "Linear" : k === "convex" ? "Convex" : "Sector", k === "linear" ? "Linear array, 38-50 mm footprint" : k === "convex" ? "Curvilinear, 60-70 mm footprint" : "Phased-array sector, 20-25 mm footprint", function () { setProbe(k); })); }),
         el("label", {text: "width"}), (ui.widthSel = el("select", {"aria-label": "Probe footprint width in mm", onchange: function () { S.widths[S.probe] = +ui.widthSel.value; refresh(); }}))
       ]);
-      ui.freqBtns = {};
-      var r2 = el("div", {class: "us-row"}, [el("label", {text: "MHz"}), [3.5, 5, 7.5, 12].map(function (f) { return (ui.freqBtns[f] = btn(String(f), "Frequency preset: higher = finer resolution, more attenuation, less depth", function () { S.freq = f; syncUi(); refresh(); })); })]);
+      var r2 = el("div", {class: "us-row"}, [el("label", {text: "MHz"}), freqStepper({where: "panel"})]);   // Q291: 1-18 MHz in whole-MHz steps (was four fixed buttons)
       var r3 = slider("Depth", 2, 15, 0.5, "depth", function (v) { return v.toFixed(1) + " cm"; }, function (v) { S.depthCm = v; if (S.focusCm > v) { S.focusCm = v * 0.6; setSlider("focus", S.focusCm); } refresh(); }, "Depth in cm");
       /* Q267 (4): "US diagnostic" preset pick-list */
       var rPreset = el("div", {class: "us-row"}, [el("label", {text: "US diagnostic:"})].concat(PRESETS.map(function (d) {
@@ -1890,7 +1960,7 @@
         ui.widthSel.innerHTML = ""; US.probes[S.probe].width_mm.forEach(function (w) { ui.widthSel.appendChild(el("option", {value: String(w), text: w + " mm"})); });
         ui.widthSel.value = String(S.widths[S.probe]);
       }
-      Object.keys(ui.freqBtns).forEach(function (f) { ui.freqBtns[f].setAttribute("aria-pressed", String(+f === S.freq)); });
+      syncFreqUi();
       setSlider("depth", S.depthCm); setSlider("rot", S.rot); setSlider("tilt", S.tilt); setSlider("mtilt", S.mTilt); setSlider("mdir", S.mTiltDir); setSlider("step", S.spacing); setSlider("total", S.total);
       setSlider("gain", S.gain); setSlider("tgc", S.tgc); setSlider("focus", S.focusCm); setSlider("dr", S.dr); setSlider("frame", S.sel + 1);
       if (ui.frame) ui.frame.max = String(S.mode === "star" ? 9 : S.n);
@@ -2202,7 +2272,7 @@
       box.appendChild(el("p", {html: "<b>A simulation computed from this viewer's segmented anatomical meshes – not an ultrasound.</b> The image plane of the virtual probe is intersected with every mesh (the Imaging mode's kernel); each pixel gets a tissue class, and a B-mode image is built along straight beam lines from the acoustic table below. It teaches where structures lie and how the probe movements (tilt, rock, fan, sweep) change the view; it must never be used to judge a patient or a scan."}));
       var how = ["Per beam line: at every change of tissue class the reflected fraction is R = ((Z2 − Z1)/(Z2 + Z1))² times an angle factor exp(−θ²/2σ²) (θ = angle between the beam and the interface normal estimated from the smoothed impedance field; a diffuse floor for rough interfaces) and the transmitted intensity is multiplied by (1 − R).",
         "Inside a class: attenuation α f L (dB, α in dB/cm/MHz) and class backscatter (liver = 0 dB; relative echogenicity is qualitative) times two-way transmission; time-gain compensation assumes a nominal " + US.global.tgc_alpha_ref_db_cm_mhz + " dB/cm/MHz, so fluid (low attenuation) shows posterior enhancement and bone / lung / air show shadows – no separate switches.",
-        "Resolution: axial ~ 1.25 wavelengths; lateral = 1.2 λ F/D at the focus and growing away from it. Frequency presets 3.5 / 5 / 7.5 / 12 MHz change attenuation, wavelength and therefore both.",
+        "Resolution: axial ~ 1.25 wavelengths; lateral = 1.2 λ F/D at the focus and growing away from it. Frequency 1–18 MHz in whole-MHz steps (−/+): it changes attenuation, wavelength (1.54 mm at 1 MHz, 0.086 mm at 18 MHz) and therefore both. Each probe shows a typical band as a hint, not a limit (linear 4–18, convex 1–6, sector 1–5 MHz; sources in the table file); outside it a short note appears. At high frequency the far field darkens (0.6 dB/cm/MHz each way) – that is the physics, not a bug. Detail finer than the image raster cannot be shown: the axial speckle grain is held at two sample steps once 1.4 λ is shorter than that.",
         "Geometry: linear = parallel lines; convex = fan from a centre 60 mm behind the face; sector = fan from the footprint (90°). The beam axis is the smoothed skin normal (area-weighted over 15 mm); the probe is seated on the skin at its centre; air between the face and the skin is coupling gel up to 12 mm.",
         "Orientation: the marker is on the screen LEFT (and the dot on the probe). Longitudinal: marker cranial (screen left = cranial). Transverse: marker to the patient's right (screen left = patient right, the CT convention). Depth scale in cm on the right edge, footprint at the top.",
         "Tilt = the probe handle leans by the stated angle (rigid rotation about the contact point). 'Away / toward marker' = rocking inside the image plane; 'heel / toe' = fanning (the plane swings sideways). Which heel/toe side faces the examiner depends on where the examiner stands.",
@@ -2307,6 +2377,8 @@
       ".mm-mopop{margin-top:8px;padding:8px 10px;background:#fff;border:1px solid #E2E8F0;border-radius:12px}",
       ".mm-mopop[hidden]{display:none}",
       ".mm-mopop .us-mo button{background:#fff;border:1px solid #CBD5E0;color:#1A202C;cursor:pointer}",
+      ".mm-card .us-fq .fq-b{background:#fff;border:1px solid #CBD5E0;color:#1A202C;cursor:pointer}",   /* Q291 */
+      ".mm-card .us-fq .fq-v{color:#1A202C}.mm-card .us-fq .fq-note{color:#B7791F}",
       ".mm-mopop .us-mo button[aria-pressed=true]{background:#2B6CB0;border-color:#2B6CB0;color:#fff}",
       ".mm-mopop .us-mo button:disabled{opacity:.45}",
       ".mm-mopop .us-mo output,.mm-mopop .us-mo label{color:#4A5568}",
@@ -2314,7 +2386,7 @@
       "body.mode-cmp #us-root{border:0!important}"
     ].join("\n");
     function usMode() {
-      var ctx = null, ui2 = {}, prev = null, FREQS = (US && US.freq_presets_mhz) || [3.5, 5, 7.5, 12];
+      var ctx = null, ui2 = {}, prev = null;
       function h(tag, a, k) { return ctx.el(tag, a, k); }
       function svg(d, w) { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", w || 18); s.setAttribute("height", w || 18); s.setAttribute("aria-hidden", "true"); s.innerHTML = d; return s; }
       function playIcon() { return svg('<path d="M7 5l12 7-12 7z" fill="currentColor"/>'); }
@@ -2395,7 +2467,7 @@
           return box;
         }
         ui2.depth = sl("עומק", 2, 15, 0.5, function (v) { return v.toFixed(1) + " ס\"מ"; }, function () { return S.depthCm; }, function (v) { S.depthCm = v; if (S.focusCm > v) S.focusCm = v * 0.6; syncUi(); refresh(); });
-        ui2.freq = sl("תדר", 0, FREQS.length - 1, 1, function (i) { return FREQS[i] + " MHz"; }, function () { var i = FREQS.indexOf(S.freq); return i < 0 ? FREQS.length - 1 : i; }, function (i) { S.freq = FREQS[i]; syncUi(); refresh(); });
+        ui2.freq = freqStepper({he: true, label: "תדר", range: true, cls: "mm-sl", where: "card"}); ui2.freq._sync = syncFreqUi;   // Q291: 1-18 MHz, −/+ beside the slider
         ui2.gain = sl("הגבר", -20, 20, 1, function (v) { return (v >= 0 ? "+" : "") + v + " dB"; }, function () { return S.gain; }, function (v) { S.gain = v; syncUi(); refresh(true); });
         ui2.gain.classList.add("m-hide");
         ui2.orL = h("button", {type: "button", class: "mm-sec", text: "אורכי", onclick: function () { ui.orLong.click(); refreshUi(); }});
@@ -2465,7 +2537,7 @@
       set: function (p) {
         Object.keys(p).forEach(function (k) {
           if (k === "probe") { setProbe(p.probe); } else if (k === "mode") { setMode(p.mode); } else if (k === "sel") { S.sel = p.sel; relayoutViews(); updateOverlay(); }
-          else if (k === "gain" || k === "dr") { S[k] = p[k]; repaintAll(); } else if (k === "P" || k === "N") S[k] = p[k].slice();
+          else if (k === "gain" || k === "dr") { S[k] = p[k]; repaintAll(); } else if (k === "freq") { S.freq = LIB.freqRange(US).clamp(p.freq); /* Q291: whole MHz, 1-18 */ } else if (k === "P" || k === "N") S[k] = p[k].slice();
           else if (k === "widths") Object.assign(S.widths, p.widths); else if (k === "tab") { S.tab = p.tab; applyLayout(); } else if (k === "lay") { S.lay = p.lay; applyLayout(); updateLayoutUi(); }
           else if (k === "cine") setCine(p.cine); else if (k === "followSid") { if (p.followSid >= 0) setFollow(p.followSid); else { S.followSid = -1; S.follow = false; S.followName = ""; } } else S[k] = p[k];
         });
@@ -2504,6 +2576,15 @@
       },
       pathSamples: function () { return mPath ? mPath.samples.map(function (q) { return {P: q.P, N: q.N, u: q.u, s: q.s, depth: q.depth == null ? null : q.depth}; }) : null; },
       fs: function (on) { setFs(on); return fs.on; },
+      /* Q291 test hook: the B-mode kernel re-run on the selected frame's own body raster at any frequency (also off the 1-MHz grid, e.g.
+         7.5 for the old preset), best of `reps` runs -> {ms, nonFinite, mean dB, image checksum}; nothing on screen changes */
+      simAt: function (freq, reps) {
+        var fr = frames[S.sel] || frames[0]; if (!fr || !fr.lab) return null;
+        var best = 1e9, r = null, k, bad = 0, sum = 0, n = 0, h = 0;
+        for (k = 0; k < Math.max(1, reps || 1); k++) { var t0 = performance.now(); r = LIB.simulate(simOpts(fr, {freq: freq})); best = Math.min(best, performance.now() - t0); }
+        for (k = 0; k < r.db.length; k++) { var v = r.db[k]; if (!isFinite(v)) { bad++; continue; } if (v > -200) { sum += v; n++; } h = (h * 31 + Math.round(v * 4)) | 0; }
+        return {ms: best, nonFinite: bad, mean: n ? sum / n : null, sum: h, nS: r.nS, nL: r.nL, Wo: r.Wo, Ho: r.Ho, ds: fr.plan.ds, px: fr.plan.px};
+      },
       archInfo: function (sid) { var a = archOf(sid); return a ? {key: a.key, kind: a.kind, type: a.row.t, p: a.row.p, sheets: a.sheets.map(function (x) { return {ax: x.ax, off: x.off, s0: x.s0, s1: x.s1, id: x.id}; }), bands: a.bands, la: a.la, lw: a.lw, lt: a.lt, a: a.a, w: a.w, t: a.t, c: a.c, label: archLabel(sid)} : {generic: true, label: archLabel(sid)}; },
       fibreAt: function (sid, p) { var a = archOf(sid); return a ? {f: LIB.fibreAt(a, p[0], p[1], p[2]).slice(), sep: a._sep, band: a._band} : null; },
       imageMuscles: function () { return imageMuscles(frames[S.sel], 6).map(function (q) { return {sid: q, id: geo.recs[q] && geo.recs[q].id, arch: !!archOf(q)}; }); },
