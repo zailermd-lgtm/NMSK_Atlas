@@ -25,6 +25,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 OUT = REPO / "viewer/learn/learn_data.json"
 SPINE = {"lumbar", "thoracic", "cervical"}
+HEADS = {"m": {}}
 
 
 def base_of(mid: str) -> str:
@@ -68,6 +69,11 @@ def build():
     M = load_muscles()
     A = json.loads((REPO / "data/anatomy/muscle_actions_q283.json").read_text(encoding="utf-8"))
     G = json.loads((REPO / "data/anatomy/muscle_groups_q283.json").read_text(encoding="utf-8"))
+    global HEADS
+    HEADS = json.loads((REPO / "data/anatomy/muscle_heads_q293.json").read_text(encoding="utf-8"))
+    for hm in HEADS["m"]:
+        if hm not in M:
+            errs.append(f"heads: {hm} not in data/muscles")
     vocab = rig_vocab()
     rows_by = {}
     for i, row in enumerate(A["rows"]):
@@ -135,6 +141,10 @@ def build():
         }
         if b in na:
             muscles[b]["na"] = na[b]
+        if b in HEADS["m"]:                                   # Q293: every head / origin (data/anatomy/muscle_heads_q293.json)
+            muscles[b]["hd"] = [{"c": x["c"], "n": x["n"], "o": x["o"], "src": x["src"]} for x in HEADS["m"][b]]
+        if b in HEADS.get("variants", {}):
+            muscles[b]["hv"] = HEADS["variants"][b]
         if not rows_by.get(b):
             muscles[b]["nr"] = nl.get(b, "unrigged")
     data = {"schema": "nmsk.learn.v1", "round": "Q283",

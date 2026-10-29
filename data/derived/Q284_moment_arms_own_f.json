@@ -1,10 +1,10 @@
 {
  "key": "own_f",
  "label": "Imaging-based · Female",
- "seconds": 45.3,
+ "seconds": 33.6,
  "totals": {
-  "muscles": 399,
-  "with_joint": 167,
+  "muscles": 401,
+  "with_joint": 169,
   "none": 232
  },
  "coverage_by_joint": {
@@ -80,13 +80,13 @@
   },
   "hip": {
    "computed": 6,
-   "partial": 16,
+   "partial": 18,
    "not_computable": 11,
    "reasons": {
-    "second end touches no bone (attachment not on this mesh)": 8,
+    "second end touches no bone (attachment not on this mesh)": 10,
     "first end touches no bone (attachment not on this mesh)": 9,
     "path re-crosses the joint": 9,
-    "joined to its separately meshed tendon": 5,
+    "joined to its separately meshed tendon": 7,
     "implausible path (mesh does not reach its bones)": 2
    }
   },
@@ -104,22 +104,14 @@
   },
   "knee": {
    "computed": 0,
-   "partial": 4,
+   "partial": 5,
    "not_computable": 7,
    "reasons": {
     "implausible path (mesh does not reach its bones)": 3,
     "first end touches no bone (attachment not on this mesh)": 3,
-    "second end touches no bone (attachment not on this mesh)": 1,
+    "second end touches no bone (attachment not on this mesh)": 2,
     "path re-crosses the joint": 4,
-    "joined to its separately meshed tendon": 1
-   }
-  },
-  "ankle": {
-   "computed": 0,
-   "partial": 2,
-   "not_computable": 4,
-   "reasons": {
-    "path re-crosses the joint": 4
+    "joined to its separately meshed tendon": 2
    }
   },
   "subtalar": {
@@ -129,10 +121,18 @@
    "reasons": {
     "path re-crosses the joint": 4
    }
+  },
+  "ankle": {
+   "computed": 0,
+   "partial": 2,
+   "not_computable": 4,
+   "reasons": {
+    "path re-crosses the joint": 4
+   }
   }
  },
  "cited_action_check": {
-  "agrees": 140,
+  "agrees": 143,
   "disagrees": 16,
   "agrees at some angles": 20
  }

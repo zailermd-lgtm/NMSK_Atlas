@@ -1855,3 +1855,27 @@ Owner: the breast and the pelvic structure of the Base female model need fixing 
   more); no nipple / areola object; no Cooper ligaments (no real open source reached); the FGT is a HU rule; ovaries / tubes / vagina remain HRA
   reference organs and the perineum CVH (another woman); her levator ani is not used (rule-based, 1.35x), the Z levator stays; the hub's
   structure counts and `clinical_risk.json` of Base F are not recomputed.
+
+### Rule-based reflected head of rectus femoris (all six pages) and re-articulated fingers (Combined pages) (2026-10-29, Q293)
+
+Owner: the fingers are in a shifted position; rectus femoris has only its straight head; the action simulation flexes the knee first.
+Hebrew report: `docs/research/Q293_muscle_attachment_action_audit.md`; scripts `scripts/anatomy/q293/`; reports
+`data/derived/Q293_rf_reflected_head.json`, `Q293_fingers.json`, `Q293_page_report.json`, `Q293_heads_check.json`, `Q293_action_signs.json`.
+
+- **Reflected (indirect) head of rectus femoris, `rectus_femoris_reflected_head_r/l`, RULE-BASED.** No source we hold has a mesh of it
+  (Z-Anatomy: name only, TA2 2616, no OB/ME datablock in Startup.blend; BodyParts3D: FMA22430 rectus femoris only; CVH / HRA: none).
+  Built per page on the page's own hip bone (subject `rule_rf_reflected_q293` on the Imaging pages): footprint on the lateral ilium just
+  above the superior acetabular rim from 21 mm of rim posterior to 12:30 (Gursoy 2024) to 1:30 (Hapa 2013), 16.8-19.3 mm wide (Ryan 2014),
+  thinner / wider posteriorly (Atzmon 2020); free tendon forward and down to the confluence with the direct head on the page's own rectus
+  femoris, 10.9 x 6.9 mm there (Atzmon 2020); vertices inside the bone pushed to its surface (+0.3 mm; 0 % inside after). Volumes r / l (cm3):
+  Imaging M 1.40 / 1.65, Imaging F 2.56 / 3.00, Base M 2.17 / 2.27, Base F 1.92 / 1.97, Combined M 1.57 / 1.84, Combined F 3.02 / 1.47.
+  Footprint 33.5-44.4 mm (lit. 38.1-47.7), total 49.7-82.1 mm (lit. 55.3); every value measured on the result, nothing tuned.
+- **Combined pages, fingers re-articulated (rigid transforms of the unchanged Z-Anatomy bone meshes).** Root cause: each Z hand bone
+  had its own similarity fit to the body's CT (Q168 / Q195 / Q200 / Q211), so phalanges stood off their joints (Combined F up to 9.7 mm,
+  Combined M 7.9 mm) and his right index finger lay 20-45 mm off his CT index ray. Joint centres of the articulated Z-Anatomy hand (Base M
+  rig) carried by each parent bone, child bones translated onto them (all 56 finger-joint gaps per page -> 0); finger angles refitted to
+  his CT (both hands; index r median 12.0 -> 2.1 mm) within the rig's ROM, accepted only on a >= 30 % gain and < 3.5 mm median; her right
+  hand and the thumbs re-seated only. 128 (M) / 132 (F) structures changed: the bones plus finger soft tissue carried by the rig's own skinning
+  model within 25 mm of the finger bones. Rigs spliced (new structures + changed geometries + the 28 finger joints from a fresh run); moment
+  arms of all six pages rebuilt (`scripts/anatomy/q284/build_moments.py`).
+- **Next-round base**: the page dirs of this round are kept in `build/q293/<dir>` (own pages from `build/q293/bundle_own_m|f`).

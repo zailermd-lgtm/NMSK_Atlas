@@ -76,11 +76,11 @@ def test_pages_hide_the_hra_uterus_and_rigs_cover_the_new_entry():
     c = _rep("Q288_comb_f_report.json")
     assert c["added"] == ["uterus_cryo_vhf"] and c["hidden_default"] == ["uterus"] and c["new_indices"] == [3243]
     import base64, zlib
-    for key, n in (("comb_f", 3244), ("own_f", 1051)):
+    for key, n in (("comb_f", 3246), ("own_f", 1053)):          # Q293 spliced +2 after the uterus (RF reflected heads)
         j = json.loads((REPO / f"data/anatomy/pose_rig_{key}.json").read_text()); rig = j["rig"]
         assert rig["count"] == n and len(rig["nv"]) == n
         covered = {e[0] for e in rig["skin"]} | {i for _, lst in rig["rigid"] for i in lst}
-        assert n - 1 in covered
+        assert n - 3 in covered
         w = zlib.decompress(base64.b64decode(j["weights_zlib_b64"]))
         offs = sorted(e[4] for e in rig["skin"]); assert offs == sorted(set(offs)) and offs[-1] < len(w)
     src = (REPO / "scripts/anatomy/q288/own_f_q288.py").read_text()

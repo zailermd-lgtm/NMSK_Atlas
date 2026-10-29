@@ -241,3 +241,21 @@ and in the full-screen CINE view's ⋯ sheet. It works while CINE plays.
   set depth with under 90 dB round-trip loss (for example 18 MHz to 5 cm: "≤ 15 MHz").
 - **Display limit:** the image cannot show detail finer than its raster. The axial speckle grain therefore stays at least
   two sample steps long once 1.4 wavelengths is shorter than that, instead of aliasing into pixel noise.
+
+## Learn: simulating a muscle's action, both heads of rectus femoris, fingers (Q293)
+
+- **A two-joint muscle moves both joints at once.** "All together" on a muscle's card now plays every cited action of the
+  muscle -- including its parts' (the long head of biceps flexes the shoulder while the muscle flexes the elbow) -- in one
+  movement; a direction the parts pull against each other (anterior vs posterior deltoid) is left out, as before.
+- **Start position, then the action.** When a joint is already at the end of its range in the cited direction (the model's
+  knee is straight, so knee *extension* has no room), the joint is first SET to a start position on the other side -- shown
+  for a moment and named in the panel ("Start position (set, not part of the action): Knee flex 60°") -- and then the action
+  runs as one movement in the cited direction only. Before Q293 that start position was *animated*, so rectus femoris
+  visibly flexed the knee before extending it. The release afterwards returns to the model pose.
+- **Heads.** A multi-headed muscle's card lists every head with its origin (Terminologia Anatomica / Gray's Anatomy for
+  Students / Moore), and says whether this page draws that head as a structure of its own or as part of the muscle's mesh.
+  Rectus femoris has its **reflected (indirect) head** on all six pages since Q293: a RULE-BASED mesh built on each page's
+  own hip bone from cadaveric dimensions (its card gives the footprint, length, volume and the sources).
+- **Fingers on the Combined pages** were re-articulated in Q293 (each finger bone sits on its parent's joint; Combined ·
+  Male's right index finger lies on his own CT index finger); posing the fingers keeps the joints closed.
+- Audit of every muscle's attachments, nerves and simulated directions: `docs/research/Q293_muscle_attachment_action_audit.md` (Hebrew).

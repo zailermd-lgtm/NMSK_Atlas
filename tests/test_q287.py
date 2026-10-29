@@ -64,12 +64,12 @@ def _rig(key):
 
 def test_pose_rigs_carry_the_new_entries_after_the_committed_ones():
     rig, w = _rig("comb_f")
-    assert rig["count"] == 3244 and len(rig["nv"]) == 3244          # Q288 spliced one more (her uterus, index 3243)
+    assert rig["count"] == 3246 and len(rig["nv"]) == 3246          # Q288 spliced one more (her uterus, index 3243); Q293 +2 (RF reflected heads)
     covered = {e[0] for e in rig["skin"]} | {i for _, lst in rig["rigid"] for i in lst}
     assert set(range(3238, 3243)) <= covered
     offs = sorted(e[4] for e in rig["skin"]); assert offs == sorted(set(offs)) and offs[-1] < len(w)
     rig, w = _rig("own_f")
-    assert rig["count"] == 1051 and len(rig["nv"]) == 1051          # Q288: + her uterus
+    assert rig["count"] == 1053 and len(rig["nv"]) == 1053          # Q288: + her uterus; Q293: + RF reflected heads
 
 
 def test_uterus_on_her_ct_was_measured_not_separable():

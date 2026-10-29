@@ -10,6 +10,13 @@
    "pmcid": "PMC11250012",
    "quote": "The iliopsoas (psoas major and iliacus), rectus femoris, sartorius, and adductor longus are known as the hip flexor muscles.",
    "note": "Cadaveric moment-arm study that treats psoas major and iliacus separately; both act as hip flexors. Neither this paper nor the project's muscle data gives a hip ADDUCTION action for iliacus (searched 2026-10-25: PubMed, web) -- iliacus adduction is therefore not animated."
+  },
+  "smutz1998": {
+   "citation": "Smutz WP, Kongsayreepong A, Hughes RE, Niebur G, Cooney WP, An KN. Mechanical advantage of the thumb muscles. J Biomech 1998;31(6):565-70",
+   "doi": "10.1016/s0021-9290(98)00043-8",
+   "pmid": "9755041",
+   "note": "Cadaveric tendon-excursion moment arms of the thumb muscles at the IP, MCP and CMC joints (seven hands). The abstract gives each muscle's overall role; the joints a muscle crosses are those of its course (Gray's / Moore).",
+   "quote": "It was found that the flexor pollicis longus was a pure flexor while flexor pollicis brevis was an adductor as well as a flexor, the extensor pollicis longus was an extensor and an adductor, extensor pollicis brevis was an extensor and a mild abductor, the abductor pollicis longus was an extensor as well as an abductor, the abductor pollicis brevis was mainly an abductor, the adductor pollicis was a major flexor as well as an adductor, and the opponents pollicis was a flexor and an abductor."
   }
  },
  "none_reasons": {
@@ -2431,6 +2438,143 @@
      1
     ]
    ]
+  },
+  {
+   "m": "extensor_pollicis_longus",
+   "c": null,
+   "q": "extends thumb MCP and CMC joints",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_mcp",
+     "flex",
+     -1
+    ],
+    [
+     "thumb_cmc",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "extensor_pollicis_longus",
+   "c": null,
+   "q": "the extensor pollicis longus was an extensor and an adductor",
+   "src": "cite:smutz1998",
+   "mv": [
+    [
+     "thumb_cmc",
+     "abd",
+     -1
+    ]
+   ],
+   "note": "Q293: adduction at the CMC joint (the rig's CMC 'abduction' is palmar abduction)"
+  },
+  {
+   "m": "extensor_pollicis_brevis",
+   "c": null,
+   "q": "extends thumb CMC joint",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_cmc",
+     "flex",
+     -1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_pollicis_longus",
+   "c": null,
+   "q": "flexes thumb MCP and CMC joints",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_mcp",
+     "flex",
+     1
+    ],
+    [
+     "thumb_cmc",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_pollicis_brevis",
+   "c": null,
+   "q": "flexes thumb CMC joint",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_cmc",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "flexor_pollicis_brevis",
+   "c": null,
+   "q": "flexor pollicis brevis was an adductor as well as a flexor",
+   "src": "cite:smutz1998",
+   "mv": [
+    [
+     "thumb_cmc",
+     "abd",
+     -1
+    ]
+   ],
+   "note": "Q293: adduction at the CMC joint (the rig's CMC 'abduction' is palmar abduction)"
+  },
+  {
+   "m": "adductor_pollicis",
+   "c": null,
+   "q": "flexes thumb CMC and MCP joints",
+   "src": "actions",
+   "mv": [
+    [
+     "thumb_cmc",
+     "flex",
+     1
+    ],
+    [
+     "thumb_mcp",
+     "flex",
+     1
+    ]
+   ]
+  },
+  {
+   "m": "extensor_digitorum",
+   "c": null,
+   "q": "contributes to IP extension via the extensor expansion",
+   "src": "actions",
+   "mv": [
+    [
+     [
+      "f2_pip",
+      "f3_pip",
+      "f4_pip",
+      "f5_pip"
+     ],
+     "flex",
+     -1
+    ],
+    [
+     [
+      "f2_dip",
+      "f3_dip",
+      "f4_dip",
+      "f5_dip"
+     ],
+     "flex",
+     -1
+    ]
+   ],
+   "note": "Q293: the cited IP extension was listed but not animated before; animated at the PIP and DIP joints of digits 2-5 together"
   }
  ],
  "not_animated": [
@@ -2439,6 +2583,12 @@
    "c": "iliacus",
    "what": "hip adduction",
    "why": "No citation found for an iliacus adduction action: the atlas's own muscle data (Gray's Anatomy for Students) lists hip flexion only, and the cadaveric study that separates psoas major from iliacus (Kumazaki et al. 2022, doi:10.14789/jmj.JMJ22-0009-OA) treats both as hip flexors. Searched PubMed and the web on 2026-10-25; only hip flexion is animated for iliacus."
+  },
+  {
+   "m": "tensor_fasciae_latae",
+   "c": null,
+   "what": "knee (through the iliotibial tract)",
+   "why": "The cited knee action is a stabilisation ('tenses the IT band to stabilize the knee in extension'), not a movement: the iliotibial tract passes in front of the knee's flexion axis near extension and behind it in deeper flexion, so no single knee direction is animated. Its hip actions (flexion, abduction, internal rotation) are."
   }
  ],
  "none_lists": {

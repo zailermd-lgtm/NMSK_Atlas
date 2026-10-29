@@ -1,0 +1,211 @@
+{
+ "_README": [
+  "Q293 corrections to the muscle data, one row each; applied by scripts/anatomy/q293/audit_q293.py apply",
+  "geometry_vs_textbook: cited movement signs the Q284 computed moment arms contradict on (nearly) every page, with why the citation is kept"
+ ],
+ "references": {
+  "gray": "Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell)",
+  "moore": "Moore's Clinically Oriented Anatomy 8th ed.",
+  "smutz1998": {
+   "citation": "Smutz WP, Kongsayreepong A, Hughes RE, Niebur G, Cooney WP, An KN. Mechanical advantage of the thumb muscles. J Biomech 1998;31(6):565-70",
+   "doi": "10.1016/s0021-9290(98)00043-8",
+   "pmid": "9755041",
+   "note": "Cadaveric tendon-excursion moment arms of the thumb muscles at the IP, MCP and CMC joints (seven hands). The abstract gives each muscle's overall role; the joints a muscle crosses are those of its course (Gray's / Moore).",
+   "quote": "It was found that the flexor pollicis longus was a pure flexor while flexor pollicis brevis was an adductor as well as a flexor, the extensor pollicis longus was an extensor and an adductor, extensor pollicis brevis was an extensor and a mild abductor, the abductor pollicis longus was an extensor as well as an abductor, the abductor pollicis brevis was mainly an abductor, the adductor pollicis was a major flexor as well as an adductor, and the opponents pollicis was a flexor and an abductor."
+  }
+ },
+ "rows": [
+  {
+   "muscle": "gastrocnemius",
+   "field": "attachments.origin_landmark",
+   "old": "lateral head: posterior surface above lateral condyle",
+   "new": "lateral head: lateral surface of the lateral femoral condyle",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed. (lateral head: lateral aspect of the lateral condyle of the femur); Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell)"
+  },
+  {
+   "muscle": "biceps_femoris",
+   "field": "attachments.origin_landmark",
+   "old": "short head: linea aspera of femur (femur_r)",
+   "new": "short head: lateral lip of the linea aspera and the lateral supracondylar line of the femur (femur_r)",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed.; Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell)"
+  },
+  {
+   "muscle": "flexor_carpi_ulnaris",
+   "field": "attachments.origin_landmark",
+   "old": "ulnar head: olecranon",
+   "new": "ulnar head: medial margin of the olecranon and the posterior border of the ulna (via an aponeurosis)",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed.; Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell)"
+  },
+  {
+   "muscle": "supinator",
+   "field": "attachments.origin_landmark",
+   "old": "lateral epicondyle, supinator crest of ulna",
+   "new": "lateral epicondyle, radial collateral and annular ligaments, supinator fossa and crest of ulna",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed.; Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell)"
+  },
+  {
+   "muscle": "pectoralis_major",
+   "field": "attachments.origin_landmark",
+   "old": "abdominal head: anterior rectus sheath (hip_bone_r region approximation)",
+   "new": "abdominal head: aponeurosis of the external oblique (anterior layer of the rectus sheath; hip_bone_r region approximation)",
+   "source": "Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell); Moore's Clinically Oriented Anatomy 8th ed."
+  },
+  {
+   "muscle": "abductor_pollicis_longus",
+   "field": "attachments.origin_landmark",
+   "old": "posterior radius, interosseous membrane",
+   "new": "posterior surfaces of the ulna and radius (proximal halves) and the interosseous membrane",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed.; Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell)"
+  },
+  {
+   "muscle": "trapezius",
+   "field": "attachments.origin_landmark",
+   "old": "external occipital protuberance, nuchal ligament, spinous processes C7-T12",
+   "new": "medial third of the superior nuchal line, external occipital protuberance, nuchal ligament, spinous processes C7-T12",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed.; Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell)"
+  },
+  {
+   "muscle": "teres_major",
+   "field": "innervation.root_levels",
+   "old": "C6-C7",
+   "new": "C5-C7",
+   "source": "Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell) (lower subscapular nerve C5, C6, C7); Moore's Clinically Oriented Anatomy 8th ed. (C5, C6)"
+  },
+  {
+   "muscle": "extensor_pollicis_longus",
+   "field": "actions",
+   "old": "(not listed)",
+   "new": "extends thumb MCP and CMC joints (crosses all three thumb joints)",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed. (extends distal phalanx at the IP joint, extends MCP and CMC joints); Smutz 1998"
+  },
+  {
+   "muscle": "extensor_pollicis_brevis",
+   "field": "actions",
+   "old": "(not listed)",
+   "new": "extends thumb CMC joint",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed. (extends proximal phalanx at the MCP joint, extends CMC joint); Smutz 1998"
+  },
+  {
+   "muscle": "flexor_pollicis_longus",
+   "field": "actions",
+   "old": "(not listed)",
+   "new": "flexes thumb MCP and CMC joints (crosses all three thumb joints)",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed. (flexes phalanges of the thumb); Smutz 1998"
+  },
+  {
+   "muscle": "flexor_pollicis_brevis",
+   "field": "actions",
+   "old": "(not listed)",
+   "new": "flexes thumb CMC joint",
+   "source": "Moore's Clinically Oriented Anatomy 8th ed. (flexes the thumb); Smutz 1998 (flexor and adductor)"
+  },
+  {
+   "muscle": "adductor_pollicis",
+   "field": "actions",
+   "old": "(not listed)",
+   "new": "flexes thumb CMC and MCP joints",
+   "source": "Smutz 1998 (adductor pollicis: a major flexor as well as an adductor)"
+  },
+  {
+   "muscle": "extensor_pollicis_longus",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "extends thumb MCP and CMC joints -> [['thumb_mcp', 'flex', -1], ['thumb_cmc', 'flex', -1]]",
+   "source": "the muscle file's cited action"
+  },
+  {
+   "muscle": "extensor_pollicis_longus",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "the extensor pollicis longus was an extensor and an adductor -> [['thumb_cmc', 'abd', -1]]",
+   "source": "Smutz WP, Kongsayreepong A, Hughes RE, Niebur G, Cooney WP, An KN. Mechanical advantage of the thumb muscles. J Biomech 1998;31(6):565-70, doi:10.1016/s0021-9290(98)00043-8"
+  },
+  {
+   "muscle": "extensor_pollicis_brevis",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "extends thumb CMC joint -> [['thumb_cmc', 'flex', -1]]",
+   "source": "the muscle file's cited action"
+  },
+  {
+   "muscle": "flexor_pollicis_longus",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "flexes thumb MCP and CMC joints -> [['thumb_mcp', 'flex', 1], ['thumb_cmc', 'flex', 1]]",
+   "source": "the muscle file's cited action"
+  },
+  {
+   "muscle": "flexor_pollicis_brevis",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "flexes thumb CMC joint -> [['thumb_cmc', 'flex', 1]]",
+   "source": "the muscle file's cited action"
+  },
+  {
+   "muscle": "flexor_pollicis_brevis",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "flexor pollicis brevis was an adductor as well as a flexor -> [['thumb_cmc', 'abd', -1]]",
+   "source": "Smutz WP, Kongsayreepong A, Hughes RE, Niebur G, Cooney WP, An KN. Mechanical advantage of the thumb muscles. J Biomech 1998;31(6):565-70, doi:10.1016/s0021-9290(98)00043-8"
+  },
+  {
+   "muscle": "adductor_pollicis",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "flexes thumb CMC and MCP joints -> [['thumb_cmc', 'flex', 1], ['thumb_mcp', 'flex', 1]]",
+   "source": "the muscle file's cited action"
+  },
+  {
+   "muscle": "extensor_digitorum",
+   "field": "action row (simulation)",
+   "old": "(not animated)",
+   "new": "contributes to IP extension via the extensor expansion -> [[['f2_pip', 'f3_pip', 'f4_pip', 'f5_pip'], 'flex', -1], [['f2_dip', 'f3_dip', 'f4_dip', 'f5_dip'], 'flex', -1]]",
+   "source": "the muscle file's cited action"
+  },
+  {
+   "muscle": "tensor_fasciae_latae",
+   "field": "not_animated",
+   "old": "(silently not animated)",
+   "new": "stated: knee (through the iliotibial tract)",
+   "source": "the muscle file's cited action (stabilisation, not a movement)"
+  }
+ ],
+ "geometry_vs_textbook": {
+  "abductor_pollicis_longus|thumb_cmc|abd|+1": {
+   "kept": "cited (Gray's; Smutz 1998: 'an extensor as well as an abductor')",
+   "reason": "The rig's thumb CMC directions were checked by forward kinematics on Base · Male and Combined · Female: +20 deg CMC flexion brings the thumb tip 19-22 mm closer to the 5th metacarpal (flexion across the palm), +20 deg palmar abduction lifts it off the palm -- the labels and the simulation are right. The computed CMC moment arms of EVERY thumb muscle come out with the opposite sign (flexors negative, extensors positive), i.e. a systematic artefact of the Q284 path model at the thumb CMC, not of the cited actions. Kept: the cited action (Smutz 1998 tendon-excursion moment arms; Moore; Gray's)."
+  },
+  "adductor_pollicis|thumb_cmc|abd|-1": {
+   "kept": "cited (Gray's; Smutz 1998: 'a major flexor as well as an adductor')",
+   "reason": "The rig's thumb CMC directions were checked by forward kinematics on Base · Male and Combined · Female: +20 deg CMC flexion brings the thumb tip 19-22 mm closer to the 5th metacarpal (flexion across the palm), +20 deg palmar abduction lifts it off the palm -- the labels and the simulation are right. The computed CMC moment arms of EVERY thumb muscle come out with the opposite sign (flexors negative, extensors positive), i.e. a systematic artefact of the Q284 path model at the thumb CMC, not of the cited actions. Kept: the cited action (Smutz 1998 tendon-excursion moment arms; Moore; Gray's)."
+  },
+  "adductor_pollicis|thumb_cmc|flex|+1": {
+   "kept": "cited (Smutz 1998)",
+   "reason": "The rig's thumb CMC directions were checked by forward kinematics on Base · Male and Combined · Female: +20 deg CMC flexion brings the thumb tip 19-22 mm closer to the 5th metacarpal (flexion across the palm), +20 deg palmar abduction lifts it off the palm -- the labels and the simulation are right. The computed CMC moment arms of EVERY thumb muscle come out with the opposite sign (flexors negative, extensors positive), i.e. a systematic artefact of the Q284 path model at the thumb CMC, not of the cited actions. Kept: the cited action (Smutz 1998 tendon-excursion moment arms; Moore; Gray's)."
+  },
+  "flexor_pollicis_brevis|thumb_cmc|flex|+1": {
+   "kept": "cited (Moore; Smutz 1998)",
+   "reason": "The rig's thumb CMC directions were checked by forward kinematics on Base · Male and Combined · Female: +20 deg CMC flexion brings the thumb tip 19-22 mm closer to the 5th metacarpal (flexion across the palm), +20 deg palmar abduction lifts it off the palm -- the labels and the simulation are right. The computed CMC moment arms of EVERY thumb muscle come out with the opposite sign (flexors negative, extensors positive), i.e. a systematic artefact of the Q284 path model at the thumb CMC, not of the cited actions. Kept: the cited action (Smutz 1998 tendon-excursion moment arms; Moore; Gray's)."
+  },
+  "flexor_pollicis_brevis|thumb_cmc|abd|-1": {
+   "kept": "cited (Smutz 1998: 'an adductor as well as a flexor')",
+   "reason": "The rig's thumb CMC directions were checked by forward kinematics on Base · Male and Combined · Female: +20 deg CMC flexion brings the thumb tip 19-22 mm closer to the 5th metacarpal (flexion across the palm), +20 deg palmar abduction lifts it off the palm -- the labels and the simulation are right. The computed CMC moment arms of EVERY thumb muscle come out with the opposite sign (flexors negative, extensors positive), i.e. a systematic artefact of the Q284 path model at the thumb CMC, not of the cited actions. Kept: the cited action (Smutz 1998 tendon-excursion moment arms; Moore; Gray's)."
+  },
+  "extensor_pollicis_longus|thumb_cmc|flex|-1": {
+   "kept": "cited (Moore; Smutz 1998: 'an extensor and an adductor')",
+   "reason": "The rig's thumb CMC directions were checked by forward kinematics on Base · Male and Combined · Female: +20 deg CMC flexion brings the thumb tip 19-22 mm closer to the 5th metacarpal (flexion across the palm), +20 deg palmar abduction lifts it off the palm -- the labels and the simulation are right. The computed CMC moment arms of EVERY thumb muscle come out with the opposite sign (flexors negative, extensors positive), i.e. a systematic artefact of the Q284 path model at the thumb CMC, not of the cited actions. Kept: the cited action (Smutz 1998 tendon-excursion moment arms; Moore; Gray's)."
+  },
+  "tibialis_posterior|ankle|dp|-1": {
+   "kept": "cited (Gray's; Moore: plantarflexes the ankle)",
+   "reason": "Its tendon runs in the groove behind the medial malleolus, close to the rig's malleolar-tip axis; the Q284 wrap puts the computed path on the wrong side of that axis on every page (dorsiflexion sign). Plantarflexion is the textbook action of tibialis posterior; kept."
+  },
+  "external_oblique|thoracic|rot|-1": {
+   "kept": "cited (Gray's; Moore: contralateral rotation of the trunk)",
+   "reason": "A broad sheet: the centre line of its mesh (the Q284 path) does not follow the fibres from the ribs down and forward to the linea alba, so the computed thoracic rotation sign is unreliable (agrees on 1 of 11 structures). Textbook kept."
+  },
+  "obliquus_capitis_inferior|cervical|rot|+1": {
+   "kept": "cited (Gray's: rotates the atlas and the head to the same side)",
+   "reason": "The rig lumps the head and the whole neck in one cervical region; a muscle from C2 to C1 acts at the atlanto-axial joint only (agrees on 4 of 12 structures). Textbook kept."
+  }
+ }
+}

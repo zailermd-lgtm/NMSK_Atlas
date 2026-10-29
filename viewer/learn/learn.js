@@ -57,6 +57,8 @@ function NMSKLearn(api){
     }
     var hit = CIX[b] || CIX[b2];
     if (hit && hit.length === 1 && !rest) return {b:hit[0][0], side:side, c:hit[0][1]};
+    /* Q293: '<muscle>_<part>_<side>' (e.g. the rule-based 'rectus_femoris_reflected_head_r') */
+    if (!rest){ var mk = Object.keys(M).filter(function(k){ return b.indexOf(k + "_") === 0 && hasPart(k, b.slice(k.length + 1)); })[0]; if (mk) return {b:mk, side:side, c:b.slice(mk.length + 1)}; }
     return null;
   }
   var IDX = [], BYB = {};
@@ -190,7 +192,7 @@ function NMSKLearn(api){
         var all = document.createElement("button"); all.type = "button"; all.textContent = "Whole muscle"; all.setAttribute("aria-pressed", String(!it.c)); all.onclick = function(){ choosePart(null); }; parts.appendChild(all);
         m.cp.forEach(function(c){ var b = document.createElement("button"); b.type = "button"; b.textContent = c.n; b.setAttribute("aria-pressed", String(it.c === c.c)); b.onclick = function(){ choosePart(c.c); }; parts.appendChild(b); });
       }
-      renderActsMuscle(m, it); info.innerHTML = infoMuscle(m, part);
+      renderActsMuscle(m, it); info.innerHTML = infoMuscle(m, part, it.b);
       renderMoments(it);
     } else if (it.k === "g"){
       title.innerHTML = esc(it.g.name) + (it.g.ta ? " <small>" + esc(it.g.ta) + "</small>" : "");
@@ -217,7 +219,9 @@ function NMSKLearn(api){
         var cite = r.src && r.src.indexOf("cite:") === 0 ? (D.cites || {})[r.src.slice(5)] : null;
         return {label:rowLabel(r) + (r.c ? " -- " + partName(m, r.c) : ""), mv:r.mv, back:!!r.back, quote:r.q, note:r.note, cite:cite};
       });
-      var whole = rows.filter(function(r){ return !r.c || r.c === it.c; });
+      /* Q293: the whole muscle's "All together" includes its parts' rows too (biceps long head -> shoulder; a two-joint muscle moves both
+         joints at once); a dof its rows pull in opposite directions is still dropped by merge() (e.g. anterior vs posterior deltoid) */
+      var whole = rows.filter(function(r){ return !it.c || !r.c || r.c === it.c; });
       if (whole.length > 1) items.unshift({label:"All together" + (it.c ? " (" + partName(m, it.c) + ")" : ""), mv:merge(whole), all:true});
       renderActsList(items, side);
     }
@@ -257,10 +261,21 @@ function NMSKLearn(api){
     });
     if (cur.k !== "m"){ var p = document.createElement("p"); p.className = "ln-hint"; p.textContent = "Shown on the right side."; box.appendChild(p); }
   }
-  function infoMuscle(m, part){
+  function infoMuscle(m, part, b){
     var h = "<dl>";
     if (m.ta) h += "<dt>Latin</dt><dd>" + esc(m.ta) + "</dd>";
     if (m.o && (m.o[0] || m.o[1])) h += "<dt>Origin</dt><dd>" + esc([prettyBone(m.o[0]), m.o[1]].filter(Boolean).join(": ")) + "</dd>";
+    /* Q293: every head / origin (data/anatomy/muscle_heads_q293.json); whether THIS page draws it as a structure of its own */
+    if ((m.hd || []).length){
+      var own = {}, flat = function(t){ return String(t || "").replace(/[_-]/g, ""); };
+      (BYB[b] || []).forEach(function(r){ var x = IDX[r.i]; if (x && x.c) own[x.c] = r;
+        m.hd.forEach(function(hh){ if (!own[hh.c] && flat(r.id).replace(flat(b), "").indexOf(flat(hh.c)) >= 0) own[hh.c] = r; }); });
+      h += "<dt>Heads (" + m.hd.length + ")</dt><dd><ul class=\"ln-heads\">" + m.hd.map(function(x){
+        var r = own[x.c], rule = r && /rule-based/i.test(r.name || "");
+        return "<li data-head=\"" + esc(x.c) + "\"><b>" + esc(x.n) + "</b>: " + esc(x.o) + ' <span class="ln-flag">' +
+               (r ? (rule ? "own mesh on this page, RULE-BASED (badged on its card)" : "own mesh on this page") : "part of the muscle's mesh on this page") + "</span></li>";
+      }).join("") + "</ul>" + (m.hv ? '<span class="ln-flag">' + esc(m.hv) + "</span>" : "") + "</dd>";
+    }
     if (m["in"] && (m["in"][0] || m["in"][1])) h += "<dt>Insertion</dt><dd>" + esc([prettyBone(m["in"][0]), m["in"][1]].filter(Boolean).join(": ")) + "</dd>";
     if ((m.nv || []).length || m.rt) h += "<dt>Nerve</dt><dd>" + esc((m.nv || []).join(", ")) + (m.rt ? " (" + esc(m.rt) + ")" : "") + "</dd>";
     if (part){ h += "<dt>This part</dt><dd>" + esc(part.f || "") + (part.i ? "<br><i>Nerve:</i> " + esc(part.i) : "") + "</dd>"; }
@@ -350,7 +365,7 @@ function NMSKLearn(api){
   }
 
   /* ---------- simulate: drive the Q241 pose rig ---------- */
-  var STEP = 350;
+  var STEP = 350, MIN_EXC = 30;      // MIN_EXC: below this many degrees (or 35 % of the range) of room in the cited direction the joint gets a start position (Q293)
   function ease(t){ return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
   function stopAnim(){
     if (!anim) return;
@@ -377,13 +392,15 @@ function NMSKLearn(api){
           x = jj.dof.map(function(q){ return q.k; }).indexOf(mv[1]); if (x < 0){ missing.push(id); return; }
           d = jj.dof[x]; v0 = p0.j[id][x]; holder = ["j", id, x];
         }
-        var lim = sign > 0 ? d.hi : d.lo, opp = sign > 0 ? d.lo : d.hi, from = v0, to;
-        if (back){ from = v0 + 0.6 * (opp - v0); to = v0; }
-        else {
-          to = v0 + 0.7 * (lim - v0);
-          if (Math.abs(to - from) < 8){ from = v0 + 0.5 * (opp - v0); if (Math.abs(lim - from) < 8) from = opp; to = lim; }
-        }
-        tracks.push({h:holder, v0:v0, from:from, to:to, sg:sign});
+        /* Q293: a joint already at (or near) the end of its range in the direction of the action -- e.g. knee extension from the
+           extended knee of the model pose -- is first SET (not animated) to a start position on the other side, so the action itself
+           is one monotonic movement in the cited direction. Before Q293 that pre-position was animated (600 ms) while the other joints
+           waited: rectus femoris therefore visibly FLEXED the knee first, then extended it (owner report Q293). */
+        var lim = sign > 0 ? d.hi : d.lo, opp = sign > 0 ? d.lo : d.hi, from = v0, to, span = d.hi - d.lo, pre = false;
+        if (back){ from = v0 + 0.6 * (opp - v0); to = v0; pre = true; }
+        else if (Math.abs(lim - v0) < Math.min(MIN_EXC, 0.35 * span)){ from = lim - sign * Math.min(0.45 * span, 60); to = lim; pre = true; }
+        else to = v0 + 0.7 * (lim - v0);
+        tracks.push({h:holder, v0:v0, from:from, to:to, sg:sign, pre:pre, lab:(spine ? jn : id), k:mv[1]});
       });
     });
     if (!tracks.length){ say("ln-act-msg", "This page's pose rig has no " + missing.join(", ") + " joint: nothing to animate here."); return false; }
@@ -409,27 +426,33 @@ function NMSKLearn(api){
         });
       });
     }
-    var A = tracks.some(function(t){ return Math.abs(t.from - t.v0) > 0.5; }) ? 600 : 0, B = 1500, H = 500, C = 1200, T = A + B + H + C;
+    /* phases: A = hold the start position (set at once, no movement), B = the action: EVERY joint of the muscle moves at the same time
+       from its start to its target (a two-joint muscle is never played as a sequence), H = hold, C = release back to the model pose;
+       (a pre-positioned joint is released to the model pose, not back to its start position) */
+    var preT = tracks.filter(function(t){ return t.pre; });
+    var A = preT.length ? 700 : 0, B = 1500, H = 500, C = 1200, T = A + B + H + C, wasRest = pc.isRest ? pc.isRest() : false;
     var vt = 0, last = performance.now();      // virtual clock: a slow frame (software rendering, a weak phone) advances it by at most STEP, so every phase is shown
     anim = {pc:pc, p0:p0, btn:button || null, raf:0, tracks:tracks};
     if (button) button.classList.add("ln-on");
     anim.extra = extra;
-    say("ln-act-msg", "Simulating within the rig's normal range of motion (kinematic preview, soft tissue follows by skinning)" + (missing.length ? "; not on this page's rig: " + missing.join(", ") : "") +
+    say("ln-act-msg", (preT.length ? "Start position (set, not part of the action): " + preT.map(function(t){ return jointLabel(t.lab) + " " + t.k + " " + Math.round(t.from) + "°"; }).join(", ") + ". " : "") +
+        "Simulating within the rig's normal range of motion (kinematic preview, soft tissue follows by skinning)" + (missing.length ? "; not on this page's rig: " + missing.join(", ") : "") +
         (secNote.length ? ". With the computed secondary components (this body's moment arms): " + secNote.join("; ") : "") + ".");
     function at(tr, t){
-      if (t < A) return tr.v0 + (tr.from - tr.v0) * ease(t / A);
+      if (t < A) return tr.from;
       t -= A; if (t < B) return tr.from + (tr.to - tr.from) * ease(t / B);
       t -= B; if (t < H) return tr.to;
-      t -= H; return tr.to + (tr.v0 - tr.to) * ease(Math.min(1, t / C));
+      t -= H; return tr.to + (tr.v0 - tr.to) * ease(Math.min(1, t / C));      // release (passive return to the model pose)
     }
     function frame(now){
       if (!anim || anim.tracks !== tracks) return;
       vt += Math.min(STEP, Math.max(0, now - last)); last = now;
       var t = vt, d = JSON.parse(JSON.stringify(p0));
+      anim.phase = t < A ? "start" : t < A + B ? "action" : t < A + B + H ? "hold" : "release";
       tracks.forEach(function(tr){ d[tr.h[0]][tr.h[1]][tr.h[2]] = at(tr, Math.min(t, T)); });
       extra.forEach(function(e){ d[e.h[0]][e.h[1]][e.h[2]] = e.f(at(e.prim, Math.min(t, T))); });
       pc.apply(d);
-      if (t >= T){ var a = anim; anim = null; if (a.btn) a.btn.classList.remove("ln-on"); pc.apply(p0); return; }
+      if (t >= T){ var a = anim; anim = null; if (a.btn) a.btn.classList.remove("ln-on"); if (wasRest && pc.reset) pc.reset(); else pc.apply(p0); return; }
       anim.raf = requestAnimationFrame(frame);
     }
     anim.raf = requestAnimationFrame(frame);
@@ -501,7 +524,8 @@ function NMSKLearn(api){
     rotate:rotate, resolve:resolve, recsFor:function(b, side, c){ return recsFor(b, side, c).map(function(r){ return r.id; }); },
     moments:function(){ return {loaded:!!MOM, key:MOM ? MOM.key : null, card:momentsFor(cur).map(function(x){ return {id:x.rec.id, j:x.s.j, lv:x.s.lv, cv:x.s.cv, x:x.s.x}; })}; },
     setSecondary:function(on){ var c = $("ln-sec"); if (c) c.checked = !!on; return !!(c && c.checked); },
-    animState:function(){ return anim ? {extra:(anim.extra || []).map(function(e){ return e.h; }), tracks:anim.tracks.map(function(t){ return t.h; })} : null; },
+    animState:function(){ return anim ? {phase:anim.phase || "start", extra:(anim.extra || []).map(function(e){ return e.h; }), tracks:anim.tracks.map(function(t){ return t.h; }),
+      plan:anim.tracks.map(function(t){ return {h:t.h, v0:t.v0, from:t.from, to:t.to, sign:t.sg, pre:t.pre}; })} : null; },
     state:function(){ return {ready:true, open:!panel.hidden, cur:cur ? {k:cur.k, b:cur.b || null, side:cur.side || null, c:cur.c || null, g:cur.g ? cur.g.id : null, key:cur.key || null} : null,
       animating:!!anim, rotating:!!rot, muscles:Object.keys(BYB).length, acts:Array.prototype.map.call($("ln-acts").querySelectorAll(".ln-act button"), function(b){ return {label:b.textContent, disabled:b.disabled}; })}; }
   };
