@@ -133,7 +133,7 @@ var NMSKModes = (function(){
     var shell = $("mode-shell"); shell.hidden = false;
     $("mb-pill").querySelector(".mb-long").textContent = p.title || key; $("mb-pill").querySelector(".mb-short").textContent = p.short || p.title || key;
     ctx.bar.chips.innerHTML = ""; ctx.main.innerHTML = ""; ctx.pills.innerHTML = ""; ctx.pills.hidden = true;
-    Array.prototype.slice.call(ctx.bar.end.children).forEach(function(c){ if (c.id !== "mb-exit" && c.id !== "mb-exit-x") c.remove(); });
+    Array.prototype.slice.call(ctx.bar.end.children).forEach(function(c){ if (c.id !== "mb-exit" && c.id !== "mb-exit-x" && !(c.classList && c.classList.contains("hist-b"))) c.remove(); });   // Q294: the undo / redo / reset buttons stay
     try { p.build(ctx); } catch (err){ console.error("mode " + key + " failed to build:", err); }
     try { p.enter(ctx); } catch (err2){ console.error("mode " + key + " failed to enter:", err2); }
     placeAll(); fireResize();
@@ -192,7 +192,9 @@ var NMSKModes = (function(){
     if (queued === key){ if (host && host.ready()) enter(key); else waitReady(); }
     return true;
   }
-  return {init:init, register:register, enter:enter, exit:function(){ exit(); }, show:showSwitcher, hide:hideSwitcher, current:function(){ return cur; },
+  /* Q294: Reset (the page-wide history) restores the current mode's own controls through its provider's optional reset() */
+  function resetCurrent(){ if (curP && typeof curP.reset === "function"){ try { curP.reset(); } catch (err){} return true; } return false; }
+  return {init:init, register:register, enter:enter, exit:function(){ exit(); }, show:showSwitcher, hide:hideSwitcher, current:function(){ return cur; }, resetCurrent:resetCurrent,
           state:function(){ var sid = null; try { sid = host ? host.selectedId() : null; } catch (err){} return {cur:cur, registered:Object.keys(providers), switcherOpen:!!(switcher() && !switcher().hidden), queued:queued, docks:docks.length, selected:sid}; },
           el:el};
 })();

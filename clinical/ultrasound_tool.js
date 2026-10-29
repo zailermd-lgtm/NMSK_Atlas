@@ -101,6 +101,30 @@
     return {px: px, W: W, H: H, xr0: xmin, yr0: ymin, xo0: g.bx0, yo0: yo0, Wo: Wo, Ho: Ho, nL: nL, ds: Math.max(0.08, px * 0.8), margin: margin, pad: pad};
   }
 
+  /* Q294: the zoomed view is RE-SIMULATED, not magnified. win = [xa, ya, xb, yb] the visible part of the image (plane mm), px1 the new
+   pixel. The fan is re-sampled with lines every ~px1 (lateral) and ds ~0.8 px1 (axial), but only the lines that reach the window
+   (plus a beam-width margin) are simulated, down to the window's depth; the raster covers their whole path from the probe face (the
+   attenuation and the shadows above the window are real). Kernel half-widths keep their 1x extent in millimetres (capA / capL). */
+  function zoomPlan(g, base, win, px1, opt) {
+    opt = opt || {};
+    var m = opt.margin == null ? 4 : opt.margin, maxL = opt.maxLines || 4096, xa = win[0], ya = win[1], xb = win[2], yb = win[3];
+    var nLt = g.type === "linear" ? Math.round(g.w / px1) : Math.round(2 * g.alpha * (g.R + g.depth) / px1);
+    nLt = Math.max(base.nL, Math.min(maxL, nLt));
+    var L0 = -1, L1 = -1, xr0 = 1e9, xr1 = -1e9, ybot = Math.min(g.by1, yb + m), sMax = 0, i;
+    for (i = 0; i < nLt; i++) {
+      var ls = lineStart(g, i, nLt), x0 = ls[0], y0 = ls[1], dx = ls[2], dy = ls[3];
+      var sA = Math.max(0, (ya - m - y0) / dy), sB = Math.max(0, (ybot - y0) / dy), xA = x0 + dx * sA, xB = x0 + dx * sB;
+      if (Math.max(xA, xB) < xa - m || Math.min(xA, xB) > xb + m) continue;
+      if (L0 < 0) L0 = i; L1 = i;
+      xr0 = Math.min(xr0, x0, xB); xr1 = Math.max(xr1, x0, xB); sMax = Math.max(sMax, sB);
+    }
+    if (L0 < 0) return null;
+    var yr0 = base.yr0, xr0b = Math.max(base.xr0, xr0 - 2), xr1b = Math.min(base.xr0 + base.W * base.px, xr1 + 2), yr1 = Math.min(base.yr0 + base.H * base.px, ybot + base.margin + 2);
+    var W = Math.ceil((xr1b - xr0b) / px1), H = Math.ceil((yr1 - yr0) / px1), Wo = Math.max(2, Math.ceil((xb - xa) / px1)), Ho = Math.max(2, Math.ceil((yb - ya) / px1));
+    var ds = Math.max(0.025, px1 * 0.8), nLb = base.nL;
+    return {px: px1, W: W, H: H, xr0: xr0b, yr0: yr0, xo0: xa, yo0: ya, Wo: Wo, Ho: Ho, nL: nLt, L0: L0, L1: L1, ds: ds, margin: base.margin, pad: base.pad,
+      sMax: sMax + base.margin + 2, capA: Math.ceil(16 * base.ds / ds), capL: Math.ceil(28 * nLt / nLb), zoom: true};
+  }
   /* ---- acoustic table -> typed arrays indexed by the imaging class id ---- */
   function compileAcoustics(US, C) {
     var n = 256, A = {
@@ -175,7 +199,8 @@
    * -> {db(Float32 Wo*Ho, dB re liver, -200 outside the fan), W, H, ysk, contact, stats} */
   function simulate(o) {
     var t0 = Date.now(), AC = o.AC, GL = AC.g, g = o.geom, pl = o.plan, W = pl.W, H = pl.H, px = pl.px, lab = o.lab, sid = o.sid;
-    var f = o.freq, depth = o.depthMm, lam = 1.54 / f, nL = pl.nL, ds = pl.ds, nS = Math.floor(depth / ds) + 1, i, k, L;
+    /* Q294: a zoom plan (zoomPlan) simulates only the lines L0..L1 of a finer fan (nLt lines in all), down to sMax, for its window */
+    var Lo = pl.L0 || 0, nLt = pl.nL, f = o.freq, depth = o.depthMm, lam = 1.54 / f, nL = pl.L1 != null ? pl.L1 - Lo + 1 : nLt, ds = pl.ds, nS = Math.floor(Math.min(depth, pl.sMax || depth) / ds) + 1, i, k, L;
     var axFw = GL.axial_cycles * lam / 2, Dap = Math.min(0.6 * g.w, 25), Fc = Math.max(5, o.focusMm), wF = 1.2 * lam * Fc / Dap, dof = 7 * lam * (Fc / Dap) * (Fc / Dap), wmin = 2.5 * lam + 0.2;
     function latFw(s) { var q = (s - Fc) / (dof / 2); return Math.min(8, Math.max(wmin, wF * Math.sqrt(1 + q * q))); }
     var AIR = AC.airId, GEL = 255, Zgel = AC.gelZ, maxGap = AC.gel.max_gap_mm;
@@ -195,9 +220,12 @@
     }
     /* the seat: first non-air pixel on the centre line (x = 0) between the top of the raster and +margin */
     var ix0 = Math.round((0 - pl.xr0) / px), ysk = 0, contact = false, iy;
-    if (ix0 >= 0 && ix0 < W) for (iy = 0; iy < H; iy++) { if (lab[iy * W + ix0] !== AIR) { ysk = pl.yr0 + (iy + 0.5) * px; contact = iy > 0 && ysk <= pl.margin + 1e-6; break; } }
-    if (!contact) ysk = 0;
-    ysk = Math.max(-pl.margin + 1, Math.min(pl.margin - 1, ysk));
+    if (o.seat) { ysk = o.seat.ysk; contact = o.seat.contact; }                // Q294: a zoom window keeps the seat of its full frame (x = 0 may lie outside it)
+    else {
+      if (ix0 >= 0 && ix0 < W) for (iy = 0; iy < H; iy++) { if (lab[iy * W + ix0] !== AIR) { ysk = pl.yr0 + (iy + 0.5) * px; contact = iy > 0 && ysk <= pl.margin + 1e-6; break; } }
+      if (!contact) ysk = 0;
+      ysk = Math.max(-pl.margin + 1, Math.min(pl.margin - 1, ysk));
+    }
     var P = new Float32Array(nS * nL), reverb = [], tex = !!o.textures, spk = !!o.speckle, seed = (o.seed | 0) || 1;
     /* Q291: the axial speckle cell is ~1.4 wavelengths (0.12 mm at 18 MHz), but this beam line is sampled every ds (>= 0.08 mm, usually
      * 0.8 px): a value-noise cell shorter than two samples would alias into per-sample white noise, so the grain is floored at 2 ds --
@@ -209,7 +237,7 @@
     var lastSid = -1, lastAxis = null, lastArch = null;
     var tp = AC.tex_p;
     for (L = 0; L < nL; L++) {
-      var ls = lineStart(g, L, nL), x0 = ls[0], y0 = ls[1], dx = ls[2], dy = ls[3];
+      var ls = lineStart(g, L + Lo, nLt), x0 = ls[0], y0 = ls[1], dx = ls[2], dy = ls[3];
       var T = 1, prevZ = Zgel, prevCls = GEL, body = false, gap = 0, firstRev = -1, revVal = 0, bd = null, airUntil = -1, airNext = 0, fillK = Math.ceil(AC.airFillMm / ds);
       if (frame) bd = [frame.u[0] * dx + frame.b[0] * dy, frame.u[1] * dx + frame.b[1] * dy, frame.u[2] * dx + frame.b[2] * dy];
       for (k = 0; k < nS; k++) {
@@ -307,7 +335,7 @@
      * box (the old caps 6 / 14 are not reached by an axial kernel above 3 MHz); at 18 MHz the axial pulse (0.11 mm) is below one sample and its pass is skipped. */
     var sa = axFw / 2.355 / ds;
     if (sa > 0.45) {
-      var ra = Math.min(16, Math.ceil(sa * 2.5)), ka = new Float32Array(2 * ra + 1), ss = 0, tmpR = new Float32Array(nL);
+      var ra = Math.min(pl.capA || 16, Math.ceil(sa * 2.5)), ka = new Float32Array(2 * ra + 1), ss = 0, tmpR = new Float32Array(nL);
       for (i = -ra; i <= ra; i++) { ka[i + ra] = Math.exp(-i * i / (2 * sa * sa)); ss += ka[i + ra]; }
       for (i = 0; i < ka.length; i++) ka[i] /= ss;
       var Q = new Float32Array(P.length);
@@ -316,9 +344,9 @@
     }
     var rowT = new Float32Array(nL);
     for (k = 0; k < nS; k += 1) {
-      var sdep = k * ds, dxl = g.type === "linear" ? g.w / nL : 2 * g.alpha * (g.R + sdep) / nL, sl = latFw(sdep) / 2.355 / Math.max(dxl, 1e-3);
+      var sdep = k * ds, dxl = g.type === "linear" ? g.w / nLt : 2 * g.alpha * (g.R + sdep) / nLt, sl = latFw(sdep) / 2.355 / Math.max(dxl, 1e-3);
       if (sl < 0.45) continue;
-      var rl = Math.min(28, Math.ceil(sl * 2.5)), kl = new Float32Array(2 * rl + 1), sk = 0, rb = k * nL;
+      var rl = Math.min(pl.capL || 28, Math.ceil(sl * 2.5)), kl = new Float32Array(2 * rl + 1), sk = 0, rb = k * nL;
       for (i = -rl; i <= rl; i++) { kl[i + rl] = Math.exp(-i * i / (2 * sl * sl)); sk += kl[i + rl]; }
       for (i = 0; i < kl.length; i++) kl[i] /= sk;
       for (L = 0; L < nL; L++) { var acc = 0, wsum = 0; for (i = -rl; i <= rl; i++) { var l2 = L + i; if (l2 < 0 || l2 >= nL) continue; acc += kl[i + rl] * P[rb + l2]; wsum += kl[i + rl]; } rowT[L] = acc / wsum; }
@@ -331,8 +359,8 @@
       var Yo = pl.yo0 + (oy + 0.5) * px - ysk;
       for (ox = 0; ox < Wo; ox++) {
         var Xo = pl.xo0 + (ox + 0.5) * px, fl, sr;
-        if (linear) { fl = (Xo + g.w / 2) / g.w * nL - 0.5; sr = Yo; }
-        else { var ddx = Xo, ddy = Yo + R0, r = Math.hypot(ddx, ddy), th2 = Math.atan2(ddx, ddy); fl = (th2 + g.alpha) / (2 * g.alpha) * nL - 0.5; sr = r - R0; }
+        if (linear) { fl = (Xo + g.w / 2) / g.w * nLt - 0.5 - Lo; sr = Yo; }
+        else { var ddx = Xo, ddy = Yo + R0, r = Math.hypot(ddx, ddy), th2 = Math.atan2(ddx, ddy); fl = (th2 + g.alpha) / (2 * g.alpha) * nLt - 0.5 - Lo; sr = r - R0; }
         var idx = oy * Wo + ox;
         if (fl < -0.5 || fl > nL - 0.5 || sr < 0 || sr > depth || (sr < 0.01 && !contact)) { db[idx] = -200; continue; }
         var kf = sr / ds, k0 = Math.min(nS - 2, Math.floor(kf)), tk = kf - k0, l0 = Math.max(0, Math.min(nL - 2, Math.floor(fl))), tl = Math.min(1, Math.max(0, fl - l0));
@@ -471,23 +499,81 @@
   }
   var KIND = {unipennate: 1, bipennate: 2, multipennate: 3, layered: 4};
   /* spec: one "architecture.muscles" row; o: {prox: a point nearer the proximal end, dirs: {anterior, medial, superior: unit vectors}, half, gain} */
+  /* Q294: one bundle's own fibre axis -- from its origin side to its insertion side: the mean of the 15 % of its vertices furthest
+     toward `ins` minus the mean of the 15 % furthest away (a fan-shaped muscle's bundles all converge on one insertion, so each
+     bundle gets its own direction); no `ins` -> the subset's own principal axis. sel(k) picks the bundle's vertices. */
+  function bundleAxis(pos, v0, v1, step, sel, ins, fallback, anc) {
+    var P = [], k;
+    for (k = v0; k < v1; k += step) if (!sel || sel(k)) P.push(k);
+    if (P.length < 12) return fallback;
+    if (anc && anc.i) {                                                     // placed markers: origin (else the bundle's own centroid) -> insertion
+      var o0 = anc.o; if (!o0) { o0 = [0, 0, 0]; P.forEach(function (x) { o0[0] += pos[3 * x] / P.length; o0[1] += pos[3 * x + 1] / P.length; o0[2] += pos[3 * x + 2] / P.length; }); }
+      var dd = sub(anc.i, o0); if (len(dd) > 5) return unit(dd);
+    }
+    if (ins) {
+      P.sort(function (x, y) { return (pos[3 * x] * ins[0] + pos[3 * x + 1] * ins[1] + pos[3 * x + 2] * ins[2]) - (pos[3 * y] * ins[0] + pos[3 * y + 1] * ins[1] + pos[3 * y + 2] * ins[2]); });
+      var n = Math.max(3, Math.round(P.length * 0.15)), lo = [0, 0, 0], hi = [0, 0, 0], q;
+      for (q = 0; q < n; q++) { var a0 = P[q], b0 = P[P.length - 1 - q]; lo[0] += pos[3 * a0]; lo[1] += pos[3 * a0 + 1]; lo[2] += pos[3 * a0 + 2]; hi[0] += pos[3 * b0]; hi[1] += pos[3 * b0 + 1]; hi[2] += pos[3 * b0 + 2]; }
+      var d = sub(hi, lo); return len(d) > 1e-6 ? unit(d) : fallback;
+    }
+    var c = [0, 0, 0]; P.forEach(function (x) { c[0] += pos[3 * x] / P.length; c[1] += pos[3 * x + 1] / P.length; c[2] += pos[3 * x + 2] / P.length; });
+    var C3 = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], i, j;
+    P.forEach(function (x) { var e = [pos[3 * x] - c[0], pos[3 * x + 1] - c[1], pos[3 * x + 2] - c[2]]; for (i = 0; i < 3; i++) for (j = 0; j < 3; j++) C3[i][j] += e[i] * e[j]; });
+    var v = eigSym3(C3)[0].vec; return dot(v, fallback) < 0 ? mul(v, -1) : v;
+  }
+  function tails(pos, v0, v1, step, sel, ins) {                            // mean of the 15 % of the (selected) vertices least / most toward ins
+    var P = [], k; for (k = v0; k < v1; k += step) if (!sel || sel(k)) P.push(k);
+    if (P.length < 12 || !ins) return null;
+    P.sort(function (x, y) { return (pos[3 * x] * ins[0] + pos[3 * x + 1] * ins[1] + pos[3 * x + 2] * ins[2]) - (pos[3 * y] * ins[0] + pos[3 * y + 1] * ins[1] + pos[3 * y + 2] * ins[2]); });
+    var n = Math.max(3, Math.round(P.length * 0.15)), lo = [0, 0, 0], hi = [0, 0, 0], q;
+    for (q = 0; q < n; q++) { var a0 = P[q], b0 = P[P.length - 1 - q]; for (var c = 0; c < 3; c++) { lo[c] += pos[3 * a0 + c] / n; hi[c] += pos[3 * b0 + c] / n; } }
+    return {lo: lo, hi: hi};
+  }
+  function frameAbout(a, w, t) {                                            // orthonormal (a, w', t') with w' as close to w as possible
+    var w2 = sub(w, mul(a, dot(w, a))); if (len(w2) < 1e-3) w2 = sub(t, mul(a, dot(t, a)));
+    w2 = unit(w2); return {a: a, w: w2, t: cross(a, w2)};
+  }
+  var OPP = {lateral: "medial", inferior: "superior", posterior: "anterior"};
+  function dirOf(dirs, name) { if (!dirs || !name) return null; if (dirs[name]) return dirs[name]; var o = OPP[name]; return o && dirs[o] ? mul(dirs[o], -1) : null; }
+  function bandP(spec, name) {                                              // a bundle's pennation: the size-weighted mean of the compartments its name matches
+    var words = String(name).toLowerCase().replace(/[()]/g, " ").split(/\s+/).filter(function (x) { return x && x !== "part" && x !== "head" && x !== "and" && x !== "belly"; });
+    var hit = (spec.c || []).filter(function (cp) { var n = String(cp[0]).toLowerCase(); return words.some(function (wd) { return n.indexOf(wd) >= 0; }); });
+    var ws = 0, sp = 0; hit.forEach(function (cp) { var wt = Math.max(1, cp[2]); ws += wt; sp += cp[1] * wt; });
+    return {p: (ws ? sp / ws : (spec.p || 0)), n: hit.length};
+  }
   function archFrame(pos, v0, v1, spec, o) {
     var F = pca3(pos, v0, v1); if (!F) return null;
     var a = F.a, w = F.w, t = F.t, c = F.c, k, ext = function (ax) { var lo = 1e9, hi = -1e9; for (k = v0; k < v1; k += F.step) { var q = (pos[3 * k] - c[0]) * ax[0] + (pos[3 * k + 1] - c[1]) * ax[1] + (pos[3 * k + 2] - c[2]) * ax[2]; if (q < lo) lo = q; if (q > hi) hi = q; } return [lo, hi]; };
+    var bun = o.bundle || null, pts = spec.parts || {};
+    if (bun) {                                                              // Q294: a separate part mesh (Z: deltoid parts, pectoralis heads, the RF reflected head) = ONE bundle: its own origin-to-insertion axis
+      var bi = dirOf(o.dirs, bun.ins || pts.ins), bAnc = o.anchor ? o.anchor(bun.name) : null, ba = bundleAxis(pos, v0, v1, F.step, null, bi, a, bAnc);
+      var bf = frameAbout(dot(ba, a) < 0 ? mul(ba, -1) : ba, w, t); a = bf.a; w = bf.w; t = bf.t;
+    }
     var la = ext(a);
     if (o.prox && Math.hypot(c[0] + a[0] * la[1] - o.prox[0], c[1] + a[1] * la[1] - o.prox[1], c[2] + a[2] * la[1] - o.prox[2]) < Math.hypot(c[0] + a[0] * la[0] - o.prox[0], c[1] + a[1] * la[0] - o.prox[1], c[2] + a[2] * la[0] - o.prox[2])) { a = mul(a, -1); la = [-la[1], -la[0]]; }
-    var toward = function (ax, name) { var d = o.dirs && o.dirs[name]; return d && dot(ax, d) < 0 ? mul(ax, -1) : ax; };
-    if (spec.parts && spec.parts.toward) w = toward(w, spec.parts.toward);
+    var toward = function (ax, name) { var d = dirOf(o.dirs, name); return d && dot(ax, d) < 0 ? mul(ax, -1) : ax; };
+    if (spec.parts && spec.parts.toward && (!spec.parts.axis || spec.parts.axis === "w")) w = toward(w, spec.parts.toward);
     (spec.septa || []).forEach(function (s) { if (s.toward) { if (s.normal === "t") t = toward(t, s.toward); else w = toward(w, s.toward); } });
     var lw = ext(w), lt = ext(t), kind = KIND[spec.t] || 0, p = (spec.p || 0) * DEG;
+    if (bun && bun.p != null) p = bun.p * DEG;
     var ar = {a: a, w: w, t: t, c: c, la: la, lw: lw, lt: lt, kind: kind, p: p, p0: spec.p0 != null ? spec.p0 * DEG : null, p1: spec.p1 != null ? spec.p1 * DEG : null,
-      half: o.half || 0.6, gain: o.gain || 6, sheets: [], bands: null, cOff: (lw[0] + lw[1]) / 2, _f: [0, 0, 0], _sep: 0, _band: -1};
-    if (spec.parts && spec.parts.bands && !o.noParts) {
-      ar.bands = spec.parts.bands.map(function (b) {
-        var words = String(b[2]).toLowerCase().replace(/[()]/g, " ").split(/\s+/).filter(function (x) { return x && x !== "part" && x !== "head"; });
-        var hit = (spec.c || []).filter(function (cp) { var n = String(cp[0]).toLowerCase(); return words.some(function (wd) { return n.indexOf(wd) >= 0; }); });
-        var ws = 0, sp = 0; hit.forEach(function (cp) { var wt = Math.max(1, cp[2]); ws += wt; sp += cp[1] * wt; });
-        return {f0: b[0], f1: b[1], name: b[2], p: (ws ? sp / ws : (spec.p || 0)) * DEG, n: hit.length};
+      half: o.half || 0.6, gain: o.gain || 6, sheets: [], bands: null, cOff: (lw[0] + lw[1]) / 2, _f: [0, 0, 0], _sep: 0, _band: -1, bundle: bun ? bun.name : null,
+      src: bun ? (bAnc && bAnc.i ? (bAnc.o ? "origin and insertion markers" : "bundle centre to the insertion marker") : "rule: origin side to insertion side") : null};
+    if (bun && bun.p != null) ar.p0 = ar.p1 = null;
+    if (pts.bands && !o.noParts && !bun && pts.split !== "mesh") {
+      /* Q294: the bundles of one mesh (the own pages' single deltoid / pectoralis major / trapezius): slabs along the band axis (a PCA
+         axis "w" / "a" / "t", or a body direction such as "superior"), each with its OWN fibre axis (bundleAxis) and pennation */
+      var bax = pts.axis === "a" ? a : pts.axis === "t" ? t : pts.axis === "w" || !pts.axis ? w : (dirOf(o.dirs, pts.axis) || w);
+      if (pts.toward) { var tw = dirOf(o.dirs, pts.toward); if (tw && dot(bax, tw) < 0) bax = mul(bax, -1); }
+      var lb = ext(bax), ins = dirOf(o.dirs, pts.ins), insW = tails(pos, v0, v1, F.step, null, ins);   // no insertion marker: the WHOLE muscle's insertion side is where its bundles converge
+      ar.bax = bax; ar.lb = lb;
+      ar.bands = pts.bands.map(function (b) {
+        var bp = bandP(spec, b[2]), f0 = b[0], f1 = b[1];
+        var sel = function (kk) { var q = ((pos[3 * kk] - c[0]) * bax[0] + (pos[3 * kk + 1] - c[1]) * bax[1] + (pos[3 * kk + 2] - c[2]) * bax[2] - lb[0]) / ((lb[1] - lb[0]) || 1); return q >= f0 && q <= f1; };
+        var anc2 = o.anchor ? o.anchor(b[2]) : null, bIns = dirOf(o.dirs, b[3]) || ins;
+        if (!(anc2 && anc2.i) && insW && bIns === ins) { var tl = tails(pos, v0, v1, F.step, sel, ins); if (tl) anc2 = {o: tl.lo, i: insW.hi, rule: true}; }
+        var ba2 = bundleAxis(pos, v0, v1, F.step, sel, dirOf(o.dirs, b[3]) || ins, a, anc2), fr2 = frameAbout(dot(ba2, a) < 0 ? mul(ba2, -1) : ba2, w, t);
+        return {f0: f0, f1: f1, name: b[2], p: bp.p * DEG, n: bp.n, a: fr2.a, w: fr2.w, t: fr2.t, src: anc2 && anc2.rule ? "rule: the bundle's origin side to the muscle's insertion side" : anc2 && anc2.i ? (anc2.o ? "origin and insertion markers" : "bundle centre to the insertion marker") : "rule: origin side to insertion side"};
       });
     }
     (spec.septa || []).forEach(function (s) {
@@ -507,7 +593,10 @@
     var ua = (da - ar.la[0]) / ((ar.la[1] - ar.la[0]) || 1); ua = ua < 0 ? 0 : ua > 1 ? 1 : ua;
     var th = ar.p0 != null ? ar.p0 + (ar.p1 - ar.p0) * ua : ar.p, i, sep = 0;
     ar._band = -1;
-    if (ar.bands) { var fw = (dw - ar.lw[0]) / ((ar.lw[1] - ar.lw[0]) || 1); for (i = 0; i < ar.bands.length; i++) if (fw >= ar.bands[i].f0 && fw <= ar.bands[i].f1) { th = ar.bands[i].p; ar._band = i; break; } }
+    if (ar.bands) {                                                        // Q294: the bundle the point lies in -> its own pennation AND its own fibre axis
+      var bx = ar.bax || w, fw = ((dx * bx[0] + dy * bx[1] + dz * bx[2]) - (ar.lb || ar.lw)[0]) / (((ar.lb || ar.lw)[1] - (ar.lb || ar.lw)[0]) || 1);
+      for (i = 0; i < ar.bands.length; i++) if (fw >= ar.bands[i].f0 && fw <= ar.bands[i].f1) { th = ar.bands[i].p; ar._band = i; if (ar.bands[i].a) { a = ar.bands[i].a; w = ar.bands[i].w; t = ar.bands[i].t; } break; }
+    }
     for (i = 0; i < ar.sheets.length; i++) {
       var s = ar.sheets[i]; if (ua < s.s0 || ua > s.s1) continue;
       var q = ((s.ax === "t" ? dt : dw) - s.off) / ar.half, g = Math.exp(-q * q); if (g > sep) sep = g;
@@ -562,8 +651,8 @@
   }
 
   var LIB = {VERSION: VERSION, freqRange: freqRange, freqBandNote: freqBandNote, probeFrame: probeFrame, REF: REF, starTilts: starTilts, sweepOffsets: sweepOffsets, matrixDims: matrixDims, fanGeom: fanGeom, lineStart: lineStart,
-    planRaster: planRaster, compileAcoustics: compileAcoustics, simulate: simulate, hash3: hash3, toGray: toGray, skinHit: skinHit, smoothNormal: smoothNormal, pcaAxis: pcaAxis,
-    followRotation: followRotation, angleDeg: angleDeg, pca3: pca3, archFrame: archFrame, fibreAt: fibreAt, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES, probeMismatch: probeMismatch};
+    planRaster: planRaster, zoomPlan: zoomPlan, compileAcoustics: compileAcoustics, simulate: simulate, hash3: hash3, toGray: toGray, skinHit: skinHit, smoothNormal: smoothNormal, pcaAxis: pcaAxis,
+    followRotation: followRotation, angleDeg: angleDeg, pca3: pca3, archFrame: archFrame, fibreAt: fibreAt, bandP: bandP, bundleAxis: bundleAxis, speckleE: speckleE, dot: dot, cross: cross, unit: unit, rodrigues: rodrigues, STAR_NAMES: STAR_NAMES, probeMismatch: probeMismatch};
   G.NMSKUltrasoundLib = LIB;
   if (typeof document === "undefined") return;
 
@@ -1170,16 +1259,45 @@
     function archRow(sid) {
       var A = US && US.architecture; if (!A || !geo || sid < 0 || sid >= geo.n || classOf(sid) !== "muscle") return null;
       var id = String((geo.recs[sid] && geo.recs[sid].id) || "").toLowerCase().replace(/_zfill\d+$/, "").replace(/^zan_/, "").replace(/_(l|r)$/, ""), parts = id.split("_"), k;
-      for (k = parts.length; k > 0; k--) { var key = parts.slice(0, k).join("_"); if (A.muscles[key]) return {key: key, row: A.muscles[key], exact: k === parts.length}; }
+      for (k = parts.length; k > 0; k--) { var key = parts.slice(0, k).join("_"); if (A.muscles[key]) return withBundle({key: key, row: A.muscles[key], exact: k === parts.length}, parts.slice(k)); }
+      /* Q294: a part mesh named around its muscle (Z: "clavicular_part_of_deltoid_muscle", "sternocostal_head_of_pectoralis_major_muscle"):
+         the longest architecture key found inside the id; the words around it name the bundle */
+      var best = null, i2, j2;
+      for (i2 = 0; i2 < parts.length; i2++) for (j2 = parts.length; j2 > i2; j2--) { var k2 = parts.slice(i2, j2).join("_"); if (A.muscles[k2] && (!best || k2.length > best.key.length)) best = {key: k2, i: i2, j: j2}; }
+      if (best) return withBundle({key: best.key, row: A.muscles[best.key], exact: false}, parts.slice(0, best.i).concat(parts.slice(best.j)));
       return null;
     }
+    function withBundle(m, rest) {                                           // the bundle a separate part mesh stands for (its words match one of the row's bands)
+      var b = m.row.parts && m.row.parts.bands, words = rest.filter(function (x) { return x && !/^(part|of|head|muscle|the)$/.test(x); });
+      if (!b) return m;
+      if (!words.length && m.exact && m.row.parts.whole) words = [m.row.parts.whole];
+      if (!words.length) return m;
+      var hit = b.filter(function (x) { var nm = String(x[2]).toLowerCase(); return words.some(function (wd) { return nm.indexOf(wd) >= 0; }); })[0];
+      if (hit) { var bp = LIB.bandP(m.row, hit[2]); m.bundle = {name: hit[2], p: bp.p, n: bp.n, ins: hit[3] || null}; }
+      return m;
+    }
+    /* Q294: the placed part markers (parts_ui) that anchor a bundle's fibre axis: its origin marker (the origin row naming the bundle)
+       and its insertion marker (one naming the bundle, else the insertion complex) -- on the mesh's own side */
+    var mkReady = false;
+    function anchorFn(key, side) {
+      var pc = G.__partsCtl || G.partsCtl, L = pc && pc.anchors ? pc.anchors(key, side) : null; if (!L || !L.length) return null;
+      return function (name) {
+        var words = String(name).toLowerCase().replace(/[()]/g, " ").split(/\s+/).filter(function (x) { return x && !/^(part|head|and|belly|of|the)$/.test(x); });
+        var hit = function (m) { var t = (m.n + " " + m.d).toLowerCase(); return words.some(function (wd) { return t.indexOf(wd) >= 0; }); };
+        var ins = L.filter(function (m) { return m.ty === "insertion_point"; }), org = L.filter(function (m) { return m.ty === "origin_part" && hit(m); })[0];
+        var i = ins.filter(hit)[0] || ins.filter(function (m) { return /complex/.test(m.id); })[0] || ins[0];
+        return i ? {o: org ? org.xyz : null, i: i.xyz} : null;
+      };
+    }
     function archOf(sid) {
+      var pcR = G.__partsCtl || G.partsCtl; if (!mkReady && pcR && pcR.anchors && pcR.anchors("deltoid", null) !== null) { mkReady = true; archCache = {}; }   // the markers arrived: rebuild with them
       if (archCache[sid] !== undefined) return archCache[sid];
       var m = archRow(sid), ar = null;
       if (m) {
         var bb = geo.bodyBox, cc = structCentroid(sid) || [0, 0, 0], midx = (bb.lo[0] + bb.hi[0]) / 2, R = US.architecture.render || {};
         ar = LIB.archFrame(geo.pos, geo.vStart[sid], geo.vStart[sid + 1], m.row, {prox: trunkPoint(), dirs: {anterior: [0, 0, 1], superior: [0, 1, 0], medial: [midx >= cc[0] ? 1 : -1, 0, 0]},
-          half: R.septum_half_mm, gain: R.septum_gain, noParts: !m.exact});
+          half: R.septum_half_mm, gain: R.septum_gain, noParts: !m.exact, bundle: m.bundle || null,
+          anchor: anchorFn(m.row.anchor || m.key, (/_(l|r)(_zfill\d+s?)?$/i.exec(String(geo.recs[sid] && geo.recs[sid].id)) || [0, ""])[1].toLowerCase() || null)});
         if (ar) { ar.key = m.key; ar.row = m.row; }
       }
       archCache[sid] = ar; return ar;
@@ -1190,7 +1308,8 @@
       if (!ar) return " | fibres: generic line of action (mesh long axis), no architecture data";
       var r = ar.row, A = US.architecture, src = (r.pr && r.pr.length ? r.pr.map(function (k) { var x = A.references[k]; return x ? x.cite.split(".")[0] + " PMID " + x.pmid : k; }) : (r.s || []).map(function (i) { return A.sources[i].split(" -- ")[0]; })).join("; ");
       var sep = ar.sheets.length ? "; septa: " + ar.row.septa.map(function (x) { return x.name + " (" + x.refs.map(function (k) { return (A.references[k] || {}).pmid ? "PMID " + A.references[k].pmid : k; }).join(", ") + ")"; }).join("; ") : "";
-      return " | fibres: " + (r.t || "?") + " " + (r.p0 != null ? r.p0 + "→" + r.p1 : r.p) + "° (" + src + ")" + sep + " -- RULE-BASED layout in this mesh";
+      var bun = ar.bundle ? "; bundle: " + ar.bundle + " " + Math.round(ar.p / DEG * 10) / 10 + "°, axis " + ar.src : ar.bands && ar.bands[0].a ? "; " + ar.bands.length + " bundles, each with its own axis (" + ar.bands[0].src + ") and pennation" : "";   // Q294
+      return " | fibres: " + (r.t || "?") + " " + (ar.bundle ? Math.round(ar.p / DEG * 10) / 10 : r.p0 != null ? r.p0 + "→" + r.p1 : r.p) + "° (" + src + ")" + sep + bun + " -- RULE-BASED layout in this mesh";
     }
     function axisOf(sid) {
       if (sid < 0 || sid >= geo.n) return null;
@@ -1298,6 +1417,86 @@
       S.P2 = h.point; S.N2 = nrm; S.skinStruct2 = h.struct;
       return h;
     }
+    /* ---------- Q294: direct probe handling on the 3-D view ----------
+       Grab the probe (a press within ~40 px of it) and drag: it slides over the skin (every move re-seated with placeRay: the surface
+       point under the finger, the axis along the smoothed skin normal), drawn at once while the images follow (throttled). No arming
+       step. A small pad beside the probe: rotate 15 deg either way, tilt 5 deg per tap toward the marker / away / heel / toe, upright.
+       Taps, never a slider (the owner's mobile rule). The pad hides when the probe is off screen or something covers it. */
+    var drag = {on: false, id: null, last: 0, moved: 0, swallow: 0}, livePose = null, hdl = null;
+    function probeTip() { if (!S.P) return null; var p = api.toScreen(S.P); return p && isFinite(p[0]) ? p : null; }
+    function probeGrip() { var fr = frames[S.sel] || frames[0]; if (!fr || !S.P) return null; var p = api.toScreen(toWorld(fr.O, fr.pf, 0, (fr.sim ? fr.sim.ysk : 0) - 30, 0)); return p && isFinite(p[0]) ? p : null; }
+    function nearProbe(x, y, touch) {
+      var R = touch ? 46 : 36, a = probeTip(), b = probeGrip(); if (!a) return false;
+      if (!b) return Math.hypot(x - a[0], y - a[1]) <= R;
+      var dx = b[0] - a[0], dy = b[1] - a[1], L2 = dx * dx + dy * dy, t = L2 > 0 ? Math.max(0, Math.min(1, ((x - a[0]) * dx + (y - a[1]) * dy) / L2)) : 0;
+      return Math.hypot(x - a[0] - dx * t, y - a[1] - dy * t) <= R;
+    }
+    function dragTo(e) {
+      var r = api.ray(e), h = S.ab && S.placeSlot === "B" ? placeRay2(r.o, r.d, "B") : placeRay(r.o, r.d, true); if (!h) return false;
+      if (!(S.ab && S.placeSlot === "B")) livePose = {O: S.P.slice(), pf: basedFrame(S.N, S.rot, 0, 0), geom: curGeom()};
+      drag.moved++; updateOverlay(); refresh(); return true;
+    }
+    function onDragDown(e) {
+      if (!S.open || !S.P || !geo || drag.on || e.button > 0 || e.target !== api.canvas || S.pick3d) return;
+      if (!nearProbe(e.clientX, e.clientY, e.pointerType === "touch")) return;
+      drag.on = true; drag.id = e.pointerId; drag.moved = 0; drag.last = 0;
+      e.preventDefault(); e.stopImmediatePropagation();
+      try { api.canvas.setPointerCapture(e.pointerId); } catch (eC) {}
+      setStatus("Sliding the probe over the skin ...");
+    }
+    function onDragMove(e) {
+      if (!drag.on || e.pointerId !== drag.id) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      var now = Date.now(); if (now - drag.last < 45) return; drag.last = now; dragTo(e);
+    }
+    function onDragUp(e) {
+      if (!drag.on || e.pointerId !== drag.id) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      if (e.type === "pointerup") dragTo(e);
+      drag.on = false; drag.swallow = Date.now(); S.sel = 0; refresh(true); setStatus();
+    }
+    function blockTouch(e) { if (drag.on) { e.stopImmediatePropagation(); if (e.cancelable) e.preventDefault(); } }
+    document.addEventListener("pointerdown", onDragDown, true);
+    document.addEventListener("pointermove", onDragMove, true);
+    document.addEventListener("pointerup", onDragUp, true); document.addEventListener("pointercancel", onDragUp, true);
+    ["touchstart", "touchmove", "touchend"].forEach(function (t) { document.addEventListener(t, blockTouch, {capture: true, passive: false}); });
+    document.addEventListener("click", function (e) { if (Date.now() - drag.swallow < 450 && e.target === api.canvas) { drag.swallow = 0; e.stopImmediatePropagation(); e.preventDefault(); } }, true);
+    function tiltBy(dirDeg, deg) {                                            // add `deg` of lean toward dirDeg to the current tilt vector
+      var d0 = S.mTiltDir * DEG, x = Math.cos(d0) * S.mTilt + Math.cos(dirDeg * DEG) * deg, y = Math.sin(d0) * S.mTilt + Math.sin(dirDeg * DEG) * deg, m = Math.hypot(x, y);
+      if (m < 0.5) { S.mTilt = 0; } else { S.mTilt = Math.min(45, Math.round(m)); S.mTiltDir = Math.round(((Math.atan2(y, x) / DEG) % 360 + 360) % 360); }
+      syncUi(); refresh(true);
+    }
+    function buildHandles() {
+      if (hdl) return hdl;
+      var mk = function (id, txt, title, fn) { var b = el("button", {type: "button", id: id, text: txt, title: title, "aria-label": title}); b.addEventListener("click", function (e) { e.stopPropagation(); fn(); placeHandles(); }); return b; };
+      hdl = el("div", {id: "us-hdl", class: "us-hdl", role: "group", "aria-label": "Probe: rotate and tilt"}, [
+        mk("us-h-rl", "⟲", "Rotate the probe 15° counter-clockwise", function () { rotateBy(15); }),
+        mk("us-h-th", "▲", "Tilt 5° toward the heel (fan the image plane)", function () { tiltBy(90, 5); }),
+        mk("us-h-rr", "⟳", "Rotate the probe 15° clockwise", function () { rotateBy(-15); }),
+        mk("us-h-tm", "◀", "Tilt 5° toward the marker end (rock)", function () { tiltBy(180, 5); }),
+        mk("us-h-t0", "⊙", "Upright: no tilt", function () { S.mTilt = 0; syncUi(); refresh(true); }),
+        mk("us-h-ta", "▶", "Tilt 5° away from the marker (rock)", function () { tiltBy(0, 5); }),
+        el("span", {class: "us-h-tilt", id: "us-h-val"}),
+        mk("us-h-tt", "▼", "Tilt 5° toward the toe (fan the image plane)", function () { tiltBy(270, 5); }),
+        el("span", {class: "us-h-tilt", id: "us-h-rot"})]);
+      hdl.hidden = true; document.body.appendChild(hdl);
+      return hdl;
+    }
+    function placeHandles() {
+      if (!hdl) buildHandles();
+      var p = S.open && S.P && !contState.active ? probeTip() : null, cv = api.canvas && api.canvas.getBoundingClientRect ? api.canvas.getBoundingClientRect() : null;
+      if (!p || !cv || !(cv.width >= 200 && cv.height >= 160) || p[0] < cv.left || p[0] > cv.right || p[1] < cv.top || p[1] > cv.bottom) { hdl.hidden = true; return; }
+      hdl.hidden = false; hdl.style.visibility = "hidden";
+      var under = document.elementFromPoint(p[0], p[1]);
+      if (under !== api.canvas && !(under && hdl.contains(under))) { hdl.hidden = true; hdl.style.visibility = ""; return; }
+      var w = hdl.offsetWidth || 120, h = hdl.offsetHeight || 120, x = p[0] + 58, y = p[1] - h / 2;
+      if (x + w > cv.right - 4) x = p[0] - 58 - w;
+      x = Math.max(cv.left + 4, Math.min(cv.right - w - 4, x)); y = Math.max(cv.top + 4, Math.min(cv.bottom - h - 4, y));
+      hdl.style.left = Math.round(x) + "px"; hdl.style.top = Math.round(y) + "px"; hdl.style.visibility = "";
+      var tv = document.getElementById("us-h-val"), rv = document.getElementById("us-h-rot");
+      if (tv) tv.textContent = S.mTilt ? S.mTilt + "°" : "0°"; if (rv) rv.textContent = Math.round(S.rot) + "°";
+    }
+    setInterval(function () { if (S.open || (hdl && !hdl.hidden)) placeHandles(); }, 300);
     function setFollow(sid) {
       S.followSid = sid; S.followName = geo.names[sid] || ""; var a = LIB.pcaAxis(geo.pos, geo.vStart[sid], geo.vStart[sid + 1]);
       S.follow = !!a; if (!a) setStatus("That structure has too few vertices for a long axis."); else setStatus("Following " + S.followName + " (long axis from PCA, elongation " + a.elong.toFixed(1) + ")");
@@ -1334,10 +1533,18 @@
       return out;
     }
     function spacing() { return S.byTotal ? (S.n > 1 ? S.total / (S.n - 1) : S.total) : S.spacing; }
+    /* Q294: the tilt handles lean the probe in EVERY mode: in the tilt star the user's tilt (S.mTilt toward S.mTiltDir) is the star's
+       centre and the eight star tilts are taken about it; in the sweep / A-B modes it is the frames' own tilt (as before) */
+    function starBase() { return S.mode === "star" && !S.ab && S.mTilt > 0; }
+    function basedFrame(N0, rot, tilt, dir) {
+      if (!starBase()) return LIB.probeFrame(N0, orientRef(), rot, tilt, dir);
+      var b0 = LIB.probeFrame(N0, orientRef(), rot, S.mTilt, S.mTiltDir);
+      return tilt ? LIB.probeFrame(b0.N, b0.u, 0, tilt, dir) : b0;
+    }
     function poseOf(spec) {
       var rot = spec.rotOverride != null ? spec.rotOverride : S.rot;
       var P0 = spec.P || S.P, N0 = spec.N || S.N;                        // Q267 (5): an A/B-slot spec carries its OWN placement; every other spec still falls back to the single shared S.P/S.N exactly as before
-      var pf = LIB.probeFrame(N0, orientRef(), rot, spec.tilt, spec.dir);
+      var pf = basedFrame(N0, rot, spec.tilt, spec.dir);
       var O = [P0[0] + pf.e[0] * spec.off, P0[1] + pf.e[1] * spec.off, P0[2] + pf.e[2] * spec.off], shift = 0;
       if (spec.off !== 0 && geo) {                                              // re-seat on the skin by sliding the face along the beam axis (stays in the same image plane, so planes stay parallel)
         var o2 = [O[0] + pf.N[0] * 60, O[1] + pf.N[1] * 60, O[2] + pf.N[2] * 60], h = LIB.skinHit(geo, o2, pf.b, null);
@@ -1355,7 +1562,7 @@
     }
     function refFrame(spec) {                                                   // fixed frame of the whole star / sweep: the centre (perpendicular) frame, or the sweep's own tilt
       var N0 = spec.N || S.N, P0 = spec.P || S.P;
-      var rot = spec.rotOverride != null ? spec.rotOverride : S.rot, pf = LIB.probeFrame(N0, orientRef(), rot, S.mode === "star" && !S.ab ? 0 : spec.tilt, S.mode === "star" && !S.ab ? 0 : spec.dir);
+      var rot = spec.rotOverride != null ? spec.rotOverride : S.rot, pf = basedFrame(N0, rot, S.mode === "star" && !S.ab ? 0 : spec.tilt, S.mode === "star" && !S.ab ? 0 : spec.dir);
       return {O: P0, u: pf.u, b: pf.b, e: pf.e};
     }
     function simOpts(fr, extra) {
@@ -1364,7 +1571,62 @@
         speckle: S.speckle, textures: S.textures, reverb: S.reverb, noise: S.noise, seed: S.seed,        // Q246: ONE seed for every frame: the speckle belongs to the body, not to the frame
         elevMm: S.mode === "star" ? 0 : fr.spec.off, frame: {O: fr.O, u: fr.pf.u, b: fr.pf.b, e: fr.pf.e, zoff: 0}, ref: refFrame(fr.spec), axisOf: axisOf, archOf: archOf}, extra || {});
     }
-    function rasterKey(spec, q) { var P0 = spec.P || S.P, N0 = spec.N || S.N; return [S.probe, probeW(), S.depthCm, P0.map(function (x) { return x.toFixed(2); }).join(), N0.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0].join("|"); }
+    function rasterKey(spec, q) { var P0 = spec.P || S.P, N0 = spec.N || S.N; return [S.probe, probeW(), S.depthCm, P0.map(function (x) { return x.toFixed(2); }).join(), N0.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0, starBase() ? S.mTilt + "@" + S.mTiltDir : ""].join("|"); }
+    /* Q294: fascia and the other thin sheets (septa, aponeuroses, retinacula, capsules, dura) are drawn with their typical PHYSICAL
+       thickness (ultrasound_tissues.json "sheet_thickness", cited per rule) instead of one raster pixel, so a sheet keeps the same
+       thickness in millimetres at every pixel size -- the 1x image, a re-simulated zoom, the live CINE tier. */
+    var sheetArr = null;
+    function sheetMm() {
+      if (sheetArr || !geo || !US || !US.sheet_thickness) return sheetArr;
+      var st = US.sheet_thickness, rules = (st.rules || []).map(function (r) { return {re: new RegExp(r.re, "i"), mm: r.mm}; }), i, k;
+      sheetArr = new Float32Array(geo.n);
+      for (i = 0; i < geo.n; i++) {
+        if (!geo.render || geo.render[i] !== 1) continue;
+        var nm = (geo.names && geo.names[i]) || "", mm = st.default_mm;
+        for (k = 0; k < rules.length; k++) if (rules[k].re.test(nm)) { mm = rules[k].mm; break; }
+        sheetArr[i] = mm;
+      }
+      return sheetArr;
+    }
+    /* Q294: the zoomed view re-simulated at the finer pixel (LIB.zoomPlan) on the frame's own pose, seat and settings; a second canvas
+       (v.hi) over the magnified image, on exactly the visible window. Not while a CINE plays (then the 1x frame is magnified). */
+    function zoomSched(v, ms) { clearTimeout(v.zt); v.zt = setTimeout(function () { zoomSim(v); }, ms == null ? 240 : ms); }
+    function hideHi(v) { if (v.hi) v.hi.style.display = "none"; v.hiOn = false; }
+    function placeHi(v, fr) {
+      if (!v.hi || !v.hiOn || !v.hiM || !v.box || !fr || v.hiM.fk !== fr.rk + "#" + fr.sig) { hideHi(v); return; }
+      var ib = v.box, pl = fr.plan, sc = ib.s / pl.px, M = v.hiM;
+      v.hi.style.display = ""; v.hi.style.left = (ib.x + (M.xa - pl.xo0) * sc) + "px"; v.hi.style.top = (ib.y + (M.ya - pl.yo0) * sc) + "px";
+      v.hi.style.width = (M.Wo * M.px * sc) + "px"; v.hi.style.height = (M.Ho * M.px * sc) + "px";
+    }
+    function zoomSim(v) {
+      var fr = frames[v.idx];
+      if (!fr || !fr.sim || !v.z || !v.z.zoomed() || contState.active || S.cine || S.zoomResim === false) { hideHi(v); return Promise.resolve(null); }
+      var r = v.wrap.getBoundingClientRect(), ib = v.box, pl = fr.plan; if (!ib || !(r.width > 4)) return Promise.resolve(null);
+      var sc = ib.s / pl.px, cx0 = Math.max(0, ib.x), cy0 = Math.max(0, ib.y), cx1 = Math.min(r.width, ib.x + ib.w), cy1 = Math.min(r.height, ib.y + ib.h);
+      var xa = pl.xo0 + (cx0 - ib.x) / sc, ya = pl.yo0 + (cy0 - ib.y) / sc, xb = pl.xo0 + (cx1 - ib.x) / sc, yb = pl.yo0 + (cy1 - ib.y) / sc;
+      var dpr = Math.min(2, window.devicePixelRatio || 1), pxS = (xb - xa) / Math.max(1, (cx1 - cx0) * dpr);
+      var px1 = Math.min(pl.px, Math.max(0.03, pxS, pl.px / v.z.k));
+      if ((xb - xa) * (yb - ya) / (px1 * px1) > 1.4e6) px1 = Math.sqrt((xb - xa) * (yb - ya) / 1.4e6);
+      var key = [fr.rk, fr.sig, xa.toFixed(2), ya.toFixed(2), xb.toFixed(2), yb.toFixed(2), px1.toFixed(4)].join("|");
+      if (v.hiKey === key && v.hiOn) { placeHi(v, fr); return Promise.resolve(v.hiM); }
+      var zp = LIB.zoomPlan(fr.geom, pl, [xa, ya, xb, yb], px1); if (!zp) { hideHi(v); return Promise.resolve(null); }
+      var gen0 = (v.hiGen = (v.hiGen || 0) + 1), t0 = Date.now(), u = fr.pf.u, vv = fr.pf.N, n = LIB.cross(u, vv);
+      var R = {key: "usz" + (++keySeq), W: zp.W, H: zp.H, O: fr.O, u: u, v: vv, n: n, u0: zp.xr0, v0: -zp.yr0, px: zp.px, smin: 0, smax: 0, s: 0, wantSid: true,
+        skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true, sheetMm: sheetMm()};
+      return sh.runSlice(R).then(function (res) {
+        if (gen0 !== v.hiGen || frames[v.idx] !== fr) return null;
+        var zf = {spec: fr.spec, pf: fr.pf, O: fr.O, geom: fr.geom, plan: zp, lab: res.lab, sid: res.sid};
+        var sim = LIB.simulate(simOpts(zf, {seat: {ysk: fr.sim.ysk, contact: fr.sim.contact}}));
+        if (!v.hi) { v.hi = el("canvas", {class: "us-hi"}); v.wrap.insertBefore(v.hi, v.ann); v.hctx = v.hi.getContext("2d"); }
+        v.hi.width = sim.Wo; v.hi.height = sim.Ho;
+        var id = v.hctx.createImageData(sim.Wo, sim.Ho), gray = LIB.toGray(sim.db, US.global.display_ref_fraction, S.gain, S.dr), d = id.data, k;
+        for (k = 0; k < sim.Wo * sim.Ho; k++) { var gg = gray[k], o = k * 4; d[o] = d[o + 1] = d[o + 2] = gg; d[o + 3] = 255; }
+        v.hctx.putImageData(id, 0, 0);
+        v.hiM = {xa: xa, ya: ya, xb: xb, yb: yb, px: px1, Wo: sim.Wo, Ho: sim.Ho, k: v.z.k, ms: Date.now() - t0, lines: zp.L1 - zp.L0 + 1, nLt: zp.nL, ds: zp.ds, fk: fr.rk + "#" + fr.sig, sim: sim, lab: res.lab, sid: res.sid, plan: zp};
+        v.hiKey = key; v.hiOn = true; placeHi(v, fr);
+        return v.hiM;
+      });
+    }
     function computeFrame(spec, q, prev) {                                    // -> Promise(frame)
       var pose = poseOf(spec), geom = curGeom(), plan = LIB.planRaster(geom, q.maxDim, {maxLines: q.maxLines});
       var fr = {spec: spec, pf: pose.pf, O: pose.O, shift: pose.shift, geom: geom, plan: plan, lab: null, sid: null, rk: rasterKey(spec, q), sim: null, ms: 0, kms: 0};
@@ -1375,7 +1637,7 @@
       else {
         var u = pose.pf.u, v = pose.pf.N, n = LIB.cross(u, v);
         var R = {key: "us" + (++keySeq), W: plan.W, H: plan.H, O: pose.O, u: u, v: v, n: n, u0: plan.xr0, v0: -plan.yr0, px: plan.px, smin: 0, smax: 0, s: 0, wantSid: true,
-          skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true};
+          skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true, sheetMm: sheetMm()};
         pr = sh.runSlice(R).then(function (r) { fr.lab = r.lab; fr.sid = r.sid; fr.kms = r.ms; });
       }
       return pr.then(function () {
@@ -1403,7 +1665,7 @@
       (function next() {
         if (my !== gen) return;
         if (k >= order.length) {
-          frames = newFrames; busy = false; perf.last = {n: specs.length, ms: Date.now() - tAll, per: newFrames.map(function (f) { return f.ms; })}; perf.hist.push(perf.last); if (perf.hist.length > 40) perf.hist.shift();
+          frames = newFrames; busy = false; if (!drag.on) livePose = null; perf.last = {n: specs.length, ms: Date.now() - tAll, per: newFrames.map(function (f) { return f.ms; })}; perf.hist.push(perf.last); if (perf.hist.length > 40) perf.hist.shift();
           setStatus(); updateOverlay(); return;
         }
         var idx = order[k++], prev = frames[idx];
@@ -1438,22 +1700,52 @@
       return pts;
     }
     function toWorld(O, pf, x, y, z) { return [O[0] + pf.u[0] * x + pf.b[0] * y + pf.e[0] * (z || 0), O[1] + pf.u[1] * x + pf.b[1] * y + pf.e[1] * (z || 0), O[2] + pf.u[2] * x + pf.b[2] * y + pf.e[2] * (z || 0)]; }
-    function probeMesh(g, O, pf, geom) {                                      // profile in the image plane, extruded along the short axis
-      var w = geom.w, thick = geom.type === "linear" ? 14 : geom.type === "convex" ? 22 : 16, h = 42, prof = [], i;
-      if (geom.type === "convex") { for (i = 0; i <= 12; i++) { var th = -geom.alpha + 2 * geom.alpha * i / 12; prof.push([geom.R * Math.sin(th), geom.R * Math.cos(th) - geom.R]); } }
-      else if (geom.type === "sector") { prof.push([-w / 2, 0], [w / 2, 0]); }
-      else prof.push([-w / 2, 0], [w / 2, 0]);
-      var bw = geom.type === "sector" ? w * 0.9 : w, top = [[bw / 2, -h], [-bw / 2, -h]];
-      var poly = prof.concat([[prof[prof.length - 1][0] * 1.0, prof[prof.length - 1][1] - 3]], top, [[prof[0][0], prof[0][1] - 3]]);
-      var n = poly.length, hz = thick / 2, A = [], B = [];
-      for (i = 0; i < n; i++) { A.push(toWorld(O, pf, poly[i][0], poly[i][1], -hz)); B.push(toWorld(O, pf, poly[i][0], poly[i][1], hz)); }
-      for (i = 0; i < n; i++) { var j = (i + 1) % n; g.tri(A[i], A[j], B[i]); g.tri(A[j], B[j], B[i]); }
-      var cA = [0, 0, 0], cB = [0, 0, 0]; for (i = 0; i < n; i++) for (var q = 0; q < 3; q++) { cA[q] += A[i][q] / n; cB[q] += B[i][q] / n; }
-      for (i = 0; i < n; i++) { var j2 = (i + 1) % n; g.tri(cA, A[i], A[j2]); g.tri(cB, B[j2], B[i]); }
+    /* Q294: a realistic transducer per type -- a lofted housing (rounded-rectangle sections) whose FACE is the type's real footprint:
+       linear = flat, the array width + a 2.5 mm rim by a 13 mm elevation; convex = the array's arc (radius R) by 20 mm; sector (phased)
+       = a small flat face (array + 4 mm rim) by 20 mm -- tapering into a grip; the orientation marker is a raised ridge on the housing's
+       marker end (image LEFT, x < 0). Typical sizes from vendor probe sheets (linear L12-5 / L18-4 ~ 38-50 mm arrays, convex C5-1 /
+       C5-2 R 40-60 mm, phased P4-2 ~ 20 mm). The face is drawn at the frame's own skin seat (y = ysk), so it sits ON the skin line the
+       image starts from -- before, the face was drawn at the placement point (y = 0) whatever the seat. */
+    function probeShape(geom) {
+      var w = geom.w, ty = geom.type, st;
+      if (ty === "convex") {
+        var half = geom.R * Math.sin(geom.alpha) + 3, rise = geom.R - Math.sqrt(Math.max(0, geom.R * geom.R - half * half));
+        st = [[0, half, 10], [rise + 5, half + 1, 12], [rise + 30, Math.max(20, half * 0.72), 14], [rise + 70, 19, 15], [rise + 125, 17, 14], [rise + 131, 14, 11]];
+        return {st: st, faceX: half, faceZ: 10, curved: true, R: geom.R};
+      }
+      if (ty === "sector") { var hs = w / 2 + 4; st = [[0, hs, 10], [8, hs + 1, 11], [35, hs, 12], [110, 14, 12], [116, 11, 9]]; return {st: st, faceX: hs, faceZ: 10, curved: false}; }
+      var hl = w / 2 + 2.5; st = [[0, hl, 6.5], [6, hl + 1, 8], [24, hl + 0.5, 9], [55, Math.max(14, hl - 5), 11], [118, 15, 12], [125, 12.5, 9.5]];
+      return {st: st, faceX: hl, faceZ: 6.5, curved: false};
     }
-    function markerMesh(g, O, pf, geom) {
-      var x = -geom.w / 2 + 2.5, c = toWorld(O, pf, x, -4, (geom.type === "linear" ? 14 : geom.type === "convex" ? 22 : 16) / 2 + 0.3), d = toWorld(O, pf, x, -9, (geom.type === "linear" ? 14 : 22) / 2 + 0.3);
-      tube(g, c, d, 1.6);
+    function ringPt(hx, hz, th) { var c = Math.cos(th), s2 = Math.sin(th); return [hx * (c < 0 ? -1 : 1) * Math.pow(Math.abs(c), 0.5), hz * (s2 < 0 ? -1 : 1) * Math.pow(Math.abs(s2), 0.5)]; }   // squircle (exponent 4)
+    function probeMesh(g, O, pf, geom, ysk) {
+      var sh2 = probeShape(geom), K = 28, rings = [], i, j, y0 = ysk || 0;
+      sh2.st.forEach(function (row, si) {
+        var ring = [];
+        for (j = 0; j < K; j++) {
+          var q = ringPt(row[1], row[2], 2 * Math.PI * j / K), y = y0 - row[0];
+          if (si === 0 && sh2.curved) { var xx = Math.max(-sh2.R, Math.min(sh2.R, q[0])); y = y0 + (Math.sqrt(sh2.R * sh2.R - xx * xx) - sh2.R); }   // the convex face follows the array's arc
+          ring.push(toWorld(O, pf, q[0], y, q[1]));
+        }
+        rings.push(ring);
+      });
+      for (i = 0; i + 1 < rings.length; i++) for (j = 0; j < K; j++) { var j2 = (j + 1) % K, A0 = rings[i][j], A1 = rings[i][j2], B0 = rings[i + 1][j], B1 = rings[i + 1][j2]; g.tri(A0, A1, B0); g.tri(A1, B1, B0); }
+      var fc = toWorld(O, pf, 0, y0, 0), top = rings[rings.length - 1], tc = toWorld(O, pf, 0, y0 - sh2.st[sh2.st.length - 1][0], 0);
+      for (j = 0; j < K; j++) { var j3 = (j + 1) % K; g.tri(fc, rings[0][j3], rings[0][j]); g.tri(tc, top[j], top[j3]); }
+      return sh2;
+    }
+    function markerMesh(g, O, pf, geom, ysk) {                               // a ridge on the marker end (image left), from 4 to 18 mm above the face
+      var sh2 = probeShape(geom), y0 = ysk || 0, x = -(sh2.curved ? sh2.faceX + 1 : sh2.st[1][1]) - 0.8, rise = sh2.curved ? sh2.st[1][0] - 5 : 0;
+      tube(g, toWorld(O, pf, x, y0 - rise - 4, 0), toWorld(O, pf, x, y0 - rise - 18, 0), 1.4);
+      tube(g, toWorld(O, pf, x + 0.4, y0 - rise - 4, -2.2), toWorld(O, pf, x + 0.4, y0 - rise - 4, 2.2), 1.0);
+    }
+    function probeInfo(vi) {                                                   // test hook: the drawn transducer vs the skin and the image
+      var fr = frames[vi == null ? S.sel : vi]; if (!fr || !fr.sim) return null;
+      var sh2 = probeShape(fr.geom), ysk = fr.sim.ysk, fc = toWorld(fr.O, fr.pf, 0, ysk, 0), b = fr.pf.b, gap = null;
+      var h = LIB.skinHit(geo, add(fc, mul(b, -40)), b, cutKeep()); if (h) gap = h.t - 40;
+      var mk = toWorld(fr.O, fr.pf, -(sh2.curved ? sh2.faceX + 1 : sh2.st[1][1]) - 0.8, ysk - 10, 0);
+      return {type: fr.geom.type, arrayW: fr.geom.w, R: fr.geom.R || null, footX: 2 * sh2.faceX, footZ: 2 * sh2.faceZ, height: sh2.st[sh2.st.length - 1][0], ysk: ysk, contact: fr.sim.contact,
+        gap: gap, face: fc, markerU: LIB.dot(sub(mk, fc), fr.pf.u), markerLeft: LIB.dot(sub(mk, fc), fr.pf.u) < 0, imageLeftX: fanOutline(fr.geom, 4)[0][0], px: fr.plan.px};
     }
     function overlayItems() {
       if (!S.open || !S.P || !frames.length) return null;
@@ -1461,8 +1753,9 @@
       var sel = frames[S.sel] || frames[0]; if (!sel) return null;
       var probeG = new Geo(), markG = new Geo(), fillG = new Geo(), lineG = new Geo(), selLine = new Geo(), axisG = new Geo();
       if (S.ab) {                                                        // Q267 (5): both probes are "live" at once, not just the selected slot
-        frames.forEach(function (fr) { if (fr) { probeMesh(probeG, fr.O, fr.pf, fr.geom); markerMesh(markG, fr.O, fr.pf, fr.geom); } });
-      } else { probeMesh(probeG, sel.O, sel.pf, sel.geom); markerMesh(markG, sel.O, sel.pf, sel.geom); }
+        frames.forEach(function (fr) { if (fr) { probeMesh(probeG, fr.O, fr.pf, fr.geom, fr.sim ? fr.sim.ysk : 0); markerMesh(markG, fr.O, fr.pf, fr.geom, fr.sim ? fr.sim.ysk : 0); } });
+      } else if (livePose) { probeMesh(probeG, livePose.O, livePose.pf, livePose.geom, 0); markerMesh(markG, livePose.O, livePose.pf, livePose.geom, 0); }   // Q294: while the probe is dragged, it follows the finger at once
+      else { probeMesh(probeG, sel.O, sel.pf, sel.geom, sel.sim ? sel.sim.ysk : 0); markerMesh(markG, sel.O, sel.pf, sel.geom, sel.sim ? sel.sim.ysk : 0); }
       frames.forEach(function (fr, i) {
         if (!fr) return;
         var out = fanOutline(fr.geom, 14).map(function (p) { return toWorld(fr.O, fr.pf, p[0], p[1] + (fr.sim ? fr.sim.ysk : 0)); }), n = out.length, j;
@@ -1492,8 +1785,8 @@
       for (k = 0; k < n; k += st) { var q = fr.sid[k]; if (q < 65534 && classOf(q) === "muscle") cnt[q] = (cnt[q] || 0) + 1; }
       return Object.keys(cnt).map(Number).sort(function (x, y) { return cnt[y] - cnt[x]; }).slice(0, maxN);
     }
-    function fibreGeo(fr, r, fibG, sepG) {
-      imageMuscles(fr, 6).forEach(function (sid) {
+    function fibreGeo(fr, r, fibG, sepG, sids, rec) {
+      (sids || imageMuscles(fr, 6)).forEach(function (sid) {
         var ar = archOf(sid), generic = !ar;
         if (generic) { if (genCache[sid] === undefined) genCache[sid] = LIB.archFrame(geo.pos, geo.vStart[sid], geo.vStart[sid + 1], {t: "fusiform", p: 0}, {prox: trunkPoint()}); ar = genCache[sid]; }
         if (!ar) return;
@@ -1503,6 +1796,7 @@
         for (i = 0; i < 5; i++) for (j = 0; j < 6; j++) {                      // a 5 x 6 grid over the mid-thickness section of the mesh frame
           var da = ar.la[0] + (ar.la[1] - ar.la[0]) * (0.12 + 0.76 * i / 4), dw = ar.lw[0] * 0.75 + (ar.lw[1] - ar.lw[0]) * 0.75 * (j + 0.5) / 6, dt = (ar.lt[0] + ar.lt[1]) / 2 + (j % 2 ? 0.25 : -0.25) * (ar.lt[1] - ar.lt[0]);
           var p0 = P(da, dw, dt), f = LIB.fibreAt(ar, p0[0], p0[1], p0[2]).slice();
+          if (rec) rec.push({sid: sid, p: p0, f: f, band: ar._band, bundle: ar._band >= 0 && ar.bands ? ar.bands[ar._band].name : ar.bundle});
           tube(fibG, [p0[0] - f[0] * L / 2, p0[1] - f[1] * L / 2, p0[2] - f[2] * L / 2], [p0[0] + f[0] * L / 2, p0[1] + f[1] * L / 2, p0[2] + f[2] * L / 2], r * 0.3);
         }
         ar.sheets.forEach(function (sh) {
@@ -1591,6 +1885,11 @@
      * UI
      * ================================================================================================== */
     var CSS = [
+      ".us-hdl{position:fixed;z-index:2147482002;display:grid;grid-template-columns:repeat(3,36px);gap:3px;padding:4px;border-radius:12px;background:rgba(14,19,26,.82);border:1px solid #2a3646;touch-action:none}",
+      ".us-hdl[hidden]{display:none}",
+      ".us-hdl button{width:36px;height:36px;padding:0;border-radius:9px;border:1px solid #39506a;background:#1b2532;color:#e6edf5;font:600 17px/1 system-ui,sans-serif;cursor:pointer}",
+      ".us-hdl button:active{background:#2b6cb0}",
+      ".us-h-tilt{display:flex;align-items:center;justify-content:center;font:600 11px system-ui,sans-serif;color:#98a6b8}",
       "#us-root{--bg:#0e131a;--panel:#161d27;--line:#2a3646;--ink:#e6edf5;--dim:#98a6b8;--acc:#6cb4ff;--warn:#ff9d8a;position:fixed;z-index:81;background:var(--bg);color:var(--ink);font:13px/1.35 system-ui,-apple-system,Segoe UI,sans-serif;display:none;flex-direction:column;min-width:0;min-height:0;box-sizing:border-box;color-scheme:dark}",
       "#us-root *{box-sizing:border-box}",
       "body.nmsk-us #us-root{display:flex}",
@@ -1630,6 +1929,7 @@
       ".us-view.us-act{border-color:var(--acc)}",
       ".us-view canvas{position:absolute;image-rendering:auto}",
       ".us-view .ann{pointer-events:none;left:0;top:0}",
+      ".us-view .us-hi{pointer-events:none;image-rendering:auto}",
       ".us-schem{position:absolute;left:6px;top:6px;width:84px;height:84px;background:rgba(10,14,20,.88);border:1px solid #2a3542;border-radius:7px;z-index:5;display:none;pointer-events:none}",
       "#us-root.ctl-off .us-ctl{display:none}",
       ".us-ctl .sec{display:contents}.us-ctl .sectabs{display:none;gap:4px;flex-wrap:wrap}.us-ctl .modrow{grid-column:1/-1}",
@@ -2047,6 +2347,11 @@
         v.ctx = v.img.getContext("2d"); v.actx = v.ann.getContext("2d");
         v.wrap = el("div", {class: "us-view", "data-i": String(i), tabindex: "0", "aria-label": "frame " + (i + 1)}, [v.img, v.ann]);
         pinchView(v);                                                    // Q290: two-finger zoom / pan of this image
+        if (G.NMSKMeasure) G.NMSKMeasure.surface(v.wrap, {name: "image " + (i + 1),      // Q294: measure in the image plane (mm), independent of the zoom
+          toMM: function (e) { var fr = frames[v.idx]; if (!fr || !fr.sim || !v.box) return null; var r = v.wrap.getBoundingClientRect(), pl = fr.plan, sc = v.box.s / pl.px;
+            return [pl.xo0 + (e.clientX - r.left - v.box.x) / sc, pl.yo0 + (e.clientY - r.top - v.box.y) / sc]; },
+          fromMM: function (q) { var fr = frames[v.idx]; if (!fr || !fr.sim || !v.box) return null; var r = v.wrap.getBoundingClientRect(), pl = fr.plan, sc = v.box.s / pl.px;
+            return [r.left + v.box.x + (q[0] - pl.xo0) * sc, r.top + v.box.y + (q[1] - pl.yo0) * sc]; }});
         v.wrap.addEventListener("click", function () { if (v.pz && v.pz.busy()) return; if (i !== S.sel) { S.sel = i; relayoutViews(); syncUi(); updateOverlay(); if (S.mode === "star") refresh(true); } });
         v.wrap.addEventListener("pointermove", function (e) { v.hover = hoverAt(v, e); });
         v.wrap.addEventListener("pointerdown", function (e) { v.hover = hoverAt(v, e); });
@@ -2063,6 +2368,7 @@
       v.z = P.view(1, 8); v.tap = P.dbl();
       function redraw() {
         if (frames[v.idx]) annotate(v, frames[v.idx]);
+        zoomSched(v);                                                     // Q294
         if (!v.chip) v.chip = P.chip(v.wrap, function () { v.z.reset(); redraw(); }, {pos: "bc", dy: 30});
         v.chip.set(v.z.k, v.z.zoomed());
       }
@@ -2135,6 +2441,7 @@
       for (k = 0; k < N; k++) { var g = gray[k], o = k * 4; d[o] = d[o + 1] = d[o + 2] = g; d[o + 3] = 255; }
       v.ctx.putImageData(v.imgData, 0, 0);
       annotate(v, fr);
+      if (v.z && v.z.zoomed()) zoomSched(v);                              // Q294: a new frame under a zoom: re-simulate the visible window
     }
     function boxOf(v, fr, cw, ch) {
       var s = Math.min(cw / fr.sim.Wo, ch / fr.sim.Ho);
@@ -2152,7 +2459,7 @@
         var x0 = Math.max(0, ib.x), y0 = Math.max(0, ib.y);
         box = {x: x0, y: y0, w: Math.min(cw, ib.x + ib.w) - x0, h: Math.min(ch, ib.y + ib.h) - y0, s: ib.s};
       }
-      v.box = ib;
+      v.box = ib; placeHi(v, fr);
       v.img.style.left = ib.x + "px"; v.img.style.top = ib.y + "px"; v.img.style.width = ib.w + "px"; v.img.style.height = ib.h + "px";
       var tiny = box.w < 200, sim = fr.sim, pl = fr.plan, g = fr.geom, sc = ib.s / pl.px;       // css px per mm
       function X(x) { return ib.x + (x - pl.xo0) * sc; }
@@ -2526,7 +2833,10 @@
         if (ui2.toast) ui2.toast.hidden = true;
         syncUi(); ctx = null;
       }
-      return {title: "US אבחנתי", short: "US", build: build, enter: enter, exit: exit, refresh: refreshUi};
+      /* Q294: Reset (the page-wide history's button) -- the image controls back to their defaults, frequency / depth to the probe's
+         defaults, every image back to 1:1; the probe stays where it is (the image would otherwise be lost) */
+      function resetMode() { S.mTilt = 0; var pr = US && US.probes[S.probe]; if (pr) { if (pr.freq_default) S.freq = pr.freq_default; if (pr.depth_default_cm) S.depthCm = pr.depth_default_cm; } views.forEach(function (v) { if (v.z && v.z.zoomed()) { v.z.reset(); if (v.zoomRedraw) v.zoomRedraw(); } hideHi(v); }); if (S.cine) setCine(false); resetDefaults(); }
+      return {title: "US אבחנתי", short: "US", build: build, enter: enter, exit: exit, refresh: refreshUi, reset: resetMode};
     }
     if (G.NMSKModes && G.NMSKModes.register) { try { G.NMSKModes.register("us", usMode()); } catch (eM) { console.error("US mode failed to register:", eM); } }
     G.NMSKUltrasound = {
@@ -2549,6 +2859,68 @@
       geo: function () { return geo; }, C: function () { return C; }, table: function () { return US; }, AC: function () { return AC; },
       idle: function () { return new Promise(function (res) { var t0 = Date.now(), t = setInterval(function () { if (!busy && !pumpPending && frames.length && Date.now() - t0 > 150) { clearInterval(t); res(true); } if (Date.now() - t0 > 120000) { clearInterval(t); res(false); } }, 60); }); },
       frames: function () { return frames; }, views: function () { return views; }, perf: function () { return perf; },
+      /* Q294 test hooks: the zoom re-simulation and the depth profile of an image column (dB), at 1x (the frame) or in the zoom window */
+      zoomNow: function (vi) { var v = views[vi == null ? S.sel : vi]; if (!v) return Promise.resolve(null); clearTimeout(v.zt); v.hiKey = null;
+        return zoomSim(v).then(function (M) { return M ? {px: M.px, win: [M.xa, M.ya, M.xb, M.yb], Wo: M.Wo, Ho: M.Ho, k: M.k, ms: M.ms, lines: M.lines, nLt: M.nLt, ds: M.ds, basePx: frames[v.idx].plan.px} : null; }); },
+      zoomTo: function (vi, k, cxFrac, cyFrac) { var v = views[vi == null ? S.sel : vi]; if (!v || !v.z) return false; var r = v.wrap.getBoundingClientRect();
+        v.z.reset(); v.z.about(r.width * cxFrac, r.height * cyFrac, k); if (v.zoomRedraw) v.zoomRedraw(); return v.z.k; },
+      profile: function (vi, xmm, which) {
+        var v = views[vi == null ? S.sel : vi], fr = v && frames[v.idx]; if (!fr || !fr.sim) return null;
+        var hi = which === "zoom", M = v.hiM, sim = hi ? (M && v.hiOn ? M.sim : null) : fr.sim, pl = hi ? (M && M.plan) : fr.plan; if (!sim) return null;
+        var sid = hi ? M.sid : fr.sid, rp = pl, ox = Math.floor((xmm - pl.xo0) / pl.px); if (ox < 0 || ox >= sim.Wo) return null;
+        var out = {px: pl.px, y0: pl.yo0, db: [], sheet: []}, oy;
+        for (oy = 0; oy < sim.Ho; oy++) {
+          out.db.push(Math.round(sim.db[oy * sim.Wo + ox] * 100) / 100);
+          var Y = pl.yo0 + (oy + 0.5) * pl.px, jx = Math.floor((xmm - rp.xr0) / rp.px), jy = Math.floor((Y - rp.yr0) / rp.px), q = -1;
+          if (sid && jx >= 0 && jy >= 0 && jx < rp.W && jy < rp.H) { var st = sid[jy * rp.W + jx]; if (st < 65534 && geo.render && geo.render[st] === 1) q = st; }
+          out.sheet.push(q);
+        }
+        return out;
+      },
+      sheetMm: function (st) { var a = sheetMm(); return a && st != null ? a[st] : null; },
+      /* Q294 test hooks: the sheet under an image point (its local surface normal from the mesh -> the expected drawn thickness),
+         the transducer as drawn, the probe pad, the bundles of a muscle and the 3-D fibre lines */
+      sheetAt: function (vi, xmm, ymm, st) {
+        var fr = frames[vi == null ? S.sel : vi]; if (!fr || st == null || st < 0) return null;
+        var X = add(add(fr.O, mul(fr.pf.u, xmm)), mul(fr.pf.b, ymm)), n = LIB.cross(fr.pf.u, fr.pf.N), t0 = geo.tStart[st], t1 = geo.tStart[st + 1], P = geo.pos, I = geo.idx, acc = [0, 0, 0], ref = null, cnt = 0, k;
+        var tmm = sheetMm()[st];
+        var best = 1e9, cand = [];
+        for (k = t0; k < t1; k++) {                                          // the triangles the image point lies on (point-to-triangle distance), not just near by centroid
+          var a = 3 * I[3 * k], b = 3 * I[3 * k + 1], c = 3 * I[3 * k + 2], A0 = [P[a], P[a + 1], P[a + 2]], e1 = [P[b] - P[a], P[b + 1] - P[a + 1], P[b + 2] - P[a + 2]], e2 = [P[c] - P[a], P[c + 1] - P[a + 1], P[c + 2] - P[a + 2]];
+          var nn = LIB.cross(e1, e2), l = len(nn); if (!(l > 0)) continue; nn = mul(nn, 1 / l);
+          var w = sub(X, A0), dpl = LIB.dot(w, nn); if (Math.abs(dpl) > 3) continue;
+          var q = sub(w, mul(nn, dpl)), d11 = LIB.dot(e1, e1), d12 = LIB.dot(e1, e2), d22 = LIB.dot(e2, e2), q1 = LIB.dot(q, e1), q2 = LIB.dot(q, e2), den = d11 * d22 - d12 * d12; if (!(den > 0)) continue;
+          var bu = (d22 * q1 - d12 * q2) / den, bv = (d11 * q2 - d12 * q1) / den, out = Math.max(0, -bu) + Math.max(0, -bv) + Math.max(0, bu + bv - 1), dist = Math.abs(dpl) + out * Math.sqrt(Math.max(d11, d22));
+          if (dist < 3) cand.push([dist, nn]); if (dist < best) best = dist;
+        }
+        cand.forEach(function (cq) { if (cq[0] > best + 1.0) return; var nn2 = cq[1]; if (!ref) ref = nn2; if (LIB.dot(nn2, ref) < 0) nn2 = mul(nn2, -1); acc = add(acc, nn2); cnt++; });
+        if (!cnt) return null;
+        var m = LIB.unit(acc), mn = Math.abs(LIB.dot(m, n)), f = Math.min(3, 1 / Math.sqrt(Math.max(1e-6, 1 - mn * mn))), mb = Math.abs(LIB.dot(m, fr.pf.b));
+        var mp = LIB.unit(sub(m, mul(n, LIB.dot(m, n))));
+        return {st: st, name: geo.names[st], t: tmm, m: m, tris: cnt, dist: best, obl: Math.acos(Math.min(1, Math.sqrt(Math.max(0, 1 - mn * mn)))) / DEG, inPlane: tmm * f, alongBeam: tmm * f / Math.max(1e-3, Math.abs(LIB.dot(mp, fr.pf.b))), mb: mb};
+      },
+      probeInfo: function (vi) { return probeInfo(vi); },
+      skinAt: function (x, y) { var r = api.ray({clientX: x, clientY: y}), h = r && LIB.skinHit(geo, r.o, LIB.unit(r.d), cutKeep()); return h ? h.point : null; },
+      handles: function () { placeHandles(); var h = document.getElementById("us-hdl"), tip = probeTip(), grip = probeGrip(); return {shown: !!h && !h.hidden, tip: tip, grip: grip, tilt: S.mTilt, dir: S.mTiltDir, rot: S.rot, dragging: drag.on, moves: drag.moved}; },
+      bundles: function (re) {
+        var rx = new RegExp(re, "i"), out = [], i;
+        for (i = 0; i < geo.n; i++) {
+          var id = String((geo.recs[i] && geo.recs[i].id) || ""); if (!rx.test(id) || classOf(i) !== "muscle") continue;
+          var a = archOf(i); if (!a) { out.push({sid: i, id: id, generic: true}); continue; }
+          if (a.bands) a.bands.forEach(function (b, j) { out.push({sid: i, id: id, band: j, name: b.name, a: b.a || a.a, pDeg: b.p / DEG, n: b.n, f0: b.f0, f1: b.f1, src: b.src}); });
+          else out.push({sid: i, id: id, band: -1, name: a.bundle || a.key, a: a.a, pDeg: a.p / DEG, kind: a.kind, key: a.key, src: a.src});
+        }
+        return out;
+      },
+      fibreLines: function (sids) { var rec = [], g1 = new Geo(), g2 = new Geo(); fibreGeo(frames[S.sel] || frames[0] || null, 1, g1, g2, sids, rec); return rec; },
+      bandCentre: function (sid, band) {                                   // a mesh point inside one bundle (its slab's vertex mean) -- for the fibre checks
+        var a = archOf(sid); if (!a) return null; var v0 = geo.vStart[sid], v1 = geo.vStart[sid + 1], P = geo.pos, c = [0, 0, 0], n = 0, k;
+        for (k = v0; k < v1; k++) {
+          if (band >= 0 && a.bands) { var b = a.bands[band], bx = a.bax || a.w, lb = a.lb || a.lw, q = ((P[3 * k] - a.c[0]) * bx[0] + (P[3 * k + 1] - a.c[1]) * bx[1] + (P[3 * k + 2] - a.c[2]) * bx[2] - lb[0]) / ((lb[1] - lb[0]) || 1); if (q < b.f0 + 0.03 || q > b.f1 - 0.03) continue; }
+          c[0] += P[3 * k]; c[1] += P[3 * k + 1]; c[2] += P[3 * k + 2]; n++;
+        }
+        return n ? mul(c, 1 / n) : null;
+      },
       cineStatus: function () { return {active: contState.active, pos: contState.pos, dir: contState.dir, measMs: contState.measMs, fpsActual: contState.fpsActual}; },
       /* one-off frame for tests / timing: spec {tilt, dir, off, rot, maxDim} -> Promise(frame) */
       frameNow: function (spec, q) { return loadTable().then(function () { return computeFrame(Object.assign({id: 0, tilt: 0, dir: 0, off: 0, label: "test"}, spec), q || {maxDim: 480, maxLines: 256}, null); }); },

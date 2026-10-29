@@ -2292,7 +2292,15 @@ function injectionMode(tool, api) {
     if (!wasActive && tool.active) tool.toggle(false);
     ctx = null;
   }
-  return {title: "תכנון הזרקה", short: "הזרקה", build: build, enter: enter, exit: exit};
+  /* Q294: Reset (the page-wide history's button) -- back to the start of this mode without leaving it: posture to rest, the path,
+     the suggestions and the plan cleared, the target picker reopened (saved injection points are kept: they are the user's record) */
+  function reset() {
+    closePop();
+    if (posture !== "off") { try { tool.applyPosture("rest", "r"); } catch (e) {} posture = "off"; }
+    tool.clearSuggestions(); tool.clear(); tool.planRelease();
+    try { refresh(); } catch (e2) {}
+  }
+  return {title: "תכנון הזרקה", short: "הזרקה", build: build, enter: enter, exit: exit, reset: reset};
 }
 
 /* ---------- facade for the host page and for test harnesses ---------- */

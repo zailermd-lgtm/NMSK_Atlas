@@ -126,8 +126,43 @@ function NMSKSelect(E){
     if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(md === "only")); tbOnly.hidden = !n; tbOnly.textContent = md === "only" ? "Show all" : "Only marked";
       tbOnly.title = md === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
     if (tbInv){ tbInv.setAttribute("aria-pressed", String(!!inv)); tbInv.hidden = !n; }
-    if (undoEl) undoEl.disabled = !undoStack.length;
+    var H = histOn();
+    if (undoEl) undoEl.disabled = H ? !H.canUndo() : !undoStack.length;
+    var rEl = $("sel-redo"); if (rEl) rEl.disabled = H ? !H.canRedo() : true;
+    /* Q294: the at-a-glance summary -- how each group is drawn right now, in words */
+    var ls = $("ss-look-sel"), lo = $("ss-look-oth"), all = $("ss-q-all");
+    if (ls){ ls.textContent = n ? LOOKW[ss] : "\u2013"; ls.setAttribute("data-s", n ? ss : ""); }
+    if (lo){ lo.textContent = n ? LOOKW[os] : "shown"; lo.setAttribute("data-s", n ? os : "show"); }
+    if (all){ all.disabled = !n; all.setAttribute("aria-pressed", String(ss === "show" && os === "show")); }
+    var ft = document.querySelectorAll("#ss-fadetaps [data-fa]");
+    for (var fi = 0; fi < ft.length; fi++) ft[fi].setAttribute("aria-pressed", String(Math.round(fade * 100) === +ft[fi].getAttribute("data-fa")));
+    scene();
     if (document.body && document.body.classList) document.body.classList.toggle("ss-marking", markMode);
+  }
+  var LOOKW = {show:"shown", fade:"faded", hide:"hidden", ghost:"ghosted", xray:"x-ray", hl:"highlighted"};
+  function histOn(){ return (typeof window !== "undefined" && window.NMSKHistory && window.NMSKHistory.active && window.NMSKHistory.active()) ? window.NMSKHistory : null; }
+  /* Q294: what the scene draws now (engine adaptor E.stats() -> {shown, hidden, faded}, optional) */
+  function scene(){
+    var e = $("ss-scene"); if (!e || !E.stats) return;
+    var t = null; try { t = E.stats(); } catch (err){ t = null; }
+    e.textContent = t ? "On screen: " + t.shown + " shown \u00b7 " + t.hidden + " hidden" + (t.faded ? " \u00b7 " + t.faded + " faded" : "") : "";
+  }
+  function showAll(){
+    if (!marks.length){ say("Mark at least one structure first."); return; }
+    if (ss === "show" && os === "show") return;
+    beginChange(); ss = os = "show"; ghostPref = false; say("Everything drawn normally (the marks stay)."); changed();
+  }
+  /* Q294: the full state for the page-wide undo / redo (NMSKHistory) */
+  function snapshot(){ return {marks:marks.slice(), inv:inv ? baseIds() : null, ss:ss, os:os, fade:Math.round(fade * 1000) / 1000, hl:hl, tint:tintOn, ghost:ghostPref, markMode:markMode}; }
+  function restore(o){
+    if (!o) return;
+    marks = []; set = {};
+    (o.marks || []).forEach(function(id){ if (has(id) && set[id] !== 1){ set[id] = 1; marks.push(id); } });
+    inv = null; if (o.inv && marks.length){ inv = {}; o.inv.forEach(function(id){ inv[id] = 1; }); }
+    ss = STATES[o.ss] ? o.ss : "show"; os = STATES[o.os] && o.os !== "hl" ? o.os : "show";
+    if (typeof o.fade === "number") fade = o.fade; if (typeof o.hl === "string") hl = o.hl; tintOn = o.tint !== false; ghostPref = !!o.ghost; markMode = !!o.markMode;
+    if (modeOf() === "only" && E.reveal) E.reveal(marks);
+    changed();
   }
   function changed(){
     fixStates(); renderChips(); syncButtons(); ui(); persistLast(); E.refresh();
@@ -452,7 +487,10 @@ function NMSKSelect(E){
   if (tintEl) tintEl.addEventListener("change", function(){ setTint(tintEl.checked); });
   bind("sel-markmode", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
   bind("sel-reset", resetAll);
-  bind("sel-undo", undo);
+  bind("sel-undo", function(){ var H = histOn(); if (H) H.undo(); else undo(); });
+  bind("sel-redo", function(){ var H = histOn(); if (H) H.redo(); });
+  bind("ss-q-all", showAll);
+  Array.prototype.forEach.call(document.querySelectorAll("#ss-fadetaps [data-fa]"), function(b){ b.addEventListener("click", function(){ setFade(+b.getAttribute("data-fa") / 100); }); });
   bind("sel-save", function(){ save(); });
   bind("sel-load", function(){ load(); });
   bind("sel-del", function(){ del(); });
@@ -507,6 +545,7 @@ function NMSKSelect(E){
      right up until it runs), and never while typing in a field */
   function onUndoKey(e){
     if (!(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey || e.repeat || String(e.key || "").toLowerCase() !== "z") return;
+    if (histOn()) return;                                  // Q294: the page-wide history owns Ctrl/Cmd+Z
     var t = e.target, tag = t && t.tagName;
     if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
     e.preventDefault(); e.stopImmediatePropagation(); undo();
@@ -524,6 +563,7 @@ function NMSKSelect(E){
   if (remEl) remEl.checked = data.remember;
   if (stored && stored.tint === false) tintOn = false;
   layout(); fillCats(); listSets(); renderChips(); ui();
+  if (E.stats && typeof setInterval !== "undefined") setInterval(function(){ if (sec && sec.offsetParent !== null) scene(); }, 1500);   // Q294: layers / card hide change the scene too
   var restored = "";
   try {
     var ph = parseHash(location.hash);
@@ -542,6 +582,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
+    snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
     state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }

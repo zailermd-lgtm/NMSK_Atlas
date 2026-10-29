@@ -100,7 +100,7 @@ def test_kernel_is_finite_darker_and_not_slower_across_1_to_18_mhz():
 def test_speckle_floor_and_kernel_caps_in_source():
     src = TOOL.read_text(encoding="utf-8")
     assert "cellAx = Math.max(GL.speckle.cell_ax_wavelengths * lam, 2 * ds)" in src
-    assert "Math.min(16, Math.ceil(sa * 2.5))" in src and "Math.min(28, Math.ceil(sl * 2.5))" in src
+    assert "Math.min(pl.capA || 16, Math.ceil(sa * 2.5))" in src and "Math.min(pl.capL || 28, Math.ceil(sl * 2.5))" in src   # Q294: 16 / 28 at 1x; a zoom plan scales them to the same extent in mm
     assert "q291_floor" in US["global"]["speckle"]
 
 

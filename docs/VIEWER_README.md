@@ -259,3 +259,57 @@ and in the full-screen CINE view's ⋯ sheet. It works while CINE plays.
 - **Fingers on the Combined pages** were re-articulated in Q293 (each finger bone sits on its parent's joint; Combined ·
   Male's right index finger lies on his own CT index finger); posing the fingers keeps the joints closed.
 - Audit of every muscle's attachments, nerves and simulated directions: `docs/research/Q293_muscle_attachment_action_audit.md` (Hebrew).
+
+## Undo / redo, reset, measuring, part slices, less text (Q294)
+
+All of this works the same on the three.js pages (Imaging M / F, Base F) and the Z-Anatomy pages (Base M, Combined M / F),
+on a desktop and on a phone.
+
+- **Undo / Redo (60 steps):** the round buttons at the 3-D view's bottom-right corner (and in a workspace mode's bar), or
+  Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z or Ctrl+Y. Every change you make is one step: marks, hide / show, display and opacity, the
+  selection, Cut mode and the cross-section stack, part slices, measurements and the mode's settings. Moving the camera
+  is not a step (Reset view brings it back).
+- **Reset (⟲ beside them):** puts everything in the current module back to its start without leaving it -- Undo brings it
+  back.
+- **Marked / Display:** the top of the Marked-structures section now says in one line what is marked and how the marked
+  and the other structures are drawn, plus a count of what is shown, hidden and faded in the scene. One tap each:
+  Everything, Only marked, Fade others, Highlight, Hide marked, Fade marked. The per-group settings and "Mark more" are
+  folded underneath.
+- **Slices of one part:** the "Slices" button opens a short panel: choose a part (a finger, the forearm, the marked
+  structures or the open card), the slice thickness, the interval along the part's own long axis, and a display-only
+  spread (×1-×5). The spread only moves the drawn slices apart; the true positions and every measurement stay where they
+  are. Example: the index finger, 1 mm every 10 mm.
+- **Abbreviations and help text:** hover (mouse) or tap a short label to see its full name in a small popup. Explanations in
+  the panels sit behind small "i" buttons; status lines stay visible.
+- **Measure:** the ruler button (toolbar, or the small ruler on each CT / MRI / ultrasound pane) opens Distance, 3-point
+  angle, Angle between two lines and Cobb angle. Tap the points on the 3-D model or on a 2-D pane; the result is a small chip
+  (mm or degrees, in that pane's own millimetres). Measurements can be undone and cleared.
+
+### Ultrasound: sheets at their true thickness, re-simulated zoom, probe handling, per-bundle fibres (Q294)
+
+- **Why fascia looked too thick when zoomed (root cause):** a thin sheet (fascia, septum, aponeurosis, retinaculum,
+  capsule, dura) was drawn into the simulated image ONE raster pixel wide. Its thickness in millimetres therefore followed
+  the pixel -- the depth setting, the quality tier (the live CINE tier is coarser) -- and the Q290 zoom only magnified
+  those pixels (4× zoom = a 4× thicker band). Now every sheet is drawn at its typical physical thickness
+  (`clinical/data/ultrasound_tissues.json`, `sheet_thickness`: deep limb fascia 0.9 mm -- crural fascia 924 µm, Stecco
+  2009, PMID 19242635; fascia lata / iliotibial band 1.0 mm; thoracolumbar fascia 1.0 mm, Langevin 2009, PMID 19958536;
+  plantar fascia 3.0 mm; dura 0.5 mm, rule-based) as a disc swept along the sheet, so the band is the same in every
+  direction. The only widening is the real one: a sheet cut obliquely is wider in the image by 1 / cos of the angle
+  between its surface and the image plane (capped at 3×).
+- **Zoom:** a zoomed ultrasound image is re-simulated for the visible window at the finer pixel (the panel, the US mode
+  and the full-screen split), so the sheet stays its thickness in mm instead of growing.
+- **Placing the probe:** grab the probe on the 3-D view and drag it; it slides over the skin with its axis on the skin
+  normal, and the image follows. No "Place on skin" step is needed (that button still works for a jump). A small pad
+  beside the probe rotates it 15° (⟲ ⟳) and tilts it 5° per tap toward the marker / away, heel / toe (◀ ▶ ▲ ▼); ⊙ puts it
+  upright. The tilt now also applies in the tilt-star mode (the star is taken around the tilted probe). In the US mode on a
+  phone the 3-D view is a thumbnail: one tap on its skin moves the probe, and ⛶ (full-screen split) gives the large view
+  with the drag and the pad.
+- **The transducer:** each type has its own shape: linear (flat face, array + 2.5 mm rim by 13 mm), convex (curved face on
+  the array's radius, 20 mm deep), sector / phased (small flat face). The face sits exactly on the skin line where the image
+  starts; a ridge on the housing marks the marker end (image left).
+- **Fibres per bundle:** deltoid (clavicular / acromial / spinal parts), pectoralis major (clavicular / sternocostal /
+  abdominal heads), trapezius (descending / transverse / ascending parts) and rectus femoris (straight and reflected heads)
+  each have their own fibre axis and their own cited pennation, in the image and in the 3-D fibre lines. The axis runs
+  from the bundle's placed origin marker to its insertion marker where those exist; otherwise from the bundle's origin side
+  to the muscle's insertion side (rule-based, stated in the badge). On the Z-Anatomy pages each part mesh is its own
+  bundle.

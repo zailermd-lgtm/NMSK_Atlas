@@ -706,7 +706,7 @@ function NMSKLabels(E){
       if (d.mode === "out"){ e.x += (tx - e.x) * kf; e.y += (ty - e.y) * kf; if (Math.abs(tx - e.x) > 0.4 || Math.abs(ty - e.y) > 0.4) anim = true; else { e.x = tx; e.y = ty; } }
       else { e.x = tx; e.y = ty; }
       var col = textColour(l.it.rgb), isSel = sel != null && l.it.i === idx[sel], hv = hotId === id || hoverId === id;
-      if (e.text !== l.text){ e.t.textContent = l.text; e.text = l.text; }
+      if (e.text !== l.text){ e.t.textContent = l.text; e.text = l.text; var fl = full[l.it.i]; if (fl && fl !== l.text) e.t.setAttribute("data-full", fl); else e.t.removeAttribute("data-full"); }   // Q294: a short label carries its full name (hover / tap popup)
       if (e.col !== col){ e.t.setAttribute("fill", col); e.lead2.setAttribute("stroke", col); e.dot.setAttribute("fill", col); e.col = col; }
       var cls = "lb-t" + (isSel ? " lb-sel" : "") + (hv ? " lb-hot" : "") + (l.it.kind === "hid" ? " lb-hid" : "") + (gen[l.it.i] ? " lb-gen" : "");
       if (e.cls !== cls){ e.t.setAttribute("class", cls); e.cls = cls; e.dot.setAttribute("class", "lb-dot" + (l.it.kind === "hid" ? " lb-hid" : "")); e.lead2.setAttribute("class", "lb-lead" + (l.it.kind === "hid" ? " lb-hid" : "")); e.lead.setAttribute("class", "lb-lead lb-bg"); e.cls = cls; }

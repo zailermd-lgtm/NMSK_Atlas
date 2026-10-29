@@ -1,0 +1,64 @@
+/* Q294: undo / redo / reset buttons, the measure bar and overlay, the slices panel, the abbreviation popup, the "i" tips.
+   Neutral floating surfaces (dark glass, like the Q290 zoom chip) so they read the same on both engines and both themes. */
+.hist-b{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding-left:6px!important;padding-right:6px!important}
+.hist-b svg{display:block}
+.hist-b:disabled{opacity:.38;cursor:default}
+.hist-msg{position:fixed;z-index:2147482005;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));max-width:min(420px,calc(100vw - 24px));
+  padding:6px 12px;border-radius:999px;background:rgba(20,24,30,.88);color:#fff;font:500 12.5px/1.3 system-ui,-apple-system,sans-serif;pointer-events:none;text-align:center}
+.hist-msg[hidden]{display:none}
+.ms-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2147481990;pointer-events:none;overflow:visible;display:none}
+.ms-svg .ms-l{stroke:#ffd23f;stroke-width:2;fill:none}
+.ms-svg .ms-perp{stroke:#ffd23f;stroke-width:1;stroke-dasharray:3 3;opacity:.75}
+.ms-svg .ms-pend{stroke:#7fe0ff}
+.ms-svg .ms-pt{fill:#ffd23f;stroke:#000;stroke-width:1}
+.ms-svg .ms-pt.ms-pend{fill:#7fe0ff}
+.ms-svg .ms-chip rect{fill:rgba(20,24,30,.86);stroke:rgba(255,210,63,.8);stroke-width:1}
+.ms-svg .ms-chip text{fill:#fff;font:600 12px system-ui,-apple-system,sans-serif}
+.ms-bar,.xsp{position:fixed;z-index:2147481995;background:rgba(18,23,29,.95);color:#eef3f7;border:1px solid rgba(255,255,255,.14);border-radius:12px;
+  box-shadow:0 4px 18px rgba(0,0,0,.35);font:500 12.5px/1.3 system-ui,-apple-system,sans-serif}
+.ms-bar{left:50%;transform:translateX(-50%);top:calc(54px + env(safe-area-inset-top,0px));padding:6px;max-width:calc(100vw - 16px);width:max-content}
+.ms-bar[hidden],.xsp[hidden]{display:none}
+.ms-row,.xsp-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.ms-bar button,.xsp button,.xsp select,.xsp input{font:inherit;color:inherit;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;min-height:34px;padding:4px 9px;cursor:pointer}
+.ms-bar button[aria-pressed="true"],.xsp button[aria-pressed="true"]{background:#ffd23f;color:#141414;border-color:#ffd23f}
+.ms-bar button:disabled,.xsp button:disabled{opacity:.4;cursor:default}
+.ms-msg{margin:5px 2px 0;font-size:12px;color:#bcd0df;min-height:0}
+.ms-msg:empty{display:none}
+.ms-res{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.ms-res:empty{display:none}
+.ms-r{display:inline-flex;align-items:center;gap:2px;padding:2px 2px 2px 9px;border-radius:999px;background:rgba(255,210,63,.16);border:1px solid rgba(255,210,63,.5);font-weight:600}
+.ms-r button{min-height:24px!important;padding:0 7px!important;border-radius:999px!important;border:0!important;background:transparent!important}
+body.ms-armed canvas{cursor:crosshair}
+.xsp{right:8px;top:calc(54px + env(safe-area-inset-top,0px));width:min(330px,calc(100vw - 16px));padding:8px;display:flex;flex-direction:column;gap:6px}
+.xsp-head{display:flex;gap:6px;align-items:center}
+.xsp-head select{flex:1 1 auto;min-width:0;max-width:100%}
+.xsp-l{width:46px;color:#9fb3c4;font-size:11.5px}
+.xsp-seg{display:inline-flex;flex-wrap:wrap;gap:3px}
+.xsp-seg button{min-width:38px;padding:4px 7px}
+.xsp input{width:64px;cursor:text}
+.xsp-info{margin:0;color:#bcd0df;font-size:12px}
+.xsp-info:empty{display:none}
+.xsp .nmsk-tip{margin:0;font-size:11.5px;color:#9fb3c4}
+.abbr-pop{position:fixed;z-index:2147482020;padding:5px 9px;border-radius:8px;background:rgba(20,24,30,.94);color:#fff;border:1px solid rgba(255,255,255,.25);
+  font:500 12.5px/1.35 system-ui,-apple-system,sans-serif;pointer-events:none;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.abbr-pop[hidden]{display:none}
+[data-full]{cursor:help}
+.tip-i{display:inline-flex!important;align-items:center;justify-content:center;width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;padding:0!important;margin:2px 0!important;
+  border-radius:50%!important;border:1px solid currentColor!important;background:transparent!important;color:inherit;opacity:.6;font:italic 700 12px/1 Georgia,serif!important;cursor:pointer;vertical-align:middle;flex:0 0 auto}
+.tip-i[aria-expanded="true"]{opacity:1}
+.tip-txt:not(.tip-open){display:none!important}
+@media (hover:none){.tip-i{width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important}}
+@media (max-width:560px){.xsp{left:8px;right:8px;width:auto}.ms-bar{left:8px;right:8px;transform:none;width:auto}}
+.hist-bar{position:fixed;z-index:2147481980;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:4px;padding:4px;border-radius:12px;
+  background:rgba(18,23,29,.82);border:1px solid rgba(255,255,255,.14);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.hist-bar .hist-fb{width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;padding:0!important;touch-action:manipulation}
+.hist-bar .hist-fb:hover:not(:disabled){background:rgba(255,255,255,.16)}
+body.mode-on .hist-bar{display:none}
+#mb-end .hist-b{display:inline-flex!important;width:36px;height:36px;padding:0!important;border-radius:50%;justify-content:center}
+/* the toolbars wrap instead of running off the left edge (two more buttons; a narrow 3-D stage in the Split layout) */
+#app:not(.phone) #tools{left:12px;flex-wrap:wrap;justify-content:flex-end}
+@media (min-width:901px){#topright{flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 240px)}}
+.ms-pane-b{position:absolute;z-index:6;right:4px;bottom:22px;width:30px;height:30px;padding:0;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(18,23,29,.7);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;opacity:.75}
+.ms-pane-b:hover{opacity:1}
+@media (hover:none){.ms-pane-b{width:36px;height:36px}}

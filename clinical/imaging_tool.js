@@ -55,7 +55,8 @@
     }
 
     /* ---- segments of one structure at plane offset s (pixel coordinates); returns the count ---- */
-    function collect(st, s) {
+    var segF = new Float32Array(1 << 14), curPx = 1;
+    function collect(st, s, wantF) {                                       // wantF (Q294, sheets): segF[k] = 1 / sqrt(1 - (m.n)^2) of segment k's triangle -- how much an oblique cut widens a sheet of normal m
       var g = Gm, idx = g.idx, t0 = g.tStart[st], t1 = g.tStart[st + 1], vo = vOff[st] - g.vStart[st], ns = 0, t;
       for (t = t0; t < t1; t++) {
         var a = idx[3 * t] + vo, b = idx[3 * t + 1] + vo, c = idx[3 * t + 2] + vo;
@@ -68,6 +69,13 @@
         var o = ns * 4;
         segs[o] = VX[p] + t1_ * (VX[q] - VX[p]); segs[o + 1] = VY[p] + t1_ * (VY[q] - VY[p]);
         segs[o + 2] = VX[p] + t2_ * (VX[r] - VX[p]); segs[o + 3] = VY[p] + t2_ * (VY[r] - VY[p]);
+        if (wantF) {
+          if (ns >= segF.length) { var nf = new Float32Array(segF.length * 2); nf.set(segF); segF = nf; }
+          var e1x = (VX[b] - VX[a]) * curPx, e1y = (VY[b] - VY[a]) * curPx, e1d = VD[b] - VD[a], e2x = (VX[c] - VX[a]) * curPx, e2y = (VY[c] - VY[a]) * curPx, e2d = VD[c] - VD[a];
+          var cx_ = e1y * e2d - e1d * e2y, cy_ = e1d * e2x - e1x * e2d, cd_ = e1x * e2y - e1y * e2x, cl_ = Math.sqrt(cx_ * cx_ + cy_ * cy_ + cd_ * cd_);
+          var mn = cl_ > 0 ? Math.abs(cd_) / cl_ : 0;
+          segF[ns] = Math.min(3, 1 / Math.sqrt(Math.max(1e-6, 1 - mn * mn)));
+        }
         ns++;
       }
       triCount += t1 - t0;
@@ -157,7 +165,8 @@
       m.fill(1, j * W + i0, j * W + i1 + 1);
       if (i0 < bx0) bx0 = i0; if (i1 > bx1) bx1 = i1; if (j < by0) by0 = j; if (j > by1) by1 = j;
     }
-    function drawLabel(ns, W, H, lab, sid, cls, st, ss) {                   // a sheet is drawn one IMAGE pixel wide (ss x ss sub-pixels per point), positioned to 1/ss pixel
+    function drawLabel(ns, W, H, lab, sid, cls, st, ss, wpx) {              // a sheet is drawn one IMAGE pixel wide (ss x ss sub-pixels per point), positioned to 1/ss pixel
+      if (wpx > 0) return drawSheet(ns, W, H, lab, sid, cls, st, ss, wpx);
       var h = ss >> 1;
       for (var k = 0; k < ns; k++) {
         var x0 = segs[4 * k], y0 = segs[4 * k + 1], x1 = segs[4 * k + 2], y1 = segs[4 * k + 3];
@@ -165,6 +174,20 @@
         for (q = 0; q <= n; q++) {
           var f = n ? q / n : 0, xi = Math.floor(x0 + (x1 - x0) * f) - h, yi = Math.floor(y0 + (y1 - y0) * f) - h;
           for (b = 0; b < ss; b++) for (a = 0; a < ss; a++) { var xx = xi + a, yy = yi + b; if (xx >= 0 && xx < W && yy >= 0 && yy < H) { lab[yy * W + xx] = cls; if (sid) sid[yy * W + xx] = st; } }
+        }
+      }
+    }
+    /* Q294: a sheet at its PHYSICAL thickness: a disc of diameter t / px (sub-pixels) swept along every segment -- a band exactly t mm
+       across in any direction (a square block was sqrt(2) wider on a diagonal), widened per segment by segF = 1 / cos of the cut's
+       obliquity (the true width of an obliquely cut sheet in the image plane; capped at 3 where the plane runs nearly along the sheet).
+       Never thinner than one image pixel (ss sub-pixels), so a sheet never vanishes at a coarse pixel. */
+    function drawSheet(ns, W, H, lab, sid, cls, st, ss, wpx) {
+      for (var k = 0; k < ns; k++) {
+        var x0 = segs[4 * k], y0 = segs[4 * k + 1], x1 = segs[4 * k + 2], y1 = segs[4 * k + 3];
+        var d = Math.max(ss, wpx * segF[k]), r = d / 2, r2 = r * r, len = Math.hypot(x1 - x0, y1 - y0), n = Math.max(1, Math.ceil(len / Math.max(0.35, Math.min(1, r * 0.5)))), q, xx, yy;
+        for (q = 0; q <= n; q++) {
+          var f = q / n, cx = x0 + (x1 - x0) * f, cy = y0 + (y1 - y0) * f, xa = Math.max(0, Math.ceil(cx - r - 0.5)), xb = Math.min(W - 1, Math.floor(cx + r - 0.5)), ya = Math.max(0, Math.ceil(cy - r - 0.5)), yb = Math.min(H - 1, Math.floor(cy + r - 0.5));
+          for (yy = ya; yy <= yb; yy++) { var dy = yy + 0.5 - cy; for (xx = xa; xx <= xb; xx++) { var dx = xx + 0.5 - cx; if (dx * dx + dy * dy <= r2) { lab[yy * W + xx] = cls; if (sid) sid[yy * W + xx] = st; } } }
         }
       }
     }
@@ -306,9 +329,10 @@
         var st4 = cand[i];
         if (!g.render || g.render[st4] !== 1 || g.skin[st4]) continue;
         if (s < sdmin[st4] || s >= sdmax[st4]) continue;
-        var n4 = collect(st4, s); if (!n4) continue;
+        var wp4 = R.sheetMm ? R.sheetMm[st4] / px : 0; curPx = px;
+        var n4 = collect(st4, s, wp4 > 0); if (!n4) continue;
         nCand++; nSeg += n4;
-        drawLabel(n4, W, H, lab, sid, g.cls[st4], st4, ss);
+        drawLabel(n4, W, H, lab, sid, g.cls[st4], st4, ss, wp4);
       }
       /* body = skin fill + outline + everything painted; exterior = flood from the border over the rest */
       for (k = 0; k < N; k++) if (lab[k] !== 255) body[k] = 1;
@@ -1148,6 +1172,11 @@
         v.wrap.addEventListener("pointerup", function (e) { onPointer(v, e, "up"); });
         v.wrap.addEventListener("pointercancel", function (e) { onPointer(v, e, "up"); });
         v.wrap.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+        if (window.NMSKMeasure) window.NMSKMeasure.surface(v.wrap, {name: d[0] + " pane",    // Q294: measure in this pane's image plane (mm): independent of the field of view, the pan and the window size
+          toMM: function (e) { if (!v.labels.length || !v.spec) return null; var q = localPx(v, e); if (q[2] < 0 || q[2] > 1 || q[3] < 0 || q[3] > 1) return null;
+            return [v.cu - v.W * v.px / 2 + q[0] * v.px, v.cv + v.H * v.px / 2 - q[1] * v.px]; },
+          fromMM: function (m) { if (!v.labels.length || !v.box) return null; var r = v.wrap.getBoundingClientRect(), b = v.box, qx = (m[0] - (v.cu - v.W * v.px / 2)) / v.px, qy = (v.cv + v.H * v.px / 2 - m[1]) / v.px;
+            return [r.left + b.x + qx / v.W * b.s, r.top + b.y + qy / v.H * b.s]; }});
         v.wrap.addEventListener("wheel", function (e) {
           e.preventDefault();
           if (e.ctrlKey && v.spec) { zoomAt(v, e.clientX, e.clientY, Math.exp(Math.max(-40, Math.min(40, e.deltaY)) * 0.008)); return; }   // Q290: trackpad pinch zooms to the cursor
@@ -2027,7 +2056,8 @@
       if (U()) { if (prev.us && !prev.us.open) U().close(); else U().set({lay: prev.us ? prev.us.lay : "auto", tab: "image"}); }
       ctx = null;
     }
-    return {title: "השוואת דימות", short: "השוואה", build: build, enter: enter, exit: exit, refresh: refreshUi};
+    function reset() { locked = false; show3d = false; try { setModality(U() ? "us" : "ct"); refreshUi(ctx); } catch (e) {} }   // Q294: Reset of this mode (the page-wide history's button)
+    return {title: "השוואת דימות", short: "השוואה", build: build, enter: enter, exit: exit, refresh: refreshUi, reset: reset};
   }
 
   /* ========================================================================================================

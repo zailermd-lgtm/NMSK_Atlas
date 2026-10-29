@@ -1,30 +1,41 @@
 <section id="sel-sec" class="ss" aria-label="Marked structures and saved selections">
-  <p class="ss-eyebrow">Marked structures <span id="sel-count" class="ss-count">0</span></p>
+  <div class="ss-sum" id="ss-sum" role="status" aria-label="What is marked and what is shown">
+    <div class="ss-sumrow ss-sum-mk"><span class="ss-sw" aria-hidden="true"></span><b>Marked</b><span id="sel-count" class="ss-count">0</span><span class="ss-arrow" aria-hidden="true">&rarr;</span><span id="ss-look-sel" class="ss-look">&ndash;</span></div>
+    <div class="ss-sumrow ss-sum-ot"><span class="ss-sw" aria-hidden="true"></span><b>Others</b><span class="ss-arrow" aria-hidden="true">&rarr;</span><span id="ss-look-oth" class="ss-look">shown</span></div>
+    <div class="ss-scene" id="ss-scene"></div>
+  </div>
   <div id="sel-chips" class="ss-chips"></div>
-  <p id="sel-empty" class="ss-hint">Tick structures in the list below, Shift/Ctrl-click or long-press them in 3D, or press <b>Mark by clicking</b> and tap them.</p>
-  <div class="ss-row">
-    <button type="button" id="sel-markcur" title="Mark the structure whose card is open">Mark selected</button><button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-markvis" title="Mark every structure that is shown now (layers, hidden flags, source facet, side filter)">Mark all visible</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button>
+  <p id="sel-empty" class="ss-hint">Tick structures in the list below, Shift/Ctrl-click or long-press them in 3D, or press <b>Mark by tapping</b> and tap them.</p>
+  <div class="ss-row ss-acts">
+    <button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by tapping</button><button type="button" id="sel-markcur" title="Mark the structure whose card is open">+ Open card</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button><button type="button" id="sel-undo" class="ss-ic" title="Undo the last change (Ctrl/Cmd+Z)" aria-label="Undo" disabled>&#8630;</button><button type="button" id="sel-redo" class="ss-ic" title="Redo (Ctrl/Cmd+Shift+Z or Ctrl+Y)" aria-label="Redo" disabled>&#8631;</button>
   </div>
-  <div class="ss-row ss-catrow">
-    <select id="sel-cat" aria-label="Layer / category"></select><button type="button" id="sel-markcat" title="Mark every structure of this layer">Mark layer</button><button type="button" id="sel-unmarkcat" title="Remove the marks of this layer">Unmark layer</button>
-  </div>
-  <div class="ss-row">
-    <button type="button" id="sel-invert" class="ss-primary" aria-pressed="false" title="Swap (key I): mark everything else that is shown and unmark the marked ones. Press again to swap back.">Invert</button><button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button><button type="button" id="sel-undo" title="Undo the last mark / display / reset change (Ctrl/Cmd+Z)" disabled>Undo</button>
-  </div>
-  <p id="sel-invnote" class="ss-hint" hidden>Inverted: the marked set is everything else that is shown. Press Invert again to swap back; the left-out structures are listed above.</p>
-  <div class="ss-disp" role="group" aria-label="Display of the selected structures and of the others">
-    <p class="ss-eyebrow">Display</p>
-    <div class="ss-grp" role="group" aria-label="Selected structures"><span class="ss-gl">Selected</span><span class="ss-gb"><button type="button" class="ss-st" data-g="sel" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="sel" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="sel" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="sel" data-s="hl" aria-pressed="false" title="Solid highlight colour">Highlight</button><button type="button" class="ss-st" data-g="sel" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="sel" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
-    <div class="ss-grp" role="group" aria-label="All other structures"><span class="ss-gl">Others</span><span class="ss-gb"><button type="button" class="ss-st" data-g="oth" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="oth" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="oth" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="oth" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="oth" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
-    <div class="ss-opt"><label for="sel-fade">Fade opacity</label><input type="range" id="sel-fade" min="0" max="100" step="1" value="15" aria-label="Opacity of faded structures"><output id="sel-fade-v" for="sel-fade">15 %</output></div>
-    <div class="ss-opt"><label for="sel-hl">Highlight colour</label><input type="color" id="sel-hl" value="#ffb000" aria-label="Highlight colour"><label class="ss-check"><input type="checkbox" id="sel-tint" checked> Tint marked</label></div>
-    <div class="ss-row ss-presets">
-      <button type="button" id="sel-p-isolate" aria-pressed="false" title="Show the selected, hide all others">Isolate selected</button><button type="button" id="sel-p-fadeoth" aria-pressed="false" title="Selected normal, all others faded (key F)">Fade others</button><button type="button" id="sel-p-fadesel" aria-pressed="false" title="Selected faded, all others normal (Shift+F)">Fade selected</button><button type="button" id="sel-p-hidesel" aria-pressed="false" title="Hide the selected (key H)">Hide selected</button><button type="button" id="sel-p-hlsel" aria-pressed="false" title="Colour the selected in the highlight colour">Highlight selected</button>
+  <div class="ss-disp" role="group" aria-label="One tap: how the marked structures and the others are drawn">
+    <p class="ss-eyebrow">Show</p>
+    <div class="ss-row ss-presets ss-quick">
+      <button type="button" id="ss-q-all" aria-pressed="true" title="Everything drawn normally (the marks stay)">Everything</button><button type="button" id="sel-p-isolate" aria-pressed="false" title="Show the marked, hide all others">Only marked</button><button type="button" id="sel-p-fadeoth" aria-pressed="false" title="Marked normal, all others faded (key F)">Fade others</button><button type="button" id="sel-p-hlsel" aria-pressed="false" title="Colour the marked in the highlight colour">Highlight marked</button><button type="button" id="sel-p-hidesel" aria-pressed="false" title="Hide the marked (key H)">Hide marked</button><button type="button" id="sel-p-fadesel" aria-pressed="false" title="Marked faded, all others normal (Shift+F)">Fade marked</button>
     </div>
+    <details class="ss-det" id="ss-det-groups">
+      <summary>Each group separately</summary>
+      <div class="ss-grp" role="group" aria-label="Marked structures"><span class="ss-gl">Marked</span><span class="ss-gb"><button type="button" class="ss-st" data-g="sel" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="sel" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="sel" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="sel" data-s="hl" aria-pressed="false" title="Solid highlight colour">Highlight</button><button type="button" class="ss-st" data-g="sel" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="sel" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
+      <div class="ss-grp" role="group" aria-label="All other structures"><span class="ss-gl">Others</span><span class="ss-gb"><button type="button" class="ss-st" data-g="oth" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="oth" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="oth" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="oth" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="oth" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
+      <div class="ss-opt"><label for="sel-fade">Fade</label><span class="ss-taps" id="ss-fadetaps"><button type="button" data-fa="10">10%</button><button type="button" data-fa="25">25%</button><button type="button" data-fa="50">50%</button></span><output id="sel-fade-v" for="sel-fade">15 %</output><input type="range" id="sel-fade" min="0" max="100" step="1" value="15" aria-label="Opacity of faded structures"></div>
+      <div class="ss-opt"><label for="sel-hl">Highlight colour</label><input type="color" id="sel-hl" value="#ffb000" aria-label="Highlight colour"><label class="ss-check"><input type="checkbox" id="sel-tint" checked> Tint marked</label></div>
+      <div class="ss-row">
+        <button type="button" id="sel-only" aria-pressed="false" title="Show only the marked structures; everything else disappears">Show only marked</button><button type="button" id="sel-hide" aria-pressed="false" title="Hide the marked structures">Hide marked</button><button type="button" id="sel-ghost" aria-pressed="false" title="Draw the structures that would be hidden as faint ghosts instead">Ghost the rest</button>
+      </div>
+    </details>
   </div>
-  <div class="ss-row">
-    <button type="button" id="sel-only" aria-pressed="false" title="Show only the marked structures; everything else disappears">Show only marked</button><button type="button" id="sel-hide" aria-pressed="false" title="Hide the marked structures">Hide marked</button><button type="button" id="sel-ghost" aria-pressed="false" title="Draw the structures that would be hidden as faint ghosts instead">Ghost the rest</button>
-  </div>
+  <details class="ss-det" id="ss-det-more">
+    <summary>Mark more</summary>
+    <div class="ss-row">
+      <button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-markvis" title="Mark every structure that is shown now (layers, hidden flags, source facet, side filter)">Mark all visible</button><button type="button" id="sel-invert" class="ss-primary" aria-pressed="false" title="Swap (key I): mark everything else that is shown and unmark the marked ones. Press again to swap back.">Invert</button>
+    </div>
+    <div class="ss-row ss-catrow">
+      <select id="sel-cat" aria-label="Layer / category"></select><button type="button" id="sel-markcat" title="Mark every structure of this layer">Mark layer</button><button type="button" id="sel-unmarkcat" title="Remove the marks of this layer">Unmark layer</button>
+    </div>
+    <div class="ss-row"><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button></div>
+  </details>
+  <p id="sel-invnote" class="ss-hint" hidden>Inverted: the marked set is everything else that is shown. Press Invert again to swap back; the left-out structures are listed above.</p>
   <details id="sel-saved" class="ss-det">
     <summary>Saved selections</summary>
     <div class="ss-row"><input id="sel-name" type="text" maxlength="40" autocomplete="off" placeholder="Name for this selection" aria-label="Name for the saved selection"><button type="button" id="sel-save">Save</button></div>
@@ -37,6 +48,6 @@
     <textarea id="sel-io" rows="4" spellcheck="false" aria-label="Saved selections as text (copy to keep, paste to import)"></textarea>
     <div class="ss-row"><button type="button" id="sel-export">Export</button><button type="button" id="sel-import">Import</button><button type="button" id="sel-link">Copy link</button></div>
   </details>
-  <p class="ss-hint ss-keys">Keys (while structures are marked): <b>I</b> invert, <b>F</b> fade the others, <b>H</b> hide the selected; add Shift for the other group.</p>
+  <p class="ss-hint ss-keys">Keys (while structures are marked): <b>I</b> invert, <b>F</b> fade the others, <b>H</b> hide the selected; add Shift for the other group. Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z redo.</p>
   <p id="sel-status" class="ss-hint" aria-live="polite"></p>
 </section>

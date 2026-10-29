@@ -498,6 +498,13 @@ function NMSKParts(E){
   return {
     load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll, focusById:focusById, partsFor:partsFor,
     hover:hover, dirty:dirty, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
+    /* Q294: the placed markers of one structure key ("deltoid", "pectoralis_major") on one side, with their part type and text -- the
+       bundle fibre axes of the image tools run from a bundle's origin marker to its insertion marker. null until the data is loaded. */
+    anchors:function(st, side){
+      if (!D) return null;
+      return M.filter(function(mk){ var p = D.parts[mk.pi]; return p && p.st === st && (!side || mk.s === side || mk.s === "m"); })
+              .map(function(mk){ var p = D.parts[mk.pi]; return {id:p.id, ty:p.ty, n:p.n || "", d:p.d || "", side:mk.s, xyz:mk.xyz.slice()}; });
+    },
     cullNow:function(){ if (needCull()){ capture(viewSig()); E.redraw(); } },
     /* read-only view for tests / debugging */
     state:function(){

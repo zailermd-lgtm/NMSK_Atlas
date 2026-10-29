@@ -167,6 +167,13 @@ function NMSKCutMode(E){
       S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range(); S.on = true; push();
     },
     exit: exit, enter: enter, move: move, setOrientation: setOri, setThickness: setTh,
+    /* Q294: the plane's full state for the page-wide undo / redo */
+    snapshot: function(){ return {on:S.on, ori:S.ori, n0:S.n0.map(function(x){ return Math.round(x * 1e6) / 1e6; }), rs:S.rs, anchor:S.anchor.map(function(x){ return Math.round(x * 1e3) / 1e3; }), placed:S.placed, a0:Math.round(S.a0 * 1e3) / 1e3, a:Math.round(S.a * 1e3) / 1e3, th:S.th}; },
+    restore: function(o){
+      if (!o) return;
+      S.ori = o.ori || "x"; S.n0 = unit(o.n0 || [1, 0, 0]); S.rs = o.rs === -1 ? -1 : 1; S.anchor = (o.anchor || [0, 0, 0]).slice(); S.placed = !!o.placed;
+      S.a0 = +o.a0 || 0; range(); S.a = clamp(+o.a || 0); S.th = o.th > 0 ? o.th : 0; S.armed = false; S.hint = ""; S.on = !!o.on; push();
+    },
     state: function(){ var p = planeKept(); return {on:S.on, ori:S.ori, rs:S.rs, offset:S.a - S.a0, a:S.a, n0:S.n0.slice(), anchor:S.anchor.slice(), placed:S.placed, armed:S.armed, kn:p.kn, c:p.c, th:S.th}; }
   };
 }

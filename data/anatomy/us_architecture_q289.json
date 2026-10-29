@@ -37,6 +37,7 @@
     },
     "rectus_femoris": {
       "type": "bipennate", "pennation_refs": [],
+      "parts": {"split": "mesh", "whole": "straight (direct) head", "ins": "inferior", "bands": [[0.0, 1.0, "straight (direct) head"], [0.0, 1.0, "reflected (indirect) head", "anterior"]], "rule": "Q294: the two heads are two meshes (the main mesh = the straight head with the belly; the Q293 reflected-head mesh, rule-based): each gets its own fibre axis (the straight head toward the patella, below; the reflected head forward from the acetabular rim to join the direct tendon) and its own compartment's pennation"},
       "septa": [{"id": "deep_intramuscular_tendon", "name": "deep intramuscular tendon of the indirect head (central aponeurosis)", "normal": "w", "at": 0.5, "span": [0.05, 0.75], "refs": ["hasselman1995"],
         "rule": "drawn mid-width from 5 % to 75 % of the muscle length; the source documents a deep intramuscular tendon making the bipennate portion, not its extent in this body"}]
     },
@@ -53,9 +54,15 @@
     },
     "deltoid": {
       "type": "multipennate", "pennation_refs": [],
-      "parts": {"axis": "w", "toward": "anterior", "bands": [[0.0, 0.333, "spinal (posterior) part"], [0.333, 0.667, "acromial (middle) part"], [0.667, 1.0, "clavicular (anterior) part"]], "rule": "the three parts as thirds of the mesh's width, anterior = the third on the body's anterior side; each third gets its own compartments' pennation"},
+      "parts": {"axis": "w", "toward": "anterior", "ins": "inferior", "bands": [[0.0, 0.333, "spinal (posterior) part"], [0.333, 0.667, "acromial (middle) part"], [0.667, 1.0, "clavicular (anterior) part"]], "rule": "the three parts as thirds of the mesh's width, anterior = the third on the body's anterior side; each third gets its own compartments' pennation and (Q294) its own fibre axis, from its origin side to its insertion side (all three converge on the deltoid tuberosity, below); a page with separate part meshes (Z-Anatomy) uses each part mesh as its bundle"},
       "septa": [{"id": "intramuscular_tendons", "name": "intramuscular tendons (seven segments)", "normal": "w", "count": 6, "span_alternate": [[0.0, 0.7], [0.3, 1.0]], "refs": ["sakoma2011"],
         "rule": "seven segments (Sakoma 2011) = six internal sheets, evenly across the width, alternately reaching from the origin side and from the humeral side; positions and spans are rule-based"}]
+    },
+    "pectoralis_major": {
+      "parts": {"axis": "superior", "ins": "lateral", "bands": [[0.0, 0.2, "abdominal head"], [0.2, 0.75, "sternocostal head"], [0.75, 1.0, "clavicular head"]], "rule": "Q294, rule-based: the three heads as bands of the mesh's height (abdominal = lowest fifth, clavicular = the top quarter, sternocostal between); each head gets its own fibre axis from its origin (medial) side to its insertion (lateral, the humerus) and its own compartment's pennation; a page with separate head meshes (Z-Anatomy) uses each head mesh as its bundle"}
+    },
+    "trapezius": {
+      "parts": {"axis": "superior", "ins": "lateral", "bands": [[0.0, 0.47, "ascending (lower) part"], [0.47, 0.62, "transverse (middle) part"], [0.62, 1.0, "descending (upper) part"]], "rule": "Q294, rule-based: the three parts as bands of the mesh's height from its vertebral origin levels (descending: occiput to C7, transverse: C7-T3, ascending: T4-T12 -- about 7.5 / 3 / 9 of the 19.5 levels); each part gets its own fibre axis from its origin (the midline, medial) to its insertion (clavicle / acromion / scapular spine, lateral)"}
     },
     "masseter": {
       "type": "layered", "pennation_refs": [],

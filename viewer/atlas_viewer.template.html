@@ -673,6 +673,25 @@ body.ss-marking canvas{cursor:copy!important}
 .ss-phone #sel-sec .ss-presets>button{flex:1 1 44%}
 .ss-phone #sel-sec .ss-keys{display:none}
 .ss-phone #sel-sec .ss-check{min-height:38px}
+/* Q294: the at-a-glance summary -- what is marked (amber) and how each group is drawn, what the scene shows, one-tap views */
+#sel-sec .ss-sum{margin:0 0 8px;padding:8px 10px;border:1px solid var(--ss-line);border-radius:10px;background:var(--ss-sunk)}
+#sel-sec .ss-sumrow{display:flex;align-items:center;gap:6px;min-height:24px;font-size:12.5px}
+#sel-sec .ss-sumrow b{font-weight:700}
+#sel-sec .ss-sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto;border:1px solid var(--ss-line);background:var(--ss-bg)}
+#sel-sec .ss-sum-mk .ss-sw{background:var(--ss-mark);border-color:var(--ss-mark)}
+#sel-sec .ss-arrow{color:var(--ss-dim)}
+#sel-sec .ss-look{padding:1px 8px;border-radius:9px;background:var(--ss-bg);border:1px solid var(--ss-line);font-weight:600}
+#sel-sec .ss-look[data-s="hide"]{text-decoration:line-through;color:var(--ss-dim)}
+#sel-sec .ss-look[data-s="fade"],#sel-sec .ss-look[data-s="ghost"],#sel-sec .ss-look[data-s="xray"]{opacity:.7;border-style:dashed}
+#sel-sec .ss-look[data-s="hl"]{background:var(--ss-mark);color:#1b1b1b;border-color:var(--ss-mark)}
+#sel-sec .ss-scene{margin-top:3px;font-size:11px;color:var(--ss-dim);font-variant-numeric:tabular-nums}
+#sel-sec .ss-scene:empty{display:none}
+#sel-sec .ss-acts>.ss-ic{flex:0 0 auto;min-width:34px;font-size:15px}
+#sel-sec .ss-quick>button{flex:1 1 30%}
+#sel-sec .ss-taps{display:inline-flex;gap:3px}
+#sel-sec .ss-taps>button{min-width:42px}
+.ss-phone #sel-sec .ss-sumrow{min-height:30px;font-size:13.5px}
+.ss-phone #sel-sec .ss-quick>button{flex:1 1 30%}
 /* SELECTION css end */
 /* NERVE-GROUPS css begin */
 /* Q262: the "Nerve groups" button itself now lives inside the Nerves system row (host markup, see sync_nerve_groups_q256.py's
@@ -1035,32 +1054,43 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     </div>
     <!-- SELECTION html begin -->
 <section id="sel-sec" class="ss" aria-label="Marked structures and saved selections">
-  <p class="ss-eyebrow">Marked structures <span id="sel-count" class="ss-count">0</span></p>
+  <div class="ss-sum" id="ss-sum" role="status" aria-label="What is marked and what is shown">
+    <div class="ss-sumrow ss-sum-mk"><span class="ss-sw" aria-hidden="true"></span><b>Marked</b><span id="sel-count" class="ss-count">0</span><span class="ss-arrow" aria-hidden="true">&rarr;</span><span id="ss-look-sel" class="ss-look">&ndash;</span></div>
+    <div class="ss-sumrow ss-sum-ot"><span class="ss-sw" aria-hidden="true"></span><b>Others</b><span class="ss-arrow" aria-hidden="true">&rarr;</span><span id="ss-look-oth" class="ss-look">shown</span></div>
+    <div class="ss-scene" id="ss-scene"></div>
+  </div>
   <div id="sel-chips" class="ss-chips"></div>
-  <p id="sel-empty" class="ss-hint">Tick structures in the list below, Shift/Ctrl-click or long-press them in 3D, or press <b>Mark by clicking</b> and tap them.</p>
-  <div class="ss-row">
-    <button type="button" id="sel-markcur" title="Mark the structure whose card is open">Mark selected</button><button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-markvis" title="Mark every structure that is shown now (layers, hidden flags, source facet, side filter)">Mark all visible</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button>
+  <p id="sel-empty" class="ss-hint">Tick structures in the list below, Shift/Ctrl-click or long-press them in 3D, or press <b>Mark by tapping</b> and tap them.</p>
+  <div class="ss-row ss-acts">
+    <button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by tapping</button><button type="button" id="sel-markcur" title="Mark the structure whose card is open">+ Open card</button><button type="button" id="sel-clear" title="Remove all marks">Clear marks</button><button type="button" id="sel-undo" class="ss-ic" title="Undo the last change (Ctrl/Cmd+Z)" aria-label="Undo" disabled>&#8630;</button><button type="button" id="sel-redo" class="ss-ic" title="Redo (Ctrl/Cmd+Shift+Z or Ctrl+Y)" aria-label="Redo" disabled>&#8631;</button>
   </div>
-  <div class="ss-row ss-catrow">
-    <select id="sel-cat" aria-label="Layer / category"></select><button type="button" id="sel-markcat" title="Mark every structure of this layer">Mark layer</button><button type="button" id="sel-unmarkcat" title="Remove the marks of this layer">Unmark layer</button>
-  </div>
-  <div class="ss-row">
-    <button type="button" id="sel-invert" class="ss-primary" aria-pressed="false" title="Swap (key I): mark everything else that is shown and unmark the marked ones. Press again to swap back.">Invert</button><button type="button" id="sel-markmode" aria-pressed="false" title="While on, a click or tap on the model marks / unmarks the structure under it">Mark by clicking</button><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button><button type="button" id="sel-undo" title="Undo the last mark / display / reset change (Ctrl/Cmd+Z)" disabled>Undo</button>
-  </div>
-  <p id="sel-invnote" class="ss-hint" hidden>Inverted: the marked set is everything else that is shown. Press Invert again to swap back; the left-out structures are listed above.</p>
-  <div class="ss-disp" role="group" aria-label="Display of the selected structures and of the others">
-    <p class="ss-eyebrow">Display</p>
-    <div class="ss-grp" role="group" aria-label="Selected structures"><span class="ss-gl">Selected</span><span class="ss-gb"><button type="button" class="ss-st" data-g="sel" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="sel" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="sel" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="sel" data-s="hl" aria-pressed="false" title="Solid highlight colour">Highlight</button><button type="button" class="ss-st" data-g="sel" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="sel" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
-    <div class="ss-grp" role="group" aria-label="All other structures"><span class="ss-gl">Others</span><span class="ss-gb"><button type="button" class="ss-st" data-g="oth" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="oth" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="oth" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="oth" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="oth" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
-    <div class="ss-opt"><label for="sel-fade">Fade opacity</label><input type="range" id="sel-fade" min="0" max="100" step="1" value="15" aria-label="Opacity of faded structures"><output id="sel-fade-v" for="sel-fade">15 %</output></div>
-    <div class="ss-opt"><label for="sel-hl">Highlight colour</label><input type="color" id="sel-hl" value="#ffb000" aria-label="Highlight colour"><label class="ss-check"><input type="checkbox" id="sel-tint" checked> Tint marked</label></div>
-    <div class="ss-row ss-presets">
-      <button type="button" id="sel-p-isolate" aria-pressed="false" title="Show the selected, hide all others">Isolate selected</button><button type="button" id="sel-p-fadeoth" aria-pressed="false" title="Selected normal, all others faded (key F)">Fade others</button><button type="button" id="sel-p-fadesel" aria-pressed="false" title="Selected faded, all others normal (Shift+F)">Fade selected</button><button type="button" id="sel-p-hidesel" aria-pressed="false" title="Hide the selected (key H)">Hide selected</button><button type="button" id="sel-p-hlsel" aria-pressed="false" title="Colour the selected in the highlight colour">Highlight selected</button>
+  <div class="ss-disp" role="group" aria-label="One tap: how the marked structures and the others are drawn">
+    <p class="ss-eyebrow">Show</p>
+    <div class="ss-row ss-presets ss-quick">
+      <button type="button" id="ss-q-all" aria-pressed="true" title="Everything drawn normally (the marks stay)">Everything</button><button type="button" id="sel-p-isolate" aria-pressed="false" title="Show the marked, hide all others">Only marked</button><button type="button" id="sel-p-fadeoth" aria-pressed="false" title="Marked normal, all others faded (key F)">Fade others</button><button type="button" id="sel-p-hlsel" aria-pressed="false" title="Colour the marked in the highlight colour">Highlight marked</button><button type="button" id="sel-p-hidesel" aria-pressed="false" title="Hide the marked (key H)">Hide marked</button><button type="button" id="sel-p-fadesel" aria-pressed="false" title="Marked faded, all others normal (Shift+F)">Fade marked</button>
     </div>
+    <details class="ss-det" id="ss-det-groups">
+      <summary>Each group separately</summary>
+      <div class="ss-grp" role="group" aria-label="Marked structures"><span class="ss-gl">Marked</span><span class="ss-gb"><button type="button" class="ss-st" data-g="sel" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="sel" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="sel" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="sel" data-s="hl" aria-pressed="false" title="Solid highlight colour">Highlight</button><button type="button" class="ss-st" data-g="sel" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="sel" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
+      <div class="ss-grp" role="group" aria-label="All other structures"><span class="ss-gl">Others</span><span class="ss-gb"><button type="button" class="ss-st" data-g="oth" data-s="show" aria-pressed="true">Show</button><button type="button" class="ss-st" data-g="oth" data-s="fade" aria-pressed="false">Fade</button><button type="button" class="ss-st" data-g="oth" data-s="hide" aria-pressed="false">Hide</button><button type="button" class="ss-st" data-g="oth" data-s="ghost" aria-pressed="false" title="Very faint, behind everything, picked last">Ghost</button><button type="button" class="ss-st" data-g="oth" data-s="xray" aria-pressed="false" title="Translucent X-ray look (bone stays solid)">X-ray</button></span></div>
+      <div class="ss-opt"><label for="sel-fade">Fade</label><span class="ss-taps" id="ss-fadetaps"><button type="button" data-fa="10">10%</button><button type="button" data-fa="25">25%</button><button type="button" data-fa="50">50%</button></span><output id="sel-fade-v" for="sel-fade">15 %</output><input type="range" id="sel-fade" min="0" max="100" step="1" value="15" aria-label="Opacity of faded structures"></div>
+      <div class="ss-opt"><label for="sel-hl">Highlight colour</label><input type="color" id="sel-hl" value="#ffb000" aria-label="Highlight colour"><label class="ss-check"><input type="checkbox" id="sel-tint" checked> Tint marked</label></div>
+      <div class="ss-row">
+        <button type="button" id="sel-only" aria-pressed="false" title="Show only the marked structures; everything else disappears">Show only marked</button><button type="button" id="sel-hide" aria-pressed="false" title="Hide the marked structures">Hide marked</button><button type="button" id="sel-ghost" aria-pressed="false" title="Draw the structures that would be hidden as faint ghosts instead">Ghost the rest</button>
+      </div>
+    </details>
   </div>
-  <div class="ss-row">
-    <button type="button" id="sel-only" aria-pressed="false" title="Show only the marked structures; everything else disappears">Show only marked</button><button type="button" id="sel-hide" aria-pressed="false" title="Hide the marked structures">Hide marked</button><button type="button" id="sel-ghost" aria-pressed="false" title="Draw the structures that would be hidden as faint ghosts instead">Ghost the rest</button>
-  </div>
+  <details class="ss-det" id="ss-det-more">
+    <summary>Mark more</summary>
+    <div class="ss-row">
+      <button type="button" id="sel-markall" title="Mark every structure the search box shows">Mark list</button><button type="button" id="sel-markvis" title="Mark every structure that is shown now (layers, hidden flags, source facet, side filter)">Mark all visible</button><button type="button" id="sel-invert" class="ss-primary" aria-pressed="false" title="Swap (key I): mark everything else that is shown and unmark the marked ones. Press again to swap back.">Invert</button>
+    </div>
+    <div class="ss-row ss-catrow">
+      <select id="sel-cat" aria-label="Layer / category"></select><button type="button" id="sel-markcat" title="Mark every structure of this layer">Mark layer</button><button type="button" id="sel-unmarkcat" title="Remove the marks of this layer">Unmark layer</button>
+    </div>
+    <div class="ss-row"><button type="button" id="sel-reset" class="ss-primary" title="Clear the marks, the isolation and the ghosting and show everything again (the cut plane is not touched)">Reset selection</button></div>
+  </details>
+  <p id="sel-invnote" class="ss-hint" hidden>Inverted: the marked set is everything else that is shown. Press Invert again to swap back; the left-out structures are listed above.</p>
   <details id="sel-saved" class="ss-det">
     <summary>Saved selections</summary>
     <div class="ss-row"><input id="sel-name" type="text" maxlength="40" autocomplete="off" placeholder="Name for this selection" aria-label="Name for the saved selection"><button type="button" id="sel-save">Save</button></div>
@@ -1073,7 +1103,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     <textarea id="sel-io" rows="4" spellcheck="false" aria-label="Saved selections as text (copy to keep, paste to import)"></textarea>
     <div class="ss-row"><button type="button" id="sel-export">Export</button><button type="button" id="sel-import">Import</button><button type="button" id="sel-link">Copy link</button></div>
   </details>
-  <p class="ss-hint ss-keys">Keys (while structures are marked): <b>I</b> invert, <b>F</b> fade the others, <b>H</b> hide the selected; add Shift for the other group.</p>
+  <p class="ss-hint ss-keys">Keys (while structures are marked): <b>I</b> invert, <b>F</b> fade the others, <b>H</b> hide the selected; add Shift for the other group. Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z redo.</p>
   <p id="sel-status" class="ss-hint" aria-live="polite"></p>
 </section>
 <!-- SELECTION html end -->
@@ -1136,6 +1166,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
       <div class="cp-row" id="xsec-steps">
         <button type="button" data-xs="-5">&minus;5 mm step</button><button type="button" data-xs="-1">&minus;1</button><button type="button" data-xs="1">+1</button><button type="button" data-xs="5">+5 mm step</button>
       </div>
+      <div class="cp-row" id="xsec-gap" title="Display only: draws the slices apart along the stack so they do not hide each other; their true positions do not change"><span class="cp-dim">Spread</span><button type="button" data-xgap="1" aria-pressed="true">&times;1</button><button type="button" data-xgap="2" aria-pressed="false">&times;2</button><button type="button" data-xgap="3" aria-pressed="false">&times;3</button><button type="button" data-xgap="5" aria-pressed="false">&times;5</button></div>
       <p class="cp-hint">Scroll (mouse wheel) over this panel, or drag with one finger on it, to change the step between slices. Thickness 0 = exact zero-thickness planes; above 0, each slice is its own slab (same meaning as "Slice thickness" above). Uses this plane's current orientation and position as the centre of the stack.</p>
       <p id="xsec-info" class="cp-hint" aria-live="polite"></p>
     </div>
@@ -1483,6 +1514,605 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 })();
 </script>
 <!-- PINCH html end -->
+<!-- Q294 html begin -->
+<style>
+/* Q294: undo / redo / reset buttons, the measure bar and overlay, the slices panel, the abbreviation popup, the "i" tips.
+   Neutral floating surfaces (dark glass, like the Q290 zoom chip) so they read the same on both engines and both themes. */
+.hist-b{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding-left:6px!important;padding-right:6px!important}
+.hist-b svg{display:block}
+.hist-b:disabled{opacity:.38;cursor:default}
+.hist-msg{position:fixed;z-index:2147482005;left:50%;transform:translateX(-50%);bottom:calc(74px + env(safe-area-inset-bottom,0px));max-width:min(420px,calc(100vw - 24px));
+  padding:6px 12px;border-radius:999px;background:rgba(20,24,30,.88);color:#fff;font:500 12.5px/1.3 system-ui,-apple-system,sans-serif;pointer-events:none;text-align:center}
+.hist-msg[hidden]{display:none}
+.ms-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:2147481990;pointer-events:none;overflow:visible;display:none}
+.ms-svg .ms-l{stroke:#ffd23f;stroke-width:2;fill:none}
+.ms-svg .ms-perp{stroke:#ffd23f;stroke-width:1;stroke-dasharray:3 3;opacity:.75}
+.ms-svg .ms-pend{stroke:#7fe0ff}
+.ms-svg .ms-pt{fill:#ffd23f;stroke:#000;stroke-width:1}
+.ms-svg .ms-pt.ms-pend{fill:#7fe0ff}
+.ms-svg .ms-chip rect{fill:rgba(20,24,30,.86);stroke:rgba(255,210,63,.8);stroke-width:1}
+.ms-svg .ms-chip text{fill:#fff;font:600 12px system-ui,-apple-system,sans-serif}
+.ms-bar,.xsp{position:fixed;z-index:2147481995;background:rgba(18,23,29,.95);color:#eef3f7;border:1px solid rgba(255,255,255,.14);border-radius:12px;
+  box-shadow:0 4px 18px rgba(0,0,0,.35);font:500 12.5px/1.3 system-ui,-apple-system,sans-serif}
+.ms-bar{left:50%;transform:translateX(-50%);top:calc(54px + env(safe-area-inset-top,0px));padding:6px;max-width:calc(100vw - 16px);width:max-content}
+.ms-bar[hidden],.xsp[hidden]{display:none}
+.ms-row,.xsp-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.ms-bar button,.xsp button,.xsp select,.xsp input{font:inherit;color:inherit;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;min-height:34px;padding:4px 9px;cursor:pointer}
+.ms-bar button[aria-pressed="true"],.xsp button[aria-pressed="true"]{background:#ffd23f;color:#141414;border-color:#ffd23f}
+.ms-bar button:disabled,.xsp button:disabled{opacity:.4;cursor:default}
+.ms-msg{margin:5px 2px 0;font-size:12px;color:#bcd0df;min-height:0}
+.ms-msg:empty{display:none}
+.ms-res{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.ms-res:empty{display:none}
+.ms-r{display:inline-flex;align-items:center;gap:2px;padding:2px 2px 2px 9px;border-radius:999px;background:rgba(255,210,63,.16);border:1px solid rgba(255,210,63,.5);font-weight:600}
+.ms-r button{min-height:24px!important;padding:0 7px!important;border-radius:999px!important;border:0!important;background:transparent!important}
+body.ms-armed canvas{cursor:crosshair}
+.xsp{right:8px;top:calc(54px + env(safe-area-inset-top,0px));width:min(330px,calc(100vw - 16px));padding:8px;display:flex;flex-direction:column;gap:6px}
+.xsp-head{display:flex;gap:6px;align-items:center}
+.xsp-head select{flex:1 1 auto;min-width:0;max-width:100%}
+.xsp-l{width:46px;color:#9fb3c4;font-size:11.5px}
+.xsp-seg{display:inline-flex;flex-wrap:wrap;gap:3px}
+.xsp-seg button{min-width:38px;padding:4px 7px}
+.xsp input{width:64px;cursor:text}
+.xsp-info{margin:0;color:#bcd0df;font-size:12px}
+.xsp-info:empty{display:none}
+.xsp .nmsk-tip{margin:0;font-size:11.5px;color:#9fb3c4}
+.abbr-pop{position:fixed;z-index:2147482020;padding:5px 9px;border-radius:8px;background:rgba(20,24,30,.94);color:#fff;border:1px solid rgba(255,255,255,.25);
+  font:500 12.5px/1.35 system-ui,-apple-system,sans-serif;pointer-events:none;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.abbr-pop[hidden]{display:none}
+[data-full]{cursor:help}
+.tip-i{display:inline-flex!important;align-items:center;justify-content:center;width:22px!important;height:22px!important;min-width:22px!important;min-height:22px!important;padding:0!important;margin:2px 0!important;
+  border-radius:50%!important;border:1px solid currentColor!important;background:transparent!important;color:inherit;opacity:.6;font:italic 700 12px/1 Georgia,serif!important;cursor:pointer;vertical-align:middle;flex:0 0 auto}
+.tip-i[aria-expanded="true"]{opacity:1}
+.tip-txt:not(.tip-open){display:none!important}
+@media (hover:none){.tip-i{width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important}}
+@media (max-width:560px){.xsp{left:8px;right:8px;width:auto}.ms-bar{left:8px;right:8px;transform:none;width:auto}}
+.hist-bar{position:fixed;z-index:2147481980;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:4px;padding:4px;border-radius:12px;
+  background:rgba(18,23,29,.82);border:1px solid rgba(255,255,255,.14);box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.hist-bar .hist-fb{width:38px;height:38px;border-radius:9px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);color:#fff;cursor:pointer;padding:0!important;touch-action:manipulation}
+.hist-bar .hist-fb:hover:not(:disabled){background:rgba(255,255,255,.16)}
+body.mode-on .hist-bar{display:none}
+#mb-end .hist-b{display:inline-flex!important;width:36px;height:36px;padding:0!important;border-radius:50%;justify-content:center}
+/* the toolbars wrap instead of running off the left edge (two more buttons; a narrow 3-D stage in the Split layout) */
+#app:not(.phone) #tools{left:12px;flex-wrap:wrap;justify-content:flex-end}
+@media (min-width:901px){#topright{flex-wrap:wrap;justify-content:flex-end;max-width:calc(100vw - 240px)}}
+.ms-pane-b{position:absolute;z-index:6;right:4px;bottom:22px;width:30px;height:30px;padding:0;border-radius:8px;border:1px solid rgba(255,255,255,.3);background:rgba(18,23,29,.7);color:#fff;
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;opacity:.75}
+.ms-pane-b:hover{opacity:1}
+@media (hover:none){.ms-pane-b{width:36px;height:36px}}
+</style>
+<div id="xsp-panel" class="xsp" hidden role="group" aria-label="Slices of one part">
+  <div class="xsp-head"><b>Slices</b><select id="xsp-part" aria-label="The part to slice"><option value="">Choose a part&hellip;</option></select><button type="button" id="xsp-close" aria-label="Close the slices panel" title="Close">&times;</button></div>
+  <div class="xsp-row"><span class="xsp-l">Thick</span><span class="xsp-seg" id="xsp-th"><button type="button" data-xth="0" aria-pressed="false" title="Zero-thickness planes">0</button><button type="button" data-xth="0.5" aria-pressed="false">0.5</button><button type="button" data-xth="1" aria-pressed="true">1</button><button type="button" data-xth="2" aria-pressed="false">2</button><button type="button" data-xth="5" aria-pressed="false">5 mm</button></span></div>
+  <div class="xsp-row"><span class="xsp-l">Every</span><span class="xsp-seg" id="xsp-int"><button type="button" data-xint="2" aria-pressed="false">2</button><button type="button" data-xint="5" aria-pressed="false">5</button><button type="button" data-xint="10" aria-pressed="true">10</button><button type="button" data-xint="20" aria-pressed="false">20 mm</button></span><input id="xsp-intv" type="number" min="0.5" max="200" step="0.5" value="10" aria-label="Interval between slices along the part, mm"></div>
+  <div class="xsp-row"><span class="xsp-l">Spread</span><span class="xsp-seg" id="xsp-gap" title="Display only: draws the slices apart so they do not hide each other; their true positions do not change"><button type="button" data-xgap="1" aria-pressed="true">&times;1</button><button type="button" data-xgap="2" aria-pressed="false">&times;2</button><button type="button" data-xgap="3" aria-pressed="false">&times;3</button><button type="button" data-xgap="5" aria-pressed="false">&times;5</button></span></div>
+  <div class="xsp-row"><button type="button" id="xsp-scope" aria-pressed="false" title="Cut only the part's own structures, or every shown structure around it (skin, tendons, vessels...)">Everything around it</button><button type="button" id="xsp-frame" title="Turn the camera to the stack">Frame</button><button type="button" id="xsp-off" title="Remove the slices" disabled>Off</button></div>
+  <p class="nmsk-tip">The slices are perpendicular to the part's own long axis, from one end to the other. Spread only moves them apart on screen; the positions listed and measured stay the true ones.</p>
+  <p id="xsp-info" class="xsp-info" aria-live="polite"></p>
+</div>
+<script>
+/* Q294: one Undo / Redo history for every user state change on the page, plus Reset of the current module.
+   Owner: "undo of at least 10 steps back, and redo" -- Q262's 20-entry undo covered the Marked-structures controller only.
+   Model: state PROVIDERS (each a small {get, set, reset}) are registered by the engine and by the shared controllers; a
+   snapshot is the JSON of every provider's get(). After any user input settles (click / change / key / wheel / touch,
+   debounced) the snapshot is compared with the current history entry and pushed when it differs, so every action of every
+   panel is covered without each panel calling in (a panel may still call commit() itself). Undo / Redo re-apply an entry
+   through the providers' set(); a provider whose part of the state did not change is not touched. The camera is not part of
+   the history (it is a view, not a state change; Reset view / the zoom chip restore it).
+     NMSKHistory.register(key, {get, set, reset})   add a provider (get() must be JSON-able and stable)
+     NMSKHistory.start(opt)                          opt {max, toolbars:[{el, cls}], floating (default true), anchor, resetView()}
+     .commit()  .undo()  .redo()  .reset()  .canUndo()  .canRedo()  .snapshot()  .state()  .onReset(fn)  .onChange(fn)
+   Keys: Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z or Ctrl+Y redo (never while typing in a field). */
+var NMSKHistory = (function(){
+  "use strict";
+  var P = [], H = [], idx = -1, MAX = 60, timer = 0, applying = false, on = false, btns = [], resetHooks = [], changeHooks = [], resetView = null, lastMsg = "";
+  function snapObj(){ var o = {}; P.forEach(function(p){ try { o[p.key] = p.get(); } catch (err){ o[p.key] = null; } }); return o; }
+  function snap(){ return JSON.stringify(snapObj()); }
+  function ui(){
+    btns.forEach(function(b){
+      if (b.k === "u") b.el.disabled = !(idx > 0);
+      if (b.k === "r") b.el.disabled = !(idx < H.length - 1);
+    });
+    var su = document.getElementById("sel-undo"), sr = document.getElementById("sel-redo");
+    if (su) su.disabled = !(idx > 0); if (sr) sr.disabled = !(idx < H.length - 1);
+    changeHooks.forEach(function(f){ try { f(api.state()); } catch (err){} });
+  }
+  function commitNow(){
+    if (timer){ clearTimeout(timer); timer = 0; }
+    if (!on || applying) return false;
+    var s = snap();
+    if (idx >= 0 && H[idx] === s) return false;
+    H = H.slice(0, idx + 1); H.push(s);
+    if (H.length > MAX) H.splice(0, H.length - MAX);
+    idx = H.length - 1; ui();
+    return true;
+  }
+  function commit(delay){
+    if (!on || applying) return;
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(commitNow, delay == null ? 320 : delay);
+  }
+  function applyEntry(s){
+    var o; try { o = JSON.parse(s); } catch (err){ return; }
+    applying = true;
+    try {
+      P.forEach(function(p){
+        if (!(p.key in o)) return;
+        var cur; try { cur = JSON.stringify(p.get()); } catch (err){ cur = null; }
+        if (cur !== JSON.stringify(o[p.key])){ try { p.set(o[p.key]); } catch (err2){ if (window.console) console.error("history: " + p.key, err2); } }
+      });
+    } finally { applying = false; }
+    H[idx] = snap();                                   // normalised: what the providers really hold now (a later commit compares with this)
+  }
+  function undo(){
+    commitNow();
+    if (!(idx > 0)){ say("Nothing to undo."); ui(); return false; }
+    idx--; applyEntry(H[idx]); say("Undone (" + idx + " more step" + (idx === 1 ? "" : "s") + " back)."); ui(); return true;
+  }
+  function redo(){
+    commitNow();
+    if (!(idx < H.length - 1)){ say("Nothing to redo."); ui(); return false; }
+    idx++; applyEntry(H[idx]); say("Redone."); ui(); return true;
+  }
+  function reset(){
+    commitNow();
+    applying = true;
+    try {
+      P.forEach(function(p){ if (p.reset){ try { p.reset(); } catch (err){ if (window.console) console.error("reset: " + p.key, err); } } });
+      resetHooks.forEach(function(f){ try { f(); } catch (err){ if (window.console) console.error("reset hook", err); } });
+      try { if (window.NMSKModes && NMSKModes.resetCurrent) NMSKModes.resetCurrent(); } catch (err3){}
+      if (resetView){ try { resetView(); } catch (err4){} }
+    } finally { applying = false; }
+    var changed = commitNow();
+    say(changed ? "Everything in this module is back to its start (Undo brings it back)." : "Already at the start.");
+    return changed;
+  }
+  function say(m){ lastMsg = m; var e = document.getElementById("hist-msg"); if (e){ e.textContent = m; e.hidden = !m; clearTimeout(say.t); say.t = setTimeout(function(){ e.hidden = true; }, 2200); } }
+  function typing(t){ var tag = t && t.tagName; return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable); }
+  function onKey(e){
+    if (!on || !(e.ctrlKey || e.metaKey) || e.altKey || e.repeat) return;
+    var k = String(e.key || "").toLowerCase();
+    if (k !== "z" && k !== "y") return;
+    if (typing(e.target)) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (k === "y" || e.shiftKey) redo(); else undo();
+  }
+  if (typeof window !== "undefined" && window.addEventListener){
+    window.addEventListener("keydown", onKey, true);
+    ["click", "change", "keyup", "touchend"].forEach(function(t){ document.addEventListener(t, function(){ commit(); }, true); });
+    document.addEventListener("pointerup", function(){ commit(); }, true);
+    document.addEventListener("wheel", function(){ commit(700); }, {capture:true, passive:true});
+  }
+  var ICON = {u:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M9 7L4 12l5 5M4 12h10a6 6 0 0 1 0 12h-2" transform="translate(0,-3)" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+              r:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M15 7l5 5-5 5M20 12H10a6 6 0 0 0 0 12h2" transform="translate(0,-3)" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+              x:'<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
+  function mount(el, cls, prefix){
+    if (!el) return;
+    var ref = prefix === "mb-" ? null : el.firstChild;
+    [["u", "Undo (Ctrl/Cmd+Z)", undo], ["r", "Redo (Ctrl/Cmd+Shift+Z or Ctrl+Y)", redo], ["x", "Reset this module: everything back to its start, without leaving it (undoable)", reset]].forEach(function(d, i){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = (cls || "") + " hist-b"; b.id = prefix + ["undo", "redo", "reset"][i]; b.title = d[1];
+      b.setAttribute("aria-label", d[1].replace(/ \(.*$/, "")); b.innerHTML = ICON[d[0]];
+      b.addEventListener("click", function(e){ e.stopPropagation(); d[2](); });
+      if (ref) el.insertBefore(b, ref); else el.appendChild(b);
+      btns.push({k:d[0], el:b});
+    });
+  }
+  var api = {
+    register:function(key, p){ if (!key || !p || typeof p.get !== "function") return; p.key = key; P = P.filter(function(q){ return q.key !== key; }); P.push(p); if (on){ H[idx] = snap(); } },
+    start:function(opt){
+      opt = opt || {}; if (on) return api;
+      MAX = Math.max(20, opt.max || MAX); resetView = opt.resetView || null;
+      (opt.toolbars || []).forEach(function(t){ mount(t.el, t.cls, t.prefix || "hist-"); });
+      if (opt.floating !== false){                       // a small floating group (bottom right): the crowded toolbars stay as they were
+        var fb = document.createElement("div"); fb.id = "hist-bar"; fb.className = "hist-bar"; fb.setAttribute("role", "group"); fb.setAttribute("aria-label", "Undo, redo, reset");
+        document.body.appendChild(fb); mount(fb, "hist-fb", "h-");
+        var anchor = opt.anchor || null;               // kept on the 3-D view's own bottom-right corner (it follows the docking of the workspace modes)
+        var place = function(){
+          if (!anchor || !anchor.getBoundingClientRect) return;
+          var r = anchor.getBoundingClientRect(), w = fb.offsetWidth || 130, h = fb.offsetHeight || 46;
+          if (!(r.width > 40 && r.height > 40)) return;
+          fb.style.left = Math.max(4, Math.min(window.innerWidth - w - 4, r.right - w - 10)) + "px";
+          fb.style.top = Math.max(4, Math.min(window.innerHeight - h - 4, r.bottom - h - 10)) + "px";
+          fb.style.right = "auto"; fb.style.bottom = "auto";
+        };
+        window.addEventListener("resize", place); setInterval(place, 700); setTimeout(place, 0);
+      }
+      var m = document.createElement("div"); m.id = "hist-msg"; m.className = "hist-msg"; m.hidden = true; m.setAttribute("aria-live", "polite"); document.body.appendChild(m);
+      on = true; H = [snap()]; idx = 0; ui();
+      return api;
+    },
+    mountInto:function(el, cls, prefix){ mount(el, cls, prefix); ui(); },
+    active:function(){ return on; }, commit:function(){ return commitNow(); }, schedule:commit, undo:undo, redo:redo, reset:reset,
+    canUndo:function(){ return idx > 0; }, canRedo:function(){ return idx < H.length - 1; },
+    snapshot:function(){ return snapObj(); }, keys:function(){ return P.map(function(p){ return p.key; }); },
+    state:function(){ return {on:on, idx:idx, len:H.length, max:MAX, canUndo:idx > 0, canRedo:idx < H.length - 1, pending:!!timer, msg:lastMsg}; },
+    onReset:function(f){ if (typeof f === "function") resetHooks.push(f); }, onChange:function(f){ if (typeof f === "function") changeHooks.push(f); },
+    applying:function(){ return applying; }
+  };
+  return api;
+})();
+/* Q294: measurement tools -- point-to-point distance, 3-point angle, angle between two lines, Cobb angle -- on the 3-D model of
+   either engine and on any 2-D image pane an optional add-on registers (CT / MR / echo panes: NMSKMeasure.surface(el, adaptor)).
+   Pure math in NMSKMeasureCore (no DOM, runs under node). Points are kept in each surface's own millimetre frame (3-D: the
+   model frame; a 2-D pane: its image plane), so a value never depends on the zoom, the pan or the window size.
+     NMSKMeasure.surface(el, {name, toMM(ev) -> [x, y] | null, fromMM([x, y]) -> [clientX, clientY] | null})   a 2-D pane
+     NMSKMeasure.start(api, {toolbar, cls})   the 3-D model through the generic add-on API (pick / ray / toScreen / geometry)
+     ctl.consumeClick(ev)   the engine's tap handler asks first: true = the tap placed (or tried to place) a measurement point
+     ctl.arm(kind) kind = dist | ang3 | ang2 | cobb | null    ctl.add(kind, surfaceId, pts)   ctl.clear()   ctl.remove(id)   ctl.state()
+   Cobb: two lines along the two endplates; the Cobb angle is the angle between them (= the angle between their perpendiculars),
+   0-90 deg. On the 3-D model the angle between the two 3-D lines is given, plus the angle in the current view plane (what a
+   radiograph taken along the view direction would show). Results: one small chip per measurement on the image and in the bar. */
+var NMSKMeasureCore = (function(){
+  "use strict";
+  var D = 180 / Math.PI;
+  function sub(a, b){ return a.map(function(x, i){ return x - b[i]; }); }
+  function dot(a, b){ var s = 0; for (var i = 0; i < a.length; i++) s += a[i] * b[i]; return s; }
+  function len(a){ return Math.sqrt(dot(a, a)); }
+  function dist(a, b){ return len(sub(a, b)); }
+  function angleBetween(u, v){ var l = len(u) * len(v); if (!(l > 1e-12)) return NaN; return Math.acos(Math.max(-1, Math.min(1, dot(u, v) / l))) * D; }
+  function angle3(a, b, c){ return angleBetween(sub(a, b), sub(c, b)); }                     // the angle at b
+  function lineAngle(a1, a2, b1, b2){ var t = angleBetween(sub(a2, a1), sub(b2, b1)); return t > 90 ? 180 - t : t; }   // 0..90 (lines have no direction)
+  function project(p, n){ var k = dot(p, n) / dot(n, n); return p.map(function(x, i){ return x - k * n[i]; }); }
+  function cobb(a1, a2, b1, b2, viewN){
+    var r = {deg:lineAngle(a1, a2, b1, b2)};
+    r.perp = r.deg;                                                                          // perpendiculars of two lines in one plane meet at the same angle
+    if (viewN && a1.length === 3) r.view = lineAngle(project(a1, viewN), project(a2, viewN), project(b1, viewN), project(b2, viewN));
+    return r;
+  }
+  var NEED = {dist:2, ang3:3, ang2:4, cobb:4}, NAME = {dist:"Distance", ang3:"Angle (3 points)", ang2:"Angle between 2 lines", cobb:"Cobb angle"};
+  function value(kind, p, viewN){
+    if (!p || p.length < NEED[kind]) return null;
+    if (kind === "dist") return {v:dist(p[0], p[1]), unit:"mm"};
+    if (kind === "ang3") return {v:angle3(p[0], p[1], p[2]), unit:"deg"};
+    if (kind === "ang2") return {v:lineAngle(p[0], p[1], p[2], p[3]), unit:"deg"};
+    if (kind === "cobb"){ var c = cobb(p[0], p[1], p[2], p[3], viewN); return {v:c.deg, unit:"deg", view:c.view}; }
+    return null;
+  }
+  function label(kind, r){
+    if (!r || !isFinite(r.v)) return "";
+    var s = r.unit === "mm" ? r.v.toFixed(1) + " mm" : r.v.toFixed(1) + "°";
+    if (kind === "cobb") s = "Cobb " + s + (r.view != null && isFinite(r.view) && Math.abs(r.view - r.v) >= 0.1 ? " (view " + r.view.toFixed(1) + "°)" : "");
+    return s;
+  }
+  /* ray (o, d) x triangle mesh (pos Float32 xyz, idx) -> nearest t > 0 or null (Moller-Trumbore) */
+  function rayMesh(o, d, pos, idx){
+    var best = null, nt = idx.length / 3;
+    for (var k = 0; k < nt; k++){
+      var a = idx[3*k] * 3, b = idx[3*k+1] * 3, c = idx[3*k+2] * 3;
+      var e1x = pos[b] - pos[a], e1y = pos[b+1] - pos[a+1], e1z = pos[b+2] - pos[a+2], e2x = pos[c] - pos[a], e2y = pos[c+1] - pos[a+1], e2z = pos[c+2] - pos[a+2];
+      var px = d[1]*e2z - d[2]*e2y, py = d[2]*e2x - d[0]*e2z, pz = d[0]*e2y - d[1]*e2x, det = e1x*px + e1y*py + e1z*pz;
+      if (Math.abs(det) < 1e-12) continue;
+      var inv = 1 / det, tx = o[0] - pos[a], ty = o[1] - pos[a+1], tz = o[2] - pos[a+2], u = (tx*px + ty*py + tz*pz) * inv;
+      if (u < 0 || u > 1) continue;
+      var qx = ty*e1z - tz*e1y, qy = tz*e1x - tx*e1z, qz = tx*e1y - ty*e1x, v = (d[0]*qx + d[1]*qy + d[2]*qz) * inv;
+      if (v < 0 || u + v > 1) continue;
+      var t = (e2x*qx + e2y*qy + e2z*qz) * inv;
+      if (t > 1e-6 && (best == null || t < best)) best = t;
+    }
+    return best;
+  }
+  return {dist:dist, angle3:angle3, lineAngle:lineAngle, cobb:cobb, value:value, label:label, rayMesh:rayMesh, NEED:NEED, NAME:NAME};
+})();
+var NMSKMeasure = (function(){
+  "use strict";
+  var tbEl = null, C = NMSKMeasureCore, surf = {}, sid = 0, api = null, tool = null, pend = null, list = [], seq = 0, raf = 0, svg = null, bar = null, tb = null, geoCache = [], msg = "";
+  var SVGNS = "http://www.w3.org/2000/svg";
+  function $(id){ return document.getElementById(id); }
+  function r1(v){ return Math.round(v * 100) / 100; }
+  function surface(el, ad){
+    if (!el || !ad) return null;
+    var id = el.getAttribute("data-ms-id"); if (!id){ id = "p" + (++sid); el.setAttribute("data-ms-id", id); }
+    surf[id] = {id:id, el:el, name:ad.name || "image", toMM:ad.toMM, fromMM:ad.fromMM, two:true};
+    var down = null;
+    function armedHere(){ return tool && (!pend || pend.s === id); }
+    function onBtn(e){ return !!(e.target && e.target.closest && e.target.closest(".ms-pane-b")); }
+    if (!el.querySelector(".ms-pane-b")){                 // a small ruler on the pane itself: measuring works even when a panel covers the toolbar
+      var pb = document.createElement("button"); pb.type = "button"; pb.className = "ms-pane-b"; pb.title = "Measure on this image (distance, angles, Cobb)"; pb.setAttribute("aria-label", "Measure on this image");
+      pb.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21zM7 13l2 2M10 10l2 2M13 7l2 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      ["pointerdown", "pointerup"].forEach(function(t){ pb.addEventListener(t, function(e){ e.stopPropagation(); }); });   // the pane's own handlers (crosshair, pointer capture) never see a tap on the button
+      pb.addEventListener("click", function(e){ e.stopPropagation(); if (bar && bar.hidden){ open(true); if (!tool) arm("dist"); } else open(false); });
+      el.appendChild(pb);
+    }
+    el.addEventListener("pointerdown", function(e){ if (onBtn(e)) return; if (!armedHere() || (e.pointerType === "mouse" && e.button !== 0)) return; if (down && down.id !== e.pointerId){ down = null; return; } down = {id:e.pointerId, x:e.clientX, y:e.clientY}; e.stopPropagation(); }, true);
+    el.addEventListener("pointermove", function(e){ if (down && down.id === e.pointerId) e.stopPropagation(); }, true);
+    el.addEventListener("pointerup", function(e){
+      if (!down || down.id !== e.pointerId) return;
+      var d0 = down; down = null; e.stopPropagation();
+      if (Math.hypot(e.clientX - d0.x, e.clientY - d0.y) > 8 || !armedHere()) return;
+      var p = surf[id].toMM(e); if (!p){ say("Tap inside the image."); return; }
+      addPoint(id, p.slice(0, 2));
+    }, true);
+    el.addEventListener("click", function(e){ if (tool && !onBtn(e)) { e.stopPropagation(); e.preventDefault(); } }, true);
+    return id;
+  }
+  /* ---- the 3-D model ---- */
+  function geom(i){
+    for (var k = 0; k < geoCache.length; k++) if (geoCache[k].i === i) return geoCache[k].g;
+    var g = null; try { g = api.geometry ? api.geometry(i) : null; } catch (err){ g = null; }
+    geoCache.push({i:i, g:g}); if (geoCache.length > 6) geoCache.shift();
+    return g;
+  }
+  function point3(e){
+    var h = null; try { h = api.pick(e); } catch (err){ h = null; }
+    if (!h) return null;
+    if (h.point) return h.point.slice();
+    var g = h.i != null ? geom(h.i) : null, r = api.ray(e);
+    if (!g || !r) return null;
+    var t = C.rayMesh(r.o, r.d, g.pos, g.idx);
+    return t == null ? null : [r.o[0] + r.d[0] * t, r.o[1] + r.d[1] * t, r.o[2] + r.d[2] * t];
+  }
+  function viewN(){ try { var v = api.view(); return v && v.dir ? v.dir : null; } catch (err){ return null; } }
+  function consumeClick(e){
+    if (!tool || !api) return false;
+    if (pend && pend.s !== "3d"){ say("Finish this measurement on the same image first."); return true; }
+    var p = point3(e);
+    if (!p){ say("Nothing under the pointer: tap on the model."); return true; }
+    addPoint("3d", p.map(r1));
+    return true;
+  }
+  function addPoint(s, p){
+    if (!pend) pend = {s:s, p:[]};
+    pend.p.push(p);
+    if (pend.p.length >= C.NEED[tool]){
+      var m = {id:"m" + (++seq), k:tool, s:pend.s, p:pend.p.map(function(q){ return q.map(r1); })};
+      list.push(m); pend = null;
+      say(C.NAME[m.k] + ": " + C.label(m.k, valueOf(m)) + ". Tap again for another, or pick another tool.");
+      if (window.NMSKHistory && NMSKHistory.active()) NMSKHistory.commit();
+    } else say(C.NAME[tool] + ": point " + (pend.p.length + 1) + " of " + C.NEED[tool] + (tool === "cobb" ? (pend.p.length < 2 ? " (first endplate line)" : " (second endplate line)") : "") + ".");
+    render(); kick();
+  }
+  function valueOf(m){ return C.value(m.k, m.p, m.s === "3d" ? viewN() : null); }
+  /* ---- drawing: one fixed SVG over the page; each surface gets a nested <svg> on its own rectangle (it clips to it) ---- */
+  function ensureSvg(){
+    if (svg) return svg;
+    svg = document.createElementNS(SVGNS, "svg"); svg.setAttribute("id", "ms-svg"); svg.setAttribute("class", "ms-svg"); svg.setAttribute("aria-hidden", "true");
+    document.body.appendChild(svg); return svg;
+  }
+  function toClient(s, p){
+    if (s === "3d") return api ? api.toScreen(p) : null;
+    var S = surf[s]; if (!S) return null;
+    try { return S.fromMM(p); } catch (err){ return null; }
+  }
+  function rectOf(s){
+    var e = s === "3d" ? (api && api.canvas) : (surf[s] && surf[s].el);
+    if (!e || !e.getBoundingClientRect) return null;
+    var r = e.getBoundingClientRect(); if (!(r.width > 2 && r.height > 2)) return null;
+    if (e.offsetParent === null && getComputedStyle(e).position !== "fixed") return null;
+    return r;
+  }
+  function draw(){
+    raf = 0; ensureSvg();
+    var groups = {}, h = "";
+    list.concat(pend ? [{id:"pend", k:tool, s:pend.s, p:pend.p, pend:true}] : []).forEach(function(m){ (groups[m.s] = groups[m.s] || []).push(m); });
+    Object.keys(groups).forEach(function(s){
+      var R = rectOf(s); if (!R) return;
+      var g = "";
+      groups[s].forEach(function(m){
+        var q = m.p.map(function(p){ var c = toClient(s, p); return c ? [c[0] - R.left, c[1] - R.top] : null; });
+        if (q.some(function(x){ return !x; })) return;
+        var cls = "ms-l" + (m.pend ? " ms-pend" : "");
+        function ln(a, b){ return '<line class="' + cls + '" x1="' + a[0].toFixed(1) + '" y1="' + a[1].toFixed(1) + '" x2="' + b[0].toFixed(1) + '" y2="' + b[1].toFixed(1) + '"/>'; }
+        if (m.k === "dist" && q.length >= 2) g += ln(q[0], q[1]);
+        if (m.k === "ang3"){ if (q.length >= 2) g += ln(q[0], q[1]); if (q.length >= 3) g += ln(q[1], q[2]); }
+        if ((m.k === "ang2" || m.k === "cobb")){ if (q.length >= 2) g += ln(q[0], q[1]); if (q.length >= 4) g += ln(q[2], q[3]); }
+        if (m.k === "cobb" && q.length >= 4){                       // the perpendiculars, faint, from each line's midpoint
+          [[q[0], q[1]], [q[2], q[3]]].forEach(function(L){ var mx = (L[0][0] + L[1][0]) / 2, my = (L[0][1] + L[1][1]) / 2, dx = L[1][0] - L[0][0], dy = L[1][1] - L[0][1], l = Math.hypot(dx, dy) || 1;
+            g += '<line class="ms-perp" x1="' + mx.toFixed(1) + '" y1="' + my.toFixed(1) + '" x2="' + (mx - dy / l * 40).toFixed(1) + '" y2="' + (my + dx / l * 40).toFixed(1) + '"/>'; });
+        }
+        q.forEach(function(c){ g += '<circle class="ms-pt' + (m.pend ? " ms-pend" : "") + '" cx="' + c[0].toFixed(1) + '" cy="' + c[1].toFixed(1) + '" r="4"/>'; });
+        if (!m.pend){
+          var t = C.label(m.k, valueOf(m)), at = m.k === "ang3" ? q[1] : m.k === "dist" ? [(q[0][0] + q[1][0]) / 2, (q[0][1] + q[1][1]) / 2] : [(q[0][0] + q[1][0] + q[2][0] + q[3][0]) / 4, (q[0][1] + q[1][1] + q[2][1] + q[3][1]) / 4];
+          var w = 7 * t.length + 12;
+          g += '<g class="ms-chip" data-mid="' + m.id + '"><rect x="' + (at[0] + 8).toFixed(1) + '" y="' + (at[1] - 22).toFixed(1) + '" width="' + w + '" height="18" rx="9"/><text x="' + (at[0] + 14).toFixed(1) + '" y="' + (at[1] - 9).toFixed(1) + '">' + t + '</text></g>';
+        }
+      });
+      h += '<svg x="' + R.left.toFixed(1) + '" y="' + R.top.toFixed(1) + '" width="' + R.width.toFixed(1) + '" height="' + R.height.toFixed(1) + '">' + g + '</svg>';
+    });
+    svg.innerHTML = h;
+    svg.style.display = h ? "block" : "none";
+    if (list.length || pend) kick();
+  }
+  function kick(){ if (!raf && typeof requestAnimationFrame !== "undefined") raf = requestAnimationFrame(function(){ raf = setTimeout(draw, 40); }); }
+  /* ---- the bar ---- */
+  function say(m){ msg = m || ""; var e = $("ms-msg"); if (e) e.textContent = msg; }
+  function render(){
+    if (!bar) return;
+    Array.prototype.forEach.call(bar.querySelectorAll("[data-ms]"), function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-ms") === tool)); });
+    var ch = $("ms-res"), h = "";
+    list.forEach(function(m){ h += '<span class="ms-r" data-mid="' + m.id + '"><span>' + C.label(m.k, valueOf(m)) + '</span><button type="button" data-del="' + m.id + '" aria-label="Remove this measurement" title="Remove">&times;</button></span>'; });
+    if (ch) ch.innerHTML = h;
+    var cl = $("ms-clear"); if (cl) cl.disabled = !list.length && !pend;
+    if (tb){ tb.setAttribute("aria-pressed", String(!bar.hidden)); tb.textContent = list.length ? "Measure · " + list.length : "Measure"; }
+    document.body.classList.toggle("ms-armed", !!tool);
+  }
+  function arm(k){
+    tool = k && C.NEED[k] ? k : null; pend = null;
+    say(tool ? C.NAME[tool] + ": tap point 1 of " + C.NEED[tool] + " on the model or on an image pane." : "");
+    render(); kick();
+  }
+  function remove(id){ var n = list.length; list = list.filter(function(m){ return m.id !== id; }); if (list.length !== n && window.NMSKHistory && NMSKHistory.active()) NMSKHistory.commit(); render(); kick(); }
+  function clear(){ list = []; pend = null; render(); kick(); if (window.NMSKHistory && NMSKHistory.active()) NMSKHistory.commit(); say("Measurements cleared (Undo brings them back)."); }
+  function place(){                                     // right under the toolbar (phones: the bottom belongs to the structure card / sheets)
+    if (!bar || bar.hidden) return;
+    var t = tbEl && tbEl.getBoundingClientRect ? tbEl.getBoundingClientRect() : null;
+    if (t && t.height > 0){ bar.style.top = Math.round(Math.min(window.innerHeight * 0.5, t.bottom + 6)) + "px"; bar.style.bottom = "auto"; }   // never over the toolbar
+    else { bar.style.top = ""; bar.style.bottom = ""; }
+    var c = api && api.canvas && api.canvas.getBoundingClientRect ? api.canvas.getBoundingClientRect() : null;   // desktop: at the 3-D view's left edge, so an image pane beside it stays clear
+    if (window.innerWidth > 560 && c && c.width > 200){ bar.style.left = Math.round(Math.max(8, c.left + 8)) + "px"; bar.style.transform = "none"; bar.style.maxWidth = Math.round(Math.max(260, c.width - 16)) + "px"; }
+    else { bar.style.left = ""; bar.style.transform = ""; bar.style.maxWidth = ""; }
+  }
+  function open(v){
+    if (!bar) return; bar.hidden = !v; if (!v) arm(null); render(); place();
+  }
+  function buildBar(){
+    bar = document.createElement("div"); bar.id = "ms-bar"; bar.className = "ms-bar"; bar.hidden = true; bar.setAttribute("role", "toolbar"); bar.setAttribute("aria-label", "Measure");
+    bar.innerHTML = '<div class="ms-row">' +
+      '<button type="button" data-ms="dist" aria-pressed="false" title="Distance between two points (mm)"><b>&#8596;</b> mm</button>' +
+      '<button type="button" data-ms="ang3" aria-pressed="false" title="Angle at the middle one of three points"><b>&ang;</b> 3 pts</button>' +
+      '<button type="button" data-ms="ang2" aria-pressed="false" title="Angle between two lines (two points each)"><b>&ang;</b> 2 lines</button>' +
+      '<button type="button" data-ms="cobb" aria-pressed="false" title="Cobb angle: draw one line along each endplate; the angle between them = between their perpendiculars"><b>&ang;</b> Cobb</button>' +
+      '<button type="button" id="ms-clear" title="Remove every measurement (undoable)">Clear</button>' +
+      '<button type="button" id="ms-close" aria-label="Close the measure bar" title="Close">&times;</button></div>' +
+      '<p id="ms-msg" class="ms-msg" aria-live="polite"></p><div id="ms-res" class="ms-res"></div>';
+    document.body.appendChild(bar);
+    Array.prototype.forEach.call(bar.querySelectorAll("[data-ms]"), function(b){ b.addEventListener("click", function(){ var k = b.getAttribute("data-ms"); arm(tool === k ? null : k); }); });
+    $("ms-clear").addEventListener("click", clear);
+    $("ms-close").addEventListener("click", function(){ open(false); });
+    $("ms-res").addEventListener("click", function(e){ var b = e.target.closest ? e.target.closest("[data-del]") : null; if (b) remove(b.getAttribute("data-del")); });
+  }
+  function start(a, opt){
+    api = a; opt = opt || {}; tbEl = opt.toolbar || null;
+    buildBar(); window.addEventListener("resize", place);
+    if (opt.toolbar){
+      tb = document.createElement("button"); tb.type = "button"; tb.id = "t-measure"; tb.className = (opt.cls || "") + " ms-tb"; tb.textContent = "Measure";
+      tb.title = "Measure: distance, 3-point angle, angle between two lines, Cobb angle -- on the model and on the image panes";
+      tb.setAttribute("aria-pressed", "false"); tb.addEventListener("click", function(){ open(bar.hidden); });
+      opt.toolbar.appendChild(tb);
+    }
+    surf["3d"] = {id:"3d", el:a.canvas, name:"3-D model", two:false};
+    if (window.NMSKHistory) NMSKHistory.register("measure", {
+      get:function(){ return list.map(function(m){ return {k:m.k, s:m.s, p:m.p}; }); },
+      set:function(v){ seq = 0; list = (v || []).map(function(m){ return {id:"m" + (++seq), k:m.k, s:m.s, p:m.p.map(function(q){ return q.slice(); })}; }); pend = null; render(); kick(); },
+      reset:function(){ list = []; pend = null; tool = null; if (bar) bar.hidden = true; render(); kick(); }
+    });
+    render();
+    return ctl;
+  }
+  var ctl = {
+    consumeClick:consumeClick, arm:arm, open:open, clear:clear, remove:remove,
+    add:function(kind, s, pts){ if (!C.NEED[kind] || !pts || pts.length !== C.NEED[kind]) return null; tool = kind; pend = null; pts.forEach(function(p){ addPoint(s || "3d", p); }); tool = null; render(); return list[list.length - 1]; },
+    surfaces:function(){ return Object.keys(surf).map(function(k){ return {id:k, name:surf[k].name, two:!!surf[k].two}; }); },
+    state:function(){ return {tool:tool, open:!!(bar && !bar.hidden), pending:pend ? {s:pend.s, n:pend.p.length} : null, msg:msg,
+      list:list.map(function(m){ var r = valueOf(m); return {id:m.id, kind:m.k, surface:m.s, pts:m.p, value:r ? r.v : null, view:r && r.view != null ? r.view : null, unit:r ? r.unit : null, label:C.label(m.k, r)}; })}; },
+    redraw:kick
+  };
+  return {surface:surface, start:start, ctl:ctl, core:C};
+})();
+/* Q294: less text on screen.
+   (1) Abbreviations: hovering (mouse) or tapping a short label -- a structure label drawn as its abbreviation (the labels module
+       puts the full name in data-full), an <abbr title>, or anything carrying data-full -- opens a tiny popup with the full name.
+       A tap still does what it did before (a label still selects its structure); the popup closes on the next tap or after 4 s.
+   (2) Help text behind a small "i": static hint paragraphs of the panels (never a live status line, which stays visible) are
+       folded behind an "i" button placed where the text was; tapping it shows / hides the text. New panels (built later by the
+       optional add-ons) are folded too (a mutation observer, throttled). */
+var NMSKTips = (function(){
+  "use strict";
+  var pop = null, popFor = null, popT = 0, started = false, moT = 0, folded = 0;
+  var HINTS = "p.ss-hint, p.cp-hint, p.qv-hint, p.ln-hint, p.pp-hint, p.pp-help, p.ng-help, p.hint, p.mw-note, p.nmsk-tip, .us-help, .img-help";
+  function fullOf(t){
+    if (!t || !t.closest) return null;
+    var e = t.closest("[data-full], abbr[title]");
+    if (!e) return null;
+    var f = e.getAttribute("data-full") || (e.tagName === "ABBR" ? e.getAttribute("title") : null);
+    if (!f || f === (e.textContent || "").trim()) return null;
+    return {el:e, text:f};
+  }
+  function show(info, x, y){
+    if (!pop){ pop = document.createElement("div"); pop.id = "abbr-pop"; pop.className = "abbr-pop"; pop.setAttribute("role", "tooltip"); document.body.appendChild(pop); }
+    pop.textContent = info.text; pop.hidden = false; popFor = info.el;
+    var r = info.el.getBoundingClientRect ? info.el.getBoundingClientRect() : {left:x, right:x, top:y, bottom:y};
+    var w = Math.min(280, window.innerWidth - 16);
+    pop.style.maxWidth = w + "px";
+    var pr = pop.getBoundingClientRect(), left = Math.max(8, Math.min(window.innerWidth - pr.width - 8, (r.left + r.right) / 2 - pr.width / 2)), top = r.top - pr.height - 6;
+    if (top < 4) top = r.bottom + 6;
+    pop.style.left = left + "px"; pop.style.top = top + "px";
+    clearTimeout(popT); popT = setTimeout(hide, 4000);
+  }
+  function hide(){ if (pop){ pop.hidden = true; } popFor = null; }
+  function fold(root){
+    var l = (root || document).querySelectorAll(HINTS);
+    for (var i = 0; i < l.length; i++){
+      var p = l[i];
+      if (p.getAttribute("data-tip") || p.hasAttribute("aria-live") || p.closest("[aria-live]") || p.closest(".no-tip")) continue;
+      if (!(p.textContent || "").trim() && !p.id) continue;
+      p.setAttribute("data-tip", "1"); p.classList.add("tip-txt");
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "tip-i"; b.textContent = "i"; b.setAttribute("aria-expanded", "false"); b.setAttribute("aria-label", "Show the explanation"); b.title = "Show / hide the explanation";
+      b.addEventListener("click", (function(pp, bb){ return function(e){ e.stopPropagation(); var o = !pp.classList.contains("tip-open"); pp.classList.toggle("tip-open", o); bb.setAttribute("aria-expanded", String(o)); }; })(p, b));
+      p.parentNode.insertBefore(b, p);
+      folded++;
+    }
+  }
+  function start(){
+    if (started) return; started = true;
+    document.addEventListener("pointerover", function(e){ if (e.pointerType !== "mouse") return; var f = fullOf(e.target); if (f) show(f, e.clientX, e.clientY); }, true);
+    document.addEventListener("pointerout", function(e){ if (e.pointerType !== "mouse" || !popFor) return; if (!e.relatedTarget || !popFor.contains(e.relatedTarget)) { var f = fullOf(e.target); if (f && f.el === popFor) hide(); } }, true);
+    document.addEventListener("click", function(e){ var f = fullOf(e.target); if (f){ show(f, e.clientX, e.clientY); } else if (pop && !pop.hidden && e.target !== pop) hide(); }, true);
+    fold(document);
+    if (window.MutationObserver) new MutationObserver(function(){ if (!moT) moT = setTimeout(function(){ moT = 0; fold(document); }, 400); }).observe(document.body, {childList:true, subtree:true});
+  }
+  return {start:start, fold:fold, show:show, hide:hide, state:function(){ return {open:!!(pop && !pop.hidden), text:pop && !pop.hidden ? pop.textContent : null, folded:folded}; }};
+})();
+/* Q294: the "Slices" panel -- the cross-section stack restricted to one part (a structure, the marked structures, the open card,
+   or a segment found by name on this page: a finger's three phalanges, the forearm's radius + ulna), with a slice thickness,
+   an interval along the part's long axis and a display-only spread. The stack itself is NMSKCrossSection's part mode (cut_cap.js);
+   this file only builds the part list and opens the panel. Short menus, taps over sliders (the owner's mobile rule). */
+var NMSKPartSlices = (function(){
+  "use strict";
+  var api = null, xs = null, panel = null, sel = null, tb = null, segs = [];
+  var ORD = {first:1, second:2, third:3, fourth:4, fifth:5}, DIG = {1:"Thumb", 2:"Index finger", 3:"Middle finger", 4:"Ring finger", 5:"Little finger"};
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;"}[c]; }); }
+  function sideOf(r){ var s = String(r.side || "").charAt(0).toLowerCase(); if (!s){ var m = /_(l|r)$/i.exec(r.id || "") || /\((L|R)\)\s*$/.exec(r.name || ""); s = m ? m[1].toLowerCase() : ""; } return s === "l" || s === "r" ? s : ""; }
+  function findSegments(){
+    var recs = api.list(), by = {}, out = [];
+    recs.forEach(function(r){
+      var nm = String(r.name || r.id), m = /(proximal|middle|distal) phalanx of (first|second|third|fourth|fifth) finger of hand/i.exec(nm), s = sideOf(r);
+      if (m){ var o = ORD[m[2].toLowerCase()], k = "f" + o + s; (by[k] = by[k] || {label:DIG[o] + (s ? " (" + s.toUpperCase() + ")" : ""), ids:[], ord:o, s:s}).ids.push(r.id); return; }
+      var f = /^(radius|ulna)\b/i.exec(nm);
+      if (f && /bone/i.test(String(r.cat))){ var k2 = "fa" + s; (by[k2] = by[k2] || {label:"Forearm" + (s ? " (" + s.toUpperCase() + ")" : "") + " (radius + ulna)", ids:[], ord:9, s:s}).ids.push(r.id); }
+    });
+    Object.keys(by).forEach(function(k){ if (by[k].ids.length < 2) return; out.push(by[k]); });
+    out.sort(function(a, b){ return a.s.localeCompare(b.s) || a.ord - b.ord; });
+    return out;
+  }
+  function fill(){
+    if (!sel) return;
+    var s = api.selection ? api.selection() : null, marks = s ? s.state().marks : [], cur = api.selectedId ? api.selectedId() : null, h = '<option value="">Choose a part…</option>';
+    var name = function(id){ var r = api.list().filter(function(x){ return x.id === id; })[0]; return r ? r.name + (sideOf(r) ? " (" + sideOf(r).toUpperCase() + ")" : "") : id; };
+    if (cur) h += '<option value="card">Open card: ' + esc(name(cur)) + '</option>';
+    if (marks.length) h += '<option value="marks">Marked structures (' + marks.length + ')</option>';
+    segs = findSegments();
+    segs.forEach(function(g, i){ h += '<option value="seg' + i + '">' + esc(g.label) + '</option>'; });
+    var v = sel.value; sel.innerHTML = h; if (v && sel.querySelector('option[value="' + v + '"]')) sel.value = v;
+  }
+  function choose(v){
+    var ids = null, label = "";
+    if (v === "card"){ var c = api.selectedId && api.selectedId(); if (c){ ids = [c]; label = "open card"; } }
+    else if (v === "marks"){ var s = api.selection && api.selection(); if (s){ ids = s.state().marks.slice(); label = "marked"; } }
+    else if (/^seg\d+$/.test(v)){ var g = segs[+v.slice(3)]; if (g){ ids = g.ids.slice(); label = g.label; } }
+    if (!ids || !ids.length) return false;
+    var ok = xs.setPart(ids, label);
+    setTimeout(function(){ if (xs.state().planes.length) xs.frame(); }, 60);
+    return ok;
+  }
+  function place(){                                   // right under the toolbar, never under the structure card / sheets at the bottom
+    if (!panel || panel.hidden) return;
+    var bar = api && api.toolbar, t = bar && bar.getBoundingClientRect ? bar.getBoundingClientRect() : null;
+    if (t && t.height > 0){ var top = Math.round(Math.min(window.innerHeight * 0.45, t.bottom + 6)); panel.style.top = top + "px"; panel.style.bottom = "auto"; panel.style.maxHeight = "calc(100vh - " + (top + 10) + "px)"; panel.style.overflowY = "auto"; }
+    else { panel.style.top = ""; panel.style.bottom = ""; panel.style.maxHeight = ""; }
+  }
+  function open(v){ if (!panel) return; panel.hidden = !v; if (v) fill(); place(); if (tb) tb.setAttribute("aria-pressed", String(!panel.hidden)); }
+  function start(a, x, opt){
+    api = a; xs = x; opt = opt || {}; panel = $("xsp-panel"); sel = $("xsp-part");
+    if (!panel || !xs) return null;
+    if (opt.toolbar){
+      tb = document.createElement("button"); tb.type = "button"; tb.id = "t-slices"; tb.className = (opt.cls || "") + " xsp-tb"; tb.textContent = "Slices";
+      tb.title = "Slices of one part: only a finger, the forearm, the marked structures... -- slice thickness, interval along the part, spread apart in the display";
+      tb.setAttribute("aria-pressed", "false"); tb.addEventListener("click", function(){ open(panel.hidden); });
+      opt.toolbar.appendChild(tb);
+    }
+    window.addEventListener("resize", place);
+    sel.addEventListener("focus", fill); sel.addEventListener("pointerdown", fill);
+    sel.addEventListener("change", function(){ choose(sel.value); });
+    var cl = $("xsp-close"); if (cl) cl.addEventListener("click", function(){ open(false); });
+    return {open:open, fill:fill, choose:choose, segments:function(){ fill(); return segs.map(function(g){ return {label:g.label, ids:g.ids.slice()}; }); }};
+  }
+  return {start:start};
+})();
+</script>
+<!-- Q294 html end -->
 <!-- Q188: optional add-on, published as a separate file next to this page (absent in an anatomy-only build;
      the viewer then runs unchanged). It reaches the anatomy only through the generic API object built below. -->
 <script src="clinical_needle_tool.js"></script>
@@ -1888,7 +2518,8 @@ window.addEventListener("pointerup", function(e){
   endTouch(e);
   if (wasPinch){ drag = null; return; }
   if (drag && drag.moved < 5){
-    if (cutCtl && cutCtl.consumeClick(e)) { /* "Place on model" is armed: the click set the cut plane */ }
+    if (window.measureCtl && measureCtl.consumeClick(e)) { /* Q294: a measure tool is armed: the tap placed a point */ }
+    else if (cutCtl && cutCtl.consumeClick(e)) { /* "Place on model" is armed: the click set the cut plane */ }
     else if (selCtl && selCtl.consumeClick(e)) { /* Q227: Mark mode / Shift-Ctrl-click / long press marked or unmarked a structure */ }
     else if (addonClick && addonClick(e)) { /* consumed by the add-on */ }
     else { var h = pick(e); select(h ? h.userData.id : null); if (!h && pzTap(e)) pzReset(); }   // Q290: double-tap on empty space = 1:1
@@ -2734,6 +3365,13 @@ function NMSKCutMode(E){
       S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range(); S.on = true; push();
     },
     exit: exit, enter: enter, move: move, setOrientation: setOri, setThickness: setTh,
+    /* Q294: the plane's full state for the page-wide undo / redo */
+    snapshot: function(){ return {on:S.on, ori:S.ori, n0:S.n0.map(function(x){ return Math.round(x * 1e6) / 1e6; }), rs:S.rs, anchor:S.anchor.map(function(x){ return Math.round(x * 1e3) / 1e3; }), placed:S.placed, a0:Math.round(S.a0 * 1e3) / 1e3, a:Math.round(S.a * 1e3) / 1e3, th:S.th}; },
+    restore: function(o){
+      if (!o) return;
+      S.ori = o.ori || "x"; S.n0 = unit(o.n0 || [1, 0, 0]); S.rs = o.rs === -1 ? -1 : 1; S.anchor = (o.anchor || [0, 0, 0]).slice(); S.placed = !!o.placed;
+      S.a0 = +o.a0 || 0; range(); S.a = clamp(+o.a || 0); S.th = o.th > 0 ? o.th : 0; S.armed = false; S.hint = ""; S.on = !!o.on; push();
+    },
     state: function(){ var p = planeKept(); return {on:S.on, ori:S.ori, rs:S.rs, offset:S.a - S.a0, a:S.a, n0:S.n0.slice(), anchor:S.anchor.slice(), placed:S.placed, armed:S.armed, kn:p.kn, c:p.c, th:S.th}; }
   };
 }
@@ -3803,6 +4441,13 @@ function NMSKParts(E){
   return {
     load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll, focusById:focusById, partsFor:partsFor,
     hover:hover, dirty:dirty, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
+    /* Q294: the placed markers of one structure key ("deltoid", "pectoralis_major") on one side, with their part type and text -- the
+       bundle fibre axes of the image tools run from a bundle's origin marker to its insertion marker. null until the data is loaded. */
+    anchors:function(st, side){
+      if (!D) return null;
+      return M.filter(function(mk){ var p = D.parts[mk.pi]; return p && p.st === st && (!side || mk.s === side || mk.s === "m"); })
+              .map(function(mk){ var p = D.parts[mk.pi]; return {id:p.id, ty:p.ty, n:p.n || "", d:p.d || "", side:mk.s, xyz:mk.xyz.slice()}; });
+    },
     cullNow:function(){ if (needCull()){ capture(viewSig()); E.redraw(); } },
     /* read-only view for tests / debugging */
     state:function(){
@@ -4522,7 +5167,7 @@ function NMSKLabels(E){
       if (d.mode === "out"){ e.x += (tx - e.x) * kf; e.y += (ty - e.y) * kf; if (Math.abs(tx - e.x) > 0.4 || Math.abs(ty - e.y) > 0.4) anim = true; else { e.x = tx; e.y = ty; } }
       else { e.x = tx; e.y = ty; }
       var col = textColour(l.it.rgb), isSel = sel != null && l.it.i === idx[sel], hv = hotId === id || hoverId === id;
-      if (e.text !== l.text){ e.t.textContent = l.text; e.text = l.text; }
+      if (e.text !== l.text){ e.t.textContent = l.text; e.text = l.text; var fl = full[l.it.i]; if (fl && fl !== l.text) e.t.setAttribute("data-full", fl); else e.t.removeAttribute("data-full"); }   // Q294: a short label carries its full name (hover / tap popup)
       if (e.col !== col){ e.t.setAttribute("fill", col); e.lead2.setAttribute("stroke", col); e.dot.setAttribute("fill", col); e.col = col; }
       var cls = "lb-t" + (isSel ? " lb-sel" : "") + (hv ? " lb-hot" : "") + (l.it.kind === "hid" ? " lb-hid" : "") + (gen[l.it.i] ? " lb-gen" : "");
       if (e.cls !== cls){ e.t.setAttribute("class", cls); e.cls = cls; e.dot.setAttribute("class", "lb-dot" + (l.it.kind === "hid" ? " lb-hid" : "")); e.lead2.setAttribute("class", "lb-lead" + (l.it.kind === "hid" ? " lb-hid" : "")); e.lead.setAttribute("class", "lb-lead lb-bg"); e.cls = cls; }
@@ -5015,8 +5660,43 @@ function NMSKSelect(E){
     if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(md === "only")); tbOnly.hidden = !n; tbOnly.textContent = md === "only" ? "Show all" : "Only marked";
       tbOnly.title = md === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
     if (tbInv){ tbInv.setAttribute("aria-pressed", String(!!inv)); tbInv.hidden = !n; }
-    if (undoEl) undoEl.disabled = !undoStack.length;
+    var H = histOn();
+    if (undoEl) undoEl.disabled = H ? !H.canUndo() : !undoStack.length;
+    var rEl = $("sel-redo"); if (rEl) rEl.disabled = H ? !H.canRedo() : true;
+    /* Q294: the at-a-glance summary -- how each group is drawn right now, in words */
+    var ls = $("ss-look-sel"), lo = $("ss-look-oth"), all = $("ss-q-all");
+    if (ls){ ls.textContent = n ? LOOKW[ss] : "\u2013"; ls.setAttribute("data-s", n ? ss : ""); }
+    if (lo){ lo.textContent = n ? LOOKW[os] : "shown"; lo.setAttribute("data-s", n ? os : "show"); }
+    if (all){ all.disabled = !n; all.setAttribute("aria-pressed", String(ss === "show" && os === "show")); }
+    var ft = document.querySelectorAll("#ss-fadetaps [data-fa]");
+    for (var fi = 0; fi < ft.length; fi++) ft[fi].setAttribute("aria-pressed", String(Math.round(fade * 100) === +ft[fi].getAttribute("data-fa")));
+    scene();
     if (document.body && document.body.classList) document.body.classList.toggle("ss-marking", markMode);
+  }
+  var LOOKW = {show:"shown", fade:"faded", hide:"hidden", ghost:"ghosted", xray:"x-ray", hl:"highlighted"};
+  function histOn(){ return (typeof window !== "undefined" && window.NMSKHistory && window.NMSKHistory.active && window.NMSKHistory.active()) ? window.NMSKHistory : null; }
+  /* Q294: what the scene draws now (engine adaptor E.stats() -> {shown, hidden, faded}, optional) */
+  function scene(){
+    var e = $("ss-scene"); if (!e || !E.stats) return;
+    var t = null; try { t = E.stats(); } catch (err){ t = null; }
+    e.textContent = t ? "On screen: " + t.shown + " shown \u00b7 " + t.hidden + " hidden" + (t.faded ? " \u00b7 " + t.faded + " faded" : "") : "";
+  }
+  function showAll(){
+    if (!marks.length){ say("Mark at least one structure first."); return; }
+    if (ss === "show" && os === "show") return;
+    beginChange(); ss = os = "show"; ghostPref = false; say("Everything drawn normally (the marks stay)."); changed();
+  }
+  /* Q294: the full state for the page-wide undo / redo (NMSKHistory) */
+  function snapshot(){ return {marks:marks.slice(), inv:inv ? baseIds() : null, ss:ss, os:os, fade:Math.round(fade * 1000) / 1000, hl:hl, tint:tintOn, ghost:ghostPref, markMode:markMode}; }
+  function restore(o){
+    if (!o) return;
+    marks = []; set = {};
+    (o.marks || []).forEach(function(id){ if (has(id) && set[id] !== 1){ set[id] = 1; marks.push(id); } });
+    inv = null; if (o.inv && marks.length){ inv = {}; o.inv.forEach(function(id){ inv[id] = 1; }); }
+    ss = STATES[o.ss] ? o.ss : "show"; os = STATES[o.os] && o.os !== "hl" ? o.os : "show";
+    if (typeof o.fade === "number") fade = o.fade; if (typeof o.hl === "string") hl = o.hl; tintOn = o.tint !== false; ghostPref = !!o.ghost; markMode = !!o.markMode;
+    if (modeOf() === "only" && E.reveal) E.reveal(marks);
+    changed();
   }
   function changed(){
     fixStates(); renderChips(); syncButtons(); ui(); persistLast(); E.refresh();
@@ -5341,7 +6021,10 @@ function NMSKSelect(E){
   if (tintEl) tintEl.addEventListener("change", function(){ setTint(tintEl.checked); });
   bind("sel-markmode", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
   bind("sel-reset", resetAll);
-  bind("sel-undo", undo);
+  bind("sel-undo", function(){ var H = histOn(); if (H) H.undo(); else undo(); });
+  bind("sel-redo", function(){ var H = histOn(); if (H) H.redo(); });
+  bind("ss-q-all", showAll);
+  Array.prototype.forEach.call(document.querySelectorAll("#ss-fadetaps [data-fa]"), function(b){ b.addEventListener("click", function(){ setFade(+b.getAttribute("data-fa") / 100); }); });
   bind("sel-save", function(){ save(); });
   bind("sel-load", function(){ load(); });
   bind("sel-del", function(){ del(); });
@@ -5396,6 +6079,7 @@ function NMSKSelect(E){
      right up until it runs), and never while typing in a field */
   function onUndoKey(e){
     if (!(e.ctrlKey || e.metaKey) || e.altKey || e.shiftKey || e.repeat || String(e.key || "").toLowerCase() !== "z") return;
+    if (histOn()) return;                                  // Q294: the page-wide history owns Ctrl/Cmd+Z
     var t = e.target, tag = t && t.tagName;
     if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable)) return;
     e.preventDefault(); e.stopImmediatePropagation(); undo();
@@ -5413,6 +6097,7 @@ function NMSKSelect(E){
   if (remEl) remEl.checked = data.remember;
   if (stored && stored.tint === false) tintOn = false;
   layout(); fillCats(); listSets(); renderChips(); ui();
+  if (E.stats && typeof setInterval !== "undefined") setInterval(function(){ if (sec && sec.offsetParent !== null) scene(); }, 1500);   // Q294: layers / card hide change the scene too
   var restored = "";
   try {
     var ph = parseHash(location.hash);
@@ -5431,6 +6116,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
+    snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
     state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
@@ -5710,7 +6396,7 @@ var NMSKModes = (function(){
     var shell = $("mode-shell"); shell.hidden = false;
     $("mb-pill").querySelector(".mb-long").textContent = p.title || key; $("mb-pill").querySelector(".mb-short").textContent = p.short || p.title || key;
     ctx.bar.chips.innerHTML = ""; ctx.main.innerHTML = ""; ctx.pills.innerHTML = ""; ctx.pills.hidden = true;
-    Array.prototype.slice.call(ctx.bar.end.children).forEach(function(c){ if (c.id !== "mb-exit" && c.id !== "mb-exit-x") c.remove(); });
+    Array.prototype.slice.call(ctx.bar.end.children).forEach(function(c){ if (c.id !== "mb-exit" && c.id !== "mb-exit-x" && !(c.classList && c.classList.contains("hist-b"))) c.remove(); });   // Q294: the undo / redo / reset buttons stay
     try { p.build(ctx); } catch (err){ console.error("mode " + key + " failed to build:", err); }
     try { p.enter(ctx); } catch (err2){ console.error("mode " + key + " failed to enter:", err2); }
     placeAll(); fireResize();
@@ -5769,7 +6455,9 @@ var NMSKModes = (function(){
     if (queued === key){ if (host && host.ready()) enter(key); else waitReady(); }
     return true;
   }
-  return {init:init, register:register, enter:enter, exit:function(){ exit(); }, show:showSwitcher, hide:hideSwitcher, current:function(){ return cur; },
+  /* Q294: Reset (the page-wide history) restores the current mode's own controls through its provider's optional reset() */
+  function resetCurrent(){ if (curP && typeof curP.reset === "function"){ try { curP.reset(); } catch (err){} return true; } return false; }
+  return {init:init, register:register, enter:enter, exit:function(){ exit(); }, show:showSwitcher, hide:hideSwitcher, current:function(){ return cur; }, resetCurrent:resetCurrent,
           state:function(){ var sid = null; try { sid = host ? host.selectedId() : null; } catch (err){} return {cur:cur, registered:Object.keys(providers), switcherOpen:!!(switcher() && !switcher().hidden), queued:queued, docks:docks.length, selected:sid}; },
           el:el};
 })();
@@ -5966,7 +6654,7 @@ var NMSKCapCore = (function(){
   /* ---- 6. build everything for one plane ----
      items: [{key, name, cat, rgb:[r,g,b] 0..1, alpha, geom:function()->{pos,idx,bmin,bmax}}] (visible structures only)
      plane: {n:[unit normal], d: offset (n.p = d)}
-     opt: {gap:1.0, minPx:0.4, maxDim:2048, px:override, maxOddFrac:0.12, maxOddRun:30, outline:true} */
+     opt: {gap:1.0, minPx:0.4, maxDim:2048, px:override, maxOddFrac:0.12, maxOddRun:30, outline:true, win:[u0, v0, u1, v1] (Q294: plane-coordinate window -- only what is cut inside it)} */
   function build(items, plane, opt){
     opt = opt || {};
     var o = {gap:opt.gap == null ? 1.0 : opt.gap, minPx:opt.minPx || 0.4, maxDim:opt.maxDim || 2048, px:opt.px || 0,
@@ -5986,8 +6674,14 @@ var NMSKCapCore = (function(){
     var stats = {items_total:items.length, structures_cut:cut.length, filled:0, outline_only:0, thin:0, rows:0, odd_rows:0, odd_rows_in_filled:0, odd_rows_in_outline_only:0, rows_in_filled:0, filled_with_repair:0, repaired_rows:0,
                  open_ends_before:0, open_ends_after:0, joined:0, duplicate_segments:0, segments:0, by_cat:{}, outline_only_names:[]};
     if (!cut.length){ res.stats = stats; res.ms = Date.now() - t0; return res; }
-    var U0 = 1e30, U1 = -1e30, V0 = 1e30, V1 = -1e30;
+    var U0 = 1e30, U1 = -1e30, V0 = 1e30, V1 = -1e30, win = opt.win || null;
+    if (win){                                                          // Q294: a window in plane coordinates [u0, v0, u1, v1] -- only what is cut inside it, raster = the window
+      cut = cut.filter(function(c){ return c.box[2] > win[0] && c.box[0] < win[2] && c.box[3] > win[1] && c.box[1] < win[3]; });
+      stats.structures_cut = cut.length;
+      if (!cut.length){ res.stats = stats; res.ms = Date.now() - t0; return res; }
+    }
     cut.forEach(function(c){ U0 = Math.min(U0, c.box[0]); V0 = Math.min(V0, c.box[1]); U1 = Math.max(U1, c.box[2]); V1 = Math.max(V1, c.box[3]); });
+    if (win){ U0 = Math.max(U0, win[0]); V0 = Math.max(V0, win[1]); U1 = Math.min(U1, win[2]); V1 = Math.min(V1, win[3]); res.win = win.slice(); }
     var ext = Math.max(U1 - U0, V1 - V0, 1), px = o.px || Math.max(o.minPx, ext / o.maxDim);
     var pad = 2 * px;
     res.px = px; res.u0 = U0 - pad; res.v0 = V0 - pad;
@@ -6030,6 +6724,7 @@ var NMSKCapCore = (function(){
         var a = S.sa[k], b = S.sb[k], ua = S.pu[a], va = S.pv[a], ub = S.pu[b], vb = S.pv[b];
         var cx = Math.floor(((ua + ub) / 2 - res.u0) * inv), cy = Math.floor(((va + vb) / 2 - res.v0) * inv);
         if (cx >= 0 && cy >= 0 && cx < w && cy < h){ var oc = res.ids[cy * w + cx]; if (oc > code) continue; }
+        else if (res.win) continue;                                       // Q294: windowed cut -- nothing outside the window
         pos[6*m] = O[0] + U[0]*ua + V[0]*va; pos[6*m+1] = O[1] + U[1]*ua + V[1]*va; pos[6*m+2] = O[2] + U[2]*ua + V[2]*va;
         pos[6*m+3] = O[0] + U[0]*ub + V[0]*vb; pos[6*m+4] = O[1] + U[1]*ub + V[1]*vb; pos[6*m+5] = O[2] + U[2]*ub + V[2]*vb;
         owner[m++] = code;
@@ -6231,6 +6926,15 @@ function NMSKCap(E){
    Cut mode's own faces 0 and 1. Engine adaptor E:
      cut() -> {on, kn, c} (Cut mode's current plane; {on:false} when Cut mode is off)   items() -> same shape NMSKCap's own items() builds
      uploadFace(slot, res|null)   showFace(slot, bool)   redraw()   isPhone() */
+/* Q294 adds, on the same controller and the same face pool:
+   PART mode -- the stack restricted to a chosen structure or segment (e.g. only one finger, or the forearm): the planes are
+   perpendicular to the part's own long axis (first principal axis of its vertices), spaced by an INTERVAL along that axis over
+   the part's whole length, each a slab of the chosen THICKNESS (count = floor((L - thickness) / interval) + 1, centred on the
+   part); only the part's own structures are cut ("only the part"), or every shown structure inside a window around the part's
+   cross-section ("everything around it", the default: a finger's skin, tendons and vessels with its bone). Cut mode is not
+   needed. SPREAD -- in the cross-section display only, the slices are drawn apart along the stack's axis (a gap multiplier),
+   so they do not hide each other; their true positions (state().planes) never change. Adaptor additions, all optional:
+   onTop(bool) draw the stack over the model   focus(point, distance) frame the stack */
 var NMSKCrossSectionCore = (function(){
   "use strict";
   /* n = slice count (3..12), c0 = Cut mode's current plane constant (its own n.p + c = 0 convention), spacing/thickness in mm.
@@ -6246,51 +6950,192 @@ var NMSKCrossSectionCore = (function(){
     }
     return out;
   }
-  return {planesFor:planesFor};
+  /* Q294: the part's long axis -- first principal axis of the vertices (power iteration on the covariance), the extent along it
+     and the cross-section box in the NMSKCapCore plane basis. pts: array of Float32 xyz arrays */
+  function axisOf(pts){
+    var n = 0, c = [0, 0, 0], k, i, P;
+    for (k = 0; k < pts.length; k++){ P = pts[k]; for (i = 0; i < P.length; i += 3){ c[0] += P[i]; c[1] += P[i+1]; c[2] += P[i+2]; n++; } }
+    if (!n) return null;
+    c = [c[0] / n, c[1] / n, c[2] / n];
+    var M = [0, 0, 0, 0, 0, 0];                                         // xx xy xz yy yz zz
+    for (k = 0; k < pts.length; k++){ P = pts[k]; for (i = 0; i < P.length; i += 3){ var x = P[i] - c[0], y = P[i+1] - c[1], z = P[i+2] - c[2];
+      M[0] += x*x; M[1] += x*y; M[2] += x*z; M[3] += y*y; M[4] += y*z; M[5] += z*z; } }
+    var a = [1, 0.7, 0.4];
+    for (var it = 0; it < 60; it++){
+      var b = [M[0]*a[0] + M[1]*a[1] + M[2]*a[2], M[1]*a[0] + M[3]*a[1] + M[4]*a[2], M[2]*a[0] + M[4]*a[1] + M[5]*a[2]], l = Math.hypot(b[0], b[1], b[2]) || 1;
+      a = [b[0] / l, b[1] / l, b[2] / l];
+    }
+    var big = 0; for (i = 1; i < 3; i++) if (Math.abs(a[i]) > Math.abs(a[big])) big = i;
+    if (a[big] < 0) a = [-a[0], -a[1], -a[2]];                           // deterministic sign
+    var UV = NMSKCapCore.basis(a), U = UV[0], V = UV[1], t0 = 1e30, t1 = -1e30, u0 = 1e30, u1 = -1e30, v0 = 1e30, v1 = -1e30;
+    for (k = 0; k < pts.length; k++){ P = pts[k]; for (i = 0; i < P.length; i += 3){
+      var t = a[0]*P[i] + a[1]*P[i+1] + a[2]*P[i+2], u = U[0]*P[i] + U[1]*P[i+1] + U[2]*P[i+2], v = V[0]*P[i] + V[1]*P[i+1] + V[2]*P[i+2];
+      if (t < t0) t0 = t; if (t > t1) t1 = t; if (u < u0) u0 = u; if (u > u1) u1 = u; if (v < v0) v0 = v; if (v > v1) v1 = v; } }
+    return {c:c, a:a, U:U, V:V, t0:t0, t1:t1, len:t1 - t0, box:[u0, v0, u1, v1], n:n};
+  }
+  /* Q294: slabs of `thickness` every `interval` mm along the axis over [t0, t1]: count = floor((L - th) / interval) + 1, centred */
+  function partPlanes(ax, interval, thickness, maxN){
+    interval = interval > 0 ? interval : 10; thickness = thickness > 0 ? thickness : 0;
+    var L = ax.len, cnt = L > thickness ? Math.floor((L - thickness) / interval + 1e-9) + 1 : 1;
+    cnt = Math.max(1, Math.min(maxN || 80, cnt));
+    var s0 = ax.t0 + (L - thickness - (cnt - 1) * interval) / 2, out = [];
+    for (var k = 0; k < cnt; k++){ var t = s0 + k * interval; out.push({near:{n:ax.a.slice(), d:t}, far:thickness > 0 ? {n:ax.a.slice(), d:t + thickness} : null, t:t}); }
+    return out;
+  }
+  /* Q294: display offsets of the spread: slice k moved by (t_k - mean) * (gap - 1) along the stack axis */
+  function spreadOffsets(ts, gap){
+    var m = 0; ts.forEach(function(t){ m += t; }); m /= Math.max(1, ts.length);
+    return ts.map(function(t){ return (t - m) * ((gap > 1 ? gap : 1) - 1); });
+  }
+  function shifted(res, off){                                           // a display copy of a cap moved by off along its own normal (the original is untouched)
+    if (!off || !res || !res.w) return res;
+    var n = res.n, o = {}, k;
+    for (k in res) if (Object.prototype.hasOwnProperty.call(res, k)) o[k] = res[k];
+    o.O = [res.O[0] + n[0] * off, res.O[1] + n[1] * off, res.O[2] + n[2] * off]; o.d = res.d + off; o.offset = off;
+    var L = res.lines, p = new Float32Array(L.pos.length);
+    for (k = 0; k < p.length; k += 3){ p[k] = L.pos[k] + n[0] * off; p[k+1] = L.pos[k+1] + n[1] * off; p[k+2] = L.pos[k+2] + n[2] * off; }
+    o.lines = {pos:p, col:L.col, owner:L.owner, count:L.count};
+    return o;
+  }
+  /* Q294: a mesh cropped to the triangles that touch a box (compact vertices): every plane of a part's stack then slices only the few
+     triangles near the part instead of a whole-body mesh (the skin, a long muscle) -- same contours, a fraction of the work */
+  function crop(g, lo, hi){
+    var pos = g.pos, idx = g.idx, nt = idx.length / 3, keep = [], k, j;
+    for (k = 0; k < nt; k++){
+      var a = 3 * idx[3*k], b = 3 * idx[3*k+1], c = 3 * idx[3*k+2], ok = true;
+      for (j = 0; j < 3 && ok; j++){ var mn = Math.min(pos[a+j], pos[b+j], pos[c+j]), mx = Math.max(pos[a+j], pos[b+j], pos[c+j]); if (mx < lo[j] || mn > hi[j]) ok = false; }
+      if (ok) keep.push(k);
+    }
+    if (!keep.length) return null;
+    var map = new Map(), P = [], I = new Uint32Array(keep.length * 3), bmin = [1e30, 1e30, 1e30], bmax = [-1e30, -1e30, -1e30];
+    keep.forEach(function(t, n){ for (var q = 0; q < 3; q++){ var v = idx[3*t+q], m = map.get(v);
+      if (m === undefined){ m = P.length / 3; map.set(v, m); for (var d = 0; d < 3; d++){ var x = pos[3*v+d]; P.push(x); if (x < bmin[d]) bmin[d] = x; if (x > bmax[d]) bmax[d] = x; } }
+      I[3*n+q] = m; } });
+    return {pos:new Float32Array(P), idx:I, bmin:bmin, bmax:bmax};
+  }
+  return {planesFor:planesFor, axisOf:axisOf, partPlanes:partPlanes, spreadOffsets:spreadOffsets, shifted:shifted, crop:crop};
 })();
 function NMSKCrossSection(E){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
   var btn = $("xsec-on"), body = $("xsec-body"), info = $("xsec-info"), nInp = $("xsec-n"), spInp = $("xsec-sp"), thInp = $("xsec-th"), steps = $("xsec-steps");
-  var FACE_BASE = 900;                 // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
-  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0};
+  var FACE_BASE = 900, PART_MAX = 80;  // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
+  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0,
+            mode:"plane", part:null, pLabel:"", pTh:1, pInt:10, gap:1, scope:"around", planes:[], ax:null, msg:"", faces:[]};
   var KEY = "nmsk-xsec-v1";
   function loadPref(){ try { var p = JSON.parse(localStorage.getItem(KEY) || "null"); if (p){ if (p.n >= 3 && p.n <= 12) st.n = p.n; if (p.spacing > 0) st.spacing = p.spacing; if (p.thickness >= 0) st.thickness = p.thickness; } } catch (err){} }
   function savePref(){ try { localStorage.setItem(KEY, JSON.stringify({n:st.n, spacing:st.spacing, thickness:st.thickness})); } catch (err){} }
   loadPref();
-  function clearSlots(){ for (var s = 0; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null); st.slots = 0; }
+  function clearSlots(){ for (var s = 0; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null); st.slots = 0; st.faces = []; st.planes = []; }
+  function r2(v){ return Math.round(v * 100) / 100; }
+  function seg(id, attr, val){ var g = $(id); if (!g) return; Array.prototype.forEach.call(g.querySelectorAll("[" + attr + "]"), function(b){ b.setAttribute("aria-pressed", String(+b.getAttribute(attr) === val)); }); }
   function ui(){
-    if (btn) btn.setAttribute("aria-pressed", String(st.on));
-    if (body) body.hidden = !st.on;
+    if (btn) btn.setAttribute("aria-pressed", String(st.on && st.mode === "plane"));
+    if (body) body.hidden = !(st.on && st.mode === "plane");
     if (nInp) nInp.value = st.n; if (spInp) spInp.value = st.spacing; if (thInp) thInp.value = st.thickness;
+    seg("xsec-gap", "data-xgap", st.gap); seg("xsp-gap", "data-xgap", st.gap); seg("xsp-th", "data-xth", st.pTh); seg("xsp-int", "data-xint", st.pInt);
+    var pi = $("xsp-intv"); if (pi && document.activeElement !== pi) pi.value = st.pInt;
+    var sc = $("xsp-scope"); if (sc){ sc.setAttribute("aria-pressed", String(st.scope === "only")); sc.textContent = st.scope === "only" ? "Only the part" : "Everything around it"; }
+    var off = $("xsp-off"); if (off) off.disabled = !(st.on && st.mode === "part");
+    var pinfo = $("xsp-info");
+    if (pinfo){
+      if (st.mode !== "part" || !st.on) pinfo.textContent = st.msg || "";
+      else if (st.busy) pinfo.textContent = "Building...";
+      else if (st.msg) pinfo.textContent = st.msg;
+      else pinfo.textContent = st.planes.length + " slices" + (st.pTh > 0 ? " · " + st.pTh + " mm thick" : "") + " · every " + st.pInt + " mm · along " + (st.ax ? st.ax.len.toFixed(0) : "?") + " mm" +
+        (st.gap > 1 ? " · drawn ×" + st.gap + " apart (true positions unchanged)" : "");
+    }
     if (!info) return;
-    if (!st.on){ info.textContent = ""; return; }
+    if (!st.on || st.mode !== "plane"){ info.textContent = ""; return; }
     var c = E.cut();
     if (!c || !c.on){ info.textContent = "Cut mode is off: turn it on first (the cross-section stack uses its current plane)."; return; }
     info.textContent = st.n + " slices, " + st.spacing + " mm apart" + (st.thickness > 0 ? ", " + st.thickness + " mm thick each" : " (zero-thickness planes)") +
+      (st.gap > 1 ? ", drawn ×" + st.gap + " apart" : "") +
       (st.busy ? " -- building..." : " -- " + (st.ms / 1000).toFixed(2) + " s, " + st.slots + " face" + (st.slots === 1 ? "" : "s") + " uploaded");
+  }
+  function partGeom(items){
+    var want = {}, pts = [], got = [];
+    st.part.forEach(function(id){ want[id] = 1; });
+    items.forEach(function(it){ if (want[it.key] === 1){ var g = it.geom(); if (g && g.pos){ pts.push(g.pos); got.push({it:it, g:g}); } } });
+    return {pts:pts, got:got};
+  }
+  function upload(list, offs){
+    var slot = 0;
+    list.forEach(function(L, k){
+      L.forEach(function(res){ E.uploadFace(FACE_BASE + slot, NMSKCrossSectionCore.shifted(res, offs[k])); E.showFace(FACE_BASE + slot, true); st.faces[slot] = {k:k, d:res.d, off:offs[k] || 0}; slot++; });
+    });
+    for (var s = slot; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null);
+    st.faces.length = slot; st.slots = slot;
+  }
+  function rebuildPart(){
+    var items = E.items(), pg = partGeom(items);
+    if (!pg.pts.length){ clearSlots(); st.msg = "The chosen part is not shown (switch its layer on or unhide it)."; return; }
+    var ax = NMSKCrossSectionCore.axisOf(pg.pts); st.ax = ax;
+    var planes = NMSKCrossSectionCore.partPlanes(ax, st.pInt, st.pTh, PART_MAX);
+    var du = ax.box[2] - ax.box[0], dv = ax.box[3] - ax.box[1], m = Math.max(5, Math.min(30, 0.35 * Math.max(du, dv) + 4));
+    var win = [ax.box[0] - m, ax.box[1] - m, ax.box[2] + m, ax.box[3] + m], ext = Math.max(win[2] - win[0], win[3] - win[1]), px = Math.max(0.08, Math.min(0.4, ext / 400));
+    var want = {}; st.part.forEach(function(id){ want[id] = 1; });
+    var lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30], ci, cj, ck;   // the world box around the oriented slab stack + its window (+2 mm): nothing the windows show is cropped away
+    for (ci = 0; ci < 2; ci++) for (cj = 0; cj < 2; cj++) for (ck = 0; ck < 2; ck++){
+      var tt = ci ? ax.t1 + 1 : ax.t0 - 1, uu = cj ? win[2] + 2 : win[0] - 2, vv = ck ? win[3] + 2 : win[1] - 2;
+      for (var kk = 0; kk < 3; kk++){ var x = ax.a[kk] * tt + ax.U[kk] * uu + ax.V[kk] * vv; if (x < lo[kk]) lo[kk] = x; if (x > hi[kk]) hi[kk] = x; }
+    }
+    var use = (st.scope === "only" ? items.filter(function(it){ return want[it.key] === 1; }) : items.filter(function(it){
+      if (want[it.key] === 1) return true; var g = it.geom(); if (!g) return false;
+      for (var k = 0; k < 3; k++) if (g.bmax[k] < lo[k] || g.bmin[k] > hi[k]) return false;
+      return true;
+    })).map(function(it){                                 // each structure cropped once to the part's box: N planes x a few triangles, not N planes x the whole mesh
+      var g = it.geom(), c = g ? NMSKCrossSectionCore.crop(g, lo, hi) : null; if (!c) return null;
+      var o = {}; for (var k in it) if (Object.prototype.hasOwnProperty.call(it, k)) o[k] = it[k]; o.geom = function(){ return c; }; return o;
+    }).filter(function(x){ return !!x; });
+    var faces = [], tot = 0;
+    planes.forEach(function(pl){
+      var L = [], near = NMSKCapCore.build(use, pl.near, {gap:1.0, win:win, px:px}); NMSKCapCore.recolor(near, use); near._cut = null; L.push(near); tot += near.items.length;
+      if (pl.far){ var far = NMSKCapCore.build(use, pl.far, {gap:1.0, win:win, px:px}); NMSKCapCore.recolor(far, use); far._cut = null; L.push(far); }
+      faces.push(L);
+    });
+    st.planes = planes.map(function(p){ return {t:r2(p.t), d:r2(p.near.d), far:p.far ? r2(p.far.d) : null, n:p.near.n.map(function(x){ return Math.round(x * 1e5) / 1e5; })}; });
+    upload(faces, NMSKCrossSectionCore.spreadOffsets(planes.map(function(p){ return p.t; }), st.gap));
+    st.msg = tot ? "" : "No cross-section: the part's slices cut nothing that is shown.";
+  }
+  function rebuildPlane(){
+    var c = E.cut();
+    if (!c || !c.on){ clearSlots(); return; }
+    var items = E.items(), planes = NMSKCrossSectionCore.planesFor(c.kn, c.c, st.n, st.spacing, st.thickness), faces = [];
+    planes.forEach(function(pl){
+      var L = [], near = NMSKCapCore.build(items, pl.near, {gap:1.0}); NMSKCapCore.recolor(near, items); near._cut = null; L.push(near);
+      if (pl.far){ var far = NMSKCapCore.build(items, pl.far, {gap:1.0}); NMSKCapCore.recolor(far, items); far._cut = null; L.push(far); }
+      faces.push(L);
+    });
+    st.planes = planes.map(function(p){ return {t:r2(-p.c), d:r2(p.near.d), far:p.far ? r2(p.far.d) : null, n:p.near.n.map(function(x){ return Math.round(x * 1e5) / 1e5; })}; });
+    upload(faces, NMSKCrossSectionCore.spreadOffsets(planes.map(function(p){ return -p.c; }), st.gap));
   }
   function rebuild(){
     st.timer = 0;
-    var c = E.cut();
-    if (!st.on || !c || !c.on){ clearSlots(); ui(); return; }
+    if (E.onTop) E.onTop(st.on && (st.mode === "part" || st.gap > 1));
+    if (!st.on || (st.mode === "part" && !(st.part && st.part.length))){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    if (st.mode === "plane"){ var c = E.cut(); if (!c || !c.on){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; } }
     st.busy = true; ui();
-    var items = E.items(), planes = NMSKCrossSectionCore.planesFor(c.kn, c.c, st.n, st.spacing, st.thickness), t0 = Date.now(), slot = 0;
-    planes.forEach(function(pl){
-      var near = NMSKCapCore.build(items, pl.near, {gap:1.0}); NMSKCapCore.recolor(near, items); near._cut = null;
-      E.uploadFace(FACE_BASE + slot, near); E.showFace(FACE_BASE + slot, true); slot++;
-      if (pl.far){
-        var far = NMSKCapCore.build(items, pl.far, {gap:1.0}); NMSKCapCore.recolor(far, items); far._cut = null;
-        E.uploadFace(FACE_BASE + slot, far); E.showFace(FACE_BASE + slot, true); slot++;
-      }
-    });
-    for (var s = slot; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null);    // fewer faces than the previous build: drop the leftovers
-    st.slots = slot; st.builds++; st.ms = Date.now() - t0; st.busy = false; ui();
+    var t0 = Date.now();
+    try { if (st.mode === "part") rebuildPart(); else rebuildPlane(); }
+    catch (err){ st.msg = "Could not build the slices: " + (err && err.message || err); if (typeof console !== "undefined") console.error("cross-section stack:", err); }
+    finally { st.builds++; st.ms = Date.now() - t0; st.busy = false; ui(); }
+    if (E.redraw) E.redraw();
   }
   function schedule(delay){ if (st.timer) clearTimeout(st.timer); st.timer = setTimeout(rebuild, delay == null ? 90 : delay); }
   function setN(v){ var nv = Math.max(3, Math.min(12, Math.round(+v) || st.n)); if (nv === st.n) return; st.n = nv; savePref(); schedule(); ui(); }
   function setSpacing(v){ var sv = Math.max(0.5, Math.min(200, +v || st.spacing)); if (sv === st.spacing) return; st.spacing = Math.round(sv * 10) / 10; savePref(); schedule(); ui(); }
   function setThickness(v){ var tv = Math.max(0, Math.min(100, +v || 0)); if (tv === st.thickness) return; st.thickness = tv; savePref(); schedule(); ui(); }
+  function setGap(v){ var g = Math.max(1, Math.min(8, +v || 1)); if (g === st.gap) return; st.gap = g; schedule(0); ui(); }
+  function setPartTh(v){ var t = Math.max(0, Math.min(50, +v || 0)); if (t === st.pTh) return; st.pTh = t; if (st.mode === "part") schedule(); ui(); }
+  function setPartInt(v){ var t = Math.max(0.5, Math.min(200, +v || st.pInt)); t = Math.round(t * 10) / 10; if (t === st.pInt) return; st.pInt = t; if (st.mode === "part") schedule(); ui(); }
+  function setScope(v){ var s = v === "only" ? "only" : "around"; if (s === st.scope) return; st.scope = s; if (st.mode === "part") schedule(); ui(); }
+  /* part mode: ids = the structures of the part (one structure or a segment); label = its name for the panel */
+  function setPart(ids, label){
+    ids = (ids || []).filter(function(x){ return !!x; });
+    if (!ids.length){ st.part = null; st.pLabel = ""; if (st.mode === "part"){ st.on = false; st.mode = "plane"; clearSlots(); } st.msg = ""; schedule(0); ui(); return false; }
+    st.part = ids.slice(); st.pLabel = label || ""; st.mode = "part"; st.on = true; st.msg = ""; schedule(0); ui(); return true;
+  }
   function spacingStep(cur){ return cur < 5 ? 0.5 : cur < 20 ? 1 : 5; }
   function onWheel(e){ if (!st.on) return; e.preventDefault(); setSpacing(st.spacing + (e.deltaY > 0 ? 1 : -1) * spacingStep(st.spacing)); }
   var touchY = null;
@@ -6302,29 +7147,62 @@ function NMSKCrossSection(E){
   }
   function onTouchEnd(){ touchY = null; }
   function set(on){
+    if (on && st.mode === "part"){ st.mode = "plane"; }
     st.on = !!on; ui();
-    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); if (E.onTop) E.onTop(false); ui(); if (E.redraw) E.redraw(); return; }
     schedule(0);
   }
-  if (btn) btn.addEventListener("click", function(){ set(!st.on); });
+  function frame(){
+    if (!E.focus || !st.planes.length) return false;
+    var ax = st.mode === "part" ? st.ax : null, n = st.planes[0].n, ts = st.planes.map(function(p){ return p.t; }), lo = Math.min.apply(null, ts), hi = Math.max.apply(null, ts);
+    var g = st.gap > 1 ? st.gap : 1, span = (hi - lo) * g + 20, c = ax ? ax.c : null;
+    if (!c){ var cu = E.cut(); if (!cu || !cu.on) return false; var mid = (lo + hi) / 2; c = [n[0] * mid, n[1] * mid, n[2] * mid]; }
+    else { var tc = (ax.a[0] * c[0] + ax.a[1] * c[1] + ax.a[2] * c[2]), mm = (lo + hi) / 2 + (st.pTh || 0) / 2; c = [c[0] + ax.a[0] * (mm - tc), c[1] + ax.a[1] * (mm - tc), c[2] + ax.a[2] * (mm - tc)]; }
+    E.focus(c, Math.max(80, span * 1.9));
+    return true;
+  }
+  if (btn) btn.addEventListener("click", function(){ set(!(st.on && st.mode === "plane")); });
   if (nInp) nInp.addEventListener("change", function(){ setN(nInp.value); });
   if (spInp) spInp.addEventListener("change", function(){ setSpacing(spInp.value); });
   if (thInp) thInp.addEventListener("change", function(){ setThickness(thInp.value); });
   if (steps) steps.querySelectorAll("[data-xs]").forEach(function(b){ b.addEventListener("click", function(){ setSpacing(st.spacing + (+b.dataset.xs)); }); });
+  ["xsec-gap", "xsp-gap"].forEach(function(id){ var g = $(id); if (g) g.querySelectorAll("[data-xgap]").forEach(function(b){ b.addEventListener("click", function(){ setGap(+b.getAttribute("data-xgap")); }); }); });
+  var gth = $("xsp-th"); if (gth) gth.querySelectorAll("[data-xth]").forEach(function(b){ b.addEventListener("click", function(){ setPartTh(+b.getAttribute("data-xth")); }); });
+  var gin = $("xsp-int"); if (gin) gin.querySelectorAll("[data-xint]").forEach(function(b){ b.addEventListener("click", function(){ setPartInt(+b.getAttribute("data-xint")); }); });
+  var piv = $("xsp-intv"); if (piv) piv.addEventListener("change", function(){ setPartInt(piv.value); });
+  var psc = $("xsp-scope"); if (psc) psc.addEventListener("click", function(){ setScope(st.scope === "only" ? "around" : "only"); });
+  var pof = $("xsp-off"); if (pof) pof.addEventListener("click", function(){ setPart(null); });
+  var pfr = $("xsp-frame"); if (pfr) pfr.addEventListener("click", function(){ frame(); });
   if (body){
     body.addEventListener("wheel", onWheel, {passive:false});
     body.addEventListener("touchstart", onTouchStart, {passive:true});
     body.addEventListener("touchmove", onTouchMove, {passive:false});
     body.addEventListener("touchend", onTouchEnd); body.addEventListener("touchcancel", onTouchEnd);
   }
+  function snapshot(){ return {on:st.on, mode:st.mode, n:st.n, spacing:st.spacing, thickness:st.thickness, part:st.part ? st.part.slice() : null, label:st.pLabel, pTh:st.pTh, pInt:st.pInt, gap:st.gap, scope:st.scope}; }
+  function restore(s){
+    if (!s) return;
+    st.n = s.n || st.n; st.spacing = s.spacing || st.spacing; st.thickness = s.thickness || 0; st.pTh = s.pTh != null ? s.pTh : st.pTh; st.pInt = s.pInt || st.pInt;
+    st.gap = s.gap || 1; st.scope = s.scope === "only" ? "only" : "around"; st.part = s.part ? s.part.slice() : null; st.pLabel = s.label || "";
+    st.mode = s.mode === "part" && st.part ? "part" : "plane"; st.on = !!s.on; st.msg = "";
+    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); if (E.onTop) E.onTop(false); if (E.redraw) E.redraw(); }
+    else schedule(0);
+    ui();
+  }
   return {
     set:set, isOn:function(){ return st.on; },
-    planeChanged:function(){ if (st.on) schedule(); },
+    planeChanged:function(){ if (st.on && st.mode === "plane") schedule(); },
     itemsChanged:function(){ if (st.on) schedule(); },
     /* Q282: the same setN/setSpacing/setThickness this module's own number inputs already call, exposed so
        another controller (the Quick view composer) can drive the stack without a second input UI */
     setN:setN, setSpacing:setSpacing, setThickness:setThickness,
-    state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms}; }
+    /* Q294 */
+    setPart:setPart, setPartThickness:setPartTh, setPartInterval:setPartInt, setGap:setGap, setScope:setScope, frame:frame, snapshot:snapshot, restore:restore,
+    rebuildNow:function(){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } rebuild(); },
+    state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms, busy:st.busy || !!st.timer,
+      mode:st.mode, part:st.part ? st.part.slice() : null, label:st.pLabel, partThickness:st.pTh, partInterval:st.pInt, gap:st.gap, scope:st.scope, msg:st.msg,
+      axis:st.ax ? {a:st.ax.a.slice(), len:r2(st.ax.len), t0:r2(st.ax.t0), t1:r2(st.ax.t1)} : null,
+      planes:st.planes.map(function(p){ return {t:p.t, d:p.d, far:p.far, n:p.n.slice()}; }), faces:st.faces.map(function(f){ return {k:f.k, d:r2(f.d), off:r2(f.off)}; })}; }
   };
 }
 /* CUT-CAP js end */
@@ -7289,11 +8167,12 @@ window.learnCtl = learnCtl;
 /* Shared controllers viewer/selection/ and viewer/cut_cap/ (scripts/sync_q227.py). Engine side: the selection adds a veto in apply() ("hide" / "ghost") and an
    amber tint for marked structures; the cut face is a textured quad + line segments under `root`, lying in the cut plane (and one more at the far face of a
    slice). The meshes are cut with the plane on the CPU (NMSKCapCore), the quad only shows the result. */
-var capFaces = [null, null];
+var capFaces = [null, null], xsecOnTop = false, capMatPool = [], capBatch = false;   // Q294: capBatch -- the stack uploads many faces, then draws once (one full render per face cost ~4 s each under software GL)
 function capDispose(f){
   var o = capFaces[f]; if (!o) return;
   root.remove(o.quad); root.remove(o.lines);
-  o.quad.geometry.dispose(); o.quad.material.map.dispose(); o.quad.material.dispose(); o.lines.geometry.dispose(); o.lines.material.dispose();
+  o.quad.geometry.dispose(); o.quad.material.map.dispose(); o.lines.geometry.dispose();
+  capMatPool.push({q:o.quad.material, l:o.lines.material});      // Q294: materials are kept for the next face (no shader program released and re-linked per stack rebuild)
   capFaces[f] = null;
 }
 function capUpload(f, res){
@@ -7301,10 +8180,10 @@ function capUpload(f, res){
   if (old && res && old.res === res){            // only the colours changed: same raster, new texels
     old.quad.material.map.needsUpdate = true;
     old.lines.geometry.setAttribute("color", new THREE.BufferAttribute(res.lines.col, 3));
-    draw(); return;
+    if (!capBatch) draw(); return;
   }
   capDispose(f);
-  if (!res || !res.w){ draw(); return; }
+  if (!res || !res.w){ if (!capBatch) draw(); return; }
   var tex = new THREE.DataTexture(res.rgba, res.w, res.h, THREE.RGBAFormat, THREE.UnsignedByteType);
   tex.magFilter = THREE.NearestFilter; tex.minFilter = THREE.NearestFilter; tex.generateMipmaps = false; tex.needsUpdate = true;
   var u0 = res.u0, v0 = res.v0, u1 = u0 + res.w * res.px, v1 = v0 + res.h * res.px, P = [];
@@ -7313,16 +8192,20 @@ function capUpload(f, res){
   g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(P), 3));
   g.setAttribute("uv", new THREE.BufferAttribute(new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]), 2));
   g.setIndex([0, 1, 2, 0, 2, 3]);
-  var quad = new THREE.Mesh(g, new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide, depthWrite:false, polygonOffset:true, polygonOffsetFactor:2, polygonOffsetUnits:2}));
+  var pm = capMatPool.pop(), qm = pm ? pm.q : new THREE.MeshBasicMaterial({map:tex, transparent:true, side:THREE.DoubleSide, depthWrite:false, polygonOffset:true, polygonOffsetFactor:2, polygonOffsetUnits:2});
+  if (pm){ qm.map = tex; qm.depthTest = true; }
+  var quad = new THREE.Mesh(g, qm);
   quad.renderOrder = 900; quad.frustumCulled = false;
   var lg = new THREE.BufferGeometry();
   lg.setAttribute("position", new THREE.BufferAttribute(res.lines.pos, 3));
   lg.setAttribute("color", new THREE.BufferAttribute(res.lines.col, 3));
-  var lines = new THREE.LineSegments(lg, new THREE.LineBasicMaterial({vertexColors:true}));
+  var lm = pm ? pm.l : new THREE.LineBasicMaterial({vertexColors:true}); if (pm) lm.depthTest = true;
+  var lines = new THREE.LineSegments(lg, lm);
   lines.renderOrder = 901; lines.frustumCulled = false;
+  if (f >= 900 && xsecOnTop){ quad.material.depthTest = lines.material.depthTest = false; quad.renderOrder = 950; lines.renderOrder = 951; }   // Q294
   root.add(quad, lines);
   capFaces[f] = {quad:quad, lines:lines, res:res};
-  draw();
+  if (!capBatch) draw();
 }
 selCtl = NMSKSelect({
   modelId:function(){ return "own:" + (SUBJECTS.every(function(s){ return s.startsWith("ct_vhf") || s.startsWith("xfer_"); }) ? "vhf" : "vhm"); },
@@ -7350,6 +8233,11 @@ selCtl = NMSKSelect({
   pickId:function(e){ var h = pick(e); return h ? h.userData.id : null; },
   clearHover:function(){ document.getElementById("hover").hidden = true; },
   resetEngine:function(){ iso = false; document.getElementById("t-iso").setAttribute("aria-pressed", "false"); },
+  stats:function(){                              // Q294: what the scene draws now, per structure (shown / hidden / faded)
+    var seen = {}, sh = 0, hi = 0, fa = 0;
+    meshes.forEach(function(m){ var id = m.userData.id; if (seen[id]) return; seen[id] = 1; if (!m.visible) hi++; else if (m.material.opacity < 0.5) fa++; else sh++; });
+    return {shown:sh + fa, hidden:hi, faded:fa};
+  },
   canvas:renderer.domElement, toolbar:document.getElementById("tools"), toolClass:"tool",
   isPhone:function(){ return !!app && app.classList.contains("phone"); }
 });
@@ -7400,8 +8288,11 @@ xsecCtl = NMSKCrossSection({
     symCap(out);
     return out;
   },
-  uploadFace:capUpload, showFace:function(f, v){ var o = capFaces[f]; if (o){ o.quad.visible = o.lines.visible = v; draw(); } },
-  redraw:function(){ draw(); }, isPhone:function(){ return !!app && app.classList.contains("phone"); }
+  uploadFace:function(f, res){ capBatch = true; try { capUpload(f, res); } finally { capBatch = false; } },
+  showFace:function(f, v){ var o = capFaces[f]; if (o){ o.quad.visible = o.lines.visible = v; } },      // the controller draws once after the whole stack (redraw below)
+  redraw:function(){ draw(); }, isPhone:function(){ return !!app && app.classList.contains("phone"); },
+  onTop:function(v){ xsecOnTop = !!v; capFaces.forEach(function(o, f){ if (o && f >= 900){ o.quad.material.depthTest = o.lines.material.depthTest = !xsecOnTop; o.quad.renderOrder = xsecOnTop ? 950 : 900; o.lines.renderOrder = xsecOnTop ? 951 : 901; } }); },   // Q294: part slices / spread drawn over the model
+  focus:function(p, d){ target.set(p[0], p[1], p[2]).add(root.position); if (d) dist = d; place(); draw(); }
 });
 window.xsecCtl = xsecCtl;    // Q281: a deliberate, explicit test/harness hook (same convention as window.NMSKClinicalTool / window.NeedlePath) -- this template has no other IIFE wrapper, but the Z template does, so this line's own template-local var would not otherwise be reachable from a test the same way on both pages
 /* Q236: structure labels. Engine side only: what is drawn (alphas), the camera, a small ID image (every visible structure in its own flat colour, same camera / cut planes
@@ -7635,6 +8526,45 @@ applyLayout();
 select(byId["biceps_femoris_r"] ? "biceps_femoris_r" : BUNDLE.structures[0].id);
 layoutReady = true;
 partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback when absent)
+/* Q294: one page-wide Undo / Redo / Reset (viewer/q294/history.js) over every user state change: this engine's own display state
+   (layers, source classes, default-hidden flags, the card's hide / fade, per-system opacity, isolate, X-ray, the open card), the
+   marked structures, the cut plane, the cross-section stack, the labels' mode, the measurements; plus the measure tools, the
+   part-slices panel and the less-text helpers (abbreviation popup, "i" tips). The camera is not part of the history. */
+(function(){
+  function keys(o){ return Object.keys(o).filter(function(k){ return !!o[k]; }).sort(); }
+  function obj(a){ var o = {}; (a || []).forEach(function(k){ o[k] = true; }); return o; }
+  function engGet(){
+    var sa = {}; Object.keys(sysAlpha).forEach(function(c){ if (sysAlpha[c] != null && sysAlpha[c] < 1) sa[c] = Math.round(sysAlpha[c] * 100) / 100; });
+    return {on:keys(on), src:Object.keys(srcOn).filter(function(k){ return srcOn[k] === false; }).sort(), hd:keys(hdShown), ho:keys(hideOverride), fo:keys(fadeOverride), sa:sa, iso:!!iso, xray:!!xray, sel:selected || null};
+  }
+  function engSet(v){
+    cats.forEach(function(c){ on[c] = v.on.indexOf(c) >= 0; var b = sysBox.querySelector('.sys[data-cat="' + c + '"]'); if (b) b.setAttribute("aria-pressed", String(on[c])); });
+    Object.keys(srcOn).forEach(function(k){ srcOn[k] = v.src.indexOf(k) < 0; var b = document.querySelector('#src-list [data-src="' + k + '"]'); if (b) b.setAttribute("aria-pressed", String(srcOn[k])); });
+    var cardChanged = JSON.stringify([keys(hideOverride), keys(fadeOverride), keys(hdShown)]) !== JSON.stringify([v.ho, v.fo, v.hd]);
+    hdShown = obj(v.hd); hideOverride = obj(v.ho); fadeOverride = obj(v.fo);
+    Object.keys(sysAlpha).forEach(function(c){ delete sysAlpha[c]; }); Object.keys(v.sa || {}).forEach(function(c){ sysAlpha[c] = v.sa[c]; });
+    Array.prototype.forEach.call(document.querySelectorAll("#systems .sys-row[data-cat]"), function(r){ var sl = r.querySelector(".sys-op-sl"), o = r.querySelector(".sys-op-v"), c = r.getAttribute("data-cat"), a = sysAlpha[c] != null ? sysAlpha[c] : 1; if (sl) sl.value = String(Math.round(a * 100)); if (o) o.textContent = Math.round(a * 100) + "%"; });
+    iso = !!v.iso; xray = !!v.xray; document.getElementById("t-iso").setAttribute("aria-pressed", String(iso)); document.getElementById("t-xray").setAttribute("aria-pressed", String(xray));
+    if ((selected || null) !== (v.sel || null)) select(v.sel || null); else if (selected && cardChanged) select(selected);
+    renderList(); apply();
+  }
+  var ENG0 = engGet();
+  NMSKHistory.register("engine", {get:engGet, set:engSet, reset:function(){ engSet(ENG0); }});
+  NMSKHistory.register("selection", {get:function(){ return selCtl.snapshot(); }, set:function(v){ selCtl.restore(v); }, reset:function(){ selCtl.restore({marks:[]}); }});
+  NMSKHistory.register("cut", {get:function(){ return cutCtl.snapshot(); }, set:function(v){ cutCtl.restore(v); }, reset:function(){ cutCtl.exit(true); if (capCtl && capCtl.isOn()) capCtl.set(false); }});
+  var XS0 = xsecCtl.snapshot(); XS0.on = false; XS0.part = null; XS0.mode = "plane"; XS0.gap = 1;
+  NMSKHistory.register("slices", {get:function(){ return xsecCtl.snapshot(); }, set:function(v){ xsecCtl.restore(v); }, reset:function(){ xsecCtl.restore(XS0); }});
+  var LK = ["mode", "text", "callout", "colour", "density", "font"];
+  NMSKHistory.register("labels", {get:function(){ var p = labelsCtl.settings(), o = {}; LK.forEach(function(k){ o[k] = p[k]; }); return o; },
+    set:function(v){ var p = labelsCtl.settings(); LK.forEach(function(k){ if (k !== "mode" && v[k] != null && v[k] !== p[k]) labelsCtl.set(k, v[k]); }); if (v.mode && v.mode !== p.mode) labelsCtl.setMode(v.mode, true); },
+    reset:function(){ if (labelsCtl.settings().mode !== "off") labelsCtl.setMode("off", true); }});
+  var A = anatomyApi(), tb = document.getElementById("tools");
+  window.measureCtl = NMSKMeasure.start(A, {toolbar:tb, cls:"tool"});
+  window.partSlices = NMSKPartSlices.start(A, xsecCtl, {toolbar:tb, cls:"tool"});
+  NMSKHistory.start({anchor:A.canvas, resetView:function(){ document.getElementById("t-reset").click(); }});
+  NMSKHistory.mountInto(document.getElementById("mb-end"), "mb-btn", "mb-");
+  NMSKTips.start();
+})();
 setTimeout(function(){ app.classList.add("anim"); }, 400);  /* no slide on the first layout switch */
 new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
 if (window.matchMedia) matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);

@@ -187,7 +187,7 @@ var NMSKCapCore = (function(){
   /* ---- 6. build everything for one plane ----
      items: [{key, name, cat, rgb:[r,g,b] 0..1, alpha, geom:function()->{pos,idx,bmin,bmax}}] (visible structures only)
      plane: {n:[unit normal], d: offset (n.p = d)}
-     opt: {gap:1.0, minPx:0.4, maxDim:2048, px:override, maxOddFrac:0.12, maxOddRun:30, outline:true} */
+     opt: {gap:1.0, minPx:0.4, maxDim:2048, px:override, maxOddFrac:0.12, maxOddRun:30, outline:true, win:[u0, v0, u1, v1] (Q294: plane-coordinate window -- only what is cut inside it)} */
   function build(items, plane, opt){
     opt = opt || {};
     var o = {gap:opt.gap == null ? 1.0 : opt.gap, minPx:opt.minPx || 0.4, maxDim:opt.maxDim || 2048, px:opt.px || 0,
@@ -207,8 +207,14 @@ var NMSKCapCore = (function(){
     var stats = {items_total:items.length, structures_cut:cut.length, filled:0, outline_only:0, thin:0, rows:0, odd_rows:0, odd_rows_in_filled:0, odd_rows_in_outline_only:0, rows_in_filled:0, filled_with_repair:0, repaired_rows:0,
                  open_ends_before:0, open_ends_after:0, joined:0, duplicate_segments:0, segments:0, by_cat:{}, outline_only_names:[]};
     if (!cut.length){ res.stats = stats; res.ms = Date.now() - t0; return res; }
-    var U0 = 1e30, U1 = -1e30, V0 = 1e30, V1 = -1e30;
+    var U0 = 1e30, U1 = -1e30, V0 = 1e30, V1 = -1e30, win = opt.win || null;
+    if (win){                                                          // Q294: a window in plane coordinates [u0, v0, u1, v1] -- only what is cut inside it, raster = the window
+      cut = cut.filter(function(c){ return c.box[2] > win[0] && c.box[0] < win[2] && c.box[3] > win[1] && c.box[1] < win[3]; });
+      stats.structures_cut = cut.length;
+      if (!cut.length){ res.stats = stats; res.ms = Date.now() - t0; return res; }
+    }
     cut.forEach(function(c){ U0 = Math.min(U0, c.box[0]); V0 = Math.min(V0, c.box[1]); U1 = Math.max(U1, c.box[2]); V1 = Math.max(V1, c.box[3]); });
+    if (win){ U0 = Math.max(U0, win[0]); V0 = Math.max(V0, win[1]); U1 = Math.min(U1, win[2]); V1 = Math.min(V1, win[3]); res.win = win.slice(); }
     var ext = Math.max(U1 - U0, V1 - V0, 1), px = o.px || Math.max(o.minPx, ext / o.maxDim);
     var pad = 2 * px;
     res.px = px; res.u0 = U0 - pad; res.v0 = V0 - pad;
@@ -251,6 +257,7 @@ var NMSKCapCore = (function(){
         var a = S.sa[k], b = S.sb[k], ua = S.pu[a], va = S.pv[a], ub = S.pu[b], vb = S.pv[b];
         var cx = Math.floor(((ua + ub) / 2 - res.u0) * inv), cy = Math.floor(((va + vb) / 2 - res.v0) * inv);
         if (cx >= 0 && cy >= 0 && cx < w && cy < h){ var oc = res.ids[cy * w + cx]; if (oc > code) continue; }
+        else if (res.win) continue;                                       // Q294: windowed cut -- nothing outside the window
         pos[6*m] = O[0] + U[0]*ua + V[0]*va; pos[6*m+1] = O[1] + U[1]*ua + V[1]*va; pos[6*m+2] = O[2] + U[2]*ua + V[2]*va;
         pos[6*m+3] = O[0] + U[0]*ub + V[0]*vb; pos[6*m+4] = O[1] + U[1]*ub + V[1]*vb; pos[6*m+5] = O[2] + U[2]*ub + V[2]*vb;
         owner[m++] = code;
@@ -452,6 +459,15 @@ function NMSKCap(E){
    Cut mode's own faces 0 and 1. Engine adaptor E:
      cut() -> {on, kn, c} (Cut mode's current plane; {on:false} when Cut mode is off)   items() -> same shape NMSKCap's own items() builds
      uploadFace(slot, res|null)   showFace(slot, bool)   redraw()   isPhone() */
+/* Q294 adds, on the same controller and the same face pool:
+   PART mode -- the stack restricted to a chosen structure or segment (e.g. only one finger, or the forearm): the planes are
+   perpendicular to the part's own long axis (first principal axis of its vertices), spaced by an INTERVAL along that axis over
+   the part's whole length, each a slab of the chosen THICKNESS (count = floor((L - thickness) / interval) + 1, centred on the
+   part); only the part's own structures are cut ("only the part"), or every shown structure inside a window around the part's
+   cross-section ("everything around it", the default: a finger's skin, tendons and vessels with its bone). Cut mode is not
+   needed. SPREAD -- in the cross-section display only, the slices are drawn apart along the stack's axis (a gap multiplier),
+   so they do not hide each other; their true positions (state().planes) never change. Adaptor additions, all optional:
+   onTop(bool) draw the stack over the model   focus(point, distance) frame the stack */
 var NMSKCrossSectionCore = (function(){
   "use strict";
   /* n = slice count (3..12), c0 = Cut mode's current plane constant (its own n.p + c = 0 convention), spacing/thickness in mm.
@@ -467,51 +483,192 @@ var NMSKCrossSectionCore = (function(){
     }
     return out;
   }
-  return {planesFor:planesFor};
+  /* Q294: the part's long axis -- first principal axis of the vertices (power iteration on the covariance), the extent along it
+     and the cross-section box in the NMSKCapCore plane basis. pts: array of Float32 xyz arrays */
+  function axisOf(pts){
+    var n = 0, c = [0, 0, 0], k, i, P;
+    for (k = 0; k < pts.length; k++){ P = pts[k]; for (i = 0; i < P.length; i += 3){ c[0] += P[i]; c[1] += P[i+1]; c[2] += P[i+2]; n++; } }
+    if (!n) return null;
+    c = [c[0] / n, c[1] / n, c[2] / n];
+    var M = [0, 0, 0, 0, 0, 0];                                         // xx xy xz yy yz zz
+    for (k = 0; k < pts.length; k++){ P = pts[k]; for (i = 0; i < P.length; i += 3){ var x = P[i] - c[0], y = P[i+1] - c[1], z = P[i+2] - c[2];
+      M[0] += x*x; M[1] += x*y; M[2] += x*z; M[3] += y*y; M[4] += y*z; M[5] += z*z; } }
+    var a = [1, 0.7, 0.4];
+    for (var it = 0; it < 60; it++){
+      var b = [M[0]*a[0] + M[1]*a[1] + M[2]*a[2], M[1]*a[0] + M[3]*a[1] + M[4]*a[2], M[2]*a[0] + M[4]*a[1] + M[5]*a[2]], l = Math.hypot(b[0], b[1], b[2]) || 1;
+      a = [b[0] / l, b[1] / l, b[2] / l];
+    }
+    var big = 0; for (i = 1; i < 3; i++) if (Math.abs(a[i]) > Math.abs(a[big])) big = i;
+    if (a[big] < 0) a = [-a[0], -a[1], -a[2]];                           // deterministic sign
+    var UV = NMSKCapCore.basis(a), U = UV[0], V = UV[1], t0 = 1e30, t1 = -1e30, u0 = 1e30, u1 = -1e30, v0 = 1e30, v1 = -1e30;
+    for (k = 0; k < pts.length; k++){ P = pts[k]; for (i = 0; i < P.length; i += 3){
+      var t = a[0]*P[i] + a[1]*P[i+1] + a[2]*P[i+2], u = U[0]*P[i] + U[1]*P[i+1] + U[2]*P[i+2], v = V[0]*P[i] + V[1]*P[i+1] + V[2]*P[i+2];
+      if (t < t0) t0 = t; if (t > t1) t1 = t; if (u < u0) u0 = u; if (u > u1) u1 = u; if (v < v0) v0 = v; if (v > v1) v1 = v; } }
+    return {c:c, a:a, U:U, V:V, t0:t0, t1:t1, len:t1 - t0, box:[u0, v0, u1, v1], n:n};
+  }
+  /* Q294: slabs of `thickness` every `interval` mm along the axis over [t0, t1]: count = floor((L - th) / interval) + 1, centred */
+  function partPlanes(ax, interval, thickness, maxN){
+    interval = interval > 0 ? interval : 10; thickness = thickness > 0 ? thickness : 0;
+    var L = ax.len, cnt = L > thickness ? Math.floor((L - thickness) / interval + 1e-9) + 1 : 1;
+    cnt = Math.max(1, Math.min(maxN || 80, cnt));
+    var s0 = ax.t0 + (L - thickness - (cnt - 1) * interval) / 2, out = [];
+    for (var k = 0; k < cnt; k++){ var t = s0 + k * interval; out.push({near:{n:ax.a.slice(), d:t}, far:thickness > 0 ? {n:ax.a.slice(), d:t + thickness} : null, t:t}); }
+    return out;
+  }
+  /* Q294: display offsets of the spread: slice k moved by (t_k - mean) * (gap - 1) along the stack axis */
+  function spreadOffsets(ts, gap){
+    var m = 0; ts.forEach(function(t){ m += t; }); m /= Math.max(1, ts.length);
+    return ts.map(function(t){ return (t - m) * ((gap > 1 ? gap : 1) - 1); });
+  }
+  function shifted(res, off){                                           // a display copy of a cap moved by off along its own normal (the original is untouched)
+    if (!off || !res || !res.w) return res;
+    var n = res.n, o = {}, k;
+    for (k in res) if (Object.prototype.hasOwnProperty.call(res, k)) o[k] = res[k];
+    o.O = [res.O[0] + n[0] * off, res.O[1] + n[1] * off, res.O[2] + n[2] * off]; o.d = res.d + off; o.offset = off;
+    var L = res.lines, p = new Float32Array(L.pos.length);
+    for (k = 0; k < p.length; k += 3){ p[k] = L.pos[k] + n[0] * off; p[k+1] = L.pos[k+1] + n[1] * off; p[k+2] = L.pos[k+2] + n[2] * off; }
+    o.lines = {pos:p, col:L.col, owner:L.owner, count:L.count};
+    return o;
+  }
+  /* Q294: a mesh cropped to the triangles that touch a box (compact vertices): every plane of a part's stack then slices only the few
+     triangles near the part instead of a whole-body mesh (the skin, a long muscle) -- same contours, a fraction of the work */
+  function crop(g, lo, hi){
+    var pos = g.pos, idx = g.idx, nt = idx.length / 3, keep = [], k, j;
+    for (k = 0; k < nt; k++){
+      var a = 3 * idx[3*k], b = 3 * idx[3*k+1], c = 3 * idx[3*k+2], ok = true;
+      for (j = 0; j < 3 && ok; j++){ var mn = Math.min(pos[a+j], pos[b+j], pos[c+j]), mx = Math.max(pos[a+j], pos[b+j], pos[c+j]); if (mx < lo[j] || mn > hi[j]) ok = false; }
+      if (ok) keep.push(k);
+    }
+    if (!keep.length) return null;
+    var map = new Map(), P = [], I = new Uint32Array(keep.length * 3), bmin = [1e30, 1e30, 1e30], bmax = [-1e30, -1e30, -1e30];
+    keep.forEach(function(t, n){ for (var q = 0; q < 3; q++){ var v = idx[3*t+q], m = map.get(v);
+      if (m === undefined){ m = P.length / 3; map.set(v, m); for (var d = 0; d < 3; d++){ var x = pos[3*v+d]; P.push(x); if (x < bmin[d]) bmin[d] = x; if (x > bmax[d]) bmax[d] = x; } }
+      I[3*n+q] = m; } });
+    return {pos:new Float32Array(P), idx:I, bmin:bmin, bmax:bmax};
+  }
+  return {planesFor:planesFor, axisOf:axisOf, partPlanes:partPlanes, spreadOffsets:spreadOffsets, shifted:shifted, crop:crop};
 })();
 function NMSKCrossSection(E){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
   var btn = $("xsec-on"), body = $("xsec-body"), info = $("xsec-info"), nInp = $("xsec-n"), spInp = $("xsec-sp"), thInp = $("xsec-th"), steps = $("xsec-steps");
-  var FACE_BASE = 900;                 // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
-  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0};
+  var FACE_BASE = 900, PART_MAX = 80;  // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
+  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0,
+            mode:"plane", part:null, pLabel:"", pTh:1, pInt:10, gap:1, scope:"around", planes:[], ax:null, msg:"", faces:[]};
   var KEY = "nmsk-xsec-v1";
   function loadPref(){ try { var p = JSON.parse(localStorage.getItem(KEY) || "null"); if (p){ if (p.n >= 3 && p.n <= 12) st.n = p.n; if (p.spacing > 0) st.spacing = p.spacing; if (p.thickness >= 0) st.thickness = p.thickness; } } catch (err){} }
   function savePref(){ try { localStorage.setItem(KEY, JSON.stringify({n:st.n, spacing:st.spacing, thickness:st.thickness})); } catch (err){} }
   loadPref();
-  function clearSlots(){ for (var s = 0; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null); st.slots = 0; }
+  function clearSlots(){ for (var s = 0; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null); st.slots = 0; st.faces = []; st.planes = []; }
+  function r2(v){ return Math.round(v * 100) / 100; }
+  function seg(id, attr, val){ var g = $(id); if (!g) return; Array.prototype.forEach.call(g.querySelectorAll("[" + attr + "]"), function(b){ b.setAttribute("aria-pressed", String(+b.getAttribute(attr) === val)); }); }
   function ui(){
-    if (btn) btn.setAttribute("aria-pressed", String(st.on));
-    if (body) body.hidden = !st.on;
+    if (btn) btn.setAttribute("aria-pressed", String(st.on && st.mode === "plane"));
+    if (body) body.hidden = !(st.on && st.mode === "plane");
     if (nInp) nInp.value = st.n; if (spInp) spInp.value = st.spacing; if (thInp) thInp.value = st.thickness;
+    seg("xsec-gap", "data-xgap", st.gap); seg("xsp-gap", "data-xgap", st.gap); seg("xsp-th", "data-xth", st.pTh); seg("xsp-int", "data-xint", st.pInt);
+    var pi = $("xsp-intv"); if (pi && document.activeElement !== pi) pi.value = st.pInt;
+    var sc = $("xsp-scope"); if (sc){ sc.setAttribute("aria-pressed", String(st.scope === "only")); sc.textContent = st.scope === "only" ? "Only the part" : "Everything around it"; }
+    var off = $("xsp-off"); if (off) off.disabled = !(st.on && st.mode === "part");
+    var pinfo = $("xsp-info");
+    if (pinfo){
+      if (st.mode !== "part" || !st.on) pinfo.textContent = st.msg || "";
+      else if (st.busy) pinfo.textContent = "Building...";
+      else if (st.msg) pinfo.textContent = st.msg;
+      else pinfo.textContent = st.planes.length + " slices" + (st.pTh > 0 ? " · " + st.pTh + " mm thick" : "") + " · every " + st.pInt + " mm · along " + (st.ax ? st.ax.len.toFixed(0) : "?") + " mm" +
+        (st.gap > 1 ? " · drawn ×" + st.gap + " apart (true positions unchanged)" : "");
+    }
     if (!info) return;
-    if (!st.on){ info.textContent = ""; return; }
+    if (!st.on || st.mode !== "plane"){ info.textContent = ""; return; }
     var c = E.cut();
     if (!c || !c.on){ info.textContent = "Cut mode is off: turn it on first (the cross-section stack uses its current plane)."; return; }
     info.textContent = st.n + " slices, " + st.spacing + " mm apart" + (st.thickness > 0 ? ", " + st.thickness + " mm thick each" : " (zero-thickness planes)") +
+      (st.gap > 1 ? ", drawn ×" + st.gap + " apart" : "") +
       (st.busy ? " -- building..." : " -- " + (st.ms / 1000).toFixed(2) + " s, " + st.slots + " face" + (st.slots === 1 ? "" : "s") + " uploaded");
+  }
+  function partGeom(items){
+    var want = {}, pts = [], got = [];
+    st.part.forEach(function(id){ want[id] = 1; });
+    items.forEach(function(it){ if (want[it.key] === 1){ var g = it.geom(); if (g && g.pos){ pts.push(g.pos); got.push({it:it, g:g}); } } });
+    return {pts:pts, got:got};
+  }
+  function upload(list, offs){
+    var slot = 0;
+    list.forEach(function(L, k){
+      L.forEach(function(res){ E.uploadFace(FACE_BASE + slot, NMSKCrossSectionCore.shifted(res, offs[k])); E.showFace(FACE_BASE + slot, true); st.faces[slot] = {k:k, d:res.d, off:offs[k] || 0}; slot++; });
+    });
+    for (var s = slot; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null);
+    st.faces.length = slot; st.slots = slot;
+  }
+  function rebuildPart(){
+    var items = E.items(), pg = partGeom(items);
+    if (!pg.pts.length){ clearSlots(); st.msg = "The chosen part is not shown (switch its layer on or unhide it)."; return; }
+    var ax = NMSKCrossSectionCore.axisOf(pg.pts); st.ax = ax;
+    var planes = NMSKCrossSectionCore.partPlanes(ax, st.pInt, st.pTh, PART_MAX);
+    var du = ax.box[2] - ax.box[0], dv = ax.box[3] - ax.box[1], m = Math.max(5, Math.min(30, 0.35 * Math.max(du, dv) + 4));
+    var win = [ax.box[0] - m, ax.box[1] - m, ax.box[2] + m, ax.box[3] + m], ext = Math.max(win[2] - win[0], win[3] - win[1]), px = Math.max(0.08, Math.min(0.4, ext / 400));
+    var want = {}; st.part.forEach(function(id){ want[id] = 1; });
+    var lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30], ci, cj, ck;   // the world box around the oriented slab stack + its window (+2 mm): nothing the windows show is cropped away
+    for (ci = 0; ci < 2; ci++) for (cj = 0; cj < 2; cj++) for (ck = 0; ck < 2; ck++){
+      var tt = ci ? ax.t1 + 1 : ax.t0 - 1, uu = cj ? win[2] + 2 : win[0] - 2, vv = ck ? win[3] + 2 : win[1] - 2;
+      for (var kk = 0; kk < 3; kk++){ var x = ax.a[kk] * tt + ax.U[kk] * uu + ax.V[kk] * vv; if (x < lo[kk]) lo[kk] = x; if (x > hi[kk]) hi[kk] = x; }
+    }
+    var use = (st.scope === "only" ? items.filter(function(it){ return want[it.key] === 1; }) : items.filter(function(it){
+      if (want[it.key] === 1) return true; var g = it.geom(); if (!g) return false;
+      for (var k = 0; k < 3; k++) if (g.bmax[k] < lo[k] || g.bmin[k] > hi[k]) return false;
+      return true;
+    })).map(function(it){                                 // each structure cropped once to the part's box: N planes x a few triangles, not N planes x the whole mesh
+      var g = it.geom(), c = g ? NMSKCrossSectionCore.crop(g, lo, hi) : null; if (!c) return null;
+      var o = {}; for (var k in it) if (Object.prototype.hasOwnProperty.call(it, k)) o[k] = it[k]; o.geom = function(){ return c; }; return o;
+    }).filter(function(x){ return !!x; });
+    var faces = [], tot = 0;
+    planes.forEach(function(pl){
+      var L = [], near = NMSKCapCore.build(use, pl.near, {gap:1.0, win:win, px:px}); NMSKCapCore.recolor(near, use); near._cut = null; L.push(near); tot += near.items.length;
+      if (pl.far){ var far = NMSKCapCore.build(use, pl.far, {gap:1.0, win:win, px:px}); NMSKCapCore.recolor(far, use); far._cut = null; L.push(far); }
+      faces.push(L);
+    });
+    st.planes = planes.map(function(p){ return {t:r2(p.t), d:r2(p.near.d), far:p.far ? r2(p.far.d) : null, n:p.near.n.map(function(x){ return Math.round(x * 1e5) / 1e5; })}; });
+    upload(faces, NMSKCrossSectionCore.spreadOffsets(planes.map(function(p){ return p.t; }), st.gap));
+    st.msg = tot ? "" : "No cross-section: the part's slices cut nothing that is shown.";
+  }
+  function rebuildPlane(){
+    var c = E.cut();
+    if (!c || !c.on){ clearSlots(); return; }
+    var items = E.items(), planes = NMSKCrossSectionCore.planesFor(c.kn, c.c, st.n, st.spacing, st.thickness), faces = [];
+    planes.forEach(function(pl){
+      var L = [], near = NMSKCapCore.build(items, pl.near, {gap:1.0}); NMSKCapCore.recolor(near, items); near._cut = null; L.push(near);
+      if (pl.far){ var far = NMSKCapCore.build(items, pl.far, {gap:1.0}); NMSKCapCore.recolor(far, items); far._cut = null; L.push(far); }
+      faces.push(L);
+    });
+    st.planes = planes.map(function(p){ return {t:r2(-p.c), d:r2(p.near.d), far:p.far ? r2(p.far.d) : null, n:p.near.n.map(function(x){ return Math.round(x * 1e5) / 1e5; })}; });
+    upload(faces, NMSKCrossSectionCore.spreadOffsets(planes.map(function(p){ return -p.c; }), st.gap));
   }
   function rebuild(){
     st.timer = 0;
-    var c = E.cut();
-    if (!st.on || !c || !c.on){ clearSlots(); ui(); return; }
+    if (E.onTop) E.onTop(st.on && (st.mode === "part" || st.gap > 1));
+    if (!st.on || (st.mode === "part" && !(st.part && st.part.length))){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    if (st.mode === "plane"){ var c = E.cut(); if (!c || !c.on){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; } }
     st.busy = true; ui();
-    var items = E.items(), planes = NMSKCrossSectionCore.planesFor(c.kn, c.c, st.n, st.spacing, st.thickness), t0 = Date.now(), slot = 0;
-    planes.forEach(function(pl){
-      var near = NMSKCapCore.build(items, pl.near, {gap:1.0}); NMSKCapCore.recolor(near, items); near._cut = null;
-      E.uploadFace(FACE_BASE + slot, near); E.showFace(FACE_BASE + slot, true); slot++;
-      if (pl.far){
-        var far = NMSKCapCore.build(items, pl.far, {gap:1.0}); NMSKCapCore.recolor(far, items); far._cut = null;
-        E.uploadFace(FACE_BASE + slot, far); E.showFace(FACE_BASE + slot, true); slot++;
-      }
-    });
-    for (var s = slot; s < st.slots; s++) E.uploadFace(FACE_BASE + s, null);    // fewer faces than the previous build: drop the leftovers
-    st.slots = slot; st.builds++; st.ms = Date.now() - t0; st.busy = false; ui();
+    var t0 = Date.now();
+    try { if (st.mode === "part") rebuildPart(); else rebuildPlane(); }
+    catch (err){ st.msg = "Could not build the slices: " + (err && err.message || err); if (typeof console !== "undefined") console.error("cross-section stack:", err); }
+    finally { st.builds++; st.ms = Date.now() - t0; st.busy = false; ui(); }
+    if (E.redraw) E.redraw();
   }
   function schedule(delay){ if (st.timer) clearTimeout(st.timer); st.timer = setTimeout(rebuild, delay == null ? 90 : delay); }
   function setN(v){ var nv = Math.max(3, Math.min(12, Math.round(+v) || st.n)); if (nv === st.n) return; st.n = nv; savePref(); schedule(); ui(); }
   function setSpacing(v){ var sv = Math.max(0.5, Math.min(200, +v || st.spacing)); if (sv === st.spacing) return; st.spacing = Math.round(sv * 10) / 10; savePref(); schedule(); ui(); }
   function setThickness(v){ var tv = Math.max(0, Math.min(100, +v || 0)); if (tv === st.thickness) return; st.thickness = tv; savePref(); schedule(); ui(); }
+  function setGap(v){ var g = Math.max(1, Math.min(8, +v || 1)); if (g === st.gap) return; st.gap = g; schedule(0); ui(); }
+  function setPartTh(v){ var t = Math.max(0, Math.min(50, +v || 0)); if (t === st.pTh) return; st.pTh = t; if (st.mode === "part") schedule(); ui(); }
+  function setPartInt(v){ var t = Math.max(0.5, Math.min(200, +v || st.pInt)); t = Math.round(t * 10) / 10; if (t === st.pInt) return; st.pInt = t; if (st.mode === "part") schedule(); ui(); }
+  function setScope(v){ var s = v === "only" ? "only" : "around"; if (s === st.scope) return; st.scope = s; if (st.mode === "part") schedule(); ui(); }
+  /* part mode: ids = the structures of the part (one structure or a segment); label = its name for the panel */
+  function setPart(ids, label){
+    ids = (ids || []).filter(function(x){ return !!x; });
+    if (!ids.length){ st.part = null; st.pLabel = ""; if (st.mode === "part"){ st.on = false; st.mode = "plane"; clearSlots(); } st.msg = ""; schedule(0); ui(); return false; }
+    st.part = ids.slice(); st.pLabel = label || ""; st.mode = "part"; st.on = true; st.msg = ""; schedule(0); ui(); return true;
+  }
   function spacingStep(cur){ return cur < 5 ? 0.5 : cur < 20 ? 1 : 5; }
   function onWheel(e){ if (!st.on) return; e.preventDefault(); setSpacing(st.spacing + (e.deltaY > 0 ? 1 : -1) * spacingStep(st.spacing)); }
   var touchY = null;
@@ -523,28 +680,61 @@ function NMSKCrossSection(E){
   }
   function onTouchEnd(){ touchY = null; }
   function set(on){
+    if (on && st.mode === "part"){ st.mode = "plane"; }
     st.on = !!on; ui();
-    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); if (E.onTop) E.onTop(false); ui(); if (E.redraw) E.redraw(); return; }
     schedule(0);
   }
-  if (btn) btn.addEventListener("click", function(){ set(!st.on); });
+  function frame(){
+    if (!E.focus || !st.planes.length) return false;
+    var ax = st.mode === "part" ? st.ax : null, n = st.planes[0].n, ts = st.planes.map(function(p){ return p.t; }), lo = Math.min.apply(null, ts), hi = Math.max.apply(null, ts);
+    var g = st.gap > 1 ? st.gap : 1, span = (hi - lo) * g + 20, c = ax ? ax.c : null;
+    if (!c){ var cu = E.cut(); if (!cu || !cu.on) return false; var mid = (lo + hi) / 2; c = [n[0] * mid, n[1] * mid, n[2] * mid]; }
+    else { var tc = (ax.a[0] * c[0] + ax.a[1] * c[1] + ax.a[2] * c[2]), mm = (lo + hi) / 2 + (st.pTh || 0) / 2; c = [c[0] + ax.a[0] * (mm - tc), c[1] + ax.a[1] * (mm - tc), c[2] + ax.a[2] * (mm - tc)]; }
+    E.focus(c, Math.max(80, span * 1.9));
+    return true;
+  }
+  if (btn) btn.addEventListener("click", function(){ set(!(st.on && st.mode === "plane")); });
   if (nInp) nInp.addEventListener("change", function(){ setN(nInp.value); });
   if (spInp) spInp.addEventListener("change", function(){ setSpacing(spInp.value); });
   if (thInp) thInp.addEventListener("change", function(){ setThickness(thInp.value); });
   if (steps) steps.querySelectorAll("[data-xs]").forEach(function(b){ b.addEventListener("click", function(){ setSpacing(st.spacing + (+b.dataset.xs)); }); });
+  ["xsec-gap", "xsp-gap"].forEach(function(id){ var g = $(id); if (g) g.querySelectorAll("[data-xgap]").forEach(function(b){ b.addEventListener("click", function(){ setGap(+b.getAttribute("data-xgap")); }); }); });
+  var gth = $("xsp-th"); if (gth) gth.querySelectorAll("[data-xth]").forEach(function(b){ b.addEventListener("click", function(){ setPartTh(+b.getAttribute("data-xth")); }); });
+  var gin = $("xsp-int"); if (gin) gin.querySelectorAll("[data-xint]").forEach(function(b){ b.addEventListener("click", function(){ setPartInt(+b.getAttribute("data-xint")); }); });
+  var piv = $("xsp-intv"); if (piv) piv.addEventListener("change", function(){ setPartInt(piv.value); });
+  var psc = $("xsp-scope"); if (psc) psc.addEventListener("click", function(){ setScope(st.scope === "only" ? "around" : "only"); });
+  var pof = $("xsp-off"); if (pof) pof.addEventListener("click", function(){ setPart(null); });
+  var pfr = $("xsp-frame"); if (pfr) pfr.addEventListener("click", function(){ frame(); });
   if (body){
     body.addEventListener("wheel", onWheel, {passive:false});
     body.addEventListener("touchstart", onTouchStart, {passive:true});
     body.addEventListener("touchmove", onTouchMove, {passive:false});
     body.addEventListener("touchend", onTouchEnd); body.addEventListener("touchcancel", onTouchEnd);
   }
+  function snapshot(){ return {on:st.on, mode:st.mode, n:st.n, spacing:st.spacing, thickness:st.thickness, part:st.part ? st.part.slice() : null, label:st.pLabel, pTh:st.pTh, pInt:st.pInt, gap:st.gap, scope:st.scope}; }
+  function restore(s){
+    if (!s) return;
+    st.n = s.n || st.n; st.spacing = s.spacing || st.spacing; st.thickness = s.thickness || 0; st.pTh = s.pTh != null ? s.pTh : st.pTh; st.pInt = s.pInt || st.pInt;
+    st.gap = s.gap || 1; st.scope = s.scope === "only" ? "only" : "around"; st.part = s.part ? s.part.slice() : null; st.pLabel = s.label || "";
+    st.mode = s.mode === "part" && st.part ? "part" : "plane"; st.on = !!s.on; st.msg = "";
+    if (!st.on){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } clearSlots(); if (E.onTop) E.onTop(false); if (E.redraw) E.redraw(); }
+    else schedule(0);
+    ui();
+  }
   return {
     set:set, isOn:function(){ return st.on; },
-    planeChanged:function(){ if (st.on) schedule(); },
+    planeChanged:function(){ if (st.on && st.mode === "plane") schedule(); },
     itemsChanged:function(){ if (st.on) schedule(); },
     /* Q282: the same setN/setSpacing/setThickness this module's own number inputs already call, exposed so
        another controller (the Quick view composer) can drive the stack without a second input UI */
     setN:setN, setSpacing:setSpacing, setThickness:setThickness,
-    state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms}; }
+    /* Q294 */
+    setPart:setPart, setPartThickness:setPartTh, setPartInterval:setPartInt, setGap:setGap, setScope:setScope, frame:frame, snapshot:snapshot, restore:restore,
+    rebuildNow:function(){ if (st.timer){ clearTimeout(st.timer); st.timer = 0; } rebuild(); },
+    state:function(){ return {on:st.on, n:st.n, spacing:st.spacing, thickness:st.thickness, slots:st.slots, builds:st.builds, ms:st.ms, busy:st.busy || !!st.timer,
+      mode:st.mode, part:st.part ? st.part.slice() : null, label:st.pLabel, partThickness:st.pTh, partInterval:st.pInt, gap:st.gap, scope:st.scope, msg:st.msg,
+      axis:st.ax ? {a:st.ax.a.slice(), len:r2(st.ax.len), t0:r2(st.ax.t0), t1:r2(st.ax.t1)} : null,
+      planes:st.planes.map(function(p){ return {t:p.t, d:p.d, far:p.far, n:p.n.slice()}; }), faces:st.faces.map(function(f){ return {k:f.k, d:r2(f.d), off:r2(f.off)}; })}; }
   };
 }

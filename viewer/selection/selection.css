@@ -69,3 +69,22 @@ body.ss-marking canvas{cursor:copy!important}
 .ss-phone #sel-sec .ss-presets>button{flex:1 1 44%}
 .ss-phone #sel-sec .ss-keys{display:none}
 .ss-phone #sel-sec .ss-check{min-height:38px}
+/* Q294: the at-a-glance summary -- what is marked (amber) and how each group is drawn, what the scene shows, one-tap views */
+#sel-sec .ss-sum{margin:0 0 8px;padding:8px 10px;border:1px solid var(--ss-line);border-radius:10px;background:var(--ss-sunk)}
+#sel-sec .ss-sumrow{display:flex;align-items:center;gap:6px;min-height:24px;font-size:12.5px}
+#sel-sec .ss-sumrow b{font-weight:700}
+#sel-sec .ss-sw{width:12px;height:12px;border-radius:3px;flex:0 0 auto;border:1px solid var(--ss-line);background:var(--ss-bg)}
+#sel-sec .ss-sum-mk .ss-sw{background:var(--ss-mark);border-color:var(--ss-mark)}
+#sel-sec .ss-arrow{color:var(--ss-dim)}
+#sel-sec .ss-look{padding:1px 8px;border-radius:9px;background:var(--ss-bg);border:1px solid var(--ss-line);font-weight:600}
+#sel-sec .ss-look[data-s="hide"]{text-decoration:line-through;color:var(--ss-dim)}
+#sel-sec .ss-look[data-s="fade"],#sel-sec .ss-look[data-s="ghost"],#sel-sec .ss-look[data-s="xray"]{opacity:.7;border-style:dashed}
+#sel-sec .ss-look[data-s="hl"]{background:var(--ss-mark);color:#1b1b1b;border-color:var(--ss-mark)}
+#sel-sec .ss-scene{margin-top:3px;font-size:11px;color:var(--ss-dim);font-variant-numeric:tabular-nums}
+#sel-sec .ss-scene:empty{display:none}
+#sel-sec .ss-acts>.ss-ic{flex:0 0 auto;min-width:34px;font-size:15px}
+#sel-sec .ss-quick>button{flex:1 1 30%}
+#sel-sec .ss-taps{display:inline-flex;gap:3px}
+#sel-sec .ss-taps>button{min-width:42px}
+.ss-phone #sel-sec .ss-sumrow{min-height:30px;font-size:13.5px}
+.ss-phone #sel-sec .ss-quick>button{flex:1 1 30%}
