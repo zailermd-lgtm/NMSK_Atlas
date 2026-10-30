@@ -111,7 +111,7 @@ def test_page_report_and_rigs_carry_the_new_structures():
     P = json.loads((REPO / "data/derived/Q293_page_report.json").read_text(encoding="utf-8"))
     for key in KEYS:
         rig = json.loads((DATA / f"pose_rig_{key}.json").read_text(encoding="utf-8"))["rig"]
-        assert rig["count"] == max(P[key]["new_indices"]) + 1, key
+        assert rig["count"] == max(P[key]["new_indices"]) + 1 + 51, key          # Q295 spliced 51 fat units after them
         assert P[key]["added"] == ["rectus_femoris_reflected_head_r", "rectus_femoris_reflected_head_l"]
 
 

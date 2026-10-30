@@ -1879,3 +1879,42 @@ Hebrew report: `docs/research/Q293_muscle_attachment_action_audit.md`; scripts `
   model within 25 mm of the finger bones. Rigs spliced (new structures + changed geometries + the 28 finger joints from a fresh run); moment
   arms of all six pages rebuilt (`scripts/anatomy/q284/build_moments.py`).
 - **Next-round base**: the page dirs of this round are kept in `build/q293/<dir>` (own pages from `build/q293/bundle_own_m|f`).
+
+### Fat and unlabelled soft tissue from each body's own imaging (all six pages) (2026-10-29, Q295)
+
+Owner (Hebrew, translated): "Fat must be in the relevant places. In cross-sections you must see filling -- no holes. Holes mean we are
+probably missing relevant tissues, or segmented them wrongly." Hebrew report: `docs/research/Q295_fat_and_voids_audit.md`; scripts
+`scripts/anatomy/q295/`; reports `data/derived/Q295_fat_report.json` (audit before / after, volumes, triangles, realness, penetration,
+what stays empty), `Q295_page_report.json`; montages `data/derived/Q295_montages/<page>_{before,after}.jpg`.
+
+- **Audit (before).** 30 axial sections x 12 regions per page, 1 mm pixels, on the page meshes (nonzero winding fill per structure;
+  open meshes outline + hole fill; fascia / joint / bursa / insertion sheets outline only; hidden-by-default structures not counted; the
+  skin's own 1.5 mm not counted). 26-86 % (per page and region; e.g. Imaging F thigh 60 %, hand 85 %; Base pages 26-53 %) of the section inside the skin was covered by no structure. Before this round no page had
+  subcutaneous, visceral / retroperitoneal, intermuscular, orbital, buccal or ischioanal fat; only the Z omenta, the Z infrapatellar fat
+  pads and the hidden HRA breast fat pads existed.
+- **Source of the class of every empty voxel.** Female: her fresh-cadaver CT (torso block b9cf8e7a + femur-to-toes block af18f5e4 with
+  the registered shift of `vhf_lower_limb_bones.py`), fat = HU -190..-30 (plus -400..-190 partial volume at fat / air edges), soft
+  tissue = -29..+200 (the common CT adipose window; CT against cadaver dissection for subcutaneous / interstitial adipose tissue:
+  Mitsiopoulos N et al., J Appl Physiol 1998, doi:10.1152/jappl.1998.85.1.115 -- the HU numbers are not in that abstract). Male: his frozen
+  CT does not separate fat from muscle, so his 1 mm colour cryosections (`SCRATCH/vh_cryo/cryo_1mm.npy`, `scripts/cryo/cryo_classes.py`
+  colour classes, the registration of `scripts/cryo/resample_cryo_to_ct_frame.py`). Imaging and Combined pages share the body's atlas
+  frame (no transfer); Base pages read the class through a thin-plate spline Base -> Combined from the vertex pairs of every structure the
+  two pages share (Base F 132,696 / Base M 108,024 pairs kept, median residual ~2 mm, p95 9-11 mm; sampled on a 6 mm lattice). Per body part and section an in-plane shift (<= 12 mm) overlays the imaging
+  silhouette on the page skin; outside the imaging outline (<= 20 mm) the nearest imaged tissue's class is used.
+- **Shipped: 51 meshes per page in a new system `fat` ("Fat & unlabelled soft tissue")**: subcutaneous fat, deep fat (named by region:
+  visceral and retroperitoneal; deep pelvic incl. ischioanal; mediastinal / paravertebral / axillary; orbital / buccal / deep facial;
+  intermuscular per limb segment incl. popliteal and pre-Achilles; plantar / heel pad; palmar / digital) and "unlabelled soft tissue" per
+  body part (17 parts). Fat thinner than ~2 mm and soft tissue thinner than ~4 mm are left as seams; pieces < 0.1 / 0.5 cm3 dropped.
+  Marching cubes at a 4-5 mm step chosen to meet the budget (decimation only above it); 575-630 k triangles per page (realness: mean dihedral 21-37 deg vs the CVH references 27.6 / 29.5 / 31.7 deg; defect edges <= 1.6 %). Mesh volumes (fat sub / deep / soft, L): Imaging F 31.9 / 1.9 / 4.1, Imaging M 19.5 / 2.0 / 8.7, Combined F 19.2 / 4.9 / 8.4, Combined M 13.6 / 4.1 / 10.4, Base F 9.3 / 2.3 / 5.0, Base M 6.6 / 2.3 / 5.8 (neighbouring parts overlap by up to 3 mm at their seams).
+- **Unlabelled soft tissue is not an anatomical structure**: it marks space the page leaves empty where the imaging shows soft tissue.
+  On Combined / Base pages its card names what the Imaging page of the same body segments at those points (e.g. Combined F abdomen: liver,
+  stomach, small bowel -- the Z body lacks / misplaces them; pelvis: gluteus maximus, small bowel; thigh: biceps femoris, vastus
+  lateralis), or "nothing segmented there either" (fascia, small vessels, nodes, dermis).
+- **After.** Void fraction per region, e.g. Imaging F thigh 60 -> 9 %, abdomen 52 -> 15 %, hand 85 -> 24 %; Combined F thigh 52 -> 8 %; Base F pelvis 53 -> 11 %. What stays empty is >= 96 % seams <= 4 mm thick (3-D), plus gas / dark lumen and the parts outside her CT field
+  of view (mainly her left arm).
+  Fat penetration into other structures (share of the fat section area another structure also covers): median ~2 %, max 12 % (Imaging M neck).
+- **Viewer.** The system is on by default but faint (12 % opacity) so it does not hide the anatomy; the cut-face fill ("Fill
+  cross-section", multi-slice) paints it solid (`viewer/cut_cap/cut_cap.js` capA). Imaging / ultrasound: fat -> class `fat`, unlabelled
+  soft tissue -> `soft_unassigned` (`clinical/data/imaging_tissues.json`).
+- **Not done.** Bone-marrow fat as meshes (the imaging bone model has it); 2-4 mm seams between structures; replacing the unlabelled
+  soft tissue with real structures (her CT small bowel / liver on Combined F, missing small muscles of hand and foot).

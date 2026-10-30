@@ -313,3 +313,17 @@ on a desktop and on a phone.
   from the bundle's placed origin marker to its insertion marker where those exist; otherwise from the bundle's origin side
   to the muscle's insertion side (rule-based, stated in the badge). On the Z-Anatomy pages each part mesh is its own
   bundle.
+
+## Fat & unlabelled soft tissue (Q295)
+
+- **A new system on every page, "Fat & unlabelled soft tissue".** Subcutaneous fat, deep fat (visceral and retroperitoneal, ischioanal,
+  orbital / buccal, intermuscular, popliteal, heel pad, ...) and unlabelled soft tissue, 51 structures per page, measured from the body's
+  own imaging (her CT HU, his colour cryosections; Base pages through a registration onto the Combined page of the same body). Each card
+  states the source, the volume, the triangles and, for unlabelled soft tissue, what the Imaging page of the same body segments there.
+- **Faint, not hidden.** The system is on at load at 12 % opacity (own engine: the system's opacity slider; Z engine: the layer slider),
+  so it does not occlude; its toggle hides / shows it like any other system.
+- **Solid in cross-sections.** "Fill cross-section" in Cut mode (and the multi-slice cross-sections, which use the same cut-face kernel)
+  fill the fat in its own colour at full opacity even while it is faint in 3-D, so the section shows filling instead of holes. Seams of
+  ~2-4 mm between structures remain.
+- Imaging and ultrasound: fat maps to the fat class, unlabelled soft tissue to generic soft tissue.
+- Audit, before / after per region, montages: `docs/research/Q295_fat_and_voids_audit.md` (Hebrew).

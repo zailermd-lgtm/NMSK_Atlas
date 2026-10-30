@@ -14,6 +14,7 @@ var NMSKCapCore = (function(){
   function unit(a){ var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; }
   function basis(n){ var up = Math.abs(n[1]) < 0.99 ? [0,1,0] : [1,0,0], u = unit(cross(up, n)); return [u, cross(n, u)]; }   // same as the cut-mode overlay
   function rankOf(cat){ var r = RANK[cat]; return r == null ? 3 : r; }
+  function capA(it){ return it.cat === "fat" && it.alpha > 0.02 ? Math.max(it.alpha, 0.9) : it.alpha; }   // Q295: fat is faded in 3-D but fills the cut face solid
 
   /* does the plane n.p = d cross the box? */
   function boxCrosses(bmin, bmax, n, d){
@@ -195,7 +196,7 @@ var NMSKCapCore = (function(){
     var t0 = Date.now(), n = unit(plane.n), d = plane.d, UV = basis(n), U = UV[0], V = UV[1];
     var cut = [], k;
     items.forEach(function(it, ii){
-      if (!(it.alpha >= 0.2)) return;                                  // a ghost / faded / (nearly) invisible structure is not cut: it must not hide what lies under it
+      if (!(capA(it) >= 0.2)) return;                                  // a ghost / faded / (nearly) invisible structure is not cut: it must not hide what lies under it
       var gm = it.geom(); if (!gm || !boxCrosses(gm.bmin, gm.bmax, n, d)) return;
       var S = slice(gm.pos, gm.idx, n, d, U, V);
       if (!S) return;
@@ -271,7 +272,7 @@ var NMSKCapCore = (function(){
     if (!res.w) return res;
     var pal = new Uint32Array(res.items.length + 1), lc = new Float32Array(res.items.length * 3 + 3), by = items;
     res.items.forEach(function(r){
-      var it = by[r.ii], a = Math.round(Math.max(0, Math.min(1, it.alpha)) * 255), c = it.rgb;
+      var it = by[r.ii], a = Math.round(Math.max(0, Math.min(1, capA(it))) * 255), c = it.rgb;
       var R = Math.round(Math.max(0, Math.min(1, c[0])) * 255), G = Math.round(Math.max(0, Math.min(1, c[1])) * 255), B = Math.round(Math.max(0, Math.min(1, c[2])) * 255);
       pal[r.code] = r.status === "filled" ? ((a << 24) | (B << 16) | (G << 8) | R) >>> 0 : 0;
       lc[3*r.code] = c[0] * 0.45; lc[3*r.code+1] = c[1] * 0.45; lc[3*r.code+2] = c[2] * 0.45;
@@ -300,7 +301,7 @@ var NMSKCapCore = (function(){
   }
 
   return {RANK:RANK, basis:basis, boxCrosses:boxCrosses, slice:slice, dedupe:dedupe, closeGaps:closeGaps, crossings:crossings,
-          fillItem:fillItem, build:build, recolor:recolor, lookup:lookup, rankOf:rankOf};
+          fillItem:fillItem, build:build, recolor:recolor, lookup:lookup, rankOf:rankOf, capA:capA};
 })();
 
 /* The controller. Adaptor E:
@@ -325,7 +326,7 @@ function NMSKCap(E){
   function sigs(){
     var pl = planes(), ps = pl ? pl.map(function(p){ return p.n.map(r4).join(",") + "|" + r4(p.d); }).join(";") : "";
     var is = "", pal = "";
-    items.forEach(function(it){ is += it.key + (it.alpha >= 0.2 ? "" : "~") + ";"; pal += it.rgb.map(function(x){ return Math.round(x * 255); }).join(",") + ":" + Math.round(it.alpha * 100) + ";"; });
+    items.forEach(function(it){ is += it.key + (NMSKCapCore.capA(it) >= 0.2 ? "" : "~") + ";"; pal += it.rgb.map(function(x){ return Math.round(x * 255); }).join(",") + ":" + Math.round(it.alpha * 100) + ";"; });
     return {plane:ps, items:is, pal:pal, pl:pl};
   }
   function ui(){

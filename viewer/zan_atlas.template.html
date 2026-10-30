@@ -12,7 +12,7 @@
     --line:rgba(22,32,42,.13); --line-strong:rgba(22,32,42,.30);
     --accent:#1d7c99;
     --t-bone:#cbbb99; --t-cartilage:#8fb8c4; --t-joint:#d9d1bb; --t-bursa:#a98cd0; --t-vein:#3a5fae;
-    --t-insertion:#a8703c; --t-muscle:#b2483d; --t-fascia:#c9b98e;
+    --t-fat:#e3c77e; --t-insertion:#a8703c; --t-muscle:#b2483d; --t-fascia:#c9b98e;
     --t-nerve:#d9c33f; --t-cns:#8f7fc0; --t-vessel:#a83550;
     --t-lymph:#7b9c5a; --t-viscera:#9d6f8f; --t-skin:#c99f78;
     --shadow:0 10px 34px rgba(22,32,42,.15);
@@ -30,7 +30,7 @@
     --line:rgba(227,234,238,.11); --line-strong:rgba(227,234,238,.26);
     --accent:#5cbad8;
     --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#ece6d3; --t-bursa:#bfa4e3; --t-vein:#5b82d6;
-    --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
+    --t-fat:#e3c77e; --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
     --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
     --t-lymph:#95bb6e; --t-viscera:#b988a8; --t-skin:#dcb38e;
     --shadow:0 12px 40px rgba(0,0,0,.55);
@@ -41,7 +41,7 @@
     --line:rgba(227,234,238,.11); --line-strong:rgba(227,234,238,.26);
     --accent:#5cbad8;
     --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#ece6d3; --t-bursa:#bfa4e3; --t-vein:#5b82d6;
-    --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
+    --t-fat:#e3c77e; --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
     --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
     --t-lymph:#95bb6e; --t-viscera:#b988a8; --t-skin:#dcb38e;
     --shadow:0 12px 40px rgba(0,0,0,.55);
@@ -2321,7 +2321,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function sideOf(n) { var m = n.match(SIDE_RE); return m ? m[2].toLowerCase() : "m"; }
     function markerOf(n) { var m = n.match(SIDE_RE); return (!m || !m[1]) ? null : (m[1].toLowerCase() === "o" ? "origin" : "insertion"); }
 
-    var LK = ["bone","cartilage","joint","insertion","muscle","fascia","bursa","nerve","cns","vessel","lymph","viscera","skin"];
+    var LK = ["bone","cartilage","joint","insertion","muscle","fascia","bursa","nerve","cns","vessel","lymph","viscera","fat","skin"];
     var perLayer = {}; LK.forEach(function (k) { perLayer[k] = []; });
     var OBJ = [], bbMin = [1e9,1e9,1e9], bbMax = [-1e9,-1e9,-1e9];
     var recs = MAN.meshes;
@@ -2470,6 +2470,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // (they were only invisible before because their inside-out winding was back-face culled)
     alphaFor.fascia = 0.15;
     alphaFor.bursa = 0.6;
+    alphaFor.fat = 0.12;   // Q295: fat / unlabelled soft tissue from imaging: faint in 3-D, solid in the cut face
     alphaFor.skin = 0.3;    // Q186: skin (Regions of human body) shown as a translucent envelope by default   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
@@ -2499,7 +2500,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function hlCol(h) { if (hlC.h !== h) hlC = {h:h, c:[((h >> 16) & 255) / 255, ((h >> 8) & 255) / 255, (h & 255) / 255]}; return hlC.c; }   // one stable array per highlight colour
     /* Q232 selection display states: opacity of a structure that the marked / other group has put in "fade" (user opacity), "xray" (the x-ray preset's per-layer
        opacity) or "ghost"; "hl" is solid, "hide" is a veto in vis(). A per-structure fade (the card's fade button) keeps its own 0.18 and wins. */
-    var XRAY_A = {bone:1, cartilage:.85, joint:.5, insertion:.9, muscle:.22, fascia:.15, bursa:.5, nerve:1, cns:.9, vessel:.8, lymph:.2, viscera:.25, skin:.06};
+    var XRAY_A = {bone:1, cartilage:.85, joint:.5, insertion:.9, muscle:.22, fascia:.15, bursa:.5, nerve:1, cns:.9, vessel:.8, lymph:.2, viscera:.25, fat:.05, skin:.06};
     function selLook(o) { return selCtl ? selCtl.look(o.id) : ""; }
     function selAlpha(k, layer, fa) {
       return k === "fade" ? Math.min(selCtl.fadeAlpha(), fa) : k === "xray" ? Math.min(XRAY_A[layer] == null ? 0.3 : XRAY_A[layer], fa) : k === "ghost" ? Math.min(0.12, fa) : 1;
@@ -2851,6 +2852,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       {k:"bursa",label:"Bursae & tendon sheaths"},
       {k:"nerve",label:"Nerve structures"},{k:"cns",label:"Brain, cord & senses"},
       {k:"vessel",label:"Cardiovascular"},{k:"lymph",label:"Lymphoid"},{k:"viscera",label:"Viscera"},
+      {k:"fat",label:"Fat & unlabelled soft tissue"},
       {k:"skin",label:"Skin & body regions"}
     ];
     var counts={}; OBJ.forEach(function(o){counts[o.layer]=(counts[o.layer]||0)+1;});
@@ -2950,8 +2952,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       sync(); need=true;
     }
     var P={
-      "btn-solid":function(){ var m={}; LK.forEach(function(k){m[k]=1;}); preset(m); },
-      "btn-xray":function(){ preset({bone:1,cartilage:.85,joint:.5,insertion:.9,muscle:.22,fascia:.15,bursa:.5,nerve:1,cns:.9,vessel:.8,lymph:.2,viscera:.25,skin:.06}); },
+      "btn-solid":function(){ var m={}; LK.forEach(function(k){m[k]=1;}); m.fat=0.12; preset(m); },
+      "btn-xray":function(){ preset({bone:1,cartilage:.85,joint:.5,insertion:.9,muscle:.22,fascia:.15,bursa:.5,nerve:1,cns:.9,vessel:.8,lymph:.2,viscera:.25,fat:.05,skin:.06}); },
       "btn-bones":function(){ preset({bone:1,cartilage:1,joint:1,bursa:.8}); },
       "btn-neuro":function(){ preset({nerve:1,cns:1,bone:.10}); },
       "btn-vasc":function(){ preset({vessel:1,lymph:.7,bone:.10}); },
@@ -6250,6 +6252,7 @@ var NMSKCapCore = (function(){
   function unit(a){ var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; }
   function basis(n){ var up = Math.abs(n[1]) < 0.99 ? [0,1,0] : [1,0,0], u = unit(cross(up, n)); return [u, cross(n, u)]; }   // same as the cut-mode overlay
   function rankOf(cat){ var r = RANK[cat]; return r == null ? 3 : r; }
+  function capA(it){ return it.cat === "fat" && it.alpha > 0.02 ? Math.max(it.alpha, 0.9) : it.alpha; }   // Q295: fat is faded in 3-D but fills the cut face solid
 
   /* does the plane n.p = d cross the box? */
   function boxCrosses(bmin, bmax, n, d){
@@ -6431,7 +6434,7 @@ var NMSKCapCore = (function(){
     var t0 = Date.now(), n = unit(plane.n), d = plane.d, UV = basis(n), U = UV[0], V = UV[1];
     var cut = [], k;
     items.forEach(function(it, ii){
-      if (!(it.alpha >= 0.2)) return;                                  // a ghost / faded / (nearly) invisible structure is not cut: it must not hide what lies under it
+      if (!(capA(it) >= 0.2)) return;                                  // a ghost / faded / (nearly) invisible structure is not cut: it must not hide what lies under it
       var gm = it.geom(); if (!gm || !boxCrosses(gm.bmin, gm.bmax, n, d)) return;
       var S = slice(gm.pos, gm.idx, n, d, U, V);
       if (!S) return;
@@ -6507,7 +6510,7 @@ var NMSKCapCore = (function(){
     if (!res.w) return res;
     var pal = new Uint32Array(res.items.length + 1), lc = new Float32Array(res.items.length * 3 + 3), by = items;
     res.items.forEach(function(r){
-      var it = by[r.ii], a = Math.round(Math.max(0, Math.min(1, it.alpha)) * 255), c = it.rgb;
+      var it = by[r.ii], a = Math.round(Math.max(0, Math.min(1, capA(it))) * 255), c = it.rgb;
       var R = Math.round(Math.max(0, Math.min(1, c[0])) * 255), G = Math.round(Math.max(0, Math.min(1, c[1])) * 255), B = Math.round(Math.max(0, Math.min(1, c[2])) * 255);
       pal[r.code] = r.status === "filled" ? ((a << 24) | (B << 16) | (G << 8) | R) >>> 0 : 0;
       lc[3*r.code] = c[0] * 0.45; lc[3*r.code+1] = c[1] * 0.45; lc[3*r.code+2] = c[2] * 0.45;
@@ -6536,7 +6539,7 @@ var NMSKCapCore = (function(){
   }
 
   return {RANK:RANK, basis:basis, boxCrosses:boxCrosses, slice:slice, dedupe:dedupe, closeGaps:closeGaps, crossings:crossings,
-          fillItem:fillItem, build:build, recolor:recolor, lookup:lookup, rankOf:rankOf};
+          fillItem:fillItem, build:build, recolor:recolor, lookup:lookup, rankOf:rankOf, capA:capA};
 })();
 
 /* The controller. Adaptor E:
@@ -6561,7 +6564,7 @@ function NMSKCap(E){
   function sigs(){
     var pl = planes(), ps = pl ? pl.map(function(p){ return p.n.map(r4).join(",") + "|" + r4(p.d); }).join(";") : "";
     var is = "", pal = "";
-    items.forEach(function(it){ is += it.key + (it.alpha >= 0.2 ? "" : "~") + ";"; pal += it.rgb.map(function(x){ return Math.round(x * 255); }).join(",") + ":" + Math.round(it.alpha * 100) + ";"; });
+    items.forEach(function(it){ is += it.key + (NMSKCapCore.capA(it) >= 0.2 ? "" : "~") + ";"; pal += it.rgb.map(function(x){ return Math.round(x * 255); }).join(",") + ":" + Math.round(it.alpha * 100) + ";"; });
     return {plane:ps, items:is, pal:pal, pl:pl};
   }
   function ui(){

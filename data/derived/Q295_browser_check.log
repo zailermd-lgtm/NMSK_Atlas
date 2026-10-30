@@ -1,0 +1,160 @@
+# Q295 verify_q295.py, all six pages, desktop 1400x900 + phone 390x844 touch: 116 OK, 0 FAIL (the final summary line crashed on the --shots argument being read as a page dir; fixed in the script)
+  OK   own_f_1400: A fat system with 51 structures (page report 51)
+  OK   own_f_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   own_f_1400: A drawn at load (51 / 51)
+  OK   own_f_1400: B the fat system toggle is reachable by click
+  OK   own_f_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   own_f_1400: C axial cut at thigh y=-200: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Intermuscular fat of the thigh and popliteal fossa (right)']); filled section area 38916 mm2 with fat vs 19738 mm2 without
+  OK   own_f_1400: C axial cut at abdomen y=260: the cut-face kernel fills 8 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Visceral and retroperitoneal fat (abdomen)', 'Unlabelled soft tissue, abdomen']); filled section area 53456 mm2 with fat vs 18793 mm2 without
+  OK   own_f_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 31 filled - 0.07 s)
+  OK   own_f_1400: D 0 page errors
+  OK   own_f_390: A fat system with 51 structures (page report 51)
+  OK   own_f_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   own_f_390: A drawn at load (51 / 51)
+  OK   own_f_390: B the fat system toggle is reachable by touch
+  OK   own_f_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   own_f_390: C axial cut at thigh y=-200: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Intermuscular fat of the thigh and popliteal fossa (right)']); filled section area 38916 mm2 with fat vs 19738 mm2 without
+  OK   own_f_390: C axial cut at abdomen y=260: the cut-face kernel fills 8 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Visceral and retroperitoneal fat (abdomen)', 'Unlabelled soft tissue, abdomen']); filled section area 53456 mm2 with fat vs 18793 mm2 without
+  OK   own_f_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 31 filled - 0.06 s)
+  OK   own_f_390: D 0 page errors
+  OK   own_m_1400: A fat system with 51 structures (page report 51)
+  OK   own_m_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   own_m_1400: A drawn at load (51 / 51)
+  OK   own_m_1400: B the fat system toggle is reachable by click
+  OK   own_m_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   own_m_1400: C axial cut at thigh y=-231: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (right)']); filled section area 57108 mm2 with fat vs 44488 mm2 without
+  OK   own_m_1400: C axial cut at abdomen y=250: the cut-face kernel fills 10 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 63559 mm2 with fat vs 23889 mm2 without
+  OK   own_m_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 33 filled - 0.07 s)
+  OK   own_m_1400: D 0 page errors
+  OK   own_m_390: A fat system with 51 structures (page report 51)
+  OK   own_m_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   own_m_390: A drawn at load (51 / 51)
+  OK   own_m_390: B the fat system toggle is reachable by touch
+  OK   own_m_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   own_m_390: C axial cut at thigh y=-231: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (right)']); filled section area 57108 mm2 with fat vs 44488 mm2 without
+  OK   own_m_390: C axial cut at abdomen y=250: the cut-face kernel fills 10 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 63559 mm2 with fat vs 23889 mm2 without
+  OK   own_m_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 33 filled - 0.06 s)
+  OK   own_m_390: D 0 page errors
+  OK   base_m_1400: A fat system with 51 structures (page report 51)
+  OK   base_m_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   base_m_1400: A drawn at load (51 / 51)
+  OK   base_m_1400: A faint by default (layer opacity 12 %)
+  OK   base_m_1400: B the fat system toggle is reachable by click
+  OK   base_m_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   base_m_1400: C axial cut at thigh y=-215: the cut-face kernel fills 4 fat meshes (outline-only 1; ['Unlabelled soft tissue, thigh (right)', 'Unlabelled soft tissue, thigh (left)', 'Subcutaneous fat, thigh (right)']); filled section area 34660 mm2 with fat vs 29163 mm2 without
+  OK   base_m_1400: C axial cut at abdomen y=263: the cut-face kernel fills 9 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 63671 mm2 with fat vs 60782 mm2 without
+  OK   base_m_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 56 filled, 1 too thin to fill - 0.05 s)
+  OK   base_m_1400: D 0 page errors
+  OK   base_m_390: A fat system with 51 structures (page report 51)
+  OK   base_m_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   base_m_390: A drawn at load (51 / 51)
+  OK   base_m_390: A faint by default (layer opacity 12 %)
+  OK   base_m_390: B the fat system toggle is reachable by touch
+  OK   base_m_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   base_m_390: C axial cut at thigh y=-215: the cut-face kernel fills 4 fat meshes (outline-only 1; ['Unlabelled soft tissue, thigh (right)', 'Unlabelled soft tissue, thigh (left)', 'Subcutaneous fat, thigh (right)']); filled section area 34660 mm2 with fat vs 29163 mm2 without
+  OK   base_m_390: C axial cut at abdomen y=263: the cut-face kernel fills 9 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 63671 mm2 with fat vs 60782 mm2 without
+  OK   base_m_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 56 filled, 1 too thin to fill - 0.04 s)
+  OK   base_m_390: D 0 page errors
+  OK   base_f_1400: A fat system with 51 structures (page report 51)
+  OK   base_f_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   base_f_1400: A drawn at load (51 / 51)
+  OK   base_f_1400: A faint by default (layer opacity 12 %)
+  OK   base_f_1400: B the fat system toggle is reachable by click
+  OK   base_f_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   base_f_1400: C axial cut at thigh y=-206: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (left)', 'Subcutaneous fat, thigh (right)', 'Unlabelled soft tissue, thigh (left)']); filled section area 31885 mm2 with fat vs 25387 mm2 without
+  OK   base_f_1400: C axial cut at abdomen y=268: the cut-face kernel fills 7 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 54653 mm2 with fat vs 53583 mm2 without
+  OK   base_f_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 58 filled - 0.06 s)
+  OK   base_f_1400: D 0 page errors
+  OK   base_f_390: A fat system with 51 structures (page report 51)
+  OK   base_f_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   base_f_390: A drawn at load (51 / 51)
+  OK   base_f_390: A faint by default (layer opacity 12 %)
+  OK   base_f_390: B the fat system toggle is reachable by touch
+  OK   base_f_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   base_f_390: C axial cut at thigh y=-206: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (left)', 'Subcutaneous fat, thigh (right)', 'Unlabelled soft tissue, thigh (left)']); filled section area 31885 mm2 with fat vs 25387 mm2 without
+  OK   base_f_390: C axial cut at abdomen y=268: the cut-face kernel fills 7 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 54653 mm2 with fat vs 53583 mm2 without
+  OK   base_f_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 58 filled - 0.04 s)
+  OK   base_f_390: D 0 page errors
+  OK   comb_m_1400: A fat system with 51 structures (page report 51)
+  OK   comb_m_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_m_1400: A drawn at load (51 / 51)
+  OK   comb_m_1400: A faint by default (layer opacity 12 %)
+  OK   comb_m_1400: B the fat system toggle is reachable by click
+  OK   comb_m_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_m_1400: C axial cut at thigh y=-231: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 50791 mm2 with fat vs 32024 mm2 without
+  OK   comb_m_1400: C axial cut at abdomen y=267: the cut-face kernel fills 12 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 78978 mm2 with fat vs 56538 mm2 without
+  OK   comb_m_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 58 filled - 0.05 s)
+  OK   comb_m_1400: D 0 page errors
+  OK   comb_m_390: A fat system with 51 structures (page report 51)
+  OK   comb_m_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_m_390: A drawn at load (51 / 51)
+  OK   comb_m_390: A faint by default (layer opacity 12 %)
+  OK   comb_m_390: B the fat system toggle is reachable by touch
+  OK   comb_m_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_m_390: C axial cut at thigh y=-231: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 50791 mm2 with fat vs 32024 mm2 without
+  OK   comb_m_390: C axial cut at abdomen y=267: the cut-face kernel fills 12 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 78978 mm2 with fat vs 56538 mm2 without
+  OK   comb_m_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 58 filled - 0.13 s)
+  OK   comb_m_390: D 0 page errors
+  OK   comb_f_1400: A fat system with 51 structures (page report 51)
+  OK   comb_f_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_f_1400: A drawn at load (51 / 51)
+  OK   comb_f_1400: A faint by default (layer opacity 12 %)
+  OK   comb_f_1400: B the fat system toggle is reachable by click
+  OK   comb_f_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_f_1400: C axial cut at thigh y=-201: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 42181 mm2 with fat vs 42154 mm2 without
+  OK   comb_f_1400: C axial cut at abdomen y=277: the cut-face kernel fills 8 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Visceral and retroperitoneal fat (abdomen)', 'Unlabelled soft tissue, abdomen']); filled section area 87385 mm2 with fat vs 87315 mm2 without
+  OK   comb_f_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 55 filled - 0.12 s)
+  OK   comb_f_1400: D 0 page errors
+  OK   comb_f_390: A fat system with 51 structures (page report 51)
+  OK   comb_f_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_f_390: A drawn at load (51 / 51)
+  OK   comb_f_390: A faint by default (layer opacity 12 %)
+  OK   comb_f_390: B the fat system toggle is reachable by touch
+  OK   comb_f_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_f_390: C axial cut at thigh y=-201: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 42181 mm2 with fat vs 42154 mm2 without
+  OK   comb_f_390: C axial cut at abdomen y=277: the cut-face kernel fills 8 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Visceral and retroperitoneal fat (abdomen)', 'Unlabelled soft tissue, abdomen']); filled section area 87385 mm2 with fat vs 87315 mm2 without
+  OK   comb_f_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 55 filled - 0.06 s)
+  OK   comb_f_390: D 0 page errors
+# re-check after the container restart (Combined M + Combined F, fixed script)
+  OK   comb_m_1400: A fat system with 51 structures (page report 51)
+  OK   comb_m_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_m_1400: A drawn at load (51 / 51)
+  OK   comb_m_1400: A faint by default (layer opacity 12 %)
+  OK   comb_m_1400: B the fat system toggle is reachable by click
+  OK   comb_m_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_m_1400: C axial cut at thigh y=-231: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 50791 mm2 with fat vs 32024 mm2 without
+  OK   comb_m_1400: C axial cut at abdomen y=267: the cut-face kernel fills 12 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 78978 mm2 with fat vs 56538 mm2 without
+  OK   comb_m_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 58 filled - 0.06 s)
+  OK   comb_m_1400: D 0 page errors
+  OK   comb_m_390: A fat system with 51 structures (page report 51)
+  OK   comb_m_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_m_390: A drawn at load (51 / 51)
+  OK   comb_m_390: A faint by default (layer opacity 12 %)
+  OK   comb_m_390: B the fat system toggle is reachable by touch
+  OK   comb_m_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_m_390: C axial cut at thigh y=-231: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 50791 mm2 with fat vs 32024 mm2 without
+  OK   comb_m_390: C axial cut at abdomen y=267: the cut-face kernel fills 12 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Unlabelled soft tissue, abdomen', 'Visceral and retroperitoneal fat (abdomen)']); filled section area 78978 mm2 with fat vs 56538 mm2 without
+  OK   comb_m_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 58 filled - 0.05 s)
+  OK   comb_m_390: D 0 page errors
+  OK   comb_f_1400: A fat system with 51 structures (page report 51)
+  OK   comb_f_1400: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_f_1400: A drawn at load (51 / 51)
+  OK   comb_f_1400: A faint by default (layer opacity 12 %)
+  OK   comb_f_1400: B the fat system toggle is reachable by click
+  OK   comb_f_1400: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_f_1400: C axial cut at thigh y=-201: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 42181 mm2 with fat vs 42154 mm2 without
+  OK   comb_f_1400: C axial cut at abdomen y=277: the cut-face kernel fills 8 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Visceral and retroperitoneal fat (abdomen)', 'Unlabelled soft tissue, abdomen']); filled section area 87385 mm2 with fat vs 87315 mm2 without
+  OK   comb_f_1400: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 55 filled - 0.06 s)
+  OK   comb_f_1400: D 0 page errors
+  OK   comb_f_390: A fat system with 51 structures (page report 51)
+  OK   comb_f_390: A subcutaneous / deep fat / unlabelled soft tissue all present {'fat_subcut_': 17, 'fat_deep_': 17, 'soft_unlabelled_': 17}
+  OK   comb_f_390: A drawn at load (51 / 51)
+  OK   comb_f_390: A faint by default (layer opacity 12 %)
+  OK   comb_f_390: B the fat system toggle is reachable by touch
+  OK   comb_f_390: B toggle hides all fat (0 left) and shows it again (51 / 51)
+  OK   comb_f_390: C axial cut at thigh y=-201: the cut-face kernel fills 6 fat meshes (outline-only 0; ['Subcutaneous fat, thigh (right)', 'Subcutaneous fat, thigh (left)', 'Unlabelled soft tissue, thigh (left)']); filled section area 42181 mm2 with fat vs 42154 mm2 without
+  OK   comb_f_390: C axial cut at abdomen y=277: the cut-face kernel fills 8 fat meshes (outline-only 0; ['Subcutaneous fat, abdomen', 'Visceral and retroperitoneal fat (abdomen)', 'Unlabelled soft tissue, abdomen']); filled section area 87385 mm2 with fat vs 87315 mm2 without
+  OK   comb_f_390: C 'Fill cross-section' at the thigh reports filled structures (Cut face: 55 filled - 0.05 s)
+  OK   comb_f_390: D 0 page errors
+ALL OK
+EXIT 0

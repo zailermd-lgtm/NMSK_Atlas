@@ -204,6 +204,8 @@
     "rules": [
       {"cat": ["skin"], "cls": "skin", "why": "Z-Anatomy skin patches = body envelope"},
       {"cat": ["fascia"], "re": "^skin\\b", "cls": "skin", "why": "own-body skin mesh"},
+      {"cat": ["fat"], "re": "unlabelled soft tissue|soft_unlabelled", "cls": "soft_unassigned", "why": "Q295: space no segmented structure covers where the body's own imaging shows soft tissue (not fat): generic soft tissue"},
+      {"cat": ["fat"], "cls": "fat", "why": "Q295: fat measured from the body's own imaging (CT HU / cryosection colour) in the space no structure covers"},
       {"cat": ["bone"], "re": "tooth|teeth|incisor|molar|canine|premolar|enamel", "cls": "tooth", "kind": "tooth", "why": "teeth"},
       {"cat": ["bone"], "re": "\\b(femur|tibia|fibula|humerus|radius|ulna)\\b", "cls": "bone_cortical", "kind": "long", "why": "long bones: cortex + medullary canal"},
       {"cat": ["bone"], "re": "metacarp|metatars|phalan", "cls": "bone_cortical", "kind": "short_tubular", "why": "short tubular bones"},
