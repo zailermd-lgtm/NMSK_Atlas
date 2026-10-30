@@ -1,0 +1,82 @@
+{
+ "source": "Q151b validation: scripts/transfer/refine_transfer_photo_watershed.py -- real marker-controlled watershed on this specimen's own re-acquired cryosection photograph gradient, seeded by Q147's Z-Anatomy transfer. registered 447/570 real levels, gradient built from 73.",
+ "specimen": "f_hand",
+ "n_registered": 447,
+ "n_missing": 46,
+ "modes": {
+  "neighbor": {
+   "n": 6,
+   "notes": {
+    "abductor_digiti_minimi_hand_r": "neighbours: [6, 7, 8, 9, 10], candidates: ['abductor_digiti_minimi_hand_r', 'dorsal_interossei_hand_r', 'flexor_digiti_minimi_brevis_hand_r', 'lumbricals_hand_r', 'opponens_digiti_minimi_r', 'palmar_interossei_r']",
+    "adductor_pollicis_r": "neighbours: [1, 8, 9, 10], candidates: ['abductor_pollicis_brevis_r', 'adductor_pollicis_r', 'dorsal_interossei_hand_r', 'flexor_pollicis_brevis_r', 'lumbricals_hand_r', 'opponens_pollicis_r', 'palmar_interossei_r']",
+    "dorsal_interossei_hand_r": "neighbours: [1, 4, 5, 7, 9], candidates: ['abductor_digiti_minimi_hand_r', 'abductor_pollicis_brevis_r', 'adductor_pollicis_r', 'dorsal_interossei_hand_r', 'flexor_pollicis_brevis_r', 'opponens_digiti_minimi_r', 'opponens_pollicis_r', 'palmar_interossei_r']",
+    "flexor_digiti_minimi_brevis_hand_r": "neighbours: [5, 7, 9, 10], candidates: ['abductor_digiti_minimi_hand_r', 'flexor_digiti_minimi_brevis_hand_r', 'lumbricals_hand_r', 'opponens_digiti_minimi_r', 'palmar_interossei_r']",
+    "opponens_digiti_minimi_r": "neighbours: [5, 6, 8, 9, 10], candidates: ['abductor_digiti_minimi_hand_r', 'dorsal_interossei_hand_r', 'flexor_digiti_minimi_brevis_hand_r', 'lumbricals_hand_r', 'opponens_digiti_minimi_r', 'palmar_interossei_r']",
+    "palmar_interossei_r": "neighbours: [1, 4, 5, 6, 7, 8, 10], candidates: ['abductor_digiti_minimi_hand_r', 'abductor_pollicis_brevis_r', 'adductor_pollicis_r', 'dorsal_interossei_hand_r', 'flexor_digiti_minimi_brevis_hand_r', 'flexor_pollicis_brevis_r', 'lumbricals_hand_r', 'opponens_digiti_minimi_r', 'opponens_pollicis_r', 'palmar_interossei_r']"
+   },
+   "rows": [
+    {
+     "id": "abductor_digiti_minimi_hand_r",
+     "skipped": "no claim recovered (no seed reached this region)"
+    },
+    {
+     "id": "adductor_pollicis_r",
+     "real_subject": "ct_vhf_hand",
+     "claimed_voxels_cm3": 6.5,
+     "centroid_dist_mm": 17.9,
+     "real_vol_cm3": 9.8,
+     "zan_vol_cm3": 6.3,
+     "vol_ratio_zan_over_real": 0.638,
+     "dice": 0.216,
+     "iou": 0.121,
+     "real_extent_mm": 84.3
+    },
+    {
+     "id": "dorsal_interossei_hand_r",
+     "real_subject": "ct_vhf_hand_contfix_mesh",
+     "claimed_voxels_cm3": 13.5,
+     "centroid_dist_mm": 22.9,
+     "real_vol_cm3": 9.3,
+     "zan_vol_cm3": 12.9,
+     "vol_ratio_zan_over_real": 1.389,
+     "dice": 0.415,
+     "iou": 0.262,
+     "real_extent_mm": 87.9
+    },
+    {
+     "id": "flexor_digiti_minimi_brevis_hand_r",
+     "skipped": "no claim recovered (no seed reached this region)"
+    },
+    {
+     "id": "opponens_digiti_minimi_r",
+     "real_subject": "ct_vhf_hand",
+     "claimed_voxels_cm3": 0.0,
+     "centroid_dist_mm": 29.1,
+     "real_vol_cm3": 3.8,
+     "zan_vol_cm3": 0.0,
+     "vol_ratio_zan_over_real": 0.001,
+     "dice": 0.0,
+     "iou": 0.0,
+     "real_extent_mm": 58.0
+    },
+    {
+     "id": "palmar_interossei_r",
+     "real_subject": "ct_vhf_hand_contfix_mesh",
+     "claimed_voxels_cm3": 6.0,
+     "centroid_dist_mm": 27.2,
+     "real_vol_cm3": 6.3,
+     "zan_vol_cm3": 5.8,
+     "vol_ratio_zan_over_real": 0.924,
+     "dice": 0.012,
+     "iou": 0.006,
+     "real_extent_mm": 69.9
+    }
+   ],
+   "median_centroid_dist_mm": 25.0,
+   "max_centroid_dist_mm": 29.1,
+   "median_dice": 0.114
+  }
+ },
+ "ship_median_mm": 25.0,
+ "ship_max_mm": 29.1
+}

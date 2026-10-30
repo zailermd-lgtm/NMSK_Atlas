@@ -1,0 +1,158 @@
+[
+  {
+    "id": "greater_trochanteric_bursa_r",
+    "name_ta": "Bursa trochanterica musculi glutei maximi",
+    "name_common": "Greater trochanteric bursa (trochanteric bursa complex)",
+    "side": "right",
+    "region": "hip",
+    "adjacent_structures": [
+      "gluteal_tendon_complex_r",
+      "gluteus_maximus_r",
+      "femur_r",
+      "iliotibial tract"
+    ],
+    "communicates_with_joint": false,
+    "clinical_significance": "The trochanteric bursa complex is not one bursa but several: cadaveric dissection studies (Dunn et al. 2003; Woodley et al. 2008) consistently find at least 2 bursae per gluteal tendon and up to 4 beneath gluteus maximus/the fascia lata alone, averaging 6 bursae per hip -- the 'trochanteric bursa' of clinical usage is the largest of these, the subgluteus maximus bursa, lying between gluteus maximus and the lateral facet of the greater trochanter, deep to the iliotibial tract. Inflammation here (classic 'trochanteric bursitis') is the traditional explanation for lateral hip pain, but current evidence identifies degenerative tearing of the gluteus medius/minimus tendon footprint (see this atlas's gluteal_tendon_complex entries) as the primary lesion in most greater trochanteric pain syndrome (GTPS), with bursal distension as a frequent secondary/coexisting finding rather than the sole cause.",
+    "function": "Reduces friction between the gliding iliotibial tract/gluteus maximus and the bony prominence of the greater trochanter, and (via its deeper components) between the gluteus medius/minimus tendons and their trochanteric footprints, during hip flexion/extension and abduction/adduction.",
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the hip; anatomic detail from real cadaveric dissection studies: Dunn T, Heller CA, McCarthy SW, Dos Remedios C (2003) 'Anatomical study of the \"trochanteric bursa\".' Clin Anat 16(3):233-240, doi:10.1002/ca.10084 (https://doi.org/10.1002/ca.10084); Woodley SJ, Mercer SR, Nicholson HD (2008) 'Morphology of the bursae associated with the greater trochanter of the femur.' J Bone Joint Surg Am 90(2):284-294, doi:10.2106/JBJS.G.00257 (https://doi.org/10.2106/JBJS.G.00257) -- both retrieved via PubMed"
+  },
+  {
+    "id": "iliopsoas_bursa_r",
+    "name_ta": "Bursa iliopectinea",
+    "name_common": "Iliopsoas bursa (iliopectineal bursa)",
+    "side": "right",
+    "region": "hip",
+    "adjacent_structures": [
+      "iliopsoas_tendon_r",
+      "iliopsoas_r",
+      "femur_r",
+      "anterior hip joint capsule",
+      "iliopectineal eminence"
+    ],
+    "communicates_with_joint": true,
+    "clinical_significance": "The largest bursa in the body, present in roughly 98% of individuals; lies between the iliopsoas musculotendinous complex and the anterior hip capsule/iliopectineal eminence. A real CT-arthrography series (Ribet et al. 2025, 178 hips) found direct communication between the bursa and the hip joint in 25/178 hips (~14%), consistent with older reports of roughly 15% of asymptomatic individuals, through a capsular defect between the pubofemoral and iliofemoral ligaments -- clinically relevant because bursal distension (iliopsoas bursitis) can be a marker of underlying intra-articular hip disease, and a communicating bursa can spread joint sepsis or injectate. Distension can also present as a groin mass or cause femoral nerve/vessel compression symptoms. This bursa is distinct from, but directly deep/adjacent to, the iliopsoas tendon already modeled with its own prp_injection_approach in data/tendons/lower_limb_tendons.json's iliopsoas_tendon entries -- see that entry for the ultrasound-guided injection technique, which targets this tendon/bursa complex as a unit.",
+    "function": "Provides a gliding surface between the iliopsoas musculotendinous complex and the anterior hip joint/iliopectineal eminence during hip flexion, reducing friction at the site implicated in internal ('iliopsoas') snapping hip syndrome.",
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the hip; communication rate from real imaging anatomy: Ribet F, Chapuis C, Ropars M, Guillin R (2025) 'Iliopsoas bursa: a morphological study based on CT-arthrography.' Surg Radiol Anat 48(1):7, doi:10.1007/s00276-025-03770-1 (https://doi.org/10.1007/s00276-025-03770-1) -- retrieved via PubMed"
+  },
+  {
+    "id": "ischial_bursa_r",
+    "name_ta": "Bursa ischiadica musculi glutei maximi",
+    "name_common": "Ischial bursa (ischiogluteal bursa)",
+    "side": "right",
+    "region": "hip",
+    "adjacent_structures": [
+      "hip_bone_r",
+      "gluteus_maximus_r",
+      "proximal_hamstring_tendon_r",
+      "ischial tuberosity"
+    ],
+    "communicates_with_joint": false,
+    "clinical_significance": "Lies between the ischial tuberosity and the overlying gluteus maximus, immediately superficial to the proximal hamstring tendon origin. Inflammation is ischial (ischiogluteal) bursitis, classically nicknamed 'weaver's bottom' or 'tailor's bottom' for its association with prolonged sitting on a hard surface, which repeatedly compresses the bursa against the ischial tuberosity. Presents as buttock pain that is worse with sitting and can radiate into the posterior thigh; sonographically seen as hypoechoic fluid overlying the hamstring tendon origin. Must be distinguished clinically from proximal hamstring tendinopathy and from a gluteus maximus trigger point near the ischial tuberosity, both of which can also cause buttock pain aggravated by sitting.",
+    "function": "Reduces friction between the ischial tuberosity and the gluteus maximus (and overlying skin) during sitting and hip extension.",
+    "injection_approach": {
+      "transducer_placement": "Linear transducer over the ischial tuberosity with the patient prone or side-lying with the hip flexed to roughly 90 degrees, identifying the tuberosity and the overlying hamstring tendon origin, then locating the bursa immediately superficial to the tendon and deep to gluteus maximus.",
+      "depth_layer": "Gluteus maximus lies superficial to the bursa; the proximal hamstring (conjoint semitendinosus/biceps femoris long head) tendon origin lies deep to it, directly on the ischial tuberosity.",
+      "identification_cues": "A distended bursa appears as an anechoic/hypoechoic collection directly overlying the hamstring tendon origin at the ischial tuberosity; direct probe pressure reproduces the patient's sitting-related pain.",
+      "structures_at_risk": [
+        "Sciatic nerve, which lies lateral to the ischial tuberosity and moves closer to it in a hip-neutral position"
+      ],
+      "notes": "A cadaveric/volunteer study (Wisniewski et al. 2013) validated ultrasound-guided ischial bursa injection and found that flexing the hip to 90 degrees increases the distance from the ischial tuberosity to the sciatic nerve from a mean of 28.4 mm (neutral hip) to 41.9 mm, a safety margin the authors recommend using when performing this injection.",
+      "source": "Wisniewski SJ, Hurdle M, Erickson JM, Finnoff JT, Smith J (2013) 'Ultrasound-guided ischial bursa injection: technique and positioning considerations.' PM R 6(1):56-60, doi:10.1016/j.pmrj.2013.08.603 (https://doi.org/10.1016/j.pmrj.2013.08.603) -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the hip; clinical/imaging description: Ischial Bursitis, StatPearls (NCBI Bookshelf, NBK482285) (https://www.ncbi.nlm.nih.gov/books/NBK482285/)"
+  },
+  {
+    "id": "anserine_bursa_r",
+    "name_ta": "Bursa anserina",
+    "name_common": "Anserine bursa (pes anserine bursa)",
+    "side": "right",
+    "region": "knee",
+    "adjacent_structures": [
+      "pes_anserinus_r",
+      "tibia_r",
+      "superficial tibial (medial) collateral ligament"
+    ],
+    "communicates_with_joint": false,
+    "clinical_significance": "Separates the conjoined pes anserinus tendon (sartorius, gracilis, semitendinosus) from the underlying tibial attachment of the superficial medial collateral ligament on the anteromedial proximal tibia. Anserine (pes anserine) bursitis/tendinobursitis is a common cause of medial knee pain, frequently coexisting with medial compartment knee osteoarthritis, and is often clinically confused with MCL sprain or medial meniscus injury. This bursa and its clinical syndrome, including the real ultrasound-guided PRP injection evidence (Karabas et al. 2021), are already documented in this atlas under the pes_anserinus tendon entry's prp_injection_approach in data/tendons/lower_limb_tendons.json -- this bursa record is added as its own distinct anatomical entity (the tendon entry describes the conjoined tendon, not the bursa per se) but intentionally does not restate the injection technique to avoid duplication; see that tendon entry for the ultrasound-guided injection approach.",
+    "function": "Reduces friction between the conjoined pes anserinus tendon and the underlying superficial tibial collateral ligament/proximal tibia during knee flexion-extension and the rotational loading resisted by the pes anserinus tendons.",
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the knee; see data/tendons/lower_limb_tendons.json's pes_anserinus_r/pes_anserinus_l entries for the ultrasound-guided PRP injection evidence at this site (Karabas C, Talay Calis H, Topaloglu US, Karakukcu C (2021) Transfus Apher Sci 60(3):103048, doi:10.1016/j.transci.2020.103048)"
+  },
+  {
+    "id": "greater_trochanteric_bursa_l",
+    "name_ta": "Bursa trochanterica musculi glutei maximi",
+    "name_common": "Greater trochanteric bursa (trochanteric bursa complex)",
+    "side": "left",
+    "region": "hip",
+    "adjacent_structures": [
+      "gluteal_tendon_complex_l",
+      "gluteus_maximus_l",
+      "femur_l",
+      "iliotibial tract"
+    ],
+    "communicates_with_joint": false,
+    "clinical_significance": "The trochanteric bursa complex is not one bursa but several: cadaveric dissection studies (Dunn et al. 2003; Woodley et al. 2008) consistently find at least 2 bursae per gluteal tendon and up to 4 beneath gluteus maximus/the fascia lata alone, averaging 6 bursae per hip -- the 'trochanteric bursa' of clinical usage is the largest of these, the subgluteus maximus bursa, lying between gluteus maximus and the lateral facet of the greater trochanter, deep to the iliotibial tract. Inflammation here (classic 'trochanteric bursitis') is the traditional explanation for lateral hip pain, but current evidence identifies degenerative tearing of the gluteus medius/minimus tendon footprint (see this atlas's gluteal_tendon_complex entries) as the primary lesion in most greater trochanteric pain syndrome (GTPS), with bursal distension as a frequent secondary/coexisting finding rather than the sole cause.",
+    "function": "Reduces friction between the gliding iliotibial tract/gluteus maximus and the bony prominence of the greater trochanter, and (via its deeper components) between the gluteus medius/minimus tendons and their trochanteric footprints, during hip flexion/extension and abduction/adduction.",
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the hip; anatomic detail from real cadaveric dissection studies: Dunn T, Heller CA, McCarthy SW, Dos Remedios C (2003) 'Anatomical study of the \"trochanteric bursa\".' Clin Anat 16(3):233-240, doi:10.1002/ca.10084 (https://doi.org/10.1002/ca.10084); Woodley SJ, Mercer SR, Nicholson HD (2008) 'Morphology of the bursae associated with the greater trochanter of the femur.' J Bone Joint Surg Am 90(2):284-294, doi:10.2106/JBJS.G.00257 (https://doi.org/10.2106/JBJS.G.00257) -- both retrieved via PubMed"
+  },
+  {
+    "id": "iliopsoas_bursa_l",
+    "name_ta": "Bursa iliopectinea",
+    "name_common": "Iliopsoas bursa (iliopectineal bursa)",
+    "side": "left",
+    "region": "hip",
+    "adjacent_structures": [
+      "iliopsoas_tendon_l",
+      "iliopsoas_l",
+      "femur_l",
+      "anterior hip joint capsule",
+      "iliopectineal eminence"
+    ],
+    "communicates_with_joint": true,
+    "clinical_significance": "The largest bursa in the body, present in roughly 98% of individuals; lies between the iliopsoas musculotendinous complex and the anterior hip capsule/iliopectineal eminence. A real CT-arthrography series (Ribet et al. 2025, 178 hips) found direct communication between the bursa and the hip joint in 25/178 hips (~14%), consistent with older reports of roughly 15% of asymptomatic individuals, through a capsular defect between the pubofemoral and iliofemoral ligaments -- clinically relevant because bursal distension (iliopsoas bursitis) can be a marker of underlying intra-articular hip disease, and a communicating bursa can spread joint sepsis or injectate. Distension can also present as a groin mass or cause femoral nerve/vessel compression symptoms. This bursa is distinct from, but directly deep/adjacent to, the iliopsoas tendon already modeled with its own prp_injection_approach in data/tendons/lower_limb_tendons.json's iliopsoas_tendon entries -- see that entry for the ultrasound-guided injection technique, which targets this tendon/bursa complex as a unit.",
+    "function": "Provides a gliding surface between the iliopsoas musculotendinous complex and the anterior hip joint/iliopectineal eminence during hip flexion, reducing friction at the site implicated in internal ('iliopsoas') snapping hip syndrome.",
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the hip; communication rate from real imaging anatomy: Ribet F, Chapuis C, Ropars M, Guillin R (2025) 'Iliopsoas bursa: a morphological study based on CT-arthrography.' Surg Radiol Anat 48(1):7, doi:10.1007/s00276-025-03770-1 (https://doi.org/10.1007/s00276-025-03770-1) -- retrieved via PubMed"
+  },
+  {
+    "id": "ischial_bursa_l",
+    "name_ta": "Bursa ischiadica musculi glutei maximi",
+    "name_common": "Ischial bursa (ischiogluteal bursa)",
+    "side": "left",
+    "region": "hip",
+    "adjacent_structures": [
+      "hip_bone_l",
+      "gluteus_maximus_l",
+      "proximal_hamstring_tendon_l",
+      "ischial tuberosity"
+    ],
+    "communicates_with_joint": false,
+    "clinical_significance": "Lies between the ischial tuberosity and the overlying gluteus maximus, immediately superficial to the proximal hamstring tendon origin. Inflammation is ischial (ischiogluteal) bursitis, classically nicknamed 'weaver's bottom' or 'tailor's bottom' for its association with prolonged sitting on a hard surface, which repeatedly compresses the bursa against the ischial tuberosity. Presents as buttock pain that is worse with sitting and can radiate into the posterior thigh; sonographically seen as hypoechoic fluid overlying the hamstring tendon origin. Must be distinguished clinically from proximal hamstring tendinopathy and from a gluteus maximus trigger point near the ischial tuberosity, both of which can also cause buttock pain aggravated by sitting.",
+    "function": "Reduces friction between the ischial tuberosity and the gluteus maximus (and overlying skin) during sitting and hip extension.",
+    "injection_approach": {
+      "transducer_placement": "Linear transducer over the ischial tuberosity with the patient prone or side-lying with the hip flexed to roughly 90 degrees, identifying the tuberosity and the overlying hamstring tendon origin, then locating the bursa immediately superficial to the tendon and deep to gluteus maximus.",
+      "depth_layer": "Gluteus maximus lies superficial to the bursa; the proximal hamstring (conjoint semitendinosus/biceps femoris long head) tendon origin lies deep to it, directly on the ischial tuberosity.",
+      "identification_cues": "A distended bursa appears as an anechoic/hypoechoic collection directly overlying the hamstring tendon origin at the ischial tuberosity; direct probe pressure reproduces the patient's sitting-related pain.",
+      "structures_at_risk": [
+        "Sciatic nerve, which lies lateral to the ischial tuberosity and moves closer to it in a hip-neutral position"
+      ],
+      "notes": "A cadaveric/volunteer study (Wisniewski et al. 2013) validated ultrasound-guided ischial bursa injection and found that flexing the hip to 90 degrees increases the distance from the ischial tuberosity to the sciatic nerve from a mean of 28.4 mm (neutral hip) to 41.9 mm, a safety margin the authors recommend using when performing this injection.",
+      "source": "Wisniewski SJ, Hurdle M, Erickson JM, Finnoff JT, Smith J (2013) 'Ultrasound-guided ischial bursa injection: technique and positioning considerations.' PM R 6(1):56-60, doi:10.1016/j.pmrj.2013.08.603 (https://doi.org/10.1016/j.pmrj.2013.08.603) -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the hip; clinical/imaging description: Ischial Bursitis, StatPearls (NCBI Bookshelf, NBK482285) (https://www.ncbi.nlm.nih.gov/books/NBK482285/)"
+  },
+  {
+    "id": "anserine_bursa_l",
+    "name_ta": "Bursa anserina",
+    "name_common": "Anserine bursa (pes anserine bursa)",
+    "side": "left",
+    "region": "knee",
+    "adjacent_structures": [
+      "pes_anserinus_l",
+      "tibia_l",
+      "superficial tibial (medial) collateral ligament"
+    ],
+    "communicates_with_joint": false,
+    "clinical_significance": "Separates the conjoined pes anserinus tendon (sartorius, gracilis, semitendinosus) from the underlying tibial attachment of the superficial medial collateral ligament on the anteromedial proximal tibia. Anserine (pes anserine) bursitis/tendinobursitis is a common cause of medial knee pain, frequently coexisting with medial compartment knee osteoarthritis, and is often clinically confused with MCL sprain or medial meniscus injury. This bursa and its clinical syndrome, including the real ultrasound-guided PRP injection evidence (Karabas et al. 2021), are already documented in this atlas under the pes_anserinus tendon entry's prp_injection_approach in data/tendons/lower_limb_tendons.json -- this bursa record is added as its own distinct anatomical entity (the tendon entry describes the conjoined tendon, not the bursa per se) but intentionally does not restate the injection technique to avoid duplication; see that tendon entry for the ultrasound-guided injection approach.",
+    "function": "Reduces friction between the conjoined pes anserinus tendon and the underlying superficial tibial collateral ligament/proximal tibia during knee flexion-extension and the rotational loading resisted by the pes anserinus tendons.",
+    "source": "Gray's Anatomy, 42nd ed. (Standring, ed.), Elsevier, 2021 -- bursae of the knee; see data/tendons/lower_limb_tendons.json's pes_anserinus_r/pes_anserinus_l entries for the ultrasound-guided PRP injection evidence at this site (Karabas C, Talay Calis H, Topaloglu US, Karakukcu C (2021) Transfus Apher Sci 60(3):103048, doi:10.1016/j.transci.2020.103048)"
+  }
+]

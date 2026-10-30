@@ -1,0 +1,332 @@
+{
+ "before_key": "z_male_fit",
+ "after_key": "q205_m",
+ "hands": {
+  "before": {
+   "l": {
+    "links_mm": {
+     "forearm bones -> lunate_bone": 0.16,
+     "forearm bones -> scaphoid_bone": 1.73,
+     "forearm bones -> triquetrum_bone": 11.67,
+     "carpals -> first metacarpal": 0.05,
+     "carpals -> second metacarpal": 0.12,
+     "carpals -> third metacarpal": 0.1,
+     "carpals -> fourth metacarpal": 0.97,
+     "carpals -> fifth metacarpal": 4.08
+    },
+    "finger_link_gaps_gt3mm": [
+     [
+      "first",
+      81.81
+     ]
+    ],
+    "bend_deg": {
+     "first": [
+      17.3,
+      2.6
+     ],
+     "second": [
+      62.8,
+      34.0,
+      13.3
+     ],
+     "third": [
+      24.4,
+      18.7,
+      7.3
+     ],
+     "fourth": [
+      35.9,
+      21.6,
+      5.9
+     ],
+     "fifth": [
+      41.4,
+      15.1,
+      15.8
+     ]
+    },
+    "bones_outside_skin_gt1pct": [
+     [
+      "zan_first_metacarpal_bone_l",
+      60.3,
+      19.4
+     ],
+     [
+      "zan_proximal_phalanx_of_first_finger_of_hand_l",
+      57.2,
+      24.4
+     ],
+     [
+      "zan_distal_phalanx_of_first_finger_of_hand_l",
+      1.8,
+      4.2
+     ]
+    ]
+   },
+   "r": {
+    "links_mm": {
+     "forearm bones -> lunate_bone": 3.18,
+     "forearm bones -> scaphoid_bone": 2.73,
+     "forearm bones -> triquetrum_bone": 13.58,
+     "carpals -> first metacarpal": 0.05,
+     "carpals -> second metacarpal": 0.22,
+     "carpals -> third metacarpal": 0.19,
+     "carpals -> fourth metacarpal": 0.06,
+     "carpals -> fifth metacarpal": 2.34
+    },
+    "finger_link_gaps_gt3mm": [
+     [
+      "first",
+      88.68
+     ]
+    ],
+    "bend_deg": {
+     "first": [
+      46.0,
+      2.6
+     ],
+     "second": [
+      55.1,
+      34.2,
+      6.8
+     ],
+     "third": [
+      41.0,
+      68.6,
+      5.6
+     ],
+     "fourth": [
+      38.4,
+      37.9,
+      3.5
+     ],
+     "fifth": [
+      55.7,
+      17.0,
+      16.4
+     ]
+    },
+    "bones_outside_skin_gt1pct": [
+     [
+      "zan_first_metacarpal_bone_r",
+      58.6,
+      20.8
+     ],
+     [
+      "zan_proximal_phalanx_of_first_finger_of_hand_r",
+      60.2,
+      50.0
+     ],
+     [
+      "zan_second_metacarpal_bone_r",
+      11.7,
+      8.5
+     ]
+    ]
+   }
+  },
+  "after": {
+   "l": {
+    "links_mm": {
+     "forearm bones -> lunate_bone": 3.55,
+     "forearm bones -> scaphoid_bone": 4.05,
+     "forearm bones -> triquetrum_bone": 2.14,
+     "carpals -> first metacarpal": 0.16,
+     "carpals -> second metacarpal": 0.05,
+     "carpals -> third metacarpal": 0.1,
+     "carpals -> fourth metacarpal": 0.48,
+     "carpals -> fifth metacarpal": 0.08
+    },
+    "finger_link_gaps_gt3mm": [],
+    "bend_deg": {
+     "first": [
+      19.6,
+      14.5
+     ],
+     "second": [
+      39.3,
+      22.9,
+      11.0
+     ],
+     "third": [
+      30.0,
+      22.9,
+      8.9
+     ],
+     "fourth": [
+      21.2,
+      24.7,
+      12.7
+     ],
+     "fifth": [
+      24.6,
+      29.8,
+      10.4
+     ]
+    },
+    "bones_outside_skin_gt1pct": []
+   },
+   "r": {
+    "links_mm": {
+     "forearm bones -> lunate_bone": 4.08,
+     "forearm bones -> scaphoid_bone": 1.22,
+     "forearm bones -> triquetrum_bone": 8.56,
+     "carpals -> first metacarpal": 0.1,
+     "carpals -> second metacarpal": 0.12,
+     "carpals -> third metacarpal": 0.09,
+     "carpals -> fourth metacarpal": 0.47,
+     "carpals -> fifth metacarpal": 0.13
+    },
+    "finger_link_gaps_gt3mm": [],
+    "bend_deg": {
+     "first": [
+      42.2,
+      16.9
+     ],
+     "second": [
+      69.9,
+      77.8,
+      6.3
+     ],
+     "third": [
+      55.3,
+      13.7,
+      10.0
+     ],
+     "fourth": [
+      36.6,
+      39.7,
+      12.7
+     ],
+     "fifth": [
+      29.3,
+      39.0,
+      10.3
+     ]
+    },
+    "bones_outside_skin_gt1pct": []
+   }
+  }
+ },
+ "regions": {
+  "before": {
+   "wrist_hand": {
+    "major": 47,
+    "moderate": 31,
+    "minor": 42,
+    "n": 232
+   },
+   "shoulder": {
+    "major": 7,
+    "moderate": 8,
+    "minor": 15,
+    "n": 134
+   },
+   "arm_elbow_forearm": {
+    "major": 17,
+    "moderate": 54,
+    "minor": 26,
+    "n": 162
+   },
+   "skin_seam_totals": {
+    "border_vertices": 1428,
+    "gap_ge_2mm": 350,
+    "gap_2_20mm": 77,
+    "max_gap_below_60mm": 11.1
+   }
+  },
+  "after": {
+   "wrist_hand": {
+    "major": 12,
+    "moderate": 15,
+    "minor": 20,
+    "n": 238
+   },
+   "shoulder": {
+    "major": 0,
+    "moderate": 10,
+    "minor": 11,
+    "n": 133
+   },
+   "arm_elbow_forearm": {
+    "major": 6,
+    "moderate": 39,
+    "minor": 18,
+    "n": 156
+   },
+   "skin_seam_totals": {
+    "border_vertices": 1428,
+    "gap_ge_2mm": 350,
+    "gap_2_20mm": 77,
+    "max_gap_below_60mm": 11.1
+   }
+  }
+ },
+ "junctions_major_moderate_minor": {
+  "before": {
+   "shoulder_l": [
+    7,
+    9,
+    6
+   ],
+   "shoulder_r": [
+    10,
+    7,
+    7
+   ],
+   "wrist_l": [
+    24,
+    33,
+    26
+   ],
+   "wrist_r": [
+    6,
+    21,
+    31
+   ],
+   "elbow_l": [
+    2,
+    19,
+    25
+   ],
+   "elbow_r": [
+    5,
+    16,
+    18
+   ]
+  },
+  "after": {
+   "shoulder_l": [
+    7,
+    9,
+    5
+   ],
+   "shoulder_r": [
+    7,
+    7,
+    10
+   ],
+   "wrist_l": [
+    12,
+    19,
+    17
+   ],
+   "wrist_r": [
+    10,
+    18,
+    10
+   ],
+   "elbow_l": [
+    3,
+    16,
+    21
+   ],
+   "elbow_r": [
+    4,
+    20,
+    17
+   ]
+  }
+ }
+}

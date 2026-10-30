@@ -1,0 +1,420 @@
+{
+ "her_skin": {
+  "nv": 37486,
+  "nf": 75000,
+  "watertight": true
+ },
+ "frame_check_vs_her_full_skin": {
+  "vessel": {
+   "n": 39923,
+   "outside_gt2mm_pct": 0.23,
+   "outside_gt10mm_pct": 0.02
+  },
+  "nerve": {
+   "n": 33302,
+   "outside_gt2mm_pct": 0.24,
+   "outside_gt10mm_pct": 0.02
+  },
+  "muscle": {
+   "n": 26092,
+   "outside_gt2mm_pct": 0.11,
+   "outside_gt10mm_pct": 0.0
+  },
+  "cartilage": {
+   "n": 3180,
+   "outside_gt2mm_pct": 0.0,
+   "outside_gt10mm_pct": 0.0
+  },
+  "joint": {
+   "n": 18672,
+   "outside_gt2mm_pct": 0.63,
+   "outside_gt10mm_pct": 0.06
+  },
+  "bursa": {
+   "n": 6840,
+   "outside_gt2mm_pct": 0.18,
+   "outside_gt10mm_pct": 0.0
+  },
+  "fascia": {
+   "n": 3660,
+   "outside_gt2mm_pct": 0.19,
+   "outside_gt10mm_pct": 0.14
+  },
+  "bone": {
+   "n": 15000,
+   "outside_gt2mm_pct": 1.72,
+   "outside_gt10mm_pct": 0.31
+  },
+  "insertion": {
+   "n": 240,
+   "outside_gt2mm_pct": 0.0,
+   "outside_gt10mm_pct": 0.0
+  },
+  "cns": {
+   "n": 12180,
+   "outside_gt2mm_pct": 0.0,
+   "outside_gt10mm_pct": 0.0
+  },
+  "viscera": {
+   "n": 7980,
+   "outside_gt2mm_pct": 0.0,
+   "outside_gt10mm_pct": 0.0
+  },
+  "lymph": {
+   "n": 9720,
+   "outside_gt2mm_pct": 0.0,
+   "outside_gt10mm_pct": 0.0
+  },
+  "skin": {
+   "n": 13518,
+   "outside_gt2mm_pct": 3.16,
+   "outside_gt10mm_pct": 0.65
+  }
+ },
+ "non_skin_inside_pct_2mm": 99.66,
+ "structures_crossing_her_skin": [
+  {
+   "id": "zan_distal_phalanx_of_third_finger_of_hand_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 100.0,
+   "max_mm": 16.4
+  },
+  {
+   "id": "zan_dorsal_digital_veins_of_hand_l",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 10.6,
+   "max_mm": 14.7
+  },
+  {
+   "id": "zan_proper_palmar_digital_branches_of_median_nerve_l",
+   "sys": "nerve",
+   "outside_gt2mm_pct": 14.1,
+   "max_mm": 14.6
+  },
+  {
+   "id": "zan_middle_phalanx_of_third_finger_of_hand_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 70.3,
+   "max_mm": 13.7
+  },
+  {
+   "id": "zan_collateral_interphalangeal_ligaments_of_hand_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 18.4,
+   "max_mm": 13.2
+  },
+  {
+   "id": "zan_articular_capsules_of_distal_interphalangeal_joints_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 21.5,
+   "max_mm": 12.5
+  },
+  {
+   "id": "zan_dorsal_digital_branches_of_deep_fibular_nerve_r",
+   "sys": "nerve",
+   "outside_gt2mm_pct": 61.0,
+   "max_mm": 11.0
+  },
+  {
+   "id": "zan_proper_palmar_digital_arteries_l",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 9.4,
+   "max_mm": 9.5
+  },
+  {
+   "id": "zan_proper_plantar_digital_branches_of_medial_plantar_nerve_r",
+   "sys": "nerve",
+   "outside_gt2mm_pct": 22.0,
+   "max_mm": 9.4
+  },
+  {
+   "id": "zan_collateral_interphalangeal_ligaments_of_foot_r",
+   "sys": "joint",
+   "outside_gt2mm_pct": 11.7,
+   "max_mm": 9.1
+  },
+  {
+   "id": "zan_dorsal_digital_arteries_of_foot_r",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 11.9,
+   "max_mm": 8.0
+  },
+  {
+   "id": "zan_distal_phalanx_of_third_finger_of_foot_r",
+   "sys": "bone",
+   "outside_gt2mm_pct": 31.7,
+   "max_mm": 7.7
+  },
+  {
+   "id": "zan_plantar_digital_veins_r",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 10.6,
+   "max_mm": 7.7
+  },
+  {
+   "id": "zan_proper_plantar_digital_arteries_r",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 11.9,
+   "max_mm": 7.6
+  },
+  {
+   "id": "zan_articular_capsule_of_interphalangeal_joint_of_great_toe_r",
+   "sys": "joint",
+   "outside_gt2mm_pct": 17.6,
+   "max_mm": 7.5
+  },
+  {
+   "id": "zan_dorsal_digital_veins_of_foot_r",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 23.9,
+   "max_mm": 7.5
+  },
+  {
+   "id": "zan_palmar_interphalangeal_ligaments_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 11.1,
+   "max_mm": 7.5
+  },
+  {
+   "id": "zan_articular_capsules_of_proximal_interphalangeal_joints_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 12.2,
+   "max_mm": 7.3
+  },
+  {
+   "id": "cuneiform_intermediate_r",
+   "sys": "bone",
+   "outside_gt2mm_pct": 18.8,
+   "max_mm": 7.1
+  },
+  {
+   "id": "zan_dorsal_digital_veins_of_foot_l",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 16.8,
+   "max_mm": 7.1
+  },
+  {
+   "id": "zan_proper_plantar_digital_branches_of_lateral_plantar_nerve_l",
+   "sys": "nerve",
+   "outside_gt2mm_pct": 10.5,
+   "max_mm": 6.2
+  },
+  {
+   "id": "zan_dorsal_digital_branches_of_superficial_fibular_nerve_l",
+   "sys": "nerve",
+   "outside_gt2mm_pct": 8.5,
+   "max_mm": 6.0
+  },
+  {
+   "id": "zan_distal_phalanx_of_second_finger_of_hand_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 24.4,
+   "max_mm": 5.8
+  },
+  {
+   "id": "zan_dorsal_digital_arteries_of_foot_l",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 11.2,
+   "max_mm": 5.7
+  },
+  {
+   "id": "zan_middle_phalanx_of_third_finger_of_foot_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 16.3,
+   "max_mm": 5.3
+  },
+  {
+   "id": "extensor_digitorum_longus_r",
+   "sys": "muscle",
+   "outside_gt2mm_pct": 11.8,
+   "max_mm": 5.2
+  },
+  {
+   "id": "zan_inferior_fibular_retinaculum_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 28.1,
+   "max_mm": 5.2
+  },
+  {
+   "id": "zan_superior_fibular_retinaculum_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 28.0,
+   "max_mm": 5.1
+  },
+  {
+   "id": "zan_articular_capsules_of_distal_interphalangeal_joints_of_foot_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 20.7,
+   "max_mm": 5.0
+  },
+  {
+   "id": "extensor_digitorum_longus_l",
+   "sys": "muscle",
+   "outside_gt2mm_pct": 10.5,
+   "max_mm": 4.5
+  },
+  {
+   "id": "zan_collateral_interphalangeal_ligaments_of_foot_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 9.5,
+   "max_mm": 4.5
+  },
+  {
+   "id": "zan_plantar_interphalangeal_ligaments_l",
+   "sys": "joint",
+   "outside_gt2mm_pct": 5.3,
+   "max_mm": 4.5
+  },
+  {
+   "id": "zan_proper_plantar_digital_arteries_l",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 10.7,
+   "max_mm": 4.5
+  },
+  {
+   "id": "zan_articular_capsules_of_proximal_interphalangeal_joints_of_foot_r",
+   "sys": "joint",
+   "outside_gt2mm_pct": 5.9,
+   "max_mm": 4.4
+  },
+  {
+   "id": "zan_proximal_phalanx_of_third_finger_of_hand_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 6.3,
+   "max_mm": 4.3
+  },
+  {
+   "id": "extensor_hallucis_brevis_r",
+   "sys": "muscle",
+   "outside_gt2mm_pct": 5.9,
+   "max_mm": 3.9
+  },
+  {
+   "id": "zan_distal_phalanx_of_third_finger_of_foot_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 18.6,
+   "max_mm": 3.7
+  },
+  {
+   "id": "zan_middle_phalanx_of_fourth_finger_of_hand_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 17.8,
+   "max_mm": 3.5
+  },
+  {
+   "id": "zan_tendon_sheath_of_extensor_hallucis_longus_r",
+   "sys": "bursa",
+   "outside_gt2mm_pct": 13.4,
+   "max_mm": 3.5
+  },
+  {
+   "id": "zan_distal_phalanx_of_fifth_finger_of_foot_r",
+   "sys": "bone",
+   "outside_gt2mm_pct": 17.5,
+   "max_mm": 3.4
+  },
+  {
+   "id": "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+   "sys": "bone",
+   "outside_gt2mm_pct": 10.2,
+   "max_mm": 3.4
+  },
+  {
+   "id": "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+   "sys": "bone",
+   "outside_gt2mm_pct": 22.7,
+   "max_mm": 3.3
+  },
+  {
+   "id": "zan_distal_phalanx_of_second_finger_of_foot_r",
+   "sys": "bone",
+   "outside_gt2mm_pct": 9.2,
+   "max_mm": 3.2
+  },
+  {
+   "id": "cuneiform_intermediate_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 7.6,
+   "max_mm": 3.1
+  },
+  {
+   "id": "zan_middle_phalanx_of_fifth_finger_of_foot_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 7.3,
+   "max_mm": 3.0
+  },
+  {
+   "id": "zan_major_alar_cartilage_l",
+   "sys": "bone",
+   "outside_gt2mm_pct": 10.9,
+   "max_mm": 2.7
+  },
+  {
+   "id": "zan_middle_phalanx_of_third_finger_of_foot_r",
+   "sys": "bone",
+   "outside_gt2mm_pct": 5.9,
+   "max_mm": 2.7
+  },
+  {
+   "id": "zan_arcuate_artery_l",
+   "sys": "vessel",
+   "outside_gt2mm_pct": 7.5,
+   "max_mm": 2.6
+  }
+ ],
+ "z_skin_patches_hidden_default": 249,
+ "breasts": {
+  "breast_ct_r": {
+   "volume_cm3": 1003.1,
+   "outside_her_skin_gt1mm_pct": 0.0,
+   "outside_page_z_skin_note": "the hidden Z chest skin no longer bounds it",
+   "z_pectoralis_major_overlap_pct": 15.1
+  },
+  "breast_ct_l": {
+   "volume_cm3": 875.4,
+   "outside_her_skin_gt1mm_pct": 0.0,
+   "outside_page_z_skin_note": "the hidden Z chest skin no longer bounds it",
+   "z_pectoralis_major_overlap_pct": 14.9
+  }
+ },
+ "breast_fgt": {
+  "breast_fgt_ct_r": {
+   "volume_cm3": 18.5,
+   "outside_her_skin_gt1mm_pct": 0.0,
+   "z_pectoralis_major_overlap_pct": 15.2
+  },
+  "breast_fgt_ct_l": {
+   "volume_cm3": 16.3,
+   "outside_her_skin_gt1mm_pct": 0.0,
+   "z_pectoralis_major_overlap_pct": 8.8
+  }
+ },
+ "hra_sculpted_breast_hidden_default": [
+  "breast_fat_l",
+  "mammary_gland_l",
+  "lactiferous_ducts_l",
+  "areola_l",
+  "nipple_l",
+  "breast_suspensory_ligaments_l",
+  "breast_fat_r",
+  "mammary_gland_r",
+  "lactiferous_ducts_r",
+  "areola_r",
+  "nipple_r",
+  "breast_suspensory_ligaments_r"
+ ],
+ "added": [
+  "skin_ct_vhf",
+  "breast_ct_r",
+  "breast_ct_l",
+  "breast_fgt_ct_r",
+  "breast_fgt_ct_l"
+ ],
+ "new_indices": [
+  3238,
+  3239,
+  3240,
+  3241,
+  3242
+ ]
+}

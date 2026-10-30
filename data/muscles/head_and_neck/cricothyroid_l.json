@@ -1,0 +1,72 @@
+{
+  "id": "cricothyroid_l",
+  "name_ta": "Cricothyroideus",
+  "name_common": "Cricothyroideus",
+  "side": "left",
+  "region": "head",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "hyoid",
+    "origin_landmark": "anterolateral arch of the cricoid cartilage (the laryngeal cartilages are not modeled as skeletal elements in this pass -- approximated via the adjacent hyoid attachment region)",
+    "insertion_bone": "hyoid",
+    "insertion_landmark": "inferior horn and lower lamina of the thyroid cartilage",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "vagus_n_superior_laryngeal_branch",
+    "root_levels": "CN X (external laryngeal branch)"
+  },
+  "actions": [
+    "tilts the thyroid cartilage forward on the cricoid, lengthening and tensing the vocal folds",
+    "raises vocal pitch"
+  ],
+  "functional_compartments": [
+    {
+      "id": "cricothyroid_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 18,
+        "physiological_cross_section_area_mm2": 90,
+        "max_isometric_force_N": 20.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -12,
+          8,
+          14
+        ],
+        [
+          -4,
+          -4,
+          6
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "The ONLY intrinsic laryngeal muscle not supplied by the recurrent laryngeal nerve -- it takes the external branch of the superior laryngeal nerve instead. That single exception is why injury to the external branch during thyroidectomy lowers vocal pitch and weakens projection without producing the hoarseness of a recurrent laryngeal palsy.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "vagus_n_superior_laryngeal_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Percutaneous EMG-guided injection, not ultrasound: with the neck extended, the cricothyroid space (the palpable gap between the inferior border of the thyroid cartilage and the cricoid arch) is identified in the midline, and a monopolar EMG needle is inserted just off midline directly into the cricothyroid muscle belly, angled superolaterally along the muscle's fibers toward the inferior horn/lower lamina of the thyroid cartilage; each side is injected separately.",
+    "depth_layer": "Immediately subcutaneous over the cricothyroid space -- CT is the most externally accessible of the intrinsic laryngeal muscles and, unlike thyroarytenoid/posterior or lateral cricoarytenoid/interarytenoid, does not require puncturing the cricothyroid membrane to reach the airway lumen.",
+    "identification_cues": "EMG activity that increases as the patient phonates at a high pitch (CT's action is to raise pitch by tensing the vocal folds) confirms placement; the muscle can sometimes be felt contracting under the fingers during a glissando to a high note.",
+    "structures_at_risk": [
+      "cricothyroid artery and vein, crossing transversely near the upper border of the cricothyroid space",
+      "superior laryngeal artery and the external branch of the superior laryngeal nerve, running along the muscle's posterior border",
+      "airway lumen, if the needle is advanced too deep through the cricothyroid membrane"
+    ],
+    "notes": "CT is the one intrinsic laryngeal muscle NOT innervated by the recurrent laryngeal nerve, and injecting it (rather than thyroarytenoid) is a distinct, much less common indication -- used for recalcitrant high-pitched functional dysphonia, puberphonia, and mutational falsetto, not for adductor spasmodic dysphonia. Guidance is by EMG, never ultrasound, in the reported cases.",
+    "source": "Woodson GE, Murry T, 'Botulinum toxin in the treatment of recalcitrant mutational dysphonia', J Voice 8(4):347-351 (1994), doi:10.1016/s0892-1997(05)80283-8 (https://doi.org/10.1016/s0892-1997(05)80283-8) -- bilateral percutaneous cricothyroid injection; Ziltzer RS, van der Woerd B, Sund LT, Johns MM, 'Cricothyroid Muscle Botulinum Toxin Chemodenervation to Treat Recalcitrant High-Pitched Functional Dysphonia in an Adult Male', J Voice 38(6):1531.e1-1531.e3 (2022), doi:10.1016/j.jvoice.2022.06.014 (https://doi.org/10.1016/j.jvoice.2022.06.014) -- both retrieved via PubMed"
+  }
+}

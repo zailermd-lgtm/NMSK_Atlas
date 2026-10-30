@@ -1,0 +1,42 @@
+{
+ "page": "own_m",
+ "viewport": "1366x768",
+ "steps": 8,
+ "renderer": "chromium swiftshader (software GL)",
+ "modes": {
+  "off": {
+   "mean_ms": 1875,
+   "median_ms": 1883,
+   "max_ms": 1916,
+   "heavy_refreshes_during_orbit": 0,
+   "id_pass_ms": 0,
+   "refresh_ms": 0,
+   "layout_ms": 0,
+   "labelled": 0
+  },
+  "vis": {
+   "mean_ms": 2512,
+   "median_ms": 2705,
+   "max_ms": 2779,
+   "heavy_refreshes_during_orbit": 12,
+   "id_pass_ms": 389,
+   "refresh_ms": 393,
+   "layout_ms": 3.2,
+   "labelled": 24
+  },
+  "all": {
+   "mean_ms": 2735,
+   "median_ms": 2871,
+   "max_ms": 2938,
+   "heavy_refreshes_during_orbit": 14,
+   "id_pass_ms": 402.3,
+   "refresh_ms": 406.2,
+   "layout_ms": 71.1,
+   "labelled": 53
+  }
+ },
+ "overhead_pct": {
+  "vis": 34,
+  "all": 46
+ }
+}

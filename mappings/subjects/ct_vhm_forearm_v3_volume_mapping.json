@@ -1,0 +1,258 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only. 'procedural_badge' is stamped onto the converted manifest by this script's --stamp."
+  ],
+  "subject": "ct_vhm_forearm_v3",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_forearm_muscles_v3.nii.gz",
+  "label_map": "vhm_forearm_muscles_v3",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "pronator_teres",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "pronator_teres_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 2,
+      "source_structure": "flexor_carpi_radialis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_carpi_radialis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 112.6 cm3 is 4.59x the expectation 24.5 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 3,
+      "source_structure": "palmaris_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "palmaris_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 65.9 cm3 is 13.57x the expectation 4.9 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 4,
+      "source_structure": "flexor_carpi_ulnaris",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_carpi_ulnaris_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 128.1 cm3 is 2.81x the expectation 45.5 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 5,
+      "source_structure": "flexor_digitorum_superficialis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_digitorum_superficialis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: boundary on septum/non-muscle 0.40 (median over slices) < 0.5. Expectation source: Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes FDS as arising via humeroulnar and radial heads giving 4 tendons, with variable independence x his upper-arm factor 2.698."
+    },
+    {
+      "label": 6,
+      "source_structure": "flexor_digitorum_profundus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_digitorum_profundus_r"
+      ],
+      "status": "curated",
+      "atlas_id": "flexor_digitorum_profundus_r",
+      "procedural_badge": "Rule-based segmentation from his own cryosection photographs (Visible Human male, 0.33 mm, instances 1575-1819), not traced anatomy: only voxels whose photographed colour is muscle are labelled (fat, tendon/fascia, vessels and skin excluded); position-rule seeds and a 3-D watershed on the pale septa place the boundaries; median 57 % of its outline per section lies on a septum or non-muscle (where it touches another muscle: 40 %). Measured volume 78.2 cm3 vs expectation 109.4 cm3 (repository architecture volume x 2.70, the ratio of his own upper-arm muscle volumes to theirs). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "rule-based; SHIPPED: 0.71x the expectation, main component 1.000, boundary on septum/non-muscle 0.57. Expectation source: Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (index portion of FDP typically has a separate muscle belly); von Schroeder HP, Botte MJ (1993) J Hand Surg; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); von Schroeder HP, Botte MJ (1993) J Hand Surg x his upper-arm factor 2.698."
+    },
+    {
+      "label": 7,
+      "source_structure": "flexor_pollicis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_pollicis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 88.8 cm3 is 4.50x the expectation 19.7 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 8,
+      "source_structure": "pronator_quadratus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "pronator_quadratus_r"
+      ],
+      "status": "curated",
+      "atlas_id": "pronator_quadratus_r",
+      "procedural_badge": "Rule-based segmentation from his own cryosection photographs (Visible Human male, 0.33 mm, instances 1575-1819), not traced anatomy: only voxels whose photographed colour is muscle are labelled (fat, tendon/fascia, vessels and skin excluded); position-rule seeds and a 3-D watershed on the pale septa place the boundaries; median 78 % of its outline per section lies on a septum or non-muscle (where it touches another muscle: 39 %). Measured volume 10.7 cm3 vs expectation 6.1 cm3 (repository architecture volume x 2.70, the ratio of his own upper-arm muscle volumes to theirs). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "rule-based; SHIPPED: 1.76x the expectation, main component 1.000, boundary on septum/non-muscle 0.78. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 9,
+      "source_structure": "brachioradialis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "brachioradialis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 10,
+      "source_structure": "extensor_carpi_radialis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_carpi_radialis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 11,
+      "source_structure": "extensor_carpi_radialis_brevis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_carpi_radialis_brevis_r"
+      ],
+      "status": "curated",
+      "atlas_id": "extensor_carpi_radialis_brevis_r",
+      "procedural_badge": "Rule-based segmentation from his own cryosection photographs (Visible Human male, 0.33 mm, instances 1575-1819), not traced anatomy: only voxels whose photographed colour is muscle are labelled (fat, tendon/fascia, vessels and skin excluded); position-rule seeds and a 3-D watershed on the pale septa place the boundaries; median 62 % of its outline per section lies on a septum or non-muscle (where it touches another muscle: 29 %). Measured volume 42.9 cm3 vs expectation 31.1 cm3 (repository architecture volume x 2.70, the ratio of his own upper-arm muscle volumes to theirs). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "rule-based; SHIPPED: 1.38x the expectation, main component 1.000, boundary on septum/non-muscle 0.62. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 12,
+      "source_structure": "extensor_digitorum",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_digitorum_r"
+      ],
+      "status": "curated",
+      "atlas_id": "extensor_digitorum_r",
+      "procedural_badge": "Rule-based segmentation from his own cryosection photographs (Visible Human male, 0.33 mm, instances 1575-1819), not traced anatomy: only voxels whose photographed colour is muscle are labelled (fat, tendon/fascia, vessels and skin excluded); position-rule seeds and a 3-D watershed on the pale septa place the boundaries; median 52 % of its outline per section lies on a septum or non-muscle (where it touches another muscle: 26 %). Measured volume 37.8 cm3 vs expectation 58.5 cm3 (repository architecture volume x 2.70, the ratio of his own upper-arm muscle volumes to theirs). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "rule-based; SHIPPED: 0.65x the expectation, main component 1.000, boundary on septum/non-muscle 0.52. Expectation source: Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) x his upper-arm factor 2.698."
+    },
+    {
+      "label": 13,
+      "source_structure": "extensor_digiti_minimi",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_digiti_minimi_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 25.5 cm3 is 7.88x the expectation 3.2 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 14,
+      "source_structure": "extensor_carpi_ulnaris",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_carpi_ulnaris_r"
+      ],
+      "status": "curated",
+      "atlas_id": "extensor_carpi_ulnaris_r",
+      "procedural_badge": "Rule-based segmentation from his own cryosection photographs (Visible Human male, 0.33 mm, instances 1575-1819), not traced anatomy: only voxels whose photographed colour is muscle are labelled (fat, tendon/fascia, vessels and skin excluded); position-rule seeds and a 3-D watershed on the pale septa place the boundaries; median 75 % of its outline per section lies on a septum or non-muscle (where it touches another muscle: 46 %). Measured volume 31.5 cm3 vs expectation 32.9 cm3 (repository architecture volume x 2.70, the ratio of his own upper-arm muscle volumes to theirs). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "rule-based; SHIPPED: 0.96x the expectation, main component 1.000, boundary on septum/non-muscle 0.75. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 15,
+      "source_structure": "anconeus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "anconeus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 16,
+      "source_structure": "supinator",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "supinator_r"
+      ],
+      "status": "curated",
+      "atlas_id": "supinator_r",
+      "procedural_badge": "Rule-based segmentation from his own cryosection photographs (Visible Human male, 0.33 mm, instances 1575-1819), not traced anatomy: only voxels whose photographed colour is muscle are labelled (fat, tendon/fascia, vessels and skin excluded); position-rule seeds and a 3-D watershed on the pale septa place the boundaries; median 73 % of its outline per section lies on a septum or non-muscle (where it touches another muscle: 53 %). Measured volume 21.1 cm3 vs expectation 25.7 cm3 (repository architecture volume x 2.70, the ratio of his own upper-arm muscle volumes to theirs). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "rule-based; SHIPPED: 0.82x the expectation, main component 1.000, boundary on septum/non-muscle 0.73. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 17,
+      "source_structure": "abductor_pollicis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "abductor_pollicis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 5.8 cm3 is 0.38x the expectation 15.4 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 18,
+      "source_structure": "extensor_pollicis_brevis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_pollicis_brevis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 9.9 cm3 is 2.27x the expectation 4.4 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 19,
+      "source_structure": "extensor_pollicis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_pollicis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: boundary on septum/non-muscle 0.46 (median over slices) < 0.5. Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    },
+    {
+      "label": 20,
+      "source_structure": "extensor_indicis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_indicis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "rule-based; NOT SHIPPED: volume 7.5 cm3 is 2.30x the expectation 3.3 cm3 (gate 0.5-2.0x). Expectation source: Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 x his upper-arm factor 2.698."
+    }
+  ]
+}

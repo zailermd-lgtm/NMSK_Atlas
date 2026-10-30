@@ -1,0 +1,287 @@
+{
+ "page": "base_f",
+ "registration": {
+  "scale": 0.81708,
+  "residual_mm": {
+   "median": 2.52,
+   "p90": 6.56,
+   "rms": 4.21,
+   "max": 18.4
+  },
+  "rotation": [
+   [
+    0.999979,
+    0.002414,
+    0.005963
+   ],
+   [
+    -0.002063,
+    0.998303,
+    -0.058205
+   ],
+   [
+    -0.006093,
+    0.058192,
+    0.998287
+   ]
+  ],
+  "translation_mm": [
+   -7.213,
+   -14.177,
+   51.593
+  ],
+  "det_R": 1.0
+ },
+ "organs": {
+  "uterus": {
+   "hra_object": "VH_F_Uterus",
+   "gates": {
+    "volume_cm3": 14.65,
+    "voxel_mask_cm3": 5.0,
+    "skin_distance_min_mm": 56.4,
+    "bone_min_mm": 23.85,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_descending_colon": 0.027,
+     "zan_urinary_bladder": 0.241
+    },
+    "overlap_by_system_cm3": {
+     "viscera": 0.268
+    },
+    "overlap_total_pct_of_mask": 5.36,
+    "watertight": true,
+    "triangles": 9000,
+    "soft_overlap_flag_gt10pct": false,
+    "pass": true
+   },
+   "envelope": {
+    "volume_cm3": 14.65,
+    "watertight": true,
+    "components": 1,
+    "shell_voxel_cm3": 4.3,
+    "pitch_mm": 0.6,
+    "closing_iterations": 2,
+    "source_to_closed_surface_mm": {
+     "median": 0.46,
+     "p95": 6.12,
+     "max": 8.33,
+     "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
+    },
+    "closed_surface_to_source_mm": {
+     "median": 0.22,
+     "p95": 0.54,
+     "max": 1.7
+    }
+   }
+  },
+  "ovary_l": {
+   "hra_object": "VH_F_Ovary_L",
+   "gates": {
+    "volume_cm3": 0.56,
+    "voxel_mask_cm3": 0.86,
+    "skin_distance_min_mm": 64.7,
+    "bone_min_mm": 12.02,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_descending_colon": 0.132
+    },
+    "overlap_by_system_cm3": {
+     "viscera": 0.132
+    },
+    "overlap_total_pct_of_mask": 15.35,
+    "watertight": true,
+    "triangles": 1400,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   },
+   "envelope": {
+    "volume_cm3": 0.56,
+    "watertight": true,
+    "components": 1,
+    "shell_voxel_cm3": 0.2,
+    "pitch_mm": 0.4,
+    "closing_iterations": 1,
+    "source_to_closed_surface_mm": {
+     "median": 0.23,
+     "p95": 0.38,
+     "max": 0.48,
+     "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
+    },
+    "closed_surface_to_source_mm": {
+     "median": 0.24,
+     "p95": 0.39,
+     "max": 0.5
+    }
+   }
+  },
+  "ovary_r": {
+   "hra_object": "VH_F_Ovary_R",
+   "gates": {
+    "volume_cm3": 0.57,
+    "voxel_mask_cm3": 0.86,
+    "skin_distance_min_mm": 63.9,
+    "bone_min_mm": 6.86,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_external_iliac_artery_r": 0.063,
+     "zan_iliopsoas_fascia_r": 0.125,
+     "zan_inferior_epigastric_artery_r": 0.054,
+     "zan_psoas_major_r": 0.147
+    },
+    "overlap_by_system_cm3": {
+     "vessel": 0.117,
+     "fascia": 0.125,
+     "muscle": 0.147
+    },
+    "overlap_total_pct_of_mask": 45.44,
+    "watertight": true,
+    "triangles": 1400,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   },
+   "envelope": {
+    "volume_cm3": 0.57,
+    "watertight": true,
+    "components": 1,
+    "shell_voxel_cm3": 0.2,
+    "pitch_mm": 0.4,
+    "closing_iterations": 1,
+    "source_to_closed_surface_mm": {
+     "median": 0.19,
+     "p95": 0.34,
+     "max": 0.43,
+     "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
+    },
+    "closed_surface_to_source_mm": {
+     "median": 0.2,
+     "p95": 0.35,
+     "max": 0.45
+    }
+   }
+  },
+  "uterine_tube_l": {
+   "hra_object": "VH_F_Fallopian_Tube_L",
+   "gates": {
+    "volume_cm3": 0.27,
+    "voxel_mask_cm3": 0.77,
+    "skin_distance_min_mm": 61.0,
+    "bone_min_mm": 16.43,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_descending_colon": 0.033,
+     "zan_external_iliac_artery_l": 0.014,
+     "zan_external_iliac_vein_l": 0.1,
+     "zan_omental_taenia": 0.074
+    },
+    "overlap_by_system_cm3": {
+     "viscera": 0.107,
+     "vessel": 0.114
+    },
+    "overlap_total_pct_of_mask": 28.89,
+    "watertight": true,
+    "triangles": 12484,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   },
+   "envelope": {
+    "volume_cm3": 0.27,
+    "watertight": true,
+    "components": 1,
+    "shell_voxel_cm3": 0.36,
+    "pitch_mm": 0.4,
+    "closing_iterations": 1,
+    "source_to_closed_surface_mm": {
+     "median": 0.22,
+     "p95": 0.68,
+     "max": 1.47,
+     "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
+    },
+    "closed_surface_to_source_mm": {
+     "median": 0.2,
+     "p95": 0.4,
+     "max": 1.22
+    }
+   }
+  },
+  "uterine_tube_r": {
+   "hra_object": "VH_F_Fallopian_Tube_R",
+   "gates": {
+    "volume_cm3": 0.14,
+    "voxel_mask_cm3": 0.52,
+    "skin_distance_min_mm": 62.4,
+    "bone_min_mm": 14.1,
+    "vertices_within_1mm_of_bone": 0,
+    "overlap_cm3": {
+     "zan_external_iliac_artery_r": 0.049,
+     "zan_iliopsoas_fascia_r": 0.011,
+     "zan_inferior_epigastric_artery_r": 0.013,
+     "zan_psoas_major_r": 0.006
+    },
+    "overlap_by_system_cm3": {
+     "vessel": 0.062,
+     "fascia": 0.011,
+     "muscle": 0.006
+    },
+    "overlap_total_pct_of_mask": 15.13,
+    "watertight": true,
+    "triangles": 9604,
+    "soft_overlap_flag_gt10pct": true,
+    "pass": true
+   },
+   "envelope": {
+    "volume_cm3": 0.14,
+    "watertight": true,
+    "components": 1,
+    "shell_voxel_cm3": 0.23,
+    "pitch_mm": 0.4,
+    "closing_iterations": 1,
+    "source_to_closed_surface_mm": {
+     "median": 0.16,
+     "p95": 0.43,
+     "max": 0.82,
+     "note": "includes inner part surfaces (cavity, os surfaces) that the filled envelope encloses, so p95 / max are not an error"
+    },
+    "closed_surface_to_source_mm": {
+     "median": 0.13,
+     "p95": 0.37,
+     "max": 1.06
+    }
+   }
+  }
+ },
+ "subject_text": "HuBMAP Human Reference Atlas, 3D Reference Object Library v1.3 (CC BY 4.0), Kristen Browne and Heidi Schlehlein, created from the National Library of Medicine Visible Human FEMALE data (VH_F_Uterus, VH_F_Ovary_L/R, VH_F_Fallopian_Tube_L/R, VH_F_Pelvis; https://humanatlas.io/3d-reference-library, DOI 10.48539/HBM228.JBNJ.299). Registered onto this page's pelvis by this atlas (Q233); derived data, CC BY 4.0 attribution kept (third_party/hra_vh_f/NOTICE.md).",
+ "ship_diff": {
+  "source": "build/q222/viewer_base_female",
+  "new": "build/q233_pre/viewer_base_female",
+  "added": [
+   "ovary_l",
+   "ovary_r",
+   "uterine_tube_l",
+   "uterine_tube_r",
+   "uterus"
+  ],
+  "added_expected": [
+   "ovary_l",
+   "ovary_r",
+   "uterine_tube_l",
+   "uterine_tube_r",
+   "uterus"
+  ],
+  "removed": [],
+  "geometry_changed": [],
+  "card_only": [
+   "coccyx",
+   "hip_bone_l",
+   "hip_bone_r",
+   "sacrum"
+  ],
+  "card_only_expected": [
+   "coccyx",
+   "hip_bone_l",
+   "hip_bone_r",
+   "sacrum"
+  ],
+  "unchanged": 2936,
+  "unlisted": []
+ }
+}

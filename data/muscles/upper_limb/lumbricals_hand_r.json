@@ -1,0 +1,214 @@
+{
+ "id": "lumbricals_hand_r",
+ "name_ta": "Musculi lumbricales manus",
+ "name_common": "Lumbricals (hand)",
+ "side": "right",
+ "region": "upper_limb",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "phalanges_hand_r",
+  "origin_landmark": "flexor digitorum profundus tendons, digits 2-5",
+  "insertion_bone": "phalanges_hand_r",
+  "insertion_landmark": "extensor expansion, digits 2-5",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "median_n_palmar_digital_nn",
+   "ulnar_n_lumbrical_branches"
+  ],
+  "root_levels": "C8-T1",
+  "was_packed_as": "median_n_1_2_ulnar_n_3_4"
+ },
+ "actions": [
+  "flex MCP joints while extending IP joints (a unique unopposed-antagonist action)"
+ ],
+ "functional_compartments": [
+  {
+   "id": "lumbricals_hand_r_1_2",
+   "name": "Lumbricals 1-2 (radial)",
+   "innervation_branch": "median n., digital branches",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 60,
+    "physiological_cross_section_area_mm2": 8,
+    "max_isometric_force_N": 1.8
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     10,
+     -20,
+     5
+    ],
+    [
+     10,
+     -40,
+     0
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Unipennate-origin, unusual among skeletal muscles for originating from a tendon (FDP) rather than a bone; median-nerve innervated, unlike lumbricals 3-4.",
+   "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+   "innervation_branch_ids": [
+    "median_n_palmar_digital_nn"
+   ]
+  },
+  {
+   "id": "lumbricals_hand_r_3_4",
+   "name": "Lumbricals 3-4 (ulnar)",
+   "innervation_branch": "ulnar n., deep branch",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 55,
+    "physiological_cross_section_area_mm2": 6,
+    "max_isometric_force_N": 1.4
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -8,
+     -20,
+     5
+    ],
+    [
+     -10,
+     -40,
+     0
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Documented ulnar-nerve innervation, distinct from lumbricals 1-2 -- the same radial/ulnar innervation split pattern seen in the foot's lumbricals.",
+   "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+   "innervation_branch_ids": [
+    "ulnar_n_lumbrical_branches"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Transverse on the palm below the thenar eminence, at the midpoint of the metacarpals of digits II-V. For injection, about 1 cm proximal to the metacarpophalangeal joints.",
+  "depth_layer": "Palmar, with the palmar interossei deeper between the metacarpal cortices.",
+  "identification_cues": "Distinctly oval. Working radial to ulnar the sequence is L1 with FDS2 and FDP2, then L2 with FDS3 and FDP3, and so on.",
+  "structures_at_risk": [
+   "interdigital arteries"
+  ],
+  "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+ },
+ "trigger_points": [
+  {
+   "location_description": "Lumbrical I, in its lumbrical canal on the radial side of the index finger flexor digitorum profundus tendon; palpated deep in the palm alongside the flexor tendons, between the 2nd and 3rd metacarpals.",
+   "referred_pain_pattern": "Projects along the radial side of the index finger, with deep palm ache between the metacarpals -- the same rule that governs the interossei of the same ray.",
+   "activation_perpetuating_factors": "High-repetition fine flexion (keyboard, piano and string instruments, writing, sewing, tweezers/laparoscopic instruments), sustained hook grip; splinting in the intrinsic-plus position.",
+   "notes": "Lumbrical overuse can crowd the flexed-fist carpal tunnel and contribute to nocturnal CTS symptoms -- both the tunnel and the muscle pattern may need treatment. Needling here must respect the digital neurovascular bundle travelling with the muscle in its canal, and the superficial palmar arch proximally.",
+   "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 1, Ch. 40, pp. 786-793 -- as cited in this atlas's uploaded hand intrinsic muscle reference document"
+  },
+  {
+   "location_description": "Lumbrical II, in its lumbrical canal on the radial side of the middle finger flexor digitorum profundus tendon; palpated deep in the palm between the 3rd and 4th metacarpals.",
+   "referred_pain_pattern": "Projects along the radial side of the middle finger, with deep palm ache between the metacarpals -- the same rule that governs the interossei of the same ray.",
+   "activation_perpetuating_factors": "High-repetition fine flexion (keyboard, piano and string instruments, writing, sewing, tweezers/laparoscopic instruments), sustained hook grip; splinting in the intrinsic-plus position.",
+   "notes": "Lumbrical overuse can crowd the flexed-fist carpal tunnel and contribute to nocturnal CTS symptoms -- both the tunnel and the muscle pattern may need treatment. Needling here must respect the digital neurovascular bundle travelling with the muscle in its canal, and the superficial palmar arch proximally.",
+   "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 1, Ch. 40, pp. 786-793 -- as cited in this atlas's uploaded hand intrinsic muscle reference document"
+  },
+  {
+   "location_description": "Lumbrical III, bipennate, arising from the adjacent sides of the middle and ring finger flexor digitorum profundus tendons; palpated deep in the palm between the 3rd and 4th metacarpals.",
+   "referred_pain_pattern": "Projects along the side of the finger it serves (middle/ring ray), with deep palm ache between the metacarpals -- the same rule that governs the interossei of the same ray.",
+   "activation_perpetuating_factors": "High-repetition fine flexion (keyboard, piano and string instruments, writing, sewing, tweezers/laparoscopic instruments), sustained hook grip; splinting in the intrinsic-plus position.",
+   "notes": "Lumbrical overuse can crowd the flexed-fist carpal tunnel and contribute to nocturnal CTS symptoms -- both the tunnel and the muscle pattern may need treatment. Needling here must respect the digital neurovascular bundle travelling with the muscle in its canal, and the superficial palmar arch proximally.",
+   "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 1, Ch. 40, pp. 786-793 -- as cited in this atlas's uploaded hand intrinsic muscle reference document"
+  },
+  {
+   "location_description": "Lumbrical IV, bipennate, arising from the adjacent sides of the ring and little finger flexor digitorum profundus tendons; palpated deep in the palm between the 4th and 5th metacarpals.",
+   "referred_pain_pattern": "Projects along the side of the finger it serves (ring/little ray), with deep palm ache between the metacarpals -- the same rule that governs the interossei of the same ray.",
+   "activation_perpetuating_factors": "High-repetition fine flexion (keyboard, piano and string instruments, writing, sewing, tweezers/laparoscopic instruments), sustained hook grip; splinting in the intrinsic-plus position.",
+   "notes": "Lumbrical overuse can crowd the flexed-fist carpal tunnel and contribute to nocturnal CTS symptoms -- both the tunnel and the muscle pattern may need treatment. Needling here must respect the digital neurovascular bundle travelling with the muscle in its canal, and the superficial palmar arch proximally.",
+   "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 1, Ch. 40, pp. 786-793 -- as cited in this atlas's uploaded hand intrinsic muscle reference document"
+  }
+ ],
+ "clinical": [
+  {
+   "document": "hand_intrinsic_muscles_reference_v1.html",
+   "compiled": "03/09/2026",
+   "compiled_by": "repository owner (physician); hand_intrinsic_muscles_reference_v1.html, compiled 03/09/2026. Source hierarchy used. (1) Peer-reviewed anatomical and biomechanical studies (bibliographic data and abstracts retrieved via PubMed/NCBI, 01–03/09/2026; DOIs linked in the reference list); (2) reference textbooks — Standring (Gray's Anatomy, 42nd ed., 2021), Kapandji (2007), Green's Operative Hand Surgery (8th ed., 2022), Brand & Hollister (1999); (3) Simons, Travell & Simons, The Trigger Point Manual Vol. 1, 2nd ed. (1999) and 3rd ed. (2019) for trigger-point (TrP) referral patterns; (4) StatPearls/NCBI Bookshelf for cross-checking. No item below relies on blogs or unattributed aggregators; where secondary TrP summaries were used to confirm Travell & Simons figures, they are graded accordingly in the verification table.",
+   "function_biomechanics": "MCP flexion with PIP+DIP extension — the intrinsic-plus posture — but their genius is the linkage: the only muscles running from a flexor tendon to the extensor apparatus, so contraction simultaneously pulls the extensor hood proximally and drags the FDP tendon distally, unloading its passive tension across the IP joints — the muscle that \"relaxes its own antagonist\", plus a small but significant MCP flexion/radial-deviation moment [17]. Architecture matches the job: fibre length ≈ 85–90% of muscle length (extreme excursion design) with the smallest PCSA in the upper limb, ~1/10–1/20 of FDP — force is not their business [6][37]. They are extraordinarily spindle-rich, the prototype of small \"kinesiological monitor\" muscles that provide proprioceptive feedback while a large parallel muscle does the work — here, sensing the rate of hand closure during grasp [17][18]. Clinical corollaries: the lumbrical-plus finger (paradoxical IP extension on grasp when FDP is divided distal to the lumbrical origin, after mid-phalanx amputation or an over-long tendon graft) [19]; lumbrical/interosseous tightness on the Bunnell test after trauma or spasticity [35]; and their contribution to grip loss after median block (−32%) [7].",
+   "adjacent_structures": "Relations · fascia · spaces · closed sacs: Each runs in its lumbrical canal (septa of the palmar aponeurosis) with the digital neurovascular bundle — an infection highway from web space to thenar (L-I) and midpalmar (L-II–IV) spaces [1][2][32]. Because the origin rides on the FDP tendon, it is mobile: in full finger extension the lumbrical bellies sit ~8 mm distal to the carpal tunnel, and with a full fist they travel ~30 mm into the tunnel [8]; with lumbricals intact, carpal-tunnel pressure climbs progressively with finger flexion and stays flat once they are excised [9]. That is the anatomical engine of grip-related (\"dynamic\"/occupational) CTS and of the hypertrophied or proximally originating lumbrical variants seen at release [3][8][9]. The distal margin of the ulnar bursa surrounds their origins.",
+   "trigger_points": [
+    {
+     "referred_pain": "40, pp. 786–793). Lumbrical TrPs behave like the interossei of the same ray: pain projected along the (radial) side of the finger the muscle serves, with deep palm ache between the metacarpals [24].",
+     "notes": "Trigger points & referred pain (Travell & Simons Ch",
+     "activation_perpetuating_factors": "high-repetition fine flexion — keyboard, piano and string instruments, writing, sewing, tweezers/laparoscopic instruments, sustained hook grip; splinting in intrinsic-plus. Palpation is through the palm between the metacarpals (deep, alongside the flexor tendons); needling here must respect the digital neurovascular bundle travelling with the muscle in its canal and the superficial arch proximally [1][24]. A practical loop to remember: lumbrical overuse → fist-loaded tunnel crowding → nocturnal CTS symptoms — treat both the tunnel and the muscle pattern [8][9][30].",
+     "source": "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793)."
+    }
+   ],
+   "pain_referred_into_this_muscle_from": [
+    "Myofascial: FDS/FDP (lancinating volar digit pain — the classic \"finger\" muscles), extensor digitorum (dorsal digit), interossei of the same ray, scalenes (index), pectoralis minor/latissimus (ring–little), palmaris longus (superficial palm) [24].",
+    "Non-myofascial: trigger finger (A1), MCP/PIP synovitis and osteoarthritis, digital-nerve lesions, C7–C8 roots, Dupuytren cords (contracture, usually painless) [35]."
+   ],
+   "pain_referred_into_territory": "Pain referred TO the fingers/palm (differential)",
+   "caveat": "Most myofascial hand pain is imported: shoulder-girdle, arm and forearm TrPs project distally far more often than intrinsic TrPs project proximally. Patterns below are the prototype maps of Simons, Travell & Simons (Vol. 1, 2nd ed., 1999; 3rd ed., 2019) — screening guides, not fingerprints; individual spread is wide [24][25]. Non-myofascial mimics are listed per zone for the same working position [5][29][31][35]. TrP → = habitual referred-pain direction of that muscle's trigger points (Simons, Travell & Simons 1999/2019); patterns are prototypes — individual variation is wide.",
+   "sources": [
+    "[1] Standring S (ed). Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021 — Wrist and hand: intrinsic muscles, fascial spaces, vessels and nerves.",
+    "[2] Gray H. Anatomy of the Human Body. 20th ed. Philadelphia: Lea & Febiger; 1918 — §1F \"The Muscles and Fasciæ of the Hand\" (opponens digiti quinti relations, p. 464). Public domain.",
+    "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing; updated 26/07/2025. NCBI Bookshelf NBK539810.",
+    "[6] Jacobson MD, Raab R, Fazeli BM, Abrams RA, Botte MJ, Lieber RL. Architectural design of the human intrinsic hand muscles. J Hand Surg Am. 1992;17(5):804-809. doi:10.1016/0363-5023(92)90446-V",
+    "[7] Kozin SH, Porter S, Clark P, Thoder JJ. The contribution of the intrinsic muscles to grip and pinch strength. J Hand Surg Am. 1999;24(1):64-72. doi:10.1053/jhsu.1999.jhsu24a0064",
+    "[8] Cobb TK, An KN, Cooney WP, Berger RA. Lumbrical muscle incursion into the carpal tunnel during finger flexion. J Hand Surg Br. 1994;19(4):434-438. doi:10.1016/0266-7681(94)90206-2",
+    "[9] Cobb TK, An KN, Cooney WP. Effect of lumbrical muscle incursion within the carpal tunnel on carpal tunnel pressure: a cadaveric study. J Hand Surg Am. 1995;20(2):186-192. doi:10.1016/S0363-5023(05)80005-X",
+    "[11] Eladoumikdachi F, Valkov PL, Thomas J, Netscher DT. Anatomy of the intrinsic hand muscles revisited: part II. Lumbricals. Plast Reconstr Surg. 2002;110(5):1225-1231. doi:10.1097/00006534-200210000-00002",
+    "[13] Colonna MR, et al. An anatomical study on lumbrical muscles: innervation patterns and clinical implications. Hand (N Y). 2022;17(5):839-847 (Epub 2020). doi:10.1177/1558944720963881",
+    "[17] Ranney D, Wells R. Lumbrical muscle function as revealed by a new and physiological approach. Anat Rec. 1988;222(1):110-114. doi:10.1002/ar.1092220116",
+    "[18] Peck D, Buxton DF, Nitz A. A comparison of spindle concentrations in large and small muscles acting in parallel combinations. J Morphol. 1984;180(3):243-252. doi:10.1002/jmor.1051800307",
+    "[19] Parkes A. The \"lumbrical plus\" finger. J Bone Joint Surg Br. 1971;53(2):236-239.",
+    "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793).",
+    "[30] Rezazadeh M, et al. Dry needling of trigger points in the thenar muscles in patients with mild-to-moderate carpal tunnel syndrome: a pilot randomised trial. Physiother Theory Pract. 2023;39(5) (Epub 2022). doi:10.1080/09593985.2022.2033897",
+    "[32] Picasso R, et al. Ultrasound of the palmar aspect of the hand: normal anatomy and clinical applications of intrinsic-muscle imaging. J Ultrason. 2023;23(94). PMC10508329.",
+    "[35] Wolfe SW, Pederson WC, Kozin SH, Cohen MS (eds). Green's Operative Hand Surgery. 8th ed. Elsevier; 2022 — intrinsic muscle disorders, compartment syndrome, nerve palsy chapters.",
+    "[37] Kooi K, et al. Lumbrical muscle architecture and function. Hand (N Y). 2025 (Epub 2024). doi:10.1177/15589447241235340",
+    "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing",
+    "updated 26/07/2025. NCBI Bookshelf NBK539810.",
+    "[31] Goldman SB, Brininger TL, Schrader JW, Koceja DM. A review of clinical tests and signs for the assessment of ulnar neuropathy. J Hand Ther. 2009;22(3):209-219. PMID 19188042.",
+    "[35] Wolfe SW, Pederson WC, Kozin SH, Cohen MS (eds). Green's Operative Hand Surgery. 8th ed. Elsevier",
+    "2022 — intrinsic muscle disorders, compartment syndrome, nerve palsy chapters."
+   ],
+   "tests": [
+    {
+     "name": "Ulnar claw (Duchenne), corrected by Bouvier manoeuvre",
+     "muscle_basis": "Lumbricals III–IV + interossei loss",
+     "positive_finding": "MCP hyperextension + IP flexion of D4–D5; blocking MCP extension restores IP extension [3][31]",
+     "sensitivity": null,
+     "specificity": null,
+     "accuracy": "No sensitivity/specificity given in the source document.",
+     "source": "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing; updated 26/07/2025. NCBI Bookshelf NBK539810.; [31] Goldman SB, Brininger TL, Schrader JW, Koceja DM. A review of clinical tests and signs for the assessment of ulnar neuropathy. J Hand Ther. 2009;22(3):209-219. PMID 19188042."
+    },
+    {
+     "name": "Bunnell intrinsic-tightness test",
+     "muscle_basis": "Interossei + lumbricals",
+     "positive_finding": "PIP flexion more limited with MCP extended than flexed = intrinsic contracture [35]",
+     "sensitivity": null,
+     "specificity": null,
+     "accuracy": "No sensitivity/specificity given in the source document.",
+     "source": "[35] Wolfe SW, Pederson WC, Kozin SH, Cohen MS (eds). Green's Operative Hand Surgery. 8th ed. Elsevier; 2022 — intrinsic muscle disorders, compartment syndrome, nerve palsy chapters."
+    },
+    {
+     "name": "Lumbrical-plus finger",
+     "muscle_basis": "Lumbrical acting on a disconnected FDP",
+     "positive_finding": "Paradoxical IP extension on grasp after distal FDP division / long graft / mid-phalanx amputation [19]",
+     "sensitivity": null,
+     "specificity": null,
+     "accuracy": "No sensitivity/specificity given in the source document.",
+     "source": "[19] Parkes A. The \"lumbrical plus\" finger. J Bone Joint Surg Br. 1971;53(2):236-239."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1385 @@
+{
+ "page": "base_f",
+ "pelvis_registration": {
+  "scale": 0.94458,
+  "residual_mm": {
+   "median": 2.31,
+   "p90": 6.03,
+   "rms": 4.31,
+   "max": 40.5
+  },
+  "rotation": [
+   [
+    0.999992,
+    0.003358,
+    -0.002202
+   ],
+   [
+    -0.003289,
+    0.999528,
+    0.030542
+   ],
+   [
+    0.002304,
+    -0.030535,
+    0.999531
+   ]
+  ],
+  "translation_mm": [
+   -8.505,
+   -20.679,
+   97.538
+  ],
+  "det_R": 1.0
+ },
+ "thorax_registration": {
+  "scale": 0.9901,
+  "rotation": [
+   [
+    0.99969,
+    -0.01871,
+    0.01636
+   ],
+   [
+    0.01724,
+    0.99619,
+    0.08549
+   ],
+   [
+    -0.0179,
+    -0.08518,
+    0.99621
+   ]
+  ],
+  "translation_mm": [
+   3.95,
+   -14.42,
+   110.47
+  ],
+  "n_source": 64308,
+  "n_target": 360000,
+  "residual_mm": {
+   "median": 1.28,
+   "p90": 3.66,
+   "rms": 2.22
+  },
+  "det_R": 1.0
+ },
+ "structures": {
+  "vagina": {
+   "hra_object": "v1.2_VH_F_Vagina",
+   "mode": "closed envelope",
+   "gates": {
+    "bone_min_mm": 4.93,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 3002,
+    "triangles": 6000,
+    "skin_distance_min_mm": 28.0,
+    "vertices_inside_page_organ_pct": {
+     "urinary_bladder": 41.3,
+     "uterus": 3.9
+    },
+    "watertight": true,
+    "volume_cm3": 11.51,
+    "overlap_cm3": {
+     "urinary_bladder": 7.977,
+     "uterus": 0.445
+    },
+    "overlap_pct_of_volume": {
+     "urinary_bladder": 69.3,
+     "uterus": 3.9
+    },
+    "area_cm2": 95.15,
+    "bladder_rectum_sigmoid_pct_of_vertices": 41.3,
+    "pass": true
+   }
+  },
+  "round_ligament_uterus_l": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 10.03,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 453,
+    "triangles": 902,
+    "skin_distance_min_mm": 0.8,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 3.1
+    },
+    "watertight": true,
+    "volume_cm3": 0.297,
+    "area_cm2": 7.33,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": false
+   },
+   "held": true
+  },
+  "round_ligament_uterus_r": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 10.08,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 514,
+    "triangles": 1024,
+    "skin_distance_min_mm": 1.0,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 2.9
+    },
+    "watertight": true,
+    "volume_cm3": 0.257,
+    "area_cm2": 7.29,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": false
+   },
+   "held": true
+  },
+  "uterosacral_ligament_l": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 10.31,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 976,
+    "triangles": 1948,
+    "skin_distance_min_mm": 54.1,
+    "vertices_inside_page_organ_pct": {
+     "urinary_bladder": 20.9,
+     "sigmoid_colon": 20.3,
+     "uterus": 4.0
+    },
+    "watertight": true,
+    "volume_cm3": 0.215,
+    "area_cm2": 6.39,
+    "bladder_rectum_sigmoid_pct_of_vertices": 41.2,
+    "pass": true
+   }
+  },
+  "uterosacral_ligament_r": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 5.66,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 997,
+    "triangles": 1990,
+    "skin_distance_min_mm": 54.4,
+    "vertices_inside_page_organ_pct": {
+     "urinary_bladder": 11.6,
+     "sigmoid_colon": 18.2,
+     "uterus": 3.4
+    },
+    "watertight": true,
+    "volume_cm3": 0.187,
+    "area_cm2": 5.88,
+    "bladder_rectum_sigmoid_pct_of_vertices": 29.8,
+    "pass": true
+   }
+  },
+  "cardinal_ligament_uterus_l": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 4.6,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 1502,
+    "triangles": 3000,
+    "skin_distance_min_mm": 62.2,
+    "vertices_inside_page_organ_pct": {
+     "urinary_bladder": 24.6,
+     "uterus": 7.5
+    },
+    "watertight": true,
+    "volume_cm3": 1.38,
+    "area_cm2": 33.14,
+    "bladder_rectum_sigmoid_pct_of_vertices": 24.6,
+    "pass": true
+   }
+  },
+  "cardinal_ligament_uterus_r": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 0.3,
+    "vertices_within_1mm_of_bone": 267,
+    "vertices_moved_out_of_bone": 232,
+    "max_move_out_of_bone_mm": 3.71,
+    "vertices": 1502,
+    "triangles": 3000,
+    "skin_distance_min_mm": 65.4,
+    "vertices_inside_page_organ_pct": {
+     "urinary_bladder": 16.3,
+     "uterus": 4.7
+    },
+    "watertight": true,
+    "volume_cm3": 1.554,
+    "area_cm2": 32.48,
+    "bladder_rectum_sigmoid_pct_of_vertices": 16.3,
+    "pass": true
+   }
+  },
+  "broad_ligament_uterus": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 3.76,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 3557,
+    "triangles": 7000,
+    "skin_distance_min_mm": 28.3,
+    "vertices_inside_page_organ_pct": {
+     "urinary_bladder": 8.5,
+     "sigmoid_colon": 2.1,
+     "uterus": 6.8
+    },
+    "watertight": false,
+    "area_cm2": 261.4,
+    "bladder_rectum_sigmoid_pct_of_vertices": 10.6,
+    "pass": true
+   }
+  },
+  "ovarian_ligament_l": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 18.93,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 105,
+    "triangles": 200,
+    "skin_distance_min_mm": 57.5,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 7.6
+    },
+    "watertight": false,
+    "area_cm2": 1.38,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "ovarian_ligament_r": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 13.3,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 104,
+    "triangles": 198,
+    "skin_distance_min_mm": 56.3,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 11.5
+    },
+    "watertight": false,
+    "area_cm2": 1.2,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "suspensory_ligament_ovary_l": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 21.51,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 637,
+    "triangles": 1270,
+    "skin_distance_min_mm": 70.2,
+    "vertices_inside_page_organ_pct": {},
+    "watertight": true,
+    "volume_cm3": 0.22,
+    "area_cm2": 3.38,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "suspensory_ligament_ovary_r": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 16.36,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 442,
+    "triangles": 880,
+    "skin_distance_min_mm": 67.0,
+    "vertices_inside_page_organ_pct": {},
+    "watertight": true,
+    "volume_cm3": 0.191,
+    "area_cm2": 2.83,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "mesosalpinx_l": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 14.98,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 1044,
+    "triangles": 1899,
+    "skin_distance_min_mm": 50.2,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 0.8
+    },
+    "watertight": false,
+    "area_cm2": 12.37,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "mesosalpinx_r": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 8.58,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 969,
+    "triangles": 1755,
+    "skin_distance_min_mm": 49.3,
+    "vertices_inside_page_organ_pct": {
+     "uterus": 0.8
+    },
+    "watertight": false,
+    "area_cm2": 9.91,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "mesovarium_l": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 13.85,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 359,
+    "triangles": 644,
+    "skin_distance_min_mm": 55.7,
+    "vertices_inside_page_organ_pct": {},
+    "watertight": false,
+    "area_cm2": 1.99,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "mesovarium_r": {
+   "hra_object": "v1.2_VH_F_Ligaments_Uterus_Ovaries",
+   "mode": "HRA surface as is",
+   "gates": {
+    "bone_min_mm": 8.97,
+    "vertices_within_1mm_of_bone": 0,
+    "vertices_moved_out_of_bone": 0,
+    "max_move_out_of_bone_mm": 0.0,
+    "vertices": 119,
+    "triangles": 183,
+    "skin_distance_min_mm": 55.2,
+    "vertices_inside_page_organ_pct": {},
+    "watertight": false,
+    "area_cm2": 0.86,
+    "bladder_rectum_sigmoid_pct_of_vertices": 0,
+    "pass": true
+   }
+  },
+  "breast_fat_l": {
+   "hra_object": "v1.3_VH_F_mammary_gland_L",
+   "mode": "closed envelope",
+   "gates": {
+    "triangles": 7798,
+    "vertices": 3901,
+    "watertight": true,
+    "skin_inside_min_mm": 1.04,
+    "pectoralis_major_min_mm": 0.02,
+    "bone_min_mm": 4.74,
+    "other_muscle_min_mm": 0.62,
+    "skin_median_mm": 4.9,
+    "vertices_moved_over_1mm_by_rim_push": 2096,
+    "rim_push_max_mm": 39.4,
+    "column_fit_shift_median_mm": 1.5,
+    "column_fit_shift_max_mm": 80.8,
+    "area_cm2": 564.1,
+    "volume_cm3": 344.7,
+    "volume_hra_cm3": 717.71,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.48
+   }
+  },
+  "mammary_gland_l": {
+   "hra_object": "v1.3_VH_F_mammary_gland_L",
+   "mode": "HRA surface as is",
+   "gates": {
+    "triangles": 8997,
+    "vertices": 4411,
+    "watertight": false,
+    "skin_inside_min_mm": 1.34,
+    "pectoralis_major_min_mm": 0.35,
+    "bone_min_mm": 6.46,
+    "other_muscle_min_mm": 0.74,
+    "skin_median_mm": 4.4,
+    "vertices_moved_over_1mm_by_rim_push": 3472,
+    "rim_push_max_mm": 21.0,
+    "column_fit_shift_median_mm": 37.5,
+    "column_fit_shift_max_mm": 72.3,
+    "area_cm2": 143.7,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.48
+   }
+  },
+  "lactiferous_ducts_l": {
+   "hra_object": "v1.3_VH_F_mammary_gland_L",
+   "mode": "HRA surface as is",
+   "gates": {
+    "triangles": 6500,
+    "vertices": 3454,
+    "watertight": false,
+    "skin_inside_min_mm": 1.47,
+    "pectoralis_major_min_mm": 1.23,
+    "bone_min_mm": 8.13,
+    "other_muscle_min_mm": 1.49,
+    "skin_median_mm": 3.5,
+    "vertices_moved_over_1mm_by_rim_push": 2399,
+    "rim_push_max_mm": 11.3,
+    "column_fit_shift_median_mm": 63.8,
+    "column_fit_shift_max_mm": 81.7,
+    "area_cm2": 27.9,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.48
+   }
+  },
+  "areola_l": {
+   "hra_object": "v1.3_VH_F_mammary_gland_L",
+   "mode": "closed envelope",
+   "gates": {
+    "triangles": 1500,
+    "vertices": 750,
+    "watertight": true,
+    "skin_inside_min_mm": 1.74,
+    "pectoralis_major_min_mm": 1.36,
+    "bone_min_mm": 7.92,
+    "other_muscle_min_mm": 1.78,
+    "skin_median_mm": 3.4,
+    "vertices_moved_over_1mm_by_rim_push": 635,
+    "rim_push_max_mm": 6.0,
+    "column_fit_shift_median_mm": 77.1,
+    "column_fit_shift_max_mm": 86.5,
+    "area_cm2": 12.3,
+    "volume_cm3": 0.02,
+    "volume_hra_cm3": 0.83,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.48
+   }
+  },
+  "nipple_l": {
+   "hra_object": "v1.3_VH_F_mammary_gland_L",
+   "mode": "closed envelope",
+   "gates": {
+    "triangles": 900,
+    "vertices": 452,
+    "watertight": true,
+    "skin_inside_min_mm": 1.79,
+    "pectoralis_major_min_mm": 2.42,
+    "bone_min_mm": 14.33,
+    "other_muscle_min_mm": 5.82,
+    "skin_median_mm": 3.4,
+    "vertices_moved_over_1mm_by_rim_push": 351,
+    "rim_push_max_mm": 4.0,
+    "column_fit_shift_median_mm": 80.2,
+    "column_fit_shift_max_mm": 84.2,
+    "area_cm2": 2.2,
+    "volume_cm3": 0.0,
+    "volume_hra_cm3": 0.18,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.48
+   }
+  },
+  "breast_suspensory_ligaments_l": {
+   "hra_object": "v1.3_VH_F_mammary_gland_L",
+   "mode": "HRA surface as is",
+   "gates": {
+    "triangles": 5000,
+    "vertices": 2504,
+    "watertight": true,
+    "skin_inside_min_mm": 1.17,
+    "pectoralis_major_min_mm": 1.01,
+    "bone_min_mm": 7.06,
+    "other_muscle_min_mm": 1.13,
+    "skin_median_mm": 3.7,
+    "vertices_moved_over_1mm_by_rim_push": 2303,
+    "rim_push_max_mm": 22.4,
+    "column_fit_shift_median_mm": 50.7,
+    "column_fit_shift_max_mm": 78.4,
+    "area_cm2": 15.9,
+    "volume_cm3": 0.06,
+    "volume_hra_cm3": 0.29,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.48
+   }
+  },
+  "breast_fat_r": {
+   "hra_object": "v1.3_VH_F_mammary_gland_R",
+   "mode": "closed envelope",
+   "gates": {
+    "triangles": 8022,
+    "vertices": 4013,
+    "watertight": true,
+    "skin_inside_min_mm": 0.62,
+    "pectoralis_major_min_mm": 0.06,
+    "bone_min_mm": 5.34,
+    "other_muscle_min_mm": 0.6,
+    "skin_median_mm": 4.5,
+    "vertices_moved_over_1mm_by_rim_push": 2070,
+    "rim_push_max_mm": 34.9,
+    "column_fit_shift_median_mm": 2.4,
+    "column_fit_shift_max_mm": 82.3,
+    "area_cm2": 596.1,
+    "volume_cm3": 371.78,
+    "volume_hra_cm3": 732.29,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.508
+   }
+  },
+  "mammary_gland_r": {
+   "hra_object": "v1.3_VH_F_mammary_gland_R",
+   "mode": "HRA surface as is",
+   "gates": {
+    "triangles": 8999,
+    "vertices": 4410,
+    "watertight": false,
+    "skin_inside_min_mm": 1.44,
+    "pectoralis_major_min_mm": 0.77,
+    "bone_min_mm": 6.12,
+    "other_muscle_min_mm": 1.22,
+    "skin_median_mm": 4.8,
+    "vertices_moved_over_1mm_by_rim_push": 3364,
+    "rim_push_max_mm": 28.4,
+    "column_fit_shift_median_mm": 33.0,
+    "column_fit_shift_max_mm": 74.3,
+    "area_cm2": 164.2,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.508
+   }
+  },
+  "lactiferous_ducts_r": {
+   "hra_object": "v1.3_VH_F_mammary_gland_R",
+   "mode": "HRA surface as is",
+   "gates": {
+    "triangles": 6500,
+    "vertices": 3457,
+    "watertight": false,
+    "skin_inside_min_mm": 1.71,
+    "pectoralis_major_min_mm": 1.41,
+    "bone_min_mm": 7.14,
+    "other_muscle_min_mm": 1.44,
+    "skin_median_mm": 4.4,
+    "vertices_moved_over_1mm_by_rim_push": 2730,
+    "rim_push_max_mm": 12.6,
+    "column_fit_shift_median_mm": 63.9,
+    "column_fit_shift_max_mm": 86.2,
+    "area_cm2": 33.4,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.508
+   }
+  },
+  "areola_r": {
+   "hra_object": "v1.3_VH_F_mammary_gland_R",
+   "mode": "closed envelope",
+   "gates": {
+    "triangles": 1500,
+    "vertices": 750,
+    "watertight": true,
+    "skin_inside_min_mm": 1.8,
+    "pectoralis_major_min_mm": 1.41,
+    "bone_min_mm": 6.59,
+    "other_muscle_min_mm": 1.46,
+    "skin_median_mm": 4.0,
+    "vertices_moved_over_1mm_by_rim_push": 697,
+    "rim_push_max_mm": 6.2,
+    "column_fit_shift_median_mm": 79.7,
+    "column_fit_shift_max_mm": 89.8,
+    "area_cm2": 15.0,
+    "volume_cm3": 0.03,
+    "volume_hra_cm3": 0.83,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.508
+   }
+  },
+  "nipple_r": {
+   "hra_object": "v1.3_VH_F_mammary_gland_R",
+   "mode": "closed envelope",
+   "gates": {
+    "triangles": 900,
+    "vertices": 452,
+    "watertight": true,
+    "skin_inside_min_mm": 1.83,
+    "pectoralis_major_min_mm": 1.49,
+    "bone_min_mm": 10.7,
+    "other_muscle_min_mm": 3.32,
+    "skin_median_mm": 4.9,
+    "vertices_moved_over_1mm_by_rim_push": 401,
+    "rim_push_max_mm": 4.5,
+    "column_fit_shift_median_mm": 84.1,
+    "column_fit_shift_max_mm": 89.8,
+    "area_cm2": 2.9,
+    "volume_cm3": 0.0,
+    "volume_hra_cm3": 0.18,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.508
+   }
+  },
+  "breast_suspensory_ligaments_r": {
+   "hra_object": "v1.3_VH_F_mammary_gland_R",
+   "mode": "HRA surface as is",
+   "gates": {
+    "triangles": 5000,
+    "vertices": 2504,
+    "watertight": true,
+    "skin_inside_min_mm": 1.42,
+    "pectoralis_major_min_mm": 1.25,
+    "bone_min_mm": 6.42,
+    "other_muscle_min_mm": 1.4,
+    "skin_median_mm": 4.0,
+    "vertices_moved_over_1mm_by_rim_push": 1900,
+    "rim_push_max_mm": 24.5,
+    "column_fit_shift_median_mm": 43.7,
+    "column_fit_shift_max_mm": 83.1,
+    "area_cm2": 11.3,
+    "volume_cm3": 0.04,
+    "volume_hra_cm3": 0.14,
+    "pass": true,
+    "volume_ratio_fat_pad": 0.508
+   }
+  }
+ },
+ "warp": {
+  "l": {
+   "columns": 4104,
+   "ratio_median": 0.8868618027738964,
+   "ratio_min": 0.02229897042429649,
+   "columns_compressed": 3189,
+   "room_min_mm": 1.999999999999993
+  },
+  "r": {
+   "columns": 4096,
+   "ratio_median": 0.8429136305387182,
+   "ratio_min": 0.02131842770184203,
+   "columns_compressed": 3566,
+   "room_min_mm": 1.999999999999993
+  }
+ },
+ "push_history": {
+  "l": [
+   [
+    0,
+    4959,
+    32.31
+   ],
+   [
+    1,
+    2369,
+    11.62
+   ],
+   [
+    2,
+    1703,
+    8.49
+   ],
+   [
+    3,
+    965,
+    7.29
+   ],
+   [
+    4,
+    676,
+    5.66
+   ],
+   [
+    5,
+    555,
+    4.31
+   ],
+   [
+    6,
+    456,
+    3.48
+   ],
+   [
+    7,
+    380,
+    2.95
+   ],
+   [
+    8,
+    322,
+    2.59
+   ],
+   [
+    9,
+    286,
+    2.28
+   ],
+   [
+    10,
+    250,
+    2.24
+   ],
+   [
+    11,
+    211,
+    2.18
+   ],
+   [
+    12,
+    191,
+    2.12
+   ],
+   [
+    13,
+    174,
+    2.03
+   ],
+   [
+    14,
+    156,
+    1.93
+   ],
+   [
+    15,
+    144,
+    1.81
+   ],
+   [
+    16,
+    135,
+    1.65
+   ],
+   [
+    17,
+    127,
+    1.49
+   ],
+   [
+    18,
+    115,
+    1.33
+   ],
+   [
+    19,
+    111,
+    1.17
+   ],
+   [
+    20,
+    108,
+    1.02
+   ],
+   [
+    21,
+    101,
+    0.88
+   ],
+   [
+    22,
+    95,
+    0.86
+   ],
+   [
+    23,
+    88,
+    0.83
+   ],
+   [
+    24,
+    81,
+    0.81
+   ],
+   [
+    25,
+    76,
+    0.79
+   ],
+   [
+    26,
+    71,
+    0.76
+   ],
+   [
+    27,
+    69,
+    0.74
+   ],
+   [
+    28,
+    68,
+    0.72
+   ],
+   [
+    29,
+    65,
+    0.69
+   ],
+   [
+    "phase2"
+   ],
+   [
+    0,
+    2428,
+    1.47
+   ],
+   [
+    1,
+    1663,
+    1.61
+   ],
+   [
+    2,
+    1258,
+    1.58
+   ],
+   [
+    3,
+    1060,
+    1.53
+   ],
+   [
+    4,
+    925,
+    1.51
+   ],
+   [
+    5,
+    843,
+    1.49
+   ],
+   [
+    6,
+    807,
+    1.48
+   ],
+   [
+    7,
+    785,
+    1.47
+   ],
+   [
+    8,
+    761,
+    1.46
+   ],
+   [
+    9,
+    736,
+    1.45
+   ],
+   [
+    10,
+    717,
+    1.44
+   ],
+   [
+    11,
+    700,
+    1.43
+   ],
+   [
+    12,
+    679,
+    1.42
+   ],
+   [
+    13,
+    666,
+    1.42
+   ],
+   [
+    14,
+    650,
+    1.41
+   ],
+   [
+    15,
+    634,
+    1.4
+   ],
+   [
+    16,
+    624,
+    1.39
+   ],
+   [
+    17,
+    615,
+    1.38
+   ],
+   [
+    18,
+    606,
+    1.37
+   ],
+   [
+    19,
+    597,
+    1.36
+   ],
+   [
+    20,
+    591,
+    1.36
+   ],
+   [
+    21,
+    584,
+    1.35
+   ],
+   [
+    22,
+    573,
+    1.34
+   ],
+   [
+    23,
+    567,
+    1.33
+   ],
+   [
+    24,
+    562,
+    1.32
+   ],
+   [
+    25,
+    555,
+    1.31
+   ],
+   [
+    26,
+    553,
+    1.31
+   ],
+   [
+    27,
+    545,
+    1.3
+   ],
+   [
+    28,
+    532,
+    1.29
+   ],
+   [
+    29,
+    534,
+    1.28
+   ]
+  ],
+  "r": [
+   [
+    0,
+    4649,
+    26.46
+   ],
+   [
+    1,
+    1928,
+    12.83
+   ],
+   [
+    2,
+    1686,
+    9.36
+   ],
+   [
+    3,
+    766,
+    7.39
+   ],
+   [
+    4,
+    500,
+    5.2
+   ],
+   [
+    5,
+    377,
+    3.29
+   ],
+   [
+    6,
+    274,
+    3.01
+   ],
+   [
+    7,
+    208,
+    3.01
+   ],
+   [
+    8,
+    158,
+    3.01
+   ],
+   [
+    9,
+    123,
+    2.96
+   ],
+   [
+    10,
+    110,
+    2.8
+   ],
+   [
+    11,
+    93,
+    2.61
+   ],
+   [
+    12,
+    83,
+    2.41
+   ],
+   [
+    13,
+    71,
+    2.38
+   ],
+   [
+    14,
+    63,
+    2.35
+   ],
+   [
+    15,
+    57,
+    2.3
+   ],
+   [
+    16,
+    50,
+    2.26
+   ],
+   [
+    17,
+    46,
+    2.22
+   ],
+   [
+    18,
+    39,
+    2.17
+   ],
+   [
+    19,
+    34,
+    2.11
+   ],
+   [
+    20,
+    36,
+    2.03
+   ],
+   [
+    21,
+    34,
+    1.95
+   ],
+   [
+    22,
+    36,
+    1.78
+   ],
+   [
+    23,
+    33,
+    1.65
+   ],
+   [
+    24,
+    32,
+    1.54
+   ],
+   [
+    25,
+    27,
+    1.45
+   ],
+   [
+    26,
+    24,
+    1.35
+   ],
+   [
+    27,
+    25,
+    1.25
+   ],
+   [
+    28,
+    25,
+    1.17
+   ],
+   [
+    29,
+    26,
+    1.09
+   ],
+   [
+    "phase2"
+   ],
+   [
+    0,
+    1633,
+    1.84
+   ],
+   [
+    1,
+    1018,
+    1.89
+   ],
+   [
+    2,
+    718,
+    1.93
+   ],
+   [
+    3,
+    552,
+    1.86
+   ],
+   [
+    4,
+    472,
+    1.79
+   ],
+   [
+    5,
+    423,
+    1.74
+   ],
+   [
+    6,
+    384,
+    1.69
+   ],
+   [
+    7,
+    363,
+    1.65
+   ],
+   [
+    8,
+    345,
+    1.61
+   ],
+   [
+    9,
+    331,
+    1.58
+   ],
+   [
+    10,
+    317,
+    1.55
+   ],
+   [
+    11,
+    307,
+    1.53
+   ],
+   [
+    12,
+    299,
+    1.51
+   ],
+   [
+    13,
+    288,
+    1.49
+   ],
+   [
+    14,
+    281,
+    1.47
+   ],
+   [
+    15,
+    273,
+    1.45
+   ],
+   [
+    16,
+    270,
+    1.43
+   ],
+   [
+    17,
+    266,
+    1.42
+   ],
+   [
+    18,
+    255,
+    1.4
+   ],
+   [
+    19,
+    251,
+    1.39
+   ],
+   [
+    20,
+    244,
+    1.37
+   ],
+   [
+    21,
+    242,
+    1.36
+   ],
+   [
+    22,
+    239,
+    1.34
+   ],
+   [
+    23,
+    239,
+    1.33
+   ],
+   [
+    24,
+    232,
+    1.32
+   ],
+   [
+    25,
+    228,
+    1.31
+   ],
+   [
+    26,
+    223,
+    1.29
+   ],
+   [
+    27,
+    222,
+    1.28
+   ],
+   [
+    28,
+    216,
+    1.27
+   ],
+   [
+    29,
+    214,
+    1.25
+   ]
+  ]
+ },
+ "attribution": "HuBMAP Human Reference Atlas, 3D Reference Object Library (CC BY 4.0; https://humanatlas.io/3d-reference-library, https://github.com/hubmapconsortium/ccf-3d-reference-object-library, commit f1a3a63f110e27ff0736047d52d04dba5d3087f9): VH_F_vagina and VH_F_Ligaments_Uterus_Ovaries (v1.2; library authors Kristen Browne, Heidi Schlehlein, Bruce W. Herr II, Ellen Quardokus, Andreas Bueckle, Katy Boerner; objects of the Visible Human FEMALE frame, construction not documented by the library) and VH_F_mammary_gland_L/R (v1.3; Heidi Schlehlein, reviewer Harikrishna Nakshatri; sculpted from scratch from textbook atlases, DOI 10.48539/HBM378.VWZG.633 / 10.48539/HBM989.SNHP.535); VH_F_Vertebrae (v1.2) only as the thoracic registration anchor. Registered onto this page's body by this atlas (Q234); derived data, CC BY 4.0 attribution kept (third_party/hra_vh_f/NOTICE.md).",
+ "ship_diff": {
+  "source": "build/q250_pre/c233/viewer_base_female",
+  "new": "build/q250_pre/c234/viewer_base_female",
+  "added": [
+   "areola_l",
+   "areola_r",
+   "breast_fat_l",
+   "breast_fat_r",
+   "breast_suspensory_ligaments_l",
+   "breast_suspensory_ligaments_r",
+   "broad_ligament_uterus",
+   "cardinal_ligament_uterus_l",
+   "cardinal_ligament_uterus_r",
+   "lactiferous_ducts_l",
+   "lactiferous_ducts_r",
+   "mammary_gland_l",
+   "mammary_gland_r",
+   "mesosalpinx_l",
+   "mesosalpinx_r",
+   "mesovarium_l",
+   "mesovarium_r",
+   "nipple_l",
+   "nipple_r",
+   "ovarian_ligament_l",
+   "ovarian_ligament_r",
+   "suspensory_ligament_ovary_l",
+   "suspensory_ligament_ovary_r",
+   "uterosacral_ligament_l",
+   "uterosacral_ligament_r",
+   "vagina"
+  ],
+  "added_expected": [
+   "areola_l",
+   "areola_r",
+   "breast_fat_l",
+   "breast_fat_r",
+   "breast_suspensory_ligaments_l",
+   "breast_suspensory_ligaments_r",
+   "broad_ligament_uterus",
+   "cardinal_ligament_uterus_l",
+   "cardinal_ligament_uterus_r",
+   "lactiferous_ducts_l",
+   "lactiferous_ducts_r",
+   "mammary_gland_l",
+   "mammary_gland_r",
+   "mesosalpinx_l",
+   "mesosalpinx_r",
+   "mesovarium_l",
+   "mesovarium_r",
+   "nipple_l",
+   "nipple_r",
+   "ovarian_ligament_l",
+   "ovarian_ligament_r",
+   "suspensory_ligament_ovary_l",
+   "suspensory_ligament_ovary_r",
+   "uterosacral_ligament_l",
+   "uterosacral_ligament_r",
+   "vagina"
+  ],
+  "removed": [],
+  "geometry_changed": [],
+  "card_only": [
+   "ovary_l",
+   "ovary_r",
+   "uterine_tube_l",
+   "uterine_tube_r",
+   "uterus"
+  ],
+  "card_only_expected": [
+   "ovary_l",
+   "ovary_r",
+   "uterine_tube_l",
+   "uterine_tube_r",
+   "uterus"
+  ],
+  "unchanged": 2942,
+  "unlisted": []
+ }
+}

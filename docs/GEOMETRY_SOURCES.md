@@ -1,0 +1,1920 @@
+# Geometry sources and licensing
+
+This document records **where the 3D geometry in this project comes from, why
+each source was chosen or rejected, and what obligations travel with it.**
+
+The project's goal is a sub-millimetre anatomical model usable as a reference
+atlas, as a correlate for ultrasound / CT / MRI, as a source of arbitrary
+cross-sections, and as a substrate for musculoskeletal injection planning
+(PRP, botulinum toxin for spasticity). That goal is commercial and
+proprietary: the owner intends to sell derived content and to restrict
+third-party reuse.
+
+**That intent is the constraint that decides everything below.** A geometry
+source whose license forces derivatives open cannot be used, no matter how
+good the meshes are.
+
+---
+
+## The decision in one table
+
+| Source | Resolution | License | Verdict |
+|---|---|---|---|
+| **Visible Human Project** (NLM) | 0.33 mm (F) / 1 mm (M) axial | US public domain; attribution requested | **Adopted** — substrate |
+| **VH lower-extremity geometry** (Univ. of Denver) | segmented from the above | CC BY 4.0 *(verify — see below)* | **Adopted** — stage 1 |
+| **TotalSegmentator v2.0.1** (Wasserthal et al., Univ. Hospital Basel) | clinical CT, 1.5 mm isotropic (this subject) | CC BY 4.0 | **Adopted** — stage 2, upper body/trunk |
+| **SPARC / SCKAN** (NIH Common Fund) | connectivity statements, no geometry | CC BY 4.0 | **Deferred** — wrong domain; see below |
+| **IT'IS Virtual Population** (Yoon-sun, Jeduk) | segmented nerve trajectories | commercial, paid | **Open question** — see below |
+| **Z-Anatomy** / BodyParts3D | ~3.65 M polygons, unstated scale | CC BY-SA 4.0 | **Adopted, Q141 (2026-09-23), for the anatomy layer only** — see "Update, Q141" below |
+| Parametric generation from atlas data | n/a | ours outright | **Rejected** — insufficient fidelity |
+
+---
+
+## Why Z-Anatomy was rejected
+
+Z-Anatomy is a genuinely good atlas, and an earlier preview viewer in this
+project was built on it. It is released under **CC BY-SA 4.0**.
+
+The `SA` (share-alike) term requires that any derivative work be distributed
+under the same license, which in turn grants every recipient the right to
+use, modify, and commercialise it, and forbids adding restrictions. That is
+directly incompatible with a proprietary product.
+
+Two clarifications worth recording, because both are common misconceptions:
+
+- **Modifying the meshes does not help.** Triangulation, decimation, axis
+  conversion, quantisation, and batching change the *representation*, not the
+  shape. The protected expression in a 3D anatomical model is the geometry
+  itself. A modified mesh is a derivative work — which is precisely what
+  share-alike is written to capture. There is no threshold of edits that
+  escapes it, and a mesh changed enough to no longer be derivative would no
+  longer be correct anatomy.
+- **Share-alike does not forbid selling.** CC BY-SA permits commercial use.
+  What it forbids is *exclusivity* — you cannot stop anyone else from doing
+  the same with your derivative. That, not the commercial question, is what
+  rules it out here.
+
+No Z-Anatomy-derived geometry has ever been committed to this repository.
+
+### Update, Q141 (2026-09-23) — owner decision, layer split
+
+The owner decided directly, on this date, that the blanket rejection above
+no longer holds for the whole repository. Recorded precisely, because it
+replaces the rule stated in `PROJECT_STATE.md` and above:
+
+> The anatomy MODEL layer (geometry, plus this project's own corrections to
+> it, e.g. the radial nerve pathway) MAY be CC BY-SA compatible. Everything
+> built on top — registration to real imaging, ultrasound guidance,
+> needling (blind / US-guided), clinical tooling — stays under the owner's
+> private license and must live in separate files that reference the
+> anatomy, not inside it. This REPLACES the old rule "no CC BY-SA source may
+> enter it". Goal: use Z-Anatomy models as the fast starting point for
+> completeness, then progressively replace/correct them with this project's
+> real-data geometry.
+
+Everything argued above about the `SA` term is still exactly correct and is
+NOT superseded by this decision — it is the reason the split exists:
+
+- **A CC BY-SA derivative must remain CC BY-SA, never plain CC BY, and
+  never proprietary.** Modifying a mesh (retopology, decimation, axis
+  conversion, registration to a different body) does not escape ShareAlike;
+  the result is still Adapted Material under the licence, because the
+  protected expression is the shape.
+- **ShareAlike does not forbid selling** — a proprietary *product* may
+  contain a CC BY-SA *layer*, but that layer itself cannot be made
+  exclusive, and any file carrying it must say so.
+
+What changed is not the legal analysis, but the owner's choice of *where the
+line is drawn*: rather than excluding CC BY-SA everywhere, the anatomy
+geometry itself is allowed to be CC BY-SA (used as a fast-start scaffold,
+progressively replaced by this project's own real-data segmentation, and
+badged wherever it ships), while every clinically load-bearing layer built
+on top of that geometry — the entire reason this project exists commercially
+— is kept in files that carry no ShareAlike obligation because they contain
+no Z-Anatomy-derived expression, only references to entity ids.
+
+See `third_party/z-anatomy/README.md` for the operational rule (what may
+live where) and `third_party/z-anatomy/NOTICE` for the pinned commit, full
+attribution chain (Z-Anatomy → BodyParts3D, CC-BY-SA 2.1 Japan), and the
+two named subcomponents of the release (Inner Ear, Kidney) that carry a
+*different*, non-commercial licence and stay excluded regardless of this
+decision. `scripts/zanatomy/extract_fbx.py` and `scripts/zanatomy/map_names.py`
+are the phase-1 extraction and name-mapping tooling this decision unblocked;
+see `PROJECT_STATE.md` Q141 for what they found and the phase-2 plan.
+
+## Why parametric generation was rejected
+
+Generating meshes from this atlas's own landmark, origin/insertion, and fibre
+data would be unencumbered by construction. It was considered and rejected:
+extruded or lofted geometry cannot support the clinical targets. Planning an
+injection into a named compartment of a specific muscle, or correlating a
+model against a real ultrasound image, requires true tissue boundaries taken
+from a real body. Parametric geometry remains useful for the kinematic rig
+(see `scripts/export_3d_scene.py`), not as the anatomical substrate.
+
+---
+
+## Visible Human Project (adopted — substrate)
+
+Axial cryosection photographs, CT, and MRI of one male and one female
+cadaver, from the U.S. National Library of Medicine.
+
+| | Cryosection spacing | In-plane | Voxel volume |
+|---|---|---|---|
+| Visible Human **Female** | 0.33 mm | 0.33 mm | **0.036 mm³** (isotropic) |
+| Visible Human **Male** | 1.0 mm | 0.33 mm | **0.109 mm³** |
+
+Both are already below the 1 mm³/voxel target. The female dataset is
+isotropic, which is what makes arbitrary-plane resampling clean.
+
+The project also includes **CT and MRI of the same two cadavers**, which is
+what makes cross-modality correlation possible against ground truth rather
+than against a different body.
+
+**Obtaining it.** NLM has moved the entry point more than once, and the old
+`data.lhncbc.nlm.nih.gov/public/Visible-Human/` directory listing no longer
+resolves reliably. Current routes, best first:
+
+| Route | Where |
+|---|---|
+| **Imaging Data Commons (NCI)** — DICOM-converted, cloud-hosted, browsable, with download manifests | <https://portal.imaging.datacommons.cancer.gov/collections/nlm_visible_human_project> |
+| NLM Data Discovery — the current official landing page | <https://datadiscovery.nlm.nih.gov/Images/Visible-Human-Project/ux2j-9i9a/about_data> |
+| Zenodo — manifests for the IDC collection | <https://zenodo.org/records/12690050> |
+| data.gov catalog entry | <https://catalog-beta.data.gov/dataset/visible-human-project> |
+| Project overview and terms | <https://www.nlm.nih.gov/research/visible/visible_human.html> |
+
+The IDC route is worth preferring: the imagery is already in DICOM and can be
+pulled selectively by manifest rather than as a bulk directory fetch.
+
+None of these could be checked from the machine this was written on — the
+environment's network policy denies those hosts outright — so treat them as
+starting points rather than verified endpoints.
+
+**Licensing.** Before July 2019 the NLM required a signed license agreement.
+That requirement was removed; access is now governed by NLM's Terms and
+Conditions, with no registration, no fee, and no royalty. As a work of the
+U.S. federal government the imagery is not subject to US copyright. The
+surviving obligation is acknowledgement:
+
+> Courtesy of the U.S. National Library of Medicine
+
+There is no share-alike term and no restriction on commercial use, so
+segmentations we derive from these images are ours outright and may be
+licensed on any terms.
+
+**Caveats to carry forward.** Two cadavers, not a population: a 39-year-old
+male (BMI 27.8) and a 59-year-old female (BMI 36). Fixed post-mortem tissue
+does not look like living tissue under ultrasound, and muscle tone, blood
+volume, and fascial planes all differ. Any clinical overlay must be stated
+as literature-derived, not measured from these two bodies.
+
+## University of Denver lower-extremity geometry (adopted — stage 1)
+
+Segmented from the VHP cryosections by the Center for Orthopaedic
+Biomechanics, University of Denver.
+
+> Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE,
+> Shelburne KB. "Three Dimensional Lower Extremity Musculoskeletal Geometry
+> of the Visible Human Female and Male." *Scientific Data* 10(1):34 (2023).
+> [doi:10.1038/s41597-022-01905-2](https://doi.org/10.1038/s41597-022-01905-2)
+> · PMID 36653365 · Data: [doi:10.56902/COB.vh.2022.0](https://doi.org/10.56902/COB.vh.2022.0)
+> · Mirror: <https://simtk.org/projects/3d-vh-geometry>
+> (Author list retrieved from PubMed.)
+
+Contents — **260 geometries**, per subject: 76 muscles, 28 bones, 16
+cartilages, 8 ligaments, 2 fat bodies. Distributed as aligned cryosection and
+CT image stacks, 3D Slicer segmentation masks, and raw plus post-processed
+STL meshes.
+
+### Download folders and their real sizes
+
+The 211 GB / 144 GB figures quoted in the paper describe the complete
+release. The download page splits it into folders that are individually far
+smaller, and the one this project needs first is under 100 MB:
+
+Two listings are recorded below because they do not agree, and the difference
+matters when telling someone what to download.
+
+**As observed after download** (zip sizes, reported by the repository owner
+2026-08-28). Note these folder names carry no Right/Left split:
+
+| Folder | Zip |
+|---|---|
+| **Final 3D STL Models-stl** | **133 MB** |
+| Smoothed 3D STL Models-stl | 244 MB |
+| Original 3D STL Models-stl | 1.27 GB |
+| MetaData | **58 KB** |
+| Aligned Cryosection-DICOM | 579 MB |
+| Aligned CT-DICOM | 278 MB |
+| Aligned Scan Images-mat_tif | 1.94 GB |
+| Final Segmentation Masks and Aligned Scans-Slicer | 2.71 GB |
+| Smoothed Segmentation Masks and Aligned Scans-Slicer | 2.71 GB |
+| Original Segmentation Masks and Aligned Scans-Slicer | 3.18 GB |
+| Original Segmentation Labelmaps-mat_tif | 3.79 GB |
+| Original Segmentation Masks and Aligned Scans-MHD | 1.49 GB (extracts to ~129 GB) |
+
+**As listed on the download page** consulted earlier, which splits the STL
+folders by side:
+
+| Folder | Zip | Extracted |
+|---|---|---|
+| Final 3D STL models (Right *or* Left) | 87.8 MB | 117 MB |
+| Smoothed 3D STL models (Right or Left) | 173 MB | 601 MB |
+| Original (raw) 3D STL models | 506 MB | 5.66 GB |
+
+The likeliest explanation is that the two describe different subjects, or that
+the observed folders hold both sides where the page offered them separately.
+Either way, **the folder to start from is the Final STL folder**, and
+`MetaData` at 58 KB is worth taking as well — it is the smallest thing in the
+release and the most likely place to find the naming convention and the
+coordinate frame written down.
+
+The `.mhd` folder is the only one that explodes on extraction -- 1.3 GB
+compressed to 129 GB on disk. Take the 3D Slicer variant instead unless that
+exact format is needed.
+
+### ⚠️ The final models are NOT sub-millimetre
+
+This matters for a project whose stated target is under 1 mm³ per voxel. The
+smoothed models -- and the final models derived from them -- were **remeshed
+to target edge lengths of 1.5 mm for muscle, 1.0 mm for bone, and 0.75 mm for
+cartilage and ligament**. That is the surface sampling density, and it is
+coarser than the target.
+
+Sub-millimetre surface detail has to come from one of:
+
+- the **raw STL models**, written at ScanIP's default ~0.33 mm edge length,
+  matching the cryosection resolution -- but carrying, in the authors' words,
+  "issues resulting from segmentation";
+- the **segmentation masks** at their native voxel resolution, re-meshed
+  here rather than accepting the published remesh.
+
+Use the final models for rigging, display and the first ingest -- they are
+clean, gap-corrected and immediately usable. Reach for the raw models or the
+masks when surface fidelity, rather than topology, is what is being measured.
+
+### The cross-section stage is much cheaper than expected
+
+The aligned cryosection and CT DICOM folders together are about **765 MB**,
+not the hundreds of gigabytes assumed when stage 5b was drafted. The CT is
+already registered to the cryosections and the transverse offsets in the
+original sequences are already corrected -- so the cross-modality correlation
+this project wants arrives without a registration step of our own.
+
+The overclosure-correction MATLAB code the authors used is public at
+<https://github.com/thor-andreassen/femors>.
+
+Quality notes recorded by the authors:
+
+- Left and right were segmented **independently, never mirrored**, so genuine
+  bilateral asymmetry is preserved. 70 % of muscles are within 10 % volume of
+  their contralateral partner.
+- Reviewed against Netter, Fleckenstein, Radiopaedia, and Primal Pictures.
+- All inter-structure overclosures removed to a uniform 0.05 mm gap, which
+  makes the set finite-element-ready.
+- Post-processing changed volume by less than 15 % for 95 % of structures.
+
+Known gaps, stated by the authors: the **patellar tendon and the complete
+Achilles tendon are absent**; some Visible Human Female left knee extensor
+anatomy was disrupted pre- or post-mortem and was segmented to a
+representative rather than observed form; some inter-structure borders in the
+cryosections were hard to resolve.
+
+### Obtaining it
+
+| What | Where |
+|---|---|
+| Digital Commons @ DU collection | <https://digitalcommons.du.edu/visiblehuman/> |
+| — Visible Human Female | <https://digitalcommons.du.edu/visiblehuman/1/> |
+| — Visible Human Male | <https://digitalcommons.du.edu/visiblehuman/2/> |
+| SimTK mirror (usually needs a free account) | <https://simtk.org/projects/3d-vh-geometry> |
+| Data DOI | <https://doi.org/10.56902/COB.vh.2022.0> |
+
+**Do not download the full package for stage 1.** The 211 GB and 144 GB
+figures are the complete releases including the cryosection and CT image
+stacks. `scripts/ingest_vh_geometry.py` reads only the **processed STL
+geometry** — 260 meshes, orders of magnitude smaller. The authors split the
+release into separate folders precisely so that subset can be taken alone.
+The image stacks are needed later, for the cross-section engine (stage 5b),
+not for the geometry ingest.
+
+Then:
+
+```bash
+python3 scripts/ingest_vh_geometry.py inspect <folder> --subject vhm
+```
+
+which reports the structure names, bounding box, inferred units, up-axis and
+the hip joint centre, without writing anything. `propose` and `convert`
+follow from there.
+
+### Do not read the folder off the filename
+
+Every mesh in the **Final** folder is named `..._smooth.stl`. That suffix is
+part of the Final release's own naming and does **not** mean the file came
+from the Smoothed folder. Confirmed by the repository owner, who downloaded
+both from under the Final heading. The consequence matters: everything
+ingested so far is Final, so the remesh target edge lengths — 1.5 mm muscle,
+1.0 mm bone, 0.75 mm cartilage and ligament — apply to it, and it is coarser
+than this project's sub-millimetre goal.
+
+### The frame, as measured against the VHM Final set, both sides
+
+Run 2026-08-28 on 128 meshes (63 right, 63 left, 2 midline), 3,077,884
+triangles, 1,539,203 welded vertices, no read failures. The
+coordinate frame is **not** inferred from the bounding box — that can only
+say which axis is longest, never which way is up. Each axis was fixed by an
+anatomical test on the geometry itself:
+
+| Atlas axis | Source | How it was established |
+|---|---|---|
+| +X (right) | −x | Lateral-minus-medial on five independent pairs: gastrocnemius heads, vastus lateralis/medialis, lateral/medial cuneiform, LCL/MCL, tibial plateau cartilages. Unanimous. |
+| +Y (superior) | −z | Pelvis centroid minus calcaneus centroid, dominant component −935 mm. |
+| +Z (anterior) | +y | Tibialis anterior minus soleus, +50 mm; cross-checked by patella minus femur, +43 mm. |
+
+So `--axes '-x,-z,+y' --units mm`.
+
+**The two sides are not spelled consistently with each other**, which only
+became visible once the left side arrived. Six structures differ:
+`BicepsFemorisLong`/`Longus`, `ExtensorHallucisLongus`/`Hallicus`,
+`FlexorHallucisLongus`/`Hallicus`, `QuadratisFemoris`/`Quadratus`,
+`Semitendinosus`/`Semitendonosus`, `TibialMedial`/`TibiaMedial`. Note that
+neither side is consistently the correct one — right has `Quadratis`, left has
+`Hallicus`. Four are normalised to the correct form; `Long`/`Longus` and the
+`Tibial`/`Tibia` pair get separate override keys instead, because "longus" is
+a real anatomical word and mapping it to "long" would corrupt adductor longus
+and every other longus in the atlas.
+
+One of these was a near miss rather than a clean failure: `ExtensorHallicusLongus`
+scored **0.50 against extensor digitorum longus**, just under the 0.55
+threshold. A slightly more permissive threshold would have silently mapped
+extensor hallucis longus onto a different muscle.
+
+**The left folder also carries the midline bones.** `VHM_Left_Bone_Sacrum` and
+`VHM_Left_Bone_Coccyx` are not left-sided; they are in the folder someone put
+them in. Taking the filename's word for it stamped `side="left"` on a midline
+bone. `resolve_side()` now drops the side for known midline structures, and
+the sacrum's converted geometry straddles X = 0 as it should.
+
+**The origin needed solving separately, and originally did not exist.** The
+atlas puts (0,0,0) at the midpoint of the hip joint centres
+(`docs/ARCHITECTURE.md`); `convert` applied rotation and scale only, so
+geometry landed on the scanner's volume corner and would have missed every
+anchor in `data/rig/anchors.json`. `inspect` now measures the hip joint
+centre by least-squares sphere fit to the femoral head cartilage, and
+`convert` takes `--origin`.
+
+The fit is the check on itself: **radius 24.73 mm right and 25.05 mm left,
+rms residual 0.87 and 1.10 mm**. A femoral head is a sphere to well under a
+millimetre, and a mesh that is not one will not fit like this.
+
+With **one side only**, the midline has to be estimated — the medial face of
+the hemipelvis, i.e. the pubic symphyseal surface. With **both sides**, it is
+measured: `inspect` fits both heads and prints their midpoint, which is
+exactly the atlas's definition of the origin, and no estimate is involved.
+
+The right-side-only run is therefore also a test of that estimate, and it
+passed well: the symphysis-based midline was **0.78 mm** from the true
+midpoint later measured from both femoral heads. The inter-hip-centre
+distance came out 177.8 mm estimated against **179.42 mm measured**.
+
+Final bilateral frame: hip centres land at ±89.66, ∓0.93, ∓2.94 mm — exactly
+symmetric, midpoint (0, 0, 0). Extents X −205 → +214 mm, Y −993 → +303 mm
+(heel to iliac crest), Z −123 → +127 mm. The residual left/right differences
+in Y and Z are this cadaver's own asymmetry, not registration error.
+
+### What the mapping needed a human for
+
+Of 128 meshes, 84 matched on name alone and 44 did not — and the 22 are not
+matcher failures. They are recorded in `mappings/du_vh_overrides.json`, which
+is version-controlled precisely because `build/` is not, and every entry
+states its reason.
+
+- **Cartilage is decomposed differently by the two datasets.** The release
+  names it by the bone surface it covers (`FemurDistal`, `PelvisAcetabulum`,
+  `TibiaLateral`); this atlas names it by the joint. `femur distal` and
+  `knee articular cartilage` share no token, so no name-similarity method can
+  bridge it at any threshold.
+- **Seven tarsals to one `tarsals_r`**, two biceps femoris heads, two
+  gastrocnemius heads, and iliacus + psoas major to `iliopsoas_r`. Real
+  many-to-one relationships, and for the muscles they land on functional
+  compartments the atlas already models.
+- **`Phalanges` ties exactly** between foot and hand on name. Resolved by the
+  fact that this is a lower-extremity release; the tie itself was correct.
+
+One override is deliberately imprecise and says so: `Cartilage_FemurDistal`
+covers both the tibiofemoral condyles and the trochlea, which this atlas
+splits between two entities. Separating them needs geometric segmentation,
+not a name mapping.
+
+> ✅ **License confirmed at source.** The Digital Commons @ DU record states:
+> *"This work is licensed under a Creative Commons Attribution 4.0
+> International License."* Confirmed by the repository owner reading the
+> record directly, 2026-08-28. **CC BY 4.0 — attribution only, no
+> share-alike.** A proprietary derivative is permitted, which is the whole
+> reason this dataset was chosen over Z-Anatomy. Attribution obligations are
+> listed under *Attribution* below and must be honoured in any release.
+>
+> This was the last unverified claim in the licence analysis. Everything the
+> project's commercial position depends on is now checked at the source.
+
+---
+
+## SPARC / SCKAN (evaluated — deferred, and worth revisiting for viscera)
+
+The NIH Common Fund's SPARC program (*Stimulating Peripheral Activity to
+Relieve Conditions*) and its knowledge base SCKAN were evaluated as a source
+for the missing peripheral nerve layer.
+
+**The licensing is ideal.** Public SPARC datasets are CC BY 4.0 — attribution
+only, commercial use permitted, derivatives may be proprietary. One
+exception: **embargoed** datasets sit under a Data Use Agreement that forbids
+commercial use without a separate licence from the data owner. Filter on
+embargo status before touching anything.
+
+**The content is for a different problem.** SPARC exists to serve
+bioelectronic medicine — vagus nerve stimulation, autonomic neuromodulation
+of viscera. Per the SCKAN paper
+([doi:10.3389/fninf.2025.1541184](https://doi.org/10.3389/fninf.2025.1541184)),
+the knowledge base's neuron populations break down by circuit role as:
+
+| Circuit role / phenotype | Populations |
+|---|---|
+| Sympathetic | 131 |
+| Parasympathetic | 77 |
+| Sensory | 40 |
+| **Motor** | **9** |
+| Enteric | 1 |
+
+Nine motor populations in the whole knowledge base. The words "somatic" and
+"skeletal muscle" do not appear in the paper at all. Its authors state they
+are "in the process of extending the content with peripheral sensory and
+motor pathways" — that is future work, not present content.
+
+Three further disqualifiers for this project:
+
+- **No geometry.** SCKAN holds semantic statements of the form *"neurons with
+  somas in structure A project to structure B via nerve C"*. "Coordinate" and
+  "geometry" appear zero times in the paper. This is the same *shape* of data
+  the atlas already has in `data/nerves/` — topology without coordinates. It
+  would not close the gap, it would duplicate it.
+- **Predominantly rodent.** Models are described as "observed predominantly
+  in rodents."
+- **The program is winding down**, per the same paper.
+
+**Revisit it for one thing.** If the atlas ever wants organ innervation —
+which nerve supplies which viscus — SPARC is the best freely licensed source
+that exists, and CC BY 4.0 makes it usable here. That is a later layer, not
+the musculoskeletal one.
+
+## IT'IS Virtual Population (open question — the only segmented human nerves found)
+
+SPARC-funded work at the IT'IS Foundation produced the **Yoon-sun** and
+**Jeduk** models (Virtual Population V4.0): whole-body human models with
+segmented, anatomically extracted **peripheral nerve trajectories**. That is
+precisely the geometry missing everywhere else.
+
+Two problems, neither resolved:
+
+- These are a **commercial product** of IT'IS / Zurich MedTech, licensed
+  through the Sim4Life sales team. Not CC BY, not free. The actual licence
+  terms could not be retrieved — itis.swiss was unreachable from the machine
+  this was written on — so whether a proprietary derivative is permitted at
+  any price is **unknown**.
+- They derive from the **Visible Korean Human**, which carries its own access
+  restrictions distinct from the NLM Visible Human's public-domain status.
+
+If buying geometry is on the table, this is the most promising lead found.
+It requires a direct conversation with IT'IS before it can be costed or
+relied on.
+
+## What this dataset does **not** contain
+
+These are not footnotes — they are the clinically load-bearing layers, and
+every one of them has to be built here, which is also why every one of them
+will be owned outright.
+
+| Missing | Why it matters | Where it must come from |
+|---|---|---|
+| **Upper limb and trunk** | The DU set is pelvis→feet only. For post-stroke spasticity the upper limb is the larger clinical need | Segment from VHP ourselves |
+| **Peripheral nerves** | Without them there is no injection safety — the neurovascular bundle to avoid is invisible | Segment from cryosections (SPARC does not cover somatic nerves — see above) |
+| **Blood vessels** | Same | Segment from cryosections |
+| **Motor points / NMJ zones** | **Not resolvable in cryosection at any resolution.** Botulinum dosing targets endplate-rich zones, not muscle centroids | Literature (Sihler-stain studies) → atlas data layer |
+| Patellar and full Achilles tendon | Excluded from the DU release | Segment from cryosections |
+
+---
+
+## Everything above the hip has no geometry (open — stage 2)
+
+The Denver release is **pelvis to ankle**. That was checked at source rather
+than assumed, because a web search summary claimed it covered "lower-limb,
+torso and upper limbs"; the paper and the repository both say lower
+extremity, 260 geometries, pelvis to ankle.
+
+So the clavicle, scapula, humerus, radius, ulna, carpals, ribs, sternum and
+the whole spine carry coordinates written from anatomical description that
+have never been measured against anything. **That is not a hypothetical
+risk.** The clavicle turned out to be stored mirrored on *both* sides,
+putting the acromioclavicular joint 300 mm from where it belongs with the
+scapula, humerus and the entire flagship upper-limb chain hanging off it. It
+was caught by a lexical rule about the words "medial" and "lateral", not by
+measurement, because there was nothing to measure against. A landmark that
+does not happen to state a side in its own name would not have been caught
+at all.
+
+### The ingest for it is built and the source is not settled
+
+`scripts/ingest_volume_geometry.py` reads a **segmented CT or MRI** — a
+NIfTI label map, as produced by TotalSegmentator, 3D Slicer, ITK-SNAP or any
+nnU-Net model — and writes the same manifest the STL ingest does, so every
+audit already written runs on it unchanged. It recovers the atlas origin the
+same way too, by fitting both femoral heads, except that a CT gives one
+`femur` label with no separate cartilage, so the head is isolated from the
+shaft by direction and the fit is reported with its radius and residual to
+be accepted or rejected.
+
+This is worth having on its own terms: comparing the atlas against a
+patient's CT or MRI is one of the things it is for, and that comparison needs
+the scan in the atlas frame.
+
+**TotalSegmentator** is the obvious candidate to fill the gap.
+
+| | |
+|---|---|
+| Code | Apache-2.0 — the class map in `mappings/totalsegmentator_labels.json` is transcribed from it |
+| Dataset (1228 segmented CTs) | **CC BY 4.0**, 23.6 GB. Read at the Zenodo record by the repository owner, because `zenodo.org` is unreachable from the machine this was written on |
+| Would give | clavicula, scapula, humerus, ribs, sternum, vertebrae C1–L5, sacrum, hip, femur — most of what has no geometry here |
+| Would **not** give | any individual upper-limb muscle. It carries ten muscles in total: the three glutei, iliopsoas and autochthon. There is no deltoid, no biceps, no forearm compartment |
+
+Every one of its 117 labels has a reviewed decision in the `atlas` section
+of `mappings/totalsegmentator_labels.json`: mapped one-to-one, mapped
+`part_of` a coarser atlas entity (each rib into `ribs_r`, each vertebra into
+its region), refused with a reason (viscera, brain, cord, skull; autochthon
+because the atlas is finer than the mask), or **split**. Two labels hold
+several atlas entities and are cut geometrically at convert time, at levels
+measured from the scan itself rather than from any fixed millimetre: the
+aorta at the T4/T5 and T12/L1 discs into arch, descending thoracic and
+abdominal (the ascending aorta between the cuts is the anterior of the two
+columns and has no atlas entity, so it is dropped by name), and the costal
+cartilages at the subject's midline as measured from the sternum. A scan
+missing a level is told so and that part is left empty, never guessed.
+
+Two things follow, and neither should be skipped.
+
+**The licence was read at the Zenodo record**, not taken from a search
+summary — the same discipline the Denver licence got, and for the same
+reason: a search summary is not a licence, and one of them had already been
+wrong about the Denver dataset's contents in this very investigation.
+Attribution under CC BY 4.0 is required and is emitted into the manifest of
+anything converted from it.
+
+**A CT gives something the Visible Human cannot: more than one body.**
+For the lower limb there is exactly one subject, so the only cross-check
+available was bilateral consistency -- an error that mirrors is systematic,
+an error that does not is noise. With 1228 segmented subjects the same
+question can be asked across people, which separates "this atlas coordinate
+is wrong" from "this one cadaver is unusual" in a way one body never can.
+That is worth more than the extra resolution.
+
+**A second subject is not the Visible Human.** Denver geometry and CT
+geometry are two different bodies, and combining them into one skeleton is
+the same error as combining measured fascicle lengths with measured mesh
+volumes — already prohibited elsewhere in this project. Upper-body geometry
+from a CT is for **checking** authored coordinates, where a second body is
+if anything a stronger test, not for shipping as one continuous skeleton.
+
+### Stage 2, first subject (2026-09-08): real, but bones/vessels only
+
+`data/ct_sources/totalsegmentator_v201_s1371_labels.nii.gz` (911 KB, checked
+in — small enough, unlike the ~355 GB VH source or the ~23.6 GB full
+TotalSegmentator release, neither of which belongs in git) is one real,
+pathology-free, whole-body CT case (Zenodo record 10047292, case `s1371`)
+run through the ingest above. It gives real geometry, for the first time,
+for: cervical/thoracic/lumbar vertebrae, all 24 ribs, sternum, costal
+cartilage, clavicle, scapula, humerus — plus, unplanned, several great
+vessels whose TotalSegmentator masks matched existing
+`data/vascular/*.json` entity ids (aorta, venae cavae, subclavian/carotid/
+brachiocephalic vessels). It does **not** give a unified skull (this atlas
+only carries mandible and occipital as separate bones — no cranial-vault
+entity exists to receive TotalSegmentator's `skull` mask, flagged by the
+mapping step rather than silently dropped), forearm/hand bones
+(TotalSegmentator doesn't segment radius, ulna, carpals, metacarpals, or
+phalanges at all), or any upper-limb/trunk/neck **muscle** — TotalSegmentator
+carries ten muscles total (three glutei, iliopsoas, autochthon), all of
+which the atlas already had real geometry for from the DU release.
+
+**The "not one continuous skeleton" rule above is still in force.** The
+viewer bundle can now be built from a second subject at once with `vhm_both`
+(`export_viewer_bundle.py --subject vhm_both --subject ct_s0913`, earlier
+subjects win on any id collision so the already-verified VH data is never
+overwritten) — but every structure from the second subject is tagged with
+which specimen it came from, and the viewer inspector shows a visible badge
+on it precisely so nobody mistakes the two for one cadaver. This is shown,
+not fused: a second real body at the same anatomical scale, for comparison
+and for checking authored anchor coordinates against, exactly as prescribed
+above — running `scripts/audit_landmarks_vs_geometry.py --subject ct_s1371`
+surfaced real errors in anchors that had never had geometry to check
+against before (see PROJECT_STATE.md), specifically a clavicle landmark
+axis-convention bug fixed in `data/skeleton/bones.json`.
+
+### Stage 2, second subject (2026-09-09): s0913 adopted as primary
+
+A second whole-body case, `s0913` (same Zenodo record, same CC BY 4.0
+TotalSegmentator release), was ingested through the identical pipeline:
+`data/ct_sources/totalsegmentator_v201_s0913_labels.nii.gz` (769 KB, merged
+83-structure label volume; 810 overlapping voxels between masks, 0.04%,
+resolved by the merge script's fixed structure-priority order). 78 of 83
+structures auto-mapped to atlas ids; conversion produced 773,672 vertices /
+1,547,480 triangles, with correct splits for the aorta (into its named
+segments) and the costal cartilages.
+
+Diffing s1371's and s0913's atlas-id coverage (`set(s1371 structures) ==
+set(s0913 structures)`, verified directly) showed the two cases are
+**fully redundant** with each other for this atlas's purposes — no
+structure exists in one that is missing from the other. Since only one
+was worth keeping in the default combined bundle, s0913 was chosen because
+it is the better specimen on every measure that differs:
+
+| | s1371 | s0913 |
+|---|---|---|
+| cervical spine | C6-C7 only | full C1-C7 |
+| clavicle length | 101-114 mm | 138-143 mm (closer to the ~150 mm the hand-authored landmarks assume) |
+| femoral-head sphere fit (rms) | 0.8-1.8 mm | 0.6 mm, both sides |
+| post-clavicle-fix landmark audit | residual 10-60 mm | 7-19 mm |
+
+The default combined bundle is now `--subject vhm_both --subject ct_s0913`
+(197 structures; ct_s0913 contributes 241,432 of the kept triangles).
+`ct_s1371`'s label volume stays committed for provenance and is still a
+valid `--subject` argument on its own — it is simply not part of the
+bundle the viewer ships by default. Femur/humerus landmarks in both cases
+show expected CT-field-of-view cutoff artifacts near the joint away from
+the scan centre, not placement bugs — the audit script's "reaches PAST the
+end of this bone" note is the tell.
+
+### Stage 2, muscles above the hip (2026-09-10): the model is a tool, the CT is the source
+
+The geometry gap above the hip was never a shortage of CT: it was that the
+TotalSegmentator *release* ships only the `total` task's masks (bones,
+viscera, ten muscles). The TotalSegmentator *software* (Apache-2.0) has
+further tasks that its README lists as "Openly available for any usage":
+`abdominal_muscles`, `headneck_muscles`, `headneck_bones_vessels`,
+`head_muscles`, `craniofacial_structures`, `oculomotor_muscles`. Run on a
+case's own raw CT (in the same CC BY 4.0 release), they yield trunk-wall,
+neck, jaw and extraocular muscles, a whole skull, laryngeal cartilages and
+the neck vessels, on the **same specimen** whose bones are already here.
+No new licence enters the repository: the CT is CC BY 4.0, the model is a
+tool, and its output is ours to derive. (The `appendicular_bones` and
+`thigh_shoulder_muscles` tasks -- forearm/hand bones, rotator cuff, deltoid,
+triceps, thigh compartments -- are **licensed**: free only for
+non-commercial use, commercial licence from University Hospital Basel. Not
+run.)
+
+Label maps: `mappings/totalsegmentator_<task>_labels.json`, one per task,
+each with a reviewed `atlas` section. Where the mask is coarser than the
+atlas (erector spinae vs. iliocostalis/longissimus/spinalis; prevertebral
+vs. longus colli/capitis; tongue vs. its named muscles) the label is
+deliberately not mapped, exactly as `autochthon` is not. The one new entity
+is `cranium`, a composite for the whole skull minus the mandible, because
+1.5 mm CT cannot separate the cranial bones at their sutures; the
+individual bone entries remain the record.
+
+Subjects now: **s0913** (29 m, C7 to mid-thigh) -- bones, vessels, and the
+16 bilateral trunk-wall muscles of `abdominal_muscles`; its scan has no
+head (the release's `skull.nii.gz` for it is an all-zero file). **s1159**
+(47 f, `ct polytrauma`, `no_pathology`, vertex to hip in one body) --
+chosen by probing the release's small masks for field of view before
+downloading, since the release crops images unpredictably; origin fitted on
+its own femoral heads (rms 0.49/0.53 mm) even though only the top ~24 mm of
+each head is in the scan. The head, neck, orbit and trunk tasks are run on
+it. Data files: `data/ct_sources/totalsegmentator_v201_s1159_labels.nii.gz`
+(merged `total` masks); the raw CTs and task outputs live in `build/` and
+the session scratchpad, reproducible from the Zenodo record by case id.
+
+Running the tasks on a 4-core, 15 GB machine needed
+`scripts/run_totalsegmentator_chunked.py`: the 0.75 mm task models hold a
+softmax over every class for the whole crop and are OOM-killed on a trunk,
+after which the parent waits forever on a futex. Chunks of 96 slices with
+16 overlap, stitched by voxel index, keep the peak near 5 GB; seams were
+checked slice by slice on s0913 and are continuous. Head tasks are run as a
+single chunk because they locate the head with a rough model first.
+
+**The "not one continuous skeleton" rule still holds.** The viewer badges
+each structure with its body and task. As of the end of 2026-09-10 s1159's own muscles are in: the shipped bundle is
+the VH lower limb plus s1159 alone, one consistent body from vertex to hip;
+s0913 is retired from the bundle and kept for comparison.
+
+### Stage 2, the Visible Human male's own CT (2026-09-10, night): head to pelvis, arms included, same body as the lower limb
+
+The lower limb in this atlas is the Visible Human male (DU release). The
+same cadaver's CT is public domain (NLM Visible Human Project) and is
+served, DICOM by DICOM, from the Imaging Data Commons mirror bucket
+`gs://idc-open-data` (anonymous HTTPS; manifest from Zenodo record 12690050,
+`nlm_visible_human_project-idc_v15-gcs.s5cmd`; the `public-datasets-idc`
+bucket named in the manifest does not resolve, the same UUID prefixes do on
+`idc-open-data`). Series used, all VHP-M, study "Frozen", 1 mm slices:
+
+| series UUID | slices | in-plane | covers |
+|---|---|---|---|
+| `5d409385-d3e7-48a9-ae50-150b39e834da` | 844 | 0.527 mm (head, 231 slices), 0.781 mm (24), 0.9375 mm (589) | vertex to proximal femur, both arms in the field of view |
+| `145c2668-7d2f-4d7e-b1c7-2cf2462bef60` | 809 | 0.9375 mm | pelvis to ankle |
+| `94755b62-0f88-4aa8-82ec-2d6d5cb8dbc7` | 224 | 0.9375 mm | ankle to toes |
+
+The head-to-pelvis series mixes three reconstruction fields of view, so a
+converter that trusts one pixel spacing draws the head 1.8x too large.
+`stack.py` (session scratchpad; to be moved under `scripts/`) stacks the
+slices by their own ImagePositionPatient/PixelSpacing onto one 0.9375 x
+0.9375 x 1 mm grid (finest group wins where they overlap; one missing slice
+at z = -274 mm filled from its neighbours) and a second 0.527 mm grid of the
+head and neck for the 0.5 mm head tasks. The three series were scanned in
+separate table sessions and their z origins do not agree. They also do
+not overlap: the torso block's bottom slice IS the legs block's top slice
+(image correlation 0.945 between torso z=0 and legs z=808, and no legs
+slice matches torso z=15), so the blocks are contiguous and the offset is
+fixed, not fitted: legs->torso = (+2.72, -0.89, -693.0) mm RAS, the
+in-plane part from sub-voxel phase correlation of that shared slice
+(+-1 mm in z if the two slices are adjacent rather than identical). The
+atlas origin is the femoral-head rule applied to the legs block
+(`total` on its pelvis slab: right head r=25.9 mm rms 0.74, left r=25.7
+rms 0.71) carried over by that offset:
+`--origin '-6.035,-895.476,4.787'` for every torso-block subject. A
+pelvis-overlap registration was tried first and is kept as
+`scripts/register_vhm_blocks_by_pelvis.py`; it cannot work here (best
+coverage 0.31) precisely because there is no overlap.
+
+Provenance: NLM Visible Human Project, public domain with attribution
+("Courtesy of the U.S. National Library of Medicine"); IDC citation
+Fedorov A et al., "National Cancer Institute Imaging Data Commons",
+Radiographics 2023, doi:10.1148/rg.230180. Segmentations are produced here
+with TotalSegmentator's Apache-2.0 tasks (`total`, `headneck_muscles`,
+`headneck_bones_vessels`, `abdominal_muscles`, `craniofacial_structures`,
+`head_muscles`, `oculomotor_muscles`); nothing from the licensed tasks.
+Frozen-cadaver CT is not what those models were trained on; every label
+is checked against the CT before it ships (see PROJECT_STATE for the
+per-task verdicts).
+
+Why this matters more than another Zenodo case: it is the SAME body as
+the lower limb, so the hip is one specimen from both sides of the
+pelvis-thigh boundary, and the arms are in the scan -- which no case in
+the TotalSegmentator release above the hip had. Forearm and hand BONES are
+taken from it by `scripts/segment_arm_bones_vhm.py` (HU threshold,
+marker-controlled watershed on the smoothed CT; key
+`mappings/vhm_arm_labels.json`), but the 480 mm reconstruction field of
+view clips both arms around the elbow, so the humerus lacks its distal
+end and the radius/ulna their proximal ends (about 85% / 65% of their
+length is in the scan); the hand ships as one composite mesh per side
+(`hand_r`/`hand_l`). Upper-limb MUSCLES still cannot come from it, without
+the licensed `thigh_shoulder_muscles` task or a segmentation of the
+cryosections (which do hold the whole arms, at 0.33 mm, in colour).
+
+### The cryosections (2026-09-11): registration, the hybrid CT, and what they gave
+
+The same cadaver's colour cryosections (IDC series 4aaf9181, 1878 slices,
+0.33 mm, public domain) are streamed into a 1 mm volume and registered to
+the CT (`scripts/cryo/README.md`: rows flipped, in-plane by silhouette,
+z by mutual information, cryo index = -16 - z_RAS +-4 mm, verified by
+overlaying the `total` outlines on the photographs at five levels). Two
+things came out of them:
+
+1. **The arms to the elbow.** `scripts/cryo/complete_arm_bones_from_cryo.py`
+   walks each CT-clipped bone through the photographs (local per-slice
+   registration of the arm; the cortical ring closed and filled because
+   marrow photographs red-brown; the elbow split by a luminance watershed
+   between the bones plus a joint line estimated from the humeral head).
+   Humeri to the elbow, ulnae to the olecranon, left radius to its head;
+   the right radial head is partly labelled ulna. Elbow surfaces +-10 mm.
+2. **The hybrid CT** (`scripts/cryo/hybrid_ct_from_cryo.py`): the frozen
+   CT with muscle/fat HU replaced from the photograph classes. On it the
+   `abdominal_muscles` task finds pectoralis major, serratus anterior,
+   latissimus dorsi and the trunk part of trapezius on the right muscles
+   (overlay checked); rectus abdominis and the obliques still fail. The
+   bundle takes those four from the Visible Human (`ct_vhm_abd`, trapezius
+   unioned into `ct_vhm_neck`) and only rectus, obliques and quadratus
+   lumborum from s1159.
+
+3. **Hands and named arm muscles** (later the same day). The fingers lie
+   in the legs CT block (the torso block ends at the palm; `total` labels
+   them "skull" there); both blocks are unioned and each hand cut by
+   planes along its axis into carpal, metacarpal and phalangeal groups
+   (`scripts/cryo/hands_from_both_blocks.py`). The arm compartments are
+   turned into biceps, brachialis, coracobrachialis and triceps by
+   depth-and-level rules from standard anatomy
+   (`scripts/cryo/name_arm_muscles_from_cryo.py`, key
+   `mappings/vhm_arm_muscles_labels.json`); the biceps/brachialis boundary
+   is a rule, not a traced fascia, and the viewer badge says so.
+
+4. **Rule-based muscles** (same day, later): deltoid (superficial to the
+   proximal humerus), the rotator cuff (by which scapular surface is
+   nearest), the erector spinae columns (by distance from the midline).
+   Every one of these is a textbook rule applied to the muscle mass the
+   photographs or the hybrid CT delineate; the viewer badge and the label
+   map say so, and the volumes are recorded in PROJECT_STATE so a reviewer
+   can judge them.
+
+Not from the photographs, deliberately: individual forearm muscles (the
+arm lies pronated on the thigh and an image-frame split does not follow
+the forearm septa), separated carpal bones (tried at 0.33 mm: fragments
+only), teres major, tendons (tried: cream like the fat around them at
+1 mm), ligaments, nerves. The sciatic nerve was tried
+(`scripts/cryo/sciatic_from_cryo.py`): at 1 mm it is not separable from
+the fat plane it lies in, and on the 0.33 mm photograph it is not
+identifiable without expert reading. Each of those needs slice-by-slice
+review, not thresholds.
+
+What the frozen scan is and is not good for, measured (2026-09-11):
+`total` bones are all there and in place; `headneck_muscles`, the head
+muscles and craniofacial bones are plausible for a large male; the
+`abdominal_muscles` task fails on it (superficial trunk muscles come out
+as fragments, erector spinae leaks into fat), and there is no vascular
+contrast. So the shipped bundle (viewer Version 22, 299 structures) is:
+the DU lower limb; the VH male CT and cryosections for every bone from the skull to the
+fingertips (arms complete; hands as carpal/metacarpal/phalangeal groups),
+the arm muscles by compartment rules (biceps, brachialis,
+coracobrachialis, triceps), the deltoid by superficial-proximity rules, pectoralis minor and the
+rhomboids by position, the rotator cuff
+(supraspinatus, infraspinatus with teres minor, subscapularis) by
+scapular-surface rules, the erector spinae columns (spinalis,
+longissimus, iliocostalis) by distance from the midline, the
+transversospinalis mass under multifidus, the anterolateral abdominal
+wall (rectus, external and internal oblique, transversus) by position and
+depth fraction, and the body surface (`skin`), the head/neck/orbit muscles, pectoralis
+major, serratus anterior, latissimus dorsi, trapezius, the gluteals and
+iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_armm`, `ct_vhm_delt`, `ct_vhm_cuff`, `ct_vhm_es`, `ct_vhm_head`,
+`ct_vhm_headm`, `ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`,
+`ct_vhm_abd`); and, badged
+as a second specimen, s1159's quadratus lumborum (`ct_s1159_abd`) and
+vessels (`ct_s1159`, its bones dropped on collision). The VH pelvis was cross-checked against
+the DU release of the same body: iliac crest tops agree within 0.1 mm.
+
+### The Visible Human FEMALE (2026-09-11, evening): a second, model-segmented body
+
+Series `b9cf8e7a-2505-4137-9ae3-f8d0cf756c13` (VHP-F, study "Normal",
+fresh cadaver, non-contrast, 985 slices at 1 mm, in-plane 0.488 mm over
+the head and 0.9375 mm over the trunk, vertex to mid-thigh), stacked by
+`scripts/stack_dicom_series.py` like the male, segmented with the same
+free TotalSegmentator tasks. Because the cadaver was not frozen, the
+soft-tissue contrast is clinical and the models behave: the femoral
+heads fit at r = 24.4 mm with rms 0.65 / 0.69 mm, the aorta is labelled
+along its whole course (185 cm3), and the trunk-muscle task is expected
+to find the muscles the frozen male defeated. She is ingested as
+`ct_vhf_*` subjects with her own femoral-head origin
+(`--origin '7.769,-885.229,14.137'`) and exported as a SECOND viewer
+bundle (`build/viewer_f`): the two bodies are never mixed in one scene,
+and the viewer badge names the body on every structure. Her role: a
+second complete specimen for injection planning, and a model-segmented
+reference against which the male's rule-based muscles can be compared
+(same model, same tasks, unfrozen tissue).
+
+#### Her lower limb (2026-09-11, night): the femur-to-toes block
+
+Series `af18f5e4-f010-4b23-9be7-7c9f1aaa21a5` ("1X1 AXIAL FEMUR-TOES NCE",
+749 slices at 1 mm, in-plane 0.9375 mm over the top 128 slices and 0.7227
+mm below, stacked on the 0.7227 mm grid). The block starts at mid-thigh, so
+it shares no femoral head with her torso block; the two are registered by
+continuity across the junction (`scripts/vhf_lower_limb_bones.py`): a
+quadratic fitted through the inter-femur distance of the torso's bottom
+24 slices and the block's top 24 slices under candidate shifts (rms 0.15
+mm at z = -943.0), agreeing with the body-area and fat-area fits of a
+first run (-943.5, -942.5); the shift used is (+6.0, -3.6, -943.5) mm,
++-4 mm in height. No free TotalSegmentator task labels bones below the
+femur, so the bones are HU >= 200 split at the joints by a
+distance-transform watershed (medullary canals tube-filled, 3.5 mm
+bone-core markers, fragments re-united where their common boundary is
+thick bone). The femur ships as one label united from the torso block's
+TotalSegmentator femur (head to mid-thigh) and this block's component
+(mid-thigh to condyles). The foot bones are grouped by planes along the
+foot axis (tarsals / metatarsals / phalanges), not separated: the same
+limitation as the male CT feet. Volumes are recorded in
+`data/ct_sources/task_outputs/vhf_lower_limb_bones_report.json`. The female
+bundle (viewer Version 12, 2026-09-12) is 191 meshes from fourteen subjects,
+`ct_vhf_legs` listed before `ct_vhf` so the united femur wins over the torso
+block's stub; her body surface spans both blocks. Her torso CT also yields the RIGHT forearm and hand by the male's marker
+watershed (`scripts/vhf_arm_bones_ct.py`; radius 191 mm with its proximal ~50 mm outside the field of view, ulna 119 mm
+with its proximal ~110 mm outside, hand 61 cm3 grouped by planes; the landmark
+audit measures those truncations); the
+left arm lies outside the field of view. Her cryosections (registered
+to the CT, female colour classes) add the deltoid, the rotator cuff, the
+upper-arm muscles and pectoralis minor by the male's rules; her model labels add
+the erector spinae columns and multifidus.
+
+### Rule-based structures: what the rule is, and how the volume compares (2026-09-11)
+
+Textbook ranges are adult male values from Holzbaur et al. 2005 (upper limb
+model volumes), Standring 2021 and the cadaveric literature they cite,
+scaled up for a 90-kg subject; they are orientation, not tests. Volumes are
+right / left in cm3 as measured on the Visible Human male.
+
+| structure | rule | VH volume | textbook (large male) | verdict |
+|---|---|---|---|---|
+| biceps brachii | anterior compartment minus brachialis/coracobrachialis; boundary from full-res fascial lines | 526 / 513 | 300-400 | over (takes part of brachialis) |
+| brachialis | anterior, within 22 mm of the humerus, distal 65 % | 152 / 214 | 200-280 | under on the right |
+| coracobrachialis | anterior, proximal 35 %, medial, within 15 mm of the humerus | 44 / 50 | 40-70 | plausible |
+| triceps brachii | whole posterior compartment | 713 / 789 | 550-750 | plausible / slightly over |
+| biceps / brachialis / triceps, FEMALE (`ct_vhf_armm`, 2026-09-12) | the same compartment rules around her CT humerus on her cryosections (female colour classes); coracobrachialis rule finds nothing on her (not shipped) | 394 / 456, 111 / 74, 295 / 315 | female: 150-250, 100-180, 250-400 | biceps over (takes brachialis and the anterior fat plane), brachialis under on the left, triceps plausible |
+| deltoid | superficial to the proximal humerus, lateral to the scapula (+ spine third) | 282 / 215 | 350-500 | under (deep part missed) |
+| deltoid, FEMALE (`ct_vhf_delt`, 2026-09-12) | the same rule on her cryosections registered to her fresh CT (piecewise in-plane, z +-9 mm; her CT humerus/scapula as anchors, shifted 11 / 15 px onto the photographs) | 225 / 213 (female colour classes; 164 / 153 with the male's) | 200-300 (female) | plausible (the male's colour class missed 40-60 % of her darker muscle; `cryo_classes_f.py`) |
+| supraspinatus | dorsal scapula above the spine level, medial to the glenoid | 68 / 69 | 45-80 | plausible |
+| infraspinatus (+teres minor) | dorsal scapula below the spine level | 353 / 340 | 200-300 (+40) | over (teres major slips) |
+| subscapularis | ventral scapula, <=18 mm, not nearer the ribs | 321 / 321 | 200-300 | over |
+| rotator cuff, FEMALE (`ct_vhf_cuff`, 2026-09-12) | the same three rules on her cryosections registered to her fresh CT (z +-9 mm; her scapula label shifted 11 / 15 px onto the photographs) | supraspinatus 45 / 50, infraspinatus (+teres minor) 235 / 216, subscapularis 230 / 210 (female colour classes) | female: 35-60 / 130-200 / 120-180 | supraspinatus plausible; infraspinatus and subscapularis over, as on the male |
+| pectoralis minor | sheet <=10 mm deep to pec major, >=8 mm from ribs | 77 / 51 | 30-60 | over |
+| rhomboids (major+minor) | scapula medial border to midline, deep to trapezius, C7-T6 | 124 / 135 | 100-160 | plausible |
+| pectoralis minor, FEMALE (`ct_vhf_pmr`, 2026-09-12) | sheet <= 10 mm deep to her model pec major, 8-30 mm from the ribs, rib 5 to clavicle, outside the cage's convex hull (female colour classes) | 42 / 31 | 20-40 (female) | plausible; a sliver at liver level remains |
+| rhomboids, FEMALE | the same rule on her | 49 / 32 | 70-110 (female) | NOT shipped: patches beside the spine, not the sheet |
+| rectus abdominis | <=70 mm of midline, <=45 mm behind the anterior skin, xiphoid to iliac crest | 181 / 189 | 120-200 (whole) | plausible for the part present |
+| external oblique | lateral wall, outer 40 % of depth | 176 / 322 | 150-250 | left over |
+| internal oblique | middle 35 % | 44 / 116 | 100-180 | right under |
+| transversus abdominis | inner 25 % | 82 / 227 | 80-150 | left over |
+| spinalis / longissimus / iliocostalis | erector mass by distance from midline (20 / 50 mm) | 67 / 71, 473 / 514, 260 / 211 | 40-80, 350-550, 200-320 | plausible |
+| multifidus (transversospinalis group) | hybrid-CT label | 214 / 205 | 150-250 (group) | plausible |
+| spinalis / longissimus / iliocostalis, FEMALE (`ct_vhf_es`, 2026-09-12) | the same 20 / 50 mm rule on her MODEL erector-spinae + autochthon labels (unfrozen CT; no photographs needed) | 44 / 64, 310 / 304, 157 / 126 | female: 30-60, 250-400, 150-250 | plausible; spinalis asymmetric (midline rule) |
+| multifidus, FEMALE (`ct_vhf_abd`) | model transversospinalis label, mapped as on the male | 185 / 173 | 120-200 (group) | plausible |
+| hand groups | planes along the hand axis (45 / 115 mm) | carpals 24 / 33, metacarpals 11 / 24, phalanges 14 / 16 | 15-20, 20-30, 12-18 | carpals over (metacarpal bases) |
+
+Everything in this table is badged in the viewer; a slice-by-slice review
+against the photographs (all renders are in the session scratchpad and
+reproducible from `scripts/cryo/`) is the way to turn "plausible" into
+"verified".
+
+### Derived: depth below the skin (2026-09-11)
+
+`data/derived/skin_depth_vhm.json` lists, for every shipped structure of
+the Visible Human male, the minimum, median and maximum distance of its
+surface from the body surface mesh (mm). It is computed from the meshes
+in `build/vh` and is the first product of the atlas that answers an
+injection-planning question directly ("how deep is the shallowest point
+of the subscapularis on this body?"). Regenerate it after any bundle
+change; it is derived data, not a measurement on a patient.
+
+See `docs/VIEWER_README.md` for what the viewer badges mean and where the two bodies are published.
+
+### Cross-subject transfer (2026-09-13): making the two bodies compatible
+
+The two viewers were two different people. The user's instruction was to make the models
+compatible while remembering how the donors differ, to correct data before it goes into
+either model, and, where one body lacks a structure, to learn the difference between the
+sexes/bodies and carry the structure across with the modifications needed. Everything
+below is measured on the data (`scripts/transfer/subject_anthropometrics.py` ->
+`data/derived/subject_anthropometrics.json`); the donor facts are what the DU release
+paper states (Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2,
+Methods: retrieved via PubMed/PMC, PMC9849470).
+
+| | male | female | female / male |
+|---|---|---|---|
+| donor (published) | 39 y, 71 in (180 cm), 90 kg, BMI 27.8 | 59 y, 62 in (157 cm), 88 kg, BMI 36.0 | 0.87 stature |
+| stature proxy on the meshes (cranium top to lowest foot bone, supine) | 1862 mm | 1727 mm | 0.93 (feet plantar-flexed on both) |
+| femur length (principal-axis extent) | 476 / 474 mm | 418 / 414 mm | 0.88 |
+| tibia length | 399 / 396 mm | 335 / 330 mm | 0.84 |
+| hip bone height, bi-iliac width | 127 / 136 mm, 280 mm | 139 / 139 mm, 295 mm | 1.05, 1.05 (her pelvis is not smaller) |
+| scapula, clavicle, sternum | 196 / 191, 157 / 163, 193 mm | 174 / 163, 138 / 139, 161 mm | 0.85-0.89 |
+| cranium (length / width / depth) | 132 / 149 / 199 mm | 136 / 149 / 184 mm | 1.03 / 1.00 / 0.93 |
+| thigh at 45 % of the femur: section, fat, muscle (photographs, colour classes) | 680 cm2, 23 % fat, 65 % muscle (442 cm2) | 459 cm2, 49 % fat, 48 % muscle (219 cm2) | muscle 0.50 |
+| mid-tibia: section, fat, muscle | 191 cm2, 20 %, 48 % (91 cm2) | 174 cm2, 37 %, 42 % (73 cm2) | muscle 0.80 |
+| pelvis-abdomen (y 40..250): fat / muscle of the section | 45 % / 41 % | 52 % / 40 % | |
+| thorax (y 250..450) | 28 % / 54 % | 35 % / 57 % | |
+| glutei, iliopsoas (his DU manual vs her CT model) | 1.0 | 0.33-0.62 of his | |
+
+Fat fractions come from the photographs on both bodies with the same colour classes (his
+frozen CT cannot separate fat from lean tissue: both HU peaks sit at -20; hers can, and her
+CT fat fractions 0.548 / 0.381 agree with her photographs 0.547 / 0.366). So: she is 13 %
+shorter with 12-16 % shorter long bones, a pelvis as large as his, a smaller thorax and
+shoulder girdle, twice his fat fraction at the thigh, and thigh muscle half of his by
+cross-section (these are the numbers AFTER the frame correction below; before it her
+thigh levels were read 70 mm too low and showed 151 cm2). Nothing of his can be pasted onto her at its own coordinates.
+
+**Bone frames and the map** (`scripts/transfer/bone_frames.py`, `cross_subject_transfer.py`).
+Every bone both bodies carry gets a frame per body: principal axes with signs fixed to the
+atlas axes, 1st/99th-percentile extents, box centre. The affine that takes his box onto
+hers (rotate into his frame, scale each axis by the extent ratio, rotate out into hers) is
+the map near that bone; the bones truncated by a CT field of view (humeri, radius, ulna) get
+a similarity from their proximal 200 mm so a missing distal end cannot scale the arm. A
+transferred vertex moves by the inverse-square-distance blend of the three nearest bones'
+affines, candidates restricted to the region's bones (his right hand lies beside his thigh
+and must not carry thigh muscles). Bones, cartilage and ligaments get that and nothing else.
+
+**Lean envelope** (`scripts/transfer/lean_envelope.py`, `build_envelopes.py` ->
+`data/derived/lean_envelope_vh{m,f}.json`). The bone map keeps his soft-tissue thickness:
+his anterior thigh is 95 mm deep in front of the femur, hers 56 mm, so bone-mapped quadriceps
+stood 30-50 % outside her skin. Each lower-limb muscle vertex is therefore re-placed
+radially: its fraction of the distance from the femur/tibia centre to the outer boundary of
+the muscle compartment on him (the envelope of his own DU muscles, per 10 mm level and 36
+directions) is kept on her, where the compartment radius is the outermost muscle-class
+pixel along the ray in her registered photographs, as a fraction of her skin radius, times
+her measured skin mesh. Then a fill correction: the transferred muscles filled her
+compartment the way his fill his; her photographs say how much of the compartment is
+muscle tissue (219 cm2 at 45 % of the femur against 239 cm2 transferred, 141 vs 146 at
+70 %, 73 vs 62 at mid-tibia), so every thigh muscle is scaled about its own axis by
+sqrt(219+141 / 239+146) = 0.97 and every calf muscle by 1.09. Result: at most 4 % of any
+transferred structure's vertices outside her skin (rectus femoris, at its anterior face),
+thigh muscle cross-section matching her measured lean area, vastus lateralis 1127 -> 453
+cm3, rectus femoris 413 -> 162, soleus 685 -> 395, adductor magnus 1138 -> 778 cm3
+(`data/derived/transfer_report_vhm2vhf.json` has every structure).
+
+**What crossed, what did not.** Male -> female (`xfer_vhm2vhf`, 85 structures): the 60 DU
+lower-limb muscles, 12 knee ligaments/cartilages and hip/ankle cartilages, coccyx, and his
+rule-based rhomboids, coracobrachialis and transversus abdominis (their source trust is
+recorded per structure: `transfer.source_trust`). Not transferred: his left radius, ulna,
+carpals, metacarpals and hand phalanges (her left forearm lies outside her CT: no bone on
+that side to drive them). Female -> male (`xfer_vhf2vhm`, 18): digastric, internal carotid,
+internal jugular, superior rectus, driven by cranium, mandible, hyoid and cervical
+vertebrae, and (Q47, 2026-09-13) ten more orbit pieces that replace his own: his frozen-CT
+oculomotor segmentation gave 0.08-0.37 cm3 for muscles that measure 0.6-0.9 cm3 on her fresh CT
+(a rectus muscle is of that order), so where his piece is under half of hers it is replaced by her
+transferred one and badged; his left levator, left inferior oblique and left medial rectus (0.45-1.05
+cm3) stay his; her `temporal`/`zygomatic` pieces were found to be 2 mm label fragments (16-58
+vertices) and are refused as degenerate. Both subjects are listed LAST in the export so a
+body's own structure always wins, and the viewer badge on each reads "TRANSFERRED ... not
+measured on her/him". The male viewer itself is now rebuilt from the bundle recovered from
+its published page (`data/derived/viewer_bundles/vhm_v25`, `scripts/transfer/
+bundle_to_subjects.py`): the DU STL hosts are denied by the network policy, so this is the
+only copy that survives a container reset.
+
+**One DU defect found by that recheck (2026-09-13).** The DU release's LEFT foot has 16.4 cm3 of
+metatarsals and 35.3 cm3 of toe phalanges where the right has 38.8 / 6.8 and his own CT feet block
+44.9 / 7.2: about 22 cm3 of metatarsal (the heads) is filed under "phalanges" in the left-foot STLs
+(the totals agree to 0.5 cm3). The male viewer therefore ships his left metatarsals and phalanges from
+his CT (`ct_vhm_foot`, planes 115/190 mm along the foot axis, listed before `vhm_both`); the CT boxes
+lie within 10 mm of the DU ones and the volumes come out level with the right foot (40.2 / 6.6 cm3).
+Her feet (35.9 / 41.5 and 5.5 / 7.0 cm3) were the first suspect and are fine.
+
+**Her deltoid rule, v2 (Q46, 2026-09-13).** On the corrected frame the male's rule gave her 377 / 348
+cm3 (his 232 / 180): overlays on her photographs showed that below the axilla her thin arm lies
+wholly inside the 40 mm skin band, so the label swallowed biceps and triceps around the humerus,
+and the fixed 130 mm window reached below her shorter deltoid. v2 (`scripts/cryo/
+vhf_deltoid_from_cryo.py`): depth band 25 mm from the outer surface of the muscle compartment
+(muscle+bone classes closed and filled) instead of 40 mm from the skin, window 113 mm (130 x her
+scapula ratio 0.87), and below the humeral head (40 mm under its top) only the lateral +-80 deg
+wedge about the humerus within 40 mm. Result 226 / 282 cm3, the overlays a lateral shell converging
+on the tuberosity; the left is still 1.6x his rule value where the lean sections predict 0.77, so
+it stays badged with that note.
+
+**Boundaries refined to her own septa (Q48, 2026-09-13).** The transfer keeps the donor's boundaries
+between neighbouring bellies. `scripts/transfer/refine_transfer_to_septa.py` voxelises the 57
+transferred thigh and leg muscles into her registered 1 mm frame and, slice by slice, runs a marker
+watershed on the white top-hat of the photograph brightness (her fascial planes are bright ridges):
+markers = each transferred mask eroded 3 mm, region = her muscle class within 4 mm of the transferred
+union with her own model-segmented muscles (glutei, iliopsoas, autochthon) excluded, no muscle moving
+more than 8 mm from its transferred mask and no growth into her subcutaneous fat. 810 slices, ~3800
+pixels reassigned per slice; the muscle total is conserved (10.14 -> 9.91 L), the median volume ratio
+is 1.02, and the largest moves are small bellies whose neighbours they were sharing a septum with
+(gracilis right 114 -> 75 cm3, tensor fasciae latae 104/108 -> 70/84, semitendinosus 198/222 -> 159/176,
+flexor digitorum longus left 26 -> 42; `data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa_report.json`).
+Ships as `xfer_vhm2vhf_sep` (label volume in the repository, key `mappings/vhf_xfer_septa_labels.json`),
+listed before `xfer_vhm2vhf` so the refined belly wins and the unrefined transfer still supplies the
+ligaments, cartilage, coccyx and trunk pieces. Still a transfer: the muscle set, attachments and rough
+shape are his; the walls between adjacent bellies are now hers.
+
+**Her upper-arm rule, v2 (Q49, 2026-09-13).** The audit flagged her left triceps and brachialis at 0.42-0.45
+of his. Mask overlays showed why: the arm rule placed her CT humerus label on the photographs with one
+constant per side (the deltoid level's), and lower down the arm that label sits BESIDE the bone (her arm
+and the CT arm are not one rigid body), so the coronal plane and the bone distances that split the
+compartments were measured from the wrong point, and trunk muscle next to the axilla was admitted. v2
+(`scripts/cryo/vhf_arm_muscles_from_cryo.py`): the humerus is located in the photograph itself, as the
+round non-muscle hole (120-900 px, solidity >= 0.6) inside the closed muscle compartment nearest the
+shifted CT label (found on 110 / 171 slices right / left; the CT label is the fallback), and the arm island
+is the tissue opened by 6 px (which cuts the gelatin bridge to the trunk) with the 70 mm disc as fallback.
+Volumes biceps 322/444 -> 267/224, brachialis 112/92 -> 117/120, triceps 342/346 -> 303/337 cm3. Against
+his rule values (biceps 472/475, triceps 675/762 cm3) she is 0.38-0.44 on both -- his values are themselves
+far above textbook (biceps 200-300, triceps 350-450 cm3 for a man), so those flags now point at HIS rule (Q51).
+
+**His upper-arm rule, v2 (Q51, 2026-09-13).** The same defect as hers, fixed the same way, without his lost
+1 mm frame: his arm levels (cryo index 350-640, 290 slices) were re-streamed from IDC, each slice registered
+to his CT by whole-body silhouette centroid (translation; this series lies spine-up with the patient's left
+on the image right, checked on four levels), the humerus found in the photograph as the round non-muscle
+hole nearest his complete humerus mesh's section at that height (478 of 478 slices, 12.9 mm median from
+the mesh seed; his frozen-CT humerus label stops 100 mm below the head and cannot seed the lower arm),
+and the compartment rules applied with his deltoid, rotator cuff and CT-labelled trunk muscles and the
+forearm origins lateral of the bone excluded (`scripts/cryo/vhm_arm_muscles_v2.py`, label volume on his CT
+grid in the repository). Volumes biceps 472/475 -> 452/432, brachialis -> 74/105, coracobrachialis
+-> 48/41, triceps 675/762 -> 549/602 cm3: the compartment rule on a 90 kg man's arms; still rule-based
+and badged so (meshes after smoothing: biceps 400/392, brachialis 49/75, triceps 517/581). Her triceps now sit
+inside the audit's band against his; her left biceps stays low (0.45) and his brachialis comes out smaller than
+hers. Q52 then measured both arms: the mid-arm muscle sections are equal (40/45 vs 41/37 cm2), so no size
+scaling applies; his brachialis is simply thicker relative to his arm, which his fascia-traced v1 boundary had
+measured (133/189 cm3). His band is therefore calibrated to that traced value (32 mm: 140/176 cm3; 22 -> 74/105,
+28 -> 111/145, 34 -> 154/192), hers stays 22 mm for want of a traced boundary on her -- the one place the two
+bodies' rules differ by design, and the reason is recorded here.
+
+**Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
+-> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male
+volume ratio against the ratio the driving bones predict, and for muscles against the
+measured lean-section ratio; flags LOW/HIGH outside 0.6-1.6. See the file for the current
+flags; the ones produced by the same pipeline on both bodies are the ones that point at a
+real problem.
+
+**Landmarks scale with the bone (Q43, 2026-09-14).** The 347 hand-authored landmarks in
+`data/skeleton/bones.json` are millimetres on HIS bones, so on her every distal landmark of the
+femur, fibula and humerus sat 50-70 mm past the end of the bone (femur condyles 50-53 mm,
+lateral malleolus 49-62 mm, humeral trochlea/capitulum 66 mm from any bone). Each long bone with a
+fitted frame axis now records his length along that axis (`reference_length_mm`, measured on
+`vhm_both` / `ct_vhm_arm` / `ct_vhm` with the same 1st-99th-percentile definition
+`build_frames` uses for every subject), and every consumer places a landmark through
+`engine.geometry.local_to_world`, which multiplies the along-axis coordinate by her measured
+length over his and leaves the across-axis coordinates in millimetres. Same audit afterwards:
+her femoral condyles 2.6 / 2.6 mm, epicondyles 6-7 mm, lateral malleoli 0.7 / 1.4 mm, right
+humeral trochlea 10.6 mm; 42 lower-limb landmarks median 3.4 -> 2.2 mm with none beyond 40 mm
+(was 11). His own numbers are unchanged (factor 1.000). Caveat: a bone cut by a CT field of view
+(her humeri and forearm in `ct_vhf`/`ct_vhf_armb`, his left forearm) measures its truncation,
+and the factor then compresses the landmarks onto the fragment; the audit prints the factor per
+bone so that reads as what it is.
+
+### The female cryosection frame was 47-90 mm too high (2026-09-13): found, corrected, structures rebuilt
+
+Building the envelopes exposed it: the photograph at the frame's height for her mid-thigh
+showed her knee. `scripts/cryo/vhf_check_frame_z.py` then measured it properly, level by
+level: her photographs are in-plane registered to her CT, so a CT slice and the photograph
+of the same anatomy agree pixel for pixel in where fat (HU -190..-30 / class 2) and muscle
+(HU 20..150 / class 3) lie; the best-Dice photograph for each CT slice lay 47 mm (upper
+thorax) to 70 mm (pelvis) to 90 mm (lower leg) BELOW the expected slice, over the whole body
+under the neck (`data/derived/vhf_cryo_frame_z_survey.json`, 57 levels). The frame's z line
+had been fitted with the thorax anchors left out ("scatter by 30 mm"), and the legs anchors
+carried the error. `scripts/cryo/vhf_correct_frame_z.py` rewrote the frame from a smoothed
+offset(y) (the v1 arrays are kept beside it); the re-check reads 0 +- 5 mm at every level
+with a sharp score.
+
+Consequence for what had shipped: `ct_vhf_delt`, `ct_vhf_cuff`, `ct_vhf_armm`, `ct_vhf_pmr`
+and the photograph part of `ct_vhf_skin` (her arms) were built from photographs ~70 mm
+below the CT bones they were measured against. They are re-derived on the corrected frame
+by the same scripts (`scripts/cryo/vhf_rebuild_after_frame_fix.sh`); the volumes before and
+after are in PROJECT_STATE (Q44) and the rule table above is superseded by the new reports
+in `data/ct_sources/task_outputs/vhf_*_report.json`. The lower limb was never read off her
+photographs before this, so nothing else moved.
+
+### Nerves from the female's FULL-RESOLUTION cryosections (2026-09-14): the sciatic nerve, tracked
+
+The 1 mm registered frame cannot show a nerve (Q7): at that scale the sciatic nerve is the same
+orange-cream as the intermuscular connective tissue. At the photographs' own resolution (0.33 mm,
+`scripts/cryo/vhf_stream_crops.py` streams a fixed atlas-space box per level straight from the IDC
+DICOMs, ~1 s per 10 levels) a nerve is unmistakable: a compact HONEYCOMB of fascicles (pale cells
+0.5-2 mm across with darker walls) in the connective tissue between muscle bellies -- never inside a
+belly, and unlike fat (uniform, no texture), muscle (dark) and fascia (single bright lines).
+
+`scripts/cryo/vhf_nerve_track.py` turns that into a rule: per level, a CORRIDOR (not muscle, not gel,
+under the deep fascia or inside the hull of the nerve's own muscles, within 15 mm of the muscles that
+roof the nerve and of those it lies on, sections of her meshes; 4 mm away from bone, whose cortex
+mimics the texture), a DETECTOR (3 mm mean brightness 95-190 with dense fine edges, not bimodal, away
+from muscle/fat edges; blobs 6-200 mm2 at least half inside the corridor) and a CHAIN (Viterbi over
+the levels from a LANDMARK-RULE seed -- the sciatic nerve midway between the ischial tuberosity and
+the greater trochanter, 20 mm below the tuberosity -- with the smallest total centroid jump, a level
+without a blob costs 6 mm, jumps over 8 mm forbidden). The human check is a montage of every level
+at native resolution: the tracked cord must show the honeycomb at the cross-hair.
+
+Result (`data/ct_sources/task_outputs/vhf_nerves_cryo.nii.gz`, 0.5 x 0.5 x 1 mm, subject
+`ct_vhf_nerve`, atlas id `sciatic_n` for both sides as nerve ids are side-agnostic):
+
+| side | verified span (atlas y) | tracked levels | median section | note |
+|---|---|---|---|---|
+| right | -70 .. -235 mm (165 mm) | 146 of 166 | 26 mm2 | honeycomb at the cross-hair on every montage tile from the gluteal fold to the distal third |
+| left | -70 .. -293 mm (223 mm) | 186 of 223 | 34 mm2 | as right; from -243 the paler popliteal bundle (three runs merged) |
+
+Both sides together 19.7 cm3 in the label volume, 18.0 cm3 as the smoothed mesh (one label). What it is NOT yet: above -70 (under gluteus maximus) the
+detector locks onto the fatty striations of the muscle itself, so the gluteal course is not shipped;
+below the verified span the tracker either sits on muscle/fat edges (right, from -245) or leaves the
+nerve where it is plainly visible 8 mm posterior of the cross-hair in the popliteal fat (left, -303
+to -333): there the bundle is as pale as the fat and only its texture differs, and the corridor's
+"near fat" exclusion erodes it -- the division into tibial and common fibular nerves is queue item
+Q54. The sections (26-34 mm2) are the fascicle core with little epineurium, smaller than the whole
+nerve; the 1 mm gaps (24 right, 37 left) are filled with the nearest tracked section shifted along
+the chain. Rule-based, badged; the montages that were checked are in the scratchpad record of the
+session (`sciatic_*_zoom.png`), regenerable from the scripts in ~10 minutes per side.
+
+**Q113 (2026-09-22) update -- continuity of the tracked/shipped range, fixed where the defect was
+rendering, diagnosed where it is real:** Q112's full-bundle audit measured this structure at
+main_frac 0.332 (11 components) in the shipped bundle -- SEVERE_BREAK, the worst-ranked finding in
+that audit. Direct measurement (not the Q53/Q54 photograph-tracking pipeline, which was NOT
+re-run) found the fragmentation was mostly two RENDERING defects downstream of the already-tracked
+label volume, not a tracking gap: (1) `ingest_volume_geometry.py convert`'s Gaussian surface-smoothing
+(sigma 1.0 voxels, applied isotropically to this volume's anisotropic 0.5x0.5x1.0 mm voxels) was
+measurably WORSENING topology for this thin (~6 mm) cord -- the raw, unsmoothed voxel mask
+reconstructs at main_frac 0.621 (6 components), smoothing it drove that down to 0.332; fixed by
+reconverting `ct_vhf_nerve` with `--smooth 0.0` (was 1.0). (2) `export_viewer_bundle.py`'s viewer-budget
+decimation was independently re-fragmenting the (now-fixed) full-resolution mesh back down to 0.326 (7
+components) even at `sciatic_n`'s own existing BUDGET_OVERRIDE (12000 tris) -- the vertex-clustering
+decimator's grid cell, sized to hit that budget over the ~230 mm length, exceeds the cord's own
+diameter and severs cross-sections the source mesh has genuinely connected (the same failure mode
+already documented for the diaphragm/intercostal sheets one dimension up). Fixed by routing
+`sciatic_n` through the sheet path's quadric edge-collapse decimator instead (`SHEET_IDS` in
+`scripts/export_viewer_bundle.py`), which preserves topology at the same triangle budget: main_frac
+0.612 (6 components) in the mesh feeding decimation, 0.612 (6 components, 5082 verts/10200 tris) in
+the ACTUAL SHIPPED bundle -- confirmed on the live `build/viewer_f/atlas_viewer_female.html`, not
+just the pre-decimation mesh. Per-side (this atlas ships both legs' nerves under one shared id, so
+0.99 continuity is not attainable for this structure as modeled -- see LIMITATION below): LEFT
+0.946 (3110/3288 vertices, essentially one piece from the gluteal fold to the distal thigh, y -293.5
+to -82.5, plus a small 170-vertex fragment y -81.6..-70.5 right at the proximal edge of the verified
+range, already known and documented above as unreliable); RIGHT 0.484 (868 vs 820 vertices, split
+almost exactly in half at y ~ -170.5) -- a real, small (~1 mm lateral, ~2 voxels in X), but genuine
+seam in the original tracked corridor at that one level (full voxel occupancy on both sides, no
+missing Y-slice; the two levels' blobs simply do not overlap in X/Z), NOT closable by the
+morphological-closing approach used elsewhere in this project (Q79/Q102): closing at Q102's own 5%
+volume-conservation bound, and even well past it (whole-volume 3x3x3 closing up to 2 iterations,
++16.7% mask voxels), never moved the combined main_frac past ~0.65 and did not merge that specific
+seam cleanly -- DECLINED, documented here (right sciatic nerve, y approx -170 to -171 mm) for a
+future session with the original `vhf_nerve_track.py` corridor/chain, not a blind voxel operation.
+Verified: 0% of the shipped mesh's vertices outside her skin surface (both before and after, batched
+`trimesh` containment against a local crop of `ct_vhf_skin`); mesh volume 19.52 cm3 pre-decimation
+(-0.99% vs. the label volume's own 19.72 cm3 -- LESS than the source, not fabricated, the smoothing
+fix simply stopped shrinking a thin structure it was blurring) and 19.20 cm3 in the quadric-decimated
+form actually shipped; diff-checked against the prior (Q108/Q109/Q111) bundle structure-by-structure
+(378 entries): only `sciatic_n`'s own entry changed, all 377 others byte-identical. LIMITATION,
+carried forward from Q112 and confirmed here rather than newly found: `sciatic_n` bundles BOTH legs'
+nerves under one shared `(id, side=null)` group (this atlas's nerve ids are side-agnostic, per this
+section's own opening paragraph) -- main_frac >= 0.99 is mathematically unreachable for this
+structure as currently modeled (the theoretical ceiling, if both individual nerves were perfectly
+continuous, is left_total/grand_total = 0.647), the same caveat class Q112 already documented for
+`optic_n` and the hand/foot bone groups. Full numbers, method and the closing sweep in the Q113
+queue entry, PROJECT_STATE.md.
+
+**Q115 (2026-09-22) update -- same bug class, 3 more structures fixed by the same method, mechanically
+triaged across all remaining fragmented muscle/vessel/nerve structures Q112 flagged.** `popliteal_a_r`
+(the popliteal artery, `ct_vhf_popliteal`) went from shipped main_frac 0.567 to **1.000** on `--smooth
+0.0` alone, no other change -- raw source is already 1 piece. `extensor_hallucis_longus_l` and
+`flexor_digitorum_longus_l` (both transferred-and-refined muscles, `vhf_xfer_lowerlimb_septa.nii.gz`)
+went 0.669 -> 0.992 and 0.825 -> 1.000 the same way; their sibling `extensor_hallucis_longus_r` looked
+identical on paper but measured differently (see below) and was correctly left alone. Rather than
+reconvert `xfer_vhm2vhf_sep`'s other 55 muscles too, a new small subject
+(`ct_vhf_xfersepta_fix`, `mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json`) carries ONLY
+these 2 labels at `--smooth 0.0`, listed before `xfer_vhm2vhf_sep` in `export_viewer_bundle.py`'s
+`--subject` order so it claims just those 2 ids -- the same "new subject supersedes one id" pattern
+this section's own `ct_vhf_nerve` established. `descending_thoracic_aorta` (a split part of `ct_vhf`'s
+own `aorta` label, `vhf_total.nii.gz` #52) went 0.711 -> **1.000**, but NOT from smoothing alone: raw
+source and the pre-decimation mesh were already close to solid at either smoothing value, and the
+actual destroyer was the vessel category's default 1500-triangle budget -- measured directly, 1900
+triangles clustered into 2 pieces and 2000 into 1, so `BUDGET_OVERRIDES["descending_thoracic_aorta"]`
+was raised to 2400 (clears that threshold with margin at both bodies' budget-scale) alongside a new
+`ct_vhf_descaorta` subject (only this one split part, `--smooth 0.0`, listed before `ct_vhf` so it
+supersedes just this id and leaves `ct_vhf`'s ~40 other skeletal structures, including its own
+arch/abdominal aorta parts, untouched). `extensor_carpi_radialis_longus_r` (`ct_vhf_forearm`) went
+0.562 -> **0.953** by adding it to `SHEET_IDS` (quadric decimation) with NO reconversion --
+measured directly, its pre-decimation mesh was already ~0.95-0.97 at either smoothing sigma, so
+vertex-clustering decimation alone (not smoothing) was the sciatic_n-class destroyer here; the other
+13 muscles `ct_vhf_forearm` carries were re-measured with quadric decimation substituted subject-wide
+and every one was flat or worse, so the fix stays scoped to this one id.
+**DECLINED, root cause found but not this bug class:** `deep_transverse_perineal_r` and
+`extensor_hallucis_longus_r` each measure well-connected in their raw voxel mask (0.916, 0.997) but
+their SURFACED mesh is only ~0.55-0.62 at EITHER smoothing value and neither decimation method moves
+it further -- a marching-cubes topology defect at a sub-voxel bridge, the same third failure class
+Q114 found for `geniohyoid_l`/`hyoglossus_r`, confirmed here for two more structures. `optic_n` (male,
+left side only) traces to the female's own `ct_vhf_orbit` shipping perfectly (main_frac 1.000) but the
+`xfer_vhf2vhm` cross-subject transfer's OWN pre-decimation mesh already measuring 0.500/2 components --
+the defect is in the mesh-warp step of `cross_subject_transfer.py` itself, not in smoothing or
+decimation, and fixing it needs work in that script, out of this item's scope. Full triage table (149
+structures measured), classifications and the ranked not-yet-attempted list:
+`data/derived/Q115_triage.json`, `scripts/triage_continuity_q115.py`, PROJECT_STATE.md Q115 entry.
+
+**Q116 (2026-09-22) update -- worked Q115's own ranked 32-candidate MARGINAL list by hand, same
+diagnostic, 5 more fixed.** `plantaris_l` (F) and `extensor_digitorum_longus_l` (F, both
+`xfer_vhm2vhf_sep`, extended into the existing `ct_vhf_xfersepta_fix` subject) went 0.918->0.997 and
+0.545->0.739 on `--smooth 0.0` alone; `genioglossus_r` (F, new `ct_vhf_hyoid_fix` subject) and
+`coccygeus_l` (M, new `ct_vhm_pfloor_fix` subject) went 0.873->**1.000** and 0.934->**1.000** the same
+way, both also added to `SHEET_IDS` since quadric decimation preserves their smooth=0 mesh's perfect
+connectivity exactly. `rectus_femoris_r` (F) went 0.690->0.773 via `SHEET_IDS` alone (quadric
+decimation on the UNCHANGED smoothing, the `extensor_carpi_radialis_longus_r`-class bug). Adding
+`coccygeus_l` to `SHEET_IDS` is global by id, so it also re-routes the female's own independently-
+segmented `coccygeus_l` (`ct_vhf_pfloor`) through quadric decimation -- a small disclosed cost,
+0.759->0.745, no status change. `internal_jugular_v_l/_r` (both bodies) were investigated as the
+item's own flagged decimation-side candidate: a budget sweep (1275-4000) on the REAL mesh showed the
+~0.81 ceiling is already fixed pre-decimation, not a decimation defect. All other 27 MARGINAL
+candidates were measured and declined, mostly landing in the third failure class (marching-cubes
+surface topology defect, no smoothing or decimation lever) this section's own Q114/Q115 entries above
+already established. METHOD NOTE worth keeping: vertex-clustering decimation's outcome is highly
+non-monotonic in the triangle budget on real meshes (one structure swung main_frac 0.45-0.98 across a
+budget sweep with no trend); several of those "lucky" budgets would have exceeded the structure's own
+raw-voxel source ceiling, which would be fabricating continuity rather than measuring it, so no
+budget-hunting was done for any candidate in this item -- every shipped number is the plain
+category-default budget or a `SHEET_IDS`/override change with its own separately measured
+justification. Full detail: PROJECT_STATE.md Q116 entry.
+
+### A learned nerve-section scorer, trained on her own verified track (2026-09-14, Q54)
+
+Below the mid-thigh the hand-crafted detector fails for a measured reason: the tibial nerve in the
+popliteal fat is a compact 8 mm oval whose fascicles are 1-2 px specks, and every first-order feature
+(mean red 157 vs 152, gradient 46 vs 87, residual roughness 3.5 vs 5.6, blue/red 0.55 vs 0.52) puts it
+INSIDE the range of the connective tissue beside it; a reader knows it by shape and speckle. So the
+scorer is learned from the atlas's own evidence: `scripts/cryo/vhf_nerve_patches.py` cuts 48 px
+(16 mm) patches at every verified level of the Q53 track (2,324 positives with +-3 px jitter) and
+negatives from the same levels (every other blob the detector offered = 1,000 hard negatives on
+muscle/fat edges, random corridor points and random crop points >= 10 mm from the nerve; 3,603 in
+all); `scripts/cryo/vhf_nerve_scorer.py` fits a histogram gradient-boosting classifier on 155 features
+(red channel pooled to 12 x 12, colour means, residual energy at 1/2/4 px, mean gradient, 4-ring radial
+profile) over all 8 rotations/flips. Validation holds out every fifth LEVEL: AUC 0.998, average
+precision 0.997, recall 0.98 at 0.5, false positives 1.9 % of hard negatives, 2.4 % of corridor
+points, 0.5 % of random points (`data/derived/vhf_nerve_scorer_report.json`). The tracker uses it
+(`--scorer`) to score every candidate and to scan the corridor densely (6 px grid) where the detector
+finds nothing; the chain cost becomes jump + 15 mm x (1 - probability). What it cannot do: tell a
+nerve from a structure that never appeared in the training levels; the montage check stays.
+
+### The seven tarsals as their own bones (2026-09-14, Q61; owner: "like in male")
+
+The atlas carried one composite `tarsals_r/l`. The DU release ships each tarsal separately, and the
+recovered male bundle kept them as seven pieces per side under the composite id, so on the MALE the split
+is a naming problem: `scripts/transfer/name_tarsal_pieces.py` names them by size and position (calcaneus
+the largest, talus the second and highest, cuboid the lowest of the rest, navicular the widest across,
+cuneiforms medial to lateral by x) and the result -- calcaneus 73/80, talus 39/39, cuboid 14/14, navicular
+10/10, cuneiforms 10/10, 6/7, 3.5/3.7 cm3 (right/left) -- matches the release's alphabetical file order on
+both sides, an independent check. The FEMALE's CT shows no boundary at the subtalar joint (Q31), so her
+tarsal label is split by his shapes: the seven bones transferred onto her by the bone-driven transfer
+(driven by her tibia, fibula and metatarsals), voxelised on her legs grid, and every voxel of her label
+given to the bone it lies deepest inside (signed distance from the distance transforms; a voxel outside
+all seven, 40 % of them, to the nearest). Her outer bone surfaces are therefore her CT's; the joint
+surfaces between the bones are his shapes placed on her (`scripts/vhf_split_tarsals.py`, subject
+`ct_vhf_tarsal`, badged). Volumes: calcaneus 56.4/59.7, talus 30.5/32.6, cuboid 19.3/17.1, navicular
+8.5/7.4, medial cuneiform 9.4/9.5, lateral 3.9/4.7, intermediate 0.8/1.4 cm3 -- the two bones the heel
+and ankle injections need are in the expected range for her (calcaneus 55-70, talus 30-40); the
+intermediate cuneiform is under-assigned. A rigid ICP refinement of the transferred set onto her tarsal
+mass was measured and rejected (it slid the set 15-17 mm on the union's inner joint surfaces and shrank
+her calcaneus to 36 cm3). The composite entities stay for scans that label the tarsals as one mass; the
+DU overrides now map each release file to its own entity for the day the release itself is ingested.
+
+### Shoulder girdle: teres minor, teres major and the rhomboids out of merged rule labels (2026-09-14, Q62)
+
+The cuff rule's "infraspinatus" was 316/297 cm3 on her and 353/340 on him because the posterior-scapular-surface
+rule swept teres minor and teres major (and 37-41 cm3 of teres major's belly had gone to the ventral rule's
+subscapularis). `scripts/cryo/split_shoulder_girdle.py` re-divides that mass by the attachments (Gray's 42nd ed.,
+TA): per axial level the lateral-border tip of the scapula section is the reference; infraspinatus is the fossa
+more than 25 mm medial of it, teres minor the dorsal lateral border from the lower third up to the glenoid,
+teres major the inferior-angle third and the belly lateral of the border on its way to the anterior humerus. On
+her the boundaries are then settled by a marker watershed on the fascial lines of her photographs; on him (his
+1 mm frame is gone) by the nearest marker alone. His rhomboid mass is cut into minor and major by the line from
+the T1 spinous process to the root of the scapular spine; hers (62/44 cm3 of paraspinal patches) cut to minor
+larger than major and is not shipped. Result (right/left, cm3): her infraspinatus 233/216, teres minor 46/44,
+teres major 77/74; his 248/234, 50/52, 94/89, rhomboid major 94/89, minor 30/46. Infraspinatus stays above
+200 because the cuff run's tendon-and-capsule zone above the glenoid was kept, not deleted. Subjects
+`ct_vhf_shsp` / `ct_vhm_shsp`, listed before the cuff subjects so the split wins; badged rule-based.
+
+### Her right forearm muscles from the full-resolution cryosections (2026-09-14, Q62 step 1)
+
+`scripts/cryo/vhf_forearm_muscles_from_cryo.py`: the radius and ulna are tracked level by level in her 0.33 mm
+forearm crops (the CT bones only seed the search: the photographed bone discs sit 4-14 mm from the CT sections,
+growing distally, so the CT is not the frame), the flexor side of the radius-ulna line is confirmed two ways
+(the ulna's subcutaneous border faces away from it; her CT thumb metacarpal lies 35 mm on the palm side of the
+MC2-5 plane), markers for twenty muscles are placed by textbook position rules in the radius-ulna frame at each
+level, and a marker watershed on the pale fascial lines draws the boundaries. Twelve muscles whose boundaries run
+on a pale line at >=73 % of the shared levels are shipped as subject `ct_vhf_forearm` (badge: rule-based):
+flexor carpi ulnaris 55 cm3 (REVIEW: wide superficial band, about twice a typical adult value), flexor digitorum
+profundus 37, flexor pollicis longus 16, pronator quadratus 17, brachioradialis 48 (REVIEW), extensor digitorum
+20, extensor digiti minimi 10 (large for that muscle), extensor carpi ulnaris 13, abductor pollicis longus 9,
+extensor pollicis brevis 5, extensor pollicis longus 9, extensor indicis 10. Not shipped, merged into named
+compartments recorded in `scripts/cryo/vhf_forearm_merge.json` and the report: pronator teres + flexor carpi
+radialis + palmaris longus + flexor digitorum superficialis (105 cm3: the pale lines the watershed found are not
+those septa, the individual volumes were impossible), extensor carpi radialis longus + brevis (43 cm3, split
+supported at only 67 % of levels), supinator + anconeus (8 cm3). Compartment borders are rule lines, not septa;
+seeds are re-placed at every level (no level-to-level tracking). Output 0.5 x 0.5 x 1 mm, radial head to the
+carpus (atlas y 299 -> 140). Report `data/ct_sources/task_outputs/vhf_forearm_muscles_cryo_report.json`.
+
+### His right forearm by the same method (2026-09-14, Q62 step 1b)
+
+`scripts/cryo/vhm_forearm_muscles_from_cryo.py` with `scripts/cryo/vhm_stream_crops.py`: his forearm levels (instances
+1625-1761, atlas y 255 -> 119) streamed at 0.33 mm around the right forearm, radius and ulna tracked as bone discs
+(residual to his CT bones <= 1.1 mm after correction), the same position rules and pale-line watershed as hers. The
+photographs support far fewer boundaries on him: only flexor digitorum superficialis 54 cm3, flexor digitorum profundus
+58 and abductor pollicis longus 13 are within range and shipped as subject `ct_vhm_forearm`; flexor carpi ulnaris (139),
+pronator quadratus (57), palmaris longus (35), extensor carpi ulnaris (39), extensor digiti minimi (20), extensor
+indicis (16), extensor pollicis longus (13.5) and brevis (8) are more than twice any adult expectation (the rule lines
+give them neighbouring mass) and stay in the label volume unshipped, with the merged radial-flexor (105), mobile-wad
+(264, which also holds brachialis/biceps at the elbow levels) and extensor digitorum/supinator/anconeus (49)
+compartments. Holzbaur et al. 2007 (J Biomech 40:742, doi:10.1016/j.jbiomech.2006.11.011) is the volume reference; its
+per-muscle numbers were not read this session, so the cut is a conservative textbook range.
+
+### Deep neck and suboccipital muscles on her 1 mm frame (2026-09-14, Q62 step 3)
+
+`scripts/cryo/vhf_deep_neck_from_cryo.py`: between her vertebral labels (C1-T3, skull), the head/neck muscle labels
+(trapezius, SCM, levator scapulae, scalenes, constrictors as exclusions; the `prevertebral` label as the longus mass),
+the carotid/jugular labels and her erector columns, the posterior neck muscle of the photographs is split by layer
+rules (splenius superficial and lateral; semispinalis capitis the thick medial column beside the ligamentum nuchae;
+semispinalis cervicis against the laminae; the suboccipital triangle at C1-C2 from the C1 posterior tubercle / C2
+spine / C1 transverse process / occiput; longus colli and capitis on the anterior vertebral bodies medial to the
+carotid sheath). Shipped as subject `ct_vhf_dneck` (badge: rule-based): semispinalis capitis 35/41 cm3, semispinalis
+cervicis 15/16, rectus capitis posterior minor 2.2/2.5, major 2.8/2.6, obliquus capitis inferior 7.4/7.7, superior
+0.5/0.3, longus colli 3.8/2.6, longus capitis 2.4/3.6. Not shipped: the splenius sheet (79/68 cm3; capitis and
+cervicis are one sheet at 1 mm; mapped to null), the lateral erector sink, rectus capitis anterior/lateralis (about
+1 cm3 each, below the frame's 8.9 mm z residual), semispinalis thoracis (inside the erector labels). Literature
+comparison in the report is by MRI cross-sectional areas (PubMed ids recorded), not volumes.
+
+### The femoral neurovascular bundle in her femoral triangle (2026-09-16, Q55)
+
+`scripts/cryo/vhf_femoral_track.py`, built on the sciatic tracker: in the same full-resolution anterior-thigh crops,
+the femoral artery and vein are followed as dark round lumina level by level from a seed at the inguinal-ligament
+midpoint (the midpoint of her anterior superior iliac spine and pubic tubercle), and the femoral nerve as a
+fascicle-texture blob lateral to the artery. Shipped as subject `ct_vhf_femoral`: artery y +14 to -46 mm, median
+lumen 5.7 mm (5.2-6.7), 1.65 cm3; vein y +14 to -34, median 7.8 mm (6.9-9.2), 2.69 cm3 -- under the 9-13 mm of a
+living vein because a cadaveric vein is collapsed; nerve trunk y +13 to -12, 1.07 cm3, ending where it divides into
+its anterior and posterior divisions, 45 mm below the inguinal ligament. The medial-lateral order was checked on the
+shipped meshes and is anatomical: nerve most lateral (x 87-94 mm), artery between (80-85), vein medial and slightly
+posterior (73-79). Limits recorded in the report: the crops start below the top of the common femoral vessels, the
+nerve rests on 9 detected levels of 26 with the rest interpolated, and the adductor canal proper and the adductor
+hiatus could not be confirmed on the montage and are NOT shipped. The mask is the lumen (clotted blood), not the
+vessel wall.
+
+### Her pelvic floor and perineum (2026-09-16, Q62)
+
+`scripts/cryo/vhf_pelvic_floor_from_cryo.py`: inside her bony pelvis, between the hip-bone, sacrum, bladder and colon
+labels, the muscle of her 1 mm photographs is divided by position rules into the levator ani funnel (medial to the
+obturator internus band, slung from the tendinous arch to the anal canal and the anococcygeal raphe), coccygeus
+behind it from the ischial spine, the external anal sphincter as the ring within 10 mm of the anal canal, and the
+superficial-pouch muscles (bulbospongiosus flanking the vaginal opening, ischiocavernosus on the ischiopubic ramus,
+the transverse perineal muscles to the perineal body). Subject `ct_vhf_pfloor`, badge rule-based. Volumes right/left:
+levator ani 36.3/26.4 cm3, coccygeus 4.0/2.4, bulbospongiosus 2.7/2.9, ischiocavernosus 2.7/1.2, deep transverse
+perineal 1.9/1.4, external anal sphincter 19.6 (midline).
+
+Checks that passed: zero voxels overlap the bone labels, zero overlap the organ labels, 76-100 % of every mask lies
+on her muscle class, and the vertical order is right -- the levator sits below the bladder (mean atlas y -17.6/-16.0
+against -9.8) and above the perineal muscles (-43 to -59). What is flagged rather than hidden: the levator is 62.7
+cm3 bilateral against the 19.8-46.6 cm3 of an MRI series (Fielding, PMID 10701604) because the rule produces a 10-13
+mm sheet where Gray's describes 3-5 mm, so it carries some anorectal wall and fat; the sphincter ring shares its
+upper levels with puborectalis; bulbospongiosus and ischiocavernosus include their erectile bodies. Not shipped: the
+superficial transverse perineal muscle (0.8/0.4 cm3, below what a frame with an 8.9 mm z residual supports) and the
+obturator internus and perineal sinks. No septum ratio fell below 1.25, so the levator is one muscle per side by
+rule, not by a measured boundary. The male needs his 1 mm frame rebuilt first, and different rules at the hiatus
+(prostate, a midline penile bulb, a deep-pouch urethral sphincter).
+
+### The popliteal vessels and the tibial nerve in her popliteal fossa (2026-09-16, Q56)
+
+`scripts/cryo/vhf_popliteal_track.py`, the femoral tracker carried to the knee in the same posterior-thigh crops the
+sciatic run streamed. Shipped as subject `ct_vhf_popliteal`: popliteal artery y -307 to -386 mm (70 of 80 levels
+detected, 10 gaps filled), median lumen 4.3 mm, 1.30 cm3; popliteal vein y -305 to -360, median 5.5 mm, 1.34 cm3;
+tibial nerve y -340 to -374, 0.94 cm3 (below the shipped sciatic track, so nothing is duplicated). Both lumens read
+under a living vessel (5-8 and 7-11 mm) because a cadaveric artery is contracted, the vein is collapsed and the mask
+stops at the dark clot; the numbers are reported as measured rather than forced up, and neither is off by the factor
+of two that would have nulled it. The depth order was checked on the label volume itself and is anatomical: the
+artery is anterior-most in every 10 mm band (mean atlas z -28.9 at y -305 falling to -51.4 at y -365), the vein lies
+between, and the nerve runs a median 19.9 mm posterior and 15.9 mm lateral to the artery on every level where both
+exist. One rule had to be added that the femoral run did not need -- a lumen's surround must not be muscle-red -- or
+the walk followed intramuscular striations. Not covered: the common fibular nerve (13 of 32 levels, not unambiguous,
+nulled with the reason in the mapping) and the artery's division at the lower border of popliteus, because below
+y -390 the paired walk ran into gastrocnemius.
+
+### The brachial bundle in her upper arm: attempted, nothing shipped (2026-09-16, Q56 second half)
+
+`scripts/cryo/vhf_brachial_track.py` streamed new full-resolution crops of her right upper arm (y 592 to 300, 200 MB,
+deleted afterwards) and ran the same tracker that produced the femoral and popliteal bundles. NOTHING is shipped
+under an anatomical name: all four labels are nulled in `mappings/subjects/ct_vhf_brachial_volume_mapping.json` with
+the reason on each entry, and no subject is built.
+
+What failed and why: the femoral and popliteal rule finds a near-black clotted lumen, and her UPPER-ARM muscle
+photographs nearly as dark as a thigh lumen, so the arm-tuned contrast rule found zero or one candidate per level
+inside the neurovascular corridor. The best artery chain covered y 498-396 on 60 of 103 levels at a median 2.1 mm,
+and reading the montage settled it: the mask is a 2 mm dark patch on the muscle's medial border with no pale arterial
+wall, where a woman's brachial artery is 3.5-5 mm. The median and ulnar nerve walks held a single level each; the
+radial nerve held 18 levels over 60 mm, under the 20-level gate. The only vessel that spans the arm (144 levels,
+4.1 mm) lies 45 mm anterior, outside the deep fascia -- a superficial vein, and it is not named.
+
+What is worth keeping: the frame. Her arm touches her chest at these levels, so the forearm's tissue-island rule runs
+into the thorax; a deep-arm muscle hull replaces it and tracks the photographed humerus disc on 182 of 203 levels
+(y 520-318) with a median CT-to-photograph residual of 8.9 mm. Any future run at these levels should start there. One
+caveat is recorded: her arm is rotated (the epicondylar axis lies along atlas z on two independent estimates), so
+"medial" in body coordinates is not the arm's medial, and the corridor assumed it was.
+
+### What the cross-body transfer can and cannot carry (measured 2026-09-16)
+
+After the new subjects, 16 muscles existed on her alone and 5 on him alone, so both directions of
+`cross_subject_transfer.py` were run over those lists and the volumes read before shipping anything. The result
+splits cleanly by region:
+
+- Trunk and neck transfers are usable: the deep-neck and floor-of-mouth set grew 15-45 % onto his larger frame with
+  27-35 mm displacements (shipped as `xfer_vhf2vhm_neck`), and his rhomboid minor carried onto her at 41.4 -> 26.0
+  and 26.4 -> 13.6 cm3 with 22-27 mm displacement (shipped as `xfer_vhm2vhf_rhom`, filling the gap her unusable
+  rhomboid mass left).
+- Forearm and hand transfers are NOT usable and were rejected: the same map turned her brachioradialis from 42.5
+  into 6.1 cm3, her flexor carpi ulnaris from 48.5 into 117.7, her extensor pollicis longus from 6.2 into 1.7, and
+  halved every hand intrinsic, with displacements of 30-92 mm; in the other direction his flexor digitorum
+  superficialis fell from 46.9 to 19.5. The two bodies hold their forearms differently (hers beside the thigh, his
+  across the abdomen), so a bone-driven piecewise affine map across the wrist folds the limb. Those outputs were
+  deleted rather than shipped. The forearm and hand gaps on each body stay open until each body's own photographs
+  are segmented.
+
+### Her right hand intrinsics from the full-resolution crops (2026-09-16, Q62 step 4)
+
+`scripts/cryo/vhf_hand_muscles_from_cryo.py` with `vhf_stream_hand_crops.py`: her hand levels streamed at 0.33 mm,
+the five metacarpal shafts taken from her CT bone meshes as the compartment axes, markers placed by the textbook
+compartment rules (thenar radial to the first metacarpal, adductor pollicis in the first web space, hypothenar ulnar
+to the fifth, interossei filling the intermetacarpal spaces and split dorsal/palmar by the plane through the shaft
+centres) and the boundaries drawn by the same pale-line watershed as the forearm. Subject `ct_vhf_hand`, badge
+rule-based: adductor pollicis 10.5 cm3 (flagged, 1.3x the 5-8 expectation, it probably absorbs deep palmar tendon
+mass), abductor digiti minimi 5.1, flexor digiti minimi brevis 2.7, opponens digiti minimi 4.9, dorsal interossei
+10.5 and palmar interossei 6.9 as the group entities. The thenar group (11.3 cm3) is NOT split: with the merge off,
+the watershed put abductor, flexor and opponens pollicis on only 16, 23 and 19 of the 44 first-metacarpal levels and
+the regions swapped identity, because her thumb lies off the palm. Lumbricals and palmaris brevis are not shipped
+(no muscle blob between the flexor tendons; the brevis is a subcutaneous sheet below the resolution). The
+dorsal/palmar interosseous border is a rule plane, not a photographed one, and 7.4 cm3 of muscle class stayed
+unassigned; both are recorded in the report.
+
+### Her neck and floor-of-mouth muscles carried onto him (2026-09-16, Q62)
+
+He has neither the deep neck nor the floor of the mouth: his frozen CT cannot separate those muscles and his 1 mm
+photograph frame was lost with a container reset. Following the owner's rule that where one body lacks a structure
+the other supplies it with the differences corrected, the 16 deep-neck/suboccipital and 10 floor-of-mouth muscles
+shipped on her were carried onto his bones by the existing piecewise affine transfer
+(`scripts/transfer/cross_subject_transfer.py --direction f2m`), as subject `xfer_vhf2vhm_neck`. Volumes grow with
+his frame (semispinalis capitis 30 -> 35 cm3, genioglossus 9.4 -> 13.9, mylohyoid 9.0 -> 10.4), displacements are
+27-35 mm, and every structure is badged TRANSFERRED: it is an estimate on top of an estimate, because the source
+was itself rule-based on her photographs. Per-structure numbers in
+`data/derived/transfer_report_vhf2vhm_neck.json`.
+
+### Floor of the mouth and the extrinsic tongue muscles on her 1 mm frame (2026-09-16, Q62 step 7a)
+
+`scripts/cryo/vhf_hyoid_muscles_from_cryo.py`: between her mandible, hyoid, styloid-process, thyroid-cartilage and
+tongue labels (with the digastric, sternothyroid, thyrohyoid and constrictor labels excluded because they already
+ship from the CT tasks), the muscle of the photographs is split by position rules into mylohyoid (the sheet from the
+mylohyoid line to the hyoid), geniohyoid (above it from the mental spine), genioglossus (the fan into the tongue),
+hyoglossus (from the greater horn up the side of the tongue) and styloglossus. Subject `ct_vhf_hyoid`, badge
+rule-based. Volumes right/left: mylohyoid 10.4/10.1 cm3, geniohyoid 2.0/2.9, genioglossus 9.1/10.2, hyoglossus
+4.2/7.1, styloglossus 1.8/1.5. Mylohyoid (1.7x the 3-6 cm3 expectation) and the left hyoglossus are flagged for
+review in the mapping: her head is flexed, so the floor-of-mouth rules take more of the mass than a neutral neck
+would. Sternohyoid (1.0) and omohyoid (0.9/0.4) came out as fragments of the real muscles and are NOT shipped; the
+stylohyoid corridor cannot be told from the posterior digastric belly at 1 mm and stays merged; the intrinsic tongue
+muscles, palate and larynx have no septa at this resolution and are recorded as out of scope. The frame's z residual
+is 8.9 mm rms, which is why nothing below the thyroid cartilage is shipped by name.
+
+### Diaphragm and intercostal sheets on both bodies from the CT labels (2026-09-14, Q62 step 6)
+
+`scripts/trunk_wall_from_ct.py --body f|m`: the diaphragm is a 4 mm sheet (central tendon about 2 mm, muscular
+periphery 3-5 mm) laid on the boundary between the thoracic content (lung lobes + heart) and the closed abdominal
+viscera, extended along the inner rib surfaces of the costodiaphragmatic recess (apposition) and down the L1-L3
+bodies as the crura; the intercostals are the soft tissue between adjacent ribs within the rib depth, one label per
+side standing for the external, internal and innermost layers the CT cannot separate. Her volume is HU-gated to the
+muscle window (-30..150 HU); his frozen CT's HU overlap (muscle and liver both about -10 HU) so his is geometric only.
+Volumes: diaphragm 290 cm3 (her) / 338 (him) = 307 / 359 g against 250-350 g for an adult; intercostals 182/172 (her)
+and 307/307 (him; above expectation, recorded). Subjects `ct_vhf_twall`, `ct_vhm_twall`, badge rule-based; reports
+`data/ct_sources/task_outputs/vh{f,m}_trunk_wall_report.json` with the montages beside them.
+
+## Resulting architecture
+
+```
+Layer 4 · Clinical overlays   motor points, injection corridors,      OURS
+                              danger zones, volume-based dosing
+Layer 3 · Atlas data          PCSA, functional compartments,          OURS  (built)
+                              ROM, innervation, fibre direction
+Layer 2 · Segmentation        upper limb, trunk, nerves, vessels      OURS  (to build)
+                              lower limb                              CC BY 4.0 (DU)
+Layer 1 · Voxel substrate     VHP cryosection + CT + MRI              Public domain (NLM)
+```
+
+**Net licensing position:** attribution to NLM and to the University of
+Denver team. Everything above that line is proprietary, sellable, and
+restrictable — which is the requirement this whole analysis was built to
+satisfy.
+
+The layer that turns an atlas into an injection-planning tool — motor points,
+functional compartments, safe corridors — is precisely the layer that cannot
+be photographed, and therefore precisely the layer that is already ours.
+
+---
+
+## Attribution block to ship
+
+Any product built on the above must carry, visibly:
+
+```
+Anatomical imagery courtesy of the U.S. National Library of Medicine
+(Visible Human Project).
+
+Lower-extremity musculoskeletal geometry derived from Andreassen TE, Hume DR,
+Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB, "Three Dimensional
+Lower Extremity Musculoskeletal Geometry of the Visible Human Female and
+Male", Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2,
+used under CC BY 4.0.
+```
+
+The CC BY 4.0 line in this block is confirmed at the Digital Commons @ DU
+record (2026-08-28). CC BY 4.0 requires attribution, a link to the licence,
+and an indication of whether changes were made — this project makes extensive
+changes, so say so. It does **not** require the derivative to be licensed
+alike, which is what makes the proprietary licence on this repository
+possible.
+
+### The male's full-body skin surface, from his own CT instead of the DU-blocked photograph route (2026-09-18, Q70)
+
+Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they should look better")
+found the male's body surface (`ct_vhm_skin`) covered only the torso, arms and thighs — both lower
+legs rendered with raw muscle and bone exposed below the knee, by far the largest visible gap against
+Z-Anatomy on either body. `ct_vhm_skin` had been derived from his 1 mm colour cryosections
+(`scripts/cryo/skin_from_cryo.py`), which needs a re-stream that Q29 records as blocked (the intermediate
+`cryo_1mm_classes.npy` was lost in the 2026-09-11 container reset). That framing conflated two different
+data routes, though: his OWN CT — used throughout this "Stage 2" section for `ct_vhm`, `ct_vhm_arm`, etc. —
+already covers pelvis-to-toes in two more IDC series (`145c2668-...`, 809 slices, and `94755b62-...`,
+224 slices) that are reachable from this sandbox (verified live; only `digitalcommons.du.edu` and
+`simtk.org` are denied, not `idc-open-data`), and needs no photographs at all.
+
+`scripts/cryo/vhm_whole_body_skin.py` downloads and stacks both series (`scripts/download_idc_series.py`,
+`scripts/stack_dicom_series.py`), takes an HU > -300 silhouette per slice on all three CT blocks (torso,
+legs, feet), and unions them onto the torso block's own grid. The block-to-block placement is a rigid
+shift per pair (torso<->legs, legs<->feet), but the shifts already on record — the "Stage 2" table's
+image-correlation figure for torso<->legs, and Q1's for legs<->feet — turned out not to be tight enough
+for this purpose: checked directly against the vertices of every bone and muscle `vhm_both` (the DU
+lower-extremity release) already ships for that region, they left up to 42% of the tarsal/phalanx
+vertices and 15-17% of the thigh/calf muscle vertices outside the silhouette (right side worse than left
+in both cases, consistent with a small torsional/positioning difference between table sessions that a
+pure translation can't capture, not a sign error). Re-fitting each shift directly against those vertices
+(not the raw image correlation) brought the mean vertex containment failure across all 130 `vhm_both`
+structures to 0.49%; a further 2 mm dilation margin on the finished silhouette — the same kind of safety
+margin the female pipeline's registration uncertainty already carries elsewhere — brought it to 0.03%,
+worst case `fibularis_longus_r` at 1.8%. Verified by rendering `ct_vhm_skin` together with `vhm_both` and
+checking the surface is continuous head-to-toe with no bone or muscle breaking through, in addition to the
+vertex-containment numbers above.
+
+Shipped as `ct_vhm_skin` (replacing the torso-only version; `mappings/vhm_skin_labels.json`,
+`data/ct_sources/task_outputs/vhm_skin_ct.nii.gz`), male viewer republished at the same URL. The
+photograph-route `skin_from_cryo.py` script is unchanged and still blocked (Q29); it is no longer needed
+for this purpose. Depth-below-skin tags for every male structure change now that the surface actually
+exists below the knee — not regenerated as a separate derived-data file this session (the male body, unlike
+the female, has never had one; `data/derived/skin_depth_vhf.json` is female-only).
+
+---
+
+## Procedural/synthetic geometry: the disclosure convention (Q119, 2026-09-22)
+
+This atlas exists to plan real musculoskeletal injections and nerve blocks
+(see PROJECT_STATE.md's opening section) -- a clinician could act on what the
+viewer shows. Two structures ship with generated, not segmented, mesh
+geometry: Q104's 21 intervertebral discs (pure procedural cylinders, sized
+only to guarantee mesh connectivity to the adjacent vertebrae) and Q118's 6
+lower-limb tendon connectors (a real measured length between this body's own
+muscle and bone landmarks, but a modeled, not measured, cross-section). Both
+were disclosed honestly in PROJECT_STATE.md and git history from the day they
+shipped -- but until Q119, that disclosure never reached the published
+viewer a clinician actually opens.
+
+**The rule, going forward:** any entity record (`data/<type>/*.json`) whose
+mesh geometry is procedural/synthetic -- generated by a script rather than
+segmented from imaging, however carefully measured its inputs -- MUST carry
+a top-level
+
+```json
+"procedural_geometry": {
+  "badge": "PROCEDURAL/RULE-BASED (Q...): <what is generated, what -- if "
+           "anything -- is a real measurement, and a pointer to the "
+           "generating script and PROJECT_STATE.md entry>",
+  "generated_by": "scripts/<generator>.py (Q..., <date>)"
+}
+```
+
+`scripts/export_viewer_bundle.py`'s `summarise()` forwards `badge` into the
+bundle as `rec.procedural_badge`, and `viewer/atlas_viewer.template.html`
+renders it as a `.tag.warn` chip in the inspector's tag row -- the exact
+same visual pattern (orange/red, `--risk` CSS variable) already used for
+cross-subject-transferred structures, so a clinician sees one consistent
+warning idiom for "this is not what it looks like," not two. This is
+metadata plumbing only: it never touches mesh geometry, and a structure with
+no `procedural_geometry` block is completely unaffected.
+
+### Her breasts from her own CT (2026-10-26, Q285)
+
+Until Q285 the only breast on the female pages was the HuBMAP HRA reference model (Q234), which its library describes
+as sculpted from atlases, not built from her images. TotalSegmentator's open `breasts` task (v2.18.0, Apache-2.0, one
+class `breast`) had never been run on her. It was run on her own torso CT (IDC series
+`b9cf8e7a-2505-4137-9ae3-f8d0cf756c13`, the same 0.9375 mm grid as `vhf_total`), CPU, in one z-chunk (z 450-680):
+a first three-chunk run left an 11 % step in the per-slice area at a chunk stitch, the single-chunk run has none
+(Dice 0.98 between the two). Label: `data/ct_sources/task_outputs/vhf_breasts.nii.gz`.
+
+Method (`scripts/anatomy/q285/breast_from_ct_q285.py`, the Q193 organ recipe): the bilateral label cut at her own
+midline (X = 2.2 mm, from the sternum label); each side kept one voxel beneath her body silhouette (HU > -300, the
+definition her skin mesh comes from), because the outermost layer over the breast is skin and the label's edge voxels
+reach into air by partial volume; largest piece (100 % of each side), holes filled, marching cubes at the level that
+keeps the voxel volume, her hip-joint origin, quadric decimation to 8000 triangles per side.
+
+Result: right 1004 cm3, left 876 cm3 (left/right difference 13.6 % of the mean). HU 94-95 % fat range, 5 %
+soft-tissue range (fibroglandular), as in a 59-year-old's breast. Gates passed: no vertex more than 1 mm outside her
+skin (max 0.31 mm), none more than 1 mm inside her CT bone labels, no edge of the field of view touched, mesh volume
+within 0.05 % of the label. It touches her pectoralis major / serratus anterior labels only at their surface (0.04-0.8 %
+of its voxels). For comparison only, not a range for her: published cohort means 771 / 764 mL (MRI volumetry, 22
+women; Behrens et al. 2025, doi:10.1007/s12282-024-01647-6) and 637 / 665 mL with a mean left/right difference of
+16.0 % (SD 12.7) (3-D surface imaging, 100 healthy participants; Killaars et al. 2026, doi:10.1007/s00266-026-06058-w).
+Report: `data/derived/Q285_vhf_breast_report.json`; slices: `data/ct_sources/task_outputs/vhf_breasts_q285.png`.
+
+Shipped on Imaging-based Female only, as `breast_ct_r` / `breast_ct_l` (subject `ct_vhf_breast`). Combined Female
+was measured and left unchanged: its skin is the Z-Anatomy (male-derived) surface fitted to her skeleton, and her
+breasts, which follow her own skin, would sit 60 % of their vertices more than 10 mm outside it (max 50 mm). The HRA
+sculpted breast set on Imaging-based Female (fat pad, gland, ducts, areola, nipple, suspensory ligaments, both sides) is
+kept and selectable, hidden by default. Pose rig: the committed rig with only the two new entries spliced in (a fresh
+rebuild of the unchanged page already differs in about ten trunk entries; the builder is not bit-reproducible).
+
+---
+
+*This document records engineering and licensing analysis, not legal advice.
+The share-alike incompatibility is a plain reading of the CC BY-SA 4.0 text
+and is not in doubt; the specific status of individual datasets should be
+confirmed with counsel before commercial release.*
+
+### Head glands and held-level discs from two open TotalSegmentator tasks (2026-10-26, Q286)
+
+TotalSegmentator v2.18.0 `head_glands_cavities` and `vertebrae_body` (both Apache-2.0, no licence key; Wasserthal J et al., Radiology:
+Artificial Intelligence 2023, doi:10.1148/ryai.230024) were run for the first time in this project, on each Visible Human body's own CT
+(IDC series 5d409385 male frozen / b9cf8e7a female fresh, restacked onto the exact grids of `<body>_craniofacial_structures` and
+`<body>_total`). Meshing and gates: `scripts/anatomy/q286/ct_tasks_q286.py` (the Q193 volume-preserving recipe; largest piece >= 85 %,
+no grid-edge contact, mesh within 3 % of the label, 0 % of vertices > 1 mm outside the page's skin, <= 5 % (discs 2 %) > 1 mm inside the
+body's CT bone, >= 90 % of voxels in [-200, 300] HU, boundary contrast >= 5 HU against a 2-voxel shell, paired organs within 50 % of each
+other, a cited value (parotid: Brzoska et al. 2022, doi:10.3390/healthcare10112310) within 0.5-2x, eyeballs within 0.8-1.25x of the same
+CT's `oculomotor_muscles` eyeball). Policy, not tuned per class: air spaces (pharynx, nasal cavities, auditory canals) and the hard palate
+(99 % inside her skull label) are not shipped; vertebral bodies are not shipped (each is part of a whole vertebra already on the page).
+
+Shipped on Imaging-based Male: his lenses (`ct_vhm_hgc`) and his C6-C7 / C7-T1 discs (`ct_vhm_disc_ts`, the two levels the Q185c
+endplate rebuild held; C6-C7 replaces the Q104 cylinder, C7-T1 had no disc). Shipped on Imaging-based Female: her submandibular glands,
+lenses and soft palate (`ct_vhf_hgc`); her two held disc levels failed the Q185c size bands again and keep their Q104 cylinders.
+Not shipped, with the measured reason in the reports: his parotids, submandibular glands, soft palate and optic nerves (frozen CT, 1-4 HU
+edge contrast), both bodies' eyeballs (the two TotalSegmentator models disagree by 1.3-1.7x), her parotids (edge contrast 3-4 HU although
+their volumes are 0.83-0.90x the cited mean -- the shell-median contrast measure is crude for a gland bordered by fat and muscle at once;
+noted for a better contrast check, not loosened). At the 21 / 21 disc levels both methods cover, the TotalSegmentator disc is
+0.47-0.89x (him) / 0.37-0.91x (her) the Q185c endplate-to-endplate volume: the Q185c meshes are kept. Reports:
+`data/derived/Q286_<body>_<head|spine>_report.json`; renders `data/ct_sources/task_outputs/<body>_q286_render.png`.
+
+### Combined Female: her own skin, her CT breasts and their fibroglandular tissue (2026-10-27, Q287)
+
+Owner: Combined · Female is the better female model; improve it, with emphasis on the breasts and the female organs.
+Combined · Female is Z-Anatomy (BodyParts3D-derived, male-derived shapes) fitted per bone onto her own CT skeleton (Q168),
+in her atlas frame, so structures measured on her CT need no transfer: measured, 99.66 % of the sampled vertices of the
+page's non-skin structures lie inside her CT skin (2 mm tolerance). `scripts/anatomy/q287/comb_f_q287.py`, report
+`data/derived/Q287_comb_f_report.json`.
+
+- `skin_ct_vhf`: her whole body surface (the Imaging-based Female viewing mesh, CT HU > -300 united with the cryosection
+  silhouette; 37,486 vertices, watertight). Her breasts, mons pubis and labia majora are her own contour; labia minora and
+  vestibule are not resolved at 0.94 mm. A wrist / ankle cut keeping the Z hand / foot skin was measured and dropped
+  (56-67 mm p90 step). 48 Z structures (left fingertips, toes, ankle retinacula; worst 16.4 mm) cross her skin by > 2 mm over
+  > 5 % of their surface: listed on the card, not moved. In Pose mode this skin does not follow trunk / limb motion: the Q241
+  rig weights one whole-body surface like a skin patch (pelvis / thigh segments), the same limitation Imaging F's skin has.
+- `breast_ct_r` / `breast_ct_l`: the Q285 meshes unchanged (1003 / 875 cm3; 0 % of vertices > 1 mm outside her skin), faded
+  by default (new manifest flag `fd`). 15.1 / 14.9 % of their surface lies > 1 mm inside the Z pectoralis major (male-derived,
+  fitted to her skeleton, not her muscle): reported on the card, not corrected.
+- `breast_fgt_ct_r` / `breast_fgt_ct_l` (subject `ct_vhf_breast_fgt`, also on Imaging-based Female): **rule-based** on her
+  own CT (`scripts/anatomy/q287/breast_fgt_q287.py`, report `data/derived/Q287_breast_fgt_report.json`): inside the Q285
+  breast mask (rebuilt identically, volume asserted), voxels at HU >= -30, excluding her pectoralis / serratus /
+  `total` labels and the outer 2 voxels under her body surface (skin rim: 20.7 / 19.8 cm3 removed), pieces < 0.05 cm3
+  dropped; volume-preserving Gaussian(0.7 voxel) mesh. 19.3 / 17.5 cm3, glandular fraction 1.9 / 2.0 % -- at the low end of
+  the dedicated breast-CT range 1.2-71.9 % (mean 17.2 +- 14.2 %, falling with age and breast volume; Vedantham 2012,
+  doi:10.1118/1.4765050, PMID 23231281; mean 19.3 % in 2,831 women, Yaffe 2009, doi:10.1118/1.3250863, PMID 20095256).
+  Gates met: 0 % of vertices > 1 mm outside her breast, mesh 0.96 / 0.93x the voxels (tolerance 10 %). Unenhanced CT cannot
+  separate gland, ducts, fibrous stroma and small vessels; 0.94 mm voxels thicken or break thin strands.
+- Hidden by default (still listed, `unhide` on the card): the 249 Z-Anatomy skin patches (incl. the Q202 perineal surface
+  closure) and the 12 HRA sculpted breast meshes. New Z-template flags `hd` / `fd`; reset restores both.
+- **Not shipped -- her uterus from her CT**: the HRA uterus (registered, Q233) lies between her bladder and rectum, but 64 %
+  of it falls inside her TotalSegmentator `small_bowel` label and a 0-80 HU region grown from it leaks into 81 cm3 spanning
+  123 x 107 x 78 mm (Dice 0.06 with the HRA uterus): on her unenhanced CT the uterus has the density of the abutting bowel
+  loops (`data/derived/Q287_uterus_ct_feasibility.json`, `Q287_uterus_ct_check.png`). Ovaries: the HRA left ovary is 74 % fat
+  HU, the right 68 % inside her iliac vein label. Vagina / vulva: Q233's verdict stands (one dark mass in her 1 mm cryo frame).
+  Her colour cryosections could separate the uterus; the female cryo frame is not on disk (pelvis ~4.5 GB to stream + re-register).
+
+### Her uterus from her own colour cryosections (2026-10-28, Q288)
+
+Owner (Q287 follow-up, option 1 approved): use her full-resolution colour cryosections for her own pelvic and reproductive organs.
+Shipped: her **uterus (body + cervix)** on Combined · Female and Imaging-based Female. Not shipped (reasons measured, below):
+vagina, urethra, ovaries, uterine tubes, labia minora / vestibule, clitoris and vestibular bulbs.
+
+- **Photographs.** IDC series `56f8119f-5940-48c1-96ee-8d445dc0b5fd` (VHP-F 'Fullcolor - direct digital', 5,186 photographs
+  0.33 mm apart, 1216 x 2048, public domain NLM): header index of all 5,186 objects, then one photograph per 1 mm of the
+  series' own z from cryo z -1690 to -1970 (281 levels) kept at full in-plane resolution in a fixed window (rows 60-1060,
+  cols 280-1820), streamed to `/dev/shm` and deleted after the round (`scripts/cryo/vhf_stream_pelvis_q288.py`).
+- **Registration to her CT** (`scripts/cryo/vhf_register_pelvis_q288.py`; her old 1 mm frame was lost in Q179): the method
+  of `vhf_register_cryo.py` / `vhf_resample_cryo.py` restricted to the slab -- rows flipped, 0.99 mm per 1 mm photograph pixel,
+  per level a translation by phase correlation of the body silhouettes (median-filtered over 5 levels); height torso-RAS
+  z = cryo z + 944.7 (Q154) + d, d searched over -15..+45 mm per 10th level by the NCC of fat and bone patterns and fitted as a
+  line: d = 60.16 + 0.02198 z, 24 levels, **rms 2.25 mm** (d about 19.5 mm at the hips, in line with Q179's 14-20 mm; her old
+  frame had 8.9 mm rms). Silhouette IoU p5 / median / p95 0.855 / 0.876 / 0.913 (frozen block vs fresh CT pose).
+  Checked on overlays: her CT rectum, bladder, hip bone and femoral-head labels land on the photographed ones.
+- **Segmentation** (`scripts/cryo/vhf_pelvic_organs_from_cryo.py`): 3-D random walker (Grady 2006, doi:10.1109/TPAMI.2006.233)
+  on CIE L*a*b* colour, 0.67 mm in-plane x 1 mm, cryo z -1810..-1887. Organ seeds: small discs placed by eye INSIDE the organ
+  (`data/derived/Q288_seeds.json`, 18 uterus levels; at 6 cervix levels also competing seeds in the paracervical tissue).
+  Competing seeds automatic: photographed fat, embedding gel, near-black bowel content, and her CT labels eroded 2 mm
+  (bladder; rectum only on its dark content; hip bones, femora, sacrum, gluteals, iliopsoas). Her `small_bowel` label is not
+  used (it covers her uterus on CT, Q287). No automatic competing seed within 8 mm of an organ seed (the pale cervical stroma
+  passes the fat colour rule). Holes filled per level; the 3-D piece connected to the seeds. Deterministic (re-run identical).
+- **Uterus** (`scripts/anatomy/q288/uterus_q288.py`, `data/derived/Q288_uterus_report.json`, montage
+  `Q288_uterus_montage.png`, render `Q288_uterus_render.png`): 35.7 cm3 on her CT grid, extent 54.4 x 59.1 x 41.0 mm
+  (LR x AP x SI), one piece, mesh 1.0011x the voxels, 12,000 triangles. Volume against postmenopausal ultrasound:
+  mean 37.1 ml > 5 y and 60.1 ml <= 5 y after menopause (Jirapinyo 1998, PMID 9676090); size falls with years since menopause
+  (Merz 1996, doi:10.1046/j.1469-0705.1996.07010038.x); gate 10-90 cm3. On her CT at the mapped voxels: median 30 HU
+  (p10 -34, p90 84), 10.8 % fat HU -- soft tissue where the photographs put it, an independent check
+  of the registration. Overlap with her labels: 42.5 % in `small_bowel` (expected, Q287), 0.1 % colon, 0 % bladder / bone /
+  iliac vessels; levator ani (Q62, old frame) 0.3 / 0.9 %. HRA reference uterus: centroid 11.5 mm away, Dice 0.457
+  (23.0 cm3) -- Q287's "well placed" confirmed. Limits: the body and fundus have a clean serosa / fat edge; the
+  lowest ~12 mm (cervix) has no colour edge against the paracervix and the bladder base, so that boundary may be 2-4 mm off.
+- **Pages.** Combined · Female (`scripts/anatomy/q288/comb_f_q288.py`, `data/derived/Q288_comb_f_report.json`): + `uterus_cryo_vhf`
+  (3,244 structures), HRA `uterus` hidden by default (`hd`, still listed, 'unhide'); 14.3 % of its surface lies > 1 mm inside
+  the page's Z-Anatomy urinary bladder (a fitted male-derived shape, not hers): on the card. Imaging-based Female
+  (`scripts/anatomy/q288/own_f_q288.py`, baseline from `build/q287_pre/bundle_own_f` proven geo-identical to the live page):
+  + `uterus_cryo_vhf` (1,051), HRA `uterus` `hidden_default`. Subject `ct_vhf_uterus` (Source: measured). Rig: rigid on the
+  pelvis segment (spliced, committed entries unchanged).
+- **Not shipped** (`data/derived/Q288_not_shipped.json`, evidence `Q288_vagina_urethra_attempt.png`): vagina (seen as a band
+  from the vault at -1846 and a V on a coronal reslice, but below -1864 the walker splits it: 44 of 48 levels in pieces --
+  vaginal wall, levator ani and rectal wall share one colour range at 1 mm); urethra (a 13-17 mm target ring from the bladder
+  neck to -1887, not traced to the meatus, no edge against the anterior vaginal wall); ovaries (no confident candidate on
+  either pelvic wall; the ovoids found are bowel); tubes (not separable from the broad ligament); labia minora / vestibule
+  (folds of 2-3 mm, no colour edge); clitoris and bulbs (erectile tissue photographs as dark as muscle, as Q62 found).
+
+
+### Base Female: her own breasts, chest skin contour and pelvic organs registered onto the Base body (2026-10-28, Q292)
+
+Owner: the breast and the pelvic structure of the Base female model need fixing (research report in Hebrew:
+`docs/research/Q292_female_breast_pelvis_sources.md`; scripts `scripts/anatomy/q292/`; reports `data/derived/Q292_base_f_report.json`,
+`Q292_page_report.json`, `Q292_validation.json`; renders `data/derived/Q292_render_*.png` before / after).
+
+- **What was wrong.** Breasts = the HRA mammary set, recorded by HRA as sculpted from scratch (Krstic 1991; Gilroy 2008), squeezed into
+  the male Z chest skin (Q234) and given a column-maximum skin lift (Q250) over coarse Z patches (spikes); the nipple lay 65 mm behind
+  the breast apex on its lateral rim. Pelvis: a male Z bladder (450 triangles) and sigmoid / rectum, HRA reference organs and CVH
+  perineal structures of another woman, mutually penetrating (vagina 17 % inside the bladder, uterus 13 %, CVH urethra 38 % inside the vagina).
+- **Registration (one map).** Her atlas frame -> Base F from the bone correspondences of the two Z skeletons (Combined F = Z bones fitted
+  to her skeleton, Base F = the same bones deformed onto it): 44 bones vertex to vertex,
+  48 by similarity ICP, 21,355 pairs; thin-plate spline through
+  3,500 control points (scale 0.9944, residual median 0.71 / p95 4.48 mm);
+  her own CT bones mapped onto the Base bones: hips median 5.1 mm, sacrum
+  4.0, ribs 2.1 / 1.8.
+- **Breasts** (`breast_ct_l/r`, her Q285 CT breasts; `breast_fgt_ct_l/r`, Q287 HU rule): the spline compressed the supine breast, so each breast
+  takes the rigid fit of her own chest wall (ribs 2-7, cartilages, half sternum) at the global scale, a depth correction (her breast-to-rib-cage
+  height kept), then RULE-BASED refits: lateral squash beyond 145 mm from the midline (x 0.35; her supine lateral spread lies against her arm in
+  the CT, the Base arm hangs there), pushes out of the arm (<= 8 mm) and rib cage (keeping 4 mm for the pectoral layer), inside the skin.
+  Volume L 639.2 / R 844.1 cm3 = 73.0 / 84.2 % of her CT breasts
+  (875.2 / 1003.1); glands 11.7 / 15.7 cm3 (VGF 1.8 / 1.9 %);
+  outside the skin 1.5 / 0.62 % of vertices, inside the rib cage 0.0 / 0.67 %.
+  Faded by default; the 12 HRA sculpted meshes hidden by default (still listed).
+- **Chest skin.** 18 Z patches (positions before the Q250 lift) subdivided to 4 mm edges (5,472 -> 144,156 triangles)
+  and fitted onto her own CT skin mapped with the breasts' transform (full over the breast, tapering to zero 30-80 mm away and at the borders with
+  unmoved patches; pushed out over the breast where her CT has no skin of her own, max 5.5 mm).
+- **Thinned under the breast** (male-derived Z shapes): sternocostal head of pectoralis major L 309.75 -> 153.79,
+  R 308.18 -> 138.75 cm3 (her own pectoralis major ~200 cm3 on CT), pectoral fascia,
+  abdominal part, lateral pectoral nerve and others (each card states it); 24 structures.
+- **Pelvic organs** (her CT, TotalSegmentator `total`; her cryosection uterus): bladder 44.4 -> 45.0,
+  rectum 146.6 -> 160.9, pelvic sigmoid 61.7 -> 68.8,
+  uterus 35.7 -> 41.5 cm3 (the Base pelvis is a little wider than hers); her rule-based
+  external anal sphincter (16.8 cm3). Hidden by default: Z bladder, Z sigmoid, Z external anal sphincter,
+  HRA uterus. The HRA / CVH female set: per structure the live placement or her-frame placement (same spline), whichever enters bone / her
+  organs / psoas less, then pushed out by <= 8 mm; urethral group moved 10.0 mm anteriorly together (urethra in front
+  of the vagina); new on the page: round ligaments, superior rectal artery, anococcygeal ligament, clitoris cavernous body; hidden by default:
+  suspensory_ligament_ovary_r (> 20 % inside psoas). Z levator parts pushed out of her organs by <= 5 mm.
+- **Validation against the literature** (`Q292_validation.json`): IMF L between the fifth and sixth ribs, R between the sixth and seventh ribs (lit. over the 5th-6th interspace);
+  superior border L between the second and third ribs, R above the third rib; sternal notch to breast apex (nipple proxy) 184.8 / 192.3 mm
+  (lit. 198-223); apex to apex 165.8 mm (lit. 203-217); apex to IMF 46.2 / 59.8 mm (lit. 77);
+  medial border 24.6 / 16.3 mm from the midline (lit. 48 cadaver); lateral border 13.6 mm
+  BEYOND the latissimus anterior edge (lit. 39-45 mm medial to it: her supine lateral spread, still too lateral); PM width / breast width
+  0.98 / 0.92 (lit. 0.82-0.85). Bony pelvis: subpubic 85.1 deg, obstetric conjugate
+  123.3, inlet transverse 149.5, interspinous 100.6, intertuberous 127.1 mm (lit. 87.4 deg; 126.9, 134.7, 113.4,
+  127.1 mm). Organs: uterus 41.48 cm3 (lit. 37.1-60.1 mL), vagina long axis 76.3 mm (lit. 62.7),
+  ovaries 0.86 / 0.81 cm3 (HRA; lit. 2.6 at 50-59 y, 1.0 at 60-69 y), urethra 30.2 mm (lit. 22-38).
+- **Mesh realness** (mean face-adjacency dihedral; CVH reference 27.6-31.7 deg): her CT organs 13-18 deg (her Imaging-F viewing meshes are
+  smoothed and decimated), glands 37-41 deg, the subdivided skin patches 4-11 deg (the subdivision is smooth; the contour is hers). The angle is
+  a roughness signature, not proof of origin; the provenance of each mesh is its documented segmentation (Q285 / Q287 / Q288).
+- **Page**: 3,228 structures, 3,647,815 triangles; 14 added, 96 geometries replaced, 17 hidden by default, 2 faded.
+  Z template: a card names its geometry source (`rec.geom_src`) instead of the fixed "Geometry from Z-Anatomy" line when one is given.
+- **Still rule-based / missing:** the breast's shape is her supine cadaver shape refitted by rules (a standing breast sits lower and projects
+  more); no nipple / areola object; no Cooper ligaments (no real open source reached); the FGT is a HU rule; ovaries / tubes / vagina remain HRA
+  reference organs and the perineum CVH (another woman); her levator ani is not used (rule-based, 1.35x), the Z levator stays; the hub's
+  structure counts and `clinical_risk.json` of Base F are not recomputed.
+
+### Rule-based reflected head of rectus femoris (all six pages) and re-articulated fingers (Combined pages) (2026-10-29, Q293)
+
+Owner: the fingers are in a shifted position; rectus femoris has only its straight head; the action simulation flexes the knee first.
+Hebrew report: `docs/research/Q293_muscle_attachment_action_audit.md`; scripts `scripts/anatomy/q293/`; reports
+`data/derived/Q293_rf_reflected_head.json`, `Q293_fingers.json`, `Q293_page_report.json`, `Q293_heads_check.json`, `Q293_action_signs.json`.
+
+- **Reflected (indirect) head of rectus femoris, `rectus_femoris_reflected_head_r/l`, RULE-BASED.** No source we hold has a mesh of it
+  (Z-Anatomy: name only, TA2 2616, no OB/ME datablock in Startup.blend; BodyParts3D: FMA22430 rectus femoris only; CVH / HRA: none).
+  Built per page on the page's own hip bone (subject `rule_rf_reflected_q293` on the Imaging pages): footprint on the lateral ilium just
+  above the superior acetabular rim from 21 mm of rim posterior to 12:30 (Gursoy 2024) to 1:30 (Hapa 2013), 16.8-19.3 mm wide (Ryan 2014),
+  thinner / wider posteriorly (Atzmon 2020); free tendon forward and down to the confluence with the direct head on the page's own rectus
+  femoris, 10.9 x 6.9 mm there (Atzmon 2020); vertices inside the bone pushed to its surface (+0.3 mm; 0 % inside after). Volumes r / l (cm3):
+  Imaging M 1.40 / 1.65, Imaging F 2.56 / 3.00, Base M 2.17 / 2.27, Base F 1.92 / 1.97, Combined M 1.57 / 1.84, Combined F 3.02 / 1.47.
+  Footprint 33.5-44.4 mm (lit. 38.1-47.7), total 49.7-82.1 mm (lit. 55.3); every value measured on the result, nothing tuned.
+- **Combined pages, fingers re-articulated (rigid transforms of the unchanged Z-Anatomy bone meshes).** Root cause: each Z hand bone
+  had its own similarity fit to the body's CT (Q168 / Q195 / Q200 / Q211), so phalanges stood off their joints (Combined F up to 9.7 mm,
+  Combined M 7.9 mm) and his right index finger lay 20-45 mm off his CT index ray. Joint centres of the articulated Z-Anatomy hand (Base M
+  rig) carried by each parent bone, child bones translated onto them (all 56 finger-joint gaps per page -> 0); finger angles refitted to
+  his CT (both hands; index r median 12.0 -> 2.1 mm) within the rig's ROM, accepted only on a >= 30 % gain and < 3.5 mm median; her right
+  hand and the thumbs re-seated only. 128 (M) / 132 (F) structures changed: the bones plus finger soft tissue carried by the rig's own skinning
+  model within 25 mm of the finger bones. Rigs spliced (new structures + changed geometries + the 28 finger joints from a fresh run); moment
+  arms of all six pages rebuilt (`scripts/anatomy/q284/build_moments.py`).
+- **Next-round base**: the page dirs of this round are kept in `build/q293/<dir>` (own pages from `build/q293/bundle_own_m|f`).
+
+### Fat and unlabelled soft tissue from each body's own imaging (all six pages) (2026-10-29, Q295)
+
+Owner (Hebrew, translated): "Fat must be in the relevant places. In cross-sections you must see filling -- no holes. Holes mean we are
+probably missing relevant tissues, or segmented them wrongly." Hebrew report: `docs/research/Q295_fat_and_voids_audit.md`; scripts
+`scripts/anatomy/q295/`; reports `data/derived/Q295_fat_report.json` (audit before / after, volumes, triangles, realness, penetration,
+what stays empty), `Q295_page_report.json`; montages `data/derived/Q295_montages/<page>_{before,after}.jpg`.
+
+- **Audit (before).** 30 axial sections x 12 regions per page, 1 mm pixels, on the page meshes (nonzero winding fill per structure;
+  open meshes outline + hole fill; fascia / joint / bursa / insertion sheets outline only; hidden-by-default structures not counted; the
+  skin's own 1.5 mm not counted). 26-86 % (per page and region; e.g. Imaging F thigh 60 %, hand 85 %; Base pages 26-53 %) of the section inside the skin was covered by no structure. Before this round no page had
+  subcutaneous, visceral / retroperitoneal, intermuscular, orbital, buccal or ischioanal fat; only the Z omenta, the Z infrapatellar fat
+  pads and the hidden HRA breast fat pads existed.
+- **Source of the class of every empty voxel.** Female: her fresh-cadaver CT (torso block b9cf8e7a + femur-to-toes block af18f5e4 with
+  the registered shift of `vhf_lower_limb_bones.py`), fat = HU -190..-30 (plus -400..-190 partial volume at fat / air edges), soft
+  tissue = -29..+200 (the common CT adipose window; CT against cadaver dissection for subcutaneous / interstitial adipose tissue:
+  Mitsiopoulos N et al., J Appl Physiol 1998, doi:10.1152/jappl.1998.85.1.115 -- the HU numbers are not in that abstract). Male: his frozen
+  CT does not separate fat from muscle, so his 1 mm colour cryosections (`SCRATCH/vh_cryo/cryo_1mm.npy`, `scripts/cryo/cryo_classes.py`
+  colour classes, the registration of `scripts/cryo/resample_cryo_to_ct_frame.py`). Imaging and Combined pages share the body's atlas
+  frame (no transfer); Base pages read the class through a thin-plate spline Base -> Combined from the vertex pairs of every structure the
+  two pages share (Base F 132,696 / Base M 108,024 pairs kept, median residual ~2 mm, p95 9-11 mm; sampled on a 6 mm lattice). Per body part and section an in-plane shift (<= 12 mm) overlays the imaging
+  silhouette on the page skin; outside the imaging outline (<= 20 mm) the nearest imaged tissue's class is used.
+- **Shipped: 51 meshes per page in a new system `fat` ("Fat & unlabelled soft tissue")**: subcutaneous fat, deep fat (named by region:
+  visceral and retroperitoneal; deep pelvic incl. ischioanal; mediastinal / paravertebral / axillary; orbital / buccal / deep facial;
+  intermuscular per limb segment incl. popliteal and pre-Achilles; plantar / heel pad; palmar / digital) and "unlabelled soft tissue" per
+  body part (17 parts). Fat thinner than ~2 mm and soft tissue thinner than ~4 mm are left as seams; pieces < 0.1 / 0.5 cm3 dropped.
+  Marching cubes at a 4-5 mm step chosen to meet the budget (decimation only above it); 575-630 k triangles per page (realness: mean dihedral 21-37 deg vs the CVH references 27.6 / 29.5 / 31.7 deg; defect edges <= 1.6 %). Mesh volumes (fat sub / deep / soft, L): Imaging F 31.9 / 1.9 / 4.1, Imaging M 19.5 / 2.0 / 8.7, Combined F 19.2 / 4.9 / 8.4, Combined M 13.6 / 4.1 / 10.4, Base F 9.3 / 2.3 / 5.0, Base M 6.6 / 2.3 / 5.8 (neighbouring parts overlap by up to 3 mm at their seams).
+- **Unlabelled soft tissue is not an anatomical structure**: it marks space the page leaves empty where the imaging shows soft tissue.
+  On Combined / Base pages its card names what the Imaging page of the same body segments at those points (e.g. Combined F abdomen: liver,
+  stomach, small bowel -- the Z body lacks / misplaces them; pelvis: gluteus maximus, small bowel; thigh: biceps femoris, vastus
+  lateralis), or "nothing segmented there either" (fascia, small vessels, nodes, dermis).
+- **After.** Void fraction per region, e.g. Imaging F thigh 60 -> 9 %, abdomen 52 -> 15 %, hand 85 -> 24 %; Combined F thigh 52 -> 8 %; Base F pelvis 53 -> 11 %. What stays empty is >= 96 % seams <= 4 mm thick (3-D), plus gas / dark lumen and the parts outside her CT field
+  of view (mainly her left arm).
+  Fat penetration into other structures (share of the fat section area another structure also covers): median ~2 %, max 12 % (Imaging M neck).
+- **Viewer.** The system is on by default but faint (12 % opacity) so it does not hide the anatomy; the cut-face fill ("Fill
+  cross-section", multi-slice) paints it solid (`viewer/cut_cap/cut_cap.js` capA). Imaging / ultrasound: fat -> class `fat`, unlabelled
+  soft tissue -> `soft_unassigned` (`clinical/data/imaging_tissues.json`).
+- **Not done.** Bone-marrow fat as meshes (the imaging bone model has it); 2-4 mm seams between structures; replacing the unlabelled
+  soft tissue with real structures (her CT small bowel / liver on Combined F, missing small muscles of hand and foot).

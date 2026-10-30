@@ -1,0 +1,340 @@
+# NMSK Atlas — Sources & Citation Policy
+
+## Policy
+
+Every entity in `data/` carries a `source` (or, for reference tables, a
+top-level `sources`) field. `tests/test_source_coverage.py` enforces this
+mechanically — no entity may ship without one. Two honesty notes that apply
+throughout the dataset, stated once here rather than repeated on every file:
+
+1. **Representative vs. exact values.** Numeric biomechanical parameters
+   (fascicle length, pennation angle, PCSA, joint ROM) are given as
+   representative typical values consistent with the architecture
+   classification and magnitude reported in the cited literature — not
+   exact digitized transcriptions from one specimen. This is stated
+   explicitly because published cadaver/imaging studies themselves disagree
+   by 20–40% (normal biological + measurement variation between studies),
+   so a bare "measured" number would overstate precision the field itself
+   doesn't have. Where a formula is used to derive a value (e.g.
+   `max_isometric_force = PCSA × specific_tension`), the formula and its
+   literature-based constant are shown, not just the result.
+2. **Skeletal coordinates.** Bone landmark `position_local_mm` values are
+   placed consistently with documented average adult long-bone lengths and
+   standard descriptive landmark locations — not digitized from a scanned
+   specimen (no such source was available in this session; see
+   docs/ROADMAP.md Stage 5 for the real path to genuine scan-derived
+   geometry). They are geometrically self-consistent (correct relative
+   position, correct bone length) and sufficient to drive the rig/generator
+   pipeline correctly, but are an engineering approximation, not a
+   measurement.
+
+## Primary references used
+
+**General gross anatomy / nomenclature**
+- Drake RL, Vogl AW, Mitchell AWM. *Gray's Anatomy for Students*, 4th ed. Elsevier, 2019.
+- Terminologia Anatomica (FICAT/IFAA 1998) — official anatomical nomenclature standard.
+- Moore KL, Dalley AF, Agur AMR. *Clinically Oriented Anatomy*, 8th ed. Wolters Kluwer.
+
+**Joint kinematics / coordinate systems**
+- Wu G et al. (2002) "ISB recommendation on definitions of joint coordinate systems of various joints for the reporting of human joint motion — part I: ankle, hip, and spine." *J Biomech* 35:543–548.
+- Wu G et al. (2005) "ISB recommendation on definitions of joint coordinate systems of various joints for the reporting of human joint motion — part II: shoulder, elbow, wrist and hand." *J Biomech* 38:981–992.
+- American Academy of Orthopaedic Surgeons. *Joint Motion: Method of Measuring and Recording* (1965) — standard clinical ROM norms.
+- Delp SL et al. (1990) "An interactive graphics-based model of the lower extremity to study orthopaedic surgical procedures." *IEEE Trans Biomed Eng* 37:757–767 — source of the ankle-complex (talocrural+subtalar combined) simplification convention adopted here.
+
+**Muscle architecture**
+- Holzbaur KR, Murray WM, Delp SL (2005) "A model of the upper extremity for simulating musculoskeletal surgery and analyzing neuromuscular control." *Ann Biomed Eng* 33(6):829–840.
+- Lieber RL, Fridén J (2000) "Functional and clinical significance of skeletal muscle architecture." *Muscle Nerve* 23:1647–1666.
+- Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) "Are current measurements of lower extremity muscle architecture accurate?" *Clin Orthop Relat Res* 467:1074–1082 — primary source for lower-limb fascicle length/PCSA representative values.
+- Fridén J, Lieber RL (2003) "Spec ific tension of human skeletal muscle" — representative in-vivo specific-tension estimate used to compute illustrative `max_isometric_force_N`.
+
+**Intramuscular functional compartmentalization**
+- Wickham JB, Brown JM (1998) "Muscles within muscles: a mechanomyographic analysis of muscle segment contractile properties within human deltoid." *Eur J Appl Physiol* 78:6–17.
+- Brown JM et al. (2007) "Muscles within muscles: coordination of 19 muscle segments within three shoulder muscles during isometric motor tasks." *J Electromyogr Kinesiol* 17:57–73.
+- Fabrizio PA, Clemente FR (2011) "Anatomic compartmentalization of infraspinatus." *J Anat* 219(3):303–310.
+- von Schroeder HP, Botte MJ (1993) "Anatomy of the extensor tendons of the fingers: variations and multiplicity." *J Hand Surg Am* 18(1):16–20 (FDP/extensor compartment anatomy).
+- Gottschalk F, Kourosh S, Leveau B (1989) "The functional anatomy of tensor fasciae latae and gluteus medius and minimus." *J Anat* 166:179–189 — describes gluteus medius's three functionally-graded parts (anterior/middle/posterior).
+- Selkowitz DM, Beneck GJ, Powers CM (2016) "Comparison of Electromyographic Activity of the Superior and Inferior Portions of the Gluteus Maximus Muscle During Common Therapeutic Exercises." *J Orthop Sports Phys Ther* 46(9):794–799 — fine-wire EMG confirming gluteus maximus's superior/inferior functional segments (corrects an earlier draft's misattribution of this claim to Gottschalk et al. 1989, which is actually about gluteus medius/minimus — caught by adversarial fact-check, see docs/VERIFICATION.md).
+- Lieb FJ, Perry J (1968) "Quadriceps function: an anatomical and mechanical study using amputated limbs." *J Bone Joint Surg Am* 50(8):1535–1548 — original description dividing vastus medialis into proximal VML and distal VMO.
+- Castanov V et al. (2019) "Muscle architecture of vastus medialis obliquus and longus and its functional implications: A three-dimensional investigation." *Clin Anat* 32(4):515–523 — quantitative pennation-angle confirmation of the VML/VMO distinction (corrects an earlier draft's citation of Lieber, Loren & Fridén 1994, which is actually about wrist extensor sarcomere length, unrelated to the knee — caught by adversarial fact-check).
+- Takizawa M et al. (2013) "The adductor part of the adductor magnus is innervated by both obturator and sciatic nerves." *Clin Anat* 27(5):778–782 — refines/confirms adductor magnus's dual-innervation adductor+hamstring parts.
+- Kellis E et al. (2011) "In vivo and in vitro examination of the tendinous inscription of the human semitendinosus muscle." *Cells Tissues Organs* 195(4):365–376.
+- Bogduk N, Macintosh JE, Pearcy MJ (1992) "A universal model of the lumbar back muscles in the upright position." *Spine* 17(8):897–913 — quantitative architecture/moment-arm model of lumbar erector spinae (iliocostalis, longissimus) and multifidus.
+- Ward SR, Kim CW, Eng CM, Gottschalk LJ 4th, Tomiya A, Garfin SR, Lieber RL (2009) "Architectural analysis and intraoperative measurements demonstrate the unique design of the multifidus muscle for lumbar spine stability." *J Bone Joint Surg Am* 91(1):176–185 — multifidus's unusually short fascicle length relative to its large PCSA, an architecture built for stiffness/force rather than excursion.
+- Phillips S, Mercer S, Bogduk N (2008) "Anatomy and biomechanics of quadratus lumborum." *Proc Inst Mech Eng H* 222(2):151–159 — describes quadratus lumborum's three fiber-bundle layers (anterior/iliocostal, middle/lumbocostal, posterior/iliolumbar) (corrects an earlier draft's citation of Bogduk, Macintosh & Pearcy 1992 for this claim — that paper covers lumbar erector spinae/multifidus but not quadratus lumborum — caught by adversarial fact-check, see docs/VERIFICATION.md).
+- Hodges PW, Richardson CA (1996) "Inefficient muscular stabilization of the lumbar spine associated with low back pain." *Spine* 21(22):2640–2650 — transversus abdominis's feedforward (anticipatory) activation preceding limb movement, its role as the abdominal wall's primary intrinsic spinal stabilizer.
+- De Troyer A, Kirkwood PA, Wilson TA (2005) "Respiratory action of the intercostal muscles." *Physiol Rev* 85(2):717–756 — documents that the internal intercostal's interosseous part (expiratory) and interchondral/parasternal part (inspiratory) have opposite mechanical actions despite being one named muscle.
+- Kearney R, Sawhney R, DeLancey JOL (2004) "Levator ani muscle anatomy evaluated by origin-insertion pairs." *Obstet Gynecol* 104(1):168–173 — origin-insertion analysis of levator ani (used here alongside Gray's for the traditional puborectalis/pubococcygeus/iliococcygeus 3-part teaching division; note that paper's own conclusion favors a finer 5-way subdivision — puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal — flagged by adversarial fact-check, see docs/VERIFICATION.md).
+- van Eijden TM, Korfage JA, Brugman P (1997) "Architecture of the human jaw-closing and jaw-opening muscles." *Anat Rec* 248(3):464–474 — cadaveric fascicle length/pennation/PCSA data for masseter's superficial/deep heads, temporalis's anterior/posterior parts, and medial/lateral pterygoid's heads; an architecture-only study, not a source for muscle activity timing (see the Murray et al. entry below for that).
+- Murray GM, Phanachet I, Uchida S, Whittle T (2004) "The human lateral pterygoid muscle: a review of some experimental aspects and possible clinical relevance." *Aust Dent J* 49(1):2–8 — the classical reciprocal-activity model (lateral pterygoid's superior head active during jaw closing, inferior head during opening), together with the caveat that later EMG-with-imaging studies found this reciprocal pattern less clear-cut than the classical model suggests (corrects an earlier draft's attribution of this functional/activity-timing claim to van Eijden et al. 1997, an architecture-only study that does not address activity timing — caught by adversarial fact-check, see docs/VERIFICATION.md).
+- Johnson G, Bogduk N, Nowitzke A, House D (1994) "Anatomy and actions of the trapezius muscle." *Clin Biomech* 9(1):44–50 — dissection/volumetric study describing trapezius's 3 functionally-distinct fiber-direction parts (descending/upper, transverse/middle, ascending/lower); cited here for that 3-part fiber-architecture division only — the paper's own conclusion argues the upper/middle fibers' transverse orientation "precludes any action as elevators of the scapula as commonly depicted," proposing instead that the lower fibers isometrically fix the scapula's medial border so serratus anterior can drive rotation, with the upper fibers contributing to rotation only once it is underway. The popular textbook summary ("upper=elevator, middle=retractor, lower=depressor, upper+lower=force couple") is standard simplified teaching, not this paper's own finding — an earlier draft attributed the simplified model directly to this paper; corrected after adversarial fact-check, see docs/VERIFICATION.md.
+
+**Fascia**
+- Stecco C. *Functional Atlas of the Human Fascial System*. Churchill Livingstone/Elsevier, 2015.
+- Vleeming A, Pool-Goudzwaard AL, Stoeckart R, van Wingerden JP, Snijders CJ (1995) "The posterior layer of the thoracolumbar fascia: its function in load transfer from spine to legs." *Spine* 20(7):753–758 — the posterior layer's myofascial coupling of contralateral latissimus dorsi and gluteus maximus across the lumbosacral junction.
+
+**Ligaments**
+- Girgis FG, Marshall JL, Monajem A (1975) "The cruciate ligaments of the knee joint: anatomical, functional and experimental analysis." *Clin Orthop Relat Res* 106:216–231 — classic cadaveric description of the ACL's anteromedial/posterolateral and PCL's anterolateral/posteromedial bundle reciprocal-tension architecture.
+- Butler DL, Noyes FR, Grood ES (1980) "Ligamentous restraints to anterior-posterior drawer in the human knee: a biomechanical study." *J Bone Joint Surg Am* 62(2):259–270 — ACL/PCL identified as primary restraints to anterior/posterior tibial translation via selective-cutting studies.
+- Woo SL, Abramowitch SD, Kilger R, Liang R (2006) "Biomechanics of knee ligaments: injury, healing, and repair." *J Biomech* 39(1):1–20 — knee ligament (ACL/PCL/MCL) structure-function review.
+- Golanó P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Götzens V, van Dijk CN (2010) "Anatomy of the ankle ligaments: a pictorial essay." *Knee Surg Sports Traumatol Arthrosc* 18(5):557–569 — lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy.
+- Turkel SJ, Panio MW, Marshall JL, Girgis FG (1981) "Stabilizing mechanisms preventing anterior dislocation of the glenohumeral joint." *J Bone Joint Surg Am* 63(8):1208–1217 — inferior glenohumeral ligament's anterior band/axillary pouch/posterior band reciprocal tensioning.
+- Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) "The function of the hip capsular ligaments: a quantitative report." *Arthroscopy* 24(2):188–195 — iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM.
+- Berger RA (1996) "The gross and histologic anatomy of the scapholunate interosseous ligament." *J Hand Surg Am* 21(2):170–178.
+- Vleeming A, Schuenke MD, Masi AT, Carreiro JE, Danneels L, Willard FH (2012) "The sacroiliac joint: an overview of its anatomy, function and potential clinical implications." *J Anat* 221(6):537–567 — SI joint ligamentous stabilization and the force-closure load-transfer model.
+- Bogduk N. *Clinical and Radiological Anatomy of the Lumbar Spine*, 5th ed. Churchill Livingstone/Elsevier, 2012 — spinal ligament anatomy (ALL/PLL/ligamentum flavum/interspinous/supraspinous/ligamentum nuchae).
+- Bag AK, Gaddikeri S, Singhal A, Hardin J, Wadhwa V, Chen J, Guillerman RP (2014) "Imaging of the temporomandibular joint: an update." *World J Radiol* 6(8):567–582 — TMJ capsular/accessory ligament anatomy.
+- Morrey BF, An KN (1983) "Articular and ligamentous contributions to the stability of the elbow joint." *Am J Sports Med* 11(5):315–319 — sequential-sectioning study establishing the UCL anterior bundle as the elbow's primary valgus restraint (corrects an earlier draft's citation of Woo et al. 2006, a knee-ligament paper mistakenly reused for an elbow claim — caught by adversarial fact-check, see docs/VERIFICATION.md).
+- O'Driscoll SW, Bell DF, Morrey BF (1991) "Posterolateral rotatory instability of the elbow." *J Bone Joint Surg Am* 73(3):440–446 — original description of PLRI and the LUCL's role in preventing it.
+
+**Cartilage**
+- Sophia Fox AJ, Bedi A, Rodeo SA (2009) "The basic science of articular cartilage: structure, composition, and function." *Sports Health* 1(6):461–468.
+- Fox AJ, Bedi A, Rodeo SA (2012) "The basic science of human knee menisci: structure, composition, and function." *Sports Health* 4(4):340–351 — meniscal horn/body anatomy, vascularity zones, load-transmission role.
+- Cooper DE, Arnoczky SP, O'Brien SJ, Warren RF, DiCarlo E, Allen AA (1992) "Anatomy, histology, and vascularity of the glenoid labrum: an anatomical study." *J Bone Joint Surg Am* 74(1):46–52.
+- Seldes RM, Tan V, Hunt J, Katz M, Winiarsky R, Fitzgerald RH Jr (2001) "Anatomy, histologic features, and vascularity of the adult acetabular labrum." *Clin Orthop Relat Res* 382:232–240.
+- Palmer AK, Werner FW (1981) "The triangular fibrocartilage complex of the wrist — anatomy and function." *J Hand Surg Am* 6(2):153–162 — the original TFCC structural/functional description (general composition/DRUJ role only — see Bednar et al. 1991 below for its vascular zonation, a distinct claim this paper does not itself address).
+
+**Tendons**
+- Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) "Functional anatomy of the Achilles tendon." *Knee Surg Sports Traumatol Arthrosc* 18(5):638–643 — the tendon's spiral (twisted) gastrocnemius/soleus fiber arrangement.
+- Zeiss J, Saddemi SR, Ebraheim NA (1992) "MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture." *AJR Am J Roentgenol* 159(5):1031–1034 — the tendon's 3-layer configuration.
+- Lohr JF, Uhthoff HK (1990) "The microvascular pattern of the supraspinatus tendon." *Clin Orthop Relat Res* 254:35–38 — the hypovascular "critical zone" implicated in degenerative rotator cuff tearing.
+- Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) "The origin of the long head of the biceps from the scapula and glenoid labrum." *J Bone Joint Surg Br* 76(6):951–954.
+- van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golanó P (2015) "The hamstring muscle complex." *Knee Surg Sports Traumatol Arthrosc* 23(7):2115–2122 — proximal hamstring conjoint-tendon anatomy at the ischial tuberosity.
+- LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) "The anatomy of the posterior aspect of the knee." *J Bone Joint Surg Am* 89(4):758–764 — semimembranosus's multiple distal tendinous expansions (an earlier draft cited a different, same-year LaPrade paper on the knee's medial part, JBJS Am 89(9):2000-2010, which does not describe these expansions — caught by adversarial fact-check, see docs/VERIFICATION.md).
+- Lin GT, Amadio PC, An KN, Cooney WP (1989) "Functional anatomy of the human digital flexor pulley system." *J Hand Surg Am* 14(6):949–956 — the A2/A4 pulleys' particular biomechanical importance to grip efficiency and bowstringing resistance (a claim beyond what Doyle 1988's anatomic-description paper itself addresses — caught by adversarial fact-check).
+- Doyle JR (1988) "Anatomy of the finger flexor tendon sheath and pulley system: a current review." *J Hand Surg Am* 13(4):473–484 — the standard A1-A5/C1-C3 pulley nomenclature.
+- Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) "The palmaris longus muscle and tendon: a study of 1600 extremities." *Anat Rec* 89(4):495–505 — the classic large cadaveric survey of palmaris longus absence rates.
+- Shepherd DE, Seedhom BB (1999) "Thickness of human articular cartilage in joints of the lower limb." *Ann Rheum Dis* 58(1):27–34 — direct joint-surface thickness measurements, the actual source of the patella's thickest-in-the-body cartilage figure (corrects an earlier draft's citation of Sophia Fox et al. 2009, a general cartilage-biology review that never discusses the patella specifically — caught by adversarial fact-check, see docs/VERIFICATION.md).
+- Howell SM, Galinat BJ (1989) "The glenoid-labral socket: a constrained articular surface." *Clin Orthop Relat Res* 243:122–125 — the actual source of the glenoid labrum's ~50% depth-increase figure (Cooper et al. 1992 supports the labrum's regional attachment/vascularity but does not itself quantify depth increase — caught by adversarial fact-check).
+- Ferguson SJ, Bryant JT, Ganz R, Ito K (2003) "An in vitro investigation of the acetabular labral seal in hip joint mechanics." *J Biomech* 36(2):171–178 — the actual source of the acetabular labrum's fluid-mechanics "suction seal" finding (Seldes et al. 2001 is a histology/tear-pattern study of elderly cadavers, unrelated to fluid mechanics, and predates FAI as a defined clinical concept — caught by adversarial fact-check).
+- Bednar MS, Arnoczky SP, Weiland AJ (1991) "The microvasculature of the triangular fibrocartilage complex: its clinical significance." *J Hand Surg Am* 16(6):1101–1105 — the actual source of the TFCC's central-avascular/peripheral-vascularized zonation (corrects an earlier draft's attribution of this vascular-anatomy claim to Palmer & Werner 1981, a gross-anatomic/biomechanical dissection study that does not address microvasculature — caught by adversarial fact-check).
+- Becker I, Woodley SJ, Stringer MD (2010) "The adult human pubic symphysis: a systematic review." *J Anat* 217(5):475–487 — systematic review finding the interpubic disc cleft in roughly one in ten adult specimens (corrects an earlier draft's overstated "often" framing — caught by adversarial fact-check).
+
+**Nerve root maps**
+- ASIA (American Spinal Injury Association) International Standards for Neurological Classification of Spinal Cord Injury — standard myotome/dermatome charts.
+
+## Sources considered but not reachable this session
+
+An automated multi-agent PubMed/web literature research pass (12 parallel
+research agents covering ROM, muscle architecture, plexus trees, vasculature,
+fascia and joint kinematics) was attempted to independently ground every
+number against live-searched literature. It failed entirely — every agent
+hit a tool-level structured-output error after multiple retries, a systemic
+issue rather than a content problem (see the workflow run for
+`nmsk-atlas-research`, all 12/12 agents errored identically). Rather than
+retry at similar cost, the data in this pass was authored directly from the
+well-established references above (the same standard I used successfully
+for the skeleton, joints, and nerve-root map), and then spot-verified by a
+second, smaller round of adversarial fact-check agents — see
+docs/VERIFICATION.md for what they checked and found.
+
+## Data sources for future full-body scale-up (not used in this pass)
+
+- NIH Visible Human Project — public domain, ~15GB of 1mm axial cryosection/CT/MRI data. https://www.nlm.nih.gov/research/visible/visible_human.html
+- AIST BodyParts3D / Anatomography — CC BY-SA segmented 3D anatomy meshes. https://lifesciencedb.jp/bp3d/
+- OpenSim (Stanford) musculoskeletal models — BSD-licensed, published moment-arm/muscle-path data usable for Stage 6 validation. https://opensim.stanford.edu
+
+## Motor endplate zones (injection targeting)
+
+Added for the muscles most often injected with botulinum toxin in spasticity.
+All retrieved via PubMed.
+
+| Source | What it supplies |
+|---|---|
+| Diaconu S et al., *Toxins* 17(10):508 (2025), [doi:10.3390/toxins17100508](https://doi.org/10.3390/toxins17100508) | Intramuscular neural arborization zones for ten distal lower-limb muscles, each as a percentage range along a named external landmark line. A review synthesising the primary mapping literature (Lee, Yi and others) that it cites. |
+| Diaconu S et al., *Toxins* 17(6):276 (2025), [doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276) | Part II, proximal upper limb. Arborization zones for seven muscles: latissimus dorsi, teres major, pectoralis major (two heads separately), pectoralis minor, triceps brachii (three heads separately), biceps brachii, brachialis, brachioradialis. Synthesises Yi, Li, Yang and Moon. Also carries the subscapularis fascial-septum finding. |
+| Diaconu S et al., *Toxins* 17(5):240 (2025), [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240) | Part III, proximal lower limb. Arborization zones for nine muscles: piriformis, psoas major, rectus femoris, sartorius, gracilis, adductor longus, adductor magnus, semimembranosus, semitendinosus. Same review form as Part IV. Two of its eleven muscles yield no usable zone -- see the gap note below. |
+| Van Campenhout A, Hubens G, Fagard K, Molenaers G, *Muscle Nerve* 42(2):202-7 (2010), [doi:10.1002/mus.21660](https://doi.org/10.1002/mus.21660) | Psoas endplate zone, 30-70% of the T12-to-inguinal-ligament distance, from stereoscopic dissection of 24 cadaver muscles. |
+| Delnooz CCS et al., *Eur J Neurol* 21(12):1486 (2014), [doi:10.1111/ene.12517](https://doi.org/10.1111/ene.12517) | Sternocleidomastoid endplate zone at the lower border of the superior third; splenius capitis at half muscle length. High-density surface EMG, 18 patients. Half-dose endplate-targeted injection matched a full standard dose. |
+| Van Campenhout A, Molenaers G, *Dev Med Child Neurol* 53(2):108-19 (2011), [doi:10.1111/j.1469-8749.2010.03816.x](https://doi.org/10.1111/j.1469-8749.2010.03816.x) | Review of lower-limb endplate localisation. Notes that for many muscles the zone differs from where clinical practice currently injects. Not open access; its per-muscle figures are **not** yet entered here. |
+| Lapatki BG et al., *Clin Neurophysiol* 122(8):1611-6 (2011), [doi:10.1016/j.clinph.2010.11.018](https://doi.org/10.1016/j.clinph.2010.11.018) | Why the zone matters quantitatively: moving the injection 1 cm away from the endplate zone reduced the effect of botulinum toxin by 46%. |
+| Van Campenhout A et al., *Res Dev Disabil* 34(3):1052-8 (2013), [doi:10.1016/j.ridd.2012.11.016](https://doi.org/10.1016/j.ridd.2012.11.016) | Endplate-targeted psoas injection produced measurable atrophy on MRI (79.5% of pre-injection volume) where a more distal injection did not (107.8%). |
+| Guzmán-Venegas RA, Araneda OF, Silvestre RA, *J Electromyogr Kinesiol* 24(6):923-7 (2014), [doi:10.1016/j.jelekin.2014.07.012](https://doi.org/10.1016/j.jelekin.2014.07.012) | Motor point and innervation zone are not the same location -- they differed by 10.7 mm in biceps brachii. Clinically, the motor point is what is usually targeted. |
+| Deshpande S, Gormley ME, Carey JR, *Neurotox Res* 9(2-3):115-20 (2006), [doi:10.1007/BF03033928](https://doi.org/10.1007/BF03033928) | The origin of the mid-belly assumption. States explicitly that the endplate zone is *assumed* to be near the muscle fibre midpoint, and locates fibre midpoints from musculotendinous junctions -- an assumption, not a measurement. |
+
+### Two different quantities, deliberately kept apart
+
+`neuromuscular_junction_zone.position_fraction_along_fascicle` and
+`motor_endplate_zones` are not the same measurement and must not be merged.
+
+- The **fascicle fraction** is where the endplate sits along an individual
+  fascicle. It is near the midpoint for essentially every muscle, so 0.5 is a
+  defensible default rather than a finding. Every zone now carries
+  `evidence: "modelling_default"` or `"measured"` so this is never implied to
+  be more than it is.
+- A **motor endplate zone** is where the endplate band sits along the whole
+  muscle, as a percentage of a named landmark line. This is the published,
+  muscle-specific figure.
+
+Zones are stored in each source's own terms and are **not** converted to a
+fascicle fraction, because the published reference lines do not consistently
+run origin-to-insertion. Tibialis anterior's zone is "70-80% along lateral
+malleolus → fibular head" -- that line runs distal to proximal, so the zone
+lies near the knee, roughly 0.2-0.3 on the muscle's own axis. A silent
+conversion would invert it, and an inverted injection target does not
+announce itself.
+
+## Ultrasound injection approach
+
+Transducer placement, layer relationships and the neurovascular structures at
+risk, for the muscles injected in upper-limb spasticity.
+
+| Source | What it supplies |
+|---|---|
+| Diaconu S et al., *Toxins* 17(3):107 (2025), [doi:10.3390/toxins17030107](https://doi.org/10.3390/toxins17030107) | Part I, distal upper limb. Probe positions, compartment layer, sonographic cues and adjacent neurovascular structures for 14 muscles from pronator teres to the interossei. |
+| Diaconu S et al., *Toxins* 17(6):276 (2025), [doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276) | Part II, proximal upper limb. Probe positions and layer relationships for 10 muscles from latissimus dorsi to brachioradialis. Pneumothorax is the recurring hazard for the five that lie on the chest wall; brachioradialis and brachialis are recorded with the two nerves that constrain them. |
+| Diaconu S et al., *Toxins* 17(5):240 (2025), [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240) | Part III, proximal lower limb. Probe positions and layer relationships for 11 muscles from gluteus maximus to biceps femoris, including the two non-standard limb positions (supine, hip abducted and externally rotated) required to reach gracilis and adductor magnus. |
+
+`ultrasound_injection_approach` and `motor_endplate_zones` answer different
+halves of the same question. A zone says where along the muscle to aim; the
+approach says how to bring probe and needle there, and what must not be hit
+on the way. Flexor pollicis longus is the case that makes the point: the
+radial artery and median nerve sit less than a centimetre from the target,
+which belongs in the data and not only in a paper.
+
+### Narrowed gap: the hand, not the forearm
+
+Part I carries no numeric intramuscular arborization percentages in its
+extractable text -- that content sits in tables and figures. That gap has since
+been closed for the eight anterior forearm muscles from a **primary** study
+rather than a review (Zhou et al. 2023, below), and the proximal upper limb
+from Part II. What remains without zones is the **hand**: the thenar group,
+adductor pollicis, the lumbricals and the interossei. Those still carry an
+`ultrasound_injection_approach` and nothing else.
+
+## Injection target points (3D)
+
+A different and richer datum than a zone, which is why it has its own field,
+`injection_target_points`, rather than being squeezed into
+`motor_endplate_zones`. A zone gives a position *along* a muscle. A target
+point additionally fixes the transverse position and the depth, so it names a
+point in the limb -- enough to plan a needle path rather than only a level to
+scan at. Everything is a percentage of a line between palpable landmarks, never
+an absolute distance, so it transfers across body sizes.
+
+| Source | What it supplies |
+|---|---|
+| Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, *Front Neuroanat* 18:1340468 (2024), [doi:10.3389/fnana.2024.1340468](https://doi.org/10.3389/fnana.2024.1340468) | 36 adult cadavers. Deep cervical muscles: scalenus anterior, medius and posterior, longus capitis, longus colli. Same method as Zhou et al., plus a cadaveric puncture simulation and a measured needle angle. Depth in centimetres rather than as a fraction of thickness. Also divides each muscle into neuromuscular compartments by root territory. |
+| He X, Wen S, Liu X, Li Y, Yang S, *Anat Sci Int* 101(1):44-53 (2025), [doi:10.1007/s12565-025-00831-8](https://doi.org/10.1007/s12565-025-00831-8) | 24 adults. Splenius capitis and splenius cervicis, referenced to the external occipital protuberance, mastoid process and T3 spinous process, with depth as a percentage. |
+| Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, *J Anat* 244(5):803-814 (2023), [doi:10.1111/joa.14000](https://doi.org/10.1111/joa.14000) | 24 adult cadavers. Modified Sihler's staining for the intramuscular nerve-dense region, haematoxylin-eosin muscle-spindle counts to find the densest part of it, then spiral CT with barium sulphate labelling to project that point onto the skin and measure its depth. Gives both `motor_endplate_zones` and `injection_target_points` for pronator teres (both heads), flexor carpi radialis, palmaris longus, flexor carpi ulnaris, flexor digitorum superficialis (two regions), flexor pollicis longus, flexor digitorum profundus (radial and ulnar halves) and pronator quadratus. |
+
+Two findings from that study are worth stating outside the data, because they
+undercut assumptions the atlas itself used to encode:
+
+- **Mid-belly is wrong more often than it is right.** Only flexor carpi
+  radialis, palmaris longus, flexor pollicis longus and pronator quadratus have
+  their nerve-dense region near mid-belly. Flexor carpi ulnaris's sits at
+  9.5-19.8% of muscle length -- the upper fifth. This is direct evidence for
+  why `neuromuscular_junction_zone.position_fraction_along_fascicle` is marked
+  `modelling_default` rather than treated as a finding.
+- **The nerve entry point is not the endplate zone.** A companion study in
+  child cadavers (Yang F et al., *Am J Transl Res* 8(12):5730-5738 (2016),
+  PMID 28078019) found every nerve entry point lay away from the corresponding
+  nerve-terminal dense zone, and concluded that injecting at the nerve entry
+  point is not the optimal choice. The atlas stores endplate zones, not nerve
+  entry points, and this is the reason.
+
+### A zone is not the same as a target: `recommended_as_injection_target`
+
+Wang et al. do something no other source here does. They simulated the
+puncture on the cadaver and **ruled several nerve-dense regions out**:
+scalenus medius INDR2c and longus colli INDR5c risk the pleura and lung apex,
+longus capitis INDR4a and longus colli INDR5a risk the submandibular gland,
+and scalenus medius INDR2a lies under the brachial plexus.
+
+Those regions are real anatomy and are recorded — "there is a nerve-dense
+region here and you must not put a needle in it" is precisely the fact that
+disappears when only the recommended target is written down. But recording
+them creates a hazard of its own: a consumer selecting injection targets by
+looking for `motor_endplate_zones` would pick them up. So zones carry
+`recommended_as_injection_target`, and **that is the field to filter on, not
+the presence of a zone**. Absent means the source expressed no view, which is
+the usual case; `false` means it explicitly rejected the zone, and the
+validator requires a reason in `notes` whenever it is false.
+
+### Two things Zhou et al. deliberately do *not* assert in this data
+
+- **Which surface each puncture point is on.** The paper places all but one of
+  its eleven projection points on the anterior forearm and one on the
+  posterior, but the label identifying the exception was lost in full-text
+  extraction. `depth_measured_from` is therefore **omitted** on every point --
+  not filled with a placeholder -- and each point's notes say why. Pronator
+  quadratus is the obvious candidate, lying on the interosseous membrane, but
+  that is a guess and is recorded as one. `validate_bone_references` rejects a
+  depth that has neither a stated surface nor a note explaining its absence:
+  40% of forearm thickness from the front and from the back are different
+  places, and the number alone does not say which.
+- **Which flexor digitorum superficialis region is ulnar and which radial.**
+  The prose names them only upper and lower; the ulnar/radial labels live in
+  table rows whose subscripts were lost. They are recorded as upper and lower.
+  Flexor digitorum profundus *is* explicit about ulnar and radial and is
+  recorded that way.
+
+One transcription error in the source is corrected in the data and flagged in
+the note: its flexor carpi ulnaris paragraph opens "The FCR branch of the
+median nerve", which cannot be right -- flexor carpi ulnaris is an ulnar nerve
+muscle. The measurements match that muscle's own table rows and are kept; the
+innervation claim is not.
+
+### Known gap: three Part II muscles with no zone, for three different reasons
+
+The distinction between these matters, because only one of them is a defect in
+our own reading:
+
+- **Deltoid — a gap in the field.** The source states outright that data on
+  optimal injection sites for the three parts of the deltoid are insufficient
+  and that further study is needed. Nothing was lost in extraction; the
+  measurement does not exist to be entered. Recorded in the muscle's
+  `ultrasound_injection_approach` notes.
+- **Subscapularis — numbers lost, structure kept.** The 2023 compartment
+  study's innervation-zone figures sit in a dropped list, so no zone is
+  recorded. Its structural finding survives and is the more consequential half:
+  an intramuscular fascial septum divides the muscle into a superior and an
+  inferior compartment with distinct innervation zones and fibre compositions,
+  and that septum is a real barrier to diffusion of injected toxin, so each
+  compartment must be injected separately. The atlas already carried
+  `subscapularis_*_superior` and `subscapularis_*_inferior` as separate
+  compartments, which now has a clinical reason attached to it.
+- **Pectoralis major's abdominal part — not mapped.** Li et al. map the
+  clavicular and sternocostal heads only. The third compartment is left empty
+  rather than given the average of the other two.
+
+### Known gap: two Part III muscles with no usable zone
+
+Part III's percentages are in its prose, so nine of its eleven muscles yield
+zones. Two do not, and neither has been filled by inference:
+
+- **Biceps femoris.** The source introduces its arborization percentages with
+  "located at the following:" and then a list that full-text extraction
+  dropped. The reference line is known -- femoral condyles (0%) to ischial
+  tuberosity (100%) -- but the numbers are not, and are deliberately not
+  borrowed from semitendinosus or semimembranosus, which share that line.
+- **Gluteus maximus.** The percentages survive (40-70% on line a, 30-60% on
+  line b, 40-70% on line c) but the definitions of lines a, b and c were
+  dropped. A percentage without both ends of its reference line is not an
+  injection target, so no zone is recorded; `validate_bone_references` now
+  rejects any zone whose reference line is a placeholder such as
+  "unspecified", which is what made writing one down the wrong option rather
+  than merely a poor one. The authors' operative conclusion -- three injection
+  points, one per segment -- is recorded in the muscle's
+  `ultrasound_injection_approach` notes, since it does not depend on the line
+  definitions.
+
+Both gaps close by reading the original figures.
+
+### One internal inconsistency, flagged rather than resolved
+
+Part III gives the adductor longus motor-point region as "40-50% of the muscle
+length, corresponding to approximately three-fifths of the muscle's total
+length". Those two statements disagree. The numeric range is what is recorded,
+and the discrepancy is carried in the zone's own `notes` so a reader meets it
+at the point of use rather than discovering it later.
+
+## Sources named by the owner on 2026-09-14 -- licence check
+
+| Source | What it is | Licence found | Decision |
+|---|---|---|---|
+| Z-Anatomy (github.com/LluisV/Z-Anatomy) | Blender/FBX whole-body atlas | The repository states verbatim "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License" (CC BY-**SA**, not CC BY) | **Updated Q141 (2026-09-23), owner decision:** the blanket exclusion below no longer holds. The anatomy MODEL layer (geometry + this project's own corrections to it) may be CC BY-SA compatible; everything built on top (imaging registration, ultrasound, needling, clinical tooling) must stay in separate, owner-licensed files. See `third_party/z-anatomy/README.md` and `docs/GEOMETRY_SOURCES.md`. A CC BY-SA derivative must remain CC BY-SA, never plain CC BY. Two named subcomponents of the release (Inner Ear, Kidney) are separately CC-BY-**NC**-licensed and stay excluded regardless -- see `third_party/z-anatomy/NOTICE`. *(Original 2026-09-14 entry, superseded above: EXCLUDED by the repository rule "no CC BY-SA source may enter it": ShareAlike would force this atlas's derived geometry under the same licence. Its structure LIST may be read as a checklist (facts are not copyrightable); no mesh, texture or label file may be copied.)* |
+| caskanatomy.info/open3dviewer/?model=hand | web 3D viewer of a hand model | page blocked by this environment's network policy (egress denied), licence NOT verified | Owner: open the page, copy the licence/credits text into Dropbox `/claude/licences.txt`. Not used until then. |
+| anatomytool.org open3dmodel hand and wrist bones and cartilages | 3D model, English labels | page blocked here, licence NOT verified (AnatomyTOOL content is commonly CC BY-NC-SA, which would exclude it twice: NC and SA) | Owner: copy the licence statement; not used until then. |
+| humanome.co/about | company site | blocked here, terms NOT verified | Owner: copy the terms; if it sells models, a purchased licence must permit redistribution inside a sellable atlas. |
+| DU Visible Human **Female** lower-limb release (digitalcommons.du.edu/visiblehuman/1/, Andreassen et al. 2023) | Final 3D STL models of HER lower limb, 133 MB, plus 3D Slicer label volumes | Creative Commons Attribution 4.0 International (stated on the page) | WANTED: replaces the transferred male lower limb on the female with her own segmented geometry. Download is behind a Cloudflare browser challenge this sandbox cannot pass (see PROJECT_STATE Q59). |

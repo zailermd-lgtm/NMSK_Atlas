@@ -1,0 +1,39 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_nerve_track.py).",
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volume_cm3": {
+  "sciatic_n": 19.72
+ },
+ "tracks": {
+  "sciatic_n:right": {
+   "levels": 166,
+   "y_top": -70,
+   "y_bottom": -235,
+   "tracked_levels": 146,
+   "seed": {
+    "y": -85.0,
+    "x": 109.625,
+    "z": -35.375,
+    "rule": "midway between the ischial tuberosity and the greater trochanter, 20 mm below the tuberosity, 10 mm posterior"
+   },
+   "section_mm2_median": 25.9
+  },
+  "sciatic_n:left": {
+   "levels": 223,
+   "y_top": -71,
+   "y_bottom": -293,
+   "tracked_levels": 186,
+   "seed": {
+    "y": -83.0,
+    "x": -109.5,
+    "z": -29.625,
+    "rule": "midway between the ischial tuberosity and the greater trochanter, 20 mm below the tuberosity, 10 mm posterior"
+   },
+   "section_mm2_median": 33.8
+  }
+ }
+}

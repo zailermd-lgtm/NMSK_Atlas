@@ -1,0 +1,3524 @@
+{
+ "gates": {
+  "outside_skin_frac": 0.0,
+  "in_bone_frac": 0.02,
+  "in_lung_frac": 0.02,
+  "largest_component_share": 0.95,
+  "calibre_vs_hers": [
+   0.6,
+   1.8
+  ],
+  "volume_vs_hers": [
+   0.5,
+   2.5
+  ],
+  "ql_lr_ratio": [
+   0.67,
+   1.5
+  ]
+ },
+ "junction_mm": 3.0,
+ "structures": {
+  "aortic_arch_and_great_vessels": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.11
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": false,
+      "calibre_published": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.4608,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.4321,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 36.8,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 21.0,
+      "p90": 22.4
+     },
+     "should_touch_mm": {
+      "aorta": 0.1,
+      "trachea": 5.3,
+      "esophagus": 7.2
+     },
+     "his_label_fragment": {
+      "voxels": 5837,
+      "to_mesh_median_mm": 2.8,
+      "within_5mm_frac": 0.812,
+      "inside_mesh_frac": 0.515
+     },
+     "transfer": {
+      "driving_bones": {
+       "thoracic_vertebrae": 0.424,
+       "sternum": 0.214,
+       "clavicle_l": 0.176,
+       "ribs_l": 0.129
+      },
+      "volume_src_cm3": 26.0,
+      "volume_out_cm3": 36.8,
+      "displacement_mm_median": 28.2,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 2.5
+     },
+     "published": {
+      "mean_mm": 27.7,
+      "sd_mm": 3.7,
+      "source": "Hager 2002 doi:10.1067/mtc.2002.122310, proximal transverse arch 2.77 +- 0.37 cm (helical CT, 70 adults)",
+      "within_3sd": true
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": false,
+      "calibre_published": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 751,
+     "nf": 1498,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.241,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.2104,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 18.1,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 20.0,
+      "p90": 20.0
+     },
+     "should_touch_mm": {
+      "aorta": 2.1,
+      "trachea": 17.2,
+      "esophagus": 0.3
+     },
+     "his_label_fragment": {
+      "voxels": 10845,
+      "to_mesh_median_mm": 25.7,
+      "within_5mm_frac": 0.031,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "mean_mm": 27.7,
+      "sd_mm": 3.7,
+      "source": "Hager 2002 doi:10.1067/mtc.2002.122310, proximal transverse arch 2.77 +- 0.37 cm (helical CT, 70 adults)",
+      "within_3sd": true
+     }
+    }
+   },
+   "route": "d"
+  },
+  "descending_thoracic_aorta": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.11
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": false,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": false,
+      "calibre_published": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 3001,
+     "nf": 5998,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.3545,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.3302,
+     "components": 6,
+     "largest_component_share": 0.712,
+     "volume_cm3": 161.6,
+     "watertight": false,
+     "calibre_mm": {
+      "median": 24.1,
+      "p90": 25.6
+     },
+     "should_touch_mm": {
+      "aorta": 0.1,
+      "vertebrae_T12": 4.7,
+      "vertebrae_T11": 5.8,
+      "vertebrae_T10": 4.6,
+      "vertebrae_T9": 5.8,
+      "vertebrae_T8": 7.8,
+      "vertebrae_T7": 9.5,
+      "vertebrae_T6": 9.5,
+      "vertebrae_T5": 7.9,
+      "vertebrae_T4": 8.0
+     },
+     "his_label_fragment": {
+      "voxels": 17254,
+      "to_mesh_median_mm": 21.2,
+      "within_5mm_frac": 0.039,
+      "inside_mesh_frac": null
+     },
+     "transfer": {
+      "driving_bones": {
+       "thoracic_vertebrae": 0.564,
+       "ribs_l": 0.19,
+       "sternum": 0.114,
+       "lumbar_vertebrae": 0.055
+      },
+      "volume_src_cm3": 121.8,
+      "volume_out_cm3": 161.6,
+      "displacement_mm_median": 16.5,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.0
+     },
+     "published": {
+      "mean_mm": 24.0,
+      "sd_mm": 3.0,
+      "source": "Wolak 2008 doi:10.1016/j.jcmg.2007.11.005, descending thoracic aorta 24 +- 3 mm (non-contrast CT, n=1931); Hager 2002 2.43-2.47 cm",
+      "within_3sd": true
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": false,
+      "lung": false,
+      "calibre_published": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 742,
+     "nf": 1492,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0404,
+     "in_lung_frac": 0.2062,
+     "in_bone_gt1mm_frac": 0.0296,
+     "in_lung_gt1mm_frac": 0.1765,
+     "components": 9,
+     "largest_component_share": 0.989,
+     "volume_cm3": 111.0,
+     "watertight": false,
+     "calibre_mm": {
+      "median": 21.4,
+      "p90": 25.1
+     },
+     "should_touch_mm": {
+      "aorta": 2.9,
+      "vertebrae_T12": 0.5,
+      "vertebrae_T11": 0.3,
+      "vertebrae_T10": 1.7,
+      "vertebrae_T9": 3.7,
+      "vertebrae_T8": 4.9,
+      "vertebrae_T7": 6.3,
+      "vertebrae_T6": 11.9,
+      "vertebrae_T5": 27.5,
+      "vertebrae_T4": 47.6
+     },
+     "his_label_fragment": {
+      "voxels": 12998,
+      "to_mesh_median_mm": 17.3,
+      "within_5mm_frac": 0.012,
+      "inside_mesh_frac": null
+     },
+     "published": {
+      "mean_mm": 24.0,
+      "sd_mm": 3.0,
+      "source": "Wolak 2008 doi:10.1016/j.jcmg.2007.11.005, descending thoracic aorta 24 +- 3 mm (non-contrast CT, n=1931); Hager 2002 2.43-2.47 cm",
+      "within_3sd": true
+     }
+    }
+   },
+   "route": "d"
+  },
+  "abdominal_aorta": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.11
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 32.0,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 14.0,
+      "p90": 17.5
+     },
+     "should_touch_mm": {
+      "aorta": 27.4,
+      "vertebrae_L5": 16.3,
+      "vertebrae_L4": 9.6,
+      "vertebrae_L3": 11.7,
+      "vertebrae_L2": 13.2,
+      "vertebrae_L1": 11.8
+     },
+     "his_label_fragment": {
+      "voxels": 752,
+      "to_mesh_median_mm": 39.0,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": 0.0
+     },
+     "transfer": {
+      "driving_bones": {
+       "lumbar_vertebrae": 0.89,
+       "thoracic_vertebrae": 0.058,
+       "sacrum": 0.02,
+       "ribs_l": 0.019
+      },
+      "volume_src_cm3": 35.2,
+      "volume_out_cm3": 32.0,
+      "displacement_mm_median": 35.7,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.8
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 751,
+     "nf": 1498,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.5087,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.4141,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 19.9,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 15.7,
+      "p90": 19.0
+     },
+     "should_touch_mm": {
+      "aorta": 18.2,
+      "vertebrae_L5": 15.0,
+      "vertebrae_L4": 0.1,
+      "vertebrae_L3": 0.1,
+      "vertebrae_L2": 0.2,
+      "vertebrae_L1": 7.0
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "brachiocephalic_trunk_r": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.0
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": true,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1702,
+     "nf": 3400,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 2.9,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 12.7,
+      "p90": 12.7
+     },
+     "should_touch_mm": {
+      "brachiocephalic_trunk": 0.1,
+      "trachea": 0.6
+     },
+     "his_label_fragment": {
+      "voxels": 36,
+      "to_mesh_median_mm": 1.1,
+      "within_5mm_frac": 1.0,
+      "inside_mesh_frac": 0.222
+     },
+     "transfer": {
+      "driving_bones": {
+       "sternum": 0.438,
+       "clavicle_r": 0.347,
+       "thoracic_vertebrae": 0.215
+      },
+      "volume_src_cm3": 2.1,
+      "volume_out_cm3": 2.9,
+      "displacement_mm_median": 33.2,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 2.0
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": true,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 648,
+     "nf": 1292,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 1.9,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 9.0,
+      "p90": 9.3
+     },
+     "should_touch_mm": {
+      "brachiocephalic_trunk": 37.0,
+      "trachea": 0.6
+     },
+     "his_label_fragment": {
+      "voxels": 36,
+      "to_mesh_median_mm": 40.5,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "c",
+   "gap_to_kept_ct_s1159_aortic_arch_and_great_vessels_mm": 51.4
+  },
+  "subclavian_a_r": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.2
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0091,
+     "in_lung_frac": 0.2318,
+     "in_bone_gt1mm_frac": 0.0016,
+     "in_lung_gt1mm_frac": 0.1849,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 12.0,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 11.2,
+      "p90": 14.8
+     },
+     "should_touch_mm": {
+      "subclavian_artery_right": 0.1,
+      "rib_right_1": 0.2
+     },
+     "his_label_fragment": {
+      "voxels": 1840,
+      "to_mesh_median_mm": 4.4,
+      "within_5mm_frac": 0.579,
+      "inside_mesh_frac": 0.024
+     },
+     "transfer": {
+      "driving_bones": {
+       "ribs_r": 0.421,
+       "clavicle_r": 0.326,
+       "thoracic_vertebrae": 0.146,
+       "cervical_vertebrae": 0.063
+      },
+      "volume_src_cm3": 7.4,
+      "volume_out_cm3": 12.0,
+      "displacement_mm_median": 29.2,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.2
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 751,
+     "nf": 1500,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.723,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.719,
+     "components": 2,
+     "largest_component_share": 0.999,
+     "volume_cm3": 3.3,
+     "watertight": false,
+     "calibre_mm": {
+      "median": 7.0,
+      "p90": 8.5
+     },
+     "should_touch_mm": {
+      "subclavian_artery_right": 35.5,
+      "rib_right_1": 40.0
+     },
+     "his_label_fragment": {
+      "voxels": 1840,
+      "to_mesh_median_mm": 53.6,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": null
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "subclavian_a_l": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.21
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": false,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1879,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.3278,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.29,
+     "components": 2,
+     "largest_component_share": 0.914,
+     "volume_cm3": 11.8,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 11.8,
+      "p90": 13.0
+     },
+     "should_touch_mm": {
+      "subclavian_artery_left": 0.1,
+      "rib_left_1": 2.1
+     },
+     "his_label_fragment": {
+      "voxels": 2117,
+      "to_mesh_median_mm": 3.4,
+      "within_5mm_frac": 0.593,
+      "inside_mesh_frac": 0.264
+     },
+     "transfer": {
+      "driving_bones": {
+       "ribs_l": 0.443,
+       "clavicle_l": 0.255,
+       "thoracic_vertebrae": 0.209,
+       "cervical_vertebrae": 0.042
+      },
+      "volume_src_cm3": 8.6,
+      "volume_out_cm3": 11.8,
+      "displacement_mm_median": 28.3,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.5
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 746,
+     "nf": 1488,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.567,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.5509,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 4.9,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 8.2,
+      "p90": 10.6
+     },
+     "should_touch_mm": {
+      "subclavian_artery_left": 42.3,
+      "rib_left_1": 38.9
+     },
+     "his_label_fragment": {
+      "voxels": 2117,
+      "to_mesh_median_mm": 51.6,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "common_carotid_a_r": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.07
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": true,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": true,
+      "calibre_published": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 3.2,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 8.0,
+      "p90": 9.1
+     },
+     "should_touch_mm": {
+      "common_carotid_artery_right": 0.2,
+      "trachea": 6.2,
+      "thyroid_gland": 4.0
+     },
+     "his_label_fragment": {
+      "voxels": 193,
+      "to_mesh_median_mm": 1.2,
+      "within_5mm_frac": 1.0,
+      "inside_mesh_frac": 0.668
+     },
+     "transfer": {
+      "driving_bones": {
+       "clavicle_r": 0.433,
+       "cervical_vertebrae": 0.322,
+       "thoracic_vertebrae": 0.187,
+       "sternum": 0.043
+      },
+      "volume_src_cm3": 2.7,
+      "volume_out_cm3": 3.2,
+      "displacement_mm_median": 28.2,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 1.8
+     },
+     "published": {
+      "mean_mm": 6.52,
+      "sd_mm": 0.98,
+      "source": "Krejza 2006 doi:10.1161/01.STR.0000206440.48756.f7, CCA men 6.52 +- 0.98 mm (ultrasound)",
+      "within_3sd": true
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": false,
+      "calibre_published": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 737,
+     "nf": 1470,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.4939,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.4396,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 1.6,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 5.0,
+      "p90": 5.7
+     },
+     "should_touch_mm": {
+      "common_carotid_artery_right": 18.5,
+      "trachea": 0.2,
+      "thyroid_gland": 24.5
+     },
+     "his_label_fragment": {
+      "voxels": 193,
+      "to_mesh_median_mm": 21.4,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "mean_mm": 6.52,
+      "sd_mm": 0.98,
+      "source": "Krejza 2006 doi:10.1161/01.STR.0000206440.48756.f7, CCA men 6.52 +- 0.98 mm (ultrasound)",
+      "within_3sd": true
+     }
+    }
+   },
+   "route": "c",
+   "junctions": {
+    "c:common_carotid_a_r -> c:brachiocephalic_trunk_r": 0.7
+   }
+  },
+  "common_carotid_a_l": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.75
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": false,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": true,
+      "calibre_published": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1878,
+     "nf": 3748,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0245,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0128,
+     "components": 2,
+     "largest_component_share": 0.87,
+     "volume_cm3": 6.2,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 9.7,
+      "p90": 10.4
+     },
+     "should_touch_mm": {
+      "common_carotid_artery_left": 0.1,
+      "trachea": 1.1,
+      "thyroid_gland": 0.1
+     },
+     "his_label_fragment": {
+      "voxels": 4480,
+      "to_mesh_median_mm": 4.9,
+      "within_5mm_frac": 0.508,
+      "inside_mesh_frac": 0.11
+     },
+     "transfer": {
+      "driving_bones": {
+       "clavicle_l": 0.465,
+       "sternum": 0.176,
+       "thoracic_vertebrae": 0.161,
+       "cervical_vertebrae": 0.148
+      },
+      "volume_src_cm3": 4.8,
+      "volume_out_cm3": 6.2,
+      "displacement_mm_median": 29.6,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 1.8
+     },
+     "published": {
+      "mean_mm": 6.52,
+      "sd_mm": 0.98,
+      "source": "Krejza 2006 doi:10.1161/01.STR.0000206440.48756.f7, CCA men 6.52 +- 0.98 mm (ultrasound)",
+      "within_3sd": false
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_published": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 743,
+     "nf": 1482,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0027,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 2.7,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 5.7,
+      "p90": 6.5
+     },
+     "should_touch_mm": {
+      "common_carotid_artery_left": 0.7,
+      "trachea": 2.6,
+      "thyroid_gland": 20.7
+     },
+     "his_label_fragment": {
+      "voxels": 4480,
+      "to_mesh_median_mm": 11.7,
+      "within_5mm_frac": 0.074,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "mean_mm": 6.52,
+      "sd_mm": 0.98,
+      "source": "Krejza 2006 doi:10.1161/01.STR.0000206440.48756.f7, CCA men 6.52 +- 0.98 mm (ultrasound)",
+      "within_3sd": true
+     }
+    }
+   },
+   "route": "d"
+  },
+  "brachiocephalic_v_l": {
+   "a_label_screen": {
+    "pass": true,
+    "continuous": true,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 1.04
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "a": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": true,
+      "calibre_vs_her_own": true,
+      "reaches_superior_vena_cava": false
+     }
+    },
+    "measured": {
+     "subject": "ct_vhm_vessels",
+     "nv": 4452,
+     "nf": 8900,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0083,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 10.1,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 15.6,
+      "p90": 16.4
+     },
+     "should_touch_mm": {
+      "brachiocephalic_vein_left": 0.0
+     },
+     "his_label_fragment": {
+      "voxels": 11756,
+      "to_mesh_median_mm": 2.1,
+      "within_5mm_frac": 0.906,
+      "inside_mesh_frac": 0.972
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": true,
+      "calibre_vs_her_own": true,
+      "reaches_superior_vena_cava": false
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1876,
+     "nf": 3748,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0144,
+     "in_lung_frac": 0.0357,
+     "in_bone_gt1mm_frac": 0.0016,
+     "in_lung_gt1mm_frac": 0.0048,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 11.6,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 14.0,
+      "p90": 15.6
+     },
+     "should_touch_mm": {
+      "brachiocephalic_vein_left": 0.1
+     },
+     "his_label_fragment": {
+      "voxels": 11756,
+      "to_mesh_median_mm": 3.0,
+      "within_5mm_frac": 0.752,
+      "inside_mesh_frac": 0.348
+     },
+     "transfer": {
+      "driving_bones": {
+       "sternum": 0.51,
+       "clavicle_l": 0.326,
+       "ribs_l": 0.121,
+       "thoracic_vertebrae": 0.043
+      },
+      "volume_src_cm3": 9.5,
+      "volume_out_cm3": 11.6,
+      "displacement_mm_median": 32.3,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 2.3
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 750,
+     "nf": 1496,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 8.7,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 13.3,
+      "p90": 15.2
+     },
+     "should_touch_mm": {
+      "brachiocephalic_vein_left": 16.0
+     },
+     "his_label_fragment": {
+      "voxels": 11756,
+      "to_mesh_median_mm": 31.3,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d",
+   "junctions": {
+    "a:brachiocephalic_v_l -> a:superior_vena_cava": 24.9,
+    "c:brachiocephalic_v_l -> a:superior_vena_cava": 6.3
+   }
+  },
+  "brachiocephalic_v_r": {
+   "a_label_screen": {
+    "pass": true,
+    "continuous": true,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.99
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "a": {
+    "gate": {
+     "pass": true,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_vhm_vessels",
+     "nv": 3406,
+     "nf": 6808,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0302,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 6.5,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 12.2,
+      "p90": 13.4
+     },
+     "should_touch_mm": {
+      "brachiocephalic_vein_right": 0.0
+     },
+     "his_label_fragment": {
+      "voxels": 7681,
+      "to_mesh_median_mm": 1.6,
+      "within_5mm_frac": 0.988,
+      "inside_mesh_frac": 0.965
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.024,
+     "in_lung_frac": 0.2568,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.1987,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 7.4,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 15.1,
+      "p90": 15.4
+     },
+     "should_touch_mm": {
+      "brachiocephalic_vein_right": 0.1
+     },
+     "his_label_fragment": {
+      "voxels": 7681,
+      "to_mesh_median_mm": 2.8,
+      "within_5mm_frac": 0.838,
+      "inside_mesh_frac": 0.442
+     },
+     "transfer": {
+      "driving_bones": {
+       "clavicle_r": 0.519,
+       "ribs_r": 0.191,
+       "sternum": 0.185,
+       "thoracic_vertebrae": 0.106
+      },
+      "volume_src_cm3": 6.7,
+      "volume_out_cm3": 7.4,
+      "displacement_mm_median": 35.3,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 2.4
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 736,
+     "nf": 1468,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0041,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 6.9,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 16.5,
+      "p90": 16.5
+     },
+     "should_touch_mm": {
+      "brachiocephalic_vein_right": 17.5
+     },
+     "his_label_fragment": {
+      "voxels": 7681,
+      "to_mesh_median_mm": 39.8,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "a",
+   "junctions": {
+    "a:brachiocephalic_v_r -> a:superior_vena_cava": 0.0
+   }
+  },
+  "superior_vena_cava": {
+   "a_label_screen": {
+    "pass": true,
+    "continuous": true,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.93
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "a": {
+    "gate": {
+     "pass": true,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_vhm_vessels",
+     "nv": 6038,
+     "nf": 12072,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0002,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 17.1,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 19.0,
+      "p90": 20.2
+     },
+     "should_touch_mm": {
+      "superior_vena_cava": 0.0,
+      "heart": 0.0
+     },
+     "his_label_fragment": {
+      "voxels": 19849,
+      "to_mesh_median_mm": 2.5,
+      "within_5mm_frac": 0.808,
+      "inside_mesh_frac": 0.98
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "lung": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.1577,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.122,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 23.4,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 19.4,
+      "p90": 21.4
+     },
+     "should_touch_mm": {
+      "superior_vena_cava": 0.1,
+      "heart": 0.1
+     },
+     "his_label_fragment": {
+      "voxels": 19849,
+      "to_mesh_median_mm": 2.8,
+      "within_5mm_frac": 0.821,
+      "inside_mesh_frac": 0.669
+     },
+     "transfer": {
+      "driving_bones": {
+       "thoracic_vertebrae": 0.39,
+       "sternum": 0.284,
+       "ribs_r": 0.17,
+       "clavicle_r": 0.156
+      },
+      "volume_src_cm3": 18.3,
+      "volume_out_cm3": 23.4,
+      "displacement_mm_median": 35.4,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 2.6
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": false,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 744,
+     "nf": 1484,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.1694,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.1317,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 15.8,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 19.0,
+      "p90": 19.3
+     },
+     "should_touch_mm": {
+      "superior_vena_cava": 0.1,
+      "heart": 0.2
+     },
+     "his_label_fragment": {
+      "voxels": 19849,
+      "to_mesh_median_mm": 24.0,
+      "within_5mm_frac": 0.04,
+      "inside_mesh_frac": 0.006
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "a"
+  },
+  "inferior_vena_cava": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 1.01
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": false,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1878,
+     "nf": 3748,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0293,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0192,
+     "components": 2,
+     "largest_component_share": 0.713,
+     "volume_cm3": 69.1,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 16.1,
+      "p90": 24.5
+     },
+     "should_touch_mm": {
+      "inferior_vena_cava": 0.2,
+      "liver": 0.0,
+      "heart": 8.3
+     },
+     "his_label_fragment": {
+      "voxels": 65973,
+      "to_mesh_median_mm": 17.3,
+      "within_5mm_frac": 0.056,
+      "inside_mesh_frac": 0.007
+     },
+     "transfer": {
+      "driving_bones": {
+       "lumbar_vertebrae": 0.547,
+       "thoracic_vertebrae": 0.371,
+       "ribs_r": 0.052,
+       "ribs_l": 0.012
+      },
+      "volume_src_cm3": 56.1,
+      "volume_out_cm3": 69.1,
+      "displacement_mm_median": 43.3,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.4
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 740,
+     "nf": 1484,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.2189,
+     "in_lung_frac": 0.0027,
+     "in_bone_gt1mm_frac": 0.1703,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 4,
+     "largest_component_share": 0.992,
+     "volume_cm3": 83.2,
+     "watertight": false,
+     "calibre_mm": {
+      "median": 19.8,
+      "p90": 21.0
+     },
+     "should_touch_mm": {
+      "inferior_vena_cava": 0.2,
+      "liver": 0.2,
+      "heart": 41.7
+     },
+     "his_label_fragment": {
+      "voxels": 65973,
+      "to_mesh_median_mm": 15.2,
+      "within_5mm_frac": 0.104,
+      "inside_mesh_frac": null
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "common_iliac_a_l": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.21
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 6.1,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 6.6,
+      "p90": 8.0
+     },
+     "should_touch_mm": {
+      "iliac_artery_left": 15.2,
+      "vertebrae_L5": 0.7
+     },
+     "his_label_fragment": {
+      "voxels": 2389,
+      "to_mesh_median_mm": 21.9,
+      "within_5mm_frac": 0.0,
+      "inside_mesh_frac": 0.0
+     },
+     "transfer": {
+      "driving_bones": {
+       "hip_bone_l": 0.5,
+       "lumbar_vertebrae": 0.323,
+       "sacrum": 0.177
+      },
+      "volume_src_cm3": 8.9,
+      "volume_out_cm3": 6.1,
+      "displacement_mm_median": 7.2,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.8
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 731,
+     "nf": 1458,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.1696,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.1231,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 5.6,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 7.2,
+      "p90": 8.5
+     },
+     "should_touch_mm": {
+      "iliac_artery_left": 1.6,
+      "vertebrae_L5": 0.2
+     },
+     "his_label_fragment": {
+      "voxels": 2389,
+      "to_mesh_median_mm": 9.5,
+      "within_5mm_frac": 0.133,
+      "inside_mesh_frac": 0.0
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "common_iliac_a_r": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.18
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1876,
+     "nf": 3748,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 9.5,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 8.0,
+      "p90": 8.7
+     },
+     "should_touch_mm": {
+      "iliac_artery_right": 0.6,
+      "vertebrae_L5": 2.7
+     },
+     "his_label_fragment": {
+      "voxels": 2208,
+      "to_mesh_median_mm": 12.7,
+      "within_5mm_frac": 0.086,
+      "inside_mesh_frac": 0.0
+     },
+     "transfer": {
+      "driving_bones": {
+       "hip_bone_r": 0.466,
+       "lumbar_vertebrae": 0.344,
+       "sacrum": 0.191
+      },
+      "volume_src_cm3": 9.4,
+      "volume_out_cm3": 9.5,
+      "displacement_mm_median": 29.4,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.6
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 717,
+     "nf": 1434,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.1339,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0865,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 3,
+     "largest_component_share": 0.997,
+     "volume_cm3": 5.3,
+     "watertight": false,
+     "calibre_mm": {
+      "median": 7.2,
+      "p90": 9.2
+     },
+     "should_touch_mm": {
+      "iliac_artery_right": 3.3,
+      "vertebrae_L5": 0.1
+     },
+     "his_label_fragment": {
+      "voxels": 2208,
+      "to_mesh_median_mm": 8.6,
+      "within_5mm_frac": 0.062,
+      "inside_mesh_frac": null
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "common_iliac_v_l": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.37
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1877,
+     "nf": 3750,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0362,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0234,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 14.5,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 10.0,
+      "p90": 10.8
+     },
+     "should_touch_mm": {
+      "iliac_vena_left": 2.0,
+      "vertebrae_L5": 0.1
+     },
+     "his_label_fragment": {
+      "voxels": 9608,
+      "to_mesh_median_mm": 18.2,
+      "within_5mm_frac": 0.019,
+      "inside_mesh_frac": 0.0
+     },
+     "transfer": {
+      "driving_bones": {
+       "hip_bone_l": 0.528,
+       "lumbar_vertebrae": 0.275,
+       "sacrum": 0.197
+      },
+      "volume_src_cm3": 21.6,
+      "volume_out_cm3": 14.5,
+      "displacement_mm_median": 4.6,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.8
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": true,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 738,
+     "nf": 1476,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.2398,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.2141,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 3,
+     "largest_component_share": 0.997,
+     "volume_cm3": 24.9,
+     "watertight": false,
+     "calibre_mm": {
+      "median": 14.3,
+      "p90": 15.1
+     },
+     "should_touch_mm": {
+      "iliac_vena_left": 0.2,
+      "vertebrae_L5": 0.0
+     },
+     "his_label_fragment": {
+      "voxels": 9608,
+      "to_mesh_median_mm": 4.2,
+      "within_5mm_frac": 0.602,
+      "inside_mesh_frac": null
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "common_iliac_v_r": {
+   "a_label_screen": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.21
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 1876,
+     "nf": 3748,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0219,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0043,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 20.9,
+     "watertight": true,
+     "calibre_mm": {
+      "median": 10.8,
+      "p90": 12.3
+     },
+     "should_touch_mm": {
+      "iliac_vena_right": 0.2,
+      "vertebrae_L5": 0.2
+     },
+     "his_label_fragment": {
+      "voxels": 4736,
+      "to_mesh_median_mm": 6.8,
+      "within_5mm_frac": 0.432,
+      "inside_mesh_frac": 0.14
+     },
+     "transfer": {
+      "driving_bones": {
+       "hip_bone_r": 0.472,
+       "lumbar_vertebrae": 0.32,
+       "sacrum": 0.208
+      },
+      "volume_src_cm3": 18.9,
+      "volume_out_cm3": 20.9,
+      "displacement_mm_median": 24.7,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.6
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "lung": true,
+      "calibre_vs_her_own": true
+     }
+    },
+    "measured": {
+     "subject": "ct_s1159",
+     "nv": 727,
+     "nf": 1452,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0206,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.011,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 6,
+     "largest_component_share": 0.993,
+     "volume_cm3": 20.3,
+     "watertight": false,
+     "calibre_mm": {
+      "median": 13.3,
+      "p90": 14.1
+     },
+     "should_touch_mm": {
+      "iliac_vena_right": 0.3,
+      "vertebrae_L5": 0.2
+     },
+     "his_label_fragment": {
+      "voxels": 4736,
+      "to_mesh_median_mm": 8.1,
+      "within_5mm_frac": 0.302,
+      "inside_mesh_frac": null
+     },
+     "published": {
+      "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+     }
+    }
+   },
+   "route": "d"
+  },
+  "quadratus_lumborum_r": {
+   "a_label_screen": {
+    "vhm": {
+     "pass": false,
+     "l_r_ratio": 1.03,
+     "his_vs_her_volume": 0.36
+    },
+    "vhm_hybrid": {
+     "pass": false,
+     "l_r_ratio": 0.46,
+     "his_vs_her_volume": 0.52
+    },
+    "pass": false
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "touches_rib12_hip_iliopsoas_autochthon": false,
+      "volume_vs_her_own_0.8_1.6": false
+     },
+     "volume_vs_her_own": 0.7
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 4502,
+     "nf": 9000,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0231,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0036,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 29.9,
+     "watertight": true,
+     "calibre_mm": null,
+     "should_touch_mm": {
+      "rib_right_12": 34.3,
+      "hip_right": 0.1,
+      "iliopsoas_right": 0.0,
+      "autochthon_right": 18.3
+     },
+     "his_hybrid_ql_label": {
+      "voxels": 25539,
+      "to_mesh_median_mm": 22.0,
+      "within_5mm_frac": 0.074
+     },
+     "transfer": {
+      "driving_bones": {
+       "lumbar_vertebrae": 0.553,
+       "hip_bone_r": 0.236,
+       "ribs_r": 0.145,
+       "thoracic_vertebrae": 0.041
+      },
+      "volume_src_cm3": 42.2,
+      "volume_out_cm3": 29.9,
+      "displacement_mm_median": 52.7,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 3.9
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": false,
+      "touches_rib12_hip_iliopsoas_autochthon": false,
+      "volume_vs_her_own_0.8_1.6": false
+     },
+     "volume_vs_her_own": 0.73
+    },
+    "measured": {
+     "subject": "ct_s1159_abd",
+     "nv": 1777,
+     "nf": 3558,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0743,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0608,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 5,
+     "largest_component_share": 0.974,
+     "volume_cm3": 31.3,
+     "watertight": false,
+     "calibre_mm": null,
+     "should_touch_mm": {
+      "rib_right_12": 22.9,
+      "hip_right": 0.1,
+      "iliopsoas_right": 8.0,
+      "autochthon_right": 0.0
+     },
+     "his_hybrid_ql_label": {
+      "voxels": 25539,
+      "to_mesh_median_mm": 17.0,
+      "within_5mm_frac": 0.015
+     }
+    }
+   },
+   "route": "d"
+  },
+  "quadratus_lumborum_l": {
+   "a_label_screen": {
+    "vhm": {
+     "pass": false,
+     "l_r_ratio": 0.97,
+     "his_vs_her_volume": 0.37
+    },
+    "vhm_hybrid": {
+     "pass": false,
+     "l_r_ratio": 2.17,
+     "his_vs_her_volume": 1.17
+    },
+    "pass": false
+   },
+   "b": "his cryosection photographs are not local (only thigh crops were ever streamed, Q179-Q181, all deleted); not re-streamed",
+   "a": {
+    "gate": {
+     "pass": true,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": true,
+      "touches_rib12_hip_iliopsoas_autochthon": true,
+      "volume_vs_her_own_0.8_1.6": true
+     },
+     "volume_vs_her_own": 1.14
+    },
+    "measured": {
+     "subject": "ct_vhm_qlh",
+     "nv": 25477,
+     "nf": 50946,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0183,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0001,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 4,
+     "largest_component_share": 0.986,
+     "volume_cm3": 47.3,
+     "watertight": true,
+     "calibre_mm": null,
+     "should_touch_mm": {
+      "rib_left_12": 0.2,
+      "hip_left": 0.1,
+      "iliopsoas_left": 0.0,
+      "autochthon_left": 0.0
+     },
+     "his_hybrid_ql_label": {
+      "voxels": 55281,
+      "to_mesh_median_mm": 1.7,
+      "within_5mm_frac": 0.958
+     }
+    }
+   },
+   "c": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": true,
+      "position_vs_his_own_label": false,
+      "touches_rib12_hip_iliopsoas_autochthon": false,
+      "volume_vs_her_own_0.8_1.6": true
+     },
+     "volume_vs_her_own": 1.04
+    },
+    "measured": {
+     "subject": "xfer_all",
+     "nv": 4501,
+     "nf": 8998,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0036,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 1,
+     "largest_component_share": 1.0,
+     "volume_cm3": 43.1,
+     "watertight": true,
+     "calibre_mm": null,
+     "should_touch_mm": {
+      "rib_left_12": 5.8,
+      "hip_left": 0.2,
+      "iliopsoas_left": 19.9,
+      "autochthon_left": 0.0
+     },
+     "his_hybrid_ql_label": {
+      "voxels": 55281,
+      "to_mesh_median_mm": 27.0,
+      "within_5mm_frac": 0.057
+     },
+     "transfer": {
+      "driving_bones": {
+       "lumbar_vertebrae": 0.554,
+       "hip_bone_l": 0.253,
+       "ribs_l": 0.119,
+       "thoracic_vertebrae": 0.043
+      },
+      "volume_src_cm3": 40.7,
+      "volume_out_cm3": 43.1,
+      "displacement_mm_median": 20.5,
+      "vertices_clipped_to_skin": 0,
+      "bone_fit_residual_mm": 4.0
+     }
+    }
+   },
+   "d": {
+    "gate": {
+     "pass": false,
+     "checks": {
+      "skin": true,
+      "continuous": true,
+      "bone": false,
+      "position_vs_his_own_label": false,
+      "touches_rib12_hip_iliopsoas_autochthon": false,
+      "volume_vs_her_own_0.8_1.6": false
+     },
+     "volume_vs_her_own": 0.78
+    },
+    "measured": {
+     "subject": "ct_s1159_abd",
+     "nv": 1792,
+     "nf": 3576,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0636,
+     "in_lung_frac": 0.0,
+     "in_bone_gt1mm_frac": 0.0446,
+     "in_lung_gt1mm_frac": 0.0,
+     "components": 2,
+     "largest_component_share": 0.954,
+     "volume_cm3": 32.5,
+     "watertight": true,
+     "calibre_mm": null,
+     "should_touch_mm": {
+      "rib_left_12": 30.2,
+      "hip_left": 0.1,
+      "iliopsoas_left": 11.5,
+      "autochthon_left": 0.0
+     },
+     "his_hybrid_ql_label": {
+      "voxels": 55281,
+      "to_mesh_median_mm": 17.2,
+      "within_5mm_frac": 0.1
+     }
+    }
+   },
+   "route": "a"
+  }
+ },
+ "after_shipped_bundle": {
+  "bundle": "build/viewer_m_hr (2026-10-01)",
+  "records": {
+   "aortic_arch_and_great_vessels": {
+    "subject": "ct_s1159",
+    "nv": 751,
+    "nf": 1498,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.241,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.2104,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 18.1,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 20.0,
+     "p90": 20.0
+    },
+    "should_touch_mm": {
+     "aorta": 2.1,
+     "trachea": 17.2,
+     "esophagus": 0.3
+    },
+    "his_label_fragment": {
+     "voxels": 10845,
+     "to_mesh_median_mm": 25.7,
+     "within_5mm_frac": 0.031,
+     "inside_mesh_frac": 0.0
+    },
+    "published": {
+     "mean_mm": 27.7,
+     "sd_mm": 3.7,
+     "source": "Hager 2002 doi:10.1067/mtc.2002.122310, proximal transverse arch 2.77 +- 0.37 cm (helical CT, 70 adults)",
+     "within_3sd": true
+    }
+   },
+   "descending_thoracic_aorta": {
+    "subject": "ct_s1159",
+    "nv": 742,
+    "nf": 1492,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0404,
+    "in_lung_frac": 0.2062,
+    "in_bone_gt1mm_frac": 0.0296,
+    "in_lung_gt1mm_frac": 0.1765,
+    "components": 9,
+    "largest_component_share": 0.989,
+    "volume_cm3": 111.0,
+    "watertight": false,
+    "calibre_mm": {
+     "median": 21.4,
+     "p90": 25.1
+    },
+    "should_touch_mm": {
+     "aorta": 2.9,
+     "vertebrae_T12": 0.5,
+     "vertebrae_T11": 0.3,
+     "vertebrae_T10": 1.7,
+     "vertebrae_T9": 3.7,
+     "vertebrae_T8": 4.9,
+     "vertebrae_T7": 6.3,
+     "vertebrae_T6": 11.9,
+     "vertebrae_T5": 27.5,
+     "vertebrae_T4": 47.6
+    },
+    "his_label_fragment": {
+     "voxels": 12998,
+     "to_mesh_median_mm": 17.3,
+     "within_5mm_frac": 0.012,
+     "inside_mesh_frac": null
+    },
+    "published": {
+     "mean_mm": 24.0,
+     "sd_mm": 3.0,
+     "source": "Wolak 2008 doi:10.1016/j.jcmg.2007.11.005, descending thoracic aorta 24 +- 3 mm (non-contrast CT, n=1931); Hager 2002 2.43-2.47 cm",
+     "within_3sd": true
+    }
+   },
+   "abdominal_aorta": {
+    "subject": "ct_s1159",
+    "nv": 751,
+    "nf": 1498,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.5087,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.4141,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 19.9,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 15.7,
+     "p90": 19.0
+    },
+    "should_touch_mm": {
+     "aorta": 18.2,
+     "vertebrae_L5": 15.0,
+     "vertebrae_L4": 0.1,
+     "vertebrae_L3": 0.1,
+     "vertebrae_L2": 0.2,
+     "vertebrae_L1": 7.0
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "brachiocephalic_trunk_r": {
+    "subject": "xfer_vhf2vhm_vessels",
+    "nv": 1702,
+    "nf": 3400,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 2.9,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 12.4,
+     "p90": 12.4
+    },
+    "should_touch_mm": {
+     "brachiocephalic_trunk": 0.1,
+     "trachea": 0.5
+    },
+    "his_label_fragment": {
+     "voxels": 36,
+     "to_mesh_median_mm": 1.0,
+     "within_5mm_frac": 1.0,
+     "inside_mesh_frac": 0.222
+    },
+    "transfer": {
+     "driving_bones": {
+      "sternum": 0.438,
+      "clavicle_r": 0.347,
+      "thoracic_vertebrae": 0.215
+     },
+     "volume_src_cm3": 2.1,
+     "volume_out_cm3": 2.9,
+     "displacement_mm_median": 33.2,
+     "vertices_clipped_to_skin": 0,
+     "bone_fit_residual_mm": 2.0
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "subclavian_a_r": {
+    "subject": "ct_s1159",
+    "nv": 751,
+    "nf": 1500,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.723,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.719,
+    "components": 2,
+    "largest_component_share": 0.999,
+    "volume_cm3": 3.3,
+    "watertight": false,
+    "calibre_mm": {
+     "median": 7.0,
+     "p90": 8.5
+    },
+    "should_touch_mm": {
+     "subclavian_artery_right": 35.5,
+     "rib_right_1": 40.0
+    },
+    "his_label_fragment": {
+     "voxels": 1840,
+     "to_mesh_median_mm": 53.6,
+     "within_5mm_frac": 0.0,
+     "inside_mesh_frac": null
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "subclavian_a_l": {
+    "subject": "ct_s1159",
+    "nv": 746,
+    "nf": 1488,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.567,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.5509,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 4.9,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 8.2,
+     "p90": 10.6
+    },
+    "should_touch_mm": {
+     "subclavian_artery_left": 42.3,
+     "rib_left_1": 38.9
+    },
+    "his_label_fragment": {
+     "voxels": 2117,
+     "to_mesh_median_mm": 51.6,
+     "within_5mm_frac": 0.0,
+     "inside_mesh_frac": 0.0
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "common_carotid_a_r": {
+    "subject": "xfer_vhf2vhm_vessels",
+    "nv": 1877,
+    "nf": 3750,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 3.2,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 8.0,
+     "p90": 9.4
+    },
+    "should_touch_mm": {
+     "common_carotid_artery_right": 0.2,
+     "trachea": 6.1,
+     "thyroid_gland": 3.8
+    },
+    "his_label_fragment": {
+     "voxels": 193,
+     "to_mesh_median_mm": 1.2,
+     "within_5mm_frac": 1.0,
+     "inside_mesh_frac": 0.668
+    },
+    "transfer": {
+     "driving_bones": {
+      "clavicle_r": 0.433,
+      "cervical_vertebrae": 0.322,
+      "thoracic_vertebrae": 0.187,
+      "sternum": 0.043
+     },
+     "volume_src_cm3": 2.7,
+     "volume_out_cm3": 3.2,
+     "displacement_mm_median": 28.2,
+     "vertices_clipped_to_skin": 0,
+     "bone_fit_residual_mm": 1.8
+    },
+    "published": {
+     "mean_mm": 6.52,
+     "sd_mm": 0.98,
+     "source": "Krejza 2006 doi:10.1161/01.STR.0000206440.48756.f7, CCA men 6.52 +- 0.98 mm (ultrasound)",
+     "within_3sd": true
+    }
+   },
+   "common_carotid_a_l": {
+    "subject": "ct_s1159",
+    "nv": 743,
+    "nf": 1482,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0027,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 2.7,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 5.7,
+     "p90": 6.5
+    },
+    "should_touch_mm": {
+     "common_carotid_artery_left": 0.7,
+     "trachea": 2.6,
+     "thyroid_gland": 20.7
+    },
+    "his_label_fragment": {
+     "voxels": 4480,
+     "to_mesh_median_mm": 11.7,
+     "within_5mm_frac": 0.074,
+     "inside_mesh_frac": 0.0
+    },
+    "published": {
+     "mean_mm": 6.52,
+     "sd_mm": 0.98,
+     "source": "Krejza 2006 doi:10.1161/01.STR.0000206440.48756.f7, CCA men 6.52 +- 0.98 mm (ultrasound)",
+     "within_3sd": true
+    }
+   },
+   "brachiocephalic_v_l": {
+    "subject": "ct_s1159",
+    "nv": 750,
+    "nf": 1496,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 8.7,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 13.3,
+     "p90": 15.2
+    },
+    "should_touch_mm": {
+     "brachiocephalic_vein_left": 16.0
+    },
+    "his_label_fragment": {
+     "voxels": 11756,
+     "to_mesh_median_mm": 31.3,
+     "within_5mm_frac": 0.0,
+     "inside_mesh_frac": 0.0
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "brachiocephalic_v_r": {
+    "subject": "ct_vhm_vessels",
+    "nv": 1877,
+    "nf": 3750,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.0304,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 6.5,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 12.0,
+     "p90": 13.4
+    },
+    "should_touch_mm": {
+     "brachiocephalic_vein_right": 0.0
+    },
+    "his_label_fragment": {
+     "voxels": 7681,
+     "to_mesh_median_mm": 1.7,
+     "within_5mm_frac": 0.987,
+     "inside_mesh_frac": 0.96
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "superior_vena_cava": {
+    "subject": "ct_vhm_vessels",
+    "nv": 1877,
+    "nf": 3750,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 17.1,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 18.4,
+     "p90": 20.1
+    },
+    "should_touch_mm": {
+     "superior_vena_cava": 0.0,
+     "heart": 0.0
+    },
+    "his_label_fragment": {
+     "voxels": 19849,
+     "to_mesh_median_mm": 2.7,
+     "within_5mm_frac": 0.8,
+     "inside_mesh_frac": 0.975
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "inferior_vena_cava": {
+    "subject": "ct_s1159",
+    "nv": 740,
+    "nf": 1484,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.2189,
+    "in_lung_frac": 0.0027,
+    "in_bone_gt1mm_frac": 0.1703,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 4,
+    "largest_component_share": 0.992,
+    "volume_cm3": 83.2,
+    "watertight": false,
+    "calibre_mm": {
+     "median": 19.8,
+     "p90": 21.0
+    },
+    "should_touch_mm": {
+     "inferior_vena_cava": 0.2,
+     "liver": 0.2,
+     "heart": 41.7
+    },
+    "his_label_fragment": {
+     "voxels": 65973,
+     "to_mesh_median_mm": 15.2,
+     "within_5mm_frac": 0.104,
+     "inside_mesh_frac": null
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "common_iliac_a_l": {
+    "subject": "ct_s1159",
+    "nv": 731,
+    "nf": 1458,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.1696,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.1231,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 1,
+    "largest_component_share": 1.0,
+    "volume_cm3": 5.6,
+    "watertight": true,
+    "calibre_mm": {
+     "median": 7.2,
+     "p90": 8.5
+    },
+    "should_touch_mm": {
+     "iliac_artery_left": 1.6,
+     "vertebrae_L5": 0.2
+    },
+    "his_label_fragment": {
+     "voxels": 2389,
+     "to_mesh_median_mm": 9.5,
+     "within_5mm_frac": 0.133,
+     "inside_mesh_frac": 0.0
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "common_iliac_a_r": {
+    "subject": "ct_s1159",
+    "nv": 717,
+    "nf": 1434,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.1339,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0865,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 3,
+    "largest_component_share": 0.997,
+    "volume_cm3": 5.3,
+    "watertight": false,
+    "calibre_mm": {
+     "median": 7.2,
+     "p90": 9.2
+    },
+    "should_touch_mm": {
+     "iliac_artery_right": 3.3,
+     "vertebrae_L5": 0.1
+    },
+    "his_label_fragment": {
+     "voxels": 2208,
+     "to_mesh_median_mm": 8.6,
+     "within_5mm_frac": 0.062,
+     "inside_mesh_frac": null
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "common_iliac_v_l": {
+    "subject": "ct_s1159",
+    "nv": 738,
+    "nf": 1476,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.2398,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.2141,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 3,
+    "largest_component_share": 0.997,
+    "volume_cm3": 24.9,
+    "watertight": false,
+    "calibre_mm": {
+     "median": 14.3,
+     "p90": 15.1
+    },
+    "should_touch_mm": {
+     "iliac_vena_left": 0.2,
+     "vertebrae_L5": 0.0
+    },
+    "his_label_fragment": {
+     "voxels": 9608,
+     "to_mesh_median_mm": 4.2,
+     "within_5mm_frac": 0.602,
+     "inside_mesh_frac": null
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "common_iliac_v_r": {
+    "subject": "ct_s1159",
+    "nv": 727,
+    "nf": 1452,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0206,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.011,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 6,
+    "largest_component_share": 0.993,
+    "volume_cm3": 20.3,
+    "watertight": false,
+    "calibre_mm": {
+     "median": 13.3,
+     "p90": 14.1
+    },
+    "should_touch_mm": {
+     "iliac_vena_right": 0.3,
+     "vertebrae_L5": 0.2
+    },
+    "his_label_fragment": {
+     "voxels": 4736,
+     "to_mesh_median_mm": 8.1,
+     "within_5mm_frac": 0.302,
+     "inside_mesh_frac": null
+    },
+    "published": {
+     "source": "no published calibre checked for this vessel; compared with HER own label calibre (local thickness) instead"
+    }
+   },
+   "quadratus_lumborum_r": {
+    "subject": "ct_s1159_abd",
+    "nv": 1777,
+    "nf": 3558,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0743,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0608,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 5,
+    "largest_component_share": 0.974,
+    "volume_cm3": 31.3,
+    "watertight": false,
+    "calibre_mm": null,
+    "should_touch_mm": {
+     "rib_right_12": 22.9,
+     "hip_right": 0.1,
+     "iliopsoas_right": 8.0,
+     "autochthon_right": 0.0
+    },
+    "his_hybrid_ql_label": {
+     "voxels": 25539,
+     "to_mesh_median_mm": 17.0,
+     "within_5mm_frac": 0.015
+    }
+   },
+   "quadratus_lumborum_l": {
+    "subject": "ct_vhm_qlh",
+    "nv": 4503,
+    "nf": 8998,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0138,
+    "in_lung_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0002,
+    "in_lung_gt1mm_frac": 0.0,
+    "components": 5,
+    "largest_component_share": 0.978,
+    "volume_cm3": 47.2,
+    "watertight": false,
+    "calibre_mm": null,
+    "should_touch_mm": {
+     "rib_left_12": 0.5,
+     "hip_left": 0.4,
+     "iliopsoas_left": 0.0,
+     "autochthon_left": 0.0
+    },
+    "his_hybrid_ql_label": {
+     "voxels": 55281,
+     "to_mesh_median_mm": 1.9,
+     "within_5mm_frac": 0.955
+    }
+   }
+  }
+ },
+ "own_labels": {
+  "labels": {
+   "52": {
+    "vhm": {
+     "label": "aorta",
+     "volume_cm3": 21.0,
+     "components": 2,
+     "largest_share": 0.546,
+     "calibre_mm": {
+      "median": 11.7,
+      "p90": 16.3
+     },
+     "extent_mm": [
+      35.0,
+      57.0,
+      253.0
+     ]
+    },
+    "vhf": {
+     "label": "aorta",
+     "volume_cm3": 184.5,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 21.0,
+      "p90": 22.7
+     },
+     "extent_mm": [
+      63.0,
+      87.0,
+      375.0
+     ]
+    }
+   },
+   "54": {
+    "vhm": {
+     "label": "brachiocephalic_trunk",
+     "volume_cm3": 0.0,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 3.8,
+      "p90": 3.8
+     },
+     "extent_mm": [
+      3.0,
+      3.0,
+      6.0
+     ]
+    },
+    "vhf": {
+     "label": "brachiocephalic_trunk",
+     "volume_cm3": 2.3,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 10.0,
+      "p90": 10.9
+     },
+     "extent_mm": [
+      30.0,
+      15.0,
+      24.0
+     ]
+    }
+   },
+   "55": {
+    "vhm": {
+     "label": "subclavian_artery_right",
+     "volume_cm3": 1.6,
+     "components": 3,
+     "largest_share": 0.485,
+     "calibre_mm": {
+      "median": 6.8,
+      "p90": 7.1
+     },
+     "extent_mm": [
+      80.0,
+      20.0,
+      30.0
+     ]
+    },
+    "vhf": {
+     "label": "subclavian_artery_right",
+     "volume_cm3": 7.9,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 8.4,
+      "p90": 11.6
+     },
+     "extent_mm": [
+      90.0,
+      22.0,
+      33.0
+     ]
+    }
+   },
+   "56": {
+    "vhm": {
+     "label": "subclavian_artery_left",
+     "volume_cm3": 1.9,
+     "components": 2,
+     "largest_share": 0.997,
+     "calibre_mm": {
+      "median": 5.6,
+      "p90": 6.8
+     },
+     "extent_mm": [
+      74.0,
+      12.0,
+      21.0
+     ]
+    },
+    "vhf": {
+     "label": "subclavian_artery_left",
+     "volume_cm3": 9.1,
+     "components": 2,
+     "largest_share": 0.959,
+     "calibre_mm": {
+      "median": 10.1,
+      "p90": 12.0
+     },
+     "extent_mm": [
+      92.0,
+      33.0,
+      45.0
+     ]
+    }
+   },
+   "57": {
+    "vhm": {
+     "label": "common_carotid_artery_right",
+     "volume_cm3": 0.2,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 3.8,
+      "p90": 3.8
+     },
+     "extent_mm": [
+      6.0,
+      8.0,
+      14.0
+     ]
+    },
+    "vhf": {
+     "label": "common_carotid_artery_right",
+     "volume_cm3": 3.0,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 8.0,
+      "p90": 8.6
+     },
+     "extent_mm": [
+      18.0,
+      15.0,
+      72.0
+     ]
+    }
+   },
+   "58": {
+    "vhm": {
+     "label": "common_carotid_artery_left",
+     "volume_cm3": 3.9,
+     "components": 4,
+     "largest_share": 0.893,
+     "calibre_mm": {
+      "median": 7.5,
+      "p90": 9.3
+     },
+     "extent_mm": [
+      22.0,
+      25.0,
+      90.0
+     ]
+    },
+    "vhf": {
+     "label": "common_carotid_artery_left",
+     "volume_cm3": 5.2,
+     "components": 2,
+     "largest_share": 0.941,
+     "calibre_mm": {
+      "median": 8.6,
+      "p90": 9.4
+     },
+     "extent_mm": [
+      21.0,
+      22.0,
+      90.0
+     ]
+    }
+   },
+   "59": {
+    "vhm": {
+     "label": "brachiocephalic_vein_left",
+     "volume_cm3": 10.3,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 14.2,
+      "p90": 14.6
+     },
+     "extent_mm": [
+      33.0,
+      24.0,
+      47.0
+     ]
+    },
+    "vhf": {
+     "label": "brachiocephalic_vein_left",
+     "volume_cm3": 9.9,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 11.3,
+      "p90": 13.2
+     },
+     "extent_mm": [
+      60.0,
+      22.0,
+      44.0
+     ]
+    }
+   },
+   "60": {
+    "vhm": {
+     "label": "brachiocephalic_vein_right",
+     "volume_cm3": 6.8,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 10.6,
+      "p90": 11.2
+     },
+     "extent_mm": [
+      25.0,
+      18.0,
+      47.0
+     ]
+    },
+    "vhf": {
+     "label": "brachiocephalic_vein_right",
+     "volume_cm3": 6.9,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 14.8,
+      "p90": 15.7
+     },
+     "extent_mm": [
+      27.0,
+      20.0,
+      31.0
+     ]
+    }
+   },
+   "62": {
+    "vhm": {
+     "label": "superior_vena_cava",
+     "volume_cm3": 17.4,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 18.0,
+      "p90": 18.8
+     },
+     "extent_mm": [
+      25.0,
+      28.0,
+      57.0
+     ]
+    },
+    "vhf": {
+     "label": "superior_vena_cava",
+     "volume_cm3": 18.7,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 15.5,
+      "p90": 17.8
+     },
+     "extent_mm": [
+      25.0,
+      30.0,
+      70.0
+     ]
+    }
+   },
+   "63": {
+    "vhm": {
+     "label": "inferior_vena_cava",
+     "volume_cm3": 58.0,
+     "components": 2,
+     "largest_share": 0.88,
+     "calibre_mm": {
+      "median": 17.1,
+      "p90": 20.5
+     },
+     "extent_mm": [
+      38.0,
+      49.0,
+      241.0
+     ]
+    },
+    "vhf": {
+     "label": "inferior_vena_cava",
+     "volume_cm3": 57.2,
+     "components": 2,
+     "largest_share": 0.676,
+     "calibre_mm": {
+      "median": 13.8,
+      "p90": 17.8
+     },
+     "extent_mm": [
+      47.0,
+      40.0,
+      259.0
+     ]
+    }
+   },
+   "65": {
+    "vhm": {
+     "label": "iliac_artery_left",
+     "volume_cm3": 2.1,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 6.3,
+      "p90": 6.8
+     },
+     "extent_mm": [
+      22.0,
+      17.0,
+      47.0
+     ]
+    },
+    "vhf": {
+     "label": "iliac_artery_left",
+     "volume_cm3": 9.8,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 7.5,
+      "p90": 9.4
+     },
+     "extent_mm": [
+      70.0,
+      61.0,
+      180.0
+     ]
+    }
+   },
+   "66": {
+    "vhm": {
+     "label": "iliac_artery_right",
+     "volume_cm3": 1.9,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 5.6,
+      "p90": 7.1
+     },
+     "extent_mm": [
+      18.0,
+      17.0,
+      42.0
+     ]
+    },
+    "vhf": {
+     "label": "iliac_artery_right",
+     "volume_cm3": 10.3,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 7.2,
+      "p90": 9.6
+     },
+     "extent_mm": [
+      90.0,
+      52.0,
+      176.0
+     ]
+    }
+   },
+   "67": {
+    "vhm": {
+     "label": "iliac_vena_left",
+     "volume_cm3": 8.4,
+     "components": 4,
+     "largest_share": 0.649,
+     "calibre_mm": {
+      "median": 12.5,
+      "p90": 13.8
+     },
+     "extent_mm": [
+      52.0,
+      47.0,
+      99.0
+     ]
+    },
+    "vhf": {
+     "label": "iliac_vena_left",
+     "volume_cm3": 22.5,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 10.2,
+      "p90": 11.6
+     },
+     "extent_mm": [
+      73.0,
+      72.0,
+      169.0
+     ]
+    }
+   },
+   "68": {
+    "vhm": {
+     "label": "iliac_vena_right",
+     "volume_cm3": 4.2,
+     "components": 3,
+     "largest_share": 0.482,
+     "calibre_mm": {
+      "median": 5.9,
+      "p90": 7.1
+     },
+     "extent_mm": [
+      49.0,
+      30.0,
+      104.0
+     ]
+    },
+    "vhf": {
+     "label": "iliac_vena_right",
+     "volume_cm3": 19.7,
+     "components": 1,
+     "largest_share": 1.0,
+     "calibre_mm": {
+      "median": 10.3,
+      "p90": 11.9
+     },
+     "extent_mm": [
+      65.0,
+      60.0,
+      174.0
+     ]
+    }
+   },
+   "quadratus_lumborum_r": {
+    "vhm": {
+     "task": "vhm_abdominal_muscles.nii.gz",
+     "volume_cm3": 15.6,
+     "components": 8,
+     "largest_share": 0.812,
+     "extent_mm": [
+      68.0,
+      44.0,
+      140.0
+     ]
+    },
+    "vhm_hybrid": {
+     "task": "vhm_hybrid_abdominal_muscles.nii.gz",
+     "volume_cm3": 22.4,
+     "components": 4,
+     "largest_share": 0.951,
+     "extent_mm": [
+      75.0,
+      49.0,
+      145.0
+     ]
+    },
+    "vhf": {
+     "task": "vhf_abdominal_muscles.nii.gz",
+     "volume_cm3": 43.0,
+     "components": 1,
+     "largest_share": 1.0,
+     "extent_mm": [
+      87.0,
+      48.0,
+      135.0
+     ]
+    }
+   },
+   "quadratus_lumborum_l": {
+    "vhm": {
+     "task": "vhm_abdominal_muscles.nii.gz",
+     "volume_cm3": 15.2,
+     "components": 9,
+     "largest_share": 0.768,
+     "extent_mm": [
+      76.0,
+      41.0,
+      146.0
+     ]
+    },
+    "vhm_hybrid": {
+     "task": "vhm_hybrid_abdominal_muscles.nii.gz",
+     "volume_cm3": 48.6,
+     "components": 3,
+     "largest_share": 0.994,
+     "extent_mm": [
+      82.0,
+      58.0,
+      188.0
+     ]
+    },
+    "vhf": {
+     "task": "vhf_abdominal_muscles.nii.gz",
+     "volume_cm3": 41.5,
+     "components": 1,
+     "largest_share": 1.0,
+     "extent_mm": [
+      85.0,
+      52.0,
+      151.0
+     ]
+    }
+   }
+  },
+  "verdict": {
+   "aortic_arch_and_great_vessels": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.11
+   },
+   "descending_thoracic_aorta": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.11
+   },
+   "abdominal_aorta": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.11
+   },
+   "brachiocephalic_trunk_r": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.0
+   },
+   "subclavian_a_r": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.2
+   },
+   "subclavian_a_l": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.21
+   },
+   "common_carotid_a_r": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.07
+   },
+   "common_carotid_a_l": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.75
+   },
+   "brachiocephalic_v_l": {
+    "pass": true,
+    "continuous": true,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 1.04
+   },
+   "brachiocephalic_v_r": {
+    "pass": true,
+    "continuous": true,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.99
+   },
+   "superior_vena_cava": {
+    "pass": true,
+    "continuous": true,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.93
+   },
+   "inferior_vena_cava": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": true,
+    "calibre_ok": true,
+    "his_vs_her_volume": 1.01
+   },
+   "common_iliac_a_l": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.21
+   },
+   "common_iliac_a_r": {
+    "pass": false,
+    "continuous": true,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.18
+   },
+   "common_iliac_v_l": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": true,
+    "his_vs_her_volume": 0.37
+   },
+   "common_iliac_v_r": {
+    "pass": false,
+    "continuous": false,
+    "volume_ok": false,
+    "calibre_ok": false,
+    "his_vs_her_volume": 0.21
+   },
+   "quadratus_lumborum_r": {
+    "vhm": {
+     "pass": false,
+     "l_r_ratio": 1.03,
+     "his_vs_her_volume": 0.36
+    },
+    "vhm_hybrid": {
+     "pass": false,
+     "l_r_ratio": 0.46,
+     "his_vs_her_volume": 0.52
+    },
+    "pass": false
+   },
+   "quadratus_lumborum_l": {
+    "vhm": {
+     "pass": false,
+     "l_r_ratio": 0.97,
+     "his_vs_her_volume": 0.37
+    },
+    "vhm_hybrid": {
+     "pass": false,
+     "l_r_ratio": 2.17,
+     "his_vs_her_volume": 1.17
+    },
+    "pass": false
+   }
+  }
+ }
+}

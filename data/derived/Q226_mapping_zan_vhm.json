@@ -1,0 +1,390 @@
+{
+ "schema": "nmsk.imaging_mapping_report.v1",
+ "page": "zan_vhm",
+ "table": "clinical/data/imaging_tissues.json",
+ "structures": 2966,
+ "assigned_by_rule": 2959,
+ "unassigned": 7,
+ "coverage": 0.9976,
+ "by_class": {
+  "blood_artery": 428,
+  "muscle": 425,
+  "tendon_ligament": 360,
+  "nerve": 266,
+  "skin": 250,
+  "bone_cortical": 222,
+  "blood_vein": 219,
+  "brain_gm": 203,
+  "lymph_node": 161,
+  "synovial": 114,
+  "brain_wm": 57,
+  "solid_organ": 52,
+  "disc": 45,
+  "air_lumen": 29,
+  "tooth": 28,
+  "cartilage": 22,
+  "fibrocartilage": 20,
+  "blood_chamber": 14,
+  "gi_tract": 14,
+  "liver": 9,
+  "fluid_free": 7,
+  "soft_unassigned": 7,
+  "lung": 5,
+  "thyroid": 5,
+  "spinal_cord": 3,
+  "spleen": 1
+ },
+ "by_rule": {
+  "-1": 7,
+  "0": 250,
+  "4": 28,
+  "5": 12,
+  "6": 76,
+  "7": 27,
+  "8": 107,
+  "9": 45,
+  "10": 20,
+  "12": 22,
+  "14": 56,
+  "15": 59,
+  "16": 239,
+  "17": 114,
+  "19": 424,
+  "21": 14,
+  "22": 219,
+  "24": 428,
+  "25": 1,
+  "26": 27,
+  "27": 43,
+  "28": 266,
+  "29": 5,
+  "30": 5,
+  "31": 3,
+  "32": 30,
+  "33": 160,
+  "34": 1,
+  "35": 161,
+  "36": 29,
+  "37": 5,
+  "38": 9,
+  "40": 2,
+  "44": 2,
+  "45": 1,
+  "47": 14,
+  "48": 5,
+  "49": 50
+ },
+ "bone_kinds": {
+  "flat_irregular": 107,
+  "skull": 27,
+  "long": 12,
+  "short_tubular": 76,
+  "tooth": 28
+ },
+ "render": {
+  "fill": 2845,
+  "sheet": 121
+ },
+ "by_category": {
+  "vessel": {
+   "blood_artery": 428,
+   "blood_vein": 219,
+   "blood_chamber": 14
+  },
+  "nerve": {
+   "nerve": 266,
+   "brain_gm": 43,
+   "brain_wm": 27,
+   "tendon_ligament": 1
+  },
+  "muscle": {
+   "muscle": 424
+  },
+  "cartilage": {
+   "fibrocartilage": 9,
+   "cartilage": 22,
+   "disc": 22
+  },
+  "joint": {
+   "tendon_ligament": 291,
+   "fibrocartilage": 11,
+   "disc": 23
+  },
+  "bursa": {
+   "synovial": 114
+  },
+  "fascia": {
+   "tendon_ligament": 59
+  },
+  "bone": {
+   "bone_cortical": 222,
+   "tooth": 28
+  },
+  "insertion": {
+   "tendon_ligament": 4
+  },
+  "cns": {
+   "brain_wm": 30,
+   "brain_gm": 160,
+   "spinal_cord": 3,
+   "fluid_free": 5,
+   "tendon_ligament": 5
+  },
+  "viscera": {
+   "solid_organ": 52,
+   "air_lumen": 29,
+   "liver": 9,
+   "gi_tract": 14,
+   "fluid_free": 2,
+   "soft_unassigned": 7,
+   "lung": 5,
+   "thyroid": 5,
+   "muscle": 1
+  },
+  "lymph": {
+   "lymph_node": 161,
+   "spleen": 1
+  },
+  "skin": {
+   "skin": 250
+  }
+ },
+ "examples": {
+  "blood_artery": [
+   "abdominal_aorta",
+   "aortic_arch_and_great_vessels",
+   "brachiocephalic_trunk_r",
+   "common_hepatic_a",
+   "descending_thoracic_aorta",
+   "gonadal_a_l"
+  ],
+  "nerve": [
+   "abducens_n_l",
+   "abducens_n_r",
+   "anterior_interosseous_n_l",
+   "anterior_interosseous_n_r",
+   "axillary_n_l",
+   "axillary_n_r"
+  ],
+  "muscle": [
+   "abductor_digiti_minimi_foot_l",
+   "abductor_digiti_minimi_foot_r",
+   "abductor_digiti_minimi_hand_l",
+   "abductor_digiti_minimi_hand_r",
+   "abductor_hallucis_l",
+   "abductor_hallucis_r"
+  ],
+  "fibrocartilage": [
+   "acetabular_labrum_l",
+   "acetabular_labrum_r",
+   "glenoid_labrum_l",
+   "glenoid_labrum_r",
+   "lateral_meniscus_l",
+   "lateral_meniscus_r"
+  ],
+  "tendon_ligament": [
+   "acromioclavicular_ligament_l",
+   "acromioclavicular_ligament_r",
+   "annular_ligament_l",
+   "annular_ligament_r",
+   "antebrachial_fascia_r",
+   "anterior_cruciate_ligament_l"
+  ],
+  "synovial": [
+   "anserine_bursa_l",
+   "anserine_bursa_r",
+   "bicipitoradial_bursa_l",
+   "bicipitoradial_bursa_r",
+   "iliopsoas_bursa_l",
+   "iliopsoas_bursa_r"
+  ],
+  "blood_vein": [
+   "ascending_lumbar_v_l",
+   "ascending_lumbar_v_r",
+   "azygos_v",
+   "brachiocephalic_v_l",
+   "brachiocephalic_v_r",
+   "inferior_vena_cava"
+  ],
+  "bone_cortical": [
+   "calcaneus_l",
+   "calcaneus_r",
+   "clavicle_l",
+   "clavicle_r",
+   "coccyx",
+   "cuboid_l"
+  ],
+  "cartilage": [
+   "costal_cartilage_l",
+   "costal_cartilage_r",
+   "elbow_articular_cartilage_l",
+   "elbow_articular_cartilage_r",
+   "glenohumeral_articular_cartilage_l",
+   "glenohumeral_articular_cartilage_r"
+  ],
+  "disc": [
+   "intervertebral_disc_c2_c3",
+   "intervertebral_disc_c3_c4",
+   "intervertebral_disc_c4_c5",
+   "intervertebral_disc_c5_c6",
+   "intervertebral_disc_c6_c7",
+   "intervertebral_disc_l1_l2"
+  ],
+  "brain_wm": [
+   "optic_n_l",
+   "optic_n_r",
+   "zan_anterior_commissure",
+   "zan_anterior_corticospinal_tract",
+   "zan_anterior_fasciculus_proprius",
+   "zan_anterior_spinocerebellar_tract"
+  ],
+  "solid_organ": [
+   "zan_accessory_pancreatic_duct",
+   "zan_accessory_parotid_gland_l",
+   "zan_accessory_parotid_gland_r",
+   "zan_adenohypophysis",
+   "zan_bile_duct",
+   "zan_corpus_cavernosum_of_penis"
+  ],
+  "brain_gm": [
+   "zan_amygdaloid_body_l",
+   "zan_amygdaloid_body_r",
+   "zan_angular_gyrus_l",
+   "zan_angular_gyrus_r",
+   "zan_anterior_chamber_of_eyeball_l",
+   "zan_anterior_chamber_of_eyeball_r"
+  ],
+  "lymph_node": [
+   "zan_anterior_axillary_nodes_l",
+   "zan_anterior_axillary_nodes_r",
+   "zan_anterior_inferior_jugular_nodes_l",
+   "zan_anterior_inferior_jugular_nodes_r",
+   "zan_anterior_tibial_node_l",
+   "zan_anterior_tibial_node_r"
+  ],
+  "air_lumen": [
+   "zan_anterior_basal_segmental_bronchus_of_left_lung_bviii",
+   "zan_anterior_basal_segmental_bronchus_of_right_lung_bviii",
+   "zan_anterior_segmental_bronchus_of_left_lung_biii",
+   "zan_anterior_segmental_bronchus_of_right_lung_biii",
+   "zan_anteromedial_basal_segmental_bronchus_of_left_lung",
+   "zan_apical_segmental_bronchus_of_right_lung_bi"
+  ],
+  "spinal_cord": [
+   "zan_anterior_horn_of_spinal_cord",
+   "zan_white_matter_of_spinal_cord",
+   "zan_posterior_horn_of_spinal_cord"
+  ],
+  "liver": [
+   "zan_anterior_lateral_segment_of_liver_vi",
+   "zan_anterior_medial_segment_of_liver_v",
+   "zan_left_anterior_lateral_segment_of_liver_iii",
+   "zan_left_medial_segment_of_liver_iv",
+   "zan_left_posterior_lateral_segment_of_liver_ii",
+   "zan_liver"
+  ],
+  "blood_chamber": [
+   "zan_anterior_papillary_muscle_of_right_ventricle",
+   "zan_circumflex_artery_of_heart",
+   "zan_coronary_sinus",
+   "zan_great_cardiac_vein",
+   "zan_inferior_papillary_muscle_of_left_ventricle",
+   "zan_inferior_papillary_muscle_of_right_ventricle"
+  ],
+  "fluid_free": [
+   "zan_aqueduct_of_midbrain",
+   "zan_fourth_ventricle",
+   "zan_gallbladder",
+   "zan_lateral_ventricle_l",
+   "zan_lateral_ventricle_r",
+   "zan_third_ventricle"
+  ],
+  "gi_tract": [
+   "zan_ascending_colon",
+   "zan_descending_colon",
+   "zan_duodenum",
+   "zan_free_taenia",
+   "zan_jejunum",
+   "zan_meso_appendix"
+  ],
+  "soft_unassigned": [
+   "zan_gingiva",
+   "zan_greater_omentum",
+   "zan_lesser_omentum",
+   "zan_mucosa_of_nasal_cavity",
+   "zan_pleura",
+   "zan_soft_palate"
+  ],
+  "lung": [
+   "zan_inferior_lobe_of_left_lung",
+   "zan_inferior_lobe_of_right_lung",
+   "zan_middle_lobe_of_right_lung",
+   "zan_superior_lobe_of_left_lung",
+   "zan_superior_lobe_of_right_lung"
+  ],
+  "thyroid": [
+   "zan_inferior_parathyroid_gland_l",
+   "zan_inferior_parathyroid_gland_r",
+   "zan_superior_parathyroid_gland_l",
+   "zan_superior_parathyroid_gland_r",
+   "zan_thyroid_gland"
+  ],
+  "tooth": [
+   "zan_lower_canine_l",
+   "zan_lower_canine_r",
+   "zan_lower_first_molar_tooth_l",
+   "zan_lower_first_molar_tooth_r",
+   "zan_lower_first_premolar_l",
+   "zan_lower_first_premolar_r"
+  ],
+  "spleen": [
+   "zan_spleen"
+  ],
+  "skin": [
+   "zan_skin_anal_region_l",
+   "zan_skin_anal_region_r",
+   "zan_skin_angle_of_mouth_l",
+   "zan_skin_angle_of_mouth_r",
+   "zan_skin_anterior_notch_of_auricle_l",
+   "zan_skin_anterior_notch_of_auricle_r"
+  ]
+ },
+ "unassigned_structures": [
+  {
+   "id": "zan_gingiva",
+   "name": "Gingiva",
+   "cat": "viscera"
+  },
+  {
+   "id": "zan_greater_omentum",
+   "name": "Greater omentum",
+   "cat": "viscera"
+  },
+  {
+   "id": "zan_lesser_omentum",
+   "name": "Lesser omentum",
+   "cat": "viscera"
+  },
+  {
+   "id": "zan_mucosa_of_nasal_cavity",
+   "name": "Mucosa of nasal cavity",
+   "cat": "viscera"
+  },
+  {
+   "id": "zan_pleura",
+   "name": "Pleura",
+   "cat": "viscera"
+  },
+  {
+   "id": "zan_soft_palate",
+   "name": "Soft palate",
+   "cat": "viscera"
+  },
+  {
+   "id": "zan_uvula_of_palate",
+   "name": "Uvula of palate",
+   "cat": "viscera"
+  }
+ ],
+ "note": "unassigned = generic 'soft tissue (unassigned)' in the simulation (HU 40, T1 1000 / T2 60 ms); structures not listed here were claimed by an explicit rule, but a rule can be coarse (e.g. every bone not long/tubular/skull is 'flat_irregular')."
+}

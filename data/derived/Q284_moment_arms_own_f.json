@@ -1,0 +1,139 @@
+{
+ "key": "own_f",
+ "label": "Imaging-based · Female",
+ "seconds": 33.6,
+ "totals": {
+  "muscles": 401,
+  "with_joint": 169,
+  "none": 232
+ },
+ "coverage_by_joint": {
+  "cervical": {
+   "computed": 27,
+   "partial": 31,
+   "not_computable": 0,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 23,
+    "second end touches no bone (attachment not on this mesh)": 22,
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 2
+   }
+  },
+  "shoulder": {
+   "computed": 3,
+   "partial": 6,
+   "not_computable": 11,
+   "reasons": {
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 2,
+    "implausible path (mesh does not reach its bones)": 9,
+    "path re-crosses the joint": 2,
+    "first end touches no bone (attachment not on this mesh)": 2,
+    "second end touches no bone (attachment not on this mesh)": 2
+   }
+  },
+  "elbow": {
+   "computed": 3,
+   "partial": 18,
+   "not_computable": 8,
+   "reasons": {
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 2,
+    "path re-crosses the joint": 4,
+    "implausible path (mesh does not reach its bones)": 4,
+    "first end touches no bone (attachment not on this mesh)": 11,
+    "second end touches no bone (attachment not on this mesh)": 8,
+    "the muscle's side of the joint is ambiguous, no wrap": 1
+   }
+  },
+  "forearm": {
+   "computed": 7,
+   "partial": 21,
+   "not_computable": 15,
+   "reasons": {
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 1,
+    "path re-crosses the joint": 15,
+    "first end touches no bone (attachment not on this mesh)": 15,
+    "second end touches no bone (attachment not on this mesh)": 17,
+    "the muscle's side of the joint is ambiguous, no wrap": 1
+   }
+  },
+  "thoracic": {
+   "computed": 8,
+   "partial": 40,
+   "not_computable": 1,
+   "reasons": {
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 15,
+    "second end touches no bone (attachment not on this mesh)": 21,
+    "first end touches no bone (attachment not on this mesh)": 24,
+    "implausible path (mesh does not reach its bones)": 1
+   }
+  },
+  "lumbar": {
+   "computed": 5,
+   "partial": 18,
+   "not_computable": 2,
+   "reasons": {
+    "rib attachment approximated (merged rib mesh -> thorax segment)": 11,
+    "second end touches no bone (attachment not on this mesh)": 6,
+    "joined to its separately meshed tendon": 2,
+    "first end touches no bone (attachment not on this mesh)": 5,
+    "implausible path (mesh does not reach its bones)": 2
+   }
+  },
+  "hip": {
+   "computed": 6,
+   "partial": 18,
+   "not_computable": 11,
+   "reasons": {
+    "second end touches no bone (attachment not on this mesh)": 10,
+    "first end touches no bone (attachment not on this mesh)": 9,
+    "path re-crosses the joint": 9,
+    "joined to its separately meshed tendon": 7,
+    "implausible path (mesh does not reach its bones)": 2
+   }
+  },
+  "wrist": {
+   "computed": 7,
+   "partial": 18,
+   "not_computable": 1,
+   "reasons": {
+    "first end touches no bone (attachment not on this mesh)": 9,
+    "second end touches no bone (attachment not on this mesh)": 12,
+    "path re-crosses the joint": 1,
+    "path crosses the joint 2 times, no slide / wrap": 1,
+    "the muscle's side of the joint is ambiguous, no wrap": 1
+   }
+  },
+  "knee": {
+   "computed": 0,
+   "partial": 5,
+   "not_computable": 7,
+   "reasons": {
+    "implausible path (mesh does not reach its bones)": 3,
+    "first end touches no bone (attachment not on this mesh)": 3,
+    "second end touches no bone (attachment not on this mesh)": 2,
+    "path re-crosses the joint": 4,
+    "joined to its separately meshed tendon": 2
+   }
+  },
+  "subtalar": {
+   "computed": 0,
+   "partial": 2,
+   "not_computable": 4,
+   "reasons": {
+    "path re-crosses the joint": 4
+   }
+  },
+  "ankle": {
+   "computed": 0,
+   "partial": 2,
+   "not_computable": 4,
+   "reasons": {
+    "path re-crosses the joint": 4
+   }
+  }
+ },
+ "cited_action_check": {
+  "agrees": 143,
+  "disagrees": 16,
+  "agrees at some angles": 20
+ }
+}

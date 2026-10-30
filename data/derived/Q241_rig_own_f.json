@@ -1,0 +1,81 @@
+{
+ "key": "own_f",
+ "label": "Imaging-based \u00b7 Female",
+ "seconds": 58.6,
+ "counts": {
+  "segments": 49,
+  "joints": 22,
+  "regions": 3,
+  "structures": 1041,
+  "rigid": 412,
+  "skinned": 629,
+  "rigid_vertices": 982975,
+  "skinned_vertices": 1104517
+ },
+ "landmark_errors": {
+  "gh_r": {
+   "radius_mm": 24.5,
+   "rms_mm": 0.83,
+   "inliers": 1197
+  },
+  "gh_l": {
+   "radius_mm": 24.3,
+   "rms_mm": 0.87,
+   "inliers": 1396
+  },
+  "hip_r": {
+   "radius_mm": 24.4,
+   "rms_mm": 0.72,
+   "inliers": 818,
+   "acetabulum_centre_distance_mm": 1.9,
+   "acetabulum_radius_mm": 25.9
+  },
+  "hip_l": {
+   "radius_mm": 24.5,
+   "rms_mm": 0.75,
+   "inliers": 831,
+   "acetabulum_centre_distance_mm": 3.6,
+   "acetabulum_radius_mm": 27.4
+  }
+ },
+ "fit_rms": {
+  "shoulder_fit_rms_r": 8.532927487600001e-17,
+  "hip_fit_rms_r": 6.943710908238789e-17,
+  "ankle_fit_rms_r": 7.975536735467372e-17,
+  "shoulder_fit_rms_l": 1.189322726615616e-16,
+  "hip_fit_rms_l": 1.5877116567522103e-16,
+  "ankle_fit_rms_l": 2.0754911006665668e-16
+ },
+ "notes": {
+  "palmar_r": "forearm flexor vs extensor muscles (12 / 12 structures)",
+  "fingers_r": "not available: phalanges are merged into one mesh on this page (hand moves as one rigid segment)",
+  "foot_rotation_r": -4.605862042110619,
+  "toes_r": "not available: toe bones are merged into one mesh on this page (foot moves as one rigid segment)",
+  "palmar_l": "forearm flexor vs extensor muscles (8 / 12 structures)",
+  "fingers_l": "not available: phalanges are merged into one mesh on this page (hand moves as one rigid segment)",
+  "foot_rotation_l": -1.8770951943873762,
+  "toes_l": "not available: toe bones are merged into one mesh on this page (foot moves as one rigid segment)"
+ },
+ "rest_values_outside_range": [
+  {
+   "joint": "knee_r",
+   "dof": "flex",
+   "q0": -1.2,
+   "lo": 0.0,
+   "hi": 140.0
+  },
+  {
+   "joint": "knee_l",
+   "dof": "flex",
+   "q0": -0.4,
+   "lo": 0.0,
+   "hi": 140.0
+  }
+ ],
+ "embedded_kb": {
+  "rig_json_zlib": 15.9,
+  "weights_zlib": 247.3,
+  "total_base64": 350.9
+ },
+ "weights_raw_kb": 610.1
+}

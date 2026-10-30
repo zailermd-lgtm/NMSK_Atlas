@@ -1,0 +1,82 @@
+{
+ "task": "Q192 cryosection photograph -> atlas frame calibration (her skin mesh arm part is the same photographs, so the fit is against the shipped skin)",
+ "model": "atlas x = AX - 0.33*col ; y = cryo_z + YOFF ; zap = AZ + 0.33*row (full-res photograph px of the stored crop, +crop origin)",
+ "method": "silhouette (tissue colour class, closed) of the photograph vs the cross-section of build/vh/ct_vhf_skin at atlas y; overlap (IoU) maximised over the in-plane shift (per level, every 6th slice) and over the y offset (limb-window IoU, 8 levels per hand)",
+ "y_offset_overlap_curves": {
+  "left": {
+   "levels_cryo_z": [
+    -1690,
+    -1710,
+    -1730,
+    -1750,
+    -1770,
+    -1790,
+    -1810,
+    -1830
+   ],
+   "mean_IoU_by_offset": {
+    "1820": 0.754,
+    "1824": 0.768,
+    "1828": 0.776,
+    "1832": 0.784,
+    "1836": 0.799,
+    "1840": 0.81,
+    "1844": 0.829,
+    "1848": 0.834,
+    "1852": 0.835,
+    "1856": 0.823,
+    "1860": 0.812,
+    "1864": 0.796,
+    "1868": 0.779,
+    "1872": 0.769,
+    "1876": 0.761
+   },
+   "peak": 1852
+  },
+  "right": {
+   "levels_cryo_z": [
+    -1700,
+    -1730,
+    -1760,
+    -1790
+   ],
+   "mean_IoU_by_offset": {
+    "1820": 0.749,
+    "1826": 0.769,
+    "1832": 0.801,
+    "1838": 0.813,
+    "1844": 0.838,
+    "1850": 0.857,
+    "1856": 0.843,
+    "1862": 0.806,
+    "1868": 0.776,
+    "1874": 0.752,
+    "1880": 0.72
+   },
+   "peak": 1850
+  }
+ },
+ "adopted": {
+  "y_offset": 1850.0,
+  "AZ": -166.4,
+  "AX_left": 352.2,
+  "AX_right": 353.5,
+  "px_mm": 0.33
+ },
+ "in_plane_shift_left": {
+  "levels_used": 27,
+  "AX_mean": 352.2,
+  "AX_sd": 0.38,
+  "AZ_mean": -166.43,
+  "AZ_sd": 0.61,
+  "IoU_mean": 0.79
+ },
+ "in_plane_shift_right": {
+  "levels_used": 34,
+  "AX_mean": 353.46,
+  "AX_sd": 0.56,
+  "AZ_mean": -166.25,
+  "AZ_sd": 0.77,
+  "IoU_mean": 0.842
+ }
+}

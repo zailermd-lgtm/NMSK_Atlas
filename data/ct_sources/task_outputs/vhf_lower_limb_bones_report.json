@@ -1,0 +1,60 @@
+{
+ "_README": [
+  "Volumes/extents of the Visible Human female lower-limb bone labels (scripts/vhf_lower_limb_bones.py) and the legs->torso block registration. Derived data."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female, IDC series af18f5e4 (femur-to-toes CT) and b9cf8e7a (torso CT, TotalSegmentator v2.18.0 femur labels for the registration).",
+ "registration": {
+  "shift_ras_legs_to_torso": [
+   5.99,
+   -3.59,
+   -943.5
+  ],
+  "z_from_inter_femur_distance": -943.0,
+  "z_rms_mm": 0.15,
+  "z_prior_from_first_run": -943.5,
+  "z_uncertainty_mm": 4,
+  "xy_by_side": {
+   "x_right": 5.89,
+   "y_right": -2.82,
+   "x_left": 6.09,
+   "y_left": -4.36
+  },
+  "method": "block continuity across the torso/legs junction (see script docstring); no femoral head in the legs block"
+ },
+ "bones": {
+  "right": {
+   "femur_in_block_cm3": 193.2,
+   "femur_in_block_len_mm": 257,
+   "tibia_cm3": 178.7,
+   "tibia_len_mm": 362,
+   "fibula_cm3": 43.5,
+   "fibula_len_mm": 351,
+   "fibula_pieces_from_watershed": 0,
+   "patella_cm3": 20.7,
+   "foot_len_mm": 223,
+   "foot_pieces": 2,
+   "tarsals_cm3": 128.6,
+   "metatarsals_cm3": 45.5,
+   "phalanges_cm3": 7.5
+  },
+  "left": {
+   "femur_in_block_cm3": 187.5,
+   "femur_in_block_len_mm": 253,
+   "tibia_cm3": 174.2,
+   "tibia_len_mm": 358,
+   "fibula_cm3": 43.2,
+   "fibula_len_mm": 339,
+   "fibula_pieces_from_watershed": 0,
+   "patella_cm3": 20.5,
+   "foot_len_mm": 226,
+   "foot_pieces": 2,
+   "tarsals_cm3": 132.3,
+   "metatarsals_cm3": 38.4,
+   "phalanges_cm3": 5.9
+  }
+ },
+ "femur_cm3": {
+  "right": 420.3,
+  "left": 407.1
+ }
+}

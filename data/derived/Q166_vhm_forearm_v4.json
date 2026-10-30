@@ -1,0 +1,1522 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): male cryosection photographs at full resolution (0.33 mm, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, instances 1575-1819) and his CT radius/ulna labels (data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz) for registration. Derived data (scripts/cryo/vhm_forearm_muscles_v4.py): muscle regions enclosed by the pale fascial septa seen in the photographs, linked across sections, NAMED by majority overlap with the Q165 rule-based labels (data/ct_sources/task_outputs/vhm_forearm_muscles_v3.nii.gz); not traced by an anatomist. Expectations: repository architecture volumes (Holzbaur, Murray & Delp 2005 Ann Biomed Eng 33:829) scaled by his own upper-arm muscle volumes.",
+ "badge": "rule-assisted naming; boundaries from his photographed septa",
+ "script": "scripts/cryo/vhm_forearm_muscles_v4.py",
+ "subject": "ct_vhm_forearm_v4",
+ "reuses": "Q164 frame (frame.npz), Q165 resliced photograph cache (rgb_frame.npy), tissue classes, paleness residual and rule labels (vhm_forearm_muscles_v3.nii.gz)",
+ "segment": {
+  "u_mm": [
+   -89.0,
+   143.0
+  ],
+  "slices": 233
+ },
+ "method": {
+  "septum_lines": "watershed of the paleness residual (smoothed 0.5 mm) from its h-minima (h 0.01) inside the muscle class; adjacent basins merged weakest-first while < 0.5 of their shared boundary lies within 1 px in-plane / 1 slice of a pale pixel; surviving boundaries = 1 px septum lines",
+  "septum_mask": "septum lines + every non-muscle tissue class (fat, pale, other, bone, outside)",
+  "regions": "4-connected components of muscle AND NOT septum mask, >= 4.0 mm2",
+  "linking": "IoU >= 0.5 between consecutive slices (one-to-one), one-slice gaps bridged for unmatched regions; union-find",
+  "naming": "majority Q165 rule label per belly; purity < 0.6 unnamed",
+  "contact_on_septum": "per slice, share of a muscle's contact pixels (another named muscle within 2 px) within 1 px of a photographed pale pixel (residual >= pale) or non-muscle pixel, same slice; median over slices"
+ },
+ "expectations": {
+  "rule": "V = PCSA x optimal fascicle length / cos(pennation) (data/muscles/upper_limb/<id>_r.json) x ONE factor from his own upper arm (as Q165)",
+  "factor": 2.6977,
+  "his_upper_arm_cm3": {
+   "brachialis": {
+    "volume_cm3": 162.9,
+    "subject": "build/vh/ct_vhm_armm_contfix_mesh"
+   },
+   "triceps_brachii": {
+    "volume_cm3": 450.6,
+    "subject": "build/vh/ct_vhm_armm_contfix_mesh"
+   },
+   "biceps_brachii": {
+    "volume_cm3": 375.3,
+    "subject": "build/vh/ct_vhm_armm_contfix"
+   }
+  },
+  "architecture_upper_arm_cm3": {
+   "biceps_brachii": 129.6,
+   "brachialis": 63.24,
+   "triceps_brachii": 173.69
+  }
+ },
+ "gate": "0.5 <= volume/expected <= 2.0; main 26-connected component >= 0.98 (islands < 1 % dropped); contact-on-septum median >= 0.7; PT/BR/ECRL/anconeus out of range; pass at every pale threshold",
+ "runs": {
+  "0.1": {
+   "stats": {
+    "regions_per_slice": {
+     "median": 17.0,
+     "p10": 9.0,
+     "p90": 46.0,
+     "min": 6,
+     "max": 66
+    },
+    "watershed_basins_per_slice_median": 105.0,
+    "region_size_mm2": {
+     "p10": 5.5,
+     "median": 26.8,
+     "p90": 535.4,
+     "max": 5233.0
+    },
+    "largest_region_share_of_slice_muscle_median": 0.292,
+    "muscle_in_regions_share": 0.9592,
+    "septum_line_px_share_of_muscle": 0.0324,
+    "n_bellies": 1394,
+    "n_bellies_ge_0p1cm3": 349,
+    "slices_spanned": {
+     "median_all": 2.0,
+     "median_ge_0p1cm3": 6.0,
+     "p90_ge_0p1cm3": 19.0,
+     "max": 87,
+     "n_spanning_ge_20": 34,
+     "n_spanning_ge_50": 7
+    },
+    "volume_in_bellies_ge_0p1cm3_share": 0.972,
+    "unnamed": {
+     "n": 194,
+     "volume_cm3": 655.9,
+     "n_ge_0p1cm3": 91,
+     "largest": [
+      {
+       "belly": 27,
+       "volume_cm3": 92.47,
+       "slices": 87,
+       "best_purity": 0.531
+      },
+      {
+       "belly": 3,
+       "volume_cm3": 87.58,
+       "slices": 81,
+       "best_purity": 0.435
+      },
+      {
+       "belly": 998,
+       "volume_cm3": 57.96,
+       "slices": 24,
+       "best_purity": 0.215
+      },
+      {
+       "belly": 1076,
+       "volume_cm3": 49.23,
+       "slices": 31,
+       "best_purity": 0.198
+      },
+      {
+       "belly": 1225,
+       "volume_cm3": 43.16,
+       "slices": 47,
+       "best_purity": 0.349
+      },
+      {
+       "belly": 831,
+       "volume_cm3": 39.86,
+       "slices": 29,
+       "best_purity": 0.322
+      },
+      {
+       "belly": 8,
+       "volume_cm3": 30.39,
+       "slices": 50,
+       "best_purity": 0.595
+      },
+      {
+       "belly": 32,
+       "volume_cm3": 28.75,
+       "slices": 64,
+       "best_purity": 0.266
+      }
+     ]
+    },
+    "named_volume_cm3": 280.1
+   },
+   "chance_evidence_near_muscle_px": 0.215,
+   "pass": [
+    "flexor_pollicis_longus"
+   ],
+   "muscles": {
+    "pronator_teres": {
+     "volume_cm3": 16.7,
+     "ratio": 0.28,
+     "main_component_fraction": 0.9785,
+     "contact_on_septum_median": 0.853,
+     "naming_purity": 0.855,
+     "bellies": 126,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "flexor_carpi_radialis": {
+     "volume_cm3": 22.5,
+     "ratio": 0.92,
+     "main_component_fraction": 0.9508,
+     "contact_on_septum_median": 0.9,
+     "naming_purity": 0.926,
+     "bellies": 272,
+     "gate_pass": false,
+     "reason": "main component 0.951 of the volume (< 0.98)"
+    },
+    "palmaris_longus": {
+     "volume_cm3": 3.8,
+     "ratio": 0.79,
+     "main_component_fraction": 0.5106,
+     "contact_on_septum_median": 0.837,
+     "naming_purity": 0.9,
+     "bellies": 95,
+     "gate_pass": false,
+     "reason": "main component 0.511 of the volume (< 0.98)"
+    },
+    "flexor_carpi_ulnaris": {
+     "volume_cm3": 100.6,
+     "ratio": 2.21,
+     "main_component_fraction": 0.6955,
+     "contact_on_septum_median": 0.692,
+     "naming_purity": 0.69,
+     "bellies": 68,
+     "gate_pass": false,
+     "reason": "volume 100.6 cm3 is 2.21x the expectation 45.5 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_digitorum_superficialis": {
+     "volume_cm3": 9.2,
+     "ratio": 0.12,
+     "main_component_fraction": 0.3701,
+     "contact_on_septum_median": 0.557,
+     "naming_purity": 0.801,
+     "bellies": 47,
+     "gate_pass": false,
+     "reason": "volume 9.2 cm3 is 0.12x the expectation 77.9 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_digitorum_profundus": {
+     "volume_cm3": 21.4,
+     "ratio": 0.2,
+     "main_component_fraction": 0.7698,
+     "contact_on_septum_median": 0.748,
+     "naming_purity": 0.757,
+     "bellies": 78,
+     "gate_pass": false,
+     "reason": "volume 21.4 cm3 is 0.20x the expectation 109.4 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_pollicis_longus": {
+     "volume_cm3": 27.9,
+     "ratio": 1.42,
+     "main_component_fraction": 0.9813,
+     "contact_on_septum_median": 0.755,
+     "naming_purity": 0.852,
+     "bellies": 54,
+     "gate_pass": true,
+     "reason": "UNSTABLE: fails the gate at pale 0.08: main component 0.660 of the volume (< 0.98)"
+    },
+    "pronator_quadratus": {
+     "volume_cm3": 10.2,
+     "ratio": 1.67,
+     "main_component_fraction": 0.9752,
+     "contact_on_septum_median": 0.781,
+     "naming_purity": 0.832,
+     "bellies": 19,
+     "gate_pass": false,
+     "reason": "main component 0.975 of the volume (< 0.98)"
+    },
+    "brachioradialis": {
+     "volume_cm3": 13.8,
+     "ratio": 0.21,
+     "main_component_fraction": 0.643,
+     "contact_on_septum_median": 0.895,
+     "naming_purity": 0.851,
+     "bellies": 124,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "extensor_carpi_radialis_longus": {
+     "volume_cm3": 5.7,
+     "ratio": 0.14,
+     "main_component_fraction": 0.5188,
+     "contact_on_septum_median": 0.791,
+     "naming_purity": 0.828,
+     "bellies": 62,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "extensor_carpi_radialis_brevis": {
+     "volume_cm3": 2.7,
+     "ratio": 0.09,
+     "main_component_fraction": 0.2455,
+     "contact_on_septum_median": 0.806,
+     "naming_purity": 0.824,
+     "bellies": 37,
+     "gate_pass": false,
+     "reason": "volume 2.7 cm3 is 0.09x the expectation 31.1 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_digitorum": {
+     "volume_cm3": 3.3,
+     "ratio": 0.06,
+     "main_component_fraction": 0.3131,
+     "contact_on_septum_median": 0.548,
+     "naming_purity": 0.848,
+     "bellies": 30,
+     "gate_pass": false,
+     "reason": "volume 3.3 cm3 is 0.06x the expectation 58.5 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_digiti_minimi": {
+     "volume_cm3": 10.5,
+     "ratio": 3.26,
+     "main_component_fraction": 0.8561,
+     "contact_on_septum_median": 0.68,
+     "naming_purity": 0.669,
+     "bellies": 21,
+     "gate_pass": false,
+     "reason": "volume 10.5 cm3 is 3.26x the expectation 3.2 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_carpi_ulnaris": {
+     "volume_cm3": 10.2,
+     "ratio": 0.31,
+     "main_component_fraction": 0.3417,
+     "contact_on_septum_median": 0.606,
+     "naming_purity": 0.941,
+     "bellies": 52,
+     "gate_pass": false,
+     "reason": "volume 10.2 cm3 is 0.31x the expectation 32.9 cm3 (gate 0.5-2.0x)"
+    },
+    "anconeus": {
+     "volume_cm3": 0.8,
+     "ratio": 0.05,
+     "main_component_fraction": 0.5278,
+     "contact_on_septum_median": 0.699,
+     "naming_purity": 0.897,
+     "bellies": 21,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "supinator": {
+     "volume_cm3": 13.2,
+     "ratio": 0.52,
+     "main_component_fraction": 0.6859,
+     "contact_on_septum_median": 0.774,
+     "naming_purity": 0.845,
+     "bellies": 55,
+     "gate_pass": false,
+     "reason": "main component 0.686 of the volume (< 0.98)"
+    },
+    "abductor_pollicis_longus": {
+     "volume_cm3": 0.1,
+     "ratio": 0.01,
+     "main_component_fraction": 0.6062,
+     "contact_on_septum_median": 0.367,
+     "naming_purity": 0.957,
+     "bellies": 2,
+     "gate_pass": false,
+     "reason": "volume 0.1 cm3 is 0.01x the expectation 15.4 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_pollicis_brevis": {
+     "volume_cm3": 6.2,
+     "ratio": 1.42,
+     "main_component_fraction": 0.9855,
+     "contact_on_septum_median": 0.524,
+     "naming_purity": 0.816,
+     "bellies": 18,
+     "gate_pass": false,
+     "reason": "contact-on-septum 0.52 (median over slices) < 0.7"
+    },
+    "extensor_pollicis_longus": {
+     "volume_cm3": 1.1,
+     "ratio": 0.11,
+     "main_component_fraction": 0.4359,
+     "contact_on_septum_median": 0.5,
+     "naming_purity": 0.86,
+     "bellies": 15,
+     "gate_pass": false,
+     "reason": "volume 1.1 cm3 is 0.11x the expectation 9.6 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_indicis": {
+     "volume_cm3": 0.1,
+     "ratio": 0.04,
+     "main_component_fraction": 0.5526,
+     "contact_on_septum_median": null,
+     "naming_purity": 0.958,
+     "bellies": 4,
+     "gate_pass": false,
+     "reason": "volume 0.1 cm3 is 0.04x the expectation 3.3 cm3 (gate 0.5-2.0x)"
+    }
+   }
+  },
+  "0.08": {
+   "stats": {
+    "regions_per_slice": {
+     "median": 23.0,
+     "p10": 13.0,
+     "p90": 59.0,
+     "min": 6,
+     "max": 82
+    },
+    "watershed_basins_per_slice_median": 105.0,
+    "region_size_mm2": {
+     "p10": 6.0,
+     "median": 27.0,
+     "p90": 371.8,
+     "max": 3177.5
+    },
+    "largest_region_share_of_slice_muscle_median": 0.259,
+    "muscle_in_regions_share": 0.9486,
+    "septum_line_px_share_of_muscle": 0.0426,
+    "n_bellies": 1748,
+    "n_bellies_ge_0p1cm3": 480,
+    "slices_spanned": {
+     "median_all": 2.0,
+     "median_ge_0p1cm3": 6.0,
+     "p90_ge_0p1cm3": 20.0,
+     "max": 92,
+     "n_spanning_ge_20": 49,
+     "n_spanning_ge_50": 10
+    },
+    "volume_in_bellies_ge_0p1cm3_share": 0.964,
+    "unnamed": {
+     "n": 216,
+     "volume_cm3": 576.8,
+     "n_ge_0p1cm3": 115,
+     "largest": [
+      {
+       "belly": 33,
+       "volume_cm3": 84.81,
+       "slices": 92,
+       "best_purity": 0.553
+      },
+      {
+       "belly": 1176,
+       "volume_cm3": 74.67,
+       "slices": 44,
+       "best_purity": 0.237
+      },
+      {
+       "belly": 775,
+       "volume_cm3": 59.39,
+       "slices": 51,
+       "best_purity": 0.393
+      },
+      {
+       "belly": 1416,
+       "volume_cm3": 43.32,
+       "slices": 89,
+       "best_purity": 0.58
+      },
+      {
+       "belly": 1485,
+       "volume_cm3": 40.01,
+       "slices": 54,
+       "best_purity": 0.348
+      },
+      {
+       "belly": 38,
+       "volume_cm3": 35.58,
+       "slices": 86,
+       "best_purity": 0.333
+      },
+      {
+       "belly": 4,
+       "volume_cm3": 25.22,
+       "slices": 41,
+       "best_purity": 0.502
+      },
+      {
+       "belly": 1152,
+       "volume_cm3": 23.44,
+       "slices": 56,
+       "best_purity": 0.45
+      }
+     ]
+    },
+    "named_volume_cm3": 349.0
+   },
+   "chance_evidence_near_muscle_px": 0.246,
+   "pass": [
+    "pronator_quadratus"
+   ],
+   "muscles": {
+    "pronator_teres": {
+     "volume_cm3": 20.0,
+     "ratio": 0.34,
+     "main_component_fraction": 0.9893,
+     "contact_on_septum_median": 0.862,
+     "naming_purity": 0.855,
+     "bellies": 138,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "flexor_carpi_radialis": {
+     "volume_cm3": 28.3,
+     "ratio": 1.15,
+     "main_component_fraction": 0.8271,
+     "contact_on_septum_median": 0.897,
+     "naming_purity": 0.87,
+     "bellies": 310,
+     "gate_pass": false,
+     "reason": "main component 0.827 of the volume (< 0.98)"
+    },
+    "palmaris_longus": {
+     "volume_cm3": 38.2,
+     "ratio": 7.86,
+     "main_component_fraction": 0.7943,
+     "contact_on_septum_median": 0.68,
+     "naming_purity": 0.688,
+     "bellies": 122,
+     "gate_pass": false,
+     "reason": "volume 38.2 cm3 is 7.86x the expectation 4.9 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_carpi_ulnaris": {
+     "volume_cm3": 88.3,
+     "ratio": 1.94,
+     "main_component_fraction": 0.7137,
+     "contact_on_septum_median": 0.757,
+     "naming_purity": 0.738,
+     "bellies": 99,
+     "gate_pass": false,
+     "reason": "main component 0.714 of the volume (< 0.98)"
+    },
+    "flexor_digitorum_superficialis": {
+     "volume_cm3": 12.4,
+     "ratio": 0.16,
+     "main_component_fraction": 0.3401,
+     "contact_on_septum_median": 0.547,
+     "naming_purity": 0.807,
+     "bellies": 70,
+     "gate_pass": false,
+     "reason": "volume 12.4 cm3 is 0.16x the expectation 77.9 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_digitorum_profundus": {
+     "volume_cm3": 20.4,
+     "ratio": 0.19,
+     "main_component_fraction": 0.7946,
+     "contact_on_septum_median": 0.826,
+     "naming_purity": 0.857,
+     "bellies": 81,
+     "gate_pass": false,
+     "reason": "volume 20.4 cm3 is 0.19x the expectation 109.4 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_pollicis_longus": {
+     "volume_cm3": 10.7,
+     "ratio": 0.54,
+     "main_component_fraction": 0.6596,
+     "contact_on_septum_median": 0.679,
+     "naming_purity": 0.923,
+     "bellies": 78,
+     "gate_pass": false,
+     "reason": "main component 0.660 of the volume (< 0.98)"
+    },
+    "pronator_quadratus": {
+     "volume_cm3": 10.7,
+     "ratio": 1.76,
+     "main_component_fraction": 1.0,
+     "contact_on_septum_median": 0.775,
+     "naming_purity": 0.843,
+     "bellies": 28,
+     "gate_pass": true,
+     "reason": "1.76x the expectation, main component 1.000, contact-on-septum 0.78"
+    },
+    "brachioradialis": {
+     "volume_cm3": 28.0,
+     "ratio": 0.43,
+     "main_component_fraction": 0.5593,
+     "contact_on_septum_median": 0.864,
+     "naming_purity": 0.833,
+     "bellies": 143,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "extensor_carpi_radialis_longus": {
+     "volume_cm3": 23.5,
+     "ratio": 0.55,
+     "main_component_fraction": 0.6914,
+     "contact_on_septum_median": 0.86,
+     "naming_purity": 0.769,
+     "bellies": 83,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "extensor_carpi_radialis_brevis": {
+     "volume_cm3": 7.4,
+     "ratio": 0.24,
+     "main_component_fraction": 0.2681,
+     "contact_on_septum_median": 0.775,
+     "naming_purity": 0.777,
+     "bellies": 60,
+     "gate_pass": false,
+     "reason": "volume 7.4 cm3 is 0.24x the expectation 31.1 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_digitorum": {
+     "volume_cm3": 8.8,
+     "ratio": 0.15,
+     "main_component_fraction": 0.7524,
+     "contact_on_septum_median": 0.561,
+     "naming_purity": 0.735,
+     "bellies": 44,
+     "gate_pass": false,
+     "reason": "volume 8.8 cm3 is 0.15x the expectation 58.5 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_digiti_minimi": {
+     "volume_cm3": 8.9,
+     "ratio": 2.75,
+     "main_component_fraction": 0.4187,
+     "contact_on_septum_median": 0.696,
+     "naming_purity": 0.812,
+     "bellies": 49,
+     "gate_pass": false,
+     "reason": "volume 8.9 cm3 is 2.75x the expectation 3.2 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_carpi_ulnaris": {
+     "volume_cm3": 16.1,
+     "ratio": 0.49,
+     "main_component_fraction": 0.8008,
+     "contact_on_septum_median": 0.645,
+     "naming_purity": 0.933,
+     "bellies": 64,
+     "gate_pass": false,
+     "reason": "volume 16.1 cm3 is 0.49x the expectation 32.9 cm3 (gate 0.5-2.0x)"
+    },
+    "anconeus": {
+     "volume_cm3": 1.7,
+     "ratio": 0.11,
+     "main_component_fraction": 1.0,
+     "contact_on_septum_median": 0.735,
+     "naming_purity": 0.858,
+     "bellies": 28,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "supinator": {
+     "volume_cm3": 15.3,
+     "ratio": 0.6,
+     "main_component_fraction": 0.9738,
+     "contact_on_septum_median": 0.846,
+     "naming_purity": 0.862,
+     "bellies": 71,
+     "gate_pass": false,
+     "reason": "main component 0.974 of the volume (< 0.98)"
+    },
+    "abductor_pollicis_longus": {
+     "volume_cm3": 0.7,
+     "ratio": 0.04,
+     "main_component_fraction": 0.3908,
+     "contact_on_septum_median": 0.529,
+     "naming_purity": 0.79,
+     "bellies": 13,
+     "gate_pass": false,
+     "reason": "volume 0.7 cm3 is 0.04x the expectation 15.4 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_pollicis_brevis": {
+     "volume_cm3": 7.4,
+     "ratio": 1.7,
+     "main_component_fraction": 0.9861,
+     "contact_on_septum_median": 0.571,
+     "naming_purity": 0.784,
+     "bellies": 19,
+     "gate_pass": false,
+     "reason": "contact-on-septum 0.57 (median over slices) < 0.7"
+    },
+    "extensor_pollicis_longus": {
+     "volume_cm3": 1.9,
+     "ratio": 0.2,
+     "main_component_fraction": 0.3635,
+     "contact_on_septum_median": 0.583,
+     "naming_purity": 0.844,
+     "bellies": 24,
+     "gate_pass": false,
+     "reason": "volume 1.9 cm3 is 0.20x the expectation 9.6 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_indicis": {
+     "volume_cm3": 0.3,
+     "ratio": 0.1,
+     "main_component_fraction": 0.8319,
+     "contact_on_septum_median": null,
+     "naming_purity": 0.926,
+     "bellies": 8,
+     "gate_pass": false,
+     "reason": "volume 0.3 cm3 is 0.10x the expectation 3.3 cm3 (gate 0.5-2.0x)"
+    }
+   }
+  },
+  "0.12": {
+   "stats": {
+    "regions_per_slice": {
+     "median": 12.0,
+     "p10": 7.0,
+     "p90": 33.80000000000001,
+     "min": 4,
+     "max": 51
+    },
+    "watershed_basins_per_slice_median": 105.0,
+    "region_size_mm2": {
+     "p10": 5.2,
+     "median": 27.8,
+     "p90": 790.2,
+     "max": 5736.2
+    },
+    "largest_region_share_of_slice_muscle_median": 0.38,
+    "muscle_in_regions_share": 0.9675,
+    "septum_line_px_share_of_muscle": 0.0244,
+    "n_bellies": 1099,
+    "n_bellies_ge_0p1cm3": 278,
+    "slices_spanned": {
+     "median_all": 2.0,
+     "median_ge_0p1cm3": 5.0,
+     "p90_ge_0p1cm3": 17.30000000000001,
+     "max": 97,
+     "n_spanning_ge_20": 26,
+     "n_spanning_ge_50": 6
+    },
+    "volume_in_bellies_ge_0p1cm3_share": 0.981,
+    "unnamed": {
+     "n": 163,
+     "volume_cm3": 775.4,
+     "n_ge_0p1cm3": 87,
+     "largest": [
+      {
+       "belly": 606,
+       "volume_cm3": 199.79,
+       "slices": 85,
+       "best_purity": 0.206
+      },
+      {
+       "belly": 26,
+       "volume_cm3": 113.88,
+       "slices": 64,
+       "best_purity": 0.292
+      },
+      {
+       "belly": 30,
+       "volume_cm3": 67.62,
+       "slices": 48,
+       "best_purity": 0.51
+      },
+      {
+       "belly": 508,
+       "volume_cm3": 65.36,
+       "slices": 97,
+       "best_purity": 0.186
+      },
+      {
+       "belly": 932,
+       "volume_cm3": 65.13,
+       "slices": 67,
+       "best_purity": 0.277
+      },
+      {
+       "belly": 3,
+       "volume_cm3": 43.12,
+       "slices": 50,
+       "best_purity": 0.428
+      },
+      {
+       "belly": 1017,
+       "volume_cm3": 22.9,
+       "slices": 51,
+       "best_purity": 0.406
+      },
+      {
+       "belly": 712,
+       "volume_cm3": 18.27,
+       "slices": 15,
+       "best_purity": 0.29
+      }
+     ]
+    },
+    "named_volume_cm3": 168.7
+   },
+   "chance_evidence_near_muscle_px": 0.192,
+   "pass": [
+    "flexor_pollicis_longus",
+    "extensor_indicis"
+   ],
+   "muscles": {
+    "pronator_teres": {
+     "volume_cm3": 9.7,
+     "ratio": 0.16,
+     "main_component_fraction": 0.6531,
+     "contact_on_septum_median": 0.865,
+     "naming_purity": 0.868,
+     "bellies": 95,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "flexor_carpi_radialis": {
+     "volume_cm3": 20.1,
+     "ratio": 0.82,
+     "main_component_fraction": 0.8929,
+     "contact_on_septum_median": 0.857,
+     "naming_purity": 0.913,
+     "bellies": 236,
+     "gate_pass": false,
+     "reason": "main component 0.893 of the volume (< 0.98)"
+    },
+    "palmaris_longus": {
+     "volume_cm3": 14.6,
+     "ratio": 3.02,
+     "main_component_fraction": 0.7384,
+     "contact_on_septum_median": 0.826,
+     "naming_purity": 0.696,
+     "bellies": 82,
+     "gate_pass": false,
+     "reason": "volume 14.6 cm3 is 3.02x the expectation 4.9 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_carpi_ulnaris": {
+     "volume_cm3": 26.8,
+     "ratio": 0.59,
+     "main_component_fraction": 0.3343,
+     "contact_on_septum_median": 0.7,
+     "naming_purity": 0.774,
+     "bellies": 59,
+     "gate_pass": false,
+     "reason": "main component 0.334 of the volume (< 0.98)"
+    },
+    "flexor_digitorum_superficialis": {
+     "volume_cm3": 3.6,
+     "ratio": 0.05,
+     "main_component_fraction": 0.3362,
+     "contact_on_septum_median": 0.733,
+     "naming_purity": 0.822,
+     "bellies": 37,
+     "gate_pass": false,
+     "reason": "volume 3.6 cm3 is 0.05x the expectation 77.9 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_digitorum_profundus": {
+     "volume_cm3": 10.4,
+     "ratio": 0.1,
+     "main_component_fraction": 0.701,
+     "contact_on_septum_median": 0.786,
+     "naming_purity": 0.875,
+     "bellies": 59,
+     "gate_pass": false,
+     "reason": "volume 10.4 cm3 is 0.10x the expectation 109.4 cm3 (gate 0.5-2.0x)"
+    },
+    "flexor_pollicis_longus": {
+     "volume_cm3": 23.0,
+     "ratio": 1.17,
+     "main_component_fraction": 0.9888,
+     "contact_on_septum_median": 0.818,
+     "naming_purity": 0.898,
+     "bellies": 33,
+     "gate_pass": true,
+     "reason": "1.17x the expectation, main component 0.989, contact-on-septum 0.82"
+    },
+    "pronator_quadratus": {
+     "volume_cm3": 1.1,
+     "ratio": 0.18,
+     "main_component_fraction": 0.3818,
+     "contact_on_septum_median": 0.833,
+     "naming_purity": 0.919,
+     "bellies": 14,
+     "gate_pass": false,
+     "reason": "volume 1.1 cm3 is 0.18x the expectation 6.1 cm3 (gate 0.5-2.0x)"
+    },
+    "brachioradialis": {
+     "volume_cm3": 30.3,
+     "ratio": 0.47,
+     "main_component_fraction": 0.9375,
+     "contact_on_septum_median": 0.891,
+     "naming_purity": 0.897,
+     "bellies": 95,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "extensor_carpi_radialis_longus": {
+     "volume_cm3": 2.9,
+     "ratio": 0.07,
+     "main_component_fraction": 0.5419,
+     "contact_on_septum_median": 0.8,
+     "naming_purity": 0.817,
+     "bellies": 48,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "extensor_carpi_radialis_brevis": {
+     "volume_cm3": 2.3,
+     "ratio": 0.07,
+     "main_component_fraction": 0.2058,
+     "contact_on_septum_median": 0.727,
+     "naming_purity": 0.819,
+     "bellies": 29,
+     "gate_pass": false,
+     "reason": "volume 2.3 cm3 is 0.07x the expectation 31.1 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_digitorum": {
+     "volume_cm3": 1.7,
+     "ratio": 0.03,
+     "main_component_fraction": 0.8832,
+     "contact_on_septum_median": null,
+     "naming_purity": 0.693,
+     "bellies": 14,
+     "gate_pass": false,
+     "reason": "volume 1.7 cm3 is 0.03x the expectation 58.5 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_digiti_minimi": {
+     "volume_cm3": 3.9,
+     "ratio": 1.21,
+     "main_component_fraction": 0.6875,
+     "contact_on_septum_median": 0.667,
+     "naming_purity": 0.756,
+     "bellies": 14,
+     "gate_pass": false,
+     "reason": "main component 0.687 of the volume (< 0.98)"
+    },
+    "extensor_carpi_ulnaris": {
+     "volume_cm3": 6.4,
+     "ratio": 0.2,
+     "main_component_fraction": 0.42,
+     "contact_on_septum_median": 0.481,
+     "naming_purity": 0.977,
+     "bellies": 41,
+     "gate_pass": false,
+     "reason": "volume 6.4 cm3 is 0.20x the expectation 32.9 cm3 (gate 0.5-2.0x)"
+    },
+    "anconeus": {
+     "volume_cm3": 0.4,
+     "ratio": 0.03,
+     "main_component_fraction": 0.6206,
+     "contact_on_septum_median": 0.417,
+     "naming_purity": 0.939,
+     "bellies": 17,
+     "gate_pass": false,
+     "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented"
+    },
+    "supinator": {
+     "volume_cm3": 4.1,
+     "ratio": 0.16,
+     "main_component_fraction": 0.5852,
+     "contact_on_septum_median": 0.75,
+     "naming_purity": 0.904,
+     "bellies": 37,
+     "gate_pass": false,
+     "reason": "volume 4.1 cm3 is 0.16x the expectation 25.7 cm3 (gate 0.5-2.0x)"
+    },
+    "abductor_pollicis_longus": {
+     "volume_cm3": 0.0,
+     "ratio": 0.0,
+     "main_component_fraction": 0.6015,
+     "contact_on_septum_median": null,
+     "naming_purity": 0.866,
+     "bellies": 2,
+     "gate_pass": false,
+     "reason": "volume 0.0 cm3 is 0.00x the expectation 15.4 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_pollicis_brevis": {
+     "volume_cm3": 3.4,
+     "ratio": 0.78,
+     "main_component_fraction": 0.769,
+     "contact_on_septum_median": null,
+     "naming_purity": 0.933,
+     "bellies": 14,
+     "gate_pass": false,
+     "reason": "main component 0.769 of the volume (< 0.98)"
+    },
+    "extensor_pollicis_longus": {
+     "volume_cm3": 0.4,
+     "ratio": 0.04,
+     "main_component_fraction": 0.5218,
+     "contact_on_septum_median": null,
+     "naming_purity": 0.823,
+     "bellies": 6,
+     "gate_pass": false,
+     "reason": "volume 0.4 cm3 is 0.04x the expectation 9.6 cm3 (gate 0.5-2.0x)"
+    },
+    "extensor_indicis": {
+     "volume_cm3": 3.7,
+     "ratio": 1.14,
+     "main_component_fraction": 1.0,
+     "contact_on_septum_median": 1.0,
+     "naming_purity": 0.938,
+     "bellies": 4,
+     "gate_pass": true,
+     "reason": "1.14x the expectation, main component 1.000, contact-on-septum 1.00"
+    }
+   }
+  }
+ },
+ "tuning_tried": [
+  {
+   "flags": "--link iou --sigma-u 0 (IoU 0.5 tracking, no axial smoothing)",
+   "regions_per_slice": 19,
+   "bellies": 3497,
+   "bellies_ge_0p1cm3": 508,
+   "median_slices_ge_0p1cm3": 2,
+   "unnamed_cm3": 602.2,
+   "named_cm3": 331.0,
+   "pass": [
+    "supinator",
+    "extensor_indicis"
+   ],
+   "stable_0.08_0.12": [
+    "extensor_indicis"
+   ]
+  },
+  {
+   "flags": "--link mutual --sigma-u 0",
+   "regions_per_slice": 19,
+   "bellies": 1952,
+   "bellies_ge_0p1cm3": 379,
+   "median_slices_ge_0p1cm3": 6,
+   "unnamed_cm3": 575.1,
+   "named_cm3": 358.1,
+   "pass": []
+  },
+  {
+   "flags": "--link iou (sigma-u 1.5)",
+   "regions_per_slice": 17,
+   "bellies": 2502,
+   "bellies_ge_0p1cm3": 493,
+   "median_slices_ge_0p1cm3": 3,
+   "unnamed_cm3": 636.6,
+   "named_cm3": 299.4,
+   "pass": [
+    "flexor_pollicis_longus"
+   ]
+  },
+  {
+   "flags": "--support 0.4",
+   "regions_per_slice": 21,
+   "bellies": 1700,
+   "bellies_ge_0p1cm3": 465,
+   "median_slices_ge_0p1cm3": 6,
+   "unnamed_cm3": 588.6,
+   "named_cm3": 339.1,
+   "pass": [
+    "pronator_quadratus",
+    "extensor_indicis"
+   ]
+  },
+  {
+   "flags": "3-D watershed of the axially smoothed paleness + 3-D pooled-boundary merge (scratch prototype, not in this script)",
+   "bellies": 820,
+   "bellies_ge_0p1cm3": 109,
+   "note": "two bellies of 512 and 371 cm3 (purity 0.24 / 0.21) swallow the forearm; named 50.7 cm3"
+  },
+  {
+   "flags": "per-slice only, no merge support (closing/dilation of pale >= thr, components of muscle minus ridge)",
+   "regions_per_slice": 3,
+   "note": "one region holds most of each section: the pale ridge alone never closes"
+  }
+ ],
+ "verdict": "STOPPED: the photographed pale septa do not close into muscle-sized regions consistently along the axis. Per slice the regions are plausible, but linked in 3-D they are either short fragments or large bellies spanning several rule muscles (purity < 0.6, left unnamed), so the named muscles are small and broken; nothing passes the gate at every paleness threshold.",
+ "muscles": {
+  "pronator_teres": {
+   "label": 1,
+   "volume_cm3": 16.7,
+   "expected_cm3": 58.9,
+   "ratio": 0.28,
+   "architecture_volume_cm3": 21.83,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.9785,
+   "components_26": 14,
+   "contact_on_septum_median": 0.853,
+   "contact_slices": 65,
+   "boundary_on_septum_or_nonmuscle_median": 0.664,
+   "naming_purity": 0.855,
+   "bellies": 126,
+   "belly_slices_max": 19,
+   "out_of_range": true,
+   "gate_pass": false,
+   "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "flexor_carpi_radialis": {
+   "label": 2,
+   "volume_cm3": 22.5,
+   "expected_cm3": 24.5,
+   "ratio": 0.92,
+   "architecture_volume_cm3": 9.09,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.9508,
+   "components_26": 24,
+   "contact_on_septum_median": 0.9,
+   "contact_slices": 45,
+   "boundary_on_septum_or_nonmuscle_median": 0.839,
+   "naming_purity": 0.926,
+   "bellies": 272,
+   "belly_slices_max": 18,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "main component 0.951 of the volume (< 0.98)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "palmaris_longus": {
+   "label": 3,
+   "volume_cm3": 3.8,
+   "expected_cm3": 4.9,
+   "ratio": 0.79,
+   "architecture_volume_cm3": 1.8,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.5106,
+   "components_26": 35,
+   "contact_on_septum_median": 0.837,
+   "contact_slices": 21,
+   "boundary_on_septum_or_nonmuscle_median": 0.959,
+   "naming_purity": 0.9,
+   "bellies": 95,
+   "belly_slices_max": 19,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "main component 0.511 of the volume (< 0.98)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "flexor_carpi_ulnaris": {
+   "label": 4,
+   "volume_cm3": 100.6,
+   "expected_cm3": 45.5,
+   "ratio": 2.21,
+   "architecture_volume_cm3": 16.87,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.6955,
+   "components_26": 18,
+   "contact_on_septum_median": 0.692,
+   "contact_slices": 119,
+   "boundary_on_septum_or_nonmuscle_median": 0.841,
+   "naming_purity": 0.69,
+   "bellies": 68,
+   "belly_slices_max": 60,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 100.6 cm3 is 2.21x the expectation 45.5 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "flexor_digitorum_superficialis": {
+   "label": 5,
+   "volume_cm3": 9.2,
+   "expected_cm3": 77.9,
+   "ratio": 0.12,
+   "architecture_volume_cm3": 28.89,
+   "expectation_source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes FDS as arising via humeroulnar and radial heads giving 4 tendons, with variable independence",
+   "main_component_fraction": 0.3701,
+   "components_26": 14,
+   "contact_on_septum_median": 0.557,
+   "contact_slices": 34,
+   "boundary_on_septum_or_nonmuscle_median": 0.538,
+   "naming_purity": 0.801,
+   "bellies": 47,
+   "belly_slices_max": 11,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 9.2 cm3 is 0.12x the expectation 77.9 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "flexor_digitorum_profundus": {
+   "label": 6,
+   "volume_cm3": 21.4,
+   "expected_cm3": 109.4,
+   "ratio": 0.2,
+   "architecture_volume_cm3": 40.57,
+   "expectation_source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (index portion of FDP typically has a separate muscle belly); von Schroeder HP, Botte MJ (1993) J Hand Surg; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); von Schroeder HP, Botte MJ (1993) J Hand Surg",
+   "main_component_fraction": 0.7698,
+   "components_26": 13,
+   "contact_on_septum_median": 0.748,
+   "contact_slices": 118,
+   "boundary_on_septum_or_nonmuscle_median": 0.774,
+   "naming_purity": 0.757,
+   "bellies": 78,
+   "belly_slices_max": 31,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 21.4 cm3 is 0.20x the expectation 109.4 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "flexor_pollicis_longus": {
+   "label": 7,
+   "volume_cm3": 27.9,
+   "expected_cm3": 19.7,
+   "ratio": 1.42,
+   "architecture_volume_cm3": 7.31,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.9813,
+   "components_26": 24,
+   "contact_on_septum_median": 0.755,
+   "contact_slices": 83,
+   "boundary_on_septum_or_nonmuscle_median": 0.821,
+   "naming_purity": 0.852,
+   "bellies": 54,
+   "belly_slices_max": 38,
+   "out_of_range": false,
+   "gate_pass": true,
+   "reason": "UNSTABLE: fails the gate at pale 0.08: main component 0.660 of the volume (< 0.98)",
+   "pass_at": {
+    "0.1": true,
+    "0.08": false,
+    "0.12": true
+   },
+   "stable": false,
+   "ship": false
+  },
+  "pronator_quadratus": {
+   "label": 8,
+   "volume_cm3": 10.2,
+   "expected_cm3": 6.1,
+   "ratio": 1.67,
+   "architecture_volume_cm3": 2.25,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.9752,
+   "components_26": 3,
+   "contact_on_septum_median": 0.781,
+   "contact_slices": 30,
+   "boundary_on_septum_or_nonmuscle_median": 0.856,
+   "naming_purity": 0.832,
+   "bellies": 19,
+   "belly_slices_max": 35,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "main component 0.975 of the volume (< 0.98)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": true,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "brachioradialis": {
+   "label": 9,
+   "volume_cm3": 13.8,
+   "expected_cm3": 64.7,
+   "ratio": 0.21,
+   "architecture_volume_cm3": 24.0,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.643,
+   "components_26": 35,
+   "contact_on_septum_median": 0.895,
+   "contact_slices": 49,
+   "boundary_on_septum_or_nonmuscle_median": 0.807,
+   "naming_purity": 0.851,
+   "bellies": 124,
+   "belly_slices_max": 23,
+   "out_of_range": true,
+   "gate_pass": false,
+   "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_carpi_radialis_longus": {
+   "label": 10,
+   "volume_cm3": 5.7,
+   "expected_cm3": 42.5,
+   "ratio": 0.14,
+   "architecture_volume_cm3": 15.75,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.5188,
+   "components_26": 32,
+   "contact_on_septum_median": 0.791,
+   "contact_slices": 30,
+   "boundary_on_septum_or_nonmuscle_median": 0.714,
+   "naming_purity": 0.828,
+   "bellies": 62,
+   "belly_slices_max": 17,
+   "out_of_range": true,
+   "gate_pass": false,
+   "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_carpi_radialis_brevis": {
+   "label": 11,
+   "volume_cm3": 2.7,
+   "expected_cm3": 31.1,
+   "ratio": 0.09,
+   "architecture_volume_cm3": 11.51,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.2455,
+   "components_26": 18,
+   "contact_on_septum_median": 0.806,
+   "contact_slices": 12,
+   "boundary_on_septum_or_nonmuscle_median": 0.93,
+   "naming_purity": 0.824,
+   "bellies": 37,
+   "belly_slices_max": 20,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 2.7 cm3 is 0.09x the expectation 31.1 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_digitorum": {
+   "label": 12,
+   "volume_cm3": 3.3,
+   "expected_cm3": 58.5,
+   "ratio": 0.06,
+   "architecture_volume_cm3": 21.68,
+   "expectation_source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+   "main_component_fraction": 0.3131,
+   "components_26": 21,
+   "contact_on_septum_median": 0.548,
+   "contact_slices": 16,
+   "boundary_on_septum_or_nonmuscle_median": 0.478,
+   "naming_purity": 0.848,
+   "bellies": 30,
+   "belly_slices_max": 7,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 3.3 cm3 is 0.06x the expectation 58.5 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_digiti_minimi": {
+   "label": 13,
+   "volume_cm3": 10.5,
+   "expected_cm3": 3.2,
+   "ratio": 3.26,
+   "architecture_volume_cm3": 1.2,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.8561,
+   "components_26": 8,
+   "contact_on_septum_median": 0.68,
+   "contact_slices": 72,
+   "boundary_on_septum_or_nonmuscle_median": 0.754,
+   "naming_purity": 0.669,
+   "bellies": 21,
+   "belly_slices_max": 29,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 10.5 cm3 is 3.26x the expectation 3.2 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_carpi_ulnaris": {
+   "label": 14,
+   "volume_cm3": 10.2,
+   "expected_cm3": 32.9,
+   "ratio": 0.31,
+   "architecture_volume_cm3": 12.19,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.3417,
+   "components_26": 14,
+   "contact_on_septum_median": 0.606,
+   "contact_slices": 54,
+   "boundary_on_septum_or_nonmuscle_median": 0.723,
+   "naming_purity": 0.941,
+   "bellies": 52,
+   "belly_slices_max": 24,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 10.2 cm3 is 0.31x the expectation 32.9 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "anconeus": {
+   "label": 15,
+   "volume_cm3": 0.8,
+   "expected_cm3": 16.2,
+   "ratio": 0.05,
+   "architecture_volume_cm3": 6.0,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.5278,
+   "components_26": 4,
+   "contact_on_septum_median": 0.699,
+   "contact_slices": 14,
+   "boundary_on_septum_or_nonmuscle_median": 0.838,
+   "naming_purity": 0.897,
+   "bellies": 21,
+   "belly_slices_max": 9,
+   "out_of_range": true,
+   "gate_pass": false,
+   "reason": "OUT OF RANGE: arises above his radial-head plane; only the part below it is segmented",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "supinator": {
+   "label": 16,
+   "volume_cm3": 13.2,
+   "expected_cm3": 25.7,
+   "ratio": 0.52,
+   "architecture_volume_cm3": 9.52,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.6859,
+   "components_26": 7,
+   "contact_on_septum_median": 0.774,
+   "contact_slices": 62,
+   "boundary_on_septum_or_nonmuscle_median": 0.777,
+   "naming_purity": 0.845,
+   "bellies": 55,
+   "belly_slices_max": 28,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "main component 0.686 of the volume (< 0.98)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "abductor_pollicis_longus": {
+   "label": 17,
+   "volume_cm3": 0.1,
+   "expected_cm3": 15.4,
+   "ratio": 0.01,
+   "architecture_volume_cm3": 5.69,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.6062,
+   "components_26": 2,
+   "contact_on_septum_median": 0.367,
+   "contact_slices": 4,
+   "boundary_on_septum_or_nonmuscle_median": 0.439,
+   "naming_purity": 0.957,
+   "bellies": 2,
+   "belly_slices_max": 6,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 0.1 cm3 is 0.01x the expectation 15.4 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_pollicis_brevis": {
+   "label": 18,
+   "volume_cm3": 6.2,
+   "expected_cm3": 4.4,
+   "ratio": 1.42,
+   "architecture_volume_cm3": 1.62,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.9855,
+   "components_26": 4,
+   "contact_on_septum_median": 0.524,
+   "contact_slices": 6,
+   "boundary_on_septum_or_nonmuscle_median": 1.0,
+   "naming_purity": 0.816,
+   "bellies": 18,
+   "belly_slices_max": 25,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "contact-on-septum 0.52 (median over slices) < 0.7",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_pollicis_longus": {
+   "label": 19,
+   "volume_cm3": 1.1,
+   "expected_cm3": 9.6,
+   "ratio": 0.11,
+   "architecture_volume_cm3": 3.55,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.4359,
+   "components_26": 14,
+   "contact_on_septum_median": 0.5,
+   "contact_slices": 11,
+   "boundary_on_septum_or_nonmuscle_median": 0.606,
+   "naming_purity": 0.86,
+   "bellies": 15,
+   "belly_slices_max": 9,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 1.1 cm3 is 0.11x the expectation 9.6 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": false
+   },
+   "stable": false,
+   "ship": false
+  },
+  "extensor_indicis": {
+   "label": 20,
+   "volume_cm3": 0.1,
+   "expected_cm3": 3.3,
+   "ratio": 0.04,
+   "architecture_volume_cm3": 1.21,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 0.5526,
+   "components_26": 4,
+   "contact_on_septum_median": null,
+   "contact_slices": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.922,
+   "naming_purity": 0.958,
+   "bellies": 4,
+   "belly_slices_max": 3,
+   "out_of_range": false,
+   "gate_pass": false,
+   "reason": "volume 0.1 cm3 is 0.04x the expectation 3.3 cm3 (gate 0.5-2.0x)",
+   "pass_at": {
+    "0.1": false,
+    "0.08": false,
+    "0.12": true
+   },
+   "stable": false,
+   "ship": false
+  }
+ },
+ "stable": [],
+ "montage": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q166_m_forearm/vhm_forearm_v4_montage.png",
+ "shipped": [],
+ "shipped_label_ids": []
+}

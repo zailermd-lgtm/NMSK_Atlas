@@ -1,0 +1,620 @@
+{
+ "merge": {
+  "fov_planes_atlas_mm": [
+   -233.44,
+   246.56
+  ],
+  "sides": {
+   "left": {
+    "wall_x_mm": -213.44,
+    "cap_y_mm": [
+     165.5,
+     585.5
+    ],
+    "grid_y_mm": [
+     123.9,
+     618.3
+    ],
+    "ct_arm_pieces_replaced": 1,
+    "loops_ct": 1,
+    "loops_photo": 1,
+    "open_edges_ct": 0,
+    "open_edges_photo": 0,
+    "zip_triangles": 2886,
+    "wall_gap_mm_median": 0.14,
+    "wall_gap_mm_max": 1.18,
+    "photo_part_vertices": 31692,
+    "photo_part_triangles": 61939
+   },
+   "right": {
+    "wall_x_mm": 226.56,
+    "cap_y_mm": [
+     175.5,
+     587.5
+    ],
+    "grid_y_mm": [
+     140.1,
+     610.6
+    ],
+    "ct_arm_pieces_replaced": 1,
+    "loops_ct": 1,
+    "loops_photo": 1,
+    "open_edges_ct": 0,
+    "open_edges_photo": 0,
+    "zip_triangles": 2016,
+    "wall_gap_mm_median": 0.46,
+    "wall_gap_mm_max": 1.21,
+    "photo_part_vertices": 29471,
+    "photo_part_triangles": 58288
+   }
+  },
+  "watertight": true,
+  "vertices": 799940,
+  "triangles": 1599904,
+  "volume_cm3_ct": 103343.9,
+  "volume_cm3_merged": 105400.3,
+  "fov_skin_open": [],
+  "seam_step_mm": {
+   "blend_band": "2-12mm",
+   "blend_band_signed_offset_mm": -2.0,
+   "blend_band_abs_offset_mm_median": 2.24,
+   "blend_band_abs_offset_mm_p95": 10.05,
+   "rim_1_8mm_signed_offset_mm": -1.0,
+   "zip_strip_gap_median": 0.46,
+   "zip_strip_gap_max": 1.21
+  }
+ },
+ "_README": [
+  "Q185a2: HIS arm skin beyond the torso-CT field of view, from his OWN cryosection photographs.",
+  "",
+  "    python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py segment [--cryo SCRATCH/vh_cryo]   # photos -> registered body mask (task_outputs)",
+  "    python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py merge      # CT skin + photo mask -> build/vh/ct_vhm_skin (rebuild step, idempotent)",
+  "    python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py gates      # enclosure / continuity / circumference gates -> report",
+  "    python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py stamp      # badge the skin record (rebuild step)",
+  "    python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py montage --out DIR",
+  "",
+  "His skin (ct_vhm_skin) is surfaced from his CT, whose field of view ends at atlas x = -233.4 / +246.6 mm (flat caps there,",
+  "atlas y 164..588: lateral upper arms, elbows, proximal forearms; Q185a). His cryosection photographs (IDC series",
+  "4aaf9181-..., 3x downsampled to 0.99 mm/px, every 1 mm level, both arms in frame; torso RAS z = 985 - instance) show the",
+  "whole cross-section against the blue frozen block.",
+  "",
+  "BODY / AIR RULE: red over blue, r > b + 15 and max(RGB) > 40 (cryo_classes' tissue test with the brightness floor lowered",
+  "from 60: the gelatin is blue / cyan, the outside-block background ~(13, 15, 12), the specimen red / cream / white; at 60",
+  "the dark skin line where an arm lies against the black mould wall dropped out), opened 2 px, closed 2 px, holes filled",
+  "per photograph (scripts/cryo/skin_from_cryo.py's rule + the closing); only the connected pieces that hold that arm's",
+  "photographed bones are kept (drops the paper level labels / grey card).",
+  "",
+  "REGISTRATION (no new method): the Q151 / Q164 male-arm registration -- per photograph and per arm, TRANSLATION ONLY at the",
+  "fixed photograph scale (here 0.99 mm/px; Q164 0.33 mm/px at full resolution), photographed bone cross-sections laid on his",
+  "CT/cryo-completed arm bones at the same z (data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz: humerus 1/5,",
+  "radius 2/6, ulna 3/7 right/left; x = 350 - i, y = 240 - j, z = -1113 + k). Photo bones = the bright (fat / pale / white:",
+  "classes 2, 4, 5) discs inside the arm (refine_transfer_photo_watershed.bone_disc_centroid's classes), matched per CT bone",
+  "to the nearest disc of comparable area; reliable levels = every bone matched and (>= 2 bones) the photographed bone-to-bone",
+  "distances within 3 mm of the CT's; median-filtered over 21 reliable levels and interpolated between them",
+  "(vhm_forearm_muscles_fullres.smooth_translation's rule).",
+  "",
+  "OVERLAP (measured, `gates`): photo vs CT outline per level, in bands inside the FOV plane over the cap's y / z range:",
+  "signed median within +-2.2 mm, |offset| median 2-3.5 mm in every band 1..45 mm (no extra erosion of the CT rim), i.e. the",
+  "frozen-block arm and the CT arm differ by a few mm level by level (posture / registration), not systematically.",
+  "SURFACE: per side, a 1 mm grid beyond (and 30 mm inside) the FOV plane; occupancy = the registered photograph mask up to",
+  "2 mm inside the plane, his CT skin inside (the existing mesh, ray parity) from 12 mm inside, linear blend of the two",
+  "SIGNED DISTANCE fields between (the outline morphs, no shelf where they disagree), and only",
+  "over the cap's own y range (+3 mm, fading to pure CT 11 mm beyond it);",
+  "the photo correction smoothed sigma 1 voxel in-plane / 3 across levels (softens registration ledges), the CT",
+  "base sigma 0.7, marching cubes (step 2 = the CT skin's own ~2 mm edges). The CT skin",
+  "is cut at a wall plane 20 mm inside the FOV plane (where the grid is pure CT) and the photo-derived part is zipped",
+  "onto it there (exact plane slices, loops matched, one triangle strip), so the skin stays one closed surface.",
+  "The CT-only skin is kept as build/vh/ct_vhm_skin/{vertices,faces}.ctonly.* and `merge` always starts from it."
+ ],
+ "registration": {
+  "right": {
+   "levels_with_ct_bone": 502,
+   "reliable_levels": 345,
+   "residual_mm_median": 0.3,
+   "residual_mm_p95": 2.6,
+   "translation_range_X0": [
+    325.2,
+    342.0
+   ],
+   "translation_range_Y0": [
+    -167.6,
+    -157.5
+   ],
+   "photo_edge_levels": []
+  },
+  "left": {
+   "levels_with_ct_bone": 505,
+   "reliable_levels": 385,
+   "residual_mm_median": 0.32,
+   "residual_mm_p95": 3.84,
+   "translation_range_X0": [
+    319.6,
+    344.4
+   ],
+   "translation_range_Y0": [
+    -163.6,
+    -149.4
+   ],
+   "photo_edge_levels": []
+  }
+ },
+ "overlap_photo_vs_ct": {
+  "left": {
+   "1-8mm": {
+    "levels": 421,
+    "signed_offset_mm_median": 0.0,
+    "abs_offset_mm_median": 2.0,
+    "abs_offset_mm_p95_of_levels": 11.18,
+    "volume_cm3_photo": 271.0,
+    "volume_cm3_ct": 249.4,
+    "area_ratio_median": 1.084
+   },
+   "2-12mm": {
+    "levels": 421,
+    "signed_offset_mm_median": 0.0,
+    "abs_offset_mm_median": 2.0,
+    "abs_offset_mm_p95_of_levels": 9.67,
+    "volume_cm3_photo": 395.3,
+    "volume_cm3_ct": 382.1,
+    "area_ratio_median": 1.029
+   },
+   "8-15mm": {
+    "levels": 407,
+    "signed_offset_mm_median": 0.0,
+    "abs_offset_mm_median": 3.0,
+    "abs_offset_mm_p95_of_levels": 8.54,
+    "volume_cm3_photo": 274.0,
+    "volume_cm3_ct": 272.6,
+    "area_ratio_median": 1.005
+   },
+   "15-30mm": {
+    "levels": 380,
+    "signed_offset_mm_median": 2.0,
+    "abs_offset_mm_median": 3.0,
+    "abs_offset_mm_p95_of_levels": 5.05,
+    "volume_cm3_photo": 562.5,
+    "volume_cm3_ct": 556.6,
+    "area_ratio_median": 1.017
+   },
+   "30-45mm": {
+    "levels": 338,
+    "signed_offset_mm_median": 2.24,
+    "abs_offset_mm_median": 3.45,
+    "abs_offset_mm_p95_of_levels": 6.0,
+    "volume_cm3_photo": 490.2,
+    "volume_cm3_ct": 480.9,
+    "area_ratio_median": 1.023
+   }
+  },
+  "right": {
+   "1-8mm": {
+    "levels": 411,
+    "signed_offset_mm_median": -1.0,
+    "abs_offset_mm_median": 2.0,
+    "abs_offset_mm_p95_of_levels": 11.35,
+    "volume_cm3_photo": 309.0,
+    "volume_cm3_ct": 281.6,
+    "area_ratio_median": 1.077
+   },
+   "2-12mm": {
+    "levels": 411,
+    "signed_offset_mm_median": -2.0,
+    "abs_offset_mm_median": 2.24,
+    "abs_offset_mm_p95_of_levels": 10.05,
+    "volume_cm3_photo": 434.8,
+    "volume_cm3_ct": 420.8,
+    "area_ratio_median": 1.013
+   },
+   "8-15mm": {
+    "levels": 388,
+    "signed_offset_mm_median": -2.0,
+    "abs_offset_mm_median": 2.53,
+    "abs_offset_mm_p95_of_levels": 7.99,
+    "volume_cm3_photo": 306.6,
+    "volume_cm3_ct": 307.3,
+    "area_ratio_median": 0.981
+   },
+   "15-30mm": {
+    "levels": 350,
+    "signed_offset_mm_median": -1.41,
+    "abs_offset_mm_median": 2.83,
+    "abs_offset_mm_p95_of_levels": 5.45,
+    "volume_cm3_photo": 569.1,
+    "volume_cm3_ct": 569.9,
+    "area_ratio_median": 0.984
+   },
+   "30-45mm": {
+    "levels": 296,
+    "signed_offset_mm_median": -1.56,
+    "abs_offset_mm_median": 2.0,
+    "abs_offset_mm_p95_of_levels": 99.5,
+    "volume_cm3_photo": 475.2,
+    "volume_cm3_ct": 473.0,
+    "area_ratio_median": 0.99
+   }
+  }
+ },
+ "seam_step_mm": {
+  "blend_band": "2-12mm",
+  "blend_band_signed_offset_mm": -2.0,
+  "blend_band_abs_offset_mm_median": 2.24,
+  "blend_band_abs_offset_mm_p95": 10.05,
+  "rim_1_8mm_signed_offset_mm": -1.0,
+  "zip_strip_gap_median": 0.46,
+  "zip_strip_gap_max": 1.21
+ },
+ "enclosure": {
+  "abductor_pollicis_longus_l": {
+   "cat": "muscle",
+   "n": 1233,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "abductor_pollicis_longus_r": {
+   "cat": "muscle",
+   "n": 4502,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "biceps_brachii_l": {
+   "cat": "muscle",
+   "n": 4359,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "biceps_brachii_r": {
+   "cat": "muscle",
+   "n": 4377,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "brachialis_l": {
+   "cat": "muscle",
+   "n": 4433,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "brachialis_r": {
+   "cat": "muscle",
+   "n": 4452,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "brachioradialis_l": {
+   "cat": "muscle",
+   "n": 1352,
+   "beyond_fov": 6,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9896,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "brachioradialis_r": {
+   "cat": "muscle",
+   "n": 4510,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "coracobrachialis_r": {
+   "cat": "muscle",
+   "n": 4415,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "deltoid_l": {
+   "cat": "muscle",
+   "n": 17995,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "deltoid_r": {
+   "cat": "muscle",
+   "n": 4473,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "extensor_carpi_radialis_brevis_l": {
+   "cat": "muscle",
+   "n": 1352,
+   "beyond_fov": 452,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.7241,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "extensor_carpi_radialis_brevis_r": {
+   "cat": "muscle",
+   "n": 1352,
+   "beyond_fov": 20,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.966,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "extensor_carpi_radialis_longus_l": {
+   "cat": "muscle",
+   "n": 1354,
+   "beyond_fov": 464,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.7334,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "extensor_carpi_radialis_longus_r": {
+   "cat": "muscle",
+   "n": 1354,
+   "beyond_fov": 6,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9468,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "extensor_carpi_ulnaris_l": {
+   "cat": "muscle",
+   "n": 703,
+   "beyond_fov": 285,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.7212,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "extensor_carpi_ulnaris_r": {
+   "cat": "muscle",
+   "n": 703,
+   "beyond_fov": 103,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9801,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "extensor_digiti_minimi_r": {
+   "cat": "muscle",
+   "n": 1078,
+   "beyond_fov": 43,
+   "inside_new_frac": 0.9972,
+   "inside_ct_skin_frac": 0.9712,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.1
+  },
+  "extensor_digitorum_r": {
+   "cat": "muscle",
+   "n": 1353,
+   "beyond_fov": 0,
+   "inside_new_frac": 0.9978,
+   "inside_ct_skin_frac": 0.9926,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 1.0
+  },
+  "flexor_carpi_radialis_l": {
+   "cat": "muscle",
+   "n": 835,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9988,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "flexor_carpi_ulnaris_l": {
+   "cat": "muscle",
+   "n": 1345,
+   "beyond_fov": 9,
+   "inside_new_frac": 0.9978,
+   "inside_ct_skin_frac": 0.9948,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.2
+  },
+  "flexor_digitorum_profundus_r": {
+   "cat": "muscle",
+   "n": 4497,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "flexor_digitorum_superficialis_l": {
+   "cat": "muscle",
+   "n": 640,
+   "beyond_fov": 7,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "flexor_digitorum_superficialis_r": {
+   "cat": "muscle",
+   "n": 4492,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "humerus_l": {
+   "cat": "bone",
+   "n": 2886,
+   "beyond_fov": 628,
+   "inside_new_frac": 0.9962,
+   "inside_ct_skin_frac": 0.7665,
+   "beyond_inside_new_frac": 0.9825,
+   "outside_new_max_mm": 1.1
+  },
+  "humerus_r": {
+   "cat": "bone",
+   "n": 2978,
+   "beyond_fov": 595,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.7824,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "interosseous_membrane_forearm_r": {
+   "cat": "fascia",
+   "n": 564,
+   "beyond_fov": 21,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9982,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "pronator_teres_l": {
+   "cat": "muscle",
+   "n": 1352,
+   "beyond_fov": 75,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9689,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "pronator_teres_r": {
+   "cat": "muscle",
+   "n": 4504,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "radius_l": {
+   "cat": "bone",
+   "n": 2929,
+   "beyond_fov": 33,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9911,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "radius_r": {
+   "cat": "bone",
+   "n": 2955,
+   "beyond_fov": 251,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9205,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "supinator_l": {
+   "cat": "muscle",
+   "n": 1352,
+   "beyond_fov": 186,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.895,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "supinator_r": {
+   "cat": "muscle",
+   "n": 4502,
+   "beyond_fov": 2122,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.5522,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "triceps_brachii_l": {
+   "cat": "muscle",
+   "n": 4404,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "triceps_brachii_r": {
+   "cat": "muscle",
+   "n": 4360,
+   "beyond_fov": 0,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 1.0,
+   "beyond_inside_new_frac": null,
+   "outside_new_max_mm": 0.0
+  },
+  "ulna_l": {
+   "cat": "bone",
+   "n": 2939,
+   "beyond_fov": 794,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.7499,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  },
+  "ulna_r": {
+   "cat": "bone",
+   "n": 2910,
+   "beyond_fov": 822,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.7309,
+   "beyond_inside_new_frac": 1.0,
+   "outside_new_max_mm": 0.0
+  }
+ },
+ "enclosure_summary": {
+  "bone": {
+   "records": 6,
+   "vertices": 17597,
+   "inside_new_frac": 0.9994,
+   "inside_ct_skin_frac": 0.8238,
+   "beyond_fov_vertices": 3123,
+   "beyond_inside_new_frac": 0.9965
+  },
+  "muscle": {
+   "records": 30,
+   "vertices": 97633,
+   "inside_new_frac": 0.9999,
+   "inside_ct_skin_frac": 0.9659,
+   "beyond_fov_vertices": 3778,
+   "beyond_inside_new_frac": 1.0
+  },
+  "fascia": {
+   "records": 1,
+   "vertices": 564,
+   "inside_new_frac": 1.0,
+   "inside_ct_skin_frac": 0.9982,
+   "beyond_fov_vertices": 21,
+   "beyond_inside_new_frac": 1.0
+  }
+ },
+ "folds": {
+  "faces_tested": 20000,
+  "inside_ok_frac": 0.9998,
+  "outside_ok_frac": 0.9998,
+  "sliver_faces_lt_0p2mm2": 19095,
+  "region_faces": 130500
+ },
+ "watertight": true,
+ "volume_cm3": {
+  "ct_skin": 103343.9,
+  "merged": 105400.3
+ },
+ "fov_skin_open": []
+}

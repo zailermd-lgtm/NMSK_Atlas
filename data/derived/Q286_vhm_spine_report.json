@@ -1,0 +1,300 @@
+{
+ "_README": [
+  "Q286 vertebrae_body on this body's own torso CT; see scripts/anatomy/q286/ct_tasks_q286.py."
+ ],
+ "body": "vhm",
+ "gates": {
+  "min_largest_share": 0.85,
+  "volume_tol": 0.03,
+  "max_outside_skin_gt1mm_frac": 0.0,
+  "max_in_bone_frac": 0.05,
+  "max_in_bone_frac_disc": 0.02,
+  "min_soft_hu_frac": 0.9,
+  "min_boundary_contrast_hu": 5.0,
+  "max_pair_asymmetry_pct": 50.0,
+  "cited_ratio": [
+   0.5,
+   2.0
+  ],
+  "eye_vs_oculomotor_ratio": [
+   0.8,
+   1.25
+  ]
+ },
+ "q185c_held_levels": [
+  "intervertebral_disc_c6_c7",
+  "intervertebral_disc_c7_t1"
+ ],
+ "levels": {
+  "intervertebral_disc_t1_t2": {
+   "label_voxel_cm3": 0.979,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 1.64,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t2_t3": {
+   "label_voxel_cm3": 1.233,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 1.88,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t12_l1": {
+   "label_voxel_cm3": 8.108,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 10.78,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t3_t4": {
+   "label_voxel_cm3": 1.074,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 1.7,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t4_t5": {
+   "label_voxel_cm3": 1.216,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 1.82,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t5_t6": {
+   "label_voxel_cm3": 1.383,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 2.34,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_l1_l2": {
+   "label_voxel_cm3": 10.795,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 13.53,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t11_t12": {
+   "label_voxel_cm3": 6.255,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 7.96,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t6_t7": {
+   "label_voxel_cm3": 1.46,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 2.43,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_l4_l5": {
+   "label_voxel_cm3": 16.839,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 18.9,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_c7_t1": {
+   "label_voxel_cm3": 0.976,
+   "q185c_status": "held",
+   "q185c_volume_cm3": 1.72,
+   "q185c_shipped": "held_not_shipped",
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 0.976,
+   "edge_touch": [],
+   "hu": {
+    "median": 87.0,
+    "p10": 21.0,
+    "p90": 164.0,
+    "soft_frac_-200_300": 0.9919,
+    "shell_median": 307.5,
+    "boundary_contrast": 220.5
+   },
+   "mesh_full_cm3": 0.977,
+   "mesh_vs_label": 1.0006,
+   "full_triangles": 2208,
+   "shipped_triangles": 2208,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -61.09,
+   "in_bone_gt1mm_frac": 0.0199,
+   "bbox_atlas_mm": [
+    [
+     -3.7,
+     592.9,
+     -5.8
+    ],
+    [
+     19.3,
+     601.2,
+     8.7
+    ]
+   ],
+   "lung_gt1mm_frac": 0.0,
+   "width_mm": 22.5,
+   "depth_mm": 14.1,
+   "height_median_mm": 3.0,
+   "size_vs_published": {
+    "width": {
+     "mm": 22.5,
+     "ref": [
+      15.0,
+      24.0
+     ],
+     "ok": true
+    },
+    "depth": {
+     "mm": 14.1,
+     "ref": [
+      14.0,
+      19.0
+     ],
+     "ok": true
+    },
+    "height": {
+     "mm": 3.0,
+     "ref": [
+      4.0,
+      7.0
+     ],
+     "ok": true
+    }
+   }
+  },
+  "intervertebral_disc_l3_l4": {
+   "label_voxel_cm3": 15.274,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 17.94,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_l5_s1": {
+   "label_voxel_cm3": 11.923,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 13.92,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_l2_l3": {
+   "label_voxel_cm3": 12.451,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 15.02,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_c6_c7": {
+   "label_voxel_cm3": 0.827,
+   "q185c_status": "held",
+   "q185c_volume_cm3": 1.69,
+   "q185c_shipped": "old_q104_held",
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 0.827,
+   "edge_touch": [],
+   "hu": {
+    "median": 51.0,
+    "p10": 25.0,
+    "p90": 83.0,
+    "soft_frac_-200_300": 1.0,
+    "shell_median": 213.0,
+    "boundary_contrast": 162.0
+   },
+   "mesh_full_cm3": 0.827,
+   "mesh_vs_label": 1.0005,
+   "full_triangles": 1784,
+   "shipped_triangles": 1784,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": -53.19,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     -4.6,
+     609.9,
+     5.7
+    ],
+    [
+     17.9,
+     617.2,
+     18.3
+    ]
+   ],
+   "lung_gt1mm_frac": 0.0,
+   "width_mm": 23.4,
+   "depth_mm": 12.2,
+   "height_median_mm": 3.0,
+   "size_vs_published": {
+    "width": {
+     "mm": 23.4,
+     "ref": [
+      15.0,
+      24.0
+     ],
+     "ok": true
+    },
+    "depth": {
+     "mm": 12.2,
+     "ref": [
+      14.0,
+      19.0
+     ],
+     "ok": true
+    },
+    "height": {
+     "mm": 3.0,
+     "ref": [
+      4.0,
+      7.0
+     ],
+     "ok": true
+    }
+   }
+  },
+  "intervertebral_disc_t10_t11": {
+   "label_voxel_cm3": 3.749,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 5.55,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t8_t9": {
+   "label_voxel_cm3": 2.795,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 4.02,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t7_t8": {
+   "label_voxel_cm3": 1.617,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 2.51,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_c2_c3": {
+   "label_voxel_cm3": 0.507,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 1.09,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_t9_t10": {
+   "label_voxel_cm3": 2.43,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 4.31,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_c3_c4": {
+   "label_voxel_cm3": 0.639,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 0.97,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_c4_c5": {
+   "label_voxel_cm3": 0.65,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 1.06,
+   "q185c_shipped": "new"
+  },
+  "intervertebral_disc_c5_c6": {
+   "label_voxel_cm3": 0.739,
+   "q185c_status": "pass",
+   "q185c_volume_cm3": 1.14,
+   "q185c_shipped": "new"
+  }
+ },
+ "shipped": [
+  "intervertebral_disc_c7_t1",
+  "intervertebral_disc_c6_c7"
+ ],
+ "held": {},
+ "vertebral_bodies": {
+  "label_cm3": 577.0,
+  "frac_inside_existing_vertebra_labels": 0.9795,
+  "not_shipped": "each vertebral body is part of a whole vertebra the page already carries from the same CT (total task)"
+ }
+}

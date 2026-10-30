@@ -1,0 +1,62 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_mcsplit",
+  "source_volume": "data/ct_sources/task_outputs/vhf_metacarpals_split.nii.gz",
+  "label_map": "vhf_metacarpals_split",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "metacarpal_1_r",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metacarpal_1_r",
+      "relationship": "exact",
+      "note": "Q125: thumb metacarpal, split from the metacarpals_right mass by a marker-controlled watershed on her own torso CT's raw HU (scripts/vhf_split_metacarpals.py). 5.4 cm3, single component. Identified by position (isolated, angled ray, distinct centroid).",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "metacarpal_2_r",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metacarpal_2_r",
+      "relationship": "exact",
+      "note": "Q125: index metacarpal. 6.94 cm3, single component. Identified by position (nearest the thumb metacarpal).",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "metacarpal_3_r",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metacarpal_3_r",
+      "relationship": "exact",
+      "note": "Q125: middle metacarpal. 7.05 cm3, single component, the largest -- matches the textbook pattern (index/middle most robust).",
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "metacarpal_4_r",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metacarpal_4_r",
+      "relationship": "exact",
+      "note": "Q125: ring metacarpal. 4.18 cm3, single component.",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "metacarpal_5_r",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metacarpal_5_r",
+      "relationship": "exact",
+      "note": "Q125: little-finger metacarpal. 3.85 cm3, single component, the smallest -- matches the textbook pattern. Identified by position (farthest from the thumb).",
+      "candidates": []
+    }
+  ]
+}

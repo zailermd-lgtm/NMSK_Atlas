@@ -1,0 +1,354 @@
+{
+  "id": "extensor_digitorum_l",
+  "name_ta": "Musculus extensor digitorum",
+  "name_common": "Extensor digitorum",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "humerus_l",
+    "origin_landmark": "lateral epicondyle (common extensor origin)",
+    "insertion_bone": "phalanges_hand_l",
+    "insertion_landmark": "extensor expansion (dorsal digital hood), digits 2-5, via 4 tendons linked by juncturae tendinum",
+    "via_points": [
+      {
+        "structure": "extensor retinaculum, 4th compartment",
+        "bone_frame": "carpals_l",
+        "position_local_mm": [
+          0,
+          -18,
+          -15
+        ],
+        "active_over_joint_range": "all wrist positions"
+      }
+    ]
+  },
+  "innervation": {
+    "nerve": "posterior_interosseous_n",
+    "root_levels": "C7-C8"
+  },
+  "blood_supply": [
+    "posterior_interosseous_a_l"
+  ],
+  "actions": [
+    "extends MCP joints of digits 2-5 (prime mover)",
+    "contributes to IP extension via the extensor expansion",
+    "assists wrist extension"
+  ],
+  "functional_compartments": [
+    {
+      "id": "extensor_digitorum_l_index",
+      "name": "Index (digit 2) tendon slip",
+      "innervation_branch": "posterior interosseous n., branch to ED (index)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 55,
+        "physiological_cross_section_area_mm2": 100.0,
+        "max_isometric_force_N": 25.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -20,
+          -330,
+          5
+        ],
+        [
+          -25,
+          -320,
+          0
+        ],
+        [
+          -22,
+          -310,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Most independent slip -- index also has its own accessory extensor (extensor indicis) providing independent extension capacity.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    },
+    {
+      "id": "extensor_digitorum_l_middle",
+      "name": "Middle (digit 3) tendon slip",
+      "innervation_branch": "posterior interosseous n., branch to ED (middle)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 11,
+        "optimal_fascicle_length_mm": 58,
+        "physiological_cross_section_area_mm2": 110.00000000000001,
+        "max_isometric_force_N": 27.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -18,
+          -328,
+          3
+        ],
+        [
+          -22,
+          -318,
+          -2
+        ],
+        [
+          -20,
+          -308,
+          -6
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Linked to adjacent slips via juncturae tendinum, limiting full independence.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    },
+    {
+      "id": "extensor_digitorum_l_ring",
+      "name": "Ring (digit 4) tendon slip",
+      "innervation_branch": "posterior interosseous n., branch to ED (ring)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 11,
+        "optimal_fascicle_length_mm": 58,
+        "physiological_cross_section_area_mm2": 100.0,
+        "max_isometric_force_N": 25.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -16,
+          -326,
+          1
+        ],
+        [
+          -20,
+          -316,
+          -4
+        ],
+        [
+          -18,
+          -306,
+          -7
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Least independent slip (classic 'ring finger cannot extend alone' clinical sign is due to juncturae, not this muscle's architecture per se).",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    },
+    {
+      "id": "extensor_digitorum_l_little",
+      "name": "Little (digit 5) tendon slip",
+      "innervation_branch": "posterior interosseous n., branch to ED (little) -- often blends with extensor digiti minimi",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 9,
+        "optimal_fascicle_length_mm": 52,
+        "physiological_cross_section_area_mm2": 70.0,
+        "max_isometric_force_N": 17.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -14,
+          -324,
+          -1
+        ],
+        [
+          -18,
+          -314,
+          -6
+        ],
+        [
+          -16,
+          -304,
+          -8
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Often thin/variable, supplemented by extensor digiti minimi.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Probe placed longitudinally (long axis) over the largest, most central extensor-mass belly on the dorsal mid-forearm, localized by palpation distal to the lateral epicondyle while the patient extends the fingers (MCP joints of digits 2-5); the four tendon slips can be resolved individually more distally by asking for single-finger extension in turn.",
+    "depth_layer": "Superficial extensor compartment, occupying the central bulk of the dorsal forearm between ECRB (radial) and EDM/ECU (ulnar).",
+    "identification_cues": "Bulkiest of the common-extensor-origin muscles; the four slips fan out distally and can be told apart dynamically by isolated finger extension, though juncturae tendinum limit full independence (classically the ring-finger slip).",
+    "structures_at_risk": [
+      "posterior interosseous nerve (deep to the muscle belly, closer to the radius)",
+      "posterior interosseous artery"
+    ],
+    "notes": "The source paper names this muscle 'extensor digitorum longus' (a term properly belonging to a lower-limb toe extensor); given the elbow/forearm surgical context, injected doses split across two sites 4 cm apart, and the reported side effect of third-finger extension weakness lasting 45-90 days post-injection in the majority of treated patients, the muscle actually described is extensor digitorum (communis) of the forearm -- treated here as EDC data with that naming caveat flagged. It was the most frequently symptomatic of the four muscles injected in that lateral-epicondylitis series (87.5% of patients) and received the largest, split-site dose.",
+    "source": "Galvan Ruiz A, Vergara Diaz G, Rendon Fernandez B, Echevarria Ruiz de Vargas C, 'Effects of Ultrasound-Guided Administration of Botulinum Toxin (IncobotulinumtoxinA) in Patients with Lateral Epicondylitis', Toxins 11(1):46 (2019), doi:10.3390/toxins11010046 (https://doi.org/10.3390/toxins11010046) -- retrieved via PubMed"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Middle-finger extensor belly about 3-4 cm distal to the lateral epicondyle (the commonest EDC trigger point); ring-finger extensor belly slightly distal and ulnar to it.",
+      "referred_pain_pattern": "Down the dorsal forearm to the dorsum of the hand and along the corresponding finger to the MCP and PIP region (middle finger most often, ring finger less), with spillover to the lateral epicondyle; occasionally to the volar wrist. Patients report finger stiffness, aching knuckles mistaken for arthritis, and weak grip.",
+      "activation_perpetuating_factors": "Sustained finger extension (keyboard and mouse), fine repetitive finger work, gripping with the wrist extended; co-exists with extensor carpi radialis longus, extensor carpi radialis brevis, supinator and brachioradialis trigger points.",
+      "notes": "Active EDC trigger points reproduced symptoms in 5 of 20 patients with lateral epicondylalgia (Fernandez-Carnero et al. 2007). Non-myofascial differential: lateral epicondyle tendinosis, C7 radiculopathy, extensor tenosynovitis, dorsal wrist ganglion, MCP or PIP arthritis, posterior interosseous nerve neuritis.",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 35; Donnelly et al. (2019) 3rd ed., ch. 35, pp. 343-351 -- as cited in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "Extensor digitorum extends the MCP joints of the fingers and, acting with the lumbricals and interossei through the extensor mechanism, the IP joints; with the fingers relaxed it assists wrist extension and slight ulnar deviation. Its elbow extension moment is negligible. Because grip requires wrist extensor co-contraction, gripping tasks also load the ED origin, which is involved with ECRB in a proportion of lateral epicondylalgia cases. Sustained finger extension (keyboard hovering, holding a mouse) provokes its TrPs.",
+      "adjacent_structures": "Adjacent bursae: None named. Adjacent structures and relations: Supinator and the emerging PIN deep to its proximal part; ECRB deep-radial at the origin (their origins overlap); ECU and EDM ulnar; the extensor retinaculum and dorsal wrist capsule distally.",
+      "trigger_points": [
+        {
+          "location": "Proximal third of the individual muscle bellies, most often the middle-finger and ring-finger extensors, found by resisted extension of the corresponding finger.",
+          "referred_pain": "down the dorsal forearm and dorsum of the hand to the finger served (middle-finger extensor: to the dorsal middle finger; ring-finger extensor: to the ring finger), often with spill to the lateral epicondyle; extensor indicis refers to the dorsal wrist and hand.",
+          "notes": "Symptoms / mimics: Finger stiffness, weak grip, aching dorsal forearm, dorsal wrist pain; taken for extensor tenosynovitis, dorsal wrist ganglion or lateral epicondylitis. In lateral epicondylalgia patients ED TrPs reproduced the pain in 25% (Fernández-Carnero 2007). Entrapment: None attributed to ED TrPs. Associated TrPs: ECRB, ECRL, ECU, extensor indicis, supinator, finger flexors (antagonists).",
+          "source": "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 35, Finger extensor muscles."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "ECRB",
+        "ECRL",
+        "ECU",
+        "supinator (thumb web)",
+        "triceps TrP1/TrP3 (dorsal forearm)",
+        "coracobrachialis (dorsal forearm and hand)",
+        "scalenes",
+        "C7 radiculopathy",
+        "PIN syndrome",
+        "extensor tenosynovitis."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO this territory (dorsal forearm/hand/fingers) from elsewhere",
+      "notes": "Attritional rupture over the ulnar head in rheumatoid disease proceeds EDM → ED5 → ED4 (Vaughan-Jackson). Lateral epicondylar release should preserve the superficial ED origin when only ECRB is diseased.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Gray's Anatomy, 42nd ed., 2021: extensor digitorum; extensor expansions.",
+        "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 35, Finger extensor muscles.",
+        "Cohen MS, et al. J Shoulder Elbow Surg 2008;17(6):954–960.",
+        "Fernández-Carnero J, et al. Clin J Pain 2007;23(4):353–360.",
+        "Karanasios S, Korakakis V, Moutzouri M, Drakonaki E, Koci K, Pantazopoulou V, et al. Diagnostic accuracy of examination tests for lateral elbow tendinopathy (LET): a systematic review. J Hand Ther. 2022;35(4):541–551.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260.",
+        "Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353–360."
+      ],
+      "tests": [
+        {
+          "name": "Cozen's test",
+          "performance": "Elbow stabilised, forearm pronated, fist clenched; resisted wrist extension with radial deviation",
+          "positive_finding": "Pain at the lateral epicondyle",
+          "structures_loaded": "ECRB, ECRL, ED origins",
+          "sensitivity": 91,
+          "specificity": null,
+          "accuracy": "Sensitivity 91% in a single small study; specificity not established (Karanasios 2022 review)",
+          "source": "Karanasios S, Korakakis V, Moutzouri M, Drakonaki E, Koci K, Pantazopoulou V, et al. Diagnostic accuracy of examination tests for lateral elbow tendinopathy (LET): a systematic review. J Hand Ther. 2022;35(4):541–551."
+        },
+        {
+          "name": "Mill's test",
+          "performance": "Passive stretch: elbow extended, forearm pronated, wrist fully flexed",
+          "positive_finding": "Lateral epicondylar pain",
+          "structures_loaded": "Common extensor origin (stretch)",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No adequate accuracy data (Zwerus 2018)",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Maudsley's test",
+          "performance": "Resisted extension of the middle finger, elbow extended",
+          "positive_finding": "Lateral epicondylar pain",
+          "structures_loaded": "ED (middle finger), ECRB; also loads the radial tunnel",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No adequate accuracy data; also positive in radial tunnel syndrome",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Trigger-point examination",
+          "performance": "Palpation of taut bands in brachioradialis, ECRL, ECRB, ED and supinator",
+          "positive_finding": "Reproduction of the presenting lateral elbow pain",
+          "structures_loaded": "The listed muscles",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Referred pain reproduced the presenting pain in 50–70% of patients with lateral epicondylalgia (Fernández-Carnero 2007)",
+          "source": "Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353–360."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    },
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Extension of the MCP joints of digits 2–5 (its only independent action); PIP and DIP extension with the intrinsic muscles; spreading (abduction) of the extended fingers [1, 5]. At the wrist: A significant secondary wrist extensor, especially when the fingers are flexed and the extensor moment is transmitted to the wrist; loss of EDC in PIN palsy contributes to the radial-deviated, imperfectly extended wrist, and its restoration improves wrist balance [1, 12]. Grip release: Opens the hand and stabilizes the MCP joints against the flexor pull during grip [5]. Importance: Restored in radial-nerve palsy by FCR or FCU transfer; harvest of EDC slips is rarely necessary [4].",
+      "adjacent_structures": "Bursae / sheaths: 4th compartment synovial sheath; the terminal branch of the PIN and the dorsal branch of the anterior interosseous artery lie on the compartment floor [1]. Coupled structures: Lateral epicondyle and ECRB origin, terminal PIN in the 4th compartment, ulnar head (little-finger tendon), sagittal bands and juncturae (limit independent ring-finger extension) [4, 31, 41].",
+      "trigger_points": [
+        {
+          "location": "Middle-finger extensor belly about 3–4 cm distal to the lateral epicondyle (the commonest EDC trigger point); ring-finger extensor belly slightly distal and ulnar to it (chapter 35, \"Painful Pointers\") [2, 3].",
+          "referred_pain": "Down the dorsal forearm to the dorsum of the hand and along the corresponding finger to the MCP and PIP region (middle finger most often, ring finger less), with spillover to the lateral epicondyle; occasionally to the volar wrist. Patients report finger stiffness, aching knuckles mistaken for arthritis, and weak grip [2, 3].",
+          "activation_perpetuating_factors": "Sustained finger extension (keyboard and mouse), fine repetitive finger work, gripping with the wrist extended; co-exists with ECRL, ECRB, supinator and brachioradialis trigger points [3, 34].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Coracobrachialis (dorsum of hand)",
+        "triceps long head (dorsal forearm)",
+        "teres major (occasional dorsal forearm)",
+        "latissimus dorsi and serratus posterior superior (ulnar dorsum and little finger)",
+        "scalenes (radial dorsum)",
+        "first dorsal interosseous (dorsal hand and index)",
+        "extensor indicis",
+        "ECRL and ECRB [2, 3]."
+      ],
+      "pain_referred_into_territory": "Pain referred into EDC territory (dorsal forearm and hand)",
+      "non_myofascial_differential": "Lateral epicondyle tendinosis, C7 radiculopathy, extensor tenosynovitis, dorsal wrist ganglion, MCP or PIP arthritis, PIN neuritis.",
+      "notes": "The EDC origin (index and middle portions) participates in lateral epicondyle tendinosis together with ECRB [30, 32]; active EDC trigger points reproduced symptoms in 5 of 20 patients with lateral epicondylalgia [34]. Attrition rupture over the ulnar head in rheumatoid caput ulnae proceeds from EDM to the little and ring EDC tendons (Vaughan-Jackson) [41]. Sagittal band rupture (boxer's knuckle), mallet finger, boutonnière deformity and extensor tenosynovitis are lesions of the tendon and expansion [4].",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50–51 [1].",
+        "Simons, Travell & Simons 1999, 2e, ch. 35 [2]; Donnelly et al. 2019, 3e, ch. 35, pp. 343–351 [3].",
+        "Cohen et al. 2008 [31]; Bunata et al. 2007 [30]; Kraushaar & Nirschl 1999 [32]; Fernández-Carnero et al. 2007 [34].",
+        "Vaughan-Jackson 1948, JBJS Br 30B:528–530 [41]; Fridén & Lieber 2024 [12].",
+        "Green's 8e [4]; Neumann 2017 [5]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[12] Fridén J, Lieber RL. Wrist extensor pathomechanics: implications for tendon and nerve transfer. J Hand Surg Eur Vol. 2024;49(8):1047-1050. PMID 38190974.",
+        "[30] Bunata RE, Brown DS, Capelo R. Anatomic factors related to the cause of tennis elbow. J Bone Joint Surg Am. 2007;89(9):1955-1963.",
+        "[31] Cohen MS, Romeo AA, Hennigan SP, Gordon M. Lateral epicondylitis: anatomic relationships of the extensor tendon origins and implications for arthroscopic treatment. J Shoulder Elbow Surg. 2008;17(6):954-960.",
+        "[32] Kraushaar BS, Nirschl RP. Tendinosis of the elbow (tennis elbow). Clinical features and findings of histological, immunohistochemical, and electron microscopy studies. J Bone Joint Surg Am. 1999;81(2):259-278.",
+        "[34] Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353-360. PMID 17449997.",
+        "[41] Vaughan-Jackson OJ. Rupture of extensor tendons by attrition at the inferior radio-ulnar joint. J Bone Joint Surg Br. 1948;30B(3):528-530."
+      ]
+    }
+  ]
+}

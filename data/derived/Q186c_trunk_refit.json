@@ -1,0 +1,1764 @@
+{
+ "source": "Q186c (2026-10-04): female Z-Anatomy trunk (thorax + abdomen) refit onto HER OWN CT; scripts/zanatomy/trunk_refit_q186c.py (build flag --trunk-refit), measured by scripts/zanatomy/trunk_refit_q186c_audit.py. Build dir build/viewer_zan_female_trunkfix (build/viewer_zan_female untouched). Not published.",
+ "owner_report": "error in the chest/abdomen area of the FEMALE Z-Anatomy model; second report: step at the thorax/abdomen transition (T10-L1), thorax too narrow all round",
+ "errors_found": [
+  "RIBS: the 24 shipped Z-Anatomy ribs lie a median 16.1 mm (Z->label) / 15.0 mm (label->Z) from her TotalSegmentator rib labels (Q168 fitted one similarity per side onto the old dilated bundle ribs): rib-cage width 12-30 mm too narrow (e.g. y 440: her 263 vs Z 228 mm; y 520: 235 vs 186), mid-thorax A-P depth 25-40 mm too deep (y 320: her 146 vs Z 185); lowest ribs ended 30 mm high (eighth left rib 33 mm off).",
+  "LUMBAR SPINE: Z L3/L4/L5 sit 22-29 mm too high against her vertebra labels (7/10/13 mm median); T1-T12 are within 1-3 mm; pelvis, sternum, scapula, clavicle within 1.3-2.2 mm (not errors).",
+  "SKIN: the 52 trunk skin patches sit a median 28 mm (p90 69 mm) inside her CT skin (front/back sectors: 21.8 / 44.8 mm); 7.4 % of their vertices lie outside her skin (gluteal 39 %, sacral 22 %), 2.2 % of faces flipped against the source normal; V-shaped pleats under both breasts, skin torn open at the lower chest in the side view.",
+  "SOFT TISSUE: shares the Q168 per-bone blend: 10.6 % of trunk muscle vertices inside her lung label and 16.7 % inside an organ label (now 1.1 % / 5.3 %), cartilage 7.6 % inside organs (now 0.3 %); rectus abdominis 20.6 mm and diaphragm 12.5 mm from her own CT meshes; fascia/pectoral sheets pleated at the costal margin."
+ ],
+ "fix": "per-bone similarity ICP of 24 ribs + 15 vertebrae onto her CT labels (T3 and L1 held: no bounded improvement; her L1 label is oversized), then ONE smooth cubic-RBF displacement field from the raw Z-Anatomy coordinates anchored on every Z bone (final positions; label-supported vertices only for refit bones) and on the trunk skin (-> her CT skin outline along the horizontal ray from her trunk axis, front/back sectors only; lateral band hidden by her fused arms is interpolated, not measured), applied with a position weight, skin-share by distance from bone and a volume guard; forearm/hand/foot structures are never moved.",
+ "badges": "every moved structure's card says so (fit_note: refit onto her CT label / smooth field, moved median/max mm vs the Q168 position); skin cards re-measured against her CT skin; rule-based/transferred, Z-Anatomy arrangement in her frame, CC BY-SA anatomy layer, no clinical files touched, no geometry invented.",
+ "build_report": {
+  "rbf": {
+   "kernel": "cubic",
+   "smoothing": 30.0,
+   "bone_anchors": 5861,
+   "final_smoothing": 1920.0
+  },
+  "weight": {
+   "rho0_mm": 165,
+   "rho1_mm": 215
+  },
+  "bone_anchor_residual_mm": {
+   "median": 0.04,
+   "p90": 0.31,
+   "max": 11.02
+  },
+  "skin_anchors": {
+   "patches": 52,
+   "vertices": 7978,
+   "with_her_outline": 5504,
+   "anchors_used": 3711,
+   "outline_shift_mm": {
+    "median": 19.1,
+    "p10": -12.5,
+    "p90": 40.5
+   },
+   "trusted_cell_fraction": 0.655
+  },
+  "jacobian": {
+   "n": 11987,
+   "min": -3.862,
+   "p01": -0.167,
+   "median": 0.932,
+   "p99": 3.105,
+   "max": 6.734,
+   "frac_below_0.25": 0.05306,
+   "smoothing": 1920.0,
+   "attempt": 3
+  },
+  "layer_rule": {
+   "skin_share_d0_mm": 15.0,
+   "skin_share_d1_mm": 60.0
+  },
+  "bone_anchor_residual_final_mm": {
+   "median": 0.57,
+   "p90": 3.46,
+   "max": 21.51
+  },
+  "skin_anchor_residual_mm": {
+   "median": 0.35,
+   "p90": 1.46,
+   "max": 8.56
+  },
+  "structures_moved": 1227,
+  "volume_guard": {
+   "bounds": [
+    0.65,
+    1.5
+   ],
+   "closed_structures": 395,
+   "ratio_median": 1.102,
+   "ratio_p10": 0.719,
+   "ratio_p90": 1.626,
+   "ratio_max": 2.994,
+   "structures_with_reduced_skin_share": {
+    "gluteus_medius_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.54
+    },
+    "gluteus_medius_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.78
+    },
+    "gluteus_minimus_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.47
+    },
+    "gluteus_minimus_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.68
+    },
+    "iliolumbar_ligament_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.62
+    },
+    "iliopsoas_bursa_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.78
+    },
+    "iliopsoas_bursa_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.59
+    },
+    "iliotibial_tract_r": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.26
+    },
+    "linea_alba": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.43
+    },
+    "pubic_symphysis_disc": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 2.24
+    },
+    "pyramidalis_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.81
+    },
+    "pyramidalis_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.93
+    },
+    "quadratus_lumborum_l": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.47
+    },
+    "rectus_abdominis_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.25
+    },
+    "rectus_abdominis_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.39
+    },
+    "rhomboid_minor_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.68
+    },
+    "serratus_posterior_inferior_l": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.47
+    },
+    "tensor_fasciae_latae_r": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.37
+    },
+    "teres_major_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.59
+    },
+    "zan_abdominal_part_of_pectoralis_major_muscle_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 0.67
+    },
+    "zan_anterior_sacro_iliac_ligament_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.65
+    },
+    "zan_ascending_colon": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.54
+    },
+    "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.6
+    },
+    "zan_external_intercostal_membrane_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 0.64
+    },
+    "zan_free_taenia": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.49
+    },
+    "zan_gallbladder": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.37
+    },
+    "zan_greater_omentum": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.4
+    },
+    "zan_iliococcygeus_muscle_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.86
+    },
+    "zan_inferior_papillary_muscle_of_right_ventricle": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 0.75
+    },
+    "zan_left_lobe_of_thymus": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 0.61
+    },
+    "zan_lesser_omentum": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.42
+    },
+    "zan_meso_appendix": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.43
+    },
+    "zan_mesocolic_taenia": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.42
+    },
+    "zan_mesocolon": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.36
+    },
+    "zan_omental_taenia": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.5
+    },
+    "zan_pancreas": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.42
+    },
+    "zan_posterior_leaflet_of_left_atrioventricular_valve": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.31
+    },
+    "zan_pubo_analis_muscle_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.98
+    },
+    "zan_pubococcygeus_muscle_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 2.03
+    },
+    "zan_right_lobe_of_thymus": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 0.53
+    },
+    "zan_semispinalis_colli_muscle_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 0.08
+    },
+    "zan_septal_papillary_muscle_of_right_ventricle": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 0.71
+    },
+    "zan_sigmoid_colon": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.78
+    },
+    "zan_transverse_colon": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 1.15
+    },
+    "zan_piriformis_fascia_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 2.07
+    },
+    "zan_piriformis_fascia_r": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 2.14
+    },
+    "zan_trochanteric_bursa_of_gluteus_maximus_muscle_l": {
+     "skin_gain": 0.0,
+     "volume_ratio_vs_source": 0.96
+    },
+    "zan_trochanteric_bursa_of_gluteus_maximus_muscle_r": {
+     "skin_gain": 0.5,
+     "volume_ratio_vs_source": 1.5
+    }
+   }
+  },
+  "shift_vs_q168_mm": {
+   "median_of_structure_medians": 6.4,
+   "max": 111.4
+  },
+  "bones": {
+   "zan_first_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 20.2,
+    "her_label_to_Z_mm_before": 15.53,
+    "her_label_to_Z_mm_after": 1.68,
+    "Z_to_her_label_mm_before": 14.54,
+    "Z_to_her_label_mm_after": 0.89
+   },
+   "zan_second_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 22.3,
+    "her_label_to_Z_mm_before": 14.95,
+    "her_label_to_Z_mm_after": 1.88,
+    "Z_to_her_label_mm_before": 14.1,
+    "Z_to_her_label_mm_after": 1.62
+   },
+   "zan_third_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 18.3,
+    "her_label_to_Z_mm_before": 14.16,
+    "her_label_to_Z_mm_after": 2.09,
+    "Z_to_her_label_mm_before": 13.67,
+    "Z_to_her_label_mm_after": 1.86
+   },
+   "zan_fourth_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 18.1,
+    "her_label_to_Z_mm_before": 16.32,
+    "her_label_to_Z_mm_after": 2.25,
+    "Z_to_her_label_mm_before": 16.9,
+    "Z_to_her_label_mm_after": 3.29
+   },
+   "zan_fifth_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 26.2,
+    "her_label_to_Z_mm_before": 16.31,
+    "her_label_to_Z_mm_after": 2.33,
+    "Z_to_her_label_mm_before": 18.1,
+    "Z_to_her_label_mm_after": 5.31
+   },
+   "zan_sixth_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 31.4,
+    "her_label_to_Z_mm_before": 21.42,
+    "her_label_to_Z_mm_after": 2.68,
+    "Z_to_her_label_mm_before": 23.2,
+    "Z_to_her_label_mm_after": 5.82
+   },
+   "zan_seventh_rib_l": {
+    "status": "refit",
+    "scale": 1.129,
+    "shift_mm": 20.2,
+    "her_label_to_Z_mm_before": 15.0,
+    "her_label_to_Z_mm_after": 2.62,
+    "Z_to_her_label_mm_before": 17.28,
+    "Z_to_her_label_mm_after": 6.43
+   },
+   "zan_eighth_rib_l": {
+    "status": "refit",
+    "scale": 1.174,
+    "shift_mm": 34.6,
+    "her_label_to_Z_mm_before": 16.83,
+    "her_label_to_Z_mm_after": 2.89,
+    "Z_to_her_label_mm_before": 20.14,
+    "Z_to_her_label_mm_after": 5.87
+   },
+   "zan_ninth_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 25.6,
+    "her_label_to_Z_mm_before": 12.82,
+    "her_label_to_Z_mm_after": 2.47,
+    "Z_to_her_label_mm_before": 15.55,
+    "Z_to_her_label_mm_after": 3.97
+   },
+   "zan_tenth_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 17.4,
+    "her_label_to_Z_mm_before": 13.77,
+    "her_label_to_Z_mm_after": 1.54,
+    "Z_to_her_label_mm_before": 14.4,
+    "Z_to_her_label_mm_after": 1.94
+   },
+   "zan_eleventh_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 16.7,
+    "her_label_to_Z_mm_before": 12.47,
+    "her_label_to_Z_mm_after": 1.59,
+    "Z_to_her_label_mm_before": 15.61,
+    "Z_to_her_label_mm_after": 1.46
+   },
+   "zan_twelfth_rib_l": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 7.9,
+    "her_label_to_Z_mm_before": 9.13,
+    "her_label_to_Z_mm_after": 1.9,
+    "Z_to_her_label_mm_before": 14.02,
+    "Z_to_her_label_mm_after": 3.28
+   },
+   "zan_first_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 20.4,
+    "her_label_to_Z_mm_before": 16.7,
+    "her_label_to_Z_mm_after": 1.75,
+    "Z_to_her_label_mm_before": 14.9,
+    "Z_to_her_label_mm_after": 0.84
+   },
+   "zan_second_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 21.5,
+    "her_label_to_Z_mm_before": 14.84,
+    "her_label_to_Z_mm_after": 1.92,
+    "Z_to_her_label_mm_before": 14.15,
+    "Z_to_her_label_mm_after": 1.78
+   },
+   "zan_third_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 32.6,
+    "her_label_to_Z_mm_before": 20.47,
+    "her_label_to_Z_mm_after": 1.83,
+    "Z_to_her_label_mm_before": 19.93,
+    "Z_to_her_label_mm_after": 1.96
+   },
+   "zan_fourth_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 27.3,
+    "her_label_to_Z_mm_before": 17.15,
+    "her_label_to_Z_mm_after": 1.95,
+    "Z_to_her_label_mm_before": 17.7,
+    "Z_to_her_label_mm_after": 2.37
+   },
+   "zan_fifth_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 22.6,
+    "her_label_to_Z_mm_before": 14.88,
+    "her_label_to_Z_mm_after": 2.08,
+    "Z_to_her_label_mm_before": 16.92,
+    "Z_to_her_label_mm_after": 3.84
+   },
+   "zan_sixth_rib_r": {
+    "status": "refit",
+    "scale": 0.868,
+    "shift_mm": 27.7,
+    "her_label_to_Z_mm_before": 44.04,
+    "her_label_to_Z_mm_after": 1.68,
+    "Z_to_her_label_mm_before": 27.43,
+    "Z_to_her_label_mm_after": 2.58
+   },
+   "zan_seventh_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 24.0,
+    "her_label_to_Z_mm_before": 16.64,
+    "her_label_to_Z_mm_after": 2.48,
+    "Z_to_her_label_mm_before": 17.47,
+    "Z_to_her_label_mm_after": 2.72
+   },
+   "zan_eighth_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 23.5,
+    "her_label_to_Z_mm_before": 14.89,
+    "her_label_to_Z_mm_after": 1.79,
+    "Z_to_her_label_mm_before": 16.52,
+    "Z_to_her_label_mm_after": 2.6
+   },
+   "zan_ninth_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 18.6,
+    "her_label_to_Z_mm_before": 14.2,
+    "her_label_to_Z_mm_after": 1.79,
+    "Z_to_her_label_mm_before": 17.07,
+    "Z_to_her_label_mm_after": 2.41
+   },
+   "zan_tenth_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 16.6,
+    "her_label_to_Z_mm_before": 13.62,
+    "her_label_to_Z_mm_after": 1.76,
+    "Z_to_her_label_mm_before": 14.88,
+    "Z_to_her_label_mm_after": 1.94
+   },
+   "zan_eleventh_rib_r": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 12.9,
+    "her_label_to_Z_mm_before": 11.52,
+    "her_label_to_Z_mm_after": 1.62,
+    "Z_to_her_label_mm_before": 13.08,
+    "Z_to_her_label_mm_after": 1.37
+   },
+   "zan_twelfth_rib_r": {
+    "status": "refit",
+    "scale": 1.174,
+    "shift_mm": 18.2,
+    "her_label_to_Z_mm_before": 18.2,
+    "her_label_to_Z_mm_after": 1.86,
+    "Z_to_her_label_mm_before": 15.36,
+    "Z_to_her_label_mm_after": 2.43
+   },
+   "zan_vertebra_t1": {
+    "status": "refit",
+    "scale": 1.042,
+    "shift_mm": 7.1,
+    "her_label_to_Z_mm_before": 3.98,
+    "her_label_to_Z_mm_after": 2.17,
+    "Z_to_her_label_mm_before": 1.77,
+    "Z_to_her_label_mm_after": 0.9
+   },
+   "zan_vertebra_t2": {
+    "status": "refit",
+    "scale": 1.036,
+    "shift_mm": 2.7,
+    "her_label_to_Z_mm_before": 2.57,
+    "her_label_to_Z_mm_after": 2.12,
+    "Z_to_her_label_mm_before": 1.2,
+    "Z_to_her_label_mm_after": 1.01
+   },
+   "zan_vertebra_t3": {
+    "status": "held (no bounded improvement)",
+    "her_label_to_Z_mm": 2.4,
+    "Z_to_her_label_mm": 0.9
+   },
+   "zan_vertebra_t4": {
+    "status": "refit",
+    "scale": 1.033,
+    "shift_mm": 1.8,
+    "her_label_to_Z_mm_before": 2.46,
+    "her_label_to_Z_mm_after": 2.22,
+    "Z_to_her_label_mm_before": 1.19,
+    "Z_to_her_label_mm_after": 1.06
+   },
+   "zan_vertebra_t5": {
+    "status": "refit",
+    "scale": 1.029,
+    "shift_mm": 1.0,
+    "her_label_to_Z_mm_before": 2.37,
+    "her_label_to_Z_mm_after": 2.2,
+    "Z_to_her_label_mm_before": 1.08,
+    "Z_to_her_label_mm_after": 0.98
+   },
+   "zan_vertebra_t6": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 0.2,
+    "her_label_to_Z_mm_before": 2.48,
+    "her_label_to_Z_mm_after": 2.47,
+    "Z_to_her_label_mm_before": 1.02,
+    "Z_to_her_label_mm_after": 1.0
+   },
+   "zan_vertebra_t7": {
+    "status": "refit",
+    "scale": 0.979,
+    "shift_mm": 1.1,
+    "her_label_to_Z_mm_before": 2.27,
+    "her_label_to_Z_mm_after": 2.16,
+    "Z_to_her_label_mm_before": 1.16,
+    "Z_to_her_label_mm_after": 0.98
+   },
+   "zan_vertebra_t8": {
+    "status": "refit",
+    "scale": 0.97,
+    "shift_mm": 3.4,
+    "her_label_to_Z_mm_before": 3.05,
+    "her_label_to_Z_mm_after": 2.5,
+    "Z_to_her_label_mm_before": 1.47,
+    "Z_to_her_label_mm_after": 1.04
+   },
+   "zan_vertebra_t9": {
+    "status": "refit",
+    "scale": 0.964,
+    "shift_mm": 3.0,
+    "her_label_to_Z_mm_before": 2.39,
+    "her_label_to_Z_mm_after": 1.83,
+    "Z_to_her_label_mm_before": 1.53,
+    "Z_to_her_label_mm_after": 0.88
+   },
+   "zan_vertebra_t10": {
+    "status": "refit",
+    "scale": 0.988,
+    "shift_mm": 9.7,
+    "her_label_to_Z_mm_before": 3.75,
+    "her_label_to_Z_mm_after": 2.07,
+    "Z_to_her_label_mm_before": 2.63,
+    "Z_to_her_label_mm_after": 0.96
+   },
+   "zan_vertebra_t11": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 8.9,
+    "her_label_to_Z_mm_before": 5.0,
+    "her_label_to_Z_mm_after": 2.69,
+    "Z_to_her_label_mm_before": 2.97,
+    "Z_to_her_label_mm_after": 1.03
+   },
+   "zan_vertebra_t12": {
+    "status": "refit",
+    "scale": 1.043,
+    "shift_mm": 8.0,
+    "her_label_to_Z_mm_before": 4.68,
+    "her_label_to_Z_mm_after": 2.73,
+    "Z_to_her_label_mm_before": 2.09,
+    "Z_to_her_label_mm_after": 1.13
+   },
+   "zan_vertebra_l1": {
+    "status": "held (no bounded improvement)",
+    "her_label_to_Z_mm": 6.99,
+    "Z_to_her_label_mm": 2.63
+   },
+   "zan_vertebra_l2": {
+    "status": "refit",
+    "scale": 1.026,
+    "shift_mm": 19.1,
+    "her_label_to_Z_mm_before": 9.02,
+    "her_label_to_Z_mm_after": 2.95,
+    "Z_to_her_label_mm_before": 4.3,
+    "Z_to_her_label_mm_after": 1.11
+   },
+   "zan_vertebra_l3": {
+    "status": "refit",
+    "scale": 1.027,
+    "shift_mm": 23.9,
+    "her_label_to_Z_mm_before": 10.54,
+    "her_label_to_Z_mm_after": 2.75,
+    "Z_to_her_label_mm_before": 7.17,
+    "Z_to_her_label_mm_after": 1.1
+   },
+   "zan_vertebra_l4": {
+    "status": "refit",
+    "scale": 1.0,
+    "shift_mm": 26.8,
+    "her_label_to_Z_mm_before": 13.32,
+    "her_label_to_Z_mm_after": 2.27,
+    "Z_to_her_label_mm_before": 9.94,
+    "Z_to_her_label_mm_after": 1.02
+   },
+   "zan_vertebra_l5": {
+    "status": "refit",
+    "scale": 0.982,
+    "shift_mm": 28.0,
+    "her_label_to_Z_mm_before": 14.23,
+    "her_label_to_Z_mm_after": 2.25,
+    "Z_to_her_label_mm_before": 12.96,
+    "Z_to_her_label_mm_after": 1.07
+   }
+  },
+  "skin_vs_her_ct_skin": {
+   "compared": true,
+   "her_subject": "ct_vhf_skin",
+   "patches": 248,
+   "median_mm": 7.1,
+   "p90_mm": 27.8,
+   "frac_within_10mm": 0.622
+  }
+ },
+ "audit_shipped_geometry": {
+  "before": {
+   "skin_gap_her_minus_fitted_mm_all_angles": {
+    "p10": 3.4,
+    "median": 28.2,
+    "p90": 69.2,
+    "p98": 120.3
+   },
+   "skin_gap_her_minus_fitted_mm_front_back_sectors": {
+    "p10": -0.2,
+    "median": 21.8,
+    "p90": 44.8,
+    "p98": 66.6
+   },
+   "skin_patches": {
+    "n": 52,
+    "outside_her_skin_frac": 0.0738
+   },
+   "soft_trunk_by_layer": {
+    "vessel": {
+     "structures": 257,
+     "outside_skin_frac": 0.0065,
+     "in_bone_frac": 0.0243,
+     "in_lung_frac": 0.136,
+     "in_organ_frac": 0.2498
+    },
+    "cartilage": {
+     "structures": 34,
+     "outside_skin_frac": 0.0046,
+     "in_bone_frac": 0.2302,
+     "in_lung_frac": 0.0188,
+     "in_organ_frac": 0.0383
+    },
+    "joint": {
+     "structures": 75,
+     "outside_skin_frac": 0.0005,
+     "in_bone_frac": 0.2501,
+     "in_lung_frac": 0.0217,
+     "in_organ_frac": 0.0117
+    },
+    "fascia": {
+     "structures": 19,
+     "outside_skin_frac": 0.0107,
+     "in_bone_frac": 0.0233,
+     "in_lung_frac": 0.0244,
+     "in_organ_frac": 0.0893
+    },
+    "nerve": {
+     "structures": 101,
+     "outside_skin_frac": 0.0001,
+     "in_bone_frac": 0.0321,
+     "in_lung_frac": 0.0426,
+     "in_organ_frac": 0.452
+    },
+    "muscle": {
+     "structures": 131,
+     "outside_skin_frac": 0.001,
+     "in_bone_frac": 0.0669,
+     "in_lung_frac": 0.0461,
+     "in_organ_frac": 0.0756
+    },
+    "viscera": {
+     "structures": 70,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0043,
+     "in_lung_frac": 0.1495,
+     "in_organ_frac": 0.405
+    },
+    "lymph": {
+     "structures": 103,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0122,
+     "in_lung_frac": 0.0211,
+     "in_organ_frac": 0.169
+    },
+    "cns": {
+     "structures": 6,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.015,
+     "in_lung_frac": 0.0,
+     "in_organ_frac": 0.7851
+    },
+    "bursa": {
+     "structures": 10,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.2544,
+     "in_lung_frac": 0.0,
+     "in_organ_frac": 0.0
+    }
+   },
+   "ribs_vs_her_ct_label_mm": {
+    "n": 24,
+    "Z_to_label_median": 16.1,
+    "label_to_Z_median": 15.0
+   },
+   "vertebrae_vs_her_ct_label_mm": {
+    "n": 17,
+    "Z_to_label_median": 1.8,
+    "label_to_Z_median": 3.7
+   },
+   "per_bone_vs_her_label_mm": {
+    "zan_first_rib_l": [
+     14.5,
+     15.5
+    ],
+    "zan_second_rib_l": [
+     14.1,
+     14.9
+    ],
+    "zan_third_rib_l": [
+     13.6,
+     14.2
+    ],
+    "zan_fourth_rib_l": [
+     17.3,
+     16.3
+    ],
+    "zan_fifth_rib_l": [
+     18.4,
+     16.3
+    ],
+    "zan_sixth_rib_l": [
+     22.6,
+     21.4
+    ],
+    "zan_seventh_rib_l": [
+     17.1,
+     15.0
+    ],
+    "zan_eighth_rib_l": [
+     19.4,
+     16.8
+    ],
+    "zan_ninth_rib_l": [
+     15.4,
+     12.8
+    ],
+    "zan_tenth_rib_l": [
+     14.4,
+     13.8
+    ],
+    "zan_eleventh_rib_l": [
+     15.6,
+     12.5
+    ],
+    "zan_twelfth_rib_l": [
+     14.0,
+     9.1
+    ],
+    "zan_first_rib_r": [
+     14.9,
+     16.7
+    ],
+    "zan_second_rib_r": [
+     14.2,
+     14.8
+    ],
+    "zan_third_rib_r": [
+     19.9,
+     20.5
+    ],
+    "zan_fourth_rib_r": [
+     18.0,
+     17.2
+    ],
+    "zan_fifth_rib_r": [
+     17.0,
+     14.9
+    ],
+    "zan_sixth_rib_r": [
+     26.5,
+     44.0
+    ],
+    "zan_seventh_rib_r": [
+     17.9,
+     16.7
+    ],
+    "zan_eighth_rib_r": [
+     16.7,
+     14.9
+    ],
+    "zan_ninth_rib_r": [
+     16.7,
+     14.2
+    ],
+    "zan_tenth_rib_r": [
+     14.7,
+     13.6
+    ],
+    "zan_eleventh_rib_r": [
+     13.1,
+     11.5
+    ],
+    "zan_twelfth_rib_r": [
+     15.4,
+     18.2
+    ],
+    "zan_vertebra_t1": [
+     1.8,
+     4.0
+    ],
+    "zan_vertebra_t2": [
+     1.2,
+     2.6
+    ],
+    "zan_vertebra_t3": [
+     0.9,
+     2.4
+    ],
+    "zan_vertebra_t4": [
+     1.2,
+     2.5
+    ],
+    "zan_vertebra_t5": [
+     1.1,
+     2.4
+    ],
+    "zan_vertebra_t6": [
+     1.0,
+     2.5
+    ],
+    "zan_vertebra_t7": [
+     1.2,
+     2.3
+    ],
+    "zan_vertebra_t8": [
+     1.5,
+     3.1
+    ],
+    "zan_vertebra_t9": [
+     1.5,
+     2.4
+    ],
+    "zan_vertebra_t10": [
+     2.6,
+     3.7
+    ],
+    "zan_vertebra_t11": [
+     3.0,
+     5.0
+    ],
+    "zan_vertebra_t12": [
+     2.1,
+     4.7
+    ],
+    "zan_vertebra_l1": [
+     2.6,
+     7.0
+    ],
+    "zan_vertebra_l2": [
+     4.3,
+     9.0
+    ],
+    "zan_vertebra_l3": [
+     7.2,
+     10.5
+    ],
+    "zan_vertebra_l4": [
+     9.9,
+     13.3
+    ],
+    "zan_vertebra_l5": [
+     13.0,
+     14.2
+    ]
+   },
+   "rib_cage_bands": {
+    "240": {
+     "her_width": 265,
+     "Z_width": 245,
+     "her_depth": 112,
+     "Z_depth": 118
+    },
+    "280": {
+     "her_width": 272,
+     "Z_width": 244,
+     "her_depth": 141,
+     "Z_depth": 174
+    },
+    "320": {
+     "her_width": 274,
+     "Z_width": 241,
+     "her_depth": 146,
+     "Z_depth": 185
+    },
+    "360": {
+     "her_width": 269,
+     "Z_width": 262,
+     "her_depth": 149,
+     "Z_depth": 181
+    },
+    "400": {
+     "her_width": 265,
+     "Z_width": 253,
+     "her_depth": 157,
+     "Z_depth": 176
+    },
+    "440": {
+     "her_width": 263,
+     "Z_width": 228,
+     "her_depth": 152,
+     "Z_depth": 162
+    },
+    "480": {
+     "her_width": 254,
+     "Z_width": 217,
+     "her_depth": 148,
+     "Z_depth": 161
+    },
+    "520": {
+     "her_width": 235,
+     "Z_width": 186,
+     "her_depth": 120,
+     "Z_depth": 89
+    },
+    "560": {
+     "her_width": 164,
+     "Z_width": 94,
+     "her_depth": 48,
+     "Z_depth": 26
+    }
+   },
+   "trunk_muscles_vs_her_own_mesh_mm": {
+    "n": 56,
+    "her_mesh_to_Z_median": 12.1,
+    "Z_to_her_mesh_median": 13.3
+   },
+   "trunk_muscles_her_mesh_to_Z_mm": {
+    "coccygeus_l": 14.4,
+    "coccygeus_r": 21.5,
+    "diaphragm": 12.5,
+    "external_anal_sphincter": 19.1,
+    "external_oblique_l": 20.6,
+    "external_oblique_r": 17.1,
+    "gluteus_maximus_l": 9.9,
+    "gluteus_maximus_r": 11.0,
+    "gluteus_medius_l": 7.2,
+    "gluteus_medius_r": 7.3,
+    "gluteus_minimus_l": 8.2,
+    "gluteus_minimus_r": 6.6,
+    "iliocostalis_l": 7.8,
+    "iliocostalis_r": 9.5,
+    "infraspinatus_l": 13.7,
+    "infraspinatus_r": 13.5,
+    "internal_oblique_l": 22.5,
+    "internal_oblique_r": 21.4,
+    "latissimus_dorsi_l": 10.4,
+    "latissimus_dorsi_r": 10.0,
+    "levator_ani_l": 26.1,
+    "levator_ani_r": 28.8,
+    "levator_scapulae_l": 10.0,
+    "levator_scapulae_r": 8.6,
+    "longissimus_l": 8.7,
+    "longissimus_r": 9.2,
+    "multifidus_l": 11.1,
+    "multifidus_r": 11.2,
+    "pectoralis_minor_l": 22.2,
+    "pectoralis_minor_r": 24.3,
+    "platysma_l": 12.0,
+    "platysma_r": 12.0,
+    "quadratus_lumborum_l": 9.6,
+    "quadratus_lumborum_r": 12.4,
+    "rectus_abdominis_l": 22.0,
+    "rectus_abdominis_r": 20.6,
+    "scalenus_posterior_l": 9.4,
+    "scalenus_posterior_r": 7.1,
+    "serratus_anterior_l": 10.5,
+    "serratus_anterior_r": 9.2,
+    "spinalis_l": 13.2,
+    "spinalis_r": 12.9,
+    "sternocleidomastoid_l": 11.5,
+    "sternocleidomastoid_r": 12.1,
+    "sternothyroid_l": 13.1,
+    "sternothyroid_r": 13.5,
+    "subscapularis_l": 17.1,
+    "subscapularis_r": 15.8,
+    "supraspinatus_l": 18.3,
+    "supraspinatus_r": 15.6,
+    "teres_major_l": 23.5,
+    "teres_major_r": 20.6,
+    "teres_minor_l": 8.1,
+    "teres_minor_r": 6.7,
+    "trapezius_l": 7.6,
+    "trapezius_r": 7.2
+   }
+  },
+  "after": {
+   "skin_gap_her_minus_fitted_mm_all_angles": {
+    "p10": 1.8,
+    "median": 7.5,
+    "p90": 55.4,
+    "p98": 105.0
+   },
+   "skin_gap_her_minus_fitted_mm_front_back_sectors": {
+    "p10": 1.2,
+    "median": 5.9,
+    "p90": 18.7,
+    "p98": 48.4
+   },
+   "skin_patches": {
+    "n": 52,
+    "outside_her_skin_frac": 0.0371
+   },
+   "soft_trunk_by_layer": {
+    "vessel": {
+     "structures": 257,
+     "outside_skin_frac": 0.005,
+     "in_bone_frac": 0.0356,
+     "in_lung_frac": 0.1516,
+     "in_organ_frac": 0.1639
+    },
+    "cartilage": {
+     "structures": 34,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.1889,
+     "in_lung_frac": 0.0,
+     "in_organ_frac": 0.0041
+    },
+    "joint": {
+     "structures": 75,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.178,
+     "in_lung_frac": 0.0023,
+     "in_organ_frac": 0.0029
+    },
+    "fascia": {
+     "structures": 19,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0223,
+     "in_lung_frac": 0.0046,
+     "in_organ_frac": 0.0559
+    },
+    "nerve": {
+     "structures": 101,
+     "outside_skin_frac": 0.0006,
+     "in_bone_frac": 0.0276,
+     "in_lung_frac": 0.0022,
+     "in_organ_frac": 0.513
+    },
+    "muscle": {
+     "structures": 131,
+     "outside_skin_frac": 0.0003,
+     "in_bone_frac": 0.0685,
+     "in_lung_frac": 0.0052,
+     "in_organ_frac": 0.0284
+    },
+    "viscera": {
+     "structures": 70,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0079,
+     "in_lung_frac": 0.2303,
+     "in_organ_frac": 0.2705
+    },
+    "lymph": {
+     "structures": 103,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.025,
+     "in_lung_frac": 0.018,
+     "in_organ_frac": 0.1385
+    },
+    "cns": {
+     "structures": 6,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.0153,
+     "in_lung_frac": 0.0,
+     "in_organ_frac": 0.8554
+    },
+    "bursa": {
+     "structures": 10,
+     "outside_skin_frac": 0.0,
+     "in_bone_frac": 0.2121,
+     "in_lung_frac": 0.0,
+     "in_organ_frac": 0.0
+    }
+   },
+   "ribs_vs_her_ct_label_mm": {
+    "n": 24,
+    "Z_to_label_median": 2.2,
+    "label_to_Z_median": 1.9
+   },
+   "vertebrae_vs_her_ct_label_mm": {
+    "n": 17,
+    "Z_to_label_median": 1.0,
+    "label_to_Z_median": 2.3
+   },
+   "per_bone_vs_her_label_mm": {
+    "zan_first_rib_l": [
+     0.9,
+     1.7
+    ],
+    "zan_second_rib_l": [
+     1.6,
+     1.9
+    ],
+    "zan_third_rib_l": [
+     1.9,
+     2.1
+    ],
+    "zan_fourth_rib_l": [
+     3.5,
+     2.3
+    ],
+    "zan_fifth_rib_l": [
+     4.8,
+     2.4
+    ],
+    "zan_sixth_rib_l": [
+     5.2,
+     2.7
+    ],
+    "zan_seventh_rib_l": [
+     5.8,
+     2.6
+    ],
+    "zan_eighth_rib_l": [
+     5.3,
+     2.9
+    ],
+    "zan_ninth_rib_l": [
+     3.6,
+     2.5
+    ],
+    "zan_tenth_rib_l": [
+     1.7,
+     1.6
+    ],
+    "zan_eleventh_rib_l": [
+     1.5,
+     1.6
+    ],
+    "zan_twelfth_rib_l": [
+     3.3,
+     1.9
+    ],
+    "zan_first_rib_r": [
+     0.8,
+     1.8
+    ],
+    "zan_second_rib_r": [
+     1.8,
+     1.9
+    ],
+    "zan_third_rib_r": [
+     1.9,
+     1.8
+    ],
+    "zan_fourth_rib_r": [
+     2.4,
+     2.0
+    ],
+    "zan_fifth_rib_r": [
+     3.6,
+     2.1
+    ],
+    "zan_sixth_rib_r": [
+     2.3,
+     1.7
+    ],
+    "zan_seventh_rib_r": [
+     2.9,
+     2.5
+    ],
+    "zan_eighth_rib_r": [
+     2.1,
+     1.8
+    ],
+    "zan_ninth_rib_r": [
+     2.1,
+     1.8
+    ],
+    "zan_tenth_rib_r": [
+     1.8,
+     1.8
+    ],
+    "zan_eleventh_rib_r": [
+     1.4,
+     1.6
+    ],
+    "zan_twelfth_rib_r": [
+     2.4,
+     1.9
+    ],
+    "zan_vertebra_t1": [
+     0.9,
+     2.2
+    ],
+    "zan_vertebra_t2": [
+     1.0,
+     2.1
+    ],
+    "zan_vertebra_t3": [
+     0.9,
+     2.4
+    ],
+    "zan_vertebra_t4": [
+     1.1,
+     2.2
+    ],
+    "zan_vertebra_t5": [
+     1.0,
+     2.2
+    ],
+    "zan_vertebra_t6": [
+     1.0,
+     2.5
+    ],
+    "zan_vertebra_t7": [
+     1.0,
+     2.2
+    ],
+    "zan_vertebra_t8": [
+     1.0,
+     2.5
+    ],
+    "zan_vertebra_t9": [
+     0.9,
+     1.8
+    ],
+    "zan_vertebra_t10": [
+     1.0,
+     2.1
+    ],
+    "zan_vertebra_t11": [
+     1.0,
+     2.7
+    ],
+    "zan_vertebra_t12": [
+     1.1,
+     2.7
+    ],
+    "zan_vertebra_l1": [
+     2.6,
+     7.0
+    ],
+    "zan_vertebra_l2": [
+     1.1,
+     3.0
+    ],
+    "zan_vertebra_l3": [
+     1.1,
+     2.8
+    ],
+    "zan_vertebra_l4": [
+     1.0,
+     2.3
+    ],
+    "zan_vertebra_l5": [
+     1.1,
+     2.3
+    ]
+   },
+   "rib_cage_bands": {
+    "240": {
+     "her_width": 265,
+     "Z_width": 267,
+     "her_depth": 112,
+     "Z_depth": 113
+    },
+    "280": {
+     "her_width": 272,
+     "Z_width": 275,
+     "her_depth": 141,
+     "Z_depth": 156
+    },
+    "320": {
+     "her_width": 274,
+     "Z_width": 274,
+     "her_depth": 146,
+     "Z_depth": 160
+    },
+    "360": {
+     "her_width": 269,
+     "Z_width": 269,
+     "her_depth": 149,
+     "Z_depth": 164
+    },
+    "400": {
+     "her_width": 265,
+     "Z_width": 270,
+     "her_depth": 157,
+     "Z_depth": 158
+    },
+    "440": {
+     "her_width": 263,
+     "Z_width": 270,
+     "her_depth": 152,
+     "Z_depth": 155
+    },
+    "480": {
+     "her_width": 254,
+     "Z_width": 255,
+     "her_depth": 148,
+     "Z_depth": 151
+    },
+    "520": {
+     "her_width": 235,
+     "Z_width": 231,
+     "her_depth": 120,
+     "Z_depth": 114
+    },
+    "560": {
+     "her_width": 164,
+     "Z_width": 175,
+     "her_depth": 48,
+     "Z_depth": 49
+    }
+   },
+   "trunk_muscles_vs_her_own_mesh_mm": {
+    "n": 56,
+    "her_mesh_to_Z_median": 10.5,
+    "Z_to_her_mesh_median": 11.5
+   },
+   "trunk_muscles_her_mesh_to_Z_mm": {
+    "coccygeus_l": 17.5,
+    "coccygeus_r": 22.5,
+    "diaphragm": 5.5,
+    "external_anal_sphincter": 27.5,
+    "external_oblique_l": 10.4,
+    "external_oblique_r": 9.9,
+    "gluteus_maximus_l": 10.6,
+    "gluteus_maximus_r": 11.4,
+    "gluteus_medius_l": 7.3,
+    "gluteus_medius_r": 8.1,
+    "gluteus_minimus_l": 8.3,
+    "gluteus_minimus_r": 6.8,
+    "iliocostalis_l": 7.2,
+    "iliocostalis_r": 8.6,
+    "infraspinatus_l": 10.3,
+    "infraspinatus_r": 12.2,
+    "internal_oblique_l": 15.8,
+    "internal_oblique_r": 13.9,
+    "latissimus_dorsi_l": 6.7,
+    "latissimus_dorsi_r": 6.9,
+    "levator_ani_l": 23.6,
+    "levator_ani_r": 27.2,
+    "levator_scapulae_l": 10.1,
+    "levator_scapulae_r": 8.7,
+    "longissimus_l": 8.5,
+    "longissimus_r": 8.7,
+    "multifidus_l": 9.3,
+    "multifidus_r": 9.3,
+    "pectoralis_minor_l": 11.9,
+    "pectoralis_minor_r": 18.1,
+    "platysma_l": 11.9,
+    "platysma_r": 11.9,
+    "quadratus_lumborum_l": 8.6,
+    "quadratus_lumborum_r": 8.6,
+    "rectus_abdominis_l": 20.5,
+    "rectus_abdominis_r": 16.7,
+    "scalenus_posterior_l": 3.0,
+    "scalenus_posterior_r": 2.2,
+    "serratus_anterior_l": 4.2,
+    "serratus_anterior_r": 4.3,
+    "spinalis_l": 13.0,
+    "spinalis_r": 14.4,
+    "sternocleidomastoid_l": 10.5,
+    "sternocleidomastoid_r": 11.2,
+    "sternothyroid_l": 12.2,
+    "sternothyroid_r": 12.4,
+    "subscapularis_l": 19.7,
+    "subscapularis_r": 17.6,
+    "supraspinatus_l": 14.6,
+    "supraspinatus_r": 12.3,
+    "teres_major_l": 20.7,
+    "teres_major_r": 18.1,
+    "teres_minor_l": 4.8,
+    "teres_minor_r": 5.3,
+    "trapezius_l": 8.1,
+    "trapezius_r": 8.0
+   }
+  },
+  "trunk_skin_patches": [
+   "zan_skin_deltopectoral_triangle_l",
+   "zan_skin_deltopectoral_triangle_r",
+   "zan_skin_epigastric_region_l",
+   "zan_skin_epigastric_region_r",
+   "zan_skin_femoral_triangle_l",
+   "zan_skin_femoral_triangle_r",
+   "zan_skin_gluteal_region_l",
+   "zan_skin_gluteal_region_r",
+   "zan_skin_greater_supraclavicular_fossa_l",
+   "zan_skin_greater_supraclavicular_fossa_r",
+   "zan_skin_hip_region_l",
+   "zan_skin_hip_region_r",
+   "zan_skin_hypochondriac_region_l",
+   "zan_skin_hypochondriac_region_r",
+   "zan_skin_hypogastric_region_l",
+   "zan_skin_hypogastric_region_r",
+   "zan_skin_infraclavicular_fossa_l",
+   "zan_skin_infraclavicular_fossa_r",
+   "zan_skin_inframammary_region_l",
+   "zan_skin_inframammary_region_r",
+   "zan_skin_infrascapular_region_l",
+   "zan_skin_infrascapular_region_r",
+   "zan_skin_inguinal_region_l",
+   "zan_skin_inguinal_region_r",
+   "zan_skin_interscapular_region_l",
+   "zan_skin_interscapular_region_r",
+   "zan_skin_lateral_region_of_abdomen_l",
+   "zan_skin_lateral_region_of_abdomen_r",
+   "zan_skin_lateral_region_of_thorax_l",
+   "zan_skin_lateral_region_of_thorax_r",
+   "zan_skin_lesser_supraclavicular_fossa_l",
+   "zan_skin_lesser_supraclavicular_fossa_r",
+   "zan_skin_lumbar_region_l",
+   "zan_skin_lumbar_region_r",
+   "zan_skin_mammary_region_l",
+   "zan_skin_mammary_region_r",
+   "zan_skin_pectoral_region_l",
+   "zan_skin_pectoral_region_r",
+   "zan_skin_presternal_region_l",
+   "zan_skin_presternal_region_r",
+   "zan_skin_sacral_region_l",
+   "zan_skin_sacral_region_r",
+   "zan_skin_scapular_region_l",
+   "zan_skin_scapular_region_r",
+   "zan_skin_triangle_of_auscultation_l",
+   "zan_skin_triangle_of_auscultation_r",
+   "zan_skin_umbilical_region_l",
+   "zan_skin_umbilical_region_r",
+   "zan_skin_umbilicus_l",
+   "zan_skin_umbilicus_r",
+   "zan_skin_vertebral_region_l",
+   "zan_skin_vertebral_region_r"
+  ]
+ },
+ "pending_level_before_after": {
+  "before_q168": {
+   "n_structures": 858,
+   "skin_gap_her_minus_fitted_mm": {
+    "p10": 3.4,
+    "median": 28.2,
+    "p90": 68.8
+   },
+   "skin_face_flip_vs_raw_frac": 0.0222,
+   "skin_outside_her_skin_frac": 0.0738,
+   "muscle": {
+    "structures": 153,
+    "outside_skin_frac": 0.0012,
+    "in_bone_frac": 0.0412,
+    "in_lung_frac": 0.1057,
+    "in_organ_frac": 0.1674
+   },
+   "fascia": {
+    "structures": 9,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0106,
+    "in_lung_frac": 0.0183,
+    "in_organ_frac": 0.2885
+   },
+   "cartilage": {
+    "structures": 34,
+    "outside_skin_frac": 0.0017,
+    "in_bone_frac": 0.1387,
+    "in_lung_frac": 0.0153,
+    "in_organ_frac": 0.0762
+   },
+   "ligament": {
+    "structures": 72,
+    "outside_skin_frac": 0.0017,
+    "in_bone_frac": 0.1639,
+    "in_lung_frac": 0.0452,
+    "in_organ_frac": 0.0244
+   },
+   "organ": {
+    "structures": 70,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0043,
+    "in_lung_frac": 0.1358,
+    "in_organ_frac": 0.4006
+   },
+   "vessel": {
+    "structures": 257,
+    "outside_skin_frac": 0.0053,
+    "in_bone_frac": 0.019,
+    "in_lung_frac": 0.1388,
+    "in_organ_frac": 0.3085
+   },
+   "nerve": {
+    "structures": 107,
+    "outside_skin_frac": 0.0003,
+    "in_bone_frac": 0.0597,
+    "in_lung_frac": 0.0554,
+    "in_organ_frac": 0.303
+   },
+   "lymphatic": {
+    "structures": 104,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0145,
+    "in_lung_frac": 0.0308,
+    "in_organ_frac": 0.1708
+   },
+   "muscle_face_flip_vs_raw_median": 0.0053,
+   "muscle_face_flip_vs_raw_p90": 0.0831
+  },
+  "after_q186c": {
+   "n_structures": 858,
+   "skin_gap_her_minus_fitted_mm": {
+    "p10": 1.8,
+    "median": 7.5,
+    "p90": 55.2
+   },
+   "skin_face_flip_vs_raw_frac": 0.013,
+   "skin_outside_her_skin_frac": 0.037,
+   "muscle": {
+    "structures": 153,
+    "outside_skin_frac": 0.0001,
+    "in_bone_frac": 0.0472,
+    "in_lung_frac": 0.0109,
+    "in_organ_frac": 0.0526
+   },
+   "fascia": {
+    "structures": 9,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0122,
+    "in_lung_frac": 0.0177,
+    "in_organ_frac": 0.2666
+   },
+   "cartilage": {
+    "structures": 34,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.1108,
+    "in_lung_frac": 0.0,
+    "in_organ_frac": 0.0028
+   },
+   "ligament": {
+    "structures": 72,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.1411,
+    "in_lung_frac": 0.0033,
+    "in_organ_frac": 0.0055
+   },
+   "organ": {
+    "structures": 70,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0073,
+    "in_lung_frac": 0.1641,
+    "in_organ_frac": 0.3067
+   },
+   "vessel": {
+    "structures": 257,
+    "outside_skin_frac": 0.003,
+    "in_bone_frac": 0.0295,
+    "in_lung_frac": 0.1429,
+    "in_organ_frac": 0.2361
+   },
+   "nerve": {
+    "structures": 107,
+    "outside_skin_frac": 0.0005,
+    "in_bone_frac": 0.0548,
+    "in_lung_frac": 0.0063,
+    "in_organ_frac": 0.3186
+   },
+   "lymphatic": {
+    "structures": 104,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0217,
+    "in_lung_frac": 0.0593,
+    "in_organ_frac": 0.1248
+   },
+   "muscle_face_flip_vs_raw_median": 0.005,
+   "muscle_face_flip_vs_raw_p90": 0.0685
+  }
+ },
+ "gap_closure_all_muscles": {
+  "before_shipped": {
+   "gap_gt_1_25mm": 0.0821,
+   "inside_other_muscle": 0.1021
+  },
+  "after": {
+   "gap_gt_1_25mm": 0.0768,
+   "inside_other_muscle": 0.0979
+  }
+ },
+ "skin_vs_her_ct_skin_all_248_patches": {
+  "before": {
+   "median_mm": 8.8,
+   "p90_mm": 34.1,
+   "frac_within_10mm": 0.54
+  },
+  "after": {
+   "compared": true,
+   "her_subject": "ct_vhf_skin",
+   "patches": 248,
+   "median_mm": 7.1,
+   "p90_mm": 27.8,
+   "frac_within_10mm": 0.622
+  }
+ },
+ "volumes": {
+  "note": "volume of each closed structure after / (Z-Anatomy source volume x 0.932^3), guard 0.65-1.5",
+  "closed_structures": 395,
+  "median": 1.102,
+  "p10": 0.719,
+  "p90": 1.626,
+  "max": 2.994,
+  "outside_guard_even_without_skin_share": {
+   "gluteus_medius_l": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.54
+   },
+   "gluteus_medius_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.78
+   },
+   "gluteus_minimus_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.68
+   },
+   "iliolumbar_ligament_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.62
+   },
+   "iliopsoas_bursa_l": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.78
+   },
+   "iliopsoas_bursa_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.59
+   },
+   "pubic_symphysis_disc": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 2.24
+   },
+   "pyramidalis_l": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.81
+   },
+   "pyramidalis_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.93
+   },
+   "rhomboid_minor_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.68
+   },
+   "teres_major_l": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.59
+   },
+   "zan_anterior_sacro_iliac_ligament_l": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.65
+   },
+   "zan_ascending_colon": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.54
+   },
+   "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_l": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.6
+   },
+   "zan_external_intercostal_membrane_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 0.64
+   },
+   "zan_iliococcygeus_muscle_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.86
+   },
+   "zan_left_lobe_of_thymus": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 0.61
+   },
+   "zan_pubo_analis_muscle_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.98
+   },
+   "zan_pubococcygeus_muscle_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 2.03
+   },
+   "zan_right_lobe_of_thymus": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 0.53
+   },
+   "zan_semispinalis_colli_muscle_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 0.08
+   },
+   "zan_sigmoid_colon": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 1.78
+   },
+   "zan_piriformis_fascia_l": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 2.07
+   },
+   "zan_piriformis_fascia_r": {
+    "skin_gain": 0.0,
+    "volume_ratio_vs_source": 2.14
+   }
+  },
+  "trunk_skin_shell_volume_ml": {
+   "before": 1495,
+   "after": 1609
+  },
+  "trunk_muscles_closed_126_ml": {
+   "before": 9442,
+   "after_full_field_variant_not_shipped": 11730
+  }
+ },
+ "gates": {
+  "outside_her_skin_non_skin_structures": "muscle 0.01 %, fascia 0, cartilage 0, vessels 0.3 %, nerves 0.05 % (met, vessels/nerves small residual)",
+  "outside_her_skin_skin_patches": "3.7 % of skin-patch vertices (was 7.4 %), almost all gluteal/femoral-triangle edge, max 25 mm",
+  "inside_bone_lung_muscles": "bone 4.7 %, lung 1.1 % (<= 5 % met); ligament/cartilage attach into bone (14 % / 11 %, was 16 % / 14 %)",
+  "overlap_inside_other_muscle_all_muscles": "10.2 % -> 9.8 % (<= 10 % met)",
+  "fold_guard_field_jacobian": "NOT met: min -3.9, 5.3 % of sample points < 0.25 at the largest smoothing tried (anchors of different bones conflict locally); mesh-level guard met: skin face flips 2.2 % -> 1.3 %, muscle p90 8.3 % -> 6.9 %"
+ },
+ "remaining": [
+  "lumbar/gluteal skin patch boundary at the hips still shows a shelf from behind (gluteal patches follow her wide hips, lumbar patches stop at the fused-arm lateral band)",
+  "right costal cartilage Z->her mesh 3.3 -> 9.3 mm (left 16.0 -> 7.4 mm her->Z): cartilages follow the rib ends; her own cartilage meshes are not used as anchors",
+  "external/internal oblique her-mesh distance still 10-13 mm (her meshes partial)",
+  "her lateral outline is fused with her arms: lateral skin is interpolated",
+  "Z organs are not her organs: in_organ 31 % for Z viscera is expected"
+ ]
+}

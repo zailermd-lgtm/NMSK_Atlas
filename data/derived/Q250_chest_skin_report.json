@@ -1,0 +1,71 @@
+{
+ "thorax_registration": {
+  "scale": 0.99,
+  "rotation": [
+   [
+    0.99969,
+    -0.01901,
+    0.0163
+   ],
+   [
+    0.01755,
+    0.99617,
+    0.0856
+   ],
+   [
+    -0.01787,
+    -0.08529,
+    0.9962
+   ]
+  ],
+  "translation_mm": [
+   4.09,
+   -14.34,
+   110.5
+  ],
+  "n_source": 64308,
+  "n_target": 360000,
+  "residual_mm": {
+   "median": 1.28,
+   "p90": 3.66,
+   "rms": 2.22
+  },
+  "det_R": 1.0
+ },
+ "sides": {
+  "l": {
+   "footprint_cm2": 161.3,
+   "vertices_lifted": 601,
+   "max_lift_mm": 59.5,
+   "breast_top_mm_max": 167.3
+  },
+  "r": {
+   "footprint_cm2": 160.9,
+   "vertices_lifted": 615,
+   "max_lift_mm": 59.9,
+   "breast_top_mm_max": 163.1
+  }
+ },
+ "skin_pieces_changed": [
+  "zan_skin_anterior_region_of_arm_l",
+  "zan_skin_anterior_region_of_arm_r",
+  "zan_skin_deltoid_region_l",
+  "zan_skin_deltoid_region_r",
+  "zan_skin_deltopectoral_triangle_l",
+  "zan_skin_deltopectoral_triangle_r",
+  "zan_skin_epigastric_region_l",
+  "zan_skin_epigastric_region_r",
+  "zan_skin_hypochondriac_region_l",
+  "zan_skin_hypochondriac_region_r",
+  "zan_skin_inframammary_region_l",
+  "zan_skin_inframammary_region_r",
+  "zan_skin_lateral_region_of_thorax_l",
+  "zan_skin_lateral_region_of_thorax_r",
+  "zan_skin_mammary_region_l",
+  "zan_skin_mammary_region_r",
+  "zan_skin_pectoral_region_l",
+  "zan_skin_pectoral_region_r",
+  "zan_skin_presternal_region_l",
+  "zan_skin_presternal_region_r"
+ ]
+}

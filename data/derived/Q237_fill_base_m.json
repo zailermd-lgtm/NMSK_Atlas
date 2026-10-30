@@ -1,0 +1,667 @@
+{
+ "generated": "2026-10-14",
+ "summary": {
+  "page": "base_m",
+  "plane": {
+   "n": [
+    0.9999998357618252,
+    -0.00011789008139294204,
+    0.0005608727588267028
+   ],
+   "d": -0.0635839231454576
+  },
+  "shipped": [
+   "zan_lateral_intermuscular_septum_of_arm_r",
+   "zan_posterior_intermuscular_septum_of_leg_r",
+   "medial_pterygoid_l",
+   "zan_ophthalmic_artery_r"
+  ],
+  "held": [
+   "maxillary_nerve",
+   "abductor_digiti_minimi_hand",
+   "flocculus"
+  ],
+  "recommendations": []
+ },
+ "structures": [
+  {
+   "kind": "A",
+   "sys": "fascia",
+   "canon": "lateral_intermuscular_septum_of_arm",
+   "source_side": "l",
+   "target_side": "r",
+   "source_ids": [
+    "zan_lateral_intermuscular_septum_of_arm_l"
+   ],
+   "why": "no counterpart on the right",
+   "source_class": [
+    "z_estimate"
+   ],
+   "source_audit_severity": 0,
+   "neighbour_bones": [
+    {
+     "bone": "humerus",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 1.0
+    }
+   ],
+   "fit": {
+    "bone_residual_median_mm": 0.98,
+    "bone_residual_p90_mm": 2.1,
+    "scale": 0.9997,
+    "rotation_deg": 0.1,
+    "translation_mm": 0.3,
+    "n_points": 3500
+   },
+   "guards_after_fit": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 3.87,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 6.86,
+    "bone_deepest_mm": 3.14,
+    "bone_min_clear_mm": 1.14
+   },
+   "conform": {
+    "conform_mean_mm": 0.03,
+    "conform_max_mm": 0.34,
+    "conform_moved_pct": 12.7
+   },
+   "guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 3.87,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 0.0,
+    "bone_deepest_mm": 0.0,
+    "bone_min_clear_mm": 1.14
+   },
+   "volume_source_cm3": 5.12,
+   "volume_new_cm3": 5.152,
+   "volume_basis": "voxel solid (2 mm)",
+   "area_source_cm2": 20.89,
+   "area_new_cm2": 20.78,
+   "fails": [],
+   "source_guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 3.77,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 6.86,
+    "bone_deepest_mm": 2.17,
+    "bone_min_clear_mm": 1.05
+   },
+   "decision": "shipped",
+   "new_id": "zan_lateral_intermuscular_septum_of_arm_r",
+   "name": "Lateral intermuscular septum of arm",
+   "badge": "MIRROR IMAGE of the opposite side, fitted to this side's bones; NOT measured on this side (Q237). MISSING on this side: the left-side Lateral intermuscular septum of arm (zan_lateral_intermuscular_septum_of_arm_l; the Z-Anatomy structure of the opposite side, as fitted to this body) was reflected about this model's midsagittal plane (fitted to the axial skeleton: tilt 0.0 deg from the sagittal axis, median reflection residual 1.6 mm), then fitted to this side's humerus by a rigid + uniform-scale registration of the mirrored bones onto this side's (scale 0.9997, rotation 0.1 deg, bone residual median 0.98 mm / p90 2.1 mm) and a bounded conform step (mean 0.03 mm, max 0.34 mm; out of the bones, inside the skin). Checked (signed distances): inside the skin 100.0 % of the vertices, 3.87 mm from it at the shallowest; inside bone 0.0 % of the vertices (deepest 0.0 mm; gates 8 % / 5 mm). Volume 5.152 cm3 (voxel solid (2 mm); source side 5.12 cm3). Position and shape are the opposite side's, mirrored: an estimate; real left / right differences are not represented."
+  },
+  {
+   "kind": "A",
+   "sys": "fascia",
+   "canon": "posterior_intermuscular_septum_of_leg",
+   "source_side": "l",
+   "target_side": "r",
+   "source_ids": [
+    "zan_posterior_intermuscular_septum_of_leg_l"
+   ],
+   "why": "no counterpart on the right",
+   "source_class": [
+    "z_estimate"
+   ],
+   "source_audit_severity": 0,
+   "neighbour_bones": [
+    {
+     "bone": "fibula",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 1.0
+    },
+    {
+     "bone": "tibia",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 0.4
+    }
+   ],
+   "fit": {
+    "bone_residual_median_mm": 1.05,
+    "bone_residual_p90_mm": 2.24,
+    "scale": 0.9997,
+    "rotation_deg": 0.1,
+    "translation_mm": 0.1,
+    "n_points": 7000
+   },
+   "guards_after_fit": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 6.99,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 2.23,
+    "bone_deepest_mm": 4.49,
+    "bone_min_clear_mm": 0.46
+   },
+   "conform": {
+    "conform_mean_mm": 0.0,
+    "conform_max_mm": 0.05,
+    "conform_moved_pct": 0.6
+   },
+   "guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 6.99,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 0.0,
+    "bone_deepest_mm": 0.0,
+    "bone_min_clear_mm": 0.46
+   },
+   "volume_source_cm3": 13.616,
+   "volume_new_cm3": 13.584,
+   "volume_basis": "voxel solid (2 mm)",
+   "area_source_cm2": 57.62,
+   "area_new_cm2": 57.57,
+   "fails": [],
+   "source_guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 6.63,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 0.56,
+    "bone_deepest_mm": 1.38,
+    "bone_min_clear_mm": 0.21
+   },
+   "decision": "shipped",
+   "new_id": "zan_posterior_intermuscular_septum_of_leg_r",
+   "name": "Posterior intermuscular septum of leg",
+   "badge": "MIRROR IMAGE of the opposite side, fitted to this side's bones; NOT measured on this side (Q237). MISSING on this side: the left-side Posterior intermuscular septum of leg (zan_posterior_intermuscular_septum_of_leg_l; the Z-Anatomy structure of the opposite side, as fitted to this body) was reflected about this model's midsagittal plane (fitted to the axial skeleton: tilt 0.0 deg from the sagittal axis, median reflection residual 1.6 mm), then fitted to this side's fibula, tibia by a rigid + uniform-scale registration of the mirrored bones onto this side's (scale 0.9997, rotation 0.1 deg, bone residual median 1.05 mm / p90 2.24 mm) and a bounded conform step (mean 0.0 mm, max 0.05 mm; out of the bones, inside the skin). Checked (signed distances): inside the skin 100.0 % of the vertices, 6.99 mm from it at the shallowest; inside bone 0.0 % of the vertices (deepest 0.0 mm; gates 8 % / 5 mm). Volume 13.584 cm3 (voxel solid (2 mm); source side 13.616 cm3). Position and shape are the opposite side's, mirrored: an estimate; real left / right differences are not represented."
+  },
+  {
+   "kind": "B",
+   "sys": "nerve",
+   "canon": "maxillary_nerve",
+   "source_side": "r",
+   "target_side": "l",
+   "source_ids": [
+    "zan_maxillary_nerve_r"
+   ],
+   "why": "listed defect: defect severity L 3 vs R 0",
+   "target_ids_replaced": [
+    "zan_maxillary_nerve_l"
+   ],
+   "audit_severity_l_r": [
+    3,
+    0
+   ],
+   "source_class": [
+    "z_estimate"
+   ],
+   "source_audit_severity": 0,
+   "target_class": [
+    "z_estimate"
+   ],
+   "neighbour_bones": [
+    {
+     "bone": "palatine",
+     "source_side": "r",
+     "target_side": "l",
+     "share": 0.98
+    },
+    {
+     "bone": "vomer",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 0.92
+    },
+    {
+     "bone": "ethmoid",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 0.92
+    }
+   ],
+   "fit": {
+    "bone_residual_median_mm": 0.41,
+    "bone_residual_p90_mm": 0.97,
+    "scale": 0.9993,
+    "rotation_deg": 0.1,
+    "translation_mm": 0.7,
+    "n_points": 10500
+   },
+   "guards_after_fit": {
+    "inside_skin_pct": 93.4,
+    "skin_depth_min_mm": 2.88,
+    "skin_outside_max_mm": 50.48,
+    "in_bone_pct": 16.23,
+    "bone_deepest_mm": 2.76,
+    "bone_min_clear_mm": 0.14
+   },
+   "conform": {
+    "conform_mean_mm": 1.49,
+    "conform_max_mm": 6.0,
+    "conform_moved_pct": 62.8
+   },
+   "guards": {
+    "inside_skin_pct": 89.0,
+    "skin_depth_min_mm": 2.58,
+    "skin_outside_max_mm": 48.63,
+    "in_bone_pct": 0.16,
+    "bone_deepest_mm": 2.11,
+    "bone_min_clear_mm": 0.94
+   },
+   "volume_source_cm3": 0.034,
+   "volume_new_cm3": 0.034,
+   "volume_basis": "closed mesh",
+   "area_source_cm2": 2.65,
+   "area_new_cm2": 5.03,
+   "fails": [
+    "skin: 89.0 % of the vertices inside, shallowest 2.58 mm (gate: all inside, >= 1.0 mm)",
+    "bone: 0.16 % of the vertices inside bone, nearest 0.94 mm (gate: none inside, >= 1.0 mm clear)",
+    "the bounded conform step reached its limit"
+   ],
+   "source_guards": {
+    "inside_skin_pct": 93.6,
+    "skin_depth_min_mm": 2.92,
+    "skin_outside_max_mm": 50.5,
+    "in_bone_pct": 16.07,
+    "bone_deepest_mm": 2.86,
+    "bone_min_clear_mm": 0.16
+   },
+   "decision": "held",
+   "reasons": [
+    "skin: 89.0 % of the vertices inside, shallowest 2.58 mm (gate: all inside, >= 1.0 mm)",
+    "bone: 0.16 % of the vertices inside bone, nearest 0.94 mm (gate: none inside, >= 1.0 mm clear)",
+    "the bounded conform step reached its limit"
+   ]
+  },
+  {
+   "kind": "B",
+   "sys": "muscle",
+   "canon": "medial_pterygoid",
+   "source_side": "r",
+   "target_side": "l",
+   "source_ids": [
+    "medial_pterygoid_r"
+   ],
+   "why": "listed defect: defect severity L 3 vs R 0",
+   "target_ids_replaced": [
+    "medial_pterygoid_l"
+   ],
+   "audit_severity_l_r": [
+    3,
+    0
+   ],
+   "source_class": [
+    "z_estimate"
+   ],
+   "source_audit_severity": 0,
+   "target_class": [
+    "z_estimate"
+   ],
+   "neighbour_bones": [
+    {
+     "bone": "mandible",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 1.0
+    },
+    {
+     "bone": "palatine",
+     "source_side": "r",
+     "target_side": "l",
+     "share": 0.93
+    },
+    {
+     "bone": "sphenoid",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 0.91
+    }
+   ],
+   "fit": {
+    "bone_residual_median_mm": 0.74,
+    "bone_residual_p90_mm": 1.73,
+    "scale": 0.9994,
+    "rotation_deg": 0.1,
+    "translation_mm": 0.5,
+    "n_points": 10500
+   },
+   "guards_after_fit": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 12.3,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 28.51,
+    "bone_deepest_mm": 3.46,
+    "bone_min_clear_mm": 0.26,
+    "overlap_other_muscles_pct": 24.8
+   },
+   "conform": {
+    "conform_mean_mm": 0.4,
+    "conform_max_mm": 3.44,
+    "conform_moved_pct": 57.8
+   },
+   "guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 10.94,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 6.43,
+    "bone_deepest_mm": 1.91,
+    "bone_min_clear_mm": 0.17,
+    "overlap_other_muscles_pct": 25.8
+   },
+   "volume_source_cm3": 3.737,
+   "volume_new_cm3": 3.474,
+   "volume_basis": "closed mesh",
+   "area_source_cm2": 27.59,
+   "area_new_cm2": 28.61,
+   "fails": [],
+   "source_guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 12.33,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 28.11,
+    "bone_deepest_mm": 3.5,
+    "bone_min_clear_mm": 0.31,
+    "overlap_other_muscles_pct": 24.8
+   },
+   "decision": "shipped",
+   "new_id": "medial_pterygoid_l",
+   "name": "Medial pterygoid",
+   "badge": "MIRROR IMAGE of the opposite side, fitted to this side's bones; NOT measured on this side (Q237). replaces a defective Z-fitted structure (listed defect: defect severity L 3 vs R 0): the right-side Medial pterygoid (medial_pterygoid_r; the Z-Anatomy structure of the opposite side, as fitted to this body) was reflected about this model's midsagittal plane (fitted to the axial skeleton: tilt 0.0 deg from the sagittal axis, median reflection residual 1.6 mm), then fitted to this side's mandible, palatine, sphenoid by a rigid + uniform-scale registration of the mirrored bones onto this side's (scale 0.9994, rotation 0.1 deg, bone residual median 0.74 mm / p90 1.73 mm) and a bounded conform step (mean 0.4 mm, max 3.44 mm; out of the bones, inside the skin). Checked (signed distances): inside the skin 100.0 % of the vertices, 10.94 mm from it at the shallowest; inside bone 6.43 % of the vertices (deepest 1.91 mm; gates 8 % / 5 mm); 25.8 % of its volume inside other muscles (gate 60 %). Volume 3.474 cm3 (closed mesh; source side 3.737 cm3). Position and shape are the opposite side's, mirrored: an estimate; real left / right differences are not represented."
+  },
+  {
+   "kind": "B",
+   "sys": "muscle",
+   "canon": "abductor_digiti_minimi_hand",
+   "source_side": "l",
+   "target_side": "r",
+   "source_ids": [
+    "abductor_digiti_minimi_hand_l"
+   ],
+   "why": "listed defect: defect severity L 0 vs R 2",
+   "target_ids_replaced": [
+    "abductor_digiti_minimi_hand_r"
+   ],
+   "audit_severity_l_r": [
+    0,
+    2
+   ],
+   "source_class": [
+    "z_estimate"
+   ],
+   "source_audit_severity": 0,
+   "target_class": [
+    "z_estimate"
+   ],
+   "neighbour_bones": [
+    {
+     "bone": "fifth_metacarpal_bone",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 1.0
+    },
+    {
+     "bone": "fourth_metacarpal_bone",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 1.0
+    },
+    {
+     "bone": "phalanx_of_fifth_finger_of_hand",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 0.6
+    }
+   ],
+   "fit": {
+    "bone_residual_median_mm": 0.28,
+    "bone_residual_p90_mm": 0.55,
+    "scale": 0.9996,
+    "rotation_deg": 0.1,
+    "translation_mm": 0.2,
+    "n_points": 10500
+   },
+   "guards_after_fit": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 0.28,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 5.65,
+    "bone_deepest_mm": 3.05,
+    "bone_min_clear_mm": 0.2,
+    "overlap_other_muscles_pct": 17.2
+   },
+   "conform": {
+    "conform_mean_mm": 0.92,
+    "conform_max_mm": 5.46,
+    "conform_moved_pct": 63.7
+   },
+   "guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 0.42,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 1.49,
+    "bone_deepest_mm": 1.53,
+    "bone_min_clear_mm": 0.06,
+    "overlap_other_muscles_pct": 18.3
+   },
+   "volume_source_cm3": 2.808,
+   "volume_new_cm3": 5.032,
+   "volume_basis": "closed mesh",
+   "area_source_cm2": 20.27,
+   "area_new_cm2": 19.81,
+   "fails": [
+    "skin: 100.0 % of the vertices inside, shallowest 0.42 mm (gate: all inside, >= 1.0 mm)"
+   ],
+   "source_guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 0.15,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 5.65,
+    "bone_deepest_mm": 2.8,
+    "bone_min_clear_mm": 0.23,
+    "overlap_other_muscles_pct": 16.6
+   },
+   "decision": "held",
+   "reasons": [
+    "skin: 100.0 % of the vertices inside, shallowest 0.42 mm (gate: all inside, >= 1.0 mm)"
+   ]
+  },
+  {
+   "kind": "B",
+   "sys": "nerve",
+   "canon": "flocculus",
+   "source_side": "l",
+   "target_side": "r",
+   "source_ids": [
+    "zan_flocculus_l"
+   ],
+   "why": "listed defect: defect severity L 0 vs R 2",
+   "target_ids_replaced": [
+    "zan_flocculus_r"
+   ],
+   "audit_severity_l_r": [
+    0,
+    2
+   ],
+   "source_class": [
+    "z_estimate"
+   ],
+   "source_audit_severity": 0,
+   "target_class": [
+    "z_estimate"
+   ],
+   "neighbour_bones": [
+    {
+     "bone": "occipital",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 1.0
+    },
+    {
+     "bone": "temporal",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 1.0
+    },
+    {
+     "bone": "sphenoid",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 0.93
+    }
+   ],
+   "fit": {
+    "bone_residual_median_mm": 1.09,
+    "bone_residual_p90_mm": 2.11,
+    "scale": 0.9999,
+    "rotation_deg": 0.1,
+    "translation_mm": 0.8,
+    "n_points": 10500
+   },
+   "guards_after_fit": {
+    "inside_skin_pct": 92.3,
+    "skin_depth_min_mm": 31.31,
+    "skin_outside_max_mm": 36.74,
+    "in_bone_pct": 8.49,
+    "bone_deepest_mm": 2.92,
+    "bone_min_clear_mm": 0.39
+   },
+   "conform": {
+    "conform_mean_mm": 1.0,
+    "conform_max_mm": 6.0,
+    "conform_moved_pct": 40.3
+   },
+   "guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 26.09,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 3.16,
+    "bone_deepest_mm": 2.74,
+    "bone_min_clear_mm": 0.17
+   },
+   "volume_source_cm3": 0.43,
+   "volume_new_cm3": 0.331,
+   "volume_basis": "closed mesh",
+   "area_source_cm2": 4.11,
+   "area_new_cm2": 6.35,
+   "fails": [
+    "bone: 3.16 % of the vertices inside bone, nearest 0.17 mm (gate: none inside, >= 1.0 mm clear)",
+    "the bounded conform step reached its limit"
+   ],
+   "source_guards": {
+    "inside_skin_pct": 92.3,
+    "skin_depth_min_mm": 31.05,
+    "skin_outside_max_mm": 36.46,
+    "in_bone_pct": 8.15,
+    "bone_deepest_mm": 2.72,
+    "bone_min_clear_mm": 0.31
+   },
+   "decision": "held",
+   "reasons": [
+    "bone: 3.16 % of the vertices inside bone, nearest 0.17 mm (gate: none inside, >= 1.0 mm clear)",
+    "the bounded conform step reached its limit"
+   ]
+  },
+  {
+   "kind": "B",
+   "sys": "vessel",
+   "canon": "ophthalmic_artery",
+   "source_side": "l",
+   "target_side": "r",
+   "source_ids": [
+    "zan_ophthalmic_artery_l"
+   ],
+   "why": "listed defect: defect severity L 0 vs R 2",
+   "target_ids_replaced": [
+    "zan_ophthalmic_artery_r"
+   ],
+   "audit_severity_l_r": [
+    0,
+    2
+   ],
+   "source_class": [
+    "z_estimate"
+   ],
+   "source_audit_severity": 0,
+   "target_class": [
+    "z_estimate"
+   ],
+   "neighbour_bones": [
+    {
+     "bone": "ethmoid",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 1.0
+    },
+    {
+     "bone": "frontal",
+     "source_side": "m",
+     "target_side": "m",
+     "share": 1.0
+    },
+    {
+     "bone": "maxilla",
+     "source_side": "l",
+     "target_side": "r",
+     "share": 1.0
+    }
+   ],
+   "fit": {
+    "bone_residual_median_mm": 0.84,
+    "bone_residual_p90_mm": 2.07,
+    "scale": 0.9997,
+    "rotation_deg": 0.0,
+    "translation_mm": 0.4,
+    "n_points": 10500
+   },
+   "guards_after_fit": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 22.07,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 2.46,
+    "bone_deepest_mm": 2.49,
+    "bone_min_clear_mm": 0.47
+   },
+   "conform": {
+    "conform_mean_mm": 0.08,
+    "conform_max_mm": 1.55,
+    "conform_moved_pct": 23.2
+   },
+   "guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 22.07,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 0.0,
+    "bone_deepest_mm": 0.0,
+    "bone_min_clear_mm": 1.27
+   },
+   "volume_source_cm3": 0.328,
+   "volume_new_cm3": 0.344,
+   "volume_basis": "voxel solid (2 mm)",
+   "area_source_cm2": 0.86,
+   "area_new_cm2": 0.94,
+   "fails": [],
+   "source_guards": {
+    "inside_skin_pct": 100.0,
+    "skin_depth_min_mm": 22.04,
+    "skin_outside_max_mm": 0.0,
+    "in_bone_pct": 1.37,
+    "bone_deepest_mm": 0.8,
+    "bone_min_clear_mm": 0.2
+   },
+   "decision": "shipped",
+   "new_id": "zan_ophthalmic_artery_r",
+   "name": "Ophthalmic artery",
+   "badge": "MIRROR IMAGE of the opposite side, fitted to this side's bones; NOT measured on this side (Q237). replaces a defective Z-fitted structure (listed defect: defect severity L 0 vs R 2): the left-side Ophthalmic artery (zan_ophthalmic_artery_l; the Z-Anatomy structure of the opposite side, as fitted to this body) was reflected about this model's midsagittal plane (fitted to the axial skeleton: tilt 0.0 deg from the sagittal axis, median reflection residual 1.6 mm), then fitted to this side's ethmoid, frontal, maxilla by a rigid + uniform-scale registration of the mirrored bones onto this side's (scale 0.9997, rotation 0.0 deg, bone residual median 0.84 mm / p90 2.07 mm) and a bounded conform step (mean 0.08 mm, max 1.55 mm; out of the bones, inside the skin). Checked (signed distances): inside the skin 100.0 % of the vertices, 22.07 mm from it at the shallowest; 1.27 mm from bone, none inside (gate 1 mm). Volume 0.344 cm3 (voxel solid (2 mm); source side 0.328 cm3). Position and shape are the opposite side's, mirrored: an estimate; real left / right differences are not represented."
+  }
+ ],
+ "gates": {
+  "skin_min_mm": 1.0,
+  "belly_in_bone_max_pct": 8.0,
+  "bone_depth_max_mm": 5.0,
+  "bone_clear_mm": 1.0,
+  "overlap_max_pct": 60.0,
+  "bone_registration_median_max_mm": 4.0,
+  "bone_registration_p90_max_mm": 9.0,
+  "scale_range": [
+   0.85,
+   1.18
+  ],
+  "rotation_max_deg": 30.0,
+  "conform_max_mm": 6.0
+ }
+}

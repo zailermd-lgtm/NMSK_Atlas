@@ -1,0 +1,179 @@
+{
+ "note": "own female (vhf) motor-point coverage of the published Q215 page (before) vs the Q216 page (after); same 188 points, positions follow the changed muscles",
+ "before": {
+  "points": 188,
+  "muscle_sides_with_points": 110,
+  "failed": [
+   {
+    "rule": "semitendinosus_r rha2016 distal zone",
+    "why": "FAILED: rule plane/line misses semitendinosus_r by 8.3 mm"
+   },
+   {
+    "rule": "soleus_l yi2025sol middle third",
+    "why": "FAILED: nearest point inside soleus_l is 5.1 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_hallucis_longus_l diaconu4 proximal zone",
+    "why": "FAILED: rule plane/line misses flexor_hallucis_longus_l by 22.0 mm"
+   },
+   {
+    "rule": "pectoralis_major_r li2021pec lateral pectoral nerve entry",
+    "why": "FAILED: nearest point inside pectoralis_major_r is 8.6 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "pectoralis_minor_r li2021pec motor_point",
+    "why": "FAILED: nearest point inside pectoralis_minor_r is 14.6 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "pectoralis_minor_r li2021pec innervation_zone",
+    "why": "FAILED: nearest point inside pectoralis_minor_r is 28.9 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "pectoralis_minor_l li2021pec innervation_zone",
+    "why": "FAILED: nearest point inside pectoralis_minor_l is 12.2 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_carpi_radialis_l zhou2023 innervation_zone",
+    "why": "FAILED: nearest point inside flexor_carpi_radialis_l is 9.4 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_carpi_ulnaris_l zhou2023 innervation_zone",
+    "why": "FAILED: no point at least 1 mm inside flexor_carpi_ulnaris_l near the rule plane/line"
+   },
+   {
+    "rule": "flexor_digitorum_superficialis_r zhou2023 proximal target",
+    "why": "FAILED: nearest point inside flexor_digitorum_superficialis_r is 13.1 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_digitorum_superficialis_l zhou2023 proximal target",
+    "why": "FAILED: nearest point inside flexor_digitorum_superficialis_l is 6.9 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_digitorum_profundus_r zhou2023 ulnar half",
+    "why": "FAILED: nearest point inside flexor_digitorum_profundus_r is 25.0 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_digitorum_profundus_l zhou2023 ulnar half",
+    "why": "FAILED: no point at least 1 mm inside flexor_digitorum_profundus_l near the rule plane/line"
+   },
+   {
+    "rule": "flexor_pollicis_longus_l zhou2023 innervation_zone",
+    "why": "FAILED: no point at least 1 mm inside flexor_pollicis_longus_l near the rule plane/line"
+   }
+  ],
+  "not_placed": [
+   {
+    "rule": "fibularis_brevis_r lee2011pl motor_point",
+    "why": "no structure fibularis_brevis_r in this viewer"
+   },
+   {
+    "rule": "fibularis_brevis_l lee2011pl motor_point",
+    "why": "no structure fibularis_brevis_l in this viewer"
+   },
+   {
+    "rule": "fibularis_brevis_r choi2019fib innervation_zone",
+    "why": "no structure fibularis_brevis_r in this viewer"
+   },
+   {
+    "rule": "fibularis_brevis_l choi2019fib innervation_zone",
+    "why": "no structure fibularis_brevis_l in this viewer"
+   },
+   {
+    "rule": "flexor_pollicis_brevis_r xie2012 innervation_zone",
+    "why": "no structure flexor_pollicis_brevis_r in this viewer"
+   },
+   {
+    "rule": "splenius_cervicis_l kwon2020sp innervation_zone",
+    "why": "no structure splenius_cervicis_l in this viewer"
+   }
+  ]
+ },
+ "after": {
+  "points": 188,
+  "muscle_sides_with_points": 110,
+  "failed": [
+   {
+    "rule": "semitendinosus_r rha2016 distal zone",
+    "why": "FAILED: rule plane/line misses semitendinosus_r by 8.6 mm"
+   },
+   {
+    "rule": "soleus_l yi2025sol middle third",
+    "why": "FAILED: nearest point inside soleus_l is 5.1 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_hallucis_longus_l diaconu4 proximal zone",
+    "why": "FAILED: rule plane/line misses flexor_hallucis_longus_l by 22.0 mm"
+   },
+   {
+    "rule": "pectoralis_major_r li2021pec lateral pectoral nerve entry",
+    "why": "FAILED: nearest point inside pectoralis_major_r is 8.6 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "pectoralis_minor_r li2021pec motor_point",
+    "why": "FAILED: nearest point inside pectoralis_minor_r is 14.6 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "pectoralis_minor_r li2021pec innervation_zone",
+    "why": "FAILED: nearest point inside pectoralis_minor_r is 28.9 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "pectoralis_minor_l li2021pec innervation_zone",
+    "why": "FAILED: nearest point inside pectoralis_minor_l is 12.2 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_carpi_radialis_l zhou2023 innervation_zone",
+    "why": "FAILED: nearest point inside flexor_carpi_radialis_l is 9.4 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_carpi_ulnaris_l zhou2023 innervation_zone",
+    "why": "FAILED: no point at least 1 mm inside flexor_carpi_ulnaris_l near the rule plane/line"
+   },
+   {
+    "rule": "flexor_digitorum_superficialis_r zhou2023 proximal target",
+    "why": "FAILED: nearest point inside flexor_digitorum_superficialis_r is 13.1 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_digitorum_superficialis_l zhou2023 proximal target",
+    "why": "FAILED: nearest point inside flexor_digitorum_superficialis_l is 6.9 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_digitorum_profundus_r zhou2023 ulnar half",
+    "why": "FAILED: nearest point inside flexor_digitorum_profundus_r is 25.0 mm from the rule plane/line (> 5.0 mm)"
+   },
+   {
+    "rule": "flexor_digitorum_profundus_l zhou2023 ulnar half",
+    "why": "FAILED: no point at least 1 mm inside flexor_digitorum_profundus_l near the rule plane/line"
+   },
+   {
+    "rule": "flexor_pollicis_longus_l zhou2023 innervation_zone",
+    "why": "FAILED: no point at least 1 mm inside flexor_pollicis_longus_l near the rule plane/line"
+   }
+  ],
+  "not_placed": [
+   {
+    "rule": "fibularis_brevis_r lee2011pl motor_point",
+    "why": "no structure fibularis_brevis_r in this viewer"
+   },
+   {
+    "rule": "fibularis_brevis_l lee2011pl motor_point",
+    "why": "no structure fibularis_brevis_l in this viewer"
+   },
+   {
+    "rule": "fibularis_brevis_r choi2019fib innervation_zone",
+    "why": "no structure fibularis_brevis_r in this viewer"
+   },
+   {
+    "rule": "fibularis_brevis_l choi2019fib innervation_zone",
+    "why": "no structure fibularis_brevis_l in this viewer"
+   },
+   {
+    "rule": "flexor_pollicis_brevis_r xie2012 innervation_zone",
+    "why": "no structure flexor_pollicis_brevis_r in this viewer"
+   },
+   {
+    "rule": "splenius_cervicis_l kwon2020sp innervation_zone",
+    "why": "no structure splenius_cervicis_l in this viewer"
+   }
+  ]
+ }
+}
