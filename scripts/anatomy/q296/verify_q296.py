@@ -132,13 +132,28 @@ def run_page(b, d: Path, phone: bool, errs, shots):
                   f"imported-mesh badge ({len(txt)} chars)", ok, errs)
             if not ok:
                 print("     card text:", txt[:300].replace("\n", " | "))
+        # close the info card before the layer check: on a phone it overlays the layer rows
+        if pg.is_visible("#info .info-close"):
+            tap(pg, "#info .info-close", phone)
+            pg.wait_for_timeout(400)
         # D layer toggle
         sel = '.layer-row[data-cat="bone"] button.layer'
         if reach(pg, sel, phone):
-            tap(pg, sel, phone); pg.wait_for_timeout(500)
-            off = [api(pg, f"api.visible({by[f'oa_{u}_l']['i']})") for u in ("labyrinth", "spiral_lamina", "fenestra_cochleae")]
-            tap(pg, sel, phone); pg.wait_for_timeout(500)
-            on = [api(pg, f"api.visible({by[f'oa_{u}_l']['i']})") for u in ("labyrinth", "spiral_lamina", "fenestra_cochleae")]
+            trio = ("labyrinth", "spiral_lamina", "fenestra_cochleae")
+            tap(pg, sel, phone)
+            try:                                               # software rendering: the toggle can take a moment to reach the meshes
+                pg.wait_for_function("(ids) => ids.every(i => !window.NMSKClinicalTool.api.visible(i))",
+                                     arg=[by[f"oa_{u}_l"]["i"] for u in trio], timeout=20000)
+            except Exception:
+                pass
+            off = [api(pg, f"api.visible({by[f'oa_{u}_l']['i']})") for u in trio]
+            tap(pg, sel, phone)
+            try:
+                pg.wait_for_function("(ids) => ids.every(i => window.NMSKClinicalTool.api.visible(i))",
+                                     arg=[by[f"oa_{u}_l"]["i"] for u in trio], timeout=20000)
+            except Exception:
+                pass
+            on = [api(pg, f"api.visible({by[f'oa_{u}_l']['i']})") for u in trio]
             check(f"{T}: D the Bones layer toggle hides the three otic-capsule meshes ({sum(off)} left) and shows them again ({sum(on)} / 3)",
                   not any(off) and all(on), errs)
         else:
