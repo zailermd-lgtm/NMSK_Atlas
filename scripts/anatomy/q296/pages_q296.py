@@ -17,7 +17,7 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
-for p in (str(HERE), str(REPO), str(REPO / "scripts/anatomy/q295")):
+for p in (str(HERE), str(REPO), str(REPO / "scripts/anatomy/q295"), str(REPO / "scripts/anatomy/q249")):
     if p not in sys.path:
         sys.path.insert(0, p)
 

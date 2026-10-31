@@ -26,6 +26,7 @@ good the meshes are.
 | **SPARC / SCKAN** (NIH Common Fund) | connectivity statements, no geometry | CC BY 4.0 | **Deferred** — wrong domain; see below |
 | **IT'IS Virtual Population** (Yoon-sun, Jeduk) | segmented nerve trajectories | commercial, paid | **Open question** — see below |
 | **Z-Anatomy** / BodyParts3D | ~3.65 M polygons, unstated scale | CC BY-SA 4.0 | **Adopted, Q141 (2026-09-23), for the anatomy layer only** — see "Update, Q141" below |
+| **Open Anatomy Project / SPL atlases** (Brigham and Women's Hospital) | inner ear: flat-panel CT ~140 um | 3D Slicer License Part B (BSD-style, research use only) | **Adopted, Q296 (2026-10-31), for four inner-ear structures only** — see the Q296 section below |
 | Parametric generation from atlas data | n/a | ours outright | **Rejected** — insufficient fidelity |
 
 ---
@@ -1572,6 +1573,20 @@ Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB, "Three Dimensional
 Lower Extremity Musculoskeletal Geometry of the Visible Human Female and
 Male", Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2,
 used under CC BY 4.0.
+
+All or portions of this licensed product (such portions are the "Software")
+have been obtained under license from The Brigham and Women's Hospital, Inc.
+and are subject to the following terms and conditions: [the full 3D Slicer
+Contribution and Software License Agreement, reproduced in
+third_party/openanatomy_spl/LICENSE, must accompany the product].
+Inner-ear geometry from the SPL Inner Ear Atlas of the Open Anatomy Project
+(Bartling S, Jakab M, Kikinis R; German Cancer Research Center and the
+Surgical Planning Laboratory, Department of Radiology, Brigham and Women's
+Hospital, Harvard Medical School), method published as Gupta R, Bartling SH
+et al., AJNR Am J Neuroradiol 2004;25(8):1417-24; funded by NIH P41 RR013218
+and P41 EB015902 and the Google Faculty Research Award. Modified: registered,
+rescaled, decimated and mirrored (see third_party/openanatomy_spl/README.md).
+Research use only. No name above endorses this product.
 ```
 
 The CC BY 4.0 line in this block is confirmed at the Digital Commons @ DU

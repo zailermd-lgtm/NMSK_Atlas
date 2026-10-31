@@ -327,3 +327,20 @@ on a desktop and on a phone.
   ~2-4 mm between structures remain.
 - Imaging and ultrasound: fat maps to the fat class, unlabelled soft tissue to generic soft tissue.
 - Audit, before / after per region, montages: `docs/research/Q295_fat_and_voids_audit.md` (Hebrew).
+
+## Inner and middle ear from the SPL Inner Ear Atlas (Q296)
+
+- **Four structures the atlas had no counterpart for, on the four Z pages** (Base · Male / Female, Combined · Male / Female): the
+  **bony labyrinth** (cochlea, vestibule and the three semicircular canals as one cavity, ~0.17-0.20 cm3), the **osseous spiral lamina**,
+  the **round window (fenestra cochleae)** and the **stapedius** muscle — eight meshes per page (both sides), ~25,000 triangles.
+  The three otic-capsule structures sit in the Bones layer beside the page's own malleus, incus and stapes; the stapedius is in Muscles.
+- **Imported real meshes, not rule-based.** They come from the SPL Inner Ear Atlas of the Open Anatomy Project (flat-panel CT of a human
+  temporal bone, about 140 um), licensed under the 3D Slicer License Part B. Each card names the atlas, its authors, the required
+  citation and the licence, and states plainly that the mesh is a MODIFIED version of the atlas model: registered by a similarity fit of
+  the atlas's own three ossicles onto THIS page's three ossicles (residual ~0.20 mm median, ~0.57 mm p95), rescaled (the atlas's model
+  coordinates are about 3.15x life size), decimated to 40 % of the atlas triangle count, and — on the left side — mirrored, because the
+  atlas ear is a right ear.
+- **The two Imaging pages are unchanged.** Neither her 1.5 mm CT nor his 1 mm cryosections resolve the ossicles, so those pages have no
+  registration target and nothing was added to them.
+- Licence, attributions and the full list of modifications: `third_party/openanatomy_spl/` (LICENSE, NOTICE, README.md).
+- Survey of all seven Open Anatomy atlases and why nothing else was imported: `docs/research/Q296_openanatomy_survey.md` (Hebrew).
