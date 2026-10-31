@@ -64,7 +64,7 @@ def _rig(key):
 
 def test_pose_rigs_carry_the_new_entries_after_the_committed_ones():
     rig, w = _rig("comb_f")
-    assert rig["count"] == 3297 and len(rig["nv"]) == 3297          # Q288 spliced one more (her uterus, index 3243); Q293 +2 (RF reflected heads); Q295 +51 (fat system)
+    assert rig["count"] == 3305 and len(rig["nv"]) == 3305          # Q288 spliced one more (her uterus, index 3243); Q293 +2 (RF reflected heads); Q295 +51 (fat system); Q296 +8 (SPL inner ear)
     covered = {e[0] for e in rig["skin"]} | {i for _, lst in rig["rigid"] for i in lst}
     assert set(range(3238, 3243)) <= covered
     offs = sorted(e[4] for e in rig["skin"]); assert offs == sorted(set(offs)) and offs[-1] < len(w)

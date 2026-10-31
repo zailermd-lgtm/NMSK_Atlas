@@ -114,14 +114,20 @@ def run_page(b, d: Path, phone: bool, errs, shots):
                 if dist > 12.0:
                     far.append((uid, s, round(dist, 1)))
         check(f"{T}: C every imported structure within 12 mm of this page's own ossicle centroid (outliers {far})", not far, errs)
+        # the left copy is the mirror of the atlas's right ear, placed on THIS page's own left ossicles: so its
+        # left / right offset must equal the page's own ossicles' offset, which on a fitted (Combined) page is not zero
+        ref = [oc["l"][0] + oc["r"][0], oc["l"][1] - oc["r"][1], oc["l"][2] - oc["r"][2]]
         mirror = []
         for uid in UIDS:
             a, c = by[f"oa_{uid}_l"], by[f"oa_{uid}_r"]
-            dx = abs((a["bmin"][0] + a["bmax"][0]) / 2 + (c["bmin"][0] + c["bmax"][0]) / 2)
-            dy = abs((a["bmin"][1] + a["bmax"][1]) / 2 - (c["bmin"][1] + c["bmax"][1]) / 2)
-            if dx > 1.0 or dy > 1.0:
-                mirror.append((uid, round(dx, 2), round(dy, 2)))
-        check(f"{T}: C left / right are mirror images across x = 0 (outliers {mirror})", not mirror, errs)
+            ca = [(a["bmin"][i] + a["bmax"][i]) / 2 for i in range(3)]
+            cc = [(c["bmin"][i] + c["bmax"][i]) / 2 for i in range(3)]
+            off = [ca[0] + cc[0], ca[1] - cc[1], ca[2] - cc[2]]
+            d = max(abs(off[i] - ref[i]) for i in range(3))
+            if d > 1.5:
+                mirror.append((uid, [round(x, 2) for x in off], round(d, 2)))
+        check(f"{T}: C left / right follow this page's own ossicles (their own offset "
+              f"{[round(x, 2) for x in ref]} mm; outliers {mirror})", not mirror, errs)
         # B the card
         for uid in ("labyrinth", "stapedius"):
             nm = geo[f"{uid}_l"]["name"]
