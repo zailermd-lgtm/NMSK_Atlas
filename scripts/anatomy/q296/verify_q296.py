@@ -52,6 +52,15 @@ def open_card(pg, name, phone):
         return None
     tap(pg, f"#list button.item >> nth={idx}", phone)
     pg.wait_for_timeout(600)
+    # on a narrow screen the info card opens minimised (#info.min hides .info-more): expand it with a real tap
+    for _ in range(2):
+        if not pg.evaluate("() => { const e = document.getElementById('info'); return !!e && e.classList.contains('min'); }"):
+            break
+        if pg.is_visible("#info .info-min"):
+            tap(pg, "#info .info-min", phone)
+            pg.wait_for_timeout(400)
+        else:
+            break
     return pg.evaluate("() => { const e = document.getElementById('info'); return e ? (e.innerText || '') : ''; }")
 
 
