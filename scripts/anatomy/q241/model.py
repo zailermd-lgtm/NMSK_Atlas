@@ -11,7 +11,7 @@ import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
 SRC = {"own_m": "build/q295/viewer_m_hr", "own_f": "build/q295/viewer_f_hr", "base_m": "build/q295/viewer_zan_atlas",     # Q295: all six pages carry the fat /
-       "base_f": "build/q295/viewer_base_female", "comb_m": "build/q295/viewer_zan_vhm", "comb_f": "build/q295/viewer_zan_female"}   # unlabelled-soft-tissue system (+51); build/q295 lives in /dev/shm (see PROJECT_STATE Q295 F)
+       "base_f": "build/q295/viewer_base_female", "comb_m": "build/q295/viewer_zan_vhm", "comb_f": "build/q295/viewer_zan_female"}   # unlabelled-soft-tissue system (+51); build/q295 is on disk (see PROJECT_STATE Q295 J)
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 
