@@ -1,8 +1,8 @@
 {
  "_README": [
-  "Q299 cross-section coverage audit: scripts/anatomy/q299/xsec299.js, 30 axial levels per region per page.",
+  "Q299 cross-section coverage audit: scripts/anatomy/q299/xsec299.js, 30 axial levels per region per page (7 regions = 210 levels per page), measured on the SHIPPED pages (build/q299).",
   "SHOULD appear = the plane cuts the structure (its triangles straddle it). DOES appear = pixels of the FINAL cut-face raster still carry its code after every later structure has painted over it.",
-  "'before' = viewer/cut_cap/cut_cap.js as shipped in Q297; 'after' = the same file with the Q299 minimum drawn width (band 1/500 of the section extent, capped at 2.5 mm)."
+  "'before' = the cut-face kernel as it shipped up to Q298; 'after' = the same page with the Q299 minimum drawn width (band = 1/500 of the section extent, capped at 2.5 mm, never thinner than one raster pixel). Same geometry on both sides, so the difference is the kernel change alone."
  ],
  "pages": {
   "own_m": {
@@ -1073,7 +1073,7 @@
     "max_mm": 2.5
    },
    "band_mm_used": {
-    "min": 0.28,
+    "min": 0.4,
     "max": 1.061
    },
    "totals_before": {
@@ -3133,22 +3133,22 @@
     "max": 1.269
    },
    "totals_before": {
-    "should": 43815,
-    "filled": 40268,
+    "should": 43812,
+    "filled": 40264,
     "band": 0,
-    "thin": 708,
+    "thin": 709,
     "outline": 2839,
-    "visible": 39478,
-    "invisible": 4337
+    "visible": 39476,
+    "invisible": 4336
    },
    "totals_after": {
-    "should": 43815,
-    "filled": 40268,
-    "band": 3547,
+    "should": 43812,
+    "filled": 40264,
+    "band": 3548,
     "thin": 0,
     "outline": 0,
-    "visible": 43036,
-    "invisible": 779
+    "visible": 43037,
+    "invisible": 775
    },
    "by_class_before": {
     "nerve": {
@@ -3162,13 +3162,13 @@
      "hidden_by_default": 0
     },
     "vessel": {
-     "should": 8229,
-     "filled": 7623,
+     "should": 8226,
+     "filled": 7619,
      "band": 0,
-     "thin": 48,
+     "thin": 49,
      "outline": 558,
-     "visible": 7622,
-     "invisible": 607,
+     "visible": 7618,
+     "invisible": 608,
      "hidden_by_default": 0
     },
     "tendon": {
@@ -3237,8 +3237,8 @@
      "band": 0,
      "thin": 6,
      "outline": 0,
-     "visible": 3246,
-     "invisible": 31,
+     "visible": 3248,
+     "invisible": 29,
      "hidden_by_default": 0
     },
     "fat": {
@@ -3339,17 +3339,17 @@
      "band": 635,
      "thin": 0,
      "outline": 0,
-     "visible": 8409,
-     "invisible": 295,
+     "visible": 8411,
+     "invisible": 293,
      "hidden_by_default": 0
     },
     "vessel": {
-     "should": 8229,
-     "filled": 7623,
-     "band": 606,
+     "should": 8226,
+     "filled": 7619,
+     "band": 607,
      "thin": 0,
      "outline": 0,
-     "visible": 8224,
+     "visible": 8221,
      "invisible": 5,
      "hidden_by_default": 0
     },
@@ -3419,8 +3419,8 @@
      "band": 6,
      "thin": 0,
      "outline": 0,
-     "visible": 3257,
-     "invisible": 20,
+     "visible": 3259,
+     "invisible": 18,
      "hidden_by_default": 0
     },
     "fat": {
@@ -4161,22 +4161,22 @@
     "max": 1.094
    },
    "totals_before": {
-    "should": 42610,
-    "filled": 39199,
+    "should": 42612,
+    "filled": 39198,
     "band": 0,
-    "thin": 683,
+    "thin": 686,
     "outline": 2728,
-    "visible": 38459,
-    "invisible": 4151
+    "visible": 38457,
+    "invisible": 4155
    },
    "totals_after": {
-    "should": 42610,
-    "filled": 39199,
-    "band": 3411,
+    "should": 42612,
+    "filled": 39198,
+    "band": 3414,
     "thin": 0,
     "outline": 0,
-    "visible": 41735,
-    "invisible": 875
+    "visible": 41734,
+    "invisible": 878
    },
    "by_class_before": {
     "nerve": {
@@ -4191,12 +4191,12 @@
     },
     "vessel": {
      "should": 8344,
-     "filled": 7805,
+     "filled": 7804,
      "band": 0,
-     "thin": 61,
+     "thin": 62,
      "outline": 478,
-     "visible": 7805,
-     "invisible": 539,
+     "visible": 7804,
+     "invisible": 540,
      "hidden_by_default": 0
     },
     "tendon": {
@@ -4265,8 +4265,8 @@
      "band": 0,
      "thin": 7,
      "outline": 0,
-     "visible": 3310,
-     "invisible": 27,
+     "visible": 3311,
+     "invisible": 26,
      "hidden_by_default": 0
     },
     "fat": {
@@ -4300,13 +4300,13 @@
      "hidden_by_default": 0
     },
     "joint": {
-     "should": 2281,
+     "should": 2283,
      "filled": 2177,
      "band": 0,
-     "thin": 19,
+     "thin": 21,
      "outline": 85,
-     "visible": 2082,
-     "invisible": 199,
+     "visible": 2080,
+     "invisible": 203,
      "hidden_by_default": 0
     },
     "cartilage": {
@@ -4373,8 +4373,8 @@
     },
     "vessel": {
      "should": 8344,
-     "filled": 7805,
-     "band": 539,
+     "filled": 7804,
+     "band": 540,
      "thin": 0,
      "outline": 0,
      "visible": 8344,
@@ -4427,8 +4427,8 @@
      "band": 34,
      "thin": 0,
      "outline": 0,
-     "visible": 10334,
-     "invisible": 71,
+     "visible": 10335,
+     "invisible": 70,
      "hidden_by_default": 0
     },
     "bone": {
@@ -4482,13 +4482,13 @@
      "hidden_by_default": 0
     },
     "joint": {
-     "should": 2281,
+     "should": 2283,
      "filled": 2177,
-     "band": 104,
+     "band": 106,
      "thin": 0,
      "outline": 0,
-     "visible": 2215,
-     "invisible": 66,
+     "visible": 2213,
+     "invisible": 70,
      "hidden_by_default": 0
     },
     "cartilage": {
@@ -5064,6 +5064,16 @@
      "band_mm": 0
     },
     {
+     "region": "thigh",
+     "y": -1.4,
+     "id": "zan_palmar_interphalangeal_ligaments_r",
+     "cat": "joint",
+     "status": "band",
+     "nv": 450,
+     "width_mm": 0,
+     "band_mm": 0.7905025966568202
+    },
+    {
      "region": "leg",
      "y": -861.5,
      "id": "zan_talonavicular_ligament_l",
@@ -5132,16 +5142,6 @@
      "nv": 606,
      "width_mm": 0.768,
      "band_mm": 0.81575028013817
-    },
-    {
-     "region": "leg",
-     "y": -554.3,
-     "id": "sural_n_r",
-     "cat": "nerve",
-     "status": "filled",
-     "nv": 607,
-     "width_mm": 0.397,
-     "band_mm": 0.81575028013817
     }
    ]
   },
@@ -5185,36 +5185,36 @@
     "max_mm": 2.5
    },
    "band_mm_used": {
-    "min": 0.287,
+    "min": 0.4,
     "max": 1.069
    },
    "totals_before": {
     "should": 43044,
-    "filled": 39466,
+    "filled": 39470,
     "band": 0,
-    "thin": 801,
+    "thin": 797,
     "outline": 2777,
-    "visible": 37923,
-    "invisible": 5121
+    "visible": 37930,
+    "invisible": 5114
    },
    "totals_after": {
     "should": 43044,
-    "filled": 39466,
-    "band": 3578,
+    "filled": 39470,
+    "band": 3574,
     "thin": 0,
     "outline": 0,
-    "visible": 41345,
-    "invisible": 1699
+    "visible": 41343,
+    "invisible": 1701
    },
    "by_class_before": {
     "nerve": {
      "should": 8308,
-     "filled": 7628,
+     "filled": 7631,
      "band": 0,
-     "thin": 628,
+     "thin": 625,
      "outline": 52,
-     "visible": 7469,
-     "invisible": 839,
+     "visible": 7473,
+     "invisible": 835,
      "hidden_by_default": 0
     },
     "vessel": {
@@ -5269,12 +5269,12 @@
     },
     "muscle": {
      "should": 10507,
-     "filled": 10474,
+     "filled": 10473,
      "band": 0,
-     "thin": 15,
+     "thin": 16,
      "outline": 18,
-     "visible": 10405,
-     "invisible": 102,
+     "visible": 10406,
+     "invisible": 101,
      "hidden_by_default": 0
     },
     "bone": {
@@ -5329,12 +5329,12 @@
     },
     "joint": {
      "should": 2396,
-     "filled": 2274,
+     "filled": 2276,
      "band": 0,
-     "thin": 29,
+     "thin": 27,
      "outline": 93,
-     "visible": 2179,
-     "invisible": 217,
+     "visible": 2181,
+     "invisible": 215,
      "hidden_by_default": 2
     },
     "cartilage": {
@@ -5391,8 +5391,8 @@
    "by_class_after": {
     "nerve": {
      "should": 8308,
-     "filled": 7628,
-     "band": 680,
+     "filled": 7631,
+     "band": 677,
      "thin": 0,
      "outline": 0,
      "visible": 8051,
@@ -5405,8 +5405,8 @@
      "band": 594,
      "thin": 0,
      "outline": 0,
-     "visible": 8060,
-     "invisible": 0,
+     "visible": 8059,
+     "invisible": 1,
      "hidden_by_default": 0
     },
     "tendon": {
@@ -5451,12 +5451,12 @@
     },
     "muscle": {
      "should": 10507,
-     "filled": 10474,
-     "band": 33,
+     "filled": 10473,
+     "band": 34,
      "thin": 0,
      "outline": 0,
-     "visible": 10446,
-     "invisible": 61,
+     "visible": 10445,
+     "invisible": 62,
      "hidden_by_default": 0
     },
     "bone": {
@@ -5511,8 +5511,8 @@
     },
     "joint": {
      "should": 2396,
-     "filled": 2274,
-     "band": 122,
+     "filled": 2276,
+     "band": 120,
      "thin": 0,
      "outline": 0,
      "visible": 2325,

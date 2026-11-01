@@ -10,8 +10,8 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q298/viewer_m_hr", "own_f": "build/q298/viewer_f_hr", "base_m": "build/q298/viewer_zan_atlas",     # Q298: the search / multi-select / expansion layer
-       "base_f": "build/q298/viewer_base_female", "comb_m": "build/q298/viewer_zan_vhm", "comb_f": "build/q298/viewer_zan_female"}   # (nmsk-q298 block); NO geometry changed, index.html only. build/q298 is a real directory on disk whose sibling files are HARD LINKS to build/q297's (only the six html files are new, ~25 MB): see PROJECT_STATE Q298
+SRC = {"own_m": "build/q299/viewer_m_hr", "own_f": "build/q299/viewer_f_hr", "base_m": "build/q299/viewer_zan_atlas",     # Q299: the containment fix (46 structures pulled back inside the body) + the
+       "base_f": "build/q299/viewer_base_female", "comb_m": "build/q299/viewer_zan_vhm", "comb_f": "build/q299/viewer_zan_female"}   # pelvic-proportion cards and the cut-face minimum drawn width; geometry changed on base_f / comb_f / comb_m only (46 meshes). build/q299 is a real directory whose unchanged sibling files are HARD LINKS to build/q298's, which are in turn q297's: see PROJECT_STATE Q299
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 

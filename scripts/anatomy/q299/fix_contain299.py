@@ -108,8 +108,14 @@ def pull_inside(V, F, g, body, skin_tree, bones=None, bone_tree=None):
     # bone guard: pulling a structure IN must not push it into a bone. A vertex that ended up inside the (one-voxel
     # eroded) bone mask is moved back out to the nearest bone surface plus 0.3 mm.
     pushed = 0
-    if bones is not None and bone_tree is not None:
-        pen = np.nonzero(g.inside(bones, V2))[0]
+    if bones and bone_tree is not None:
+        lo, hi = V2.min(0), V2.max(0)
+        hit = np.zeros(len(V2), bool)
+        for b in bones:                                  # per-bone masks (contain299.BoneBox), never one global mask
+            if (b.hi < lo).any() or (b.lo > hi).any():
+                continue
+            hit |= b.inside(V2)
+        pen = np.nonzero(hit)[0]
         if len(pen):
             d, j = bone_tree.query(V2[pen], workers=-1)
             q = bone_tree.data[j]

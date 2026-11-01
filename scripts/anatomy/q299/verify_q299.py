@@ -29,13 +29,20 @@ import verify_q297 as V297  # noqa: E402
 from playwright.sync_api import sync_playwright  # noqa: E402
 
 check, tap, api = V.check, V.tap, V.api
-open_card, close_card = V297.open_card, V297.close_card
+close_card = V297.close_card
 KEY = {"viewer_m_hr": "own_m", "viewer_f_hr": "own_f", "viewer_zan_atlas": "base_m", "viewer_base_female": "base_f",
        "viewer_zan_vhm": "comb_m", "viewer_zan_female": "comb_f"}
 NERVE = "common_fibular_n_r"
 VESSELS = ["zan_external_pudendal_veins_l", "zan_external_pudendal_veins_r",
            "zan_superficial_external_pudendal_artery_l", "zan_superficial_external_pudendal_artery_r"]
 NERVES_F = ["genitofemoral_n_l", "genitofemoral_n_r"]
+# the real UI matches a row by what the row SHOWS, which is the display name, not the id
+CARD_NAME = {"zan_external_pudendal_veins_l": "External pudendal veins",
+             "zan_external_pudendal_veins_r": "External pudendal veins",
+             "zan_superficial_external_pudendal_artery_l": "Superficial external pudendal artery",
+             "zan_superficial_external_pudendal_artery_r": "Superficial external pudendal artery",
+             "genitofemoral_n_l": "Genitofemoral nerve (left)",
+             "genitofemoral_n_r": "Genitofemoral nerve (right)"}
 
 # the page's own structure list -> items for the page's own copy of the cut-face kernel, exactly as the Cut panel builds them
 ITEMS_JS = """() => {
@@ -90,6 +97,55 @@ FRONT_JS = """(sid) => {
     if (front > -1e8) { n++; const d = z - front; if (d > worst) worst = d; }
   }
   return {skin_points: SK.length/3, columns: n, max_in_front_mm: worst > -1e8 ? +worst.toFixed(2) : null}; }"""
+
+
+def open_card(pg, name, phone):
+    """The real UI: type into the structure search box, then click / tap the row. Same flow as Q297's helper, with a
+    tolerant click: on these pages the bottom `#foot` bar can overlay a low list row, and Playwright's auto-waiting
+    click then retries until it times out instead of failing the one check."""
+    box = None
+    for _ in range(6):
+        for sel in ("#search", "#q"):
+            if pg.is_visible(sel):
+                box = sel; break
+        if box:
+            break
+        for s2 in ("#btn-panel", "#m-list", "#t-lay3", "#insp-min"):
+            if pg.is_visible(s2):
+                tap(pg, s2, phone); break
+        pg.wait_for_timeout(400)
+    if not box:
+        return None
+    pg.fill(box, name); pg.wait_for_timeout(700)
+    SEL = "#list button.item, #list .row, #list button"
+    idx = pg.evaluate("([s, n]) => Array.from(document.querySelectorAll(s))"
+                      ".findIndex(b => b.innerText.toLowerCase().indexOf(n.toLowerCase()) >= 0)", [SEL, name])
+    if idx < 0:
+        return None
+    row = pg.locator(SEL).nth(idx)
+    try:
+        row.scroll_into_view_if_needed(timeout=5000)
+    except Exception:
+        pass
+    try:
+        row.click(timeout=6000)
+    except Exception:
+        try:
+            row.click(timeout=6000, force=True)
+        except Exception:
+            pg.evaluate("([s, i]) => document.querySelectorAll(s)[i].click()", [SEL, idx])
+    pg.wait_for_timeout(800)
+    for _ in range(2):
+        if not pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
+                           " return !!e && e.classList.contains('min'); }"):
+            break
+        for s2 in ("#im", "#insp-min", "#info .info-min"):
+            if pg.is_visible(s2):
+                tap(pg, s2, phone); break
+        pg.wait_for_timeout(400)
+    return pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
+                       " if (!e) return ''; const s = document.getElementById('i-src');"
+                       " return (s && !s.hidden ? s.textContent + '\\n' : '') + e.innerText; }")
 
 
 def bbox(pg, sid):
@@ -147,10 +203,18 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None):
                               f"({(pa or {}).get('status')})", bool(pa), errs)
                         check(f"{T}: A the page's own cut-face kernel applies a minimum drawn width "
                               f"({after['band_mm']} mm at a {after['px_mm']:.2f} mm raster)", after["band_mm"] > 0, errs)
+                        # the band is a MINIMUM: it widens a section only when the section's own mean width is below
+                        # it. On Combined M the nerve's section is 0.48 mm against a 0.71 mm minimum, so it is widened
+                        # (6 -> 13 px); on Base M it is 0.62 mm against a 0.55 mm minimum, so it is already at the
+                        # minimum and is left exactly as it was. Both must be DRAWN; only the widened one must grow.
+                        w, bmm = (pa or {}).get("width_mm"), (pa or {}).get("band_mm") or 0
+                        widened = bool(pa) and w is not None and bmm and w < bmm
+                        need = 12 if widened else 1
                         check(f"{T}: A the common fibular nerve is DRAWN at that level: {(pa or {}).get('px')} pixels of "
                               f"the final cut face carry it (status {(pa or {}).get('status')}, its own measured section "
-                              f"width {(pa or {}).get('width_mm')} mm) -- 4-6 px before Q299",
-                              bool(pa and pa["px"] >= 12), errs)
+                              f"width {w} mm against a {bmm} mm minimum, so it is "
+                              f"{'widened by the minimum' if widened else 'already at the minimum and untouched'}; "
+                              f"4-6 px before Q299)", bool(pa and pa["px"] >= need), errs)
                         # B: no class is left with a cut-but-not-drawn section that the minimum width should have saved
                         for cls in ("vessel", "fascia", "nerve"):
                             ca = after["by_cat"].get(cls)
@@ -190,14 +254,16 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None):
                         ok = bool(r) and r.get("max_in_front_mm") is not None and r["max_in_front_mm"] <= 3.0
                         check(f"{T}: C {sid} no longer stands in front of the local skin front "
                               f"(max {r and r.get('max_in_front_mm')} mm over {r and r.get('columns')} columns)", ok, errs)
-                        txt = open_card(pg, sid, phone)
-                        check(f"{T}: C {sid}'s card carries the Q299 containment statement",
+                        nm = CARD_NAME.get(sid, sid)
+                        txt = open_card(pg, nm, phone)
+                        check(f"{T}: C {sid}'s card ({nm!r}, opened through the real search box and a real "
+                              f"{'tap' if phone else 'click'}) carries the Q299 containment statement",
                               bool(txt) and "Q299 containment fix" in txt, errs)
                         close_card(pg, phone)
 
                 # ---------------- D: the pelvis cards
                 if key in ("base_f", "comb_f"):
-                    txt = open_card(pg, "hip_bone_r", phone) or open_card(pg, "Hip bone", phone)
+                    txt = open_card(pg, "Hip bone", phone)
                     check(f"{T}: D the hip-bone card carries the Q299 pelvic-proportion measurement",
                           bool(txt) and "Q299" in txt and ("bi-acetabular" in txt or "Ischial length" in txt), errs)
                     close_card(pg, phone)

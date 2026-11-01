@@ -155,6 +155,17 @@ a second) and every layer / X-ray / selection change. Clicking the cut face sele
 **Look at the cut face** turns the camera to look straight at the plane. The meshes are not watertight: gaps of the contour up to 1 mm are closed, rows
 with an odd number of crossings are repaired from the nearest good row when they are few, and a structure whose fill fails the parity sanity test
 (open sheets such as the skin patches, fascia, many tubes with open walls) gets its outline only, never a wrong fill; the count is shown under the button.
+**Minimum drawn width** (Q299): a section too thin for the raster to show -- a 1 mm nerve, a 0.9 mm fascial sheet, a tendon cut edge-on -- and an open
+sheet whose fill fails the parity test are drawn as a BAND along the structure's own contour segments instead of a 1 px line. It is a thickened outline and
+never a fill: no pixel is painted that is not within half a band of a real contour segment, so a parity failure still cannot produce a wrong filled area.
+The minimum is 1/500 of the section's own extent (about 2 screen px on a 900 px canvas, so it scales with what is on screen), capped at 2.5 mm and never
+thinner than one raster pixel; in the shipped pages it works out at 0.40-1.36 mm, so a 1 mm nerve is drawn about its real size. The structure's own measured
+section width is kept beside it (`res.items[].width_mm` against `band_mm`) and the panel states the minimum it used. Measured on 210 axial levels per page:
+sections that left no pixel at all in the final cut face fell from 588 / 446 / 3,952 / 4,336 / 4,155 / 5,114 to 212 / 170 / 777 / 775 / 878 / 1,701
+(Imaging M / Imaging F / Base M / Base F / Combined M / Combined F); by class, vessel sections went from 527-608 invisible per Z page to 0-5 and fascia from
+1,754-1,918 to 44-105. What remains is a structure that another structure genuinely overlapping it is drawn over (the iliotibial tract under the thigh
+muscles, the saphenous nerve under its vein, brain substructures inside each other); that needs non-overlapping geometry, not a drawing trick. Raising the
+fascia above muscle in the painter order was measured and rejected: it made fascia visible but hid 815 muscles. Report: `data/derived/Q299_crosssection_coverage.json`.
 Leak statistics per page: `data/derived/Q227_cap_stats_<page>.json`. Structures drawn at less than 20 % opacity (ghosts, faded) are not cut. Shared source:
 `viewer/cut_cap/`, synced by `scripts/sync_q227.py`.
 

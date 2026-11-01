@@ -110,11 +110,25 @@ anatomic anteversion female 23.4 (11.5-34.5) / male 20.0 (7.5-34.5) deg -- Saute
 over-estimate and carries no verdict.
 
 **The cross-section.** The owner's case is a content gap, not a mechanism one: **the two Imaging pages carry no fibular
-(peroneal) nerve at all** -- no common, deep or superficial -- so no cross-section of them can show one. Imaging M has 12
-lower-limb nerves against 81 on Combined M; the 69 missing include the whole fibular system, the femoral, obturator,
-saphenous, sural and plantar nerves. On the male Z pages the nerve is present, continuous past the fibular neck, and is
-drawn in a cut. The mechanism defect that *was* found, and fixed, is in `viewer/cut_cap/cut_cap.js` and is described in
-`docs/VIEWER_README.md` (minimum drawn width).
+(peroneal) nerve at all** -- **0 fibular meshes against 18 on every Z page** -- so no cross-section of them can show one.
+Imaging M carries 16 lower-limb nerves against 85 on Combined M (Imaging F 24 against 83), and the 71 missing include the
+whole fibular system and its branches, the femoral, obturator, saphenous, sural and plantar nerves and the sided sciatic.
+Inventory: `data/derived/Q299_lower_limb_nerves.json`. On the male Z pages the nerve is present, continuous past the
+fibular neck (`common_fibular_n_l` spans y -476.3...-321.1 on Base M and -500.4...-340.6 on Combined M while the fibular
+head is at -443.6 / -466.1), and it is drawn in a cut -- 4-6 pixels of the cut face before Q299 and 15-16 after, at the
+same 0.40 mm raster.
+
+**The mechanism defect that *was* there, and the fix.** Measured on the shipped pages over 210 axial levels each (7
+regions x 30 levels, 207,457 structure sections), sections that left **no pixel at all** in the final cut face numbered
+**588 / 446 / 3,952 / 4,336 / 4,155 / 5,114** (Imaging M / Imaging F / Base M / Base F / Combined M / Combined F). The
+broken class is **fascia -- 72-78 % of fascial sections on every Z page painted nothing**: a fascial sheet is usually a
+single-layer surface, its section is one contour segment, every row has an odd number of crossings, the parity sanity
+test fails and the structure was left as a 1 px vector outline. The same for 527-608 vessel sections and 726-835 nerve
+sections per Z page. The fix is a **minimum drawn width** in `viewer/cut_cap/cut_cap.js`, described in
+`docs/VIEWER_README.md`: **after it, 212 / 170 / 777 / 775 / 878 / 1,701**, with vessel sections 527-608 -> 0-5 and
+fascia 1,754-1,918 -> 44-105 per Z page. It only adds pixels, so the Q295 fill requirement holds: the filled area of the
+whole cut face at five axial levels per female page is equal or larger after (0.0 to +1.9 %), with the same structures
+cut. Report: `data/derived/Q299_crosssection_coverage.json`.
 """
 
 OPEN_NEW = """

@@ -2013,3 +2013,103 @@ phalanx cards on the four Z pages now state that page's own clearance and all th
 re-sculpted: inventing a nail is the thing this round exists to stop. (A ray-parity "bone outside skin" test was run and
 **discarded, not reported**: Z skin is ~250 open patches with no closed envelope, as Q249 already found, so a containment
 test on it is invalid — it returned 20–100 % outside on all 40 tips of all four pages including near-raw Base M.)
+
+
+## Q299 (2026-11-01): containment, the pelvic measurements, and the cross-section
+
+The owner reported that the female pelvis is out of proportion with blood vessels crossing out of the body, and that a
+cross-section of the male model did not show the peroneal nerve. Three measurements and two fixes came out of it.
+Report: `docs/research/Q299_pelvis_containment_crosssection.md`.
+
+**A containment test that works on these pages.** Q297 ran a ray-parity "inside the skin" test and discarded it: the Z
+skin is ~250 open patches with no closed envelope, so it called even near-raw geometry 20-100 % outside. Q299 builds a
+**voxelised body mask from the page's own outer tissues** instead (`scripts/anatomy/q299/contain299.py`): every triangle
+of every `skin` structure plus `fat_subcut_*`, `fat_deep_*` and `soft_unlabelled_*`, area-sampled at >= 1 point / mm2
+into a 2 mm grid, closed with an 8 mm morphological closing done as dilate -> flood the *outside* from the grid border
+-> erode back (`binary_closing` with an iterated diamond kernel leaves the trunk unfilled: the skin patches of the back
+leave 14 mm gaps), largest component. It is **validated before use**, three ways: 26 deep structures that are inside by
+construction must come out inside as a group (>= 90 % of them >= 99.5 % inside, group mean >= 99 %), the mask volume must
+be a plausible body volume, and the mask boundary must stay within p95 3 mm of a real skin sample. All six pages pass,
+with a boundary error band of p50 0.72 / p95 1.31-1.37 / max 7.9-8.3 mm and a group mean of 99.88 %. Distances are not
+read off the voxels: a point classified outside is measured against a cKDTree of the same surface samples, so the number
+is true millimetres to the nearest real skin surface. Data: `data/derived/Q299_containment{,_before}.json`.
+
+**What it found, and the fix.** On Base F the four `zan_external_pudendal_vein{s}` / `zan_superficial_external_pudendal
+_artery` meshes stood up to **21.7 mm in front of the skin** of the mons pubis, with `genitofemoral_n_{l,r}` at 11.5 mm
+and the HuBMAP HRA breast objects at 7.3-23.8 mm. Base M is the control and is clean: its only offenders are the six
+ocular-surface meshes, because on the male page those same external pudendal vessels end *inside* the external genital
+skin that the female pages no longer carry (removed in Q196/Q202 as male-only; the closure that replaced it was removed
+in Q297 as generated geometry). The cause of the vessels being outside is recorded in Q250's own report: its skin guard
+could not decide inside from outside against open patches and logged 1,057 vertices as "only counted" instead of
+pulling them in. **Q299 re-runs that guard against the validated mask** (`fix_contain299.py`): a vertex outside the mask
+is moved to the nearest point of the page's own skin / subcutaneous surface and 1.0 mm further in along the same line,
+and the displacement is spread over the mesh with the same 8 mm Gaussian Q250 used, so a tube's ring translates instead
+of collapsing; then a bone guard pushes back out anything the pull-in drove into a bone. Nothing is sculpted and no
+vertex is invented. The four vessels went 21.6-21.7 -> **0.00 mm** with **0 flipped triangles**, area x0.946-0.958,
+volume x0.870-0.894. **Policy, stated and tested:** bone is never moved (a bone outside the skin is a registration
+residual or a limit of the subject's own segmentation); the ocular surface is exempt by anatomy (the cornea, iris,
+sclera and chambers sit in the palpebral fissure and these pages carry no conjunctiva or eyelid-margin mesh); the two
+Imaging pages are not touched (their geometry comes from a builder whose matching bundle is not on disk) and their five
+offenders are put to the owner instead. The HRA breast objects lose 16-38 % of their enclosed volume when pulled in,
+which is stated in full on each of their cards with the two alternatives.
+
+**Bone penetration, measured and not fixed.** The same round tested "intersects bone or passes through the wrong
+compartment". Each bone is solidified in its OWN padded bounding box and eroded by a voxel, never as one global bone
+mask: a global mask closes the bony rings and its hole fill swallows the mediastinum and the pelvic cavity, which made a
+first run call 53 % of Imaging M's `abdominal_aorta` "inside a bone" -- it disappears entirely with per-bone masks.
+Result: 51-126 structures per page have vertices deeper than 5 mm inside a bone, nearly all of it Z-Anatomy's own mesh
+overlap (muscle origins wrapping bone, psoas on the lumbar bodies) plus fit residual; **1-10 per page lie MOSTLY inside
+a bone**, and those are listed in the report. The worst are `zan_calcaneal_branches_of_fibular_artery_{l,r}` at 84-100 %
+inside the calcaneus on all four Z pages, `zan_posterior_circumflex_humeral_artery/vein_{l,r}` at 67-80 % inside the
+humerus, and `zan_internal_thoracic_veins_{l,r}` at 64-66 % inside the sternum on Combined F. Two of the deepest cases
+are anatomically CORRECT and are named as such: the hip articular cartilage lines the acetabulum and the triradiate
+cartilage is inside the hip bone, so a mask built from the bone surface legitimately encloses them. **Not fixed**: an
+artery that lies inside the heel bone is the source's geometry, not a residual of our fit, and there is no one justified
+direction to move 16 vessels and 9 bursae without re-deciding their course from a source. Put to the owner.
+
+**The pelvic measurements.** `scripts/anatomy/q299/pelvis299.py` -> `data/derived/Q299_pelvis.json`: 28 measures per
+page (classical pelvimetry, iliac-crest and ASIS breadth, pelvic height, bi-acetabular distance, acetabular version and
+inclination in the page's own anterior pelvic plane, sacral breadth / length / curvature, the pubic symphysis, the
+shoulder-to-hip ratio, and femur-based stature). The reference is the **47 women of the Q250 set measured with the same
+geometric rules** (TotalSegmentator v2.0.1 on Zenodo 10047292, CC BY 4.0), which removes the landmark-definition offset.
+**Correction to the record:** Q292's two "out of range" verdicts for Base F do not survive. The same rule gives an inlet
+transverse of 176-182 mm on the three *male* pages, where the male literature is near 125 mm, so it cannot be compared
+with MR pelvimetry (doi:10.1016/j.ejrad.2018.03.024) at all; and the 47-women set contains no interspinous diameter, so
+there is no verdict on that one either. Against the rule-matched reference every classical measure on all three female
+pages is within 1.6 SD. Three real defects remain, all in the fit and not in her anatomy: Combined F's bi-acetabular
+distance 208.8 mm (+3.64 SD; **+13.1 mm wider than her own CT pelvis**, because Q250 deformed the pelvic bones onto her
+pelvis and never re-seated the femora -- its own joint check records the left hip opening 1.0 -> 5.3 mm); Combined F's
+greater sciatic notch 74.8 deg (-4.37 SD, against 90.9 on her own pelvis and 92.4 on Base F); and Base F's ischial
+length 90.8 mm (+2.20 SD, against her 84.2) with intertuberous 127.1 (+1.54, against her 119.5). Her own pelvis is
+genuinely wide (+2.19 SD on her own CT), which is the honest part of what the owner saw; Base F is a further 3.4 % more
+hip-dominant than her own body because it keeps Z-Anatomy's shoulder girdle scaled rather than registered onto her
+scapulae, so its acromia sit 11.6 mm closer together than hers. All of this is now on the cards of the structures it
+belongs to; the two refits that would remove it are put to the owner.
+
+**Acetabular orientation literature read this round (PubMed):** anteversion 15.3 +- 5.7 deg overall, female 17.5 +- 5.6 /
+male 13.2 +- 4.9, inclination 37.5 +- 3.9 -- Kim et al. 2021, *Medicine* 100(15):e25445, doi:10.1097/MD.0000000000025445;
+anatomic anteversion female 23.4 (11.5-34.5) / male 20.0 (7.5-34.5) deg -- Sautet et al. 2017, *Orthop Traumatol Surg Res*
+104(3):347-351, doi:10.1016/j.otsr.2017.10.006; anteversion 23 +- 5, abduction 39 +- 4 deg -- Stem et al. 2006,
+*Skeletal Radiol* 35(6):385-9, doi:10.1007/s00256-006-0086-4. The acetabular *diameter* from this round's rule is an
+over-estimate and carries no verdict.
+
+**The cross-section.** The owner's case is a content gap, not a mechanism one: **the two Imaging pages carry no fibular
+(peroneal) nerve at all** -- **0 fibular meshes against 18 on every Z page** -- so no cross-section of them can show one.
+Imaging M carries 16 lower-limb nerves against 85 on Combined M (Imaging F 24 against 83), and the 71 missing include the
+whole fibular system and its branches, the femoral, obturator, saphenous, sural and plantar nerves and the sided sciatic.
+Inventory: `data/derived/Q299_lower_limb_nerves.json`. On the male Z pages the nerve is present, continuous past the
+fibular neck (`common_fibular_n_l` spans y -476.3...-321.1 on Base M and -500.4...-340.6 on Combined M while the fibular
+head is at -443.6 / -466.1), and it is drawn in a cut -- 4-6 pixels of the cut face before Q299 and 15-16 after, at the
+same 0.40 mm raster.
+
+**The mechanism defect that *was* there, and the fix.** Measured on the shipped pages over 210 axial levels each (7
+regions x 30 levels, 207,457 structure sections), sections that left **no pixel at all** in the final cut face numbered
+**588 / 446 / 3,952 / 4,336 / 4,155 / 5,114** (Imaging M / Imaging F / Base M / Base F / Combined M / Combined F). The
+broken class is **fascia -- 72-78 % of fascial sections on every Z page painted nothing**: a fascial sheet is usually a
+single-layer surface, its section is one contour segment, every row has an odd number of crossings, the parity sanity
+test fails and the structure was left as a 1 px vector outline. The same for 527-608 vessel sections and 726-835 nerve
+sections per Z page. The fix is a **minimum drawn width** in `viewer/cut_cap/cut_cap.js`, described in
+`docs/VIEWER_README.md`: **after it, 212 / 170 / 777 / 775 / 878 / 1,701**, with vessel sections 527-608 -> 0-5 and
+fascia 1,754-1,918 -> 44-105 per Z page. It only adds pixels, so the Q295 fill requirement holds: the filled area of the
+whole cut face at five axial levels per female page is equal or larger after (0.0 to +1.9 %), with the same structures
+cut. Report: `data/derived/Q299_crosssection_coverage.json`.

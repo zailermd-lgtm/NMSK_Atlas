@@ -136,7 +136,13 @@ def band(body, g, tree, rng, n=300000):
 
 
 def build(key, vox=2.0, per_mm2=1.0, close_mm=8.0):
-    os.environ.setdefault("Q237_SRC_" + key, str(REPO / "build/q297" / C.PAGES[key][4]))
+    # the CURRENT page dir, from the single place the project keeps it (scripts/anatomy/q241/model.py SRC), unless
+    # Q237_SRC_<key> is already set -- a hard-coded build dir here is how the first Q299 after-audit silently
+    # re-measured the pages it was meant to be checking the fix against.
+    if "Q237_SRC_" + key not in os.environ:
+        sys.path.insert(0, str(REPO / "scripts/anatomy/q241"))
+        import model as _MD
+        os.environ["Q237_SRC_" + key] = str(_MD.page_dir(key))
     S = C.load(key)
     for i, x in enumerate(S):
         x["_i"] = i
