@@ -2,8 +2,9 @@
 Builds a local skin surface from every skin mesh near the hand and asks, for each phalanx vertex,
 whether it lies outside it (ray-parity against the union of the local skin triangles)."""
 import sys, re, json
+import pathlib
 import numpy as np
-sys.path.insert(0,'/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q297')
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
 import geo
 import trimesh
 NUM={'first':1,'second':2,'third':3,'fourth':4,'fifth':5}
@@ -48,6 +49,10 @@ def run(key, root='build/q296'):
             rows.append(dict(side=side,finger=n,phalanx=pid,nv=len(v),outside=outn,
                              outside_pct=round(100.0*outn/len(v),1), max_outside_mm=d))
     return rows
+
+def REPO_OUT(name):
+    return str(pathlib.Path(__file__).resolve().parents[3] / 'data/derived' / name)
+
 if __name__=='__main__':
     allr={}
     for k in (sys.argv[1:] or ['base_m','base_f','comb_m','comb_f']):
@@ -56,4 +61,4 @@ if __name__=='__main__':
             if 'err' in r: print('  ',r); continue
             flag='   <-- OUTSIDE THE SKIN' if r['outside'] else ''
             print(f"   {r['side']} F{r['finger']}: {r['outside']:4d}/{r['nv']:4d} vertices outside ({r['outside_pct']:5.1f} %), max {r['max_outside_mm']} mm{flag}")
-    json.dump(allr,open('/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q297/outside.json','w'),indent=1)
+    json.dump(allr,open(REPO_OUT('Q297_fingertip_containment_rejected.json'),'w'),indent=1)

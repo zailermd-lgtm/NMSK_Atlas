@@ -4,8 +4,9 @@ Soft tissue / skin is counted only inside a CYLINDER of radius R_CYL mm about th
 finger cannot contribute) and only forward of the bone tip. Reported: how far the skin front reaches past
 the bone tip (real distal pulp + nail over the tuft is about 3-8 mm; a negative value means bare bone)."""
 import sys, json, re
+import pathlib
 import numpy as np
-sys.path.insert(0,'/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q297')
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
 import geo
 NUM={'first':1,'second':2,'third':3,'fourth':4,'fifth':5}
 R_CYL=9.0
@@ -57,6 +58,10 @@ def run(key, root='build/q296'):
             row['bone_past_skin_mm']=(round(-best,2) if best is not None and best<0 else 0.0)
             rows.append(row)
     return rows
+
+def REPO_OUT(name):
+    return str(pathlib.Path(__file__).resolve().parents[3] / 'data/derived' / name)
+
 if __name__=='__main__':
     allr={}
     for k in (sys.argv[1:] or list(geo.DIRS)):
@@ -70,4 +75,4 @@ if __name__=='__main__':
             print(f"   {r['side']} F{r['finger']} bone {r['bone_len_mm']:5.1f}  skin past tip {v if v is None else format(v,'6.2f')} mm (n={r['skin_verts_in_cyl']:4d}){flag}   soft: {pr}")
         vs=[r['skin_past_tip_mm'] for r in rows if r['skin_past_tip_mm'] is not None]
         if vs: print(f"   -> min {min(vs):.2f}  max {max(vs):.2f}  mean {sum(vs)/len(vs):.2f} mm   (real pulp+nail 3-8 mm)")
-    json.dump(allr,open('/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q297/tips3.json','w'),indent=1)
+    json.dump(allr,open(REPO_OUT('Q297_fingertips.json'),'w'),indent=1)

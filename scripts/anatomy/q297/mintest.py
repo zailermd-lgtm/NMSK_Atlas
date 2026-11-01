@@ -3,7 +3,7 @@ Method: split the closed slab into its two sheets at the welded rim, take the OU
 fix its boundary loop, re-run the Pinkall-Polthier cotangent-weight iteration to convergence,
 and measure how far the shipped sheet sits from that minimal surface."""
 import sys, numpy as np, collections
-sys.path.insert(0,'/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q297')
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
 import geo
 from scipy.sparse import coo_matrix
 from scipy.sparse.linalg import spsolve
