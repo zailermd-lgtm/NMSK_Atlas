@@ -431,3 +431,63 @@ on a desktop and on a phone.
   selectable chip under the search box, with its member count and its source.
 - Shared modules, so both engines behave identically: `viewer/q298/` spliced into both templates by
   `scripts/sync_q298.py`; the per-page data rides in the page's `nmsk-q298` block.
+
+## Getting back out, a reset of the model, and a skeleton you can see (Q300)
+
+- **The dead-end problem, stated plainly.** Between them the two engines could make a structure vanish **nine different
+  ways**, and each one's way back was somewhere else: the Isolate button in a toolbar that wraps on a phone; the Z pages'
+  per-layer **solo**, whose only exit is a button inside a layer row that is gone when the panel is folded; **Marked /
+  Others → Hide**, inside a panel you have to open; a structure's own card **hide**, reachable only from that card; the
+  **side filter**; the **cut**, the **cross-section** and **part slices**; layers, the source facet and the
+  hidden-by-default flag; an opacity low enough to be invisible but counted as hidden nowhere; and worst of all a **Z
+  preset**, which quietly assigns opacity 0 to *every tissue it does not name* — so `skeleton`, `nervous`, `vessels` and
+  `organs` each erase everything else, and the way back was a button labelled `all`. Nothing on screen said what was
+  hidden, and nothing said "show everything". That is the owner's complaint, and it was fair.
+- **Now**: the moment anything is hidden, a row of chips appears at the bottom-left of the 3-D view — `isolated: Femur ✕`,
+  `solo: muscle ✕`, `hidden: 23 structures ✕`, `preset: bones (9 tissues at zero) ✕`, `side: right only ✕`, `cut ✕` —
+  each with its own **✕** that undoes **only that one**, beside a single **Show everything** button that ends all of them
+  at once. **Esc** on a desktop does the same, and because it only fires while something is hidden, a second Esc still
+  deselects as it always did. Each exit, single or all, is **one undo step**: Ctrl/Cmd+Z puts you straight back where you
+  were. When nothing is hidden the row is not rendered at all, so it costs no screen.
+- **This is not a list of nine special cases.** Each hiding path registers itself with the shared controller as
+  `{key, label, active, clear, drive}`. A path added in a later round that forgets to register is caught by
+  `tests/test_q300.py`, which asserts the set per engine and that every entry has both a `clear` and a `drive` — not by a
+  user who gets stuck. The pattern is taken from the Human viewer, whose Reset "is hidden by default but appears when one
+  of the Explore Tools (i.e., Hide, Isolate, or Fade) has been used"; see `docs/research/Q300_interface_benchmark.md`.
+- **Two resets, and the difference is written down.** Q294's circular arrow resets **the module you are in** to its own
+  defaults. The new button beside it (a circular arrow with a dot) resets **the model**: pose, camera, which structures
+  are shown, isolation and solo, every opacity and fade, the marked structures, the cut and the cross-sections, part
+  slices, measurements and labels all go back to **how the page loaded** — one tap, you stay in the module, and one
+  Ctrl+Z brings your work back. It leaves alone the module you are in, the work mode, anything saved in this browser
+  (saved poses, saved mark sets), the page's browser zoom and the structure cards. The "i" beside the two buttons says
+  exactly this. It is exact rather than approximate because it restores the history's own snapshot of the page as it
+  loaded, so a provider added in a later round is covered without anyone remembering to add it.
+- **Pose is now part of the history**, which it was not before: posing the model is undoable like everything else.
+- **Why the skeleton could not be seen in X-ray and in Fade — measured, not guessed.** Three separate causes, all found
+  by reading the renderers and confirmed in pixels. (1) On the Imaging pages every soft tissue was drawn at opacity 0.5
+  (muscle 0.34) over opaque bone; what survives of the bone is the **product** of (1 − opacity) over everything in front
+  of it, so four layers left the bone at about **8 %** of the pixel. (2) On the Z pages the per-tissue X-ray table is
+  well judged, but the translucent pass runs with back-face culling off, so every closed shell blends **twice** and the
+  product becomes (1 − opacity)² per shell — a few percent through a thick region. (3) In the fade view **one flat 0.15
+  was applied to every tissue class**, so bone faded exactly as hard as skin.
+- **The fix.** The Imaging pages get a per-tissue X-ray table (bone and nerve solid, cartilage 0.85, vessel 0.8, organ
+  0.25, muscle 0.22, other 0.12, fat 0.05) — the one the Z pages already had and these never did. The fade view keeps a
+  **floor per tissue class** on both engines — bone 0.55, cartilage 0.40 — so fading the others still leaves you the
+  skeleton to orient by, which is what every atlas in the benchmark does. And both engines can draw the bone once more
+  after the soft tissue with the depth test off, so its share of the pixel is that pass's strength whatever lies in
+  front. Nothing about the geometry changed.
+- **What the measurement said, including where it contradicted the plan.** Contrast is the Michelson contrast between
+  the mean luminance of the bone pixels and of the soft-tissue pixels around them, read out of the rendered frame.
+  On the **Imaging** pages the table is the fix and the pass adds a little on top: X-ray **0.465 → 0.617 → 0.638**,
+  fade **0.465 → 0.494 → 0.506**. On the **Base and Combined** pages it turned out the opposite way: their table was
+  always right, so against their light background the bone is already the darkest thing on screen (**0.236** in X-ray),
+  and painting its own pale colour back over it moves it *toward* the tissue luminance — the pass there *lowers*
+  contrast (0.236 → 0.176). So the starting step is **per engine, chosen by measurement and not by symmetry**: the
+  Imaging pages start on Clear, the Base and Combined pages on Off, where the control is still there for a structure
+  genuinely buried behind something. Every figure is in `data/derived/Q300_browser_check.json`.
+- **A strength control, three taps, and only when it is relevant.** While X-ray or Fade is on, a small **Bone: Off ·
+  Clear · Strong** control appears (Strong is for a thick region like the pelvis or the shoulder). It is taps rather
+  than a slider, it is undoable like everything else, and it is not on screen at all otherwise.
+- **A structure's provenance can no longer hide.** Q297 found that neither template ever rendered `rec.method` or
+  `rec.error_band_mm`, which is how 68 rule-built meshes came to print the green "Measured on this body". Both now
+  render: the Imaging cards carry `rule-based` and `±8 mm` as tags, the Z cards a **Method** line with the error band.
