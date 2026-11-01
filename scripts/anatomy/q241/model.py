@@ -10,8 +10,8 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q296/viewer_m_hr", "own_f": "build/q296/viewer_f_hr", "base_m": "build/q296/viewer_zan_atlas",     # Q296: the four Z pages carry the imported
-       "base_f": "build/q296/viewer_base_female", "comb_m": "build/q296/viewer_zan_vhm", "comb_f": "build/q296/viewer_zan_female"}   # SPL Inner Ear Atlas structures (+8); the two Imaging pages are the Q295 copies, unchanged. build/q296 is a real directory on disk (see PROJECT_STATE Q296)
+SRC = {"own_m": "build/q297/viewer_m_hr", "own_f": "build/q297/viewer_f_hr", "base_m": "build/q297/viewer_zan_atlas",     # Q297: Base F and Combined F no longer carry the
+       "base_f": "build/q297/viewer_base_female", "comb_m": "build/q297/viewer_zan_vhm", "comb_f": "build/q297/viewer_zan_female"}   # generated perineal surface closure (-1 each); all six pages re-rendered from the current template. build/q297 is a real directory on disk (see PROJECT_STATE Q297)
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 

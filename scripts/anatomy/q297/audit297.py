@@ -30,7 +30,9 @@ THIRD_PARTY = [
     (r"Open Anatomy|SPL|Brigham", "SPL / Open Anatomy (3D Slicer License Part B)"),
     (r"s1159", "another TotalSegmentator specimen (s1159)"),
     (r"MIRROR IMAGE|mirror_", "mirror of this body's own opposite side"),
-    (r"Visible Human male|Visible Human female|the other Visible Human|xfer_vhm2vhf|xfer_vhf2vhm", "the other Visible Human body"),
+    # NB: matched on the TRANSFER subject id only. The plain words "Visible Human female" appear in almost every card on
+    # these pages (she IS the Visible Human female), so matching them as text would file her own CT as a third party.
+    (r"xfer_vhm2vhf|xfer_vhf2vhm|TRANSFERRED, re-bounded|Transferred from the other Visible Human", "the other Visible Human body"),
 ]
 MEASURED = r"(MEASURED FROM IMAGING|measured on this body|segmented (on|from) (her|his) own|HER OWN|HIS OWN|TotalSegmentator|cryosection|Traced in (his|her) own|re-segmented from (his|her))"
 RULE = r"(RULE-BASED|PROCEDURAL/RULE-BASED|rule-based|Rule-based|SURFACE CLOSURE|gap closure|hole fill|minimal surface|shape interpolation|bone carve|Rule-based bridge)"
