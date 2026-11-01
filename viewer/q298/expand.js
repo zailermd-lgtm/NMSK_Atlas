@@ -64,12 +64,12 @@ function NMSKExpand(E, BAR, D, H){
   }
   function relRows(id){
     var i = idxOf(REL, id);
-    if (i < 0) return [];
+    if (i < 0 || !REL.rel) return [];
     return (REL.rel[String(i)] || []).map(function(r){ return {id:REL.ids[r[0]], kind:r[1]}; });
   }
   function groupsOf(id){
     var i = idxOf(REL, id);
-    if (i < 0) return [];
+    if (i < 0 || !REL.fg || !REL.fgroups) return [];
     return (REL.fg[String(i)] || []).map(function(g){
       var G = REL.fgroups[g];
       return {id:G.id, name:G.name, src:G.src, inferred:G.inferred, why:G.why,

@@ -36,6 +36,7 @@ KEY = {"viewer_zan_atlas": "base_m", "viewer_base_female": "base_f", "viewer_zan
 ITB_QUERIES = ["ITB", "IT band", "iliotibial band", "הרצועה האיליוטיביאלית"]
 TYPOS = [("iliotibal band", "Iliotibial tract"), ("semitendinosis", "Semitendinosus"), ("gastrocnemus", "Gastrocnemius")]
 EXPAND = [("adj", "q8-adj"), ("rel", "q8-rel"), ("grp", "q8-grp")]
+ROWSEL = "#list button.item, #list button.row"
 
 
 def box_of(pg):
@@ -52,9 +53,9 @@ def box_of(pg):
 
 
 def q298_ready(pg):
-    pg.wait_for_function("window.NMSKQ298 && NMSKQ298.ready()", timeout=120000)
-    pg.wait_for_function("window.NMSKQ298.state().adjacency === false || window.NMSKQ298.state().expand === null"
-                         " || window.NMSKQ298.state().expand.adjReady", timeout=120000)
+    pg.wait_for_function("window.NMSKQ298 && NMSKQ298.ready()", timeout=180000)
+    pg.wait_for_function("(() => { const s = window.NMSKQ298.state();"
+                         " return !!s.expand && s.expand.adjReady && s.expand.relReady; })()", timeout=180000)
 
 
 def search(pg, box, q, phone):
@@ -64,12 +65,13 @@ def search(pg, box, q, phone):
     pg.fill(box, q)
     pg.dispatch_event(box, "input")
     pg.wait_for_timeout(500)
-    return pg.evaluate("() => Array.from(document.querySelectorAll('#list button.item, #list .row, #list button'))"
-                       ".map(b => b.innerText.replace(/\\s+/g, ' ').trim()).slice(0, 40)")
+    return pg.evaluate("() => Array.from(document.querySelectorAll(ROWSEL))"
+                       ".map(b => b.innerText.replace(/\\s+/g, ' ').trim()).slice(0, 40)".replace("ROWSEL", repr(ROWSEL)))
 
 
 def marked(pg):
-    return pg.evaluate("() => (window.selCtl ? selCtl.state().marks.length : (window.NMSKQ298 ? -1 : -2))")
+    """how many structures are marked, read through NMSKQ298.state() -- both engines keep selCtl as a local var."""
+    return pg.evaluate("() => (window.NMSKQ298 ? NMSKQ298.state().marked : -2)")
 
 
 def run_page(d: Path, errs: list, shots: Path | None, only_phone=None, report=None):
@@ -167,18 +169,18 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None, report=No
                 if omb:
                     tap(pg, "#q8-onmodel", phone); pg.wait_for_timeout(400)
                     on = pg.evaluate("() => { const b = document.getElementById('t-mark') || document.getElementById('sel-markmode');"
-                                     " return !!b && b.getAttribute('aria-pressed') === 'true'; }")
+                                     " return NMSKQ298.state().markMode || (!!b && b.getAttribute('aria-pressed') === 'true'); }")
                     check(f"{T}: D \"On model\" arms the engine's own mark-by-tapping mode", on, errs)
                     tap(pg, "#q8-onmodel", phone); pg.wait_for_timeout(300)
 
                 # --- E: the three expansions
                 pick = "Semitendinosus" if kind == "zan" else "Semitendinosus"
                 rows = search(pg, box, pick, phone)
-                idx = pg.evaluate("([n]) => Array.from(document.querySelectorAll('#list button.item, #list .row, #list button'))"
-                                  ".findIndex(b => b.innerText.toLowerCase().indexOf(n.toLowerCase()) >= 0)", [pick])
+                idx = pg.evaluate("([n, s]) => Array.from(document.querySelectorAll(s))"
+                                  ".findIndex(b => b.innerText.toLowerCase().indexOf(n.toLowerCase()) >= 0)", [pick, ROWSEL])
                 check(f"{T}: E {pick} is in the list to pick ({idx}, {len(rows)} rows)", idx >= 0, errs)
                 if idx >= 0:
-                    tap(pg, f"#list button.item, #list .row, #list button >> nth={idx}", phone)
+                    tap(pg, f"{ROWSEL} >> nth={idx}", phone)
                     pg.wait_for_timeout(900)
                     cnt = pg.evaluate("() => { const s = NMSKQ298.state(); return s.expand ? s.expand.counts : null; }")
                     check(f"{T}: E after picking {pick} all three expansions offer something ({cnt})",

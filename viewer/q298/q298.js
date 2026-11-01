@@ -78,8 +78,12 @@ var NMSKQ298 = (function(){
           data:data, say:say,
           core:function(){ return IX; },
           state:function(){
-            var d = data();
-            return {ready:!!IX, structures:IX ? IX.count : 0, aliasForms:IX ? IX.aliasForms : 0,
+            var d = data(), sc = E && E.sel ? E.sel() : null, ms = null;
+            try { ms = sc ? sc.state() : null; } catch (err){ ms = null; }
+            return {ready:!!IX,
+                    /* the marked-structures count, read through the selection controller's own public state() -- both
+                       engines keep selCtl as a local var, so a test (and anything else outside the engine) needs it here */
+                    marked:ms ? ms.marks.length : -1, markMode:ms ? !!ms.markMode : false, structures:IX ? IX.count : 0, aliasForms:IX ? IX.aliasForms : 0,
                     groups:IX ? IX.groupCount : 0, adjacency:!!(d && d.adj), relations:!!(d && d.rel),
                     threshold_mm:d && d.adj ? d.adj.th : null, adjacentPairs:d && d.adj ? d.adj.n : 0,
                     relationLinks:d && d.rel ? d.rel.n : 0,

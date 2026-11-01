@@ -219,8 +219,8 @@ def block_for(key):
     rp = DERIVED / f"Q298_relations_{key}.json"
     if rp.exists():
         r = json.loads(rp.read_text(encoding="utf-8"))
-        payload["rel"] = {"kinds": r["kinds"], "n": r["counts"]["links"],
-                          "z": _z({"ids": r["ids"], "rel": r["rel"]})}
+        payload["rel"] = {"kinds": r["kinds"], "n": r["counts"]["links"], "g": r["counts"]["fgroups"],
+                          "z": _z({"ids": r["ids"], "rel": r["rel"], "fgroups": r["fgroups"], "fg": r["fg"]})}
     return BEGIN + '<script type="application/json" id="nmsk-q298">' + \
         json.dumps(payload, separators=(",", ":"), ensure_ascii=False) + "</script>" + END
 
