@@ -1,0 +1,2475 @@
+{
+ "schema": "nmsk.synonyms.v1",
+ "round": "Q298",
+ "doc": "Search synonyms, abbreviations, Hebrew names and eponyms for the structures the six viewer pages ship. Q298 exists because the owner searched for the iliotibial tract as 'ITB' and as 'iliotibial band' and found nothing: both viewer engines matched the query as ONE contiguous substring of ONE field (the Z engine: the display name only; the own engine: name + id), so no abbreviation, no second name and no non-contiguous word order could ever match. This file is the data layer of the fix. Each entry names a CANONICAL structure and the other strings a clinician may type for it; `targets` are the page display names it resolves to, compared after normalisation (lower case, punctuation to spaces, runs of spaces collapsed) against BOTH the full page name and the page name with every parenthesised qualifier removed -- so 'Iliotibial (IT) tract/band', 'Tibialis anterior (continuation beyond the data-block cut, filled from Z-Anatomy)' and 'Olfactory nerve (CN I) (left)' all resolve, while 'Subtendinous bursa of tibialis anterior' does not. `re` is a regular expression over the normalised full name, for families (the Couinaud liver segments, the cranial nerves). Resolution is done at BUILD time by scripts/anatomy/q298/build_search_q298.py, per page, and recorded in data/derived/Q298_search_<key>.json, so nothing is guessed in the browser and tests/test_q298.py can assert that every abbreviation reaches a structure that really exists on at least one page.",
+ "kinds": {
+  "abbr": "An established published abbreviation. Only abbreviations in clinical use are listed; nothing is invented.",
+  "syn": "Another name for the same structure: an English second name, a Latin / Terminologia Anatomica form, or a lay term.",
+  "he": "Hebrew name. PROJECT-SUPPLIED TRANSLATION, not a published standard -- see sources.he.",
+  "eponym": "A name after a person. Listed only where this project already cites the eponym (see each entry's `src`)."
+ },
+ "sources": {
+  "gray": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell), Elsevier 2019 -- names, second names and the abbreviations used in its text.",
+  "moore": "Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.",
+  "ta": "Terminologia Anatomica, Federative Committee on Anatomical Terminology (FICAT) 1998 -- the Latin / TA forms.",
+  "stecco": "Stecco C, Functional Atlas of the Human Fascial System, Churchill Livingstone 2015 -- fascial structures and their clinical names.",
+  "project": "This project's own data files, which already carry the abbreviation or the eponym: data/anatomy/abbreviations.json (99 published abbreviations, Q236), data/anatomy/structure_parts.json (the Colles / Scarpa fascial sacs and the Gerdy tubercle attachment landmark), data/derived/Q248_ligament_audit.md (the pectineal ligament of Cooper).",
+  "martin1984": "Martin BF. The formation of abdomino-perineal sacs by the fasciae of Scarpa and Colles, and their clinical significance. J Anat 1984;138(Pt 4):603-616 -- cited by data/anatomy/structure_parts.json for the two fascial sacs.",
+  "couinaud": "Couinaud C. Le foie: etudes anatomiques et chirurgicales. Masson, Paris 1957 -- the eight liver segments the Z pages ship as named segment meshes.",
+  "he": "HEBREW IS A PROJECT-SUPPLIED TRANSLATION, NOT A PUBLISHED TERMINOLOGY. Terminologia Anatomica has no Hebrew edition. The Hebrew strings here are the terms in ordinary clinical use in Israeli medicine and physiotherapy, written for this project at the owner's request (the owner works in Hebrew). They are a search aid; the card text and every anatomical fact stay in the cited English / Latin of the sources above. Where a transliteration is what clinicians actually say (המסטרינגס, ביצפס) it is listed next to the Hebrew term."
+ },
+ "ambiguous_note": "An entry whose `ambiguous` is true has more than one accepted expansion in clinical use. The search offers every expansion, each with its own canonical name, and says so, rather than silently picking one.",
+ "entries": [
+  {
+   "canon": "Iliotibial tract",
+   "targets": [
+    "iliotibial tract",
+    "iliotibial tract band"
+   ],
+   "abbr": [
+    "ITB",
+    "IT band",
+    "ITT"
+   ],
+   "syn": [
+    "iliotibial band",
+    "tractus iliotibialis",
+    "lateral thigh fascia band",
+    "Maissiat band"
+   ],
+   "he": [
+    "הרצועה האיליוטיביאלית",
+    "פס איליוטיביאלי",
+    "אי.טי.בי."
+   ],
+   "src": "gray,stecco,project"
+  },
+  {
+   "canon": "Tensor fasciae latae",
+   "targets": [
+    "tensor fasciae latae",
+    "tensor fascia latae"
+   ],
+   "abbr": [
+    "TFL"
+   ],
+   "syn": [
+    "musculus tensor fasciae latae",
+    "tensor of the fascia lata"
+   ],
+   "he": [
+    "מותח רחבת הירך",
+    "מותח הפאסיה לטה"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Sternocleidomastoid",
+   "targets": [
+    "sternocleidomastoid"
+   ],
+   "abbr": [
+    "SCM"
+   ],
+   "syn": [
+    "musculus sternocleidomastoideus",
+    "sternomastoid"
+   ],
+   "he": [
+    "שריר הסטרנוקלידומסטואיד",
+    "השריר הבריחי-חזי-פיטמי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Anterior cruciate ligament",
+   "targets": [
+    "anterior cruciate ligament"
+   ],
+   "abbr": [
+    "ACL"
+   ],
+   "syn": [
+    "ligamentum cruciatum anterius",
+    "anterior crucial ligament"
+   ],
+   "he": [
+    "הרצועה הצולבת הקדמית",
+    "רצועה צולבת קדמית"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Posterior cruciate ligament",
+   "targets": [
+    "posterior cruciate ligament"
+   ],
+   "abbr": [
+    "PCL"
+   ],
+   "syn": [
+    "ligamentum cruciatum posterius"
+   ],
+   "he": [
+    "הרצועה הצולבת האחורית"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Tibial (medial) collateral ligament",
+   "targets": [
+    "tibial collateral ligament",
+    "tibial medial collateral ligament",
+    "medial collateral ligament of the knee"
+   ],
+   "abbr": [
+    "MCL"
+   ],
+   "syn": [
+    "medial collateral ligament",
+    "ligamentum collaterale tibiale"
+   ],
+   "he": [
+    "הרצועה הצדית הפנימית",
+    "רצועה מדיאלית של הברך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Fibular (lateral) collateral ligament",
+   "targets": [
+    "fibular collateral ligament",
+    "fibular lateral collateral ligament",
+    "lateral collateral ligament of the knee"
+   ],
+   "abbr": [
+    "LCL",
+    "FCL"
+   ],
+   "syn": [
+    "lateral collateral ligament",
+    "ligamentum collaterale fibulare"
+   ],
+   "he": [
+    "הרצועה הצדית החיצונית"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Flexor pollicis longus",
+   "targets": [
+    "flexor pollicis longus"
+   ],
+   "abbr": [
+    "FPL"
+   ],
+   "syn": [
+    "musculus flexor pollicis longus",
+    "long thumb flexor"
+   ],
+   "he": [
+    "כופף האגודל הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Flexor digitorum profundus",
+   "targets": [
+    "flexor digitorum profundus"
+   ],
+   "abbr": [
+    "FDP"
+   ],
+   "syn": [
+    "musculus flexor digitorum profundus",
+    "deep finger flexor"
+   ],
+   "he": [
+    "כופף האצבעות העמוק"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Flexor digitorum superficialis",
+   "targets": [
+    "flexor digitorum superficialis"
+   ],
+   "abbr": [
+    "FDS"
+   ],
+   "syn": [
+    "musculus flexor digitorum superficialis",
+    "superficial finger flexor"
+   ],
+   "he": [
+    "כופף האצבעות השטחי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Extensor pollicis longus",
+   "targets": [
+    "extensor pollicis longus"
+   ],
+   "abbr": [
+    "EPL"
+   ],
+   "syn": [
+    "musculus extensor pollicis longus"
+   ],
+   "he": [
+    "פושט האגודל הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Extensor pollicis brevis",
+   "targets": [
+    "extensor pollicis brevis"
+   ],
+   "abbr": [
+    "EPB"
+   ],
+   "syn": [
+    "musculus extensor pollicis brevis"
+   ],
+   "he": [
+    "פושט האגודל הקצר"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Abductor pollicis longus",
+   "targets": [
+    "abductor pollicis longus"
+   ],
+   "abbr": [
+    "APL"
+   ],
+   "syn": [
+    "musculus abductor pollicis longus"
+   ],
+   "he": [
+    "מרחיק האגודל הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Abductor pollicis brevis",
+   "targets": [
+    "abductor pollicis brevis"
+   ],
+   "abbr": [
+    "APB"
+   ],
+   "syn": [
+    "musculus abductor pollicis brevis"
+   ],
+   "he": [
+    "מרחיק האגודל הקצר"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Quadratus lumborum",
+   "targets": [
+    "quadratus lumborum"
+   ],
+   "abbr": [
+    "QL"
+   ],
+   "syn": [
+    "musculus quadratus lumborum"
+   ],
+   "he": [
+    "השריר המרובע של המותן"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Latissimus dorsi",
+   "targets": [
+    "latissimus dorsi"
+   ],
+   "abbr": [
+    "LD"
+   ],
+   "syn": [
+    "musculus latissimus dorsi",
+    "lat"
+   ],
+   "he": [
+    "שריר הגב הרחב",
+    "לאט"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Rectus femoris",
+   "targets": [
+    "rectus femoris"
+   ],
+   "abbr": [
+    "RF"
+   ],
+   "syn": [
+    "musculus rectus femoris"
+   ],
+   "he": [
+    "ישר הירך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Vastus medialis",
+   "targets": [
+    "vastus medialis"
+   ],
+   "abbr": [
+    "VM",
+    "VMO"
+   ],
+   "syn": [
+    "musculus vastus medialis",
+    "vastus medialis obliquus"
+   ],
+   "he": [
+    "הראש הפנימי של ארבע ראשי הירך",
+    "ואסטוס מדיאליס"
+   ],
+   "src": "gray,ta,project",
+   "note": "VMO names the oblique distal fibres of vastus medialis; this project ships vastus medialis as ONE mesh, so VMO resolves to that whole muscle and the search says so."
+  },
+  {
+   "canon": "Vastus lateralis",
+   "targets": [
+    "vastus lateralis"
+   ],
+   "abbr": [
+    "VL"
+   ],
+   "syn": [
+    "musculus vastus lateralis"
+   ],
+   "he": [
+    "הראש החיצוני של ארבע ראשי הירך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Vastus intermedius",
+   "targets": [
+    "vastus intermedius"
+   ],
+   "abbr": [
+    "VI"
+   ],
+   "syn": [
+    "musculus vastus intermedius"
+   ],
+   "he": [
+    "הראש האמצעי של ארבע ראשי הירך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Extensor carpi radialis longus",
+   "targets": [
+    "extensor carpi radialis longus"
+   ],
+   "abbr": [
+    "ECRL"
+   ],
+   "syn": [
+    "musculus extensor carpi radialis longus"
+   ],
+   "he": [
+    "פושט השורש החישורי הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Extensor carpi radialis brevis",
+   "targets": [
+    "extensor carpi radialis brevis"
+   ],
+   "abbr": [
+    "ECRB"
+   ],
+   "syn": [
+    "musculus extensor carpi radialis brevis"
+   ],
+   "he": [
+    "פושט השורש החישורי הקצר"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Extensor carpi ulnaris",
+   "targets": [
+    "extensor carpi ulnaris"
+   ],
+   "abbr": [
+    "ECU"
+   ],
+   "syn": [
+    "musculus extensor carpi ulnaris"
+   ],
+   "he": [
+    "פושט השורש הגומדי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Flexor carpi ulnaris",
+   "targets": [
+    "flexor carpi ulnaris"
+   ],
+   "abbr": [
+    "FCU"
+   ],
+   "syn": [
+    "musculus flexor carpi ulnaris"
+   ],
+   "he": [
+    "כופף השורש הגומדי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Flexor carpi radialis",
+   "targets": [
+    "flexor carpi radialis"
+   ],
+   "abbr": [
+    "FCR"
+   ],
+   "syn": [
+    "musculus flexor carpi radialis"
+   ],
+   "he": [
+    "כופף השורש החישורי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Tibialis anterior",
+   "targets": [
+    "tibialis anterior"
+   ],
+   "abbr": [
+    "TA"
+   ],
+   "syn": [
+    "musculus tibialis anterior",
+    "anterior tibial muscle"
+   ],
+   "he": [
+    "שריר השוק הקדמי",
+    "טיביאליס אנטריור"
+   ],
+   "src": "gray,ta,project",
+   "ambiguous": true,
+   "note": "TA is also used for transversus abdominis and for Terminologia Anatomica; the search offers both muscles."
+  },
+  {
+   "canon": "Transversus abdominis",
+   "targets": [
+    "transversus abdominis",
+    "transverse abdominal"
+   ],
+   "abbr": [
+    "TA",
+    "TrA"
+   ],
+   "syn": [
+    "musculus transversus abdominis",
+    "transverse abdominal muscle"
+   ],
+   "he": [
+    "שריר הבטן הרוחבי"
+   ],
+   "src": "gray,ta,project",
+   "ambiguous": true
+  },
+  {
+   "canon": "Tibialis posterior",
+   "targets": [
+    "tibialis posterior"
+   ],
+   "abbr": [
+    "TP"
+   ],
+   "syn": [
+    "musculus tibialis posterior"
+   ],
+   "he": [
+    "שריר השוק האחורי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Extensor hallucis longus",
+   "targets": [
+    "extensor hallucis longus"
+   ],
+   "abbr": [
+    "EHL"
+   ],
+   "syn": [
+    "musculus extensor hallucis longus"
+   ],
+   "he": [
+    "פושט הבוהן הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Flexor hallucis longus",
+   "targets": [
+    "flexor hallucis longus"
+   ],
+   "abbr": [
+    "FHL"
+   ],
+   "syn": [
+    "musculus flexor hallucis longus"
+   ],
+   "he": [
+    "כופף הבוהן הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Extensor digitorum longus",
+   "targets": [
+    "extensor digitorum longus"
+   ],
+   "abbr": [
+    "EDL"
+   ],
+   "syn": [
+    "musculus extensor digitorum longus"
+   ],
+   "he": [
+    "פושט האצבעות הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Flexor digitorum longus",
+   "targets": [
+    "flexor digitorum longus"
+   ],
+   "abbr": [
+    "FDL"
+   ],
+   "syn": [
+    "musculus flexor digitorum longus"
+   ],
+   "he": [
+    "כופף האצבעות הארוך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Pronator teres",
+   "targets": [
+    "pronator teres"
+   ],
+   "abbr": [
+    "PT"
+   ],
+   "syn": [
+    "musculus pronator teres"
+   ],
+   "he": [
+    "מפנה לפנים העגול"
+   ],
+   "src": "gray,ta,project",
+   "ambiguous": true,
+   "note": "PT is also read as 'posterior tibial' and, outside anatomy, as 'physical therapy'; only the muscle is a structure on these pages."
+  },
+  {
+   "canon": "Pronator quadratus",
+   "targets": [
+    "pronator quadratus"
+   ],
+   "abbr": [
+    "PQ"
+   ],
+   "syn": [
+    "musculus pronator quadratus"
+   ],
+   "he": [
+    "מפנה לפנים המרובע"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Gluteus maximus",
+   "targets": [
+    "gluteus maximus"
+   ],
+   "abbr": [
+    "GM",
+    "GMax"
+   ],
+   "syn": [
+    "musculus gluteus maximus",
+    "glute max"
+   ],
+   "he": [
+    "שריר העכוז הגדול"
+   ],
+   "src": "gray,ta,project",
+   "ambiguous": true,
+   "note": "GM is ambiguous in clinical writing: gluteus maximus, gluteus medius, and in EMG work the medial head of gastrocnemius. The project's own abbreviation table (data/anatomy/abbreviations.json) therefore uses GMax / GMed / GMin and never a bare GM; the search offers all three expansions and names each one."
+  },
+  {
+   "canon": "Gluteus medius",
+   "targets": [
+    "gluteus medius"
+   ],
+   "abbr": [
+    "GM",
+    "GMed"
+   ],
+   "syn": [
+    "musculus gluteus medius",
+    "glute med"
+   ],
+   "he": [
+    "שריר העכוז האמצעי"
+   ],
+   "src": "gray,ta,project",
+   "ambiguous": true
+  },
+  {
+   "canon": "Gluteus minimus",
+   "targets": [
+    "gluteus minimus"
+   ],
+   "abbr": [
+    "GMin"
+   ],
+   "syn": [
+    "musculus gluteus minimus"
+   ],
+   "he": [
+    "שריר העכוז הקטן"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Gastrocnemius",
+   "targets": [
+    "gastrocnemius"
+   ],
+   "abbr": [
+    "GM",
+    "GL"
+   ],
+   "syn": [
+    "musculus gastrocnemius",
+    "calf muscle",
+    "gastroc"
+   ],
+   "he": [
+    "שריר התאומים",
+    "גסטרוקנמיוס"
+   ],
+   "src": "gray,ta,project",
+   "ambiguous": true,
+   "note": "GM / GL for the medial and lateral heads is EMG usage; this project ships gastrocnemius as one mesh per side."
+  },
+  {
+   "canon": "Soleus",
+   "targets": [
+    "soleus"
+   ],
+   "abbr": [
+    "SOL"
+   ],
+   "syn": [
+    "musculus soleus"
+   ],
+   "he": [
+    "שריר הסולייה"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Calcaneal tendon",
+   "targets": [
+    "calcaneal tendon"
+   ],
+   "abbr": [],
+   "syn": [
+    "Achilles tendon",
+    "tendo calcaneus",
+    "tendo Achillis",
+    "heel cord"
+   ],
+   "he": [
+    "גיד אכילס",
+    "גיד העקב"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "eponym"
+  },
+  {
+   "canon": "Patella",
+   "targets": [
+    "patella",
+    "patella kneecap sesamoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "kneecap",
+    "knee cap",
+    "patellar sesamoid"
+   ],
+   "he": [
+    "פיקת הברך",
+    "פיקה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Patellar ligament",
+   "targets": [
+    "patellar ligament",
+    "patellar ligament patellar tendon"
+   ],
+   "abbr": [],
+   "syn": [
+    "patellar tendon",
+    "ligamentum patellae"
+   ],
+   "he": [
+    "גיד הפיקה",
+    "רצועת הפיקה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Clavicle",
+   "targets": [
+    "clavicle"
+   ],
+   "abbr": [],
+   "syn": [
+    "collarbone",
+    "collar bone",
+    "clavicula"
+   ],
+   "he": [
+    "עצם הבריח"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Tibia",
+   "targets": [
+    "tibia",
+    "tibia shin bone"
+   ],
+   "abbr": [],
+   "syn": [
+    "shin",
+    "shin bone",
+    "shinbone"
+   ],
+   "he": [
+    "עצם השוק",
+    "השוקה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Fibula",
+   "targets": [
+    "fibula"
+   ],
+   "abbr": [],
+   "syn": [
+    "calf bone",
+    "peroneal bone"
+   ],
+   "he": [
+    "השוקית"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Femur",
+   "targets": [
+    "femur",
+    "femur thigh bone"
+   ],
+   "abbr": [],
+   "syn": [
+    "thigh bone",
+    "thighbone",
+    "os femoris"
+   ],
+   "he": [
+    "עצם הירך"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Humerus",
+   "targets": [
+    "humerus"
+   ],
+   "abbr": [],
+   "syn": [
+    "upper arm bone"
+   ],
+   "he": [
+    "עצם הזרוע"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Radius",
+   "targets": [
+    "radius"
+   ],
+   "abbr": [],
+   "syn": [
+    "radial bone"
+   ],
+   "he": [
+    "עצם החישור",
+    "רדיוס"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Ulna",
+   "targets": [
+    "ulna"
+   ],
+   "abbr": [],
+   "syn": [
+    "ulnar bone"
+   ],
+   "he": [
+    "עצם הגומד",
+    "אולנה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Scapula",
+   "targets": [
+    "scapula"
+   ],
+   "abbr": [],
+   "syn": [
+    "shoulder blade",
+    "shoulderblade"
+   ],
+   "he": [
+    "עצם השכמה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Sternum",
+   "targets": [
+    "sternum"
+   ],
+   "abbr": [],
+   "syn": [
+    "breastbone",
+    "breast bone"
+   ],
+   "he": [
+    "עצם החזה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Calcaneus",
+   "targets": [
+    "calcaneus"
+   ],
+   "abbr": [],
+   "syn": [
+    "heel bone",
+    "os calcis"
+   ],
+   "he": [
+    "עצם העקב"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Sacrum",
+   "targets": [
+    "sacrum"
+   ],
+   "abbr": [],
+   "syn": [
+    "os sacrum"
+   ],
+   "he": [
+    "עצם העצה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Mandible",
+   "targets": [
+    "mandible"
+   ],
+   "abbr": [],
+   "syn": [
+    "lower jaw",
+    "jawbone",
+    "jaw bone"
+   ],
+   "he": [
+    "עצם הלסת התחתונה",
+    "לסת תחתונה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Hip bone",
+   "targets": [
+    "hip bone"
+   ],
+   "abbr": [],
+   "syn": [
+    "os coxae",
+    "innominate bone",
+    "pelvic bone"
+   ],
+   "he": [
+    "עצם האגן"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Biceps brachii",
+   "targets": [
+    "biceps brachii"
+   ],
+   "abbr": [
+    "BB"
+   ],
+   "syn": [
+    "musculus biceps brachii",
+    "biceps"
+   ],
+   "he": [
+    "שריר דו-ראשי זרועי",
+    "ביצפס"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Triceps brachii",
+   "targets": [
+    "triceps brachii"
+   ],
+   "abbr": [
+    "TB"
+   ],
+   "syn": [
+    "musculus triceps brachii",
+    "triceps"
+   ],
+   "he": [
+    "שריר תלת-ראשי זרועי",
+    "טרייספס"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Biceps femoris",
+   "targets": [
+    "biceps femoris"
+   ],
+   "abbr": [
+    "BF"
+   ],
+   "syn": [
+    "musculus biceps femoris"
+   ],
+   "he": [
+    "שריר דו-ראשי של הירך"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Semitendinosus",
+   "targets": [
+    "semitendinosus"
+   ],
+   "abbr": [
+    "ST"
+   ],
+   "syn": [
+    "musculus semitendinosus"
+   ],
+   "he": [
+    "חצי-גידי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Semimembranosus",
+   "targets": [
+    "semimembranosus"
+   ],
+   "abbr": [
+    "SM"
+   ],
+   "syn": [
+    "musculus semimembranosus"
+   ],
+   "he": [
+    "חצי-קרום"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Supraspinatus",
+   "targets": [
+    "supraspinatus"
+   ],
+   "abbr": [
+    "SSP"
+   ],
+   "syn": [
+    "musculus supraspinatus"
+   ],
+   "he": [
+    "השריר העל-קוצי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Infraspinatus",
+   "targets": [
+    "infraspinatus"
+   ],
+   "abbr": [
+    "ISP"
+   ],
+   "syn": [
+    "musculus infraspinatus"
+   ],
+   "he": [
+    "השריר התת-קוצי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Subscapularis",
+   "targets": [
+    "subscapularis"
+   ],
+   "abbr": [
+    "SSC"
+   ],
+   "syn": [
+    "musculus subscapularis"
+   ],
+   "he": [
+    "השריר תת-השכמה"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Teres minor",
+   "targets": [
+    "teres minor"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus teres minor"
+   ],
+   "he": [
+    "השריר העגול הקטן"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Teres major",
+   "targets": [
+    "teres major"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus teres major"
+   ],
+   "he": [
+    "השריר העגול הגדול"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Deltoid",
+   "targets": [
+    "deltoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus deltoideus",
+    "deltoideus"
+   ],
+   "he": [
+    "שריר הדלתא"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Trapezius",
+   "targets": [
+    "trapezius"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus trapezius",
+    "traps"
+   ],
+   "he": [
+    "שריר הטרפז"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Pectoralis major",
+   "targets": [
+    "pectoralis major"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus pectoralis major",
+    "pec major"
+   ],
+   "he": [
+    "שריר החזה הגדול"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Pectoralis minor",
+   "targets": [
+    "pectoralis minor"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus pectoralis minor",
+    "pec minor"
+   ],
+   "he": [
+    "שריר החזה הקטן"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Rectus abdominis",
+   "targets": [
+    "rectus abdominis"
+   ],
+   "abbr": [
+    "RA"
+   ],
+   "syn": [
+    "musculus rectus abdominis",
+    "six pack muscle"
+   ],
+   "he": [
+    "שריר הבטן הישר"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "External oblique",
+   "targets": [
+    "external oblique"
+   ],
+   "abbr": [
+    "EO"
+   ],
+   "syn": [
+    "musculus obliquus externus abdominis",
+    "obliquus externus"
+   ],
+   "he": [
+    "שריר הבטן האלכסוני החיצוני"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Internal oblique",
+   "targets": [
+    "internal oblique"
+   ],
+   "abbr": [
+    "IO"
+   ],
+   "syn": [
+    "musculus obliquus internus abdominis",
+    "obliquus internus"
+   ],
+   "he": [
+    "שריר הבטן האלכסוני הפנימי"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Piriformis",
+   "targets": [
+    "piriformis"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus piriformis"
+   ],
+   "he": [
+    "שריר האגס"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Psoas major",
+   "targets": [
+    "psoas major"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus psoas major"
+   ],
+   "he": [
+    "השריר המותני הגדול"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Iliacus",
+   "targets": [
+    "iliacus"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus iliacus",
+    "iliopsoas"
+   ],
+   "he": [
+    "שריר הכסל"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Masseter",
+   "targets": [
+    "masseter"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus masseter"
+   ],
+   "he": [
+    "שריר הלעיסה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Temporalis",
+   "targets": [
+    "temporalis"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus temporalis",
+    "temporal muscle"
+   ],
+   "he": [
+    "השריר הרקתי"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Diaphragm",
+   "targets": [
+    "diaphragm"
+   ],
+   "abbr": [],
+   "syn": [
+    "diaphragma",
+    "thoracic diaphragm"
+   ],
+   "he": [
+    "סרעפת"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Heart",
+   "targets": [
+    "heart"
+   ],
+   "abbr": [],
+   "syn": [
+    "cor",
+    "myocardium"
+   ],
+   "he": [
+    "לב"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Liver",
+   "targets": [
+    "liver"
+   ],
+   "abbr": [],
+   "syn": [
+    "hepar"
+   ],
+   "he": [
+    "כבד"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Stomach",
+   "targets": [
+    "stomach"
+   ],
+   "abbr": [],
+   "syn": [
+    "gaster",
+    "ventriculus"
+   ],
+   "he": [
+    "קיבה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Spleen",
+   "targets": [
+    "spleen"
+   ],
+   "abbr": [],
+   "syn": [
+    "splen",
+    "lien"
+   ],
+   "he": [
+    "טחול"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Urinary bladder",
+   "targets": [
+    "urinary bladder",
+    "bladder"
+   ],
+   "abbr": [],
+   "syn": [
+    "vesica urinaria"
+   ],
+   "he": [
+    "שלפוחית השתן"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Prostate",
+   "targets": [
+    "prostate"
+   ],
+   "abbr": [],
+   "syn": [
+    "prostata",
+    "prostate gland"
+   ],
+   "he": [
+    "ערמונית"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Uterus",
+   "targets": [
+    "uterus"
+   ],
+   "abbr": [],
+   "syn": [
+    "womb"
+   ],
+   "he": [
+    "רחם"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Thyroid cartilage",
+   "targets": [
+    "thyroid cartilage"
+   ],
+   "abbr": [],
+   "syn": [
+    "Adam's apple",
+    "cartilago thyroidea",
+    "laryngeal prominence"
+   ],
+   "he": [
+    "סחוס התריס",
+    "תפוח אדם"
+   ],
+   "src": "gray,ta",
+   "note": "The thyroid GLAND is not a mesh on any of the six pages (the neck ships the parathyroid glands, the thyroid arteries and the laryngeal cartilages); only the thyroid cartilage is, so that is what this entry names."
+  },
+  {
+   "canon": "Spinal cord",
+   "targets": [
+    "spinal cord",
+    "white matter of spinal cord",
+    "anterior horn of spinal cord",
+    "posterior horn of spinal cord",
+    "grey matter of spinal cord"
+   ],
+   "abbr": [],
+   "syn": [
+    "medulla spinalis"
+   ],
+   "he": [
+    "חוט השדרה"
+   ],
+   "src": "gray,ta",
+   "note": "No page ships the spinal cord as ONE mesh. The Z pages ship its white matter and its anterior and posterior horns separately, and those are what this entry resolves to; the two Imaging pages have no spinal-cord label at all (neither her CT nor his cryosection set was segmented for it)."
+  },
+  {
+   "canon": "Sciatic nerve",
+   "targets": [
+    "sciatic nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "nervus ischiadicus",
+    "ischiadic nerve"
+   ],
+   "he": [
+    "עצב השת",
+    "העצב הסיאטי"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Median nerve",
+   "targets": [
+    "median nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "nervus medianus"
+   ],
+   "he": [
+    "העצב האמצעי",
+    "העצב המדיאני"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Ulnar nerve",
+   "targets": [
+    "ulnar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "nervus ulnaris"
+   ],
+   "he": [
+    "העצב הגומדי",
+    "העצב האולנרי"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Radial nerve",
+   "targets": [
+    "radial nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "nervus radialis"
+   ],
+   "he": [
+    "העצב החישורי",
+    "העצב הרדיאלי"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Femoral nerve",
+   "targets": [
+    "femoral nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "nervus femoralis"
+   ],
+   "he": [
+    "העצב הפמורלי",
+    "עצב הירך"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Tibial nerve",
+   "targets": [
+    "tibial nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "nervus tibialis"
+   ],
+   "he": [
+    "העצב הטיביאלי"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Common fibular nerve",
+   "targets": [
+    "common fibular nerve",
+    "common peroneal nerve"
+   ],
+   "abbr": [
+    "CPN"
+   ],
+   "syn": [
+    "nervus fibularis communis",
+    "common peroneal nerve",
+    "peroneal nerve"
+   ],
+   "he": [
+    "העצב הפיבולרי המשותף",
+    "העצב הפרונאלי"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Lateral femoral cutaneous nerve",
+   "targets": [
+    "lateral femoral cutaneous nerve",
+    "lateral cutaneous nerve of thigh"
+   ],
+   "abbr": [
+    "LFCN"
+   ],
+   "syn": [
+    "nervus cutaneus femoris lateralis"
+   ],
+   "he": [
+    "העצב העורי הצידי של הירך"
+   ],
+   "src": "gray,project"
+  },
+  {
+   "canon": "Aorta",
+   "targets": [
+    "aorta",
+    "thoracic aorta",
+    "abdominal aorta"
+   ],
+   "abbr": [],
+   "syn": [
+    "aorta thoracica",
+    "aorta abdominalis"
+   ],
+   "he": [
+    "אבי העורקים",
+    "אורטה"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Common carotid artery",
+   "targets": [
+    "common carotid artery",
+    "left common carotid artery",
+    "right common carotid artery"
+   ],
+   "abbr": [
+    "CCA"
+   ],
+   "syn": [
+    "arteria carotis communis",
+    "carotid"
+   ],
+   "he": [
+    "עורק הצוואר המשותף",
+    "קרוטיד"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Femoral artery",
+   "targets": [
+    "femoral artery"
+   ],
+   "abbr": [],
+   "syn": [
+    "arteria femoralis"
+   ],
+   "he": [
+    "עורק הירך"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Inferior vena cava",
+   "targets": [
+    "inferior vena cava"
+   ],
+   "abbr": [
+    "IVC"
+   ],
+   "syn": [
+    "vena cava inferior"
+   ],
+   "he": [
+    "הוריד הריק התחתון"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Superior vena cava",
+   "targets": [
+    "superior vena cava"
+   ],
+   "abbr": [
+    "SVC"
+   ],
+   "syn": [
+    "vena cava superior"
+   ],
+   "he": [
+    "הוריד הריק העליון"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Great saphenous vein",
+   "targets": [
+    "great saphenous vein"
+   ],
+   "abbr": [
+    "GSV"
+   ],
+   "syn": [
+    "vena saphena magna",
+    "long saphenous vein"
+   ],
+   "he": [
+    "הוריד הספני הגדול"
+   ],
+   "src": "gray,ta,project"
+  },
+  {
+   "canon": "Articular disc of temporomandibular joint",
+   "targets": [
+    "articular disc of temporomandibular joint"
+   ],
+   "abbr": [
+    "TMJ"
+   ],
+   "syn": [
+    "temporomandibular joint disc",
+    "TMJ disc",
+    "jaw joint disc"
+   ],
+   "he": [
+    "דיסקית מפרק הלסת",
+    "מפרק הלסת"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Articular capsule of temporomandibular joint",
+   "targets": [
+    "articular capsule of temporomandibular joint"
+   ],
+   "abbr": [
+    "TMJ"
+   ],
+   "syn": [
+    "temporomandibular joint capsule",
+    "jaw joint capsule"
+   ],
+   "he": [
+    "קופסית מפרק הלסת"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Anterior sacro-iliac ligament",
+   "targets": [
+    "anterior sacro iliac ligament",
+    "anterior sacroiliac ligament"
+   ],
+   "abbr": [
+    "SIJ"
+   ],
+   "syn": [
+    "anterior sacroiliac ligament",
+    "ligamentum sacroiliacum anterius",
+    "SI joint"
+   ],
+   "he": [
+    "הרצועה הקדמית של מפרק העצה-כסל",
+    "מפרק סקרואיליאק"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Posterior sacro-iliac ligament",
+   "targets": [
+    "posterior sacro iliac ligament",
+    "posterior sacroiliac ligament"
+   ],
+   "abbr": [
+    "SIJ"
+   ],
+   "syn": [
+    "posterior sacroiliac ligament",
+    "ligamentum sacroiliacum posterius",
+    "SI joint"
+   ],
+   "he": [
+    "הרצועה האחורית של מפרק העצה-כסל"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Interosseous sacro-iliac ligament",
+   "targets": [
+    "interosseous sacro iliac ligament",
+    "interosseous sacroiliac ligament"
+   ],
+   "abbr": [
+    "SIJ"
+   ],
+   "syn": [
+    "interosseous sacroiliac ligament",
+    "SI joint"
+   ],
+   "he": [
+    "הרצועה הבין-עצמית של מפרק העצה-כסל"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Infrapatellar fat pad",
+   "targets": [
+    "infrapatellar fat pad"
+   ],
+   "abbr": [],
+   "syn": [
+    "Hoffa fat pad",
+    "Hoffa's fat pad",
+    "anterior knee fat pad",
+    "corpus adiposum infrapatellare"
+   ],
+   "he": [
+    "כרית השומן שמתחת לפיקה"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "eponym",
+   "note": "Named for Albert Hoffa (Hoffa's disease / Hoffa's fat pad impingement). The mesh on these pages is the infrapatellar fat pad; the eponym is listed because clinicians type it."
+  },
+  {
+   "canon": "Suspensory ligaments of the breast",
+   "targets": [
+    "suspensory ligaments of the breast"
+   ],
+   "abbr": [],
+   "syn": [
+    "Cooper's ligaments",
+    "Cooper ligaments",
+    "ligamenta suspensoria mammaria",
+    "retinacula cutis of the breast"
+   ],
+   "he": [
+    "רצועות התליה של השד",
+    "רצועות קופר"
+   ],
+   "src": "gray,ta,project",
+   "kind_hint": "eponym",
+   "note": "Astley Cooper. The project also cites a SECOND Cooper eponym -- the pectineal ligament (Cooper) -- which data/derived/Q248_ligament_audit.md records as having no source and which is therefore NOT a mesh on any page; the search says so rather than silently returning the breast ligaments only.",
+   "ambiguous": true
+  },
+  {
+   "canon": "Breast",
+   "targets": [
+    "breast",
+    "breast fat pad"
+   ],
+   "abbr": [],
+   "syn": [
+    "mamma",
+    "mammary gland"
+   ],
+   "he": [
+    "שד"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Posterior segment of liver (I)",
+   "targets": [
+    "posterior segment of liver i"
+   ],
+   "abbr": [],
+   "syn": [
+    "Couinaud segment I",
+    "caudate lobe segment",
+    "segment 1 of the liver"
+   ],
+   "he": [
+    "מקטע 1 של הכבד"
+   ],
+   "src": "couinaud",
+   "kind_hint": "eponym"
+  },
+  {
+   "canon": "Pectineus",
+   "targets": [
+    "pectineus"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus pectineus"
+   ],
+   "he": [
+    "שריר המסרק"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Gracilis",
+   "targets": [
+    "gracilis"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus gracilis"
+   ],
+   "he": [
+    "השריר הדקיק"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Adductor magnus",
+   "targets": [
+    "adductor magnus"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus adductor magnus"
+   ],
+   "he": [
+    "מקרב הירך הגדול"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Sartorius",
+   "targets": [
+    "sartorius"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus sartorius",
+    "tailor's muscle"
+   ],
+   "he": [
+    "שריר החייט"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Popliteus",
+   "targets": [
+    "popliteus"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculus popliteus"
+   ],
+   "he": [
+    "שריר הפופליטאוס"
+   ],
+   "src": "gray,ta"
+  },
+  {
+   "canon": "Plantar aponeurosis",
+   "targets": [
+    "plantar aponeurosis"
+   ],
+   "abbr": [
+    "PF"
+   ],
+   "syn": [
+    "plantar fascia",
+    "aponeurosis plantaris"
+   ],
+   "he": [
+    "הפאסציה הפלנטרית",
+    "פאסציה של כף הרגל"
+   ],
+   "src": "gray,ta,stecco"
+  },
+  {
+   "canon": "Thoracolumbar fascia, posterior layer",
+   "targets": [
+    "thoracolumbar fascia posterior layer",
+    "posterior layer of thoracolumbar fascia"
+   ],
+   "abbr": [
+    "TLF"
+   ],
+   "syn": [
+    "fascia thoracolumbalis",
+    "lumbodorsal fascia"
+   ],
+   "he": [
+    "הפאסציה התורקו-לומברית"
+   ],
+   "src": "stecco,gray"
+  },
+  {
+   "canon": "Flexor retinaculum of the hand",
+   "targets": [
+    "flexor retinaculum of the hand",
+    "flexor retinaculum"
+   ],
+   "abbr": [
+    "TCL"
+   ],
+   "syn": [
+    "transverse carpal ligament",
+    "retinaculum musculorum flexorum manus",
+    "carpal tunnel roof"
+   ],
+   "he": [
+    "הרצועה הרוחבית של שורש הכף",
+    "גג תעלת שורש הכף"
+   ],
+   "src": "gray,ta"
+  }
+ ],
+ "cn": {
+  "doc": "The twelve cranial nerves. CN I-XII, the roman numeral alone, the arabic numeral, the name, the Latin and the Hebrew all resolve to the page's own nerve meshes. `re` is matched against the normalised page name, so the left / right copies and the (CN n) suffix the page names carry are all picked up.",
+  "src": "gray,ta",
+  "rows": [
+   {
+    "n": 1,
+    "canon": "Olfactory nerve",
+    "re": "^olfactory nerve\\b",
+    "syn": [
+     "nervus olfactorius"
+    ],
+    "he": [
+     "עצב הריח"
+    ]
+   },
+   {
+    "n": 2,
+    "canon": "Optic nerve",
+    "re": "^optic nerve\\b",
+    "syn": [
+     "nervus opticus"
+    ],
+    "he": [
+     "עצב הראייה"
+    ]
+   },
+   {
+    "n": 3,
+    "canon": "Oculomotor nerve",
+    "re": "^oculomotor nerve\\b",
+    "syn": [
+     "nervus oculomotorius"
+    ],
+    "he": [
+     "העצב מניע העין"
+    ]
+   },
+   {
+    "n": 4,
+    "canon": "Trochlear nerve",
+    "re": "^trochlear nerve\\b",
+    "syn": [
+     "nervus trochlearis"
+    ],
+    "he": [
+     "העצב הגלגלי"
+    ]
+   },
+   {
+    "n": 5,
+    "canon": "Trigeminal nerve",
+    "re": "^trigeminal nerve\\b",
+    "syn": [
+     "nervus trigeminus"
+    ],
+    "he": [
+     "העצב התלת-ראשי"
+    ]
+   },
+   {
+    "n": 6,
+    "canon": "Abducens nerve",
+    "re": "^abducens nerve\\b",
+    "syn": [
+     "nervus abducens"
+    ],
+    "he": [
+     "העצב המרחיק"
+    ]
+   },
+   {
+    "n": 7,
+    "canon": "Facial nerve",
+    "re": "^facial nerve\\b",
+    "syn": [
+     "nervus facialis"
+    ],
+    "he": [
+     "עצב הפנים"
+    ]
+   },
+   {
+    "n": 8,
+    "canon": "Vestibulocochlear nerve",
+    "re": "^vestibulocochlear nerve\\b",
+    "syn": [
+     "nervus vestibulocochlearis",
+     "acoustic nerve"
+    ],
+    "he": [
+     "העצב השיווי-שמיעתי"
+    ]
+   },
+   {
+    "n": 9,
+    "canon": "Glossopharyngeal nerve",
+    "re": "^glossopharyngeal n",
+    "syn": [
+     "nervus glossopharyngeus"
+    ],
+    "he": [
+     "העצב הלשוני-לעיעי"
+    ]
+   },
+   {
+    "n": 10,
+    "canon": "Vagus nerve",
+    "re": "^vagus n",
+    "syn": [
+     "nervus vagus"
+    ],
+    "he": [
+     "העצב התוגה",
+     "וגוס"
+    ]
+   },
+   {
+    "n": 11,
+    "canon": "Accessory nerve",
+    "re": "^accessory nerve\\b",
+    "syn": [
+     "nervus accessorius",
+     "spinal accessory nerve"
+    ],
+    "he": [
+     "העצב המסייע"
+    ]
+   },
+   {
+    "n": 12,
+    "canon": "Hypoglossal nerve",
+    "re": "^hypoglossal n",
+    "syn": [
+     "nervus hypoglossus"
+    ],
+    "he": [
+     "העצב תת-הלשוני"
+    ]
+   }
+  ]
+ },
+ "families": [
+  {
+   "canon": "Couinaud liver segments",
+   "re": "segment of liver",
+   "abbr": [],
+   "syn": [
+    "Couinaud segments",
+    "Couinaud",
+    "liver segments",
+    "hepatic segments"
+   ],
+   "he": [
+    "מקטעי הכבד",
+    "מקטעי קוינו"
+   ],
+   "src": "couinaud",
+   "kind_hint": "eponym",
+   "group_like": true,
+   "note": "Claude Couinaud 1957. The Z pages ship all eight segments as separate named meshes; the two Imaging pages ship the liver as one mesh and have no segments."
+  }
+ ],
+ "groups": [
+  {
+   "group": "hamstrings",
+   "abbr": [],
+   "syn": [
+    "hamstring",
+    "hamstring group",
+    "ischiocrural muscles",
+    "musculi ischiocrurales",
+    "posterior thigh group"
+   ],
+   "he": [
+    "שרירי הירך האחוריים",
+    "המסטרינגס"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "quadriceps_femoris",
+   "abbr": [
+    "Quads"
+   ],
+   "syn": [
+    "quadriceps",
+    "quads",
+    "quadriceps femoris",
+    "musculus quadriceps femoris",
+    "anterior thigh group"
+   ],
+   "he": [
+    "ארבע ראשי הירך",
+    "קוודריצפס"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "rotator_cuff",
+   "abbr": [
+    "RC",
+    "SITS"
+   ],
+   "syn": [
+    "rotator cuff",
+    "cuff",
+    "SITS muscles"
+   ],
+   "he": [
+    "שרוול המסובבים",
+    "חפת המסובבים"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "triceps_surae",
+   "abbr": [],
+   "syn": [
+    "triceps surae",
+    "calf",
+    "calf muscles",
+    "musculus triceps surae"
+   ],
+   "he": [
+    "שרירי השוק האחוריים",
+    "תאומי השוק"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "hip_adductors",
+   "abbr": [],
+   "syn": [
+    "adductors",
+    "adductor group",
+    "groin muscles",
+    "medial thigh group"
+   ],
+   "he": [
+    "מקרבי הירך",
+    "שרירי המפשעה"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "gluteal",
+   "abbr": [],
+   "syn": [
+    "glutes",
+    "gluteal group",
+    "gluteals",
+    "buttock muscles"
+   ],
+   "he": [
+    "שרירי העכוז"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "deep_gluteal",
+   "abbr": [],
+   "syn": [
+    "deep gluteal group",
+    "short lateral rotators",
+    "deep hip rotators"
+   ],
+   "he": [
+    "מסובבי הירך העמוקים"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "leg_anterior",
+   "abbr": [],
+   "syn": [
+    "anterior compartment of the leg",
+    "dorsiflexors",
+    "shin muscles"
+   ],
+   "he": [
+    "המדור הקדמי של השוק"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "leg_lateral",
+   "abbr": [],
+   "syn": [
+    "lateral compartment of the leg",
+    "peroneals",
+    "fibularis muscles",
+    "peroneus muscles"
+   ],
+   "he": [
+    "המדור הצידי של השוק",
+    "פרונאלים"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "thenar",
+   "abbr": [],
+   "syn": [
+    "thenar muscles",
+    "thenar eminence",
+    "thumb muscles"
+   ],
+   "he": [
+    "שרירי התנר",
+    "שרירי בליטת האגודל"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "hypothenar",
+   "abbr": [],
+   "syn": [
+    "hypothenar muscles",
+    "hypothenar eminence"
+   ],
+   "he": [
+    "שרירי ההיפותנר"
+   ],
+   "src": "gray",
+   "member_targets": {
+    "abductor_digiti_minimi_hand": [
+     "abductor digiti minimi hand",
+     "abductor digiti minimi"
+    ],
+    "flexor_digiti_minimi_brevis_hand": [
+     "flexor digiti minimi brevis hand",
+     "flexor digiti minimi brevis"
+    ]
+   }
+  },
+  {
+   "group": "erector_spinae",
+   "abbr": [
+    "ES"
+   ],
+   "syn": [
+    "erector spinae",
+    "paraspinals",
+    "musculus erector spinae",
+    "back extensors"
+   ],
+   "he": [
+    "זקף השדרה",
+    "שרירי הפארה-ספינלים"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "anterolateral_abdominal_wall",
+   "abbr": [],
+   "syn": [
+    "abdominal wall",
+    "abdominals",
+    "abs",
+    "core muscles"
+   ],
+   "he": [
+    "שרירי דופן הבטן"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "scalenes",
+   "abbr": [],
+   "syn": [
+    "scalenes",
+    "scalene muscles",
+    "musculi scaleni"
+   ],
+   "he": [
+    "שרירי הסקלנוס"
+   ],
+   "src": "gray",
+   "member_targets": {
+    "scalenus_anterior": [
+     "anterior scalene",
+     "scalenus anterior"
+    ],
+    "scalenus_medius": [
+     "middle scalene",
+     "scalenus medius"
+    ],
+    "scalenus_posterior": [
+     "posterior scalene",
+     "scalenus posterior"
+    ]
+   }
+  },
+  {
+   "group": "suboccipital",
+   "abbr": [],
+   "syn": [
+    "suboccipital muscles",
+    "suboccipitals"
+   ],
+   "he": [
+    "השרירים תת-העורפיים"
+   ],
+   "src": "gray",
+   "member_targets": {
+    "obliquus_capitis_superior": [
+     "obliquus capitis superior",
+     "superior oblique capitis"
+    ],
+    "obliquus_capitis_inferior": [
+     "obliquus capitis inferior",
+     "inferior oblique capitis"
+    ]
+   }
+  },
+  {
+   "group": "infrahyoid",
+   "abbr": [],
+   "syn": [
+    "infrahyoid muscles",
+    "strap muscles"
+   ],
+   "he": [
+    "השרירים תת-הלשוניים"
+   ],
+   "src": "gray"
+  },
+  {
+   "group": "suprahyoid",
+   "abbr": [],
+   "syn": [
+    "suprahyoid muscles"
+   ],
+   "he": [
+    "השרירים על-הלשוניים"
+   ],
+   "src": "gray"
+  }
+ ],
+ "cited_but_not_shipped": [
+  {
+   "name": "Colles' fascia",
+   "canon": "Superficial perineal fascia (membranous layer)",
+   "syn": [
+    "Colles fascia",
+    "superficial perineal fascia",
+    "membranous layer of superficial perineal fascia"
+   ],
+   "he": [
+    "הפאסציה השטחית של הפרינאום"
+   ],
+   "src": "project,martin1984",
+   "why": "This project cites it -- data/anatomy/structure_parts.json carries the `colles_fascia` part set and its pockets, from Martin BF, J Anat 1984 -- but no page ships a Colles' fascia MESH. Q297 removed the one generated perineal surface and left the region open; no source this project holds contains female perineal fascia."
+  },
+  {
+   "name": "Scarpa's fascia",
+   "canon": "Membranous layer of the subcutaneous tissue of the abdomen",
+   "syn": [
+    "Scarpa fascia",
+    "membranous layer of subcutaneous abdominal tissue",
+    "fascia of Scarpa"
+   ],
+   "he": [
+    "הפאסציה של סקרפה"
+   ],
+   "src": "project,martin1984",
+   "why": "Cited by data/anatomy/structure_parts.json (the Scarpa sac and its three pockets, Martin BF, J Anat 1984). No page ships it as a mesh: the abdominal wall on these pages carries `Investing abdominal fascia` and the subcutaneous fat, not a separate membranous layer."
+  },
+  {
+   "name": "Gerdy's tubercle",
+   "canon": "Iliotibial tract (its distal attachment)",
+   "syn": [
+    "Gerdy tubercle",
+    "anterolateral tibial tubercle"
+   ],
+   "he": [
+    "גבשושית גרדי"
+   ],
+   "src": "project,gray",
+   "why": "A bone LANDMARK, not a structure: this project cites it as the distal attachment of the iliotibial tract (data/anatomy/structure_parts.json, 'via iliotibial tract to Gerdy's tubercle'). No page ships a mesh for a tubercle, so the search offers the iliotibial tract and the tibia and says which one carries the landmark."
+  },
+  {
+   "name": "Pectineal ligament (Cooper)",
+   "canon": "Pectineal ligament",
+   "syn": [
+    "Cooper's ligament of the pelvis",
+    "ligamentum pectineale",
+    "iliopectineal ligament"
+   ],
+   "he": [
+    "רצועת קופר של האגן"
+   ],
+   "src": "project",
+   "why": "data/derived/Q248_ligament_audit.md lists it on all six pages' MISSING list with 'no source'; it is not shipped. The other Cooper eponym -- the suspensory ligaments of the breast -- IS shipped on the three female pages."
+  }
+ ],
+ "group_member_targets_doc": "Some named groups' member base ids in data/anatomy/muscle_groups_q283.json are not the display names the pages use (the pages say 'Anterior scalene', the group data says `scalenus_anterior`). `member_targets` gives the page display names for those members, so the group resolves by the same explicit rules as everything else and nothing is guessed."
+}
