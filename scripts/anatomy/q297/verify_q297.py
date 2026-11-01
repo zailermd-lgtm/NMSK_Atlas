@@ -42,22 +42,28 @@ def ids_on_page(pg, kind):
 
 
 def open_card(pg, name, phone):
-    """the real UI: type into the structure search, then click / tap the row."""
-    for _ in range(5):
-        if pg.is_visible("#search"):
+    """the real UI: type into the structure search, then click / tap the row.
+    The two engines name the box differently: the Z pages use #search, the own pages #q."""
+    box = None
+    for _ in range(6):
+        for sel in ("#search", "#q"):
+            if pg.is_visible(sel):
+                box = sel; break
+        if box:
             break
-        for s in ("#btn-panel", "#m-list", "#t-lay3"):
+        for s in ("#btn-panel", "#m-list", "#t-lay3", "#insp-min"):
             if pg.is_visible(s):
                 tap(pg, s, phone); break
         pg.wait_for_timeout(400)
-    if not pg.is_visible("#search"):
+    if not box:
         return None
-    pg.fill("#search", name); pg.wait_for_timeout(600)
-    idx = pg.evaluate("(n) => Array.from(document.querySelectorAll('#list button.item, #list button.row, .row'))"
-                      ".findIndex(b => b.innerText.toLowerCase().indexOf(n.toLowerCase()) >= 0)", name)
+    pg.fill(box, name); pg.wait_for_timeout(600)
+    SEL = "#list button.item, #list .row, #list button"
+    idx = pg.evaluate("([s, n]) => Array.from(document.querySelectorAll(s))"
+                      ".findIndex(b => b.innerText.toLowerCase().indexOf(n.toLowerCase()) >= 0)", [SEL, name])
     if idx < 0:
         return None
-    tap(pg, f"#list button.item, #list button.row, .row >> nth={idx}", phone)
+    tap(pg, f"{SEL} >> nth={idx}", phone)
     pg.wait_for_timeout(700)
     for _ in range(2):
         if not pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
@@ -68,11 +74,12 @@ def open_card(pg, name, phone):
                 tap(pg, s, phone); break
         pg.wait_for_timeout(400)
     return pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
-                       " return e ? e.innerText : ''; }")
+                       " if (!e) return ''; const s = document.getElementById('i-src');"
+                       " return (s && !s.hidden ? s.textContent + '\\n' : '') + e.innerText; }")
 
 
 def close_card(pg, phone):
-    for s in ("#ic", "#insp-close"):
+    for s in ("#ic", "#insp-close", ".info-close"):
         if pg.is_visible(s):
             tap(pg, s, phone); pg.wait_for_timeout(300); return
 
@@ -120,13 +127,18 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None):
                     close_card(pg, phone)
                 # --- C: the Imaging pages' rule-built plexus is no longer called measured
                 if kind == "own":
-                    txt = open_card(pg, "Brachial plexus", phone)
+                    # these structures carry no display name of their own, so the list row shows the raw id
+                    txt = open_card(pg, "brachial_root_c5_l", phone)
                     if txt is None:
-                        txt = open_card(pg, "C5 root", phone)
+                        txt = open_card(pg, "brachial_cord_lateral_l", phone)
                     ok = bool(txt) and "Rule-based on this body" in txt
                     check(f"{T}: C the rule-built brachial plexus card prints the RULE-BASED source line ({(txt or '')[:70]!r})", ok, errs)
-                    check(f"{T}: C it no longer prints 'Measured on this body'",
-                          bool(txt) and "Measured on this body" not in txt, errs)
+                    # the one-line SOURCE CLASS statement itself, not the whole card: the subject description below it
+                    # quotes the old wrong wording on purpose, to record what Q297 fixed
+                    srcline = pg.evaluate("() => { const e = document.getElementById('i-src');"
+                                          " return e && !e.hidden ? e.textContent : ''; }")
+                    check(f"{T}: C the source line no longer says 'Measured on this body' ({srcline[:60]!r})",
+                          bool(srcline) and "Measured on this body" not in srcline, errs)
                     close_card(pg, phone)
                 # --- D: the fingertip measurement is on the distal phalanx card
                 if kind == "zan":
