@@ -63,6 +63,26 @@ def tri_samples(v, f, per_mm2=1.0, rng=None, cap=None):
     return np.vstack([v, pts])
 
 
+class BoneBox:
+    """one bone, voxelised and solidified inside its own padded bounding box"""
+
+    def __init__(self, x, vox, per_mm2, rng):
+        self.id = x["id"]
+        self.pts = tri_samples(x["v"], x["f"], per_mm2, rng)
+        self.g = Grid(self.pts.min(0), self.pts.max(0), vox)
+        m = solidify(self.g.stamp(self.pts), self.g, 2)
+        self.m = ndimage.binary_erosion(m, ndimage.generate_binary_structure(3, 1), 1)
+        self.lo = self.pts.min(0) - vox
+        self.hi = self.pts.max(0) + vox
+
+    def inside(self, P):
+        ok = ((P > self.lo) & (P < self.hi)).all(1)
+        out = np.zeros(len(P), bool)
+        if ok.any():
+            out[ok] = self.g.inside(self.m, P[ok])
+        return out
+
+
 class Grid:
     def __init__(self, lo, hi, vox):
         self.vox = float(vox)
@@ -134,8 +154,12 @@ def build(key, vox=2.0, per_mm2=1.0, close_mm=8.0):
     body = solidify(g.stamp(sk_pts), g, rad)
     st = cKDTree(sk_pts)
     eb = band(body, g, st, rng)
-    bn_pts = np.vstack([tri_samples(x["v"], x["f"], per_mm2, rng) for x in bone]) if bone else np.zeros((0, 3))
-    bones = ndimage.binary_erosion(solidify(g.stamp(bn_pts), g, 2), ndimage.generate_binary_structure(3, 1), 1) if len(bn_pts) else np.zeros(g.shape, bool)
+    # The bone test is done PER BONE on its own local grid, never on one global bone mask: a global mask closes the
+    # bony rings (the thoracic cage, the pelvis) and its hole fill then swallows the mediastinum and the pelvic cavity,
+    # which made a first run call 53 % of the abdominal aorta "inside a bone". Each bone is solidified inside its own
+    # padded bounding box and eroded by one voxel so surface contact is not a hit.
+    bones = [BoneBox(x, vox, per_mm2, rng) for x in bone]
+    bn_pts = np.vstack([b.pts for b in bones]) if bones else np.zeros((0, 3))
     return dict(key=key, S=S, g=g, body=body, bones=bones, skin_tree=st, bone_tree=cKDTree(bn_pts) if len(bn_pts) else None,
                 close_mm=close_mm, error_band=eb,
                 n_skin=len(skin), n_outer=len(outer), n_bone=len(bone), skin_pts=len(sk_pts),
@@ -202,11 +226,20 @@ def audit(B, tol_mm=5.0, cap=20000):
             j = int(np.argmax(d)); rec["out_worst_xyz"] = np.round(Q[j], 1).tolist()
             rec["out_beyond_tol_n"] = int((d > tol_mm).sum())
         if x["sys"] != "bone" and bt is not None:
-            pen = g.inside(bones, P)
+            pen = np.zeros(len(P), bool)
+            which = []
+            lo, hi = P.min(0), P.max(0)
+            for b in bones:
+                if (b.hi < lo).any() or (b.lo > hi).any():
+                    continue
+                h = b.inside(P)
+                if h.any():
+                    pen |= h; which.append((b.id, int(h.sum())))
             if pen.any():
                 dd = bt.query(P[pen], workers=-1)[0]
                 rec["bone_in_n"] = int(pen.sum()); rec["bone_in_frac"] = round(float(pen.sum()) / len(P), 5)
                 rec["bone_depth_max_mm"] = round(float(dd.max()), 2)
+                rec["bones"] = sorted(which, key=lambda t: -t[1])[:4]
         out.append(rec)
     return out
 

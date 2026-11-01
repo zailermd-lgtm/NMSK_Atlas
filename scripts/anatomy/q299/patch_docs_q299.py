@@ -69,6 +69,20 @@ Imaging pages are not touched (their geometry comes from a builder whose matchin
 offenders are put to the owner instead. The HRA breast objects lose 16-38 % of their enclosed volume when pulled in,
 which is stated in full on each of their cards with the two alternatives.
 
+**Bone penetration, measured and not fixed.** The same round tested "intersects bone or passes through the wrong
+compartment". Each bone is solidified in its OWN padded bounding box and eroded by a voxel, never as one global bone
+mask: a global mask closes the bony rings and its hole fill swallows the mediastinum and the pelvic cavity, which made a
+first run call 53 % of Imaging M's `abdominal_aorta` "inside a bone" -- it disappears entirely with per-bone masks.
+Result: 51-126 structures per page have vertices deeper than 5 mm inside a bone, nearly all of it Z-Anatomy's own mesh
+overlap (muscle origins wrapping bone, psoas on the lumbar bodies) plus fit residual; **1-10 per page lie MOSTLY inside
+a bone**, and those are listed in the report. The worst are `zan_calcaneal_branches_of_fibular_artery_{l,r}` at 84-100 %
+inside the calcaneus on all four Z pages, `zan_posterior_circumflex_humeral_artery/vein_{l,r}` at 67-80 % inside the
+humerus, and `zan_internal_thoracic_veins_{l,r}` at 64-66 % inside the sternum on Combined F. Two of the deepest cases
+are anatomically CORRECT and are named as such: the hip articular cartilage lines the acetabulum and the triradiate
+cartilage is inside the hip bone, so a mask built from the bone surface legitimately encloses them. **Not fixed**: an
+artery that lies inside the heel bone is the source's geometry, not a residual of our fit, and there is no one justified
+direction to move 16 vessels and 9 bursae without re-deciding their course from a source. Put to the owner.
+
 **The pelvic measurements.** `scripts/anatomy/q299/pelvis299.py` -> `data/derived/Q299_pelvis.json`: 28 measures per
 page (classical pelvimetry, iliac-crest and ASIS breadth, pelvic height, bi-acetabular distance, acetabular version and
 inclination in the page's own anterior pelvic plane, sacral breadth / length / curvature, the pubic symphysis, the
@@ -105,10 +119,10 @@ drawn in a cut. The mechanism defect that *was* found, and fixed, is in `viewer/
 
 OPEN_NEW = """
 
-## Q299 (1 Nov 2026) -- ארבע החלטות בשבילך
+## Q299 (1 Nov 2026) -- חמש החלטות בשבילך
 
 הסבב הזה מדד את האגן הנשי, מצא את כלי הדם שיוצאים מחוץ לגוף ותיקן אותם, ותיקן את מנגנון החתך. הפירוט המלא:
-`docs/research/Q299_pelvis_containment_crosssection.md`. ארבעה דברים לא נעשו בכוונה, כי הם דורשים החלטה שלך.
+`docs/research/Q299_pelvis_containment_crosssection.md`. חמישה דברים לא נעשו בכוונה, כי הם דורשים החלטה שלך.
 
 1. **עצבי הגפה התחתונה חסרים בעמודי ה‑Imaging — זו הסיבה שלא ראית את ה‑peroneal nerve.** בעמוד
    Imaging‑based · Male יש 12 עצבי גפה תחתונה; בעמוד Combined · Male יש 81. 69 חסרים, וביניהם **כל מערכת ה‑fibular
@@ -131,7 +145,17 @@ OPEN_NEW = """
    התלייה ×0.789 / ×0.798 — הכול כתוב על הכרטיסים. **שתי אלטרנטיבות עדיפות:** (א) להריץ מחדש את הרמת עור החזה של
    Q250 כך שתכסה אותם; (ב) להוריד את אובייקטי ה‑HRA ולהשאיר רק את תווית ה‑CT שלה עצמה (`breast_ct_{l,r}`, שנמצאת
    בתוך הגוף ואינה בולטת בכלל). **מה עדיף לך?**
-4. **חמש חריגות בעמודי ה‑Imaging שלא נגעתי בהן.** `phalanges_hand_l` ב‑Imaging F בולט 16.4 מ"מ (תווית ה‑CT שלה
+4. **16 כלי דם ו‑9 בורסות יושבים בתוך עצם.** המדידה (מסכת עצם נפרדת לכל עצם): `zan_calcaneal_branches_of_fibular_artery_{l,r}`
+   נמצאים **84–100 % בתוך עצם העקב בכל ארבעת עמודי ה‑Z**; `zan_posterior_circumflex_humeral_artery/vein_{l,r}`
+   67–80 % בתוך ה‑humerus; `zan_internal_thoracic_veins_{l,r}` 64–66 % בתוך ה‑sternum ב‑Combined F; וכן
+   `zan_subtendinous_bursa_of_teres_major_muscle`, `zan_subtendinous_bursa_of_iliacus_muscle`,
+   `zan_plantar_tendon_sheath_of_fibularis_longus_muscle` ו‑`zan_lateral_talocalcaneal_ligament`. זו הגיאומטריה של
+   Z‑Anatomy עצמה, לא שארית של התאמה שלנו, ולכן **לא נגעתי בה**: אין כיוון מוצדק אחד להזיז אליו עורק בלי להחליט
+   מחדש על מסלולו מתוך מקור. אפשר לדחוף כל קודקוד אל פני העצם הקרובים — זה היה מדביק את העורק על העצם, מה שנכון
+   לענף פריאוסטאלי אבל שגוי לכלי שעובר בתוך תעלה. **לדחוף אל פני העצם, להסתיר, או להשאיר ולרשום כמגבלה?**
+   (שני המקרים העמוקים ביותר ברשימה **נכונים** ואינם צריכים כלום: סחוס מפרקי מרפד את האצטבולום, וה‑triradiate
+   cartilage הוא לוחית הגדילה שבתוך עצם האגן.)
+5. **חמש חריגות בעמודי ה‑Imaging שלא נגעתי בהן.** `phalanges_hand_l` ב‑Imaging F בולט 16.4 מ"מ (תווית ה‑CT שלה
    ממזגת את כל האצבעות — Q297 כימת זאת); ב‑Imaging M `deltoid_r_zfill203` 10.5 מ"מ, `dorsal_n_penis_r` 8.7 מ"מ,
    `rectus_abdominis_r_zfill203s` 5.7 מ"מ ו‑`extensor_indicis_r` 5.4 מ"מ. העצם אינה מוזזת לפי מדיניות; שלושת
    האחרים הם חלקי מילוי שנוצרו לפי כלל (Q203) ועצב שנבנה לפי כלל (Q249), וכן ניתן להחזיר אותם פנימה — אבל רק אחרי

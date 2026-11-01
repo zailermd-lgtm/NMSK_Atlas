@@ -315,3 +315,21 @@ def test_the_pose_rig_took_fresh_weights_for_the_replaced_geometries(key):
     placed = {e[0] for e in R["skin"]} | {x for g in R["rigid"] for x in g[1]}
     assert ids <= placed, f"{key}: a replaced structure is in neither the skinned nor the rigid list"
     assert all(0 <= x < R["count"] for x in placed)
+
+
+def test_bone_penetration_is_measured_per_bone_and_its_known_cases_are_pinned(contain):
+    """The bone test must use PER-BONE masks: one global bone mask closes the thoracic cage and the pelvis and its hole
+    fill swallows the mediastinum, which called 53 % of Imaging M's abdominal aorta "inside a bone". With per-bone
+    masks the aorta is not in the list at all, and the structures that really do sit mostly inside a bone are few and
+    named."""
+    for k in KEYS:
+        rows = contain[k].get("bone_mostly_inside")
+        if rows is None:
+            pytest.skip("the per-bone audit has not been re-run")
+        assert len(rows) <= 12, f"{k}: {len(rows)} structures mostly inside a bone -- was 1-10 in Q299"
+        for r in rows:
+            assert r.get("bones"), f"{k}: {r['id']} does not name the bone it is inside"
+    assert not [r for r in contain["own_m"]["bone_mostly_inside"] if "aorta" in r["id"]], \
+        "the abdominal aorta is back in the list: the bone mask has gone global again"
+    heel = [r for r in contain["base_m"]["bone_mostly_inside"] if "calcaneal_branches_of_fibular_artery" in r["id"]]
+    assert heel, "the calcaneal branches of the fibular artery were the headline bone-penetration finding of Q299"
