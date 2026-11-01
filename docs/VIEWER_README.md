@@ -344,3 +344,27 @@ on a desktop and on a phone.
   registration target and nothing was added to them.
 - Licence, attributions and the full list of modifications: `third_party/openanatomy_spl/` (LICENSE, NOTICE, README.md).
 - Survey of all seven Open Anatomy atlases and why nothing else was imported: `docs/research/Q296_openanatomy_survey.md` (Hebrew).
+
+## Provenance audit of every shipped mesh (Q297)
+
+- Every one of the **15,155 meshes** on the six pages was classified: **(a) measured from that subject's own imaging 803 ·
+  (b) a real third-party mesh registered onto the page 12,899 · (c) rule-based with a citation 1,451 · (d) unaccounted 0**
+  (2 before this round). Script `scripts/anatomy/q297/audit297.py`, data `data/derived/Q297_provenance_audit.json`
+  (and `_before.json`), Hebrew report with the per-structure tables `docs/research/Q297_provenance_audit.md`.
+- **The female perineum is now shown open.** The patch that used to span it, `zan_skin_perineal_closure`, was geometry
+  this project generated (a smooth minimal surface over the rim loop left when Z-Anatomy's male-only urogenital skin was
+  removed for a female body) with no anatomical source — 8.33 cm³ on Base F, 16.43 cm³ on Combined F, and on Base F it
+  was drawn at page load. It was removed from both pages. No source we hold contains female perineal skin. The
+  perineal **muscles** and the **perineal body** are still there and are real (Chinese Visible Human, Wu et al. 2015).
+  Select any skin patch around the gap and its card says so.
+- **Every rule-based structure is badged and has a volume on file.** Two sets had slipped through: the 68 rule-built
+  brachial-plexus meshes on the Imaging pages were printing "Measured on this body", and the 16 brachial cords on the Z
+  pages printed the Z-Anatomy geometry line. Both fixed. The viewer renders neither `rec.method` nor `rec.error_band_mm`,
+  so a badge must be in `procedural_badge` or in the subject's `SUBJECT_LABELS` description to reach the page at all.
+  Volumes for all 1,451: `data/derived/Q297_rule_based_volumes.json`.
+- **Breasts**: measured, no mesh defect. The shape is her supine cadaver CT, and on Base F the bone warp doubles the
+  left/right difference (27.7 % against her CT's 13.6 %) and flattens the HRA nipple and areola to near zero. Each
+  breast card now carries that page's own numbers.
+- **Fingertips**: Z-Anatomy ships no nail, nail bed or digital pulp, so there is 0.7–3.3 mm of skin in front of the
+  distal phalanx where a real pulp and nail take 3–8 mm; on the Combined pages the Q293 re-seating pushed two tips past
+  the skin front. Measured per finger on each card. Nothing was sculpted to hide it.

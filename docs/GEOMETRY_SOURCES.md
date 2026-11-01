@@ -1933,3 +1933,83 @@ what stays empty), `Q295_page_report.json`; montages `data/derived/Q295_montages
   soft tissue -> `soft_unassigned` (`clinical/data/imaging_tissues.json`).
 - **Not done.** Bone-marrow fat as meshes (the imaging bone model has it); 2-4 mm seams between structures; replacing the unlabelled
   soft tissue with real structures (her CT small bowel / liver on Combined F, missing small muscles of hand and foot).
+
+## Q297 (2026-11-01): the provenance audit, and the one thing that failed it
+
+The owner looked at the female model and said the perineal surface closure looked like invented tissue, and asked for
+every tissue to be re-checked across all six pages. The audit (`scripts/anatomy/q297/audit297.py`, report
+`docs/research/Q297_provenance_audit.md`, data `data/derived/Q297_provenance_audit{,_before}.json`) classified all
+**15,155 shipped meshes** into (a) measured from that subject's own imaging, (b) a real third-party mesh registered on,
+(c) rule-based with a citation, (d) unaccounted. Ground truth is the structure's **subject id** (this project's own
+build-pipeline naming convention), refined by the card's badge / source / geom_src — deliberately *not* taken from
+`SUBJECT_LABELS`, because a missing entry there is one of the defects it found.
+
+**Result: (a) 803 · (b) 12,899 · (c) 1,451 · (d) 2.** The owner was right, and the two are his:
+
+- **`zan_skin_perineal_closure` on Base F and Combined F — removed this round.** It was a surface this project
+  generated: a Pinkall–Polthier discrete minimal surface over the 36-vertex free rim loop left when Z-Anatomy's
+  male-only urogenital skin was deleted for a female body (Q196 / Q202). Its badge was honest in words
+  ("SURFACE CLOSURE, NOT ANATOMY … nothing here is a measurement of a body"), but it had **no `source` field, no
+  recorded volume, and no citation for its shape** — a pure hole-fill rule, so class (d) by this round's definition,
+  which requires a literature citation behind a rule. Re-measured before removing it (`mintest.py`): the shipped outer
+  sheet does still sit within 1.95 mm mean / 6.29 mm max (Base F) and 1.28 / 8.79 mm (Combined F) of the minimal surface
+  of its own rim, so the stated rule did describe it. What made it a real problem is scale and visibility: **8.33 cm³**
+  enclosed over 57 × 98 × 73 mm on Base F and **16.43 cm³** over 105 × 101 × 113 mm on Combined F, and on **Base F it was
+  drawn at page load** like ordinary skin (PROJECT_STATE had recorded all 249 Z skin patches as hidden by default — true
+  on Combined F, false on Base F, where none are). Rendered from the front it reads as a vulval mound.
+  **There is nothing to re-derive it from**: Z-Anatomy has no female perineal skin, the Q235 CVH import gives the
+  perineal *muscles* and the perineal body (both still shipped, both real), and the Q296 Open Anatomy survey found no
+  pelvis, pelvic-floor or perineal atlas in any of the seven atlases. So it was removed and the region is shown open;
+  the ten neighbouring real skin patches on each female page carry a note saying exactly that. An honest hole beats
+  invented tissue.
+
+Everything else in the female perineum is real and stays: `perineal_body`, `deep_perineal_muscle_cvh`,
+`superficial_transverse_perineal_cvh`, `bulbospongiosus_cvh`, `ischiocavernosus_cvh_{l,r}`,
+`urethrovaginal_sphincter_cvh`, `vagina`, `clitoris_cavernous_body` — all Chinese Visible Human female (Wu et al. 2015,
+PLOS ONE e0132226, S3 Fig, CC BY 4.0), registered by bones in Q235 and badged "REAL SEGMENTATION OF ANOTHER PERSON".
+
+### The second finding: a badge can exist in the data and not reach the page
+
+Neither viewer template renders `rec.method` or `rec.error_band_mm` (0 occurrences in
+`viewer/atlas_viewer.template.html` and `viewer/zan_atlas.template.html`). Two sets of rule-built geometry relied on
+them alone:
+
+- **68 brachial-plexus meshes (34 per Imaging page)**, subject `ct_vh{m,f}_rule_nerve_q258`. That subject had no
+  `SUBJECT_LABELS` entry, so `classifySource()` fell through every branch and returned `"measured"` — the card printed
+  the green **"Measured on this body — segmented from its own CT or cryosections."** for a rule-built spline.
+  Fixed by `scripts/sync_subjects_q297.py`, which adds the two missing entries; the card now prints the orange
+  "Rule-based on this body's own data".
+- **16 `brachial_cord_{lateral,medial}_{l,r}` meshes on the four Z pages**: no rule badge at all, and the card's
+  geometry line printed the Z-Anatomy default, which was false. They now carry a `RULE-BASED (Q258, re-badged Q297)`
+  badge with this page's own measured volume, and a `geom_src` that says "NOT Z-Anatomy geometry".
+
+**Volumes.** `scripts/anatomy/q297/volumes297.py` measures the enclosed volume of every one of the 1,451 class (c)
+structures straight off the shipped geometry into `data/derived/Q297_rule_based_volumes.json` (Imaging M 424.10, Imaging F
+510.40, Base M 165.38, Base F 168.80, Combined M 43.42, Combined F 44.99 cm³ in total), because the generated
+tendon / ligament connectors and the rule-tracked vessels state the landmarks, calibre and length that define the solid
+rather than a volume. `tests/test_q297.py` asserts 100 % coverage, class (d) = 0, and a visible rule badge for every (c).
+
+### Breasts and fingertips: measured, and left as the real data leaves them
+
+Breasts — no mesh defect: no spikes (max one-ring offset < 1.0 × the local edge length), consistent winding, 0 %
+non-manifold edges on `breast_ct`, mean dihedral 12–19°. What looks distorted is the shape, and it has two parts. Her
+`breast_ct` is the TotalSegmentator `breasts` label on her **supine** unenhanced cadaver CT at 59 — it spreads laterally
+and superiorly nearly to the clavicle (bbox 167 × 146 × 129 mm left, 176 × 164 × 123 mm right). And on **Base F** the
+Q250 bone-anchored TPS widened the left/right volume difference from her CT's **13.6 %** to **27.7 %** (639.2 vs
+844.1 cm³) and crushed the HRA nipple to **0.00 cm³** and areola to **0.02 cm³** (0 % and 7 % of their Imaging F values),
+while all three pages' cards still quoted 13.6 %. All six breast cards on both female Z pages now carry that page's own
+numbers. Nipple-to-nipple re-measures at 219.4 / 213.6 / 218.1 mm (Imaging F / Base F / Combined F) against a literature
+203–217 mm, so Q292's 16.6 cm no longer holds. We hold no upright or prone imaging of her; this atlas does not sculpt a
+more flattering breast.
+
+Fingertips — the cause is the source. **Z-Anatomy models no nail, no nail bed and no digital pulp**: no page carries a
+`nail`, `nail_bed` or `pulp` mesh. Measured in a 9 mm cylinder about each distal phalanx's own axis
+(`scripts/anatomy/q297/tips3.py`), the skin front reaches only **0.68 mm** past the middle-finger bone tip on Base M —
+which is near-raw Z-Anatomy — and **0.71 mm** on Base F, against the 3–8 mm a real pulp and nail occupy. On the Combined
+pages the Q293 finger re-seating pushed the index and middle distal phalanges a further 0.4–4.9 mm forward, past the
+local skin front (Combined M F3 −0.37 / −1.33 mm; Combined F F2 −4.85, F3 −1.01 mm). Her own CT merges all fingers into
+one `phalanges_hand_{l,r}` label, so the Imaging pages have no per-finger distal phalanx at all. All 40 hand distal
+phalanx cards on the four Z pages now state that page's own clearance and all three parts of the cause. Nothing was
+re-sculpted: inventing a nail is the thing this round exists to stop. (A ray-parity "bone outside skin" test was run and
+**discarded, not reported**: Z skin is ~250 open patches with no closed envelope, as Q249 already found, so a containment
+test on it is invalid — it returned 20–100 % outside on all 40 tips of all four pages including near-raw Base M.)
