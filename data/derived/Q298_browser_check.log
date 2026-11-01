@@ -96,14 +96,13 @@
   OK   own_f_390: D "On model" arms the engine's own mark-by-tapping mode
   OK   own_f_390: E Semitendinosus is in the list to pick (0, 4 rows)
   OK   own_f_390: E after picking Semitendinosus all three expansions offer something ({'adj': 9, 'rel': 44, 'grp': 4})
-  FAIL own_f_390: E "adj" added a non-empty set in one tap (+0 marked)
-  OK   own_f_390: E "adj" is ONE undo step (0 -> 0, expected 0)
-  OK   own_f_390: E "rel" added a non-empty set in one tap (+45 marked)
-  OK   own_f_390: E "rel" is ONE undo step (45 -> 0, expected 0)
+  OK   own_f_390: E "adj" added a non-empty set in one tap (+9 marked)
+  OK   own_f_390: E "adj" is ONE undo step (9 -> 0, expected 0)
+  OK   own_f_390: E "rel" added a non-empty set in one tap (+44 marked)
+  OK   own_f_390: E "rel" is ONE undo step (44 -> 0, expected 0)
   OK   own_f_390: E "grp" added a non-empty set in one tap (+6 marked)
   OK   own_f_390: E "grp" is ONE undo step (6 -> 0, expected 0)
-       own_f_390: Semitendinosus -> adjacent 21 within 3.46 mm, related 45, functional groups 3; marked by the three taps {'adj': 0, 'rel': 45, 'grp': 6}
+       own_f_390: Semitendinosus -> adjacent 9 within 3.46 mm, related 44, functional groups 4; marked by the three taps {'adj': 9, 'rel': 44, 'grp': 6}
   OK   own_f_390: F no page errors ([])
 
-Q298 VERIFY: FAIL 1
-  FAIL own_f_390: E "adj" added a non-empty set in one tap (+0 marked)
+Q298 VERIFY: OK
