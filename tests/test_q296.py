@@ -202,8 +202,15 @@ def test_page_carries_the_imported_structures(key):
 def test_pose_rig_covers_the_new_structures(key):
     rep = json.loads(PAGE_REPORT.read_text())[key]
     rig = json.loads((REPO / f"data/anatomy/pose_rig_{key}.json").read_text())["rig"]
-    assert rig["count"] == rep["new_indices"][-1] + 1
+    # Q297 removed one mesh (the generated perineal surface closure) from the two female Z pages, so the rig is that
+    # much shorter than the Q296 high-water index; the count still has to equal the page's own mesh count.
+    q297 = REPO / "data/derived/Q297_page_report.json"
+    dropped = len(json.loads(q297.read_text(encoding="utf-8"))["pages"][key].get("dropped") or []) if q297.exists() else 0
+    assert rig["count"] == rep["new_indices"][-1] + 1 - dropped
     assert len(rig["nv"]) == rig["count"]
     covered = {i for e in rig["skin"] for i in [e[0]]} | {i for _, lst in rig["rigid"] for i in lst}
-    assert set(rep["new_indices"]) <= covered, sorted(set(rep["new_indices"]) - covered)
+    # the Q297 removal sat at a LOWER index than every Q296 import (the perineal closure is index 2939, the imports
+    # start above 3200), so each Q296 index moved down by the number of meshes removed below it
+    want = {i - dropped for i in rep["new_indices"]}
+    assert want <= covered, sorted(want - covered)
     assert "Q296" in rig["notes"]
