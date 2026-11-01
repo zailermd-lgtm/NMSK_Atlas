@@ -37,6 +37,7 @@ REPO = HERE.parents[2]
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(REPO)); sys.path.insert(0, str(REPO / "scripts/zanatomy"))
 sys.path.insert(0, str(REPO / "scripts/anatomy/q237"))
 import contain299 as CT  # noqa: E402
+import pelvis_cards299 as PCARD  # noqa: E402
 import core as C  # noqa: E402
 from scripts.zanatomy import q205_pages as P5  # noqa: E402
 
@@ -170,8 +171,15 @@ def analyse(key, src, tol):
 def run(mode, src="build/q297", out="/dev/shm/q299/pre", tol=5.0, keys=None):
     keys = keys or ZKEYS
     src_p = Path(src) if Path(src).is_absolute() else REPO / src
-    rep = {"_README": ["Q299 containment fix; scripts/anatomy/q299/fix_contain299.py"],
-           "src": str(src), "tol_mm": tol, "inset_mm": INSET, "sigma_mm": SIGMA, "passes": PASSES, "pages": {}}
+    rep = {"pages": {}}
+    if REPORT.exists():                      # keep the pages this run does not touch
+        try:
+            rep = json.loads(REPORT.read_text())
+        except Exception:
+            rep = {"pages": {}}
+    rep.update({"_README": ["Q299 containment fix; scripts/anatomy/q299/fix_contain299.py"],
+                "src": str(src), "tol_mm": tol, "inset_mm": INSET, "sigma_mm": SIGMA, "passes": PASSES})
+    rep.setdefault("pages", {})
     out_p = Path(out)
     if mode == "build":
         out_p.mkdir(parents=True, exist_ok=True)
@@ -215,8 +223,20 @@ def run(mode, src="build/q297", out="/dev/shm/q299/pre", tol=5.0, keys=None):
                 if not f.name.startswith(STEM[key]) and f.name != "index.html":
                     shutil.copy2(f, d_out / f.name)
             man, blob = P5.load_page(d_in, STEM[key])
+            ids_in_page = {m["id"] for m in man["meshes"]}
             meta = {}
             rp = {}
+            # Part A: the measured pelvic-proportion statements (card text only, no geometry)
+            pelvis_notes = PCARD.notes().get(key, {})
+            for sid, note in pelvis_notes.items():
+                if sid not in ids_in_page:
+                    print("   WARNING pelvis note for a missing id:", sid)
+                    continue
+                m = next(x for x in man["meshes"] if x["id"] == sid)
+                rec = json.loads(json.dumps(m.get("rec") or {}))
+                rec["procedural_badge"] = (rec.get("procedural_badge") or "") + note
+                meta[sid] = (m["name"], rec)
+            page["pelvis_cards"] = sorted(pelvis_notes)
             for sid, (V1, F) in replace.items():
                 m = next(x for x in man["meshes"] if x["id"] == sid)
                 rec = json.loads(json.dumps(m.get("rec") or {}))

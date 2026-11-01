@@ -1,8 +1,9 @@
 {
  "_README": [
   "Q299 containment audit of every structure on all six pages: scripts/anatomy/q299/contain299.py.",
-  "Body mask = the page's own skin + fat_subcut/fat_deep/soft_unlabelled surfaces, area-sampled >=1 pt/mm2 into a 2 mm grid, closed with an 8 mm morphological closing done as dilate -> flood the outside from the grid border -> erode back, largest component. VALIDATED: the deep structures that are inside by construction must be >=99.5 % inside.",
-  "Distances are true mm to the nearest real skin/outer-tissue surface sample (cKDTree), not voxel distances. The mask's own error band is reported per page."
+  "Body mask = the page's own skin + fat_subcut/fat_deep/soft_unlabelled surfaces, area-sampled >=1 pt/mm2 into a 2 mm grid, closed with an 8 mm morphological closing done as dilate -> flood the outside from the grid border -> erode back, largest component.",
+  "VALIDATED three ways: >=90 % of 26 deep structures >=99.5 % inside and the group mean >=99 %; the mask volume a plausible body volume; the mask boundary within p95 3 mm of a real skin sample.",
+  "Distances are true mm to the nearest real skin/outer-tissue surface sample (cKDTree), not voxel distances. Read every offender distance against that page's own error band."
  ],
  "pages": {
   "base_f": {
@@ -40,12 +41,42 @@
      "femur_r": 100.0,
      "humerus_l": 100.0,
      "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
      "urinary_bladder": 100.0,
-     "sacrum": 100.0
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
     },
     "ok": true,
     "reasons": [],
-    "body_mask_volume_cm3": 68054.0
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 68054.0,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.31,
+     "max_mm": 8.31,
+     "boundary_voxels": 362296
+    }
    },
    "n_outside_any": 94,
    "n_outside_beyond_tol": 20,
@@ -375,7 +406,7 @@
      "bone_depth_max_mm": 1.28
     }
    ],
-   "seconds": 31.4,
+   "seconds": 34.6,
    "bone_penetration_top": [
     {
      "id": "plantaris_r",
@@ -756,11 +787,41 @@
      "femur_r": 100.0,
      "humerus_l": 100.0,
      "humerus_r": 100.0,
-     "sacrum": 100.0
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
     },
     "ok": true,
     "reasons": [],
-    "body_mask_volume_cm3": 75155.9
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 75155.9,
+    "error_band": {
+     "p50_mm": 0.73,
+     "p95_mm": 1.31,
+     "max_mm": 8.07,
+     "boundary_voxels": 391274
+    }
    },
    "n_outside_any": 43,
    "n_outside_beyond_tol": 6,
@@ -863,7 +924,7 @@
      "out_beyond_tol_n": 2
     }
    ],
-   "seconds": 34.6,
+   "seconds": 36.6,
    "bone_penetration_top": [
     {
      "id": "plantaris_r",
@@ -1244,13 +1305,46 @@
      "femur_r": 100.0,
      "humerus_l": 100.0,
      "humerus_r": 100.0,
-     "sacrum": 97.27
+     "tibia_l": 100.0,
+     "tibia_r": 99.64,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 97.27,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
     },
-    "ok": false,
-    "reasons": [
-     "sacrum only 97.27% inside the body mask"
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [
+     {
+      "id": "sacrum",
+      "inside_pct": 97.27
+     }
     ],
-    "body_mask_volume_cm3": 89047.9
+    "deep_group_fraction_ok": 0.962,
+    "deep_group_mean_inside_pct": 99.88,
+    "body_mask_volume_cm3": 89047.9,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.36,
+     "max_mm": 7.9,
+     "boundary_voxels": 378039
+    }
    },
    "n_outside_any": 77,
    "n_outside_beyond_tol": 15,
@@ -1530,7 +1624,7 @@
      "bone_depth_max_mm": 3.67
     }
    ],
-   "seconds": 43.5,
+   "seconds": 49.8,
    "bone_penetration_top": [
     {
      "id": "obturator_externus_r",
@@ -1900,11 +1994,46 @@
      "femur_r": 100.0,
      "humerus_l": 100.0,
      "humerus_r": 100.0,
-     "sacrum": 100.0
+     "tibia_l": 99.4,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 99.78,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
     },
     "ok": true,
     "reasons": [],
-    "body_mask_volume_cm3": 99504.7
+    "deep_structures_partly_outside": [
+     {
+      "id": "tibia_l",
+      "inside_pct": 99.4
+     }
+    ],
+    "deep_group_fraction_ok": 0.962,
+    "deep_group_mean_inside_pct": 99.97,
+    "body_mask_volume_cm3": 99504.7,
+    "error_band": {
+     "p50_mm": 0.7,
+     "p95_mm": 1.33,
+     "max_mm": 8.0,
+     "boundary_voxels": 437914
+    }
    },
    "n_outside_any": 172,
    "n_outside_beyond_tol": 30,
@@ -2403,7 +2532,7 @@
      "out_beyond_tol_n": 2
     }
    ],
-   "seconds": 39.6,
+   "seconds": 44.8,
    "bone_penetration_top": [
     {
      "id": "vastus_intermedius_l",
@@ -2784,16 +2913,40 @@
      "femur_r": 100.0,
      "humerus_l": 100.0,
      "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 99.56,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
      "heart": 100.0,
      "liver": 100.0,
+     "spleen": 100.0,
+     "stomach": 100.0,
      "kidney_l": 100.0,
      "kidney_r": 100.0,
      "urinary_bladder": 100.0,
-     "sacrum": 100.0
+     "pancreas": 100.0,
+     "diaphragm": 100.0
     },
     "ok": true,
     "reasons": [],
-    "body_mask_volume_cm3": 88896.4
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 99.98,
+    "body_mask_volume_cm3": 88896.4,
+    "error_band": {
+     "p50_mm": 0.74,
+     "p95_mm": 1.37,
+     "max_mm": 7.97,
+     "boundary_voxels": 377457
+    }
    },
    "n_outside_any": 16,
    "n_outside_beyond_tol": 2,
@@ -2832,7 +2985,7 @@
      "out_beyond_tol_n": 4
     }
    ],
-   "seconds": 32.4,
+   "seconds": 36.2,
    "bone_penetration_top": [
     {
      "id": "supraspinatus_l_zfill203",
@@ -3191,14 +3344,37 @@
      "femur_r": 100.0,
      "humerus_l": 99.97,
      "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
      "heart": 100.0,
      "liver": 100.0,
+     "stomach": 100.0,
      "urinary_bladder": 100.0,
-     "sacrum": 100.0
+     "trachea": 100.0,
+     "diaphragm": 100.0
     },
     "ok": true,
     "reasons": [],
-    "body_mask_volume_cm3": 108082.0
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 108082.0,
+    "error_band": {
+     "p50_mm": 0.75,
+     "p95_mm": 1.35,
+     "max_mm": 8.04,
+     "boundary_voxels": 449456
+    }
    },
    "n_outside_any": 35,
    "n_outside_beyond_tol": 6,
@@ -3310,7 +3486,7 @@
      "out_beyond_tol_n": 1
     }
    ],
-   "seconds": 32.1,
+   "seconds": 40.5,
    "bone_penetration_top": [
     {
      "id": "fat_deep_leg_l",

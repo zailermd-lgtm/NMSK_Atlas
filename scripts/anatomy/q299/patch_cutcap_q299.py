@@ -97,6 +97,7 @@ EDITS = [
       c.order = order; c.stat = fs;
       var status = fs.failed ? "outline" : (fs.painted ? "filled" : "thin");""",
   """    var bandMm = Math.min(o.bandMax, Math.max(o.band, o.bandFrac * ext));            // Q299: the minimum drawn section width for THIS cut
+    if (bandMm > 0) bandMm = Math.max(bandMm, px);                                   // a band is never thinner than one raster pixel, so report what is actually drawn
     stats.band_mm = Math.round(bandMm * 1000) / 1000;
     cut.sort(function(a, b){ return a.rank - b.rank || b.area - a.area; });          // painter order: later paints over earlier
     cut.forEach(function(c, order){

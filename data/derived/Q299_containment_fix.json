@@ -1,0 +1,768 @@
+{
+ "_README": [
+  "Q299 containment fix; scripts/anatomy/q299/fix_contain299.py"
+ ],
+ "src": "build/q297",
+ "tol_mm": 5.0,
+ "inset_mm": 1.0,
+ "sigma_mm": 8.0,
+ "passes": 3,
+ "pages": {
+  "comb_f": {
+   "mask_valid": true,
+   "mask_validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 99.64,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 97.27,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [
+     {
+      "id": "sacrum",
+      "inside_pct": 97.27
+     }
+    ],
+    "deep_group_fraction_ok": 0.962,
+    "deep_group_mean_inside_pct": 99.88,
+    "body_mask_volume_cm3": 89047.9,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.36,
+     "max_mm": 7.9,
+     "boundary_voxels": 378039
+    }
+   },
+   "mask_error_band": {
+    "p50_mm": 0.72,
+    "p95_mm": 1.36,
+    "max_mm": 7.9,
+    "boundary_voxels": 378039
+   },
+   "to_fix": [
+    {
+     "id": "zan_fascia_lata_l",
+     "sys": "fascia",
+     "out_max_mm": 15.72,
+     "out_n": 36,
+     "n_vertices": 1908
+    },
+    {
+     "id": "fascia_lata_r",
+     "sys": "fascia",
+     "out_max_mm": 12.46,
+     "out_n": 14,
+     "n_vertices": 808
+    },
+    {
+     "id": "longissimus_r",
+     "sys": "muscle",
+     "out_max_mm": 12.22,
+     "out_n": 25,
+     "n_vertices": 1799
+    },
+    {
+     "id": "longissimus_l",
+     "sys": "muscle",
+     "out_max_mm": 12.06,
+     "out_n": 28,
+     "n_vertices": 1799
+    },
+    {
+     "id": "iliocostalis_l",
+     "sys": "muscle",
+     "out_max_mm": 11.05,
+     "out_n": 24,
+     "n_vertices": 1804
+    },
+    {
+     "id": "iliocostalis_r",
+     "sys": "muscle",
+     "out_max_mm": 7.96,
+     "out_n": 17,
+     "n_vertices": 1803
+    },
+    {
+     "id": "zan_antebrachial_fascia_l",
+     "sys": "fascia",
+     "out_max_mm": 5.88,
+     "out_n": 7,
+     "n_vertices": 1832
+    },
+    {
+     "id": "extensor_digitorum_longus_r",
+     "sys": "muscle",
+     "out_max_mm": 5.76,
+     "out_n": 239,
+     "n_vertices": 1834
+    },
+    {
+     "id": "extensor_digitorum_longus_l",
+     "sys": "muscle",
+     "out_max_mm": 5.4,
+     "out_n": 218,
+     "n_vertices": 1832
+    }
+   ],
+   "exempt": [
+    {
+     "id": "sacrum",
+     "sys": "bone",
+     "out_max_mm": 7.22,
+     "out_n": 81,
+     "n_vertices": 2969,
+     "exempt": "bone: a bone outside the skin is a registration residual or a limit of the subject's own segmentation; moving it would falsify the skeleton"
+    },
+    {
+     "id": "cuneiform_intermediate_r",
+     "sys": "bone",
+     "out_max_mm": 7.09,
+     "out_n": 48,
+     "n_vertices": 224,
+     "exempt": "bone: a bone outside the skin is a registration residual or a limit of the subject's own segmentation; moving it would falsify the skeleton"
+    },
+    {
+     "id": "radius_l",
+     "sys": "bone",
+     "out_max_mm": 6.07,
+     "out_n": 20,
+     "n_vertices": 394,
+     "exempt": "bone: a bone outside the skin is a registration residual or a limit of the subject's own segmentation; moving it would falsify the skeleton"
+    },
+    {
+     "id": "zan_inferior_fibular_retinaculum_l",
+     "sys": "joint",
+     "out_max_mm": 5.24,
+     "out_n": 10,
+     "n_vertices": 32,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_distal_phalanx_of_second_finger_of_hand_l",
+     "sys": "bone",
+     "out_max_mm": 5.2,
+     "out_n": 30,
+     "n_vertices": 127,
+     "exempt": "bone: a bone outside the skin is a registration residual or a limit of the subject's own segmentation; moving it would falsify the skeleton"
+    },
+    {
+     "id": "zan_superior_fibular_retinaculum_l",
+     "sys": "joint",
+     "out_max_mm": 5.11,
+     "out_n": 116,
+     "n_vertices": 328,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    }
+   ],
+   "fixed": {}
+  },
+  "base_m": {
+   "mask_valid": true,
+   "mask_validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 75155.9,
+    "error_band": {
+     "p50_mm": 0.73,
+     "p95_mm": 1.31,
+     "max_mm": 8.07,
+     "boundary_voxels": 391274
+    }
+   },
+   "mask_error_band": {
+    "p50_mm": 0.73,
+    "p95_mm": 1.31,
+    "max_mm": 8.07,
+    "boundary_voxels": 391274
+   },
+   "to_fix": [],
+   "exempt": [
+    {
+     "id": "zan_cornea_l",
+     "sys": "cns",
+     "out_max_mm": 6.42,
+     "out_n": 115,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_cornea_r",
+     "sys": "cns",
+     "out_max_mm": 6.33,
+     "out_n": 105,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_r",
+     "sys": "cns",
+     "out_max_mm": 5.96,
+     "out_n": 48,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_l",
+     "sys": "cns",
+     "out_max_mm": 5.8,
+     "out_n": 56,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_sclera_l",
+     "sys": "nerve",
+     "out_max_mm": 5.05,
+     "out_n": 22,
+     "n_vertices": 620,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_sclera_r",
+     "sys": "nerve",
+     "out_max_mm": 5.04,
+     "out_n": 19,
+     "n_vertices": 621,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    }
+   ],
+   "fixed": {}
+  },
+  "base_f": {
+   "mask_valid": true,
+   "mask_validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "urinary_bladder": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 68054.0,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.31,
+     "max_mm": 8.31,
+     "boundary_voxels": 362296
+    }
+   },
+   "mask_error_band": {
+    "p50_mm": 0.72,
+    "p95_mm": 1.31,
+    "max_mm": 8.31,
+    "boundary_voxels": 362296
+   },
+   "to_fix": [
+    {
+     "id": "breast_fat_l",
+     "sys": "viscera",
+     "out_max_mm": 23.78,
+     "out_n": 1146,
+     "n_vertices": 3901
+    },
+    {
+     "id": "zan_external_pudendal_veins_l",
+     "sys": "vessel",
+     "out_max_mm": 21.65,
+     "out_n": 197,
+     "n_vertices": 388
+    },
+    {
+     "id": "zan_external_pudendal_veins_r",
+     "sys": "vessel",
+     "out_max_mm": 21.6,
+     "out_n": 197,
+     "n_vertices": 388
+    },
+    {
+     "id": "breast_fat_r",
+     "sys": "viscera",
+     "out_max_mm": 21.29,
+     "out_n": 834,
+     "n_vertices": 4013
+    },
+    {
+     "id": "zan_superficial_external_pudendal_artery_l",
+     "sys": "vessel",
+     "out_max_mm": 20.84,
+     "out_n": 165,
+     "n_vertices": 387
+    },
+    {
+     "id": "zan_superficial_external_pudendal_artery_r",
+     "sys": "vessel",
+     "out_max_mm": 20.84,
+     "out_n": 165,
+     "n_vertices": 387
+    },
+    {
+     "id": "breast_suspensory_ligaments_r",
+     "sys": "joint",
+     "out_max_mm": 13.59,
+     "out_n": 465,
+     "n_vertices": 2504
+    },
+    {
+     "id": "genitofemoral_n_r",
+     "sys": "nerve",
+     "out_max_mm": 11.47,
+     "out_n": 72,
+     "n_vertices": 618
+    },
+    {
+     "id": "breast_suspensory_ligaments_l",
+     "sys": "joint",
+     "out_max_mm": 11.46,
+     "out_n": 362,
+     "n_vertices": 2504
+    },
+    {
+     "id": "genitofemoral_n_l",
+     "sys": "nerve",
+     "out_max_mm": 11.45,
+     "out_n": 73,
+     "n_vertices": 620
+    },
+    {
+     "id": "mammary_gland_r",
+     "sys": "viscera",
+     "out_max_mm": 9.67,
+     "out_n": 81,
+     "n_vertices": 4410
+    },
+    {
+     "id": "mammary_gland_l",
+     "sys": "viscera",
+     "out_max_mm": 7.35,
+     "out_n": 255,
+     "n_vertices": 4411
+    },
+    {
+     "id": "lactiferous_ducts_r",
+     "sys": "viscera",
+     "out_max_mm": 7.27,
+     "out_n": 96,
+     "n_vertices": 3457
+    },
+    {
+     "id": "clitoris_cavernous_body",
+     "sys": "viscera",
+     "out_max_mm": 5.75,
+     "out_n": 53,
+     "n_vertices": 1172
+    }
+   ],
+   "exempt": [
+    {
+     "id": "zan_anterior_chamber_of_eyeball_l",
+     "sys": "cns",
+     "out_max_mm": 6.56,
+     "out_n": 63,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_r",
+     "sys": "cns",
+     "out_max_mm": 6.17,
+     "out_n": 66,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_cornea_l",
+     "sys": "cns",
+     "out_max_mm": 6.16,
+     "out_n": 150,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_cornea_r",
+     "sys": "cns",
+     "out_max_mm": 6.15,
+     "out_n": 152,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_iris_l",
+     "sys": "nerve",
+     "out_max_mm": 6.06,
+     "out_n": 16,
+     "n_vertices": 600,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_iris_r",
+     "sys": "nerve",
+     "out_max_mm": 5.96,
+     "out_n": 10,
+     "n_vertices": 600,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    }
+   ],
+   "fixed": {}
+  },
+  "comb_m": {
+   "mask_valid": true,
+   "mask_validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 99.4,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 99.78,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [
+     {
+      "id": "tibia_l",
+      "inside_pct": 99.4
+     }
+    ],
+    "deep_group_fraction_ok": 0.962,
+    "deep_group_mean_inside_pct": 99.97,
+    "body_mask_volume_cm3": 99504.7,
+    "error_band": {
+     "p50_mm": 0.7,
+     "p95_mm": 1.33,
+     "max_mm": 8.0,
+     "boundary_voxels": 437914
+    }
+   },
+   "mask_error_band": {
+    "p50_mm": 0.7,
+    "p95_mm": 1.33,
+    "max_mm": 8.0,
+    "boundary_voxels": 437914
+   },
+   "to_fix": [
+    {
+     "id": "flexor_digitorum_longus_r",
+     "sys": "muscle",
+     "out_max_mm": 9.67,
+     "out_n": 244,
+     "n_vertices": 1801
+    },
+    {
+     "id": "extensor_digitorum_longus_r",
+     "sys": "muscle",
+     "out_max_mm": 9.62,
+     "out_n": 227,
+     "n_vertices": 1832
+    },
+    {
+     "id": "zan_dorsal_digital_branches_of_radial_nerve_r",
+     "sys": "nerve",
+     "out_max_mm": 9.43,
+     "out_n": 156,
+     "n_vertices": 1227
+    },
+    {
+     "id": "zan_dorsal_fascia_of_hand_r",
+     "sys": "fascia",
+     "out_max_mm": 8.95,
+     "out_n": 49,
+     "n_vertices": 819
+    },
+    {
+     "id": "extensor_hallucis_longus_r",
+     "sys": "muscle",
+     "out_max_mm": 8.29,
+     "out_n": 181,
+     "n_vertices": 1183
+    },
+    {
+     "id": "flexor_hallucis_longus_r",
+     "sys": "muscle",
+     "out_max_mm": 8.13,
+     "out_n": 269,
+     "n_vertices": 1801
+    },
+    {
+     "id": "zan_plantar_metatarsophalangeal_ligaments_r",
+     "sys": "joint",
+     "out_max_mm": 8.05,
+     "out_n": 111,
+     "n_vertices": 450
+    },
+    {
+     "id": "extensor_digitorum_r",
+     "sys": "muscle",
+     "out_max_mm": 7.98,
+     "out_n": 76,
+     "n_vertices": 1799
+    },
+    {
+     "id": "zan_lumbrical_muscles_of_hand_r",
+     "sys": "muscle",
+     "out_max_mm": 7.68,
+     "out_n": 16,
+     "n_vertices": 692
+    },
+    {
+     "id": "supraclavicular_n_l",
+     "sys": "nerve",
+     "out_max_mm": 7.66,
+     "out_n": 139,
+     "n_vertices": 462
+    },
+    {
+     "id": "zan_external_pudendal_veins_l",
+     "sys": "vessel",
+     "out_max_mm": 7.47,
+     "out_n": 41,
+     "n_vertices": 388
+    },
+    {
+     "id": "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r",
+     "sys": "muscle",
+     "out_max_mm": 7.42,
+     "out_n": 39,
+     "n_vertices": 1802
+    },
+    {
+     "id": "zan_dorsal_fascia_of_hand_l",
+     "sys": "fascia",
+     "out_max_mm": 6.13,
+     "out_n": 152,
+     "n_vertices": 819
+    },
+    {
+     "id": "palmar_aponeurosis_r",
+     "sys": "fascia",
+     "out_max_mm": 5.84,
+     "out_n": 34,
+     "n_vertices": 749
+    },
+    {
+     "id": "zan_proper_palmar_digital_branches_of_median_nerve_r",
+     "sys": "nerve",
+     "out_max_mm": 5.83,
+     "out_n": 60,
+     "n_vertices": 1219
+    },
+    {
+     "id": "zan_proper_palmar_digital_arteries_r",
+     "sys": "vessel",
+     "out_max_mm": 5.69,
+     "out_n": 48,
+     "n_vertices": 789
+    },
+    {
+     "id": "zan_collateral_interphalangeal_ligaments_of_hand_r",
+     "sys": "joint",
+     "out_max_mm": 5.69,
+     "out_n": 32,
+     "n_vertices": 485
+    },
+    {
+     "id": "sternocleidomastoid_r",
+     "sys": "muscle",
+     "out_max_mm": 5.68,
+     "out_n": 123,
+     "n_vertices": 1800
+    },
+    {
+     "id": "zan_palmar_digital_veins_r",
+     "sys": "vessel",
+     "out_max_mm": 5.58,
+     "out_n": 81,
+     "n_vertices": 794
+    },
+    {
+     "id": "supraclavicular_n_r",
+     "sys": "nerve",
+     "out_max_mm": 5.58,
+     "out_n": 101,
+     "n_vertices": 472
+    },
+    {
+     "id": "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+     "sys": "joint",
+     "out_max_mm": 5.47,
+     "out_n": 35,
+     "n_vertices": 496
+    },
+    {
+     "id": "zan_palmar_interphalangeal_ligaments_r",
+     "sys": "joint",
+     "out_max_mm": 5.12,
+     "out_n": 51,
+     "n_vertices": 450
+    },
+    {
+     "id": "abductor_pollicis_brevis_l",
+     "sys": "muscle",
+     "out_max_mm": 5.02,
+     "out_n": 67,
+     "n_vertices": 312
+    }
+   ],
+   "exempt": [
+    {
+     "id": "zan_proximal_phalanx_of_second_finger_of_hand_r",
+     "sys": "bone",
+     "out_max_mm": 7.03,
+     "out_n": 36,
+     "n_vertices": 209,
+     "exempt": "bone: a bone outside the skin is a registration residual or a limit of the subject's own segmentation; moving it would falsify the skeleton"
+    },
+    {
+     "id": "zan_cornea_l",
+     "sys": "cns",
+     "out_max_mm": 6.32,
+     "out_n": 144,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_cornea_r",
+     "sys": "cns",
+     "out_max_mm": 6.3,
+     "out_n": 110,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_r",
+     "sys": "cns",
+     "out_max_mm": 6.26,
+     "out_n": 29,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_l",
+     "sys": "cns",
+     "out_max_mm": 6.25,
+     "out_n": 58,
+     "n_vertices": 602,
+     "exempt": "ocular surface: the cornea / iris / sclera / chambers sit in the palpebral fissure and are genuinely not covered by skin; these pages carry no conjunctiva or eyelid-margin mesh"
+    },
+    {
+     "id": "zan_middle_phalanx_of_second_finger_of_hand_r",
+     "sys": "bone",
+     "out_max_mm": 5.93,
+     "out_n": 22,
+     "n_vertices": 159,
+     "exempt": "bone: a bone outside the skin is a registration residual or a limit of the subject's own segmentation; moving it would falsify the skeleton"
+    },
+    {
+     "id": "zan_distal_phalanx_of_second_finger_of_hand_r",
+     "sys": "bone",
+     "out_max_mm": 5.76,
+     "out_n": 44,
+     "n_vertices": 127,
+     "exempt": "bone: a bone outside the skin is a registration residual or a limit of the subject's own segmentation; moving it would falsify the skeleton"
+    }
+   ],
+   "fixed": {}
+  }
+ }
+}

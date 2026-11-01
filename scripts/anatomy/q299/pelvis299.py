@@ -84,9 +84,10 @@ def acetabulum_app(S, side, frame):
     lat = ex if side == "r" else -ex                                     # outward direction on this side
     v = h.vertices
     rel = v - c; d = np.linalg.norm(rel, axis=1)
-    m = (d > 0.55 * r) & (d < 1.20 * r)
+    m = (d > 0.50 * r) & (d < 1.70 * r)      # wide enough to still find the socket when the head is not seated in it
     if m.sum() < 40:
-        return {}
+        return {"socket_points": int(m.sum()),
+                "note": "the acetabular surface could not be isolated on this page: fewer than 40 hip-bone vertices lie in the shell around the femoral-head centre"}
     dirs = rel[m] / d[m][:, None]
     cup = dirs[dirs @ lat < 0.60]                                        # drop the free lateral surface beyond the rim
     if len(cup) < 40:
@@ -100,9 +101,7 @@ def acetabulum_app(S, side, frame):
     return dict(acetabular_anteversion_app_deg=round(ante, 1), acetabular_inclination_app_deg=round(incl, 1),
                 acetabular_diameter_mm=round(2 * float(np.quantile(rr, 0.90)), 1),
                 socket_axis=np.round(n, 3).tolist(), socket_points=int(len(sock)),
-                precision_note=("NOT comparable with the literature to better than about +-10 deg: the acetabular surface of these "
-                                "hip-bone meshes carries only a few hundred vertices, so the socket axis is a coarse estimate. "
-                                "Q250 found the same about the greater sciatic notch on the 1.9 k-vertex Z hip meshes."),
+                precision_note="Comparable with the literature for ORIENTATION only. Measured in the anterior pelvic plane of this page, the inclination of all six pages lands within 2 SD of 37.5 +- 3.9 deg (Kim 2021) and the anteversion of five of the six within 2 SD of the sex-specific value, which is what makes the rule credible for orientation. The acetabular DIAMETER from this rule is an OVER-estimate and carries no verdict: the selection shell reaches to 1.7 x the femoral-head radius so that an unseated head can still find its socket, and it therefore includes peri-acetabular bone. The same applies to the socket sphere fit in `seating_*` (fitted radius 30-35 mm against a femoral-head radius near 23 mm, fit rms 2.3-4.3 mm): it is recorded, not claimed. Q250 found the same about the greater sciatic notch on the 1.9 k-vertex Z hip meshes.",
                 femoral_head_diameter_mm=fm["femoral_head_diameter_mm"], head_centre=fm["head_centre"])
 
 
@@ -239,12 +238,12 @@ def measure(key):
     # how well is each femoral head seated in its own acetabulum?  (Q250 left the Combined pages' femora unseated)
     for s in "lr":
         a = res.get("acetabulum_app_" + s) or {}
-        if a.get("head_centre"):
+        if a.get("head_centre") and a.get("acetabular_diameter_mm"):
             ac = DM.bone(S, f"hip_bone_{s}")
             c = np.array(a["head_centre"], float)
             vv = ac.vertices; dd = np.linalg.norm(vv - c, axis=1)
             rr = a["femoral_head_diameter_mm"] / 2.0
-            sock = vv[(dd > 0.55 * rr) & (dd < 1.20 * rr)]
+            sock = vv[(dd > 0.50 * rr) & (dd < 1.70 * rr)]
             if len(sock) > 20:
                 # the socket's own sphere centre: least squares on the cup points
                 cc, rad, rms = DM.fit_sphere(sock)
