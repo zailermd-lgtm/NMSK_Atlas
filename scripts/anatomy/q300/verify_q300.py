@@ -52,10 +52,15 @@ def ready(pg):
                          " return !p || p.failed() || window.NMSKHistory.keys().indexOf('pose') >= 0; }", timeout=60000)
     pg.evaluate("() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))")
     pg.wait_for_timeout(800)
+    # dismiss the welcome / pose banners with an in-page click: a real click here can hang on the Z pages (the
+    # element reports itself actionable and the click never completes), and none of this round's claims depend on
+    # these two buttons being pressed for real.
     for sel in ("#mw-close", "#pose-banner-close"):
-        b = pg.query_selector(sel)
-        if b and b.is_visible():
-            b.click(); pg.wait_for_timeout(200)
+        try:
+            pg.evaluate("(s) => { const e = document.querySelector(s); if (e && e.offsetParent !== null) e.click(); }", sel)
+        except Exception:
+            pass
+    pg.wait_for_timeout(300)
 
 
 def snap(pg):
@@ -384,13 +389,22 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     min_c = float(next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--min-contrast=")), MIN_CONTRAST))
     errs, out = [], {}
+    rep = REPO / "data" / "derived" / "Q300_browser_check.json"
+
+    def save():
+        rep.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+
     for d in args:
         p = Path(d)
         tag = KEY.get(p.name, p.name)
         print(f"== {tag} ({p})")
-        out[tag] = run_page(p, tag, errs, min_c)
-    rep = REPO / "data" / "derived" / "Q300_browser_check.json"
-    rep.write_text(json.dumps(out, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+        try:
+            out[tag] = run_page(p, tag, errs, min_c)
+        except Exception as err:                 # a page that falls over must not take the pages already measured with it
+            errs.append(f"{tag}: {type(err).__name__}: {err}")
+            print(f"  FAIL {tag}: {type(err).__name__}: {str(err)[:200]}")
+        finally:
+            save()
     print(f"\nwrote {rep.relative_to(REPO)}")
     print(f"\n{'FAIL' if errs else 'OK'}: {len(errs)} failure(s)")
     for e in errs:

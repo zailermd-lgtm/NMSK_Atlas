@@ -289,7 +289,9 @@ def test_reset_clears_inverse_and_states():
 @pytest.mark.parametrize("tpl", [OWN, ZAN], ids=["own", "zan"])
 def test_engines_use_the_display_states(tpl):
     t = tpl.read_text(encoding="utf-8")
-    for needle in ("selCtl.look(", "selCtl.tinted(", "selCtl.hlHex()", "selCtl.fadeAlpha()", "eligible:function", "categories:function", "idsOfCategory:function"):
+    # Q300 gave fadeAlpha a tissue-class argument (the per-class floor under the fade), so the call is
+    # "selCtl.fadeAlpha(...)" now; what this pins is that the engine asks the controller for the opacity.
+    for needle in ("selCtl.look(", "selCtl.tinted(", "selCtl.hlHex()", "selCtl.fadeAlpha(", "eligible:function", "categories:function", "idsOfCategory:function"):
         assert needle in t, (tpl.name, needle)
     assert 'selCtl.isMarked(' not in t.split("/* SELECTION js end */")[1]
 
@@ -298,7 +300,7 @@ def test_own_engine_fade_hide_highlight_and_cap():
     t = OWN.read_text(encoding="utf-8")
     a = t[t.index("function apply(){"):t.index('document.getElementById("t-iso")')]
     assert 'if (sr === "hide") vis = false;' in a and "m.visible = vis;" in a                       # hidden: not drawn, not picked (pickHit takes visible meshes), no cap item
-    assert 'sr === "fade" && !isSel' in a and "selCtl.fadeAlpha()" in a
+    assert 'sr === "fade" && !isSel' in a and "selCtl.fadeAlpha(" in a
     assert 'sr === "xray"' in a and "sr === \"hl\"" in a and "selCtl.hlHex()" in a
     assert "m.material.opacity" in a and "capCtl.itemsChanged()" in a
     cap = t[t.index("capCtl = NMSKCap({"):t.index("upload:capUpload")]
