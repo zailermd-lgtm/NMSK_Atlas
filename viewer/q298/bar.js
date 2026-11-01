@@ -32,6 +32,15 @@ function NMSKQ298Bar(E, D, H){
   var box = E.box();
   if (box && box.parentNode) box.parentNode.insertBefore(root, box.nextSibling);
   else document.body.appendChild(root);
+  /* On a phone both engines CLOSE the panel that holds the search box as soon as you pick a structure (the Z engine's
+     closeSheet(), the own engine's own panel), so the three expansions would sit inside a hidden panel exactly when you
+     want them. The expansion row, its menu and its status line therefore move to a floating strip at the bottom of the
+     screen whenever the bar's own container is not on screen, and move back when it is. */
+  var floatBox = document.createElement("div");
+  floatBox.className = "q8-float";
+  floatBox.id = "q8-float";
+  floatBox.hidden = true;
+  document.body.appendChild(floatBox);
 
   var $ = function(id){ return document.getElementById(id); };
   var MULTI = null, EXP = null, lastRes = null, shown = [];
@@ -85,9 +94,24 @@ function NMSKQ298Bar(E, D, H){
     selRow();
   }
 
+  /* "off screen" means display:none somewhere up the tree OR scrolled/laid out outside the viewport: on a phone the
+     panel that holds the search box is sometimes hidden and sometimes just pushed off, and either way the expansion
+     row has to come to the user. */
+  function hidden(){
+    if (!root.offsetParent && !root.getClientRects().length) return true;
+    var r = root.getBoundingClientRect();
+    if (!r.width || !r.height) return true;
+    var w = window.innerWidth || 0, h = window.innerHeight || 0;
+    return r.bottom <= 8 || r.top >= h - 8 || r.right <= 8 || r.left >= w - 8;
+  }
+  function reparent(){
+    var eb = $("q8-exp"), mn = $("q8-menu"), st = $("q8-status"), to = hidden() ? floatBox : root;
+    if (eb && mn && st && eb.parentNode !== to){ to.appendChild(eb); to.appendChild(mn); to.appendChild(st); }
+    floatBox.hidden = to !== floatBox || !eb || eb.hidden;
+  }
   function selRow(){
     var eb = $("q8-exp"), id = E.selected();
-    if (!id || !EXP){ eb.hidden = true; closeMenu(); return; }
+    if (!id || !EXP){ eb.hidden = true; reparent(); closeMenu(); return; }
     var c = EXP.counts(id);
     eb.hidden = false;
     $("q8-selname").textContent = EXP.nameOf(id);
@@ -97,11 +121,13 @@ function NMSKQ298Bar(E, D, H){
         b.textContent = t[2] + (t[1] ? " · " + t[1] : "");
         b.disabled = !t[1] || !E.sel();
       });
+    reparent();
   }
 
   function menu(html, bind){
     var m = $("q8-menu");
     m.innerHTML = html; m.hidden = false;
+    reparent();
     if (bind) bind(m);
   }
   function closeMenu(){ var m = $("q8-menu"); if (m){ m.hidden = true; m.innerHTML = ""; } }

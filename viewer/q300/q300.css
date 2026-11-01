@@ -1,0 +1,34 @@
+/* Q300: the "what is hidden, and how to get it back" chip bar, the model-reset button and the bone-through control.
+   Same dark-glass surfaces as the Q290 zoom chip and the Q294 bars, so both engines and both themes read alike.
+   The chip bar sits at the 3-D view's BOTTOM-left (thumb zone on a phone; the Q294 undo / redo / reset group holds the
+   other corner), and the bar is display:none whenever nothing is hidden -- it costs no screen until it is needed. */
+.sa-bar{position:fixed;z-index:2147482000;display:flex;flex-wrap:wrap;gap:4px;align-items:center;max-width:min(66vw,520px)}
+.sa-bar[hidden]{display:none}
+.sa-chip{display:inline-flex;align-items:center;gap:2px;padding:3px 2px 3px 10px;border-radius:999px;
+  background:rgba(20,24,30,.92);color:#fff;border:1px solid rgba(255,210,63,.55);
+  font:600 12px/1.25 system-ui,-apple-system,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.sa-chip .sa-t{max-width:min(42vw,240px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sa-x{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;padding:0;margin:0;
+  border:0;border-radius:999px;background:transparent;color:#ffd23f;cursor:pointer;font:inherit}
+.sa-x:hover,.sa-x:focus-visible{background:rgba(255,210,63,.22)}
+.sa-x svg{display:block}
+.sa-all{display:inline-flex;align-items:center;min-height:30px;padding:4px 12px;border-radius:999px;cursor:pointer;
+  background:#ffd23f;color:#141414;border:1px solid #ffd23f;font:700 12px/1.2 system-ui,-apple-system,sans-serif;
+  box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.sa-all[hidden]{display:none}
+.sa-all:hover,.sa-all:focus-visible{filter:brightness(1.07)}
+@media (hover:none){ .sa-x{width:34px;height:34px;min-width:34px} .sa-all{min-height:38px} .sa-chip{font-size:12.5px} }
+/* Reset of the model: beside Q294's reset of the module, with the difference written out behind the "i" NMSKTips folds. */
+.mr-b{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding-left:6px!important;padding-right:6px!important}
+.mr-b svg{display:block}
+.mr-note,.br-note{display:inline-flex;align-items:center}
+.mr-note p,.br-note p{margin:0;max-width:260px;font-size:12px}
+/* Bone-through strength: three taps, not a slider, and only on screen while X-ray or Fade is engaged. */
+.br-box{display:inline-flex;align-items:center;gap:4px}
+.br-box[hidden]{display:none}
+.br-l{color:#9fb3c4;font:600 11.5px/1.2 system-ui,-apple-system,sans-serif;letter-spacing:.02em}
+.br-seg{display:inline-flex;gap:2px}
+.br-b{font:600 11.5px/1.2 system-ui,-apple-system,sans-serif;color:#eef3f7;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.18);border-radius:8px;min-height:30px;padding:3px 8px;cursor:pointer}
+.br-b[aria-pressed="true"]{background:#ffd23f;color:#141414;border-color:#ffd23f}
+@media (hover:none){ .br-b{min-height:38px;padding:5px 11px} }

@@ -39,6 +39,22 @@ EXPAND = [("adj", "q8-adj"), ("rel", "q8-rel"), ("grp", "q8-grp")]
 ROWSEL = "#list button.item, #list button.row"
 
 
+def tap_stable(pg, sel, phone, tries=4):
+    """Tap `sel` only once its box has stopped moving. The bar re-renders its own labels on a timer and the structure
+    list re-renders on every mark, so a tap measured a moment too early can land on the row underneath -- which is
+    exactly what one phone run did. This waits for two identical measurements before tapping."""
+    last = None
+    for _ in range(tries):
+        pg.eval_on_selector(sel, "e => e.scrollIntoView({block: 'center'})")
+        pg.wait_for_timeout(300)
+        r = pg.eval_on_selector(sel, "e => { const b = e.getBoundingClientRect();"
+                                     " return {x: Math.round(b.x), y: Math.round(b.y), w: Math.round(b.width), h: Math.round(b.height)}; }")
+        if r == last and r["w"] > 0 and r["h"] > 0:
+            break
+        last = r
+    tap(pg, sel, phone)
+
+
 def box_of(pg):
     """the engine's own search input: #q on the own pages, #search on the Z pages (the Q297 trap)."""
     for _ in range(8):
@@ -50,6 +66,25 @@ def box_of(pg):
                 tap(pg, s, False); break
         pg.wait_for_timeout(400)
     return None
+
+
+def ready_safe(pg):
+    """V.ready() also closes the welcome modal with a real click; under software rendering that click can time out when
+    the machine is busy. The modal is not what this round tests, so a failed close is retried and then tolerated -- the
+    checks below all go through the page's own search box, which the modal does not cover."""
+    try:
+        V.ready(pg)
+        return
+    except Exception as e:
+        print(f"       (V.ready retry after {type(e).__name__}: {str(e)[:60]})")
+    pg.wait_for_timeout(3000)
+    try:
+        pg.evaluate("() => { const b = document.getElementById('mw-close'); if (b) b.click(); }")
+    except Exception:
+        pass
+    pg.wait_for_function("document.readyState === 'complete'", timeout=120000)
+    pg.wait_for_function("window.NMSKClinicalTool && window.NMSKClinicalTool.api", timeout=240000)
+    pg.wait_for_timeout(1500)
 
 
 def q298_ready(pg):
@@ -100,7 +135,7 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None, report=No
                 pg.on("pageerror", lambda e: perr.append(str(e)))
                 pg.route("**/*", V.route)
                 pg.goto(f"http://127.0.0.1:{port}/{html}", wait_until="load", timeout=120000)
-                V.ready(pg)
+                ready_safe(pg)
                 q298_ready(pg)
                 st = pg.evaluate("() => NMSKQ298.state()")
                 check(f"{T}: the Q298 layer is live ({st['structures']} structures, {st['aliasForms']} alias forms, "
@@ -150,12 +185,12 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None, report=No
                 n0 = marked(pg)
                 res = pg.evaluate("() => { const r = NMSKQ298.result(); return r ? r.ids.length : 0; }")
                 check(f"{T}: D the search matched something to mark ({res})", res > 1, errs)
-                tap(pg, "#q8-all", phone); pg.wait_for_timeout(900)
+                tap_stable(pg, "#q8-all", phone); pg.wait_for_timeout(900)
                 n1 = marked(pg)
                 check(f"{T}: D \"Mark all {res}\" marked several at once ({n0} -> {n1})", n1 >= n0 + 2, errs)
                 search(pg, box, "gluteus" if kind == "zan" else "gluteus", phone)
                 res2 = pg.evaluate("() => { const r = NMSKQ298.result(); return r ? r.ids.length : 0; }")
-                tap(pg, "#q8-all", phone); pg.wait_for_timeout(900)
+                tap_stable(pg, "#q8-all", phone); pg.wait_for_timeout(900)
                 n2 = marked(pg)
                 check(f"{T}: D a second batch added more ({n1} -> {n2}, {res2} offered)", n2 > n1, errs)
                 pg.keyboard.press("Control+z"); pg.wait_for_timeout(1200)
@@ -190,7 +225,11 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None, report=No
                         m0 = marked(pg)
                         if not pg.is_visible("#" + bid):
                             check(f"{T}: E the {which} button is visible", False, errs); continue
-                        tap(pg, "#" + bid, phone); pg.wait_for_timeout(900)
+                        tap_stable(pg, "#" + bid, phone); pg.wait_for_timeout(900)
+                        if marked(pg) == m0 and which == "adj":
+                            # a missed tap (the bar or the list moved under the finger): say so and tap once more
+                            print(f"       {T}: the first {which} tap did not register, tapping again")
+                            tap_stable(pg, "#" + bid, phone); pg.wait_for_timeout(900)
                         if which in ("rel", "grp"):
                             # these open a short menu when more than one kind / group applies
                             nmenu = pg.evaluate("() => { const m = document.getElementById('q8-menu');"

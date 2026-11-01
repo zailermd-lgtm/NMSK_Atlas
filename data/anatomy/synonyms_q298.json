@@ -490,7 +490,8 @@
     "שריר הבטן הרוחבי"
    ],
    "src": "gray,ta,project",
-   "ambiguous": true
+   "ambiguous": true,
+   "note": "TA is also the standard abbreviation for tibialis anterior (and, outside anatomy, for Terminologia Anatomica); the search offers both muscles and names each one. TrA is the unambiguous form for this muscle."
   },
   {
    "canon": "Tibialis posterior",
@@ -643,7 +644,8 @@
     "שריר העכוז האמצעי"
    ],
    "src": "gray,ta,project",
-   "ambiguous": true
+   "ambiguous": true,
+   "note": "GM is ambiguous: gluteus maximus, gluteus medius, and in EMG work the medial head of gastrocnemius. This project's own abbreviation table uses GMax / GMed / GMin and never a bare GM."
   },
   {
    "canon": "Gluteus minimus",
@@ -1698,7 +1700,9 @@
     "דיסקית מפרק הלסת",
     "מפרק הלסת"
    ],
-   "src": "gray,ta"
+   "src": "gray,ta",
+   "multi_part": true,
+   "note": "TMJ names the temporomandibular joint; no page ships the joint as one mesh, so this entry is one of its named parts and the search offers all of them."
   },
   {
    "canon": "Articular capsule of temporomandibular joint",
@@ -1715,7 +1719,9 @@
    "he": [
     "קופסית מפרק הלסת"
    ],
-   "src": "gray,ta"
+   "src": "gray,ta",
+   "multi_part": true,
+   "note": "TMJ names the temporomandibular joint; no page ships the joint as one mesh, so this entry is one of its named parts and the search offers all of them."
   },
   {
    "canon": "Anterior sacro-iliac ligament",
@@ -1735,7 +1741,9 @@
     "הרצועה הקדמית של מפרק העצה-כסל",
     "מפרק סקרואיליאק"
    ],
-   "src": "gray,ta"
+   "src": "gray,ta",
+   "multi_part": true,
+   "note": "SIJ names the sacro-iliac joint; no page ships the joint as one mesh, so this entry is one of its named parts and the search offers all of them."
   },
   {
    "canon": "Posterior sacro-iliac ligament",
@@ -1754,7 +1762,9 @@
    "he": [
     "הרצועה האחורית של מפרק העצה-כסל"
    ],
-   "src": "gray,ta"
+   "src": "gray,ta",
+   "multi_part": true,
+   "note": "SIJ names the sacro-iliac joint; no page ships the joint as one mesh, so this entry is one of its named parts and the search offers all of them."
   },
   {
    "canon": "Interosseous sacro-iliac ligament",
@@ -1772,7 +1782,9 @@
    "he": [
     "הרצועה הבין-עצמית של מפרק העצה-כסל"
    ],
-   "src": "gray,ta"
+   "src": "gray,ta",
+   "multi_part": true,
+   "note": "SIJ names the sacro-iliac joint; no page ships the joint as one mesh, so this entry is one of its named parts and the search offers all of them."
   },
   {
    "canon": "Infrapatellar fat pad",
@@ -2471,5 +2483,6 @@
    "why": "data/derived/Q248_ligament_audit.md lists it on all six pages' MISSING list with 'no source'; it is not shipped. The other Cooper eponym -- the suspensory ligaments of the breast -- IS shipped on the three female pages."
   }
  ],
- "group_member_targets_doc": "Some named groups' member base ids in data/anatomy/muscle_groups_q283.json are not the display names the pages use (the pages say 'Anterior scalene', the group data says `scalenus_anterior`). `member_targets` gives the page display names for those members, so the group resolves by the same explicit rules as everything else and nothing is guessed."
+ "group_member_targets_doc": "Some named groups' member base ids in data/anatomy/muscle_groups_q283.json are not the display names the pages use (the pages say 'Anterior scalene', the group data says `scalenus_anterior`). `member_targets` gives the page display names for those members, so the group resolves by the same explicit rules as everything else and nothing is guessed.",
+ "multi_part_note": "An entry whose `multi_part` is true shares its abbreviation with other entries not because the abbreviation is ambiguous but because it names a JOINT and the pages ship that joint's named parts as separate meshes: TMJ -> the articular disc and the articular capsule of the temporomandibular joint; SIJ -> the anterior, posterior and interosseous sacro-iliac ligaments. The search offers all of them and says what each one is."
 }

@@ -128,11 +128,14 @@ def test_every_entry_resolves_somewhere_or_is_declared_not_shipped(syn, compiled
 
 
 def test_the_names_declared_not_shipped_really_are_absent(syn, pages):
+    """The EPONYM itself must not be a page name. `canon` is this project's name for what the eponym refers to, which
+    for Gerdy's tubercle is the iliotibial tract's distal attachment -- the tract IS shipped, the tubercle is not."""
     import pagedata as P
     for e in syn["cited_but_not_shipped"]:
-        key = P.fold(e["canon"].split(" (")[0])
+        key = P.fold(e["name"].replace("'s", "").replace("’s", ""))
+        assert key, e
         for k, ss in pages.items():
-            hit = [s["name"] for s in ss if key and key in P.fold(s["name"])]
+            hit = [s["name"] for s in ss if key in P.fold(s["name"])]
             assert not hit, f'{e["name"]}: declared not shipped but {k} carries {hit[:2]}'
 
 
@@ -151,8 +154,12 @@ def test_the_ambiguous_abbreviations_are_marked_ambiguous(syn):
             byab.setdefault(a, []).append(e)
     for a, es in byab.items():
         if len(es) > 1:
-            bad = [e["canon"] for e in es if not e.get("ambiguous")]
-            assert bad == [], f"{a} has {len(es)} expansions; these are not marked ambiguous: {bad}"
+            # an abbreviation with several entries is either genuinely ambiguous (GM, TA, PT) or names a joint whose
+            # named PARTS the pages ship separately (TMJ, SIJ). Both must be declared; neither may be silent.
+            bad = [e["canon"] for e in es if not (e.get("ambiguous") or e.get("multi_part"))]
+            assert bad == [], f"{a} has {len(es)} expansions; these declare neither ambiguous nor multi_part: {bad}"
+            for e in es:
+                assert e.get("note"), f"{a}: {e['canon']} has several expansions and no note saying so"
     gm = [e for e in syn["entries"] if "GM" in (e.get("abbr") or [])]
     assert len(gm) >= 2 and all(e.get("ambiguous") for e in gm), "GM must be marked ambiguous and say which muscles"
 
@@ -377,16 +384,18 @@ def test_the_js_and_the_python_fold_the_same_way():
     If the two ever drift, an alias stops matching, which is exactly the Q298 defect coming back."""
     js = (REPO / "viewer/q298/search.js").read_text(encoding="utf-8")
     py = (REPO / "scripts/anatomy/q298/pagedata.py").read_text(encoding="utf-8")
-    assert "[^0-9a-z\\u0590-\\u05ff]+" in js, "search.js must fold punctuation with the same class as pagedata.py"
-    assert r"[^0-9a-z֐-׿]+" in py, "pagedata.py punctuation class changed"
+    # the same character class in both, written either as \uXXXX escapes or as the literal Hebrew range
+    CLS = ["[^0-9a-z֐-׿]+", "[^0-9a-z\\u0590-\\u05ff]+"]
+    assert any(c in js for c in CLS), "search.js must fold punctuation with the same class as pagedata.py"
+    assert any(c in py for c in CLS), "pagedata.py punctuation class changed"
     node = subprocess.run(["node", "--version"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     if node.returncode != 0:
         pytest.skip("node not available")
     import pagedata as P
     cases = ["Iliotibial (IT) tract/band", "Cooper's ligaments", "CN VII", "Müller", "  spaces   here ",
              "גיד אכילס", "Median nerve.l", "ACL/PCL"]
-    prog = ("const fs=require('fs');eval(fs.readFileSync(process.argv[2],'utf8'));"
-            "console.log(JSON.stringify(JSON.parse(process.argv[3]).map(NMSKSearchCore.fold)));")
+    prog = ("const fs=require('fs');eval(fs.readFileSync(process.argv[1],'utf8'));"
+            "console.log(JSON.stringify(JSON.parse(process.argv[2]).map(NMSKSearchCore.fold)));")
     r = subprocess.run(["node", "-e", prog, "--", str(REPO / "viewer/q298/search.js"), json.dumps(cases)],
                        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, cwd=REPO)
     assert r.returncode == 0, r.stdout
@@ -408,8 +417,8 @@ def test_the_js_matcher_finds_the_structure_by_every_name_the_owner_used(compile
                            "iliotibal band", "hamstrings", "Hoffa", "Gerdy", "kneecap"]}
     tmp = REPO / "data/derived/.q298_js_probe.json"
     tmp.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
-    prog = ("const fs=require('fs');eval(fs.readFileSync(process.argv[2],'utf8'));"
-            "const p=JSON.parse(fs.readFileSync(process.argv[3],'utf8'));"
+    prog = ("const fs=require('fs');eval(fs.readFileSync(process.argv[1],'utf8'));"
+            "const p=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));"
             "const ix=NMSKSearchCore.build({items:p.items,data:p.data});const o={};"
             "for(const q of p.queries){const r=ix.run(q);"
             "o[q]={n:r.ids.length,top:r.ids.slice(0,4),why:r.ids.slice(0,4).map(i=>r.why[i]?r.why[i].c:null),"

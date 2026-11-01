@@ -242,6 +242,8 @@ def run(mode, src="build/q297", out="/dev/shm/q299/pre", tol=5.0, keys=None):
                 rec = json.loads(json.dumps(m.get("rec") or {}))
                 rec["procedural_badge"] = ((rec.get("procedural_badge") + " || ") if rec.get("procedural_badge") else "") + badge(key, sid, page["fixed"][sid])
                 rp[sid] = (V1, F, rec)
+            order = [m["id"] for m in man["meshes"]]
+            page["fixed_indices"] = {sid: order.index(sid) for sid in rp}
             man2, _ = P5.save_page(d_out, STEM[key], man, blob, replace=rp, meta=meta)
             shutil.copy2(d_out / f"{STEM[key]}.html", d_out / "index.html")
             page["meshes"] = len(man2["meshes"])
@@ -271,12 +273,77 @@ def badge(key, sid, s):
                "CT breast label (`breast_ct_l` / `breast_ct_r`, which is inside the body)." if (s['volume_ratio'] or 1) < 0.9 else ""))
 
 
+def rig(key, fresh):
+    """The moved structures are SKINNED, so their per-vertex skinning weights -- which make_pose_rig derives from the
+    vertex positions -- have to come from a fresh run on the NEW page. Every other entry of the committed rig is kept
+    byte for byte, the way Q292 and Q295 did it: only the replaced structures' entries are substituted."""
+    import base64, zlib
+    rep = json.loads(REPORT.read_text())["pages"][key]
+    idx = sorted(rep["fixed_indices"].values())
+    cp = REPO / f"data/anatomy/pose_rig_{key}.json"
+    A = json.loads(cp.read_text()); F = json.loads(Path(fresh).read_text())
+    assert A["rig"]["count"] == F["rig"]["count"], (A["rig"]["count"], F["rig"]["count"])
+    assert A["rig"]["nv"] == F["rig"]["nv"], "vertex counts changed: the fix must not add or drop a vertex"
+    assert [x[0] for x in A["rig"]["segs"]] == [x[0] for x in F["rig"]["segs"]], "segment lists differ"
+    wa = zlib.decompress(base64.b64decode(A["weights_zlib_b64"]))
+    wf = zlib.decompress(base64.b64decode(F["weights_zlib_b64"]))
+
+    def seglen(e):
+        return (e[1] + 7) // 8 + e[5] * (2 * e[2] - 1)
+
+    rig = json.loads(json.dumps(A["rig"]))
+    fsk = {e[0]: e for e in F["rig"]["skin"]}
+    frg = {i: seg for seg, lst in F["rig"]["rigid"] for i in lst}
+    # (entry, source blob) in the committed order, so unchanged chunks are copied byte for byte
+    items = [(e, wa) for e in rig["skin"]]
+    nsk = nrg = 0
+    for i in idx:
+        items = [(e, b) for e, b in items if e[0] != i]
+        for g in rig["rigid"]:
+            if i in g[1]:
+                g[1] = [x for x in g[1] if x != i]
+        if i in fsk:
+            items.append((list(fsk[i]), wf)); nsk += 1
+        else:
+            seg = frg[i]
+            for g in rig["rigid"]:
+                if g[0] == seg:
+                    g[1] = sorted(g[1] + [i]); break
+            else:
+                rig["rigid"].append([seg, [i]])
+            nrg += 1
+    rig["rigid"] = sorted([g for g in rig["rigid"] if g[1]])
+    items.sort(key=lambda t: t[0][0])
+    packed = bytearray(); out = []
+    for e, src in items:
+        e = list(e); s0 = e[4]; chunk = bytes(src[s0:s0 + seglen(e)])
+        e[4] = len(packed); packed.extend(chunk); out.append(e)
+    rig["skin"] = out
+    rig["notes"] = A["rig"]["notes"] + (f"; Q299: {len(idx)} replaced geometries (the containment fix) take their "
+                                        f"entries from a fresh run on the new page ({nsk} skinned, {nrg} rigid); "
+                                        f"every other entry as committed")
+    o = dict(A); o["rig"] = rig
+    o["weights_zlib_b64"] = base64.b64encode(zlib.compress(bytes(packed), 9)).decode("ascii")
+    cp.write_text(json.dumps(o, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+    print(key, "rig", rig["count"], "skinned", len(rig["skin"]), "replaced skinned", nsk, "rigid", nrg,
+          "weights", len(wa), "->", len(packed))
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["plan", "build"])
+    ap.add_argument("mode", choices=["plan", "build", "rig"])
+    ap.add_argument("--fresh", default="")
     ap.add_argument("--src", default="build/q297")
     ap.add_argument("--out", default="/dev/shm/q299/pre")
     ap.add_argument("--tol", type=float, default=5.0)
     ap.add_argument("--pages", default="")
     a = ap.parse_args()
-    run(a.mode, a.src, a.out, a.tol, a.pages.split(",") if a.pages else None)
+    if a.mode == "rig":
+        for k in (a.pages.split(",") if a.pages else ZKEYS):
+            f = a.fresh.replace("KEY", k) if a.fresh else f"/dev/shm/q299/fresh/pose_rig_{k}.json"
+            if json.loads(REPORT.read_text())["pages"].get(k, {}).get("fixed_indices"):
+                rig(k, f)
+            else:
+                print(k, "no replaced geometry: rig untouched")
+    else:
+        run(a.mode, a.src, a.out, a.tol, a.pages.split(",") if a.pages else None)
