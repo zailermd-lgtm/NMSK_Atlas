@@ -176,12 +176,15 @@ def edits():
 
 
 def hub_para(text):
-    """insert the Q299 paragraph right before the Q297 one in the hub footer"""
-    anchor = '    <div><b>Since Q297 (1 Nov 2026)</b>'
+    """insert the Q299 paragraph at the TOP of the hub footer's round list (newest first)"""
     if "Since Q299" in text:
         return text, 0
-    assert text.count(anchor) == 1, "hub: the Q297 footer paragraph anchor is not unique"
-    return text.replace(anchor, HUB_PARA + anchor), 1
+    for n in (298, 297, 296, 295):
+        anchor = '    <div><b>Since Q%d (' % n
+        i = text.find(anchor)
+        if i >= 0:
+            return text[:i] + HUB_PARA + text[i:], 1
+    raise SystemExit("hub: no 'Since Q29x' footer paragraph to insert before")
 
 
 def main():
