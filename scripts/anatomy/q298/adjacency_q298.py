@@ -14,7 +14,8 @@ It is a MEASUREMENT, not an anatomical claim: two structures can be adjacent in 
 says so ("measured on this page's geometry").
 
     python3 scripts/anatomy/q298/adjacency_q298.py [KEY...] [--src build/q297] [--cell 2.0]
--> data/derived/Q298_adjacency_<key>.json  {ids, adj (index lists), threshold_mm, cell_mm, pairs, how, per_structure}
+    python3 scripts/anatomy/q298/adjacency_q298.py --isolated [KEY...]   # record the real nearest distance of any structure with no neighbour
+-> data/derived/Q298_adjacency_<key>.json  {ids, adj (index lists), threshold_mm, cell_mm, pairs, how, per_structure, isolated_ids}
 """
 from __future__ import annotations
 
@@ -140,6 +141,40 @@ def build(key, src, cell=CELL):
     return out
 
 
+def isolated(key, src):
+    """For a page with structures that have NO neighbour at the threshold, measure how far away the nearest other
+    structure really is and record it, so an isolated structure is a stated measurement and not a silent gap."""
+    from scipy.spatial import cKDTree
+    f = DERIVED / f"Q298_adjacency_{key}.json"
+    out = json.loads(f.read_text(encoding="utf-8"))
+    tgt = {i: out["ids"][i] for i, a in enumerate(out["adj"]) if not a}
+    if not tgt:
+        out["isolated_ids"] = []
+        f.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
+        print(f"{key}: no isolated structure")
+        return
+    cell = out["cell_mm"]
+    pts, allp, lab = {}, [], []
+    for i, sid, v, fc in P.meshes(key, src):
+        sm = samples(v, fc, cell)
+        if i in tgt:
+            pts[i] = sm
+        allp.append(sm[::5])
+        lab.append(np.full(len(sm[::5]), i, np.int32))
+    allp = np.vstack(allp)
+    lab = np.concatenate(lab)
+    rows = []
+    for i, sid in sorted(tgt.items()):
+        m = lab != i
+        d, j = cKDTree(allp[m]).query(pts[i], k=1)
+        k = int(np.argmin(d))
+        rows.append({"id": sid, "nearest_mm": round(float(d.min()), 2), "nearest_id": out["ids"][int(lab[m][j[k]])]})
+        print(f"  {sid}: nearest other structure {rows[-1]['nearest_mm']} mm ({rows[-1]['nearest_id']})")
+    out["isolated_ids"] = rows
+    f.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
+    print(f"{key}: {len(rows)} isolated structure(s) recorded in {f.name}")
+
+
 def main(argv):
     src, cell = "build/q297", CELL
     if "--src" in argv:
@@ -147,6 +182,11 @@ def main(argv):
     if "--cell" in argv:
         i = argv.index("--cell"); cell = float(argv[i + 1]); argv = argv[:i] + argv[i + 2:]
     DERIVED.mkdir(parents=True, exist_ok=True)
+    if "--isolated" in argv:
+        argv = [a for a in argv if a != "--isolated"]
+        for key in (argv or P.KEYS):
+            isolated(key, src)
+        return 0
     for key in (argv or P.KEYS):
         out = build(key, src, cell)
         p = DERIVED / f"Q298_adjacency_{key}.json"

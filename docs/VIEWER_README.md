@@ -368,3 +368,55 @@ on a desktop and on a phone.
 - **Fingertips**: Z-Anatomy ships no nail, nail bed or digital pulp, so there is 0.7–3.3 mm of skin in front of the
   distal phalanx where a real pulp and nail take 3–8 mm; on the Combined pages the Q293 re-seating pushed two tips past
   the skin front. Measured per finger on each card. Nothing was sculpted to hide it.
+
+## Finding a structure by any name, marking several, and the three expansions (Q298)
+
+- **The search defect, stated plainly.** Before this round each engine matched your query as **one contiguous substring
+  of one field** — the Z pages `name.toLowerCase().indexOf(q)` on the display name alone, the Imaging pages the same over
+  `name + " " + id`. So an abbreviation could never match (no page name contains the letters "itb"), a multi-word query
+  failed unless those words were contiguous and in that order (**"iliotibial band" missed "Iliotibial (IT) tract/band"**,
+  which contains both words), the Latin / Terminologia name, the group, the system and the part-of parent were never
+  searched at all, one typo returned nothing, and the results came back in the page's draw order (Imaging) or
+  alphabetically (Z) — never by how well they matched. The structure was there all along, labelled **Iliotibial tract**.
+- **Now**: type `ITB`, `IT band`, `iliotibial band`, `tractus iliotibialis` or `הרצועה האיליוטיביאלית` and you reach it,
+  and the row tells you which name matched — `Iliotibial tract (ITB)` — so you learn the canonical name. Matching is
+  case- and punctuation-blind, folds accents, searches the name, the Latin name, the id, the system, the group and the
+  part-of parent, and falls back to one or two typos' worth of edit distance when nothing else matches. Ranking is
+  exact alias → exact name → word start → substring → fuzzy, and a whole structure always outranks one of its parts.
+- **The data is a real file**: `data/anatomy/synonyms_q298.json` — abbreviations (each a published one; nothing invented),
+  English and Latin second names, lay terms, **Hebrew names for every entry** (a project-supplied translation, said so in
+  the file: Terminologia Anatomica has no Hebrew edition), and the eponyms this project already cites. Resolved against
+  each page's own structure list at build time by `scripts/anatomy/q298/build_search_q298.py`, so nothing is guessed in
+  the browser: `data/derived/Q298_search_<page>.json` records exactly what resolved and what did not.
+- **Ambiguous abbreviations are not silently resolved.** `GM` is gluteus maximus, gluteus medius and (in EMG) the medial
+  gastrocnemius: all are offered and each is named. `TA` offers tibialis anterior and transversus abdominis.
+- **Names we cite but do not ship** say so instead of returning nothing: Colles' fascia, Scarpa's fascia, Gerdy's
+  tubercle and the pectineal ligament of Cooper each return a line explaining where the project cites them and why no
+  mesh carries them. Cooper's ligaments **of the breast** are shipped, on the three female pages.
+- **Marking several at once.** Under the search box: **Mark all N** marks every match of the current search — the whole
+  result set, not the 260 / 400 the list truncates to — in **one undo step**. **Range** marks a run of rows (tap the
+  first, then the last; Shift-click on a desktop does the same without arming anything; a long press on a phone arms it).
+  **On model** turns on the engine's own mark-by-tapping mode, which has existed since Q294 behind the Mark button but
+  was not discoverable — Shift/Ctrl-click and a long press on the model still work at any time. Everything goes through
+  the marked-structures controller, so it composes with the Marked / Display summary and with undo exactly as before.
+- **After you pick one structure, three one-tap expansions**, each adding to the marked set as a single undo step:
+  - **Adjacent** — *measured on that page's own meshes*: every structure's surface is rasterised into a shared **2 mm**
+    voxel grid (sampled at ≤ 1 mm, because 69 % of the triangles on a Z page are longer than 3 mm across and a
+    vertex-to-vertex test would miss most real contacts) and two structures are adjacent when their voxels touch — a
+    surface-to-surface separation of at most **3.46 mm**. It is a measurement, not an anatomical claim, and the status
+    line says so with the count and the threshold.
+  - **Related** — the same muscle's other heads and parts, its tendon / aponeurosis / sheath, its bursae, its nerve
+    supply, an artery whose own record says it supplies it, the bones it attaches to, the structures of the joints it
+    crosses, and its antagonists at a shared joint. Built from the project's own cited data (the Q283 action and
+    attachment records, the Q293 heads and audit, the plexus data, each card's own fields). Each kind shows its own
+    source; the four that are a rule of this project rather than a cited list — tendon and bursa *by name*, which page
+    structures count as a joint, and calling a pair antagonists — are labelled **inferred**.
+  - **Functional group** — the named textbook groups (`data/anatomy/muscle_groups_q283.json`), the groups derived from the
+    cited action data (every muscle whose own record gives this motion at this joint), and the few extra groups in
+    `data/anatomy/relations_q298.json`: the **tensors of the iliotibial tract** (tensor fasciae latae and gluteus
+    maximus), the contributors to the calcaneal and patellar tendons, the pes anserinus and the carpal-tunnel contents.
+    More than one group normally applies, so the button opens a short menu; one group is one tap.
+- Searching a group name (`hamstrings`, `rotator cuff`, `quads`, `calf`, `peroneals`) offers the **group itself** as one
+  selectable chip under the search box, with its member count and its source.
+- Shared modules, so both engines behave identically: `viewer/q298/` spliced into both templates by
+  `scripts/sync_q298.py`; the per-page data rides in the page's `nmsk-q298` block.

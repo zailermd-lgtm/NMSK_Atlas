@@ -11,6 +11,7 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q240/make_calibre.py --inject    calibre table        (committed data, no recompute)
     scripts/anatomy/q241/make_pose_rig.py --inject   pose rig             (committed data, no recompute)
     scripts/anatomy/q284/build_moments.py --inject   moment arms          (committed data, no recompute)
+    scripts/anatomy/q298/build_search_q298.py --inject  search aliases / groups / adjacency / relations (committed data, no recompute)
     scripts/anatomy/q237/build_sidecar.py            symmetry_q237.json
     scripts/anatomy/q256/build_plexus_sidecar.py     plexus_groups.json
     index.html = the page
@@ -104,6 +105,7 @@ def build(p: str, src_root: Path, out: Path):
     run(["python3", "scripts/anatomy/q240/make_calibre.py", "--inject", str(dst)])
     run(["python3", "scripts/anatomy/q241/make_pose_rig.py", "--inject", str(dst)])
     run(["python3", "scripts/anatomy/q284/build_moments.py", "--inject", str(dst)])
+    run(["python3", "scripts/anatomy/q298/build_search_q298.py", "--inject", str(dst)])
     html = page_html(dst)
     run(["python3", "scripts/anatomy/q237/build_sidecar.py", SYM_KEY[p], str(dst), "-o", str(dst / "symmetry_q237.json")])
     run(["python3", "scripts/anatomy/q256/build_plexus_sidecar.py", "--html", str(html), "-o", str(dst / "plexus_groups.json")])

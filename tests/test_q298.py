@@ -206,8 +206,23 @@ def test_adjacency_is_symmetric_without_self_links_and_leaves_nothing_isolated(a
             assert not [j for j in row if j < 0 or j >= n], (k, i)
         bad = [(i, j) for i, row in enumerate(a["adj"]) for j in row if i not in a["adj"][j]]
         assert bad == [], f"{k}: {len(bad)} one-way adjacency links: {bad[:5]}"
-        assert a["per_structure"]["isolated"] == 0, f'{k}: {a["per_structure"]["isolated"]} structures have no neighbour'
         assert a["pairs"] > n, (k, a["pairs"], n)
+
+
+def test_every_structure_with_no_neighbour_has_its_real_distance_recorded(adj):
+    """Combined Female has two: the left and right central axillary node clusters really do float, 5.01 and 6.48 mm from
+    the nearest structure (the deep upper-arm fat). An isolated structure is allowed, but only as a stated measurement."""
+    for k, a in adj.items():
+        iso = [a["ids"][i] for i, row in enumerate(a["adj"]) if not row]
+        assert a["per_structure"]["isolated"] == len(iso), k
+        assert "isolated_ids" in a, f"{k}: the isolated structures were not measured (run --isolated)"
+        assert sorted(r["id"] for r in a["isolated_ids"]) == sorted(iso), (k, iso)
+        for r in a["isolated_ids"]:
+            assert r["nearest_mm"] > a["threshold_mm"], (k, r)
+            assert r["nearest_id"] in a["ids"], (k, r)
+        assert len(iso) <= 2, f"{k}: {len(iso)} structures have no neighbour at all: {iso[:5]}"
+    assert sorted(r["id"] for r in adj["comb_f"]["isolated_ids"]) == \
+        ["zan_central_axillary_nodes_l", "zan_central_axillary_nodes_r"], adj["comb_f"]["isolated_ids"]
 
 
 def test_adjacency_is_within_the_stated_threshold_on_a_real_sample(adj):
