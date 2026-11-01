@@ -1,0 +1,18 @@
+/* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
+   something to do, and every control at least 34 px tall so a finger can hit it. */
+.q8-bar{display:flex;flex-direction:column;gap:4px;margin:5px 0 2px}
+.q8-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.q8-bar .q8-b,.q8-bar .q8-g{font:inherit;font-size:12px;line-height:1.1;min-height:30px;padding:5px 8px;border-radius:7px;
+  border:1px solid var(--line,#38404c);background:var(--panel-2,#1b2026);color:var(--ink,#e8edf4);cursor:pointer}
+.q8-bar .q8-b[aria-pressed="true"],.q8-bar .q8-g[aria-pressed="true"]{background:#ffb000;border-color:#ffb000;color:#17191d;font-weight:600}
+.q8-bar .q8-b:disabled{opacity:.42;cursor:default}
+.q8-bar .q8-g{border-style:dashed}
+.q8-n{font-size:11px;opacity:.72;font-variant-numeric:tabular-nums}
+.q8-inf{font-size:10px;padding:0 4px;border-radius:5px;background:#5a4a12;color:#ffd978;text-transform:uppercase;letter-spacing:.03em}
+.q8-why{font-size:11px;opacity:.8;color:#ffb000}
+.q8-menu{display:flex;flex-wrap:wrap;gap:4px;padding:5px;border:1px solid var(--line,#38404c);border-radius:8px;
+  background:var(--panel,#13171c)}
+.q8-mh{flex:1 0 100%;margin:0 0 2px;font-size:11px;opacity:.8}
+.q8-note{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.9;border-left:2px solid #ffb000;padding-left:6px}
+.q8-status{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.8;min-height:1em}
+@media (max-width:420px){.q8-bar .q8-b,.q8-bar .q8-g{font-size:11px;padding:5px 6px}}

@@ -1271,6 +1271,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 <!-- LABELS html end -->
 <!-- NMSK-POSE-RIG begin --><script type="application/json" id="nmsk-pose-rig">{}</script><!-- NMSK-POSE-RIG end -->
 <!-- NMSK-ABBREV begin --><script type="application/json" id="nmsk-abbrev">{}</script><!-- NMSK-ABBREV end -->
+<!-- NMSK-Q298 begin --><script type="application/json" id="nmsk-q298">{}</script><!-- NMSK-Q298 end -->
 <!-- NMSK-CALIBRE begin --><script type="application/json" id="nmsk-calibre">{}</script><!-- NMSK-CALIBRE end -->
 
 <aside id="rail">
@@ -2206,6 +2207,722 @@ var NMSKPartSlices = (function(){
 })();
 </script>
 <!-- Q294 html end -->
+<!-- Q298 html begin -->
+<style>
+/* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
+   something to do, and every control at least 34 px tall so a finger can hit it. */
+.q8-bar{display:flex;flex-direction:column;gap:4px;margin:5px 0 2px}
+.q8-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.q8-bar .q8-b,.q8-bar .q8-g{font:inherit;font-size:12px;line-height:1.1;min-height:30px;padding:5px 8px;border-radius:7px;
+  border:1px solid var(--line,#38404c);background:var(--panel-2,#1b2026);color:var(--ink,#e8edf4);cursor:pointer}
+.q8-bar .q8-b[aria-pressed="true"],.q8-bar .q8-g[aria-pressed="true"]{background:#ffb000;border-color:#ffb000;color:#17191d;font-weight:600}
+.q8-bar .q8-b:disabled{opacity:.42;cursor:default}
+.q8-bar .q8-g{border-style:dashed}
+.q8-n{font-size:11px;opacity:.72;font-variant-numeric:tabular-nums}
+.q8-inf{font-size:10px;padding:0 4px;border-radius:5px;background:#5a4a12;color:#ffd978;text-transform:uppercase;letter-spacing:.03em}
+.q8-why{font-size:11px;opacity:.8;color:#ffb000}
+.q8-menu{display:flex;flex-wrap:wrap;gap:4px;padding:5px;border:1px solid var(--line,#38404c);border-radius:8px;
+  background:var(--panel,#13171c)}
+.q8-mh{flex:1 0 100%;margin:0 0 2px;font-size:11px;opacity:.8}
+.q8-note{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.9;border-left:2px solid #ffb000;padding-left:6px}
+.q8-status{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.8;min-height:1em}
+@media (max-width:420px){.q8-bar .q8-b,.q8-bar .q8-g{font-size:11px;padding:5px 6px}}
+</style>
+<!-- Q298: the search / multi-select / expansion bar has no static markup. NMSKQ298Bar() builds it in JS and inserts it
+     immediately after the engine's own search input, because the two engines name that input differently (#q on the own
+     pages, #search on the Z pages, the difference that bit Q297) and their panels are laid out differently. The per-page
+     alias / group / adjacency / relation data is the separate nmsk-q298 block, filled by
+     scripts/anatomy/q298/build_search_q298.py --inject. -->
+<script>
+/* Q298 search core: one matcher for both viewer engines, no DOM, so tests/test_q298.py can drive it through the page and
+   scripts can reason about it.
+
+   WHY THIS EXISTS. The owner looked for the iliotibial tract as "ITB" and as "iliotibial band" and the search returned
+   nothing. Before this round each engine matched the query as ONE CONTIGUOUS SUBSTRING of ONE field -- the Z engine
+   `o.name.toLowerCase().indexOf(q)`, the own engine the same over `name + " " + id` -- so:
+     * no abbreviation could ever match (no page name contains the letters "itb");
+     * a multi-word query failed unless those words were contiguous and in that order ("iliotibial band" misses
+       "Iliotibial (IT) tract/band", which does contain both words);
+     * the Latin / Terminologia name, the structure's group, its system and its part-of parent were never searched
+       (the Z engine did not even search the id);
+     * a single typo returned nothing;
+     * and the results were ordered by the page's draw order (own) or alphabetically (Z), never by how well they matched.
+
+   WHAT IT MATCHES, in this order of rank:
+     5  an exact alias: the whole query is an abbreviation, synonym, Latin form, Hebrew name or eponym of a structure
+        (data/anatomy/synonyms_q298.json, resolved to THIS page's structures at build time)
+     4  an exact name: the query is the structure's own name (or its Latin name, or its id)
+     3  a word start: a word of the name / Latin / id / group / system / part-of parent starts with the query
+     2  a substring anywhere in those fields
+     1  fuzzy: within 1 edit (queries of 5 characters or fewer) or 2 edits (longer) of a word of the name or of the
+        whole name, and prefix aliases
+   A sub-part (a head, a part, a "continuation beyond the data-block cut" piece, anything with a part-of parent) is
+   ranked below a whole structure of the same score, which is the "prefer whole structures over sub-parts" rule.
+
+   Everything is folded the same way the build step folds it: lower case, accents stripped, every run of punctuation or
+   space to one space. Hebrew letters pass through unchanged, so a Hebrew query matches a Hebrew alias. */
+var NMSKSearchCore = (function(){
+  "use strict";
+  var CJ = /[̀-ͯ]/g, PUNCT = /[^0-9a-z֐-׿]+/g;
+
+  function fold(s){
+    s = String(s == null ? "" : s).toLowerCase();
+    try { s = s.normalize("NFKD").replace(CJ, ""); } catch (err){}
+    return s.replace(PUNCT, " ").replace(/^ +| +$/g, "");
+  }
+
+  /* bounded Levenshtein: returns a number > max as soon as it cannot be <= max (cheap enough for 3,300 structures) */
+  function dist(a, b, max){
+    var la = a.length, lb = b.length;
+    if (Math.abs(la - lb) > max) return max + 1;
+    var prev = new Array(lb + 1), cur = new Array(lb + 1), i, j;
+    for (j = 0; j <= lb; j++) prev[j] = j;
+    for (i = 1; i <= la; i++){
+      cur[0] = i;
+      var lo = Math.max(1, i - max), hi = Math.min(lb, i + max), best = max + 1;
+      for (j = 1; j <= lb; j++) cur[j] = max + 1;
+      for (j = lo; j <= hi; j++){
+        var c = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + c);
+        if (cur[j] < best) best = cur[j];
+      }
+      if (best > max) return max + 1;
+      var t = prev; prev = cur; cur = t;
+    }
+    return prev[lb];
+  }
+
+  function build(cfg){
+    var items = cfg.items || [], D = cfg.data || {}, i, k;
+    var ids = D.ids || [], sub = D.sub || [], alias = D.alias || [], groups = D.groups || [], ns = D.ns || [];
+    var subOf = {};                                                 // id -> 1 when the build step called it a sub-part
+    for (i = 0; i < ids.length; i++) if (sub[i]) subOf[ids[i]] = 1;
+
+    var rows = [];                                                  // one per list item, in the engine's own list order
+    var byId = {};
+    for (i = 0; i < items.length; i++){
+      var it = items[i];
+      var name = fold(it.name), latin = fold(it.latin), sid = fold(String(it.id).replace(/_/g, " "));
+      var extra = fold([it.cat, it.part, it.group, it.note].join(" "));
+      var hay = name + " | " + latin + " | " + sid + " | " + extra;
+      var words = (name + " " + latin + " " + sid + " " + extra).split(" ");
+      var seen = {}, w = [];
+      for (k = 0; k < words.length; k++) if (words[k] && !seen[words[k]]){ seen[words[k]] = 1; w.push(words[k]); }
+      rows.push({id:it.id, name:name, latin:latin, hay:hay, words:w,
+                 sub:(subOf[it.id] || it.sub) ? 1 : 0});
+      if (!(it.id in byId)) byId[it.id] = [];
+      byId[it.id].push(rows.length - 1);
+    }
+
+    var aliasByQ = {};                                              // folded query form -> [alias]
+    for (i = 0; i < alias.length; i++){
+      var a = alias[i];
+      if (!aliasByQ[a.q]) aliasByQ[a.q] = [];
+      aliasByQ[a.q].push(a);
+    }
+    var aliasQ = Object.keys(aliasByQ).sort();
+
+    function idsOfAlias(a){
+      var out = [], j;
+      for (j = 0; j < (a.i || []).length; j++){ var s = ids[a.i[j]]; if (s) out.push(s); }
+      return out;
+    }
+
+    function run(q0){
+      q0 = fold(q0);
+      var out = {q:q0, ids:[], why:{}, groups:[], notes:[], stats:{exact:0, alias:0, wordstart:0, substr:0, fuzzy:0}};
+      if (!q0){
+        for (var z = 0; z < rows.length; z++) out.ids.push(rows[z].id);
+        return out;
+      }
+      var score = {}, why = {}, j, n, id;
+
+      function bump(sid, s, w){
+        if (!(sid in score) || score[sid] < s){ score[sid] = s; if (w) why[sid] = w; }
+        else if (score[sid] === s && w && !why[sid]) why[sid] = w;
+      }
+
+      /* 1. aliases: exact first, then a prefix of an alias (so "iliotib" reaches the band / tract synonyms too) */
+      var al = aliasByQ[q0] || [];
+      for (j = 0; j < al.length; j++){
+        var lst = idsOfAlias(al[j]);
+        for (n = 0; n < lst.length; n++) bump(lst[n], 5, al[j]);
+        out.stats.alias += lst.length;
+      }
+      if (q0.length >= 2){
+        for (j = 0; j < aliasQ.length; j++){
+          if (aliasQ[j].length > q0.length && aliasQ[j].indexOf(q0) === 0){
+            var pl = aliasByQ[aliasQ[j]];
+            for (n = 0; n < pl.length; n++){
+              var l2 = idsOfAlias(pl[n]);
+              for (var m = 0; m < l2.length; m++) bump(l2[m], 2.5, pl[n]);
+            }
+          }
+        }
+      }
+
+      /* 2. the page's own fields */
+      for (j = 0; j < rows.length; j++){
+        var r = rows[j], s = 0;
+        if (r.name === q0 || r.latin === q0) s = 4;
+        else {
+          for (n = 0; n < r.words.length; n++) if (r.words[n].indexOf(q0) === 0){ s = 3; break; }
+          if (!s && r.hay.indexOf(q0) >= 0) s = 2;
+        }
+        if (s){
+          if (s === 4) out.stats.exact++; else if (s === 3) out.stats.wordstart++; else out.stats.substr++;
+          bump(r.id, s, null);
+        }
+      }
+
+      /* 3. fuzzy, ONLY when nothing else matched at all (a "did you mean", not an extra filter). Gating it this way is
+            also what keeps a keystroke cheap: the edit-distance pass over 3,300 names and their words is the expensive
+            part, and on a query that already matches something it never runs. */
+      var found = 0; for (id in score) if (score.hasOwnProperty(id)) found++;
+      if (q0.length >= 4 && found === 0){
+        var max = q0.length <= 5 ? 1 : 2;
+        for (j = 0; j < rows.length; j++){
+          var r2 = rows[j];
+          if (score[r2.id] >= 2) continue;
+          var hit = dist(q0, r2.name, max) <= max;
+          if (!hit) for (n = 0; n < r2.words.length && !hit; n++){
+            if (r2.words[n].length >= 3 && dist(q0, r2.words[n], max) <= max) hit = true;
+          }
+          if (hit){ bump(r2.id, 1, null); out.stats.fuzzy++; }
+        }
+        for (j = 0; j < aliasQ.length; j++){
+          if (dist(q0, aliasQ[j], max) <= max){
+            var fl = aliasByQ[aliasQ[j]];
+            for (n = 0; n < fl.length; n++){
+              var l3 = idsOfAlias(fl[n]);
+              for (var m3 = 0; m3 < l3.length; m3++) bump(l3[m3], 1.5, fl[n]);
+            }
+          }
+        }
+      }
+
+      /* 4. rank: score, then whole structures before sub-parts, then by name */
+      var pick = [];
+      for (j = 0; j < rows.length; j++){
+        var r3 = rows[j];
+        if (!(r3.id in score)) continue;
+        pick.push({id:r3.id, s:score[r3.id], sub:r3.sub, name:r3.name, ord:j});
+      }
+      var seen2 = {};
+      pick.sort(function(a, b){
+        return (b.s - a.s) || (a.sub - b.sub) || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0) || (a.ord - b.ord);
+      });
+      for (j = 0; j < pick.length; j++){
+        if (seen2[pick[j].id]) continue;
+        seen2[pick[j].id] = 1;
+        out.ids.push(pick[j].id);
+        if (why[pick[j].id]) out.why[pick[j].id] = why[pick[j].id];
+      }
+
+      /* 5. groups whose own name or alias matches -- offered as ONE selectable row each */
+      for (j = 0; j < groups.length; j++){
+        var g = groups[j], hit2 = fold(g.name).indexOf(q0) >= 0, n2;
+        for (n2 = 0; n2 < (g.al || []).length && !hit2; n2++){
+          if (g.al[n2] === q0 || (q0.length >= 2 && g.al[n2].indexOf(q0) === 0)) hit2 = true;
+        }
+        if (hit2){
+          var gi = [];
+          for (n2 = 0; n2 < (g.i || []).length; n2++){ var gs = ids[g.i[n2]]; if (gs) gi.push(gs); }
+          if (gi.length) out.groups.push({id:g.id, name:g.name, src:g.src, inferred:g.inferred, why:g.why, ids:gi});
+        }
+      }
+
+      /* 6. names this project cites but ships no mesh for (Colles' and Scarpa's fascia, Gerdy's tubercle, the pectineal
+            ligament of Cooper): say so instead of returning nothing */
+      for (j = 0; j < ns.length; j++){
+        for (n = 0; n < (ns[j].q || []).length; n++){
+          if (ns[j].q[n] === q0 || (q0.length >= 3 && ns[j].q[n].indexOf(q0) === 0)){
+            out.notes.push(ns[j]); break;
+          }
+        }
+      }
+      return out;
+    }
+
+    return {run:run, fold:fold, count:rows.length, aliasForms:alias.length, groupCount:groups.length,
+            ids:function(){ return ids.slice(); }};
+  }
+
+  return {build:build, fold:fold, dist:dist};
+})();
+/* Q298: the one row of controls under the search box. Progressive disclosure, phone first: nothing is shown until it has
+   something to do. It carries, in this order, only when relevant:
+     the result count and "Mark all N"                 (a search is running and matched something)
+     a group chip per matching group, "Mark the group" (the query named a textbook group: "hamstrings", "rotator cuff")
+     the three expansions of the selected structure    (a structure is selected)
+     "Add by tapping the model"                        (always; it drives the engine's existing Mark-mode button)
+     a note row                                        (the query named something the project cites but ships no mesh for)
+   It is created in JS and inserted after the engine's own search box, so neither engine's layout had to be rebuilt. */
+function NMSKQ298Bar(E, D, H){
+  "use strict";
+  var esc = H.esc, say = H.say;
+  var root = document.createElement("div");
+  root.className = "q8-bar";
+  root.id = "q8-bar";
+  root.innerHTML =
+    '<div class="q8-row" id="q8-res" hidden>' +
+      '<span class="q8-n" id="q8-count"></span>' +
+      '<button type="button" class="q8-b" id="q8-all">Mark all</button>' +
+      '<button type="button" class="q8-b" id="q8-range" aria-pressed="false" title="Mark a run of rows: tap the first, then the last (Shift-click on a desktop does the same)">Range</button>' +
+      '<button type="button" class="q8-b" id="q8-onmodel" aria-pressed="false" title="While on, a tap or click on the model adds that structure to the marked set (Shift / Ctrl-click and a long press already do this at any time)">On model</button>' +
+    '</div>' +
+    '<div class="q8-row" id="q8-groups" hidden></div>' +
+    '<div class="q8-row" id="q8-exp" hidden>' +
+      '<span class="q8-n" id="q8-selname"></span>' +
+      '<button type="button" class="q8-b" id="q8-adj">Adjacent</button>' +
+      '<button type="button" class="q8-b" id="q8-rel">Related</button>' +
+      '<button type="button" class="q8-b" id="q8-grp">Functional group</button>' +
+    '</div>' +
+    '<div class="q8-menu" id="q8-menu" hidden></div>' +
+    '<p class="q8-note" id="q8-notes" hidden></p>' +
+    '<p class="q8-status" id="q8-status" aria-live="polite"></p>';
+  var box = E.box();
+  if (box && box.parentNode) box.parentNode.insertBefore(root, box.nextSibling);
+  else document.body.appendChild(root);
+
+  var $ = function(id){ return document.getElementById(id); };
+  var MULTI = null, EXP = null, lastRes = null, shown = [];
+
+  function wire(m, x){
+    MULTI = m; EXP = x;
+    $("q8-all").addEventListener("click", function(){ MULTI.markAllResults(lastRes); });
+    $("q8-range").addEventListener("click", function(){ MULTI.toggleRange(); });
+    $("q8-onmodel").addEventListener("click", function(){ MULTI.toggleOnModel(); });
+    $("q8-adj").addEventListener("click", function(){ EXP.run("adj"); });
+    $("q8-rel").addEventListener("click", function(){ EXP.run("rel"); });
+    $("q8-grp").addEventListener("click", function(){ EXP.run("grp"); });
+    setInterval(function(){ selRow(); }, 700);          // the card can be opened from the model, not only from the list
+  }
+
+  function update(res, shownIds){
+    lastRes = res; shown = shownIds || [];
+    var n = res ? res.ids.length : 0, q = res ? res.q : "";
+    var rb = $("q8-res");
+    rb.hidden = !(q && n);
+    if (!rb.hidden){
+      $("q8-count").textContent = n === 1 ? "1 match" : n + " matches";
+      $("q8-all").textContent = "Mark all " + n;
+      $("q8-all").disabled = !E.sel();
+    }
+    var gb = $("q8-groups");
+    var gs = res ? res.groups : [];
+    gb.hidden = !gs.length;
+    if (gs.length){
+      gb.innerHTML = gs.map(function(g, i){
+        return '<button type="button" class="q8-g" data-g="' + i + '" title="' + esc(g.why + (g.src ? " — " + g.src : "")) +
+               '">' + esc(g.name) + ' <span class="q8-n">' + g.ids.length + '</span>' +
+               (g.inferred ? ' <span class="q8-inf">inferred</span>' : "") + "</button>";
+      }).join("");
+      Array.prototype.forEach.call(gb.querySelectorAll("[data-g]"), function(b){
+        b.addEventListener("click", function(){
+          var g = gs[+b.getAttribute("data-g")];
+          MULTI.markIds(g.ids, "the group " + g.name, g.src, g.inferred, g.why);
+        });
+      });
+    }
+    var nb = $("q8-notes");
+    var ns = res ? res.notes : [];
+    nb.hidden = !ns.length;
+    if (ns.length){
+      nb.innerHTML = ns.map(function(x){
+        return "<b>" + esc(x.name) + "</b> — no mesh on this page. " + esc(x.why) +
+               " This project's name for it: <i>" + esc(x.canon) + "</i>.";
+      }).join("<br>");
+    }
+    selRow();
+  }
+
+  function selRow(){
+    var eb = $("q8-exp"), id = E.selected();
+    if (!id || !EXP){ eb.hidden = true; closeMenu(); return; }
+    var c = EXP.counts(id);
+    eb.hidden = false;
+    $("q8-selname").textContent = EXP.nameOf(id);
+    [["q8-adj", c.adj, "Adjacent"], ["q8-rel", c.rel, "Related"], ["q8-grp", c.grp, "Functional group"]]
+      .forEach(function(t){
+        var b = $(t[0]);
+        b.textContent = t[2] + (t[1] ? " · " + t[1] : "");
+        b.disabled = !t[1] || !E.sel();
+      });
+  }
+
+  function menu(html, bind){
+    var m = $("q8-menu");
+    m.innerHTML = html; m.hidden = false;
+    if (bind) bind(m);
+  }
+  function closeMenu(){ var m = $("q8-menu"); if (m){ m.hidden = true; m.innerHTML = ""; } }
+
+  function pressed(id, v){ var b = $(id); if (b) b.setAttribute("aria-pressed", String(!!v)); }
+
+  return {wire:wire, update:update, menu:menu, closeMenu:closeMenu, pressed:pressed, refresh:selRow,
+          shown:function(){ return shown.slice(); }, root:root};
+}
+/* Q298 multi-select. The per-row tick (NMSKSelect.markButton) and the model-side Shift/Ctrl-click, long press and Mark
+   mode have existed since Q227 -- what was missing is marking MANY at once in one action, and any sign that the model-side
+   modifier exists at all. This module adds:
+     "Mark all N"      every structure the current search matched, in ONE undo step (not the 260 / 400 the list truncates to)
+     "Range"           tap the first row then the last: the whole run between them is marked in one step.
+                       On a desktop Shift-click on a row's tick does the same without arming anything; on a phone a long
+                       press on a row arms the range and the next tap closes it.
+     "On model"        drives the engine's own Mark-mode button (#t-mark), so the model-side multi-pick is discoverable.
+   Every batch goes through NMSKSelect.markIds(ids, true, false), which takes one undo snapshot for the whole batch. */
+function NMSKMulti(E, BAR, H){
+  "use strict";
+  var say = H.say, rangeArmed = false, anchor = null, LP_MS = 520, lp = null, rows = [];
+
+  function sel(){ return E.sel(); }
+
+  function markIds(ids, what, src, inferred, why){
+    var s = sel();
+    if (!s){ say("The marked-structures panel is not available on this page."); return 0; }
+    var n = s.markIds(ids, true, false, true);
+    say(n + (n === 1 ? " structure" : " structures") + " added from " + what + " — " + ids.length +
+        " offered, " + n + " newly marked. One undo step (Ctrl/Cmd+Z)." +
+        (src ? " Source: " + src + "." : "") + (inferred ? " INFERRED: " + (why || "a rule of this project, not a cited list.") : ""));
+    E.rerender();
+    return n;
+  }
+
+  function markAllResults(res){
+    if (!res || !res.ids.length) return;
+    markIds(res.ids, 'the search "' + res.q + '"', null, 0, null);
+  }
+
+  function toggleRange(){
+    rangeArmed = !rangeArmed; anchor = null;
+    BAR.pressed("q8-range", rangeArmed);
+    say(rangeArmed ? "Range: tap the first row, then the last one." : "Range off.");
+  }
+  function toggleOnModel(){
+    var b = document.getElementById("t-mark") || document.getElementById("sel-markmode");
+    if (!b){ say("This page has no Mark-mode button."); return; }
+    b.click();
+    var on = b.getAttribute("aria-pressed") === "true";
+    BAR.pressed("q8-onmodel", on);
+    say(on ? "On model: every click or tap on a structure adds it to the marked set. Shift / Ctrl-click and a long press do the same at any time."
+           : "On model off. Shift / Ctrl-click, or a long press on a phone, still adds on the model.");
+  }
+
+  function range(a, b){
+    var i = rows.indexOf(a), j = rows.indexOf(b);
+    if (i < 0 || j < 0) return null;
+    if (i > j){ var t = i; i = j; j = t; }
+    return rows.slice(i, j + 1);
+  }
+
+  function closeRange(id){
+    var ids = range(anchor, id);
+    anchor = null;
+    if (rangeArmed){ rangeArmed = false; BAR.pressed("q8-range", false); }
+    if (!ids){ say("Those rows are not both in the list any more."); return; }
+    markIds(ids, "the range of " + ids.length + " rows", null, 0, null);
+  }
+
+  /* called after every list render with the ids of the rows now in the DOM, in order */
+  function wire(shownIds){
+    rows = shownIds.slice();
+    var list = E.list();
+    if (!list) return;
+    var kids = list.querySelectorAll(".ss-lrow");
+    Array.prototype.forEach.call(kids, function(w, n){
+      if (w.getAttribute("data-q8") === "1") return;
+      w.setAttribute("data-q8", "1");
+      var id = rows[n];
+      if (id == null) return;
+      w.setAttribute("data-q8id", id);
+      var tick = w.querySelector(".ss-mk");
+      if (tick){
+        tick.addEventListener("click", function(ev){
+          if (ev.shiftKey && anchor != null && anchor !== id){ ev.preventDefault(); ev.stopImmediatePropagation(); closeRange(id); return; }
+          anchor = id;
+        }, true);
+      }
+      w.addEventListener("click", function(){
+        if (rangeArmed){
+          if (anchor == null){ anchor = id; say("Range start: " + id + ". Now tap the last row."); }
+          else closeRange(id);
+        } else anchor = id;
+      });
+      w.addEventListener("pointerdown", function(ev){
+        if (ev.pointerType === "mouse") return;
+        if (lp){ clearTimeout(lp.t); lp = null; return; }
+        lp = {x:ev.clientX, y:ev.clientY, t:setTimeout(function(){
+          lp = null; rangeArmed = true; anchor = id; BAR.pressed("q8-range", true);
+          say("Range armed on this row — tap another row to mark everything between them.");
+          try { if (navigator.vibrate) navigator.vibrate(18); } catch (err){}
+        }, LP_MS)};
+      });
+      w.addEventListener("pointermove", function(ev){ if (lp && Math.abs(ev.clientX - lp.x) + Math.abs(ev.clientY - lp.y) > 9){ clearTimeout(lp.t); lp = null; } });
+      w.addEventListener("pointerup", function(){ if (lp){ clearTimeout(lp.t); lp = null; } });
+    });
+  }
+
+  return {wire:wire, markIds:markIds, markAllResults:markAllResults, toggleRange:toggleRange, toggleOnModel:toggleOnModel,
+          state:function(){ return {rangeArmed:rangeArmed, anchor:anchor, rows:rows.length}; }};
+}
+/* Q298: the three expansions of the selected structure. Each is one tap, each ADDS to the marked set through
+   NMSKSelect.markIds (one undo step for the whole batch), and each says where it came from.
+
+     Adjacent   MEASURED on this page's own meshes: scripts/anatomy/q298/adjacency_q298.py rasterises every structure's
+                surface into a shared 2 mm voxel grid (samples at <= 1 mm spacing, so no triangle is missed -- 69 % of the
+                triangles on a Z page are longer than 3 mm across, which is why a vertex-to-vertex test would not do) and
+                calls two structures adjacent when their voxels touch in the 3x3x3 neighbourhood: a surface-to-surface
+                separation of at most 3.46 mm. The status line always states the count and that threshold. It is a
+                measurement of the geometry, not an anatomical claim.
+     Related    the same muscle's other heads and parts, its tendon / aponeurosis / sheath, its bursae, its nerve supply,
+                an artery whose own record says it supplies it, the bones it attaches to, the structures of the joints it
+                crosses, and its antagonists at a shared joint -- built by scripts/anatomy/q298/relations_q298.py from the
+                project's own cited data (Q283 actions and attachments, Q293 heads and audit, the plexus data, each card's
+                own fields). Every kind carries its own source, and the kinds that are a rule of this project rather than a
+                cited list (tendon / bursa by name, joint structures, antagonists) are shown as "inferred".
+     Functional group  the named textbook groups of data/anatomy/muscle_groups_q283.json, the groups derived from the
+                cited action data (every muscle whose own record gives this motion at this joint), and the few extra groups
+                in data/anatomy/relations_q298.json (the tensors of the iliotibial tract, the contributors to the calcaneal
+                and patellar tendons, the pes anserinus, the carpal tunnel contents). More than one group applying is the
+                normal case, so the button opens a short menu; one group is marked with one tap.
+
+   The adjacency and relation tables ride in the page's nmsk-q298 block, zlib-compressed and base64'd like the Q284
+   moment-arm block, and are inflated once on first use. */
+function NMSKExpand(E, BAR, D, H){
+  "use strict";
+  var say = H.say, esc = H.esc;
+  var ADJ = null, REL = null, loading = {}, names = {};
+  (E.items() || []).forEach(function(it){ if (!(it.id in names)) names[it.id] = it.name || it.id; });
+
+  function nameOf(id){ return names[id] || id; }
+
+  function inflate(b64){
+    if (typeof DecompressionStream === "undefined") return Promise.reject(new Error("no DecompressionStream"));
+    var bin = atob(b64), u8 = new Uint8Array(bin.length), i;
+    for (i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    return new Response(new Blob([u8]).stream().pipeThrough(new DecompressionStream("deflate"))).text().then(JSON.parse);
+  }
+
+  function load(which){
+    var k = which === "adj" ? "adj" : "rel";
+    if (loading[k]) return loading[k];
+    var blk = D[k];
+    if (!blk || !blk.z){ loading[k] = Promise.resolve(null); return loading[k]; }
+    loading[k] = inflate(blk.z).then(function(j){
+      if (k === "adj") ADJ = j; else REL = j;
+      BAR.refresh();
+      return j;
+    }).catch(function(){ return null; });
+    return loading[k];
+  }
+  load("adj"); load("rel");
+
+  function idxOf(tbl, id){
+    if (!tbl) return -1;
+    if (!tbl._ix){ tbl._ix = {}; for (var i = 0; i < tbl.ids.length; i++) if (!(tbl.ids[i] in tbl._ix)) tbl._ix[tbl.ids[i]] = i; }
+    var v = tbl._ix[id];
+    return v === undefined ? -1 : v;
+  }
+
+  function adjIds(id){
+    var i = idxOf(ADJ, id);
+    if (i < 0) return [];
+    return (ADJ.adj[i] || []).map(function(j){ return ADJ.ids[j]; });
+  }
+  function relRows(id){
+    var i = idxOf(REL, id);
+    if (i < 0) return [];
+    return (REL.rel[String(i)] || []).map(function(r){ return {id:REL.ids[r[0]], kind:r[1]}; });
+  }
+  function groupsOf(id){
+    var i = idxOf(REL, id);
+    if (i < 0) return [];
+    return (REL.fg[String(i)] || []).map(function(g){
+      var G = REL.fgroups[g];
+      return {id:G.id, name:G.name, src:G.src, inferred:G.inferred, why:G.why,
+              ids:G.i.map(function(j){ return REL.ids[j]; })};
+    });
+  }
+
+  function counts(id){
+    return {adj:ADJ ? adjIds(id).length : 0, rel:REL ? relRows(id).length : 0, grp:REL ? groupsOf(id).length : 0};
+  }
+
+  var KINDS = (D.rel && D.rel.kinds) || {};
+
+  function run(which){
+    var id = E.selected();
+    if (!id){ say("Pick a structure first."); return; }
+    BAR.closeMenu();
+    if (which === "adj"){
+      var ids = adjIds(id);
+      if (!ids.length){ say("Nothing within " + (D.adj ? D.adj.th : "?") + " mm of " + nameOf(id) + " on this page."); return; }
+      var s = E.sel();
+      var n = s ? s.markIds(ids, true, false, true) : 0;
+      E.rerender();
+      say(ids.length + " structures neighbour " + nameOf(id) + " on this page's own geometry (" + n + " newly marked, " +
+          "one undo step). MEASURED, not an anatomical claim: " + (D.adj ? D.adj.how : "") );
+      return;
+    }
+    if (which === "rel"){
+      var rows = relRows(id);
+      if (!rows.length){ say("No related structure for " + nameOf(id) + " in this project's own data."); return; }
+      var byk = {};
+      rows.forEach(function(r){ (byk[r.kind] = byk[r.kind] || []).push(r.id); });
+      var ks = Object.keys(byk).sort();
+      var html = '<p class="q8-mh">Related to <b>' + esc(nameOf(id)) + "</b> — add:</p>" +
+        '<button type="button" class="q8-b" data-k="*">All ' + rows.length + "</button>" +
+        ks.map(function(k){
+          var K = KINDS[k] || {};
+          return '<button type="button" class="q8-b" data-k="' + esc(k) + '" title="' + esc((K.why || "") + (K.src ? " — " + K.src : "")) + '">' +
+                 esc(K.label || k) + ' <span class="q8-n">' + byk[k].length + "</span>" +
+                 (K.inferred ? ' <span class="q8-inf">inferred</span>' : "") + "</button>";
+        }).join("");
+      BAR.menu(html, function(m){
+        Array.prototype.forEach.call(m.querySelectorAll("[data-k]"), function(b){
+          b.addEventListener("click", function(){
+            var k = b.getAttribute("data-k");
+            var list = k === "*" ? rows.map(function(r){ return r.id; }) : byk[k];
+            var K = KINDS[k] || {};
+            BAR.closeMenu();
+            var s2 = E.sel();
+            var n2 = s2 ? s2.markIds(list, true, false, true) : 0;
+            E.rerender();
+            say(list.length + " related to " + nameOf(id) + (k === "*" ? "" : " (" + (K.label || k) + ")") +
+                " offered, " + n2 + " newly marked, one undo step." +
+                (k === "*" ? " Mixed sources — open the menu again to see each kind's own source."
+                           : (K.src ? " Source: " + K.src + "." : "")) +
+                (k !== "*" && K.inferred ? " INFERRED: " + K.why : ""));
+          });
+        });
+      });
+      return;
+    }
+    var gs = groupsOf(id);
+    if (!gs.length){ say(nameOf(id) + " is not in a functional group in this project's data."); return; }
+    if (gs.length === 1){ markGroup(gs[0], id); return; }
+    BAR.menu('<p class="q8-mh">Functional groups of <b>' + esc(nameOf(id)) + "</b>:</p>" +
+      gs.map(function(g, i){
+        return '<button type="button" class="q8-b" data-g="' + i + '" title="' + esc((g.why || "") + (g.src ? " — " + g.src : "")) + '">' +
+               esc(g.name) + ' <span class="q8-n">' + g.ids.length + "</span>" +
+               (g.inferred ? ' <span class="q8-inf">inferred</span>' : "") + "</button>";
+      }).join(""), function(m){
+        Array.prototype.forEach.call(m.querySelectorAll("[data-g]"), function(b){
+          b.addEventListener("click", function(){ BAR.closeMenu(); markGroup(gs[+b.getAttribute("data-g")], id); });
+        });
+      });
+  }
+
+  function markGroup(g, id){
+    var s = E.sel();
+    var n = s ? s.markIds(g.ids, true, false, true) : 0;
+    E.rerender();
+    say(g.ids.length + " in the functional group “" + g.name + "” of " + nameOf(id) + " (" + n +
+        " newly marked, one undo step). " + (g.inferred ? "INFERRED: " + g.why : g.why) + (g.src ? " Source: " + g.src + "." : ""));
+  }
+
+  return {run:run, counts:counts, nameOf:nameOf,
+          adjIds:adjIds, relRows:relRows, groupsOf:groupsOf,
+          state:function(){
+            var id = E.selected();
+            return {adjReady:!!ADJ, relReady:!!REL, selected:id || null, counts:id ? counts(id) : null,
+                    adjThresholdMm:D.adj ? D.adj.th : null};
+          }};
+}
+/* Q298 bootstrap: the one controller both engines start, so the search, the multi-select and the three expansions behave
+   identically on the own-engine pages and on the Z pages.
+
+   The engine hands over an adaptor E:
+     box()        the engine's own search input (the own pages name it #q, the Z pages #search -- Q297 was bitten by this)
+     list()       the element the engine renders its structure rows into
+     items()      [{id, name, latin, cat, part, group, note}] one per list row, in the engine's own order
+     sel()        the Q227 selection controller (NMSKSelect) or null
+     selected()   the id of the structure the card is showing, or null
+     pick(id)     select + reveal that structure (the engine's own row click path)
+     rerender()   re-render the structure list (the engine's renderList)
+     isPhone()
+   and calls NMSKQ298.filter(q) from its own renderList, so the ranking is the shared one.
+
+   Nothing here reaches into NMSKSelect's internals: marking always goes through its public markIds(ids, true, false),
+   which takes ONE undo snapshot for the whole batch -- so "add all 14 results", "adjacent", "related" and "functional
+   group" are each a single undo step, not one per structure (Q294's page-wide NMSKHistory sees one settled change too). */
+var NMSKQ298 = (function(){
+  "use strict";
+  var E = null, IX = null, D = null, last = null, bar = null, multi = null, expand = null, started = false;
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;"}[c]; }); }
+
+  function data(){
+    if (D) return D;
+    var el = $("nmsk-q298");
+    try { D = el ? JSON.parse(el.textContent || "{}") : {}; } catch (err){ D = {}; }
+    return D;
+  }
+
+  function ready(){ return !!IX; }
+
+  /* ---- what the engine's renderList calls: the ranked ids for this query (the whole set, not the truncated view) ---- */
+  function filter(q){
+    if (!IX) return null;
+    last = IX.run(q || "");
+    return last.ids;
+  }
+  function result(){ return last; }
+
+  /* the "why it matched" suffix: `Iliotibial tract (ITB)`, so the user learns the canonical name */
+  function whySuffix(id){
+    if (!last || !last.why || !last.why[id]) return "";
+    var w = last.why[id];
+    return ' <span class="q8-why" data-kind="' + esc(w.k) + '" title="' + esc(whyTitle(w)) + '">(' + esc(w.d) + ')</span>';
+  }
+  function whyTitle(w){
+    var t = w.k === "abbr" ? "abbreviation" : w.k === "he" ? "Hebrew name" : w.k === "name" ? "name" : "other name";
+    return "matched the " + t + ' "' + w.d + '" of ' + w.c + (w.s ? " — " + w.s : "") + (w.n ? " — " + w.n : "") +
+           (w.amb ? " — this abbreviation has more than one accepted expansion; all of them are offered." : "");
+  }
+
+  function say(m){ var e = $("q8-status"); if (e) e.textContent = m || ""; }
+
+  function start(cfg){
+    if (started) return;
+    started = true;
+    E = cfg;
+    var d = data();
+    if (!d || !d.ids){ return; }                       // a page built without the Q298 block: the engines fall back
+    IX = NMSKSearchCore.build({items:E.items(), data:d});
+    bar = NMSKQ298Bar(E, d, {say:say, esc:esc, result:result});
+    multi = NMSKMulti(E, bar, {say:say});
+    expand = NMSKExpand(E, bar, d, {say:say, esc:esc});
+    bar.wire(multi, expand);
+    E.rerender();
+  }
+
+  /* called by the engine right after it has rendered the list, with the ids of the rows actually in the DOM */
+  function afterList(shownIds){
+    if (!bar) return;
+    bar.update(last, shownIds || []);
+    if (multi) multi.wire(shownIds || []);
+  }
+
+  return {start:start, ready:ready, filter:filter, result:result, whySuffix:whySuffix, afterList:afterList,
+          data:data, say:say,
+          core:function(){ return IX; },
+          state:function(){
+            var d = data();
+            return {ready:!!IX, structures:IX ? IX.count : 0, aliasForms:IX ? IX.aliasForms : 0,
+                    groups:IX ? IX.groupCount : 0, adjacency:!!(d && d.adj), relations:!!(d && d.rel),
+                    threshold_mm:d && d.adj ? d.adj.th : null, adjacentPairs:d && d.adj ? d.adj.n : 0,
+                    relationLinks:d && d.rel ? d.rel.n : 0,
+                    lastQuery:last ? last.q : "", lastCount:last ? last.ids.length : 0,
+                    lastGroups:last ? last.groups.length : 0, lastNotes:last ? last.notes.length : 0,
+                    lastStats:last ? last.stats : null,
+                    expand:expand ? expand.state() : null, multi:multi ? multi.state() : null};
+          }};
+})();
+</script>
+<!-- Q298 html end -->
 <!-- Q188: optional add-on, published as a separate file next to this page (absent in an anatomy-only build;
      the viewer then runs unchanged). It reaches the anatomy only through the generic API object built below. -->
 <script src="clinical_needle_tool.js"></script>
@@ -8174,8 +8891,20 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
     searchEl.placeholder="Search "+OBJ.length+" structures…";
     function renderList(){
       var q=searchEl.value.trim().toLowerCase();
-      var items=OBJ.filter(function(o){return !q||o.name.toLowerCase().indexOf(q)>=0;});
-      items.sort(function(a,b){return a.name.localeCompare(b.name);});
+      /* Q298: the shared matcher. Before Q298 this was `o.name.toLowerCase().indexOf(q)` -- ONE contiguous substring of
+         the display name only, not even the id or the Latin name -- which is why "ITB", "iliotibial band" and a typo all
+         returned nothing, and why the results came back alphabetically rather than by how well they matched. The old
+         filter stays as the fallback for a page built without the nmsk-q298 block. */
+      var q8=(window.NMSKQ298&&NMSKQ298.ready())?NMSKQ298.filter(q):null;
+      var items;
+      if(q8){
+        var q8pos={}; q8.forEach(function(id,i){ if(!(id in q8pos)) q8pos[id]=i; });
+        items=OBJ.filter(function(o){return o.id in q8pos;});
+        items.sort(function(a,b){return (q8pos[a.id]-q8pos[b.id])||a.name.localeCompare(b.name);});
+      } else {
+        items=OBJ.filter(function(o){return !q||o.name.toLowerCase().indexOf(q)>=0;});
+        items.sort(function(a,b){return a.name.localeCompare(b.name);});
+      }
       listAllIds=items.map(function(o){return o.id;});
       items=items.slice(0,260);
       listEl.innerHTML="";
@@ -8184,12 +8913,13 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         b.className="item"+(o===selected?" sel":"")+(hidden.has(o)?" hid":"");
         var badge=!o.atlas?'':(o.atlas.part_of_id?'<span class="badge-x" style="opacity:.65">part of</span>':'<span class="badge-x">atlas</span>');
         b.innerHTML='<span class="dot" style="background:var(--t-'+o.layer+')"></span><span class="t">'+
-          o.name+'</span>'+badge;
+          o.name+(q8?NMSKQ298.whySuffix(o.id):"")+'</span>'+badge;
         b.onclick=function(){ select(o,true); closeSheet(); };
         if(selCtl){ var lw=document.createElement("div"); lw.className="ss-lrow"; lw.appendChild(selCtl.markButton(o.id)); lw.appendChild(b); listEl.appendChild(lw); }   // Q227: tick to mark
         else listEl.appendChild(b);
       });
       if(!items.length) listEl.innerHTML='<p class="none">No match.</p>';
+      if(window.NMSKQ298&&NMSKQ298.ready()) NMSKQ298.afterList(items.map(function(o){return o.id;}));   // Q298: range / long-press wiring + the bar's counts
     }
     searchEl.oninput=renderList; renderList();
 
@@ -8643,6 +9373,25 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       NMSKHistory.start({anchor:A.canvas, resetView:function(){ cam = {az:DEF.az, el:DEF.el, dist:DEF.dist, tgt:DEF.tgt.slice()}; pzB = null; if (pzChip) pzChip.hide(); stopSpin(); need = true; }});
       NMSKHistory.mountInto(document.getElementById("mb-end"), "mb-btn", "mb-");
       NMSKTips.start();
+      /* Q298: the shared search / multi-select / expansion controller, the same one the own-engine pages run. Everything
+         it marks goes through selCtl.markIds(), so a batch is one undo step of the history started just above. */
+      NMSKQ298.start({
+        box:function(){ return searchEl; },
+        list:function(){ return listEl; },
+        items:function(){
+          return OBJ.map(function(o){
+            var a = o.atlas || {};
+            return {id:o.id, name:o.name, latin:a.latin || "", cat:o.layer || "",
+                    part:a.part_of || "", group:o.layer || "",
+                    note:(a.region || "") + " " + (a.folder || "")};
+          });
+        },
+        sel:function(){ return selCtl; },
+        selected:function(){ return selected ? selected.id : null; },
+        pick:function(id){ var o = objsById[id] && objsById[id][0]; if (o) select(o, true); },
+        rerender:function(){ renderList(); },
+        isPhone:function(){ return window.innerWidth <= 900; }
+      });
     })();
     boot("Ready",1); resize(); loop();
     setTimeout(function(){var b=document.getElementById("boot");if(b)b.classList.add("done");},180);
