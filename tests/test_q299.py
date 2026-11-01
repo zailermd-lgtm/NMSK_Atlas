@@ -262,6 +262,21 @@ def test_the_cross_section_coverage_improved_on_every_page_and_by_class(xsec):
             assert b > 100 and a <= 0.10 * b, f"{k} {cls}: {b} -> {a}"
 
 
+def test_the_lower_limb_nerve_inventory_is_recorded():
+    """The owner's case, as data: 0 fibular / peroneal nerve meshes on either Imaging page against 18 on every Z page."""
+    p = D / "Q299_lower_limb_nerves.json"
+    if not p.is_file():
+        pytest.skip("Q299_lower_limb_nerves.json not built")
+    J = json.loads(p.read_text())
+    for k in ("own_m", "own_f"):
+        assert J["fibular_or_peroneal"][k] == [], f"{k} now carries a fibular nerve: update the record"
+        assert len(J["missing_from_imaging"][k]) >= 50, f"{k}: only {len(J['missing_from_imaging'][k])} missing"
+    for k in ("base_m", "base_f", "comb_m", "comb_f"):
+        assert len(J["fibular_or_peroneal"][k]) == 18, f"{k}: {len(J['fibular_or_peroneal'][k])} fibular meshes"
+        assert any(i.startswith("common_fibular_n") for i in J["fibular_or_peroneal"][k]), k
+    assert J["lower_limb"]["own_m"] < J["lower_limb"]["comb_m"] / 4
+
+
 def test_the_imaging_pages_carry_no_fibular_nerve_and_the_round_says_so():
     """The owner's own case. The Imaging-based pages have no common / deep / superficial fibular nerve at all, which is
     why no cross-section of them can show one. This pins the finding; the round does not invent the nerve."""

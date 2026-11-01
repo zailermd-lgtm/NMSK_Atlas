@@ -125,8 +125,9 @@ OPEN_NEW = """
 `docs/research/Q299_pelvis_containment_crosssection.md`. חמישה דברים לא נעשו בכוונה, כי הם דורשים החלטה שלך.
 
 1. **עצבי הגפה התחתונה חסרים בעמודי ה‑Imaging — זו הסיבה שלא ראית את ה‑peroneal nerve.** בעמוד
-   Imaging‑based · Male יש 12 עצבי גפה תחתונה; בעמוד Combined · Male יש 81. 69 חסרים, וביניהם **כל מערכת ה‑fibular
-   (common, deep, superficial) וכל הסתעפויותיה**, וגם ה‑femoral, ה‑obturator, ה‑saphenous, ה‑sural וה‑plantar. אין
+   Imaging‑based · Male יש 16 עצבי גפה תחתונה; בעמוד Combined · Male יש 85. **71 חסרים**, וביניהם **כל מערכת
+   ה‑fibular — 18 מֶשים בכל עמוד Z מול 0 בכל עמוד Imaging** — וגם ה‑femoral, ה‑obturator, ה‑saphenous, ה‑sural
+   וה‑plantar. בעמודים הנשיים: 24 מול 83, 64 חסרים. אין
    שום דבר לתקן במנגנון החתך: העצב פשוט לא קיים בעמוד. בעמודי ה‑Z הגבריים (Base · Male ו‑Combined · Male) הוא כן
    קיים, כן עובר סביב צוואר ה‑fibula, וכן נצבע בחתך — בדוק שם. **מה שאפשר לעשות:** להעביר את העצבים האלה מעמוד
    Combined · Male, שהוא אותו גוף בדיוק (מֶשים של Z‑Anatomy שהותאמו ל‑CT שלו), אל עמוד ה‑Imaging — מֶש אמיתי שעבר
