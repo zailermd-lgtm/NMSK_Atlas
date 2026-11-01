@@ -2509,7 +2509,7 @@ var NMSKBoneRead = (function(){
   "use strict";
   var E = null, hist = null, box = null, segBtns = [], i0 = 1, lvl = 1, on = false;
   var A = [0, 0.45, 0.80], W = ["Off", "Clear", "Strong"];
-  var TIP = "In X-ray and in Fade the bone is painted once more on top of the soft tissue, so the skeleton stays readable however many layers lie in front of it. Off is the old look; Clear is the default; Strong is for a thick region like the pelvis or the shoulder.";
+  var TIP = "In X-ray and in Fade the bone can be painted once more on top of the soft tissue, so the skeleton stays readable however many layers lie in front of it. Strong is for a thick region like the pelvis or the shoulder. Which step a page starts on was decided by measuring the rendered contrast on that page, not by taste: the Imaging pages start on Clear, the Base and Combined pages on Off, because their own X-ray table already leaves the bone the clearest thing on screen.";
   function alpha(){ return A[lvl] || 0; }
   function push(){
     if (!E || !E.setLevel) return;
@@ -9855,11 +9855,12 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       function ixs(S){ var a = []; S.forEach(function(o){ var i = IX.get(o); if (i != null) a.push(i); }); return a.sort(function(x, y){ return x - y; }); }
       function engGet(){
         var a = {}; LK.forEach(function(k){ a[k] = Math.round(alphaFor[k] * 1000) / 1000; });
-        return {on:LK.filter(function(k){ return !!on[k]; }), a:a, hid:ixs(hidden), fad:ixs(faded), solo:soloLayer || null, side:sideFilter,
+        return {on:LK.filter(function(k){ return !!on[k]; }), a:a, pn:presetName || "", hid:ixs(hidden), fad:ixs(faded), solo:soloLayer || null, side:sideFilter,
                 box:box.on ? {min:box.min.map(function(x){ return Math.round(x * 100) / 100; }), max:box.max.map(function(x){ return Math.round(x * 100) / 100; })} : null, sel:selected ? IX.get(selected) : null};
       }
       function engSet(v){
         LK.forEach(function(k){ on[k] = v.on.indexOf(k) >= 0; if (v.a && v.a[k] != null) alphaFor[k] = v.a[k]; });
+        presetName = v.pn || "";                   // Q300: which preset is on travels with the alphas, so an undo restores both
         hidden.clear(); faded.clear(); (v.hid || []).forEach(function(i){ if (OBJ[i]) hidden.add(OBJ[i]); }); (v.fad || []).forEach(function(i){ if (OBJ[i]) faded.add(OBJ[i]); });
         soloLayer = v.solo || null; sideFilter = v.side || "both";
         document.querySelectorAll("#sides button").forEach(function(x){ x.classList.toggle("on", x.dataset.side === sideFilter); });
@@ -9889,10 +9890,20 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
          button inside a layer row that is gone when the panel is folded, a preset that silently puts every layer it does
          not name at alpha 0, a side filter, a box whose "clear isolation" button lives inside a panel. They all register
          here, so one chip names each of them and one "Show everything" ends all of them. */
-      NMSKHistory.register("pose", {                     // Q300: pose was outside the history, so no reset could undo it
-        get:function(){ var p = (poseCtl && poseCtl.ready()) ? poseCtl.pose() : null; return p ? {j:p.j, r:p.r} : null; },
-        set:function(v){ if (v && poseCtl && poseCtl.ready()) poseCtl.apply(v); },
-        reset:function(){ if (poseCtl && poseCtl.ready()) poseCtl.reset(); }});
+      /* Q300: pose was outside the history, so no reset could undo it. Registered only once the rig has loaded (it
+         loads asynchronously) -- any earlier and its get() would answer null first and the rest pose afterwards, so the
+         load snapshot would never match the page again. NMSKHistory.onRegister then records the rest pose as the load
+         value at that moment. A page with no rig registers nothing. */
+      (function(){
+        var t = setInterval(function(){
+          if (!poseCtl || !poseCtl.ready()) return;
+          clearInterval(t);
+          NMSKHistory.register("pose", {
+            get:function(){ var p = poseCtl.pose(); return p ? {j:p.j, r:p.r} : null; },
+            set:function(v){ if (v) poseCtl.apply(v); },
+            reset:function(){ poseCtl.reset(); }});
+        }, 300);
+      })();
       function q300Grp(k){ if (!selCtl || !selCtl.active()) return false; var s = selCtl.state(); return s.sel === k || s.oth === k; }
       function q300Any(){ return OBJ.length ? OBJ[0] : null; }
       function q300Click(id){ var e = document.getElementById(id); if (e) e.click(); }
@@ -9956,9 +9967,14 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         resetView:function(){ cam = {az:DEF.az, el:DEF.el, dist:DEF.dist, tgt:DEF.tgt.slice()}; pzB = null; if (pzChip) pzChip.hide(); stopSpin(); need = true; },
         bars:[{el:document.getElementById("hist-bar"), cls:"hist-fb", prefix:"h-"},
               {el:document.getElementById("mb-end"), cls:"mb-btn", prefix:"mb-"}]});
+      /* level 0 by default on THIS engine, decided by measurement rather than by symmetry: its per-layer X-ray table
+         was always right, so bone is already the darkest thing on a light background (contrast 0.236), and painting its
+         own pale colour back over it moves it TOWARD the tissue luminance -- the pass there lowers contrast (0.236 ->
+         0.176). The control is still offered, for a structure genuinely buried behind something. The own-engine pages,
+         whose flat 0.5 was the real defect, default to Clear. Figures: data/derived/Q300_browser_check.json. */
       NMSKBoneRead.start({active:function(){ return presetName === "xray" || q300Grp("fade") || q300Grp("xray"); },
         setLevel:function(a){ boneRead = a; need = true; }, redraw:function(){ need = true; }},
-        {toolbar:tb, history:NMSKHistory});
+        {toolbar:tb, history:NMSKHistory, level:0});
       /* Q300 verification hook -- see the own-engine template for why a screenshot cannot be used here. */
       window.__q300px = function(step){
         step = Math.max(2, (step | 0) || 8);

@@ -2416,7 +2416,7 @@ var NMSKBoneRead = (function(){
   "use strict";
   var E = null, hist = null, box = null, segBtns = [], i0 = 1, lvl = 1, on = false;
   var A = [0, 0.45, 0.80], W = ["Off", "Clear", "Strong"];
-  var TIP = "In X-ray and in Fade the bone is painted once more on top of the soft tissue, so the skeleton stays readable however many layers lie in front of it. Off is the old look; Clear is the default; Strong is for a thick region like the pelvis or the shoulder.";
+  var TIP = "In X-ray and in Fade the bone can be painted once more on top of the soft tissue, so the skeleton stays readable however many layers lie in front of it. Strong is for a thick region like the pelvis or the shoulder. Which step a page starts on was decided by measuring the rendered contrast on that page, not by taste: the Imaging pages start on Clear, the Base and Combined pages on Off, because their own X-ray table already leaves the bone the clearest thing on screen.";
   function alpha(){ return A[lvl] || 0; }
   function push(){
     if (!E || !E.setLevel) return;
@@ -9827,10 +9827,20 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
      "also, a button for reset the specific model". Every path below that can make a structure vanish registers itself,
      so one chip and one "Show everything" cover all of them -- and a path added later that forgets to register here is
      caught by tests/test_q300.py, not by a user who gets stuck. */
-  NMSKHistory.register("pose", {                       // Q300: pose was outside the history, so no reset could undo it
-    get:function(){ var p = (poseCtl && poseCtl.ready()) ? poseCtl.pose() : null; return p ? {j:p.j, r:p.r} : null; },
-    set:function(v){ if (v && poseCtl && poseCtl.ready()) poseCtl.apply(v); },
-    reset:function(){ if (poseCtl && poseCtl.ready()) poseCtl.reset(); }});
+  /* Q300: pose was outside the history, so no reset could undo it. The provider is registered only once the rig has
+     finished loading (it loads asynchronously): registered any earlier, its get() would answer null at first and then
+     start answering the rest pose, so the load snapshot would never match the page again. NMSKHistory.onRegister tells
+     the model reset to record the rest pose as the load value at that moment. If a page has no rig, nothing registers. */
+  (function(){
+    var t = setInterval(function(){
+      if (!poseCtl || !poseCtl.ready()) return;
+      clearInterval(t);
+      NMSKHistory.register("pose", {
+        get:function(){ var p = poseCtl.pose(); return p ? {j:p.j, r:p.r} : null; },
+        set:function(v){ if (v) poseCtl.apply(v); },
+        reset:function(){ poseCtl.reset(); }});
+    }, 300);
+  })();
   function q300Name(id){ var g = groups[id]; return (g && g.rec && g.rec.name) || id || "a structure"; }
   function q300Grp(k){ if (!selCtl || !selCtl.active()) return false; var s = selCtl.state(); return s.sel === k || s.oth === k; }
   function q300AnyId(){ var L = Object.keys(groups); return L.length ? L[0] : null; }
@@ -9888,8 +9898,11 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
   NMSKModelReset.start({history:NMSKHistory, resetView:function(){ document.getElementById("t-reset").click(); },
     bars:[{el:document.getElementById("hist-bar"), cls:"hist-fb", prefix:"h-"},
           {el:document.getElementById("mb-end"), cls:"mb-btn", prefix:"mb-"}]});
+  /* level 1 (Clear) by default on THIS engine, decided by measurement: here the flat 0.5 really was the defect, and
+     the extra pass adds contrast on top of the new table (0.465 before -> 0.617 with the table -> 0.638 with the pass).
+     The Z pages default to Off, for the reason written beside their own call. */
   NMSKBoneRead.start({active:function(){ return !!xray || q300Grp("fade") || q300Grp("xray"); },
-    setLevel:function(a){ boneRead = a; apply(); }, redraw:draw}, {toolbar:tb, history:NMSKHistory});
+    setLevel:function(a){ boneRead = a; apply(); }, redraw:draw}, {toolbar:tb, history:NMSKHistory, level:1});
   /* Q300 verification hook: the rendered pixels, read from the engine's own GL context right after a synchronous draw.
      A screenshot of a WebGL canvas is not reliable under software rendering here (page.screenshot returned a frame that
      stayed byte-identical while the camera kept moving), so verify_q300.py measures the bone-versus-tissue contrast

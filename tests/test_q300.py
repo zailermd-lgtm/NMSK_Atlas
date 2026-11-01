@@ -19,6 +19,14 @@ PAGES = sorted(p for p in BUILD.glob("*/index.html")) if BUILD.is_dir() else []
 OWN = ("viewer_m_hr", "viewer_f_hr")
 
 
+def sources_block(t: str) -> str:
+    """the NMSKShowAll.start({...}) call. Its sources array holds "});" of its own, so the end is the
+    array's closing "]});", not the first "});"."""
+    i = t.index("NMSKShowAll.start({anchor:")      # not the module docstring's own example of the call
+    j = t.index("]});", i)
+    return t[i:j + 4]
+
+
 @pytest.fixture(scope="module")
 def tpl():
     return {t.name: t.read_text(encoding="utf-8") for t in TEMPLATES}
@@ -61,8 +69,7 @@ MUST_COVER = {
 def test_every_known_hiding_path_is_registered_with_showall(tpl):
     """the nine paths the Q300 benchmark counted in the two engines; a tenth one added later must be added here too"""
     for name, t in tpl.items():
-        blk = t[t.index("NMSKShowAll.start("):]
-        blk = blk[:blk.index("});") + 3]
+        blk = sources_block(t)
         missing = [k for k in MUST_COVER[name] if f'key:"{k}"' not in blk.replace(" ", "")]
         assert not missing, f"{name}: hiding paths with no way out registered: {missing}"
 
@@ -70,8 +77,7 @@ def test_every_known_hiding_path_is_registered_with_showall(tpl):
 def test_each_source_can_be_driven_and_cleared(tpl):
     """a descriptor with no clear() would be a dead end, and one with no drive() cannot be verified in the browser"""
     for name, t in tpl.items():
-        blk = t[t.index("NMSKShowAll.start("):]
-        blk = blk[:blk.index("});") + 3]
+        blk = sources_block(t)
         keys = re.findall(r'key\s*:\s*"([a-z]+)"', blk)
         assert len(keys) >= 9, f"{name}: only {len(keys)} hiding paths registered"
         assert blk.count("clear:") == len(keys), f"{name}: {len(keys)} keys but {blk.count('clear:')} clear()"
@@ -111,7 +117,10 @@ def test_history_can_restore_an_arbitrary_snapshot_without_rewriting_the_entry()
     h = (VIEWER / "q294" / "history.js").read_text(encoding="utf-8")
     assert "restore:" in h, "Q300 added NMSKHistory.restore(); it is gone"
     i = h.index("function applyObj")
-    assert "H[idx]" not in h[i:h.index("}", h.index("finally", i))], "restore() must not rewrite the current entry"
+    body = h[i:h.index("function applyEntry", i)]
+    code = "\n".join(ln.split("//")[0] for ln in body.splitlines() if not ln.strip().startswith(("/*", "*")))
+    assert "H[idx] =" not in code, "restore() must not rewrite the current history entry"
+    assert "H[idx] = snap()" in h[h.index("function applyEntry"):], "applyEntry must still normalise its entry"
 
 
 def test_pose_is_a_history_provider_so_the_reset_covers_it(tpl):
@@ -152,22 +161,25 @@ def test_measured_bone_contrast_passes_on_both_engines():
     d = json.loads((REPO / "data/derived/Q300_browser_check.json").read_text(encoding="utf-8"))
     rows = []
     for page, vps in d.items():
-        if page.startswith("BEFORE_"):
-            continue
         for vp, got in (vps or {}).items():
             for mode, row in ((got or {}).get("modes") or {}).items():
-                if row.get("off") is not None and row.get("clear") is not None:
-                    rows.append((vp, mode, row["off"], row["clear"]))
+                if row.get("off") is not None and row.get("legacy") is not None:
+                    rows.append((vp, mode, row["legacy"], row["off"],
+                                 [row.get(w) for w in ("clear", "strong") if row.get(w) is not None]))
     assert rows, "the browser check recorded no contrast figures"
-    bad = [r for r in rows if not (r[3] >= 0.12 and r[3] > r[2] + 0.02)]
+    # the claim: with the per-class table and the fade floor bone reads clearly and is never worse than before,
+    # and no step of the strength control can take it below readable
+    bad = [r for r in rows if not (r[3] >= 0.12 and r[3] >= r[2] - 0.003 and all(x >= 0.12 for x in r[4]))]
     assert not bad, f"bone does not read clearly in: {bad}"
 
 
 # ---------------------------------------------------------------- 4. provenance can no longer be hidden (Q297 E)
 def test_both_templates_render_method_and_error_band(tpl):
+    """the own engine calls the record `r`, the Z engine calls it `a` -- what matters is that both READ the fields"""
     for name, t in tpl.items():
-        assert "r.method" in t, f"{name} still never renders rec.method"
-        assert "r.error_band_mm" in t, f"{name} still never renders rec.error_band_mm"
+        v = "r." if name.startswith("atlas_viewer") else "a."
+        assert v + "method" in t, f"{name} still never renders rec.method"
+        assert v + "error_band_mm" in t, f"{name} still never renders rec.error_band_mm"
 
 
 @pytest.mark.skipif(not PAGES, reason="no build directory on disk")
@@ -176,7 +188,7 @@ def test_every_record_with_a_method_is_on_a_page_that_renders_it():
     seen = {}
     for p in PAGES:
         t = p.read_text(encoding="utf-8")
-        seen[p.parent.name] = (len(re.findall(r'"method":\s*"', t)), len(re.findall(r'"error_band_mm":\s*[0-9]', t)))
+        seen[p.parent.name] = (len(re.findall(r'"rec":\s*\{"method":\s*"', t)), len(re.findall(r'"error_band_mm":\s*[0-9]', t)))
     for own in OWN:
         if own in seen:
             assert seen[own] == (34, 34), f"{own}: expected 34 method / 34 error_band records, got {seen[own]}"

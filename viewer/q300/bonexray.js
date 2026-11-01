@@ -19,7 +19,7 @@ var NMSKBoneRead = (function(){
   "use strict";
   var E = null, hist = null, box = null, segBtns = [], i0 = 1, lvl = 1, on = false;
   var A = [0, 0.45, 0.80], W = ["Off", "Clear", "Strong"];
-  var TIP = "In X-ray and in Fade the bone is painted once more on top of the soft tissue, so the skeleton stays readable however many layers lie in front of it. Off is the old look; Clear is the default; Strong is for a thick region like the pelvis or the shoulder.";
+  var TIP = "In X-ray and in Fade the bone can be painted once more on top of the soft tissue, so the skeleton stays readable however many layers lie in front of it. Strong is for a thick region like the pelvis or the shoulder. Which step a page starts on was decided by measuring the rendered contrast on that page, not by taste: the Imaging pages start on Clear, the Base and Combined pages on Off, because their own X-ray table already leaves the bone the clearest thing on screen.";
   function alpha(){ return A[lvl] || 0; }
   function push(){
     if (!E || !E.setLevel) return;
