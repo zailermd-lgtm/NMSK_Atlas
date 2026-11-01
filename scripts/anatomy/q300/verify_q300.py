@@ -77,8 +77,8 @@ def a_structure(pg, own, want="femur"):
 def isolate_via_ui(pg, own, sid, phone):
     """isolate through the real controls: the own pages have an Isolate button; the Z pages isolate around the
     selection (the box). Both need the structure selected first, which is done through the page's own API select."""
-    pg.evaluate("(id) => window.NMSKClinicalTool.api.select(id)", sid)
-    pg.wait_for_timeout(500)
+    pg.evaluate("(id) => window.__q300dbg.pick(id)", sid)
+    pg.wait_for_timeout(600)
     if own:
         if pg.is_visible("#t-iso"):
             tap(pg, "#t-iso", phone); return "iso"
@@ -343,6 +343,7 @@ def run_page(page_dir: Path, tag: str, errs: list, min_c):
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    min_c = float(next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--min-contrast=")), MIN_CONTRAST))
     errs, out = [], {}
     for d in args:
         p = Path(d)

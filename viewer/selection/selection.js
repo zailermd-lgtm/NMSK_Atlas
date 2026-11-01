@@ -4,7 +4,7 @@
    engine's own isolation / hide / fade / solo / box)   canvas   toolbar + toolClass   isPhone()   [frame(ids)].
    Q232 adds [eligible()] (ids shown by the layers / hidden flags / source facet / side filter, ignoring the selection itself), [categories()] +
    [idsOfCategory(key)] (cheap "mark a whole layer"), and look(id) = the display state of the group (marked = "selected", rest = "others") a structure belongs to:
-   "" (as the layers say) | "fade" (opacity fadeAlpha()) | "hide" | "ghost" | "xray" | "hl" (solid colour hlHex(); selected group only). rule(id) is the
+   "" (as the layers say) | "fade" (opacity fadeAlpha(cls), which keeps a per-class floor -- Q300) | "hide" | "ghost" | "xray" | "hl" (solid colour hlHex(); selected group only). rule(id) is the
    Q227 view of it ("" | "hide" | "ghost") and stays valid. tinted(id) = the amber mark tint.
    The engine asks rule(id): "" = as the layers say, "hide" = not drawn, "ghost" = drawn as a faint ghost and not pickable; isMarked(id) tints a marked
    structure. A selection composes with everything else because it only ADDS a veto: the layer toggles, the source facet, X-ray, the cut plane + slab and the
@@ -17,6 +17,12 @@ function NMSKSelect(E){
   var MODEL = String(E.modelId()), KEY = "nmsk.sel.v1:" + MODEL, LP_MS = 520, MARKLIMIT = 400;
   var marks = [], set = {}, ss = "show", os = "show", ghostPref = false, markMode = false, storageOK = true, suppress = false;
   var fade = 0.15, hl = "#ffb000", tintOn = true, inv = null;                   // Q232: fade opacity 0..1, highlight colour, amber tint of marked structures, inv = {id:1} ids left out by Invert (null = not inverted)
+  /* Q300: a floor on the fade, per tissue class. Until now ONE flat number faded every class, so in the fade view the
+     skeleton went to 0.15 exactly like the skin and the owner could not see it ("the skeleton should appear better than
+     now that it can not be seen almost at all"). Every product in the Q300 benchmark keeps bone as the layer you orient
+     by, so bone and cartilage stop fading well before the rest does. The floor only ever RAISES a class's opacity, so a
+     fade is still a fade: soft tissue goes where the user set it. */
+  var FADE_FLOOR = {bone:0.55, cartilage:0.40};
   var undoStack = [], UNDO_MAX = 20;                                           // Q262: a short-depth undo over pack()-shaped snapshots (ids, mode, ghost, ss/os, fade, hl, inv) -- a convenience, not a full command stack
   var STATES = {show:1, fade:1, hide:1, ghost:1, xray:1, hl:1};
   var data = {v:1, model:MODEL, sets:{}, last:null, remember:true};
@@ -573,7 +579,8 @@ function NMSKSelect(E){
   if (restored){ say(restored); changed(); } else storeNote();
   return {
     rule:rule, look:stateOf, isMarked:function(id){ return set[id] === 1; }, tinted:tinted, ghosting:ghosting, translucent:translucent, active:activeState,
-    fadeAlpha:function(){ return fade; }, hlHex:hlHex, markButton:function(id){
+    fadeAlpha:function(cls){ return Math.max(fade, (cls && FADE_FLOOR[cls]) || 0); },   // Q300: cls = the tissue class, so bone keeps a floor
+    fadeFloor:function(){ return JSON.parse(JSON.stringify(FADE_FLOOR)); }, hlHex:hlHex, markButton:function(id){
       var b = document.createElement("button");
       b.type = "button"; b.className = "ss-mk"; b.textContent = "✓"; b.setAttribute("data-id", id);
       b.setAttribute("aria-pressed", String(set[id] === 1)); b.setAttribute("aria-label", "Mark " + name(id)); b.title = "Mark / unmark for the selection";

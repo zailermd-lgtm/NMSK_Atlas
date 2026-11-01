@@ -1603,11 +1603,18 @@ body.mode-on .hist-bar{display:none}
      NMSKHistory.register(key, {get, set, reset})   add a provider (get() must be JSON-able and stable)
      NMSKHistory.start(opt)                          opt {max, toolbars:[{el, cls}], floating (default true), anchor, resetView()}
      .commit()  .undo()  .redo()  .reset()  .canUndo()  .canRedo()  .snapshot()  .state()  .onReset(fn)  .onChange(fn)
+     .restore(obj)  .onRegister(fn)                 (Q300: apply a snapshot without disturbing the history; hear about a late provider)
    Keys: Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z or Ctrl+Y redo (never while typing in a field). */
 var NMSKHistory = (function(){
   "use strict";
-  var P = [], H = [], idx = -1, MAX = 60, timer = 0, applying = false, on = false, btns = [], resetHooks = [], changeHooks = [], resetView = null, lastMsg = "";
-  function snapObj(){ var o = {}; P.forEach(function(p){ try { o[p.key] = p.get(); } catch (err){ o[p.key] = null; } }); return o; }
+  var P = [], H = [], idx = -1, MAX = 60, timer = 0, applying = false, on = false, btns = [], resetHooks = [], changeHooks = [], regHooks = [], resetView = null, lastMsg = "";
+  function snapObj(){                                   /* Q300: the keys come out in a fixed order, whatever order the
+                                                           providers happened to register in -- a snapshot is compared as
+                                                           a string, and a provider that joins late (measure, part slices,
+                                                           the bone-through level) must not change how an older entry reads */
+    var raw = {}; P.forEach(function(p){ try { raw[p.key] = p.get(); } catch (err){ raw[p.key] = null; } });
+    var o = {}; Object.keys(raw).sort().forEach(function(k){ o[k] = raw[k]; }); return o;
+  }
   function snap(){ return JSON.stringify(snapObj()); }
   function ui(){
     btns.forEach(function(b){
@@ -1633,8 +1640,9 @@ var NMSKHistory = (function(){
     if (timer) clearTimeout(timer);
     timer = setTimeout(commitNow, delay == null ? 320 : delay);
   }
-  function applyEntry(s){
-    var o; try { o = JSON.parse(s); } catch (err){ return; }
+  function applyObj(o){                                 /* Q300: set every provider and NEVER touch H[idx]. The model
+                                                           reset applies the load snapshot between two commits, so the
+                                                           state it replaced has to stay in the history as its own entry. */
     applying = true;
     try {
       P.forEach(function(p){
@@ -1643,6 +1651,10 @@ var NMSKHistory = (function(){
         if (cur !== JSON.stringify(o[p.key])){ try { p.set(o[p.key]); } catch (err2){ if (window.console) console.error("history: " + p.key, err2); } }
       });
     } finally { applying = false; }
+  }
+  function applyEntry(s){
+    var o; try { o = JSON.parse(s); } catch (err){ return; }
+    applyObj(o);
     H[idx] = snap();                                   // normalised: what the providers really hold now (a later commit compares with this)
   }
   function undo(){
@@ -1700,7 +1712,13 @@ var NMSKHistory = (function(){
     });
   }
   var api = {
-    register:function(key, p){ if (!key || !p || typeof p.get !== "function") return; p.key = key; P = P.filter(function(q){ return q.key !== key; }); P.push(p); if (on){ H[idx] = snap(); } },
+    register:function(key, p){
+      if (!key || !p || typeof p.get !== "function") return;
+      p.key = key; P = P.filter(function(q){ return q.key !== key; }); P.push(p);
+      if (on){ H[idx] = snap(); }
+      regHooks.forEach(function(f){ try { f(key, p); } catch (err){} });     // Q300: a provider that joins after start() is announced
+    },
+    onRegister:function(f){ if (typeof f === "function") regHooks.push(f); },
     start:function(opt){
       opt = opt || {}; if (on) return api;
       MAX = Math.max(20, opt.max || MAX); resetView = opt.resetView || null;
@@ -1726,7 +1744,7 @@ var NMSKHistory = (function(){
     mountInto:function(el, cls, prefix){ mount(el, cls, prefix); ui(); },
     active:function(){ return on; }, commit:function(){ return commitNow(); }, schedule:commit, undo:undo, redo:redo, reset:reset,
     canUndo:function(){ return idx > 0; }, canRedo:function(){ return idx < H.length - 1; },
-    snapshot:function(){ return snapObj(); }, keys:function(){ return P.map(function(p){ return p.key; }); },
+    snapshot:function(){ return snapObj(); }, restore:applyObj, keys:function(){ return P.map(function(p){ return p.key; }); },
     state:function(){ return {on:on, idx:idx, len:H.length, max:MAX, canUndo:idx > 0, canRedo:idx < H.length - 1, pending:!!timer, msg:lastMsg}; },
     onReset:function(f){ if (typeof f === "function") resetHooks.push(f); }, onChange:function(f){ if (typeof f === "function") changeHooks.push(f); },
     applying:function(){ return applying; }
@@ -2114,6 +2132,356 @@ var NMSKPartSlices = (function(){
 })();
 </script>
 <!-- Q294 html end -->
+<!-- Q300 html begin -->
+<style>
+/* Q300: the "what is hidden, and how to get it back" chip bar, the model-reset button and the bone-through control.
+   Same dark-glass surfaces as the Q290 zoom chip and the Q294 bars, so both engines and both themes read alike.
+   The chip bar sits at the 3-D view's BOTTOM-left (thumb zone on a phone; the Q294 undo / redo / reset group holds the
+   other corner), and the bar is display:none whenever nothing is hidden -- it costs no screen until it is needed. */
+.sa-bar{position:fixed;z-index:2147482000;display:flex;flex-wrap:wrap;gap:4px;align-items:center;max-width:min(66vw,520px)}
+.sa-bar[hidden]{display:none}
+.sa-chip{display:inline-flex;align-items:center;gap:2px;padding:3px 2px 3px 10px;border-radius:999px;
+  background:rgba(20,24,30,.92);color:#fff;border:1px solid rgba(255,210,63,.55);
+  font:600 12px/1.25 system-ui,-apple-system,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.sa-chip .sa-t{max-width:min(42vw,240px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sa-x{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;min-width:26px;padding:0;margin:0;
+  border:0;border-radius:999px;background:transparent;color:#ffd23f;cursor:pointer;font:inherit}
+.sa-x:hover,.sa-x:focus-visible{background:rgba(255,210,63,.22)}
+.sa-x svg{display:block}
+.sa-all{display:inline-flex;align-items:center;min-height:30px;padding:4px 12px;border-radius:999px;cursor:pointer;
+  background:#ffd23f;color:#141414;border:1px solid #ffd23f;font:700 12px/1.2 system-ui,-apple-system,sans-serif;
+  box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.sa-all[hidden]{display:none}
+.sa-all:hover,.sa-all:focus-visible{filter:brightness(1.07)}
+@media (hover:none){ .sa-x{width:34px;height:34px;min-width:34px} .sa-all{min-height:38px} .sa-chip{font-size:12.5px} }
+/* Reset of the model: beside Q294's reset of the module, with the difference written out behind the "i" NMSKTips folds. */
+.mr-b{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding-left:6px!important;padding-right:6px!important}
+.mr-b svg{display:block}
+.mr-note,.br-note{display:inline-flex;align-items:center}
+.mr-note p,.br-note p{margin:0;max-width:260px;font-size:12px}
+/* Bone-through strength: three taps, not a slider, and only on screen while X-ray or Fade is engaged. */
+.br-box{display:inline-flex;align-items:center;gap:4px}
+.br-box[hidden]{display:none}
+.br-l{color:#9fb3c4;font:600 11.5px/1.2 system-ui,-apple-system,sans-serif;letter-spacing:.02em}
+.br-seg{display:inline-flex;gap:2px}
+.br-b{font:600 11.5px/1.2 system-ui,-apple-system,sans-serif;color:#eef3f7;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.18);border-radius:8px;min-height:30px;padding:3px 8px;cursor:pointer}
+.br-b[aria-pressed="true"]{background:#ffd23f;color:#141414;border-color:#ffd23f}
+@media (hover:none){ .br-b{min-height:38px;padding:5px 11px} }
+</style>
+<script>
+/* Q300: one guard against "something is hidden and I cannot find the way back".
+   Owner: "i selected an organ, isolate its environment, and then had difficulty to redo it to see everything."
+   The benchmark's answer (BioDigital Human: "The Reset button is hidden by default but appears when one of the
+   Explore Tools -- Hide, Isolate, or Fade -- has been used") is the model here, widened to EVERY path on our pages
+   that can make a structure vanish. The page registers one descriptor per such path; this module then
+     - draws a persistent chip per ACTIVE path at the 3-D view's bottom-left corner, each with its own  x  that
+       exits only that path ("isolated: Femur  x", "solo: muscle  x", "hidden: 23  x", "cut  x", "side: right  x");
+     - shows ONE "Show everything" button, and only while at least one path is active -- zero chrome otherwise;
+     - binds Escape (desktop) to the same "show everything", BEFORE the engines' own Escape-deselects, so the key
+       that gets you unstuck is always the first thing Escape does; a second Escape then deselects as before;
+     - makes every exit, single or all, exactly ONE undo step (commit before, commit after).
+   A descriptor is {key, label(), active(), clear(), drive()} -- label() is only read while active() is true, and the
+   optional drive() puts that one path into its active state, which is how verify_q300.py walks every path on the page
+   and proves each one has a way out (one place per path, not a second list that could fall behind this one).
+     NMSKShowAll.start({sources:[...], anchor, history, busy, phone})
+     .refresh()  .active()  .chips()  .clearAll()  .clearOne(key)  .drive(key)  .state() */
+var NMSKShowAll = (function(){
+  "use strict";
+  var S = [], bar = null, allBtn = null, anchor = null, hist = null, busy = null, on = false, sig = "", tmr = 0;
+  function okActive(s){ try { return !!s.active(); } catch (err){ return false; } }
+  function okLabel(s){ try { return String(s.label() == null ? s.key : s.label()); } catch (err){ return s.key; } }
+  function live(){ return S.filter(okActive); }
+  function anyActive(){ return S.some(okActive); }
+  function step(fn){                                     // one undo step: settle what came before, act, settle again
+    if (hist && hist.commit) hist.commit();
+    try { fn(); } catch (err){ if (window.console) console.error("showall", err); }
+    if (hist && hist.commit) hist.commit();
+    render();
+  }
+  function clearOne(key){
+    var s = null;
+    S.forEach(function(q){ if (q.key === key) s = q; });
+    if (!s || !okActive(s)) return false;
+    step(function(){ s.clear(); });
+    return true;
+  }
+  function clearAll(){
+    if (!anyActive()) return false;
+    step(function(){ live().forEach(function(s){ try { s.clear(); } catch (err){} }); });
+    var left = live();
+    say(left.length ? "Still hidden: " + left.map(okLabel).join(", ") + "." : "Everything is shown again (Undo brings it back).");
+    return true;
+  }
+  function say(m){
+    var e = document.getElementById("hist-msg");           // the Q294 history's own one-line notice: one place for these, never two
+    if (!e || !m) return;
+    e.textContent = m; e.hidden = false;
+    clearTimeout(say.t); say.t = setTimeout(function(){ e.hidden = true; }, 2600);
+  }
+  var XSVG = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
+  function render(){
+    if (!on || !bar) return;
+    var L = live(), s = L.map(function(x){ return x.key + "\u0001" + okLabel(x); }).join("\u0002");
+    if (s === sig) return;                                 // nothing visible changed: no DOM churn (this runs on a timer)
+    sig = s;
+    bar.innerHTML = "";
+    bar.hidden = !L.length;
+    if (!L.length){ if (allBtn) allBtn.hidden = true; return; }
+    L.forEach(function(x){
+      var c = document.createElement("span");
+      c.className = "sa-chip"; c.setAttribute("data-sa", x.key);
+      var t = document.createElement("span"); t.className = "sa-t"; t.textContent = okLabel(x); c.appendChild(t);
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "sa-x"; b.innerHTML = XSVG;
+      b.title = "Undo this one: " + okLabel(x); b.setAttribute("aria-label", b.title);
+      b.addEventListener("click", function(e){ e.stopPropagation(); clearOne(x.key); });
+      c.appendChild(b); bar.appendChild(c);
+    });
+    if (allBtn){
+      allBtn.hidden = false;
+      allBtn.title = "Show everything again: " + L.map(okLabel).join(", ") + " (one Undo step; Esc)";
+      bar.appendChild(allBtn);
+    }
+  }
+  function typing(t){ var g = t && t.tagName; return g === "INPUT" || g === "TEXTAREA" || g === "SELECT" || (t && t.isContentEditable); }
+  function blocked(t){
+    if (typing(t)) return true;
+    if (busy){ try { if (busy()) return true; } catch (err){} }
+    var m = document.querySelector(".modal.open, [role=dialog][open]");
+    return !!m;
+  }
+  function onKey(e){
+    if (!on || e.key !== "Escape" || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (blocked(e.target)) return;
+    if (!anyActive()) return;                              // nothing is hidden: leave Escape to the page's own deselect
+    clearAll();
+    e.preventDefault(); e.stopImmediatePropagation();      // a SECOND Escape then reaches the deselect, as before
+  }
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      S = (opt.sources || []).filter(function(s){ return s && s.key && typeof s.active === "function" && typeof s.clear === "function"; });
+      hist = opt.history || window.NMSKHistory || null; busy = opt.busy || null; anchor = opt.anchor || null;
+      bar = document.createElement("div");
+      bar.id = "sa-bar"; bar.className = "sa-bar"; bar.hidden = true;
+      bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "What is hidden now, and how to get it back");
+      bar.setAttribute("aria-live", "polite");
+      allBtn = document.createElement("button");
+      allBtn.type = "button"; allBtn.id = "sa-all"; allBtn.className = "sa-all"; allBtn.hidden = true;
+      allBtn.textContent = "Show everything";
+      allBtn.addEventListener("click", function(e){ e.stopPropagation(); clearAll(); });
+      document.body.appendChild(bar);
+      window.addEventListener("keydown", onKey, true);
+      var place = function(){
+        if (!anchor || !anchor.getBoundingClientRect) return;
+        var r = anchor.getBoundingClientRect(), h = bar.offsetHeight || 34;
+        if (!(r.width > 40 && r.height > 40)) return;
+        bar.style.left = Math.max(4, r.left + 8) + "px";
+        bar.style.top = Math.max(4, Math.min(window.innerHeight - h - 4, r.bottom - h - 8)) + "px";
+        bar.style.maxWidth = Math.max(120, r.width - 150) + "px";   // never runs under the Q294 undo / redo / reset group at the other corner
+      };
+      window.addEventListener("resize", place);
+      setInterval(place, 700); setTimeout(place, 0);
+      if (hist && hist.onChange) hist.onChange(function(){ render(); });
+      tmr = setInterval(render, 450);                      // the engines change these flags without an event of their own
+      on = true; render();
+      return api;
+    },
+    refresh:render,
+    active:anyActive,
+    chips:function(){ return live().map(function(x){ return {key:x.key, label:okLabel(x)}; }); },
+    clearAll:clearAll, clearOne:clearOne,
+    drive:function(key){                                   // verification only: put one path into its active state
+      var s = null;
+      S.forEach(function(q){ if (q.key === key) s = q; });
+      if (!s || typeof s.drive !== "function") return false;
+      step(function(){ s.drive(); });
+      return okActive(s);
+    },
+    keys:function(){ return S.map(function(s){ return s.key; }); },
+    state:function(){ return {on:on, n:S.length, chips:api.chips()}; }
+  };
+  return api;
+})();
+/* Q300: Reset of the MODEL, as distinct from Q294's Reset of the current module.
+   Owner: "also, a button for reset the specific model."
+   Q294's circular arrow resets the module you are in (its own defaults + the work mode + the view). This one puts the
+   model back to the state the PAGE LOADED IN -- pose, camera, visibility, isolation, opacity, marks, cuts and
+   cross-sections, part slices, measurements, labels -- in one tap, without leaving the module, and as a single Undo step.
+   How it is exact rather than approximate: NMSKHistory already takes a snapshot of every registered provider; this module
+   keeps the FIRST one forever (the history itself discards it once 60 entries have gone by) and restores that object.
+   Nothing here knows what a provider holds, so a page that registers a new provider gets it reset for free.
+   The camera is deliberately outside the history (it is a view, not a state), so it is restored through resetView().
+     NMSKModelReset.start({history, resetView, bars:[{el, cls, prefix}], extras:[{label, run}], label})
+     .run()  .loaded()  .state()  .scope() */
+var NMSKModelReset = (function(){
+  "use strict";
+  var hist = null, LOAD = null, resetView = null, extras = [], btns = [], on = false, runs = 0;
+  var ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">' +
+             '<path d="M12 4.5a7.5 7.5 0 1 0 7.1 5.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' +
+             '<path d="M12 1.6v5.8M9.2 4.5h5.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' +
+             '<circle cx="12" cy="13.6" r="2.1" fill="currentColor"/></svg>';
+  var TOUCHES = "pose, camera, which structures are shown, isolation and solo, every opacity and fade, the marked structures, the cut and the cross-sections, part slices, measurements and labels";
+  var KEEPS = "the module you are in (it does not take you out of it), the work mode, anything you saved in this browser (saved poses, saved mark sets), the page's browser zoom, and the structure cards' own text";
+  function sorted(o){                                /* same key order as the history's own snapshot, so the two compare */
+    var out = {};
+    Object.keys(o || {}).sort().forEach(function(k){ out[k] = o[k]; });
+    return out;
+  }
+  function say(m){
+    var e = document.getElementById("hist-msg");
+    if (!e || !m) return;
+    e.textContent = m; e.hidden = false;
+    clearTimeout(say.t); say.t = setTimeout(function(){ e.hidden = true; }, 3200);
+  }
+  function run(){
+    if (!on || !hist || !LOAD) return false;
+    hist.commit();                                  // the state you are leaving becomes its own history entry
+    try { if (hist.restore) hist.restore(LOAD); } catch (err){ if (window.console) console.error("model reset", err); }
+    extras.forEach(function(x){ try { x.run(); } catch (err){} });
+    if (resetView){ try { resetView(); } catch (err){} }
+    var changed = hist.commit();                    // ... and the load state becomes the next one: ONE Ctrl+Z goes back
+    runs++;
+    if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
+    say(changed ? "The model is back to how this page loaded. Undo brings your work back."
+                : "The model is already how this page loaded.");
+    return changed;
+  }
+  function mount(el, cls, prefix){
+    if (!el) return;
+    var b = document.createElement("button");
+    b.type = "button"; b.className = (cls || "") + " mr-b"; b.id = (prefix || "") + "mr-model";
+    b.title = "Reset the model: back to how this page loaded (" + TOUCHES + ") -- one tap, you stay in this module, and Undo brings it back";
+    b.setAttribute("aria-label", "Reset the model to how the page loaded");
+    b.innerHTML = ICON;
+    b.addEventListener("click", function(e){ e.stopPropagation(); run(); });
+    el.appendChild(b);
+    btns.push(b);
+    if (!document.getElementById("mr-note")){        // the long version lives behind the "i" that NMSKTips folds this into
+      var n = document.createElement("span");
+      n.id = "mr-note"; n.className = "mr-note";
+      n.innerHTML = '<p class="nmsk-tip">Two different resets. The circular arrow resets <b>the module you are in</b> to its own defaults. The one with the dot resets <b>the model</b>: ' +
+                    TOUCHES + ' all go back to how this page loaded. It leaves alone ' + KEEPS + '. Both are a single Undo step.</p>';
+      el.appendChild(n);
+    }
+  }
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      hist = opt.history || window.NMSKHistory || null;
+      if (!hist || !hist.snapshot) return api;
+      resetView = opt.resetView || null;
+      extras = (opt.extras || []).filter(function(x){ return x && typeof x.run === "function"; });
+      try { LOAD = sorted(JSON.parse(JSON.stringify(hist.snapshot()))); } catch (err){ LOAD = null; }
+      if (!LOAD) return api;
+      if (hist.onRegister){                           // a provider may join after this (measure, part slices, boneread):
+        hist.onRegister(function(key, p){             // its value AT REGISTRATION is its load value, so record it then
+          if (!LOAD || (key in LOAD)) return;
+          try { LOAD[key] = JSON.parse(JSON.stringify(p.get())); LOAD = sorted(LOAD); } catch (err){}
+        });
+      }
+      (opt.bars || []).forEach(function(t){ mount(t.el, t.cls, t.prefix); });
+      on = true;
+      return api;
+    },
+    mountInto:function(el, cls, prefix){ if (on) mount(el, cls, prefix); },
+    run:run,
+    loaded:function(){ return LOAD ? sorted(JSON.parse(JSON.stringify(LOAD))) : null; },
+    scope:function(){ return {touches:TOUCHES, keeps:KEEPS}; },
+    state:function(){ return {on:on, runs:runs, keys:LOAD ? Object.keys(LOAD).sort() : [], buttons:btns.length}; }
+  };
+  return api;
+})();
+/* Q300: make the skeleton read through soft tissue in X-ray and in Fade, on both engines.
+   Owner: "in xray and in fade view - the skeleton should appear better than now that it can not be seen almost at all."
+   WHY IT WAS INVISIBLE (measured in the code before anything was changed, see docs/research/Q300_interface_benchmark.md §3):
+     - own engine: bone was opaque and drawn first, every soft tissue drawn over it at 0.5 (muscle 0.34). What survives of
+       the bone is the PRODUCT of (1 - alpha) over everything in front of it: skin x fat x muscle x fascia ~ 0.08.
+     - Z engine: its per-layer X-ray table is well tuned, but the translucent pass runs with CULL_FACE disabled, so every
+       closed shell blends TWICE (front face and back face) and the product becomes (1 - alpha)^2 per shell: ~0.085 with
+       five overlapping muscles.
+     - both: the Fade state used ONE flat alpha (0.15) for every class, so bone faded exactly as hard as skin.
+   Lowering the per-class alphas alone cannot fix this, because the number of layers in front of a bone changes with the
+   region and with the camera. The fix that does not depend on it is an extra pass: after the translucent pass, the bone is
+   painted again, over whatever covered it, at a controlled strength. The bone's share of the pixel is then the strength,
+   full stop. This module owns that strength (3 taps, not a slider -- the project's mobile rule), shows the control only
+   while X-ray or Fade is engaged, and registers it with the history so it undoes like everything else.
+   The engine supplies the pass itself through E: {active(), setLevel(alpha), redraw()}.
+     NMSKBoneRead.start(E, {toolbar, cls, history, level})
+     .level()  .alpha()  .set(i)  .steps()  .state() */
+var NMSKBoneRead = (function(){
+  "use strict";
+  var E = null, hist = null, box = null, segBtns = [], i0 = 1, lvl = 1, on = false;
+  var A = [0, 0.45, 0.80], W = ["Off", "Clear", "Strong"];
+  var TIP = "In X-ray and in Fade the bone is painted once more on top of the soft tissue, so the skeleton stays readable however many layers lie in front of it. Off is the old look; Clear is the default; Strong is for a thick region like the pelvis or the shoulder.";
+  function alpha(){ return A[lvl] || 0; }
+  function push(){
+    if (!E || !E.setLevel) return;
+    try { E.setLevel(alpha()); } catch (err){ if (window.console) console.error("boneread", err); }
+    if (E.redraw){ try { E.redraw(); } catch (err){} }
+  }
+  function set(i, quiet){
+    i = Math.max(0, Math.min(A.length - 1, i | 0));
+    if (i === lvl){ ui(); return false; }
+    lvl = i; push(); ui();
+    if (!quiet && hist && hist.schedule) hist.schedule();
+    return true;
+  }
+  function ui(){
+    segBtns.forEach(function(b, k){ b.setAttribute("aria-pressed", String(k === lvl)); b.classList.toggle("on", k === lvl); });
+    if (box){
+      var live = false;
+      if (E && E.active){ try { live = !!E.active(); } catch (err){ live = false; } }
+      box.hidden = !live;                      // zero chrome until X-ray or Fade is actually engaged
+    }
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null;
+      if (!E || typeof E.setLevel !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      if (opt.level != null) lvl = Math.max(0, Math.min(A.length - 1, opt.level | 0));
+      i0 = lvl;
+      box = document.createElement("span");
+      box.id = "br-box"; box.className = "br-box"; box.hidden = true;
+      box.setAttribute("role", "group"); box.setAttribute("aria-label", "How strongly the bone shows through");
+      var lab = document.createElement("span"); lab.className = "br-l"; lab.textContent = "Bone";
+      box.appendChild(lab);
+      var seg = document.createElement("span"); seg.className = "br-seg";
+      W.forEach(function(w, k){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "br-b"; b.id = "br-" + k; b.textContent = w;
+        b.title = "Bone through soft tissue: " + w + (k === 1 ? " (default)" : "");
+        b.setAttribute("aria-pressed", String(k === lvl));
+        b.addEventListener("click", function(e){ e.stopPropagation(); set(k); });
+        seg.appendChild(b); segBtns.push(b);
+      });
+      box.appendChild(seg);
+      var n = document.createElement("span"); n.className = "br-note";
+      n.innerHTML = '<p class="nmsk-tip">' + TIP + "</p>";
+      box.appendChild(n);
+      if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);
+      if (hist && hist.register){
+        hist.register("boneread", {get:function(){ return lvl; }, set:function(v){ set(v, true); }, reset:function(){ set(i0, true); }});
+      }
+      on = true; push(); ui();
+      setInterval(ui, 450);                    // the engines flip X-ray / Fade without an event of their own
+      return api;
+    },
+    level:function(){ return lvl; }, alpha:alpha, set:function(i){ return set(i); },
+    steps:function(){ return A.slice(); }, words:function(){ return W.slice(); },
+    refresh:ui,
+    state:function(){ var live = false; if (E && E.active){ try { live = !!E.active(); } catch (err){} } return {on:on, level:lvl, alpha:alpha(), shown:live}; }
+  };
+  return api;
+})();
+</script>
+<!-- Q300 html end -->
 <!-- Q298 html begin -->
 <style>
 /* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
@@ -3127,6 +3495,9 @@ var TISSUE = {
   fat:       {hex:0xE9D08A, label:"Fat & unlabelled soft tissue"},
   other:     {hex:0x8A98A5, label:"Other"}
 };
+/* Q300: how opaque each class is in X-ray. Bone and nerve stay solid, the soft tissue in front of them gets out of the
+   way: the attenuation is multiplicative, so these have to be small for the skeleton to survive four or five layers. */
+var XRAY_A = {bone:1, cartilage:0.85, ligament:0.5, tendon:0.5, nerve:1, vessel:0.8, muscle:0.22, organ:0.25, fat:0.05, other:0.12};
 function hexCss(h){ return "#" + h.toString(16).padStart(6, "0"); }
 
 /* ---------- scene ---------- */
@@ -3522,6 +3893,20 @@ cats.forEach(function(c){
 /* ---------- Q189 source facet: filter / colour by provenance class (default: everything shown, tissue colours) ---------- */
 var srcOn = {}, srcCount = {}, srcColour = false;
 meshes.forEach(function(m){ var s = m.userData; s.src = classifySource(s.subject, s.rec && s.rec.procedural_badge); if (groups[s.id]) groups[s.id].src = s.src; });
+/* Q300: the bone-through pass. One twin per bone mesh, SHARING its geometry (the pose writes into
+   geometry.attributes.position in place, so the twin follows a posed body for free), drawn after everything with the
+   depth test off. That is what makes the skeleton readable no matter how many translucent layers happen to lie in front
+   of it: the bone's share of the pixel becomes the pass's own opacity instead of a product of (1 - alpha) over them.
+   Zero cost while the opacity is 0 -- the twins are simply not visible. */
+var boneOv = [];
+meshes.forEach(function(m){
+  var s = m.userData;
+  if (s.cat !== "bone" && s.cat !== "cartilage") return;
+  var o = new THREE.Mesh(m.geometry, new THREE.MeshBasicMaterial({color:m.material.color.getHex(),
+    transparent:true, opacity:0, depthTest:false, depthWrite:false, side:THREE.FrontSide}));
+  o.frustumCulled = false; o.renderOrder = 997; o.visible = false; o.userData = {of:m};
+  root.add(o); boneOv.push(o);
+});
 (function(){
   var seen = {};
   meshes.forEach(function(m){ var s = m.userData; if (!seen[s.id]){ seen[s.id] = 1; srcCount[s.src] = (srcCount[s.src] || 0) + 1; } });
@@ -3601,6 +3986,7 @@ qEl.addEventListener("input", renderList);
 /* ---------- visibility ---------- */
 var FADED_ORGANS = {lung_r:1, lung_l:1, liver:1, stomach:1, small_bowel:1, colon:1, brain:1, heart:1};
 var selected = null, iso = false, xray = false;
+var boneRead = 0, xrayLegacy = false;      // Q300: the strength of the extra bone pass, and a switch back to the pre-Q300 alphas (verification)
 /* Q184: a bundle entry with hidden_default:true (e.g. geometry kept from another specimen that failed placement
    checks) starts hidden even when its system is on; picking it in the list or the inspector's Show button reveals it. */
 var hdShown = {};
@@ -3682,7 +4068,12 @@ function apply(){
     m.material.color.setHex(isSel ? 0x0A6E8E : (hlc ? selCtl.hlHex() : (mk ? markHex(bh) : bh)));
     m.material.emissive.setHex(isSel ? 0x0A2C38 : (hlc ? (selCtl.hlHex() >> 2) & 0x3F3F3F : (mk ? 0x2A1C00 : 0x000000)));   // highlight: the chosen colour, a little self-lit so it stays solid in shadow
     var xr = xray || sr === "xray";               // Q232: X-ray can also be applied to one group only
-    var base = (s.cat === "muscle" && xr) ? 0.34 : (xr && s.cat !== "bone" ? 0.5 : 1);
+    /* Q300: X-ray opacity PER TISSUE CLASS. It used to be one number for everything (0.5, muscle 0.34), and because the
+       surviving fraction of the bone is the PRODUCT of (1 - alpha) over everything in front of it, four layers of soft
+       tissue left the bone at ~8 % of the pixel -- the owner's "can not be seen almost at all". Measured, not guessed:
+       docs/research/Q300_interface_benchmark.md §3. The table is the Z engine's own well-tuned one, which this engine
+       never had. xrayLegacy puts the old numbers back so verify_q300.py can measure before and after on one page. */
+    var base = xr ? (xrayLegacy ? (s.cat === "muscle" ? 0.34 : (s.cat === "bone" ? 1 : 0.5)) : (XRAY_A[s.cat] == null ? 0.3 : XRAY_A[s.cat])) : 1;
     if (s.cat === "organ" && FADED_ORGANS[s.id]) base = Math.min(base, 0.55);   // Q193: the big organs (lungs, liver, bowel, ...) show faded so what lies behind them stays visible
     var ov = opacityOverride ? opacityOverride(s.cat, s.id) : null;   // Q188 add-on hook (null = no change)
     var sv = sysAlpha[s.cat];                                         // Q262: per-system opacity, same ov mechanism as the Q188 hook above
@@ -3690,11 +4081,19 @@ function apply(){
     if (ov != null) base = Math.min(base, ov);
     if (hlc && ov == null) base = 1;              // a highlighted structure is solid (unless an add-on's risk map is making it translucent)
     m.material.opacity = (isSel && ov == null) ? 1 : base;
-    if (sr === "fade" && !isSel) m.material.opacity = Math.min(m.material.opacity, selCtl.fadeAlpha());   // Q232: user-set fade opacity (the open structure stays solid like a ghost does)
+    if (sr === "fade" && !isSel) m.material.opacity = Math.min(m.material.opacity, selCtl.fadeAlpha(xrayLegacy ? null : s.cat));   // Q232: user-set fade opacity (the open structure stays solid like a ghost does) -- Q300: with a per-class floor, so bone does not fade like skin
     if (sr === "ghost" && !isSel) m.material.opacity = Math.min(m.material.opacity, 0.1);
     if (fadeOverride[s.id]) m.material.opacity = Math.min(m.material.opacity, 0.18);   // Q262: the structure's own card "fade" action (applies even to the open/selected structure, unlike the group fade above -- same 0.18 cap the Z-engine's per-structure fade already uses)
     m.material.transparent = m.material.opacity < 1;
     m.material.depthWrite = m.material.opacity > 0.85;
+  });
+  var brOn = boneRead > 0 && (xray || (selCtl && selCtl.active() && (function(){ var q = selCtl.state(); return q.sel === "fade" || q.oth === "fade" || q.sel === "xray" || q.oth === "xray"; })()));
+  boneOv.forEach(function(o){                     // Q300: the bone drawn once more, over the soft tissue
+    var m = o.userData.of;
+    o.visible = !!(brOn && m.visible);
+    if (!o.visible) return;
+    o.material.opacity = boneRead;
+    o.material.color.copy(m.material.color);
   });
   document.getElementById("s-str").textContent = shown;
   document.getElementById("s-tri").textContent = tris.toLocaleString();
@@ -3818,6 +4217,11 @@ function select(id){
     (r.region ? '<span class="tag">' + esc(r.region).replace(/_/g, " ") + '</span>' : "") +
     '<span class="tag mono">' + s.nf.toLocaleString() + ' tri</span>' +
     (s.depth_min !== undefined ? '<span class="tag" title="shallowest / median distance of this structure\'s surface from the body surface, on this body">' + s.depth_min + '\u2013' + s.depth_med + ' mm below skin</span>' : "") +
+    /* Q300: render rec.method and rec.error_band_mm. Q297 found that neither template ever did, which is how 68
+       rule-built meshes came to print the green "Measured on this body". A structure's provenance cannot be hidden
+       again by a missing label: if the record says how it was made, the card says it. */
+    (r.method ? '<span class="tag warn" title="How this structure\'s geometry was produced -- see docs/GEOMETRY_SOURCES.md">' + esc(String(r.method).replace(/_/g, " ")) + '</span>' : "") +
+    (r.error_band_mm != null ? '<span class="tag warn" title="How far this geometry may sit from the real structure on this body">\u00b1' + esc(String(r.error_band_mm)) + ' mm</span>' : "") +
     (s.parts > 1 ? '<span class="tag">' + s.parts + ' meshes</span>' : "") +
     (s.subject && s.subject !== PRIMARY_SUBJECT
       ? '<span class="tag warn" title="Shown for reference at the same scale, not as part of one continuous cadaver -- see docs/GEOMETRY_SOURCES.md">' +
@@ -6319,7 +6723,7 @@ function NMSKLabels(E){
    engine's own isolation / hide / fade / solo / box)   canvas   toolbar + toolClass   isPhone()   [frame(ids)].
    Q232 adds [eligible()] (ids shown by the layers / hidden flags / source facet / side filter, ignoring the selection itself), [categories()] +
    [idsOfCategory(key)] (cheap "mark a whole layer"), and look(id) = the display state of the group (marked = "selected", rest = "others") a structure belongs to:
-   "" (as the layers say) | "fade" (opacity fadeAlpha()) | "hide" | "ghost" | "xray" | "hl" (solid colour hlHex(); selected group only). rule(id) is the
+   "" (as the layers say) | "fade" (opacity fadeAlpha(cls), which keeps a per-class floor -- Q300) | "hide" | "ghost" | "xray" | "hl" (solid colour hlHex(); selected group only). rule(id) is the
    Q227 view of it ("" | "hide" | "ghost") and stays valid. tinted(id) = the amber mark tint.
    The engine asks rule(id): "" = as the layers say, "hide" = not drawn, "ghost" = drawn as a faint ghost and not pickable; isMarked(id) tints a marked
    structure. A selection composes with everything else because it only ADDS a veto: the layer toggles, the source facet, X-ray, the cut plane + slab and the
@@ -6332,6 +6736,12 @@ function NMSKSelect(E){
   var MODEL = String(E.modelId()), KEY = "nmsk.sel.v1:" + MODEL, LP_MS = 520, MARKLIMIT = 400;
   var marks = [], set = {}, ss = "show", os = "show", ghostPref = false, markMode = false, storageOK = true, suppress = false;
   var fade = 0.15, hl = "#ffb000", tintOn = true, inv = null;                   // Q232: fade opacity 0..1, highlight colour, amber tint of marked structures, inv = {id:1} ids left out by Invert (null = not inverted)
+  /* Q300: a floor on the fade, per tissue class. Until now ONE flat number faded every class, so in the fade view the
+     skeleton went to 0.15 exactly like the skin and the owner could not see it ("the skeleton should appear better than
+     now that it can not be seen almost at all"). Every product in the Q300 benchmark keeps bone as the layer you orient
+     by, so bone and cartilage stop fading well before the rest does. The floor only ever RAISES a class's opacity, so a
+     fade is still a fade: soft tissue goes where the user set it. */
+  var FADE_FLOOR = {bone:0.55, cartilage:0.40};
   var undoStack = [], UNDO_MAX = 20;                                           // Q262: a short-depth undo over pack()-shaped snapshots (ids, mode, ghost, ss/os, fade, hl, inv) -- a convenience, not a full command stack
   var STATES = {show:1, fade:1, hide:1, ghost:1, xray:1, hl:1};
   var data = {v:1, model:MODEL, sets:{}, last:null, remember:true};
@@ -6888,7 +7298,8 @@ function NMSKSelect(E){
   if (restored){ say(restored); changed(); } else storeNote();
   return {
     rule:rule, look:stateOf, isMarked:function(id){ return set[id] === 1; }, tinted:tinted, ghosting:ghosting, translucent:translucent, active:activeState,
-    fadeAlpha:function(){ return fade; }, hlHex:hlHex, markButton:function(id){
+    fadeAlpha:function(cls){ return Math.max(fade, (cls && FADE_FLOOR[cls]) || 0); },   // Q300: cls = the tissue class, so bone keeps a floor
+    fadeFloor:function(){ return JSON.parse(JSON.stringify(FADE_FLOOR)); }, hlHex:hlHex, markButton:function(id){
       var b = document.createElement("button");
       b.type = "button"; b.className = "ss-mk"; b.textContent = "✓"; b.setAttribute("data-id", id);
       b.setAttribute("aria-pressed", String(set[id] === 1)); b.setAttribute("aria-label", "Mark " + name(id)); b.title = "Mark / unmark for the selection";
@@ -8745,6 +9156,7 @@ cutCtl = NMSKCutMode({
     cutWorld2.normal.copy(cutLocal.normal).negate();
     cutWorld2.constant = (th > 0 ? th : 1e7) - c - cutWorld2.normal.dot(root.position);
     meshes.concat([originMarker, insertionMarker]).forEach(function(m){ m.material.clippingPlanes = on ? cutPlanes : null; });
+    boneOv.forEach(function(m){ m.material.clippingPlanes = on ? cutPlanes : null; });      // Q300: the bone-through pass takes the cut too
     changeHooks.forEach(function(f){ try { f(); } catch (err){ console.error(err); } });
     if (capCtl) capCtl.planeChanged();     // Q227
     if (xsecCtl) xsecCtl.planeChanged();   // Q281
@@ -9410,6 +9822,109 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
   NMSKHistory.start({anchor:A.canvas, resetView:function(){ document.getElementById("t-reset").click(); }});
   NMSKHistory.mountInto(document.getElementById("mb-end"), "mb-btn", "mb-");
   NMSKTips.start();
+  /* ---------------- Q300: no dead ends, a reset of the model, a skeleton that reads ----------------
+     The owner: "i selected an organ, isolate its environment, and then had difficulty to redo it to see everything";
+     "also, a button for reset the specific model". Every path below that can make a structure vanish registers itself,
+     so one chip and one "Show everything" cover all of them -- and a path added later that forgets to register here is
+     caught by tests/test_q300.py, not by a user who gets stuck. */
+  NMSKHistory.register("pose", {                       // Q300: pose was outside the history, so no reset could undo it
+    get:function(){ var p = (poseCtl && poseCtl.ready()) ? poseCtl.pose() : null; return p ? {j:p.j, r:p.r} : null; },
+    set:function(v){ if (v && poseCtl && poseCtl.ready()) poseCtl.apply(v); },
+    reset:function(){ if (poseCtl && poseCtl.ready()) poseCtl.reset(); }});
+  function q300Name(id){ var g = groups[id]; return (g && g.rec && g.rec.name) || id || "a structure"; }
+  function q300Grp(k){ if (!selCtl || !selCtl.active()) return false; var s = selCtl.state(); return s.sel === k || s.oth === k; }
+  function q300AnyId(){ var L = Object.keys(groups); return L.length ? L[0] : null; }
+  function q300Off(o, def){ return Object.keys(o).filter(function(k){ return o[k] === (def === undefined ? false : def); }); }
+  function q300AllOn(){                                // every user-made hiding undone (hidden_default stays as it loads)
+    Object.keys(on).forEach(function(k){ on[k] = true; });
+    Object.keys(srcOn).forEach(function(k){ srcOn[k] = true; });
+    Object.keys(sysAlpha).forEach(function(k){ sysAlpha[k] = 1; });
+    hideOverride = {}; fadeOverride = {}; iso = false;
+    document.getElementById("t-iso").setAttribute("aria-pressed", "false");
+    if (selCtl) selCtl.showAll();
+    if (cutCtl && cutCtl.state().on) cutCtl.exit(true);
+    if (capCtl && capCtl.isOn()) capCtl.set(false);
+    if (xsecCtl && xsecCtl.isOn()) xsecCtl.restore(XS0);
+    apply();
+  }
+  NMSKShowAll.start({anchor:A.canvas, history:NMSKHistory, sources:[
+    {key:"iso", label:function(){ return "isolated: " + q300Name(selected); },
+     active:function(){ return !!(iso && selected); },
+     clear:function(){ iso = false; document.getElementById("t-iso").setAttribute("aria-pressed", "false"); apply(); },
+     drive:function(){ if (!selected) select(q300AnyId()); iso = true; document.getElementById("t-iso").setAttribute("aria-pressed", "true"); apply(); }},
+    {key:"hidegrp", label:function(){ return "hidden: " + (selCtl.state().sel === "hide" ? "the marked" : "the others"); },
+     active:function(){ return !!(selCtl && selCtl.active() && (selCtl.state().sel === "hide" || selCtl.state().oth === "hide")); },
+     clear:function(){ selCtl.showAll(); apply(); },
+     drive:function(){ selCtl.markIds([q300AnyId()], true); selCtl.setGroup("oth", "hide", true); apply(); }},
+    {key:"hideone", label:function(){ var n = Object.keys(hideOverride).length; return "hidden: " + n + " structure" + (n === 1 ? "" : "s"); },
+     active:function(){ return Object.keys(hideOverride).length > 0; },
+     clear:function(){ hideOverride = {}; apply(); },
+     drive:function(){ hideOverride[q300AnyId()] = 1; apply(); }},
+    {key:"layers", label:function(){ var k = q300Off(on); return "tissue off: " + (k.length > 2 ? k.length : k.map(function(x){ return (TISSUE[x] || {label:x}).label.toLowerCase(); }).join(", ")); },
+     active:function(){ return q300Off(on).length > 0; },
+     clear:function(){ Object.keys(on).forEach(function(k){ on[k] = true; }); apply(); },
+     drive:function(){ on.fat = false; apply(); }},
+    {key:"facet", label:function(){ return "sources off: " + q300Off(srcOn).length; },
+     active:function(){ return q300Off(srcOn).length > 0; },
+     clear:function(){ Object.keys(srcOn).forEach(function(k){ srcOn[k] = true; }); apply(); },
+     drive:function(){ var k = Object.keys(srcOn)[0]; if (k) srcOn[k] = false; apply(); }},
+    {key:"sysalpha", label:function(){ return "faint tissue: " + Object.keys(sysAlpha).filter(function(k){ return sysAlpha[k] < 1; }).length; },
+     active:function(){ return Object.keys(sysAlpha).some(function(k){ return sysAlpha[k] < 1; }); },
+     clear:function(){ Object.keys(sysAlpha).forEach(function(k){ sysAlpha[k] = 1; }); apply(); },
+     drive:function(){ sysAlpha.muscle = 0.1; apply(); }},
+    {key:"fadeone", label:function(){ var n = Object.keys(fadeOverride).length; return "faded: " + n + " structure" + (n === 1 ? "" : "s"); },
+     active:function(){ return Object.keys(fadeOverride).length > 0; },
+     clear:function(){ fadeOverride = {}; apply(); },
+     drive:function(){ fadeOverride[q300AnyId()] = 1; apply(); }},
+    {key:"cut", label:function(){ return "cut"; },
+     active:function(){ return !!(cutCtl && cutCtl.state().on); },
+     clear:function(){ cutCtl.exit(true); if (capCtl && capCtl.isOn()) capCtl.set(false); apply(); },
+     drive:function(){ cutCtl.enter(); apply(); }},
+    {key:"slices", label:function(){ return "slices"; },
+     active:function(){ return !!(xsecCtl && xsecCtl.isOn()); },
+     clear:function(){ xsecCtl.restore(XS0); apply(); },
+     drive:function(){ xsecCtl.set(true); apply(); }}
+  ]});
+  NMSKModelReset.start({history:NMSKHistory, resetView:function(){ document.getElementById("t-reset").click(); },
+    bars:[{el:document.getElementById("hist-bar"), cls:"hist-fb", prefix:"h-"},
+          {el:document.getElementById("mb-end"), cls:"mb-btn", prefix:"mb-"}]});
+  NMSKBoneRead.start({active:function(){ return !!xray || q300Grp("fade") || q300Grp("xray"); },
+    setLevel:function(a){ boneRead = a; apply(); }, redraw:draw}, {toolbar:tb, history:NMSKHistory});
+  /* Q300 verification hook: the rendered pixels, read from the engine's own GL context right after a synchronous draw.
+     A screenshot of a WebGL canvas is not reliable under software rendering here (page.screenshot returned a frame that
+     stayed byte-identical while the camera kept moving), so verify_q300.py measures the bone-versus-tissue contrast
+     through this instead. step = the block size the frame is averaged into. */
+  window.__q300px = function(step){
+    step = Math.max(2, (step | 0) || 8);
+    draw();
+    var gl = renderer.getContext(), c = renderer.domElement, w = c.width, h = c.height;
+    var px = new Uint8Array(w * h * 4);
+    gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    var gw = Math.floor(w / step), gh = Math.floor(h / step), out = new Array(gw * gh);
+    for (var gy = 0; gy < gh; gy++){
+      for (var gx = 0; gx < gw; gx++){
+        var s = 0, n = 0;
+        for (var y = gy * step; y < (gy + 1) * step; y++){
+          for (var x = gx * step; x < (gx + 1) * step; x++){
+            var i = ((h - 1 - y) * w + x) * 4;                 // readPixels is bottom-up
+            s += 0.2126 * px[i] + 0.7152 * px[i + 1] + 0.0722 * px[i + 2]; n++;
+          }
+        }
+        out[gy * gw + gx] = Math.round((s / n) * 10) / 10;
+      }
+    }
+    return {w:gw, h:gh, step:step, luma:out};
+  };
+  window.__q300dbg = {
+    allOn:q300AllOn,
+    onlyBone:function(){ q300AllOn(); Object.keys(on).forEach(function(k){ on[k] = (k === "bone" || k === "cartilage"); }); apply(); },
+    sel:function(){ return selCtl; },
+    pick:function(id){ select(id || q300AnyId()); return selected; },
+    legacy:function(v){ xrayLegacy = !!v; if (selCtl) selCtl.setFade(selCtl.state().fade, true); apply(); },
+    messUp:function(){ if (!selected) select(q300AnyId()); iso = true; document.getElementById("t-iso").setAttribute("aria-pressed", "true");
+                       hideOverride[q300AnyId()] = 1; on.fat = false; az += 0.4; el += 0.2; place(); apply(); }
+  };
+
   /* Q298: the shared search / multi-select / expansion controller. The adaptor is deliberately thin -- everything it
      changes it changes through selCtl's public markIds(), so a batch is one undo step of the history started just above. */
   NMSKQ298.start({

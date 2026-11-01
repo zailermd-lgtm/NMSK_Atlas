@@ -9,11 +9,18 @@
      NMSKHistory.register(key, {get, set, reset})   add a provider (get() must be JSON-able and stable)
      NMSKHistory.start(opt)                          opt {max, toolbars:[{el, cls}], floating (default true), anchor, resetView()}
      .commit()  .undo()  .redo()  .reset()  .canUndo()  .canRedo()  .snapshot()  .state()  .onReset(fn)  .onChange(fn)
+     .restore(obj)  .onRegister(fn)                 (Q300: apply a snapshot without disturbing the history; hear about a late provider)
    Keys: Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z or Ctrl+Y redo (never while typing in a field). */
 var NMSKHistory = (function(){
   "use strict";
-  var P = [], H = [], idx = -1, MAX = 60, timer = 0, applying = false, on = false, btns = [], resetHooks = [], changeHooks = [], resetView = null, lastMsg = "";
-  function snapObj(){ var o = {}; P.forEach(function(p){ try { o[p.key] = p.get(); } catch (err){ o[p.key] = null; } }); return o; }
+  var P = [], H = [], idx = -1, MAX = 60, timer = 0, applying = false, on = false, btns = [], resetHooks = [], changeHooks = [], regHooks = [], resetView = null, lastMsg = "";
+  function snapObj(){                                   /* Q300: the keys come out in a fixed order, whatever order the
+                                                           providers happened to register in -- a snapshot is compared as
+                                                           a string, and a provider that joins late (measure, part slices,
+                                                           the bone-through level) must not change how an older entry reads */
+    var raw = {}; P.forEach(function(p){ try { raw[p.key] = p.get(); } catch (err){ raw[p.key] = null; } });
+    var o = {}; Object.keys(raw).sort().forEach(function(k){ o[k] = raw[k]; }); return o;
+  }
   function snap(){ return JSON.stringify(snapObj()); }
   function ui(){
     btns.forEach(function(b){
@@ -39,8 +46,9 @@ var NMSKHistory = (function(){
     if (timer) clearTimeout(timer);
     timer = setTimeout(commitNow, delay == null ? 320 : delay);
   }
-  function applyEntry(s){
-    var o; try { o = JSON.parse(s); } catch (err){ return; }
+  function applyObj(o){                                 /* Q300: set every provider and NEVER touch H[idx]. The model
+                                                           reset applies the load snapshot between two commits, so the
+                                                           state it replaced has to stay in the history as its own entry. */
     applying = true;
     try {
       P.forEach(function(p){
@@ -49,6 +57,10 @@ var NMSKHistory = (function(){
         if (cur !== JSON.stringify(o[p.key])){ try { p.set(o[p.key]); } catch (err2){ if (window.console) console.error("history: " + p.key, err2); } }
       });
     } finally { applying = false; }
+  }
+  function applyEntry(s){
+    var o; try { o = JSON.parse(s); } catch (err){ return; }
+    applyObj(o);
     H[idx] = snap();                                   // normalised: what the providers really hold now (a later commit compares with this)
   }
   function undo(){
@@ -106,7 +118,13 @@ var NMSKHistory = (function(){
     });
   }
   var api = {
-    register:function(key, p){ if (!key || !p || typeof p.get !== "function") return; p.key = key; P = P.filter(function(q){ return q.key !== key; }); P.push(p); if (on){ H[idx] = snap(); } },
+    register:function(key, p){
+      if (!key || !p || typeof p.get !== "function") return;
+      p.key = key; P = P.filter(function(q){ return q.key !== key; }); P.push(p);
+      if (on){ H[idx] = snap(); }
+      regHooks.forEach(function(f){ try { f(key, p); } catch (err){} });     // Q300: a provider that joins after start() is announced
+    },
+    onRegister:function(f){ if (typeof f === "function") regHooks.push(f); },
     start:function(opt){
       opt = opt || {}; if (on) return api;
       MAX = Math.max(20, opt.max || MAX); resetView = opt.resetView || null;
@@ -132,7 +150,7 @@ var NMSKHistory = (function(){
     mountInto:function(el, cls, prefix){ mount(el, cls, prefix); ui(); },
     active:function(){ return on; }, commit:function(){ return commitNow(); }, schedule:commit, undo:undo, redo:redo, reset:reset,
     canUndo:function(){ return idx > 0; }, canRedo:function(){ return idx < H.length - 1; },
-    snapshot:function(){ return snapObj(); }, keys:function(){ return P.map(function(p){ return p.key; }); },
+    snapshot:function(){ return snapObj(); }, restore:applyObj, keys:function(){ return P.map(function(p){ return p.key; }); },
     state:function(){ return {on:on, idx:idx, len:H.length, max:MAX, canUndo:idx > 0, canRedo:idx < H.length - 1, pending:!!timer, msg:lastMsg}; },
     onReset:function(f){ if (typeof f === "function") resetHooks.push(f); }, onChange:function(f){ if (typeof f === "function") changeHooks.push(f); },
     applying:function(){ return applying; }
