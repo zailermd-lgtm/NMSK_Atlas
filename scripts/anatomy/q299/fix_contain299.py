@@ -48,6 +48,9 @@ STEM = {"base_m": "atlas_viewer_zan_atlas", "base_f": "atlas_viewer_base_female"
         "comb_m": "atlas_viewer_zan_male_fitted", "comb_f": "atlas_viewer_zan_female"}
 REPORT = REPO / "data/derived/Q299_containment_fix.json"
 INSET, SIGMA, PASSES = 1.0, 8.0, 3
+# mesh guard: refuse the move rather than damage the mesh.  (Q250 already accepts, and badges, 226 structures with
+# > 2 % flipped triangles, so the bar here is set above that; nothing in Q299 trips it, which is the point of stating it.)
+MAX_FLIPPED_FRAC, MAX_DIHEDRAL_CHANGE_DEG, MIN_CLOSED_VOL_CM3 = 0.03, 8.0, 0.01
 OCULAR = ("cornea", "iris", "sclera", "chamber_of_eyeball", "lens_of_eye", "eyeball", "vitreous", "pupil",
           "ciliary", "choroid", "retina", "conjunctiva")
 
@@ -203,12 +206,23 @@ def run(mode, src="build/q297", out="/dev/shm/q299/pre", tol=5.0, keys=None):
                 V1, s = pull_inside(V0, F, g, body, st, B["bones"], B["bone_tree"])
                 fl, nf = flipped(V0, V1, F)
                 a0, a1 = mesh_stats(V0, F), mesh_stats(V1, F)
+                closed = a0["volume_cm3"] >= MIN_CLOSED_VOL_CM3
                 s.update(out_max_before_mm=rec["out_max_mm"], flipped_tris=fl, tris=nf,
+                         flipped_frac=round(fl / nf, 5),
                          area_before_mm2=a0["area_mm2"], area_after_mm2=a1["area_mm2"],
                          area_ratio=round(a1["area_mm2"] / a0["area_mm2"], 3),
                          volume_before_cm3=a0["volume_cm3"], volume_after_cm3=a1["volume_cm3"],
-                         volume_ratio=round(a1["volume_cm3"] / a0["volume_cm3"], 3) if a0["volume_cm3"] else None,
+                         volume_ratio=round(a1["volume_cm3"] / a0["volume_cm3"], 3) if closed else None,
+                         volume_note=None if closed else ("the mesh is not a closed solid (several open tubes), so its "
+                                                          "signed volume is not meaningful and no ratio is quoted"),
                          dihedral_before_deg=a0["mean_dihedral_deg"], dihedral_after_deg=a1["mean_dihedral_deg"])
+                if s["flipped_frac"] > MAX_FLIPPED_FRAC or abs(a1["mean_dihedral_deg"] - a0["mean_dihedral_deg"]) > MAX_DIHEDRAL_CHANGE_DEG:
+                    s["refused"] = (f"the pull-in would damage this mesh ({100 * s['flipped_frac']:.2f} % of triangles flipped, "
+                                    f"mean dihedral {a0['mean_dihedral_deg']:.1f} -> {a1['mean_dihedral_deg']:.1f} deg): "
+                                    f"NOT moved, reported instead")
+                    page.setdefault("refused", {})[rec["id"]] = s
+                    print("   REFUSED", rec["id"], s["refused"], flush=True)
+                    continue
                 page["fixed"][rec["id"]] = s
                 replace[rec["id"]] = (V1, F)
                 print(f"   {rec['id'][:46]:46s} out {rec['out_max_mm']:6.2f} -> {s['outside_after_max_mm']:5.2f} mm | "
@@ -262,8 +276,9 @@ def badge(key, sid, s):
             f"Nothing was sculpted and no vertex was invented: this is the skin guard of Q250 re-run against a body mask that "
             f"passes validation (Q250's own guard could not decide inside from outside against ~250 open skin patches and "
             f"recorded 1,057 such vertices as 'only counted'). Surface area x{s['area_ratio']:.3f}, enclosed volume "
-            f"x{s['volume_ratio']:.3f}, {s['flipped_tris']} of {s['tris']} triangles flipped, mean dihedral "
-            f"{s['dihedral_before_deg']:.1f} -> {s['dihedral_after_deg']:.1f} deg. Furthest point outside after the fix: "
+            + (f"x{s['volume_ratio']:.3f}" if s['volume_ratio'] is not None else "not quoted (" + s['volume_note'] + ")")
+            + f", {s['flipped_tris']} of {s['tris']} triangles flipped, mean dihedral "
+            + f"{s['dihedral_before_deg']:.1f} -> {s['dihedral_after_deg']:.1f} deg. Furthest point outside after the fix: "
             f"{s['outside_after_max_mm']:.2f} mm (the body mask's own error band is p95 1.4 / max 8.3 mm). "
             + (f"{s['bone_guard_pushed_out']} vertices that the pull-in would have driven into a bone were pushed back out to 0.3 mm "
                f"off the bone surface. " if s['bone_guard_pushed_out'] else "")

@@ -140,23 +140,26 @@ def run_page(d: Path, errs: list, shots: Path | None, only_phone=None):
                     if bb:
                         y = 0.5 * (bb["min"][1] + bb["max"][1])
                         pg.evaluate(ITEMS_JS)
-                        before = pg.evaluate(CUT_JS, [y, False])
+                        # the SHIPPED kernel, run as the Cut panel runs it: it must itself apply a minimum drawn width
                         after = pg.evaluate(CUT_JS, [y, True])
-                        pb, pa = before["per"].get(NERVE), after["per"].get(NERVE)
+                        pa = after["per"].get(NERVE)
                         check(f"{T}: A the plane y={y:.0f} through the middle of the common fibular nerve cuts it "
-                              f"({(pb or {}).get('status')})", bool(pb), errs)
+                              f"({(pa or {}).get('status')})", bool(pa), errs)
+                        check(f"{T}: A the page's own cut-face kernel applies a minimum drawn width "
+                              f"({after['band_mm']} mm at a {after['px_mm']:.2f} mm raster)", after["band_mm"] > 0, errs)
                         check(f"{T}: A the common fibular nerve is DRAWN at that level: {(pa or {}).get('px')} pixels of "
-                              f"the final cut face carry it (status {(pa or {}).get('status')}, minimum drawn width "
-                              f"{after['band_mm']} mm, raster {after['px_mm']:.2f} mm/px)", bool(pa and pa["px"] > 0), errs)
-                        # B: nothing the plane cuts is left invisible unless another structure covers it
-                        check(f"{T}: B the minimum drawn width reduces the invisible sections at that level "
-                              f"({before['invisible']} -> {after['invisible']} of {after['cut']} cut)",
-                              after["invisible"] <= before["invisible"], errs)
+                              f"the final cut face carry it (status {(pa or {}).get('status')}, its own measured section "
+                              f"width {(pa or {}).get('width_mm')} mm) -- 4-6 px before Q299",
+                              bool(pa and pa["px"] >= 12), errs)
+                        # B: no class is left with a cut-but-not-drawn section that the minimum width should have saved
                         for cls in ("vessel", "fascia", "nerve"):
-                            cb, ca = before["by_cat"].get(cls), after["by_cat"].get(cls)
-                            if cb and cb["cut"]:
-                                check(f"{T}: B {cls} sections drawn at that level {cb['visible']}/{cb['cut']} -> "
-                                      f"{ca['visible']}/{ca['cut']}", ca["visible"] >= cb["visible"], errs)
+                            ca = after["by_cat"].get(cls)
+                            if ca and ca["cut"]:
+                                check(f"{T}: B {cls} sections drawn at that level {ca['visible']}/{ca['cut']}",
+                                      ca["visible"] >= ca["cut"] - 2, errs)
+                        thin = [k for k, v in after["per"].items() if v["px"] == 0 and v["status"] in ("thin", "outline")]
+                        check(f"{T}: B no section at that level is left as a bare outline ({len(thin)}: {thin[:4]})",
+                              not thin, errs)
                         # the real UI
                         api(pg, f"api.setCut({{normal: [0, -1, 0], point: [0, {y}, 0]}})"); pg.wait_for_timeout(900)
                         if V295_reach(pg, "#cut-fill", phone):
