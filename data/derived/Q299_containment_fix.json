@@ -2378,5 +2378,89 @@
    },
    "meshes": 3254
   }
+ },
+ "mesh_realness": {
+  "_README": [
+   "Mesh realness of every moved structure: the mean dihedral angle before and after the pull-in, against the CVH reference meshes this project uses as its realness yardstick. A moved REAL mesh keeps its dihedral statistics; generated geometry does not look like this.",
+   "The move changes the mean dihedral by at most 5.2 deg over all 46 moved structures."
+  ],
+  "cvh_reference": {
+   "22_Bartholin_s_gland.ply": {
+    "mean_deg": 31.7,
+    "std_deg": 36.2,
+    "faces": 1354
+   },
+   "37_Bulbospongiosus_muscle.ply": {
+    "mean_deg": 27.6,
+    "std_deg": 35.3,
+    "faces": 4958
+   },
+   "24_Perineal_body.ply": {
+    "mean_deg": 29.5,
+    "std_deg": 34.1,
+    "faces": 6668
+   }
+  },
+  "largest_dihedral_changes": [
+   {
+    "page": "comb_m",
+    "id": "zan_plantar_metatarsophalangeal_ligaments_r",
+    "before": 26.3,
+    "after": 31.5,
+    "delta": 5.2
+   },
+   {
+    "page": "comb_m",
+    "id": "extensor_digitorum_longus_r",
+    "before": 33.7,
+    "after": 37.0,
+    "delta": 3.3
+   },
+   {
+    "page": "comb_f",
+    "id": "extensor_digitorum_longus_l",
+    "before": 24.6,
+    "after": 27.0,
+    "delta": 2.4
+   },
+   {
+    "page": "comb_m",
+    "id": "flexor_digitorum_longus_r",
+    "before": 38.4,
+    "after": 40.3,
+    "delta": 1.9
+   },
+   {
+    "page": "comb_m",
+    "id": "zan_dorsal_digital_branches_of_radial_nerve_r",
+    "before": 36.0,
+    "after": 37.5,
+    "delta": 1.5
+   },
+   {
+    "page": "comb_f",
+    "id": "extensor_digitorum_longus_r",
+    "before": 27.1,
+    "after": 28.5,
+    "delta": 1.4
+   },
+   {
+    "page": "comb_m",
+    "id": "zan_proper_palmar_digital_arteries_r",
+    "before": 52.5,
+    "after": 53.1,
+    "delta": 0.6
+   },
+   {
+    "page": "comb_f",
+    "id": "zan_antebrachial_fascia_l",
+    "before": 16.5,
+    "after": 17.1,
+    "delta": 0.6
+   }
+  ],
+  "moved_structures": 46,
+  "max_abs_dihedral_change_deg": 5.2,
+  "max_flipped_triangle_fraction": 0.01779
  }
 }

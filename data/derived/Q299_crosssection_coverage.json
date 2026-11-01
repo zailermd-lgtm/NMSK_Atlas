@@ -6173,5 +6173,56 @@
     }
    ]
   }
+ },
+ "q295_fill_crosscheck": {
+  "_README": [
+   "Q295 cross-check: the filled area of the whole cut face (union of every structure section) at five axial levels per female page, before (build/q297 geometry + the Q297 kernel) and after (build/q299 geometry + the Q299 minimum drawn width). The band only adds pixels, so the area must not fall anywhere."
+  ],
+  "base_f": {
+   "-60": [
+    53115,
+    53196
+   ],
+   "-85": [
+    42295,
+    43044
+   ],
+   "-110": [
+    39032,
+    39762
+   ],
+   "-300": [
+    24956,
+    24956
+   ],
+   "300": [
+    59711,
+    59726
+   ]
+  },
+  "comb_f": {
+   "-60": [
+    78788,
+    78788
+   ],
+   "-85": [
+    71596,
+    71632
+   ],
+   "-110": [
+    65052,
+    65052
+   ],
+   "-300": [
+    28904,
+    29028
+   ],
+   "300": [
+    87386,
+    87386
+   ]
+  },
+  "units": "mm2 at a 1.0 mm raster; [before, after]",
+  "structures_cut_identical": true
  }
 }

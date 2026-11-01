@@ -288,7 +288,7 @@ def badge(key, sid, s):
                "CT breast label (`breast_ct_l` / `breast_ct_r`, which is inside the body)." if (s['volume_ratio'] or 1) < 0.9 else ""))
 
 
-def rig(key, fresh):
+def rig(key, fresh, out=None):
     """The moved structures are SKINNED, so their per-vertex skinning weights -- which make_pose_rig derives from the
     vertex positions -- have to come from a fresh run on the NEW page. Every other entry of the committed rig is kept
     byte for byte, the way Q292 and Q295 did it: only the replaced structures' entries are substituted."""
@@ -296,6 +296,7 @@ def rig(key, fresh):
     rep = json.loads(REPORT.read_text())["pages"][key]
     idx = sorted(rep["fixed_indices"].values())
     cp = REPO / f"data/anatomy/pose_rig_{key}.json"
+    dst = Path(out) if out else cp
     A = json.loads(cp.read_text()); F = json.loads(Path(fresh).read_text())
     assert A["rig"]["count"] == F["rig"]["count"], (A["rig"]["count"], F["rig"]["count"])
     assert A["rig"]["nv"] == F["rig"]["nv"], "vertex counts changed: the fix must not add or drop a vertex"
@@ -339,7 +340,7 @@ def rig(key, fresh):
                                         f"every other entry as committed")
     o = dict(A); o["rig"] = rig
     o["weights_zlib_b64"] = base64.b64encode(zlib.compress(bytes(packed), 9)).decode("ascii")
-    cp.write_text(json.dumps(o, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+    dst.write_text(json.dumps(o, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
     print(key, "rig", rig["count"], "skinned", len(rig["skin"]), "replaced skinned", nsk, "rigid", nrg,
           "weights", len(wa), "->", len(packed))
 
@@ -348,6 +349,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("mode", choices=["plan", "build", "rig"])
     ap.add_argument("--fresh", default="")
+    ap.add_argument("--rig-out", default="")
     ap.add_argument("--src", default="build/q297")
     ap.add_argument("--out", default="/dev/shm/q299/pre")
     ap.add_argument("--tol", type=float, default=5.0)
@@ -357,7 +359,7 @@ if __name__ == "__main__":
         for k in (a.pages.split(",") if a.pages else ZKEYS):
             f = a.fresh.replace("KEY", k) if a.fresh else f"/dev/shm/q299/fresh/pose_rig_{k}.json"
             if json.loads(REPORT.read_text())["pages"].get(k, {}).get("fixed_indices"):
-                rig(k, f)
+                rig(k, f, a.rig_out.replace("KEY", k) if a.rig_out else None)
             else:
                 print(k, "no replaced geometry: rig untouched")
     else:

@@ -281,3 +281,37 @@ def test_the_imaging_pages_carry_no_fibular_nerve_and_the_round_says_so():
         B = json.loads(html[i:html.index("</script>", i)])
         ids = {s["id"] for s in B["structures"]}
         assert not {i2 for i2 in ids if "fibular_n" in i2}, "an Imaging page now carries a fibular nerve: update the record"
+
+
+# ------------------------------------------------------------------ the pose rig after the geometry change
+@pytest.mark.parametrize("key", ["base_f", "comb_f", "comb_m"])
+def test_the_pose_rig_took_fresh_weights_for_the_replaced_geometries(key):
+    """The moved structures are skinned, and make_pose_rig derives their weights from the vertex positions, so their
+    entries must come from a fresh run on the new page while every other entry stays byte for byte as committed.
+    This checks the result is internally consistent and that the splice is recorded."""
+    import base64, zlib
+    p = REPO / f"data/anatomy/pose_rig_{key}.json"
+    if not p.is_file():
+        pytest.skip(f"{p.name} missing")
+    J = json.loads(p.read_text())
+    R = J["rig"]
+    if "Q299" not in R.get("notes", ""):
+        pytest.skip("the Q299 rig splice has not been applied yet")
+    if not FIXREP.is_file():
+        pytest.skip("Q299_containment_fix.json not built")
+    rep = json.loads(FIXREP.read_text())["pages"][key]
+    assert len(R["nv"]) == R["count"]
+    blob = zlib.decompress(base64.b64decode(J["weights_zlib_b64"]))
+
+    def seglen(e):
+        return (e[1] + 7) // 8 + e[5] * (2 * e[2] - 1)
+
+    off = 0
+    for e in R["skin"]:
+        assert e[4] == off, f"{key}: skinning weight offsets are not contiguous at structure {e[0]}"
+        off += seglen(e)
+    assert off == len(blob), f"{key}: weight blob is {len(blob)} bytes, the entries account for {off}"
+    ids = set(rep.get("fixed_indices", {}).values())
+    placed = {e[0] for e in R["skin"]} | {x for g in R["rigid"] for x in g[1]}
+    assert ids <= placed, f"{key}: a replaced structure is in neither the skinned nor the rigid list"
+    assert all(0 <= x < R["count"] for x in placed)
