@@ -9912,7 +9912,13 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         document.querySelectorAll("#sides button").forEach(function(x){ x.classList.toggle("on", x.dataset.side === v); });
         need = true;
       }
-      function q300Zeroed(){ return LK.filter(function(k){ return on[k] && alphaFor[k] <= 0.01; }); }
+      /* Q300: same rule as the own engine -- "hidden" means different from how the PAGE LOADED, not different from
+         "everything on". A chip must never announce what the page ships, and "Show everything" must return to the
+         page's own load visibility rather than switching on what it chooses to ship switched off. */
+      var ON0 = {}, A0 = {};
+      LK.forEach(function(k){ ON0[k] = !!on[k]; A0[k] = alphaFor[k]; });
+      function q300Zeroed(){ return LK.filter(function(k){ return on[k] && alphaFor[k] <= 0.01 && A0[k] > 0.01; }); }
+      function q300LayersOff(){ return LK.filter(function(k){ return ON0[k] && !on[k]; }); }
       function q300AllOn(){
         soloLayer = null; sideFilter = "both";
         document.querySelectorAll("#sides button").forEach(function(x){ x.classList.toggle("on", x.dataset.side === "both"); });
@@ -9922,7 +9928,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         if (cutCtl && cutCtl.state().on) cutCtl.exit(true);
         if (capCtl && capCtl.isOn()) capCtl.set(false);
         if (xsecCtl && xsecCtl.isOn()) xsecCtl.restore(XS0);
-        q300Click("btn-solid");
+        LK.forEach(function(k){ on[k] = ON0[k]; setA(k, A0[k]); });     // back to the page's own load visibility
+        presetName = "";
         sync(); need = true;
       }
       NMSKShowAll.start({anchor:A.canvas, history:NMSKHistory, sources:[
@@ -9942,13 +9949,13 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
          active:function(){ return hidden.size > 0; },
          clear:function(){ hidden.clear(); if (selected) select(selected, false); need = true; },
          drive:function(){ var o = q300Any(); if (o){ hidden.add(o); need = true; } }},
-        {key:"layers", label:function(){ var k = LK.filter(function(x){ return !on[x]; }); return "tissue off: " + (k.length > 2 ? k.length : k.join(", ")); },
-         active:function(){ return LK.some(function(k){ return !on[k]; }); },
-         clear:function(){ LK.forEach(function(k){ on[k] = true; }); sync(); need = true; },
-         drive:function(){ on.fat = false; sync(); need = true; }},
+        {key:"layers", label:function(){ var k = q300LayersOff(); return "tissue off: " + (k.length > 2 ? k.length : k.join(", ")); },
+         active:function(){ return q300LayersOff().length > 0; },
+         clear:function(){ LK.forEach(function(k){ if (ON0[k]) on[k] = true; }); sync(); need = true; },
+         drive:function(){ var k = LK.filter(function(x){ return ON0[x]; })[0]; if (k) on[k] = false; sync(); need = true; }},
         {key:"preset", label:function(){ return "preset: " + (presetName || "a preset") + " (" + q300Zeroed().length + " tissues at zero)"; },
          active:function(){ return q300Zeroed().length > 0; },
-         clear:function(){ q300Click("btn-solid"); },
+         clear:function(){ LK.forEach(function(k){ on[k] = ON0[k]; setA(k, A0[k]); }); presetName = ""; sync(); need = true; },
          drive:function(){ q300Click("btn-bones"); }},
         {key:"side", label:function(){ return "side: " + (sideFilter === "r" ? "right only" : "left only"); },
          active:function(){ return sideFilter !== "both"; },

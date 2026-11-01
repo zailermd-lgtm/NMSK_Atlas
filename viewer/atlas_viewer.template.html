@@ -9844,11 +9844,22 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
   function q300Name(id){ var g = groups[id]; return (g && g.rec && g.rec.name) || id || "a structure"; }
   function q300Grp(k){ if (!selCtl || !selCtl.active()) return false; var s = selCtl.state(); return s.sel === k || s.oth === k; }
   function q300AnyId(){ var L = Object.keys(groups); return L.length ? L[0] : null; }
-  function q300Off(o, def){ return Object.keys(o).filter(function(k){ return o[k] === (def === undefined ? false : def); }); }
-  function q300AllOn(){                                // every user-made hiding undone (hidden_default stays as it loads)
-    Object.keys(on).forEach(function(k){ on[k] = true; });
-    Object.keys(srcOn).forEach(function(k){ srcOn[k] = true; });
-    Object.keys(sysAlpha).forEach(function(k){ sysAlpha[k] = 1; });
+  /* Q300: what counts as "hidden" is measured against the state the PAGE LOADED IN, never against "everything on".
+     These pages deliberately ship whole tissue layers switched off and some systems at a reduced opacity, and a chip
+     that announced those at load would be both wrong and permanent -- the first run of the browser check caught exactly
+     that ("tissue off: 7", "faint tissue: 1" on a page nobody had touched). It also makes "Show everything" mean the
+     right thing: back to everything this page shows, not switching on what it chooses not to ship. */
+  var ON0 = {}, SRC0 = {}, SYS0 = {};
+  Object.keys(on).forEach(function(k){ ON0[k] = !!on[k]; });
+  Object.keys(srcOn).forEach(function(k){ SRC0[k] = srcOn[k] !== false; });
+  Object.keys(sysAlpha).forEach(function(k){ SYS0[k] = sysAlpha[k] == null ? 1 : sysAlpha[k]; });
+  function q300LayersOff(){ return Object.keys(on).filter(function(k){ return ON0[k] && !on[k]; }); }
+  function q300FacetOff(){ return Object.keys(srcOn).filter(function(k){ return SRC0[k] && srcOn[k] === false; }); }
+  function q300Faint(){ return Object.keys(sysAlpha).filter(function(k){ var a = sysAlpha[k] == null ? 1 : sysAlpha[k]; return a < (SYS0[k] == null ? 1 : SYS0[k]) - 0.001; }); }
+  function q300AllOn(){                                // every user-made hiding undone, back to the page's load visibility
+    Object.keys(on).forEach(function(k){ on[k] = ON0[k]; });
+    Object.keys(srcOn).forEach(function(k){ srcOn[k] = SRC0[k]; });
+    Object.keys(sysAlpha).forEach(function(k){ sysAlpha[k] = SYS0[k]; });
     hideOverride = {}; fadeOverride = {}; iso = false;
     document.getElementById("t-iso").setAttribute("aria-pressed", "false");
     if (selCtl) selCtl.showAll();
@@ -9870,18 +9881,18 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
      active:function(){ return Object.keys(hideOverride).length > 0; },
      clear:function(){ hideOverride = {}; apply(); },
      drive:function(){ hideOverride[q300AnyId()] = 1; apply(); }},
-    {key:"layers", label:function(){ var k = q300Off(on); return "tissue off: " + (k.length > 2 ? k.length : k.map(function(x){ return (TISSUE[x] || {label:x}).label.toLowerCase(); }).join(", ")); },
-     active:function(){ return q300Off(on).length > 0; },
-     clear:function(){ Object.keys(on).forEach(function(k){ on[k] = true; }); apply(); },
-     drive:function(){ on.fat = false; apply(); }},
-    {key:"facet", label:function(){ return "sources off: " + q300Off(srcOn).length; },
-     active:function(){ return q300Off(srcOn).length > 0; },
-     clear:function(){ Object.keys(srcOn).forEach(function(k){ srcOn[k] = true; }); apply(); },
-     drive:function(){ var k = Object.keys(srcOn)[0]; if (k) srcOn[k] = false; apply(); }},
-    {key:"sysalpha", label:function(){ return "faint tissue: " + Object.keys(sysAlpha).filter(function(k){ return sysAlpha[k] < 1; }).length; },
-     active:function(){ return Object.keys(sysAlpha).some(function(k){ return sysAlpha[k] < 1; }); },
-     clear:function(){ Object.keys(sysAlpha).forEach(function(k){ sysAlpha[k] = 1; }); apply(); },
-     drive:function(){ sysAlpha.muscle = 0.1; apply(); }},
+    {key:"layers", label:function(){ var k = q300LayersOff(); return "tissue off: " + (k.length > 2 ? k.length : k.map(function(x){ return (TISSUE[x] || {label:x}).label.toLowerCase(); }).join(", ")); },
+     active:function(){ return q300LayersOff().length > 0; },
+     clear:function(){ Object.keys(on).forEach(function(k){ if (ON0[k]) on[k] = true; }); apply(); },
+     drive:function(){ var k = Object.keys(on).filter(function(x){ return ON0[x]; })[0]; if (k) on[k] = false; apply(); }},
+    {key:"facet", label:function(){ return "sources off: " + q300FacetOff().length; },
+     active:function(){ return q300FacetOff().length > 0; },
+     clear:function(){ Object.keys(srcOn).forEach(function(k){ if (SRC0[k]) srcOn[k] = true; }); apply(); },
+     drive:function(){ var k = Object.keys(srcOn).filter(function(x){ return SRC0[x]; })[0]; if (k) srcOn[k] = false; apply(); }},
+    {key:"sysalpha", label:function(){ return "faint tissue: " + q300Faint().length; },
+     active:function(){ return q300Faint().length > 0; },
+     clear:function(){ Object.keys(sysAlpha).forEach(function(k){ sysAlpha[k] = SYS0[k]; }); apply(); },
+     drive:function(){ var k = Object.keys(sysAlpha).filter(function(x){ return (SYS0[x] == null ? 1 : SYS0[x]) > 0.2; })[0] || "muscle"; sysAlpha[k] = 0.1; apply(); }},
     {key:"fadeone", label:function(){ var n = Object.keys(fadeOverride).length; return "faded: " + n + " structure" + (n === 1 ? "" : "s"); },
      active:function(){ return Object.keys(fadeOverride).length > 0; },
      clear:function(){ fadeOverride = {}; apply(); },

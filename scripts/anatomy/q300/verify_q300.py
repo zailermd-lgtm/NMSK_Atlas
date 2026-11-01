@@ -44,6 +44,12 @@ def ready(pg):
     pg.wait_for_function("document.readyState === 'complete'", timeout=90000)
     pg.wait_for_function("window.NMSKClinicalTool && window.NMSKClinicalTool.api", timeout=180000)
     pg.wait_for_function("window.NMSKHistory && window.NMSKHistory.active()", timeout=180000)
+    # The pose rig loads asynchronously and registers a history provider once it is ready, so a snapshot taken before
+    # that is missing a key and can never be compared with one taken after -- which is exactly how A and C first failed.
+    # Wait for the rig (or for the page to say it has no rig) before anything reads a snapshot.
+    pg.wait_for_function("() => { const p = window.__poseApi; return !p || p.failed() || p.ready(); }", timeout=300000)
+    pg.wait_for_function("() => { const p = window.__poseApi;"
+                         " return !p || p.failed() || window.NMSKHistory.keys().indexOf('pose') >= 0; }", timeout=60000)
     pg.evaluate("() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))")
     pg.wait_for_timeout(800)
     for sel in ("#mw-close", "#pose-banner-close"):
@@ -74,11 +80,16 @@ def a_structure(pg, own, want="femur"):
         " return (hit[0] || L[0] || {}).id || null; }", want)
 
 
-def isolate_via_ui(pg, own, sid, phone):
-    """isolate through the real controls: the own pages have an Isolate button; the Z pages isolate around the
-    selection (the box). Both need the structure selected first, which is done through the page's own API select."""
+def pick(pg, sid):
+    """select the structure. Done BEFORE the "before" snapshot is taken: the selection is part of the page's state,
+    and isolate/exit must be judged on the round trip alone, not on the selection that preceded it."""
     pg.evaluate("(id) => window.__q300dbg.pick(id)", sid)
     pg.wait_for_timeout(600)
+
+
+def isolate_via_ui(pg, own, sid, phone):
+    """isolate through the real controls: the own pages have an Isolate button, the Z pages isolate around the
+    selection with their own `i` key (its panel button is folded away -- the defect this round fixes)."""
     if own:
         if pg.is_visible("#t-iso"):
             tap(pg, "#t-iso", phone); return "iso"
@@ -295,8 +306,11 @@ def run_page(page_dir: Path, tag: str, errs: list, min_c):
 
                 # ---- A isolate and back
                 sid = a_structure(pg, own, "femur")
+                pick(pg, sid)
                 settle(pg)
                 s0 = snap(pg)
+                check(f"{T}: A nothing is flagged as hidden on a page nobody has touched ({chips(pg)})",
+                      not pg.evaluate("() => NMSKShowAll.active()"), errs)
                 kind = isolate_via_ui(pg, own, sid, phone)
                 settle(pg)
                 check(f"{T}: A a structure could be isolated through the real UI ({kind})", bool(kind), errs)
