@@ -4,6 +4,12 @@
 set -euo pipefail
 SRC="${1:-build/q297}"
 OUT="${2:-build/q299}"
+# REF: the dir whose pages equal what is LIVE right now. Q298 published from /dev/shm/q298/final without creating a
+# build dir, so that is the reference while it survives; otherwise build/q297 and Q298's own additions have to be
+# declared in --expect-changed as well.
+REF="${3:-}"
+if [ -z "$REF" ]; then if [ -d /dev/shm/q299/q298_ref ]; then REF=/dev/shm/q299/q298_ref; elif [ -d /dev/shm/q298/final ]; then REF=/dev/shm/q298/final; else REF="$SRC"; fi; fi
+echo "src=$SRC ref=$REF out=$OUT"
 PRE=/dev/shm/q299/pre
 FIN=/dev/shm/q299/final
 cd "$(dirname "$0")/../../.."
@@ -26,8 +32,8 @@ python3 scripts/anatomy/q299/fix_contain299.py rig --pages base_f,comb_f,comb_m
 
 echo "=== 4. the template regen of all six pages"
 rm -rf "$FIN"
-python3 scripts/regen_template_only.py all --src "$PRE" --out "$FIN" --ref "$SRC" \
-  --expect-changed index.html,parts_data.json,plexus_groups.json,symmetry_q237.json,__ANATOMY_files,__ANATOMY_manifest,nmsk-pose-rig,atlas_viewer_base_female_geo_00.txt,atlas_viewer_base_female_geo_01.txt,atlas_viewer_base_female_geo_02.txt,atlas_viewer_zan_female_geo_00.txt,atlas_viewer_zan_female_geo_02.txt,atlas_viewer_zan_male_fitted_geo_00.txt,atlas_viewer_zan_male_fitted_geo_01.txt,atlas_viewer_zan_male_fitted_geo_02.txt
+python3 scripts/regen_template_only.py all --src "$PRE" --out "$FIN" --ref "$REF" \
+  --expect-changed index.html,nmsk-q298,parts_data.json,plexus_groups.json,symmetry_q237.json,__ANATOMY_files,__ANATOMY_manifest,nmsk-pose-rig,atlas_viewer_base_female_geo_00.txt,atlas_viewer_base_female_geo_01.txt,atlas_viewer_base_female_geo_02.txt,atlas_viewer_zan_female_geo_00.txt,atlas_viewer_zan_female_geo_02.txt,atlas_viewer_zan_male_fitted_geo_00.txt,atlas_viewer_zan_male_fitted_geo_01.txt,atlas_viewer_zan_male_fitted_geo_02.txt
 
 echo "=== 5. the documentation and the hub"
 python3 scripts/anatomy/q299/patch_docs_q299.py
