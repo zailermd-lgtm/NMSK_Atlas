@@ -8,7 +8,7 @@ OUT="${2:-build/q299}"
 # build dir, so that is the reference while it survives; otherwise build/q297 and Q298's own additions have to be
 # declared in --expect-changed as well.
 REF="${3:-}"
-if [ -z "$REF" ]; then if [ -d /dev/shm/q299/q298_ref ]; then REF=/dev/shm/q299/q298_ref; elif [ -d /dev/shm/q298/final ]; then REF=/dev/shm/q298/final; else REF="$SRC"; fi; fi
+if [ -z "$REF" ]; then if [ -d /dev/shm/q298/final ]; then REF=/dev/shm/q298/final; elif [ -d /dev/shm/q299/q298_ref ]; then REF=/dev/shm/q299/q298_ref; else REF="$SRC"; fi; fi
 echo "src=$SRC ref=$REF out=$OUT"
 PRE=/dev/shm/q299/pre
 FIN=/dev/shm/q299/final
