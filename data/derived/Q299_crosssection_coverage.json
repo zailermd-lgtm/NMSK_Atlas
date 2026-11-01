@@ -1,0 +1,6177 @@
+{
+ "_README": [
+  "Q299 cross-section coverage audit: scripts/anatomy/q299/xsec299.js, 30 axial levels per region per page.",
+  "SHOULD appear = the plane cuts the structure (its triangles straddle it). DOES appear = pixels of the FINAL cut-face raster still carry its code after every later structure has painted over it.",
+  "'before' = viewer/cut_cap/cut_cap.js as shipped in Q297; 'after' = the same file with the Q299 minimum drawn width (band 1/500 of the section extent, capped at 2.5 mm)."
+ ],
+ "pages": {
+  "own_m": {
+   "label_key": "own_m",
+   "structures_in_page": 951,
+   "hidden_by_default": 0,
+   "n_levels": 210,
+   "regions": {
+    "thigh": [
+     -460,
+     24
+    ],
+    "leg": [
+     -867.25,
+     -450
+    ],
+    "arm": [
+     250,
+     603
+    ],
+    "forearm": [
+     88.5,
+     287.5
+    ],
+    "thorax": [
+     352.5,
+     548.5
+    ],
+    "abdomen": [
+     148.75,
+     352.5
+    ],
+    "pelvis": [
+     -66.5,
+     148.75
+    ]
+   },
+   "band": {
+    "frac": 0.002,
+    "max_mm": 2.5
+   },
+   "band_mm_used": {
+    "min": 0.71,
+    "max": 1.102
+   },
+   "totals_before": {
+    "should": 16806,
+    "filled": 16471,
+    "band": 0,
+    "thin": 113,
+    "outline": 222,
+    "visible": 16218,
+    "invisible": 588
+   },
+   "totals_after": {
+    "should": 16806,
+    "filled": 16471,
+    "band": 335,
+    "thin": 0,
+    "outline": 0,
+    "visible": 16594,
+    "invisible": 212
+   },
+   "by_class_before": {
+    "nerve": {
+     "should": 2472,
+     "filled": 2402,
+     "band": 0,
+     "thin": 67,
+     "outline": 3,
+     "visible": 2248,
+     "invisible": 224,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 1621,
+     "filled": 1589,
+     "band": 0,
+     "thin": 11,
+     "outline": 21,
+     "visible": 1589,
+     "invisible": 32,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 26,
+     "filled": 26,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 26,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 466,
+     "filled": 452,
+     "band": 0,
+     "thin": 9,
+     "outline": 5,
+     "visible": 438,
+     "invisible": 28,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 277,
+     "filled": 276,
+     "band": 0,
+     "thin": 1,
+     "outline": 0,
+     "visible": 269,
+     "invisible": 8,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 7951,
+     "filled": 7779,
+     "band": 0,
+     "thin": 18,
+     "outline": 154,
+     "visible": 7706,
+     "invisible": 245,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 1323,
+     "filled": 1315,
+     "band": 0,
+     "thin": 0,
+     "outline": 8,
+     "visible": 1315,
+     "invisible": 8,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1807,
+     "filled": 1798,
+     "band": 0,
+     "thin": 5,
+     "outline": 4,
+     "visible": 1794,
+     "invisible": 13,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 577,
+     "filled": 576,
+     "band": 0,
+     "thin": 0,
+     "outline": 1,
+     "visible": 576,
+     "invisible": 1,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 286,
+     "filled": 258,
+     "band": 0,
+     "thin": 2,
+     "outline": 26,
+     "visible": 257,
+     "invisible": 29,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "by_class_after": {
+    "nerve": {
+     "should": 2472,
+     "filled": 2402,
+     "band": 70,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2333,
+     "invisible": 139,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 1621,
+     "filled": 1589,
+     "band": 32,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1621,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 26,
+     "filled": 26,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 26,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 466,
+     "filled": 452,
+     "band": 14,
+     "thin": 0,
+     "outline": 0,
+     "visible": 465,
+     "invisible": 1,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 277,
+     "filled": 276,
+     "band": 1,
+     "thin": 0,
+     "outline": 0,
+     "visible": 272,
+     "invisible": 5,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 7951,
+     "filled": 7779,
+     "band": 172,
+     "thin": 0,
+     "outline": 0,
+     "visible": 7887,
+     "invisible": 64,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 1323,
+     "filled": 1315,
+     "band": 8,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1323,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1807,
+     "filled": 1798,
+     "band": 9,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1804,
+     "invisible": 3,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 577,
+     "filled": 576,
+     "band": 1,
+     "thin": 0,
+     "outline": 0,
+     "visible": 577,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 286,
+     "filled": 258,
+     "band": 28,
+     "thin": 0,
+     "outline": 0,
+     "visible": 286,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "still_invisible_examples": [
+    {
+     "region": "arm",
+     "y": 255.9,
+     "id": "extensor_carpi_radialis_brevis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1352,
+     "width_mm": 0.557,
+     "band_mm": 1.0780455172263588
+    },
+    {
+     "region": "arm",
+     "y": 255.9,
+     "id": "extensor_digiti_minimi_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1078,
+     "width_mm": 0.53,
+     "band_mm": 1.0780455172263588
+    },
+    {
+     "region": "arm",
+     "y": 255.9,
+     "id": "greater_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 1.04,
+     "band_mm": 1.0780455172263588
+    },
+    {
+     "region": "arm",
+     "y": 255.9,
+     "id": "lesser_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.603,
+     "band_mm": 1.0780455172263588
+    },
+    {
+     "region": "arm",
+     "y": 255.9,
+     "id": "least_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 592,
+     "width_mm": 0.554,
+     "band_mm": 1.0780455172263588
+    },
+    {
+     "region": "arm",
+     "y": 267.6,
+     "id": "brachialis_r_zfill203s",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1040,
+     "width_mm": 1.402,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 267.6,
+     "id": "extensor_carpi_ulnaris_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 703,
+     "width_mm": 1.921,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 267.6,
+     "id": "greater_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.948,
+     "band_mm": 1.0858246744029934
+    },
+    {
+     "region": "arm",
+     "y": 267.6,
+     "id": "lesser_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.641,
+     "band_mm": 1.0858246744029934
+    },
+    {
+     "region": "arm",
+     "y": 267.6,
+     "id": "least_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 592,
+     "width_mm": 0.502,
+     "band_mm": 1.0858246744029934
+    },
+    {
+     "region": "arm",
+     "y": 279.4,
+     "id": "brachialis_l_zfill203s",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 886,
+     "width_mm": 1.992,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 279.4,
+     "id": "flexor_carpi_radialis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 887,
+     "width_mm": 2.806,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 279.4,
+     "id": "extensor_digitorum_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1353,
+     "width_mm": 0.682,
+     "band_mm": 1.0878119658021428
+    },
+    {
+     "region": "arm",
+     "y": 279.4,
+     "id": "extensor_carpi_ulnaris_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 703,
+     "width_mm": 1.146,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 279.4,
+     "id": "greater_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.898,
+     "band_mm": 1.0878119658021428
+    },
+    {
+     "region": "arm",
+     "y": 279.4,
+     "id": "lesser_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.771,
+     "band_mm": 1.0878119658021428
+    },
+    {
+     "region": "arm",
+     "y": 279.4,
+     "id": "least_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 592,
+     "width_mm": 0.542,
+     "band_mm": 1.0878119658021428
+    },
+    {
+     "region": "arm",
+     "y": 291.2,
+     "id": "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1725,
+     "width_mm": 1.749,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 291.2,
+     "id": "subcostal_n_lateral_cutaneous_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 0.789,
+     "band_mm": 1.0861205799426583
+    },
+    {
+     "region": "arm",
+     "y": 291.2,
+     "id": "greater_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.954,
+     "band_mm": 1.0861205799426583
+    },
+    {
+     "region": "arm",
+     "y": 291.2,
+     "id": "lesser_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.698,
+     "band_mm": 1.0861205799426583
+    },
+    {
+     "region": "arm",
+     "y": 291.2,
+     "id": "least_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 602,
+     "width_mm": 0.361,
+     "band_mm": 1.0861205799426583
+    },
+    {
+     "region": "arm",
+     "y": 302.9,
+     "id": "subcostal_n_lateral_cutaneous_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 0.727,
+     "band_mm": 1.086946428569604
+    },
+    {
+     "region": "arm",
+     "y": 302.9,
+     "id": "greater_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.999,
+     "band_mm": 1.086946428569604
+    },
+    {
+     "region": "arm",
+     "y": 302.9,
+     "id": "lesser_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.664,
+     "band_mm": 1.086946428569604
+    },
+    {
+     "region": "arm",
+     "y": 302.9,
+     "id": "least_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 602,
+     "width_mm": 0.511,
+     "band_mm": 1.086946428569604
+    },
+    {
+     "region": "arm",
+     "y": 314.7,
+     "id": "extensor_carpi_radialis_brevis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1613,
+     "width_mm": 0.519,
+     "band_mm": 1.0877360195353791
+    },
+    {
+     "region": "arm",
+     "y": 314.7,
+     "id": "extensor_carpi_ulnaris_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 778,
+     "width_mm": 0.354,
+     "band_mm": 1.0877360195353791
+    },
+    {
+     "region": "arm",
+     "y": 314.7,
+     "id": "greater_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 1.013,
+     "band_mm": 1.0877360195353791
+    },
+    {
+     "region": "arm",
+     "y": 314.7,
+     "id": "thoracic_sympathetic_chain_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.639,
+     "band_mm": 1.0877360195353791
+    },
+    {
+     "region": "arm",
+     "y": 314.7,
+     "id": "lesser_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.649,
+     "band_mm": 1.0877360195353791
+    },
+    {
+     "region": "arm",
+     "y": 326.5,
+     "id": "thoracic_sympathetic_chain_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.754,
+     "band_mm": 1.0891085122131385
+    },
+    {
+     "region": "arm",
+     "y": 326.5,
+     "id": "lesser_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.666,
+     "band_mm": 1.0891085122131385
+    },
+    {
+     "region": "arm",
+     "y": 338.3,
+     "id": "extensor_carpi_radialis_longus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1857,
+     "width_mm": 1.467,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 361.8,
+     "id": "brachioradialis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 3.871,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 361.8,
+     "id": "median_n_lateral_root_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 2604,
+     "width_mm": 1.185,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 373.6,
+     "id": "brachioradialis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 2.715,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 432.4,
+     "id": "median_n_lateral_root_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 2604,
+     "width_mm": 1.139,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 538.3,
+     "id": "subclavius_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 397,
+     "width_mm": 3.381,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 561.8,
+     "id": "vagus_n_oesophageal_trunk_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 622,
+     "width_mm": 0.589,
+     "band_mm": 1.0381035088653412
+    },
+    {
+     "region": "forearm",
+     "y": 91.8,
+     "id": "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1725,
+     "width_mm": 0.327,
+     "band_mm": 0.7535888888207936
+    },
+    {
+     "region": "forearm",
+     "y": 91.8,
+     "id": "flexor_carpi_radialis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 887,
+     "width_mm": 0.348,
+     "band_mm": 0.7535888888207936
+    },
+    {
+     "region": "forearm",
+     "y": 98.5,
+     "id": "abductor_pollicis_longus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1295,
+     "width_mm": 0.031,
+     "band_mm": 0.7574049243981188
+    },
+    {
+     "region": "forearm",
+     "y": 98.5,
+     "id": "lumbosacral_trunk_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 222,
+     "width_mm": 3.231,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 111.7,
+     "id": "lumbar_sympathetic_chain_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.794,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 118.3,
+     "id": "lumbar_sympathetic_chain_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.356,
+     "band_mm": 0.80910789469002
+    },
+    {
+     "region": "forearm",
+     "y": 138.3,
+     "id": "ulnar_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 2184,
+     "width_mm": 0.107,
+     "band_mm": 0.8712649769585253
+    },
+    {
+     "region": "forearm",
+     "y": 144.9,
+     "id": "interosseous_membrane_forearm_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 564,
+     "width_mm": 0.722,
+     "band_mm": 0.8933733333829245
+    },
+    {
+     "region": "forearm",
+     "y": 151.5,
+     "id": "interosseous_membrane_forearm_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 564,
+     "width_mm": 0.34,
+     "band_mm": 0.9133366666649183
+    },
+    {
+     "region": "forearm",
+     "y": 158.1,
+     "id": "genitofemoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 902,
+     "width_mm": 0.973,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 164.8,
+     "id": "lumbar_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 602,
+     "width_mm": 0.628,
+     "band_mm": 0.9406141710561865
+    },
+    {
+     "region": "forearm",
+     "y": 171.4,
+     "id": "lumbar_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 602,
+     "width_mm": 0.707,
+     "band_mm": 0.9528333333333333
+    },
+    {
+     "region": "forearm",
+     "y": 178.1,
+     "id": "lumbar_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 602,
+     "width_mm": 0.576,
+     "band_mm": 0.9630521656682886
+    },
+    {
+     "region": "forearm",
+     "y": 184.7,
+     "id": "lumbar_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 602,
+     "width_mm": 0.487,
+     "band_mm": 0.9772682540984381
+    },
+    {
+     "region": "forearm",
+     "y": 197.9,
+     "id": "interosseous_membrane_forearm_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 564,
+     "width_mm": 0.666,
+     "band_mm": 1.003586666692522
+    },
+    {
+     "region": "forearm",
+     "y": 211.2,
+     "id": "iliohypogastric_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 902,
+     "width_mm": 1.079,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 211.2,
+     "id": "ulnar_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 2184,
+     "width_mm": 0.544,
+     "band_mm": 1.0337926191091538
+    },
+    {
+     "region": "forearm",
+     "y": 217.8,
+     "id": "greater_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.853,
+     "band_mm": 1.0463769748036316
+    },
+    {
+     "region": "forearm",
+     "y": 217.8,
+     "id": "lesser_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 0.687,
+     "band_mm": 1.0463769748036316
+    },
+    {
+     "region": "forearm",
+     "y": 217.8,
+     "id": "least_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 592,
+     "width_mm": 0.627,
+     "band_mm": 1.0463769748036316
+    }
+   ]
+  },
+  "own_f": {
+   "label_key": "own_f",
+   "structures_in_page": 1104,
+   "hidden_by_default": 0,
+   "n_levels": 210,
+   "regions": {
+    "thigh": [
+     -400.75,
+     24.25
+    ],
+    "leg": [
+     -756.5,
+     -389.25
+    ],
+    "arm": [
+     314.5,
+     603.75
+    ],
+    "forearm": [
+     126,
+     346
+    ],
+    "thorax": [
+     374.5,
+     539.75
+    ],
+    "abdomen": [
+     148.5,
+     374.5
+    ],
+    "pelvis": [
+     -65.25,
+     148.5
+    ]
+   },
+   "band": {
+    "frac": 0.002,
+    "max_mm": 2.5
+   },
+   "band_mm_used": {
+    "min": 0.28,
+    "max": 1.061
+   },
+   "totals_before": {
+    "should": 17117,
+    "filled": 16861,
+    "band": 0,
+    "thin": 91,
+    "outline": 165,
+    "visible": 16671,
+    "invisible": 446
+   },
+   "totals_after": {
+    "should": 17117,
+    "filled": 16861,
+    "band": 256,
+    "thin": 0,
+    "outline": 0,
+    "visible": 16947,
+    "invisible": 170
+   },
+   "by_class_before": {
+    "nerve": {
+     "should": 2583,
+     "filled": 2556,
+     "band": 0,
+     "thin": 27,
+     "outline": 0,
+     "visible": 2483,
+     "invisible": 100,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 1707,
+     "filled": 1681,
+     "band": 0,
+     "thin": 5,
+     "outline": 21,
+     "visible": 1681,
+     "invisible": 26,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 28,
+     "filled": 28,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 27,
+     "invisible": 1,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 680,
+     "filled": 630,
+     "band": 0,
+     "thin": 21,
+     "outline": 29,
+     "visible": 613,
+     "invisible": 67,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 352,
+     "filled": 326,
+     "band": 0,
+     "thin": 1,
+     "outline": 25,
+     "visible": 319,
+     "invisible": 33,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 7303,
+     "filled": 7206,
+     "band": 0,
+     "thin": 29,
+     "outline": 68,
+     "visible": 7127,
+     "invisible": 176,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 1427,
+     "filled": 1420,
+     "band": 0,
+     "thin": 2,
+     "outline": 5,
+     "visible": 1420,
+     "invisible": 7,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1708,
+     "filled": 1702,
+     "band": 0,
+     "thin": 6,
+     "outline": 0,
+     "visible": 1698,
+     "invisible": 10,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 1060,
+     "filled": 1060,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1056,
+     "invisible": 4,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 269,
+     "filled": 252,
+     "band": 0,
+     "thin": 0,
+     "outline": 17,
+     "visible": 247,
+     "invisible": 22,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "by_class_after": {
+    "nerve": {
+     "should": 2583,
+     "filled": 2556,
+     "band": 27,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2521,
+     "invisible": 62,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 1707,
+     "filled": 1681,
+     "band": 26,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1707,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 28,
+     "filled": 28,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 27,
+     "invisible": 1,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 680,
+     "filled": 630,
+     "band": 50,
+     "thin": 0,
+     "outline": 0,
+     "visible": 673,
+     "invisible": 7,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 352,
+     "filled": 326,
+     "band": 26,
+     "thin": 0,
+     "outline": 0,
+     "visible": 346,
+     "invisible": 6,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 7303,
+     "filled": 7206,
+     "band": 97,
+     "thin": 0,
+     "outline": 0,
+     "visible": 7226,
+     "invisible": 77,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 1427,
+     "filled": 1420,
+     "band": 7,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1427,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1708,
+     "filled": 1702,
+     "band": 6,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1703,
+     "invisible": 5,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 1060,
+     "filled": 1060,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1056,
+     "invisible": 4,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 269,
+     "filled": 252,
+     "band": 17,
+     "thin": 0,
+     "outline": 0,
+     "visible": 261,
+     "invisible": 8,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "still_invisible_examples": [
+    {
+     "region": "thigh",
+     "y": -365.3,
+     "id": "zan_oblique_popliteal_ligament_r",
+     "cat": "ligament",
+     "status": "filled",
+     "nv": 186,
+     "width_mm": 0.414,
+     "band_mm": 0.5247269230360604
+    },
+    {
+     "region": "thigh",
+     "y": -351.2,
+     "id": "quadriceps_tendon_l",
+     "cat": "tendon",
+     "status": "filled",
+     "nv": 61,
+     "width_mm": 1.66,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -39.5,
+     "id": "urethral_sphincter_raphe_cvh",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 165,
+     "width_mm": 1.839,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -11.2,
+     "id": "hip_articular_cartilage_l",
+     "cat": "cartilage",
+     "status": "filled",
+     "nv": 931,
+     "width_mm": 0.692,
+     "band_mm": 0.8517175636181419
+    },
+    {
+     "region": "thigh",
+     "y": -11.2,
+     "id": "hip_articular_cartilage_r",
+     "cat": "cartilage",
+     "status": "band",
+     "nv": 879,
+     "width_mm": 0,
+     "band_mm": 0.8517175636181419
+    },
+    {
+     "region": "thigh",
+     "y": 17.2,
+     "id": "hip_articular_cartilage_r",
+     "cat": "cartilage",
+     "status": "filled",
+     "nv": 879,
+     "width_mm": 2.852,
+     "band_mm": 0
+    },
+    {
+     "region": "leg",
+     "y": -738.1,
+     "id": "ankle_articular_cartilage_l",
+     "cat": "cartilage",
+     "status": "filled",
+     "nv": 907,
+     "width_mm": 0.884,
+     "band_mm": 0
+    },
+    {
+     "region": "leg",
+     "y": -591.2,
+     "id": "fat_deep_leg_r",
+     "cat": "fat",
+     "status": "band",
+     "nv": 1000,
+     "width_mm": 0,
+     "band_mm": 0.4197666595863385
+    },
+    {
+     "region": "leg",
+     "y": -481.1,
+     "id": "soft_unlabelled_leg_l",
+     "cat": "fat",
+     "status": "filled",
+     "nv": 2899,
+     "width_mm": 3.688,
+     "band_mm": 0
+    },
+    {
+     "region": "leg",
+     "y": -456.6,
+     "id": "fat_deep_leg_l",
+     "cat": "fat",
+     "status": "filled",
+     "nv": 596,
+     "width_mm": 0.902,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 319.3,
+     "id": "lesser_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 412,
+     "width_mm": 0.562,
+     "band_mm": 1.0590228069706968
+    },
+    {
+     "region": "arm",
+     "y": 329,
+     "id": "lesser_splanchnic_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 412,
+     "width_mm": 0.625,
+     "band_mm": 1.0590852124206724
+    },
+    {
+     "region": "arm",
+     "y": 329,
+     "id": "musculocutaneous_n_r",
+     "cat": "nerve",
+     "status": "band",
+     "nv": 732,
+     "width_mm": 0,
+     "band_mm": 1.0590852124206724
+    },
+    {
+     "region": "arm",
+     "y": 396.5,
+     "id": "pectoralis_minor_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4509,
+     "width_mm": 3.01,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 406.1,
+     "id": "pectoralis_minor_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4509,
+     "width_mm": 4.18,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 415.7,
+     "id": "pectoralis_minor_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4509,
+     "width_mm": 4.024,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 415.7,
+     "id": "pectoralis_minor_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4511,
+     "width_mm": 2.615,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 425.4,
+     "id": "pectoralis_minor_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4509,
+     "width_mm": 3.265,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 435,
+     "id": "pectoralis_minor_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4509,
+     "width_mm": 2.626,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 444.7,
+     "id": "pectoralis_minor_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4509,
+     "width_mm": 2.23,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 463.9,
+     "id": "median_n_lateral_root_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 2604,
+     "width_mm": 0.924,
+     "band_mm": 1.0313732584545159
+    },
+    {
+     "region": "arm",
+     "y": 512.2,
+     "id": "vagus_n_oesophageal_trunk_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 592,
+     "width_mm": 0.596,
+     "band_mm": 0.9787554486995693
+    },
+    {
+     "region": "arm",
+     "y": 521.8,
+     "id": "splenius_cervicis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 1.769,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 521.8,
+     "id": "multifidus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4666,
+     "width_mm": 7.793,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 521.8,
+     "id": "semispinalis_cervicis_l_zfill212",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1562,
+     "width_mm": 1.127,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 521.8,
+     "id": "semispinalis_cervicis_r_zfill212",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1377,
+     "width_mm": 0.407,
+     "band_mm": 0.9656108333462556
+    },
+    {
+     "region": "arm",
+     "y": 521.8,
+     "id": "splenius_capitis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1799,
+     "width_mm": 1.904,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 521.8,
+     "id": "esophagus",
+     "cat": "organ",
+     "status": "filled",
+     "nv": 3000,
+     "width_mm": 5.27,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 521.8,
+     "id": "vagus_n_oesophageal_trunk_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 592,
+     "width_mm": 0.497,
+     "band_mm": 0.9656108333462556
+    },
+    {
+     "region": "arm",
+     "y": 531.4,
+     "id": "multifidus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4666,
+     "width_mm": 6.665,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 531.4,
+     "id": "multifidus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4772,
+     "width_mm": 6.357,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 531.4,
+     "id": "semispinalis_cervicis_l_zfill212",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1562,
+     "width_mm": 2.128,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 531.4,
+     "id": "splenius_capitis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1799,
+     "width_mm": 3.294,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 531.4,
+     "id": "splenius_capitis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1799,
+     "width_mm": 2.857,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 531.4,
+     "id": "semispinalis_cervicis_r_zfill212",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1377,
+     "width_mm": 1.124,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 550.7,
+     "id": "brachial_div_middle_ant_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 182,
+     "width_mm": 1.218,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 550.7,
+     "id": "vagus_n_oesophageal_trunk_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 592,
+     "width_mm": 0.559,
+     "band_mm": 0.9375666200045555
+    },
+    {
+     "region": "arm",
+     "y": 560.4,
+     "id": "brachial_div_superior_post_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 182,
+     "width_mm": 1.216,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 560.4,
+     "id": "brachial_div_superior_ant_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 182,
+     "width_mm": 1.257,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 560.4,
+     "id": "brachial_div_superior_ant_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 182,
+     "width_mm": 1.181,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 579.6,
+     "id": "ansa_cervicalis_superior_root_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 672,
+     "width_mm": 0.603,
+     "band_mm": 0.877856907976254
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "semispinalis_cervicis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4425,
+     "width_mm": 3.686,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "splenius_cervicis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.312,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "inferior_pharyngeal_constrictor_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1992,
+     "width_mm": 2.696,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "longus_colli_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 3119,
+     "width_mm": 3.628,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "longus_capitis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 2834,
+     "width_mm": 2.768,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "longus_colli_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 4272,
+     "width_mm": 3.348,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "inferior_pharyngeal_constrictor_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1934,
+     "width_mm": 2.419,
+     "band_mm": 0
+    },
+    {
+     "region": "arm",
+     "y": 598.9,
+     "id": "longus_capitis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 3744,
+     "width_mm": 2.4,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 129.7,
+     "id": "gluteus_medius_r_zfill203s",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 183,
+     "width_mm": 0.3,
+     "band_mm": 0.827733989158364
+    },
+    {
+     "region": "forearm",
+     "y": 137,
+     "id": "abductor_pollicis_brevis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 312,
+     "width_mm": 0.513,
+     "band_mm": 0.8306833881578948
+    },
+    {
+     "region": "forearm",
+     "y": 144.3,
+     "id": "interosseous_membrane_forearm_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 564,
+     "width_mm": 0.596,
+     "band_mm": 0.8328695652166402
+    },
+    {
+     "region": "forearm",
+     "y": 144.3,
+     "id": "flexor_pollicis_longus_r_zfill",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 362,
+     "width_mm": 0.409,
+     "band_mm": 0.8328695652166402
+    },
+    {
+     "region": "forearm",
+     "y": 173.7,
+     "id": "ilioinguinal_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 902,
+     "width_mm": 1.178,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 181,
+     "id": "zan_radioscaphocapitate_ligament_l",
+     "cat": "ligament",
+     "status": "filled",
+     "nv": 12,
+     "width_mm": 0.352,
+     "band_mm": 0.8985797872340425
+    },
+    {
+     "region": "forearm",
+     "y": 181,
+     "id": "iliohypogastric_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 902,
+     "width_mm": 1.123,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 195.7,
+     "id": "iliohypogastric_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 902,
+     "width_mm": 1.146,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 210.3,
+     "id": "interosseous_membrane_forearm_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 564,
+     "width_mm": 1.044,
+     "band_mm": 0
+    },
+    {
+     "region": "forearm",
+     "y": 217.7,
+     "id": "iliohypogastric_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 902,
+     "width_mm": 0.497,
+     "band_mm": 0.9604652776326984
+    },
+    {
+     "region": "forearm",
+     "y": 232.3,
+     "id": "greater_splanchnic_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 802,
+     "width_mm": 1.05,
+     "band_mm": 0
+    }
+   ]
+  },
+  "base_m": {
+   "label_key": "base_m",
+   "structures_in_page": 3252,
+   "hidden_by_default": 0,
+   "n_levels": 210,
+   "regions": {
+    "thigh": [
+     -431.447,
+     22.99200000000002
+    ],
+    "leg": [
+     -806.102,
+     -428.132
+    ],
+    "arm": [
+     225.71,
+     543.292
+    ],
+    "forearm": [
+     -5.733,
+     249.706
+    ],
+    "thorax": [
+     378.283,
+     542.594
+    ],
+    "abdomen": [
+     150.627,
+     378.283
+    ],
+    "pelvis": [
+     -63.973,
+     150.627
+    ]
+   },
+   "band": {
+    "frac": 0.002,
+    "max_mm": 2.5
+   },
+   "band_mm_used": {
+    "min": 0.46,
+    "max": 1.358
+   },
+   "totals_before": {
+    "should": 44066,
+    "filled": 40903,
+    "band": 0,
+    "thin": 551,
+    "outline": 2612,
+    "visible": 40114,
+    "invisible": 3952
+   },
+   "totals_after": {
+    "should": 44066,
+    "filled": 40903,
+    "band": 3163,
+    "thin": 0,
+    "outline": 0,
+    "visible": 43289,
+    "invisible": 777
+   },
+   "by_class_before": {
+    "nerve": {
+     "should": 8820,
+     "filled": 8302,
+     "band": 0,
+     "thin": 404,
+     "outline": 114,
+     "visible": 8085,
+     "invisible": 735,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8644,
+     "filled": 8117,
+     "band": 0,
+     "thin": 54,
+     "outline": 473,
+     "visible": 8117,
+     "invisible": 527,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2417,
+     "filled": 665,
+     "band": 0,
+     "thin": 1,
+     "outline": 1751,
+     "visible": 663,
+     "invisible": 1754,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 588,
+     "filled": 580,
+     "band": 0,
+     "thin": 4,
+     "outline": 4,
+     "visible": 540,
+     "invisible": 48,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 11105,
+     "filled": 11076,
+     "band": 0,
+     "thin": 24,
+     "outline": 5,
+     "visible": 11011,
+     "invisible": 94,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 2071,
+     "filled": 2071,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2071,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3200,
+     "filled": 3197,
+     "band": 0,
+     "thin": 3,
+     "outline": 0,
+     "visible": 3185,
+     "invisible": 15,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1748,
+     "filled": 1739,
+     "band": 0,
+     "thin": 9,
+     "outline": 0,
+     "visible": 1733,
+     "invisible": 15,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 1886,
+     "filled": 1753,
+     "band": 0,
+     "thin": 13,
+     "outline": 120,
+     "visible": 1746,
+     "invisible": 140,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2260,
+     "filled": 2183,
+     "band": 0,
+     "thin": 18,
+     "outline": 59,
+     "visible": 2130,
+     "invisible": 130,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 417,
+     "filled": 374,
+     "band": 0,
+     "thin": 1,
+     "outline": 42,
+     "visible": 369,
+     "invisible": 48,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 355,
+     "filled": 351,
+     "band": 0,
+     "thin": 4,
+     "outline": 0,
+     "visible": 339,
+     "invisible": 16,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 525,
+     "filled": 465,
+     "band": 0,
+     "thin": 16,
+     "outline": 44,
+     "visible": 95,
+     "invisible": 430,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "by_class_after": {
+    "nerve": {
+     "should": 8820,
+     "filled": 8302,
+     "band": 518,
+     "thin": 0,
+     "outline": 0,
+     "visible": 8514,
+     "invisible": 306,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8644,
+     "filled": 8117,
+     "band": 527,
+     "thin": 0,
+     "outline": 0,
+     "visible": 8642,
+     "invisible": 2,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2417,
+     "filled": 665,
+     "band": 1752,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2373,
+     "invisible": 44,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 588,
+     "filled": 580,
+     "band": 8,
+     "thin": 0,
+     "outline": 0,
+     "visible": 537,
+     "invisible": 51,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 11105,
+     "filled": 11076,
+     "band": 29,
+     "thin": 0,
+     "outline": 0,
+     "visible": 11044,
+     "invisible": 61,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 2071,
+     "filled": 2071,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2071,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3200,
+     "filled": 3197,
+     "band": 3,
+     "thin": 0,
+     "outline": 0,
+     "visible": 3187,
+     "invisible": 13,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1748,
+     "filled": 1739,
+     "band": 9,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1742,
+     "invisible": 6,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 1886,
+     "filled": 1753,
+     "band": 133,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1879,
+     "invisible": 7,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2260,
+     "filled": 2183,
+     "band": 77,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2227,
+     "invisible": 33,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 417,
+     "filled": 374,
+     "band": 43,
+     "thin": 0,
+     "outline": 0,
+     "visible": 414,
+     "invisible": 3,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 355,
+     "filled": 351,
+     "band": 4,
+     "thin": 0,
+     "outline": 0,
+     "visible": 343,
+     "invisible": 12,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 525,
+     "filled": 465,
+     "band": 60,
+     "thin": 0,
+     "outline": 0,
+     "visible": 286,
+     "invisible": 239,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "still_invisible_examples": [
+    {
+     "region": "thigh",
+     "y": -393.6,
+     "id": "adductor_magnus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.911,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -393.6,
+     "id": "adductor_magnus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.87,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -363.3,
+     "id": "plantaris_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 5.442,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -363.3,
+     "id": "plantaris_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 5.344,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -181.5,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "band",
+     "nv": 608,
+     "width_mm": 0,
+     "band_mm": 0.7149582890549483
+    },
+    {
+     "region": "thigh",
+     "y": -166.4,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.697,
+     "band_mm": 0.7211007827776735
+    },
+    {
+     "region": "thigh",
+     "y": -166.4,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.824,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -151.2,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.87,
+     "band_mm": 1.2947681274985738
+    },
+    {
+     "region": "thigh",
+     "y": -151.2,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.812,
+     "band_mm": 1.2947681274985738
+    },
+    {
+     "region": "thigh",
+     "y": -136.1,
+     "id": "zan_adductor_minimus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 476,
+     "width_mm": 0.286,
+     "band_mm": 1.2888311303718571
+    },
+    {
+     "region": "thigh",
+     "y": -136.1,
+     "id": "zan_adductor_minimus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 476,
+     "width_mm": 0.288,
+     "band_mm": 1.2888311303718571
+    },
+    {
+     "region": "thigh",
+     "y": -120.9,
+     "id": "zan_skin_anal_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 26,
+     "width_mm": 2.066,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -120.9,
+     "id": "zan_skin_anal_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 26,
+     "width_mm": 2.081,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -105.8,
+     "id": "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_l",
+     "cat": "muscle",
+     "status": "band",
+     "nv": 1817,
+     "width_mm": 0,
+     "band_mm": 1.2597019868147357
+    },
+    {
+     "region": "thigh",
+     "y": -105.8,
+     "id": "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_r",
+     "cat": "muscle",
+     "status": "band",
+     "nv": 1817,
+     "width_mm": 0,
+     "band_mm": 1.2597019868147357
+    },
+    {
+     "region": "thigh",
+     "y": -105.8,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.872,
+     "band_mm": 1.2597019868147357
+    },
+    {
+     "region": "thigh",
+     "y": -105.8,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 1.025,
+     "band_mm": 1.2597019868147357
+    },
+    {
+     "region": "thigh",
+     "y": -90.6,
+     "id": "zan_synovial_sheaths_of_digits_of_hand_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 1805,
+     "width_mm": 1.791,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -90.6,
+     "id": "zan_synovial_sheaths_of_digits_of_hand_l",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 1805,
+     "width_mm": 1.79,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -90.6,
+     "id": "zan_iliacus_muscle_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 0.088,
+     "band_mm": 1.3577269607878484
+    },
+    {
+     "region": "thigh",
+     "y": -90.6,
+     "id": "zan_iliacus_muscle_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 0.186,
+     "band_mm": 1.3577269607878484
+    },
+    {
+     "region": "thigh",
+     "y": -90.6,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.926,
+     "band_mm": 1.3577269607878484
+    },
+    {
+     "region": "thigh",
+     "y": -90.6,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.823,
+     "band_mm": 1.3577269607878484
+    },
+    {
+     "region": "thigh",
+     "y": -75.5,
+     "id": "flexor_pollicis_longus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 833,
+     "width_mm": 0.724,
+     "band_mm": 1.3459172739823568
+    },
+    {
+     "region": "thigh",
+     "y": -75.5,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.923,
+     "band_mm": 1.3459172739823568
+    },
+    {
+     "region": "thigh",
+     "y": -75.5,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 1.025,
+     "band_mm": 1.3459172739823568
+    },
+    {
+     "region": "thigh",
+     "y": -75.5,
+     "id": "saphenous_n_medial_crural_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.473,
+     "band_mm": 1.3459172739823568
+    },
+    {
+     "region": "thigh",
+     "y": -75.5,
+     "id": "saphenous_n_medial_crural_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.473,
+     "band_mm": 1.3459172739823568
+    },
+    {
+     "region": "thigh",
+     "y": -60.3,
+     "id": "zan_tendon_sheath_of_extensor_digiti_minimi_manus_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 298,
+     "width_mm": 1.358,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -60.3,
+     "id": "zan_tendon_sheath_of_extensor_digiti_minimi_manus_l",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 298,
+     "width_mm": 1.392,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -60.3,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.927,
+     "band_mm": 1.3326014617216528
+    },
+    {
+     "region": "thigh",
+     "y": -60.3,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.824,
+     "band_mm": 1.3326014617216528
+    },
+    {
+     "region": "thigh",
+     "y": -45.2,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.933,
+     "band_mm": 1.3008742092618775
+    },
+    {
+     "region": "thigh",
+     "y": -45.2,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.881,
+     "band_mm": 1.3008742092618775
+    },
+    {
+     "region": "thigh",
+     "y": -45.2,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 610,
+     "width_mm": 0.515,
+     "band_mm": 1.3008742092618775
+    },
+    {
+     "region": "thigh",
+     "y": -45.2,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.515,
+     "band_mm": 1.3008742092618775
+    },
+    {
+     "region": "thigh",
+     "y": -30,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.932,
+     "band_mm": 1.266103854660289
+    },
+    {
+     "region": "thigh",
+     "y": -30,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 1.035,
+     "band_mm": 1.266103854660289
+    },
+    {
+     "region": "thigh",
+     "y": -30,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 610,
+     "width_mm": 0.618,
+     "band_mm": 1.266103854660289
+    },
+    {
+     "region": "thigh",
+     "y": -30,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.515,
+     "band_mm": 1.266103854660289
+    },
+    {
+     "region": "thigh",
+     "y": -30,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.33,
+     "band_mm": 1.266103854660289
+    },
+    {
+     "region": "thigh",
+     "y": -30,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "band",
+     "nv": 608,
+     "width_mm": 0,
+     "band_mm": 1.266103854660289
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "iliopsoas_bursa_l",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 738,
+     "width_mm": 0.254,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "iliopsoas_bursa_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 738,
+     "width_mm": 0.254,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "zan_tendon_sheath_of_flexor_carpi_radialis_r",
+     "cat": "bursa",
+     "status": "band",
+     "nv": 452,
+     "width_mm": 0,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "zan_tendon_sheath_of_flexor_carpi_radialis_l",
+     "cat": "bursa",
+     "status": "band",
+     "nv": 452,
+     "width_mm": 0,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "fat_deep_hand_r",
+     "cat": "fat",
+     "status": "filled",
+     "nv": 552,
+     "width_mm": 0.338,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "transversus_abdominis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.891,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "transversus_abdominis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.624,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "zan_ulnocapitate_ligament_l",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 66,
+     "width_mm": 0.602,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "saphenous_n_medial_crural_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.483,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "saphenous_n_medial_crural_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.483,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.117,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": -14.9,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.271,
+     "band_mm": 1.217064801094854
+    },
+    {
+     "region": "thigh",
+     "y": 0.3,
+     "id": "fat_deep_hand_r",
+     "cat": "fat",
+     "status": "filled",
+     "nv": 552,
+     "width_mm": 0.131,
+     "band_mm": 1.1809148290460243
+    },
+    {
+     "region": "thigh",
+     "y": 0.3,
+     "id": "zan_ilio_inguinal_nerve_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 606,
+     "width_mm": 0.604,
+     "band_mm": 1.1809148290460243
+    },
+    {
+     "region": "thigh",
+     "y": 0.3,
+     "id": "zan_ilio_inguinal_nerve_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 606,
+     "width_mm": 0.606,
+     "band_mm": 1.1809148290460243
+    },
+    {
+     "region": "thigh",
+     "y": 0.3,
+     "id": "saphenous_n_medial_crural_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.412,
+     "band_mm": 1.1809148290460243
+    },
+    {
+     "region": "thigh",
+     "y": 15.4,
+     "id": "zan_ulnocapitate_ligament_r",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 66,
+     "width_mm": 0.579,
+     "band_mm": 1.1692752692339128
+    },
+    {
+     "region": "leg",
+     "y": -774.6,
+     "id": "zan_transverse_tibiofibular_ligament_l",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 54,
+     "width_mm": 0.436,
+     "band_mm": 0.46723619372530495
+    }
+   ]
+  },
+  "base_f": {
+   "label_key": "base_f",
+   "structures_in_page": 3288,
+   "hidden_by_default": 17,
+   "n_levels": 210,
+   "regions": {
+    "thigh": [
+     -402.894,
+     18.788999999999987
+    ],
+    "leg": [
+     -754.418,
+     -399.823
+    ],
+    "arm": [
+     297.06,
+     586.21
+    ],
+    "forearm": [
+     80.66,
+     319.135
+    ],
+    "thorax": [
+     399.825,
+     534.293
+    ],
+    "abdomen": [
+     137.23699999999997,
+     399.825
+    ],
+    "pelvis": [
+     -74.141,
+     137.23699999999997
+    ]
+   },
+   "band": {
+    "frac": 0.002,
+    "max_mm": 2.5
+   },
+   "band_mm_used": {
+    "min": 0.507,
+    "max": 1.269
+   },
+   "totals_before": {
+    "should": 43815,
+    "filled": 40268,
+    "band": 0,
+    "thin": 708,
+    "outline": 2839,
+    "visible": 39478,
+    "invisible": 4337
+   },
+   "totals_after": {
+    "should": 43815,
+    "filled": 40268,
+    "band": 3547,
+    "thin": 0,
+    "outline": 0,
+    "visible": 43036,
+    "invisible": 779
+   },
+   "by_class_before": {
+    "nerve": {
+     "should": 8704,
+     "filled": 8069,
+     "band": 0,
+     "thin": 538,
+     "outline": 97,
+     "visible": 7881,
+     "invisible": 823,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8229,
+     "filled": 7623,
+     "band": 0,
+     "thin": 48,
+     "outline": 558,
+     "visible": 7622,
+     "invisible": 607,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2442,
+     "filled": 609,
+     "band": 0,
+     "thin": 3,
+     "outline": 1830,
+     "visible": 609,
+     "invisible": 1833,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 508,
+     "filled": 506,
+     "band": 0,
+     "thin": 0,
+     "outline": 2,
+     "visible": 476,
+     "invisible": 32,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 10980,
+     "filled": 10949,
+     "band": 0,
+     "thin": 19,
+     "outline": 12,
+     "visible": 10886,
+     "invisible": 94,
+     "hidden_by_default": 1
+    },
+    "bone": {
+     "should": 2086,
+     "filled": 2085,
+     "band": 0,
+     "thin": 1,
+     "outline": 0,
+     "visible": 2085,
+     "invisible": 1,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3277,
+     "filled": 3271,
+     "band": 0,
+     "thin": 6,
+     "outline": 0,
+     "visible": 3246,
+     "invisible": 31,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1614,
+     "filled": 1606,
+     "band": 0,
+     "thin": 8,
+     "outline": 0,
+     "visible": 1605,
+     "invisible": 9,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 2265,
+     "filled": 2105,
+     "band": 0,
+     "thin": 20,
+     "outline": 140,
+     "visible": 2096,
+     "invisible": 169,
+     "hidden_by_default": 13
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2337,
+     "filled": 2193,
+     "band": 0,
+     "thin": 27,
+     "outline": 117,
+     "visible": 2130,
+     "invisible": 207,
+     "hidden_by_default": 3
+    },
+    "cartilage": {
+     "should": 402,
+     "filled": 367,
+     "band": 0,
+     "thin": 1,
+     "outline": 34,
+     "visible": 366,
+     "invisible": 36,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 370,
+     "filled": 350,
+     "band": 0,
+     "thin": 20,
+     "outline": 0,
+     "visible": 339,
+     "invisible": 31,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 571,
+     "filled": 505,
+     "band": 0,
+     "thin": 17,
+     "outline": 49,
+     "visible": 107,
+     "invisible": 464,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "by_class_after": {
+    "nerve": {
+     "should": 8704,
+     "filled": 8069,
+     "band": 635,
+     "thin": 0,
+     "outline": 0,
+     "visible": 8409,
+     "invisible": 295,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8229,
+     "filled": 7623,
+     "band": 606,
+     "thin": 0,
+     "outline": 0,
+     "visible": 8224,
+     "invisible": 5,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2442,
+     "filled": 609,
+     "band": 1833,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2396,
+     "invisible": 46,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 508,
+     "filled": 506,
+     "band": 2,
+     "thin": 0,
+     "outline": 0,
+     "visible": 477,
+     "invisible": 31,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 10980,
+     "filled": 10949,
+     "band": 31,
+     "thin": 0,
+     "outline": 0,
+     "visible": 10924,
+     "invisible": 56,
+     "hidden_by_default": 1
+    },
+    "bone": {
+     "should": 2086,
+     "filled": 2085,
+     "band": 1,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2086,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3277,
+     "filled": 3271,
+     "band": 6,
+     "thin": 0,
+     "outline": 0,
+     "visible": 3257,
+     "invisible": 20,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1614,
+     "filled": 1606,
+     "band": 8,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1614,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 2265,
+     "filled": 2105,
+     "band": 160,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2256,
+     "invisible": 9,
+     "hidden_by_default": 13
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2337,
+     "filled": 2193,
+     "band": 144,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2302,
+     "invisible": 35,
+     "hidden_by_default": 3
+    },
+    "cartilage": {
+     "should": 402,
+     "filled": 367,
+     "band": 35,
+     "thin": 0,
+     "outline": 0,
+     "visible": 399,
+     "invisible": 3,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 370,
+     "filled": 350,
+     "band": 20,
+     "thin": 0,
+     "outline": 0,
+     "visible": 360,
+     "invisible": 10,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 571,
+     "filled": 505,
+     "band": 66,
+     "thin": 0,
+     "outline": 0,
+     "visible": 302,
+     "invisible": 269,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "still_invisible_examples": [
+    {
+     "region": "thigh",
+     "y": -367.8,
+     "id": "adductor_magnus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.813,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -367.8,
+     "id": "adductor_magnus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.872,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -339.6,
+     "id": "plantaris_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 4.914,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -339.6,
+     "id": "plantaris_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 4.757,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -185,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.455,
+     "band_mm": 0.7004389328132993
+    },
+    {
+     "region": "thigh",
+     "y": -156.9,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.675,
+     "band_mm": 0.7078606767089889
+    },
+    {
+     "region": "thigh",
+     "y": -142.9,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.743,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -142.9,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.681,
+     "band_mm": 0.7081177082717932
+    },
+    {
+     "region": "thigh",
+     "y": -128.8,
+     "id": "zan_adductor_minimus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 476,
+     "width_mm": 0.269,
+     "band_mm": 0.7087481185082807
+    },
+    {
+     "region": "thigh",
+     "y": -128.8,
+     "id": "zan_adductor_minimus_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 476,
+     "width_mm": 0.543,
+     "band_mm": 0.7087481185082807
+    },
+    {
+     "region": "thigh",
+     "y": -114.7,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.827,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -114.7,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.937,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -100.7,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.725,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -100.7,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.725,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -86.6,
+     "id": "zan_iliacus_muscle_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 0.225,
+     "band_mm": 0.7108280806357873
+    },
+    {
+     "region": "thigh",
+     "y": -86.6,
+     "id": "zan_iliacus_muscle_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 0.079,
+     "band_mm": 0.7108280806357873
+    },
+    {
+     "region": "thigh",
+     "y": -86.6,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.875,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -86.6,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.931,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -72.6,
+     "id": "zan_skin_anal_region_l",
+     "cat": "skin",
+     "status": "band",
+     "nv": 26,
+     "width_mm": 0,
+     "band_mm": 0.7110614302440998
+    },
+    {
+     "region": "thigh",
+     "y": -72.6,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.864,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -72.6,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.864,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -58.5,
+     "id": "external_anal_sphincter",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 206,
+     "width_mm": 1.038,
+     "band_mm": 1.209098242678947
+    },
+    {
+     "region": "thigh",
+     "y": -58.5,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.851,
+     "band_mm": 1.209098242678947
+    },
+    {
+     "region": "thigh",
+     "y": -58.5,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.904,
+     "band_mm": 1.209098242678947
+    },
+    {
+     "region": "thigh",
+     "y": -58.5,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 610,
+     "width_mm": 0.428,
+     "band_mm": 1.209098242678947
+    },
+    {
+     "region": "thigh",
+     "y": -58.5,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.428,
+     "band_mm": 1.209098242678947
+    },
+    {
+     "region": "thigh",
+     "y": -44.5,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.876,
+     "band_mm": 1.201014902173314
+    },
+    {
+     "region": "thigh",
+     "y": -44.5,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.876,
+     "band_mm": 1.201014902173314
+    },
+    {
+     "region": "thigh",
+     "y": -44.5,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 610,
+     "width_mm": 0.531,
+     "band_mm": 1.201014902173314
+    },
+    {
+     "region": "thigh",
+     "y": -44.5,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.319,
+     "band_mm": 1.201014902173314
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "urethral_sphincter_cvh",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 974,
+     "width_mm": 0.753,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "transversus_abdominis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.718,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "transversus_abdominis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.422,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.846,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 619,
+     "width_mm": 0.741,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "saphenous_n_medial_crural_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.426,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "saphenous_n_medial_crural_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.639,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 610,
+     "width_mm": 0.423,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.423,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.132,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -30.4,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.254,
+     "band_mm": 1.1878527285178722
+    },
+    {
+     "region": "thigh",
+     "y": -16.4,
+     "id": "iliopsoas_bursa_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 738,
+     "width_mm": 0.597,
+     "band_mm": 1.1737904642566273
+    },
+    {
+     "region": "thigh",
+     "y": -16.4,
+     "id": "iliopsoas_bursa_l",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 738,
+     "width_mm": 0.598,
+     "band_mm": 1.1737904642566273
+    },
+    {
+     "region": "thigh",
+     "y": -16.4,
+     "id": "zan_ilio_inguinal_nerve_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 606,
+     "width_mm": 0.497,
+     "band_mm": 1.1737904642566273
+    },
+    {
+     "region": "thigh",
+     "y": -16.4,
+     "id": "zan_ilio_inguinal_nerve_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 606,
+     "width_mm": 0.397,
+     "band_mm": 1.1737904642566273
+    },
+    {
+     "region": "thigh",
+     "y": 11.8,
+     "id": "flexor_pollicis_longus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 833,
+     "width_mm": 0.497,
+     "band_mm": 1.257711846490806
+    },
+    {
+     "region": "leg",
+     "y": -748.5,
+     "id": "zan_tendon_sheath_of_extensor_hallucis_longus_l",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 298,
+     "width_mm": 0.679,
+     "band_mm": 0
+    },
+    {
+     "region": "leg",
+     "y": -748.5,
+     "id": "zan_tendon_sheath_of_extensor_hallucis_longus_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 298,
+     "width_mm": 0.563,
+     "band_mm": 0
+    },
+    {
+     "region": "leg",
+     "y": -748.5,
+     "id": "zan_medial_talocalcaneal_ligament_l",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 70,
+     "width_mm": 0.416,
+     "band_mm": 0.5145415409016351
+    },
+    {
+     "region": "leg",
+     "y": -724.9,
+     "id": "zan_transverse_tibiofibular_ligament_l",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 54,
+     "width_mm": 0.472,
+     "band_mm": 0.5142969262624258
+    },
+    {
+     "region": "leg",
+     "y": -724.9,
+     "id": "zan_transverse_tibiofibular_ligament_r",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 54,
+     "width_mm": 0.472,
+     "band_mm": 0.5142969262624258
+    },
+    {
+     "region": "leg",
+     "y": -642.1,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.464,
+     "band_mm": 0.5636694876048358
+    },
+    {
+     "region": "leg",
+     "y": -642.1,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.348,
+     "band_mm": 0.5636694876048358
+    },
+    {
+     "region": "leg",
+     "y": -630.3,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.343,
+     "band_mm": 0.5726075680808719
+    },
+    {
+     "region": "leg",
+     "y": -630.3,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.115,
+     "band_mm": 0.5726075680808719
+    },
+    {
+     "region": "leg",
+     "y": -512.1,
+     "id": "sural_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 617,
+     "width_mm": 0.412,
+     "band_mm": 0.6395171283757531
+    },
+    {
+     "region": "leg",
+     "y": -512.1,
+     "id": "sural_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 617,
+     "width_mm": 0.409,
+     "band_mm": 0.6395171283757531
+    },
+    {
+     "region": "leg",
+     "y": -500.3,
+     "id": "sural_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 617,
+     "width_mm": 0.406,
+     "band_mm": 0.6401853422610523
+    },
+    {
+     "region": "leg",
+     "y": -500.3,
+     "id": "sural_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 617,
+     "width_mm": 0.415,
+     "band_mm": 0.6401853422610523
+    },
+    {
+     "region": "leg",
+     "y": -488.5,
+     "id": "tibial_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 606,
+     "width_mm": 0.67,
+     "band_mm": 0
+    }
+   ]
+  },
+  "comb_m": {
+   "label_key": "comb_m",
+   "structures_in_page": 3254,
+   "hidden_by_default": 0,
+   "n_levels": 210,
+   "regions": {
+    "thigh": [
+     -460.2,
+     22.721000000000004
+    ],
+    "leg": [
+     -868.52,
+     -449.541
+    ],
+    "arm": [
+     253.312,
+     601.273
+    ],
+    "forearm": [
+     73.944,
+     290.198
+    ],
+    "thorax": [
+     379.793,
+     528.003
+    ],
+    "abdomen": [
+     156.56199999999998,
+     379.793
+    ],
+    "pelvis": [
+     -67.65,
+     156.56199999999998
+    ]
+   },
+   "band": {
+    "frac": 0.002,
+    "max_mm": 2.5
+   },
+   "band_mm_used": {
+    "min": 0.706,
+    "max": 1.094
+   },
+   "totals_before": {
+    "should": 42610,
+    "filled": 39199,
+    "band": 0,
+    "thin": 683,
+    "outline": 2728,
+    "visible": 38459,
+    "invisible": 4151
+   },
+   "totals_after": {
+    "should": 42610,
+    "filled": 39199,
+    "band": 3411,
+    "thin": 0,
+    "outline": 0,
+    "visible": 41735,
+    "invisible": 875
+   },
+   "by_class_before": {
+    "nerve": {
+     "should": 8256,
+     "filled": 7721,
+     "band": 0,
+     "thin": 519,
+     "outline": 16,
+     "visible": 7530,
+     "invisible": 726,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8344,
+     "filled": 7805,
+     "band": 0,
+     "thin": 61,
+     "outline": 478,
+     "visible": 7805,
+     "invisible": 539,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2474,
+     "filled": 572,
+     "band": 0,
+     "thin": 2,
+     "outline": 1900,
+     "visible": 556,
+     "invisible": 1918,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 507,
+     "filled": 500,
+     "band": 0,
+     "thin": 3,
+     "outline": 4,
+     "visible": 473,
+     "invisible": 34,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 10405,
+     "filled": 10371,
+     "band": 0,
+     "thin": 28,
+     "outline": 6,
+     "visible": 10301,
+     "invisible": 104,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 1983,
+     "filled": 1983,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1983,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3337,
+     "filled": 3330,
+     "band": 0,
+     "thin": 7,
+     "outline": 0,
+     "visible": 3310,
+     "invisible": 27,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1804,
+     "filled": 1801,
+     "band": 0,
+     "thin": 3,
+     "outline": 0,
+     "visible": 1801,
+     "invisible": 3,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 1888,
+     "filled": 1748,
+     "band": 0,
+     "thin": 11,
+     "outline": 129,
+     "visible": 1745,
+     "invisible": 143,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2281,
+     "filled": 2177,
+     "band": 0,
+     "thin": 19,
+     "outline": 85,
+     "visible": 2082,
+     "invisible": 199,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 429,
+     "filled": 393,
+     "band": 0,
+     "thin": 1,
+     "outline": 35,
+     "visible": 391,
+     "invisible": 38,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 334,
+     "filled": 323,
+     "band": 0,
+     "thin": 11,
+     "outline": 0,
+     "visible": 306,
+     "invisible": 28,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 538,
+     "filled": 445,
+     "band": 0,
+     "thin": 18,
+     "outline": 75,
+     "visible": 146,
+     "invisible": 392,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "by_class_after": {
+    "nerve": {
+     "should": 8256,
+     "filled": 7721,
+     "band": 535,
+     "thin": 0,
+     "outline": 0,
+     "visible": 7932,
+     "invisible": 324,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8344,
+     "filled": 7805,
+     "band": 539,
+     "thin": 0,
+     "outline": 0,
+     "visible": 8344,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2474,
+     "filled": 572,
+     "band": 1902,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2369,
+     "invisible": 105,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 507,
+     "filled": 500,
+     "band": 7,
+     "thin": 0,
+     "outline": 0,
+     "visible": 478,
+     "invisible": 29,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 10405,
+     "filled": 10371,
+     "band": 34,
+     "thin": 0,
+     "outline": 0,
+     "visible": 10334,
+     "invisible": 71,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 1983,
+     "filled": 1983,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1983,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3337,
+     "filled": 3330,
+     "band": 7,
+     "thin": 0,
+     "outline": 0,
+     "visible": 3321,
+     "invisible": 16,
+     "hidden_by_default": 0
+    },
+    "fat": {
+     "should": 1804,
+     "filled": 1801,
+     "band": 3,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1804,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 1888,
+     "filled": 1748,
+     "band": 140,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1885,
+     "invisible": 3,
+     "hidden_by_default": 0
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2281,
+     "filled": 2177,
+     "band": 104,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2215,
+     "invisible": 66,
+     "hidden_by_default": 0
+    },
+    "cartilage": {
+     "should": 429,
+     "filled": 393,
+     "band": 36,
+     "thin": 0,
+     "outline": 0,
+     "visible": 428,
+     "invisible": 1,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 334,
+     "filled": 323,
+     "band": 11,
+     "thin": 0,
+     "outline": 0,
+     "visible": 320,
+     "invisible": 14,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 538,
+     "filled": 445,
+     "band": 93,
+     "thin": 0,
+     "outline": 0,
+     "visible": 292,
+     "invisible": 246,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "still_invisible_examples": [
+    {
+     "region": "thigh",
+     "y": -420,
+     "id": "zan_oblique_popliteal_ligament_r",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 186,
+     "width_mm": 0.573,
+     "band_mm": 0.7060493908122787
+    },
+    {
+     "region": "thigh",
+     "y": -355.6,
+     "id": "popliteal_fascia_r",
+     "cat": "fascia",
+     "status": "band",
+     "nv": 278,
+     "width_mm": 0,
+     "band_mm": 0.7394119211018694
+    },
+    {
+     "region": "thigh",
+     "y": -291.2,
+     "id": "zan_iliotibial_tract_l",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.439,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -275.1,
+     "id": "zan_iliotibial_tract_l",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.41,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -259,
+     "id": "iliotibial_tract_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 751,
+     "width_mm": 2.45,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -242.9,
+     "id": "zan_iliotibial_tract_l",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.267,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -242.9,
+     "id": "iliotibial_tract_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 751,
+     "width_mm": 2.357,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -242.9,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1216,
+     "width_mm": 0.559,
+     "band_mm": 0.807370705461947
+    },
+    {
+     "region": "thigh",
+     "y": -242.9,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1215,
+     "width_mm": 0.375,
+     "band_mm": 0.807370705461947
+    },
+    {
+     "region": "thigh",
+     "y": -226.8,
+     "id": "zan_iliotibial_tract_l",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.306,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -226.8,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1216,
+     "width_mm": 0.48,
+     "band_mm": 0.8137245243259927
+    },
+    {
+     "region": "thigh",
+     "y": -226.8,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1215,
+     "width_mm": 0.516,
+     "band_mm": 0.8137245243259927
+    },
+    {
+     "region": "thigh",
+     "y": -210.7,
+     "id": "zan_iliotibial_tract_l",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.348,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -210.7,
+     "id": "iliotibial_tract_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 751,
+     "width_mm": 2.302,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -210.7,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1216,
+     "width_mm": 0.566,
+     "band_mm": 0.8195959653206669
+    },
+    {
+     "region": "thigh",
+     "y": -210.7,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1215,
+     "width_mm": 0.564,
+     "band_mm": 0.8195959653206669
+    },
+    {
+     "region": "thigh",
+     "y": -194.6,
+     "id": "zan_iliotibial_tract_l",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.275,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -194.6,
+     "id": "iliotibial_tract_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 751,
+     "width_mm": 2.356,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -194.6,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1216,
+     "width_mm": 0.418,
+     "band_mm": 0.8230727873170907
+    },
+    {
+     "region": "thigh",
+     "y": -178.5,
+     "id": "zan_iliotibial_tract_l",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.211,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -178.5,
+     "id": "iliotibial_tract_r",
+     "cat": "fascia",
+     "status": "filled",
+     "nv": 751,
+     "width_mm": 2.111,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -146.3,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 615,
+     "width_mm": 0.803,
+     "band_mm": 0.8269459842631195
+    },
+    {
+     "region": "thigh",
+     "y": -130.2,
+     "id": "pectineus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 974,
+     "width_mm": 1.111,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -98,
+     "id": "zan_iliacus_muscle_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 0.85,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -98,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 616,
+     "width_mm": 1.188,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -81.9,
+     "id": "zan_subtendinous_bursa_of_iliacus_muscle_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 178,
+     "width_mm": 1.721,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -81.9,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 615,
+     "width_mm": 1.24,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -81.9,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 616,
+     "width_mm": 1.322,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -65.8,
+     "id": "zan_subtendinous_bursa_of_iliacus_muscle_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 178,
+     "width_mm": 1.571,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -65.8,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 615,
+     "width_mm": 1.02,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -65.8,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 616,
+     "width_mm": 1.344,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -49.7,
+     "id": "gracilis_l",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1800,
+     "width_mm": 2.527,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -49.7,
+     "id": "zan_zona_orbicularis_r",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 450,
+     "width_mm": 0.639,
+     "band_mm": 0.8003121744070247
+    },
+    {
+     "region": "thigh",
+     "y": -49.7,
+     "id": "zan_descending_part_of_iliofemoral_ligament_r",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 306,
+     "width_mm": 0.413,
+     "band_mm": 0.8003121744070247
+    },
+    {
+     "region": "thigh",
+     "y": -49.7,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 615,
+     "width_mm": 1.077,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -49.7,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 616,
+     "width_mm": 1.551,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -49.7,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.961,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -33.6,
+     "id": "zan_skin_hypogastric_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 150,
+     "width_mm": 0.585,
+     "band_mm": 0.8007188526832043
+    },
+    {
+     "region": "thigh",
+     "y": -33.6,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1216,
+     "width_mm": 0.66,
+     "band_mm": 0.8007188526832043
+    },
+    {
+     "region": "thigh",
+     "y": -33.6,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 610,
+     "width_mm": 0.64,
+     "band_mm": 0.8007188526832043
+    },
+    {
+     "region": "thigh",
+     "y": -33.6,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1215,
+     "width_mm": 0.64,
+     "band_mm": 0.8007188526832043
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "zan_iliopsoas_fascia_r",
+     "cat": "fascia",
+     "status": "band",
+     "nv": 874,
+     "width_mm": 0,
+     "band_mm": 0.7958667095655892
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 616,
+     "width_mm": 1.08,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 615,
+     "width_mm": 0.8,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.739,
+     "band_mm": 0.7958667095655892
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "saphenous_n_medial_crural_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.427,
+     "band_mm": 0.7958667095655892
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "saphenous_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1216,
+     "width_mm": 0.525,
+     "band_mm": 0.7958667095655892
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 610,
+     "width_mm": 0.534,
+     "band_mm": 0.7958667095655892
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1215,
+     "width_mm": 0.455,
+     "band_mm": 0.7958667095655892
+    },
+    {
+     "region": "thigh",
+     "y": -17.5,
+     "id": "saphenous_n_medial_crural_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.568,
+     "band_mm": 0.7958667095655892
+    },
+    {
+     "region": "thigh",
+     "y": -1.4,
+     "id": "zan_bursa_of_piriformis_muscle_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 738,
+     "width_mm": 4.051,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -1.4,
+     "id": "zan_bursa_of_piriformis_muscle_l",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 738,
+     "width_mm": 2.442,
+     "band_mm": 0
+    },
+    {
+     "region": "leg",
+     "y": -861.5,
+     "id": "zan_talonavicular_ligament_l",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 70,
+     "width_mm": 1.413,
+     "band_mm": 0
+    },
+    {
+     "region": "leg",
+     "y": -805.7,
+     "id": "deep_fibular_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 605,
+     "width_mm": 0.605,
+     "band_mm": 0.7871842436086806
+    },
+    {
+     "region": "leg",
+     "y": -735.8,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 1215,
+     "width_mm": 0.548,
+     "band_mm": 0.7977443475878303
+    },
+    {
+     "region": "leg",
+     "y": -652,
+     "id": "zan_anterior_intermuscular_septum_of_leg_l",
+     "cat": "fascia",
+     "status": "band",
+     "nv": 147,
+     "width_mm": 0,
+     "band_mm": 0.8108430512951234
+    },
+    {
+     "region": "leg",
+     "y": -582.2,
+     "id": "sural_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 607,
+     "width_mm": 0.332,
+     "band_mm": 0.823045876929538
+    },
+    {
+     "region": "leg",
+     "y": -568.3,
+     "id": "sural_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 607,
+     "width_mm": 0.332,
+     "band_mm": 0.8199371022999731
+    },
+    {
+     "region": "leg",
+     "y": -554.3,
+     "id": "tibial_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 606,
+     "width_mm": 0.768,
+     "band_mm": 0.81575028013817
+    },
+    {
+     "region": "leg",
+     "y": -554.3,
+     "id": "sural_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 607,
+     "width_mm": 0.397,
+     "band_mm": 0.81575028013817
+    }
+   ]
+  },
+  "comb_f": {
+   "label_key": "comb_f",
+   "structures_in_page": 3304,
+   "hidden_by_default": 261,
+   "n_levels": 210,
+   "regions": {
+    "thigh": [
+     -401.554,
+     20.660999999999945
+    ],
+    "leg": [
+     -745.356,
+     -393.677
+    ],
+    "arm": [
+     314.717,
+     601.3019999999999
+    ],
+    "forearm": [
+     115.765,
+     341.221
+    ],
+    "thorax": [
+     406.651,
+     540.33
+    ],
+    "abdomen": [
+     148.64600000000002,
+     406.651
+    ],
+    "pelvis": [
+     -65.253,
+     148.64600000000002
+    ]
+   },
+   "band": {
+    "frac": 0.002,
+    "max_mm": 2.5
+   },
+   "band_mm_used": {
+    "min": 0.287,
+    "max": 1.069
+   },
+   "totals_before": {
+    "should": 43044,
+    "filled": 39466,
+    "band": 0,
+    "thin": 801,
+    "outline": 2777,
+    "visible": 37923,
+    "invisible": 5121
+   },
+   "totals_after": {
+    "should": 43044,
+    "filled": 39466,
+    "band": 3578,
+    "thin": 0,
+    "outline": 0,
+    "visible": 41345,
+    "invisible": 1699
+   },
+   "by_class_before": {
+    "nerve": {
+     "should": 8308,
+     "filled": 7628,
+     "band": 0,
+     "thin": 628,
+     "outline": 52,
+     "visible": 7469,
+     "invisible": 839,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8060,
+     "filled": 7466,
+     "band": 0,
+     "thin": 75,
+     "outline": 519,
+     "visible": 7466,
+     "invisible": 594,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2391,
+     "filled": 498,
+     "band": 0,
+     "thin": 10,
+     "outline": 1883,
+     "visible": 497,
+     "invisible": 1894,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 548,
+     "filled": 541,
+     "band": 0,
+     "thin": 3,
+     "outline": 4,
+     "visible": 515,
+     "invisible": 33,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 10507,
+     "filled": 10474,
+     "band": 0,
+     "thin": 15,
+     "outline": 18,
+     "visible": 10405,
+     "invisible": 102,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 2049,
+     "filled": 2046,
+     "band": 0,
+     "thin": 3,
+     "outline": 0,
+     "visible": 2046,
+     "invisible": 3,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3430,
+     "filled": 3427,
+     "band": 0,
+     "thin": 3,
+     "outline": 0,
+     "visible": 2477,
+     "invisible": 953,
+     "hidden_by_default": 248
+    },
+    "fat": {
+     "should": 1744,
+     "filled": 1743,
+     "band": 0,
+     "thin": 1,
+     "outline": 0,
+     "visible": 1743,
+     "invisible": 1,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 2223,
+     "filled": 2108,
+     "band": 0,
+     "thin": 12,
+     "outline": 103,
+     "visible": 2098,
+     "invisible": 125,
+     "hidden_by_default": 11
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2396,
+     "filled": 2274,
+     "band": 0,
+     "thin": 29,
+     "outline": 93,
+     "visible": 2179,
+     "invisible": 217,
+     "hidden_by_default": 2
+    },
+    "cartilage": {
+     "should": 412,
+     "filled": 375,
+     "band": 0,
+     "thin": 1,
+     "outline": 36,
+     "visible": 371,
+     "invisible": 41,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 365,
+     "filled": 357,
+     "band": 0,
+     "thin": 8,
+     "outline": 0,
+     "visible": 326,
+     "invisible": 39,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 581,
+     "filled": 499,
+     "band": 0,
+     "thin": 13,
+     "outline": 69,
+     "visible": 301,
+     "invisible": 280,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "by_class_after": {
+    "nerve": {
+     "should": 8308,
+     "filled": 7628,
+     "band": 680,
+     "thin": 0,
+     "outline": 0,
+     "visible": 8051,
+     "invisible": 257,
+     "hidden_by_default": 0
+    },
+    "vessel": {
+     "should": 8060,
+     "filled": 7466,
+     "band": 594,
+     "thin": 0,
+     "outline": 0,
+     "visible": 8060,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "tendon": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "ligament": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "fascia": {
+     "should": 2391,
+     "filled": 498,
+     "band": 1893,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2332,
+     "invisible": 59,
+     "hidden_by_default": 0
+    },
+    "bursa": {
+     "should": 548,
+     "filled": 541,
+     "band": 7,
+     "thin": 0,
+     "outline": 0,
+     "visible": 517,
+     "invisible": 31,
+     "hidden_by_default": 0
+    },
+    "muscle": {
+     "should": 10507,
+     "filled": 10474,
+     "band": 33,
+     "thin": 0,
+     "outline": 0,
+     "visible": 10446,
+     "invisible": 61,
+     "hidden_by_default": 0
+    },
+    "bone": {
+     "should": 2049,
+     "filled": 2046,
+     "band": 3,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2049,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "skin": {
+     "should": 3430,
+     "filled": 3427,
+     "band": 3,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2503,
+     "invisible": 927,
+     "hidden_by_default": 248
+    },
+    "fat": {
+     "should": 1744,
+     "filled": 1743,
+     "band": 1,
+     "thin": 0,
+     "outline": 0,
+     "visible": 1744,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "viscera": {
+     "should": 2223,
+     "filled": 2108,
+     "band": 115,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2212,
+     "invisible": 11,
+     "hidden_by_default": 11
+    },
+    "organ": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "joint": {
+     "should": 2396,
+     "filled": 2274,
+     "band": 122,
+     "thin": 0,
+     "outline": 0,
+     "visible": 2325,
+     "invisible": 71,
+     "hidden_by_default": 2
+    },
+    "cartilage": {
+     "should": 412,
+     "filled": 375,
+     "band": 37,
+     "thin": 0,
+     "outline": 0,
+     "visible": 409,
+     "invisible": 3,
+     "hidden_by_default": 0
+    },
+    "lymph": {
+     "should": 365,
+     "filled": 357,
+     "band": 8,
+     "thin": 0,
+     "outline": 0,
+     "visible": 336,
+     "invisible": 29,
+     "hidden_by_default": 0
+    },
+    "cns": {
+     "should": 581,
+     "filled": 499,
+     "band": 82,
+     "thin": 0,
+     "outline": 0,
+     "visible": 331,
+     "invisible": 250,
+     "hidden_by_default": 0
+    },
+    "insertion": {
+     "should": 30,
+     "filled": 30,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 30,
+     "invisible": 0,
+     "hidden_by_default": 0
+    },
+    "other": {
+     "should": 0,
+     "filled": 0,
+     "band": 0,
+     "thin": 0,
+     "outline": 0,
+     "visible": 0,
+     "invisible": 0,
+     "hidden_by_default": 0
+    }
+   },
+   "still_invisible_examples": [
+    {
+     "region": "thigh",
+     "y": -366.4,
+     "id": "adductor_magnus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.838,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -338.2,
+     "id": "plantaris_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 4.161,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -183.4,
+     "id": "adductor_brevis_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1064,
+     "width_mm": 1.126,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -183.4,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.333,
+     "band_mm": 0.6854377153464902
+    },
+    {
+     "region": "thigh",
+     "y": -169.3,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.436,
+     "band_mm": 0.7043867575039201
+    },
+    {
+     "region": "thigh",
+     "y": -169.3,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.455,
+     "band_mm": 0.7043867575039201
+    },
+    {
+     "region": "thigh",
+     "y": -169.3,
+     "id": "saphenous_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 608,
+     "width_mm": 0.268,
+     "band_mm": 0.7043867575039201
+    },
+    {
+     "region": "thigh",
+     "y": -155.3,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 616,
+     "width_mm": 0.785,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -155.3,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 615,
+     "width_mm": 0.661,
+     "band_mm": 0.7325997159984318
+    },
+    {
+     "region": "thigh",
+     "y": -155.3,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.431,
+     "band_mm": 0.7325997159984318
+    },
+    {
+     "region": "thigh",
+     "y": -141.2,
+     "id": "zan_skin_posterior_region_of_thigh_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 2.941,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -141.2,
+     "id": "zan_skin_posterior_region_of_thigh_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 3.014,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -127.1,
+     "id": "zan_skin_posterior_region_of_thigh_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 2.853,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -127.1,
+     "id": "zan_adductor_minimus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 476,
+     "width_mm": 0.698,
+     "band_mm": 0.785507673028327
+    },
+    {
+     "region": "thigh",
+     "y": -99,
+     "id": "zan_skin_femoral_triangle_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 2.113,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -99,
+     "id": "zan_skin_femoral_triangle_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 2.162,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_posterior_region_of_thigh_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 1.668,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_posterior_region_of_thigh_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 1.417,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_gluteal_fold_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 28,
+     "width_mm": 2.802,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_gluteal_fold_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 28,
+     "width_mm": 2.69,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_gluteal_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 418,
+     "width_mm": 1.321,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_gluteal_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 418,
+     "width_mm": 0.824,
+     "band_mm": 0.8316037579532504
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_femoral_triangle_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 1.779,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -84.9,
+     "id": "zan_skin_femoral_triangle_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 1.984,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -70.8,
+     "id": "zan_skin_posterior_region_of_thigh_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 0.289,
+     "band_mm": 0.8402450026127521
+    },
+    {
+     "region": "thigh",
+     "y": -70.8,
+     "id": "zan_skin_posterior_region_of_thigh_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 0.663,
+     "band_mm": 0.8402450026127521
+    },
+    {
+     "region": "thigh",
+     "y": -70.8,
+     "id": "zan_skin_femoral_triangle_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 1.991,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -70.8,
+     "id": "zan_skin_femoral_triangle_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 1.92,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -70.8,
+     "id": "zan_subtendinous_bursa_of_iliacus_muscle_r",
+     "cat": "bursa",
+     "status": "filled",
+     "nv": 178,
+     "width_mm": 2.037,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -70.8,
+     "id": "saphenous_n_medial_crural_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 300,
+     "width_mm": 0.454,
+     "band_mm": 0.8402450026127521
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_anterior_region_of_thigh_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 946,
+     "width_mm": 1.41,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_gluteal_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 418,
+     "width_mm": 0.549,
+     "band_mm": 0.8439943542480469
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_hip_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 84,
+     "width_mm": 0.576,
+     "band_mm": 0.8439943542480469
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_femoral_triangle_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 1.822,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_femoral_triangle_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 2.185,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_hip_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 84,
+     "width_mm": 1.014,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_posterior_region_of_thigh_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 0.381,
+     "band_mm": 0.8439943542480469
+    },
+    {
+     "region": "thigh",
+     "y": -56.7,
+     "id": "zan_skin_posterior_region_of_thigh_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 502,
+     "width_mm": 0.785,
+     "band_mm": 0.8439943542480469
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "zan_skin_hip_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 84,
+     "width_mm": 0.861,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "zan_skin_femoral_triangle_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 2.131,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "zan_skin_femoral_triangle_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 2.688,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "adductor_magnus_r",
+     "cat": "muscle",
+     "status": "filled",
+     "nv": 1802,
+     "width_mm": 1.732,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "zan_zona_orbicularis_l",
+     "cat": "joint",
+     "status": "filled",
+     "nv": 450,
+     "width_mm": 0.53,
+     "band_mm": 0.845994140625
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "zan_obturator_membrane_l",
+     "cat": "joint",
+     "status": "band",
+     "nv": 452,
+     "width_mm": 0,
+     "band_mm": 0.845994140625
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "femoral_n_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 615,
+     "width_mm": 1.262,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "femoral_n_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 616,
+     "width_mm": 1.237,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "femoral_n_anterior_cutaneous_branches_r",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.703,
+     "band_mm": 0.845994140625
+    },
+    {
+     "region": "thigh",
+     "y": -42.7,
+     "id": "femoral_n_anterior_cutaneous_branches_l",
+     "cat": "nerve",
+     "status": "filled",
+     "nv": 609,
+     "width_mm": 0.571,
+     "band_mm": 0.845994140625
+    },
+    {
+     "region": "thigh",
+     "y": -28.6,
+     "id": "zan_skin_femoral_triangle_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 2.667,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -28.6,
+     "id": "zan_skin_femoral_triangle_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 3.037,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -28.6,
+     "id": "zan_skin_inguinal_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 88,
+     "width_mm": 2.612,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -28.6,
+     "id": "zan_skin_hypogastric_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 150,
+     "width_mm": 1.642,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -28.6,
+     "id": "zan_skin_inguinal_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 88,
+     "width_mm": 1.368,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.5,
+     "id": "zan_skin_gluteal_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 418,
+     "width_mm": 0.251,
+     "band_mm": 0.8519529779270174
+    },
+    {
+     "region": "thigh",
+     "y": -14.5,
+     "id": "zan_skin_hypogastric_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 150,
+     "width_mm": 4.958,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.5,
+     "id": "zan_skin_hypogastric_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 150,
+     "width_mm": 4.612,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.5,
+     "id": "zan_skin_femoral_triangle_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 2.758,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.5,
+     "id": "zan_skin_femoral_triangle_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 108,
+     "width_mm": 3.174,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.5,
+     "id": "zan_skin_inguinal_region_r",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 88,
+     "width_mm": 2.716,
+     "band_mm": 0
+    },
+    {
+     "region": "thigh",
+     "y": -14.5,
+     "id": "zan_skin_inguinal_region_l",
+     "cat": "skin",
+     "status": "filled",
+     "nv": 88,
+     "width_mm": 3.092,
+     "band_mm": 0
+    }
+   ]
+  }
+ }
+}
