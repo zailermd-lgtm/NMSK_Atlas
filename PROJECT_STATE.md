@@ -13321,16 +13321,20 @@ The anatomy comes out right, which is itself a test (`tests/test_q301.py`): cort
 
 **D2. The measured proof the picture really changed.** Read back inside the page (`NMSKQ301.pixels()` forces one frame and `gl.readPixels` it; `page.screenshot` returns a stale frame here, Q300's finding; the spin is frozen first; the field colour is taken from the four corners and subtracted, because one engine clears to transparent and the other to an opaque light grey that would read as 90 % of a bright picture):
 
+Read off the **shipped build at 1400x900** (the 390 px readings agree to within anti-aliasing noise, +-0.3 luminance and +-0.01 saturation):
+
 | page | style | luminance | sd | saturation | pure-grey fraction |
 |---|---|---|---|---|---|
-| Base M (Z, 3,252 meshes) | Colour | 105.8 | 32.6 | **57.3** | 0.005 |
-| | X-ray (Soft) | 162.0 | 57.6 | 2.1 | **1.000** |
-| | CT (MSK) | 68.1 | 19.0 | 0.16 | **1.000** |
-| | MRI (PD fat-sat) | 124.4 | 24.1 | 0.16 | **1.000** |
-| Imaging M (own, ~950 meshes) | Colour | 109.9 | 48.2 | **107.9** | 0.003 |
-| | X-ray (Normal) | 152.6 | 56.1 | **0.0** | **1.000** |
-| | CT (MSK) | 127.7 | 55.0 | **0.0** | **1.000** |
-| | MRI (PD fat-sat) | 176.1 | 78.9 | **0.0** | **1.000** |
+| Base M (Z, 3,252 meshes) | Colour | 106.0 | 32.9 | **57.1** | 0.004 |
+| | X-ray (Soft) | 161.7 | 57.9 | 2.08 | **1.000** |
+| | CT (MSK) | 68.0 | 19.0 | 0.17 | **1.000** |
+| | MRI (PD fat-sat) | 124.5 | 24.4 | 0.17 | **1.000** |
+| Imaging M (own, ~950 meshes) | Colour | 157.5 | 35.3 | **28.1** | 0.006 |
+| | X-ray (Normal) | 163.3 | 62.1 | **0.00** | **1.000** |
+| | CT (MSK) | 108.9 | 17.5 | **0.00** | **1.000** |
+| | MRI (PD fat-sat) | 224.4 | 30.1 | **0.00** | **1.000** |
+
+An earlier draft of this table carried the Imaging M row as luminance 109.9 / saturation 107.9. That was measured before this round made **fat off at load** (request 6): with the fat shell off the own page at load is lighter and far less saturated, so those figures described a state the shipped page no longer has. They are replaced rather than kept, because a measurement is only a measurement of the thing that shipped. Base M barely moved (its fat was already faded to near nothing on the Z engine), which is itself the check that the difference is the fat and not the method.
 
 **D3. What is our convention here, every item of it, and it is all in the i.** (1) **The path length per crossing** -- a surface atlas has no thickness along the ray. It was **chosen by measurement, not guessed**: d0 was swept in eight steps on a real page and the picture's own contrast (the luminance sd) peaks at 0.10 while the highlights start burning out above 0.14 (0.246 of the model in the top histogram bin at 0.14, 0.861 at 0.55), so the three taps are 0.05 / 0.10 / 0.20 as Soft / Normal / Hard. **The default differs per engine, also by measurement**, exactly as Q300 did for its bone pass: the Z pages carry 3,252 meshes against ~950, so a ray crosses three to four times as many shells and the same path length burns out (luminance 206/255, half the model in the top bin), hence **Z starts at Soft and the own pages at Normal**. (2) **`uFlat = 0.6`**, which flattens the renderer's diffuse term in CT and MRI so the grey the table dictates is not multiplied away -- measured: the Z CT luminance rose 53.6 -> 68.1 and the MRI 97.3 -> 124.4 with the same HU. (3) The **normalisation** of the MRI greys across the page's classes (an MRI's absolute signal is arbitrary). (4) The **MSK window**, which the data file itself labels `"owner convention for this simulation, not from a citation"`. (5) **A bone is one shell**, so it is drawn throughout as cortical bone: the mesh has no inside, and the file's own cortex/marrow model cannot apply. (6) **1.5 T**. (7) **The obliquity factor `1/|cos theta|` was considered and deliberately not shipped**: it is real physics and computable in the Z shader, but in the own engine it would need a patch to `MeshPhongMaterial`'s shader through `onBeforeCompile`, and the two engines would then be computing different mathematics -- the project's "both engines behave identically" rule wins. Recorded so it does not look forgotten. (8) The honesty of the numbers themselves: **12 of 33 classes `verified`, 3 `derived`, 3 `assumption` and 15 `recalled_unverified`** (skin, tendon/ligament, cartilage, nerve, cortical bone, tooth among them). The i states the counts rather than implying everything is measured, and this goes to the owner as a decision.
 
