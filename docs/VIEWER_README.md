@@ -491,3 +491,93 @@ on a desktop and on a phone.
 - **A structure's provenance can no longer hide.** Q297 found that neither template ever rendered `rec.method` or
   `rec.error_band_mm`, which is how 68 rule-built meshes came to print the green "Measured on this body". Both now
   render: the Imaging cards carry `rule-based` and `±8 mm` as tags, the Z cards a **Method** line with the error band.
+
+## One control, groups that unfold, and X-ray / CT / MRI on the model itself (Q301)
+
+**The control.** Everything that used to be scattered now sits in one bar at the bottom of the 3-D view, in the thumb
+zone, and it never folds away: **Undo · Redo · Reset module · Reset model · ⓘ**, each with its name printed under the
+icon. They are the same four the rest of the page uses — the bar mounts Q294's history and Q300's model reset rather
+than copying them, and Q294's floating group is switched off so there is one place for them and not two. Above them is
+one row of **labelled groups**: View · Layers · Imaging · Cut · Mark · Learn · Measure. One opens at a time; the
+others' buttons are not on the screen at all. A group carries a dot while anything inside it is active, so you can see
+what is on without opening anything. The groups **adopt the engines' own buttons** — the real DOM nodes are moved in,
+keeping their ids and their listeners — so no behaviour exists twice and the old crowded bars empty themselves. The one
+thing deliberately kept out of a group is the long tissue-layer table with its own sliders and solo buttons: the group
+offers the button that opens that panel instead. On a 390 px phone the group row wraps and every target is at least
+44 px; nothing scrolls off the side.
+
+**Which actions combine, and which do not.** Stated in one table and checked in a real browser, never assumed. Cut and
+the radiographic styles are combinable and are *shown* as combinable: open the group and the row reads
+`+ Cut and the radiographic styles work together: the cut face is drawn in the style's own grey.` An incompatible pair
+is disabled with its reason **printed under it**, not hidden in a tooltip a phone never shows — for instance
+`⊘ A radiographic style replaces the colour, so colour-by-source has nothing left to colour.` The rule behind the table
+is simple: two actions combine when each writes a different piece of state; they do not when they write the same piece,
+or when one empties the other's input. There is a third case, written as *"yes, one leads"*: both are allowed and one
+quietly takes precedence. The only pair in it is a radiographic style and Q300's extra bone pass — a style sets the
+bone's brightness from its own attenuation, so the pass is paused while a style is on and comes back with the colour.
+That pair exists because Q300 ships the bone pass **on** on the two Imaging pages: calling it incompatible would have
+left the X-ray button disabled the moment those pages loaded. The control that gives way is marked with a downward
+arrow and the reason, and neither control is ever disabled.
+
+**X-ray / CT / MRI on the model itself.** This is not the 2-D slice panes: it re-skins the whole model, and one tap on
+**Colour** returns. Every number comes from the tissue table the page already ships (`clinical_imaging_tissues.json`,
+33 tissue classes with CT attenuation in Hounsfield units and MRI pools at 1.5 T, each value carrying its own
+verification status); nothing is retyped in the viewer, and a test fails if it ever is.
+
+- **X-ray** is a digitally reconstructed radiograph. Each structure is drawn translucent with
+  `alpha = 1 − exp(−µ·d)`, and ordinary alpha compositing over black accumulates `1 − ∏(1 − alphaᵢ) = 1 − exp(−Σ µᵢd)` —
+  which *is* Beer–Lambert's attenuation. `µ/µ_water = 1 + HU/1000` is the definition of the Hounsfield unit, so the
+  attenuation itself is not a choice of ours. Two properties make it work on surface geometry: the product does not care
+  about draw order, so nothing has to be depth-sorted, and every closed shell is crossed twice, front and back, exactly
+  as a real beam crosses it. Bone (µ 2.30) separates from fat (µ 0.89) on its own, so this style does **not** use
+  Q300's extra bone pass, and the table says the two cannot be combined.
+- **CT** paints each structure the grey its own HU gives through a real window,
+  `grey = (HU − (L − W/2)) / W` clipped: **MSK** W1000/L250, **Soft tissue** W400/L40, **Bone** W1800/L400.
+- **MRI** paints each structure its spin-echo signal, `S = PD·(1 − e^(−TR/T1))·e^(−TE/T2)`, summed over the class's
+  water and fat pools, with the fat pool scaled by the table's own fat-suppression residual: **T1** (TR 500/TE 15),
+  **T2** (TR 4000/TE 100), **PD fat-sat** (TR 2500/TE 30).
+
+Each style has three taps of its own, and the right answers come out: cortical bone is white and fat dark in CT, fat is
+the brightest thing on T1, free fluid the brightest on T2, and fat is suppressed on PD fat-sat. Measured in rendered
+pixels: switching to any style drops the picture's colour saturation from 57–108 to 0–2 and makes 100 % of its pixels
+pure grey, and the three styles' mean luminances sit tens of grey levels apart.
+
+**What is ours rather than measured**, all of it also in the ⓘ: the **path length per crossing** in X-ray (a surface
+atlas has no thickness along the ray — the three steps were chosen by measuring where the picture's own contrast peaks,
+and because the Z pages carry 3,252 meshes against ~950 on the Imaging pages, they start one step softer); the
+**flattening of the shading** in CT and MRI, so the renderer's diffuse term does not swamp the grey the table dictates;
+the **normalisation** of the MRI greys across the page's classes; the **MSK window**, which the data file itself marks
+as a convention and not a citation; and the fact that a bone is one shell, so it is drawn throughout as cortical bone —
+the mesh has no inside. Fifteen of the 33 classes carry a CT value the table itself marks `recalled_unverified`; the ⓘ
+says how many sit at each status rather than implying all of them are measured.
+
+**All the general prose behind a small circled ⓘ.** One at the side of the 3-D view and one in the control bar, both
+opening the same drawer: what this page is and is not, how each style is computed and what in it is convention, the
+compatibility table, the layer order, the two resets, and the fat. The licence sheet and the per-structure source panel
+are **moved** into the drawer rather than copied, so there is never a second version to fall out of date. The structure
+card keeps saying where its own geometry comes from — Q297 found cards that once got that wrong, so per-structure
+provenance stays exactly where you are looking, it just stops taking the screen.
+
+**Fat is off when the page loads.** Q295 built the fat and unlabelled-soft-tissue meshes from each body's own imaging in
+the space no segmented structure covers, and shipped them on but faint. They are now **off at load** and one tap away in
+the Layers group — and either way they **keep filling the cut faces and the cross-sections**, because a section drawn
+without them reads as hollow, which was the whole reason Q295 built them. No mesh was added or removed. All six pages
+carry 51 such structures, and the control counts them off the page rather than from a number in the code.
+
+**Gradual reveal by layers.** Beside the per-system controls, which are unchanged, there is one **Depth** control that
+peels the body inward in taps — `▲ Out` / `▼ In` / `Whole body` — with the layer name and number always on the screen
+(Primal Pictures' pattern; Zygote Body's order, "beginning with the skin and working inward towards the skeleton").
+The order is this page's own tissue categories and is exactly the order asked for:
+**skin → fat / superficial fascia → deep fascia → muscle → ligament → vessels and nerves → organs**, leaving
+**bone and cartilage** (7 steps on the Z pages, 6 on the Imaging pages, which carry no `skin` category; a step with
+nothing to peel is not offered). The **fat step is the superficial fascia**, by the structures' own Latin names: 17 of
+the 51 subcutaneous-fat meshes are labelled *Panniculus adiposus (tela subcutanea)*. What the atlas does not carry is a
+separate **membranous (Scarpa's) layer**, and the pages' own search data already says so in as many words — *"No page
+ships it as a mesh: the abdominal wall on these pages carries `Investing abdominal fascia` and the subcutaneous fat, not
+a separate membranous layer."* — so the peel does not offer one, and a test asserts that absence against the shipped
+pages rather than taking it on trust. One grouping is our convention and is named as such in the ⓘ: **vessels, nerves
+and lymphatics come off together**, because the data holds no depth rank for a single vessel and real vessels cross
+every layer.
+
+Every one of these states is a **single Undo step**, is reached by Q300's **Show everything** (a greyscale model and a
+peeled body both get their own chip with its own ✕), and is put back by the **model reset**.

@@ -10,8 +10,8 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q300/viewer_m_hr", "own_f": "build/q300/viewer_f_hr", "base_m": "build/q300/viewer_zan_atlas",     # Q299: the containment fix (46 structures pulled back inside the body) + the
-       "base_f": "build/q300/viewer_base_female", "comb_m": "build/q300/viewer_zan_vhm", "comb_f": "build/q300/viewer_zan_female"}   # pelvic-proportion cards and the cut-face minimum drawn width; geometry changed on base_f / comb_f / comb_m only (46 meshes). build/q300 is a real directory whose unchanged sibling files are HARD LINKS to build/q298's, which are in turn q297's: see PROJECT_STATE Q299
+SRC = {"own_m": "build/q301/viewer_m_hr", "own_f": "build/q301/viewer_f_hr", "base_m": "build/q301/viewer_zan_atlas",     # Q301: one control bar, radiographic render styles, depth peel, fat off by default (geometry unchanged since Q299) + the
+       "base_f": "build/q301/viewer_base_female", "comb_m": "build/q301/viewer_zan_vhm", "comb_f": "build/q301/viewer_zan_female"}   # pelvic-proportion cards and the cut-face minimum drawn width; geometry changed on base_f / comb_f / comb_m only (46 meshes). build/q300 is a real directory whose unchanged sibling files are HARD LINKS to build/q298's, which are in turn q297's: see PROJECT_STATE Q299
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 

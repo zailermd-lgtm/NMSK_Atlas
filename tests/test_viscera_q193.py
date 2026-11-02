@@ -67,5 +67,8 @@ def test_report_holds_are_reasoned_and_shipped_pass_gates(body):
 
 
 def test_big_organs_are_faded_not_hidden_and_organ_system_stays_off_at_load():
-    assert 'on[c] = (c === "bone" || c === "muscle" || c === "fat");' in TPL          # Q295: the fat system is on (faded) at load; organs stay off
+    # Q295 had the fat system on (faded) at load; Q301 turns it off at load on the owner's request -- it is still drawn
+    # in every cut face and cross-section, and one tap in the Layers group shows it. Organs stay off either way.
+    assert 'on[c] = (c === "bone" || c === "muscle");' in TPL
+    assert 'c === "fat"' not in TPL.split("cats.forEach")[1][:400]
     assert "FADED_ORGANS" in TPL and "Math.min(base, 0.55)" in TPL

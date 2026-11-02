@@ -304,7 +304,13 @@ def test_own_engine_fade_hide_highlight_and_cap():
     assert 'sr === "xray"' in a and "sr === \"hl\"" in a and "selCtl.hlHex()" in a
     assert "m.material.opacity" in a and "capCtl.itemsChanged()" in a
     cap = t[t.index("capCtl = NMSKCap({"):t.index("upload:capUpload")]
-    assert "if (!m.visible) return;" in cap and "alpha:m.material.opacity" in cap                   # a faded structure's cap uses its opacity; hidden ones have none
+    # a faded structure's cap uses its opacity; a hidden one has no cap item -- with ONE deliberate exception since
+    # Q301: fat is off when the page loads, and a section drawn without it reads as hollow (Q295's whole point), so a
+    # fat mesh hidden ONLY because its system is off still fills the cut face. Nothing else hidden may.
+    assert "if (!m.visible){" in cap and "alpha:m.material.opacity" in cap
+    guard = cap[cap.index("if (!m.visible){"):]
+    assert 's.cat === "fat" && !on.fat' in guard and "hideOverride[s.id]" in guard, "only the fat system's own off-state"
+    assert guard.count("return;") >= 2 and "if (!(" in guard, "every other hidden mesh still returns with no cap item"
     assert "visible:function(i){ return !!meshes[i].visible; }" in t                                # add-on contract unchanged
 
 
@@ -315,7 +321,11 @@ def test_zan_engine_fade_hide_highlight_pick_cap_and_addon_contract():
     assert "function isThin(o)" in t and "!isThin(o)" in t and "selCtl.translucent()" in t
     i = t.index("capCtl = NMSKCap({")
     cap = t[i:t.index("upload:capUpload", i)]
-    assert "selAlpha(lk" in cap and "if (!vis(o)) return;" in cap and "colOf(o)" in cap
+    assert "selAlpha(lk" in cap and "if (!vis(o)){" in cap and "colOf(o)" in cap
+    # same single Q301 exception as the own engine: a fat object hidden only because the Fat system is off still caps
+    zguard = cap[cap.index("if (!vis(o)){"):]
+    assert 'o.layer === "fat" && !on.fat' in zguard and "hidden.has(o)" in zguard, "only the fat system's own off-state"
+    assert "passClip(o)" in zguard and "passBox(o)" in zguard, "a fat object cut away or boxed out still gets no cap"
     assert "visible:function(i){ var o=OBJ[i]; return vis(o)&&!faded.has(o); }" in t               # add-on contract unchanged
 
 

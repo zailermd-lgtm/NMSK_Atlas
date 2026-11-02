@@ -1694,6 +1694,17 @@
       setUsDiag: function (ok, text, extra) { DIAG.ultrasound = Object.assign({ok: ok, text: text}, extra || {}); setBtnTip(document.getElementById("t-ultrasound"), US_TIP, ok, text); },
       ensure: function (progress) { return tablePromise.then(function () { if (tableErr || !C) throw new Error(tableErr || "tissue table missing"); return buildGeometry(progress); }).then(function () { return {geo: geo, C: C, T: T}; }); },
       runSlice: runSlice, boneParams: boneParams,
+      /* Q301: the model-wide render styles (X-ray / CT / MRI drawn on the 3-D model itself) are a companion that lives
+         in the PUBLIC viewer layer, which by the Q226 boundary may hold no tissue number, no table filename and no
+         sequence name of its own. So the private layer hands those over: the table it has already loaded (one fetch,
+         not two), and which three of its sequences are the MSK set. Nothing is computed here for them. */
+      tissues: function () {
+        return tablePromise.then(function () {
+          if (tableErr || !T) throw new Error(tableErr || "no tissue reference on this page");
+          return T;
+        });
+      },
+      mskSequences: ["t1_se", "t2_se", "pd_fs"],
       isOpen: function () { return S.open; }, close: function () { setOpen(false); }
     };
     setTimeout(rescueButtons, 1500); setTimeout(rescueButtons, 5000);
@@ -2074,6 +2085,8 @@
       try { var fb = document.createElement("button"); fb.type = "button"; fb.id = "t-imaging"; fb.textContent = "CT / MRI"; fb.title = msg; fb.className = api.kind === "webgl" ? "pill" : "tool"; fb.style.opacity = "0.7"; (api.toolbar || floatBar()).appendChild(fb); fb.addEventListener("click", function () { toast(msg, 12000); }); } catch (e3) {}
     }
     if (sh) { sh.addClickHandler = function (fn) { clickers.push(fn); }; sh.api = api; }
+    /* Q301: the same two services, on the generic global the public page already knows (it may not name this file's own) */
+    if (sh && sh.tissues) { chained.tissues = sh.tissues; chained.mskSequences = sh.mskSequences; }
     loadCompanions(api, sh);
     try { attachReferencePanel(api); } catch (e4) { console.error("reference panel failed to start; anatomy viewer unaffected:", e4); }
     if (G.NMSKModes && G.NMSKModes.register) { try { G.NMSKModes.register("cmp", compareMode(api)); } catch (e5) { console.error("compare mode failed to register:", e5); } }   // Q272

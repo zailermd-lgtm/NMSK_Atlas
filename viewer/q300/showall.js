@@ -117,6 +117,14 @@ var NMSKShowAll = (function(){
       on = true; render();
       return api;
     },
+    /* Q301: a path owned by a MODULE rather than by the engine's glue (the render style, the depth peel, the fat)
+       cannot be in a list built before it started, so it registers itself here, with the same descriptor. */
+    add:function(s){
+      if (!s || !s.key || typeof s.active !== "function" || typeof s.clear !== "function") return false;
+      S = S.filter(function(q){ return q.key !== s.key; });
+      S.push(s); sig = ""; render();
+      return true;
+    },
     refresh:render,
     active:anyActive,
     chips:function(){ return live().map(function(x){ return {key:x.key, label:okLabel(x)}; }); },

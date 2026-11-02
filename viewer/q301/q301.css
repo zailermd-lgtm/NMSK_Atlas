@@ -1,0 +1,113 @@
+/* Q301: one control bar, groups that unfold, a small circled i. Sized for a 390 px phone first (358 px of usable width
+   inside a 16 px gutter each side) and for 1400x900 second; every touch target is at least 44 px, and the bar sits in the
+   bottom third -- the thumb zone the Q300 benchmark measured. */
+/* The `hidden` attribute is only `display:none` from the UA stylesheet, so ANY author `display` rule beats it. Every
+   element below that is toggled with `hidden` and also carries a display rule needs this guard, or it stays on the
+   screen and keeps swallowing taps. The browser dry run found exactly that: the info drawer was never really hidden,
+   and on a 390 px phone its header sat over the control bar and ate the Undo button. */
+.qi-wrap[hidden],.qg-sheet[hidden],.qg-bar[hidden],.rs-row[hidden],.rs-box[hidden],.pl-box[hidden],.ft-box[hidden],
+.qg-sbody [hidden],.qg-m[hidden],.qi-corner[hidden],.q301-b[hidden],[hidden].qg-adopted{display:none !important}
+.qg-bar{position:fixed;z-index:62;display:flex;flex-direction:column;gap:3px;padding:4px;border-radius:12px;
+  background:rgba(14,18,22,.90);box-shadow:0 2px 14px rgba(0,0,0,.42);backdrop-filter:blur(5px);font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box}
+.qg-groups,.qg-hist{display:flex;flex-wrap:wrap;gap:3px;align-items:stretch;justify-content:center}
+.qg-hist{border-top:1px solid rgba(255,255,255,.14);padding-top:3px}
+.qg-g{position:relative;min-height:36px;min-width:60px;flex:1 1 auto;padding:4px 8px;border:1px solid rgba(255,255,255,.17);border-radius:9px;
+  background:rgba(255,255,255,.055);color:#E6EDF3;font:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
+.qg-g:hover{background:rgba(255,255,255,.12)}
+.qg-g.open{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-g.live{border-color:#D9A227}
+.qg-dot{width:7px;height:7px;border-radius:50%;background:#F2B01E;flex:0 0 auto;box-shadow:0 0 0 2px rgba(242,176,30,.25)}
+.qg-gl{white-space:nowrap}
+/* undo / redo / module / model: icon + WORD. The owner could not find them when they were icons alone. */
+.qg-bar .qg-h,.qg-bar .qg-hb{min-width:56px;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  padding:3px 6px;border:1px solid rgba(255,255,255,.17);border-radius:9px;background:rgba(255,255,255,.055);color:#E6EDF3;cursor:pointer}
+.qg-bar .qg-h:hover{background:rgba(255,255,255,.13)}
+.qg-bar .qg-h[disabled]{opacity:.38;cursor:default}
+.qg-t{font-size:9.5px;letter-spacing:.2px;line-height:1;opacity:.92}
+.qg-bar .qi-btn{min-width:44px;min-height:44px;border:1px solid rgba(255,255,255,.17);border-radius:9px;background:rgba(255,255,255,.055);color:#E6EDF3;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* the open group's sheet: above the bar, capped at 45 % of the 3-D height, scrolls inside */
+.qg-sheet{position:fixed;z-index:61;box-sizing:border-box;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;
+  background:rgba(14,18,22,.95);box-shadow:0 2px 18px rgba(0,0,0,.48);backdrop-filter:blur(6px);
+  color:#E6EDF3;font:13px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qg-shead{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.qg-stitle{font-size:13px}
+.qg-ssp{flex:1 1 auto}
+.qg-sx{min-width:34px;min-height:30px;border:0;border-radius:7px;background:rgba(255,255,255,.09);color:#E6EDF3;font-size:17px;line-height:1;cursor:pointer}
+.qg-sbody{overflow:auto;padding:6px 8px 8px;display:flex;flex-direction:column;gap:5px;-webkit-overflow-scrolling:touch}
+.qg-m{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.qg-m>.qg-why{flex:1 1 100%}
+.qg-sub{margin:0;flex:1 1 100%;font-size:11px;opacity:.72}
+/* a button the sheet ADOPTED from the engine's own bar: it keeps its id and its listeners, it only gets our size */
+.qg-sbody .qg-adopted,.qg-sbody .qg-b,.qg-sbody .q301-b{min-height:36px;padding:5px 9px;border:1px solid rgba(255,255,255,.17);border-radius:8px;
+  background:rgba(255,255,255,.055);color:#E6EDF3;font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;
+  position:static;inset:auto;float:none;margin:0;box-shadow:none;width:auto;max-width:none}
+.qg-sbody .qg-adopted:hover,.qg-sbody .q301-b:hover{background:rgba(255,255,255,.13)}
+.qg-sbody .qg-adopted[aria-pressed="true"],.qg-sbody .q301-b.on,.qg-sbody .q301-b[aria-pressed="true"]{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-sbody .qg-live{box-shadow:inset 0 0 0 1px #D9A227}
+.qg-sbody .qg-off,.qg-sbody .qg-adopted[disabled],.qg-sbody .q301-b[disabled]{opacity:.42;cursor:not-allowed}
+/* the one-line reason: shown on the screen, not in a tooltip the phone never displays */
+.qg-why{margin:1px 0 3px;font-size:11px;line-height:1.3}
+.qg-why-off{color:#F2A6A0}
+.qg-why-on{color:#8FD6A8}
+.qg-why-over{color:#E8C86A}
+.qg-sbody .qg-over{opacity:.72;box-shadow:inset 0 0 0 1px #8A7430}
+/* a note folded away by NMSKTips, same as the other modules' */
+.qg-sbody .nmsk-tip{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.8}
+/* the render-style box, the peel box, the fat box, all inside their group's sheet */
+.rs-box,.pl-box{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
+.rs-row{display:flex;flex-wrap:wrap;gap:3px;width:100%}
+.rs-steps{opacity:.95}
+.pl-l,.rs-box .rs-l{font-size:11px;opacity:.75;min-width:38px}
+.pl-o{flex:1 1 100%;font-size:11px;opacity:.85;padding:1px 0}
+.pl-all{border-color:#D9A227 !important}
+.ft-box{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
+/* the circled i: small, at the side, unobtrusive -- the owner's words */
+.qi-btn{border:0;background:transparent;color:#C9D6E0;cursor:pointer;padding:2px;line-height:0;border-radius:50%}
+.qi-btn:hover{color:#fff;background:rgba(255,255,255,.14)}
+.qi-corner{position:fixed;z-index:60;width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  background:rgba(14,18,22,.62);box-shadow:0 1px 6px rgba(0,0,0,.3)}
+.qi-wrap{position:fixed;z-index:70;right:14px;bottom:14px;width:min(380px,calc(100vw - 28px));box-sizing:border-box;
+  display:flex;flex-direction:column;overflow:hidden;border-radius:12px;background:rgba(12,16,20,.97);
+  box-shadow:0 4px 24px rgba(0,0,0,.55);color:#E6EDF3;font:12.5px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qi-head{display:flex;align-items:center;gap:6px;padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.qi-sp{flex:1 1 auto}
+.qi-x{min-width:32px;min-height:28px;border:0;border-radius:7px;background:rgba(255,255,255,.09);color:#E6EDF3;font-size:17px;line-height:1;cursor:pointer}
+.qi-list{overflow:auto;padding:4px 9px 10px;-webkit-overflow-scrolling:touch}
+.qi-sec{border-bottom:1px solid rgba(255,255,255,.09);padding:3px 0}
+.qi-sec>summary{cursor:pointer;padding:5px 0;font-weight:600;list-style:none}
+.qi-sec>summary::-webkit-details-marker{display:none}
+.qi-sec>summary:before{content:"\25b8 ";opacity:.6}
+.qi-sec[open]>summary:before{content:"\25be "}
+.qi-body{padding:2px 0 7px;font-size:11.5px;line-height:1.45;opacity:.92}
+.qi-body p{margin:.3em 0}
+.qi-body table{border-collapse:collapse;width:100%;font-size:11px}
+.qi-body th,.qi-body td{border:1px solid rgba(255,255,255,.14);padding:2px 4px;text-align:left;vertical-align:top}
+.qi-body code{font-size:10.5px}
+.qi-adopted{display:block !important;position:static !important;inset:auto !important;width:auto !important;max-width:none !important;
+  margin:0 !important;box-shadow:none !important;background:transparent !important;border:0 !important;padding:0 !important}
+/* where an adopted button waits while another group is open: in the DOM, with its id and its listeners, off the screen */
+.qg-park{position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden}
+/* Q300's "what is hidden now" chip bar is pinned to the 3-D view's bottom-left at z-index 2147482000, which is the
+   same corner this bar occupies and far above it in the stack: on a 390 px phone it sat over the history row and
+   swallowed Redo (measured with elementFromPoint). Q300 rewrites its `top` inline on a timer, so a CSS `top` would
+   lose; a transform composes with the inline value instead and simply lifts it clear. --q301-bar-h is set from JS to
+   the bar's measured height. The same applies to Q294's one-line notice, which shares that corner. */
+body.q301-on #sa-bar,body.q301-on .sa-bar{transform:translateY(calc(-1 * var(--q301-bar-h,96px)))}
+body.q301-on #hist-msg{transform:translateY(calc(-1 * var(--q301-bar-h,96px)))}
+/* the floating Q294 group is the same three buttons: one place for them, not two */
+body.q301-on #hist-bar{display:none !important}
+/* a clinical workspace mode hides the anatomy chrome and brings its own bar (Q272); ours goes with the rest,
+   the same way Q294's floating group does (`body.mode-on .hist-bar`) */
+body.mode-on .qg-bar,body.mode-on .qg-sheet,body.mode-on .qi-wrap,body.mode-on .qi-corner{display:none !important}
+/* The radiographic styles need a black field: a DRR ADDS brightness, so the background must contribute none. The class
+   goes on :root, not on body, because the Z engine reads --ground off document.documentElement -- a variable set on
+   body would never reach it. */
+:root.q301-film{--ground:#05070A;--bg:#05070A}
+:root.q301-film #view,:root.q301-film #stage,:root.q301-film canvas{background:#05070A}
+@media (max-width:460px){
+  .qg-bar{padding:3px;gap:2px}
+  .qg-g{min-width:52px;padding:3px 5px;font-size:11px}
+  .qg-bar .qg-h,.qg-bar .qg-hb{min-width:52px}
+  .qi-wrap{right:8px;bottom:8px;width:calc(100vw - 16px)}
+}
+@media (prefers-reduced-motion:no-preference){.qg-sheet{transition:opacity .12s}}

@@ -2382,6 +2382,14 @@ var NMSKShowAll = (function(){
       on = true; render();
       return api;
     },
+    /* Q301: a path owned by a MODULE rather than by the engine's glue (the render style, the depth peel, the fat)
+       cannot be in a list built before it started, so it registers itself here, with the same descriptor. */
+    add:function(s){
+      if (!s || !s.key || typeof s.active !== "function" || typeof s.clear !== "function") return false;
+      S = S.filter(function(q){ return q.key !== s.key; });
+      S.push(s); sig = ""; render();
+      return true;
+    },
     refresh:render,
     active:anyActive,
     chips:function(){ return live().map(function(x){ return {key:x.key, label:okLabel(x)}; }); },
@@ -2575,6 +2583,1304 @@ var NMSKBoneRead = (function(){
 })();
 </script>
 <!-- Q300 html end -->
+<!-- Q301 html begin -->
+<style>
+/* Q301: one control bar, groups that unfold, a small circled i. Sized for a 390 px phone first (358 px of usable width
+   inside a 16 px gutter each side) and for 1400x900 second; every touch target is at least 44 px, and the bar sits in the
+   bottom third -- the thumb zone the Q300 benchmark measured. */
+/* The `hidden` attribute is only `display:none` from the UA stylesheet, so ANY author `display` rule beats it. Every
+   element below that is toggled with `hidden` and also carries a display rule needs this guard, or it stays on the
+   screen and keeps swallowing taps. The browser dry run found exactly that: the info drawer was never really hidden,
+   and on a 390 px phone its header sat over the control bar and ate the Undo button. */
+.qi-wrap[hidden],.qg-sheet[hidden],.qg-bar[hidden],.rs-row[hidden],.rs-box[hidden],.pl-box[hidden],.ft-box[hidden],
+.qg-sbody [hidden],.qg-m[hidden],.qi-corner[hidden],.q301-b[hidden],[hidden].qg-adopted{display:none !important}
+.qg-bar{position:fixed;z-index:62;display:flex;flex-direction:column;gap:3px;padding:4px;border-radius:12px;
+  background:rgba(14,18,22,.90);box-shadow:0 2px 14px rgba(0,0,0,.42);backdrop-filter:blur(5px);font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box}
+.qg-groups,.qg-hist{display:flex;flex-wrap:wrap;gap:3px;align-items:stretch;justify-content:center}
+.qg-hist{border-top:1px solid rgba(255,255,255,.14);padding-top:3px}
+.qg-g{position:relative;min-height:36px;min-width:60px;flex:1 1 auto;padding:4px 8px;border:1px solid rgba(255,255,255,.17);border-radius:9px;
+  background:rgba(255,255,255,.055);color:#E6EDF3;font:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
+.qg-g:hover{background:rgba(255,255,255,.12)}
+.qg-g.open{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-g.live{border-color:#D9A227}
+.qg-dot{width:7px;height:7px;border-radius:50%;background:#F2B01E;flex:0 0 auto;box-shadow:0 0 0 2px rgba(242,176,30,.25)}
+.qg-gl{white-space:nowrap}
+/* undo / redo / module / model: icon + WORD. The owner could not find them when they were icons alone. */
+.qg-bar .qg-h,.qg-bar .qg-hb{min-width:56px;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  padding:3px 6px;border:1px solid rgba(255,255,255,.17);border-radius:9px;background:rgba(255,255,255,.055);color:#E6EDF3;cursor:pointer}
+.qg-bar .qg-h:hover{background:rgba(255,255,255,.13)}
+.qg-bar .qg-h[disabled]{opacity:.38;cursor:default}
+.qg-t{font-size:9.5px;letter-spacing:.2px;line-height:1;opacity:.92}
+.qg-bar .qi-btn{min-width:44px;min-height:44px;border:1px solid rgba(255,255,255,.17);border-radius:9px;background:rgba(255,255,255,.055);color:#E6EDF3;cursor:pointer;display:flex;align-items:center;justify-content:center}
+/* the open group's sheet: above the bar, capped at 45 % of the 3-D height, scrolls inside */
+.qg-sheet{position:fixed;z-index:61;box-sizing:border-box;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;
+  background:rgba(14,18,22,.95);box-shadow:0 2px 18px rgba(0,0,0,.48);backdrop-filter:blur(6px);
+  color:#E6EDF3;font:13px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qg-shead{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.qg-stitle{font-size:13px}
+.qg-ssp{flex:1 1 auto}
+.qg-sx{min-width:34px;min-height:30px;border:0;border-radius:7px;background:rgba(255,255,255,.09);color:#E6EDF3;font-size:17px;line-height:1;cursor:pointer}
+.qg-sbody{overflow:auto;padding:6px 8px 8px;display:flex;flex-direction:column;gap:5px;-webkit-overflow-scrolling:touch}
+.qg-m{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.qg-m>.qg-why{flex:1 1 100%}
+.qg-sub{margin:0;flex:1 1 100%;font-size:11px;opacity:.72}
+/* a button the sheet ADOPTED from the engine's own bar: it keeps its id and its listeners, it only gets our size */
+.qg-sbody .qg-adopted,.qg-sbody .qg-b,.qg-sbody .q301-b{min-height:36px;padding:5px 9px;border:1px solid rgba(255,255,255,.17);border-radius:8px;
+  background:rgba(255,255,255,.055);color:#E6EDF3;font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;
+  position:static;inset:auto;float:none;margin:0;box-shadow:none;width:auto;max-width:none}
+.qg-sbody .qg-adopted:hover,.qg-sbody .q301-b:hover{background:rgba(255,255,255,.13)}
+.qg-sbody .qg-adopted[aria-pressed="true"],.qg-sbody .q301-b.on,.qg-sbody .q301-b[aria-pressed="true"]{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-sbody .qg-live{box-shadow:inset 0 0 0 1px #D9A227}
+.qg-sbody .qg-off,.qg-sbody .qg-adopted[disabled],.qg-sbody .q301-b[disabled]{opacity:.42;cursor:not-allowed}
+/* the one-line reason: shown on the screen, not in a tooltip the phone never displays */
+.qg-why{margin:1px 0 3px;font-size:11px;line-height:1.3}
+.qg-why-off{color:#F2A6A0}
+.qg-why-on{color:#8FD6A8}
+.qg-why-over{color:#E8C86A}
+.qg-sbody .qg-over{opacity:.72;box-shadow:inset 0 0 0 1px #8A7430}
+/* a note folded away by NMSKTips, same as the other modules' */
+.qg-sbody .nmsk-tip{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.8}
+/* the render-style box, the peel box, the fat box, all inside their group's sheet */
+.rs-box,.pl-box{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
+.rs-row{display:flex;flex-wrap:wrap;gap:3px;width:100%}
+.rs-steps{opacity:.95}
+.pl-l,.rs-box .rs-l{font-size:11px;opacity:.75;min-width:38px}
+.pl-o{flex:1 1 100%;font-size:11px;opacity:.85;padding:1px 0}
+.pl-all{border-color:#D9A227 !important}
+.ft-box{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
+/* the circled i: small, at the side, unobtrusive -- the owner's words */
+.qi-btn{border:0;background:transparent;color:#C9D6E0;cursor:pointer;padding:2px;line-height:0;border-radius:50%}
+.qi-btn:hover{color:#fff;background:rgba(255,255,255,.14)}
+.qi-corner{position:fixed;z-index:60;width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  background:rgba(14,18,22,.62);box-shadow:0 1px 6px rgba(0,0,0,.3)}
+.qi-wrap{position:fixed;z-index:70;right:14px;bottom:14px;width:min(380px,calc(100vw - 28px));box-sizing:border-box;
+  display:flex;flex-direction:column;overflow:hidden;border-radius:12px;background:rgba(12,16,20,.97);
+  box-shadow:0 4px 24px rgba(0,0,0,.55);color:#E6EDF3;font:12.5px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qi-head{display:flex;align-items:center;gap:6px;padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05)}
+.qi-sp{flex:1 1 auto}
+.qi-x{min-width:32px;min-height:28px;border:0;border-radius:7px;background:rgba(255,255,255,.09);color:#E6EDF3;font-size:17px;line-height:1;cursor:pointer}
+.qi-list{overflow:auto;padding:4px 9px 10px;-webkit-overflow-scrolling:touch}
+.qi-sec{border-bottom:1px solid rgba(255,255,255,.09);padding:3px 0}
+.qi-sec>summary{cursor:pointer;padding:5px 0;font-weight:600;list-style:none}
+.qi-sec>summary::-webkit-details-marker{display:none}
+.qi-sec>summary:before{content:"\25b8 ";opacity:.6}
+.qi-sec[open]>summary:before{content:"\25be "}
+.qi-body{padding:2px 0 7px;font-size:11.5px;line-height:1.45;opacity:.92}
+.qi-body p{margin:.3em 0}
+.qi-body table{border-collapse:collapse;width:100%;font-size:11px}
+.qi-body th,.qi-body td{border:1px solid rgba(255,255,255,.14);padding:2px 4px;text-align:left;vertical-align:top}
+.qi-body code{font-size:10.5px}
+.qi-adopted{display:block !important;position:static !important;inset:auto !important;width:auto !important;max-width:none !important;
+  margin:0 !important;box-shadow:none !important;background:transparent !important;border:0 !important;padding:0 !important}
+/* where an adopted button waits while another group is open: in the DOM, with its id and its listeners, off the screen */
+.qg-park{position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden}
+/* Q300's "what is hidden now" chip bar is pinned to the 3-D view's bottom-left at z-index 2147482000, which is the
+   same corner this bar occupies and far above it in the stack: on a 390 px phone it sat over the history row and
+   swallowed Redo (measured with elementFromPoint). Q300 rewrites its `top` inline on a timer, so a CSS `top` would
+   lose; a transform composes with the inline value instead and simply lifts it clear. --q301-bar-h is set from JS to
+   the bar's measured height. The same applies to Q294's one-line notice, which shares that corner. */
+body.q301-on #sa-bar,body.q301-on .sa-bar{transform:translateY(calc(-1 * var(--q301-bar-h,96px)))}
+body.q301-on #hist-msg{transform:translateY(calc(-1 * var(--q301-bar-h,96px)))}
+/* the floating Q294 group is the same three buttons: one place for them, not two */
+body.q301-on #hist-bar{display:none !important}
+/* a clinical workspace mode hides the anatomy chrome and brings its own bar (Q272); ours goes with the rest,
+   the same way Q294's floating group does (`body.mode-on .hist-bar`) */
+body.mode-on .qg-bar,body.mode-on .qg-sheet,body.mode-on .qi-wrap,body.mode-on .qi-corner{display:none !important}
+/* The radiographic styles need a black field: a DRR ADDS brightness, so the background must contribute none. The class
+   goes on :root, not on body, because the Z engine reads --ground off document.documentElement -- a variable set on
+   body would never reach it. */
+:root.q301-film{--ground:#05070A;--bg:#05070A}
+:root.q301-film #view,:root.q301-film #stage,:root.q301-film canvas{background:#05070A}
+@media (max-width:460px){
+  .qg-bar{padding:3px;gap:2px}
+  .qg-g{min-width:52px;padding:3px 5px;font-size:11px}
+  .qg-bar .qg-h,.qg-bar .qg-hb{min-width:52px}
+  .qi-wrap{right:8px;bottom:8px;width:calc(100vw - 16px)}
+}
+@media (prefers-reduced-motion:no-preference){.qg-sheet{transition:opacity .12s}}
+</style>
+<script>
+/* Q301: the tissue reference, taken from the page's OWN clinical layer -- no number is retyped here, and this file
+   names none of them. The clinical layer (private, clinical/LICENSE_PRIVATE.md) already loads the reference the page
+   ships beside it and, since this round, hands it over on the generic global the public page is allowed to know:
+   `window.NMSKClinical.tissues()` resolves with it, and `NMSKClinical.mskSequences` says which three of its sequences
+   are the MSK set. That keeps the numbers, the file name and the sequence names on the private side of the Q226
+   boundary (tests/test_q226.py::test_public_templates_carry_only_the_generic_hook) and costs one fetch instead of two.
+   What arrives is 33 tissue classes, each with a CT attenuation and MRI pools (PD / T1 / T2 at 1.5 T), each value
+   carrying its own status ("verified" / "derived" / "secondary_checked" / "assumption" / "recalled_unverified"), plus
+   the CT windows, the sequences and the rules that map a structure to a class. This module walks the rules and turns
+   the real numbers into the three render styles' greys. The physics is standard and cited in
+   docs/research/Q301_controls_and_render_styles.md 3:
+     X-ray  : Beer-Lambert  I/I0 = exp(-SUM mu_i d_i), with mu/mu_water = 1 + CT/1000 (the definition of the unit).
+     CT     : the window map  grey = clamp((v - (L - W/2)) / W, 0, 1)  with W / L from the reference's own windows.
+     MRI    : spin echo  S = PD * (1 - exp(-TR/T1)) * exp(-TE/T2), summed over the class's pools, with TR / TE from the
+              reference's own sequences and a fat pool scaled by its fat-suppression residual when the sequence is fatsat.
+   The ONE number that is ours and not measured is d0, the path length per surface crossing (the 3-step strength): a
+   surface atlas has no thickness along the ray. That is said in the info panel, not hidden.
+     NMSKTissue.load(url)  -> Promise      .ready()  .classOf(cat, id, name, vt)  .mu(cls)  .ctGrey(cls, win)
+     .mrGrey(cls, seq)     .windows()      .sequences()  .status(cls)  .provenance()  .state() */
+var NMSKTissue = (function(){
+  "use strict";
+  var D = null, C = {}, RULES = [], W = {}, S = {}, G = {}, memo = {}, loading = null, err = null;
+  function lc(s){ return String(s == null ? "" : s).toLowerCase().replace(/_/g, " "); }
+  function build(j){
+    D = j; C = {}; RULES = (j.mapping_rules && j.mapping_rules.rules) || [];
+    (j.classes || []).forEach(function(c){ C[c.key] = c; });
+    W = {}; (j.ct_windows || []).forEach(function(w){ W[w.key] = w; });
+    S = {}; (j.mr_sequences || []).forEach(function(s){ S[s.key] = s; });
+    G = j.mr_global || {};
+    memo = {};
+  }
+  /* first matching rule wins -- the file's own note. cat / id / name are the viewer's, vt = Z-Anatomy's vein flag. */
+  function classOf(cat, id, name, vt){
+    if (!D) return "soft_unassigned";
+    var k = cat + "\u0001" + id;
+    if (memo[k]) return memo[k];
+    var hay = lc(id) + " " + lc(name), out = "soft_unassigned";
+    for (var i = 0; i < RULES.length; i++){
+      var r = RULES[i];
+      if (r.cat && r.cat.indexOf(cat) < 0) continue;
+      if (r.vt && r.vt !== vt) continue;
+      if (r.re){ var re; try { re = new RegExp(r.re); } catch (e){ continue; } if (!re.test(hay)) continue; }
+      if (r.cls && C[r.cls]){ out = r.cls; break; }
+    }
+    memo[k] = out;
+    return out;
+  }
+  function hu(cls){ var c = C[cls]; return c && c.ct && typeof c.ct.hu === "number" ? c.ct.hu : 40; }
+  function mu(cls){ return Math.max(0.02, 1 + hu(cls) / 1000); }          /* relative to water: the HU definition */
+  function ctGrey(cls, wk){
+    var w = W[wk] || W.msk || W.soft; if (!w) return 0.5;
+    var lo = w.level - w.width / 2;
+    return Math.max(0, Math.min(1, (hu(cls) - lo) / w.width));
+  }
+  function mrGrey(cls, sk){
+    var c = C[cls], s = S[sk]; if (!c || !c.mri || !s) return 0;
+    var res = G.fat_suppression_residual == null ? 0.05 : G.fat_suppression_residual, tot = 0;
+    (c.mri.pools || []).forEach(function(p){
+      var f = p.frac == null ? 1 : p.frac;
+      if (p.fat && s.fatsat) f *= res;
+      var sig = p.pd == null ? 0 : p.pd;
+      if (s.kind === "se" && p.t1 > 0 && p.t2 > 0) sig *= (1 - Math.exp(-s.tr / p.t1)) * Math.exp(-s.te / p.t2);
+      tot += f * sig;
+    });
+    return Math.max(0, tot);
+  }
+  function status(cls){
+    var c = C[cls]; if (!c) return "unknown";
+    return (c.ct && c.ct.status) || "unknown";
+  }
+  var SEQ = [];
+  var api = {
+    /* the clinical layer owns the reference and its file name; this module only asks for it. It may not have
+       attached yet when the control bar starts, so wait for the accessor rather than deciding it is absent. */
+    load:function(){
+      if (loading) return loading;
+      loading = new Promise(function(res, rej){
+        var t0 = Date.now();
+        (function poll(){
+          var cl = typeof window !== "undefined" ? window.NMSKClinical : null;
+          if (cl && typeof cl.tissues === "function") return res(cl);
+          if (Date.now() - t0 > 60000) return rej(new Error("no clinical layer on this page, so no tissue reference"));
+          setTimeout(poll, 200);
+        })();
+      }).then(function(cl){
+        SEQ = (cl.mskSequences || []).slice();
+        return cl.tissues();
+      }).then(function(j){ build(j); return api; }).catch(function(e){ err = String(e && e.message || e); throw e; });
+      return loading;
+    },
+    /* which three sequences the private layer calls the MSK set, in its order */
+    mskSequences:function(){ return SEQ.slice(); },
+    adopt:build,                                       /* a page that already holds the object (tests, node) */
+    ready:function(){ return !!D; }, error:function(){ return err; },
+    classOf:classOf, mu:mu, hu:hu, ctGrey:ctGrey, mrGrey:mrGrey, status:status,
+    keys:function(){ return Object.keys(C).sort(); },
+    label:function(cls){ var c = C[cls]; return (c && c.label) || cls; },
+    windows:function(){ return (D && D.ct_windows ? D.ct_windows : []).map(function(w){ return {key:w.key, label:w.label, width:w.width, level:w.level, note:w.note}; }); },
+    sequences:function(){ return (D && D.mr_sequences ? D.mr_sequences : []).map(function(s){ return {key:s.key, label:s.label, tr:s.tr, te:s.te, fatsat:!!s.fatsat, note:s.note}; }); },
+    honesty:function(){ return (D && D.honesty) || []; },
+    /* how many classes sit at each verification status: the info panel states this instead of claiming "measured" */
+    provenance:function(){
+      var n = {}, ks = Object.keys(C);
+      ks.forEach(function(k){ var s = status(k); n[s] = (n[s] || 0) + 1; });
+      return {classes:ks.length, byStatus:n, verifiedOn:(D && D.verified_on) || null, title:(D && D.title) || null};
+    },
+    state:function(){ return {ready:!!D, classes:Object.keys(C).length, rules:RULES.length, windows:Object.keys(W).length, sequences:Object.keys(S).length, error:err}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKTissue;
+/* Q301: which actions can be combined, which cannot -- and both made visible.
+   Owner: "actions that CAN be combined, like CUT and IMAGING, must be visibly combinable; and the ones that cannot must
+   be visibly not."
+   One table, one place. The rule behind it: two actions are COMPATIBLE when each writes a different piece of state and
+   both can be seen at once; they are INCOMPATIBLE when they write the same piece of state, or when one empties the
+   other's input. Every row was checked in a real browser by scripts/anatomy/q301/verify_q301.py -- the matrix is not a
+   guess, and the row's `why` is what the user is shown, in one line, next to the control that is switched off.
+   A page registers one probe per action: {key, label, active()}. Nothing here knows what an action does.
+     NMSKCombos.start({probes:[...]})  .verdict(key)  .matrix()  .pairs()  .refresh()  .onChange(fn)  .state() */
+var NMSKCombos = (function(){
+  "use strict";
+  var P = {}, hooks = [], on = false, sig = "";
+  /* Three kinds of row. ok:false = cannot be combined, and `why` is the one line the user sees next to the control that
+     is switched off. ok:true = worth SAYING they combine (the owner's cut + imaging among them). ok:"over" = both are
+     allowed and one quietly takes precedence over the other, which must be said rather than silently disabling either:
+     Q300 ships its bone pass ON (Clear) on the Imaging pages, so treating it as incompatible would have left the X-ray
+     style disabled the moment those pages loaded. A pair not in the table is simply compatible, and silent. */
+  var PAIRS = [
+    {a:"cut",      b:"imaging",  ok:true,  why:"Cut and the radiographic styles work together: the cut face is drawn in the style's own grey."},
+    {a:"xsec",     b:"imaging",  ok:true,  why:"A cross-section takes the radiographic style too."},
+    {a:"cut",      b:"measure",  ok:true,  why:"Measure works on a cut model."},
+    {a:"cut",      b:"peel",     ok:true,  why:"Peeling layers and cutting are independent."},
+    {a:"imaging",  b:"peel",     ok:true,  why:"Peeling decides what is left; the style decides how it is drawn."},
+    {a:"imaging",  b:"fat",      ok:true,  why:"Fat takes the style like every other tissue."},
+    {a:"imaging",  b:"srccolour",ok:false, why:"A radiographic style replaces the colour, so colour-by-source has nothing left to colour."},
+    {a:"imaging",  b:"highlight",ok:false, why:"A highlight colour does not exist in a greyscale picture — use Fade others instead."},
+    {a:"imaging",  b:"boneread", ok:"over", over:"imaging",
+     why:"A radiographic style sets the bone's brightness from its own attenuation, so Q300's extra bone pass is paused while a style is on \u2014 it comes back with the colour."},
+    {a:"peel",     b:"preset",   ok:false, why:"Both write the same layer table — turning one on turns the other off."},
+    {a:"peel",     b:"solo",     ok:false, why:"Both write the same layer table — turning one on turns the other off."},
+    {a:"spin",     b:"measure",  ok:false, why:"Stop the spin first, or the model moves while you are placing the point."},
+    {a:"spin",     b:"cutplace", ok:false, why:"Stop the spin first, or the model moves while you are placing the plane."},
+    {a:"marktap",  b:"cutplace", ok:false, why:"Both take over the next tap on the model — only one can have it."}
+  ];
+  function live(k){ var p = P[k]; if (!p) return false; try { return !!p.active(); } catch (e){ return false; } }
+  function lab(k){ var p = P[k]; return (p && p.label) || k; }
+  function verdict(key){
+    var out = {key:key, active:live(key), disabled:false, reason:"", with:[], blockedBy:null};
+    var over = null;
+    PAIRS.forEach(function(r){
+      var other = r.a === key ? r.b : (r.b === key ? r.a : null);
+      if (!other || !P[other] || !live(other)) return;
+      if (r.ok === "over"){
+        if (out.active || live(other)) over = r;                 /* say which of the two is in charge, disable neither */
+        if (out.active) out.with.push(lab(other));
+      } else if (r.ok){ if (out.active) out.with.push(lab(other)); }
+      else if (!out.active){ out.disabled = true; out.reason = r.why; out.blockedBy = other; }
+    });
+    if (out.active && out.with.length) out.reason = "Active together with " + out.with.join(", ") + ".";
+    if (over && (out.active || live(over.a === key ? over.b : over.a))){
+      out.overridden = (over.over !== key);                      /* this one is the one giving way */
+      out.reason = over.why;                                     /* the row's own words, not the generic line */
+    }
+    return out;
+  }
+  function stamp(){ return Object.keys(P).sort().map(function(k){ return k + (live(k) ? "1" : "0"); }).join(","); }
+  function refresh(){
+    var s = stamp();
+    if (s === sig) return false;
+    sig = s;
+    hooks.forEach(function(f){ try { f(); } catch (e){} });
+    return true;
+  }
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      (opt.probes || []).forEach(function(p){ if (p && p.key && typeof p.active === "function") P[p.key] = p; });
+      on = true; sig = ""; setInterval(refresh, 450); refresh();
+      return api;
+    },
+    add:function(p){ if (p && p.key && typeof p.active === "function"){ P[p.key] = p; sig = ""; refresh(); } },
+    verdict:verdict, refresh:refresh,
+    keys:function(){ return Object.keys(P).sort(); },
+    pairs:function(){ return PAIRS.map(function(r){ return {a:r.a, b:r.b, ok:r.ok, why:r.why}; }); },
+    /* the table for the info panel and for the tests: only the pairs whose BOTH sides exist on this page */
+    matrix:function(){
+      return PAIRS.filter(function(r){ return P[r.a] && P[r.b]; })
+        .map(function(r){ return {a:lab(r.a), b:lab(r.b), ok:r.ok, over:r.over || null, why:r.why, aKey:r.a, bKey:r.b}; });
+    },
+    onChange:function(f){ if (typeof f === "function") hooks.push(f); },
+    active:function(){ return Object.keys(P).filter(live).sort(); },
+    state:function(){ return {on:on, probes:Object.keys(P).length, pairs:PAIRS.length, onPage:api.matrix().length, active:api.active()}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKCombos;
+/* Q301: all the general prose behind one small circled i.
+   Owner: "general informative material -- like the sources used for the model -- can be just a small circled i at the
+   side, small and unobtrusive."
+   So: a small circled i at the top-right of the 3-D view and a second one in the control bar (same drawer), and the
+   drawer holds the prose that used to sit on the screen. The per-structure provenance is NOT moved out of reach --
+   Q297 found cards that once lied about it, so the structure card keeps saying where its own geometry comes from; what
+   moves here is the PAGE-wide prose: the licence, the citations, the conventions, the compatibility table.
+   Sections register themselves, so a later round adds one without touching this file; `adopt` moves an existing element
+   (the source panel, the licence sheet) into the drawer instead of copying its text, so there is never a second copy
+   that can fall out of date.
+     NMSKInfo.start({anchor, adopt:[id], openers:[el]})
+     .add({key, title, html|build, order})  .open(key)  .close()  .toggle()  .isOpen()  .sections()  .state() */
+var NMSKInfo = (function(){
+  "use strict";
+  var S = [], wrap = null, body = null, on = false, open = false, built = false, adopts = [];
+  var ISVG = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="12" r="9.3" fill="none" stroke="currentColor" stroke-width="1.9"/>' +
+             '<circle cx="12" cy="7.4" r="1.25" fill="currentColor"/><path d="M12 10.6v6.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  function sorted(){ return S.slice().sort(function(a, b){ return (a.order || 50) - (b.order || 50); }); }
+  function render(){
+    if (!body) return;
+    body.innerHTML = "";
+    sorted().forEach(function(s){
+      var d = document.createElement("details");
+      d.className = "qi-sec"; d.id = "qi-" + s.key;
+      if (s.openFirst) d.open = true;
+      var sum = document.createElement("summary"); sum.textContent = s.title; d.appendChild(sum);
+      var inner = document.createElement("div"); inner.className = "qi-body";
+      if (s.el) inner.appendChild(s.el);
+      else {
+        var h = "";
+        try { h = s.build ? s.build() : (s.html || ""); } catch (e){ h = "<p>(not available)</p>"; }
+        inner.innerHTML = h;
+      }
+      d.appendChild(inner); body.appendChild(d);
+    });
+    built = true;
+  }
+  function setOpen(v){
+    open = !!v;
+    if (wrap){ wrap.hidden = !open; wrap.classList.toggle("qi-open", open); }
+    if (open && !built) render();
+    document.querySelectorAll(".qi-btn").forEach(function(b){ b.setAttribute("aria-expanded", String(open)); });
+    return open;
+  }
+  function mkBtn(cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "qi-btn " + (cls || "");
+    b.innerHTML = ISVG;
+    b.title = "About this page: sources and licence, what is measured and what is our convention, which actions combine";
+    b.setAttribute("aria-label", b.title); b.setAttribute("aria-expanded", "false");
+    b.addEventListener("click", function(e){ e.stopPropagation(); setOpen(!open); });
+    return b;
+  }
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      wrap = document.createElement("aside");
+      wrap.id = "q301-info"; wrap.className = "qi-wrap"; wrap.hidden = true;
+      wrap.setAttribute("role", "dialog"); wrap.setAttribute("aria-label", "About this page");
+      var head = document.createElement("div"); head.className = "qi-head";
+      var t = document.createElement("b"); t.textContent = "About this page"; head.appendChild(t);
+      var sp = document.createElement("span"); sp.className = "qi-sp"; head.appendChild(sp);
+      var x = document.createElement("button");
+      x.type = "button"; x.className = "qi-x"; x.id = "qi-close"; x.innerHTML = "&times;";
+      x.title = "Close"; x.setAttribute("aria-label", "Close");
+      x.addEventListener("click", function(e){ e.stopPropagation(); setOpen(false); });
+      head.appendChild(x); wrap.appendChild(head);
+      body = document.createElement("div"); body.className = "qi-list"; wrap.appendChild(body);
+      document.body.appendChild(wrap);
+      /* the small circled i at the side of the 3-D view */
+      var corner = mkBtn("qi-corner"); corner.id = "qi-corner";
+      document.body.appendChild(corner);
+      var place = function(){
+        var a = opt.anchor;
+        if (!a || !a.getBoundingClientRect) return;
+        var r = a.getBoundingClientRect();
+        if (!(r.width > 40 && r.height > 40)) return;
+        corner.style.left = Math.max(4, r.right - 34) + "px";
+        corner.style.top = Math.max(4, r.top + 8) + "px";
+        /* leave the corner i uncovered: the button that opens the drawer is also the one that closes it */
+        var room = Math.max(60, r.bottom - (r.top + 44));
+        wrap.style.maxHeight = Math.max(170, Math.min(room, window.innerHeight - 120)) + "px";
+      };
+      window.addEventListener("resize", place); setInterval(place, 700); setTimeout(place, 0);
+      (opt.openers || []).forEach(function(el){ if (el && el.appendChild) el.appendChild(mkBtn("qi-inbar")); });
+      adopts = (opt.adopt || []).slice();
+      window.addEventListener("keydown", function(e){
+        if (e.key === "Escape" && open){ setOpen(false); e.stopImmediatePropagation(); e.preventDefault(); }
+      }, true);
+      on = true;
+      return api;
+    },
+    /* move an existing on-screen panel in here: one copy, never two */
+    adoptEl:function(key, title, el, order){
+      if (!el) return api;
+      /* a panel the engine keeps hidden until it has something to say stays hidden here too: the i must not grow an empty row */
+      if (String(el.textContent || "").replace(/\s+/g, " ").trim().length > 40){ el.hidden = false; el.removeAttribute("hidden"); }
+      el.classList.add("qi-adopted");
+      S = S.filter(function(s){ return s.key !== key; });
+      S.push({key:key, title:title, el:el, order:order == null ? 80 : order});
+      built = false; if (open) render();
+      return api;
+    },
+    add:function(s){
+      if (!s || !s.key) return api;
+      S = S.filter(function(q){ return q.key !== s.key; });
+      S.push(s); built = false; if (open) render();
+      return api;
+    },
+    newButton:mkBtn,
+    open:function(key){ setOpen(true); if (key){ var d = document.getElementById("qi-" + key); if (d) d.open = true; } return true; },
+    close:function(){ return setOpen(false); }, toggle:function(){ return setOpen(!open); },
+    isOpen:function(){ return open; }, refresh:function(){ built = false; if (open) render(); },
+    sections:function(){ return sorted().map(function(s){ return s.key; }); },
+    state:function(){ return {on:on, open:open, sections:api.sections(), adopted:S.filter(function(s){ return !!s.el; }).length}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKInfo;
+/* Q301: a MODEL-WIDE render style -- the colour picture is replaced by a radiographic one, and one tap brings the colour back.
+   Owner: "the model itself must offer X-RAY / CT / MRI rendering resembling their real reconstructions -- replacing the
+   colour image with the style the user asks for, and one tap returns."
+   This is NOT the 2-D slice panes of the clinical add-ons: it re-skins the whole 3-D model. Three styles, all driven by
+   NMSKTissue from the page's own clinical tissue reference (its real attenuation and relaxation values), each with three taps of its own:
+     xray  -- a DRR. Each structure is drawn translucent with alpha = 1 - exp(-mu * d0). Ordinary alpha compositing over
+              black accumulates 1 - PRODUCT(1 - alpha_i) = 1 - exp(-SUM mu_i d0), which IS Beer-Lambert's attenuation,
+              and it is order independent, so no depth sort is needed. Both faces of every shell are drawn, because a ray
+              really does cross a shell twice. Bone (mu 2.30) against fat (mu 0.89) separates by itself; this style does
+              NOT use Q300's bone pass and says so.  Steps = d0: Soft / Normal / Hard.
+     ct    -- each structure painted the grey its own HU maps to through a real CT window. Steps = the window: MSK / Soft / Bone.
+     mri   -- each structure painted the grey its own spin-echo signal gives. Steps = the sequence: T1 / T2 / PD fat-sat.
+   The engine does the drawing through E: {apply(spec), active(), redraw(), film(on)}; `spec` is
+     {mode, greyOf(cat, id, name, vt) -> 0..1, alphaOf(...) -> 0..1, flat:bool}  (flat = no shading, for the DRR).
+     NMSKRenderStyle.start(E, {toolbar, history, tissue, combos})
+     .mode()  .set(mode)  .step()  .setStep(i)  .toColour()  .steps()  .spec()  .state() */
+var NMSKRenderStyle = (function(){
+  "use strict";
+  var E = null, hist = null, T = null, box = null, on = false, mode = "colour", step = {xray:1, ct:0, mri:2}, btns = {}, stepRow = null, stepBtns = [];
+  /* The path length taken through each surface a ray crosses. THIS IS OUR CONVENTION, not a measurement: a surface
+     atlas has no thickness along the ray. The three values were CHOSEN BY MEASURING the whole-body projection in a real
+     browser (scripts/anatomy/q301/, and the table in docs/research/Q301_controls_and_render_styles.md 3.6): the
+     picture's own contrast (the standard deviation of its luminance) peaks at 0.10 and the highlights start to burn out
+     above 0.14, so 0.10 is Normal, 0.05 is a softer exposure and 0.20 a harder one for a thick region. */
+  var D0 = [0.05, 0.10, 0.20];
+  /* How far the shading is flattened in the CT and MRI styles. The grey IS the datum there -- it comes from the tissue's
+     own HU or its own spin-echo signal -- and multiplying it by a diffuse term would mean the picture no longer shows
+     what the table says. 0.6 keeps 60 % of the grey untouched and leaves 40 % to the shading as a depth cue. */
+  var FLATTEN = 0.6;
+  var D0W = ["Soft", "Normal", "Hard"];
+  var MODES = [["colour", "Colour"], ["xray", "X-ray"], ["ct", "CT"], ["mri", "MRI"]];
+  var CTW = ["msk", "soft", "bone"], CTW_W = ["MSK", "Soft", "Bone"];
+  /* which three MR sequences, and their words: the private clinical layer names them (Q226 boundary -- this file may
+     not), and each word is the sequence's own label from the reference, shortened to what fits a button. */
+  function mrKeys(){ var k = T && T.mskSequences ? T.mskSequences() : []; return k.length ? k : []; }
+  function mrWords(){
+    var k = mrKeys(), by = {};
+    (T && T.sequences ? T.sequences() : []).forEach(function(q){ by[q.key] = q.label || q.key; });
+    return k.map(function(q){
+      var l = by[q] || q;
+      return l.replace(/\s*\(fast\)\s*/i, " ").replace(/\s*spin echo\s*$/i, "").replace(/fat-suppressed/i, "fat-sat").trim() || q;
+    });
+  }
+  function stepsFor(m){ return m === "xray" ? D0W : m === "ct" ? CTW_W : m === "mri" ? mrWords() : []; }
+  function cls(cat, id, name, vt){ return T ? T.classOf(cat, id, name, vt) : "soft_unassigned"; }
+  function spec(){
+    if (mode === "colour" || !T || !T.ready()) return {mode:"colour"};
+    if (mode === "xray"){
+      var d0 = D0[step.xray] || D0[1];
+      return {mode:"xray", flat:true, d0:d0,
+        greyOf:function(){ return 1; },
+        /* mu/mu_water = 1 + v/1000 -- the definition of the CT attenuation unit, so nothing here is a choice of ours */
+        muOf:function(cat, id, name, vt){ return T.mu(cls(cat, id, name, vt)); },
+        alphaOf:function(cat, id, name, vt){ return Math.max(0.004, Math.min(0.995, 1 - Math.exp(-T.mu(cls(cat, id, name, vt)) * d0))); }};
+    }
+    if (mode === "ct"){
+      var w = CTW[step.ct] || CTW[0];
+      return {mode:"ct", flat:false, window:w, flatten:FLATTEN,
+        greyOf:function(cat, id, name, vt){ return T.ctGrey(cls(cat, id, name, vt), w); },
+        alphaOf:null};
+    }
+    var MK = mrKeys(), sq = MK[step.mri] || MK[0], mx = 0;
+    T.keys().forEach(function(k){ var v = T.mrGrey(k, sq); if (v > mx) mx = v; });
+    mx = mx > 0 ? mx : 1;
+    return {mode:"mri", flat:false, sequence:sq, flatten:FLATTEN,
+      greyOf:function(cat, id, name, vt){ return Math.max(0, Math.min(1, T.mrGrey(cls(cat, id, name, vt), sq) / mx)); },
+      alphaOf:null};
+  }
+  function push(){
+    if (!E || !E.apply) return;
+    try { E.apply(spec()); } catch (e){ if (window.console) console.error("renderstyle", e); }
+    if (E.film){ try { E.film(mode !== "colour"); } catch (e2){} }
+    if (E.redraw){ try { E.redraw(); } catch (e3){} }
+  }
+  function say(m){
+    var e = document.getElementById("hist-msg");
+    if (!e || !m) return;
+    e.textContent = m; e.hidden = false;
+    clearTimeout(say.t); say.t = setTimeout(function(){ e.hidden = true; }, 3000);
+  }
+  function set(m, quiet){
+    if (!MODES.some(function(x){ return x[0] === m; })) return false;
+    if (m !== "colour" && (!T || !T.ready())) { say("The clinical tissue reference has not loaded yet, so the radiographic styles are not available."); return false; }
+    if (m === mode){ ui(); return false; }
+    mode = m; push(); ui();
+    if (!quiet){
+      if (hist && hist.schedule) hist.schedule();
+      say(m === "colour" ? "Back to the colour model."
+        : "Model drawn as " + wordFor(m) + " from this page's own clinical tissue reference. One tap on Colour returns. See the i for what is measured and what is our convention.");
+      if (window.NMSKCombos && NMSKCombos.refresh) NMSKCombos.refresh();
+      if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
+    }
+    return true;
+  }
+  function wordFor(m){ var o = ""; MODES.forEach(function(x){ if (x[0] === m) o = x[1]; }); return o; }
+  function setStep(i, quiet){
+    if (mode === "colour") return false;
+    var n = stepsFor(mode).length;
+    i = Math.max(0, Math.min(n - 1, i | 0));
+    if (step[mode] === i){ ui(); return false; }
+    step[mode] = i; push(); ui();
+    if (!quiet && hist && hist.schedule) hist.schedule();
+    return true;
+  }
+  function ui(){
+    var rdy = !!(T && T.ready());
+    Object.keys(btns).forEach(function(k){
+      var b = btns[k], hot = (k === mode);
+      b.setAttribute("aria-pressed", String(hot)); b.classList.toggle("on", hot);
+      if (k !== "colour"){                        /* the reference comes from the clinical layer: offered only once it is here */
+        b.disabled = !rdy;
+        b.title = rdy ? (b.getAttribute("data-t") || b.title)
+                      : "Waiting for this page's clinical tissue reference, which the styles are computed from";
+      }
+    });
+    if (!stepRow) return;
+    var w = stepsFor(mode);
+    stepRow.hidden = !w.length;
+    stepBtns.forEach(function(b, i){
+      b.hidden = i >= w.length;
+      if (i < w.length){
+        b.textContent = w[i];
+        var hot = step[mode] === i;
+        b.setAttribute("aria-pressed", String(hot)); b.classList.toggle("on", hot);
+        b.title = mode === "xray" ? "How far the X-ray beam is taken to travel through each surface it crosses (our own scale, not a measurement): " + w[i]
+                : mode === "ct" ? "CT window " + w[i] : "MR sequence " + w[i];
+      }
+    });
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null; if (!E || typeof E.apply !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      T = opt.tissue || window.NMSKTissue || null;
+      if (opt.xrayStep != null) step.xray = Math.max(0, Math.min(D0.length - 1, opt.xrayStep | 0));   /* set per engine, by measurement */
+      box = document.createElement("div");
+      box.id = "rs-box"; box.className = "rs-box";
+      box.setAttribute("role", "group"); box.setAttribute("aria-label", "How the model itself is drawn");
+      var row = document.createElement("div"); row.className = "rs-row";
+      MODES.forEach(function(x){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "rs-b q301-b"; b.id = "rs-" + x[0]; b.textContent = x[1];
+        b.setAttribute("aria-pressed", String(x[0] === mode));
+        b.title = x[0] === "colour" ? "The ordinary colour model (one tap, from any style)"
+                : x[0] === "xray" ? "Greyscale radiograph: the beam's attenuation added up along the view ray, from each tissue's real CT attenuation"
+                : x[0] === "ct" ? "CT look: every structure in the grey its own measured attenuation gives through a real CT window"
+                : "MRI look: every structure in the grey its own T1 / T2 / proton density gives for the chosen sequence";
+        b.setAttribute("data-t", b.title);        /* kept, so the "not loaded yet" title can be swapped back */
+        b.addEventListener("click", function(e){ e.stopPropagation(); set(x[0]); });
+        row.appendChild(b); btns[x[0]] = b;
+      });
+      box.appendChild(row);
+      stepRow = document.createElement("div"); stepRow.className = "rs-row rs-steps"; stepRow.hidden = true;
+      for (var i = 0; i < 3; i++){
+        var sb = document.createElement("button");
+        sb.type = "button"; sb.className = "rs-s q301-b"; sb.id = "rs-step-" + i;
+        sb.addEventListener("click", (function(k){ return function(e){ e.stopPropagation(); setStep(k); }; })(i));
+        stepRow.appendChild(sb); stepBtns.push(sb);
+      }
+      box.appendChild(stepRow);
+      if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);
+      if (hist && hist.register){
+        hist.register("renderstyle", {get:function(){ return {m:mode, s:JSON.parse(JSON.stringify(step))}; },
+          set:function(v){ if (!v) return; step = v.s || step; set(v.m || "colour", true); setStep(step[mode] == null ? 1 : step[mode], true); },
+          reset:function(){ api.toColour(true); }});
+      }
+      if (opt.showall && opt.showall.add) opt.showall.add(api.source());
+      on = true; ui();
+      return api;
+    },
+    /* Q300 registers this as one of the page's ways out: a greyscale model is a state you must be able to leave in one tap */
+    source:function(){
+      return {key:"imaging", label:function(){ return "imaging: " + wordFor(mode); },
+        active:function(){ return on && mode !== "colour"; },
+        clear:function(){ set("colour", true); }, drive:function(){ set("xray", true); }};
+    },
+    mode:function(){ return mode; }, set:function(m){ return set(m); },
+    step:function(){ return step[mode] == null ? 0 : step[mode]; }, setStep:function(i){ return setStep(i); },
+    steps:function(){ return stepsFor(mode).slice(); },
+    toColour:function(quiet){ return set("colour", quiet); },
+    spec:spec, refresh:ui, words:function(){ return MODES.map(function(x){ return x[1]; }); },
+    label:function(){ return mode === "colour" ? "" : wordFor(mode) + " / " + (stepsFor(mode)[step[mode]] || ""); },
+    state:function(){ return {on:on, mode:mode, step:step[mode] == null ? 0 : step[mode], stepWord:stepsFor(mode)[step[mode]] || null, tissue:!!(T && T.ready())}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKRenderStyle;
+/* Q301: ONE control that peels the body inward, layer by layer, alongside the per-system controls that stay as they were.
+   Owner: "the various sliders for body structures should also allow GRADUAL REVEAL BY LAYERS, not only by systems, plus
+   whatever else is conventional -- check other sites and atlases."
+   The benchmark (docs/research/Q301_controls_and_render_styles.md 4): Zygote Body has one control that "removes layers,
+   beginning with the skin and continuing until all users see is a few nerves", "working inward towards the skeleton";
+   Primal Pictures does it with "Layer up" / "Layer down" buttons "plus a layer number", in five layers "from deep to
+   superficial". We take Primal's TAPS and visible layer number (the project's taps-over-sliders rule, and Q300's
+   "a state that is not on the screen is a state you can hide by accident") and Zygote's skin-inward order.
+   The order is derived from the page's OWN categories, and it is the owner's own order:
+     1 skin  2 fat / superficial fascia  3 deep fascia / septa / aponeuroses + bursa  4 muscle + tendon + insertion
+     5 ligament + joint  6 vessel + nerve + lymph  7 viscera + cns   -> what is left is bone + cartilage.
+   Step 2 IS the superficial fascia, by the structures' own Latin names: 17 of Q295's 51 subcutaneous-fat meshes are
+   labelled `Panniculus adiposus (tela subcutanea)`, which is the superficial fascia in the modern sense. What the atlas
+   does NOT carry is a separate MEMBRANOUS (Scarpa's) layer, and the pages' own search data already says so in as many
+   words: "No page ships it as a mesh: the abdominal wall on these pages carries `Investing abdominal fascia` and the
+   subcutaneous fat, not a separate membranous layer." Step 3 holds the 61 investing-fascia sheets, septa and
+   aponeuroses (fascia lata, brachial, crural, thoracolumbar, plantar and palmar aponeuroses, ...).
+   One grouping IS ours: vessels, nerves and lymphatics come off together, because the data carries no depth rank per
+   vessel and real vessels cross every layer.
+   The engine supplies E: {cats() -> [key], count(key) -> n, off(keys) (hide exactly these, restoring the rest), redraw()}.
+     NMSKPeel.start(E, {toolbar, history, showall})
+     .step()  .set(i)  .deeper()  .shallower()  .steps()  .hidden()  .state() */
+var NMSKPeel = (function(){
+  "use strict";
+  var E = null, hist = null, box = null, out = null, on = false, i0 = 0, idx = 0, upB = null, dnB = null, allB = null;
+  var ORDER = [
+    {key:"skin",    label:"Skin",            cats:["skin"]},
+    {key:"fat",     label:"Fat / superficial fascia", cats:["fat"]},
+    {key:"fascia",  label:"Deep fascia",     cats:["fascia", "bursa"]},
+    {key:"muscle",  label:"Muscle",          cats:["muscle", "tendon", "insertion"]},
+    {key:"ligament",label:"Ligament",        cats:["ligament", "joint"]},
+    {key:"neurovas",label:"Vessels & nerves",cats:["vessel", "nerve", "lymph", "lymphatic"]},
+    {key:"viscera", label:"Organs",          cats:["viscera", "organ", "cns"]}
+  ];
+  function present(){                                     /* only the steps this page really has something to peel */
+    var cs = {}; (E && E.cats ? E.cats() : []).forEach(function(c){ cs[c] = true; });
+    return ORDER.filter(function(s){ return s.cats.some(function(c){ return cs[c] && (!E.count || E.count(c) > 0); }); });
+  }
+  var P = [];
+  function hidden(){                                      /* every category of every step up to and including idx */
+    var out = [];
+    P.slice(0, idx).forEach(function(s){ s.cats.forEach(function(c){ if (out.indexOf(c) < 0) out.push(c); }); });
+    return out;
+  }
+  function push(){
+    if (!E || !E.off) return;
+    try { E.off(hidden()); } catch (e){ if (window.console) console.error("peel", e); }
+    if (E.redraw){ try { E.redraw(); } catch (e2){} }
+  }
+  function label(){
+    if (!idx) return "Whole body";
+    var s = P[idx - 1];
+    return "Peeled to " + (idx === P.length ? "the skeleton" : "below " + s.label.toLowerCase()) + " · " + idx + " / " + P.length;
+  }
+  function ui(){
+    if (out) out.textContent = label();
+    if (upB) upB.disabled = idx >= P.length;
+    if (dnB) dnB.disabled = idx <= 0;
+    if (allB) allB.hidden = idx === 0;
+    if (box) box.setAttribute("data-step", String(idx));
+  }
+  function set(i, quiet){
+    i = Math.max(0, Math.min(P.length, i | 0));
+    if (i === idx){ ui(); return false; }
+    idx = i; push(); ui();
+    if (!quiet){
+      if (hist && hist.schedule) hist.schedule();
+      if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
+      if (window.NMSKCombos && NMSKCombos.refresh) NMSKCombos.refresh();
+    }
+    return true;
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null; if (!E || typeof E.off !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      P = present();
+      box = document.createElement("div");
+      box.id = "pl-box"; box.className = "pl-box";
+      box.setAttribute("role", "group"); box.setAttribute("aria-label", "Peel the body inward, layer by layer");
+      var lab = document.createElement("span"); lab.className = "pl-l"; lab.textContent = "Depth";
+      box.appendChild(lab);
+      dnB = document.createElement("button");
+      dnB.type = "button"; dnB.className = "pl-b q301-b"; dnB.id = "pl-up"; dnB.textContent = "▲ Out";
+      dnB.title = "Put the layer above back on (one Undo step)";
+      dnB.addEventListener("click", function(e){ e.stopPropagation(); set(idx - 1); });
+      upB = document.createElement("button");
+      upB.type = "button"; upB.className = "pl-b q301-b"; upB.id = "pl-down"; upB.textContent = "▼ In";
+      upB.title = "Take the next layer off, from the skin inward (one Undo step)";
+      upB.addEventListener("click", function(e){ e.stopPropagation(); set(idx + 1); });
+      box.appendChild(dnB); box.appendChild(upB);
+      allB = document.createElement("button");
+      allB.type = "button"; allB.className = "pl-b pl-all q301-b"; allB.id = "pl-whole"; allB.textContent = "Whole body";
+      allB.hidden = true; allB.title = "Put every peeled layer back (one Undo step)";
+      allB.addEventListener("click", function(e){ e.stopPropagation(); set(0); });
+      box.appendChild(allB);
+      out = document.createElement("output"); out.id = "pl-state"; out.className = "pl-o"; out.setAttribute("aria-live", "polite");
+      box.appendChild(out);
+      var n = document.createElement("span"); n.className = "pl-note";
+      n.innerHTML = '<p class="nmsk-tip">One control for <b>how deep</b>, in ' + P.length + ' taps, from the skin inward &mdash; next to the per-system controls, which stay as they are. ' +
+        'The order comes from this page\'s own tissue categories: ' + P.map(function(s){ return s.label.toLowerCase(); }).join(" → ") + ' → <b>bone and cartilage</b>. ' +
+        'The <b>fat step IS the superficial fascia</b>: 17 of its structures are labelled <i>Panniculus adiposus (tela subcutanea)</i> in the data itself. What this atlas does not carry is a separate <b>membranous (Scarpa\'s) layer</b> &mdash; the pages\' own search data says so in as many words &mdash; so the peel does not offer one. ' +
+        'One grouping is <b>our convention, not anatomy</b>: <b>vessels, nerves and lymphatics come off together</b>, because the data holds no depth rank for a single vessel and real vessels cross every layer.</p>';
+      box.appendChild(n);
+      if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);
+      if (hist && hist.register) hist.register("peel", {get:function(){ return idx; }, set:function(v){ set(v | 0, true); }, reset:function(){ set(i0, true); }});
+      if (opt.showall && opt.showall.add) opt.showall.add(api.source());
+      on = true; ui();
+      return api;
+    },
+    /* Q300 registers this as one of the page's hiding paths, so "Show everything" brings the layers back */
+    source:function(){
+      return {key:"peel", label:function(){ return "peeled: " + idx + " layer" + (idx === 1 ? "" : "s"); },
+        active:function(){ return on && idx > 0; }, clear:function(){ set(0, true); }, drive:function(){ set(1, true); }};
+    },
+    step:function(){ return idx; }, set:function(i){ return set(i); },
+    deeper:function(){ return set(idx + 1); }, shallower:function(){ return set(idx - 1); },
+    steps:function(){ return P.map(function(s){ return {key:s.key, label:s.label, cats:s.cats.slice()}; }); },
+    hidden:hidden, label:label, refresh:ui,
+    state:function(){ return {on:on, step:idx, max:P.length, hidden:hidden(), label:label()}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKPeel;
+/* Q301: plain fat is OFF at load, and one tap away -- while the cut faces and the cross-sections stay filled.
+   Owner: "plain fat in various places -- show it only when explicitly asked, not by default."
+   Q295 added the fat / unlabelled-soft-tissue meshes from each body's OWN imaging -- 51 on every one of the six pages,
+   17 of them labelled `Panniculus adiposus (tela subcutanea)`, i.e. the superficial fascia -- and shipped them ON at
+   load but faint (alpha 0.12). (A page that happened to carry none would say so rather than pretend; the count is read
+   off the page itself.) Two things change here and nothing else: the load default becomes OFF, and the cut face keeps
+   drawing fat whatever the 3-D state is -- Q295's whole point was that a section must not read as hollow, and
+   `NMSKCapCore.capA` already lifts fat to 0.9 in the cut face. No mesh is added or removed.
+   The engine supplies E: {count(), shown(), set(on), redraw()}.
+     NMSKFat.start(E, {toolbar, history, showall})
+     .on()  .set(v)  .toggle()  .count()  .state() */
+var NMSKFat = (function(){
+  "use strict";
+  var E = null, hist = null, box = null, btn = null, on = false, cur = false, touched = false, n = 0;
+  function push(){
+    if (!E || !E.set) return;
+    try { E.set(cur); } catch (e){ if (window.console) console.error("fat", e); }
+    if (E.redraw){ try { E.redraw(); } catch (e2){} }
+  }
+  function say(m){
+    var e = document.getElementById("hist-msg");
+    if (!e || !m) return;
+    e.textContent = m; e.hidden = false;
+    clearTimeout(say.t); say.t = setTimeout(function(){ e.hidden = true; }, 3000);
+  }
+  function ui(){
+    if (!btn) return;
+    btn.setAttribute("aria-pressed", String(cur));
+    btn.classList.toggle("on", cur);
+    btn.textContent = n ? (cur ? "Fat: shown" : "Fat: hidden") : "Fat: none on this page";
+    btn.disabled = !n;
+    btn.title = n ? (cur ? "Hide the " + n + " fat / unlabelled-soft-tissue structures again (they keep filling the cut faces)"
+                         : "Show the " + n + " fat / unlabelled-soft-tissue structures (off at load, as asked)")
+                  : "This page carries no fat mesh, so there is nothing to show or hide";
+  }
+  function set(v, quiet){
+    v = !!v && n > 0;
+    if (v === cur){ ui(); return false; }
+    cur = v; touched = true; push(); ui();
+    if (!quiet){
+      if (hist && hist.schedule) hist.schedule();
+      say(cur ? "Fat is shown, faint, as Q295 drew it. It fills the cut faces and the cross-sections either way."
+              : "Fat is hidden again. It still fills the cut faces and the cross-sections, so a section never reads as hollow.");
+      if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
+    }
+    return true;
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null; if (!E || typeof E.set !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      try { n = E.count ? E.count() | 0 : 0; } catch (e){ n = 0; }
+      cur = false; push();                              /* the load default: OFF, and it is applied, not merely declared */
+      box = document.createElement("span");
+      box.id = "ft-box"; box.className = "ft-box";
+      btn = document.createElement("button");
+      btn.type = "button"; btn.className = "ft-b q301-b"; btn.id = "ft-toggle";
+      btn.addEventListener("click", function(e){ e.stopPropagation(); set(!cur); });
+      box.appendChild(btn);
+      var note = document.createElement("span"); note.className = "ft-note";
+      note.innerHTML = '<p class="nmsk-tip">Fat and unlabelled soft tissue (Q295) is built from each body\'s own imaging in the space no segmented structure covers. ' +
+        'It is <b>off at load</b>, as asked, and one tap shows it. Either way it <b>keeps filling the cut faces and the cross-sections</b>, ' +
+        'because a section drawn without it reads as hollow &mdash; which was the whole reason Q295 built it. ' +
+        (n ? "This page carries <b>" + n + "</b> such structures; the subcutaneous ones are labelled <i>Panniculus adiposus (tela subcutanea)</i> &mdash; the superficial fascia." : "<b>This page carries none.</b>") + '</p>';
+      box.appendChild(note);
+      if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);
+      if (hist && hist.register) hist.register("fat", {get:function(){ return cur; }, set:function(v){ set(v, true); }, reset:function(){ set(false, true); }});
+      if (opt.showall && opt.showall.add) opt.showall.add(api.source());
+      on = true; ui();
+      return api;
+    },
+    /* a hiding path only ONCE the user has used the control: at load "off" is the default, and Q300's rule is zero chrome then */
+    source:function(){
+      return {key:"fat", label:function(){ return "fat hidden"; },
+        active:function(){ return on && n > 0 && touched && !cur; },
+        clear:function(){ set(true, true); }, drive:function(){ set(true, true); touched = true; set(false, true); }};
+    },
+    on:function(){ return cur; }, set:function(v){ return set(v); }, toggle:function(){ return set(!cur); },
+    count:function(){ return n; }, touched:function(){ return touched; }, refresh:ui,
+    state:function(){ return {on:on, shown:cur, count:n, touched:touched}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKFat;
+/* Q301: ONE control. A row of labelled groups that unfold, and Undo / Redo / the two resets always on the screen, named.
+   Owner: "a clear, simple CONTROL is missing, including UNDO and REDO" / "imaging should live under ONE box that unfolds
+   into several options. Same for other parts."
+   The two patterns the market agrees on (docs/research/Q301_controls_and_render_styles.md 1): BioDigital moved "the
+   exploration tools ... into a single menu" and moved "Undo and Redo ... to their own toolbar"; Visible Body puts the
+   History button -- undo, redo and back-to-original in one place -- in the bottom menu bar. So:
+     row 1  the groups: View | Layers | Imaging | Cut | Mark | Learn | Measure | Needle  (accordion: one open at a time)
+     row 2  the control itself: Undo  Redo  Reset module  Reset model  i      -- always there, with WORDS, never folded
+             (a destructive action must not hide behind progressive disclosure)
+   It ADOPTS the engines' existing buttons by moving the real DOM nodes into the group sheet: same ids, same listeners,
+   no second copy of any behaviour, and the old crowded bars empty themselves. A group shows a dot while anything in it
+   is active, and each member is decorated from NMSKCombos: co-active members get a +, incompatible ones are disabled
+   with their one-line reason shown underneath, not in a tooltip the phone never displays.
+     NMSKGroups.start({anchor, history, modelreset, info, combos, groups:[{key,label,title,members:[...]}]})
+   member := {adopt:"id"|["id",...]} | {el:node} | {label, run, active, combo, title}
+     .open(key)  .close()  .isOpen()  .groups()  .members(key)  .state() */
+var NMSKGroups = (function(){
+  "use strict";
+  var G = [], bar = null, gRow = null, hRow = null, sheet = null, sHead = null, sBody = null, sTitle = null;
+  var hist = null, combos = null, cur = null, on = false, anchor = null, gBtns = {}, mEls = {}, park = null;
+  var WORD = {"q301-undo":"Undo", "q301-redo":"Redo", "q301-reset":"Module", "q301-mr-model":"Model"};
+  function el(tag, cls, txt){ var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  /* would this group render anything AT ALL right now? A member's node can come and go with the engine's own layout
+     (the own engine's phone layout does not offer Measure), and a group button that opens an empty sheet is worse than
+     no button, so it is hidden instead. Resolved at paint time, not once at start. */
+  function anyMembers(g){
+    return (g.members || []).some(function(m){
+      if (m.el) return true;
+      if (m.adopt) return [].concat(m.adopt).some(function(id){ return !!document.getElementById(id); });
+      return !!m.label;
+    });
+  }
+  function anyActive(g){
+    return (g.members || []).some(function(m){
+      if (typeof m.active === "function"){ try { return !!m.active(); } catch (e){ return false; } }
+      if (m.combo && combos){ try { return !!combos.verdict(m.combo).active; } catch (e2){ return false; } }
+      return false;
+    });
+  }
+  /* The sheet holds the engines' REAL buttons, moved in. Emptying it with innerHTML would destroy them, and the page
+     would lose `#t-cut` the moment another group was opened -- so everything the sheet did not create itself is moved
+     to a hidden parking node first, where it keeps its id and its listeners and can be moved back in. */
+  function stash(){
+    if (!sBody || !park) return;
+    var keep = sBody.querySelectorAll(".qg-adopted, .qg-keep");
+    for (var i = 0; i < keep.length; i++) park.appendChild(keep[i]);
+    sBody.innerHTML = "";
+  }
+  function closeSheet(){
+    cur = null;
+    stash();
+    if (sheet) sheet.hidden = true;
+    Object.keys(gBtns).forEach(function(k){ gBtns[k].setAttribute("aria-expanded", "false"); gBtns[k].classList.remove("open"); });
+    place(); paint();                 /* drop the chip bar's lift back to the bar's own height in the same frame */
+  }
+  function openSheet(key){
+    var g = null;
+    G.forEach(function(q){ if (q.key === key) g = q; });
+    if (!g) return false;
+    if (cur === key){ closeSheet(); return false; }
+    cur = key;
+    stash();
+    sheet.hidden = false;
+    sTitle.textContent = g.label;
+    (g.members || []).forEach(function(m){
+      var row = el("div", "qg-m");
+      if (m.el){ m.el.classList.add("qg-keep"); row.appendChild(m.el); }
+      else if (m.adopt){
+        var ids = [].concat(m.adopt), got = 0;
+        ids.forEach(function(id){
+          var e = document.getElementById(id);
+          if (!e) return;
+          e.classList.add("qg-adopted"); e.removeAttribute("hidden"); e.hidden = false;
+          row.appendChild(e); got++;
+        });
+        if (!got) return;
+      } else if (m.label){
+        var b = el("button", "qg-b q301-b", m.label);
+        b.type = "button"; if (m.id) b.id = m.id;
+        if (m.title) b.title = m.title;
+        b.addEventListener("click", function(ev){ ev.stopPropagation(); if (m.run) { try { m.run(); } catch (e2){} } paint(); });
+        row.appendChild(b);
+        m._btn = b;
+      } else return;
+      if (m.combo){
+        var note = el("p", "qg-why"); note.hidden = true;
+        row.appendChild(note); m._why = note;
+      }
+      if (m.label2){ var h = el("p", "qg-sub", m.label2); row.appendChild(h); }
+      mEls[g.key + "/" + (m.combo || m.label || m.adopt)] = row;
+      sBody.appendChild(row);
+    });
+    Object.keys(gBtns).forEach(function(k){
+      var hot = k === key;
+      gBtns[k].setAttribute("aria-expanded", String(hot));
+      gBtns[k].classList.toggle("open", hot);
+    });
+    if (window.NMSKTips && NMSKTips.fold){ try { NMSKTips.fold(sheet); } catch (e3){} }   /* the sheet's own hint notes fold behind the small "i" at once, not on the observer's next tick */
+    place(); paint();
+    return true;
+  }
+  /* the combo decoration: a dot on the group, a + on a co-active member, disabled + reason on an incompatible one */
+  function paint(){
+    G.forEach(function(g){
+      var b = gBtns[g.key]; if (!b) return;
+      var has = anyMembers(g);
+      b.hidden = !has;
+      if (!has){ if (cur === g.key) closeSheet(); return; }
+      var hot = anyActive(g);
+      b.classList.toggle("live", hot);
+      var d = b.querySelector(".qg-dot");
+      if (d) d.hidden = !hot;
+      b.setAttribute("aria-label", g.label + (hot ? " (something in this group is active)" : ""));
+    });
+    if (!cur || !combos) return;
+    var g = null; G.forEach(function(q){ if (q.key === cur) g = q; });
+    if (!g) return;
+    (g.members || []).forEach(function(m){
+      if (!m.combo || !m._why) return;
+      var v;
+      try { v = combos.verdict(m.combo); } catch (e){ return; }
+      var tgt = m._btn || (m.adopt ? document.getElementById([].concat(m.adopt)[0]) : null);
+      if (tgt){
+        tgt.classList.toggle("qg-live", !!v.active);
+        tgt.classList.toggle("qg-off", !!v.disabled);
+        tgt.classList.toggle("qg-over", !!v.overridden);     /* allowed, but something else is in charge of it */
+        if (v.disabled){ tgt.setAttribute("aria-disabled", "true"); tgt.disabled = true; }
+        else { tgt.removeAttribute("aria-disabled"); if (!m.keepDisabled) tgt.disabled = false; }
+      }
+      m._why.hidden = !(v.reason && (v.disabled || v.with.length || v.overridden));
+      m._why.className = "qg-why" + (v.disabled ? " qg-why-off" : v.overridden ? " qg-why-over" : " qg-why-on");
+      m._why.textContent = (v.disabled ? "⊘ " : v.overridden ? "⇣ " : "+ ") + v.reason;
+    });
+  }
+  function place(){
+    if (!anchor || !anchor.getBoundingClientRect || !bar) return;
+    var r = anchor.getBoundingClientRect();
+    if (!(r.width > 40 && r.height > 40)) return;
+    var w = Math.max(220, Math.min(r.width - 16, 760));
+    bar.style.width = w + "px";
+    bar.style.left = Math.round(r.left + (r.width - w) / 2) + "px";
+    bar.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 6)) + "px";
+    var open = 0;
+    if (sheet && !sheet.hidden){
+      sheet.style.width = w + "px";
+      sheet.style.left = bar.style.left;
+      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.45)) + "px";
+      sheet.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 10 - sheet.offsetHeight)) + "px";
+      open = (sheet.offsetHeight || 0) + 6;
+    }
+    /* Q300's chip bar and Q294's notice share this corner and sit above us in the stack: tell the stylesheet how far
+       to lift them so they never cover Undo / Redo -- NOR an open group's buttons. Both happened on a 390 px phone:
+       first the chip bar sat on Redo, then, once it was lifted by the bar's height alone, it sat on the open sheet and
+       swallowed the fat toggle and two of six taps on the depth peel. The lift is the whole occluded height. */
+    document.documentElement.style.setProperty("--q301-bar-h", (bar.offsetHeight || 96) + 4 + open + "px");
+  }
+  function dressHistory(){            /* the icons the Q294 / Q300 modules mount get a WORD under them: that is the point */
+    Object.keys(WORD).forEach(function(id){
+      var b = document.getElementById(id);
+      if (!b || b.querySelector(".qg-t")) return;
+      var t = el("span", "qg-t", WORD[id]);
+      b.appendChild(t);
+      b.classList.add("qg-hb");
+    });
+  }
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      hist = opt.history || window.NMSKHistory || null;
+      combos = opt.combos || window.NMSKCombos || null;
+      anchor = opt.anchor || null;
+      G = (opt.groups || []).filter(function(g){
+        if (!g || !g.key || !g.label) return false;
+        g.members = (g.members || []).filter(function(m){
+          if (!m) return false;
+          if (m.el) return true;
+          if (m.label) return true;
+          return [].concat(m.adopt || []).some(function(id){ return !!document.getElementById(id); });
+        });
+        return g.members.length > 0;
+      });
+      bar = el("div", "qg-bar"); bar.id = "q301-bar";
+      bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "The controls: groups of tools, and undo / redo / reset");
+      gRow = el("div", "qg-groups"); gRow.id = "q301-groups";
+      G.forEach(function(g){
+        var b = el("button", "qg-g");
+        b.type = "button"; b.id = "qg-" + g.key;
+        b.setAttribute("aria-expanded", "false");
+        b.title = g.title || ("Open the " + g.label + " controls");
+        var t = el("span", "qg-gl", g.label); b.appendChild(t);
+        var d = el("span", "qg-dot"); d.hidden = true; d.setAttribute("aria-hidden", "true"); b.appendChild(d);
+        b.addEventListener("click", function(ev){ ev.stopPropagation(); openSheet(g.key); });
+        gRow.appendChild(b); gBtns[g.key] = b;
+      });
+      bar.appendChild(gRow);
+      hRow = el("div", "qg-hist"); hRow.id = "q301-hist";
+      hRow.setAttribute("role", "group"); hRow.setAttribute("aria-label", "Undo, redo and the two resets");
+      bar.appendChild(hRow);
+      document.body.appendChild(bar);
+      park = el("div", "qg-park"); park.id = "q301-park"; park.hidden = true;
+      document.body.appendChild(park);
+      sheet = el("div", "qg-sheet"); sheet.id = "q301-sheet"; sheet.hidden = true;
+      sheet.setAttribute("role", "group"); sheet.setAttribute("aria-label", "The open group's controls");
+      sHead = el("div", "qg-shead");
+      sTitle = el("b", "qg-stitle", ""); sHead.appendChild(sTitle);
+      sHead.appendChild(el("span", "qg-ssp"));
+      var sx = el("button", "qg-sx", "×");
+      sx.type = "button"; sx.id = "qg-close"; sx.title = "Close this group"; sx.setAttribute("aria-label", "Close this group");
+      sx.addEventListener("click", function(ev){ ev.stopPropagation(); closeSheet(); });
+      sHead.appendChild(sx); sheet.appendChild(sHead);
+      sBody = el("div", "qg-sbody"); sheet.appendChild(sBody);
+      document.body.appendChild(sheet);
+      /* the control itself: the SAME undo / redo / module-reset the rest of the page uses, mounted here with words */
+      if (hist && hist.mountInto) hist.mountInto(hRow, "qg-h", "q301-");
+      if (opt.modelreset && opt.modelreset.mountInto) opt.modelreset.mountInto(hRow, "qg-h", "q301-");
+      dressHistory();
+      if (opt.info && opt.info.newButton){
+        var ib = opt.info.newButton("qi-inbar"); ib.id = "q301-info-btn"; hRow.appendChild(ib);
+      }
+      document.body.classList.add("q301-on");
+      window.addEventListener("resize", place); setInterval(place, 700); setTimeout(place, 0);
+      if (combos && combos.onChange) combos.onChange(paint);
+      setInterval(paint, 500);
+      on = true; paint();
+      return api;
+    },
+    open:openSheet, close:closeSheet, isOpen:function(){ return cur; }, refresh:paint,
+    parked:function(){ return park ? park.children.length : 0; },
+    groups:function(){ return G.map(function(g){ return {key:g.key, label:g.label, n:g.members.length, live:anyActive(g)}; }); },
+    members:function(key){
+      var g = null; G.forEach(function(q){ if (q.key === key) g = q; });
+      return g ? g.members.map(function(m){ return {label:m.label || null, adopt:m.adopt || null, combo:m.combo || null}; }) : [];
+    },
+    state:function(){ return {on:on, open:cur, groups:api.groups(), bar:!!bar}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKGroups;
+/* Q301: the boot. One call per page, from each engine's own glue -- everything engine specific is in the adaptors the
+   glue passes in, so the two engines behave identically and this file is the only place the round's wiring lives.
+   It also writes the i panel's own sections, because they are generated from the real data (NMSKTissue's status counts,
+   NMSKCombos' table, NMSKPeel's order) and must never be prose anyone can let fall out of date.
+     NMSKQ301.start({anchor, history, modelreset, showall, tissueUrl, render:E, peel:E, fat:E, groups:[...], adopt:{...}})
+     .ready()  .state() */
+var NMSKQ301 = (function(){
+  "use strict";
+  var on = false, O = null, loaded = false;
+  function esc(s){ return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function infoSections(){
+    var I = window.NMSKInfo; if (!I) return;
+    I.add({key:"what", title:"What this page is, and what it is not", order:10, openFirst:true, build:function(){
+      var h = (window.NMSKTissue && NMSKTissue.ready()) ? NMSKTissue.honesty() : [];
+      return "<p>Every mesh on this page is a <b>segmented anatomical surface</b>, not an image. The radiographic styles " +
+        "(X-ray, CT, MRI) are a <b>simulation computed from those surfaces</b> and from this page's own clinical tissue reference. " +
+        "They contain no patient image and no scan.</p>" +
+        (h.length ? "<p>The reference's own words:</p><ul>" + h.slice(0, 3).map(function(x){ return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" : "");
+    }});
+    I.add({key:"styles", title:"X-ray / CT / MRI: what is measured, what is our convention", order:20, build:function(){
+      var T = window.NMSKTissue;
+      if (!T || !T.ready()) return "<p>The clinical tissue reference has not loaded on this page, so the radiographic styles are unavailable.</p>";
+      var p = T.provenance(), by = p.byStatus || {};
+      var wins = T.windows(), seqs = T.sequences(), MK = T.mskSequences ? T.mskSequences() : [];
+      var out = "<p><b>Where the numbers come from.</b> " + esc(p.title || "the project's clinical tissue reference") +
+        " &mdash; " + p.classes + " tissue classes, re-checked on " + esc(p.verifiedOn || "?") + ", shipped with this page by its clinical layer. " +
+        "Nothing is retyped in the viewer.</p><p><b>How honest each number is</b>, in the table's own words: " +
+        Object.keys(by).sort().map(function(k){ return "<b>" + by[k] + "</b> " + esc(k.replace(/_/g, " ")); }).join(", ") + ".</p>" +
+        "<p><b>X-ray</b> is a digitally reconstructed radiograph: I/I&#8320; = exp(&minus;&Sigma;&mu;&#7522;d), with " +
+        "&mu;/&mu;<sub>water</sub> = 1 + v/1000 &mdash; the definition of the CT attenuation unit, so no choice of ours. " +
+        "Ordinary alpha compositing over black accumulates exactly that product, and because the product does not care " +
+        "about the order, nothing has to be depth sorted. Each closed surface is crossed twice, front and back, as a real beam does. " +
+        "<b>Our convention:</b> <i>d</i>, the path length taken through each crossing &mdash; a surface atlas has no " +
+        "thickness along the ray, so the three steps (Soft / Normal / Hard) are a scale we chose, not millimetres we measured. " +
+        "This style does not use Q300's extra bone pass: the bone separates by its own attenuation.</p>" +
+        "<p><b>CT</b> paints each structure the grey its own HU gives through a real window, " +
+        "grey = (HU &minus; (L &minus; W/2)) / W, clipped: " +
+        wins.map(function(w){ return "<b>" + esc(w.label) + "</b> W" + w.width + " / L" + w.level + (w.note ? " (" + esc(w.note) + ")" : ""); }).join("; ") +
+        ". The MSK window is <b>our own convention</b> and the data file says so itself.</p>" +
+        "<p><b>MRI</b> paints each structure its spin-echo signal, S = PD&middot;(1&minus;e<sup>&minus;TR/T1</sup>)&middot;e<sup>&minus;TE/T2</sup>, " +
+        "summed over the class's water and fat pools, with the fat pool scaled down when the sequence suppresses fat: " +
+        seqs.filter(function(s){ return MK.indexOf(s.key) >= 0; })
+            .map(function(s){ return "<b>" + esc(s.label) + "</b> TR " + s.tr + " / TE " + s.te; }).join("; ") +
+        ". The numbers are for <b>1.5 T</b>. <b>Our convention:</b> the greys are normalised across the classes on this " +
+        "page so the picture uses its full range &mdash; an MRI's absolute signal is arbitrary anyway.</p>" +
+        "<p><b>What a surface atlas cannot do.</b> A bone is one shell, so it is drawn throughout as cortical bone: " +
+        "there is no cortex-versus-marrow difference, because the mesh has no inside.</p>";
+      return out;
+    }});
+    I.add({key:"combine", title:"Which actions can be combined, and which cannot", order:30, build:function(){
+      var C = window.NMSKCombos;
+      if (!C) return "<p>(not available)</p>";
+      var m = C.matrix();
+      if (!m.length) return "<p>Nothing on this page needs the warning.</p>";
+      return "<p>Checked in a real browser, not assumed. A pair that is not listed simply works.</p><table><tr><th>and</th><th>with</th><th></th><th>why</th></tr>" +
+        m.map(function(r){
+          var v = r.ok === "over" ? "yes, one leads" : r.ok ? "yes" : "no";
+          return "<tr><td>" + esc(r.a) + "</td><td>" + esc(r.b) + "</td><td>" + v + "</td><td>" + esc(r.why) + "</td></tr>";
+        }).join("") + "</table>";
+    }});
+    I.add({key:"layers", title:"The depth control: the order, and what in it is ours", order:40, build:function(){
+      var P = window.NMSKPeel;
+      if (!P || !P.state().on) return "<p>(not on this page)</p>";
+      var st = P.steps();
+      return "<p>One control for how deep, in " + st.length + " taps, from the skin inward &mdash; next to the per-system " +
+        "controls, which are unchanged. The order is this page's own tissue categories:</p><ol>" +
+        st.map(function(s){ return "<li><b>" + esc(s.label) + "</b> &mdash; <code>" + s.cats.join(", ") + "</code></li>"; }).join("") +
+        "</ol><p>What is left at the end is <b>bone and cartilage</b>.</p>" +
+        "<p>The <b>fat step is the superficial fascia</b>, by the structures' own Latin names: 17 of the 51 subcutaneous-fat " +
+        "meshes are labelled <i>Panniculus adiposus (tela subcutanea)</i>. What this atlas does not carry is a separate " +
+        "<b>membranous (Scarpa's) layer</b>, and the pages' own search data already says so: &ldquo;No page ships it as a mesh: " +
+        "the abdominal wall on these pages carries <code>Investing abdominal fascia</code> and the subcutaneous fat, not a " +
+        "separate membranous layer.&rdquo; The deep-fascia step holds the 61 investing sheets, septa and aponeuroses.</p>" +
+        "<p><b>Our convention, not anatomy:</b> <b>vessels, nerves and lymphatics come off together</b>, because the data " +
+        "holds no depth rank for a single vessel and real vessels cross every layer.</p>";
+    }});
+    I.add({key:"resets", title:"The two resets, and what each one touches", order:50, build:function(){
+      var M = window.NMSKModelReset;
+      var s = M && M.scope ? M.scope() : null;
+      return "<p><b>Module</b> puts the tool you are in back to its own defaults. <b>Model</b> puts the model back to how " +
+        "this page loaded. Both are a single Undo step.</p>" +
+        (s ? "<p><b>Model touches:</b> " + esc(s.touches) + ".</p><p><b>Model leaves alone:</b> " + esc(s.keeps) + ".</p>" : "");
+    }});
+    I.add({key:"fat", title:"Fat: off at load, and still filling every cut face", order:60, build:function(){
+      var F = window.NMSKFat, st = F && F.state ? F.state() : null;
+      return "<p>Fat and unlabelled soft tissue (Q295) is built from each body's <b>own imaging</b>, in the space no " +
+        "segmented structure covers. It is <b>off when the page loads</b>, as asked, and one tap in the Layers group shows it. " +
+        "Either way it <b>keeps filling the cut faces and the cross-sections</b>, because a section drawn without it reads " +
+        "as hollow &mdash; which is the whole reason Q295 built it.</p>" +
+        (st ? "<p>This page carries <b>" + st.count + "</b> such structures.</p>" : "");
+    }});
+  }
+  /* The group list is the SAME on both engines, by id. NMSKGroups drops a member whose ids are not on this page and a
+     group that ends up empty, so one list serves six pages and two engines -- that is what keeps them behaving alike.
+     `el` members are the boxes the Q301 modules build; everything else is an EXISTING button, moved here with its id
+     and its listeners intact, which is why no behaviour is duplicated and the old crowded bars empty themselves.
+     Long tables (the tissue-layer rows with their own sliders and solo buttons) are NOT moved in: the project's rule is
+     short menus, so the group offers the button that opens that panel instead. */
+  function defaultGroups(){
+    var R = window.NMSKRenderStyle, P = window.NMSKPeel, F = window.NMSKFat;
+    return [
+      {key:"view", label:"View", title:"Where you look from, and how the screen is laid out", members:[
+        {adopt:"foot"},                                  /* the Z engine's front / side / back / move / spin / reset row */
+        {adopt:["t-reset", "t-lay3", "t-layout", "sym-select", "btn-pose"]},
+        {combo:"spin", adopt:"btn-spin"}
+      ]},
+      {key:"layers", label:"Layers", title:"Which tissues are shown, how deep to peel, and the fat", members:[
+        {el:P && P.state().on ? document.getElementById("pl-box") : null, combo:"peel"},
+        {el:F && F.state().on ? document.getElementById("ft-box") : null, combo:"fat"},
+        {adopt:["btn-panel"], label2:"The full tissue-layer table, with its own opacity and solo controls, opens in the side panel."},
+        {combo:"preset", adopt:["btn-solid", "btn-bones", "btn-neuro", "btn-vasc", "btn-organs", "btn-insert"]},
+        {adopt:"sides"},
+        {combo:"srccolour", adopt:["src-colour"]}       /* the toggle lives here; its per-structure list stays in the i */
+      ]},
+      {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
+        {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
+        {combo:"boneread", adopt:"br-box"},
+        {adopt:["btn-xray", "t-xray"], label2:"The older X-ray is a transparency preset, not a radiographic picture."},
+        {adopt:["t-mode"]}
+      ]},
+      {key:"cut", label:"Cut", title:"Cut the model, and the cross-sections", members:[
+        {combo:"cut", adopt:["t-cut"]},
+        {adopt:["cut-exit", "cut-place", "cut-reset", "cut-flip"]},
+        {adopt:["t-slices", "lab-cutfill"]}
+      ]},
+      {key:"mark", label:"Mark", title:"Find, mark and isolate structures", members:[
+        {adopt:["t-iso", "t-only", "t-invert", "t-mark"]},
+        {combo:"marktap", adopt:["sel-markmode"]},
+        {adopt:["sel-markcur", "sel-clear", "ss-q-all", "sel-p-isolate", "sel-p-fadeoth", "sel-p-hidesel"]},
+        {combo:"highlight", adopt:["sel-p-hlsel"]},
+        {adopt:["box-clear"]}
+      ]},
+      {key:"learn", label:"Learn", title:"Learn, labels, quick view and the groups", members:[
+        {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
+      ]},
+      {key:"measure", label:"Measure", title:"Measure on the model", members:[
+        {combo:"measure", adopt:["t-measure"]}
+      ]}
+    ].map(function(g){ g.members = g.members.filter(function(m){ return m.el || m.adopt || m.label; }); return g; });
+  }
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      O = opt;
+      var hist = opt.history || window.NMSKHistory || null, sa = opt.showall || window.NMSKShowAll || null;
+      if (window.NMSKCombos) NMSKCombos.start({probes:opt.probes || []});
+      if (window.NMSKInfo) NMSKInfo.start({anchor:opt.anchor});
+      infoSections();
+      (opt.adopt || []).forEach(function(a){
+        var e = document.getElementById(a.id);
+        if (e && window.NMSKInfo) NMSKInfo.adoptEl(a.key, a.title, e, a.order);
+      });
+      if (opt.fat && window.NMSKFat) NMSKFat.start(opt.fat, {history:hist, showall:sa});
+      if (opt.peel && window.NMSKPeel) NMSKPeel.start(opt.peel, {history:hist, showall:sa});
+      if (opt.render && window.NMSKRenderStyle) NMSKRenderStyle.start(opt.render, {history:hist, showall:sa, xrayStep:opt.xrayStep});
+      if (window.NMSKGroups) NMSKGroups.start({anchor:opt.anchor, history:hist, modelreset:opt.modelreset || window.NMSKModelReset,
+        info:window.NMSKInfo, combos:window.NMSKCombos, groups:(opt.groups || defaultGroups()).concat(opt.extraGroups || [])});
+      if (window.NMSKTips && NMSKTips.fold) { try { NMSKTips.fold(); } catch (e){} }   /* the modules' own nmsk-tip notes get folded behind the small "i", as every panel's do */
+      on = true;
+      /* the clinical layer owns the reference and its file name: ask for it, then let the styles light up */
+      if (window.NMSKTissue){
+        NMSKTissue.load().then(function(){
+          loaded = true;
+          if (window.NMSKRenderStyle) NMSKRenderStyle.refresh();
+          if (window.NMSKInfo) NMSKInfo.refresh();
+          if (window.NMSKGroups) NMSKGroups.refresh();
+        }).catch(function(){ loaded = false; });
+      }
+      return api;
+    },
+    groupSpec:defaultGroups,
+    ready:function(){ return on && loaded; },
+    /* Verification only. page.screenshot returns a stale frame in this environment (Q300's finding), so the frame is
+       forced and read back here, inside the page: O.shot() draws exactly one frame, O.gl() hands over the context.
+       Returns what proves a style really changed -- how grey the picture is and where its brightness sits. */
+    pixels:function(step){
+      if (!O || typeof O.shot !== "function" || typeof O.gl !== "function") return null;
+      try { O.shot(); } catch (e){ return null; }
+      var gl = O.gl(); if (!gl) return null;
+      var w = gl.drawingBufferWidth | 0, h = gl.drawingBufferHeight | 0;
+      if (!(w > 0 && h > 0)) return null;
+      var buf = new Uint8Array(w * h * 4);
+      try { gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf); } catch (e2){ return null; }
+      /* The background has to be excluded or it swamps the statistics: one engine clears to transparent, the other to an
+         OPAQUE light grey, which would read as 90 % of a bright picture. The four corners of these views are always
+         field, so the field colour is taken from them and pixels within 6/255 of it are skipped. */
+      function at(x, y){ var o = ((y | 0) * w + (x | 0)) * 4; return [buf[o], buf[o+1], buf[o+2], buf[o+3]]; }
+      var C = [at(1, 1), at(w - 2, 1), at(1, h - 2), at(w - 2, h - 2)];
+      function isField(r, g, bl, a){
+        if (a < 9) return true;
+        for (var k = 0; k < 4; k++){
+          var c = C[k];
+          if (Math.abs(r - c[0]) <= 6 && Math.abs(g - c[1]) <= 6 && Math.abs(bl - c[2]) <= 6 && Math.abs(a - c[3]) <= 8) return true;
+        }
+        return false;
+      }
+      var s = Math.max(1, step | 0 || 2), n = 0, lum = 0, sat = 0, grey = 0, hist = [0,0,0,0,0,0,0,0], lum2 = 0;
+      for (var y = 0; y < h; y += s) for (var x = 0; x < w; x += s){
+        var o = (y * w + x) * 4, r = buf[o], g = buf[o+1], b = buf[o+2], a = buf[o+3];
+        if (isField(r, g, b, a)) continue;
+        var mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = 0.299*r + 0.587*g + 0.114*b;
+        n++; lum += l; lum2 += l * l; sat += (mx - mn);
+        if (mx - mn <= 6) grey++;
+        hist[Math.min(7, Math.floor(l / 32))]++;
+      }
+      if (!n) return {n:0};
+      return {n:n, w:w, h:h, field:C[0], lum:lum / n, sd:Math.sqrt(Math.max(0, lum2 / n - (lum / n) * (lum / n))),
+        sat:sat / n, greyFrac:grey / n, hist:hist.map(function(v){ return v / n; })};
+    },
+    state:function(){ return {on:on, tissue:loaded,
+      groups:window.NMSKGroups ? NMSKGroups.state() : null,
+      render:window.NMSKRenderStyle ? NMSKRenderStyle.state() : null,
+      peel:window.NMSKPeel ? NMSKPeel.state() : null,
+      fat:window.NMSKFat ? NMSKFat.state() : null,
+      combos:window.NMSKCombos ? NMSKCombos.state() : null,
+      info:window.NMSKInfo ? NMSKInfo.state() : null}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ301;
+</script>
+<!-- Q301 html end -->
 <!-- Q298 html begin -->
 <style>
 /* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
@@ -3552,6 +4858,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
              "void main(){vec3 p=aPos;vec3 q=aNrm;if(uSymOn>0.5){float s=dot(p,uSym.xyz)-uSym.w;p=p-2.0*s*uSym.xyz;q=q-2.0*dot(q,uSym.xyz)*uSym.xyz;}vN=uN*q;vP=p;gl_Position=uMVP*vec4(p,1.0);}";
     var FS = "precision mediump float;varying vec3 vN;varying vec3 vP;" +
       "uniform vec3 uColor;uniform float uAlpha;uniform float uHL;" +
+      "uniform float uXr;uniform float uMu;uniform float uD0;uniform float uFlat;" +      // Q301: the radiographic style
+
       "uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
       "void main(){" +
       " if(uClipOn>0.5 && (dot(vP,uClip.xyz)+uClip.w>0.0 || dot(vP,uClip2.xyz)+uClip2.w>0.0)) discard;" +
@@ -3562,7 +4870,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       " float rim=pow(1.0-abs(n.z),2.5)*0.26;" +
       " vec3 c=uColor*(0.34+d*0.74+f)+rim*uColor;" +
       " c=mix(c,vec3(0.35,0.80,0.96),uHL*0.6);" +
-      " gl_FragColor=vec4(c,uAlpha);}";
+      " if(uFlat>0.0) c=uColor*mix(0.34+d*0.74+f,1.0,uFlat)+rim*uColor*(1.0-uFlat);" +   // Q301: in CT / MRI the grey IS the datum, so the shading must not swamp it
+      " if(uXr>0.5){gl_FragColor=vec4(1.0,1.0,1.0,clamp(1.0-exp(-uMu*uD0),0.004,0.995));}" +   // Q301: a DRR
+      " else gl_FragColor=vec4(c,uAlpha);}";
     function sh(t, s) {
       var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o);
       if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o));
@@ -3577,6 +4887,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     gl.useProgram(prog);
     var U = {};
     ["uMVP","uN","uColor","uAlpha","uHL","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn","uSymOn","uSym"].forEach(function (n) {
+      U[n] = gl.getUniformLocation(prog, n);
+    });
+    ["uXr","uMu","uD0","uFlat"].forEach(function (n) {      // Q301: the radiographic styles, kept apart so no earlier round's anchor moves
       U[n] = gl.getUniformLocation(prog, n);
     });
 
@@ -3596,6 +4909,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     var cam = { az:DEF.az, el:DEF.el, dist:DEF.dist, tgt:DEF.tgt.slice() };
 
     var on = {}; LK.forEach(function (k) { on[k] = true; });
+    on.fat = false;        // Q301: plain fat is shown only when explicitly asked; it still fills every cut face (NMSKCapCore.capA)
     var alphaFor = {}; LK.forEach(function (k) { alphaFor[k] = 1; });
     // Q160: fascia sheets wrap the muscles; opaque by default they hide the muscle layer
     // (they were only invisible before because their inside-out winding was back-face culled)
@@ -3604,6 +4918,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     alphaFor.fat = 0.12;   // Q295: fat / unlabelled soft tissue from imaging: faint in 3-D, solid in the cut face
     alphaFor.skin = 0.3;    // Q186: skin (Regions of human body) shown as a translucent envelope by default   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
+    /* Q301: the model-wide render style. `grey` replaces every structure colour, `mu` is its real attenuation
+       (from the page's own clinical tissue reference), `d0` the path length per crossing (the 3 taps, and our convention). */
+    var q301 = {mode:"colour", grey:null, mu:null, d0:0.10, flatten:0}, q301Grey = new Map();
     var boneRead = 0, presetName = "", fadeLegacy = false;   // Q300: the bone-through pass's strength, which preset is on, and a switch back to the old flat fade (verification)
     var hidden = new Set(), faded = new Set(), soloLayer = null;
     function hideDefaults(){ OBJ.forEach(function(o){ if (o.hd) hidden.add(o); else if (o.fd) faded.add(o); }); }      // Q287: hidden (manifest `hd`) / faded (`fd`) by default, still listed; 'unhide' / 'unfade' on the card
@@ -3638,6 +4955,11 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       return k === "fade" ? Math.min(selCtl.fadeAlpha(fadeLegacy ? null : layer), fa) : k === "xray" ? Math.min(XRAY_A[layer] == null ? 0.3 : XRAY_A[layer], fa) : k === "ghost" ? Math.min(0.12, fa) : 1;
     }
     function colOf(o) {
+      if (q301.grey){                                   // Q301: a radiographic style paints greys, not tissue colours
+        var g = Math.round(Math.max(0, Math.min(1, q301.grey(o))) * 64) / 64, a = q301Grey.get(g);
+        if (!a){ a = [g, g, g]; q301Grey.set(g, a); }
+        return a;
+      }
       var c = (o.vt === "v" && COL.vein) ? COL.vein : (COL[o.layer] || [0.6,0.6,0.6]);
       if (selCtl && selCtl.look(o.id) === "hl") return hlCol(selCtl.hlHex());      // Q232: the selected group in a solid highlight colour
       if (selCtl && selCtl.tinted(o.id)) {      // Q227: a marked structure's colour toward amber (one stable array per base colour: draw runs compare by reference)
@@ -3683,7 +5005,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
     // Q188 add-on hook state (inert without the add-on)
     var addonDraw = [], addonClick = null, addonOpacity = null;
-    function layerAlpha(k) { var v = addonOpacity ? addonOpacity(k) : null; return v == null ? alphaFor[k] : Math.min(alphaFor[k], v); }
+    function layerAlpha(k) {
+      if (q301.mode === "xray") return 0.5;             // Q301: any value in (0.01, 0.999) -- the DRR shader sets the real alpha
+      var v = addonOpacity ? addonOpacity(k) : null; return v == null ? alphaFor[k] : Math.min(alphaFor[k], v); }
     function passBox(o) {
       if (!box.on) return true;
       var bn = o.bmin, bx = o.bmax; if (symPass){ var sb = symBox(o); bn = sb[0]; bx = sb[1]; }      // Q237
@@ -3738,6 +5062,10 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         gl.uniform1f(U.uBoxOn,1);
       } else gl.uniform1f(U.uBoxOn,0);
 
+      gl.uniform1f(U.uXr, q301.mode === "xray" ? 1 : 0);   // Q301: the DRR branch of the fragment shader
+      gl.uniform1f(U.uD0, q301.d0);
+      gl.uniform1f(U.uMu, 1);
+      gl.uniform1f(U.uFlat, q301.flatten || 0);
       gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
       function bind(B) {
         gl.bindBuffer(gl.ARRAY_BUFFER,B.pb); gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
@@ -3746,14 +5074,14 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       }
       // draw contiguous runs of objects passing `test`
       function runs(B, test) {
-        var s=-1,c=0,cc=null;
-        function fl(){ if(s>=0){ gl.uniform3f(U.uColor,cc[0],cc[1],cc[2]); gl.drawElements(gl.TRIANGLES,c,gl.UNSIGNED_SHORT,s*2); } s=-1;c=0;cc=null; }
+        var s=-1,c=0,cc=null,mm=-1;
+        function fl(){ if(s>=0){ gl.uniform3f(U.uColor,cc[0],cc[1],cc[2]); if(q301.mu) gl.uniform1f(U.uMu,mm); gl.drawElements(gl.TRIANGLES,c,gl.UNSIGNED_SHORT,s*2); } s=-1;c=0;cc=null;mm=-1; }
         for (var i=0;i<B.objs.length;i++) {
           var e=B.objs[i];
           if (!test(e)) { fl(); continue; }
-          var col=colOf(e);
-          if (s>=0 && col!==cc) fl();
-          if (s<0) { s=e.iStart; cc=col; }
+          var col=colOf(e), mu=q301.mu ? q301.mu(e) : -1;      // Q301: the attenuation is part of the run key
+          if (s>=0 && (col!==cc || mu!==mm)) fl();
+          if (s<0) { s=e.iStart; cc=col; mm=mu; }
           c+=e.iCount;
         }
         fl();
@@ -3797,7 +5125,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
          through a thick region, which is the owner's "can not be seen almost at all". Painting the bone again with the
          depth test off makes its share of the pixel equal to boneRead, whatever lies in front. vis() already honours
          the cut, the box, hide, solo and the side filter, so this pass needs no guard of its own. */
-      if (boneRead > 0 && (presetName === "xray" || selGroupFadedQ300())){
+      if (boneRead > 0 && q301.mode === "colour" && (presetName === "xray" || selGroupFadedQ300())){   // Q301: paused by any radiographic style, as on the own engine
         gl.enable(gl.BLEND); gl.disable(gl.DEPTH_TEST); gl.depthMask(false);
         BATCHES.forEach(function(B){
           if (B.layer !== "bone" && B.layer !== "cartilage") return;
@@ -9107,7 +10435,12 @@ function NMSKLearn(api){
       items:function(){
         var out = [];
         OBJ.forEach(function(o, i){
-          if (!vis(o)) return;
+          if (!vis(o)){
+            if (!(o.layer === "fat" && !on.fat && !hidden.has(o) && passClip(o) && passBox(o))) return;
+            out.push({key:o.id, name:o.name, cat:"fat", rgb:colOf(o), alpha:Math.max(0.9, alphaFor.fat),   // Q301: fat fills the cut face even when it is not drawn in 3-D
+              geom:(function(j, p){ return function(){ return capGeom(j, p); }; })(i, o)});
+            return;
+          }
           var lk = selLook(o), a = faded.has(o) ? Math.min(0.18, alphaFor[o.layer]) : (lk === "ghost" || lk === "fade" || lk === "xray" ? selAlpha(lk, o.layer, lk === "ghost" ? alphaFor[o.layer] : layerAlpha(o.layer)) : (lk === "hl" ? 1 : layerAlpha(o.layer))), c = colOf(o);     // a faded structure fades its cut face too (< 20 %: no face)
           if (selected === o) c = [c[0] * 0.4 + 0.21, c[1] * 0.4 + 0.48, c[2] * 0.4 + 0.576];     // the shader mixes the selected structure toward light blue
           out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});
@@ -9141,7 +10474,12 @@ function NMSKLearn(api){
       items:function(){
         var out = [];
         OBJ.forEach(function(o, i){
-          if (!vis(o)) return;
+          if (!vis(o)){
+            if (!(o.layer === "fat" && !on.fat && !hidden.has(o) && passClip(o) && passBox(o))) return;
+            out.push({key:o.id, name:o.name, cat:"fat", rgb:colOf(o), alpha:Math.max(0.9, alphaFor.fat),   // Q301: fat fills the cut face even when it is not drawn in 3-D
+              geom:(function(j, p){ return function(){ return capGeom(j, p); }; })(i, o)});
+            return;
+          }
           var lk = selLook(o), a = faded.has(o) ? Math.min(0.18, alphaFor[o.layer]) : (lk === "ghost" || lk === "fade" || lk === "xray" ? selAlpha(lk, o.layer, lk === "ghost" ? alphaFor[o.layer] : layerAlpha(o.layer)) : (lk === "hl" ? 1 : layerAlpha(o.layer))), c = colOf(o);
           if (selected === o) c = [c[0] * 0.4 + 0.21, c[1] * 0.4 + 0.48, c[2] * 0.4 + 0.576];
           out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});
@@ -9692,6 +11030,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       if(boxClear) boxClear.classList.remove("on");
       LK.forEach(function(k){on[k]=true;alphaFor[k]=1;});
       alphaFor.skin=0.3;
+      alphaFor.fat=0.12;
+      if (window.NMSKFat) NMSKFat.set(false); else on.fat=false;      // Q301: plain fat is off by default, and a reset goes to the default
       sync(); select(null); renderList(); need=true;
     }
     document.getElementById("btn-reset").onclick=resetAll;
@@ -10004,6 +11344,86 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         }
         return {w:gw, h:gh, step:step, luma:out};
       };
+      /* Q301 glue begin */
+      /* ---- Q301: the one control, the groups, the radiographic render styles, the depth peel, the fat default ----
+         Everything shareable is in viewer/q301/; this is only what this engine draws with. Spliced by
+         scripts/anatomy/q301/patch_engines_q301.py, which keeps it identical in shape to the own engine's. */
+      NMSKQ301.start({
+        anchor:A.canvas, history:NMSKHistory, showall:NMSKShowAll, modelreset:NMSKModelReset,
+        /* X-ray step 0 (Soft) by default on THIS engine, by measurement rather than by symmetry: these pages carry
+           3,252 meshes against the own engine's ~950, so a ray crosses three to four times as many shells and the same
+           path length burns the highlights out (at 0.10 the luminance reached 206/255 with half the model in the top
+           histogram bin). The own-engine pages default to Normal. Figures: data/derived/Q301_browser_report.json. */
+        xrayStep:0,
+        /* the model-wide render style. colOf() takes the grey, the fragment shader's DRR branch takes mu and d0. */
+        render:{
+          active:function(){ return q301.mode !== "colour"; },
+          apply:function(sp){
+            q301Grey.clear();
+            if (!sp || sp.mode === "colour") q301 = {mode:"colour", grey:null, mu:null, d0:0.10, flatten:0};
+            else q301 = {mode:sp.mode, d0:sp.d0 == null ? 0.10 : sp.d0, flatten:sp.flatten || 0,
+              grey:function(o){ return sp.greyOf(o.layer, o.id, o.name, o.vt); },
+              mu:sp.muOf ? function(o){ return sp.muOf(o.layer, o.id, o.name, o.vt); } : null};
+            sync(); need = true;
+          },
+          redraw:function(){ need = true; },
+          film:function(v){ document.documentElement.classList.toggle("q301-film", !!v); readColors(); need = true; }
+        },
+        /* the depth peel writes the same layer table the presets write -- which is why NMSKCombos calls them incompatible */
+        peel:{
+          cats:function(){ return LK.slice(); },
+          count:function(k){ var n = 0; OBJ.forEach(function(o){ if (o.layer === k) n++; }); return n; },
+          off:function(keys){
+            var S = {}; keys.forEach(function(k){ S[k] = true; });
+            LK.forEach(function(k){ on[k] = S[k] ? false : (k === "fat" ? (window.NMSKFat ? NMSKFat.on() : false) : true); });
+            presetName = ""; sync(); need = true;
+          },
+          redraw:function(){ need = true; }
+        },
+        fat:{
+          count:function(){ var n = 0; OBJ.forEach(function(o){ if (o.layer === "fat") n++; }); return n; },
+          shown:function(){ return !!on.fat; },
+          set:function(v){ on.fat = !!v; sync(); need = true; },
+          redraw:function(){ need = true; }
+        },
+        /* one probe per action the compatibility matrix can name; nothing in NMSKCombos knows what any of them does */
+        probes:[
+          {key:"imaging", label:"Imaging style", active:function(){ return q301.mode !== "colour"; }},
+          {key:"cut", label:"Cut", active:function(){ return !!(cutCtl && cutCtl.state().on); }},
+          {key:"xsec", label:"Cross-section", active:function(){ return !!(xsecCtl && xsecCtl.isOn()); }},
+          {key:"peel", label:"Depth peel", active:function(){ return !!(window.NMSKPeel && NMSKPeel.step() > 0); }},
+          {key:"fat", label:"Fat shown", active:function(){ return !!on.fat; }},
+          {key:"preset", label:"Tissue preset", active:function(){ return !!presetName && presetName !== "all"; }},
+          {key:"solo", label:"Solo one layer", active:function(){ return !!soloLayer; }},
+          {key:"boneread", label:"Bone through soft tissue", active:function(){ return !!(window.NMSKBoneRead && NMSKBoneRead.level() > 0); }},
+          {key:"highlight", label:"Highlight the marked", active:function(){ return !!(selCtl && selCtl.active() && selCtl.state().sel === "hl"); }},
+          {key:"measure", label:"Measure", active:function(){ return !!(window.NMSKMeasure && NMSKMeasure.state().open); }},
+          {key:"spin", label:"Spin", active:function(){ var b = document.getElementById("btn-spin"); return !!(b && b.classList.contains("on")); }},
+          {key:"marktap", label:"Mark by tapping", active:function(){ var b = document.getElementById("sel-markmode"); return !!(b && b.getAttribute("aria-pressed") === "true"); }},
+          {key:"cutplace", label:"Place the cut on the model", active:function(){ var b = document.getElementById("cut-place"); return !!(b && b.getAttribute("aria-pressed") === "true"); }},
+          {key:"srccolour", label:"Colour by source", active:function(){ var b = document.getElementById("src-colour"); return !!(b && b.getAttribute("aria-pressed") === "true"); }}
+        ],
+        /* the page-wide prose moves behind the circled i: the button that opens the licence sheet, and the per-structure
+           source panel. The STRUCTURE CARD keeps saying where its own geometry comes from -- Q297 found cards that lied
+           about that, so it does not move out of reach, it only stops taking the screen. */
+        adopt:[{key:"sources", title:"Sources and licence", order:90, id:"about-btn"},
+               {key:"srcpanel", title:"Where each structure's geometry comes from", order:92, id:"src-sec"}],
+        /* verification hooks: a screenshot of this canvas is not reliable under software rendering (Q300) */
+        shot:function(){ draw(); },
+        gl:function(){ return gl; }
+      });
+      /* the cut face keeps its fat whatever the 3-D state is; this reports exactly the predicate the patched builder uses */
+      window.__q301capFat = function(){
+        var total = 0, filled = 0;
+        OBJ.forEach(function(o){
+          if (o.layer !== "fat") return;
+          total++;
+          if (vis(o) || (!on.fat && !hidden.has(o) && passClip(o) && passBox(o))) filled++;
+        });
+        return {total:total, filled:filled, shown:!!on.fat,
+                capA:NMSKCapCore.capA({cat:"fat", alpha:Math.max(0.9, alphaFor.fat)})};
+      };
+      /* Q301 glue end */
       window.__q300dbg = {
         allOn:q300AllOn,
         onlyBone:function(){ q300AllOn(); q300Click("btn-bones"); },
