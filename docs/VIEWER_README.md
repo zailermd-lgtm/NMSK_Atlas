@@ -539,7 +539,7 @@ verification status); nothing is retyped in the viewer, and a test fails if it e
 
 Each style has three taps of its own, and the right answers come out: cortical bone is white and fat dark in CT, fat is
 the brightest thing on T1, free fluid the brightest on T2, and fat is suppressed on PD fat-sat. Measured in rendered
-pixels: switching to any style drops the picture's colour saturation from 57–108 to 0–2 and makes 100 % of its pixels
+pixels: switching to any style drops the picture's colour saturation from 28–57 to 0–2 and makes 100 % of its pixels
 pure grey, and the three styles' mean luminances sit tens of grey levels apart.
 
 **What is ours rather than measured**, all of it also in the ⓘ: the **path length per crossing** in X-ray (a surface
@@ -581,3 +581,92 @@ every layer.
 
 Every one of these states is a **single Undo step**, is reached by Q300's **Show everything** (a greyscale model and a
 peeled body both get their own chip with its own ✕), and is put back by the **model reset**.
+
+## Q303 — imaging that goes where you already pointed, four views of one model, and nerves you can see
+
+**Imaging centres itself on what you already chose.** Entering CT / MR, the ultrasound, a cut, the cross-sections or one
+of Q301's radiographic styles no longer drops you somewhere else and makes you navigate back. The target is decided in
+one place and in one fixed order: **the marked structures** (their combined bounding box), then **the structure whose
+card is open**, then **the result you picked out of a search**. With none of those, **nothing moves at all** — it never
+jumps when there is nothing to jump to, and that is asserted by measuring that the slice point, the probe, the plane and
+the camera are byte-identical before and after. The pattern is 3D Slicer's *Jump slices — centered*, which its Markups
+module offers as an explicit choice against *offset*; so it is a choice here too, with **Follow what I chose** in the
+View group, on by default and remembered in this browser. What "centred" means is written in each mode's own terms: the
+**CT / MR** slice point becomes the centre and every pane's own in-plane centre is released so it follows it, which is
+the slice level and the in-plane position in one move; the **ultrasound** probe is seated on the skin where a ray from
+the camera through the centre meets it, falling back to the six anatomical directions when no skin lies along that ray;
+the **cut plane keeps the orientation you chose** and only slides along its own normal; the **cross-section stack** is
+centred on that same plane, or in part mode takes the structures you chose as its part; and a **radiographic style**
+frames the camera on them. A line on the screen says what it centred on and why, each centring is a **single Undo
+step**, and both resets undo it.
+
+**Four views of the same model at once.** One **Four views** button in the View group turns the 3-D view into four
+panes — **Anterior · Lateral · Superior · 3-D** — each with its own camera. The set is 3D Slicer's *Four-Up* convention
+(three orthogonal slice views plus the 3-D view; for a surface model the equivalent of a slice normal is looking along
+that anatomical axis), and Visible Body's own single-view presets are the same directions. We found no documentation for
+a four-pane layout in any commercial anatomy atlas, so the grid is Slicer's idea and **which quadrant holds which pane
+is ours** — the free view sits where Slicer puts the 3-D one, and the ⓘ says so. It is **one model seen four ways, not
+four models**: selection, marking, hiding, the layers, the depth peel, the radiographic style and the cut are the
+engine's single state, and the panes are four viewports over that one scene, so they cannot disagree. The pane you touch
+owns the camera, so dragging, the wheel and pinch act on it alone; tapping a pane's square shows only that pane, and
+restore brings the four back. Entering, expanding and restoring are each **one Undo step**, and the model reset returns
+a single view. **At 390 px it stays 2×2, and that was decided by measuring:** each pane is **195 × 422 CSS px**, every
+pane's square is 25 × 24 px and hit-testable, a real touch inside a pane picks the structure under that pane's own
+camera, and there is no horizontal scroll — so no 2-up fallback was needed. While four panes are on, the overlays that
+are drawn for *one* camera over the whole canvas — the structure labels, the axis gnomon, the scale bar, the cut
+outline, the part markers and the measuring chips — **stand down** rather than being drawn in the wrong place; expanding
+a pane brings them straight back, and Measure is marked incompatible with four panes for exactly that reason, with the
+line *"Tap a pane's square to show only that pane, then measure there"* printed under it.
+
+**"Facing me", and views you can name.** **Facing me** turns the selected structure to face you. The rule is one line,
+and it is one rule rather than two on purpose: **the camera looks along the structure's own axis of least spread** — the
+minor principal axis of its vertices. For a flat structure that axis *is* the surface normal, so the broad face turns
+toward you; for a tube it lies across the shaft, so the long axis runs across the screen at full length instead of
+pointing at you. Blender's *Align View to Active* is the precedent and uses two rules for these two cases (an object
+axis, or a face normal in Edit Mode); the single rule was chosen because it becomes each of them, and because it is
+measurably the largest view of the structure there is — the silhouette's area goes as the square root of the product of
+the other two eigenvalues, so looking along the smallest wins by √(λ₁/λ₃), and the per-structure figure is reported.
+The camera ends **within 2° of that axis** (measured: 0.000°; the only limit is the pole of the az/el parameterisation,
+which both engines share, so the arithmetic is identical in both). The sign is chosen to keep the camera on the side it
+is already on, so it never swings round the body. Beside it, **Save this view** remembers where the camera is now under
+a name and brings it back **in one tap** — the pattern Visible Body documents as storing a view on a key and pressing
+that key again. Up to eight, kept in this browser only; a saved view holds the **camera and the pane layout and nothing
+else** (deliberately not the model's visibility, which would quietly reopen the door Q300 closed), and neither reset
+touches the list. The standard views — front / side / back and each engine's own reset — are unchanged.
+
+**The nerves, including the small ones.** Why they were invisible was measured before anything was changed, not guessed.
+The pages already carry their own calibre table (Q240 — every artery, vein and nerve's diameter measured off the mesh),
+and it says what the problem is: the **median nerve diameter is 1.0 mm on the four Z pages** (0.13–7.8 mm) and 1.4–1.8 mm
+on the two Imaging pages, while a whole-body view puts the body's full height into the height of the 3-D view, which is
+about **1.9 mm per pixel**. So most nerves are drawn **well under one pixel wide** — at that scale **357 of the 439** nerves on Base M, **111 of 201** on Imaging M, about **81 %** of them on a Z page. Nothing is wrong with the mesh, the
+decimation or the draw order — the structure is simply sub-pixel, and no colour or opacity rescues a line thinner than a
+pixel. The answer is the pattern this project has already proven twice rather than a third invention: Q299's **minimum
+drawn width** for a thin section, and Q300's **extra pass after the translucent one** so a structure's share of the pixel
+does not depend on how many layers lie in front of it. **Nerves** in the View group is three taps — **Off · Clear ·
+Strong** — and draws an extra pass over the nerves' own vertices, after everything, on the camera-facing half of the
+model, each vertex a round dot whose width is `max(the step's minimum in pixels, the nerve's true width in pixels)`. A
+nerve already wider than the minimum is **not touched**. **Which structures it covers is the page's own answer, not
+ours:** every structure the calibre table records as a nerve — 439 of the 552 nerve-category meshes on a Z page, 201 and
+244 on the two Imaging pages — the trunks and every named branch, the small ones included. The rest of the nerve and
+`cns` categories is the spinal dura, the cord, its tracts and its nuclei (`Lateral fasciculus proprius`,
+`Intermediolateral nucleus` and the like); none of those is a peripheral nerve you would want widened, they are more
+than half the vertices in those two categories, and the control says how many it is leaving as they are. The shader is one GLSL string carried byte-identical by both
+templates — compiled by the Z engine into a tiny program of its own and by the own engine into a `RawShaderMaterial` —
+so the two engines run the same arithmetic, which is the rule Q301 set when it refused to ship physics they would have
+computed differently. **The honesty rule:** no mesh is changed and no geometry is written; the **true calibre stays the
+record** and is what the structure's card and the vessel / nerve legend print, the control states how many nerves carry
+a measured diameter and how many have none, and the emphasis is labelled a **display aid** everywhere it appears. It
+composes with what is already there: it switches the **nerve system toggle** on rather than fighting it, it is clipped
+by the cut, it survives the depth peel and Q300's fade, and the motor points / NMJ markers follow the needle tool's own
+*Emphasize motor points*, which this control switches on with it rather than drawing a second set that could fall out of
+step. With a **radiographic style** on it is marked incompatible, per Q301's own rule, and says what to use instead: a
+greyscale picture has no highlight colour. And where a page simply does not carry a nerve, the control **says so** — the
+two Imaging pages ship no fibular (peroneal) nerve at all, which is Q299's finding, asserted here against the shipped
+calibre table, because emphasis cannot show a nerve that is not there.
+
+Every one of these is a **single Undo step** and is put back by the **model reset**. Three of them needed state that
+Q294's history deliberately does not watch — the camera, the clinical tools' slice point and probe pose, and the four
+panes' cameras — so they go through one small module that keeps a **counter** in the history and the values beside it:
+one history entry per action, one press of Undo to go back, and no unrelated Undo ever moves the camera. The first draft
+published a "before" value and committed it, which produced two entries and a second Undo press that did nothing
+visible; this round's own standalone harness caught that before either template was touched.

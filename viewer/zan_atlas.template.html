@@ -2883,6 +2883,13 @@ var NMSKCombos = (function(){
       return api;
     },
     add:function(p){ if (p && p.key && typeof p.active === "function"){ P[p.key] = p; sig = ""; refresh(); } },
+    /* Q303: one more row in the same table, from a round that did not exist when the table was written. A pair
+       already present is left alone, so re-registering is harmless. */
+    addPair:function(r){
+      if (!r || !r.a || !r.b) return false;
+      for (var i = 0; i < PAIRS.length; i++) if (PAIRS[i].a === r.a && PAIRS[i].b === r.b) return false;
+      PAIRS.push(r); sig = ""; refresh(); return true;
+    },
     verdict:verdict, refresh:refresh,
     keys:function(){ return Object.keys(P).sort(); },
     pairs:function(){ return PAIRS.map(function(r){ return {a:r.a, b:r.b, ok:r.ok, why:r.why}; }); },
@@ -3646,6 +3653,17 @@ var NMSKGroups = (function(){
       on = true; paint();
       return api;
     },
+    /* Q303: a module that starts AFTER this bar was built cannot be in the table it was built from -- the same gap
+       Q301 closed in Q300's NMSKShowAll with add(source). A member joins an EXISTING group here, in the same shape
+       the table uses, so a later round adds to View instead of adding a new top-level button. */
+    addTo:function(key, m){
+      if (!m || !(m.el || m.adopt || m.label)) return false;
+      var g = null; G.forEach(function(q){ if (q.key === key) g = q; });
+      if (!g) return false;
+      g.members.push(m);
+      if (cur === key){ closeSheet(); openSheet(key); } else paint();
+      return true;
+    },
     open:openSheet, close:closeSheet, isOpen:function(){ return cur; }, refresh:paint,
     parked:function(){ return park ? park.children.length : 0; },
     groups:function(){ return G.map(function(g){ return {key:g.key, label:g.label, n:g.members.length, live:anyActive(g)}; }); },
@@ -3881,6 +3899,1658 @@ var NMSKQ301 = (function(){
 if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ301;
 </script>
 <!-- Q301 html end -->
+<!-- Q303 html begin -->
+<style>
+/* Q303: the four-pane frame, the custom-view row, the auto-focus line and the nerve-emphasis control.
+   Z-INDEX, LEARNED THE HARD WAY TWICE IN Q301. Q301's control bar is 62, its group sheet 61, its corner "i" 60 and its
+   info drawer 70; Q300's chip bar is 2147482000. Everything here sits at 55-58, UNDER all of them, and the pane frame
+   passes pointer events straight through except on its own header -- so nothing of this round can ever swallow Undo.
+   The `hidden` attribute is only display:none from the UA stylesheet and loses to any author `display` rule, which is
+   exactly the Q301 defect (the info drawer swallowed Undo on a 390 px phone), so every element here that is toggled with
+   `hidden` carries its own !important guard. */
+.q3-grid[hidden], .q3-note[hidden], .nv-box[hidden], .q3-views[hidden], .q3-focus[hidden]{display:none !important}
+
+/* ---- the four-pane frame: lines and labels over the picture, and nothing else ---- */
+.q3-grid{position:fixed;z-index:55;pointer-events:none;box-sizing:border-box}
+.q3-cell{position:absolute;box-sizing:border-box;pointer-events:none;
+  border:1px solid color-mix(in srgb, currentColor 22%, transparent);border-radius:6px}
+.q3-cell.act{border-color:color-mix(in srgb, currentColor 55%, transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 22%, transparent)}
+.q3-ch{position:absolute;left:4px;top:4px;display:flex;gap:4px;align-items:center;pointer-events:auto;
+  padding:2px 4px;border-radius:7px;font:600 11px/1.1 system-ui,sans-serif;
+  background:color-mix(in srgb, Canvas 78%, transparent);color:CanvasText}
+.q3-cl{letter-spacing:.02em;opacity:.85}
+.q3-cx{min-width:26px;min-height:26px;display:inline-flex;align-items:center;justify-content:center;
+  padding:0 4px;border:1px solid color-mix(in srgb, currentColor 28%, transparent);border-radius:6px;
+  background:transparent;color:inherit;font:600 11px/1 system-ui,sans-serif;cursor:pointer}
+.q3-cx:hover{background:color-mix(in srgb, currentColor 12%, transparent)}
+/* The one-camera overlays stand down while four panes are on. Every one of them is drawn for ONE camera over the WHOLE
+   canvas (the labels solve their layout against the full rect, the gnomon and the scale bar read the single camera, the
+   cut outline and the part markers project through it), so in four panes they would be in the wrong place. The ids are
+   the real ones, checked against both templates: #axes and #scalebar exist on the own engine only, the other three on
+   both. The engines' draw also skips the calls themselves; this is the DOM half. Expanding a pane brings them back. */
+body.q303-four #axes, body.q303-four #scalebar, body.q303-four #lab-layer,
+body.q303-four #pm-layer, body.q303-four #cut-svg,
+body.q303-four .ms-bar, body.q303-four .ms-pane-b{display:none !important}
+
+/* ---- the line that says what was centred on what ---- */
+.q3-note{position:fixed;z-index:58;pointer-events:none;box-sizing:border-box;display:flex;gap:6px;align-items:flex-start;
+  padding:5px 7px;border-radius:9px;font:500 12px/1.35 system-ui,sans-serif;
+  background:color-mix(in srgb, Canvas 90%, transparent);color:CanvasText;
+  border:1px solid color-mix(in srgb, currentColor 22%, transparent);box-shadow:0 1px 6px rgba(0,0,0,.14)}
+.q3-note-t{flex:1 1 auto}
+.q3-note-x{flex:0 0 auto;pointer-events:auto;min-width:22px;min-height:22px;border:0;background:transparent;color:inherit;
+  font:600 14px/1 system-ui,sans-serif;cursor:pointer;border-radius:5px}
+.q3-note-x:hover{background:color-mix(in srgb, currentColor 14%, transparent)}
+
+/* ---- the View group's new rows ---- */
+.q3-views, .q3-focus{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
+.q3-views .nmsk-tip, .q3-focus .nmsk-tip, .nv-note, .nv-box .nmsk-tip{flex:1 1 100%;margin:2px 0 0;
+  font:400 11px/1.35 system-ui,sans-serif;opacity:.8}
+.q3-b{min-height:30px;padding:3px 8px;border:1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius:8px;background:transparent;color:inherit;font:600 12px/1.1 system-ui,sans-serif;cursor:pointer}
+.q3-b[aria-pressed="true"]{background:color-mix(in srgb, currentColor 16%, transparent)}
+.q3-b:disabled{opacity:.45;cursor:default}
+.q3-vsave{display:inline-flex;gap:4px;align-items:center}
+.q3-vname{min-height:28px;width:9.5em;max-width:40vw;box-sizing:border-box;padding:2px 6px;
+  border:1px solid color-mix(in srgb, currentColor 30%, transparent);border-radius:7px;
+  background:transparent;color:inherit;font:400 12px/1.1 system-ui,sans-serif}
+.q3-vchips{display:flex;flex-wrap:wrap;gap:4px;width:100%}
+.q3-none{font:400 11px/1.3 system-ui,sans-serif;opacity:.6}
+.q3-vchip{display:inline-flex;align-items:stretch;border:1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius:8px;overflow:hidden}
+.q3-vb{min-height:28px;padding:2px 7px;border:0;background:transparent;color:inherit;
+  font:600 12px/1.1 system-ui,sans-serif;cursor:pointer;max-width:11em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q3-vx{min-width:24px;min-height:28px;border:0;border-left:1px solid color-mix(in srgb, currentColor 22%, transparent);
+  background:transparent;color:inherit;font:600 13px/1 system-ui,sans-serif;cursor:pointer}
+.q3-vb:hover, .q3-vx:hover{background:color-mix(in srgb, currentColor 12%, transparent)}
+
+/* ---- the nerve emphasis control: three taps, never a slider (the project's mobile rule) ---- */
+.nv-box{display:flex;flex-wrap:wrap;gap:5px;align-items:center;width:100%}
+.nv-l{font:600 12px/1.1 system-ui,sans-serif;opacity:.85}
+.nv-seg{display:inline-flex;border:1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius:8px;overflow:hidden}
+.nv-b{min-width:46px;min-height:30px;padding:3px 8px;border:0;background:transparent;color:inherit;
+  font:600 12px/1.1 system-ui,sans-serif;cursor:pointer}
+.nv-b + .nv-b{border-left:1px solid color-mix(in srgb, currentColor 22%, transparent)}
+.nv-b[aria-pressed="true"]{background:color-mix(in srgb, currentColor 18%, transparent)}
+
+@media (max-width:520px){
+  .q3-ch{font-size:10px;padding:1px 3px}
+  .q3-cx{min-width:24px;min-height:24px}
+  .q3-note{font-size:11px}
+  .q3-vname{width:7em}
+}
+</style>
+<script>
+/* Q303: the principal axes of a structure's own vertices -- shared, so "facing me" computes the same thing on both
+   engines. Jacobi rotations on the 3x3 covariance: exact to machine precision for a symmetric matrix, no library, and
+   the same code on both templates (the rule Q301 D3(7) set when it refused to ship physics that would have been
+   computed differently in the two engines).
+   The vertices are SAMPLED with a stride when there are many: a principal axis is a second moment, and a stride over a
+   triangulated surface leaves it unchanged to well inside the precision this is used at (the camera is then pointed with
+   it). The stride actually used is reported, so the number is never silently approximate.
+     NMSKPCA.axes(pts, stride) -> {n, c:[3], e:[[3],[3],[3]], lam:[3], ext:[3], stride}
+   pts is an array of flat xyz arrays (one per structure); lam is sorted descending and e[k] is lam[k]'s axis, so e[2] is
+   the axis of LEAST spread. ext[k] is the structure's full extent along e[k], in the model's own millimetres. */
+var NMSKPCA = (function(){
+  "use strict";
+  var MAXPTS = 6000;
+  function axes(pts, stride){
+    var all = [].concat(pts || []).filter(function(a){ return a && a.length >= 3; });
+    if (!all.length) return null;
+    var tot = 0;
+    all.forEach(function(a){ tot += Math.floor(a.length / 3); });
+    if (!tot) return null;
+    var st = stride | 0;
+    if (st < 1) st = Math.max(1, Math.ceil(tot / MAXPTS));
+    var n = 0, cx = 0, cy = 0, cz = 0, i, a, k;
+    for (i = 0; i < all.length; i++){
+      a = all[i];
+      for (k = 0; k + 2 < a.length; k += 3 * st){ cx += a[k]; cy += a[k + 1]; cz += a[k + 2]; n++; }
+    }
+    if (n < 3) return null;
+    cx /= n; cy /= n; cz /= n;
+    var m = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    for (i = 0; i < all.length; i++){
+      a = all[i];
+      for (k = 0; k + 2 < a.length; k += 3 * st){
+        var x = a[k] - cx, y = a[k + 1] - cy, z = a[k + 2] - cz;
+        m[0][0] += x * x; m[0][1] += x * y; m[0][2] += x * z;
+        m[1][1] += y * y; m[1][2] += y * z; m[2][2] += z * z;
+      }
+    }
+    m[0][0] /= n; m[0][1] /= n; m[0][2] /= n; m[1][1] /= n; m[1][2] /= n; m[2][2] /= n;
+    m[1][0] = m[0][1]; m[2][0] = m[0][2]; m[2][1] = m[1][2];
+    /* Jacobi: zero the largest off-diagonal element in turn; V accumulates the rotations */
+    var V = [[1, 0, 0], [0, 1, 0], [0, 0, 1]], sweep;
+    for (sweep = 0; sweep < 32; sweep++){
+      var p = 0, q = 1, best = Math.abs(m[0][1]);
+      if (Math.abs(m[0][2]) > best){ best = Math.abs(m[0][2]); p = 0; q = 2; }
+      if (Math.abs(m[1][2]) > best){ best = Math.abs(m[1][2]); p = 1; q = 2; }
+      if (best < 1e-12) break;
+      var th = 0.5 * Math.atan2(2 * m[p][q], m[q][q] - m[p][p]), c = Math.cos(th), s = Math.sin(th);
+      var M = [[m[0][0], m[0][1], m[0][2]], [m[1][0], m[1][1], m[1][2]], [m[2][0], m[2][1], m[2][2]]];
+      var R = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+      R[p][p] = c; R[q][q] = c; R[p][q] = s; R[q][p] = -s;
+      var T = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], r2, c2, k2;
+      for (r2 = 0; r2 < 3; r2++) for (c2 = 0; c2 < 3; c2++){ var v = 0; for (k2 = 0; k2 < 3; k2++) v += R[k2][r2] * M[k2][c2]; T[r2][c2] = v; }
+      for (r2 = 0; r2 < 3; r2++) for (c2 = 0; c2 < 3; c2++){ var v2 = 0; for (k2 = 0; k2 < 3; k2++) v2 += T[r2][k2] * R[k2][c2]; m[r2][c2] = v2; }
+      var NV = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+      for (r2 = 0; r2 < 3; r2++) for (c2 = 0; c2 < 3; c2++){ var v3 = 0; for (k2 = 0; k2 < 3; k2++) v3 += V[r2][k2] * R[k2][c2]; NV[r2][c2] = v3; }
+      V = NV;
+    }
+    var ev = [{l:m[0][0], v:[V[0][0], V[1][0], V[2][0]]},
+              {l:m[1][1], v:[V[0][1], V[1][1], V[2][1]]},
+              {l:m[2][2], v:[V[0][2], V[1][2], V[2][2]]}];
+    ev.sort(function(x, y){ return y.l - x.l; });
+    ev.forEach(function(e){ var L = Math.hypot(e.v[0], e.v[1], e.v[2]) || 1; e.v = [e.v[0] / L, e.v[1] / L, e.v[2] / L]; });
+    /* the full extent along each axis, so the framing matches the picture rather than a bounding sphere */
+    var lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30];
+    for (i = 0; i < all.length; i++){
+      a = all[i];
+      for (k = 0; k + 2 < a.length; k += 3 * st){
+        var dx = a[k] - cx, dy = a[k + 1] - cy, dz = a[k + 2] - cz;
+        for (var j = 0; j < 3; j++){
+          var t = dx * ev[j].v[0] + dy * ev[j].v[1] + dz * ev[j].v[2];
+          if (t < lo[j]) lo[j] = t; if (t > hi[j]) hi[j] = t;
+        }
+      }
+    }
+    return {n:n, stride:st, c:[cx, cy, cz], e:[ev[0].v, ev[1].v, ev[2].v],
+            lam:[Math.max(0, ev[0].l), Math.max(0, ev[1].l), Math.max(0, ev[2].l)],
+            ext:[hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2]]};
+  }
+  return {axes:axes, maxPoints:function(){ return MAXPTS; }};
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKPCA;
+/* Q303: ONE undo step, for state Q294's history must not watch continuously.
+   THE PROBLEM, found by this round's own harness before a template was touched. Q294's history snapshots every
+   registered provider's get() whenever input settles, and compares snapshots as strings. Three things this round
+   changes are deliberately NOT in that model: the camera (Q294 left it out on purpose -- "it is a view, not a state
+   change"), the clinical tools' slice point and probe pose, and the four panes' cameras. Registering them as ordinary
+   providers would make every unrelated Undo move the camera as well. The first draft instead published the BEFORE state
+   and committed, then the AFTER state and committed -- which produced TWO entries, so a second Undo press did nothing
+   visible. The harness caught it ("facing me: one undo step" failed) and this module is the fix.
+   THE SHAPE. The provider's get() is a plain COUNTER, so it is stable between actions and nothing else can disturb it.
+   The real values live in a side table keyed by that counter. An action files "where we are now" under the counter the
+   history already holds, does its work, moves the counter on, files the new value, and commits ONCE. Undo restores the
+   previous entry, whose counter names the BEFORE value; Redo names the AFTER one. One entry, one press, either way.
+     NMSKStep.make(history, key, read, write) -> {step(fn), n(), filed(), value(n)}
+     NMSKStep.hold(fn)                               run several modules' steps as ONE entry
+   read() returns a JSON-able value; write(v) applies one. */
+var NMSKStep = (function(){
+  "use strict";
+  var MAX = 120, HOLD = 0, HISTS = [];
+  function make(hist, key, read, write){
+    if (hist && HISTS.indexOf(hist) < 0) HISTS.push(hist);
+    var n = 0, seq = 0, side = {}, order = [];
+    function file(k){
+      var v = null;
+      try { v = read(); } catch (err){ v = null; }
+      if (side[k] === undefined) order.push(k);
+      side[k] = v;
+      while (order.length > MAX){ var old = order.shift(); if (old !== n) delete side[old]; }
+    }
+    if (hist && hist.register) hist.register(key, {
+      get:function(){ return {n:n}; },
+      set:function(v){
+        if (!v) return;
+        n = v.n || 0;
+        if (side[n] !== undefined && side[n] !== null){ try { write(side[n]); } catch (err){} }
+      },
+      reset:function(){}
+    });
+    return {
+      step:function(fn){
+        file(n);                                  /* where we are now, under the counter the history already holds */
+        var r = null;
+        try { r = fn(); } catch (err){ if (window.console) console.error("q303 step " + key, err); }
+        n = ++seq;
+        file(n);
+        /* exactly ONE entry: get() moved only by the counter. Inside hold() the commit is deferred, so two modules
+           that must move together (returning to a saved view changes the camera AND the pane layout) still make one. */
+        if (!HOLD && hist && hist.commit) hist.commit();
+        return r;
+      },
+      n:function(){ return n; },
+      filed:function(){ return order.length; },
+      value:function(k){ return side[k == null ? n : k]; },
+      state:function(){ return {key:key, n:n, seq:seq, filed:order.length}; }
+    };
+  }
+  /* Run several modules' steps as ONE history entry. Needed because returning to a saved view has to put back the
+     camera (NMSKViews) and the pane layout (NMSKFourUp) together, and two nested steps would otherwise commit twice --
+     which is the very defect this module exists to prevent. */
+  function hold(fn){
+    HOLD++;
+    var r = null;
+    try { r = fn(); }
+    finally {
+      HOLD--;
+      if (!HOLD){
+        for (var i = 0; i < HISTS.length; i++){ if (HISTS[i] && HISTS[i].commit){ HISTS[i].commit(); break; } }
+      }
+    }
+    return r;
+  }
+  return {make:make, hold:hold, held:function(){ return HOLD > 0; }, max:function(){ return MAX; }};
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKStep;
+/* Q303: the frame statistics, shared, so the two engines measure the SAME thing.
+   page.screenshot of a WebGL canvas returns a stale frame in this container -- proven in Q300 and re-confirmed in Q301 --
+   so every pixel figure of this round is read with gl.readPixels INSIDE the page, right after a synchronous draw. Each
+   glue does only that: force one frame, read the buffer, hand it here. The arithmetic lives in one place.
+   A NERVE IS RECOGNISED BY CHROMATICITY, not by RGB distance: the shading multiplies the brightness of a nerve's own
+   colour over a wide range, while r:g:b stays put, so a chromaticity test finds the nerve whether it is lit or in
+   shadow. The background is excluded from everything, taken from the frame's four corners -- one engine clears to
+   transparent and the other to an opaque light grey, which would otherwise read as most of a bright picture (Q301).
+     NMSKPx.stats(buf, w, h, step, chroma) -> {n, nerve, nerveFrac, lumNerve, lumOther, michelson}
+     NMSKPx.quadrants(buf, w, h, step)     -> [fraction of each quadrant that is not background]  (four panes drew) */
+var NMSKPx = (function(){
+  "use strict";
+  var TOL = 0.035, DARK = 10;
+  function corners(buf, w, h){
+    function at(x, y){ var o = ((y | 0) * w + (x | 0)) * 4; return [buf[o], buf[o+1], buf[o+2], buf[o+3]]; }
+    return [at(1, 1), at(w - 2, 1), at(1, h - 2), at(w - 2, h - 2)];
+  }
+  function fielder(C){
+    return function(r, g, b, a){
+      if (a < 9) return true;
+      for (var k = 0; k < C.length; k++){
+        var c = C[k];
+        if (Math.abs(r - c[0]) <= 6 && Math.abs(g - c[1]) <= 6 && Math.abs(b - c[2]) <= 6) return true;
+      }
+      return false;
+    };
+  }
+  function chroma(c){ var s = (c[0] + c[1] + c[2]) || 1; return [c[0] / s, c[1] / s, c[2] / s]; }
+  function stats(buf, w, h, step, col){
+    var s = Math.max(1, (step | 0) || 2), C = corners(buf, w, h), isField = fielder(C), nch = chroma(col || [0.85, 0.71, 0.26]);
+    var n = 0, nn = 0, lN = 0, lO = 0;
+    for (var y = 0; y < h; y += s) for (var x = 0; x < w; x += s){
+      var o = (y * w + x) * 4, r = buf[o], g = buf[o+1], b = buf[o+2], a = buf[o+3];
+      if (isField(r, g, b, a)) continue;
+      var l = 0.299*r + 0.587*g + 0.114*b;
+      if (l < DARK) continue;
+      n++;
+      var t = (r + g + b) || 1, d = Math.abs(r/t - nch[0]) + Math.abs(g/t - nch[1]) + Math.abs(b/t - nch[2]);
+      if (d < TOL){ nn++; lN += l; } else lO += l;
+    }
+    var mN = nn ? lN / nn : 0, mO = (n - nn) ? lO / (n - nn) : 0;
+    return {n:n, nerve:nn, nerveFrac:n ? Math.round(nn / n * 1e6) / 1e6 : 0,
+            lumNerve:Math.round(mN * 100) / 100, lumOther:Math.round(mO * 100) / 100,
+            michelson:(mN + mO) ? Math.round(Math.abs(mN - mO) / (mN + mO) * 1e4) / 1e4 : 0,
+            w:w, h:h, step:s, chroma:nch.map(function(v){ return Math.round(v * 1000) / 1000; })};
+  }
+  function quadrants(buf, w, h, step){
+    var s = Math.max(1, (step | 0) || 2), C = corners(buf, w, h), isField = fielder(C);
+    var tot = [0, 0, 0, 0], hit = [0, 0, 0, 0];
+    for (var y = 0; y < h; y += s) for (var x = 0; x < w; x += s){
+      var q = (x < w / 2 ? 0 : 1) + (y < h / 2 ? 2 : 0);          /* readPixels is bottom-up: 2,3 are the TOP row */
+      tot[q]++;
+      var o = (y * w + x) * 4;
+      if (!isField(buf[o], buf[o+1], buf[o+2], buf[o+3])) hit[q]++;
+    }
+    return [2, 3, 0, 1].map(function(q){ return tot[q] ? Math.round(hit[q] / tot[q] * 1e5) / 1e5 : 0; });
+  }
+  return {stats:stats, quadrants:quadrants, tol:function(){ return TOL; }};
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKPx;
+/* Q303: the nerve-emphasis pass's SHADER, shared verbatim by both engines.
+   Q301 D3(7) recorded a case where a real piece of physics was deliberately NOT shipped because one engine would have
+   needed a patch to three.js's own shader and "the two engines would then be computing different mathematics". This pass
+   avoids that trap completely: the GLSL below is one string, byte-identical in both templates, compiled by the Z engine
+   into a tiny program of its own and by the own engine into a THREE.RawShaderMaterial. Both engines therefore run the
+   SAME arithmetic; a test asserts the two templates carry the same bytes.
+   The three matrices are named as three.js names them (projectionMatrix / viewMatrix / modelMatrix) and the Z engine
+   simply supplies its combined MVP as projectionMatrix with the other two set to the identity -- the product is the same.
+   What the vertex stage does, in order:
+     1. the cut. Keep where dot(world position, plane) >= 0, for both the near face and the far face of a slice. The Z
+        engine's own shader uses the OPPOSITE sign, so its glue negates its planes before handing them over; the own
+        engine's three.js planes already use this sign. Default [0,0,0,1] keeps everything.
+     2. the far half of the body. A pass with the depth test off reads through overlying tissue -- that is the whole point,
+        and it is Q300's bone-pass pattern -- but with no guard it would also paint the nerves on the FAR side of the body
+        over the near ones. Points behind the plane through the camera's own target, normal to the view, are dropped.
+     3. the MINIMUM DRAWN WIDTH, which is the round's actual idea: uPt is set per structure by the caller to
+        max(the step's minimum in pixels, the nerve's TRUE diameter in pixels) * devicePixelRatio, so a nerve already
+        wider than the minimum is drawn at its own width and nothing is ever made to look thinner than it is.
+   The fragment stage paints a round dot (a square point reads as a chain of blocks on a thin nerve) in the colour and at
+   the opacity the step chose. */
+var NMSKNervePass = (function(){
+  "use strict";
+  var VS =
+    "precision highp float;\n" +
+    "attribute vec3 position;\n" +
+    "uniform mat4 projectionMatrix;\n" +
+    "uniform mat4 viewMatrix;\n" +
+    "uniform mat4 modelMatrix;\n" +
+    "uniform vec4 uC1;\n" +
+    "uniform vec4 uC2;\n" +
+    "uniform vec3 uCtr;\n" +
+    "uniform vec3 uFwd;\n" +
+    "uniform float uPt;\n" +
+    "void main(){\n" +
+    "  vec4 wp = modelMatrix * vec4(position, 1.0);\n" +
+    "  vec3 wv = wp.xyz;\n" +
+    "  if (dot(wv, uC1.xyz) + uC1.w < 0.0 || dot(wv, uC2.xyz) + uC2.w < 0.0){ gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; return; }\n" +
+    "  if (dot(wv - uCtr, uFwd) > 0.0){ gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; return; }\n" +
+    "  gl_Position = projectionMatrix * viewMatrix * wp;\n" +
+    "  gl_PointSize = uPt;\n" +
+    "}\n";
+  var FS =
+    "precision highp float;\n" +
+    "uniform vec3 uColor;\n" +
+    "uniform float uAlpha;\n" +
+    "void main(){\n" +
+    "  vec2 d = gl_PointCoord - vec2(0.5, 0.5);\n" +
+    "  if (dot(d, d) > 0.25) discard;\n" +
+    "  gl_FragColor = vec4(uColor, uAlpha);\n" +
+    "}\n";
+  var api = {
+    vs:function(){ return VS; },
+    fs:function(){ return FS; },
+    /* the one formula, used by both glues: the drawn width of a nerve in DEVICE pixels */
+    width:function(dia_mm, mmPerPx, wmin_px, dpr){
+      var truePx = (dia_mm != null && mmPerPx > 0) ? dia_mm / mmPerPx : 0;
+      return Math.max(wmin_px || 0, truePx) * (dpr || 1);
+    },
+    /* the near/far split and the two clip planes, in the shader's own sign convention */
+    frame:function(eye, tgt, c1, c2){
+      var f = [tgt[0] - eye[0], tgt[1] - eye[1], tgt[2] - eye[2]], l = Math.hypot(f[0], f[1], f[2]) || 1;
+      return {ctr:tgt.slice(), fwd:[f[0] / l, f[1] / l, f[2] / l],
+              c1:c1 || [0, 0, 0, 1], c2:c2 || [0, 0, 0, 1]};
+    },
+    hash:function(){ return VS.length + ":" + FS.length; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKNervePass;
+/* Q303: "what the user already chose" -- the one place that answers it, so every imaging-like mode centres on the same
+   thing and nothing has to guess.
+   Owner: "imaging should focus automatically on the area that was marked, or typed, earlier."
+   The order is the owner's own, and nothing else is ever invented: marked set -> the selected structure / open card ->
+   the structure the user picked out of a search result -> NOTHING (and then no mode ever moves the view).
+   The engine is reached only through the adaptor E:
+     boxOf(id) -> {min:[3], max:[3]} | null      marks() -> [id]        selectedId() -> id | null
+     name(id) -> string                          has(id) -> bool
+     NMSKTarget.start(E)
+     .get()  -> null | {kind, ids, label, min, max, c, r, n, why}
+     .noteSearchPick(id)   .forget()   .state() */
+var NMSKTarget = (function(){
+  "use strict";
+  var E = null, on = false, pick = null, wired = false;
+  var SEARCH_IDS = ["q", "search"];                 /* the own engine's box is #q, the Z engine's is #search */
+  function searchText(){
+    for (var i = 0; i < SEARCH_IDS.length; i++){
+      var e = document.getElementById(SEARCH_IDS[i]);
+      if (e && typeof e.value === "string" && e.value.trim()) return e.value.trim();
+    }
+    return "";
+  }
+  function box(ids){
+    var mn = [1e30, 1e30, 1e30], mx = [-1e30, -1e30, -1e30], got = 0;
+    ids.forEach(function(id){
+      var b = null;
+      try { b = E.boxOf(id); } catch (err){ b = null; }
+      if (!b || !b.min || !b.max) return;
+      got++;
+      for (var i = 0; i < 3; i++){ if (b.min[i] < mn[i]) mn[i] = b.min[i]; if (b.max[i] > mx[i]) mx[i] = b.max[i]; }
+    });
+    if (!got) return null;
+    var c = [0, 0, 0], r = 0;
+    for (var k = 0; k < 3; k++){ c[k] = (mn[k] + mx[k]) / 2; r = Math.max(r, (mx[k] - mn[k]) / 2); }
+    return {min:mn, max:mx, c:c, r:r, n:got};
+  }
+  function nameOf(id){ try { return E.name(id) || id; } catch (err){ return id; } }
+  function has(id){ if (!id) return false; try { return !!E.has(id); } catch (err){ return false; } }
+  /* The row the user taps in the result list is a real click on #list, which both engines own; a capture listener on the
+     document sees it before either engine's own handler, so the pick is recorded even though the engines differ. It only
+     counts as a SEARCH pick while the search box actually holds a query -- otherwise #list is just the structure list. */
+  function wire(){
+    if (wired) return;
+    wired = true;
+    document.addEventListener("click", function(ev){
+      var box2 = document.getElementById("list");
+      if (!box2 || !ev.target || !box2.contains(ev.target)) return;
+      var q = searchText();
+      if (!q) return;
+      var el = ev.target, id = null, hops = 0;
+      while (el && el !== box2 && hops++ < 8){
+        if (el.getAttribute){
+          id = el.getAttribute("data-id") || el.getAttribute("data-sid") || null;
+          if (id) break;
+        }
+        el = el.parentNode;
+      }
+      if (!id){                                     /* a row without data-id: take whatever the engine selects next */
+        var before = null;
+        try { before = E.selectedId(); } catch (err){}
+        setTimeout(function(){
+          var now = null;
+          try { now = E.selectedId(); } catch (err){}
+          if (now && now !== before) pick = {id:now, q:searchText() || q, at:Date.now()};
+        }, 60);
+        return;
+      }
+      if (has(id)) pick = {id:id, q:q, at:Date.now()};
+    }, true);
+  }
+  var api = {
+    start:function(eng){
+      if (on) return api;
+      E = eng || null;
+      if (!E || typeof E.boxOf !== "function") return api;
+      wire();
+      on = true;
+      return api;
+    },
+    noteSearchPick:function(id, q){ if (has(id)) pick = {id:id, q:q || searchText(), at:Date.now()}; },
+    forget:function(){ pick = null; },
+    get:function(){
+      if (!on) return null;
+      var ms = [];
+      try { ms = (E.marks() || []).filter(has); } catch (err){ ms = []; }
+      if (ms.length){
+        var b = box(ms);
+        if (b) return {kind:"marked", ids:ms.slice(), n:b.n, label:ms.length === 1 ? nameOf(ms[0]) : (ms.length + " marked structures"),
+                       min:b.min, max:b.max, c:b.c, r:b.r, why:"the marked set"};
+      }
+      var sid = null;
+      try { sid = E.selectedId(); } catch (err2){ sid = null; }
+      if (has(sid)){
+        var b2 = box([sid]);
+        if (b2) return {kind:"selected", ids:[sid], n:1, label:nameOf(sid), min:b2.min, max:b2.max, c:b2.c, r:b2.r,
+                        why:"the structure whose card is open"};
+      }
+      if (pick && has(pick.id)){
+        var b3 = box([pick.id]);
+        if (b3) return {kind:"search", ids:[pick.id], n:1, label:nameOf(pick.id), min:b3.min, max:b3.max, c:b3.c, r:b3.r,
+                        why:"the result you picked for “" + pick.q + "”"};
+      }
+      return null;
+    },
+    boxOfIds:box,
+    state:function(){
+      var t = api.get();
+      return {on:on, search:pick ? {id:pick.id, q:pick.q} : null, query:searchText(),
+              target:t ? {kind:t.kind, label:t.label, n:t.n, c:t.c.map(function(x){ return Math.round(x * 100) / 100; }),
+                          r:Math.round(t.r * 100) / 100, ids:t.ids} : null};
+    }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKTarget;
+/* Q303: entering an imaging-like mode centres it on what the user already chose.
+   Owner (translated): "imaging should focus automatically on the area that was marked, or typed, earlier."
+   The pattern is 3D Slicer's "Jump slices -- centered" (its Markups module offers centred / offset as a choice, and the
+   centred one is what the owner describes); the target itself comes from NMSKTarget, which is the only place that decides
+   what "what the user already chose" means. Five modes, each centred on its own terms and NEVER on anything else:
+     render style (Q301)  the camera frames the target
+     CT / MR panes        the slice point P = the target's centre, and every pane's in-plane centre is released so it
+                          follows P (that is the slice LEVEL and the in-plane POSITION in one)
+     ultrasound           the probe is seated on the skin where a ray from the camera to the target meets it
+     cut                  the plane keeps the user's orientation and slides so it passes through the centre
+     cross-section        plane mode: the same plane move (the stack is centred on the cut plane); part mode: the stack's
+                          part becomes the target's own structures
+   Nothing moves when there is no target. One Undo step per focus (commit before, commit after), one provider so Q300's
+   model reset returns the view and the panes, an off switch that is remembered, and a line on the screen saying what it
+   centred on and why.
+     NMSKAutoFocus.start(E, {history, target, anchor})
+     .on()  .setOn(v)  .focus(reason)  .last()  .modes()  .state() */
+var NMSKAutoFocus = (function(){
+  "use strict";
+  var E = null, hist = null, TG = null, on = false, want = true, anchor = null, note = null, noteT = 0;
+  var last = null, watch = {}, log = [], KEY = "nmsk.q303.autofocus";
+  var btn = null, poll = 0;
+  function num(x){ return Math.round(x * 100) / 100; }
+  function v3(a){ return [num(a[0]), num(a[1]), num(a[2])]; }
+  function unit(a){ var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; }
+  function pref(){ try { var v = localStorage.getItem(KEY); return v == null ? true : v === "1"; } catch (err){ return true; } }
+  function save(){ try { localStorage.setItem(KEY, want ? "1" : "0"); } catch (err){} }
+
+  /* ---- the modes. Each one: is it on, what does centring mean here, and what did it measure? ---- */
+  function imaging(){ try { return E.imaging ? E.imaging() : null; } catch (err){ return null; } }
+  function us(){ try { return E.ultrasound ? E.ultrasound() : null; } catch (err){ return null; } }
+  function cut(){ try { return E.cut ? E.cut() : null; } catch (err){ return null; } }
+  function xsec(){ try { return E.xsec ? E.xsec() : null; } catch (err){ return null; } }
+  function style(){ try { return E.style ? E.style() : null; } catch (err){ return null; } }
+
+  function camFrame(t){
+    var c = E.cam.get(), d = E.cam.fit(t.r);
+    E.cam.set({az:c.az, el:c.el, dist:d, tgt:t.c.slice()});
+    if (E.cam.redraw) E.cam.redraw();
+    var now = E.cam.get();
+    return {what:"the camera", centre:v3(now.tgt), off:num(Math.hypot(now.tgt[0] - t.c[0], now.tgt[1] - t.c[1], now.tgt[2] - t.c[2])), dist:num(now.dist)};
+  }
+  function ctFocus(t){
+    var I = imaging(); if (!I || !I.set) return null;
+    I.set({P:t.c.slice()});
+    try {                                            /* release each pane's own in-plane centre so it follows P again */
+      var V = I.views ? I.views() : null;
+      if (V) Object.keys(V).forEach(function(k){ if (V[k]) V[k].CP = null; });
+    } catch (err){}
+    var st = I.state();
+    return {what:"the CT / MR slice", centre:v3(st.P || [0, 0, 0]),
+            off:num(Math.hypot((st.P || [0, 0, 0])[0] - t.c[0], (st.P || [0, 0, 0])[1] - t.c[1], (st.P || [0, 0, 0])[2] - t.c[2]))};
+  }
+  /* The probe is seated where a ray THROUGH the target centre meets the skin. The first ray is the camera's own view
+     direction, so the probe comes in from the side the user is looking from -- which is what a sonographer would do.
+     A single ray is not enough to rely on: a structure can sit where the camera ray grazes past the skin, or the page
+     may ship no skin on that side at all, so the six anatomical directions are tried after it, nearest hit first. The
+     direction that worked is reported. */
+  function usFocus(t){
+    var U = us(); if (!U || !U.placeRay) return null;
+    var v = null;
+    try { v = E.view(); } catch (err){ v = null; }
+    var cand = [];
+    if (v && v.dir) cand.push({k:"the camera", d:unit(v.dir)});
+    [["anterior", [0, 0, -1]], ["posterior", [0, 0, 1]], ["the right", [-1, 0, 0]], ["the left", [1, 0, 0]],
+     ["above", [0, -1, 0]], ["below", [0, 1, 0]]].forEach(function(p){ cand.push({k:p[0], d:p[1]}); });
+    for (var i = 0; i < cand.length; i++){
+      var d = cand[i].d, o = [t.c[0] - d[0] * 1200, t.c[1] - d[1] * 1200, t.c[2] - d[2] * 1200], h = null;
+      try { h = U.placeRay(o, d); } catch (err2){ h = null; }
+      if (!h) continue;
+      var p = h.P;
+      return {what:"the ultrasound probe", from:cand[i].k, centre:v3(p),
+              off:num(Math.hypot(p[0] - t.c[0], p[1] - t.c[1], p[2] - t.c[2])), seated:h.struct || null};
+    }
+    return null;
+  }
+  /* the plane keeps the orientation the user chose: only its offset along its own normal moves, through snapshot /
+     restore, which is the controller's own public pair -- no second plane UI and no new engine call */
+  function planeTo(c){
+    var C = cut(); if (!C || !C.snapshot || !C.restore) return null;
+    var s = C.snapshot(); if (!s) return null;
+    var n = s.n0 || [1, 0, 0], a = n[0] * c[0] + n[1] * c[1] + n[2] * c[2];
+    s.a = Math.round(a * 1000) / 1000;
+    C.restore(s);
+    var st = C.state(), got = st.a, d = Math.abs(got - a);
+    return {what:"the cut plane", axis:v3(n), want:num(a), got:num(got), off:num(d), clamped:d > 0.5};
+  }
+  function cutFocus(t){ return planeTo(t.c); }
+  function xsecFocus(t){
+    var X = xsec(); if (!X) return null;
+    var st = X.state ? X.state() : null;
+    if (st && st.mode === "part" && X.setPart){
+      X.setPart(t.ids.slice());
+      var s2 = X.state();
+      return {what:"the cross-section stack", mode:"part", n:(s2.part || []).length};
+    }
+    var r = planeTo(t.c);
+    if (!r) return null;
+    r.what = "the cross-section stack"; r.mode = "plane";
+    return r;
+  }
+  var MODES = [
+    {key:"style", label:"the radiographic style", probe:function(){ var S = style(); try { return !!(S && S.state().on && S.mode && S.mode() !== "colour"); } catch (err){ return false; } }, run:function(t){ return camFrame(t); }},
+    {key:"ct", label:"CT / MR", probe:function(){ var I = imaging(); try { return !!(I && I.state().open); } catch (err){ return false; } }, run:ctFocus},
+    {key:"us", label:"ultrasound", probe:function(){ var U = us(); try { return !!(U && U.isOpen()); } catch (err){ return false; } }, run:usFocus},
+    {key:"cut", label:"the cut", probe:function(){ var C = cut(); try { return !!(C && C.state().on); } catch (err){ return false; } }, run:cutFocus},
+    {key:"xsec", label:"the cross-sections", probe:function(){ var X = xsec(); try { return !!(X && X.isOn()); } catch (err){ return false; } }, run:xsecFocus}
+  ];
+
+  /* ---- what a focus touches, read and written through the controllers' own public API only. NMSKStep keeps a counter
+     in Q294's history and these values beside it, so a focus is ONE entry and no unrelated Undo ever moves the camera,
+     the slice point or the probe -- none of which Q294 watches, deliberately. ---- */
+  function grab(){
+    var s = {cam:null, imgP:null, usP:null, usN:null, cutA:null, part:null};
+    try { var c = E.cam.get(); s.cam = {az:c.az, el:c.el, dist:c.dist, tgt:c.tgt.slice()}; } catch (err){}
+    try { var I = imaging(); if (I){ var q = I.state(); s.imgP = q.P ? q.P.slice() : null; } } catch (e2){}
+    try { var U = us(); if (U){ var u = U.state(); s.usP = u.P ? u.P.slice() : null; s.usN = u.N ? u.N.slice() : null; } } catch (e3){}
+    try { var C = cut(); if (C){ var k = C.snapshot(); s.cutA = k ? k.a : null; } } catch (e4){}
+    try { var X = xsec(); if (X && X.state){ var x = X.state(); s.part = x.part ? x.part.slice() : null; } } catch (e5){}
+    return s;
+  }
+  function put(s){
+    if (!s) return;
+    try { if (s.cam){ E.cam.set(s.cam); if (E.cam.redraw) E.cam.redraw(); } } catch (err){}
+    try { var I = imaging(); if (I && s.imgP) I.set({P:s.imgP.slice()}); } catch (e2){}
+    try { var U = us(); if (U && s.usP && s.usN) U.set({P:s.usP.slice(), N:s.usN.slice()}); } catch (e3){}
+    try { var C = cut(); if (C && s.cutA != null && C.snapshot && C.restore){ var k = C.snapshot(); k.a = s.cutA; C.restore(k); } } catch (e4){}
+    try { var X = xsec(); if (X && s.part && X.setPart) X.setPart(s.part.slice()); } catch (e5){}
+  }
+  var STEP = null;          /* NMSKStep: the history watches a counter, the states live in its side table */
+
+  /* ---- the line on the screen ---- */
+  function ensureNote(){
+    if (note) return note;
+    note = document.createElement("div");
+    note.id = "q303-note"; note.className = "q3-note"; note.hidden = true;
+    note.setAttribute("role", "status"); note.setAttribute("aria-live", "polite");
+    var t = document.createElement("span"); t.className = "q3-note-t"; note.appendChild(t);
+    var x = document.createElement("button");
+    x.type = "button"; x.className = "q3-note-x"; x.id = "q303-note-x"; x.textContent = "×";
+    x.title = "Hide this"; x.setAttribute("aria-label", "Hide this message");
+    x.addEventListener("click", function(ev){ ev.stopPropagation(); note.hidden = true; });
+    note.appendChild(x);
+    document.body.appendChild(note);
+    return note;
+  }
+  function place(){
+    if (!note || note.hidden || !anchor || !anchor.getBoundingClientRect) return;
+    var r = anchor.getBoundingClientRect();
+    if (!(r.width > 40)) return;
+    var w = Math.min(r.width - 24, 420);
+    note.style.width = w + "px";
+    note.style.left = Math.round(r.left + (r.width - w) / 2) + "px";
+    /* Q301's circled i sits at the 3-D view's TOP-RIGHT (28 px) and, in four-up, the top two panes' own labels sit at
+       y 8-34. On a wide single view the line is narrow enough to clear the i; otherwise it drops below them rather than
+       covering them -- the Q301 lesson (twice over), applied up front. The line is also pointer-events:none, so even
+       when it does overlap something it can never swallow a tap. */
+    var low = r.width < 520 || (window.NMSKFourUp && NMSKFourUp.layout() === "four");
+    note.style.top = Math.round(r.top + (low ? 44 : 8)) + "px";
+  }
+  function say(txt){
+    var n = ensureNote();
+    n.querySelector(".q3-note-t").textContent = txt;
+    n.hidden = false; place();
+    if (noteT) clearTimeout(noteT);
+    noteT = setTimeout(function(){ n.hidden = true; }, 7000);
+  }
+
+  function focus(reason, quiet){
+    if (!on) return null;
+    var t = TG ? TG.get() : null;
+    if (!t){ last = {ok:false, why:"nothing is marked, selected or picked, so the view was left alone", reason:reason, at:Date.now()}; return last; }
+    var M = null;
+    MODES.forEach(function(m){ if (!M && m.key === reason) M = m; });
+    if (!M){ MODES.forEach(function(m){ if (!M && m.probe()) M = m; }); }
+    if (!M) M = MODES[0];
+    var r = null;
+    if (STEP) STEP.step(function(){ r = M.run(t); });
+    else r = M.run(t);
+    last = {ok:!!r, mode:M.key, modeLabel:M.label, kind:t.kind, label:t.label, why:t.why, n:t.n,
+            target:v3(t.c), radius:num(t.r), result:r, reason:reason, at:Date.now()};
+    log.push(last); if (log.length > 40) log.shift();
+    if (!quiet && r) say("Centred " + r.what + " on " + t.label + " — " + t.why + ".");
+    else if (!quiet) say("Nothing to centre " + M.label + " on here.");
+    return last;
+  }
+
+  /* entering a mode is watched rather than hooked: the CT / MR panes, the ultrasound, the cut, the cross-sections and the
+     render style are five different controllers (two of them optional add-ons), and a watcher needs no edit in any of
+     them -- it only reads their own public state */
+  function tickWatch(){
+    if (!on) return;
+    MODES.forEach(function(m){
+      var now = false;
+      try { now = !!m.probe(); } catch (err){ now = false; }
+      var was = !!watch[m.key];
+      watch[m.key] = now;
+      if (now && !was && want) focus(m.key);
+    });
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null;
+      if (!E || !E.cam || typeof E.cam.get !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      TG = opt.target || window.NMSKTarget || null;
+      anchor = opt.anchor || null;
+      want = pref();
+      MODES.forEach(function(m){ try { watch[m.key] = !!m.probe(); } catch (err){ watch[m.key] = false; } });
+      STEP = window.NMSKStep ? NMSKStep.make(hist, "q303focus", grab, put) : null;
+      on = true;
+      /* 150 ms, not 250: the watcher only reads five small public states, and a shorter window makes it far less
+         likely that leaving and re-entering a mode falls inside one tick and is missed as a non-event. */
+      poll = setInterval(tickWatch, 150);
+      setInterval(place, 700);
+      window.addEventListener("resize", place);
+      return api;
+    },
+    /* the control: one toggle, default on, remembered in this browser */
+    button:function(cls){
+      if (btn) return btn;
+      btn = document.createElement("button");
+      btn.type = "button"; btn.id = "q303-af"; btn.className = (cls || "") + " q3-b";
+      btn.textContent = "Follow what I chose";
+      btn.title = "When you enter CT / MR, ultrasound, a cut, the cross-sections or a radiographic style, centre it on what you have marked, selected or picked out of a search. Off leaves the view exactly where it is.";
+      btn.setAttribute("aria-pressed", String(want));
+      btn.addEventListener("click", function(ev){
+        ev.stopPropagation();
+        api.setOn(!want);
+      });
+      return btn;
+    },
+    centreButton:function(cls){
+      var b = document.createElement("button");
+      b.type = "button"; b.id = "q303-centre"; b.className = (cls || "") + " q3-b";
+      b.textContent = "Centre on my choice";
+      b.title = "Centre the mode you are in on what you have marked, selected or picked -- now, without leaving and re-entering it.";
+      b.addEventListener("click", function(ev){ ev.stopPropagation(); focus(null); });
+      return b;
+    },
+    on:function(){ return want; },
+    setOn:function(v){
+      v = !!v;
+      if (v === want) return false;
+      want = v; save();
+      if (btn) btn.setAttribute("aria-pressed", String(want));
+      say(want ? "Imaging will centre on what you chose." : "Imaging will stay where it is.");
+      return true;
+    },
+    focus:focus, last:function(){ return last; }, history:function(){ return log.slice(); },
+    modes:function(){ return MODES.map(function(m){ var a = false; try { a = !!m.probe(); } catch (err){} return {key:m.key, label:m.label, active:a}; }); },
+    state:function(){ return {on:on, follow:want, last:last, modes:api.modes(),
+      target:TG ? TG.state().target : null, note:!!(note && !note.hidden), step:STEP ? STEP.state() : null}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKAutoFocus;
+/* Q303: four panes of the SAME model at once, each with its own camera.
+   Owner (translated): "instead of setting a particular orientation repeatedly, allow a 4-up 3-D view, or alternatively a
+   custom orientation ('facing me')." Both were built; this is the first.
+   THE CONVENTIONAL SET. 3D Slicer's Four-Up is three orthogonal slice views (Red axial, Yellow sagittal, Green coronal)
+   plus the 3-D view, and that is the reference the owner named. The surface-model equivalent of those three slice normals
+   is looking ALONG each anatomical axis: anterior (the coronal normal), lateral (the sagittal normal) and superior (the
+   axial normal), with the free 3-D view in the fourth quadrant. Visible Body's own preset list is the same set of
+   directions as single views -- "1: Anterior, 2: Posterior, 3: Right, 4: Left, 5: Superior, 6: Inferior" -- but we found
+   no documentation for a four-pane layout in any commercial anatomy atlas, so the GRID is Slicer's convention and is
+   labelled as such; which quadrant holds which pane is ours, chosen to put the free view where Slicer puts the 3-D one.
+   ONE MODEL, FOUR CAMERAS, AND THAT IS ALL. Selection, marking, hiding, the render style, the layers, the peel and the
+   cut are the engine's own single state: the panes are four viewports over one scene, so they cannot disagree. Only the
+   camera is per pane. Each pane is exactly half the canvas in each direction, so a pane is a scaled copy of the full
+   canvas with the same projection -- which is why a pointer inside a pane can be mapped to the full-canvas pixel it
+   corresponds to with one linear scale, and the engines' own picking, ray casting and dragging then work untouched.
+     NMSKFourUp.start(E, {history, anchor})
+   E = {camGet(), camSet(c), setPanes(list|null), redraw(), canvas}
+     .enter()  .leave()  .expand(key)  .restore()  .layout()  .panes()  .state() */
+var NMSKFourUp = (function(){
+  "use strict";
+  var E = null, hist = null, anchor = null, on = false, grid = null, cells = {}, btn = null;
+  var lay = "one", shown = "free", active = "free", dragging = false, syncT = 0;
+  var SPEC = [
+    {key:"ant", label:"Anterior", az:0, el:0, cell:[0, 0]},
+    {key:"lat", label:"Lateral", az:Math.PI / 2, el:0, cell:[1, 0]},
+    {key:"sup", label:"Superior", az:0, el:Math.PI / 2 - 0.035, cell:[0, 1]},
+    {key:"free", label:"3-D", az:null, el:null, cell:[1, 1]}
+  ];
+  var CAM = {};
+  function spec(k){ var r = null; SPEC.forEach(function(s){ if (s.key === k) r = s; }); return r; }
+  function num(x){ return Math.round(x * 1000) / 1000; }
+  function cloneCam(c){ return {az:c.az, el:c.el, dist:c.dist, tgt:c.tgt.slice()}; }
+
+  /* the fractional rect of a pane inside the canvas, y measured from the TOP */
+  function rectOf(k){
+    if (lay !== "four") return {x:0, y:0, w:1, h:1};
+    var s = spec(k); if (!s) return {x:0, y:0, w:1, h:1};
+    return {x:s.cell[0] * 0.5, y:s.cell[1] * 0.5, w:0.5, h:0.5};
+  }
+  /* Entering four-up: every pane frames whatever the single view was framing (the same target and the same distance, so
+     the four pictures are one model at one scale), the three fixed panes take their canonical direction and the free
+     pane keeps the camera the user had. Expanding and restoring do NOT come through here, so a pane the user has
+     rotated keeps its rotation across an expand. */
+  function initCams(){
+    var c = E.camGet();
+    SPEC.forEach(function(s){
+      CAM[s.key] = {az:s.az == null ? c.az : s.az, el:s.el == null ? c.el : s.el, dist:c.dist, tgt:c.tgt.slice()};
+    });
+  }
+  function paneList(){
+    if (lay !== "four") return null;
+    return SPEC.map(function(s){
+      var r = rectOf(s.key), c = CAM[s.key];
+      return {key:s.key, label:s.label, x:r.x, y:r.y, w:r.w, h:r.h,
+              az:c.az, el:c.el, dist:c.dist, tgt:c.tgt.slice(), active:s.key === active};
+    });
+  }
+  function push(){
+    try { E.setPanes(paneList()); } catch (err){ if (window.console) console.error("q303 panes", err); }
+    if (lay !== "four") { try { E.camSet(CAM[shown] || E.camGet()); } catch (e2){} }
+    if (E.redraw) E.redraw();
+    paint();
+  }
+  /* the pane the user is working in owns the engine's camera, so every drag, wheel and pinch the engines already
+     implement acts on that pane and nothing else */
+  function makeActive(k){
+    if (!CAM[k]) return;
+    if (active === k) return;
+    CAM[active] = cloneCam(E.camGet());
+    active = k;
+    try { E.camSet(CAM[k]); } catch (err){}
+    push();
+  }
+  function syncActive(){
+    if (!on || lay !== "four") return;
+    try { CAM[active] = cloneCam(E.camGet()); } catch (err){ return; }
+    var L = paneList();
+    try { E.setPanes(L); } catch (e2){}
+  }
+
+  /* ---- the frame on the screen: a label and an expand button per pane, nothing else over the picture ---- */
+  function ensureGrid(){
+    if (grid) return grid;
+    grid = document.createElement("div");
+    grid.id = "q303-grid"; grid.className = "q3-grid"; grid.hidden = true;
+    SPEC.forEach(function(s){
+      var c = document.createElement("div");
+      c.className = "q3-cell"; c.id = "q303-cell-" + s.key;
+      var h = document.createElement("div"); h.className = "q3-ch";
+      var t = document.createElement("span"); t.className = "q3-cl"; t.textContent = s.label; h.appendChild(t);
+      var x = document.createElement("button");
+      x.type = "button"; x.className = "q3-cx"; x.id = "q303-exp-" + s.key; x.textContent = "⬜";
+      x.title = "Show only the " + s.label + " view"; x.setAttribute("aria-label", "Expand the " + s.label + " view");
+      x.addEventListener("click", function(ev){ ev.stopPropagation(); ev.preventDefault(); api.expand(s.key); });
+      x.addEventListener("pointerdown", function(ev){ ev.stopPropagation(); });
+      h.appendChild(x);
+      c.appendChild(h);
+      grid.appendChild(c); cells[s.key] = {el:c, head:h, btn:x};
+    });
+    document.body.appendChild(grid);
+    return grid;
+  }
+  function paint(){
+    if (!grid) return;
+    /* the projection overlays (labels, the axis gnomon, the scale bar, the cut outline, the part dots and the measure
+       chips) are all drawn for ONE camera over the whole canvas, so they are stood down while four are on; the
+       stylesheet hides what is DOM and the engines' draw skips what is canvas. Said on the screen and in the i. */
+    document.body.classList.toggle("q303-four", lay === "four");
+    grid.hidden = lay !== "four";
+    if (grid.hidden) return;
+    var r = anchor && anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : null;
+    if (!r || !(r.width > 40 && r.height > 40)) return;
+    grid.style.left = Math.round(r.left) + "px"; grid.style.top = Math.round(r.top) + "px";
+    grid.style.width = Math.round(r.width) + "px"; grid.style.height = Math.round(r.height) + "px";
+    SPEC.forEach(function(s){
+      var q = rectOf(s.key), c = cells[s.key];
+      if (!c) return;
+      c.el.style.left = (q.x * 100) + "%"; c.el.style.top = (q.y * 100) + "%";
+      c.el.style.width = (q.w * 100) + "%"; c.el.style.height = (q.h * 100) + "%";
+      c.el.classList.toggle("act", s.key === active);
+    });
+    if (btn){ btn.setAttribute("aria-pressed", String(lay === "four")); btn.textContent = lay === "four" ? "One view" : "Four views"; }
+  }
+
+  /* ---- input: one capture listener per kind on the window, so it runs BEFORE either engine's own canvas handlers and
+     neither engine needs an edit. The pointer's pane is resolved, that pane is made active, and the coordinates are
+     rewritten to the full-canvas pixel they correspond to -- exact, because a pane is the full canvas at half scale in
+     both directions, with the same projection. ---- */
+  function cvRect(){ var c = E.canvas; return c && c.getBoundingClientRect ? c.getBoundingClientRect() : null; }
+  function paneAt(x, y){
+    var r = cvRect(); if (!r) return null;
+    var fx = (x - r.left) / Math.max(1, r.width), fy = (y - r.top) / Math.max(1, r.height);
+    if (fx < 0 || fx > 1 || fy < 0 || fy > 1) return null;
+    var hit = null;
+    SPEC.forEach(function(s){
+      var q = rectOf(s.key);
+      if (fx >= q.x && fx <= q.x + q.w && fy >= q.y && fy <= q.y + q.h) hit = s.key;
+    });
+    return hit;
+  }
+  function mapXY(x, y, k){
+    var r = cvRect(), q = rectOf(k);
+    if (!r) return [x, y];
+    var px = r.left + q.x * r.width, py = r.top + q.y * r.height, pw = q.w * r.width, ph = q.h * r.height;
+    var X = r.left + (x - px) / Math.max(1, pw) * r.width, Y = r.top + (y - py) / Math.max(1, ph) * r.height;
+    return [Math.max(r.left, Math.min(r.left + r.width - 1, X)), Math.max(r.top, Math.min(r.top + r.height - 1, Y))];
+  }
+  function force(ev, x, y){
+    try {
+      Object.defineProperty(ev, "clientX", {value:x, configurable:true});
+      Object.defineProperty(ev, "clientY", {value:y, configurable:true});
+      Object.defineProperty(ev, "pageX", {value:x + (window.scrollX || 0), configurable:true});
+      Object.defineProperty(ev, "pageY", {value:y + (window.scrollY || 0), configurable:true});
+      return true;
+    } catch (err){ return false; }
+  }
+  var remapped = 0, refused = 0;
+  function remap(ev){
+    if (!on || lay !== "four") return;
+    var c = E.canvas;
+    if (!c || !ev.target || !(ev.target === c || (c.contains && c.contains(ev.target)))) return;
+    var k = dragging ? active : paneAt(ev.clientX, ev.clientY);
+    if (!k) return;
+    if (!dragging && k !== active) makeActive(k);
+    var p = mapXY(ev.clientX, ev.clientY, k);
+    if (force(ev, p[0], p[1])) remapped++; else refused++;
+  }
+  function wire(){
+    ["pointerdown", "pointermove", "pointerup", "pointercancel", "click", "wheel", "contextmenu", "pointerover", "pointerout"]
+      .forEach(function(t){ window.addEventListener(t, remap, true); });
+    window.addEventListener("pointerdown", function(ev){ if (on && lay === "four" && E.canvas && E.canvas.contains && E.canvas.contains(ev.target)) dragging = true; }, true);
+    window.addEventListener("pointerup", function(){ dragging = false; syncActive(); }, true);
+    window.addEventListener("pointercancel", function(){ dragging = false; }, true);
+  }
+
+  /* ---- ONE undo step, through NMSKStep. The pane cameras must NOT be an ordinary provider: syncActive() writes the camera
+     the user is dragging into CAM every 400 ms, so an ordinary provider would make an unrelated Undo jerk the panes
+     back. The history watches a counter; the layout and the four cameras live in NMSKStep's side table. */
+  var STEP = null;
+  function readState(){
+    var o = {lay:lay, shown:shown, active:active, cams:{}};
+    SPEC.forEach(function(s){ var c = CAM[s.key]; if (c) o.cams[s.key] = [num(c.az), num(c.el), num(c.dist), num(c.tgt[0]), num(c.tgt[1]), num(c.tgt[2])]; });
+    return o;
+  }
+  function writeState(v){
+    if (!v) return;
+    Object.keys(v.cams || {}).forEach(function(k){
+      var a = v.cams[k]; if (!a || !CAM[k]) return;
+      CAM[k] = {az:a[0], el:a[1], dist:a[2], tgt:[a[3], a[4], a[5]]};
+    });
+    lay = v.lay === "four" ? "four" : "one"; shown = v.shown || "free"; active = v.active || "free";
+    push();
+  }
+  function step(fn){
+    if (!STEP){ fn(); push(); return; }
+    STEP.step(function(){ fn(); push(); });   /* the engine has to be told, not only the history */
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null;
+      if (!E || typeof E.camGet !== "function" || typeof E.setPanes !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      anchor = opt.anchor || E.canvas || null;
+      initCams();
+      ensureGrid(); wire();
+      STEP = window.NMSKStep ? NMSKStep.make(hist, "q303fourup", readState, writeState) : null;
+      on = true;
+      syncT = setInterval(function(){ paint(); if (!dragging) syncActive(); }, 400);
+      window.addEventListener("resize", paint);
+      paint();
+      return api;
+    },
+    button:function(cls){
+      if (btn) return btn;
+      btn = document.createElement("button");
+      btn.type = "button"; btn.id = "q303-four"; btn.className = (cls || "") + " q3-b";
+      btn.textContent = "Four views";
+      btn.title = "Show the same model in four panes at once -- Anterior, Lateral, Superior and a free 3-D view -- each with its own camera. Selection, marking, hiding, the render style and the cut are shared: it is one model seen four ways. Tap a pane's square to show only that pane.";
+      btn.setAttribute("aria-pressed", "false");
+      btn.addEventListener("click", function(ev){ ev.stopPropagation(); if (lay === "four") api.leave(); else api.enter(); });
+      return btn;
+    },
+    enter:function(){
+      if (!on || lay === "four") return false;
+      step(function(){ initCams(); lay = "four"; active = "free"; });
+      return true;
+    },
+    leave:function(){
+      if (!on || lay !== "four") return false;
+      step(function(){ CAM[active] = cloneCam(E.camGet()); lay = "one"; shown = active; });
+      return true;
+    },
+    expand:function(k){
+      if (!on || !CAM[k]) return false;
+      step(function(){ if (lay === "four") CAM[active] = cloneCam(E.camGet()); lay = "one"; shown = k; active = k; });
+      return true;
+    },
+    restore:function(){
+      if (!on || lay === "four") return false;
+      step(function(){ CAM[shown] = cloneCam(E.camGet()); lay = "four"; active = shown; });
+      return true;
+    },
+    layout:function(){ return lay; },
+    shown:function(){ return shown; },
+    panes:function(){ return paneList() || [{key:shown, label:(spec(shown) || {}).label, x:0, y:0, w:1, h:1}]; },
+    cams:function(){ var o = {}; Object.keys(CAM).forEach(function(k){ o[k] = cloneCam(CAM[k]); }); return o; },
+    makeActive:makeActive,
+    /* verification: the rect of a pane in CSS pixels, and the pointer map, read from the module itself */
+    paneRect:function(k){
+      var r = cvRect(), q = rectOf(k);
+      if (!r) return null;
+      return {left:r.left + q.x * r.width, top:r.top + q.y * r.height, width:q.w * r.width, height:q.h * r.height};
+    },
+    mapXY:mapXY, paneAt:paneAt,
+    state:function(){ return {on:on, layout:lay, shown:shown, active:active, panes:api.panes(), cams:api.cams(),
+                              remapped:remapped, refused:refused, grid:!!(grid && !grid.hidden), step:STEP ? STEP.state() : null}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKFourUp;
+/* Q303: a custom orientation -- "facing me" -- and camera views the user can name, save and come back to in one tap.
+   Owner (translated): "instead of setting a particular orientation repeatedly, allow a 4-up 3-D view, or alternatively a
+   custom orientation ('facing me')." The standard views (front / side / back / superior, and each engine's reset) are
+   untouched; this is added beside them.
+   "FACING ME" -- THE RULE, AND WHY IT IS THIS ONE. The precedent is Blender's View > Align View to Active, which "orients
+   the viewport along a local axis of the active object or bone" and, in Edit Mode, "uses the normal of the active face
+   instead" -- i.e. an axis for a solid, a normal for a face. Our structures are neither uniformly rods nor uniformly
+   sheets, so instead of two rules there is ONE, chosen because it degenerates into each of them:
+       look along the structure's axis of LEAST spread (the minor principal axis of its own vertices).
+   For a sheet (two large eigenvalues and one small) the minor axis IS the surface normal, so the broad face turns toward
+   the camera. For a rod (one large eigenvalue) the minor axis is across the shaft, so the long axis lies across the
+   screen at full length instead of pointing at the viewer. It is also the direction that maximises the structure's drawn
+   silhouette: projected on the plane normal to axis k the silhouette's area goes as sqrt of the product of the other two
+   eigenvalues, so looking along the smallest one is the largest picture, by sqrt(lambda1/lambda3). The per-structure
+   numbers are measured on the real meshes and reported, not asserted.
+   The camera is parameterised identically in both engines -- eye = target + dist * (cos(el) sin(az), sin(el), cos(el) cos(az))
+   -- so az = atan2(u.x, u.z) and el = asin(u.y) for u = -(view direction) is the same arithmetic on both.
+     NMSKViews.start(E, {history, target, anchor})
+   E = {cam:{get, set, fit, redraw}, axesOf(ids), modelId()}
+     .facing()  .save(name)  .apply(name)  .del(name)  .list()  .report(ids)  .state() */
+var NMSKViews = (function(){
+  "use strict";
+  var E = null, hist = null, TG = null, on = false, box = null, chips = null, nameEl = null;
+  var saved = [], last = null, MAX = 8;
+  function key(){ var m = "page"; try { m = E.modelId() || "page"; } catch (err){} return "nmsk.q303.views." + m; }
+  function num(x){ return Math.round(x * 1e4) / 1e4; }
+  function load(){
+    try {
+      var j = JSON.parse(localStorage.getItem(key()) || "[]");
+      saved = Array.isArray(j) ? j.filter(function(v){ return v && v.name && v.cam; }).slice(0, MAX) : [];
+    } catch (err){ saved = []; }
+  }
+  function store(){ try { localStorage.setItem(key(), JSON.stringify(saved)); } catch (err){} }
+  function camNow(){ var c = E.cam.get(); return {az:num(c.az), el:num(c.el), dist:num(c.dist), tgt:c.tgt.map(num)}; }
+
+  /* ONE undo step, through NMSKStep: the history watches a counter, the cameras live in its side table. Registering the
+     camera as an ordinary provider would make every unrelated Undo move it, and committing a "before" value of its own
+     produced two entries -- both found by this round's harness. */
+  var STEP = null;
+  function step(apply){ return STEP ? STEP.step(apply) : apply(); }
+
+  /* ---- the orientation itself ---- */
+  function dirToAzEl(u){
+    var l = Math.hypot(u[0], u[1], u[2]) || 1, x = u[0] / l, y = u[1] / l, z = u[2] / l;
+    y = Math.max(-0.9994, Math.min(0.9994, y));                 /* el = +-90 deg is the degenerate pole of this parameterisation */
+    return {az:Math.atan2(x, z), el:Math.asin(y)};
+  }
+  function eyeDir(c){                                            /* the unit vector from the target to the eye */
+    var ce = Math.cos(c.el);
+    return [ce * Math.sin(c.az), Math.sin(c.el), ce * Math.cos(c.az)];
+  }
+  function dot(a, b){ return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+  function shapeOf(lam){
+    var l1 = lam[0], l2 = lam[1], l3 = lam[2];
+    if (l1 <= 0) return "point";
+    if (l3 / Math.max(1e-12, l2) < 0.25) return "sheet";          /* one small axis: a flat structure, the minor axis is its normal */
+    if (l2 / Math.max(1e-12, l1) < 0.25) return "rod";            /* one big axis: a tube, the minor axis is across it */
+    return "blob";
+  }
+  function report(ids){
+    var A = null;
+    try { A = E.axesOf(ids); } catch (err){ A = null; }
+    if (!A || !A.lam) return null;
+    var lam = A.lam, sh = shapeOf(lam);
+    var aMinor = Math.sqrt(Math.max(0, lam[0] * lam[1])), aMajor = Math.sqrt(Math.max(0, lam[1] * lam[2]));
+    return {n:A.n, c:A.c.map(num), lam:lam.map(function(x){ return Math.round(x * 1e3) / 1e3; }),
+            e1:A.e[0].map(num), e2:A.e[1].map(num), e3:A.e[2].map(num), shape:sh,
+            silhouetteAlongMinor:Math.round(aMinor * 1e3) / 1e3, silhouetteAlongMajor:Math.round(aMajor * 1e3) / 1e3,
+            gain:aMajor > 0 ? Math.round(aMinor / aMajor * 1e3) / 1e3 : null,
+            extent:A.ext ? A.ext.map(num) : null};
+  }
+  function facing(){
+    if (!on) return null;
+    var t = TG ? TG.get() : null, ids = t ? t.ids : null;
+    if (!ids || !ids.length){ last = {ok:false, why:"nothing is selected or marked, so there is nothing to face"}; return last; }
+    var R = report(ids);
+    if (!R){ last = {ok:false, why:"this structure's vertices are not readable on this page"}; return last; }
+    var u = R.e3.slice(), c0 = E.cam.get(), e0 = eyeDir(c0);
+    if (dot(u, e0) < 0){ u = [-u[0], -u[1], -u[2]]; }             /* keep the camera on the side it is already on: never swing round the body */
+    var ae = dirToAzEl(u);
+    /* how far the structure reaches ACROSS the new view, so the framing matches the picture we just chose */
+    var across = Math.max(R.extent ? R.extent[0] : t.r, R.extent ? R.extent[1] : t.r) / 2 || t.r;
+    var d = E.cam.fit(Math.max(across, t.r * 0.35));
+    step(function(){ E.cam.set({az:ae.az, el:ae.el, dist:d, tgt:R.c.slice()}); if (E.cam.redraw) E.cam.redraw(); });
+    var c1 = E.cam.get(), e1 = eyeDir(c1), cosang = Math.max(-1, Math.min(1, dot(e1, u)));
+    last = {ok:true, label:t.label, ids:ids.slice(), shape:R.shape, axis:u.map(num),
+            angle_deg:Math.round(Math.acos(cosang) * 180 / Math.PI * 1000) / 1000,
+            rule:"look along the minor principal axis (= the surface normal of a sheet, across the shaft of a rod)",
+            report:R, cam:camNow()};
+    ui();
+    return last;
+  }
+
+  /* ---- named views ---- */
+  function autoName(){
+    for (var i = 1; i <= MAX; i++){
+      var n = "View " + i, used = false;
+      saved.forEach(function(v){ if (v.name === n) used = true; });
+      if (!used) return n;
+    }
+    return "View " + Date.now();
+  }
+  function save(name){
+    if (!on) return null;
+    name = String(name == null ? "" : name).trim().slice(0, 24) || autoName();
+    var cam = camNow(), lay = window.NMSKFourUp ? NMSKFourUp.layout() : "one", sh = window.NMSKFourUp ? NMSKFourUp.shown() : "free";
+    var i = -1;
+    saved.forEach(function(v, k){ if (v.name === name) i = k; });
+    var rec = {name:name, cam:cam, lay:lay, shown:sh, at:Date.now()};
+    if (i >= 0) saved[i] = rec; else { saved.push(rec); if (saved.length > MAX) saved.shift(); }
+    store(); ui();
+    return rec;
+  }
+  function apply(name){
+    if (!on) return null;
+    var rec = null;
+    saved.forEach(function(v){ if (v.name === name) rec = v; });
+    if (!rec) return null;
+    /* the camera FIRST, then the layout: entering four-up frames every pane on whatever the single view was framing,
+       so the restored camera is what the four panes take. Both moves are held into ONE history entry -- two nested
+       steps would commit twice, which is exactly the defect NMSKStep exists to prevent. */
+    function run(){
+      step(function(){
+        E.cam.set({az:rec.cam.az, el:rec.cam.el, dist:rec.cam.dist, tgt:rec.cam.tgt.slice()});
+        if (E.cam.redraw) E.cam.redraw();
+      });
+      if (window.NMSKFourUp && rec.lay && NMSKFourUp.layout() !== rec.lay){
+        if (rec.lay === "four") NMSKFourUp.enter(); else NMSKFourUp.leave();
+      }
+    }
+    if (window.NMSKStep && NMSKStep.hold) NMSKStep.hold(run); else run();
+    last = {ok:true, applied:rec.name, cam:camNow()};
+    return last;
+  }
+  function del(name){
+    var before = saved.length;
+    saved = saved.filter(function(v){ return v.name !== name; });
+    if (saved.length === before) return false;
+    store(); ui();
+    return true;
+  }
+
+  /* ---- the control: one row, taps only; the name is optional and one tap saves without it ---- */
+  function ui(){
+    if (!chips) return;
+    chips.innerHTML = "";
+    if (!saved.length){
+      var p = document.createElement("span");
+      p.className = "q3-none"; p.textContent = "no saved views yet";
+      chips.appendChild(p);
+      return;
+    }
+    saved.forEach(function(v){
+      var c = document.createElement("span");
+      c.className = "q3-vchip";
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "q3-vb"; b.textContent = v.name;
+      b.setAttribute("data-view", "q303:" + v.name);
+      b.title = "Go back to “" + v.name + "” (one tap, one Undo step)";
+      b.addEventListener("click", function(ev){ ev.stopPropagation(); apply(v.name); });
+      var x = document.createElement("button");
+      x.type = "button"; x.className = "q3-vx"; x.textContent = "×";
+      x.title = "Forget “" + v.name + "”"; x.setAttribute("aria-label", "Forget the view " + v.name);
+      x.addEventListener("click", function(ev){ ev.stopPropagation(); del(v.name); });
+      c.appendChild(b); c.appendChild(x);
+      chips.appendChild(c);
+    });
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null;
+      if (!E || !E.cam || typeof E.cam.get !== "function" || typeof E.axesOf !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      TG = opt.target || window.NMSKTarget || null;
+      load();
+      STEP = window.NMSKStep ? NMSKStep.make(hist, "q303cam", camNow, function(c){
+        try { E.cam.set({az:c.az, el:c.el, dist:c.dist, tgt:c.tgt.slice()}); if (E.cam.redraw) E.cam.redraw(); } catch (err){}
+      }) : null;
+      on = true;
+      return api;
+    },
+    /* the box the View group adopts: Facing me + Save this view + the saved chips */
+    element:function(){
+      if (box) return box;
+      box = document.createElement("div");
+      box.id = "q303-views"; box.className = "q3-views";
+      box.setAttribute("role", "group"); box.setAttribute("aria-label", "Custom orientation and saved views");
+      var f = document.createElement("button");
+      f.type = "button"; f.id = "q303-facing"; f.className = "q3-b"; f.textContent = "Facing me";
+      f.title = "Turn the selected structure to face you: the camera looks along the structure's own axis of least spread, which is the surface normal of a flat structure and across the shaft of a tube -- the largest view of it there is. Mark or select something first.";
+      f.addEventListener("click", function(ev){ ev.stopPropagation(); facing(); });
+      box.appendChild(f);
+      var row = document.createElement("span"); row.className = "q3-vsave";
+      nameEl = document.createElement("input");
+      nameEl.type = "text"; nameEl.id = "q303-vname"; nameEl.className = "q3-vname";
+      nameEl.placeholder = "name (optional)"; nameEl.maxLength = 24;
+      nameEl.setAttribute("aria-label", "A name for this view");
+      row.appendChild(nameEl);
+      var s = document.createElement("button");
+      s.type = "button"; s.id = "q303-vsave"; s.className = "q3-b"; s.textContent = "Save this view";
+      s.title = "Remember where the camera is now, under a name, and come back to it in one tap. Kept in this browser only.";
+      s.addEventListener("click", function(ev){ ev.stopPropagation(); save(nameEl ? nameEl.value : ""); if (nameEl) nameEl.value = ""; });
+      row.appendChild(s);
+      box.appendChild(row);
+      chips = document.createElement("div"); chips.className = "q3-vchips"; chips.id = "q303-vchips";
+      box.appendChild(chips);
+      var tip = document.createElement("p");
+      tip.className = "nmsk-tip";
+      tip.textContent = "The standard views (front / side / back, and the reset) are unchanged. “Facing me” uses the structure's own minor principal axis -- the rule is in the circled i, with the measured numbers. Saved views live in this browser, up to " + MAX + "; the two resets do not touch them.";
+      box.appendChild(tip);
+      ui();
+      return box;
+    },
+    facing:facing, save:save, apply:apply, del:del, report:report,
+    list:function(){ return saved.map(function(v){ return {name:v.name, cam:v.cam, lay:v.lay, shown:v.shown}; }); },
+    last:function(){ return last; },
+    state:function(){ return {on:on, saved:api.list(), last:last, max:MAX, step:STEP ? STEP.state() : null}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKViews;
+/* Q303: emphasise the nerves, including the small ones.
+   Owner (translated): "allow emphasis of the nerves including the small ones."
+   WHY THE SMALL ONES DISAPPEAR, measured and not guessed. This page's own calibre table (#nmsk-calibre, Q240:
+   {v:1,c:{id:[kind a|v|n, diameter_mm, level 1..4, promoted]}}, diameters measured off the meshes by
+   scripts/anatomy/q240/calibre.py) gives every nerve a real diameter. A whole-body view puts roughly 1700 mm of body
+   into the height of the 3-D view, so one millimetre is a fraction of a pixel: a 1 mm branch is drawn far under one
+   pixel wide and a 0.15 mm twig is drawn at a hundredth of one. Nothing is wrong with the mesh, the decimation or the
+   draw order -- the structure is simply SUB-PIXEL, and no colour or opacity can rescue a line thinner than a pixel.
+   THE ANSWER IS THE ONE THIS PROJECT HAS ALREADY PROVEN TWICE, not a third invention:
+     Q299 gave a cut-face section a MINIMUM DRAWN WIDTH (1/500 of the section's extent, capped at 2.5 mm) so a thin
+          structure still reads on the section;
+     Q300 drew the bone ONCE MORE after the translucent pass with the depth test off, so its share of the pixel does not
+          depend on how many layers lie in front of it.
+   So: an extra pass over the nerve structures' own vertices, drawn after everything, each vertex as a round screen-space
+   dot whose diameter is max(the nerve's TRUE width in pixels, the minimum width of the chosen step). A nerve already
+   wider than the minimum is not touched. Nothing is added to or taken from any mesh, and the true calibre keeps being
+   what the card and the legend print -- this is a DISPLAY AID and says so on the screen, in the control and in the
+   circled i.
+     NMSKNerves.start(E, {toolbar, cls, history, showall})
+   E = {list() -> [{id, cat, name}], apply(spec|null), mmPerPx(), redraw(), nervePixels?()}
+     .level()  .set(i)  .steps()  .census()  .absent()  .state() */
+var NMSKNerves = (function(){
+  "use strict";
+  var E = null, hist = null, on = false, lvl = 0, box = null, segBtns = [], note = null, CAL = {}, haveCal = false;
+  var rows = [], dia = {}, mpTouched = false, left = 0;
+  /* the three taps: the MINIMUM drawn width in CSS pixels, and how strongly the pass paints.
+     0.0 px / 0 alpha is Off. The two live steps were chosen by measuring the drawn contrast on both engines. */
+  var STEP = [{w:0, a:0, label:"Off"}, {w:2.2, a:0.55, label:"Clear"}, {w:3.6, a:0.85, label:"Strong"}];
+  var NERVE_CATS = {nerve:1, cns:1};
+  /* A conventional list of the major peripheral nerves, used ONLY to say on the screen which of them this page does not
+     ship -- emphasis cannot show a nerve that is not there. Q299 found the two Imaging pages carry no fibular /
+     peroneal nerve at all and are missing 71 lower-limb nerves, while each Z page carries 18 fibular meshes; this probe
+     reports that from the page's own list rather than from a claim written here. */
+  var MAJOR = [
+    ["median", /\bmedian\b/i], ["ulnar", /\bulnar\b/i], ["radial", /\bradial\b/i], ["musculocutaneous", /musculocutaneous/i],
+    ["axillary", /\baxillary\b/i], ["suprascapular", /suprascapular/i], ["long thoracic", /long[_ ]thoracic/i],
+    ["phrenic", /phrenic/i], ["vagus", /\bvagus\b/i], ["sciatic", /sciatic/i], ["tibial", /\btibial\b/i],
+    ["fibular (peroneal)", /fibular|peroneal/i], ["sural", /\bsural\b/i], ["saphenous", /saphenous/i],
+    ["femoral", /\bfemoral_n|femoral nerve|\bfemoral\b/i], ["obturator", /obturator/i], ["pudendal", /pudendal/i],
+    ["gluteal", /gluteal_n|gluteal nerve/i], ["iliohypogastric", /iliohypogastric/i], ["ilioinguinal", /ilioinguinal/i],
+    ["lateral femoral cutaneous", /lateral[_ ]femoral[_ ]cutaneous|cutaneous[_ ]femoris[_ ]lateralis/i],
+    ["intercostal", /intercostal_n|intercostal nerve/i], ["accessory", /accessory_n/i], ["facial", /facial_n/i]
+  ];
+  function readCal(){
+    try {
+      var e = document.getElementById("nmsk-calibre");
+      if (!e || e.textContent.trim().length <= 2) return;
+      var j = JSON.parse(e.textContent);
+      if (j && j.c){ CAL = j.c; haveCal = true; }
+    } catch (err){ CAL = {}; haveCal = false; }
+  }
+  /* WHICH STRUCTURES THE EMPHASIS COVERS, and why that is the page's own answer and not ours.
+     The nerve CATEGORY on these pages is wider than "a peripheral nerve": on the four Z pages it also holds the spinal
+     dura, the cord's own tracts and its nuclei (`Lateral fasciculus proprius`, `Lateral vestibulospinal tract`,
+     `Intermediolateral nucleus`...), and the `cns` category holds the cord and the brain. None of those is a nerve you
+     would want widened, and together they are more than half the vertices in the two categories (376,522 against
+     179,874 on a Z page). So the set is taken from the page's OWN calibre table (Q240): every structure it records with
+     kind `n`. That is 439 of the 552 nerve-category meshes on a Z page -- the trunks and every named branch, the small
+     ones included, which is exactly what was asked -- and it halves the cost of the pass as well. A page with no
+     calibre table falls back to the category, and the control says which rule it used and how many structures the
+     other rule would have added. */
+  function isNerve(r){
+    if (!r) return false;
+    var c = CAL[r.id];
+    if (haveCal) return !!(c && c[0] === "n");
+    return !!NERVE_CATS[r.cat];
+  }
+  function build(){
+    readCal();
+    var all = [];
+    try { all = E.list() || []; } catch (err){ all = []; }
+    rows = all.filter(isNerve).map(function(r){
+      var c = CAL[r.id] || null;
+      var d = c && typeof c[1] === "number" && c[1] > 0 ? c[1] : null;
+      return {id:r.id, name:r.name || r.id, cat:r.cat, dia:d, level:c ? c[2] : null, promoted:c ? !!c[3] : false};
+    });
+    /* the structures the OTHER rule would have added, counted off the page so the note is never a number in the code */
+    left = all.filter(function(r){ return !isNerve(r) && NERVE_CATS[r.cat]; }).length;
+    dia = {};
+    rows.forEach(function(r){ if (r.dia != null) dia[r.id] = r.dia; });
+  }
+  function mmPerPx(){ try { return E.mmPerPx() || 1; } catch (err){ return 1; } }
+  /* the census the control prints and the verify reads: how many nerves, how many have a real diameter, and how many of
+     them are drawn under one pixel wide AT THE VIEW ON THE SCREEN RIGHT NOW (which is what "invisible" means) */
+  function census(){
+    var m = mmPerPx(), st = STEP[lvl], out = {n:rows.length, withDia:0, noDia:0, subPixel:0, underStep:0,
+      rule:haveCal ? "the page's own calibre table (kind n)" : "the nerve / cns categories (this page has no calibre table)",
+      notCovered:left, mmPerPx:Math.round(m * 1e4) / 1e4, minWidthPx:st.w,
+      levels:{1:0, 2:0, 3:0, 4:0}, diaMin:null, diaMax:null, widths:[]};
+    rows.forEach(function(r){
+      if (r.level) out.levels[r.level] = (out.levels[r.level] || 0) + 1;
+      if (r.dia == null){ out.noDia++; return; }
+      out.withDia++;
+      if (out.diaMin == null || r.dia < out.diaMin) out.diaMin = r.dia;
+      if (out.diaMax == null || r.dia > out.diaMax) out.diaMax = r.dia;
+      var px = r.dia / m;
+      if (px < 1) out.subPixel++;
+      if (st.w > 0 && px < st.w) out.underStep++;
+    });
+    return out;
+  }
+  function widthOf(id){
+    var m = mmPerPx(), d = dia[id], st = STEP[lvl];
+    var truePx = d == null ? null : d / m;
+    return {id:id, dia_mm:d == null ? null : d, truePx:truePx == null ? null : Math.round(truePx * 1e3) / 1e3,
+            drawnPx:Math.round(Math.max(st.w, truePx == null ? st.w : truePx) * 1e3) / 1e3, minPx:st.w};
+  }
+  /* which of the conventional major nerves this page simply does not carry */
+  function absent(){
+    var have = [], miss = [];
+    MAJOR.forEach(function(p){
+      var hit = 0;
+      rows.forEach(function(r){ if (p[1].test(r.id) || p[1].test(r.name)) hit++; });
+      (hit ? have : miss).push({name:p[0], n:hit});
+    });
+    return {have:have, missing:miss.map(function(x){ return x.name; })};
+  }
+  function spec(){
+    var st = STEP[lvl];
+    if (!st.w) return null;
+    return {on:true, wmin:st.w, alpha:st.a, step:lvl, ids:rows.map(function(r){ return r.id; }), dia:dia,
+            /* the engine turns this into a device-pixel point size with exactly this formula, on both engines:
+               sizeDev = max(wmin, dia_mm / mmPerPx) * devicePixelRatio, and a nerve with no diameter takes wmin */
+            formula:"max(wmin_px, dia_mm / mmPerPx) * dpr"};
+  }
+  function push(){
+    try { E.apply(spec()); } catch (err){ if (window.console) console.error("q303 nerves", err); }
+    if (E.redraw){ try { E.redraw(); } catch (e2){} }
+  }
+  /* Q281's motor points / NMJ markers are the needle tool's own overlay with its own "Emphasize motor points" toggle;
+     emphasis switches that on rather than drawing a second set of markers that could fall out of step with it. */
+  function motorPoints(want){
+    var b = document.getElementById("ncl-mp-on");
+    if (!b) return false;
+    var isOn = b.getAttribute("aria-pressed") === "true";
+    if (want && !isOn){ b.click(); mpTouched = true; return true; }
+    if (!want && isOn && mpTouched){ b.click(); mpTouched = false; return true; }
+    return false;
+  }
+  function ui(){
+    segBtns.forEach(function(b, k){ b.setAttribute("aria-pressed", String(k === lvl)); b.classList.toggle("on", k === lvl); });
+    if (!note) return;
+    var c = census(), ab = absent();
+    var txt = c.n + " nerve structures on this page";
+    if (c.withDia) txt += ", " + c.withDia + " with a measured diameter (" + c.diaMin + "–" + c.diaMax + " mm)";
+    if (c.noDia) txt += ", " + c.noDia + " with none on record";
+    txt += ". At this zoom " + c.subPixel + " of them are drawn under one pixel wide";
+    if (lvl > 0) txt += "; " + c.underStep + " are widened to the " + STEP[lvl].w + " px minimum";
+    txt += ". The true calibre is unchanged — this is a display aid.";
+    if (c.notCovered) txt += " " + c.notCovered + " more structures sit in the nerve / CNS categories (the cord, its tracts and nuclei, the dura) and are not peripheral nerves, so they are left exactly as they are.";
+    if (ab.missing.length) txt += " This page ships no " + ab.missing.slice(0, 4).join(", ") + (ab.missing.length > 4 ? " (and " + (ab.missing.length - 4) + " more)" : "") + ": emphasis cannot show a nerve that is not here.";
+    note.textContent = txt;
+  }
+  function provider(){
+    return {get:function(){ return {lvl:lvl, mp:mpTouched}; },
+            set:function(v){ if (!v) return; lvl = Math.max(0, Math.min(STEP.length - 1, v.lvl | 0)); mpTouched = !!v.mp; push(); ui(); },
+            reset:function(){ if (lvl !== 0){ lvl = 0; motorPoints(false); push(); ui(); } }};
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null;
+      if (!E || typeof E.apply !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      build();
+      box = document.createElement("div");
+      box.id = "nv-box"; box.className = "nv-box";
+      box.setAttribute("role", "group"); box.setAttribute("aria-label", "How strongly the nerves are emphasised");
+      var lab = document.createElement("span"); lab.className = "nv-l"; lab.textContent = "Nerves";
+      box.appendChild(lab);
+      var seg = document.createElement("span"); seg.className = "nv-seg";
+      STEP.forEach(function(s, k){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "nv-b"; b.id = "nv-" + k; b.textContent = s.label;
+        b.title = k === 0 ? "No emphasis: the nerves are drawn exactly as the model has them."
+          : "Draw every nerve at least " + s.w + " px wide, over the tissue in front of it. The mesh and the recorded calibre do not change.";
+        b.setAttribute("aria-pressed", "false");
+        b.addEventListener("click", function(ev){ ev.stopPropagation(); api.set(k); });
+        seg.appendChild(b); segBtns.push(b);
+      });
+      box.appendChild(seg);
+      note = document.createElement("p"); note.className = "nv-note"; box.appendChild(note);
+      var tip = document.createElement("p"); tip.className = "nmsk-tip";
+      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. It is the same idea as Q299's minimum section width and Q300's bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
+      box.appendChild(tip);
+      if (opt.toolbar) opt.toolbar.appendChild(box);
+      if (hist && hist.register) hist.register("q303nerves", provider());
+      on = true;
+      if (opt.level) api.set(opt.level | 0, true);
+      ui();
+      setInterval(ui, 900);                      /* the census depends on the zoom, so the line follows the camera */
+      return api;
+    },
+    element:function(){ return box; },
+    set:function(i, quiet){
+      i = Math.max(0, Math.min(STEP.length - 1, i | 0));
+      if (i === lvl){ ui(); return false; }
+      if (!quiet && hist && hist.commit) hist.commit();
+      lvl = i;
+      if (lvl > 0 && E.show){ try { E.show(); } catch (err){} }     /* composes with the nerve system toggle: it switches it on */
+      motorPoints(lvl > 0);
+      push(); ui();
+      if (!quiet && hist && hist.commit) hist.commit();
+      return true;
+    },
+    level:function(){ return lvl; },
+    steps:function(){ return STEP.map(function(s){ return {label:s.label, w:s.w, a:s.a}; }); },
+    census:census, absent:absent, widthOf:widthOf, rows:function(){ return rows.slice(); },
+    /* verification: the drawn width of a named sample of large / medium / small nerves, before and after */
+    sample:function(k){
+      var withD = rows.filter(function(r){ return r.dia != null; }).sort(function(a, b){ return b.dia - a.dia; });
+      if (!withD.length) return [];
+      var n = withD.length, idx = [0, Math.floor(n / 2), n - 1], out = [];
+      if (k === "all") idx = withD.map(function(_, i){ return i; });
+      idx.forEach(function(i){ var r = withD[i]; if (r) out.push(Object.assign({name:r.name, level:r.level}, widthOf(r.id))); });
+      return out;
+    },
+    state:function(){ return {on:on, level:lvl, step:STEP[lvl], census:census(), absent:absent(), notCovered:left,
+                              haveCalibre:haveCal, motorPoints:!!document.getElementById("ncl-mp-on"), mpTouched:mpTouched}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKNerves;
+/* Q303: the boot. One call per page from each engine's own glue, exactly as Q301 does it -- everything engine specific
+   is in the adaptors the glue passes in, so the two engines behave identically and this file is the only place the
+   round's wiring lives. It adds its members to Q301's EXISTING "View" group (NMSKGroups.addTo) rather than putting new
+   buttons at the top level, registers its compatibility rows with Q301's table (NMSKCombos.addPair), and writes its own
+   sections of the circled i from the real numbers.
+     NMSKQ303.start({anchor, history, modelreset, target:E, autofocus:E, fourup:E, views:E, nerves:E, nerveLevel})
+     .ready()  .state() */
+var NMSKQ303 = (function(){
+  "use strict";
+  var on = false, O = null, focusBox = null;
+  function esc(s){ return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function el(tag, cls, txt){ var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+
+  function focusElement(){
+    if (focusBox) return focusBox;
+    focusBox = el("div", "q3-focus");
+    focusBox.id = "q303-focus-box";
+    focusBox.setAttribute("role", "group"); focusBox.setAttribute("aria-label", "Centring on what you chose");
+    if (window.NMSKAutoFocus){
+      focusBox.appendChild(NMSKAutoFocus.button("q301-b"));
+      focusBox.appendChild(NMSKAutoFocus.centreButton("q301-b"));
+    }
+    var tip = el("p", "nmsk-tip");
+    tip.textContent = "On (the default): entering CT / MR, the ultrasound, a cut, the cross-sections or a radiographic style centres that mode on what you have marked, on the structure whose card is open, or on the result you picked out of a search — in that order. With nothing chosen, nothing moves. Each centring is one Undo step and the two resets undo it.";
+    focusBox.appendChild(tip);
+    return focusBox;
+  }
+
+  function combos(){
+    var C = window.NMSKCombos;
+    if (!C || !C.add || !C.addPair) return;
+    if (window.NMSKFourUp) C.add({key:"fourup", label:"Four views", active:function(){ return NMSKFourUp.layout() === "four"; }});
+    if (window.NMSKNerves) C.add({key:"nerves", label:"Nerve emphasis", active:function(){ return NMSKNerves.level() > 0; }});
+    [
+      {a:"fourup", b:"measure", ok:false,
+       why:"Measure draws on one view. Tap a pane's square to show only that pane, then measure there."},
+      {a:"fourup", b:"imaging", ok:true,
+       why:"All four panes take the radiographic style: it is one model drawn four times, not four models."},
+      {a:"fourup", b:"cut", ok:true,
+       why:"One cut, seen from four sides at once — which is what four panes are for."},
+      {a:"fourup", b:"spin", ok:true,
+       why:"Spin turns the pane you are working in; the other three stay where you put them."},
+      {a:"nerves", b:"imaging", ok:false,
+       why:"A greyscale radiographic picture has no highlight colour. Switch back to Colour to emphasise the nerves, or mark them and use the Marked list."},
+      {a:"nerves", b:"peel", ok:true,
+       why:"Peel to the bone and the nerves stay emphasised over it."},
+      {a:"nerves", b:"cut", ok:true,
+       why:"The emphasis is clipped by the cut, so a removed half stays removed."}
+    ].forEach(function(r){ C.addPair(r); });
+  }
+
+  function infoSections(){
+    var I = window.NMSKInfo; if (!I) return;
+    I.add({key:"q303focus", title:"Centring imaging on what you already chose", order:22, build:function(){
+      var A = window.NMSKAutoFocus;
+      if (!A) return "<p>(not on this page)</p>";
+      var st = A.state();
+      return "<p>Entering an imaging-like mode centres it on what you already chose, instead of making you navigate " +
+        "there again. The order is fixed: <b>the marked set</b> (their combined bounding box), then <b>the structure " +
+        "whose card is open</b>, then <b>the result you picked out of a search</b>. With none of those, <b>nothing " +
+        "moves</b> &mdash; it never jumps when there is nothing to jump to.</p>" +
+        "<p>What “centred” means in each mode:</p><ul>" +
+        "<li><b>CT / MR</b> &mdash; the slice point becomes the centre, and every pane's own in-plane centre is " +
+        "released so it follows it: the slice LEVEL and the in-plane POSITION in one move. This is 3D Slicer's " +
+        "<i>Jump slices &mdash; centered</i>, which its Markups module offers as a choice against <i>offset</i>.</li>" +
+        "<li><b>Ultrasound</b> &mdash; the probe is seated on the skin where a ray from the camera to the centre meets " +
+        "it, so it comes in from the side you are looking from.</li>" +
+        "<li><b>Cut</b> &mdash; the plane keeps the orientation you chose and only slides along its own normal until it " +
+        "passes through the centre.</li>" +
+        "<li><b>Cross-sections</b> &mdash; the stack is centred on the cut plane, so the same slide centres the stack; " +
+        "in part mode the stack's part becomes the structures you chose.</li>" +
+        "<li><b>A radiographic style</b> &mdash; the camera frames the chosen structures.</li></ul>" +
+        "<p>It is <b>one Undo step</b> each time, both resets undo it, and the switch " +
+        "(<i>Follow what I chose</i>, in View) is <b>" + (st.follow ? "on" : "off") + "</b> and remembered in this browser. " +
+        "A line on the screen says what it centred on and why.</p>";
+    }});
+    I.add({key:"q303four", title:"Four views at once: whose convention, and what stands down", order:24, build:function(){
+      var F = window.NMSKFourUp;
+      if (!F) return "<p>(not on this page)</p>";
+      var p = F.panes();
+      return "<p><b>One model, four cameras.</b> Selection, marking, hiding, the layers, the peel, the radiographic " +
+        "style and the cut are the engine's single state, and the panes are four viewports over that one scene &mdash; " +
+        "so they cannot disagree. Only the camera is per pane. The pane you touch owns the camera, so dragging, the " +
+        "wheel and pinch act on it alone.</p>" +
+        "<p><b>The set is 3D Slicer's.</b> Its <i>Four-Up</i> layout is three orthogonal slice views (Red axial, Yellow " +
+        "sagittal, Green coronal) plus the 3-D view. For a surface model the equivalent of those three slice normals is " +
+        "looking along each anatomical axis, so the panes are " + p.map(function(q){ return "<b>" + esc(q.label) + "</b>"; }).join(", ") +
+        ". Visible Body's own single-view presets are the same directions (“1: Anterior, 2: Posterior, 3: Right, " +
+        "4: Left, 5: Superior, 6: Inferior”). <b>Our convention:</b> we found no documentation for a four-pane " +
+        "layout in any commercial anatomy atlas, so the grid is Slicer's idea and which quadrant holds which pane is " +
+        "ours &mdash; the free view sits where Slicer puts the 3-D one.</p>" +
+        "<p><b>What stands down while four panes are on,</b> and why: the structure labels, the axis gnomon, the scale " +
+        "bar, the cut outline, the part markers and the measuring chips are all drawn for <i>one</i> camera over the " +
+        "whole canvas. Rather than draw them in the wrong place they are stood down; expand a pane (its square) and " +
+        "they come straight back.</p>" +
+        "<p>Entering four views, expanding a pane and restoring are <b>one Undo step</b> each, and the model reset puts " +
+        "the page back to a single view.</p>";
+    }});
+    I.add({key:"q303facing", title:"“Facing me”: the rule, and the measurement behind it", order:26, build:function(){
+      var V = window.NMSKViews;
+      if (!V) return "<p>(not on this page)</p>";
+      var L = V.last(), s = V.state();
+      return "<p><b>The rule, in one line:</b> the camera looks along the structure's <b>axis of least spread</b> &mdash; " +
+        "the minor principal axis of its own vertices.</p>" +
+        "<p><b>Why one rule and not two.</b> The precedent is Blender's <i>View &gt; Align View to Active</i>, which " +
+        "“orients the viewport along a local axis of the active object or bone” and, in Edit Mode, " +
+        "“uses the normal of the active face instead” &mdash; an axis for a solid, a normal for a face. Our " +
+        "structures are neither all rods nor all sheets, so the single rule was chosen because it becomes each of them: " +
+        "for a <b>flat</b> structure the minor axis IS the surface normal, so the broad face turns toward you; for a " +
+        "<b>tube</b> it lies across the shaft, so the long axis runs across the screen at full length instead of " +
+        "pointing at you. It is also the largest picture of the structure there is: the silhouette's area goes as the " +
+        "square root of the product of the other two eigenvalues, so looking along the smallest one wins by " +
+        "&radic;(&lambda;&#8321;/&lambda;&#8323;). The per-structure numbers are measured on the real meshes, not asserted.</p>" +
+        (L && L.ok && L.shape ? "<p><b>Last time you used it:</b> " + esc(L.label) + " &mdash; read as a <b>" + esc(L.shape) +
+          "</b>, and the camera ended <b>" + L.angle_deg + "&deg;</b> off that axis (the limit is the az / el camera's own " +
+          "pole, not the rule).</p>" : "") +
+        "<p><b>Saved views.</b> Name the camera you are in and come back to it in one tap &mdash; the pattern Visible " +
+        "Body documents as storing a view on a key and pressing that key again to return. Up to " + s.max +
+        " of them, kept <b>in this browser only</b>, and neither reset touches them. There are " + s.saved.length +
+        " saved on this page now. The standard views (front / side / back and the engine's own reset) are unchanged.</p>";
+    }});
+    I.add({key:"q303nerves", title:"Emphasising the nerves, including the small ones", order:28, build:function(){
+      var N = window.NMSKNerves;
+      if (!N) return "<p>(not on this page)</p>";
+      var st = N.state(), c = st.census, ab = st.absent, sm = N.sample();
+      return "<p><b>Why the small ones were invisible, measured and not guessed.</b> This page's own calibre table " +
+        "(<code>nmsk-calibre</code>, Q240 &mdash; diameters measured off the meshes) gives every nerve a real diameter. " +
+        "A whole-body view puts the body's full height into the height of the 3-D view, so at the moment " +
+        "<b>1 pixel ≈ " + c.mmPerPx + " mm</b>: of the <b>" + c.n + "</b> nerve structures here, <b>" + c.subPixel +
+        "</b> are drawn <b>under one pixel wide</b>. Nothing is wrong with the mesh, the decimation or the draw order &mdash; " +
+        "the structure is simply sub-pixel, and no colour or opacity can rescue a line thinner than a pixel.</p>" +
+        "<p><b>What the emphasis does.</b> An extra pass over the nerves' own vertices, drawn after everything, on the " +
+        "camera-facing half of the model, each vertex a round dot whose width is " +
+        "<code>max(the step's minimum, the nerve's true width in pixels)</code>. A nerve already wider than the minimum " +
+        "is untouched. That is Q299's <i>minimum drawn width</i> for a thin section and Q300's <i>bone drawn once more " +
+        "after the translucent pass</i>, applied to nerves &mdash; not a third invention. The steps are " +
+        N.steps().map(function(s){ return "<b>" + esc(s.label) + "</b>" + (s.w ? " " + s.w + " px" : ""); }).join(" / ") + ".</p>" +
+        "<p><b>The honesty rule.</b> No mesh is changed and no geometry is written. The <b>true calibre stays the " +
+        "record</b> &mdash; it is what the structure's card and the vessel / nerve legend print, and " +
+        (c.withDia ? "<b>" + c.withDia + "</b> of these nerves carry a measured diameter (" + c.diaMin + "–" + c.diaMax + " mm)" : "none of them carry one") +
+        (c.noDia ? " while <b>" + c.noDia + "</b> have <b>no diameter on record</b> and take the step's minimum width flat" : "") +
+        ". The emphasis is a <b>display aid</b> and is labelled as one wherever it appears.</p>" +
+        (sm.length ? "<p><b>A large, a middling and a small one, at this zoom:</b> " + sm.map(function(r){
+          return esc(r.name) + " &Oslash;&nbsp;" + r.dia_mm + "&nbsp;mm &rarr; " + r.truePx + "&nbsp;px drawn as " + r.drawnPx + "&nbsp;px";
+        }).join("; ") + ".</p>" : "") +
+        "<p><b>What it reaches, and whose answer that is.</b> Every structure this page's own calibre table records as a " +
+        "<b>nerve</b> &mdash; <b>" + c.n + "</b> of them here, the trunks and every named branch, the small ones " +
+        "included &mdash; chosen that way because the nerve <i>category</i> on these pages is wider than \u201ca " +
+        "peripheral nerve\u201d: it also holds the spinal dura, the cord\u2019s tracts and its nuclei, and the " +
+        "<code>cns</code> category holds the cord and the brain. None of those is a nerve anyone wants widened, and " +
+        "together they are more than half the vertices in those categories, so " +
+        (st.notCovered ? "<b>" + st.notCovered + "</b> structures are left exactly as they are" : "nothing else is touched") +
+        ". The rule in force on this page is <b>" + esc(c.rule) + "</b>. The <b>motor points / NMJ markers</b> are the needle tool\u2019s " +
+        "own overlay with its own <i>Emphasize motor points</i> toggle, which this control switches on with it rather " +
+        "than drawing a second set that could fall out of step &mdash; that toggle is " +
+        (st.motorPoints ? "on this page" : "not on the screen until the needle tool is open") + ".</p>" +
+        (ab.missing.length ? "<p><b>What this page does not carry at all</b> (emphasis cannot show a nerve that is not " +
+          "here, and Q299 found exactly this on the Imaging pages): " + ab.missing.map(esc).join(", ") + ". The control " +
+          "says so on the screen too.</p>" : "<p>Every nerve on our conventional list of the major peripheral nerves is " +
+          "present on this page.</p>");
+    }});
+  }
+
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      O = opt;
+      var hist = opt.history || window.NMSKHistory || null;
+      if (opt.target && window.NMSKTarget) NMSKTarget.start(opt.target);
+      if (opt.autofocus && window.NMSKAutoFocus) NMSKAutoFocus.start(opt.autofocus, {history:hist, target:window.NMSKTarget, anchor:opt.anchor});
+      if (opt.fourup && window.NMSKFourUp) NMSKFourUp.start(opt.fourup, {history:hist, anchor:opt.anchor});
+      if (opt.views && window.NMSKViews) NMSKViews.start(opt.views, {history:hist, target:window.NMSKTarget});
+      if (opt.nerves && window.NMSKNerves) NMSKNerves.start(opt.nerves, {history:hist, level:opt.nerveLevel || 0});
+      combos();
+      infoSections();
+      /* into Q301's OWN "View" group, not a new top-level button: progressive disclosure, short menus, one control bar */
+      var G = window.NMSKGroups;
+      if (G && G.addTo){
+        if (window.NMSKFourUp) G.addTo("view", {el:NMSKFourUp.button("q301-b"), combo:"fourup"});
+        if (window.NMSKViews) G.addTo("view", {el:NMSKViews.element()});
+        if (window.NMSKAutoFocus) G.addTo("view", {el:focusElement()});
+        if (window.NMSKNerves && NMSKNerves.element()) G.addTo("view", {el:NMSKNerves.element(), combo:"nerves"});
+      }
+      if (window.NMSKTips && NMSKTips.fold){ try { NMSKTips.fold(); } catch (err){} }
+      if (window.NMSKInfo && NMSKInfo.refresh){ try { NMSKInfo.refresh(); } catch (e2){} }
+      on = true;
+      return api;
+    },
+    ready:function(){ return on; },
+    state:function(){ return {on:on,
+      target:window.NMSKTarget ? NMSKTarget.state() : null,
+      autofocus:window.NMSKAutoFocus ? NMSKAutoFocus.state() : null,
+      fourup:window.NMSKFourUp ? NMSKFourUp.state() : null,
+      views:window.NMSKViews ? NMSKViews.state() : null,
+      nerves:window.NMSKNerves ? NMSKNerves.state() : null}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ303;
+</script>
+<!-- Q303 html end -->
 <!-- Q298 html begin -->
 <style>
 /* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
@@ -5032,8 +6702,40 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
     var lastMVP=null, lastEye=null, lastRight=null, lastUp=null, lastFwd=[0,0,-1];
     var drawCount = 0;
-    function draw() {
+    /* Q303: four panes of the same model, each with its own camera. One scene, four viewports -- every other
+       piece of state (selection, marks, hiding, the layers, the peel, the style, the cut) is the engine's
+       single state, so the panes cannot disagree. The ACTIVE pane is drawn LAST on purpose: lastMVP / lastEye /
+       lastRight / lastUp are left holding its camera, which is exactly what pick(), pickPoint() and the
+       add-on ray path read, so none of them needs an edit. */
+    var q303panes = null;
+    function q303setPanes(L){ q303panes = (L && L.length) ? L : null; need = true; }
+    function q303cur(){ return q303panes ? q303panes._cur : null; }
+    function q303ph(){ var p = q303cur() || (q303panes && q303panes.length ? q303panes[0] : null); return p ? p.h : 1; }
+    function q303vp(){
+      var p = q303cur();
+      if (!p){ gl.disable(gl.SCISSOR_TEST); gl.viewport(0, 0, W, H); return; }
+      var x = Math.round(p.x * W), y = Math.round((1 - p.y - p.h) * H);
+      var w = Math.max(1, Math.round(p.w * W)), h = Math.max(1, Math.round(p.h * H));
+      gl.enable(gl.SCISSOR_TEST); gl.scissor(x, y, w, h); gl.viewport(x, y, w, h);
+    }
+    function q303aspect(){ var p = q303cur(); return p ? (p.w * W) / Math.max(1, p.h * H) : W / Math.max(1, H); }
+    function draw(){
+      var P = q303panes;
+      if (!P){ drawPane(); return; }
+      var ord = P.slice().sort(function(a, b){ return (a.active ? 1 : 0) - (b.active ? 1 : 0); });
+      var sv = {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()};
+      for (var qi = 0; qi < ord.length; qi++){
+        P._cur = ord[qi];
+        cam.az = ord[qi].az; cam.el = ord[qi].el; cam.dist = ord[qi].dist; cam.tgt = ord[qi].tgt.slice();
+        drawPane();
+      }
+      P._cur = null;
+      cam.az = sv.az; cam.el = sv.el; cam.dist = sv.dist; cam.tgt = sv.tgt;
+      gl.disable(gl.SCISSOR_TEST); gl.viewport(0, 0, W, H);
+    }
+    function drawPane() {
       drawCount++;
+      q303vp();
       if (partsCtl) partsCtl.update();          // Q220: which part markers are drawn (selection / toggle, cut + slab, layer state)
       gl.clearColor(COL.bg[0],COL.bg[1],COL.bg[2],1);
       gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
@@ -5043,7 +6745,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       var ce=Math.cos(cam.el), se=Math.sin(cam.el);
       var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)];
       var view=mL(eye,cam.tgt,[0,1,0]);
-      var mvp=mMul(mP(0.85,W/H,HGT*0.02,HGT*14),view);
+      var mvp=mMul(mP(0.85,q303aspect(),HGT*0.02,HGT*14),view);   /* Q303: the pane's own aspect */
       lastMVP=mvp; lastEye=eye;
       lastRight=[view[0],view[4],view[8]]; lastUp=[view[1],view[5],view[9]]; lastFwd=[-view[2],-view[6],-view[10]];
       gl.uniformMatrix4fv(U.uMVP,false,mvp);
@@ -5159,9 +6861,11 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         gl.useProgram(prog); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
         gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
       }
-      if (cutCtl) cutCtl.overlay();
-      if (partsCtl) partsCtl.overlay();
-      if (labelsCtl) labelsCtl.update();       // Q236: structure labels (DOM / SVG overlay; throttled ID pass inside)
+      if (!q303panes){                         /* Q303: these are drawn for ONE camera over the whole canvas */
+        if (cutCtl) cutCtl.overlay();
+        if (partsCtl) partsCtl.overlay();
+        if (labelsCtl) labelsCtl.update();       // Q236: structure labels (DOM / SVG overlay; throttled ID pass inside)
+      }
     }
     var cutCtl = null, partsCtl = null, selCtl = null, capCtl = null, labelsCtl = null, xsecCtl = null;
     var capPoll=0, xsecPoll=0;
@@ -5246,6 +6950,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
     function renderIds(all, depth, sc) {      // sc (Q236): render into the lower-left sc * W x sc * H corner only (the small label ID image)
       var PP = depth ? dprog : pprog, PU = depth ? DU : PUid;
+      gl.disable(gl.SCISSOR_TEST);            // Q303: a pane's scissor must never reach the ID / depth image
       pickTarget();
       gl.bindFramebuffer(gl.FRAMEBUFFER, pfb);
       gl.viewport(0, 0, sc ? Math.max(1, Math.round(W * sc)) : W, sc ? Math.max(1, Math.round(H * sc)) : H);
@@ -10988,7 +12693,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)], v=mL(eye,cam.tgt,[0,1,0]);
       return [[v[0],v[4],v[8]],[v[1],v[5],v[9]]];
     }
-    function pzPxWorld(){ var r=canvas.getBoundingClientRect(); return 2*cam.dist*Math.tan(0.425)/Math.max(1,r.height); }
+    function pzPxWorld(){ var r=canvas.getBoundingClientRect(); return 2*cam.dist*Math.tan(0.425)/Math.max(1,r.height*q303ph()); }   /* Q303: a pane is the view now */
     function pzZoomAt(cx,cy,f){
       var r=canvas.getBoundingClientRect(), s=pzPxWorld(), ax=pzAxes(), ox=(cx-r.left-r.width/2)*s, oy=-(cy-r.top-r.height/2)*s;
       var d1=Math.max(HGT*0.02,Math.min(HGT*4,cam.dist*f)), k=d1/cam.dist;
@@ -11424,6 +13129,186 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
                 capA:NMSKCapCore.capA({cat:"fat", alpha:Math.max(0.9, alphaFor.fat)})};
       };
       /* Q301 glue end */
+      /* Q303 glue begin */
+      /* ---- Q303: centring imaging on what was chosen, four panes, "facing me" + saved views, nerve emphasis ----
+         Everything shareable is in viewer/q303/; this is only what this engine draws with, and it is the same shape as
+         the own engine's glue so the two behave identically. Spliced by scripts/anatomy/q303/patch_engines_q303.py. */
+      var q303byId = {};
+      OBJ.forEach(function(o){ q303byId[o.id || o.name] = o; });
+      function q303mmPerPx(){                       /* millimetres per CSS pixel at the camera's own target plane */
+        var r = canvas.getBoundingClientRect();
+        return 2 * cam.dist * Math.tan(0.425) / Math.max(1, r.height * q303ph());
+      }
+      function q303fit(rad){ return Math.max(HGT * 0.025, Math.min(HGT * 8, (Math.max(0.5, rad) / Math.tan(0.425)) * 1.35)); }
+      function q303eye(){
+        var ce = Math.cos(cam.el);
+        return [cam.tgt[0] + cam.dist * ce * Math.sin(cam.az), cam.tgt[1] + cam.dist * Math.sin(cam.el),
+                cam.tgt[2] + cam.dist * ce * Math.cos(cam.az)];
+      }
+      var q303ix = null;
+      function q303pos(id){                         /* the structure's own vertices in the model frame, decoded on demand */
+        if (!q303ix){ q303ix = {}; OBJ.forEach(function(o, i){ q303ix[o.id || o.name] = i; }); }
+        var i = q303ix[id];
+        if (i == null || !BIN) return null;
+        var rec = MAN.meshes[i];
+        if (!rec) return null;
+        try {
+          var vc = rec.vc, mn = rec.min, sp = rec.span;
+          var qv = new Uint16Array(BIN.buffer, BIN.byteOffset + rec.vo, vc * 3), pos = new Float32Array(vc * 3);
+          for (var v = 0; v < vc * 3; v += 3){
+            pos[v] = mn[0] + qv[v] / 65535 * sp[0];
+            pos[v + 1] = mn[1] + qv[v + 1] / 65535 * sp[1];
+            pos[v + 2] = mn[2] + qv[v + 2] / 65535 * sp[2];
+          }
+          return pos;
+        } catch (err){ return null; }
+      }
+
+      /* ---- the nerve-emphasis pass. A tiny program of its own, compiled from the SHARED GLSL
+         (viewer/q303/nervepass.js -- byte-identical in both templates), hung on this engine's existing after-draw hook:
+         the scene is already painted, the MVP and the eye are handed over, and the hook's caller restores the GL state
+         afterwards. Q300's bone pass is the model: drawn after the translucent pass with the depth test off, so a
+         nerve's share of the pixel does not depend on how many layers lie in front of it. ---- */
+      var q303nv = (function(){
+        var prog3 = null, U3 = {}, aPos = -1, spec = null, objs = [], fail = null, drew = 0, npts = 0;
+        var I4 = new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
+        function sh(type, src){
+          var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+          if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)){ fail = gl.getShaderInfoLog(s); return null; }
+          return s;
+        }
+        function build(){
+          if (prog3 || fail) return prog3;
+          var vs = sh(gl.VERTEX_SHADER, NMSKNervePass.vs()), fs = sh(gl.FRAGMENT_SHADER, NMSKNervePass.fs());
+          if (!vs || !fs) return null;
+          prog3 = gl.createProgram(); gl.attachShader(prog3, vs); gl.attachShader(prog3, fs); gl.linkProgram(prog3);
+          if (!gl.getProgramParameter(prog3, gl.LINK_STATUS)){ fail = gl.getProgramInfoLog(prog3); prog3 = null; return null; }
+          ["projectionMatrix", "viewMatrix", "modelMatrix", "uC1", "uC2", "uCtr", "uFwd", "uPt", "uColor", "uAlpha"]
+            .forEach(function(n){ U3[n] = gl.getUniformLocation(prog3, n); });
+          aPos = gl.getAttribLocation(prog3, "position");
+          return prog3;
+        }
+        function pass(ctx){
+          drew = 0; npts = 0;
+          if (!spec || !spec.on || !objs.length) return;
+          if (!build()) return;
+          var mm = q303mmPerPx();
+          var cp = clip.on ? clipPlane() : null, cp2 = clip.on ? clipPlane2() : null;
+          /* this engine's own shader DISCARDS where dot + w > 0; the shared pass KEEPS where dot + w >= 0, so the sign flips */
+          var c1 = cp ? [-cp[0], -cp[1], -cp[2], -cp[3]] : [0, 0, 0, 1];
+          var c2 = cp2 ? [-cp2[0], -cp2[1], -cp2[2], -cp2[3]] : [0, 0, 0, 1];
+          var F = NMSKNervePass.frame(ctx.eye, cam.tgt, c1, c2), col = COL.nerve || [0.85, 0.71, 0.26];
+          gl.useProgram(prog3);
+          gl.uniformMatrix4fv(U3.projectionMatrix, false, ctx.mvp);
+          gl.uniformMatrix4fv(U3.viewMatrix, false, I4);
+          gl.uniformMatrix4fv(U3.modelMatrix, false, I4);
+          gl.uniform4f(U3.uC1, F.c1[0], F.c1[1], F.c1[2], F.c1[3]);
+          gl.uniform4f(U3.uC2, F.c2[0], F.c2[1], F.c2[2], F.c2[3]);
+          gl.uniform3f(U3.uCtr, F.ctr[0], F.ctr[1], F.ctr[2]);
+          gl.uniform3f(U3.uFwd, F.fwd[0], F.fwd[1], F.fwd[2]);
+          gl.uniform3f(U3.uColor, col[0], col[1], col[2]);
+          gl.uniform1f(U3.uAlpha, spec.alpha);
+          gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+          gl.disable(gl.DEPTH_TEST); gl.depthMask(false);
+          gl.enableVertexAttribArray(aPos);
+          objs.forEach(function(o){
+            if (!o.batch || !vis(o)) return;
+            gl.uniform1f(U3.uPt, NMSKNervePass.width(spec.dia[o.id || o.name], mm, spec.wmin, dpr));
+            gl.bindBuffer(gl.ARRAY_BUFFER, o.batch.pb);
+            gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
+            gl.drawArrays(gl.POINTS, o.vOff, o.vc);
+            drew++; npts += o.vc;
+          });
+          gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
+        }
+        addonDraw.push(pass);
+        return {
+          apply:function(s){
+            spec = s;
+            objs = s ? (s.ids || []).map(function(id){ return q303byId[id]; }).filter(Boolean) : [];
+            need = true;
+          },
+          stats:function(){ return {prog:!!prog3, fail:fail, structures:drew, points:npts, step:spec ? spec.step : 0,
+                                    shader:NMSKNervePass.hash()}; }
+        };
+      })();
+      window.__q303nv = q303nv.stats;
+
+      NMSKQ303.start({
+        anchor:canvas, history:NMSKHistory, modelreset:NMSKModelReset,
+        target:{
+          boxOf:function(id){ var o = q303byId[id]; return o ? {min:o.bmin, max:o.bmax} : null; },
+          marks:function(){ try { return selCtl ? selCtl.state().marks : []; } catch (err){ return []; } },
+          selectedId:function(){ return selected ? (selected.id || selected.name || null) : null; },
+          name:function(id){ var o = q303byId[id]; return o ? (o.name || id) : id; },
+          has:function(id){ return !!q303byId[id]; }
+        },
+        autofocus:{
+          cam:{get:function(){ return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}; },
+               set:function(c){ cam.az = c.az; cam.el = c.el; cam.dist = c.dist; cam.tgt = c.tgt.slice(); stopSpin(); need = true; },
+               fit:q303fit, redraw:function(){ need = true; }},
+          view:function(){ var e = q303eye(), t = cam.tgt; return {eye:e, dir:[t[0] - e[0], t[1] - e[1], t[2] - e[2]]}; },
+          imaging:function(){ return window.NMSKImaging || null; },
+          ultrasound:function(){ return window.NMSKUltrasound || null; },
+          cut:function(){ return cutCtl; }, xsec:function(){ return xsecCtl; },
+          style:function(){ return window.NMSKRenderStyle || null; }
+        },
+        fourup:{
+          canvas:canvas,
+          camGet:function(){ return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}; },
+          camSet:function(c){ cam.az = c.az; cam.el = c.el; cam.dist = c.dist; cam.tgt = c.tgt.slice(); need = true; },
+          setPanes:function(L){ q303setPanes(L); },
+          redraw:function(){ need = true; }
+        },
+        views:{
+          cam:{get:function(){ return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}; },
+               set:function(c){ cam.az = c.az; cam.el = c.el; cam.dist = c.dist; cam.tgt = c.tgt.slice(); stopSpin(); need = true; },
+               fit:q303fit, redraw:function(){ need = true; }},
+          axesOf:function(ids){
+            var P = [];
+            (ids || []).forEach(function(id){ var p = q303pos(id); if (p) P.push(p); });
+            return NMSKPCA.axes(P);
+          },
+          modelId:function(){ return (MAN.totals && MAN.totals.fit_to_vhf) ? "zan_f" : "zan_m"; }
+        },
+        nerves:{
+          list:function(){ return OBJ.map(function(o){ return {id:o.id || o.name, cat:o.layer, name:o.name}; }); },
+          apply:function(s){ q303nv.apply(s); },
+          mmPerPx:q303mmPerPx,
+          /* emphasis composes with the nerve system toggle rather than fighting it: it switches the nerve layers on,
+             inside the same single undo step, and the control says so */
+          show:function(){
+            var any = false;
+            ["nerve", "cns"].forEach(function(k){ if (k in on && !on[k]){ on[k] = true; if (alphaFor[k] <= 0.01) alphaFor[k] = 1; any = true; } });
+            if (any){ sync(); need = true; }
+            return any;
+          },
+          redraw:function(){ need = true; }
+        }
+      });
+      /* Q303 verification hooks. The pixels are read back INSIDE the page right after a synchronous draw --
+         page.screenshot returns a stale frame in this container (Q300's finding, re-confirmed by Q301). The arithmetic is in
+         the shared NMSKPx, so the two engines measure the same thing; only the readPixels call is engine specific. */
+      function q303buf(){
+        draw();
+        var w = canvas.width | 0, h = canvas.height | 0, buf = new Uint8Array(w * h * 4);
+        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+        return {buf:buf, w:w, h:h};
+      }
+      window.__q303px = function(step){ var f = q303buf(); return NMSKPx.stats(f.buf, f.w, f.h, step, COL.nerve || [0.85, 0.71, 0.26]); };
+      window.__q303dbg = {
+        cam:function(){ return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}; },
+        view:function(){ var e = q303eye(), t = cam.tgt; return {eye:e, dir:[t[0] - e[0], t[1] - e[1], t[2] - e[2]]}; },
+        list:function(){ return OBJ.map(function(o){ return {id:o.id || o.name, cat:o.layer, name:o.name}; }); },
+        selectedId:function(){ return selected ? (selected.id || selected.name || null) : null; },
+        deselect:function(){ select(null); return selected; },
+        nudge:function(k){ k = k || 1; cam.az += 0.37 * k; cam.el += 0.11 * k; cam.dist *= (1 + 0.07 * k); stopSpin(); need = true; draw(); },
+        nerveLayerOff:function(){ on.nerve = false; sync(); need = true; return true; },
+        nerveLayerOn:function(){ return !!on.nerve; },
+        cut:function(){ return cutCtl; }, xsec:function(){ return xsecCtl; },
+        pixelsByPane:function(){ var f = q303buf(); return NMSKPx.quadrants(f.buf, f.w, f.h, 4); }
+      };
+      /* Q303 glue end */
       window.__q300dbg = {
         allOn:q300AllOn,
         onlyBone:function(){ q300AllOn(); q300Click("btn-bones"); },

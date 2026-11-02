@@ -1,0 +1,80 @@
+/* Q303: the four-pane frame, the custom-view row, the auto-focus line and the nerve-emphasis control.
+   Z-INDEX, LEARNED THE HARD WAY TWICE IN Q301. Q301's control bar is 62, its group sheet 61, its corner "i" 60 and its
+   info drawer 70; Q300's chip bar is 2147482000. Everything here sits at 55-58, UNDER all of them, and the pane frame
+   passes pointer events straight through except on its own header -- so nothing of this round can ever swallow Undo.
+   The `hidden` attribute is only display:none from the UA stylesheet and loses to any author `display` rule, which is
+   exactly the Q301 defect (the info drawer swallowed Undo on a 390 px phone), so every element here that is toggled with
+   `hidden` carries its own !important guard. */
+.q3-grid[hidden], .q3-note[hidden], .nv-box[hidden], .q3-views[hidden], .q3-focus[hidden]{display:none !important}
+
+/* ---- the four-pane frame: lines and labels over the picture, and nothing else ---- */
+.q3-grid{position:fixed;z-index:55;pointer-events:none;box-sizing:border-box}
+.q3-cell{position:absolute;box-sizing:border-box;pointer-events:none;
+  border:1px solid color-mix(in srgb, currentColor 22%, transparent);border-radius:6px}
+.q3-cell.act{border-color:color-mix(in srgb, currentColor 55%, transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb, currentColor 22%, transparent)}
+.q3-ch{position:absolute;left:4px;top:4px;display:flex;gap:4px;align-items:center;pointer-events:auto;
+  padding:2px 4px;border-radius:7px;font:600 11px/1.1 system-ui,sans-serif;
+  background:color-mix(in srgb, Canvas 78%, transparent);color:CanvasText}
+.q3-cl{letter-spacing:.02em;opacity:.85}
+.q3-cx{min-width:26px;min-height:26px;display:inline-flex;align-items:center;justify-content:center;
+  padding:0 4px;border:1px solid color-mix(in srgb, currentColor 28%, transparent);border-radius:6px;
+  background:transparent;color:inherit;font:600 11px/1 system-ui,sans-serif;cursor:pointer}
+.q3-cx:hover{background:color-mix(in srgb, currentColor 12%, transparent)}
+/* The one-camera overlays stand down while four panes are on. Every one of them is drawn for ONE camera over the WHOLE
+   canvas (the labels solve their layout against the full rect, the gnomon and the scale bar read the single camera, the
+   cut outline and the part markers project through it), so in four panes they would be in the wrong place. The ids are
+   the real ones, checked against both templates: #axes and #scalebar exist on the own engine only, the other three on
+   both. The engines' draw also skips the calls themselves; this is the DOM half. Expanding a pane brings them back. */
+body.q303-four #axes, body.q303-four #scalebar, body.q303-four #lab-layer,
+body.q303-four #pm-layer, body.q303-four #cut-svg,
+body.q303-four .ms-bar, body.q303-four .ms-pane-b{display:none !important}
+
+/* ---- the line that says what was centred on what ---- */
+.q3-note{position:fixed;z-index:58;pointer-events:none;box-sizing:border-box;display:flex;gap:6px;align-items:flex-start;
+  padding:5px 7px;border-radius:9px;font:500 12px/1.35 system-ui,sans-serif;
+  background:color-mix(in srgb, Canvas 90%, transparent);color:CanvasText;
+  border:1px solid color-mix(in srgb, currentColor 22%, transparent);box-shadow:0 1px 6px rgba(0,0,0,.14)}
+.q3-note-t{flex:1 1 auto}
+.q3-note-x{flex:0 0 auto;pointer-events:auto;min-width:22px;min-height:22px;border:0;background:transparent;color:inherit;
+  font:600 14px/1 system-ui,sans-serif;cursor:pointer;border-radius:5px}
+.q3-note-x:hover{background:color-mix(in srgb, currentColor 14%, transparent)}
+
+/* ---- the View group's new rows ---- */
+.q3-views, .q3-focus{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
+.q3-views .nmsk-tip, .q3-focus .nmsk-tip, .nv-note, .nv-box .nmsk-tip{flex:1 1 100%;margin:2px 0 0;
+  font:400 11px/1.35 system-ui,sans-serif;opacity:.8}
+.q3-b{min-height:30px;padding:3px 8px;border:1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius:8px;background:transparent;color:inherit;font:600 12px/1.1 system-ui,sans-serif;cursor:pointer}
+.q3-b[aria-pressed="true"]{background:color-mix(in srgb, currentColor 16%, transparent)}
+.q3-b:disabled{opacity:.45;cursor:default}
+.q3-vsave{display:inline-flex;gap:4px;align-items:center}
+.q3-vname{min-height:28px;width:9.5em;max-width:40vw;box-sizing:border-box;padding:2px 6px;
+  border:1px solid color-mix(in srgb, currentColor 30%, transparent);border-radius:7px;
+  background:transparent;color:inherit;font:400 12px/1.1 system-ui,sans-serif}
+.q3-vchips{display:flex;flex-wrap:wrap;gap:4px;width:100%}
+.q3-none{font:400 11px/1.3 system-ui,sans-serif;opacity:.6}
+.q3-vchip{display:inline-flex;align-items:stretch;border:1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-radius:8px;overflow:hidden}
+.q3-vb{min-height:28px;padding:2px 7px;border:0;background:transparent;color:inherit;
+  font:600 12px/1.1 system-ui,sans-serif;cursor:pointer;max-width:11em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q3-vx{min-width:24px;min-height:28px;border:0;border-left:1px solid color-mix(in srgb, currentColor 22%, transparent);
+  background:transparent;color:inherit;font:600 13px/1 system-ui,sans-serif;cursor:pointer}
+.q3-vb:hover, .q3-vx:hover{background:color-mix(in srgb, currentColor 12%, transparent)}
+
+/* ---- the nerve emphasis control: three taps, never a slider (the project's mobile rule) ---- */
+.nv-box{display:flex;flex-wrap:wrap;gap:5px;align-items:center;width:100%}
+.nv-l{font:600 12px/1.1 system-ui,sans-serif;opacity:.85}
+.nv-seg{display:inline-flex;border:1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius:8px;overflow:hidden}
+.nv-b{min-width:46px;min-height:30px;padding:3px 8px;border:0;background:transparent;color:inherit;
+  font:600 12px/1.1 system-ui,sans-serif;cursor:pointer}
+.nv-b + .nv-b{border-left:1px solid color-mix(in srgb, currentColor 22%, transparent)}
+.nv-b[aria-pressed="true"]{background:color-mix(in srgb, currentColor 18%, transparent)}
+
+@media (max-width:520px){
+  .q3-ch{font-size:10px;padding:1px 3px}
+  .q3-cx{min-width:24px;min-height:24px}
+  .q3-note{font-size:11px}
+  .q3-vname{width:7em}
+}

@@ -225,6 +225,17 @@ var NMSKGroups = (function(){
       on = true; paint();
       return api;
     },
+    /* Q303: a module that starts AFTER this bar was built cannot be in the table it was built from -- the same gap
+       Q301 closed in Q300's NMSKShowAll with add(source). A member joins an EXISTING group here, in the same shape
+       the table uses, so a later round adds to View instead of adding a new top-level button. */
+    addTo:function(key, m){
+      if (!m || !(m.el || m.adopt || m.label)) return false;
+      var g = null; G.forEach(function(q){ if (q.key === key) g = q; });
+      if (!g) return false;
+      g.members.push(m);
+      if (cur === key){ closeSheet(); openSheet(key); } else paint();
+      return true;
+    },
     open:openSheet, close:closeSheet, isOpen:function(){ return cur; }, refresh:paint,
     parked:function(){ return park ? park.children.length : 0; },
     groups:function(){ return G.map(function(g){ return {key:g.key, label:g.label, n:g.members.length, live:anyActive(g)}; }); },

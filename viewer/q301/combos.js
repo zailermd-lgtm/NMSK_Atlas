@@ -70,6 +70,13 @@ var NMSKCombos = (function(){
       return api;
     },
     add:function(p){ if (p && p.key && typeof p.active === "function"){ P[p.key] = p; sig = ""; refresh(); } },
+    /* Q303: one more row in the same table, from a round that did not exist when the table was written. A pair
+       already present is left alone, so re-registering is harmless. */
+    addPair:function(r){
+      if (!r || !r.a || !r.b) return false;
+      for (var i = 0; i < PAIRS.length; i++) if (PAIRS[i].a === r.a && PAIRS[i].b === r.b) return false;
+      PAIRS.push(r); sig = ""; refresh(); return true;
+    },
     verdict:verdict, refresh:refresh,
     keys:function(){ return Object.keys(P).sort(); },
     pairs:function(){ return PAIRS.map(function(r){ return {a:r.a, b:r.b, ok:r.ok, why:r.why}; }); },
