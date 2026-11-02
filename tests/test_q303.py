@@ -444,3 +444,29 @@ def test_the_sub_pixel_diagnosis_this_round_reports(cal):
     z = ["viewer_zan_atlas", "viewer_base_female", "viewer_zan_vhm", "viewer_zan_female"]
     frac = sum(exp[p][1] for p in z) / sum(exp[p][0] for p in z)
     assert 0.79 < frac < 0.83, frac          # "about 81 % on a Z page"
+
+
+def test_the_two_performance_guards_the_real_pages_forced():
+    """Both were found by watching a real page's CPU, not by reading the code, and both would otherwise keep the page
+       redrawing for ever under software rendering. Pinned so they cannot quietly come back."""
+    f = (Q303 / "fourup.js").read_text(encoding="utf-8")
+    assert "lastSig" in f and "function sig(L)" in f, "the pane list must only be pushed when it has changed"
+    assert "if (q === lastSig) return;" in f
+    g = GLUE["own"].read_text(encoding="utf-8")
+    assert "sigLast" in g and "if (sg === sigLast){ raf = requestAnimationFrame(tick); return; }" in g, \
+        "the nerve pass must only redraw when the view it depends on has moved"
+
+
+def test_the_frame_is_read_in_the_panes_own_order():
+    """gl.readPixels is bottom-up, so a naive quadrant split reports the bottom row first and mislabels the panes."""
+    out = node(load("px.js") + r"""
+      const w = 16, h = 16, buf = new Uint8Array(w * h * 4);
+      for (let i = 0; i < w * h; i++){ buf[i*4+3] = 255; }     // all background; the four corners set the field colour
+      // paint a patch INSIDE the picture's top-left quadrant, clear of the corner samples:
+      // readPixels is bottom-up, so the picture's top row is the buffer's LAST row
+      for (let y = 10; y <= 13; y++) for (let x = 2; x <= 5; x++){
+        const o = (y * w + x) * 4; buf[o] = 200; buf[o+1] = 30; buf[o+2] = 30; buf[o+3] = 255;
+      }
+      console.log(JSON.stringify(PX.quadrants(buf, w, h, 1)));
+    """)
+    assert out[0] > 0.2 and max(out[1:]) < 0.01, out        # the TOP-LEFT pane is reported first
