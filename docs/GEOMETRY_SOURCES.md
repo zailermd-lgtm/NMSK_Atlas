@@ -2113,3 +2113,55 @@ sections per Z page. The fix is a **minimum drawn width** in `viewer/cut_cap/cut
 fascia 1,754-1,918 -> 44-105 per Z page. It only adds pixels, so the Q295 fill requirement holds: the filled area of the
 whole cut face at five axial levels per female page is equal or larger after (0.0 to +1.9 %), with the same structures
 cut. Report: `data/derived/Q299_crosssection_coverage.json`.
+
+---
+
+## Q302 (2026-11-02): BodyParts3D upstream is now CC BY 4.0; our meshes are still CC BY-SA 4.0
+
+Found while surveying eight owner-supplied sources (`docs/research/Q302_source_survey.md`;
+evidence in `data/derived/Q302_source_survey.json`, asserted by `tests/test_q302.py`).
+Nothing was imported this round — see PROJECT_STATE `## Q302`.
+
+**The change at the upstream source.** DBCLS relicensed BodyParts3D. Its official licence
+page (`https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html`, "Last updated :
+2025/02/27") now reads:
+
+> "The license for this database is specified in the **Creative Commons Attribution 4.0
+> International**. If you use data from this database, please be sure attribute this database
+> as follows: *BodyParts3D, © The Database Center for Life Science licensed under
+> CC Attribution 4.0 International*."
+
+and the database's own Update History confirms the date — "2025/02/27 'License' is updated"
+— the previous licence update having been 2011/08/25, which is the CC BY-SA 2.1 Japan that the
+rest of this document and `third_party/z-anatomy/NOTICE` record. The release itself is
+unchanged (3D data 4.0, 2013-06-19); DOI `10.18908/lsdba.nbdc00837-000`; one adult human male
+whole body; 2,906 IS-A parts and 1,369 PART-OF parts.
+
+**What this does NOT change, and why.** Every BodyParts3D-origin mesh in this repository came
+in **through Z-Anatomy**, not from DBCLS directly. Z-Anatomy's repackaging and all of its own
+additions are **CC BY-SA 4.0**, and those additions include the parts we actually depend on:
+BodyParts3D has **no peripheral nerves at all** (its 55 `nerve` entries are every one of them
+cranial or orbital) and no `Nail plate`, so the entire peripheral nervous system and the nail
+plates on our pages are Z-Anatomy's own work. The share-alike obligation on our shipped
+geometry therefore stands exactly as before, and Option A (every source kept as a separately
+licensed component) remains required regardless — BY-SA still cannot merge with BY-NC-SA.
+
+**A stale attribution that is not ours to fix.** Z-Anatomy's own `License.txt`, in the export
+of 2026-11-01 (HEAD `7b91976`), still instructs downstream users to attribute
+"BodyParts3D - The Database Center for Life Science - **CC-BY-SA 2.1 Japan**". That string is
+now out of date at the source. We record the fact rather than silently correcting someone
+else's attribution notice: `third_party/z-anatomy/NOTICE` reproduces Z-Anatomy's chain as
+Z-Anatomy states it, and this section is the place where the discrepancy is on record. The
+same `License.txt` also still declares the two non-commercial subcomponents (Inner Ear,
+University of Dundee, CC-BY-NC-SA 4.0; Kidney, Lissie Cowley, CC-BY-NC 4.0), which stay
+excluded.
+
+**What it opens, as an owner decision, not a change made here.** Structures taken **directly**
+from BodyParts3D v4.0 would now carry CC BY 4.0 with no share-alike. Re-deriving
+BodyParts3D-origin structures from DBCLS instead of through Z-Anatomy would shrink this
+project's share-alike surface. It is logged as decision 1 of `## Q302` in
+`docs/OPEN_ITEMS_FOR_OWNER.md`, with the caveat measured this round: the only public mesh
+download is at "polygon reduction rate = 99%", i.e. reduced *by* ~99% — a femur arrives at
+3,102 triangles, too coarse for these pages. The one part kept at full resolution is the
+whole-body `skin` (102,467 vertices / 203,382 triangles). So it is a derivation-and-QA round
+of its own, not a substitution.
