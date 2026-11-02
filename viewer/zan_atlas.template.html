@@ -3920,6 +3920,9 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ301;
   padding:2px 4px;border-radius:7px;font:600 11px/1.1 system-ui,sans-serif;
   background:color-mix(in srgb, Canvas 78%, transparent);color:CanvasText}
 .q3-cl{letter-spacing:.02em;opacity:.85}
+/* while Q301's group sheet is open it covers the lower half of the 3-D view: the pane labels step aside rather than
+   be swallowed by it (and rather than cover it, which would be worse) */
+.q3-grid.q3-quiet .q3-ch{display:none !important}
 .q3-cx{min-width:26px;min-height:26px;display:inline-flex;align-items:center;justify-content:center;
   padding:0 4px;border:1px solid color-mix(in srgb, currentColor 28%, transparent);border-radius:6px;
   background:transparent;color:inherit;font:600 11px/1 system-ui,sans-serif;cursor:pointer}
@@ -4765,6 +4768,13 @@ var NMSKFourUp = (function(){
        stylesheet hides what is DOM and the engines' draw skips what is canvas. Said on the screen and in the i. */
     document.body.classList.toggle("q303-four", lay === "four");
     grid.hidden = lay !== "four";
+    /* Q301's group sheet unfolds over the LOWER part of the 3-D view -- exactly where the bottom row's two labels and
+       their squares sit, and it is far above them in the stack. Rather than let it swallow them (measured with
+       document.elementFromPoint, as Q301 learnt to), the labels step aside while a group is open: the sheet is the
+       surface the user is working on at that moment, and closing it brings them straight back. */
+    var sheetOpen = false;
+    try { sheetOpen = !!(window.NMSKGroups && NMSKGroups.isOpen()); } catch (err){ sheetOpen = false; }
+    grid.classList.toggle("q3-quiet", sheetOpen);
     if (grid.hidden) return;
     var r = anchor && anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : null;
     if (!r || !(r.width > 40 && r.height > 40)) return;

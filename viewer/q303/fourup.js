@@ -121,6 +121,13 @@ var NMSKFourUp = (function(){
        stylesheet hides what is DOM and the engines' draw skips what is canvas. Said on the screen and in the i. */
     document.body.classList.toggle("q303-four", lay === "four");
     grid.hidden = lay !== "four";
+    /* Q301's group sheet unfolds over the LOWER part of the 3-D view -- exactly where the bottom row's two labels and
+       their squares sit, and it is far above them in the stack. Rather than let it swallow them (measured with
+       document.elementFromPoint, as Q301 learnt to), the labels step aside while a group is open: the sheet is the
+       surface the user is working on at that moment, and closing it brings them straight back. */
+    var sheetOpen = false;
+    try { sheetOpen = !!(window.NMSKGroups && NMSKGroups.isOpen()); } catch (err){ sheetOpen = false; }
+    grid.classList.toggle("q3-quiet", sheetOpen);
     if (grid.hidden) return;
     var r = anchor && anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : null;
     if (!r || !(r.width > 40 && r.height > 40)) return;
