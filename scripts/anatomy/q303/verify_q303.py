@@ -60,14 +60,20 @@ HIT = """(sel) => {
 
 def tap(pg, selector, phone):
     """Q301's lesson: V.tap aims at an element's centre without looking at what is actually on top of it. A covered
-       control is a real defect, so it is recorded rather than silently mis-reported as a broken feature."""
+       control is a real defect, so it is recorded rather than silently mis-reported as a broken feature -- and an
+       element with no box at all (Q301 PARKS a group's adopted buttons in a hidden node when the group closes) is
+       recorded and skipped instead of spending 30 s in a click that cannot land."""
     try:
         h = pg.evaluate(HIT, selector)
     except Exception as e:                                        # noqa: BLE001
         h = {"ok": False, "over": "probe failed: %s" % e}
-    if not h.get("ok") and not h.get("missing"):
+    if h.get("missing") or h.get("over") == "zero size":
+        MISSED.append("%s has no box on the screen (%s)" % (selector, h.get("over") or "missing"))
+        return False
+    if not h.get("ok"):
         MISSED.append("%s is covered by %s" % (selector, h.get("over")))
-    return V.tap(pg, selector, phone)
+    V.tap(pg, selector, phone)
+    return True
 
 
 def ready(pg):
@@ -250,22 +256,50 @@ def section_a(pg, T, R, errs, phone):
                   res["off"] < 0.05 or res.get("clamped"), errs)
         elif key == "style":
             check("%s A a radiographic style: the camera frames the centre (%.4f mm)" % (T, res["off"]), res["off"] < 0.05, errs)
-        check("%s A %s (entered by %s) is ONE undo step (%d -> %d)" % (T, key, how, i0, hidx(pg)), hidx(pg) == i0 + 1, errs)
         check("%s A %s says on the screen what it centred on" % (T, key),
               pg.evaluate("() => { const e = document.getElementById('q303-note'); return !!(e && !e.hidden && e.textContent.indexOf('Centred') >= 0); }"), errs)
-    # one Undo really puts the mode back where it was
+        # THE FOCUS is one undo step. Entering a mode is not necessarily: the CT / MR tool creates an axial cut for
+        # itself when none is set ("No cut was set, so an axial cut through the upper abdomen was created for you"),
+        # and that cut IS one of Q294's history providers -- a second entry that is the tool's doing, not this round's.
+        # So the focus is measured on its own, from the mode already open, which is also exactly what the control
+        # "Centre on my choice" calls.
+        settle(pg)
+        j0 = hidx(pg)
+        pg.evaluate("(k) => NMSKAutoFocus.focus(k)", key)
+        pg.wait_for_timeout(900)
+        check("%s A the %s focus itself is ONE undo step (%d -> %d, mode entered by %s)" % (T, key, j0, hidx(pg), how),
+              hidx(pg) == j0 + 1, errs)
+    # the real control, tapped: "Centre on my choice" re-centres the mode you are in without leaving it
+    open_group(pg, "view", phone)
+    if pg.query_selector("#q303-centre"):
+        pg.evaluate("() => NMSKImaging.set({P:[0, 0, 0]})")
+        settle(pg)
+        k0 = hidx(pg)
+        tap(pg, "#q303-centre", phone)
+        pg.wait_for_timeout(900)
+        r = pg.evaluate("() => NMSKAutoFocus.last()")
+        A["centreButton"] = r
+        check("%s A a real tap on \u201cCentre on my choice\u201d centres it again (%s, %s mm off)"
+              % (T, r and r.get("mode"), (r or {}).get("result", {}) and (r or {}).get("result", {}).get("off")),
+              bool(r and r.get("ok")), errs)
+        check("%s A and that tap is ONE undo step (%d -> %d)" % (T, k0, hidx(pg)), hidx(pg) == k0 + 1, errs)
+    # one Undo really puts the mode back where it was. The slice point is moved AWAY BY HAND first: after the focus
+    # above it is already on the target, so re-entering the mode would have nothing to move and the check would pass
+    # for the wrong reason (it did, on the first run, and said so).
     leave_modes(pg)
+    pg.evaluate("() => NMSKImaging.set({P:[0, 0, 0]})")
     settle(pg)
     before = pg.evaluate("() => NMSKImaging.state().P")
     pg.evaluate("() => NMSKImaging.open()")
-    pg.wait_for_timeout(1400)
+    pg.wait_for_timeout(1600)
     moved = pg.evaluate("() => NMSKImaging.state().P")
     check("%s A the slice point really moved %s -> %s" % (T, before, moved), before != moved, errs)
     pg.evaluate("() => NMSKHistory.undo()")
-    pg.wait_for_timeout(500)
-    check("%s A one Undo puts the slice point back" % T, pg.evaluate("() => NMSKImaging.state().P") == before, errs)
+    pg.wait_for_timeout(700)
+    back = pg.evaluate("() => NMSKImaging.state().P")
+    check("%s A one Undo puts the slice point back (%s)" % (T, back), back == before, errs)
     pg.evaluate("() => NMSKHistory.redo()")
-    pg.wait_for_timeout(400)
+    pg.wait_for_timeout(500)
     # nothing chosen: NOTHING moves
     leave_modes(pg)
     clear_choice(pg)
@@ -285,7 +319,9 @@ def section_a(pg, T, R, errs, phone):
     leave_modes(pg)
     mark(pg, ids[:1])
     settle(pg)
-    tap(pg, "#q303-af", phone) if pg.query_selector("#q303-af") else pg.evaluate("() => NMSKAutoFocus.setOn(false)")
+    open_group(pg, "view", phone)                 # drive() opened Cut and Imaging, and the groups are an accordion
+    if not tap(pg, "#q303-af", phone):
+        pg.evaluate("() => NMSKAutoFocus.setOn(false)")
     pg.wait_for_timeout(300)
     check("%s A the off switch is off after one tap" % T, pg.evaluate("() => NMSKAutoFocus.on()") is False, errs)
     p0 = pg.evaluate("() => NMSKImaging.state().P")
@@ -426,7 +462,9 @@ def section_c(pg, T, R, errs, phone):
         pg.wait_for_timeout(500)
         settle(pg)
         i0 = hidx(pg)
-        tap(pg, "#q303-facing", phone) if pg.query_selector("#q303-facing") else pg.evaluate("() => NMSKViews.facing()")
+        open_group(pg, "view", phone)
+        if not tap(pg, "#q303-facing", phone):
+            pg.evaluate("() => NMSKViews.facing()")
         pg.wait_for_timeout(900)
         f = pg.evaluate("() => NMSKViews.last()")
         C[want] = f
@@ -454,7 +492,8 @@ def section_d(pg, T, R, errs, phone):
     pg.wait_for_timeout(400)
     cam0 = pg.evaluate("() => window.__q303dbg.cam()")
     pg.evaluate("() => { const e = document.getElementById('q303-vname'); if (e) e.value = 'Q303 check'; }")
-    tap(pg, "#q303-vsave", phone) if pg.query_selector("#q303-vsave") else pg.evaluate("() => NMSKViews.save('Q303 check')")
+    if not tap(pg, "#q303-vsave", phone):
+        pg.evaluate("() => NMSKViews.save('Q303 check')")
     pg.wait_for_timeout(400)
     lst = pg.evaluate("() => NMSKViews.list().map(v => v.name)")
     check("%s D the view is saved under its name (%s)" % (T, lst), "Q303 check" in lst, errs)
@@ -506,7 +545,9 @@ def section_e(pg, T, R, errs, phone):
     pg.evaluate("() => NMSKNerves.set(0)")
     settle(pg)
     i0 = hidx(pg)
-    tap(pg, "#nv-1", phone) if pg.query_selector("#nv-1") else pg.evaluate("() => NMSKNerves.set(1)")
+    open_group(pg, "view", phone)
+    if not tap(pg, "#nv-1", phone):
+        pg.evaluate("() => NMSKNerves.set(1)")
     pg.wait_for_timeout(1500)
     check("%s E Clear is one tap and ONE undo step (%d -> %d)" % (T, i0, hidx(pg)), hidx(pg) == i0 + 1, errs)
     check("%s E the engine really built the pass (%s)" % (T, json.dumps(pg.evaluate("() => window.__q303nv()"))[:160]),
