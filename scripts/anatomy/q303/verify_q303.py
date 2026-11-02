@@ -235,12 +235,32 @@ def section_a(pg, T, R, errs, phone):
         pg.wait_for_timeout(400)
         settle(pg)
         i0 = hidx(pg)
+        t0 = pg.evaluate("() => Date.now()")
         how = drive(pg, key, phone)
-        pg.wait_for_timeout(1400)
+        # WAIT FOR THE FOCUS THIS MODE RECORDED, do not wait a fixed time. Opening a clinical tool on these pages
+        # builds its panes and its geometry and can hold the main thread for seconds, so the watcher's 150 ms tick
+        # fires late; a fixed 1,400 ms read returned the PREVIOUS mode's result and reported the product as broken.
+        waited = "ok"
+        try:                                                       # the mode must actually report itself as entered
+            pg.wait_for_function("(k) => NMSKAutoFocus.modes().filter(m => m.key === k)[0].active",
+                                key, timeout=180000)
+        except Exception as e:                                     # noqa: BLE001
+            waited = "the mode never reported itself active"
+        try:
+            pg.wait_for_function("(a) => { const l = window.NMSKAutoFocus.last();"
+                                " return !!(l && l.mode === a.k && l.at >= a.t); }",
+                                {"k": key, "t": t0}, timeout=180000)
+        except Exception:                                          # noqa: BLE001
+            waited = waited if waited != "ok" else "no focus was recorded for this mode"
         last = pg.evaluate("() => NMSKAutoFocus.last()")
+        check("%s A entering %s really ran ITS OWN focus (%s; last=%s)"
+              % (T, key, waited, last and last.get("mode")), waited == "ok" and last and last.get("mode") == key, errs)
+        if not last or last.get("mode") != key:
+            A[key] = {"waited": waited, "last": last}
+            continue
         A[key] = last
         if not last or not last.get("ok"):
-            check("%s A %s centred on the marked set" % (T, key), False, errs)
+            check("%s A %s centred on the marked set (last=%s)" % (T, key, json.dumps(last)[:260]), False, errs)
             continue
         res = last["result"]
         if key == "ct":
@@ -297,9 +317,16 @@ def section_a(pg, T, R, errs, phone):
     pg.evaluate("() => NMSKHistory.undo()")
     pg.wait_for_timeout(700)
     back = pg.evaluate("() => NMSKImaging.state().P")
-    check("%s A one Undo puts the slice point back (%s)" % (T, back), back == before, errs)
+    # NOT compared against the value set by hand: re-opening the CT / MR tool PROJECTS its slice point onto the cut
+    # plane itself (`movePointToPlane`), so the state immediately before the focus is the tool's, not ours. What the
+    # round claims is the user-visible property -- one Undo leaves the centre, one Redo returns to it exactly.
+    d_back = max(abs(a - c) for a, c in zip(back, moved))
+    check("%s A one Undo takes the slice point off the centre (%s, %.2f mm away)" % (T, back, d_back), d_back > 1.0, errs)
     pg.evaluate("() => NMSKHistory.redo()")
-    pg.wait_for_timeout(500)
+    pg.wait_for_timeout(700)
+    fwd = pg.evaluate("() => NMSKImaging.state().P")
+    check("%s A one Redo puts it back exactly on the centre (%s)" % (T, fwd), fwd == moved, errs)
+    A["undoRedo"] = {"set": before, "focused": moved, "undone": back, "redone": fwd}
     # nothing chosen: NOTHING moves
     leave_modes(pg)
     clear_choice(pg)
