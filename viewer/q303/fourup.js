@@ -56,7 +56,9 @@ var NMSKFourUp = (function(){
     });
   }
   function push(){
-    try { E.setPanes(paneList()); } catch (err){ if (window.console) console.error("q303 panes", err); }
+    var L = paneList();
+    lastSig = sig(L);
+    try { E.setPanes(L); } catch (err){ if (window.console) console.error("q303 panes", err); }
     if (lay !== "four") { try { E.camSet(CAM[shown] || E.camGet()); } catch (e2){} }
     if (E.redraw) E.redraw();
     paint();
@@ -71,10 +73,22 @@ var NMSKFourUp = (function(){
     try { E.camSet(CAM[k]); } catch (err){}
     push();
   }
+  /* The engine is told about the panes only when they have ACTUALLY changed. The first draft pushed the list every
+     400 ms, and on the own engine setPanes() forces a draw -- so the page redrew the whole model four times a second
+     for ever, never went idle, and the browser check sat at 350 % CPU waiting for a render-style change that could
+     not finish. Measured, not guessed: the signature below is what stops it. */
+  var lastSig = "";
+  function sig(L){
+    if (!L) return "one:" + lay + ":" + shown;
+    return L.map(function(p){ return p.key + "," + num(p.az) + "," + num(p.el) + "," + num(p.dist) + "," +
+      p.tgt.map(num).join(",") + "," + (p.active ? 1 : 0); }).join("|");
+  }
   function syncActive(){
     if (!on || lay !== "four") return;
     try { CAM[active] = cloneCam(E.camGet()); } catch (err){ return; }
-    var L = paneList();
+    var L = paneList(), q = sig(L);
+    if (q === lastSig) return;
+    lastSig = q;
     try { E.setPanes(L); } catch (e2){}
   }
 

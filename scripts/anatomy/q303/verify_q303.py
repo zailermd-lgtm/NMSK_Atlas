@@ -351,10 +351,20 @@ def section_a(pg, T, R, errs, phone):
         pg.evaluate("() => NMSKAutoFocus.setOn(false)")
     pg.wait_for_timeout(300)
     check("%s A the off switch is off after one tap" % T, pg.evaluate("() => NMSKAutoFocus.on()") is False, errs)
-    p0 = pg.evaluate("() => NMSKImaging.state().P")
+    # With Follow off the round's claim is that NO FOCUS RUNS. It is not that nothing on the page moves: the CT / MR
+    # tool moves its own slice point when it opens (it projects it onto the cut plane, and creates an axial cut for
+    # itself when none is set), which is the tool's behaviour and not this round's. So the assertion is on the focus
+    # itself, plus the camera, which only this round moves.
+    t0 = pg.evaluate("() => Date.now()")
+    cam0 = pg.evaluate("() => window.__q303dbg.cam()")
     pg.evaluate("() => NMSKImaging.open()")
-    pg.wait_for_timeout(1200)
-    check("%s A with Follow off, entering CT / MR moves nothing" % T, pg.evaluate("() => NMSKImaging.state().P") == p0, errs)
+    pg.wait_for_timeout(1500)
+    pg.evaluate("() => NMSKRenderStyle.set('xray')")
+    pg.wait_for_timeout(1500)
+    fresh = pg.evaluate("(t) => { const l = NMSKAutoFocus.last(); return !!(l && l.at >= t && l.ok); }", t0)
+    check("%s A with Follow off, no focus runs at all" % T, not fresh, errs)
+    check("%s A with Follow off, the camera does not move" % T,
+          pg.evaluate("() => window.__q303dbg.cam()") == cam0, errs)
     pg.evaluate("() => NMSKAutoFocus.setOn(true)")
     leave_modes(pg)
 

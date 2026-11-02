@@ -77,9 +77,18 @@
         root.add(o); twins.push({pt:o, of:m, id:s.id});
       });
     }
+    var sigLast = "";
     function tick(){
       raf = 0;
-      if (!spec || !spec.on){ twins.forEach(function(t){ t.pt.visible = false; }); return; }
+      if (!spec || !spec.on){ twins.forEach(function(t){ t.pt.visible = false; }); sigLast = ""; return; }
+      /* The uniforms follow the camera (the near/far split and the millimetres per pixel), so they are refreshed on a
+         frame loop -- but a REDRAW only happens when something they depend on actually moved. The first draft redrew
+         the whole scene every frame while the emphasis was on, which under software rendering pins the CPU and never
+         lets the page idle; measured, not guessed. */
+      var sg = [az, el, dist, target.x, target.y, target.z, cut.on ? 1 : 0, spec.step,
+                twins.length, renderer.getPixelRatio()].join(",");
+      if (sg === sigLast){ raf = requestAnimationFrame(tick); return; }
+      sigLast = sg;
       var mm = q303mmPerPx(), d = renderer.getPixelRatio();
       var c1 = cut.on ? [cutWorld.normal.x, cutWorld.normal.y, cutWorld.normal.z, cutWorld.constant] : null;
       var c2 = cut.on ? [cutWorld2.normal.x, cutWorld2.normal.y, cutWorld2.normal.z, cutWorld2.constant] : null;

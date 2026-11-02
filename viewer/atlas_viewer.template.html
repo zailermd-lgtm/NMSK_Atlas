@@ -4094,12 +4094,14 @@ var NMSKPx = (function(){
     var s = Math.max(1, (step | 0) || 2), C = corners(buf, w, h), isField = fielder(C);
     var tot = [0, 0, 0, 0], hit = [0, 0, 0, 0];
     for (var y = 0; y < h; y += s) for (var x = 0; x < w; x += s){
-      var q = (x < w / 2 ? 0 : 1) + (y < h / 2 ? 2 : 0);          /* readPixels is bottom-up: 2,3 are the TOP row */
+      /* readPixels is BOTTOM-UP, so y < h/2 is the bottom half of the picture: 0,1 are the top row and 2,3 the bottom */
+      var q = (x < w / 2 ? 0 : 1) + (y < h / 2 ? 2 : 0);
       tot[q]++;
       var o = (y * w + x) * 4;
       if (!isField(buf[o], buf[o+1], buf[o+2], buf[o+3])) hit[q]++;
     }
-    return [2, 3, 0, 1].map(function(q){ return tot[q] ? Math.round(hit[q] / tot[q] * 1e5) / 1e5 : 0; });
+    /* returned in the panes' own order: top-left, top-right, bottom-left, bottom-right */
+    return [0, 1, 2, 3].map(function(q){ return tot[q] ? Math.round(hit[q] / tot[q] * 1e5) / 1e5 : 0; });
   }
   return {stats:stats, quadrants:quadrants, tol:function(){ return TOL; }};
 })();
@@ -4605,7 +4607,9 @@ var NMSKFourUp = (function(){
     });
   }
   function push(){
-    try { E.setPanes(paneList()); } catch (err){ if (window.console) console.error("q303 panes", err); }
+    var L = paneList();
+    lastSig = sig(L);
+    try { E.setPanes(L); } catch (err){ if (window.console) console.error("q303 panes", err); }
     if (lay !== "four") { try { E.camSet(CAM[shown] || E.camGet()); } catch (e2){} }
     if (E.redraw) E.redraw();
     paint();
@@ -4620,10 +4624,22 @@ var NMSKFourUp = (function(){
     try { E.camSet(CAM[k]); } catch (err){}
     push();
   }
+  /* The engine is told about the panes only when they have ACTUALLY changed. The first draft pushed the list every
+     400 ms, and on the own engine setPanes() forces a draw -- so the page redrew the whole model four times a second
+     for ever, never went idle, and the browser check sat at 350 % CPU waiting for a render-style change that could
+     not finish. Measured, not guessed: the signature below is what stops it. */
+  var lastSig = "";
+  function sig(L){
+    if (!L) return "one:" + lay + ":" + shown;
+    return L.map(function(p){ return p.key + "," + num(p.az) + "," + num(p.el) + "," + num(p.dist) + "," +
+      p.tgt.map(num).join(",") + "," + (p.active ? 1 : 0); }).join("|");
+  }
   function syncActive(){
     if (!on || lay !== "four") return;
     try { CAM[active] = cloneCam(E.camGet()); } catch (err){ return; }
-    var L = paneList();
+    var L = paneList(), q = sig(L);
+    if (q === lastSig) return;
+    lastSig = q;
     try { E.setPanes(L); } catch (e2){}
   }
 
@@ -13127,9 +13143,18 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
         root.add(o); twins.push({pt:o, of:m, id:s.id});
       });
     }
+    var sigLast = "";
     function tick(){
       raf = 0;
-      if (!spec || !spec.on){ twins.forEach(function(t){ t.pt.visible = false; }); return; }
+      if (!spec || !spec.on){ twins.forEach(function(t){ t.pt.visible = false; }); sigLast = ""; return; }
+      /* The uniforms follow the camera (the near/far split and the millimetres per pixel), so they are refreshed on a
+         frame loop -- but a REDRAW only happens when something they depend on actually moved. The first draft redrew
+         the whole scene every frame while the emphasis was on, which under software rendering pins the CPU and never
+         lets the page idle; measured, not guessed. */
+      var sg = [az, el, dist, target.x, target.y, target.z, cut.on ? 1 : 0, spec.step,
+                twins.length, renderer.getPixelRatio()].join(",");
+      if (sg === sigLast){ raf = requestAnimationFrame(tick); return; }
+      sigLast = sg;
       var mm = q303mmPerPx(), d = renderer.getPixelRatio();
       var c1 = cut.on ? [cutWorld.normal.x, cutWorld.normal.y, cutWorld.normal.z, cutWorld.constant] : null;
       var c2 = cut.on ? [cutWorld2.normal.x, cutWorld2.normal.y, cutWorld2.normal.z, cutWorld2.constant] : null;

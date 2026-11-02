@@ -48,12 +48,14 @@ var NMSKPx = (function(){
     var s = Math.max(1, (step | 0) || 2), C = corners(buf, w, h), isField = fielder(C);
     var tot = [0, 0, 0, 0], hit = [0, 0, 0, 0];
     for (var y = 0; y < h; y += s) for (var x = 0; x < w; x += s){
-      var q = (x < w / 2 ? 0 : 1) + (y < h / 2 ? 2 : 0);          /* readPixels is bottom-up: 2,3 are the TOP row */
+      /* readPixels is BOTTOM-UP, so y < h/2 is the bottom half of the picture: 0,1 are the top row and 2,3 the bottom */
+      var q = (x < w / 2 ? 0 : 1) + (y < h / 2 ? 2 : 0);
       tot[q]++;
       var o = (y * w + x) * 4;
       if (!isField(buf[o], buf[o+1], buf[o+2], buf[o+3])) hit[q]++;
     }
-    return [2, 3, 0, 1].map(function(q){ return tot[q] ? Math.round(hit[q] / tot[q] * 1e5) / 1e5 : 0; });
+    /* returned in the panes' own order: top-left, top-right, bottom-left, bottom-right */
+    return [0, 1, 2, 3].map(function(q){ return tot[q] ? Math.round(hit[q] / tot[q] * 1e5) / 1e5 : 0; });
   }
   return {stats:stats, quadrants:quadrants, tol:function(){ return TOL; }};
 })();
