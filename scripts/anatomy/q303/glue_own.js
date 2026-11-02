@@ -140,8 +140,6 @@
         var t = q303cam().tgt;
         return {eye:e, dir:[t[0] - e[0], t[1] - e[1], t[2] - e[2]]};
       },
-      imaging:function(){ return window.NMSKImaging || null; },
-      ultrasound:function(){ return window.NMSKUltrasound || null; },
       cut:function(){ return cutCtl; }, xsec:function(){ return xsecCtl; },
       style:function(){ return window.NMSKRenderStyle || null; }
     },

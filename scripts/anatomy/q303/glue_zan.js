@@ -116,8 +116,6 @@
                set:function(c){ cam.az = c.az; cam.el = c.el; cam.dist = c.dist; cam.tgt = c.tgt.slice(); stopSpin(); need = true; },
                fit:q303fit, redraw:function(){ need = true; }},
           view:function(){ var e = q303eye(), t = cam.tgt; return {eye:e, dir:[t[0] - e[0], t[1] - e[1], t[2] - e[2]]}; },
-          imaging:function(){ return window.NMSKImaging || null; },
-          ultrasound:function(){ return window.NMSKUltrasound || null; },
           cut:function(){ return cutCtl; }, xsec:function(){ return xsecCtl; },
           style:function(){ return window.NMSKRenderStyle || null; }
         },

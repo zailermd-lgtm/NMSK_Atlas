@@ -584,7 +584,7 @@ peeled body both get their own chip with its own ✕), and is put back by the **
 
 ## Q303 — imaging that goes where you already pointed, four views of one model, and nerves you can see
 
-**Imaging centres itself on what you already chose.** Entering CT / MR, the ultrasound, a cut, the cross-sections or one
+**Imaging centres itself on what you already chose.** Entering CT / MR, the probe, a cut, the cross-sections or one
 of Q301's radiographic styles no longer drops you somewhere else and makes you navigate back. The target is decided in
 one place and in one fixed order: **the marked structures** (their combined bounding box), then **the structure whose
 card is open**, then **the result you picked out of a search**. With none of those, **nothing moves at all** — it never
@@ -593,7 +593,9 @@ the camera are byte-identical before and after. The pattern is 3D Slicer's *Jump
 module offers as an explicit choice against *offset*; so it is a choice here too, with **Follow what I chose** in the
 View group, on by default and remembered in this browser. What "centred" means is written in each mode's own terms: the
 **CT / MR** slice point becomes the centre and every pane's own in-plane centre is released so it follows it, which is
-the slice level and the in-plane position in one move; the **ultrasound** probe is seated on the skin where a ray from
+the slice level and the in-plane position in one move; **the probe** (the private sonography add-on, which the public
+layer may not name, so this round finds both clinical tools by their shape rather than by their name) is seated on the
+skin where a ray from
 the camera through the centre meets it, falling back to the six anatomical directions when no skin lies along that ray;
 the **cut plane keeps the orientation you chose** and only slides along its own normal; the **cross-section stack** is
 centred on that same plane, or in part mode takes the structures you chose as its part; and a **radiographic style**

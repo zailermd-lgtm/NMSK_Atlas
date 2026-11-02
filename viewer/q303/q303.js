@@ -21,7 +21,7 @@ var NMSKQ303 = (function(){
       focusBox.appendChild(NMSKAutoFocus.centreButton("q301-b"));
     }
     var tip = el("p", "nmsk-tip");
-    tip.textContent = "On (the default): entering CT / MR, the ultrasound, a cut, the cross-sections or a radiographic style centres that mode on what you have marked, on the structure whose card is open, or on the result you picked out of a search — in that order. With nothing chosen, nothing moves. Each centring is one Undo step and the two resets undo it.";
+    tip.textContent = "On (the default): entering CT / MR, the probe, a cut, the cross-sections or a radiographic style centres that mode on what you have marked, on the structure whose card is open, or on the result you picked out of a search — in that order. With nothing chosen, nothing moves. Each centring is one Undo step and the two resets undo it.";
     focusBox.appendChild(tip);
     return focusBox;
   }
@@ -63,7 +63,7 @@ var NMSKQ303 = (function(){
         "<li><b>CT / MR</b> &mdash; the slice point becomes the centre, and every pane's own in-plane centre is " +
         "released so it follows it: the slice LEVEL and the in-plane POSITION in one move. This is 3D Slicer's " +
         "<i>Jump slices &mdash; centered</i>, which its Markups module offers as a choice against <i>offset</i>.</li>" +
-        "<li><b>Ultrasound</b> &mdash; the probe is seated on the skin where a ray from the camera to the centre meets " +
+        "<li><b>The probe</b> &mdash; it is seated on the skin where a ray from the camera to the centre meets " +
         "it, so it comes in from the side you are looking from.</li>" +
         "<li><b>Cut</b> &mdash; the plane keeps the orientation you chose and only slides along its own normal until it " +
         "passes through the centre.</li>" +

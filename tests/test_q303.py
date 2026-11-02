@@ -470,3 +470,22 @@ def test_the_frame_is_read_in_the_panes_own_order():
       console.log(JSON.stringify(PX.quadrants(buf, w, h, 1)));
     """)
     assert out[0] > 0.2 and max(out[1:]) < 0.01, out        # the TOP-LEFT pane is reported first
+
+
+def test_the_public_layer_never_names_the_private_tools(tpl):
+    """The clinical slice tool and probe tool are the project's PRIVATE layer, and `tests/test_q226.py` /
+       `tests/test_q228.py` pin that no public template mentions either by name. Q303 is the first public module that
+       has to talk to them, so it finds them by SHAPE. Pinned here as well, next to the code that does it, because the
+       first draft of this round shipped the names into both templates and only the suite caught it."""
+    bad = ("ultrasound", "nmskimaging", "nmskultrasound", "acoustic", "b-mode", "hounsfield")
+    for name in MODULES:
+        low = (Q303 / name).read_text(encoding="utf-8").lower()
+        for b in bad:
+            assert b not in low, (name, b)
+    for k, p in GLUE.items():
+        low = p.read_text(encoding="utf-8").lower()
+        for b in bad:
+            assert b not in low, (k, b)
+    a = (Q303 / "autofocus.js").read_text(encoding="utf-8")
+    assert 'if (kind === "slice")' in a and 'typeof o.placeRay === "function"' in a and "tool:find," in a
+    assert a.count('ks[i].indexOf("NMSK") !== 0') == 1               # the search is over the page's own NMSK globals

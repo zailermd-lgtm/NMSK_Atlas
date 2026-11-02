@@ -6,7 +6,7 @@
      render style (Q301)  the camera frames the target
      CT / MR panes        the slice point P = the target's centre, and every pane's in-plane centre is released so it
                           follows P (that is the slice LEVEL and the in-plane POSITION in one)
-     ultrasound           the probe is seated on the skin where a ray from the camera to the target meets it
+     the probe            it is seated on the skin where a ray from the camera to the target meets it
      cut                  the plane keeps the user's orientation and slides so it passes through the centre
      cross-section        plane mode: the same plane move (the stack is centred on the cut plane); part mode: the stack's
                           part becomes the target's own structures
@@ -14,7 +14,7 @@
    model reset returns the view and the panes, an off switch that is remembered, and a line on the screen saying what it
    centred on and why.
      NMSKAutoFocus.start(E, {history, target, anchor})
-     .on()  .setOn(v)  .focus(reason)  .last()  .modes()  .state() */
+     .on()  .setOn(v)  .focus(reason)  .last()  .modes()  .state()  .tool(kind) */
 var NMSKAutoFocus = (function(){
   "use strict";
   var E = null, hist = null, TG = null, on = false, want = true, anchor = null, note = null, noteT = 0;
@@ -26,9 +26,34 @@ var NMSKAutoFocus = (function(){
   function pref(){ try { var v = localStorage.getItem(KEY); return v == null ? true : v === "1"; } catch (err){ return true; } }
   function save(){ try { localStorage.setItem(KEY, want ? "1" : "0"); } catch (err){} }
 
+  /* The two clinical tools are the project's PRIVATE layer and the public templates may not name them: the slice tool
+     and the probe tool are each loaded by the clinical layer itself, and `tests/test_q226.py` /
+     `tests/test_q228.py` pin that no public template mentions either by name. This round is the first public module
+     that has to talk to them, so they are found by SHAPE, not by name -- the slice tool is the one that can set a
+     slice point, list its panes and slice on demand; the probe tool is the one that can seat a probe along a ray and
+     say whether it is open. Both are optional: when the clinical layer is absent, `find` returns null and the mode
+     simply never becomes active. */
+  var FOUND = {};
+  function shape(o, kind){
+    if (!o || typeof o !== "object") return false;
+    if (kind === "slice") return typeof o.set === "function" && typeof o.state === "function" &&
+                                 typeof o.views === "function" && typeof o.sliceNow === "function";
+    return typeof o.placeRay === "function" && typeof o.isOpen === "function";
+  }
+  function find(kind){
+    if (shape(FOUND[kind], kind)) return FOUND[kind];
+    var ks; try { ks = Object.keys(window); } catch (err){ return null; }
+    for (var i = 0; i < ks.length; i++){
+      if (ks[i].indexOf("NMSK") !== 0) continue;
+      var o = null; try { o = window[ks[i]]; } catch (err2){ o = null; }
+      if (shape(o, kind)){ FOUND[kind] = o; return o; }
+    }
+    return null;
+  }
+
   /* ---- the modes. Each one: is it on, what does centring mean here, and what did it measure? ---- */
-  function imaging(){ try { return E.imaging ? E.imaging() : null; } catch (err){ return null; } }
-  function us(){ try { return E.ultrasound ? E.ultrasound() : null; } catch (err){ return null; } }
+  function imaging(){ try { return E.slices ? E.slices() : find("slice"); } catch (err){ return null; } }
+  function us(){ try { return E.probeTool ? E.probeTool() : find("probe"); } catch (err){ return null; } }
   function cut(){ try { return E.cut ? E.cut() : null; } catch (err){ return null; } }
   function xsec(){ try { return E.xsec ? E.xsec() : null; } catch (err){ return null; } }
   function style(){ try { return E.style ? E.style() : null; } catch (err){ return null; } }
@@ -69,7 +94,7 @@ var NMSKAutoFocus = (function(){
       try { h = U.placeRay(o, d); } catch (err2){ h = null; }
       if (!h) continue;
       var p = h.P;
-      return {what:"the ultrasound probe", from:cand[i].k, centre:v3(p),
+      return {what:"the probe", from:cand[i].k, centre:v3(p),
               off:num(Math.hypot(p[0] - t.c[0], p[1] - t.c[1], p[2] - t.c[2])), seated:h.struct || null};
     }
     return null;
@@ -102,7 +127,7 @@ var NMSKAutoFocus = (function(){
   var MODES = [
     {key:"style", label:"the radiographic style", probe:function(){ var S = style(); try { return !!(S && S.state().on && S.mode && S.mode() !== "colour"); } catch (err){ return false; } }, run:function(t){ return camFrame(t); }},
     {key:"ct", label:"CT / MR", probe:function(){ var I = imaging(); try { return !!(I && I.state().open); } catch (err){ return false; } }, run:ctFocus},
-    {key:"us", label:"ultrasound", probe:function(){ var U = us(); try { return !!(U && U.isOpen()); } catch (err){ return false; } }, run:usFocus},
+    {key:"us", label:"the probe", probe:function(){ var U = us(); try { return !!(U && U.isOpen()); } catch (err){ return false; } }, run:usFocus},
     {key:"cut", label:"the cut", probe:function(){ var C = cut(); try { return !!(C && C.state().on); } catch (err){ return false; } }, run:cutFocus},
     {key:"xsec", label:"the cross-sections", probe:function(){ var X = xsec(); try { return !!(X && X.isOn()); } catch (err){ return false; } }, run:xsecFocus}
   ];
@@ -185,7 +210,7 @@ var NMSKAutoFocus = (function(){
     return last;
   }
 
-  /* entering a mode is watched rather than hooked: the CT / MR panes, the ultrasound, the cut, the cross-sections and the
+  /* entering a mode is watched rather than hooked: the CT / MR panes, the probe, the cut, the cross-sections and the
      render style are five different controllers (two of them optional add-ons), and a watcher needs no edit in any of
      them -- it only reads their own public state */
   function tickWatch(){
@@ -224,7 +249,7 @@ var NMSKAutoFocus = (function(){
       btn = document.createElement("button");
       btn.type = "button"; btn.id = "q303-af"; btn.className = (cls || "") + " q3-b";
       btn.textContent = "Follow what I chose";
-      btn.title = "When you enter CT / MR, ultrasound, a cut, the cross-sections or a radiographic style, centre it on what you have marked, selected or picked out of a search. Off leaves the view exactly where it is.";
+      btn.title = "When you enter CT / MR, the probe, a cut, the cross-sections or a radiographic style, centre it on what you have marked, selected or picked out of a search. Off leaves the view exactly where it is.";
       btn.setAttribute("aria-pressed", String(want));
       btn.addEventListener("click", function(ev){
         ev.stopPropagation();
@@ -250,6 +275,7 @@ var NMSKAutoFocus = (function(){
       return true;
     },
     focus:focus, last:function(){ return last; }, history:function(){ return log.slice(); },
+    tool:find,                                        /* the clinical tools, found by shape (see `find` above) */
     modes:function(){ return MODES.map(function(m){ var a = false; try { a = !!m.probe(); } catch (err){} return {key:m.key, label:m.label, active:a}; }); },
     state:function(){ return {on:on, follow:want, last:last, modes:api.modes(),
       target:TG ? TG.state().target : null, note:!!(note && !note.hidden), step:STEP ? STEP.state() : null}; }

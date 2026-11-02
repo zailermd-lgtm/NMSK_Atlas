@@ -67,7 +67,8 @@
     open:function(){ IMG.open = true; }, close:function(){ IMG.open = false; },
     state:function(){ return {open:IMG.open, P:IMG.P.slice()}; },
     set:function(p){ if (p.P) IMG.P = p.P.slice(); },
-    views:function(){ return IMG.CP; }
+    views:function(){ return IMG.CP; },
+    sliceNow:function(){ return null; }                /* the shape NMSKAutoFocus.tool("slice") looks for */
   };
   /* fake ultrasound: the skin is the sphere of the "skin" structure */
   var US = {open:false, P:[0, 900, 250], N:[0, 0, 1]};
@@ -203,8 +204,6 @@
            set:function(c){ cam = {az:c.az, el:c.el, dist:c.dist, tgt:c.tgt.slice()}; },
            fit:fit, redraw:function(){ draws++; }},
       view:function(){ var e = eye(), t = cam.tgt; return {eye:e, dir:[t[0]-e[0], t[1]-e[1], t[2]-e[2]]}; },
-      imaging:function(){ return window.NMSKImaging; },
-      ultrasound:function(){ return window.NMSKUltrasound; },
       cut:function(){ return window.__fakeCut; }, xsec:function(){ return window.__fakeXsec; },
       style:function(){ return window.NMSKRenderStyle; }
     },

@@ -57,8 +57,9 @@ HIT = """(sel) => {
   if (!(r.width > 0 && r.height > 0)) return {ok: false, over: "zero size"};
   const h = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
   if (h === e || e.contains(h) || (h && h.contains(e))) return {ok: true};
-  let n = h, p = [];
-  while (n && p.length < 3) { p.push(n.tagName.toLowerCase() + (n.id ? "#" + n.id : "")); n = n.parentElement; }
+  let up = h, p = [];                        // NOT `n`: `n` is the nth index parsed above, and redeclaring it made
+                                             // every probe a SyntaxError -- which read as "every control is covered"
+  while (up && p.length < 3) { p.push(up.tagName.toLowerCase() + (up.id ? "#" + up.id : "")); up = up.parentElement; }
   return {ok: false, over: p.join(" < ")};
 }"""
 
@@ -123,6 +124,20 @@ def st(pg, what=""):
 
 def hidx(pg):
     return pg.evaluate("() => NMSKHistory.state().idx")
+
+
+def quiet(pg, ms=1500, cap=24000):
+    """wait until the history stops moving by itself, then commit. Entering a clinical tool starts work of its own and
+       Q294 commits it on a 320 ms debounce, so a measurement taken too early counts the TOOL's entry as this round's."""
+    t, i = 0, hidx(pg)
+    while t < cap:
+        pg.wait_for_timeout(300); t += 300
+        j = hidx(pg)
+        if j == i and not pg.evaluate("() => NMSKHistory.state().pending") and t >= ms:
+            break
+        if j != i:
+            i, t = j, 0
+    settle(pg)
 
 
 def clear_choice(pg):
@@ -220,12 +235,12 @@ def drive(pg, key, phone):
             return "tap"
         pg.evaluate("() => NMSKUltrasound.open()"); return "api"
     if key == "cut":
-        if open_group(pg, "cut", phone) and pg.query_selector("#t-cut"):
-            tap(pg, "#t-cut", phone); return "tap"
+        if open_group(pg, "cut", phone) and pg.query_selector("#t-cut") and tap(pg, "#t-cut", phone):
+            return "tap"
         pg.evaluate("() => window.__q303dbg.cut().enter()"); return "api"
     if key == "style":
-        if open_group(pg, "imaging", phone) and pg.query_selector("#rs-xray"):
-            tap(pg, "#rs-xray", phone); return "tap"
+        if open_group(pg, "imaging", phone) and pg.query_selector("#rs-xray") and tap(pg, "#rs-xray", phone):
+            return "tap"
         pg.evaluate("() => NMSKRenderStyle.set('xray')"); return "api"
     return None
 
@@ -264,16 +279,23 @@ def section_a(pg, T, R, errs, phone):
         # rendering, so wait_for_function cannot even be evaluated and times out while the product is working -- an
         # earlier draft read that as four failures and it was none.
         try:
-            pg.wait_for_function("(a) => { const l = window.NMSKAutoFocus.last();"
-                                " return !!(l && l.mode === a.k && l.at >= a.t); }",
-                                {"k": key, "t": t0}, timeout=600000)
+            pg.wait_for_function("(a) => window.NMSKAutoFocus.history().some(function(e){"
+                                " return e && e.mode === a.k && e.at >= a.t; })",
+                                arg={"k": key, "t": t0}, timeout=600000)
         except Exception:                                          # noqa: BLE001
             pass
-        last = pg.evaluate("() => NMSKAutoFocus.last()")
-        ran = bool(last and last.get("mode") == key and last.get("at", 0) >= t0)
-        check("%s A entering %s really ran ITS OWN focus (last=%s)" % (T, key, last and last.get("mode")), ran, errs)
-        if not last or last.get("mode") != key:
-            A[key] = {"waited": waited, "last": last}
+        hist = pg.evaluate("(a) => NMSKAutoFocus.history().filter(function(e){ return e && e.mode === a.k && e.at >= a.t; })",
+                           {"k": key, "t": t0})
+        last = hist[-1] if hist else pg.evaluate("() => NMSKAutoFocus.last()")
+        ran = bool(hist)
+        if not ran:
+            A[key + "Why"] = pg.evaluate("() => ({modes: NMSKAutoFocus.modes(), on: NMSKAutoFocus.on(),"
+                                         " style: (window.NMSKRenderStyle && NMSKRenderStyle.mode) ? NMSKRenderStyle.mode() : null,"
+                                         " last: NMSKAutoFocus.last()})")
+        check("%s A entering %s really ran ITS OWN focus (%d of its own since the mode was entered%s)"
+              % (T, key, len(hist), "" if ran else ", " + json.dumps(A.get(key + "Why"))[:220]), ran, errs)
+        if not ran:
+            A[key] = {"enteredBy": how, "last": last}
             continue
         A[key] = last
         if not last or not last.get("ok"):
@@ -300,7 +322,7 @@ def section_a(pg, T, R, errs, phone):
         # and that cut IS one of Q294's history providers -- a second entry that is the tool's doing, not this round's.
         # So the focus is measured on its own, from the mode already open, which is also exactly what the control
         # "Centre on my choice" calls.
-        settle(pg)
+        quiet(pg)
         j0 = hidx(pg)
         pg.evaluate("(k) => NMSKAutoFocus.focus(k)", key)
         pg.wait_for_timeout(900)
@@ -437,7 +459,12 @@ def section_b(pg, T, R, errs, phone):
           pg.evaluate("() => NMSKFourUp.state().panes.length") == 4, errs)
     pg.evaluate("() => { if (window.NMSKRenderStyle && NMSKRenderStyle.set) NMSKRenderStyle.set('colour'); }")
     pg.wait_for_timeout(600)
-    # expand and restore, through the real buttons
+    # expand and restore, through the real buttons. The pane labels and their squares stand down while Q301's group
+    # sheet is open (section F proves that), so the sheet is closed first -- the user does the same by tapping the
+    # group button again.
+    if pg.evaluate("() => NMSKGroups.isOpen()"):
+        tap(pg, "#qg-" + pg.evaluate("() => NMSKGroups.isOpen()"), phone)
+        pg.wait_for_timeout(600)
     settle(pg)
     i0 = hidx(pg)
     tap(pg, "#q303-exp-lat", phone)
@@ -458,7 +485,35 @@ def section_b(pg, T, R, errs, phone):
                      round(pg.evaluate("() => NMSKFourUp.paneRect('%s')" % k)["height"])] for k in ("ant", "lat", "sup", "free")]
     print("     pane size (CSS px): %s" % B["paneCss"])
     before = pg.evaluate("() => NMSKFourUp.state().active")
-    x, y = r["left"] + r["width"] / 2, r["top"] + r["height"] * 0.42
+    # Two real-world facts this check has to respect. (1) The pane rect is in VIEWPORT coordinates, so the canvas is
+    # scrolled into view and the rect re-read. (2) BOTH pages float their own toolbars OVER the canvas, and at 390 px
+    # the Z page's `#topright` pill row sits exactly over the top-left pane -- a touch at the pane's middle landed on
+    # the Measure button, which is why the pointer was never remapped (the remap deliberately refuses to rewrite an
+    # event aimed at a control). That is the page's own furniture, not four-up's doing: the toolbar floats over the
+    # single view in just the same way. So the point is PROBED for one that really is the model, and which point was
+    # used is reported.
+    pg.evaluate("() => { const c = document.querySelector('canvas');"
+                " if (c && c.scrollIntoView) c.scrollIntoView({block: 'center'}); }")
+    pg.wait_for_timeout(500)
+    r = pg.evaluate("() => NMSKFourUp.paneRect('ant')")
+    vp = pg.evaluate("() => [window.innerWidth, window.innerHeight]")
+    pt = pg.evaluate("""(r) => {
+      const c = document.querySelector('canvas');
+      const cand = [[0.5, 0.42], [0.5, 0.62], [0.35, 0.72], [0.65, 0.72], [0.5, 0.85], [0.2, 0.55], [0.8, 0.55]];
+      for (const f of cand){
+        const x = r.left + r.width * f[0], y = r.top + r.height * f[1];
+        if (!(x >= 0 && y >= 0 && x < window.innerWidth && y < window.innerHeight)) continue;
+        const h = document.elementFromPoint(x, y);
+        if (h && c && (h === c || c.contains(h))) return {x: x, y: y, at: f, over: null};
+      }
+      const x = r.left + r.width * 0.5, y = r.top + r.height * 0.42, h = document.elementFromPoint(x, y);
+      return {x: x, y: y, at: [0.5, 0.42], over: h ? (h.tagName.toLowerCase() + (h.id ? '#' + h.id : '')) : 'nothing'};
+    }""", r)
+    x, y = pt["x"], pt["y"]
+    B["tapPoint"] = {"x": round(x), "y": round(y), "at": pt["at"], "over": pt["over"], "viewport": vp}
+    check("%s B a point inside the Anterior pane that really is the model (%d,%d at %s of the pane%s)"
+          % (T, x, y, pt["at"], "" if not pt["over"] else ", everything probed was covered by " + str(pt["over"])),
+          not pt["over"] and 0 <= x < vp[0] and 0 <= y < vp[1], errs)
     if phone:
         pg.touchscreen.tap(x, y)
     else:
