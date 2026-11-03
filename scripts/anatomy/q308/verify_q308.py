@@ -237,16 +237,27 @@ def run_page(pl, d: Path, phone: bool, errs):
             check(f"{key} {tag}: psoas minor is NOT shipped here (this engine cannot hide a mesh by default)",
                   not any(s.startswith("psoas_minor") for s in ids), errs)
         else:
-            spot = select_by_name(pg, sel, "psoas minor", phone)
-            ct = card_text(pg)
+            # "Hidden BY DEFAULT" is read BEFORE anything is picked: the row's own class in the freshly
+            # rendered list, and the flag in the page's own shipped record. The hide button's label is read
+            # AFTER a pick and measures something else entirely -- the engine REVEALS a hidden structure when
+            # you choose it (`on[o.layer] = true; hidden.delete(o)` in its own pick path), which is correct and
+            # desirable: a clinician who searches for psoas minor and taps it wants to see it. Asserting
+            # 'unhide' there made a correct page fail on the phone, so the assertion is now the other way
+            # round and pins that revealing behaviour deliberately.
+            pre = type_in(pg, sel, "psoas minor")
+            row0 = next((r for r in pre["rows"] if "Psoas minor" in r["t"]), None)
             cr = card_rec(pg, "psoas_minor_l")
-            rep["psoas"] = {"spot": spot, "hide_label": ct["hide_label"], "hd": cr.get("hd")}
-            check(f"{key} {tag}: the psoas minor row carries the engine's own `hid` class "
-                  f"(cls={spot.get('cls')})", "hid" in (spot.get("cls") or ""), errs)
-            check(f"{key} {tag}: its card's own button reads 'unhide', i.e. the engine has it hidden "
-                  f"(label={ct['hide_label']!r})", (ct["hide_label"] or "").lower() == "unhide", errs)
             check(f"{key} {tag}: the page's own record carries the hidden-by-default flag",
                   cr.get("hd") is True, errs)
+            check(f"{key} {tag}: the psoas minor row is marked hidden in the freshly rendered list "
+                  f"(cls={row0 and row0.get('cls')})", bool(row0 and "hid" in row0["cls"]), errs)
+            spot = select_by_name(pg, sel, "psoas minor", phone)
+            ct = card_text(pg)
+            rep["psoas"] = {"spot": spot, "hide_label_after_pick": ct["hide_label"], "hd": cr.get("hd"),
+                            "row_class_before_pick": row0 and row0.get("cls")}
+            check(f"{key} {tag}: picking it REVEALS it, so a structure hidden by default is still viewable "
+                  f"on demand (its button now reads {ct['hide_label']!r})",
+                  (ct["hide_label"] or "").lower() == "hide", errs)
             check(f"{key} {tag}: its card says it is not demonstrated on this body",
                   "NOT DEMONSTRATED ON THIS BODY" in (cr.get("text") or "").upper(), errs)
 
