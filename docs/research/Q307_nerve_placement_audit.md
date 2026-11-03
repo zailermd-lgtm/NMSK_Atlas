@@ -107,7 +107,7 @@ cadavers», באותו מישור deep fascia כמו ה‑antebrachial vein. ל�
    כף היד וה‑thenar — אינם קיימים.
 2. **אין לו anterior branch ואין posterior branch** באף דף, מול 81.7 % ב‑93 אמות אצל Khadanovich. הדפים כן נושאים
    את ה‑anterior **וה**‑posterior branch של ה‑**medial** antebrachial cutaneous nerve, ואף אחד מהם ללטרלי. גם
-   ה‑superficial branch of the radial nerve, שחוצה אותו ב‑86 % מהגפיים, אינו קיים בדפי ה‑Z.
+   ה‑superficial branch of the radial nerve, שחוצה אותו ב‑86 % מהגפיים, **כן קיים** — ‏**Q308 מדד זאת והטענה הזאת כאן שגויה**: הוא נשלח בששת הדפים כ‑`radial_n_superficial_branch_l/r` (ראו `docs/research/Q308_built_structures_and_validation.md` §9). ושני הענפים של ה‑LACN **נבנו ב‑Q308** rule-based, ולכן גם המשפט «אין לו anterior branch ואין posterior branch באף דף» נכון לגרסה שלפני Q308 בלבד.
 3. **הקצה הפרוקסימלי לא מגיע לקו הבין-אפיקונדילרי:** הוא מתחיל **14.4–27.4 mm דיסטלית** למישור ה‑IEL שנבנה
    מהקונדילים של הדף עצמו. Khadanovich מצא נקודת יציאה «distally, proximally or at the level of the IEL», ולכן
    **זה בתוך השוני המדווח** ונרשם כנתון, לא כשגיאה. המספר שלנו ל‑LE→עצב (33.7–47.9 mm מול 24.5 ± 7.2) נמדד

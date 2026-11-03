@@ -102,11 +102,67 @@ def select_by_name(pg, sel, name, phone):
 
 
 def card_text(pg):
+    """The whole document's text, plus the hide button's own label.
+
+    An earlier version took `#a-hide.closest('aside, section, div[id]')` as "the card" and that container is a
+    small wrapper on the own engine, so the card's own sentences were not in what came back and six real
+    assertions failed against a page that was correct. Only one structure's card is rendered at a time and the
+    strings asserted here are specific (a volume, a division distance), so the document's text is the safe
+    read; the hide label is still taken from the button itself, which is exact."""
     return pg.evaluate("""() => {
         const h = document.getElementById('a-hide');
-        const panel = h ? h.closest('aside, section, div[id]') : null;
-        const t = (panel ? panel.textContent : document.body.textContent) || '';
+        const t = document.body.textContent || '';
         return {hide_label: h ? (h.textContent || '').trim() : null, len: t.length, text: t}; }""")
+
+
+def card_rec(pg, sid):
+    """THE structure's own shipped card, read from the page's own data rather than from the DOM.
+
+    Two earlier readings were wrong in opposite directions and both are worth recording. Taking
+    `#a-hide.closest(...)` as the card missed the card's own sentences on the own engine, so correct pages
+    failed. Taking the whole document's text instead swept in OTHER structures' text -- including the page's
+    own subject legend, which contains the words "Measured on this body" for the structures that really ARE
+    measured -- so the assertion that a rule-based card does NOT claim it failed on a card that never said it.
+    The page's shipped record for that one id is the only reading that is both complete and scoped."""
+    return pg.evaluate("""(sid) => {
+        let rec = null;
+        if (window.__ANATOMY_MANIFEST__) {
+            const m = (window.__ANATOMY_MANIFEST__.meshes || []).find(x => x.id === sid);
+            rec = m ? (m.rec || null) : null;
+            if (m) rec = Object.assign({}, rec, {__name: m.name, __hd: !!m.hd});
+        } else {
+            const el = document.getElementById('bundle-json');
+            if (el) {
+                const b = JSON.parse(el.textContent);
+                const e = (b.structures || []).find(x => x.id === sid);
+                rec = e ? Object.assign({}, e.rec || {}, {__name: (e.rec || {}).name, __hd: !!e.hd}) : null;
+            }
+        }
+        if (!rec) return {err: 'no record for ' + sid};
+        const t = Object.keys(rec).map(k => String(rec[k])).join(' ;; ');
+        return {found: true, name: rec.__name || null, hd: !!rec.__hd, len: t.length, text: t,
+                badge: rec.procedural_badge || '', geom_src: rec.geom_src || '',
+                source: rec.source || ''}; }""", sid)
+
+
+def page_ids(pg):
+    """Every structure id the page's own Q298 data knows, read from the adjacency table it ships.
+
+    `NMSKQ298.data()` returns the EXPANSION data -- `{adj: {ids, adj, th, n}, rel: {...}}` -- so `data().ids`
+    is undefined and a presence check through it reported every new structure as absent from a page that in
+    fact carries all of them. The ids live one level down."""
+    return pg.evaluate("""() => {
+        const d = NMSKQ298.data() || {};
+        const a = (d.adj && d.adj.ids) || [], r = (d.rel && d.rel.ids) || [];
+        let out = Array.from(new Set(a.concat(r)));
+        if (out.length) return out;
+        // fall back to the page's OWN structure list, which is the authority: the Q298 expansion tables are
+        // decoded lazily and may not be in memory yet when this is read.
+        if (window.__ANATOMY_MANIFEST__)
+            return (window.__ANATOMY_MANIFEST__.meshes || []).map(x => x.id);
+        const el = document.getElementById('bundle-json');
+        if (el) return (JSON.parse(el.textContent).structures || []).map(x => x.id);
+        return []; }""")
 
 
 def run_page(pl, d: Path, phone: bool, errs):
@@ -137,7 +193,7 @@ def run_page(pl, d: Path, phone: bool, errs):
 
         ship = sorted(PAGEREP[key]["added"])
         rep["shipped"] = ship
-        ids = pg.evaluate("() => (NMSKQ298.data() || {}).ids || []")
+        ids = page_ids(pg)
         rep["n_ids"] = len(ids)
 
         # ---------------- A every built structure is on the page, reachable, and accountable
@@ -154,13 +210,20 @@ def run_page(pl, d: Path, phone: bool, errs):
         # one card read in full, per family, and it must say the three things
         fams = {}
         for sid in ship:
-            fams.setdefault(sid.rsplit("_", 1)[0], sid)
+            base = sid.rsplit("_", 1)[0]
+            if base == "psoas_minor":
+                continue      # section B reads this one in full, and selecting it TWICE disturbs what B reads:
+                              # on the phone the second press landed on the card's own hide button, which the
+                              # first selection had moved under the measured point, and unhid the structure.
+                              # Q306 recorded exactly this trap for its own press; one selection only.
+            fams.setdefault(base, sid)
         for fam, sid in sorted(fams.items()):
             spot = select_by_name(pg, sel, sid.replace("_", " "), phone)
-            ct = card_text(pg)
-            rep.setdefault("cards", {})[sid] = {"spot": spot, "hide_label": ct["hide_label"],
-                                                "chars": ct["len"]}
-            t = ct["text"]
+            cr = card_rec(pg, sid)
+            rep.setdefault("cards", {})[sid] = {"spot": spot, "found": cr.get("found"),
+                                                "chars": cr.get("len"), "name": cr.get("name")}
+            check(f"{key} {tag}: the page ships a card record for {sid}", cr.get("found") is True, errs)
+            t = cr.get("text") or ""
             vol = str(BUILT[key][sid]["volume_cm3"])
             check(f"{key} {tag}: {sid}'s card says RULE-BASED", "RULE-BASED" in t, errs)
             check(f"{key} {tag}: {sid}'s card prints its volume {vol} cm3", vol in t, errs)
@@ -176,13 +239,16 @@ def run_page(pl, d: Path, phone: bool, errs):
         else:
             spot = select_by_name(pg, sel, "psoas minor", phone)
             ct = card_text(pg)
-            rep["psoas"] = {"spot": spot, "hide_label": ct["hide_label"]}
+            cr = card_rec(pg, "psoas_minor_l")
+            rep["psoas"] = {"spot": spot, "hide_label": ct["hide_label"], "hd": cr.get("hd")}
             check(f"{key} {tag}: the psoas minor row carries the engine's own `hid` class "
                   f"(cls={spot.get('cls')})", "hid" in (spot.get("cls") or ""), errs)
             check(f"{key} {tag}: its card's own button reads 'unhide', i.e. the engine has it hidden "
                   f"(label={ct['hide_label']!r})", (ct["hide_label"] or "").lower() == "unhide", errs)
+            check(f"{key} {tag}: the page's own record carries the hidden-by-default flag",
+                  cr.get("hd") is True, errs)
             check(f"{key} {tag}: its card says it is not demonstrated on this body",
-                  "NOT DEMONSTRATED ON THIS BODY" in ct["text"].upper(), errs)
+                  "NOT DEMONSTRATED ON THIS BODY" in (cr.get("text") or "").upper(), errs)
 
         # ---------------- C the three that denied real tissue
         for term, sid in TIER_A.items():
@@ -199,12 +265,13 @@ def run_page(pl, d: Path, phone: bool, errs):
         if any(s.startswith("lacn_") for s in ship):
             sid = sorted(s for s in ship if s.startswith("lacn_"))[0]
             select_by_name(pg, sel, "anterior branch of lateral antebrachial", phone)
-            ct = card_text(pg)
+            cr = card_rec(pg, sid)
+            t = cr.get("text") or ""
             div = str(BUILT[key][sid]["division_distal_to_iel_mm"])
             check(f"{key} {tag}: the branch card carries its measured division distance {div} mm",
-                  div in ct["text"], errs)
+                  div in t, errs)
             check(f"{key} {tag}: the branch card names Khadanovich's 47.8 +- 34.2 mm",
-                  "47.8" in ct["text"] and "34.2" in ct["text"], errs)
+                  "47.8" in t and "34.2" in t, errs)
 
         # ---------------- E the new structures have their Q298 expansions
         # Read through the engine's OWN public state -- NMSKQ298.state().expand.counts, which is what the
