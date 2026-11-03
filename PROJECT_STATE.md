@@ -13488,3 +13488,178 @@ Three defects of the product and four of the script were found by these runs, an
 **L. What differs from Q303, file by file, and what was published.** Imaging M: `index.html`, `atlas_viewer_male_geo_02.txt`, `plexus_groups.json`, `symmetry_q237.json`. Imaging F: `index.html`, `atlas_viewer_female_geo_03.txt`, a **new** `atlas_viewer_female_geo_04.txt`, `plexus_groups.json`, `symmetry_q237.json`. The four Z pages: `index.html` only. `parts_data.json` on all six and `symmetry_q237.json` on the four Z pages differ **only in their `generated` date stamp** (verified by parsing both and comparing with that key removed), so they were not published. Before publishing, each page's live `index.html` was read with the Artifact tool and is **byte-identical to `build/q303`** once the artifact service's 546-byte wrapper (531-byte prefix + 15-byte suffix) is removed, so nothing had been republished since Q303; the live hub is byte-identical to `965dc35:viewer/atlas_hub.html`, and the live open-items page is the new render minus the appended `## Q304` section, with nothing removed.
 
 **M. The round was finished by a second agent, and these are the versions that are really live.** The first agent built and verified everything above but stalled before publishing anything: when the second agent took over, all six live pages were still Q303's. Nothing was rebuilt; the build was re-checked and then published. Re-verified first, on `build/q304` as it stood: all 28 `scripts/sync_*.py --check` up to date; `tests/test_q249_pages.py` + `tests/test_q249_units.py` 48 passed; `scripts/anatomy/q303/assert_blocks_q303.py --old build/q303 --new build/q304 --round q304` exit 0 (Q294 48,880 / Q298 39,388 / Q300 22,729 / Q301 87,018 byte-identical on all six pages, Q299's cut-face clause intact, Q303 104,877 -> 105,970, the three per-structure tables grown on the two Imaging pages only); and `scripts/anatomy/q297/audit297.py --src build/q304` reproducing **a_measured 803, b_real_third_party 13,004, c_rule_based 1,481, d_unaccounted 0, mislabelled 0, rule-without-badge 0**, with all **71 (M)** and **64 (F)** Q304 structures classified `filled_zan` or `rule_based` -- none `measured` -- and every one of them carrying the "NOT SEGMENTED FROM THIS SUBJECT'S OWN IMAGING" badge. Each page's live `index.html` was read with the Artifact tool and byte-compared: all six were byte-identical to `build/q303` once the 531-byte prefix and 15-byte suffix are stripped, the live hub to `965dc35:viewer/atlas_hub.html`, and the live open-items page to this round's render minus the appended `## Q304` section. `parts_data.json` (all six) and `symmetry_q237.json` (the four Z pages) were re-confirmed as date-stamp-only differences and were not published. **Published 2026-11-03: Imaging M v143, Imaging F v133, Base M v65, Base F v60, Combined M v66, Combined F v79, hub v85, open-items v52** -- the six page numbers are exactly what section L's hub chips already claimed, so no chip needed correcting, and the sibling files published are the ones section L lists (Imaging M: `atlas_viewer_male_geo_02.txt`, `plexus_groups.json`, `symmetry_q237.json`; Imaging F: `atlas_viewer_female_geo_03.txt`, the new `atlas_viewer_female_geo_04.txt`, `plexus_groups.json`, `symmetry_q237.json`; the four Z pages: the page only). The live file listings were read back afterwards and match `build/q304` byte for byte, wrapper included. Full suite after publishing: **11 failed -- exactly the baseline set (`test_motor_points_q187[zan_f]`, `test_q213`, `test_q214[vhm]`, `test_q225`, `test_q240_parts_cull` x3, `test_q255`, `test_schema_validation`, `test_source_coverage`, `test_symmetry`) -- 2,055 passed, 141 skipped** of 2,207 collected, in 8m12s, **0 new failures and nothing loosened**; `tests/test_q304.py` is 29 tests and passes on its own. The two date-stamp files the suite rewrites (`data/anatomy/structure_parts.json`, `data/derived/Q219_parts_coverage.json`) were restored afterwards. Nothing in `build/` was deleted and no `--allow-disk` was used; `df -h /` was checked before each write and the downloaded live copies were deleted as soon as each comparison was done.
+
+## Q305 (2026-11-03) -- OWNER REQUEST (translated from Hebrew): "let the various boxes on the screen be moved around" -- the user repositions the on-screen panels himself instead of living with where we put them (agent; shared modules on both engines, NO engine patch at all; published all six pages + hub + open-items)
+
+**A. The research, because the affordance came out of it and not out of a preference.** `docs/research/Q305_movable_panels.md` (Hebrew, English UI terms). `WebFetch` was DNS-blocked again for every product host and for `www.w3.org`, so every claim rests on a `WebSearch` quote and what has none is marked **not verified**. What it settled: (i) **no anatomy atlas we could find documentation for lets the user move a panel.** BioDigital's layout is decided by whoever published the model, not by the learner -- the chapter list «has been removed from its fixed position in the information panel», and the Undo/Redo/Reset toolbar is turned on «under Display Options when you publish your model, or add the URL parameter &ui-undo=true». Visible Body and Complete Anatomy returned nothing on panel layout at all (**not verified**). (ii) **The one documented precedent is 3D Slicer, and its affordance is the title bar**: the module panel is undocked «by left-clicking and dragging the panel chrome» -- reworded later to «window title bar and frame» -- and re-docked by double-clicking it. (iii) **What signifies a drag best is a drag handle**, measured in a 2019 study of touch-gesture signifiers: «drag handles and drop shadows helped users discover dragging more than temporal cues did», and the «drag handle was the most effective at signifying its affordance»; and a handle that appears only on hover «excludes touch-screen and keyboard users», so it must be persistent. (iv) **WCAG 2.2 SC 2.5.7** requires that anything done by dragging «has another single pointer mode of operation», and says keyboard and pointer are «evaluated independently». (v) **SC 2.5.8** sets 24x24 CSS px as the minimum target, with 44x44 the (secondary, non-standard) recommendation for a handle, the visible graphic allowed to be smaller than the hit area.
+
+**B. Why a handle and not the title bar, although Slicer uses the title bar.** Because the heads of these boxes are full of controls: `#cut-panel`'s head carries `cut-min` and `cut-exit`, `#q301-sheet`'s carries its close button, `#info`'s carries `.info-min` and `.info-close`. The project's own precedent does use a title bar -- the imaging reference window's `.ref-head{cursor:move}`, dragged since Q246 -- and that head is nearly empty. So: a persistent grip of six dots, 26 px drawn on a desktop and 34 px on a coarse pointer, with the hit area padded to 44 px.
+
+**C. The offset is a `translate`, and that one decision is why this round needs no engine patch.** Five rounds already place these boxes and keep placing them: Q301's `place()` rewrites the control bar's `left` / `top` whenever a group opens or the window resizes, Q300 rewrites its chip bar's `top` on a timer, the labels module re-places its panels on every resize, and the engines' stylesheets place everything else through media queries. Q301 learned the consequence the hard way (H2 iv: "a CSS `top` of ours would lose"). So Q305 never sets a position: it sets the box's **`translate`** -- the independent CSS property, which composes with whatever `transform` the stylesheet has and which nothing else on these pages writes -- so the offset rides on top of each box's own placement. `CSS.supports` is checked and there is a `transform` fallback that reads the author value once. **Consequence: no `patch_engines_q305.py`, no per-engine glue, and every earlier round's page block comes out of the regen byte-identical** -- the strictest `assert_blocks` round so far.
+
+**D. What is movable, what is not, and why.** Movable (one shared table; a box whose element is not on a page is simply never mounted): the control bar `#q301-bar` (its open group sheet `#q301-sheet` travels with it), Q300's `#sa-bar`, Q301's `#q301-info` drawer, `#cut-panel`, the Z structure card `#info`, the Z rail `#rail`, `#topright`, Q294's `#ms-bar` and `#xsp-panel`, Q298's `#q8-float`, and the labels `#lab-panel` / `#lab-legend`. Not movable, each for a stated reason: the own engine's `aside` and `#inspector` are **grid columns of `#app`**, so a moved column would leave an empty strip and cover the model it had just made room for (and on a phone they are already bottom sheets); Q290's `.pz-chip` reports the zoom **of the surface it sits on**, so where it is is what it means; Q303's `.q3-ch` pane labels name the quadrant they are in; and the clinical imaging / ultrasound roots are **panes** whose rectangle the page's own layout cycle recomputes, so a user offset would be overwritten -- and the public templates may not name that layer, which is why the module offers it a `data-nmsk-move` opt-in instead of carrying its ids.
+
+**E. The phone: measured, then decided.** No source compares a floating panel with a docked one on a small screen
+(the only documented pattern is the bottom sheet, «anchored to the bottom of the screen»), so the decision rests on a
+measurement of our own pages at **390x844**. Free travel = viewport minus a 24 px gutter minus the box, read off the
+real pages by `verify_q305.py` itself:
+
+| page | box | size | free X | free Y | slots given |
+|---|---|---|---|---|---|
+| Imaging M | control bar | 374x131 | **-8** | 689 | tc / mc / bc |
+| Imaging M | expansion strip | 374x127 | **-8** | 693 | tc / mc / bc |
+| Base M | control bar | 374x131 | **-8** | 689 | tc / mc / bc |
+| Base M | top button row | 368x104 | **-2** | 716 | tc / mc / bc |
+| Base M | side panel | 390x520 | **-24** | 300 | tc / mc / bc |
+
+On the harness's fake host, where the small boxes are also on the screen, those have **232-265 px** of free X and get
+the six corner slots instead. A box with eight pixels of sideways freedom is not draggable in any useful sense. **The
+rule is therefore a measured threshold, not a taste: an axis with less than one thumb (48 px) of travel gets slots
+instead of free drag** -- a wide box three bands (`tc` / `mc` / `bc`), a small one the four corners -- and a drop
+snaps to the nearest. On a desktop every box has room, so it is free drag there. `verify_q305.py` prints the table it
+decided from, per page, and asserts the rule: every box on the screen is offered at least two slots, and a box with
+no room on an axis is given bands there rather than free drag.
+
+**F. Nothing may be left unreachable, and it is a product rule and not only a test.** `viewer/q305/guard.js` is
+Q301's own instrument turned into a module: `document.elementFromPoint` at the centre of each control that must stay
+reachable -- Undo, Redo, Reset module, Reset model, the circled i, Show everything, the control bar's group buttons,
+the open group's own controls, plus every handle and anything another layer marks `data-nmsk-protect`. It runs after
+**every** drop, and **a drop that would cover one of those controls is refused**: the box goes back where it was,
+`reverts` counts it, and one line names the control. Two refinements came out of measurement. (i) The watch list is
+split **hard / soft**: a handle under another box is reported but does not fail, because on a small screen two boxes
+genuinely overlap whatever any round does, and the layout can still be put back from the control bar, from the i or
+with `Home`. (ii) **A control that is merely SCROLLED OUT of its panel is not covered.** The first real-page run
+reported three as unreachable -- `t-lay3` and `btn-pose` "covered by canvas#view", and Restore layout itself -- and
+all three were simply below the fold of the open group's own scrolling body (scrollHeight 441 against a 362 px
+window). The guard now walks up to the nearest clipping ancestor and asks whether the control is inside **its**
+window.
+
+**G. Restore, one undo step, and the two resets.** The layout is an **ordinary `NMSKHistory` provider**
+(`q305layout`), which is what buys the rest for nothing: every drop is one commit, so Undo / Redo move the boxes; and
+Q300's **Reset model** restores the history's own load snapshot, which contains this key, so the model reset returns
+**the layout the page loaded in** -- not "nothing moved", because a layout saved in this browser *is* the load state.
+The provider's `reset` is deliberately a no-op: Q294's Reset is "the module you are in", and the boxes are the page's
+chrome. **Restore layout** sets every offset to zero in one commit (one undo step) and lives in the **View** group of
+Q301's control bar -- no new top-level button. It has a **second home inside the circled i**, and that is not
+decoration: the View group's sheet scrolls, so the i is the copy that is always within reach.
+
+**G2. The inherited `#foot` defect, found in phase 1 and FIXED in this round.** `#foot` -- the Z engine's bottom
+pill row, which Q301's **View** group adopts into its sheet -- kept `position:fixed`, because `#foot{position:fixed}`
+(one id, specificity 0,1,0,0) outranks `.qg-sbody .qg-adopted{position:static}` (two classes, 0,0,2,0). So the
+adopted row stayed pinned to the bottom of the viewport, out of the sheet's flow and on top of it, and painted over
+**every member listed after it** in that sheet -- `#q305-restore` among them. Measured with the instrument that
+found Q301's info drawer over Undo and Q300's chip bar over Redo: `elementFromPoint` at Restore layout's centre.
+**Measured on the Base page, before the fix: Restore layout is NOT the element at its own centre at 4 of the 4
+scroll alignments at 1400x900, and at 2 of 4 at 390x844** -- `DIV#foot` itself at two of them in each viewport, and
+at the desktop's other two one of `#foot`'s OWN pills (`BUTTON.pill`), which is the same defect one layer down: the
+row is still on top. **After the fix: the button itself at 4 of 4, in both viewports.** (That corrects phase 1's
+note, which reported four of four in both viewports; on the phone it is two of four.) It is a **Q301-era defect**,
+not one this round caused. Phase 1 left it alone to keep Q301's block byte-identical and worked around it with the i's copy;
+this round fixes it properly, and **without touching Q301's block**: the one declaration
+`.qg-sbody #foot{position:static}` (0,1,1,0 -- specific enough) lives in **Q305's own** `viewer/q305/q305.css`.
+Q301's block still comes out of the regen byte-identical (asserted, `--round q305`), and the defect is gone.
+The rule is **scoped to the sheet**, so `#foot` where the page itself puts it is untouched, measured: Q270's pill
+band is `position:fixed`, visible, **14 px up and 14 px in** at 1400x900 and **12 px up and 11 px in** at 390x844,
+a **43 px** band inside the **52.8 px** `#rail` reserves for it. That is measured BEFORE the View group has ever
+adopted the row, and the reason is worth recording: Q301 parks an adopted element in a hidden node when its sheet
+closes, by design -- the group **takes the row over**, it does not borrow it -- so "is the band back afterwards" is
+not a question this fix can be asked, and the first draft of the proof script asked it and reported a false
+failure. **One correction to the phase-1 note:**
+`#foot` exists only in the **Z template** (the Base and Combined pages, 4 of the 6); the two Imaging pages have no
+`#foot` at all, so "on both engines" was wrong -- on the own engine the fix is a measured no-op.
+`scripts/anatomy/q305/prove_foot_q305.py` is the proof: it measures both states on the **same built page** in one
+run, by `deleteRule`-ing that one declaration out of the page's own stylesheet for the "before" pass and inserting
+it back at the same index for the "after" pass, so the two passes differ in nothing else.
+
+**H. Six defects the harness found before either template was touched, every one of them this round's own.**
+`scripts/anatomy/q305/harness/{host.html, run.py}` runs the **real** modules (`viewer/q294/history.js`,
+`viewer/pinch/pinch.js`, `viewer/q300/showall.js` + `modelreset.js`, `viewer/q301/groups.js` + `info.js` and the new
+`viewer/q305/*`) on a fake host of the same shape as the two engines -- a canvas that orbits, Q290's pinch and
+two-finger pan on the canvas *and* on a 2-D pane, a probe dragged over the canvas, a list whose rows take a long press
+-- with real mouse drags at 1400x900 and real CDP touch drags at 390x844: **51 OK / 0 FAIL**. What it caught:
+(i) the inline handle's padded hit area was laid out against the nearest positioned ancestor -- the **whole control
+bar** -- and swallowed every button on it (`position:relative` on the handle); (ii) **a pinch whose first finger lands
+on a handle moved the box**, because the pointer count was kept on the handle and the second finger lands *beside* it,
+where the handle never gets a `pointerdown` (the count is kept for the whole document now, and self-heals on a primary
+`pointerdown` so a `pointerup` that never arrives cannot leave a phantom finger); (iii) a handle hanging half off its
+corner **lands under whatever box is behind**, where it can never be grabbed, so the box could never be moved back
+(handles sit fully inside, and re-seat themselves to a corner whose own centre `elementFromPoint` confirms);
+(iv) clamping **every** box, moved or not, dragged a **closed bottom sheet 538 px back on screen** over the model,
+where it swallowed the orbit -- the harness reported it as "the model no longer orbits", which is exactly what the
+owner would have seen (an untouched box is never clamped, and a box the page itself keeps off the screen is not ours
+to touch); (v) the handle's hit area, padded 9 px in every direction to reach 44 px, **stuck out of its box onto the
+canvas**, and Chromium's touch adjustment snapped a finger 7 px clear of the panel to the handle -- the padding grows
+**inward only** now; (vi) a handle that keeps an implicit pointer capture it never releases **keeps every later
+pointer event**, which also reads as "the model stopped orbiting" (released by hand, with document-level and `blur`
+safety nets). Three more of the harness's own bugs are recorded in it, because each read as a product defect: a pinch
+whose midpoint was clear but whose left finger landed 3 px inside the side panel; the orbit measured within Q290's
+400 ms "busy" window after a pinch; and a canvas gesture aimed at a point another box was over.
+
+**H2. THE ONE DEFECT THE REAL PAGES FOUND THAT THE HARNESS COULD NOT, and it was a product defect.** Phase 1's
+harness runs the real modules on a fake host, and the fake host places its boxes once. The real Z pages do not:
+Q301's `place()` rewrites the control bar's `left` / `top` when a group opens, on every resize, and -- at boot --
+**after** Q305's first pass. On the Base page at **390x844**, with a stored `mc` slot, that was enough to break it.
+A slot is a position relative to the box's own BASE rectangle, so the module resolves it against that rectangle; on
+the first pass at boot the base was still the pre-`place()` one (top ~133), the slot resolved to **+223**, and once
+`place()` moved the base to top ~713 the box sat at **936 of an 844 px viewport**. What made it permanent rather
+than momentary was the guard in the 600 ms self-healing pass: it skipped a box that was not `shown()` -- and
+`shown()` measures the box WITH our offset. The box our own offset had pushed off the screen was therefore the one
+box the pass would never correct. The control bar carries **Undo and Redo**, so the whole bar went with it; the
+verify reported it three times over (the drop did not survive the reload, Undo read as unreachable, and the handle
+tap crashed on a box that `NMSKMove.rect` called absent).
+**The fix is one question asked correctly.** `shownBase(b)` measures the box with our offset removed and asks
+whether **the page** puts it on the screen -- which is exactly what `clamped()` already asked of the base, for the
+same reason (a closed bottom sheet must still answer no, and it does). `refresh` and `applyAll` ask that instead,
+and the next 600 ms tick re-resolves the slot from the bar's real place. Measured after the fix: the reload settles
+to the same rectangle, and `verify_q305.py` reports how long it took. The verify also no longer crashes where a
+named FAIL is the honest answer -- a missing box is reported, not raised -- and `tests/test_q305.py` grew a
+regression test that fails if the pass ever asks about our own offset again. **The own engine never showed it**: its
+base is already in place at boot (own_m at 390x844 resolved `-297` before the reload and `-297` after), which is
+exactly why only a real-page run at the real viewport could find it.
+
+**I. Build.** `python3 scripts/regen_template_only.py all --src build/q304 --out /dev/shm/q305/final --ref build/q304 --expect-changed index.html` -> `REGEN_TEMPLATE_ONLY_OK`, **12 data blocks on each own page and 13 on each Z page, 13-15 reference siblings per page, expected-changed `index.html` only**. The Q305 block is **50,211 bytes**, byte-identical in both templates and on all six pages, and it is the ONLY change: **removing it reproduces `build/q304` byte-for-byte on every one of the twelve page files** (asserted directly, not inferred), and `scripts/anatomy/q303/assert_blocks_q303.py --old build/q304 --new build/q305 --round q305` reports **OK** -- Q294 48,880 / Q298 39,388 / Q300 22,729 / Q301 87,018 / Q303 105,970 bytes identical on all six, which is the contract this round set itself. `parts_data.json` and `symmetry_q237.json` did not drift this round: every sibling file is byte-identical to Q304's, so nothing but `index.html` was published. `build/q305` holds the twelve page files real and **every unchanged sibling as a hard link into `build/q304`** (the Q300 / Q301 / Q304 pattern): about 100 MB on a disk with 1.2 GB free, against 336 MB for a real copy. `scripts/anatomy/q241/model.py`'s `SRC` now points at `build/q305`.
+
+**The build had to be done twice over, and the second time by construction rather than by `regen_template_only.py`, because of a collision with Q307 (see N).** Q307 is being built in this same working tree and had modified `data/anatomy/calibre.json` and run `scripts/sync_subjects_q307.py` on `viewer/atlas_viewer.template.html`, so a regen of the two Imaging pages injected **its** calibre table and **its** four source labels as well as Q305's block. Reverting another round's in-flight files while its own regen was reading them was not acceptable, so the six Q305 pages were built as `build/q304`'s page + the Q305 block spliced after the `<!-- Q303 html end -->` marker, and **that construction was proved to be exactly what the regen produces**: byte-identical to the regen's own output on all eight page files of the four Z pages (whose template `zan_atlas.template.html` carries only Q305's change -- verified by removing the block and getting HEAD back byte-for-byte), and on the four page files of the two Imaging pages equal to the regen's output **once Q307's `nmsk-calibre` table and its four `*_q307` source labels are removed** -- which isolates Q307's contribution exactly and leaves Q305's.
+
+**J. Verification.** `scripts/anatomy/q305/verify_q305.py`, real headless Chromium on one page of each engine (Imaging M, the own engine; Base M, the Z engine), desktop 1400x900 with real mouse drags and phone 390x844 with real CDP touch drags: **114 OK / 0 FAIL, 0 page errors**, re-run on the exact bytes that were published (`data/derived/Q305_browser_check.json`). A a real drag of the handle lands the box within 2 px of where it was let go on the desktop and snaps to a slot on the phone, and **the drop survives a reload** -- settled within 600 ms, same rectangle, same slot. B `elementFromPoint` at the centre of every watched control before and after every drag: nothing covered, at load or after. C a drop aimed straight at Undo leaves Undo reachable, by the module's own refusal on the desktop and by the slot discipline on the phone. D several boxes moved with real drags, one tap on **Restore layout** puts them all back, **one** Ctrl+Z brings the arrangement back in a single step, and Q300's **Reset model** returns the layout the page loaded in. E every gesture that was already there still works: the model orbits, the canvas pinches (dist 3328 -> 1248) and two-finger-pans, a 2-D pane pinches, the probe drags, a long press on a row still starts a range, a tap on a handle is not a move, and a pinch whose first finger lands on a handle does not move the box. F a box dragged far off the screen is clamped inside it and stays inside after a resize and an orientation change; nothing overflows 390 px. G the measured free travel per box, which is the measurement the phone rule rests on. H 0 page errors.
+
+`scripts/anatomy/q305/prove_foot_q305.py`, the same two pages and the same two viewports: **57 OK / 0 FAIL** (`data/derived/Q305_foot_fix.json`) -- the `#foot` before/after proof in G2.
+
+`scripts/anatomy/q305/harness/run.py`: **51 OK / 0 FAIL**, the real modules on the fake host, both viewports. `tests/test_q305.py`: **32 passed** (31 from phase 1 plus the regression test for the stale-base defect in H2). All **29** `scripts/sync_*.py --check`: up to date, `sync_q305.py` among them. `tests/test_q249_units.py` + `tests/test_q249_pages.py`: **48 passed**.
+
+**K. Published.** `index.html` only, on all six pages, each read first and byte-compared against its live version: **every one of the six differed from the live page by exactly the Q305 block and nothing else** (the live pages were byte-identical to `build/q304` after stripping the service wrapper's 531-byte prefix and 15-byte `\n</body></html>` suffix, and removing the Q305 block from the new page reproduced the live bytes exactly). Published: **Imaging M v143 -> v144, Imaging F v133 -> v134, Base M v65 -> v66, Base F v60 -> v61, Combined M v66 -> v67, Combined F v79 -> v80**, each +50,212 bytes. The hub's six version chips were set to those numbers and its `Since Q305` paragraph added before the Q304 one: **v85 -> v86**. The owner's open-items page: **v52 -> v53**, with the Q305 section (two decisions, one defect fixed, and the WCAG position). The hub and the open-items page were each byte-compared against their live versions first too: the live hub was byte-identical to the repo copy at HEAD, and the live open-items page was byte-identical to what `scripts/make_open_items_page.py` renders from HEAD's markdown, so both diffs are this round's text alone.
+
+One warning the publish returns on each of the six pages is **not** Q305's and is not new: the pages offer a file through a plain download link (Q241's pose export and Q294's measurement export), which the artifact viewer does not grant. It is unchanged from Q304 and is recorded here rather than acted on.
+
+**L. Three defects of this round's own, found by the full suite and fixed, and one that is not ours.** The suite
+caught **three new failures that were Q305's**, all one cause: the word *ultrasound* appeared three times in the
+comments of `viewer/q305/{q305.css, q305.js}`, and that block is spliced into **both** templates -- including the
+public one, where Q228's rule is that the private modality is never named (`test_q228::
+test_public_templates_do_not_mention_ultrasound` and `test_q294::test_engines_wire_history_measure_slices` for both
+engines). The comments now use the project's own public wording, **the probe**, exactly as the controls do; the
+block was re-synced, rebuilt and re-verified on the corrected bytes. The **fourth** new failure,
+`test_q303::test_the_sub_pixel_diagnosis_this_round_reports` (329 nerve calibres on Imaging M against the 272 that
+test pins), is **Q307's**: that round has added 846 lines of upper-limb nerves to `data/anatomy/calibre.json` in
+this same tree, and the pinned counts are its round's to update. It was deliberately left alone, and
+`data/anatomy/calibre.json` was not touched.
+
+**M. Tests and the suite.** `tests/test_q305.py` **32 passed**. Full `pytest tests/`: **18 failed, 2,099 passed, 141 skipped** in 7m06s -- the **11 baseline failures this project has carried since Q275 are unchanged** (`test_motor_points_q187[zan_f]`, `test_q213`, `test_q214[vhm]`, `test_q225`, `test_q240_parts_cull` x3, `test_q255`, `test_schema_validation`, `test_source_coverage`, `test_symmetry`) and **0 of the 7 extra failures is Q305's**: one is `test_q303`'s pinned nerve-calibre counts, tripped by Q307's 846 added lines in `data/anatomy/calibre.json`, and six (`test_q286`, `test_q287`, `test_q288`, `test_q293`, `test_q297`, `test_q304`) are the pose-rig assertions, tripped by Q307 rewriting `data/anatomy/pose_rig_own_m.json` and `pose_rig_own_f.json` -- whose own diff says `Q307: +57 structures (the upper-limb nerves carried from the Combined page of the same body)`. Q305's own three new failures, all the one `ultrasound` cause in L, were fixed before this run and this run confirms it. The two
+date-stamp files the suite rewrites (`data/anatomy/structure_parts.json`, `data/derived/Q219_parts_coverage.json`)
+were restored afterwards.
+
+**N. A collision with Q307 in the same working tree, recorded because it shaped the build.** The brief for this
+phase said Q304 was the only round that had been running here. By the time phase 2 started, **Q307 was being built
+in this same clone, on this same branch, at the same time**, and it is the third round in this project's history to
+overlap this way (Q298 recorded the first, with Q299 and Q300). Four concrete consequences, all of them handled
+without touching Q307's files. (i) `regen_template_only.py` aborts when a tracked `data/` file changes during a
+build, and Q307 was writing `data/derived/Q307_*.json` throughout, so the first full regen died **after** building
+all six pages and the second died after four of them; the output was verified directly instead and the two missing
+pages were rebuilt on their own. (ii) Q307 modified `data/anatomy/calibre.json` and ran
+`scripts/sync_subjects_q307.py` on `viewer/atlas_viewer.template.html`, so a regen of the two Imaging pages carried
+its work as well as ours -- which is why the final six pages were built by construction and that construction was
+proved equal to the regen's own output (see I). (iii) The suite's fourth new failure is Q307's (see L). (iv) Q307's
+own regen injects the **Q305 block** from the shared templates, so whatever it publishes next already carries this
+round's work; `build/q305` and `/dev/shm/q305/final` were both left in place so it can take the block forward
+rather than drop it. Nothing of Q307's was reverted, staged or committed: the commit stages only Q305's own paths,
+and `data/anatomy/calibre.json`, `data/derived/Q307_*.json`, `data/anatomy/nerve_parents_q307.json`,
+`scripts/anatomy/q307/` and `docs/research/Q306_search_coverage_audit.md` were all left untouched in the tree.

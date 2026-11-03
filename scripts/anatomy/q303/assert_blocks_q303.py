@@ -9,6 +9,30 @@ that is checked as a line diff, not as a length.
 
     python3 scripts/anatomy/q303/assert_blocks_q303.py                                   # Q301 -> Q303 (as written)
     python3 scripts/anatomy/q303/assert_blocks_q303.py --old build/q303 --new /dev/shm/q304/final --round q304
+    python3 scripts/anatomy/q303/assert_blocks_q303.py --old build/q304 --new /dev/shm/q305/final --round q305
+    python3 scripts/anatomy/q303/assert_blocks_q303.py --old build/q304 --new /dev/shm/q307/final --round q307
+
+Q305 extends it again, and it is the strictest round so far: it adds a block of its own and changes NOTHING else --
+a box is moved by its own `translate`, which composes with the five earlier rounds' placement code instead of
+replacing it, so there is no hook, no engine patch and no allowed difference. In `--round q305` every earlier
+round's block (Q294, Q298, Q300, Q301, Q303) and every per-structure data table must be byte-identical on ALL SIX
+pages, and the Q305 block itself must appear exactly once with its three modules in it.
+
+Q307 extends it too, and like Q305 it changes no engine code at all: this round adds geometry and card text, so
+in `--round q307` every earlier round's block (Q294, Q298, Q300, Q301, Q303) must be byte-identical on ALL SIX
+pages, and the per-structure data tables -- `nmsk-abbrev`, `nmsk-calibre`, `nmsk-pose-rig`, `nmsk-q298` -- are
+allowed to change ON THE TWO IMAGING PAGES ONLY, where 57 and 60 nerves were added and 1 and 2 replaced; on the
+four Z pages they must still be byte-identical. It also asserts that the new build carries NO BLOCK FROM A ROUND
+THIS ONE DID NOT BUILD ON: the first Q307 build was made in a working tree that another round was editing at the
+same time, the regen chain re-applied `viewer/*.template.html` as it stood on disk, and the six pages came out
+carrying that round's unlanded UI block -- which every earlier check here passed, because none of them looked for
+a block that should not be there. Q307 builds from a private template copy (`NMSK_TEMPLATE_DIR`, the mechanism
+Q237 added for exactly this) and this assertion is what proves it worked. `nmsk-q298` is allowed to change there
+but is NOT required to:
+running this check is how Q307 learned that it does not -- Q298's adjacency, relation and alias tables are
+committed data that `--inject` only copies, so a nerve added to a page gets no adjacency row and no Related /
+Functional-group entry until that builder is re-run. Q304 added 71 and 64 nerves under the same gap, so it is
+inherited rather than new, and it is in the open items for the owner with its cost.
 
 Q304 extends it rather than adding a second script of its own (the round brief's instruction). In `--round q304`
 the earlier rounds' blocks must still be byte-identical, Q301's block is no longer allowed the two Q303 hooks
@@ -26,13 +50,15 @@ DATA = ["nmsk-q298", "nmsk-abbrev", "nmsk-calibre", "nmsk-pose-rig", "nmsk-learn
 AP = argparse.ArgumentParser()
 AP.add_argument("--old", default="build/q301")
 AP.add_argument("--new", default="build/q303")
-AP.add_argument("--round", dest="rnd", default="q303", choices=["q303", "q304"])
+AP.add_argument("--round", dest="rnd", default="q303", choices=["q303", "q304", "q305", "q307"])
 ARG = AP.parse_args()
 OLD = Path(ARG.old) if Path(ARG.old).is_absolute() else R / ARG.old
 NEW = Path(ARG.new) if Path(ARG.new).is_absolute() else R / ARG.new
 Q304 = ARG.rnd == "q304"
-# the pages where Q304 added structures, so their per-structure tables must change and nothing else may
-GREW = {"viewer_m_hr", "viewer_f_hr"} if Q304 else set()
+Q305 = ARG.rnd == "q305"
+Q307 = ARG.rnd == "q307"
+# the pages where Q304 / Q307 added structures, so their per-structure tables must change and nothing else may
+GREW = {"viewer_m_hr", "viewer_f_hr"} if (Q304 or Q307) else set()
 bad = []
 print("comparing", OLD, "->", NEW, "as", ARG.rnd)
 for p in PAGES:
@@ -45,10 +71,19 @@ for p in PAGES:
         if not ma or not mb:
             row.append("%s MISSING" % d); bad.append((p, d, "missing")); continue
         same = ma.group(0) == mb.group(0)
-        allowed = Q304 and p in GREW and d in ("nmsk-abbrev", "nmsk-calibre", "nmsk-pose-rig")
+        must_grow = (Q304 or Q307) and p in GREW and d in ("nmsk-abbrev", "nmsk-calibre", "nmsk-pose-rig")
+        allowed = must_grow or (Q307 and p in GREW and d == "nmsk-q298")
         row.append("%s %d%s" % (d, len(mb.group(0)), "" if same else (" grew (allowed)" if allowed else " CHANGED")))
         if not same and not allowed: bad.append((p, d, "changed"))
-        if same and allowed: bad.append((p, d, "did NOT change although %d structures were added" % 1))
+        if same and must_grow: bad.append((p, d, "did NOT change although structures were added"))
+    if Q307:
+        # no block from a round this build does not stand on (see the module docstring)
+        for tag in ("Q305", "Q306"):
+            na2, nb2 = a.count("<!-- %s html begin -->" % tag), b.count("<!-- %s html begin -->" % tag)
+            row.append("%s %d->%d" % (tag, na2, nb2))
+            if nb2 != na2:
+                bad.append((p, tag + " block", "appeared in this build although Q307 does not build on it "
+                                               "(%d -> %d)" % (na2, nb2)))
     # Q299's cut-face minimum drawn width
     na, nb = a.count("bandFrac"), b.count("bandFrac")
     row.append("bandFrac %d->%d%s" % (na, nb, "" if na == nb else " CHANGED"))
@@ -62,14 +97,14 @@ for p in PAGES:
                 continue
             bad.append((p, sym, "%d->%d" % (ca, cb)))
     # Q301's own block, byte identical between the markers
-    for tag in ("Q294", "Q298", "Q300", "Q301") + (("Q303",) if Q304 else ()):
+    for tag in ("Q294", "Q298", "Q300", "Q301") + (("Q303",) if (Q304 or Q305 or Q307) else ()):
         m = re.compile(r"<!-- %s html begin -->(.*?)<!-- %s html end -->" % (tag, tag), re.S)
         xa, xb = m.search(a), m.search(b)
         if not xa or not xb:
             bad.append((p, tag + " block", "missing")); continue
         A, B = xa.group(1), xb.group(1)
         if A != B:
-            if Q304 and tag == "Q303":
+            if Q304 and tag == "Q303":   # Q305 allows nothing here: see the q305 branch below
                 # exactly the one comment Q304 rewrites in viewer/q303/nerves.js: the stale claim that the
                 # Imaging pages carry no fibular nerve. No code line may move.
                 import difflib
@@ -110,8 +145,8 @@ for p in PAGES:
                  if x[:1] in "+-" and x[:3] not in ("+++", "---")]
             added = [x[1:] for x in d if x.startswith("+")]
             removed = [x[1:] for x in d if x.startswith("-")]
-            if Q304:
-                bad.append((p, tag + " block", "changed; in Q304 Q301's block must be byte-identical"))
+            if Q304 or Q305:
+                bad.append((p, tag + " block", "changed; in %s Q301's block must be byte-identical" % ARG.rnd))
                 continue
             okdiff = (not removed and len(added) == 18
                       and any("addTo:function(key, m)" in x for x in added)
@@ -122,6 +157,20 @@ for p in PAGES:
                 bad.append((p, tag + " block", "changed by more than the two hooks: -%d +%d" % (len(removed), len(added))))
             continue
         row.append("%s %d" % (tag, len(B)))
+    if Q305:
+        m = re.compile(r"<!-- Q305 html begin -->(.*?)<!-- Q305 html end -->", re.S).search(b)
+        if not m:
+            bad.append((p, "Q305 block", "missing"))
+        else:
+            row.append("Q305 %d" % len(m.group(1)))
+            for sym in ("NMSKGuard", "NMSKMove", "NMSKQ305"):
+                if m.group(1).count("var %s = (function()" % sym) != 1:
+                    bad.append((p, sym, "not once inside the Q305 block"))
+            if "<!-- Q305 html begin -->" in a:
+                bad.append((p, "Q305 block", "was already in the baseline"))
+        # and nothing of this round may reach the engines: no glue splice, no new marker pair of ours anywhere else
+        if b.count("/* Q305 glue begin */"):
+            bad.append((p, "Q305 glue", "this round must not patch either engine"))
     # Q303's own modules present exactly once
     for sym in ("NMSKPCA", "NMSKStep", "NMSKPx", "NMSKNervePass", "NMSKTarget", "NMSKAutoFocus", "NMSKFourUp",
                 "NMSKViews", "NMSKNerves", "NMSKQ303"):

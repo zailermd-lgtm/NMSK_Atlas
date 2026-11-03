@@ -10,8 +10,10 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q304/viewer_m_hr", "own_f": "build/q304/viewer_f_hr", "base_m": "build/q304/viewer_zan_atlas",     # Q304: 71 / 64 lower-limb nerve meshes carried onto the two Imaging pages from the Combined page of the SAME body by bone-point registration (the whole fibular
-       "base_f": "build/q304/viewer_base_female", "comb_m": "build/q304/viewer_zan_vhm", "comb_f": "build/q304/viewer_zan_female"}   # system, femoral, obturator, saphenous, sural, plantar and the sided sciatic), plus the SPARC 692 calibre note on every page's sciatic card. build/q304 is a real directory whose unchanged sibling files are HARD LINKS to build/q303's: see PROJECT_STATE Q304
+SRC = {"own_m": "build/q307/viewer_m_hr", "own_f": "build/q307/viewer_f_hr", "base_m": "build/q307/viewer_zan_atlas",   # Q307: 57 / 60 UPPER-limb nerve meshes carried onto the two Imaging pages from the Combined page of the SAME body
+       "base_f": "build/q307/viewer_base_female", "comb_m": "build/q307/viewer_zan_vhm", "comb_f": "build/q307/viewer_zan_female"}  # (the lateral and medial antebrachial cutaneous nerves the owner reported, the brachial cutaneous, axillary, suprascapular, long
+# thoracic, pectoral, subscapular and thoracodorsal nerves, the posterior interosseous and the digital nerves), plus the three lower-limb nerves Q304 left as a mirrored 29-40 mm stub on one side while the other carried the full
+# transferred nerve, and the measured Q307 placement statement on every page's lateral antebrachial cutaneous nerve card. build/q307 is a real directory whose unchanged sibling files are HARD LINKS to build/q304's: see PROJECT_STATE Q307
 LABEL = {k: v[3] for k, v in C.PAGES.items()}
 KEYS = list(C.PAGES)
 

@@ -1,0 +1,127 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1">
+<title>Q305 harness</title>
+<style>
+:root{color-scheme:light}
+html,body{margin:0;padding:0;height:100%;font:14px system-ui,sans-serif;background:#faf9f5;color:#141413}
+#view{position:fixed;inset:0;display:block;width:100%;height:100%;touch-action:none;cursor:grab;background:#1a2430}
+#topright{position:fixed;top:.7rem;right:.9rem;z-index:25;display:flex;gap:.35rem}
+#topright button{min-height:30px}
+#rail{position:fixed;top:4.6rem;left:.9rem;z-index:22;width:246px;max-height:calc(100% - 7rem);
+  background:#fff;border:1px solid #ddd;border-radius:12px;display:flex;flex-direction:column;overflow:hidden}
+.rail-body{overflow-y:auto;padding:.8rem}
+#list{display:flex;flex-direction:column;gap:2px}
+#list .row{padding:7px 6px;border:1px solid #eee;border-radius:6px;cursor:pointer;touch-action:none}
+#list .row.on{background:#d8ecf6}
+#info{position:fixed;right:.9rem;bottom:.9rem;z-index:24;width:286px;max-height:58%;background:#fff;
+  border:1px solid #ddd;border-radius:12px;padding:.85rem;overflow-y:auto}
+#info.hidden{display:none}
+#cut-panel{position:fixed;top:3.7rem;right:.9rem;z-index:26;box-sizing:border-box;width:268px;padding:8px 10px 9px;
+  border-radius:9px;background:#161d27;color:#e6edf5;border:1px solid #2a3646;font:12px/1.35 system-ui}
+#cut-panel[hidden]{display:none}
+#ms-bar{position:fixed;left:.9rem;top:40%;z-index:40;background:#161d27;color:#e6edf5;border:1px solid #2a3646;
+  border-radius:9px;padding:6px 9px;font:12px system-ui;display:flex;gap:5px}
+#ms-bar[hidden]{display:none}
+#xsp-panel{position:fixed;left:30%;top:20%;z-index:40;background:#161d27;color:#e6edf5;border:1px solid #2a3646;
+  border-radius:9px;padding:6px 9px;font:12px system-ui}
+#xsp-panel[hidden]{display:none}
+#q8-float{position:fixed;left:.9rem;top:12%;z-index:41;background:#1b2532;color:#e6edf5;border:1px solid #2a3646;
+  border-radius:9px;padding:6px 9px;font:12px system-ui}
+@media (max-width:900px){#rail{top:auto;left:0;right:0;bottom:0;width:auto;max-height:min(66vh,520px);transform:translateY(calc(100% + 4px))}
+  #info{left:.5rem;right:.5rem;width:auto}}
+#pane{position:fixed;left:58%;top:9%;width:180px;height:140px;background:#20303f;touch-action:none;border:1px solid #456}
+</style>
+<!-- Q305 CSS -->
+</head><body>
+<canvas id="view"></canvas>
+<div id="pane" title="a 2-D image pane"></div>
+<div id="topright"><button id="t-cut">cut</button><button id="about-btn">sources</button></div>
+<aside id="rail"><div class="rail-body"><p class="lbl">Tissue layers</p><div id="layers"></div><div id="list"></div></div></aside>
+<div id="info" class="hidden"><b id="i-name">card</b><p>a structure card</p></div>
+<div id="cut-panel" hidden><div class="cp-head"><b>Cut</b> <button id="cut-exit">exit cut</button></div><div class="cp-body"><button id="cut-apply">apply</button></div></div>
+<div id="ms-bar" hidden><button id="ms-clear">clear</button><span id="ms-res">0 mm</span></div>
+<div id="xsp-panel" hidden><b>Slices</b> <button id="xsp-close">close</button></div>
+<div id="q8-float" hidden><b>Expand</b> <button id="q8-adj">adjacent</button></div>
+<div id="foot"></div>
+<!-- Q294/Q300/Q301 modules, the real files -->
+<script src="history.js"></script>
+<script src="pinch.js"></script>
+<script src="showall.js"></script>
+<script src="modelreset.js"></script>
+<script src="groups.js"></script>
+<script src="info.js"></script>
+<script src="guard.js"></script>
+<script src="move.js"></script>
+<script src="q305.js"></script>
+<script>
+/* ---- a fake host of the same shape as the two engines: a canvas that orbits, Q290's pinch on the canvas and on a
+   2-D pane, a probe dragged over the canvas, and a list whose rows take a long press for a range. ---- */
+(function(){
+  var cam = {az:0, el:0}, probe = {x:200, y:300}, moved = {orbit:0, pinchC:0, panC:0, pinchP:0, probe:0, range:0};
+  var canvas = document.getElementById("view"), pane = document.getElementById("pane");
+  var sys = {bone:true, muscle:true}, marks = [];
+  /* orbit: a one-pointer drag on the canvas, exactly as both engines do it */
+  var od = null, mode = "orbit";
+  canvas.addEventListener("pointerdown", function(e){ moved.pdn = (moved.pdn || 0) + 1;
+    if (NMSKPinch.track && zc && zc.busy && zc.busy()){ moved.blocked = (moved.blocked || 0) + 1; return; }
+    od = {x:e.clientX, y:e.clientY}; moved.odn = (moved.odn || 0) + 1;
+    if (mode === "probe"){ probe = {x:e.clientX, y:e.clientY}; moved.probe++; } });
+  canvas.addEventListener("pointermove", function(e){
+    moved.pmn = (moved.pmn || 0) + 1;
+    if (!od){ moved.noOd = (moved.noOd || 0) + 1; return; }
+    if (mode === "probe"){ probe = {x:e.clientX, y:e.clientY}; moved.probe++; return; }
+    cam.az += (e.clientX - od.x) * 0.01; cam.el += (e.clientY - od.y) * 0.01; od = {x:e.clientX, y:e.clientY}; moved.orbit++;
+  });
+  window.addEventListener("pointerup", function(){ od = null; });
+  window.__pd = [];
+  window.__dp = [];
+  document.addEventListener("pointerdown", function(e){ window.__dp.push([e.pointerType, e.pointerId, Math.round(e.clientX), Math.round(e.clientY), (e.target.tagName||"") + "#" + (e.target.id||"")]); }, true);
+  document.addEventListener("touchstart", function(e){ window.__dp.push(["TOUCH", e.touches.length, Math.round(e.touches[0] ? e.touches[0].clientX : -1), Math.round(e.touches[0] ? e.touches[0].clientY : -1), (e.target.tagName||"") + "#" + (e.target.id||"")]); }, true);
+  canvas.addEventListener("pointerdown", function(e){ window.__pd.push([e.pointerType, e.pointerId, Math.round(e.clientX), Math.round(e.clientY)]); }, true);
+  var zv = NMSKPinch.view(1, 8), zc = NMSKPinch.track(canvas, {
+    start:function(){}, move:function(f, x, y, dx, dy){ if (f !== 1) moved.pinchC++; if (dx || dy) moved.panC++; zv.about(x, y, f); zv.pan(dx, dy); }, end:function(){}
+  });
+  var pv = NMSKPinch.view(1, 8);
+  NMSKPinch.track(pane, {start:function(){}, move:function(f, x, y, dx, dy){ if (f !== 1) moved.pinchP++; pv.about(x, y, f); pv.pan(dx, dy); }, end:function(){}});
+  /* the list: a tap selects, a long press (520 ms, Q298's own figure) starts a range */
+  var L = document.getElementById("list"), rows = [];
+  for (var i = 0; i < 24; i++){
+    var r = document.createElement("div"); r.className = "row"; r.id = "row-" + i; r.textContent = "structure " + i;
+    r.setAttribute("data-i", i); L.appendChild(r); rows.push(r);
+  }
+  var lp = null;
+  L.addEventListener("pointerdown", function(e){
+    var r = e.target.closest(".row"); if (!r) return;
+    lp = setTimeout(function(){ moved.range++; r.classList.add("on"); lp = null; }, 520);
+  });
+  L.addEventListener("pointerup", function(){ if (lp){ clearTimeout(lp); lp = null; } });
+  /* history providers, the same shape the engines register */
+  NMSKHistory.register("sys", {get:function(){ return JSON.parse(JSON.stringify(sys)); }, set:function(v){ sys = v || sys; }, reset:function(){ sys = {bone:true, muscle:true}; }});
+  NMSKHistory.register("marks", {get:function(){ return marks.slice(); }, set:function(v){ marks = (v || []).slice(); }, reset:function(){ marks = []; }});
+  NMSKHistory.start({anchor:canvas, resetView:function(){ cam = {az:0, el:0}; }, floating:true});
+  NMSKShowAll.start({anchor:canvas, history:NMSKHistory, sources:[
+    {key:"sys", label:"tissue off", active:function(){ return !sys.bone || !sys.muscle; }, clear:function(){ sys.bone = true; sys.muscle = true; }, drive:function(){ sys.bone = false; }}
+  ]});
+  NMSKModelReset.start({history:NMSKHistory, resetView:function(){ cam = {az:0, el:0}; }});
+  NMSKInfo.start({anchor:canvas, adopt:["about-btn"]});
+  NMSKGroups.start({anchor:canvas, history:NMSKHistory, modelreset:NMSKModelReset, info:NMSKInfo, combos:null, groups:[
+    {key:"view", label:"View", title:"where you look from", members:[{adopt:["t-cut"]}]},
+    {key:"layers", label:"Layers", title:"which tissues", members:[{label:"bone", run:function(){ sys.bone = !sys.bone; NMSKHistory.commit(); }, active:function(){ return !sys.bone; }}]},
+    {key:"mark", label:"Mark", title:"marked", members:[{label:"mark one", run:function(){ marks.push("x" + marks.length); NMSKHistory.commit(); }}]}
+  ]});
+  window.__h = {
+    cam:function(){ return {az:cam.az, el:cam.el}; },
+    probe:function(){ return {x:probe.x, y:probe.y}; },
+    zoom:function(){ return {canvas:{k:zv.k, tx:zv.tx, ty:zv.ty}, pane:{k:pv.k, tx:pv.tx, ty:pv.ty}}; },
+    counts:function(){ return JSON.parse(JSON.stringify(moved)); },
+    pd:function(){ var r = window.__pd.slice(); window.__pd = []; return r; },
+    busy:function(){ return {busy:zc.busy(), active:zc.active()}; },
+    dp:function(){ var r = window.__dp.slice(); window.__dp = []; return r; },
+    mode:function(m){ mode = m; return mode; },
+    show:function(id, v){ var e = document.getElementById(id); if (e) e.hidden = !v; if (id === "info"){ document.getElementById("info").className = v ? "" : "hidden"; } return !!e; },
+    overflow:function(){ var d = document.documentElement; return {sw:d.scrollWidth, cw:d.clientWidth}; }
+  };
+  ["cut-panel", "ms-bar", "xsp-panel", "q8-float"].forEach(function(id){ document.getElementById(id).hidden = false; });
+  document.getElementById("info").className = "";
+})();
+</script>
+</body></html>

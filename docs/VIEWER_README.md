@@ -711,3 +711,61 @@ within about a quarter of the measured diameter in the mid and distal thigh and 
 **No geometry was changed**: the specimen is fixed, stained and excised, so it is a lower bound on a living
 nerve, and it is one subject; the card says that, and says that the discrepancy is reported rather than
 sculpted away.
+
+## Q305 — moving the boxes on the screen where you want them
+
+Owner (translated from Hebrew): *"let the various boxes on the screen be moved around."*
+
+**Every box that floats over the model carries a small handle** — six dots, at one corner. Drag the handle and
+the box goes where you put it; it is still there the next time you open that page in that browser. The box's
+**body** is never a drag, and that is deliberate: the model is dragged to turn it, a pinch zooms any picture and
+two fingers pan it (Q290), the ultrasound probe is dragged over the skin (Q294), and a long press on a list row
+picks a range (Q294/Q298). A box that moved when its body was dragged would take one of those away. The market
+has one documented precedent for a movable panel — 3D Slicer's module panel, undocked by dragging its *panel
+chrome*, i.e. its title bar — and the title bars of these boxes are full of buttons, so the handle is its own
+target instead. The handle is drawn 26 px on a desktop and 34 px where the pointer is coarse, with its touch
+area padded out to 44 px **inwards only**, so it can never reach past its own box onto the model.
+
+**What is movable:** the control bar (its open group travels with it), the "what is hidden" bar, the information
+drawer, the cut / cross-section panel, the structure card, the side panel, the top row of buttons, the
+measurement bar, the part-slices panel, the structure-expansion strip, and the labels panel and legend. A box
+that is not on the page you are looking at is simply never given a handle.
+
+**What is not, and why:** the zoom chip reports the zoom *of the picture it sits on*, so where it is is what it
+means; a four-pane label names the quadrant it is in; the imaging and ultrasound views are **panes** whose
+rectangle the page's own layout computes (Model only / Split / Compare), not boxes; and on the Imaging pages the
+structure list and the structure card are **columns of the page's grid** — moving one would leave an empty strip
+behind it and cover the model it had just made room for. Those two already collapse, and the layout already
+cycles.
+
+**On a phone the boxes dock instead of floating, and that was measured rather than chosen.** At 390×844 the
+control bar has **−8 px** of horizontal freedom and the side panel **−24 px**: dragging them sideways is not a
+feature. So an axis with less than one thumb (48 px) of travel is given a few **slots** instead of free drag — a
+wide box gets three bands (top / middle / bottom), a small one the four corners — and a drop snaps to the
+nearest one.
+
+**It cannot take a control away from you.** `document.elementFromPoint` at the centre of each control that must
+stay reachable — Undo, Redo, both resets, the circled i, Show everything, the control bar's group buttons and
+the open group's own controls — runs after every drop. A drop that would cover one of them is **refused**: the
+box goes back where it was and one line says which control it was. Those are the controls two earlier rounds
+really did lose to an overlap, which is why they are watched by name.
+
+**Putting it back.** **Restore layout** returns every box to where it started: one tap, one Undo step, and
+**Reset model** does it too, because the layout is part of what the page loaded in. It is in the **View** group
+of the control bar and, because that group's sheet scrolls, also in the circled **i**. On a keyboard the arrow
+keys move the box whose handle has focus and **Home** puts that one box back.
+
+**Accessibility, stated plainly.** WCAG 2.2 **SC 2.5.7 "Dragging Movements"** asks that anything done by
+dragging have another way to do it without dragging. Three are provided — the arrow keys on the focused handle,
+**Home** on that one box, and the one-tap **Restore layout** — and WCAG evaluates keyboard and pointer
+independently, so the keyboard path stands on its own. What is *not* provided is a pointer-only "tap the handle,
+then tap the destination", so **full coverage of that SC is not claimed**; it is written up as an owner decision
+in `docs/OPEN_ITEMS_FOR_OWNER.md` rather than asserted here. The handle's hit area is 44 px (SC 2.5.8 asks 24 px
+as the minimum; 44 px is the project's own rule), with the drawn graphic deliberately smaller.
+
+**One inherited defect fixed on the way.** In the control bar's **View** group, the Z pages' bottom pill row
+(`#foot`) was adopted into the group's sheet but stayed pinned to the bottom of the screen, painting over every
+row listed below it — including **Restore layout** itself. The cause was CSS specificity, not layout: an id
+(`#foot{position:fixed}`) outranks the two classes the group styles its adopted rows with. One declaration
+scoped to the sheet fixes it, and the pill row in its own place at the bottom of the screen is untouched. It only
+ever affected the Base and Combined pages; the Imaging pages have no such row.
