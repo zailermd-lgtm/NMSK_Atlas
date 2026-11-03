@@ -106,7 +106,7 @@ def card_text(pg):
         const h = document.getElementById('a-hide');
         const panel = h ? h.closest('aside, section, div[id]') : null;
         const t = (panel ? panel.textContent : document.body.textContent) || '';
-        return {hide_label: h ? (h.textContent || '').trim() : null, len: t.length, text: t.slice(0, 7000)}; }""")
+        return {hide_label: h ? (h.textContent || '').trim() : null, len: t.length, text: t}; }""")
 
 
 def run_page(pl, d: Path, phone: bool, errs):
@@ -207,24 +207,28 @@ def run_page(pl, d: Path, phone: bool, errs):
                   "47.8" in ct["text"] and "34.2" in ct["text"], errs)
 
         # ---------------- E the new structures have their Q298 expansions
+        # Read through the engine's OWN public state -- NMSKQ298.state().expand.counts, which is what the
+        # Adjacent / Related / Functional group buttons themselves use. Indexing the raw data blob was wrong:
+        # `d.adj` is an object carrying the threshold and the pair count, not a per-structure array, and it
+        # returned None while the expansions were in fact populated.
         sid = ship[0]
-        type_in(pg, sel, sid.replace("_", " "))
-        exp = pg.evaluate("""(sid) => { const d = NMSKQ298.data() || {};
-            const i = (d.ids || []).indexOf(sid);
-            if (i < 0) return {err: 'not in ids'};
-            const adj = (d.adj && d.adj[i]) ? d.adj[i].length : 0;
-            const rel = (d.rel && d.rel[i]) ? d.rel[i].length : 0;
-            return {i: i, adjacent: adj, related: rel}; }""", sid)
+        select_by_name(pg, sel, sid.replace("_", " "), phone)
+        exp = pg.evaluate("""() => { const st = NMSKQ298.state() || {};
+            const e = st.expand || {};
+            return {selected: e.selected || null, adjReady: !!e.adjReady, relReady: !!e.relReady,
+                    counts: e.counts || null}; }""")
         rep["expansions"] = exp
-        check(f"{key} {tag}: {sid} has an Adjacent row after the builders were re-run "
-              f"({exp.get('adjacent')} neighbours)", (exp.get("adjacent") or 0) > 0, errs)
+        c = (exp.get("counts") or {})
+        check(f"{key} {tag}: the Q298 adjacency table is loaded on the page", exp.get("adjReady") is True, errs)
+        check(f"{key} {tag}: {sid} has an Adjacent row after the builders were re-run on all six pages "
+              f"({c.get('adj')} neighbours)", (c.get("adj") or 0) > 0, errs)
 
         # ---------------- F no page errors
         rep["page_errors"] = pe
         check(f"{key} {tag}: 0 page errors", not pe, errs)
     finally:
         b.close()
-        srv.shutdown()
+        srv.terminate()
 
 
 def main(argv=None):

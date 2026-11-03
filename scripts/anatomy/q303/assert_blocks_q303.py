@@ -92,6 +92,15 @@ Q305 = ARG.rnd == "q305"
 Q307 = ARG.rnd == "q307"
 Q306 = ARG.rnd == "q306"
 Q308 = ARG.rnd == "q308"
+# what Q308 actually shipped per page dir, read from its own report rather than assumed
+Q308_ADDED = {}
+if Q308:
+    import json as _json
+    _r = _json.loads((R / "data/derived/Q308_page_report.json").read_text()) \
+        if (R / "data/derived/Q308_page_report.json").exists() else {}
+    _D = {"own_m": "viewer_m_hr", "own_f": "viewer_f_hr", "base_m": "viewer_zan_atlas",
+          "base_f": "viewer_base_female", "comb_m": "viewer_zan_vhm", "comb_f": "viewer_zan_female"}
+    Q308_ADDED = {_D[k]: v.get("added", []) for k, v in _r.items() if k in _D}
 # the pages where Q304 / Q307 added structures, so their per-structure tables must change and nothing else may
 # Q308 adds geometry to ALL SIX pages, so every page's per-structure table must grow there.
 GREW = (set(PAGES) if Q308 else
@@ -119,7 +128,14 @@ for p in PAGES:
             # the abbreviation, calibre and pose-rig tables, Q298's own (its adjacency and relation builders
             # were re-run on all six, which the coordinator required rather than the Imaging pair alone) and
             # Q306's search table. Nothing else may move.
-            must_grow = d in ("nmsk-abbrev", "nmsk-calibre", "nmsk-pose-rig", "nmsk-q298", "nmsk-q306")
+            # Every per-structure table must change on every page Q308 adds structures to -- EXCEPT the
+            # calibre table, which lists only vessels and nerves. Combined F's two LACN branches were refused
+            # by this round's own gates, so it gained no nerve and its calibre table correctly does not move.
+            # Reading that as a failure would push a round towards shipping a refused structure to make a
+            # check go green.
+            gained_nerve = any(x.startswith("lacn_") for x in Q308_ADDED.get(p, []))
+            must_grow = d in ("nmsk-abbrev", "nmsk-pose-rig", "nmsk-q298") or (
+                d == "nmsk-calibre" and gained_nerve)
         allowed = must_grow or (Q307 and p in GREW and d == "nmsk-q298")
         row.append("%s %d%s" % (d, len(mb.group(0)), "" if same else (" grew (allowed)" if allowed else " CHANGED")))
         if not same and not allowed: bad.append((p, d, "changed"))
@@ -140,6 +156,17 @@ for p in PAGES:
             if nb2 != na2:
                 bad.append((p, tag + " block", "appeared in this build although Q308 does not build on it "
                                                "(%d -> %d)" % (na2, nb2)))
+        # Q306's DATA block must change -- it carries this round's correction to three absence explanations
+        # and the aliases for the 44 new structures -- while Q306's CODE block stays byte-identical.
+        m6a = re.search(r'<script[^>]*id="nmsk-q306"[^>]*>(.*?)</script>', a, re.S)
+        m6b = re.search(r'<script[^>]*id="nmsk-q306"[^>]*>(.*?)</script>', b, re.S)
+        if not m6a or not m6b:
+            bad.append((p, "nmsk-q306", "missing"))
+        elif m6a.group(0) == m6b.group(0):
+            bad.append((p, "nmsk-q306", "did NOT change although 44 structures were added and three "
+                                        "absence explanations were corrected"))
+        else:
+            row.append("nmsk-q306 %d grew (allowed)" % len(m6b.group(0)))
         for tag in ("Q294", "Q298", "Q300", "Q301", "Q303", "Q305", "Q306"):
             na2, nb2 = a.count("<!-- %s html begin -->" % tag), b.count("<!-- %s html begin -->" % tag)
             row.append("%s %d->%d" % (tag, na2, nb2))
