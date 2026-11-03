@@ -69,7 +69,7 @@ def test_pose_rigs_carry_the_new_entries_after_the_committed_ones():
     assert set(range(3238, 3243)) <= covered
     offs = sorted(e[4] for e in rig["skin"]); assert offs == sorted(set(offs)) and offs[-1] < len(w)
     rig, w = _rig("own_f")
-    assert rig["count"] == 1104 and len(rig["nv"]) == 1104          # Q288: + her uterus; Q293: + RF reflected heads; Q295: + 51 fat
+    assert rig["count"] == 1168 and len(rig["nv"]) == 1168          # Q288: + her uterus; Q293: + RF reflected heads; Q295: + 51 fat; Q304: + 64 lower-limb nerves
 
 
 def test_uterus_on_her_ct_was_measured_not_separable():

@@ -190,7 +190,10 @@ def test_the_page_report_records_what_was_removed():
 def test_the_pose_rigs_match_the_page_mesh_counts(prov):
     for key in prov.KEYS:
         rig = json.loads((REPO / f"data/anatomy/pose_rig_{key}.json").read_text())["rig"]
-        n = len(prov.structures(key, "build/q297"))
+        # the page as Q297 shipped it, plus what later rounds spliced on: Q304 carried the lower-limb nerves
+        # onto the two Imaging pages, so the rig is longer than the Q297-era page by exactly that many.
+        q304 = len(json.loads((REPO / "data/derived/Q304_page_report.json").read_text())[key]["added"])
+        n = len(prov.structures(key, "build/q297")) + q304
         assert rig["count"] == n, f"{key}: rig count {rig['count']} but page has {n} meshes"
         assert len(rig["nv"]) == rig["count"]
         assert all(0 <= e[0] < rig["count"] for e in rig["skin"]), f"{key}: a skin rig entry is out of range"

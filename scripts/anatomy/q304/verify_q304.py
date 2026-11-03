@@ -243,6 +243,24 @@ def _clear_point(pg, SEL, idx):
     return None
 
 
+def press(pg, sel, phone):
+    """press one control for real. On a phone the press is a touch at a point `elementFromPoint` confirms is the
+    control's own; where every point of it is under one of the viewer's fixed overlays (Q301's control bar -- the
+    open item of `## Q304`) the control's own handler is driven instead and the control is recorded, because the
+    alternative, a forced press at a covered point, lands on whatever is drawn over it. A 390 px run reported the
+    Cut panel as filling nothing for exactly that reason, while the panel had never been pressed at all."""
+    if not phone:
+        try:
+            pg.click(sel, timeout=8000); return
+        except Exception:                                         # noqa: BLE001
+            pg.eval_on_selector(sel, "e => e.click()"); return
+    hit = _clear_point(pg, sel, 0)
+    if hit:
+        pg.touchscreen.tap(hit["x"], hit["y"]); return
+    COVERED.append(sel)
+    pg.eval_on_selector(sel, "e => e.click()")
+
+
 def _open_card_once(pg, name, phone, want):
     box = _find_box(pg, phone)
     if not box:
@@ -337,7 +355,7 @@ def _open_card_once(pg, name, phone, want):
                 if pg.is_visible(s2):
                     tap(pg, s2, phone); break
         txt = pg.evaluate(READ)
-        if len(txt) > 300 and _names(want) in _names(txt):
+        if len(txt) > 300 and _named(want, txt):
             if not mini:
                 return txt
             if len(txt) > len(best):
@@ -348,6 +366,17 @@ def _open_card_once(pg, name, phone, want):
 
 def _names(t):
     return "".join(c for c in (t or "").lower() if c.isalnum())
+
+
+def _named(want, txt):
+    """does this card name the structure that was asked for? The page's own display name can carry a trailing
+    laterality token ("Sciatic nerve R") that the card prints in a separate field, so the name without that token
+    counts too -- without this the comb_m sciatic card, which is correct, was rejected at 4,900 characters."""
+    t, w = _names(txt), str(want or "")
+    if _names(w) in t:
+        return True
+    toks = w.split()
+    return len(toks) > 1 and _names(" ".join(toks[:-1])) in t and len(toks[-1]) <= 2
 
 
 NAME_JS = """(sid) => { const L = window.NMSKClinicalTool.api.list();
@@ -452,7 +481,7 @@ def section_a(pg, T, R, errs, phone, ids, rep):
         # `wait_for_function` takes its argument only as a KEYWORD in this Playwright (Q303's lesson).
         for _ in range(2):
             if pg.get_attribute("#cut-fill", "aria-pressed") != "true":
-                tap(pg, "#cut-fill", phone)
+                press(pg, "#cut-fill", phone)
             try:
                 pg.wait_for_function(expression="(document.getElementById('cut-capinfo') || {}).textContent"
                                                 ".indexOf('filled') >= 0", timeout=90000)
@@ -534,8 +563,9 @@ def section_c(pg, T, R, errs, phone, sample):
 
 def section_d(pg, T, R, errs, phone, key):
     D = R.setdefault("D", {})
-    txt = open_card(pg, name_of(pg, "sciatic_n_r") if key not in ("own_m", "own_f") else "Sciatic nerve",
-                    phone) or ""
+    sci = "sciatic_n" if key in ("own_m", "own_f") else "sciatic_n_r"
+    txt = open_card(pg, name_of(pg, sci) if key not in ("own_m", "own_f") else "Sciatic nerve",
+                    phone, want=sci) or ""
     D["len"] = len(txt); D["excerpt"] = txt[:300]
     check("%s D the sciatic nerve's card opens (%d chars)" % (T, len(txt)), len(txt) > 300, errs)
     check("%s D it carries the SPARC 692 DOI" % T, DOI in txt, errs)
