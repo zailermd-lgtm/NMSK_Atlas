@@ -672,3 +672,40 @@ panes' cameras — so they go through one small module that keeps a **counter** 
 one history entry per action, one press of Undo to go back, and no unrelated Undo ever moves the camera. The first draft
 published a "before" value and committed it, which produced two entries and a second Undo press that did nothing
 visible; this round's own standalone harness caught that before either template was touched.
+
+## Q304 — the lower-limb nerves the Imaging pages did not have, and a calibre you can check
+
+The owner reported that he could not see the **peroneal nerve** in a cross-section of the male model. Q299
+measured why and did not fix it: the two **Imaging-based** pages carried **no fibular (peroneal) nerve at all**
+— 0 meshes against 24 on each Z page — and 71 lower-limb nerves fewer than the Combined page of the *same*
+body. Q304 carries them across. 71 structures onto Imaging · Male and 64 onto Imaging · Female: the whole
+fibular system (18 per page), the femoral, obturator, saphenous, sural and plantar nerves, the sided sciatic and
+their named muscular branches. A cross-section at the level of the common fibular nerve now shows it — measured
+in the browser on the page's own cut-face kernel, 13 pixels of the final raster carrying the nerve's own code,
+with Q303's nerve emphasis both off and on.
+
+**They are not his imaging, and the page says so on every one of them.** These are Z-Anatomy meshes (and, for
+18 and 12 of them, Q259 rule-built tubes) that had already been fitted to that subject's own skeleton on the
+Combined page in Q195, registered onto the Imaging page by the documented bone-point method: identity plus a
+thin-plate-spline correction field fitted to closest-point displacements on the bones the two pages share, with
+a bone-surface residual of median 0.79 / p95 3.03 mm (Male) and 0.86 / 3.54 mm (Female). Each card carries the
+`Method` row and the `±N mm` error band that Q300 made both templates render, a badge that opens
+**"NOT SEGMENTED FROM THIS SUBJECT'S OWN IMAGING"**, and the source page's own badge quoted verbatim so the
+original fit's error is still on the card. The source line reads "Filled from Z-Anatomy (reference model),
+fitted to this body — not measured here". Nothing this round adds can print "Measured on this body", and the
+Q297 provenance audit after the change still reports 0 such cards and 0 structures in the unaccounted class.
+
+**The nerve emphasis control now says less, because there is less to say.** Q303's on-screen list of
+conventional major nerves a page does not carry is computed from the page's own structures, so it shrank by
+itself from 15 names to 10 on Imaging · Male. One matching bug came out with it and is fixed: a pattern ending
+in a word boundary (`/\btibial\b/`) could never match an id like `tibial_n`, because "_" is a word character,
+so the screen claimed the page carried no tibial and no sural nerve while it carried both.
+
+**And a calibre you can check against a real measurement.** The sciatic nerve's card on all six pages now
+carries a comparison against **SPARC dataset 692** (DOI `10.26275/1jdc-qiiv`, CC BY 4.0, an embalmed 41-year-old
+male cadaver's own sciatic nerves at 11.4 µm), at that dataset's own bone-referenced levels. Calibre only, never
+shape — the samples were excised and laid straight, so there is no in-body trajectory in them. Our nerve is
+within about a quarter of the measured diameter in the mid and distal thigh and 1.4–2.3× too thick proximally.
+**No geometry was changed**: the specimen is fixed, stained and excised, so it is a lower bound on a living
+nerve, and it is one subject; the card says that, and says that the discrepancy is reported rather than
+sculpted away.

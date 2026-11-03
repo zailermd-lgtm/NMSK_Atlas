@@ -109,12 +109,21 @@ var NMSKNerves = (function(){
     return {id:id, dia_mm:d == null ? null : d, truePx:truePx == null ? null : Math.round(truePx * 1e3) / 1e3,
             drawnPx:Math.round(Math.max(st.w, truePx == null ? st.w : truePx) * 1e3) / 1e3, minPx:st.w};
   }
-  /* which of the conventional major nerves this page simply does not carry */
+  /* which of the conventional major nerves this page simply does not carry.
+
+     The id is matched with its underscores turned into spaces as well as raw. Q304 found out why that matters: the
+     engine's own list does not always carry a display name, so `r.name` falls back to the id, and a pattern that ends
+     in a word boundary (`/\btibial\b/`) can never match `tibial_n` -- "_" is a word character. The screen therefore
+     said an Imaging page carries no tibial and no sural nerve while it carried both. Only the matching changed; the
+     list itself is still the same stated convention. */
   function absent(){
     var have = [], miss = [];
     MAJOR.forEach(function(p){
       var hit = 0;
-      rows.forEach(function(r){ if (p[1].test(r.id) || p[1].test(r.name)) hit++; });
+      rows.forEach(function(r){
+        var idn = String(r.id || "").replace(/_/g, " ");
+        if (p[1].test(r.id) || p[1].test(idn) || p[1].test(r.name)) hit++;
+      });
       (hit ? have : miss).push({name:p[0], n:hit});
     });
     return {have:have, missing:miss.map(function(x){ return x.name; })};

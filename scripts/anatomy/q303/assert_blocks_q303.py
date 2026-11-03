@@ -81,7 +81,22 @@ for p in PAGES:
                 # That proves no code line moved, which a line-by-line heuristic cannot (a comment line in this
                 # module legitimately contains a semicolon, and the first version of this check tripped on it).
                 nc = lambda t: re.sub(r"/\*.*?\*/", "", t, flags=re.S)
-                okc = nc(A) == nc(B) and len(rem2) == 3 and len(add2) == 7
+                # Q304 changes TWO things inside Q303's own block, both of them stated: the stale comment above
+                # `var MAJOR` (comment only), and three lines of `absent()` -- the id is now matched with its
+                # underscores turned into spaces as well as raw, because the engine's list does not always carry a
+                # display name and `/\btibial\b/` can never match `tibial_n`. With the comments stripped, the only
+                # difference allowed is exactly those three lines, named here.
+                da = [x for x in difflib.unified_diff(nc(A).splitlines(), nc(B).splitlines(), lineterm="", n=0)
+                      if x[:1] in "+-" and x[:3] not in ("+++", "---")]
+                code_add = [x[1:].strip() for x in da if x.startswith("+")]
+                code_rem = [x[1:].strip() for x in da if x.startswith("-")]
+                WANT_ADD = ['rows.forEach(function(r){',
+                            'var idn = String(r.id || "").replace(/_/g, " ");',
+                            'if (p[1].test(r.id) || p[1].test(idn) || p[1].test(r.name)) hit++;',
+                            '});']
+                WANT_REM = ['rows.forEach(function(r){ if (p[1].test(r.id) || p[1].test(r.name)) hit++; });']
+                okc = (code_add == WANT_ADD and code_rem == WANT_REM
+                       and len(rem2) == 5 and len(add2) == 18)
                 row.append("%s %d -> %d (the Q304 comment rewrite%s)" % (tag, len(A), len(B), "" if okc else " PLUS CODE"))
                 if not okc:
                     bad.append((p, tag + " block", "changed outside the comment: -%d +%d" % (len(rem2), len(add2))))

@@ -2165,3 +2165,62 @@ download is at "polygon reduction rate = 99%", i.e. reduced *by* ~99% — a femu
 3,102 triangles, too coarse for these pages. The one part kept at full resolution is the
 whole-body `skin` (102,467 vertices / 203,382 triangles). So it is a derivation-and-QA round
 of its own, not a substitution.
+
+---
+
+## Q304 — lower-limb nerves carried onto the two Imaging pages, and a measured calibre reference
+
+Two separate things, both approved by the owner after the Q302 survey.
+
+### 1. Z-Anatomy lower-limb nerves on pages labelled "imaging-based"
+
+**What moved.** 71 structures onto Imaging · Male and 64 onto Imaging · Female: the whole fibular (peroneal)
+system (18 meshes per page, where both pages previously carried **none**), the femoral, obturator, saphenous,
+sural and plantar nerves, the sided sciatic and a set of named muscular branches. They come from the **Combined
+page of the same Visible Human body**, where Z-Anatomy had already been fitted onto that subject's own skeleton
+in Q195 — so no new source is involved and no new licence: this is the same **Z-Anatomy component
+(CC BY-SA 4.0, derived from BodyParts3D, © The Database Center for Life Science)** already attributed in
+`third_party/z-anatomy/`, moved between two pages of the same person.
+
+**Not everything that moved is Z-Anatomy.** 18 of the 71 (and 12 of the 64) are **Q259 rule-built tubes** —
+round tubes of a cited calibre along splines through documented waypoints, built on the Combined page's own
+landmarks. They keep their rule-based badge, their volume and their waypoint bound, and are classified
+`c_rule_based` by the Q297 audit, not as real geometry.
+
+**How they were placed, and the error that travels with them.** The documented bone-point registration of
+`## Q292` / `## Q295` / `## Q296`, with one change made for a measured reason: the map is the **identity plus a
+thin-plate-spline correction field fitted to closest-point displacements** on the bones the two pages share,
+*not* a free global similarity. The first version used the Q292 recipe literally and slid
+`zan_sural_communicating_branch_of_common_fibular_nerve_r` **22.7 mm** down the leg, because a nearest-point
+correspondence on a long bone slides along the shaft; that rejection is recorded in
+`scripts/anatomy/q304/reg304.py` beside the method. Bone-surface residual: median 0.79 / p95 3.03 / max
+13.95 mm (Male) and 0.86 / 3.54 / 20.66 mm (Female), against 1.60 / 7.63 and 1.58 / 7.67 mm before.
+
+**What each card says, because that is the whole point.** `method` and `error_band_mm` — the two fields Q300
+made both templates render after Q297 found 68 cards printing nothing — plus a badge that opens
+"Q304 NOT SEGMENTED FROM THIS SUBJECT'S OWN IMAGING" and quotes the source page's own badge verbatim so the
+original fit's error is not lost. The error band is the honest total: Q195's own fit error on the Combined page
+(1.0 / 7.6 / 8.7 mm median by structure) in quadrature with this round's local residual — median 8.3 mm (Male)
+and 6.1 mm (Female), range 2.8–25.7 mm. The subject id is `xfer_zan2vh{m,f}_nerves_q304` (the viewer prints
+"Filled from Z-Anatomy (reference model), fitted to this body — not measured here") or
+`ct_vh{m,f}_rule_nerve_q304` for the rule tubes. **No transferred structure can print "Measured on this body"**,
+and the Q297 audit after the change reports 0 such cards and 0 in class (d).
+
+### 2. SPARC dataset 692 — a measured human sciatic nerve, used for CALIBRE ONLY
+
+| field | value |
+|---|---|
+| work | *Mapping the fascicular morphology and organization of the human sciatic nerve via high-resolution microCT imaging*, SPARC / Pennsieve dataset 692 v1 |
+| DOI | `10.26275/1jdc-qiiv` |
+| licence | **CC BY 4.0** (SPDX `CC-BY-4.0`); full legal code, attribution and change statement in `third_party/sparc_692_sciatic/` |
+| holder / funding | Case Western Reserve University with NIH SPARC OT2OD025349 and 75N98022C00018, VA 1I21RX005151, AFOSR FA9550-23-F-0014 |
+| subject | `sub-SC001`: Homo sapiens, male, 41 years, embalmed cadaver; both sciatic nerves; PTA-stained; microCT at 11.4 µm isotropic |
+| required citation | the dataset, and Zhang J, Lapierre-Landry M, Kalpatthi H, Jenkins MW, Wilson DL, Pelot NA, Shoffstall AJ (2026), *J Neural Eng* 23, 16010, doi:10.1088/1741-2552/ae33f6 |
+| what is used | numbers only: the per-slice `NerveMorphology.csv` products and the `sciatic_levels.csv` annotations of the six samples — 23 files, 9.0 MB of the dataset's 369.7 GB |
+| what is **not** used | no geometry, image, mask, mesh or centreline shape. The samples were **excised and laid straight** in the scanner (Q302: SCL2's centreline spans 84.76 mm axially with an 85.09 mm arc length and 1.0 × 1.3 mm of lateral wander), so the dataset carries no in-body trajectory and may not touch the shape of anything |
+| what changed in our geometry | **nothing.** The specimen is embalmed, PTA-stained and excised, so it is a lower bound on a living nerve, and it is n = 1; rescaling our mesh to it would swap one bias for another along the whole course, which is sculpting, not measuring. The discrepancy is written on the sciatic nerve's card on all six pages instead, with the DOI |
+
+**The discrepancy itself**, for the record: in the mid and distal thigh (+7 / +14 / +21 cm below the lesser
+trochanter) our sciatic nerve is within about a quarter of the measured equivalent diameter (level medians
+×1.16, ×0.92, ×0.89); at the level of formation and the level of the lesser trochanter it is **1.4 to 2.3 times
+too thick**. Every number is in `data/derived/Q304_sparc692_comparison.json`.
