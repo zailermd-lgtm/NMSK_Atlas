@@ -2265,3 +2265,38 @@ inflated by about one voxel — on base_m `brachioradialis_l` the mask is **116.
 inflation from its own boundary (1.28–1.35 mm on these muscles) and counts a sample as inside only past that
 plus 2 mm. Under that rule the nerve's deepest point inside the muscle is 1.75–2.67 mm against a 1.28–1.35 mm
 offset — it is **pressed against** the brachioradialis, which is what the literature says it should be.
+
+## Q308 — rule-based structures from cited literature, and one real mesh found in HRA
+
+Four families were BUILT rule-based on each page's own bones (`scripts/anatomy/q308/build308.py`); every cited
+number, with its PMID and DOI, is in `scripts/anatomy/q308/lit308.py`, and every built mesh carries a
+rule-based badge, a recorded volume and its citations. **48 meshes shipped over six pages, 12 refused with
+their numbers** (`data/derived/Q308_built_structures.json`).
+
+| structure | sources | what fixes its shape |
+|---|---|---|
+| `coracoacromial_ligament_{l,r}` | von Schroeder 2001 PMID 11210947 doi:10.1097/00003086-200102000-00015; Hu 2009 PMID 20073313 (**no DOI assigned**); Nicholson 1996 PMID 8919436 doi:10.1016/s1058-2746(96)80024-3 | coracoid lateral border -> acromion anterior undersurface, both on the page's own scapula; length is an OUTPUT, gated to 17.0-40.3 mm, measured 27.3-37.0 |
+| `lacn_anterior_branch_{l,r}`, `lacn_posterior_branch_{l,r}` | Khadanovich 2023 PMID 38128746 doi:10.1016/j.aanat.2023.152202; Qawasmi 2024 PMID 38934998 doi:10.1016/j.jhsa.2024.04.018 | division on the page's own LACN centreline 47.8 mm distal to its own interepicondylar line (measured 46.5-48.8); anterior branch on the brachioradialis' medial border, posterior branch on its dorso-lateral surface |
+| `psoas_minor_{l,r}` (**hidden by default**) | Raja 2026 PMID 42502531 doi:10.7759/cureus.111450; Patra 2024 doi:10.5603/fm.99128 | T12 and L1 bodies -> pecten pubis / iliopubic eminence, all on the page's own vertebrae and hip bone; length is bone-determined (0.1-0.2 % over the straight line) |
+| `anterolateral_ligament_{l,r}` (**contested**) | Kosy 2016 PMID 26861760 doi:10.1007/s10195-016-0392-0 (**full text read**); Rustagi 2019 PMID 30905987 doi:10.4103/ortho.IJOrtho_137_17 | femoral origin = the centre of the page's own lateral femoral epicondyle, which is Kosy's own stated resolution of the dispute; tibial insertion at 59.5 % of the page's own Gerdy-to-fibular-head span |
+
+**Declared modelling choices** (`lit308.MODELLING_CHOICES`, Q248's precedent): the elliptical cross-sections'
+SHAPE (their widths and thicknesses are published calipers), the LACN branches' calibre at 60 % of the page's
+own trunk (no published branch calibre was found), and the psoas minor's tendon diameter (Raja calipers the
+belly only).
+
+### ‼ HRA / CCF holds the anterolateral ligament of the knee as a real mesh, on our own donors
+`VH_F_anterolateral_ligament_of_knee_L/R` (1,680 triangles, 9.0 x 56.9 x 14.2 mm) and `VH_M_...` (790
+triangles, 12.6 x 54.0 x 21.7 mm), `author_node_type = mesh`, `closed = True`, UBERON:0014899, in the
+"3D Reference Organ Set for United, Female/Male" v1.10 under **CC BY 4.0** -- the same two Visible Human
+donors as this project's Imaging pages. **The rule-based ALL above should give way to it.** It is an import
+round of its own (the GLBs are kept outside the repository, 1.21 GB for the set) and is an owner decision.
+Nothing in any reachable model holds the coracoacromial ligament, the psoas minor or the LACN branches.
+`data/derived/Q308_other_models.json`.
+
+**Zygote and BioDigital remain licence-blocked and were not used** -- Zygote is paid and proprietary with
+atlas-sculpted Reproductive and Nervous sets (Q302); BioDigital is a hosted viewer with no mesh delivery.
+
+**No figure of any source was used.** `pmc.ncbi.nlm.nih.gov` does not resolve from the session and the
+full-text channel strips captions, so no figure could be scaled; per the project's rule an unscalable figure
+is unusable, and zero numbers here come from one. `data/derived/Q308_figure_comparison.json`.
