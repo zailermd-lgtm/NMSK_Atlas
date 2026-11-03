@@ -439,9 +439,10 @@ def test_the_sub_pixel_diagnosis_this_round_reports(cal):
        wide. The counts quoted in docs/VIEWER_README.md, the hub, the research doc and PROJECT_STATE are these."""
     MMPX = 1.9
     # the two Imaging pages' figures moved in Q304, which added 71 and 64 lower-limb nerves to their calibre
-    # tables (201 -> 272 and 244 -> 308). The diagnosis is unchanged and is in fact sharper: 175 of 272 and 184 of
-    # 308 are still drawn under one pixel wide at this scale.
-    exp = {"viewer_m_hr": (272, 175, 257), "viewer_f_hr": (308, 184, 268),
+    # tables (201 -> 272 and 244 -> 308), and again in Q307, which added the upper-limb ones (272 -> 329 and
+    # 308 -> 368). The diagnosis is unchanged and is in fact sharper each time: 228 of 329 and 240 of 368 are
+    # still drawn under one pixel wide at this scale.
+    exp = {"viewer_m_hr": (329, 228, 315), "viewer_f_hr": (368, 240, 328),
            "viewer_zan_atlas": (439, 357, 426), "viewer_base_female": (435, 350, 413),
            "viewer_zan_vhm": (440, 358, 428), "viewer_zan_female": (443, 373, 428)}
     for page, (n, sub, under) in exp.items():

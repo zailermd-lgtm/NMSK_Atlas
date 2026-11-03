@@ -193,6 +193,8 @@ def test_the_pose_rigs_match_the_page_mesh_counts(prov):
         # the page as Q297 shipped it, plus what later rounds spliced on: Q304 carried the lower-limb nerves
         # onto the two Imaging pages, so the rig is longer than the Q297-era page by exactly that many.
         q304 = len(json.loads((REPO / "data/derived/Q304_page_report.json").read_text())[key]["added"])
+        # Q307 spliced its own upper-limb nerves in after Q304's, by the same mechanism
+        q304 += len(json.loads((REPO / "data/derived/Q307_page_report.json").read_text())[key]["added"])
         n = len(prov.structures(key, "build/q297")) + q304
         assert rig["count"] == n, f"{key}: rig count {rig['count']} but page has {n} meshes"
         assert len(rig["nv"]) == rig["count"]

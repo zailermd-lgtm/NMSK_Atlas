@@ -26,8 +26,10 @@ four Z pages they must still be byte-identical. It also asserts that the new bui
 THIS ONE DID NOT BUILD ON: the first Q307 build was made in a working tree that another round was editing at the
 same time, the regen chain re-applied `viewer/*.template.html` as it stood on disk, and the six pages came out
 carrying that round's unlanded UI block -- which every earlier check here passed, because none of them looked for
-a block that should not be there. Q307 builds from a private template copy (`NMSK_TEMPLATE_DIR`, the mechanism
-Q237 added for exactly this) and this assertion is what proves it worked. `nmsk-q298` is allowed to change there
+a block that should not be there. Q307 first built from a private template copy (`NMSK_TEMPLATE_DIR`, the mechanism
+Q237 added for exactly this) and this assertion is what proved it worked; Q305 then LANDED, so the final Q307
+build stands on `build/q305` and asserts Q305's own block byte-identical alongside the five older ones, while
+still refusing any block from a round that has not landed. `nmsk-q298` is allowed to change there
 but is NOT required to:
 running this check is how Q307 learned that it does not -- Q298's adjacency, relation and alias tables are
 committed data that `--inject` only copies, so a nerve added to a page gets no adjacency row and no Related /
@@ -78,7 +80,7 @@ for p in PAGES:
         if same and must_grow: bad.append((p, d, "did NOT change although structures were added"))
     if Q307:
         # no block from a round this build does not stand on (see the module docstring)
-        for tag in ("Q305", "Q306"):
+        for tag in ("Q306",):   # Q305 landed before Q307 published, so Q307 builds on it: see the note below
             na2, nb2 = a.count("<!-- %s html begin -->" % tag), b.count("<!-- %s html begin -->" % tag)
             row.append("%s %d->%d" % (tag, na2, nb2))
             if nb2 != na2:
@@ -97,7 +99,8 @@ for p in PAGES:
                 continue
             bad.append((p, sym, "%d->%d" % (ca, cb)))
     # Q301's own block, byte identical between the markers
-    for tag in ("Q294", "Q298", "Q300", "Q301") + (("Q303",) if (Q304 or Q305 or Q307) else ()):
+    for tag in ("Q294", "Q298", "Q300", "Q301") + (("Q303",) if (Q304 or Q305 or Q307) else ()) \
+               + (("Q305",) if Q307 else ()):
         m = re.compile(r"<!-- %s html begin -->(.*?)<!-- %s html end -->" % (tag, tag), re.S)
         xa, xb = m.search(a), m.search(b)
         if not xa or not xb:

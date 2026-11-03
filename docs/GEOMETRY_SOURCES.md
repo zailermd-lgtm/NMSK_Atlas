@@ -2224,3 +2224,44 @@ and the Q297 audit after the change reports 0 such cards and 0 in class (d).
 trochanter) our sciatic nerve is within about a quarter of the measured equivalent diameter (level medians
 ×1.16, ×0.92, ×0.89); at the level of formation and the level of the lesser trochanter it is **1.4 to 2.3 times
 too thick**. Every number is in `data/derived/Q304_sparc692_comparison.json`.
+
+---
+
+## Q307 — the upper-limb nerves on the two Imaging pages, and what their cards now admit
+
+**Why.** The owner reported the **lateral antebrachial cutaneous nerve** as out of place. The Q307 audit
+(`docs/research/Q307_nerve_placement_audit.md`) found it is in the right compartment, on the right side and at
+the right depth on the four Z pages — and **absent from both Imaging pages**, along with 95 other nerves the
+Combined page of the *same body* carries, 33 of them in the upper limb and shoulder girdle.
+
+| field | value |
+|---|---|
+| what moved | **57** nerve meshes onto Imaging · Male and **60** onto Imaging · Female (the lateral and medial antebrachial cutaneous nerves, the brachial cutaneous nerves, axillary, suprascapular, long thoracic, pectoral, subscapular, thoracodorsal, the deep branch of the ulnar, the posterior interosseous and the palmar / dorsal digital nerves), plus **1 / 2** lower-limb nerves whose one-sided stub this round replaced |
+| geometry source | Z-Anatomy (CC BY-SA 4.0; from BodyParts3D, © The Database Center for Life Science) — `third_party/z-anatomy/` — already fitted to that body's own skeleton on the Combined page in Q195, plus a few rule-built tubes |
+| how it moved | identity + a thin-plate-spline correction field on the bones the two pages share **in the structure's own region** (`scripts/anatomy/q307/xfer307.py`, on Q304's `reg304.py`). **One field per region**, not one per page: using the upper-limb field for the lower-limb repair landed a tibial nerve 53.5 mm from its own plantar nerves |
+| residual | own_m 0.95 mm median / 15.56 p95 (upper), 0.79 / 3.03 (lower); own_f 0.91 / 4.62 and 0.86 / 3.54. **The upper limb corresponds worse than the lower**: per-group medians before the field are 0.14–10.29 mm against Q304's 0.79–2.79, with Imaging M's right metacarpals at median 10.29 / p95 54.87 / max 63.86 mm |
+| what was refused | **12 of 70** candidates on Imaging M and **6 of 68** on Imaging F, each named with its number in `data/derived/Q307_nerve_transfer.json`. Three gates: the residual beside the structure's own vertices (median ≤ 4 mm, p95 ≤ 20 mm); no gain of more than 25 % of its volume inside this page's bones over what it already had on the Combined page; and **both sides or neither** |
+| validation | Q299's validated body mask and per-bone masks. **0 structures mostly inside bone** on either page; Imaging M has no vertex outside the body, Imaging F two structures at 0.82 and 1.35 mm; dihedral 11.4–59.4°, median 17.4–18.8°, against the CVH references 31.7 / 27.6 / 29.5° |
+| what is **not** claimed | no card says "Measured on this body". Each opens with "Q307 NOT SEGMENTED FROM THIS SUBJECT'S OWN IMAGING", quotes the source page's own badge verbatim, prints an error band formed in quadrature from the original fit's error and this round's local p95, and states the gate it had to pass |
+
+**What the cards now admit about the nerve the owner reported** — on all six pages, not only the two that gained
+it. It covers only `t` = 0.640–0.738 of the way from the radial head to the distal radius on each page's own
+radius, i.e. it stops **53.8–73.5 mm short of the wrist**, and it has **no anterior and no posterior branch**
+where Khadanovich 2023 found that division in 76 of 93 forearms. **Nothing was sculpted to close either gap**:
+Q247's own survey of 23 candidate sources concluded that Z-Anatomy is the ceiling for licence-compatible nerve
+geometry and its release carries no branch of this nerve, and Q297 removed a generated surface for exactly that
+reason. Both sources are quoted on the card with their PMIDs and DOIs.
+
+| source read this round (PubMed) | used for |
+|---|---|
+| Qawasmi F et al., *J Hand Surg Am* 2024;50(7):882.e1-882.e5, PMID 38934998, doi 10.1016/j.jhsa.2024.04.018 | the nerve is **deep to the forearm superficial fascia in all 28 cadavers**, in the antebrachial vein's own fascial plane; emerges lateral to the biceps tendon; LE→nerve 24.5 ± 7.2 mm at the interepicondylar line |
+| Khadanovich A et al., *Ann Anat* 2023;252:152202, PMID 38128746, doi 10.1016/j.aanat.2023.152202 | **< 1.8 mm from the medial border of the brachioradialis along that muscle's whole length**; anterior + posterior division in 81.7 % of 93 forearms at 47.8 ± 34.2 mm distal to the IEL; supplies the dorsum of the hand in 39.8 % |
+| Tagliafico AS et al., *Skeletal Radiol* 2010;40(5):609-16, PMID 20931188, doi 10.1007/s00256-010-1046-6 | the parent: the musculocutaneous nerve is traceable "from the axilla through the elbow, **including the lateral antebrachial cutaneous (LAbC) nerve**" |
+
+**A measurement discipline this round had to add, and the number that forced it.** A plain inside/outside voxel
+test called 48–65 % of this nerve "inside the brachioradialis". It is wrong: the per-structure voxel solid is
+inflated by about one voxel — on base_m `brachioradialis_l` the mask is **116.7 cm³ against the mesh's own
+93.8 cm³**, and a 20 mm unit cube reads 9.26 cm³ against a true 8.0. `place307.py` now measures each mask's own
+inflation from its own boundary (1.28–1.35 mm on these muscles) and counts a sample as inside only past that
+plus 2 mm. Under that rule the nerve's deepest point inside the muscle is 1.75–2.67 mm against a 1.28–1.35 mm
+offset — it is **pressed against** the brachioradialis, which is what the literature says it should be.

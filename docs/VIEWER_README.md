@@ -769,3 +769,51 @@ row listed below it — including **Restore layout** itself. The cause was CSS s
 (`#foot{position:fixed}`) outranks the two classes the group styles its adopted rows with. One declaration
 scoped to the sheet fixes it, and the pill row in its own place at the bottom of the screen is untouched. It only
 ever affected the Base and Combined pages; the Imaging pages have no such row.
+
+## Q307 — every nerve checked for where it actually is, and the upper limb filled in
+
+**The report.** «lateral antebrachial cutaneous nerve — לא במקום!! הכל חייב להיות קיים ובמקום הנכון» — the
+lateral antebrachial cutaneous nerve is in the wrong place, and everything must exist **and** be in the right
+place. So the question was asked of every nerve on every page, not only of that one.
+
+**The answer about that nerve, measured.** It is in the right compartment, on the right side, at the right depth
+and attached to the right parent — and only its proximal two thirds exists. In a forearm frame built from each
+page's own radius and ulna it runs +9.0 to +18.2 mm radial of the radius' own axis (the ulna's axis is at −21.9
+to −28.6), it lies a median 0.95–2.08 mm from the brachioradialis surface, and it meets the page's own
+musculocutaneous nerve at 0.02–1.41 mm on the Z pages. But it stops at 0.640–0.738 of the way from the radial
+head to the distal radius — **53.8–73.5 mm short of the wrist** — and it has **no anterior and no posterior
+branch** on any page. Both facts are now printed on its own card, on all six pages, with the two cadaveric
+papers they are measured against.
+
+**And on the two Imaging pages it did not exist at all.** Nor did 95 other nerves the Combined page of the same
+body carries, 33 of them in the upper limb. Q307 carried **57 onto Imaging · Male and 60 onto Imaging · Female**
+with Q304's own instrument, so the nerve the owner looked for is now on every page, on both sides.
+
+**A defect in Q304's own work, found by the audit and fixed.** Q304's selector skipped any id the Imaging page
+already carried, so where the page happened to hold one side's id it added only the other. Imaging · Male's
+**right tibial nerve was a 40 mm mirrored stub** while its left was the full 524 mm nerve — under the same
+display name — and the right medial and lateral plantar nerves hung **436.6 mm** from their own parent.
+Imaging · Female had it on the left, for the tibial (37 mm) and the femoral (29 mm) nerve, with its plantar
+nerves **370.4 mm** adrift. All three are now the full nerve and every branch touches its parent: measured in
+the browser, 0.00–0.71 mm. Only a `mirror_q237` mesh was allowed to be replaced, so nothing traced on the body's
+own imaging was lost.
+
+**What a cutaneous nerve's card says when it is inside a muscle.** 57 cutaneous nerves across the six pages have
+part of their length inside a muscle belly deeper than that muscle's own measured mask inflation plus 2 mm —
+worst, `tibial_n_medial_sural_cutaneous_n` on Imaging · Male at 32–35 % of its samples and a p95 depth of
+17.7 mm in the gastrocnemius. Each one now carries that number on its own card. **None was moved**: on the Z
+pages it is Z-Anatomy's own geometry, and there is no one justified direction to re-route a nerve without
+re-deciding its course from a source.
+
+**Three gates every carried nerve had to pass**, and every refusal is named with its number in
+`data/derived/Q307_nerve_transfer.json`: the bone residual beside the structure's own vertices (median ≤ 4 mm,
+p95 ≤ 20 mm); no gain of more than 25 % of its volume inside this page's own bones over what it already had on
+the source page; and **both sides or neither**, because a round called in to fix a one-sided nerve must not
+create another. 12 of 70 candidates were refused on Imaging · Male and 6 of 68 on Imaging · Female — mostly hand
+nerves, where that page's own metacarpals correspond at a median of 10.29 mm and a p95 of 54.87 mm.
+
+**What the new nerves still cannot do.** Q298's Adjacent / Related / Functional group expansions offer them
+nothing: those tables are committed data that the build only copies, so a nerve added to a page gets no
+adjacency row until that builder is re-run. The same was true of the 71 and 64 nerves Q304 added, so it is
+inherited rather than new — and it is `assert_blocks_q303.py --round q307` that says so, out loud, rather than
+being discovered by a user.
