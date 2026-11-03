@@ -151,6 +151,9 @@ def open_card(pg, name, phone, tries=4, want=None):
     return t
 
 
+COVERED = []                  # rows a real touch could not reach on a phone: Q301's bar covers them (see Q304 open items)
+
+
 def _find_box(pg, phone):
     """the structure search box, opening the panel for it if need be. A 390 px panel can take several seconds to
     lay out, and an OPEN info card covers the box there: the second card of a phone run then died in `fill` with
@@ -263,7 +266,7 @@ def _open_card_once(pg, name, phone, want):
     # and the card that opens is the wrong side's, which the `want` check below then (correctly) rejected.
     side = want[-1].upper() if want[-2:].lower() in ("_l", "_r") else ""
     pressed = False
-    for qtext in queries:
+    for qi, qtext in enumerate(queries):
         try:
             pg.fill(box, qtext, timeout=8000)
         except Exception:                                         # noqa: BLE001
@@ -290,9 +293,18 @@ def _open_card_once(pg, name, phone, want):
         pg.wait_for_timeout(150)
         if phone:
             hit = _clear_point(pg, SEL, idx)
-            if not hit:
-                continue
-            pg.touchscreen.tap(hit["x"], hit["y"])
+            if hit:
+                pg.touchscreen.tap(hit["x"], hit["y"])
+            elif qi < len(queries) - 1:
+                continue                                          # try a shorter query first
+            else:
+                # Every point of the row is under one of the viewer's own fixed overlays and the panel will not
+                # scroll further, so there is no place a finger could land. That is the Q301 overlap recorded in
+                # `docs/OPEN_ITEMS_FOR_OWNER.md` `## Q304`; it is reported, not papered over, and the row's own
+                # handler is then driven directly so that the CARD -- which is what this round is about -- is
+                # still read on a 390 px viewport.
+                COVERED.append(name)
+                pg.locator(SEL).nth(idx).dispatch_event("click")
         else:
             try:
                 row.click(timeout=6000)
@@ -313,18 +325,25 @@ def _open_card_once(pg, name, phone, want):
     READ = ("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
             " if (!e) return ''; const s = document.getElementById('i-src');"
             " return (s && !s.hidden ? s.textContent + '\\n' : '') + e.innerText; }")
-    txt = ""
+    # A card that is still minimised reads a few hundred characters short of the same card expanded, so the
+    # expanded one is preferred and the minimised one kept only as a fallback.
+    best = ""
     for _ in range(8):
-        if pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
-                       " return !!e && e.classList.contains('min'); }"):
+        mini = pg.evaluate("() => { const e = document.getElementById('info')"
+                           " || document.getElementById('inspector');"
+                           " return !!e && e.classList.contains('min'); }")
+        if mini:
             for s2 in ("#insp-min", "#im", "#info .info-min"):
                 if pg.is_visible(s2):
                     tap(pg, s2, phone); break
         txt = pg.evaluate(READ)
         if len(txt) > 300 and _names(want) in _names(txt):
-            return txt
+            if not mini:
+                return txt
+            if len(txt) > len(best):
+                best = txt
         pg.wait_for_timeout(700)
-    return "" if (txt and _names(want) not in _names(txt)) else txt
+    return best
 
 
 def _names(t):
@@ -599,6 +618,11 @@ def run_page(d: Path, errs: list, only_phone=None, shots: Path | None = None):
                 check("%s F no page errors (%s)" % (T, perr[:1]), not perr, errs)
                 if MISSED:
                     print("     controls that could not be reached: " + "; ".join(MISSED[:4]))
+                if COVERED:
+                    R["rows_under_q301_bar"] = sorted(set(COVERED))
+                    print("     rows no finger could reach, because Q301's fixed control bar covers them "
+                          "(the Q304 open item): " + "; ".join(sorted(set(COVERED))[:4]))
+                del COVERED[:]
                 if shots:
                     shots.mkdir(parents=True, exist_ok=True)
                     pg.screenshot(path=str(shots / ("Q304_%s_%d.png" % (key, w))))
