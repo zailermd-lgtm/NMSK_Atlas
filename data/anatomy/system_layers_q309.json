@@ -1,0 +1,326 @@
+{
+ "schema": "nmsk.system_layers.v1",
+ "round": "Q309",
+ "doc": "The SYSTEMS the viewer offers as one on/off control each, and the DEPTH STRATA inside each system that the per-system / shown-systems depth peel walks. A system is a set of the pages' own tissue categories; a stratum is a predicate over those categories and over the structures' OWN NAMES, so every count below is measured on the page rather than stated here. A system present on a page with no stratum of its own gets ONLY an on/off button, and the control says so in as many words. `basis` is the honest provenance of the ORDER: `literature` = a textbook settles it; `data` = this project's own records or the structures' own names settle it; `mixed` = the strata come from the literature and from this project's own superficial/deep group pairs; `none` = the remainder, which carries no sourced depth and is named that way on the screen. A stratum whose `re` is absent takes whatever is left of its categories. A stratum with `rest: true` takes everything still unassigned in the system. The regexes are matched case-insensitively against the structure's displayed name and are valid in both Python and JavaScript (no lookbehind).",
+ "he_note": "קובץ זה מגדיר את המערכות (systems) שהצפיין מציג עם מתג on/off אחד לכל מערכת, ואת שכבות העומק (depth strata) בתוך כל מערכת, שעליהן עובד הקילוף לפי מערכת אחת או לפי המערכות המוצגות. מערכת = קבוצת קטגוריות רקמה של העמוד עצמו. שכבה = תנאי על הקטגוריה ועל שם המבנה עצמו, כך שכל המספרים נמדדים על העמוד ולא נרשמים כאן. מערכת ללא שכבות מקבלת רק on/off, והבקרה אומרת זאת במפורש.",
+ "rule_peel_offered": "A system is offered a depth peel only when at least half of its structures ON THAT PAGE fall into a stratum whose basis is not `none`. Below that the system gets on/off only -- measured, per page, at load. This is why the two Imaging pages get no fascial peel (5 of their 6 fascial structures are retinacula, an interosseous membrane and `Integumentum commune`, none of which the investing-fascia / septa classification reaches) while the four Z pages do (137 of 175).",
+ "sources": {
+  "gray": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell), Elsevier 2019.",
+  "standring": "Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. (Standring, ed.), Elsevier 2020.",
+  "moore": "Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.",
+  "ta": "Terminologia Anatomica, FICAT 1998 -- the classification of bursae as subcutaneous / subfascial / subtendinous / submuscular.",
+  "project": "data/anatomy/muscle_groups_q283.json and data/anatomy/muscle_groups_q306.json -- THIS project's own superficial/deep group pairs: `gluteal` (Gluteal group (superficial)) vs `deep_gluteal`, `leg_posterior_superficial` vs `leg_posterior_deep`, and `erector_spinae` vs `transversospinalis` / `multifidus_group`.",
+  "q301": "viewer/q301/peel.js and PROJECT_STATE.md Q301 G -- the whole-body order, and the finding that 17 of the 51 fat meshes carry the Latin name `Panniculus adiposus (tela subcutanea)`, i.e. the superficial fascia in the modern sense.",
+  "names": "the structures' own displayed names on the shipped pages. No external source is needed for these: the predicate is the stratum's own `re`, and every count is measured on the page."
+ },
+ "conventions": [
+  "skeletal / cartilage -> bone: anatomy for the ARTICULAR cartilages, which cover the bone ends; OUR CONVENTION for the costal, laryngeal and tracheal cartilages on these pages, which lie beside bone rather than over it.",
+  "muscular: `superficial / intermediate / deep` mean the layer of the muscle's OWN REGION, not a depth measured across the whole body -- which is how the two products that ship a per-system layer control describe theirs. So the superficial step holds trapezius and the superficial perineal pouch alike.",
+  "fascial: putting the subcutaneous bursae BEFORE the investing deep fascia follows their TA class (they lie between skin and the deep fascia); the remaining bursae carry no depth word in their name and fall in the unsourced remainder.",
+  "nervous: the CNS is taken as the deepest stratum of the nervous system because it lies inside the skull and the vertebral canal. The ordering of plexus, root and named trunk among themselves is NOT sourced per structure and is not offered.",
+  "vascular: step 2 is `the rest`, read as deep. The split rests on the structures' own names; a vessel whose name says nothing is treated as deep, which Gray's supports for veins (superficial or deep, the deep accompanying the arteries) but which is still an inference, not a per-structure datum.",
+  "lymphatic, visceral and integument get NO peel: only 21 of 162 lymphatic structures carry `superficial` or `deep` in their name, and the organs and the skin regions carry no depth word at all."
+ ],
+ "systems": [
+  {
+   "key": "skeletal",
+   "label": "Skeleton & joints",
+   "he": "שלד ומפרקים",
+   "cats": [
+    "bone",
+    "cartilage",
+    "joint",
+    "ligament"
+   ],
+   "strata": [
+    {
+     "key": "capsule",
+     "label": "Joint capsules & ligaments",
+     "he": "קופסיות מפרק ורצועות",
+     "cats": [
+      "joint",
+      "ligament"
+     ],
+     "basis": "literature",
+     "cite": "standring,gray"
+    },
+    {
+     "key": "cartilage",
+     "label": "Cartilage",
+     "he": "סחוס",
+     "cats": [
+      "cartilage"
+     ],
+     "basis": "mixed",
+     "cite": "standring"
+    },
+    {
+     "key": "bone",
+     "label": "Bone",
+     "he": "עצם",
+     "cats": [
+      "bone"
+     ],
+     "basis": "literature",
+     "cite": "standring"
+    }
+   ]
+  },
+  {
+   "key": "muscular",
+   "label": "Muscles",
+   "he": "שרירים",
+   "cats": [
+    "muscle",
+    "tendon",
+    "insertion"
+   ],
+   "strata": [
+    {
+     "key": "sup",
+     "label": "Superficial layer of its region",
+     "he": "השכבה השטחית של האזור",
+     "re": "\\b(?:trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior|platysma|sternocleidomastoid|sternohyoid|omohyoid|sternothyroid|thyrohyoideus|digastric|stylohyoideus|geniohyoid|mylohyoid|pronator teres|flexor carpi radialis|palmaris longus|flexor carpi ulnaris|brachioradialis|extensor carpi radialis (?:longus|brevis)|extensor digitorum(?! longus| brevis)|extensor digiti minimi|extensor carpi ulnaris|anconeus|deltoid|pectoralis major|biceps brachii|triceps brachii|gastrocnemius|soleus|plantaris|gluteus (?:maximus|medius|minimus)|tensor fasciae latae|sartorius|external oblique|rectus abdominis|pyramidalis|external intercostals?|abductor hallucis|flexor digitorum brevis|abductor digiti minimi|abductor pollicis brevis|flexor pollicis brevis|opponens pollicis|flexor digiti minimi brevis|opponens digiti minimi|occipitalis|frontalis|temporoparietalis|orbicularis (?:oculi|oris)|zygomaticus|risorius|mentalis|nasalis|procerus|corrugator|depressor (?:anguli oris|labii inferioris|septi nasi)|levator (?:labii superioris|anguli oris|nasolabialis)|bucinator|superficial transverse perineal|bulbospongiosus|ischiocavernosus|sphincter ani|external anal sphincter|epicranial)(?![a-z])",
+     "basis": "mixed",
+     "cite": "gray,project"
+    },
+    {
+     "key": "int",
+     "label": "Intermediate layer",
+     "he": "השכבה הבינונית",
+     "re": "\\b(?:flexor digitorum superficialis|iliocostalis|longissimus|spinalis(?!is)|splenius|internal oblique|internal intercostals?|levatores costarum|masseter|temporalis(?! fascia)|quadratus plantae|lumbrical muscles|lumbricals|serratus anterior|pectoralis minor|subclavius|vastus (?:lateralis|medialis|intermedius)|rectus femoris|quadriceps femoris tendon|biceps femoris|semitendinosus|semimembranosus|gracilis|adductor (?:longus|brevis|magnus|minimus)|pectineus|tibialis anterior|extensor (?:digitorum|hallucis) longus|fibularis \\(peroneus\\) (?:longus|brevis|tertius)|infraspinatus|supraspinatus|subscapularis|teres (?:major|minor)|coracobrachialis|brachialis(?!is))(?![a-z])",
+     "basis": "mixed",
+     "cite": "gray,project"
+    },
+    {
+     "key": "deep",
+     "label": "Deep layer",
+     "he": "השכבה העמוקה",
+     "re": "\\b(?:aryten|crico|thyro-?aryten)|\\b(?:semispinalis|multifidus|rotatores|interspinales|intertransversarii|obliquus capitis|rectus capitis|(?:anterior|middle|posterior) scalene|longus (?:capitis|colli)|flexor digitorum profundus|flexor pollicis longus|pronator quadratus|supinator|abductor pollicis longus|extensor pollicis (?:longus|brevis)|extensor indicis|popliteus|tibialis posterior|flexor digitorum longus|flexor hallucis longus|calcaneal tendon|piriformis|gemellus|obturator (?:internus|externus)|quadratus femoris|transversus (?:abdominis|thoracis|perinei)|quadratus lumborum|psoas|iliacus|iliopsoas|iliopectineal|innermost intercostals?|diaphragm|flexor hallucis brevis|adductor hallucis|extensor (?:digitorum|hallucis) brevis|(?:dorsal|palmar|plantar) interossei|adductor pollicis|(?:lateral|medial) pterygoid|levator ani|coccygeus|iliococcygeus|pubococcygeus|pubo-analis|compressor urethrae|urethral sphincter|urethrovaginal sphincter|raphe of the urethral|genioglossus|hyoglossus|styloglossus|palatopharyngeus|stylopharyngeus|constrictor pharyngis|superior pharyngeal constrictor|vocalis|stapedius|longitudinal tongue|transverse (?:and vertical )?tongue|(?:superior|inferior|lateral|medial) rectus|(?:superior|inferior) oblique|levator palpebrae|common tendinous ring|trochlea of superior oblique|(?:superior|inferior) tarsus|cruciform part of fibrous sheath)(?![a-z])",
+     "basis": "mixed",
+     "cite": "gray,project"
+    },
+    {
+     "key": "rest",
+     "label": "No sourced stratum",
+     "he": "ללא שכבה ממוקרת",
+     "rest": true,
+     "basis": "none"
+    }
+   ]
+  },
+  {
+   "key": "fascial",
+   "label": "Fascia & bursae",
+   "he": "פאסציות וכיסים",
+   "cats": [
+    "fascia",
+    "bursa"
+   ],
+   "strata": [
+    {
+     "key": "subcut",
+     "label": "Subcutaneous bursae",
+     "he": "כיסים תת-עוריים",
+     "cats": [
+      "bursa"
+     ],
+     "re": "\\bsubcutaneous",
+     "basis": "literature",
+     "cite": "ta,standring"
+    },
+    {
+     "key": "investing",
+     "label": "Investing deep fascia & aponeuroses",
+     "he": "פאסציה עמוקה עוטפת ואפונאורוזות",
+     "cats": [
+      "fascia"
+     ],
+     "re": "\\b(?:fascia lata|brachial|antebrachial|crural|pectoral|deltoid|masseteric|temporal|cervical|investing|epicranial|palmar aponeurosis|plantar aponeurosis|dorsal fascia of hand|popliteal|linea alba|iliotibial|thoracolumbar)",
+     "basis": "literature",
+     "cite": "gray,standring"
+    },
+    {
+     "key": "septa",
+     "label": "Intermuscular septa",
+     "he": "מחיצות בין-שריריות",
+     "cats": [
+      "fascia"
+     ],
+     "re": "\\bsept",
+     "basis": "literature",
+     "cite": "gray"
+    },
+    {
+     "key": "deepbursa",
+     "label": "Subfascial, subtendinous & submuscular bursae, tendon sheaths",
+     "he": "כיסים תת-פאסציאליים/תת-גידיים ומעטפות גידים",
+     "cats": [
+      "bursa"
+     ],
+     "re": "\\b(?:subfa|subtendinous|submuscular|sheath|intertubercular|intermuscular)",
+     "basis": "literature",
+     "cite": "ta,standring"
+    },
+    {
+     "key": "rest",
+     "label": "No sourced stratum",
+     "he": "ללא שכבה ממוקרת",
+     "rest": true,
+     "basis": "none"
+    }
+   ]
+  },
+  {
+   "key": "nervous",
+   "label": "Nerves & CNS",
+   "he": "עצבים ומערכת העצבים המרכזית",
+   "cats": [
+    "nerve",
+    "cns"
+   ],
+   "strata": [
+    {
+     "key": "cut",
+     "label": "Cutaneous nerves",
+     "he": "עצבים עוריים",
+     "cats": [
+      "nerve"
+     ],
+     "re": "cutaneous",
+     "basis": "literature",
+     "cite": "gray,standring"
+    },
+    {
+     "key": "deep",
+     "label": "Nerves deep to the deep fascia",
+     "he": "עצבים מתחת לפאסציה העמוקה",
+     "cats": [
+      "nerve"
+     ],
+     "basis": "literature",
+     "cite": "gray"
+    },
+    {
+     "key": "cns",
+     "label": "Central nervous system",
+     "he": "מערכת העצבים המרכזית",
+     "cats": [
+      "cns"
+     ],
+     "basis": "literature",
+     "cite": "standring"
+    }
+   ]
+  },
+  {
+   "key": "vascular",
+   "label": "Vessels",
+   "he": "כלי דם",
+   "cats": [
+    "vessel"
+   ],
+   "strata": [
+    {
+     "key": "sup",
+     "label": "Superficial vessels",
+     "he": "כלי דם שטחיים",
+     "cats": [
+      "vessel"
+     ],
+     "re": "\\b(?:saphenous|cephalic vein|basilic|median cubital|median antebrachial|dorsal venous|external jugular|anterior jugular|thoracoepigastric|superficial)",
+     "basis": "data",
+     "cite": "gray,names"
+    },
+    {
+     "key": "deep",
+     "label": "Deep vessels",
+     "he": "כלי דם עמוקים",
+     "cats": [
+      "vessel"
+     ],
+     "basis": "literature",
+     "cite": "gray"
+    }
+   ]
+  },
+  {
+   "key": "lymphatic",
+   "label": "Lymphatics",
+   "he": "מערכת הלימפה",
+   "cats": [
+    "lymph"
+   ],
+   "strata": []
+  },
+  {
+   "key": "visceral",
+   "label": "Organs",
+   "he": "איברים",
+   "cats": [
+    "viscera",
+    "organ"
+   ],
+   "strata": []
+  },
+  {
+   "key": "integument",
+   "label": "Skin",
+   "he": "עור",
+   "cats": [
+    "skin"
+   ],
+   "strata": []
+  },
+  {
+   "key": "adipose",
+   "label": "Fat",
+   "he": "שומן",
+   "cats": [
+    "fat"
+   ],
+   "strata": [
+    {
+     "key": "subcut",
+     "label": "Subcutaneous fat / superficial fascia",
+     "he": "שומן תת-עורי / פאסציה שטחית",
+     "cats": [
+      "fat"
+     ],
+     "re": "^subcutaneous",
+     "basis": "data",
+     "cite": "q301,standring,names"
+    },
+    {
+     "key": "inter",
+     "label": "Intermuscular fat",
+     "he": "שומן בין-שרירי",
+     "cats": [
+      "fat"
+     ],
+     "re": "^intermuscular",
+     "basis": "data",
+     "cite": "names"
+    },
+    {
+     "key": "deep",
+     "label": "Deep & visceral fat",
+     "he": "שומן עמוק וויסצרלי",
+     "cats": [
+      "fat"
+     ],
+     "re": "^deep",
+     "basis": "data",
+     "cite": "names"
+    },
+    {
+     "key": "rest",
+     "label": "No sourced stratum",
+     "he": "ללא שכבה ממוקרת",
+     "rest": true,
+     "basis": "none"
+    }
+   ]
+  }
+ ]
+}

@@ -1315,6 +1315,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     <!-- NMSK-ABBREV begin --><script type="application/json" id="nmsk-abbrev">{}</script><!-- NMSK-ABBREV end -->
     <!-- NMSK-Q298 begin --><script type="application/json" id="nmsk-q298">{}</script><!-- NMSK-Q298 end -->
 <!-- NMSK-Q306 begin --><script type="application/json" id="nmsk-q306">{}</script><!-- NMSK-Q306 end -->
+<!-- NMSK-Q309-LAYERS begin --><script type="application/json" id="nmsk-q309-layers">{"schema":"nmsk.system_layers.v1","round":"Q309","doc":"The SYSTEMS the viewer offers as one on/off control each, and the DEPTH STRATA inside each system that the per-system / shown-systems depth peel walks. A system is a set of the pages' own tissue categories; a stratum is a predicate over those categories and over the structures' OWN NAMES, so every count below is measured on the page rather than stated here. A system present on a page with no stratum of its own gets ONLY an on/off button, and the control says so in as many words. `basis` is the honest provenance of the ORDER: `literature` = a textbook settles it; `data` = this project's own records or the structures' own names settle it; `mixed` = the strata come from the literature and from this project's own superficial/deep group pairs; `none` = the remainder, which carries no sourced depth and is named that way on the screen. A stratum whose `re` is absent takes whatever is left of its categories. A stratum with `rest: true` takes everything still unassigned in the system. The regexes are matched case-insensitively against the structure's displayed name and are valid in both Python and JavaScript (no lookbehind).","he_note":"קובץ זה מגדיר את המערכות (systems) שהצפיין מציג עם מתג on/off אחד לכל מערכת, ואת שכבות העומק (depth strata) בתוך כל מערכת, שעליהן עובד הקילוף לפי מערכת אחת או לפי המערכות המוצגות. מערכת = קבוצת קטגוריות רקמה של העמוד עצמו. שכבה = תנאי על הקטגוריה ועל שם המבנה עצמו, כך שכל המספרים נמדדים על העמוד ולא נרשמים כאן. מערכת ללא שכבות מקבלת רק on/off, והבקרה אומרת זאת במפורש.","rule_peel_offered":"A system is offered a depth peel only when at least half of its structures ON THAT PAGE fall into a stratum whose basis is not `none`. Below that the system gets on/off only -- measured, per page, at load. This is why the two Imaging pages get no fascial peel (5 of their 6 fascial structures are retinacula, an interosseous membrane and `Integumentum commune`, none of which the investing-fascia / septa classification reaches) while the four Z pages do (137 of 175).","sources":{"gray":"Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell), Elsevier 2019.","standring":"Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. (Standring, ed.), Elsevier 2020.","moore":"Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.","ta":"Terminologia Anatomica, FICAT 1998 -- the classification of bursae as subcutaneous / subfascial / subtendinous / submuscular.","project":"data/anatomy/muscle_groups_q283.json and data/anatomy/muscle_groups_q306.json -- THIS project's own superficial/deep group pairs: `gluteal` (Gluteal group (superficial)) vs `deep_gluteal`, `leg_posterior_superficial` vs `leg_posterior_deep`, and `erector_spinae` vs `transversospinalis` / `multifidus_group`.","q301":"viewer/q301/peel.js and PROJECT_STATE.md Q301 G -- the whole-body order, and the finding that 17 of the 51 fat meshes carry the Latin name `Panniculus adiposus (tela subcutanea)`, i.e. the superficial fascia in the modern sense.","names":"the structures' own displayed names on the shipped pages. No external source is needed for these: the predicate is the stratum's own `re`, and every count is measured on the page."},"conventions":["skeletal / cartilage -> bone: anatomy for the ARTICULAR cartilages, which cover the bone ends; OUR CONVENTION for the costal, laryngeal and tracheal cartilages on these pages, which lie beside bone rather than over it.","muscular: `superficial / intermediate / deep` mean the layer of the muscle's OWN REGION, not a depth measured across the whole body -- which is how the two products that ship a per-system layer control describe theirs. So the superficial step holds trapezius and the superficial perineal pouch alike.","fascial: putting the subcutaneous bursae BEFORE the investing deep fascia follows their TA class (they lie between skin and the deep fascia); the remaining bursae carry no depth word in their name and fall in the unsourced remainder.","nervous: the CNS is taken as the deepest stratum of the nervous system because it lies inside the skull and the vertebral canal. The ordering of plexus, root and named trunk among themselves is NOT sourced per structure and is not offered.","vascular: step 2 is `the rest`, read as deep. The split rests on the structures' own names; a vessel whose name says nothing is treated as deep, which Gray's supports for veins (superficial or deep, the deep accompanying the arteries) but which is still an inference, not a per-structure datum.","lymphatic, visceral and integument get NO peel: only 21 of 162 lymphatic structures carry `superficial` or `deep` in their name, and the organs and the skin regions carry no depth word at all."],"systems":[{"key":"skeletal","label":"Skeleton & joints","he":"שלד ומפרקים","cats":["bone","cartilage","joint","ligament"],"strata":[{"key":"capsule","label":"Joint capsules & ligaments","he":"קופסיות מפרק ורצועות","cats":["joint","ligament"],"basis":"literature","cite":"standring,gray"},{"key":"cartilage","label":"Cartilage","he":"סחוס","cats":["cartilage"],"basis":"mixed","cite":"standring"},{"key":"bone","label":"Bone","he":"עצם","cats":["bone"],"basis":"literature","cite":"standring"}]},{"key":"muscular","label":"Muscles","he":"שרירים","cats":["muscle","tendon","insertion"],"strata":[{"key":"sup","label":"Superficial layer of its region","he":"השכבה השטחית של האזור","re":"\\b(?:trapezius|latissimus dorsi|levator scapulae|rhomboid (?:major|minor)|serratus posterior|platysma|sternocleidomastoid|sternohyoid|omohyoid|sternothyroid|thyrohyoideus|digastric|stylohyoideus|geniohyoid|mylohyoid|pronator teres|flexor carpi radialis|palmaris longus|flexor carpi ulnaris|brachioradialis|extensor carpi radialis (?:longus|brevis)|extensor digitorum(?! longus| brevis)|extensor digiti minimi|extensor carpi ulnaris|anconeus|deltoid|pectoralis major|biceps brachii|triceps brachii|gastrocnemius|soleus|plantaris|gluteus (?:maximus|medius|minimus)|tensor fasciae latae|sartorius|external oblique|rectus abdominis|pyramidalis|external intercostals?|abductor hallucis|flexor digitorum brevis|abductor digiti minimi|abductor pollicis brevis|flexor pollicis brevis|opponens pollicis|flexor digiti minimi brevis|opponens digiti minimi|occipitalis|frontalis|temporoparietalis|orbicularis (?:oculi|oris)|zygomaticus|risorius|mentalis|nasalis|procerus|corrugator|depressor (?:anguli oris|labii inferioris|septi nasi)|levator (?:labii superioris|anguli oris|nasolabialis)|bucinator|superficial transverse perineal|bulbospongiosus|ischiocavernosus|sphincter ani|external anal sphincter|epicranial)(?![a-z])","basis":"mixed","cite":"gray,project"},{"key":"int","label":"Intermediate layer","he":"השכבה הבינונית","re":"\\b(?:flexor digitorum superficialis|iliocostalis|longissimus|spinalis(?!is)|splenius|internal oblique|internal intercostals?|levatores costarum|masseter|temporalis(?! fascia)|quadratus plantae|lumbrical muscles|lumbricals|serratus anterior|pectoralis minor|subclavius|vastus (?:lateralis|medialis|intermedius)|rectus femoris|quadriceps femoris tendon|biceps femoris|semitendinosus|semimembranosus|gracilis|adductor (?:longus|brevis|magnus|minimus)|pectineus|tibialis anterior|extensor (?:digitorum|hallucis) longus|fibularis \\(peroneus\\) (?:longus|brevis|tertius)|infraspinatus|supraspinatus|subscapularis|teres (?:major|minor)|coracobrachialis|brachialis(?!is))(?![a-z])","basis":"mixed","cite":"gray,project"},{"key":"deep","label":"Deep layer","he":"השכבה העמוקה","re":"\\b(?:aryten|crico|thyro-?aryten)|\\b(?:semispinalis|multifidus|rotatores|interspinales|intertransversarii|obliquus capitis|rectus capitis|(?:anterior|middle|posterior) scalene|longus (?:capitis|colli)|flexor digitorum profundus|flexor pollicis longus|pronator quadratus|supinator|abductor pollicis longus|extensor pollicis (?:longus|brevis)|extensor indicis|popliteus|tibialis posterior|flexor digitorum longus|flexor hallucis longus|calcaneal tendon|piriformis|gemellus|obturator (?:internus|externus)|quadratus femoris|transversus (?:abdominis|thoracis|perinei)|quadratus lumborum|psoas|iliacus|iliopsoas|iliopectineal|innermost intercostals?|diaphragm|flexor hallucis brevis|adductor hallucis|extensor (?:digitorum|hallucis) brevis|(?:dorsal|palmar|plantar) interossei|adductor pollicis|(?:lateral|medial) pterygoid|levator ani|coccygeus|iliococcygeus|pubococcygeus|pubo-analis|compressor urethrae|urethral sphincter|urethrovaginal sphincter|raphe of the urethral|genioglossus|hyoglossus|styloglossus|palatopharyngeus|stylopharyngeus|constrictor pharyngis|superior pharyngeal constrictor|vocalis|stapedius|longitudinal tongue|transverse (?:and vertical )?tongue|(?:superior|inferior|lateral|medial) rectus|(?:superior|inferior) oblique|levator palpebrae|common tendinous ring|trochlea of superior oblique|(?:superior|inferior) tarsus|cruciform part of fibrous sheath)(?![a-z])","basis":"mixed","cite":"gray,project"},{"key":"rest","label":"No sourced stratum","he":"ללא שכבה ממוקרת","rest":true,"basis":"none"}]},{"key":"fascial","label":"Fascia & bursae","he":"פאסציות וכיסים","cats":["fascia","bursa"],"strata":[{"key":"subcut","label":"Subcutaneous bursae","he":"כיסים תת-עוריים","cats":["bursa"],"re":"\\bsubcutaneous","basis":"literature","cite":"ta,standring"},{"key":"investing","label":"Investing deep fascia & aponeuroses","he":"פאסציה עמוקה עוטפת ואפונאורוזות","cats":["fascia"],"re":"\\b(?:fascia lata|brachial|antebrachial|crural|pectoral|deltoid|masseteric|temporal|cervical|investing|epicranial|palmar aponeurosis|plantar aponeurosis|dorsal fascia of hand|popliteal|linea alba|iliotibial|thoracolumbar)","basis":"literature","cite":"gray,standring"},{"key":"septa","label":"Intermuscular septa","he":"מחיצות בין-שריריות","cats":["fascia"],"re":"\\bsept","basis":"literature","cite":"gray"},{"key":"deepbursa","label":"Subfascial, subtendinous & submuscular bursae, tendon sheaths","he":"כיסים תת-פאסציאליים/תת-גידיים ומעטפות גידים","cats":["bursa"],"re":"\\b(?:subfa|subtendinous|submuscular|sheath|intertubercular|intermuscular)","basis":"literature","cite":"ta,standring"},{"key":"rest","label":"No sourced stratum","he":"ללא שכבה ממוקרת","rest":true,"basis":"none"}]},{"key":"nervous","label":"Nerves & CNS","he":"עצבים ומערכת העצבים המרכזית","cats":["nerve","cns"],"strata":[{"key":"cut","label":"Cutaneous nerves","he":"עצבים עוריים","cats":["nerve"],"re":"cutaneous","basis":"literature","cite":"gray,standring"},{"key":"deep","label":"Nerves deep to the deep fascia","he":"עצבים מתחת לפאסציה העמוקה","cats":["nerve"],"basis":"literature","cite":"gray"},{"key":"cns","label":"Central nervous system","he":"מערכת העצבים המרכזית","cats":["cns"],"basis":"literature","cite":"standring"}]},{"key":"vascular","label":"Vessels","he":"כלי דם","cats":["vessel"],"strata":[{"key":"sup","label":"Superficial vessels","he":"כלי דם שטחיים","cats":["vessel"],"re":"\\b(?:saphenous|cephalic vein|basilic|median cubital|median antebrachial|dorsal venous|external jugular|anterior jugular|thoracoepigastric|superficial)","basis":"data","cite":"gray,names"},{"key":"deep","label":"Deep vessels","he":"כלי דם עמוקים","cats":["vessel"],"basis":"literature","cite":"gray"}]},{"key":"lymphatic","label":"Lymphatics","he":"מערכת הלימפה","cats":["lymph"],"strata":[]},{"key":"visceral","label":"Organs","he":"איברים","cats":["viscera","organ"],"strata":[]},{"key":"integument","label":"Skin","he":"עור","cats":["skin"],"strata":[]},{"key":"adipose","label":"Fat","he":"שומן","cats":["fat"],"strata":[{"key":"subcut","label":"Subcutaneous fat / superficial fascia","he":"שומן תת-עורי / פאסציה שטחית","cats":["fat"],"re":"^subcutaneous","basis":"data","cite":"q301,standring,names"},{"key":"inter","label":"Intermuscular fat","he":"שומן בין-שרירי","cats":["fat"],"re":"^intermuscular","basis":"data","cite":"names"},{"key":"deep","label":"Deep & visceral fat","he":"שומן עמוק וויסצרלי","cats":["fat"],"re":"^deep","basis":"data","cite":"names"},{"key":"rest","label":"No sourced stratum","he":"ללא שכבה ממוקרת","rest":true,"basis":"none"}]}]}</script><!-- NMSK-Q309-LAYERS end -->
 <!-- NMSK-CALIBRE begin --><script type="application/json" id="nmsk-calibre">{}</script><!-- NMSK-CALIBRE end -->
     <div class="overlay" id="frame-note">
       Atlas frame &mdash; origin at the midpoint of the hip joint centres.
@@ -6604,6 +6605,570 @@ var NMSKQ306 = (function(){
 })();
 </script>
 <!-- Q306 html end -->
+<!-- Q309 html begin -->
+<style>
+/* Q309: the systems row and the scoped depth control. Both live inside Q301's "Layers" group sheet, so they inherit
+   its type and spacing; only what is new is styled here. The [hidden] guard is Q301's lesson (H2 ii): the HTML
+   `hidden` attribute is only `display:none` from the UA stylesheet, so any author `display` rule beats it. */
+.sy-box, .sp-box { display:flex; flex-wrap:wrap; align-items:center; gap:4px 6px; width:100%; }
+.sy-box[hidden], .sp-box[hidden], .sy-row[hidden], .sp-sc[hidden], .sp-sy[hidden], .sp-why[hidden], .sp-all[hidden], #sp-whole[hidden] { display:none !important; }
+.sy-l, .sp-l { font-size:11px; letter-spacing:.06em; text-transform:uppercase; opacity:.7; width:100%; }
+.sy-row { display:flex; flex-wrap:wrap; gap:4px; width:100%; }
+.sy-b { display:inline-flex; align-items:center; gap:5px; }
+.sy-b .sy-c { opacity:.65; font-size:11px; }
+.sy-b .sy-st { font-size:10px; letter-spacing:.08em; text-transform:uppercase; opacity:.8; }
+.sy-b[aria-pressed="false"], .sy-b.off { opacity:.5; text-decoration:line-through; }
+.sy-o, .sp-o { width:100%; font-size:11.5px; opacity:.85; }
+.sp-sc, .sp-sy { display:flex; flex-wrap:wrap; gap:4px; width:100%; }
+.sp-s { font-size:11.5px; }
+.sp-why { width:100%; margin:2px 0 0; font-size:11px; opacity:.8; font-style:italic; }
+.sy-note, .sp-note { width:100%; }
+@media (max-width:430px){
+  .sy-b, .sp-b, .sp-s { font-size:11px; padding:4px 6px; }
+  .sy-b .sy-st { display:none; }      /* the strike-through and aria-pressed already say it; the phone needs the room */
+}
+</style>
+<script>
+/* Q309: the map from this page's OWN tissue categories to anatomical SYSTEMS, and from each system to its depth strata.
+   Owner (translated from Hebrew): "Also allow display by SYSTEMS with an on/off button, and by LAYERS -- for the whole
+   body, per system, and for the displayed systems only."
+   Nothing here is hard-coded: the table is `data/anatomy/system_layers_q309.json`, shipped in the page as
+   <script id="nmsk-q309-layers">, and every system, every stratum and every count below is RESOLVED AGAINST THE PAGE.
+   A system whose categories are absent is not offered; a stratum that matches nothing on this page is not offered; and
+   a system fewer than half of whose structures land in a sourced stratum is offered NO peel at all -- the table's own
+   `rule_peel_offered`, measured here rather than asserted there.
+     NMSKSysMap.start({all:function(){ return [{id,cat,name}] }})
+     .ready()  .systems()  .of(id)  .ids(sysKey)  .strata(sysKey)  .idsUpTo(sysKey, n)  .table()  .state() */
+var NMSKSysMap = (function(){
+  "use strict";
+  var T = null, SYS = [], BY = {}, on = false, E = null;
+  function read(){
+    var el = document.getElementById("nmsk-q309-layers");
+    if (!el) return null;
+    try { var t = JSON.parse(el.textContent || "{}"); return (t && t.systems) ? t : null; } catch (e){ return null; }
+  }
+  function rx(s){ try { return s ? new RegExp(s, "i") : null; } catch (e){ return null; } }
+  function hit(st, x){
+    if (st.rest) return true;
+    if (st.cats && st.cats.indexOf(x.cat) < 0) return false;
+    if (st._r && !st._r.test(x.name || "")) return false;
+    return true;
+  }
+  var api = {
+    start:function(eng){
+      if (on) return api;
+      E = eng || null;
+      T = read();
+      if (!T || !E || typeof E.all !== "function") return api;
+      var all = E.all() || [];
+      T.systems.forEach(function(sp){
+        var mine = all.filter(function(x){ return sp.cats.indexOf(x.cat) >= 0; });
+        if (!mine.length) return;                                /* this page does not carry the system at all */
+        var left = mine.slice(), strata = [], sourced = 0;
+        (sp.strata || []).forEach(function(stp){
+          var st = {key:stp.key, label:stp.label, he:stp.he, basis:stp.basis || "none", cite:stp.cite || "",
+                    rest:!!stp.rest, cats:stp.cats || null, re:stp.re || "", _r:rx(stp.re)};
+          var got = [], rest = [];
+          left.forEach(function(x){ (hit(st, x) ? got : rest).push(x); });
+          left = rest;
+          if (!got.length) return;                               /* nothing on THIS page belongs to that stratum */
+          st.ids = got.map(function(x){ return x.id; });
+          st.n = got.length;
+          if (st.basis !== "none") sourced += got.length;
+          strata.push(st);
+        });
+        /* the table's own rule, applied to the measured counts of THIS page */
+        var peel = strata.length > 1 && sourced * 2 >= mine.length;
+        var S = {key:sp.key, label:sp.label, he:sp.he, cats:sp.cats.slice(),
+                 ids:mine.map(function(x){ return x.id; }), n:mine.length,
+                 strata:peel ? strata : [], sourced:sourced, peel:peel,
+                 why:peel ? "" : (strata.length <= 1
+                   ? "this system has no depth ordering we can source, so it offers on / off only"
+                   : "fewer than half of this system's structures on this page land in a stratum we can source ("
+                     + sourced + " of " + mine.length + "), so it offers on / off only")};
+        SYS.push(S); BY[S.key] = S;
+        mine.forEach(function(x){ if (!api._o) api._o = {}; api._o[x.id] = S.key; });
+      });
+      on = SYS.length > 0;
+      return api;
+    },
+    ready:function(){ return on; },
+    table:function(){ return T; },
+    systems:function(){ return SYS.map(function(s){ return {key:s.key, label:s.label, he:s.he, cats:s.cats.slice(),
+      n:s.n, peel:s.peel, sourced:s.sourced, why:s.why,
+      strata:s.strata.map(function(t){ return {key:t.key, label:t.label, he:t.he, n:t.n, basis:t.basis, cite:t.cite}; })}; }); },
+    get:function(k){ return BY[k] || null; },
+    of:function(id){ return (api._o && api._o[id]) || null; },
+    ids:function(k){ return BY[k] ? BY[k].ids.slice() : []; },
+    strata:function(k){ return BY[k] ? BY[k].strata.map(function(t){ return {key:t.key, label:t.label, n:t.n, basis:t.basis}; }) : []; },
+    /* the ids of the first n strata of one system -- what a per-system peel at step n must hide */
+    idsUpTo:function(k, n){
+      var S = BY[k]; if (!S) return [];
+      var out = [];
+      S.strata.slice(0, Math.max(0, n | 0)).forEach(function(t){ t.ids.forEach(function(i){ out.push(i); }); });
+      return out;
+    },
+    depth:function(k){ var S = BY[k]; return S ? S.strata.length : 0; },
+    state:function(){ return {on:on, systems:SYS.length,
+      peelable:SYS.filter(function(s){ return s.peel; }).map(function(s){ return s.key; }),
+      counts:SYS.reduce(function(a, s){ a[s.key] = s.n; return a; }, {})}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKSysMap;
+/* Q309: one plain ON / OFF button per SYSTEM, showing its state and its own structure count.
+   Owner (translated from Hebrew): "Also allow display by SYSTEMS with an on/off button".
+   The market pattern, quoted in docs/research/Q301_controls_and_render_styles.md 9: Complete Anatomy -- "Press and
+   hold a system's icon to switch it fully on or off", "all 12 systems can be toggled incrementally from the menu";
+   Visible Body -- "toggling the skeletal system off and back on restores the full skeleton". We take the plain tap
+   (the project's taps-over-press-and-hold rule) and the printed count.
+   It does NOT write the engines' per-category table. That table already has its own rows, with their own opacity
+   sliders and solo buttons, and the whole-body depth peel writes it too -- a second writer would fight them. A system
+   switched off here adds its structures to Q309's own veto set instead, which composes with the category rows, the
+   presets, the solo, the cut and the whole-body peel exactly as a per-structure hide does.
+   The engine supplies E: {off(ids), drawn(), drawnIn(cats), redraw()} and NMSKSysMap the systems.
+     NMSKSysToggle.start(E, {map, history, showall, push})
+     .systems()  .isOn(key)  .set(key, v)  .allOn()  .offKeys()  .ids()  .element()  .state() */
+var NMSKSysToggle = (function(){
+  "use strict";
+  var E = null, M = null, hist = null, push = null, box = null, row = null, note = null, on = false;
+  var OFF = {}, btns = {};
+  function ids(){
+    var out = [], seen = {};
+    Object.keys(OFF).forEach(function(k){
+      if (!OFF[k]) return;
+      M.ids(k).forEach(function(i){ if (!seen[i]){ seen[i] = 1; out.push(i); } });
+    });
+    return out;
+  }
+  function offKeys(){ return Object.keys(OFF).filter(function(k){ return OFF[k]; }).sort(); }
+  function ui(){
+    M.systems().forEach(function(s){
+      var b = btns[s.key]; if (!b) return;
+      var up = !OFF[s.key];
+      b.setAttribute("aria-pressed", String(up));
+      b.classList.toggle("off", !up);
+      b.querySelector(".sy-st").textContent = up ? "on" : "off";
+    });
+    if (note) note.textContent = offKeys().length
+      ? offKeys().length + " system" + (offKeys().length === 1 ? "" : "s") + " switched off"
+      : "every system is on";
+  }
+  function apply(){ if (push) push(); else { E.off(ids()); if (E.redraw) E.redraw(); } ui(); }
+  function set(key, v, quiet){
+    if (!M.get(key)) return false;
+    var want = !v;                                        /* OFF[key] is "switched off" */
+    if (!!OFF[key] === want){ ui(); return false; }
+    OFF[key] = want;
+    apply();
+    if (!quiet){
+      if (hist && hist.schedule) hist.schedule();
+      if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
+      if (window.NMSKCombos && NMSKCombos.refresh) NMSKCombos.refresh();
+    }
+    return true;
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null; M = opt.map || window.NMSKSysMap || null; push = opt.push || null;
+      if (!E || !M || !M.ready()) return api;
+      hist = opt.history || window.NMSKHistory || null;
+      box = document.createElement("div");
+      box.id = "sy-box"; box.className = "sy-box";
+      box.setAttribute("role", "group"); box.setAttribute("aria-label", "Show or hide a whole system");
+      var lab = document.createElement("span"); lab.className = "sy-l"; lab.textContent = "Systems";
+      box.appendChild(lab);
+      row = document.createElement("div"); row.className = "sy-row";
+      M.systems().forEach(function(s){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "sy-b q301-b"; b.id = "sy-" + s.key;
+        b.setAttribute("data-sys", s.key); b.setAttribute("aria-pressed", "true");
+        b.title = s.label + " — " + s.n + " structures on this page; one tap switches the whole system off and on (one Undo step)";
+        b.innerHTML = '<span class="sy-n"></span><span class="sy-c mono"></span><span class="sy-st"></span>';
+        b.querySelector(".sy-n").textContent = s.label;
+        b.querySelector(".sy-c").textContent = s.n;
+        b.addEventListener("click", function(e){ e.stopPropagation(); set(s.key, !!OFF[s.key]); });
+        row.appendChild(b); btns[s.key] = b;
+      });
+      box.appendChild(row);
+      note = document.createElement("output"); note.id = "sy-state"; note.className = "sy-o";
+      note.setAttribute("aria-live", "polite"); box.appendChild(note);
+      var n = document.createElement("span"); n.className = "sy-note";
+      n.innerHTML = '<p class="nmsk-tip">One <b>on / off</b> button per system, with the number of structures it holds on this page. ' +
+        'A system is a set of this page’s own tissue categories (' +
+        M.systems().map(function(s){ return "<b>" + s.label + "</b> = " + s.cats.join(" + "); }).join("; ") +
+        '). Switching one off does <b>not</b> touch the tissue-layer table or its opacity sliders &mdash; it is a veto of its own, so it combines with them, with the presets and with every depth peel. One tap is <b>one Undo step</b>, and Show everything brings it back.</p>';
+      box.appendChild(n);
+      if (opt.toolbar) opt.toolbar.appendChild(box);
+      on = true; ui();
+      return api;
+    },
+    /* Q300's "Show everything": one path, named for what it did */
+    source:function(){
+      return {key:"q309sys",
+        label:function(){ var k = offKeys(); return "systems off: " + k.map(function(x){ var s = M.get(x); return s ? s.label.toLowerCase() : x; }).join(", "); },
+        active:function(){ return on && offKeys().length > 0; },
+        clear:function(){ OFF = {}; apply(); },
+        drive:function(){ var s = M.systems()[0]; if (s){ OFF[s.key] = true; apply(); } }};
+    },
+    systems:function(){ return M ? M.systems() : []; },
+    isOn:function(k){ return !OFF[k]; },
+    set:set,
+    allOn:function(){ if (!offKeys().length) return false; OFF = {}; apply(); return true; },
+    offKeys:offKeys, ids:ids, element:function(){ return box; }, refresh:ui,
+    /* the history travels as the sorted list of switched-off systems: a string, so snapshots compare as strings */
+    get:function(){ return offKeys().join(","); },
+    put:function(v){ OFF = {}; String(v || "").split(",").forEach(function(k){ if (k) OFF[k] = true; }); apply(); },
+    state:function(){ return {on:on, off:offKeys(), n:M ? M.systems().length : 0}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKSysToggle;
+/* Q309: the depth peel, with a SCOPE. Three of them, and two are new.
+   Owner (translated from Hebrew): "... and by LAYERS -- for the whole body, per system, and for the displayed systems only."
+     Whole body     -> Q301's NMSKPeel, unchanged and not rebuilt: this control drives it, it does not replace it.
+     One system     -> the strata of ONE chosen system, every other system left exactly as it was.
+     Systems shown  -> the strata of EXACTLY the systems switched on right now, the rest ignored.
+   Both new scopes are documented market patterns, quoted in docs/research/Q301_controls_and_render_styles.md 9:
+   Complete Anatomy -- "Tapping an icon reveals plus and minus buttons for adding or removing layers WITHIN THAT
+   SYSTEM", "Plus adds deeper layers first, and minus strips the superficial layers first"; Primal Pictures -- "The
+   Contents layer controls split each system into five layers - from deep to superficial", and its controls "enable
+   users to quickly build up different systems to their desired depth of view"; Visible Body 2026 -- the Systems Tray
+   "now has plus and minus icons to add or remove layers ACROSS ALL BODY SYSTEMS".
+   What a "layer" means inside one system is `data/anatomy/system_layers_q309.json`, resolved against the page by
+   NMSKSysMap: sourced where a textbook or this project's own group data settles it, named as our convention where it
+   is ours, and ABSENT where neither does -- such a system is offered on / off and nothing else, in as many words.
+   Taps, not a slider, with the layer's name and number always on the screen (Q301's rule, from Primal's "Layer up" /
+   "Layer down" buttons "plus a layer number").
+     NMSKSysPeel.start(E, {map, toggle, peel, history, showall, push})
+     .scope()  .setScope(s)  .setSystem(k)  .step()  .set(i)  .deeper()  .shallower()  .ids()  .element()  .state() */
+var NMSKSysPeel = (function(){
+  "use strict";
+  var E = null, M = null, TG = null, WB = null, hist = null, push = null, on = false;
+  var box = null, scRow = null, syRow = null, outEl = null, upB = null, dnB = null, allB = null, whyEl = null;
+  var scope = "body", sysKey = "", step = 0, scBtns = {}, syBtns = {};
+  var SCOPES = [{k:"body", l:"Whole body"}, {k:"one", l:"One system"}, {k:"shown", l:"Systems shown"}];
+  function peelable(){ return M.systems().filter(function(s){ return s.peel; }); }
+  function shownPeelable(){ return peelable().filter(function(s){ return !TG || TG.isOn(s.key); }); }
+  function maxStep(){
+    if (scope === "body") return WB ? WB.steps().length : 0;
+    if (scope === "one"){ return sysKey ? M.depth(sysKey) : 0; }
+    return shownPeelable().reduce(function(a, s){ return Math.max(a, s.strata.length); }, 0);
+  }
+  function ids(){
+    if (!on || scope === "body" || step <= 0) return [];
+    var out = [], seen = {};
+    var L = scope === "one" ? (sysKey ? [M.get(sysKey)] : []) : shownPeelable();
+    L.forEach(function(s){
+      if (!s) return;
+      M.idsUpTo(s.key, step).forEach(function(i){ if (!seen[i]){ seen[i] = 1; out.push(i); } });
+    });
+    return out;
+  }
+  function label(){
+    var m = maxStep();
+    if (scope === "body") return WB ? WB.label() : "Whole body";
+    if (scope === "one" && !sysKey) return "pick a system";
+    if (!step) return (scope === "one" ? (M.get(sysKey) || {}).label : "the " + shownPeelable().length + " systems shown") + " — nothing peeled";
+    var s = scope === "one" ? M.get(sysKey) : null;
+    var nm = s ? s.strata[Math.min(step, s.strata.length) - 1].label : "";
+    return (scope === "one" ? s.label + ": off to " + nm.toLowerCase() : "peeled in " + shownPeelable().length + " systems") +
+      " · " + step + " / " + m + " · " + ids().length + " structures";
+  }
+  function why(){
+    if (scope === "body") return "";
+    var bad = (scope === "one" ? (sysKey ? [M.get(sysKey)] : []) : M.systems().filter(function(s){ return !s.peel && (!TG || TG.isOn(s.key)); }))
+      .filter(function(s){ return s && !s.peel; });
+    if (!bad.length) return "";
+    return bad.map(function(s){ return s.label + ": " + s.why + "."; }).join(" ");
+  }
+  function ui(){
+    var m = maxStep();
+    SCOPES.forEach(function(s){ var b = scBtns[s.k]; if (b) b.setAttribute("aria-pressed", String(scope === s.k)); });
+    if (syRow) syRow.hidden = scope !== "one";
+    peelable().forEach(function(s){ var b = syBtns[s.key]; if (b) b.setAttribute("aria-pressed", String(sysKey === s.key)); });
+    if (outEl) outEl.textContent = label();
+    if (upB) upB.disabled = step >= m || (scope === "one" && !sysKey);
+    if (dnB) dnB.disabled = step <= 0;
+    if (allB) allB.hidden = step === 0;
+    if (whyEl){ var w = why(); whyEl.textContent = w; whyEl.hidden = !w; }
+    if (box) box.setAttribute("data-scope", scope), box.setAttribute("data-step", String(step));
+  }
+  function apply(){
+    if (scope === "body"){ if (push) push(); }                 /* NMSKPeel owns the category table; we add nothing */
+    else if (push) push();
+    else if (E && E.off){ E.off(ids()); if (E.redraw) E.redraw(); }
+    ui();
+  }
+  function commit(quiet){
+    if (quiet) return;
+    if (hist && hist.schedule) hist.schedule();
+    if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
+    if (window.NMSKCombos && NMSKCombos.refresh) NMSKCombos.refresh();
+  }
+  function set(i, quiet){
+    var m = maxStep();
+    i = Math.max(0, Math.min(m, i | 0));
+    if (scope === "body"){
+      if (!WB) return false;
+      var moved = WB.set(i);                                   /* Q301's own module does the work and its own history */
+      step = WB.step(); ui();
+      return moved;
+    }
+    if (i === step){ ui(); return false; }
+    step = i; apply(); commit(quiet);
+    return true;
+  }
+  function setScope(s, quiet){
+    if (s !== "body" && s !== "one" && s !== "shown") return false;
+    if (s === scope){ ui(); return false; }
+    /* one depth control at a time: leaving a scope puts its own layers back, so the three can never overlap */
+    if (scope === "body" && WB) WB.set(0, true);
+    step = 0;
+    scope = s;
+    if (scope === "one" && !sysKey){ var p = peelable()[0]; sysKey = p ? p.key : ""; }
+    if (scope === "body" && WB) step = WB.step();
+    apply(); commit(quiet);
+    return true;
+  }
+  function setSystem(k, quiet){
+    if (!M.get(k) || !M.get(k).peel) return false;
+    if (k === sysKey && scope === "one"){ ui(); return false; }
+    sysKey = k; step = 0; scope = "one"; apply(); commit(quiet);
+    return true;
+  }
+  var api = {
+    start:function(eng, opt){
+      opt = opt || {};
+      if (on) return api;
+      E = eng || null; M = opt.map || window.NMSKSysMap || null; TG = opt.toggle || window.NMSKSysToggle || null;
+      WB = opt.peel || window.NMSKPeel || null; push = opt.push || null;
+      if (!E || !M || !M.ready()) return api;
+      hist = opt.history || window.NMSKHistory || null;
+      box = document.createElement("div");
+      box.id = "sp-box"; box.className = "sp-box";
+      box.setAttribute("role", "group"); box.setAttribute("aria-label", "Peel layers, and choose what the peel applies to");
+      var lab = document.createElement("span"); lab.className = "sp-l"; lab.textContent = "Depth by";
+      box.appendChild(lab);
+      scRow = document.createElement("div"); scRow.className = "sp-sc"; scRow.setAttribute("role", "group");
+      scRow.setAttribute("aria-label", "What the depth peel applies to");
+      SCOPES.forEach(function(s){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "sp-b q301-b"; b.id = "sp-sc-" + s.k; b.textContent = s.l;
+        b.setAttribute("aria-pressed", String(scope === s.k));
+        b.title = s.k === "body" ? "Peel the whole body, exactly as it always did (Q301's own control)"
+          : s.k === "one" ? "Peel one chosen system only; every other system is left as it is"
+          : "Peel across exactly the systems switched on right now";
+        b.addEventListener("click", function(e){ e.stopPropagation(); setScope(s.k); });
+        scRow.appendChild(b); scBtns[s.k] = b;
+      });
+      box.appendChild(scRow);
+      syRow = document.createElement("div"); syRow.className = "sp-sy"; syRow.hidden = true;
+      syRow.setAttribute("role", "group"); syRow.setAttribute("aria-label", "Which system to peel");
+      peelable().forEach(function(s){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "sp-s q301-b"; b.id = "sp-sy-" + s.key;
+        b.setAttribute("aria-pressed", "false");
+        b.textContent = s.label + " (" + s.strata.length + ")";
+        b.title = s.label + ": " + s.strata.map(function(t){ return t.label + " " + t.n; }).join(" → ");
+        b.addEventListener("click", function(e){ e.stopPropagation(); setSystem(s.key); });
+        syRow.appendChild(b); syBtns[s.key] = b;
+      });
+      box.appendChild(syRow);
+      dnB = document.createElement("button");
+      dnB.type = "button"; dnB.className = "sp-b q301-b"; dnB.id = "sp-out"; dnB.textContent = "▲ Out";
+      dnB.title = "Put the layer above back on (one Undo step)";
+      dnB.addEventListener("click", function(e){ e.stopPropagation(); set(step - 1); });
+      upB = document.createElement("button");
+      upB.type = "button"; upB.className = "sp-b q301-b"; upB.id = "sp-in"; upB.textContent = "▼ In";
+      upB.title = "Take the next layer off, from the surface inward (one Undo step)";
+      upB.addEventListener("click", function(e){ e.stopPropagation(); set(step + 1); });
+      box.appendChild(dnB); box.appendChild(upB);
+      allB = document.createElement("button");
+      allB.type = "button"; allB.className = "sp-b sp-all q301-b"; allB.id = "sp-whole"; allB.textContent = "Put it all back";
+      allB.hidden = true; allB.title = "Put every peeled layer of this scope back (one Undo step)";
+      allB.addEventListener("click", function(e){ e.stopPropagation(); set(0); });
+      box.appendChild(allB);
+      outEl = document.createElement("output"); outEl.id = "sp-state"; outEl.className = "sp-o";
+      outEl.setAttribute("aria-live", "polite"); box.appendChild(outEl);
+      whyEl = document.createElement("p"); whyEl.id = "sp-why"; whyEl.className = "sp-why"; whyEl.hidden = true;
+      box.appendChild(whyEl);
+      var n = document.createElement("span"); n.className = "sp-note";
+      n.innerHTML = '<p class="nmsk-tip">The same taps, three <b>scopes</b>. <b>Whole body</b> is Q301’s own control, driven from here, not rebuilt. ' +
+        '<b>One system</b> peels one system’s own depth strata and leaves every other system alone. <b>Systems shown</b> peels across exactly the systems switched on. ' +
+        'What a layer means inside a system comes from <code>data/anatomy/system_layers_q309.json</code>, resolved against this page: ' +
+        peelable().map(function(s){ return "<b>" + s.label + "</b> " + s.strata.map(function(t){ return t.label.toLowerCase() + " (" + t.n + ")"; }).join(" → "); }).join("; ") +
+        '. A system with no depth ordering we can source offers <b>on / off only</b>, and says so. One tap is <b>one Undo step</b>.</p>';
+      box.appendChild(n);
+      if (opt.toolbar) opt.toolbar.appendChild(box);
+      on = true; ui();
+      return api;
+    },
+    source:function(){
+      return {key:"q309peel",
+        label:function(){ return "peeled (" + (scope === "one" ? ((M.get(sysKey) || {}).label || "one system") : "systems shown") + "): " + step; },
+        /* Q300's rule: zero chrome until something really is hidden -- a peel in a scope whose systems have
+           nothing to take off must not raise a chip, which is what a step counter alone would have done. */
+        active:function(){ return on && scope !== "body" && step > 0 && ids().length > 0; },
+        clear:function(){ step = 0; apply(); },
+        drive:function(){ if (scope === "body") setScope("shown", true); step = 1; apply(); }};
+    },
+    scope:function(){ return scope; }, setScope:setScope,
+    system:function(){ return sysKey; }, setSystem:setSystem,
+    step:function(){ return step; }, set:set,
+    deeper:function(){ return set(step + 1); }, shallower:function(){ return set(step - 1); },
+    max:maxStep, ids:ids, label:label, element:function(){ return box; }, refresh:ui,
+    peelable:function(){ return peelable().map(function(s){ return s.key; }); },
+    get:function(){ return scope + "|" + sysKey + "|" + step; },
+    put:function(v){
+      var p = String(v || "body||0").split("|");
+      scope = (p[0] === "one" || p[0] === "shown") ? p[0] : "body";
+      sysKey = p[1] || ""; step = parseInt(p[2], 10) || 0;
+      if (scope === "body" && WB) step = WB.step();
+      apply();
+    },
+    state:function(){ return {on:on, scope:scope, system:sysKey, step:step, max:maxStep(),
+      hidden:ids().length, label:label(), peelable:api.peelable()}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKSysPeel;
+/* Q309: the boot. One call per page from each engine's glue; everything engine-specific is in the adaptor the glue
+   passes in, so the two engines behave identically and this file is the only place the round's wiring lives.
+   Owner (translated from Hebrew): "Also allow display by SYSTEMS with an on/off button, and by LAYERS -- for the whole
+   body, per system, and for the displayed systems only."
+   What this round adds, and what it deliberately does not:
+     * NMSKSysToggle -- one plain on/off button per system, with its own structure count.   (request 1)
+     * the whole-body peel is Q301's NMSKPeel, UNTOUCHED. This round drives it; it does not rebuild it.   (request 2)
+     * NMSKSysPeel -- the same taps with a SCOPE: one system, or exactly the systems switched on.   (request 3)
+   Both new controls go into Q301's EXISTING "Layers" group through NMSKGroups.addTo, not as new top-level buttons.
+   The whole round is ONE history provider, so any change is ONE undo step; it registers two paths with Q300's
+   "Show everything"; and the model reset returns it because the provider has a reset() of its own.
+     NMSKQ309.start({engine:E, anchor, history, showall, peel})
+     .ready()  .systems()  .state() */
+var NMSKQ309 = (function(){
+  "use strict";
+  var on = false, E = null, O = null, hist = null, LASTN = 0;
+  function esc(s){ return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  /* ONE write to the engine: the systems switched off and the scoped peel are two components of one veto set, so the
+     engine never sees two writers and a structure vetoed by both comes back only when both release it. */
+  function push(){
+    if (!E || !E.off) return;
+    var out = [], seen = {};
+    [window.NMSKSysToggle, window.NMSKSysPeel].forEach(function(m){
+      if (!m || !m.ids) return;
+      try { m.ids().forEach(function(i){ if (!seen[i]){ seen[i] = 1; out.push(i); } }); } catch (e){}
+    });
+    LASTN = out.length;
+    try { E.off(out); } catch (e2){ if (window.console) console.error("q309", e2); }
+    if (E.redraw){ try { E.redraw(); } catch (e3){} }
+  }
+  function infoSection(){
+    var I = window.NMSKInfo, M = window.NMSKSysMap;
+    if (!I || !M || !M.ready()) return;
+    I.add({key:"q309", title:"Systems, and what a layer means inside one", order:45, build:function(){
+      var T = M.table() || {}, src = T.sources || {}, conv = T.conventions || [];
+      var out = "<p>This page carries <b>" + M.systems().length + " systems</b>. Each has one <b>on / off</b> button " +
+        "with its own structure count, and a system switched off is a veto of its own &mdash; it does not write the " +
+        "tissue-layer table, so it combines with the layer rows, the presets and every depth peel.</p>" +
+        "<p>The depth peel has <b>three scopes</b>: the whole body (Q301's own control, driven from the same taps), " +
+        "one chosen system, or exactly the systems switched on. " + esc(T.rule_peel_offered || "") + "</p>" +
+        "<table><tr><th>system</th><th>on this page</th><th>its layers, outside&nbsp;in</th><th>where the order comes from</th></tr>";
+      M.systems().forEach(function(s){
+        out += "<tr><td>" + esc(s.label) + "</td><td class=mono>" + s.n + "</td><td>" +
+          (s.peel ? s.strata.map(function(t){ return esc(t.label) + " <span class=mono>" + t.n + "</span>"; }).join(" &rarr; ")
+                  : "<i>" + esc(s.why) + "</i>") + "</td><td>" +
+          (s.peel ? s.strata.map(function(t){
+             return t.basis === "none" ? "<b>no source</b>"
+               : t.basis === "data" ? "this project's own data"
+               : t.basis === "mixed" ? "literature + this project's own groups" : "literature"; })
+             .filter(function(v, i, a){ return a.indexOf(v) === i; }).join(", ") : "&mdash;") + "</td></tr>";
+      });
+      out += "</table><p><b>What in it is ours, not anatomy.</b></p><ul>" +
+        conv.map(function(c){ return "<li>" + esc(c) + "</li>"; }).join("") + "</ul>" +
+        "<p><b>Sources.</b></p><ul>" + Object.keys(src).sort().map(function(k){
+          return "<li><b>" + esc(k) + "</b> &mdash; " + esc(src[k]) + "</li>"; }).join("") + "</ul>" +
+        "<p>The whole table is <code>data/anatomy/system_layers_q309.json</code>, shipped in this page; nothing in the " +
+        "viewer retypes a stratum or a count, and a stratum that matches nothing on this page is not offered.</p>";
+      return out;
+    }});
+  }
+  var api = {
+    start:function(opt){
+      opt = opt || {};
+      if (on) return api;
+      O = opt; E = opt.engine || null;
+      if (!E || typeof E.off !== "function" || typeof E.all !== "function") return api;
+      hist = opt.history || window.NMSKHistory || null;
+      var sa = opt.showall || window.NMSKShowAll || null;
+      if (!window.NMSKSysMap) return api;
+      NMSKSysMap.start(E);
+      if (!NMSKSysMap.ready()) return api;
+      if (window.NMSKSysToggle) NMSKSysToggle.start(E, {map:NMSKSysMap, history:hist, push:push});
+      if (window.NMSKSysPeel) NMSKSysPeel.start(E, {map:NMSKSysMap, toggle:window.NMSKSysToggle,
+        peel:opt.peel || window.NMSKPeel, history:hist, push:push});
+      /* ONE provider for the whole round: a change to a system switch or to the scoped peel is one undo step */
+      if (hist && hist.register) hist.register("q309", {
+        get:function(){
+          return ((window.NMSKSysToggle && NMSKSysToggle.get) ? NMSKSysToggle.get() : "") + ";" +
+                 ((window.NMSKSysPeel && NMSKSysPeel.get) ? NMSKSysPeel.get() : "");
+        },
+        set:function(v){
+          var p = String(v == null ? ";" : v).split(";");
+          if (window.NMSKSysToggle && NMSKSysToggle.put) NMSKSysToggle.put(p[0] || "");
+          if (window.NMSKSysPeel && NMSKSysPeel.put) NMSKSysPeel.put(p[1] || "body||0");
+        },
+        reset:function(){
+          if (window.NMSKSysToggle && NMSKSysToggle.put) NMSKSysToggle.put("");
+          if (window.NMSKSysPeel && NMSKSysPeel.put) NMSKSysPeel.put("body||0");
+        }
+      });
+      if (sa && sa.add){
+        if (window.NMSKSysToggle && NMSKSysToggle.state().on) sa.add(NMSKSysToggle.source());
+        if (window.NMSKSysPeel && NMSKSysPeel.state().on) sa.add(NMSKSysPeel.source());
+      }
+      var C = window.NMSKCombos;
+      if (C && C.addPair){
+        C.addPair({a:"System on / off", b:"Depth peel", ok:true, why:"a system switched off is its own veto; the peel decides how deep, the switch which systems"});
+        C.addPair({a:"Depth peel", b:"Scoped depth peel", ok:false, why:"one depth control at a time -- the scope decides which, and changing the scope puts the other's layers back"});
+      }
+      /* into Q301's OWN "Layers" group: short menus, progressive disclosure, no new top-level button */
+      var G = window.NMSKGroups;
+      if (G && G.addTo){
+        if (window.NMSKSysToggle && NMSKSysToggle.element()) G.addTo("layers", {el:NMSKSysToggle.element()});
+        if (window.NMSKSysPeel && NMSKSysPeel.element()) G.addTo("layers", {el:NMSKSysPeel.element()});
+      }
+      infoSection();
+      if (window.NMSKTips && NMSKTips.fold){ try { NMSKTips.fold(); } catch (err){} }
+      if (window.NMSKInfo && NMSKInfo.refresh){ try { NMSKInfo.refresh(); } catch (e4){} }
+      on = true;
+      push();
+      return api;
+    },
+    ready:function(){ return on; },
+    push:push,
+    systems:function(){ return window.NMSKSysMap ? NMSKSysMap.systems() : []; },
+    /* verification only: the measured counts this round's claims rest on */
+    measure:function(){
+      var M = window.NMSKSysMap;
+      if (!M || !M.ready() || !E) return null;
+      return {drawn:E.drawn ? E.drawn() : -1,
+        bySystem:M.systems().reduce(function(a, s){ a[s.key] = {n:s.n, drawn:E.drawnIn ? E.drawnIn(s.cats) : -1}; return a; }, {}),
+        vetoed:LASTN};
+    },
+    state:function(){ return {on:on,
+      map:window.NMSKSysMap ? NMSKSysMap.state() : null,
+      toggle:window.NMSKSysToggle ? NMSKSysToggle.state() : null,
+      peel:window.NMSKSysPeel ? NMSKSysPeel.state() : null,
+      wholebody:window.NMSKPeel ? NMSKPeel.state() : null}; }
+  };
+  return api;
+})();
+if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ309;
+</script>
+<!-- Q309 html end -->
 <!-- Q298 html begin -->
 <style>
 /* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
@@ -8220,7 +8785,11 @@ var boneRead = 0, xrayLegacy = false;      // Q300: the strength of the extra bo
 /* Q184: a bundle entry with hidden_default:true (e.g. geometry kept from another specimen that failed placement
    checks) starts hidden even when its system is on; picking it in the list or the inspector's Show button reveals it. */
 var hdShown = {};
-var hideOverride = {}, fadeOverride = {};   // Q262: per-structure hide / fade from the structure's own card (id -> true), the own-page analogue of the Z-engine's existing hidden/faded Sets
+var hideOverride = {}, fadeOverride = {};
+/* Q309: the systems switched off and the scoped depth peel, as ONE veto set of structure ids. Kept apart
+   from the per-layer `on` table (the tissue rows, the presets and Q301's whole-body peel write that) and
+   from `hidden` (the card's own hide, which Q300 counts and exits separately). */
+var q309Off = {};   // Q262: per-structure hide / fade from the structure's own card (id -> true), the own-page analogue of the Z-engine's existing hidden/faded Sets
 /* Q267 (8): injury annotation -- reuses the EXISTING Mark mechanism (selCtl.markButton()/isMarked()) to flag a structure
    "injured"; this only adds a severity tag once it is marked, plus a READ-ONLY reference card pulled from data this
    project already has (this record's own origin/insertion/nerve/targets/supplies/source above, and -- for nerves -- the
@@ -8289,7 +8858,8 @@ function apply(){
     if (iso && selected) vis = (s.id === selected);
     var sr = selCtl ? selCtl.look(s.id) : "";    // Q227/Q232: the marked structures and the others each have a display state (hide / fade / ghost / x-ray / highlight); it only ever adds a veto or an opacity cap, so layers / facet / x-ray / cut still apply
     if (sr === "hide") vis = false;
-    if (hideOverride[s.id]) vis = false;         // Q262: the structure's own card "hide" action (independent of the selection / layer state)
+    if (hideOverride[s.id]) vis = false;
+    if (q309Off[s.id]) vis = false;              /* Q309: this system is switched off, or this layer of it is peeled away */         // Q262: the structure's own card "hide" action (independent of the selection / layer state)
     m.visible = vis;
     if (vis){ tris += s.nf; if (!seen[s.id]){ seen[s.id] = 1; shown++; } }
     var isSel = (s.id === selected);
@@ -14487,6 +15057,42 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
     pixelsByPane:function(){ var f = q303buf(); return NMSKPx.quadrants(f.buf, f.w, f.h, 4); }
   };
   /* Q303 glue end */
+  /* Q309 glue begin */
+  /* ---- Q309: the systems as on/off buttons, and the depth peel with a scope ----
+     Same shape as the Z engine's glue, so the two behave identically. */
+  NMSKQ309.start({
+    anchor:A.canvas, history:NMSKHistory, showall:NMSKShowAll, peel:window.NMSKPeel,
+    engine:{
+      cats:function(){ return Object.keys(on); },
+      all:function(){
+        var seen = {}, out = [];
+        meshes.forEach(function(m){
+          var s = m.userData;
+          if (!s.id || seen[s.id]) return;
+          seen[s.id] = 1; out.push({id:s.id, cat:s.cat, name:(s.rec && s.rec.name) ? s.rec.name : s.id});
+        });
+        return out;
+      },
+      off:function(ids){
+        q309Off = {};
+        (ids || []).forEach(function(i){ q309Off[i] = 1; });
+        apply();
+      },
+      drawn:function(){
+        var seen = {}, n = 0;
+        meshes.forEach(function(m){ var s = m.userData; if (!m.visible || seen[s.id]) return; seen[s.id] = 1; n++; });
+        return n;
+      },
+      drawnIn:function(cats){
+        var S = {}; (cats || []).forEach(function(c){ S[c] = true; });
+        var seen = {}, n = 0;
+        meshes.forEach(function(m){ var s = m.userData; if (!S[s.cat] || !m.visible || seen[s.id]) return; seen[s.id] = 1; n++; });
+        return n;
+      },
+      redraw:draw
+    }
+  });
+  /* Q309 glue end */
   window.__q300dbg = {
     allOn:q300AllOn,
     onlyBone:function(){ q300AllOn(); Object.keys(on).forEach(function(k){ on[k] = (k === "bone" || k === "cartilage"); }); apply(); },

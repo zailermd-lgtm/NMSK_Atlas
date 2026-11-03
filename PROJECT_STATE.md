@@ -13765,3 +13765,139 @@ and `data/anatomy/calibre.json`, `data/derived/Q307_*.json`, `data/anatomy/nerve
 **P. Published.** `index.html` plus the geometry chunk and the two sidecars each page actually changed -- only the LAST geo chunk moved on every page, because the new meshes append to the end of the blob. Imaging M **v148**, Imaging F **v138**, Base M **v69**, Base F **v64**, Combined M **v70**, Combined F **v83**. Hub `viewer/atlas_hub.html` **v89 -> v90** (the six version chips and a Q308 paragraph that leads with the correction, because real tissue denied is the more serious of the two things this round did; **v90 because the hub itself was printing numbers that are no longer true** -- its six per-page structure counts were the pre-Q304 figures (Imaging M 1,022 against 1,083, Imaging F 1,168 against 1,234, and 10, 10, 8, 6 short on the four Z pages), both Imaging provenance lines were the pre-Q304 split (275/401 and 265/547 against this baseline's 280/457 and 271/607), and the Q303 paragraph said the nerve emphasis covers '439 of the 552' meshes on a Z page when the calibre rows this round appended make it 439 to 443 depending on the page. Nine lines, each checked against an explicit `audit297.py --src build/q308` run or the page's own calibre table, byte-diffed against the live hub before publishing. Finding them is the same defect class this round exists to fix, one level up: a page stating a number that was true when it was written). The six viewer pages print these counts from their own data, so none of them was affected. Open-items page **v57** (v56 carried the round's text; v57 corrected the free-disk figure the owner's disk decision rests on, from 0.66 GB to the 0.35 GB left after the baseline was persisted -- the only two sentences that changed, byte-diffed against the live page before publishing). Before each publish the artifact service handed back the live source and named which lines differed; each was checked block by block and the published siblings' sha256 compared against the baseline, so every publish is provably a merge onto what was live and loses nothing -- on Combined F the calibre line was NOT among the differences, which independently confirms the gate's reasoning that it gained no nerve. The artifact service's download-link warning appears on every page publish; it is **not this round's** -- it is the pages' existing save-session link, unchanged here.
 
 **Q. Not done / next, and the first item is not this round's doing.** (1) **The HRA anterolateral ligament should replace the rule-based one** -- real closed mesh, CC BY 4.0, same donors as the Imaging pages. It is an import round of its own: the GLBs are kept outside the repository (1.21 GB for the set) and `/` has about 0.55 GB free, so it needs the disk question answered first. Owner decision. (2) **The figure comparison is blocked, not done**: allow `pmc.ncbi.nlm.nih.gov` in the environment's network settings and it can be run. Owner decision. (3) **The facet joint capsules were not built, on a CONSTRAINT and not on budget**: the capsular thickness is the one number the bone does not give and it is not citable from anything reachable (Tanno 2004 states it measured the thickness but publishes no value in its abstract and is not open access; the rest are mechanical), and the pinned catalogue's 16 articular capsules include none for the spine. (4) **`build/q308` WAS persisted** -- 386 MB reported by `du`, but only **123 MB actually consumed**, because every file a page did not change is a hard link to `build/q307`'s copy and only the changed `index.html`, last geo chunk and two sidecars per page are real copies. So `model.SRC` points at `build/q308`, `Q297_rule_based_volumes.json` covers its **1,526** class (c) structures, and the committed data and the baseline agree again. `/` has about 0.37 GB free afterwards and **nothing in `build/` was deleted**; freeing space there remains an owner decision, and the HRA import in item (1) still needs it answered. (5) `make_calibre.py`'s `SRC_ROOTS` is still `build/q240` and a blind rebuild regresses the table; the 14 Q308 rows were appended instead. (6) The two Imaging pages carry no psoas minor until the own engine gains a hidden-by-default flag. (7) The **LACN's anterior branch sits 2.7-4.86 mm from the brachioradialis' medial border** where Khadanovich measured «less than 1.8 mm», because it must simultaneously stay out of the muscle belly and be subcutaneous; stated on its card as a discrepancy. (8) In **11 of 12 knees the anterolateral ligament is not superficial to the collateral ligament** as Kosy describes; stated on its card as a defect.
+
+## Q309 (2026-11-03) -- OWNER REQUEST (translated from Hebrew): "Also allow display by SYSTEMS with an on/off button, and by LAYERS -- for the whole body, per system, and for the displayed systems only" (agent; shared modules on both engines + one 3-line veto per engine; published all six pages + hub + open-items)
+
+**A. The system list is the pages' own, not a list anyone typed.** The engines do not have "systems": they have tissue
+categories (`layer` on the Z pages, `cat` on the Imaging ones). A system is therefore a named SET of a page's own
+categories, and the button prints the count measured on that page. Read off the six built pages, deduplicated by
+structure id exactly as each engine draws: **skeletal** (bone + cartilage + joint + ligament), **muscular** (muscle +
+tendon + insertion), **fascial** (fascia + bursa), **nervous** (nerve + cns), **vascular** (vessel), **lymphatic**
+(lymph), **visceral** (viscera + organ), **integument** (skin), **adipose** (fat). Every category of every page falls
+in exactly one system and the nine cover every structure -- asserted per page. So the four Z pages carry **nine**
+switches and the two Imaging pages **seven**: those pages ship no `skin` and no `lymph` mesh at all, so no button for
+them is built. base_m: 646 / 434 / 175 / 759 / 661 / 162 / 124 / 250 / 51 = 3,262. own_m: 202 / 374 / 6 / 337 / 48 /
+-- / 30 / -- / 51 = 1,048 distinct ids. These are the counts on `build/q308`, which this round builds on: Q308's
+anterolateral and coracoacromial ligaments, psoas minor and LACN branches are why skeletal is 646 and not Q307's
+642, muscular 434 and not 432, and the cutaneous-nerve stratum 40 and not 36. Q308's **psoas minor ships hidden by
+default** on the four Z pages, so it is counted on the button and correctly absent from the DRAWN count the browser
+check measures -- which is exactly why every assertion of this round is made against `drawn()`, not against a total. **Ligaments and joints sit inside `skeletal`** rather than in a
+system of their own, which is the textbook skeleton (bone, cartilage, joints and their ligaments) and is also what
+returns exactly the list the owner named.
+
+**B. A system switched off is a veto of its own, and that is the design decision of the round.** It would have been
+one line to write `on[cat] = false`, and it would have been wrong: that table is written by the tissue rows and their
+sliders, by `preset()`, and by Q301's whole-body peel -- Q301's own compatibility matrix already calls two of those
+three incompatible with each other. A fourth writer would have fought all of them. Reusing `hidden` / `hideOverride`
+was the other tempting shortcut and is worse: that is the structure card's own hide, which Q300 counts as
+"hidden: N" with its own exit, so a system switched off would have been indistinguishable from a structure the user
+hid by hand and clearing either would have cleared the other. So Q309 adds **`q309Off`**, one set per engine, read in
+one line of `vis()` / `apply()` and written only through the module's single `off(ids)`. It therefore composes: a
+system switch combines with the layer rows, with a preset, with a solo, with a cut, with a render style and with
+every depth peel, and nothing is faded or deleted.
+
+**C. The three peel scopes, and the two that are new.** `viewer/q309/syspeel.js`: the same two taps with
+`Whole body` / `One system` / `Systems shown`. **Q301's `NMSKPeel` is untouched and was not rebuilt** -- in the
+whole-body scope this control calls it, and the CATEGORY table is still what moves (asserted: `NMSKPeel.step()` is 2
+after two taps and Q309's veto set is empty). In `One system` only the chosen system's strata come off; in
+`Systems shown` the peel spans exactly the peelable systems switched on, proved by mapping every vetoed id back
+through `NMSKSysMap.of()`. Only one scope is live at a time and leaving a scope puts its own layers back, so the
+three can never overlap; a combos row says so in the user's own words.
+
+**D. What a "layer" means inside one system: the table, its sources, and what in it is ours.**
+`data/anatomy/system_layers_q309.json` (schema `nmsk.system_layers.v1`), shipped in every page as
+`<script id="nmsk-q309-layers">` and **resolved against that page's own structures at load**: a stratum that matches
+nothing there is not offered, and every number the control prints is counted on the page. Each stratum carries its
+`basis` -- `literature`, `data`, `mixed`, or `none` for the remainder, which the screen names as such.
+
+| system | its layers, outside in (base_m) | basis |
+|---|---|---|
+| skeletal | joint capsules & ligaments 337 -> cartilage 53 -> bone 256 | literature (Standring 42nd; Gray's for Students 4th) |
+| muscular | superficial layer of its region 160 -> intermediate 98 -> deep 176 | mixed: THIS project's own superficial/deep group pairs + Gray's |
+| fascial | subcutaneous bursae 16 -> investing deep fascia & aponeuroses 40 -> intermuscular septa 13 -> subfascial / subtendinous / submuscular bursae & sheaths 68 -> no sourced stratum 38 | literature (Terminologia Anatomica's bursa classes; Gray's on the investing sheath and its septa) |
+| nervous | cutaneous 40 -> deep to the deep fascia 516 -> CNS 203 | literature |
+| vascular | superficial 41 -> deep 620 | data (the structures' own names) + an inference for step 2 |
+| adipose | subcutaneous / superficial fascia 17 -> intermuscular 8 -> deep & visceral 8 -> no sourced stratum 18 | data + Q301's panniculus-adiposus finding |
+
+**The muscle strata rest on the project's own data wherever it has any, and a test proves that rather than taking it
+on trust.** `muscle_groups_q283.json` carries `gluteal` ("Gluteal group (superficial)") against `deep_gluteal`
+("Deep gluteal group (short lateral rotators)"); `muscle_groups_q306.json` carries `leg_posterior_superficial`
+against `leg_posterior_deep`, and `erector_spinae` against `transversospinalis` / `multifidus_group`. Every member
+of each of those groups is asserted to fall on the side its own group says -- which is how the first draft's
+`(?:superior|inferior) gemellus` was caught: the project's member is `gemellus_superior`, so the pattern missed it
+and the test failed before anything was published. Where the project is silent (forearm, neck, abdominal wall,
+perineum, palm, sole) Gray's for Students 4th ed. decides, and the table says so per stratum. **Coverage measured on
+all six pages: 100 % on base_m and comb_m (434 of 434), 99.7 %+ on the other four -- exactly one structure each
+falls in the "no sourced stratum" step**, which is a real step with a real count and not a silent gap.
+
+**Named as ours, not as anatomy, in the table, in the ⓘ and in the Hebrew write-up:** (i) cartilage before bone is
+anatomy for the ARTICULAR cartilages and **our convention** for the costal, laryngeal and tracheal ones, which lie
+beside bone rather than over it; (ii) the subcutaneous bursae before the investing fascia follows their TA class, not
+a measurement; (iii) `muscular`'s superficial / intermediate / deep mean the layer **of the muscle's own region**,
+which is how the two products that ship a per-system layer control describe theirs -- so trapezius and the
+superficial perineal pouch share step 1; (iv) the vascular step 2 is "the rest, read as deep", an inference Gray's
+supports for veins but which is not a per-structure datum.
+
+**E. Three systems are offered on / off and NOTHING else, and the rule that decides it is measured per page.** A
+system gets a peel only when **at least half its structures on that page** land in a stratum whose basis is not
+`none`. **lymphatic**: only 21 of 162 nodes carry `superficial` (13) or `deep` (8) in their name -- 13 %, so no peel.
+**visceral**: no depth word at all. **integument**: 250 `(skin)` region envelopes; epidermis and dermis are not
+segmented separately. Each prints its own reason on screen. The same rule, applied to the pages rather than to a
+preference, is why **the two Imaging pages get no fascial peel while the four Z pages do**: 5 of the 6 fascial
+structures there are retinacula, an interosseous membrane and `Integumentum commune`, so 1 of 6 is sourced against
+137 of 175 on a Z page. Nobody decided that; the measurement did, and if a later round ships a membranous (Scarpa's)
+layer the answer changes by itself.
+
+**F. Where the controls live, and the single undo step.** Both boxes go into Q301's EXISTING **Layers** group through
+`NMSKGroups.addTo` -- no new top-level button, the project's short-menus and progressive-disclosure rules -- and
+their long prose sits behind Q301's circled ⓘ as a generated section (the table's own sources, conventions and
+counts, never retyped). The whole round is **ONE** history provider, `q309`, holding both modules' state as one
+string, so any change -- a system switch, a scope change, a peel tap -- is one undo step and one redo step. Both
+paths register with Q300's `NMSKShowAll` (`q309sys` "systems off: ...", `q309peel` "peeled (...): n"), each with its
+own `clear` and `drive`, so Show everything and the per-chip ✕ both work and `verify_q309.py` can walk them. The
+provider's `reset()` is what makes Q300's **Reset model** return them. The Z engine's own `btn-reset` is taught the
+same thing in one line, because it is not a Q300 path and would otherwise have left Q309's state behind.
+
+**G. Shared modules, and three lines of engine.** `viewer/q309/{q309.css, sysmap.js, systoggle.js, syspeel.js,
+q309.js}` -> `scripts/sync_q309.py` (the 27th sync script), spliced between `<!-- Q309 html begin/end -->` right
+after the Q306 block so `NMSKHistory`, `NMSKShowAll`, `NMSKPeel`, `NMSKGroups`, `NMSKCombos` and `NMSKInfo` already
+exist. The data block is spliced by the SAME script rather than by a build-time `--inject`, which is new and is
+possible because **the table is page-independent**: the same bytes on all six pages, resolved per page at load. What
+cannot be shared is `scripts/anatomy/q309/patch_engines_q309.py`: **3 anchored idempotent edits on the Z template**
+(declare `q309Off`, one line in `vis()`, one line in `resetAll()`) and **2 on the own one** (declare, one line in
+`apply()`), plus the per-engine wiring spliced from `glue_zan.js` / `glue_own.js` between its own markers. No
+geometry, no structure added or removed, no data file rewritten.
+
+**H. The harness came first, before either template was touched** -- Q300's discipline, and it is why the round had
+no browser surprises. A standalone page with a fake engine, a fake history and a fake `NMSKPeel` that writes the
+category table exactly as the real one does, loaded with the REAL structure rows of `base_m` (3,252) and of `own_m`
+(1,044) as `build/q307` shipped them, the data the harness was written against, real Chromium, desktop 1400x900 clicks and phone 390x844 touch: **58 OK / 0 FAIL** on the first script and
+**68 OK / 0 FAIL** on the second, which walks every peelable system on both engines' data and asserts that peeling a
+system to its last step draws nothing of it and nothing of anyone else.
+
+**K. Verification.** `scripts/anatomy/q309/verify_q309.py`, real Chromium, one page of each engine, desktop clicks
+and phone touch. Every claim is a measured count read out of the page's own draw state through `NMSKQ309.measure()`,
+never a screenshot (`page.screenshot` of a WebGL canvas returns a stale frame here -- Q300), the Z auto-spin is
+stopped so two readings are of one pose, the banners are dismissed in page (a real click on one hung for 30 s --
+Q300), the history is committed explicitly rather than through Q294's 320 ms debounce (Q301's own false alarm), and
+`document.elementFromPoint` proves every control was the top element at its own centre before it was tapped -- the
+instrument that has caught four real defects. **A** the system list and its printed counts. **B** each system off and
+on, with the drawn total down by exactly that system's own drawn count and the system drawing zero. **C** one history
+entry, one Ctrl+Z to a byte-identical snapshot, one Ctrl+Y back. **D** the whole-body scope still drives `NMSKPeel`
+and vetoes nothing. **E** per-system step 1 equals that system's first stratum and every other system is unchanged
+to the structure. **F** the shown-systems peel spans exactly the peelable systems switched on. **G** both chips,
+Show everything, and Reset model. **H** nothing over 390 px, 0 page errors.
+
+**L. Research.** `docs/research/Q309_system_layers.md` (Hebrew, English anatomy terms): the system definition, every
+stratum with its basis and its citation, the per-region muscle table, the measured coverage, the four conventions
+that are ours, and the three systems that get no peel with the measurement that says why. `WebFetch` is still
+DNS-blocked for every product host -- re-tested this round, `3d4medical.com` and `www.visiblebody.com` both
+`ENOTFOUND` -- so §9 of `docs/research/Q301_controls_and_render_styles.md` (the extension, not a new benchmark)
+rests every claim on a `WebSearch` quote and marks what has none. The three features are all documented market
+patterns and that is why they were built this shape: Complete Anatomy «Press and hold a system's icon to switch it
+fully on or off» and «Tapping an icon reveals plus and minus buttons for adding or removing layers **within that
+system**», «Plus adds deeper layers first, and minus strips the superficial layers first»; Visible Body's Systems
+Tray «now has plus and minus icons to add or remove layers **across all body systems**» and «toggling the skeletal
+system off and back on restores the full skeleton»; Primal «The Contents layer controls split **each system** into
+five layers – from deep to superficial». **What no product documents, and is therefore ours:** the three scopes side
+by side as the user's own choice, and the explicit statement that a system has no depth order we can source.

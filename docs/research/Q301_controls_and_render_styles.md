@@ -353,3 +353,41 @@ Q300 גילתה ש-`page.screenshot` מחזיר כאן frame מעופש (הצי�
 - **אות spin-echo** — `cis.rit.edu/htbooks/mri/chap-10/chap-10.htm`, `pages.ucsd.edu/~msereno/569/homework1.pdf`, `courses.lsa.umich.edu/fmri-training-course/.../3_MRI_Physics_DataAcq_Contrast.pdf`, `magnetic-resonance.org/ch/10-02.html` (וריאנט שלא אומץ).
 - **נתוני הרקמות שלנו** — `clinical/data/imaging_tissues.json` (Q226 / Q229, נשלח בכל עמוד כ-`clinical_imaging_tissues.json`), `clinical/data/ultrasound_tissues.json`.
 - **ללא מקור אמין (לא אומת):** סגנון רינדור x-ray ב-Visible Body או ב-Complete Anatomy; סליידר שכבות ב-Essential Anatomy; הרשימה המלאה של presets ב-3D Slicer עצמו; הנחיות NN/g על מקום ה-Undo/Redo (אף דף של nngroup.com לא חזר); `learn.microsoft.com` על progressive disclosure.
+
+---
+
+## 9. Q309 — מערכת כמתג on/off, ושכבות **בתוך** מערכת (הרחבה של §1 ו-§4)
+
+סעיף §4 שאל רק איך מוצרים מקלפים את **כל הגוף**. בקשת הבעלים ב-Q309 הוסיפה שתי שאלות שלא נבדקו: האם מוצר מציע
+**מתג on/off מפורש לכל מערכת**, והאם הוא מקלף שכבות **בתוך מערכת אחת** או **רק על המערכות המוצגות**. `WebFetch`
+נחסם ב-DNS שוב — נוסו `3d4medical.com` ו-`www.visiblebody.com`, שניהם `ENOTFOUND` — ולכן כל טענה כאן נשענת על
+ציטוט מ-`WebSearch`, ומה שאין לו ציטוט מסומן **לא אומת**.
+
+| מוצר | מתג פר מערכת | שכבות בתוך מערכת | קילוף על כל המערכות ביחד | הציטוט |
+|---|---|---|---|---|
+| **Complete Anatomy** | כן, press-and-hold | **כן** | לא תועד | «Press and hold a system's icon to switch it fully on or off»; «Tapping an icon reveals plus and minus buttons for adding or removing layers **within that system**»; «Plus adds deeper layers first, and minus strips the superficial layers first»; «all 12 systems can be toggled incrementally from the menu»; «select the system icon and choose 'Show Hidden' to make all of its structures fully visible again» |
+| **Visible Body** | כן (Systems Tray) | כן, לשרירים | **כן** | «The muscular system is split into four layers that can be added or removed»; «Pressing and holding a system icon for about two seconds isolates that system, and the Undo arrow restores the previous view»; «the Systems Tray now has plus and minus icons to add or remove layers **across all body systems**»; «toggling the skeletal system off and back on restores the full skeleton» |
+| **Primal Pictures** | לא תועד במפורש | **כן** | לא | «The Contents layer controls split **each system** into five layers – from deep to superficial»; הבקרות «enable users to quickly build up different systems to their desired depth of view»; «Up layer» / «Down layer» ואפשרות choose-layer במדריך ה-3D Atlas |
+| **BioDigital** | כן (ברמת top-level systems) | לא תועד | לא | «the viewer can control the visibility of not just the many top level systems but also individual muscles, organs, and nerves» (בלוג ספרייה, **לא אומת** מול תיעוד של BioDigital עצמה); dissection mode «removes structures one at a time from the outside in» |
+
+**מה אומץ, ומאיפה.** המתג הפר-מערכתי עם המספר המודפס — מ-Complete Anatomy ומ-Visible Body, אבל **בהקשה אחת
+ולא ב-press-and-hold**, כי חוק הפרויקט הוא הקשה (§1, §4). השכבות **בתוך** מערכת — מ-Complete Anatomy ומ-Primal,
+ועם המסקנה החשובה שלהן: ששכבה בתוך מערכת היא שכבה **של האזור**, לא עומק נמדד על כל הגוף. הקילוף על כל המערכות
+יחד — מ-Visible Body, אבל **מוגדר כ-scope שהמשתמש בוחר** ולא כברירת המחדל היחידה. ההחזרה בהקשה אחת
+(«Show Hidden», «toggling ... off and back on restores the full skeleton») כבר קיימת אצלנו כ-`NMSKShowAll` של
+Q300, ושני המסלולים החדשים נרשמו בו.
+
+**מה שלא נמצא באף מוצר, ולכן הוא שלנו:** שלושת ה-scopes זה לצד זה כבחירה אחת — כל הגוף / מערכת אחת / המערכות
+המוצגות. Visible Body מקלפת across all body systems כברירת מחדל יחידה; Complete Anatomy ו-Primal מקלפות פר
+מערכת בלבד. גם **ההצהרה המפורשת שלמערכת אין סדר עומק שאנחנו יכולים לתעד** — ולכן היא מקבלת on/off בלבד — לא
+נמצאה באף מוצר; ההחלטה האנטומית, המקורות שלה וה-38 המבנים שנשארו בשארית מתועדים ב-`docs/research/Q309_system_layers.md`.
+
+**מקורות הציטוטים של הסעיף הזה** (נקראו דרך `WebSearch`; הדפים עצמם חסומים ל-`WebFetch`):
+`3d4medical.com/support/complete-anatomy/layers-and-systems`, `3d4medical.com/support/complete-heart/layers-and-systems`,
+`3d4medical.com/support/complete-anatomy/body-systems`, `elsevier.support/complete-anatomy/answer/what-body-systems-and-models-are-included-in-complete-anatomy`,
+`tech.medicine.wsu.edu/technology/complete-anatomy/complete-anatomy-organ-system-structure-selection/`,
+`cdn.completeanatomy.cn/.../mac_shortcuts.pdf`, `jmla.pitt.edu/ojs/jmla/article/view/853/1005`,
+`visiblebody.com/blog/enhanced-systems-tray-makes-navigating-anatomy-even-easier`,
+`help.cengage.com/visible-body/instructor/visible-body/zspace8-build-view.html`, `apps.apple.com/.../id1117998129` (Atlas 2026 release notes),
+`apps.apple.com/app/id1658762387` + `id1658765054` (Primal's 3D Head & Neck / Abdomen),
+`primalpictures.com/product/functional-anatomy`, `blog.library.villanova.edu/2012/03/12/biodigital-human/`.

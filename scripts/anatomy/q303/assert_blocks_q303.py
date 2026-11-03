@@ -73,6 +73,21 @@ A table that does NOT change is a failure there, not a pass: it would mean the i
   * Q306's own html block and its `nmsk-q306` data block must each appear exactly once, and must not have
     been in the baseline.
   * Q305's and Q303's blocks must be byte-identical, like every other round's.
+
+Q309 extends it, and like Q305 it is one of the strict rounds: this round changes two templates and five shared
+modules and NOTHING else -- no geometry, no card, no per-structure table. So in `--round q309` the build stands on
+`build/q308` and:
+  * every earlier round's html block (Q294, Q298, Q300, Q301, Q303, Q305, Q306) must be present exactly as often
+    as before and BYTE-IDENTICAL on ALL SIX pages. No allowance of any kind -- Q309 adds a block of its own and a
+    three-line veto inside each engine's own visibility predicate, and touches no earlier module;
+  * EVERY per-structure data table (`nmsk-q298`, `nmsk-abbrev`, `nmsk-calibre`, `nmsk-pose-rig`, `nmsk-learn`,
+    `nmsk-moments`) and `nmsk-q306` must be byte-identical: a table that MOVES is a failure here, which is the
+    mirror image of the Q308 rule and catches an inject step running when it should not;
+  * Q309's own html block and its `nmsk-q309-layers` data block must each appear exactly once and must NOT have
+    been in the baseline. The data block is written by `scripts/sync_q309.py`, not by a build-time `--inject`,
+    because the table is page-independent -- the same bytes on all six pages, resolved against each page's own
+    structures at load -- which is also why it comes out of every regen byte-identical;
+  * and no block from a round this one does not stand on (Q310) may appear.
 """
 import argparse, re, sys
 from pathlib import Path
@@ -83,7 +98,7 @@ AP = argparse.ArgumentParser()
 AP.add_argument("--old", default="build/q301")
 AP.add_argument("--new", default="build/q303")
 AP.add_argument("--round", dest="rnd", default="q303",
-                choices=["q303", "q304", "q305", "q306", "q307", "q308"])
+                choices=["q303", "q304", "q305", "q306", "q307", "q308", "q309"])
 ARG = AP.parse_args()
 OLD = Path(ARG.old) if Path(ARG.old).is_absolute() else R / ARG.old
 NEW = Path(ARG.new) if Path(ARG.new).is_absolute() else R / ARG.new
@@ -92,6 +107,7 @@ Q305 = ARG.rnd == "q305"
 Q307 = ARG.rnd == "q307"
 Q306 = ARG.rnd == "q306"
 Q308 = ARG.rnd == "q308"
+Q309 = ARG.rnd == "q309"
 # what Q308 actually shipped per page dir, read from its own report rather than assumed
 Q308_ADDED = {}
 if Q308:
@@ -173,6 +189,42 @@ for p in PAGES:
             if nb2 != na2 or nb2 < 1:
                 bad.append((p, tag + " block", "must survive this build unchanged in count (%d -> %d)"
                                                % (na2, nb2)))
+    if Q309:
+        # Q309 changes two templates and five shared modules and NOTHING else, so every earlier round's block
+        # must be byte-identical (checked below, with no allowance) and `nmsk-q306` must not move either --
+        # the mirror image of the Q308 rule, which catches an inject step that ran when it should not have.
+        m6a = re.search(r'<script[^>]*id="nmsk-q306"[^>]*>.*?</script>', a, re.S)
+        m6b = re.search(r'<script[^>]*id="nmsk-q306"[^>]*>.*?</script>', b, re.S)
+        if not m6a or not m6b:
+            bad.append((p, "nmsk-q306", "missing"))
+        elif m6a.group(0) != m6b.group(0):
+            bad.append((p, "nmsk-q306", "changed although Q309 touches no data"))
+        else:
+            row.append("nmsk-q306 %d" % len(m6b.group(0)))
+        # this round's own block and its table: exactly once, and NOT in the baseline
+        for mk, what in (("<!-- Q309 html begin -->", "Q309 html block"),
+                         ("<!-- Q309 html end -->", "Q309 html end"),
+                         ("<!-- NMSK-Q309-LAYERS begin -->", "Q309 layer table"),
+                         ('<script type="application/json" id="nmsk-q309-layers">', "Q309 layer table script")):
+            if a.count(mk) != 0:
+                bad.append((p, what, "was already in the baseline"))
+            if b.count(mk) != 1:
+                bad.append((p, what, "must appear exactly once in the new build (%d)" % b.count(mk)))
+        for sym in ("NMSKSysMap", "NMSKSysToggle", "NMSKSysPeel", "NMSKQ309"):
+            if b.count("var %s = (function()" % sym) != 1:
+                bad.append((p, sym, "must appear exactly once"))
+        # the engines' own veto, one line each, and nothing else of theirs
+        veto = ("if (q309Off.size && q309Off.has(o.id || o.name)) return false;" if "zan" in p or "base" in p
+                else "if (q309Off[s.id]) vis = false;")
+        if b.count(veto) != 1:
+            bad.append((p, "the Q309 veto line", "must appear exactly once (%d)" % b.count(veto)))
+        row.append("Q309 block + table + 4 modules + 1 veto line")
+        # no block from a round this build does not stand on
+        for tag in ("Q310",):
+            na2, nb2 = a.count("<!-- %s html begin -->" % tag), b.count("<!-- %s html begin -->" % tag)
+            if nb2 != na2:
+                bad.append((p, tag + " block", "appeared in this build although Q309 does not build on it "
+                                               "(%d -> %d)" % (na2, nb2)))
     if Q307:
         # no block from a round this build does not stand on (see the module docstring)
         for tag in ("Q306",):   # Q305 landed before Q307 published, so Q307 builds on it: see the note below
@@ -194,8 +246,8 @@ for p in PAGES:
                 continue
             bad.append((p, sym, "%d->%d" % (ca, cb)))
     # Q301's own block, byte identical between the markers
-    for tag in ("Q294", "Q298", "Q300", "Q301") + (("Q303",) if (Q304 or Q305 or Q306 or Q307 or Q308) else ()) \
-               + (("Q305",) if (Q306 or Q307 or Q308) else ()) + (("Q306",) if Q308 else ()):
+    for tag in ("Q294", "Q298", "Q300", "Q301") + (("Q303",) if (Q304 or Q305 or Q306 or Q307 or Q308 or Q309) else ()) \
+               + (("Q305",) if (Q306 or Q307 or Q308 or Q309) else ()) + (("Q306",) if (Q308 or Q309) else ()):
         m = re.compile(r"<!-- %s html begin -->(.*?)<!-- %s html end -->" % (tag, tag), re.S)
         xa, xb = m.search(a), m.search(b)
         if not xa or not xb:

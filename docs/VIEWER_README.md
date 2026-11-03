@@ -961,3 +961,77 @@ The comparison **against the figures in the papers** is blocked, not done: five 
 access, `pmc.ncbi.nlm.nih.gov` does not resolve from the session, and the full-text channel strips figure
 captions — which is where a scale bar would be declared. Per the project's rule an unscalable figure is
 unusable, so **zero numbers in Q308 come from a figure**.
+
+## Q309 — every system as one on/off button, and layers you can peel in three different scopes
+
+Owner request (translated from Hebrew): *"Also allow display by SYSTEMS with an on/off button, and by LAYERS — for
+the whole body, per system, and for the displayed systems only."*
+
+Both controls live inside the **Layers** group of Q301's control bar — no new top-level button — and the whole round
+is **one undo step** per change, appears in Q300's **Show everything**, and comes back with **Reset model**.
+
+### Systems, as plain switches
+
+The pages do not have "systems" in their data; they have **tissue categories**. A system is therefore a named set of
+this page's own categories, and the button prints the number of structures it holds **on that page**:
+
+| system | its categories | Base / Combined | Imaging |
+|---|---|---|---|
+| Skeleton & joints | bone, cartilage, joint, ligament | 646 | 202 |
+| Muscles | muscle, tendon, insertion | 434 | 374 |
+| Fascia & bursae | fascia, bursa | 175 | 6 |
+| Nerves & CNS | nerve, cns | 759 | 337 |
+| Vessels | vessel | 661 | 48 |
+| Lymphatics | lymph | 162 | — |
+| Organs | viscera, organ | 124 | 30 |
+| Skin | skin | 250 | — |
+| Fat | fat | 51 | 51 |
+
+So the four Z pages carry **nine** switches and the two Imaging pages **seven**: those pages carry no skin and no
+lymphatic mesh at all, so no button for them is built. (Counts are for the male pages; each page prints its own.)
+
+A system switched off is **a veto of its own**. It does *not* write the tissue-layer table — those rows, their
+opacity sliders, the presets and Q301's whole-body peel all write that one, and a fourth writer would fight them.
+So a system switch combines with everything: with the layer rows, with a preset, with a cut, with a render style and
+with any depth peel. Nothing is faded and nothing is deleted; one more tap brings the system back exactly.
+
+### Peel by layers — now with a scope
+
+Q301's whole-body peel (`skin → fat / superficial fascia → deep fascia + bursa → muscle + tendon + insertion →
+ligament + joint → vessels + nerves + lymph → organs`, leaving bone and cartilage) is **unchanged**. The new control
+gives the same two taps **three scopes**:
+
+* **Whole body** — drives Q301's own control. Nothing was rebuilt: the taps call it, and it still moves the category
+  table exactly as it always did.
+* **One system** — peels the depth strata of one chosen system and **leaves every other system exactly as it was**.
+* **Systems shown** — peels across **exactly the systems switched on right now**, ignoring the rest.
+
+Only one scope is active at a time, and leaving a scope puts its own layers back — so the three can never overlap.
+The layer's name, its number and how many structures are off are on the screen, never in a tooltip.
+
+### What a "layer" means inside one system
+
+Q301's order is *across* systems, so it cannot answer "peel the muscles layer by layer". The per-system orders are
+`data/anatomy/system_layers_q309.json`, shipped inside each page and **resolved against that page's own structures at
+load**: a stratum that matches nothing there is not offered, and every number the control prints is counted on the
+page rather than written in the code. Each stratum says where its order comes from — a textbook, this project's own
+data, both, or **nothing**, in which case it is the remainder and the screen says so.
+
+| system | its layers, outside in (Base / Combined counts) | where the order comes from |
+|---|---|---|
+| Skeleton & joints | joint capsules & ligaments 337 → cartilage 53 → bone 256 | the capsule and its ligaments are external to the joint cavity and the articular cartilage covers the bone ends (Standring 42nd ed.; Gray's for Students 4th ed.). **Our convention** for the costal, laryngeal and tracheal cartilages, which lie beside bone rather than over it |
+| Muscles | superficial layer of its region 160 → intermediate 98 → deep 176 | this project's own superficial/deep group pairs (`gluteal` / `deep_gluteal`, `leg_posterior_superficial` / `leg_posterior_deep`, `erector_spinae` / `transversospinalis`) where it has them, Gray's for Students 4th ed. for the forearm, the neck, the abdominal wall, the perineum, the palm and the sole |
+| Fascia & bursae | subcutaneous bursae 16 → investing deep fascia & aponeuroses 40 → intermuscular septa 13 → subfascial / subtendinous / submuscular bursae & tendon sheaths 68 → no sourced stratum 38 | the bursa classes are Terminologia Anatomica's own and are in the structures' names; the investing sheath gives off the septa inward (Gray's / Standring) |
+| Nerves & CNS | cutaneous nerves 40 → nerves deep to the deep fascia 516 → central nervous system 203 | a cutaneous nerve pierces the deep fascia into the superficial fascia (Gray's / Standring); the CNS lies inside the skull and the vertebral canal |
+| Vessels | superficial vessels 41 → deep vessels 620 | the structures' own names (great and small saphenous, cephalic, basilic, median cubital, the dorsal venous arch and network, the external and anterior jugular, anything called "superficial"); step 2 is the rest, read as deep, which is an **inference** rather than a per-structure datum |
+| Fat | subcutaneous fat / superficial fascia 17 → intermuscular fat 8 → deep & visceral fat 8 → no sourced stratum 18 | the structures' own names; Q301's finding that 17 of them are `Panniculus adiposus (tela subcutanea)`, the superficial fascia in the modern sense. The remainder is Q295's `Unlabelled soft tissue, *` filler |
+
+**Three systems are offered on / off and nothing else, and they say why.** *Lymphatics* — only 21 of 162 nodes carry
+`superficial` or `deep` in their name. *Organs* — no depth word at all, and ordering by body cavity is not depth.
+*Skin* — the 250 `(skin)` meshes are region envelopes; epidermis and dermis are not segmented separately. The rule
+is written down and measured per page: **a system is offered a peel only when at least half of its structures on
+that page land in a stratum we can source.** That is also why the two Imaging pages get **no** fascial peel — five
+of their six fascial structures are retinacula, an interosseous membrane and `Integumentum commune`.
+
+The whole table, its sources and everything in it that is our convention rather than anatomy is behind the circled
+ⓘ, in its own section, generated from the file itself — and in Hebrew in `docs/research/Q309_system_layers.md`.
