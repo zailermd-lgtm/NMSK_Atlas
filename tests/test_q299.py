@@ -310,8 +310,12 @@ def test_the_lower_limb_nerve_inventory_is_recorded():
 
 
 def test_the_imaging_pages_carry_no_fibular_nerve_and_the_round_says_so():
-    """The owner's own case. The Imaging-based pages have no common / deep / superficial fibular nerve at all, which is
-    why no cross-section of them can show one. This pins the finding; the round does not invent the nerve."""
+    """The owner's own case AS Q299 FOUND IT, pinned against the Q299-era build on disk. The Imaging-based pages of
+    that build have no common / deep / superficial fibular nerve at all, which is why no cross-section of them could
+    show one; Q299 recorded the finding and did not invent the nerve. Q304 later carried 18 fibular meshes onto each
+    Imaging page from the Combined page of the same body, so the CURRENT pages do carry them -- that is
+    tests/test_q304.py's business, and this test deliberately keeps reading build/q299 (or q297) so the historical
+    measurement stays checkable."""
     doc = REPO / "docs/research/Q299_pelvis_containment_crosssection.md"
     if not doc.is_file():
         pytest.skip("Q299 research doc not written")

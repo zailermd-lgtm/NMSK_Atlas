@@ -334,11 +334,16 @@ def test_every_page_has_nerve_calibres_to_drive_the_emphasis(cal):
         assert d[len(d) // 2] <= 2.0, (p, d[len(d) // 2])
 
 
-def test_the_imaging_pages_really_lack_the_fibular_nerve(cal):
-    """Q299's finding, pinned here because the emphasis control says so on the screen and must not be able to drift."""
+def test_every_page_now_carries_the_fibular_nerve(cal):
+    """Q303 pinned the opposite of this: the two Imaging pages carried NO fibular / peroneal mesh, which is why the
+    emphasis control said so on the screen. Q304 carried 18 of them onto each Imaging page from the Combined page of
+    the same body (bone-point registration; see tests/test_q304.py), so the claim this test pins has moved -- what it
+    still guards is that the page's own calibre table is where the answer comes from, on all six pages."""
     rx = re.compile(r"fibular|peroneal", re.I)
     own = {p: [k for k in cal["pages"][p]["c"] if rx.search(k)] for p in ("viewer_m_hr", "viewer_f_hr")}
-    assert all(not v for v in own.values()), own
+    for p, got in own.items():
+        assert len(got) == 18, (p, len(got))
+        assert any(k.startswith("common_fibular_n") for k in got), p
     for p in ("viewer_zan_atlas", "viewer_zan_vhm", "viewer_zan_female", "viewer_base_female"):
         got = [k for k in cal["pages"][p]["c"] if rx.search(k)]
         assert len(got) >= 10, (p, len(got))
@@ -433,7 +438,10 @@ def test_the_sub_pixel_diagnosis_this_round_reports(cal):
        body's full height, which is about 1.9 mm per pixel, and at that scale most nerves are drawn UNDER ONE PIXEL
        wide. The counts quoted in docs/VIEWER_README.md, the hub, the research doc and PROJECT_STATE are these."""
     MMPX = 1.9
-    exp = {"viewer_m_hr": (201, 111, 188), "viewer_f_hr": (244, 125, 206),
+    # the two Imaging pages' figures moved in Q304, which added 71 and 64 lower-limb nerves to their calibre
+    # tables (201 -> 272 and 244 -> 308). The diagnosis is unchanged and is in fact sharper: 175 of 272 and 184 of
+    # 308 are still drawn under one pixel wide at this scale.
+    exp = {"viewer_m_hr": (272, 175, 257), "viewer_f_hr": (308, 184, 268),
            "viewer_zan_atlas": (439, 357, 426), "viewer_base_female": (435, 350, 413),
            "viewer_zan_vhm": (440, 358, 428), "viewer_zan_female": (443, 373, 428)}
     for page, (n, sub, under) in exp.items():

@@ -165,19 +165,25 @@ def open_card(pg, name, phone):
         except Exception:                                         # noqa: BLE001
             pg.evaluate("([s, i]) => document.querySelectorAll(s)[i].click()", [SEL, idx])
     pg.wait_for_timeout(800)
-    # on a phone the info card opens MINIMISED, so the first Q296 run read a 77-character card and reported the
-    # licence text missing: it is expanded with a real tap before anything is read.
-    for _ in range(3):
-        if not pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
-                           " return !!e && e.classList.contains('min'); }"):
-            break
-        for s2 in ("#im", "#insp-min", "#info .info-min"):
-            if pg.is_visible(s2):
-                tap(pg, s2, phone); break
-        pg.wait_for_timeout(400)
-    return pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
-                       " if (!e) return ''; const s = document.getElementById('i-src');"
-                       " return (s && !s.hidden ? s.textContent + '\\n' : '') + e.innerText; }")
+    # On a phone the info card opens MINIMISED, so the first Q296 run read a 77-character card and reported the
+    # licence text missing. It is expanded with a real tap -- and then WAITED FOR: on a 390 px viewport the card's
+    # body lands a beat after the row click, and the first Q304 run read 67 and 121 characters of three cards that
+    # were in fact complete, which is a script defect and was reported as a product one until this loop was added.
+    READ = ("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
+            " if (!e) return ''; const s = document.getElementById('i-src');"
+            " return (s && !s.hidden ? s.textContent + '\n' : '') + e.innerText; }")
+    txt = ""
+    for _ in range(8):
+        if pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
+                       " return !!e && e.classList.contains('min'); }"):
+            for s2 in ("#insp-min", "#im", "#info .info-min"):
+                if pg.is_visible(s2):
+                    tap(pg, s2, phone); break
+        txt = pg.evaluate(READ)
+        if len(txt) > 300:
+            return txt
+        pg.wait_for_timeout(700)
+    return txt
 
 
 def close_card(pg, phone):
@@ -262,14 +268,22 @@ def section_a(pg, T, R, errs, phone, ids, rep):
     pg.evaluate("(y) => window.NMSKClinicalTool.api.setCut({normal: [0, -1, 0], point: [0, y, 0]})", y)
     pg.wait_for_timeout(900)
     if reach(pg, "#cut-fill", phone):
-        if pg.get_attribute("#cut-fill", "aria-pressed") != "true":
-            tap(pg, "#cut-fill", phone)
-        try:
-            pg.wait_for_function("(document.getElementById('cut-capinfo') || {}).textContent.indexOf('filled') >= 0",
-                                 timeout=120000)
-        except Exception:                                         # noqa: BLE001
-            pass
-        info = pg.evaluate("() => (document.getElementById('cut-capinfo') || {}).textContent || ''")
+        info = ""
+        # Two attempts, because at 390 px the first tap can land while the panel is still laying out and the fill
+        # then never starts -- the first Q304 phone run read an EMPTY panel line and called it a product failure.
+        # `wait_for_function` takes its argument only as a KEYWORD in this Playwright (Q303's lesson).
+        for _ in range(2):
+            if pg.get_attribute("#cut-fill", "aria-pressed") != "true":
+                tap(pg, "#cut-fill", phone)
+            try:
+                pg.wait_for_function(expression="(document.getElementById('cut-capinfo') || {}).textContent"
+                                                ".indexOf('filled') >= 0", timeout=90000)
+            except Exception:                                     # noqa: BLE001
+                pass
+            info = pg.evaluate("() => (document.getElementById('cut-capinfo') || {}).textContent || ''")
+            if "filled" in info:
+                break
+            pg.wait_for_timeout(1500)
         A["cut_panel"] = info[:200]
         # the minimum-width clause only appears when the panel's own run had something to widen (`s.band > 0`), so
         # the assertion is on what the panel reports and on its agreement with the kernel run above, not on a string

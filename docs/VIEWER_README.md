@@ -648,8 +648,9 @@ does not depend on how many layers lie in front of it. **Nerves** in the View gr
 Strong** — and draws an extra pass over the nerves' own vertices, after everything, on the camera-facing half of the
 model, each vertex a round dot whose width is `max(the step's minimum in pixels, the nerve's true width in pixels)`. A
 nerve already wider than the minimum is **not touched**. **Which structures it covers is the page's own answer, not
-ours:** every structure the calibre table records as a nerve — 439 of the 552 nerve-category meshes on a Z page, 201 and
-244 on the two Imaging pages — the trunks and every named branch, the small ones included. The rest of the nerve and
+ours:** every structure the calibre table records as a nerve — 439 of the 552 nerve-category meshes on a Z page, and
+on the two Imaging pages 201 and 244 when this was written, 272 and 308 after Q304 added their lower-limb nerves — the
+trunks and every named branch, the small ones included. The rest of the nerve and
 `cns` categories is the spinal dura, the cord, its tracts and its nuclei (`Lateral fasciculus proprius`,
 `Intermediolateral nucleus` and the like); none of those is a peripheral nerve you would want widened, they are more
 than half the vertices in those two categories, and the control says how many it is leaving as they are. The shader is one GLSL string carried byte-identical by both
@@ -662,9 +663,10 @@ composes with what is already there: it switches the **nerve system toggle** on 
 by the cut, it survives the depth peel and Q300's fade, and the motor points / NMJ markers follow the needle tool's own
 *Emphasize motor points*, which this control switches on with it rather than drawing a second set that could fall out of
 step. With a **radiographic style** on it is marked incompatible, per Q301's own rule, and says what to use instead: a
-greyscale picture has no highlight colour. And where a page simply does not carry a nerve, the control **says so** — the
-two Imaging pages ship no fibular (peroneal) nerve at all, which is Q299's finding, asserted here against the shipped
-calibre table, because emphasis cannot show a nerve that is not there.
+greyscale picture has no highlight colour. And where a page simply does not carry a nerve, the control **says so** — when this was written the
+two Imaging pages shipped no fibular (peroneal) nerve at all, which was Q299's finding; Q304 carried 18 onto each of
+them, and the sentence on the screen shrank by itself because the probe reads the page's own list. Emphasis still
+cannot show a nerve that is not there.
 
 Every one of these is a **single Undo step** and is put back by the **model reset**. Three of them needed state that
 Q294's history deliberately does not watch — the camera, the clinical tools' slice point and probe pose, and the four
