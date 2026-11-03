@@ -1,0 +1,88 @@
+/* Q306: the words the search needed, and nothing else.
+   Two things only: the line that says a result set is an approximate match, and the concept rows that
+   answer a query which is not a structure at all. Both live inside the Q298 bar's own container, so they
+   follow it to the floating strip on a phone exactly as Q298's expansion row already does. */
+.q8-q306{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.q8-q306[hidden]{display:none}
+
+/* "no exact match for X" -- the line that stops the page stating something false with confidence */
+.q6-approx{margin:0;padding:6px 8px;border-radius:8px;font-size:12px;line-height:1.35;
+  background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.45)}
+.q6-approx.q6-exact{background:rgba(190,60,60,.12);border-color:rgba(190,60,60,.5)}
+.q6-approx b{font-weight:600}
+
+/* a concept row: what it is, what the page can actually offer, and the sources behind the claim */
+.q6-con{padding:7px 8px;border:1px solid var(--line,rgba(0,0,0,.18));border-radius:8px;
+  background:rgba(0,120,190,.06)}
+.q6-con .q6-h{margin:0 0 3px;font-size:12.5px;line-height:1.3}
+.q6-con .q6-he{opacity:.75;font-size:12px}
+.q6-con .q6-k{opacity:.7;font-size:11px;font-style:italic}
+.q6-con .q6-b{margin:0 0 4px;font-size:11.5px;line-height:1.4;opacity:.92}
+.q6-con .q6-n{margin:0 0 4px;font-size:11px;line-height:1.35;opacity:.75;font-style:italic}
+.q6-con .q6-src{font-size:11px;margin:0 0 4px}
+.q6-con .q6-src summary{cursor:pointer;opacity:.8}
+.q6-con .q6-src ul{margin:3px 0 0;padding-left:16px}
+.q6-con .q6-src li{margin:2px 0;line-height:1.35}
+.q6-con .q6-src i{opacity:.7}
+.q6-act{display:flex;flex-wrap:wrap;gap:4px;margin:0}
+.q6-btn{font:inherit;font-size:11.5px;padding:4px 8px;border-radius:7px;cursor:pointer;
+  border:1px solid var(--line,rgba(0,0,0,.2));background:var(--panel,#fff);color:inherit}
+.q6-btn:hover{filter:brightness(.96)}
+.q6-btn.q6-g{border-style:dashed}
+/* Q298's own rule, kept: every control is at least 38 px tall where there is no hover */
+@media (hover:none){.q6-btn{min-height:38px;padding:8px 10px;font-size:12.5px}}
+
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .q6-con{background:rgba(70,160,220,.1)}
+  :root:not([data-theme="light"]) .q6-approx{background:rgba(214,160,60,.16);border-color:rgba(214,160,60,.5)}
+  :root:not([data-theme="light"]) .q6-approx.q6-exact{background:rgba(220,110,110,.16);border-color:rgba(220,110,110,.5)}
+  :root:not([data-theme="light"]) .q6-btn{background:rgba(255,255,255,.07)}}
+:root[data-theme="dark"] .q6-con{background:rgba(70,160,220,.1)}
+:root[data-theme="dark"] .q6-approx{background:rgba(214,160,60,.16);border-color:rgba(214,160,60,.5)}
+:root[data-theme="dark"] .q6-approx.q6-exact{background:rgba(220,110,110,.16);border-color:rgba(220,110,110,.5)}
+:root[data-theme="dark"] .q6-btn{background:rgba(255,255,255,.07)}
+
+/* ------------------------------------------------------------------ the last search row, at 390 px
+ * MEASURED on build/q307, i.e. AFTER Q305: the defect Q304 found is still there on both engines.
+ * On a phone both engines put the structure list LAST inside a scrolling bottom-sheet, and Q301's fixed
+ * control bar floats over that same band at a far higher z-index. The panel is already scrolled to its
+ * end, so the last rows of a SHORT result set cannot be reached by scrolling and cannot be tapped.
+ *   Z engine  (viewer_zan_atlas, 390x844): searching `psoas minor` leaves 2 rows, the last at y 738-776,
+ *             while #q301-bar spans y 707-838 -- document.elementFromPoint at the row's centre returns
+ *             BUTTON#qg-measure, one of the bar's own controls.
+ *   own engine (viewer_m_hr): the last row at y 749-777, the bar at y 654-785, and elementFromPoint
+ *             returns DIV#q301-hist.
+ * Q305 fixed a DIFFERENT element -- `#foot` adopted into Q301's View sheet -- so this is still ours.
+ *
+ * The fix is the pattern both engines already use for exactly this purpose: Q270 reserves the `#foot`
+ * pill band under the rail's scroll area with `padding-bottom`, and the own engine reserves its mobile
+ * bar the same way. The band reserved here is `--q301-bar-h`, which Q301's own groups.js already sets to
+ * the WHOLE occluded height (the bar, plus 4 px, plus an open group sheet) and keeps up to date as the
+ * sheet opens and closes -- measured at 135px on these pages -- so the padding tracks the real
+ * obstruction instead of a guessed number.
+ *
+ * It pads the element that actually SCROLLS, which the measurement had to establish: on the Z engine that
+ * is `DIV.rail-body` inside `#rail`, not `#rail` itself, and on the own engine it is the `aside`.
+ *
+ * Why it cannot push Q301's bar or Q300's chip bar off, which have collided with each other once
+ * already: this adds padding INSIDE the scrolling element. It changes no element's position, transform or
+ * z-index and never touches `#q301-bar`, `#sa-bar` or `#hist-msg` -- those are lifted by Q301's own
+ * `transform:translateY(calc(-1 * var(--q301-bar-h)))`, left exactly as it was. The padding composes with
+ * each engine's existing padding rather than replacing it, so Q270's `#foot` band survives.
+ *
+ * The two engines gate their phone layout differently, so the rules do too: the Z rail's bottom-sheet
+ * rules live inside `@media (max-width:900px)`, while the own engine's are driven by the `.phone` class
+ * its own layout code sets. Matching each engine's own gate keeps this off the desktop, where there is no
+ * obstruction. No `!important` is needed: `body.q301-on #rail .rail-body` (0,1,2,1) beats `.rail-body`
+ * (0,0,1,0), and `body.q301-on #app.phone aside` (0,1,2,3) beats `#app.phone aside` (0,1,1,2). */
+@media (max-width: 900px){
+  body.q301-on #rail .rail-body{
+    padding-bottom:calc(.9rem + var(--q301-bar-h, 96px));
+  }
+}
+body.q301-on #app.phone aside,
+body.q301-on #app.phone #inspector{
+  padding-bottom:var(--q301-bar-h, 96px);
+}
+/* and the list keeps a scroll end-stop, so the last row clears the sheet's rounded corner */
+body.q301-on #app.phone #list,
+body.q301-on #rail #list{ scroll-padding-bottom:var(--q301-bar-h, 96px); }

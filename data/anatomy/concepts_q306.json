@@ -1,0 +1,1543 @@
+{
+ "schema": "nmsk.concepts.v1",
+ "round": "Q306",
+ "doc": "Q306: data/anatomy/concepts_q306.json -- the CONCEPT layer of the search. A clinician types things that are not structures: \"pelvic tilt\", \"impingement\", \"compartment syndrome\", \"carpal tunnel\", \"Q angle\", \"pennation\". Before Q306 the search had no concept layer at all: 39 of the 42 clinical concepts in the Q306 reference list returned nothing on every page, measured in docs/research/Q306_search_coverage_audit.md. Each concept names the STRUCTURES and the GROUPS the pages already carry, and every biomechanical claim carries its own citation. `offer_structures` are targets resolved against each page's own names at build time by scripts/anatomy/q298/build_search_q298.py (same three rules as a synonym entry), `offer_groups` are group ids from data/anatomy/{muscle_groups_q283.json, relations_q298.json, groups_q306.json}, and `sim` names a Q283 pose-rig degree of freedom where the concept has one, so the card can link the action simulation. A concept that is a DIAGNOSIS rather than an anatomical fact says so and offers the structures involved without asserting a mechanism.",
+ "kinds": {
+  "concept": "An anatomical or biomechanical concept that is not a structure.",
+  "region": "A named space, canal, fossa or tunnel bounded by structures the pages ship.",
+  "measure": "A measurement or descriptor; says whether this project computes it and from what.",
+  "diagnosis": "A clinical diagnosis. The atlas shows the anatomy and asserts no mechanism.",
+  "posture": "An alignment descriptor. No normative value is shipped."
+ },
+ "he_note": "HEBREW IS A PROJECT-SUPPLIED TRANSLATION, NOT A PUBLISHED TERMINOLOGY -- the same declaration data/anatomy/synonyms_q298.json carries in sources.he.",
+ "sources": {
+  "gray": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell), Elsevier 2019.",
+  "moore": "Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.",
+  "ta": "Terminologia Anatomica, FICAT 1998.",
+  "stecco": "Stecco C, Functional Atlas of the Human Fascial System, Churchill Livingstone 2015.",
+  "raja2026": "Raja B, Kulkarni MM, Vaishnani H. Morphology and Morphometric Analysis of the Psoas Minor Muscle in Adult Human Cadavers at a Tertiary-Care Institution in Western India. Cureus 2026;18(6):e111450. doi:10.7759/cureus.111450 (PMID 42502531)",
+  "patra2024": "Patra A, Asghar A, Pushpa NB, Chaudhary P, Ravi KS, Kaur H, Przybycien W, Musial A, Walocha JA. Reappraisal of the Morphological and morphometric diversity of the psoas minor muscle with clinical and developmental insights: cadaveric analysis. Folia Morphol 2024;83(4):886-892. doi:10.5603/fm.99128 (PMID 38619066)",
+  "preece2021": "Preece SJ, Tan YF, Alghamdi TDA, Arnall FA. Comparison of Pelvic Tilt Before and After Hip Flexor Stretching in Healthy Adults. J Manipulative Physiol Ther 2021;44(4):289-294. doi:10.1016/j.jmpt.2020.09.006 (PMID 34090549)",
+  "jang2024": "Jang TJ, Jeon IC. Effects of pelvic tilt control using visual biofeedback on gluteus maximus, multifidus, and hamstring activities during three different bridge exercises. Physiother Theory Pract 2024;40(12):2795-2804. doi:10.1080/09593985.2023.2297001 (PMID 38329074)",
+  "haddas2016": "Haddas R, Yang J, Lieberman I. Effects of volitional spine stabilization on lifting task in recurrent low back pain population. Eur Spine J 2016;25(9):2833-41. doi:10.1007/s00586-016-4586-1 (PMID 27160828)",
+  "becker2018": "Becker J, Nakajima M, Wu WFW. Factors Contributing to Medial Tibial Stress Syndrome in Runners: A Prospective Study. Med Sci Sports Exerc 2018;50(10):2092-2100. doi:10.1249/MSS.0000000000001674 (PMID 29787473)",
+  "willy2013": "Willy RW, Davis IS. Varied response to mirror gait retraining of gluteus medius control, hip kinematics, pain, and function in 2 female runners with patellofemoral pain. J Orthop Sports Phys Ther 2013;43(12):864-74. doi:10.2519/jospt.2013.4516 (PMID 24175611)",
+  "project": "This project's own cited data files (data/anatomy/*, data/derived/Q2*_*.json)."
+ },
+ "concepts": [
+  {
+   "id": "pelvic_tilt",
+   "label": "Pelvic tilt",
+   "he_label": "הטיית אגן",
+   "syn": [
+    "pelvic tilt",
+    "tilt of the pelvis",
+    "pelvic tilting",
+    "pelvic position",
+    "pelvic alignment"
+   ],
+   "he": [
+    "הטיית אגן",
+    "הטיה של האגן",
+    "מצב האגן",
+    "יישור האגן"
+   ],
+   "kind": "concept",
+   "body": "Pelvic tilt is the orientation of the pelvis, not a structure. It is described in three planes: ANTERIOR / POSTERIOR tilt in the sagittal plane and LATERAL tilt (pelvic obliquity, 'pelvic drop') in the frontal plane. Pick one of the three below to see the muscles that produce it on this page.",
+   "offer_structures": [
+    "hip bone",
+    "sacrum",
+    "coccyx"
+   ],
+   "offer_groups": [
+    "anterolateral_abdominal_wall",
+    "erector_spinae",
+    "gluteal",
+    "hamstrings",
+    "act_hip_flex_p",
+    "act_hip_flex_n",
+    "act_hip_abd_p",
+    "act_lumbar_flex_p",
+    "act_lumbar_lat_p"
+   ],
+   "sim": [
+    [
+     "lumbar",
+     "flex"
+    ],
+    [
+     "hip",
+     "flex"
+    ],
+    [
+     "lumbar",
+     "lat"
+    ]
+   ],
+   "claims": [],
+   "note": "The three tilts are the standard clinical description; each has its own entry with its own sources.",
+   "inferred": 0
+  },
+  {
+   "id": "anterior_pelvic_tilt",
+   "label": "Anterior pelvic tilt",
+   "he_label": "הטיית אגן קדמית",
+   "syn": [
+    "anterior pelvic tilt",
+    "APT",
+    "anterior tilt of the pelvis",
+    "forward pelvic tilt",
+    "anteverted pelvis",
+    "pelvic anteversion"
+   ],
+   "he": [
+    "הטיית אגן קדמית",
+    "אגן בהטיה קדמית",
+    "אנטרוורסיה של האגן"
+   ],
+   "kind": "concept",
+   "body": "The pelvis rotates forward about the hip joints, so the ASIS moves below the PSIS and lumbar lordosis tends to increase. Produced / maintained by the HIP FLEXORS in front and the lumbar extensors behind.",
+   "offer_structures": [
+    "hip bone",
+    "sacrum",
+    "coccyx",
+    "iliopsoas",
+    "psoas major",
+    "iliacus",
+    "rectus femoris",
+    "sartorius",
+    "adductor longus",
+    "iliocostalis",
+    "longissimus",
+    "spinalis",
+    "multifidus"
+   ],
+   "offer_groups": [
+    "act_hip_flex_p",
+    "erector_spinae",
+    "act_lumbar_flex_n",
+    "quadriceps_femoris"
+   ],
+   "sim": [
+    [
+     "hip",
+     "flex"
+    ],
+    [
+     "lumbar",
+     "flex"
+    ]
+   ],
+   "claims": [
+    {
+     "text": "Stretching the hip flexors reduced anterior pelvic tilt: \"a mean increase of 2.6 deg in passive hip extension and a corresponding mean reduction of 1.2 deg in anterior pelvic tilt\" (P < .001).",
+     "src": "preece2021"
+    },
+    {
+     "text": "The lumbar multifidus is more active in anterior than in posterior pelvic tilt: \"MF muscle activity during the exercise involving PPT was significantly lower than that involving APT\".",
+     "src": "jang2024"
+    },
+    {
+     "text": "The hip flexor group named by this project's own cited action data is the iliopsoas (psoas major and iliacus), rectus femoris, sartorius and adductor longus.",
+     "src": "project"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "posterior_pelvic_tilt",
+   "label": "Posterior pelvic tilt",
+   "he_label": "הטיית אגן אחורית",
+   "syn": [
+    "posterior pelvic tilt",
+    "PPT",
+    "posterior tilt of the pelvis",
+    "backward pelvic tilt",
+    "retroverted pelvis",
+    "pelvic retroversion",
+    "tucking the pelvis"
+   ],
+   "he": [
+    "הטיית אגן אחורית",
+    "אגן בהטיה אחורית",
+    "רטרוורסיה של האגן"
+   ],
+   "kind": "concept",
+   "body": "The pelvis rotates backward about the hip joints, so the ASIS moves above the PSIS and lumbar lordosis tends to flatten. Produced by the HIP EXTENSORS (gluteus maximus, hamstrings) and the ABDOMINAL WALL.",
+   "offer_structures": [
+    "hip bone",
+    "sacrum",
+    "coccyx",
+    "gluteus maximus",
+    "biceps femoris",
+    "semitendinosus",
+    "semimembranosus",
+    "rectus abdominis",
+    "external oblique",
+    "internal oblique",
+    "transversus abdominis"
+   ],
+   "offer_groups": [
+    "gluteal",
+    "hamstrings",
+    "anterolateral_abdominal_wall",
+    "act_hip_flex_n",
+    "act_lumbar_flex_p"
+   ],
+   "sim": [
+    [
+     "hip",
+     "flex"
+    ],
+    [
+     "lumbar",
+     "flex"
+    ]
+   ],
+   "claims": [
+    {
+     "text": "Gluteus maximus is more active in posterior pelvic tilt than in anterior or neutral: \"GM muscle activity during the exercise involving PPT was significantly higher than that involving APT and NPT\".",
+     "src": "jang2024"
+    },
+    {
+     "text": "Abdominal contraction shifts the pelvis and unloads the back extensors: it \"increased external oblique muscle activity, reduced erector spinae and multifidus muscles activity\".",
+     "src": "haddas2016"
+    },
+    {
+     "text": "\"The hamstring muscles may play an important role in achieving pelvic balance during the lifting maneuver.\"",
+     "src": "haddas2016"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "lateral_pelvic_tilt",
+   "label": "Lateral pelvic tilt (pelvic obliquity)",
+   "he_label": "הטיית אגן צידית",
+   "syn": [
+    "lateral pelvic tilt",
+    "pelvic obliquity",
+    "pelvic drop",
+    "contralateral pelvic drop",
+    "hip drop",
+    "Trendelenburg",
+    "Trendelenburg sign",
+    "frontal plane pelvic tilt",
+    "pelvis dropping"
+   ],
+   "he": [
+    "הטיית אגן צידית",
+    "צניחת אגן",
+    "אובליקוויות של האגן",
+    "סימן טרנדלנבורג"
+   ],
+   "kind": "concept",
+   "body": "One side of the pelvis drops relative to the other in the frontal plane. In single-leg stance the STANCE-side hip abductors hold the pelvis level; when they fail, the opposite (swing) side drops. The quadratus lumborum acts on the pelvis from above.",
+   "offer_structures": [
+    "hip bone",
+    "sacrum",
+    "coccyx",
+    "gluteus medius",
+    "gluteus minimus",
+    "tensor fasciae latae",
+    "quadratus lumborum",
+    "iliotibial tract"
+   ],
+   "offer_groups": [
+    "act_hip_abd_p",
+    "act_lumbar_lat_p",
+    "gluteal"
+   ],
+   "sim": [
+    [
+     "hip",
+     "abd"
+    ],
+    [
+     "lumbar",
+     "lat"
+    ]
+   ],
+   "claims": [
+    {
+     "text": "Weaker hip abductors go with a greater drop of the opposite side of the pelvis: runners who developed medial tibial stress syndrome had \"weaker hip abductors (P = 0.008)\" and \"greater contralateral pelvic drop (P = 0.021)\".",
+     "src": "becker2018"
+    },
+    {
+     "text": "Reducing the drop goes with earlier and longer gluteus medius activity: \"peak contralateral pelvic drop ... were reduced after retraining\", accompanied by \"earlier activation of the gluteus medius relative to foot strike\" and \"longer duration of gluteus medius activity\".",
+     "src": "willy2013"
+    },
+    {
+     "text": "Abdominal bracing reduces pelvic obliquity during lifting: it \"decreased pelvis obliquity angle in both groups\".",
+     "src": "haddas2016"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "carpal_tunnel",
+   "label": "Carpal tunnel",
+   "he_label": "התעלה הקרפלית",
+   "syn": [
+    "carpal tunnel",
+    "carpal tunnel syndrome",
+    "CTS",
+    "transverse carpal ligament",
+    "carpal canal"
+   ],
+   "he": [
+    "התעלה הקרפלית",
+    "תסמונת התעלה הקרפלית"
+   ],
+   "kind": "region",
+   "body": "The space between the carpal arch and the flexor retinaculum. Its contents on this page are offered below. Carpal tunnel syndrome is a median-nerve compression DIAGNOSIS, not a structure; the atlas shows the anatomy, not the diagnosis.",
+   "offer_structures": [
+    "flexor retinaculum (transverse carpal ligament)",
+    "median nerve",
+    "flexor digitorum profundus",
+    "flexor digitorum superficialis",
+    "flexor pollicis longus",
+    "scaphoid bone",
+    "pisiform bone",
+    "hamate bone",
+    "trapezium bone"
+   ],
+   "offer_groups": [
+    "carpal_tunnel_contents"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The flexor retinaculum of the hand is the transverse carpal ligament; the tunnel's contents are the four FDP and four FDS tendons, the FPL tendon and the median nerve.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "cubital_tunnel",
+   "label": "Cubital tunnel",
+   "he_label": "התעלה הקוביטלית",
+   "syn": [
+    "cubital tunnel",
+    "cubital tunnel syndrome",
+    "ulnar nerve at the elbow",
+    "funny bone"
+   ],
+   "he": [
+    "התעלה הקוביטלית",
+    "עצב אולנרי במרפק"
+   ],
+   "kind": "region",
+   "body": "The passage of the ulnar nerve behind the medial epicondyle of the humerus. Its boundaries are bone and retinaculum, not a mesh of their own.",
+   "offer_structures": [
+    "ulnar nerve",
+    "humerus",
+    "flexor carpi ulnaris",
+    "ulna"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The ulnar nerve passes behind the medial epicondyle of the humerus and enters the forearm between the two heads of flexor carpi ulnaris.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "tarsal_tunnel",
+   "label": "Tarsal tunnel",
+   "he_label": "התעלה הטרסלית",
+   "syn": [
+    "tarsal tunnel",
+    "tarsal tunnel syndrome",
+    "flexor retinaculum of the foot"
+   ],
+   "he": [
+    "התעלה הטרסלית",
+    "תסמונת התעלה הטרסלית"
+   ],
+   "kind": "region",
+   "body": "Behind the medial malleolus, deep to the flexor retinaculum of the ankle: the tibial nerve, the posterior tibial vessels and the tendons of tibialis posterior, FDL and FHL.",
+   "offer_structures": [
+    "tibial nerve",
+    "tibialis posterior",
+    "flexor digitorum longus",
+    "flexor hallucis longus",
+    "posterior tibial artery",
+    "tibia",
+    "calcaneus"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The structures behind the medial malleolus, from front to back, are the tendon of tibialis posterior, the tendon of flexor digitorum longus, the posterior tibial artery and vein, the tibial nerve and the tendon of flexor hallucis longus.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "guyon_canal",
+   "label": "Guyon's canal (ulnar canal of the wrist)",
+   "he_label": "תעלת גיון",
+   "syn": [
+    "Guyon's canal",
+    "Guyon canal",
+    "ulnar canal",
+    "ulnar tunnel",
+    "ulnar tunnel syndrome"
+   ],
+   "he": [
+    "תעלת גיון",
+    "התעלה האולנרית בשורש היד"
+   ],
+   "kind": "region",
+   "body": "The passage of the ulnar nerve and artery at the wrist, between the pisiform and the hook of the hamate. An eponymous space, not a mesh.",
+   "offer_structures": [
+    "ulnar nerve",
+    "ulnar artery",
+    "pisiform bone",
+    "hamate bone",
+    "flexor retinaculum (transverse carpal ligament)"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The ulnar nerve and artery enter the hand superficial to the flexor retinaculum, between the pisiform and the hook of the hamate.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "adductor_canal",
+   "label": "Adductor canal (Hunter's canal, subsartorial canal)",
+   "he_label": "התעלה האדוקטורית",
+   "syn": [
+    "adductor canal",
+    "Hunter's canal",
+    "Hunter canal",
+    "subsartorial canal",
+    "adductor hiatus"
+   ],
+   "he": [
+    "התעלה האדוקטורית",
+    "תעלת האנטר"
+   ],
+   "kind": "region",
+   "body": "An intermuscular space in the middle third of the medial thigh carrying the femoral artery and vein and the saphenous nerve, roofed by sartorius; it ends at the adductor hiatus in adductor magnus.",
+   "offer_structures": [
+    "sartorius",
+    "adductor longus",
+    "adductor magnus",
+    "vastus medialis",
+    "femoral artery",
+    "femoral vein",
+    "saphenous nerve"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The adductor canal is bounded by vastus medialis, adductor longus and adductor magnus, roofed by sartorius, and transmits the femoral artery and vein and the saphenous nerve; the femoral artery leaves it through the adductor hiatus to become the popliteal artery.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "popliteal_fossa",
+   "label": "Popliteal fossa",
+   "he_label": "הפוסה הפופליטאלית",
+   "syn": [
+    "popliteal fossa",
+    "back of the knee",
+    "popliteal space"
+   ],
+   "he": [
+    "הפוסה הפופליטאלית",
+    "מאחורי הברך"
+   ],
+   "kind": "region",
+   "body": "The diamond behind the knee: hamstrings above, the two heads of gastrocnemius below, carrying the tibial and common fibular nerves and the popliteal vessels.",
+   "offer_structures": [
+    "biceps femoris",
+    "semitendinosus",
+    "semimembranosus",
+    "gastrocnemius",
+    "popliteus",
+    "tibial nerve",
+    "common fibular nerve",
+    "popliteal artery",
+    "popliteal vein"
+   ],
+   "offer_groups": [
+    "hamstrings",
+    "triceps_surae"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The popliteal fossa is bounded above by biceps femoris laterally and semitendinosus and semimembranosus medially, and below by the two heads of gastrocnemius.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "cubital_fossa",
+   "label": "Cubital fossa",
+   "he_label": "הפוסה הקוביטלית",
+   "syn": [
+    "cubital fossa",
+    "antecubital fossa",
+    "front of the elbow"
+   ],
+   "he": [
+    "הפוסה הקוביטלית",
+    "מול המרפק"
+   ],
+   "kind": "region",
+   "body": "The triangle in front of the elbow, carrying the biceps tendon, the brachial artery and the median nerve from lateral to medial.",
+   "offer_structures": [
+    "biceps brachii",
+    "brachioradialis",
+    "pronator teres",
+    "brachial artery",
+    "median nerve",
+    "radial nerve"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The cubital fossa is bounded laterally by brachioradialis and medially by pronator teres; its contents from lateral to medial are the biceps tendon, the brachial artery and the median nerve.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "femoral_triangle",
+   "label": "Femoral triangle",
+   "he_label": "המשולש הפמורלי",
+   "syn": [
+    "femoral triangle",
+    "femoral canal",
+    "groin triangle",
+    "Scarpa's triangle"
+   ],
+   "he": [
+    "המשולש הפמורלי",
+    "משולש המפשעה"
+   ],
+   "kind": "region",
+   "body": "In the upper medial thigh: inguinal ligament above, sartorius laterally, adductor longus medially, carrying the femoral nerve, artery and vein.",
+   "offer_structures": [
+    "inguinal ligament",
+    "sartorius",
+    "adductor longus",
+    "pectineus",
+    "iliopsoas",
+    "femoral nerve",
+    "femoral artery",
+    "femoral vein"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The femoral triangle is bounded by the inguinal ligament, the medial border of sartorius and the medial border of adductor longus; its floor is iliopsoas and pectineus.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "anatomical_snuffbox",
+   "label": "Anatomical snuffbox",
+   "he_label": "קופסת ההרחה האנטומית",
+   "syn": [
+    "anatomical snuffbox",
+    "radial fossa",
+    "snuffbox"
+   ],
+   "he": [
+    "קופסת ההרחה האנטומית"
+   ],
+   "kind": "region",
+   "body": "The hollow on the radial side of the wrist, floored by the scaphoid and the trapezium, with the radial artery crossing it.",
+   "offer_structures": [
+    "abductor pollicis longus",
+    "extensor pollicis brevis",
+    "extensor pollicis longus",
+    "scaphoid bone",
+    "trapezium bone",
+    "radial artery"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The anatomical snuffbox is bounded in front by the tendons of abductor pollicis longus and extensor pollicis brevis and behind by the tendon of extensor pollicis longus; its floor is the scaphoid and the trapezium, crossed by the radial artery.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "axilla",
+   "label": "Axilla",
+   "he_label": "בית השחי",
+   "syn": [
+    "axilla",
+    "armpit",
+    "axillary region"
+   ],
+   "he": [
+    "בית השחי",
+    "הפיט"
+   ],
+   "kind": "region",
+   "body": "The pyramidal space between the arm and the chest wall, carrying the axillary artery and vein and the brachial plexus.",
+   "offer_structures": [
+    "pectoralis major",
+    "pectoralis minor",
+    "latissimus dorsi",
+    "teres major",
+    "subscapularis",
+    "serratus anterior",
+    "axillary artery",
+    "axillary vein"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The anterior wall of the axilla is pectoralis major and pectoralis minor, the posterior wall is subscapularis, teres major and latissimus dorsi, and the medial wall is serratus anterior over the ribs.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "inguinal_canal",
+   "label": "Inguinal canal",
+   "he_label": "התעלה המפשעתית",
+   "syn": [
+    "inguinal canal",
+    "inguinal region",
+    "Hesselbach's triangle",
+    "inguinal hernia"
+   ],
+   "he": [
+    "התעלה המפשעתית",
+    "אזור המפשעה"
+   ],
+   "kind": "region",
+   "body": "An oblique passage through the anterior abdominal wall above the inguinal ligament. Hernia is a DIAGNOSIS, not a structure; the atlas shows the wall.",
+   "offer_structures": [
+    "inguinal ligament",
+    "external oblique",
+    "internal oblique",
+    "transversus abdominis",
+    "rectus abdominis",
+    "ilioinguinal nerve"
+   ],
+   "offer_groups": [
+    "anterolateral_abdominal_wall"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The inguinal canal lies above the medial half of the inguinal ligament; its anterior wall is the aponeurosis of external oblique and its floor is the inguinal ligament.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "greater_sciatic_foramen",
+   "label": "Greater sciatic foramen",
+   "he_label": "הפתח הסיאטי הגדול",
+   "syn": [
+    "greater sciatic foramen",
+    "sciatic foramen",
+    "piriformis syndrome",
+    "deep gluteal space"
+   ],
+   "he": [
+    "הפתח הסיאטי הגדול",
+    "תסמונת הפיריפורמיס"
+   ],
+   "kind": "region",
+   "body": "The gap between the sacrotuberous and sacrospinous ligaments and the hip bone, divided by piriformis; the sciatic nerve and the gluteal vessels and nerves pass through it. Piriformis syndrome is a DIAGNOSIS; the atlas shows the anatomy.",
+   "offer_structures": [
+    "piriformis",
+    "sciatic nerve",
+    "superior gluteal nerve",
+    "inferior gluteal nerve",
+    "sacrotuberous ligament",
+    "sacrospinous ligament",
+    "hip bone",
+    "sacrum"
+   ],
+   "offer_groups": [
+    "deep_gluteal",
+    "act_hip_rot_n"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "Piriformis passes through the greater sciatic foramen and divides it; the sciatic nerve usually leaves the pelvis below piriformis.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "thoracic_outlet",
+   "label": "Thoracic outlet",
+   "he_label": "המוצא התורקלי",
+   "syn": [
+    "thoracic outlet",
+    "thoracic outlet syndrome",
+    "TOS",
+    "scalene triangle",
+    "interscalene triangle"
+   ],
+   "he": [
+    "המוצא התורקלי",
+    "תסמונת המוצא התורקלי"
+   ],
+   "kind": "region",
+   "body": "The passage of the brachial plexus and the subclavian vessels between the scalene muscles, the first rib and the clavicle. Thoracic outlet syndrome is a DIAGNOSIS; the atlas shows the passage.",
+   "offer_structures": [
+    "anterior scalene",
+    "middle scalene",
+    "posterior scalene",
+    "clavicle",
+    "subclavian artery",
+    "left subclavian vein",
+    "right subclavian vein"
+   ],
+   "offer_groups": [
+    "scalenes"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The brachial plexus and the subclavian artery pass between the anterior and middle scalene muscles over the first rib; the subclavian vein passes in front of the anterior scalene.",
+     "src": "gray"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "pennation",
+   "label": "Pennation angle",
+   "he_label": "זווית הפנציה",
+   "syn": [
+    "pennation",
+    "pennation angle",
+    "fibre angle",
+    "fiber angle",
+    "pennate muscle",
+    "muscle architecture"
+   ],
+   "he": [
+    "זווית הפנציה",
+    "זווית הסיבים",
+    "ארכיטקטורת השריר"
+   ],
+   "kind": "measure",
+   "body": "The angle between a muscle's fibres and its line of pull. This project measures and ships fibre direction per muscle part (Q289) and the ultrasound architecture table (data/anatomy/us_architecture_q289.json); pick a muscle to see its own figures on its card.",
+   "offer_structures": [
+    "gastrocnemius",
+    "soleus",
+    "vastus lateralis",
+    "rectus femoris",
+    "tibialis anterior",
+    "biceps brachii",
+    "deltoid"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "This project's own fibre-direction and architecture data is in data/anatomy/us_architecture_q289.json (Q289) and is shown per muscle part on the card; it is not re-derived here.",
+     "src": "project"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "range_of_motion",
+   "label": "Range of motion (ROM)",
+   "he_label": "טווח תנועה",
+   "syn": [
+    "range of motion",
+    "ROM",
+    "joint range",
+    "range of movement",
+    "joint motion"
+   ],
+   "he": [
+    "טווח תנועה",
+    "טווח התנועה של המפרק"
+   ],
+   "kind": "measure",
+   "body": "The angular range a joint can move through. This project's pose rig (data/anatomy/pose_rig_<page>.json, Q241) carries a limit per degree of freedom, and the Q283 action simulation moves within it; pick a joint or a muscle to see the degrees of freedom it crosses.",
+   "offer_structures": [
+    "femur",
+    "tibia",
+    "humerus",
+    "scapula",
+    "hip bone"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The limits the simulation obeys are this project's own pose-rig limits per degree of freedom (data/anatomy/pose_rig_*.json), not a published normative range: no normative ROM table is shipped.",
+     "src": "project"
+    }
+   ],
+   "note": "No normative ROM values are claimed. The rig's limits are a modelling choice of this project.",
+   "inferred": 0
+  },
+  {
+   "id": "moment_arm",
+   "label": "Moment arm / line of action",
+   "he_label": "זרוע מומנט",
+   "syn": [
+    "moment arm",
+    "lever arm",
+    "line of action",
+    "line of pull",
+    "muscle moment arm"
+   ],
+   "he": [
+    "זרוע מומנט",
+    "קו הפעולה",
+    "קו המשיכה"
+   ],
+   "kind": "measure",
+   "body": "The perpendicular distance from a muscle's line of pull to the joint axis. This project COMPUTES it for every muscle about every pose-rig joint it crosses, from each page's own meshes (Q284), and badges it as computed on the Learn card.",
+   "offer_structures": [
+    "iliopsoas",
+    "gluteus maximus",
+    "biceps brachii",
+    "gastrocnemius"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The moment arms shown are computed from each page's own geometry about its own pose-rig joints (data/anatomy/moment_arms_<page>.json, Q284) and are badged as computed, not cited.",
+     "src": "project"
+    }
+   ],
+   "note": "",
+   "inferred": 0
+  },
+  {
+   "id": "q_angle",
+   "label": "Q angle",
+   "he_label": "זווית Q",
+   "syn": [
+    "Q angle",
+    "quadriceps angle",
+    "patellofemoral angle"
+   ],
+   "he": [
+    "זווית Q",
+    "זווית הקוודריצפס"
+   ],
+   "kind": "measure",
+   "body": "The angle between the pull of quadriceps and the patellar ligament, measured from the ASIS through the patella to the tibial tuberosity. This project ships the bones and the muscles it is measured on, but NO Q-angle value: the three landmarks are not shipped as meshes.",
+   "offer_structures": [
+    "patella",
+    "patellar ligament",
+    "rectus femoris",
+    "vastus lateralis",
+    "vastus medialis",
+    "tibia",
+    "hip bone"
+   ],
+   "offer_groups": [
+    "quadriceps_femoris"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "No Q-angle figure is computed or claimed here. The ASIS and the tibial tuberosity are bone LANDMARKS and this project ships no mesh for either, which is the same reason ASIS and AIIS return an explanation rather than a structure.",
+     "src": "project"
+    }
+   ],
+   "note": "Stated as a gap, not a measurement.",
+   "inferred": 0
+  },
+  {
+   "id": "compartment_syndrome",
+   "label": "Compartments and compartment syndrome",
+   "he_label": "מדורים ותסמונת המדור",
+   "syn": [
+    "compartment",
+    "compartment syndrome",
+    "fascial compartment",
+    "muscle compartment",
+    "acute compartment syndrome",
+    "chronic exertional compartment syndrome"
+   ],
+   "he": [
+    "מדור",
+    "תסמונת המדור",
+    "מדור פאסציאלי"
+   ],
+   "kind": "measure",
+   "body": "A compartment is a group of muscles enclosed by deep fascia and bone. Compartment syndrome is a DIAGNOSIS (pressure inside a compartment), not a structure: the atlas shows the compartments and the fascia that bound them. The compartments this project has cited membership for are offered below.",
+   "offer_structures": [
+    "crural fascia",
+    "fascia lata",
+    "thoracolumbar fascia, posterior layer",
+    "flexor retinaculum (transverse carpal ligament)",
+    "plantar aponeurosis"
+   ],
+   "offer_groups": [
+    "leg_anterior",
+    "leg_lateral",
+    "hip_adductors",
+    "quadriceps_femoris",
+    "hamstrings"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The compartments with cited membership in this project are the anterior and the lateral compartment of the leg (data/anatomy/muscle_groups_q283.json, Gray's 4th ed.). The remaining compartments of the leg, thigh, forearm, hand and foot have no cited membership data here yet, and the search says so rather than offering a guess.",
+     "src": "project"
+    }
+   ],
+   "note": "Honest partial answer: 2 of the standard compartments have cited membership, the rest do not.",
+   "inferred": 0
+  },
+  {
+   "id": "subacromial_impingement",
+   "label": "Subacromial impingement",
+   "he_label": "חבטה תת-אקרומיאלית",
+   "syn": [
+    "subacromial impingement",
+    "impingement",
+    "shoulder impingement",
+    "subacromial pain syndrome",
+    "rotator cuff impingement"
+   ],
+   "he": [
+    "חבטה תת-אקרומיאלית",
+    "אימפינג'מנט של הכתף"
+   ],
+   "kind": "diagnosis",
+   "body": "Pain attributed to the space between the acromion and the humeral head. The structures of that space on this page are offered below.",
+   "offer_structures": [
+    "supraspinatus",
+    "infraspinatus",
+    "subscapularis",
+    "teres minor",
+    "scapula",
+    "humerus",
+    "clavicle",
+    "deltoid",
+    "subacromial subdeltoid bursa"
+   ],
+   "offer_groups": [
+    "rotator_cuff",
+    "rotator_cuff_plus"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The supraspinatus tendon and the subacromial bursa lie between the acromion and the head of the humerus.",
+     "src": "gray"
+    },
+    {
+     "text": "No page ships a coracoacromial ligament mesh, so the roof of the space is shown by the scapula's acromion and coracoid process only; this is a gap, stated rather than filled.",
+     "src": "project"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "femoroacetabular_impingement",
+   "label": "Femoroacetabular impingement (FAI)",
+   "he_label": "חבטה פמורואצטבולרית",
+   "syn": [
+    "femoroacetabular impingement",
+    "FAI",
+    "hip impingement",
+    "cam lesion",
+    "pincer lesion"
+   ],
+   "he": [
+    "חבטה פמורואצטבולרית",
+    "אימפינג'מנט של הירך"
+   ],
+   "kind": "diagnosis",
+   "body": "Contact between the femoral head-neck junction and the acetabular rim.",
+   "offer_structures": [
+    "femur",
+    "hip bone",
+    "acetabular labrum",
+    "iliofemoral ligament",
+    "iliopsoas"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The acetabular labrum is attached to the margin of the acetabulum and is continuous with the transverse acetabular ligament.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "plantar_fasciitis",
+   "label": "Plantar fasciitis / plantar heel pain",
+   "he_label": "דלקת הפאסיה הפלנטרית",
+   "syn": [
+    "plantar fasciitis",
+    "plantar fasciopathy",
+    "plantar heel pain",
+    "heel spur"
+   ],
+   "he": [
+    "דלקת הפאסיה הפלנטרית",
+    "כאב עקב"
+   ],
+   "kind": "diagnosis",
+   "body": "Pain at the attachment of the plantar aponeurosis to the calcaneus.",
+   "offer_structures": [
+    "plantar aponeurosis",
+    "calcaneus",
+    "flexor digitorum brevis",
+    "calcaneal tendon"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The plantar aponeurosis is attached posteriorly to the calcaneal tuberosity and divides distally into bands for the toes.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "tennis_elbow",
+   "label": "Lateral epicondylitis (tennis elbow)",
+   "he_label": "מרפק טניס",
+   "syn": [
+    "tennis elbow",
+    "lateral epicondylitis",
+    "lateral elbow tendinopathy",
+    "common extensor origin"
+   ],
+   "he": [
+    "מרפק טניס",
+    "דלקת האפיקונדיל הלטרלי"
+   ],
+   "kind": "diagnosis",
+   "body": "Pain at the common extensor origin on the lateral epicondyle of the humerus.",
+   "offer_structures": [
+    "extensor carpi radialis brevis",
+    "extensor carpi radialis longus",
+    "extensor digitorum",
+    "extensor carpi ulnaris",
+    "humerus"
+   ],
+   "offer_groups": [
+    "act_wrist_flex_n"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The superficial extensors of the forearm arise from a common tendon on the lateral epicondyle of the humerus.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "golfers_elbow",
+   "label": "Medial epicondylitis (golfer's elbow)",
+   "he_label": "מרפק גולף",
+   "syn": [
+    "golfer's elbow",
+    "golfers elbow",
+    "medial epicondylitis",
+    "common flexor origin"
+   ],
+   "he": [
+    "מרפק גולף",
+    "דלקת האפיקונדיל המדיאלי"
+   ],
+   "kind": "diagnosis",
+   "body": "Pain at the common flexor origin on the medial epicondyle of the humerus.",
+   "offer_structures": [
+    "flexor carpi radialis",
+    "flexor carpi ulnaris",
+    "pronator teres",
+    "flexor digitorum superficialis",
+    "humerus"
+   ],
+   "offer_groups": [
+    "act_wrist_flex_p"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The superficial flexors of the forearm arise from a common tendon on the medial epicondyle of the humerus.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "frozen_shoulder",
+   "label": "Adhesive capsulitis (frozen shoulder)",
+   "he_label": "כתף קפואה",
+   "syn": [
+    "frozen shoulder",
+    "adhesive capsulitis",
+    "glenohumeral capsulitis"
+   ],
+   "he": [
+    "כתף קפואה",
+    "קפסוליטיס אדהזיבי"
+   ],
+   "kind": "diagnosis",
+   "body": "Painful loss of glenohumeral motion attributed to the joint capsule.",
+   "offer_structures": [
+    "humerus",
+    "scapula",
+    "supraspinatus",
+    "subscapularis",
+    "infraspinatus",
+    "teres minor",
+    "deltoid"
+   ],
+   "offer_groups": [
+    "rotator_cuff"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The glenohumeral joint capsule is attached to the margin of the glenoid cavity and to the anatomical neck of the humerus.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "shin_splints",
+   "label": "Medial tibial stress syndrome (shin splints)",
+   "he_label": "כאבי שוקיים",
+   "syn": [
+    "shin splints",
+    "medial tibial stress syndrome",
+    "MTSS",
+    "tibial stress syndrome"
+   ],
+   "he": [
+    "כאבי שוקיים",
+    "תסמונת מאמץ של השוק המדיאלית"
+   ],
+   "kind": "diagnosis",
+   "body": "Exercise-related pain along the medial border of the tibia.",
+   "offer_structures": [
+    "tibia",
+    "tibialis posterior",
+    "soleus",
+    "flexor digitorum longus",
+    "tibialis anterior",
+    "crural fascia"
+   ],
+   "offer_groups": [
+    "leg_anterior"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "Runners who developed medial tibial stress syndrome had \"tighter iliotibial bands\", \"weaker hip abductors\" and \"greater contralateral pelvic drop\" than those who did not.",
+     "src": "becker2018"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "bakers_cyst",
+   "label": "Popliteal (Baker's) cyst",
+   "he_label": "ציסטת בייקר",
+   "syn": [
+    "Baker's cyst",
+    "Bakers cyst",
+    "popliteal cyst",
+    "gastrocnemius-semimembranosus bursa"
+   ],
+   "he": [
+    "ציסטת בייקר",
+    "ציסטה פופליטאלית"
+   ],
+   "kind": "diagnosis",
+   "body": "A distended bursa behind the knee, classically between the medial head of gastrocnemius and semimembranosus.",
+   "offer_structures": [
+    "semimembranosus",
+    "gastrocnemius",
+    "popliteus",
+    "femur",
+    "tibia"
+   ],
+   "offer_groups": [
+    "hamstrings"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "A subtendinous bursa lies between the medial head of gastrocnemius and the capsule of the knee joint, and may communicate with the joint cavity.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "de_quervain",
+   "label": "De Quervain's tenosynovitis",
+   "he_label": "דה קרוון",
+   "syn": [
+    "de Quervain",
+    "de Quervain's tenosynovitis",
+    "de Quervain tenosynovitis",
+    "first dorsal compartment",
+    "radial styloid tenosynovitis"
+   ],
+   "he": [
+    "דה קרוון",
+    "טנוסינוביטיס של דה קרוון"
+   ],
+   "kind": "diagnosis",
+   "body": "Pain at the first dorsal compartment of the wrist, where APL and EPB share a sheath.",
+   "offer_structures": [
+    "abductor pollicis longus",
+    "extensor pollicis brevis",
+    "radius",
+    "extensor retinaculum"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The first compartment under the extensor retinaculum transmits the tendons of abductor pollicis longus and extensor pollicis brevis.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "piriformis_syndrome",
+   "label": "Piriformis syndrome / deep gluteal syndrome",
+   "he_label": "תסמונת הפיריפורמיס",
+   "syn": [
+    "piriformis syndrome",
+    "deep gluteal syndrome",
+    "sciatic nerve entrapment",
+    "nerve entrapment",
+    "entrapment"
+   ],
+   "he": [
+    "תסמונת הפיריפורמיס",
+    "לחיצה על עצב השת"
+   ],
+   "kind": "diagnosis",
+   "body": "Sciatic symptoms attributed to the deep gluteal space rather than to the lumbar spine.",
+   "offer_structures": [
+    "piriformis",
+    "sciatic nerve",
+    "superior gemellus",
+    "inferior gemellus",
+    "obturator internus",
+    "quadratus femoris",
+    "sacrotuberous ligament"
+   ],
+   "offer_groups": [
+    "deep_gluteal",
+    "act_hip_rot_n"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The sciatic nerve leaves the pelvis through the greater sciatic foramen, usually below piriformis.",
+     "src": "gray"
+    }
+   ],
+   "note": "A DIAGNOSIS, not a structure. The atlas shows the anatomy involved and asserts no mechanism, severity or treatment.",
+   "inferred": 0
+  },
+  {
+   "id": "lumbar_lordosis",
+   "label": "Lumbar lordosis",
+   "he_label": "לורדוזה מותנית",
+   "syn": [
+    "lumbar lordosis",
+    "lordosis",
+    "hyperlordosis",
+    "sway back"
+   ],
+   "he": [
+    "לורדוזה מותנית",
+    "לורדוזה",
+    "היפרלורדוזה"
+   ],
+   "kind": "posture",
+   "body": "The forward curve of the lumbar spine in the sagittal plane. Related to pelvic tilt: see 'anterior pelvic tilt'.",
+   "offer_structures": [
+    "lumbar vertebrae",
+    "sacrum",
+    "iliocostalis",
+    "longissimus",
+    "spinalis",
+    "rectus abdominis"
+   ],
+   "offer_groups": [
+    "erector_spinae",
+    "anterolateral_abdominal_wall",
+    "act_lumbar_flex_n"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The atlas shows this body's own geometry; no normative or diagnostic figure is claimed.",
+     "src": "project"
+    }
+   ],
+   "note": "A descriptor of alignment, not a structure. No normative value is shipped.",
+   "inferred": 0
+  },
+  {
+   "id": "thoracic_kyphosis",
+   "label": "Thoracic kyphosis",
+   "he_label": "קיפוזה חזית",
+   "syn": [
+    "thoracic kyphosis",
+    "kyphosis",
+    "hyperkyphosis",
+    "round back"
+   ],
+   "he": [
+    "קיפוזה חזית",
+    "קיפוזה"
+   ],
+   "kind": "posture",
+   "body": "The backward curve of the thoracic spine in the sagittal plane.",
+   "offer_structures": [
+    "thoracic vertebrae",
+    "iliocostalis",
+    "longissimus",
+    "spinalis",
+    "trapezius",
+    "pectoralis major"
+   ],
+   "offer_groups": [
+    "erector_spinae",
+    "act_thoracic_flex_n"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The atlas shows this body's own geometry; no normative or diagnostic figure is claimed.",
+     "src": "project"
+    }
+   ],
+   "note": "A descriptor of alignment, not a structure. No normative value is shipped.",
+   "inferred": 0
+  },
+  {
+   "id": "scoliosis",
+   "label": "Scoliosis",
+   "he_label": "עקמת",
+   "syn": [
+    "scoliosis",
+    "spinal curvature",
+    "Cobb angle",
+    "lateral curvature of the spine"
+   ],
+   "he": [
+    "עקמת",
+    "סקוליוזיס",
+    "זווית קוב"
+   ],
+   "kind": "posture",
+   "body": "A lateral curvature of the spine with rotation. The atlas ships a Cobb-angle MEASURING tool (Q294); it does not diagnose and ships no scoliotic spine.",
+   "offer_structures": [
+    "thoracic vertebrae",
+    "lumbar vertebrae",
+    "iliocostalis",
+    "longissimus",
+    "quadratus lumborum"
+   ],
+   "offer_groups": [
+    "erector_spinae",
+    "act_thoracic_lat_p",
+    "act_lumbar_lat_p"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The atlas shows this body's own geometry; no normative or diagnostic figure is claimed.",
+     "src": "project"
+    }
+   ],
+   "note": "A descriptor of alignment, not a structure. No normative value is shipped.",
+   "inferred": 0
+  },
+  {
+   "id": "genu_valgum",
+   "label": "Genu valgum (knock knee)",
+   "he_label": "גנו ואלגום",
+   "syn": [
+    "genu valgum",
+    "knock knee",
+    "knock-knees",
+    "valgus knee"
+   ],
+   "he": [
+    "גנו ואלגום",
+    "רגליים X"
+   ],
+   "kind": "posture",
+   "body": "A frontal-plane alignment of the knee. The atlas ships this body's own bones and no normative alignment figure.",
+   "offer_structures": [
+    "femur",
+    "tibia",
+    "patella",
+    "tibial collateral ligament",
+    "iliotibial tract"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The atlas shows this body's own geometry; no normative or diagnostic figure is claimed.",
+     "src": "project"
+    }
+   ],
+   "note": "A descriptor of alignment, not a structure. No normative value is shipped.",
+   "inferred": 0
+  },
+  {
+   "id": "genu_varum",
+   "label": "Genu varum (bow leg)",
+   "he_label": "גנו ורום",
+   "syn": [
+    "genu varum",
+    "bow leg",
+    "bow-legged",
+    "varus knee"
+   ],
+   "he": [
+    "גנו ורום",
+    "רגליים O"
+   ],
+   "kind": "posture",
+   "body": "A frontal-plane alignment of the knee. The atlas ships this body's own bones and no normative alignment figure.",
+   "offer_structures": [
+    "femur",
+    "tibia",
+    "patella",
+    "fibular collateral ligament",
+    "iliotibial tract"
+   ],
+   "offer_groups": [],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The atlas shows this body's own geometry; no normative or diagnostic figure is claimed.",
+     "src": "project"
+    }
+   ],
+   "note": "A descriptor of alignment, not a structure. No normative value is shipped.",
+   "inferred": 0
+  },
+  {
+   "id": "pes_planus",
+   "label": "Pes planus (flat foot) / pes cavus",
+   "he_label": "רגל שטוחה",
+   "syn": [
+    "pes planus",
+    "flat foot",
+    "flatfoot",
+    "fallen arch",
+    "pes cavus",
+    "high arch",
+    "arch of the foot"
+   ],
+   "he": [
+    "רגל שטוחה",
+    "פס פלנוס",
+    "קמרון כף הרגל"
+   ],
+   "kind": "posture",
+   "body": "The height of the longitudinal arch of the foot. The atlas ships the arch's own bones, ligaments and tendons and no normative arch figure.",
+   "offer_structures": [
+    "plantar aponeurosis",
+    "calcaneus",
+    "navicular",
+    "tibialis posterior",
+    "flexor hallucis longus",
+    "plantar calcaneonavicular ligament"
+   ],
+   "offer_groups": [
+    "act_subtalar_inv_p"
+   ],
+   "sim": [],
+   "claims": [
+    {
+     "text": "The atlas shows this body's own geometry; no normative or diagnostic figure is claimed.",
+     "src": "project"
+    }
+   ],
+   "note": "A descriptor of alignment, not a structure. No normative value is shipped.",
+   "inferred": 0
+  }
+ ]
+}

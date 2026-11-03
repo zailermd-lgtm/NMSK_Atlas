@@ -1,0 +1,1557 @@
+{
+ "schema": "nmsk.group_names.v1",
+ "round": "Q306",
+ "doc": "Q306: the SEARCHABLE NAMES of the functional muscle groups the pages already carry. Q298 shipped 108-110 groups per page but only the 17 named textbook groups of data/anatomy/muscle_groups_q283.json had names a user could type: the 87 groups derived from the cited action data and the 6 extras of data/anatomy/relations_q298.json had none, so searching 'hip flexors', 'knee extensors' or 'pes anserinus' returned nothing on every page (measured in docs/research/Q306_search_coverage_audit.md). This file adds the names only. It also carries a corrected display label where the generated one used the pose rig's own words -- 'The opposite of rotation at the hip joint' -> 'External (lateral) rotation at the hip joint', 'Radial at the radiocarpal (wrist) joint' -> 'Radial deviation ...', 'Flexion at the f2 dip' -> 'Flexion at the index finger distal interphalangeal (DIP) joint'. `label_was` keeps what the page printed before so the change is auditable. MEMBERSHIP IS NOT DEFINED HERE.",
+ "he_note": "HEBREW IS A PROJECT-SUPPLIED TRANSLATION, NOT A PUBLISHED TERMINOLOGY -- the same declaration data/anatomy/synonyms_q298.json carries in sources.he.",
+ "action_groups": [
+  {
+   "id": "act_ankle_dp_n",
+   "label": "Plantarflexion at the talocrural (ankle) joint",
+   "label_was": "Plantarflexion at the talocrural (ankle) joint",
+   "syn": [
+    "ankle plantar flexors",
+    "ankle plantarflexors",
+    "plantarflexors",
+    "plantarflexors of the ankle"
+   ],
+   "he": [
+    "כופפי הקרסול",
+    "שרירי כופפי הקרסול"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_ankle_dp_p",
+   "label": "Dorsiflexion at the talocrural (ankle) joint",
+   "label_was": "Dorsiflexion at the talocrural (ankle) joint",
+   "syn": [
+    "ankle dorsiflexors",
+    "dorsiflexors",
+    "dorsiflexors of the ankle"
+   ],
+   "he": [
+    "פושטי הקרסול",
+    "שרירי פושטי הקרסול"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_cervical_flex_n",
+   "label": "Extension at the cervical spine",
+   "label_was": "Extension at the cervical spine",
+   "syn": [
+    "extensors of the neck",
+    "neck extensors"
+   ],
+   "he": [
+    "פושטי הצוואר",
+    "שרירי פושטי הצוואר"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_cervical_flex_p",
+   "label": "Flexion at the cervical spine",
+   "label_was": "Flexion at the cervical spine",
+   "syn": [
+    "flexors of the neck",
+    "neck flexors"
+   ],
+   "he": [
+    "כופפי הצוואר",
+    "שרירי כופפי הצוואר"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_cervical_lat_p",
+   "label": "Lateral flexion (side bending) at the cervical spine",
+   "label_was": "Lateral flexion at the cervical spine",
+   "syn": [
+    "cervical lateral flexors",
+    "cervical side benders",
+    "lateral flexors of the neck",
+    "neck lateral flexors",
+    "neck side benders",
+    "neck side bending muscles"
+   ],
+   "he": [
+    "מכופפי הצוואר לצד",
+    "שרירי מכופפי הצוואר לצד"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": "Sign convention read off the cited action quotes themselves: +1 rows say 'ipsilaterally rotates' / 'to the same side', -1 rows say 'contralaterally rotates' / 'to the opposite side' (data/anatomy/muscle_actions_q283.json). Mirrored for a left-sided muscle."
+  },
+  {
+   "id": "act_cervical_rot_n",
+   "label": "Contralateral rotation (to the opposite side) at the cervical spine",
+   "label_was": "The opposite of rotation at the cervical spine",
+   "syn": [
+    "contralateral rotators of the neck",
+    "neck contralateral rotators",
+    "neck opposite-side rotators",
+    "neck rotators",
+    "neck rotators to the opposite side"
+   ],
+   "he": [
+    "מסובבי הצוואר",
+    "מסובבי הצוואר לצד הנגדי",
+    "שרירי מסובבי הצוואר לצד הנגדי"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": "Sign convention read off the cited action quotes themselves: +1 rows say 'ipsilaterally rotates' / 'to the same side', -1 rows say 'contralaterally rotates' / 'to the opposite side' (data/anatomy/muscle_actions_q283.json). Mirrored for a left-sided muscle."
+  },
+  {
+   "id": "act_cervical_rot_p",
+   "label": "Ipsilateral rotation (to the same side) at the cervical spine",
+   "label_was": "Rotation at the cervical spine",
+   "syn": [
+    "ipsilateral rotators of the neck",
+    "neck ipsilateral rotators",
+    "neck rotators",
+    "neck rotators to the same side",
+    "neck same-side rotators"
+   ],
+   "he": [
+    "מסובבי הצוואר",
+    "מסובבי הצוואר לאותו צד",
+    "שרירי מסובבי הצוואר לאותו צד"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": "Sign convention read off the cited action quotes themselves: +1 rows say 'ipsilaterally rotates' / 'to the same side', -1 rows say 'contralaterally rotates' / 'to the opposite side' (data/anatomy/muscle_actions_q283.json). Mirrored for a left-sided muscle."
+  },
+  {
+   "id": "act_elbow_flex_n",
+   "label": "Extension at the elbow joint",
+   "label_was": "Extension at the elbow joint",
+   "syn": [
+    "elbow extensors",
+    "extensors of the elbow"
+   ],
+   "he": [
+    "פושטי המרפק",
+    "שרירי פושטי המרפק"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_elbow_flex_p",
+   "label": "Flexion at the elbow joint",
+   "label_was": "Flexion at the elbow joint",
+   "syn": [
+    "elbow flexors",
+    "flexors of the elbow"
+   ],
+   "he": [
+    "כופפי המרפק",
+    "שרירי כופפי המרפק"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f2_dip_flex_n",
+   "label": "Extension at the index finger distal interphalangeal (DIP) joint",
+   "label_was": "Extension at the f2 dip",
+   "syn": [
+    "extensors of the index finger DIP",
+    "index finger DIP extensors"
+   ],
+   "he": [
+    "פושטי אצבע מורה",
+    "שרירי פושטי אצבע מורה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f2_dip_flex_p",
+   "label": "Flexion at the index finger distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the f2 dip",
+   "syn": [
+    "flexors of the index finger DIP",
+    "index finger DIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע מורה",
+    "שרירי כופפי אצבע מורה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f2_mcp_flex_n",
+   "label": "Extension at the index finger metacarpophalangeal (MCP) joint",
+   "label_was": "Extension at the f2 mcp",
+   "syn": [
+    "extensors of the index finger MCP",
+    "index finger MCP extensors"
+   ],
+   "he": [
+    "פושטי אצבע מורה",
+    "שרירי פושטי אצבע מורה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f2_mcp_flex_p",
+   "label": "Flexion at the index finger metacarpophalangeal (MCP) joint",
+   "label_was": "Flexion at the f2 mcp",
+   "syn": [
+    "flexors of the index finger MCP",
+    "index finger MCP flexors"
+   ],
+   "he": [
+    "כופפי אצבע מורה",
+    "שרירי כופפי אצבע מורה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f2_pip_flex_n",
+   "label": "Extension at the index finger proximal interphalangeal (PIP) joint",
+   "label_was": "Extension at the f2 pip",
+   "syn": [
+    "extensors of the index finger PIP",
+    "index finger PIP extensors"
+   ],
+   "he": [
+    "פושטי אצבע מורה",
+    "שרירי פושטי אצבע מורה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f2_pip_flex_p",
+   "label": "Flexion at the index finger proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the f2 pip",
+   "syn": [
+    "flexors of the index finger PIP",
+    "index finger PIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע מורה",
+    "שרירי כופפי אצבע מורה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f3_dip_flex_n",
+   "label": "Extension at the middle finger distal interphalangeal (DIP) joint",
+   "label_was": "Extension at the f3 dip",
+   "syn": [
+    "extensors of the middle finger DIP",
+    "middle finger DIP extensors"
+   ],
+   "he": [
+    "פושטי אצבע אמצעית",
+    "שרירי פושטי אצבע אמצעית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f3_dip_flex_p",
+   "label": "Flexion at the middle finger distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the f3 dip",
+   "syn": [
+    "flexors of the middle finger DIP",
+    "middle finger DIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע אמצעית",
+    "שרירי כופפי אצבע אמצעית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f3_mcp_flex_n",
+   "label": "Extension at the middle finger metacarpophalangeal (MCP) joint",
+   "label_was": "Extension at the f3 mcp",
+   "syn": [
+    "extensors of the middle finger MCP",
+    "middle finger MCP extensors"
+   ],
+   "he": [
+    "פושטי אצבע אמצעית",
+    "שרירי פושטי אצבע אמצעית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f3_mcp_flex_p",
+   "label": "Flexion at the middle finger metacarpophalangeal (MCP) joint",
+   "label_was": "Flexion at the f3 mcp",
+   "syn": [
+    "flexors of the middle finger MCP",
+    "middle finger MCP flexors"
+   ],
+   "he": [
+    "כופפי אצבע אמצעית",
+    "שרירי כופפי אצבע אמצעית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f3_pip_flex_n",
+   "label": "Extension at the middle finger proximal interphalangeal (PIP) joint",
+   "label_was": "Extension at the f3 pip",
+   "syn": [
+    "extensors of the middle finger PIP",
+    "middle finger PIP extensors"
+   ],
+   "he": [
+    "פושטי אצבע אמצעית",
+    "שרירי פושטי אצבע אמצעית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f3_pip_flex_p",
+   "label": "Flexion at the middle finger proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the f3 pip",
+   "syn": [
+    "flexors of the middle finger PIP",
+    "middle finger PIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע אמצעית",
+    "שרירי כופפי אצבע אמצעית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f4_dip_flex_n",
+   "label": "Extension at the ring finger distal interphalangeal (DIP) joint",
+   "label_was": "Extension at the f4 dip",
+   "syn": [
+    "extensors of the ring finger DIP",
+    "ring finger DIP extensors"
+   ],
+   "he": [
+    "פושטי קמיצה",
+    "שרירי פושטי קמיצה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f4_dip_flex_p",
+   "label": "Flexion at the ring finger distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the f4 dip",
+   "syn": [
+    "flexors of the ring finger DIP",
+    "ring finger DIP flexors"
+   ],
+   "he": [
+    "כופפי קמיצה",
+    "שרירי כופפי קמיצה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f4_mcp_flex_n",
+   "label": "Extension at the ring finger metacarpophalangeal (MCP) joint",
+   "label_was": "Extension at the f4 mcp",
+   "syn": [
+    "extensors of the ring finger MCP",
+    "ring finger MCP extensors"
+   ],
+   "he": [
+    "פושטי קמיצה",
+    "שרירי פושטי קמיצה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f4_mcp_flex_p",
+   "label": "Flexion at the ring finger metacarpophalangeal (MCP) joint",
+   "label_was": "Flexion at the f4 mcp",
+   "syn": [
+    "flexors of the ring finger MCP",
+    "ring finger MCP flexors"
+   ],
+   "he": [
+    "כופפי קמיצה",
+    "שרירי כופפי קמיצה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f4_pip_flex_n",
+   "label": "Extension at the ring finger proximal interphalangeal (PIP) joint",
+   "label_was": "Extension at the f4 pip",
+   "syn": [
+    "extensors of the ring finger PIP",
+    "ring finger PIP extensors"
+   ],
+   "he": [
+    "פושטי קמיצה",
+    "שרירי פושטי קמיצה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f4_pip_flex_p",
+   "label": "Flexion at the ring finger proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the f4 pip",
+   "syn": [
+    "flexors of the ring finger PIP",
+    "ring finger PIP flexors"
+   ],
+   "he": [
+    "כופפי קמיצה",
+    "שרירי כופפי קמיצה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f5_dip_flex_n",
+   "label": "Extension at the little finger distal interphalangeal (DIP) joint",
+   "label_was": "Extension at the f5 dip",
+   "syn": [
+    "extensors of the little finger DIP",
+    "little finger DIP extensors"
+   ],
+   "he": [
+    "פושטי זרת",
+    "שרירי פושטי זרת"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f5_dip_flex_p",
+   "label": "Flexion at the little finger distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the f5 dip",
+   "syn": [
+    "flexors of the little finger DIP",
+    "little finger DIP flexors"
+   ],
+   "he": [
+    "כופפי זרת",
+    "שרירי כופפי זרת"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f5_mcp_flex_n",
+   "label": "Extension at the little finger metacarpophalangeal (MCP) joint",
+   "label_was": "Extension at the f5 mcp",
+   "syn": [
+    "extensors of the little finger MCP",
+    "little finger MCP extensors"
+   ],
+   "he": [
+    "פושטי זרת",
+    "שרירי פושטי זרת"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f5_mcp_flex_p",
+   "label": "Flexion at the little finger metacarpophalangeal (MCP) joint",
+   "label_was": "Flexion at the f5 mcp",
+   "syn": [
+    "flexors of the little finger MCP",
+    "little finger MCP flexors"
+   ],
+   "he": [
+    "כופפי זרת",
+    "שרירי כופפי זרת"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f5_pip_flex_n",
+   "label": "Extension at the little finger proximal interphalangeal (PIP) joint",
+   "label_was": "Extension at the f5 pip",
+   "syn": [
+    "extensors of the little finger PIP",
+    "little finger PIP extensors"
+   ],
+   "he": [
+    "פושטי זרת",
+    "שרירי פושטי זרת"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_f5_pip_flex_p",
+   "label": "Flexion at the little finger proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the f5 pip",
+   "syn": [
+    "flexors of the little finger PIP",
+    "little finger PIP flexors"
+   ],
+   "he": [
+    "כופפי זרת",
+    "שרירי כופפי זרת"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_forearm_sup_n",
+   "label": "Pronation at the radio-ulnar joints",
+   "label_was": "Pronation at the radio-ulnar joints (pronation / supination)",
+   "syn": [
+    "forearm pronators",
+    "pronators",
+    "pronators of the forearm"
+   ],
+   "he": [
+    "שרירי הפרונציה של האמה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_forearm_sup_p",
+   "label": "Supination at the radio-ulnar joints",
+   "label_was": "Supination at the radio-ulnar joints (pronation / supination)",
+   "syn": [
+    "forearm supinators",
+    "supinators",
+    "supinators of the forearm"
+   ],
+   "he": [
+    "שרירי הסופינציה של האמה"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_hip_abd_n",
+   "label": "Adduction at the hip joint",
+   "label_was": "Adduction at the hip joint",
+   "syn": [
+    "adductors of the hip",
+    "hip adductors"
+   ],
+   "he": [
+    "מקרבי הירך",
+    "שרירי מקרבי הירך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_hip_abd_p",
+   "label": "Abduction at the hip joint",
+   "label_was": "Abduction at the hip joint",
+   "syn": [
+    "abductors of the hip",
+    "hip abductors"
+   ],
+   "he": [
+    "מרחיקי הירך",
+    "שרירי מרחיקי הירך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_hip_flex_n",
+   "label": "Extension at the hip joint",
+   "label_was": "Extension at the hip joint",
+   "syn": [
+    "extensors of the hip",
+    "hip extensors"
+   ],
+   "he": [
+    "פושטי הירך",
+    "שרירי פושטי הירך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_hip_flex_p",
+   "label": "Flexion at the hip joint",
+   "label_was": "Flexion at the hip joint",
+   "syn": [
+    "flexors of the hip",
+    "hip flexor",
+    "hip flexor group",
+    "hip flexors",
+    "iliopsoas group"
+   ],
+   "he": [
+    "כופפי הירך",
+    "שרירי כופפי הירך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_hip_rot_n",
+   "label": "External (lateral) rotation at the hip joint",
+   "label_was": "The opposite of rotation at the hip joint",
+   "syn": [
+    "deep hip rotators",
+    "external rotators of the hip",
+    "hip external rotators",
+    "hip lateral rotators",
+    "short external rotators of the hip"
+   ],
+   "he": [
+    "מסובבי חוצה הירך",
+    "שרירי מסובבי חוצה הירך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_hip_rot_p",
+   "label": "Internal (medial) rotation at the hip joint",
+   "label_was": "Rotation at the hip joint",
+   "syn": [
+    "hip internal rotators",
+    "hip medial rotators",
+    "internal rotators of the hip"
+   ],
+   "he": [
+    "מסובבי פנימה הירך",
+    "שרירי מסובבי פנימה הירך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_knee_flex_n",
+   "label": "Extension at the knee joint",
+   "label_was": "Extension at the knee joint",
+   "syn": [
+    "extensors of the knee",
+    "knee extensor group",
+    "knee extensors"
+   ],
+   "he": [
+    "פושטי הברך",
+    "שרירי פושטי הברך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_knee_flex_p",
+   "label": "Flexion at the knee joint",
+   "label_was": "Flexion at the knee joint",
+   "syn": [
+    "flexors of the knee",
+    "knee flexors"
+   ],
+   "he": [
+    "כופפי הברך",
+    "שרירי כופפי הברך"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_lumbar_flex_n",
+   "label": "Extension at the lumbar spine",
+   "label_was": "Extension at the lumbar spine",
+   "syn": [
+    "extensors of the trunk",
+    "trunk extensors"
+   ],
+   "he": [
+    "פושטי הגו",
+    "שרירי פושטי הגו"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_lumbar_flex_p",
+   "label": "Flexion at the lumbar spine",
+   "label_was": "Flexion at the lumbar spine",
+   "syn": [
+    "flexors of the trunk",
+    "trunk flexors"
+   ],
+   "he": [
+    "כופפי הגו",
+    "שרירי כופפי הגו"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_lumbar_lat_p",
+   "label": "Lateral flexion (side bending) at the lumbar spine",
+   "label_was": "Lateral flexion at the lumbar spine",
+   "syn": [
+    "lateral flexors of the trunk",
+    "lumbar lateral flexors",
+    "lumbar side benders",
+    "trunk lateral flexors",
+    "trunk side benders",
+    "trunk side bending muscles"
+   ],
+   "he": [
+    "מכופפי הגו לצד",
+    "שרירי מכופפי הגו לצד"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": "Sign convention read off the cited action quotes themselves: +1 rows say 'ipsilaterally rotates' / 'to the same side', -1 rows say 'contralaterally rotates' / 'to the opposite side' (data/anatomy/muscle_actions_q283.json). Mirrored for a left-sided muscle."
+  },
+  {
+   "id": "act_shoulder_abd_n",
+   "label": "Adduction at the glenohumeral (shoulder) joint",
+   "label_was": "Adduction at the glenohumeral (shoulder) joint",
+   "syn": [
+    "adductors of the shoulder",
+    "shoulder adductors"
+   ],
+   "he": [
+    "מקרבי הכתף",
+    "שרירי מקרבי הכתף"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_shoulder_abd_p",
+   "label": "Abduction at the glenohumeral (shoulder) joint",
+   "label_was": "Abduction at the glenohumeral (shoulder) joint",
+   "syn": [
+    "abductors of the shoulder",
+    "shoulder abductors"
+   ],
+   "he": [
+    "מרחיקי הכתף",
+    "שרירי מרחיקי הכתף"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_shoulder_flex_n",
+   "label": "Extension at the glenohumeral (shoulder) joint",
+   "label_was": "Extension at the glenohumeral (shoulder) joint",
+   "syn": [
+    "extensors of the shoulder",
+    "shoulder extensors"
+   ],
+   "he": [
+    "פושטי הכתף",
+    "שרירי פושטי הכתף"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_shoulder_flex_p",
+   "label": "Flexion at the glenohumeral (shoulder) joint",
+   "label_was": "Flexion at the glenohumeral (shoulder) joint",
+   "syn": [
+    "flexors of the shoulder",
+    "shoulder flexors"
+   ],
+   "he": [
+    "כופפי הכתף",
+    "שרירי כופפי הכתף"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_shoulder_rot_n",
+   "label": "External (lateral) rotation at the glenohumeral (shoulder) joint",
+   "label_was": "The opposite of rotation at the glenohumeral (shoulder) joint",
+   "syn": [
+    "external rotators of the shoulder",
+    "shoulder external rotator group",
+    "shoulder external rotators",
+    "shoulder lateral rotators"
+   ],
+   "he": [
+    "מסובבי חוצה הכתף",
+    "שרירי מסובבי חוצה הכתף"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_shoulder_rot_p",
+   "label": "Internal (medial) rotation at the glenohumeral (shoulder) joint",
+   "label_was": "Rotation at the glenohumeral (shoulder) joint",
+   "syn": [
+    "internal rotators of the shoulder",
+    "shoulder internal rotators",
+    "shoulder medial rotators"
+   ],
+   "he": [
+    "מסובבי פנימה הכתף",
+    "שרירי מסובבי פנימה הכתף"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_subtalar_inv_n",
+   "label": "Eversion at the subtalar (talocalcaneal) joint",
+   "label_was": "Eversion at the subtalar (talocalcaneal) joint",
+   "syn": [
+    "evertors",
+    "evertors of the foot",
+    "foot everters",
+    "foot evertors"
+   ],
+   "he": [
+    "הופכי חוצה כף הרגל",
+    "שרירי הופכי חוצה כף הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_subtalar_inv_p",
+   "label": "Inversion at the subtalar (talocalcaneal) joint",
+   "label_was": "Inversion at the subtalar (talocalcaneal) joint",
+   "syn": [
+    "foot inverters",
+    "foot invertors",
+    "invertors",
+    "invertors of the foot"
+   ],
+   "he": [
+    "הופכי פנימה כף הרגל",
+    "שרירי הופכי פנימה כף הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t1_ip_flex_p",
+   "label": "Flexion at the great toe (hallux) interphalangeal (IP) joint",
+   "label_was": "Flexion at the t1 ip",
+   "syn": [
+    "flexors of the great toe (hallux) IP",
+    "great toe (hallux) IP flexors"
+   ],
+   "he": [
+    "כופפי בוהן",
+    "שרירי כופפי בוהן"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t1_mtp_flex_n",
+   "label": "Extension at the great toe (hallux) metatarsophalangeal (MTP) joint",
+   "label_was": "Extension at the t1 mtp",
+   "syn": [
+    "extensors of the great toe (hallux) MTP",
+    "great toe (hallux) MTP extensors"
+   ],
+   "he": [
+    "פושטי בוהן",
+    "שרירי פושטי בוהן"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t1_mtp_flex_p",
+   "label": "Flexion at the great toe (hallux) metatarsophalangeal (MTP) joint",
+   "label_was": "Flexion at the t1 mtp",
+   "syn": [
+    "flexors of the great toe (hallux) MTP",
+    "great toe (hallux) MTP flexors"
+   ],
+   "he": [
+    "כופפי בוהן",
+    "שרירי כופפי בוהן"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t2_dip_flex_p",
+   "label": "Flexion at the second toe distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the t2 dip",
+   "syn": [
+    "flexors of the second toe DIP",
+    "second toe DIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע 2 של הרגל",
+    "שרירי כופפי אצבע 2 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t2_mtp_flex_n",
+   "label": "Extension at the second toe metatarsophalangeal (MTP) joint",
+   "label_was": "Extension at the t2 mtp",
+   "syn": [
+    "extensors of the second toe MTP",
+    "second toe MTP extensors"
+   ],
+   "he": [
+    "פושטי אצבע 2 של הרגל",
+    "שרירי פושטי אצבע 2 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t2_pip_flex_p",
+   "label": "Flexion at the second toe proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the t2 pip",
+   "syn": [
+    "flexors of the second toe PIP",
+    "second toe PIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע 2 של הרגל",
+    "שרירי כופפי אצבע 2 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t3_dip_flex_p",
+   "label": "Flexion at the third toe distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the t3 dip",
+   "syn": [
+    "flexors of the third toe DIP",
+    "third toe DIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע 3 של הרגל",
+    "שרירי כופפי אצבע 3 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t3_mtp_flex_n",
+   "label": "Extension at the third toe metatarsophalangeal (MTP) joint",
+   "label_was": "Extension at the t3 mtp",
+   "syn": [
+    "extensors of the third toe MTP",
+    "third toe MTP extensors"
+   ],
+   "he": [
+    "פושטי אצבע 3 של הרגל",
+    "שרירי פושטי אצבע 3 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t3_pip_flex_p",
+   "label": "Flexion at the third toe proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the t3 pip",
+   "syn": [
+    "flexors of the third toe PIP",
+    "third toe PIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע 3 של הרגל",
+    "שרירי כופפי אצבע 3 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t4_dip_flex_p",
+   "label": "Flexion at the fourth toe distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the t4 dip",
+   "syn": [
+    "flexors of the fourth toe DIP",
+    "fourth toe DIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע 4 של הרגל",
+    "שרירי כופפי אצבע 4 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t4_mtp_flex_n",
+   "label": "Extension at the fourth toe metatarsophalangeal (MTP) joint",
+   "label_was": "Extension at the t4 mtp",
+   "syn": [
+    "extensors of the fourth toe MTP",
+    "fourth toe MTP extensors"
+   ],
+   "he": [
+    "פושטי אצבע 4 של הרגל",
+    "שרירי פושטי אצבע 4 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t4_pip_flex_p",
+   "label": "Flexion at the fourth toe proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the t4 pip",
+   "syn": [
+    "flexors of the fourth toe PIP",
+    "fourth toe PIP flexors"
+   ],
+   "he": [
+    "כופפי אצבע 4 של הרגל",
+    "שרירי כופפי אצבע 4 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t5_dip_flex_p",
+   "label": "Flexion at the fifth toe distal interphalangeal (DIP) joint",
+   "label_was": "Flexion at the t5 dip",
+   "syn": [
+    "fifth toe DIP flexors",
+    "flexors of the fifth toe DIP"
+   ],
+   "he": [
+    "כופפי אצבע 5 של הרגל",
+    "שרירי כופפי אצבע 5 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t5_mtp_flex_n",
+   "label": "Extension at the fifth toe metatarsophalangeal (MTP) joint",
+   "label_was": "Extension at the t5 mtp",
+   "syn": [
+    "extensors of the fifth toe MTP",
+    "fifth toe MTP extensors"
+   ],
+   "he": [
+    "פושטי אצבע 5 של הרגל",
+    "שרירי פושטי אצבע 5 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t5_mtp_flex_p",
+   "label": "Flexion at the fifth toe metatarsophalangeal (MTP) joint",
+   "label_was": "Flexion at the t5 mtp",
+   "syn": [
+    "fifth toe MTP flexors",
+    "flexors of the fifth toe MTP"
+   ],
+   "he": [
+    "כופפי אצבע 5 של הרגל",
+    "שרירי כופפי אצבע 5 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_t5_pip_flex_p",
+   "label": "Flexion at the fifth toe proximal interphalangeal (PIP) joint",
+   "label_was": "Flexion at the t5 pip",
+   "syn": [
+    "fifth toe PIP flexors",
+    "flexors of the fifth toe PIP"
+   ],
+   "he": [
+    "כופפי אצבע 5 של הרגל",
+    "שרירי כופפי אצבע 5 של הרגל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thoracic_flex_n",
+   "label": "Extension at the thoracic spine",
+   "label_was": "Extension at the thoracic spine",
+   "syn": [
+    "extensors of the trunk",
+    "trunk extensors"
+   ],
+   "he": [
+    "פושטי הגו",
+    "שרירי פושטי הגו"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thoracic_flex_p",
+   "label": "Flexion at the thoracic spine",
+   "label_was": "Flexion at the thoracic spine",
+   "syn": [
+    "flexors of the trunk",
+    "trunk flexors"
+   ],
+   "he": [
+    "כופפי הגו",
+    "שרירי כופפי הגו"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thoracic_lat_p",
+   "label": "Lateral flexion (side bending) at the thoracic spine",
+   "label_was": "Lateral flexion at the thoracic spine",
+   "syn": [
+    "lateral flexors of the trunk",
+    "thoracic lateral flexors",
+    "thoracic side benders",
+    "trunk lateral flexors",
+    "trunk side benders",
+    "trunk side bending muscles"
+   ],
+   "he": [
+    "מכופפי הגו לצד",
+    "שרירי מכופפי הגו לצד"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": "Sign convention read off the cited action quotes themselves: +1 rows say 'ipsilaterally rotates' / 'to the same side', -1 rows say 'contralaterally rotates' / 'to the opposite side' (data/anatomy/muscle_actions_q283.json). Mirrored for a left-sided muscle."
+  },
+  {
+   "id": "act_thoracic_rot_n",
+   "label": "Contralateral rotation (to the opposite side) at the thoracic spine",
+   "label_was": "The opposite of rotation at the thoracic spine",
+   "syn": [
+    "contralateral rotators of the trunk",
+    "trunk contralateral rotators",
+    "trunk opposite-side rotators",
+    "trunk rotators",
+    "trunk rotators to the opposite side"
+   ],
+   "he": [
+    "מסובבי הגו",
+    "מסובבי הגו לצד הנגדי",
+    "שרירי מסובבי הגו לצד הנגדי"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": "Sign convention read off the cited action quotes themselves: +1 rows say 'ipsilaterally rotates' / 'to the same side', -1 rows say 'contralaterally rotates' / 'to the opposite side' (data/anatomy/muscle_actions_q283.json). Mirrored for a left-sided muscle."
+  },
+  {
+   "id": "act_thoracic_rot_p",
+   "label": "Ipsilateral rotation (to the same side) at the thoracic spine",
+   "label_was": "Rotation at the thoracic spine",
+   "syn": [
+    "ipsilateral rotators of the trunk",
+    "trunk ipsilateral rotators",
+    "trunk rotators",
+    "trunk rotators to the same side",
+    "trunk same-side rotators"
+   ],
+   "he": [
+    "מסובבי הגו",
+    "מסובבי הגו לאותו צד",
+    "שרירי מסובבי הגו לאותו צד"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": "Sign convention read off the cited action quotes themselves: +1 rows say 'ipsilaterally rotates' / 'to the same side', -1 rows say 'contralaterally rotates' / 'to the opposite side' (data/anatomy/muscle_actions_q283.json). Mirrored for a left-sided muscle."
+  },
+  {
+   "id": "act_thumb_cmc_abd_n",
+   "label": "Adduction at the first carpometacarpal (thumb CMC) joint",
+   "label_was": "Adduction at the first carpometacarpal (thumb) joint",
+   "syn": [
+    "adductors of the thumb",
+    "thumb adductors"
+   ],
+   "he": [
+    "מקרבי האגודל",
+    "שרירי מקרבי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thumb_cmc_abd_p",
+   "label": "Abduction at the first carpometacarpal (thumb CMC) joint",
+   "label_was": "Abduction at the first carpometacarpal (thumb) joint",
+   "syn": [
+    "abductors of the thumb",
+    "thumb abductors"
+   ],
+   "he": [
+    "מרחיקי האגודל",
+    "שרירי מרחיקי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thumb_cmc_flex_n",
+   "label": "Extension at the first carpometacarpal (thumb CMC) joint",
+   "label_was": "Extension at the first carpometacarpal (thumb) joint",
+   "syn": [
+    "extensors of the thumb",
+    "thumb extensors"
+   ],
+   "he": [
+    "פושטי האגודל",
+    "שרירי פושטי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thumb_cmc_flex_p",
+   "label": "Flexion at the first carpometacarpal (thumb CMC) joint",
+   "label_was": "Flexion at the first carpometacarpal (thumb) joint",
+   "syn": [
+    "flexors of the thumb",
+    "thumb flexors"
+   ],
+   "he": [
+    "כופפי האגודל",
+    "שרירי כופפי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thumb_ip_flex_n",
+   "label": "Extension at the thumb interphalangeal (IP) joint",
+   "label_was": "Extension at the thumb interphalangeal joint",
+   "syn": [
+    "extensors of the thumb",
+    "thumb extensors"
+   ],
+   "he": [
+    "פושטי האגודל",
+    "שרירי פושטי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thumb_ip_flex_p",
+   "label": "Flexion at the thumb interphalangeal (IP) joint",
+   "label_was": "Flexion at the thumb interphalangeal joint",
+   "syn": [
+    "flexors of the thumb",
+    "thumb flexors"
+   ],
+   "he": [
+    "כופפי האגודל",
+    "שרירי כופפי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thumb_mcp_flex_n",
+   "label": "Extension at the thumb metacarpophalangeal (MCP) joint",
+   "label_was": "Extension at the thumb metacarpophalangeal joint",
+   "syn": [
+    "extensors of the thumb",
+    "thumb extensors"
+   ],
+   "he": [
+    "פושטי האגודל",
+    "שרירי פושטי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_thumb_mcp_flex_p",
+   "label": "Flexion at the thumb metacarpophalangeal (MCP) joint",
+   "label_was": "Flexion at the thumb metacarpophalangeal joint",
+   "syn": [
+    "flexors of the thumb",
+    "thumb flexors"
+   ],
+   "he": [
+    "כופפי האגודל",
+    "שרירי כופפי האגודל"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_wrist_dev_n",
+   "label": "Ulnar deviation at the radiocarpal (wrist) joint",
+   "label_was": "Ulnar deviation at the radiocarpal (wrist) joint",
+   "syn": [
+    "ulnar deviators",
+    "ulnar deviators of the wrist",
+    "wrist ulnar deviation muscles",
+    "wrist ulnar deviators"
+   ],
+   "he": [
+    "מטי שורש כף היד אולנרית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_wrist_dev_p",
+   "label": "Radial deviation at the radiocarpal (wrist) joint",
+   "label_was": "Radial at the radiocarpal (wrist) joint",
+   "syn": [
+    "radial deviators",
+    "radial deviators of the wrist",
+    "wrist radial deviation muscles",
+    "wrist radial deviators"
+   ],
+   "he": [
+    "מטי שורש כף היד רדיאלית"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_wrist_flex_n",
+   "label": "Extension at the radiocarpal (wrist) joint",
+   "label_was": "Extension at the radiocarpal (wrist) joint",
+   "syn": [
+    "extensors",
+    "extensors of the wrist",
+    "wrist extensors"
+   ],
+   "he": [
+    "פושטי שורש כף היד",
+    "שרירי פושטי שורש כף היד"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  },
+  {
+   "id": "act_wrist_flex_p",
+   "label": "Flexion at the radiocarpal (wrist) joint",
+   "label_was": "Flexion at the radiocarpal (wrist) joint",
+   "syn": [
+    "flexors",
+    "flexors of the wrist",
+    "wrist flexors"
+   ],
+   "he": [
+    "כופפי שורש כף היד",
+    "שרירי כופפי שורש כף היד"
+   ],
+   "inferred": 1,
+   "name_rule": "Clinical group noun formed by this project from the pose-rig joint and degree of freedom the group was derived from: '<region> <motion>ors'. The MEMBERSHIP is unchanged and keeps its own source (every muscle whose own cited action record includes this motion at this joint, data/anatomy/muscle_actions_q283.json).",
+   "note": ""
+  }
+ ],
+ "extra_groups": [
+  {
+   "id": "pes_anserinus",
+   "label": "Pes anserinus (the three medial knee tendons)",
+   "label_was": "Pes anserinus (the three medial knee tendons)",
+   "syn": [
+    "medial knee tendons",
+    "pes anserine",
+    "pes anserinus",
+    "pes anserinus tendons"
+   ],
+   "he": [
+    "גידי הברך המדיאליים",
+    "פס אנסרינוס"
+   ],
+   "inferred": 0,
+   "name_rule": "Names in clinical use for a group whose membership and source are already in data/anatomy/relations_q298.json (functional_extra).",
+   "note": ""
+  },
+  {
+   "id": "carpal_tunnel_contents",
+   "label": "Contents of the carpal tunnel",
+   "label_was": "Contents of the carpal tunnel",
+   "syn": [
+    "carpal tunnel",
+    "carpal tunnel contents",
+    "contents of the carpal tunnel",
+    "what runs through the carpal tunnel"
+   ],
+   "he": [
+    "התעלה הקרפלית",
+    "תוכן התעלה הקרפלית"
+   ],
+   "inferred": 0,
+   "name_rule": "Names in clinical use for a group whose membership and source are already in data/anatomy/relations_q298.json (functional_extra).",
+   "note": ""
+  },
+  {
+   "id": "itb_tensors",
+   "label": "Tensors of the iliotibial tract",
+   "label_was": "Tensors of the iliotibial tract",
+   "syn": [
+    "ITB tensors",
+    "iliotibial tract tensors",
+    "tensors of the IT band",
+    "tensors of the iliotibial tract"
+   ],
+   "he": [
+    "מותחי הרצועה האיליוטיביאלית"
+   ],
+   "inferred": 0,
+   "name_rule": "Names in clinical use for a group whose membership and source are already in data/anatomy/relations_q298.json (functional_extra).",
+   "note": ""
+  },
+  {
+   "id": "calcaneal_tendon_contributors",
+   "label": "Muscles that form the calcaneal (Achilles) tendon",
+   "label_was": "Muscles that form the calcaneal (Achilles) tendon",
+   "syn": [
+    "Achilles tendon contributors",
+    "Achilles tendon muscles",
+    "calcaneal tendon contributors",
+    "muscles of the Achilles tendon"
+   ],
+   "he": [
+    "שרירי גיד אכילס",
+    "תורמי גיד אכילס"
+   ],
+   "inferred": 0,
+   "name_rule": "Names in clinical use for a group whose membership and source are already in data/anatomy/relations_q298.json (functional_extra).",
+   "note": ""
+  },
+  {
+   "id": "patellar_tendon_contributors",
+   "label": "Muscles that form the quadriceps / patellar tendon",
+   "label_was": "Muscles that form the quadriceps / patellar tendon",
+   "syn": [
+    "muscles of the patellar tendon",
+    "patellar tendon contributors",
+    "quadriceps tendon contributors",
+    "quadriceps tendon muscles"
+   ],
+   "he": [
+    "שרירי גיד הפיקה",
+    "תורמי גיד הקוודריצפס"
+   ],
+   "inferred": 0,
+   "name_rule": "Names in clinical use for a group whose membership and source are already in data/anatomy/relations_q298.json (functional_extra).",
+   "note": ""
+  },
+  {
+   "id": "rotator_cuff_plus",
+   "label": "Rotator cuff and the structures it runs under",
+   "label_was": "Rotator cuff and the structures it runs under",
+   "syn": [
+    "rotator cuff and what it runs under",
+    "rotator cuff plus",
+    "subacromial structures"
+   ],
+   "he": [
+    "שרוול המסובבים והמבנים שתחתיו"
+   ],
+   "inferred": 0,
+   "name_rule": "Names in clinical use for a group whose membership and source are already in data/anatomy/relations_q298.json (functional_extra).",
+   "note": ""
+  }
+ ]
+}

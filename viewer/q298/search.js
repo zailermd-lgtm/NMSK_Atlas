@@ -94,7 +94,8 @@ var NMSKSearchCore = (function(){
 
     function run(q0){
       q0 = fold(q0);
-      var out = {q:q0, ids:[], why:{}, groups:[], notes:[], stats:{exact:0, alias:0, wordstart:0, substr:0, fuzzy:0}};
+      var out = {q:q0, ids:[], why:{}, score:{}, groups:[], notes:[], approx:0, approx_of:"",
+                 note_first:0, stats:{exact:0, alias:0, wordstart:0, substr:0, fuzzy:0}};
       if (!q0){
         for (var z = 0; z < rows.length; z++) out.ids.push(rows[z].id);
         return out;
@@ -176,12 +177,23 @@ var NMSKSearchCore = (function(){
       pick.sort(function(a, b){
         return (b.s - a.s) || (a.sub - b.sub) || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0) || (a.ord - b.ord);
       });
+      var best = 0;
       for (j = 0; j < pick.length; j++){
         if (seen2[pick[j].id]) continue;
         seen2[pick[j].id] = 1;
         out.ids.push(pick[j].id);
+        out.score[pick[j].id] = pick[j].s;
+        if (pick[j].s > best) best = pick[j].s;
         if (why[pick[j].id]) out.why[pick[j].id] = why[pick[j].id];
       }
+      /* Q306: SAY SO when nothing actually matched and these are only near-misses. Before Q306 the fuzzy
+         pass answered "psoas minor" with Psoas major and "long head of biceps brachii" with the long head
+         of TRICEPS brachii, at rank 1, with no sign that the query had matched nothing -- the page stated
+         something false with confidence. `approx` is set when every row came from the fuzzy pass, so the
+         bar can print "no exact match for X -- closest names" above the rows, and `approx_of` carries the
+         query the near-misses are near. */
+      out.approx = (out.ids.length && best <= 1.5) ? 1 : 0;
+      if (out.approx) out.approx_of = q0;
 
       /* 5. groups whose own name or alias matches -- offered as ONE selectable row each */
       for (j = 0; j < groups.length; j++){
@@ -201,10 +213,16 @@ var NMSKSearchCore = (function(){
       for (j = 0; j < ns.length; j++){
         for (n = 0; n < (ns[j].q || []).length; n++){
           if (ns[j].q[n] === q0 || (q0.length >= 3 && ns[j].q[n].indexOf(q0) === 0)){
-            out.notes.push(ns[j]); break;
+            out.notes.push(ns[j]);
+            /* Q306: when the note matched the query EXACTLY and no structure did, the note is the answer
+               and the structure rows are near-misses. "psoas minor" on a Z page used to return Psoas
+               major at rank 1; now the explanation comes first and the rows are marked as approximate. */
+            if (ns[j].q[n] === q0 && best < 4) out.note_first = 1;
+            break;
           }
         }
       }
+      if (out.note_first && out.ids.length) out.approx = 1;
       return out;
     }
 

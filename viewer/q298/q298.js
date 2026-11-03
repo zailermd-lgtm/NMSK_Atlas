@@ -26,6 +26,17 @@ var NMSKQ298 = (function(){
     if (D) return D;
     var el = $("nmsk-q298");
     try { D = el ? JSON.parse(el.textContent || "{}") : {}; } catch (err){ D = {}; }
+    /* Q306 ships a SUPERSET of this table in its own block (scripts/anatomy/q306/build_search_q306.py):
+       every Q298 row unchanged, plus the names of the 93 functional groups the page carried but nobody
+       could type, the 18 new cited groups, the concept layer and the new synonyms and explanations. It is
+       a separate block so Q298's comes out of the regen byte-identical. The search / adjacency / relation
+       payloads Q298 owns (`adj`, `rel`) are NOT in the Q306 block and are kept from this one. */
+    var e6 = $("nmsk-q306"), d6 = null;
+    try { d6 = e6 ? JSON.parse(e6.textContent || "null") : null; } catch (err2){ d6 = null; }
+    if (d6 && d6.ids){
+      ["ids", "sub", "alias", "groups", "ns", "concepts"].forEach(function(k){ if (d6[k]) D[k] = d6[k]; });
+      D.q306 = 1;
+    }
     return D;
   }
 

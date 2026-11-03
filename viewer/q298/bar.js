@@ -27,6 +27,7 @@ function NMSKQ298Bar(E, D, H){
       '<button type="button" class="q8-b" id="q8-grp">Functional group</button>' +
     '</div>' +
     '<div class="q8-menu" id="q8-menu" hidden></div>' +
+    '<div class="q8-q306" id="q8-q306" hidden></div>' +      /* Q306: the approximate-match line and the concept rows */
     '<p class="q8-note" id="q8-notes" hidden></p>' +
     '<p class="q8-status" id="q8-status" aria-live="polite"></p>';
   var box = E.box();
@@ -88,8 +89,20 @@ function NMSKQ298Bar(E, D, H){
     if (ns.length){
       nb.innerHTML = ns.map(function(x){
         return "<b>" + esc(x.name) + "</b> — no mesh on this page. " + esc(x.why) +
-               " This project's name for it: <i>" + esc(x.canon) + "</i>.";
+               " This project's name for it: <i>" + esc(x.canon) + "</i>." +
+               (x.offer && x.offer.length
+                 ? " It offers " + x.offer.length + " structure" + (x.offer.length === 1 ? "" : "s")
+                   + " this page does carry."
+                 : "");
       }).join("<br>");
+    }
+    /* Q306 says the two things the matcher cannot: that a result set is only an approximate match, and
+       that a query was a CONCEPT rather than a structure. Guarded, so a page built without the Q306
+       module or its block behaves exactly as it did before. */
+    if (window.NMSKQ306){
+      NMSKQ306.render(res, $("q8-q306"), {data:function(){ return D; },
+                                           markIds:function(ids, what, src, inf, why){
+        if (MULTI) MULTI.markIds(ids, what, src, inf, why); }});
     }
     selRow();
   }

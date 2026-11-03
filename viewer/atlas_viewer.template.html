@@ -1314,6 +1314,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     <!-- NMSK-POSE-RIG begin --><script type="application/json" id="nmsk-pose-rig">{}</script><!-- NMSK-POSE-RIG end -->
     <!-- NMSK-ABBREV begin --><script type="application/json" id="nmsk-abbrev">{}</script><!-- NMSK-ABBREV end -->
     <!-- NMSK-Q298 begin --><script type="application/json" id="nmsk-q298">{}</script><!-- NMSK-Q298 end -->
+<!-- NMSK-Q306 begin --><script type="application/json" id="nmsk-q306">{}</script><!-- NMSK-Q306 end -->
 <!-- NMSK-CALIBRE begin --><script type="application/json" id="nmsk-calibre">{}</script><!-- NMSK-CALIBRE end -->
     <div class="overlay" id="frame-note">
       Atlas frame &mdash; origin at the midpoint of the hip joint centres.
@@ -6320,6 +6321,239 @@ var NMSKQ305 = (function(){
 if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ305;
 </script>
 <!-- Q305 html end -->
+<!-- Q306 html begin -->
+<style>
+/* Q306: the words the search needed, and nothing else.
+   Two things only: the line that says a result set is an approximate match, and the concept rows that
+   answer a query which is not a structure at all. Both live inside the Q298 bar's own container, so they
+   follow it to the floating strip on a phone exactly as Q298's expansion row already does. */
+.q8-q306{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.q8-q306[hidden]{display:none}
+
+/* "no exact match for X" -- the line that stops the page stating something false with confidence */
+.q6-approx{margin:0;padding:6px 8px;border-radius:8px;font-size:12px;line-height:1.35;
+  background:rgba(214,138,0,.12);border:1px solid rgba(214,138,0,.45)}
+.q6-approx.q6-exact{background:rgba(190,60,60,.12);border-color:rgba(190,60,60,.5)}
+.q6-approx b{font-weight:600}
+
+/* a concept row: what it is, what the page can actually offer, and the sources behind the claim */
+.q6-con{padding:7px 8px;border:1px solid var(--line,rgba(0,0,0,.18));border-radius:8px;
+  background:rgba(0,120,190,.06)}
+.q6-con .q6-h{margin:0 0 3px;font-size:12.5px;line-height:1.3}
+.q6-con .q6-he{opacity:.75;font-size:12px}
+.q6-con .q6-k{opacity:.7;font-size:11px;font-style:italic}
+.q6-con .q6-b{margin:0 0 4px;font-size:11.5px;line-height:1.4;opacity:.92}
+.q6-con .q6-n{margin:0 0 4px;font-size:11px;line-height:1.35;opacity:.75;font-style:italic}
+.q6-con .q6-src{font-size:11px;margin:0 0 4px}
+.q6-con .q6-src summary{cursor:pointer;opacity:.8}
+.q6-con .q6-src ul{margin:3px 0 0;padding-left:16px}
+.q6-con .q6-src li{margin:2px 0;line-height:1.35}
+.q6-con .q6-src i{opacity:.7}
+.q6-act{display:flex;flex-wrap:wrap;gap:4px;margin:0}
+.q6-btn{font:inherit;font-size:11.5px;padding:4px 8px;border-radius:7px;cursor:pointer;
+  border:1px solid var(--line,rgba(0,0,0,.2));background:var(--panel,#fff);color:inherit}
+.q6-btn:hover{filter:brightness(.96)}
+.q6-btn.q6-g{border-style:dashed}
+/* Q298's own rule, kept: every control is at least 38 px tall where there is no hover */
+@media (hover:none){.q6-btn{min-height:38px;padding:8px 10px;font-size:12.5px}}
+
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .q6-con{background:rgba(70,160,220,.1)}
+  :root:not([data-theme="light"]) .q6-approx{background:rgba(214,160,60,.16);border-color:rgba(214,160,60,.5)}
+  :root:not([data-theme="light"]) .q6-approx.q6-exact{background:rgba(220,110,110,.16);border-color:rgba(220,110,110,.5)}
+  :root:not([data-theme="light"]) .q6-btn{background:rgba(255,255,255,.07)}}
+:root[data-theme="dark"] .q6-con{background:rgba(70,160,220,.1)}
+:root[data-theme="dark"] .q6-approx{background:rgba(214,160,60,.16);border-color:rgba(214,160,60,.5)}
+:root[data-theme="dark"] .q6-approx.q6-exact{background:rgba(220,110,110,.16);border-color:rgba(220,110,110,.5)}
+:root[data-theme="dark"] .q6-btn{background:rgba(255,255,255,.07)}
+
+/* ------------------------------------------------------------------ the last search row, at 390 px
+ * MEASURED on build/q307, i.e. AFTER Q305: the defect Q304 found is still there on both engines.
+ * On a phone both engines put the structure list LAST inside a scrolling bottom-sheet, and Q301's fixed
+ * control bar floats over that same band at a far higher z-index. The panel is already scrolled to its
+ * end, so the last rows of a SHORT result set cannot be reached by scrolling and cannot be tapped.
+ *   Z engine  (viewer_zan_atlas, 390x844): searching `psoas minor` leaves 2 rows, the last at y 738-776,
+ *             while #q301-bar spans y 707-838 -- document.elementFromPoint at the row's centre returns
+ *             BUTTON#qg-measure, one of the bar's own controls.
+ *   own engine (viewer_m_hr): the last row at y 749-777, the bar at y 654-785, and elementFromPoint
+ *             returns DIV#q301-hist.
+ * Q305 fixed a DIFFERENT element -- `#foot` adopted into Q301's View sheet -- so this is still ours.
+ *
+ * The fix is the pattern both engines already use for exactly this purpose: Q270 reserves the `#foot`
+ * pill band under the rail's scroll area with `padding-bottom`, and the own engine reserves its mobile
+ * bar the same way. The band reserved here is `--q301-bar-h`, which Q301's own groups.js already sets to
+ * the WHOLE occluded height (the bar, plus 4 px, plus an open group sheet) and keeps up to date as the
+ * sheet opens and closes -- measured at 135px on these pages -- so the padding tracks the real
+ * obstruction instead of a guessed number.
+ *
+ * It pads the element that actually SCROLLS, which the measurement had to establish: on the Z engine that
+ * is `DIV.rail-body` inside `#rail`, not `#rail` itself, and on the own engine it is the `aside`.
+ *
+ * Why it cannot push Q301's bar or Q300's chip bar off, which have collided with each other once
+ * already: this adds padding INSIDE the scrolling element. It changes no element's position, transform or
+ * z-index and never touches `#q301-bar`, `#sa-bar` or `#hist-msg` -- those are lifted by Q301's own
+ * `transform:translateY(calc(-1 * var(--q301-bar-h)))`, left exactly as it was. The padding composes with
+ * each engine's existing padding rather than replacing it, so Q270's `#foot` band survives.
+ *
+ * The two engines gate their phone layout differently, so the rules do too: the Z rail's bottom-sheet
+ * rules live inside `@media (max-width:900px)`, while the own engine's are driven by the `.phone` class
+ * its own layout code sets. Matching each engine's own gate keeps this off the desktop, where there is no
+ * obstruction. No `!important` is needed: `body.q301-on #rail .rail-body` (0,1,2,1) beats `.rail-body`
+ * (0,0,1,0), and `body.q301-on #app.phone aside` (0,1,2,3) beats `#app.phone aside` (0,1,1,2). */
+@media (max-width: 900px){
+  body.q301-on #rail .rail-body{
+    padding-bottom:calc(.9rem + var(--q301-bar-h, 96px));
+  }
+}
+body.q301-on #app.phone aside,
+body.q301-on #app.phone #inspector{
+  padding-bottom:var(--q301-bar-h, 96px);
+}
+/* and the list keeps a scroll end-stop, so the last row clears the sheet's rounded corner */
+body.q301-on #app.phone #list,
+body.q301-on #rail #list{ scroll-padding-bottom:var(--q301-bar-h, 96px); }
+</style>
+<script>
+/* Q306: the three things the search still could not say.
+ *
+ * Measured in docs/research/Q306_search_coverage_audit.md against the live pages: of 419 terms a clinician
+ * would type, 132 returned something. The owner's own three were all in the 287 that did not -- and one of
+ * them was worse than silence. `psoas minor` returned `Psoas major` at RANK 1 with no note, and
+ * `long head of biceps brachii` returned the long head of TRICEPS brachii, because Q298's fuzzy pass
+ * answers a query that matched nothing and says nothing about it. The page stated something false with
+ * confidence, which is the class of defect Q297 refused to allow for geometry.
+ *
+ * This module adds only what the matcher cannot: the words on the screen.
+ *   1. APPROXIMATE  -- when every row came from the fuzzy pass (`res.approx`), say so above the rows.
+ *   2. NOTE FIRST   -- when an explanation matched the query exactly and no structure did
+ *                      (`res.note_first`), the explanation is the answer and the rows are near-misses.
+ *   3. CONCEPTS     -- `pelvic tilt` is not a structure. A concept row offers the structures and the
+ *                      groups the page really carries, with its own cited claims, and a button that marks
+ *                      them in ONE undo step through the selection controller's own markIds().
+ * It owns no state, reaches into no engine, and does nothing at all on a page built without the Q306
+ * block -- the bar calls it only if it is there. */
+var NMSKQ306 = (function(){
+  "use strict";
+  var API = null, HOST = null, CUR = null;
+
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){
+      return {"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;"}[c]; });
+  }
+
+  /* the concept table rides in the Q306 block; the matcher does not read it, because a concept is not a
+     structure and must not compete with one for a rank */
+  function conceptsFor(d, q){
+    var out = [], i, j, rows = (d && d.concepts) || [];
+    if (!q) return out;
+    for (i = 0; i < rows.length; i++){
+      var al = rows[i].al || [], hit = false;
+      for (j = 0; j < al.length && !hit; j++){
+        if (al[j] === q || (q.length >= 3 && al[j].indexOf(q) === 0)) hit = true;
+      }
+      if (hit) out.push(rows[i]);
+    }
+    return out;
+  }
+
+  function kindWord(k){
+    return k === "region" ? "a named space, not a structure"
+         : k === "diagnosis" ? "a diagnosis, not a structure"
+         : k === "measure" ? "a measurement"
+         : k === "posture" ? "an alignment descriptor"
+         : "a concept, not a structure";
+  }
+
+  /* ---------------------------------------------------------------- render */
+  function render(res, host, api){
+    if (!host) return;
+    API = api; HOST = host;
+    var d = api.data(), q = res ? res.q : "";
+    var cs = conceptsFor(d, q);
+    CUR = cs;
+    var html = "";
+
+    /* 1 + 2: say when nothing actually matched */
+    if (res && res.note_first){
+      html += '<p class="q6-approx q6-exact">' +
+              'That name is <b>not a structure on this page</b> — the explanation below is the answer. ' +
+              'The rows under it are the closest names, not what you asked for.</p>';
+    } else if (res && res.approx){
+      html += '<p class="q6-approx">No exact match for <b>' + esc(res.approx_of || q) +
+              '</b> — showing the closest names.</p>';
+    }
+
+    /* 3: the concept rows */
+    for (var i = 0; i < cs.length; i++){
+      var c = cs[i], n = (c.i || []).length, g = (c.g || []).length;
+      html += '<div class="q6-con" data-c="' + i + '">' +
+              '<p class="q6-h"><b>' + esc(c.label) + '</b>' +
+              (c.he ? ' <span class="q6-he">' + esc(c.he) + '</span>' : "") +
+              ' <span class="q6-k">' + esc(kindWord(c.kind)) + '</span></p>' +
+              '<p class="q6-b">' + esc(c.body) + '</p>';
+      if (c.note) html += '<p class="q6-n">' + esc(c.note) + '</p>';
+      if (c.claims && c.claims.length){
+        html += '<details class="q6-src"><summary>' + c.claims.length +
+                (c.claims.length === 1 ? ' cited source' : ' cited sources') + '</summary><ul>';
+        for (var j = 0; j < c.claims.length; j++){
+          html += '<li>' + esc(c.claims[j].t) + ' <i>' + esc(c.claims[j].s) + '</i></li>';
+        }
+        html += "</ul></details>";
+      }
+      html += '<p class="q6-act">';
+      if (n) html += '<button type="button" class="q6-btn" data-act="mark" data-c="' + i + '">Mark the ' +
+                     n + ' structures</button>';
+      for (var k = 0; k < (c.g || []).length; k++){
+        html += '<button type="button" class="q6-btn q6-g" data-act="grp" data-c="' + i +
+                '" data-g="' + k + '">' + esc(groupName(d, c.g[k])) + '</button>';
+      }
+      if (!n && !g) html += '<span class="q6-k">nothing on this page to offer</span>';
+      html += "</p></div>";
+    }
+    host.innerHTML = html;
+    host.hidden = !html;
+    wire(host, d);
+  }
+
+  function groupName(d, gid){
+    var gs = (d && d.groups) || [];
+    for (var i = 0; i < gs.length; i++) if (gs[i].id === gid) return gs[i].name;
+    return gid;
+  }
+
+  function wire(host, d){
+    var bs = host.querySelectorAll(".q6-btn");
+    for (var i = 0; i < bs.length; i++){
+      bs[i].addEventListener("click", function(ev){
+        var b = ev.currentTarget, c = CUR[+b.getAttribute("data-c")];
+        if (!c) return;
+        if (b.getAttribute("data-act") === "mark"){
+          var ids = [], dd = API.data();
+          for (var n = 0; n < (c.i || []).length; n++){ var s = dd.ids[c.i[n]]; if (s) ids.push(s); }
+          API.markIds(ids, "the concept " + c.label, "Q306 / " + (c.claims && c.claims.length
+                      ? c.claims.length + " cited sources" : "this project's own data"),
+                      c.inferred, c.body);
+        } else {
+          var gid = c.g[+b.getAttribute("data-g")], gs = (API.data().groups || []), gi = null;
+          for (var m = 0; m < gs.length; m++) if (gs[m].id === gid) gi = gs[m];
+          if (!gi) return;
+          var gids = [], dd2 = API.data();
+          for (var p = 0; p < (gi.i || []).length; p++){ var s2 = dd2.ids[gi.i[p]]; if (s2) gids.push(s2); }
+          API.markIds(gids, "the group " + gi.name, gi.src, gi.inferred, gi.why);
+        }
+      });
+    }
+  }
+
+  return {render:render, concepts:conceptsFor,
+          state:function(){
+            var d = API ? API.data() : null;
+            return {on:!!(d && d.q306), concepts:d && d.concepts ? d.concepts.length : 0,
+                    groups:d && d.groups ? d.groups.length : 0,
+                    shown:CUR ? CUR.length : 0};
+          }};
+})();
+</script>
+<!-- Q306 html end -->
 <!-- Q298 html begin -->
 <style>
 /* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
@@ -6459,7 +6693,8 @@ var NMSKSearchCore = (function(){
 
     function run(q0){
       q0 = fold(q0);
-      var out = {q:q0, ids:[], why:{}, groups:[], notes:[], stats:{exact:0, alias:0, wordstart:0, substr:0, fuzzy:0}};
+      var out = {q:q0, ids:[], why:{}, score:{}, groups:[], notes:[], approx:0, approx_of:"",
+                 note_first:0, stats:{exact:0, alias:0, wordstart:0, substr:0, fuzzy:0}};
       if (!q0){
         for (var z = 0; z < rows.length; z++) out.ids.push(rows[z].id);
         return out;
@@ -6541,12 +6776,23 @@ var NMSKSearchCore = (function(){
       pick.sort(function(a, b){
         return (b.s - a.s) || (a.sub - b.sub) || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0) || (a.ord - b.ord);
       });
+      var best = 0;
       for (j = 0; j < pick.length; j++){
         if (seen2[pick[j].id]) continue;
         seen2[pick[j].id] = 1;
         out.ids.push(pick[j].id);
+        out.score[pick[j].id] = pick[j].s;
+        if (pick[j].s > best) best = pick[j].s;
         if (why[pick[j].id]) out.why[pick[j].id] = why[pick[j].id];
       }
+      /* Q306: SAY SO when nothing actually matched and these are only near-misses. Before Q306 the fuzzy
+         pass answered "psoas minor" with Psoas major and "long head of biceps brachii" with the long head
+         of TRICEPS brachii, at rank 1, with no sign that the query had matched nothing -- the page stated
+         something false with confidence. `approx` is set when every row came from the fuzzy pass, so the
+         bar can print "no exact match for X -- closest names" above the rows, and `approx_of` carries the
+         query the near-misses are near. */
+      out.approx = (out.ids.length && best <= 1.5) ? 1 : 0;
+      if (out.approx) out.approx_of = q0;
 
       /* 5. groups whose own name or alias matches -- offered as ONE selectable row each */
       for (j = 0; j < groups.length; j++){
@@ -6566,10 +6812,16 @@ var NMSKSearchCore = (function(){
       for (j = 0; j < ns.length; j++){
         for (n = 0; n < (ns[j].q || []).length; n++){
           if (ns[j].q[n] === q0 || (q0.length >= 3 && ns[j].q[n].indexOf(q0) === 0)){
-            out.notes.push(ns[j]); break;
+            out.notes.push(ns[j]);
+            /* Q306: when the note matched the query EXACTLY and no structure did, the note is the answer
+               and the structure rows are near-misses. "psoas minor" on a Z page used to return Psoas
+               major at rank 1; now the explanation comes first and the rows are marked as approximate. */
+            if (ns[j].q[n] === q0 && best < 4) out.note_first = 1;
+            break;
           }
         }
       }
+      if (out.note_first && out.ids.length) out.approx = 1;
       return out;
     }
 
@@ -6608,6 +6860,7 @@ function NMSKQ298Bar(E, D, H){
       '<button type="button" class="q8-b" id="q8-grp">Functional group</button>' +
     '</div>' +
     '<div class="q8-menu" id="q8-menu" hidden></div>' +
+    '<div class="q8-q306" id="q8-q306" hidden></div>' +      /* Q306: the approximate-match line and the concept rows */
     '<p class="q8-note" id="q8-notes" hidden></p>' +
     '<p class="q8-status" id="q8-status" aria-live="polite"></p>';
   var box = E.box();
@@ -6669,8 +6922,20 @@ function NMSKQ298Bar(E, D, H){
     if (ns.length){
       nb.innerHTML = ns.map(function(x){
         return "<b>" + esc(x.name) + "</b> — no mesh on this page. " + esc(x.why) +
-               " This project's name for it: <i>" + esc(x.canon) + "</i>.";
+               " This project's name for it: <i>" + esc(x.canon) + "</i>." +
+               (x.offer && x.offer.length
+                 ? " It offers " + x.offer.length + " structure" + (x.offer.length === 1 ? "" : "s")
+                   + " this page does carry."
+                 : "");
       }).join("<br>");
+    }
+    /* Q306 says the two things the matcher cannot: that a result set is only an approximate match, and
+       that a query was a CONCEPT rather than a structure. Guarded, so a page built without the Q306
+       module or its block behaves exactly as it did before. */
+    if (window.NMSKQ306){
+      NMSKQ306.render(res, $("q8-q306"), {data:function(){ return D; },
+                                           markIds:function(ids, what, src, inf, why){
+        if (MULTI) MULTI.markIds(ids, what, src, inf, why); }});
     }
     selRow();
   }
@@ -7013,6 +7278,17 @@ var NMSKQ298 = (function(){
     if (D) return D;
     var el = $("nmsk-q298");
     try { D = el ? JSON.parse(el.textContent || "{}") : {}; } catch (err){ D = {}; }
+    /* Q306 ships a SUPERSET of this table in its own block (scripts/anatomy/q306/build_search_q306.py):
+       every Q298 row unchanged, plus the names of the 93 functional groups the page carried but nobody
+       could type, the 18 new cited groups, the concept layer and the new synonyms and explanations. It is
+       a separate block so Q298's comes out of the regen byte-identical. The search / adjacency / relation
+       payloads Q298 owns (`adj`, `rel`) are NOT in the Q306 block and are kept from this one. */
+    var e6 = $("nmsk-q306"), d6 = null;
+    try { d6 = e6 ? JSON.parse(e6.textContent || "null") : null; } catch (err2){ d6 = null; }
+    if (d6 && d6.ids){
+      ["ids", "sub", "alias", "groups", "ns", "concepts"].forEach(function(k){ if (d6[k]) D[k] = d6[k]; });
+      D.q306 = 1;
+    }
     return D;
   }
 

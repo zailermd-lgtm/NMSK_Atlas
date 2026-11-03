@@ -1,0 +1,552 @@
+{
+ "schema": "nmsk.muscle_groups.v2",
+ "round": "Q306",
+ "extends": "data/anatomy/muscle_groups_q283.json",
+ "doc": "Q306 item 12: data/anatomy/muscle_groups_q306.json -- NEW groups with cited membership. The 19 groups a clinician names that this project had no membership data for at all (measured in docs/research/Q306_search_coverage_audit.md). Membership is taken from the references this project already cites, on the same basis Q283 used for its 17 named groups (\"membership as in the cited source\"). Three rules, applied without exception: * a member is listed only if the cited source places it in the group AND it resolves on at least one page; a member that resolves nowhere is recorded in `not_on_any_page` instead of being dropped silently, so the gap stays visible; * where the literature does not agree on the membership -- which is normal for the fascial compartments and for every \"stabiliser\" group -- the row carries contested=1 and says what varies, instead of picking a side silently; * nothing is inferred. A group whose membership this project cannot cite is not shipped at all.",
+ "sources": {
+  "gray": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell), Elsevier 2019.",
+  "moore": "Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.",
+  "ta": "Terminologia Anatomica, FICAT 1998.",
+  "project": "data/anatomy/muscle_groups_q283.json and data/anatomy/muscle_actions_q283.json (Q283).",
+  "karagiannakis2017": "Karagiannakis D, Athanasopoulos S, Mandalidis D. Scapular muscles' activity in female volleyball players with scapular asymmetry in the resting position. J Bodyw Mov Ther 2017;22(3):580-585. doi:10.1016/j.jbmt.2017.09.018 (PMID 30100280) -- studies \"the EMG activity of periscapular muscles (SA, UT and MT)\", i.e. serratus anterior and the upper and middle trapezius, which is the set the clinical term 'scapular stabilisers' is normally used for."
+ },
+ "he_note": "HEBREW IS A PROJECT-SUPPLIED TRANSLATION, NOT A PUBLISHED TERMINOLOGY -- the same declaration data/anatomy/synonyms_q298.json carries in sources.he.",
+ "groups": [
+  {
+   "id": "pelvic_floor",
+   "name": "Pelvic floor (pelvic diaphragm)",
+   "he_name": "רצפת האגן",
+   "members": [
+    "levator ani",
+    "coccygeus",
+    "obturator internus",
+    "piriformis"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,ta,project",
+   "syn": [
+    "pelvic floor",
+    "pelvic floor muscles",
+    "pelvic diaphragm",
+    "diaphragma pelvis",
+    "PFM",
+    "Kegel muscles"
+   ],
+   "he": [
+    "רצפת האגן",
+    "שרירי רצפת האגן",
+    "הדיאפרגמה של האגן"
+   ],
+   "note": "Gray's names the pelvic diaphragm as levator ani plus coccygeus; obturator internus and piriformis form the pelvic WALLS, not the floor, and are listed because they bound the same space and the pages ship them -- the card says which is floor and which is wall. The pages ship levator ani as one mesh whose own name lists its parts ('Levator ani (pubococcygeus, puborectalis, iliococcygeus)'), so the parts are reachable through it rather than as separate members.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "levator_ani",
+   "name": "Levator ani",
+   "he_name": "לבאטור אני",
+   "members": [
+    "levator ani",
+    "pubococcygeus",
+    "iliococcygeus"
+   ],
+   "not_on_any_page": [
+    "puborectalis"
+   ],
+   "src": "gray,ta",
+   "syn": [
+    "levator ani",
+    "levator ani group",
+    "pubococcygeus",
+    "puborectalis",
+    "iliococcygeus",
+    "musculus levator ani"
+   ],
+   "he": [
+    "לבאטור אני",
+    "מרים הטבעת"
+   ],
+   "note": "Gray's gives levator ani three parts: pubococcygeus, puborectalis and iliococcygeus. Members that resolve nowhere are recorded rather than dropped: on these pages levator ani ships as ONE mesh whose page name itself lists the three parts.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "scapular_stabilisers",
+   "name": "Scapular (scapulothoracic) stabilisers",
+   "he_name": "מייצבי השכמה",
+   "members": [
+    "serratus anterior",
+    "trapezius",
+    "rhomboid major",
+    "rhomboid minor",
+    "levator scapulae",
+    "pectoralis minor",
+    "subclavius"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,karagiannakis2017",
+   "syn": [
+    "scapular stabilisers",
+    "scapular stabilizers",
+    "scapulothoracic muscles",
+    "periscapular muscles",
+    "scapula stabilisers",
+    "shoulder girdle muscles"
+   ],
+   "he": [
+    "מייצבי השכמה",
+    "שרירי חגורת הכתף",
+    "שרירים פריסקפולריים"
+   ],
+   "note": "",
+   "contested": 1,
+   "contested_why": "There is no textbook list called 'scapular stabilisers': the term is clinical. Gray's names the muscles that attach the scapula to the thorax (trapezius, the rhomboids, levator scapulae, serratus anterior, pectoralis minor, subclavius); the EMG literature usually means a narrower set -- Karagiannakis 2017 studies \"periscapular muscles (SA, UT and MT)\", serratus anterior and the upper and middle trapezius. Both are stated; neither is presented as the definition."
+  },
+  {
+   "id": "mastication",
+   "name": "Muscles of mastication",
+   "he_name": "שרירי הלעיסה",
+   "members": [
+    "masseter",
+    "temporalis",
+    "medial pterygoid",
+    "lateral pterygoid"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,ta",
+   "syn": [
+    "muscles of mastication",
+    "masticatory muscles",
+    "chewing muscles",
+    "musculi masticatorii",
+    "jaw muscles"
+   ],
+   "he": [
+    "שרירי הלעיסה",
+    "שרירי הלסת"
+   ],
+   "note": "The four muscles Gray's and Terminologia both name, all supplied by the mandibular division of the trigeminal nerve.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "facial_expression",
+   "name": "Muscles of facial expression",
+   "he_name": "שרירי הבעת הפנים",
+   "members": [
+    "orbicularis oculi",
+    "orbicularis oris",
+    "frontalis",
+    "occipitalis",
+    "zygomaticus major",
+    "zygomaticus minor",
+    "levator labii superioris",
+    "depressor labii inferioris",
+    "depressor anguli oris",
+    "levator anguli oris",
+    "mentalis",
+    "risorius",
+    "platysma",
+    "procerus",
+    "nasalis",
+    "corrugator supercilii"
+   ],
+   "not_on_any_page": [
+    "buccinator",
+    "depressor supercilii",
+    "auricularis anterior",
+    "auricularis posterior",
+    "auricularis superior"
+   ],
+   "src": "gray,ta",
+   "syn": [
+    "muscles of facial expression",
+    "facial muscles",
+    "mimetic muscles",
+    "musculi faciei",
+    "facial expression muscles"
+   ],
+   "he": [
+    "שרירי הבעת הפנים",
+    "שרירי הפנים"
+   ],
+   "note": "The muscles Gray's places in the face and supplied by the facial nerve. Only those that resolve on a page are listed as members; the rest are recorded in not_on_any_page.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "inspiration",
+   "name": "Muscles of inspiration",
+   "he_name": "שרירי השאיפה",
+   "members": [
+    "diaphragm",
+    "external intercostals",
+    "external intercostal muscles",
+    "anterior scalene",
+    "middle scalene",
+    "posterior scalene",
+    "sternocleidomastoid",
+    "serratus anterior",
+    "pectoralis minor",
+    "levatores costarum",
+    "serratus posterior superior"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,moore",
+   "syn": [
+    "muscles of inspiration",
+    "inspiratory muscles",
+    "respiratory muscles",
+    "breathing muscles",
+    "accessory muscles of respiration"
+   ],
+   "he": [
+    "שרירי השאיפה",
+    "שרירי הנשימה"
+   ],
+   "note": "",
+   "contested": 1,
+   "contested_why": "Gray's separates the PRIMARY muscles of inspiration (the diaphragm and the external intercostals) from the ACCESSORY ones recruited in forced or laboured breathing (the scalenes, sternocleidomastoid, serratus anterior, pectoralis minor, serratus posterior superior, levatores costarum). Which accessory muscles count varies by author, so both tiers are named and the card says which is which rather than merging them."
+  },
+  {
+   "id": "expiration",
+   "name": "Muscles of expiration",
+   "he_name": "שרירי הנשיפה",
+   "members": [
+    "internal intercostal muscles",
+    "innermost intercostal muscles",
+    "rectus abdominis",
+    "external oblique",
+    "internal oblique",
+    "transversus abdominis",
+    "transversus thoracis",
+    "serratus posterior inferior",
+    "quadratus lumborum"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,moore",
+   "syn": [
+    "muscles of expiration",
+    "expiratory muscles",
+    "forced expiration muscles"
+   ],
+   "he": [
+    "שרירי הנשיפה"
+   ],
+   "note": "Quiet expiration is passive; Gray's names these as the muscles of FORCED expiration, which the card states.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "intrinsic_hand",
+   "name": "Intrinsic muscles of the hand",
+   "he_name": "שרירי היד הפנימיים",
+   "members": [
+    "abductor pollicis brevis",
+    "flexor pollicis brevis",
+    "opponens pollicis",
+    "adductor pollicis",
+    "abductor digiti minimi hand",
+    "flexor digiti minimi brevis hand",
+    "opponens digiti minimi",
+    "lumbrical muscles of hand",
+    "dorsal interossei hand",
+    "palmar interossei"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,ta",
+   "syn": [
+    "intrinsic hand muscles",
+    "intrinsic muscles of the hand",
+    "hand intrinsics",
+    "intrinsics of the hand"
+   ],
+   "he": [
+    "שרירי היד הפנימיים",
+    "השרירים האינטרינזיים של היד"
+   ],
+   "note": "The muscles whose origin AND insertion are both within the hand. The thenar and hypothenar groups of data/anatomy/muscle_groups_q283.json are subsets of this group.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "intrinsic_foot",
+   "name": "Intrinsic muscles of the foot",
+   "he_name": "שרירי כף הרגל הפנימיים",
+   "members": [
+    "abductor hallucis",
+    "flexor hallucis brevis",
+    "adductor hallucis",
+    "extensor hallucis brevis",
+    "flexor digitorum brevis",
+    "quadratus plantae",
+    "abductor digiti minimi foot",
+    "flexor digiti minimi brevis foot",
+    "extensor digitorum brevis",
+    "lumbrical muscles of foot",
+    "lumbricals foot",
+    "dorsal interossei foot",
+    "plantar interossei"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,ta",
+   "syn": [
+    "intrinsic foot muscles",
+    "intrinsic muscles of the foot",
+    "foot intrinsics",
+    "intrinsics of the foot"
+   ],
+   "he": [
+    "שרירי כף הרגל הפנימיים",
+    "השרירים האינטרינזיים של כף הרגל"
+   ],
+   "note": "The muscles whose origin AND insertion are both within the foot.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "forearm_anterior",
+   "name": "Anterior (flexor) compartment of the forearm",
+   "he_name": "המדור הקדמי של האמה",
+   "members": [
+    "pronator teres",
+    "flexor carpi radialis",
+    "palmaris longus",
+    "flexor carpi ulnaris",
+    "flexor digitorum superficialis",
+    "flexor digitorum profundus",
+    "flexor pollicis longus",
+    "pronator quadratus"
+   ],
+   "not_on_any_page": [],
+   "src": "gray",
+   "syn": [
+    "anterior compartment of the forearm",
+    "flexor compartment of the forearm",
+    "forearm flexors",
+    "anterior forearm compartment",
+    "volar compartment of the forearm"
+   ],
+   "he": [
+    "המדור הקדמי של האמה",
+    "מדור הכופפים של האמה"
+   ],
+   "note": "A fascial compartment. The MEMBERSHIP is Gray's; the BOUNDARIES are where the literature disagrees, so no boundary claim is made here -- the group lists the muscles the cited source places in the compartment and the card names the fascia the pages actually ship.",
+   "contested": 1,
+   "contested_why": "Gray's divides this compartment into a superficial and a deep layer; some authors also describe an intermediate layer holding flexor digitorum superficialis alone. Both readings are named."
+  },
+  {
+   "id": "forearm_posterior",
+   "name": "Posterior (extensor) compartment of the forearm",
+   "he_name": "המדור האחורי של האמה",
+   "members": [
+    "brachioradialis",
+    "extensor carpi radialis longus",
+    "extensor carpi radialis brevis",
+    "extensor digitorum",
+    "extensor digiti minimi",
+    "extensor carpi ulnaris",
+    "anconeus",
+    "supinator",
+    "abductor pollicis longus",
+    "extensor pollicis longus",
+    "extensor pollicis brevis",
+    "extensor indicis"
+   ],
+   "not_on_any_page": [],
+   "src": "gray",
+   "syn": [
+    "posterior compartment of the forearm",
+    "extensor compartment of the forearm",
+    "forearm extensors",
+    "posterior forearm compartment",
+    "dorsal compartment of the forearm"
+   ],
+   "he": [
+    "המדור האחורי של האמה",
+    "מדור הפושטים של האמה"
+   ],
+   "note": "A fascial compartment. The MEMBERSHIP is Gray's; the BOUNDARIES are where the literature disagrees, so no boundary claim is made here -- the group lists the muscles the cited source places in the compartment and the card names the fascia the pages actually ship.",
+   "contested": 1,
+   "contested_why": "Gray's places brachioradialis and the two radial extensors in the posterior compartment although they flex or extend the wrist from the lateral side; other authors call them a separate 'mobile wad'. Both readings are named."
+  },
+  {
+   "id": "thigh_anterior",
+   "name": "Anterior compartment of the thigh",
+   "he_name": "המדור הקדמי של הירך",
+   "members": [
+    "iliopsoas",
+    "psoas major",
+    "iliacus",
+    "sartorius",
+    "rectus femoris",
+    "vastus lateralis",
+    "vastus medialis",
+    "vastus intermedius",
+    "pectineus"
+   ],
+   "not_on_any_page": [],
+   "src": "gray",
+   "syn": [
+    "anterior compartment of the thigh",
+    "anterior thigh compartment",
+    "extensor compartment of the thigh"
+   ],
+   "he": [
+    "המדור הקדמי של הירך"
+   ],
+   "note": "A fascial compartment. The MEMBERSHIP is Gray's; the BOUNDARIES are where the literature disagrees, so no boundary claim is made here -- the group lists the muscles the cited source places in the compartment and the card names the fascia the pages actually ship.",
+   "contested": 1,
+   "contested_why": "Pectineus is placed in the ANTERIOR compartment by its nerve supply (femoral) and in the MEDIAL compartment by its action and position; Gray's notes both. It is therefore listed in both groups here, with this note, rather than assigned to one."
+  },
+  {
+   "id": "thigh_posterior",
+   "name": "Posterior compartment of the thigh",
+   "he_name": "המדור האחורי של הירך",
+   "members": [
+    "biceps femoris",
+    "semitendinosus",
+    "semimembranosus",
+    "adductor magnus"
+   ],
+   "not_on_any_page": [],
+   "src": "gray",
+   "syn": [
+    "posterior compartment of the thigh",
+    "posterior thigh compartment",
+    "flexor compartment of the thigh"
+   ],
+   "he": [
+    "המדור האחורי של הירך"
+   ],
+   "note": "A fascial compartment. The MEMBERSHIP is Gray's; the BOUNDARIES are where the literature disagrees, so no boundary claim is made here -- the group lists the muscles the cited source places in the compartment and the card names the fascia the pages actually ship.",
+   "contested": 1,
+   "contested_why": "Only the HAMSTRING part of adductor magnus belongs here; its adductor part is in the medial compartment. The pages ship adductor magnus as one mesh, so it appears in both groups and the card names the part, using the two compartments Q293 recorded for it."
+  },
+  {
+   "id": "thigh_medial",
+   "name": "Medial compartment of the thigh",
+   "he_name": "המדור המדיאלי של הירך",
+   "members": [
+    "adductor longus",
+    "adductor brevis",
+    "adductor magnus",
+    "gracilis",
+    "pectineus",
+    "obturator externus"
+   ],
+   "not_on_any_page": [],
+   "src": "gray",
+   "syn": [
+    "medial compartment of the thigh",
+    "medial thigh compartment",
+    "adductor compartment"
+   ],
+   "he": [
+    "המדור המדיאלי של הירך",
+    "מדור המקרבים"
+   ],
+   "note": "A fascial compartment. The MEMBERSHIP is Gray's; the BOUNDARIES are where the literature disagrees, so no boundary claim is made here -- the group lists the muscles the cited source places in the compartment and the card names the fascia the pages actually ship. Identical membership to the named group `hip_adductors` of data/anatomy/muscle_groups_q283.json; this row exists so the COMPARTMENT name reaches it too.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "leg_posterior_superficial",
+   "name": "Superficial posterior compartment of the leg",
+   "he_name": "המדור האחורי השטחי של השוק",
+   "members": [
+    "gastrocnemius",
+    "soleus",
+    "plantaris"
+   ],
+   "not_on_any_page": [],
+   "src": "gray",
+   "syn": [
+    "superficial posterior compartment of the leg",
+    "superficial posterior compartment",
+    "superficial calf compartment"
+   ],
+   "he": [
+    "המדור האחורי השטחי של השוק"
+   ],
+   "note": "A fascial compartment. The MEMBERSHIP is Gray's; the BOUNDARIES are where the literature disagrees, so no boundary claim is made here -- the group lists the muscles the cited source places in the compartment and the card names the fascia the pages actually ship.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "leg_posterior_deep",
+   "name": "Deep posterior compartment of the leg",
+   "he_name": "המדור האחורי העמוק של השוק",
+   "members": [
+    "popliteus",
+    "tibialis posterior",
+    "flexor digitorum longus",
+    "flexor hallucis longus"
+   ],
+   "not_on_any_page": [],
+   "src": "gray",
+   "syn": [
+    "deep posterior compartment of the leg",
+    "deep posterior compartment",
+    "deep calf compartment"
+   ],
+   "he": [
+    "המדור האחורי העמוק של השוק"
+   ],
+   "note": "A fascial compartment. The MEMBERSHIP is Gray's; the BOUNDARIES are where the literature disagrees, so no boundary claim is made here -- the group lists the muscles the cited source places in the compartment and the card names the fascia the pages actually ship.",
+   "contested": 1,
+   "contested_why": "Gray's places popliteus in the deep posterior compartment; some authors treat it as a separate knee muscle outside the compartments. Both readings are named."
+  },
+  {
+   "id": "transversospinalis",
+   "name": "Transversospinalis group",
+   "he_name": "קבוצת הטרנסברסוספינליס",
+   "members": [
+    "semispinalis capitis",
+    "semispinalis cervicis",
+    "semispinalis thoracis",
+    "multifidus",
+    "rotatores"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,ta",
+   "syn": [
+    "transversospinalis",
+    "transversospinal muscles",
+    "transversospinalis group",
+    "deep back muscles",
+    "musculi transversospinales"
+   ],
+   "he": [
+    "קבוצת הטרנסברסוספינליס",
+    "שרירי הגב העמוקים"
+   ],
+   "note": "Gray's intermediate layer of the deep back: the semispinalis muscles, multifidus and the rotatores. The erector spinae group of data/anatomy/muscle_groups_q283.json is the layer superficial to it, not part of it.",
+   "contested": 0,
+   "contested_why": ""
+  },
+  {
+   "id": "multifidus_group",
+   "name": "Lumbar multifidus",
+   "he_name": "מולטיפידוס מותני",
+   "members": [
+    "multifidus"
+   ],
+   "not_on_any_page": [],
+   "src": "gray,ta",
+   "syn": [
+    "lumbar multifidus",
+    "lumbar multifidus group",
+    "multifidus",
+    "musculus multifidus"
+   ],
+   "he": [
+    "מולטיפידוס",
+    "מולטיפידוס מותני"
+   ],
+   "note": "A member of the transversospinalis group, listed separately because it is searched by name in lumbo-pelvic practice -- it is the muscle Jang & Jeon 2024 measured against pelvic tilt (see data/anatomy/concepts_q306.json, anterior_pelvic_tilt).",
+   "contested": 0,
+   "contested_why": ""
+  }
+ ]
+}
