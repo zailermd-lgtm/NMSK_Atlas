@@ -1,0 +1,2294 @@
+{
+ "own_m": {
+  "levels": {
+   "l": {
+    "shaft_axis": [
+     -0.0028,
+     1.0,
+     -0.0006
+    ],
+    "femur_centroid": [
+     -116.26,
+     -229.73,
+     -8.73
+    ],
+    "femur_length_mm": 482.3,
+    "femoral_head_diameter_mm": 48.1,
+    "head_centre": [
+     -90.9,
+     -0.8,
+     -3.5
+    ],
+    "lesser_trochanter": [
+     -94.2,
+     -55.2,
+     -20.0
+    ],
+    "head_to_lesser_trochanter_mm": 54.4,
+    "lesser_trochanter_medial_offset_mm": 22.5,
+    "t_lt": 174.43,
+    "lesser_trochanter_t": 174.43,
+    "lt+7cm_t": 104.43,
+    "lt+14cm_t": 34.43,
+    "lt+21cm_t": -35.57
+   },
+   "r": {
+    "shaft_axis": [
+     -0.0206,
+     0.9998,
+     -0.0029
+    ],
+    "femur_centroid": [
+     121.95,
+     -229.95,
+     -0.73
+    ],
+    "femur_length_mm": 482.0,
+    "femoral_head_diameter_mm": 48.7,
+    "head_centre": [
+     90.5,
+     0.2,
+     2.8
+    ],
+    "lesser_trochanter": [
+     98.0,
+     -32.2,
+     -3.5
+    ],
+    "head_to_lesser_trochanter_mm": 32.6,
+    "lesser_trochanter_medial_offset_mm": 19.9,
+    "t_lt": 198.16,
+    "lesser_trochanter_t": 198.16,
+    "lt+7cm_t": 128.16,
+    "lt+14cm_t": 58.16,
+    "lt+21cm_t": -11.84
+   }
+  },
+  "nerves": {
+   "sciatic_n": {
+    "id": "sciatic_n",
+    "nv": 14970,
+    "tris": 30000,
+    "y_range": [
+     -222.5,
+     -88.5
+    ],
+    "sides": [
+     "l",
+     "r"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 174.43,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level"
+     },
+     "l:lt+7cm": {
+      "level_selector": 104.43,
+      "band_vertices": 41,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": 18.401,
+      "eq_diameter_mm": 4.84,
+      "pieces": 2,
+      "largest_piece_eq_diameter_mm": 4.203,
+      "centreline_point": [
+       -92.3,
+       -121.5,
+       -65.8
+      ],
+      "local_axis": [
+       0.6679,
+       0.7425,
+       0.0503
+      ],
+      "axis_vs_plane_normal_deg": 42.2
+     },
+     "l:lt+14cm": {
+      "level_selector": 34.43,
+      "band_vertices": 479,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 6.322,
+      "oblique_area_mm2": 31.393,
+      "area_mm2": 30.0,
+      "eq_diameter_mm": 6.18,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.18,
+      "centreline_point": [
+       -112.0,
+       -195.3,
+       -59.2
+      ],
+      "local_axis": [
+       0.0889,
+       -0.9956,
+       0.0302
+      ],
+      "axis_vs_plane_normal_deg": 5.2
+     },
+     "l:lt+21cm": {
+      "level_selector": -35.57,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level"
+     },
+     "l:formation": {
+      "level_selector": 11.5,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level",
+      "note": "the inferior end of this page's own sacrum, y = 11.5 mm"
+     },
+     "r:lesser_trochanter": {
+      "level_selector": 198.16,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level"
+     },
+     "r:lt+7cm": {
+      "level_selector": 128.16,
+      "band_vertices": 723,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 8.792,
+      "oblique_area_mm2": 60.705,
+      "area_mm2": 72.997,
+      "eq_diameter_mm": 9.641,
+      "pieces": 2,
+      "largest_piece_eq_diameter_mm": 9.306,
+      "centreline_point": [
+       111.3,
+       -101.4,
+       -56.6
+      ],
+      "local_axis": [
+       0.6265,
+       -0.7656,
+       0.1462
+      ],
+      "axis_vs_plane_normal_deg": 38.9
+     },
+     "r:lt+14cm": {
+      "level_selector": 58.16,
+      "band_vertices": 342,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 6.365,
+      "oblique_area_mm2": 31.817,
+      "area_mm2": 31.02,
+      "eq_diameter_mm": 6.285,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.285,
+      "centreline_point": [
+       121.0,
+       -171.7,
+       -52.7
+      ],
+      "local_axis": [
+       0.0353,
+       0.9962,
+       -0.0799
+      ],
+      "axis_vs_plane_normal_deg": 5.5
+     },
+     "r:lt+21cm": {
+      "level_selector": -11.84,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level"
+     },
+     "r:formation": {
+      "level_selector": 11.5,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level",
+      "note": "the inferior end of this page's own sacrum, y = 11.5 mm"
+     }
+    },
+    "split_by_side": true
+   },
+   "sciatic_n_l": {
+    "id": "sciatic_n_l",
+    "nv": 615,
+    "tris": 1200,
+    "y_range": [
+     -342.5,
+     128.2
+    ],
+    "sides": [
+     "l"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 174.43,
+      "band_vertices": 12,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 12.112,
+      "oblique_area_mm2": 115.209,
+      "area_mm2": 107.707,
+      "eq_diameter_mm": 11.711,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 11.711,
+      "centreline_point": [
+       -68.3,
+       -56.6,
+       -70.0
+      ],
+      "local_axis": [
+       0.1516,
+       0.9856,
+       -0.0746
+      ],
+      "axis_vs_plane_normal_deg": 9.9
+     },
+     "l:lt+7cm": {
+      "level_selector": 104.43,
+      "band_vertices": 8,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 9.029,
+      "oblique_area_mm2": 64.027,
+      "area_mm2": 62.636,
+      "eq_diameter_mm": 8.93,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 8.93,
+      "centreline_point": [
+       -75.6,
+       -121.8,
+       -52.4
+      ],
+      "local_axis": [
+       0.0071,
+       -0.9391,
+       0.3437
+      ],
+      "axis_vs_plane_normal_deg": 20.1
+     },
+     "l:lt+14cm": {
+      "level_selector": 34.43,
+      "band_vertices": 6,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 6.677,
+      "oblique_area_mm2": 35.012,
+      "area_mm2": 34.837,
+      "eq_diameter_mm": 6.66,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.66,
+      "centreline_point": [
+       -81.7,
+       -195.4,
+       -39.0
+      ],
+      "local_axis": [
+       0.1264,
+       0.9919,
+       0.01
+      ],
+      "axis_vs_plane_normal_deg": 7.4
+     },
+     "l:lt+21cm": {
+      "level_selector": -35.57,
+      "band_vertices": 6,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 6.008,
+      "oblique_area_mm2": 28.35,
+      "area_mm2": 27.693,
+      "eq_diameter_mm": 5.938,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.938,
+      "centreline_point": [
+       -93.6,
+       -264.5,
+       -30.1
+      ],
+      "local_axis": [
+       0.1571,
+       0.9711,
+       -0.1795
+      ],
+      "axis_vs_plane_normal_deg": 13.9
+     },
+     "l:formation": {
+      "level_selector": 11.5,
+      "band_vertices": 28,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 16.445,
+      "oblique_area_mm2": 212.396,
+      "area_mm2": 201.197,
+      "eq_diameter_mm": 16.005,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 16.005,
+      "centreline_point": [
+       -61.0,
+       11.3,
+       -68.7
+      ],
+      "local_axis": [
+       -0.212,
+       0.7518,
+       0.6244
+      ],
+      "axis_vs_plane_normal_deg": 41.3,
+      "note": "the inferior end of this page's own sacrum, y = 11.5 mm"
+     }
+    },
+    "split_by_side": false
+   },
+   "sciatic_n_r": {
+    "id": "sciatic_n_r",
+    "nv": 613,
+    "tris": 1200,
+    "y_range": [
+     -341.8,
+     129.0
+    ],
+    "sides": [
+     "r"
+    ],
+    "levels": {
+     "r:lesser_trochanter": {
+      "level_selector": 198.16,
+      "band_vertices": 6,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 11.591,
+      "oblique_area_mm2": 105.51,
+      "area_mm2": 100.688,
+      "eq_diameter_mm": 11.323,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 11.323,
+      "centreline_point": [
+       71.1,
+       -31.2,
+       -72.5
+      ],
+      "local_axis": [
+       0.4422,
+       -0.8867,
+       0.1351
+      ],
+      "axis_vs_plane_normal_deg": 26.4
+     },
+     "r:lt+7cm": {
+      "level_selector": 128.16,
+      "band_vertices": 10,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 9.275,
+      "oblique_area_mm2": 67.56,
+      "area_mm2": 65.418,
+      "eq_diameter_mm": 9.126,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 9.126,
+      "centreline_point": [
+       92.7,
+       -100.7,
+       -53.9
+      ],
+      "local_axis": [
+       0.0125,
+       0.9274,
+       -0.3737
+      ],
+      "axis_vs_plane_normal_deg": 21.9
+     },
+     "r:lt+14cm": {
+      "level_selector": 58.16,
+      "band_vertices": 10,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 5.645,
+      "oblique_area_mm2": 25.025,
+      "area_mm2": 24.943,
+      "eq_diameter_mm": 5.635,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.635,
+      "centreline_point": [
+       94.7,
+       -170.5,
+       -40.4
+      ],
+      "local_axis": [
+       0.1042,
+       -0.9938,
+       -0.0387
+      ],
+      "axis_vs_plane_normal_deg": 5.4
+     },
+     "r:lt+21cm": {
+      "level_selector": -11.84,
+      "band_vertices": 8,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 7.753,
+      "oblique_area_mm2": 47.21,
+      "area_mm2": 48.7,
+      "eq_diameter_mm": 7.874,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 7.874,
+      "centreline_point": [
+       107.4,
+       -242.9,
+       -31.5
+      ],
+      "local_axis": [
+       0.3325,
+       -0.7807,
+       0.529
+      ],
+      "axis_vs_plane_normal_deg": 37.9
+     },
+     "r:formation": {
+      "level_selector": 11.5,
+      "band_vertices": 16,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 12.967,
+      "oblique_area_mm2": 132.06,
+      "area_mm2": 118.48,
+      "eq_diameter_mm": 12.282,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 12.282,
+      "centreline_point": [
+       62.5,
+       11.8,
+       -64.0
+      ],
+      "local_axis": [
+       0.062,
+       0.6726,
+       0.7374
+      ],
+      "axis_vs_plane_normal_deg": 47.7,
+      "note": "the inferior end of this page's own sacrum, y = 11.5 mm"
+     }
+    },
+    "split_by_side": false
+   }
+  },
+  "formation_y": 11.5
+ },
+ "own_f": {
+  "levels": {
+   "l": {
+    "shaft_axis": [
+     -0.1465,
+     0.9892,
+     0.0
+    ],
+    "femur_centroid": [
+     -99.78,
+     -194.41,
+     -6.44
+    ],
+    "femur_length_mm": 425.9,
+    "femoral_head_diameter_mm": 48.9,
+    "head_centre": [
+     -98.5,
+     1.0,
+     0.9
+    ],
+    "lesser_trochanter": [
+     -103.8,
+     -30.2,
+     -7.2
+    ],
+    "head_to_lesser_trochanter_mm": 30.1,
+    "lesser_trochanter_medial_offset_mm": 19.9,
+    "t_lt": 162.97,
+    "lesser_trochanter_t": 162.97,
+    "lt+7cm_t": 92.97,
+    "lt+14cm_t": 22.97,
+    "lt+21cm_t": -47.03
+   },
+   "r": {
+    "shaft_axis": [
+     0.1274,
+     0.9917,
+     0.0176
+    ],
+    "femur_centroid": [
+     98.25,
+     -210.17,
+     -15.35
+    ],
+    "femur_length_mm": 429.0,
+    "femoral_head_diameter_mm": 47.2,
+    "head_centre": [
+     97.2,
+     -0.4,
+     -1.5
+    ],
+    "lesser_trochanter": [
+     97.5,
+     -50.8,
+     -22.2
+    ],
+    "head_to_lesser_trochanter_mm": 50.3,
+    "lesser_trochanter_medial_offset_mm": 20.9,
+    "t_lt": 157.88,
+    "lesser_trochanter_t": 157.88,
+    "lt+7cm_t": 87.88,
+    "lt+14cm_t": 17.88,
+    "lt+21cm_t": -52.12
+   }
+  },
+  "nerves": {
+   "sciatic_n": {
+    "id": "sciatic_n",
+    "nv": 14949,
+    "tris": 30000,
+    "y_range": [
+     -293.5,
+     -69.5
+    ],
+    "sides": [
+     "l",
+     "r"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 162.97,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level"
+     },
+     "l:lt+7cm": {
+      "level_selector": 92.97,
+      "band_vertices": 285,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 8.444,
+      "oblique_area_mm2": 55.999,
+      "area_mm2": 37.753,
+      "eq_diameter_mm": 6.933,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.933,
+      "centreline_point": [
+       -103.1,
+       -100.5,
+       -40.9
+      ],
+      "local_axis": [
+       0.6123,
+       -0.775,
+       0.1563
+      ],
+      "axis_vs_plane_normal_deg": 31.1
+     },
+     "l:lt+14cm": {
+      "level_selector": 22.97,
+      "band_vertices": 201,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 5.983,
+      "oblique_area_mm2": 28.112,
+      "area_mm2": 31.972,
+      "eq_diameter_mm": 6.38,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.38,
+      "centreline_point": [
+       -88.7,
+       -170.0,
+       -43.6
+      ],
+      "local_axis": [
+       0.3735,
+       -0.9095,
+       -0.1824
+      ],
+      "axis_vs_plane_normal_deg": 17.4
+     },
+     "l:lt+21cm": {
+      "level_selector": -47.03,
+      "band_vertices": 486,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 12.59,
+      "oblique_area_mm2": 124.485,
+      "area_mm2": 94.345,
+      "eq_diameter_mm": 10.96,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.96,
+      "centreline_point": [
+       -85.4,
+       -240.4,
+       -29.7
+      ],
+      "local_axis": [
+       0.6154,
+       -0.7555,
+       -0.2247
+      ],
+      "axis_vs_plane_normal_deg": 33.1
+     },
+     "l:formation": {
+      "level_selector": 0.8,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level",
+      "note": "the inferior end of this page's own sacrum, y = 0.8 mm"
+     },
+     "r:lesser_trochanter": {
+      "level_selector": 157.88,
+      "band_vertices": 108,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": 21.883,
+      "eq_diameter_mm": 5.278,
+      "pieces": 6,
+      "largest_piece_eq_diameter_mm": 4.342,
+      "centreline_point": [
+       89.4,
+       -72.4,
+       -44.9
+      ],
+      "local_axis": [
+       0.5577,
+       -0.7731,
+       -0.3023
+      ],
+      "axis_vs_plane_normal_deg": 45.5
+     },
+     "r:lt+7cm": {
+      "level_selector": 87.88,
+      "band_vertices": 197,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 5.639,
+      "oblique_area_mm2": 24.976,
+      "area_mm2": 23.389,
+      "eq_diameter_mm": 5.457,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.457,
+      "centreline_point": [
+       95.2,
+       -120.2,
+       -57.7
+      ],
+      "local_axis": [
+       0.217,
+       -0.9721,
+       -0.0896
+      ],
+      "axis_vs_plane_normal_deg": 20.3
+     },
+     "r:lt+14cm": {
+      "level_selector": 17.88,
+      "band_vertices": 219,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 5.464,
+      "oblique_area_mm2": 23.453,
+      "area_mm2": 14.224,
+      "eq_diameter_mm": 4.256,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 4.256,
+      "centreline_point": [
+       103.1,
+       -192.3,
+       -50.6
+      ],
+      "local_axis": [
+       0.5822,
+       0.8009,
+       0.14
+      ],
+      "axis_vs_plane_normal_deg": 29.4
+     },
+     "r:lt+21cm": {
+      "level_selector": -52.12,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level"
+     },
+     "r:formation": {
+      "level_selector": 0.8,
+      "band_vertices": 0,
+      "band_half_mm": 25.0,
+      "oblique_eq_diameter_mm": null,
+      "oblique_area_mm2": null,
+      "area_mm2": null,
+      "eq_diameter_mm": null,
+      "pieces": 0,
+      "reason": "the mesh does not reach this level",
+      "note": "the inferior end of this page's own sacrum, y = 0.8 mm"
+     }
+    },
+    "split_by_side": true
+   },
+   "sciatic_n_l": {
+    "id": "sciatic_n_l",
+    "nv": 620,
+    "tris": 1200,
+    "y_range": [
+     -300.2,
+     125.8
+    ],
+    "sides": [
+     "l"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 162.97,
+      "band_vertices": 6,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 8.236,
+      "oblique_area_mm2": 53.278,
+      "area_mm2": 46.082,
+      "eq_diameter_mm": 7.66,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 7.66,
+      "centreline_point": [
+       -68.4,
+       -23.8,
+       -61.4
+      ],
+      "local_axis": [
+       0.419,
+       0.8915,
+       -0.1719
+      ],
+      "axis_vs_plane_normal_deg": 34.9
+     },
+     "l:lt+7cm": {
+      "level_selector": 92.97,
+      "band_vertices": 6,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 6.452,
+      "oblique_area_mm2": 32.697,
+      "area_mm2": 32.248,
+      "eq_diameter_mm": 6.408,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.408,
+      "centreline_point": [
+       -81.3,
+       -96.8,
+       -46.3
+      ],
+      "local_axis": [
+       0.0644,
+       -0.9881,
+       0.1397
+      ],
+      "axis_vs_plane_normal_deg": 9.3
+     },
+     "l:lt+14cm": {
+      "level_selector": 22.97,
+      "band_vertices": 7,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 6.058,
+      "oblique_area_mm2": 28.827,
+      "area_mm2": 28.317,
+      "eq_diameter_mm": 6.004,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.004,
+      "centreline_point": [
+       -77.4,
+       -169.8,
+       -37.7
+      ],
+      "local_axis": [
+       0.0396,
+       -0.9928,
+       0.1133
+      ],
+      "axis_vs_plane_normal_deg": 8.9
+     },
+     "l:lt+21cm": {
+      "level_selector": -47.03,
+      "band_vertices": 6,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 5.212,
+      "oblique_area_mm2": 21.336,
+      "area_mm2": 20.619,
+      "eq_diameter_mm": 5.124,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.124,
+      "centreline_point": [
+       -79.4,
+       -239.0,
+       -27.8
+      ],
+      "local_axis": [
+       -0.1463,
+       -0.9824,
+       0.1159
+      ],
+      "axis_vs_plane_normal_deg": 18.1
+     },
+     "l:formation": {
+      "level_selector": 0.8,
+      "band_vertices": 13,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 9.432,
+      "oblique_area_mm2": 69.875,
+      "area_mm2": 68.819,
+      "eq_diameter_mm": 9.361,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 9.361,
+      "centreline_point": [
+       -58.9,
+       1.1,
+       -65.3
+      ],
+      "local_axis": [
+       -0.1925,
+       -0.9811,
+       -0.021
+      ],
+      "axis_vs_plane_normal_deg": 11.2,
+      "note": "the inferior end of this page's own sacrum, y = 0.8 mm"
+     }
+    },
+    "split_by_side": false
+   },
+   "sciatic_n_r": {
+    "id": "sciatic_n_r",
+    "nv": 619,
+    "tris": 1199,
+    "y_range": [
+     -303.2,
+     123.0
+    ],
+    "sides": [
+     "r"
+    ],
+    "levels": {
+     "r:lesser_trochanter": {
+      "level_selector": 157.88,
+      "band_vertices": 13,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 9.274,
+      "oblique_area_mm2": 67.546,
+      "area_mm2": 59.407,
+      "eq_diameter_mm": 8.697,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 8.697,
+      "centreline_point": [
+       75.9,
+       -50.1,
+       -62.8
+      ],
+      "local_axis": [
+       0.2242,
+       -0.9666,
+       0.124
+      ],
+      "axis_vs_plane_normal_deg": 21.9
+     },
+     "r:lt+7cm": {
+      "level_selector": 87.88,
+      "band_vertices": 9,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 7.497,
+      "oblique_area_mm2": 44.138,
+      "area_mm2": 43.365,
+      "eq_diameter_mm": 7.431,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 7.431,
+      "centreline_point": [
+       76.5,
+       -118.8,
+       -47.9
+      ],
+      "local_axis": [
+       0.0654,
+       0.9731,
+       -0.221
+      ],
+      "axis_vs_plane_normal_deg": 14.2
+     },
+     "r:lt+14cm": {
+      "level_selector": 17.88,
+      "band_vertices": 8,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 6.312,
+      "oblique_area_mm2": 31.293,
+      "area_mm2": 31.445,
+      "eq_diameter_mm": 6.328,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.328,
+      "centreline_point": [
+       73.4,
+       -185.6,
+       -40.3
+      ],
+      "local_axis": [
+       -0.0089,
+       0.9924,
+       -0.1229
+      ],
+      "axis_vs_plane_normal_deg": 11.2
+     },
+     "r:lt+21cm": {
+      "level_selector": -52.12,
+      "band_vertices": 8,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 5.0,
+      "oblique_area_mm2": 19.633,
+      "area_mm2": 19.013,
+      "eq_diameter_mm": 4.92,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 4.92,
+      "centreline_point": [
+       79.2,
+       -261.8,
+       -33.2
+      ],
+      "local_axis": [
+       0.1115,
+       -0.9928,
+       0.0431
+      ],
+      "axis_vs_plane_normal_deg": 14.2
+     },
+     "r:formation": {
+      "level_selector": 0.8,
+      "band_vertices": 11,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 10.226,
+      "oblique_area_mm2": 82.122,
+      "area_mm2": 82.136,
+      "eq_diameter_mm": 10.226,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.226,
+      "centreline_point": [
+       63.9,
+       1.3,
+       -65.7
+      ],
+      "local_axis": [
+       -0.0132,
+       0.9923,
+       0.1229
+      ],
+      "axis_vs_plane_normal_deg": 7.1,
+      "note": "the inferior end of this page's own sacrum, y = 0.8 mm"
+     }
+    },
+    "split_by_side": false
+   }
+  },
+  "formation_y": 0.8
+ },
+ "base_m": {
+  "levels": {
+   "l": {
+    "shaft_axis": [
+     -0.0771,
+     0.9959,
+     0.0472
+    ],
+    "femur_centroid": [
+     -92.22,
+     -204.37,
+     -14.26
+    ],
+    "femur_length_mm": 456.3,
+    "femoral_head_diameter_mm": 51.3,
+    "head_centre": [
+     -85.5,
+     -1.7,
+     0.2
+    ],
+    "lesser_trochanter": [
+     -86.3,
+     -35.1,
+     -8.1
+    ],
+    "head_to_lesser_trochanter_mm": 33.6,
+    "lesser_trochanter_medial_offset_mm": 18.9,
+    "t_lt": 168.41,
+    "lesser_trochanter_t": 168.41,
+    "lt+7cm_t": 98.41,
+    "lt+14cm_t": 28.41,
+    "lt+21cm_t": -41.59
+   },
+   "r": {
+    "shaft_axis": [
+     0.0771,
+     0.9959,
+     0.0472
+    ],
+    "femur_centroid": [
+     92.22,
+     -204.37,
+     -14.26
+    ],
+    "femur_length_mm": 456.3,
+    "femoral_head_diameter_mm": 51.3,
+    "head_centre": [
+     85.5,
+     -1.7,
+     0.2
+    ],
+    "lesser_trochanter": [
+     86.3,
+     -35.1,
+     -8.1
+    ],
+    "head_to_lesser_trochanter_mm": 33.6,
+    "lesser_trochanter_medial_offset_mm": 18.9,
+    "t_lt": 168.41,
+    "lesser_trochanter_t": 168.41,
+    "lt+7cm_t": 98.41,
+    "lt+14cm_t": 28.41,
+    "lt+21cm_t": -41.59
+   }
+  },
+  "nerves": {
+   "sciatic_n_l": {
+    "id": "sciatic_n_l",
+    "nv": 620,
+    "tris": 1199,
+    "y_range": [
+     -321.5,
+     116.8
+    ],
+    "sides": [
+     "l"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 168.41,
+      "band_vertices": 7,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 10.925,
+      "oblique_area_mm2": 93.746,
+      "area_mm2": 88.584,
+      "eq_diameter_mm": 10.62,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.62,
+      "centreline_point": [
+       -57.7,
+       -30.4,
+       -61.2
+      ],
+      "local_axis": [
+       0.2606,
+       0.9499,
+       -0.1724
+      ],
+      "axis_vs_plane_normal_deg": 23.4
+     },
+     "l:lt+7cm": {
+      "level_selector": 98.41,
+      "band_vertices": 9,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 8.425,
+      "oblique_area_mm2": 55.745,
+      "area_mm2": 54.748,
+      "eq_diameter_mm": 8.349,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 8.349,
+      "centreline_point": [
+       -66.3,
+       -99.9,
+       -49.4
+      ],
+      "local_axis": [
+       0.1452,
+       0.9807,
+       -0.131
+      ],
+      "axis_vs_plane_normal_deg": 16.4
+     },
+     "l:lt+14cm": {
+      "level_selector": 28.41,
+      "band_vertices": 6,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 6.693,
+      "oblique_area_mm2": 35.188,
+      "area_mm2": 65.39,
+      "eq_diameter_mm": 9.125,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 9.125,
+      "centreline_point": [
+       -70.4,
+       -170.5,
+       -39.9
+      ],
+      "local_axis": [
+       0.4422,
+       0.5982,
+       0.6683
+      ],
+      "axis_vs_plane_normal_deg": 53.6
+     },
+     "l:lt+21cm": {
+      "level_selector": -41.59,
+      "band_vertices": 7,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 5.525,
+      "oblique_area_mm2": 23.979,
+      "area_mm2": 23.5,
+      "eq_diameter_mm": 5.47,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.47,
+      "centreline_point": [
+       -74.8,
+       -243.4,
+       -32.8
+      ],
+      "local_axis": [
+       0.1044,
+       0.9912,
+       -0.0818
+      ],
+      "axis_vs_plane_normal_deg": 12.8
+     },
+     "l:formation": {
+      "level_selector": 4.4,
+      "band_vertices": 17,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 12.179,
+      "oblique_area_mm2": 116.497,
+      "area_mm2": 110.294,
+      "eq_diameter_mm": 11.85,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 11.85,
+      "centreline_point": [
+       -52.7,
+       4.8,
+       -57.3
+      ],
+      "local_axis": [
+       0.0206,
+       0.8422,
+       0.5388
+      ],
+      "axis_vs_plane_normal_deg": 32.6,
+      "note": "the inferior end of this page's own sacrum, y = 4.4 mm"
+     }
+    },
+    "split_by_side": false
+   },
+   "sciatic_n_r": {
+    "id": "sciatic_n_r",
+    "nv": 620,
+    "tris": 1200,
+    "y_range": [
+     -321.5,
+     116.8
+    ],
+    "sides": [
+     "r"
+    ],
+    "levels": {
+     "r:lesser_trochanter": {
+      "level_selector": 168.41,
+      "band_vertices": 7,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 10.925,
+      "oblique_area_mm2": 93.744,
+      "area_mm2": 88.583,
+      "eq_diameter_mm": 10.62,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.62,
+      "centreline_point": [
+       57.7,
+       -30.4,
+       -61.2
+      ],
+      "local_axis": [
+       0.2607,
+       -0.9499,
+       0.1724
+      ],
+      "axis_vs_plane_normal_deg": 23.4
+     },
+     "r:lt+7cm": {
+      "level_selector": 98.41,
+      "band_vertices": 9,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 8.423,
+      "oblique_area_mm2": 55.725,
+      "area_mm2": 54.696,
+      "eq_diameter_mm": 8.345,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 8.345,
+      "centreline_point": [
+       66.3,
+       -99.9,
+       -49.4
+      ],
+      "local_axis": [
+       0.1422,
+       -0.9801,
+       0.1387
+      ],
+      "axis_vs_plane_normal_deg": 16.6
+     },
+     "r:lt+14cm": {
+      "level_selector": 28.41,
+      "band_vertices": 6,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 6.701,
+      "oblique_area_mm2": 35.266,
+      "area_mm2": 40.355,
+      "eq_diameter_mm": 7.168,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 7.168,
+      "centreline_point": [
+       71.0,
+       -172.2,
+       -39.9
+      ],
+      "local_axis": [
+       0.4387,
+       -0.8256,
+       0.355
+      ],
+      "axis_vs_plane_normal_deg": 39.5
+     },
+     "r:lt+21cm": {
+      "level_selector": -41.59,
+      "band_vertices": 8,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 5.545,
+      "oblique_area_mm2": 24.153,
+      "area_mm2": 23.598,
+      "eq_diameter_mm": 5.481,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.481,
+      "centreline_point": [
+       74.7,
+       -244.0,
+       -32.4
+      ],
+      "local_axis": [
+       0.1059,
+       -0.9909,
+       0.0837
+      ],
+      "axis_vs_plane_normal_deg": 12.9
+     },
+     "r:formation": {
+      "level_selector": 4.4,
+      "band_vertices": 17,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 12.179,
+      "oblique_area_mm2": 116.49,
+      "area_mm2": 110.291,
+      "eq_diameter_mm": 11.85,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 11.85,
+      "centreline_point": [
+       52.7,
+       4.8,
+       -57.3
+      ],
+      "local_axis": [
+       0.0206,
+       -0.8422,
+       -0.5388
+      ],
+      "axis_vs_plane_normal_deg": 32.6,
+      "note": "the inferior end of this page's own sacrum, y = 4.4 mm"
+     }
+    },
+    "split_by_side": false
+   }
+  },
+  "formation_y": 4.4
+ },
+ "base_f": {
+  "levels": {
+   "l": {
+    "shaft_axis": [
+     -0.0771,
+     0.9959,
+     0.0472
+    ],
+    "femur_centroid": [
+     -105.07,
+     -192.19,
+     25.07
+    ],
+    "femur_length_mm": 423.4,
+    "femoral_head_diameter_mm": 46.9,
+    "head_centre": [
+     -98.5,
+     -4.0,
+     38.3
+    ],
+    "lesser_trochanter": [
+     -99.6,
+     -35.1,
+     30.8
+    ],
+    "head_to_lesser_trochanter_mm": 31.3,
+    "lesser_trochanter_medial_offset_mm": 17.5,
+    "t_lt": 156.27,
+    "lesser_trochanter_t": 156.27,
+    "lt+7cm_t": 86.27,
+    "lt+14cm_t": 16.27,
+    "lt+21cm_t": -53.73
+   },
+   "r": {
+    "shaft_axis": [
+     0.0771,
+     0.9959,
+     0.0472
+    ],
+    "femur_centroid": [
+     105.07,
+     -192.19,
+     25.07
+    ],
+    "femur_length_mm": 423.4,
+    "femoral_head_diameter_mm": 46.9,
+    "head_centre": [
+     98.5,
+     -4.0,
+     38.3
+    ],
+    "lesser_trochanter": [
+     99.6,
+     -35.1,
+     30.8
+    ],
+    "head_to_lesser_trochanter_mm": 31.3,
+    "lesser_trochanter_medial_offset_mm": 17.5,
+    "t_lt": 156.27,
+    "lesser_trochanter_t": 156.27,
+    "lt+7cm_t": 86.27,
+    "lt+14cm_t": 16.27,
+    "lt+21cm_t": -53.73
+   }
+  },
+  "nerves": {
+   "sciatic_n_l": {
+    "id": "sciatic_n_l",
+    "nv": 620,
+    "tris": 1199,
+    "y_range": [
+     -303.1,
+     110.2
+    ],
+    "sides": [
+     "l"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 156.27,
+      "band_vertices": 10,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 13.914,
+      "oblique_area_mm2": 152.048,
+      "area_mm2": 135.04,
+      "eq_diameter_mm": 13.113,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 13.113,
+      "centreline_point": [
+       -73.5,
+       -29.4,
+       -22.9
+      ],
+      "local_axis": [
+       0.4054,
+       0.8371,
+       -0.3673
+      ],
+      "axis_vs_plane_normal_deg": 38.3
+     },
+     "l:lt+7cm": {
+      "level_selector": 86.27,
+      "band_vertices": 7,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 8.113,
+      "oblique_area_mm2": 51.694,
+      "area_mm2": 49.352,
+      "eq_diameter_mm": 7.927,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 7.927,
+      "centreline_point": [
+       -83.4,
+       -102.9,
+       -11.1
+      ],
+      "local_axis": [
+       -0.042,
+       -0.9391,
+       0.3412
+      ],
+      "axis_vs_plane_normal_deg": 23.7
+     },
+     "l:lt+14cm": {
+      "level_selector": 16.27,
+      "band_vertices": 9,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 6.578,
+      "oblique_area_mm2": 33.981,
+      "area_mm2": 34.042,
+      "eq_diameter_mm": 6.584,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.584,
+      "centreline_point": [
+       -84.2,
+       -171.5,
+       2.8
+      ],
+      "local_axis": [
+       0.0875,
+       0.9859,
+       -0.1424
+      ],
+      "axis_vs_plane_normal_deg": 14.4
+     },
+     "l:lt+21cm": {
+      "level_selector": -53.73,
+      "band_vertices": 7,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 5.317,
+      "oblique_area_mm2": 22.203,
+      "area_mm2": 21.668,
+      "eq_diameter_mm": 5.252,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.252,
+      "centreline_point": [
+       -87.4,
+       -245.0,
+       11.2
+      ],
+      "local_axis": [
+       0.0758,
+       0.9894,
+       -0.1238
+      ],
+      "axis_vs_plane_normal_deg": 13.2
+     },
+     "l:formation": {
+      "level_selector": 18.6,
+      "band_vertices": 52,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 12.415,
+      "oblique_area_mm2": 121.062,
+      "area_mm2": 91.196,
+      "eq_diameter_mm": 10.776,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.776,
+      "centreline_point": [
+       -68.5,
+       18.1,
+       -6.7
+      ],
+      "local_axis": [
+       0.034,
+       0.4844,
+       0.8742
+      ],
+      "axis_vs_plane_normal_deg": 61.0,
+      "note": "the inferior end of this page's own sacrum, y = 18.6 mm"
+     }
+    },
+    "split_by_side": false
+   },
+   "sciatic_n_r": {
+    "id": "sciatic_n_r",
+    "nv": 620,
+    "tris": 1200,
+    "y_range": [
+     -303.1,
+     110.2
+    ],
+    "sides": [
+     "r"
+    ],
+    "levels": {
+     "r:lesser_trochanter": {
+      "level_selector": 156.27,
+      "band_vertices": 10,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 13.915,
+      "oblique_area_mm2": 152.072,
+      "area_mm2": 135.067,
+      "eq_diameter_mm": 13.114,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 13.114,
+      "centreline_point": [
+       73.5,
+       -29.4,
+       -22.9
+      ],
+      "local_axis": [
+       0.405,
+       -0.8372,
+       0.3676
+      ],
+      "axis_vs_plane_normal_deg": 38.3
+     },
+     "r:lt+7cm": {
+      "level_selector": 86.27,
+      "band_vertices": 7,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 8.114,
+      "oblique_area_mm2": 51.714,
+      "area_mm2": 49.368,
+      "eq_diameter_mm": 7.928,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 7.928,
+      "centreline_point": [
+       83.4,
+       -102.9,
+       -11.1
+      ],
+      "local_axis": [
+       0.0387,
+       -0.939,
+       0.3418
+      ],
+      "axis_vs_plane_normal_deg": 23.6
+     },
+     "r:lt+14cm": {
+      "level_selector": 16.27,
+      "band_vertices": 7,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 6.591,
+      "oblique_area_mm2": 34.114,
+      "area_mm2": 37.177,
+      "eq_diameter_mm": 6.88,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.88,
+      "centreline_point": [
+       84.0,
+       -171.7,
+       2.8
+      ],
+      "local_axis": [
+       0.0688,
+       -0.8444,
+       0.5313
+      ],
+      "axis_vs_plane_normal_deg": 35.8
+     },
+     "r:lt+21cm": {
+      "level_selector": -53.73,
+      "band_vertices": 7,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 5.321,
+      "oblique_area_mm2": 22.238,
+      "area_mm2": 21.916,
+      "eq_diameter_mm": 5.282,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.282,
+      "centreline_point": [
+       87.2,
+       -243.3,
+       11.1
+      ],
+      "local_axis": [
+       0.0931,
+       -0.9931,
+       0.0711
+      ],
+      "axis_vs_plane_normal_deg": 11.9
+     },
+     "r:formation": {
+      "level_selector": 18.6,
+      "band_vertices": 51,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 12.623,
+      "oblique_area_mm2": 125.145,
+      "area_mm2": 91.969,
+      "eq_diameter_mm": 10.821,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.821,
+      "centreline_point": [
+       68.4,
+       18.0,
+       -6.6
+      ],
+      "local_axis": [
+       -0.0412,
+       0.4945,
+       0.8682
+      ],
+      "axis_vs_plane_normal_deg": 60.4,
+      "note": "the inferior end of this page's own sacrum, y = 18.6 mm"
+     }
+    },
+    "split_by_side": false
+   }
+  },
+  "formation_y": 18.6
+ },
+ "comb_m": {
+  "levels": {
+   "l": {
+    "shaft_axis": [
+     -0.005,
+     0.9999,
+     0.0116
+    ],
+    "femur_centroid": [
+     -112.66,
+     -216.09,
+     -14.5
+    ],
+    "femur_length_mm": 480.6,
+    "femoral_head_diameter_mm": 51.2,
+    "head_centre": [
+     -90.1,
+     -2.9,
+     -2.3
+    ],
+    "lesser_trochanter": [
+     -93.6,
+     -38.7,
+     -10.4
+    ],
+    "head_to_lesser_trochanter_mm": 35.8,
+    "lesser_trochanter_medial_offset_mm": 20.0,
+    "t_lt": 177.36,
+    "lesser_trochanter_t": 177.36,
+    "lt+7cm_t": 107.36,
+    "lt+14cm_t": 37.36,
+    "lt+21cm_t": -32.64
+   },
+   "r": {
+    "shaft_axis": [
+     -0.0246,
+     0.9997,
+     0.0076
+    ],
+    "femur_centroid": [
+     118.66,
+     -216.22,
+     -7.74
+    ],
+    "femur_length_mm": 483.2,
+    "femoral_head_diameter_mm": 50.8,
+    "head_centre": [
+     87.9,
+     -2.4,
+     -0.7
+    ],
+    "lesser_trochanter": [
+     94.2,
+     -38.4,
+     -7.8
+    ],
+    "head_to_lesser_trochanter_mm": 36.2,
+    "lesser_trochanter_medial_offset_mm": 20.1,
+    "t_lt": 178.33,
+    "lesser_trochanter_t": 178.33,
+    "lt+7cm_t": 108.33,
+    "lt+14cm_t": 38.33,
+    "lt+21cm_t": -31.67
+   }
+  },
+  "nerves": {
+   "sciatic_n_l": {
+    "id": "sciatic_n_l",
+    "nv": 615,
+    "tris": 1200,
+    "y_range": [
+     -341.0,
+     128.3
+    ],
+    "sides": [
+     "l"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 177.36,
+      "band_vertices": 11,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 10.845,
+      "oblique_area_mm2": 92.381,
+      "area_mm2": 92.94,
+      "eq_diameter_mm": 10.878,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.878,
+      "centreline_point": [
+       -64.9,
+       -36.7,
+       -70.1
+      ],
+      "local_axis": [
+       0.3215,
+       0.9455,
+       0.0526
+      ],
+      "axis_vs_plane_normal_deg": 19.2
+     },
+     "l:lt+7cm": {
+      "level_selector": 107.36,
+      "band_vertices": 7,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 10.297,
+      "oblique_area_mm2": 83.267,
+      "area_mm2": 77.502,
+      "eq_diameter_mm": 9.934,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 9.934,
+      "centreline_point": [
+       -73.9,
+       -108.6,
+       -63.5
+      ],
+      "local_axis": [
+       0.141,
+       0.8474,
+       -0.5119
+      ],
+      "axis_vs_plane_normal_deg": 32.8
+     },
+     "l:lt+14cm": {
+      "level_selector": 37.36,
+      "band_vertices": 7,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 6.883,
+      "oblique_area_mm2": 37.205,
+      "area_mm2": 36.88,
+      "eq_diameter_mm": 6.853,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.853,
+      "centreline_point": [
+       -81.4,
+       -177.0,
+       -37.6
+      ],
+      "local_axis": [
+       0.1705,
+       0.9685,
+       -0.1814
+      ],
+      "axis_vs_plane_normal_deg": 15.1
+     },
+     "l:lt+21cm": {
+      "level_selector": -32.64,
+      "band_vertices": 9,
+      "band_half_mm": 15.0,
+      "oblique_eq_diameter_mm": 5.855,
+      "oblique_area_mm2": 26.922,
+      "area_mm2": 25.937,
+      "eq_diameter_mm": 5.747,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.747,
+      "centreline_point": [
+       -91.5,
+       -251.7,
+       -30.4
+      ],
+      "local_axis": [
+       0.185,
+       0.975,
+       -0.1231
+      ],
+      "axis_vs_plane_normal_deg": 13.5
+     },
+     "l:formation": {
+      "level_selector": 19.6,
+      "band_vertices": 17,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 16.515,
+      "oblique_area_mm2": 214.211,
+      "area_mm2": 181.237,
+      "eq_diameter_mm": 15.191,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 15.191,
+      "centreline_point": [
+       -55.3,
+       19.3,
+       -62.7
+      ],
+      "local_axis": [
+       -0.1008,
+       -0.822,
+       -0.5606
+      ],
+      "axis_vs_plane_normal_deg": 34.7,
+      "note": "the inferior end of this page's own sacrum, y = 19.6 mm"
+     }
+    },
+    "split_by_side": false
+   },
+   "sciatic_n_r": {
+    "id": "sciatic_n_r",
+    "nv": 613,
+    "tris": 1200,
+    "y_range": [
+     -341.3,
+     128.0
+    ],
+    "sides": [
+     "r"
+    ],
+    "levels": {
+     "r:lesser_trochanter": {
+      "level_selector": 178.33,
+      "band_vertices": 8,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 10.727,
+      "oblique_area_mm2": 90.381,
+      "area_mm2": 87.044,
+      "eq_diameter_mm": 10.527,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.527,
+      "centreline_point": [
+       75.1,
+       -36.5,
+       -67.1
+      ],
+      "local_axis": [
+       0.3963,
+       -0.9122,
+       0.1041
+      ],
+      "axis_vs_plane_normal_deg": 22.9
+     },
+     "r:lt+7cm": {
+      "level_selector": 108.33,
+      "band_vertices": 8,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 9.386,
+      "oblique_area_mm2": 69.185,
+      "area_mm2": 66.401,
+      "eq_diameter_mm": 9.195,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 9.195,
+      "centreline_point": [
+       90.1,
+       -106.3,
+       -59.7
+      ],
+      "local_axis": [
+       0.0682,
+       0.9206,
+       -0.3845
+      ],
+      "axis_vs_plane_normal_deg": 23.7
+     },
+     "r:lt+14cm": {
+      "level_selector": 38.33,
+      "band_vertices": 15,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 5.761,
+      "oblique_area_mm2": 26.071,
+      "area_mm2": 25.829,
+      "eq_diameter_mm": 5.735,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.735,
+      "centreline_point": [
+       95.9,
+       -177.2,
+       -42.7
+      ],
+      "local_axis": [
+       0.0847,
+       -0.9943,
+       0.0655
+      ],
+      "axis_vs_plane_normal_deg": 5.4
+     },
+     "r:lt+21cm": {
+      "level_selector": -31.67,
+      "band_vertices": 10,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 8.92,
+      "oblique_area_mm2": 62.496,
+      "area_mm2": 63.035,
+      "eq_diameter_mm": 8.959,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 8.959,
+      "centreline_point": [
+       109.6,
+       -248.9,
+       -29.0
+      ],
+      "local_axis": [
+       -0.3244,
+       0.8528,
+       -0.4092
+      ],
+      "axis_vs_plane_normal_deg": 31.0
+     },
+     "r:formation": {
+      "level_selector": 19.6,
+      "band_vertices": 14,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 16.373,
+      "oblique_area_mm2": 210.543,
+      "area_mm2": 167.32,
+      "eq_diameter_mm": 14.596,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 14.596,
+      "centreline_point": [
+       58.2,
+       19.9,
+       -55.2
+      ],
+      "local_axis": [
+       0.1069,
+       -0.7176,
+       -0.6882
+      ],
+      "axis_vs_plane_normal_deg": 44.1,
+      "note": "the inferior end of this page's own sacrum, y = 19.6 mm"
+     }
+    },
+    "split_by_side": false
+   }
+  },
+  "formation_y": 19.6
+ },
+ "comb_f": {
+  "levels": {
+   "l": {
+    "shaft_axis": [
+     -0.1446,
+     0.9895,
+     0.0073
+    ],
+    "femur_centroid": [
+     -98.56,
+     -189.81,
+     -12.66
+    ],
+    "femur_length_mm": 421.7,
+    "femoral_head_diameter_mm": 45.4,
+    "head_centre": [
+     -104.2,
+     -2.7,
+     -6.5
+    ],
+    "lesser_trochanter": [
+     -103.7,
+     -33.3,
+     -12.9
+    ],
+    "head_to_lesser_trochanter_mm": 30.4,
+    "lesser_trochanter_medial_offset_mm": 17.4,
+    "t_lt": 155.64,
+    "lesser_trochanter_t": 155.64,
+    "lt+7cm_t": 85.64,
+    "lt+14cm_t": 15.64,
+    "lt+21cm_t": -54.36
+   },
+   "r": {
+    "shaft_axis": [
+     0.1363,
+     0.9903,
+     0.0276
+    ],
+    "femur_centroid": [
+     99.43,
+     -192.3,
+     -20.42
+    ],
+    "femur_length_mm": 425.1,
+    "femoral_head_diameter_mm": 45.8,
+    "head_centre": [
+     104.6,
+     -4.7,
+     -7.4
+    ],
+    "lesser_trochanter": [
+     104.7,
+     -34.0,
+     -18.6
+    ],
+    "head_to_lesser_trochanter_mm": 29.3,
+    "lesser_trochanter_medial_offset_mm": 16.2,
+    "t_lt": 157.53,
+    "lesser_trochanter_t": 157.53,
+    "lt+7cm_t": 87.53,
+    "lt+14cm_t": 17.53,
+    "lt+21cm_t": -52.47
+   }
+  },
+  "nerves": {
+   "sciatic_n_l": {
+    "id": "sciatic_n_l",
+    "nv": 620,
+    "tris": 1200,
+    "y_range": [
+     -300.4,
+     125.4
+    ],
+    "sides": [
+     "l"
+    ],
+    "levels": {
+     "l:lesser_trochanter": {
+      "level_selector": 155.64,
+      "band_vertices": 8,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 9.058,
+      "oblique_area_mm2": 64.445,
+      "area_mm2": 54.109,
+      "eq_diameter_mm": 8.3,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 8.3,
+      "centreline_point": [
+       -70.7,
+       -28.4,
+       -59.5
+      ],
+      "local_axis": [
+       0.4048,
+       0.8988,
+       -0.168
+      ],
+      "axis_vs_plane_normal_deg": 33.9
+     },
+     "l:lt+7cm": {
+      "level_selector": 85.64,
+      "band_vertices": 6,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 6.69,
+      "oblique_area_mm2": 35.152,
+      "area_mm2": 34.303,
+      "eq_diameter_mm": 6.609,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.609,
+      "centreline_point": [
+       -84.0,
+       -99.6,
+       -47.7
+      ],
+      "local_axis": [
+       0.0207,
+       -0.976,
+       0.217
+      ],
+      "axis_vs_plane_normal_deg": 14.7
+     },
+     "l:lt+14cm": {
+      "level_selector": 15.64,
+      "band_vertices": 8,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 5.835,
+      "oblique_area_mm2": 26.742,
+      "area_mm2": 26.146,
+      "eq_diameter_mm": 5.77,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.77,
+      "centreline_point": [
+       -79.9,
+       -172.6,
+       -35.2
+      ],
+      "local_axis": [
+       0.0453,
+       -0.9861,
+       0.1599
+      ],
+      "axis_vs_plane_normal_deg": 11.2
+     },
+     "l:lt+21cm": {
+      "level_selector": -54.36,
+      "band_vertices": 9,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 5.045,
+      "oblique_area_mm2": 19.991,
+      "area_mm2": 19.571,
+      "eq_diameter_mm": 4.992,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 4.992,
+      "centreline_point": [
+       -80.7,
+       -241.6,
+       -25.5
+      ],
+      "local_axis": [
+       0.0408,
+       0.9925,
+       -0.1154
+      ],
+      "axis_vs_plane_normal_deg": 12.8
+     },
+     "l:formation": {
+      "level_selector": 29.0,
+      "band_vertices": 24,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 14.49,
+      "oblique_area_mm2": 164.894,
+      "area_mm2": 121.976,
+      "eq_diameter_mm": 12.462,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 12.462,
+      "centreline_point": [
+       -51.4,
+       29.4,
+       -54.7
+      ],
+      "local_axis": [
+       0.2555,
+       0.6477,
+       0.7177
+      ],
+      "axis_vs_plane_normal_deg": 49.6,
+      "note": "the inferior end of this page's own sacrum, y = 29.0 mm"
+     }
+    },
+    "split_by_side": false
+   },
+   "sciatic_n_r": {
+    "id": "sciatic_n_r",
+    "nv": 619,
+    "tris": 1199,
+    "y_range": [
+     -303.4,
+     125.0
+    ],
+    "sides": [
+     "r"
+    ],
+    "levels": {
+     "r:lesser_trochanter": {
+      "level_selector": 157.53,
+      "band_vertices": 8,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 11.41,
+      "oblique_area_mm2": 102.256,
+      "area_mm2": 93.205,
+      "eq_diameter_mm": 10.894,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 10.894,
+      "centreline_point": [
+       78.0,
+       -32.3,
+       -63.1
+      ],
+      "local_axis": [
+       0.345,
+       -0.9189,
+       0.1914
+      ],
+      "axis_vs_plane_normal_deg": 30.9
+     },
+     "r:lt+7cm": {
+      "level_selector": 87.53,
+      "band_vertices": 7,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 7.552,
+      "oblique_area_mm2": 44.789,
+      "area_mm2": 43.452,
+      "eq_diameter_mm": 7.438,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 7.438,
+      "centreline_point": [
+       78.8,
+       -98.6,
+       -52.3
+      ],
+      "local_axis": [
+       0.0273,
+       0.9606,
+       -0.2767
+      ],
+      "axis_vs_plane_normal_deg": 18.7
+     },
+     "r:lt+14cm": {
+      "level_selector": 17.53,
+      "band_vertices": 7,
+      "band_half_mm": 10.0,
+      "oblique_eq_diameter_mm": 6.192,
+      "oblique_area_mm2": 30.115,
+      "area_mm2": 29.737,
+      "eq_diameter_mm": 6.153,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 6.153,
+      "centreline_point": [
+       77.8,
+       -170.3,
+       -40.4
+      ],
+      "local_axis": [
+       0.0033,
+       0.9938,
+       -0.1115
+      ],
+      "axis_vs_plane_normal_deg": 11.0
+     },
+     "r:lt+21cm": {
+      "level_selector": -52.47,
+      "band_vertices": 7,
+      "band_half_mm": 6.0,
+      "oblique_eq_diameter_mm": 5.169,
+      "oblique_area_mm2": 20.985,
+      "area_mm2": 20.474,
+      "eq_diameter_mm": 5.106,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 5.106,
+      "centreline_point": [
+       78.9,
+       -242.3,
+       -33.2
+      ],
+      "local_axis": [
+       0.0749,
+       -0.9927,
+       0.0947
+      ],
+      "axis_vs_plane_normal_deg": 14.0
+     },
+     "r:formation": {
+      "level_selector": 29.0,
+      "band_vertices": 18,
+      "band_half_mm": 4.0,
+      "oblique_eq_diameter_mm": 14.303,
+      "oblique_area_mm2": 160.679,
+      "area_mm2": 109.712,
+      "eq_diameter_mm": 11.819,
+      "pieces": 1,
+      "largest_piece_eq_diameter_mm": 11.819,
+      "centreline_point": [
+       62.6,
+       29.0,
+       -55.3
+      ],
+      "local_axis": [
+       0.239,
+       -0.6654,
+       -0.7072
+      ],
+      "axis_vs_plane_normal_deg": 48.3,
+      "note": "the inferior end of this page's own sacrum, y = 29.0 mm"
+     }
+    },
+    "split_by_side": false
+   }
+  },
+  "formation_y": 29.0
+ }
+}
