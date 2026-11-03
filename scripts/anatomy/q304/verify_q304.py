@@ -130,40 +130,181 @@ def ensure_kernel(pg):
     return pg.evaluate("() => typeof NMSKCapCore !== 'undefined'")
 
 
-def open_card(pg, name, phone):
+def open_card(pg, name, phone, tries=4, want=None):
     """the REAL UI: type into the structure search box, then click / tap the row (Q299's helper, with its tolerant
-    click -- the bottom `#foot` bar can overlay a low row and Playwright's auto-waiting click then times out)."""
-    box = None
-    for _ in range(6):
+    click -- the bottom `#foot` bar can overlay a low row and Playwright's auto-waiting click then times out).
+    The whole sequence is retried: at 390 px the panel can still be laying out when the first fill lands, and the
+    row click then goes nowhere, which the first Q304 phone run reported as an empty card.
+
+    The card is only accepted if it actually NAMES the structure asked for. Without that check a 390 px run read a
+    12,088-character card for `superior_gluteal_n_l` that was in fact Biceps femoris: the row sat under the bottom
+    `#foot` bar, Playwright's `force=True` fallback dispatched the press at that covered point, and the event went
+    to the canvas behind the list, which picked whatever mesh lay under the pixel. On a touch viewport the row is
+    therefore pressed with the real touchscreen (Q283's `tap`) and only after `elementFromPoint` confirms the row
+    is the topmost thing there; a plain mouse click on a touch context left the card unopened (67 chars)."""
+    t = None
+    for k in range(tries):
+        t = _open_card_once(pg, name, phone, want or name)
+        if t and len(t) > 300:
+            return t
+        pg.wait_for_timeout(900)
+    return t
+
+
+def _find_box(pg, phone):
+    """the structure search box, opening the panel for it if need be. A 390 px panel can take several seconds to
+    lay out, and an OPEN info card covers the box there: the second card of a phone run then died in `fill` with
+    "element is not visible" after Playwright's full 30 s, so the card is put away first."""
+    # The control that shows the list TOGGLES it, so it is pressed once per attempt and then waited for. Pressing
+    # it again every 400 ms, which this helper used to do, closed the panel as often as it opened it, and whether a
+    # phone run found the search box at all came down to the parity of the loop.
+    for _attempt in range(4):
         for sel in ("#search", "#q"):
             if pg.is_visible(sel):
-                box = sel; break
-        if box:
-            break
-        for s2 in ("#btn-panel", "#m-list", "#t-lay3", "#insp-min"):
+                return sel
+        for s2 in ("#insp-min", "#im", "#info .info-min"):        # put away a card that is covering it
+            if pg.is_visible(s2):
+                tap(pg, s2, phone); pg.wait_for_timeout(400); break
+        for s2 in ("#btn-panel", "#m-list", "#t-lay3"):
             if pg.is_visible(s2):
                 tap(pg, s2, phone); break
-        pg.wait_for_timeout(400)
+        for _ in range(12):
+            pg.wait_for_timeout(300)
+            for sel in ("#search", "#q"):
+                if pg.is_visible(sel):
+                    return sel
+    return None
+
+
+def _clear_point(pg, SEL, idx):
+    """a point on row `idx` that is really the topmost element there.
+
+    Three things make this harder than a click. (1) `scrollIntoView` must NOT be used: it also scrolls `body`,
+    which undoes the scroll Playwright has just made and leaves the row at y = 986 on an 844 px viewport, so the
+    row's own scrolling ancestor (the panel `<aside>`) is moved directly. (2) Several of the viewer's own fixed
+    overlays sit over the panel on a 390 px viewport -- Q301's control bar `#q301-bar` (y 632-763 here) and its
+    layer-peel box `#pl-box` (y ~490-520) -- so there is no single "centre the row" target that works; the clear
+    bands are measured and the row is scrolled into the tallest one. (3) When a row ends up only half visible, the
+    visible sliver is still a real place a finger can land, so the probe tries the top and bottom of the row too.
+    """
+    PLAN = ("([s, i]) => { const e = document.querySelectorAll(s)[i]; if (!e) return null;"
+            " let p = e.parentElement;"
+            " while (p && !/(auto|scroll)/.test(getComputedStyle(p).overflowY)) p = p.parentElement;"
+            " if (!p) return null;"
+            " const ar = p.getBoundingClientRect(), r = e.getBoundingClientRect();"
+            " const sel = '#q301-bar,#pl-box,#foot,.hist-bar,#q301-sheet,#sa-bar,#hist-msg,.qi-wrap,#tools,"
+            "#topright,.ft-box,.rs-box,.qg-sheet';"
+            " const cand = Array.from(document.querySelectorAll(sel))"
+            "   .concat(Array.from(document.body.querySelectorAll('*')).filter(n => n.id === 'q301-bar'));"
+            " const bad = [];"
+            " cand.forEach(function(n){ if (n.contains(e)) return;"
+            "   const st = getComputedStyle(n);"
+            "   if (st.display === 'none' || st.visibility === 'hidden' || n.hidden) return;"
+            "   const b = n.getBoundingClientRect();"
+            "   if (b.width < 2 || b.height < 2) return;"
+            "   if (b.right < r.left + 2 || b.left > r.right - 2) return;"
+            "   bad.push([b.top, b.bottom]); });"
+            " bad.sort(function(a, b2){ return a[0] - b2[0]; });"
+            " const lo = Math.max(ar.top, 0) + 2, hi = Math.min(ar.bottom, window.innerHeight) - 2;"
+            " const gaps = []; let y = lo;"
+            " bad.forEach(function(b){ if (b[0] > y) gaps.push([y, Math.min(b[0], hi)]);"
+            "   y = Math.max(y, b[1]); });"
+            " if (y < hi) gaps.push([y, hi]);"
+            " const good = gaps.filter(function(g){ return g[1] - g[0] > 8; })"
+            "   .sort(function(a, b2){ return (b2[1] - b2[0]) - (a[1] - a[0]); });"
+            " return {targets: good.map(function(g){ return (g[0] + g[1]) / 2; }),"
+            "         centre: r.top + r.height / 2, max: p.scrollHeight - p.clientHeight, top: p.scrollTop}; }")
+    MOVE = ("([s, i, dy]) => { const e = document.querySelectorAll(s)[i]; if (!e) return;"
+            " let p = e.parentElement;"
+            " while (p && !/(auto|scroll)/.test(getComputedStyle(p).overflowY)) p = p.parentElement;"
+            " if (p) p.scrollTop += dy; }")
+    PROBE = ("([s, i]) => { const e = document.querySelectorAll(s)[i];"
+             " if (!e) return null; const r = e.getBoundingClientRect();"
+             " for (const fy of [0.5, 0.3, 0.7, 0.12, 0.88]) for (const fx of [0.5, 0.2, 0.8]) {"
+             "   const x = r.x + r.width * fx, y = r.y + r.height * fy;"
+             "   const t = document.elementFromPoint(x, y);"
+             "   if (t && (t === e || e.contains(t) || t.contains(e))) return {x: x, y: y}; }"
+             " return null; }")
+    hit = pg.evaluate(PROBE, [SEL, idx])
+    if hit:
+        return hit
+    for k in range(5):
+        plan = pg.evaluate(PLAN, [SEL, idx])
+        if not plan or not plan["targets"]:
+            return None
+        pg.evaluate(MOVE, [SEL, idx, plan["centre"] - plan["targets"][min(k, len(plan["targets"]) - 1)]])
+        pg.wait_for_timeout(450)
+        hit = pg.evaluate(PROBE, [SEL, idx])
+        if hit:
+            return hit
+    return None
+
+
+def _open_card_once(pg, name, phone, want):
+    box = _find_box(pg, phone)
     if not box:
         return None
-    pg.fill(box, name); pg.wait_for_timeout(800)
     SEL = "#list button.item, #list .row, #list button"
-    idx = pg.evaluate("([s, n]) => Array.from(document.querySelectorAll(s))"
-                      ".findIndex(b => b.innerText.toLowerCase().indexOf(n.toLowerCase()) >= 0)", [SEL, name])
-    if idx < 0:
-        return None
-    row = pg.locator(SEL).nth(idx)
-    try:
-        row.scroll_into_view_if_needed(timeout=5000)
-    except Exception:                                             # noqa: BLE001
-        pass
-    try:
-        row.click(timeout=6000)
-    except Exception:                                             # noqa: BLE001
+    # On a 390 px viewport the search list is the LAST thing in the panel, and Q301's fixed control bar (#q301-bar,
+    # z-index 62) covers the bottom ~90 px of it. With only the two hits that the full name matches, the panel is
+    # already scrolled to its end and the row cannot be moved out from under the bar at all: `elementFromPoint` on
+    # every point of it returned #q301-hist, Playwright's click and tap both timed out as intercepted, and the
+    # `force=True` fallback this script used to carry dispatched the press at that covered point, where it reached
+    # the canvas behind the list and opened whatever mesh lay under the pixel -- that is how one 390 px run read a
+    # 12,088-character card for `superior_gluteal_n_l` that was in fact Biceps femoris.
+    # What a real user does is type LESS, so the list is long enough to scroll the wanted row up into the clear.
+    # So the query is shortened word by word until the row can be reached, and the press is a real touch.
+    toks = name.split()
+    queries = [name]
+    if phone:
+        queries += [" ".join(toks[:k]) for k in (3, 2, 1) if 0 < k < len(toks)]
+    # The left and right copies of a nerve share one display name and are told apart by the row's own L / R mark,
+    # so when the wanted id is sided the row is picked by BOTH -- otherwise the first match is always the left one
+    # and the card that opens is the wrong side's, which the `want` check below then (correctly) rejected.
+    side = want[-1].upper() if want[-2:].lower() in ("_l", "_r") else ""
+    pressed = False
+    for qtext in queries:
         try:
-            row.click(timeout=6000, force=True)
+            pg.fill(box, qtext, timeout=8000)
         except Exception:                                         # noqa: BLE001
-            pg.evaluate("([s, i]) => document.querySelectorAll(s)[i].click()", [SEL, idx])
+            box = _find_box(pg, phone)                            # a card opened over it, or the panel closed
+            if not box:
+                return None
+            try:
+                pg.fill(box, qtext, timeout=8000)
+            except Exception:                                     # noqa: BLE001
+                return None
+        pg.wait_for_timeout(800)
+        idx = pg.evaluate("([s, n, sd]) => Array.from(document.querySelectorAll(s)).findIndex(b => {"
+                          " const t = b.innerText;"
+                          " if (t.toLowerCase().indexOf(n.toLowerCase()) < 0) return false;"
+                          " const m = t.match(/\\n\\s*([LR])\\s*$/);"
+                          " return (!sd || !m) ? true : m[1] === sd; })", [SEL, name, side])
+        if idx < 0:
+            continue
+        row = pg.locator(SEL).nth(idx)
+        try:
+            row.scroll_into_view_if_needed(timeout=5000)
+        except Exception:                                         # noqa: BLE001
+            pass
+        pg.wait_for_timeout(150)
+        if phone:
+            hit = _clear_point(pg, SEL, idx)
+            if not hit:
+                continue
+            pg.touchscreen.tap(hit["x"], hit["y"])
+        else:
+            try:
+                row.click(timeout=6000)
+            except Exception:                                     # noqa: BLE001
+                try:
+                    row.click(timeout=6000, force=True)
+                except Exception:                                 # noqa: BLE001
+                    pg.evaluate("([s, i]) => document.querySelectorAll(s)[i].click()", [SEL, idx])
+        pressed = True
+        break
+    if not pressed:
+        return None
     pg.wait_for_timeout(800)
     # On a phone the info card opens MINIMISED, so the first Q296 run read a 77-character card and reported the
     # licence text missing. It is expanded with a real tap -- and then WAITED FOR: on a 390 px viewport the card's
@@ -171,7 +312,7 @@ def open_card(pg, name, phone):
     # were in fact complete, which is a script defect and was reported as a product one until this loop was added.
     READ = ("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
             " if (!e) return ''; const s = document.getElementById('i-src');"
-            " return (s && !s.hidden ? s.textContent + '\n' : '') + e.innerText; }")
+            " return (s && !s.hidden ? s.textContent + '\\n' : '') + e.innerText; }")
     txt = ""
     for _ in range(8):
         if pg.evaluate("() => { const e = document.getElementById('info') || document.getElementById('inspector');"
@@ -180,10 +321,28 @@ def open_card(pg, name, phone):
                 if pg.is_visible(s2):
                     tap(pg, s2, phone); break
         txt = pg.evaluate(READ)
-        if len(txt) > 300:
+        if len(txt) > 300 and _names(want) in _names(txt):
             return txt
         pg.wait_for_timeout(700)
-    return txt
+    return "" if (txt and _names(want) not in _names(txt)) else txt
+
+
+def _names(t):
+    return "".join(c for c in (t or "").lower() if c.isalnum())
+
+
+NAME_JS = """(sid) => { const L = window.NMSKClinicalTool.api.list();
+  const r = L.filter(x => x.id === sid)[0]; return r ? (r.name || r.id) : null; }"""
+
+
+def name_of(pg, sid):
+    """the page's OWN display name for an id -- the string a user would type. The first Q304 phone run searched
+    names this round had invented ("Femoral nerve branch to iliacus") while the page calls that structure
+    "Femoral n branch to iliacus l", so three cards never opened and were reported as missing provenance."""
+    try:
+        return pg.evaluate(NAME_JS, sid) or sid
+    except Exception:                                             # noqa: BLE001
+        return sid
 
 
 def close_card(pg, phone):
@@ -212,7 +371,7 @@ def section_a(pg, T, R, errs, phone, ids, rep):
     check("%s A the Imaging page now CARRIES the fibular / peroneal nerves (%d: %s ...)"
           % (T, len(fib), ", ".join(fib[:3])), len(fib) >= 18 and NERVE in ids, errs)
     # the card, through the real search box and a real click / tap
-    txt = open_card(pg, "Common fibular", phone) or ""
+    txt = open_card(pg, name_of(pg, NERVE), phone, want=NERVE) or ""
     A["card_len"] = len(txt)
     check("%s A the common fibular nerve is REACHABLE through the real search box and a real %s (card %d chars)"
           % (T, "tap" if phone else "click", len(txt)), len(txt) > 300, errs)
@@ -337,8 +496,9 @@ def section_b(pg, T, R, errs, key, ids, rep):
 
 def section_c(pg, T, R, errs, phone, sample):
     C = R.setdefault("C", {})
-    for name, sid, kind in sample:
-        txt = open_card(pg, name, phone) or ""
+    for _label, sid, kind in sample:
+        name = name_of(pg, sid)
+        txt = open_card(pg, name, phone, want=sid) or ""
         C[sid] = {"len": len(txt), "excerpt": txt[:260]}
         check("%s C %s (%s) opens from the real search box (%d chars)" % (T, sid, kind, len(txt)), len(txt) > 300, errs)
         check("%s C %s carries the Method row / tag Q300 made the template render" % (T, sid),
@@ -355,7 +515,8 @@ def section_c(pg, T, R, errs, phone, sample):
 
 def section_d(pg, T, R, errs, phone, key):
     D = R.setdefault("D", {})
-    txt = open_card(pg, "Sciatic nerve", phone) or ""
+    txt = open_card(pg, name_of(pg, "sciatic_n_r") if key not in ("own_m", "own_f") else "Sciatic nerve",
+                    phone) or ""
     D["len"] = len(txt); D["excerpt"] = txt[:300]
     check("%s D the sciatic nerve's card opens (%d chars)" % (T, len(txt)), len(txt) > 300, errs)
     check("%s D it carries the SPARC 692 DOI" % T, DOI in txt, errs)
