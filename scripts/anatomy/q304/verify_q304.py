@@ -152,6 +152,7 @@ def open_card(pg, name, phone, tries=4, want=None):
 
 
 COVERED = []                  # rows a real touch could not reach on a phone: Q301's bar covers them (see Q304 open items)
+WHY = {}                      # why the last `open_card` came back empty -- a card that will not open must say so
 
 
 def _find_box(pg, phone):
@@ -262,7 +263,9 @@ def press(pg, sel, phone):
 
 
 def _open_card_once(pg, name, phone, want):
+    WHY.clear(); WHY["name"] = name
     box = _find_box(pg, phone)
+    WHY["box"] = box
     if not box:
         return None
     SEL = "#list button.item, #list .row, #list button"
@@ -295,12 +298,22 @@ def _open_card_once(pg, name, phone, want):
                 pg.fill(box, qtext, timeout=8000)
             except Exception:                                     # noqa: BLE001
                 return None
-        pg.wait_for_timeout(800)
-        idx = pg.evaluate("([s, n, sd]) => Array.from(document.querySelectorAll(s)).findIndex(b => {"
-                          " const t = b.innerText;"
-                          " if (t.toLowerCase().indexOf(n.toLowerCase()) < 0) return false;"
-                          " const m = t.match(/\\n\\s*([LR])\\s*$/);"
-                          " return (!sd || !m) ? true : m[1] === sd; })", [SEL, name, side])
+        # The list render is debounced, so the row is WAITED for instead of being looked for once after a fixed
+        # 800 ms. A single look is what made the phone cards flaky from one run to the next: whichever page
+        # happened to still be showing the previous query's rows reported a 0-character card and a product failure.
+        FIND = ("([s, n, sd]) => Array.from(document.querySelectorAll(s)).findIndex(b => {"
+                " const t = b.innerText;"
+                " if (t.toLowerCase().indexOf(n.toLowerCase()) < 0) return false;"
+                " const m = t.match(/\\n\\s*([LR])\\s*$/);"
+                " return (!sd || !m) ? true : m[1] === sd; })")
+        idx = -1
+        for _ in range(16):
+            idx = pg.evaluate(FIND, [SEL, name, side])
+            if idx >= 0:
+                break
+            pg.wait_for_timeout(500)
+        WHY["rows"] = pg.evaluate("(s) => document.querySelectorAll(s).length", SEL)
+        WHY["idx"] = idx
         if idx < 0:
             continue
         row = pg.locator(SEL).nth(idx)
@@ -333,9 +346,16 @@ def _open_card_once(pg, name, phone, want):
                     pg.evaluate("([s, i]) => document.querySelectorAll(s)[i].click()", [SEL, idx])
         pressed = True
         break
+    WHY["pressed"] = pressed
     if not pressed:
         return None
     pg.wait_for_timeout(800)
+    for _ in range(10):                                           # the card's body lands a beat after the press
+        if pg.evaluate("() => { const e = document.getElementById('info')"
+                       " || document.getElementById('inspector');"
+                       " return !!e && e.classList.contains('open'); }"):
+            break
+        pg.wait_for_timeout(500)
     # On a phone the info card opens MINIMISED, so the first Q296 run read a 77-character card and reported the
     # licence text missing. It is expanded with a real tap -- and then WAITED FOR: on a 390 px viewport the card's
     # body lands a beat after the row click, and the first Q304 run read 67 and 121 characters of three cards that
@@ -355,6 +375,8 @@ def _open_card_once(pg, name, phone, want):
                 if pg.is_visible(s2):
                     tap(pg, s2, phone); break
         txt = pg.evaluate(READ)
+        WHY["card_len"], WHY["card_min"] = len(txt), mini
+        WHY["card_head"] = txt[:90]
         if len(txt) > 300 and _named(want, txt):
             if not mini:
                 return txt
@@ -548,6 +570,9 @@ def section_c(pg, T, R, errs, phone, sample):
         name = name_of(pg, sid)
         txt = open_card(pg, name, phone, want=sid) or ""
         C[sid] = {"len": len(txt), "excerpt": txt[:260]}
+        if not txt:
+            C[sid]["why"] = dict(WHY)
+            print("     %s did not open: %s" % (sid, json.dumps(WHY, ensure_ascii=False)[:300]))
         check("%s C %s (%s) opens from the real search box (%d chars)" % (T, sid, kind, len(txt)), len(txt) > 300, errs)
         check("%s C %s carries the Method row / tag Q300 made the template render" % (T, sid),
               ("registered onto this subject's own skeleton" in txt or "rule-based tube" in txt), errs)
@@ -563,9 +588,11 @@ def section_c(pg, T, R, errs, phone, sample):
 
 def section_d(pg, T, R, errs, phone, key):
     D = R.setdefault("D", {})
-    sci = "sciatic_n" if key in ("own_m", "own_f") else "sciatic_n_r"
-    txt = open_card(pg, name_of(pg, sci) if key not in ("own_m", "own_f") else "Sciatic nerve",
-                    phone, want=sci) or ""
+    # NOT `want=<id>` here: on the Z pages the rows carry no L / R mark, so a sided id would make the row pick
+    # fall back to the first match and the card then be rejected for naming the other side. The display name is
+    # what the card prints, and `_named` already tolerates the laterality token the page appends to it.
+    txt = open_card(pg, name_of(pg, "sciatic_n_r") if key not in ("own_m", "own_f") else "Sciatic nerve",
+                    phone) or ""
     D["len"] = len(txt); D["excerpt"] = txt[:300]
     check("%s D the sciatic nerve's card opens (%d chars)" % (T, len(txt)), len(txt) > 300, errs)
     check("%s D it carries the SPARC 692 DOI" % T, DOI in txt, errs)
@@ -619,11 +646,16 @@ def run_page(d: Path, errs: list, only_phone=None, shots: Path | None = None):
     rep = REPORT.setdefault(key, {})
     try:
         with sync_playwright() as pl:
-            b = pl.chromium.launch(args=V.LAUNCH_ARGS, executable_path="/opt/pw-browsers/chromium")
             sizes = [((1400, 900), False), ((390, 844), True)]
             if only_phone is not None:
                 sizes = [sizes[1]] if only_phone else [sizes[0]]
+            # ONE BROWSER PER VIEWPORT, not one for the whole run. Keeping a single process across six passes over
+            # pages of 4.9-5.4 MB with their geometry made the later passes miss: the row of a real search never
+            # appeared inside the wait and cards came back empty, while the very same pass on its own was clean --
+            # 46 OK / 0 FAIL for own_m at 390 px alone against every card failing in the long run. That was read as
+            # a product failure twice before it was measured.
             for (w, h), phone in sizes:
+                b = pl.chromium.launch(args=V.LAUNCH_ARGS, executable_path="/opt/pw-browsers/chromium")
                 T = "%s_%d" % (key, w)
                 R = rep.setdefault(str(w), {})
                 del MISSED[:]
@@ -657,7 +689,7 @@ def run_page(d: Path, errs: list, only_phone=None, shots: Path | None = None):
                     shots.mkdir(parents=True, exist_ok=True)
                     pg.screenshot(path=str(shots / ("Q304_%s_%d.png" % (key, w))))
                 ctx.close()
-            b.close()
+                b.close()
     finally:
         srv.terminate()
 
