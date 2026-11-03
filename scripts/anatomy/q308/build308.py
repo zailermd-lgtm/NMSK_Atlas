@@ -77,13 +77,78 @@ def frame_check(got):
 
 
 class Bone:
-    """signed distance to one bone's surface; + outside, - inside. Real mesh, no voxelisation (Q307 S1)."""
-    def __init__(self, V, F):
+    """Clearance from one bone. + outside, - inside.
+
+    Two methods, and WHICH ONE IS VALID is decided by measuring the bone, not assumed:
+      watertight mesh      -> trimesh's signed distance, exact, no voxels (Q307 S1's preference).
+      NOT watertight       -> a CALIBRATED voxel mask (Q299's instrument with Q307 S1's correction). The CT bone
+                              labels are open shells -- measured: every bone of Imaging M is non-watertight, and
+                              so is the Z scapula -- and `signed_distance` on an open mesh returns nonsense; it
+                              reported one psoas minor 93 mm inside a hip bone. This is the same reason Q297
+                              THREW AWAY its ray-parity test on the open Z skin instead of reporting it.
+                              The mask is inflated, so its own inflation is measured from its own surface
+                              samples (`offset_mm`) and a point counts as inside only beyond offset + 2 mm --
+                              Q307's rule, which killed a false 48-65 % "buried in the muscle" finding.
+    """
+    PITCH = 1.5
+    def __init__(self, V, F, name=""):
+        self.name = name
         self.m = trimesh.Trimesh(np.asarray(V, float), np.asarray(F), process=False)
         self.q = trimesh.proximity.ProximityQuery(self.m)
+        self.watertight = bool(self.m.is_watertight)
+        self.method = "signed_distance_watertight_mesh" if self.watertight else "calibrated_voxel_mask"
+        self.offset_mm = 0.0
+        if not self.watertight:
+            self._build_mask()
+
+    def _build_mask(self):
+        from scipy import ndimage
+        lo = self.m.vertices.min(0) - 6.0
+        hi = self.m.vertices.max(0) + 6.0
+        n = np.maximum(np.ceil((hi - lo) / self.PITCH).astype(int) + 1, 3)
+        self._lo, self._n = lo, n
+        vox = np.zeros(tuple(n), bool)
+        idx = np.clip(((self.m.vertices - lo) / self.PITCH).round().astype(int), 0, n - 1)
+        vox[idx[:, 0], idx[:, 1], idx[:, 2]] = True
+        # thicken the shell by one cell so the surface is closed, then fill the interior per axial slice
+        vox = ndimage.binary_dilation(vox, iterations=1)
+        filled = np.zeros_like(vox)
+        for k in range(n[2]):
+            sl = vox[:, :, k]
+            if sl.any():
+                filled[:, :, k] = ndimage.binary_fill_holes(sl)
+        for k in range(n[1]):
+            sl = vox[:, k, :]
+            if sl.any():
+                filled[:, k, :] |= ndimage.binary_fill_holes(sl)
+        self._mask = filled
+        self._depth = ndimage.distance_transform_edt(filled) * self.PITCH
+        # CALIBRATION (Q307 S1): the mask's own boundary sits this far outside the real surface, measured from
+        # area-weighted samples of the bone's own surface, which are by definition AT depth 0.
+        ns = min(4000, max(400, len(self.m.faces)))
+        pts, _ = trimesh.sample.sample_surface(self.m, ns)
+        self.offset_mm = float(np.percentile(self._depth_at(pts), 90))
+
+    def _depth_at(self, P):
+        i = np.clip(((np.atleast_2d(P) - self._lo) / self.PITCH).round().astype(int), 0, self._n - 1)
+        return self._depth[i[:, 0], i[:, 1], i[:, 2]]
 
     def signed(self, P):
-        return self.q.signed_distance(np.atleast_2d(np.asarray(P, float))) * -1.0  # trimesh: + inside
+        P = np.atleast_2d(np.asarray(P, float))
+        if self.watertight:
+            return self.q.signed_distance(P) * -1.0        # trimesh: + inside, so flip to + outside
+        # outside the mask: the true unsigned surface distance. inside: depth beyond the calibrated offset.
+        d = self._depth_at(P)
+        _, surf = self.nearest(P)
+        inside = d > self.offset_mm + 2.0
+        out = surf.copy()
+        out[inside] = -(d[inside] - self.offset_mm)
+        return out
+
+    def report(self):
+        return {"method": self.method, "watertight": self.watertight,
+                "mask_offset_mm": round(self.offset_mm, 2) if not self.watertight else None,
+                "signed_test_valid": True}
 
     def nearest(self, P):
         p, d, _ = self.q.on_surface(np.atleast_2d(np.asarray(P, float)))
@@ -162,37 +227,47 @@ def push_path_out(bones, P, margin, iters=10, keep_ends=False):
     return P, moved
 
 
-def lift_rings(bones, V, nring, nseg, margin, iters=8):
-    """Translate whole RINGS of a tube outward until every vertex clears the bones by `margin`. Moving the ring
-    as a rigid unit preserves the cross-section exactly, so the analytic volume still holds -- unlike moving
-    single vertices, which inverts a thin ring. Used where clearing the centreline alone does not converge
-    because two bones (here the radius and the brachioradialis) push the path back and forth."""
+def lift_rings(bone_margins, V, nring, nseg, iters=40, keep_ends=False):
+    """Translate whole RINGS of a tube until every vertex clears each bone by that bone's own margin.
+
+    `bone_margins` is [(bone, margin)]. The displacements for all the bones are summed within ONE iteration and
+    applied together: applying them one bone at a time oscillates when the tube runs in a tight corridor, which
+    is exactly the LACN's case between the radius and the brachioradialis, and it left the branch 1.85 mm inside
+    the radius however many passes were run.
+
+    Moving the ring as a rigid unit preserves the cross-section exactly, so the analytic volume still holds --
+    unlike moving single vertices, which inverts a thin ring and halved one psoas minor's reported volume.
+    """
     V = np.asarray(V, float).copy()
     body = V[:nring * nseg].reshape(nring, nseg, 3)
     nmoved = 0
     for _ in range(iters):
+        disp = np.zeros((nring, 3))
         worst = 0.0
-        for bone in bones:
-            flat = body.reshape(-1, 3)
-            sd = bone.signed(flat).reshape(nring, nseg)
+        for bone, margin in bone_margins:
+            sd = bone.signed(body.reshape(-1, 3)).reshape(nring, nseg)
             need = margin - sd.min(axis=1)
             bad = need > 1e-3
+            if keep_ends:
+                bad[0] = bad[-1] = False
             if not bad.any():
                 continue
             worst = max(worst, float(need[bad].max()))
-            idx = np.where(bad)[0]
-            for i in idx:
+            for i in np.where(bad)[0]:
                 j = int(np.argmin(sd[i]))
                 q, _ = bone.nearest(body[i, j][None, :])
-                n = unit(body[i, j] - q[0])
+                n = body[i, j] - q[0]
+                nn = np.linalg.norm(n)
+                if nn < 1e-6:
+                    continue
+                n = n / nn
                 if sd[i, j] < 0:
                     n = -n
-                if np.linalg.norm(n) < 1e-6:
-                    continue
-                body[i] = body[i] + n * need[i]
-            nmoved += int(bad.sum())
+                disp[i] += n * need[i]
         if worst <= 1e-3:
             break
+        body += disp[:, None, :]
+        nmoved += int((np.linalg.norm(disp, axis=1) > 1e-6).sum())
     V[:nring * nseg] = body.reshape(-1, 3)
     V[nring * nseg] = body[0].mean(0)
     V[nring * nseg + 1] = body[-1].mean(0)
@@ -202,6 +277,21 @@ def lift_rings(bones, V, nring, nseg, margin, iters=8):
 def clearance(bones, V):
     """the smallest signed surface distance from a finished mesh to any of these bones. + outside, - inside."""
     return min(float(b.signed(V).min()) for b in bones) if bones else 9.0
+
+
+def mid_clearance(bones, V, nring, nseg):
+    """Clearance of the MID-SECTION only, i.e. excluding the first and last ring. A ligament ATTACHES to bone,
+    so its end rings sit in the attachment footprint by design and are not penetration; what must not be inside
+    a bone is the span between them. The attachment depth is reported separately rather than hidden."""
+    body = np.asarray(V, float)[:nring * nseg].reshape(nring, nseg, 3)
+    mid = body[1:-1].reshape(-1, 3)
+    ends = np.vstack([body[0], body[-1]])
+    return (min(float(b.signed(mid).min()) for b in bones),
+            min(float(b.signed(ends).min()) for b in bones))
+
+
+def bone_methods(bones):
+    return {b.name or f"bone{i}": b.report() for i, b in enumerate(bones)}
 
 
 def analytic_volume_round(P, d):
@@ -221,6 +311,13 @@ def analytic_volume_band(P, w, t):
     seg = np.linalg.norm(np.diff(P, axis=0), axis=1)
     a = np.pi / 4.0 * w * t
     return float((seg * 0.5 * (a[:-1] + a[1:])).sum()) / 1000.0
+
+
+def penetration_gate(st, keys):
+    """Residual mid-section penetration is a REFUSAL, not a footnote. Nothing ships inside a bone."""
+    worst = min([st[k] for k in keys if k in st] or [9.0])
+    st["worst_residual_clearance_mm"] = round(worst, 2)
+    return worst >= -0.01
 
 
 def volume_agrees(st, analytic, tol=0.30):
@@ -421,7 +518,7 @@ def build_cal(got, ids, side, key):
     sid = ids[f"scapula_{side}"]
     Vs, Fs = got[sid]
     lm = lm_scapula(Vs, side)
-    bone = Bone(Vs, Fs)
+    bone = Bone(Vs, Fs, sid)
     a, b = lm["coracoid_posterolateral"], lm["acromion_undersurface"]
     # the band is bowed away from the bone below, so the arch is an ARCH and not a chord through the scapula
     # GATE: the span must be inside the literature band (von Schroeder 27 +- 5 -> 17.0 mm at -2 SD;
@@ -459,19 +556,28 @@ def build_cal(got, ids, side, key):
     P = smooth_path(P, 1)
     P, npush = push_path_out([bone], P, th / 2.0 + CLEAR, keep_ends=True)
     V, F, _, _ = tube(P, w, th, ref, nseg=12)
+    V, nlift = lift_rings([(bone, CLEAR)], V, len(P), 12, keep_ends=True)
     st = mesh_stats(V, F)
     st.update({"length_mm": round(polyline_len(P), 1),
                "chord_mm": round(float(np.linalg.norm(b - a)), 1),
                "width_coracoid_mm": wA, "width_acromion_mm": wB, "thickness_mm": th,
-               "path_points_cleared_of_scapula": npush,
+               "path_points_cleared_of_scapula": npush, "rings_lifted": nlift,
                "min_signed_dist_scapula_path_before_mm": round(mind, 2),
-               "min_signed_dist_to_scapula_after_mm": round(clearance([bone], V), 2),
+               "min_signed_dist_to_scapula_after_mm": round(mid_clearance([bone], V, len(P), 12)[0], 2),
+               "attachment_depth_in_scapula_mm": round(-mid_clearance([bone], V, len(P), 12)[1], 2),
+               "clearance_method": bone_methods([bone]),
                "acromion_tip": [round(float(x), 1) for x in lm["acromion_tip"]],
                "coracoid_tip": [round(float(x), 1) for x in lm["coracoid_tip"]],
                "lit_length_vonschroeder_mm": "27 +- 5", "lit_length_hu_medial_mm": "28.91 +- 5.56",
                "lit_length_hu_lateral_mm": "31.90 +- 4.21",
                "attachment_pair_used": how, "gate_band_mm": [LO, HI]})
-    st["refused"] = not volume_agrees(st, analytic_volume_band(P, w, th))
+    ok_v = volume_agrees(st, analytic_volume_band(P, w, th))
+    ok_p = penetration_gate(st, ["min_signed_dist_to_scapula_after_mm"])
+    st["refused"] = not (ok_v and ok_p)
+    if not ok_p:
+        st["reason"] = (f"still {-st['worst_residual_clearance_mm']:.2f} mm inside this page's own scapula after "
+                        "the centreline was cleared and the rings lifted")
+        return None, None, st
     if st["refused"]:
         st["reason"] = ("the mesh volume disagrees with the analytic band volume by "
                         f"{st['volume_mesh_vs_analytic_rel']:.2f} (> {st['volume_check_tol']}), so the band "
@@ -517,18 +623,23 @@ def build_lacn(got, ids, side, key):
     tb = along(Vb, Cr, Ar)
     tb_div = along(div[None, :], Cr, Ar)[0]
     levels = np.linspace(max(tb_div, tb.min()), min(t1, tb.max()), 16)
-    border, vol_n, dor_n = [], [], []
+    # TWO rails, because the two branches do not run in the same place.
+    #   anterior branch  -- along the brachioradialis' MEDIAL border, which is the landmark Khadanovich 2023
+    #                       bounds ("less than 1.8 mm") and the volar-radial forearm it supplies.
+    #   posterior branch -- over the brachioradialis' DORSO-LATERAL surface, the dorso-radial forearm it
+    #                       supplies. Running it dorsal to the MEDIAL border instead puts it where the radius is,
+    #                       and that drove it into the bone on three pages before this was measured.
+    border, dorsal = [], []
     for i in range(len(levels) - 1):
-        s = (tb >= levels[i]) & (tb <= levels[i + 1])
-        if s.sum() < 4:
+        m = (tb >= levels[i]) & (tb <= levels[i + 1])
+        if m.sum() < 4:
             continue
-        S = Vb[s]
-        med = S[np.argmin(sgn * S[:, 0])]
-        border.append(med)
-        vol_n.append(unit(np.array([0.0, 0.0, 1.0])))      # volar / anterior
-        dor_n.append(unit(np.array([0.0, 0.0, -1.0])))     # dorsal / posterior
+        S = Vb[m]
+        border.append(S[np.argmin(sgn * S[:, 0])])
+        dorsal.append(S[np.argmax(sgn * S[:, 0] - S[:, 2])])
     if len(border) < 3:
         return None
+    dorsal = smooth_path(np.array(dorsal), 2)
     border = smooth_path(np.array(border), 2)
     # Where the page's brachioradialis is a PARTIAL CT segmentation (the Imaging pages carry `_zfill` variants of
     # it), the border rail stops short of the wrist and the branch would end mid-forearm -- exactly Q307's finding
@@ -550,10 +661,21 @@ def build_lacn(got, ids, side, key):
     dbr = max(0.45, 0.60 * dtr)
     out = {}
     for nm, nvec in (("anterior", np.array([0.0, 0.0, 1.0])), ("posterior", np.array([0.0, 0.0, -1.0]))):
-        P = np.vstack([div[None, :], border + nvec[None, :] * off])
+        # Both branches are SUBCUTANEOUS: Qawasmi 2024 has the nerve "deep to the forearm superficial fascia",
+        # which is outside the muscle and well away from the bone. So the offset from the brachioradialis'
+        # medial border is taken along the bisector of (volar / dorsal) and OUTWARD from the radius' own axis,
+        # keeping the offset magnitude at 1.44 mm -- inside Khadanovich's "less than 1.8 mm" -- while moving the
+        # branch away from the radius instead of along it. Hugging the border dorsally alone drove the posterior
+        # branch into the bone on three pages.
+        rail = border if nm == "anterior" else dorsal[:len(border)]
+        tb_r = along(rail, Cr, Ar)
+        axis_pt = Cr[None, :] + tb_r[:, None] * Ar[None, :]
+        outw = unit(rail - axis_pt)
+        dirs = unit(nvec[None, :] + outw)
+        P = np.vstack([div[None, :], rail + dirs * off])
         P = resample(smooth_path(P, 2), 30)
-        bone = Bone(Vr, Fr)
-        br = Bone(Vb, Fb)
+        bone = Bone(Vr, Fr, ids[f"radius_{side}"])
+        br = Bone(Vb, Fb, ids[f"brachioradialis_{side}"])
         mind = float(bone.signed(P).min())
         mind_br = float(br.signed(P).min())
         # a CUTANEOUS nerve must not sit INSIDE a muscle belly (Q307 S5), so the centreline is cleared of the
@@ -562,7 +684,7 @@ def build_lacn(got, ids, side, key):
         P = smooth_path(P, 1)
         P, npush = push_path_out([bone, br], P, dbr / 2.0 + CLEAR, keep_ends=False)
         V, F, _, _, _ = tube_round(P, dbr, nseg=10)
-        V, nlift = lift_rings([bone, br], V, len(P), 10, CLEAR)
+        V, nlift = lift_rings([(bone, CLEAR), (br, 0.0)], V, len(P), 10)
         sd = br.signed(V)
         npush_br = npush
         st = mesh_stats(V, F)
@@ -573,19 +695,26 @@ def build_lacn(got, ids, side, key):
                    "t_start_on_radius": round(float((along(P[:1], Cr, Ar)[0] - t0) / (t1 - t0)), 3),
                    "t_end_on_radius": round(float((along(P[-1:], Cr, Ar)[0] - t0) / (t1 - t0)), 3),
                    "short_of_distal_radius_mm": round(float(t1 - along(P[-1:], Cr, Ar)[0]), 1),
+                   "rail": "brachioradialis medial border" if nm == "anterior" else
+                           "brachioradialis dorso-lateral surface",
+                   "d_br_medial_border_p50_mm": round(float(np.median(
+                       np.linalg.norm(P[:, None, :] - border[None, :, :], axis=2).min(axis=1))), 2),
                    "d_brachioradialis_p50_mm": round(float(np.median(sd)), 2),
                    "d_brachioradialis_min_mm": round(float(sd.min()), 2),
                    "max_depth_in_brachioradialis_mm": round(float(max(0.0, -sd.min())), 2),
                    "path_points_cleared": npush, "rings_lifted": nlift,
                    "min_signed_dist_brachioradialis_path_before_mm": round(mind_br, 2),
                    "min_signed_dist_to_radius_after_mm": round(clearance([bone], V), 2),
+                   "clearance_method": bone_methods([bone, br]),
                    "min_signed_dist_radius_path_before_mm": round(mind, 2),
                    "border_rail_extrapolated_pct": round(extrap_pct, 1),
                    "branch_rate_pct": L.LIT["lacn_division_rate_pct"][0],
                    "single_branch_rate_pct": L.LIT["lacn_single_branch_rate_pct"][0]})
         volume_agrees(st, analytic_volume_round(P, dbr))
         lo, hi = target - L.LIT["lacn_division_distal_to_iel_mm"][1], target + L.LIT["lacn_division_distal_to_iel_mm"][1]
-        g = {"volume_mesh_vs_analytic_rel": [st["volume_mesh_vs_analytic_rel"], 0.0, st["volume_check_tol"]],
+        penetration_gate(st, ["min_signed_dist_to_radius_after_mm"])
+        g = {"worst_residual_clearance_mm": [st["worst_residual_clearance_mm"], -0.01, 99.0],
+             "volume_mesh_vs_analytic_rel": [st["volume_mesh_vs_analytic_rel"], 0.0, st["volume_check_tol"]],
              "division_distal_to_iel_mm": [st["division_distal_to_iel_mm"], round(lo, 1), round(hi, 1)],
              "short_of_distal_radius_mm": [st["short_of_distal_radius_mm"], -5.0, 20.0],
              "max_depth_in_brachioradialis_mm": [st["max_depth_in_brachioradialis_mm"], 0.0,
@@ -637,7 +766,7 @@ def build_psoas_minor(got, ids, side, key):
     belly_frac = min(0.9, bl / max(tot, 1e-6))
     d = np.where(frac <= belly_frac, db, 2.0)
     d = np.interp(frac, [0, belly_frac * 0.8, belly_frac, 1.0], [db * 0.8, db, 2.0, 2.0])
-    bone = Bone(Vh, Fh)
+    bone = Bone(Vh, Fh, ids[f"hip_bone_{side}"])
     mind = float(bone.signed(P).min())
     P = smooth_path(P, 1)
     P, npush = push_path_out([bone], P, float(d.max()) / 2.0 + CLEAR, keep_ends=True)
@@ -648,6 +777,7 @@ def build_psoas_minor(got, ids, side, key):
     ringv = V[:nring * 10].reshape(nring, 10, 3)
     ctr = P[:, None, :]
     V[:nring * 10] = (ctr + (ringv - ctr) * d[:, None, None]).reshape(-1, 3)
+    V, nlift = lift_rings([(bone, CLEAR)], V, nring, 10, keep_ends=True)
     st = mesh_stats(V, F)
     straight = float(np.linalg.norm(ins - a["origin_t12"]))
     span = float(a["origin_t12"][1] - a["symphyseal_surface"][1])
@@ -663,9 +793,11 @@ def build_psoas_minor(got, ids, side, key):
                "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
                "levels_how": a["how"],
                "insertion": "pecten pubis / iliopubic eminence",
-               "path_points_cleared_of_hip_bone": npush,
+               "path_points_cleared_of_hip_bone": npush, "rings_lifted": nlift,
                "min_signed_dist_hip_bone_path_before_mm": round(mind, 2),
-               "min_signed_dist_to_hip_bone_after_mm": round(clearance([bone], V), 2),
+               "min_signed_dist_to_hip_bone_after_mm": round(mid_clearance([bone], V, len(P), 10)[0], 2),
+               "attachment_depth_in_hip_bone_mm": round(-mid_clearance([bone], V, len(P), 10)[1], 2),
+               "clearance_method": bone_methods([bone]),
                "prevalence_classic_pct": "40-50", "prevalence_raja_pct": 6.67,
                "hidden_by_default": True})
     # GATE: on the CONSTRUCTION, not on Raja's absolute length. The length here is set by the page's own T12 and
@@ -674,7 +806,9 @@ def build_psoas_minor(got, ids, side, key):
     # What is gated is that the muscle follows the bone-determined line (<= 15 % longer) and that its insertion
     # really sits on the pecten (22-38 mm from the symphyseal surface, the adult pecten's own length).
     ok_vol = volume_agrees(st, analytic_volume_round(P, d))
-    g = {"excess_over_straight_line_pct": [st["excess_over_straight_line_pct"], 0.0, 15.0],
+    penetration_gate(st, ["min_signed_dist_to_hip_bone_after_mm"])
+    g = {"worst_residual_clearance_mm": [st["worst_residual_clearance_mm"], -0.01, 99.0],
+         "excess_over_straight_line_pct": [st["excess_over_straight_line_pct"], 0.0, 15.0],
          "insertion_from_symphyseal_surface_mm": [st["insertion_from_symphyseal_surface_mm"], 15.0, 45.0],
          "volume_mesh_vs_analytic_rel": [st["volume_mesh_vs_analytic_rel"], 0.0, st["volume_check_tol"]]}
     st["gates"] = g
@@ -703,14 +837,14 @@ def build_all_knee(got, ids, side, key):
     # that makes the relation unambiguous on this geometry -- 6 mm posterior and 6 mm proximal -- and it is
     # DECLARED, not presented as a measurement.
     fem = lcl_fem + np.array([0.0, 6.0, -6.0])
-    bf = Bone(Vf, Ff)
+    bf = Bone(Vf, Ff, ids[f"femur_{side}"])
     sd = bf.signed(fem[None, :])[0]
     if sd < CLEAR:
         p, _ = bf.nearest(fem[None, :])
         fem = p[0] + unit(fem - p[0]) * CLEAR
     frac = L.LIT["all_tibial_frac_gt_to_fh"][0]
     tib = gt + (fh - gt) * frac
-    bt = Bone(Vt, Ft)
+    bt = Bone(Vt, Ft, ids[f"tibia_{side}"])
     P = resample(np.array([fem, (fem + tib) / 2.0, tib]), 20)
     s = np.sin(np.linspace(0, np.pi, len(P)))[:, None]
     sgn = 1.0 if side == "r" else -1.0
@@ -723,6 +857,7 @@ def build_all_knee(got, ids, side, key):
     P, np1 = push_path_out([bf, bt], P, th / 2.0 + CLEAR, keep_ends=True)
     np2 = 0
     V, F, _, _ = tube(P, w, th, np.array([0.0, 1.0, 0.0]), nseg=10)
+    V, nlift = lift_rings([(bf, CLEAR), (bt, CLEAR)], V, len(P), 10, keep_ends=True)
     st = mesh_stats(V, F)
     out = {"length_mm": round(polyline_len(P), 1), "width_mm": w, "thickness_mm": th,
            "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
@@ -734,11 +869,14 @@ def build_all_knee(got, ids, side, key):
            "lit_length_kosy_mm": "40.1 +- 5.53", "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
            "gerdy_tubercle": [round(float(x), 1) for x in gt],
            "fibular_head": [round(float(x), 1) for x in fh],
-           "path_points_cleared": np1,
+           "path_points_cleared": np1, "rings_lifted": nlift,
            "min_signed_dist_femur_path_before_mm": round(m1, 2),
            "min_signed_dist_tibia_path_before_mm": round(m2, 2),
-           "min_signed_dist_to_femur_after_mm": round(clearance([bf], V), 2),
-           "min_signed_dist_to_tibia_after_mm": round(clearance([bt], V), 2),
+           "min_signed_dist_to_femur_after_mm": round(mid_clearance([bf], V, len(P), 10)[0], 2),
+           "min_signed_dist_to_tibia_after_mm": round(mid_clearance([bt], V, len(P), 10)[0], 2),
+           "attachment_depth_in_bone_mm": round(-min(mid_clearance([bf], V, len(P), 10)[1],
+                                                     mid_clearance([bt], V, len(P), 10)[1]), 2),
+           "clearance_method": bone_methods([bf, bt]),
            "contested": True}
     st.update(out)
     # GATE: both of Kosy 2016's independent tibial distances must land inside +- 3 SD, and the length inside
@@ -753,7 +891,9 @@ def build_all_knee(got, ids, side, key):
     st["page_own_gerdy_to_fibular_head_span_mm"] = round(span, 1)
     st["kosy_implied_span_mm"] = 30.0
     st["span_ratio_page_over_kosy"] = round(span / 30.0, 2)
-    gates = {"volume_mesh_vs_analytic_rel": (st["volume_mesh_vs_analytic_rel"], 0.0, st["volume_check_tol"]),
+    penetration_gate(st, ["min_signed_dist_to_femur_after_mm", "min_signed_dist_to_tibia_after_mm"])
+    gates = {"worst_residual_clearance_mm": (st["worst_residual_clearance_mm"], -0.01, 99.0),
+             "volume_mesh_vs_analytic_rel": (st["volume_mesh_vs_analytic_rel"], 0.0, st["volume_check_tol"]),
              "length_mm": (st["length_mm"], 40.1 - 3 * 5.53, 40.1 + 3 * 5.53),
              "tibial_frac_gt_to_fh": (st["tibial_frac_gt_to_fh"],
                                       0.595 - 3 * 0.0544, 0.595 + 3 * 0.0544)}

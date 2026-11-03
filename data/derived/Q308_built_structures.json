@@ -28,12 +28,12 @@
   "psoas_minor_l": {
    "verts": 362,
    "tris": 720,
-   "volume_cm3": 1.8273,
-   "area_mm2": 2950.5,
+   "volume_cm3": 1.7318,
+   "area_mm2": 2510.8,
    "watertight": true,
-   "dihedral_mean_deg": 18.9,
-   "dihedral_median_deg": 0.2,
-   "dihedral_max_deg": 178.0,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.1,
+   "dihedral_max_deg": 90.0,
    "bone_determined_straight_line_t12_to_pecten_mm": 331.1,
    "page_own_t12_to_symphysis_vertical_span_mm": 346.5,
    "insertion_from_symphyseal_surface_mm": 36.5,
@@ -50,16 +50,32 @@
    "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
    "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
    "insertion": "pecten pubis / iliopubic eminence",
-   "path_points_cleared_of_hip_bone": 10,
-   "min_signed_dist_hip_bone_path_before_mm": -46.87,
-   "min_signed_dist_to_hip_bone_after_mm": -93.02,
+   "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
+   "min_signed_dist_hip_bone_path_before_mm": 0.0,
+   "min_signed_dist_to_hip_bone_after_mm": 7.32,
+   "attachment_depth_in_hip_bone_mm": -0.1,
+   "clearance_method": {
+    "hip_bone_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 1.5,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
-   "volume_analytic_cm3": 2.1101,
-   "volume_mesh_vs_analytic_rel": 0.134,
+   "volume_analytic_cm3": 1.8512,
+   "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 7.32,
    "gates": {
+    "worst_residual_clearance_mm": [
+     7.32,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -71,7 +87,7 @@
      45.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.134,
+     0.065,
      0.0,
      0.3
     ]
@@ -81,13 +97,13 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1623,
-   "area_mm2": 622.0,
+   "volume_cm3": 0.1517,
+   "area_mm2": 502.1,
    "watertight": true,
-   "dihedral_mean_deg": 39.5,
-   "dihedral_median_deg": 20.5,
-   "dihedral_max_deg": 179.3,
-   "length_mm": 69.1,
+   "dihedral_mean_deg": 20.3,
+   "dihedral_median_deg": 4.8,
+   "dihedral_max_deg": 156.2,
+   "length_mm": 51.4,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
    "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
@@ -109,26 +125,48 @@
     -471.2,
     -56.3
    ],
-   "path_points_cleared": 35,
-   "min_signed_dist_femur_path_before_mm": -12.36,
-   "min_signed_dist_tibia_path_before_mm": -3.33,
-   "min_signed_dist_to_femur_after_mm": -14.33,
-   "min_signed_dist_to_tibia_after_mm": -13.98,
+   "path_points_cleared": 10,
+   "rings_lifted": 41,
+   "min_signed_dist_femur_path_before_mm": 5.9,
+   "min_signed_dist_tibia_path_before_mm": 0.06,
+   "min_signed_dist_to_femur_after_mm": 5.35,
+   "min_signed_dist_to_tibia_after_mm": 0.04,
+   "attachment_depth_in_bone_mm": -2.36,
+   "clearance_method": {
+    "femur_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 1.5,
+     "signed_test_valid": true
+    },
+    "tibia_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
-   "volume_analytic_cm3": 0.2186,
-   "volume_mesh_vs_analytic_rel": 0.258,
+   "volume_analytic_cm3": 0.1625,
+   "volume_mesh_vs_analytic_rel": 0.066,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 50.6,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.69,
+   "worst_residual_clearance_mm": 0.04,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.04,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.258,
+     0.066,
      0.0,
      0.3
     ],
     "length_mm": [
-     69.1,
+     51.4,
      23.5,
      56.7
     ],
@@ -138,44 +176,65 @@
      0.8
     ]
    },
-   "refused": true,
-   "reason": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 50.6 mm against Kosy's implied 30.0 mm)"
+   "refused": false
   },
   "lacn_anterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.3411,
-   "area_mm2": 758.6,
+   "volume_cm3": 0.3397,
+   "area_mm2": 754.3,
    "watertight": true,
-   "dihedral_mean_deg": 16.5,
-   "dihedral_median_deg": 4.8,
-   "dihedral_max_deg": 112.3,
-   "length_mm": 127.5,
+   "dihedral_mean_deg": 16.0,
+   "dihedral_median_deg": 2.7,
+   "dihedral_max_deg": 90.9,
+   "length_mm": 127.6,
    "diameter_mm": 1.93,
    "trunk_diameter_mm": 3.21,
    "division_distal_to_iel_mm": 46.5,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.396,
-   "t_end_on_radius": 1.003,
-   "short_of_distal_radius_mm": -0.7,
-   "d_brachioradialis_p50_mm": 1.04,
-   "d_brachioradialis_min_mm": -1.01,
-   "max_depth_in_brachioradialis_mm": 1.01,
-   "path_points_cleared": 154,
-   "rings_lifted": 48,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.3,
-   "min_signed_dist_to_radius_after_mm": 0.6,
-   "min_signed_dist_radius_path_before_mm": 2.03,
+   "t_end_on_radius": 1.001,
+   "short_of_distal_radius_mm": -0.3,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 2.7,
+   "d_brachioradialis_p50_mm": 1.22,
+   "d_brachioradialis_min_mm": -0.0,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 117,
+   "rings_lifted": 19,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.28,
+   "min_signed_dist_to_radius_after_mm": 0.88,
+   "clearance_method": {
+    "radius_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.6,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 3.17,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.3722,
-   "volume_mesh_vs_analytic_rel": 0.084,
+   "volume_analytic_cm3": 0.3725,
+   "volume_mesh_vs_analytic_rel": 0.088,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.88,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.88,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.084,
+     0.088,
      0.0,
      0.3
     ],
@@ -185,12 +244,12 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     -0.7,
+     -0.3,
      -5.0,
      20.0
     ],
     "max_depth_in_brachioradialis_mm": [
-     1.01,
+     0.0,
      0.0,
      1.8
     ]
@@ -200,38 +259,60 @@
   "lacn_posterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.3371,
-   "area_mm2": 741.4,
+   "volume_cm3": 0.3387,
+   "area_mm2": 748.1,
    "watertight": true,
-   "dihedral_mean_deg": 14.8,
-   "dihedral_median_deg": 2.6,
-   "dihedral_max_deg": 90.0,
-   "length_mm": 123.6,
+   "dihedral_mean_deg": 15.7,
+   "dihedral_median_deg": 3.3,
+   "dihedral_max_deg": 90.1,
+   "length_mm": 125.2,
    "diameter_mm": 1.93,
    "trunk_diameter_mm": 3.21,
    "division_distal_to_iel_mm": 46.5,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.396,
-   "t_end_on_radius": 0.993,
-   "short_of_distal_radius_mm": 1.4,
-   "d_brachioradialis_p50_mm": 1.21,
+   "t_end_on_radius": 0.966,
+   "short_of_distal_radius_mm": 6.8,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 5.61,
+   "d_brachioradialis_p50_mm": 1.45,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 122,
+   "path_points_cleared": 132,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": 0.15,
-   "min_signed_dist_to_radius_after_mm": 2.53,
-   "min_signed_dist_radius_path_before_mm": 3.2,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.91,
+   "min_signed_dist_to_radius_after_mm": 2.02,
+   "clearance_method": {
+    "radius_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.6,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 2.29,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.3611,
-   "volume_mesh_vs_analytic_rel": 0.066,
+   "volume_analytic_cm3": 0.3657,
+   "volume_mesh_vs_analytic_rel": 0.074,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 2.02,
    "gates": {
+    "worst_residual_clearance_mm": [
+     2.02,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.066,
+     0.074,
      0.0,
      0.3
     ],
@@ -241,7 +322,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     1.4,
+     6.8,
      -5.0,
      20.0
     ],
@@ -251,25 +332,36 @@
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_r was refused (gate(s) failed: short_of_distal_radius_mm), so lacn_posterior_branch_l is not shipped either"
   },
   "coracoacromial_ligament_r": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 1.1596,
-   "area_mm2": 2662.0,
+   "volume_cm3": 0.8646,
+   "area_mm2": 1528.7,
    "watertight": true,
-   "dihedral_mean_deg": 35.5,
-   "dihedral_median_deg": 8.2,
-   "dihedral_max_deg": 179.4,
-   "length_mm": 44.9,
+   "dihedral_mean_deg": 19.1,
+   "dihedral_median_deg": 3.2,
+   "dihedral_max_deg": 174.8,
+   "length_mm": 34.0,
    "chord_mm": 32.9,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
-   "path_points_cleared_of_scapula": 103,
-   "min_signed_dist_scapula_path_before_mm": -5.02,
-   "min_signed_dist_to_scapula_after_mm": -6.03,
+   "path_points_cleared_of_scapula": 12,
+   "rings_lifted": 181,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.27,
+   "attachment_depth_in_scapula_mm": -0.28,
+   "clearance_method": {
+    "scapula_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     200.2,
     599.5,
@@ -288,9 +380,10 @@
     17.0,
     40.3
    ],
-   "volume_analytic_cm3": 1.2151,
-   "volume_mesh_vs_analytic_rel": 0.046,
+   "volume_analytic_cm3": 0.9094,
+   "volume_mesh_vs_analytic_rel": 0.049,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.27,
    "refused": true,
    "reason": "withdrawn by the both-sides-or-neither rule: coracoacromial_ligament_l was refused (no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm), so coracoacromial_ligament_r is not shipped either"
   },
@@ -320,15 +413,31 @@
    "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
-   "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.66,
+   "rings_lifted": 0,
+   "min_signed_dist_hip_bone_path_before_mm": 0.0,
+   "min_signed_dist_to_hip_bone_after_mm": 5.33,
+   "attachment_depth_in_hip_bone_mm": -0.09,
+   "clearance_method": {
+    "hip_bone_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8474,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 5.33,
    "gates": {
+    "worst_residual_clearance_mm": [
+     5.33,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -350,13 +459,13 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1612,
-   "area_mm2": 756.3,
+   "volume_cm3": 0.1542,
+   "area_mm2": 525.8,
    "watertight": true,
-   "dihedral_mean_deg": 58.4,
-   "dihedral_median_deg": 48.6,
-   "dihedral_max_deg": 178.7,
-   "length_mm": 84.3,
+   "dihedral_mean_deg": 22.1,
+   "dihedral_median_deg": 7.9,
+   "dihedral_max_deg": 175.3,
+   "length_mm": 53.8,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
    "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
@@ -378,26 +487,48 @@
     -470.6,
     -42.2
    ],
-   "path_points_cleared": 28,
-   "min_signed_dist_femur_path_before_mm": -5.89,
-   "min_signed_dist_tibia_path_before_mm": -2.11,
-   "min_signed_dist_to_femur_after_mm": -6.79,
-   "min_signed_dist_to_tibia_after_mm": -11.61,
+   "path_points_cleared": 2,
+   "rings_lifted": 43,
+   "min_signed_dist_femur_path_before_mm": 4.39,
+   "min_signed_dist_tibia_path_before_mm": 0.02,
+   "min_signed_dist_to_femur_after_mm": 2.65,
+   "min_signed_dist_to_tibia_after_mm": 0.21,
+   "attachment_depth_in_bone_mm": -0.81,
+   "clearance_method": {
+    "femur_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 1.5,
+     "signed_test_valid": true
+    },
+    "tibia_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
-   "volume_analytic_cm3": 0.2668,
-   "volume_mesh_vs_analytic_rel": 0.396,
+   "volume_analytic_cm3": 0.1703,
+   "volume_mesh_vs_analytic_rel": 0.094,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 46.7,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.56,
+   "worst_residual_clearance_mm": 0.21,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.21,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.396,
+     0.094,
      0.0,
      0.3
     ],
     "length_mm": [
-     84.3,
+     53.8,
      23.5,
      56.7
     ],
@@ -407,44 +538,65 @@
      0.8
     ]
    },
-   "refused": true,
-   "reason": "outside +- 3 SD of Kosy 2016 on: length_mm, volume_mesh_vs_analytic_rel (this page's Gerdy-to-fibular-head span is 46.7 mm against Kosy's implied 30.0 mm)"
+   "refused": false
   },
   "lacn_anterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.4143,
-   "area_mm2": 839.3,
+   "volume_cm3": 0.4141,
+   "area_mm2": 837.7,
    "watertight": true,
-   "dihedral_mean_deg": 14.9,
-   "dihedral_median_deg": 0.6,
-   "dihedral_max_deg": 90.2,
-   "length_mm": 128.8,
+   "dihedral_mean_deg": 14.5,
+   "dihedral_median_deg": 0.4,
+   "dihedral_max_deg": 90.1,
+   "length_mm": 128.4,
    "diameter_mm": 2.1,
    "trunk_diameter_mm": 3.5,
    "division_distal_to_iel_mm": 47.7,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.553,
-   "t_end_on_radius": 0.974,
-   "short_of_distal_radius_mm": 6.1,
-   "d_brachioradialis_p50_mm": 18.76,
+   "t_end_on_radius": 0.972,
+   "short_of_distal_radius_mm": 6.5,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 2.78,
+   "d_brachioradialis_p50_mm": 18.5,
    "d_brachioradialis_min_mm": 0.31,
    "max_depth_in_brachioradialis_mm": 0.0,
    "path_points_cleared": 20,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.51,
-   "min_signed_dist_to_radius_after_mm": 5.27,
-   "min_signed_dist_radius_path_before_mm": 6.31,
+   "min_signed_dist_brachioradialis_path_before_mm": 0.58,
+   "min_signed_dist_to_radius_after_mm": 5.71,
+   "clearance_method": {
+    "radius_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.6,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 6.76,
    "border_rail_extrapolated_pct": 71.9,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.4453,
-   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_analytic_cm3": 0.4439,
+   "volume_mesh_vs_analytic_rel": 0.067,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 5.71,
    "gates": {
+    "worst_residual_clearance_mm": [
+     5.71,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.07,
+     0.067,
      0.0,
      0.3
     ],
@@ -454,7 +606,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     6.1,
+     6.5,
      -5.0,
      20.0
     ],
@@ -469,38 +621,60 @@
   "lacn_posterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.4107,
-   "area_mm2": 832.3,
+   "volume_cm3": 0.2358,
+   "area_mm2": 507.0,
    "watertight": true,
-   "dihedral_mean_deg": 14.8,
-   "dihedral_median_deg": 0.5,
-   "dihedral_max_deg": 90.5,
-   "length_mm": 127.7,
+   "dihedral_mean_deg": 29.8,
+   "dihedral_median_deg": 23.6,
+   "dihedral_max_deg": 177.6,
+   "length_mm": 76.6,
    "diameter_mm": 2.1,
    "trunk_diameter_mm": 3.5,
    "division_distal_to_iel_mm": 47.7,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.553,
-   "t_end_on_radius": 0.966,
-   "short_of_distal_radius_mm": 7.9,
-   "d_brachioradialis_p50_mm": 17.03,
-   "d_brachioradialis_min_mm": 0.3,
+   "t_end_on_radius": 0.692,
+   "short_of_distal_radius_mm": 71.8,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 20.61,
+   "d_brachioradialis_p50_mm": 1.21,
+   "d_brachioradialis_min_mm": 0.11,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 38,
+   "path_points_cleared": 210,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.56,
-   "min_signed_dist_to_radius_after_mm": 4.14,
-   "min_signed_dist_radius_path_before_mm": 5.15,
+   "min_signed_dist_brachioradialis_path_before_mm": -4.05,
+   "min_signed_dist_to_radius_after_mm": 0.3,
+   "clearance_method": {
+    "radius_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.6,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 0.12,
    "border_rail_extrapolated_pct": 71.9,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.4415,
-   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_analytic_cm3": 0.2647,
+   "volume_mesh_vs_analytic_rel": 0.109,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.07,
+     0.109,
      0.0,
      0.3
     ],
@@ -510,7 +684,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     7.9,
+     71.8,
      -5.0,
      20.0
     ],
@@ -520,7 +694,8 @@
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "gate(s) failed: short_of_distal_radius_mm"
   },
   "_ids_used": {
    "scapula_l": "scapula_l",
@@ -551,12 +726,12 @@
   "_n_meshes": 6,
   "_n_refused": 4,
   "_refused": {
-   "anterolateral_ligament_l": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 50.6 mm against Kosy's implied 30.0 mm)",
-   "anterolateral_ligament_r": "outside +- 3 SD of Kosy 2016 on: length_mm, volume_mesh_vs_analytic_rel (this page's Gerdy-to-fibular-head span is 46.7 mm against Kosy's implied 30.0 mm)",
    "coracoacromial_ligament_l": "no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm",
-   "coracoacromial_ligament_r": "withdrawn by the both-sides-or-neither rule: coracoacromial_ligament_l was refused (no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm), so coracoacromial_ligament_r is not shipped either"
+   "coracoacromial_ligament_r": "withdrawn by the both-sides-or-neither rule: coracoacromial_ligament_l was refused (no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm), so coracoacromial_ligament_r is not shipped either",
+   "lacn_posterior_branch_l": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_r was refused (gate(s) failed: short_of_distal_radius_mm), so lacn_posterior_branch_l is not shipped either",
+   "lacn_posterior_branch_r": "gate(s) failed: short_of_distal_radius_mm"
   },
-  "_total_cm3": 5.0587
+  "_total_cm3": 4.5197
  },
  "own_f": {
   "frame": {
@@ -585,8 +760,18 @@
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 20,
+   "rings_lifted": 0,
    "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -0.64,
+   "min_signed_dist_to_scapula_after_mm": 0.53,
+   "attachment_depth_in_scapula_mm": 0.64,
+   "clearance_method": {
+    "scapula_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     -167.0,
     609.2,
@@ -608,6 +793,7 @@
    "volume_analytic_cm3": 0.8577,
    "volume_mesh_vs_analytic_rel": 0.045,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.53,
    "refused": false
   },
   "psoas_minor_l": {
@@ -636,15 +822,31 @@
    "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.41,
+   "min_signed_dist_to_hip_bone_after_mm": 8.45,
+   "attachment_depth_in_hip_bone_mm": 0.41,
+   "clearance_method": {
+    "hip_bone_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8807,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 8.45,
    "gates": {
+    "worst_residual_clearance_mm": [
+     8.45,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -667,10 +869,10 @@
    "verts": 202,
    "tris": 400,
    "volume_cm3": 0.1393,
-   "area_mm2": 451.0,
+   "area_mm2": 451.3,
    "watertight": true,
-   "dihedral_mean_deg": 14.8,
-   "dihedral_median_deg": 3.1,
+   "dihedral_mean_deg": 15.0,
+   "dihedral_median_deg": 3.2,
    "dihedral_max_deg": 119.8,
    "length_mm": 46.5,
    "width_mm": 4.63,
@@ -695,10 +897,26 @@
     -49.8
    ],
    "path_points_cleared": 0,
+   "rings_lifted": 84,
    "min_signed_dist_femur_path_before_mm": 1.46,
    "min_signed_dist_tibia_path_before_mm": 4.66,
-   "min_signed_dist_to_femur_after_mm": -0.19,
+   "min_signed_dist_to_femur_after_mm": 0.06,
    "min_signed_dist_to_tibia_after_mm": 2.59,
+   "attachment_depth_in_bone_mm": -2.66,
+   "clearance_method": {
+    "femur_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    },
+    "tibia_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.147,
    "volume_mesh_vs_analytic_rel": 0.052,
@@ -706,7 +924,13 @@
    "page_own_gerdy_to_fibular_head_span_mm": 40.0,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.33,
+   "worst_residual_clearance_mm": 0.06,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.06,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
      0.052,
      0.0,
@@ -728,38 +952,60 @@
   "lacn_anterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.303,
-   "area_mm2": 667.5,
+   "volume_cm3": 0.3002,
+   "area_mm2": 656.8,
    "watertight": true,
-   "dihedral_mean_deg": 16.5,
-   "dihedral_median_deg": 4.7,
-   "dihedral_max_deg": 90.3,
-   "length_mm": 110.4,
+   "dihedral_mean_deg": 15.1,
+   "dihedral_median_deg": 2.9,
+   "dihedral_max_deg": 90.1,
+   "length_mm": 108.7,
    "diameter_mm": 1.94,
    "trunk_diameter_mm": 3.24,
    "division_distal_to_iel_mm": 47.3,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.552,
-   "t_end_on_radius": 1.005,
-   "short_of_distal_radius_mm": -1.1,
-   "d_brachioradialis_p50_mm": 1.21,
-   "d_brachioradialis_min_mm": -0.13,
-   "max_depth_in_brachioradialis_mm": 0.13,
-   "path_points_cleared": 108,
-   "rings_lifted": 8,
+   "t_end_on_radius": 1.001,
+   "short_of_distal_radius_mm": -0.3,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 3.1,
+   "d_brachioradialis_p50_mm": 1.27,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 142,
+   "rings_lifted": 0,
    "min_signed_dist_brachioradialis_path_before_mm": -1.1,
-   "min_signed_dist_to_radius_after_mm": 0.25,
-   "min_signed_dist_radius_path_before_mm": -0.6,
+   "min_signed_dist_to_radius_after_mm": 0.31,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 0.0,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.3269,
-   "volume_mesh_vs_analytic_rel": 0.073,
+   "volume_analytic_cm3": 0.322,
+   "volume_mesh_vs_analytic_rel": 0.068,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.31,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.31,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.073,
+     0.068,
      0.0,
      0.3
     ],
@@ -769,12 +1015,12 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     -1.1,
+     -0.3,
      -5.0,
      20.0
     ],
     "max_depth_in_brachioradialis_mm": [
-     0.13,
+     0.0,
      0.0,
      1.8
     ]
@@ -784,38 +1030,60 @@
   "lacn_posterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.299,
-   "area_mm2": 656.4,
+   "volume_cm3": 0.3131,
+   "area_mm2": 712.7,
    "watertight": true,
-   "dihedral_mean_deg": 16.2,
-   "dihedral_median_deg": 5.0,
-   "dihedral_max_deg": 92.6,
-   "length_mm": 109.0,
+   "dihedral_mean_deg": 20.3,
+   "dihedral_median_deg": 13.2,
+   "dihedral_max_deg": 96.8,
+   "length_mm": 121.5,
    "diameter_mm": 1.94,
    "trunk_diameter_mm": 3.24,
    "division_distal_to_iel_mm": 47.3,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.552,
-   "t_end_on_radius": 0.995,
-   "short_of_distal_radius_mm": 1.2,
-   "d_brachioradialis_p50_mm": 1.48,
-   "d_brachioradialis_min_mm": 0.3,
-   "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 139,
-   "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.1,
-   "min_signed_dist_to_radius_after_mm": 0.3,
-   "min_signed_dist_radius_path_before_mm": -0.51,
+   "t_end_on_radius": 0.972,
+   "short_of_distal_radius_mm": 6.6,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 6.12,
+   "d_brachioradialis_p50_mm": 1.1,
+   "d_brachioradialis_min_mm": -1.05,
+   "max_depth_in_brachioradialis_mm": 1.05,
+   "path_points_cleared": 280,
+   "rings_lifted": 206,
+   "min_signed_dist_brachioradialis_path_before_mm": -2.74,
+   "min_signed_dist_to_radius_after_mm": -0.92,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -2.93,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.3228,
-   "volume_mesh_vs_analytic_rel": 0.074,
+   "volume_analytic_cm3": 0.3597,
+   "volume_mesh_vs_analytic_rel": 0.13,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": -0.92,
    "gates": {
+    "worst_residual_clearance_mm": [
+     -0.92,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.074,
+     0.13,
      0.0,
      0.3
     ],
@@ -825,35 +1093,46 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     1.2,
+     6.6,
      -5.0,
      20.0
     ],
     "max_depth_in_brachioradialis_mm": [
-     0.0,
+     1.05,
      0.0,
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "gate(s) failed: worst_residual_clearance_mm"
   },
   "coracoacromial_ligament_r": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.7892,
-   "area_mm2": 1469.7,
+   "volume_cm3": 0.7775,
+   "area_mm2": 1756.2,
    "watertight": true,
-   "dihedral_mean_deg": 17.2,
-   "dihedral_median_deg": 1.5,
-   "dihedral_max_deg": 179.7,
+   "dihedral_mean_deg": 20.1,
+   "dihedral_median_deg": 2.1,
+   "dihedral_max_deg": 178.1,
    "length_mm": 31.3,
    "chord_mm": 30.8,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 3,
+   "rings_lifted": 10,
    "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -3.3,
+   "min_signed_dist_to_scapula_after_mm": 0.3,
+   "attachment_depth_in_scapula_mm": 2.38,
+   "clearance_method": {
+    "scapula_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     160.5,
     598.2,
@@ -873,8 +1152,9 @@
     40.3
    ],
    "volume_analytic_cm3": 0.8297,
-   "volume_mesh_vs_analytic_rel": 0.049,
+   "volume_mesh_vs_analytic_rel": 0.063,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.3,
    "refused": false
   },
   "psoas_minor_r": {
@@ -903,15 +1183,31 @@
    "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.34,
+   "min_signed_dist_to_hip_bone_after_mm": 7.88,
+   "attachment_depth_in_hip_bone_mm": 0.34,
+   "clearance_method": {
+    "hip_bone_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8858,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 7.88,
    "gates": {
+    "worst_residual_clearance_mm": [
+     7.88,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -933,13 +1229,13 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1301,
-   "area_mm2": 497.1,
+   "volume_cm3": 0.1276,
+   "area_mm2": 429.1,
    "watertight": true,
-   "dihedral_mean_deg": 36.9,
-   "dihedral_median_deg": 20.8,
-   "dihedral_max_deg": 179.4,
-   "length_mm": 49.1,
+   "dihedral_mean_deg": 20.0,
+   "dihedral_median_deg": 8.1,
+   "dihedral_max_deg": 150.7,
+   "length_mm": 44.0,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
    "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
@@ -961,26 +1257,48 @@
     -409.8,
     -59.8
    ],
-   "path_points_cleared": 37,
-   "min_signed_dist_femur_path_before_mm": -1.42,
-   "min_signed_dist_tibia_path_before_mm": -3.49,
-   "min_signed_dist_to_femur_after_mm": -1.55,
-   "min_signed_dist_to_tibia_after_mm": -1.45,
+   "path_points_cleared": 5,
+   "rings_lifted": 325,
+   "min_signed_dist_femur_path_before_mm": 0.11,
+   "min_signed_dist_tibia_path_before_mm": 0.17,
+   "min_signed_dist_to_femur_after_mm": 0.02,
+   "min_signed_dist_to_tibia_after_mm": 0.51,
+   "attachment_depth_in_bone_mm": -0.05,
+   "clearance_method": {
+    "femur_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    },
+    "tibia_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
-   "volume_analytic_cm3": 0.1554,
-   "volume_mesh_vs_analytic_rel": 0.163,
+   "volume_analytic_cm3": 0.1393,
+   "volume_mesh_vs_analytic_rel": 0.084,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 40.7,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.36,
+   "worst_residual_clearance_mm": 0.02,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.02,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.163,
+     0.084,
      0.0,
      0.3
     ],
     "length_mm": [
-     49.1,
+     44.0,
      23.5,
      56.7
     ],
@@ -995,36 +1313,58 @@
   "lacn_anterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.4285,
-   "area_mm2": 1149.5,
+   "volume_cm3": 0.4314,
+   "area_mm2": 1157.1,
    "watertight": true,
-   "dihedral_mean_deg": 15.3,
-   "dihedral_median_deg": 2.1,
+   "dihedral_mean_deg": 15.2,
+   "dihedral_median_deg": 1.8,
    "dihedral_max_deg": 90.0,
-   "length_mm": 235.7,
+   "length_mm": 237.2,
    "diameter_mm": 1.58,
    "trunk_diameter_mm": 2.63,
    "division_distal_to_iel_mm": 47.5,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.111,
-   "t_end_on_radius": 0.974,
-   "short_of_distal_radius_mm": 5.0,
-   "d_brachioradialis_p50_mm": 11.72,
-   "d_brachioradialis_min_mm": 0.31,
+   "t_end_on_radius": 0.972,
+   "short_of_distal_radius_mm": 5.4,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 3.91,
+   "d_brachioradialis_p50_mm": 11.28,
+   "d_brachioradialis_min_mm": 0.33,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 19,
+   "path_points_cleared": 1,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": 0.11,
-   "min_signed_dist_to_radius_after_mm": 9.93,
+   "min_signed_dist_brachioradialis_path_before_mm": 0.87,
+   "min_signed_dist_to_radius_after_mm": 9.95,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "min_signed_dist_radius_path_before_mm": 10.48,
    "border_rail_extrapolated_pct": 59.5,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.4608,
+   "volume_analytic_cm3": 0.4638,
    "volume_mesh_vs_analytic_rel": 0.07,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 9.95,
    "gates": {
+    "worst_residual_clearance_mm": [
+     9.95,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
      0.07,
      0.0,
@@ -1036,7 +1376,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     5.0,
+     5.4,
      -5.0,
      20.0
     ],
@@ -1051,38 +1391,60 @@
   "lacn_posterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.4276,
-   "area_mm2": 1147.6,
+   "volume_cm3": 0.2061,
+   "area_mm2": 556.7,
    "watertight": true,
-   "dihedral_mean_deg": 15.6,
-   "dihedral_median_deg": 2.9,
-   "dihedral_max_deg": 90.1,
-   "length_mm": 235.5,
+   "dihedral_mean_deg": 16.7,
+   "dihedral_median_deg": 6.4,
+   "dihedral_max_deg": 90.6,
+   "length_mm": 114.1,
    "diameter_mm": 1.58,
    "trunk_diameter_mm": 2.63,
    "division_distal_to_iel_mm": 47.5,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.111,
-   "t_end_on_radius": 0.966,
-   "short_of_distal_radius_mm": 6.4,
-   "d_brachioradialis_p50_mm": 10.54,
+   "t_end_on_radius": 0.447,
+   "short_of_distal_radius_mm": 105.9,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 43.13,
+   "d_brachioradialis_p50_mm": 3.57,
    "d_brachioradialis_min_mm": 0.31,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 67,
+   "path_points_cleared": 45,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.26,
-   "min_signed_dist_to_radius_after_mm": 9.95,
-   "min_signed_dist_radius_path_before_mm": 10.48,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.77,
+   "min_signed_dist_to_radius_after_mm": 0.31,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -1.18,
    "border_rail_extrapolated_pct": 59.5,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.4604,
-   "volume_mesh_vs_analytic_rel": 0.071,
+   "volume_analytic_cm3": 0.2231,
+   "volume_mesh_vs_analytic_rel": 0.076,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.31,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.31,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.071,
+     0.076,
      0.0,
      0.3
     ],
@@ -1092,7 +1454,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     6.4,
+     105.9,
      -5.0,
      20.0
     ],
@@ -1102,7 +1464,8 @@
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "gate(s) failed: short_of_distal_radius_mm"
   },
   "_ids_used": {
    "scapula_l": "scapula_l",
@@ -1130,10 +1493,13 @@
    "sacrum": "sacrum",
    "sternum": "sternum"
   },
-  "_n_meshes": 10,
-  "_n_refused": 0,
-  "_refused": {},
-  "_total_cm3": 6.8584
+  "_n_meshes": 8,
+  "_n_refused": 2,
+  "_refused": {
+   "lacn_posterior_branch_l": "gate(s) failed: worst_residual_clearance_mm",
+   "lacn_posterior_branch_r": "gate(s) failed: short_of_distal_radius_mm"
+  },
+  "_total_cm3": 6.1177
  },
  "base_m": {
   "frame": {
@@ -1150,20 +1516,30 @@
   "coracoacromial_ligament_l": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.8898,
-   "area_mm2": 1623.2,
+   "volume_cm3": 0.889,
+   "area_mm2": 1634.4,
    "watertight": true,
-   "dihedral_mean_deg": 17.2,
-   "dihedral_median_deg": 1.6,
-   "dihedral_max_deg": 174.2,
+   "dihedral_mean_deg": 18.3,
+   "dihedral_median_deg": 2.2,
+   "dihedral_max_deg": 175.3,
    "length_mm": 35.4,
    "chord_mm": 34.7,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 4,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -2.45,
+   "rings_lifted": 76,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.19,
+   "attachment_depth_in_scapula_mm": -0.18,
+   "clearance_method": {
+    "scapula_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     -173.6,
     550.8,
@@ -1183,8 +1559,9 @@
     40.3
    ],
    "volume_analytic_cm3": 0.9386,
-   "volume_mesh_vs_analytic_rel": 0.052,
+   "volume_mesh_vs_analytic_rel": 0.053,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.19,
    "refused": false
   },
   "psoas_minor_l": {
@@ -1213,15 +1590,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.6,
+   "min_signed_dist_to_hip_bone_after_mm": 5.52,
+   "attachment_depth_in_hip_bone_mm": 0.6,
+   "clearance_method": {
+    "hip_bone_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.7293,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 5.52,
    "gates": {
+    "worst_residual_clearance_mm": [
+     5.52,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.2,
      0.0,
@@ -1243,12 +1636,12 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1376,
-   "area_mm2": 463.3,
+   "volume_cm3": 0.1403,
+   "area_mm2": 472.6,
    "watertight": true,
-   "dihedral_mean_deg": 21.1,
+   "dihedral_mean_deg": 21.8,
    "dihedral_median_deg": 4.2,
-   "dihedral_max_deg": 166.7,
+   "dihedral_max_deg": 172.9,
    "length_mm": 47.3,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
@@ -1272,20 +1665,42 @@
     -42.5
    ],
    "path_points_cleared": 3,
+   "rings_lifted": 3,
    "min_signed_dist_femur_path_before_mm": 1.48,
    "min_signed_dist_tibia_path_before_mm": -3.35,
    "min_signed_dist_to_femur_after_mm": 0.93,
-   "min_signed_dist_to_tibia_after_mm": -4.27,
+   "min_signed_dist_to_tibia_after_mm": 0.3,
+   "attachment_depth_in_bone_mm": 4.27,
+   "clearance_method": {
+    "femur_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1497,
-   "volume_mesh_vs_analytic_rel": 0.081,
+   "volume_mesh_vs_analytic_rel": 0.063,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 32.2,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.07,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.081,
+     0.063,
      0.0,
      0.3
     ],
@@ -1308,12 +1723,12 @@
    "verts": 302,
    "tris": 600,
    "volume_cm3": 0.6525,
-   "area_mm2": 1337.9,
+   "area_mm2": 1338.3,
    "watertight": true,
-   "dihedral_mean_deg": 15.4,
-   "dihedral_median_deg": 2.8,
+   "dihedral_mean_deg": 15.5,
+   "dihedral_median_deg": 3.0,
    "dihedral_max_deg": 90.2,
-   "length_mm": 209.2,
+   "length_mm": 209.3,
    "diameter_mm": 2.07,
    "trunk_diameter_mm": 3.44,
    "division_distal_to_iel_mm": 47.0,
@@ -1322,21 +1737,43 @@
    "t_start_on_radius": 0.154,
    "t_end_on_radius": 0.969,
    "short_of_distal_radius_mm": 7.7,
-   "d_brachioradialis_p50_mm": 1.74,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 4.78,
+   "d_brachioradialis_p50_mm": 1.59,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 81,
+   "path_points_cleared": 107,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.04,
-   "min_signed_dist_to_radius_after_mm": 0.33,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.49,
+   "min_signed_dist_to_radius_after_mm": 0.32,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "min_signed_dist_radius_path_before_mm": -0.89,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.7012,
+   "volume_analytic_cm3": 0.7016,
    "volume_mesh_vs_analytic_rel": 0.07,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.32,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.32,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
      0.07,
      0.0,
@@ -1363,38 +1800,60 @@
   "lacn_posterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.6601,
-   "area_mm2": 1363.9,
+   "volume_cm3": 0.7054,
+   "area_mm2": 1464.1,
    "watertight": true,
-   "dihedral_mean_deg": 16.5,
-   "dihedral_median_deg": 4.7,
-   "dihedral_max_deg": 90.1,
-   "length_mm": 214.3,
+   "dihedral_mean_deg": 17.4,
+   "dihedral_median_deg": 1.6,
+   "dihedral_max_deg": 122.0,
+   "length_mm": 230.9,
    "diameter_mm": 2.07,
    "trunk_diameter_mm": 3.44,
    "division_distal_to_iel_mm": 47.0,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.154,
-   "t_end_on_radius": 0.972,
-   "short_of_distal_radius_mm": 6.8,
-   "d_brachioradialis_p50_mm": 1.55,
-   "d_brachioradialis_min_mm": 0.3,
+   "t_end_on_radius": 0.939,
+   "short_of_distal_radius_mm": 15.0,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 16.65,
+   "d_brachioradialis_p50_mm": 1.61,
+   "d_brachioradialis_min_mm": 0.31,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 207,
-   "rings_lifted": 9,
-   "min_signed_dist_brachioradialis_path_before_mm": -2.1,
-   "min_signed_dist_to_radius_after_mm": 0.3,
-   "min_signed_dist_radius_path_before_mm": -3.47,
+   "path_points_cleared": 58,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -8.03,
+   "min_signed_dist_to_radius_after_mm": 2.06,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 3.08,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.7187,
-   "volume_mesh_vs_analytic_rel": 0.081,
+   "volume_analytic_cm3": 0.774,
+   "volume_mesh_vs_analytic_rel": 0.089,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 2.06,
    "gates": {
+    "worst_residual_clearance_mm": [
+     2.06,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.081,
+     0.089,
      0.0,
      0.3
     ],
@@ -1404,7 +1863,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     6.8,
+     15.0,
      -5.0,
      20.0
     ],
@@ -1419,20 +1878,30 @@
   "coracoacromial_ligament_r": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.8923,
-   "area_mm2": 1625.5,
+   "volume_cm3": 0.8937,
+   "area_mm2": 1633.6,
    "watertight": true,
-   "dihedral_mean_deg": 17.1,
-   "dihedral_median_deg": 1.5,
-   "dihedral_max_deg": 174.1,
+   "dihedral_mean_deg": 17.8,
+   "dihedral_median_deg": 1.8,
+   "dihedral_max_deg": 174.2,
    "length_mm": 35.4,
    "chord_mm": 34.7,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 5,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -2.37,
+   "rings_lifted": 123,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.13,
+   "attachment_depth_in_scapula_mm": -0.17,
+   "clearance_method": {
+    "scapula_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     173.6,
     550.8,
@@ -1452,8 +1921,9 @@
     40.3
    ],
    "volume_analytic_cm3": 0.9371,
-   "volume_mesh_vs_analytic_rel": 0.048,
+   "volume_mesh_vs_analytic_rel": 0.046,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.13,
    "refused": false
   },
   "psoas_minor_r": {
@@ -1482,15 +1952,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.6,
+   "min_signed_dist_to_hip_bone_after_mm": 5.52,
+   "attachment_depth_in_hip_bone_mm": 0.6,
+   "clearance_method": {
+    "hip_bone_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.7293,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 5.52,
    "gates": {
+    "worst_residual_clearance_mm": [
+     5.52,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.2,
      0.0,
@@ -1512,12 +1998,12 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.136,
-   "area_mm2": 465.3,
+   "volume_cm3": 0.1385,
+   "area_mm2": 474.8,
    "watertight": true,
-   "dihedral_mean_deg": 22.7,
-   "dihedral_median_deg": 4.5,
-   "dihedral_max_deg": 169.3,
+   "dihedral_mean_deg": 23.2,
+   "dihedral_median_deg": 4.4,
+   "dihedral_max_deg": 170.4,
    "length_mm": 47.3,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
@@ -1541,20 +2027,42 @@
     -42.5
    ],
    "path_points_cleared": 12,
+   "rings_lifted": 3,
    "min_signed_dist_femur_path_before_mm": 1.48,
    "min_signed_dist_tibia_path_before_mm": -3.35,
    "min_signed_dist_to_femur_after_mm": 0.93,
-   "min_signed_dist_to_tibia_after_mm": -4.27,
+   "min_signed_dist_to_tibia_after_mm": 0.3,
+   "attachment_depth_in_bone_mm": 4.27,
+   "clearance_method": {
+    "femur_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1497,
-   "volume_mesh_vs_analytic_rel": 0.092,
+   "volume_mesh_vs_analytic_rel": 0.075,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 32.2,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.07,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.092,
+     0.075,
      0.0,
      0.3
     ],
@@ -1577,10 +2085,10 @@
    "verts": 302,
    "tris": 600,
    "volume_cm3": 0.6483,
-   "area_mm2": 1328.6,
+   "area_mm2": 1328.7,
    "watertight": true,
    "dihedral_mean_deg": 15.1,
-   "dihedral_median_deg": 2.6,
+   "dihedral_median_deg": 2.5,
    "dihedral_max_deg": 90.2,
    "length_mm": 207.5,
    "diameter_mm": 2.07,
@@ -1591,21 +2099,43 @@
    "t_start_on_radius": 0.154,
    "t_end_on_radius": 0.969,
    "short_of_distal_radius_mm": 7.7,
-   "d_brachioradialis_p50_mm": 1.66,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 4.86,
+   "d_brachioradialis_p50_mm": 1.58,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 61,
+   "path_points_cleared": 73,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.1,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.08,
    "min_signed_dist_to_radius_after_mm": 0.32,
-   "min_signed_dist_radius_path_before_mm": -0.76,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -0.75,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.6957,
+   "volume_analytic_cm3": 0.6958,
    "volume_mesh_vs_analytic_rel": 0.068,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.32,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.32,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
      0.068,
      0.0,
@@ -1632,38 +2162,60 @@
   "lacn_posterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.6605,
-   "area_mm2": 1362.9,
+   "volume_cm3": 0.7129,
+   "area_mm2": 1484.8,
    "watertight": true,
-   "dihedral_mean_deg": 16.4,
-   "dihedral_median_deg": 4.8,
-   "dihedral_max_deg": 90.2,
-   "length_mm": 214.9,
+   "dihedral_mean_deg": 18.7,
+   "dihedral_median_deg": 1.9,
+   "dihedral_max_deg": 166.8,
+   "length_mm": 234.4,
    "diameter_mm": 2.07,
    "trunk_diameter_mm": 3.44,
    "division_distal_to_iel_mm": 46.9,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.154,
-   "t_end_on_radius": 0.972,
-   "short_of_distal_radius_mm": 6.8,
-   "d_brachioradialis_p50_mm": 1.47,
+   "t_end_on_radius": 0.942,
+   "short_of_distal_radius_mm": 14.3,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 16.94,
+   "d_brachioradialis_p50_mm": 1.62,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 178,
-   "rings_lifted": 7,
-   "min_signed_dist_brachioradialis_path_before_mm": -2.14,
-   "min_signed_dist_to_radius_after_mm": 0.31,
-   "min_signed_dist_radius_path_before_mm": -3.35,
+   "path_points_cleared": 73,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -9.18,
+   "min_signed_dist_to_radius_after_mm": 2.05,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 3.05,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.7203,
-   "volume_mesh_vs_analytic_rel": 0.083,
+   "volume_analytic_cm3": 0.7857,
+   "volume_mesh_vs_analytic_rel": 0.093,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 2.05,
    "gates": {
+    "worst_residual_clearance_mm": [
+     2.05,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.083,
+     0.093,
      0.0,
      0.3
     ],
@@ -1673,7 +2225,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     6.8,
+     14.3,
      -5.0,
      20.0
     ],
@@ -1718,7 +2270,7 @@
   "_n_meshes": 10,
   "_n_refused": 0,
   "_refused": {},
-  "_total_cm3": 7.9125
+  "_total_cm3": 8.016
  },
  "base_f": {
   "frame": {
@@ -1735,11 +2287,11 @@
   "coracoacromial_ligament_l": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.7864,
-   "area_mm2": 1529.8,
+   "volume_cm3": 0.7837,
+   "area_mm2": 1535.7,
    "watertight": true,
-   "dihedral_mean_deg": 18.1,
-   "dihedral_median_deg": 1.9,
+   "dihedral_mean_deg": 18.9,
+   "dihedral_median_deg": 2.1,
    "dihedral_max_deg": 178.6,
    "length_mm": 31.4,
    "chord_mm": 30.6,
@@ -1747,8 +2299,18 @@
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 25,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -2.49,
+   "rings_lifted": 44,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.28,
+   "attachment_depth_in_scapula_mm": -0.08,
+   "clearance_method": {
+    "scapula_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     -157.9,
     587.0,
@@ -1768,8 +2330,9 @@
     40.3
    ],
    "volume_analytic_cm3": 0.8307,
-   "volume_mesh_vs_analytic_rel": 0.053,
+   "volume_mesh_vs_analytic_rel": 0.057,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.28,
    "refused": false
   },
   "psoas_minor_l": {
@@ -1798,15 +2361,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.71,
+   "min_signed_dist_to_hip_bone_after_mm": 6.0,
+   "attachment_depth_in_hip_bone_mm": 0.71,
+   "clearance_method": {
+    "hip_bone_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8887,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 6.0,
    "gates": {
+    "worst_residual_clearance_mm": [
+     6.0,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.2,
      0.0,
@@ -1828,12 +2407,12 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1305,
-   "area_mm2": 439.5,
+   "volume_cm3": 0.1331,
+   "area_mm2": 448.8,
    "watertight": true,
-   "dihedral_mean_deg": 21.1,
+   "dihedral_mean_deg": 21.7,
    "dihedral_median_deg": 4.3,
-   "dihedral_max_deg": 166.2,
+   "dihedral_max_deg": 172.9,
    "length_mm": 44.8,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
@@ -1857,20 +2436,42 @@
     -1.3
    ],
    "path_points_cleared": 12,
+   "rings_lifted": 3,
    "min_signed_dist_femur_path_before_mm": 1.69,
    "min_signed_dist_tibia_path_before_mm": -3.14,
    "min_signed_dist_to_femur_after_mm": 1.06,
-   "min_signed_dist_to_tibia_after_mm": -4.05,
+   "min_signed_dist_to_tibia_after_mm": 0.3,
+   "attachment_depth_in_bone_mm": 4.05,
+   "clearance_method": {
+    "femur_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1417,
-   "volume_mesh_vs_analytic_rel": 0.079,
+   "volume_mesh_vs_analytic_rel": 0.061,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 30.2,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.01,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.079,
+     0.061,
      0.0,
      0.3
     ],
@@ -1892,13 +2493,13 @@
   "lacn_anterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.503,
-   "area_mm2": 1123.3,
+   "volume_cm3": 0.5032,
+   "area_mm2": 1123.8,
    "watertight": true,
-   "dihedral_mean_deg": 15.4,
-   "dihedral_median_deg": 2.6,
+   "dihedral_mean_deg": 15.5,
+   "dihedral_median_deg": 2.7,
    "dihedral_max_deg": 90.2,
-   "length_mm": 191.2,
+   "length_mm": 191.3,
    "diameter_mm": 1.9,
    "trunk_diameter_mm": 3.16,
    "division_distal_to_iel_mm": 48.0,
@@ -1906,22 +2507,44 @@
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.173,
    "t_end_on_radius": 0.969,
-   "short_of_distal_radius_mm": 7.1,
-   "d_brachioradialis_p50_mm": 1.57,
+   "short_of_distal_radius_mm": 7.2,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 4.57,
+   "d_brachioradialis_p50_mm": 1.47,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 64,
+   "path_points_cleared": 101,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.3,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.24,
    "min_signed_dist_to_radius_after_mm": 0.33,
-   "min_signed_dist_radius_path_before_mm": -0.56,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -0.55,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.541,
+   "volume_analytic_cm3": 0.5413,
    "volume_mesh_vs_analytic_rel": 0.07,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.33,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.33,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
      0.07,
      0.0,
@@ -1933,7 +2556,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     7.1,
+     7.2,
      -5.0,
      20.0
     ],
@@ -1948,38 +2571,60 @@
   "lacn_posterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.5107,
-   "area_mm2": 1146.2,
+   "volume_cm3": 0.5436,
+   "area_mm2": 1221.1,
    "watertight": true,
-   "dihedral_mean_deg": 16.1,
-   "dihedral_median_deg": 4.6,
-   "dihedral_max_deg": 90.8,
-   "length_mm": 196.7,
+   "dihedral_mean_deg": 16.3,
+   "dihedral_median_deg": 1.3,
+   "dihedral_max_deg": 108.7,
+   "length_mm": 208.8,
    "diameter_mm": 1.9,
    "trunk_diameter_mm": 3.16,
    "division_distal_to_iel_mm": 48.0,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.173,
-   "t_end_on_radius": 0.972,
-   "short_of_distal_radius_mm": 6.3,
-   "d_brachioradialis_p50_mm": 1.44,
+   "t_end_on_radius": 0.939,
+   "short_of_distal_radius_mm": 14.1,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 15.47,
+   "d_brachioradialis_p50_mm": 1.53,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 164,
-   "rings_lifted": 14,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.97,
-   "min_signed_dist_to_radius_after_mm": 0.3,
-   "min_signed_dist_radius_path_before_mm": -3.15,
+   "path_points_cleared": 45,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -6.4,
+   "min_signed_dist_to_radius_after_mm": 2.16,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 3.09,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.5564,
-   "volume_mesh_vs_analytic_rel": 0.082,
+   "volume_analytic_cm3": 0.5907,
+   "volume_mesh_vs_analytic_rel": 0.08,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 2.16,
    "gates": {
+    "worst_residual_clearance_mm": [
+     2.16,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.082,
+     0.08,
      0.0,
      0.3
     ],
@@ -1989,7 +2634,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     6.3,
+     14.1,
      -5.0,
      20.0
     ],
@@ -2004,20 +2649,30 @@
   "coracoacromial_ligament_r": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.7907,
-   "area_mm2": 1536.5,
+   "volume_cm3": 0.7861,
+   "area_mm2": 1534.3,
    "watertight": true,
-   "dihedral_mean_deg": 18.1,
-   "dihedral_median_deg": 1.8,
-   "dihedral_max_deg": 173.7,
+   "dihedral_mean_deg": 18.2,
+   "dihedral_median_deg": 2.0,
+   "dihedral_max_deg": 175.5,
    "length_mm": 31.4,
    "chord_mm": 30.6,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 29,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -2.72,
+   "rings_lifted": 51,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.14,
+   "attachment_depth_in_scapula_mm": -0.11,
+   "clearance_method": {
+    "scapula_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     157.9,
     587.0,
@@ -2037,8 +2692,9 @@
     40.3
    ],
    "volume_analytic_cm3": 0.8303,
-   "volume_mesh_vs_analytic_rel": 0.048,
+   "volume_mesh_vs_analytic_rel": 0.053,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.14,
    "refused": false
   },
   "psoas_minor_r": {
@@ -2067,15 +2723,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.71,
+   "min_signed_dist_to_hip_bone_after_mm": 6.0,
+   "attachment_depth_in_hip_bone_mm": 0.71,
+   "clearance_method": {
+    "hip_bone_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8887,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 6.0,
    "gates": {
+    "worst_residual_clearance_mm": [
+     6.0,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.2,
      0.0,
@@ -2097,12 +2769,12 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1287,
-   "area_mm2": 441.4,
+   "volume_cm3": 0.1312,
+   "area_mm2": 450.9,
    "watertight": true,
-   "dihedral_mean_deg": 22.6,
+   "dihedral_mean_deg": 23.1,
    "dihedral_median_deg": 4.5,
-   "dihedral_max_deg": 170.6,
+   "dihedral_max_deg": 171.6,
    "length_mm": 44.8,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
@@ -2126,20 +2798,42 @@
     -1.3
    ],
    "path_points_cleared": 3,
+   "rings_lifted": 3,
    "min_signed_dist_femur_path_before_mm": 1.69,
    "min_signed_dist_tibia_path_before_mm": -3.14,
    "min_signed_dist_to_femur_after_mm": 1.06,
-   "min_signed_dist_to_tibia_after_mm": -4.05,
+   "min_signed_dist_to_tibia_after_mm": 0.3,
+   "attachment_depth_in_bone_mm": 4.05,
+   "clearance_method": {
+    "femur_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1417,
-   "volume_mesh_vs_analytic_rel": 0.092,
+   "volume_mesh_vs_analytic_rel": 0.074,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 30.2,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.01,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.092,
+     0.074,
      0.0,
      0.3
     ],
@@ -2161,13 +2855,13 @@
   "lacn_anterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.5011,
-   "area_mm2": 1117.8,
+   "volume_cm3": 0.5012,
+   "area_mm2": 1118.3,
    "watertight": true,
-   "dihedral_mean_deg": 15.4,
+   "dihedral_mean_deg": 15.5,
    "dihedral_median_deg": 3.5,
    "dihedral_max_deg": 90.3,
-   "length_mm": 190.0,
+   "length_mm": 190.2,
    "diameter_mm": 1.9,
    "trunk_diameter_mm": 3.17,
    "division_distal_to_iel_mm": 48.0,
@@ -2175,24 +2869,46 @@
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.173,
    "t_end_on_radius": 0.969,
-   "short_of_distal_radius_mm": 7.1,
-   "d_brachioradialis_p50_mm": 1.48,
+   "short_of_distal_radius_mm": 7.2,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 4.39,
+   "d_brachioradialis_p50_mm": 1.38,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 82,
+   "path_points_cleared": 106,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.22,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.23,
    "min_signed_dist_to_radius_after_mm": 0.32,
-   "min_signed_dist_radius_path_before_mm": -0.66,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -0.65,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.5383,
-   "volume_mesh_vs_analytic_rel": 0.069,
+   "volume_analytic_cm3": 0.5387,
+   "volume_mesh_vs_analytic_rel": 0.07,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.32,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.32,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.069,
+     0.07,
      0.0,
      0.3
     ],
@@ -2202,7 +2918,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     7.1,
+     7.2,
      -5.0,
      20.0
     ],
@@ -2217,38 +2933,60 @@
   "lacn_posterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.5104,
-   "area_mm2": 1148.2,
+   "volume_cm3": 0.5601,
+   "area_mm2": 1269.0,
    "watertight": true,
-   "dihedral_mean_deg": 16.6,
-   "dihedral_median_deg": 5.0,
-   "dihedral_max_deg": 90.6,
-   "length_mm": 196.5,
+   "dihedral_mean_deg": 18.2,
+   "dihedral_median_deg": 1.4,
+   "dihedral_max_deg": 157.0,
+   "length_mm": 218.3,
    "diameter_mm": 1.9,
    "trunk_diameter_mm": 3.17,
    "division_distal_to_iel_mm": 48.0,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.173,
-   "t_end_on_radius": 0.972,
-   "short_of_distal_radius_mm": 6.3,
-   "d_brachioradialis_p50_mm": 1.42,
+   "t_end_on_radius": 0.942,
+   "short_of_distal_radius_mm": 13.4,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 15.79,
+   "d_brachioradialis_p50_mm": 1.53,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 176,
-   "rings_lifted": 3,
-   "min_signed_dist_brachioradialis_path_before_mm": -2.01,
-   "min_signed_dist_to_radius_after_mm": 0.31,
-   "min_signed_dist_radius_path_before_mm": -3.25,
+   "path_points_cleared": 49,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -7.62,
+   "min_signed_dist_to_radius_after_mm": 2.14,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 3.06,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.5564,
-   "volume_mesh_vs_analytic_rel": 0.083,
+   "volume_analytic_cm3": 0.6184,
+   "volume_mesh_vs_analytic_rel": 0.094,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 2.14,
    "gates": {
+    "worst_residual_clearance_mm": [
+     2.14,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.083,
+     0.094,
      0.0,
      0.3
     ],
@@ -2258,7 +2996,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     6.3,
+     13.4,
      -5.0,
      20.0
     ],
@@ -2303,7 +3041,7 @@
   "_n_meshes": 10,
   "_n_refused": 0,
   "_refused": {},
-  "_total_cm3": 7.3949
+  "_total_cm3": 7.4756
  },
  "comb_m": {
   "frame": {
@@ -2320,20 +3058,30 @@
   "coracoacromial_ligament_l": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.935,
-   "area_mm2": 1619.4,
+   "volume_cm3": 0.9352,
+   "area_mm2": 1619.1,
    "watertight": true,
-   "dihedral_mean_deg": 14.0,
-   "dihedral_median_deg": 1.7,
-   "dihedral_max_deg": 157.2,
+   "dihedral_mean_deg": 14.1,
+   "dihedral_median_deg": 1.8,
+   "dihedral_max_deg": 155.3,
    "length_mm": 37.0,
    "chord_mm": 36.2,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 14,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -1.71,
+   "rings_lifted": 43,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.12,
+   "attachment_depth_in_scapula_mm": -0.04,
+   "clearance_method": {
+    "scapula_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     -175.5,
     610.6,
@@ -2355,6 +3103,7 @@
    "volume_analytic_cm3": 0.9846,
    "volume_mesh_vs_analytic_rel": 0.05,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.12,
    "refused": false
   },
   "psoas_minor_l": {
@@ -2383,15 +3132,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.7,
+   "min_signed_dist_to_hip_bone_after_mm": 6.13,
+   "attachment_depth_in_hip_bone_mm": 0.7,
+   "clearance_method": {
+    "hip_bone_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8496,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 6.13,
    "gates": {
+    "worst_residual_clearance_mm": [
+     6.13,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -2413,12 +3178,12 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1465,
-   "area_mm2": 508.9,
+   "volume_cm3": 0.1512,
+   "area_mm2": 526.7,
    "watertight": true,
-   "dihedral_mean_deg": 27.6,
-   "dihedral_median_deg": 4.8,
-   "dihedral_max_deg": 178.7,
+   "dihedral_mean_deg": 28.1,
+   "dihedral_median_deg": 4.7,
+   "dihedral_max_deg": 175.2,
    "length_mm": 50.8,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
@@ -2442,20 +3207,42 @@
     -60.0
    ],
    "path_points_cleared": 13,
+   "rings_lifted": 5,
    "min_signed_dist_femur_path_before_mm": 3.55,
    "min_signed_dist_tibia_path_before_mm": -6.29,
    "min_signed_dist_to_femur_after_mm": 2.43,
-   "min_signed_dist_to_tibia_after_mm": -6.85,
+   "min_signed_dist_to_tibia_after_mm": 0.3,
+   "attachment_depth_in_bone_mm": 6.85,
+   "clearance_method": {
+    "femur_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1606,
-   "volume_mesh_vs_analytic_rel": 0.088,
+   "volume_mesh_vs_analytic_rel": 0.059,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 53.1,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.77,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.088,
+     0.059,
      0.0,
      0.3
     ],
@@ -2478,38 +3265,60 @@
   "lacn_anterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.3813,
-   "area_mm2": 833.7,
+   "volume_cm3": 0.3795,
+   "area_mm2": 826.4,
    "watertight": true,
-   "dihedral_mean_deg": 16.6,
-   "dihedral_median_deg": 5.2,
-   "dihedral_max_deg": 90.4,
-   "length_mm": 137.6,
+   "dihedral_mean_deg": 17.6,
+   "dihedral_median_deg": 2.9,
+   "dihedral_max_deg": 177.9,
+   "length_mm": 136.6,
    "diameter_mm": 1.95,
    "trunk_diameter_mm": 3.26,
    "division_distal_to_iel_mm": 48.3,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.441,
-   "t_end_on_radius": 0.998,
-   "short_of_distal_radius_mm": 0.4,
-   "d_brachioradialis_p50_mm": 1.02,
-   "d_brachioradialis_min_mm": -1.33,
-   "max_depth_in_brachioradialis_mm": 1.33,
-   "path_points_cleared": 176,
-   "rings_lifted": 71,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.12,
-   "min_signed_dist_to_radius_after_mm": -1.85,
-   "min_signed_dist_radius_path_before_mm": -1.75,
+   "t_end_on_radius": 0.997,
+   "short_of_distal_radius_mm": 0.7,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 3.4,
+   "d_brachioradialis_p50_mm": 1.22,
+   "d_brachioradialis_min_mm": -0.0,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 122,
+   "rings_lifted": 50,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.16,
+   "min_signed_dist_to_radius_after_mm": 0.3,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -1.0,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.4129,
-   "volume_mesh_vs_analytic_rel": 0.077,
+   "volume_analytic_cm3": 0.4097,
+   "volume_mesh_vs_analytic_rel": 0.074,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.077,
+     0.074,
      0.0,
      0.3
     ],
@@ -2519,12 +3328,12 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     0.4,
+     0.7,
      -5.0,
      20.0
     ],
     "max_depth_in_brachioradialis_mm": [
-     1.33,
+     0.0,
      0.0,
      1.8
     ]
@@ -2534,38 +3343,60 @@
   "lacn_posterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.3779,
-   "area_mm2": 826.5,
+   "volume_cm3": 0.3894,
+   "area_mm2": 862.7,
    "watertight": true,
-   "dihedral_mean_deg": 16.4,
-   "dihedral_median_deg": 4.8,
-   "dihedral_max_deg": 111.6,
-   "length_mm": 136.5,
+   "dihedral_mean_deg": 18.5,
+   "dihedral_median_deg": 6.7,
+   "dihedral_max_deg": 91.4,
+   "length_mm": 142.4,
    "diameter_mm": 1.95,
    "trunk_diameter_mm": 3.26,
    "division_distal_to_iel_mm": 48.3,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.441,
-   "t_end_on_radius": 0.992,
-   "short_of_distal_radius_mm": 1.9,
-   "d_brachioradialis_p50_mm": 1.07,
-   "d_brachioradialis_min_mm": -1.77,
-   "max_depth_in_brachioradialis_mm": 1.77,
-   "path_points_cleared": 119,
-   "rings_lifted": 72,
-   "min_signed_dist_brachioradialis_path_before_mm": 0.08,
-   "min_signed_dist_to_radius_after_mm": -1.18,
-   "min_signed_dist_radius_path_before_mm": -1.44,
+   "t_end_on_radius": 0.973,
+   "short_of_distal_radius_mm": 6.5,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 6.25,
+   "d_brachioradialis_p50_mm": 1.37,
+   "d_brachioradialis_min_mm": -2.8,
+   "max_depth_in_brachioradialis_mm": 2.8,
+   "path_points_cleared": 128,
+   "rings_lifted": 80,
+   "min_signed_dist_brachioradialis_path_before_mm": -2.91,
+   "min_signed_dist_to_radius_after_mm": -0.86,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -0.71,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.4095,
-   "volume_mesh_vs_analytic_rel": 0.077,
+   "volume_analytic_cm3": 0.4271,
+   "volume_mesh_vs_analytic_rel": 0.088,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": -0.86,
    "gates": {
+    "worst_residual_clearance_mm": [
+     -0.86,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.077,
+     0.088,
      0.0,
      0.3
     ],
@@ -2575,35 +3406,46 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     1.9,
+     6.5,
      -5.0,
      20.0
     ],
     "max_depth_in_brachioradialis_mm": [
-     1.77,
+     2.8,
      0.0,
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "gate(s) failed: max_depth_in_brachioradialis_mm, worst_residual_clearance_mm"
   },
   "coracoacromial_ligament_r": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.7053,
-   "area_mm2": 1249.0,
+   "volume_cm3": 0.7065,
+   "area_mm2": 1253.6,
    "watertight": true,
-   "dihedral_mean_deg": 17.6,
-   "dihedral_median_deg": 2.5,
-   "dihedral_max_deg": 179.1,
+   "dihedral_mean_deg": 18.0,
+   "dihedral_median_deg": 2.7,
+   "dihedral_max_deg": 175.1,
    "length_mm": 27.3,
    "chord_mm": 25.9,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 15,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -1.92,
+   "rings_lifted": 43,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.14,
+   "attachment_depth_in_scapula_mm": -0.33,
+   "clearance_method": {
+    "scapula_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     191.6,
     589.7,
@@ -2623,8 +3465,9 @@
     40.3
    ],
    "volume_analytic_cm3": 0.7426,
-   "volume_mesh_vs_analytic_rel": 0.05,
+   "volume_mesh_vs_analytic_rel": 0.049,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.14,
    "refused": false
   },
   "psoas_minor_r": {
@@ -2653,15 +3496,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.61,
+   "min_signed_dist_to_hip_bone_after_mm": 6.1,
+   "attachment_depth_in_hip_bone_mm": 0.61,
+   "clearance_method": {
+    "hip_bone_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8458,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 6.1,
    "gates": {
+    "worst_residual_clearance_mm": [
+     6.1,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -2683,12 +3542,12 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1664,
-   "area_mm2": 563.6,
+   "volume_cm3": 0.1735,
+   "area_mm2": 597.4,
    "watertight": true,
-   "dihedral_mean_deg": 27.5,
-   "dihedral_median_deg": 9.5,
-   "dihedral_max_deg": 169.0,
+   "dihedral_mean_deg": 29.4,
+   "dihedral_median_deg": 9.1,
+   "dihedral_max_deg": 172.0,
    "length_mm": 59.3,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
@@ -2712,20 +3571,42 @@
     -50.8
    ],
    "path_points_cleared": 33,
+   "rings_lifted": 7,
    "min_signed_dist_femur_path_before_mm": 3.15,
    "min_signed_dist_tibia_path_before_mm": -6.01,
    "min_signed_dist_to_femur_after_mm": 1.33,
-   "min_signed_dist_to_tibia_after_mm": -4.57,
+   "min_signed_dist_to_tibia_after_mm": 0.3,
+   "attachment_depth_in_bone_mm": 4.57,
+   "clearance_method": {
+    "femur_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1876,
-   "volume_mesh_vs_analytic_rel": 0.113,
+   "volume_mesh_vs_analytic_rel": 0.075,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 59.3,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.98,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.113,
+     0.075,
      0.0,
      0.3
     ],
@@ -2746,38 +3627,60 @@
   "lacn_anterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.3771,
-   "area_mm2": 789.8,
+   "volume_cm3": 0.3723,
+   "area_mm2": 755.6,
    "watertight": true,
-   "dihedral_mean_deg": 19.9,
-   "dihedral_median_deg": 11.0,
-   "dihedral_max_deg": 117.0,
-   "length_mm": 122.6,
+   "dihedral_mean_deg": 16.8,
+   "dihedral_median_deg": 5.6,
+   "dihedral_max_deg": 90.2,
+   "length_mm": 116.2,
    "diameter_mm": 2.11,
    "trunk_diameter_mm": 3.52,
    "division_distal_to_iel_mm": 48.8,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.548,
-   "t_end_on_radius": 0.992,
-   "short_of_distal_radius_mm": 1.9,
-   "d_brachioradialis_p50_mm": 1.3,
-   "d_brachioradialis_min_mm": 0.3,
+   "t_end_on_radius": 0.991,
+   "short_of_distal_radius_mm": 2.2,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 2.82,
+   "d_brachioradialis_p50_mm": 1.24,
+   "d_brachioradialis_min_mm": 0.01,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 164,
-   "rings_lifted": 22,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.9,
-   "min_signed_dist_to_radius_after_mm": 0.17,
-   "min_signed_dist_radius_path_before_mm": -0.92,
+   "path_points_cleared": 137,
+   "rings_lifted": 2,
+   "min_signed_dist_brachioradialis_path_before_mm": 0.0,
+   "min_signed_dist_to_radius_after_mm": 0.3,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -0.0,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.4291,
-   "volume_mesh_vs_analytic_rel": 0.121,
+   "volume_analytic_cm3": 0.4066,
+   "volume_mesh_vs_analytic_rel": 0.084,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.121,
+     0.084,
      0.0,
      0.3
     ],
@@ -2787,7 +3690,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     1.9,
+     2.2,
      -5.0,
      20.0
     ],
@@ -2802,38 +3705,60 @@
   "lacn_posterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.3679,
-   "area_mm2": 741.8,
+   "volume_cm3": 0.37,
+   "area_mm2": 753.6,
    "watertight": true,
-   "dihedral_mean_deg": 15.7,
-   "dihedral_median_deg": 4.1,
+   "dihedral_mean_deg": 18.4,
+   "dihedral_median_deg": 9.5,
    "dihedral_max_deg": 90.1,
-   "length_mm": 113.1,
+   "length_mm": 116.1,
    "diameter_mm": 2.11,
    "trunk_diameter_mm": 3.52,
    "division_distal_to_iel_mm": 48.8,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.548,
-   "t_end_on_radius": 0.985,
-   "short_of_distal_radius_mm": 3.8,
-   "d_brachioradialis_p50_mm": 1.37,
-   "d_brachioradialis_min_mm": 0.3,
+   "t_end_on_radius": 0.968,
+   "short_of_distal_radius_mm": 8.0,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 4.06,
+   "d_brachioradialis_p50_mm": 0.87,
+   "d_brachioradialis_min_mm": 0.0,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 144,
-   "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.25,
-   "min_signed_dist_to_radius_after_mm": 0.33,
-   "min_signed_dist_radius_path_before_mm": -0.19,
+   "path_points_cleared": 240,
+   "rings_lifted": 3,
+   "min_signed_dist_brachioradialis_path_before_mm": 0.01,
+   "min_signed_dist_to_radius_after_mm": 0.3,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -2.6,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.3958,
-   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_analytic_cm3": 0.4063,
+   "volume_mesh_vs_analytic_rel": 0.089,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.3,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.07,
+     0.089,
      0.0,
      0.3
     ],
@@ -2843,7 +3768,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     3.8,
+     8.0,
      -5.0,
      20.0
     ],
@@ -2853,7 +3778,8 @@
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_l was refused (gate(s) failed: max_depth_in_brachioradialis_mm, worst_residual_clearance_mm), so lacn_posterior_branch_r is not shipped either"
   },
   "_ids_used": {
    "scapula_l": "scapula_l",
@@ -2885,13 +3811,15 @@
    "sacrum": "sacrum",
    "sternum": "sternum"
   },
-  "_n_meshes": 8,
-  "_n_refused": 2,
+  "_n_meshes": 6,
+  "_n_refused": 4,
   "_refused": {
    "anterolateral_ligament_l": "withdrawn by the both-sides-or-neither rule: anterolateral_ligament_r was refused (outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)), so anterolateral_ligament_l is not shipped either",
-   "anterolateral_ligament_r": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)"
+   "anterolateral_ligament_r": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)",
+   "lacn_posterior_branch_l": "gate(s) failed: max_depth_in_brachioradialis_mm, worst_residual_clearance_mm",
+   "lacn_posterior_branch_r": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_l was refused (gate(s) failed: max_depth_in_brachioradialis_mm, worst_residual_clearance_mm), so lacn_posterior_branch_r is not shipped either"
   },
-  "_total_cm3": 6.6015
+  "_total_cm3": 5.8505
  },
  "comb_f": {
   "frame": {
@@ -2908,20 +3836,30 @@
   "coracoacromial_ligament_l": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.913,
-   "area_mm2": 1772.1,
+   "volume_cm3": 0.9171,
+   "area_mm2": 1789.1,
    "watertight": true,
-   "dihedral_mean_deg": 17.7,
+   "dihedral_mean_deg": 17.8,
    "dihedral_median_deg": 1.3,
-   "dihedral_max_deg": 174.4,
+   "dihedral_max_deg": 179.8,
    "length_mm": 36.5,
    "chord_mm": 35.8,
    "width_coracoid_mm": 26.8,
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 13,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -1.19,
+   "rings_lifted": 3,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.3,
+   "attachment_depth_in_scapula_mm": -0.22,
+   "clearance_method": {
+    "scapula_l": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     -157.9,
     607.1,
@@ -2941,8 +3879,9 @@
     40.3
    ],
    "volume_analytic_cm3": 0.9662,
-   "volume_mesh_vs_analytic_rel": 0.055,
+   "volume_mesh_vs_analytic_rel": 0.051,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.3,
    "refused": false
   },
   "psoas_minor_l": {
@@ -2971,15 +3910,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.74,
+   "min_signed_dist_to_hip_bone_after_mm": 4.49,
+   "attachment_depth_in_hip_bone_mm": 0.74,
+   "clearance_method": {
+    "hip_bone_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8885,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 4.49,
    "gates": {
+    "worst_residual_clearance_mm": [
+     4.49,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -3030,10 +3985,26 @@
     -56.4
    ],
    "path_points_cleared": 0,
+   "rings_lifted": 0,
    "min_signed_dist_femur_path_before_mm": 2.12,
    "min_signed_dist_tibia_path_before_mm": 1.52,
-   "min_signed_dist_to_femur_after_mm": 0.15,
-   "min_signed_dist_to_tibia_after_mm": 0.7,
+   "min_signed_dist_to_femur_after_mm": 0.39,
+   "min_signed_dist_to_tibia_after_mm": 1.31,
+   "attachment_depth_in_bone_mm": -0.15,
+   "clearance_method": {
+    "femur_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1199,
    "volume_mesh_vs_analytic_rel": 0.089,
@@ -3041,7 +4012,13 @@
    "page_own_gerdy_to_fibular_head_span_mm": 40.8,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.36,
+   "worst_residual_clearance_mm": 0.39,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.39,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
      0.089,
      0.0,
@@ -3065,38 +4042,60 @@
   "lacn_anterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.2875,
-   "area_mm2": 683.0,
+   "volume_cm3": 0.2873,
+   "area_mm2": 683.7,
    "watertight": true,
-   "dihedral_mean_deg": 15.7,
-   "dihedral_median_deg": 3.3,
-   "dihedral_max_deg": 90.3,
-   "length_mm": 123.4,
+   "dihedral_mean_deg": 16.1,
+   "dihedral_median_deg": 3.4,
+   "dihedral_max_deg": 90.5,
+   "length_mm": 121.9,
    "diameter_mm": 1.8,
    "trunk_diameter_mm": 2.99,
    "division_distal_to_iel_mm": 46.9,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.511,
-   "t_end_on_radius": 0.996,
-   "short_of_distal_radius_mm": 1.0,
-   "d_brachioradialis_p50_mm": 1.04,
-   "d_brachioradialis_min_mm": -1.53,
-   "max_depth_in_brachioradialis_mm": 1.53,
-   "path_points_cleared": 149,
-   "rings_lifted": 59,
+   "t_end_on_radius": 0.994,
+   "short_of_distal_radius_mm": 1.4,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 2.76,
+   "d_brachioradialis_p50_mm": 1.17,
+   "d_brachioradialis_min_mm": -1.78,
+   "max_depth_in_brachioradialis_mm": 1.78,
+   "path_points_cleared": 141,
+   "rings_lifted": 200,
    "min_signed_dist_brachioradialis_path_before_mm": -1.63,
-   "min_signed_dist_to_radius_after_mm": -0.8,
-   "min_signed_dist_radius_path_before_mm": 1.25,
+   "min_signed_dist_to_radius_after_mm": -0.71,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 1.82,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.3124,
-   "volume_mesh_vs_analytic_rel": 0.08,
+   "volume_analytic_cm3": 0.3086,
+   "volume_mesh_vs_analytic_rel": 0.069,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": -0.71,
    "gates": {
+    "worst_residual_clearance_mm": [
+     -0.71,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.08,
+     0.069,
      0.0,
      0.3
     ],
@@ -3106,53 +4105,76 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     1.0,
+     1.4,
      -5.0,
      20.0
     ],
     "max_depth_in_brachioradialis_mm": [
-     1.53,
+     1.78,
      0.0,
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "gate(s) failed: worst_residual_clearance_mm"
   },
   "lacn_posterior_branch_l": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.2856,
-   "area_mm2": 678.6,
+   "volume_cm3": 0.2932,
+   "area_mm2": 724.9,
    "watertight": true,
-   "dihedral_mean_deg": 16.0,
-   "dihedral_median_deg": 3.5,
-   "dihedral_max_deg": 99.3,
-   "length_mm": 121.6,
+   "dihedral_mean_deg": 22.9,
+   "dihedral_median_deg": 15.7,
+   "dihedral_max_deg": 127.0,
+   "length_mm": 135.3,
    "diameter_mm": 1.8,
    "trunk_diameter_mm": 2.99,
    "division_distal_to_iel_mm": 46.9,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.511,
-   "t_end_on_radius": 0.989,
-   "short_of_distal_radius_mm": 2.8,
-   "d_brachioradialis_p50_mm": 1.29,
-   "d_brachioradialis_min_mm": -1.69,
-   "max_depth_in_brachioradialis_mm": 1.69,
-   "path_points_cleared": 157,
-   "rings_lifted": 22,
-   "min_signed_dist_brachioradialis_path_before_mm": -1.63,
-   "min_signed_dist_to_radius_after_mm": -0.78,
-   "min_signed_dist_radius_path_before_mm": -0.14,
+   "t_end_on_radius": 0.965,
+   "short_of_distal_radius_mm": 8.6,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 5.31,
+   "d_brachioradialis_p50_mm": 0.84,
+   "d_brachioradialis_min_mm": -1.4,
+   "max_depth_in_brachioradialis_mm": 1.4,
+   "path_points_cleared": 400,
+   "rings_lifted": 518,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.99,
+   "min_signed_dist_to_radius_after_mm": -0.36,
+   "clearance_method": {
+    "radius_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_l": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": -0.99,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.3079,
-   "volume_mesh_vs_analytic_rel": 0.072,
+   "volume_analytic_cm3": 0.3427,
+   "volume_mesh_vs_analytic_rel": 0.144,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": -0.36,
    "gates": {
+    "worst_residual_clearance_mm": [
+     -0.36,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.072,
+     0.144,
      0.0,
      0.3
     ],
@@ -3162,26 +4184,27 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     2.8,
+     8.6,
      -5.0,
      20.0
     ],
     "max_depth_in_brachioradialis_mm": [
-     1.69,
+     1.4,
      0.0,
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "gate(s) failed: worst_residual_clearance_mm"
   },
   "coracoacromial_ligament_r": {
    "verts": 290,
    "tris": 576,
-   "volume_cm3": 0.7454,
-   "area_mm2": 1304.8,
+   "volume_cm3": 0.7458,
+   "area_mm2": 1305.6,
    "watertight": true,
-   "dihedral_mean_deg": 15.4,
-   "dihedral_median_deg": 2.0,
+   "dihedral_mean_deg": 15.3,
+   "dihedral_median_deg": 2.1,
    "dihedral_max_deg": 174.1,
    "length_mm": 29.6,
    "chord_mm": 28.7,
@@ -3189,8 +4212,18 @@
    "width_acromion_mm": 15.86,
    "thickness_mm": 1.61,
    "path_points_cleared_of_scapula": 12,
-   "min_signed_dist_scapula_path_before_mm": -0.0,
-   "min_signed_dist_to_scapula_after_mm": -0.68,
+   "rings_lifted": 3,
+   "min_signed_dist_scapula_path_before_mm": 0.0,
+   "min_signed_dist_to_scapula_after_mm": 0.3,
+   "attachment_depth_in_scapula_mm": -0.05,
+   "clearance_method": {
+    "scapula_r": {
+     "method": "calibrated_voxel_mask",
+     "watertight": false,
+     "mask_offset_mm": 2.12,
+     "signed_test_valid": true
+    }
+   },
    "acromion_tip": [
     158.7,
     594.0,
@@ -3212,6 +4245,7 @@
    "volume_analytic_cm3": 0.7858,
    "volume_mesh_vs_analytic_rel": 0.051,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.3,
    "refused": false
   },
   "psoas_minor_r": {
@@ -3240,15 +4274,31 @@
    "levels_how": "named vertebra meshes",
    "insertion": "pecten pubis / iliopubic eminence",
    "path_points_cleared_of_hip_bone": 0,
+   "rings_lifted": 0,
    "min_signed_dist_hip_bone_path_before_mm": -0.0,
-   "min_signed_dist_to_hip_bone_after_mm": -0.57,
+   "min_signed_dist_to_hip_bone_after_mm": 6.86,
+   "attachment_depth_in_hip_bone_mm": 0.57,
+   "clearance_method": {
+    "hip_bone_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "prevalence_classic_pct": "40-50",
    "prevalence_raja_pct": 6.67,
    "hidden_by_default": true,
    "volume_analytic_cm3": 1.8899,
    "volume_mesh_vs_analytic_rel": 0.065,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 6.86,
    "gates": {
+    "worst_residual_clearance_mm": [
+     6.86,
+     -0.01,
+     99.0
+    ],
     "excess_over_straight_line_pct": [
      0.1,
      0.0,
@@ -3299,10 +4349,26 @@
     -73.3
    ],
    "path_points_cleared": 0,
+   "rings_lifted": 0,
    "min_signed_dist_femur_path_before_mm": 1.94,
    "min_signed_dist_tibia_path_before_mm": -0.05,
    "min_signed_dist_to_femur_after_mm": 0.94,
-   "min_signed_dist_to_tibia_after_mm": -0.87,
+   "min_signed_dist_to_tibia_after_mm": 0.41,
+   "attachment_depth_in_bone_mm": 0.87,
+   "clearance_method": {
+    "femur_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "tibia_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
    "contested": true,
    "volume_analytic_cm3": 0.1073,
    "volume_mesh_vs_analytic_rel": 0.041,
@@ -3310,7 +4376,13 @@
    "page_own_gerdy_to_fibular_head_span_mm": 46.8,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.56,
+   "worst_residual_clearance_mm": 0.41,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.41,
+     -0.0,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
      0.041,
      0.0,
@@ -3334,38 +4406,60 @@
   "lacn_anterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.2609,
-   "area_mm2": 703.4,
+   "volume_cm3": 0.2596,
+   "area_mm2": 698.9,
    "watertight": true,
-   "dihedral_mean_deg": 15.8,
-   "dihedral_median_deg": 3.5,
+   "dihedral_mean_deg": 15.3,
+   "dihedral_median_deg": 2.3,
    "dihedral_max_deg": 90.2,
-   "length_mm": 144.3,
+   "length_mm": 143.3,
    "diameter_mm": 1.58,
    "trunk_diameter_mm": 2.63,
    "division_distal_to_iel_mm": 48.8,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.405,
-   "t_end_on_radius": 1.003,
-   "short_of_distal_radius_mm": -0.6,
-   "d_brachioradialis_p50_mm": 1.08,
+   "t_end_on_radius": 1.001,
+   "short_of_distal_radius_mm": -0.2,
+   "rail": "brachioradialis medial border",
+   "d_br_medial_border_p50_mm": 2.86,
+   "d_brachioradialis_p50_mm": 1.23,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 86,
+   "path_points_cleared": 79,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.97,
-   "min_signed_dist_to_radius_after_mm": 2.48,
-   "min_signed_dist_radius_path_before_mm": 3.66,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.61,
+   "min_signed_dist_to_radius_after_mm": 3.6,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 4.33,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.2816,
-   "volume_mesh_vs_analytic_rel": 0.074,
+   "volume_analytic_cm3": 0.2795,
+   "volume_mesh_vs_analytic_rel": 0.071,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 3.6,
    "gates": {
+    "worst_residual_clearance_mm": [
+     3.6,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.074,
+     0.071,
      0.0,
      0.3
     ],
@@ -3375,7 +4469,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     -0.6,
+     -0.2,
      -5.0,
      20.0
     ],
@@ -3385,43 +4479,66 @@
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "withdrawn by the both-sides-or-neither rule: lacn_anterior_branch_l was refused (gate(s) failed: worst_residual_clearance_mm), so lacn_anterior_branch_r is not shipped either"
   },
   "lacn_posterior_branch_r": {
    "verts": 302,
    "tris": 600,
-   "volume_cm3": 0.258,
-   "area_mm2": 694.0,
+   "volume_cm3": 0.2569,
+   "area_mm2": 697.3,
    "watertight": true,
-   "dihedral_mean_deg": 15.4,
-   "dihedral_median_deg": 3.1,
-   "dihedral_max_deg": 90.1,
-   "length_mm": 142.1,
+   "dihedral_mean_deg": 17.4,
+   "dihedral_median_deg": 6.5,
+   "dihedral_max_deg": 93.6,
+   "length_mm": 143.8,
    "diameter_mm": 1.58,
    "trunk_diameter_mm": 2.63,
    "division_distal_to_iel_mm": 48.8,
    "division_target_mm": 47.8,
    "division_sd_mm": 34.2,
    "t_start_on_radius": 0.405,
-   "t_end_on_radius": 0.996,
-   "short_of_distal_radius_mm": 1.0,
-   "d_brachioradialis_p50_mm": 1.1,
+   "t_end_on_radius": 0.963,
+   "short_of_distal_radius_mm": 8.5,
+   "rail": "brachioradialis dorso-lateral surface",
+   "d_br_medial_border_p50_mm": 4.5,
+   "d_brachioradialis_p50_mm": 1.09,
    "d_brachioradialis_min_mm": 0.3,
    "max_depth_in_brachioradialis_mm": 0.0,
-   "path_points_cleared": 118,
+   "path_points_cleared": 87,
    "rings_lifted": 0,
-   "min_signed_dist_brachioradialis_path_before_mm": -0.61,
-   "min_signed_dist_to_radius_after_mm": 2.89,
-   "min_signed_dist_radius_path_before_mm": 3.8,
+   "min_signed_dist_brachioradialis_path_before_mm": -3.14,
+   "min_signed_dist_to_radius_after_mm": 0.54,
+   "clearance_method": {
+    "radius_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    },
+    "brachioradialis_r": {
+     "method": "signed_distance_watertight_mesh",
+     "watertight": true,
+     "mask_offset_mm": null,
+     "signed_test_valid": true
+    }
+   },
+   "min_signed_dist_radius_path_before_mm": 1.84,
    "border_rail_extrapolated_pct": 0.0,
    "branch_rate_pct": 81.7,
    "single_branch_rate_pct": 17.9,
-   "volume_analytic_cm3": 0.2773,
-   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_analytic_cm3": 0.2807,
+   "volume_mesh_vs_analytic_rel": 0.085,
    "volume_check_tol": 0.3,
+   "worst_residual_clearance_mm": 0.54,
    "gates": {
+    "worst_residual_clearance_mm": [
+     0.54,
+     -0.01,
+     99.0
+    ],
     "volume_mesh_vs_analytic_rel": [
-     0.07,
+     0.085,
      0.0,
      0.3
     ],
@@ -3431,7 +4548,7 @@
      82.0
     ],
     "short_of_distal_radius_mm": [
-     1.0,
+     8.5,
      -5.0,
      20.0
     ],
@@ -3441,7 +4558,8 @@
      1.8
     ]
    },
-   "refused": false
+   "refused": true,
+   "reason": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_l was refused (gate(s) failed: worst_residual_clearance_mm), so lacn_posterior_branch_r is not shipped either"
   },
   "_ids_used": {
    "scapula_l": "scapula_l",
@@ -3473,10 +4591,15 @@
    "sacrum": "sacrum",
    "sternum": "sternum"
   },
-  "_n_meshes": 10,
-  "_n_refused": 0,
-  "_refused": {},
-  "_total_cm3": 6.4969
+  "_n_meshes": 6,
+  "_n_refused": 4,
+  "_refused": {
+   "lacn_anterior_branch_l": "gate(s) failed: worst_residual_clearance_mm",
+   "lacn_anterior_branch_r": "withdrawn by the both-sides-or-neither rule: lacn_anterior_branch_l was refused (gate(s) failed: worst_residual_clearance_mm), so lacn_anterior_branch_r is not shipped either",
+   "lacn_posterior_branch_l": "gate(s) failed: worst_residual_clearance_mm",
+   "lacn_posterior_branch_r": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_l was refused (gate(s) failed: worst_residual_clearance_mm), so lacn_posterior_branch_r is not shipped either"
+  },
+  "_total_cm3": 5.4094
  },
  "_README": [
   "Q308 rule-based structures, built on each page's own bones and own neighbours (scripts/anatomy/q308/build308.py); the cited numbers are in scripts/anatomy/q308/lit308.py.",

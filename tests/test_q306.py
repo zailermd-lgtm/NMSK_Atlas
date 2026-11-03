@@ -130,9 +130,18 @@ def test_every_new_abbreviation_reaches_a_real_structure(syn, index):
 def test_cited_but_not_shipped_names_really_are_absent(syn, index):
     """An explanation may only be offered for something that genuinely does not ship -- otherwise the page
     would tell the user a structure is missing while it is right there. This is the check that caught four
-    of Q302's gap entries being out of date (nipple, areola, Cooper's ligaments, nail plate)."""
+    of Q302's gap entries being out of date (nipple, areola, Cooper's ligaments, nail plate).
+
+    Q308: this assertion is kept, but it is NOT the guard. It tests whether the query RESOLVES through the
+    alias table, and a structure that ships under a name no alias connects to the query resolves to nothing
+    while sitting on the screen -- which is how the pubic symphysis, the retrocalcaneal bursa and the TFCC
+    came to be DENIED on three cards. The real guard is the PRESENCE check in
+    tests/test_q308.py::test_no_absence_entry_denies_a_structure_that_is_on_the_page, which reads the six
+    pages' own structure lists (name, Latin and id). Do not treat this test's passing as evidence again."""
     wrong = []
     for n in syn["cited_but_not_shipped"]:
+        if n.get("corrected_by") == "Q308":
+            continue          # now an alias onto the shipping mesh; the builder's per-page guard handles it
         for t in [n["name"]] + n["syn"]:
             got = _resolves(index, t)
             if got:
