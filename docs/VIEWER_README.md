@@ -916,3 +916,48 @@ median **0.18 mm**, mean 0.97, p95 3.64, max **4.45**, with **10 of 120 past the
 pair is far closer than the claim and the tail runs past it. `tests/test_q298.py` now pins the strict bound
 *and* that the median stays inside the printed figure, so the claim is honest in both directions; correcting
 the number the pages print needs the builder re-run on all six and is an owner decision.
+
+## Q308 — four rule-based structure families, and a correction the pages have NOT yet received
+
+**Read this before trusting three cards.** Q308 measured every `cited_but_not_shipped` entry against the six
+pages' **own structure lists** (name, Latin and id) instead of against the alias table, and found three cards
+that state a structure is **not** on the page while its mesh is **on the screen**: the **pubic symphysis**
+(ships on the four Z pages as `Interpubic fibrocartilaginous disc`, TA `Discus interpubicus`), the
+**retrocalcaneal bursa** (ships as `Subtendinous calcaneal bursa` — TA's `bursa subtendinea calcanei` *is* the
+retrocalcaneal bursa) and the **TFCC** (its central `Articular disc of distal radio-ulnar joint` ships, plus
+the dorsal ulnocarpal ligament). Q307 §4.2 likewise prints that the **superficial branch of the radial nerve**
+is absent from the Z pages; it ships on all six as `radial_n_superficial_branch_l/r`.
+
+The cause is instructive: Q306's guard asked whether the term **resolves through the alias table**, i.e. it
+tested *searchability*, not *presence*, so a structure shipping under a TA name no alias connected to the
+clinical query passed the test while sitting on screen — the `ligamenta flava` failure mode of Q306 §0, three
+more times. The guard is now `tests/test_q308.py::test_no_absence_entry_denies_a_structure_that_is_on_the_page`
+and the fix was made at source in `data/anatomy/synonyms_q306.json`, where the three clinical names became
+aliases onto the shipping meshes, so the builder's own per-page guard withdraws the explanation wherever the
+structure is present and keeps it on the two Imaging pages, which genuinely lack all three.
+
+**‼ The repository is fixed; the pages are not.** Q308 built no page and published nothing. The eight artifacts
+remain at their Q306 versions, so **the three cards still deny tissue that is on screen**. Publishing that
+correction is the first item of the next round.
+
+### What was built (not yet on any page)
+48 rule-based meshes over six pages, 12 refused with their numbers — `coracoacromial ligament`, the
+`lateral antebrachial cutaneous nerve`'s **anterior and posterior branches** (which close Q307's 53.8–73.5 mm
+shortfall: they reach to within −0.3 to 15.0 mm of the distal radius), `psoas minor` (**hidden by default**,
+because it is absent in 40–60 % of people and a visible mesh would be a claim about that body) and the knee's
+`anterolateral ligament` (**contested**). Each carries a rule-based badge, a recorded volume and its citations;
+Q297 class (d) stays at **0** and nothing claims "Measured on this body". Sources, numbers and all three
+comparison tests: `docs/research/Q308_built_structures_and_validation.md`.
+
+### One result worth knowing before building anything else there
+**HRA / CCF v1.10 (CC BY 4.0) holds the knee's anterolateral ligament as a real closed mesh on the same two
+Visible Human donors as the Imaging pages** — `VH_F_anterolateral_ligament_of_knee_L/R`, 1,680 triangles,
+9.0 × 56.9 × 14.2 mm, and `VH_M_...`, 790 triangles, 12.6 × 54.0 × 21.7 mm, UBERON:0014899. The rule-based ALL
+should give way to it. No earlier round found it because the ALL only became a recorded absence in Q306, after
+Q296 and Q302 surveyed HRA against a different gap list.
+
+### And one test that could not be run
+The comparison **against the figures in the papers** is blocked, not done: five of eight sources are not open
+access, `pmc.ncbi.nlm.nih.gov` does not resolve from the session, and the full-text channel strips figure
+captions — which is where a scale bar would be declared. Per the project's rule an unscalable figure is
+unusable, so **zero numbers in Q308 come from a figure**.
