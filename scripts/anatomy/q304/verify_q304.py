@@ -166,12 +166,15 @@ def _find_box(pg, phone):
         for sel in ("#search", "#q"):
             if pg.is_visible(sel):
                 return sel
+        # `press`, not `tap`: on own_f at 390 px the control that shows the list is itself under Q301's fixed
+        # control bar, so a touch at its centre missed, the panel never opened, and every card of that pass came
+        # back empty with `box: null` -- reported twice as missing provenance on cards that are correct.
         for s2 in ("#insp-min", "#im", "#info .info-min"):        # put away a card that is covering it
             if pg.is_visible(s2):
-                tap(pg, s2, phone); pg.wait_for_timeout(400); break
+                press(pg, s2, phone); pg.wait_for_timeout(400); break
         for s2 in ("#btn-panel", "#m-list", "#t-lay3"):
             if pg.is_visible(s2):
-                tap(pg, s2, phone); break
+                press(pg, s2, phone); break
         for _ in range(12):
             pg.wait_for_timeout(300)
             for sel in ("#search", "#q"):
@@ -441,7 +444,7 @@ def reach(pg, sel, phone):
             return True
         for s in ("#btn-panel", "#m-list", "#t-lay3"):
             if pg.is_visible(s):
-                tap(pg, s, phone); break
+                press(pg, s, phone); break
         pg.wait_for_timeout(400)
     return pg.is_visible(sel)
 

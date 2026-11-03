@@ -1,13 +1,21 @@
 {
- "ok": 152,
- "fail": 6,
+ "ok": 144,
+ "fail": 14,
  "failures": [
-  "comb_m_1400 D the sciatic nerve's card opens (0 chars)",
-  "comb_m_1400 D it carries the SPARC 692 DOI",
-  "comb_m_1400 D it names the licence and the subject",
-  "comb_m_1400 D it says calibre only and never shape, with the measurement that proves it",
-  "comb_m_1400 D it states the levels it was compared at",
-  "comb_m_1400 D it says the geometry was deliberately NOT changed, and why"
+  "own_f_390 C obturator_n_l (zan) opens from the real search box (0 chars)",
+  "own_f_390 C obturator_n_l carries the Method row / tag Q300 made the template render",
+  "own_f_390 C obturator_n_l states its error band in millimetres",
+  "own_f_390 C obturator_n_l is badged as the Z-Anatomy fill class",
+  "own_f_390 C tibial_n_branch_to_soleus_l (rule) opens from the real search box (0 chars)",
+  "own_f_390 C tibial_n_branch_to_soleus_l carries the Method row / tag Q300 made the template render",
+  "own_f_390 C tibial_n_branch_to_soleus_l states its error band in millimetres",
+  "own_f_390 C tibial_n_branch_to_soleus_l is badged RULE-BASED, with its own volume",
+  "own_f_390 D the sciatic nerve's card opens (0 chars)",
+  "own_f_390 D it carries the SPARC 692 DOI",
+  "own_f_390 D it names the licence and the subject",
+  "own_f_390 D it says calibre only and never shape, with the measurement that proves it",
+  "own_f_390 D it states the levels it was compared at",
+  "own_f_390 D it says the geometry was deliberately NOT changed, and why"
  ],
  "report": {
   "own_m": {
@@ -141,7 +149,7 @@
       "cut": 28,
       "visible": 28
      },
-     "cut_panel": "Cut face: 34 filled - 0.07 s"
+     "cut_panel": "Cut face: 34 filled - 0.06 s"
     },
     "D": {
      "len": 6465,
@@ -278,7 +286,7 @@
       "cut": 28,
       "visible": 28
      },
-     "cut_panel": "Cut face: 34 filled - 0.05 s"
+     "cut_panel": "Cut face: 34 filled - 0.06 s"
     },
     "D": {
      "len": 6465,
@@ -367,12 +375,20 @@
     },
     "C": {
      "obturator_n_l": {
-      "len": 4606,
-      "excerpt": "Filled from Z-Anatomy (reference model), fitted to this body \u2014 not measured here. The error is stated in the note below.\n\u2212\nObturator nerve\nobturator_n_l\nFilled from Z-Anatomy (reference model), fitted to this body \u2014 not measured here. The error is stated in th"
+      "len": 0,
+      "excerpt": "",
+      "why": {
+       "name": "Obturator nerve",
+       "box": null
+      }
      },
      "tibial_n_branch_to_soleus_l": {
-      "len": 5542,
-      "excerpt": "Rule-based on this body's own data \u2014 derived by rule from its CT or cryosections, not read off a segmentation.\n\u2212\nTibial nerve branch to soleus (left)\nRamus muscularis nervi tibialis ad musculum soleum\ntibial_n_branch_to_soleus_l\nRule-based on this body's own d"
+      "len": 0,
+      "excerpt": "",
+      "why": {
+       "name": "Tibial nerve branch to soleus (left)",
+       "box": null
+      }
      }
     },
     "E": {
@@ -408,11 +424,11 @@
       "n": 308,
       "withDia": 308,
       "noDia": 0,
-      "subPixel": 0,
+      "subPixel": 256,
       "underStep": 0,
       "rule": "the page's own calibre table (kind n)",
       "notCovered": 6,
-      "mmPerPx": 0.1754,
+      "mmPerPx": 2.6692,
       "minWidthPx": 0,
       "levels": {
        "1": 80,
@@ -426,20 +442,24 @@
      }
     },
     "D": {
-     "len": 5004,
-     "excerpt": "Rule-based on this body's own data \u2014 derived by rule from its CT or cryosections, not read off a segmentation.\n\u2212\nSciatic nerve\nsciatic_n\nRule-based on this body's own data \u2014 derived by rule from its CT or cryosections, not read off a segmentation.\nNerve\n30,000 tri\n41.5\u201362.2 mm below skin\nVisible Hum"
-    },
-    "rows_under_q301_bar": [
-     "Obturator nerve"
-    ]
+     "len": 0,
+     "excerpt": "",
+     "why": {
+      "name": "Sciatic nerve",
+      "box": null
+     }
+    }
    }
   },
   "comb_m": {
    "1400": {
     "D": {
-     "len": 0,
-     "excerpt": ""
-    }
+     "len": 5106,
+     "excerpt": "\u2212\n\u00d7\nNERVE\nSciatic nerve (right)\n\n1,200 tris \u00b7 right\n\nhide\nfade\n\u2713\nisolate 3D\nsolo layer\nSOURCE\nGray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters\nTARGETS\nbiceps_femoris_r_long_head"
+    },
+    "rows_under_q301_bar": [
+     "Sciatic nerve (right)"
+    ]
    },
    "390": {
     "D": {
