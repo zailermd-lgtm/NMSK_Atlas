@@ -1,22 +1,7 @@
 {
- "ok": 144,
- "fail": 14,
- "failures": [
-  "own_f_390 C obturator_n_l (zan) opens from the real search box (0 chars)",
-  "own_f_390 C obturator_n_l carries the Method row / tag Q300 made the template render",
-  "own_f_390 C obturator_n_l states its error band in millimetres",
-  "own_f_390 C obturator_n_l is badged as the Z-Anatomy fill class",
-  "own_f_390 C tibial_n_branch_to_soleus_l (rule) opens from the real search box (0 chars)",
-  "own_f_390 C tibial_n_branch_to_soleus_l carries the Method row / tag Q300 made the template render",
-  "own_f_390 C tibial_n_branch_to_soleus_l states its error band in millimetres",
-  "own_f_390 C tibial_n_branch_to_soleus_l is badged RULE-BASED, with its own volume",
-  "own_f_390 D the sciatic nerve's card opens (0 chars)",
-  "own_f_390 D it carries the SPARC 692 DOI",
-  "own_f_390 D it names the licence and the subject",
-  "own_f_390 D it says calibre only and never shape, with the measurement that proves it",
-  "own_f_390 D it states the levels it was compared at",
-  "own_f_390 D it says the geometry was deliberately NOT changed, and why"
- ],
+ "ok": 158,
+ "fail": 0,
+ "failures": [],
  "report": {
   "own_m": {
    "1400": {
@@ -375,20 +360,12 @@
     },
     "C": {
      "obturator_n_l": {
-      "len": 0,
-      "excerpt": "",
-      "why": {
-       "name": "Obturator nerve",
-       "box": null
-      }
+      "len": 4606,
+      "excerpt": "Filled from Z-Anatomy (reference model), fitted to this body \u2014 not measured here. The error is stated in the note below.\n\u2212\nObturator nerve\nobturator_n_l\nFilled from Z-Anatomy (reference model), fitted to this body \u2014 not measured here. The error is stated in th"
      },
      "tibial_n_branch_to_soleus_l": {
-      "len": 0,
-      "excerpt": "",
-      "why": {
-       "name": "Tibial nerve branch to soleus (left)",
-       "box": null
-      }
+      "len": 5542,
+      "excerpt": "Rule-based on this body's own data \u2014 derived by rule from its CT or cryosections, not read off a segmentation.\n\u2212\nTibial nerve branch to soleus (left)\nRamus muscularis nervi tibialis ad musculum soleum\ntibial_n_branch_to_soleus_l\nRule-based on this body's own d"
      }
     },
     "E": {
@@ -424,11 +401,11 @@
       "n": 308,
       "withDia": 308,
       "noDia": 0,
-      "subPixel": 256,
+      "subPixel": 0,
       "underStep": 0,
       "rule": "the page's own calibre table (kind n)",
       "notCovered": 6,
-      "mmPerPx": 2.6692,
+      "mmPerPx": 0.1754,
       "minWidthPx": 0,
       "levels": {
        "1": 80,
@@ -442,13 +419,12 @@
      }
     },
     "D": {
-     "len": 0,
-     "excerpt": "",
-     "why": {
-      "name": "Sciatic nerve",
-      "box": null
-     }
-    }
+     "len": 5004,
+     "excerpt": "Rule-based on this body's own data \u2014 derived by rule from its CT or cryosections, not read off a segmentation.\n\u2212\nSciatic nerve\nsciatic_n\nRule-based on this body's own data \u2014 derived by rule from its CT or cryosections, not read off a segmentation.\nNerve\n30,000 tri\n41.5\u201362.2 mm below skin\nVisible Hum"
+    },
+    "rows_under_q301_bar": [
+     "Obturator nerve"
+    ]
    }
   },
   "comb_m": {
