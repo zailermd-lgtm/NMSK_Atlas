@@ -279,9 +279,7 @@ def _open_card_once(pg, name, phone, want):
     # What a real user does is type LESS, so the list is long enough to scroll the wanted row up into the clear.
     # So the query is shortened word by word until the row can be reached, and the press is a real touch.
     toks = name.split()
-    queries = [name]
-    if phone:
-        queries += [" ".join(toks[:k]) for k in (3, 2, 1) if 0 < k < len(toks)]
+    queries = [name] + [" ".join(toks[:k]) for k in (3, 2, 1) if 0 < k < len(toks)]
     # The left and right copies of a nerve share one display name and are told apart by the row's own L / R mark,
     # so when the wanted id is sided the row is picked by BOTH -- otherwise the first match is always the left one
     # and the card that opens is the wrong side's, which the `want` check below then (correctly) rejected.
@@ -314,6 +312,21 @@ def _open_card_once(pg, name, phone, want):
             pg.wait_for_timeout(500)
         WHY["rows"] = pg.evaluate("(s) => document.querySelectorAll(s).length", SEL)
         WHY["idx"] = idx
+        if idx >= 0:
+            WHY["row"] = pg.evaluate("([s, i]) => { const e = document.querySelectorAll(s)[i];"
+                                     " return e.tagName + '.' + e.className + '|' + e.innerText.slice(0, 40); }",
+                                     [SEL, idx])
+        if idx < 0:
+            continue
+        # and then the index must hold STILL. Pressing the moment a row matches presses a node the list is about
+        # to replace, and the press reaches nothing: that is why the comb_m sciatic card stayed `#info.hidden`
+        # with 0 characters on the desktop pass while the same card opened at 390 px.
+        for _ in range(6):
+            pg.wait_for_timeout(500)
+            idx2 = pg.evaluate(FIND, [SEL, name, side])
+            if idx2 == idx:
+                break
+            idx = idx2
         if idx < 0:
             continue
         row = pg.locator(SEL).nth(idx)
@@ -322,38 +335,36 @@ def _open_card_once(pg, name, phone, want):
         except Exception:                                         # noqa: BLE001
             pass
         pg.wait_for_timeout(150)
-        if phone:
-            hit = _clear_point(pg, SEL, idx)
-            if hit:
+        # ONE press path for both viewports, and no `force=True` anywhere. A forced press is dispatched at the
+        # element's centre even when something else is drawn over that point, and the event then goes to whatever
+        # is on top: on the desktop pass of comb_m the row sits under `#foot`'s "back" pill, Playwright's ordinary
+        # click timed out as intercepted, the forced one hit the pill, and the sciatic card simply never opened --
+        # reported as a missing SPARC note on a card that is in fact correct. So the press lands on a point
+        # `elementFromPoint` confirms is the row's own, and where no such point exists the row is named in the
+        # run's output and its own handler is driven instead.
+        hit = _clear_point(pg, SEL, idx)
+        if hit:
+            if phone:
                 pg.touchscreen.tap(hit["x"], hit["y"])
-            elif qi < len(queries) - 1:
-                continue                                          # try a shorter query first
             else:
-                # Every point of the row is under one of the viewer's own fixed overlays and the panel will not
-                # scroll further, so there is no place a finger could land. That is the Q301 overlap recorded in
-                # `docs/OPEN_ITEMS_FOR_OWNER.md` `## Q304`; it is reported, not papered over, and the row's own
-                # handler is then driven directly so that the CARD -- which is what this round is about -- is
-                # still read on a 390 px viewport.
-                COVERED.append(name)
-                pg.locator(SEL).nth(idx).dispatch_event("click")
+                pg.mouse.click(hit["x"], hit["y"])
+        elif qi < len(queries) - 1:
+            continue                                              # type less, so the row can be scrolled clear
         else:
-            try:
-                row.click(timeout=6000)
-            except Exception:                                     # noqa: BLE001
-                try:
-                    row.click(timeout=6000, force=True)
-                except Exception:                                 # noqa: BLE001
-                    pg.evaluate("([s, i]) => document.querySelectorAll(s)[i].click()", [SEL, idx])
+            COVERED.append(name)
+            pg.locator(SEL).nth(idx).dispatch_event("click")
         pressed = True
         break
     WHY["pressed"] = pressed
     if not pressed:
         return None
     pg.wait_for_timeout(800)
-    for _ in range(10):                                           # the card's body lands a beat after the press
+    # the engines differ: the own pages' card carries `open` / `min`, the Z pages' `#info` carries `hidden`
+    for _ in range(10):
         if pg.evaluate("() => { const e = document.getElementById('info')"
                        " || document.getElementById('inspector');"
-                       " return !!e && e.classList.contains('open'); }"):
+                       " return !!e && !e.classList.contains('hidden')"
+                       "   && (e.classList.contains('open') || e.innerText.length > 300); }"):
             break
         pg.wait_for_timeout(500)
     # On a phone the info card opens MINIMISED, so the first Q296 run read a 77-character card and reported the
@@ -376,6 +387,8 @@ def _open_card_once(pg, name, phone, want):
                     tap(pg, s2, phone); break
         txt = pg.evaluate(READ)
         WHY["card_len"], WHY["card_min"] = len(txt), mini
+        WHY["panels"] = pg.evaluate("() => ['info', 'inspector'].map(function(k){ const e = document.getElementById(k);"
+                                    " return e ? k + '.' + e.className + '#' + e.innerText.length : k + ':absent'; })")
         WHY["card_head"] = txt[:90]
         if len(txt) > 300 and _named(want, txt):
             if not mini:
@@ -443,6 +456,9 @@ def section_a(pg, T, R, errs, phone, ids, rep):
     # the card, through the real search box and a real click / tap
     txt = open_card(pg, name_of(pg, NERVE), phone, want=NERVE) or ""
     A["card_len"] = len(txt)
+    if not txt:
+        A["why"] = dict(WHY)
+        print("     the fibular card did not open: %s" % json.dumps(WHY, ensure_ascii=False)[:300])
     check("%s A the common fibular nerve is REACHABLE through the real search box and a real %s (card %d chars)"
           % (T, "tap" if phone else "click", len(txt)), len(txt) > 300, errs)
     check("%s A its card names Z-Anatomy as the source" % T,
@@ -594,6 +610,9 @@ def section_d(pg, T, R, errs, phone, key):
     txt = open_card(pg, name_of(pg, "sciatic_n_r") if key not in ("own_m", "own_f") else "Sciatic nerve",
                     phone) or ""
     D["len"] = len(txt); D["excerpt"] = txt[:300]
+    if not txt:
+        D["why"] = dict(WHY)
+        print("     the sciatic card did not open: %s" % json.dumps(WHY, ensure_ascii=False)[:300])
     check("%s D the sciatic nerve's card opens (%d chars)" % (T, len(txt)), len(txt) > 300, errs)
     check("%s D it carries the SPARC 692 DOI" % T, DOI in txt, errs)
     check("%s D it names the licence and the subject" % T,
