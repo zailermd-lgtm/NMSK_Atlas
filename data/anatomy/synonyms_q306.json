@@ -3271,7 +3271,7 @@
     "פסואס קטן"
    ],
    "src": "raja2026,patra2024,gray,ta",
-   "why": "NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence.",
+   "why": "Q308 BUILT IT. The psoas minor is no longer absent: Q308 built it rule-based on each page's own T12 and L1 bodies and its own pecten pubis (Raja 2026 doi:10.7759/cureus.111450; Patra 2024 doi:10.5603/fm.99128), and it ships on the four Z pages -- HIDDEN BY DEFAULT and labelled 'not demonstrated on this body', because it is absent in 40-50 % of people and a visible mesh would be a claim about that body. It is NOT shipped on the two Imaging pages, where this explanation still shows: that engine has no hidden-by-default flag, and shipping it visible there would make exactly the claim the hiding avoids. The prevalence and the morphometry below remain accurate and are also on its card.",
    "offer": [
     "psoas major",
     "iliacus",
@@ -3281,7 +3281,13 @@
     "iliopsoas bursa",
     "hip bone",
     "lumbar vertebrae"
-   ]
+   ],
+   "why_was": "NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence.",
+   "shipped_as": [
+    "Psoas minor"
+   ],
+   "corrected_by": "Q308",
+   "built_by": "Q308"
   },
   {
    "name": "Pubic symphysis",
@@ -3321,13 +3327,19 @@
     "הרצועה הקוראקואקרומיאלית"
    ],
    "src": "project,gray,ta",
-   "why": "Verified absent on all six pages. It is the roof of the subacromial space, so the subacromial impingement concept entry names this gap rather than filling it.",
+   "why": "Q308 BUILT IT. The coracoacromial ligament is no longer absent: Q308 built it rule-based between the coracoid's lateral border and the acromion's anterior undersurface, both found by a geometric rule on each page's own scapula (von Schroeder 2001 doi:10.1097/00003086-200102000-00015; Hu 2009 PMID 20073313; Nicholson 1996 doi:10.1016/s1058-2746(96)80024-3). It ships on five of the six pages. On Imaging M it was REFUSED on both sides, and this explanation still shows there: no coracoid/acromion pair on that page's own CT-segmented scapula gives a span inside the literature band of 17.0-40.3 mm, and a ligament shipped on one side only would tell the reader the other shoulder has none.",
    "offer": [
     "scapula",
     "humerus",
     "supraspinatus",
     "subacromial subdeltoid bursa"
-   ]
+   ],
+   "why_was": "Verified absent on all six pages. It is the roof of the subacromial space, so the subacromial impingement concept entry names this gap rather than filling it.",
+   "shipped_as": [
+    "Coracoacromial ligament"
+   ],
+   "corrected_by": "Q308",
+   "built_by": "Q308"
   },
   {
    "name": "Retrocalcaneal bursa",
@@ -3366,14 +3378,20 @@
     "הרצועה האנטרולטרלית של הברך"
    ],
    "src": "project,gray",
-   "why": "Verified absent on all six pages. Its existence as a discrete ligament is itself debated in the literature, so nothing is inferred here; the search offers the lateral structures the pages do ship.",
+   "why": "Q308 BUILT IT, AND MARKED IT CONTESTED. The ALL is no longer absent: Q308 built it rule-based from the centre of each page's own lateral femoral epicondyle -- the resolution Kosy 2016's own full text offers for its disagreement with Rustagi 2019 -- to 59.5 % of the way from that page's own Gerdy's tubercle to its fibular head (Kosy 2016 doi:10.1007/s10195-016-0392-0; Rustagi 2019 doi:10.4103/ortho.IJOrtho_137_17). It ships on all six pages with three live disagreements on its card. AND NOTE: HRA / CCF v1.10 (CC BY 4.0) holds this ligament as a real closed mesh on the same two Visible Human donors as the Imaging pages, so the rule-based one should give way to it -- an owner decision, recorded in docs/research/Q308_built_structures_and_validation.md.",
    "offer": [
     "fibular collateral ligament",
     "iliotibial tract",
     "femur",
     "tibia",
     "anterior cruciate ligament"
-   ]
+   ],
+   "why_was": "Verified absent on all six pages. Its existence as a discrete ligament is itself debated in the literature, so nothing is inferred here; the search offers the lateral structures the pages do ship.",
+   "shipped_as": [
+    "Anterolateral ligament of the knee"
+   ],
+   "corrected_by": "Q308",
+   "built_by": "Q308"
   },
   {
    "name": "Zygapophysial (facet) joint",
@@ -3599,11 +3617,20 @@
   "doc": "Q308 measured all 19 cited_but_not_shipped entries (15 here, 4 in synonyms_q298.json) against the six pages' own structure lists -- name, Latin AND id -- instead of against the alias table. Three of the 15 were DENYING a structure that is on screen: the pubic symphysis, the retrocalcaneal bursa and the TFCC. All three ship on the four Z pages under their TA names, which no alias connected to the clinical query, so the guard that was supposed to catch exactly this could not see it. The three clinical names are now aliases onto the shipping meshes, which also makes the builder's own per-page guard withdraw the explanation automatically wherever the structure is present. The other 16 entries are genuinely absent, and there is no fifth.",
   "tool": "scripts/anatomy/q308/absence308.py",
   "entries_corrected": [
+   "Anterolateral ligament of the knee",
+   "Coracoacromial ligament",
+   "Psoas minor",
    "Pubic symphysis",
    "Retrocalcaneal bursa",
    "Triangular fibrocartilage complex"
   ],
   "entries_verified_still_absent": 16,
-  "shipped_as_doc": "Each corrected entry now names, in `shipped_as`, the page name under which the structure REALLY ships. The builder's own per-page guard resolves a term against the page's own NAMES (build_search_q298._hit_targets, three explicit rules), not against the compiled alias table -- so adding the clinical name as an alias was not enough to make the guard fire, and the explanation stayed on pages that ship the structure. With `shipped_as` the guard resolves and the explanation is withdrawn exactly where the mesh is present, which is the four Z pages, and kept on the two Imaging pages, where all three genuinely are absent."
+  "shipped_as_doc": "Each corrected entry now names, in `shipped_as`, the page name under which the structure REALLY ships. The builder's own per-page guard resolves a term against the page's own NAMES (build_search_q298._hit_targets, three explicit rules), not against the compiled alias table -- so adding the clinical name as an alias was not enough to make the guard fire, and the explanation stayed on pages that ship the structure. With `shipped_as` the guard resolves and the explanation is withdrawn exactly where the mesh is present, which is the four Z pages, and kept on the two Imaging pages, where all three genuinely are absent.",
+  "entries_built_this_round": [
+   "Anterolateral ligament of the knee",
+   "Coracoacromial ligament",
+   "Psoas minor"
+  ],
+  "built_doc": "Three further entries stopped being true because THIS ROUND BUILT THEM. A round that builds a structure must also stop the page saying it is missing, and the presence guard (tests/test_q308.py::test_no_absence_entry_denies_a_structure_that_is_on_the_page) caught all three the moment the new baseline landed -- which is the guard doing exactly the job the three Q306 entries showed it had to do. Each now names what it ships as, and each says where it is still genuinely absent: psoas minor on the two Imaging pages (no hidden-by-default flag in that engine), the coracoacromial ligament on Imaging M (refused by the literature-band gate on both sides)."
  }
 }

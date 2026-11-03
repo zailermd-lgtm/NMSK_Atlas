@@ -26,13 +26,26 @@ sys.path.insert(0, str(Q298))
 DATA = REPO / "data/anatomy"
 DERIVED = REPO / "data/derived"
 KEYS = ["own_m", "own_f", "base_m", "base_f", "comb_m", "comb_f"]
-# the build this round was measured against; set by scripts/anatomy/q241/model.py SRC in the usual way
-BUILD = REPO / "build/q306"
-if not BUILD.is_dir():
-    for alt in ("q305", "q304", "q303"):
+# Q308: ASK for the baseline instead of listing it. This literal said `build/q306`, a directory that was
+# never persisted, so the fallback list silently chose `build/q305` -- and every page assertion in this file
+# has been measuring a build three rounds old while reporting success. `scripts/anatomy/q241/model.SRC` is
+# the one place that declares the current baseline; the list stays only as a backstop.
+def _baseline_build():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    r = REPO / _m.build_root()
+    if r.is_dir():
+        return r
+    for alt in ("q308", "q307", "q306", "q305", "q304", "q303"):
         if (REPO / "build" / alt).is_dir():
-            BUILD = REPO / "build" / alt
-            break
+            return REPO / "build" / alt
+    return r
+
+
+BUILD = _baseline_build()
 pytestmark = pytest.mark.skipif(not BUILD.is_dir(), reason="no viewer build on disk")
 
 
@@ -161,20 +174,32 @@ def test_every_explanation_offers_structures_that_do_exist(syn, index):
 
 # ---------------------------------------------------------------- the owner's three cases
 def test_psoas_minor_is_recorded_as_a_real_absence_with_its_sources(syn, index, pages):
+    """Q308 CHANGED WHAT IS TRUE HERE, and this test says so rather than being deleted.
+
+    Q306 recorded the psoas minor as an absence in every source we hold, and that was correct. Q308 then BUILT
+    it, rule-based, on each page's own T12 and L1 bodies and its own pecten pubis -- so it now SHIPS on the
+    four Z pages (hidden by default, labelled "not demonstrated on this body") and is still genuinely absent
+    on the two Imaging pages, whose engine has no hidden-by-default flag. What has NOT changed, and is still
+    pinned below, is that no SOURCE holds it -- the upstream catalogue still has none, which is exactly why it
+    had to be built rather than imported -- and that the prevalence claim is cited rather than asserted."""
     rows = [n for n in syn["cited_but_not_shipped"] if n["name"] == "Psoas minor"]
     assert len(rows) == 1, "psoas minor must be declared exactly once"
     r = rows[0]
-    # it really is absent, everywhere, including as a Latin name
+    assert r.get("built_by") == "Q308", "the entry must say that Q308 built it"
+    # it is absent exactly where it is not shipped, and present exactly where it is
     for k, ss in pages.items():
         hits = [s["name"] for s in ss
                 if "psoas minor" in (s["name"] + " " + (s["latin"] or "")).lower()]
-        assert not hits, (k, hits)
-    # the upstream catalogue has no psoas minor either, which is why it cannot simply be transferred
+        if k.startswith("own"):
+            assert not hits, (k, hits)          # the Imaging pages: still genuinely absent
+        else:
+            assert hits, (k, "Q308 ships the psoas minor on the four Z pages")
+    # NO SOURCE holds it: still true, and still the reason it had to be built rather than imported
     inv = json.loads((DERIVED / "zanatomy_inventory.json").read_text(encoding="utf-8"))
     assert not [o for o in inv["objects"] if "psoas minor" in o["name"].lower()]
     # the prevalence claim is cited, not asserted
     assert "raja2026" in r["src"] and "patra2024" in r["src"]
-    assert "40-50%" in r["why"]
+    assert "40-50" in r["why"] and "%" in r["why"]
     assert "10.7759/cureus.111450" in syn["sources"]["raja2026"]
     assert "10.5603/fm.99128" in syn["sources"]["patra2024"]
     # and it offers the muscles that DO ship instead of returning nothing

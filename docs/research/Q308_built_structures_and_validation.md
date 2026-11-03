@@ -416,7 +416,7 @@ max 4.45, ‏10 מתוך 120 מעל 3.46).
 
 ### אימות בדפדפן
 `scripts/anatomy/q308/verify_q308.py`, ‏Chromium אמיתי, דף אחד מכל מנוע, שולחן עבודה 1400×900 בקליקים
-אמיתיים וטלפון 390×844 ב**מגע אמיתי**: **Q308_BROWSER_RESULT** (`data/derived/Q308_browser_report.json`).
+אמיתיים וטלפון 390×844 ב**מגע אמיתי**: ****164 OK, 0 FAIL, 0 page errors** on both viewports** (`data/derived/Q308_browser_report.json`).
 
 **ארבעה באגים שההרצה מצאה — כולם בהרנס, אף אחד במוצר, וכל אחד הוא דרך לקרוא דף לא נכון:**
 1. אינדוקס `NMSKQ298.data().ids` דיווח שכל מבנה חדש **חסר**, כי `data()` מחזיר את נתוני ה**הרחבות**
@@ -434,7 +434,7 @@ max 4.45, ‏10 מתוך 120 מעל 3.46).
 מ-Q275, **0 חדשים**. שני קבצי חתימת-התאריך שהחבילה משכתבת הוחזרו.
 
 ### פורסם
-Q308_PUBLISH_LINE
+`index.html` plus the geometry chunk and the two sidecars each page actually changed -- only the LAST geo chunk moved on every page, because the new meshes append to the end of the blob. Imaging M **v148**, Imaging F **v138**, Base M **v69**, Base F **v64**, Combined M **v70**, Combined F **v83**. Hub `viewer/atlas_hub.html` **v89** (the six version chips and a Q308 paragraph that leads with the correction, because real tissue denied is the more serious of the two things this round did). Open-items page **v56**. Before each publish the artifact service handed back the live source and named which lines differed; each was checked block by block and the published siblings' sha256 compared against the baseline, so every publish is provably a merge onto what was live and loses nothing -- on Combined F the calibre line was NOT among the differences, which independently confirms the gate's reasoning that it gained no nerve. The artifact service's download-link warning appears on every page publish; it is **not this round's** -- it is the pages' existing save-session link, unchanged here.
 
 ---
 

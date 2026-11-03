@@ -22,11 +22,28 @@ sys.path.insert(0, str(Q298))
 # tables had never been re-run for them (no Adjacent / Related on a new nerve). These assertions compare the
 # tables against the structure lists they were built from, so they must read the same build the data was
 # built from, not the one Q298 happened to use.
-SRC = "build/q307"
-for _alt in ("build/q307", "build/q305", "build/q304", "build/q303", "build/q297"):
-    if (REPO / _alt).is_dir():
-        SRC = _alt
-        break
+# Q308: ASK for the baseline, do not list it here. `scripts/anatomy/q241/model.SRC` is the one place that
+# declares which build the six pages come from, and `model.build_root()` reads it. The literal list below was
+# the third instance of this bug to bite in one round: it kept choosing `build/q307`, which is still on disk,
+# while the adjacency and relation tables had been rebuilt against `build/q308` -- so the test compared a
+# 1,083-structure table against a 1,079-structure page list and reported the round's own new structures as
+# "4 more items". The list is kept only as a backstop for a checkout where the current baseline is absent.
+def _baseline_src():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    r = _m.build_root()
+    if (REPO / r).is_dir():
+        return r
+    for _alt in ("build/q308", "build/q307", "build/q305", "build/q304", "build/q303", "build/q297"):
+        if (REPO / _alt).is_dir():
+            return _alt
+    return r
+
+
+SRC = _baseline_src()
 BUILD = REPO / SRC
 DATA = REPO / "data/anatomy"
 DERIVED = REPO / "data/derived"
@@ -210,7 +227,14 @@ def adj():
 def test_adjacency_exists_for_every_page_and_states_its_threshold(adj):
     assert sorted(adj) == sorted(KEYS), f"missing adjacency files: {sorted(set(KEYS) - set(adj))}"
     for k, a in adj.items():
-        assert a["cell_mm"] == 2.0 and abs(a["threshold_mm"] - 3.46) < 0.01, (k, a["cell_mm"], a["threshold_mm"])
+        # Q308 corrected the figure the pages PRINT: `threshold_mm` is now the STRICT sqrt(3) * 2 * cell
+        # = 6.93 mm bound, with the sqrt(3) * cell = 3.46 mm voxel-CENTRE figure carried beside it so the
+        # correction stays auditable. Both are pinned here, because printing either one alone was what made
+        # the old claim overstate the precision.
+        assert a["cell_mm"] == 2.0, (k, a["cell_mm"])
+        assert abs(a["threshold_mm"] - 6.93) < 0.01, (k, "threshold_mm", a["threshold_mm"])
+        assert abs(a["threshold_voxel_centres_mm"] - 3.46) < 0.01, \
+            (k, "threshold_voxel_centres_mm", a.get("threshold_voxel_centres_mm"))
         assert "voxel" in a["how"] and "measurement, not an anatomical claim" in a["how"], k
 
 
