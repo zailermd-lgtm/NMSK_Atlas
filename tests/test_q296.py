@@ -206,7 +206,11 @@ def test_pose_rig_covers_the_new_structures(key):
     # much shorter than the Q296 high-water index; the count still has to equal the page's own mesh count.
     q297 = REPO / "data/derived/Q297_page_report.json"
     dropped = len(json.loads(q297.read_text(encoding="utf-8"))["pages"][key].get("dropped") or []) if q297.exists() else 0
-    assert rig["count"] == rep["new_indices"][-1] + 1 - dropped
+    # Q308 appended its own rule-based meshes above every Q296 index on all four Z pages (base_m 10, base_f 10,
+    # comb_m 8, comb_f 6 -- its own page report is the source, so this does not have to be restated as a literal)
+    q308f = REPO / "data/derived/Q308_page_report.json"
+    q308 = len(json.loads(q308f.read_text(encoding="utf-8"))[key]["added"]) if q308f.exists() else 0
+    assert rig["count"] == rep["new_indices"][-1] + 1 - dropped + q308
     assert len(rig["nv"]) == rig["count"]
     covered = {i for e in rig["skin"] for i in [e[0]]} | {i for _, lst in rig["rigid"] for i in lst}
     # the Q297 removal sat at a LOWER index than every Q296 import (the perineal closure is index 2939, the imports

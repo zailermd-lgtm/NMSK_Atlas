@@ -76,7 +76,7 @@ def test_pages_hide_the_hra_uterus_and_rigs_cover_the_new_entry():
     c = _rep("Q288_comb_f_report.json")
     assert c["added"] == ["uterus_cryo_vhf"] and c["hidden_default"] == ["uterus"] and c["new_indices"] == [3243]
     import base64, zlib
-    for key, n in (("comb_f", 3304), ("own_f", 1228)):          # Q293 spliced +2 after the uterus (RF reflected heads); Q295 +51 (fat system); Q296 +8 (SPL inner ear, Z pages only); Q297 -1 on comb_f (the generated perineal surface closure, removed); Q304 +64 on own_f (the lower-limb nerves); Q307 +60 (the upper-limb nerves)
+    for key, n in (("comb_f", 3310), ("own_f", 1234)):          # Q293 spliced +2 after the uterus (RF reflected heads); Q295 +51 (fat system); Q296 +8 (SPL inner ear, Z pages only); Q297 -1 on comb_f (the generated perineal surface closure, removed); Q304 +64 on own_f (the lower-limb nerves); Q307 +60 (the upper-limb nerves); Q308 +6 on each (comb_f: the coracoacromial ligament, the knee anterolateral ligament and psoas minor; own_f: the coracoacromial ligament, the LACN anterior branch and the anterolateral ligament)
         j = json.loads((REPO / f"data/anatomy/pose_rig_{key}.json").read_text()); rig = j["rig"]
         assert rig["count"] == n and len(rig["nv"]) == n
         covered = {e[0] for e in rig["skin"]} | {i for _, lst in rig["rigid"] for i in lst}

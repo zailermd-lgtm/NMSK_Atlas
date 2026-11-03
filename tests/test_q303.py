@@ -442,9 +442,13 @@ def test_the_sub_pixel_diagnosis_this_round_reports(cal):
     # tables (201 -> 272 and 244 -> 308), and again in Q307, which added the upper-limb ones (272 -> 329 and
     # 308 -> 368). The diagnosis is unchanged and is in fact sharper each time: 228 of 329 and 240 of 368 are
     # still drawn under one pixel wide at this scale.
-    exp = {"viewer_m_hr": (329, 228, 315), "viewer_f_hr": (368, 240, 328),
-           "viewer_zan_atlas": (439, 357, 426), "viewer_base_female": (435, 350, 413),
-           "viewer_zan_vhm": (440, 358, 428), "viewer_zan_female": (443, 373, 428)}
+    # Q308 appended 14 calibre rows for the LACN's two branches, and the per-page deltas are exactly the nerve
+    # meshes each page received (own_m 2, own_f 2, base_m 4, base_f 4, comb_m 2, comb_f 0 -- Combined F gained no
+    # nerve because this round's own gates refused both its branches). The diagnosis is unchanged again: 228 of 331
+    # and 241 of 370 on the Imaging pages are still drawn under one pixel wide at this scale.
+    exp = {"viewer_m_hr": (331, 228, 317), "viewer_f_hr": (370, 241, 330),
+           "viewer_zan_atlas": (443, 357, 430), "viewer_base_female": (439, 350, 417),
+           "viewer_zan_vhm": (442, 358, 430), "viewer_zan_female": (443, 373, 428)}
     for page, (n, sub, under) in exp.items():
         d = [v[1] for v in cal["pages"][page]["c"].values() if v[0] == "n"]
         assert len(d) == n, (page, len(d))

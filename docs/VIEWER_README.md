@@ -640,7 +640,7 @@ touches the list. The standard views — front / side / back and each engine's o
 The pages already carry their own calibre table (Q240 — every artery, vein and nerve's diameter measured off the mesh),
 and it says what the problem is: the **median nerve diameter is 1.0 mm on the four Z pages** (0.13–7.8 mm) and 1.4–1.8 mm
 on the two Imaging pages, while a whole-body view puts the body's full height into the height of the 3-D view, which is
-about **1.9 mm per pixel**. So most nerves are drawn **well under one pixel wide** — at that scale **357 of the 439** nerves on Base M, **111 of 201** on Imaging M, about **81 %** of them on a Z page. Nothing is wrong with the mesh, the
+about **1.9 mm per pixel**. So most nerves are drawn **well under one pixel wide** — at that scale **357 of the 443** nerves on Base M, **228 of 331** on Imaging M, about **81 %** of them on a Z page (the Imaging figure was 111 of 201 when Q303 measured it; Q304, Q307 and Q308 have since added lower-limb, upper-limb and LACN-branch nerves to that page's calibre table, and the diagnosis has grown sharper each time, not weaker). Nothing is wrong with the mesh, the
 decimation or the draw order — the structure is simply sub-pixel, and no colour or opacity rescues a line thinner than a
 pixel. The answer is the pattern this project has already proven twice rather than a third invention: Q299's **minimum
 drawn width** for a thin section, and Q300's **extra pass after the translucent one** so a structure's share of the pixel

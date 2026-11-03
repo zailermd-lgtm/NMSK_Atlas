@@ -115,6 +115,8 @@ def test_page_report_and_rigs_carry_the_new_structures():
         q304 = len(json.loads((REPO / "data/derived/Q304_page_report.json").read_text(encoding="utf-8"))[key]["added"])
         # Q307 spliced its own upper-limb nerves in after Q304's, by the same mechanism
         q304 += len(json.loads((REPO / "data/derived/Q307_page_report.json").read_text(encoding="utf-8"))[key]["added"])
+        # Q308 appended its four rule-based families the same way, on all six pages rather than the Imaging pair
+        q304 += len(json.loads((REPO / "data/derived/Q308_page_report.json").read_text(encoding="utf-8"))[key]["added"])
         assert rig["count"] == max(P[key]["new_indices"]) + 1 + 51 + (8 if key.startswith(("base", "comb")) else 0) - dropped + q304, key   # Q295 spliced 51 fat units after them; Q296 +8 inner-ear meshes on the four Z pages; Q297 removed the generated perineal surface closure from the two female Z pages; Q304 spliced the lower-limb nerves onto the two Imaging pages
         assert P[key]["added"] == ["rectus_femoris_reflected_head_r", "rectus_femoris_reflected_head_l"]
 

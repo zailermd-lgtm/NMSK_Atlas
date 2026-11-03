@@ -64,12 +64,12 @@ def _rig(key):
 
 def test_pose_rigs_carry_the_new_entries_after_the_committed_ones():
     rig, w = _rig("comb_f")
-    assert rig["count"] == 3304 and len(rig["nv"]) == 3304          # Q288 spliced one more (her uterus, index 3243); Q293 +2 (RF reflected heads); Q295 +51 (fat system); Q296 +8 (SPL inner ear); Q297 -1 (the generated perineal surface closure, removed)
+    assert rig["count"] == 3310 and len(rig["nv"]) == 3310          # Q288 spliced one more (her uterus, index 3243); Q293 +2 (RF reflected heads); Q295 +51 (fat system); Q296 +8 (SPL inner ear); Q297 -1 (the generated perineal surface closure, removed); Q308 +6 (the coracoacromial ligament, the knee anterolateral ligament and psoas minor, hidden by default)
     covered = {e[0] for e in rig["skin"]} | {i for _, lst in rig["rigid"] for i in lst}
     assert set(range(3238, 3243)) <= covered
     offs = sorted(e[4] for e in rig["skin"]); assert offs == sorted(set(offs)) and offs[-1] < len(w)
     rig, w = _rig("own_f")
-    assert rig["count"] == 1228 and len(rig["nv"]) == 1228          # Q288: + her uterus; Q293: + RF reflected heads; Q295: + 51 fat; Q304: + 64 lower-limb nerves; Q307: + 60 upper-limb nerves
+    assert rig["count"] == 1234 and len(rig["nv"]) == 1234          # Q288: + her uterus; Q293: + RF reflected heads; Q295: + 51 fat; Q304: + 64 lower-limb nerves; Q307: + 60 upper-limb nerves; Q308: + 6 (the coracoacromial ligament, the LACN anterior branch and the knee anterolateral ligament)
 
 
 def test_uterus_on_her_ct_was_measured_not_separable():

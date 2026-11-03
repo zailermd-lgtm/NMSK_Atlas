@@ -259,7 +259,14 @@ def test_every_structure_with_no_neighbour_has_its_real_distance_recorded(adj):
         assert "isolated_ids" in a, f"{k}: the isolated structures were not measured (run --isolated)"
         assert sorted(r["id"] for r in a["isolated_ids"]) == sorted(iso), (k, iso)
         for r in a["isolated_ids"]:
-            assert r["nearest_mm"] > a["threshold_mm"], (k, r)
+            # What non-adjacency guarantees is a LOWER bound, and it is not the adjacency threshold.
+            # `threshold_mm` (6.93 = sqrt(3) * 2 * cell) is the strict UPPER bound on the real separation of a pair
+            # the rasteriser calls adjacent; it says nothing about a pair it calls apart. Two structures that share no
+            # 3x3x3 voxel contact have at least one empty cell between their voxels, so their surfaces are at least
+            # cell_mm apart -- that is the whole of the guarantee. Q308 corrected this assertion when it corrected
+            # `threshold_mm` itself: the two axillary node clusters sit 5.01 and 6.48 mm out, between the voxel-centre
+            # figure and the strict bound, and the old assertion only passed because it was comparing against 3.46.
+            assert r["nearest_mm"] >= a["cell_mm"], (k, r)
             assert r["nearest_id"] in a["ids"], (k, r)
         assert len(iso) <= 2, f"{k}: {len(iso)} structures have no neighbour at all: {iso[:5]}"
     assert sorted(r["id"] for r in adj["comb_f"]["isolated_ids"]) == \

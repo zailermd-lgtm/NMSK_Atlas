@@ -1,6 +1,6 @@
 # Q308 — מה נבנה, ומול מה הוא נבדק (papers · figures · other 3-D models)
 
-תאריך: 2026-11-03. ענף: `claude/3d-human-anatomy-atlas-e0kbxe`. בסיס המדידה: **`build/q307`**.
+תאריך: 2026-11-03. ענף: `claude/3d-human-anatomy-atlas-e0kbxe`. הסבב התחיל מהבסיס **`build/q307`** ונשמר כ-**`build/q308`**, שעליו `model.SRC` מצביע כעת. כל מספר ביקורת במסמך נושא את שם ה-build שממנו נמדד.
 מונחי אנטומיה באנגלית במכוון; מינוח קליני לא מתורגם.
 
 **בקשת הבעלים:** «תבנה את הכל. ואז תשווה גם מול מאמרים, גם מול התמונות שמופיעות באותם מאמרים, וגם מול מודלים
@@ -401,18 +401,30 @@ access → Allowed domains, עם «Allow package managers» מסומן;
 ניתן לחריגה**, ולידו בנתונים גם מספר מרכזי ה-voxel וגם ההתפלגות שנמדדה (חציון **0.18 mm**, p95 3.64,
 max 4.45, ‏10 מתוך 120 מעל 3.46).
 
+**ולזה היה זנב שהתיקון עצמו חשף.** ‏`test_q298.py::test_every_structure_with_no_neighbour_has_its_real_distance_recorded`
+דרש שמבנה בלי שכן יהיה רחוק יותר מ-`threshold_mm` — והוא עבר רק כל עוד המספר הזה היה 3.46. שני אשכולות
+הבלוטות האקסילריות של Combined F יושבים **5.01** ו-**6.48 mm** מהשכן הקרוב, כלומר **בין** מספר מרכזי
+ה-voxel לחסם המדויק, ולכן מול 6.93 הבדיקה נפלה. הבדיקה הייתה שגויה, לא הנתון: `threshold_mm` הוא חסם
+**עליון** על זוג שהרסטר קורא לו שכן, ואינו אומר דבר על זוג שהרסטר קורא לו רחוק. מה שאי-שכנות **כן**
+מבטיחה הוא חסם **תחתון**: בין ה-voxel-ים יש לפחות תא ריק אחד, ולכן פני השטח רחוקים לפחות `cell_mm` =
+**2.0 mm**. זה מה שהבדיקה דורשת כעת, עם ההנמקה כתובה בגוף הבדיקה.
+
 ### שני פריטי תחזוקה שקופלו לכאן, שניהם אותה מחלקת באג
 1. **ליטרלים של build מקובעים בקוד.** נוסף `model.build_root()`, שנגזר מ-`model.SRC` — המקום **היחיד**
    בריפו שמצהיר מאיזה build באים ששת הדפים. שלושת הליטרלים של הסבב הזה עברו אליו, וגם **כל הכלים של
    Q297**, שברירת המחדל שלהם עוד הייתה `build/q296`. וזה משנה: מול `build/q296` ביקורת הפרובננס מדווחת
    **d_unaccounted = 2**, ומול הבסיס הנוכחי **0** — כלומר כל הרצה של `audit297.py` בלי `--src` מפורש
-   ביקרה את המצב **שלפני Q297** והציגה אותו כהיום. **כל מספר ביקורת במסמך הזה מגיע מהרצה מפורשת מול
-   `build/q307`**, וזו מדווחת: מחלקה (d) **0**, כרטיסים שמדפיסים «measured» לגיאומטריה שאינה מדודה **0**,
-   rule-based בלי נוסח כלל גלוי **0**, rule-based **1,482**.
+   ביקרה את המצב **שלפני Q297** והציגה אותו כהיום. **כל מספר ביקורת במסמך הזה מגיע מהרצה מפורשת עם
+   `--src`, והמסמך מציין מול איזה בסיס נמדד כל מספר.** מול **`build/q308`** (הבסיס הנוכחי): מחלקה (d)
+   **0**, כרטיסים שמדפיסים «measured» לגיאומטריה שאינה מדודה **0**, rule-based בלי נוסח כלל גלוי **0**,
+   rule-based **1,526**. מול **`build/q307`** (הבסיס שממנו הסבב התחיל, וממנו נמדדו המספרים של אמצע הסבב
+   במסמך): מחלקה (d) **0**, rule-based **1,482** — ההפרש של 44 הוא בדיוק המבנים שהסבב הזה שלח לדפים.
 2. **פער בכלל הקרדינלי.** ‏`Q297_rule_based_volumes.json` רשם נפחים ל-**1,451** מבני מחלקה (c) של
    `build/q297` בזמן שבבסיס הנוכחי יש **1,482**: ‏Q304 ו-Q307 הוסיפו **31 עצבים rule-tracked בלי לרשום את
-   נפחם**, בניגוד לכלל שכל מבנה rule-based מסומן **וגם** נפחו רשום. נרשם מחדש מול הבסיס הנוכחי:
-   **1,482 מתוך 1,482 נמדדו**. ‏`tests/test_q297.py` עובר **17/17 מול הבסיס האמיתי במקום לדלג**.
+   נפחם**, בניגוד לכלל שכל מבנה rule-based מסומן **וגם** נפחו רשום. נרשם מחדש מול הבסיס הנוכחי `build/q308`:
+   **1,526 מתוך 1,526 נמדדו** (1,482 שהועברו קדימה ועוד 44 של הסבב).
+   ‏`test_every_rule_based_structure_records_a_volume` ו-`test_the_recorded_volumes_cover_exactly_the_rule_based_set`
+   **שניהם עוברים מול הבסיס האמיתי ולא מדלגים**, ו-`tests/test_q297.py` עובר **17/17**.
 
 ### אימות בדפדפן
 `scripts/anatomy/q308/verify_q308.py`, ‏Chromium אמיתי, דף אחד מכל מנוע, שולחן עבודה 1400×900 בקליקים
@@ -430,11 +442,20 @@ max 4.45, ‏10 מתוך 120 מעל 3.46).
 
 `tests/test_q308.py` — **19 טסטים, כולם עוברים**; הראשי הוא
 `test_no_absence_entry_denies_a_structure_that_is_on_the_page`.
-‏`pytest tests/` המלא: **11 נכשלו, 2,143 עברו, 142 דולגו** — בדיוק **11 הכשלונות הבסיסיים** שהפרויקט נושא
-מ-Q275, **0 חדשים**. שני קבצי חתימת-התאריך שהחבילה משכתבת הוחזרו.
+**תשע ספירות של סבבים קודמים עודכנו, וההרצה המלאה הראשונה אחרי שהבסיס זז היא מה שמצא אותן**: היא דיווחה
+**20 נכשלו**, לא 11. התשע הנוספים: ‏`test_q286`, ‏`test_q287`, ‏`test_q288`, ‏`test_q293`, ‏`test_q296`
+(כל ארבעת דפי ה-Z) ו-`test_q303`. כולן ספירות לכל סבב, ו**כל הפרש שווה בדיוק לרשימת ה-`added` של הדף
+בסבב הזה** (‏own_m +4, ‏own_f +6, ‏base_m +10, ‏base_f +10, ‏comb_m +8, ‏comb_f +6; ה-rig-ים עומדים כעת על
+1,083 / 1,234 / 3,262 / 3,298 / 3,262 / 3,310, שזה ה-`n_structures_after` של כל דף) — כלומר אף אחת מהן
+אינה פגם, אלא אותה משפחה שגם Q293, ‏Q304 ו-Q307 עדכנו, והחשבון ב-`test_q293` וב-`test_q296` קורא עכשיו את
+דוח הדפים של Q308 במקום לשאת ליטרל נוסף. האבחון התת-פיקסלי של Q303 זז עם **14 שורות הקליבר**: ‏own_m
+‏329→331 ועדיין 228 מתחת לפיקסל, ‏own_f ‏368→370 עם 241, ‏base_m ‏439→443, ‏base_f ‏435→439, ‏comb_m
+‏440→442, ו-**comb_f נשאר 443** — כי שני ענפי ה-LACN שלו נדחו בשערי הסבב; שבריר דפי ה-Z נשאר 81 %.
+‏`pytest tests/` המלא בסוף: **11 נכשלו, 2,143 עברו, 142 דולגו** — בדיוק **11 הכשלונות הבסיסיים** שהפרויקט
+נושא מ-Q275, **0 חדשים**. שני קבצי חתימת-התאריך שהחבילה משכתבת הוחזרו.
 
 ### פורסם
-`index.html` plus the geometry chunk and the two sidecars each page actually changed -- only the LAST geo chunk moved on every page, because the new meshes append to the end of the blob. Imaging M **v148**, Imaging F **v138**, Base M **v69**, Base F **v64**, Combined M **v70**, Combined F **v83**. Hub `viewer/atlas_hub.html` **v89** (the six version chips and a Q308 paragraph that leads with the correction, because real tissue denied is the more serious of the two things this round did). Open-items page **v56**. Before each publish the artifact service handed back the live source and named which lines differed; each was checked block by block and the published siblings' sha256 compared against the baseline, so every publish is provably a merge onto what was live and loses nothing -- on Combined F the calibre line was NOT among the differences, which independently confirms the gate's reasoning that it gained no nerve. The artifact service's download-link warning appears on every page publish; it is **not this round's** -- it is the pages' existing save-session link, unchanged here.
+`index.html` plus the geometry chunk and the two sidecars each page actually changed -- only the LAST geo chunk moved on every page, because the new meshes append to the end of the blob. Imaging M **v148**, Imaging F **v138**, Base M **v69**, Base F **v64**, Combined M **v70**, Combined F **v83**. Hub `viewer/atlas_hub.html` **v89 -> v90** (v89: ששת שבבי הגרסה ופסקת Q308 שפותחת בתיקון; **v90 כי הראב עצמו הדפיס מספרים שאינם נכונים עוד** — שש ספירות המבנים שלו היו של לפני Q304 (‏Imaging M 1,022 מול 1,083, ‏Imaging F 1,168 מול 1,234, וארבעת דפי ה-Z בפער של 10, 10, 8, 6), שתי שורות הפרובננס של דפי ה-Imaging היו הפיצול שלפני Q304 (‏275/401 ו-265/547 מול 280/457 ו-271/607 של הבסיס הזה), ופסקת Q303 אמרה «439 מתוך 552» כשהשורות שהסבב הזה הוסיף לטבלת הקליבר עושות את זה 439 עד 443 לפי הדף. תשע שורות, כל אחת מול הרצה מפורשת של `audit297.py --src build/q308` או מול טבלת הקליבר של הדף, והושוו בית-לבית מול הראב החי לפני הפרסום. למצוא את זה הוא בדיוק אותה מחלקת פגם שהסבב הזה קיים כדי לתקן, רמה אחת מעלה: דף שמדפיס מספר שהיה נכון כשנכתב. ששת דפי הצפייה מדפיסים את הספירות מהנתונים שלהם עצמם, ולכן אף אחד מהם לא נפגע). Open-items page **v57** (v56 carried the round's text; v57 corrected the free-disk figure the owner's disk decision rests on, from 0.66 GB to the 0.35 GB left after the baseline was persisted -- the only two sentences that changed, byte-diffed against the live page before publishing). Before each publish the artifact service handed back the live source and named which lines differed; each was checked block by block and the published siblings' sha256 compared against the baseline, so every publish is provably a merge onto what was live and loses nothing -- on Combined F the calibre line was NOT among the differences, which independently confirms the gate's reasoning that it gained no nerve. The artifact service's download-link warning appears on every page publish; it is **not this round's** -- it is the pages' existing save-session link, unchanged here.
 
 ---
 
@@ -444,10 +465,11 @@ max 4.45, ‏10 מתוך 120 מעל 3.46).
    בפני עצמו: ה-GLB-ים מוחזקים מחוץ לריפו (1.21 GB) ובדיסק ~0.55 GB. **החלטת בעלים.**
 2. **מבחן התמונות חסום, לא בוצע** — לאשר את `pmc.ncbi.nlm.nih.gov` ברשת הסביבה. **החלטת בעלים.**
 3. **‏facet joint capsules לא נבנו, מאילוץ ולא מתקציב** (ראו §11).
-4. **‏`build/q308` לא נשמר לדיסק** — ששת הדפים הם 362 MB ובדיסק ~0.55 GB — ולכן `model.SRC` עוד מצביע על
-   `build/q307` וקובץ הנפחים מכסה את 1,482 של אותו בסיס; 44 הנפחים של הסבב הזה רשומים ב-
-   `Q308_built_structures.json` ועל כל כרטיס, ויצטרפו לקובץ של Q297 כשניתן יהיה לשמור build.
-   **פינוי מקום ב-`build/` הוא החלטת בעלים, ושום דבר שם לא נמחק.**
+4. **‏`build/q308` נשמר** — `du` מדווח 386 MB אבל בפועל נצרכו **123 MB בלבד**, כי כל קובץ שדף לא שינה
+   הוא hard link לעותק של `build/q307`, ורק ה-`index.html`, קטע הגאומטריה האחרון ושני ה-sidecars של כל דף
+   הם עותקים אמיתיים. לכן `model.SRC` מצביע על `build/q308`, קובץ הנפחים מכסה את **1,526** מבני מחלקה (c)
+   שלו, והנתונים המקומטים והבסיס מסכימים שוב. בדיסק נשארו ~0.37 GB, **ושום דבר ב-`build/` לא נמחק** —
+   פינוי מקום שם נשאר החלטת בעלים, וייבוא ה-HRA בסעיף 1 עוד תלוי בה.
 5. `make_calibre.py` עוד מצביע על `build/q240` ובנייה מחדש ממנו מרגרסת את הטבלה; 14 שורות Q308 נוספו במקום.
 6. שני דפי ה-Imaging בלי psoas minor עד שמנוע ה-own יקבל דגל «מוסתר כברירת מחדל».
 7. **ה-anterior branch יושב 2.7–4.86 mm מהגבול המדיאלי של ה-BR** מול «less than 1.8 mm» (ראו §3) — על הכרטיס.
