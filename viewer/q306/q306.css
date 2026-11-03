@@ -77,15 +77,19 @@
  * its own layout code sets. Matching each engine's own gate keeps this off the desktop, where there is no
  * obstruction. No `!important` is needed: `body.q301-on #rail .rail-body` (0,1,2,1) beats `.rail-body`
  * (0,0,1,0), and `body.q301-on #app.phone aside` (0,1,2,3) beats `#app.phone aside` (0,1,1,2). */
+/* `--q6-band-h` is the WHOLE occluded bottom band, measured in q306.js from the fixed furniture that is
+   really there (Q298's strip, Q300's chip bar, Q294's notice, Q301's bar). One number, so nothing is
+   double-counted and nothing is guessed; it falls back to Q301's own figure where this round's module is
+   absent. */
 @media (max-width: 900px){
   body.q301-on #rail .rail-body{
-    padding-bottom:calc(.9rem + var(--q301-bar-h, 96px));
+    padding-bottom:calc(.9rem + var(--q6-band-h, var(--q301-bar-h, 96px)));
   }
 }
 body.q301-on #app.phone aside,
 body.q301-on #app.phone #inspector{
-  padding-bottom:var(--q301-bar-h, 96px);
+  padding-bottom:var(--q6-band-h, var(--q301-bar-h, 96px));
 }
 /* and the list keeps a scroll end-stop, so the last row clears the sheet's rounded corner */
 body.q301-on #app.phone #list,
-body.q301-on #rail #list{ scroll-padding-bottom:var(--q301-bar-h, 96px); }
+body.q301-on #rail #list{ scroll-padding-bottom:var(--q6-band-h, var(--q301-bar-h, 96px)); }

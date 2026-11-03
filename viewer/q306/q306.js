@@ -129,7 +129,50 @@ var NMSKQ306 = (function(){
     }
   }
 
-  return {render:render, concepts:conceptsFor,
+  /* THE RESERVED BAND, MEASURED.
+     On a phone the bottom of the screen is shared by several rounds' fixed furniture, and the structure
+     list is the last thing in a scrolling panel behind all of it. Q306's browser run measured, on the
+     shipped build, exactly what covers the last result row:
+       Z engine   -- `DIV#q8-float`, Q298's own strip, which now carries this round's lines (height 160 px);
+       own engine -- `DIV#sa-bar`, Q300's "what is hidden now" chip bar and its `BUTTON#nm-g-hidden` grip,
+                     which Q301 lifts by `--q301-bar-h` and which therefore lands over the list.
+     So reserving Q301's bar alone is not enough, and guessing a number would be wrong on one engine or
+     the other. This measures the WHOLE occluded band in one go: the highest top among the fixed elements
+     that really overlap the bottom of the viewport, turned into the height to reserve. One number, so it
+     cannot double-count, and 0 when nothing is there.
+
+     Two mistakes worth keeping on record, both found by measuring rather than by reading the code: the
+     first version tested `f.offsetParent` as a visibility check, which is ALWAYS null for a
+     position:fixed element, so the band was reported as 0 while the strip was 160 px tall; and the first
+     version measured in render(), before Q298's reparent() had moved the host into the strip, so there
+     was nothing to measure yet. It now runs from reparent(), after the move. */
+  var BAND = ["q8-float", "sa-bar", "hist-msg", "q301-bar"];
+  function band(){
+    var vh = window.innerHeight || 0, top = vh, i, e, r;
+    for (i = 0; i < BAND.length; i++){
+      e = document.getElementById(BAND[i]);
+      if (!e || e.hidden) continue;
+      r = e.getBoundingClientRect();
+      if (!r.height || !r.width) continue;
+      if (getComputedStyle(e).visibility === "hidden") continue;
+      /* The band is a STACK, not one element flush with the screen edge: Q298's strip sits ABOVE
+         Q301's bar, so its bottom is nowhere near the viewport bottom. The first version required
+         `r.bottom >= vh - 24` and therefore skipped the strip entirely -- measured 133 px reserved while
+         the strip alone was 200 px tall and over the list. Anything in the lower part of the viewport
+         counts, and the reserve runs from the highest such top to the bottom of the screen. */
+      if (r.bottom < vh * 0.55) continue;
+      if (r.top < top) top = r.top;
+    }
+    var h = Math.max(0, Math.ceil(vh - top));
+    document.documentElement.style.setProperty("--q6-band-h", h + "px");
+  }
+
+  if (typeof window !== "undefined" && window.addEventListener){
+    window.addEventListener("resize", function(){ band(); });
+    setInterval(band, 700);            /* the strip is shown and hidden by Q298's own reparent() */
+  }
+
+  return {render:render, concepts:conceptsFor, band:band,
           state:function(){
             var d = API ? API.data() : null;
             return {on:!!(d && d.q306), concepts:d && d.concepts ? d.concepts.length : 0,

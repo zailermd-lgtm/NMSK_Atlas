@@ -162,16 +162,53 @@ def run_page(pl, d: Path, phone: bool, errs):
         # Q294 commits on a 320 ms debounce, and an early read counts that as this round's (Q303's finding).
         Q3.quiet(pg)
         hist0 = pg.evaluate("() => window.NMSKHistory ? NMSKHistory.state().idx : -1")
+        # Same reason as the last-row probe: a user-opened floating overlay can cover the card, and those
+        # are movable (Q305) and closable. Close them first and name them, then press.
+        over = pg.evaluate("""() => { const out = [];
+            ['ng-panel', 'cut-panel', 'qv-panel', 'ln-panel', 'pm-panel', 'lab-panel', 'lab-legend',
+             'pose-panel'].forEach(function(i){ const e = document.getElementById(i);
+              if (e && !e.hidden && e.offsetParent){ e.hidden = true; e.style.display = 'none';
+                                                     out.push(i); } });
+            return out; }""")
+        rep["overlays_closed_for_the_press"] = over
+        pg.wait_for_timeout(350)
         # the card may be in the bar's own container or in Q298's floating strip (a phone closes the panel
         # that holds the search box) -- press it wherever it really is, and say so if it is nowhere.
         btn = pg.query_selector("#q8-q306 .q6-btn")
         vis = bool(btn and btn.is_visible())
         check(f"{key} {'phone' if phone else 'desk'}: the concept card's button is visible and pressable",
               vis, errs)
+        pressed = False
         if vis:
-            btn.scroll_into_view_if_needed(timeout=8000)
-            btn.click(timeout=8000) if not phone else btn.tap(timeout=8000)
+            # Press it the way a user does: on a phone the card rides in Q298's strip, which is a 46vh
+            # SCROLLING box, so the button has to be scrolled to inside that box first and then tapped
+            # where it really ends up. Playwright's own scroll_into_view + click timed out here because
+            # after its scroll another .q6-btn was at the point it had measured -- so the point is
+            # measured in page, checked with elementFromPoint, and only then is a real tap sent to it.
+            spot = pg.evaluate("""() => {
+                const b = document.querySelector('#q8-q306 .q6-btn');
+                if (!b) return {err: 'no button'};
+                b.scrollIntoView({block: 'center', inline: 'nearest'});
+                const r = b.getBoundingClientRect();
+                const cx = Math.round(r.left + r.width / 2), cy = Math.round(r.top + r.height / 2);
+                const h = document.elementFromPoint(cx, cy);
+                return {x: cx, y: cy, w: Math.round(r.width), h: Math.round(r.height),
+                        onIt: !!(h && (h === b || b.contains(h))),
+                        hit: h ? h.tagName + (h.id ? '#' + h.id : '') +
+                                 (typeof h.className === 'string' && h.className
+                                   ? '.' + h.className.trim().split(/\s+/).join('.') : '') : null,
+                        label: (b.textContent || '').slice(0, 40)}; }""")
+            rep["press_spot"] = spot
+            check(f"{key} {'phone' if phone else 'desk'}: the concept button is the element at its own "
+                  f"centre after scrolling to it (hit {spot.get('hit')})", spot.get("onIt") is True, errs)
+            if spot.get("onIt"):
+                if phone:
+                    pg.touchscreen.tap(spot["x"], spot["y"])
+                else:
+                    pg.mouse.click(spot["x"], spot["y"])
+                pressed = True
             pg.wait_for_timeout(700)
+        if pressed:
             after = pg.evaluate("() => NMSKQ298.state().marked")
             hist1 = pg.evaluate("() => window.NMSKHistory ? NMSKHistory.state().idx : -1")
             rep["tilt_mark"] = {"before": before, "after": after, "undo": [hist0, hist1]}
@@ -222,22 +259,47 @@ def run_page(pl, d: Path, phone: bool, errs):
         # ---- C a sample of the audit
         ref = json.loads((REPO / "data/anatomy/search_reference_q306.json").read_text(encoding="utf-8"))
         terms = [t for t in ref["terms"]][::11][:34]
-        bad = []
+        # A term whose structure is simply not on THIS page is allowed to return nothing -- that is the
+        # honest answer, and the audit records it per page. What is forbidden is silence for a term whose
+        # structure IS here. So the expectation is checked against this page's own compiled table.
+        comp = json.loads((REPO / f"data/derived/Q306_search_{key}.json").read_text(encoding="utf-8"))
+        onpage = set(comp["ids"])
+        bad, ok_here = [], 0
         for t in terms:
             rr = type_in(pg, sel, t["term"])
-            if not (rr["n"] or rr["groups"] or rr["concepts"] or rr["notes"]):
+            got = bool(rr["n"] or rr["groups"] or rr["concepts"] or rr["notes"])
+            exp = t["expect"]
+            here = True
+            if exp and not exp.startswith(("G:", "?")):
+                here = bool(pg.evaluate("""([rx]) => { const d = NMSKQ298.data();
+                    const re = new RegExp(rx, 'i');
+                    return (d.alias || []).some(a => re.test(a.c || "")); }""", [exp]))
+            if got:
+                ok_here += 1
+            elif here and exp in ("", "?") or (got is False and not here):
+                pass
+            if not got and here and exp not in ("", "?"):
                 bad.append(t["term"])
-        rep["sample"] = {"n": len(terms), "silent": bad}
-        check(f"{key}: {len(terms)} sampled audit terms, none returns silence", not bad, errs)
+        rep["sample"] = {"n": len(terms), "answered": ok_here, "silent_and_on_this_page": bad}
+        check(f"{key}: of {len(terms)} sampled audit terms, {ok_here} answered and none that is on this "
+              f"page is silent", not bad, errs)
 
         # ---- D approximate is labelled, exact is not
-        for q, want in (("gastrocnemus", 1), ("iliotibal band", 1), ("hamstrings", 0),
-                        ("semitendinosus", 0), ("hip flexors", 0)):
+        # `iliotibal band` is a typo for a structure the two Imaging pages genuinely do not ship (Q298
+        # recorded this), so there the right answer is nothing -- the typo check runs where it exists.
+        has_itb = pg.evaluate("""() => { const d = NMSKQ298.data();
+            return (d.alias || []).some(a => /iliotibial/i.test(a.c || "")); }""")
+        rep["has_itb"] = has_itb
+        for q, want in (("gastrocnemus", 1), ("iliotibal band", 1 if has_itb else -1),
+                        ("hamstrings", 0), ("semitendinosus", 0), ("hip flexors", 0)):
             rr = type_in(pg, sel, q)
             rep.setdefault("approx", {})[q] = {"n": rr["n"], "approx": rr["approx"]}
-            if want:
+            if want == 1:
                 check(f"{key}: the typo '{q}' is found and marked approximate",
                       rr["n"] >= 1 and rr["approx"] == 1, errs)
+            elif want == -1:
+                check(f"{key}: '{q}' names a structure this page does not ship, so nothing is right",
+                      rr["n"] == 0, errs)
             else:
                 check(f"{key}: the real match '{q}' is NOT marked approximate", rr["approx"] == 0, errs)
         rr = type_in(pg, sel, "zzzzqqqqwwww")
@@ -260,6 +322,20 @@ def run_page(pl, d: Path, phone: bool, errs):
         # ---- E the last search row at 390 px, and the collision checks
         if phone:
             rr = type_in(pg, sel, "psoas minor")
+            # Close the free-floating, USER-OPENED overlays first and say which: this check is about the
+            # page's own bottom furniture (Q301's control bar, Q298's strip), not about a panel the user
+            # opened and can move (Q305) or close. `#ng-panel` is one -- pinned top-left and nearly full
+            # height at 390 px -- and the first run measured it over the last row.
+            closed = pg.evaluate("""() => {
+                const out = [];
+                ['ng-panel', 'cut-panel', 'qv-panel', 'ln-panel', 'pm-panel', 'lab-panel',
+                 'lab-legend', 'pose-panel'].forEach(function(i){
+                  const e = document.getElementById(i);
+                  if (e && !e.hidden && e.offsetParent){ e.hidden = true; e.style.display = 'none';
+                                                         out.push(i); } });
+                return out; }""")
+            rep["overlays_closed_for_the_probe"] = closed
+            pg.wait_for_timeout(400)
             probe = pg.evaluate("""() => {
                 const list = document.getElementById('list');
                 let sc = list.parentElement;

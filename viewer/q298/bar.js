@@ -104,7 +104,6 @@ function NMSKQ298Bar(E, D, H){
                                            markIds:function(ids, what, src, inf, why){
         if (MULTI) MULTI.markIds(ids, what, src, inf, why); }});
     }
-    reparent();
     selRow();
   }
 
@@ -126,8 +125,11 @@ function NMSKQ298Bar(E, D, H){
        the user wants it -- which is the trap Q298 recorded for its own expansion row, and which Q306's
        first browser run fell into (the card's button was never visible and the press timed out). */
     var q6 = $("q8-q306");
-    if (q6 && q6.parentNode !== to) to.insertBefore(q6, eb && eb.parentNode === to ? eb : null);
+    if (q6 && !q6.hidden && q6.parentNode !== to) to.insertBefore(q6, eb && eb.parentNode === to ? eb : null);
     floatBox.hidden = to !== floatBox || ((!eb || eb.hidden) && (!q6 || q6.hidden));
+    /* Q306 reserves the strip's height in the scrolling panel, and the height is only knowable once the
+       strip holds what it is going to hold -- so it is measured here, after the move, not in render(). */
+    if (window.NMSKQ306 && NMSKQ306.band) NMSKQ306.band();
   }
   function selRow(){
     var eb = $("q8-exp"), id = E.selected();
