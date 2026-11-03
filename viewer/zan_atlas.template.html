@@ -6422,6 +6422,9 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ305;
    follow it to the floating strip on a phone exactly as Q298's expansion row already does. */
 .q8-q306{display:flex;flex-direction:column;gap:6px;margin-top:6px}
 .q8-q306[hidden]{display:none}
+/* in the floating strip (a phone, where both engines close the panel that holds the search box) the card
+   must stay readable and must not grow past the screen: Q298's strip is already pinned to the bottom. */
+.q8-float .q8-q306{max-height:46vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 
 /* "no exact match for X" -- the line that stops the page stating something false with confidence */
 .q6-approx{margin:0;padding:6px 8px;border-radius:8px;font-size:12px;line-height:1.35;
@@ -7030,6 +7033,7 @@ function NMSKQ298Bar(E, D, H){
                                            markIds:function(ids, what, src, inf, why){
         if (MULTI) MULTI.markIds(ids, what, src, inf, why); }});
     }
+    reparent();
     selRow();
   }
 
@@ -7046,7 +7050,13 @@ function NMSKQ298Bar(E, D, H){
   function reparent(){
     var eb = $("q8-exp"), mn = $("q8-menu"), st = $("q8-status"), to = hidden() ? floatBox : root;
     if (eb && mn && st && eb.parentNode !== to){ to.appendChild(eb); to.appendChild(mn); to.appendChild(st); }
-    floatBox.hidden = to !== floatBox || !eb || eb.hidden;
+    /* Q306's lines go with them, and for the same reason: on a phone both engines close the panel that
+       holds the search box, so a concept card left in `root` would sit inside a hidden panel exactly when
+       the user wants it -- which is the trap Q298 recorded for its own expansion row, and which Q306's
+       first browser run fell into (the card's button was never visible and the press timed out). */
+    var q6 = $("q8-q306");
+    if (q6 && q6.parentNode !== to) to.insertBefore(q6, eb && eb.parentNode === to ? eb : null);
+    floatBox.hidden = to !== floatBox || ((!eb || eb.hidden) && (!q6 || q6.hidden));
   }
   function selRow(){
     var eb = $("q8-exp"), id = E.selected();

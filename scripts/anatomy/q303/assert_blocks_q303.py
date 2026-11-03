@@ -186,7 +186,13 @@ for p in PAGES:
                 a6 = [x[1:].strip() for x in d6 if x.startswith("+") and x[1:].strip()]
                 r6 = [x[1:].strip() for x in d6 if x.startswith("-") and x[1:].strip()]
                 MUST = ["out.approx", "out.note_first", "out.score[pick[j].id]", "nmsk-q306",
-                        "window.NMSKQ306", 'id="q8-q306"']
+                        "window.NMSKQ306", 'id="q8-q306"',
+                        # the FOURTH change, found by Q306's own browser run rather than by review: on a
+                        # phone both engines close the panel that holds the search box, so a concept card
+                        # left in the bar's own container sat inside a hidden panel exactly when it was
+                        # wanted and its button could never be pressed. Q298 had already recorded this trap
+                        # for its expansion row; `reparent()` now carries Q306's host with it.
+                        'var q6 = $("q8-q306")']
                 # every added line must belong to one of the three named changes, and NOTHING may be removed
                 # that is not one of the four lines they replace
                 ALLOW_REM = ['var out = {q:q0, ids:[], why:{}, groups:[], notes:[], stats:{exact:0, alias:0, wordstart:0, substr:0, fuzzy:0}};',
@@ -194,7 +200,8 @@ for p in PAGES:
                              'out.notes.push(ns[j]); break;',
                              'return "<b>" + esc(x.name) + "</b> — no mesh on this page. " + esc(x.why) +',
                              '" This project\'s name for it: <i>" + esc(x.canon) + "</i>.";',
-                             "'<p class=\"q8-note\" id=\"q8-notes\" hidden></p>' +"]
+                             "'<p class=\"q8-note\" id=\"q8-notes\" hidden></p>' +",
+                             "floatBox.hidden = to !== floatBox || !eb || eb.hidden;"]
                 stray_rem = [x for x in r6 if x not in ALLOW_REM]
                 have_all = all(any(k in x for x in a6) for k in MUST)
                 ok6 = have_all and not stray_rem

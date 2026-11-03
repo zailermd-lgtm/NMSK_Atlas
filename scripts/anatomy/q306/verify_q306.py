@@ -39,8 +39,10 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 sys.path.insert(0, str(HERE.parent / "q283"))
 sys.path.insert(0, str(HERE.parent / "q305"))
+sys.path.insert(0, str(HERE.parent / "q303"))
 import verify_q283 as V            # noqa: E402
 import verify_q305 as Q5           # noqa: E402
+import verify_q303 as Q3           # noqa: E402
 from playwright.sync_api import sync_playwright  # noqa: E402
 
 OKN = [0]
@@ -156,18 +158,26 @@ def run_page(pl, d: Path, phone: bool, errs):
               "Preece" in shown["txt"] or "Jang" in shown["txt"], errs)
         # one press marks them, as ONE undo step
         before = pg.evaluate("() => NMSKQ298.state().marked")
-        hist0 = pg.evaluate("() => window.NMSKHistory ? NMSKHistory.state().undo : -1")
+        # Q294's history must be QUIET before it is measured: entering a tool starts work of its own which
+        # Q294 commits on a 320 ms debounce, and an early read counts that as this round's (Q303's finding).
+        Q3.quiet(pg)
+        hist0 = pg.evaluate("() => window.NMSKHistory ? NMSKHistory.state().idx : -1")
+        # the card may be in the bar's own container or in Q298's floating strip (a phone closes the panel
+        # that holds the search box) -- press it wherever it really is, and say so if it is nowhere.
         btn = pg.query_selector("#q8-q306 .q6-btn")
-        if btn:
-            btn.scroll_into_view_if_needed()
-            btn.click() if not phone else btn.tap()
+        vis = bool(btn and btn.is_visible())
+        check(f"{key} {'phone' if phone else 'desk'}: the concept card's button is visible and pressable",
+              vis, errs)
+        if vis:
+            btn.scroll_into_view_if_needed(timeout=8000)
+            btn.click(timeout=8000) if not phone else btn.tap(timeout=8000)
             pg.wait_for_timeout(700)
             after = pg.evaluate("() => NMSKQ298.state().marked")
-            hist1 = pg.evaluate("() => window.NMSKHistory ? NMSKHistory.state().undo : -1")
+            hist1 = pg.evaluate("() => window.NMSKHistory ? NMSKHistory.state().idx : -1")
             rep["tilt_mark"] = {"before": before, "after": after, "undo": [hist0, hist1]}
             check(f"{key}: one press on the concept card marks its structures ({before} -> {after})",
                   after > before, errs)
-            if hist0 >= 0:
+            if isinstance(hist0, int) and isinstance(hist1, int) and hist0 >= 0:
                 check(f"{key}: and it is ONE undo step ({hist0} -> {hist1})", hist1 - hist0 == 1, errs)
             pg.keyboard.press("Control+z")
             pg.wait_for_timeout(500)

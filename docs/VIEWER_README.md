@@ -816,4 +816,103 @@ nerves, where that page's own metacarpals correspond at a median of 10.29 mm and
 nothing: those tables are committed data that the build only copies, so a nerve added to a page gets no
 adjacency row until that builder is re-run. The same was true of the 71 and 64 nerves Q304 added, so it is
 inherited rather than new — and it is `assert_blocks_q303.py --round q307` that says so, out loud, rather than
-being discovered by a user.
+being discovered by a user. **Q306 closed it:** both builders were re-run over the two Imaging pages, and all
+129 and 126 added nerves now have an adjacency row (section Q306 below).
+
+
+## Q306 — searching by any name a clinician would type, and saying so when nothing matched
+
+Owner (translated from Hebrew): *"pelvic tilt is missing, functional muscle groups are missing, psoas minor is
+missing. Check what else is missing and fix it, so the search works as well as possible."*
+
+Q298 gave the search its synonym layer. Q306 **measured** what that layer still could not reach, in both
+directions, with the page's own engine: a reference list of **419 terms** a clinician would type, built from
+this project's own cited sources and shipped as `data/anatomy/search_reference_q306.json`, run through
+`viewer/q298/search.js` under node against each page's compiled table. **132 of 419 returned something before
+this round; 419 of 419 after.** The whole audit, with a row per term, is
+`docs/research/Q306_search_coverage_audit.md`.
+
+### The three the owner named
+
+**psoas minor is a real absence** — and what the page did about it was worse than silence. There is no mesh on
+any of the six pages, none of the 3,572 objects in the pinned upstream Z-Anatomy catalogue is one, and the
+string occurs nowhere in this repository. It is also the *expected* finding: the muscle is absent in a large
+share of people (Raja 2026, Cureus 18(6):e111450, "inconstantly present vestigial muscle … Classical texts
+report its presence in 40-50% of individuals"; Patra 2024, Folia Morphol 83(4):886-892, "the most unstable
+muscle of the psoas group"). Before Q306 the four Z pages answered the query with **`Psoas major` at rank 1 and
+no note at all**. Now it returns a cited explanation that leads the result, offers psoas major, iliacus and the
+iliopsoas fascia, and labels the near-miss as approximate.
+
+**The functional groups existed; their names did not.** Each page carried 110 groups, but only the 17 named
+textbook ones had a name you could type. The **87 groups derived from the cited action data and the 6 extras
+were in the relations block, which the search never reads** — so `hip flexors`, `knee extensors`,
+`hip abductors`, `wrist extensors`, `trunk flexors` and `pes anserinus` returned nothing on every page. Their
+labels were also the pose rig's own words ("The opposite of rotation at the hip joint", "Radial at the
+radiocarpal (wrist) joint", "Flexion at the f2 dip"). `data/anatomy/groups_q306.json` gives all 93 clinical
+names and Hebrew and corrects **62 labels**, keeping `label_was` so the change is auditable; the direction of
+the spine-rotation groups is read off the cited action quotes themselves (+1 rows say "ipsilaterally rotates",
+−1 rows "to the opposite side"), not guessed. `data/anatomy/muscle_groups_q306.json` adds **18 groups with
+cited membership** that the project had no data for at all — pelvic floor, scapular stabilisers, muscles of
+mastication, inspiration and expiration, the hand and foot intrinsics, the forearm, thigh and leg
+compartments, the transversospinalis group — **129 members, 7 of them marked `contested`** with what the
+literature disagrees about rather than a side picked silently, and 6 members the sources name but no page ships
+recorded in `not_on_any_page` instead of dropped.
+
+**pelvic tilt is a concept, and there was no concept layer.** `data/anatomy/concepts_q306.json` adds **38**:
+the four tilts, 13 regions (carpal, cubital and tarsal tunnels, Guyon's and the adductor canal, the popliteal
+and cubital fossae, the femoral triangle, the axilla, the inguinal canal, the greater sciatic foramen, the
+thoracic outlet, the anatomical snuffbox), 10 diagnoses, 6 posture descriptors and 5 measures — **44 cited
+claims** in all. The tilt entries rest on five PubMed sources: Preece 2021 (hip-flexor stretching reduced
+anterior tilt by 1.2°), Jang & Jeon 2024 (gluteus maximus higher in posterior tilt, multifidus in anterior),
+Haddas 2016 (abdominal contraction reduces pelvic obliquity; the hamstrings in pelvic balance), Becker 2018 and
+Willy & Davis 2013 (hip abductors and gluteus medius against contralateral pelvic drop). A diagnosis says it is
+one and asserts no mechanism; a measure says whether this project computes it (moment arms: yes, from the
+geometry; ROM and the Q angle: stated as gaps).
+
+### Saying so when nothing matched
+
+The two wrong answers Q306 found came from one root: Q298's fuzzy pass runs only when nothing else matched, and
+then returns the near miss **without saying it is one**. `psoas minor` → `Psoas major`; `long head of biceps
+brachii` → the long head of **triceps** brachii. `viewer/q298/search.js` now sets `approx` when every row came
+from that pass and `note_first` when an explanation matched the query exactly and no structure did, and
+`viewer/q306/q306.js` prints both above the rows. A typo is still found **and labelled**; a real match is not
+labelled; nothing stays nothing.
+
+### The owner's own nerve
+
+`lateral antebrachial cutaneous nerve` and nine other names for it — including LABCN, LACN, LCNF, the Latin and
+two Hebrew forms — each reach it on **all six pages**, asserted in the browser. All **72** nerves Q304 and Q307
+carried onto the Imaging pages have their full name set: **71 entries, 16 published abbreviations, 201
+English/Latin forms, 90 Hebrew**, trunks and all 27 named branches, with `peroneal` reaching `fibular`
+everywhere — `deep peroneal nerve` returned zero on all six pages before this round.
+
+### How it is built
+
+`scripts/anatomy/q306/build_search_q306.py` resolves the four data files against each page's own structure list
+at build time, exactly as Q298 does — nothing is guessed in the browser — and writes
+`data/derived/Q306_search_<page>.json`, a **superset** of Q298's table with every Q298 row unchanged. It rides
+in its **own** `nmsk-q306` block, which is why Q298's comes out of the regen byte-identical on the four Z pages.
+`scripts/sync_q306.py` carries `viewer/q306/{q306.css,q306.js}` into both templates and gives the data block
+its home. Per page the alias forms go **554–732 → 1,565–2,005**, the structures an alias reaches **289–347 →
+528–749**, the groups you can type **17–18 → 129–132**, the concepts **0 → 38** and the honest explanations
+**4 → 19**.
+
+### Two things fixed on the way
+
+**The last search row was untappable at 390 px.** Q304 found it and left it, because it is Q301's bar over the
+panel rather than Q304's own doing; Q305 fixed a *different* element (`#foot` inside Q301's View sheet).
+Measured again on `build/q307`: on a Z page the last of two result rows sits at y 738–776 while `#q301-bar`
+spans 707–838, and `document.elementFromPoint` at the row's centre returns `BUTTON#qg-measure`; on an own page
+the row is at 749–777 and the hit is `DIV#q301-hist`. `viewer/q306/q306.css` reserves the obstructed band with
+`padding-bottom: var(--q301-bar-h)` **inside the element that actually scrolls** — `DIV.rail-body` on the Z
+engine, the `aside` on the own engine — using the height Q301's own `groups.js` already measures and keeps
+current. After it, `elementFromPoint` returns the row on both engines, and Undo, Redo and Q300's chip bar still
+return themselves.
+
+**Q298's adjacency precision was overstated.** Re-running the builder exposed it: `threshold_mm` is
+3.46 mm = √3 × cell, but two samples whose voxel indices differ by at most 1 per axis lie in a box 2 × cell on
+a side, so the strict bound is **√3 × 2 × cell = 6.93 mm**. Measured on 120 random adjacent pairs of Imaging M:
+median **0.18 mm**, mean 0.97, p95 3.64, max **4.45**, with **10 of 120 past the printed 3.46**. The typical
+pair is far closer than the claim and the tail runs past it. `tests/test_q298.py` now pins the strict bound
+*and* that the median stays inside the printed figure, so the claim is honest in both directions; correcting
+the number the pages print needs the builder re-run on all six and is an owner decision.

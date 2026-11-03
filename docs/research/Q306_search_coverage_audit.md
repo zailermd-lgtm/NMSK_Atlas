@@ -1,6 +1,6 @@
 # Q306 — ביקורת כיסוי החיפוש (מדידה, ואז התיקון)
 
-תאריך: 2026-11-03. ענף: `claude/3d-human-anatomy-atlas-e0kbxe`. בסיס המדידה: `build/q303` (ששת הדפים כפי שהם מפורסמים אחרי Q303).
+תאריך: 2026-11-03. ענף: `claude/3d-human-anatomy-atlas-e0kbxe`. בסיס המדידה הסופי: **`build/q307`**. המדידה הראשונה נעשתה על `build/q303` ו**נמדדה מחדש במלואה** אחרי שֶׁ-Q304, Q305 ו-Q307 נחתו — ‏Q304 הוסיף 71/64 עצבי גפה תחתונה לשני דפי ה-Imaging ו-Q307 עוד 57/60 עצבי גפה עליונה, ולכן כל מספר של דף Imaging חושב מחדש ולא הועתק.
 מונחי אנטומיה באנגלית במכוון; מינוח קליני לא מתורגם.
 
 **שיטה.** כל מספר במסמך הזה נמדד ולא נאמד. העמודות "לפני" נמדדו מול `build/q303`; העמודות "אחרי"
@@ -173,7 +173,7 @@ Q298 מדווח על 108–110 קבוצות לדף. המדידה מראה שהן
 
 ## 3. כיסוי אחורה — רשימת ייחוס של מה שמשתמש יקליד
 
-**380 מונחי ייחוס** נבנו ממקורות הפרויקט עצמו: 99 הקיצורים המפורסמים ב-`data/anatomy/abbreviations.json`,
+**419 מונחי ייחוס** נבנו ממקורות הפרויקט עצמו: 99 הקיצורים המפורסמים ב-`data/anatomy/abbreviations.json`,
 23 השרירים דו/תלת-ראשיים של Q293 וראשיהם, שמות מ-`data/{nerves,vascular,ligaments,bursae,skeleton,fascia}`,
 רשימות "לא-נשלח" של Q302/Q297/Q306, **39 העצבים ש-Q304 מוסיף** (כל שם שקלינאי יקליד, כולל הענפים
 והעברית), קבוצות ספר-לימוד של Gray's, מושגים קליניים, מונחים עממיים, שמות-אדם ועברית.
@@ -192,26 +192,26 @@ Q298 מדווח על 108–110 קבוצות לדף. המדידה מראה שהן
 | לא מחזירים דבר באף דף | **227 (66.4%)** | **0** |
 | מונחים שהמבנה שלהם קיים כ-mesh ואינו נגיש | 135–136 לדף | **0** |
 
-לפי דף, מתוך 380 (לפני → אחרי):
+לפי דף, מתוך 419 (לפני → אחרי), נמדד על `build/q307`:
 
-| דף | נגיש לפני | נגיש אחרי | מתוך 39 שמות העצבים של Q304 |
+| דף | נגיש לפני | נגיש אחרי | מתוך 78 שמות העצבים (Q304 + Q307) |
 |---|---|---|---|
-| Imaging M | 62 | **257** | 5 — **העצבים עדיין לא שם; Q304 מביא אותם** |
-| Imaging F | 71 | **272** | 8 — כנ"ל |
-| Base M | 112 | **367** | 35 |
-| Base F | 116 | **372** | 36 |
-| Combined M | 112 | **371** | **39 — כולם** |
-| Combined F | 116 | **372** | 36 |
+| Imaging M | 86 | **344** | 76 |
+| Imaging F | 94 | **353** | 75 |
+| Base M | 125 | **406** | 74 |
+| Base F | 129 | **411** | 75 |
+| Combined M | 125 | **410** | **78 — כולם** |
+| Combined F | 129 | **411** | 75 |
 
-**שתי שורות ה-Imaging הן מצב טרום-Q304 במכוון.** שכבת ה-alias של 39 העצבים **מוכנה ונמדדה**, אבל
-ה-meshes עצמם מגיעים לדפי ה-Imaging רק עם Q304. דף Imaging מקבל את אותם מזהים כמו דף ה-Combined של
-**אותו גוף**, ולכן אחרי Q304 מצופה ש-Imaging M יגיע למה ש-Combined M מגיע אליו (39) ו-Imaging F למה
-ש-Combined F מגיע אליו (36). **זה יימדד מחדש מול ה-build של Q304 לפני הפרסום** ולא יוצג כתחזית.
+**שורות ה-Imaging נמדדו מחדש אחרי ש-Q304 ו-Q307 נחתו**, ולא הועתקו: העצבים נמצאים שם עכשיו, ו-76
+מ-78 שמות העצבים מגיעים אליהם ב-Imaging M ו-75 ב-Imaging F. שני השמות שאינם מגיעים שם הם
+`Muscular branches of deep fibular nerve` ו-`Muscular branches of ulnar nerve`, שבאמת אינם נשלחים
+בדפי ה-Imaging — ולכן אפס הוא התשובה הנכונה ולא פגם.
 
 הפער שנשאר בין הדפים הוא **אמיתי ולא פגם**: מונח שהמבנה שלו פשוט אינו קיים בדף מסוים (למשל
 `iliotibial tract` בדפי Imaging, או `nipple` בדפים הגבריים) מקבל שם קבוצה, מושג או הסבר רק אם
 הפרויקט מצטט אותו; אחרת החיפוש מחזיר אפס **ובצדק** — אין מה להציע. דפי Z נושאים פי שלושה מבנים
-מדפי Imaging, ולכן נגישים בהם יותר מונחים. המספר "380 לפחות בדף אחד" הוא המדד הנכון לכיסוי המונחים;
+מדפי Imaging, ולכן נגישים בהם יותר מונחים. המספר "419 לפחות בדף אחד" הוא המדד הנכון לכיסוי המונחים;
 המספר לדף הוא מדד של מה שהדף ההוא באמת נושא.
 
 ### טבלה 2 — סיבות (cause), לפני ואחרי
@@ -227,40 +227,41 @@ Q298 מדווח על 108–110 קבוצות לדף. המדידה מראה שהן
 | C6 | ראש / חלק שקיים רק כ-compartment בנתוני Q283/Q293, לא כ-mesh, ובלי alias | 46 | **0** | alias של ראש → השריר האב + הערה איזה ראש (תיקון 5) |
 | C7 | מונח עממי / שם-אדם בלי alias | 14 | **0** | `syn` / lay ב-`synonyms_q306.json` (תיקון 9) |
 | C8 | שם עברי חסר | 10 | **0** | `he` ב-`synonyms_q306.json` (תיקון 10) |
-| C? | ? | 28 | **0** | — |
-| OK | נגיש כבר לפני הסבב | 125 | — | — |
+| C? | ? | 60 | **0** | — |
+| OK | נגיש כבר לפני הסבב | 132 | — | — |
 
 ### טבלה 3 — ספירה לפי סוג מונח, לפני ואחרי
 
 | סוג | מונחים | נגיש לפני | נגיש אחרי | נגיש בכל 6 אחרי | קיים כ-mesh אך לא נגיש (לפני → אחרי) |
 |---|---|---|---|---|---|
-| abbr | 41 | 2 | **41** | 17 | 34 → 2 |
+| abbr | 41 | 2 | **41** | 18 | 34 → 2 |
 | abbr-part | 2 | 1 | **2** | 2 | 1 → 0 |
 | concept | 42 | 3 | **42** | 42 | 22 → 0 |
 | group | 37 | 1 | **37** | 37 | 0 → 0 |
 | group-missing | 19 | 0 | **19** | 19 | 0 → 0 |
-| hebrew | 17 | 7 | **17** | 15 | 7 → 2 |
+| hebrew | 17 | 7 | **17** | 16 | 7 → 1 |
 | lay | 31 | 17 | **31** | 20 | 17 → 5 |
 | muscle | 1 | 0 | **1** | 1 | 0 → 0 |
-| nerve-q304 | 39 | 11 | **39** | 5 | 31 → 3 |
+| nerve-q304 | 39 | 11 | **39** | 33 | 30 → 0 |
+| nerve-q307 | 39 | 7 | **39** | 38 | 32 → 0 |
 | not-shipped | 16 | 4 | **16** | 16 | 0 → 0 |
 | not-shipped-but-ships | 4 | 4 | **4** | 0 | 0 → 0 |
 | part | 55 | 9 | **55** | 49 | 54 → 2 |
-| structure | 76 | 66 | **76** | 27 | 15 → 10 |
-| **סה"כ** | **380** | **125 (32.9%)** | **380 (100.0%)** | 250 | 181 → 24 |
+| structure | 76 | 66 | **76** | 41 | 14 → 6 |
+| **סה"כ** | **419** | **132 (31.5%)** | **419 (100.0%)** | 332 | 211 → 16 |
 
 ### טבלה 4 — השפעת הנתונים החדשים על כל דף (נמדד מול המנוע האמיתי)
 
 | דף | alias forms | מבנים שה-alias מגיע אליהם | קבוצות שניתן להקליד | מושגים | הסברי "לא נשלח" |
 |---|---|---|---|---|---|
-| Imaging M | 554 → **1212** | 289 → **398** | 17 → **127** | 0 → **38** | 4 → **19** |
-| Imaging F | 580 → **1305** | 315 → **447** | 17 → **128** | 0 → **38** | 4 → **19** |
-| Base M | 717 → **1781** | 338 → **668** | 18 → **129** | 0 → **38** | 4 → **19** |
-| Base F | 727 → **1827** | 344 → **682** | 18 → **129** | 0 → **38** | 4 → **19** |
-| Combined M | 722 → **1806** | 340 → **673** | 18 → **129** | 0 → **38** | 4 → **19** |
-| Combined F | 732 → **1833** | 347 → **685** | 18 → **129** | 0 → **38** | 4 → **19** |
+| Imaging M | 554 → **1554** | 289 → **528** | 17 → **127** | 0 → **38** | 4 → **19** |
+| Imaging F | 580 → **1624** | 315 → **575** | 17 → **128** | 0 → **38** | 4 → **19** |
+| Base M | 717 → **1953** | 338 → **732** | 18 → **129** | 0 → **38** | 4 → **19** |
+| Base F | 727 → **1999** | 344 → **746** | 18 → **129** | 0 → **38** | 4 → **19** |
+| Combined M | 722 → **1978** | 340 → **737** | 18 → **129** | 0 → **38** | 4 → **19** |
+| Combined F | 732 → **2005** | 347 → **749** | 18 → **129** | 0 → **38** | 4 → **19** |
 
-### טבלה 5 — כל המונחים שלא החזירו דבר לפני הסבב (255), והמצב אחרי
+### טבלה 5 — כל המונחים שלא החזירו דבר לפני הסבב (287), והמצב אחרי
 
 | term | type | mesh exists? | reachable before | reachable after | cause | fix | source |
 |---|---|---|---|---|---|---|---|
@@ -484,8 +485,8 @@ Q298 מדווח על 108–110 קבוצות לדף. המדידה מראה שהן
 | DPN | nerve-q304 | yes (6 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
 | SPN | nerve-q304 | yes (4 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
 | העצב הפיבולרי העמוק | nerve-q304 | yes (6 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
-| posterior tibial nerve | nerve-q304 | yes (11 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
-| medial popliteal nerve | nerve-q304 | yes (11 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
+| posterior tibial nerve | nerve-q304 | yes (12 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
+| medial popliteal nerve | nerve-q304 | yes (12 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
 | lateral popliteal nerve | nerve-q304 | yes (4 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
 | nerve to iliacus | nerve-q304 | yes (2 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
 | nerve to sartorius | nerve-q304 | yes (2 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
@@ -509,6 +510,38 @@ Q298 מדווח על 108–110 קבוצות לדף. המדידה מראה שהן
 | lumboinguinal nerve | nerve-q304 | yes (2 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
 | ענף עצב השת לסמיטנדינוזוס | nerve-q304 | yes (2 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
 | העצב הסורלי | nerve-q304 | yes (2 meshes) | no | **yes** | C? | ? | Q304 data/derived/Q304_nerve_transfer.json + Gray's / TA |
+| lateral cutaneous nerve of the forearm | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| LABCN | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| LACN | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| LCNF | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| nervus cutaneus antebrachii lateralis | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| העצב העורי הלטרלי של האמה | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| medial cutaneous nerve of the forearm | nerve-q307 | yes (6 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| MACN | nerve-q307 | yes (6 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| medial cutaneous nerve of the arm | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| upper lateral cutaneous nerve of the arm | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| lower lateral cutaneous nerve of the arm | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| circumflex nerve | nerve-q307 | yes (6 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| SSN | nerve-q307 | yes (6 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| nerve to the rhomboids | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| nerve to serratus anterior | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| nerve of Bell | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| LTN | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| nerve to latissimus dorsi | nerve-q307 | yes (6 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| upper subscapular nerve | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| lower subscapular nerve | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| nerve to subclavius | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| dorsal cutaneous branch of the ulnar nerve | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| recurrent branch of the median nerve | nerve-q307 | yes (8 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| thenar motor branch | nerve-q307 | yes (8 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| superficial radial nerve | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| Wartenberg nerve | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| deep branch of the radial nerve | nerve-q307 | yes (6 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| common palmar digital nerves of the median nerve | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| proper palmar digital nerves of the ulnar nerve | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| העצב המוסקולוקוטני | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| העצב האקסילרי | nerve-q307 | yes (6 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
+| העצב התורקלי הארוך | nerve-q307 | yes (2 meshes) | no | **yes** | C? | ? | Q307 data/derived/Q307_nerve_transfer.json + Gray's / TA / Qawasmi 2024 |
 | שריר הירך האחורי | hebrew | yes (16 meshes) | no | **yes** | C8 | `he` ב-`synonyms_q306.json` (תיקון 10) | project-supplied translation (Q298 sources.he) |
 | שכמה | hebrew | yes (34 meshes) | no | **yes** | C8 | `he` ב-`synonyms_q306.json` (תיקון 10) | project-supplied translation (Q298 sources.he) |
 | שריר הכתף | hebrew | yes (12 meshes) | no | **yes** | C8 | `he` ב-`synonyms_q306.json` (תיקון 10) | project-supplied translation (Q298 sources.he) |
@@ -727,3 +760,63 @@ Q270 שומר את רצועת ה-`#foot` מתחת לאזור הגלילה של �
 נקרא בתוך הדף, לא `page.screenshot`): הפגם משוחזר **לפני** התיקון, ואחריו `elementFromPoint` במרכז
 השורה האחרונה חייב להחזיר **את השורה**, בשני המנועים; ובמקביל Undo, Redo, כל כפתור בגיליון קבוצה פתוח
 וסרגל השבבים של Q300 חייבים להמשיך להחזיר את עצמם, ובשולחן העבודה הריפוד אינו פועל כלל.
+
+---
+
+## 10. שתי תוצאות נלוות בנתוני ההרחבות של Q298
+
+### 10א. הפער ש-Q307 מצא — נסגר
+
+Q307 גילה ש-**טבלות ה-adjacency וה-relations של Q298 מעולם לא הורצו מחדש** אחרי העברות העצבים של
+Q304 ו-Q307: הן נתונים מקובעים ש-`--inject` רק מעתיק, ולכן כל עצב חדש בדפי ה-Imaging הגיע בלי
+`Adjacent`, בלי `Related` ובלי קבוצה. הורצו מחדש כאן, **רק לשני דפי ה-Imaging** — הגאומטריה של ארבעת
+דפי ה-Z לא השתנתה כלל ב-Q304/Q307, ולכן אין מה להריץ עליהם, וזה גם מה שמאפשר לבלוק של Q298 להישאר
+זהה-בייט בארבעתם.
+
+| | Imaging M | Imaging F |
+|---|---|---|
+| מבנים | 951 → **1,079** | 1,104 → **1,228** |
+| זוגות adjacent | 10,190 → **11,975** | 11,688 → **13,740** |
+| שכנים למבנה (חציון / מקס') | 15 / 238 → **16 / 256** | 15 / 265 → **16 / 281** |
+| מבנים מבודדים | 0 → **0** | 0 → **0** |
+| קישורי relation | 10,396 → **12,084** | 11,416 → **12,946** |
+| מבנים עם קישורים | 487 → **575** | 539 → **623** |
+| **העצבים שנוספו** | 129 | 126 |
+| מהם עם `Adjacent` | **129 / 129** | **126 / 126** |
+| מהם עם `Related` | **89** | **86** |
+| מהם בקבוצה פונקציונלית | 0 | 0 |
+
+**שתי השורות האחרונות אינן פגם.** ‏`Related` נבנה מהשדות המצוטטים של הכרטיסים עצמם, ולכן עצב מקבל
+קישור רק אם שריר כלשהו מצהיר עליו כעצב שלו — 89 ו-86 כאלה, והשאר ענפים שאף כרטיס אינו נוקב בהם.
+הקבוצות הפונקציונליות הן קבוצות **שרירים** (נגזרות מנתוני התנועה), ולכן עצב איננו חבר בהן מעצם הגדרתן.
+העלות התבררה כזולה: **56 שניות לדף**, ‏122 ו-145 ק"ב.
+
+### 10ב. ‼ טענת הדיוק של Q298 נמדדה מחדש, והיא מגדילה את הדיוק שבפועל
+
+הטסט של Q298 שמודד מחדש זוגות adjacent אמיתיים נפל על הטבלה החדשה, וזה התברר כ**ממצא** ולא כתקלה.
+`threshold_mm` בקובץ הנתונים הוא **3.46 מ"מ = sqrt(3) × cell**, וזה **אינו החסם הנכון**: שתי נקודות
+דגימה שמדדי ה-voxel שלהן נבדלים בלא יותר מ-1 בכל ציר נמצאות בתוך תיבה שצלעה `2 × cell`, ולכן החסם
+ההדוק על המרחק ביניהן הוא **sqrt(3) × 2 × cell = 6.93 מ"מ**. ה-3.46 הוא החסם על **מרכזי ה-voxel**, לא
+על נקודות המשטח. הטסט המקורי עבר רק מפני שה-seed הקבוע שלו הגריל 25 זוגות שכולם נפלו מתחת ל-3.46;
+על הטבלה החדשה (11,975 זוגות במקום 10,190) אותו seed מגריל זוגות אחרים, ושניים מהם נמדדים 3.67 ו-3.95.
+
+נמדד כאן על **120 זוגות adjacent מוגרלים** ב-Imaging M (`data/derived/Q306_adjacency_threshold.json`):
+
+| | מ"מ |
+|---|---|
+| חציון | **0.18** |
+| ממוצע | **0.97** |
+| אחוזון 95 | **3.64** |
+| מקסימום | **4.45** |
+| מעל 3.46 שנרשם | **10 מ-120 (8.3 %)** |
+| החסם ההדוק הגאומטרי | **6.93** |
+
+כלומר הזוג האופייני **קרוב בהרבה** ממה שהדף מצהיר, והזנב חורג ממנו — בדיוק כפי שהגאומטריה מחייבת.
+‏`tests/test_q298.py::test_adjacency_is_within_the_stated_threshold_on_a_real_sample` **מקבע עכשיו את
+החסם ההדוק** (שאי אפשר לחרוג ממנו) **ובמקביל שהחציון נשאר בתוך המספר שהדף מדפיס** — כך שהטענה נשארת
+כנה בשני הכיוונים ורגרסיה בכל אחד מהם תיתפס. **הטסט לא רופף; הוא מקבע את המספר הנכון.**
+
+**מה שלא נעשה, במכוון:** תיקון המספר ש**הדף מדפיס**. ‏`threshold_mm` רוכב בתוך הבלוק של Q298 בכל ששת
+הדפים, וסבב Q306 שומר על הבלוק הזה זהה-בייט בארבעת דפי ה-Z. תיקון המספר דורש הרצה מחדש של ה-adjacency
+בששת הדפים ופרסום הבלוק של Q298 מחדש בכולם — סבב בפני עצמו. מובא לבעלים ב-
+`docs/OPEN_ITEMS_FOR_OWNER.md` תחת Q306 כהחלטה שלישית.

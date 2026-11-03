@@ -4,6 +4,9 @@
    follow it to the floating strip on a phone exactly as Q298's expansion row already does. */
 .q8-q306{display:flex;flex-direction:column;gap:6px;margin-top:6px}
 .q8-q306[hidden]{display:none}
+/* in the floating strip (a phone, where both engines close the panel that holds the search box) the card
+   must stay readable and must not grow past the screen: Q298's strip is already pinned to the bottom. */
+.q8-float .q8-q306{max-height:46vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 
 /* "no exact match for X" -- the line that stops the page stating something false with confidence */
 .q6-approx{margin:0;padding:6px 8px;border-radius:8px;font-size:12px;line-height:1.35;

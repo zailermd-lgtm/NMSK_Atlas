@@ -17,11 +17,21 @@ REPO = Path(__file__).resolve().parents[1]
 Q298 = REPO / "scripts/anatomy/q298"
 sys.path.insert(0, str(Q298))
 
-BUILD = REPO / "build/q297"
+# Q298 built against build/q297; Q306 re-ran the adjacency and relation builders over the CURRENT baseline,
+# because Q304 and Q307 added 135 and 124 nerves to the two Imaging pages and Q307 found that these two
+# tables had never been re-run for them (no Adjacent / Related on a new nerve). These assertions compare the
+# tables against the structure lists they were built from, so they must read the same build the data was
+# built from, not the one Q298 happened to use.
+SRC = "build/q307"
+for _alt in ("build/q307", "build/q305", "build/q304", "build/q303", "build/q297"):
+    if (REPO / _alt).is_dir():
+        SRC = _alt
+        break
+BUILD = REPO / SRC
 DATA = REPO / "data/anatomy"
 DERIVED = REPO / "data/derived"
 KEYS = ["own_m", "own_f", "base_m", "base_f", "comb_m", "comb_f"]
-pytestmark = pytest.mark.skipif(not BUILD.is_dir(), reason="build/q297 not on disk")
+pytestmark = pytest.mark.skipif(not BUILD.is_dir(), reason="no viewer build on disk")
 
 # the abbreviations the owner's round named explicitly
 REQUIRED = ["ITB", "IT band", "TFL", "SCM", "ACL", "PCL", "MCL", "LCL", "FPL", "FDP", "FDS", "EPL", "EPB", "APL",
@@ -52,7 +62,7 @@ def compiled():
 @pytest.fixture(scope="module")
 def pages():
     import pagedata as P
-    return {k: P.structures(k, "build/q297") for k in KEYS}
+    return {k: P.structures(k, SRC) for k in KEYS}
 
 
 # ---------------------------------------------------------------- the headline assertion
@@ -233,27 +243,58 @@ def test_every_structure_with_no_neighbour_has_its_real_distance_recorded(adj):
 
 
 def test_adjacency_is_within_the_stated_threshold_on_a_real_sample(adj):
-    """Re-measure a sample of the adjacent pairs and of the NON-adjacent ones straight off the shipped geometry."""
+    """Re-measure a sample of the adjacent pairs straight off the shipped geometry.
+
+    Q306 CORRECTED what this test asserts, because the measurement contradicted the documented figure.
+    `threshold_mm` in the data file is 3.46 = sqrt(3) * cell, and the original version of this test
+    required every sampled pair to be within it. That bound is wrong, and it is wrong in the direction
+    that overstates the precision: two sample points whose VOXEL INDICES differ by at most 1 per axis lie
+    somewhere in a box 2 * cell on a side, so the strict bound on their separation is
+    sqrt(3) * 2 * cell = 6.93 mm. sqrt(3) * cell is the bound on the two VOXEL CENTRES, not on the
+    surface points. The original test passed only because its fixed seed happened to draw 25 pairs that
+    all fell under 3.46; re-run on Q306's rebuilt table (11,975 pairs instead of 10,190) the same seed
+    draws different pairs and two of them measure 3.67 and 3.95 mm.
+
+    Measured by Q306 on 120 random adjacent pairs of Imaging M (the figures are in
+    data/derived/Q306_adjacency_threshold.json): median 0.18 mm, mean 0.97 mm, p95 3.64 mm, max 4.45 mm,
+    and 10 of 120 over 3.46 mm. So the typical pair is far closer than the claim, and the tail runs past
+    it, exactly as the geometry says it must.
+
+    This test therefore pins the STRICT bound, which cannot be exceeded, and separately pins that the bulk
+    of the distribution is well inside the figure the page prints -- so the claim stays honest in both
+    directions and a regression in either shows up here. Correcting the number the page prints is NOT
+    done here: `threshold_mm` rides in Q298's own page block on all six pages, and Q306 is a search round
+    that keeps that block byte-identical on the four Z pages. It is written up for the owner instead.
+    """
     import numpy as np
     from scipy.spatial import cKDTree
     import pagedata as P
     import adjacency_q298 as A
     k = "own_m"
     a = adj[k]
+    cell = a["cell_mm"]
+    strict = 3 ** 0.5 * 2 * cell                      # the bound 3x3x3 voxel contact really implies
+    assert abs(a["threshold_mm"] - 3 ** 0.5 * cell) < 0.01, \
+        "threshold_mm is documented as sqrt(3) * cell; if that changes, this test must be revisited"
     rng = np.random.default_rng(298)
     pairs = [(i, j) for i, row in enumerate(a["adj"]) for j in row if j > i]
     pick = [pairs[t] for t in rng.choice(len(pairs), 25, replace=False)]
     need = sorted({x for p in pick for x in p})
     pts = {}
-    for i, sid, v, f in P.meshes(k, "build/q297"):
+    for i, sid, v, f in P.meshes(k, SRC):
         if i in need:
-            pts[i] = A.samples(v, f, 2.0)
-    far = []
+            pts[i] = A.samples(v, f, cell)
+    ds = []
     for i, j in pick:
         d = float(cKDTree(pts[i]).query(pts[j], k=1)[0].min())
-        if d > a["threshold_mm"] + 0.01:
-            far.append((a["ids"][i], a["ids"][j], round(d, 2)))
-    assert far == [], f"pairs called adjacent that are further apart than {a['threshold_mm']} mm: {far}"
+        ds.append((d, a["ids"][i], a["ids"][j]))
+    over_strict = [(x, y, round(d, 2)) for d, x, y in ds if d > strict + 0.01]
+    assert over_strict == [], \
+        f"pairs called adjacent that are further apart than the strict {strict:.2f} mm bound: {over_strict}"
+    med = float(np.median([d for d, _, _ in ds]))
+    assert med <= a["threshold_mm"], \
+        f"the MEDIAN adjacent pair ({med:.2f} mm) is now past the printed {a['threshold_mm']} mm: " \
+        "the claim would no longer be honest even as a typical figure"
 
 
 # ---------------------------------------------------------------- the relations and the functional groups
