@@ -1,0 +1,3485 @@
+{
+ "own_m": {
+  "frame": {
+   "x_right": true,
+   "y_superior": true,
+   "z_anterior": true,
+   "hip_l_x": -76.8,
+   "hip_r_x": 73.5,
+   "sternum_y": 469.4,
+   "sacrum_y": 78.7,
+   "sternum_z": 83.0,
+   "sacrum_z": -56.9
+  },
+  "coracoacromial_ligament_l": {
+   "refused": true,
+   "reason": "no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm",
+   "spans_tried_mm": [
+    46.4,
+    59.8,
+    67.9
+   ],
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "nearest_border_span_mm": 46.4
+  },
+  "psoas_minor_l": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.8273,
+   "area_mm2": 2950.5,
+   "watertight": true,
+   "dihedral_mean_deg": 18.9,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 178.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 331.1,
+   "page_own_t12_to_symphysis_vertical_span_mm": 346.5,
+   "insertion_from_symphyseal_surface_mm": 36.5,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 331.4,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 285.7,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 10,
+   "min_signed_dist_hip_bone_path_before_mm": -46.87,
+   "min_signed_dist_to_hip_bone_after_mm": -93.02,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 2.1101,
+   "volume_mesh_vs_analytic_rel": 0.134,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     36.5,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.134,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_l": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1623,
+   "area_mm2": 622.0,
+   "watertight": true,
+   "dihedral_mean_deg": 39.5,
+   "dihedral_median_deg": 20.5,
+   "dihedral_max_deg": 179.3,
+   "length_mm": 69.1,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 30.1,
+   "tibial_from_fibular_head_mm": 20.5,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    -159.2,
+    -468.2,
+    -6.0
+   ],
+   "fibular_head": [
+    -154.7,
+    -471.2,
+    -56.3
+   ],
+   "path_points_cleared": 35,
+   "min_signed_dist_femur_path_before_mm": -12.36,
+   "min_signed_dist_tibia_path_before_mm": -3.33,
+   "min_signed_dist_to_femur_after_mm": -14.33,
+   "min_signed_dist_to_tibia_after_mm": -13.98,
+   "contested": true,
+   "volume_analytic_cm3": 0.2186,
+   "volume_mesh_vs_analytic_rel": 0.258,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 50.6,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.69,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.258,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     69.1,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": true,
+   "reason": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 50.6 mm against Kosy's implied 30.0 mm)"
+  },
+  "lacn_anterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.3411,
+   "area_mm2": 758.6,
+   "watertight": true,
+   "dihedral_mean_deg": 16.5,
+   "dihedral_median_deg": 4.8,
+   "dihedral_max_deg": 112.3,
+   "length_mm": 127.5,
+   "diameter_mm": 1.93,
+   "trunk_diameter_mm": 3.21,
+   "division_distal_to_iel_mm": 46.5,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.396,
+   "t_end_on_radius": 1.003,
+   "short_of_distal_radius_mm": -0.7,
+   "d_brachioradialis_p50_mm": 1.04,
+   "d_brachioradialis_min_mm": -1.01,
+   "max_depth_in_brachioradialis_mm": 1.01,
+   "path_points_cleared": 154,
+   "rings_lifted": 48,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.3,
+   "min_signed_dist_to_radius_after_mm": 0.6,
+   "min_signed_dist_radius_path_before_mm": 2.03,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.3722,
+   "volume_mesh_vs_analytic_rel": 0.084,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.084,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     46.5,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     -0.7,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     1.01,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.3371,
+   "area_mm2": 741.4,
+   "watertight": true,
+   "dihedral_mean_deg": 14.8,
+   "dihedral_median_deg": 2.6,
+   "dihedral_max_deg": 90.0,
+   "length_mm": 123.6,
+   "diameter_mm": 1.93,
+   "trunk_diameter_mm": 3.21,
+   "division_distal_to_iel_mm": 46.5,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.396,
+   "t_end_on_radius": 0.993,
+   "short_of_distal_radius_mm": 1.4,
+   "d_brachioradialis_p50_mm": 1.21,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 122,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": 0.15,
+   "min_signed_dist_to_radius_after_mm": 2.53,
+   "min_signed_dist_radius_path_before_mm": 3.2,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.3611,
+   "volume_mesh_vs_analytic_rel": 0.066,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.066,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     46.5,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     1.4,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "coracoacromial_ligament_r": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 1.1596,
+   "area_mm2": 2662.0,
+   "watertight": true,
+   "dihedral_mean_deg": 35.5,
+   "dihedral_median_deg": 8.2,
+   "dihedral_max_deg": 179.4,
+   "length_mm": 44.9,
+   "chord_mm": 32.9,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 103,
+   "min_signed_dist_scapula_path_before_mm": -5.02,
+   "min_signed_dist_to_scapula_after_mm": -6.03,
+   "acromion_tip": [
+    200.2,
+    599.5,
+    -18.5
+   ],
+   "coracoid_tip": [
+    178.0,
+    595.8,
+    19.5
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid tip to acromion anterior undersurface",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 1.2151,
+   "volume_mesh_vs_analytic_rel": 0.046,
+   "volume_check_tol": 0.3,
+   "refused": true,
+   "reason": "withdrawn by the both-sides-or-neither rule: coracoacromial_ligament_l was refused (no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm), so coracoacromial_ligament_r is not shipped either"
+  },
+  "psoas_minor_r": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7282,
+   "area_mm2": 2502.8,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 329.8,
+   "page_own_t12_to_symphysis_vertical_span_mm": 334.5,
+   "insertion_from_symphyseal_surface_mm": 37.9,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 330.1,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 284.4,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.66,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8474,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     37.9,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_r": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1612,
+   "area_mm2": 756.3,
+   "watertight": true,
+   "dihedral_mean_deg": 58.4,
+   "dihedral_median_deg": 48.6,
+   "dihedral_max_deg": 178.7,
+   "length_mm": 84.3,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 27.8,
+   "tibial_from_fibular_head_mm": 18.9,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    172.0,
+    -469.5,
+    4.5
+   ],
+   "fibular_head": [
+    171.5,
+    -470.6,
+    -42.2
+   ],
+   "path_points_cleared": 28,
+   "min_signed_dist_femur_path_before_mm": -5.89,
+   "min_signed_dist_tibia_path_before_mm": -2.11,
+   "min_signed_dist_to_femur_after_mm": -6.79,
+   "min_signed_dist_to_tibia_after_mm": -11.61,
+   "contested": true,
+   "volume_analytic_cm3": 0.2668,
+   "volume_mesh_vs_analytic_rel": 0.396,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 46.7,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.56,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.396,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     84.3,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": true,
+   "reason": "outside +- 3 SD of Kosy 2016 on: length_mm, volume_mesh_vs_analytic_rel (this page's Gerdy-to-fibular-head span is 46.7 mm against Kosy's implied 30.0 mm)"
+  },
+  "lacn_anterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.4143,
+   "area_mm2": 839.3,
+   "watertight": true,
+   "dihedral_mean_deg": 14.9,
+   "dihedral_median_deg": 0.6,
+   "dihedral_max_deg": 90.2,
+   "length_mm": 128.8,
+   "diameter_mm": 2.1,
+   "trunk_diameter_mm": 3.5,
+   "division_distal_to_iel_mm": 47.7,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.553,
+   "t_end_on_radius": 0.974,
+   "short_of_distal_radius_mm": 6.1,
+   "d_brachioradialis_p50_mm": 18.76,
+   "d_brachioradialis_min_mm": 0.31,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 20,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.51,
+   "min_signed_dist_to_radius_after_mm": 5.27,
+   "min_signed_dist_radius_path_before_mm": 6.31,
+   "border_rail_extrapolated_pct": 71.9,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.4453,
+   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.07,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.7,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     6.1,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.4107,
+   "area_mm2": 832.3,
+   "watertight": true,
+   "dihedral_mean_deg": 14.8,
+   "dihedral_median_deg": 0.5,
+   "dihedral_max_deg": 90.5,
+   "length_mm": 127.7,
+   "diameter_mm": 2.1,
+   "trunk_diameter_mm": 3.5,
+   "division_distal_to_iel_mm": 47.7,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.553,
+   "t_end_on_radius": 0.966,
+   "short_of_distal_radius_mm": 7.9,
+   "d_brachioradialis_p50_mm": 17.03,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 38,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.56,
+   "min_signed_dist_to_radius_after_mm": 4.14,
+   "min_signed_dist_radius_path_before_mm": 5.15,
+   "border_rail_extrapolated_pct": 71.9,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.4415,
+   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.07,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.7,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     7.9,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "_ids_used": {
+   "scapula_l": "scapula_l",
+   "humerus_l": "humerus_l",
+   "radius_l": "radius_l",
+   "ulna_l": "ulna_l",
+   "brachioradialis_l": "brachioradialis_l",
+   "lacn_l": "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "hip_bone_l": "hip_bone_l",
+   "femur_l": "femur_l",
+   "tibia_l": "tibia_l",
+   "fibula_l": "fibula_l",
+   "lcl_l": "fibular_collateral_ligament_l",
+   "scapula_r": "scapula_r",
+   "humerus_r": "humerus_r",
+   "radius_r": "radius_r",
+   "ulna_r": "ulna_r",
+   "brachioradialis_r": "brachioradialis_r",
+   "lacn_r": "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "hip_bone_r": "hip_bone_r",
+   "femur_r": "femur_r",
+   "tibia_r": "tibia_r",
+   "fibula_r": "fibula_r",
+   "lcl_r": "fibular_collateral_ligament_r",
+   "sacrum": "sacrum",
+   "sternum": "sternum"
+  },
+  "_n_meshes": 6,
+  "_n_refused": 4,
+  "_refused": {
+   "anterolateral_ligament_l": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 50.6 mm against Kosy's implied 30.0 mm)",
+   "anterolateral_ligament_r": "outside +- 3 SD of Kosy 2016 on: length_mm, volume_mesh_vs_analytic_rel (this page's Gerdy-to-fibular-head span is 46.7 mm against Kosy's implied 30.0 mm)",
+   "coracoacromial_ligament_l": "no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm",
+   "coracoacromial_ligament_r": "withdrawn by the both-sides-or-neither rule: coracoacromial_ligament_l was refused (no coracoid/acromion pair on this page's own scapula gives a span inside the literature band 17.0-40.3 mm), so coracoacromial_ligament_r is not shipped either"
+  },
+  "_total_cm3": 5.0587
+ },
+ "own_f": {
+  "frame": {
+   "x_right": true,
+   "y_superior": true,
+   "z_anterior": true,
+   "hip_l_x": -83.1,
+   "hip_r_x": 79.6,
+   "sternum_y": 475.6,
+   "sacrum_y": 76.1,
+   "sternum_z": 43.0,
+   "sacrum_z": -73.1
+  },
+  "coracoacromial_ligament_l": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.8187,
+   "area_mm2": 1416.6,
+   "watertight": true,
+   "dihedral_mean_deg": 12.7,
+   "dihedral_median_deg": 1.2,
+   "dihedral_max_deg": 154.4,
+   "length_mm": 31.0,
+   "chord_mm": 30.8,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 20,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -0.64,
+   "acromion_tip": [
+    -167.0,
+    609.2,
+    -36.8
+   ],
+   "coracoid_tip": [
+    -135.8,
+    584.2,
+    -1.5
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.8577,
+   "volume_mesh_vs_analytic_rel": 0.045,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_l": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7591,
+   "area_mm2": 2580.0,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 342.2,
+   "page_own_t12_to_symphysis_vertical_span_mm": 345.3,
+   "insertion_from_symphyseal_surface_mm": 36.8,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 342.7,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 297.0,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.41,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8807,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     36.8,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_l": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1393,
+   "area_mm2": 451.0,
+   "watertight": true,
+   "dihedral_mean_deg": 14.8,
+   "dihedral_median_deg": 3.1,
+   "dihedral_max_deg": 119.8,
+   "length_mm": 46.5,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 23.8,
+   "tibial_from_fibular_head_mm": 16.2,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    -103.5,
+    -413.0,
+    -10.2
+   ],
+   "fibular_head": [
+    -97.4,
+    -413.6,
+    -49.8
+   ],
+   "path_points_cleared": 0,
+   "min_signed_dist_femur_path_before_mm": 1.46,
+   "min_signed_dist_tibia_path_before_mm": 4.66,
+   "min_signed_dist_to_femur_after_mm": -0.19,
+   "min_signed_dist_to_tibia_after_mm": 2.59,
+   "contested": true,
+   "volume_analytic_cm3": 0.147,
+   "volume_mesh_vs_analytic_rel": 0.052,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 40.0,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.33,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.052,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     46.5,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_anterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.303,
+   "area_mm2": 667.5,
+   "watertight": true,
+   "dihedral_mean_deg": 16.5,
+   "dihedral_median_deg": 4.7,
+   "dihedral_max_deg": 90.3,
+   "length_mm": 110.4,
+   "diameter_mm": 1.94,
+   "trunk_diameter_mm": 3.24,
+   "division_distal_to_iel_mm": 47.3,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.552,
+   "t_end_on_radius": 1.005,
+   "short_of_distal_radius_mm": -1.1,
+   "d_brachioradialis_p50_mm": 1.21,
+   "d_brachioradialis_min_mm": -0.13,
+   "max_depth_in_brachioradialis_mm": 0.13,
+   "path_points_cleared": 108,
+   "rings_lifted": 8,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.1,
+   "min_signed_dist_to_radius_after_mm": 0.25,
+   "min_signed_dist_radius_path_before_mm": -0.6,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.3269,
+   "volume_mesh_vs_analytic_rel": 0.073,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.073,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.3,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     -1.1,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.13,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.299,
+   "area_mm2": 656.4,
+   "watertight": true,
+   "dihedral_mean_deg": 16.2,
+   "dihedral_median_deg": 5.0,
+   "dihedral_max_deg": 92.6,
+   "length_mm": 109.0,
+   "diameter_mm": 1.94,
+   "trunk_diameter_mm": 3.24,
+   "division_distal_to_iel_mm": 47.3,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.552,
+   "t_end_on_radius": 0.995,
+   "short_of_distal_radius_mm": 1.2,
+   "d_brachioradialis_p50_mm": 1.48,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 139,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.1,
+   "min_signed_dist_to_radius_after_mm": 0.3,
+   "min_signed_dist_radius_path_before_mm": -0.51,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.3228,
+   "volume_mesh_vs_analytic_rel": 0.074,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.074,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.3,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     1.2,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "coracoacromial_ligament_r": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.7892,
+   "area_mm2": 1469.7,
+   "watertight": true,
+   "dihedral_mean_deg": 17.2,
+   "dihedral_median_deg": 1.5,
+   "dihedral_max_deg": 179.7,
+   "length_mm": 31.3,
+   "chord_mm": 30.8,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 3,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -3.3,
+   "acromion_tip": [
+    160.5,
+    598.2,
+    -37.2
+   ],
+   "coracoid_tip": [
+    130.5,
+    572.2,
+    -1.8
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.8297,
+   "volume_mesh_vs_analytic_rel": 0.049,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_r": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7639,
+   "area_mm2": 2592.5,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 344.2,
+   "page_own_t12_to_symphysis_vertical_span_mm": 348.2,
+   "insertion_from_symphyseal_surface_mm": 36.4,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 344.7,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 299.0,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "levels identified from this page's own T12-L1 intervertebral disc",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.34,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8858,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     36.4,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_r": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1301,
+   "area_mm2": 497.1,
+   "watertight": true,
+   "dihedral_mean_deg": 36.9,
+   "dihedral_median_deg": 20.8,
+   "dihedral_max_deg": 179.4,
+   "length_mm": 49.1,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 24.2,
+   "tibial_from_fibular_head_mm": 16.5,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    98.2,
+    -412.0,
+    -19.5
+   ],
+   "fibular_head": [
+    93.1,
+    -409.8,
+    -59.8
+   ],
+   "path_points_cleared": 37,
+   "min_signed_dist_femur_path_before_mm": -1.42,
+   "min_signed_dist_tibia_path_before_mm": -3.49,
+   "min_signed_dist_to_femur_after_mm": -1.55,
+   "min_signed_dist_to_tibia_after_mm": -1.45,
+   "contested": true,
+   "volume_analytic_cm3": 0.1554,
+   "volume_mesh_vs_analytic_rel": 0.163,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 40.7,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.36,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.163,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     49.1,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_anterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.4285,
+   "area_mm2": 1149.5,
+   "watertight": true,
+   "dihedral_mean_deg": 15.3,
+   "dihedral_median_deg": 2.1,
+   "dihedral_max_deg": 90.0,
+   "length_mm": 235.7,
+   "diameter_mm": 1.58,
+   "trunk_diameter_mm": 2.63,
+   "division_distal_to_iel_mm": 47.5,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.111,
+   "t_end_on_radius": 0.974,
+   "short_of_distal_radius_mm": 5.0,
+   "d_brachioradialis_p50_mm": 11.72,
+   "d_brachioradialis_min_mm": 0.31,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 19,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": 0.11,
+   "min_signed_dist_to_radius_after_mm": 9.93,
+   "min_signed_dist_radius_path_before_mm": 10.48,
+   "border_rail_extrapolated_pct": 59.5,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.4608,
+   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.07,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.5,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     5.0,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.4276,
+   "area_mm2": 1147.6,
+   "watertight": true,
+   "dihedral_mean_deg": 15.6,
+   "dihedral_median_deg": 2.9,
+   "dihedral_max_deg": 90.1,
+   "length_mm": 235.5,
+   "diameter_mm": 1.58,
+   "trunk_diameter_mm": 2.63,
+   "division_distal_to_iel_mm": 47.5,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.111,
+   "t_end_on_radius": 0.966,
+   "short_of_distal_radius_mm": 6.4,
+   "d_brachioradialis_p50_mm": 10.54,
+   "d_brachioradialis_min_mm": 0.31,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 67,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.26,
+   "min_signed_dist_to_radius_after_mm": 9.95,
+   "min_signed_dist_radius_path_before_mm": 10.48,
+   "border_rail_extrapolated_pct": 59.5,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.4604,
+   "volume_mesh_vs_analytic_rel": 0.071,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.071,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.5,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     6.4,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "_ids_used": {
+   "scapula_l": "scapula_l",
+   "humerus_l": "humerus_l",
+   "radius_l": "radius_l",
+   "ulna_l": "ulna_l",
+   "brachioradialis_l": "brachioradialis_l",
+   "lacn_l": "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "hip_bone_l": "hip_bone_l",
+   "femur_l": "femur_l",
+   "tibia_l": "tibia_l",
+   "fibula_l": "fibula_l",
+   "lcl_l": "fibular_collateral_ligament_l",
+   "scapula_r": "scapula_r",
+   "humerus_r": "humerus_r",
+   "radius_r": "radius_r",
+   "ulna_r": "ulna_r",
+   "brachioradialis_r": "brachioradialis_r",
+   "lacn_r": "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "hip_bone_r": "hip_bone_r",
+   "femur_r": "femur_r",
+   "tibia_r": "tibia_r",
+   "fibula_r": "fibula_r",
+   "lcl_r": "fibular_collateral_ligament_r",
+   "sacrum": "sacrum",
+   "sternum": "sternum"
+  },
+  "_n_meshes": 10,
+  "_n_refused": 0,
+  "_refused": {},
+  "_total_cm3": 6.8584
+ },
+ "base_m": {
+  "frame": {
+   "x_right": true,
+   "y_superior": true,
+   "z_anterior": true,
+   "hip_l_x": -66.3,
+   "hip_r_x": 66.3,
+   "sternum_y": 464.9,
+   "sacrum_y": 66.7,
+   "sternum_z": 83.3,
+   "sacrum_z": -52.6
+  },
+  "coracoacromial_ligament_l": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.8898,
+   "area_mm2": 1623.2,
+   "watertight": true,
+   "dihedral_mean_deg": 17.2,
+   "dihedral_median_deg": 1.6,
+   "dihedral_max_deg": 174.2,
+   "length_mm": 35.4,
+   "chord_mm": 34.7,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 4,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -2.45,
+   "acromion_tip": [
+    -173.6,
+    550.8,
+    -40.4
+   ],
+   "coracoid_tip": [
+    -135.0,
+    537.4,
+    1.4
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.9386,
+   "volume_mesh_vs_analytic_rel": 0.052,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_l": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.6177,
+   "area_mm2": 2276.0,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 293.0,
+   "page_own_t12_to_symphysis_vertical_span_mm": 301.9,
+   "insertion_from_symphyseal_surface_mm": 37.4,
+   "excess_over_straight_line_pct": 0.2,
+   "total_length_mm": 293.5,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 247.8,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.6,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.7293,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.2,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     37.4,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_l": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1376,
+   "area_mm2": 463.3,
+   "watertight": true,
+   "dihedral_mean_deg": 21.1,
+   "dihedral_median_deg": 4.2,
+   "dihedral_max_deg": 166.7,
+   "length_mm": 47.3,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 19.2,
+   "tibial_from_fibular_head_mm": 13.1,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    -108.1,
+    -434.6,
+    -12.0
+   ],
+   "fibular_head": [
+    -112.1,
+    -444.4,
+    -42.5
+   ],
+   "path_points_cleared": 3,
+   "min_signed_dist_femur_path_before_mm": 1.48,
+   "min_signed_dist_tibia_path_before_mm": -3.35,
+   "min_signed_dist_to_femur_after_mm": 0.93,
+   "min_signed_dist_to_tibia_after_mm": -4.27,
+   "contested": true,
+   "volume_analytic_cm3": 0.1497,
+   "volume_mesh_vs_analytic_rel": 0.081,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 32.2,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.07,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.081,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     47.3,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 35.8,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 19.9
+  },
+  "lacn_anterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.6525,
+   "area_mm2": 1337.9,
+   "watertight": true,
+   "dihedral_mean_deg": 15.4,
+   "dihedral_median_deg": 2.8,
+   "dihedral_max_deg": 90.2,
+   "length_mm": 209.2,
+   "diameter_mm": 2.07,
+   "trunk_diameter_mm": 3.44,
+   "division_distal_to_iel_mm": 47.0,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.154,
+   "t_end_on_radius": 0.969,
+   "short_of_distal_radius_mm": 7.7,
+   "d_brachioradialis_p50_mm": 1.74,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 81,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.04,
+   "min_signed_dist_to_radius_after_mm": 0.33,
+   "min_signed_dist_radius_path_before_mm": -0.89,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.7012,
+   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.07,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.0,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     7.7,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.6601,
+   "area_mm2": 1363.9,
+   "watertight": true,
+   "dihedral_mean_deg": 16.5,
+   "dihedral_median_deg": 4.7,
+   "dihedral_max_deg": 90.1,
+   "length_mm": 214.3,
+   "diameter_mm": 2.07,
+   "trunk_diameter_mm": 3.44,
+   "division_distal_to_iel_mm": 47.0,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.154,
+   "t_end_on_radius": 0.972,
+   "short_of_distal_radius_mm": 6.8,
+   "d_brachioradialis_p50_mm": 1.55,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 207,
+   "rings_lifted": 9,
+   "min_signed_dist_brachioradialis_path_before_mm": -2.1,
+   "min_signed_dist_to_radius_after_mm": 0.3,
+   "min_signed_dist_radius_path_before_mm": -3.47,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.7187,
+   "volume_mesh_vs_analytic_rel": 0.081,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.081,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     47.0,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     6.8,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "coracoacromial_ligament_r": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.8923,
+   "area_mm2": 1625.5,
+   "watertight": true,
+   "dihedral_mean_deg": 17.1,
+   "dihedral_median_deg": 1.5,
+   "dihedral_max_deg": 174.1,
+   "length_mm": 35.4,
+   "chord_mm": 34.7,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 5,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -2.37,
+   "acromion_tip": [
+    173.6,
+    550.8,
+    -40.4
+   ],
+   "coracoid_tip": [
+    135.0,
+    537.4,
+    1.4
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.9371,
+   "volume_mesh_vs_analytic_rel": 0.048,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_r": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.6177,
+   "area_mm2": 2276.0,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 293.0,
+   "page_own_t12_to_symphysis_vertical_span_mm": 301.9,
+   "insertion_from_symphyseal_surface_mm": 37.4,
+   "excess_over_straight_line_pct": 0.2,
+   "total_length_mm": 293.5,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 247.8,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.6,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.7293,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.2,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     37.4,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_r": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.136,
+   "area_mm2": 465.3,
+   "watertight": true,
+   "dihedral_mean_deg": 22.7,
+   "dihedral_median_deg": 4.5,
+   "dihedral_max_deg": 169.3,
+   "length_mm": 47.3,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 19.2,
+   "tibial_from_fibular_head_mm": 13.1,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    108.1,
+    -434.6,
+    -12.0
+   ],
+   "fibular_head": [
+    112.1,
+    -444.4,
+    -42.5
+   ],
+   "path_points_cleared": 12,
+   "min_signed_dist_femur_path_before_mm": 1.48,
+   "min_signed_dist_tibia_path_before_mm": -3.35,
+   "min_signed_dist_to_femur_after_mm": 0.93,
+   "min_signed_dist_to_tibia_after_mm": -4.27,
+   "contested": true,
+   "volume_analytic_cm3": 0.1497,
+   "volume_mesh_vs_analytic_rel": 0.092,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 32.2,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.07,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.092,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     47.3,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 35.8,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 22.0
+  },
+  "lacn_anterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.6483,
+   "area_mm2": 1328.6,
+   "watertight": true,
+   "dihedral_mean_deg": 15.1,
+   "dihedral_median_deg": 2.6,
+   "dihedral_max_deg": 90.2,
+   "length_mm": 207.5,
+   "diameter_mm": 2.07,
+   "trunk_diameter_mm": 3.44,
+   "division_distal_to_iel_mm": 46.9,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.154,
+   "t_end_on_radius": 0.969,
+   "short_of_distal_radius_mm": 7.7,
+   "d_brachioradialis_p50_mm": 1.66,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 61,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.1,
+   "min_signed_dist_to_radius_after_mm": 0.32,
+   "min_signed_dist_radius_path_before_mm": -0.76,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.6957,
+   "volume_mesh_vs_analytic_rel": 0.068,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.068,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     46.9,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     7.7,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.6605,
+   "area_mm2": 1362.9,
+   "watertight": true,
+   "dihedral_mean_deg": 16.4,
+   "dihedral_median_deg": 4.8,
+   "dihedral_max_deg": 90.2,
+   "length_mm": 214.9,
+   "diameter_mm": 2.07,
+   "trunk_diameter_mm": 3.44,
+   "division_distal_to_iel_mm": 46.9,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.154,
+   "t_end_on_radius": 0.972,
+   "short_of_distal_radius_mm": 6.8,
+   "d_brachioradialis_p50_mm": 1.47,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 178,
+   "rings_lifted": 7,
+   "min_signed_dist_brachioradialis_path_before_mm": -2.14,
+   "min_signed_dist_to_radius_after_mm": 0.31,
+   "min_signed_dist_radius_path_before_mm": -3.35,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.7203,
+   "volume_mesh_vs_analytic_rel": 0.083,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.083,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     46.9,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     6.8,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "_ids_used": {
+   "scapula_l": "scapula_l",
+   "humerus_l": "humerus_l",
+   "radius_l": "radius_l",
+   "ulna_l": "ulna_l",
+   "brachioradialis_l": "brachioradialis_l",
+   "lacn_l": "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "hip_bone_l": "hip_bone_l",
+   "femur_l": "femur_l",
+   "tibia_l": "tibia_l",
+   "fibula_l": "fibula_l",
+   "lcl_l": "fibular_collateral_ligament_l",
+   "itb_l": "zan_iliotibial_tract_l",
+   "scapula_r": "scapula_r",
+   "humerus_r": "humerus_r",
+   "radius_r": "radius_r",
+   "ulna_r": "ulna_r",
+   "brachioradialis_r": "brachioradialis_r",
+   "lacn_r": "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "hip_bone_r": "hip_bone_r",
+   "femur_r": "femur_r",
+   "tibia_r": "tibia_r",
+   "fibula_r": "fibula_r",
+   "lcl_r": "fibular_collateral_ligament_r",
+   "itb_r": "iliotibial_tract_r",
+   "vert_t12": "zan_vertebra_t12",
+   "vert_l1": "zan_vertebra_l1",
+   "sacrum": "sacrum",
+   "sternum": "sternum"
+  },
+  "_n_meshes": 10,
+  "_n_refused": 0,
+  "_refused": {},
+  "_total_cm3": 7.9125
+ },
+ "base_f": {
+  "frame": {
+   "x_right": true,
+   "y_superior": true,
+   "z_anterior": true,
+   "hip_l_x": -76.6,
+   "hip_r_x": 76.6,
+   "sternum_y": 470.4,
+   "sacrum_y": 67.9,
+   "sternum_z": 56.3,
+   "sacrum_z": -38.6
+  },
+  "coracoacromial_ligament_l": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.7864,
+   "area_mm2": 1529.8,
+   "watertight": true,
+   "dihedral_mean_deg": 18.1,
+   "dihedral_median_deg": 1.9,
+   "dihedral_max_deg": 178.6,
+   "length_mm": 31.4,
+   "chord_mm": 30.6,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 25,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -2.49,
+   "acromion_tip": [
+    -157.9,
+    587.0,
+    -36.5
+   ],
+   "coracoid_tip": [
+    -126.2,
+    570.5,
+    2.1
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.8307,
+   "volume_mesh_vs_analytic_rel": 0.053,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_l": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7667,
+   "area_mm2": 2602.5,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 345.9,
+   "page_own_t12_to_symphysis_vertical_span_mm": 346.6,
+   "insertion_from_symphyseal_surface_mm": 35.5,
+   "excess_over_straight_line_pct": 0.2,
+   "total_length_mm": 346.4,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 300.7,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.71,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8887,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.2,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     35.5,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_l": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1305,
+   "area_mm2": 439.5,
+   "watertight": true,
+   "dihedral_mean_deg": 21.1,
+   "dihedral_median_deg": 4.3,
+   "dihedral_max_deg": 166.2,
+   "length_mm": 44.8,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 18.0,
+   "tibial_from_fibular_head_mm": 12.3,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    -120.2,
+    -405.9,
+    27.3
+   ],
+   "fibular_head": [
+    -124.0,
+    -415.1,
+    -1.3
+   ],
+   "path_points_cleared": 12,
+   "min_signed_dist_femur_path_before_mm": 1.69,
+   "min_signed_dist_tibia_path_before_mm": -3.14,
+   "min_signed_dist_to_femur_after_mm": 1.06,
+   "min_signed_dist_to_tibia_after_mm": -4.05,
+   "contested": true,
+   "volume_analytic_cm3": 0.1417,
+   "volume_mesh_vs_analytic_rel": 0.079,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 30.2,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.01,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.079,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     44.8,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 33.6,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 18.7
+  },
+  "lacn_anterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.503,
+   "area_mm2": 1123.3,
+   "watertight": true,
+   "dihedral_mean_deg": 15.4,
+   "dihedral_median_deg": 2.6,
+   "dihedral_max_deg": 90.2,
+   "length_mm": 191.2,
+   "diameter_mm": 1.9,
+   "trunk_diameter_mm": 3.16,
+   "division_distal_to_iel_mm": 48.0,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.173,
+   "t_end_on_radius": 0.969,
+   "short_of_distal_radius_mm": 7.1,
+   "d_brachioradialis_p50_mm": 1.57,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 64,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.3,
+   "min_signed_dist_to_radius_after_mm": 0.33,
+   "min_signed_dist_radius_path_before_mm": -0.56,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.541,
+   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.07,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.0,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     7.1,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.5107,
+   "area_mm2": 1146.2,
+   "watertight": true,
+   "dihedral_mean_deg": 16.1,
+   "dihedral_median_deg": 4.6,
+   "dihedral_max_deg": 90.8,
+   "length_mm": 196.7,
+   "diameter_mm": 1.9,
+   "trunk_diameter_mm": 3.16,
+   "division_distal_to_iel_mm": 48.0,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.173,
+   "t_end_on_radius": 0.972,
+   "short_of_distal_radius_mm": 6.3,
+   "d_brachioradialis_p50_mm": 1.44,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 164,
+   "rings_lifted": 14,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.97,
+   "min_signed_dist_to_radius_after_mm": 0.3,
+   "min_signed_dist_radius_path_before_mm": -3.15,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.5564,
+   "volume_mesh_vs_analytic_rel": 0.082,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.082,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.0,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     6.3,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "coracoacromial_ligament_r": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.7907,
+   "area_mm2": 1536.5,
+   "watertight": true,
+   "dihedral_mean_deg": 18.1,
+   "dihedral_median_deg": 1.8,
+   "dihedral_max_deg": 173.7,
+   "length_mm": 31.4,
+   "chord_mm": 30.6,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 29,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -2.72,
+   "acromion_tip": [
+    157.9,
+    587.0,
+    -36.5
+   ],
+   "coracoid_tip": [
+    126.2,
+    570.5,
+    2.1
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.8303,
+   "volume_mesh_vs_analytic_rel": 0.048,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_r": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7667,
+   "area_mm2": 2602.5,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 345.9,
+   "page_own_t12_to_symphysis_vertical_span_mm": 346.6,
+   "insertion_from_symphyseal_surface_mm": 35.5,
+   "excess_over_straight_line_pct": 0.2,
+   "total_length_mm": 346.4,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 300.7,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.71,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8887,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.2,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     35.5,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_r": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1287,
+   "area_mm2": 441.4,
+   "watertight": true,
+   "dihedral_mean_deg": 22.6,
+   "dihedral_median_deg": 4.5,
+   "dihedral_max_deg": 170.6,
+   "length_mm": 44.8,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 18.0,
+   "tibial_from_fibular_head_mm": 12.3,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    120.2,
+    -405.9,
+    27.3
+   ],
+   "fibular_head": [
+    124.0,
+    -415.1,
+    -1.3
+   ],
+   "path_points_cleared": 3,
+   "min_signed_dist_femur_path_before_mm": 1.69,
+   "min_signed_dist_tibia_path_before_mm": -3.14,
+   "min_signed_dist_to_femur_after_mm": 1.06,
+   "min_signed_dist_to_tibia_after_mm": -4.05,
+   "contested": true,
+   "volume_analytic_cm3": 0.1417,
+   "volume_mesh_vs_analytic_rel": 0.092,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 30.2,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.01,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.092,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     44.8,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 33.6,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 20.7
+  },
+  "lacn_anterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.5011,
+   "area_mm2": 1117.8,
+   "watertight": true,
+   "dihedral_mean_deg": 15.4,
+   "dihedral_median_deg": 3.5,
+   "dihedral_max_deg": 90.3,
+   "length_mm": 190.0,
+   "diameter_mm": 1.9,
+   "trunk_diameter_mm": 3.17,
+   "division_distal_to_iel_mm": 48.0,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.173,
+   "t_end_on_radius": 0.969,
+   "short_of_distal_radius_mm": 7.1,
+   "d_brachioradialis_p50_mm": 1.48,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 82,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.22,
+   "min_signed_dist_to_radius_after_mm": 0.32,
+   "min_signed_dist_radius_path_before_mm": -0.66,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.5383,
+   "volume_mesh_vs_analytic_rel": 0.069,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.069,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.0,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     7.1,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.5104,
+   "area_mm2": 1148.2,
+   "watertight": true,
+   "dihedral_mean_deg": 16.6,
+   "dihedral_median_deg": 5.0,
+   "dihedral_max_deg": 90.6,
+   "length_mm": 196.5,
+   "diameter_mm": 1.9,
+   "trunk_diameter_mm": 3.17,
+   "division_distal_to_iel_mm": 48.0,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.173,
+   "t_end_on_radius": 0.972,
+   "short_of_distal_radius_mm": 6.3,
+   "d_brachioradialis_p50_mm": 1.42,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 176,
+   "rings_lifted": 3,
+   "min_signed_dist_brachioradialis_path_before_mm": -2.01,
+   "min_signed_dist_to_radius_after_mm": 0.31,
+   "min_signed_dist_radius_path_before_mm": -3.25,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.5564,
+   "volume_mesh_vs_analytic_rel": 0.083,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.083,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.0,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     6.3,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "_ids_used": {
+   "scapula_l": "scapula_l",
+   "humerus_l": "humerus_l",
+   "radius_l": "radius_l",
+   "ulna_l": "ulna_l",
+   "brachioradialis_l": "brachioradialis_l",
+   "lacn_l": "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "hip_bone_l": "hip_bone_l",
+   "femur_l": "femur_l",
+   "tibia_l": "tibia_l",
+   "fibula_l": "fibula_l",
+   "lcl_l": "fibular_collateral_ligament_l",
+   "itb_l": "zan_iliotibial_tract_l",
+   "scapula_r": "scapula_r",
+   "humerus_r": "humerus_r",
+   "radius_r": "radius_r",
+   "ulna_r": "ulna_r",
+   "brachioradialis_r": "brachioradialis_r",
+   "lacn_r": "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "hip_bone_r": "hip_bone_r",
+   "femur_r": "femur_r",
+   "tibia_r": "tibia_r",
+   "fibula_r": "fibula_r",
+   "lcl_r": "fibular_collateral_ligament_r",
+   "itb_r": "iliotibial_tract_r",
+   "vert_t12": "zan_vertebra_t12",
+   "vert_l1": "zan_vertebra_l1",
+   "sacrum": "sacrum",
+   "sternum": "sternum"
+  },
+  "_n_meshes": 10,
+  "_n_refused": 0,
+  "_refused": {},
+  "_total_cm3": 7.3949
+ },
+ "comb_m": {
+  "frame": {
+   "x_right": true,
+   "y_superior": true,
+   "z_anterior": true,
+   "hip_l_x": -72.4,
+   "hip_r_x": 70.8,
+   "sternum_y": 458.6,
+   "sacrum_y": 79.9,
+   "sternum_z": 86.4,
+   "sacrum_z": -57.9
+  },
+  "coracoacromial_ligament_l": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.935,
+   "area_mm2": 1619.4,
+   "watertight": true,
+   "dihedral_mean_deg": 14.0,
+   "dihedral_median_deg": 1.7,
+   "dihedral_max_deg": 157.2,
+   "length_mm": 37.0,
+   "chord_mm": 36.2,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 14,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -1.71,
+   "acromion_tip": [
+    -175.5,
+    610.6,
+    -22.1
+   ],
+   "coracoid_tip": [
+    -132.5,
+    595.8,
+    14.9
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.9846,
+   "volume_mesh_vs_analytic_rel": 0.05,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_l": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7303,
+   "area_mm2": 2506.1,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 330.4,
+   "page_own_t12_to_symphysis_vertical_span_mm": 332.4,
+   "insertion_from_symphyseal_surface_mm": 37.2,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 330.6,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 284.9,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.7,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8496,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     37.2,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_l": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1465,
+   "area_mm2": 508.9,
+   "watertight": true,
+   "dihedral_mean_deg": 27.6,
+   "dihedral_median_deg": 4.8,
+   "dihedral_max_deg": 178.7,
+   "length_mm": 50.8,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 31.6,
+   "tibial_from_fibular_head_mm": 21.5,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    -151.3,
+    -456.1,
+    -8.1
+   ],
+   "fibular_head": [
+    -150.9,
+    -467.1,
+    -60.0
+   ],
+   "path_points_cleared": 13,
+   "min_signed_dist_femur_path_before_mm": 3.55,
+   "min_signed_dist_tibia_path_before_mm": -6.29,
+   "min_signed_dist_to_femur_after_mm": 2.43,
+   "min_signed_dist_to_tibia_after_mm": -6.85,
+   "contested": true,
+   "volume_analytic_cm3": 0.1606,
+   "volume_mesh_vs_analytic_rel": 0.088,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 53.1,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.77,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.088,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     50.8,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": true,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 38.0,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 20.8,
+   "reason": "withdrawn by the both-sides-or-neither rule: anterolateral_ligament_r was refused (outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)), so anterolateral_ligament_l is not shipped either"
+  },
+  "lacn_anterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.3813,
+   "area_mm2": 833.7,
+   "watertight": true,
+   "dihedral_mean_deg": 16.6,
+   "dihedral_median_deg": 5.2,
+   "dihedral_max_deg": 90.4,
+   "length_mm": 137.6,
+   "diameter_mm": 1.95,
+   "trunk_diameter_mm": 3.26,
+   "division_distal_to_iel_mm": 48.3,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.441,
+   "t_end_on_radius": 0.998,
+   "short_of_distal_radius_mm": 0.4,
+   "d_brachioradialis_p50_mm": 1.02,
+   "d_brachioradialis_min_mm": -1.33,
+   "max_depth_in_brachioradialis_mm": 1.33,
+   "path_points_cleared": 176,
+   "rings_lifted": 71,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.12,
+   "min_signed_dist_to_radius_after_mm": -1.85,
+   "min_signed_dist_radius_path_before_mm": -1.75,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.4129,
+   "volume_mesh_vs_analytic_rel": 0.077,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.077,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.3,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     0.4,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     1.33,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.3779,
+   "area_mm2": 826.5,
+   "watertight": true,
+   "dihedral_mean_deg": 16.4,
+   "dihedral_median_deg": 4.8,
+   "dihedral_max_deg": 111.6,
+   "length_mm": 136.5,
+   "diameter_mm": 1.95,
+   "trunk_diameter_mm": 3.26,
+   "division_distal_to_iel_mm": 48.3,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.441,
+   "t_end_on_radius": 0.992,
+   "short_of_distal_radius_mm": 1.9,
+   "d_brachioradialis_p50_mm": 1.07,
+   "d_brachioradialis_min_mm": -1.77,
+   "max_depth_in_brachioradialis_mm": 1.77,
+   "path_points_cleared": 119,
+   "rings_lifted": 72,
+   "min_signed_dist_brachioradialis_path_before_mm": 0.08,
+   "min_signed_dist_to_radius_after_mm": -1.18,
+   "min_signed_dist_radius_path_before_mm": -1.44,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.4095,
+   "volume_mesh_vs_analytic_rel": 0.077,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.077,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.3,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     1.9,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     1.77,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "coracoacromial_ligament_r": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.7053,
+   "area_mm2": 1249.0,
+   "watertight": true,
+   "dihedral_mean_deg": 17.6,
+   "dihedral_median_deg": 2.5,
+   "dihedral_max_deg": 179.1,
+   "length_mm": 27.3,
+   "chord_mm": 25.9,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 15,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -1.92,
+   "acromion_tip": [
+    191.6,
+    589.7,
+    -27.7
+   ],
+   "coracoid_tip": [
+    147.4,
+    583.2,
+    10.2
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.7426,
+   "volume_mesh_vs_analytic_rel": 0.05,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_r": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7267,
+   "area_mm2": 2499.9,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 329.2,
+   "page_own_t12_to_symphysis_vertical_span_mm": 330.9,
+   "insertion_from_symphyseal_surface_mm": 36.2,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 329.6,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 283.9,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.61,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8458,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     36.2,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_r": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1664,
+   "area_mm2": 563.6,
+   "watertight": true,
+   "dihedral_mean_deg": 27.5,
+   "dihedral_median_deg": 9.5,
+   "dihedral_max_deg": 169.0,
+   "length_mm": 59.3,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 35.3,
+   "tibial_from_fibular_head_mm": 24.0,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    161.7,
+    -456.2,
+    5.1
+   ],
+   "fibular_head": [
+    169.9,
+    -474.4,
+    -50.8
+   ],
+   "path_points_cleared": 33,
+   "min_signed_dist_femur_path_before_mm": 3.15,
+   "min_signed_dist_tibia_path_before_mm": -6.01,
+   "min_signed_dist_to_femur_after_mm": 1.33,
+   "min_signed_dist_to_tibia_after_mm": -4.57,
+   "contested": true,
+   "volume_analytic_cm3": 0.1876,
+   "volume_mesh_vs_analytic_rel": 0.113,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 59.3,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.98,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.113,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     59.3,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": true,
+   "reason": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)"
+  },
+  "lacn_anterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.3771,
+   "area_mm2": 789.8,
+   "watertight": true,
+   "dihedral_mean_deg": 19.9,
+   "dihedral_median_deg": 11.0,
+   "dihedral_max_deg": 117.0,
+   "length_mm": 122.6,
+   "diameter_mm": 2.11,
+   "trunk_diameter_mm": 3.52,
+   "division_distal_to_iel_mm": 48.8,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.548,
+   "t_end_on_radius": 0.992,
+   "short_of_distal_radius_mm": 1.9,
+   "d_brachioradialis_p50_mm": 1.3,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 164,
+   "rings_lifted": 22,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.9,
+   "min_signed_dist_to_radius_after_mm": 0.17,
+   "min_signed_dist_radius_path_before_mm": -0.92,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.4291,
+   "volume_mesh_vs_analytic_rel": 0.121,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.121,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.8,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     1.9,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.3679,
+   "area_mm2": 741.8,
+   "watertight": true,
+   "dihedral_mean_deg": 15.7,
+   "dihedral_median_deg": 4.1,
+   "dihedral_max_deg": 90.1,
+   "length_mm": 113.1,
+   "diameter_mm": 2.11,
+   "trunk_diameter_mm": 3.52,
+   "division_distal_to_iel_mm": 48.8,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.548,
+   "t_end_on_radius": 0.985,
+   "short_of_distal_radius_mm": 3.8,
+   "d_brachioradialis_p50_mm": 1.37,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 144,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.25,
+   "min_signed_dist_to_radius_after_mm": 0.33,
+   "min_signed_dist_radius_path_before_mm": -0.19,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.3958,
+   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.07,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.8,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     3.8,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "_ids_used": {
+   "scapula_l": "scapula_l",
+   "humerus_l": "humerus_l",
+   "radius_l": "radius_l",
+   "ulna_l": "ulna_l",
+   "brachioradialis_l": "brachioradialis_l",
+   "lacn_l": "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "hip_bone_l": "hip_bone_l",
+   "femur_l": "femur_l",
+   "tibia_l": "tibia_l",
+   "fibula_l": "fibula_l",
+   "lcl_l": "fibular_collateral_ligament_l",
+   "itb_l": "zan_iliotibial_tract_l",
+   "scapula_r": "scapula_r",
+   "humerus_r": "humerus_r",
+   "radius_r": "radius_r",
+   "ulna_r": "ulna_r",
+   "brachioradialis_r": "brachioradialis_r",
+   "lacn_r": "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "hip_bone_r": "hip_bone_r",
+   "femur_r": "femur_r",
+   "tibia_r": "tibia_r",
+   "fibula_r": "fibula_r",
+   "lcl_r": "fibular_collateral_ligament_r",
+   "itb_r": "iliotibial_tract_r",
+   "vert_t12": "zan_vertebra_t12",
+   "vert_l1": "zan_vertebra_l1",
+   "sacrum": "sacrum",
+   "sternum": "sternum"
+  },
+  "_n_meshes": 8,
+  "_n_refused": 2,
+  "_refused": {
+   "anterolateral_ligament_l": "withdrawn by the both-sides-or-neither rule: anterolateral_ligament_r was refused (outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)), so anterolateral_ligament_l is not shipped either",
+   "anterolateral_ligament_r": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)"
+  },
+  "_total_cm3": 6.6015
+ },
+ "comb_f": {
+  "frame": {
+   "x_right": true,
+   "y_superior": true,
+   "z_anterior": true,
+   "hip_l_x": -72.5,
+   "hip_r_x": 75.6,
+   "sternum_y": 477.3,
+   "sacrum_y": 77.9,
+   "sternum_z": 44.4,
+   "sacrum_z": -77.3
+  },
+  "coracoacromial_ligament_l": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.913,
+   "area_mm2": 1772.1,
+   "watertight": true,
+   "dihedral_mean_deg": 17.7,
+   "dihedral_median_deg": 1.3,
+   "dihedral_max_deg": 174.4,
+   "length_mm": 36.5,
+   "chord_mm": 35.8,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 13,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -1.19,
+   "acromion_tip": [
+    -157.9,
+    607.1,
+    -43.2
+   ],
+   "coracoid_tip": [
+    -129.2,
+    592.4,
+    -10.8
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid tip to acromion anterior undersurface",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.9662,
+   "volume_mesh_vs_analytic_rel": 0.055,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_l": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7666,
+   "area_mm2": 2600.9,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 345.8,
+   "page_own_t12_to_symphysis_vertical_span_mm": 353.2,
+   "insertion_from_symphyseal_surface_mm": 37.3,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 346.1,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 300.4,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.74,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8885,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     37.3,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_l": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1092,
+   "area_mm2": 369.6,
+   "watertight": true,
+   "dihedral_mean_deg": 18.4,
+   "dihedral_median_deg": 6.3,
+   "dihedral_max_deg": 130.7,
+   "length_mm": 37.9,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 24.3,
+   "tibial_from_fibular_head_mm": 16.5,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    -100.9,
+    -402.3,
+    -16.1
+   ],
+   "fibular_head": [
+    -103.9,
+    -408.3,
+    -56.4
+   ],
+   "path_points_cleared": 0,
+   "min_signed_dist_femur_path_before_mm": 2.12,
+   "min_signed_dist_tibia_path_before_mm": 1.52,
+   "min_signed_dist_to_femur_after_mm": 0.15,
+   "min_signed_dist_to_tibia_after_mm": 0.7,
+   "contested": true,
+   "volume_analytic_cm3": 0.1199,
+   "volume_mesh_vs_analytic_rel": 0.089,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 40.8,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.36,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.089,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     37.9,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 31.4,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 15.2
+  },
+  "lacn_anterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.2875,
+   "area_mm2": 683.0,
+   "watertight": true,
+   "dihedral_mean_deg": 15.7,
+   "dihedral_median_deg": 3.3,
+   "dihedral_max_deg": 90.3,
+   "length_mm": 123.4,
+   "diameter_mm": 1.8,
+   "trunk_diameter_mm": 2.99,
+   "division_distal_to_iel_mm": 46.9,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.511,
+   "t_end_on_radius": 0.996,
+   "short_of_distal_radius_mm": 1.0,
+   "d_brachioradialis_p50_mm": 1.04,
+   "d_brachioradialis_min_mm": -1.53,
+   "max_depth_in_brachioradialis_mm": 1.53,
+   "path_points_cleared": 149,
+   "rings_lifted": 59,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.63,
+   "min_signed_dist_to_radius_after_mm": -0.8,
+   "min_signed_dist_radius_path_before_mm": 1.25,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.3124,
+   "volume_mesh_vs_analytic_rel": 0.08,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.08,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     46.9,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     1.0,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     1.53,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_l": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.2856,
+   "area_mm2": 678.6,
+   "watertight": true,
+   "dihedral_mean_deg": 16.0,
+   "dihedral_median_deg": 3.5,
+   "dihedral_max_deg": 99.3,
+   "length_mm": 121.6,
+   "diameter_mm": 1.8,
+   "trunk_diameter_mm": 2.99,
+   "division_distal_to_iel_mm": 46.9,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.511,
+   "t_end_on_radius": 0.989,
+   "short_of_distal_radius_mm": 2.8,
+   "d_brachioradialis_p50_mm": 1.29,
+   "d_brachioradialis_min_mm": -1.69,
+   "max_depth_in_brachioradialis_mm": 1.69,
+   "path_points_cleared": 157,
+   "rings_lifted": 22,
+   "min_signed_dist_brachioradialis_path_before_mm": -1.63,
+   "min_signed_dist_to_radius_after_mm": -0.78,
+   "min_signed_dist_radius_path_before_mm": -0.14,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.3079,
+   "volume_mesh_vs_analytic_rel": 0.072,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.072,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     46.9,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     2.8,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     1.69,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "coracoacromial_ligament_r": {
+   "verts": 290,
+   "tris": 576,
+   "volume_cm3": 0.7454,
+   "area_mm2": 1304.8,
+   "watertight": true,
+   "dihedral_mean_deg": 15.4,
+   "dihedral_median_deg": 2.0,
+   "dihedral_max_deg": 174.1,
+   "length_mm": 29.6,
+   "chord_mm": 28.7,
+   "width_coracoid_mm": 26.8,
+   "width_acromion_mm": 15.86,
+   "thickness_mm": 1.61,
+   "path_points_cleared_of_scapula": 12,
+   "min_signed_dist_scapula_path_before_mm": -0.0,
+   "min_signed_dist_to_scapula_after_mm": -0.68,
+   "acromion_tip": [
+    158.7,
+    594.0,
+    -40.7
+   ],
+   "coracoid_tip": [
+    127.9,
+    578.9,
+    -7.6
+   ],
+   "lit_length_vonschroeder_mm": "27 +- 5",
+   "lit_length_hu_medial_mm": "28.91 +- 5.56",
+   "lit_length_hu_lateral_mm": "31.90 +- 4.21",
+   "attachment_pair_used": "coracoid lateral border nearest the acromial attachment",
+   "gate_band_mm": [
+    17.0,
+    40.3
+   ],
+   "volume_analytic_cm3": 0.7858,
+   "volume_mesh_vs_analytic_rel": 0.051,
+   "volume_check_tol": 0.3,
+   "refused": false
+  },
+  "psoas_minor_r": {
+   "verts": 362,
+   "tris": 720,
+   "volume_cm3": 1.7678,
+   "area_mm2": 2604.2,
+   "watertight": true,
+   "dihedral_mean_deg": 13.5,
+   "dihedral_median_deg": 0.2,
+   "dihedral_max_deg": 90.0,
+   "bone_determined_straight_line_t12_to_pecten_mm": 346.2,
+   "page_own_t12_to_symphysis_vertical_span_mm": 347.0,
+   "insertion_from_symphyseal_surface_mm": 37.7,
+   "excess_over_straight_line_pct": 0.1,
+   "total_length_mm": 346.7,
+   "belly_length_mm": 45.7,
+   "tendon_length_mm": 301.0,
+   "belly_diameter_mm": 6.0,
+   "tendon_diameter_mm": 2.0,
+   "lit_total_length_mm": "217.3 +- 4.5",
+   "lit_belly_length_mm": "45.7 +- 4.6",
+   "lit_tendon_length_mm": "171.7 +- 8.5",
+   "lit_belly_diameter_mm": "6.0 +- 0.5",
+   "origin_levels": "T12 and L1 vertebral bodies, lateral aspect",
+   "levels_how": "named vertebra meshes",
+   "insertion": "pecten pubis / iliopubic eminence",
+   "path_points_cleared_of_hip_bone": 0,
+   "min_signed_dist_hip_bone_path_before_mm": -0.0,
+   "min_signed_dist_to_hip_bone_after_mm": -0.57,
+   "prevalence_classic_pct": "40-50",
+   "prevalence_raja_pct": 6.67,
+   "hidden_by_default": true,
+   "volume_analytic_cm3": 1.8899,
+   "volume_mesh_vs_analytic_rel": 0.065,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "excess_over_straight_line_pct": [
+     0.1,
+     0.0,
+     15.0
+    ],
+    "insertion_from_symphyseal_surface_mm": [
+     37.7,
+     15.0,
+     45.0
+    ],
+    "volume_mesh_vs_analytic_rel": [
+     0.065,
+     0.0,
+     0.3
+    ]
+   },
+   "refused": false
+  },
+  "anterolateral_ligament_r": {
+   "verts": 202,
+   "tris": 400,
+   "volume_cm3": 0.1029,
+   "area_mm2": 332.6,
+   "watertight": true,
+   "dihedral_mean_deg": 16.0,
+   "dihedral_median_deg": 4.9,
+   "dihedral_max_deg": 119.9,
+   "length_mm": 33.9,
+   "width_mm": 4.63,
+   "thickness_mm": 0.87,
+   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
+   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "tibial_frac_gt_to_fh": 0.595,
+   "tibial_from_gerdy_mm": 27.8,
+   "tibial_from_fibular_head_mm": 19.0,
+   "lit_tibial_from_gerdy_mm": "17.7 +- 2.95",
+   "lit_tibial_from_fibular_head_mm": "12.3 +- 3.55",
+   "lit_length_kosy_mm": "40.1 +- 5.53",
+   "lit_length_rustagi_extension_mm": "40.38 +- 4.35",
+   "gerdy_tubercle": [
+    97.7,
+    -405.1,
+    -26.5
+   ],
+   "fibular_head": [
+    99.8,
+    -404.8,
+    -73.3
+   ],
+   "path_points_cleared": 0,
+   "min_signed_dist_femur_path_before_mm": 1.94,
+   "min_signed_dist_tibia_path_before_mm": -0.05,
+   "min_signed_dist_to_femur_after_mm": 0.94,
+   "min_signed_dist_to_tibia_after_mm": -0.87,
+   "contested": true,
+   "volume_analytic_cm3": 0.1073,
+   "volume_mesh_vs_analytic_rel": 0.041,
+   "volume_check_tol": 0.3,
+   "page_own_gerdy_to_fibular_head_span_mm": 46.8,
+   "kosy_implied_span_mm": 30.0,
+   "span_ratio_page_over_kosy": 1.56,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.041,
+     0.0,
+     0.3
+    ],
+    "length_mm": [
+     33.9,
+     23.5,
+     56.7
+    ],
+    "tibial_frac_gt_to_fh": [
+     0.595,
+     0.4,
+     0.8
+    ]
+   },
+   "refused": false,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 32.5,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 17.2
+  },
+  "lacn_anterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.2609,
+   "area_mm2": 703.4,
+   "watertight": true,
+   "dihedral_mean_deg": 15.8,
+   "dihedral_median_deg": 3.5,
+   "dihedral_max_deg": 90.2,
+   "length_mm": 144.3,
+   "diameter_mm": 1.58,
+   "trunk_diameter_mm": 2.63,
+   "division_distal_to_iel_mm": 48.8,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.405,
+   "t_end_on_radius": 1.003,
+   "short_of_distal_radius_mm": -0.6,
+   "d_brachioradialis_p50_mm": 1.08,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 86,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.97,
+   "min_signed_dist_to_radius_after_mm": 2.48,
+   "min_signed_dist_radius_path_before_mm": 3.66,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.2816,
+   "volume_mesh_vs_analytic_rel": 0.074,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.074,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.8,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     -0.6,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "lacn_posterior_branch_r": {
+   "verts": 302,
+   "tris": 600,
+   "volume_cm3": 0.258,
+   "area_mm2": 694.0,
+   "watertight": true,
+   "dihedral_mean_deg": 15.4,
+   "dihedral_median_deg": 3.1,
+   "dihedral_max_deg": 90.1,
+   "length_mm": 142.1,
+   "diameter_mm": 1.58,
+   "trunk_diameter_mm": 2.63,
+   "division_distal_to_iel_mm": 48.8,
+   "division_target_mm": 47.8,
+   "division_sd_mm": 34.2,
+   "t_start_on_radius": 0.405,
+   "t_end_on_radius": 0.996,
+   "short_of_distal_radius_mm": 1.0,
+   "d_brachioradialis_p50_mm": 1.1,
+   "d_brachioradialis_min_mm": 0.3,
+   "max_depth_in_brachioradialis_mm": 0.0,
+   "path_points_cleared": 118,
+   "rings_lifted": 0,
+   "min_signed_dist_brachioradialis_path_before_mm": -0.61,
+   "min_signed_dist_to_radius_after_mm": 2.89,
+   "min_signed_dist_radius_path_before_mm": 3.8,
+   "border_rail_extrapolated_pct": 0.0,
+   "branch_rate_pct": 81.7,
+   "single_branch_rate_pct": 17.9,
+   "volume_analytic_cm3": 0.2773,
+   "volume_mesh_vs_analytic_rel": 0.07,
+   "volume_check_tol": 0.3,
+   "gates": {
+    "volume_mesh_vs_analytic_rel": [
+     0.07,
+     0.0,
+     0.3
+    ],
+    "division_distal_to_iel_mm": [
+     48.8,
+     13.6,
+     82.0
+    ],
+    "short_of_distal_radius_mm": [
+     1.0,
+     -5.0,
+     20.0
+    ],
+    "max_depth_in_brachioradialis_mm": [
+     0.0,
+     0.0,
+     1.8
+    ]
+   },
+   "refused": false
+  },
+  "_ids_used": {
+   "scapula_l": "scapula_l",
+   "humerus_l": "humerus_l",
+   "radius_l": "radius_l",
+   "ulna_l": "ulna_l",
+   "brachioradialis_l": "brachioradialis_l",
+   "lacn_l": "zan_lateral_antebrachial_cutaneous_nerve_l",
+   "hip_bone_l": "hip_bone_l",
+   "femur_l": "femur_l",
+   "tibia_l": "tibia_l",
+   "fibula_l": "fibula_l",
+   "lcl_l": "fibular_collateral_ligament_l",
+   "itb_l": "zan_iliotibial_tract_l",
+   "scapula_r": "scapula_r",
+   "humerus_r": "humerus_r",
+   "radius_r": "radius_r",
+   "ulna_r": "ulna_r",
+   "brachioradialis_r": "brachioradialis_r",
+   "lacn_r": "zan_lateral_antebrachial_cutaneous_nerve_r",
+   "hip_bone_r": "hip_bone_r",
+   "femur_r": "femur_r",
+   "tibia_r": "tibia_r",
+   "fibula_r": "fibula_r",
+   "lcl_r": "fibular_collateral_ligament_r",
+   "itb_r": "iliotibial_tract_r",
+   "vert_t12": "zan_vertebra_t12",
+   "vert_l1": "zan_vertebra_l1",
+   "sacrum": "sacrum",
+   "sternum": "sternum"
+  },
+  "_n_meshes": 10,
+  "_n_refused": 0,
+  "_refused": {},
+  "_total_cm3": 6.4969
+ },
+ "_README": [
+  "Q308 rule-based structures, built on each page's own bones and own neighbours (scripts/anatomy/q308/build308.py); the cited numbers are in scripts/anatomy/q308/lit308.py.",
+  "Depth in bone is a SIGNED SURFACE DISTANCE on the real bone mesh (trimesh ProximityQuery), not an inside/outside flag on a voxel solid -- Q307 S1 measured a voxel solid inflated to 116.7 cm3 against 93.8 for the mesh, which nearly produced a false finding."
+ ]
+}
