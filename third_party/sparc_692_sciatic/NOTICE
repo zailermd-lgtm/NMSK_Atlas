@@ -1,0 +1,59 @@
+NOTICE: SPARC dataset 692 -- human sciatic nerve microCT (CC BY 4.0), used in Q304 as a CALIBRE REFERENCE ONLY
+
+ORIGINAL WORK
+  "Mapping the fascicular morphology and organization of the human sciatic nerve via high-resolution microCT
+  imaging", SPARC / Pennsieve dataset 692, version 1.
+  DOI: 10.26275/1jdc-qiiv
+  Dataset record: https://api.pennsieve.io/discover/datasets/692
+  Public object store named by that record's own `uri` field:
+      s3://sparc-prod-aod-discover-publish50-use1/692/
+  Creator: Nicole Pelot (ORCID 0000-0003-2844-0190).
+  Contributors include Jichu Zhang (ORCID 0009-0005-9791-8786) and the REVA / SPARC team at Case Western
+  Reserve University and Duke University.
+  Organization: SPARC Consortium (sparc.science), NIH Common Fund SPARC programme.
+  Size as published: 116 files, 369,737,939,477 bytes. Licence as published: Creative Commons Attribution
+  (SPDX `CC-BY-4.0`, read from the dataset's own `dataset_description.xlsx` in Q302 and from the Pennsieve
+  record's `license` field in Q304).
+
+LICENCE
+  Creative Commons Attribution 4.0 International. The full legal code is in the file `LICENSE` beside this
+  notice, fetched from the SPDX licence-list-data repository
+  (https://raw.githubusercontent.com/spdx/license-list-data/main/text/CC-BY-4.0.txt, 17,023 bytes,
+  sha256 d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744) because
+  creativecommons.org is not reachable from this project's network. Canonical text:
+  https://creativecommons.org/licenses/by/4.0/legalcode
+
+SUBJECT (quoted and summarised from the dataset's own subjects.xlsx, samples.xlsx and README.md)
+  `sub-SC001`: Homo sapiens, male, 41 years, EMBALMED CADAVER. Both sciatic nerves. Six samples, each a
+  segment of sciatic nerve about 9 cm long: SCL2 / SCL3 / SCL4 (left) and SCR2 / SCR3 / SCR4 (right), the
+  larger sample number more distal. Preparation: cadaver embalming (protocols.io 10.17504/protocols.io.kxygx4wm4l8j/v1),
+  phosphotungstic-acid (PTA) staining (10.17504/protocols.io.5qpvod95xg4o/v1), microCT of the excised segments
+  (10.17504/protocols.io.36wgqpd55vk5/v1) at 11.4 um isotropic resolution, segmentation with nnU-Net v2.
+  Funding named by the dataset: NIH SPARC OT2OD025349 and 75N98022C00018, VA 1I21RX005151,
+  AFOSR FA9550-23-F-0014.
+
+REQUIRED CITATION (the dataset's own README: "Make sure to cite the dataset ... please cite the dataset and
+Zhang et al. (2026)")
+  Pelot NA, Zhang J, et al. Mapping the fascicular morphology and organization of the human sciatic nerve via
+  high-resolution microCT imaging. SPARC Consortium, dataset 692 version 1. doi:10.26275/1jdc-qiiv. CC BY 4.0.
+  Zhang J, Lapierre-Landry M, Kalpatthi H, Jenkins MW, Wilson DL, Pelot NA, Shoffstall AJ. Automated 3D
+  segmentation of human vagus nerve fascicles and epineurium from micro-computed tomography images using
+  anatomy-aware neural networks. J Neural Eng 2026;23:16010. doi:10.1088/1741-2552/ae33f6.
+
+WHAT THIS PROJECT USES, AND WHAT IT DOES NOT (CC BY 4.0 section 3(a)(1)(B), indication of changes)
+  USED: numbers only. The per-slice `NerveMorphology.csv` products of the six samples (columns `index`, `area`,
+  `perimeter`, `eq_diameter`, `center_x`, `center_y`, `major_axis`, `minor_axis`, `angle`, all in VOXELS of the
+  11.4 um scan) and the `sciatic_levels.csv` annotations, which give the slice index of five named anatomical
+  levels per side: the level of formation of the sciatic nerve from the sacral roots, the level of the lesser
+  trochanter of the femur, and +7 / +14 / +21 cm below it. Q304 converts those columns to millimetres
+  (0.0114 mm per voxel) and reads the equivalent diameter at each named level, over a +-2 mm window of slices.
+  Those derived numbers are in `data/derived/Q304_sparc692_calibre.json`.
+  NOT USED: no geometry, no image, no mask, no mesh and no centreline shape from this dataset is shipped,
+  displayed or derived from. The samples were EXCISED and laid straight in the scanner (Q302 measured it: SCL2's
+  traced centreline spans 84.76 mm axially with an 85.09 mm arc length and 1.0 x 1.3 mm of lateral wander), so
+  the dataset carries no in-body trajectory and may not be used for the shape of anything.
+  NOT CHANGED BY US: nothing in this dataset. Q304 changed no mesh of this project either -- the comparison is
+  reported on each sciatic nerve's card with the reasons it did not become a geometry change.
+  NOT ENDORSED: neither the authors, Case Western Reserve University, Duke University, the SPARC Consortium nor
+  the NIH endorse this project or its use of their measurements. The figures are one embalmed, PTA-stained,
+  excised specimen (n = 1) and are a LOWER BOUND on a living nerve's calibre.

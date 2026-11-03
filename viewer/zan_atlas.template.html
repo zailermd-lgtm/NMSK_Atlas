@@ -5207,9 +5207,13 @@ var NMSKNerves = (function(){
   var STEP = [{w:0, a:0, label:"Off"}, {w:2.2, a:0.55, label:"Clear"}, {w:3.6, a:0.85, label:"Strong"}];
   var NERVE_CATS = {nerve:1, cns:1};
   /* A conventional list of the major peripheral nerves, used ONLY to say on the screen which of them this page does not
-     ship -- emphasis cannot show a nerve that is not there. Q299 found the two Imaging pages carry no fibular /
-     peroneal nerve at all and are missing 71 lower-limb nerves, while each Z page carries 18 fibular meshes; this probe
-     reports that from the page's own list rather than from a claim written here. */
+     ship -- emphasis cannot show a nerve that is not there. The probe reports that from the page's OWN list, never
+     from a claim written here, which is why the sentence it prints shrank by itself in Q304: Q299 had found the two
+     Imaging pages carrying no fibular / peroneal nerve at all and 71 lower-limb nerves fewer than the Combined page
+     of the same body (24 fibular meshes per Z page), and Q304 carried those nerves across by bone-point
+     registration, so the fibular, femoral, obturator, saphenous, sural, plantar and sided sciatic names are now
+     present on both Imaging pages as Z-Anatomy geometry registered onto that subject's own skeleton. What the probe
+     still reports missing on an Imaging page is the upper-limb and trunk set its own imaging never resolved. */
   var MAJOR = [
     ["median", /\bmedian\b/i], ["ulnar", /\bulnar\b/i], ["radial", /\bradial\b/i], ["musculocutaneous", /musculocutaneous/i],
     ["axillary", /\baxillary\b/i], ["suprascapular", /suprascapular/i], ["long thoracic", /long[_ ]thoracic/i],
