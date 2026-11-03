@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Q308: the four structure families this round builds, RULE-BASED, on each page's OWN bones and own neighbours.
 
-    python3 scripts/anatomy/q308/build308.py build [--keys base_m,...] [--src build/q307] [--out /dev/shm/q308/work]
+    python3 scripts/anatomy/q308/build308.py build [--keys base_m,...] [--src <model.build_root()>] [--out /dev/shm/q308/work]
 
 What is built, and what fixes its shape (the cited numbers all live in lit308.py):
   coracoacromial ligament   coracoid process -> anterior undersurface of the acromion, BOTH landmarks found on the
@@ -31,11 +31,13 @@ import trimesh
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
-for p in (HERE, REPO / "scripts/anatomy/q298", REPO / "scripts/anatomy/q248", REPO / "scripts/anatomy/q249"):
+for p in (HERE, REPO / "scripts/anatomy/q298", REPO / "scripts/anatomy/q248", REPO / "scripts/anatomy/q249",
+          REPO / "scripts/anatomy/q241"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
 import pagedata as pd      # noqa: E402
 import lit308 as L         # noqa: E402
+import model as M          # noqa: E402
 from rulelig import tube   # noqa: E402
 from nervelib import tube_round  # noqa: E402
 
@@ -1048,7 +1050,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["build"])
     ap.add_argument("--keys", default=",".join(KEYS))
-    ap.add_argument("--src", default="build/q307")
+    # the baseline comes from model.SRC via build_root(), not from a literal here; --src still overrides
+    ap.add_argument("--src", default=M.build_root())
     ap.add_argument("--out", default="/dev/shm/q308/work")
     a = ap.parse_args()
     build([k.strip() for k in a.keys.split(",") if k.strip()], a.src, a.out)

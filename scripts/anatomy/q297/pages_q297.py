@@ -135,7 +135,23 @@ def breast_notes(key, src):
     return out
 
 
-def build(src="build/q296", out="/dev/shm/q297/pre"):
+
+# Q308: the baseline is ASKED FOR, never written down here. `scripts/anatomy/q241/model.SRC` is the one place
+# in this repository that declares which build the six pages come from, and `model.build_root()` reads it. A
+# second copy of the literal goes stale silently the moment a round lands -- which is exactly what happened to
+# this module: its default stayed `build/q296`, where the provenance audit reports d_unaccounted = 2, so every
+# run without an explicit --src kept auditing the PRE-Q297 state and reporting it as today's.
+def _baseline():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    return _m.build_root()
+
+
+def build(src=None, out="/dev/shm/q297/pre"):
+    src = src or _baseline()   # Q308: the current baseline, not a stale literal
     src_p, out_p = REPO / src if not Path(src).is_absolute() else Path(src), Path(out)
     out_p.mkdir(parents=True, exist_ok=True)
     rep = {"src": str(src), "pages": {}}

@@ -2,7 +2,7 @@
  "schema": "nmsk.search.v2",
  "round": "Q306",
  "key": "own_m",
- "src": "build/q307",
+ "src": "/dev/shm/q308/pre",
  "doc": "Q298's table for this page, extended by scripts/anatomy/q306/build_search_q306.py from data/anatomy/{synonyms,groups,concepts,muscle_groups}_q306.json. A superset: every Q298 row is still here, unchanged. `alias[].i`, `groups[].i` and `concepts[].i` index `ids`.",
  "ids": [
   "tensor_fasciae_latae_l",
@@ -29027,7 +29027,7 @@
    ],
    "name": "Pubic symphysis",
    "canon": "Pubic symphysis (symphysis pubica)",
-   "why": "Verified absent: no page ships a pubic symphysis mesh (the only 'symphysis' on any page is the sacrococcygeal symphysis). The pubic bones themselves are part of the hip bone mesh, so the joint between them has no separate geometry. Found while validating the pelvic-tilt concept entry.",
+   "why": "Q308 CORRECTED. The four Z pages DO ship the symphysis's fibrocartilage as `Interpubic fibrocartilaginous disc` (`pubic_symphysis_disc`, TA `Discus interpubicus`); Q306's claim that no page ships it was wrong and is withdrawn. This explanation now appears ONLY on the two Imaging pages, which genuinely do not ship it -- there the pubic bones are part of the hip bone label and the joint between them has no separate geometry.",
    "s": "project,gray,ta",
    "offer": [
     119,
@@ -29073,7 +29073,7 @@
    ],
    "name": "Retrocalcaneal bursa",
    "canon": "Retrocalcaneal bursa (bursa tendinis calcanei)",
-   "why": "Verified absent on all six pages, although the pages do ship many other bursae (the bursa data is in data/bursae/). Recorded as a gap, not filled.",
+   "why": "Q308 CORRECTED. The four Z pages DO ship it as `Subtendinous calcaneal bursa` (TA `bursa subtendinea calcanei`); Q306's claim that it is absent from every page and from every source we hold was wrong and is withdrawn -- the pinned Z-Anatomy catalogue holds 39 bursae including this one. This explanation now appears only on the two Imaging pages, which do not ship it.",
    "s": "project,gray,ta",
    "offer": [
     79,
@@ -29146,7 +29146,7 @@
    ],
    "name": "Triangular fibrocartilage complex",
    "canon": "Triangular fibrocartilage complex (TFCC)",
-   "why": "Verified absent on all six pages. The ulnar side of the wrist ships the ulnar collateral ligament of the wrist joint and the carpal bones, but no TFCC.",
+   "why": "Q308 CORRECTED. The four Z pages DO ship the TFCC's central articular disc (`Articular disc of distal radio-ulnar joint`) and the dorsal ulnocarpal ligament; Q306's claim that the whole complex is absent was wrong and is withdrawn. What is genuinely absent is the meniscus homologue and the volar / dorsal radioulnar ligaments as separate meshes. On the two Imaging pages nothing of the complex ships.",
    "s": "project,gray",
    "offer": [
     104,
@@ -29650,7 +29650,7 @@
   }
  ],
  "counts": {
-  "structures": 1079,
+  "structures": 1083,
   "alias_forms": 1565,
   "aliased_structures": 528,
   "he_structures": 497,
@@ -29660,7 +29660,7 @@
   "groups": 129,
   "concepts": 38,
   "not_shipped": 19,
-  "unresolved": 51
+  "unresolved": 54
  },
  "concepts": [
   {
@@ -31591,6 +31591,18 @@
   },
   {
    "canon": "Deep femoral artery",
+   "reason": "no structure with this name on this page"
+  },
+  {
+   "canon": "Interpubic fibrocartilaginous disc (pubic symphysis)",
+   "reason": "no structure with this name on this page"
+  },
+  {
+   "canon": "Subtendinous calcaneal bursa (retrocalcaneal bursa)",
+   "reason": "no structure with this name on this page"
+  },
+  {
+   "canon": "Articular disc of the distal radio-ulnar joint (TFCC)",
    "reason": "no structure with this name on this page"
   },
   {

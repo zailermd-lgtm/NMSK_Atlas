@@ -15,11 +15,14 @@ from pathlib import Path
 import pytest
 
 REPO = Path(__file__).resolve().parents[1]
-for p in (REPO / "scripts/anatomy/q308", REPO / "scripts/anatomy/q298"):
+for p in (REPO / "scripts/anatomy/q308", REPO / "scripts/anatomy/q298", REPO / "scripts/anatomy/q241"):
     if str(p) not in sys.path:
         sys.path.insert(0, str(p))
+import model as _M  # noqa: E402
 
-SRC = "build/q307"
+# Asked for, not hardcoded: a literal baseline in a test goes stale the moment a round lands, and the test
+# then keeps asserting about an old build while reporting success.
+SRC = _M.build_root()
 REPORT = REPO / "data/derived/Q308_built_structures.json"
 PAGES = ["own_m", "own_f", "base_m", "base_f", "comb_m", "comb_f"]
 

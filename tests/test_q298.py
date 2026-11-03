@@ -274,8 +274,15 @@ def test_adjacency_is_within_the_stated_threshold_on_a_real_sample(adj):
     a = adj[k]
     cell = a["cell_mm"]
     strict = 3 ** 0.5 * 2 * cell                      # the bound 3x3x3 voxel contact really implies
-    assert abs(a["threshold_mm"] - 3 ** 0.5 * cell) < 0.01, \
-        "threshold_mm is documented as sqrt(3) * cell; if that changes, this test must be revisited"
+    # Q308 PUBLISHED the correction Q306 could only write up: the figure the page prints is now the STRICT
+    # bound. So this test pins that the printed figure IS the strict bound, that the voxel-centre figure is
+    # still carried beside it, and -- the part that stays meaningful -- that the typical pair is far inside
+    # the OLD, tighter figure, which is what makes the claim honest rather than merely unfalsifiable.
+    assert abs(a["threshold_mm"] - strict) < 0.01, \
+        "threshold_mm must be the STRICT sqrt(3) * 2 * cell bound (Q308's correction)"
+    assert abs(a["threshold_voxel_centres_mm"] - 3 ** 0.5 * cell) < 0.01, \
+        "the voxel-centre bound must still be carried beside it, so the correction is auditable"
+    assert a.get("threshold_note"), "the correction must say in the data why the figure changed"
     rng = np.random.default_rng(298)
     pairs = [(i, j) for i, row in enumerate(a["adj"]) for j in row if j > i]
     pick = [pairs[t] for t in rng.choice(len(pairs), 25, replace=False)]
@@ -292,9 +299,10 @@ def test_adjacency_is_within_the_stated_threshold_on_a_real_sample(adj):
     assert over_strict == [], \
         f"pairs called adjacent that are further apart than the strict {strict:.2f} mm bound: {over_strict}"
     med = float(np.median([d for d, _, _ in ds]))
-    assert med <= a["threshold_mm"], \
-        f"the MEDIAN adjacent pair ({med:.2f} mm) is now past the printed {a['threshold_mm']} mm: " \
-        "the claim would no longer be honest even as a typical figure"
+    assert med <= a["threshold_voxel_centres_mm"], \
+        f"the MEDIAN adjacent pair ({med:.2f} mm) is now past even the TIGHTER voxel-centre figure " \
+        f"({a['threshold_voxel_centres_mm']} mm): the typical pair must stay well inside the strict bound, " \
+        "or 'adjacent' has stopped meaning close"
 
 
 # ---------------------------------------------------------------- the relations and the functional groups

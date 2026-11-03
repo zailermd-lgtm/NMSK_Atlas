@@ -14,10 +14,15 @@ import json, re, sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(REPO / "scripts/anatomy/q298"))
+for _p in (REPO / "scripts/anatomy/q298", REPO / "scripts/anatomy/q241"):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
 import pagedata as pd  # noqa: E402
+import model as M      # noqa: E402
 
-DEFAULT_SRC = "build/q307"
+# The baseline is asked for, never written down here: `model.SRC` is the one place in the repository that says
+# which build the six pages come from, and a second copy of the literal goes stale the moment a round lands.
+DEFAULT_SRC = M.build_root()
 
 # TA / clinical synonym -> the name a mesh may ship under. Every pair is a SYNONYMY claim with a source, not a guess.
 TA_EQUIV = {

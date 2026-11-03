@@ -11,7 +11,23 @@ DIRS = {"own_m": ("viewer_m_hr","atlas_viewer_male.html","own"),
         "comb_f": ("viewer_zan_female","atlas_viewer_zan_female.html","zan")}
 _CACHE = {}
 
-def blob(key, root='build/q296'):
+
+# Q308: the baseline is ASKED FOR, never written down here. `scripts/anatomy/q241/model.SRC` is the one place
+# in this repository that declares which build the six pages come from, and `model.build_root()` reads it. A
+# second copy of the literal goes stale silently the moment a round lands -- which is exactly what happened to
+# this module: its default stayed `build/q296`, where the provenance audit reports d_unaccounted = 2, so every
+# run without an explicit --src kept auditing the PRE-Q297 state and reporting it as today's.
+def _baseline():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    return _m.build_root()
+
+
+def blob(key, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     ck = (key, root)
     if ck in _CACHE: return _CACHE[ck]
     dn, hn, kind = DIRS[key]
@@ -22,12 +38,14 @@ def blob(key, root='build/q296'):
     _CACHE[ck] = (b, h, kind, d)
     return _CACHE[ck]
 
-def zan_meshes(key, root='build/q296'):
+def zan_meshes(key, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     b, h, kind, d = blob(key, root)
     man = json.loads(re.search(r"^window\.__ANATOMY_MANIFEST__=(.*);$", h, re.M).group(1))
     return b, man['meshes']
 
-def get_zan(key, sid, root='build/q296'):
+def get_zan(key, sid, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     b, me = zan_meshes(key, root)
     for r in me:
         if r['id'] == sid:
@@ -37,19 +55,22 @@ def get_zan(key, sid, root='build/q296'):
             return v, f, r
     return None
 
-def own_structures(key, root='build/q296'):
+def own_structures(key, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     b, h, kind, d = blob(key, root)
     import sys; sys.path.insert(0, str(REPO))
     from scripts.transfer.bundle_io import decode
     bj = json.loads(re.search(r'<script id="bundle-json" type="application/json">(.*?)</script>', h, re.S).group(1))
     return bj, b, decode
 
-def get_own(key, sid, root='build/q296'):
+def get_own(key, sid, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     bj, b, decode = own_structures(key, root)
     for e, v, f in decode(bj, b):
         if e['id'] == sid:
             return np.asarray(v, float), np.asarray(f, np.int64), e
     return None
 
-def get(key, sid, root='build/q296'):
+def get(key, sid, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     return (get_own if DIRS[key][2]=='own' else get_zan)(key, sid, root)

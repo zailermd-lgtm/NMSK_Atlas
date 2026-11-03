@@ -7245,8 +7245,12 @@ function NMSKMulti(E, BAR, H){
                 surface into a shared 2 mm voxel grid (samples at <= 1 mm spacing, so no triangle is missed -- 69 % of the
                 triangles on a Z page are longer than 3 mm across, which is why a vertex-to-vertex test would not do) and
                 calls two structures adjacent when their voxels touch in the 3x3x3 neighbourhood: a surface-to-surface
-                separation of at most 3.46 mm. The status line always states the count and that threshold. It is a
-                measurement of the geometry, not an anatomical claim.
+                separation of at most 6.93 mm = sqrt(3) * 2 * cell, which is the bound that CANNOT be exceeded. Q308
+                corrected this: the figure printed until then was 3.46 mm = sqrt(3) * cell, which bounds the two voxel
+                CENTRES and not the surface points, so it overstated the precision. Measured on 120 random adjacent
+                pairs, the typical pair is far closer than either figure -- median 0.18 mm, p95 3.64, max 4.45. The
+                status line always states the count and the threshold. It is a measurement of the geometry, not an
+                anatomical claim.
      Related    the same muscle's other heads and parts, its tendon / aponeurosis / sheath, its bursae, its nerve supply,
                 an artery whose own record says it supplies it, the bones it attaches to, the structures of the joints it
                 crosses, and its antagonists at a shared joint -- built by scripts/anatomy/q298/relations_q298.py from the

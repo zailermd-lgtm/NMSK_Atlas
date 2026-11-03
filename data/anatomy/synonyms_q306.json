@@ -3304,7 +3304,10 @@
     "coccyx"
    ],
    "why_was": "Verified absent: no page ships a pubic symphysis mesh (the only 'symphysis' on any page is the sacrococcygeal symphysis). The pubic bones themselves are part of the hip bone mesh, so the joint between them has no separate geometry. Found while validating the pelvic-tilt concept entry.",
-   "corrected_by": "Q308"
+   "corrected_by": "Q308",
+   "shipped_as": [
+    "Interpubic fibrocartilaginous disc"
+   ]
   },
   {
    "name": "Coracoacromial ligament",
@@ -3346,7 +3349,10 @@
     "gastrocnemius"
    ],
    "why_was": "Verified absent on all six pages, although the pages do ship many other bursae (the bursa data is in data/bursae/). Recorded as a gap, not filled.",
-   "corrected_by": "Q308"
+   "corrected_by": "Q308",
+   "shipped_as": [
+    "Subtendinous calcaneal bursa"
+   ]
   },
   {
    "name": "Anterolateral ligament of the knee",
@@ -3414,7 +3420,11 @@
     "pisiform bone"
    ],
    "why_was": "Verified absent on all six pages. The ulnar side of the wrist ships the ulnar collateral ligament of the wrist joint and the carpal bones, but no TFCC.",
-   "corrected_by": "Q308"
+   "corrected_by": "Q308",
+   "shipped_as": [
+    "Articular disc of distal radio-ulnar joint",
+    "Dorsal ulnocarpal ligament"
+   ]
   },
   {
    "name": "Anterior superior iliac spine",
@@ -3593,6 +3603,7 @@
    "Retrocalcaneal bursa",
    "Triangular fibrocartilage complex"
   ],
-  "entries_verified_still_absent": 16
+  "entries_verified_still_absent": 16,
+  "shipped_as_doc": "Each corrected entry now names, in `shipped_as`, the page name under which the structure REALLY ships. The builder's own per-page guard resolves a term against the page's own NAMES (build_search_q298._hit_targets, three explicit rules), not against the compiled alias table -- so adding the clinical name as an alias was not enough to make the guard fire, and the explanation stayed on pages that ship the structure. With `shipped_as` the guard resolves and the explanation is withdrawn exactly where the mesh is present, which is the four Z pages, and kept on the two Imaging pages, where all three genuinely are absent."
  }
 }

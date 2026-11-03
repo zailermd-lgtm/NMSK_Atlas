@@ -111,7 +111,23 @@ def classify(st, page_kind, L=None):
     return "d_unaccounted", "none", "no badge, no source and no recognised subject id"
 
 
-def run(src="build/q296"):
+
+# Q308: the baseline is ASKED FOR, never written down here. `scripts/anatomy/q241/model.SRC` is the one place
+# in this repository that declares which build the six pages come from, and `model.build_root()` reads it. A
+# second copy of the literal goes stale silently the moment a round lands -- which is exactly what happened to
+# this module: its default stayed `build/q296`, where the provenance audit reports d_unaccounted = 2, so every
+# run without an explicit --src kept auditing the PRE-Q297 state and reporting it as today's.
+def _baseline():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    return _m.build_root()
+
+
+def run(src=None):
+    src = src or _baseline()   # Q308: the current baseline, not a stale literal
     rep = {"src": src, "pages": {}, "class_totals": collections.Counter(),
            "mislabelled": [], "rule_without_visible_badge": [], "unaccounted": []}
     for key in P.KEYS:
@@ -144,7 +160,7 @@ def run(src="build/q296"):
 
 
 def main(argv):
-    src = "build/q296"
+    src = _baseline()
     if "--src" in argv:
         src = argv[argv.index("--src") + 1]
     out = Path(argv[argv.index("--json") + 1]) if "--json" in argv else OUT

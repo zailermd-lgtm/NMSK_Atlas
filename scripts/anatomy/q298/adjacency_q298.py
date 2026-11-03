@@ -5,7 +5,8 @@ Criterion, stated exactly because the card and the UI quote it:
   every triangle of every structure is SAMPLED so that no point of it is further than CELL/2 mm from a sample (the
   triangle's vertices, plus a stratified barycentric sample per triangle at a density set by its area), the samples are
   rasterised into a shared CELL = 2.0 mm voxel grid, and two structures are ADJACENT when a voxel of one touches a voxel
-  of the other in the 3x3x3 neighbourhood. That is a surface-to-surface separation of at most sqrt(3) * 2.0 = 3.46 mm, and
+  of the other in the 3x3x3 neighbourhood. The STRICT surface-to-surface bound that implies is sqrt(3) * 2 * cell = 6.93 mm
+  (Q308's correction: sqrt(3) * cell = 3.46 mm bounds the two voxel CENTRES, not the surface points), and
   under 2.0 mm for a face-touching pair. Sampling, not vertex-to-vertex distance, is the reason this is honest: 69 % of the
   triangles on a Z page have a longest edge over 3 mm and the longest is 134 mm, so a vertex-to-vertex test would miss most
   real contacts.
@@ -15,7 +16,7 @@ says so ("measured on this page's geometry").
 
     python3 scripts/anatomy/q298/adjacency_q298.py [KEY...] [--src build/q297] [--cell 2.0]
     python3 scripts/anatomy/q298/adjacency_q298.py --isolated [KEY...]   # record the real nearest distance of any structure with no neighbour
--> data/derived/Q298_adjacency_<key>.json  {ids, adj (index lists), threshold_mm, cell_mm, pairs, how, per_structure, isolated_ids}
+-> data/derived/Q298_adjacency_<key>.json  {ids, adj (index lists), threshold_mm (the STRICT bound), threshold_voxel_centres_mm, threshold_note, cell_mm, pairs, how, per_structure, isolated_ids}
 """
 from __future__ import annotations
 
@@ -126,7 +127,20 @@ def build(key, src, cell=CELL):
     adj = [sorted(x) for x in adj]
     deg = np.array([len(x) for x in adj])
     out = {"schema": "nmsk.adjacency.v1", "round": "Q298", "key": key, "src": str(src),
-           "cell_mm": cell, "threshold_mm": round(float(np.sqrt(3) * cell), 2),
+           # Q308 CORRECTION (Q306 measured it, Q306 could not publish it). `threshold_mm` is the number the
+           # page PRINTS, and it was sqrt(3) * cell = 3.46 mm -- which is the bound on the two VOXEL CENTRES,
+           # not on the surface points. Two samples whose voxel indices differ by at most 1 per axis lie in a
+           # box 2 * cell on a side, so the strict bound on their separation is sqrt(3) * 2 * cell = 6.93 mm.
+           # The page now prints the bound that CANNOT be exceeded, and the voxel-centre figure and the
+           # measured distribution ride beside it so the claim is honest in both directions: measured on 120
+           # random adjacent pairs of Imaging M, median 0.18 mm, mean 0.97, p95 3.64, max 4.45, with 10 of 120
+           # past 3.46 (data/derived/Q306_adjacency_threshold.json).
+           "cell_mm": cell, "threshold_mm": round(float(np.sqrt(3) * 2 * cell), 2),
+           "threshold_voxel_centres_mm": round(float(np.sqrt(3) * cell), 2),
+           "threshold_note": ("the strict surface-to-surface bound implied by 3x3x3 voxel contact is "
+                              "sqrt(3) * 2 * cell; sqrt(3) * cell bounds the voxel CENTRES only. Measured on "
+                              "120 random adjacent pairs of Imaging M: median 0.18 mm, mean 0.97, p95 3.64, "
+                              "max 4.45, 10 of 120 past sqrt(3) * cell. Corrected in Q308."),
            "how": (f"surface samples at <= {cell / 2} mm spacing rasterised into a shared {cell} mm voxel grid; adjacent = a "
                    f"voxel of one touches a voxel of the other in the 3x3x3 neighbourhood, i.e. surface-to-surface "
                    f"separation <= {np.sqrt(3) * cell:.2f} mm (and <= {cell} mm for a face-touching pair). Measured on this "

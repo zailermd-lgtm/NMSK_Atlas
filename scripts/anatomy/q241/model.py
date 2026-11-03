@@ -23,6 +23,26 @@ def page_dir(key):
     return Path(d) if os.path.isabs(d) else REPO / d
 
 
+def build_root(default=None):
+    """The current baseline build root, resolved from the six SRC page dirs rather than hardcoded again.
+
+    `SRC` above is the ONE place in this repository that declares which build the six pages come from, and it
+    is updated when a round lands. Every other script that needs the baseline should ask here instead of
+    writing `build/qNNN` of its own: a literal copy goes stale silently the moment a round lands, and a tool
+    that keeps auditing an old build reports the old build's answer as if it were today's. (The live example:
+    `scripts/anatomy/q297/audit297.py` still defaults to `build/q296`, where the provenance audit reports
+    d_unaccounted = 2; against the current baseline it reports 0, so every run of it without an explicit
+    --src has been auditing the pre-Q297 state.)
+
+    Returns the common parent of the six page dirs when they share one, else `default` (or the first dir's
+    parent). Relative to the repository root, as the SRC entries are.
+    """
+    parents = {str(Path(SRC[k]).parent) for k in SRC}
+    if len(parents) == 1:
+        return parents.pop()
+    return default if default is not None else str(Path(SRC[KEYS[0]]).parent)
+
+
 class Model:
     def __init__(self, key, load=True):
         self.key = key

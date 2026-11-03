@@ -23,14 +23,31 @@ LABEL = {"own_m": "Imaging M", "own_f": "Imaging F", "base_m": "Base M",
          "base_f": "Base F", "comb_m": "Combined M", "comb_f": "Combined F"}
 
 
-def page_html(key, root="build/q296"):
+
+# Q308: the baseline is ASKED FOR, never written down here. `scripts/anatomy/q241/model.SRC` is the one place
+# in this repository that declares which build the six pages come from, and `model.build_root()` reads it. A
+# second copy of the literal goes stale silently the moment a round lands -- which is exactly what happened to
+# this module: its default stayed `build/q296`, where the provenance audit reports d_unaccounted = 2, so every
+# run without an explicit --src kept auditing the PRE-Q297 state and reporting it as today's.
+def _baseline():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    return _m.build_root()
+
+
+def page_html(key, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     dn, hn, kind = DIRS[key]
     d = (REPO / root / dn)
     return (d / hn).read_text(encoding="utf-8"), d, kind
 
 
-def structures(key, root="build/q296"):
+def structures(key, root=None):
     """[{id, name, sys, side, subject, rec, hd, fd}] exactly as the page carries them."""
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     h, d, kind = page_html(key, root)
     out = []
     if kind == "own":

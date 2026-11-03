@@ -10,7 +10,23 @@ sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
 import geo
 NUM={'first':1,'second':2,'third':3,'fourth':4,'fifth':5}
 R_CYL=9.0
-def page_meshes(key, root='build/q296'):
+
+# Q308: the baseline is ASKED FOR, never written down here. `scripts/anatomy/q241/model.SRC` is the one place
+# in this repository that declares which build the six pages come from, and `model.build_root()` reads it. A
+# second copy of the literal goes stale silently the moment a round lands -- which is exactly what happened to
+# this module: its default stayed `build/q296`, where the provenance audit reports d_unaccounted = 2, so every
+# run without an explicit --src kept auditing the PRE-Q297 state and reporting it as today's.
+def _baseline():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    return _m.build_root()
+
+
+def page_meshes(key, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     out=[]
     if geo.DIRS[key][2]=='zan':
         b,me=geo.zan_meshes(key, root)
@@ -21,7 +37,8 @@ def page_meshes(key, root='build/q296'):
         bj,b,decode=geo.own_structures(key, root)
         for e,v,f in decode(bj,b): out.append((e['id'],e.get('cat'),np.asarray(v,float)))
     return out
-def run(key, root='build/q296'):
+def run(key, root=None):
+    root = root or _baseline()   # Q308: the current baseline, not a stale literal
     M=page_meshes(key, root); rows=[]
     for side in 'lr':
         dp={}
