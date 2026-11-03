@@ -59,7 +59,7 @@
     "hip_bone_l": {
      "method": "calibrated_voxel_mask",
      "watertight": false,
-     "mask_offset_mm": 1.5,
+     "mask_offset_mm": 2.12,
      "signed_test_valid": true
     }
    },
@@ -97,17 +97,18 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1517,
-   "area_mm2": 502.1,
+   "volume_cm3": 0.1414,
+   "area_mm2": 468.0,
    "watertight": true,
-   "dihedral_mean_deg": 20.3,
-   "dihedral_median_deg": 4.8,
-   "dihedral_max_deg": 156.2,
-   "length_mm": 51.4,
+   "dihedral_mean_deg": 17.9,
+   "dihedral_median_deg": 5.0,
+   "dihedral_max_deg": 136.9,
+   "length_mm": 48.1,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 22.5,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 30.1,
    "tibial_from_fibular_head_mm": 20.5,
@@ -125,13 +126,13 @@
     -471.2,
     -56.3
    ],
-   "path_points_cleared": 10,
-   "rings_lifted": 41,
-   "min_signed_dist_femur_path_before_mm": 5.9,
-   "min_signed_dist_tibia_path_before_mm": 0.06,
-   "min_signed_dist_to_femur_after_mm": 5.35,
-   "min_signed_dist_to_tibia_after_mm": 0.04,
-   "attachment_depth_in_bone_mm": -2.36,
+   "path_points_cleared": 21,
+   "rings_lifted": 120,
+   "min_signed_dist_femur_path_before_mm": 0.04,
+   "min_signed_dist_tibia_path_before_mm": 0.54,
+   "min_signed_dist_to_femur_after_mm": 0.07,
+   "min_signed_dist_to_tibia_after_mm": 0.02,
+   "attachment_depth_in_bone_mm": -0.05,
    "clearance_method": {
     "femur_l": {
      "method": "calibrated_voxel_mask",
@@ -147,28 +148,28 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1625,
-   "volume_mesh_vs_analytic_rel": 0.066,
+   "volume_analytic_cm3": 0.1522,
+   "volume_mesh_vs_analytic_rel": 0.071,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 50.6,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.69,
-   "worst_residual_clearance_mm": 0.04,
+   "worst_residual_clearance_mm": 0.02,
    "gates": {
     "worst_residual_clearance_mm": [
-     0.04,
+     0.02,
      -0.0,
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.066,
+     0.071,
      0.0,
      0.3
     ],
     "length_mm": [
-     51.4,
+     48.1,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -176,7 +177,10 @@
      0.8
     ]
    },
-   "refused": false
+   "refused": false,
+   "all_mean_lateral_coord_mm": 155.0,
+   "fcl_mean_lateral_coord_mm": 159.4,
+   "is_superficial_to_the_fcl": false
   },
   "lacn_anterior_branch_l": {
    "verts": 302,
@@ -459,17 +463,18 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1542,
-   "area_mm2": 525.8,
+   "volume_cm3": 0.1234,
+   "area_mm2": 400.6,
    "watertight": true,
-   "dihedral_mean_deg": 22.1,
-   "dihedral_median_deg": 7.9,
-   "dihedral_max_deg": 175.3,
-   "length_mm": 53.8,
+   "dihedral_mean_deg": 16.4,
+   "dihedral_median_deg": 4.3,
+   "dihedral_max_deg": 129.2,
+   "length_mm": 41.1,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 11.9,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 27.8,
    "tibial_from_fibular_head_mm": 18.9,
@@ -487,13 +492,13 @@
     -470.6,
     -42.2
    ],
-   "path_points_cleared": 2,
-   "rings_lifted": 43,
-   "min_signed_dist_femur_path_before_mm": 4.39,
-   "min_signed_dist_tibia_path_before_mm": 0.02,
-   "min_signed_dist_to_femur_after_mm": 2.65,
-   "min_signed_dist_to_tibia_after_mm": 0.21,
-   "attachment_depth_in_bone_mm": -0.81,
+   "path_points_cleared": 12,
+   "rings_lifted": 123,
+   "min_signed_dist_femur_path_before_mm": 0.41,
+   "min_signed_dist_tibia_path_before_mm": 0.45,
+   "min_signed_dist_to_femur_after_mm": 0.3,
+   "min_signed_dist_to_tibia_after_mm": 0.11,
+   "attachment_depth_in_bone_mm": -0.8,
    "clearance_method": {
     "femur_r": {
      "method": "calibrated_voxel_mask",
@@ -509,28 +514,28 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1703,
-   "volume_mesh_vs_analytic_rel": 0.094,
+   "volume_analytic_cm3": 0.1301,
+   "volume_mesh_vs_analytic_rel": 0.052,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 46.7,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.56,
-   "worst_residual_clearance_mm": 0.21,
+   "worst_residual_clearance_mm": 0.11,
    "gates": {
     "worst_residual_clearance_mm": [
-     0.21,
+     0.11,
      -0.0,
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.094,
+     0.052,
      0.0,
      0.3
     ],
     "length_mm": [
-     53.8,
+     41.1,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -538,7 +543,10 @@
      0.8
     ]
    },
-   "refused": false
+   "refused": false,
+   "all_mean_lateral_coord_mm": 169.2,
+   "fcl_mean_lateral_coord_mm": 175.2,
+   "is_superficial_to_the_fcl": false
   },
   "lacn_anterior_branch_r": {
    "verts": 302,
@@ -731,7 +739,7 @@
    "lacn_posterior_branch_l": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_r was refused (gate(s) failed: short_of_distal_radius_mm), so lacn_posterior_branch_l is not shipped either",
    "lacn_posterior_branch_r": "gate(s) failed: short_of_distal_radius_mm"
   },
-  "_total_cm3": 4.5197
+  "_total_cm3": 4.4786
  },
  "own_f": {
   "frame": {
@@ -868,17 +876,18 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1393,
-   "area_mm2": 451.3,
+   "volume_cm3": 0.1116,
+   "area_mm2": 376.2,
    "watertight": true,
-   "dihedral_mean_deg": 15.0,
-   "dihedral_median_deg": 3.2,
-   "dihedral_max_deg": 119.8,
-   "length_mm": 46.5,
+   "dihedral_mean_deg": 19.8,
+   "dihedral_median_deg": 6.1,
+   "dihedral_max_deg": 162.9,
+   "length_mm": 38.3,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 14.1,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 23.8,
    "tibial_from_fibular_head_mm": 16.2,
@@ -896,13 +905,13 @@
     -413.6,
     -49.8
    ],
-   "path_points_cleared": 0,
-   "rings_lifted": 84,
-   "min_signed_dist_femur_path_before_mm": 1.46,
-   "min_signed_dist_tibia_path_before_mm": 4.66,
+   "path_points_cleared": 19,
+   "rings_lifted": 82,
+   "min_signed_dist_femur_path_before_mm": 0.15,
+   "min_signed_dist_tibia_path_before_mm": 3.72,
    "min_signed_dist_to_femur_after_mm": 0.06,
-   "min_signed_dist_to_tibia_after_mm": 2.59,
-   "attachment_depth_in_bone_mm": -2.66,
+   "min_signed_dist_to_tibia_after_mm": 2.8,
+   "attachment_depth_in_bone_mm": -0.38,
    "clearance_method": {
     "femur_l": {
      "method": "calibrated_voxel_mask",
@@ -918,8 +927,8 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.147,
-   "volume_mesh_vs_analytic_rel": 0.052,
+   "volume_analytic_cm3": 0.1213,
+   "volume_mesh_vs_analytic_rel": 0.08,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 40.0,
    "kosy_implied_span_mm": 30.0,
@@ -932,14 +941,14 @@
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.052,
+     0.08,
      0.0,
      0.3
     ],
     "length_mm": [
-     46.5,
+     38.3,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -947,7 +956,10 @@
      0.8
     ]
    },
-   "refused": false
+   "refused": false,
+   "all_mean_lateral_coord_mm": 103.9,
+   "fcl_mean_lateral_coord_mm": 111.1,
+   "is_superficial_to_the_fcl": false
   },
   "lacn_anterior_branch_l": {
    "verts": 302,
@@ -1229,17 +1241,18 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1276,
-   "area_mm2": 429.1,
+   "volume_cm3": 0.1081,
+   "area_mm2": 360.4,
    "watertight": true,
-   "dihedral_mean_deg": 20.0,
-   "dihedral_median_deg": 8.1,
-   "dihedral_max_deg": 150.7,
-   "length_mm": 44.0,
+   "dihedral_mean_deg": 19.8,
+   "dihedral_median_deg": 7.1,
+   "dihedral_max_deg": 125.7,
+   "length_mm": 36.2,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 23.7,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 24.2,
    "tibial_from_fibular_head_mm": 16.5,
@@ -1257,13 +1270,13 @@
     -409.8,
     -59.8
    ],
-   "path_points_cleared": 5,
-   "rings_lifted": 325,
-   "min_signed_dist_femur_path_before_mm": 0.11,
+   "path_points_cleared": 37,
+   "rings_lifted": 444,
+   "min_signed_dist_femur_path_before_mm": 0.02,
    "min_signed_dist_tibia_path_before_mm": 0.17,
-   "min_signed_dist_to_femur_after_mm": 0.02,
-   "min_signed_dist_to_tibia_after_mm": 0.51,
-   "attachment_depth_in_bone_mm": -0.05,
+   "min_signed_dist_to_femur_after_mm": 0.03,
+   "min_signed_dist_to_tibia_after_mm": 0.0,
+   "attachment_depth_in_bone_mm": -0.01,
    "clearance_method": {
     "femur_r": {
      "method": "calibrated_voxel_mask",
@@ -1279,28 +1292,28 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1393,
-   "volume_mesh_vs_analytic_rel": 0.084,
+   "volume_analytic_cm3": 0.1145,
+   "volume_mesh_vs_analytic_rel": 0.056,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 40.7,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.36,
-   "worst_residual_clearance_mm": 0.02,
+   "worst_residual_clearance_mm": 0.0,
    "gates": {
     "worst_residual_clearance_mm": [
-     0.02,
+     0.0,
      -0.0,
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.084,
+     0.056,
      0.0,
      0.3
     ],
     "length_mm": [
-     44.0,
+     36.2,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -1308,7 +1321,10 @@
      0.8
     ]
    },
-   "refused": false
+   "refused": false,
+   "all_mean_lateral_coord_mm": 102.4,
+   "fcl_mean_lateral_coord_mm": 109.6,
+   "is_superficial_to_the_fcl": false
   },
   "lacn_anterior_branch_r": {
    "verts": 302,
@@ -1499,7 +1515,7 @@
    "lacn_posterior_branch_l": "gate(s) failed: worst_residual_clearance_mm",
    "lacn_posterior_branch_r": "gate(s) failed: short_of_distal_radius_mm"
   },
-  "_total_cm3": 6.1177
+  "_total_cm3": 6.0705
  },
  "base_m": {
   "frame": {
@@ -1636,17 +1652,18 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1403,
-   "area_mm2": 472.6,
+   "volume_cm3": 0.0907,
+   "area_mm2": 335.3,
    "watertight": true,
-   "dihedral_mean_deg": 21.8,
-   "dihedral_median_deg": 4.2,
-   "dihedral_max_deg": 172.9,
-   "length_mm": 47.3,
+   "dihedral_mean_deg": 28.4,
+   "dihedral_median_deg": 10.2,
+   "dihedral_max_deg": 173.9,
+   "length_mm": 32.0,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 9.0,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 19.2,
    "tibial_from_fibular_head_mm": 13.1,
@@ -1664,13 +1681,13 @@
     -444.4,
     -42.5
    ],
-   "path_points_cleared": 3,
-   "rings_lifted": 3,
-   "min_signed_dist_femur_path_before_mm": 1.48,
+   "path_points_cleared": 15,
+   "rings_lifted": 7,
+   "min_signed_dist_femur_path_before_mm": 0.3,
    "min_signed_dist_tibia_path_before_mm": -3.35,
-   "min_signed_dist_to_femur_after_mm": 0.93,
+   "min_signed_dist_to_femur_after_mm": 0.3,
    "min_signed_dist_to_tibia_after_mm": 0.3,
-   "attachment_depth_in_bone_mm": 4.27,
+   "attachment_depth_in_bone_mm": 4.01,
    "clearance_method": {
     "femur_l": {
      "method": "signed_distance_watertight_mesh",
@@ -1686,8 +1703,8 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1497,
-   "volume_mesh_vs_analytic_rel": 0.063,
+   "volume_analytic_cm3": 0.1013,
+   "volume_mesh_vs_analytic_rel": 0.105,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 32.2,
    "kosy_implied_span_mm": 30.0,
@@ -1700,14 +1717,14 @@
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.063,
+     0.105,
      0.0,
      0.3
     ],
     "length_mm": [
-     47.3,
+     32.0,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -1716,6 +1733,9 @@
     ]
    },
    "refused": false,
+   "all_mean_lateral_coord_mm": 113.4,
+   "fcl_mean_lateral_coord_mm": 116.3,
+   "is_superficial_to_the_fcl": false,
    "gerdy_rule_vs_itb_most_distal_vertex_mm": 35.8,
    "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 19.9
   },
@@ -1998,17 +2018,18 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1385,
-   "area_mm2": 474.8,
+   "volume_cm3": 0.0906,
+   "area_mm2": 333.7,
    "watertight": true,
-   "dihedral_mean_deg": 23.2,
-   "dihedral_median_deg": 4.4,
-   "dihedral_max_deg": 170.4,
-   "length_mm": 47.3,
+   "dihedral_mean_deg": 29.5,
+   "dihedral_median_deg": 13.6,
+   "dihedral_max_deg": 168.1,
+   "length_mm": 32.0,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 9.0,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 19.2,
    "tibial_from_fibular_head_mm": 13.1,
@@ -2026,13 +2047,13 @@
     -444.4,
     -42.5
    ],
-   "path_points_cleared": 12,
-   "rings_lifted": 3,
-   "min_signed_dist_femur_path_before_mm": 1.48,
+   "path_points_cleared": 5,
+   "rings_lifted": 7,
+   "min_signed_dist_femur_path_before_mm": 0.3,
    "min_signed_dist_tibia_path_before_mm": -3.35,
-   "min_signed_dist_to_femur_after_mm": 0.93,
+   "min_signed_dist_to_femur_after_mm": 0.3,
    "min_signed_dist_to_tibia_after_mm": 0.3,
-   "attachment_depth_in_bone_mm": 4.27,
+   "attachment_depth_in_bone_mm": 4.01,
    "clearance_method": {
     "femur_r": {
      "method": "signed_distance_watertight_mesh",
@@ -2048,8 +2069,8 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1497,
-   "volume_mesh_vs_analytic_rel": 0.075,
+   "volume_analytic_cm3": 0.1013,
+   "volume_mesh_vs_analytic_rel": 0.106,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 32.2,
    "kosy_implied_span_mm": 30.0,
@@ -2062,14 +2083,14 @@
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.075,
+     0.106,
      0.0,
      0.3
     ],
     "length_mm": [
-     47.3,
+     32.0,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -2078,6 +2099,9 @@
     ]
    },
    "refused": false,
+   "all_mean_lateral_coord_mm": 113.4,
+   "fcl_mean_lateral_coord_mm": 116.3,
+   "is_superficial_to_the_fcl": false,
    "gerdy_rule_vs_itb_most_distal_vertex_mm": 35.8,
    "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 22.0
   },
@@ -2270,7 +2294,7 @@
   "_n_meshes": 10,
   "_n_refused": 0,
   "_refused": {},
-  "_total_cm3": 8.016
+  "_total_cm3": 7.9185
  },
  "base_f": {
   "frame": {
@@ -2407,17 +2431,18 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1331,
-   "area_mm2": 448.8,
+   "volume_cm3": 0.0858,
+   "area_mm2": 316.4,
    "watertight": true,
-   "dihedral_mean_deg": 21.7,
-   "dihedral_median_deg": 4.3,
-   "dihedral_max_deg": 172.9,
-   "length_mm": 44.8,
+   "dihedral_mean_deg": 29.3,
+   "dihedral_median_deg": 11.4,
+   "dihedral_max_deg": 169.0,
+   "length_mm": 29.9,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 8.6,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 18.0,
    "tibial_from_fibular_head_mm": 12.3,
@@ -2435,13 +2460,13 @@
     -415.1,
     -1.3
    ],
-   "path_points_cleared": 12,
-   "rings_lifted": 3,
-   "min_signed_dist_femur_path_before_mm": 1.69,
+   "path_points_cleared": 23,
+   "rings_lifted": 8,
+   "min_signed_dist_femur_path_before_mm": 0.3,
    "min_signed_dist_tibia_path_before_mm": -3.14,
-   "min_signed_dist_to_femur_after_mm": 1.06,
+   "min_signed_dist_to_femur_after_mm": 0.3,
    "min_signed_dist_to_tibia_after_mm": 0.3,
-   "attachment_depth_in_bone_mm": 4.05,
+   "attachment_depth_in_bone_mm": 3.79,
    "clearance_method": {
     "femur_l": {
      "method": "signed_distance_watertight_mesh",
@@ -2457,8 +2482,8 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1417,
-   "volume_mesh_vs_analytic_rel": 0.061,
+   "volume_analytic_cm3": 0.0946,
+   "volume_mesh_vs_analytic_rel": 0.093,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 30.2,
    "kosy_implied_span_mm": 30.0,
@@ -2471,14 +2496,14 @@
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.061,
+     0.093,
      0.0,
      0.3
     ],
     "length_mm": [
-     44.8,
+     29.9,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -2487,6 +2512,9 @@
     ]
    },
    "refused": false,
+   "all_mean_lateral_coord_mm": 125.0,
+   "fcl_mean_lateral_coord_mm": 127.7,
+   "is_superficial_to_the_fcl": false,
    "gerdy_rule_vs_itb_most_distal_vertex_mm": 33.6,
    "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 18.7
   },
@@ -2769,17 +2797,18 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1312,
-   "area_mm2": 450.9,
+   "volume_cm3": 0.0846,
+   "area_mm2": 314.2,
    "watertight": true,
-   "dihedral_mean_deg": 23.1,
-   "dihedral_median_deg": 4.5,
-   "dihedral_max_deg": 171.6,
-   "length_mm": 44.8,
+   "dihedral_mean_deg": 30.2,
+   "dihedral_median_deg": 14.8,
+   "dihedral_max_deg": 167.3,
+   "length_mm": 29.9,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 8.6,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 18.0,
    "tibial_from_fibular_head_mm": 12.3,
@@ -2797,13 +2826,13 @@
     -415.1,
     -1.3
    ],
-   "path_points_cleared": 3,
-   "rings_lifted": 3,
-   "min_signed_dist_femur_path_before_mm": 1.69,
+   "path_points_cleared": 7,
+   "rings_lifted": 8,
+   "min_signed_dist_femur_path_before_mm": 0.3,
    "min_signed_dist_tibia_path_before_mm": -3.14,
-   "min_signed_dist_to_femur_after_mm": 1.06,
+   "min_signed_dist_to_femur_after_mm": 0.3,
    "min_signed_dist_to_tibia_after_mm": 0.3,
-   "attachment_depth_in_bone_mm": 4.05,
+   "attachment_depth_in_bone_mm": 3.79,
    "clearance_method": {
     "femur_r": {
      "method": "signed_distance_watertight_mesh",
@@ -2819,8 +2848,8 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1417,
-   "volume_mesh_vs_analytic_rel": 0.074,
+   "volume_analytic_cm3": 0.0946,
+   "volume_mesh_vs_analytic_rel": 0.106,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 30.2,
    "kosy_implied_span_mm": 30.0,
@@ -2833,14 +2862,14 @@
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.074,
+     0.106,
      0.0,
      0.3
     ],
     "length_mm": [
-     44.8,
+     29.9,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -2849,6 +2878,9 @@
     ]
    },
    "refused": false,
+   "all_mean_lateral_coord_mm": 125.0,
+   "fcl_mean_lateral_coord_mm": 127.7,
+   "is_superficial_to_the_fcl": false,
    "gerdy_rule_vs_itb_most_distal_vertex_mm": 33.6,
    "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 20.7
   },
@@ -3041,7 +3073,7 @@
   "_n_meshes": 10,
   "_n_refused": 0,
   "_refused": {},
-  "_total_cm3": 7.4756
+  "_total_cm3": 7.3817
  },
  "comb_m": {
   "frame": {
@@ -3178,17 +3210,18 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1512,
-   "area_mm2": 526.7,
+   "volume_cm3": 0.1147,
+   "area_mm2": 419.8,
    "watertight": true,
-   "dihedral_mean_deg": 28.1,
-   "dihedral_median_deg": 4.7,
-   "dihedral_max_deg": 175.2,
-   "length_mm": 50.8,
+   "dihedral_mean_deg": 27.3,
+   "dihedral_median_deg": 9.7,
+   "dihedral_max_deg": 173.0,
+   "length_mm": 40.7,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 21.3,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 31.6,
    "tibial_from_fibular_head_mm": 21.5,
@@ -3206,13 +3239,13 @@
     -467.1,
     -60.0
    ],
-   "path_points_cleared": 13,
-   "rings_lifted": 5,
-   "min_signed_dist_femur_path_before_mm": 3.55,
+   "path_points_cleared": 21,
+   "rings_lifted": 9,
+   "min_signed_dist_femur_path_before_mm": -0.3,
    "min_signed_dist_tibia_path_before_mm": -6.29,
-   "min_signed_dist_to_femur_after_mm": 2.43,
+   "min_signed_dist_to_femur_after_mm": 0.38,
    "min_signed_dist_to_tibia_after_mm": 0.3,
-   "attachment_depth_in_bone_mm": 6.85,
+   "attachment_depth_in_bone_mm": 6.66,
    "clearance_method": {
     "femur_l": {
      "method": "signed_distance_watertight_mesh",
@@ -3228,8 +3261,8 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1606,
-   "volume_mesh_vs_analytic_rel": 0.059,
+   "volume_analytic_cm3": 0.1286,
+   "volume_mesh_vs_analytic_rel": 0.108,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 53.1,
    "kosy_implied_span_mm": 30.0,
@@ -3242,14 +3275,14 @@
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.059,
+     0.108,
      0.0,
      0.3
     ],
     "length_mm": [
-     50.8,
+     40.7,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -3257,10 +3290,12 @@
      0.8
     ]
    },
-   "refused": true,
+   "refused": false,
+   "all_mean_lateral_coord_mm": 152.5,
+   "fcl_mean_lateral_coord_mm": 154.4,
+   "is_superficial_to_the_fcl": false,
    "gerdy_rule_vs_itb_most_distal_vertex_mm": 38.0,
-   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 20.8,
-   "reason": "withdrawn by the both-sides-or-neither rule: anterolateral_ligament_r was refused (outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)), so anterolateral_ligament_l is not shipped either"
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 20.8
   },
   "lacn_anterior_branch_l": {
    "verts": 302,
@@ -3542,17 +3577,18 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1735,
-   "area_mm2": 597.4,
+   "volume_cm3": 0.1414,
+   "area_mm2": 492.1,
    "watertight": true,
-   "dihedral_mean_deg": 29.4,
-   "dihedral_median_deg": 9.1,
-   "dihedral_max_deg": 172.0,
-   "length_mm": 59.3,
+   "dihedral_mean_deg": 32.4,
+   "dihedral_median_deg": 16.9,
+   "dihedral_max_deg": 177.5,
+   "length_mm": 47.4,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 12.3,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 35.3,
    "tibial_from_fibular_head_mm": 24.0,
@@ -3570,13 +3606,13 @@
     -474.4,
     -50.8
    ],
-   "path_points_cleared": 33,
-   "rings_lifted": 7,
-   "min_signed_dist_femur_path_before_mm": 3.15,
-   "min_signed_dist_tibia_path_before_mm": -6.01,
-   "min_signed_dist_to_femur_after_mm": 1.33,
+   "path_points_cleared": 41,
+   "rings_lifted": 11,
+   "min_signed_dist_femur_path_before_mm": 0.3,
+   "min_signed_dist_tibia_path_before_mm": -6.45,
+   "min_signed_dist_to_femur_after_mm": 0.3,
    "min_signed_dist_to_tibia_after_mm": 0.3,
-   "attachment_depth_in_bone_mm": 4.57,
+   "attachment_depth_in_bone_mm": 4.16,
    "clearance_method": {
     "femur_r": {
      "method": "signed_distance_watertight_mesh",
@@ -3592,8 +3628,8 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1876,
-   "volume_mesh_vs_analytic_rel": 0.075,
+   "volume_analytic_cm3": 0.15,
+   "volume_mesh_vs_analytic_rel": 0.058,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 59.3,
    "kosy_implied_span_mm": 30.0,
@@ -3606,14 +3642,14 @@
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.075,
+     0.058,
      0.0,
      0.3
     ],
     "length_mm": [
-     59.3,
+     47.4,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -3621,8 +3657,12 @@
      0.8
     ]
    },
-   "refused": true,
-   "reason": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)"
+   "refused": false,
+   "all_mean_lateral_coord_mm": 167.4,
+   "fcl_mean_lateral_coord_mm": 169.9,
+   "is_superficial_to_the_fcl": false,
+   "gerdy_rule_vs_itb_most_distal_vertex_mm": 44.4,
+   "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 23.2
   },
   "lacn_anterior_branch_r": {
    "verts": 302,
@@ -3811,15 +3851,13 @@
    "sacrum": "sacrum",
    "sternum": "sternum"
   },
-  "_n_meshes": 6,
-  "_n_refused": 4,
+  "_n_meshes": 8,
+  "_n_refused": 2,
   "_refused": {
-   "anterolateral_ligament_l": "withdrawn by the both-sides-or-neither rule: anterolateral_ligament_r was refused (outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)), so anterolateral_ligament_l is not shipped either",
-   "anterolateral_ligament_r": "outside +- 3 SD of Kosy 2016 on: length_mm (this page's Gerdy-to-fibular-head span is 59.3 mm against Kosy's implied 30.0 mm)",
    "lacn_posterior_branch_l": "gate(s) failed: max_depth_in_brachioradialis_mm, worst_residual_clearance_mm",
    "lacn_posterior_branch_r": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_l was refused (gate(s) failed: max_depth_in_brachioradialis_mm, worst_residual_clearance_mm), so lacn_posterior_branch_r is not shipped either"
   },
-  "_total_cm3": 5.8505
+  "_total_cm3": 6.1066
  },
  "comb_f": {
   "frame": {
@@ -3956,17 +3994,18 @@
   "anterolateral_ligament_l": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1092,
-   "area_mm2": 369.6,
+   "volume_cm3": 0.0881,
+   "area_mm2": 294.1,
    "watertight": true,
-   "dihedral_mean_deg": 18.4,
-   "dihedral_median_deg": 6.3,
-   "dihedral_max_deg": 130.7,
-   "length_mm": 37.9,
+   "dihedral_mean_deg": 16.2,
+   "dihedral_median_deg": 3.1,
+   "dihedral_max_deg": 123.1,
+   "length_mm": 30.1,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 6.9,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 24.3,
    "tibial_from_fibular_head_mm": 16.5,
@@ -3985,12 +4024,12 @@
     -56.4
    ],
    "path_points_cleared": 0,
-   "rings_lifted": 0,
-   "min_signed_dist_femur_path_before_mm": 2.12,
+   "rings_lifted": 1,
+   "min_signed_dist_femur_path_before_mm": 0.3,
    "min_signed_dist_tibia_path_before_mm": 1.52,
-   "min_signed_dist_to_femur_after_mm": 0.39,
-   "min_signed_dist_to_tibia_after_mm": 1.31,
-   "attachment_depth_in_bone_mm": -0.15,
+   "min_signed_dist_to_femur_after_mm": 0.3,
+   "min_signed_dist_to_tibia_after_mm": 1.08,
+   "attachment_depth_in_bone_mm": 0.71,
    "clearance_method": {
     "femur_l": {
      "method": "signed_distance_watertight_mesh",
@@ -4006,28 +4045,28 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1199,
-   "volume_mesh_vs_analytic_rel": 0.089,
+   "volume_analytic_cm3": 0.0951,
+   "volume_mesh_vs_analytic_rel": 0.074,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 40.8,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.36,
-   "worst_residual_clearance_mm": 0.39,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
     "worst_residual_clearance_mm": [
-     0.39,
+     0.3,
      -0.0,
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.089,
+     0.074,
      0.0,
      0.3
     ],
     "length_mm": [
-     37.9,
+     30.1,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -4036,6 +4075,9 @@
     ]
    },
    "refused": false,
+   "all_mean_lateral_coord_mm": 104.6,
+   "fcl_mean_lateral_coord_mm": 106.2,
+   "is_superficial_to_the_fcl": false,
    "gerdy_rule_vs_itb_most_distal_vertex_mm": 31.4,
    "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 15.2
   },
@@ -4320,17 +4362,18 @@
   "anterolateral_ligament_r": {
    "verts": 202,
    "tris": 400,
-   "volume_cm3": 0.1029,
-   "area_mm2": 332.6,
+   "volume_cm3": 0.1064,
+   "area_mm2": 352.6,
    "watertight": true,
-   "dihedral_mean_deg": 16.0,
-   "dihedral_median_deg": 4.9,
-   "dihedral_max_deg": 119.9,
-   "length_mm": 33.9,
+   "dihedral_mean_deg": 17.3,
+   "dihedral_median_deg": 5.2,
+   "dihedral_max_deg": 128.6,
+   "length_mm": 35.5,
    "width_mm": 4.63,
    "thickness_mm": 0.87,
-   "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-   "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+   "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated approximation, PMC5071230 read in full)",
+   "femoral_origin_to_fcl_femoral_end_mm": 20.1,
+   "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
    "tibial_frac_gt_to_fh": 0.595,
    "tibial_from_gerdy_mm": 27.8,
    "tibial_from_fibular_head_mm": 19.0,
@@ -4348,13 +4391,13 @@
     -404.8,
     -73.3
    ],
-   "path_points_cleared": 0,
-   "rings_lifted": 0,
-   "min_signed_dist_femur_path_before_mm": 1.94,
+   "path_points_cleared": 31,
+   "rings_lifted": 8,
+   "min_signed_dist_femur_path_before_mm": -0.3,
    "min_signed_dist_tibia_path_before_mm": -0.05,
-   "min_signed_dist_to_femur_after_mm": 0.94,
-   "min_signed_dist_to_tibia_after_mm": 0.41,
-   "attachment_depth_in_bone_mm": 0.87,
+   "min_signed_dist_to_femur_after_mm": 0.3,
+   "min_signed_dist_to_tibia_after_mm": 0.3,
+   "attachment_depth_in_bone_mm": 0.72,
    "clearance_method": {
     "femur_r": {
      "method": "signed_distance_watertight_mesh",
@@ -4370,28 +4413,28 @@
     }
    },
    "contested": true,
-   "volume_analytic_cm3": 0.1073,
-   "volume_mesh_vs_analytic_rel": 0.041,
+   "volume_analytic_cm3": 0.1124,
+   "volume_mesh_vs_analytic_rel": 0.053,
    "volume_check_tol": 0.3,
    "page_own_gerdy_to_fibular_head_span_mm": 46.8,
    "kosy_implied_span_mm": 30.0,
    "span_ratio_page_over_kosy": 1.56,
-   "worst_residual_clearance_mm": 0.41,
+   "worst_residual_clearance_mm": 0.3,
    "gates": {
     "worst_residual_clearance_mm": [
-     0.41,
+     0.3,
      -0.0,
      99.0
     ],
     "volume_mesh_vs_analytic_rel": [
-     0.041,
+     0.053,
      0.0,
      0.3
     ],
     "length_mm": [
-     33.9,
+     35.5,
      23.5,
-     56.7
+     59.0
     ],
     "tibial_frac_gt_to_fh": [
      0.595,
@@ -4400,6 +4443,9 @@
     ]
    },
    "refused": false,
+   "all_mean_lateral_coord_mm": 104.5,
+   "fcl_mean_lateral_coord_mm": 104.0,
+   "is_superficial_to_the_fcl": true,
    "gerdy_rule_vs_itb_most_distal_vertex_mm": 32.5,
    "gerdy_rule_vs_itb_lowest_8pct_centroid_mm": 17.2
   },
@@ -4599,7 +4645,7 @@
    "lacn_posterior_branch_l": "gate(s) failed: worst_residual_clearance_mm",
    "lacn_posterior_branch_r": "withdrawn by the both-sides-or-neither rule: lacn_posterior_branch_l was refused (gate(s) failed: worst_residual_clearance_mm), so lacn_posterior_branch_r is not shipped either"
   },
-  "_total_cm3": 5.4094
+  "_total_cm3": 5.3918
  },
  "_README": [
   "Q308 rule-based structures, built on each page's own bones and own neighbours (scripts/anatomy/q308/build308.py); the cited numbers are in scripts/anatomy/q308/lit308.py.",

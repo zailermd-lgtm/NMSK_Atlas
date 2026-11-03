@@ -101,7 +101,14 @@ CITE = {
      "The tibial insertion was a mean 17.7 (+/- 2.95) mm from Gerdy's tubercle (GT) and 12.3 (+/- 3.55) mm from "
      "the fibula head (FH). This was 59.5 (+/- 5.44) % from GT to FH.",
      "Our results support the finding that the ALL is a capsular thickening with meniscal attachment.",
-   ]},
+     "all of these described attachments exist on a line passing through the lateral femoral epicondyle and, "
+     "thus, the centre of this may be an adequate approximation",
+     "In cases where the ALL attaches PP to the LCL, we found the ALL superficial to the LCL.",
+     "the dimensions of the ALL are variably described, with lengths from 37 to 59 mm reported",
+     "the thickness of our measured ligament (0.87 mm) is less than previously described by Claes et al. and "
+     "Caterine et al. It is also significantly less than the 2-3 mm described by Vincent et al.",
+   ], "full_text_read": "PMC5071230, read in full this round -- which is where the lateral-femoral-epicondyle "
+                        "resolution and the 37-59 mm published range come from, not from the abstract"},
  "rustagi2019": {
    "cite": "Rustagi SM, Gopal P, Ahuja MS, Arora NC, Sood N. The Anterolateral Ligament of the Knee: Descriptive "
            "Anatomy and Clinical Correlation. Indian J Orthop 2019;53(1):89-93",
@@ -152,6 +159,7 @@ LIT = {
  "psoas_minor_belly_diam_mm":      (6.0,  0.5,  "raja2026"),
  "psoas_minor_prevalence_classic_pct": (45.0, None, "raja2026"),
  "all_length_mm":                  (40.1, 5.53, "kosy2016"),
+ "all_length_published_range_mm":  ((37.0, 59.0), None, "kosy2016"),
  "all_width_mm":                   (4.63, 1.39, "kosy2016"),
  "all_thickness_mm":               (0.87, 0.18, "kosy2016"),
  "all_tibial_frac_gt_to_fh":       (0.595, 0.0544, "kosy2016"),
@@ -163,12 +171,29 @@ LIT = {
 DISAGREE = {
  "all_femoral_origin": {
    "what": "where the ALL attaches on the femur relative to the fibular (lateral) collateral ligament",
-   "shipped": "posterior and proximal to the LCL femoral attachment",
-   "why_shipped": "the majority finding of the study that reports the split (Kosy 2016: 6 of 11 knees posterior "
-                  "and proximal, 3 anterior and distal, 1 at the same site)",
-   "against": "Rustagi 2019 (20 specimens) reports the opposite: 'Its proximal attachment to the femur is "
-              "anterior and distal to the attachment of the LCL'",
+   "shipped": "the CENTRE OF THE LATERAL FEMORAL EPICONDYLE, which is the resolution Kosy 2016's own full text "
+              "offers for the dispute",
+   "why_shipped": "Kosy 2016 (read in full, PMC5071230): 'all of these described attachments exist on a line "
+                  "passing through the lateral femoral epicondyle and, thus, the centre of this may be an "
+                  "adequate approximation'. Taking the authors' own approximation is better than picking a side "
+                  "in their disagreement with Rustagi, and it removes an offset we would otherwise have had to "
+                  "declare ourselves.",
+   "against": "the dispute itself remains unsettled and is NOT resolved by shipping the midpoint: Kosy 2016 "
+              "found the origin posterior and proximal to the LCL in 6 of 11 knees, anterior and distal in 3 "
+              "and at the same site in 1, while Rustagi 2019 (20 specimens) reports it as 'anterior and distal "
+              "to the attachment of the LCL' in all of theirs. A reader who needs the variant, rather than the "
+              "central approximation, will not find it here.",
    "sources": ["kosy2016", "rustagi2019"]},
+ "all_thickness": {
+   "what": "the ALL's thickness",
+   "shipped": "0.87 +- 0.18 mm (Kosy 2016)",
+   "why_shipped": "the thinnest and most recent careful dissection of the two studies this round read in full; "
+                  "it is also the value whose measurement method is described",
+   "against": "Kosy 2016 says so itself: 'the thickness of our measured ligament (0.87 mm) is less than "
+              "previously described by Claes et al. and Caterine et al. It is also significantly less than the "
+              "2-3 mm described by Vincent et al.' -- so the shipped band is at the THIN end of a 0.87-3 mm "
+              "published spread, and the ligament may be up to 3.4x thicker than drawn here.",
+   "sources": ["kosy2016"]},
  "all_width": {
    "what": "the ALL's width",
    "shipped": "4.63 +/- 1.39 mm (uniform)",
@@ -208,6 +233,9 @@ MODELLING_CHOICES = {
                       "for rule-based ligaments).",
  "all_cross_section": "elliptical, 4.63 x 0.87 mm from Kosy 2016's calipers; the elliptical shape is a modelling "
                       "choice. Rustagi 2019's wider, tapering width is recorded as a disagreement, not averaged in.",
+ "all_femoral_origin": "the centre of the lateral femoral epicondyle, which is Kosy 2016's own stated "
+                       "approximation -- NOT a modelling choice, and it replaces the 6 mm posterior / 6 mm "
+                       "proximal offset this round would otherwise have had to declare.",
  "lacn_branch_calibre": "each branch is given 60 % of the measured diameter of this page's own LACN trunk. No "
                         "published calibre for the branches was found by the PubMed searches this round ran, so "
                         "the 60 % is a DECLARED MODELLING CHOICE and not a measurement.",

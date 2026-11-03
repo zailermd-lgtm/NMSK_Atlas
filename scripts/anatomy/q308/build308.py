@@ -829,14 +829,25 @@ def build_all_knee(got, ids, side, key):
     Vt, Ft = got[ids[f"tibia_{side}"]]
     Vfi = got[ids[f"fibula_{side}"]][0]
     Vl = got[ids[f"lcl_{side}"]][0]
+    sgn0 = 1.0 if side == "r" else -1.0
     gt, At, Ct = lm_gerdy(Vt, side)
     fh = lm_fibular_head(Vfi)
     # the LCL's femoral end = its most PROXIMAL (superior) end
     lcl_fem = Vl[Vl[:, 1] >= np.percentile(Vl[:, 1], 92)].mean(0)
-    # posterior and proximal to it: Kosy reports the relation, not a distance, so the offset is the smallest step
-    # that makes the relation unambiguous on this geometry -- 6 mm posterior and 6 mm proximal -- and it is
-    # DECLARED, not presented as a measurement.
-    fem = lcl_fem + np.array([0.0, 6.0, -6.0])
+    # THE FEMORAL ORIGIN. Kosy 2016, read in full (PMC5071230): "all of these described attachments exist on a
+    # line passing through the lateral femoral epicondyle and, thus, the centre of this may be an adequate
+    # approximation". So the origin is the centre of the page's own lateral femoral epicondyle -- the authors'
+    # own resolution of their disagreement with Rustagi 2019 -- instead of an offset from the LCL that this
+    # round would have had to invent. The lateral epicondyle is found on the page's own femur by the same rule
+    # used for the humerus: within the distal fifth, the vertices furthest to the lateral side.
+    Cf, Af, _ = pca_axis(Vf)
+    tf = along(Vf, Cf, Af)
+    if tf[np.argmin(Vf[:, 1])] < 0:
+        Af, tf = -Af, -tf                 # + is now DISTAL
+    distf = Vf[tf >= np.percentile(tf, 80)]
+    lat_cut = np.percentile(sgn0 * distf[:, 0], 92)
+    epi = distf[sgn0 * distf[:, 0] >= lat_cut]
+    fem = epi.mean(0)
     bf = Bone(Vf, Ff, ids[f"femur_{side}"])
     sd = bf.signed(fem[None, :])[0]
     if sd < CLEAR:
@@ -860,8 +871,10 @@ def build_all_knee(got, ids, side, key):
     V, nlift = lift_rings([(bf, CLEAR), (bt, CLEAR)], V, len(P), 10, keep_ends=True)
     st = mesh_stats(V, F)
     out = {"length_mm": round(polyline_len(P), 1), "width_mm": w, "thickness_mm": th,
-           "femoral_origin_rule": "posterior and proximal to this page's own fibular collateral ligament femoral end",
-           "femoral_offset_mm": "6 posterior, 6 proximal (declared; Kosy 2016 reports the relation, not a distance)",
+           "femoral_origin_rule": "centre of this page's own lateral femoral epicondyle (Kosy 2016's own stated "
+                                 "approximation, PMC5071230 read in full)",
+           "femoral_origin_to_fcl_femoral_end_mm": round(float(np.linalg.norm(fem - lcl_fem)), 1),
+           "lit_length_published_range_mm": "37-59 across studies (Kosy 2016's own review of them)",
            "tibial_frac_gt_to_fh": frac,
            "tibial_from_gerdy_mm": round(float(np.linalg.norm(tib - gt)), 1),
            "tibial_from_fibular_head_mm": round(float(np.linalg.norm(tib - fh)), 1),
@@ -894,7 +907,7 @@ def build_all_knee(got, ids, side, key):
     penetration_gate(st, ["min_signed_dist_to_femur_after_mm", "min_signed_dist_to_tibia_after_mm"])
     gates = {"worst_residual_clearance_mm": (st["worst_residual_clearance_mm"], -0.01, 99.0),
              "volume_mesh_vs_analytic_rel": (st["volume_mesh_vs_analytic_rel"], 0.0, st["volume_check_tol"]),
-             "length_mm": (st["length_mm"], 40.1 - 3 * 5.53, 40.1 + 3 * 5.53),
+             "length_mm": (st["length_mm"], min(37.0, 40.1 - 3 * 5.53), max(59.0, 40.1 + 3 * 5.53)),
              "tibial_frac_gt_to_fh": (st["tibial_frac_gt_to_fh"],
                                       0.595 - 3 * 0.0544, 0.595 + 3 * 0.0544)}
     bad = {k: [v, round(lo, 1), round(hi, 1)] for k, (v, lo, hi) in gates.items() if not (lo <= v <= hi)}
@@ -905,6 +918,13 @@ def build_all_knee(got, ids, side, key):
                         + f" (this page's Gerdy-to-fibular-head span is {st['page_own_gerdy_to_fibular_head_span_mm']} mm"
                           f" against Kosy's implied 30.0 mm)")
         return None, None, st
+    # Kosy 2016: "we found the ALL superficial to the LCL". Superficial here means FURTHER LATERAL, so it is
+    # measurable on the page's own two meshes and is measured rather than asserted.
+    lat_all = float(sgn0 * V[:, 0].mean())
+    lat_fcl = float(sgn0 * Vl[:, 0].mean())
+    st["all_mean_lateral_coord_mm"] = round(lat_all, 1)
+    st["fcl_mean_lateral_coord_mm"] = round(lat_fcl, 1)
+    st["is_superficial_to_the_fcl"] = bool(lat_all > lat_fcl)
     # the Gerdy rule, CHECKED against the page's own iliotibial tract where the page carries one
     if ids.get(f"itb_{side}"):
         Vi = got[ids[f"itb_{side}"]][0]
