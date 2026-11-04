@@ -2,7 +2,7 @@
  "schema": "nmsk.search.v2",
  "round": "Q306",
  "key": "base_m",
- "src": "/dev/shm/q308/pre",
+ "src": "build/q309",
  "doc": "Q298's table for this page, extended by scripts/anatomy/q306/build_search_q306.py from data/anatomy/{synonyms,groups,concepts,muscle_groups}_q306.json. A superset: every Q298 row is still here, unchanged. `alias[].i`, `groups[].i` and `concepts[].i` index `ids`.",
  "ids": [
   "zan_iliotibial_tract_l",
@@ -849,10 +849,12 @@
   "zan_transverse_part_of_iliofemoral_ligament_l",
   "zan_transverse_part_of_iliofemoral_ligament_r",
   "extensor_retinaculum_r",
-  "zan_iliopsoas_fascia_l",
-  "zan_iliopsoas_fascia_r",
-  "iliopsoas_bursa_l",
-  "iliopsoas_bursa_r",
+  "psoas_minor_l",
+  "psoas_minor_r",
+  "coracoacromial_ligament_l",
+  "coracoacromial_ligament_r",
+  "anterolateral_ligament_l",
+  "anterolateral_ligament_r",
   "zan_investing_abdominal_fascia_l",
   "zan_investing_abdominal_fascia_r",
   "fat_subcut_abdomen"
@@ -1703,7 +1705,9 @@
   1,
   0,
   0,
-  1,
+  0,
+  0,
+  0,
   0,
   0,
   0,
@@ -31218,6 +31222,455 @@
    "s": "Q306",
    "r": "Q306",
    "cc": "pes_planus"
+  },
+  {
+   "q": "psoas minor musculus psoas minor",
+   "d": "Psoas minor (musculus psoas minor)",
+   "k": "name",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "psoas minor",
+   "d": "psoas minor",
+   "k": "syn",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "musculus psoas minor",
+   "d": "musculus psoas minor",
+   "k": "syn",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "m psoas minor",
+   "d": "m. psoas minor",
+   "k": "syn",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "pmi",
+   "d": "PMi",
+   "k": "syn",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "lesser psoas",
+   "d": "lesser psoas",
+   "k": "syn",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "פסואס מינור",
+   "d": "פסואס מינור",
+   "k": "he",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "השריר הכליתי הקטן",
+   "d": "השריר הכליתי הקטן",
+   "k": "he",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "פסואס קטן",
+   "d": "פסואס קטן",
+   "k": "he",
+   "c": "Psoas minor (musculus psoas minor)",
+   "i": [
+    844,
+    845
+   ],
+   "s": "raja2026,patra2024,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "pubic symphysis symphysis pubica",
+   "d": "Pubic symphysis (symphysis pubica)",
+   "k": "name",
+   "c": "Pubic symphysis (symphysis pubica)",
+   "i": [
+    610
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "pubic symphysis",
+   "d": "pubic symphysis",
+   "k": "syn",
+   "c": "Pubic symphysis (symphysis pubica)",
+   "i": [
+    610
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "symphysis pubis",
+   "d": "symphysis pubis",
+   "k": "syn",
+   "c": "Pubic symphysis (symphysis pubica)",
+   "i": [
+    610
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "symphysis pubica",
+   "d": "symphysis pubica",
+   "k": "syn",
+   "c": "Pubic symphysis (symphysis pubica)",
+   "i": [
+    610
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "pubic joint",
+   "d": "pubic joint",
+   "k": "syn",
+   "c": "Pubic symphysis (symphysis pubica)",
+   "i": [
+    610
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "סימפיזה פובית",
+   "d": "סימפיזה פובית",
+   "k": "he",
+   "c": "Pubic symphysis (symphysis pubica)",
+   "i": [
+    610
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "מפרק החיבור הקדמי של האגן",
+   "d": "מפרק החיבור הקדמי של האגן",
+   "k": "he",
+   "c": "Pubic symphysis (symphysis pubica)",
+   "i": [
+    610
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "coracoacromial ligament ligamentum coracoacromiale",
+   "d": "Coracoacromial ligament (ligamentum coracoacromiale)",
+   "k": "name",
+   "c": "Coracoacromial ligament (ligamentum coracoacromiale)",
+   "i": [
+    846,
+    847
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "coracoacromial ligament",
+   "d": "coracoacromial ligament",
+   "k": "syn",
+   "c": "Coracoacromial ligament (ligamentum coracoacromiale)",
+   "i": [
+    846,
+    847
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "ligamentum coracoacromiale",
+   "d": "ligamentum coracoacromiale",
+   "k": "syn",
+   "c": "Coracoacromial ligament (ligamentum coracoacromiale)",
+   "i": [
+    846,
+    847
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "coracoacromial arch",
+   "d": "coracoacromial arch",
+   "k": "syn",
+   "c": "Coracoacromial ligament (ligamentum coracoacromiale)",
+   "i": [
+    846,
+    847
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "הרצועה הקוראקואקרומיאלית",
+   "d": "הרצועה הקוראקואקרומיאלית",
+   "k": "he",
+   "c": "Coracoacromial ligament (ligamentum coracoacromiale)",
+   "i": [
+    846,
+    847
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "retrocalcaneal bursa bursa tendinis calcanei",
+   "d": "Retrocalcaneal bursa (bursa tendinis calcanei)",
+   "k": "name",
+   "c": "Retrocalcaneal bursa (bursa tendinis calcanei)",
+   "i": [
+    611,
+    612
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "retrocalcaneal bursa",
+   "d": "retrocalcaneal bursa",
+   "k": "syn",
+   "c": "Retrocalcaneal bursa (bursa tendinis calcanei)",
+   "i": [
+    611,
+    612
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "bursa tendinis calcanei",
+   "d": "bursa tendinis calcanei",
+   "k": "syn",
+   "c": "Retrocalcaneal bursa (bursa tendinis calcanei)",
+   "i": [
+    611,
+    612
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "subtendinous bursa of the calcaneal tendon",
+   "d": "subtendinous bursa of the calcaneal tendon",
+   "k": "syn",
+   "c": "Retrocalcaneal bursa (bursa tendinis calcanei)",
+   "i": [
+    611,
+    612
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "הבורסה הרטרוקלקנאלית",
+   "d": "הבורסה הרטרוקלקנאלית",
+   "k": "he",
+   "c": "Retrocalcaneal bursa (bursa tendinis calcanei)",
+   "i": [
+    611,
+    612
+   ],
+   "s": "project,gray,ta",
+   "r": "Q311"
+  },
+  {
+   "q": "anterolateral ligament all",
+   "d": "Anterolateral ligament (ALL)",
+   "k": "name",
+   "c": "Anterolateral ligament (ALL)",
+   "i": [
+    848,
+    849
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "anterolateral ligament",
+   "d": "anterolateral ligament",
+   "k": "syn",
+   "c": "Anterolateral ligament (ALL)",
+   "i": [
+    848,
+    849
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "all of the knee",
+   "d": "ALL of the knee",
+   "k": "syn",
+   "c": "Anterolateral ligament (ALL)",
+   "i": [
+    848,
+    849
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "anterolateral ligament of the knee",
+   "d": "anterolateral ligament of the knee",
+   "k": "syn",
+   "c": "Anterolateral ligament (ALL)",
+   "i": [
+    848,
+    849
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "הרצועה האנטרולטרלית של הברך",
+   "d": "הרצועה האנטרולטרלית של הברך",
+   "k": "he",
+   "c": "Anterolateral ligament (ALL)",
+   "i": [
+    848,
+    849
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "triangular fibrocartilage complex tfcc",
+   "d": "Triangular fibrocartilage complex (TFCC)",
+   "k": "name",
+   "c": "Triangular fibrocartilage complex (TFCC)",
+   "i": [
+    613,
+    614,
+    615,
+    616
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "triangular fibrocartilage",
+   "d": "triangular fibrocartilage",
+   "k": "syn",
+   "c": "Triangular fibrocartilage complex (TFCC)",
+   "i": [
+    613,
+    614,
+    615,
+    616
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "triangular fibrocartilage complex",
+   "d": "triangular fibrocartilage complex",
+   "k": "syn",
+   "c": "Triangular fibrocartilage complex (TFCC)",
+   "i": [
+    613,
+    614,
+    615,
+    616
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "tfcc",
+   "d": "TFCC",
+   "k": "syn",
+   "c": "Triangular fibrocartilage complex (TFCC)",
+   "i": [
+    613,
+    614,
+    615,
+    616
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "ulnocarpal complex",
+   "d": "ulnocarpal complex",
+   "k": "syn",
+   "c": "Triangular fibrocartilage complex (TFCC)",
+   "i": [
+    613,
+    614,
+    615,
+    616
+   ],
+   "s": "project,gray",
+   "r": "Q311"
+  },
+  {
+   "q": "קומפלקס הסחוס המשולש",
+   "d": "קומפלקס הסחוס המשולש",
+   "k": "he",
+   "c": "Triangular fibrocartilage complex (TFCC)",
+   "i": [
+    613,
+    614,
+    615,
+    616
+   ],
+   "s": "project,gray",
+   "r": "Q311"
   }
  ],
  "groups": [
@@ -34875,87 +35328,6 @@
   },
   {
    "q": [
-    "lesser psoas",
-    "m psoas minor",
-    "musculus psoas minor",
-    "pmi",
-    "psoas minor",
-    "psoas minor musculus psoas minor",
-    "השריר הכליתי הקטן",
-    "פסואס מינור",
-    "פסואס קטן"
-   ],
-   "name": "Psoas minor",
-   "canon": "Psoas minor (musculus psoas minor)",
-   "why": "NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence.",
-   "s": "raja2026,patra2024,gray,ta",
-   "offer": [
-    107,
-    108,
-    157,
-    158,
-    159,
-    160,
-    844,
-    845,
-    846,
-    847
-   ],
-   "r": "Q306"
-  },
-  {
-   "q": [
-    "coracoacromial arch",
-    "coracoacromial ligament",
-    "coracoacromial ligament ligamentum coracoacromiale",
-    "ligamentum coracoacromiale",
-    "הרצועה הקוראקואקרומיאלית"
-   ],
-   "name": "Coracoacromial ligament",
-   "canon": "Coracoacromial ligament (ligamentum coracoacromiale)",
-   "why": "Verified absent on all six pages. It is the roof of the subacromial space, so the subacromial impingement concept entry names this gap rather than filling it.",
-   "s": "project,gray,ta",
-   "offer": [
-    94,
-    95,
-    100,
-    101,
-    123,
-    124,
-    580,
-    581
-   ],
-   "r": "Q306"
-  },
-  {
-   "q": [
-    "all of the knee",
-    "anterolateral ligament",
-    "anterolateral ligament all",
-    "anterolateral ligament of the knee",
-    "הרצועה האנטרולטרלית של הברך"
-   ],
-   "name": "Anterolateral ligament of the knee",
-   "canon": "Anterolateral ligament (ALL)",
-   "why": "Verified absent on all six pages. Its existence as a discrete ligament is itself debated in the literature, so nothing is inferred here; the search offers the lateral structures the pages do ship.",
-   "s": "project,gray",
-   "offer": [
-    0,
-    6,
-    7,
-    12,
-    13,
-    86,
-    87,
-    90,
-    91,
-    92,
-    93
-   ],
-   "r": "Q306"
-  },
-  {
-   "q": [
     "apophyseal joint",
     "articulatio zygapophysialis",
     "facet joint",
@@ -35155,9 +35527,9 @@
     150,
     151,
     152,
-    848,
-    849,
-    850
+    850,
+    851,
+    852
    ],
    "r": "Q306"
   }
@@ -35216,15 +35588,15 @@
  ],
  "counts": {
   "structures": 3262,
-  "alias_forms": 1988,
-  "aliased_structures": 739,
-  "he_structures": 687,
+  "alias_forms": 2025,
+  "aliased_structures": 745,
+  "he_structures": 693,
   "abbr_forms": 165,
-  "he_forms": 421,
+  "he_forms": 430,
   "concept_forms": 298,
   "groups": 132,
   "concepts": 38,
-  "not_shipped": 16,
+  "not_shipped": 13,
   "unresolved": 10
  },
  "concepts": [

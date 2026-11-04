@@ -197,13 +197,14 @@ def compile_page(key: str, src=None) -> dict:
 
     # ---------------------------------------------------------------- honest explanations
     for e in syn["cited_but_not_shipped"]:
-        # Q308: `shipped_as` names the page name the structure REALLY ships under, and it must be consulted here.
-        # This guard resolves a term against the page's own NAMES (Q8._hit_targets), not against the compiled
-        # alias table, so a structure shipping under its TA name while the entry carries only the clinical one
-        # was NOT detected -- which is how three cards came to deny the pubic symphysis, the retrocalcaneal
-        # bursa and the TFCC while their meshes were on the screen.
-        if Q8._hit_targets(ix, [e["name"]] + (e.get("syn") or []) + (e.get("shipped_as") or [])):
-            continue                      # it really ships on THIS page: no explanation here
+        hits = Q8._hit_targets(ix, [e["name"]] + (e.get("syn") or []) + (e.get("shipped_as") or []))
+        if hits:
+            # Q311: the structure DOES ship on this page — add its aliases so it is searchable
+            ii = slots(hits)
+            for q, d, k in Q8._forms(e, "syn"):
+                alias.append({"q": q, "d": d, "k": k, "c": e.get("canon", e["name"]),
+                               "i": ii, "s": e.get("src", ""), "r": "Q311"})
+            continue
         offer = slots(Q8._hit_targets(ix, e.get("offer") or []))
         nshp.append({"q": sorted({P.fold(x) for x in [e["name"], e["canon"]] + (e.get("syn") or [])
                                   + (e.get("he") or []) if P.fold(x)}),

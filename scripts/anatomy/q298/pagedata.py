@@ -72,16 +72,22 @@ def strip_parens(s: str) -> str:
 
 
 _SIDE = re.compile(r" (l|r|left|right|lt|rt)$")
+_DASH_SUFFIX = re.compile(r" rule based.*$")
 
 
 def keys_of(name: str) -> list:
     """The comparison keys of a page display name, most specific first:
          the whole folded name;
          the name with every parenthesised qualifier removed  ('Iliotibial (IT) tract/band', 'Olfactory nerve (CN I) (left)');
-         either of those with a trailing side token removed    (the own pages write 'Median nerve.l' / 'Median nerve.r')."""
+         either of those with a trailing side token removed    (the own pages write 'Median nerve.l' / 'Median nerve.r');
+         Q311: either of those with the ' -- rule-based...' annotation stripped (Q308's meshes carry it)."""
     out = []
     for k in (fold(name), fold(strip_parens(name))):
         for v in (k, _SIDE.sub("", k)):
+            if v and v not in out:
+                out.append(v)
+        base = _DASH_SUFFIX.sub("", fold(strip_parens(name)))
+        for v in (base, _SIDE.sub("", base)):
             if v and v not in out:
                 out.append(v)
     return out

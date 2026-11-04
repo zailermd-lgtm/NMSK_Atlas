@@ -381,10 +381,10 @@ def test_the_matcher_says_when_a_match_is_only_approximate(pages, compiled):
         o = json.loads(r.stdout)
     finally:
         tmp.unlink(missing_ok=True)
-    # psoas minor: the explanation leads and the near-miss is labelled
-    assert "Psoas minor" in o["psoas minor"]["notes"]
-    assert o["psoas minor"]["note_first"] == 1
-    assert o["psoas minor"]["approx"] == 1
+    # Q311: psoas minor ships on Z pages (Q308 built it) — alias match, not an explanation
+    assert o["psoas minor"]["n"] >= 1
+    assert o["psoas minor"]["approx"] == 0
+    assert o["psoas minor"]["note_first"] == 0
     # the biceps query now reaches the BICEPS
     assert all("biceps_brachii" in t for t in o["long head of biceps brachii"]["top"]), \
         o["long head of biceps brachii"]
