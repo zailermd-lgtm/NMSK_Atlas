@@ -10,8 +10,8 @@ sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q237")); sys.path.insert(
 import core as C  # noqa: E402  (scripts/anatomy/q237/core.py)
 
 # the current page dirs (Hub v34 = Q236 labels + Q237 symmetric view); override a page with Q241_SRC_<key>
-SRC = {"own_m": "build/q308/viewer_m_hr", "own_f": "build/q308/viewer_f_hr", "base_m": "build/q308/viewer_zan_atlas",   # Q308: the coracoacromial ligament, the LACN's anterior and posterior branches, the psoas minor (hidden by default, four Z pages only) and the knee's
-       "base_f": "build/q308/viewer_base_female", "comb_m": "build/q308/viewer_zan_vhm", "comb_f": "build/q308/viewer_zan_female"}  # anterolateral ligament (contested), all rule-based from cited morphometry on each page's own bones -- 44 meshes, 12 refused with their numbers.
+SRC = {"own_m": "build/q309/viewer_m_hr", "own_f": "build/q309/viewer_f_hr", "base_m": "build/q309/viewer_zan_atlas",   # Q308: the coracoacromial ligament, the LACN's anterior and posterior branches, the psoas minor (hidden by default, four Z pages only) and the knee's
+       "base_f": "build/q309/viewer_base_female", "comb_m": "build/q309/viewer_zan_vhm", "comb_f": "build/q309/viewer_zan_female"}  # anterolateral ligament (contested), all rule-based from cited morphometry on each page's own bones -- 44 meshes, 12 refused with their numbers.
 # thoracic, pectoral, subscapular and thoracodorsal nerves, the posterior interosseous and the digital nerves), plus the three lower-limb nerves Q304 left as a mirrored 29-40 mm stub on one side while the other carried the full
 # transferred nerve, and the measured Q307 placement statement on every page's lateral antebrachial cutaneous nerve card. build/q307 is a real directory whose unchanged sibling files are HARD LINKS to build/q304's: see PROJECT_STATE Q307
 LABEL = {k: v[3] for k, v in C.PAGES.items()}

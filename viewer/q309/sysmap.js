@@ -78,6 +78,11 @@ var NMSKSysMap = (function(){
       return out;
     },
     depth:function(k){ var S = BY[k]; return S ? S.strata.length : 0; },
+    /* the ids of ONE stratum, by index -- verification reads it so the check can measure what a step removes */
+    stratumIds:function(k, i){
+      var S = BY[k]; if (!S || !S.strata[i | 0]) return [];
+      return S.strata[i | 0].ids.slice();
+    },
     state:function(){ return {on:on, systems:SYS.length,
       peelable:SYS.filter(function(s){ return s.peel; }).map(function(s){ return s.key; }),
       counts:SYS.reduce(function(a, s){ a[s.key] = s.n; return a; }, {})}; }

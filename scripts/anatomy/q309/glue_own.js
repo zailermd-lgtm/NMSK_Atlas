@@ -29,6 +29,13 @@
         meshes.forEach(function(m){ var s = m.userData; if (!S[s.cat] || !m.visible || seen[s.id]) return; seen[s.id] = 1; n++; });
         return n;
       },
+      /* verification only: see the note beside the Z engine's own drawnOf */
+      drawnOf:function(ids){
+        var S = {}; (ids || []).forEach(function(i){ S[i] = true; });
+        var seen = {}, n = 0;
+        meshes.forEach(function(m){ var s = m.userData; if (!S[s.id] || !m.visible || seen[s.id]) return; seen[s.id] = 1; n++; });
+        return n;
+      },
       redraw:draw
     }
   });

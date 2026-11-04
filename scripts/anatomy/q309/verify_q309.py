@@ -95,7 +95,11 @@ def ready(pg):
 def open_layers(pg):
     """Q309's two boxes live inside Q301's existing Layers group, which is an accordion: it has to be open before a
        real tap can reach anything in it. Opened through the module, then asserted by a real geometry read."""
-    pg.evaluate("() => { if (window.NMSKGroups) NMSKGroups.open('layers'); }")
+    # NMSKGroups.open TOGGLES, so calling it on an already-open group CLOSES it -- which parks both of this
+    # round's boxes in Q301's hidden parking node, where they have no size and no control is reachable. The
+    # first run of this script did exactly that and reported 30 collision failures that were one wrong call.
+    pg.evaluate("""() => { if (!window.NMSKGroups) return;
+        if (NMSKGroups.isOpen() !== 'layers') NMSKGroups.open('layers'); }""")
     pg.wait_for_timeout(500)
     pg.evaluate("() => { const e = document.getElementById('sy-box'); if (e) e.scrollIntoView({block:'center'}); }")
     pg.wait_for_timeout(250)
@@ -213,20 +217,28 @@ def section_def(pg, tag, R, errs, phone, S):
         before = {q["key"]: drawn_in(pg, q["key"]) for q in S}
         settle(pg)
         e0 = pg.evaluate("() => NMSKHistory.state().len")
+        # What a step can remove is what was DRAWN, not the stratum's own count: a structure hidden by default
+        # (Q287's `hd` set, Q308's psoas minor) or a whole system off at load (Q301's fat) is in the stratum and
+        # was never on the screen. The first run of this check asserted the total and reported two failures that
+        # were the assertion's, not the product's -- skeletal -333 against 337 (four joint meshes hidden by
+        # default) and adipose 0 against 17 (fat is off at load, as Q301 shipped it).
+        want = pg.evaluate("(k) => NMSKQ309.measure().bySystem[k].strata[0].drawn", k)
+        total = s["strata"][0]["n"]
         if not hit(pg, "#sp-in", phone, errs, tag, "E the In tap for %s" % k):
             continue
         settle(pg)
         after = {q["key"]: drawn_in(pg, q["key"]) for q in S}
-        want = s["strata"][0]["n"]
-        check("%s E %s step 1 takes its first stratum off: %d -> %d (-%d, the stratum's own count %d)"
-              % (tag, k, before[k], after[k], before[k] - after[k], want), before[k] - after[k] == want, errs)
+        left = pg.evaluate("(k) => NMSKQ309.measure().bySystem[k].strata[0].drawn", k)
+        check("%s E %s step 1 takes its first stratum off: %d -> %d (-%d; the stratum holds %d, of which %d were drawn), it now draws %d of them"
+              % (tag, k, before[k], after[k], before[k] - after[k], total, want, left),
+              before[k] - after[k] == want and left == 0, errs)
         moved = [q for q in before if q != k and before[q] != after[q]]
         check("%s E and EVERY other system is untouched to the structure (%s moved)" % (tag, moved or "none"),
               not moved, errs)
         check("%s E one In tap is ONE history entry" % tag,
               pg.evaluate("() => NMSKHistory.state().len") == e0 + 1, errs)
-        R.setdefault("perSystem", {})[k] = {"stratum1": want, "before": before[k], "after": after[k],
-                                            "othersMoved": moved}
+        R.setdefault("perSystem", {})[k] = {"stratum1": total, "stratum1Drawn": want, "before": before[k],
+                                            "after": after[k], "leftDrawn": left, "othersMoved": moved}
         pg.evaluate("() => NMSKSysPeel.set(0)")
         pg.wait_for_timeout(200)
     # F the systems shown only

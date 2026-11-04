@@ -33,6 +33,17 @@
             OBJ.forEach(function(o){ var id = o.id || o.name; if (!S[o.layer] || seen[id] || !vis(o)) return; seen[id] = 1; n++; });
             return n;
           },
+          /* verification only: how many of these exact ids are DRAWN right now. The browser check needs it
+             because a stratum's own count is not what a peel can remove: a structure hidden by default (Q287's
+             `hd` set, Q308's psoas minor) or a system switched off at load (Q301's fat) is counted in the
+             stratum and was never on the screen. Asserting against the total would have made the check demand
+             that the page remove something it was not drawing. */
+          drawnOf:function(ids){
+            var S = {}; (ids || []).forEach(function(i){ S[i] = true; });
+            var seen = {}, n = 0;
+            OBJ.forEach(function(o){ var id = o.id || o.name; if (!S[id] || seen[id] || !vis(o)) return; seen[id] = 1; n++; });
+            return n;
+          },
           redraw:function(){ need = true; }
         }
       });

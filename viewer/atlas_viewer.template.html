@@ -6709,6 +6709,11 @@ var NMSKSysMap = (function(){
       return out;
     },
     depth:function(k){ var S = BY[k]; return S ? S.strata.length : 0; },
+    /* the ids of ONE stratum, by index -- verification reads it so the check can measure what a step removes */
+    stratumIds:function(k, i){
+      var S = BY[k]; if (!S || !S.strata[i | 0]) return [];
+      return S.strata[i | 0].ids.slice();
+    },
     state:function(){ return {on:on, systems:SYS.length,
       peelable:SYS.filter(function(s){ return s.peel; }).map(function(s){ return s.key; }),
       counts:SYS.reduce(function(a, s){ a[s.key] = s.n; return a; }, {})}; }
@@ -7155,7 +7160,13 @@ var NMSKQ309 = (function(){
       var M = window.NMSKSysMap;
       if (!M || !M.ready() || !E) return null;
       return {drawn:E.drawn ? E.drawn() : -1,
-        bySystem:M.systems().reduce(function(a, s){ a[s.key] = {n:s.n, drawn:E.drawnIn ? E.drawnIn(s.cats) : -1}; return a; }, {}),
+        bySystem:M.systems().reduce(function(a, s){
+          a[s.key] = {n:s.n, drawn:E.drawnIn ? E.drawnIn(s.cats) : -1,
+            strata:s.strata.map(function(t, i){
+              return {key:t.key, n:t.n, drawn:E.drawnOf ? E.drawnOf(M.stratumIds(s.key, i)) : -1};
+            })};
+          return a;
+        }, {}),
         vetoed:LASTN};
     },
     state:function(){ return {on:on,
@@ -15087,6 +15098,13 @@ partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback
         var S = {}; (cats || []).forEach(function(c){ S[c] = true; });
         var seen = {}, n = 0;
         meshes.forEach(function(m){ var s = m.userData; if (!S[s.cat] || !m.visible || seen[s.id]) return; seen[s.id] = 1; n++; });
+        return n;
+      },
+      /* verification only: see the note beside the Z engine's own drawnOf */
+      drawnOf:function(ids){
+        var S = {}; (ids || []).forEach(function(i){ S[i] = true; });
+        var seen = {}, n = 0;
+        meshes.forEach(function(m){ var s = m.userData; if (!S[s.id] || !m.visible || seen[s.id]) return; seen[s.id] = 1; n++; });
         return n;
       },
       redraw:draw

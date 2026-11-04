@@ -6802,6 +6802,11 @@ var NMSKSysMap = (function(){
       return out;
     },
     depth:function(k){ var S = BY[k]; return S ? S.strata.length : 0; },
+    /* the ids of ONE stratum, by index -- verification reads it so the check can measure what a step removes */
+    stratumIds:function(k, i){
+      var S = BY[k]; if (!S || !S.strata[i | 0]) return [];
+      return S.strata[i | 0].ids.slice();
+    },
     state:function(){ return {on:on, systems:SYS.length,
       peelable:SYS.filter(function(s){ return s.peel; }).map(function(s){ return s.key; }),
       counts:SYS.reduce(function(a, s){ a[s.key] = s.n; return a; }, {})}; }
@@ -7248,7 +7253,13 @@ var NMSKQ309 = (function(){
       var M = window.NMSKSysMap;
       if (!M || !M.ready() || !E) return null;
       return {drawn:E.drawn ? E.drawn() : -1,
-        bySystem:M.systems().reduce(function(a, s){ a[s.key] = {n:s.n, drawn:E.drawnIn ? E.drawnIn(s.cats) : -1}; return a; }, {}),
+        bySystem:M.systems().reduce(function(a, s){
+          a[s.key] = {n:s.n, drawn:E.drawnIn ? E.drawnIn(s.cats) : -1,
+            strata:s.strata.map(function(t, i){
+              return {key:t.key, n:t.n, drawn:E.drawnOf ? E.drawnOf(M.stratumIds(s.key, i)) : -1};
+            })};
+          return a;
+        }, {}),
         vetoed:LASTN};
     },
     state:function(){ return {on:on,
@@ -15113,6 +15124,17 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
             var S = {}; (cats || []).forEach(function(c){ S[c] = true; });
             var seen = {}, n = 0;
             OBJ.forEach(function(o){ var id = o.id || o.name; if (!S[o.layer] || seen[id] || !vis(o)) return; seen[id] = 1; n++; });
+            return n;
+          },
+          /* verification only: how many of these exact ids are DRAWN right now. The browser check needs it
+             because a stratum's own count is not what a peel can remove: a structure hidden by default (Q287's
+             `hd` set, Q308's psoas minor) or a system switched off at load (Q301's fat) is counted in the
+             stratum and was never on the screen. Asserting against the total would have made the check demand
+             that the page remove something it was not drawing. */
+          drawnOf:function(ids){
+            var S = {}; (ids || []).forEach(function(i){ S[i] = true; });
+            var seen = {}, n = 0;
+            OBJ.forEach(function(o){ var id = o.id || o.name; if (!S[id] || seen[id] || !vis(o)) return; seen[id] = 1; n++; });
             return n;
           },
           redraw:function(){ need = true; }

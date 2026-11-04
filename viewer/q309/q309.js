@@ -118,7 +118,13 @@ var NMSKQ309 = (function(){
       var M = window.NMSKSysMap;
       if (!M || !M.ready() || !E) return null;
       return {drawn:E.drawn ? E.drawn() : -1,
-        bySystem:M.systems().reduce(function(a, s){ a[s.key] = {n:s.n, drawn:E.drawnIn ? E.drawnIn(s.cats) : -1}; return a; }, {}),
+        bySystem:M.systems().reduce(function(a, s){
+          a[s.key] = {n:s.n, drawn:E.drawnIn ? E.drawnIn(s.cats) : -1,
+            strata:s.strata.map(function(t, i){
+              return {key:t.key, n:t.n, drawn:E.drawnOf ? E.drawnOf(M.stratumIds(s.key, i)) : -1};
+            })};
+          return a;
+        }, {}),
         vetoed:LASTN};
     },
     state:function(){ return {on:on,
