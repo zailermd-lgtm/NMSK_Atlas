@@ -52,7 +52,8 @@ def _load(p: Path):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
-def compile_page(key: str, src) -> dict:
+def compile_page(key: str, src=None) -> dict:
+    src = src or P._baseline()   # Q310: resolve HERE too, so the recorded provenance names the real build
     """Q298's compiled table for this page, extended with Q306's data."""
     base = Q8.compile_page(key, src)
     ss = P.structures(key, src)
@@ -265,7 +266,7 @@ def main(argv):
         for a in argv[1:]:
             inject(Path(a))
         return 0
-    src = "build/q307"
+    src = P._baseline()
     if "--src" in argv:
         i = argv.index("--src")
         src = argv[i + 1]

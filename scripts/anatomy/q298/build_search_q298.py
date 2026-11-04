@@ -94,7 +94,8 @@ def _forms(e, kind_default):
     return [(q, d, k) for q, d, k in out if q]
 
 
-def compile_page(key, src):
+def compile_page(key, src=None):
+    src = src or P._baseline()   # Q310: resolve HERE too, so the recorded provenance names the real build
     ss, ix, sub = _index(key, src)
     pos = {s["id"]: i for i, s in enumerate(ss)}
     syn = json.loads(SYN.read_text(encoding="utf-8"))
@@ -248,7 +249,7 @@ def main(argv):
         for a in argv[1:]:
             inject(Path(a))
         return 0
-    src = "build/q297"
+    src = P._baseline()
     if "--src" in argv:
         i = argv.index("--src")
         src = argv[i + 1]

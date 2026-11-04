@@ -1,7 +1,7 @@
 """Q299 Part B fix: pull back inside the body the structures that the Q250 skin guard could not.
 
-    python3 scripts/anatomy/q299/fix_contain299.py plan  [--src build/q297] [--tol 5]
-    python3 scripts/anatomy/q299/fix_contain299.py build [--src build/q297] [--out /dev/shm/q299/pre]
+    python3 scripts/anatomy/q299/fix_contain299.py plan  [--src BUILD_DIR] [--tol 5]      (default: the current baseline)
+    python3 scripts/anatomy/q299/fix_contain299.py build [--src BUILD_DIR] [--out /dev/shm/q299/pre]
 
 WHY this is a fix and not a cosmetic nudge.  Q250 warped the Z-Anatomy body onto the Visible Human female's skeleton and
 ran a skin guard that was meant to pull every vertex back inside the skin.  Its own report records what happened: 5,724
@@ -46,6 +46,15 @@ DIR = {"own_m": "viewer_m_hr", "own_f": "viewer_f_hr", "base_m": "viewer_zan_atl
        "base_f": "viewer_base_female", "comb_m": "viewer_zan_vhm", "comb_f": "viewer_zan_female"}
 STEM = {"base_m": "atlas_viewer_zan_atlas", "base_f": "atlas_viewer_base_female",
         "comb_m": "atlas_viewer_zan_male_fitted", "comb_f": "atlas_viewer_zan_female"}
+def _baseline():
+    """Q310: the current baseline from the one place that declares it (scripts/anatomy/q241/model.SRC) -- the
+    same lesson Q299 already learned for contain299 / pelvis299 (PROJECT_STATE Q299 E2), applied to this
+    module's own default, which said `build/q297` until that directory was deleted."""
+    sys.path.insert(0, str(REPO / "scripts/anatomy/q241"))
+    import model as _m
+    return _m.build_root()
+
+
 REPORT = REPO / "data/derived/Q299_containment_fix.json"
 INSET, SIGMA, PASSES = 1.0, 8.0, 3
 # mesh guard: refuse the move rather than damage the mesh.  (Q250 already accepts, and badges, 226 structures with
@@ -177,7 +186,8 @@ def analyse(key, src, tol):
     return B, val, sorted(todo, key=lambda r: -r["out_max_mm"]), sorted(skipped, key=lambda r: -r["out_max_mm"])
 
 
-def run(mode, src="build/q297", out="/dev/shm/q299/pre", tol=5.0, keys=None):
+def run(mode, src=None, out="/dev/shm/q299/pre", tol=5.0, keys=None):
+    src = src or _baseline()
     keys = keys or ZKEYS
     src_p = Path(src) if Path(src).is_absolute() else REPO / src
     rep = {"pages": {}}
@@ -356,7 +366,7 @@ if __name__ == "__main__":
     ap.add_argument("mode", choices=["plan", "build", "rig"])
     ap.add_argument("--fresh", default="")
     ap.add_argument("--rig-out", default="")
-    ap.add_argument("--src", default="build/q297")
+    ap.add_argument("--src", default=None)      # Q310: None -> the current baseline, via model.build_root()
     ap.add_argument("--out", default="/dev/shm/q299/pre")
     ap.add_argument("--tol", type=float, default=5.0)
     ap.add_argument("--pages", default="")

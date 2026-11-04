@@ -14,13 +14,11 @@ NUM={'first':1,'second':2,'third':3,'fourth':4,'fifth':5}
 # second copy of the literal goes stale silently the moment a round lands -- which is exactly what happened to
 # this module: its default stayed `build/q296`, where the provenance audit reports d_unaccounted = 2, so every
 # run without an explicit --src kept auditing the PRE-Q297 state and reporting it as today's.
+# Q310: delegate to geo, which this module already imports and which defines REPO. The copy that stood here
+# referenced a REPO this module never defines, so every call without an explicit root raised NameError -- the
+# suite did not catch it because nothing calls these two helpers without one.
 def _baseline():
-    import sys as _s
-    _p = str(REPO / "scripts/anatomy/q241")
-    if _p not in _s.path:
-        _s.path.insert(0, _p)
-    import model as _m
-    return _m.build_root()
+    return geo._baseline()
 
 
 def meshes(key, root=None):

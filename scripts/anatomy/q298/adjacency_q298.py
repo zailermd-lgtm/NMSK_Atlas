@@ -14,7 +14,7 @@ Criterion, stated exactly because the card and the UI quote it:
 It is a MEASUREMENT, not an anatomical claim: two structures can be adjacent in the mesh and not be related, and the UI
 says so ("measured on this page's geometry").
 
-    python3 scripts/anatomy/q298/adjacency_q298.py [KEY...] [--src build/q297] [--cell 2.0]
+    python3 scripts/anatomy/q298/adjacency_q298.py [KEY...] [--src BUILD_DIR] [--cell 2.0]   (default: the current baseline)
     python3 scripts/anatomy/q298/adjacency_q298.py --isolated [KEY...]   # record the real nearest distance of any structure with no neighbour
 -> data/derived/Q298_adjacency_<key>.json  {ids, adj (index lists), threshold_mm (the STRICT bound), threshold_voxel_centres_mm, threshold_note, cell_mm, pairs, how, per_structure, isolated_ids}
 """
@@ -81,7 +81,8 @@ def _shift(keys, o):
     return keys + (np.int64(o[0]) << 42) + (np.int64(o[1]) << 21) + np.int64(o[2])
 
 
-def build(key, src, cell=CELL):
+def build(key, src=None, cell=CELL):
+    src = src or P._baseline()   # Q310: resolve HERE too, so the recorded provenance names the real build
     t0 = time.time()
     ss = P.structures(key, src)
     ids = [s["id"] for s in ss]
@@ -190,7 +191,7 @@ def isolated(key, src):
 
 
 def main(argv):
-    src, cell = "build/q297", CELL
+    src, cell = P._baseline(), CELL
     if "--src" in argv:
         i = argv.index("--src"); src = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
     if "--cell" in argv:

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Q296 page step: the four Z pages (build/q295) + the four imported SPL Inner Ear Atlas structures per side.
+"""Q296 page step: the four Z pages (the CURRENT baseline; build/q295 when the round ran, since deleted) + the four imported SPL Inner Ear Atlas structures per side.
 
     python3 scripts/anatomy/q296/pages_q296.py build [KEY...] [--out /dev/shm/q296/pre]  -> page dirs + data/derived/Q296_page_report.json
     python3 scripts/anatomy/q296/pages_q296.py rig KEY --fresh FRESH.json                 -> splice the new entries into data/anatomy/pose_rig_KEY.json
@@ -23,7 +23,15 @@ for p in (str(HERE), str(REPO), str(REPO / "scripts/anatomy/q295"), str(REPO / "
 
 EAR = Path(os.environ.get("Q296_OUT", "/dev/shm/q296/ear"))
 DIR = {"base_m": "viewer_zan_atlas", "base_f": "viewer_base_female", "comb_m": "viewer_zan_vhm", "comb_f": "viewer_zan_female"}
-LIVE = {k: f"build/q295/{d}" for k, d in DIR.items()}
+def _baseline():
+    """Q310: the current baseline, asked of scripts/anatomy/q241/model.SRC. This map was pinned to
+    `build/q295`, which stopped existing when that baseline was deleted -- so it was already broken."""
+    sys.path.insert(0, str(REPO / "scripts/anatomy/q241"))
+    import model as _m
+    return _m.build_root()
+
+
+LIVE = {k: f"{_baseline()}/{d}" for k, d in DIR.items()}
 REPORT = Path(os.environ.get("Q296_PAGE_REPORT", str(REPO / "data/derived/Q296_page_report.json")))
 
 ATLAS = ("SPL Inner Ear Atlas (Open Anatomy Project, release February 2018): Bartling S (DKFZ), Jakab M (SPL), "

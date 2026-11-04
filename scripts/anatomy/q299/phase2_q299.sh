@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
-# Q299 phase 2, in order. SRC is the build dir the previous round left as current (build/q297, or build/q298 if Q298
-# makes one). Run from the repository root.
+# Q299 phase 2, in order. SRC is the build dir the previous round left as current; with no argument it is asked of
+# the one place that declares it (scripts/anatomy/q241/model.SRC), which is what the hard-coded build/q297 here used
+# to name -- that directory was deleted in Q310. Run from anywhere; this script cd's to the repository root itself.
 set -euo pipefail
-SRC="${1:-build/q297}"
+cd "$(dirname "$0")/../../.."
+SRC="${1:-$(python3 -c 'import sys; sys.path.insert(0, "scripts/anatomy/q241"); import model; print(model.build_root())')}"
 OUT="${2:-build/q299}"
 # REF: the dir whose pages equal what is LIVE right now. Q298 published from /dev/shm/q298/final without creating a
-# build dir, so that is the reference while it survives; otherwise build/q297 and Q298's own additions have to be
+# build dir, so that is the reference while it survives; otherwise $SRC and Q298's own additions have to be
 # declared in --expect-changed as well.
 REF="${3:-}"
 if [ -z "$REF" ]; then if [ -d /dev/shm/q298/final ]; then REF=/dev/shm/q298/final; elif [ -d /dev/shm/q299/q298_ref ]; then REF=/dev/shm/q299/q298_ref; else REF="$SRC"; fi; fi
 echo "src=$SRC ref=$REF out=$OUT"
 PRE=/dev/shm/q299/pre
 FIN=/dev/shm/q299/final
-cd "$(dirname "$0")/../../.."
 
 echo "=== 1. the shared cut-face module: the minimum drawn width"
 python3 scripts/anatomy/q299/patch_cutcap_q299.py

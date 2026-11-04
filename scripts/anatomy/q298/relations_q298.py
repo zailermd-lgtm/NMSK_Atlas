@@ -9,7 +9,7 @@ are in data/anatomy/relations_q298.json, each with its own `inferred` flag. Noth
 either read out of a cited field (inferred 0, and the UI shows that field's source) or produced by a stated rule
 (inferred 1, and the UI says "inferred").
 
-    python3 scripts/anatomy/q298/relations_q298.py [KEY...] [--src build/q297]
+    python3 scripts/anatomy/q298/relations_q298.py [KEY...] [--src BUILD_DIR]   (default: the current baseline)
 -> data/derived/Q298_relations_<key>.json {ids, kinds, rel, fgroups, fg, counts}
 """
 from __future__ import annotations
@@ -31,7 +31,8 @@ SYN = REPO / "data/anatomy/synonyms_q298.json"
 DERIVED = REPO / "data/derived"
 
 
-def build(key, src):
+def build(key, src=None):
+    src = src or P._baseline()   # Q310: resolve HERE too, so the recorded provenance names the real build
     R = json.loads(RULES.read_text(encoding="utf-8"))
     MG = json.loads(GROUPS.read_text(encoding="utf-8"))
     HD = json.loads(HEADS.read_text(encoding="utf-8"))
@@ -294,7 +295,7 @@ def build(key, src):
 
 
 def main(argv):
-    src = "build/q297"
+    src = P._baseline()
     if "--src" in argv:
         i = argv.index("--src"); src = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
     DERIVED.mkdir(parents=True, exist_ok=True)

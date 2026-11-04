@@ -12,6 +12,17 @@ import pytest
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "scripts/anatomy/q296"))
 
+def _baseline():
+    """Q310: the CURRENT baseline, asked of scripts/anatomy/q241/model.SRC -- the one place that declares it.
+    A test pinned to a superseded `build/q29x` asserts about a build that landed rounds ago, reports success
+    while doing it, and keeps a 300-400 MB directory undeletable."""
+    sys.path.insert(0, str(REPO / "scripts/anatomy/q241"))
+    import model as _m
+    return _m.build_root()
+
+
+CUR = _baseline()
+
 EAR_REPORT = REPO / "data/derived/Q296_ear_report.json"
 PAGE_REPORT = REPO / "data/derived/Q296_page_report.json"
 KEYS = ["base_f", "base_m", "comb_f", "comb_m"]
@@ -175,9 +186,9 @@ def test_the_left_side_is_the_mirror_of_the_right():
 @pytest.mark.skipif(not PAGE_REPORT.exists(), reason="Q296 pages not built")
 @pytest.mark.parametrize("key", KEYS)
 def test_page_carries_the_imported_structures(key):
-    d = REPO / "build/q296" / DIRS[key]
+    d = REPO / CUR / DIRS[key]          # the CURRENT pages: the imported ear structures have to survive every later round
     if not d.exists():
-        pytest.skip("build/q296 not present")
+        pytest.skip(f"{CUR} not present")
     rep = json.loads(PAGE_REPORT.read_text())[key]
     h = (d / f"{STEM[key]}.html").read_text(encoding="utf-8")
     i = h.find("window.__ANATOMY_MANIFEST__=") + len("window.__ANATOMY_MANIFEST__=")

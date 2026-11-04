@@ -37,7 +37,7 @@ def _baseline_src():
     r = _m.build_root()
     if (REPO / r).is_dir():
         return r
-    for _alt in ("build/q308", "build/q307", "build/q305", "build/q304", "build/q303", "build/q297"):
+    for _alt in ("build/q308", "build/q307", "build/q305"):   # Q310: the older entries went with their directories
         if (REPO / _alt).is_dir():
             return _alt
     return r

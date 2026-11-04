@@ -20,7 +20,7 @@
 
   (4) record the measured fingertip clearance on all 40 hand distal phalanx cards of the four Z pages.
 
-    python3 scripts/anatomy/q297/pages_q297.py build [--src build/q296] [--out /dev/shm/q297/pre]
+    python3 scripts/anatomy/q297/pages_q297.py build [--src BUILD_DIR] [--out /dev/shm/q297/pre]   (default: the current baseline)
     python3 scripts/anatomy/q297/pages_q297.py rig                 # splice the pose rigs for the removed mesh
 """
 from __future__ import annotations

@@ -27,7 +27,15 @@ BASE = "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models"
 DL = Path(os.environ.get("Q296_DL", "/dev/shm/q296_dl"))
 OUT = Path(os.environ.get("Q296_OUT", "/dev/shm/q296/ear"))
 DIR = {"base_m": "viewer_zan_atlas", "base_f": "viewer_base_female", "comb_m": "viewer_zan_vhm", "comb_f": "viewer_zan_female"}
-SRC_ROOT = Path(os.environ.get("Q296_SRC", str(REPO / "build/q295")))
+def _baseline_root():
+    """Q310: the current baseline, asked of scripts/anatomy/q241/model.SRC. This default was `build/q295`,
+    which stopped existing when that baseline was deleted -- so the script was already broken."""
+    sys.path.insert(0, str(REPO / "scripts/anatomy/q241"))
+    import model as _m
+    return REPO / _m.build_root()
+
+
+SRC_ROOT = Path(os.environ["Q296_SRC"]) if os.environ.get("Q296_SRC") else _baseline_root()
 
 # the atlas's landmark ossicles (present on every page as bones) and the structures we import
 LANDMARK = {"malleus": "Model_140_Malleus_Bone", "incus": "Model_14_Incus_Bone", "stapes": "Model_17_Stapes_Bone"}

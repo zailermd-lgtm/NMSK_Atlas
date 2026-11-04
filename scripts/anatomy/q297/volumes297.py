@@ -8,7 +8,7 @@ is the same information in a different form but is not the number the brief asks
 this script measures the enclosed volume of each of them straight off the shipped page geometry and records it here, so
 every rule-based structure has a volume on file and `tests/test_q297.py` can assert 100 % coverage.
 
-    python3 scripts/anatomy/q297/volumes297.py [--src build/q297] [--json data/derived/Q297_rule_based_volumes.json]"""
+    python3 scripts/anatomy/q297/volumes297.py [--src BUILD_DIR] [--json data/derived/Q297_rule_based_volumes.json]"""
 from __future__ import annotations
 import json, sys
 from pathlib import Path

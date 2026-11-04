@@ -10,7 +10,7 @@
 and, separately, whether the page actually SHOWS that: a structure can be rule-based in the data and still print
 "Measured on this body" on its card, which is the thing this round was asked to find.
 
-    python3 scripts/anatomy/q297/audit297.py [--src build/q296] [--json OUT]"""
+    python3 scripts/anatomy/q297/audit297.py [--src BUILD_DIR] [--json OUT]   (default: the current baseline)"""
 from __future__ import annotations
 import json, re, sys, collections
 from pathlib import Path

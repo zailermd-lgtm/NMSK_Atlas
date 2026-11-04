@@ -13,6 +13,17 @@ import trimesh
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "scripts/anatomy/q295"))
 
+def _baseline():
+    """Q310: the CURRENT baseline, asked of scripts/anatomy/q241/model.SRC -- the one place that declares it.
+    A test pinned to a superseded `build/q29x` asserts about a build that landed rounds ago, reports success
+    while doing it, and keeps a 300-400 MB directory undeletable."""
+    sys.path.insert(0, str(REPO / "scripts/anatomy/q241"))
+    import model as _m
+    return _m.build_root()
+
+
+CUR = _baseline()
+
 REPORT = REPO / "data/derived/Q295_fat_report.json"
 PAGE_REPORT = REPO / "data/derived/Q295_page_report.json"
 KEYS = ["own_f", "own_m", "base_f", "base_m", "comb_f", "comb_m"]
@@ -72,9 +83,9 @@ def test_report_before_after_and_realness():
 @pytest.mark.skipif(not PAGE_REPORT.exists(), reason="Q295 pages not built")
 @pytest.mark.parametrize("key", KEYS)
 def test_page_has_the_fat_system(key):
-    d = REPO / "build/q295" / DIRS[key]
+    d = REPO / CUR / DIRS[key]          # the CURRENT pages: Q295's fat system has to survive every later round
     if not d.exists():
-        pytest.skip("build/q295 not present")
+        pytest.skip(f"{CUR} not present")
     rep = json.loads(PAGE_REPORT.read_text())[key]
     h = (d / f"{STEM[key]}.html").read_text(encoding="utf-8")
     if key.startswith("own"):

@@ -14,7 +14,7 @@ REPO = Path(__file__).resolve().parents[1]
 VIEWER = REPO / "viewer"
 Q300 = VIEWER / "q300"
 TEMPLATES = [VIEWER / "atlas_viewer.template.html", VIEWER / "zan_atlas.template.html"]
-BUILD = REPO / "build/q300" if (REPO / "build/q300").is_dir() else REPO / "build/q297"
+BUILD = REPO / "build/q300"        # the baseline Q300 shipped on; the build/q297 fallback went with that directory (Q310)
 PAGES = sorted(p for p in BUILD.glob("*/index.html")) if BUILD.is_dir() else []
 OWN = ("viewer_m_hr", "viewer_f_hr")
 

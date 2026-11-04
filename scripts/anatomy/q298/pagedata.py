@@ -34,6 +34,19 @@ _HTML: dict = {}
 _STRUCT: dict = {}
 
 
+# Q310: the baseline is ASKED FOR, never written down here -- the same rule Q308 applied to the q297 helpers.
+# `scripts/anatomy/q241/model.SRC` is the one place that declares which build the six pages come from, and
+# `model.build_root()` reads it. A literal copy goes stale silently the moment a round lands; these builders'
+# copies said `build/q297`, a directory deleted in Q310 with the owner's approval.
+def _baseline():
+    import sys as _s
+    _p = str(REPO / "scripts/anatomy/q241")
+    if _p not in _s.path:
+        _s.path.insert(0, _p)
+    import model as _m
+    return _m.build_root()
+
+
 # ---------------------------------------------------------------- normalisation (the same rule the viewer module uses)
 _PUNCT = re.compile(r"[^0-9a-z֐-׿]+")
 
@@ -75,7 +88,8 @@ def keys_of(name: str) -> list:
 
 
 # ---------------------------------------------------------------- page reading
-def html(key: str, src) -> str:
+def html(key: str, src=None) -> str:
+    src = src or _baseline()     # Q310: the current baseline, not a stale literal
     ck = (key, str(src))
     if ck not in _HTML:
         dn, hn, _ = DIRS[key]
@@ -87,7 +101,7 @@ def html(key: str, src) -> str:
     return _HTML[ck]
 
 
-def structures(key: str, src) -> list:
+def structures(key: str, src=None) -> list:
     """[{id, name, latin, cat, side, part_of, part_of_id, rec}] in the page's own order. No geometry decoded."""
     ck = (key, str(src))
     if ck in _STRUCT:
@@ -112,7 +126,7 @@ def structures(key: str, src) -> list:
     return out
 
 
-def learn(key: str, src):
+def learn(key: str, src=None):
     """The page's own nmsk-learn block (Q283 muscle facts: origin / insertion bone ids, nerves, motions, heads) or None."""
     h = html(key, src)
     m = re.search(r'<script type="application/json" id="nmsk-learn">(.*?)</script>', h, re.S)
@@ -124,14 +138,15 @@ def learn(key: str, src):
         return None
 
 
-def blob(key: str, src) -> bytes:
+def blob(key: str, src=None) -> bytes:
+    src = src or _baseline()
     h = html(key, src)
     d = (Path(src) if Path(src).is_absolute() else REPO / src) / DIRS[key][0]
     files = json.loads(re.search(r"BIN_FILES(?:__)?\s*=\s*(\[.*?\])\s*;?\s*$", h, re.M).group(1))
     return b"".join(base64.b64decode((d / f["path"]).read_text().strip()) for f in files)
 
 
-def meshes(key: str, src):
+def meshes(key: str, src=None):
     """Yield (index, id, vertices float32 (mm), faces int32) for every structure, in the page's own order."""
     h = html(key, src)
     b = blob(key, src)

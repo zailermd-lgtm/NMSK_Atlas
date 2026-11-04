@@ -314,7 +314,7 @@ def test_the_imaging_pages_carry_no_fibular_nerve_and_the_round_says_so():
     that build have no common / deep / superficial fibular nerve at all, which is why no cross-section of them could
     show one; Q299 recorded the finding and did not invent the nerve. Q304 later carried 18 fibular meshes onto each
     Imaging page from the Combined page of the same body, so the CURRENT pages do carry them -- that is
-    tests/test_q304.py's business, and this test deliberately keeps reading build/q299 (or q297) so the historical
+    tests/test_q304.py's business, and this test deliberately keeps reading build/q299 so the historical
     measurement stays checkable."""
     doc = REPO / "docs/research/Q299_pelvis_containment_crosssection.md"
     if not doc.is_file():
@@ -324,9 +324,7 @@ def test_the_imaging_pages_carry_no_fibular_nerve_and_the_round_says_so():
     for stem in ("viewer_m_hr/atlas_viewer_male.html", "viewer_f_hr/atlas_viewer_female.html"):
         p = REPO / "build/q299" / stem
         if not p.is_file():
-            p = REPO / "build/q297" / stem
-        if not p.is_file():
-            pytest.skip("no built Imaging page on disk")
+            pytest.skip("build/q299, the baseline this historical measurement was made on, is not on disk")
         html = p.read_text(encoding="utf-8")
         i = html.index('id="bundle-json" type="application/json">') + len('id="bundle-json" type="application/json">')
         B = json.loads(html[i:html.index("</script>", i)])
