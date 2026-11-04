@@ -13886,7 +13886,28 @@ on, with the drawn total down by exactly that system's own drawn count and the s
 entry, one Ctrl+Z to a byte-identical snapshot, one Ctrl+Y back. **D** the whole-body scope still drives `NMSKPeel`
 and vetoes nothing. **E** per-system step 1 equals that system's first stratum and every other system is unchanged
 to the structure. **F** the shown-systems peel spans exactly the peelable systems switched on. **G** both chips,
-Show everything, and Reset model. **H** nothing over 390 px, 0 page errors.
+Show everything, and Reset model. **H** nothing over 390 px, 0 page errors. Result: **189 OK / 0 FAIL** on `base_m`
+and **161 OK / 0 FAIL** on `own_m`, 0 page errors on each, at both viewports -- 350 measured checks in all. The
+counts the three scopes rest on, measured on `base_m`: each system off takes the drawn total down by exactly its own
+drawn count and leaves the system drawing 0 (muscular -432 of 3,205 drawn, nervous -755, vascular -661, integument
+-250, and so on for every system the page declares), and back on restores the total exactly; the whole-body scope
+drives `NMSKPeel` to step **2 / 7** on a Z page and **2 / 6** on an Imaging one with Q309's veto set **empty**;
+per-system step 1 removes **-333 skeletal, -160 muscular, -16 fascial, -40 nervous, -41 vascular** with **every
+other system unchanged to the structure**; and the shown-systems scope with skeletal and muscular switched off
+spans exactly `['adipose','fascial','nervous','vascular']` on the Z page and `['adipose','nervous','vascular']` on
+the Imaging one (114 and 59 structures vetoed), the two switched-off systems contributing none.
+
+**Two defects the browser check found, one in the product's wiring and one in its own assertion.** (i)
+`NMSKGroups.open` TOGGLES, so calling it a second time on the already-open Layers group **closed** it and parked
+both of this round's boxes in Q301's hidden parking node, where they have no size and no control is reachable: 30
+failures at once, and `document.elementFromPoint` named every one of them as a **collision** rather than as a
+product bug, which is exactly what that instrument is for -- the fifth real finding it has produced. (ii) The first
+version asserted a peel step against the stratum's **total** count and reported two failures that were the
+assertion's own: skeletal **-333 against 337** (four joint meshes are hidden by default) and adipose **0 against 17**
+(fat is off at load, as Q301 shipped it). What a step can remove is what was **DRAWN**, so both glues gained a
+`drawnOf(ids)` verification hook, the modules expose one stratum's ids, and the check now asserts against the
+stratum's drawn count and against it drawing **zero** afterwards. Reading either as a product failure would have
+pushed this round toward making a page remove something it was not drawing.
 
 **L. Research.** `docs/research/Q309_system_layers.md` (Hebrew, English anatomy terms): the system definition, every
 stratum with its basis and its citation, the per-region muscle table, the measured coverage, the four conventions
@@ -13901,3 +13922,54 @@ Tray «now has plus and minus icons to add or remove layers **across all body sy
 system off and back on restores the full skeleton»; Primal «The Contents layer controls split **each system** into
 five layers – from deep to superficial». **What no product documents, and is therefore ours:** the three scopes side
 by side as the user's own choice, and the explicit statement that a system has no depth order we can source.
+
+**M. Build, byte-diff and publish.** No data step, no geometry step and no card: this round changes the two templates
+and five shared modules only. `scripts/regen_template_only.py all --src build/q308 --out /dev/shm/q309/final --ref
+build/q308 --expect-changed index.html --expect-changed nmsk-q309-layers --expect-changed symmetry_q237.json` ->
+**REGEN_TEMPLATE_ONLY_OK 6 pages**, i.e. every other `nmsk-*` data block, every sibling and every Q231 title
+byte-identical to the baseline. Two of those three allowances are honest and both are named rather than waved
+through: `nmsk-q309-layers` is **new**, this round's own table; and `symmetry_q237.json` **differs only in its
+`generated` date** -- asserted, not assumed (the two files were parsed, the `generated` key dropped, and the rest
+compared equal on every page), which is why **only `index.html` was published** and every sibling kept.
+**`assert_blocks_q303.py --old build/q308 --new build/q309 --round q309` -> OK**, with a `q309` branch added and it
+is one of the strict ones: Q294's, Q298's, Q300's, Q301's, Q303's, Q305's and Q306's html blocks must be present
+exactly as often as before AND byte-identical on all six pages with **no allowance of any kind**; EVERY per-structure
+table and `nmsk-q306` must be **byte-identical** -- a table that MOVES is a failure here, the mirror image of the
+Q308 rule, and it catches an inject step that ran when it should not have; Q309's own block, its table, its four
+modules and its one veto line per engine must each appear exactly once and must NOT have been in the baseline; and
+no block from a round this one does not stand on (Q310) may appear.
+
+**The stronger proof, because a template-only round can afford it.** Removing from each built page exactly what this
+round inserts -- the Q309 html block, the `nmsk-q309-layers` table, the Q309 glue and the five anchored engine edits
+-- returns `build/q308`'s page **byte for byte** on both engines. So the +49,863 bytes on the two Imaging pages and
++51,239 on the four Z pages are this round's block and nothing else.
+
+**All six live pages were read and byte-compared before publishing**, and then each was read again immediately before
+its own publish, which is Q307's lesson applied twice: each live `index.html` is `build/q308`'s file plus the artifact
+service's 531-byte prefix and 15-byte suffix, byte for byte (5,936,520 / 6,388,555 / 6,514,468 / 7,908,955 /
+9,409,103 / 9,653,091 live), and every sibling size matches `build/q308` exactly -- i.e. **live == build/q308 on all
+six, nothing republished since Q308**, and no round's block was at risk. **Published: Imaging M v149, Imaging F v139,
+Base M v70, Base F v65, Combined M v71, Combined F v84, hub v91, open-items v58.** The publish refusal's own line
+diff was used as the read on the hub and the open-items page, and both were checked section by section first: the
+live hub has **0 lines this file lacks** and the regenerated open-items page carries **all 17 of the live page's
+headings** plus this round's one.
+
+**Full suite 11 failed (exactly the baseline set) / 2,171 passed / 142 skipped** in 10m58s. The two date-stamp files
+the suite rewrites (`data/anatomy/structure_parts.json`, `data/derived/Q219_parts_coverage.json`) were restored.
+
+**`build/q309` is a real directory on disk and is the new baseline**, and it was made as cheaply as the disk allowed:
+the 6 `index.html` files are real copies, each page's `atlas_viewer_*.html` is a **hard link to its own
+`index.html`** (identical bytes -- 46.1 MB saved by that one step), the 6 `symmetry_q237.json` are real copies
+(date-only difference) and the **84 unchanged siblings are hard links into `build/q308`**, so it costs ~47 MB of new
+blocks rather than 370. Every file in it was asserted byte-identical to the regen output (102 files). The one-line
+`model.py` change is the `SRC` baseline moving from `build/q308` to `build/q309` **and nothing else in that file**,
+so Q310 can replace those literals with `build_root()` without fighting this round.
+
+**N. Two container restarts, and what they cost.** The container restarted twice mid-round. Nothing was lost, and the
+reason is worth recording: the work was committed after each self-contained step, `build/q309` lives on disk rather
+than in `/dev/shm` (which was wiped by the first restart), and after the second restart the surviving `build/q309`
+was **re-proved rather than trusted** -- the whole six-page regen was run again from the current templates into
+`/dev/shm` and compared file by file: **96 of 102 files byte-identical, and the six that differ are the
+`symmetry_q237.json` date**. That is the strongest available statement that the baseline on disk is what the
+templates produce. `/` was down to 141 MB free at one point and the coordinator recovered 2.2 GB; every large
+intermediate of this round went to `/dev/shm`.
