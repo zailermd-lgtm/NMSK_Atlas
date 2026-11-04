@@ -1,0 +1,34 @@
+{
+  "_README": [
+    "Q116: reconversion of ONLY 1 label (5, genioglossus_r) out of vhf_hyoid_muscles_cryo.nii.gz's",
+    "full set, at --smooth 0.0 instead of ct_vhf_hyoid's own 1.0. Measured directly: raw voxel mask",
+    "main_frac 1.000 (1 component), and unlike geniohyoid_l/hyoglossus_r (Q114, investigated and",
+    "declined -- their pre-decimation mesh stayed fragmented at EITHER smoothing value, a marching-",
+    "cubes surface defect, not a smoothing bug), genioglossus_r's own pre-decimation mesh is ALSO",
+    "1.000/1 component at smooth=0 (vs 0.885/2 components at the current smooth=1.0) -- a clean",
+    "sciatic_n-class smoothing bug, not the third failure mode. Quadric decimation on the smooth=0",
+    "mesh preserves it exactly (1.000), so this id is ALSO added to SHEET_IDS in",
+    "export_viewer_bundle.py. Shipped bundle: 0.873 -> see PROJECT_STATE.md Q116 entry for the",
+    "actual verified figure. hyoglossus_l (label 17, same source subject) was re-measured too and",
+    "shows no comparable gain (0.823-0.835 at either smoothing value) -- left OUT of this mapping,",
+    "still comes from ct_vhf_hyoid unchanged. Listed BEFORE ct_vhf_hyoid in export_viewer_bundle.py's",
+    "--subject order so it claims just this one atlas_id, leaving the other ~9 muscles in",
+    "vhf_hyoid_muscles_cryo.nii.gz (and their own smooth=1.0 conversion) completely untouched.",
+    "genioglossus_r does NOT reach the male via any transfer -- vhm_rebuild_bundle.sh's own",
+    "xfer_vhf2vhm_neck deliberately excludes genioglossus_r/l (Q91: he has his own CT-derived",
+    "version, ct_vhm_ggl) -- so this fix is FEMALE ONLY, no male-side change expected or needed."
+  ],
+  "subject": "ct_vhf_hyoid_fix",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+  "label_map": "vhf_hyoid_muscles",
+  "entries": [
+    {
+      "label": 5,
+      "source_structure": "genioglossus_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "genioglossus_r",
+      "candidates": []
+    }
+  ]
+}

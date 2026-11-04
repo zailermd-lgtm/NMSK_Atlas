@@ -1,0 +1,66 @@
+=== viewer_zan_atlas@390 ===
+  OK   viewer_zan_atlas@390 A: the fingers land on the 3-D canvas (#view, midpoint 164,439)
+  OK   viewer_zan_atlas@390 A: pinch x3 keeps the point under the fingers (0.06 px) and the distance fell 3.00x
+  OK   viewer_zan_atlas@390 A: two-finger drag moves the anatomy with the fingers (0.00 px)
+  OK   viewer_zan_atlas@390 A: pinch-out while dragging keeps the point under the fingers (0.00 px, distance x1.43)
+  OK   viewer_zan_atlas@390 A: the '1:1' chip is shown while zoomed and is on top (2.1×1:1)
+  OK   viewer_zan_atlas@390 A: 15 toolbar buttons unmoved, unscaled and on top after the gestures ([])
+  OK   viewer_zan_atlas@390 A: a real tap on the Cut button still works while zoomed (false -> true -> false)
+  OK   viewer_zan_atlas@390 A: tapping the chip returns the camera to before the pinch (distance 2222.4 vs 2222.4) and hides the chip
+  OK   viewer_zan_atlas@390 A: double-tap on empty space returns to 1:1 (zoomed before: True; distance 2222.4 vs 2222.4)
+  OK   viewer_zan_atlas@390 E: multi-slice stack on (5 slices, 12 mm), fingers on the 3-D view next to the Cut panel (midpoint [195, 219])
+  OK   viewer_zan_atlas@390 E: pinch on the cross-section stack zooms to the point (0.00 px, x2.75); the stack is unchanged (5 slices, on True)
+  OK   viewer_zan_atlas@390 E: the Cut panel's 23 buttons unmoved and on top ([])
+  note F: the headless browser did not zoom the page (visualViewport.scale 1) -- native zoom not testable here
+  OK   viewer_zan_atlas@390 G: 0 page errors ([])
+=== viewer_zan_atlas@1400 ===
+  OK   viewer_zan_atlas@1400 B: ctrl+wheel (trackpad pinch) zooms to the cursor (1.46 px, distance x0.38)
+  OK   viewer_zan_atlas@1400 B: a plain wheel still zooms about the centre as before (target unchanged, distance x1.120)
+  OK   viewer_zan_atlas@1400 B: the chip is shown (2.3×1:1)
+  OK   viewer_zan_atlas@1400 B: clicking the chip restores the view
+  OK   viewer_zan_atlas@1400 G: 0 page errors ([])
+=== viewer_f_hr@390 ===
+  OK   viewer_f_hr@390 A: the fingers land on the 3-D canvas (#stage canvas, midpoint 164,442)
+  OK   viewer_f_hr@390 A: pinch x3 keeps the point under the fingers (0.00 px) and the distance fell 3.00x
+  OK   viewer_f_hr@390 A: two-finger drag moves the anatomy with the fingers (0.00 px)
+  OK   viewer_f_hr@390 A: pinch-out while dragging keeps the point under the fingers (0.00 px, distance x1.43)
+  OK   viewer_f_hr@390 A: the '1:1' chip is shown while zoomed and is on top (2.1×1:1)
+  OK   viewer_f_hr@390 A: 19 toolbar buttons unmoved, unscaled and on top after the gestures ([])
+  OK   viewer_f_hr@390 A: a real tap on the Cut button still works while zoomed (false -> true -> false)
+  OK   viewer_f_hr@390 A: tapping the chip returns the camera to before the pinch (distance 3081.5 vs 3081.5) and hides the chip
+  OK   viewer_f_hr@390 A: double-tap on empty space returns to 1:1 (zoomed before: True; distance 3081.5 vs 3081.5)
+  OK   viewer_f_hr@390 D: CT pane 'cut' open ([4, 200, 382, 384])
+  OK   viewer_f_hr@390 D: pinch on the CT pane keeps the anatomy point under the fingers (0.00 px; field of view 450 -> 180 mm, re-rendered at 2.009 -> 0.563 mm/px)
+  OK   viewer_f_hr@390 D: the crosshair point did not move (the first finger no longer jumps it)
+  OK   viewer_f_hr@390 D: zoom ratio follows the finger spread (x2.50)
+  OK   viewer_f_hr@390 D: two-finger drag pans the slice with the fingers (0.00 px)
+  OK   viewer_f_hr@390 D: the imaging panel unmoved and unscaled (13 buttons, same sizes: True; panel [0, 0, 390, 844] vs [0, 0, 390, 844])
+  OK   viewer_f_hr@390 D: the chip is shown on the pane (2.5×1:1)
+  OK   viewer_f_hr@390 D: the chip restores the field of view (450 vs 450 mm)
+  OK   viewer_f_hr@390 C: US mode entered and the probe placed on the thigh
+  OK   viewer_f_hr@390 C: full-screen split on (fs button found: True); image half [0, 422, 390, 422]
+  OK   viewer_f_hr@390 C: pinch on the US image keeps the tissue under the fingers (0.03 px, x2.50)
+  OK   viewer_f_hr@390 C: two-finger drag pans the image with the fingers (0.00 px)
+  OK   viewer_f_hr@390 C: the watermark is still drawn at its own size on the visible image (292 px; overlay not stretched: True)
+  OK   viewer_f_hr@390 C: the pinch did not toggle the CINE play state (True -> True)
+  OK   viewer_f_hr@390 C: ✕ and ⋯ unmoved, unscaled, on top (2 found; [])
+  OK   viewer_f_hr@390 C: the chip is shown on the image (2.5×1:1)
+  OK   viewer_f_hr@390 C: the chip returns the image to 1:1 ([33, 422, 325, 422] vs [32, 422, 325, 422])
+  OK   viewer_f_hr@390 C: double-tap returns the image to 1:1 (zoomed before: True)
+  OK   viewer_f_hr@390 C: the 3-D half zooms to the point too (0.00 px, x2.25)
+  OK   viewer_f_hr@390 C: ✕ leaves full screen
+  OK   viewer_f_hr@390 G: 0 page errors ([])
+=== viewer_f_hr@1400 ===
+  OK   viewer_f_hr@1400 B: ctrl+wheel (trackpad pinch) zooms to the cursor (0.06 px, distance x0.38)
+  OK   viewer_f_hr@1400 B: a plain wheel still zooms about the centre as before (target unchanged, distance x1.110)
+  OK   viewer_f_hr@1400 B: the chip is shown (2.4×1:1)
+  OK   viewer_f_hr@1400 B: clicking the chip restores the view
+  OK   viewer_f_hr@1400 D: CT pane 'cut' open ([705, 120, 344, 163])
+  OK   viewer_f_hr@1400 D: ctrl+wheel on the CT pane keeps the anatomy point under the cursor (1.74 px; field of view 450 -> 172 mm, re-rendered at 2.009 -> 0.538 mm/px)
+  OK   viewer_f_hr@1400 D: the crosshair point did not move (wheel)
+  OK   viewer_f_hr@1400 D: the chip is shown on the pane (2.6×1:1)
+  OK   viewer_f_hr@1400 D: the chip restores the field of view (450 vs 450 mm)
+  OK   viewer_f_hr@1400 G: 0 page errors ([])
+
+ALL OK
+rc=0

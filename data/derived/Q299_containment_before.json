@@ -1,0 +1,7471 @@
+{
+ "_README": [
+  "Q299 containment audit of every structure on all six pages: scripts/anatomy/q299/contain299.py.",
+  "BODY MASK = the page's own skin + fat_subcut/fat_deep/soft_unlabelled surfaces, area-sampled >=1 pt/mm2 into a 2 mm grid, closed with an 8 mm morphological closing done as dilate -> flood the outside from the grid border -> erode back, largest component.",
+  "VALIDATED three ways: >=90 % of 26 deep structures >=99.5 % inside and the group mean >=99 %; the mask volume a plausible body volume; the mask boundary within p95 3 mm of a real skin sample. Read every offender distance against that page's own error band.",
+  "Distances are true mm to the nearest real skin/outer-tissue surface sample (cKDTree), not voxel distances.",
+  "BONE TEST = each bone solidified in its OWN padded bounding box and eroded by one voxel, never one global bone mask: a global mask closes the bony rings (thoracic cage, pelvis) and its hole fill swallows the mediastinum and the pelvic cavity.",
+  "Bone penetration is REPORTED, not fixed, in Q299: it is Z-Anatomy's own mesh overlap plus fit residual, 52-126 structures per page, and two of the deepest cases are anatomically CORRECT (the triradiate cartilage IS inside the hip bone and the hip articular cartilage lines the acetabulum, so a bone mask built from the bone surface legitimately encloses them)."
+ ],
+ "pages": {
+  "base_f": {
+   "page": "base_f",
+   "label": "Base \u00b7 Female",
+   "vox_mm": 2.0,
+   "tol_mm": 5.0,
+   "n_structures": 3288,
+   "mask": {
+    "shape": [
+     327,
+     832,
+     172
+    ],
+    "volume_cm3": 68054.0,
+    "n_skin": 248,
+    "n_outer": 34,
+    "skin_samples": 7467246,
+    "bbox_mm": [
+     635.2,
+     1644.1,
+     324.4
+    ],
+    "close_mm": 8.0,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.31,
+     "max_mm": 8.31,
+     "boundary_voxels": 362296
+    }
+   },
+   "validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "urinary_bladder": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 68054.0,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.31,
+     "max_mm": 8.31,
+     "boundary_voxels": 362296
+    }
+   },
+   "n_outside_any": 94,
+   "n_outside_beyond_tol": 20,
+   "n_bone_penetrating": 52,
+   "offenders": [
+    {
+     "id": "breast_fat_l",
+     "sys": "viscera",
+     "n": 3901,
+     "out_n": 1146,
+     "out_frac": 0.29377,
+     "out_max_mm": 23.78,
+     "out_p95_mm": 19.57,
+     "out_mean_mm": 10.08,
+     "out_worst_xyz": [
+      -38.8,
+      377.8,
+      140.6
+     ],
+     "out_beyond_tol_n": 923
+    },
+    {
+     "id": "zan_external_pudendal_veins_l",
+     "sys": "vessel",
+     "n": 388,
+     "out_n": 197,
+     "out_frac": 0.50773,
+     "out_max_mm": 21.65,
+     "out_p95_mm": 20.83,
+     "out_mean_mm": 12.76,
+     "out_worst_xyz": [
+      -28.5,
+      -116.2,
+      96.9
+     ],
+     "out_beyond_tol_n": 185
+    },
+    {
+     "id": "zan_external_pudendal_veins_r",
+     "sys": "vessel",
+     "n": 388,
+     "out_n": 197,
+     "out_frac": 0.50773,
+     "out_max_mm": 21.6,
+     "out_p95_mm": 20.83,
+     "out_mean_mm": 12.63,
+     "out_worst_xyz": [
+      28.5,
+      -116.2,
+      96.9
+     ],
+     "out_beyond_tol_n": 182
+    },
+    {
+     "id": "breast_fat_r",
+     "sys": "viscera",
+     "n": 4013,
+     "out_n": 834,
+     "out_frac": 0.20782,
+     "out_max_mm": 21.29,
+     "out_p95_mm": 17.73,
+     "out_mean_mm": 8.81,
+     "out_worst_xyz": [
+      80.7,
+      394.2,
+      152.1
+     ],
+     "out_beyond_tol_n": 620
+    },
+    {
+     "id": "zan_superficial_external_pudendal_artery_l",
+     "sys": "vessel",
+     "n": 387,
+     "out_n": 165,
+     "out_frac": 0.42636,
+     "out_max_mm": 20.84,
+     "out_p95_mm": 20.12,
+     "out_mean_mm": 12.4,
+     "out_worst_xyz": [
+      -30.4,
+      -117.3,
+      96.9
+     ],
+     "out_beyond_tol_n": 154
+    },
+    {
+     "id": "zan_superficial_external_pudendal_artery_r",
+     "sys": "vessel",
+     "n": 387,
+     "out_n": 165,
+     "out_frac": 0.42636,
+     "out_max_mm": 20.84,
+     "out_p95_mm": 20.1,
+     "out_mean_mm": 12.36,
+     "out_worst_xyz": [
+      30.4,
+      -117.3,
+      96.9
+     ],
+     "out_beyond_tol_n": 155
+    },
+    {
+     "id": "breast_suspensory_ligaments_r",
+     "sys": "joint",
+     "n": 2504,
+     "out_n": 465,
+     "out_frac": 0.1857,
+     "out_max_mm": 13.59,
+     "out_p95_mm": 12.71,
+     "out_mean_mm": 7.03,
+     "out_worst_xyz": [
+      89.1,
+      399.9,
+      143.4
+     ],
+     "out_beyond_tol_n": 320
+    },
+    {
+     "id": "genitofemoral_n_r",
+     "sys": "nerve",
+     "n": 618,
+     "out_n": 72,
+     "out_frac": 0.1165,
+     "out_max_mm": 11.47,
+     "out_p95_mm": 10.74,
+     "out_mean_mm": 7.07,
+     "out_worst_xyz": [
+      20.3,
+      -103.7,
+      80.1
+     ],
+     "out_beyond_tol_n": 52
+    },
+    {
+     "id": "breast_suspensory_ligaments_l",
+     "sys": "joint",
+     "n": 2504,
+     "out_n": 362,
+     "out_frac": 0.14457,
+     "out_max_mm": 11.46,
+     "out_p95_mm": 10.54,
+     "out_mean_mm": 5.8,
+     "out_worst_xyz": [
+      -90.7,
+      400.5,
+      137.8
+     ],
+     "out_beyond_tol_n": 198
+    },
+    {
+     "id": "genitofemoral_n_l",
+     "sys": "nerve",
+     "n": 620,
+     "out_n": 73,
+     "out_frac": 0.11774,
+     "out_max_mm": 11.45,
+     "out_p95_mm": 10.89,
+     "out_mean_mm": 7.09,
+     "out_worst_xyz": [
+      -20.5,
+      -103.6,
+      80.3
+     ],
+     "out_beyond_tol_n": 52
+    },
+    {
+     "id": "mammary_gland_r",
+     "sys": "viscera",
+     "n": 4410,
+     "out_n": 81,
+     "out_frac": 0.01837,
+     "out_max_mm": 9.67,
+     "out_p95_mm": 7.27,
+     "out_mean_mm": 2.91,
+     "out_worst_xyz": [
+      80.5,
+      390.7,
+      140.7
+     ],
+     "out_beyond_tol_n": 10
+    },
+    {
+     "id": "mammary_gland_l",
+     "sys": "viscera",
+     "n": 4411,
+     "out_n": 255,
+     "out_frac": 0.05781,
+     "out_max_mm": 7.35,
+     "out_p95_mm": 6.49,
+     "out_mean_mm": 3.34,
+     "out_worst_xyz": [
+      -74.4,
+      444.7,
+      116.4
+     ],
+     "out_beyond_tol_n": 45
+    },
+    {
+     "id": "lactiferous_ducts_r",
+     "sys": "viscera",
+     "n": 3457,
+     "out_n": 96,
+     "out_frac": 0.02777,
+     "out_max_mm": 7.27,
+     "out_p95_mm": 6.37,
+     "out_mean_mm": 3.69,
+     "out_worst_xyz": [
+      86.5,
+      398.0,
+      137.4
+     ],
+     "out_beyond_tol_n": 23
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_l",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 63,
+     "out_frac": 0.10465,
+     "out_max_mm": 6.56,
+     "out_p95_mm": 6.09,
+     "out_mean_mm": 4.91,
+     "out_worst_xyz": [
+      -28.7,
+      729.1,
+      75.1
+     ],
+     "out_beyond_tol_n": 33
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_r",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 66,
+     "out_frac": 0.10963,
+     "out_max_mm": 6.17,
+     "out_p95_mm": 6.04,
+     "out_mean_mm": 4.93,
+     "out_worst_xyz": [
+      28.4,
+      728.7,
+      75.1
+     ],
+     "out_beyond_tol_n": 34
+    },
+    {
+     "id": "zan_cornea_l",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 150,
+     "out_frac": 0.24917,
+     "out_max_mm": 6.16,
+     "out_p95_mm": 6.04,
+     "out_mean_mm": 4.8,
+     "out_worst_xyz": [
+      -30.2,
+      729.1,
+      77.3
+     ],
+     "out_beyond_tol_n": 71
+    },
+    {
+     "id": "zan_cornea_r",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 152,
+     "out_frac": 0.25249,
+     "out_max_mm": 6.15,
+     "out_p95_mm": 6.04,
+     "out_mean_mm": 4.85,
+     "out_worst_xyz": [
+      30.2,
+      729.1,
+      77.3
+     ],
+     "out_beyond_tol_n": 74
+    },
+    {
+     "id": "zan_iris_l",
+     "sys": "nerve",
+     "n": 600,
+     "out_n": 16,
+     "out_frac": 0.02667,
+     "out_max_mm": 6.06,
+     "out_p95_mm": 5.89,
+     "out_mean_mm": 5.2,
+     "out_worst_xyz": [
+      -28.6,
+      728.5,
+      75.1
+     ],
+     "out_beyond_tol_n": 11
+    },
+    {
+     "id": "zan_iris_r",
+     "sys": "nerve",
+     "n": 600,
+     "out_n": 10,
+     "out_frac": 0.01667,
+     "out_max_mm": 5.96,
+     "out_p95_mm": 5.76,
+     "out_mean_mm": 5.26,
+     "out_worst_xyz": [
+      28.6,
+      728.5,
+      75.1
+     ],
+     "out_beyond_tol_n": 8
+    },
+    {
+     "id": "clitoris_cavernous_body",
+     "sys": "viscera",
+     "n": 1172,
+     "out_n": 53,
+     "out_frac": 0.04522,
+     "out_max_mm": 5.75,
+     "out_p95_mm": 5.41,
+     "out_mean_mm": 2.99,
+     "out_worst_xyz": [
+      -2.1,
+      -60.4,
+      75.4
+     ],
+     "out_beyond_tol_n": 6,
+     "bone_in_n": 7,
+     "bone_in_frac": 0.00597,
+     "bone_depth_max_mm": 1.02,
+     "bones": [
+      [
+       "hip_bone_l",
+       4
+      ],
+      [
+       "hip_bone_r",
+       3
+      ]
+     ]
+    }
+   ],
+   "seconds": 28.3,
+   "bone_penetration_top": [
+    {
+     "id": "plantaris_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 203,
+     "bone_in_frac": 0.11265,
+     "bone_depth_max_mm": 9.63,
+     "bones": [
+      [
+       "femur_r",
+       171
+      ],
+      [
+       "calcaneus_r",
+       32
+      ]
+     ]
+    },
+    {
+     "id": "plantaris_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 204,
+     "bone_in_frac": 0.11321,
+     "bone_depth_max_mm": 9.56,
+     "bones": [
+      [
+       "femur_l",
+       167
+      ],
+      [
+       "calcaneus_l",
+       37
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_l",
+     "sys": "muscle",
+     "n": 1800,
+     "bone_in_n": 76,
+     "bone_in_frac": 0.04222,
+     "bone_depth_max_mm": 9.27,
+     "bones": [
+      [
+       "femur_l",
+       48
+      ],
+      [
+       "zan_vertebra_l1",
+       8
+      ],
+      [
+       "zan_vertebra_l4",
+       5
+      ],
+      [
+       "zan_vertebra_l2",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 67,
+     "bone_in_frac": 0.03718,
+     "bone_depth_max_mm": 9.27,
+     "bones": [
+      [
+       "femur_r",
+       47
+      ],
+      [
+       "zan_vertebra_t12",
+       5
+      ],
+      [
+       "zan_vertebra_l1",
+       4
+      ],
+      [
+       "zan_vertebra_l2",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.14,
+     "bones": [
+      [
+       "calcaneus_l",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_r",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 218,
+     "bone_in_frac": 0.36394,
+     "bone_depth_max_mm": 8.13,
+     "bones": [
+      [
+       "hip_bone_r",
+       218
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.11,
+     "bones": [
+      [
+       "calcaneus_r",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_l",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 193,
+     "bone_in_frac": 0.3222,
+     "bone_depth_max_mm": 8.07,
+     "bones": [
+      [
+       "hip_bone_l",
+       193
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_l",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 725,
+     "bone_in_frac": 0.98238,
+     "bone_depth_max_mm": 8.05,
+     "bones": [
+      [
+       "humerus_l",
+       725
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_r",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 725,
+     "bone_in_frac": 0.98238,
+     "bone_depth_max_mm": 8.05,
+     "bones": [
+      [
+       "humerus_r",
+       725
+      ]
+     ]
+    },
+    {
+     "id": "adductor_magnus_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 454,
+     "bone_in_frac": 0.25194,
+     "bone_depth_max_mm": 7.95,
+     "bones": [
+      [
+       "femur_l",
+       439
+      ],
+      [
+       "hip_bone_l",
+       15
+      ]
+     ]
+    },
+    {
+     "id": "adductor_magnus_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 459,
+     "bone_in_frac": 0.25472,
+     "bone_depth_max_mm": 7.94,
+     "bones": [
+      [
+       "femur_r",
+       445
+      ],
+      [
+       "hip_bone_r",
+       14
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_r",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 178,
+     "bone_in_frac": 0.71774,
+     "bone_depth_max_mm": 7.17,
+     "bones": [
+      [
+       "humerus_r",
+       178
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_l",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 183,
+     "bone_in_frac": 0.7379,
+     "bone_depth_max_mm": 7.13,
+     "bones": [
+      [
+       "humerus_l",
+       183
+      ]
+     ]
+    },
+    {
+     "id": "flexor_carpi_ulnaris_l",
+     "sys": "muscle",
+     "n": 1791,
+     "out_n": 4,
+     "out_frac": 0.00223,
+     "out_max_mm": 1.19,
+     "out_p95_mm": 1.18,
+     "out_mean_mm": 1.09,
+     "out_worst_xyz": [
+      -168.6,
+      312.4,
+      -33.0
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 124,
+     "bone_in_frac": 0.06924,
+     "bone_depth_max_mm": 6.52,
+     "bones": [
+      [
+       "ulna_l",
+       95
+      ],
+      [
+       "humerus_l",
+       12
+      ],
+      [
+       "zan_hamate_bone_l",
+       9
+      ],
+      [
+       "zan_pisiform_bone_l",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "zan_medial_head_of_triceps_brachii_r",
+     "sys": "muscle",
+     "n": 1345,
+     "bone_in_n": 182,
+     "bone_in_frac": 0.13532,
+     "bone_depth_max_mm": 6.46,
+     "bones": [
+      [
+       "ulna_r",
+       92
+      ],
+      [
+       "humerus_r",
+       90
+      ]
+     ]
+    },
+    {
+     "id": "flexor_carpi_ulnaris_r",
+     "sys": "muscle",
+     "n": 1791,
+     "bone_in_n": 123,
+     "bone_in_frac": 0.06868,
+     "bone_depth_max_mm": 6.45,
+     "bones": [
+      [
+       "ulna_r",
+       95
+      ],
+      [
+       "humerus_r",
+       13
+      ],
+      [
+       "zan_hamate_bone_r",
+       9
+      ],
+      [
+       "zan_pisiform_bone_r",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "zan_medial_head_of_triceps_brachii_l",
+     "sys": "muscle",
+     "n": 1345,
+     "bone_in_n": 191,
+     "bone_in_frac": 0.14201,
+     "bone_depth_max_mm": 6.44,
+     "bones": [
+      [
+       "humerus_l",
+       96
+      ],
+      [
+       "ulna_l",
+       95
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_thoracic_veins_l",
+     "sys": "vessel",
+     "n": 386,
+     "bone_in_n": 164,
+     "bone_in_frac": 0.42487,
+     "bone_depth_max_mm": 6.21,
+     "bones": [
+      [
+       "sternum",
+       99
+      ],
+      [
+       "clavicle_l",
+       65
+      ]
+     ]
+    },
+    {
+     "id": "zan_medial_femoral_intermuscular_septum_l",
+     "sys": "fascia",
+     "n": 1888,
+     "bone_in_n": 9,
+     "bone_in_frac": 0.00477,
+     "bone_depth_max_mm": 6.18,
+     "bones": [
+      [
+       "femur_l",
+       9
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_thoracic_veins_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 171,
+     "bone_in_frac": 0.44416,
+     "bone_depth_max_mm": 6.09,
+     "bones": [
+      [
+       "sternum",
+       99
+      ],
+      [
+       "clavicle_r",
+       72
+      ]
+     ]
+    },
+    {
+     "id": "zan_musculophrenic_veins_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 48,
+     "bone_in_frac": 0.12468,
+     "bone_depth_max_mm": 6.06,
+     "bones": [
+      [
+       "sternum",
+       48
+      ]
+     ]
+    },
+    {
+     "id": "zan_superior_epigastric_veins_r",
+     "sys": "vessel",
+     "n": 366,
+     "bone_in_n": 35,
+     "bone_in_frac": 0.09563,
+     "bone_depth_max_mm": 6.06,
+     "bones": [
+      [
+       "sternum",
+       35
+      ]
+     ]
+    },
+    {
+     "id": "zan_musculophrenic_veins_l",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 50,
+     "bone_in_frac": 0.12987,
+     "bone_depth_max_mm": 6.05,
+     "bones": [
+      [
+       "sternum",
+       50
+      ]
+     ]
+    },
+    {
+     "id": "zan_superior_epigastric_veins_l",
+     "sys": "vessel",
+     "n": 366,
+     "bone_in_n": 37,
+     "bone_in_frac": 0.10109,
+     "bone_depth_max_mm": 6.05,
+     "bones": [
+      [
+       "sternum",
+       37
+      ]
+     ]
+    },
+    {
+     "id": "saphenous_n_r",
+     "sys": "nerve",
+     "n": 608,
+     "bone_in_n": 14,
+     "bone_in_frac": 0.02303,
+     "bone_depth_max_mm": 6.04,
+     "bones": [
+      [
+       "tibia_r",
+       13
+      ],
+      [
+       "femur_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "tibial_collateral_ligament_r",
+     "sys": "joint",
+     "n": 382,
+     "bone_in_n": 128,
+     "bone_in_frac": 0.33508,
+     "bone_depth_max_mm": 5.87,
+     "bones": [
+      [
+       "tibia_r",
+       108
+      ],
+      [
+       "femur_r",
+       20
+      ]
+     ]
+    },
+    {
+     "id": "sternoclavicular_ligament_l",
+     "sys": "joint",
+     "n": 232,
+     "bone_in_n": 39,
+     "bone_in_frac": 0.1681,
+     "bone_depth_max_mm": 5.86,
+     "bones": [
+      [
+       "clavicle_l",
+       27
+      ],
+      [
+       "sternum",
+       12
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_l",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 258,
+     "bone_in_frac": 0.67013,
+     "bone_depth_max_mm": 5.85,
+     "bones": [
+      [
+       "humerus_l",
+       258
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 259,
+     "bone_in_frac": 0.67273,
+     "bone_depth_max_mm": 5.84,
+     "bones": [
+      [
+       "humerus_r",
+       259
+      ]
+     ]
+    },
+    {
+     "id": "tibial_collateral_ligament_l",
+     "sys": "joint",
+     "n": 210,
+     "bone_in_n": 87,
+     "bone_in_frac": 0.41429,
+     "bone_depth_max_mm": 5.8,
+     "bones": [
+      [
+       "tibia_l",
+       76
+      ],
+      [
+       "femur_l",
+       11
+      ]
+     ]
+    },
+    {
+     "id": "zan_long_plantar_ligament_r",
+     "sys": "joint",
+     "n": 451,
+     "bone_in_n": 71,
+     "bone_in_frac": 0.15743,
+     "bone_depth_max_mm": 5.8,
+     "bones": [
+      [
+       "calcaneus_r",
+       47
+      ],
+      [
+       "cuneiform_medial_r",
+       15
+      ],
+      [
+       "zan_fifth_metatarsal_bone_r",
+       7
+      ],
+      [
+       "zan_fourth_metatarsal_bone_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "transversus_abdominis_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 148,
+     "bone_in_frac": 0.08213,
+     "bone_depth_max_mm": 5.72,
+     "bones": [
+      [
+       "hip_bone_l",
+       82
+      ],
+      [
+       "zan_eighth_rib_l",
+       25
+      ],
+      [
+       "zan_eleventh_rib_l",
+       13
+      ],
+      [
+       "zan_ninth_rib_l",
+       10
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_tibial_artery_l",
+     "sys": "vessel",
+     "n": 383,
+     "bone_in_n": 41,
+     "bone_in_frac": 0.10705,
+     "bone_depth_max_mm": 5.69,
+     "bones": [
+      [
+       "talus_l",
+       29
+      ],
+      [
+       "tibia_l",
+       12
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_tibial_artery_r",
+     "sys": "vessel",
+     "n": 384,
+     "bone_in_n": 39,
+     "bone_in_frac": 0.10156,
+     "bone_depth_max_mm": 5.69,
+     "bones": [
+      [
+       "talus_r",
+       28
+      ],
+      [
+       "tibia_r",
+       11
+      ]
+     ]
+    },
+    {
+     "id": "zan_long_head_of_triceps_brachii_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 199,
+     "bone_in_frac": 0.11043,
+     "bone_depth_max_mm": 5.65,
+     "bones": [
+      [
+       "scapula_l",
+       114
+      ],
+      [
+       "ulna_l",
+       85
+      ]
+     ]
+    },
+    {
+     "id": "zan_long_head_of_triceps_brachii_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 198,
+     "bone_in_frac": 0.10988,
+     "bone_depth_max_mm": 5.63,
+     "bones": [
+      [
+       "scapula_r",
+       111
+      ],
+      [
+       "ulna_r",
+       87
+      ]
+     ]
+    },
+    {
+     "id": "popliteus_r",
+     "sys": "muscle",
+     "n": 566,
+     "bone_in_n": 67,
+     "bone_in_frac": 0.11837,
+     "bone_depth_max_mm": 5.58,
+     "bones": [
+      [
+       "tibia_r",
+       67
+      ]
+     ]
+    },
+    {
+     "id": "posterior_cruciate_ligament_l",
+     "sys": "joint",
+     "n": 396,
+     "bone_in_n": 77,
+     "bone_in_frac": 0.19444,
+     "bone_depth_max_mm": 5.49,
+     "bones": [
+      [
+       "tibia_l",
+       54
+      ],
+      [
+       "femur_l",
+       23
+      ]
+     ]
+    },
+    {
+     "id": "posterior_cruciate_ligament_r",
+     "sys": "joint",
+     "n": 396,
+     "bone_in_n": 75,
+     "bone_in_frac": 0.18939,
+     "bone_depth_max_mm": 5.47,
+     "bones": [
+      [
+       "tibia_r",
+       54
+      ],
+      [
+       "femur_r",
+       21
+      ]
+     ]
+    }
+   ],
+   "bone_mostly_inside": [
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.14,
+     "bones": [
+      [
+       "calcaneus_l",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.11,
+     "bones": [
+      [
+       "calcaneus_r",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_l",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 725,
+     "bone_in_frac": 0.98238,
+     "bone_depth_max_mm": 8.05,
+     "bones": [
+      [
+       "humerus_l",
+       725
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_r",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 725,
+     "bone_in_frac": 0.98238,
+     "bone_depth_max_mm": 8.05,
+     "bones": [
+      [
+       "humerus_r",
+       725
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_r",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 178,
+     "bone_in_frac": 0.71774,
+     "bone_depth_max_mm": 7.17,
+     "bones": [
+      [
+       "humerus_r",
+       178
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_l",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 183,
+     "bone_in_frac": 0.7379,
+     "bone_depth_max_mm": 7.13,
+     "bones": [
+      [
+       "humerus_l",
+       183
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_l",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 258,
+     "bone_in_frac": 0.67013,
+     "bone_depth_max_mm": 5.85,
+     "bones": [
+      [
+       "humerus_l",
+       258
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 259,
+     "bone_in_frac": 0.67273,
+     "bone_depth_max_mm": 5.84,
+     "bones": [
+      [
+       "humerus_r",
+       259
+      ]
+     ]
+    }
+   ]
+  },
+  "base_m": {
+   "page": "base_m",
+   "label": "Base \u00b7 Male",
+   "vox_mm": 2.0,
+   "tol_mm": 5.0,
+   "n_structures": 3252,
+   "mask": {
+    "shape": [
+     350,
+     864,
+     156
+    ],
+    "volume_cm3": 75155.9,
+    "n_skin": 250,
+    "n_outer": 34,
+    "skin_samples": 7909242,
+    "bbox_mm": [
+     680.1,
+     1709.5,
+     294.0
+    ],
+    "close_mm": 8.0,
+    "error_band": {
+     "p50_mm": 0.73,
+     "p95_mm": 1.31,
+     "max_mm": 8.07,
+     "boundary_voxels": 391274
+    }
+   },
+   "validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 75155.9,
+    "error_band": {
+     "p50_mm": 0.73,
+     "p95_mm": 1.31,
+     "max_mm": 8.07,
+     "boundary_voxels": 391274
+    }
+   },
+   "n_outside_any": 43,
+   "n_outside_beyond_tol": 6,
+   "n_bone_penetrating": 62,
+   "offenders": [
+    {
+     "id": "zan_cornea_l",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 115,
+     "out_frac": 0.19103,
+     "out_max_mm": 6.42,
+     "out_p95_mm": 6.18,
+     "out_mean_mm": 4.75,
+     "out_worst_xyz": [
+      -32.8,
+      728.9,
+      82.8
+     ],
+     "out_beyond_tol_n": 54
+    },
+    {
+     "id": "zan_cornea_r",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 105,
+     "out_frac": 0.17442,
+     "out_max_mm": 6.33,
+     "out_p95_mm": 6.19,
+     "out_mean_mm": 4.71,
+     "out_worst_xyz": [
+      32.8,
+      728.9,
+      82.8
+     ],
+     "out_beyond_tol_n": 47
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_r",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 48,
+     "out_frac": 0.07973,
+     "out_max_mm": 5.96,
+     "out_p95_mm": 5.8,
+     "out_mean_mm": 4.28,
+     "out_worst_xyz": [
+      27.6,
+      729.0,
+      81.4
+     ],
+     "out_beyond_tol_n": 15
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_l",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 56,
+     "out_frac": 0.09302,
+     "out_max_mm": 5.8,
+     "out_p95_mm": 5.72,
+     "out_mean_mm": 4.32,
+     "out_worst_xyz": [
+      -30.1,
+      728.2,
+      81.9
+     ],
+     "out_beyond_tol_n": 16
+    },
+    {
+     "id": "zan_sclera_l",
+     "sys": "nerve",
+     "n": 620,
+     "out_n": 22,
+     "out_frac": 0.03548,
+     "out_max_mm": 5.05,
+     "out_p95_mm": 5.03,
+     "out_mean_mm": 3.69,
+     "out_worst_xyz": [
+      -24.3,
+      728.1,
+      80.5
+     ],
+     "out_beyond_tol_n": 2
+    },
+    {
+     "id": "zan_sclera_r",
+     "sys": "nerve",
+     "n": 621,
+     "out_n": 19,
+     "out_frac": 0.0306,
+     "out_max_mm": 5.04,
+     "out_p95_mm": 5.04,
+     "out_mean_mm": 3.7,
+     "out_worst_xyz": [
+      24.3,
+      728.1,
+      80.5
+     ],
+     "out_beyond_tol_n": 2
+    }
+   ],
+   "seconds": 60.0,
+   "bone_penetration_top": [
+    {
+     "id": "plantaris_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 207,
+     "bone_in_frac": 0.11487,
+     "bone_depth_max_mm": 10.43,
+     "bones": [
+      [
+       "femur_r",
+       176
+      ],
+      [
+       "calcaneus_r",
+       31
+      ]
+     ]
+    },
+    {
+     "id": "plantaris_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 200,
+     "bone_in_frac": 0.11099,
+     "bone_depth_max_mm": 10.42,
+     "bones": [
+      [
+       "femur_l",
+       170
+      ],
+      [
+       "calcaneus_l",
+       30
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 81,
+     "bone_in_frac": 0.04495,
+     "bone_depth_max_mm": 10.28,
+     "bones": [
+      [
+       "femur_r",
+       47
+      ],
+      [
+       "zan_vertebra_l4",
+       8
+      ],
+      [
+       "zan_vertebra_l2",
+       6
+      ],
+      [
+       "zan_vertebra_t12",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_l",
+     "sys": "muscle",
+     "n": 1800,
+     "bone_in_n": 71,
+     "bone_in_frac": 0.03944,
+     "bone_depth_max_mm": 10.25,
+     "bones": [
+      [
+       "femur_l",
+       48
+      ],
+      [
+       "zan_vertebra_l2",
+       5
+      ],
+      [
+       "hip_bone_l",
+       4
+      ],
+      [
+       "zan_vertebra_l1",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_r",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 243,
+     "bone_in_frac": 0.40568,
+     "bone_depth_max_mm": 9.44,
+     "bones": [
+      [
+       "hip_bone_r",
+       243
+      ],
+      [
+       "femur_r",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_l",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 258,
+     "bone_in_frac": 0.43072,
+     "bone_depth_max_mm": 9.43,
+     "bones": [
+      [
+       "hip_bone_l",
+       255
+      ],
+      [
+       "femur_l",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "zan_left_testicular_vein",
+     "sys": "vessel",
+     "n": 1506,
+     "out_n": 12,
+     "out_frac": 0.00797,
+     "out_max_mm": 1.3,
+     "out_p95_mm": 1.22,
+     "out_mean_mm": 0.69,
+     "out_worst_xyz": [
+      -21.0,
+      -130.1,
+      46.5
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 256,
+     "bone_in_frac": 0.16999,
+     "bone_depth_max_mm": 8.73,
+     "bones": [
+      [
+       "hip_bone_l",
+       256
+      ]
+     ]
+    },
+    {
+     "id": "zan_right_testicular_vein",
+     "sys": "vessel",
+     "n": 1506,
+     "bone_in_n": 263,
+     "bone_in_frac": 0.17463,
+     "bone_depth_max_mm": 8.72,
+     "bones": [
+      [
+       "hip_bone_r",
+       263
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.65,
+     "bones": [
+      [
+       "calcaneus_l",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 122,
+     "bone_in_frac": 0.96063,
+     "bone_depth_max_mm": 8.65,
+     "bones": [
+      [
+       "calcaneus_r",
+       122
+      ]
+     ]
+    },
+    {
+     "id": "adductor_magnus_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 450,
+     "bone_in_frac": 0.24972,
+     "bone_depth_max_mm": 8.27,
+     "bones": [
+      [
+       "femur_l",
+       437
+      ],
+      [
+       "hip_bone_l",
+       13
+      ]
+     ]
+    },
+    {
+     "id": "adductor_magnus_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 454,
+     "bone_in_frac": 0.25194,
+     "bone_depth_max_mm": 8.26,
+     "bones": [
+      [
+       "femur_r",
+       441
+      ],
+      [
+       "hip_bone_r",
+       13
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_r",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 729,
+     "bone_in_frac": 0.9878,
+     "bone_depth_max_mm": 8.26,
+     "bones": [
+      [
+       "humerus_r",
+       729
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_l",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 738,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.23,
+     "bones": [
+      [
+       "humerus_l",
+       738
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_l",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 192,
+     "bone_in_frac": 0.77419,
+     "bone_depth_max_mm": 7.92,
+     "bones": [
+      [
+       "humerus_l",
+       192
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_r",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 199,
+     "bone_in_frac": 0.80242,
+     "bone_depth_max_mm": 7.9,
+     "bones": [
+      [
+       "humerus_r",
+       199
+      ]
+     ]
+    },
+    {
+     "id": "gonadal_a_r",
+     "sys": "vessel",
+     "n": 378,
+     "bone_in_n": 53,
+     "bone_in_frac": 0.14021,
+     "bone_depth_max_mm": 7.24,
+     "bones": [
+      [
+       "hip_bone_r",
+       53
+      ]
+     ]
+    },
+    {
+     "id": "transversus_abdominis_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 156,
+     "bone_in_frac": 0.08657,
+     "bone_depth_max_mm": 7.01,
+     "bones": [
+      [
+       "hip_bone_l",
+       89
+      ],
+      [
+       "zan_eighth_rib_l",
+       24
+      ],
+      [
+       "zan_eleventh_rib_l",
+       12
+      ],
+      [
+       "zan_ninth_rib_l",
+       11
+      ]
+     ]
+    },
+    {
+     "id": "gonadal_a_l",
+     "sys": "vessel",
+     "n": 378,
+     "out_n": 4,
+     "out_frac": 0.01058,
+     "out_max_mm": 1.58,
+     "out_p95_mm": 1.52,
+     "out_mean_mm": 1.23,
+     "out_worst_xyz": [
+      -20.2,
+      -127.8,
+      44.0
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 52,
+     "bone_in_frac": 0.13757,
+     "bone_depth_max_mm": 7.0,
+     "bones": [
+      [
+       "hip_bone_l",
+       52
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_thoracic_veins_l",
+     "sys": "vessel",
+     "n": 386,
+     "bone_in_n": 176,
+     "bone_in_frac": 0.45596,
+     "bone_depth_max_mm": 7.0,
+     "bones": [
+      [
+       "sternum",
+       111
+      ],
+      [
+       "clavicle_l",
+       65
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_thoracic_veins_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 172,
+     "bone_in_frac": 0.44675,
+     "bone_depth_max_mm": 6.95,
+     "bones": [
+      [
+       "sternum",
+       110
+      ],
+      [
+       "clavicle_r",
+       62
+      ]
+     ]
+    },
+    {
+     "id": "zan_medial_head_of_triceps_brachii_r",
+     "sys": "muscle",
+     "n": 1345,
+     "bone_in_n": 193,
+     "bone_in_frac": 0.14349,
+     "bone_depth_max_mm": 6.95,
+     "bones": [
+      [
+       "ulna_r",
+       102
+      ],
+      [
+       "humerus_r",
+       91
+      ]
+     ]
+    },
+    {
+     "id": "zan_medial_head_of_triceps_brachii_l",
+     "sys": "muscle",
+     "n": 1345,
+     "bone_in_n": 188,
+     "bone_in_frac": 0.13978,
+     "bone_depth_max_mm": 6.92,
+     "bones": [
+      [
+       "ulna_l",
+       96
+      ],
+      [
+       "humerus_l",
+       92
+      ]
+     ]
+    },
+    {
+     "id": "transversus_abdominis_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 152,
+     "bone_in_frac": 0.08435,
+     "bone_depth_max_mm": 6.87,
+     "bones": [
+      [
+       "hip_bone_r",
+       88
+      ],
+      [
+       "zan_eighth_rib_r",
+       22
+      ],
+      [
+       "zan_eleventh_rib_r",
+       12
+      ],
+      [
+       "zan_ninth_rib_r",
+       9
+      ]
+     ]
+    },
+    {
+     "id": "zan_musculophrenic_veins_l",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 59,
+     "bone_in_frac": 0.15325,
+     "bone_depth_max_mm": 6.82,
+     "bones": [
+      [
+       "sternum",
+       59
+      ]
+     ]
+    },
+    {
+     "id": "zan_musculophrenic_veins_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 58,
+     "bone_in_frac": 0.15065,
+     "bone_depth_max_mm": 6.82,
+     "bones": [
+      [
+       "sternum",
+       58
+      ]
+     ]
+    },
+    {
+     "id": "zan_superior_epigastric_veins_l",
+     "sys": "vessel",
+     "n": 366,
+     "bone_in_n": 44,
+     "bone_in_frac": 0.12022,
+     "bone_depth_max_mm": 6.82,
+     "bones": [
+      [
+       "sternum",
+       44
+      ]
+     ]
+    },
+    {
+     "id": "zan_superior_epigastric_veins_r",
+     "sys": "vessel",
+     "n": 366,
+     "bone_in_n": 43,
+     "bone_in_frac": 0.11749,
+     "bone_depth_max_mm": 6.82,
+     "bones": [
+      [
+       "sternum",
+       43
+      ]
+     ]
+    },
+    {
+     "id": "zan_vagus_nerve_x_r",
+     "sys": "nerve",
+     "n": 641,
+     "bone_in_n": 13,
+     "bone_in_frac": 0.02028,
+     "bone_depth_max_mm": 6.7,
+     "bones": [
+      [
+       "zan_vertebra_t5",
+       8
+      ],
+      [
+       "zan_vertebra_t6",
+       4
+      ],
+      [
+       "zan_vertebra_t7",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "flexor_carpi_ulnaris_r",
+     "sys": "muscle",
+     "n": 1791,
+     "bone_in_n": 124,
+     "bone_in_frac": 0.06924,
+     "bone_depth_max_mm": 6.67,
+     "bones": [
+      [
+       "ulna_r",
+       96
+      ],
+      [
+       "humerus_r",
+       11
+      ],
+      [
+       "zan_hamate_bone_r",
+       11
+      ],
+      [
+       "zan_pisiform_bone_r",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "flexor_carpi_ulnaris_l",
+     "sys": "muscle",
+     "n": 1791,
+     "bone_in_n": 126,
+     "bone_in_frac": 0.07035,
+     "bone_depth_max_mm": 6.62,
+     "bones": [
+      [
+       "ulna_l",
+       96
+      ],
+      [
+       "zan_hamate_bone_l",
+       12
+      ],
+      [
+       "humerus_l",
+       11
+      ],
+      [
+       "zan_pisiform_bone_l",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "sternoclavicular_ligament_l",
+     "sys": "joint",
+     "n": 232,
+     "bone_in_n": 40,
+     "bone_in_frac": 0.17241,
+     "bone_depth_max_mm": 6.47,
+     "bones": [
+      [
+       "clavicle_l",
+       31
+      ],
+      [
+       "sternum",
+       9
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_l",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 259,
+     "bone_in_frac": 0.67273,
+     "bone_depth_max_mm": 6.28,
+     "bones": [
+      [
+       "humerus_l",
+       259
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 263,
+     "bone_in_frac": 0.68312,
+     "bone_depth_max_mm": 6.28,
+     "bones": [
+      [
+       "humerus_r",
+       263
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_intercostal_muscles_l",
+     "sys": "muscle",
+     "n": 1814,
+     "bone_in_n": 153,
+     "bone_in_frac": 0.08434,
+     "bone_depth_max_mm": 6.27,
+     "bones": [
+      [
+       "zan_fourth_rib_l",
+       25
+      ],
+      [
+       "zan_ninth_rib_l",
+       20
+      ],
+      [
+       "zan_seventh_rib_l",
+       20
+      ],
+      [
+       "zan_fifth_rib_l",
+       17
+      ]
+     ]
+    },
+    {
+     "id": "pubic_symphysis_disc",
+     "sys": "cartilage",
+     "n": 420,
+     "bone_in_n": 93,
+     "bone_in_frac": 0.22143,
+     "bone_depth_max_mm": 6.2,
+     "bones": [
+      [
+       "hip_bone_l",
+       47
+      ],
+      [
+       "hip_bone_r",
+       46
+      ]
+     ]
+    },
+    {
+     "id": "zan_medial_femoral_intermuscular_septum_l",
+     "sys": "fascia",
+     "n": 1888,
+     "bone_in_n": 10,
+     "bone_in_frac": 0.0053,
+     "bone_depth_max_mm": 6.2,
+     "bones": [
+      [
+       "femur_l",
+       10
+      ]
+     ]
+    },
+    {
+     "id": "popliteus_l",
+     "sys": "muscle",
+     "n": 566,
+     "bone_in_n": 65,
+     "bone_in_frac": 0.11484,
+     "bone_depth_max_mm": 6.16,
+     "bones": [
+      [
+       "tibia_l",
+       65
+      ]
+     ]
+    },
+    {
+     "id": "posterior_cruciate_ligament_l",
+     "sys": "joint",
+     "n": 396,
+     "bone_in_n": 82,
+     "bone_in_frac": 0.20707,
+     "bone_depth_max_mm": 6.01,
+     "bones": [
+      [
+       "tibia_l",
+       55
+      ],
+      [
+       "femur_l",
+       27
+      ]
+     ]
+    },
+    {
+     "id": "saphenous_n_r",
+     "sys": "nerve",
+     "n": 608,
+     "bone_in_n": 15,
+     "bone_in_frac": 0.02467,
+     "bone_depth_max_mm": 6.01,
+     "bones": [
+      [
+       "tibia_r",
+       15
+      ]
+     ]
+    }
+   ],
+   "bone_mostly_inside": [
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.65,
+     "bones": [
+      [
+       "calcaneus_l",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 122,
+     "bone_in_frac": 0.96063,
+     "bone_depth_max_mm": 8.65,
+     "bones": [
+      [
+       "calcaneus_r",
+       122
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_r",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 729,
+     "bone_in_frac": 0.9878,
+     "bone_depth_max_mm": 8.26,
+     "bones": [
+      [
+       "humerus_r",
+       729
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_l",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 738,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.23,
+     "bones": [
+      [
+       "humerus_l",
+       738
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_l",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 192,
+     "bone_in_frac": 0.77419,
+     "bone_depth_max_mm": 7.92,
+     "bones": [
+      [
+       "humerus_l",
+       192
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_artery_r",
+     "sys": "vessel",
+     "n": 248,
+     "bone_in_n": 199,
+     "bone_in_frac": 0.80242,
+     "bone_depth_max_mm": 7.9,
+     "bones": [
+      [
+       "humerus_r",
+       199
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_l",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 259,
+     "bone_in_frac": 0.67273,
+     "bone_depth_max_mm": 6.28,
+     "bones": [
+      [
+       "humerus_l",
+       259
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_circumflex_humeral_vein_r",
+     "sys": "vessel",
+     "n": 385,
+     "bone_in_n": 263,
+     "bone_in_frac": 0.68312,
+     "bone_depth_max_mm": 6.28,
+     "bones": [
+      [
+       "humerus_r",
+       263
+      ]
+     ]
+    }
+   ]
+  },
+  "comb_f": {
+   "page": "comb_f",
+   "label": "Combined \u00b7 Female",
+   "vox_mm": 2.0,
+   "tol_mm": 5.0,
+   "n_structures": 3304,
+   "mask": {
+    "shape": [
+     277,
+     878,
+     162
+    ],
+    "volume_cm3": 89047.9,
+    "n_skin": 249,
+    "n_outer": 34,
+    "skin_samples": 11858912,
+    "bbox_mm": [
+     534.8,
+     1736.8,
+     304.5
+    ],
+    "close_mm": 8.0,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.36,
+     "max_mm": 7.9,
+     "boundary_voxels": 378039
+    }
+   },
+   "validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 99.64,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 97.27,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [
+     {
+      "id": "sacrum",
+      "inside_pct": 97.27
+     }
+    ],
+    "deep_group_fraction_ok": 0.962,
+    "deep_group_mean_inside_pct": 99.88,
+    "body_mask_volume_cm3": 89047.9,
+    "error_band": {
+     "p50_mm": 0.72,
+     "p95_mm": 1.36,
+     "max_mm": 7.9,
+     "boundary_voxels": 378039
+    }
+   },
+   "n_outside_any": 77,
+   "n_outside_beyond_tol": 15,
+   "n_bone_penetrating": 63,
+   "offenders": [
+    {
+     "id": "zan_fascia_lata_l",
+     "sys": "fascia",
+     "n": 1908,
+     "out_n": 36,
+     "out_frac": 0.01887,
+     "out_max_mm": 15.72,
+     "out_p95_mm": 15.31,
+     "out_mean_mm": 9.29,
+     "out_worst_xyz": [
+      -13.0,
+      58.0,
+      -141.2
+     ],
+     "out_beyond_tol_n": 30,
+     "bone_in_n": 14,
+     "bone_in_frac": 0.00734,
+     "bone_depth_max_mm": 3.99,
+     "bones": [
+      [
+       "hip_bone_l",
+       12
+      ],
+      [
+       "sacrum",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "fascia_lata_r",
+     "sys": "fascia",
+     "n": 808,
+     "out_n": 14,
+     "out_frac": 0.01733,
+     "out_max_mm": 12.46,
+     "out_p95_mm": 11.91,
+     "out_mean_mm": 6.65,
+     "out_worst_xyz": [
+      26.7,
+      61.4,
+      -137.2
+     ],
+     "out_beyond_tol_n": 11,
+     "bone_in_n": 5,
+     "bone_in_frac": 0.00619,
+     "bone_depth_max_mm": 1.22,
+     "bones": [
+      [
+       "hip_bone_r",
+       3
+      ],
+      [
+       "sacrum",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "longissimus_r",
+     "sys": "muscle",
+     "n": 1799,
+     "out_n": 25,
+     "out_frac": 0.0139,
+     "out_max_mm": 12.22,
+     "out_p95_mm": 10.66,
+     "out_mean_mm": 6.94,
+     "out_worst_xyz": [
+      26.1,
+      67.3,
+      -137.7
+     ],
+     "out_beyond_tol_n": 18,
+     "bone_in_n": 5,
+     "bone_in_frac": 0.00278,
+     "bone_depth_max_mm": 2.83,
+     "bones": [
+      [
+       "zan_vertebra_c7",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "longissimus_l",
+     "sys": "muscle",
+     "n": 1799,
+     "out_n": 28,
+     "out_frac": 0.01556,
+     "out_max_mm": 12.06,
+     "out_p95_mm": 11.52,
+     "out_mean_mm": 7.88,
+     "out_worst_xyz": [
+      -18.3,
+      63.7,
+      -137.3
+     ],
+     "out_beyond_tol_n": 25,
+     "bone_in_n": 25,
+     "bone_in_frac": 0.0139,
+     "bone_depth_max_mm": 3.31,
+     "bones": [
+      [
+       "zan_seventh_rib_l",
+       19
+      ],
+      [
+       "zan_eighth_rib_l",
+       5
+      ],
+      [
+       "zan_vertebra_l1",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "iliocostalis_l",
+     "sys": "muscle",
+     "n": 1804,
+     "out_n": 24,
+     "out_frac": 0.0133,
+     "out_max_mm": 11.05,
+     "out_p95_mm": 9.72,
+     "out_mean_mm": 5.3,
+     "out_worst_xyz": [
+      -10.1,
+      62.8,
+      -136.6
+     ],
+     "out_beyond_tol_n": 10,
+     "bone_in_n": 4,
+     "bone_in_frac": 0.00222,
+     "bone_depth_max_mm": 1.07,
+     "bones": [
+      [
+       "sacrum",
+       2
+      ],
+      [
+       "scapula_l",
+       1
+      ],
+      [
+       "zan_twelfth_rib_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "iliocostalis_r",
+     "sys": "muscle",
+     "n": 1803,
+     "out_n": 17,
+     "out_frac": 0.00943,
+     "out_max_mm": 7.96,
+     "out_p95_mm": 7.83,
+     "out_mean_mm": 4.39,
+     "out_worst_xyz": [
+      23.3,
+      63.7,
+      -133.0
+     ],
+     "out_beyond_tol_n": 5,
+     "bone_in_n": 2,
+     "bone_in_frac": 0.00111,
+     "bone_depth_max_mm": 1.11,
+     "bones": [
+      [
+       "sacrum",
+       1
+      ],
+      [
+       "zan_twelfth_rib_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "sacrum",
+     "sys": "bone",
+     "n": 2969,
+     "out_n": 81,
+     "out_frac": 0.02728,
+     "out_max_mm": 7.22,
+     "out_p95_mm": 6.47,
+     "out_mean_mm": 3.59,
+     "out_worst_xyz": [
+      1.2,
+      55.4,
+      -132.2
+     ],
+     "out_beyond_tol_n": 16
+    },
+    {
+     "id": "cuneiform_intermediate_r",
+     "sys": "bone",
+     "n": 224,
+     "out_n": 48,
+     "out_frac": 0.21429,
+     "out_max_mm": 7.09,
+     "out_p95_mm": 6.96,
+     "out_mean_mm": 4.23,
+     "out_worst_xyz": [
+      50.2,
+      -789.4,
+      14.4
+     ],
+     "out_beyond_tol_n": 16
+    },
+    {
+     "id": "radius_l",
+     "sys": "bone",
+     "n": 394,
+     "out_n": 20,
+     "out_frac": 0.05076,
+     "out_max_mm": 6.07,
+     "out_p95_mm": 5.91,
+     "out_mean_mm": 3.8,
+     "out_worst_xyz": [
+      -268.7,
+      328.6,
+      -44.8
+     ],
+     "out_beyond_tol_n": 7
+    },
+    {
+     "id": "zan_antebrachial_fascia_l",
+     "sys": "fascia",
+     "n": 1832,
+     "out_n": 7,
+     "out_frac": 0.00382,
+     "out_max_mm": 5.88,
+     "out_p95_mm": 5.01,
+     "out_mean_mm": 2.54,
+     "out_worst_xyz": [
+      -268.4,
+      327.8,
+      -44.7
+     ],
+     "out_beyond_tol_n": 1,
+     "bone_in_n": 25,
+     "bone_in_frac": 0.01365,
+     "bone_depth_max_mm": 1.92,
+     "bones": [
+      [
+       "humerus_l",
+       22
+      ],
+      [
+       "ulna_l",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digitorum_longus_r",
+     "sys": "muscle",
+     "n": 1834,
+     "out_n": 239,
+     "out_frac": 0.13032,
+     "out_max_mm": 5.76,
+     "out_p95_mm": 4.95,
+     "out_mean_mm": 2.98,
+     "out_worst_xyz": [
+      50.6,
+      -800.6,
+      18.4
+     ],
+     "out_beyond_tol_n": 9,
+     "bone_in_n": 58,
+     "bone_in_frac": 0.03162,
+     "bone_depth_max_mm": 3.0,
+     "bones": [
+      [
+       "fibula_r",
+       15
+      ],
+      [
+       "cuneiform_intermediate_r",
+       11
+      ],
+      [
+       "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+       8
+      ],
+      [
+       "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+       7
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digitorum_longus_l",
+     "sys": "muscle",
+     "n": 1832,
+     "out_n": 218,
+     "out_frac": 0.119,
+     "out_max_mm": 5.4,
+     "out_p95_mm": 4.44,
+     "out_mean_mm": 2.74,
+     "out_worst_xyz": [
+      -47.1,
+      -784.1,
+      21.0
+     ],
+     "out_beyond_tol_n": 4,
+     "bone_in_n": 119,
+     "bone_in_frac": 0.06496,
+     "bone_depth_max_mm": 2.98,
+     "bones": [
+      [
+       "fibula_l",
+       31
+      ],
+      [
+       "zan_middle_phalanx_of_second_finger_of_foot_l",
+       27
+      ],
+      [
+       "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+       14
+      ],
+      [
+       "zan_proximal_phalanx_of_second_finger_of_foot_l",
+       13
+      ]
+     ]
+    },
+    {
+     "id": "zan_inferior_fibular_retinaculum_l",
+     "sys": "joint",
+     "n": 32,
+     "out_n": 10,
+     "out_frac": 0.3125,
+     "out_max_mm": 5.24,
+     "out_p95_mm": 5.08,
+     "out_mean_mm": 3.66,
+     "out_worst_xyz": [
+      -47.8,
+      -779.3,
+      17.9
+     ],
+     "out_beyond_tol_n": 1,
+     "bone_in_n": 1,
+     "bone_in_frac": 0.03125,
+     "bone_depth_max_mm": 0.73,
+     "bones": [
+      [
+       "zan_fifth_metatarsal_bone_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_distal_phalanx_of_second_finger_of_hand_l",
+     "sys": "bone",
+     "n": 127,
+     "out_n": 30,
+     "out_frac": 0.23622,
+     "out_max_mm": 5.2,
+     "out_p95_mm": 5.15,
+     "out_mean_mm": 3.36,
+     "out_worst_xyz": [
+      -69.2,
+      47.6,
+      135.1
+     ],
+     "out_beyond_tol_n": 5
+    },
+    {
+     "id": "zan_superior_fibular_retinaculum_l",
+     "sys": "joint",
+     "n": 328,
+     "out_n": 116,
+     "out_frac": 0.35366,
+     "out_max_mm": 5.11,
+     "out_p95_mm": 4.45,
+     "out_mean_mm": 2.81,
+     "out_worst_xyz": [
+      -47.0,
+      -776.1,
+      17.0
+     ],
+     "out_beyond_tol_n": 1,
+     "bone_in_n": 4,
+     "bone_in_frac": 0.0122,
+     "bone_depth_max_mm": 3.67,
+     "bones": [
+      [
+       "calcaneus_l",
+       2
+      ],
+      [
+       "cuneiform_medial_l",
+       2
+      ]
+     ]
+    }
+   ],
+   "seconds": 36.9,
+   "bone_penetration_top": [
+    {
+     "id": "obturator_externus_r",
+     "sys": "muscle",
+     "n": 582,
+     "bone_in_n": 228,
+     "bone_in_frac": 0.39175,
+     "bone_depth_max_mm": 13.18,
+     "bones": [
+      [
+       "femur_r",
+       132
+      ],
+      [
+       "hip_bone_r",
+       96
+      ]
+     ]
+    },
+    {
+     "id": "zan_adductor_minimus_r",
+     "sys": "muscle",
+     "n": 476,
+     "bone_in_n": 277,
+     "bone_in_frac": 0.58193,
+     "bone_depth_max_mm": 12.55,
+     "bones": [
+      [
+       "femur_r",
+       272
+      ],
+      [
+       "hip_bone_r",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "zan_adductor_minimus_l",
+     "sys": "muscle",
+     "n": 476,
+     "bone_in_n": 268,
+     "bone_in_frac": 0.56303,
+     "bone_depth_max_mm": 11.78,
+     "bones": [
+      [
+       "femur_l",
+       268
+      ]
+     ]
+    },
+    {
+     "id": "obturator_externus_l",
+     "sys": "muscle",
+     "n": 582,
+     "bone_in_n": 209,
+     "bone_in_frac": 0.35911,
+     "bone_depth_max_mm": 11.45,
+     "bones": [
+      [
+       "femur_l",
+       119
+      ],
+      [
+       "hip_bone_l",
+       90
+      ]
+     ]
+    },
+    {
+     "id": "plantaris_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 195,
+     "bone_in_frac": 0.10821,
+     "bone_depth_max_mm": 9.73,
+     "bones": [
+      [
+       "femur_r",
+       165
+      ],
+      [
+       "calcaneus_r",
+       30
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_r",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 532,
+     "bone_in_frac": 0.72087,
+     "bone_depth_max_mm": 9.73,
+     "bones": [
+      [
+       "humerus_r",
+       532
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_iliacus_muscle_r",
+     "sys": "bursa",
+     "n": 178,
+     "bone_in_n": 173,
+     "bone_in_frac": 0.97191,
+     "bone_depth_max_mm": 9.67,
+     "bones": [
+      [
+       "femur_r",
+       173
+      ]
+     ]
+    },
+    {
+     "id": "plantaris_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 202,
+     "bone_in_frac": 0.1121,
+     "bone_depth_max_mm": 9.64,
+     "bones": [
+      [
+       "femur_l",
+       168
+      ],
+      [
+       "calcaneus_l",
+       34
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_l",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 190,
+     "bone_in_frac": 0.3172,
+     "bone_depth_max_mm": 8.77,
+     "bones": [
+      [
+       "hip_bone_l",
+       190
+      ]
+     ]
+    },
+    {
+     "id": "aortic_arch_and_great_vessels",
+     "sys": "vessel",
+     "n": 130,
+     "bone_in_n": 15,
+     "bone_in_frac": 0.11538,
+     "bone_depth_max_mm": 8.68,
+     "bones": [
+      [
+       "sternum",
+       14
+      ],
+      [
+       "zan_vertebra_t4",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 70,
+     "bone_in_frac": 0.03885,
+     "bone_depth_max_mm": 8.58,
+     "bones": [
+      [
+       "femur_r",
+       70
+      ]
+     ]
+    },
+    {
+     "id": "medial_intermuscular_septum_r",
+     "sys": "fascia",
+     "n": 803,
+     "bone_in_n": 33,
+     "bone_in_frac": 0.0411,
+     "bone_depth_max_mm": 8.49,
+     "bones": [
+      [
+       "femur_r",
+       33
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_r",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 189,
+     "bone_in_frac": 0.31553,
+     "bone_depth_max_mm": 8.46,
+     "bones": [
+      [
+       "hip_bone_r",
+       189
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 126,
+     "bone_in_frac": 0.99213,
+     "bone_depth_max_mm": 8.36,
+     "bones": [
+      [
+       "calcaneus_r",
+       126
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_l",
+     "sys": "muscle",
+     "n": 1801,
+     "bone_in_n": 70,
+     "bone_in_frac": 0.03887,
+     "bone_depth_max_mm": 8.32,
+     "bones": [
+      [
+       "femur_l",
+       66
+      ],
+      [
+       "zan_vertebra_l1",
+       3
+      ],
+      [
+       "hip_bone_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 107,
+     "bone_in_frac": 0.84252,
+     "bone_depth_max_mm": 8.04,
+     "bones": [
+      [
+       "calcaneus_l",
+       107
+      ]
+     ]
+    },
+    {
+     "id": "zan_vagus_nerve_x_r",
+     "sys": "nerve",
+     "n": 641,
+     "bone_in_n": 15,
+     "bone_in_frac": 0.0234,
+     "bone_depth_max_mm": 7.57,
+     "bones": [
+      [
+       "zan_vertebra_t5",
+       8
+      ],
+      [
+       "occipital",
+       3
+      ],
+      [
+       "zan_vertebra_t6",
+       3
+      ],
+      [
+       "zan_atlas_c1",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digitorum_l",
+     "sys": "muscle",
+     "n": 1798,
+     "bone_in_n": 48,
+     "bone_in_frac": 0.0267,
+     "bone_depth_max_mm": 7.42,
+     "bones": [
+      [
+       "radius_l",
+       44
+      ],
+      [
+       "zan_proximal_phalanx_of_third_finger_of_hand_l",
+       2
+      ],
+      [
+       "zan_capitate_bone_l",
+       1
+      ],
+      [
+       "zan_hamate_bone_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_piriformis_fascia_l",
+     "sys": "fascia",
+     "n": 465,
+     "bone_in_n": 35,
+     "bone_in_frac": 0.07527,
+     "bone_depth_max_mm": 7.21,
+     "bones": [
+      [
+       "sacrum",
+       21
+      ],
+      [
+       "hip_bone_l",
+       13
+      ],
+      [
+       "femur_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "elbow_articular_cartilage_l",
+     "sys": "cartilage",
+     "n": 600,
+     "bone_in_n": 135,
+     "bone_in_frac": 0.225,
+     "bone_depth_max_mm": 6.83,
+     "bones": [
+      [
+       "humerus_l",
+       98
+      ],
+      [
+       "radius_l",
+       22
+      ],
+      [
+       "ulna_l",
+       15
+      ]
+     ]
+    },
+    {
+     "id": "zan_iliopsoas_fascia_r",
+     "sys": "fascia",
+     "n": 874,
+     "bone_in_n": 14,
+     "bone_in_frac": 0.01602,
+     "bone_depth_max_mm": 6.72,
+     "bones": [
+      [
+       "femur_r",
+       9
+      ],
+      [
+       "hip_bone_r",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "zan_mesocolic_taenia",
+     "sys": "viscera",
+     "n": 452,
+     "bone_in_n": 30,
+     "bone_in_frac": 0.06637,
+     "bone_depth_max_mm": 6.69,
+     "bones": [
+      [
+       "hip_bone_r",
+       22
+      ],
+      [
+       "hip_bone_l",
+       8
+      ]
+     ]
+    },
+    {
+     "id": "posterior_femoral_cutaneous_n_r",
+     "sys": "nerve",
+     "n": 1262,
+     "bone_in_n": 196,
+     "bone_in_frac": 0.15531,
+     "bone_depth_max_mm": 6.56,
+     "bones": [
+      [
+       "sacrum",
+       151
+      ],
+      [
+       "humerus_r",
+       45
+      ]
+     ]
+    },
+    {
+     "id": "median_n_lateral_root_l",
+     "sys": "nerve",
+     "n": 605,
+     "bone_in_n": 41,
+     "bone_in_frac": 0.06777,
+     "bone_depth_max_mm": 6.53,
+     "bones": [
+      [
+       "humerus_l",
+       41
+      ]
+     ]
+    },
+    {
+     "id": "zan_descending_colon",
+     "sys": "viscera",
+     "n": 225,
+     "bone_in_n": 7,
+     "bone_in_frac": 0.03111,
+     "bone_depth_max_mm": 6.4,
+     "bones": [
+      [
+       "hip_bone_l",
+       7
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_thoracic_veins_l",
+     "sys": "vessel",
+     "n": 386,
+     "bone_in_n": 248,
+     "bone_in_frac": 0.64249,
+     "bone_depth_max_mm": 6.4,
+     "bones": [
+      [
+       "sternum",
+       146
+      ],
+      [
+       "clavicle_l",
+       102
+      ]
+     ]
+    },
+    {
+     "id": "internal_pudendal_v_l",
+     "sys": "vessel",
+     "n": 722,
+     "bone_in_n": 64,
+     "bone_in_frac": 0.08864,
+     "bone_depth_max_mm": 6.28,
+     "bones": [
+      [
+       "hip_bone_l",
+       64
+      ]
+     ]
+    },
+    {
+     "id": "cardinal_ligament_uterus_l",
+     "sys": "joint",
+     "n": 1502,
+     "bone_in_n": 32,
+     "bone_in_frac": 0.0213,
+     "bone_depth_max_mm": 6.09,
+     "bones": [
+      [
+       "hip_bone_l",
+       32
+      ]
+     ]
+    },
+    {
+     "id": "pubic_symphysis_disc",
+     "sys": "cartilage",
+     "n": 420,
+     "bone_in_n": 67,
+     "bone_in_frac": 0.15952,
+     "bone_depth_max_mm": 6.08,
+     "bones": [
+      [
+       "hip_bone_r",
+       38
+      ],
+      [
+       "hip_bone_l",
+       29
+      ]
+     ]
+    },
+    {
+     "id": "elbow_articular_cartilage_r",
+     "sys": "cartilage",
+     "n": 600,
+     "bone_in_n": 157,
+     "bone_in_frac": 0.26167,
+     "bone_depth_max_mm": 6.07,
+     "bones": [
+      [
+       "humerus_r",
+       108
+      ],
+      [
+       "ulna_r",
+       37
+      ],
+      [
+       "radius_r",
+       14
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_tibial_artery_r",
+     "sys": "vessel",
+     "n": 383,
+     "bone_in_n": 39,
+     "bone_in_frac": 0.10183,
+     "bone_depth_max_mm": 6.02,
+     "bones": [
+      [
+       "talus_r",
+       22
+      ],
+      [
+       "tibia_r",
+       17
+      ]
+     ]
+    },
+    {
+     "id": "gluteus_maximus_r",
+     "sys": "muscle",
+     "n": 1663,
+     "bone_in_n": 64,
+     "bone_in_frac": 0.03848,
+     "bone_depth_max_mm": 6.01,
+     "bones": [
+      [
+       "hip_bone_r",
+       62
+      ],
+      [
+       "sacrum",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "extensor_hallucis_brevis_l",
+     "sys": "muscle",
+     "n": 561,
+     "out_n": 7,
+     "out_frac": 0.01248,
+     "out_max_mm": 1.24,
+     "out_p95_mm": 1.22,
+     "out_mean_mm": 1.04,
+     "out_worst_xyz": [
+      -35.2,
+      -782.4,
+      22.8
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 118,
+     "bone_in_frac": 0.21034,
+     "bone_depth_max_mm": 5.99,
+     "bones": [
+      [
+       "calcaneus_l",
+       50
+      ],
+      [
+       "cuneiform_intermediate_l",
+       49
+      ],
+      [
+       "navicular_l",
+       13
+      ],
+      [
+       "zan_proximal_phalanx_of_first_finger_of_foot_l",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "quadratus_femoris_r",
+     "sys": "muscle",
+     "n": 825,
+     "bone_in_n": 146,
+     "bone_in_frac": 0.17697,
+     "bone_depth_max_mm": 5.98,
+     "bones": [
+      [
+       "femur_r",
+       96
+      ],
+      [
+       "hip_bone_r",
+       50
+      ]
+     ]
+    },
+    {
+     "id": "zan_long_plantar_ligament_l",
+     "sys": "joint",
+     "n": 451,
+     "bone_in_n": 123,
+     "bone_in_frac": 0.27273,
+     "bone_depth_max_mm": 5.98,
+     "bones": [
+      [
+       "calcaneus_l",
+       42
+      ],
+      [
+       "cuneiform_medial_l",
+       22
+      ],
+      [
+       "zan_second_metatarsal_bone_l",
+       17
+      ],
+      [
+       "zan_fifth_metatarsal_bone_l",
+       16
+      ]
+     ]
+    },
+    {
+     "id": "zan_long_plantar_ligament_r",
+     "sys": "joint",
+     "n": 451,
+     "bone_in_n": 111,
+     "bone_in_frac": 0.24612,
+     "bone_depth_max_mm": 5.97,
+     "bones": [
+      [
+       "calcaneus_r",
+       38
+      ],
+      [
+       "zan_fifth_metatarsal_bone_r",
+       22
+      ],
+      [
+       "cuneiform_medial_r",
+       17
+      ],
+      [
+       "zan_second_metatarsal_bone_r",
+       17
+      ]
+     ]
+    },
+    {
+     "id": "zan_piriformis_fascia_r",
+     "sys": "fascia",
+     "n": 465,
+     "bone_in_n": 22,
+     "bone_in_frac": 0.04731,
+     "bone_depth_max_mm": 5.94,
+     "bones": [
+      [
+       "hip_bone_r",
+       13
+      ],
+      [
+       "sacrum",
+       8
+      ],
+      [
+       "femur_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "brachiocephalic_v_r",
+     "sys": "vessel",
+     "n": 130,
+     "bone_in_n": 18,
+     "bone_in_frac": 0.13846,
+     "bone_depth_max_mm": 5.83,
+     "bones": [
+      [
+       "clavicle_r",
+       18
+      ]
+     ]
+    },
+    {
+     "id": "adductor_magnus_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 174,
+     "bone_in_frac": 0.09656,
+     "bone_depth_max_mm": 5.81,
+     "bones": [
+      [
+       "femur_l",
+       108
+      ],
+      [
+       "hip_bone_l",
+       66
+      ]
+     ]
+    },
+    {
+     "id": "adductor_magnus_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 187,
+     "bone_in_frac": 0.10377,
+     "bone_depth_max_mm": 5.8,
+     "bones": [
+      [
+       "femur_r",
+       119
+      ],
+      [
+       "hip_bone_r",
+       68
+      ]
+     ]
+    }
+   ],
+   "bone_mostly_inside": [
+    {
+     "id": "zan_adductor_minimus_r",
+     "sys": "muscle",
+     "n": 476,
+     "bone_in_n": 277,
+     "bone_in_frac": 0.58193,
+     "bone_depth_max_mm": 12.55,
+     "bones": [
+      [
+       "femur_r",
+       272
+      ],
+      [
+       "hip_bone_r",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "zan_adductor_minimus_l",
+     "sys": "muscle",
+     "n": 476,
+     "bone_in_n": 268,
+     "bone_in_frac": 0.56303,
+     "bone_depth_max_mm": 11.78,
+     "bones": [
+      [
+       "femur_l",
+       268
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_teres_major_muscle_r",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 532,
+     "bone_in_frac": 0.72087,
+     "bone_depth_max_mm": 9.73,
+     "bones": [
+      [
+       "humerus_r",
+       532
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_iliacus_muscle_r",
+     "sys": "bursa",
+     "n": 178,
+     "bone_in_n": 173,
+     "bone_in_frac": 0.97191,
+     "bone_depth_max_mm": 9.67,
+     "bones": [
+      [
+       "femur_r",
+       173
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 126,
+     "bone_in_frac": 0.99213,
+     "bone_depth_max_mm": 8.36,
+     "bones": [
+      [
+       "calcaneus_r",
+       126
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 107,
+     "bone_in_frac": 0.84252,
+     "bone_depth_max_mm": 8.04,
+     "bones": [
+      [
+       "calcaneus_l",
+       107
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_thoracic_veins_l",
+     "sys": "vessel",
+     "n": 386,
+     "bone_in_n": 248,
+     "bone_in_frac": 0.64249,
+     "bone_depth_max_mm": 6.4,
+     "bones": [
+      [
+       "sternum",
+       146
+      ],
+      [
+       "clavicle_l",
+       102
+      ]
+     ]
+    },
+    {
+     "id": "zan_internal_thoracic_veins_r",
+     "sys": "vessel",
+     "n": 386,
+     "bone_in_n": 255,
+     "bone_in_frac": 0.66062,
+     "bone_depth_max_mm": 5.7,
+     "bones": [
+      [
+       "sternum",
+       182
+      ],
+      [
+       "clavicle_r",
+       73
+      ]
+     ]
+    }
+   ]
+  },
+  "comb_m": {
+   "page": "comb_m",
+   "label": "Combined \u00b7 Male",
+   "vox_mm": 2.0,
+   "tol_mm": 5.0,
+   "n_structures": 3254,
+   "mask": {
+    "shape": [
+     284,
+     946,
+     168
+    ],
+    "volume_cm3": 99504.7,
+    "n_skin": 250,
+    "n_outer": 34,
+    "skin_samples": 11251708,
+    "bbox_mm": [
+     548.1,
+     1873.4,
+     317.4
+    ],
+    "close_mm": 8.0,
+    "error_band": {
+     "p50_mm": 0.7,
+     "p95_mm": 1.33,
+     "max_mm": 8.0,
+     "boundary_voxels": 437914
+    }
+   },
+   "validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 99.4,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 99.78,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "diaphragm": 100.0,
+     "zan_liver": 100.0,
+     "zan_spleen": 100.0,
+     "zan_stomach": 100.0,
+     "zan_urinary_bladder": 100.0,
+     "zan_pancreas": 100.0,
+     "zan_oesophagus": 100.0,
+     "zan_trachea": 100.0,
+     "zan_psoas_major_l": 100.0,
+     "zan_psoas_major_r": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [
+     {
+      "id": "tibia_l",
+      "inside_pct": 99.4
+     }
+    ],
+    "deep_group_fraction_ok": 0.962,
+    "deep_group_mean_inside_pct": 99.97,
+    "body_mask_volume_cm3": 99504.7,
+    "error_band": {
+     "p50_mm": 0.7,
+     "p95_mm": 1.33,
+     "max_mm": 8.0,
+     "boundary_voxels": 437914
+    }
+   },
+   "n_outside_any": 172,
+   "n_outside_beyond_tol": 30,
+   "n_bone_penetrating": 126,
+   "offenders": [
+    {
+     "id": "flexor_digitorum_longus_r",
+     "sys": "muscle",
+     "n": 1801,
+     "out_n": 244,
+     "out_frac": 0.13548,
+     "out_max_mm": 9.67,
+     "out_p95_mm": 8.45,
+     "out_mean_mm": 4.49,
+     "out_worst_xyz": [
+      189.4,
+      -963.7,
+      54.9
+     ],
+     "out_beyond_tol_n": 92,
+     "bone_in_n": 214,
+     "bone_in_frac": 0.11882,
+     "bone_depth_max_mm": 9.3,
+     "bones": [
+      [
+       "tibia_r",
+       154
+      ],
+      [
+       "calcaneus_r",
+       46
+      ],
+      [
+       "zan_fourth_metatarsal_bone_r",
+       11
+      ],
+      [
+       "zan_middle_phalanx_of_third_finger_of_foot_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digitorum_longus_r",
+     "sys": "muscle",
+     "n": 1832,
+     "out_n": 227,
+     "out_frac": 0.12391,
+     "out_max_mm": 9.62,
+     "out_p95_mm": 7.96,
+     "out_mean_mm": 4.43,
+     "out_worst_xyz": [
+      180.1,
+      -961.8,
+      63.8
+     ],
+     "out_beyond_tol_n": 91,
+     "bone_in_n": 187,
+     "bone_in_frac": 0.10207,
+     "bone_depth_max_mm": 5.94,
+     "bones": [
+      [
+       "talus_r",
+       80
+      ],
+      [
+       "navicular_r",
+       37
+      ],
+      [
+       "tibia_r",
+       19
+      ],
+      [
+       "zan_second_metatarsal_bone_r",
+       15
+      ]
+     ]
+    },
+    {
+     "id": "zan_dorsal_digital_branches_of_radial_nerve_r",
+     "sys": "nerve",
+     "n": 1227,
+     "out_n": 156,
+     "out_frac": 0.12714,
+     "out_max_mm": 9.43,
+     "out_p95_mm": 9.12,
+     "out_mean_mm": 3.85,
+     "out_worst_xyz": [
+      5.3,
+      22.5,
+      139.9
+     ],
+     "out_beyond_tol_n": 39,
+     "bone_in_n": 10,
+     "bone_in_frac": 0.00815,
+     "bone_depth_max_mm": 1.44,
+     "bones": [
+      [
+       "zan_proximal_phalanx_of_second_finger_of_hand_r",
+       6
+      ],
+      [
+       "zan_proximal_phalanx_of_first_finger_of_hand_r",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "zan_dorsal_fascia_of_hand_r",
+     "sys": "fascia",
+     "n": 819,
+     "out_n": 49,
+     "out_frac": 0.05983,
+     "out_max_mm": 8.95,
+     "out_p95_mm": 6.08,
+     "out_mean_mm": 3.51,
+     "out_worst_xyz": [
+      35.9,
+      30.7,
+      168.4
+     ],
+     "out_beyond_tol_n": 10,
+     "bone_in_n": 8,
+     "bone_in_frac": 0.00977,
+     "bone_depth_max_mm": 1.29,
+     "bones": [
+      [
+       "zan_middle_phalanx_of_second_finger_of_hand_r",
+       3
+      ],
+      [
+       "zan_proximal_phalanx_of_second_finger_of_hand_r",
+       2
+      ],
+      [
+       "zan_distal_phalanx_of_first_finger_of_hand_r",
+       1
+      ],
+      [
+       "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "extensor_hallucis_longus_r",
+     "sys": "muscle",
+     "n": 1183,
+     "out_n": 181,
+     "out_frac": 0.153,
+     "out_max_mm": 8.29,
+     "out_p95_mm": 7.99,
+     "out_mean_mm": 5.79,
+     "out_worst_xyz": [
+      147.9,
+      -947.0,
+      74.9
+     ],
+     "out_beyond_tol_n": 127
+    },
+    {
+     "id": "flexor_hallucis_longus_r",
+     "sys": "muscle",
+     "n": 1801,
+     "out_n": 269,
+     "out_frac": 0.14936,
+     "out_max_mm": 8.13,
+     "out_p95_mm": 7.8,
+     "out_mean_mm": 5.65,
+     "out_worst_xyz": [
+      144.8,
+      -945.6,
+      72.9
+     ],
+     "out_beyond_tol_n": 193,
+     "bone_in_n": 57,
+     "bone_in_frac": 0.03165,
+     "bone_depth_max_mm": 3.01,
+     "bones": [
+      [
+       "calcaneus_r",
+       38
+      ],
+      [
+       "fibula_r",
+       15
+      ],
+      [
+       "cuneiform_medial_r",
+       2
+      ],
+      [
+       "tibia_r",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "zan_plantar_metatarsophalangeal_ligaments_r",
+     "sys": "joint",
+     "n": 450,
+     "out_n": 111,
+     "out_frac": 0.24667,
+     "out_max_mm": 8.05,
+     "out_p95_mm": 7.25,
+     "out_mean_mm": 3.79,
+     "out_worst_xyz": [
+      137.9,
+      -945.7,
+      70.9
+     ],
+     "out_beyond_tol_n": 32,
+     "bone_in_n": 71,
+     "bone_in_frac": 0.15778,
+     "bone_depth_max_mm": 4.96,
+     "bones": [
+      [
+       "zan_third_metatarsal_bone_r",
+       34
+      ],
+      [
+       "zan_second_metatarsal_bone_r",
+       26
+      ],
+      [
+       "zan_proximal_phalanx_of_second_finger_of_foot_r",
+       5
+      ],
+      [
+       "zan_first_metatarsal_bone_r",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digitorum_r",
+     "sys": "muscle",
+     "n": 1799,
+     "out_n": 76,
+     "out_frac": 0.04225,
+     "out_max_mm": 7.98,
+     "out_p95_mm": 7.46,
+     "out_mean_mm": 3.8,
+     "out_worst_xyz": [
+      35.3,
+      31.8,
+      166.3
+     ],
+     "out_beyond_tol_n": 20,
+     "bone_in_n": 116,
+     "bone_in_frac": 0.06448,
+     "bone_depth_max_mm": 2.44,
+     "bones": [
+      [
+       "zan_third_metacarpal_bone_r",
+       27
+      ],
+      [
+       "zan_hamate_bone_r",
+       21
+      ],
+      [
+       "zan_capitate_bone_r",
+       11
+      ],
+      [
+       "zan_fourth_metacarpal_bone_r",
+       11
+      ]
+     ]
+    },
+    {
+     "id": "zan_lumbrical_muscles_of_hand_r",
+     "sys": "muscle",
+     "n": 692,
+     "out_n": 16,
+     "out_frac": 0.02312,
+     "out_max_mm": 7.68,
+     "out_p95_mm": 6.9,
+     "out_mean_mm": 4.42,
+     "out_worst_xyz": [
+      37.7,
+      28.7,
+      168.2
+     ],
+     "out_beyond_tol_n": 5,
+     "bone_in_n": 4,
+     "bone_in_frac": 0.00578,
+     "bone_depth_max_mm": 0.98,
+     "bones": [
+      [
+       "zan_proximal_phalanx_of_third_finger_of_hand_r",
+       3
+      ],
+      [
+       "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "supraclavicular_n_l",
+     "sys": "nerve",
+     "n": 462,
+     "out_n": 139,
+     "out_frac": 0.30087,
+     "out_max_mm": 7.66,
+     "out_p95_mm": 7.29,
+     "out_mean_mm": 4.57,
+     "out_worst_xyz": [
+      -51.1,
+      607.5,
+      37.9
+     ],
+     "out_beyond_tol_n": 63
+    },
+    {
+     "id": "zan_external_pudendal_veins_l",
+     "sys": "vessel",
+     "n": 388,
+     "out_n": 41,
+     "out_frac": 0.10567,
+     "out_max_mm": 7.47,
+     "out_p95_mm": 7.26,
+     "out_mean_mm": 4.87,
+     "out_worst_xyz": [
+      -32.6,
+      -82.4,
+      91.2
+     ],
+     "out_beyond_tol_n": 26
+    },
+    {
+     "id": "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r",
+     "sys": "muscle",
+     "n": 1802,
+     "out_n": 39,
+     "out_frac": 0.02164,
+     "out_max_mm": 7.42,
+     "out_p95_mm": 6.68,
+     "out_mean_mm": 4.52,
+     "out_worst_xyz": [
+      30.0,
+      32.7,
+      162.3
+     ],
+     "out_beyond_tol_n": 18,
+     "bone_in_n": 22,
+     "bone_in_frac": 0.01221,
+     "bone_depth_max_mm": 1.67,
+     "bones": [
+      [
+       "zan_proximal_phalanx_of_second_finger_of_hand_r",
+       16
+      ],
+      [
+       "zan_middle_phalanx_of_second_finger_of_hand_r",
+       4
+      ],
+      [
+       "humerus_r",
+       1
+      ],
+      [
+       "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_proximal_phalanx_of_second_finger_of_hand_r",
+     "sys": "bone",
+     "n": 209,
+     "out_n": 36,
+     "out_frac": 0.17225,
+     "out_max_mm": 7.03,
+     "out_p95_mm": 6.75,
+     "out_mean_mm": 4.56,
+     "out_worst_xyz": [
+      31.2,
+      30.5,
+      161.5
+     ],
+     "out_beyond_tol_n": 11
+    },
+    {
+     "id": "zan_cornea_l",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 144,
+     "out_frac": 0.2392,
+     "out_max_mm": 6.32,
+     "out_p95_mm": 6.2,
+     "out_mean_mm": 5.14,
+     "out_worst_xyz": [
+      -26.9,
+      761.1,
+      107.8
+     ],
+     "out_beyond_tol_n": 92
+    },
+    {
+     "id": "zan_cornea_r",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 110,
+     "out_frac": 0.18272,
+     "out_max_mm": 6.3,
+     "out_p95_mm": 6.15,
+     "out_mean_mm": 5.02,
+     "out_worst_xyz": [
+      32.5,
+      762.9,
+      109.0
+     ],
+     "out_beyond_tol_n": 63
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_r",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 29,
+     "out_frac": 0.04817,
+     "out_max_mm": 6.26,
+     "out_p95_mm": 6.24,
+     "out_mean_mm": 5.14,
+     "out_worst_xyz": [
+      33.0,
+      763.0,
+      109.0
+     ],
+     "out_beyond_tol_n": 19
+    },
+    {
+     "id": "zan_anterior_chamber_of_eyeball_l",
+     "sys": "cns",
+     "n": 602,
+     "out_n": 58,
+     "out_frac": 0.09635,
+     "out_max_mm": 6.25,
+     "out_p95_mm": 6.11,
+     "out_mean_mm": 5.25,
+     "out_worst_xyz": [
+      -26.5,
+      761.2,
+      107.8
+     ],
+     "out_beyond_tol_n": 41
+    },
+    {
+     "id": "zan_dorsal_fascia_of_hand_l",
+     "sys": "fascia",
+     "n": 819,
+     "out_n": 152,
+     "out_frac": 0.18559,
+     "out_max_mm": 6.13,
+     "out_p95_mm": 4.68,
+     "out_mean_mm": 2.45,
+     "out_worst_xyz": [
+      -79.0,
+      37.9,
+      150.7
+     ],
+     "out_beyond_tol_n": 4,
+     "bone_in_n": 4,
+     "bone_in_frac": 0.00488,
+     "bone_depth_max_mm": 0.55,
+     "bones": [
+      [
+       "zan_trapezoid_bone_l",
+       2
+      ],
+      [
+       "zan_fifth_metacarpal_bone_l",
+       1
+      ],
+      [
+       "zan_second_metacarpal_bone_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_middle_phalanx_of_second_finger_of_hand_r",
+     "sys": "bone",
+     "n": 159,
+     "out_n": 22,
+     "out_frac": 0.13836,
+     "out_max_mm": 5.93,
+     "out_p95_mm": 5.74,
+     "out_mean_mm": 3.38,
+     "out_worst_xyz": [
+      29.1,
+      29.5,
+      159.6
+     ],
+     "out_beyond_tol_n": 5
+    },
+    {
+     "id": "palmar_aponeurosis_r",
+     "sys": "fascia",
+     "n": 749,
+     "out_n": 34,
+     "out_frac": 0.04539,
+     "out_max_mm": 5.84,
+     "out_p95_mm": 5.25,
+     "out_mean_mm": 2.64,
+     "out_worst_xyz": [
+      41.2,
+      68.8,
+      153.9
+     ],
+     "out_beyond_tol_n": 4,
+     "bone_in_n": 6,
+     "bone_in_frac": 0.00801,
+     "bone_depth_max_mm": 0.96,
+     "bones": [
+      [
+       "zan_distal_phalanx_of_first_finger_of_hand_r",
+       1
+      ],
+      [
+       "zan_first_metacarpal_bone_r",
+       1
+      ],
+      [
+       "zan_middle_phalanx_of_second_finger_of_hand_r",
+       1
+      ],
+      [
+       "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_proper_palmar_digital_branches_of_median_nerve_r",
+     "sys": "nerve",
+     "n": 1219,
+     "out_n": 60,
+     "out_frac": 0.04922,
+     "out_max_mm": 5.83,
+     "out_p95_mm": 5.4,
+     "out_mean_mm": 3.14,
+     "out_worst_xyz": [
+      41.8,
+      70.7,
+      156.9
+     ],
+     "out_beyond_tol_n": 6,
+     "bone_in_n": 17,
+     "bone_in_frac": 0.01395,
+     "bone_depth_max_mm": 1.43,
+     "bones": [
+      [
+       "zan_distal_phalanx_of_second_finger_of_hand_r",
+       9
+      ],
+      [
+       "zan_middle_phalanx_of_second_finger_of_hand_r",
+       5
+      ],
+      [
+       "zan_proximal_phalanx_of_third_finger_of_hand_r",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "zan_distal_phalanx_of_second_finger_of_hand_r",
+     "sys": "bone",
+     "n": 127,
+     "out_n": 44,
+     "out_frac": 0.34646,
+     "out_max_mm": 5.76,
+     "out_p95_mm": 5.48,
+     "out_mean_mm": 3.89,
+     "out_worst_xyz": [
+      8.0,
+      27.2,
+      136.4
+     ],
+     "out_beyond_tol_n": 8
+    },
+    {
+     "id": "zan_proper_palmar_digital_arteries_r",
+     "sys": "vessel",
+     "n": 789,
+     "out_n": 48,
+     "out_frac": 0.06084,
+     "out_max_mm": 5.69,
+     "out_p95_mm": 5.43,
+     "out_mean_mm": 2.81,
+     "out_worst_xyz": [
+      31.3,
+      61.7,
+      151.9
+     ],
+     "out_beyond_tol_n": 6,
+     "bone_in_n": 1,
+     "bone_in_frac": 0.00127,
+     "bone_depth_max_mm": 0.73,
+     "bones": [
+      [
+       "zan_proximal_phalanx_of_third_finger_of_hand_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_collateral_interphalangeal_ligaments_of_hand_r",
+     "sys": "joint",
+     "n": 485,
+     "out_n": 32,
+     "out_frac": 0.06598,
+     "out_max_mm": 5.69,
+     "out_p95_mm": 5.45,
+     "out_mean_mm": 3.98,
+     "out_worst_xyz": [
+      30.7,
+      26.1,
+      158.7
+     ],
+     "out_beyond_tol_n": 5,
+     "bone_in_n": 68,
+     "bone_in_frac": 0.14021,
+     "bone_depth_max_mm": 1.97,
+     "bones": [
+      [
+       "zan_middle_phalanx_of_second_finger_of_hand_r",
+       17
+      ],
+      [
+       "zan_distal_phalanx_of_third_finger_of_hand_r",
+       8
+      ],
+      [
+       "zan_proximal_phalanx_of_first_finger_of_hand_r",
+       8
+      ],
+      [
+       "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+       7
+      ]
+     ]
+    },
+    {
+     "id": "sternocleidomastoid_r",
+     "sys": "muscle",
+     "n": 1800,
+     "out_n": 123,
+     "out_frac": 0.06833,
+     "out_max_mm": 5.68,
+     "out_p95_mm": 4.55,
+     "out_mean_mm": 2.11,
+     "out_worst_xyz": [
+      73.0,
+      718.2,
+      -7.6
+     ],
+     "out_beyond_tol_n": 3
+    },
+    {
+     "id": "zan_palmar_digital_veins_r",
+     "sys": "vessel",
+     "n": 794,
+     "out_n": 81,
+     "out_frac": 0.10202,
+     "out_max_mm": 5.58,
+     "out_p95_mm": 4.26,
+     "out_mean_mm": 2.04,
+     "out_worst_xyz": [
+      30.3,
+      61.6,
+      151.9
+     ],
+     "out_beyond_tol_n": 2,
+     "bone_in_n": 1,
+     "bone_in_frac": 0.00126,
+     "bone_depth_max_mm": 0.96,
+     "bones": [
+      [
+       "zan_second_metacarpal_bone_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "supraclavicular_n_r",
+     "sys": "nerve",
+     "n": 472,
+     "out_n": 101,
+     "out_frac": 0.21398,
+     "out_max_mm": 5.58,
+     "out_p95_mm": 5.38,
+     "out_mean_mm": 4.0,
+     "out_worst_xyz": [
+      59.5,
+      602.4,
+      38.6
+     ],
+     "out_beyond_tol_n": 22
+    },
+    {
+     "id": "zan_articular_capsules_of_distal_interphalangeal_joints_r",
+     "sys": "joint",
+     "n": 496,
+     "out_n": 35,
+     "out_frac": 0.07056,
+     "out_max_mm": 5.47,
+     "out_p95_mm": 5.12,
+     "out_mean_mm": 3.26,
+     "out_worst_xyz": [
+      13.8,
+      25.8,
+      141.6
+     ],
+     "out_beyond_tol_n": 3,
+     "bone_in_n": 117,
+     "bone_in_frac": 0.23589,
+     "bone_depth_max_mm": 2.75,
+     "bones": [
+      [
+       "zan_distal_phalanx_of_first_finger_of_hand_r",
+       20
+      ],
+      [
+       "zan_middle_phalanx_of_third_finger_of_hand_r",
+       19
+      ],
+      [
+       "zan_distal_phalanx_of_third_finger_of_hand_r",
+       17
+      ],
+      [
+       "zan_proximal_phalanx_of_first_finger_of_hand_r",
+       16
+      ]
+     ]
+    },
+    {
+     "id": "zan_palmar_interphalangeal_ligaments_r",
+     "sys": "joint",
+     "n": 450,
+     "out_n": 51,
+     "out_frac": 0.11333,
+     "out_max_mm": 5.12,
+     "out_p95_mm": 4.57,
+     "out_mean_mm": 3.19,
+     "out_worst_xyz": [
+      34.3,
+      32.4,
+      160.3
+     ],
+     "out_beyond_tol_n": 2,
+     "bone_in_n": 92,
+     "bone_in_frac": 0.20444,
+     "bone_depth_max_mm": 2.69,
+     "bones": [
+      [
+       "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+       30
+      ],
+      [
+       "zan_proximal_phalanx_of_second_finger_of_hand_r",
+       20
+      ],
+      [
+       "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+       15
+      ],
+      [
+       "zan_proximal_phalanx_of_third_finger_of_hand_r",
+       11
+      ]
+     ]
+    },
+    {
+     "id": "abductor_pollicis_brevis_l",
+     "sys": "muscle",
+     "n": 312,
+     "out_n": 67,
+     "out_frac": 0.21474,
+     "out_max_mm": 5.02,
+     "out_p95_mm": 4.91,
+     "out_mean_mm": 3.46,
+     "out_worst_xyz": [
+      -149.8,
+      41.3,
+      133.2
+     ],
+     "out_beyond_tol_n": 2,
+     "bone_in_n": 69,
+     "bone_in_frac": 0.22115,
+     "bone_depth_max_mm": 1.96,
+     "bones": [
+      [
+       "zan_capitate_bone_l",
+       26
+      ],
+      [
+       "zan_third_metacarpal_bone_l",
+       15
+      ],
+      [
+       "zan_hamate_bone_l",
+       12
+      ],
+      [
+       "zan_scaphoid_bone_l",
+       12
+      ]
+     ]
+    }
+   ],
+   "seconds": 35.1,
+   "bone_penetration_top": [
+    {
+     "id": "vastus_intermedius_l",
+     "sys": "muscle",
+     "n": 1799,
+     "bone_in_n": 86,
+     "bone_in_frac": 0.0478,
+     "bone_depth_max_mm": 15.11,
+     "bones": [
+      [
+       "femur_l",
+       85
+      ],
+      [
+       "tibia_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "quadratus_lumborum_l",
+     "sys": "muscle",
+     "n": 1416,
+     "bone_in_n": 79,
+     "bone_in_frac": 0.05579,
+     "bone_depth_max_mm": 11.31,
+     "bones": [
+      [
+       "hip_bone_l",
+       76
+      ],
+      [
+       "sacrum",
+       2
+      ],
+      [
+       "zan_vertebra_l3",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_adductor_minimus_r",
+     "sys": "muscle",
+     "n": 476,
+     "bone_in_n": 242,
+     "bone_in_frac": 0.5084,
+     "bone_depth_max_mm": 11.16,
+     "bones": [
+      [
+       "femur_r",
+       236
+      ],
+      [
+       "hip_bone_r",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "obturator_externus_l",
+     "sys": "muscle",
+     "n": 582,
+     "bone_in_n": 119,
+     "bone_in_frac": 0.20447,
+     "bone_depth_max_mm": 11.11,
+     "bones": [
+      [
+       "femur_l",
+       95
+      ],
+      [
+       "hip_bone_l",
+       24
+      ]
+     ]
+    },
+    {
+     "id": "vastus_lateralis_l",
+     "sys": "muscle",
+     "n": 1801,
+     "bone_in_n": 62,
+     "bone_in_frac": 0.03443,
+     "bone_depth_max_mm": 10.91,
+     "bones": [
+      [
+       "femur_l",
+       37
+      ],
+      [
+       "tibia_l",
+       25
+      ]
+     ]
+    },
+    {
+     "id": "iliocostalis_l",
+     "sys": "muscle",
+     "n": 1804,
+     "bone_in_n": 75,
+     "bone_in_frac": 0.04157,
+     "bone_depth_max_mm": 10.74,
+     "bones": [
+      [
+       "hip_bone_l",
+       42
+      ],
+      [
+       "sacrum",
+       31
+      ],
+      [
+       "zan_eighth_rib_l",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "anterior_layer_tlf_r",
+     "sys": "fascia",
+     "n": 115,
+     "bone_in_n": 4,
+     "bone_in_frac": 0.03478,
+     "bone_depth_max_mm": 10.7,
+     "bones": [
+      [
+       "sacrum",
+       3
+      ],
+      [
+       "zan_vertebra_l1",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "gluteus_maximus_r",
+     "sys": "muscle",
+     "n": 1663,
+     "bone_in_n": 63,
+     "bone_in_frac": 0.03788,
+     "bone_depth_max_mm": 10.32,
+     "bones": [
+      [
+       "hip_bone_r",
+       55
+      ],
+      [
+       "coccyx",
+       7
+      ],
+      [
+       "sacrum",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_l",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 245,
+     "bone_in_frac": 0.40902,
+     "bone_depth_max_mm": 10.11,
+     "bones": [
+      [
+       "hip_bone_l",
+       245
+      ],
+      [
+       "femur_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_triradiate_cartilage_r",
+     "sys": "cartilage",
+     "n": 599,
+     "bone_in_n": 267,
+     "bone_in_frac": 0.44574,
+     "bone_depth_max_mm": 9.97,
+     "bones": [
+      [
+       "hip_bone_r",
+       259
+      ],
+      [
+       "femur_r",
+       9
+      ]
+     ]
+    },
+    {
+     "id": "gluteus_medius_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 172,
+     "bone_in_frac": 0.09545,
+     "bone_depth_max_mm": 9.92,
+     "bones": [
+      [
+       "hip_bone_r",
+       168
+      ],
+      [
+       "femur_r",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "posterior_cruciate_ligament_r",
+     "sys": "joint",
+     "n": 396,
+     "bone_in_n": 82,
+     "bone_in_frac": 0.20707,
+     "bone_depth_max_mm": 9.43,
+     "bones": [
+      [
+       "tibia_r",
+       82
+      ]
+     ]
+    },
+    {
+     "id": "gastrocnemius_r",
+     "sys": "muscle",
+     "n": 1807,
+     "bone_in_n": 59,
+     "bone_in_frac": 0.03265,
+     "bone_depth_max_mm": 9.38,
+     "bones": [
+      [
+       "femur_r",
+       40
+      ],
+      [
+       "tibia_r",
+       18
+      ],
+      [
+       "fibula_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "flexor_digitorum_longus_r",
+     "sys": "muscle",
+     "n": 1801,
+     "out_n": 244,
+     "out_frac": 0.13548,
+     "out_max_mm": 9.67,
+     "out_p95_mm": 8.45,
+     "out_mean_mm": 4.49,
+     "out_worst_xyz": [
+      189.4,
+      -963.7,
+      54.9
+     ],
+     "out_beyond_tol_n": 92,
+     "bone_in_n": 214,
+     "bone_in_frac": 0.11882,
+     "bone_depth_max_mm": 9.3,
+     "bones": [
+      [
+       "tibia_r",
+       154
+      ],
+      [
+       "calcaneus_r",
+       46
+      ],
+      [
+       "zan_fourth_metatarsal_bone_r",
+       11
+      ],
+      [
+       "zan_middle_phalanx_of_third_finger_of_foot_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_l",
+     "sys": "muscle",
+     "n": 1800,
+     "bone_in_n": 86,
+     "bone_in_frac": 0.04778,
+     "bone_depth_max_mm": 9.1,
+     "bones": [
+      [
+       "femur_l",
+       49
+      ],
+      [
+       "zan_vertebra_l5",
+       22
+      ],
+      [
+       "zan_vertebra_l4",
+       15
+      ]
+     ]
+    },
+    {
+     "id": "zan_left_testicular_vein",
+     "sys": "vessel",
+     "n": 1506,
+     "bone_in_n": 248,
+     "bone_in_frac": 0.16467,
+     "bone_depth_max_mm": 9.08,
+     "bones": [
+      [
+       "hip_bone_l",
+       248
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 119,
+     "bone_in_frac": 0.93701,
+     "bone_depth_max_mm": 9.04,
+     "bones": [
+      [
+       "calcaneus_r",
+       119
+      ]
+     ]
+    },
+    {
+     "id": "zan_right_testicular_vein",
+     "sys": "vessel",
+     "n": 1506,
+     "bone_in_n": 248,
+     "bone_in_frac": 0.16467,
+     "bone_depth_max_mm": 9.02,
+     "bones": [
+      [
+       "hip_bone_r",
+       248
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_sacro_iliac_ligament_r",
+     "sys": "joint",
+     "n": 414,
+     "bone_in_n": 170,
+     "bone_in_frac": 0.41063,
+     "bone_depth_max_mm": 8.99,
+     "bones": [
+      [
+       "sacrum",
+       142
+      ],
+      [
+       "hip_bone_r",
+       28
+      ]
+     ]
+    },
+    {
+     "id": "gluteus_medius_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 276,
+     "bone_in_frac": 0.15316,
+     "bone_depth_max_mm": 8.97,
+     "bones": [
+      [
+       "hip_bone_l",
+       271
+      ],
+      [
+       "femur_l",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "posterior_cruciate_ligament_l",
+     "sys": "joint",
+     "n": 396,
+     "bone_in_n": 76,
+     "bone_in_frac": 0.19192,
+     "bone_depth_max_mm": 8.93,
+     "bones": [
+      [
+       "tibia_l",
+       76
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.88,
+     "bones": [
+      [
+       "calcaneus_l",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "gemellus_inferior_l",
+     "sys": "muscle",
+     "n": 490,
+     "bone_in_n": 100,
+     "bone_in_frac": 0.20408,
+     "bone_depth_max_mm": 8.87,
+     "bones": [
+      [
+       "hip_bone_l",
+       100
+      ]
+     ]
+    },
+    {
+     "id": "zan_plantar_tendon_sheath_of_fibularis_longus_muscle_r",
+     "sys": "bursa",
+     "n": 322,
+     "bone_in_n": 215,
+     "bone_in_frac": 0.6677,
+     "bone_depth_max_mm": 8.87,
+     "bones": [
+      [
+       "cuboid_r",
+       215
+      ]
+     ]
+    },
+    {
+     "id": "gluteus_maximus_l",
+     "sys": "muscle",
+     "n": 1663,
+     "bone_in_n": 59,
+     "bone_in_frac": 0.03548,
+     "bone_depth_max_mm": 8.83,
+     "bones": [
+      [
+       "hip_bone_l",
+       38
+      ],
+      [
+       "coccyx",
+       17
+      ],
+      [
+       "sacrum",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "obturator_internus_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 66,
+     "bone_in_frac": 0.03663,
+     "bone_depth_max_mm": 8.72,
+     "bones": [
+      [
+       "femur_l",
+       34
+      ],
+      [
+       "hip_bone_l",
+       32
+      ]
+     ]
+    },
+    {
+     "id": "obturator_externus_r",
+     "sys": "muscle",
+     "n": 582,
+     "bone_in_n": 135,
+     "bone_in_frac": 0.23196,
+     "bone_depth_max_mm": 8.68,
+     "bones": [
+      [
+       "femur_r",
+       102
+      ],
+      [
+       "hip_bone_r",
+       33
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_sacro_iliac_ligament_l",
+     "sys": "joint",
+     "n": 413,
+     "bone_in_n": 159,
+     "bone_in_frac": 0.38499,
+     "bone_depth_max_mm": 8.48,
+     "bones": [
+      [
+       "sacrum",
+       130
+      ],
+      [
+       "hip_bone_l",
+       29
+      ]
+     ]
+    },
+    {
+     "id": "zan_plantar_tendon_sheath_of_fibularis_longus_muscle_l",
+     "sys": "bursa",
+     "n": 322,
+     "bone_in_n": 223,
+     "bone_in_frac": 0.69255,
+     "bone_depth_max_mm": 8.48,
+     "bones": [
+      [
+       "cuboid_l",
+       223
+      ]
+     ]
+    },
+    {
+     "id": "zan_infrapatellar_fat_pad_l",
+     "sys": "joint",
+     "n": 386,
+     "bone_in_n": 130,
+     "bone_in_frac": 0.33679,
+     "bone_depth_max_mm": 8.22,
+     "bones": [
+      [
+       "femur_l",
+       130
+      ]
+     ]
+    },
+    {
+     "id": "zan_psoas_major_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 124,
+     "bone_in_frac": 0.06881,
+     "bone_depth_max_mm": 8.12,
+     "bones": [
+      [
+       "femur_r",
+       82
+      ],
+      [
+       "zan_vertebra_l5",
+       15
+      ],
+      [
+       "zan_vertebra_l1",
+       13
+      ],
+      [
+       "zan_vertebra_t12",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "zan_posterior_tibial_artery_r",
+     "sys": "vessel",
+     "n": 383,
+     "bone_in_n": 42,
+     "bone_in_frac": 0.10966,
+     "bone_depth_max_mm": 8.06,
+     "bones": [
+      [
+       "tibia_r",
+       23
+      ],
+      [
+       "talus_r",
+       19
+      ]
+     ]
+    },
+    {
+     "id": "obturator_internus_r",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 64,
+     "bone_in_frac": 0.03552,
+     "bone_depth_max_mm": 7.85,
+     "bones": [
+      [
+       "hip_bone_r",
+       36
+      ],
+      [
+       "femur_r",
+       28
+      ]
+     ]
+    },
+    {
+     "id": "zan_lateral_head_of_triceps_brachii_l",
+     "sys": "muscle",
+     "n": 2082,
+     "out_n": 2,
+     "out_frac": 0.00096,
+     "out_max_mm": 1.62,
+     "out_p95_mm": 1.59,
+     "out_mean_mm": 1.32,
+     "out_worst_xyz": [
+      -261.9,
+      504.2,
+      -47.6
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 95,
+     "bone_in_frac": 0.04563,
+     "bone_depth_max_mm": 7.84,
+     "bones": [
+      [
+       "humerus_l",
+       94
+      ],
+      [
+       "ulna_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "saphenous_n_r",
+     "sys": "nerve",
+     "n": 1215,
+     "bone_in_n": 74,
+     "bone_in_frac": 0.06091,
+     "bone_depth_max_mm": 7.78,
+     "bones": [
+      [
+       "tibia_r",
+       48
+      ],
+      [
+       "femur_r",
+       26
+      ]
+     ]
+    },
+    {
+     "id": "sternothyroid_r",
+     "sys": "muscle",
+     "n": 546,
+     "bone_in_n": 59,
+     "bone_in_frac": 0.10806,
+     "bone_depth_max_mm": 7.76,
+     "bones": [
+      [
+       "clavicle_r",
+       59
+      ]
+     ]
+    },
+    {
+     "id": "zan_anterior_layer_of_thoracolumbar_fascia_l",
+     "sys": "fascia",
+     "n": 115,
+     "bone_in_n": 3,
+     "bone_in_frac": 0.02609,
+     "bone_depth_max_mm": 7.7,
+     "bones": [
+      [
+       "sacrum",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "extensor_carpi_ulnaris_l",
+     "sys": "muscle",
+     "n": 778,
+     "out_n": 6,
+     "out_frac": 0.00771,
+     "out_max_mm": 1.6,
+     "out_p95_mm": 1.56,
+     "out_mean_mm": 1.09,
+     "out_worst_xyz": [
+      -193.3,
+      106.5,
+      100.9
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 60,
+     "bone_in_frac": 0.07712,
+     "bone_depth_max_mm": 7.67,
+     "bones": [
+      [
+       "humerus_l",
+       30
+      ],
+      [
+       "ulna_l",
+       30
+      ]
+     ]
+    },
+    {
+     "id": "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+     "sys": "muscle",
+     "n": 1725,
+     "out_n": 146,
+     "out_frac": 0.08464,
+     "out_max_mm": 3.51,
+     "out_p95_mm": 2.87,
+     "out_mean_mm": 1.76,
+     "out_worst_xyz": [
+      -101.3,
+      -24.8,
+      132.0
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 76,
+     "bone_in_frac": 0.04406,
+     "bone_depth_max_mm": 7.65,
+     "bones": [
+      [
+       "humerus_l",
+       73
+      ],
+      [
+       "ulna_l",
+       1
+      ],
+      [
+       "zan_lunate_bone_l",
+       1
+      ],
+      [
+       "zan_proximal_phalanx_of_third_finger_of_hand_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "adductor_brevis_r",
+     "sys": "muscle",
+     "n": 1064,
+     "bone_in_n": 69,
+     "bone_in_frac": 0.06485,
+     "bone_depth_max_mm": 7.62,
+     "bones": [
+      [
+       "hip_bone_r",
+       69
+      ]
+     ]
+    }
+   ],
+   "bone_mostly_inside": [
+    {
+     "id": "zan_adductor_minimus_r",
+     "sys": "muscle",
+     "n": 476,
+     "bone_in_n": 242,
+     "bone_in_frac": 0.5084,
+     "bone_depth_max_mm": 11.16,
+     "bones": [
+      [
+       "femur_r",
+       236
+      ],
+      [
+       "hip_bone_r",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_r",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 119,
+     "bone_in_frac": 0.93701,
+     "bone_depth_max_mm": 9.04,
+     "bones": [
+      [
+       "calcaneus_r",
+       119
+      ]
+     ]
+    },
+    {
+     "id": "zan_calcaneal_branches_of_fibular_artery_l",
+     "sys": "vessel",
+     "n": 127,
+     "bone_in_n": 127,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 8.88,
+     "bones": [
+      [
+       "calcaneus_l",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "zan_plantar_tendon_sheath_of_fibularis_longus_muscle_r",
+     "sys": "bursa",
+     "n": 322,
+     "bone_in_n": 215,
+     "bone_in_frac": 0.6677,
+     "bone_depth_max_mm": 8.87,
+     "bones": [
+      [
+       "cuboid_r",
+       215
+      ]
+     ]
+    },
+    {
+     "id": "zan_plantar_tendon_sheath_of_fibularis_longus_muscle_l",
+     "sys": "bursa",
+     "n": 322,
+     "bone_in_n": 223,
+     "bone_in_frac": 0.69255,
+     "bone_depth_max_mm": 8.48,
+     "bones": [
+      [
+       "cuboid_l",
+       223
+      ]
+     ]
+    },
+    {
+     "id": "zan_subtendinous_bursa_of_iliacus_muscle_r",
+     "sys": "bursa",
+     "n": 178,
+     "bone_in_n": 157,
+     "bone_in_frac": 0.88202,
+     "bone_depth_max_mm": 7.24,
+     "bones": [
+      [
+       "femur_r",
+       157
+      ]
+     ]
+    },
+    {
+     "id": "zan_bursa_of_piriformis_muscle_r",
+     "sys": "bursa",
+     "n": 738,
+     "bone_in_n": 423,
+     "bone_in_frac": 0.57317,
+     "bone_depth_max_mm": 6.99,
+     "bones": [
+      [
+       "femur_r",
+       423
+      ]
+     ]
+    },
+    {
+     "id": "zan_tendon_sheath_of_extensor_carpi_ulnaris_r",
+     "sys": "bursa",
+     "n": 452,
+     "bone_in_n": 263,
+     "bone_in_frac": 0.58186,
+     "bone_depth_max_mm": 6.9,
+     "bones": [
+      [
+       "ulna_r",
+       228
+      ],
+      [
+       "zan_triquetrum_bone_r",
+       32
+      ],
+      [
+       "zan_lunate_bone_r",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "zan_lateral_talocalcaneal_ligament_l",
+     "sys": "joint",
+     "n": 30,
+     "bone_in_n": 30,
+     "bone_in_frac": 1.0,
+     "bone_depth_max_mm": 5.6,
+     "bones": [
+      [
+       "calcaneus_l",
+       30
+      ]
+     ]
+    },
+    {
+     "id": "zan_lateral_talocalcaneal_ligament_r",
+     "sys": "joint",
+     "n": 30,
+     "bone_in_n": 22,
+     "bone_in_frac": 0.73333,
+     "bone_depth_max_mm": 5.15,
+     "bones": [
+      [
+       "calcaneus_r",
+       22
+      ]
+     ]
+    }
+   ]
+  },
+  "own_f": {
+   "page": "own_f",
+   "label": "Imaging-based \u00b7 Female",
+   "vox_mm": 2.0,
+   "tol_mm": 5.0,
+   "n_structures": 1104,
+   "mask": {
+    "shape": [
+     276,
+     877,
+     162
+    ],
+    "volume_cm3": 88896.4,
+    "n_skin": 1,
+    "n_outer": 34,
+    "skin_samples": 8204985,
+    "bbox_mm": [
+     532.8,
+     1735.0,
+     304.5
+    ],
+    "close_mm": 8.0,
+    "error_band": {
+     "p50_mm": 0.74,
+     "p95_mm": 1.37,
+     "max_mm": 7.97,
+     "boundary_voxels": 377457
+    }
+   },
+   "validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 100.0,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 99.56,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "heart": 100.0,
+     "liver": 100.0,
+     "spleen": 100.0,
+     "stomach": 100.0,
+     "kidney_l": 100.0,
+     "kidney_r": 100.0,
+     "urinary_bladder": 100.0,
+     "pancreas": 100.0,
+     "diaphragm": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 99.98,
+    "body_mask_volume_cm3": 88896.4,
+    "error_band": {
+     "p50_mm": 0.74,
+     "p95_mm": 1.37,
+     "max_mm": 7.97,
+     "boundary_voxels": 377457
+    }
+   },
+   "n_outside_any": 16,
+   "n_outside_beyond_tol": 2,
+   "n_bone_penetrating": 64,
+   "offenders": [
+    {
+     "id": "phalanges_hand_l",
+     "sys": "bone",
+     "n": 2284,
+     "out_n": 389,
+     "out_frac": 0.17032,
+     "out_max_mm": 16.42,
+     "out_p95_mm": 13.51,
+     "out_mean_mm": 6.18,
+     "out_worst_xyz": [
+      -72.2,
+      36.8,
+      127.5
+     ],
+     "out_beyond_tol_n": 189
+    },
+    {
+     "id": "flexor_retinaculum_r",
+     "sys": "fascia",
+     "n": 264,
+     "out_n": 12,
+     "out_frac": 0.04545,
+     "out_max_mm": 5.46,
+     "out_p95_mm": 5.39,
+     "out_mean_mm": 3.53,
+     "out_worst_xyz": [
+      160.2,
+      157.5,
+      67.2
+     ],
+     "out_beyond_tol_n": 4
+    }
+   ],
+   "seconds": 33.6,
+   "bone_penetration_top": [
+    {
+     "id": "supraspinatus_l_zfill203",
+     "sys": "muscle",
+     "n": 258,
+     "bone_in_n": 85,
+     "bone_in_frac": 0.32946,
+     "bone_depth_max_mm": 15.04,
+     "bones": [
+      [
+       "humerus_l",
+       76
+      ],
+      [
+       "scapula_l",
+       6
+      ],
+      [
+       "humerus_l_zfill203",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "deltoid_r",
+     "sys": "muscle",
+     "n": 4409,
+     "bone_in_n": 214,
+     "bone_in_frac": 0.04854,
+     "bone_depth_max_mm": 10.89,
+     "bones": [
+      [
+       "humerus_r",
+       214
+      ]
+     ]
+    },
+    {
+     "id": "quadratus_femoris_r",
+     "sys": "muscle",
+     "n": 4501,
+     "bone_in_n": 952,
+     "bone_in_frac": 0.21151,
+     "bone_depth_max_mm": 10.83,
+     "bones": [
+      [
+       "femur_r",
+       672
+      ],
+      [
+       "hip_bone_r",
+       280
+      ]
+     ]
+    },
+    {
+     "id": "soft_unlabelled_pelvis",
+     "sys": "fat",
+     "n": 8585,
+     "bone_in_n": 463,
+     "bone_in_frac": 0.05393,
+     "bone_depth_max_mm": 10.82,
+     "bones": [
+      [
+       "sacrum#1",
+       283
+      ],
+      [
+       "hip_bone_r",
+       136
+      ],
+      [
+       "hip_bone_l",
+       42
+      ],
+      [
+       "sacrum#2",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "gluteus_minimus_r_zfill203s",
+     "sys": "muscle",
+     "n": 972,
+     "bone_in_n": 164,
+     "bone_in_frac": 0.16872,
+     "bone_depth_max_mm": 10.68,
+     "bones": [
+      [
+       "femur_r",
+       98
+      ],
+      [
+       "hip_bone_r",
+       66
+      ]
+     ]
+    },
+    {
+     "id": "biceps_brachii_l",
+     "sys": "muscle",
+     "n": 4497,
+     "bone_in_n": 71,
+     "bone_in_frac": 0.01579,
+     "bone_depth_max_mm": 10.61,
+     "bones": [
+      [
+       "humerus_l",
+       52
+      ],
+      [
+       "ribs_l",
+       13
+      ],
+      [
+       "radius_l",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "triceps_brachii_l_zfill203",
+     "sys": "muscle",
+     "n": 725,
+     "bone_in_n": 86,
+     "bone_in_frac": 0.11862,
+     "bone_depth_max_mm": 10.5,
+     "bones": [
+      [
+       "humerus_l",
+       66
+      ],
+      [
+       "scapula_l",
+       20
+      ]
+     ]
+    },
+    {
+     "id": "quadratus_femoris_l",
+     "sys": "muscle",
+     "n": 4580,
+     "bone_in_n": 878,
+     "bone_in_frac": 0.1917,
+     "bone_depth_max_mm": 10.43,
+     "bones": [
+      [
+       "hip_bone_l",
+       583
+      ],
+      [
+       "femur_l",
+       295
+      ]
+     ]
+    },
+    {
+     "id": "obturator_externus_l",
+     "sys": "muscle",
+     "n": 4754,
+     "bone_in_n": 906,
+     "bone_in_frac": 0.19058,
+     "bone_depth_max_mm": 10.03,
+     "bones": [
+      [
+       "hip_bone_l",
+       897
+      ],
+      [
+       "femur_l",
+       7
+      ],
+      [
+       "hip_bone_r",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "hip_articular_cartilage_l",
+     "sys": "cartilage",
+     "n": 931,
+     "bone_in_n": 807,
+     "bone_in_frac": 0.86681,
+     "bone_depth_max_mm": 9.92,
+     "bones": [
+      [
+       "hip_bone_l",
+       681
+      ],
+      [
+       "femur_l",
+       130
+      ]
+     ]
+    },
+    {
+     "id": "triceps_brachii_l",
+     "sys": "muscle",
+     "n": 4493,
+     "bone_in_n": 203,
+     "bone_in_frac": 0.04518,
+     "bone_depth_max_mm": 9.81,
+     "bones": [
+      [
+       "humerus_l",
+       177
+      ],
+      [
+       "radius_l",
+       11
+      ],
+      [
+       "ribs_l",
+       10
+      ],
+      [
+       "ulna_l",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "obturator_externus_r",
+     "sys": "muscle",
+     "n": 4545,
+     "bone_in_n": 746,
+     "bone_in_frac": 0.16414,
+     "bone_depth_max_mm": 9.77,
+     "bones": [
+      [
+       "hip_bone_r",
+       680
+      ],
+      [
+       "femur_r",
+       66
+      ]
+     ]
+    },
+    {
+     "id": "quadratus_lumborum_l_zfill203s",
+     "sys": "muscle",
+     "n": 585,
+     "bone_in_n": 38,
+     "bone_in_frac": 0.06496,
+     "bone_depth_max_mm": 9.73,
+     "bones": [
+      [
+       "hip_bone_l",
+       38
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_l",
+     "sys": "muscle",
+     "n": 4512,
+     "bone_in_n": 183,
+     "bone_in_frac": 0.04056,
+     "bone_depth_max_mm": 9.68,
+     "bones": [
+      [
+       "humerus_l",
+       175
+      ],
+      [
+       "radius_l",
+       6
+      ],
+      [
+       "ulna_l",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_thigh_l",
+     "sys": "fat",
+     "n": 6599,
+     "bone_in_n": 430,
+     "bone_in_frac": 0.06516,
+     "bone_depth_max_mm": 9.42,
+     "bones": [
+      [
+       "femur_l",
+       430
+      ]
+     ]
+    },
+    {
+     "id": "biceps_brachii_r",
+     "sys": "muscle",
+     "n": 4501,
+     "bone_in_n": 189,
+     "bone_in_frac": 0.04199,
+     "bone_depth_max_mm": 9.25,
+     "bones": [
+      [
+       "humerus_r",
+       136
+      ],
+      [
+       "ribs_r",
+       31
+      ],
+      [
+       "humerus_r_zfill",
+       16
+      ],
+      [
+       "radius_r_zfill",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_thigh_r",
+     "sys": "fat",
+     "n": 8034,
+     "bone_in_n": 410,
+     "bone_in_frac": 0.05103,
+     "bone_depth_max_mm": 9.1,
+     "bones": [
+      [
+       "femur_r",
+       409
+      ],
+      [
+       "patella_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "soft_unlabelled_thigh_l",
+     "sys": "fat",
+     "n": 7173,
+     "bone_in_n": 519,
+     "bone_in_frac": 0.07235,
+     "bone_depth_max_mm": 9.02,
+     "bones": [
+      [
+       "femur_l",
+       517
+      ],
+      [
+       "tibia_l",
+       1
+      ],
+      [
+       "patella_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "soft_unlabelled_thigh_r",
+     "sys": "fat",
+     "n": 4919,
+     "bone_in_n": 363,
+     "bone_in_frac": 0.0738,
+     "bone_depth_max_mm": 8.95,
+     "bones": [
+      [
+       "femur_r",
+       359
+      ],
+      [
+       "patella_r",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "deltoid_l",
+     "sys": "muscle",
+     "n": 4484,
+     "bone_in_n": 239,
+     "bone_in_frac": 0.0533,
+     "bone_depth_max_mm": 8.79,
+     "bones": [
+      [
+       "humerus_l",
+       237
+      ],
+      [
+       "scapula_l",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "teres_minor_l",
+     "sys": "muscle",
+     "n": 4497,
+     "bone_in_n": 1251,
+     "bone_in_frac": 0.27819,
+     "bone_depth_max_mm": 8.23,
+     "bones": [
+      [
+       "scapula_l",
+       1251
+      ]
+     ]
+    },
+    {
+     "id": "flexor_carpi_ulnaris_r",
+     "sys": "muscle",
+     "n": 4496,
+     "bone_in_n": 929,
+     "bone_in_frac": 0.20663,
+     "bone_depth_max_mm": 8.04,
+     "bones": [
+      [
+       "ulna_r_zfill",
+       663
+      ],
+      [
+       "ulna_r",
+       266
+      ]
+     ]
+    },
+    {
+     "id": "teres_minor_r",
+     "sys": "muscle",
+     "n": 4707,
+     "bone_in_n": 1026,
+     "bone_in_frac": 0.21797,
+     "bone_depth_max_mm": 7.9,
+     "bones": [
+      [
+       "scapula_r",
+       1023
+      ],
+      [
+       "humerus_r",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "triceps_brachii_r",
+     "sys": "muscle",
+     "n": 4471,
+     "bone_in_n": 317,
+     "bone_in_frac": 0.0709,
+     "bone_depth_max_mm": 7.71,
+     "bones": [
+      [
+       "humerus_r",
+       223
+      ],
+      [
+       "ribs_r",
+       84
+      ],
+      [
+       "humerus_r_zfill",
+       10
+      ]
+     ]
+    },
+    {
+     "id": "subscapularis_r",
+     "sys": "muscle",
+     "n": 4618,
+     "bone_in_n": 252,
+     "bone_in_frac": 0.05457,
+     "bone_depth_max_mm": 7.37,
+     "bones": [
+      [
+       "scapula_r",
+       124
+      ],
+      [
+       "ribs_r",
+       60
+      ],
+      [
+       "clavicle_r",
+       40
+      ],
+      [
+       "humerus_r",
+       20
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_r",
+     "sys": "muscle",
+     "n": 4500,
+     "bone_in_n": 198,
+     "bone_in_frac": 0.044,
+     "bone_depth_max_mm": 7.05,
+     "bones": [
+      [
+       "humerus_r",
+       194
+      ],
+      [
+       "humerus_r_zfill",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "supraspinatus_r",
+     "sys": "muscle",
+     "n": 4498,
+     "bone_in_n": 161,
+     "bone_in_frac": 0.03579,
+     "bone_depth_max_mm": 7.01,
+     "bones": [
+      [
+       "clavicle_r",
+       132
+      ],
+      [
+       "scapula_r",
+       29
+      ]
+     ]
+    },
+    {
+     "id": "gastrocnemius_l",
+     "sys": "muscle",
+     "n": 4499,
+     "bone_in_n": 186,
+     "bone_in_frac": 0.04134,
+     "bone_depth_max_mm": 6.49,
+     "bones": [
+      [
+       "femur_l",
+       72
+      ],
+      [
+       "tibia_l",
+       68
+      ],
+      [
+       "fibula_l",
+       46
+      ]
+     ]
+    },
+    {
+     "id": "gluteus_medius_r_zfill203s",
+     "sys": "muscle",
+     "n": 183,
+     "bone_in_n": 82,
+     "bone_in_frac": 0.44809,
+     "bone_depth_max_mm": 6.42,
+     "bones": [
+      [
+       "hip_bone_r",
+       82
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_head",
+     "sys": "fat",
+     "n": 2096,
+     "bone_in_n": 198,
+     "bone_in_frac": 0.09447,
+     "bone_depth_max_mm": 6.36,
+     "bones": [
+      [
+       "cranium",
+       198
+      ]
+     ]
+    },
+    {
+     "id": "soft_unlabelled_foot_l",
+     "sys": "fat",
+     "n": 3670,
+     "bone_in_n": 160,
+     "bone_in_frac": 0.0436,
+     "bone_depth_max_mm": 6.35,
+     "bones": [
+      [
+       "calcaneus_l",
+       108
+      ],
+      [
+       "talus_l",
+       28
+      ],
+      [
+       "metatarsals_l",
+       16
+      ],
+      [
+       "cuboid_l",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "deltoid_l_zfill203",
+     "sys": "muscle",
+     "n": 727,
+     "bone_in_n": 14,
+     "bone_in_frac": 0.01926,
+     "bone_depth_max_mm": 6.31,
+     "bones": [
+      [
+       "humerus_l",
+       14
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_leg_r",
+     "sys": "fat",
+     "n": 1000,
+     "bone_in_n": 153,
+     "bone_in_frac": 0.153,
+     "bone_depth_max_mm": 6.29,
+     "bones": [
+      [
+       "tibia_r",
+       153
+      ]
+     ]
+    },
+    {
+     "id": "antebrachial_fascia_r",
+     "sys": "fascia",
+     "n": 578,
+     "bone_in_n": 48,
+     "bone_in_frac": 0.08304,
+     "bone_depth_max_mm": 6.07,
+     "bones": [
+      [
+       "ulna_r_zfill",
+       30
+      ],
+      [
+       "ulna_r",
+       5
+      ],
+      [
+       "humerus_r",
+       5
+      ],
+      [
+       "humerus_r_zfill",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_leg_l",
+     "sys": "fat",
+     "n": 596,
+     "bone_in_n": 83,
+     "bone_in_frac": 0.13926,
+     "bone_depth_max_mm": 5.95,
+     "bones": [
+      [
+       "tibia_l",
+       83
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digitorum_longus_l",
+     "sys": "muscle",
+     "n": 4393,
+     "bone_in_n": 297,
+     "bone_in_frac": 0.06761,
+     "bone_depth_max_mm": 5.93,
+     "bones": [
+      [
+       "tibia_l",
+       240
+      ],
+      [
+       "fibula_l",
+       57
+      ]
+     ]
+    },
+    {
+     "id": "flexor_hallucis_longus_r",
+     "sys": "muscle",
+     "n": 4504,
+     "bone_in_n": 901,
+     "bone_in_frac": 0.20004,
+     "bone_depth_max_mm": 5.85,
+     "bones": [
+      [
+       "fibula_r",
+       633
+      ],
+      [
+       "tibia_r",
+       268
+      ]
+     ]
+    },
+    {
+     "id": "infraspinatus_l",
+     "sys": "muscle",
+     "n": 4619,
+     "bone_in_n": 166,
+     "bone_in_frac": 0.03594,
+     "bone_depth_max_mm": 5.84,
+     "bones": [
+      [
+       "scapula_l",
+       166
+      ]
+     ]
+    },
+    {
+     "id": "deltoid_r_zfill203",
+     "sys": "muscle",
+     "n": 2223,
+     "bone_in_n": 16,
+     "bone_in_frac": 0.0072,
+     "bone_depth_max_mm": 5.84,
+     "bones": [
+      [
+       "humerus_r",
+       15
+      ],
+      [
+       "scapula_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "flexor_pollicis_longus_r",
+     "sys": "muscle",
+     "n": 4500,
+     "bone_in_n": 1836,
+     "bone_in_frac": 0.408,
+     "bone_depth_max_mm": 5.79,
+     "bones": [
+      [
+       "radius_r",
+       1749
+      ],
+      [
+       "radius_r_zfill",
+       87
+      ]
+     ]
+    }
+   ],
+   "bone_mostly_inside": [
+    {
+     "id": "hip_articular_cartilage_l",
+     "sys": "cartilage",
+     "n": 931,
+     "bone_in_n": 807,
+     "bone_in_frac": 0.86681,
+     "bone_depth_max_mm": 9.92,
+     "bones": [
+      [
+       "hip_bone_l",
+       681
+      ],
+      [
+       "femur_l",
+       130
+      ]
+     ]
+    },
+    {
+     "id": "hip_articular_cartilage_r",
+     "sys": "cartilage",
+     "n": 879,
+     "bone_in_n": 710,
+     "bone_in_frac": 0.80774,
+     "bone_depth_max_mm": 5.73,
+     "bones": [
+      [
+       "hip_bone_r",
+       594
+      ],
+      [
+       "femur_r",
+       125
+      ]
+     ]
+    }
+   ]
+  },
+  "own_m": {
+   "page": "own_m",
+   "label": "Imaging-based \u00b7 Male",
+   "vox_mm": 2.0,
+   "tol_mm": 5.0,
+   "n_structures": 951,
+   "mask": {
+    "shape": [
+     286,
+     946,
+     168
+    ],
+    "volume_cm3": 108082.0,
+    "n_skin": 1,
+    "n_outer": 34,
+    "skin_samples": 10128594,
+    "bbox_mm": [
+     552.5,
+     1874.0,
+     317.0
+    ],
+    "close_mm": 8.0,
+    "error_band": {
+     "p50_mm": 0.75,
+     "p95_mm": 1.35,
+     "max_mm": 8.04,
+     "boundary_voxels": 449456
+    }
+   },
+   "validation": {
+    "deep_inside_pct": {
+     "femur_l": 100.0,
+     "femur_r": 100.0,
+     "humerus_l": 99.97,
+     "humerus_r": 100.0,
+     "tibia_l": 100.0,
+     "tibia_r": 100.0,
+     "radius_r": 100.0,
+     "ulna_l": 100.0,
+     "ulna_r": 100.0,
+     "scapula_l": 100.0,
+     "scapula_r": 100.0,
+     "clavicle_l": 100.0,
+     "sacrum": 100.0,
+     "sternum": 100.0,
+     "hip_bone_l": 100.0,
+     "hip_bone_r": 100.0,
+     "heart": 100.0,
+     "liver": 100.0,
+     "stomach": 100.0,
+     "urinary_bladder": 100.0,
+     "trachea": 100.0,
+     "diaphragm": 100.0
+    },
+    "ok": true,
+    "reasons": [],
+    "deep_structures_partly_outside": [],
+    "deep_group_fraction_ok": 1.0,
+    "deep_group_mean_inside_pct": 100.0,
+    "body_mask_volume_cm3": 108082.0,
+    "error_band": {
+     "p50_mm": 0.75,
+     "p95_mm": 1.35,
+     "max_mm": 8.04,
+     "boundary_voxels": 449456
+    }
+   },
+   "n_outside_any": 35,
+   "n_outside_beyond_tol": 6,
+   "n_bone_penetrating": 51,
+   "offenders": [
+    {
+     "id": "deltoid_r_zfill203",
+     "sys": "muscle",
+     "n": 2375,
+     "out_n": 54,
+     "out_frac": 0.02274,
+     "out_max_mm": 10.52,
+     "out_p95_mm": 9.24,
+     "out_mean_mm": 4.48,
+     "out_worst_xyz": [
+      243.2,
+      512.5,
+      51.5
+     ],
+     "out_beyond_tol_n": 13
+    },
+    {
+     "id": "dorsal_n_penis_r",
+     "sys": "nerve",
+     "n": 902,
+     "out_n": 203,
+     "out_frac": 0.22506,
+     "out_max_mm": 8.67,
+     "out_p95_mm": 8.05,
+     "out_mean_mm": 4.15,
+     "out_worst_xyz": [
+      7.8,
+      -61.8,
+      111.8
+     ],
+     "out_beyond_tol_n": 70,
+     "bone_in_n": 33,
+     "bone_in_frac": 0.03659,
+     "bone_depth_max_mm": 1.3,
+     "bones": [
+      [
+       "hip_bone_r",
+       33
+      ]
+     ]
+    },
+    {
+     "id": "dorsal_n_penis_l",
+     "sys": "nerve",
+     "n": 902,
+     "out_n": 111,
+     "out_frac": 0.12306,
+     "out_max_mm": 6.43,
+     "out_p95_mm": 6.06,
+     "out_mean_mm": 3.54,
+     "out_worst_xyz": [
+      -3.0,
+      -58.0,
+      109.8
+     ],
+     "out_beyond_tol_n": 25,
+     "bone_in_n": 7,
+     "bone_in_frac": 0.00776,
+     "bone_depth_max_mm": 1.31,
+     "bones": [
+      [
+       "hip_bone_r",
+       4
+      ],
+      [
+       "hip_bone_l",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "rectus_abdominis_r_zfill203s",
+     "sys": "muscle",
+     "n": 2908,
+     "out_n": 48,
+     "out_frac": 0.01651,
+     "out_max_mm": 5.71,
+     "out_p95_mm": 5.55,
+     "out_mean_mm": 3.5,
+     "out_worst_xyz": [
+      66.5,
+      343.5,
+      144.0
+     ],
+     "out_beyond_tol_n": 10
+    },
+    {
+     "id": "brachialis_r_zfill203s",
+     "sys": "muscle",
+     "n": 1040,
+     "out_n": 6,
+     "out_frac": 0.00577,
+     "out_max_mm": 5.48,
+     "out_p95_mm": 5.44,
+     "out_mean_mm": 3.93,
+     "out_worst_xyz": [
+      242.8,
+      223.2,
+      -66.0
+     ],
+     "out_beyond_tol_n": 2,
+     "bone_in_n": 167,
+     "bone_in_frac": 0.16058,
+     "bone_depth_max_mm": 11.99,
+     "bones": [
+      [
+       "humerus_r",
+       148
+      ],
+      [
+       "ulna_r",
+       18
+      ],
+      [
+       "radius_r",
+       2
+      ],
+      [
+       "humerus_r_zfill",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "extensor_indicis_r",
+     "sys": "muscle",
+     "n": 573,
+     "out_n": 18,
+     "out_frac": 0.03141,
+     "out_max_mm": 5.36,
+     "out_p95_mm": 4.24,
+     "out_mean_mm": 2.43,
+     "out_worst_xyz": [
+      124.8,
+      82.0,
+      84.0
+     ],
+     "out_beyond_tol_n": 1
+    }
+   ],
+   "seconds": 32.9,
+   "bone_penetration_top": [
+    {
+     "id": "fat_deep_leg_l",
+     "sys": "fat",
+     "n": 1647,
+     "bone_in_n": 469,
+     "bone_in_frac": 0.28476,
+     "bone_depth_max_mm": 13.01,
+     "bones": [
+      [
+       "tibia_l",
+       443
+      ],
+      [
+       "fibula_l",
+       23
+      ],
+      [
+       "talus_l",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "soft_unlabelled_pelvis",
+     "sys": "fat",
+     "n": 4764,
+     "bone_in_n": 65,
+     "bone_in_frac": 0.01364,
+     "bone_depth_max_mm": 12.02,
+     "bones": [
+      [
+       "lumbar_vertebrae#1",
+       50
+      ],
+      [
+       "hip_bone_l",
+       10
+      ],
+      [
+       "sacrum",
+       4
+      ],
+      [
+       "hip_bone_r",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_r_zfill203s",
+     "sys": "muscle",
+     "n": 1040,
+     "out_n": 6,
+     "out_frac": 0.00577,
+     "out_max_mm": 5.48,
+     "out_p95_mm": 5.44,
+     "out_mean_mm": 3.93,
+     "out_worst_xyz": [
+      242.8,
+      223.2,
+      -66.0
+     ],
+     "out_beyond_tol_n": 2,
+     "bone_in_n": 167,
+     "bone_in_frac": 0.16058,
+     "bone_depth_max_mm": 11.99,
+     "bones": [
+      [
+       "humerus_r",
+       148
+      ],
+      [
+       "ulna_r",
+       18
+      ],
+      [
+       "radius_r",
+       2
+      ],
+      [
+       "humerus_r_zfill",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "abdominal_aorta",
+     "sys": "vessel",
+     "n": 751,
+     "bone_in_n": 329,
+     "bone_in_frac": 0.43808,
+     "bone_depth_max_mm": 11.93,
+     "bones": [
+      [
+       "lumbar_vertebrae#2",
+       127
+      ],
+      [
+       "lumbar_vertebrae#3",
+       117
+      ],
+      [
+       "lumbar_vertebrae#4",
+       85
+      ]
+     ]
+    },
+    {
+     "id": "extensor_carpi_ulnaris_r",
+     "sys": "muscle",
+     "n": 703,
+     "bone_in_n": 294,
+     "bone_in_frac": 0.41821,
+     "bone_depth_max_mm": 11.91,
+     "bones": [
+      [
+       "humerus_r",
+       156
+      ],
+      [
+       "ulna_r",
+       110
+      ],
+      [
+       "carpals_r_q212",
+       19
+      ],
+      [
+       "radius_r",
+       10
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_r",
+     "sys": "muscle",
+     "n": 4452,
+     "bone_in_n": 458,
+     "bone_in_frac": 0.10288,
+     "bone_depth_max_mm": 11.37,
+     "bones": [
+      [
+       "humerus_r",
+       454
+      ],
+      [
+       "radius_r",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "extensor_carpi_radialis_brevis_r",
+     "sys": "muscle",
+     "n": 1352,
+     "bone_in_n": 318,
+     "bone_in_frac": 0.23521,
+     "bone_depth_max_mm": 11.25,
+     "bones": [
+      [
+       "humerus_r",
+       273
+      ],
+      [
+       "radius_r",
+       35
+      ],
+      [
+       "humerus_r_zfill",
+       8
+      ],
+      [
+       "ulna_r",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "extensor_carpi_radialis_brevis_r_zfill",
+     "sys": "muscle",
+     "n": 569,
+     "bone_in_n": 146,
+     "bone_in_frac": 0.25659,
+     "bone_depth_max_mm": 11.25,
+     "bones": [
+      [
+       "humerus_r",
+       78
+      ],
+      [
+       "ulna_r",
+       58
+      ],
+      [
+       "radius_r",
+       16
+      ]
+     ]
+    },
+    {
+     "id": "coracobrachialis_r",
+     "sys": "muscle",
+     "n": 4415,
+     "bone_in_n": 936,
+     "bone_in_frac": 0.212,
+     "bone_depth_max_mm": 11.23,
+     "bones": [
+      [
+       "humerus_r",
+       936
+      ]
+     ]
+    },
+    {
+     "id": "coracobrachialis_l",
+     "sys": "muscle",
+     "n": 8961,
+     "bone_in_n": 2708,
+     "bone_in_frac": 0.3022,
+     "bone_depth_max_mm": 10.86,
+     "bones": [
+      [
+       "humerus_l",
+       2708
+      ]
+     ]
+    },
+    {
+     "id": "biceps_brachii_r",
+     "sys": "muscle",
+     "n": 4377,
+     "bone_in_n": 112,
+     "bone_in_frac": 0.02559,
+     "bone_depth_max_mm": 10.8,
+     "bones": [
+      [
+       "humerus_r",
+       112
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digitorum_r",
+     "sys": "muscle",
+     "n": 1353,
+     "out_n": 1,
+     "out_frac": 0.00074,
+     "out_max_mm": 0.66,
+     "out_p95_mm": 0.66,
+     "out_mean_mm": 0.66,
+     "out_worst_xyz": [
+      132.2,
+      35.8,
+      119.0
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 143,
+     "bone_in_frac": 0.10569,
+     "bone_depth_max_mm": 10.69,
+     "bones": [
+      [
+       "humerus_r",
+       133
+      ],
+      [
+       "radius_r",
+       3
+      ],
+      [
+       "carpals_r_q212",
+       3
+      ],
+      [
+       "ulna_r_zfill203s",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_foot_r",
+     "sys": "fat",
+     "n": 3609,
+     "bone_in_n": 884,
+     "bone_in_frac": 0.24494,
+     "bone_depth_max_mm": 10.49,
+     "bones": [
+      [
+       "talus_r",
+       236
+      ],
+      [
+       "cuboid_r",
+       183
+      ],
+      [
+       "cuneiform_medial_r",
+       135
+      ],
+      [
+       "metatarsals_r",
+       129
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_foot_l",
+     "sys": "fat",
+     "n": 3092,
+     "bone_in_n": 722,
+     "bone_in_frac": 0.23351,
+     "bone_depth_max_mm": 10.11,
+     "bones": [
+      [
+       "metatarsals_l",
+       241
+      ],
+      [
+       "cuboid_l",
+       144
+      ],
+      [
+       "navicular_l",
+       102
+      ],
+      [
+       "cuneiform_lateral_l",
+       93
+      ]
+     ]
+    },
+    {
+     "id": "common_iliac_v_l",
+     "sys": "vessel",
+     "n": 738,
+     "bone_in_n": 151,
+     "bone_in_frac": 0.20461,
+     "bone_depth_max_mm": 9.95,
+     "bones": [
+      [
+       "lumbar_vertebrae#1",
+       129
+      ],
+      [
+       "sacrum",
+       22
+      ]
+     ]
+    },
+    {
+     "id": "flexor_carpi_ulnaris_l",
+     "sys": "muscle",
+     "n": 1830,
+     "out_n": 9,
+     "out_frac": 0.00492,
+     "out_max_mm": 2.27,
+     "out_p95_mm": 1.96,
+     "out_mean_mm": 1.16,
+     "out_worst_xyz": [
+      -228.5,
+      248.5,
+      -68.0
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 232,
+     "bone_in_frac": 0.12678,
+     "bone_depth_max_mm": 9.89,
+     "bones": [
+      [
+       "humerus_l",
+       138
+      ],
+      [
+       "carpals_l_q212",
+       77
+      ],
+      [
+       "metacarpals_l",
+       10
+      ],
+      [
+       "ulna_l",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "flexor_carpi_radialis_l",
+     "sys": "muscle",
+     "n": 887,
+     "bone_in_n": 143,
+     "bone_in_frac": 0.16122,
+     "bone_depth_max_mm": 9.56,
+     "bones": [
+      [
+       "humerus_l",
+       83
+      ],
+      [
+       "carpals_l_q212",
+       55
+      ],
+      [
+       "metacarpals_l",
+       5
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_thigh_l",
+     "sys": "fat",
+     "n": 11915,
+     "bone_in_n": 307,
+     "bone_in_frac": 0.02577,
+     "bone_depth_max_mm": 9.56,
+     "bones": [
+      [
+       "femur_l",
+       155
+      ],
+      [
+       "patella_l",
+       150
+      ],
+      [
+       "hip_bone_l",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "triceps_brachii_r",
+     "sys": "muscle",
+     "n": 4360,
+     "bone_in_n": 77,
+     "bone_in_frac": 0.01766,
+     "bone_depth_max_mm": 9.52,
+     "bones": [
+      [
+       "humerus_r",
+       77
+      ]
+     ]
+    },
+    {
+     "id": "triceps_brachii_l",
+     "sys": "muscle",
+     "n": 5383,
+     "bone_in_n": 164,
+     "bone_in_frac": 0.03047,
+     "bone_depth_max_mm": 9.31,
+     "bones": [
+      [
+       "humerus_l",
+       164
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_l",
+     "sys": "muscle",
+     "n": 4433,
+     "bone_in_n": 506,
+     "bone_in_frac": 0.11414,
+     "bone_depth_max_mm": 9.3,
+     "bones": [
+      [
+       "humerus_l",
+       506
+      ]
+     ]
+    },
+    {
+     "id": "fat_subcut_foot_r",
+     "sys": "fat",
+     "n": 2215,
+     "bone_in_n": 75,
+     "bone_in_frac": 0.03386,
+     "bone_depth_max_mm": 9.22,
+     "bones": [
+      [
+       "cuboid_r",
+       21
+      ],
+      [
+       "metatarsals_r",
+       21
+      ],
+      [
+       "calcaneus_r",
+       10
+      ],
+      [
+       "navicular_r",
+       9
+      ]
+     ]
+    },
+    {
+     "id": "fat_subcut_thigh_l",
+     "sys": "fat",
+     "n": 10460,
+     "bone_in_n": 57,
+     "bone_in_frac": 0.00545,
+     "bone_depth_max_mm": 9.02,
+     "bones": [
+      [
+       "femur_l",
+       30
+      ],
+      [
+       "patella_l",
+       26
+      ],
+      [
+       "hip_bone_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+     "sys": "muscle",
+     "n": 1725,
+     "bone_in_n": 197,
+     "bone_in_frac": 0.1142,
+     "bone_depth_max_mm": 9.0,
+     "bones": [
+      [
+       "humerus_l",
+       139
+      ],
+      [
+       "metacarpals_l",
+       30
+      ],
+      [
+       "carpals_l_q212",
+       24
+      ],
+      [
+       "phalanges_hand_l",
+       4
+      ]
+     ]
+    },
+    {
+     "id": "extensor_digiti_minimi_r",
+     "sys": "muscle",
+     "n": 1078,
+     "out_n": 4,
+     "out_frac": 0.00371,
+     "out_max_mm": 0.61,
+     "out_p95_mm": 0.58,
+     "out_mean_mm": 0.43,
+     "out_worst_xyz": [
+      134.5,
+      67.5,
+      148.5
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 229,
+     "bone_in_frac": 0.21243,
+     "bone_depth_max_mm": 8.81,
+     "bones": [
+      [
+       "ulna_r",
+       118
+      ],
+      [
+       "humerus_r",
+       76
+      ],
+      [
+       "carpals_r_q212",
+       26
+      ],
+      [
+       "humerus_r_zfill",
+       20
+      ]
+     ]
+    },
+    {
+     "id": "biceps_brachii_l",
+     "sys": "muscle",
+     "n": 4359,
+     "bone_in_n": 103,
+     "bone_in_frac": 0.02363,
+     "bone_depth_max_mm": 8.75,
+     "bones": [
+      [
+       "humerus_l",
+       103
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_l_zfill",
+     "sys": "muscle",
+     "n": 1155,
+     "bone_in_n": 118,
+     "bone_in_frac": 0.10216,
+     "bone_depth_max_mm": 8.71,
+     "bones": [
+      [
+       "humerus_l",
+       118
+      ],
+      [
+       "radius_l_zfill",
+       18
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_r_zfill",
+     "sys": "muscle",
+     "n": 2784,
+     "bone_in_n": 496,
+     "bone_in_frac": 0.17816,
+     "bone_depth_max_mm": 8.63,
+     "bones": [
+      [
+       "humerus_r",
+       260
+      ],
+      [
+       "radius_r",
+       129
+      ],
+      [
+       "ulna_r",
+       127
+      ]
+     ]
+    },
+    {
+     "id": "pronator_teres_l",
+     "sys": "muscle",
+     "n": 1802,
+     "bone_in_n": 192,
+     "bone_in_frac": 0.10655,
+     "bone_depth_max_mm": 8.44,
+     "bones": [
+      [
+       "humerus_l",
+       191
+      ],
+      [
+       "radius_l_zfill",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "brachioradialis_l",
+     "sys": "muscle",
+     "n": 1802,
+     "out_n": 10,
+     "out_frac": 0.00555,
+     "out_max_mm": 2.14,
+     "out_p95_mm": 1.88,
+     "out_mean_mm": 1.22,
+     "out_worst_xyz": [
+      -259.0,
+      292.5,
+      -3.0
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 189,
+     "bone_in_frac": 0.10488,
+     "bone_depth_max_mm": 8.17,
+     "bones": [
+      [
+       "humerus_l",
+       189
+      ]
+     ]
+    },
+    {
+     "id": "common_iliac_a_l",
+     "sys": "vessel",
+     "n": 731,
+     "bone_in_n": 97,
+     "bone_in_frac": 0.13269,
+     "bone_depth_max_mm": 7.66,
+     "bones": [
+      [
+       "lumbar_vertebrae#1",
+       81
+      ],
+      [
+       "lumbar_vertebrae#2",
+       16
+      ]
+     ]
+    },
+    {
+     "id": "brachialis_l_zfill203s",
+     "sys": "muscle",
+     "n": 886,
+     "bone_in_n": 91,
+     "bone_in_frac": 0.10271,
+     "bone_depth_max_mm": 7.55,
+     "bones": [
+      [
+       "humerus_l",
+       65
+      ],
+      [
+       "radius_l_zfill",
+       31
+      ]
+     ]
+    },
+    {
+     "id": "fat_subcut_foot_l",
+     "sys": "fat",
+     "n": 1811,
+     "bone_in_n": 87,
+     "bone_in_frac": 0.04804,
+     "bone_depth_max_mm": 7.04,
+     "bones": [
+      [
+       "talus_l",
+       34
+      ],
+      [
+       "cuboid_l",
+       19
+      ],
+      [
+       "metatarsals_l",
+       15
+      ],
+      [
+       "calcaneus_l",
+       9
+      ]
+     ]
+    },
+    {
+     "id": "soft_unlabelled_thorax",
+     "sys": "fat",
+     "n": 16226,
+     "bone_in_n": 42,
+     "bone_in_frac": 0.00259,
+     "bone_depth_max_mm": 6.98,
+     "bones": [
+      [
+       "thoracic_vertebrae#9",
+       33
+      ],
+      [
+       "sternum",
+       3
+      ],
+      [
+       "ribs_r",
+       2
+      ],
+      [
+       "thoracic_vertebrae#4",
+       2
+      ]
+     ]
+    },
+    {
+     "id": "fat_deep_neck",
+     "sys": "fat",
+     "n": 2220,
+     "bone_in_n": 192,
+     "bone_in_frac": 0.08649,
+     "bone_depth_max_mm": 6.94,
+     "bones": [
+      [
+       "clavicle_l",
+       77
+      ],
+      [
+       "clavicle_r",
+       72
+      ],
+      [
+       "thoracic_vertebrae#10",
+       25
+      ],
+      [
+       "thoracic_vertebrae#11",
+       6
+      ]
+     ]
+    },
+    {
+     "id": "inferior_vena_cava",
+     "sys": "vessel",
+     "n": 740,
+     "bone_in_n": 134,
+     "bone_in_frac": 0.18108,
+     "bone_depth_max_mm": 6.92,
+     "bones": [
+      [
+       "lumbar_vertebrae#5",
+       35
+      ],
+      [
+       "lumbar_vertebrae#2",
+       28
+      ],
+      [
+       "lumbar_vertebrae#3",
+       28
+      ],
+      [
+       "lumbar_vertebrae#4",
+       22
+      ]
+     ]
+    },
+    {
+     "id": "flexor_pollicis_longus_l",
+     "sys": "muscle",
+     "n": 870,
+     "bone_in_n": 56,
+     "bone_in_frac": 0.06437,
+     "bone_depth_max_mm": 6.84,
+     "bones": [
+      [
+       "carpals_l_q212",
+       53
+      ],
+      [
+       "metacarpals_l",
+       2
+      ],
+      [
+       "radius_l",
+       1
+      ]
+     ]
+    },
+    {
+     "id": "common_iliac_a_r",
+     "sys": "vessel",
+     "n": 717,
+     "bone_in_n": 77,
+     "bone_in_frac": 0.10739,
+     "bone_depth_max_mm": 6.73,
+     "bones": [
+      [
+       "lumbar_vertebrae#1",
+       54
+      ],
+      [
+       "lumbar_vertebrae#2",
+       23
+      ]
+     ]
+    },
+    {
+     "id": "extensor_carpi_radialis_longus_l",
+     "sys": "muscle",
+     "n": 1857,
+     "out_n": 32,
+     "out_frac": 0.01723,
+     "out_max_mm": 2.19,
+     "out_p95_mm": 2.06,
+     "out_mean_mm": 1.17,
+     "out_worst_xyz": [
+      -258.5,
+      289.0,
+      -2.0
+     ],
+     "out_beyond_tol_n": 0,
+     "bone_in_n": 166,
+     "bone_in_frac": 0.08939,
+     "bone_depth_max_mm": 6.73,
+     "bones": [
+      [
+       "humerus_l",
+       163
+      ],
+      [
+       "carpals_l_q212",
+       3
+      ]
+     ]
+    },
+    {
+     "id": "fat_subcut_neck",
+     "sys": "fat",
+     "n": 4596,
+     "bone_in_n": 19,
+     "bone_in_frac": 0.00413,
+     "bone_depth_max_mm": 6.69,
+     "bones": [
+      [
+       "clavicle_r",
+       11
+      ],
+      [
+       "clavicle_l",
+       5
+      ],
+      [
+       "scapula_l",
+       3
+      ]
+     ]
+    }
+   ],
+   "bone_mostly_inside": [
+    {
+     "id": "iliopsoas_tendon_l",
+     "sys": "tendon",
+     "n": 30,
+     "bone_in_n": 16,
+     "bone_in_frac": 0.53333,
+     "bone_depth_max_mm": 5.2,
+     "bones": [
+      [
+       "femur_l",
+       16
+      ]
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,130 @@
+{
+ "task": "Q196 (2026-10-06): does a genuine UNADAPTED FEMALE BASE atlas model with an open licence exist and can it be downloaded here?",
+ "verdict": "NO. No open, downloadable, whole-body, FMA/TA-labelled female atlas exists in anything reachable from this sandbox. Z-Anatomy and BodyParts3D ship one male-derived body. Fallback built: the generic Z-Anatomy body with the 27 male-only objects removed, nothing fitted (build/viewer_base_female_q196). Not a female body; labelled as such on the page and in the hub.",
+ "checked": [
+  {
+   "source": "BodyParts3D / Anatomography (DBCLS)",
+   "licence": "CC BY-SA 2.1 Japan (attribution: 'BodyParts3D, (c) The Database Center for Life Science licensed under CC Attribution-Share Alike 2.1 Japan')",
+   "female_exists": "no evidence of any female release",
+   "evidence": [
+    "GitHub mirror Kevin-Mattheus-Moerman/BodyParts3D README (fetched 2026-10-06 from raw.githubusercontent.com): 'The data is currently, unfortunately, only for a single male model. More models will be added if these become available.' (version 3.0 / 20110915; 934 STL, ~1.4 GB per the earlier Q-note)",
+    "Zenodo 22727173 (BodyParts3D 4.3 complete mesh set + downloader, MIT code, data CC BY-SA 2.1 JP): 3,210 meshes of the one body; no female set mentioned",
+    "BodyParts3D 4.0 release data are extracted from the full-body MRI set 'TARO' (search result summary of the DBCLS download page); one body"
+   ],
+   "download_status": "original hosts BLOCKED: lifesciencedb.jp and dbarchive.biosciencedbc.jp -> CONNECT tunnel 403 / EGRESS_BLOCKED (curl and WebFetch). Only the male GitHub mirror (git clone via proxy; raw.githubusercontent.com 200) and Zenodo are reachable. A female release therefore could not be verified at the origin, but none is listed by any reachable mirror, README or the Z-Anatomy NOTICE.",
+   "size": "male mirror ~1.4 GB (934 STL)",
+   "missing": "the whole female body"
+  },
+  {
+   "source": "Z-Anatomy (pinned commit 6c7f9016bd5899ac8edafd31b9900c151df42ed6, local clone /home/user/lluisv/z-anatomy)",
+   "licence": "CC BY-SA 4.0 (BodyParts3D underneath CC BY-SA 2.1 JP); kidney and inner-ear parts CC BY-NC 4.0, excluded",
+   "female_exists": "no",
+   "evidence": [
+    "Q186 inventory (data/derived/Q186_zan_inventory.json, all 9 FBX files): no uterus, ovary, uterine tube, vagina, vulva, clitoris or breast ORGAN object; only skin 'Mammary region' / 'Inframammary region' patches (male contour) and labial vessels/pudendal vessels",
+    "27 male-only shipped objects (penis, scrotal/urogenital skin, testes, epididymides, seminal glands, prostate, ductus deferens, testicular vessels, urethra) are dropped for the female variant",
+    "Resources/Models/Readme.txt of the clone: 'These models may not be up to date ... www.z-anatomy.com/atlas'; z-anatomy.com is unreachable here (000), github.com/Z-Anatomy 403; Zenodo 4953712 (2021 .blend, 130 MB, CC BY-4.0 per record) is the same BodyParts3D-derived male-based body, older than the pinned commit"
+   ],
+   "download_status": "pinned clone already on disk; newer upstream releases (universities' Aug-2024 version) not reachable",
+   "missing": "all female-specific organs and a female body shape"
+  },
+  {
+   "source": "Zenodo search (reachable: zenodo.org API 200)",
+   "findings": [
+    {
+     "id": "14901199",
+     "title": "Alvar whole-body model (Aalto)",
+     "licence": "CC BY-SA 4.0",
+     "sex": "adult MALE voxel model, 82 tissues / 398 muscles, 2.2 GB HDF5",
+     "usable_as_female_base": false
+    },
+    {
+     "id": "15882019",
+     "title": "Segmented Internal Organs of the Visible Human Male",
+     "licence": "CC BY 4.0",
+     "sex": "male",
+     "usable_as_female_base": false
+    },
+    {
+     "id": "11047831",
+     "title": "Torso Organ Meshes (Grychtol)",
+     "licence": "none stated",
+     "sex": "derived from BodyParts3D (male); torso organs only",
+     "usable_as_female_base": false
+    },
+    {
+     "id": "22759852",
+     "title": "Visible Korean male head",
+     "licence": "CC BY-NC 4.0",
+     "sex": "male head only",
+     "usable_as_female_base": false
+    },
+    {
+     "query": "female whole body / pelvis uterus ovary mesh / female phantom",
+     "result": "no open female whole-body or female pelvic-organ mesh dataset found"
+    }
+   ]
+  },
+  {
+   "source": "HuBMAP Human Reference Atlas 3D Reference Object Library",
+   "licence": "CC BY 4.0",
+   "female_exists": "yes, ORGAN-level female reference objects (female uterus, ovaries, tubes, breast, kidneys ... largely from the Visible Human female); not a whole-body atlas, not FMA/TA-labelled limb muscles/vessels/nerves",
+   "download_status": "BLOCKED: cdn.humanatlas.io and humanatlas.io -> connection failed (000); github.com/hubmapconsortium 403 (raw README of ccf-releases reachable, GLBs are on the blocked CDN)",
+   "note": "a possible later route for female organs only, to be added to a base body, which would then be a mixed-source model, not an atlas base"
+  },
+  {
+   "source": "Visible Human Female (NLM)",
+   "licence": "NLM licence agreement (already used by this project)",
+   "note": "this is the own-reconstruction route (rows 2/3), not an unadapted atlas; her scans carry no uterus/ovary label either (Q168 FEMALE_PELVIC_ORGANS)"
+  },
+  {
+   "source": "Commercial / hosted",
+   "findings": "Zygote Body (paid, ~$200+/model), BioDigital (hosted viewer, no meshes), CGTrader/RenderHub female anatomy (commercial licences) -- not open, not used (docs/GEOMETRY_SOURCES.md, PROJECT_STATE 2026-09-09)"
+  }
+ ],
+ "built": {
+  "kind": "FALLBACK (not a genuine female body)",
+  "page": "build/viewer_base_female_q196/atlas_viewer_base_female.html (+ _geo_00..02.txt, external-bin)",
+  "command": "python3 scripts/zanatomy/build_zan_atlas_viewer.py --external-bin --target-body native_female",
+  "what": "the generic Z-Anatomy body in its native frame, the 27 male-only objects removed, nothing fitted to any specimen; same documented repairs as the male base page (3 mirrored left-side objects, muscle gap closure to 1 mm, decimation, skin patches except the urogenital region)",
+  "structures": 2939,
+  "triangles": 3118851,
+  "male_only_dropped": 27,
+  "reports": [
+   "data/derived/Q196_zan_female_native_build.json",
+   "data/derived/Q196_zan_female_native_report.json"
+  ],
+  "known_visible_limits": "male body shape (no breasts, male pelvis), a perineal opening where the urogenital skin was removed, no female reproductive organs"
+ },
+ "queue": [
+  {
+   "id": "Q196-BP3D-FEMALE",
+   "what": "genuine female base from BodyParts3D if a female release exists",
+   "blocker": "origin hosts lifesciencedb.jp / dbarchive.biosciencedbc.jp are blocked by the egress proxy (403); no reachable mirror carries a female set (only the male 3.0/4.x mirrors)",
+   "unblock": "owner downloads any DBCLS female release and drops it into a session-visible directory, or the egress policy allows dbarchive.biosciencedbc.jp"
+  },
+  {
+   "id": "Q196-HRA-FEMALE-ORGANS",
+   "what": "HRA CC BY 4.0 female reference organs (uterus, ovaries, tubes, breast) as an optional add-on layer",
+   "blocker": "cdn.humanatlas.io blocked; organs only, VH-female derived, mixed-source"
+  }
+ ],
+ "male_base_repairs": {
+  "page": "build/viewer_zan_atlas (published HdYCRuvGP8ESbggoRWCNBF), report data/derived/Q157_zan_atlas_report.json",
+  "adapted_to_a_specimen": false,
+  "evidence": "default path of build_zan_atlas_viewer.py never imports a Visible Human transfer; only --target-body vhf (fitted female) or Q195's vhm path do",
+  "repairs_carried": {
+   "contralateral_replacements": "3 left-side source objects replaced by the mirrored right side (iliopsoas fascia l: displaced ~19 mm; iliopectineal arch l: 23-vertex stub; zonular fibres l: 0.3 mm stub); 1,237 L/R pairs audited, 14 flagged (list in the report)",
+   "declarative_correction": "1 file, data/corrections/zanatomy/radial_n.json (posterior interosseous nerve, both sides; cited)",
+   "muscle_gap_closure": "410 of 412 movable muscles shifted <= 3 mm toward a 1 mm interface (Stecco 2008, Pirri 2021); median gap 1.15 -> 0.87 mm; vertices inside a neighbour 10.1 -> 9.7 %; each moved muscle badged",
+   "source_cleaning": "56 decal/origin-insertion-marker objects dropped, 1 unplaced prototype, 1 vessel name-map split, 4 sides inferred, 2 swapped; meshes welded and oriented outward; frame origin moved to the hip-joint midpoint",
+   "skin": "250 Integument patches shipped as their own layer; hair (6 objects) not shipped",
+   "excluded_nc": "30 kidney / inner-ear objects (CC BY-NC) excluded",
+   "decimation": "quadric edge collapse to 3.14 M triangles"
+  },
+  "toggle": "python3 scripts/zanatomy/build_zan_atlas_viewer.py --external-bin --pure-source -o build/viewer_base_male_pure_q196/atlas_viewer_base_male_pure.html --q162-report data/derived/Q196_zan_male_pure_build.json --report data/derived/Q196_zan_male_pure_report.json  (no declarative correction, no contralateral repair, no gap closure; decimation, skin, welding/orientation and NC exclusion stay). Built 2,966 structures, 3.14 M triangles, headless 0 page errors; NOT hubbed or published (a separate page would need an owner decision)."
+ },
+ "page_checks": {
+  "headless": "Playwright chromium swiftshader, desktop 1400x900 + phone 390x844: 0 page errors, boot completes, 2,939 meshes / 3,118,851 tris, no horizontal scroll, model renders (build/q196_renders/base_female_{desktop,phone}.png, gitignored); only 404 is the absent optional clinical_needle_tool.js (clinical files deliberately not staged)."
+ },
+ "wording_change_needed_on_published_Z_female_page": "scripts/zanatomy/build_zan_atlas_viewer.py VHF_WORDING: <title> 'Z-Anatomy female' -> 'Z-Anatomy fitted to the female'; <h1> -> 'NMSK Atlas — Z-Anatomy, fitted' (short for phone); update tests/test_build_zan_atlas_viewer.py::test_female_wording_replaces_each_template_anchor_once. Wording only; needs a rebuild+republish of build/viewer_zan_female (not done here)."
+}

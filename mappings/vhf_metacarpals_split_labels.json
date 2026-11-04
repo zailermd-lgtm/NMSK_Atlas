@@ -1,0 +1,22 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE right metacarpals I-V, individually split from the merged metacarpals_right CT mask (scripts/vhf_split_metacarpals.py: marker-controlled watershed on her own torso CT raw HU). See PROJECT_STATE.md Q125."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female 'Normal' CT via the NCI Imaging Data Commons (series b9cf8e7a-2505-4137-9ae3-f8d0cf756c13).",
+ "task": "vhf_metacarpals_split",
+ "version": "2026-09-22",
+ "labels": {
+  "1": "metacarpal_1_r",
+  "2": "metacarpal_2_r",
+  "3": "metacarpal_3_r",
+  "4": "metacarpal_4_r",
+  "5": "metacarpal_5_r"
+ },
+ "atlas": {
+  "metacarpal_1_r": {"atlas_id": "metacarpal_1_r", "relationship": "exact", "note": "Thumb metacarpal, 5.4 cm3."},
+  "metacarpal_2_r": {"atlas_id": "metacarpal_2_r", "relationship": "exact", "note": "Index metacarpal, 6.94 cm3."},
+  "metacarpal_3_r": {"atlas_id": "metacarpal_3_r", "relationship": "exact", "note": "Middle metacarpal, 7.05 cm3."},
+  "metacarpal_4_r": {"atlas_id": "metacarpal_4_r", "relationship": "exact", "note": "Ring metacarpal, 4.18 cm3."},
+  "metacarpal_5_r": {"atlas_id": "metacarpal_5_r", "relationship": "exact", "note": "Little-finger metacarpal, 3.85 cm3."}
+ }
+}

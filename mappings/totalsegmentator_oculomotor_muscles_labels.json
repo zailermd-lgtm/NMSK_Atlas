@@ -1,0 +1,127 @@
+{
+  "_README": [
+    "Label id -> structure name for TotalSegmentator v2's 'oculomotor_muscles' task, plus the reviewed mapping onto atlas entities.",
+    "A KEY, not data: it contains no anatomy and no geometry. Entries with atlas_id null are decisions NOT to map, each with its reason."
+  ],
+  "source": "Wasserthal J et al., TotalSegmentator (Radiology: AI 2023, doi:10.1148/ryai.230024); class map transcribed from totalsegmentator/map_to_binary.py, v2.18.0, Apache-2.0. Task listed in the project README under 'Openly available for any usage (Apache-2.0 license)'.",
+  "task": "oculomotor_muscles",
+  "version": "v2.18.0",
+  "labels": {
+    "1": "skull",
+    "2": "eyeball_right",
+    "3": "lateral_rectus_muscle_right",
+    "4": "superior_oblique_muscle_right",
+    "5": "levator_palpebrae_superioris_right",
+    "6": "superior_rectus_muscle_right",
+    "7": "medial_rectus_muscle_left",
+    "8": "inferior_oblique_muscle_right",
+    "9": "inferior_rectus_muscle_right",
+    "10": "optic_nerve_left",
+    "11": "eyeball_left",
+    "12": "lateral_rectus_muscle_left",
+    "13": "superior_oblique_muscle_left",
+    "14": "levator_palpebrae_superioris_left",
+    "15": "superior_rectus_muscle_left",
+    "16": "medial_rectus_muscle_right",
+    "17": "inferior_oblique_muscle_left",
+    "18": "inferior_rectus_muscle_left",
+    "19": "optic_nerve_right"
+  },
+  "atlas": {
+    "lateral_rectus_muscle_right": {
+      "atlas_id": "lateral_rectus_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "lateral_rectus_muscle_left": {
+      "atlas_id": "lateral_rectus_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "medial_rectus_muscle_right": {
+      "atlas_id": "medial_rectus_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "medial_rectus_muscle_left": {
+      "atlas_id": "medial_rectus_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "superior_rectus_muscle_right": {
+      "atlas_id": "superior_rectus_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "superior_rectus_muscle_left": {
+      "atlas_id": "superior_rectus_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "inferior_rectus_muscle_right": {
+      "atlas_id": "inferior_rectus_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "inferior_rectus_muscle_left": {
+      "atlas_id": "inferior_rectus_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "superior_oblique_muscle_right": {
+      "atlas_id": "superior_oblique_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "superior_oblique_muscle_left": {
+      "atlas_id": "superior_oblique_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "inferior_oblique_muscle_right": {
+      "atlas_id": "inferior_oblique_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "inferior_oblique_muscle_left": {
+      "atlas_id": "inferior_oblique_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "levator_palpebrae_superioris_right": {
+      "atlas_id": "levator_palpebrae_superioris_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "levator_palpebrae_superioris_left": {
+      "atlas_id": "levator_palpebrae_superioris_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "optic_nerve_right": {
+      "atlas_id": "optic_n",
+      "relationship": "part_of",
+      "note": "The atlas carries the optic nerve as one unsided entity."
+    },
+    "optic_nerve_left": {
+      "atlas_id": "optic_n",
+      "relationship": "part_of",
+      "note": "The atlas carries the optic nerve as one unsided entity."
+    },
+    "skull": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Also produced by craniofacial_structures, which is the task mapped onto 'cranium'; not mapped twice."
+    },
+    "eyeball_right": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "No eyeball entity in this atlas. Candidate for authoring."
+    },
+    "eyeball_left": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "No eyeball entity in this atlas. Candidate for authoring."
+    }
+  }
+}

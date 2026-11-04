@@ -1,0 +1,279 @@
+{
+ "registration": {
+  "scale": 0.9935,
+  "rotation": [
+   [
+    0.99984,
+    -0.00609,
+    -0.01661
+   ],
+   [
+    0.00638,
+    0.99983,
+    0.01739
+   ],
+   [
+    0.0165,
+    -0.01749,
+    0.99971
+   ]
+  ],
+  "translation_mm": [
+   2.57,
+   -32.66,
+   5.43
+  ],
+  "n_source": 24617,
+  "n_target": 160000,
+  "residual_mm": {
+   "median": 1.17,
+   "p90": 2.5,
+   "rms": 1.87
+  },
+  "det_R": 1.0
+ },
+ "page_prostate": {
+  "volume_cm3": 15.9,
+  "bounds": [
+   [
+    -17.8,
+    -36.8,
+    -35.2
+   ],
+   [
+    22.5,
+    -3.0,
+    -8.0
+   ]
+  ],
+  "centroid": [
+   3.4,
+   -18.9,
+   -23.1
+  ],
+  "triangles": 3750
+ },
+ "hra_zone_union": {
+  "centroid": [
+   2.3,
+   -23.2,
+   -8.8
+  ],
+  "bounds": [
+   [
+    -12.4,
+    -41.2,
+    -24.9
+   ],
+   [
+    17.0,
+    -5.6,
+    5.5
+   ]
+  ],
+  "closed_zone_volumes_cm3": {
+   "prostate_peripheral_zone_l": 4.4,
+   "prostate_peripheral_zone_r": 4.5,
+   "prostate_transition_zone_l": 0.77,
+   "prostate_transition_zone_r": 0.8,
+   "prostate_central_zone_l": null,
+   "prostate_central_zone_r": null,
+   "prostate_afms_l": 0.67,
+   "prostate_afms_r": 0.68,
+   "seminal_colliculus": null
+  }
+ },
+ "centroid_offset_mm": 15.0,
+ "centroid_offset_vector_mm": [
+  -1.1,
+  -4.4,
+  14.3
+ ],
+ "mean_inside_page_prostate_pct": 2.4,
+ "min_inside_page_prostate_pct": 0.0,
+ "rule": {
+  "max_centroid_offset_mm": 8.0,
+  "min_inside_pct": 60.0
+ },
+ "zones": {
+  "prostate_peripheral_zone_l": {
+   "vertices": 1491,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 1.4,
+    "rectum": 0.0,
+    "prostate": 1.1,
+    "urethra_male": 1.7
+   },
+   "bone_min_mm": 8.47,
+   "skin_distance_min_mm": 85.4,
+   "centroid": [
+    -3.7,
+    -25.2,
+    -11.2
+   ]
+  },
+  "prostate_peripheral_zone_r": {
+   "vertices": 1508,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 1.3,
+    "rectum": 0.0,
+    "prostate": 1.9,
+    "urethra_male": 1.5
+   },
+   "bone_min_mm": 6.64,
+   "skin_distance_min_mm": 87.1,
+   "centroid": [
+    8.3,
+    -25.2,
+    -11.0
+   ]
+  },
+  "prostate_transition_zone_l": {
+   "vertices": 371,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 8.6,
+    "rectum": 0.0,
+    "prostate": 3.2,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 14.94,
+   "skin_distance_min_mm": 91.8,
+   "centroid": [
+    -1.4,
+    -22.3,
+    -6.8
+   ]
+  },
+  "prostate_transition_zone_r": {
+   "vertices": 419,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 7.2,
+    "rectum": 0.0,
+    "prostate": 4.5,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 13.75,
+   "skin_distance_min_mm": 93.8,
+   "centroid": [
+    5.9,
+    -22.2,
+    -6.6
+   ]
+  },
+  "prostate_central_zone_l": {
+   "vertices": 730,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 3.2,
+    "rectum": 0.0,
+    "prostate": 5.3,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 23.89,
+   "skin_distance_min_mm": 100.0,
+   "centroid": [
+    -2.1,
+    -16.0,
+    -12.8
+   ]
+  },
+  "prostate_central_zone_r": {
+   "vertices": 806,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 3.1,
+    "rectum": 0.0,
+    "prostate": 5.7,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 23.05,
+   "skin_distance_min_mm": 101.9,
+   "centroid": [
+    6.3,
+    -15.7,
+    -12.8
+   ]
+  },
+  "prostate_afms_l": {
+   "vertices": 649,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 4.0,
+    "rectum": 0.0,
+    "prostate": 0.0,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 8.56,
+   "skin_distance_min_mm": 84.9,
+   "centroid": [
+    -1.0,
+    -27.9,
+    0.1
+   ]
+  },
+  "prostate_afms_r": {
+   "vertices": 641,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 2.3,
+    "rectum": 0.0,
+    "prostate": 0.0,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 6.75,
+   "skin_distance_min_mm": 86.0,
+   "centroid": [
+    5.3,
+    -28.2,
+    0.3
+   ]
+  },
+  "seminal_colliculus": {
+   "vertices": 180,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 0.0,
+    "rectum": 0.0,
+    "prostate": 0.0,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 16.59,
+   "skin_distance_min_mm": 95.1,
+   "centroid": [
+    2.4,
+    -31.0,
+    -6.1
+   ]
+  },
+  "_base": {
+   "vertices": 1167,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 7.2,
+    "rectum": 0.0,
+    "prostate": 0.8,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 11.72,
+   "skin_distance_min_mm": 87.9,
+   "centroid": [
+    3.0,
+    -19.1,
+    -2.4
+   ]
+  },
+  "_apex": {
+   "vertices": 294,
+   "inside_page_organ_pct": {
+    "urinary_bladder": 0.0,
+    "rectum": 0.0,
+    "prostate": 0.0,
+    "urethra_male": 0.0
+   },
+   "bone_min_mm": 7.01,
+   "skin_distance_min_mm": 86.2,
+   "centroid": [
+    2.2,
+    -36.6,
+    -6.7
+   ]
+  }
+ },
+ "ships": false,
+ "reason": "the registered HRA prostate lies 15.0 mm from this page's prostate (centroid) and only 2.4 % of the zone vertices fall inside it: the zones would float outside the page's prostate; the bone registration (median 1.17 mm, p90 2.5 mm) cannot explain the offset",
+ "shipped": []
+}

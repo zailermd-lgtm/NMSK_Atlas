@@ -1,0 +1,55 @@
+{
+  "_README": [
+    "Label id -> structure name for TotalSegmentator v2's 'craniofacial_structures' task, plus the reviewed mapping onto atlas entities.",
+    "A KEY, not data: it contains no anatomy and no geometry. Entries with atlas_id null are decisions NOT to map, each with its reason."
+  ],
+  "source": "Wasserthal J et al., TotalSegmentator (Radiology: AI 2023, doi:10.1148/ryai.230024); class map transcribed from totalsegmentator/map_to_binary.py, v2.18.0, Apache-2.0. Task listed in the project README under 'Openly available for any usage (Apache-2.0 license)'.",
+  "task": "craniofacial_structures",
+  "version": "v2.18.0",
+  "labels": {
+    "1": "mandible",
+    "2": "teeth_lower",
+    "3": "skull",
+    "4": "head",
+    "5": "sinus_maxillary",
+    "6": "sinus_frontal",
+    "7": "teeth_upper"
+  },
+  "atlas": {
+    "mandible": {
+      "atlas_id": "mandible",
+      "relationship": "exact",
+      "note": ""
+    },
+    "skull": {
+      "atlas_id": "cranium",
+      "relationship": "part_of",
+      "note": "One mask over the whole skull minus the mandible. The atlas carries the individual cranial and facial bones, which CT at 1.5 mm cannot separate along their sutures; the composite entity 'cranium' receives it, the same way 'ribs_l' receives twelve rib masks."
+    },
+    "teeth_lower": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "No dental entities in this atlas."
+    },
+    "teeth_upper": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "No dental entities in this atlas."
+    },
+    "head": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Whole-head soft-tissue envelope, not an anatomical entity."
+    },
+    "sinus_maxillary": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Air space."
+    },
+    "sinus_frontal": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Air space."
+    }
+  }
+}

@@ -1,0 +1,1243 @@
+{
+ "atlas": {
+  "Model_140_Malleus_Bone": {
+   "bytes": 119479,
+   "sha256": "09b0f86f72c5dd0da5719f26f2652758b13614bf6f361315b14f3827729f373f",
+   "url": "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models/Model_140_Malleus_Bone.vtk"
+  },
+  "Model_14_Incus_Bone": {
+   "bytes": 100943,
+   "sha256": "538b9692d27bf66457efc4efdcf75aec1781a2d92f82343f4dc43e12611832a9",
+   "url": "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models/Model_14_Incus_Bone.vtk"
+  },
+  "Model_17_Stapes_Bone": {
+   "bytes": 152781,
+   "sha256": "6b22ca62d3d6e2a1bab66b95020ee9129e4bbb9966c34fa09fab49fdcd542d95",
+   "url": "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models/Model_17_Stapes_Bone.vtk"
+  },
+  "Model_10_Labyrinth": {
+   "bytes": 627586,
+   "sha256": "d0a5940d35d084263618cbf8f3ede048e2e93616e2f684b1ca54f6e132c6db5c",
+   "url": "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models/Model_10_Labyrinth.vtk"
+  },
+  "Model_23_Osseous_Spiral_Lamina": {
+   "bytes": 158911,
+   "sha256": "63142c483b1f8ecfcd6b0e51c8cd3af4aff57044f5ef0bb7147d0adae241e635",
+   "url": "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models/Model_23_Osseous_Spiral_Lamina.vtk"
+  },
+  "Model_12_Fenestra_Rotunda": {
+   "bytes": 41252,
+   "sha256": "c63124ee52ccdec37651fa66b0e4118f55a783606ac4351499e1d76c015ad456",
+   "url": "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models/Model_12_Fenestra_Rotunda.vtk"
+  },
+  "Model_28_Stapedius_Muscle": {
+   "bytes": 48092,
+   "sha256": "663dd93ebe26b25cc9d3b815411a5431fed6814af96374553b0fd4bcb557e68c",
+   "url": "https://www.openanatomy.org/atlases/nac/inner-ear-2018-02/models/Model_28_Stapedius_Muscle.vtk"
+  }
+ },
+ "decimate": 0.4,
+ "pages": {
+  "base_m": {
+   "labyrinth_l": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.20403,
+    "cm3_undecimated": 0.20442,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4447,
+    "dihedral_mean_deg": 22.0,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 488.7,
+    "ext_mm": [
+     9.8,
+     16.3,
+     18.8
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 2.8
+     },
+     {
+      "id": "zan_lateral_occipitotemporal_gyrus_l",
+      "name": "Lateral occipitotemporal gyrus",
+      "cat": "cns",
+      "pct_of_volume": 0.5
+     }
+    ],
+    "inside_temporal_bone_pct": 64.5,
+    "inside_skin_pct": 0.0
+   },
+   "spiral_lamina_l": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00711,
+    "cm3_undecimated": 0.00713,
+    "tris": 2261,
+    "tris_atlas": 5652,
+    "verts": 1135,
+    "dihedral_mean_deg": 18.3,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.04,
+    "area_mm2": 54.4,
+    "ext_mm": [
+     3.2,
+     6.6,
+     8.0
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 91.4,
+    "inside_skin_pct": 0.0
+   },
+   "fenestra_cochleae_l": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.0008,
+    "cm3_undecimated": 0.0008,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.4,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 7.3,
+    "ext_mm": [
+     2.1,
+     1.9,
+     1.7
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": 0.0
+   },
+   "stapedius_l": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00404,
+    "cm3_undecimated": 0.00405,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 14.0,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 17.3,
+    "ext_mm": [
+     2.0,
+     3.2,
+     4.6
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 2.2,
+    "inside_skin_pct": 0.0
+   },
+   "_fit_l": {
+    "mode": "reflect",
+    "s": 0.3177628509919141,
+    "R": [
+     [
+      -0.878377,
+      -0.238963,
+      0.413945
+     ],
+     [
+      0.471447,
+      -0.29058,
+      0.832647
+     ],
+     [
+      0.078688,
+      -0.926531,
+      -0.367897
+     ]
+    ],
+    "t": [
+     -41.96674,
+     718.251905,
+     -5.189311
+    ],
+    "rms": 0.318663600581635,
+    "n": 6661,
+    "median_mm": 0.21398242229852035,
+    "p95_mm": 0.6022764357614432,
+    "max_mm": 1.2325821341550056
+   },
+   "labyrinth_r": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.20402,
+    "cm3_undecimated": 0.20442,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4447,
+    "dihedral_mean_deg": 22.0,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 488.7,
+    "ext_mm": [
+     9.8,
+     16.3,
+     18.8
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_r",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 2.2
+     },
+     {
+      "id": "zan_lateral_occipitotemporal_gyrus_r",
+      "name": "Lateral occipitotemporal gyrus",
+      "cat": "cns",
+      "pct_of_volume": 0.8
+     },
+     {
+      "id": "stapes_r",
+      "name": "Stapes (ear ossicle)",
+      "cat": "bone",
+      "pct_of_volume": 0.7
+     }
+    ],
+    "inside_temporal_bone_pct": 66.7,
+    "inside_skin_pct": 0.0
+   },
+   "spiral_lamina_r": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00711,
+    "cm3_undecimated": 0.00713,
+    "tris": 2261,
+    "tris_atlas": 5652,
+    "verts": 1135,
+    "dihedral_mean_deg": 18.3,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.04,
+    "area_mm2": 54.4,
+    "ext_mm": [
+     3.2,
+     6.6,
+     8.0
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 91.2,
+    "inside_skin_pct": 0.0
+   },
+   "fenestra_cochleae_r": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.0008,
+    "cm3_undecimated": 0.0008,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.5,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 7.3,
+    "ext_mm": [
+     2.1,
+     1.9,
+     1.7
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": 0.0
+   },
+   "stapedius_r": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00404,
+    "cm3_undecimated": 0.00405,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 14.1,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 17.3,
+    "ext_mm": [
+     2.0,
+     3.2,
+     4.6
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 1.8,
+    "inside_skin_pct": 0.0
+   },
+   "_fit_r": {
+    "mode": "proper",
+    "s": 0.3177617778316617,
+    "R": [
+     [
+      0.87838,
+      0.238974,
+      -0.413933
+     ],
+     [
+      0.471441,
+      -0.290591,
+      0.832647
+     ],
+     [
+      0.078695,
+      -0.926525,
+      -0.367911
+     ]
+    ],
+    "t": [
+     41.966831,
+     718.25191,
+     -5.189351
+    ],
+    "rms": 0.3186732514038646,
+    "n": 6661,
+    "median_mm": 0.21396323453191438,
+    "p95_mm": 0.6023416157805774,
+    "max_mm": 1.232667819691656
+   }
+  },
+  "base_f": {
+   "labyrinth_l": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.16562,
+    "cm3_undecimated": 0.16595,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4447,
+    "dihedral_mean_deg": 22.0,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 425.3,
+    "ext_mm": [
+     9.2,
+     15.0,
+     17.5
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 2.7
+     },
+     {
+      "id": "zan_lateral_occipitotemporal_gyrus_l",
+      "name": "Lateral occipitotemporal gyrus",
+      "cat": "cns",
+      "pct_of_volume": 1.4
+     }
+    ],
+    "inside_temporal_bone_pct": 64.6,
+    "inside_skin_pct": 0.0
+   },
+   "spiral_lamina_l": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00577,
+    "cm3_undecimated": 0.00579,
+    "tris": 2260,
+    "tris_atlas": 5652,
+    "verts": 1132,
+    "dihedral_mean_deg": 18.2,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 47.3,
+    "ext_mm": [
+     3.0,
+     6.2,
+     7.5
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 2.1
+     }
+    ],
+    "inside_temporal_bone_pct": 88.1,
+    "inside_skin_pct": 0.0
+   },
+   "fenestra_cochleae_l": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.00065,
+    "cm3_undecimated": 0.00065,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.7,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 6.4,
+    "ext_mm": [
+     2.0,
+     1.7,
+     1.6
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": 0.0
+   },
+   "stapedius_l": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00328,
+    "cm3_undecimated": 0.00329,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 14.0,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 15.0,
+    "ext_mm": [
+     1.9,
+     3.0,
+     4.2
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 1.8,
+    "inside_skin_pct": 0.0
+   },
+   "_fit_l": {
+    "mode": "reflect",
+    "s": 0.29642978060258646,
+    "R": [
+     [
+      -0.873909,
+      -0.218739,
+      0.434093
+     ],
+     [
+      0.484321,
+      -0.315711,
+      0.815941
+     ],
+     [
+      0.04143,
+      -0.923299,
+      -0.381842
+     ]
+    ],
+    "t": [
+     -39.709405,
+     712.827839,
+     -4.072029
+    ],
+    "rms": 0.3145642123416223,
+    "n": 6661,
+    "median_mm": 0.2058179390403556,
+    "p95_mm": 0.578998499315445,
+    "max_mm": 1.2989597559293604
+   },
+   "labyrinth_r": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.16563,
+    "cm3_undecimated": 0.16596,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4447,
+    "dihedral_mean_deg": 22.0,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 425.3,
+    "ext_mm": [
+     9.2,
+     15.0,
+     17.5
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_r",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 3.1
+     },
+     {
+      "id": "zan_lateral_occipitotemporal_gyrus_r",
+      "name": "Lateral occipitotemporal gyrus",
+      "cat": "cns",
+      "pct_of_volume": 0.8
+     },
+     {
+      "id": "stapes_r",
+      "name": "Stapes (ear ossicle)",
+      "cat": "bone",
+      "pct_of_volume": 0.7
+     },
+     {
+      "id": "zan_inferior_temporal_sulcus_r",
+      "name": "Inferior temporal sulcus",
+      "cat": "cns",
+      "pct_of_volume": 0.5
+     }
+    ],
+    "inside_temporal_bone_pct": 66.3,
+    "inside_skin_pct": 0.0
+   },
+   "spiral_lamina_r": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00577,
+    "cm3_undecimated": 0.00579,
+    "tris": 2261,
+    "tris_atlas": 5652,
+    "verts": 1135,
+    "dihedral_mean_deg": 18.2,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.04,
+    "area_mm2": 47.3,
+    "ext_mm": [
+     3.0,
+     6.2,
+     7.5
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_r",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 2.5
+     }
+    ],
+    "inside_temporal_bone_pct": 86.8,
+    "inside_skin_pct": 0.0
+   },
+   "fenestra_cochleae_r": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.00065,
+    "cm3_undecimated": 0.00065,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.7,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 6.4,
+    "ext_mm": [
+     2.0,
+     1.7,
+     1.6
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": 0.0
+   },
+   "stapedius_r": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00328,
+    "cm3_undecimated": 0.00329,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 14.0,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 15.0,
+    "ext_mm": [
+     1.9,
+     3.0,
+     4.2
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 2.4,
+    "inside_skin_pct": 0.0
+   },
+   "_fit_r": {
+    "mode": "proper",
+    "s": 0.2964360692871333,
+    "R": [
+     [
+      0.873911,
+      0.218722,
+      -0.434098
+     ],
+     [
+      0.48432,
+      -0.315725,
+      0.815936
+     ],
+     [
+      0.041407,
+      -0.923298,
+      -0.381847
+     ]
+    ],
+    "t": [
+     39.709209,
+     712.827759,
+     -4.071948
+    ],
+    "rms": 0.31457920142303025,
+    "n": 6661,
+    "median_mm": 0.20591394690085463,
+    "p95_mm": 0.5790214564145622,
+    "max_mm": 1.299016558460052
+   }
+  },
+  "comb_m": {
+   "labyrinth_l": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.18433,
+    "cm3_undecimated": 0.18473,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4448,
+    "dihedral_mean_deg": 22.0,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 456.7,
+    "ext_mm": [
+     9.4,
+     15.5,
+     18.2
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 11.1
+     }
+    ],
+    "inside_temporal_bone_pct": 64.7,
+    "inside_skin_pct": 0.0
+   },
+   "spiral_lamina_l": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00642,
+    "cm3_undecimated": 0.00644,
+    "tris": 2261,
+    "tris_atlas": 5652,
+    "verts": 1135,
+    "dihedral_mean_deg": 18.2,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.04,
+    "area_mm2": 50.8,
+    "ext_mm": [
+     3.1,
+     6.4,
+     7.7
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 28.4
+     }
+    ],
+    "inside_temporal_bone_pct": 91.3,
+    "inside_skin_pct": 0.0
+   },
+   "fenestra_cochleae_l": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.00072,
+    "cm3_undecimated": 0.00072,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.7,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 6.8,
+    "ext_mm": [
+     2.0,
+     1.8,
+     1.7
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": 0.0
+   },
+   "stapedius_l": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00365,
+    "cm3_undecimated": 0.00366,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 14.0,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 16.1,
+    "ext_mm": [
+     2.0,
+     3.1,
+     4.4
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 2.3,
+    "inside_skin_pct": 0.0
+   },
+   "_fit_l": {
+    "mode": "reflect",
+    "s": 0.30721490923855027,
+    "R": [
+     [
+      -0.893881,
+      -0.210646,
+      0.395733
+     ],
+     [
+      0.446254,
+      -0.333784,
+      0.830328
+     ],
+     [
+      0.042816,
+      -0.918812,
+      -0.392366
+     ]
+    ],
+    "t": [
+     -35.674965,
+     747.076459,
+     23.844476
+    ],
+    "rms": 0.30814811978233364,
+    "n": 6661,
+    "median_mm": 0.20685456761253326,
+    "p95_mm": 0.5822617118238056,
+    "max_mm": 1.1923542967238316
+   },
+   "labyrinth_r": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.18432,
+    "cm3_undecimated": 0.18471,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4448,
+    "dihedral_mean_deg": 22.1,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 456.7,
+    "ext_mm": [
+     9.6,
+     15.4,
+     18.3
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_r",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 2.6
+     }
+    ],
+    "inside_temporal_bone_pct": 65.4,
+    "inside_skin_pct": null
+   },
+   "spiral_lamina_r": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00641,
+    "cm3_undecimated": 0.00644,
+    "tris": 2260,
+    "tris_atlas": 5652,
+    "verts": 1132,
+    "dihedral_mean_deg": 18.2,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 50.8,
+    "ext_mm": [
+     3.2,
+     6.4,
+     7.7
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_r",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 2.6
+     }
+    ],
+    "inside_temporal_bone_pct": 92.1,
+    "inside_skin_pct": null
+   },
+   "fenestra_cochleae_r": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.00072,
+    "cm3_undecimated": 0.00072,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.7,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 6.8,
+    "ext_mm": [
+     2.0,
+     1.7,
+     1.7
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": null
+   },
+   "stapedius_r": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00365,
+    "cm3_undecimated": 0.00366,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 13.9,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 16.1,
+    "ext_mm": [
+     1.8,
+     3.2,
+     4.4
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 2.0,
+    "inside_skin_pct": null
+   },
+   "_fit_r": {
+    "mode": "proper",
+    "s": 0.30720479055156036,
+    "R": [
+     [
+      0.861784,
+      0.266861,
+      -0.431408
+     ],
+     [
+      0.501377,
+      -0.318778,
+      0.804364
+     ],
+     [
+      0.07713,
+      -0.909487,
+      -0.408516
+     ]
+    ],
+    "t": [
+     45.414645,
+     749.61722,
+     25.426759
+    ],
+    "rms": 0.3080752700750247,
+    "n": 6661,
+    "median_mm": 0.2067515859625268,
+    "p95_mm": 0.5820558689648423,
+    "max_mm": 1.192300783768847
+   }
+  },
+  "comb_f": {
+   "labyrinth_l": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.17262,
+    "cm3_undecimated": 0.17299,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4447,
+    "dihedral_mean_deg": 22.0,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 437.2,
+    "ext_mm": [
+     9.2,
+     15.3,
+     17.8
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 3.3
+     },
+     {
+      "id": "zan_inferior_temporal_sulcus_l",
+      "name": "Inferior temporal sulcus",
+      "cat": "cns",
+      "pct_of_volume": 0.7
+     },
+     {
+      "id": "stapes_l",
+      "name": "Stapes (ear ossicle)",
+      "cat": "bone",
+      "pct_of_volume": 0.5
+     },
+     {
+      "id": "zan_lateral_occipitotemporal_gyrus_l",
+      "name": "Lateral occipitotemporal gyrus",
+      "cat": "cns",
+      "pct_of_volume": 0.5
+     }
+    ],
+    "inside_temporal_bone_pct": 67.3,
+    "inside_skin_pct": 100.0
+   },
+   "spiral_lamina_l": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00602,
+    "cm3_undecimated": 0.00603,
+    "tris": 2261,
+    "tris_atlas": 5652,
+    "verts": 1135,
+    "dihedral_mean_deg": 18.0,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.04,
+    "area_mm2": 48.6,
+    "ext_mm": [
+     3.0,
+     6.2,
+     7.6
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 3.5
+     }
+    ],
+    "inside_temporal_bone_pct": 89.7,
+    "inside_skin_pct": 100.0
+   },
+   "fenestra_cochleae_l": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.00067,
+    "cm3_undecimated": 0.00068,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.8,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 6.6,
+    "ext_mm": [
+     2.0,
+     1.7,
+     1.6
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_l",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 10.8
+     }
+    ],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": 100.0
+   },
+   "stapedius_l": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00342,
+    "cm3_undecimated": 0.00343,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 14.0,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 15.4,
+    "ext_mm": [
+     1.9,
+     3.1,
+     4.3
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 2.4,
+    "inside_skin_pct": 100.0
+   },
+   "_fit_l": {
+    "mode": "reflect",
+    "s": 0.3005630061362984,
+    "R": [
+     [
+      -0.879857,
+      -0.226855,
+      0.417599
+     ],
+     [
+      0.471488,
+      -0.306497,
+      0.826897
+     ],
+     [
+      0.059593,
+      -0.924444,
+      -0.376632
+     ]
+    ],
+    "t": [
+     -40.959763,
+     721.774025,
+     -1.316097
+    ],
+    "rms": 0.30145564185156054,
+    "n": 6661,
+    "median_mm": 0.20238492056792237,
+    "p95_mm": 0.5696726054199237,
+    "max_mm": 1.1663713590897555
+   },
+   "labyrinth_r": {
+    "name": "Bony labyrinth",
+    "latin": "Labyrinthus osseus",
+    "cat": "bone",
+    "note": "The bony cavity of the inner ear: cochlea, vestibule and the three semicircular canals as one space.",
+    "atlas_model": "Model_10_Labyrinth",
+    "cm3": 0.17263,
+    "cm3_undecimated": 0.173,
+    "tris": 8978,
+    "tris_atlas": 22446,
+    "verts": 4447,
+    "dihedral_mean_deg": 22.0,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 437.2,
+    "ext_mm": [
+     9.3,
+     15.3,
+     17.8
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_r",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 3.3
+     },
+     {
+      "id": "stapes_r",
+      "name": "Stapes (ear ossicle)",
+      "cat": "bone",
+      "pct_of_volume": 0.6
+     },
+     {
+      "id": "zan_inferior_temporal_sulcus_r",
+      "name": "Inferior temporal sulcus",
+      "cat": "cns",
+      "pct_of_volume": 0.5
+     }
+    ],
+    "inside_temporal_bone_pct": 66.4,
+    "inside_skin_pct": 100.0
+   },
+   "spiral_lamina_r": {
+    "name": "Osseous spiral lamina",
+    "latin": "Lamina spiralis ossea",
+    "cat": "bone",
+    "note": "The bony shelf that spirals up the cochlear modiolus and carries the basilar membrane.",
+    "atlas_model": "Model_23_Osseous_Spiral_Lamina",
+    "cm3": 0.00602,
+    "cm3_undecimated": 0.00603,
+    "tris": 2261,
+    "tris_atlas": 5652,
+    "verts": 1135,
+    "dihedral_mean_deg": 18.0,
+    "dihedral_atlas_deg": 12.4,
+    "defect_edges_pct": 0.04,
+    "area_mm2": 48.6,
+    "ext_mm": [
+     3.1,
+     6.2,
+     7.5
+    ],
+    "overlap": [
+     {
+      "id": "zan_articular_disc_of_temporomandibular_joint_r",
+      "name": "Articular disc of temporomandibular joint",
+      "cat": "joint",
+      "pct_of_volume": 7.4
+     }
+    ],
+    "inside_temporal_bone_pct": 90.6,
+    "inside_skin_pct": 100.0
+   },
+   "fenestra_cochleae_r": {
+    "name": "Round window (fenestra cochleae)",
+    "latin": "Fenestra cochleae",
+    "cat": "bone",
+    "note": "The round window at the base of the scala tympani, closed in life by the secondary tympanic membrane.",
+    "atlas_model": "Model_12_Fenestra_Rotunda",
+    "cm3": 0.00067,
+    "cm3_undecimated": 0.00068,
+    "tris": 586,
+    "tris_atlas": 1468,
+    "verts": 293,
+    "dihedral_mean_deg": 21.8,
+    "dihedral_atlas_deg": 13.4,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 6.6,
+    "ext_mm": [
+     2.0,
+     1.7,
+     1.6
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 100.0,
+    "inside_skin_pct": 100.0
+   },
+   "stapedius_r": {
+    "name": "Stapedius",
+    "latin": "Musculus stapedius",
+    "cat": "muscle",
+    "note": "The smallest skeletal muscle of the body, in the pyramidal eminence; its tendon pulls the stapes neck.",
+    "atlas_model": "Model_28_Stapedius_Muscle",
+    "cm3": 0.00342,
+    "cm3_undecimated": 0.00343,
+    "tris": 682,
+    "tris_atlas": 1708,
+    "verts": 343,
+    "dihedral_mean_deg": 14.0,
+    "dihedral_atlas_deg": 9.5,
+    "defect_edges_pct": 0.0,
+    "area_mm2": 15.4,
+    "ext_mm": [
+     1.8,
+     3.1,
+     4.3
+    ],
+    "overlap": [],
+    "inside_temporal_bone_pct": 2.2,
+    "inside_skin_pct": 100.0
+   },
+   "_fit_r": {
+    "mode": "proper",
+    "s": 0.30056813694857387,
+    "R": [
+     [
+      0.876839,
+      0.250969,
+      -0.410082
+     ],
+     [
+      0.473763,
+      -0.305798,
+      0.825854
+     ],
+     [
+      0.081861,
+      -0.918424,
+      -0.387036
+     ]
+    ],
+    "t": [
+     38.422756,
+     721.875856,
+     -0.310355
+    ],
+    "rms": 0.30155466552321447,
+    "n": 6661,
+    "median_mm": 0.20228142269331645,
+    "p95_mm": 0.5703815254048342,
+    "max_mm": 1.1666649237893705
+   }
+  }
+ }
+}

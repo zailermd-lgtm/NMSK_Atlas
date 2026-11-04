@@ -1,0 +1,2827 @@
+{
+ "fail": [],
+ "report": {
+  "own_m": {
+   "1400": {
+    "at_load": {
+     "on": true,
+     "tissue": true,
+     "groups": {
+      "on": true,
+      "open": null,
+      "groups": [
+       {
+        "key": "view",
+        "label": "View",
+        "n": 1,
+        "live": false
+       },
+       {
+        "key": "layers",
+        "label": "Layers",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "imaging",
+        "label": "Imaging",
+        "n": 4,
+        "live": true
+       },
+       {
+        "key": "cut",
+        "label": "Cut",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "mark",
+        "label": "Mark",
+        "n": 4,
+        "live": false
+       },
+       {
+        "key": "learn",
+        "label": "Learn",
+        "n": 1,
+        "live": false
+       },
+       {
+        "key": "measure",
+        "label": "Measure",
+        "n": 1,
+        "live": false
+       }
+      ],
+      "bar": true
+     },
+     "render": {
+      "on": true,
+      "mode": "colour",
+      "step": 0,
+      "stepWord": null,
+      "tissue": true
+     },
+     "peel": {
+      "on": true,
+      "step": 0,
+      "max": 6,
+      "hidden": [],
+      "label": "Whole body"
+     },
+     "fat": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": false
+     },
+     "combos": {
+      "on": true,
+      "probes": 13,
+      "pairs": 14,
+      "onPage": 12,
+      "active": [
+       "boneread"
+      ]
+     },
+     "info": {
+      "on": true,
+      "open": false,
+      "sections": [
+       "what",
+       "styles",
+       "combine",
+       "layers",
+       "resets",
+       "fat",
+       "srcpanel"
+      ],
+      "adopted": 1
+     }
+    },
+    "bar": {
+     "vis": true,
+     "top": 799,
+     "bottom": 894,
+     "w": 760,
+     "ids": [
+      "qg-view",
+      "qg-layers",
+      "qg-imaging",
+      "qg-cut",
+      "qg-mark",
+      "qg-learn",
+      "qg-measure",
+      "q301-undo",
+      "q301-redo",
+      "q301-reset",
+      "q301-mr-model",
+      "q301-info-btn"
+     ],
+     "words": [
+      "Undo",
+      "Redo",
+      "Module",
+      "Model"
+     ]
+    },
+    "groups": [
+     {
+      "key": "view",
+      "label": "View",
+      "n": 1,
+      "live": false
+     },
+     {
+      "key": "layers",
+      "label": "Layers",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "imaging",
+      "label": "Imaging",
+      "n": 4,
+      "live": true
+     },
+     {
+      "key": "cut",
+      "label": "Cut",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "mark",
+      "label": "Mark",
+      "n": 4,
+      "live": false
+     },
+     {
+      "key": "learn",
+      "label": "Learn",
+      "n": 1,
+      "live": false
+     },
+     {
+      "key": "measure",
+      "label": "Measure",
+      "n": 1,
+      "live": false
+     }
+    ],
+    "open_close": [
+     {
+      "key": "view",
+      "open": true,
+      "closed": true,
+      "members": 1
+     },
+     {
+      "key": "layers",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "imaging",
+      "open": true,
+      "closed": true,
+      "members": 4
+     },
+     {
+      "key": "cut",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "mark",
+      "open": true,
+      "closed": true,
+      "members": 4
+     },
+     {
+      "key": "learn",
+      "open": true,
+      "closed": true,
+      "members": 1
+     },
+     {
+      "key": "measure",
+      "open": true,
+      "closed": true,
+      "members": 1
+     }
+    ],
+    "alive": {
+     "t-cut": true,
+     "t-reset": true,
+     "sel-markmode": true,
+     "t-learn": true,
+     "t-measure": true,
+     "btn-xray": false,
+     "sides": false,
+     "foot": false
+    },
+    "pixels": {
+     "colour": {
+      "n": 21786,
+      "w": 1400,
+      "h": 783,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 157.52261585421286,
+      "sd": 35.34162510801333,
+      "sat": 28.08969062700817,
+      "greyFrac": 0.0057376296704305515,
+      "hist": [
+       0.004819608923161664,
+       0.007940879463875884,
+       0.04356008445790875,
+       0.12622785274947212,
+       0.31662535573303957,
+       0.33200220324979346,
+       0.160607729734692,
+       0.00821628568805655
+      ]
+     },
+     "xray": {
+      "n": 21786,
+      "w": 1400,
+      "h": 783,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 163.32924814100798,
+      "sd": 62.064726396686225,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.012209675938676215,
+       0.10809694299091159,
+       0.07614982098595428,
+       0.08679886165427339,
+       0.0982741209951345,
+       0.18782704489121455,
+       0.2613605067474525,
+       0.169283025796383
+      ]
+     },
+     "ct": {
+      "n": 21786,
+      "w": 1400,
+      "h": 783,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 108.91705682548425,
+      "sd": 17.458054702523793,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.005875332782520885,
+       0.008124483613329661,
+       0.15711925089507023,
+       0.7082530065179473,
+       0.12044432204167814,
+       4.590103736344442e-05,
+       4.590103736344442e-05,
+       9.180207472688883e-05
+      ]
+     },
+     "mri": {
+      "n": 21786,
+      "w": 1400,
+      "h": 783,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 224.3506839254567,
+      "sd": 30.085105862054117,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.00013770311209033325,
+       0.0059671348572477734,
+       0.004085192325346553,
+       0.003029468465987331,
+       0.005783530707793996,
+       0.0969429909115946,
+       0.28991095198751493,
+       0.5941430276324245
+      ]
+     }
+    },
+    "xray_steps": {
+     "0": {
+      "n": 21661,
+      "w": 1400,
+      "h": 783,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 112.35593924564886,
+      "sd": 52.20758165721359,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.1151378052721481,
+       0.101611190619085,
+       0.14722311989289508,
+       0.20400720188356955,
+       0.21961128295092563,
+       0.16495083329486174,
+       0.045658095194127696,
+       0.0018004708923872398
+      ]
+     },
+     "1": {
+      "n": 21786,
+      "w": 1400,
+      "h": 783,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 163.32924814100798,
+      "sd": 62.064726396686225,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.012209675938676215,
+       0.10809694299091159,
+       0.07614982098595428,
+       0.08679886165427339,
+       0.0982741209951345,
+       0.18782704489121455,
+       0.2613605067474525,
+       0.169283025796383
+      ]
+     },
+     "2": {
+      "n": 21786,
+      "w": 1400,
+      "h": 783,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 206.50463600477372,
+      "sd": 56.77011581262324,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.0057376296704305515,
+       0.006747452492426329,
+       0.10121178738639493,
+       0.016570274488203432,
+       0.07403837326723584,
+       0.07986780501239328,
+       0.11870008262186725,
+       0.5971265950610484
+      ]
+     }
+    },
+    "cut_imaging": {
+     "cut": {
+      "key": "cut",
+      "active": true,
+      "disabled": false,
+      "reason": "Active together with Imaging style.",
+      "with": [
+       "Imaging style"
+      ],
+      "blockedBy": null
+     },
+     "img": {
+      "key": "imaging",
+      "active": true,
+      "disabled": false,
+      "reason": "A radiographic style sets the bone's brightness from its own attenuation, so Q300's extra bone pass is paused while a style is on \u2014 it comes back with the colour.",
+      "with": [
+       "Cut",
+       "Fat shown",
+       "Bone through soft tissue"
+      ],
+      "blockedBy": null,
+      "overridden": false
+     },
+     "active": [
+      "boneread",
+      "cut",
+      "fat",
+      "imaging"
+     ]
+    },
+    "incompatible": [
+     {
+      "a": "imaging",
+      "b": "srccolour",
+      "why": "A radiographic style replaces the colour, so colour-by-source has nothing left to colour.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "imaging",
+      "b": "highlight",
+      "why": "A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "preset",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "solo",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "marktap",
+      "b": "cutplace",
+      "why": "Both take over the next tap on the model \u2014 only one can have it.",
+      "aOn": false,
+      "bOn": false
+     }
+    ],
+    "refused": {
+     "reasons": [
+      "\u2298 A radiographic style replaces the colour, so colour-by-source has nothing left to colour.",
+      "\u2298 A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead."
+     ],
+     "disabled": [
+      {
+       "id": "src-colour",
+       "disabled": true,
+       "aria": "true"
+      },
+      {
+       "id": "sel-p-hlsel",
+       "disabled": true,
+       "aria": "true"
+      }
+     ]
+    },
+    "fat": {
+     "after_model_reset": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": true
+     },
+     "on": {
+      "on": true,
+      "shown": true,
+      "count": 51,
+      "touched": true
+     },
+     "capOff": {
+      "total": 51,
+      "filled": 51,
+      "shown": false,
+      "capA": 0.9
+     },
+     "capOn": {
+      "total": 51,
+      "filled": 51,
+      "shown": true,
+      "capA": 0.9
+     },
+     "visOff": 0,
+     "visOn": 51
+    },
+    "peel_order": [
+     {
+      "key": "fat",
+      "label": "Fat / superficial fascia",
+      "cats": [
+       "fat"
+      ]
+     },
+     {
+      "key": "fascia",
+      "label": "Deep fascia",
+      "cats": [
+       "fascia",
+       "bursa"
+      ]
+     },
+     {
+      "key": "muscle",
+      "label": "Muscle",
+      "cats": [
+       "muscle",
+       "tendon",
+       "insertion"
+      ]
+     },
+     {
+      "key": "ligament",
+      "label": "Ligament",
+      "cats": [
+       "ligament",
+       "joint"
+      ]
+     },
+     {
+      "key": "neurovas",
+      "label": "Vessels & nerves",
+      "cats": [
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ]
+     },
+     {
+      "key": "viscera",
+      "label": "Organs",
+      "cats": [
+       "viscera",
+       "organ",
+       "cns"
+      ]
+     }
+    ],
+    "peel_steps": [
+     {
+      "step": 1,
+      "hidden": [
+       "fat"
+      ],
+      "shown": 881
+     },
+     {
+      "step": 2,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa"
+      ],
+      "shown": 875
+     },
+     {
+      "step": 3,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion"
+      ],
+      "shown": 500
+     },
+     {
+      "step": 4,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint"
+      ],
+      "shown": 401
+     },
+     {
+      "step": 5,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ],
+      "shown": 158
+     },
+     {
+      "step": 6,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic",
+       "viscera",
+       "organ",
+       "cns"
+      ],
+      "shown": 128
+     }
+    ],
+    "showall_keys": [
+     "iso",
+     "hidegrp",
+     "hideone",
+     "layers",
+     "facet",
+     "sysalpha",
+     "fadeone",
+     "cut",
+     "slices",
+     "fat",
+     "peel",
+     "imaging"
+    ],
+    "modelreset_keys": [
+     "boneread",
+     "cut",
+     "engine",
+     "fat",
+     "labels",
+     "measure",
+     "peel",
+     "pose",
+     "renderstyle",
+     "selection",
+     "slices"
+    ],
+    "info": {
+     "open": true,
+     "secs": [
+      "what",
+      "styles",
+      "combine",
+      "layers",
+      "resets",
+      "fat",
+      "srcpanel"
+     ],
+     "txt": 7867
+    },
+    "page_errors": [],
+    "covered_controls": []
+   },
+   "390": {
+    "at_load": {
+     "on": true,
+     "tissue": true,
+     "groups": {
+      "on": true,
+      "open": null,
+      "groups": [
+       {
+        "key": "view",
+        "label": "View",
+        "n": 1,
+        "live": false
+       },
+       {
+        "key": "layers",
+        "label": "Layers",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "imaging",
+        "label": "Imaging",
+        "n": 4,
+        "live": true
+       },
+       {
+        "key": "cut",
+        "label": "Cut",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "mark",
+        "label": "Mark",
+        "n": 4,
+        "live": false
+       },
+       {
+        "key": "learn",
+        "label": "Learn",
+        "n": 1,
+        "live": false
+       },
+       {
+        "key": "measure",
+        "label": "Measure",
+        "n": 1,
+        "live": false
+       }
+      ],
+      "bar": true
+     },
+     "render": {
+      "on": true,
+      "mode": "colour",
+      "step": 0,
+      "stepWord": null,
+      "tissue": true
+     },
+     "peel": {
+      "on": true,
+      "step": 0,
+      "max": 6,
+      "hidden": [],
+      "label": "Whole body"
+     },
+     "fat": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": false
+     },
+     "combos": {
+      "on": true,
+      "probes": 13,
+      "pairs": 14,
+      "onPage": 12,
+      "active": [
+       "boneread"
+      ]
+     },
+     "info": {
+      "on": true,
+      "open": false,
+      "sections": [
+       "what",
+       "styles",
+       "combine",
+       "layers",
+       "resets",
+       "fat",
+       "srcpanel"
+      ],
+      "adopted": 1
+     }
+    },
+    "bar": {
+     "vis": true,
+     "top": 654,
+     "bottom": 785,
+     "w": 374,
+     "ids": [
+      "qg-view",
+      "qg-layers",
+      "qg-imaging",
+      "qg-cut",
+      "qg-mark",
+      "qg-learn",
+      "qg-measure",
+      "q301-undo",
+      "q301-redo",
+      "q301-reset",
+      "q301-mr-model",
+      "q301-info-btn"
+     ],
+     "words": [
+      "Undo",
+      "Redo",
+      "Module",
+      "Model"
+     ]
+    },
+    "groups": [
+     {
+      "key": "view",
+      "label": "View",
+      "n": 1,
+      "live": false
+     },
+     {
+      "key": "layers",
+      "label": "Layers",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "imaging",
+      "label": "Imaging",
+      "n": 4,
+      "live": true
+     },
+     {
+      "key": "cut",
+      "label": "Cut",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "mark",
+      "label": "Mark",
+      "n": 4,
+      "live": false
+     },
+     {
+      "key": "learn",
+      "label": "Learn",
+      "n": 1,
+      "live": false
+     },
+     {
+      "key": "measure",
+      "label": "Measure",
+      "n": 1,
+      "live": false
+     }
+    ],
+    "open_close": [
+     {
+      "key": "view",
+      "open": true,
+      "closed": true,
+      "members": 1
+     },
+     {
+      "key": "layers",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "imaging",
+      "open": true,
+      "closed": true,
+      "members": 4
+     },
+     {
+      "key": "cut",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "mark",
+      "open": true,
+      "closed": true,
+      "members": 4
+     },
+     {
+      "key": "learn",
+      "open": true,
+      "closed": true,
+      "members": 1
+     },
+     {
+      "key": "measure",
+      "open": true,
+      "closed": true,
+      "members": 1
+     }
+    ],
+    "alive": {
+     "t-cut": true,
+     "t-reset": true,
+     "sel-markmode": true,
+     "t-learn": true,
+     "t-measure": true,
+     "btn-xray": false,
+     "sides": false,
+     "foot": false
+    },
+    "pixels": {
+     "colour": {
+      "n": 18836,
+      "w": 390,
+      "h": 728,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 157.4191993523001,
+      "sd": 35.68870892662622,
+      "sat": 28.086430239966024,
+      "greyFrac": 0.006742408154597579,
+      "hist": [
+       0.005892970906774262,
+       0.007591845402420896,
+       0.04512635379061372,
+       0.1255043533658951,
+       0.31476959014652794,
+       0.33175833510299424,
+       0.1610745381184965,
+       0.008282013166277342
+      ]
+     },
+     "xray": {
+      "n": 18836,
+      "w": 390,
+      "h": 728,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 163.22780845190061,
+      "sd": 62.134540977778755,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.013007007857294542,
+       0.10846251858143979,
+       0.07469738798046294,
+       0.08696113824591209,
+       0.09741983435973667,
+       0.19032703334041198,
+       0.2615204926736037,
+       0.16760458696113825
+      ]
+     },
+     "ct": {
+      "n": 18836,
+      "w": 390,
+      "h": 728,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 108.8937141643661,
+      "sd": 17.791308110570625,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.007220216606498195,
+       0.007963474198343597,
+       0.1581015077511149,
+       0.7035994903376513,
+       0.12269059248248036,
+       0.00021235931195582927,
+       5.308982798895732e-05,
+       0.00015926948396687195
+      ]
+     },
+     "mri": {
+      "n": 18836,
+      "w": 390,
+      "h": 728,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 224.13383945636016,
+      "sd": 30.799409241350464,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.00026544913994478657,
+       0.007273306434487152,
+       0.0037693777872159695,
+       0.0029730303673816097,
+       0.005680611594818433,
+       0.09731365470375876,
+       0.2880654066680824,
+       0.5946591633043109
+      ]
+     }
+    },
+    "xray_steps": {
+     "0": {
+      "n": 18703,
+      "w": 390,
+      "h": 728,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 112.42036036999411,
+      "sd": 52.072815324838515,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.11511522215687323,
+       0.10142757846334813,
+       0.14414799764743624,
+       0.2082018927444795,
+       0.22033898305084745,
+       0.16510720205314655,
+       0.04395016842217826,
+       0.0017109554616906379
+      ]
+     },
+     "1": {
+      "n": 18836,
+      "w": 390,
+      "h": 728,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 163.22780845190061,
+      "sd": 62.134540977778755,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.013007007857294542,
+       0.10846251858143979,
+       0.07469738798046294,
+       0.08696113824591209,
+       0.09741983435973667,
+       0.19032703334041198,
+       0.2615204926736037,
+       0.16760458696113825
+      ]
+     },
+     "2": {
+      "n": 18836,
+      "w": 390,
+      "h": 728,
+      "field": [
+       0,
+       0,
+       0,
+       0
+      ],
+      "lum": 206.37131025695476,
+      "sd": 57.00170492920923,
+      "sat": 0,
+      "greyFrac": 1,
+      "hist": [
+       0.007060947122531323,
+       0.006423869186663835,
+       0.09991505627521767,
+       0.0177850923763007,
+       0.07337014228073901,
+       0.07963474198343598,
+       0.11950520280314292,
+       0.5963049479719685
+      ]
+     }
+    },
+    "cut_imaging": {
+     "cut": {
+      "key": "cut",
+      "active": true,
+      "disabled": false,
+      "reason": "Active together with Imaging style.",
+      "with": [
+       "Imaging style"
+      ],
+      "blockedBy": null
+     },
+     "img": {
+      "key": "imaging",
+      "active": true,
+      "disabled": false,
+      "reason": "A radiographic style sets the bone's brightness from its own attenuation, so Q300's extra bone pass is paused while a style is on \u2014 it comes back with the colour.",
+      "with": [
+       "Cut",
+       "Fat shown",
+       "Bone through soft tissue"
+      ],
+      "blockedBy": null,
+      "overridden": false
+     },
+     "active": [
+      "boneread",
+      "cut",
+      "fat",
+      "imaging"
+     ]
+    },
+    "incompatible": [
+     {
+      "a": "imaging",
+      "b": "srccolour",
+      "why": "A radiographic style replaces the colour, so colour-by-source has nothing left to colour.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "imaging",
+      "b": "highlight",
+      "why": "A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "preset",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "solo",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "marktap",
+      "b": "cutplace",
+      "why": "Both take over the next tap on the model \u2014 only one can have it.",
+      "aOn": false,
+      "bOn": false
+     }
+    ],
+    "refused": {
+     "reasons": [
+      "\u2298 A radiographic style replaces the colour, so colour-by-source has nothing left to colour.",
+      "\u2298 A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead."
+     ],
+     "disabled": [
+      {
+       "id": "src-colour",
+       "disabled": true,
+       "aria": "true"
+      },
+      {
+       "id": "sel-p-hlsel",
+       "disabled": true,
+       "aria": "true"
+      }
+     ]
+    },
+    "fat": {
+     "after_model_reset": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": true
+     },
+     "on": {
+      "on": true,
+      "shown": true,
+      "count": 51,
+      "touched": true
+     },
+     "capOff": {
+      "total": 51,
+      "filled": 51,
+      "shown": false,
+      "capA": 0.9
+     },
+     "capOn": {
+      "total": 51,
+      "filled": 51,
+      "shown": true,
+      "capA": 0.9
+     },
+     "visOff": 0,
+     "visOn": 51
+    },
+    "peel_order": [
+     {
+      "key": "fat",
+      "label": "Fat / superficial fascia",
+      "cats": [
+       "fat"
+      ]
+     },
+     {
+      "key": "fascia",
+      "label": "Deep fascia",
+      "cats": [
+       "fascia",
+       "bursa"
+      ]
+     },
+     {
+      "key": "muscle",
+      "label": "Muscle",
+      "cats": [
+       "muscle",
+       "tendon",
+       "insertion"
+      ]
+     },
+     {
+      "key": "ligament",
+      "label": "Ligament",
+      "cats": [
+       "ligament",
+       "joint"
+      ]
+     },
+     {
+      "key": "neurovas",
+      "label": "Vessels & nerves",
+      "cats": [
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ]
+     },
+     {
+      "key": "viscera",
+      "label": "Organs",
+      "cats": [
+       "viscera",
+       "organ",
+       "cns"
+      ]
+     }
+    ],
+    "peel_steps": [
+     {
+      "step": 1,
+      "hidden": [
+       "fat"
+      ],
+      "shown": 881
+     },
+     {
+      "step": 2,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa"
+      ],
+      "shown": 875
+     },
+     {
+      "step": 3,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion"
+      ],
+      "shown": 500
+     },
+     {
+      "step": 4,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint"
+      ],
+      "shown": 401
+     },
+     {
+      "step": 5,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ],
+      "shown": 158
+     },
+     {
+      "step": 6,
+      "hidden": [
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic",
+       "viscera",
+       "organ",
+       "cns"
+      ],
+      "shown": 128
+     }
+    ],
+    "showall_keys": [
+     "iso",
+     "hidegrp",
+     "hideone",
+     "layers",
+     "facet",
+     "sysalpha",
+     "fadeone",
+     "cut",
+     "slices",
+     "fat",
+     "peel",
+     "imaging"
+    ],
+    "modelreset_keys": [
+     "boneread",
+     "cut",
+     "engine",
+     "fat",
+     "labels",
+     "measure",
+     "peel",
+     "pose",
+     "renderstyle",
+     "selection",
+     "slices"
+    ],
+    "info": {
+     "open": true,
+     "secs": [
+      "what",
+      "styles",
+      "combine",
+      "layers",
+      "resets",
+      "fat",
+      "srcpanel"
+     ],
+     "txt": 7867
+    },
+    "page_errors": [],
+    "covered_controls": []
+   }
+  },
+  "base_m": {
+   "1400": {
+    "at_load": {
+     "on": true,
+     "tissue": true,
+     "groups": {
+      "on": true,
+      "open": null,
+      "groups": [
+       {
+        "key": "view",
+        "label": "View",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "layers",
+        "label": "Layers",
+        "n": 5,
+        "live": false
+       },
+       {
+        "key": "imaging",
+        "label": "Imaging",
+        "n": 4,
+        "live": false
+       },
+       {
+        "key": "cut",
+        "label": "Cut",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "mark",
+        "label": "Mark",
+        "n": 5,
+        "live": false
+       },
+       {
+        "key": "learn",
+        "label": "Learn",
+        "n": 1,
+        "live": false
+       },
+       {
+        "key": "measure",
+        "label": "Measure",
+        "n": 1,
+        "live": false
+       }
+      ],
+      "bar": true
+     },
+     "render": {
+      "on": true,
+      "mode": "colour",
+      "step": 0,
+      "stepWord": null,
+      "tissue": true
+     },
+     "peel": {
+      "on": true,
+      "step": 0,
+      "max": 7,
+      "hidden": [],
+      "label": "Whole body"
+     },
+     "fat": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": false
+     },
+     "combos": {
+      "on": true,
+      "probes": 14,
+      "pairs": 14,
+      "onPage": 14,
+      "active": []
+     },
+     "info": {
+      "on": true,
+      "open": false,
+      "sections": [
+       "what",
+       "styles",
+       "combine",
+       "layers",
+       "resets",
+       "fat",
+       "sources"
+      ],
+      "adopted": 1
+     }
+    },
+    "bar": {
+     "vis": true,
+     "top": 799,
+     "bottom": 894,
+     "w": 760,
+     "ids": [
+      "qg-view",
+      "qg-layers",
+      "qg-imaging",
+      "qg-cut",
+      "qg-mark",
+      "qg-learn",
+      "qg-measure",
+      "q301-undo",
+      "q301-redo",
+      "q301-reset",
+      "q301-mr-model",
+      "q301-info-btn"
+     ],
+     "words": [
+      "Undo",
+      "Redo",
+      "Module",
+      "Model"
+     ]
+    },
+    "groups": [
+     {
+      "key": "view",
+      "label": "View",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "layers",
+      "label": "Layers",
+      "n": 5,
+      "live": false
+     },
+     {
+      "key": "imaging",
+      "label": "Imaging",
+      "n": 4,
+      "live": false
+     },
+     {
+      "key": "cut",
+      "label": "Cut",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "mark",
+      "label": "Mark",
+      "n": 5,
+      "live": false
+     },
+     {
+      "key": "learn",
+      "label": "Learn",
+      "n": 1,
+      "live": false
+     },
+     {
+      "key": "measure",
+      "label": "Measure",
+      "n": 1,
+      "live": false
+     }
+    ],
+    "open_close": [
+     {
+      "key": "view",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "layers",
+      "open": true,
+      "closed": true,
+      "members": 5
+     },
+     {
+      "key": "imaging",
+      "open": true,
+      "closed": true,
+      "members": 4
+     },
+     {
+      "key": "cut",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "mark",
+      "open": true,
+      "closed": true,
+      "members": 5
+     },
+     {
+      "key": "learn",
+      "open": true,
+      "closed": true,
+      "members": 1
+     },
+     {
+      "key": "measure",
+      "open": true,
+      "closed": true,
+      "members": 1
+     }
+    ],
+    "alive": {
+     "t-cut": true,
+     "t-reset": false,
+     "sel-markmode": true,
+     "t-learn": true,
+     "t-measure": true,
+     "btn-xray": true,
+     "sides": true,
+     "foot": true
+    },
+    "pixels": {
+     "colour": {
+      "n": 27208,
+      "w": 1400,
+      "h": 900,
+      "field": [
+       233,
+       237,
+       240,
+       255
+      ],
+      "lum": 105.98120486621467,
+      "sd": 32.87520397335347,
+      "sat": 57.13749632461041,
+      "greyFrac": 0.004116436342252279,
+      "hist": [
+       0,
+       0.08776830344016466,
+       0.3308585710085269,
+       0.34034107615407233,
+       0.1738091737724199,
+       0.057115554248750366,
+       0.010070567480152896,
+       3.675389591296677e-05
+      ]
+     },
+     "xray": {
+      "n": 27208,
+      "w": 1400,
+      "h": 900,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 161.69327962362368,
+      "sd": 57.87658221864131,
+      "sat": 2.078653337253749,
+      "greyFrac": 1,
+      "hist": [
+       0.025727727139076742,
+       0.07148632755072037,
+       0.06060717436048221,
+       0.10258012349309027,
+       0.1737724198765069,
+       0.21927374301675978,
+       0.17075860041164365,
+       0.1757938841517201
+      ]
+     },
+     "ct": {
+      "n": 27208,
+      "w": 1400,
+      "h": 900,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 67.9865731770048,
+      "sd": 19.001976254749053,
+      "sat": 0.16759776536312848,
+      "greyFrac": 1,
+      "hist": [
+       0,
+       0.45163187297853574,
+       0.5009188473978242,
+       0.010879153190238165,
+       0.028079976477506617,
+       0.007093501911202588,
+       0.0013966480446927375,
+       0
+      ]
+     },
+     "mri": {
+      "n": 27208,
+      "w": 1400,
+      "h": 900,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 124.46027396353799,
+      "sd": 24.393598516433315,
+      "sat": 0.1684798588650397,
+      "greyFrac": 1,
+      "hist": [
+       3.675389591296677e-05,
+       0.02462511026168774,
+       0.07670538077036165,
+       0.43292413995883566,
+       0.41726698029991177,
+       0.04024551602469862,
+       0.0077918259335489565,
+       0.0004042928550426345
+      ]
+     }
+    },
+    "xray_steps": {
+     "0": {
+      "n": 27208,
+      "w": 1400,
+      "h": 900,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 161.69327962362368,
+      "sd": 57.87658221864131,
+      "sat": 2.078653337253749,
+      "greyFrac": 1,
+      "hist": [
+       0.025727727139076742,
+       0.07148632755072037,
+       0.06060717436048221,
+       0.10258012349309027,
+       0.1737724198765069,
+       0.21927374301675978,
+       0.17075860041164365,
+       0.1757938841517201
+      ]
+     },
+     "1": {
+      "n": 27208,
+      "w": 1400,
+      "h": 900,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 205.8581047118287,
+      "sd": 51.8921667245978,
+      "sat": 0.9811452513966481,
+      "greyFrac": 1,
+      "hist": [
+       0,
+       0.025727727139076742,
+       0.07148632755072037,
+       0.02782269920611585,
+       0.0450235224933843,
+       0.09056159952955013,
+       0.2299691267274331,
+       0.5094089973537195
+      ]
+     },
+     "2": {
+      "n": 27208,
+      "w": 1400,
+      "h": 900,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 233.85795993825005,
+      "sd": 37.10063599525109,
+      "sat": 0.5701264334019406,
+      "greyFrac": 1,
+      "hist": [
+       0,
+       0,
+       0.025727727139076742,
+       0.0002572772713907674,
+       0.0712290502793296,
+       0.02782269920611585,
+       0.0452440458688621,
+       0.8297192002352249
+      ]
+     }
+    },
+    "cut_imaging": {
+     "cut": {
+      "key": "cut",
+      "active": true,
+      "disabled": false,
+      "reason": "Active together with Imaging style.",
+      "with": [
+       "Imaging style"
+      ],
+      "blockedBy": null
+     },
+     "img": {
+      "key": "imaging",
+      "active": true,
+      "disabled": false,
+      "reason": "Active together with Cut, Fat shown.",
+      "with": [
+       "Cut",
+       "Fat shown"
+      ],
+      "blockedBy": null
+     },
+     "active": [
+      "cut",
+      "fat",
+      "imaging"
+     ]
+    },
+    "incompatible": [
+     {
+      "a": "imaging",
+      "b": "srccolour",
+      "why": "A radiographic style replaces the colour, so colour-by-source has nothing left to colour.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "imaging",
+      "b": "highlight",
+      "why": "A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "preset",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "solo",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "spin",
+      "b": "measure",
+      "why": "Stop the spin first, or the model moves while you are placing the point.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "spin",
+      "b": "cutplace",
+      "why": "Stop the spin first, or the model moves while you are placing the plane.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "marktap",
+      "b": "cutplace",
+      "why": "Both take over the next tap on the model \u2014 only one can have it.",
+      "aOn": false,
+      "bOn": false
+     }
+    ],
+    "refused": {
+     "reasons": [
+      "\u2298 A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead."
+     ],
+     "disabled": [
+      {
+       "id": "sel-p-hlsel",
+       "disabled": true,
+       "aria": "true"
+      }
+     ]
+    },
+    "fat": {
+     "after_model_reset": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": true
+     },
+     "on": {
+      "on": true,
+      "shown": true,
+      "count": 51,
+      "touched": true
+     },
+     "capOff": {
+      "total": 51,
+      "filled": 51,
+      "shown": false,
+      "capA": 0.9
+     },
+     "capOn": {
+      "total": 51,
+      "filled": 51,
+      "shown": true,
+      "capA": 0.9
+     },
+     "visOff": 0,
+     "visOn": 51
+    },
+    "peel_order": [
+     {
+      "key": "skin",
+      "label": "Skin",
+      "cats": [
+       "skin"
+      ]
+     },
+     {
+      "key": "fat",
+      "label": "Fat / superficial fascia",
+      "cats": [
+       "fat"
+      ]
+     },
+     {
+      "key": "fascia",
+      "label": "Deep fascia",
+      "cats": [
+       "fascia",
+       "bursa"
+      ]
+     },
+     {
+      "key": "muscle",
+      "label": "Muscle",
+      "cats": [
+       "muscle",
+       "tendon",
+       "insertion"
+      ]
+     },
+     {
+      "key": "ligament",
+      "label": "Ligament",
+      "cats": [
+       "ligament",
+       "joint"
+      ]
+     },
+     {
+      "key": "neurovas",
+      "label": "Vessels & nerves",
+      "cats": [
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ]
+     },
+     {
+      "key": "viscera",
+      "label": "Organs",
+      "cats": [
+       "viscera",
+       "organ",
+       "cns"
+      ]
+     }
+    ],
+    "peel_steps": [
+     {
+      "step": 1,
+      "hidden": [
+       "skin"
+      ],
+      "shown": 2951
+     },
+     {
+      "step": 2,
+      "hidden": [
+       "skin",
+       "fat"
+      ],
+      "shown": 2951
+     },
+     {
+      "step": 3,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa"
+      ],
+      "shown": 2776
+     },
+     {
+      "step": 4,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion"
+      ],
+      "shown": 2344
+     },
+     {
+      "step": 5,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint"
+      ],
+      "shown": 2011
+     },
+     {
+      "step": 6,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ],
+      "shown": 636
+     },
+     {
+      "step": 7,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic",
+       "viscera",
+       "organ",
+       "cns"
+      ],
+      "shown": 309
+     }
+    ],
+    "showall_keys": [
+     "box",
+     "solo",
+     "hidegrp",
+     "hideone",
+     "layers",
+     "preset",
+     "side",
+     "cut",
+     "slices",
+     "fat",
+     "peel",
+     "imaging"
+    ],
+    "modelreset_keys": [
+     "boneread",
+     "cut",
+     "engine",
+     "fat",
+     "labels",
+     "measure",
+     "peel",
+     "pose",
+     "renderstyle",
+     "selection",
+     "slices"
+    ],
+    "info": {
+     "open": true,
+     "secs": [
+      "what",
+      "styles",
+      "combine",
+      "layers",
+      "resets",
+      "fat",
+      "sources"
+     ],
+     "txt": 7673
+    },
+    "page_errors": [],
+    "covered_controls": []
+   },
+   "390": {
+    "at_load": {
+     "on": true,
+     "tissue": true,
+     "groups": {
+      "on": true,
+      "open": null,
+      "groups": [
+       {
+        "key": "view",
+        "label": "View",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "layers",
+        "label": "Layers",
+        "n": 5,
+        "live": false
+       },
+       {
+        "key": "imaging",
+        "label": "Imaging",
+        "n": 4,
+        "live": false
+       },
+       {
+        "key": "cut",
+        "label": "Cut",
+        "n": 3,
+        "live": false
+       },
+       {
+        "key": "mark",
+        "label": "Mark",
+        "n": 5,
+        "live": false
+       },
+       {
+        "key": "learn",
+        "label": "Learn",
+        "n": 1,
+        "live": false
+       },
+       {
+        "key": "measure",
+        "label": "Measure",
+        "n": 1,
+        "live": false
+       }
+      ],
+      "bar": true
+     },
+     "render": {
+      "on": true,
+      "mode": "colour",
+      "step": 0,
+      "stepWord": null,
+      "tissue": true
+     },
+     "peel": {
+      "on": true,
+      "step": 0,
+      "max": 7,
+      "hidden": [],
+      "label": "Whole body"
+     },
+     "fat": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": false
+     },
+     "combos": {
+      "on": true,
+      "probes": 14,
+      "pairs": 14,
+      "onPage": 14,
+      "active": []
+     },
+     "info": {
+      "on": true,
+      "open": false,
+      "sections": [
+       "what",
+       "styles",
+       "combine",
+       "layers",
+       "resets",
+       "fat",
+       "sources"
+      ],
+      "adopted": 1
+     }
+    },
+    "bar": {
+     "vis": true,
+     "top": 707,
+     "bottom": 838,
+     "w": 374,
+     "ids": [
+      "qg-view",
+      "qg-layers",
+      "qg-imaging",
+      "qg-cut",
+      "qg-mark",
+      "qg-learn",
+      "qg-measure",
+      "q301-undo",
+      "q301-redo",
+      "q301-reset",
+      "q301-mr-model",
+      "q301-info-btn"
+     ],
+     "words": [
+      "Undo",
+      "Redo",
+      "Module",
+      "Model"
+     ]
+    },
+    "groups": [
+     {
+      "key": "view",
+      "label": "View",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "layers",
+      "label": "Layers",
+      "n": 5,
+      "live": false
+     },
+     {
+      "key": "imaging",
+      "label": "Imaging",
+      "n": 4,
+      "live": false
+     },
+     {
+      "key": "cut",
+      "label": "Cut",
+      "n": 3,
+      "live": false
+     },
+     {
+      "key": "mark",
+      "label": "Mark",
+      "n": 5,
+      "live": false
+     },
+     {
+      "key": "learn",
+      "label": "Learn",
+      "n": 1,
+      "live": false
+     },
+     {
+      "key": "measure",
+      "label": "Measure",
+      "n": 1,
+      "live": false
+     }
+    ],
+    "open_close": [
+     {
+      "key": "view",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "layers",
+      "open": true,
+      "closed": true,
+      "members": 5
+     },
+     {
+      "key": "imaging",
+      "open": true,
+      "closed": true,
+      "members": 4
+     },
+     {
+      "key": "cut",
+      "open": true,
+      "closed": true,
+      "members": 3
+     },
+     {
+      "key": "mark",
+      "open": true,
+      "closed": true,
+      "members": 5
+     },
+     {
+      "key": "learn",
+      "open": true,
+      "closed": true,
+      "members": 1
+     },
+     {
+      "key": "measure",
+      "open": true,
+      "closed": true,
+      "members": 1
+     }
+    ],
+    "alive": {
+     "t-cut": true,
+     "t-reset": false,
+     "sel-markmode": true,
+     "t-learn": true,
+     "t-measure": true,
+     "btn-xray": true,
+     "sides": true,
+     "foot": true
+    },
+    "pixels": {
+     "colour": {
+      "n": 23923,
+      "w": 390,
+      "h": 844,
+      "field": [
+       233,
+       237,
+       240,
+       255
+      ],
+      "lum": 105.99967784140767,
+      "sd": 32.98723012244815,
+      "sat": 57.139739999163986,
+      "greyFrac": 0.004389081636918446,
+      "hist": [
+       0,
+       0.08870124984324708,
+       0.33056054842620075,
+       0.3401329264724324,
+       0.17004556284746897,
+       0.061154537474397024,
+       0.009363374158759354,
+       4.18007774944614e-05
+      ]
+     },
+     "xray": {
+      "n": 23923,
+      "w": 390,
+      "h": 844,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 161.6697739831795,
+      "sd": 57.98337641869491,
+      "sat": 2.079337875684488,
+      "greyFrac": 1,
+      "hist": [
+       0.026668896041466373,
+       0.07168833340300129,
+       0.060109518037035486,
+       0.10216110019646366,
+       0.1738912343769594,
+       0.2179492538561217,
+       0.1703381682899302,
+       0.17719349579902186
+      ]
+     },
+     "ct": {
+      "n": 23923,
+      "w": 390,
+      "h": 844,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 68.06234376959227,
+      "sd": 19.26460372665169,
+      "sat": 0.16933494963006313,
+      "greyFrac": 1,
+      "hist": [
+       8.36015549889228e-05,
+       0.45149019771767757,
+       0.4998954980562638,
+       0.011453413033482423,
+       0.028090122476278057,
+       0.007398737616519668,
+       0.0015466287672950716,
+       4.18007774944614e-05
+      ]
+     },
+     "mri": {
+      "n": 23922,
+      "w": 390,
+      "h": 844,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 124.33086677535123,
+      "sd": 24.582926921554147,
+      "sat": 0.16800434746258675,
+      "greyFrac": 1,
+      "hist": [
+       0.0001672100994900092,
+       0.026168380570186438,
+       0.0762896078923167,
+       0.4326561324303988,
+       0.41735640832706294,
+       0.03933617590502466,
+       0.007524454477050414,
+       0.0005016302984700275
+      ]
+     }
+    },
+    "xray_steps": {
+     "0": {
+      "n": 23923,
+      "w": 390,
+      "h": 844,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 161.6697739831795,
+      "sd": 57.98337641869491,
+      "sat": 2.079337875684488,
+      "greyFrac": 1,
+      "hist": [
+       0.026668896041466373,
+       0.07168833340300129,
+       0.060109518037035486,
+       0.10216110019646366,
+       0.1738912343769594,
+       0.2179492538561217,
+       0.1703381682899302,
+       0.17719349579902186
+      ]
+     },
+     "1": {
+      "n": 23923,
+      "w": 390,
+      "h": 844,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 205.78750236171643,
+      "sd": 52.05556283675062,
+      "sat": 0.9823182711198428,
+      "greyFrac": 1,
+      "hist": [
+       0,
+       0.026668896041466373,
+       0.07168833340300129,
+       0.027086903816410986,
+       0.04476863269656815,
+       0.09066588638548677,
+       0.2332483384190946,
+       0.5058730092379718
+      ]
+     },
+     "2": {
+      "n": 23923,
+      "w": 390,
+      "h": 844,
+      "field": [
+       5,
+       7,
+       10,
+       255
+      ],
+      "lum": 233.75745203360452,
+      "sd": 37.339784060242174,
+      "sat": 0.575011495213811,
+      "greyFrac": 1,
+      "hist": [
+       0,
+       0,
+       0.026668896041466373,
+       0.00025080466496676837,
+       0.07143752873803452,
+       0.027086903816410986,
+       0.044935835806546004,
+       0.8296200309325753
+      ]
+     }
+    },
+    "cut_imaging": {
+     "cut": {
+      "key": "cut",
+      "active": true,
+      "disabled": false,
+      "reason": "Active together with Imaging style.",
+      "with": [
+       "Imaging style"
+      ],
+      "blockedBy": null
+     },
+     "img": {
+      "key": "imaging",
+      "active": true,
+      "disabled": false,
+      "reason": "Active together with Cut, Fat shown.",
+      "with": [
+       "Cut",
+       "Fat shown"
+      ],
+      "blockedBy": null
+     },
+     "active": [
+      "cut",
+      "fat",
+      "imaging"
+     ]
+    },
+    "incompatible": [
+     {
+      "a": "imaging",
+      "b": "srccolour",
+      "why": "A radiographic style replaces the colour, so colour-by-source has nothing left to colour.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "imaging",
+      "b": "highlight",
+      "why": "A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead.",
+      "aOn": true,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "preset",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "peel",
+      "b": "solo",
+      "why": "Both write the same layer table \u2014 turning one on turns the other off.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "spin",
+      "b": "measure",
+      "why": "Stop the spin first, or the model moves while you are placing the point.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "spin",
+      "b": "cutplace",
+      "why": "Stop the spin first, or the model moves while you are placing the plane.",
+      "aOn": false,
+      "bOn": false
+     },
+     {
+      "a": "marktap",
+      "b": "cutplace",
+      "why": "Both take over the next tap on the model \u2014 only one can have it.",
+      "aOn": false,
+      "bOn": false
+     }
+    ],
+    "refused": {
+     "reasons": [
+      "\u2298 A highlight colour does not exist in a greyscale picture \u2014 use Fade others instead."
+     ],
+     "disabled": [
+      {
+       "id": "sel-p-hlsel",
+       "disabled": true,
+       "aria": "true"
+      }
+     ]
+    },
+    "fat": {
+     "after_model_reset": {
+      "on": true,
+      "shown": false,
+      "count": 51,
+      "touched": true
+     },
+     "on": {
+      "on": true,
+      "shown": true,
+      "count": 51,
+      "touched": true
+     },
+     "capOff": {
+      "total": 51,
+      "filled": 51,
+      "shown": false,
+      "capA": 0.9
+     },
+     "capOn": {
+      "total": 51,
+      "filled": 51,
+      "shown": true,
+      "capA": 0.9
+     },
+     "visOff": 0,
+     "visOn": 51
+    },
+    "peel_order": [
+     {
+      "key": "skin",
+      "label": "Skin",
+      "cats": [
+       "skin"
+      ]
+     },
+     {
+      "key": "fat",
+      "label": "Fat / superficial fascia",
+      "cats": [
+       "fat"
+      ]
+     },
+     {
+      "key": "fascia",
+      "label": "Deep fascia",
+      "cats": [
+       "fascia",
+       "bursa"
+      ]
+     },
+     {
+      "key": "muscle",
+      "label": "Muscle",
+      "cats": [
+       "muscle",
+       "tendon",
+       "insertion"
+      ]
+     },
+     {
+      "key": "ligament",
+      "label": "Ligament",
+      "cats": [
+       "ligament",
+       "joint"
+      ]
+     },
+     {
+      "key": "neurovas",
+      "label": "Vessels & nerves",
+      "cats": [
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ]
+     },
+     {
+      "key": "viscera",
+      "label": "Organs",
+      "cats": [
+       "viscera",
+       "organ",
+       "cns"
+      ]
+     }
+    ],
+    "peel_steps": [
+     {
+      "step": 1,
+      "hidden": [
+       "skin"
+      ],
+      "shown": 2951
+     },
+     {
+      "step": 2,
+      "hidden": [
+       "skin",
+       "fat"
+      ],
+      "shown": 2951
+     },
+     {
+      "step": 3,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa"
+      ],
+      "shown": 2776
+     },
+     {
+      "step": 4,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion"
+      ],
+      "shown": 2344
+     },
+     {
+      "step": 5,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint"
+      ],
+      "shown": 2011
+     },
+     {
+      "step": 6,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic"
+      ],
+      "shown": 636
+     },
+     {
+      "step": 7,
+      "hidden": [
+       "skin",
+       "fat",
+       "fascia",
+       "bursa",
+       "muscle",
+       "tendon",
+       "insertion",
+       "ligament",
+       "joint",
+       "vessel",
+       "nerve",
+       "lymph",
+       "lymphatic",
+       "viscera",
+       "organ",
+       "cns"
+      ],
+      "shown": 309
+     }
+    ],
+    "showall_keys": [
+     "box",
+     "solo",
+     "hidegrp",
+     "hideone",
+     "layers",
+     "preset",
+     "side",
+     "cut",
+     "slices",
+     "fat",
+     "peel",
+     "imaging"
+    ],
+    "modelreset_keys": [
+     "boneread",
+     "cut",
+     "engine",
+     "fat",
+     "labels",
+     "measure",
+     "peel",
+     "pose",
+     "renderstyle",
+     "selection",
+     "slices"
+    ],
+    "info": {
+     "open": true,
+     "secs": [
+      "what",
+      "styles",
+      "combine",
+      "layers",
+      "resets",
+      "fat",
+      "sources"
+     ],
+     "txt": 7673
+    },
+    "page_errors": [],
+    "covered_controls": []
+   }
+  }
+ }
+}

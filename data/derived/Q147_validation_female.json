@@ -1,0 +1,220 @@
+{
+ "source": "Q147 validation: scripts/transfer/limb_per_bone_transfer.py --validate. Diagnostics only.",
+ "direction": "zan2f",
+ "n": 13,
+ "skipped": {
+  "extensor_pollicis_longus_r": "no Z-Anatomy source mesh for this id",
+  "extensor_digitorum_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+  "extensor_digiti_minimi_l": "no driving bone available on this specimen (phalanges_hand_l,radius_l,ulna_l)",
+  "abductor_pollicis_longus_l": "no driving bone available on this specimen (metacarpals_l,radius_l)",
+  "extensor_pollicis_brevis_l": "no driving bone available on this specimen (phalanges_hand_l,radius_l)",
+  "extensor_pollicis_longus_l": "no Z-Anatomy source mesh for this id"
+ },
+ "rows": [
+  {
+   "id": "flexor_carpi_ulnaris_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "ulna_r": 0.655,
+    "radius_r": 0.228,
+    "carpals_r": 0.117
+   },
+   "bone_penetration_vertices_before_pushoff": 42,
+   "centroid_dist_mm": 19.2,
+   "real_vol_cm3": 48.8,
+   "zan_vol_cm3": 20.2,
+   "vol_ratio_zan_over_real": 0.415,
+   "dice": 0.358,
+   "iou": 0.218,
+   "real_extent_mm": 166.0
+  },
+  {
+   "id": "flexor_digitorum_profundus_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "ulna_r": 0.623,
+    "carpals_r": 0.377
+   },
+   "bone_penetration_vertices_before_pushoff": 490,
+   "centroid_dist_mm": 72.9,
+   "real_vol_cm3": 28.9,
+   "zan_vol_cm3": 48.6,
+   "vol_ratio_zan_over_real": 1.683,
+   "dice": 0.461,
+   "iou": 0.3,
+   "real_extent_mm": 172.7
+  },
+  {
+   "id": "flexor_pollicis_longus_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 208,
+   "centroid_dist_mm": 24.7,
+   "real_vol_cm3": 10.4,
+   "zan_vol_cm3": 5.4,
+   "vol_ratio_zan_over_real": 0.517,
+   "dice": 0.213,
+   "iou": 0.119,
+   "real_extent_mm": 148.7
+  },
+  {
+   "id": "pronator_quadratus_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 0.508,
+    "ulna_r": 0.492
+   },
+   "bone_penetration_vertices_before_pushoff": 101,
+   "centroid_dist_mm": 10.8,
+   "real_vol_cm3": 16.2,
+   "zan_vol_cm3": 3.1,
+   "vol_ratio_zan_over_real": 0.193,
+   "dice": 0.261,
+   "iou": 0.15,
+   "real_extent_mm": 77.4
+  },
+  {
+   "id": "brachioradialis_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 93,
+   "centroid_dist_mm": 53.5,
+   "real_vol_cm3": 42.5,
+   "zan_vol_cm3": 87.0,
+   "vol_ratio_zan_over_real": 2.048,
+   "dice": 0.144,
+   "iou": 0.077,
+   "real_extent_mm": 112.8
+  },
+  {
+   "id": "extensor_carpi_radialis_longus_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 0.694,
+    "ulna_r": 0.306
+   },
+   "bone_penetration_vertices_before_pushoff": 107,
+   "centroid_dist_mm": 29.1,
+   "real_vol_cm3": 23.9,
+   "zan_vol_cm3": 14.5,
+   "vol_ratio_zan_over_real": 0.609,
+   "dice": 0.073,
+   "iou": 0.038,
+   "real_extent_mm": 152.4
+  },
+  {
+   "id": "extensor_carpi_radialis_brevis_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 0.698,
+    "ulna_r": 0.302
+   },
+   "bone_penetration_vertices_before_pushoff": 42,
+   "centroid_dist_mm": 17.5,
+   "real_vol_cm3": 15.1,
+   "zan_vol_cm3": 16.2,
+   "vol_ratio_zan_over_real": 1.071,
+   "dice": 0.01,
+   "iou": 0.005,
+   "real_extent_mm": 128.2
+  },
+  {
+   "id": "extensor_digitorum_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 0.366,
+    "carpals_r": 0.332,
+    "ulna_r": 0.302
+   },
+   "bone_penetration_vertices_before_pushoff": 170,
+   "centroid_dist_mm": 91.0,
+   "real_vol_cm3": 16.4,
+   "zan_vol_cm3": 20.1,
+   "vol_ratio_zan_over_real": 1.225,
+   "dice": 0.074,
+   "iou": 0.038,
+   "real_extent_mm": 142.3
+  },
+  {
+   "id": "extensor_digiti_minimi_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "ulna_r": 0.571,
+    "radius_r": 0.429
+   },
+   "bone_penetration_vertices_before_pushoff": 140,
+   "centroid_dist_mm": 51.4,
+   "real_vol_cm3": 7.7,
+   "zan_vol_cm3": 4.1,
+   "vol_ratio_zan_over_real": 0.529,
+   "dice": 0.013,
+   "iou": 0.007,
+   "real_extent_mm": 116.1
+  },
+  {
+   "id": "extensor_carpi_ulnaris_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "ulna_r": 0.763,
+    "radius_r": 0.237
+   },
+   "bone_penetration_vertices_before_pushoff": 74,
+   "centroid_dist_mm": 48.5,
+   "real_vol_cm3": 11.7,
+   "zan_vol_cm3": 7.1,
+   "vol_ratio_zan_over_real": 0.608,
+   "dice": 0.056,
+   "iou": 0.029,
+   "real_extent_mm": 142.2
+  },
+  {
+   "id": "abductor_pollicis_longus_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 7,
+   "centroid_dist_mm": 10.6,
+   "real_vol_cm3": 7.3,
+   "zan_vol_cm3": 19.7,
+   "vol_ratio_zan_over_real": 2.688,
+   "dice": 0.316,
+   "iou": 0.188,
+   "real_extent_mm": 110.5
+  },
+  {
+   "id": "extensor_pollicis_brevis_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "radius_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 0,
+   "centroid_dist_mm": 21.2,
+   "real_vol_cm3": 3.3,
+   "zan_vol_cm3": 4.3,
+   "vol_ratio_zan_over_real": 1.314,
+   "dice": 0.26,
+   "iou": 0.149,
+   "real_extent_mm": 71.4
+  },
+  {
+   "id": "extensor_indicis_r",
+   "real_subject": "ct_vhf_forearm",
+   "driving_bones": {
+    "ulna_r": 1.0
+   },
+   "bone_penetration_vertices_before_pushoff": 230,
+   "centroid_dist_mm": 39.5,
+   "real_vol_cm3": 8.9,
+   "zan_vol_cm3": 2.7,
+   "vol_ratio_zan_over_real": 0.298,
+   "dice": 0.0,
+   "iou": 0.0,
+   "real_extent_mm": 85.3
+  }
+ ]
+}

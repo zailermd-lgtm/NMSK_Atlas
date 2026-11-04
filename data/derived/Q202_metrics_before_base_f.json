@@ -1,0 +1,247 @@
+{
+ "n_skin_patches": 248,
+ "contact": {
+  "contacts": 23484,
+  "gap_p99_mm": 0.94,
+  "gap_gt_2mm": 0,
+  "gap_gt_3mm": 0,
+  "gap_gt_5mm": 0,
+  "gap_max_mm": 1.0
+ },
+ "envelope": {
+  "envelope_L_close2": 12.0,
+  "envelope_L_close3": 12.2
+ },
+ "seams": {
+  "surface_gap_gt1mm": 175,
+  "surface_gap_gt2mm": 0,
+  "surface_gap_gt3mm": 0,
+  "surface_gap_max_mm": 1.5,
+  "surface_gap_worst": [
+   [
+    "zan_skin_dorsal_surfaces_of_digits_of_hand_l",
+    "zan_skin_palmar_surfaces_of_digits_of_hand_l",
+    1.5
+   ],
+   [
+    "zan_skin_dorsal_surfaces_of_digits_of_hand_r",
+    "zan_skin_palmar_surfaces_of_digits_of_hand_r",
+    1.5
+   ],
+   [
+    "zan_skin_labial_commissure_l",
+    "zan_skin_oral_region_r",
+    1.49
+   ],
+   [
+    "zan_skin_labial_commissure_r",
+    "zan_skin_oral_region_l",
+    1.49
+   ],
+   [
+    "zan_skin_nail_plate_foot_l",
+    "zan_skin_perionyx_foot_l",
+    1.49
+   ],
+   [
+    "zan_skin_nail_plate_foot_r",
+    "zan_skin_perionyx_foot_r",
+    1.49
+   ]
+  ],
+  "seams": 618,
+  "steps_gt_1mm": 260,
+  "steps_gt_3mm": 0,
+  "max_step_mm": 1.5,
+  "mean_step_mm": 0.872,
+  "worst": [
+   [
+    "zan_skin_anterior_region_of_elbow_l",
+    "zan_skin_posterior_region_of_elbow_l",
+    1.5
+   ],
+   [
+    "zan_skin_anterior_region_of_elbow_l",
+    "zan_skin_posterior_region_of_forearm_l",
+    1.5
+   ],
+   [
+    "zan_skin_anterior_region_of_elbow_r",
+    "zan_skin_posterior_region_of_elbow_r",
+    1.5
+   ],
+   [
+    "zan_skin_anterior_region_of_elbow_r",
+    "zan_skin_posterior_region_of_forearm_r",
+    1.5
+   ],
+   [
+    "zan_skin_carotid_triangle_l",
+    "zan_skin_submandibular_triangle_l",
+    1.5
+   ],
+   [
+    "zan_skin_carotid_triangle_r",
+    "zan_skin_submandibular_triangle_r",
+    1.5
+   ]
+  ]
+ },
+ "open": {
+  "open_boundary_edges_total": 1434,
+  "patches_with_open_edges": 40
+ },
+ "sections": {
+  "elbow_l": {
+   "slices": 57,
+   "valid": 57,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 0.47,
+   "max_centroid_step_mm_per_3mm": 0.81,
+   "steps_gt3mm": 0,
+   "at_t_mm": -7.0
+  },
+  "wrist_l": {
+   "slices": 37,
+   "valid": 37,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 0.88,
+   "max_centroid_step_mm_per_3mm": 1.36,
+   "steps_gt3mm": 0,
+   "at_t_mm": 29.0
+  },
+  "knee_l": {
+   "slices": 57,
+   "valid": 57,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 0.6,
+   "max_centroid_step_mm_per_3mm": 1.68,
+   "steps_gt3mm": 0,
+   "at_t_mm": 23.0
+  },
+  "ankle_l": {
+   "slices": 41,
+   "valid": 41,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 3.62,
+   "max_centroid_step_mm_per_3mm": 7.64,
+   "steps_gt3mm": 7,
+   "at_t_mm": 45.0
+  },
+  "elbow_r": {
+   "slices": 57,
+   "valid": 57,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 0.47,
+   "max_centroid_step_mm_per_3mm": 0.81,
+   "steps_gt3mm": 0,
+   "at_t_mm": -7.0
+  },
+  "wrist_r": {
+   "slices": 37,
+   "valid": 37,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 0.88,
+   "max_centroid_step_mm_per_3mm": 1.36,
+   "steps_gt3mm": 0,
+   "at_t_mm": 29.0
+  },
+  "knee_r": {
+   "slices": 57,
+   "valid": 57,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 0.6,
+   "max_centroid_step_mm_per_3mm": 1.68,
+   "steps_gt3mm": 0,
+   "at_t_mm": 23.0
+  },
+  "ankle_r": {
+   "slices": 41,
+   "valid": 41,
+   "open_or_missing_sections": 0,
+   "merged_with_trunk_sections": 0,
+   "max_radius_step_mm_per_3mm": 3.61,
+   "max_centroid_step_mm_per_3mm": 7.65,
+   "steps_gt3mm": 7,
+   "at_t_mm": 45.0
+  }
+ },
+ "escape": {
+  "pelvis_floor": {
+   "point": [
+    0,
+    -60,
+    20
+   ],
+   "escape_fraction": 0.1675,
+   "escape_dirs": 670
+  },
+  "pelvis_centre": {
+   "point": [
+    0,
+    -10,
+    20
+   ],
+   "escape_fraction": 0.07125,
+   "escape_dirs": 285
+  },
+  "perineal_gap": {
+   "point": [
+    0,
+    -80,
+    25
+   ],
+   "escape_fraction": 0.25975,
+   "escape_dirs": 1039
+  },
+  "lower_abdomen": {
+   "point": [
+    0,
+    60,
+    30
+   ],
+   "escape_fraction": 0.01425,
+   "escape_dirs": 57
+  },
+  "chest": {
+   "point": [
+    0,
+    330,
+    20
+   ],
+   "escape_fraction": 0.001,
+   "escape_dirs": 4
+  },
+  "r_thigh": {
+   "point": [
+    45,
+    -150,
+    10
+   ],
+   "escape_fraction": 0.0,
+   "escape_dirs": 0
+  },
+  "l_thigh": {
+   "point": [
+    -45,
+    -150,
+    10
+   ],
+   "escape_fraction": 0.0,
+   "escape_dirs": 0
+  }
+ },
+ "sections_summary": {
+  "junctions": 8,
+  "open_or_missing_total": 0,
+  "max_radius_step_mm_per_3mm": 3.62,
+  "junctions_with_step_gt3": 2
+ }
+}

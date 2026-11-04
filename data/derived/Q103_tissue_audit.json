@@ -1,0 +1,674 @@
+{
+  "audit_timestamp": "2026-09-20",
+  "tissue_inventory": {
+    "bones": {
+      "male": [
+        "lumbar_vertebrae",
+        "thoracic_vertebrae",
+        "cervical_vertebrae",
+        "scapula_l_left",
+        "scapula_r_right",
+        "clavicle_l_left",
+        "clavicle_r_right",
+        "ribs_l_left",
+        "ribs_r_right",
+        "sternum"
+      ],
+      "female": [
+        "sacrum",
+        "lumbar_vertebrae",
+        "thoracic_vertebrae",
+        "cervical_vertebrae",
+        "aortic_arch_and_great_vessels",
+        "descending_thoracic_aorta",
+        "abdominal_aorta",
+        "brachiocephalic_trunk_r",
+        "subclavian_a_r_right",
+        "subclavian_a_l_left",
+        "common_carotid_a_r_right",
+        "common_carotid_a_l_left",
+        "brachiocephalic_v_l_left",
+        "brachiocephalic_v_r_right",
+        "superior_vena_cava",
+        "inferior_vena_cava",
+        "common_iliac_a_l_left",
+        "common_iliac_a_r_right",
+        "common_iliac_v_l_left",
+        "common_iliac_v_r_right",
+        "humerus_l_left",
+        "humerus_r_right",
+        "scapula_l_left",
+        "scapula_r_right",
+        "clavicle_l_left",
+        "clavicle_r_right",
+        "femur_l_left",
+        "femur_r_right",
+        "hip_bone_l_left",
+        "hip_bone_r_right",
+        "gluteus_maximus_l_left",
+        "gluteus_maximus_r_right",
+        "gluteus_medius_l_left",
+        "gluteus_medius_r_right",
+        "gluteus_minimus_l_left",
+        "gluteus_minimus_r_right",
+        "iliopsoas_l_left",
+        "iliopsoas_r_right",
+        "cranium",
+        "ribs_l_left",
+        "ribs_r_right",
+        "sternum",
+        "costal_cartilage_r",
+        "costal_cartilage_l"
+      ]
+    }
+  },
+  "tissue_type_summary": {
+    "bones": {
+      "male": 10,
+      "female": 44,
+      "both": 10,
+      "male_only": 0,
+      "female_only": 34
+    }
+  },
+  "structure_continuity": {
+    "abdominal_aorta": {
+      "atlas_id": "abdominal_aorta",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 13490,
+        "largest_component_vertices": 13490
+      }
+    },
+    "aortic_arch_and_great_vessels": {
+      "atlas_id": "aortic_arch_and_great_vessels",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 8684,
+        "largest_component_vertices": 8684
+      }
+    },
+    "brachiocephalic_trunk_r": {
+      "atlas_id": "brachiocephalic_trunk_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 1702,
+        "largest_component_vertices": 1702
+      }
+    },
+    "brachiocephalic_v_l_left": {
+      "atlas_id": "brachiocephalic_v_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 5254,
+        "largest_component_vertices": 5254
+      }
+    },
+    "brachiocephalic_v_r_right": {
+      "atlas_id": "brachiocephalic_v_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 3112,
+        "largest_component_vertices": 3112
+      }
+    },
+    "cervical_vertebrae": {
+      "atlas_id": "cervical_vertebrae",
+      "tissue_type": "bones",
+      "male": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.14532318285409493,
+        "n_components": 7,
+        "total_vertices": 20623,
+        "largest_component_vertices": 2997
+      },
+      "female": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.16293319277902227,
+        "n_components": 7,
+        "total_vertices": 60712,
+        "largest_component_vertices": 9892
+      }
+    },
+    "clavicle_l_left": {
+      "atlas_id": "clavicle_l",
+      "tissue_type": "bones",
+      "male": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 2987,
+        "largest_component_vertices": 2987
+      },
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 12878,
+        "largest_component_vertices": 12878
+      }
+    },
+    "clavicle_r_right": {
+      "atlas_id": "clavicle_r",
+      "tissue_type": "bones",
+      "male": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 2981,
+        "largest_component_vertices": 2981
+      },
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 13336,
+        "largest_component_vertices": 13336
+      }
+    },
+    "common_carotid_a_l_left": {
+      "atlas_id": "common_carotid_a_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "FRAGMENTED",
+        "main_frac": 0.8944099378881988,
+        "n_components": 2,
+        "total_vertices": 3542,
+        "largest_component_vertices": 3168
+      }
+    },
+    "common_carotid_a_r_right": {
+      "atlas_id": "common_carotid_a_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 2300,
+        "largest_component_vertices": 2300
+      }
+    },
+    "common_iliac_a_l_left": {
+      "atlas_id": "common_iliac_a_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 7878,
+        "largest_component_vertices": 7878
+      }
+    },
+    "common_iliac_a_r_right": {
+      "atlas_id": "common_iliac_a_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 8244,
+        "largest_component_vertices": 8244
+      }
+    },
+    "common_iliac_v_l_left": {
+      "atlas_id": "common_iliac_v_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 12314,
+        "largest_component_vertices": 12314
+      }
+    },
+    "common_iliac_v_r_right": {
+      "atlas_id": "common_iliac_v_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 10946,
+        "largest_component_vertices": 10946
+      }
+    },
+    "costal_cartilage_l": {
+      "atlas_id": "costal_cartilage_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "FRAGMENTED",
+        "main_frac": 0.7096182449181954,
+        "n_components": 9,
+        "total_vertices": 40340,
+        "largest_component_vertices": 28626
+      }
+    },
+    "costal_cartilage_r": {
+      "atlas_id": "costal_cartilage_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "FRAGMENTED",
+        "main_frac": 0.6540764394770981,
+        "n_components": 7,
+        "total_vertices": 40084,
+        "largest_component_vertices": 26218
+      }
+    },
+    "cranium": {
+      "atlas_id": "cranium",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 281306,
+        "largest_component_vertices": 281306
+      }
+    },
+    "descending_thoracic_aorta": {
+      "atlas_id": "descending_thoracic_aorta",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "FRAGMENTED",
+        "main_frac": 0.7253091600917688,
+        "n_components": 2,
+        "total_vertices": 35742,
+        "largest_component_vertices": 25924
+      }
+    },
+    "femur_l_left": {
+      "atlas_id": "femur_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 38488,
+        "largest_component_vertices": 38488
+      }
+    },
+    "femur_r_right": {
+      "atlas_id": "femur_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 39196,
+        "largest_component_vertices": 39196
+      }
+    },
+    "gluteus_maximus_l_left": {
+      "atlas_id": "gluteus_maximus_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 79408,
+        "largest_component_vertices": 79408
+      }
+    },
+    "gluteus_maximus_r_right": {
+      "atlas_id": "gluteus_maximus_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 83548,
+        "largest_component_vertices": 83548
+      }
+    },
+    "gluteus_medius_l_left": {
+      "atlas_id": "gluteus_medius_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 50042,
+        "largest_component_vertices": 50042
+      }
+    },
+    "gluteus_medius_r_right": {
+      "atlas_id": "gluteus_medius_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 48714,
+        "largest_component_vertices": 48714
+      }
+    },
+    "gluteus_minimus_l_left": {
+      "atlas_id": "gluteus_minimus_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 23014,
+        "largest_component_vertices": 23014
+      }
+    },
+    "gluteus_minimus_r_right": {
+      "atlas_id": "gluteus_minimus_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 24402,
+        "largest_component_vertices": 24402
+      }
+    },
+    "hip_bone_l_left": {
+      "atlas_id": "hip_bone_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 100682,
+        "largest_component_vertices": 100682
+      }
+    },
+    "hip_bone_r_right": {
+      "atlas_id": "hip_bone_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 99574,
+        "largest_component_vertices": 99574
+      }
+    },
+    "humerus_l_left": {
+      "atlas_id": "humerus_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 42200,
+        "largest_component_vertices": 42200
+      }
+    },
+    "humerus_r_right": {
+      "atlas_id": "humerus_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 40052,
+        "largest_component_vertices": 40052
+      }
+    },
+    "iliopsoas_l_left": {
+      "atlas_id": "iliopsoas_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 67498,
+        "largest_component_vertices": 67498
+      }
+    },
+    "iliopsoas_r_right": {
+      "atlas_id": "iliopsoas_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 63490,
+        "largest_component_vertices": 63490
+      }
+    },
+    "inferior_vena_cava": {
+      "atlas_id": "inferior_vena_cava",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "FRAGMENTED",
+        "main_frac": 0.6969955454459293,
+        "n_components": 2,
+        "total_vertices": 21102,
+        "largest_component_vertices": 14708
+      }
+    },
+    "lumbar_vertebrae": {
+      "atlas_id": "lumbar_vertebrae",
+      "tissue_type": "bones",
+      "male": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.20297635226963848,
+        "n_components": 5,
+        "total_vertices": 14716,
+        "largest_component_vertices": 2987
+      },
+      "female": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.18093808400477926,
+        "n_components": 12,
+        "total_vertices": 130564,
+        "largest_component_vertices": 23624
+      }
+    },
+    "ribs_l_left": {
+      "atlas_id": "ribs_l",
+      "tissue_type": "bones",
+      "male": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.08503758332151468,
+        "n_components": 12,
+        "total_vertices": 35255,
+        "largest_component_vertices": 2998
+      },
+      "female": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.08653174022596115,
+        "n_components": 26,
+        "total_vertices": 123030,
+        "largest_component_vertices": 10646
+      }
+    },
+    "ribs_r_right": {
+      "atlas_id": "ribs_r",
+      "tissue_type": "bones",
+      "male": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.08493290300662476,
+        "n_components": 14,
+        "total_vertices": 35322,
+        "largest_component_vertices": 3000
+      },
+      "female": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.10993366636639096,
+        "n_components": 13,
+        "total_vertices": 122110,
+        "largest_component_vertices": 13424
+      }
+    },
+    "sacrum": {
+      "atlas_id": "sacrum",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "FRAGMENTED",
+        "main_frac": 0.7673891333099409,
+        "n_components": 9,
+        "total_vertices": 74098,
+        "largest_component_vertices": 56862
+      }
+    },
+    "scapula_l_left": {
+      "atlas_id": "scapula_l",
+      "tissue_type": "bones",
+      "male": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 2983,
+        "largest_component_vertices": 2983
+      },
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 44676,
+        "largest_component_vertices": 44676
+      }
+    },
+    "scapula_r_right": {
+      "atlas_id": "scapula_r",
+      "tissue_type": "bones",
+      "male": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 2962,
+        "largest_component_vertices": 2962
+      },
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 46606,
+        "largest_component_vertices": 46606
+      }
+    },
+    "sternum": {
+      "atlas_id": "sternum",
+      "tissue_type": "bones",
+      "male": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 2973,
+        "largest_component_vertices": 2973
+      },
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 18938,
+        "largest_component_vertices": 18938
+      }
+    },
+    "subclavian_a_l_left": {
+      "atlas_id": "subclavian_a_l",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "FRAGMENTED",
+        "main_frac": 0.9320661738824357,
+        "n_components": 2,
+        "total_vertices": 5682,
+        "largest_component_vertices": 5296
+      }
+    },
+    "subclavian_a_r_right": {
+      "atlas_id": "subclavian_a_r",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 5078,
+        "largest_component_vertices": 5078
+      }
+    },
+    "superior_vena_cava": {
+      "atlas_id": "superior_vena_cava",
+      "tissue_type": "bones",
+      "male": null,
+      "female": {
+        "status": "CONTINUOUS",
+        "main_frac": 1.0,
+        "n_components": 1,
+        "total_vertices": 6876,
+        "largest_component_vertices": 6876
+      }
+    },
+    "thoracic_vertebrae": {
+      "atlas_id": "thoracic_vertebrae",
+      "tissue_type": "bones",
+      "male": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.0841366480635887,
+        "n_components": 18,
+        "total_vertices": 35478,
+        "largest_component_vertices": 2985
+      },
+      "female": {
+        "status": "SEVERE_BREAK",
+        "main_frac": 0.1033961653151269,
+        "n_components": 21,
+        "total_vertices": 148226,
+        "largest_component_vertices": 15326
+      }
+    }
+  },
+  "fragmentation_summary": {
+    "CONTINUOUS": 37,
+    "FRAGMENTED": 7,
+    "SEVERE_BREAK": 10,
+    "MISSING_MESH": 0,
+    "ERROR": 0
+  },
+  "total_structures_checked": 44,
+  "total_male_structures": 10,
+  "total_female_structures": 44
+}

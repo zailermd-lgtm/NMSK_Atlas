@@ -1,0 +1,635 @@
+{
+ "_README": [
+  "Q293 finger re-articulation of the Combined pages; scripts/anatomy/q293/fingers_q293.py (method in its docstring)"
+ ],
+ "sigma_mm": 6.0,
+ "reach_mm": 25.0,
+ "comb_m": {
+  "joints": {
+   "thumb_mcp_r": {
+    "gap_before_mm": 3.44,
+    "gap_after_mm": 0.0
+   },
+   "thumb_ip_r": {
+    "gap_before_mm": 1.16,
+    "gap_after_mm": 0.0
+   },
+   "f2_mcp_r": {
+    "gap_before_mm": 7.86,
+    "gap_after_mm": 0.0
+   },
+   "f2_pip_r": {
+    "gap_before_mm": 7.26,
+    "gap_after_mm": 0.0
+   },
+   "f2_dip_r": {
+    "gap_before_mm": 4.13,
+    "gap_after_mm": 0.0
+   },
+   "f3_mcp_r": {
+    "gap_before_mm": 5.42,
+    "gap_after_mm": 0.0
+   },
+   "f3_pip_r": {
+    "gap_before_mm": 0.78,
+    "gap_after_mm": 0.0
+   },
+   "f3_dip_r": {
+    "gap_before_mm": 0.34,
+    "gap_after_mm": 0.0
+   },
+   "f4_mcp_r": {
+    "gap_before_mm": 2.93,
+    "gap_after_mm": 0.0
+   },
+   "f4_pip_r": {
+    "gap_before_mm": 1.68,
+    "gap_after_mm": 0.0
+   },
+   "f4_dip_r": {
+    "gap_before_mm": 0.29,
+    "gap_after_mm": 0.0
+   },
+   "f5_mcp_r": {
+    "gap_before_mm": 2.16,
+    "gap_after_mm": 0.0
+   },
+   "f5_pip_r": {
+    "gap_before_mm": 1.47,
+    "gap_after_mm": 0.0
+   },
+   "f5_dip_r": {
+    "gap_before_mm": 0.27,
+    "gap_after_mm": 0.0
+   },
+   "thumb_mcp_l": {
+    "gap_before_mm": 0.52,
+    "gap_after_mm": 0.0
+   },
+   "thumb_ip_l": {
+    "gap_before_mm": 0.4,
+    "gap_after_mm": 0.0
+   },
+   "f2_mcp_l": {
+    "gap_before_mm": 4.08,
+    "gap_after_mm": 0.0
+   },
+   "f2_pip_l": {
+    "gap_before_mm": 0.28,
+    "gap_after_mm": 0.0
+   },
+   "f2_dip_l": {
+    "gap_before_mm": 0.86,
+    "gap_after_mm": 0.0
+   },
+   "f3_mcp_l": {
+    "gap_before_mm": 1.94,
+    "gap_after_mm": 0.0
+   },
+   "f3_pip_l": {
+    "gap_before_mm": 1.68,
+    "gap_after_mm": 0.0
+   },
+   "f3_dip_l": {
+    "gap_before_mm": 0.43,
+    "gap_after_mm": 0.0
+   },
+   "f4_mcp_l": {
+    "gap_before_mm": 1.23,
+    "gap_after_mm": 0.0
+   },
+   "f4_pip_l": {
+    "gap_before_mm": 0.64,
+    "gap_after_mm": 0.0
+   },
+   "f4_dip_l": {
+    "gap_before_mm": 0.28,
+    "gap_after_mm": 0.0
+   },
+   "f5_mcp_l": {
+    "gap_before_mm": 2.46,
+    "gap_after_mm": 0.0
+   },
+   "f5_pip_l": {
+    "gap_before_mm": 0.87,
+    "gap_after_mm": 0.0
+   },
+   "f5_dip_l": {
+    "gap_before_mm": 0.27,
+    "gap_after_mm": 0.0
+   }
+  },
+  "fingers": {
+   "f5_r": {
+    "ct_trunc_mean_mm_before": 1.38,
+    "ct_median_mm_before": 1.08,
+    "ct_trunc_mean_mm_after": 0.96,
+    "ct_median_mm_after": 0.88,
+    "refit_accepted": true,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": [
+     4.0,
+     15.9,
+     27.8,
+     -11.0
+    ]
+   },
+   "f4_r": {
+    "ct_trunc_mean_mm_before": 2.16,
+    "ct_median_mm_before": 1.71,
+    "ct_trunc_mean_mm_after": 1.11,
+    "ct_median_mm_after": 0.99,
+    "refit_accepted": true,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": [
+     17.1,
+     5.6,
+     25.5,
+     -11.0
+    ]
+   },
+   "f3_r": {
+    "ct_trunc_mean_mm_before": 3.45,
+    "ct_median_mm_before": 3.36,
+    "ct_trunc_mean_mm_after": 1.46,
+    "ct_median_mm_after": 0.97,
+    "refit_accepted": true,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": [
+     33.7,
+     -2.1,
+     13.4,
+     -11.0
+    ]
+   },
+   "f2_r": {
+    "ct_trunc_mean_mm_before": 12.0,
+    "ct_median_mm_before": 12.0,
+    "ct_trunc_mean_mm_after": 4.3,
+    "ct_median_mm_after": 2.08,
+    "refit_accepted": true,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": [
+     36.1,
+     -16.7,
+     13.2,
+     -3.5
+    ]
+   },
+   "f4_l": {
+    "ct_trunc_mean_mm_before": 1.45,
+    "ct_median_mm_before": 1.28,
+    "ct_trunc_mean_mm_after": 1.45,
+    "ct_median_mm_after": 1.28,
+    "refit_accepted": false,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": null
+   },
+   "f3_l": {
+    "ct_trunc_mean_mm_before": 1.98,
+    "ct_median_mm_before": 1.52,
+    "ct_trunc_mean_mm_after": 1.34,
+    "ct_median_mm_after": 1.09,
+    "refit_accepted": true,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": [
+     12.2,
+     -3.3,
+     15.7,
+     -11.0
+    ]
+   },
+   "f5_l": {
+    "ct_trunc_mean_mm_before": 2.05,
+    "ct_median_mm_before": 1.76,
+    "ct_trunc_mean_mm_after": 2.05,
+    "ct_median_mm_after": 1.76,
+    "refit_accepted": false,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": null
+   },
+   "f2_l": {
+    "ct_trunc_mean_mm_before": 3.98,
+    "ct_median_mm_before": 1.87,
+    "ct_trunc_mean_mm_after": 3.98,
+    "ct_median_mm_after": 1.87,
+    "refit_accepted": false,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": null
+   }
+  },
+  "moved_bones": [
+   "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+   "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+   "zan_distal_phalanx_of_first_finger_of_hand_l",
+   "zan_distal_phalanx_of_first_finger_of_hand_r",
+   "zan_distal_phalanx_of_fourth_finger_of_hand_l",
+   "zan_distal_phalanx_of_fourth_finger_of_hand_r",
+   "zan_distal_phalanx_of_second_finger_of_hand_l",
+   "zan_distal_phalanx_of_second_finger_of_hand_r",
+   "zan_distal_phalanx_of_third_finger_of_hand_l",
+   "zan_distal_phalanx_of_third_finger_of_hand_r",
+   "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+   "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+   "zan_middle_phalanx_of_fourth_finger_of_hand_l",
+   "zan_middle_phalanx_of_fourth_finger_of_hand_r",
+   "zan_middle_phalanx_of_second_finger_of_hand_l",
+   "zan_middle_phalanx_of_second_finger_of_hand_r",
+   "zan_middle_phalanx_of_third_finger_of_hand_l",
+   "zan_middle_phalanx_of_third_finger_of_hand_r",
+   "zan_proximal_phalanx_of_fifth_finger_of_hand_l",
+   "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+   "zan_proximal_phalanx_of_first_finger_of_hand_l",
+   "zan_proximal_phalanx_of_first_finger_of_hand_r",
+   "zan_proximal_phalanx_of_fourth_finger_of_hand_l",
+   "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+   "zan_proximal_phalanx_of_second_finger_of_hand_l",
+   "zan_proximal_phalanx_of_second_finger_of_hand_r",
+   "zan_proximal_phalanx_of_third_finger_of_hand_l",
+   "zan_proximal_phalanx_of_third_finger_of_hand_r"
+  ],
+  "moved_soft_tissue_max_mm": {
+   "zan_skin_palmar_surfaces_of_digits_of_hand_r": 65.85,
+   "zan_dorsal_fascia_of_hand_r": 64.41,
+   "palmar_aponeurosis_r": 64.15,
+   "zan_dorsal_digital_branches_of_radial_nerve_r": 56.9,
+   "zan_proper_palmar_digital_arteries_r": 55.8,
+   "zan_dorsal_digital_veins_of_hand_r": 55.09,
+   "zan_palmar_digital_veins_r": 55.09,
+   "zan_proper_palmar_digital_branches_of_median_nerve_r": 55.04,
+   "zan_dorsal_digital_arteries_of_hand_r": 54.83,
+   "zan_collateral_interphalangeal_ligaments_of_hand_r": 50.68,
+   "zan_articular_capsules_of_distal_interphalangeal_joints_r": 50.05,
+   "flexor_digitorum_profundus_r": 44.05,
+   "extensor_indicis_r": 41.54,
+   "zan_palmar_interphalangeal_ligaments_r": 41.52,
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r": 35.88,
+   "extensor_digitorum_r": 33.78,
+   "zan_lumbrical_muscles_of_hand_r": 17.95,
+   "zan_skin_palm_r": 5.0,
+   "zan_skin_dorsum_of_hand_r": 4.81,
+   "flexor_digitorum_profundus_l": 4.22,
+   "zan_synovial_sheaths_of_digits_of_hand_l": 4.22,
+   "zan_collateral_metacarpophalangeal_ligaments_r": 4.22,
+   "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_l": 4.22,
+   "zan_dorsal_digital_arteries_of_hand_l": 4.22,
+   "zan_dorsal_digital_veins_of_hand_l": 4.22,
+   "extensor_digitorum_l": 4.21,
+   "extensor_indicis_l": 4.21,
+   "zan_collateral_interphalangeal_ligaments_of_hand_l": 4.21,
+   "zan_articular_capsules_of_proximal_interphalangeal_joints_l": 4.21,
+   "zan_proper_palmar_digital_arteries_l": 4.21,
+   "zan_proper_palmar_digital_branches_of_median_nerve_l": 4.21,
+   "zan_palmar_aponeurosis_l": 4.2,
+   "zan_articular_capsules_of_distal_interphalangeal_joints_l": 4.2,
+   "zan_dorsal_digital_branches_of_radial_nerve_l": 4.2,
+   "zan_palmar_digital_veins_l": 4.2,
+   "zan_palmar_interphalangeal_ligaments_l": 4.2,
+   "dorsal_interossei_hand_r": 4.15,
+   "zan_superficial_transverse_metacarpal_ligament_r": 4.15,
+   "zan_articular_capsules_of_metacarpophalangeal_joints_r": 4.15,
+   "zan_lumbrical_muscles_of_hand_l": 4.1,
+   "dorsal_interossei_hand_l": 4.08,
+   "zan_dorsal_fascia_of_hand_l": 4.08,
+   "zan_articular_capsules_of_metacarpophalangeal_joints_l": 3.66,
+   "zan_collateral_metacarpophalangeal_ligaments_l": 3.58,
+   "zan_common_palmar_digital_arteries_r": 3.54,
+   "extensor_pollicis_brevis_r": 3.44,
+   "zan_superficial_epigastric_vein_r": 3.44,
+   "zan_tendon_sheath_of_flexor_pollicis_longus_r": 3.44,
+   "zan_skin_dorsal_surfaces_of_digits_of_hand_r": 3.44,
+   "zan_extensor_pollicis_longus_r": 3.44,
+   "flexor_pollicis_longus_r": 3.37,
+   "zan_articular_capsules_of_proximal_interphalangeal_joints_r": 3.13,
+   "zan_skin_nail_plate_r": 2.95,
+   "zan_palmaris_longus_muscle_r": 2.95,
+   "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_r": 2.59,
+   "zan_skin_perionyx_r": 2.51,
+   "abductor_digiti_minimi_hand_l": 2.46,
+   "extensor_digiti_minimi_l": 2.46,
+   "zan_dorsal_digital_branches_of_ulnar_nerve_l": 2.46,
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l": 2.46,
+   "zan_palmaris_longus_muscle_l": 2.46,
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": 2.46,
+   "zan_common_flexor_tendon_sheath_l": 2.44,
+   "zan_deep_transverse_metacarpal_ligament_r": 2.37,
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_r": 2.11,
+   "zan_dorsal_digital_branches_of_ulnar_nerve_r": 2.08,
+   "zan_skin_palm_l": 2.02,
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": 1.94,
+   "zan_synovial_sheaths_of_digits_of_hand_r": 1.85,
+   "zan_superficial_transverse_metacarpal_ligament_l": 1.81,
+   "flexor_digiti_minimi_brevis_hand_r": 1.8,
+   "zan_common_flexor_tendon_sheath_r": 1.74,
+   "extensor_digiti_minimi_r": 1.73,
+   "zan_skin_dorsum_of_hand_l": 1.73,
+   "adductor_pollicis_r": 1.65,
+   "zan_common_palmar_digital_branches_of_median_nerve_r": 1.55,
+   "palmar_interossei_r": 1.49,
+   "zan_dorsal_venous_network_of_hand_r": 1.38,
+   "flexor_digiti_minimi_brevis_hand_l": 1.32,
+   "palmar_interossei_l": 1.32,
+   "zan_common_palmar_digital_branches_of_median_nerve_l": 1.09,
+   "zan_common_palmar_digital_arteries_l": 1.07,
+   "zan_deep_transverse_metacarpal_ligament_l": 1.01,
+   "abductor_digiti_minimi_hand_r": 1.0,
+   "flexor_pollicis_brevis_r": 0.9,
+   "opponens_pollicis_r": 0.9,
+   "zan_dorsal_branch_of_ulnar_nerve_l": 0.9,
+   "zan_dorsal_branch_of_ulnar_nerve_r": 0.87,
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_l": 0.69,
+   "zan_tendon_sheath_of_flexor_pollicis_longus_l": 0.52,
+   "zan_skin_dorsal_surfaces_of_digits_of_hand_l": 0.52,
+   "zan_skin_palmar_surfaces_of_digits_of_hand_l": 0.52,
+   "zan_extensor_pollicis_longus_l": 0.52,
+   "flexor_pollicis_longus_l": 0.51,
+   "zan_skin_nail_plate_l": 0.46,
+   "zan_skin_perionyx_l": 0.46,
+   "zan_dorsal_venous_network_of_hand_l": 0.37,
+   "adductor_pollicis_l": 0.29,
+   "zan_dorsal_metacarpal_arteries_l": 0.24,
+   "extensor_pollicis_brevis_l": 0.21
+  },
+  "n_structures_changed": 128
+ },
+ "comb_f": {
+  "joints": {
+   "thumb_mcp_r": {
+    "gap_before_mm": 2.51,
+    "gap_after_mm": 0.0
+   },
+   "thumb_ip_r": {
+    "gap_before_mm": 5.69,
+    "gap_after_mm": 0.0
+   },
+   "f2_mcp_r": {
+    "gap_before_mm": 2.92,
+    "gap_after_mm": 0.0
+   },
+   "f2_pip_r": {
+    "gap_before_mm": 2.68,
+    "gap_after_mm": 0.0
+   },
+   "f2_dip_r": {
+    "gap_before_mm": 1.77,
+    "gap_after_mm": 0.0
+   },
+   "f3_mcp_r": {
+    "gap_before_mm": 5.87,
+    "gap_after_mm": 0.0
+   },
+   "f3_pip_r": {
+    "gap_before_mm": 4.43,
+    "gap_after_mm": 0.0
+   },
+   "f3_dip_r": {
+    "gap_before_mm": 9.02,
+    "gap_after_mm": 0.0
+   },
+   "f4_mcp_r": {
+    "gap_before_mm": 4.05,
+    "gap_after_mm": 0.0
+   },
+   "f4_pip_r": {
+    "gap_before_mm": 4.24,
+    "gap_after_mm": 0.0
+   },
+   "f4_dip_r": {
+    "gap_before_mm": 6.01,
+    "gap_after_mm": 0.0
+   },
+   "f5_mcp_r": {
+    "gap_before_mm": 9.68,
+    "gap_after_mm": 0.0
+   },
+   "f5_pip_r": {
+    "gap_before_mm": 6.9,
+    "gap_after_mm": 0.0
+   },
+   "f5_dip_r": {
+    "gap_before_mm": 3.45,
+    "gap_after_mm": 0.0
+   },
+   "thumb_mcp_l": {
+    "gap_before_mm": 2.55,
+    "gap_after_mm": 0.0
+   },
+   "thumb_ip_l": {
+    "gap_before_mm": 0.59,
+    "gap_after_mm": 0.0
+   },
+   "f2_mcp_l": {
+    "gap_before_mm": 2.42,
+    "gap_after_mm": 0.0
+   },
+   "f2_pip_l": {
+    "gap_before_mm": 0.02,
+    "gap_after_mm": 0.0
+   },
+   "f2_dip_l": {
+    "gap_before_mm": 3.66,
+    "gap_after_mm": 0.0
+   },
+   "f3_mcp_l": {
+    "gap_before_mm": 0.96,
+    "gap_after_mm": 0.0
+   },
+   "f3_pip_l": {
+    "gap_before_mm": 1.99,
+    "gap_after_mm": 0.0
+   },
+   "f3_dip_l": {
+    "gap_before_mm": 0.11,
+    "gap_after_mm": 0.0
+   },
+   "f4_mcp_l": {
+    "gap_before_mm": 1.89,
+    "gap_after_mm": 0.0
+   },
+   "f4_pip_l": {
+    "gap_before_mm": 0.79,
+    "gap_after_mm": 0.0
+   },
+   "f4_dip_l": {
+    "gap_before_mm": 0.31,
+    "gap_after_mm": 0.0
+   },
+   "f5_mcp_l": {
+    "gap_before_mm": 4.38,
+    "gap_after_mm": 0.0
+   },
+   "f5_pip_l": {
+    "gap_before_mm": 0.44,
+    "gap_after_mm": 0.0
+   },
+   "f5_dip_l": {
+    "gap_before_mm": 2.44,
+    "gap_after_mm": 0.0
+   }
+  },
+  "fingers": {
+   "f2_r": {
+    "ct_trunc_mean_mm_before": 3.0,
+    "ct_median_mm_before": 2.28,
+    "ct_trunc_mean_mm_after": 3.0,
+    "ct_median_mm_after": 2.28,
+    "refit_accepted": false,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": null
+   },
+   "f3_r": {
+    "ct_trunc_mean_mm_before": 3.73,
+    "ct_median_mm_before": 3.15,
+    "ct_trunc_mean_mm_after": 3.73,
+    "ct_median_mm_after": 3.15,
+    "refit_accepted": false,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": null
+   },
+   "f4_r": {
+    "ct_trunc_mean_mm_before": 3.73,
+    "ct_median_mm_before": 3.41,
+    "ct_trunc_mean_mm_after": 3.73,
+    "ct_median_mm_after": 3.41,
+    "refit_accepted": false,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": null
+   },
+   "f5_r": {
+    "ct_trunc_mean_mm_before": 5.91,
+    "ct_median_mm_before": 4.76,
+    "ct_trunc_mean_mm_after": 5.91,
+    "ct_median_mm_after": 4.76,
+    "refit_accepted": false,
+    "deg_vs_z_rest_mcp_flex_abd_pip_dip": null
+   },
+   "hand_l": "no own CT finger bones on this side (transferred / absent): joints re-seated only"
+  },
+  "moved_bones": [
+   "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+   "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+   "zan_distal_phalanx_of_first_finger_of_hand_l",
+   "zan_distal_phalanx_of_first_finger_of_hand_r",
+   "zan_distal_phalanx_of_fourth_finger_of_hand_l",
+   "zan_distal_phalanx_of_fourth_finger_of_hand_r",
+   "zan_distal_phalanx_of_second_finger_of_hand_l",
+   "zan_distal_phalanx_of_second_finger_of_hand_r",
+   "zan_distal_phalanx_of_third_finger_of_hand_l",
+   "zan_distal_phalanx_of_third_finger_of_hand_r",
+   "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+   "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+   "zan_middle_phalanx_of_fourth_finger_of_hand_l",
+   "zan_middle_phalanx_of_fourth_finger_of_hand_r",
+   "zan_middle_phalanx_of_second_finger_of_hand_l",
+   "zan_middle_phalanx_of_second_finger_of_hand_r",
+   "zan_middle_phalanx_of_third_finger_of_hand_l",
+   "zan_middle_phalanx_of_third_finger_of_hand_r",
+   "zan_proximal_phalanx_of_fifth_finger_of_hand_l",
+   "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+   "zan_proximal_phalanx_of_first_finger_of_hand_l",
+   "zan_proximal_phalanx_of_first_finger_of_hand_r",
+   "zan_proximal_phalanx_of_fourth_finger_of_hand_l",
+   "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+   "zan_proximal_phalanx_of_second_finger_of_hand_l",
+   "zan_proximal_phalanx_of_second_finger_of_hand_r",
+   "zan_proximal_phalanx_of_third_finger_of_hand_l",
+   "zan_proximal_phalanx_of_third_finger_of_hand_r"
+  ],
+  "moved_soft_tissue_max_mm": {
+   "palmar_aponeurosis_r": 11.72,
+   "zan_skin_dorsal_surfaces_of_digits_of_hand_r": 11.72,
+   "zan_articular_capsules_of_distal_interphalangeal_joints_r": 11.72,
+   "zan_skin_palmar_surfaces_of_digits_of_hand_r": 11.72,
+   "zan_skin_perionyx_r": 11.72,
+   "zan_dorsal_digital_branches_of_radial_nerve_r": 11.72,
+   "zan_proper_palmar_digital_branches_of_median_nerve_r": 11.72,
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": 11.72,
+   "zan_dorsal_fascia_of_hand_r": 11.39,
+   "zan_dorsal_digital_branches_of_ulnar_nerve_r": 11.34,
+   "zan_palmar_digital_veins_r": 11.16,
+   "zan_palmar_interphalangeal_ligaments_r": 10.99,
+   "zan_dorsal_digital_arteries_of_hand_r": 10.52,
+   "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_r": 10.1,
+   "zan_proper_palmar_digital_arteries_r": 10.09,
+   "zan_dorsal_digital_veins_of_hand_r": 9.72,
+   "zan_collateral_interphalangeal_ligaments_of_hand_r": 9.7,
+   "abductor_digiti_minimi_hand_r": 9.68,
+   "dorsal_interossei_hand_r": 9.68,
+   "extensor_digitorum_r": 9.68,
+   "zan_synovial_sheaths_of_digits_of_hand_r": 9.68,
+   "palmar_interossei_r": 9.68,
+   "zan_common_flexor_tendon_sheath_r": 9.68,
+   "zan_articular_capsules_of_metacarpophalangeal_joints_r": 9.54,
+   "zan_articular_capsules_of_proximal_interphalangeal_joints_r": 9.39,
+   "flexor_digitorum_profundus_r": 9.34,
+   "zan_collateral_metacarpophalangeal_ligaments_r": 9.31,
+   "zan_superficial_transverse_metacarpal_ligament_r": 9.17,
+   "zan_skin_dorsum_of_hand_r": 9.08,
+   "zan_skin_palm_r": 8.84,
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r": 8.82,
+   "zan_palmaris_longus_muscle_r": 8.39,
+   "zan_extensor_pollicis_longus_r": 7.61,
+   "flexor_pollicis_longus_r": 7.5,
+   "zan_dorsal_fascia_of_hand_l": 6.15,
+   "zan_palmar_aponeurosis_l": 6.15,
+   "zan_dorsal_digital_veins_of_hand_l": 6.15,
+   "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": 6.15,
+   "zan_proper_palmar_digital_arteries_l": 6.11,
+   "zan_dorsal_digital_branches_of_ulnar_nerve_l": 6.07,
+   "zan_dorsal_digital_arteries_of_hand_l": 6.03,
+   "zan_lumbrical_muscles_of_hand_r": 5.87,
+   "zan_palmar_digital_veins_l": 5.78,
+   "zan_proper_palmar_digital_branches_of_median_nerve_l": 5.78,
+   "flexor_digiti_minimi_brevis_hand_r": 5.59,
+   "extensor_indicis_r": 5.45,
+   "zan_skin_inguinal_region_r": 5.45,
+   "zan_skin_nail_plate_r": 5.45,
+   "zan_articular_capsules_of_distal_interphalangeal_joints_l": 5.4,
+   "zan_collateral_interphalangeal_ligaments_of_hand_l": 5.38,
+   "zan_palmar_interphalangeal_ligaments_l": 5.36,
+   "extensor_digiti_minimi_r": 5.3,
+   "zan_dorsal_digital_branches_of_radial_nerve_l": 4.99,
+   "extensor_digitorum_l": 4.6,
+   "flexor_digitorum_profundus_l": 4.6,
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l": 4.6,
+   "zan_articular_capsules_of_proximal_interphalangeal_joints_l": 4.51,
+   "zan_lumbrical_muscles_of_hand_l": 4.49,
+   "zan_common_flexor_tendon_sheath_l": 4.48,
+   "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_l": 4.47,
+   "zan_deep_transverse_metacarpal_ligament_r": 4.47,
+   "abductor_digiti_minimi_hand_l": 4.38,
+   "flexor_digiti_minimi_brevis_hand_l": 4.38,
+   "extensor_digiti_minimi_l": 4.34,
+   "zan_collateral_metacarpophalangeal_ligaments_l": 4.26,
+   "zan_dorsal_branch_of_ulnar_nerve_r": 4.09,
+   "extensor_indicis_l": 4.04,
+   "zan_articular_capsules_of_metacarpophalangeal_joints_l": 3.9,
+   "zan_superficial_transverse_metacarpal_ligament_l": 3.8,
+   "zan_skin_palm_l": 3.5,
+   "opponens_digiti_minimi_r": 3.08,
+   "flexor_pollicis_longus_l": 2.94,
+   "zan_skin_dorsal_surfaces_of_digits_of_hand_l": 2.94,
+   "zan_skin_nail_plate_l": 2.94,
+   "zan_skin_palmar_surfaces_of_digits_of_hand_l": 2.94,
+   "zan_skin_perionyx_l": 2.94,
+   "zan_extensor_pollicis_longus_l": 2.94,
+   "zan_synovial_sheaths_of_digits_of_hand_l": 2.93,
+   "zan_common_palmar_digital_arteries_r": 2.87,
+   "zan_skin_inguinal_region_l": 2.78,
+   "extensor_pollicis_brevis_l": 2.55,
+   "zan_tendon_sheath_of_flexor_pollicis_longus_l": 2.55,
+   "zan_common_palmar_digital_branches_of_median_nerve_r": 2.54,
+   "zan_deep_transverse_metacarpal_ligament_l": 2.54,
+   "palmar_interossei_l": 2.52,
+   "extensor_pollicis_brevis_r": 2.51,
+   "zan_tendon_sheath_of_flexor_pollicis_longus_r": 2.51,
+   "zan_palmaris_longus_muscle_l": 2.48,
+   "dorsal_interossei_hand_l": 2.42,
+   "zan_common_palmar_digital_arteries_l": 2.33,
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_r": 2.26,
+   "zan_skin_dorsum_of_hand_l": 2.19,
+   "zan_common_palmar_digital_branches_of_ulnar_nerve_l": 1.71,
+   "zan_dorsal_venous_network_of_hand_r": 1.58,
+   "adductor_pollicis_l": 1.56,
+   "zan_dorsal_branch_of_ulnar_nerve_l": 1.48,
+   "flexor_pollicis_brevis_l": 1.38,
+   "opponens_pollicis_l": 1.38,
+   "zan_dorsal_metacarpal_arteries_r": 1.03,
+   "abductor_pollicis_brevis_l": 1.01,
+   "zan_common_palmar_digital_branches_of_median_nerve_l": 0.96,
+   "flexor_pollicis_brevis_r": 0.58,
+   "zan_dorsal_venous_network_of_hand_l": 0.55,
+   "abductor_pollicis_brevis_r": 0.48
+  },
+  "n_structures_changed": 132
+ }
+}

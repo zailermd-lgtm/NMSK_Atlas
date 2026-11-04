@@ -1,0 +1,254 @@
+{
+ "note": "Evaluation of the two pelvis TARGETS for the Base page: 'her' = the Visible Human female's own pelvis (CT hip bones + HRA sacrum / coccyx); 'mean' = the signed-distance mean of 47 women's pelvises (TotalSegmentator v2.0.1, CC BY 4.0) scaled to her pelvis. Indicators measured on the deformed Z-Anatomy pelvis (Q233 rules). The mean target hit the women's mean for the hip bones but its blurred sacrum / ischium degraded the deformed Z sacrum and ischium (sacral curvature index 6.2 vs women 22.9, ischial length 64.9 mm vs 80.6, inlet index 127.4 vs 93): NOT used for the page.",
+ "her": {
+  "subpubic_angle_deg": 84.5,
+  "intertuberous_mm": 129.4,
+  "bi_iliac_breadth_mm": 297.4,
+  "inlet_index_ap_over_transverse_pct": 75.5,
+  "ap_conjugate_mm": 121.6,
+  "sciatic_notch_hull_angle_deg": 91.3,
+  "sacral_index_breadth_over_length_pct": 107.5,
+  "sacral_curvature_index_pct": 32.4,
+  "ischiopubic_index": 122.0,
+  "pubic_length_l_mm": 106.8,
+  "ischial_length_l_mm": 87.5
+ },
+ "mean": {
+  "subpubic_angle_deg": 87.3,
+  "intertuberous_mm": 120.6,
+  "bi_iliac_breadth_mm": 291.3,
+  "inlet_index_ap_over_transverse_pct": 127.4,
+  "ap_conjugate_mm": 167.8,
+  "sciatic_notch_hull_angle_deg": 107.9,
+  "sacral_index_breadth_over_length_pct": 155.2,
+  "sacral_curvature_index_pct": 6.2,
+  "ischiopubic_index": 157.4,
+  "pubic_length_l_mm": 102.1,
+  "ischial_length_l_mm": 64.9
+ },
+ "mean_similarity": {
+  "scale": 1.0587,
+  "residual_median_mm": 2.07,
+  "n_women": 47
+ },
+ "registration_mean": {
+  "hip_bone_l": {
+   "median_mm": 2.57,
+   "p90_mm": 7.04,
+   "max_mm": 14.6
+  },
+  "hip_bone_r": {
+   "median_mm": 2.59,
+   "p90_mm": 6.89,
+   "max_mm": 14.8
+  },
+  "sacrum": {
+   "median_mm": 6.06,
+   "p90_mm": 13.87,
+   "max_mm": 25.8
+  },
+  "coccyx": {
+   "median_mm": 2.23,
+   "p90_mm": 8.31,
+   "max_mm": 11.9
+  },
+  "_landmark_snap": {
+   "landmarks": [
+    "acet_l",
+    "acet_r",
+    "ala_l",
+    "ala_r",
+    "apex",
+    "asis_l",
+    "asis_r",
+    "coccyx_tip",
+    "crest_l",
+    "crest_r",
+    "promontory",
+    "psis_l",
+    "psis_r",
+    "symL_l",
+    "symL_r",
+    "symU_l",
+    "symU_r",
+    "tub_l",
+    "tub_r",
+    "wing_l",
+    "wing_r"
+   ],
+   "residual_before_mm": 5.93,
+   "residual_after_mm": 3.44,
+   "per_landmark_after_mm": {
+    "acet_l": 4.3,
+    "acet_r": 0.0,
+    "ala_l": 2.7,
+    "ala_r": 9.0,
+    "apex": 1.0,
+    "asis_l": 0.0,
+    "asis_r": 2.6,
+    "coccyx_tip": 0.0,
+    "crest_l": 0.0,
+    "crest_r": 0.0,
+    "promontory": 24.8,
+    "psis_l": 2.2,
+    "psis_r": 0.0,
+    "symL_l": 2.4,
+    "symL_r": 3.0,
+    "symU_l": 1.9,
+    "symU_r": 2.3,
+    "tub_l": 0.0,
+    "tub_r": 5.2,
+    "wing_l": 10.8,
+    "wing_r": 0.0
+   }
+  },
+  "_symphysis": {
+   "gap_before_mm": 14.8,
+   "gap_target_mm": 4.4,
+   "gap_after_mm": 4.4,
+   "shift_each_mm": 5.2
+  },
+  "_target_to_ring": {
+   "median_mm": 4.4,
+   "p90_mm": 10.94
+  },
+  "_similarity_scale": 1.0,
+  "_icp_median_mm": 3.57,
+  "_landmarks": {
+   "keys": [
+    "acet_l",
+    "acet_r",
+    "ala_l",
+    "ala_r",
+    "apex",
+    "asis_l",
+    "asis_r",
+    "coccyx_tip",
+    "crest_l",
+    "crest_r",
+    "promontory",
+    "psis_l",
+    "psis_r",
+    "symL_l",
+    "symL_r",
+    "symU_l",
+    "symU_r",
+    "tub_l",
+    "tub_r",
+    "wing_l",
+    "wing_r"
+   ],
+   "residual_before_mm": 16.3
+  }
+ },
+ "registration_her": {
+  "hip_bone_l": {
+   "median_mm": 2.47,
+   "p90_mm": 6.57,
+   "max_mm": 14.2
+  },
+  "hip_bone_r": {
+   "median_mm": 2.37,
+   "p90_mm": 7.85,
+   "max_mm": 19.0
+  },
+  "sacrum": {
+   "median_mm": 2.67,
+   "p90_mm": 8.61,
+   "max_mm": 20.5
+  },
+  "coccyx": {
+   "median_mm": 0.81,
+   "p90_mm": 2.75,
+   "max_mm": 4.4
+  },
+  "_landmark_snap": {
+   "landmarks": [
+    "acet_l",
+    "acet_r",
+    "ala_l",
+    "ala_r",
+    "apex",
+    "asis_l",
+    "asis_r",
+    "coccyx_tip",
+    "crest_l",
+    "crest_r",
+    "promontory",
+    "psis_l",
+    "psis_r",
+    "symL_l",
+    "symL_r",
+    "symU_l",
+    "symU_r",
+    "tub_l",
+    "tub_r",
+    "wing_l",
+    "wing_r"
+   ],
+   "residual_before_mm": 5.51,
+   "residual_after_mm": 3.09,
+   "per_landmark_after_mm": {
+    "acet_l": 0.0,
+    "acet_r": 0.0,
+    "ala_l": 0.0,
+    "ala_r": 4.0,
+    "apex": 0.0,
+    "asis_l": 1.6,
+    "asis_r": 0.0,
+    "coccyx_tip": 0.0,
+    "crest_l": 27.1,
+    "crest_r": 3.1,
+    "promontory": 18.4,
+    "psis_l": 0.0,
+    "psis_r": 0.0,
+    "symL_l": 0.0,
+    "symL_r": 2.3,
+    "symU_l": 0.0,
+    "symU_r": 0.0,
+    "tub_l": 0.0,
+    "tub_r": 0.0,
+    "wing_l": 0.0,
+    "wing_r": 8.2
+   }
+  },
+  "_symphysis": {
+   "gap_before_mm": 10.2,
+   "gap_target_mm": 2.1,
+   "gap_after_mm": 2.1,
+   "shift_each_mm": 4.1
+  },
+  "_target_to_ring": {
+   "median_mm": 3.7,
+   "p90_mm": 9.31
+  },
+  "_similarity_scale": 1.0,
+  "_icp_median_mm": 2.76,
+  "_landmarks": {
+   "keys": [
+    "acet_l",
+    "acet_r",
+    "ala_l",
+    "ala_r",
+    "apex",
+    "asis_l",
+    "asis_r",
+    "coccyx_tip",
+    "crest_l",
+    "crest_r",
+    "promontory",
+    "psis_l",
+    "psis_r",
+    "symL_l",
+    "symL_r",
+    "symU_l",
+    "symU_r",
+    "tub_l",
+    "tub_r",
+    "wing_l",
+    "wing_r"
+   ],
+   "residual_before_mm": 12.2
+  }
+ }
+}

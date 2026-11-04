@@ -1,0 +1,295 @@
+{
+ "schema": "nmsk.q307_lacn.v1",
+ "generated_by": "scripts/anatomy/q307 (place307.py / val307.py and the probes recorded in docs/research/Q307_nerve_placement_audit.md)",
+ "structure": "Lateral antebrachial cutaneous nerve (zan_lateral_antebrachial_cutaneous_nerve_{l,r})",
+ "literature": {
+  "qawasmi_2024": {
+   "pmid": "38934998",
+   "doi": "10.1016/j.jhsa.2024.04.018",
+   "n": "28 fresh cadaveric upper extremities",
+   "LE_to_nerve_at_the_interepicondylar_line_mm": [
+    24.5,
+    7.2
+   ],
+   "medial_to_the_brachioradialis_at_the_lateral_epicondyle_mm": [
+    6.3,
+    3.1
+   ],
+   "aligns_with_the_brachioradialis_medial_border_mm_distal_to_the_IEL": 68,
+   "same_deep_fascia_plane_as_the_antebrachial_vein_mm_from_the_LE": [
+    47.6,
+    5.0,
+    37,
+    55
+   ],
+   "quotes": [
+    "The LABCN emerged lateral to the BT in all specimens and crossed medially at the top of the BT in 50% of the cadavers.",
+    "It was deep to the forearm superficial fascia in all cadavers.",
+    "At the elbow joint level, 82.1% of the specimens have two branches for the LABCN, whereas 17.9% demonstrated only a single branch."
+   ]
+  },
+  "khadanovich_2023": {
+   "pmid": "38128746",
+   "doi": "10.1016/j.aanat.2023.152202",
+   "n": "93 cadaveric forearms",
+   "branches_into_anterior_and_posterior_pct": 81.7,
+   "branch_point_mm_distal_to_the_IEL": [
+    47.8,
+    34.2
+   ],
+   "quotes": [
+    "The medial border of the brachioradialis muscle was observed less than 1.8 mm from the LACN.",
+    "The LACN appeared to be in a close proximity within the whole length of the brachioradialis muscle what the orthopedic surgeons must be concerned of.",
+    "The emerging point of the LACN was found distally, proximally or at the level of the interepicondylar line (IEL).",
+    "The LACN and the SBRN intersected in 86 % of upper limbs with communications noticed in 71 % of forearms.",
+    "The LACN supplying the dorsum of the hand was observed in 39.8 % of cases."
+   ]
+  }
+ },
+ "pages": {
+  "base_m": {
+   "l": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 42.4,
+    "proximal_end_mm_distal_to_the_IEL": 14.6,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 23.8,
+    "distal_end_short_of_the_wrist_mm": 73.5,
+    "interepicondylar_width_mm": 65.7,
+    "t_along_the_forearm": [
+     0.005,
+     0.691
+    ],
+    "radial_coord_p50_mm": 18.2,
+    "radius_axis_radial_coord_p50_mm": -0.1,
+    "ulna_axis_radial_coord_p50_mm": -23.4,
+    "forearm_length_mm": 245.9,
+    "d_musculocutaneous_nerve_mm": 0.02,
+    "d_brachioradialis_surface_p50_mm": 1.05,
+    "d_brachioradialis_surface_max_mm": 10.07,
+    "brachioradialis_mask_offset_mm": 1.28,
+    "raw_inside_brachioradialis_frac": 0.59,
+    "max_depth_inside_the_brachioradialis_mask_mm": 1.84
+   },
+   "r": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 42.5,
+    "proximal_end_mm_distal_to_the_IEL": 14.6,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 22.6,
+    "distal_end_short_of_the_wrist_mm": 73.5,
+    "interepicondylar_width_mm": 65.7,
+    "t_along_the_forearm": [
+     0.005,
+     0.691
+    ],
+    "radial_coord_p50_mm": 18.1,
+    "radius_axis_radial_coord_p50_mm": -0.1,
+    "ulna_axis_radial_coord_p50_mm": -23.4,
+    "forearm_length_mm": 245.9,
+    "d_musculocutaneous_nerve_mm": 0.05,
+    "d_brachioradialis_surface_p50_mm": 1.03,
+    "d_brachioradialis_surface_max_mm": 10.0,
+    "brachioradialis_mask_offset_mm": 1.29,
+    "raw_inside_brachioradialis_frac": 0.475,
+    "max_depth_inside_the_brachioradialis_mask_mm": 1.75
+   }
+  },
+  "base_f": {
+   "l": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 39.6,
+    "proximal_end_mm_distal_to_the_IEL": 14.5,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 23.1,
+    "distal_end_short_of_the_wrist_mm": 70.2,
+    "interepicondylar_width_mm": 60.1,
+    "t_along_the_forearm": [
+     0.009,
+     0.684
+    ],
+    "radial_coord_p50_mm": 15.9,
+    "radius_axis_radial_coord_p50_mm": -0.1,
+    "ulna_axis_radial_coord_p50_mm": -21.9,
+    "forearm_length_mm": 229.5,
+    "d_musculocutaneous_nerve_mm": 0.02,
+    "d_brachioradialis_surface_p50_mm": 0.99,
+    "d_brachioradialis_surface_max_mm": 9.27,
+    "brachioradialis_mask_offset_mm": 1.28,
+    "raw_inside_brachioradialis_frac": 0.632,
+    "max_depth_inside_the_brachioradialis_mask_mm": 1.86
+   },
+   "r": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 39.3,
+    "proximal_end_mm_distal_to_the_IEL": 14.4,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 22.8,
+    "distal_end_short_of_the_wrist_mm": 70.2,
+    "interepicondylar_width_mm": 60.1,
+    "t_along_the_forearm": [
+     0.009,
+     0.684
+    ],
+    "radial_coord_p50_mm": 15.9,
+    "radius_axis_radial_coord_p50_mm": -0.1,
+    "ulna_axis_radial_coord_p50_mm": -21.9,
+    "forearm_length_mm": 229.5,
+    "d_musculocutaneous_nerve_mm": 0.04,
+    "d_brachioradialis_surface_p50_mm": 0.95,
+    "d_brachioradialis_surface_max_mm": 9.04,
+    "brachioradialis_mask_offset_mm": 1.28,
+    "raw_inside_brachioradialis_frac": 0.594,
+    "max_depth_inside_the_brachioradialis_mask_mm": 1.84
+   }
+  },
+  "comb_m": {
+   "l": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 47.9,
+    "proximal_end_mm_distal_to_the_IEL": 25.1,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 30.3,
+    "distal_end_short_of_the_wrist_mm": 53.8,
+    "interepicondylar_width_mm": 66.2,
+    "t_along_the_forearm": [
+     -0.026,
+     0.678
+    ],
+    "radial_coord_p50_mm": 12.8,
+    "radius_axis_radial_coord_p50_mm": 0.1,
+    "ulna_axis_radial_coord_p50_mm": -28.6,
+    "forearm_length_mm": 238.1,
+    "d_musculocutaneous_nerve_mm": 0.57,
+    "d_brachioradialis_surface_p50_mm": 1.15,
+    "d_brachioradialis_surface_max_mm": 9.92,
+    "brachioradialis_mask_offset_mm": 1.35,
+    "raw_inside_brachioradialis_frac": 0.498,
+    "max_depth_inside_the_brachioradialis_mask_mm": 1.9
+   },
+   "r": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 45.9,
+    "proximal_end_mm_distal_to_the_IEL": 27.0,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 30.0,
+    "distal_end_short_of_the_wrist_mm": 56.9,
+    "interepicondylar_width_mm": 63.7,
+    "t_along_the_forearm": [
+     -0.041,
+     0.685
+    ],
+    "radial_coord_p50_mm": 13.6,
+    "radius_axis_radial_coord_p50_mm": 0.4,
+    "ulna_axis_radial_coord_p50_mm": -25.1,
+    "forearm_length_mm": 250.3,
+    "d_musculocutaneous_nerve_mm": 0.69,
+    "d_brachioradialis_surface_p50_mm": 1.48,
+    "d_brachioradialis_surface_max_mm": 7.33,
+    "brachioradialis_mask_offset_mm": 1.29,
+    "raw_inside_brachioradialis_frac": 0.563,
+    "max_depth_inside_the_brachioradialis_mask_mm": 2.41
+   }
+  },
+  "comb_f": {
+   "l": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 33.7,
+    "proximal_end_mm_distal_to_the_IEL": 16.5,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 19.5,
+    "distal_end_short_of_the_wrist_mm": 59.6,
+    "interepicondylar_width_mm": 56.9,
+    "t_along_the_forearm": [
+     0.079,
+     0.68
+    ],
+    "radial_coord_p50_mm": 13.3,
+    "radius_axis_radial_coord_p50_mm": 0.5,
+    "ulna_axis_radial_coord_p50_mm": -22.2,
+    "forearm_length_mm": 245.2,
+    "d_musculocutaneous_nerve_mm": 1.41,
+    "d_brachioradialis_surface_p50_mm": 2.08,
+    "d_brachioradialis_surface_max_mm": 5.08,
+    "brachioradialis_mask_offset_mm": 1.34,
+    "raw_inside_brachioradialis_frac": 0.496,
+    "max_depth_inside_the_brachioradialis_mask_mm": 2.67
+   },
+   "r": {
+    "d_lateral_epicondyle_at_its_closest_approach_to_the_IEL_mm": 47.1,
+    "proximal_end_mm_distal_to_the_IEL": 27.4,
+    "nerve_crosses_the_IEL_plane": false,
+    "meets_the_brachioradialis_mm_distal_to_the_IEL": 27.5,
+    "distal_end_short_of_the_wrist_mm": 63.8,
+    "interepicondylar_width_mm": 57.5,
+    "t_along_the_forearm": [
+     0.064,
+     0.644
+    ],
+    "radial_coord_p50_mm": 9.0,
+    "radius_axis_radial_coord_p50_mm": 0.6,
+    "ulna_axis_radial_coord_p50_mm": -22.4,
+    "forearm_length_mm": 233.0,
+    "d_musculocutaneous_nerve_mm": 0.31,
+    "d_brachioradialis_surface_p50_mm": 1.47,
+    "d_brachioradialis_surface_max_mm": 9.54,
+    "brachioradialis_mask_offset_mm": 1.29,
+    "raw_inside_brachioradialis_frac": 0.607,
+    "max_depth_inside_the_brachioradialis_mask_mm": 2.25
+   }
+  },
+  "own_m": {
+   "l": {
+    "present": true,
+    "source": "xfer_zan2vhm_nerves_q307",
+    "t_along_the_forearm": [
+     -0.124,
+     0.695
+    ],
+    "radial_coord_p50_mm": 15.0,
+    "ulna_axis_radial_coord_p50_mm": -27.4,
+    "d_musculocutaneous_nerve_mm": 21.68,
+    "d_brachioradialis_surface_p50_mm": 1.89,
+    "dihedral_mean_deg": 19.0,
+    "new_in_q307": true
+   },
+   "r": {
+    "present": true,
+    "source": "xfer_zan2vhm_nerves_q307",
+    "t_along_the_forearm": [
+     -0.03,
+     0.738
+    ],
+    "radial_coord_p50_mm": 11.5,
+    "ulna_axis_radial_coord_p50_mm": -26.4,
+    "d_musculocutaneous_nerve_mm": 0.56,
+    "d_brachioradialis_surface_p50_mm": 4.31,
+    "dihedral_mean_deg": 19.4,
+    "new_in_q307": true
+   }
+  },
+  "own_f": {
+   "l": {
+    "present": true,
+    "source": "xfer_zan2vhf_nerves_q307",
+    "t_along_the_forearm": [
+     0.029,
+     0.715
+    ],
+    "radial_coord_p50_mm": 11.5,
+    "ulna_axis_radial_coord_p50_mm": -25.1,
+    "d_musculocutaneous_nerve_mm": 14.57,
+    "d_brachioradialis_surface_p50_mm": 1.82,
+    "dihedral_mean_deg": 17.0,
+    "new_in_q307": true
+   },
+   "r": {
+    "present": true,
+    "source": "xfer_zan2vhf_nerves_q307",
+    "t_along_the_forearm": [
+     -0.068,
+     0.64
+    ],
+    "radial_coord_p50_mm": 9.5,
+    "ulna_axis_radial_coord_p50_mm": -27.0,
+    "d_musculocutaneous_nerve_mm": 15.84,
+    "d_brachioradialis_surface_p50_mm": 7.61,
+    "dihedral_mean_deg": 16.9,
+    "new_in_q307": true
+   }
+  }
+ }
+}

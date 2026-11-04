@@ -1,0 +1,88 @@
+{
+ "_README": [
+  "Q288: her uterus (body + cervix) from her colour cryosections; scripts/cryo/vhf_pelvic_organs_from_cryo.py + scripts/anatomy/q288/uterus_q288.py."
+ ],
+ "references": [
+  {
+   "what": "uterine volume 60.1 ml in women <= 5 years after menopause and 37.1 ml > 5 years (mean age 57.3); transvaginal ultrasound",
+   "cite": "Jirapinyo M, Theppisai U, Leelapatana P, Krasaesub S. Sonographic findings of uterus and ovaries in normal pre- and post-menopausal women. J Med Assoc Thai 1998;81:527-31",
+   "pmid": "9676090"
+  },
+  {
+   "what": "after the menopause uterine size and the corpus-cervix ratio fall, related to years since menopause (765 women, 108 postmenopausal without pathology)",
+   "cite": "Merz E, Miric-Tesanic D, Bahlmann F, Weber G, Wellek S. Sonographic size of uterus and ovaries in pre- and postmenopausal women. Ultrasound Obstet Gynecol 1996;7:38-42",
+   "doi": "10.1046/j.1469-0705.1996.07010038.x",
+   "pmid": "8932630"
+  },
+  {
+   "what": "random walker segmentation",
+   "cite": "Grady L. Random walks for image segmentation. IEEE TPAMI 2006;28:1768-83",
+   "doi": "10.1109/TPAMI.2006.233"
+  }
+ ],
+ "range_cm3_gate": [
+  10.0,
+  90.0
+ ],
+ "voxel_cm3": 35.7,
+ "ct_hu": {
+  "median": 30.0,
+  "p10": -34.0,
+  "p90": 84.0,
+  "fat_frac": 0.1084,
+  "note": "her unenhanced fresh CT at the cryosection-mapped voxels"
+ },
+ "inside_her_ct_labels_frac": {
+  "small_bowel": 0.4254,
+  "duodenum": 0.0,
+  "colon": 0.001,
+  "urinary_bladder": 0.0,
+  "sacrum": 0.0,
+  "hip_left": 0.0,
+  "hip_right": 0.0,
+  "iliac_artery_left": 0.0,
+  "iliac_artery_right": 0.0,
+  "iliac_vena_left": 0.0,
+  "iliac_vena_right": 0.0
+ },
+ "inside_her_any_ct_label_frac": 0.4264,
+ "inside_her_pelvic_floor_labels_frac": {
+  "levator_ani_right": 0.0034,
+  "levator_ani_left": 0.0087,
+  "perineal_other_right": 0.0,
+  "perineal_other_left": 0.0,
+  "external_anal_sphincter": 0.0
+ },
+ "extent_ras_mm": {
+  "lr": 54.4,
+  "ap": 59.1,
+  "si": 41.0
+ },
+ "iso_level": 0.458,
+ "mesh_specks_dropped": 1,
+ "triangles": 12000,
+ "mesh_vs_voxels": 1.0011,
+ "components": 1,
+ "watertight": true,
+ "centroid_atlas_mm": [
+  -6.9,
+  16.6,
+  -1.5
+ ],
+ "vs_hra_uterus_on_combined_f": {
+  "hra_volume_cm3": 23.0,
+  "hra_watertight": true,
+  "centroid_distance_mm": 11.5,
+  "hra_centroid_atlas_mm": [
+   2.6,
+   17.7,
+   4.9
+  ],
+  "dice": 0.457,
+  "share_of_hra_inside_hers": 0.581,
+  "share_of_hers_inside_hra": 0.376
+ },
+ "held": [],
+ "montage": "data/derived/Q288_uterus_montage.png",
+ "render": "data/derived/Q288_uterus_render.png"
+}

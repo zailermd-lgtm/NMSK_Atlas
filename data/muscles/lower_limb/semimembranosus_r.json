@@ -1,0 +1,97 @@
+{
+  "id": "semimembranosus_r",
+  "name_ta": "Musculus semimembranosus",
+  "name_common": "Semimembranosus",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "unipennate",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "ischial tuberosity, superolateral facet of the upper area (flat membranous tendon of semimembranosus, lateral to the conjoint tendon of the other two hamstrings)",
+    "insertion_bone": "tibia_r",
+    "insertion_landmark": "posteromedial tibial condyle (+ oblique popliteal ligament, popliteus fascia)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "sciatic_n",
+    "root_levels": "L5-S2"
+  },
+  "blood_supply": [
+    "perforating_branches_of_profunda_femoris_a_r"
+  ],
+  "actions": [
+    "extends hip",
+    "flexes and internally rotates knee"
+  ],
+  "functional_compartments": [
+    {
+      "id": "semimembranosus_r_main",
+      "name": "Single fiber population",
+      "innervation_branch": "tibial division of sciatic n.",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 80,
+        "physiological_cross_section_area_mm2": 1200.0,
+        "max_isometric_force_N": 300.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -70,
+          -35
+        ],
+        [
+          -20,
+          -180,
+          -25
+        ],
+        [
+          -15,
+          -280,
+          -15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Largest PCSA of the hamstring group; broad flat proximal tendon distinguishes its architecture from semitendinosus's round cord-like tendon.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            20,
+            40
+          ],
+          "reference_line_from": "the medial and lateral femoral condyles",
+          "reference_line_to": "ischial tuberosity",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "This line runs DISTAL to PROXIMAL, so 20-40% lies in the distal part of the thigh -- which matches the clinic's own probe placement on the distal third of the posterior medial thigh. REFERENCE LINE DISCREPANCY: the review cited here states the 0% landmark as the femoral condyles, but the primary study it synthesises (Rha DW et al., Clin Anat 29(6):746-751 (2016), doi:10.1002/ca.22735, retrieved via PubMed) states the line as running from the medial and lateral TIBIAL condyles to the ischial tuberosity. Those landmarks are a few centimetres apart, which shifts every percentage on this line. The review's wording is kept because it is what the cited source says; confirm against the primary paper before measuring a patient.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+        }
+      ],
+      "innervation_branch_ids": [
+        "sciatic_n",
+        "sciatic_n_branch_to_semimembranosus"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the distal third of the posterior thigh, medial portion.",
+    "depth_layer": "Superficial to adductor magnus, which lies on the femoral cortex; semitendinosus lies lateral to it at this level.",
+    "identification_cues": "At the distal third, two muscle masses appear over adductor magnus: semimembranosus medial, semitendinosus lateral.",
+    "notes": "Contributes to excessive knee flexion in gait. Injection improves knee extension and anterior pelvic tilt and increases the rate of muscle lengthening.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Muscle belly deep/medial to semitendinosus",
+      "referred_pain_pattern": "Together with semitendinosus, a strong zone of pain in the inferior gluteal fold with diffuse spread down the posteromedial thigh and leg toward the Achilles tendon",
+      "source": "Simons, Travell & Simons Trigger Point Manual (Travell JG, Simons DG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 2: The Lower Extremities, 1st ed., Williams & Wilkins, 1992; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019) -- as cited in triggerpoints.net, 'Semimembranosus' (http://www.triggerpoints.net/muscle/semimembranosus)"
+    }
+  ]
+}

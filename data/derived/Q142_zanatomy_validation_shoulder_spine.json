@@ -1,0 +1,96 @@
+{
+ "source": "Q142 (2026-09-23) validation gate: centroid distance, signed-volume ratio and 2 mm-voxel Dice/IoU between a scripts/transfer/cross_subject_transfer.py --direction zan2f/zan2m registration of Z-Anatomy (CC BY-SA 4.0) geometry and this project's own real (non-transferred) mesh for the same atlas_id, via scripts/zanatomy/validate_registration.py. Diagnostics only -- read-only, no bundle/entity record touched. See PROJECT_STATE.md's Q142 entry for the acceptance bar and shipping decision this table was measured against.",
+ "target": "build/viewer_f",
+ "registered": "build/vh/zan_vhf_val2",
+ "pitch_mm": 2.0,
+ "rows": [
+  {
+   "id": "iliocostalis_r",
+   "real_subject": "ct_vhf_es",
+   "centroid_dist_mm": 62.7,
+   "real_vol_cm3": 149.4,
+   "zan_vol_cm3": 85.7,
+   "vol_ratio_zan_over_real": 0.573,
+   "dice": 0.236,
+   "iou": 0.134,
+   "real_extent_mm": 345.0
+  },
+  {
+   "id": "infraspinatus_r",
+   "real_subject": "ct_vhf_shsp",
+   "centroid_dist_mm": 35.4,
+   "real_vol_cm3": 207.6,
+   "zan_vol_cm3": 107.8,
+   "vol_ratio_zan_over_real": 0.519,
+   "dice": 0.357,
+   "iou": 0.217,
+   "real_extent_mm": 242.9
+  },
+  {
+   "id": "longissimus_r",
+   "real_subject": "ct_vhf_es",
+   "centroid_dist_mm": 40.3,
+   "real_vol_cm3": 287.8,
+   "zan_vol_cm3": 129.6,
+   "vol_ratio_zan_over_real": 0.45,
+   "dice": 0.254,
+   "iou": 0.146,
+   "real_extent_mm": 538.3
+  },
+  {
+   "id": "spinalis_r",
+   "real_subject": "ct_vhf_es",
+   "centroid_dist_mm": 61.8,
+   "real_vol_cm3": 35.2,
+   "zan_vol_cm3": 17.2,
+   "vol_ratio_zan_over_real": 0.488,
+   "dice": 0.08,
+   "iou": 0.042,
+   "real_extent_mm": 509.5
+  },
+  {
+   "id": "subscapularis_r",
+   "real_subject": "ct_vhf_cuff",
+   "centroid_dist_mm": 18.3,
+   "real_vol_cm3": 236.9,
+   "zan_vol_cm3": 11.4,
+   "vol_ratio_zan_over_real": 0.048,
+   "dice": 0.047,
+   "iou": 0.024,
+   "real_extent_mm": 248.4
+  },
+  {
+   "id": "supraspinatus_r",
+   "real_subject": "ct_vhf_cuff",
+   "centroid_dist_mm": 49.1,
+   "real_vol_cm3": 42.6,
+   "zan_vol_cm3": 22.2,
+   "vol_ratio_zan_over_real": 0.522,
+   "dice": 0.009,
+   "iou": 0.004,
+   "real_extent_mm": 130.2
+  },
+  {
+   "id": "teres_major_r",
+   "real_subject": "ct_vhf_shsp",
+   "centroid_dist_mm": 39.0,
+   "real_vol_cm3": 72.7,
+   "zan_vol_cm3": 9.6,
+   "vol_ratio_zan_over_real": 0.132,
+   "dice": 0.057,
+   "iou": 0.029,
+   "real_extent_mm": 161.0
+  },
+  {
+   "id": "teres_minor_r",
+   "real_subject": "ct_vhf_shsp",
+   "centroid_dist_mm": 36.9,
+   "real_vol_cm3": 45.3,
+   "zan_vol_cm3": 34.9,
+   "vol_ratio_zan_over_real": 0.769,
+   "dice": 0.393,
+   "iou": 0.244,
+   "real_extent_mm": 124.8
+  }
+ ]
+}

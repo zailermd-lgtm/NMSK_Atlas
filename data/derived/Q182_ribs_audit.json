@@ -1,0 +1,534 @@
+{
+ "item": "Q182",
+ "script": "scripts/ribs_from_ct_labels.py",
+ "gates": {
+  "max_median_abs_mm": 1.0,
+  "max_outside_skin_frac": 0.0,
+  "volume_ratio": [
+   0.9,
+   1.1
+  ]
+ },
+ "bodies": {
+  "vhm": {
+   "shipped_before": {
+    "ribs_l": {
+     "subject": "ct_vhm",
+     "pieces": 1,
+     "nv": 7559,
+     "nf": 14998,
+     "watertight": false,
+     "mesh_to_label_mm": {
+      "median_abs": 12.8,
+      "p90_abs": 14.62,
+      "median_signed": 12.8,
+      "frac_outside_label": 1.0,
+      "frac_outside_gt2mm": 0.9999,
+      "frac_inside_gt2mm": 0.0
+     },
+     "label_to_mesh_mm": {
+      "median": 13.14,
+      "p90": 15.31
+     },
+     "volume_cm3": {
+      "mesh": 1249.0,
+      "label_voxels": 211.9,
+      "ratio": 5.893,
+      "exact": false
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.2467,
+     "label_surface_in_lung_frac": 0.0014,
+     "gates_pass": false
+    },
+    "ribs_r": {
+     "subject": "ct_vhm",
+     "pieces": 1,
+     "nv": 60565,
+     "nf": 119999,
+     "watertight": false,
+     "mesh_to_label_mm": {
+      "median_abs": 11.96,
+      "p90_abs": 14.11,
+      "median_signed": 11.96,
+      "frac_outside_label": 1.0,
+      "frac_outside_gt2mm": 1.0,
+      "frac_inside_gt2mm": 0.0
+     },
+     "label_to_mesh_mm": {
+      "median": 12.09,
+      "p90": 14.66
+     },
+     "volume_cm3": {
+      "mesh": 1156.9,
+      "label_voxels": 218.4,
+      "ratio": 5.297,
+      "exact": false
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.1997,
+     "label_surface_in_lung_frac": 0.0006,
+     "gates_pass": false
+    }
+   },
+   "shipped_after": {
+    "ribs_l": {
+     "subject": "ct_vhm_ribs",
+     "pieces": 1,
+     "nv": 7523,
+     "nf": 14998,
+     "watertight": true,
+     "mesh_to_label_mm": {
+      "median_abs": 0.21,
+      "p90_abs": 0.45,
+      "median_signed": -0.12,
+      "frac_outside_label": 0.3448,
+      "frac_outside_gt2mm": 0.0,
+      "frac_inside_gt2mm": 0.0
+     },
+     "label_to_mesh_mm": {
+      "median": 1.47,
+      "p90": 2.43
+     },
+     "volume_cm3": {
+      "mesh": 197.2,
+      "label_voxels": 211.9,
+      "ratio": 0.93,
+      "exact": true
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.0029,
+     "label_surface_in_lung_frac": 0.0014,
+     "gates_pass": true
+    },
+    "ribs_r": {
+     "subject": "ct_vhm_ribs",
+     "pieces": 1,
+     "nv": 7530,
+     "nf": 15000,
+     "watertight": true,
+     "mesh_to_label_mm": {
+      "median_abs": 0.2,
+      "p90_abs": 0.45,
+      "median_signed": -0.12,
+      "frac_outside_label": 0.3487,
+      "frac_outside_gt2mm": 0.0,
+      "frac_inside_gt2mm": 0.0
+     },
+     "label_to_mesh_mm": {
+      "median": 1.48,
+      "p90": 2.43
+     },
+     "volume_cm3": {
+      "mesh": 203.0,
+      "label_voxels": 218.4,
+      "ratio": 0.93,
+      "exact": true
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.0008,
+     "label_surface_in_lung_frac": 0.0006,
+     "gates_pass": true
+    }
+   },
+   "overlap_other_bundle_meshes_frac": {
+    "ribs_l": {
+     "old_total": 0.0082,
+     "new_total": 0.0054,
+     "new_gt_old": {
+      "intervertebral_disc_t10_t11": [
+       0.0016,
+       0.0017
+      ],
+      "intervertebral_disc_t1_t2": [
+       0.0003,
+       0.0017
+      ],
+      "intervertebral_disc_t2_t3": [
+       0.0003,
+       0.002
+      ]
+     },
+     "top_old": {
+      "intervertebral_disc_t11_t12": [
+       0.0025,
+       0.0
+      ],
+      "clavicle_l": [
+       0.0024,
+       0.0
+      ],
+      "intervertebral_disc_t10_t11": [
+       0.0016,
+       0.0017
+      ],
+      "scalenus_medius_l": [
+       0.0011,
+       0.0
+      ],
+      "intervertebral_disc_t1_t2": [
+       0.0003,
+       0.0017
+      ],
+      "intervertebral_disc_t2_t3": [
+       0.0003,
+       0.002
+      ]
+     }
+    },
+    "ribs_r": {
+     "old_total": 0.0186,
+     "new_total": 0.0091,
+     "new_gt_old": {
+      "intervertebral_disc_t7_t8": [
+       0.0009,
+       0.0012
+      ],
+      "intervertebral_disc_t8_t9": [
+       0.0007,
+       0.0012
+      ]
+     },
+     "top_old": {
+      "intervertebral_disc_t1_t2": [
+       0.0034,
+       0.0027
+      ],
+      "intervertebral_disc_t2_t3": [
+       0.0034,
+       0.0021
+      ],
+      "intervertebral_disc_t3_t4": [
+       0.0021,
+       0.0015
+      ],
+      "intervertebral_disc_t4_t5": [
+       0.0021,
+       0.0004
+      ],
+      "clavicle_r": [
+       0.0018,
+       0.0
+      ],
+      "intervertebral_disc_t5_t6": [
+       0.0016,
+       0.0
+      ]
+     }
+    }
+   },
+   "overlap_trunk_wall_labels": {
+    "ribs_l": {
+     "old": {
+      "intercostal": 0.0044,
+      "diaphragm": 0.0108,
+      "intercostal_deeper_1mm": 0.002
+     },
+     "new": {
+      "intercostal": 0.2758,
+      "diaphragm": 0.0,
+      "intercostal_deeper_1mm": 0.0
+     },
+     "same_grid": true,
+     "voxel_overlap_rib_label_and_intercostal": 0,
+     "label_surface_in_intercostal": 0.2721
+    },
+    "ribs_r": {
+     "old": {
+      "intercostal": 0.0073,
+      "diaphragm": 0.0123,
+      "intercostal_deeper_1mm": 0.0031
+     },
+     "new": {
+      "intercostal": 0.2854,
+      "diaphragm": 0.0003,
+      "intercostal_deeper_1mm": 0.0
+     },
+     "same_grid": true,
+     "voxel_overlap_rib_label_and_intercostal": 0,
+     "label_surface_in_intercostal": 0.2805
+    }
+   }
+  },
+  "vhf": {
+   "shipped_before": {
+    "ribs_l": {
+     "subject": "ct_vhf",
+     "pieces": 1,
+     "nv": 7669,
+     "nf": 14999,
+     "watertight": false,
+     "mesh_to_label_mm": {
+      "median_abs": 12.57,
+      "p90_abs": 14.58,
+      "median_signed": 12.57,
+      "frac_outside_label": 1.0,
+      "frac_outside_gt2mm": 1.0,
+      "frac_inside_gt2mm": 0.0
+     },
+     "label_to_mesh_mm": {
+      "median": 13.02,
+      "p90": 15.35
+     },
+     "volume_cm3": {
+      "mesh": 728.9,
+      "label_voxels": 148.5,
+      "ratio": 4.908,
+      "exact": false
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.285,
+     "label_surface_in_lung_frac": 0.0034,
+     "gates_pass": false
+    },
+    "ribs_r": {
+     "subject": "ct_vhf",
+     "pieces": 1,
+     "nv": 7673,
+     "nf": 15000,
+     "watertight": false,
+     "mesh_to_label_mm": {
+      "median_abs": 12.57,
+      "p90_abs": 14.76,
+      "median_signed": 12.57,
+      "frac_outside_label": 1.0,
+      "frac_outside_gt2mm": 1.0,
+      "frac_inside_gt2mm": 0.0
+     },
+     "label_to_mesh_mm": {
+      "median": 13.12,
+      "p90": 15.7
+     },
+     "volume_cm3": {
+      "mesh": 677.9,
+      "label_voxels": 149.4,
+      "ratio": 4.537,
+      "exact": false
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.2541,
+     "label_surface_in_lung_frac": 0.0034,
+     "gates_pass": false
+    }
+   },
+   "shipped_after": {
+    "ribs_l": {
+     "subject": "ct_vhf_ribs",
+     "pieces": 1,
+     "nv": 7551,
+     "nf": 14998,
+     "watertight": false,
+     "mesh_to_label_mm": {
+      "median_abs": 0.22,
+      "p90_abs": 0.47,
+      "median_signed": -0.14,
+      "frac_outside_label": 0.3113,
+      "frac_outside_gt2mm": 0.0,
+      "frac_inside_gt2mm": 0.0013
+     },
+     "label_to_mesh_mm": {
+      "median": 1.32,
+      "p90": 2.24
+     },
+     "volume_cm3": {
+      "mesh": 134.2,
+      "label_voxels": 148.5,
+      "ratio": 0.904,
+      "exact": false
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.0032,
+     "label_surface_in_lung_frac": 0.0034,
+     "gates_pass": true
+    },
+    "ribs_r": {
+     "subject": "ct_vhf_ribs",
+     "pieces": 1,
+     "nv": 7528,
+     "nf": 15000,
+     "watertight": true,
+     "mesh_to_label_mm": {
+      "median_abs": 0.22,
+      "p90_abs": 0.47,
+      "median_signed": -0.14,
+      "frac_outside_label": 0.3232,
+      "frac_outside_gt2mm": 0.0,
+      "frac_inside_gt2mm": 0.0
+     },
+     "label_to_mesh_mm": {
+      "median": 1.31,
+      "p90": 2.22
+     },
+     "volume_cm3": {
+      "mesh": 135.9,
+      "label_voxels": 149.4,
+      "ratio": 0.91,
+      "exact": true
+     },
+     "outside_skin_frac": 0.0,
+     "in_lung_frac": 0.004,
+     "label_surface_in_lung_frac": 0.0034,
+     "gates_pass": true
+    }
+   },
+   "overlap_other_bundle_meshes_frac": {
+    "ribs_l": {
+     "old_total": 0.1335,
+     "new_total": 0.0138,
+     "new_gt_old": {
+      "intervertebral_disc_t10_t11": [
+       0.0013,
+       0.0021
+      ],
+      "intervertebral_disc_t1_t2": [
+       0.0005,
+       0.0023
+      ],
+      "intervertebral_disc_t2_t3": [
+       0.0007,
+       0.002
+      ],
+      "intervertebral_disc_t6_t7": [
+       0.0001,
+       0.0015
+      ],
+      "intervertebral_disc_t7_t8": [
+       0.0,
+       0.0021
+      ],
+      "intervertebral_disc_t9_t10": [
+       0.0,
+       0.0017
+      ]
+     },
+     "top_old": {
+      "pectoralis_major_l": [
+       0.0525,
+       0.0
+      ],
+      "serratus_anterior_l": [
+       0.0297,
+       0.0008
+      ],
+      "scapula_l": [
+       0.0213,
+       0.0
+      ],
+      "longissimus_l": [
+       0.0115,
+       0.0
+      ],
+      "iliocostalis_l": [
+       0.0073,
+       0.0
+      ],
+      "clavicle_l": [
+       0.0026,
+       0.0
+      ]
+     }
+    },
+    "ribs_r": {
+     "old_total": 0.1448,
+     "new_total": 0.0199,
+     "new_gt_old": {
+      "intervertebral_disc_t10_t11": [
+       0.0005,
+       0.0015
+      ],
+      "intervertebral_disc_t1_t2": [
+       0.0017,
+       0.0028
+      ],
+      "intervertebral_disc_t2_t3": [
+       0.0014,
+       0.0024
+      ],
+      "intervertebral_disc_t3_t4": [
+       0.001,
+       0.0011
+      ],
+      "intervertebral_disc_t4_t5": [
+       0.0005,
+       0.0012
+      ],
+      "intervertebral_disc_t6_t7": [
+       0.0003,
+       0.0025
+      ],
+      "intervertebral_disc_t7_t8": [
+       0.0003,
+       0.0024
+      ],
+      "intervertebral_disc_t8_t9": [
+       0.0003,
+       0.0015
+      ],
+      "intervertebral_disc_t9_t10": [
+       0.0001,
+       0.0015
+      ]
+     },
+     "top_old": {
+      "latissimus_dorsi_r": [
+       0.0494,
+       0.0
+      ],
+      "pectoralis_major_r": [
+       0.0392,
+       0.0001
+      ],
+      "longissimus_r": [
+       0.0139,
+       0.0
+      ],
+      "teres_major_r": [
+       0.0133,
+       0.0024
+      ],
+      "iliocostalis_r": [
+       0.0095,
+       0.0
+      ],
+      "clavicle_r": [
+       0.0042,
+       0.0
+      ]
+     }
+    }
+   },
+   "overlap_trunk_wall_labels": {
+    "ribs_l": {
+     "old": {
+      "intercostal": 0.0022,
+      "diaphragm": 0.0119,
+      "intercostal_deeper_1mm": 0.0001
+     },
+     "new": {
+      "intercostal": 0.0744,
+      "diaphragm": 0.0007,
+      "intercostal_deeper_1mm": 0.0
+     },
+     "same_grid": true,
+     "voxel_overlap_rib_label_and_intercostal": 0,
+     "label_surface_in_intercostal": 0.0526
+    },
+    "ribs_r": {
+     "old": {
+      "intercostal": 0.0016,
+      "diaphragm": 0.0106,
+      "intercostal_deeper_1mm": 0.0003
+     },
+     "new": {
+      "intercostal": 0.0772,
+      "diaphragm": 0.0048,
+      "intercostal_deeper_1mm": 0.0
+     },
+     "same_grid": true,
+     "voxel_overlap_rib_label_and_intercostal": 0,
+     "label_surface_in_intercostal": 0.0529
+    }
+   }
+  }
+ }
+}

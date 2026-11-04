@@ -1,0 +1,194 @@
+{
+ "source": "Q151b validation: scripts/transfer/refine_transfer_photo_watershed.py -- real marker-controlled watershed on this specimen's own re-acquired cryosection photograph gradient, seeded by Q147's Z-Anatomy transfer. registered 396/511 real levels, gradient built from 131.",
+ "specimen": "f",
+ "n_registered": 396,
+ "n_missing": 22,
+ "modes": {
+  "neighbor": {
+   "n": 14,
+   "notes": {
+    "abductor_pollicis_longus_r": "neighbours: [1, 4, 6, 7, 8, 9, 10, 12, 13, 14, 18, 19, 20, 21], candidates: ['abductor_pollicis_longus_r', 'brachioradialis_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_quadratus_r', 'pronator_teres_r']",
+    "brachioradialis_r": "neighbours: [1, 4, 6, 7, 10, 12, 13, 16, 17, 21], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'brachioradialis_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_teres_r', 'supinator_r']",
+    "extensor_carpi_radialis_brevis_r": "neighbours: [1, 6, 9, 10, 12, 13, 14, 16, 17, 18, 19], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'brachioradialis_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'palmaris_longus_r', 'pronator_teres_r', 'supinator_r']",
+    "extensor_carpi_radialis_longus_r": "neighbours: [1, 4, 6, 7, 9, 12, 13, 17, 18, 19, 21], candidates: ['abductor_pollicis_longus_r', 'brachioradialis_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_teres_r']",
+    "extensor_carpi_ulnaris_r": "neighbours: [1, 4, 6, 7, 12, 13, 16, 17, 18, 19, 20, 21], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_teres_r', 'supinator_r']",
+    "extensor_digiti_minimi_r": "neighbours: [1, 4, 6, 7, 9, 10, 12, 14, 16, 17, 18, 19, 20, 21], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'brachioradialis_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_teres_r', 'supinator_r']",
+    "extensor_digitorum_r": "neighbours: [1, 4, 6, 7, 9, 10, 13, 14, 16, 17, 18, 19, 20, 21], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'brachioradialis_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_teres_r', 'supinator_r']",
+    "extensor_indicis_r": "neighbours: [1, 4, 6, 7, 8, 12, 13, 14, 17, 18, 19], candidates: ['abductor_pollicis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_quadratus_r', 'pronator_teres_r']",
+    "extensor_pollicis_brevis_r": "neighbours: [1, 4, 6, 7, 8, 10, 12, 13, 14, 17, 19, 20, 21], candidates: ['abductor_pollicis_longus_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_quadratus_r', 'pronator_teres_r']",
+    "extensor_pollicis_longus_r": "neighbours: [1, 4, 6, 7, 8, 10, 12, 13, 14, 17, 18, 20, 21], candidates: ['abductor_pollicis_longus_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_quadratus_r', 'pronator_teres_r']",
+    "flexor_carpi_ulnaris_r": "neighbours: [1, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19, 20], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'brachioradialis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_quadratus_r', 'pronator_teres_r', 'supinator_r']",
+    "flexor_digitorum_profundus_r": "neighbours: [1, 4, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'brachioradialis_r', 'extensor_carpi_radialis_brevis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_quadratus_r', 'pronator_teres_r', 'supinator_r']",
+    "flexor_pollicis_longus_r": "neighbours: [1, 4, 6, 8, 9, 10, 12, 13, 14, 16, 17, 18, 19, 20], candidates: ['abductor_pollicis_longus_r', 'anconeus_r', 'brachioradialis_r', 'extensor_carpi_radialis_longus_r', 'extensor_carpi_ulnaris_r', 'extensor_digiti_minimi_r', 'extensor_digitorum_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_radialis_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_digitorum_superficialis_r', 'flexor_pollicis_longus_r', 'palmaris_longus_r', 'pronator_quadratus_r', 'pronator_teres_r', 'supinator_r']",
+    "pronator_quadratus_r": "neighbours: [4, 6, 7, 17, 18, 19, 20], candidates: ['abductor_pollicis_longus_r', 'extensor_indicis_r', 'extensor_pollicis_brevis_r', 'extensor_pollicis_longus_r', 'flexor_carpi_ulnaris_r', 'flexor_digitorum_profundus_r', 'flexor_pollicis_longus_r', 'pronator_quadratus_r']"
+   },
+   "rows": [
+    {
+     "id": "abductor_pollicis_longus_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 23.7,
+     "centroid_dist_mm": 17.5,
+     "real_vol_cm3": 7.3,
+     "zan_vol_cm3": 23.0,
+     "vol_ratio_zan_over_real": 3.136,
+     "dice": 0.339,
+     "iou": 0.204,
+     "real_extent_mm": 110.5
+    },
+    {
+     "id": "brachioradialis_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 62.1,
+     "centroid_dist_mm": 21.0,
+     "real_vol_cm3": 42.5,
+     "zan_vol_cm3": 61.6,
+     "vol_ratio_zan_over_real": 1.45,
+     "dice": 0.472,
+     "iou": 0.309,
+     "real_extent_mm": 112.8
+    },
+    {
+     "id": "extensor_carpi_radialis_brevis_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 7.3,
+     "centroid_dist_mm": 17.2,
+     "real_vol_cm3": 15.1,
+     "zan_vol_cm3": 6.7,
+     "vol_ratio_zan_over_real": 0.444,
+     "dice": 0.203,
+     "iou": 0.113,
+     "real_extent_mm": 128.2
+    },
+    {
+     "id": "extensor_carpi_radialis_longus_r",
+     "real_subject": "ct_vhf_forearm_contfix",
+     "claimed_voxels_cm3": 18.1,
+     "centroid_dist_mm": 30.1,
+     "real_vol_cm3": 26.2,
+     "zan_vol_cm3": 17.7,
+     "vol_ratio_zan_over_real": 0.675,
+     "dice": 0.263,
+     "iou": 0.152,
+     "real_extent_mm": 153.9
+    },
+    {
+     "id": "extensor_carpi_ulnaris_r",
+     "real_subject": "ct_vhf_forearm_contfix_mesh",
+     "claimed_voxels_cm3": 15.3,
+     "centroid_dist_mm": 25.1,
+     "real_vol_cm3": 11.7,
+     "zan_vol_cm3": 14.7,
+     "vol_ratio_zan_over_real": 1.253,
+     "dice": 0.083,
+     "iou": 0.043,
+     "real_extent_mm": 142.2
+    },
+    {
+     "id": "extensor_digiti_minimi_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 0.8,
+     "centroid_dist_mm": 16.9,
+     "real_vol_cm3": 7.7,
+     "zan_vol_cm3": 0.6,
+     "vol_ratio_zan_over_real": 0.077,
+     "dice": 0.005,
+     "iou": 0.002,
+     "real_extent_mm": 116.1
+    },
+    {
+     "id": "extensor_digitorum_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 46.2,
+     "centroid_dist_mm": 13.0,
+     "real_vol_cm3": 16.4,
+     "zan_vol_cm3": 45.6,
+     "vol_ratio_zan_over_real": 2.778,
+     "dice": 0.348,
+     "iou": 0.211,
+     "real_extent_mm": 142.3
+    },
+    {
+     "id": "extensor_indicis_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 1.5,
+     "centroid_dist_mm": 25.6,
+     "real_vol_cm3": 8.9,
+     "zan_vol_cm3": 1.4,
+     "vol_ratio_zan_over_real": 0.157,
+     "dice": 0.0,
+     "iou": 0.0,
+     "real_extent_mm": 85.3
+    },
+    {
+     "id": "extensor_pollicis_brevis_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 8.9,
+     "centroid_dist_mm": 7.2,
+     "real_vol_cm3": 3.3,
+     "zan_vol_cm3": 8.7,
+     "vol_ratio_zan_over_real": 2.644,
+     "dice": 0.438,
+     "iou": 0.28,
+     "real_extent_mm": 71.4
+    },
+    {
+     "id": "extensor_pollicis_longus_r",
+     "skipped": "no claim recovered (no seed reached this region)"
+    },
+    {
+     "id": "flexor_carpi_ulnaris_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 64.4,
+     "centroid_dist_mm": 22.5,
+     "real_vol_cm3": 48.8,
+     "zan_vol_cm3": 63.8,
+     "vol_ratio_zan_over_real": 1.307,
+     "dice": 0.493,
+     "iou": 0.327,
+     "real_extent_mm": 166.0
+    },
+    {
+     "id": "flexor_digitorum_profundus_r",
+     "real_subject": "ct_vhf_forearm_contfix_mesh",
+     "claimed_voxels_cm3": 50.9,
+     "centroid_dist_mm": 4.5,
+     "real_vol_cm3": 28.3,
+     "zan_vol_cm3": 50.2,
+     "vol_ratio_zan_over_real": 1.77,
+     "dice": 0.56,
+     "iou": 0.389,
+     "real_extent_mm": 159.4
+    },
+    {
+     "id": "flexor_pollicis_longus_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 26.8,
+     "centroid_dist_mm": 9.7,
+     "real_vol_cm3": 10.4,
+     "zan_vol_cm3": 26.2,
+     "vol_ratio_zan_over_real": 2.517,
+     "dice": 0.324,
+     "iou": 0.193,
+     "real_extent_mm": 148.7
+    },
+    {
+     "id": "pronator_quadratus_r",
+     "real_subject": "ct_vhf_forearm",
+     "claimed_voxels_cm3": 12.0,
+     "centroid_dist_mm": 10.2,
+     "real_vol_cm3": 16.2,
+     "zan_vol_cm3": 11.8,
+     "vol_ratio_zan_over_real": 0.726,
+     "dice": 0.461,
+     "iou": 0.3,
+     "real_extent_mm": 77.4
+    }
+   ],
+   "median_centroid_dist_mm": 17.2,
+   "max_centroid_dist_mm": 30.1,
+   "median_dice": 0.339
+  }
+ },
+ "ship_median_mm": 17.2,
+ "ship_max_mm": 30.1
+}

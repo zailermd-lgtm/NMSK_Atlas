@@ -1,0 +1,52 @@
+{
+ "checks": {
+  "1_default_mode_off": true,
+  "1_nothing_shown_by_default": true,
+  "1_opting_in_shows_markers": true,
+  "2_origin_insertion_rows_present": true,
+  "3_nerve_groups_controller_present": true,
+  "3_toolbar_button_present": true,
+  "3_clicking_a_group_marks_real_nerves_via_selCtl": true,
+  "3_clear_button_clears_marks": true,
+  "0_no_page_errors": true
+ },
+ "info": {
+  "parts_default": {
+   "mode": "off",
+   "shown": 0
+  },
+  "parts_after_opt_in": {
+   "mode": "near",
+   "shown": 31
+  },
+  "q256_attachments": {
+   "byType": {
+    "origin_part": 51,
+    "insertion_point": 53,
+    "muscle_tendon_junction": 2
+   },
+   "placedQ256": 105,
+   "totalParts": 520,
+   "totalPlaced": 233
+  },
+  "nerve_groups_initial": {
+   "loaded": true,
+   "plexus": "brachial_plexus",
+   "side": "r",
+   "active": null,
+   "panel": false,
+   "plexuses": [
+    "brachial_plexus",
+    "lumbar_plexus",
+    "sacral_plexus"
+   ],
+   "nodeCount": 66
+  },
+  "ng_rows_shown": 32,
+  "marks_before_after_click": [
+   0,
+   1
+  ]
+ },
+ "errors": []
+}

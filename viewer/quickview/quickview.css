@@ -1,0 +1,24 @@
+#qv-panel{--qv-bg:#fff;--qv-ink:#111;--qv-dim:#667;--qv-line:#ccd;--qv-accent:#0a6e8e;--qv-accent-ink:#fff;--qv-shadow:0 8px 24px rgba(0,0,0,.18)}
+#qv-panel{position:fixed;left:12px;top:60px;z-index:31;box-sizing:border-box;width:280px;max-width:calc(100vw - 16px);padding:8px 10px 9px;border-radius:9px;
+  background:var(--qv-bg);color:var(--qv-ink);border:1px solid var(--qv-line);box-shadow:var(--qv-shadow);
+  font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto;max-height:calc(100vh - 16px);overflow-y:auto}
+#qv-panel[hidden]{display:none}
+#qv-panel .qv-head{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+#qv-panel .qv-head b{font-size:13px}
+#qv-panel .qv-sp{flex:1}
+#qv-panel .qv-dim,#qv-panel .qv-hint{color:var(--qv-dim)}
+#qv-panel .qv-hint:empty{display:none}
+#qv-panel .qv-lbl{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--qv-dim)}
+#qv-panel input[type=search]{width:100%;box-sizing:border-box;padding:5px 6px;border:1px solid var(--qv-line);border-radius:6px;background:var(--qv-bg);color:var(--qv-ink);font:inherit}
+#qv-panel .qv-res{display:flex;flex-direction:column;max-height:150px;overflow-y:auto;margin-top:3px}
+#qv-panel .qv-res button{text-align:left;border:0;background:none;padding:3px 4px;border-radius:5px;font:inherit}
+#qv-panel .qv-res button:hover{background:var(--qv-line)}
+#qv-panel .qv-name{font-weight:700;margin:6px 0 4px}
+#qv-panel .qv-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+#qv-panel .qv-row button,#qv-panel>#qv-sel>button{flex:1 1 auto}
+#qv-panel button{font:inherit;font-size:11.5px;color:var(--qv-ink);background:transparent;border:1px solid var(--qv-line);border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#qv-panel button:hover{border-color:var(--qv-accent)}
+#qv-panel .qv-head button{flex:0 0 auto;min-height:26px;padding:2px 8px}
+#qv-panel .qv-chk{display:flex;align-items:center;gap:6px;margin:5px 0 2px;font-size:11.5px;cursor:pointer}
+#qv-panel .qv-chk input{width:16px;height:16px;accent-color:var(--qv-accent)}
+#qv-panel #qv-mp[hidden]{display:none}

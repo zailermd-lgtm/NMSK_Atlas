@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap">
+<div id="mode-back" aria-hidden="true"></div>
+<div id="mode-switch" dir="rtl" hidden role="dialog" aria-modal="true" aria-label="בחירת מצב עבודה">
+  <div class="mw-top">
+    <div class="mw-brand">NMSK Atlas</div>
+    <nav class="mw-models" id="mw-models" aria-label="מודלים">
+      <a href="https://claude.ai/artifact/RRkf5ELjmk6E8iHdgfbTtq" data-page="Imaging-based · Male">Imaging · זכר</a>
+      <a href="https://claude.ai/artifact/1nFD1WUQ7jyovz9vx9pn77" data-page="Imaging-based · Female">Imaging · נקבה</a>
+      <a href="https://claude.ai/artifact/HdYCRuvGP8ESbggoRWCNBF" data-page="Base · Male">Base · זכר</a>
+      <a href="https://claude.ai/artifact/TiXsQe3eS5ehzN64Aozyth" data-page="Base · Female">Base · נקבה</a>
+      <a href="https://claude.ai/artifact/FeFFPVVTEnPkDm2r7TyDFz" data-page="Combined · Male">Combined · זכר</a>
+      <a href="https://claude.ai/artifact/1GEpFSCZexGZ1GnM1pXxuP" data-page="Combined · Female">Combined · נקבה</a>
+    </nav>
+    <button type="button" class="mw-close" id="mw-close" aria-label="סגור"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="mw-body">
+    <h2 class="mw-q">מה עושים היום?</h2>
+    <div class="mw-tiles" id="mw-tiles">
+      <button type="button" class="mw-tile" data-mode="anat" title="צפייה חופשית, שכבות, חתכים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M5 8c3 0 4 2 7 2s4-2 7-2M6 15c2 0 3 1.5 6 1.5s4-1.5 6-1.5"/></svg></span><span class="mw-t">אנטומיה</span><span class="mw-d">צפייה חופשית, שכבות, חתכים</span></button>
+      <button type="button" class="mw-tile" data-mode="inj" title="מטרה ← מסלול ← מרחק מכלי-דם ועצבים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20l9-9M13 11l4-4M17 7l3-3M15 5l4 4"/><circle cx="7" cy="17" r="1.5"/></svg></span><span class="mw-t">תכנון הזרקה</span><span class="mw-d">מטרה ← מסלול ← מרחק מכלי-דם ועצבים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="us" title="סריקה דינמית, CINE, השוואת צדדים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10l-2 5H9zM9 9q3 6 6 0"/><circle cx="16" cy="17" r="4"/><path d="M15 15l3 2-3 2z" fill="currentColor" stroke="none"/></svg></span><span class="mw-t">US אבחנתי</span><span class="mw-d">סריקה דינמית, CINE, השוואת צדדים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="cmp" title="דימות המטופל מול האטלס, סימון פגיעה"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="1.5"/><rect x="13" y="5" width="8" height="14" rx="1.5"/><path d="M12 9v6"/></svg></span><span class="mw-t">השוואת דימות</span><span class="mw-d">דימות המטופל מול האטלס, סימון פגיעה</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+    </div>
+    <p class="mw-note">כל מצב פותח מסך משלו. תמיד אפשר לחזור לכאן מהכפתור בפינה.</p>
+  </div>
+</div>
+<div id="mode-shell" dir="rtl" hidden>
+  <div id="mode-bar" role="toolbar" aria-label="סרגל המצב">
+    <div class="mb-pill" id="mb-pill"><span class="mb-long"></span><span class="mb-short"></span></div>
+    <div class="mb-chips" id="mb-chips"></div>
+    <div class="mb-end" id="mb-end">
+      <button type="button" class="mb-btn mb-exit" id="mb-exit">יציאה למצב אנטומיה</button>
+      <button type="button" class="mb-x" id="mb-exit-x" aria-label="יציאה למצב אנטומיה"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+  </div>
+  <div id="mode-main"></div>
+  <div id="mode-pills" role="group" aria-label="מתגים" hidden></div>
+</div>

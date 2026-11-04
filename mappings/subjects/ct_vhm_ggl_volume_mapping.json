@@ -1,0 +1,32 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhm_ggl",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_genioglossus_ct.nii.gz",
+  "label_map": "vhm_genioglossus_ct",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "genioglossus_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "genioglossus_r",
+      "relationship": "exact",
+      "note": "12.17 cm3; rule-based from his own CT tongue label, position-anchored on his mandibular symphysis midline.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "genioglossus_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "genioglossus_l",
+      "relationship": "exact",
+      "note": "11.25 cm3; rule-based from his own CT tongue label, position-anchored on his mandibular symphysis midline.",
+      "candidates": []
+    }
+  ]
+}

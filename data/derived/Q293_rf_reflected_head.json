@@ -1,0 +1,507 @@
+{
+ "_README": [
+  "Q293: rule-based reflected head of rectus femoris per page / side, scripts/anatomy/q293/rf_reflected.py; measured on the result, nothing tuned"
+ ],
+ "cites": {
+  "ryan2014": {
+   "cite": "Ryan JM, Harris JD, Graham WC, Virk SS, Ellis TJ. Origin of the direct and reflected head of the rectus femoris: an anatomic study. Arthroscopy 2014;30(7):796-802",
+   "pmid": "24793210",
+   "doi": "10.1016/j.arthro.2014.03.003",
+   "quote": "The average dimensions of the footprint of the direct head of the rectus femoris were 13.4 mm (±1.7) × 26.0 mm (±4.1), whereas the dimensions of the reflected head footprint were 47.7 mm (±4.4) × 16.8 mm (±2.2)."
+  },
+  "atzmon2019": {
+   "cite": "Atzmon R, Sharfman ZT, Atoun E, Sampson TG, Amar E, Rath E. The anatomical properties of the indirect head of the rectus femoris tendon: a cadaveric study with clinical significance for labral reconstruction surgery. Arch Orthop Trauma Surg 2020;140(1):85-92",
+   "pmid": "31734733",
+   "doi": "10.1007/s00402-019-03293-6",
+   "quote": "The width and thickness at the confluence of both heads were 10.9 mm and 6.9 mm, respectively. The mean total length of the footprint and \"free portion\" of the IHRF was 55.3 mm"
+  },
+  "atzmon2019b": {
+   "cite": "Atzmon R et al. 2020 (as above)",
+   "pmid": "31734733",
+   "doi": "10.1007/s00402-019-03293-6",
+   "quote": "The origin of the IHRF on the acetabulum fans out posteriorly, becoming thinner and wider as the origin travels posteriorly. The tendon footprint is firmly attached on the lateral wall of the ilium and becomes a free tendon overlying the acetabular bone as it travels anteriorly and distally towards its muscular attachment."
+  },
+  "gursoy2024": {
+   "cite": "Gursoy S, Bessa F, Dandu N, et al. Indirect Head of the Rectus Femoris Tendon as a Graft for Segmental Hip Labral Reconstruction. Am J Sports Med 2024;52(7):1753-1764",
+   "pmid": "38761016",
+   "doi": "10.1177/03635465241251824",
+   "quote": "The centroid and posterior apex of the indirect rectus femoris attachment are respectively located 10.3 ± 2.6 mm and 21.0 ± 6.5 mm posteriorly, 2.5 ± 7.8 mm and 0.7 ± 8.0 mm superiorly, and 5.0 ± 2.8 mm and 22.2 ± 4.4 mm laterally to the 12:30 labral position."
+  },
+  "hapa2013": {
+   "cite": "Hapa O, Bedi A, Gursan O, et al. Anatomic footprint of the direct head of the rectus femoris origin. Arthroscopy 2013;29(12):1932-40",
+   "pmid": "24140143",
+   "doi": "10.1016/j.arthro.2013.08.023",
+   "quote": "On the clock face, the lateral margin (1-o'clock to 1:30 position) and medial margin (2-o'clock to 2:30 position) of the AIIS and the indirect head of the rectus (12 o'clock) were consistent for all specimens."
+  },
+  "hasselman1995": {
+   "cite": "Hasselman CT, Best TM, Hughes C, Martinez S, Garrett WE. An explanation for various rectus femoris strain injuries using previously undescribed muscle architecture. Am J Sports Med 1995;23(4):493-9",
+   "pmid": "7573663",
+   "doi": "10.1177/036354659502300421",
+   "quote": "The proximal tendon is composed of a superficial, anterior portion from the direct head, and a deep intramuscular portion from the indirect head."
+  },
+  "benes2025": {
+   "cite": "Benes M, Bartak V, Uhlik J, et al. Surgical anatomy of the anterior musculocapsular complex of the hip. Anat Cell Biol 2025;58(2):155-165",
+   "pmid": "40194840",
+   "doi": "10.5115/acb.24.329",
+   "quote": "Macroscopically, the rectus femoris muscle contributed to the articular capsule exclusively through its reflected head."
+  }
+ },
+ "literature_targets": {
+  "footprint_len_mm": {
+   "value": 38.1,
+   "src": "atzmon2019b / Atzmon footprint alone 38.1 mm; Ryan 47.7 ± 4.4"
+  },
+  "footprint_width_mm": {
+   "value": 16.8,
+   "src": "ryan2014"
+  },
+  "confluence_width_mm": {
+   "value": 10.9,
+   "src": "atzmon2019"
+  },
+  "confluence_thick_mm": {
+   "value": 6.9,
+   "src": "atzmon2019"
+  },
+  "total_len_mm": {
+   "value": 55.3,
+   "src": "atzmon2019"
+  },
+  "apex_posterior_mm": {
+   "value": 21.0,
+   "src": "gursoy2024"
+  }
+ },
+ "base_m_r": {
+  "socket_radius_mm": 25.3,
+  "clock_apex": 11.0,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 40.4,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 23.5,
+  "total_len_mm": 63.9,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 2.17,
+  "watertight": true,
+  "aiis_mm": [
+   96.9,
+   43.0,
+   34.9
+  ],
+  "confluence_mm": [
+   112.7,
+   23.3,
+   13.6
+  ],
+  "rf_nearest_to_aiis_mm": 8.4,
+  "angle_reflected_vs_direct_head_deg": 40.0,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 12.4,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "base_m_l": {
+  "socket_radius_mm": 25.3,
+  "clock_apex": 11.0,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 40.4,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 23.8,
+  "total_len_mm": 64.2,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 2.27,
+  "watertight": true,
+  "aiis_mm": [
+   -97.2,
+   42.7,
+   35.0
+  ],
+  "confluence_mm": [
+   -113.3,
+   23.4,
+   13.6
+  ],
+  "rf_nearest_to_aiis_mm": 8.1,
+  "angle_reflected_vs_direct_head_deg": 40.6,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 12.2,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "own_m_r": {
+  "socket_radius_mm": 27.9,
+  "clock_apex": 11.25,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 33.5,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 38.8,
+  "total_len_mm": 72.3,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 1.4,
+  "watertight": true,
+  "aiis_mm": [
+   96.1,
+   41.9,
+   46.1
+  ],
+  "confluence_mm": [
+   116.2,
+   7.8,
+   48.2
+  ],
+  "rf_nearest_to_aiis_mm": 29.7,
+  "angle_reflected_vs_direct_head_deg": 16.2,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 48.6,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": false
+ },
+ "own_m_l": {
+  "socket_radius_mm": 28.0,
+  "clock_apex": 11.0,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 40.3,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 39.0,
+  "total_len_mm": 79.3,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 1.65,
+  "watertight": true,
+  "aiis_mm": [
+   -106.1,
+   40.4,
+   35.6
+  ],
+  "confluence_mm": [
+   -121.0,
+   3.7,
+   36.0
+  ],
+  "rf_nearest_to_aiis_mm": 28.5,
+  "angle_reflected_vs_direct_head_deg": 16.0,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 48.2,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": false
+ },
+ "own_f_r": {
+  "socket_radius_mm": 24.2,
+  "clock_apex": 11.0,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 37.9,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 32.7,
+  "total_len_mm": 70.6,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 2.56,
+  "watertight": true,
+  "aiis_mm": [
+   106.5,
+   43.3,
+   35.9
+  ],
+  "confluence_mm": [
+   120.2,
+   20.7,
+   46.8
+  ],
+  "rf_nearest_to_aiis_mm": 21.8,
+  "angle_reflected_vs_direct_head_deg": 23.9,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 13.5,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "own_f_l": {
+  "socket_radius_mm": 24.2,
+  "clock_apex": 11.0,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 38.0,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 37.7,
+  "total_len_mm": 75.7,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 3.0,
+  "watertight": true,
+  "aiis_mm": [
+   -105.3,
+   44.1,
+   37.0
+  ],
+  "confluence_mm": [
+   -130.0,
+   3.5,
+   24.8
+  ],
+  "rf_nearest_to_aiis_mm": 32.9,
+  "angle_reflected_vs_direct_head_deg": 21.8,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 8.0,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "base_f_r": {
+  "socket_radius_mm": 24.8,
+  "clock_apex": 11.25,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 38.7,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 21.1,
+  "total_len_mm": 59.9,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 1.92,
+  "watertight": true,
+  "aiis_mm": [
+   114.3,
+   38.8,
+   70.9
+  ],
+  "confluence_mm": [
+   125.7,
+   18.3,
+   56.3
+  ],
+  "rf_nearest_to_aiis_mm": 5.9,
+  "angle_reflected_vs_direct_head_deg": 35.6,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 14.6,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "base_f_l": {
+  "socket_radius_mm": 24.8,
+  "clock_apex": 11.25,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 39.2,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 21.0,
+  "total_len_mm": 60.2,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 1.97,
+  "watertight": true,
+  "aiis_mm": [
+   -112.4,
+   39.4,
+   71.1
+  ],
+  "confluence_mm": [
+   -125.8,
+   19.5,
+   55.5
+  ],
+  "rf_nearest_to_aiis_mm": 7.1,
+  "angle_reflected_vs_direct_head_deg": 37.8,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 13.5,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "comb_m_r": {
+  "socket_radius_mm": 26.4,
+  "clock_apex": 11.25,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 37.8,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 13.2,
+  "total_len_mm": 51.1,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 1.57,
+  "watertight": true,
+  "aiis_mm": [
+   101.9,
+   46.2,
+   36.8
+  ],
+  "confluence_mm": [
+   110.5,
+   25.4,
+   33.2
+  ],
+  "rf_nearest_to_aiis_mm": 4.1,
+  "angle_reflected_vs_direct_head_deg": 25.6,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 12.7,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "comb_m_l": {
+  "socket_radius_mm": 26.1,
+  "clock_apex": 11.0,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 44.4,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 18.4,
+  "total_len_mm": 62.9,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 1.84,
+  "watertight": true,
+  "aiis_mm": [
+   -104.8,
+   39.6,
+   30.3
+  ],
+  "confluence_mm": [
+   -114.8,
+   19.6,
+   26.1
+  ],
+  "rf_nearest_to_aiis_mm": 8.2,
+  "angle_reflected_vs_direct_head_deg": 23.1,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 16.8,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "comb_f_r": {
+  "socket_radius_mm": 27.2,
+  "clock_apex": 11.5,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 36.1,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 46.0,
+  "total_len_mm": 82.1,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 3.02,
+  "watertight": true,
+  "aiis_mm": [
+   88.8,
+   23.2,
+   16.5
+  ],
+  "confluence_mm": [
+   130.2,
+   4.0,
+   15.7
+  ],
+  "rf_nearest_to_aiis_mm": 20.3,
+  "angle_reflected_vs_direct_head_deg": 21.7,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 17.2,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ },
+ "comb_f_l": {
+  "socket_radius_mm": 29.3,
+  "clock_apex": 11.25,
+  "clock_anterior_end": 13.5,
+  "footprint_len_mm": 40.8,
+  "footprint_width_mm": [
+   16.8,
+   19.3
+  ],
+  "free_len_mm": 8.9,
+  "total_len_mm": 49.7,
+  "confluence_width_thick_mm": [
+   10.9,
+   6.9
+  ],
+  "volume_cm3": 1.47,
+  "watertight": true,
+  "aiis_mm": [
+   -108.6,
+   52.5,
+   34.6
+  ],
+  "confluence_mm": [
+   -110.9,
+   32.1,
+   20.7
+  ],
+  "rf_nearest_to_aiis_mm": 7.1,
+  "angle_reflected_vs_direct_head_deg": 52.7,
+  "bone_penetration": {
+   "verts_inside_gt_0_5mm_before_push_pct": 27.6,
+   "verts_inside_gt_0_5mm_after_pct": 0.0,
+   "max_depth_after_mm": 0.0
+  },
+  "hip_bone_watertight": true
+ }
+}

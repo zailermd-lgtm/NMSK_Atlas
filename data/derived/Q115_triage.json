@@ -1,0 +1,4960 @@
+{
+  "source": "Q115: decimation-vs-source triage sweep for the muscle/vessel/nerve structures Q112 found fragmented and Q113/Q114 did not already root-cause (scripts/triage_continuity_q115.py, method: scipy.ndimage.label on each structure's raw source label volume, 26-connectivity, compared to the shipped bundle's own main_frac from data/derived/Q112_full_continuity_audit.json)",
+  "generated_from": "data/derived/Q112_full_continuity_audit.json",
+  "already_handled_excluded": [
+    "external_intercostals_l",
+    "external_intercostals_r",
+    "internal_carotid_a_l",
+    "internal_carotid_a_r",
+    "internal_oblique_r",
+    "longus_capitis_r",
+    "longus_colli_l",
+    "longus_colli_r",
+    "pectoralis_minor_l",
+    "pectoralis_minor_r",
+    "sciatic_n",
+    "transversus_abdominis_r"
+  ],
+  "already_investigated_skipped": [
+    "geniohyoid_l",
+    "hyoglossus_r"
+  ],
+  "n_targets": 149,
+  "results": {
+    "female|serratus_anterior_l|left": {
+      "shipped_main_frac": 0.9771626297577855,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9869,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_abd",
+          "resolved_subject": "ct_vhf_abd",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_abdominal_muscles.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9869,
+          "top_component_voxel_counts": [
+            141795,
+            1886,
+            3
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0097,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "serratus_anterior_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Serratus anterior"
+    },
+    "female|external_oblique_r|right": {
+      "shipped_main_frac": 0.9864864864864865,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9944,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "ct_vhf_abd",
+          "resolved_subject": "ct_vhf_abd",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_abdominal_muscles.nii.gz",
+          "label": 11,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.9944,
+          "top_component_voxel_counts": [
+            164725,
+            806,
+            60,
+            58
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0079,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "external_oblique_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "External oblique"
+    },
+    "female|external_oblique_l|left": {
+      "shipped_main_frac": 0.9639934533551555,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9861,
+      "source_n_components_total": 6,
+      "per_source": [
+        {
+          "subject": "ct_vhf_abd",
+          "resolved_subject": "ct_vhf_abd",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_abdominal_muscles.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 6,
+          "main_frac": 0.9861,
+          "top_component_voxel_counts": [
+            179060,
+            2069,
+            358,
+            89,
+            1,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0221,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "external_oblique_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "External oblique"
+    },
+    "female|biceps_brachii_r|right": {
+      "shipped_main_frac": 0.6506646971935007,
+      "shipped_n_components": 19,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6888,
+      "source_n_components_total": 140,
+      "per_source": [
+        {
+          "subject": "ct_vhf_armm",
+          "resolved_subject": "ct_vhf_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 140,
+          "main_frac": 0.6612,
+          "top_component_voxel_counts": [
+            176273,
+            46291,
+            17048,
+            7791,
+            2827,
+            2434,
+            1986,
+            1273
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0381,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "biceps_brachii_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Biceps brachii"
+    },
+    "female|brachialis_r|right": {
+      "shipped_main_frac": 0.7535816618911175,
+      "shipped_n_components": 9,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8004,
+      "source_n_components_total": 25,
+      "per_source": [
+        {
+          "subject": "ct_vhf_armm",
+          "resolved_subject": "ct_vhf_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
+          "label": 2,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 25,
+          "main_frac": 0.7989,
+          "top_component_voxel_counts": [
+            93250,
+            19176,
+            3017,
+            620,
+            206,
+            111,
+            75,
+            53
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0468,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "brachialis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Brachialis"
+    },
+    "female|triceps_brachii_r|right": {
+      "shipped_main_frac": 0.7363984674329502,
+      "shipped_n_components": 24,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8742,
+      "source_n_components_total": 150,
+      "per_source": [
+        {
+          "subject": "ct_vhf_armm",
+          "resolved_subject": "ct_vhf_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 150,
+          "main_frac": 0.8375,
+          "top_component_voxel_counts": [
+            253522,
+            13073,
+            8180,
+            5560,
+            3859,
+            2386,
+            1757,
+            1672
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1378,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "triceps_brachii_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Triceps brachii"
+    },
+    "female|biceps_brachii_l|left": {
+      "shipped_main_frac": 0.6160241874527589,
+      "shipped_n_components": 22,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6973,
+      "source_n_components_total": 130,
+      "per_source": [
+        {
+          "subject": "ct_vhf_armm",
+          "resolved_subject": "ct_vhf_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 130,
+          "main_frac": 0.679,
+          "top_component_voxel_counts": [
+            151990,
+            52730,
+            6451,
+            3218,
+            1062,
+            1033,
+            807,
+            684
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0813,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "biceps_brachii_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Biceps brachii"
+    },
+    "female|brachialis_l|left": {
+      "shipped_main_frac": 0.659156976744186,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7699,
+      "source_n_components_total": 18,
+      "per_source": [
+        {
+          "subject": "ct_vhf_armm",
+          "resolved_subject": "ct_vhf_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 18,
+          "main_frac": 0.7689,
+          "top_component_voxel_counts": [
+            92152,
+            21424,
+            2739,
+            1793,
+            1023,
+            325,
+            157,
+            76
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1108,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "brachialis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Brachialis"
+    },
+    "female|triceps_brachii_l|left": {
+      "shipped_main_frac": 0.7525849335302807,
+      "shipped_n_components": 20,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9019,
+      "source_n_components_total": 113,
+      "per_source": [
+        {
+          "subject": "ct_vhf_armm",
+          "resolved_subject": "ct_vhf_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
+          "label": 8,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 113,
+          "main_frac": 0.891,
+          "top_component_voxel_counts": [
+            300289,
+            25235,
+            2786,
+            1984,
+            1173,
+            494,
+            491,
+            491
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1493,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "triceps_brachii_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Triceps brachii"
+    },
+    "male|semispinalis_capitis_r|right": {
+      "shipped_main_frac": 0.595176571920758,
+      "shipped_n_components": 9,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7329,
+      "source_n_components_total": 7,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 2,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 7,
+          "main_frac": 0.7329,
+          "top_component_voxel_counts": [
+            25881,
+            5551,
+            3403,
+            416,
+            45,
+            15,
+            2
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.1377,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "semispinalis_capitis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Semispinalis capitis"
+    },
+    "male|semispinalis_cervicis_r|right": {
+      "shipped_main_frac": 0.7846153846153846,
+      "shipped_n_components": 12,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8468,
+      "source_n_components_total": 11,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 3,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 11,
+          "main_frac": 0.8421,
+          "top_component_voxel_counts": [
+            12685,
+            1539,
+            280,
+            178,
+            100,
+            79,
+            61,
+            58
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0622,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "semispinalis_cervicis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Semispinalis cervicis"
+    },
+    "male|rectus_capitis_posterior_minor_r|right": {
+      "shipped_main_frac": 0.6286713286713287,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.5756,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.5756,
+          "top_component_voxel_counts": [
+            1241,
+            891,
+            24
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": -0.0531,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "rectus_capitis_posterior_minor_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior minor"
+    },
+    "male|rectus_capitis_posterior_major_r|right": {
+      "shipped_main_frac": 0.7518142235123367,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7864,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.7864,
+          "top_component_voxel_counts": [
+            2168,
+            575,
+            14
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0345,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "rectus_capitis_posterior_major_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior major"
+    },
+    "male|obliquus_capitis_inferior_r|right": {
+      "shipped_main_frac": 0.7968069666182874,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8015,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.8015,
+          "top_component_voxel_counts": [
+            5954,
+            1475
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0046,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "obliquus_capitis_inferior_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Obliquus capitis inferior"
+    },
+    "male|semispinalis_capitis_l|left": {
+      "shipped_main_frac": 0.9801488833746899,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9966,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.9966,
+          "top_component_voxel_counts": [
+            41227,
+            132,
+            5,
+            4
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0164,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "semispinalis_capitis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Semispinalis capitis"
+    },
+    "male|semispinalis_cervicis_l|left": {
+      "shipped_main_frac": 0.9585613760750586,
+      "shipped_n_components": 8,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9905,
+      "source_n_components_total": 6,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 13,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 6,
+          "main_frac": 0.9905,
+          "top_component_voxel_counts": [
+            15737,
+            94,
+            32,
+            15,
+            6,
+            4
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0319,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "semispinalis_cervicis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Semispinalis cervicis"
+    },
+    "male|rectus_capitis_posterior_minor_l|left": {
+      "shipped_main_frac": 0.9474393530997305,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9904,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 14,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9904,
+          "top_component_voxel_counts": [
+            2489,
+            24
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.043,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "rectus_capitis_posterior_minor_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior minor"
+    },
+    "male|rectus_capitis_posterior_major_l|left": {
+      "shipped_main_frac": 0.6428571428571429,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6627,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 15,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.6627,
+          "top_component_voxel_counts": [
+            1737,
+            706,
+            178
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0199,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "rectus_capitis_posterior_major_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior major"
+    },
+    "male|obliquus_capitis_inferior_l|left": {
+      "shipped_main_frac": 0.858151023288638,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9315,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 16,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.9315,
+          "top_component_voxel_counts": [
+            7206,
+            362,
+            94,
+            74
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0733,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "obliquus_capitis_inferior_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Obliquus capitis inferior"
+    },
+    "male|longus_capitis_l|left": {
+      "shipped_main_frac": 0.9443298969072165,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9724,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 20,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9724,
+          "top_component_voxel_counts": [
+            3483,
+            99
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.028,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "longus_capitis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Longus capitis"
+    },
+    "female|semispinalis_capitis_r|right": {
+      "shipped_main_frac": 0.595176571920758,
+      "shipped_n_components": 9,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7329,
+      "source_n_components_total": 7,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 2,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 7,
+          "main_frac": 0.7329,
+          "top_component_voxel_counts": [
+            25881,
+            5551,
+            3403,
+            416,
+            45,
+            15,
+            2
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1377,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "semispinalis_capitis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Semispinalis capitis"
+    },
+    "female|semispinalis_cervicis_r|right": {
+      "shipped_main_frac": 0.7846153846153846,
+      "shipped_n_components": 12,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8468,
+      "source_n_components_total": 11,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 3,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 11,
+          "main_frac": 0.8421,
+          "top_component_voxel_counts": [
+            12685,
+            1539,
+            280,
+            178,
+            100,
+            79,
+            61,
+            58
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0622,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "semispinalis_cervicis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Semispinalis cervicis"
+    },
+    "female|rectus_capitis_posterior_minor_r|right": {
+      "shipped_main_frac": 0.6286713286713287,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.5756,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.5756,
+          "top_component_voxel_counts": [
+            1241,
+            891,
+            24
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0531,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "rectus_capitis_posterior_minor_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior minor"
+    },
+    "female|rectus_capitis_posterior_major_r|right": {
+      "shipped_main_frac": 0.7518142235123367,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7864,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.7864,
+          "top_component_voxel_counts": [
+            2168,
+            575,
+            14
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0345,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "rectus_capitis_posterior_major_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior major"
+    },
+    "female|obliquus_capitis_inferior_r|right": {
+      "shipped_main_frac": 0.7968069666182874,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8015,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.8015,
+          "top_component_voxel_counts": [
+            5954,
+            1475
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0046,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "obliquus_capitis_inferior_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Obliquus capitis inferior"
+    },
+    "female|semispinalis_capitis_l|left": {
+      "shipped_main_frac": 0.9801488833746899,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9966,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.9966,
+          "top_component_voxel_counts": [
+            41227,
+            132,
+            5,
+            4
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0164,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "semispinalis_capitis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Semispinalis capitis"
+    },
+    "female|semispinalis_cervicis_l|left": {
+      "shipped_main_frac": 0.9585613760750586,
+      "shipped_n_components": 8,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9905,
+      "source_n_components_total": 6,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 13,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 6,
+          "main_frac": 0.9905,
+          "top_component_voxel_counts": [
+            15737,
+            94,
+            32,
+            15,
+            6,
+            4
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0319,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "semispinalis_cervicis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Semispinalis cervicis"
+    },
+    "female|rectus_capitis_posterior_minor_l|left": {
+      "shipped_main_frac": 0.9474393530997305,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9904,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 14,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9904,
+          "top_component_voxel_counts": [
+            2489,
+            24
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.043,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "rectus_capitis_posterior_minor_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior minor"
+    },
+    "female|rectus_capitis_posterior_major_l|left": {
+      "shipped_main_frac": 0.6428571428571429,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6627,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 15,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.6627,
+          "top_component_voxel_counts": [
+            1737,
+            706,
+            178
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0199,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "rectus_capitis_posterior_major_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Rectus capitis posterior major"
+    },
+    "female|obliquus_capitis_inferior_l|left": {
+      "shipped_main_frac": 0.858151023288638,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9315,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 16,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.9315,
+          "top_component_voxel_counts": [
+            7206,
+            362,
+            94,
+            74
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0733,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "obliquus_capitis_inferior_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Obliquus capitis inferior"
+    },
+    "female|longus_capitis_l|left": {
+      "shipped_main_frac": 0.9443298969072165,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9724,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_dneck",
+          "resolved_subject": "ct_vhf_dneck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+          "label": 20,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9724,
+          "top_component_voxel_counts": [
+            3483,
+            99
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.028,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "longus_capitis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Longus capitis"
+    },
+    "female|deltoid_r|right": {
+      "shipped_main_frac": 0.9619970193740686,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "ct_vhf_delt",
+          "resolved_subject": "ct_vhf_delt",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deltoid_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            226288
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.038,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "deltoid_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Deltoid"
+    },
+    "female|spinalis_r|right": {
+      "shipped_main_frac": 0.9211590296495957,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9225,
+      "source_n_components_total": 44,
+      "per_source": [
+        {
+          "subject": "ct_vhf_es",
+          "resolved_subject": "ct_vhf_es",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_erector_columns.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 44,
+          "main_frac": 0.9212,
+          "top_component_voxel_counts": [
+            46067,
+            3277,
+            349,
+            80,
+            63,
+            56,
+            30,
+            13
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0014,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "spinalis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Spinalis"
+    },
+    "female|spinalis_l|left": {
+      "shipped_main_frac": 0.9584468664850136,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9767,
+      "source_n_components_total": 16,
+      "per_source": [
+        {
+          "subject": "ct_vhf_es",
+          "resolved_subject": "ct_vhf_es",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_erector_columns.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 16,
+          "main_frac": 0.9765,
+          "top_component_voxel_counts": [
+            70836,
+            1455,
+            119,
+            75,
+            21,
+            14,
+            5,
+            3
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0182,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "spinalis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Spinalis"
+    },
+    "female|flexor_digitorum_profundus_r|right": {
+      "shipped_main_frac": 0.9779086892488954,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9852,
+      "source_n_components_total": 7,
+      "per_source": [
+        {
+          "subject": "ct_vhf_forearm",
+          "resolved_subject": "ct_vhf_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 7,
+          "main_frac": 0.9852,
+          "top_component_voxel_counts": [
+            146065,
+            751,
+            701,
+            319,
+            272,
+            129,
+            15
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0073,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "flexor_digitorum_profundus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Flexor digitorum profundus"
+    },
+    "female|extensor_carpi_radialis_longus_r|right": {
+      "shipped_main_frac": 0.5620496397117695,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9664,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "ct_vhf_forearm",
+          "resolved_subject": "ct_vhf_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
+          "label": 10,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.9664,
+          "top_component_voxel_counts": [
+            104754,
+            3240,
+            245,
+            156
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.4044,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "female",
+      "id": "extensor_carpi_radialis_longus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Extensor carpi radialis longus"
+    },
+    "female|extensor_carpi_ulnaris_r|right": {
+      "shipped_main_frac": 0.5964095744680851,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6333,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_forearm",
+          "resolved_subject": "ct_vhf_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
+          "label": 14,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.6333,
+          "top_component_voxel_counts": [
+            32504,
+            18588,
+            229
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0369,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "extensor_carpi_ulnaris_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Extensor carpi ulnaris"
+    },
+    "female|extensor_pollicis_longus_r|right": {
+      "shipped_main_frac": 0.9786808794137242,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "ct_vhf_forearm",
+          "resolved_subject": "ct_vhf_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
+          "label": 19,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            34337
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0213,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "extensor_pollicis_longus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Extensor pollicis longus"
+    },
+    "female|adductor_pollicis_r|right": {
+      "shipped_main_frac": 0.9704301075268817,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9864,
+      "source_n_components_total": 5,
+      "per_source": [
+        {
+          "subject": "ct_vhf_hand",
+          "resolved_subject": "ct_vhf_hand",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 5,
+          "main_frac": 0.9864,
+          "top_component_voxel_counts": [
+            41212,
+            554,
+            11,
+            2,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.016,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "adductor_pollicis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Adductor pollicis"
+    },
+    "female|dorsal_interossei_hand_r|right": {
+      "shipped_main_frac": 0.6255989048596852,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.5513,
+      "source_n_components_total": 13,
+      "per_source": [
+        {
+          "subject": "ct_vhf_hand",
+          "resolved_subject": "ct_vhf_hand",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz",
+          "label": 8,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 13,
+          "main_frac": 0.5513,
+          "top_component_voxel_counts": [
+            23042,
+            18587,
+            145,
+            9,
+            4,
+            3,
+            2,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0743,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "dorsal_interossei_hand_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Dorsal interossei (hand)"
+    },
+    "female|palmar_interossei_r|right": {
+      "shipped_main_frac": 0.9706078824315297,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9832,
+      "source_n_components_total": 8,
+      "per_source": [
+        {
+          "subject": "ct_vhf_hand",
+          "resolved_subject": "ct_vhf_hand",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz",
+          "label": 9,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 8,
+          "main_frac": 0.9832,
+          "top_component_voxel_counts": [
+            27173,
+            435,
+            10,
+            5,
+            4,
+            4,
+            3,
+            2
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0126,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "palmar_interossei_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Palmar interossei"
+    },
+    "male|internal_jugular_v_l|left": {
+      "shipped_main_frac": 0.8064516129032258,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9069,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm",
+          "resolved_subject": "ct_vhf_neckbv",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_headneck_bones_vessels.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9069,
+          "top_component_voxel_counts": [
+            8922,
+            503,
+            413
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm"
+          ]
+        }
+      ],
+      "gap_ratio": 0.1004,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "internal_jugular_v_l",
+      "side": "left",
+      "cat": "vessel",
+      "name": "Internal jugular vein"
+    },
+    "male|internal_jugular_v_r|right": {
+      "shipped_main_frac": 0.8022328548644339,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9061,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm",
+          "resolved_subject": "ct_vhf_neckbv",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_headneck_bones_vessels.nii.gz",
+          "label": 11,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9061,
+          "top_component_voxel_counts": [
+            14122,
+            843,
+            620
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm"
+          ]
+        }
+      ],
+      "gap_ratio": 0.1039,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "internal_jugular_v_r",
+      "side": "right",
+      "cat": "vessel",
+      "name": "Internal jugular vein"
+    },
+    "female|internal_jugular_v_r|right": {
+      "shipped_main_frac": 0.8022328548644339,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9061,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_neckbv",
+          "resolved_subject": "ct_vhf_neckbv",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_headneck_bones_vessels.nii.gz",
+          "label": 11,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9061,
+          "top_component_voxel_counts": [
+            14122,
+            843,
+            620
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1039,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "internal_jugular_v_r",
+      "side": "right",
+      "cat": "vessel",
+      "name": "Internal jugular vein"
+    },
+    "female|internal_jugular_v_l|left": {
+      "shipped_main_frac": 0.8064516129032258,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9069,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_neckbv",
+          "resolved_subject": "ct_vhf_neckbv",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_headneck_bones_vessels.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9069,
+          "top_component_voxel_counts": [
+            8922,
+            503,
+            413
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1004,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "internal_jugular_v_l",
+      "side": "left",
+      "cat": "vessel",
+      "name": "Internal jugular vein"
+    },
+    "male|geniohyoid_r|right": {
+      "shipped_main_frac": 0.5924479166666666,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6298,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_hyoid",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.6298,
+          "top_component_voxel_counts": [
+            1424,
+            837
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0374,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "geniohyoid_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Geniohyoid"
+    },
+    "male|hyoglossus_l|left": {
+      "shipped_main_frac": 0.8318994043679683,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8917,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm_neck",
+          "resolved_subject": "ct_vhf_hyoid",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+          "label": 17,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.8917,
+          "top_component_voxel_counts": [
+            4798,
+            583
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm_neck"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0598,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "hyoglossus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Hyoglossus"
+    },
+    "female|geniohyoid_r|right": {
+      "shipped_main_frac": 0.5924479166666666,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6298,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_hyoid",
+          "resolved_subject": "ct_vhf_hyoid",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.6298,
+          "top_component_voxel_counts": [
+            1424,
+            837
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0374,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "geniohyoid_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Geniohyoid"
+    },
+    "female|genioglossus_r|right": {
+      "shipped_main_frac": 0.873342175066313,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "ct_vhf_hyoid",
+          "resolved_subject": "ct_vhf_hyoid",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            9119
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1267,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "genioglossus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Genioglossus"
+    },
+    "female|hyoglossus_l|left": {
+      "shipped_main_frac": 0.8318994043679683,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8917,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_hyoid",
+          "resolved_subject": "ct_vhf_hyoid",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+          "label": 17,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.8917,
+          "top_component_voxel_counts": [
+            4798,
+            583
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0598,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "hyoglossus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Hyoglossus"
+    },
+    "female|styloglossus_l|left": {
+      "shipped_main_frac": 0.9291187739463601,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9139,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_hyoid",
+          "resolved_subject": "ct_vhf_hyoid",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+          "label": 18,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9139,
+          "top_component_voxel_counts": [
+            1326,
+            64,
+            61
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0153,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "styloglossus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Styloglossus"
+    },
+    "female|extensor_digitorum_l|left": {
+      "shipped_main_frac": 0.989041095890411,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.988,
+      "source_n_components_total": 7,
+      "per_source": [
+        {
+          "subject": "ct_vhf_left_forearm",
+          "resolved_subject": "ct_vhf_left_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_left_forearm_muscles_cryo.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 7,
+          "main_frac": 0.988,
+          "top_component_voxel_counts": [
+            94543,
+            915,
+            170,
+            48,
+            7,
+            6,
+            3
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.001,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "extensor_digitorum_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Extensor digitorum"
+    },
+    "female|extensor_digiti_minimi_l|left": {
+      "shipped_main_frac": 0.987846049966239,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9475,
+      "source_n_components_total": 5,
+      "per_source": [
+        {
+          "subject": "ct_vhf_left_forearm",
+          "resolved_subject": "ct_vhf_left_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_left_forearm_muscles_cryo.nii.gz",
+          "label": 13,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 5,
+          "main_frac": 0.9475,
+          "top_component_voxel_counts": [
+            46685,
+            2429,
+            121,
+            19,
+            19
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0404,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "extensor_digiti_minimi_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Extensor digiti minimi"
+    },
+    "male|superior_rectus_l|left": {
+      "shipped_main_frac": 0.97556142668428,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9995,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm",
+          "resolved_subject": "ct_vhf_orbit",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_oculomotor_muscles.nii.gz",
+          "label": 15,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9995,
+          "top_component_voxel_counts": [
+            2008,
+            1
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0239,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "superior_rectus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Superior rectus"
+    },
+    "male|superior_rectus_r|right": {
+      "shipped_main_frac": 0.9661579296615793,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm",
+          "resolved_subject": "ct_vhf_orbit",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_oculomotor_muscles.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            1795
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0338,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "superior_rectus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Superior rectus"
+    },
+    "male|optic_n|left": {
+      "shipped_main_frac": 0.5166163141993958,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "xfer_vhf2vhm",
+          "resolved_subject": "ct_vhf_orbit",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_oculomotor_muscles.nii.gz",
+          "label": 10,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            2685
+          ],
+          "chased_via": [
+            "xfer_vhf2vhm"
+          ]
+        }
+      ],
+      "gap_ratio": 0.4834,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "male",
+      "id": "optic_n",
+      "side": "left",
+      "cat": "nerve",
+      "name": "Optic nerve (CN II)"
+    },
+    "female|superior_rectus_r|right": {
+      "shipped_main_frac": 0.9661579296615793,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "ct_vhf_orbit",
+          "resolved_subject": "ct_vhf_orbit",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_oculomotor_muscles.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            1795
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0338,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "superior_rectus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Superior rectus"
+    },
+    "female|superior_rectus_l|left": {
+      "shipped_main_frac": 0.97556142668428,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9995,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_orbit",
+          "resolved_subject": "ct_vhf_orbit",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_oculomotor_muscles.nii.gz",
+          "label": 15,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9995,
+          "top_component_voxel_counts": [
+            2008,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0239,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "superior_rectus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Superior rectus"
+    },
+    "female|deep_transverse_perineal_r|right": {
+      "shipped_main_frac": 0.6158038147138964,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9158,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_pfloor",
+          "resolved_subject": "ct_vhf_pfloor",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9158,
+          "top_component_voxel_counts": [
+            1719,
+            158
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.3,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "female",
+      "id": "deep_transverse_perineal_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Transversus perinei profundus"
+    },
+    "female|coccygeus_l|left": {
+      "shipped_main_frac": 0.758575197889182,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7822,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf_pfloor",
+          "resolved_subject": "ct_vhf_pfloor",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.nii.gz",
+          "label": 10,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.7822,
+          "top_component_voxel_counts": [
+            1839,
+            512
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0236,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "coccygeus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Coccygeus"
+    },
+    "female|ischiocavernosus_l|left": {
+      "shipped_main_frac": 0.7915057915057915,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6535,
+      "source_n_components_total": 5,
+      "per_source": [
+        {
+          "subject": "ct_vhf_pfloor",
+          "resolved_subject": "ct_vhf_pfloor",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 5,
+          "main_frac": 0.6535,
+          "top_component_voxel_counts": [
+            811,
+            177,
+            149,
+            93,
+            11
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.138,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "ischiocavernosus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Ischiocavernosus"
+    },
+    "female|popliteal_a_r|right": {
+      "shipped_main_frac": 0.5670926517571885,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "ct_vhf_popliteal",
+          "resolved_subject": "ct_vhf_popliteal",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_popliteal_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            5181
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.4329,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "female",
+      "id": "popliteal_a_r",
+      "side": "right",
+      "cat": "vessel",
+      "name": "Popliteal artery"
+    },
+    "female|supraspinatus_r|right": {
+      "shipped_main_frac": 0.7243460764587525,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8065,
+      "source_n_components_total": 29,
+      "per_source": [
+        {
+          "subject": "ct_vhf_cuff",
+          "resolved_subject": "ct_vhf_cuff",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 29,
+          "main_frac": 0.8052,
+          "top_component_voxel_counts": [
+            37460,
+            8859,
+            48,
+            18,
+            18,
+            17,
+            16,
+            14
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0821,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "supraspinatus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Supraspinatus"
+    },
+    "female|supraspinatus_l|left": {
+      "shipped_main_frac": 0.7810569663692519,
+      "shipped_n_components": 9,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8479,
+      "source_n_components_total": 69,
+      "per_source": [
+        {
+          "subject": "ct_vhf_cuff",
+          "resolved_subject": "ct_vhf_cuff",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 69,
+          "main_frac": 0.8447,
+          "top_component_voxel_counts": [
+            44725,
+            7547,
+            281,
+            91,
+            36,
+            27,
+            25,
+            14
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0669,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "supraspinatus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Supraspinatus"
+    },
+    "female|subscapularis_l|left": {
+      "shipped_main_frac": 0.9776055124892334,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9974,
+      "source_n_components_total": 54,
+      "per_source": [
+        {
+          "subject": "ct_vhf_cuff",
+          "resolved_subject": "ct_vhf_cuff",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 54,
+          "main_frac": 0.9969,
+          "top_component_voxel_counts": [
+            259281,
+            436,
+            164,
+            22,
+            18,
+            16,
+            12,
+            10
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0198,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "subscapularis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Subscapularis"
+    },
+    "female|infraspinatus_r|right": {
+      "shipped_main_frac": 0.9684857801691007,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9953,
+      "source_n_components_total": 156,
+      "per_source": [
+        {
+          "subject": "ct_vhf_shsp",
+          "resolved_subject": "ct_vhf_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 156,
+          "main_frac": 0.9933,
+          "top_component_voxel_counts": [
+            231597,
+            700,
+            245,
+            47,
+            42,
+            24,
+            17,
+            17
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0268,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "infraspinatus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Infraspinatus"
+    },
+    "female|infraspinatus_l|left": {
+      "shipped_main_frac": 0.96,
+      "shipped_n_components": 7,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9842,
+      "source_n_components_total": 254,
+      "per_source": [
+        {
+          "subject": "ct_vhf_shsp",
+          "resolved_subject": "ct_vhf_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 254,
+          "main_frac": 0.9803,
+          "top_component_voxel_counts": [
+            211530,
+            2841,
+            229,
+            170,
+            63,
+            49,
+            23,
+            23
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0242,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "infraspinatus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Infraspinatus"
+    },
+    "female|teres_minor_l|left": {
+      "shipped_main_frac": 0.9854469854469855,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9999,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "ct_vhf_shsp",
+          "resolved_subject": "ct_vhf_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz",
+          "label": 7,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9999,
+          "top_component_voxel_counts": [
+            43702,
+            2,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0145,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "teres_minor_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Teres minor"
+    },
+    "female|descending_thoracic_aorta|none": {
+      "shipped_main_frac": 0.7113564668769716,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "ct_vhf",
+          "resolved_subject": "ct_vhf",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total.nii.gz",
+          "label": 52,
+          "smoothing_sigma": 1.0,
+          "split_from": "aorta",
+          "splitter": "aorta_by_vertebral_level",
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            138991
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.2886,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "female",
+      "id": "descending_thoracic_aorta",
+      "side": "none",
+      "cat": "vessel",
+      "name": "Descending thoracic aorta"
+    },
+    "female|subclavian_a_l|left": {
+      "shipped_main_frac": 0.9216,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9594,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf",
+          "resolved_subject": "ct_vhf",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total.nii.gz",
+          "label": 56,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9594,
+          "top_component_voxel_counts": [
+            9969,
+            422
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0378,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "subclavian_a_l",
+      "side": "left",
+      "cat": "vessel",
+      "name": "Subclavian artery"
+    },
+    "female|common_carotid_a_l|left": {
+      "shipped_main_frac": 0.8918918918918919,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9409,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf",
+          "resolved_subject": "ct_vhf",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total.nii.gz",
+          "label": 58,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9409,
+          "top_component_voxel_counts": [
+            5544,
+            348
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.049,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "common_carotid_a_l",
+      "side": "left",
+      "cat": "vessel",
+      "name": "Common carotid artery"
+    },
+    "female|inferior_vena_cava|none": {
+      "shipped_main_frac": 0.6855753646677472,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.676,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhf",
+          "resolved_subject": "ct_vhf",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total.nii.gz",
+          "label": 63,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.676,
+          "top_component_voxel_counts": [
+            44008,
+            21095
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0096,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "inferior_vena_cava",
+      "side": "none",
+      "cat": "vessel",
+      "name": "Inferior vena cava"
+    },
+    "female|diaphragm|none": {
+      "shipped_main_frac": 0.742617893345086,
+      "shipped_n_components": 20,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8005,
+      "source_n_components_total": 6,
+      "per_source": [
+        {
+          "subject": "ct_vhf_twall",
+          "resolved_subject": "ct_vhf_twall",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_trunk_wall.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 6,
+          "main_frac": 0.8005,
+          "top_component_voxel_counts": [
+            263841,
+            34395,
+            15241,
+            6618,
+            6117,
+            3369
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0579,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "diaphragm",
+      "side": "none",
+      "cat": "muscle",
+      "name": "Diaphragm"
+    },
+    "female|adductor_brevis_l|left": {
+      "shipped_main_frac": 0.9608247422680413,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.984,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.984,
+          "top_component_voxel_counts": [
+            119952,
+            1953
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0232,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "adductor_brevis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Adductor brevis"
+    },
+    "female|adductor_longus_l|left": {
+      "shipped_main_frac": 0.6001415428167021,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6563,
+      "source_n_components_total": 8,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 3,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 8,
+          "main_frac": 0.6563,
+          "top_component_voxel_counts": [
+            87220,
+            45601,
+            30,
+            20,
+            13,
+            5,
+            2,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0562,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "adductor_longus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Adductor longus"
+    },
+    "female|adductor_magnus_r|right": {
+      "shipped_main_frac": 0.9709480122324159,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.5969,
+      "source_n_components_total": 35,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 35,
+          "main_frac": 0.5967,
+          "top_component_voxel_counts": [
+            407851,
+            272879,
+            2106,
+            190,
+            64,
+            50,
+            48,
+            47
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.374,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "adductor_magnus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Adductor magnus"
+    },
+    "female|biceps_femoris_l|left": {
+      "shipped_main_frac": 0.983983286908078,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9471,
+      "source_n_components_total": 31,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 7,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 31,
+          "main_frac": 0.9464,
+          "top_component_voxel_counts": [
+            248784,
+            13039,
+            554,
+            100,
+            65,
+            50,
+            42,
+            32
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0368,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "biceps_femoris_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Biceps femoris"
+    },
+    "female|biceps_femoris_r|right": {
+      "shipped_main_frac": 0.8888042650418888,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9434,
+      "source_n_components_total": 51,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 8,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 51,
+          "main_frac": 0.9415,
+          "top_component_voxel_counts": [
+            317333,
+            17958,
+            569,
+            190,
+            93,
+            89,
+            84,
+            56
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0546,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "biceps_femoris_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Biceps femoris"
+    },
+    "female|extensor_digitorum_longus_l|left": {
+      "shipped_main_frac": 0.5447498238195913,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8318,
+      "source_n_components_total": 14,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 9,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 14,
+          "main_frac": 0.8316,
+          "top_component_voxel_counts": [
+            32979,
+            6597,
+            31,
+            26,
+            7,
+            3,
+            3,
+            2
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.287,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "extensor_digitorum_longus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Extensor digitorum longus"
+    },
+    "female|extensor_digitorum_longus_r|right": {
+      "shipped_main_frac": 0.660958904109589,
+      "shipped_n_components": 13,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8251,
+      "source_n_components_total": 19,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 10,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 19,
+          "main_frac": 0.8246,
+          "top_component_voxel_counts": [
+            28569,
+            3724,
+            1957,
+            355,
+            9,
+            4,
+            3,
+            3
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1642,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "extensor_digitorum_longus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Extensor digitorum longus"
+    },
+    "female|extensor_hallucis_longus_l|left": {
+      "shipped_main_frac": 0.6690981432360743,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9997,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 11,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9997,
+          "top_component_voxel_counts": [
+            14665,
+            2,
+            2
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.3306,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "female",
+      "id": "extensor_hallucis_longus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Extensor hallucis longus"
+    },
+    "female|extensor_hallucis_longus_r|right": {
+      "shipped_main_frac": 0.562082777036048,
+      "shipped_n_components": 7,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9966,
+      "source_n_components_total": 5,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 12,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 5,
+          "main_frac": 0.9966,
+          "top_component_voxel_counts": [
+            27004,
+            79,
+            6,
+            3,
+            3
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.4346,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "female",
+      "id": "extensor_hallucis_longus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Extensor hallucis longus"
+    },
+    "female|flexor_digitorum_longus_l|left": {
+      "shipped_main_frac": 0.8247422680412371,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9997,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 15,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.9997,
+          "top_component_voxel_counts": [
+            42021,
+            9,
+            2,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.175,
+      "classification": "LIKELY_PIPELINE_ARTIFACT",
+      "body": "female",
+      "id": "flexor_digitorum_longus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Flexor digitorum longus"
+    },
+    "female|gastrocnemius_r|right": {
+      "shipped_main_frac": 0.9786607799852833,
+      "shipped_n_components": 7,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7073,
+      "source_n_components_total": 24,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 20,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 24,
+          "main_frac": 0.7071,
+          "top_component_voxel_counts": [
+            259673,
+            106958,
+            157,
+            121,
+            102,
+            63,
+            25,
+            25
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.2713,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "gastrocnemius_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Gastrocnemius"
+    },
+    "female|gracilis_l|left": {
+      "shipped_main_frac": 0.9884559884559885,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7384,
+      "source_n_components_total": 21,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 22,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 21,
+          "main_frac": 0.738,
+          "top_component_voxel_counts": [
+            70421,
+            24392,
+            361,
+            63,
+            54,
+            31,
+            25,
+            22
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.2501,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "gracilis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Gracilis"
+    },
+    "female|gracilis_r|right": {
+      "shipped_main_frac": 0.5909742120343839,
+      "shipped_n_components": 11,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6262,
+      "source_n_components_total": 34,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 23,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 34,
+          "main_frac": 0.6236,
+          "top_component_voxel_counts": [
+            47026,
+            13220,
+            12935,
+            777,
+            511,
+            288,
+            263,
+            79
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0352,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "gracilis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Gracilis"
+    },
+    "female|obturator_internus_r|right": {
+      "shipped_main_frac": 0.9878048780487805,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9997,
+      "source_n_components_total": 5,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 27,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 5,
+          "main_frac": 0.9997,
+          "top_component_voxel_counts": [
+            150889,
+            25,
+            8,
+            7,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0119,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "obturator_internus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Obturator internus"
+    },
+    "female|plantaris_l|left": {
+      "shipped_main_frac": 0.9177173191771731,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 30,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            13747
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0823,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "plantaris_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Plantaris"
+    },
+    "female|popliteus_l|left": {
+      "shipped_main_frac": 0.9867461895294898,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.975,
+      "source_n_components_total": 5,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 32,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 5,
+          "main_frac": 0.975,
+          "top_component_voxel_counts": [
+            19086,
+            473,
+            8,
+            7,
+            2
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0118,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "popliteus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Popliteus"
+    },
+    "female|rectus_femoris_r|right": {
+      "shipped_main_frac": 0.6896311760612387,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7584,
+      "source_n_components_total": 6,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 37,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 6,
+          "main_frac": 0.7584,
+          "top_component_voxel_counts": [
+            145063,
+            46195,
+            7,
+            6,
+            1,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0688,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "rectus_femoris_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rectus femoris"
+    },
+    "female|sartorius_r|right": {
+      "shipped_main_frac": 0.5443873807776962,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.5421,
+      "source_n_components_total": 7,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 39,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 7,
+          "main_frac": 0.5421,
+          "top_component_voxel_counts": [
+            81008,
+            68419,
+            8,
+            3,
+            2,
+            2,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0023,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "sartorius_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Sartorius"
+    },
+    "female|semimembranosus_r|right": {
+      "shipped_main_frac": 0.9279720279720279,
+      "shipped_n_components": 11,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.994,
+      "source_n_components_total": 27,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 41,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 27,
+          "main_frac": 0.9932,
+          "top_component_voxel_counts": [
+            309569,
+            464,
+            334,
+            305,
+            271,
+            223,
+            189,
+            67
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0661,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "semimembranosus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Semimembranosus"
+    },
+    "female|semitendinosus_l|left": {
+      "shipped_main_frac": 0.7296918767507002,
+      "shipped_n_components": 8,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8405,
+      "source_n_components_total": 25,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 42,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 25,
+          "main_frac": 0.8397,
+          "top_component_voxel_counts": [
+            132462,
+            23882,
+            404,
+            366,
+            202,
+            176,
+            60,
+            47
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1108,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "semitendinosus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Semitendinosus"
+    },
+    "female|semitendinosus_r|right": {
+      "shipped_main_frac": 0.9306647605432452,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7823,
+      "source_n_components_total": 29,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 43,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 29,
+          "main_frac": 0.782,
+          "top_component_voxel_counts": [
+            134564,
+            35814,
+            1482,
+            64,
+            40,
+            25,
+            14,
+            12
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.1484,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "semitendinosus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Semitendinosus"
+    },
+    "female|tensor_fasciae_latae_r|right": {
+      "shipped_main_frac": 0.9899799599198397,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9974,
+      "source_n_components_total": 16,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 47,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 16,
+          "main_frac": 0.997,
+          "top_component_voxel_counts": [
+            83701,
+            53,
+            46,
+            46,
+            26,
+            21,
+            13,
+            10
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0075,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "tensor_fasciae_latae_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Tensor fasciae latae"
+    },
+    "female|tibialis_anterior_l|left": {
+      "shipped_main_frac": 0.6710986703988804,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7302,
+      "source_n_components_total": 10,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 48,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 10,
+          "main_frac": 0.7302,
+          "top_component_voxel_counts": [
+            91227,
+            33686,
+            11,
+            7,
+            3,
+            2,
+            2,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0591,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "tibialis_anterior_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Tibialis anterior"
+    },
+    "female|vastus_lateralis_l|left": {
+      "shipped_main_frac": 0.9874538745387453,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.5993,
+      "source_n_components_total": 8,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 54,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 8,
+          "main_frac": 0.5993,
+          "top_component_voxel_counts": [
+            193695,
+            129438,
+            23,
+            23,
+            11,
+            6,
+            4,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.3882,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "vastus_lateralis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Vastus lateralis"
+    },
+    "female|vastus_medialis_l|left": {
+      "shipped_main_frac": 0.8346513299784328,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9007,
+      "source_n_components_total": 3,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_sep",
+          "resolved_subject": "xfer_vhm2vhf_sep",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+          "label": 56,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 3,
+          "main_frac": 0.9007,
+          "top_component_voxel_counts": [
+            265440,
+            29217,
+            31
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0661,
+      "classification": "MARGINAL",
+      "body": "female",
+      "id": "vastus_medialis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Vastus medialis"
+    },
+    "male|biceps_brachii_r|right": {
+      "shipped_main_frac": 0.9851714550509731,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7699,
+      "source_n_components_total": 357,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 357,
+          "main_frac": 0.759,
+          "top_component_voxel_counts": [
+            320751,
+            47413,
+            47031,
+            784,
+            180,
+            172,
+            154,
+            153
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.2153,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "biceps_brachii_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Biceps brachii"
+    },
+    "male|brachialis_r|right": {
+      "shipped_main_frac": 0.9825757575757575,
+      "shipped_n_components": 7,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9971,
+      "source_n_components_total": 29,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 2,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 29,
+          "main_frac": 0.9965,
+          "top_component_voxel_counts": [
+            198047,
+            168,
+            150,
+            105,
+            46,
+            41,
+            39,
+            19
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0146,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "brachialis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Brachialis"
+    },
+    "male|coracobrachialis_r|right": {
+      "shipped_main_frac": 0.9877112135176651,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9842,
+      "source_n_components_total": 55,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 3,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 55,
+          "main_frac": 0.9698,
+          "top_component_voxel_counts": [
+            51816,
+            198,
+            159,
+            124,
+            114,
+            95,
+            75,
+            65
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0035,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "coracobrachialis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Coracobrachialis"
+    },
+    "male|triceps_brachii_r|right": {
+      "shipped_main_frac": 0.9464131374243734,
+      "shipped_n_components": 8,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9695,
+      "source_n_components_total": 324,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 4,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 324,
+          "main_frac": 0.9588,
+          "top_component_voxel_counts": [
+            477761,
+            10107,
+            3799,
+            314,
+            226,
+            214,
+            191,
+            162
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0231,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "triceps_brachii_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Triceps brachii"
+    },
+    "male|biceps_brachii_l|left": {
+      "shipped_main_frac": 0.9892761394101877,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7654,
+      "source_n_components_total": 345,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 345,
+          "main_frac": 0.744,
+          "top_component_voxel_counts": [
+            291097,
+            37482,
+            31024,
+            18247,
+            1427,
+            403,
+            360,
+            288
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.2239,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "biceps_brachii_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Biceps brachii"
+    },
+    "male|brachialis_l|left": {
+      "shipped_main_frac": 0.9868725868725868,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9998,
+      "source_n_components_total": 11,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 11,
+          "main_frac": 0.9998,
+          "top_component_voxel_counts": [
+            250410,
+            10,
+            10,
+            9,
+            6,
+            5,
+            3,
+            3
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0129,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "brachialis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Brachialis"
+    },
+    "male|coracobrachialis_l|left": {
+      "shipped_main_frac": 0.9896193771626297,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9855,
+      "source_n_components_total": 35,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 7,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 35,
+          "main_frac": 0.9766,
+          "top_component_voxel_counts": [
+            45112,
+            191,
+            115,
+            113,
+            67,
+            65,
+            59,
+            56
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0042,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "coracobrachialis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Coracobrachialis"
+    },
+    "male|triceps_brachii_l|left": {
+      "shipped_main_frac": 0.9864433811802232,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9962,
+      "source_n_components_total": 298,
+      "per_source": [
+        {
+          "subject": "ct_vhm_armm",
+          "resolved_subject": "ct_vhm_armm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
+          "label": 8,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 298,
+          "main_frac": 0.9846,
+          "top_component_voxel_counts": [
+            496227,
+            293,
+            286,
+            283,
+            280,
+            279,
+            249,
+            237
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0097,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "triceps_brachii_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Triceps brachii"
+    },
+    "male|deltoid_r|right": {
+      "shipped_main_frac": 0.8958652373660031,
+      "shipped_n_components": 10,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8385,
+      "source_n_components_total": 39,
+      "per_source": [
+        {
+          "subject": "ct_vhm_delt",
+          "resolved_subject": "ct_vhm_delt",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_deltoid_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 39,
+          "main_frac": 0.8262,
+          "top_component_voxel_counts": [
+            192161,
+            11151,
+            6888,
+            5710,
+            4917,
+            4042,
+            2873,
+            1424
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0573,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "deltoid_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Deltoid"
+    },
+    "male|deltoid_l|left": {
+      "shipped_main_frac": 0.5503122831367107,
+      "shipped_n_components": 19,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7087,
+      "source_n_components_total": 57,
+      "per_source": [
+        {
+          "subject": "ct_vhm_delt",
+          "resolved_subject": "ct_vhm_delt",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_deltoid_cryo.nii.gz",
+          "label": 2,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 57,
+          "main_frac": 0.6701,
+          "top_component_voxel_counts": [
+            134831,
+            27187,
+            11665,
+            5486,
+            4769,
+            2936,
+            1905,
+            1467
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.1584,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "deltoid_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Deltoid"
+    },
+    "male|flexor_digitorum_superficialis_r|right": {
+      "shipped_main_frac": 0.9888641425389755,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhm_forearm",
+          "resolved_subject": "ct_vhm_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_forearm_muscles_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            216412,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0111,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "flexor_digitorum_superficialis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Flexor digitorum superficialis"
+    },
+    "male|flexor_digitorum_profundus_r|right": {
+      "shipped_main_frac": 0.9442836468885673,
+      "shipped_n_components": 6,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9765,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhm_forearm",
+          "resolved_subject": "ct_vhm_forearm",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_forearm_muscles_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9765,
+          "top_component_voxel_counts": [
+            226059,
+            5430
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0323,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "flexor_digitorum_profundus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Flexor digitorum profundus"
+    },
+    "male|trapezius_r|right": {
+      "shipped_main_frac": 0.5203947368421052,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.6165,
+      "source_n_components_total": 11,
+      "per_source": [
+        {
+          "subject": "ct_vhm_neck",
+          "resolved_subject": "ct_vhm_neck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_headneck_muscles_merged.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 11,
+          "main_frac": 0.6165,
+          "top_component_voxel_counts": [
+            193806,
+            119977,
+            284,
+            236,
+            24,
+            12,
+            7,
+            4
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0961,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "trapezius_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Trapezius"
+    },
+    "male|trapezius_l|left": {
+      "shipped_main_frac": 0.9765013054830287,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9939,
+      "source_n_components_total": 9,
+      "per_source": [
+        {
+          "subject": "ct_vhm_neck",
+          "resolved_subject": "ct_vhm_neck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_headneck_muscles_merged.nii.gz",
+          "label": 7,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 9,
+          "main_frac": 0.9939,
+          "top_component_voxel_counts": [
+            304121,
+            1860,
+            5,
+            2,
+            2,
+            2,
+            1,
+            1
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0174,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "trapezius_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Trapezius"
+    },
+    "male|levator_scapulae_l|left": {
+      "shipped_main_frac": 0.9727891156462585,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9932,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhm_neck",
+          "resolved_subject": "ct_vhm_neck",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_headneck_muscles_merged.nii.gz",
+          "label": 11,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9932,
+          "top_component_voxel_counts": [
+            39187,
+            269
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0204,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "levator_scapulae_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Levator scapulae"
+    },
+    "male|coccygeus_l|left": {
+      "shipped_main_frac": 0.9343653250773993,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 1.0,
+      "source_n_components_total": 1,
+      "per_source": [
+        {
+          "subject": "ct_vhm_pfloor",
+          "resolved_subject": "ct_vhm_pfloor",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.nii.gz",
+          "label": 10,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 1,
+          "main_frac": 1.0,
+          "top_component_voxel_counts": [
+            8897
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0656,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "coccygeus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Coccygeus"
+    },
+    "male|deep_transverse_perineal_l|left": {
+      "shipped_main_frac": 0.889589905362776,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9103,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhm_pfloor",
+          "resolved_subject": "ct_vhm_pfloor",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.nii.gz",
+          "label": 13,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9103,
+          "top_component_voxel_counts": [
+            1411,
+            139
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0207,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "deep_transverse_perineal_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Transversus perinei profundus"
+    },
+    "male|external_anal_sphincter|midline": {
+      "shipped_main_frac": 0.6776180698151951,
+      "shipped_n_components": 2,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7273,
+      "source_n_components_total": 4,
+      "per_source": [
+        {
+          "subject": "ct_vhm_pfloor",
+          "resolved_subject": "ct_vhm_pfloor",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.nii.gz",
+          "label": 17,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 4,
+          "main_frac": 0.7273,
+          "top_component_voxel_counts": [
+            816,
+            156,
+            121,
+            29
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0497,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "external_anal_sphincter",
+      "side": "midline",
+      "cat": "muscle",
+      "name": "Sphincter ani externus"
+    },
+    "male|infraspinatus_r|right": {
+      "shipped_main_frac": 0.9660649819494584,
+      "shipped_n_components": 10,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9937,
+      "source_n_components_total": 199,
+      "per_source": [
+        {
+          "subject": "ct_vhm_shsp",
+          "resolved_subject": "ct_vhm_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 199,
+          "main_frac": 0.9917,
+          "top_component_voxel_counts": [
+            246379,
+            560,
+            520,
+            289,
+            58,
+            50,
+            48,
+            46
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0276,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "infraspinatus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Infraspinatus"
+    },
+    "male|teres_major_r|right": {
+      "shipped_main_frac": 0.9692206941715783,
+      "shipped_n_components": 5,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9991,
+      "source_n_components_total": 28,
+      "per_source": [
+        {
+          "subject": "ct_vhm_shsp",
+          "resolved_subject": "ct_vhm_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz",
+          "label": 3,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 28,
+          "main_frac": 0.9988,
+          "top_component_voxel_counts": [
+            93674,
+            35,
+            20,
+            9,
+            7,
+            4,
+            4,
+            3
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0299,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "teres_major_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Teres major"
+    },
+    "male|rhomboid_minor_r|right": {
+      "shipped_main_frac": 0.9496449322143318,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9618,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "ct_vhm_shsp",
+          "resolved_subject": "ct_vhm_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9618,
+          "top_component_voxel_counts": [
+            28831,
+            1144
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0122,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "rhomboid_minor_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rhomboid minor"
+    },
+    "male|infraspinatus_l|left": {
+      "shipped_main_frac": 0.8691322901849218,
+      "shipped_n_components": 10,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9683,
+      "source_n_components_total": 446,
+      "per_source": [
+        {
+          "subject": "ct_vhm_shsp",
+          "resolved_subject": "ct_vhm_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 446,
+          "main_frac": 0.9581,
+          "top_component_voxel_counts": [
+            223816,
+            6066,
+            355,
+            335,
+            166,
+            138,
+            136,
+            133
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0992,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "infraspinatus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Infraspinatus"
+    },
+    "male|teres_major_l|left": {
+      "shipped_main_frac": 0.9406068431245965,
+      "shipped_n_components": 7,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9911,
+      "source_n_components_total": 48,
+      "per_source": [
+        {
+          "subject": "ct_vhm_shsp",
+          "resolved_subject": "ct_vhm_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz",
+          "label": 8,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 48,
+          "main_frac": 0.9892,
+          "top_component_voxel_counts": [
+            88435,
+            286,
+            205,
+            192,
+            36,
+            32,
+            24,
+            20
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0505,
+      "classification": "MARGINAL",
+      "body": "male",
+      "id": "teres_major_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Teres major"
+    },
+    "female|rhomboid_minor_r|right": {
+      "shipped_main_frac": 0.9489655172413793,
+      "shipped_n_components": 3,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9618,
+      "source_n_components_total": 2,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf_rhom",
+          "resolved_subject": "ct_vhm_shsp",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 2,
+          "main_frac": 0.9618,
+          "top_component_voxel_counts": [
+            28831,
+            1144
+          ],
+          "chased_via": [
+            "xfer_vhm2vhf_rhom"
+          ]
+        }
+      ],
+      "gap_ratio": 0.0129,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "rhomboid_minor_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rhomboid minor"
+    },
+    "male|diaphragm|none": {
+      "shipped_main_frac": 0.781540899187958,
+      "shipped_n_components": 10,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7379,
+      "source_n_components_total": 6,
+      "per_source": [
+        {
+          "subject": "ct_vhm_twall",
+          "resolved_subject": "ct_vhm_twall",
+          "path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_trunk_wall.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 0.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 6,
+          "main_frac": 0.7379,
+          "top_component_voxel_counts": [
+            284049,
+            69600,
+            13686,
+            8669,
+            4803,
+            4161
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0437,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "diaphragm",
+      "side": "none",
+      "cat": "muscle",
+      "name": "Diaphragm"
+    },
+    "male|rectus_abdominis_r|right": {
+      "shipped_main_frac": 0.9466754443712969,
+      "shipped_n_components": 12,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9922,
+      "source_n_components_total": 99,
+      "per_source": [
+        {
+          "subject": "ct_vhm_abw",
+          "resolved_subject": "ct_vhm_abw",
+          "path": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+          "label": 1,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 99,
+          "main_frac": 0.9911,
+          "top_component_voxel_counts": [
+            235906,
+            1029,
+            362,
+            324,
+            54,
+            38,
+            20,
+            20
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0456,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "rectus_abdominis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rectus abdominis"
+    },
+    "male|external_oblique_r|right": {
+      "shipped_main_frac": 0.8299373040752351,
+      "shipped_n_components": 13,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.834,
+      "source_n_components_total": 74,
+      "per_source": [
+        {
+          "subject": "ct_vhm_abw",
+          "resolved_subject": "ct_vhm_abw",
+          "path": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+          "label": 2,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 74,
+          "main_frac": 0.818,
+          "top_component_voxel_counts": [
+            148910,
+            13071,
+            5096,
+            3233,
+            3199,
+            2407,
+            1502,
+            1129
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0041,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "external_oblique_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "External oblique"
+    },
+    "male|rectus_abdominis_l|left": {
+      "shipped_main_frac": 0.9744094488188977,
+      "shipped_n_components": 7,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9925,
+      "source_n_components_total": 232,
+      "per_source": [
+        {
+          "subject": "ct_vhm_abw",
+          "resolved_subject": "ct_vhm_abw",
+          "path": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+          "label": 5,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 232,
+          "main_frac": 0.9883,
+          "top_component_voxel_counts": [
+            239072,
+            465,
+            347,
+            321,
+            265,
+            252,
+            94,
+            67
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0181,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "rectus_abdominis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Rectus abdominis"
+    },
+    "male|external_oblique_l|left": {
+      "shipped_main_frac": 0.9074675324675324,
+      "shipped_n_components": 9,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.9412,
+      "source_n_components_total": 75,
+      "per_source": [
+        {
+          "subject": "ct_vhm_abw",
+          "resolved_subject": "ct_vhm_abw",
+          "path": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+          "label": 6,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 75,
+          "main_frac": 0.9337,
+          "top_component_voxel_counts": [
+            373752,
+            8303,
+            6333,
+            3134,
+            1872,
+            1324,
+            1211,
+            1187
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.0337,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "external_oblique_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "External oblique"
+    },
+    "male|internal_oblique_l|left": {
+      "shipped_main_frac": 0.7044534412955465,
+      "shipped_n_components": 17,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.7325,
+      "source_n_components_total": 23,
+      "per_source": [
+        {
+          "subject": "ct_vhm_abw",
+          "resolved_subject": "ct_vhm_abw",
+          "path": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+          "label": 7,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 23,
+          "main_frac": 0.7301,
+          "top_component_voxel_counts": [
+            199336,
+            50357,
+            5786,
+            5594,
+            5057,
+            3209,
+            1491,
+            1315
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": 0.028,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "internal_oblique_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Internal oblique"
+    },
+    "male|transversus_abdominis_l|left": {
+      "shipped_main_frac": 0.9776186213070726,
+      "shipped_n_components": 4,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8902,
+      "source_n_components_total": 69,
+      "per_source": [
+        {
+          "subject": "ct_vhm_abw",
+          "resolved_subject": "ct_vhm_abw",
+          "path": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+          "label": 8,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 69,
+          "main_frac": 0.8584,
+          "top_component_voxel_counts": [
+            130179,
+            4488,
+            3753,
+            2474,
+            1989,
+            1241,
+            1076,
+            1041
+          ],
+          "chased_via": []
+        }
+      ],
+      "gap_ratio": -0.0875,
+      "classification": "LIKELY_GENUINE",
+      "body": "male",
+      "id": "transversus_abdominis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Transversus abdominis"
+    },
+    "female|transversus_abdominis_l|left": {
+      "shipped_main_frac": 0.9106302916274694,
+      "shipped_n_components": 15,
+      "shipped_status": "FRAGMENTED",
+      "source_main_frac": 0.8902,
+      "source_n_components_total": 69,
+      "per_source": [
+        {
+          "subject": "xfer_vhm2vhf",
+          "resolved_subject": "ct_vhm_abw",
+          "path": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+          "label": 8,
+          "smoothing_sigma": 1.0,
+          "split_from": null,
+          "splitter": null,
+          "n_components": 69,
+          "main_frac": 0.8584,
+          "top_component_voxel_counts": [
+            130179,
+            4488,
+            3753,
+            2474,
+            1989,
+            1241,
+            1076,
+            1041
+          ],
+          "chased_via": [
+            "xfer_vhm2vhf"
+          ]
+        }
+      ],
+      "gap_ratio": -0.0205,
+      "classification": "LIKELY_GENUINE",
+      "body": "female",
+      "id": "transversus_abdominis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Transversus abdominis"
+    },
+    "male|biceps_femoris_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "vhm_both: vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#biceps_femoris_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "vhm_both",
+          "kind": "unclear",
+          "reason": "vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#biceps_femoris_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "biceps_femoris_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Biceps femoris"
+    },
+    "male|gastrocnemius_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "vhm_both: vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#gastrocnemius_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "vhm_both",
+          "kind": "unclear",
+          "reason": "vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#gastrocnemius_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "gastrocnemius_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Gastrocnemius"
+    },
+    "male|iliopsoas_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "vhm_both: vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#iliopsoas_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "vhm_both",
+          "kind": "unclear",
+          "reason": "vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#iliopsoas_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "iliopsoas_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Iliopsoas (iliacus + psoas major)"
+    },
+    "male|biceps_femoris_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "vhm_both: vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#biceps_femoris_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "vhm_both",
+          "kind": "unclear",
+          "reason": "vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#biceps_femoris_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "biceps_femoris_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Biceps femoris"
+    },
+    "male|gastrocnemius_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "vhm_both: vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#gastrocnemius_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "vhm_both",
+          "kind": "unclear",
+          "reason": "vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#gastrocnemius_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "gastrocnemius_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Gastrocnemius"
+    },
+    "male|iliopsoas_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "vhm_both: vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#iliopsoas_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "vhm_both",
+          "kind": "unclear",
+          "reason": "vhm_both: non-numeric label suffix ('recovered from the published male viewer (Version 25)#iliopsoas_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "iliopsoas_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Iliopsoas (iliacus + psoas major)"
+    },
+    "male|supraspinatus_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_cuff: ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#supraspinatus_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_cuff",
+          "kind": "unclear",
+          "reason": "ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#supraspinatus_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "supraspinatus_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Supraspinatus"
+    },
+    "male|subscapularis_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_cuff: ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#subscapularis_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_cuff",
+          "kind": "unclear",
+          "reason": "ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#subscapularis_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "subscapularis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Subscapularis"
+    },
+    "male|supraspinatus_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_cuff: ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#supraspinatus_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_cuff",
+          "kind": "unclear",
+          "reason": "ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#supraspinatus_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "supraspinatus_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Supraspinatus"
+    },
+    "male|subscapularis_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_cuff: ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#subscapularis_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_cuff",
+          "kind": "unclear",
+          "reason": "ct_vhm_cuff: non-numeric label suffix ('recovered from the published male viewer (Version 25)#subscapularis_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "subscapularis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Subscapularis"
+    },
+    "male|spinalis_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_es: ct_vhm_es: non-numeric label suffix ('recovered from the published male viewer (Version 25)#spinalis_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_es",
+          "kind": "unclear",
+          "reason": "ct_vhm_es: non-numeric label suffix ('recovered from the published male viewer (Version 25)#spinalis_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "spinalis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Spinalis"
+    },
+    "male|iliocostalis_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_es: ct_vhm_es: non-numeric label suffix ('recovered from the published male viewer (Version 25)#iliocostalis_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_es",
+          "kind": "unclear",
+          "reason": "ct_vhm_es: non-numeric label suffix ('recovered from the published male viewer (Version 25)#iliocostalis_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "iliocostalis_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Iliocostalis"
+    },
+    "male|spinalis_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_es: ct_vhm_es: non-numeric label suffix ('recovered from the published male viewer (Version 25)#spinalis_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_es",
+          "kind": "unclear",
+          "reason": "ct_vhm_es: non-numeric label suffix ('recovered from the published male viewer (Version 25)#spinalis_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "spinalis_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Spinalis"
+    },
+    "male|pectoralis_major_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_abd: ct_vhm_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#pectoralis_major_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_abd",
+          "kind": "unclear",
+          "reason": "ct_vhm_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#pectoralis_major_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "pectoralis_major_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Pectoralis major"
+    },
+    "male|serratus_anterior_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "ct_vhm_abd: ct_vhm_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#serratus_anterior_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_vhm_abd",
+          "kind": "unclear",
+          "reason": "ct_vhm_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#serratus_anterior_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "serratus_anterior_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Serratus anterior"
+    },
+    "male|quadratus_lumborum_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "ct_s1159_abd: ct_s1159_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#quadratus_lumborum_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_s1159_abd",
+          "kind": "unclear",
+          "reason": "ct_s1159_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#quadratus_lumborum_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "quadratus_lumborum_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Quadratus lumborum"
+    },
+    "male|quadratus_lumborum_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "ct_s1159_abd: ct_s1159_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#quadratus_lumborum_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "ct_s1159_abd",
+          "kind": "unclear",
+          "reason": "ct_s1159_abd: non-numeric label suffix ('recovered from the published male viewer (Version 25)#quadratus_lumborum_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure"
+        }
+      ],
+      "body": "male",
+      "id": "quadratus_lumborum_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Quadratus lumborum"
+    },
+    "female|rhomboid_major_l|left": {
+      "classification": "UNCLEAR",
+      "reason": "xfer_vhm2vhf: ct_vhm_pmr: non-numeric label suffix ('recovered from the published male viewer (Version 25)#rhomboid_major_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "xfer_vhm2vhf",
+          "kind": "unclear",
+          "reason": "ct_vhm_pmr: non-numeric label suffix ('recovered from the published male viewer (Version 25)#rhomboid_major_l') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+          "chased_via": [
+            "xfer_vhm2vhf"
+          ]
+        }
+      ],
+      "body": "female",
+      "id": "rhomboid_major_l",
+      "side": "left",
+      "cat": "muscle",
+      "name": "Rhomboid major"
+    },
+    "female|rhomboid_major_r|right": {
+      "classification": "UNCLEAR",
+      "reason": "xfer_vhm2vhf: ct_vhm_pmr: non-numeric label suffix ('recovered from the published male viewer (Version 25)#rhomboid_major_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+      "per_subject": [
+        {
+          "subject": "xfer_vhm2vhf",
+          "kind": "unclear",
+          "reason": "ct_vhm_pmr: non-numeric label suffix ('recovered from the published male viewer (Version 25)#rhomboid_major_r') -- likely geometry recovered from a published viewer bundle, not a voxel mask; no raw source available to measure",
+          "chased_via": [
+            "xfer_vhm2vhf"
+          ]
+        }
+      ],
+      "body": "female",
+      "id": "rhomboid_major_r",
+      "side": "right",
+      "cat": "muscle",
+      "name": "Rhomboid major"
+    }
+  },
+  "summary": {
+    "LIKELY_PIPELINE_ARTIFACT": 8,
+    "LIKELY_GENUINE": 90,
+    "MARGINAL": 32,
+    "UNCLEAR": 19
+  }
+}

@@ -1,0 +1,1598 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons, re-streamed by scripts/cryo/vhm_stream_leg_crops.py and read through the Q173 photograph-to-atlas registration. Derived data (scripts/cryo/vhm_femoral_popliteal_track.py).",
+ "badge": "rule-based",
+ "task": "Q174 his femoral + popliteal neurovascular bundles (VH male cryosections, 0.33 mm)",
+ "method": "Q174: the MALE femoral and popliteal neurovascular bundles, tracked in his FULL-RESOLUTION (0.33 mm) cryosection\ncrops -- the male counterpart of Q55/Q56 (vhf_femoral_track.py, vhf_popliteal_track.py).\n\n    # crops (atlas boxes; delete after use):\n    python3 scripts/cryo/vhm_stream_leg_crops.py --index SCRATCH/vh_cryo/cryo_index.json --y-top 70 --y-bot -420         --box right=0,170,-70,120 --box left=-170,0,-70,120 --ap-row -1 --out SCRATCH/q174/fem\n    python3 scripts/cryo/vhm_stream_leg_crops.py --index SCRATCH/vh_cryo/cryo_index.json --y-top -280 --y-bot -580         --box right=50,225,-145,45 --box left=-225,-50,-145,45 --ap-row -1 --out SCRATCH/q174/pop\n    # fold the Q173 photograph-to-atlas registration into the crop mapping (per side), then track:\n    python3 scripts/cryo/vhm_femoral_popliteal_track.py register --crops SCRATCH/q174/fem --out SCRATCH/q174/femR\n    python3 scripts/cryo/vhm_femoral_popliteal_track.py femoral --crops SCRATCH/q174/femR --side right --out SCRATCH/q174/fem_right\n    python3 scripts/cryo/vhm_femoral_popliteal_track.py popliteal --crops SCRATCH/q174/popR --side right --out SCRATCH/q174/pop_right\n    # her cleaning gates, the verified spans (SHIP below), volumes, subjects, report, badges:\n    python3 scripts/cryo/vhf_popliteal_track.py clean --tracks SCRATCH/q174/fem_right --span artery=35:-17 vein=35:-225 --side right\n    python3 scripts/cryo/vhf_popliteal_track.py clean --tracks SCRATCH/q174/fem_left --span artery=11:-33 vein=35:-280 --side left\n    python3 scripts/cryo/vhf_popliteal_track.py clean --tracks SCRATCH/q174/pop_right --span vein=-380:-455 --crops SCRATCH/q174/popR --side right\n    python3 scripts/cryo/vhf_popliteal_track.py clean --tracks SCRATCH/q174/pop_left --span vein=-395:-446 tibial_n=-393:-445 --crops SCRATCH/q174/popR --side left\n    python3 scripts/cryo/vhf_nerve_volume.py --crops SCRATCH/q174/femR --track femoral_a_r=SCRATCH/q174/fem_right_artery_clean.json:35:-17         --track femoral_a_l=SCRATCH/q174/fem_left_artery_clean.json:11:-33 --track femoral_v_r=SCRATCH/q174/fem_right_vein_clean.json:35:-35         --track femoral_v_r=SCRATCH/q174/fem_right_vein_clean.json:-98:-225 --track femoral_v_l=SCRATCH/q174/fem_left_vein_clean.json:35:-280         --out data/ct_sources/task_outputs/vhm_femoral_cryo.nii.gz --labels-out mappings/vhm_femoral_labels.json         --mapping-out mappings/subjects/ct_vhm_femoral_volume_mapping.json --subject ct_vhm_femoral\n    python3 scripts/cryo/vhf_nerve_volume.py --crops SCRATCH/q174/popR --track popliteal_v_r=SCRATCH/q174/pop_right_vein_clean.json:-380:-455         --track popliteal_v_l=SCRATCH/q174/pop_left_vein_clean.json:-395:-446 --track tibial_n=SCRATCH/q174/pop_left_tibial_n_clean.json:-393:-429         --out data/ct_sources/task_outputs/vhm_popliteal_cryo.nii.gz --labels-out mappings/vhm_popliteal_labels.json         --mapping-out mappings/subjects/ct_vhm_popliteal_volume_mapping.json --subject ct_vhm_popliteal\n    (mapping notes/sides edited by hand) ; convert + badge: scripts/vhm_rebuild_bundle.sh (Q174 block)\n    python3 scripts/cryo/vhm_femoral_popliteal_track.py verify --scratch SCRATCH/q174 ; ... badge\n\nWHAT IS DIFFERENT IN HIM (checked on his photographs, scratch q174/z*.png, not assumed):\n  * His muscle is darker than hers (median red 66-75 against her 75-95) and his clotted veins are near-black (red\n    20-35): a FIXED core threshold (3 px mean red < 55; his left femoral vein is dark brown, red 43-48; his darkest muscle 0.1st percentile\n    44-55) separates them, where her adaptive \"window 15th percentile + 18\" walks into his muscle.\n  * His EMPTY arteries: under the inguinal ligament his femoral artery is a thick-walled ring whose lumen holds BLUE\n    embedding gelatine (his body was cut into blocks before embedding; the legs block's cut end is just above), not\n    clot; blue inside the limb is a lumen, blue touching the crop edge is the embedding medium (as her rule). Lower\n    down the contracted artery has no dark lumen at all: the lumen rule does not see it there, and it is NOT forced.\n  * His veins are collapsed slits (aspect up to ~3.5): the aspect limit is 4.0 (hers 2.5).",
+ "registration": {
+  "right": [
+   7.23,
+   0.03
+  ],
+  "left": [
+   7.01,
+   -7.17
+  ]
+ },
+ "published": {
+  "femoral_a": {
+   "value_mm": "common femoral artery, men: 9.8 +/- 1.0 mm (ultrasound, outer diameter); superficial femoral 7-8 mm",
+   "ref": "Sandgren T, Sonesson B, Ahlgren AR, Lanne T. The diameter of the common femoral artery in healthy human: influence of sex, age, and body size. J Vasc Surg 1999;29:503-10"
+  },
+  "femoral_v": {
+   "value_mm": "common femoral vein ~10-13 mm, femoral vein ~8-11 mm (supine living adults; the vein is collapsed in a cadaver)",
+   "ref": "Gray's Anatomy 42nd ed. (Standring 2020) 'Thigh'; Moore Clinically Oriented Anatomy 8th ed."
+  },
+  "popliteal_v": {
+   "value_mm": "popliteal vein ~7-11 mm (living adults)",
+   "ref": "Gray's Anatomy 42nd ed.; Moore 8th ed. (as Q56)"
+  },
+  "tibial_n": {
+   "value_mm": "tibial nerve in the popliteal fossa: cross-sectional area ~20-40 mm2 (~5-7 mm)",
+   "ref": "Cartwright MS et al. Cross-sectional area reference values for nerve ultrasonography. Muscle Nerve 2008;37:566-71"
+  }
+ },
+ "structures": {
+  "femoral_a_r": {
+   "subject": "ct_vhm_femoral",
+   "side": "right",
+   "spans_y": [
+    [
+     35,
+     -17
+    ]
+   ],
+   "levels_in_spans": 53,
+   "tracked_levels": 53,
+   "gap_levels_filled": 0,
+   "pieces": 1,
+   "seed": {
+    "y": 35,
+    "x": 52.0,
+    "z": 42.6,
+    "rule": "first gel-filled (blue) lumen >= 12 mm2 lateral of his tracked femoral vein and within 25 mm of it, from the vein's seed level (the medial member of her Q55 pair near the inguinal midpoint) down",
+    "inguinal_midpoint": {
+     "asis": [
+      118.5,
+      89.8,
+      51.5
+     ],
+     "pubic_tubercle": [
+      13.8,
+      -19.0,
+      51.5
+     ],
+     "x": 66.125,
+     "y": 35.375,
+     "z": 51.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "pair_rule_artery": {
+     "y": 35,
+     "x": 52.0,
+     "z": 42.6
+    }
+   },
+   "levels_dropped_by_cleaning": 0,
+   "diameter_mm": {
+    "area_equivalent_median": 6.7,
+    "p10": 6.0,
+    "p90": 7.4,
+    "inscribed_median": 5.1
+   },
+   "section_mm2_median": 35.7,
+   "mesh": {
+    "vertices": 4466,
+    "triangles": 8928,
+    "y_range": [
+     -17.5,
+     35.5
+    ]
+   },
+   "longest_run_without_detection": 0,
+   "vertices_inside_bone": {
+    "femur_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "tibia_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "fibula_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "patella_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "hip_bone_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    }
+   },
+   "vertices_inside_muscle": {
+    "iliopsoas_r": {
+     "inside": 16,
+     "beyond_1mm": 0,
+     "max_depth_mm": 0.25
+    }
+   },
+   "vertices_inside_any_muscle_frac": 0.0036,
+   "relations_every_10mm": [
+    {
+     "y": 30,
+     "x": 54.3,
+     "z": 45.2,
+     "to_sartorius_mm": 52.0,
+     "sartorius_anterior_of_it_mm": 24.0
+    },
+    {
+     "y": 20,
+     "x": 59.0,
+     "z": 50.6,
+     "femur_medial_mm": 33.6,
+     "femur_anterior_mm": 46.9,
+     "behind_femur_posterior_cortex_mm": -61.6,
+     "to_femur_surface_mm": 43.3,
+     "to_sartorius_mm": 42.3,
+     "sartorius_anterior_of_it_mm": 21.0
+    },
+    {
+     "y": 10,
+     "x": 61.8,
+     "z": 55.9,
+     "femur_medial_mm": 27.9,
+     "femur_anterior_mm": 53.6,
+     "behind_femur_posterior_cortex_mm": -75.3,
+     "to_femur_surface_mm": 37.7,
+     "to_sartorius_mm": 36.2,
+     "sartorius_anterior_of_it_mm": 16.5
+    },
+    {
+     "y": 0,
+     "x": 63.2,
+     "z": 58.9,
+     "femur_medial_mm": 41.7,
+     "femur_anterior_mm": 62.6,
+     "behind_femur_posterior_cortex_mm": -88.2,
+     "to_femur_surface_mm": 38.1,
+     "to_sartorius_mm": 29.9,
+     "sartorius_anterior_of_it_mm": 16.9
+    },
+    {
+     "y": -10,
+     "x": 66.1,
+     "z": 61.5,
+     "femur_medial_mm": 47.6,
+     "femur_anterior_mm": 64.4,
+     "behind_femur_posterior_cortex_mm": -94.7,
+     "to_femur_surface_mm": 40.4,
+     "to_sartorius_mm": 22.4,
+     "sartorius_anterior_of_it_mm": 15.4
+    }
+   ]
+  },
+  "femoral_a_l": {
+   "subject": "ct_vhm_femoral",
+   "side": "left",
+   "spans_y": [
+    [
+     11,
+     -33
+    ]
+   ],
+   "levels_in_spans": 45,
+   "tracked_levels": 38,
+   "gap_levels_filled": 7,
+   "pieces": 1,
+   "seed": {
+    "y": 11,
+    "x": -67.9,
+    "z": 47.9,
+    "rule": "first gel-filled (blue) lumen >= 12 mm2 lateral of his tracked femoral vein and within 25 mm of it, from the vein's seed level (the medial member of her Q55 pair near the inguinal midpoint) down",
+    "inguinal_midpoint": {
+     "asis": [
+      -133.0,
+      89.5,
+      40.2
+     ],
+     "pubic_tubercle": [
+      -13.5,
+      -19.0,
+      50.8
+     ],
+     "x": -73.25,
+     "y": 35.25,
+     "z": 45.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "pair_rule_artery": {
+     "y": 33,
+     "x": -64.7,
+     "z": 38.3
+    }
+   },
+   "levels_dropped_by_cleaning": 0,
+   "diameter_mm": {
+    "area_equivalent_median": 4.5,
+    "p10": 3.7,
+    "p90": 5.3,
+    "inscribed_median": 3.8
+   },
+   "section_mm2_median": 15.9,
+   "mesh": {
+    "vertices": 2290,
+    "triangles": 4576,
+    "y_range": [
+     -33.5,
+     11.5
+    ]
+   },
+   "longest_run_without_detection": 7,
+   "vertices_inside_bone": {
+    "femur_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "tibia_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "fibula_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "patella_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "hip_bone_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    }
+   },
+   "vertices_inside_muscle": {},
+   "vertices_inside_any_muscle_frac": 0.0,
+   "relations_every_10mm": [
+    {
+     "y": 10,
+     "x": -69.0,
+     "z": 48.4,
+     "femur_medial_mm": 20.9,
+     "femur_anterior_mm": 51.2,
+     "behind_femur_posterior_cortex_mm": -74.2,
+     "to_femur_surface_mm": 34.7,
+     "to_sartorius_mm": 39.1,
+     "sartorius_anterior_of_it_mm": 12.5
+    },
+    {
+     "y": 0,
+     "x": -73.0,
+     "z": 51.3,
+     "femur_medial_mm": 30.5,
+     "femur_anterior_mm": 61.2,
+     "behind_femur_posterior_cortex_mm": -87.6,
+     "to_femur_surface_mm": 34.0,
+     "to_sartorius_mm": 30.6,
+     "sartorius_anterior_of_it_mm": 12.3
+    },
+    {
+     "y": -10,
+     "x": -75.1,
+     "z": 53.0,
+     "femur_medial_mm": 34.2,
+     "femur_anterior_mm": 64.2,
+     "behind_femur_posterior_cortex_mm": -95.4,
+     "to_femur_surface_mm": 35.6,
+     "to_sartorius_mm": 24.3,
+     "sartorius_anterior_of_it_mm": 11.5
+    },
+    {
+     "y": -30,
+     "x": -76.6,
+     "z": 53.2,
+     "femur_medial_mm": 48.1,
+     "femur_anterior_mm": 70.3,
+     "behind_femur_posterior_cortex_mm": -97.2,
+     "to_femur_surface_mm": 53.3,
+     "to_sartorius_mm": 16.0,
+     "sartorius_anterior_of_it_mm": 14.7
+    }
+   ]
+  },
+  "femoral_v_r": {
+   "subject": "ct_vhm_femoral",
+   "side": "right",
+   "spans_y": [
+    [
+     35,
+     -35
+    ],
+    [
+     -98,
+     -225
+    ]
+   ],
+   "levels_in_spans": 199,
+   "tracked_levels": 193,
+   "gap_levels_filled": 6,
+   "pieces": 2,
+   "seed": {
+    "y": 35,
+    "x": 48.6,
+    "z": 35.4,
+    "inguinal_midpoint": {
+     "asis": [
+      118.5,
+      89.8,
+      51.5
+     ],
+     "pubic_tubercle": [
+      13.8,
+      -19.0,
+      51.5
+     ],
+     "x": 66.125,
+     "y": 35.375,
+     "z": 51.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "rule": "medial member of the lumen pair near the inguinal-ligament midpoint (her Q55 rule)"
+   },
+   "levels_dropped_by_cleaning": 2,
+   "diameter_mm": {
+    "area_equivalent_median": 9.2,
+    "p10": 7.7,
+    "p90": 11.1,
+    "inscribed_median": 6.6
+   },
+   "section_mm2_median": 66.8,
+   "mesh": {
+    "vertices": 24166,
+    "triangles": 48324,
+    "y_range": [
+     -225.5,
+     35.5
+    ]
+   },
+   "longest_run_without_detection": 4,
+   "vertices_inside_bone": {
+    "femur_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "tibia_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "fibula_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "patella_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "hip_bone_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    }
+   },
+   "vertices_inside_muscle": {
+    "adductor_longus_r": {
+     "inside": 5447,
+     "beyond_1mm": 3297,
+     "max_depth_mm": 2.83
+    },
+    "iliopsoas_r": {
+     "inside": 165,
+     "beyond_1mm": 0,
+     "max_depth_mm": 0.8
+    },
+    "pectineus_r": {
+     "inside": 632,
+     "beyond_1mm": 157,
+     "max_depth_mm": 1.73
+    },
+    "vastus_medialis_r": {
+     "inside": 1312,
+     "beyond_1mm": 83,
+     "max_depth_mm": 1.19
+    }
+   },
+   "vertices_inside_any_muscle_frac": 0.3127,
+   "relations_every_10mm": [
+    {
+     "y": 30,
+     "x": 50.5,
+     "z": 38.2,
+     "to_sartorius_mm": 59.0,
+     "sartorius_anterior_of_it_mm": 31.0
+    },
+    {
+     "y": 20,
+     "x": 53.2,
+     "z": 43.7,
+     "femur_medial_mm": 39.4,
+     "femur_anterior_mm": 40.0,
+     "behind_femur_posterior_cortex_mm": -54.7,
+     "to_femur_surface_mm": 41.7,
+     "to_sartorius_mm": 50.8,
+     "sartorius_anterior_of_it_mm": 27.9
+    },
+    {
+     "y": 10,
+     "x": 55.1,
+     "z": 47.0,
+     "femur_medial_mm": 34.6,
+     "femur_anterior_mm": 44.7,
+     "behind_femur_posterior_cortex_mm": -66.4,
+     "to_femur_surface_mm": 34.2,
+     "to_sartorius_mm": 46.2,
+     "sartorius_anterior_of_it_mm": 25.4
+    },
+    {
+     "y": 0,
+     "x": 57.3,
+     "z": 53.0,
+     "femur_medial_mm": 47.6,
+     "femur_anterior_mm": 56.7,
+     "behind_femur_posterior_cortex_mm": -82.3,
+     "to_femur_surface_mm": 35.6,
+     "to_sartorius_mm": 37.9,
+     "sartorius_anterior_of_it_mm": 22.8
+    },
+    {
+     "y": -10,
+     "x": 59.7,
+     "z": 55.3,
+     "femur_medial_mm": 54.0,
+     "femur_anterior_mm": 58.2,
+     "behind_femur_posterior_cortex_mm": -88.5,
+     "to_femur_surface_mm": 38.2,
+     "to_sartorius_mm": 31.0,
+     "sartorius_anterior_of_it_mm": 21.6
+    },
+    {
+     "y": -20,
+     "x": 61.8,
+     "z": 56.4,
+     "femur_medial_mm": 57.8,
+     "femur_anterior_mm": 62.4,
+     "behind_femur_posterior_cortex_mm": -90.3,
+     "to_femur_surface_mm": 46.7,
+     "to_sartorius_mm": 24.5,
+     "sartorius_anterior_of_it_mm": 21.9
+    },
+    {
+     "y": -30,
+     "x": 64.0,
+     "z": 56.8,
+     "femur_medial_mm": 65.4,
+     "femur_anterior_mm": 65.8,
+     "behind_femur_posterior_cortex_mm": -91.9,
+     "to_femur_surface_mm": 60.7,
+     "to_sartorius_mm": 17.4,
+     "sartorius_anterior_of_it_mm": 22.0
+    },
+    {
+     "y": -100,
+     "x": 77.5,
+     "z": 41.6,
+     "femur_medial_mm": 49.9,
+     "femur_anterior_mm": 43.8,
+     "behind_femur_posterior_cortex_mm": -60.3,
+     "to_femur_surface_mm": 49.8,
+     "to_sartorius_mm": 12.5,
+     "sartorius_anterior_of_it_mm": 32.4,
+     "to_adductor_longus_mm": 2.4,
+     "to_vastus_medialis_mm": 34.2,
+     "to_adductor_magnus_mm": 43.7
+    },
+    {
+     "y": -110,
+     "x": 73.7,
+     "z": 47.9,
+     "femur_medial_mm": 52.9,
+     "femur_anterior_mm": 49.9,
+     "behind_femur_posterior_cortex_mm": -65.5,
+     "to_femur_surface_mm": 56.1,
+     "to_sartorius_mm": 6.2,
+     "sartorius_anterior_of_it_mm": 24.1,
+     "to_adductor_longus_mm": 2.4,
+     "to_vastus_medialis_mm": 17.2,
+     "to_adductor_magnus_mm": 51.9
+    },
+    {
+     "y": -120,
+     "x": 73.8,
+     "z": 46.0,
+     "femur_medial_mm": 52.4,
+     "femur_anterior_mm": 45.8,
+     "behind_femur_posterior_cortex_mm": -62.3,
+     "to_femur_surface_mm": 53.9,
+     "to_sartorius_mm": 7.5,
+     "sartorius_anterior_of_it_mm": 22.6,
+     "to_adductor_longus_mm": 2.8,
+     "to_vastus_medialis_mm": 6.0,
+     "to_adductor_magnus_mm": 52.7
+    },
+    {
+     "y": -130,
+     "x": 72.7,
+     "z": 43.6,
+     "femur_medial_mm": 54.4,
+     "femur_anterior_mm": 41.2,
+     "behind_femur_posterior_cortex_mm": -58.9,
+     "to_femur_surface_mm": 52.2,
+     "to_sartorius_mm": 7.8,
+     "sartorius_anterior_of_it_mm": 23.3,
+     "to_adductor_longus_mm": 2.2,
+     "to_vastus_medialis_mm": 4.4,
+     "to_adductor_magnus_mm": 52.5
+    },
+    {
+     "y": -150,
+     "x": 71.6,
+     "z": 38.1,
+     "femur_medial_mm": 54.3,
+     "femur_anterior_mm": 34.3,
+     "behind_femur_posterior_cortex_mm": -50.8,
+     "to_femur_surface_mm": 48.4,
+     "to_sartorius_mm": 8.4,
+     "sartorius_anterior_of_it_mm": 21.4,
+     "to_adductor_longus_mm": 1.6,
+     "to_vastus_medialis_mm": 3.9,
+     "to_adductor_magnus_mm": 46.1
+    },
+    {
+     "y": -160,
+     "x": 72.6,
+     "z": 35.0,
+     "femur_medial_mm": 53.5,
+     "femur_anterior_mm": 30.6,
+     "behind_femur_posterior_cortex_mm": -47.2,
+     "to_femur_surface_mm": 45.6,
+     "to_sartorius_mm": 8.5,
+     "sartorius_anterior_of_it_mm": 20.6,
+     "to_adductor_longus_mm": 1.3,
+     "to_vastus_medialis_mm": 3.7,
+     "to_adductor_magnus_mm": 39.8
+    },
+    {
+     "y": -170,
+     "x": 73.6,
+     "z": 32.2,
+     "femur_medial_mm": 53.4,
+     "femur_anterior_mm": 27.2,
+     "behind_femur_posterior_cortex_mm": -43.9,
+     "to_femur_surface_mm": 43.1,
+     "to_sartorius_mm": 9.1,
+     "sartorius_anterior_of_it_mm": 20.1,
+     "to_adductor_longus_mm": 1.6,
+     "to_vastus_medialis_mm": 3.0,
+     "to_adductor_magnus_mm": 35.0
+    },
+    {
+     "y": -180,
+     "x": 74.0,
+     "z": 29.6,
+     "femur_medial_mm": 55.1,
+     "femur_anterior_mm": 22.8,
+     "behind_femur_posterior_cortex_mm": -39.6,
+     "to_femur_surface_mm": 40.9,
+     "to_sartorius_mm": 10.3,
+     "sartorius_anterior_of_it_mm": 18.4,
+     "to_adductor_longus_mm": 1.3,
+     "to_vastus_medialis_mm": 3.2,
+     "to_adductor_magnus_mm": 31.9
+    },
+    {
+     "y": -190,
+     "x": 74.5,
+     "z": 26.9,
+     "femur_medial_mm": 50.1,
+     "femur_anterior_mm": 20.2,
+     "behind_femur_posterior_cortex_mm": -36.0,
+     "to_femur_surface_mm": 39.1,
+     "to_sartorius_mm": 9.5,
+     "sartorius_anterior_of_it_mm": 17.4,
+     "to_adductor_longus_mm": 1.2,
+     "to_vastus_medialis_mm": 3.3,
+     "to_adductor_magnus_mm": 29.3
+    },
+    {
+     "y": -200,
+     "x": 75.4,
+     "z": 24.1,
+     "femur_medial_mm": 48.8,
+     "femur_anterior_mm": 16.1,
+     "behind_femur_posterior_cortex_mm": -32.7,
+     "to_femur_surface_mm": 37.0,
+     "to_sartorius_mm": 10.0,
+     "sartorius_anterior_of_it_mm": 14.9,
+     "to_adductor_longus_mm": 1.4,
+     "to_vastus_medialis_mm": 3.6,
+     "to_adductor_magnus_mm": 26.2
+    },
+    {
+     "y": -210,
+     "x": 76.4,
+     "z": 21.0,
+     "femur_medial_mm": 48.3,
+     "femur_anterior_mm": 12.4,
+     "behind_femur_posterior_cortex_mm": -29.4,
+     "to_femur_surface_mm": 34.9,
+     "to_sartorius_mm": 10.2,
+     "sartorius_anterior_of_it_mm": 14.7,
+     "to_adductor_longus_mm": 1.5,
+     "to_vastus_medialis_mm": 3.2,
+     "to_adductor_magnus_mm": 23.0
+    },
+    {
+     "y": -220,
+     "x": 76.9,
+     "z": 17.8,
+     "femur_medial_mm": 48.4,
+     "femur_anterior_mm": 9.3,
+     "behind_femur_posterior_cortex_mm": -25.8,
+     "to_femur_surface_mm": 33.5,
+     "to_sartorius_mm": 10.7,
+     "sartorius_anterior_of_it_mm": 13.9,
+     "to_adductor_longus_mm": 1.5,
+     "to_vastus_medialis_mm": 2.7,
+     "to_adductor_magnus_mm": 19.9
+    }
+   ]
+  },
+  "femoral_v_l": {
+   "subject": "ct_vhm_femoral",
+   "side": "left",
+   "spans_y": [
+    [
+     35,
+     -280
+    ]
+   ],
+   "levels_in_spans": 316,
+   "tracked_levels": 282,
+   "gap_levels_filled": 34,
+   "pieces": 1,
+   "seed": {
+    "y": 33,
+    "x": -54.4,
+    "z": 32.8,
+    "inguinal_midpoint": {
+     "asis": [
+      -133.0,
+      89.5,
+      40.2
+     ],
+     "pubic_tubercle": [
+      -13.5,
+      -19.0,
+      50.8
+     ],
+     "x": -73.25,
+     "y": 35.25,
+     "z": 45.5,
+     "rule": "midpoint of the anterior superior iliac spine and the pubic tubercle of her hip-bone mesh"
+    },
+    "rule": "medial member of the lumen pair near the inguinal-ligament midpoint (her Q55 rule)"
+   },
+   "levels_dropped_by_cleaning": 28,
+   "diameter_mm": {
+    "area_equivalent_median": 7.8,
+    "p10": 4.9,
+    "p90": 12.3,
+    "inscribed_median": 5.7
+   },
+   "section_mm2_median": 47.7,
+   "mesh": {
+    "vertices": 34064,
+    "triangles": 68116,
+    "y_range": [
+     -280.5,
+     35.5
+    ]
+   },
+   "longest_run_without_detection": 10,
+   "vertices_inside_bone": {
+    "femur_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "tibia_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "fibula_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "patella_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "hip_bone_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    }
+   },
+   "vertices_inside_muscle": {
+    "adductor_magnus_l": {
+     "inside": 305,
+     "beyond_1mm": 95,
+     "max_depth_mm": 1.76
+    },
+    "adductor_longus_l": {
+     "inside": 5549,
+     "beyond_1mm": 4061,
+     "max_depth_mm": 3.19
+    },
+    "pectineus_l": {
+     "inside": 1555,
+     "beyond_1mm": 419,
+     "max_depth_mm": 2.95
+    },
+    "vastus_medialis_l": {
+     "inside": 1487,
+     "beyond_1mm": 117,
+     "max_depth_mm": 1.38
+    }
+   },
+   "vertices_inside_any_muscle_frac": 0.2612,
+   "relations_every_10mm": [
+    {
+     "y": 30,
+     "x": -55.3,
+     "z": 34.7,
+     "to_sartorius_mm": 62.6,
+     "sartorius_anterior_of_it_mm": 21.0
+    },
+    {
+     "y": 20,
+     "x": -58.1,
+     "z": 40.8,
+     "femur_medial_mm": 33.9,
+     "femur_anterior_mm": 45.7,
+     "behind_femur_posterior_cortex_mm": -56.0,
+     "to_femur_surface_mm": 43.9,
+     "to_sartorius_mm": 55.3,
+     "sartorius_anterior_of_it_mm": 17.6
+    },
+    {
+     "y": 10,
+     "x": -61.8,
+     "z": 46.3,
+     "femur_medial_mm": 28.1,
+     "femur_anterior_mm": 49.1,
+     "behind_femur_posterior_cortex_mm": -72.1,
+     "to_femur_surface_mm": 36.3,
+     "to_sartorius_mm": 46.5,
+     "sartorius_anterior_of_it_mm": 14.6
+    },
+    {
+     "y": 0,
+     "x": -63.9,
+     "z": 48.4,
+     "femur_medial_mm": 39.6,
+     "femur_anterior_mm": 58.3,
+     "behind_femur_posterior_cortex_mm": -84.7,
+     "to_femur_surface_mm": 34.8,
+     "to_sartorius_mm": 40.1,
+     "sartorius_anterior_of_it_mm": 15.2
+    },
+    {
+     "y": -10,
+     "x": -65.2,
+     "z": 49.9,
+     "femur_medial_mm": 44.1,
+     "femur_anterior_mm": 61.1,
+     "behind_femur_posterior_cortex_mm": -92.3,
+     "to_femur_surface_mm": 36.4,
+     "to_sartorius_mm": 34.6,
+     "sartorius_anterior_of_it_mm": 14.6
+    },
+    {
+     "y": -20,
+     "x": -67.8,
+     "z": 50.2,
+     "femur_medial_mm": 50.4,
+     "femur_anterior_mm": 63.5,
+     "behind_femur_posterior_cortex_mm": -94.0,
+     "to_femur_surface_mm": 41.6,
+     "to_sartorius_mm": 28.5,
+     "sartorius_anterior_of_it_mm": 15.9
+    },
+    {
+     "y": -30,
+     "x": -71.2,
+     "z": 49.1,
+     "femur_medial_mm": 53.5,
+     "femur_anterior_mm": 66.2,
+     "behind_femur_posterior_cortex_mm": -93.1,
+     "to_femur_surface_mm": 52.4,
+     "to_sartorius_mm": 22.8,
+     "sartorius_anterior_of_it_mm": 18.8
+    },
+    {
+     "y": -40,
+     "x": -72.7,
+     "z": 49.3,
+     "femur_medial_mm": 53.2,
+     "femur_anterior_mm": 68.8,
+     "behind_femur_posterior_cortex_mm": -92.9,
+     "to_femur_surface_mm": 55.7,
+     "to_sartorius_mm": 17.7,
+     "sartorius_anterior_of_it_mm": 19.2
+    },
+    {
+     "y": -50,
+     "x": -76.5,
+     "z": 46.3,
+     "femur_medial_mm": 44.9,
+     "femur_anterior_mm": 63.4,
+     "behind_femur_posterior_cortex_mm": -86.2,
+     "to_femur_surface_mm": 53.9,
+     "to_sartorius_mm": 13.9,
+     "sartorius_anterior_of_it_mm": 21.8,
+     "to_adductor_longus_mm": 33.5,
+     "to_adductor_magnus_mm": 45.2
+    },
+    {
+     "y": -60,
+     "x": -78.2,
+     "z": 44.3,
+     "femur_medial_mm": 42.4,
+     "femur_anterior_mm": 62.4,
+     "behind_femur_posterior_cortex_mm": -80.5,
+     "to_femur_surface_mm": 53.0,
+     "to_sartorius_mm": 12.2,
+     "sartorius_anterior_of_it_mm": 24.0,
+     "to_adductor_longus_mm": 26.2,
+     "to_adductor_magnus_mm": 46.0
+    },
+    {
+     "y": -70,
+     "x": -80.9,
+     "z": 41.0,
+     "femur_medial_mm": 40.9,
+     "femur_anterior_mm": 56.6,
+     "behind_femur_posterior_cortex_mm": -75.3,
+     "to_femur_surface_mm": 49.7,
+     "to_sartorius_mm": 12.0,
+     "sartorius_anterior_of_it_mm": 26.6,
+     "to_adductor_longus_mm": 21.2,
+     "to_adductor_magnus_mm": 47.0
+    },
+    {
+     "y": -90,
+     "x": -80.3,
+     "z": 37.2,
+     "femur_medial_mm": 43.7,
+     "femur_anterior_mm": 47.7,
+     "behind_femur_posterior_cortex_mm": -66.5,
+     "to_femur_surface_mm": 48.3,
+     "to_sartorius_mm": 11.3,
+     "sartorius_anterior_of_it_mm": 27.9,
+     "to_adductor_longus_mm": 8.5,
+     "to_vastus_medialis_mm": 20.3,
+     "to_adductor_magnus_mm": 44.5
+    },
+    {
+     "y": -100,
+     "x": -79.4,
+     "z": 38.7,
+     "femur_medial_mm": 45.1,
+     "femur_anterior_mm": 47.5,
+     "behind_femur_posterior_cortex_mm": -65.7,
+     "to_femur_surface_mm": 49.9,
+     "to_sartorius_mm": 8.8,
+     "sartorius_anterior_of_it_mm": 26.1,
+     "to_adductor_longus_mm": 4.4,
+     "to_vastus_medialis_mm": 11.4,
+     "to_adductor_magnus_mm": 44.9
+    },
+    {
+     "y": -110,
+     "x": -79.3,
+     "z": 38.2,
+     "femur_medial_mm": 44.5,
+     "femur_anterior_mm": 46.9,
+     "behind_femur_posterior_cortex_mm": -63.5,
+     "to_femur_surface_mm": 49.1,
+     "to_sartorius_mm": 8.3,
+     "sartorius_anterior_of_it_mm": 24.3,
+     "to_adductor_longus_mm": 2.5,
+     "to_vastus_medialis_mm": 6.7,
+     "to_adductor_magnus_mm": 44.9
+    },
+    {
+     "y": -120,
+     "x": -79.6,
+     "z": 37.2,
+     "femur_medial_mm": 45.1,
+     "femur_anterior_mm": 45.5,
+     "behind_femur_posterior_cortex_mm": -61.3,
+     "to_femur_surface_mm": 47.7,
+     "to_sartorius_mm": 8.4,
+     "sartorius_anterior_of_it_mm": 26.1,
+     "to_adductor_longus_mm": 1.7,
+     "to_vastus_medialis_mm": 4.2,
+     "to_adductor_magnus_mm": 44.7
+    },
+    {
+     "y": -130,
+     "x": -79.2,
+     "z": 36.4,
+     "femur_medial_mm": 45.7,
+     "femur_anterior_mm": 43.0,
+     "behind_femur_posterior_cortex_mm": -59.6,
+     "to_femur_surface_mm": 46.5,
+     "to_sartorius_mm": 8.6,
+     "sartorius_anterior_of_it_mm": 22.9,
+     "to_adductor_longus_mm": 1.7,
+     "to_vastus_medialis_mm": 4.1,
+     "to_adductor_magnus_mm": 47.0
+    },
+    {
+     "y": -140,
+     "x": -78.7,
+     "z": 34.2,
+     "femur_medial_mm": 46.8,
+     "femur_anterior_mm": 38.6,
+     "behind_femur_posterior_cortex_mm": -56.6,
+     "to_femur_surface_mm": 44.6,
+     "to_sartorius_mm": 8.9,
+     "sartorius_anterior_of_it_mm": 24.7,
+     "to_adductor_longus_mm": 0.8,
+     "to_vastus_medialis_mm": 3.9,
+     "to_adductor_magnus_mm": 45.9
+    },
+    {
+     "y": -150,
+     "x": -78.3,
+     "z": 33.2,
+     "femur_medial_mm": 46.4,
+     "femur_anterior_mm": 36.3,
+     "behind_femur_posterior_cortex_mm": -54.8,
+     "to_femur_surface_mm": 43.4,
+     "to_sartorius_mm": 8.6,
+     "sartorius_anterior_of_it_mm": 24.3,
+     "to_adductor_longus_mm": 1.6,
+     "to_vastus_medialis_mm": 3.5,
+     "to_adductor_magnus_mm": 43.4
+    },
+    {
+     "y": -160,
+     "x": -77.0,
+     "z": 31.6,
+     "femur_medial_mm": 47.5,
+     "femur_anterior_mm": 34.6,
+     "behind_femur_posterior_cortex_mm": -52.0,
+     "to_femur_surface_mm": 42.6,
+     "to_sartorius_mm": 8.8,
+     "sartorius_anterior_of_it_mm": 23.3,
+     "to_adductor_longus_mm": 0.5,
+     "to_vastus_medialis_mm": 3.5,
+     "to_adductor_magnus_mm": 37.9
+    },
+    {
+     "y": -170,
+     "x": -76.3,
+     "z": 29.8,
+     "femur_medial_mm": 48.4,
+     "femur_anterior_mm": 31.7,
+     "behind_femur_posterior_cortex_mm": -49.4,
+     "to_femur_surface_mm": 41.4,
+     "to_sartorius_mm": 9.4,
+     "sartorius_anterior_of_it_mm": 22.9,
+     "to_adductor_longus_mm": 0.4,
+     "to_vastus_medialis_mm": 3.3,
+     "to_adductor_magnus_mm": 34.2
+    },
+    {
+     "y": -180,
+     "x": -75.8,
+     "z": 27.1,
+     "femur_medial_mm": 48.2,
+     "femur_anterior_mm": 28.3,
+     "behind_femur_posterior_cortex_mm": -46.1,
+     "to_femur_surface_mm": 39.6,
+     "to_sartorius_mm": 8.7,
+     "sartorius_anterior_of_it_mm": 18.1,
+     "to_adductor_longus_mm": 0.7,
+     "to_vastus_medialis_mm": 3.7,
+     "to_adductor_magnus_mm": 32.1
+    },
+    {
+     "y": -200,
+     "x": -77.3,
+     "z": 20.5,
+     "femur_medial_mm": 47.1,
+     "femur_anterior_mm": 22.8,
+     "behind_femur_posterior_cortex_mm": -39.0,
+     "to_femur_surface_mm": 34.3,
+     "to_sartorius_mm": 10.6,
+     "sartorius_anterior_of_it_mm": 20.1,
+     "to_adductor_longus_mm": 1.2,
+     "to_vastus_medialis_mm": 2.8,
+     "to_adductor_magnus_mm": 26.3
+    },
+    {
+     "y": -210,
+     "x": -76.6,
+     "z": 18.1,
+     "femur_medial_mm": 44.8,
+     "femur_anterior_mm": 18.8,
+     "behind_femur_posterior_cortex_mm": -35.9,
+     "to_femur_surface_mm": 33.6,
+     "to_sartorius_mm": 10.3,
+     "sartorius_anterior_of_it_mm": 17.8,
+     "to_adductor_longus_mm": 0.5,
+     "to_vastus_medialis_mm": 3.6,
+     "to_adductor_magnus_mm": 23.6
+    },
+    {
+     "y": -220,
+     "x": -76.4,
+     "z": 15.4,
+     "femur_medial_mm": 45.3,
+     "femur_anterior_mm": 16.4,
+     "behind_femur_posterior_cortex_mm": -33.3,
+     "to_femur_surface_mm": 32.7,
+     "to_sartorius_mm": 10.3,
+     "sartorius_anterior_of_it_mm": 17.2,
+     "to_adductor_longus_mm": 1.1,
+     "to_vastus_medialis_mm": 2.6,
+     "to_adductor_magnus_mm": 20.4
+    },
+    {
+     "y": -230,
+     "x": -75.9,
+     "z": 13.0,
+     "femur_medial_mm": 45.7,
+     "femur_anterior_mm": 13.9,
+     "behind_femur_posterior_cortex_mm": -30.5,
+     "to_femur_surface_mm": 32.0,
+     "to_sartorius_mm": 9.6,
+     "sartorius_anterior_of_it_mm": 13.8,
+     "to_adductor_longus_mm": 0.5,
+     "to_vastus_medialis_mm": 2.6,
+     "to_adductor_magnus_mm": 17.6
+    },
+    {
+     "y": -240,
+     "x": -76.0,
+     "z": 10.0,
+     "femur_medial_mm": 45.4,
+     "femur_anterior_mm": 9.6,
+     "behind_femur_posterior_cortex_mm": -27.5,
+     "to_femur_surface_mm": 31.0,
+     "to_sartorius_mm": 9.4,
+     "sartorius_anterior_of_it_mm": 11.1,
+     "to_adductor_longus_mm": 0.7,
+     "to_vastus_medialis_mm": 1.7,
+     "to_adductor_magnus_mm": 14.0
+    },
+    {
+     "y": -250,
+     "x": -69.4,
+     "z": 6.6,
+     "femur_medial_mm": 51.7,
+     "femur_anterior_mm": 7.7,
+     "behind_femur_posterior_cortex_mm": -24.1,
+     "to_femur_surface_mm": 37.1,
+     "to_sartorius_mm": 4.2,
+     "sartorius_anterior_of_it_mm": 10.2,
+     "to_adductor_longus_mm": 3.0,
+     "to_vastus_medialis_mm": 6.9,
+     "to_adductor_magnus_mm": 6.2
+    },
+    {
+     "y": -260,
+     "x": -70.9,
+     "z": 2.4,
+     "femur_medial_mm": 50.4,
+     "femur_anterior_mm": 2.8,
+     "behind_femur_posterior_cortex_mm": -20.0,
+     "to_femur_surface_mm": 35.4,
+     "to_sartorius_mm": 5.7,
+     "sartorius_anterior_of_it_mm": 8.0,
+     "to_adductor_longus_mm": 9.7,
+     "to_vastus_medialis_mm": 6.4,
+     "to_adductor_magnus_mm": 3.1
+    },
+    {
+     "y": -270,
+     "x": -73.2,
+     "z": -1.7,
+     "femur_medial_mm": 48.2,
+     "femur_anterior_mm": -1.7,
+     "behind_femur_posterior_cortex_mm": -16.0,
+     "to_femur_surface_mm": 33.1,
+     "to_sartorius_mm": 8.7,
+     "sartorius_anterior_of_it_mm": 7.1,
+     "to_vastus_medialis_mm": 5.7,
+     "to_adductor_magnus_mm": 2.3
+    },
+    {
+     "y": -280,
+     "x": -78.9,
+     "z": -4.5,
+     "femur_medial_mm": 42.5,
+     "femur_anterior_mm": -4.2,
+     "behind_femur_posterior_cortex_mm": -13.0,
+     "to_femur_surface_mm": 27.4,
+     "to_sartorius_mm": 13.9,
+     "sartorius_anterior_of_it_mm": 6.9,
+     "to_vastus_medialis_mm": 1.9,
+     "to_adductor_magnus_mm": 0.5
+    }
+   ]
+  },
+  "popliteal_v_r": {
+   "subject": "ct_vhm_popliteal",
+   "side": "right",
+   "spans_y": [
+    [
+     -380,
+     -455
+    ]
+   ],
+   "levels_in_spans": 76,
+   "tracked_levels": 70,
+   "gap_levels_filled": 6,
+   "pieces": 1,
+   "seed": {
+    "y": -406,
+    "femur_popliteal_surface": {
+     "x": 128.9,
+     "z": -20.9
+    },
+    "artery": {
+     "x": 132.6,
+     "z": -34.5
+    },
+    "vein": {
+     "x": 134.5,
+     "z": -38.3
+    },
+    "rule": "first level with a pair of lumina behind the posterior cortex of his femur; the ANTERIOR (deep) member is the artery, the POSTERIOR the vein (her Q56 rule)"
+   },
+   "levels_dropped_by_cleaning": 6,
+   "diameter_mm": {
+    "area_equivalent_median": 6.2,
+    "p10": 4.5,
+    "p90": 6.9,
+    "inscribed_median": 4.4
+   },
+   "section_mm2_median": 29.9,
+   "mesh": {
+    "vertices": 6018,
+    "triangles": 12032,
+    "y_range": [
+     -454.5,
+     -379.5
+    ]
+   },
+   "longest_run_without_detection": 2,
+   "vertices_inside_bone": {
+    "femur_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "tibia_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "fibula_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "patella_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "hip_bone_r": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    }
+   },
+   "vertices_inside_muscle": {
+    "gastrocnemius_r": {
+     "inside": 25,
+     "beyond_1mm": 0,
+     "max_depth_mm": 0.47
+    },
+    "plantaris_r": {
+     "inside": 207,
+     "beyond_1mm": 34,
+     "max_depth_mm": 1.42
+    }
+   },
+   "vertices_inside_any_muscle_frac": 0.0386,
+   "relations_every_10mm": [
+    {
+     "y": -380,
+     "x": 123.8,
+     "z": -21.7,
+     "femur_medial_mm": 4.7,
+     "femur_anterior_mm": -27.9,
+     "behind_femur_posterior_cortex_mm": 10.0,
+     "to_femur_surface_mm": 11.9
+    },
+    {
+     "y": -390,
+     "x": 128.3,
+     "z": -26.2,
+     "femur_medial_mm": -2.6,
+     "femur_anterior_mm": -32.8,
+     "behind_femur_posterior_cortex_mm": 13.0,
+     "to_femur_surface_mm": 14.3
+    },
+    {
+     "y": -400,
+     "x": 132.2,
+     "z": -32.4,
+     "femur_medial_mm": -5.7,
+     "femur_anterior_mm": -36.1,
+     "behind_femur_posterior_cortex_mm": 15.1,
+     "to_femur_surface_mm": 16.7
+    },
+    {
+     "y": -410,
+     "x": 134.9,
+     "z": -39.5,
+     "femur_medial_mm": -5.9,
+     "femur_anterior_mm": -39.4,
+     "behind_femur_posterior_cortex_mm": 13.5,
+     "to_femur_surface_mm": 17.1
+    },
+    {
+     "y": -420,
+     "x": 137.1,
+     "z": -45.6,
+     "femur_medial_mm": -13.2,
+     "femur_anterior_mm": -37.2,
+     "behind_femur_posterior_cortex_mm": 7.4,
+     "to_femur_surface_mm": 9.9
+    },
+    {
+     "y": -430,
+     "x": 137.9,
+     "z": -49.2,
+     "femur_medial_mm": -12.3,
+     "femur_anterior_mm": -40.4,
+     "behind_femur_posterior_cortex_mm": 8.7,
+     "to_femur_surface_mm": 11.3
+    },
+    {
+     "y": -440,
+     "x": 140.2,
+     "z": -50.6,
+     "femur_medial_mm": -17.2,
+     "femur_anterior_mm": -41.8,
+     "behind_femur_posterior_cortex_mm": 10.3,
+     "to_femur_surface_mm": 15.2
+    },
+    {
+     "y": -450,
+     "x": 143.7,
+     "z": -47.4,
+     "femur_medial_mm": -40.6,
+     "femur_anterior_mm": -37.6,
+     "behind_femur_posterior_cortex_mm": 12.5,
+     "to_femur_surface_mm": 37.1
+    }
+   ]
+  },
+  "popliteal_v_l": {
+   "subject": "ct_vhm_popliteal",
+   "side": "left",
+   "spans_y": [
+    [
+     -395,
+     -446
+    ]
+   ],
+   "levels_in_spans": 52,
+   "tracked_levels": 46,
+   "gap_levels_filled": 6,
+   "pieces": 1,
+   "seed": {
+    "y": -398,
+    "femur_popliteal_surface": {
+     "x": -118.3,
+     "z": -30.8
+    },
+    "artery": {
+     "x": -110.3,
+     "z": -37.4
+    },
+    "vein": {
+     "x": -116.1,
+     "z": -41.6
+    },
+    "rule": "first level with a pair of lumina behind the posterior cortex of his femur; the ANTERIOR (deep) member is the artery, the POSTERIOR the vein (her Q56 rule)"
+   },
+   "levels_dropped_by_cleaning": 6,
+   "diameter_mm": {
+    "area_equivalent_median": 6.6,
+    "p10": 5.2,
+    "p90": 7.2,
+    "inscribed_median": 4.3
+   },
+   "section_mm2_median": 34.0,
+   "mesh": {
+    "vertices": 4384,
+    "triangles": 8764,
+    "y_range": [
+     -446.0,
+     -394.5
+    ]
+   },
+   "longest_run_without_detection": 3,
+   "vertices_inside_bone": {
+    "femur_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "tibia_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "fibula_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "patella_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "hip_bone_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    }
+   },
+   "vertices_inside_muscle": {
+    "gastrocnemius_l": {
+     "inside": 307,
+     "beyond_1mm": 73,
+     "max_depth_mm": 2.0
+    }
+   },
+   "vertices_inside_any_muscle_frac": 0.07,
+   "relations_every_10mm": [
+    {
+     "y": -400,
+     "x": -116.3,
+     "z": -42.8,
+     "femur_medial_mm": -0.9,
+     "femur_anterior_mm": -37.1,
+     "behind_femur_posterior_cortex_mm": 10.0,
+     "to_femur_surface_mm": 14.5
+    },
+    {
+     "y": -410,
+     "x": -117.1,
+     "z": -50.9,
+     "femur_medial_mm": -0.7,
+     "femur_anterior_mm": -41.3,
+     "behind_femur_posterior_cortex_mm": 8.6,
+     "to_femur_surface_mm": 13.6
+    },
+    {
+     "y": -430,
+     "x": -116.5,
+     "z": -61.1,
+     "femur_medial_mm": -5.4,
+     "femur_anterior_mm": -44.3,
+     "behind_femur_posterior_cortex_mm": 7.2,
+     "to_femur_surface_mm": 11.6
+    },
+    {
+     "y": -440,
+     "x": -117.1,
+     "z": -61.0,
+     "femur_medial_mm": -7.0,
+     "femur_anterior_mm": -44.4,
+     "behind_femur_posterior_cortex_mm": 10.7,
+     "to_femur_surface_mm": 15.2
+    }
+   ]
+  },
+  "tibial_n": {
+   "subject": "ct_vhm_popliteal",
+   "side": "left",
+   "spans_y": [
+    [
+     -393,
+     -429
+    ]
+   ],
+   "levels_in_spans": 37,
+   "tracked_levels": 33,
+   "gap_levels_filled": 4,
+   "pieces": 1,
+   "seed": {
+    "rule": "fascicle-texture blob posterior to his tracked popliteal vein, 5-30 mm from it, <= 10 mm medial of it (her Q56 walk_nerve, vein as reference)"
+   },
+   "levels_dropped_by_cleaning": 3,
+   "diameter_mm": {
+    "area_equivalent_median": 7.1,
+    "p10": 5.6,
+    "p90": 7.5,
+    "inscribed_median": 5.1
+   },
+   "section_mm2_median": 39.2,
+   "mesh": {
+    "vertices": 3280,
+    "triangles": 6556,
+    "y_range": [
+     -429.5,
+     -392.5
+    ]
+   },
+   "longest_run_without_detection": 2,
+   "vertices_inside_bone": {
+    "femur_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "tibia_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "fibula_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "patella_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    },
+    "hip_bone_l": {
+     "inside": 0,
+     "max_depth_mm": 0.0
+    }
+   },
+   "vertices_inside_muscle": {},
+   "vertices_inside_any_muscle_frac": 0.0,
+   "relations_every_10mm": [
+    {
+     "y": -400,
+     "x": -122.8,
+     "z": -66.6,
+     "femur_medial_mm": -7.4,
+     "femur_anterior_mm": -60.9,
+     "behind_femur_posterior_cortex_mm": 33.8,
+     "to_femur_surface_mm": 34.7
+    },
+    {
+     "y": -410,
+     "x": -120.7,
+     "z": -69.4,
+     "femur_medial_mm": -4.3,
+     "femur_anterior_mm": -59.8,
+     "behind_femur_posterior_cortex_mm": 27.2,
+     "to_femur_surface_mm": 29.3
+    },
+    {
+     "y": -420,
+     "x": -119.0,
+     "z": -71.3,
+     "femur_medial_mm": -4.8,
+     "femur_anterior_mm": -55.1,
+     "behind_femur_posterior_cortex_mm": 19.7,
+     "to_femur_surface_mm": 21.9
+    }
+   ]
+  }
+ },
+ "nulled": {
+  "popliteal_a_r": "No arterial lumen tracks in his popliteal fossa. His arteries are EMPTY (post-mortem) -- under the inguinal ligament the femoral artery holds blue embedding gelatine, lower down it is a contracted ring with no dark lumen -- while the veins hold black clot. Her Q56 pair rule (deep member of the lumen pair behind the femur = artery) fired at y -406 on a 3.3 mm clotted lumen touching the vein, which held 3 levels (attempt 2) / a ragged fat patch (attempt 1, her tracker unchanged); a second clotted lumen beside his popliteal vein may equally be a paired popliteal vein, so nothing is shipped under the artery's name.",
+  "popliteal_a_l": "Same as the right: the pair rule's deep clotted lumen held 7 levels (y -398..-406) and cannot be told from a paired popliteal vein; his popliteal artery is empty and contracted.",
+  "tibial_n (right)": "The fascicle-texture walk behind his right popliteal vein held 7 levels (y -399..-409), under the 20-level / 30 mm bar (attempt 1 behind the artery: 1-2 levels). Only the LEFT tibial nerve is shipped.",
+  "femoral_a (adductor canal, both sides)": "Below the origin of the profunda his femoral artery is empty and contracted: no dark or gel-filled lumen to follow (the lumen walk ends at y -17 right / -33 left); not forced."
+ },
+ "attempts": {
+  "femoral (right)": "1: her vhf_femoral_track.py unchanged on his registered crops -- artery -1..-46 then ragged masks; vein -1..-46 then drifted. 2: this script (fixed dark core, blue/black separation, overlap walk, canal seed, gel-filled artery seed). Shipped from 2.",
+  "femoral (left)": "Only this script (2): her tracker's seed logic was tried inside it first (pair rule on his lumina picked a 3.2 mm side lumen / dark iliopsoas patches until the 12 mm2 floor and rim rule), then the gel-lumen artery seed.",
+  "popliteal": "1: her vhf_popliteal_track.py unchanged (right) -- artery 30 ragged levels in fat, vein 77, nerve blobs on fat. 2: this script -- veins track, arteries do not (nulled), tibial nerve left only."
+ },
+ "femoral_artery_vs_vein": {
+  "right": {
+   "levels": 51,
+   "artery_lateral_of_vein_levels": 51,
+   "lateral_offset_mm": {
+    "median": 6.3,
+    "min": 3.4,
+    "max": 7.4
+   },
+   "artery_anterior_of_vein_mm_median": 6.6
+  },
+  "left": {
+   "levels": 38,
+   "artery_lateral_of_vein_levels": 38,
+   "lateral_offset_mm": {
+    "median": 9.0,
+    "min": 4.7,
+    "max": 10.0
+   },
+   "artery_anterior_of_vein_mm_median": 2.9
+  }
+ },
+ "popliteal_depth_order_left": {
+  "rule": "+Z anterior. Textbook order from superficial (posterior) to deep: tibial nerve, popliteal vein, popliteal artery. The artery is not shipped (see nulled), so the checked pair is nerve vs vein.",
+  "levels": 29,
+  "nerve_posterior_of_vein_levels": 29,
+  "nerve_posterior_offset_mm": {
+   "median": 19.0,
+   "min": 8.9,
+   "max": 23.8
+  },
+  "nerve_lateral_offset_mm_median": 3.7,
+  "per_level": {
+   "-395": {
+    "vein_z": -40.7,
+    "nerve_z": -64.2
+   },
+   "-400": {
+    "vein_z": -42.8,
+    "nerve_z": -66.6
+   },
+   "-405": {
+    "vein_z": -46.6,
+    "nerve_z": -68.2
+   },
+   "-410": {
+    "vein_z": -50.9,
+    "nerve_z": -69.4
+   },
+   "-415": {
+    "vein_z": -53.4,
+    "nerve_z": -70.2
+   },
+   "-423": {
+    "vein_z": -58.8,
+    "nerve_z": -70.5
+   }
+  }
+ },
+ "tibial_vs_q57_sciatic_left": {
+  "sciatic_lowest_y": -222.5,
+  "sciatic_centre_at_its_end": [
+   -106.5,
+   -57.2
+  ],
+  "tibial_top": {
+   "y": -393,
+   "x": -125.0,
+   "z": -61.8
+  },
+  "sciatic_extrapolated_linearly_to_tibial_top": [
+   -98.3,
+   -47.1
+  ],
+  "offset_mm": 30.5,
+  "offset_from_sciatic_end_mm": {
+   "x": -18.5,
+   "z": -4.6,
+   "y": -170.5
+  },
+  "gap_mm": 170.5,
+  "note": "Not connected: his Q57 sciatic ends at the level shown and the tibial nerve is first detected ~170 mm lower; the division of the sciatic at the apex of the fossa is not tracked."
+ },
+ "limits": [
+  "Tracked masks are LUMINA (clot or gel), not vessel walls; the artery is an empty vessel whose gel-filled lumen under-measures it.",
+  "Registration: the Q173 per-side shift (measured on his posterior thigh muscles + femur) is applied. Re-measured here on these crops: femur gives the same shift (right 6.4/0.0, left 6.2/-8.5 crop px); his anterior-thigh muscles alone give a smaller AP shift (~3-4 px, IoU only 0.30, not trusted) -- the anterior vessels may sit up to ~1 mm too posterior.",
+  "Femoral vein vertices inside his (DU, decimated) adductor longus mesh: right 3297 / left 4061 beyond 1 mm, max 2.8 / 3.2 mm -- the canal vein lies on adductor longus in the photographs; the mesh surface and/or the ~1 mm registration residual account for it.",
+  "Right femoral vein has a gap y -36..-97 (lymph-node-crowded apex of the femoral triangle, not verified) -> two pieces.",
+  "Femoral vein below y -225 (right) / -280 (left) and the adductor hiatus are not covered; nor the popliteal division.",
+  "Tibial nerve is not joined to his Q57 sciatic nerve (ends y -222; the tibial nerve starts at y -393)."
+ ],
+ "montages": "session scratch q174/final_*.png (per-level tiles of the shipped spans), q174/render.png"
+}

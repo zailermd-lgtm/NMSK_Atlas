@@ -1,0 +1,70 @@
+{
+ "page": "own_f",
+ "viewport": "1366x768",
+ "steps": 5,
+ "renderer": "chromium swiftshader (software GL)",
+ "modes": {
+  "baseline (markers off, labels off)": {
+   "mean_ms": 3007,
+   "median_ms": 3000,
+   "max_ms": 3237,
+   "depth_passes_during_orbit_and_settle": 0,
+   "avg_capture_ms": 4117.9,
+   "image": "393x342",
+   "shown": 0,
+   "placed": 31
+  },
+  "markers: Visible + near": {
+   "mean_ms": 6262,
+   "median_ms": 5961,
+   "max_ms": 10184,
+   "depth_passes_during_orbit_and_settle": 4,
+   "avg_capture_ms": 4012.3,
+   "image": "393x342",
+   "shown": 14,
+   "placed": 31
+  },
+  "markers: All": {
+   "mean_ms": 5743,
+   "median_ms": 3097,
+   "max_ms": 10068,
+   "depth_passes_during_orbit_and_settle": 4,
+   "avg_capture_ms": 4030.9,
+   "image": "393x342",
+   "shown": 31,
+   "placed": 31
+  },
+  "markers off, labels: Visible (arteries + nerves)": {
+   "mean_ms": 3766,
+   "median_ms": 3913,
+   "max_ms": 4333,
+   "depth_passes_during_orbit_and_settle": 0,
+   "avg_capture_ms": 4030.9,
+   "image": "393x342",
+   "shown": 0,
+   "placed": 31
+  },
+  "markers near + labels Visible": {
+   "mean_ms": 8517,
+   "median_ms": 11081,
+   "max_ms": 11364,
+   "depth_passes_during_orbit_and_settle": 4,
+   "avg_capture_ms": 4047.8,
+   "image": "393x342",
+   "shown": 14,
+   "placed": 31
+  }
+ },
+ "structures": "466",
+ "forced_capture_ms": [
+  1185.2,
+  1122.3,
+  1140.5
+ ],
+ "overhead_pct": {
+  "markers: Visible + near": 108,
+  "markers: All": 91,
+  "markers off, labels: Visible (arteries + nerves)": 25,
+  "markers near + labels Visible": 183
+ }
+}

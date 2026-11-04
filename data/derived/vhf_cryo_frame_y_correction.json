@@ -1,0 +1,37 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male and female CT and cryosections via the NCI Imaging Data Commons; lower-limb geometry Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2 (CC BY 4.0). Derived data, measured by the named script.",
+ "_README": "Height correction of the Visible Human female cryosection frame (scratchpad vh_cryo_f/cryo_frame_*.npy, 1 mm slices in her torso-CT RAS z, frame.json z0 -1776). Measured 2026-09-13 by scripts/cryo/vhf_check_frame_z.py (pixel-wise fat/muscle Dice of each CT slice against the photographs; table in vhf_cryo_frame_z_survey.json): frame v1 was 47-90 mm too HIGH over the whole body below the neck (its z line had been fitted with the thorax anchors left out), i.e. slice k of v1 showed the anatomy of k - offset. scripts/cryo/vhf_correct_frame_z.py rewrote the frame with that offset (v1 kept as *_v1.npy; frame.json 'z_correction'), so scripts reading the frame need NO further shift: the values below are zero for the corrected frame and exist so lean_envelope.frame_y_correction() stays a no-op unless a future survey finds a residual.",
+ "legs": {
+  "d_mm": 0.0,
+  "valid_below_y": -140.0
+ },
+ "torso": {
+  "d_mm": 0.0,
+  "valid_above_y": -40.0
+ },
+ "frame_v1_offset_mm_by_y": {
+  "700": 47,
+  "600": 60,
+  "500": 60,
+  "400": 68,
+  "300": 68,
+  "200": 70,
+  "100": 70,
+  "0": 72,
+  "-100": 74,
+  "-200": 76,
+  "-300": 87,
+  "-400": 72,
+  "-500": 88,
+  "-600": 81,
+  "-700": 83,
+  "-800": 85
+ },
+ "shipped_structures_rebuilt_after_it": [
+  "ct_vhf_delt",
+  "ct_vhf_cuff",
+  "ct_vhf_armm",
+  "ct_vhf_pmr",
+  "ct_vhf_skin (photograph part of the union)"
+ ]
+}

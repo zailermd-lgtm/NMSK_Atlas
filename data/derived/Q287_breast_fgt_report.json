@@ -1,0 +1,81 @@
+{
+ "_README": [
+  "Q287: fibroglandular tissue in her CT breasts by an HU rule; see scripts/anatomy/q287/breast_fgt_q287.py."
+ ],
+ "rule": {
+  "hu_min": -30.0,
+  "skin_rim_voxels": 2,
+  "speck_cm3": 0.05,
+  "sigma_vox": 0.7,
+  "budget": 12000
+ },
+ "gates": {
+  "max_outside_breast_gt1mm_frac": 0.01,
+  "volume_tol": 0.1,
+  "vgf_range": [
+   0.012,
+   0.719
+  ]
+ },
+ "references": [
+  {
+   "what": "dedicated breast CT, 137 breasts of 136 women (BI-RADS 4/5 work-up): volumetric glandular fraction mean 0.172 +/- 0.142, range 0.012-0.719, falling with age and with breast volume",
+   "cite": "Vedantham S, Shi L, Karellas A, O'Connell AM. Dedicated breast CT: fibroglandular volume measurements in a diagnostic population. Med Phys 2012;39:7317-28",
+   "doi": "10.1118/1.4765050",
+   "pmid": "23231281"
+  },
+  {
+   "what": "breast CT + mammographic volumetry, 2831 women: mean fibroglandular share 19.3 % (13.7-25.6 % by group, skin included), 80 % of women below 27 %",
+   "cite": "Yaffe MJ, Boone JM, Packard N, et al. The myth of the 50-50 breast. Med Phys 2009;36:5437-43",
+   "doi": "10.1118/1.3250863",
+   "pmid": "20095256"
+  }
+ ],
+ "sides": {
+  "right": {
+   "breast_cm3": 1003.9,
+   "hu_ge_min_in_breast_cm3": 51.2,
+   "removed_skin_rim_cm3": 20.67,
+   "removed_muscle_or_total_label_cm3": 4.73,
+   "specks_dropped_cm3": 6.5,
+   "pieces_kept": 17,
+   "fgt_voxel_cm3": 19.27,
+   "glandular_fraction": 0.0192,
+   "fgt_hu_median": -7.0,
+   "iso_level": 0.385,
+   "mesh_full_cm3": 18.71,
+   "mesh_specks_dropped_cm3": 0.658,
+   "mesh_specks_dropped_n": 168,
+   "shipped_triangles": 12000,
+   "shipped_vs_voxels": 0.9616,
+   "outside_breast_gt1mm_frac": 0.0,
+   "outside_breast_max_mm": 0.59,
+   "components": 2
+  },
+  "left": {
+   "breast_cm3": 876.2,
+   "hu_ge_min_in_breast_cm3": 46.1,
+   "removed_skin_rim_cm3": 19.8,
+   "removed_muscle_or_total_label_cm3": 2.49,
+   "specks_dropped_cm3": 6.34,
+   "pieces_kept": 10,
+   "fgt_voxel_cm3": 17.48,
+   "glandular_fraction": 0.0199,
+   "fgt_hu_median": -6.0,
+   "iso_level": 0.345,
+   "mesh_full_cm3": 16.38,
+   "mesh_specks_dropped_cm3": 1.285,
+   "mesh_specks_dropped_n": 260,
+   "shipped_triangles": 24000,
+   "shipped_vs_voxels": 0.9341,
+   "outside_breast_gt1mm_frac": 0.0,
+   "outside_breast_max_mm": 0.61,
+   "components": 1
+  }
+ },
+ "shipped": [
+  "breast_fgt_ct_r",
+  "breast_fgt_ct_l"
+ ],
+ "held": {}
+}
