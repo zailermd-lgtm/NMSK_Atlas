@@ -13929,7 +13929,12 @@ function NMSKLearn(api){
     if (btn) btn.setAttribute("aria-pressed", String(on));
     panel.classList.toggle("ln-phone", !!(api.canvas && window.innerWidth <= 760));
     clearInterval(poll); poll = 0;
-    if (on){ try { lastSid = api.selectedId ? api.selectedId() : null; } catch (err){} poll = setInterval(follow, 350); }
+    if (on){
+      var sid = null; try { sid = api.selectedId ? api.selectedId() : null; } catch (err){}
+      lastSid = sid;
+      if (sid && !cur){ var x = resolve(sid); if (x && BYB[x.b]) choose({k:"m", b:x.b, side:x.side, c:x.c}); }
+      poll = setInterval(follow, 350);
+    }
     else { stopAnim(); if (rot){ cancelAnimationFrame(rot.raf); rot = null; } }
   }
   function mountToolbar(){
