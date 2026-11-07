@@ -14023,4 +14023,6 @@ Owner identified duplications (Imaging in both bottom accordion and top mode til
 **Files changed:** `viewer/zan_atlas.template.html`, `viewer/atlas_viewer.template.html`.
 **Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q312 --ref build/q309 --expect-changed index.html`. All 6 pages rebuilt and published.
 
+**Artifacts republished (2026-11-07).** All 6 viewer pages updated with Q312 changes: Base M v74, Base F v69, Combined M v75, Combined F v88, Imaging M v153, Imaging F v143.
+
 **Nerve mesh thickness (Base Female).** Owner noted the lateral antebrachial cutaneous nerve split appears disproportionately thick. This is a Q308 geometry issue — the male→female thin-plate spline deformation (bone-anchored) stretches small-radius nerve tubes non-uniformly. The `procedural_badge` already documents the rule-based origin. Not fixable in viewer code; would require re-running the deformation with per-structure radius constraints (a geometry round, not a UI round).
