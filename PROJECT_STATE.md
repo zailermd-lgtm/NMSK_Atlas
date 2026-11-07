@@ -14005,3 +14005,22 @@ intermediate of this round went to `/dev/shm`.
 **C. Effect on search tables (six pages rebuilt).** base_m: aliases 1988→2025, structures reached 739→745, not_shipped 16→13. All six Q308-built structures are now findable by base name, synonyms, Hebrew and Latin on every page where they ship. On pages where they don't ship (own_m, own_f for psoas minor and others), the not_shipped explanation with `offer` structures is preserved.
 
 **D. Test and reference updates.** `tests/test_q306.py:384-387`: changed the psoas minor assertions from expecting a not_shipped explanation to expecting a real alias match (score 5, non-approximate). `data/anatomy/search_reference_q306.json`: updated the `anterolateral ligament of the knee` and `psoas minor` entries from `kind: "not-shipped"` to `kind: "shipped"` with correct expect patterns, since Q308 built them and Q311 made them searchable.
+
+## Q312 (2026-11-07) -- OWNER REQUEST: UI reorganisation — remove duplications, make simple and intuitive
+
+Owner identified duplications (Imaging in both bottom accordion and top mode tiles, Learn standalone vs contextual), hidden controls (#foot adopted into View group so front/side/back vanish when toolbar opens), and the info card being inconspicuous and immovable.
+
+**Changes (viewer templates only, no geometry, no scripts).**
+
+1. **Imaging → Render.** The bottom accordion group renamed from "Imaging" to "Render" (key `render`). Resolves naming clash with the clinical-mode tiles (CT/MRI, Ultrasound). The `NMSKRenderStyle`/`NMSKCombos` `"imaging"` combo key is independent and unchanged.
+2. **Learn → Labels.** Accordion group renamed from "Learn" to "Labels" (key `labels`). `t-learn` removed from the group's adopt list — learn is now contextual (see point 6).
+3. **#foot always visible.** The `{adopt:"foot"}` entry removed from the View group. `#foot` stays `position:fixed` at bottom-left, z-index raised 22→64 (above toolbar's 62). `body.q301-on #foot` offset added in main CSS, phone media query, and Q301 block so the pill row clears the toolbar bar.
+4. **Mode button (מצב) in topright.** `t-mode` moved from the Render accordion to `#topright` bar as a `class:"pill"` button, always accessible beside hub and sources.
+5. **#topright decluttered.** Layers, cut, and layout buttons moved to a hidden `#q312-park` div. NMSKGroups.start() now parks all adopt-referenced elements immediately so buttons leave `#topright` at once. Only hub + sources + mode remain visible in the top-right corner.
+6. **Learn contextual.** `t-learn` toolbar button auto-hidden until a structure is selected (polled via setInterval checking info card visibility). A "learn" action button added to the Z-engine `#info` card and own-engine `#inspector` action row — click opens the learn panel for the selected structure.
+7. **Info card draggable (Z engine).** Drag handle (☰ icon) + h2 heading both serve as drag targets. CSS class `.dragged` switches from fixed-corner to absolute positioning. Touch-friendly (touchstart/touchmove/touchend). Own engine uses `#inspector` (grid side panel), no drag needed.
+
+**Files changed:** `viewer/zan_atlas.template.html`, `viewer/atlas_viewer.template.html`.
+**Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q312 --ref build/q309 --expect-changed index.html`. All 6 pages rebuilt and published.
+
+**Nerve mesh thickness (Base Female).** Owner noted the lateral antebrachial cutaneous nerve split appears disproportionately thick. This is a Q308 geometry issue — the male→female thin-plate spline deformation (bone-anchored) stretches small-radius nerve tubes non-uniformly. The `procedural_badge` already documents the rule-based origin. Not fixable in viewer code; would require re-running the deformation with per-structure radius constraints (a geometry round, not a UI round).
