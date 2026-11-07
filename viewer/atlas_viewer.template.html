@@ -3560,6 +3560,11 @@ var NMSKGroups = (function(){
       if (combos && combos.onChange) combos.onChange(paint);
       setInterval(paint, 500);
       on = true; paint();
+      /* Q312: park every adopt-referenced element immediately so buttons leave #tools at once */
+      G.forEach(function(g){ (g.members || []).forEach(function(m){
+        if (m.adopt){ [].concat(m.adopt).forEach(function(id){ var e = document.getElementById(id); if (e){ e.classList.add("qg-adopted"); park.appendChild(e); } }); }
+        if (m.el && m.el.parentNode !== park){ m.el.classList.add("qg-keep"); park.appendChild(m.el); }
+      }); });
       return api;
     },
     /* Q303: a module that starts AFTER this bar was built cannot be in the table it was built from -- the same gap
@@ -13949,6 +13954,8 @@ function NMSKLearn(api){
     if (ref && ref.parentNode === tb) tb.insertBefore(btn, ref.nextSibling); else tb.appendChild(btn);
   }
   mountToolbar();
+  /* Q312: learn is contextual — show only when a structure is selected */
+  if (btn){ btn.hidden = true; setInterval(function(){ var iid = document.getElementById("i-id"); var show = iid && iid.textContent.length > 0; if (btn.hidden === show) btn.hidden = !show; if (!show && !panel.hidden) open(false); }, 400); }
   $("ln-close").addEventListener("click", function(){ open(false); });
   $("ln-q").addEventListener("input", renderSearch);
   $("ln-op").addEventListener("input", function(){
