@@ -3250,7 +3250,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKRender
      .step()  .set(i)  .deeper()  .shallower()  .steps()  .hidden()  .state() */
 var NMSKPeel = (function(){
   "use strict";
-  var E = null, hist = null, box = null, out = null, on = false, i0 = 0, idx = 0, upB = null, dnB = null, allB = null;
+  var E = null, hist = null, box = null, out = null, on = false, i0 = 0, idx = 0, upB = null, dnB = null, allB = null, rng = null;
   var ORDER = [
     {key:"skin",    label:"Skin",            cats:["skin"]},
     {key:"fat",     label:"Fat / superficial fascia", cats:["fat"]},
@@ -3285,6 +3285,7 @@ var NMSKPeel = (function(){
     if (upB) upB.disabled = idx >= P.length;
     if (dnB) dnB.disabled = idx <= 0;
     if (allB) allB.hidden = idx === 0;
+    if (rng){ rng.max = String(P.length); rng.value = String(idx); }
     if (box) box.setAttribute("data-step", String(idx));
   }
   function set(i, quiet){
@@ -3319,6 +3320,12 @@ var NMSKPeel = (function(){
       upB.title = "Take the next layer off, from the skin inward (one Undo step)";
       upB.addEventListener("click", function(e){ e.stopPropagation(); set(idx + 1); });
       box.appendChild(dnB); box.appendChild(upB);
+      rng = document.createElement("input");
+      rng.type = "range"; rng.className = "pl-r"; rng.id = "pl-range";
+      rng.min = "0"; rng.max = String(P.length); rng.value = "0"; rng.step = "1";
+      rng.setAttribute("aria-label", "Depth peel slider");
+      rng.addEventListener("input", function(){ set(parseInt(rng.value, 10)); });
+      box.appendChild(rng);
       allB = document.createElement("button");
       allB.type = "button"; allB.className = "pl-b pl-all q301-b"; allB.id = "pl-whole"; allB.textContent = "Whole body";
       allB.hidden = true; allB.title = "Put every peeled layer back (one Undo step)";
@@ -6729,6 +6736,7 @@ var NMSKQ306 = (function(){
 .sp-sc, .sp-sy { display:flex; flex-wrap:wrap; gap:4px; width:100%; }
 .sp-s { font-size:11.5px; }
 .sp-why { width:100%; margin:2px 0 0; font-size:11px; opacity:.8; font-style:italic; }
+.pl-r, .sp-r { flex:1 1 60px; min-width:60px; max-width:180px; height:22px; accent-color:var(--accent, #2E89AC); cursor:pointer; }
 .sy-note, .sp-note { width:100%; }
 @media (max-width:430px){
   .sy-b, .sp-b, .sp-s { font-size:11px; padding:4px 6px; }
@@ -6959,7 +6967,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKSysTog
 var NMSKSysPeel = (function(){
   "use strict";
   var E = null, M = null, TG = null, WB = null, hist = null, push = null, on = false;
-  var box = null, scRow = null, syRow = null, outEl = null, upB = null, dnB = null, allB = null, whyEl = null;
+  var box = null, scRow = null, syRow = null, outEl = null, upB = null, dnB = null, allB = null, whyEl = null, rngEl = null;
   var scope = "body", sysKey = "", step = 0, scBtns = {}, syBtns = {};
   var SCOPES = [{k:"body", l:"Whole body"}, {k:"one", l:"One system"}, {k:"shown", l:"Systems shown"}];
   function peelable(){ return M.systems().filter(function(s){ return s.peel; }); }
@@ -7005,6 +7013,7 @@ var NMSKSysPeel = (function(){
     if (upB) upB.disabled = step >= m || (scope === "one" && !sysKey);
     if (dnB) dnB.disabled = step <= 0;
     if (allB) allB.hidden = step === 0;
+    if (rngEl){ rngEl.max = String(m); rngEl.value = String(step); }
     if (whyEl){ var w = why(); whyEl.textContent = w; whyEl.hidden = !w; }
     if (box) box.setAttribute("data-scope", scope), box.setAttribute("data-step", String(step));
   }
@@ -7098,6 +7107,12 @@ var NMSKSysPeel = (function(){
       upB.title = "Take the next layer off, from the surface inward (one Undo step)";
       upB.addEventListener("click", function(e){ e.stopPropagation(); set(step + 1); });
       box.appendChild(dnB); box.appendChild(upB);
+      rngEl = document.createElement("input");
+      rngEl.type = "range"; rngEl.className = "sp-r"; rngEl.id = "sp-range";
+      rngEl.min = "0"; rngEl.max = String(maxStep()); rngEl.value = "0"; rngEl.step = "1";
+      rngEl.setAttribute("aria-label", "System depth peel slider");
+      rngEl.addEventListener("input", function(){ set(parseInt(rngEl.value, 10)); });
+      box.appendChild(rngEl);
       allB = document.createElement("button");
       allB.type = "button"; allB.className = "sp-b sp-all q301-b"; allB.id = "sp-whole"; allB.textContent = "Put it all back";
       allB.hidden = true; allB.title = "Put every peeled layer of this scope back (one Undo step)";
@@ -8940,7 +8955,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       "btn-neuro":function(){ preset({nerve:1,cns:1,bone:.10}, "neuro"); },
       "btn-vasc":function(){ preset({vessel:1,lymph:.7,bone:.10}, "vasc"); },
       "btn-organs":function(){ preset({viscera:1,vessel:.6,bone:.08}, "organs"); },
-      "btn-insert":function(){ preset({insertion:1,bone:1,muscle:.25,fascia:.15}, "insert"); }
+      "btn-insert":function(){ preset({insertion:1,tendon:.9,bone:1,muscle:.25,fascia:.15,joint:.2}, "insert"); }
     };
     Object.keys(P).forEach(function(id){ var e=document.getElementById(id); if(e) e.onclick=P[id]; });
 
