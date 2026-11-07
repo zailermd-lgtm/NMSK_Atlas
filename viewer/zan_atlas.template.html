@@ -197,14 +197,19 @@
   #info.hidden{display:none}
   #info.min .info-more{display:none}
   #info.min{max-height:none;padding-bottom:.6rem}
+  #info.dragged{right:auto;bottom:auto}
+  .info-drag{position:absolute;top:.45rem;left:.5rem;background:none;border:0;
+    font-size:.85rem;line-height:1;color:var(--ink-dim);padding:.1rem .2rem;cursor:grab;opacity:.45}
+  .info-drag:active{cursor:grabbing}
   .info-min{position:absolute;top:.45rem;right:2.1rem;background:none;border:0;
     font-size:1.35rem;line-height:1;color:var(--ink-dim);padding:.1rem .3rem}
   .info-close{position:absolute;top:.45rem;right:.5rem;background:none;border:0;
     font-size:1.35rem;line-height:1;color:var(--ink-dim);padding:.1rem .3rem}
   #info .kind{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
-    padding:.13rem .4rem;border-radius:4px;border:1px solid currentColor;display:inline-block;margin-bottom:.4rem}
+    padding:.13rem .4rem;border-radius:4px;border:1px solid currentColor;display:inline-block;margin-bottom:.4rem;margin-left:1.2rem}
   #info h2{margin:0 0 .12rem;font-family:var(--f-display);font-weight:600;font-size:1.06rem;
-    line-height:1.24;text-wrap:balance;padding-right:3.2rem}
+    line-height:1.24;text-wrap:balance;padding-right:3.2rem;cursor:grab}
+  #info h2:active{cursor:grabbing}
   #info .sub2{font-family:var(--f-mono);font-size:.66rem;color:var(--ink-dim);margin:0 0 .5rem}
   .facts{display:grid;grid-template-columns:auto 1fr;gap:.26rem .6rem;font-size:.77rem;margin:.45rem 0 0}
   .facts dt{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;
@@ -217,7 +222,8 @@
 
   /* ---------- bottom controls ---------- */
   #foot{position:fixed;left:calc(.9rem + var(--safe-l));bottom:calc(.9rem + var(--safe-b));
-    z-index:22;display:flex;gap:.32rem;flex-wrap:wrap;max-width:min(300px,60vw)}
+    z-index:64;display:flex;gap:.32rem;flex-wrap:wrap;max-width:min(300px,60vw)}
+  body.q301-on #foot{bottom:calc(var(--q301-bar-h,96px) + .5rem + var(--safe-b))}
 
   /* ---------- modal ---------- */
   #modal{position:fixed;inset:0;z-index:50;display:none;
@@ -1049,6 +1055,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     #info{left:.7rem;right:.7rem;width:auto;bottom:auto;
       top:calc(3.5rem + var(--safe-t));max-height:38vh;z-index:26}
     #foot{bottom:calc(.75rem + var(--safe-b));left:.7rem;max-width:calc(100% - 1.4rem)}
+    body.q301-on #foot{bottom:calc(.75rem + var(--safe-b) + var(--q301-bar-h, 96px))}
     .pill{padding:.5rem .6rem;font-size:.68rem}
     .item{padding:.45rem .4rem;font-size:.82rem}
     #sides button,#presets button{padding:.55rem .2rem;font-size:.68rem}
@@ -1078,9 +1085,11 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 
 <div id="topright">
   <a class="pill" id="t-hub" href="https://claude.ai/artifact/LyQVpCZcYWXQT5Ek8M984T" target="_blank" rel="noopener" title="Back to the atlas hub — choose a different model">hub</a>
+  <button class="pill" id="about-btn">sources</button>
+</div>
+<div id="q312-park" hidden>
   <button class="pill" id="btn-panel">layers</button>
   <button class="pill" id="t-cut" aria-pressed="false" title="Cut the model with a movable plane (sagittal, axial, coronal, facing you, or through a point you click) and lift the chosen side away">cut</button>
-  <button class="pill" id="about-btn">sources</button>
   <button class="pill" id="t-lay3" title="Cycle Model-only (max 3-D space) / Split (model + the active tool) / Compare (two panes)">model only</button>
 </div>
 
@@ -2683,6 +2692,7 @@ var NMSKBoneRead = (function(){
    the bar's measured height. The same applies to Q294's one-line notice, which shares that corner. */
 body.q301-on #sa-bar,body.q301-on .sa-bar{transform:translateY(calc(-1 * var(--q301-bar-h,96px)))}
 body.q301-on #hist-msg{transform:translateY(calc(-1 * var(--q301-bar-h,96px)))}
+body.q301-on #foot{bottom:calc(.9rem + var(--safe-b) + var(--q301-bar-h, 96px))}
 /* the floating Q294 group is the same three buttons: one place for them, not two */
 body.q301-on #hist-bar{display:none !important}
 /* a clinical workspace mode hides the anatomy chrome and brings its own bar (Q272); ours goes with the rest,
@@ -3653,6 +3663,11 @@ var NMSKGroups = (function(){
       if (combos && combos.onChange) combos.onChange(paint);
       setInterval(paint, 500);
       on = true; paint();
+      /* Q312: park every adopt-referenced element immediately so buttons leave #topright at once */
+      G.forEach(function(g){ (g.members || []).forEach(function(m){
+        if (m.adopt){ [].concat(m.adopt).forEach(function(id){ var e = document.getElementById(id); if (e){ e.classList.add("qg-adopted"); park.appendChild(e); } }); }
+        if (m.el && m.el.parentNode !== park){ m.el.classList.add("qg-keep"); park.appendChild(m.el); }
+      }); });
       return api;
     },
     /* Q303: a module that starts AFTER this bar was built cannot be in the table it was built from -- the same gap
@@ -3780,7 +3795,7 @@ var NMSKQ301 = (function(){
     var R = window.NMSKRenderStyle, P = window.NMSKPeel, F = window.NMSKFat;
     return [
       {key:"view", label:"View", title:"Where you look from, and how the screen is laid out", members:[
-        {adopt:"foot"},                                  /* the Z engine's front / side / back / move / spin / reset row */
+        /* Q312: #foot stays fixed at bottom-left (always visible near the orbit controls) -- no longer adopted here */
         {adopt:["t-reset", "t-lay3", "t-layout", "sym-select", "btn-pose"]},
         {combo:"spin", adopt:"btn-spin"}
       ]},
@@ -3792,11 +3807,10 @@ var NMSKQ301 = (function(){
         {adopt:"sides"},
         {combo:"srccolour", adopt:["src-colour"]}       /* the toggle lives here; its per-structure list stays in the i */
       ]},
-      {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
+      {key:"render", label:"Render", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
         {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
         {combo:"boneread", adopt:"br-box"},
-        {adopt:["btn-xray", "t-xray"], label2:"The older X-ray is a transparency preset, not a radiographic picture."},
-        {adopt:["t-mode"]}
+        {adopt:["btn-xray", "t-xray"], label2:"The older X-ray is a transparency preset, not a radiographic picture."}
       ]},
       {key:"cut", label:"Cut", title:"Cut the model, and the cross-sections", members:[
         {combo:"cut", adopt:["t-cut"]},
@@ -3810,8 +3824,8 @@ var NMSKQ301 = (function(){
         {combo:"highlight", adopt:["sel-p-hlsel"]},
         {adopt:["box-clear"]}
       ]},
-      {key:"learn", label:"Learn", title:"Learn, labels, quick view and the groups", members:[
-        {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
+      {key:"labels", label:"Labels", title:"Labels, quick view and the groups", members:[
+        {adopt:["t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
       ]},
       {key:"measure", label:"Measure", title:"Measure on the model", members:[
         {combo:"measure", adopt:["t-measure"]}
@@ -12186,8 +12200,8 @@ var NMSKModes = (function(){
     }
     var tb = host.toolbar;
     if (tb){
-      var b = el("button", {type:"button", id:"t-mode", class:host.toolClass, title:"מצב עבודה: אנטומיה / תכנון הזרקה / US אבחנתי / השוואת דימות", text:"מצב", onclick:function(){ showSwitcher(); }});
-      var hub = $("t-hub"); if (hub && hub.parentNode === tb) tb.insertBefore(b, hub.nextSibling); else tb.insertBefore(b, tb.firstChild);
+      var b = el("button", {type:"button", id:"t-mode", class:"pill", title:"מצב עבודה: אנטומיה / תכנון הזרקה / US אבחנתי / השוואת דימות", text:"מצב", onclick:function(){ showSwitcher(); }});
+      var tr = $("topright"); if (tr){ var hub = $("t-hub"); if (hub && hub.parentNode === tr) tr.insertBefore(b, hub.nextSibling); else tr.appendChild(b); }
     }
     window.addEventListener("resize", placeAll);
     var m = /[#&]mode=(inj|us|cmp|anat)\b/.exec(location.hash || "") || /[?&]mode=(inj|us|cmp|anat)\b/.exec(location.search || ""), choice = m ? m[1] : remembered();   /* Q273: ?mode= as well as #mode= */
@@ -13675,6 +13689,8 @@ function NMSKLearn(api){
     if (ref && ref.parentNode === tb) tb.insertBefore(btn, ref.nextSibling); else tb.appendChild(btn);
   }
   mountToolbar();
+  /* Q312: learn is contextual — show only when a structure is selected (info card visible) */
+  if (btn){ btn.hidden = true; setInterval(function(){ var inf = document.getElementById("info"); var show = inf && !inf.classList.contains("hidden"); if (btn.hidden === show) btn.hidden = !show; if (!show && !panel.hidden) open(false); }, 400); }
   $("ln-close").addEventListener("click", function(){ open(false); });
   $("ln-q").addEventListener("input", renderSearch);
   $("ln-op").addEventListener("input", function(){
@@ -14261,6 +14277,27 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
     searchEl.oninput=renderList; renderList();
 
     var infoEl=document.getElementById("info");
+    /* Q312: info card drag — grab the heading to move the card */
+    (function(el){
+      if (!el) return;
+      var dx=0, dy=0, dragging=false;
+      function down(e){
+        var t=e.target; if (t.tagName==="BUTTON"||t.tagName==="A"||t.tagName==="INPUT") return;
+        while(t&&t!==el){ if(t.tagName==="H2") break; t=t.parentNode; } if(!t||t===el) return;
+        e.preventDefault(); var pt=e.touches?e.touches[0]:e, r=el.getBoundingClientRect();
+        dx=pt.clientX-r.left; dy=pt.clientY-r.top; dragging=true;
+      }
+      function move(e){
+        if(!dragging) return; var pt=e.touches?e.touches[0]:e;
+        var x=Math.max(0,Math.min(window.innerWidth-80,pt.clientX-dx));
+        var y=Math.max(0,Math.min(window.innerHeight-80,pt.clientY-dy));
+        el.style.left=x+"px"; el.style.top=y+"px"; el.style.right="auto"; el.style.bottom="auto";
+      }
+      function up(){ dragging=false; }
+      el.addEventListener("mousedown",down); el.addEventListener("touchstart",down,{passive:false});
+      document.addEventListener("mousemove",move); document.addEventListener("touchmove",move,{passive:false});
+      document.addEventListener("mouseup",up); document.addEventListener("touchend",up);
+    })(infoEl);
     var infoMin=false;
     try{ var _im=localStorage.getItem("zan_info_min"); infoMin=_im===null?(window.innerWidth<=900):_im==="1"; }catch(e){ infoMin=window.innerWidth<=900; }
     function esc(s){return String(s).replace(/[&<>"]/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c];});}
@@ -14270,7 +14307,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       if(!o){ infoEl.className="hidden"; renderList(); need=true; return; }
       if(focus){ cam.tgt=o.center.slice(); cam.dist=Math.max(70,o.radius*5.5); stopSpin(); }
       var a=o.atlas;
-      var h='<button class="info-min" id="im" aria-label="Minimize or expand details" title="Minimize / expand">'+(infoMin?'+':'&minus;')+'</button>';
+      var h='<button class="info-drag" id="id-drag" aria-label="Drag to reposition" title="Drag to move">&#x2630;</button>';
+      h+='<button class="info-min" id="im" aria-label="Minimize or expand details" title="Minimize / expand">'+(infoMin?'+':'&minus;')+'</button>';
       h+='<button class="info-close" id="ic" aria-label="Close">&times;</button>';
       h+='<span class="kind" style="color:var(--t-'+o.layer+')">'+o.layer+'</span>';
       h+='<h2>'+esc(o.name)+'</h2>';
@@ -14281,7 +14319,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
          '<button id="a-fade">'+(faded.has(o)?"unfade":"fade")+'</button>'+
          '<span id="a-mark-slot"></span>'+   // Q262: filled below with selCtl.markButton(), the same factory the list row's own mark tick uses (keeps pressed state in sync however it gets (un)marked)
          '<button id="a-iso">isolate 3D</button>'+
-         '<button id="a-solo">solo layer</button></div>';
+         '<button id="a-solo">solo layer</button>'+
+         '<button id="a-learn">learn</button></div>';
       h+='<div id="inj-card"></div>';   // Q267 (8): injury severity + read-only reference card, filled by renderInjury() below once this structure is marked
       h+='<div class="info-more">';
       if(a){
@@ -14342,6 +14381,32 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       }
       document.getElementById("a-iso").onclick=function(){ isolateAround(o,1); };
       document.getElementById("a-solo").onclick=function(){ soloLayer=(soloLayer===o.layer)?null:o.layer; sync(); need=true; };
+      document.getElementById("a-learn").onclick=function(){ var btn=document.getElementById("t-learn"); if(btn) btn.click(); };
+      (function(){
+        var dh=document.getElementById("id-drag"); if(!dh) return;
+        var ox,oy,sx,sy;
+        function onMove(e){
+          var cx=e.clientX||((e.touches&&e.touches[0])?e.touches[0].clientX:0);
+          var cy=e.clientY||((e.touches&&e.touches[0])?e.touches[0].clientY:0);
+          var nl=sx+(cx-ox), nt=sy+(cy-oy);
+          nl=Math.max(0,Math.min(nl,window.innerWidth-60));
+          nt=Math.max(0,Math.min(nt,window.innerHeight-40));
+          infoEl.style.left=nl+"px"; infoEl.style.top=nt+"px";
+          infoEl.classList.add("dragged");
+        }
+        function onUp(){ document.removeEventListener("mousemove",onMove); document.removeEventListener("mouseup",onUp);
+          document.removeEventListener("touchmove",onMove); document.removeEventListener("touchend",onUp); }
+        function onDown(e){
+          e.preventDefault();
+          var r=infoEl.getBoundingClientRect();
+          sx=r.left; sy=r.top;
+          ox=e.clientX||((e.touches&&e.touches[0])?e.touches[0].clientX:0);
+          oy=e.clientY||((e.touches&&e.touches[0])?e.touches[0].clientY:0);
+          document.addEventListener("mousemove",onMove); document.addEventListener("mouseup",onUp);
+          document.addEventListener("touchmove",onMove,{passive:false}); document.addEventListener("touchend",onUp);
+        }
+        dh.addEventListener("mousedown",onDown); dh.addEventListener("touchstart",onDown,{passive:false});
+      })();
       renderInjury(o,a);
       renderList(); need=true;
     }
