@@ -14026,3 +14026,21 @@ Owner identified duplications (Imaging in both bottom accordion and top mode til
 **Artifacts republished (2026-11-07).** All 6 viewer pages updated with Q312 changes: Base M v74, Base F v69, Combined M v75, Combined F v88, Imaging M v153, Imaging F v143.
 
 **Nerve mesh thickness (Base Female).** Owner noted the lateral antebrachial cutaneous nerve split appears disproportionately thick. This is a Q308 geometry issue — the male→female thin-plate spline deformation (bone-anchored) stretches small-radius nerve tubes non-uniformly. The `procedural_badge` already documents the rule-based origin. Not fixable in viewer code; would require re-running the deformation with per-structure radius constraints (a geometry round, not a UI round).
+
+## Q313 (2026-11-08) -- OWNER REQUEST: Layers easier system selection + range sliders; fix insertion preset
+
+Owner: "Layers צריך לתת בצורה קלה יותר אפשרות לבחור מערכות, גם מספר מערכות, וכן לבחור בתוך אותה מערכת דרך מספר אפשרויות: או שכבות, או סרגל רץ, וכיוצא בזה. הinsertion ממש לא מבצע את יעודו! תתקן."
+
+**Changes (viewer templates only, no geometry, no scripts).**
+
+1. **Range sliders for NMSKPeel (depth peel).** Both templates gained an `<input type="range">` between the ▲/▼ buttons and the "All" reset button. The slider syncs bidirectionally: dragging updates the peel step via `set(i)`, and the existing `ui()` function updates the slider position whenever ▲/▼ buttons change the step. CSS class `.pl-r` with `accent-color:var(--accent)`.
+
+2. **Range sliders for NMSKSysPeel (system depth peel).** Same pattern as above — a `.sp-r` range input, bidirectional sync via `set(i)` and `ui()`. Both sliders respect the dynamic `maxStep()` value.
+
+3. **Insertion preset enhanced (Z engine only).** The `btn-insert` preset opacity map expanded from `{insertion:1, bone:1, muscle:.25, fascia:.15}` to `{insertion:1, tendon:.9, bone:1, muscle:.25, fascia:.15, joint:.2}`. Tendons at 90% opacity and joints at 20% provide the anatomical context needed to see where insertions attach. The own engine (Imaging pages) has no tissue-opacity preset system — it uses Three.js DRR/X-ray rendering modes instead.
+
+4. **CSS for range sliders.** Both templates: `.pl-r, .sp-r { flex:1 1 60px; min-width:60px; max-width:180px; height:22px; accent-color:var(--accent, #2E89AC); cursor:pointer; }` added after the `.sp-why` rule.
+
+**Files changed:** `viewer/zan_atlas.template.html`, `viewer/atlas_viewer.template.html`.
+**Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q312 --ref build/q309 --expect-changed index.html`. All 6 pages rebuilt and copied to `build/q309/`.
+**Artifacts republished (2026-11-08).** All 6 viewer pages updated with Q313 slider and insertion changes.
