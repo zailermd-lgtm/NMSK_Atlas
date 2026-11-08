@@ -14061,3 +14061,23 @@ Owner uploaded two screen recordings of real ultrasound procedure playback showi
 **Files changed:** `clinical/ultrasound_tool.js` (+67 −11 lines).
 **Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q315 --ref build/q309 --expect-changed index.html,clinical_ultrasound_tool.js`. All 6 pages rebuilt; inline block updated (272→276 KB).
 **Artifacts republished (2026-11-08).** All 6 viewer pages updated with Q315 CINE video bar.
+
+## Q316 (2026-11-08) -- OWNER REQUEST: render contrast/brightness, pose articulation, draggable panels
+
+Owner: "בRENDER - אפשר שינוי CONTRAST וBRIGHTNESS. בPOSE אפשר שינוי מיקום האיברים - הנעת מפרקים, כך שהרקמות נעות ומשנות מנח בהתאם אליהם. רק בגבולות האפשרי מבחינת טווחים פר מפרק. גם RENDER וחלונות נוספים צריך להיות אפשרי להזיז את מיקומם על המסך."
+
+**Feature 1 — Render contrast/brightness (NEW).**
+- `NMSKRenderStyle`: added `userContrast` (0.5–2.0) and `userBrightness` (−0.5–+0.5) with slider UI in `start()`, hidden in Colour mode. `adjGrey(fn)` wraps `greyOf`/`alphaOf` with standard contrast-brightness transform `clamp(c*(v-0.5)+0.5+b, 0, 1)`. State saved/restored in history, exposed in `state()`.
+
+**Feature 2 — Pose joint articulation (ALREADY EXISTS).**
+- `NMSKPoseCore` + `NMSKPose(E)` already implement full FK joint articulation with per-joint ROM limits, sliders, groups, presets, save/load. No code changes needed.
+
+**Feature 3 — Draggable panels (NEW).**
+- `NMSKGroups`: sheet (`qg-sheet`) made draggable via new `initDrag(elm, handle)` local to the module; `sheetDragged` flag prevents `place()` from overriding user drag; flag resets on each `openSheet()`.
+- Global `nmskDrag(elm, handle)` utility for panels outside NMSKGroups scope.
+- `NMSKPose` panel: made draggable via `nmskDrag(panel, pz-head)`.
+- All changes applied identically to both templates (`atlas_viewer.template.html`, `zan_atlas.template.html`).
+
+**Files changed:** `viewer/atlas_viewer.template.html`, `viewer/zan_atlas.template.html` (+169 −24 lines).
+**Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q312 --ref build/q309 --expect-changed index.html,nmsk-ultrasound-inline,parts_data.json,symmetry_q237.json`.
+**Artifacts republished (2026-11-08).** All 6 viewer pages updated.
