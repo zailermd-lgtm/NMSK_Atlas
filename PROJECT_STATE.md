@@ -14081,3 +14081,83 @@ Owner: "בRENDER - אפשר שינוי CONTRAST וBRIGHTNESS. בPOSE אפשר ש
 **Files changed:** `viewer/atlas_viewer.template.html`, `viewer/zan_atlas.template.html` (+169 −24 lines).
 **Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q312 --ref build/q309 --expect-changed index.html,nmsk-ultrasound-inline,parts_data.json,symmetry_q237.json`.
 **Artifacts republished (2026-11-08).** All 6 viewer pages updated.
+
+## Q317 (2026-11-08) -- OWNER REQUEST: X-ray controls, needle aim, needle panel, ultrasound tissues, injection clip
+
+Owner: "בXRAY שינוי הCONTRAST והBRIGHTNESS לא עושים דבר. גם ההבדלים בין הSOFT, BONE הם כמעט כלום. תתקן. זה חשוב מאוד כי יש צילומים שבהם רואים רק עצמות, ואחרים שבהם רואים רקמה רכה, או שילוב. כמו כן אפשר לבצע INVERT בכל אחד מאפשרויות הדימות, וכן כפתור RESET. במודול המחט: אפשר לסובב המחט ו\או לשנות כיוונה מהקצה התחתון, מהחלק בו עוברת את העור או מהראש, בהתאם למה רוצים לקבע ומה לנייד. כמו כן אפשר להחליט על נקודת כניסה לעור ועל נקודת ההזרקה [הקצה הפנימי], והמערכת תחשב את הכיוון, המרחק ושאר הפרטים. יש לוודא שוב עובי פאסיות ורקמות שונות באולטרסאונד... החלון שנפתח בNEEDLE עמוס מאוד בטקסט... כמו בחלון הCINE של האולטרסאונד... המטרה בעמוד המחט היא כי לאחר הגדרת החלקים השונים... ניתן יהיה לראות סרטון שכזה המדמה את ההזרקה עם המודל ולידו האולטרסאונד."
+
+### A -- radiographic controls (DONE, published). Commit 453670a.
+Root cause of "contrast and brightness do nothing in X-ray": Q316 wrapped the per-structure
+`alphaOf`, but the DRR's fragment shader never reads it -- it computes the alpha itself from
+`uMu` and `uD0` (`layerAlpha()` returns a constant 0.5 in xray mode and says so). And a DRR's
+grey is the composite of many translucent shells, so no per-structure value can be the pixel.
+- All three adjustments now act post-composite, as a CSS filter on the model's own canvas,
+  driven by `--q301-adj` (`viewer/q301/q301.css`). That is also what makes **Invert** possible.
+- **Reset** returns the style to its own exposure and default step (`api.resetAdj()`).
+- The X-ray's three taps were an exposure (Soft/Normal/Hard d0) that only scaled everything at
+  once. They are now a **tissue window** `XW = [[0.88,1.12,2.2],[0.88,2.30,8.0],[1.13,2.30,18.0]]`
+  -- Soft tissue / Combined / Bone -- applied in `muOf` on the JS side, so **no shader change**
+  (`q301.mu` is a per-object JS function). d0 becomes `baseD0`, the per-engine measured exposure.
+- Why it was flat: raw mu spans only ~1.0 (fluid) to 2.30 (cortical bone), so a DRR off it
+  separates bone from muscle by **2.1x per shell**. Through Combined that is **7.2x**. Bone's
+  lower bound 1.13 sits between cancellous bone (1.19) and cartilage (1.10), so a bone film keeps
+  the trabecular bone and drops soft tissue to the shader's 0.004 floor. The window is OUR display
+  convention and says so; mu itself is untouched.
+- **Q316 had edited both templates directly, bypassing the Q301 and Q241 single sources**, which
+  left `test_sync_script_reports_up_to_date` and `test_q241_viewer` failing at HEAD. Its slider CSS,
+  draggable group sheet and draggable pose panel are now in `viewer/q301/{render.js,groups.js,q301.css}`
+  and `viewer/pose/pose.js`, where sync carries them to both engines. Both tests pass again.
+- New test `test_the_xray_tissue_window_is_ours_and_actually_separates_the_tissues` checks the
+  shipped window numerically against the tissue reference at both engines' exposures.
+
+### D -- needle panel decluttered (DONE, published). Commit b838581.
+`clinical/needle_tool.js` is the source; `scripts/clinical/stage_clinical_files.py` copies it beside
+each built page as `clinical_needle_tool.js`. (It is NOT inlined -- it is a sibling file, so the
+artifacts carry it through the Artifact tool's `files` map.)
+- Nothing deleted. The three `<details open>` are closed, the halo's six tuning numbers and the
+  distance bands sit one level deeper, and the inline honesty text is gathered under
+  "What these numbers are" (`#ncl-notes`).
+- Measured in a browser on the panel's own markup: visible text on opening **1974 -> 424 chars**,
+  panel height **1236 -> 459 px**; total text held goes slightly UP (the collected notes are new).
+- Font: `--ncl-mut` #5c6a77 -> #49555f (5.6:1 -> 7.2:1); everything at 10.5/11 px comes to 11.5 px.
+
+### B -- needle aim and pivot (DONE, published). Commit c6678b7.
+- Every point of the needle lies on one axis measured back from the tip: tip 0, skin crossing at
+  the entry-to-tip distance, hub end at `len + hubLen`. `TP.aimTo(u)` turns the whole thing about
+  whichever the pivot names (`TP.pivotBack()`), so that one stays still and the rest swings, length
+  preserved. "Turn about: skin / tip / hub" row (`#ncl-pivot-row`), hidden in the direction mode
+  where the entry is the pivot by construction.
+- `TP.aimAngles()` is the exact inverse of `TP.dirFrom(tilt, az)`; both go through `TP.aimFrame()`,
+  so the number shown and the needle drawn cannot disagree. The two angle boxes now re-aim a placed
+  needle in every mode. `report()` gained `aim` and `pivot`; the panel shows the direction.
+- After a turn the tip is asked again what it lands in (`TP.structureAtTip()`), and a motor point or
+  cut face it sat on is dropped, because it has moved off it.
+- `scripts/anatomy/q317/verify_q317.py` proves it in headless Chromium on a built page's own meshes,
+  both engines: round trip to the axis, and each pivot holds its point to <1e-13 mm, length unchanged.
+
+### C -- ultrasound tissue appearance (IN PROGRESS)
+Literature gathered this session (see the Q317 research notes): deep fascia 0.7-1.5 mm (fascia lata
+0.80 ant / 1.34 lat, crural 0.63-0.64; US over-reads -- 1.64 mm on US vs 0.73 mm on histology of the
+same tissue), Achilles AP 4-7 mm, median nerve CSA 8.54 mm2 at the carpal inlet, ranked echogenicity
+bone cortex > tendon (beam-dependent) > fascia > fibrocartilage > fat > nerve (composite) > muscle >
+hyaline cartilage > lumen. `sheet_thickness.default_mm` is already 0.9 with a real citation
+(Stecco 2009, crural fascia 924 um) and matches. Open: there is no `fascia` entry in `classes`, and
+`textures` has only `muscle` and `tendon` -- no nerve, so the fascicles-in-a-bright-sheath look is
+likely absent. NOTE: radiopaedia.org does not resolve under this environment's network policy.
+
+### E -- injection clip beside the ultrasound (NOT STARTED)
+The two add-ons have **zero references to each other**; both register with the shared mode layer
+(needle "inj", ultrasound "us" at ultrasound_tool.js:2897). The US plane is `S.P` + `S.N` with
+`refresh(immediate)`, so driving the plane from outside looks possible. The open question is whether
+the needle can appear IN the simulated US image at all -- a US-guided injection is about watching the
+needle, and the raster is built from anatomy meshes. Also open: the tool measures rest-pose meshes and
+says distances are not valid away from rest, which bears directly on the owner's "specific patient
+pose" -- a posed simulation must not imply the measurements still hold.
+
+### Pre-existing failures at HEAD, NOT caused by Q317 (baselined by stashing)
+`test_q213`, `test_q214[vhm]`, `test_q225`, `test_q240_parts_cull` (x3), `test_q249_units`,
+`test_q255_us_rotation_thickness`, `test_q272_modes` (x2), `test_q283`, `test_q293`,
+`test_schema_validation`, `test_source_coverage`, `test_symmetry`. Five sync scripts still report
+out of date: `sync_hub_link_q251`, `sync_learn_q283`, `sync_modes_q272`, `sync_q309` (and
+`sync_pose_q241`, fixed here). Same class as the Q316 mistake -- fragments edited in the templates
+instead of in `viewer/<module>/`. Worth a clean-up round of its own.
