@@ -714,6 +714,8 @@ function Tool(api) {
   this.active = false; this.mode = "two"; this.entry = null; this.target = null;
   this.savedPts = [];   // Q276: 2+ saved injection points on the same (or any) target -- each an independent {entry,target} snapshot, own marker, own distance readout
   this.dir = {src: "normal", tilt: 0, az: 0, view: null};
+  /* Q317: which point on the needle stays put when its direction changes -- "skin", "tip" or "hub" */
+  this.pivot = "skin";
   this.len = 60; this.rDisp = 1.0;
   this.risk = {data: null, rcal: {}, on: false, transp: 0.8, saved: null, region: null, safer: null, pathEval: null};
   this.mp = {data: null, points: [], on: false, msg: "loading...", sel: null};
@@ -903,7 +905,7 @@ TP.report = function () {
     crossings: rows.map(function (r) { return {id: r.id, name: r.name, from_mm: r.from, to_mm: r.to}; }),
     tip_in: tipIn.map(function (r) { return r.name; }),
     skin: this.skinDepth(A, B),
-    needle_mm: this.len, exposed_mm: Math.max(0, this.len - L),
+    needle_mm: this.len, exposed_mm: Math.max(0, this.len - L), aim: this.aimAngles(), pivot: this.pivot,
     motor_point: this.target.mp ? this.target.mp.id : null,
     risk: this.risk.pathEval || null
   };
@@ -940,6 +942,10 @@ TP.buildUI = function () {
     '<button type="button" data-mode="tfirst" title="Pick the deep target first (on a cut face or a motor point), then the entry">Target first</button></div>' +
     '<p class="ncl-status" id="needle-status"></p>' +
     '<div id="ncl-dirbox" hidden>' +
+    '<div class="ncl-row" id="ncl-pivot-row" hidden><span>Turn about</span>' +
+    '<button type="button" class="ncl-pv" data-pivot="skin" aria-pressed="true" title="The skin crossing stays where it is; the tip swings">skin</button>' +
+    '<button type="button" class="ncl-pv" data-pivot="tip" aria-pressed="false" title="The tip stays in the target; the shaft and hub swing around it">tip</button>' +
+    '<button type="button" class="ncl-pv" data-pivot="hub" aria-pressed="false" title="The hub stays where your hand is; the whole needle swings around it">hub</button></div>' +
     '<div class="ncl-row"><button type="button" id="ncl-useview" title="Aim along the current viewing direction">Use view axis</button>' +
     '<button type="button" id="ncl-usenormal" title="Perpendicular to the skin at the entry">Perpendicular</button></div>' +
     '<div class="ncl-row"><span>tilt</span><input type="number" id="ncl-tilt" min="0" max="85" step="1" value="0" title="Degrees away from perpendicular to the skin at the entry">' +
@@ -1031,10 +1037,28 @@ TP.buildUI = function () {
     el.classList.toggle("ncl-collapsed", wasOpen);
   };
   el.querySelectorAll("#ncl-modes button").forEach(function (b) { b.onclick = function () { self.setMode(b.dataset.mode); }; });
-  $("ncl-useview").onclick = function () { self.dir.src = "view"; self.dir.view = api.view().dir; self.update(); };
-  $("ncl-usenormal").onclick = function () { self.dir.src = "normal"; $("ncl-tilt").value = 0; self.dir.tilt = 0; self.update(); };
-  $("ncl-tilt").oninput = function () { self.dir.src = "angles"; self.dir.tilt = +this.value || 0; self.update(); };
-  $("ncl-az").oninput = function () { self.dir.src = "angles"; self.dir.az = +this.value || 0; self.update(); };
+  /* Q317: in the direction mode the entry is fixed and the tip follows the angles, as before. With two placed
+     points the same two boxes turn the needle instead, about whichever point the pivot names. */
+  function aimed(u) { if (self.mode === "dir") return false; if (!self.aimTo(u)) return false; self.syncAim(); self.update(); return true; }
+  $("ncl-useview").onclick = function () {
+    if (aimed(api.view().dir)) return;
+    self.dir.src = "view"; self.dir.view = api.view().dir; self.update();
+  };
+  $("ncl-usenormal").onclick = function () {
+    if (aimed(self.aimFrame().n)) return;
+    self.dir.src = "normal"; $("ncl-tilt").value = 0; self.dir.tilt = 0; self.update();
+  };
+  function fromBoxes() {
+    var t = +$("ncl-tilt").value || 0, z = +$("ncl-az").value || 0;
+    self.dir.tilt = t; self.dir.az = z;
+    if (self.mode === "dir") { self.dir.src = "angles"; self.update(); return; }
+    if (self.aimTo(self.dirFrom(t, z))) self.update();
+  }
+  $("ncl-tilt").oninput = fromBoxes;
+  $("ncl-az").oninput = fromBoxes;
+  self.el.querySelectorAll(".ncl-pv").forEach(function (b) {
+    b.onclick = function () { self.setPivot(b.dataset.pivot); };
+  });
   function setLen(v) { self.len = clamp(+v || 60, 5, 200); $("ncl-len").value = self.len; $("ncl-lenn").value = self.len; self.update(); }
   this.setLength = setLen;
   $("ncl-len").oninput = function () { setLen(this.value); };
@@ -1096,7 +1120,7 @@ TP.cursor = function () { return this.active ? "crosshair" : null; };
 TP.setMode = function (m, quiet) {
   this.mode = m;
   this.el.querySelectorAll("#ncl-modes button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.mode === m)); });
-  this.$("ncl-dirbox").hidden = m !== "dir";
+  this.syncAimUI();
   if (!quiet) { if (m === "dir") this.target = null; this.update(); }
 };
 TP.clear = function () {
@@ -1131,23 +1155,87 @@ TP.onClick = function (e) {
   this.update();
   return true;
 };
-TP.dirVector = function () {
-  if (this.dir.src === "view" && this.dir.view) return norm(this.dir.view);
+/* Q317: the frame the tilt / azimuth pair is read in -- the skin normal at the entry, an "up" that leans
+   cranial, and the entry's own right-hand side. dirFrom() turns a pair into an axis and aimAngles() turns an
+   axis back into the pair, through this one frame, so the number shown and the needle drawn cannot disagree. */
+TP.aimFrame = function () {
   var n = this.entry && this.entry.n ? norm(this.entry.n) : norm(this.entry && this.entry.ray ? this.entry.ray : this.api.view().dir);
   var up = sub([0, 1, 0], mul(n, n[1]));
   if (len(up) < 1e-3) up = sub([0, 0, 1], mul(n, n[2]));
   up = norm(up);
-  var side = cross(n, up), th = this.dir.tilt * Math.PI / 180, az = this.dir.az * Math.PI / 180;
-  return norm(add(mul(n, Math.cos(th)), mul(add(mul(up, Math.cos(az)), mul(side, Math.sin(az))), Math.sin(th))));
+  return {n: n, up: up, side: cross(n, up)};
+};
+TP.dirFrom = function (tilt, az) {
+  var F = this.aimFrame(), th = tilt * Math.PI / 180, a = az * Math.PI / 180;
+  return norm(add(mul(F.n, Math.cos(th)), mul(add(mul(F.up, Math.cos(a)), mul(F.side, Math.sin(a))), Math.sin(th))));
+};
+TP.dirVector = function () {
+  if (this.dir.src === "view" && this.dir.view) return norm(this.dir.view);
+  return this.dirFrom(this.dir.tilt, this.dir.az);
+};
+/* the inverse: the axis the two placed points imply, as the same tilt / azimuth pair */
+TP.aimAngles = function () {
+  if (!this.entry || !this.target) return null;
+  var L = dist(this.entry.p, this.target.p);
+  if (L < 1e-3) return null;
+  var u = mul(sub(this.target.p, this.entry.p), 1 / L), F = this.aimFrame();
+  var c = clamp(dot(u, F.n), -1, 1), w = sub(u, mul(F.n, c));
+  return {tilt: Math.acos(c) * 180 / Math.PI,
+          az: len(w) < 1e-6 ? 0 : Math.atan2(dot(w, F.side), dot(w, F.up)) * 180 / Math.PI};
+};
+/* Every point of the needle lies on one axis, measured back from the tip: the tip at 0, the skin crossing at
+   the entry-to-tip distance, the hub end at the needle's length plus the hub. Turning the whole thing about
+   any of those keeps that one still and swings the rest -- the choice between what is held and what moves. */
+TP.pivotBack = function () {
+  if (this.pivot === "tip") return 0;
+  if (this.pivot === "hub") return this.len + Math.max(10, 7 * this.rDisp);
+  return this.entry && this.target ? dist(this.entry.p, this.target.p) : 0;
+};
+TP.structureAtTip = function (A, B) {
+  var self = this, L = dist(A, B);
+  var vis = this.recs.filter(function (r) { return self.api.visible(r.i); }).map(function (r) { return r.i; });
+  var rows = this.crossings(A, B, vis, null).filter(function (c) { return c.to >= L - 0.05; });
+  var nonSkin = rows.filter(function (c) { return self.skin.indexOf(c.i) < 0; });
+  var pick = (nonSkin.length ? nonSkin : rows).sort(function (a, b) { return b.from - a.from; })[0];
+  return pick ? pick.i : null;
+};
+/* turn the placed needle to a new axis, about whichever point the pivot names, keeping its length */
+TP.aimTo = function (u2) {
+  if (!this.entry || !this.target) return false;
+  var E = this.entry.p, T = this.target.p, L = dist(E, T);
+  if (L < 1e-3 || len(u2) < 1e-6) return false;
+  u2 = norm(u2);
+  var u = mul(sub(T, E), 1 / L), a = this.pivotBack(), P = addS(T, u, -a);
+  var T2 = addS(P, u2, a), E2 = addS(T2, u2, -L);
+  /* the tip has moved, so what it sits in is asked again, and a motor point or cut face it was on no longer holds */
+  this.entry = {p: E2, i: this.entry.i, n: this.entry.n, ray: this.entry.ray};
+  this.target = {p: T2, i: this.structureAtTip(E2, T2), n: null, computed: true};
+  return true;
+};
+TP.setPivot = function (p) { this.pivot = p; this.syncAimUI(); };
+/* the two angle boxes show the placement's own direction, so they are never stale against the needle drawn */
+TP.syncAim = function () {
+  var a = this.aimAngles();
+  if (!a) return;
+  var t = this.$("ncl-tilt"), z = this.$("ncl-az");
+  if (t) t.value = Math.round(a.tilt);
+  if (z) z.value = Math.round(a.az);
+  this.dir.tilt = a.tilt; this.dir.az = a.az;
+};
+TP.syncAimUI = function () {
+  var box = this.$("ncl-dirbox"), row = this.$("ncl-pivot-row"), self = this;
+  var placed = !!(this.entry && this.target);
+  if (box) box.hidden = this.mode !== "dir" && !placed;
+  if (row) {
+    row.hidden = this.mode === "dir";          /* in the direction mode the entry is the pivot by construction */
+    row.querySelectorAll(".ncl-pv").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.pivot === self.pivot)); });
+  }
+  if (this.mode !== "dir" && placed) this.syncAim();
 };
 TP.update = function () {
   if (this.mode === "dir" && this.entry) {
     var u = this.dirVector(), tip = addS(this.entry.p, u, this.len), self = this;
-    var vis = this.recs.filter(function (r) { return self.api.visible(r.i); }).map(function (r) { return r.i; });
-    var rows = this.crossings(this.entry.p, tip, vis, null).filter(function (c) { return c.to >= self.len - 0.05; });
-    var nonSkin = rows.filter(function (c) { return self.skin.indexOf(c.i) < 0; });
-    var pickRow = (nonSkin.length ? nonSkin : rows).sort(function (a, b) { return b.from - a.from; })[0];
-    this.target = {p: tip, i: pickRow ? pickRow.i : null, n: null, computed: true};
+    this.target = {p: tip, i: this.structureAtTip(this.entry.p, tip), n: null, computed: true};
   }
   this.risk.pathEval = null;
   this.drawNeedle();
@@ -1216,6 +1304,8 @@ TP.render = function () {
     (m === "dir" ? "Click again to move the entry; Esc clears." : "Click again to start a new path; Esc clears.");
   var h = "<dl>" +
     "<dt>Length</dt><dd>" + f1(R.length_mm) + " mm" + (m !== "dir" && R.length_mm > this.len + 0.05 ? ' <span class="warn">longer than the ' + this.len + " mm needle</span>" : "") + "</dd>" +
+    (R.aim ? "<dt>Direction</dt><dd>" + f1(R.aim.tilt) + "&deg; from perpendicular to the skin, leaning toward " + f1(R.aim.az) + "&deg;" +
+      ' <span class="ncl-status">(0&deg; = cranial, 90&deg; = the entry\'s right)</span></dd>' : "") +
     "<dt>Entry</dt><dd>" + xyz1(R.entry) + "</dd>" +
     "<dt>" + (m === "dir" ? "Tip" : "Target") + "</dt><dd>" + xyz1(R.target) + (this.target.onCut ? " (cut face)" : "") + "</dd>" +
     "<dt>Tip lands in</dt><dd>" + (R.tip_in.length ? esc(R.tip_in.join(" / ")) : '<span class="ncl-status">no visible structure (between structures, or the structure is hidden)</span>') + "</dd>" +
