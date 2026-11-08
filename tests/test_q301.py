@@ -191,9 +191,11 @@ def test_the_xray_style_uses_the_hounsfield_definition_and_nothing_else(tissue):
     mu = lambda k: 1 + C[k]["ct"]["hu"] / 1000
     assert mu("bone_cortical") > mu("muscle") > mu("fat") > mu("lung")
     assert mu("bone_cortical") / mu("fat") > 2.0            # the skeleton separates on its own in a DRR
-    # and the DRR is Beer-Lambert: alpha = 1 - exp(-mu d), so the product over crossings is exp(-sum mu d)
+    # and the DRR is Beer-Lambert: alpha = 1 - exp(-mu d), so the product over crossings is exp(-sum mu d).
+    # Q317: mu reaches it through xrMu(), the step's tissue window -- the real mu still feeds it, unaltered.
     r = (Q301 / "render.js").read_text(encoding="utf-8")
-    assert "1 - Math.exp(-T.mu(" in r
+    assert "1 - Math.exp(-xrMu(T.mu(" in r
+    assert "function xrMu(mu){" in r
     for eng, t in TEMPLATES.items():
         s = t.read_text(encoding="utf-8")
         if eng == "zan":
@@ -206,7 +208,11 @@ def test_the_xray_path_length_is_a_measured_choice_and_is_labelled_as_ours():
     """d0 is the one number in the X-ray that is not physics; it must be a measured choice, not a guess, and must say so"""
     r = (Q301 / "render.js").read_text(encoding="utf-8")
     assert "var D0 = [0.05, 0.10, 0.20];" in r
-    assert 'D0W = ["Soft", "Normal", "Hard"]' in r                 # three taps, not a slider
+    # Q317: d0 is no longer what the three taps choose -- it is the exposure, fixed per engine from that same
+    # measurement (baseD0, set from xrayStep below). The three taps choose the tissue window instead.
+    assert "baseD0 = Math.max(0, Math.min(D0.length - 1, opt.xrayStep | 0))" in r
+    assert "D0[baseD0] || D0[1]" in r
+    assert 'XW_W = ["Soft tissue", "Combined", "Bone"]' in r        # still three taps, not a slider
     low = r.lower()
     assert "chosen by measuring" in low and "convention" in low
     # and the two engines start at different steps, each with its reason beside its own call
@@ -215,6 +221,46 @@ def test_the_xray_path_length_is_a_measured_choice_and_is_labelled_as_ours():
         assert "xrayStep:" in g and "by measurement" in g.lower() or "measured" in g.lower(), eng
     assert "xrayStep:0" in GLUE["zan"].read_text(encoding="utf-8")   # 3,252 meshes: the same path length burns out
     assert "xrayStep:1" in GLUE["own"].read_text(encoding="utf-8")   # ~950 meshes: the contrast peaks here
+
+
+def test_the_xray_tissue_window_is_ours_and_actually_separates_the_tissues(tissue):
+    """Q317, owner: "there are films where you see only bone, others soft tissue, or a combination".
+
+    The window is the one thing here that is not physics, so it must say so -- and it must do the job: raw mu
+    separates cortical bone from muscle by only ~2x per shell, which is why every tissue read as one fog.
+    """
+    r = (Q301 / "render.js").read_text(encoding="utf-8")
+    m = re.search(r"var XW = \[(.+?)\];", r)
+    assert m, "the window table must be a literal, so this test reads the shipped numbers"
+    XW = [[float(x) for x in g.split(",")] for g in re.findall(r"\[([^\]]+)\]", m.group(1))]
+    assert len(XW) == 3 and all(len(w) == 3 for w in XW)
+    # labelled as ours, in the same breath as the real definition it sits on top of
+    low = r.lower()
+    assert "our display convention" in low and "not a measurement" in low
+
+    C = {c["key"]: c for c in tissue["classes"]}
+    mu = lambda k: max(0.02, 1 + C[k]["ct"]["hu"] / 1000)
+    win = lambda k, w: max(0.0, (mu(k) - w[0]) / (w[1] - w[0])) * w[2]
+    soft, comb, bone = XW
+
+    # Bone: the soft tissue is gone, and the trabecular bone is NOT (a bone film still shows it)
+    for k in ("fat", "muscle", "tendon_ligament", "cartilage", "nerve", "blood_artery"):
+        assert win(k, bone) == 0.0, k
+    assert win("bone_cancellous", bone) > 0.0
+    assert win("bone_cortical", bone) > win("bone_cancellous", bone) * 5
+
+    # Soft tissue: the soft tissues separate from each other, in the order their attenuation puts them
+    assert win("fat", soft) < win("muscle", soft) < win("tendon_ligament", soft) < win("cartilage", soft)
+    assert win("bone_cortical", soft) > win("cartilage", soft) * 3        # and bone burns out, as on such a film
+
+    # Combined: both, and far better separated than the raw mu the DRR used to take straight
+    alpha = lambda v, d0: min(0.995, max(0.004, 1 - math.exp(-v * d0)))
+    for d0 in (0.05, 0.10):                                              # both engines' exposures
+        raw = alpha(mu("bone_cortical"), d0) / alpha(mu("muscle"), d0)
+        got = alpha(win("bone_cortical", comb), d0) / alpha(win("muscle", comb), d0)
+        assert raw < 2.5, "if raw mu ever separates well on its own, this window is no longer needed"
+        assert got > raw * 2, (d0, raw, got)
+        assert alpha(win("muscle", comb), d0) > 0.02, "the soft tissue must still be visible in Combined"
 
 
 def test_the_grey_dominates_the_shading_in_ct_and_mri():

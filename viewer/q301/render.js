@@ -16,18 +16,30 @@
      .mode()  .set(mode)  .step()  .setStep(i)  .toColour()  .steps()  .spec()  .state() */
 var NMSKRenderStyle = (function(){
   "use strict";
-  var E = null, hist = null, T = null, box = null, on = false, mode = "colour", step = {xray:1, ct:0, mri:2}, btns = {}, stepRow = null, stepBtns = [];
+  var E = null, hist = null, T = null, box = null, on = false, mode = "colour", step = {xray:1, ct:0, mri:2}, btns = {}, stepRow = null, stepBtns = [], userContrast = 1.0, userBrightness = 1.0, userInvert = false, cbRow = null, cSl = null, bSl = null, invBtn = null, baseD0 = 1;
   /* The path length taken through each surface a ray crosses. THIS IS OUR CONVENTION, not a measurement: a surface
      atlas has no thickness along the ray. The three values were CHOSEN BY MEASURING the whole-body projection in a real
      browser (scripts/anatomy/q301/, and the table in docs/research/Q301_controls_and_render_styles.md 3.6): the
      picture's own contrast (the standard deviation of its luminance) peaks at 0.10 and the highlights start to burn out
      above 0.14, so 0.10 is Normal, 0.05 is a softer exposure and 0.20 a harder one for a thick region. */
   var D0 = [0.05, 0.10, 0.20];
+  /* Q317: the X-ray step chooses a TISSUE WINDOW on the attenuation, not the exposure (the exposure is baseD0, set per
+     engine from the measurement above). Each entry is [lo, hi, gain] in mu/mu_water: before the DRR takes a structure,
+     its mu becomes max(0, (mu - lo) / (hi - lo)) * gain, so a tissue under lo stops contributing and the picture keeps
+     only what the window admits -- which is what lets one film show only bone and another the soft tissue.
+     THE WINDOW IS OUR DISPLAY CONVENTION, not a measurement: mu itself stays the real attenuation the page's clinical
+     tissue reference gives (mu/mu_water = 1 + v/1000), and the window only decides what is drawn, the way a real film's
+     kV and filtration decide the tissue contrast it records. The gain is what gives the picture its tissue contrast:
+     mu spans only about 1.0 (fluid) to 2.3 (cortical bone), so a DRR taken straight off it separates bone from muscle by
+     just 2.1x per shell -- which is why every tissue used to read as one fog. Through Combined that separation is 7.2x.
+     Bone's lower bound sits between cancellous bone and cartilage, so a bone film keeps the trabecular bone and drops
+     the soft tissue to the shader's 0.004 floor. Checked at both engines' exposures (d0 = 0.05 and 0.10). */
+  var XW = [[0.88, 1.12, 2.2], [0.88, 2.30, 8.0], [1.13, 2.30, 18.0]];
+  var XW_W = ["Soft tissue", "Combined", "Bone"];
   /* How far the shading is flattened in the CT and MRI styles. The grey IS the datum there -- it comes from the tissue's
      own HU or its own spin-echo signal -- and multiplying it by a diffuse term would mean the picture no longer shows
      what the table says. 0.6 keeps 60 % of the grey untouched and leaves 40 % to the shading as a depth cue. */
   var FLATTEN = 0.6;
-  var D0W = ["Soft", "Normal", "Hard"];
   var MODES = [["colour", "Colour"], ["xray", "X-ray"], ["ct", "CT"], ["mri", "MRI"]];
   var CTW = ["msk", "soft", "bone"], CTW_W = ["MSK", "Soft", "Bone"];
   /* which three MR sequences, and their words: the private clinical layer names them (Q226 boundary -- this file may
@@ -41,17 +53,38 @@ var NMSKRenderStyle = (function(){
       return l.replace(/\s*\(fast\)\s*/i, " ").replace(/\s*spin echo\s*$/i, "").replace(/fat-suppressed/i, "fat-sat").trim() || q;
     });
   }
-  function stepsFor(m){ return m === "xray" ? D0W : m === "ct" ? CTW_W : m === "mri" ? mrWords() : []; }
+  function stepsFor(m){ return m === "xray" ? XW_W : m === "ct" ? CTW_W : m === "mri" ? mrWords() : []; }
+  function xrMu(mu){
+    var w = XW[step.xray] || XW[1];
+    return Math.max(0, (mu - w[0]) / (w[1] - w[0])) * w[2];
+  }
+  /* Q317: contrast / brightness / invert act on the FINISHED picture, through a filter on the 3-D canvas (q301.css).
+     They cannot be applied per structure: the X-ray is a DRR, so its grey is built by compositing many translucent
+     shells and no single shell's colour is the pixel. Q316 wrapped the per-structure alpha instead, which the DRR's
+     fragment shader never reads -- it computes the alpha itself from mu and d0 -- so the sliders did nothing in X-ray. */
+  function paintAdj(){
+    var s = document.documentElement.style;
+    if (mode === "colour"){ s.removeProperty("--q301-adj"); return; }
+    s.setProperty("--q301-adj", "contrast(" + userContrast.toFixed(2) + ") brightness(" + userBrightness.toFixed(2) + ")" + (userInvert ? " invert(1)" : ""));
+  }
+  function setAdj(c, b, inv){
+    userContrast = c; userBrightness = b; userInvert = !!inv;
+    if (cSl){ cSl.rg.value = c; cSl.nm.textContent = c.toFixed(2); }
+    if (bSl){ bSl.rg.value = b; bSl.nm.textContent = b.toFixed(2); }
+    if (invBtn){ invBtn.setAttribute("aria-pressed", String(userInvert)); invBtn.classList.toggle("on", userInvert); }
+    paintAdj();
+  }
   function cls(cat, id, name, vt){ return T ? T.classOf(cat, id, name, vt) : "soft_unassigned"; }
   function spec(){
     if (mode === "colour" || !T || !T.ready()) return {mode:"colour"};
     if (mode === "xray"){
-      var d0 = D0[step.xray] || D0[1];
+      var d0 = D0[baseD0] || D0[1];
       return {mode:"xray", flat:true, d0:d0,
         greyOf:function(){ return 1; },
-        /* mu/mu_water = 1 + v/1000 -- the definition of the CT attenuation unit, so nothing here is a choice of ours */
-        muOf:function(cat, id, name, vt){ return T.mu(cls(cat, id, name, vt)); },
-        alphaOf:function(cat, id, name, vt){ return Math.max(0.004, Math.min(0.995, 1 - Math.exp(-T.mu(cls(cat, id, name, vt)) * d0))); }};
+        /* mu/mu_water = 1 + v/1000 -- the definition of the CT attenuation unit, so nothing there is a choice of ours.
+           xrMu() then puts it through the step's tissue window, which IS ours (see XW). */
+        muOf:function(cat, id, name, vt){ return xrMu(T.mu(cls(cat, id, name, vt))); },
+        alphaOf:function(cat, id, name, vt){ return Math.max(0.004, Math.min(0.995, 1 - Math.exp(-xrMu(T.mu(cls(cat, id, name, vt))) * d0))); }};
     }
     if (mode === "ct"){
       var w = CTW[step.ct] || CTW[0];
@@ -67,6 +100,7 @@ var NMSKRenderStyle = (function(){
       alphaOf:null};
   }
   function push(){
+    paintAdj();
     if (!E || !E.apply) return;
     try { E.apply(spec()); } catch (e){ if (window.console) console.error("renderstyle", e); }
     if (E.film){ try { E.film(mode !== "colour"); } catch (e2){} }
@@ -113,6 +147,7 @@ var NMSKRenderStyle = (function(){
                       : "Waiting for this page's clinical tissue reference, which the styles are computed from";
       }
     });
+    if (cbRow) cbRow.hidden = mode === "colour";
     if (!stepRow) return;
     var w = stepsFor(mode);
     stepRow.hidden = !w.length;
@@ -122,7 +157,7 @@ var NMSKRenderStyle = (function(){
         b.textContent = w[i];
         var hot = step[mode] === i;
         b.setAttribute("aria-pressed", String(hot)); b.classList.toggle("on", hot);
-        b.title = mode === "xray" ? "How far the X-ray beam is taken to travel through each surface it crosses (our own scale, not a measurement): " + w[i]
+        b.title = mode === "xray" ? "Which tissues the film records, as a window on each tissue's own attenuation (the window itself is our convention): " + w[i]
                 : mode === "ct" ? "CT window " + w[i] : "MR sequence " + w[i];
       }
     });
@@ -134,7 +169,7 @@ var NMSKRenderStyle = (function(){
       E = eng || null; if (!E || typeof E.apply !== "function") return api;
       hist = opt.history || window.NMSKHistory || null;
       T = opt.tissue || window.NMSKTissue || null;
-      if (opt.xrayStep != null) step.xray = Math.max(0, Math.min(D0.length - 1, opt.xrayStep | 0));   /* set per engine, by measurement */
+      if (opt.xrayStep != null) baseD0 = Math.max(0, Math.min(D0.length - 1, opt.xrayStep | 0));   /* the exposure, per engine by measurement; the step is now the tissue window */
       box = document.createElement("div");
       box.id = "rs-box"; box.className = "rs-box";
       box.setAttribute("role", "group"); box.setAttribute("aria-label", "How the model itself is drawn");
@@ -160,11 +195,37 @@ var NMSKRenderStyle = (function(){
         stepRow.appendChild(sb); stepBtns.push(sb);
       }
       box.appendChild(stepRow);
+      /* Q317: contrast, brightness, a negative, and the way back to the style's own exposure. Hidden in Colour. */
+      cbRow = document.createElement("div"); cbRow.className = "rs-row rs-cb"; cbRow.hidden = true;
+      function mkSl(label, mn, mx, stp, val, fn){
+        var w = document.createElement("div"); w.className = "rs-sl";
+        var lb = document.createElement("span"); lb.className = "rs-l"; lb.textContent = label;
+        var rg = document.createElement("input"); rg.type = "range"; rg.min = mn; rg.max = mx; rg.step = stp; rg.value = val;
+        var nm = document.createElement("span"); nm.className = "rs-v"; nm.textContent = (+val).toFixed(2);
+        rg.addEventListener("input", function(){ nm.textContent = (+rg.value).toFixed(2); fn(+rg.value); paintAdj(); if (hist && hist.schedule) hist.schedule(); });
+        w.appendChild(lb); w.appendChild(rg); w.appendChild(nm);
+        return {w:w, rg:rg, nm:nm};
+      }
+      cSl = mkSl("Contrast", 0.4, 2.5, 0.05, 1.0, function(v){ userContrast = v; });
+      bSl = mkSl("Brightness", 0.4, 2.0, 0.05, 1.0, function(v){ userBrightness = v; });
+      cbRow.appendChild(cSl.w); cbRow.appendChild(bSl.w);
+      invBtn = document.createElement("button");
+      invBtn.type = "button"; invBtn.className = "rs-s q301-b"; invBtn.id = "rs-invert"; invBtn.textContent = "Invert";
+      invBtn.title = "Show the picture as a negative, the whole view at once, the way a film is read";
+      invBtn.setAttribute("aria-pressed", "false");
+      invBtn.addEventListener("click", function(e){ e.stopPropagation(); setAdj(userContrast, userBrightness, !userInvert); if (hist && hist.schedule) hist.schedule(); });
+      cbRow.appendChild(invBtn);
+      var rsb = document.createElement("button");
+      rsb.type = "button"; rsb.className = "rs-s q301-b"; rsb.id = "rs-reset"; rsb.textContent = "Reset";
+      rsb.title = "Back to this style's own exposure: contrast and brightness neutral, the negative off";
+      rsb.addEventListener("click", function(e){ e.stopPropagation(); api.resetAdj(); });
+      cbRow.appendChild(rsb);
+      box.appendChild(cbRow);
       if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);
       if (hist && hist.register){
-        hist.register("renderstyle", {get:function(){ return {m:mode, s:JSON.parse(JSON.stringify(step))}; },
-          set:function(v){ if (!v) return; step = v.s || step; set(v.m || "colour", true); setStep(step[mode] == null ? 1 : step[mode], true); },
-          reset:function(){ api.toColour(true); }});
+        hist.register("renderstyle", {get:function(){ return {m:mode, s:JSON.parse(JSON.stringify(step)), c:userContrast, b:userBrightness, i:userInvert}; },
+          set:function(v){ if (!v) return; step = v.s || step; setAdj(v.c != null ? v.c : 1.0, v.b != null ? v.b : 1.0, !!v.i); set(v.m || "colour", true); setStep(step[mode] == null ? 1 : step[mode], true); },
+          reset:function(){ setAdj(1.0, 1.0, false); api.toColour(true); }});
       }
       if (opt.showall && opt.showall.add) opt.showall.add(api.source());
       on = true; ui();
@@ -182,7 +243,14 @@ var NMSKRenderStyle = (function(){
     toColour:function(quiet){ return set("colour", quiet); },
     spec:spec, refresh:ui, words:function(){ return MODES.map(function(x){ return x[1]; }); },
     label:function(){ return mode === "colour" ? "" : wordFor(mode) + " / " + (stepsFor(mode)[step[mode]] || ""); },
-    state:function(){ return {on:on, mode:mode, step:step[mode] == null ? 0 : step[mode], stepWord:stepsFor(mode)[step[mode]] || null, tissue:!!(T && T.ready())}; }
+    /* Q317: back to the style's own exposure -- neutral contrast and brightness, no negative, and the mode's default step */
+    resetAdj:function(){
+      setAdj(1.0, 1.0, false);
+      if (mode !== "colour") setStep(mode === "xray" ? 1 : mode === "ct" ? 0 : 2, false);
+      if (hist && hist.schedule) hist.schedule();
+      return api;
+    },
+    state:function(){ return {on:on, mode:mode, step:step[mode] == null ? 0 : step[mode], stepWord:stepsFor(mode)[step[mode]] || null, tissue:!!(T && T.ready()), contrast:userContrast, brightness:userBrightness, invert:userInvert}; }
   };
   return api;
 })();

@@ -57,6 +57,13 @@
 .rs-box,.pl-box{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
 .rs-row{display:flex;flex-wrap:wrap;gap:3px;width:100%}
 .rs-steps{opacity:.95}
+.rs-cb{gap:6px;padding:4px 0 2px}
+.rs-sl{display:flex;align-items:center;gap:4px;width:100%}
+.rs-sl .rs-l{font-size:11px;opacity:.75;min-width:56px}
+.rs-sl input[type="range"]{flex:1 1 auto;height:4px;accent-color:#2E89AC}
+.rs-sl .rs-v{font-size:11px;opacity:.85;min-width:30px;text-align:right}
+.qg-shead{cursor:grab}.qg-shead:active{cursor:grabbing}
+.pz-head{cursor:grab}.pz-head:active{cursor:grabbing}
 .pl-l,.rs-box .rs-l{font-size:11px;opacity:.75;min-width:38px}
 .pl-o{flex:1 1 100%;font-size:11px;opacity:.85;padding:1px 0}
 .pl-all{border-color:#D9A227 !important}
@@ -104,6 +111,10 @@ body.mode-on .qg-bar,body.mode-on .qg-sheet,body.mode-on .qi-wrap,body.mode-on .
    body would never reach it. */
 :root.q301-film{--ground:#05070A;--bg:#05070A}
 :root.q301-film #view,:root.q301-film #stage,:root.q301-film canvas{background:#05070A}
+/* Q317: contrast / brightness / invert for the radiographic styles. A DRR's grey is the composite of many translucent
+   shells, so the adjustment can only be made once the picture exists -- here, on the 3-D canvas itself. Scoped to the
+   model's own canvas, so an image pane docked beside it is left alone. */
+:root.q301-film #view,:root.q301-film #stage>canvas{filter:var(--q301-adj,none)}
 @media (max-width:460px){
   .qg-bar{padding:3px;gap:2px}
   .qg-g{min-width:52px;padding:3px 5px;font-size:11px}

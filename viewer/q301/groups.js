@@ -60,6 +60,7 @@ var NMSKGroups = (function(){
     if (cur === key){ closeSheet(); return false; }
     cur = key;
     stash();
+    sheetDragged = false;
     sheet.hidden = false;
     sTitle.textContent = g.label;
     (g.members || []).forEach(function(m){
@@ -132,6 +133,29 @@ var NMSKGroups = (function(){
       m._why.textContent = (v.disabled ? "⊘ " : v.overridden ? "⇣ " : "+ ") + v.reason;
     });
   }
+  /* Q316: the group sheet can be dragged by its head. Left alone on a narrow screen, where it is a bottom sheet and
+     place() owns its rectangle, and never started from a control inside the head. */
+  var sheetDragged = false;
+  function initDrag(elm, handle){
+    var sx = 0, sy = 0, ox = 0, oy = 0, dragging = false;
+    handle.addEventListener("pointerdown", function(e){
+      if (window.innerWidth <= 460) return;
+      if (e.target.closest && e.target.closest("button,input,select,label,a")) return;
+      dragging = true; sx = e.clientX; sy = e.clientY;
+      var r = elm.getBoundingClientRect(); ox = r.left; oy = r.top;
+      try { handle.setPointerCapture(e.pointerId); } catch (err){}
+      e.preventDefault();
+    });
+    handle.addEventListener("pointermove", function(e){
+      if (!dragging) return;
+      var nx = Math.max(0, Math.min(window.innerWidth - 40, ox + e.clientX - sx));
+      var ny = Math.max(0, Math.min(window.innerHeight - 40, oy + e.clientY - sy));
+      elm.style.left = nx + "px"; elm.style.top = ny + "px"; elm.style.right = "auto"; elm.style.bottom = "auto";
+      if (elm === sheet) sheetDragged = true;
+    });
+    function end(){ dragging = false; }
+    handle.addEventListener("pointerup", end); handle.addEventListener("pointercancel", end);
+  }
   function place(){
     if (!anchor || !anchor.getBoundingClientRect || !bar) return;
     var r = anchor.getBoundingClientRect();
@@ -142,10 +166,12 @@ var NMSKGroups = (function(){
     bar.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 6)) + "px";
     var open = 0;
     if (sheet && !sheet.hidden){
-      sheet.style.width = w + "px";
-      sheet.style.left = bar.style.left;
-      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.45)) + "px";
-      sheet.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 10 - sheet.offsetHeight)) + "px";
+      if (!sheetDragged){
+        sheet.style.width = w + "px";
+        sheet.style.left = bar.style.left;
+        sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.45)) + "px";
+        sheet.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 10 - sheet.offsetHeight)) + "px";
+      }
       open = (sheet.offsetHeight || 0) + 6;
     }
     /* Q300's chip bar and Q294's notice share this corner and sit above us in the stack: tell the stylesheet how far
@@ -211,6 +237,7 @@ var NMSKGroups = (function(){
       sHead.appendChild(sx); sheet.appendChild(sHead);
       sBody = el("div", "qg-sbody"); sheet.appendChild(sBody);
       document.body.appendChild(sheet);
+      initDrag(sheet, sHead);
       /* the control itself: the SAME undo / redo / module-reset the rest of the page uses, mounted here with words */
       if (hist && hist.mountInto) hist.mountInto(hRow, "qg-h", "q301-");
       if (opt.modelreset && opt.modelreset.mountInto) opt.modelreset.mountInto(hRow, "qg-h", "q301-");

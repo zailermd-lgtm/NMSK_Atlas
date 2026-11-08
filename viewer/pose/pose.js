@@ -194,6 +194,27 @@ var NMSKPoseCore = (function(){
   return {decodeSkin:decodeSkin, rotM:rotM, mul3:mul3, tr3:tr3, mv3:mv3, prepare:prepare, jointR:jointR, elevation:elevation, defaultPose:defaultPose, anatomicalPose:anatomicalPose, fk:fk, sameM:sameM, rigid:rigid, skin:skin, clamp:clamp};
 })();
 
+/* Q316, owner: "RENDER and other panels should be movable on screen too". Left alone on a narrow screen, where the
+   panel is a full-width sheet the stylesheet owns, and never started from a control inside the head. */
+function nmskDrag(elm, handle){
+  var sx = 0, sy = 0, ox = 0, oy = 0, dragging = false;
+  handle.addEventListener("pointerdown", function(e){
+    if (window.innerWidth <= 460) return;
+    if (e.target.closest && e.target.closest("button,input,select,label,a")) return;
+    dragging = true; sx = e.clientX; sy = e.clientY;
+    var r = elm.getBoundingClientRect(); ox = r.left; oy = r.top;
+    try { handle.setPointerCapture(e.pointerId); } catch (err){}
+    e.preventDefault();
+  });
+  handle.addEventListener("pointermove", function(e){
+    if (!dragging) return;
+    var nx = Math.max(0, Math.min(window.innerWidth - 40, ox + e.clientX - sx));
+    var ny = Math.max(0, Math.min(window.innerHeight - 40, oy + e.clientY - sy));
+    elm.style.left = nx + "px"; elm.style.top = ny + "px"; elm.style.right = "auto"; elm.style.bottom = "auto";
+  });
+  function end(){ dragging = false; }
+  handle.addEventListener("pointerup", end); handle.addEventListener("pointercancel", end);
+}
 function NMSKPose(E){
   "use strict";
   var C = NMSKPoseCore, $ = function(id){ return document.getElementById(id); };
@@ -470,6 +491,7 @@ function NMSKPose(E){
       btn.addEventListener("click", function(){ open(); });
     }
     var x = $("pz-close"); if (x) x.addEventListener("click", function(){ open(false); });
+    var ph = panel && panel.querySelector(".pz-head"); if (ph && window.nmskDrag) nmskDrag(panel, ph);
     var bo = $("pose-banner-reset"); if (bo) bo.addEventListener("click", reset);
     var bp = $("pose-banner-open"); if (bp) bp.addEventListener("click", function(){ open(true); });
   }
