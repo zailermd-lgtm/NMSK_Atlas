@@ -732,7 +732,7 @@
       computeFrame(spec, contQuality(), frames[S.sel]).then(function (fr) {
         contState.busy = false; if (!contState.active) return;
         contState.measMs = Date.now() - t0; contState.fpsActual = Math.round((1000 / Math.max(1, contState.measMs)) * 10) / 10;
-        frames[S.sel] = fr; paintView(S.sel, fr); if (S.mode === "star" && !S.motion) drawSchematic(); overlayPaced(); updateContReadout();
+        frames[S.sel] = fr; paintView(S.sel, fr); if (S.mode === "star" && !S.motion) drawSchematic(); overlayPaced(); updateContReadout(); syncFsBar();
         if (S.motion) { drawArrow(fr); if (!more) { motionDone(); return; } }
         contState.raf = reqFrame(contTick);
       }, function (err) { contState.busy = false; console.error("continuous cine:", err); contState.raf = reqFrame(contTick); });
@@ -993,7 +993,7 @@
     function motionDone() {                                                  // a one-way / one back-and-forth run finished: keep its last frame on screen
       if (mPath) mPath.done = true;
       contState.active = false; if (contState.raf) { cancelFrame(contState.raf); contState.raf = 0; }
-      S.cine = false; updateOverlay(); updateContReadout(); syncUi(); setStatus("CINE run finished (" + (S.mBack ? "back and forth" : "one way") + ").");
+      S.cine = false; updateOverlay(); updateContReadout(); syncUi(); syncFsBar(); setStatus("CINE run finished (" + (S.mBack ? "back and forth" : "one way") + ").");
       if (modeRefresh) modeRefresh();
     }
     function ensureMotion() {                                                // (re)build the path when the probe / settings changed, then (re)start the run
@@ -1065,7 +1065,7 @@
     /* ---------- Q289: the clean split full-screen CINE view: 3-D of the part | the live image (+ direction arrow, tiny watermark),
      * nothing else on screen. Exit: the small ✕ or Esc. The one secondary sheet (motion type, playback, speed, plane, window) opens
      * only from the small ⋯ handle. Inside the US workspace mode the mode's own docking does the placing; elsewhere a minimal copy. */
-    var fs = {on: false, el: null, s3d: null, sUs: null, docks: [], cam: null, orbit: 0}, modeCtx = null, modeRedock = null, modeRefresh = null, FS_Z = 2147482000;
+    var fs = {on: false, el: null, s3d: null, sUs: null, bar: null, play: null, prog: null, time: null, docks: [], cam: null, orbit: 0}, modeCtx = null, modeRedock = null, modeRefresh = null, FS_Z = 2147482000;
     function fsOn() { return fs.on; }
     function fsLayout() { return window.innerWidth >= window.innerHeight ? "row" : "col"; }   // phone portrait: 3-D above, image below; landscape / desktop: side by side
     function fsPlace(d) {
@@ -1086,17 +1086,63 @@
     function fsRelayout() { if (!fs.on) return; fs.el.setAttribute("data-lay", fsLayout()); if (!modeCtx) fs.docks.forEach(fsPlace); fireResize(); relayoutViews(); frameFs(); }
     var fsIdleT = 0;
     function fsWake() { if (!fs.on) return; document.body.classList.remove("fs-idle"); clearTimeout(fsIdleT); fsIdleT = setTimeout(function () { if (fs.on && fs.sheet.hidden) document.body.classList.add("fs-idle"); }, 2600); }
+    function syncFsBar() {
+      if (!fs.bar) return;
+      var playing = !!(S.cine && contState.active);
+      fs.play.textContent = playing ? "⏸" : "▶";
+      fs.play.setAttribute("aria-label", playing ? "השהיה" : "נגן");
+      if (mPath) {
+        fs.prog.max = String(Math.round(mPath.total));
+        fs.prog.value = String(Math.round(contState.pos));
+        var u = mPath.unit === "deg" ? "°" : " mm";
+        fs.time.textContent = Math.round(contState.pos) + u + " / " + Math.round(mPath.total) + u;
+      } else {
+        var half = contRangeMm(), lo = -half, hi = half;
+        fs.prog.min = String(Math.round(lo)); fs.prog.max = String(Math.round(hi));
+        fs.prog.value = String(Math.round(contState.pos));
+        fs.time.textContent = (contState.pos >= 0 ? "+" : "") + Math.round(contState.pos * 10) / 10 + " mm";
+      }
+    }
+    var fsScrubWas = false;
+    function fsScrub(val) {
+      var pos = +val;
+      if (S.motion && mPath) {
+        contState.pos = Math.max(0, Math.min(mPath.total, pos));
+        var spec = motionSpec(contState.pos);
+        computeFrame(spec, contQuality(), frames[S.sel]).then(function (fr) {
+          frames[S.sel] = fr; paintView(S.sel, fr); overlayPaced(); drawArrow(fr);
+        });
+      } else if (S.mode === "star") {
+        contState.pos = ((pos % 360) + 360) % 360;
+      } else {
+        contState.pos = pos;
+      }
+      syncFsBar();
+    }
     function buildFs() {
       if (fs.el) return;
       fs.s3d = el("div", {class: "fs-3d"}); fs.sUs = el("div", {class: "fs-us"});
       fs.x = el("button", {type: "button", class: "fs-x", "aria-label": "יציאה ממסך מלא (Esc)", title: "יציאה (Esc)", text: "✕", onclick: function () { setFs(false); }});
       fs.more = el("button", {type: "button", class: "fs-more", "aria-label": "אפשרויות", "aria-expanded": "false", title: "אפשרויות: סוג תנועה, השמעה, מהירות, טווח", text: "⋯", onclick: function () { fs.sheet.hidden = !fs.sheet.hidden; fs.more.setAttribute("aria-expanded", String(!fs.sheet.hidden)); fsWake(); }});
       fs.sheet = el("div", {class: "fs-sheet", hidden: true}, [freqStepper({he: true, label: "תדר", where: "fs"}), motionSheet({open: true, inFs: true})]);   // Q291: the frequency too, from the one ⋯ sheet
+      fs.play = el("button", {type: "button", class: "fs-play", "aria-label": "נגן", text: "▶", onclick: function () { if (S.cine) setCine(false); else { S.cineMode = "continuous"; setCine(true); } syncFsBar(); fsWake(); }});
+      fs.prog = el("input", {type: "range", class: "fs-prog", min: "0", max: "100", value: "0", step: "1", "aria-label": "מיקום בסריקה"});
+      fs.prog.addEventListener("pointerdown", function () { fsScrubWas = S.cine; if (S.cine) setCine(false); });
+      fs.prog.addEventListener("input", function () { fsScrub(fs.prog.value); fsWake(); });
+      fs.prog.addEventListener("pointerup", function () { if (fsScrubWas) { S.cineMode = "continuous"; setCine(true); } syncFsBar(); });
+      fs.prog.addEventListener("click", function (e) { e.stopPropagation(); });
+      fs.time = el("span", {class: "fs-time", text: "0 / 0"});
+      var fsEsc = el("button", {type: "button", class: "fs-esc", "aria-label": "יציאה (Esc)", title: "יציאה ממסך מלא", text: "✕", onclick: function () { setFs(false); }});
+      fs.bar = el("div", {class: "fs-bar"}, [fs.play, fs.prog, fs.time, fsEsc]);
       fs.el = el("div", {id: "us-cinefs", role: "dialog", "aria-label": "CINE מסך מלא", "data-lay": fsLayout()}, [fs.s3d, fs.sUs]);
       ["pointermove", "pointerdown", "keydown"].forEach(function (ev) { document.addEventListener(ev, fsWake, true); });
-      [fs.el, fs.x, fs.more, fs.sheet].forEach(function (x) { document.body.appendChild(x); });   // the buttons sit above the docked halves, so outside the backdrop's stacking context
+      [fs.el, fs.x, fs.more, fs.sheet, fs.bar].forEach(function (x) { document.body.appendChild(x); });
       window.addEventListener("resize", function () { if (fs.on && !firing) fsRelayout(); });
-      document.addEventListener("keydown", function (e) { if (fs.on && (e.key === "Escape" || e.key === "Esc")) { e.preventDefault(); setFs(false); } });
+      document.addEventListener("keydown", function (e) {
+        if (!fs.on) return;
+        if (e.key === "Escape" || e.key === "Esc") { e.preventDefault(); setFs(false); }
+        else if (e.key === " " || e.key === "Spacebar") { e.preventDefault(); if (S.cine) setCine(false); else { S.cineMode = "continuous"; setCine(true); } syncFsBar(); fsWake(); }
+      });
     }
     /* frame the 3-D half on the part's window (its whole length, or the set window around the probe), looking from the probe's side */
     function frameFs() {
@@ -1170,6 +1216,7 @@
         var f = q("[data-fs]"); if (f) f.setAttribute("aria-pressed", String(fs.on));
       });
       if (ui.arrowBox && !S.motion) ui.arrowBox.hidden = true;
+      syncFsBar();
     }
     function toastAll(msg) { if (modeToast) modeToast(msg); else setStatus(msg); }
     var modeToast = null;
@@ -2001,11 +2048,12 @@
       "#us-cinefs[data-lay=col]{flex-direction:column}",
       "#us-cinefs .fs-3d,#us-cinefs .fs-us{flex:1 1 50%;min-width:0;min-height:0}",
       "#us-cinefs .fs-3d{background:#0b0f14}",
-      ".fs-x,.fs-more{display:none;position:fixed;z-index:2147482003;top:calc(8px + env(safe-area-inset-top,0px));width:40px;height:40px;border-radius:999px;border:1px solid rgba(255,255,255,.28);background:rgba(10,14,20,.6);color:#fff;font:600 18px system-ui,sans-serif;cursor:pointer;transition:opacity .45s;align-items:center;justify-content:center;padding:0}",
-      ".fs-x{left:8px}.fs-more{left:56px}",
-      "body.us-fs .fs-x,body.us-fs .fs-more{display:flex}",
-      "body.us-fs.fs-idle .fs-x,body.us-fs.fs-idle .fs-more{opacity:.22}",
-      ".fs-sheet{display:none;position:fixed;z-index:2147482003;left:8px;top:calc(56px + env(safe-area-inset-top,0px));width:min(430px,calc(100vw - 16px));max-height:70vh;overflow:auto;background:rgba(14,19,26,.96);border:1px solid #2a3646;border-radius:12px;padding:10px;color:#e6edf5}",
+      ".fs-x,.fs-more{display:none;position:fixed;z-index:2147482003;top:calc(8px + env(safe-area-inset-top,0px));width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(10,14,20,.45);color:#fff;font:600 16px system-ui,sans-serif;cursor:pointer;transition:opacity .45s;align-items:center;justify-content:center;padding:0}",
+      ".fs-x{left:8px;display:none!important}",
+      ".fs-more{left:8px}",
+      "body.us-fs .fs-more{display:flex}",
+      "body.us-fs.fs-idle .fs-more{opacity:0}",
+      ".fs-sheet{display:none;position:fixed;z-index:2147482003;left:8px;top:calc(50px + env(safe-area-inset-top,0px));width:min(430px,calc(100vw - 16px));max-height:60vh;overflow:auto;background:rgba(14,19,26,.96);border:1px solid #2a3646;border-radius:12px;padding:10px;color:#e6edf5}",
       "body.us-fs .fs-sheet:not([hidden]){display:block}",
       ".fs-sheet button{background:#161d27;border:1px solid #2a3646;color:#e6edf5;cursor:pointer}",
       ".fs-sheet button[aria-pressed=true]{background:#1f3b5c;border-color:#6cb4ff;color:#fff}",
@@ -2017,7 +2065,15 @@
       "body.us-fs #us-root .us-schem{display:none!important}",
       "body.us-fs #app>header,body.us-fs #app>aside,body.us-fs #inspector,body.us-fs .mob-bar,body.us-fs #tools,body.us-fs #hover,body.us-fs #frame-note,body.us-fs #axes,body.us-fs #scalebar,body.us-fs #brand,body.us-fs #topright,body.us-fs #rail,body.us-fs #info,body.us-fs #foot,body.us-fs #modal,body.us-fs #cut-panel,body.us-fs #lab-layer,body.us-fs #lab-panel,body.us-fs #pm-panel,body.us-fs #ng-panel,body.us-fs #pose-panel,body.us-fs #pose-banner,body.us-fs #sym-banner,body.us-fs #sym-panel,body.us-fs #nmsk-clinical-bar,body.us-fs #nmsk-clinical-toast,body.us-fs #us-tab3d{display:none!important}",
       "body.us-fs #app{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;min-height:0!important}",
-      "body.us-fs #app>#stage{grid-column:1!important;grid-row:1!important}"
+      "body.us-fs #app>#stage{grid-column:1!important;grid-row:1!important}",
+      ".fs-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:2147482002;align-items:center;gap:10px;padding:8px 16px calc(8px + env(safe-area-inset-bottom,0px)) 16px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;font:500 13px Heebo,system-ui,sans-serif;direction:ltr;transition:opacity .45s}",
+      "body.us-fs .fs-bar{display:flex}",
+      "body.us-fs.fs-idle .fs-bar{opacity:.22}",
+      ".fs-bar .fs-play{width:36px;height:36px;border-radius:50%;border:none;background:#2979ff;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex:0 0 auto;line-height:1;transition:background .15s}",
+      ".fs-bar .fs-play:hover{background:#448aff}",
+      ".fs-bar .fs-prog{flex:1 1 auto;height:4px;min-width:80px;accent-color:#2979ff;cursor:pointer}",
+      ".fs-bar .fs-time{font-variant-numeric:tabular-nums;white-space:nowrap;min-width:70px;text-align:right;font-size:12px;opacity:.9}",
+      ".fs-bar .fs-esc{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.4);color:#fff;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex:0 0 auto}"
     ].join("\n");
     function el(tag, attrs, kids) {
       var e = document.createElement(tag);
