@@ -2655,6 +2655,13 @@ var NMSKBoneRead = (function(){
 .rs-box,.pl-box{display:flex;flex-wrap:wrap;gap:4px;align-items:center;width:100%}
 .rs-row{display:flex;flex-wrap:wrap;gap:3px;width:100%}
 .rs-steps{opacity:.95}
+.rs-cb{gap:6px;padding:4px 0 2px}
+.rs-sl{display:flex;align-items:center;gap:4px;width:100%}
+.rs-sl .rs-l{font-size:11px;opacity:.75;min-width:56px}
+.rs-sl input[type="range"]{flex:1 1 auto;height:4px;accent-color:#2E89AC}
+.rs-sl .rs-v{font-size:11px;opacity:.85;min-width:30px;text-align:right}
+.qg-shead{cursor:grab}.qg-shead:active{cursor:grabbing}
+.pz-head{cursor:grab}.pz-head:active{cursor:grabbing}
 .pl-l,.rs-box .rs-l{font-size:11px;opacity:.75;min-width:38px}
 .pl-o{flex:1 1 100%;font-size:11px;opacity:.85;padding:1px 0}
 .pl-all{border-color:#D9A227 !important}
@@ -3055,7 +3062,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKInfo;
      .mode()  .set(mode)  .step()  .setStep(i)  .toColour()  .steps()  .spec()  .state() */
 var NMSKRenderStyle = (function(){
   "use strict";
-  var E = null, hist = null, T = null, box = null, on = false, mode = "colour", step = {xray:1, ct:0, mri:2}, btns = {}, stepRow = null, stepBtns = [];
+  var E = null, hist = null, T = null, box = null, on = false, mode = "colour", step = {xray:1, ct:0, mri:2}, btns = {}, stepRow = null, stepBtns = [], userContrast = 1.0, userBrightness = 0.0, cbRow = null, cSl = null, bSl = null;
   /* The path length taken through each surface a ray crosses. THIS IS OUR CONVENTION, not a measurement: a surface
      atlas has no thickness along the ray. The three values were CHOSEN BY MEASURING the whole-body projection in a real
      browser (scripts/anatomy/q301/, and the table in docs/research/Q301_controls_and_render_styles.md 3.6): the
@@ -3082,6 +3089,11 @@ var NMSKRenderStyle = (function(){
   }
   function stepsFor(m){ return m === "xray" ? D0W : m === "ct" ? CTW_W : m === "mri" ? mrWords() : []; }
   function cls(cat, id, name, vt){ return T ? T.classOf(cat, id, name, vt) : "soft_unassigned"; }
+  function adjGrey(fn){
+    if (userContrast === 1.0 && userBrightness === 0.0) return fn;
+    var c = userContrast, b = userBrightness;
+    return function(cat, id, name, vt){ return Math.max(0, Math.min(1, c * (fn(cat, id, name, vt) - 0.5) + 0.5 + b)); };
+  }
   function spec(){
     if (mode === "colour" || !T || !T.ready()) return {mode:"colour"};
     if (mode === "xray"){
@@ -3090,19 +3102,19 @@ var NMSKRenderStyle = (function(){
         greyOf:function(){ return 1; },
         /* mu/mu_water = 1 + v/1000 -- the definition of the CT attenuation unit, so nothing here is a choice of ours */
         muOf:function(cat, id, name, vt){ return T.mu(cls(cat, id, name, vt)); },
-        alphaOf:function(cat, id, name, vt){ return Math.max(0.004, Math.min(0.995, 1 - Math.exp(-T.mu(cls(cat, id, name, vt)) * d0))); }};
+        alphaOf:adjGrey(function(cat, id, name, vt){ return Math.max(0.004, Math.min(0.995, 1 - Math.exp(-T.mu(cls(cat, id, name, vt)) * d0))); })};
     }
     if (mode === "ct"){
       var w = CTW[step.ct] || CTW[0];
       return {mode:"ct", flat:false, window:w, flatten:FLATTEN,
-        greyOf:function(cat, id, name, vt){ return T.ctGrey(cls(cat, id, name, vt), w); },
+        greyOf:adjGrey(function(cat, id, name, vt){ return T.ctGrey(cls(cat, id, name, vt), w); }),
         alphaOf:null};
     }
     var MK = mrKeys(), sq = MK[step.mri] || MK[0], mx = 0;
     T.keys().forEach(function(k){ var v = T.mrGrey(k, sq); if (v > mx) mx = v; });
     mx = mx > 0 ? mx : 1;
     return {mode:"mri", flat:false, sequence:sq, flatten:FLATTEN,
-      greyOf:function(cat, id, name, vt){ return Math.max(0, Math.min(1, T.mrGrey(cls(cat, id, name, vt), sq) / mx)); },
+      greyOf:adjGrey(function(cat, id, name, vt){ return Math.max(0, Math.min(1, T.mrGrey(cls(cat, id, name, vt), sq) / mx)); }),
       alphaOf:null};
   }
   function push(){
@@ -3152,6 +3164,7 @@ var NMSKRenderStyle = (function(){
                       : "Waiting for this page's clinical tissue reference, which the styles are computed from";
       }
     });
+    if (cbRow) cbRow.hidden = mode === "colour";
     if (!stepRow) return;
     var w = stepsFor(mode);
     stepRow.hidden = !w.length;
@@ -3199,11 +3212,25 @@ var NMSKRenderStyle = (function(){
         stepRow.appendChild(sb); stepBtns.push(sb);
       }
       box.appendChild(stepRow);
+      cbRow = document.createElement("div"); cbRow.className = "rs-row rs-cb"; cbRow.hidden = true;
+      function mkSl(label, mn, mx, stp, val, fn){
+        var w = document.createElement("div"); w.className = "rs-sl";
+        var lb = document.createElement("span"); lb.className = "rs-l"; lb.textContent = label;
+        var rg = document.createElement("input"); rg.type = "range"; rg.min = mn; rg.max = mx; rg.step = stp; rg.value = val;
+        var nm = document.createElement("span"); nm.className = "rs-v"; nm.textContent = (+val).toFixed(2);
+        rg.addEventListener("input", function(){ nm.textContent = (+rg.value).toFixed(2); fn(+rg.value); push(); if (hist && hist.schedule) hist.schedule(); });
+        w.appendChild(lb); w.appendChild(rg); w.appendChild(nm);
+        return {w:w, rg:rg, nm:nm};
+      }
+      cSl = mkSl("Contrast", 0.5, 2.0, 0.05, 1.0, function(v){ userContrast = v; });
+      bSl = mkSl("Brightness", -0.5, 0.5, 0.05, 0.0, function(v){ userBrightness = v; });
+      cbRow.appendChild(cSl.w); cbRow.appendChild(bSl.w);
+      box.appendChild(cbRow);
       if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);
       if (hist && hist.register){
-        hist.register("renderstyle", {get:function(){ return {m:mode, s:JSON.parse(JSON.stringify(step))}; },
-          set:function(v){ if (!v) return; step = v.s || step; set(v.m || "colour", true); setStep(step[mode] == null ? 1 : step[mode], true); },
-          reset:function(){ api.toColour(true); }});
+        hist.register("renderstyle", {get:function(){ return {m:mode, s:JSON.parse(JSON.stringify(step)), c:userContrast, b:userBrightness}; },
+          set:function(v){ if (!v) return; step = v.s || step; userContrast = v.c != null ? v.c : 1.0; userBrightness = v.b != null ? v.b : 0.0; if (cSl){ cSl.rg.value = userContrast; cSl.nm.textContent = userContrast.toFixed(2); } if (bSl){ bSl.rg.value = userBrightness; bSl.nm.textContent = userBrightness.toFixed(2); } set(v.m || "colour", true); setStep(step[mode] == null ? 1 : step[mode], true); },
+          reset:function(){ userContrast = 1.0; userBrightness = 0.0; if (cSl){ cSl.rg.value = 1.0; cSl.nm.textContent = "1.00"; } if (bSl){ bSl.rg.value = 0.0; bSl.nm.textContent = "0.00"; } api.toColour(true); }});
       }
       if (opt.showall && opt.showall.add) opt.showall.add(api.source());
       on = true; ui();
@@ -3221,7 +3248,7 @@ var NMSKRenderStyle = (function(){
     toColour:function(quiet){ return set("colour", quiet); },
     spec:spec, refresh:ui, words:function(){ return MODES.map(function(x){ return x[1]; }); },
     label:function(){ return mode === "colour" ? "" : wordFor(mode) + " / " + (stepsFor(mode)[step[mode]] || ""); },
-    state:function(){ return {on:on, mode:mode, step:step[mode] == null ? 0 : step[mode], stepWord:stepsFor(mode)[step[mode]] || null, tissue:!!(T && T.ready())}; }
+    state:function(){ return {on:on, mode:mode, step:step[mode] == null ? 0 : step[mode], stepWord:stepsFor(mode)[step[mode]] || null, tissue:!!(T && T.ready()), contrast:userContrast, brightness:userBrightness}; }
   };
   return api;
 })();
@@ -3507,6 +3534,7 @@ var NMSKGroups = (function(){
     if (cur === key){ closeSheet(); return false; }
     cur = key;
     stash();
+    sheetDragged = false;
     sheet.hidden = false;
     sTitle.textContent = g.label;
     (g.members || []).forEach(function(m){
@@ -3579,6 +3607,27 @@ var NMSKGroups = (function(){
       m._why.textContent = (v.disabled ? "⊘ " : v.overridden ? "⇣ " : "+ ") + v.reason;
     });
   }
+  var sheetDragged = false;
+  function initDrag(elm, handle){
+    var sx = 0, sy = 0, ox = 0, oy = 0, dragging = false;
+    handle.addEventListener("pointerdown", function(e){
+      if (window.innerWidth <= 460) return;
+      if (e.target.closest && e.target.closest("button,input,select,label,a")) return;
+      dragging = true; sx = e.clientX; sy = e.clientY;
+      var r = elm.getBoundingClientRect(); ox = r.left; oy = r.top;
+      try { handle.setPointerCapture(e.pointerId); } catch (err){}
+      e.preventDefault();
+    });
+    handle.addEventListener("pointermove", function(e){
+      if (!dragging) return;
+      var nx = Math.max(0, Math.min(window.innerWidth - 40, ox + e.clientX - sx));
+      var ny = Math.max(0, Math.min(window.innerHeight - 40, oy + e.clientY - sy));
+      elm.style.left = nx + "px"; elm.style.top = ny + "px"; elm.style.right = "auto"; elm.style.bottom = "auto";
+      if (elm === sheet) sheetDragged = true;
+    });
+    function end(){ dragging = false; }
+    handle.addEventListener("pointerup", end); handle.addEventListener("pointercancel", end);
+  }
   function place(){
     if (!anchor || !anchor.getBoundingClientRect || !bar) return;
     var r = anchor.getBoundingClientRect();
@@ -3589,10 +3638,12 @@ var NMSKGroups = (function(){
     bar.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 6)) + "px";
     var open = 0;
     if (sheet && !sheet.hidden){
-      sheet.style.width = w + "px";
-      sheet.style.left = bar.style.left;
-      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.45)) + "px";
-      sheet.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 10 - sheet.offsetHeight)) + "px";
+      if (!sheetDragged){
+        sheet.style.width = w + "px";
+        sheet.style.left = bar.style.left;
+        sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.45)) + "px";
+        sheet.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 10 - sheet.offsetHeight)) + "px";
+      }
       open = (sheet.offsetHeight || 0) + 6;
     }
     /* Q300's chip bar and Q294's notice share this corner and sit above us in the stack: tell the stylesheet how far
@@ -3658,6 +3709,7 @@ var NMSKGroups = (function(){
       sHead.appendChild(sx); sheet.appendChild(sHead);
       sBody = el("div", "qg-sbody"); sheet.appendChild(sBody);
       document.body.appendChild(sheet);
+      initDrag(sheet, sHead);
       /* the control itself: the SAME undo / redo / module-reset the rest of the page uses, mounted here with words */
       if (hist && hist.mountInto) hist.mountInto(hRow, "qg-h", "q301-");
       if (opt.modelreset && opt.modelreset.mountInto) opt.modelreset.mountInto(hRow, "qg-h", "q301-");
@@ -9413,6 +9465,25 @@ var NMSKPoseCore = (function(){
   return {decodeSkin:decodeSkin, rotM:rotM, mul3:mul3, tr3:tr3, mv3:mv3, prepare:prepare, jointR:jointR, elevation:elevation, defaultPose:defaultPose, anatomicalPose:anatomicalPose, fk:fk, sameM:sameM, rigid:rigid, skin:skin, clamp:clamp};
 })();
 
+function nmskDrag(elm, handle){
+  var sx = 0, sy = 0, ox = 0, oy = 0, dragging = false;
+  handle.addEventListener("pointerdown", function(e){
+    if (window.innerWidth <= 460) return;
+    if (e.target.closest && e.target.closest("button,input,select,label,a")) return;
+    dragging = true; sx = e.clientX; sy = e.clientY;
+    var r = elm.getBoundingClientRect(); ox = r.left; oy = r.top;
+    try { handle.setPointerCapture(e.pointerId); } catch (err){}
+    e.preventDefault();
+  });
+  handle.addEventListener("pointermove", function(e){
+    if (!dragging) return;
+    var nx = Math.max(0, Math.min(window.innerWidth - 40, ox + e.clientX - sx));
+    var ny = Math.max(0, Math.min(window.innerHeight - 40, oy + e.clientY - sy));
+    elm.style.left = nx + "px"; elm.style.top = ny + "px"; elm.style.right = "auto"; elm.style.bottom = "auto";
+  });
+  function end(){ dragging = false; }
+  handle.addEventListener("pointerup", end); handle.addEventListener("pointercancel", end);
+}
 function NMSKPose(E){
   "use strict";
   var C = NMSKPoseCore, $ = function(id){ return document.getElementById(id); };
@@ -9689,6 +9760,7 @@ function NMSKPose(E){
       btn.addEventListener("click", function(){ open(); });
     }
     var x = $("pz-close"); if (x) x.addEventListener("click", function(){ open(false); });
+    var ph = panel && panel.querySelector(".pz-head"); if (ph && window.nmskDrag) nmskDrag(panel, ph);
     var bo = $("pose-banner-reset"); if (bo) bo.addEventListener("click", reset);
     var bp = $("pose-banner-open"); if (bp) bp.addEventListener("click", function(){ open(true); });
   }
