@@ -14044,3 +14044,20 @@ Owner: "Layers צריך לתת בצורה קלה יותר אפשרות לבחו�
 **Files changed:** `viewer/zan_atlas.template.html`, `viewer/atlas_viewer.template.html`.
 **Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q312 --ref build/q309 --expect-changed index.html`. All 6 pages rebuilt and copied to `build/q309/`.
 **Artifacts republished (2026-11-08).** All 6 viewer pages updated with Q313 slider and insertion changes.
+
+## Q315 (2026-11-08) -- OWNER REQUEST: video-player-style CINE bar in fullscreen ultrasound
+
+Owner uploaded two screen recordings of real ultrasound procedure playback showing a standard video player UI (play/pause, progress bar, timestamp) and requested: "הCINE בעמוד הultrasound צריך להיראות בדומה לקבצים שהעליתי."
+
+**Changes (`clinical/ultrasound_tool.js` — canonical source, inlined into all 6 pages).**
+
+1. **Progress bar + controls.** Added a `.fs-bar` container fixed at the bottom of the fullscreen CINE view with: a blue ▶/⏸ play/pause button (`.fs-play`), a scrub-capable `<input type="range">` progress slider (`.fs-prog`), a position/total timestamp (`.fs-time`), and a small ✕ exit button (`.fs-esc`).
+2. **`syncFsBar()`** syncs play icon, progress slider value/range, and timestamp text on every CINE frame tick, motion-done, and UI sync.
+3. **`fsScrub(val)`** pauses CINE on pointer-down, seeks to the scrubbed position, computes the frame at that position, and resumes on pointer-up if it was playing.
+4. **Space-bar shortcut** toggles play/pause in fullscreen.
+5. **Idle fade.** The bar, ✕ and ⋯ buttons all fade to 22% opacity after 2.6s idle, reappear on any pointer/key interaction.
+6. **Exit button visible.** The `.fs-x` close button is now visible (was `display:none!important`), positioned at top-left with ⋯ beside it at `left:56px`.
+
+**Files changed:** `clinical/ultrasound_tool.js` (+67 −11 lines).
+**Regen:** `scripts/regen_template_only.py all --src build/q309 --out /dev/shm/q315 --ref build/q309 --expect-changed index.html,clinical_ultrasound_tool.js`. All 6 pages rebuilt; inline block updated (272→276 KB).
+**Artifacts republished (2026-11-08).** All 6 viewer pages updated with Q315 CINE video bar.
