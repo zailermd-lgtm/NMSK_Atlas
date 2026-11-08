@@ -608,7 +608,7 @@ function GLOverlay(api) {
 /* panel styles (scoped .ncl-*, host colour tokens with fallbacks)          */
 /* ===================================================================== */
 var CSS = [
-".ncl{--ncl-acc:var(--accent,#1d7c99);--ncl-line:var(--line,rgba(22,32,42,.16));--ncl-mut:var(--muted,var(--ink-dim,#5c6a77));",
+".ncl{--ncl-acc:var(--accent,#1d7c99);--ncl-line:var(--line,rgba(22,32,42,.16));--ncl-mut:var(--muted,var(--ink-dim,#49555f));",
 "  --ncl-bg:var(--panel,#fff);--ncl-sunk:var(--sunk,var(--panel-2,#eef2f5));font-size:12px;line-height:1.45;color:var(--ink,#16202a)}",
 ".ncl{padding:11px 13px;background:var(--ncl-bg);border-bottom:1px solid var(--ncl-line)}",
 ".ncl.ncl-float{position:fixed;top:calc(3.3rem + env(safe-area-inset-top,0px));right:.9rem;width:340px;max-height:calc(100vh - 8rem);",
@@ -632,16 +632,16 @@ var CSS = [
 ".ncl-min:hover{border-color:var(--ncl-line);background:var(--ncl-sunk)}",
 ".ncl-min[aria-expanded=false]{background:var(--ncl-sunk);color:var(--ncl-acc)}",
 ".ncl.ncl-collapsed>*:not(.ncl-head){display:none}",
-".ncl button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--ncl-line);background:var(--ncl-sunk);border-radius:5px;padding:2px 8px;font-size:11px}",
+".ncl button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--ncl-line);background:var(--ncl-sunk);border-radius:5px;padding:3px 8px;font-size:11.5px}",
 ".ncl button:hover{border-color:var(--ncl-acc)}",
 ".ncl button[aria-pressed=true]{background:var(--ncl-acc);color:#fff;border-color:var(--ncl-acc)}",
-".ncl-disc{margin:0 0 8px;padding:6px 8px;border-radius:6px;background:#FFF4DC;color:#6B4A00;font-size:11px;border:1px solid #F0D48A}",
+".ncl-disc{margin:0 0 8px;padding:6px 8px;border-radius:6px;background:#FFF4DC;color:#6B4A00;font-size:11.5px;border:1px solid #F0D48A}",
 "@media (prefers-color-scheme:dark){.ncl-disc{background:#2E2410;color:#F3D58B;border-color:#5A4718}}",
 ".ncl-modes{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}",
-".ncl-status{margin:0 0 6px;color:var(--ncl-mut);font-size:11.5px}",
+".ncl-status{margin:0 0 6px;color:var(--ncl-mut);font-size:12px}",
 ".ncl-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:4px 0}",
 ".ncl-row input[type=range]{flex:1;min-width:90px}",
-".ncl input[type=number]{width:58px;font:inherit;font-size:11px;padding:1px 3px;border:1px solid var(--ncl-line);border-radius:4px;background:var(--surface,#fff);color:inherit}",
+".ncl input[type=number]{width:58px;font:inherit;font-size:11.5px;padding:2px 3px;border:1px solid var(--ncl-line);border-radius:4px;background:var(--surface,#fff);color:inherit}",
 ".ncl input[type=search]{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--ncl-line);border-radius:5px;background:var(--surface,#fff);color:inherit}",
 ".ncl dl{display:grid;grid-template-columns:82px minmax(0,1fr);gap:2px 8px;margin:6px 0}",
 ".ncl dt{color:var(--ncl-mut)}.ncl dd{margin:0;overflow-wrap:anywhere}",
@@ -649,18 +649,20 @@ var CSS = [
 ".ncl .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}",
 ".ncl .rng{color:var(--ncl-mut);margin-left:4px;white-space:nowrap}",
 ".ncl .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}",
-".ncl .cite{font-size:10.5px;color:var(--ncl-mut);margin:6px 0 0}",
+".ncl .cite{font-size:11.5px;color:var(--ncl-mut);margin:6px 0 0}",
 ".ncl details{margin-top:8px;border-top:1px solid var(--ncl-line);padding-top:6px}",
+".ncl details details{margin-top:6px;border-top:0;padding-top:0}",
+".ncl details details>summary{font-weight:400;font-size:11.5px;color:var(--ncl-mut)}",
 ".ncl summary{cursor:pointer;font-weight:700;font-size:12px}",
-".ncl .lg{display:flex;flex-wrap:wrap;gap:4px 10px;margin:4px 0;font-size:11px}",
-".ncl .formula{font-family:'JetBrains Mono',monospace;font-size:10.5px;background:var(--ncl-sunk);padding:5px 6px;border-radius:5px;overflow-wrap:anywhere}",
-".ncl .grid2{display:grid;grid-template-columns:repeat(3,auto);gap:3px 8px;align-items:center;font-size:11px}",
+".ncl .lg{display:flex;flex-wrap:wrap;gap:4px 10px;margin:4px 0;font-size:11.5px}",
+".ncl .formula{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--ncl-sunk);padding:5px 6px;border-radius:5px;overflow-wrap:anywhere}",
+".ncl .grid2{display:grid;grid-template-columns:repeat(3,auto);gap:3px 8px;align-items:center;font-size:11.5px}",
 ".ncl .res{max-height:170px;overflow-y:auto;overscroll-behavior:contain;margin-top:4px}",
 ".ncl .res button{display:block;width:100%;text-align:left;margin:2px 0;padding:4px 6px}",
-".ncl .warn{color:var(--risk,#B3400C);font-size:11px;margin:4px 0}",
+".ncl .warn{color:var(--risk,#B3400C);font-size:11.5px;margin:4px 0}",
 ".ncl .pill-g{color:#1E8A4F;font-weight:700}.ncl .pill-a{color:#B07300;font-weight:700}.ncl .pill-r{color:#C23232;font-weight:700}",
 ".ncl .corr-list li{padding-left:4px;border-left:4px solid transparent}.ncl .corr-list li.band-n{border-left-color:#C23232}.ncl .corr-list li.band-m{border-left-color:#B07300}.ncl .corr-list li.band-f{border-left-color:#1E8A4F}",   /* Q268: display bands only */
-".ncl select{font-size:11px;max-width:150px}",
+".ncl select{font-size:11.5px;max-width:150px}",
 ".ncl-tip{position:fixed;z-index:80;pointer-events:none;max-width:280px;padding:5px 8px;border-radius:6px;font-size:11.5px;",
 "  background:var(--surface,var(--panel,#fff));color:var(--ink,#16202a);border:1px solid var(--line,#ccd);box-shadow:0 6px 18px rgba(0,0,0,.18)}"
 ].join("\n");
@@ -931,8 +933,7 @@ TP.buildUI = function () {
     '<button type="button" id="ncl-min" class="ncl-min" aria-expanded="true" aria-label="Minimize the needle panel" title="Compact mode: collapse to just the title bar">&#9662;</button>' +
     '<button type="button" id="needle-clear">Clear</button>' +
     '<button type="button" id="ncl-close" title="Close the needle tool">&times;</button></div>' +
-    '<p class="ncl-disc"><b>Planning / education aid only &mdash; not clinical guidance.</b> Model anatomy (decimated viewing meshes, one body), ' +
-    'not the patient. Risk halos are a heuristic planning margin, not validated safety distances.</p>' +
+    '<p class="ncl-disc"><b>Planning / education aid only &mdash; not clinical guidance.</b></p>' +
     '<div class="ncl-modes" id="ncl-modes">' +
     '<button type="button" data-mode="two" title="Click the entry point, then the target">Entry &rarr; target</button>' +
     '<button type="button" data-mode="dir" title="Click the entry; the tip lies along a direction at the needle length">Entry + direction + length</button>' +
@@ -941,8 +942,8 @@ TP.buildUI = function () {
     '<div id="ncl-dirbox" hidden>' +
     '<div class="ncl-row"><button type="button" id="ncl-useview" title="Aim along the current viewing direction">Use view axis</button>' +
     '<button type="button" id="ncl-usenormal" title="Perpendicular to the skin at the entry">Perpendicular</button></div>' +
-    '<div class="ncl-row">tilt <input type="number" id="ncl-tilt" min="0" max="85" step="1" value="0">&deg; from perpendicular, toward ' +
-    '<input type="number" id="ncl-az" min="-180" max="180" step="5" value="0">&deg; (0 = cranial, 90 = the entry\'s right-hand side)</div></div>' +
+    '<div class="ncl-row"><span>tilt</span><input type="number" id="ncl-tilt" min="0" max="85" step="1" value="0" title="Degrees away from perpendicular to the skin at the entry">' +
+    '<span>&deg; toward</span><input type="number" id="ncl-az" min="-180" max="180" step="5" value="0" title="Which way the tilt leans: 0 = cranial, 90 = the entry\'s right-hand side">&deg;</div></div>' +
     '<div class="ncl-row"><span>Needle length</span><input type="range" id="ncl-len" min="5" max="200" step="1" value="' + this.len + '">' +
     '<input type="number" id="ncl-lenn" min="5" max="200" step="1" value="' + this.len + '"> mm</div>' +
     '<div class="ncl-row"><button type="button" id="ncl-shortest" title="Shortest straight path from the target to the skin (or the outermost model surface)">Shortest entry</button>' +
@@ -952,11 +953,6 @@ TP.buildUI = function () {
     /* Q268 (2): live distance readout -- measured, displayed, never judged */
     '<div id="ncl-corr"><div class="ncl-row" style="margin-top:6px"><b>Distance to vessels &amp; nerves</b>' +
     '<button type="button" id="ncl-corr-halo" aria-pressed="true" title="Translucent halo around the path at the two display thresholds">Halo</button></div>' +
-    '<div class="grid2"><span>near band (mm)</span><input type="number" id="ncl-corr-near" min="0" max="100" step="0.5" value="' + this.corr.near + '"><span></span>' +
-    '<span>far band (mm)</span><input type="number" id="ncl-corr-far" min="0" max="200" step="0.5" value="' + this.corr.far + '"><span></span>' +
-    '<span>neighbourhood R (mm)</span><input type="number" id="ncl-corr-r" min="5" max="200" step="1" value="' + this.corr.R + '"><span></span></div>' +
-    '<p class="cite">The two bands are adjustable DISPLAY thresholds (colour only), not clinical guidance: the number is the data, you decide. ' +
-    'R = how far from the path a vessel / nerve is measured at all (default ' + CORR_DEFAULTS.R + ' mm, the same neighbourhood the planning preset uses).</p>' +
     '<div id="ncl-corr-out"></div>' +
     '<div class="ncl-row"><button type="button" id="ncl-sugg" title="Sample straight candidate entries on the skin in a cone around the nearest-skin direction and rank them by measured clearance, then length">Suggest entries</button>' +
     '<button type="button" id="ncl-sugg-x" title="Remove the suggested ghost lines">Clear suggestions</button></div><div id="ncl-sugg-out"></div>' +
@@ -966,12 +962,17 @@ TP.buildUI = function () {
     '<div class="ncl-row" style="margin-top:6px"><b>Saved points</b>' +
     '<button type="button" id="ncl-save-add" title="Record the current entry/target as an additional saved point (does not replace it)">Add point</button>' +
     '<button type="button" id="ncl-save-clear" title="Remove every saved point">Clear all</button></div>' +
-    '<p class="cite">For planning two or more injection sites in the same muscle. Recording is yours to do and undo -- no count or spacing is suggested.</p>' +
-    '<div id="ncl-save-out"></div></div>' +
+    '<div id="ncl-save-out"></div>' +
+    '<details><summary>Bands &amp; neighbourhood</summary>' +
+    '<div class="grid2"><span>near band (mm)</span><input type="number" id="ncl-corr-near" min="0" max="100" step="0.5" value="' + this.corr.near + '"><span></span>' +
+    '<span>far band (mm)</span><input type="number" id="ncl-corr-far" min="0" max="200" step="0.5" value="' + this.corr.far + '"><span></span>' +
+    '<span>neighbourhood R (mm)</span><input type="number" id="ncl-corr-r" min="5" max="200" step="1" value="' + this.corr.R + '"><span></span></div>' +
+    '<p class="cite">The two bands are adjustable DISPLAY thresholds (colour only), not clinical guidance: the number is the data, you decide. ' +
+    'R = how far from the path a vessel / nerve is measured at all (default ' + CORR_DEFAULTS.R + ' mm, the same neighbourhood the planning preset uses).</p></details>' +
+    '</div>' +
     /* Q268 (1): injection-planning preset -- pure wiring of mechanisms that already exist (structure list, selection controller, parts markers, pose rig) */
-    '<details id="ncl-plan" open><summary>Injection planning (preset)</summary>' +
-    '<p class="ncl-status">Pick the target muscle / tendon: the preset fades everything except the target and the vessels / nerves whose bounding box lies within R mm ' +
-    'of it, shows the target\'s origin / insertion markers when the page has them, and arms target-first placement.</p>' +
+    '<details id="ncl-plan"><summary title="Pick the target muscle or tendon: the preset fades everything except it and the vessels / nerves within R mm, ' +
+    'shows its origin / insertion markers where the page has them, and arms target-first placement">Injection planning (preset)</summary>' +
     '<input type="search" id="ncl-plan-q" placeholder="Search a muscle or tendon to plan an injection into" autocomplete="off">' +
     '<div class="res" id="ncl-plan-res"></div><p class="ncl-status" id="ncl-plan-msg"></p>' +
     '<div id="ncl-plan-zone"></div>' +
@@ -982,29 +983,41 @@ TP.buildUI = function () {
     '<button type="button" id="ncl-plan-pose-go">Apply</button></div>' +
     '<p class="cite" id="ncl-plan-pose-msg">A labelled, illustrative flexion pattern driven only through the page\'s own Q241 pose rig (its joints, its normal ranges); ' +
     'not the patient\'s posture. The needle tool measures the rest-pose meshes: distances are not valid while the pose is away from rest.</p></details>' +
-    '<details id="ncl-mp" open><summary>Motor points</summary>' +
+    '<details id="ncl-mp"><summary title="The motor point(s) of the marked muscles only -- mark one or more muscles first">Motor points</summary>' +
     '<p class="ncl-status" id="ncl-mp-msg"></p>' +
     '<div class="ncl-row"><button type="button" id="ncl-mp-on" aria-pressed="false">Emphasize motor points</button></div>' +
-    '<p class="cite">Shows the motor point(s) only of the currently <b>marked</b> muscles (Q227 marked structures, the same set the "Marked structures" ' +
-    'panel ticks) -- mark one or more muscles first. With nothing marked, nothing is shown.</p>' +
+    '<p class="cite">Shows the motor point(s) only of the currently <b>marked</b> muscles -- the same set the "Marked structures" panel ticks. ' +
+    'With nothing marked, nothing is shown.</p>' +
     '<p class="ncl-status" id="ncl-mp-sel-msg"></p>' +
     '<input type="search" id="ncl-mp-q" placeholder="Search a muscle to target its motor point" autocomplete="off">' +
     '<div class="res" id="ncl-mp-res"></div><div id="ncl-mp-info"></div></details>' +
-    '<details id="ncl-risk" open><summary>Risk halos &amp; safer pathways</summary>' +
+    '<details id="ncl-risk"><summary title="A heuristic planning margin around vessels and nerves, and the entries that keep clear of it. Not validated safety distances.">Risk halos &amp; safer pathways</summary>' +
     '<p class="ncl-status" id="ncl-risk-msg"></p>' +
     '<div class="ncl-row"><button type="button" id="ncl-halo" aria-pressed="false">Show risk halos</button>' +
     '<button type="button" id="ncl-safer" title="Sample many straight approaches to the target and light the safer entries">Light safer pathways</button></div>' +
     '<div class="ncl-row"><span>Other tissue transparent</span><input type="range" id="ncl-transp" min="50" max="95" step="1" value="80"><span class="mono" id="ncl-transp-v">80%</span></div>' +
     '<div class="lg">' + legend + "</div>" +
+    '<div id="ncl-safer-out"></div><div id="ncl-halo-list"></div>' +
+    '<details><summary>The halo model, and its numbers</summary>' +
     '<div class="formula" id="ncl-formula"></div>' +
     '<div class="grid2" style="margin-top:5px"><span>b0 (mm)</span><input type="number" step="0.5" min="0" max="20" data-p="b0" value="' + this.P.b0 + '"><span></span>' +
     '<span>k (per mm of path)</span><input type="number" step="0.005" min="0" max="0.3" data-p="k" value="' + this.P.k + '"><span></span>' +
     '<span>calibre exponent p</span><input type="number" step="0.1" min="0" max="2" data-p="p" value="' + this.P.p + '"><span></span>' + mults + "</div>" +
-    '<div id="ncl-safer-out"></div><div id="ncl-halo-list"></div></details>' +
+    '<p class="cite">A heuristic planning margin of ours, not a validated safety distance: the halo grows with the depth already travelled and with ' +
+    'the vessel\'s or nerve\'s calibre. Every number here is yours to change.</p></details></details>' +
     '<details><summary>Display</summary><div class="ncl-row"><span>Shaft radius (display)</span>' +
     '<input type="range" id="ncl-rdisp" min="0.3" max="3" step="0.1" value="' + this.rDisp + '"><span class="mono" id="ncl-rdisp-v">' + this.rDisp.toFixed(1) + ' mm</span></div>' +
     '<p class="cite">The needle is drawn as a lit 3-D object in the model, so nearer parts look larger. The part beyond the entry is drawn ' +
-    'normally (hidden by opaque tissue) plus a faint see-through copy, so it stays findable in deep tissue.</p></details>';
+    'normally (hidden by opaque tissue) plus a faint see-through copy, so it stays findable in deep tissue.</p></details>' +
+    /* Q317: the honesty the panel used to carry inline, in one place, still one tap away */
+    '<details id="ncl-notes"><summary>What these numbers are</summary>' +
+    '<p class="cite">The geometry measured here is the <b>model\'s</b>: decimated viewing meshes of one body, not the patient. Distances and ' +
+    'crossings are real measurements <i>of that model</i>, reported to the millimetre because that is what the meshes give -- they are not ' +
+    'patient measurements and carry none of a patient\'s variation.</p>' +
+    '<p class="cite">The distance bands, the risk halos and the suggested entries are planning aids of ours. They are labelled where they appear, ' +
+    'every parameter is exposed, and none of them is a validated safety distance.</p>' +
+    '<p class="cite">The tool measures the rest-pose meshes. While the pose rig is away from rest, the picture moves but the distances do not ' +
+    'follow it, so they are not valid in that state.</p></details>';
   if (api.panelHost) api.panelHost.insertBefore(el, api.panelBefore || null); else document.body.appendChild(el);
   this.el = el;
   var tip = document.createElement("div"); tip.className = "ncl-tip"; tip.hidden = true; document.body.appendChild(tip); this.tip = tip;
