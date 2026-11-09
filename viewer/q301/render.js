@@ -16,7 +16,7 @@
      .mode()  .set(mode)  .step()  .setStep(i)  .toColour()  .steps()  .spec()  .state() */
 var NMSKRenderStyle = (function(){
   "use strict";
-  var E = null, hist = null, T = null, box = null, on = false, mode = "colour", step = {xray:1, ct:0, mri:2}, btns = {}, stepRow = null, stepBtns = [], userContrast = 1.0, userBrightness = 1.0, userInvert = false, cbRow = null, cSl = null, bSl = null, invBtn = null, baseD0 = 1;
+  var E = null, hist = null, T = null, box = null, on = false, mode = "colour", step = {xray:1, ct:0, mri:2}, btns = {}, stepRow = null, stepBtns = [], userContrast = 1.0, userBrightness = 1.0, userInvert = false, cbRow = null, cSl = null, bSl = null, invBtn = null, baseD0 = 1, sampler = null, autoBtn = null, aboutEl = null;
   /* The path length taken through each surface a ray crosses. THIS IS OUR CONVENTION, not a measurement: a surface
      atlas has no thickness along the ray. The three values were CHOSEN BY MEASURING the whole-body projection in a real
      browser (scripts/anatomy/q301/, and the table in docs/research/Q301_controls_and_render_styles.md 3.6): the
@@ -36,6 +36,16 @@ var NMSKRenderStyle = (function(){
      the soft tissue to the shader's 0.004 floor. Checked at both engines' exposures (d0 = 0.05 and 0.10). */
   var XW = [[0.88, 1.12, 2.2], [0.88, 2.30, 8.0], [1.13, 2.30, 18.0]];
   var XW_W = ["Soft tissue", "Combined", "Bone"];
+  /* Q318, owner: "where it is meant for bone, where for soft tissue, and then what you can see." What every
+     source agrees on is that kVp sets the SCALE OF CONTRAST -- low kVp short-scale and high contrast for
+     bone, high kVp long-scale and low contrast to separate soft tissues of similar density. The kVp bands
+     quoted in teaching material disagree with each other, so no number is given here; the comparison is the
+     part that is solid. These windows are a display convention on attenuation, not an exposure calculation. */
+  var XW_ABOUT = [
+    "Stands in for a long-scale (high-kV) soft-tissue film: low contrast, many greys, so tissues of similar density separate. Such a film is read for swelling and the fat planes, for calcification or ossification in soft tissue, and for gas in it. A plain film misses many radiolucent foreign bodies, wood above all, so a film that shows nothing does not rule one out.",
+    "The ordinary film: the skeleton and the soft-tissue outline together, with neither given the whole range.",
+    "Stands in for a short-scale (low-kV) film: high contrast, few greys, the skeleton against a dark field. Such a film is read for the cortex, the trabeculae, the joint space and a fracture line; the soft tissue is let go."
+  ];
   /* How far the shading is flattened in the CT and MRI styles. The grey IS the datum there -- it comes from the tissue's
      own HU or its own spin-echo signal -- and multiplying it by a diffuse term would mean the picture no longer shows
      what the table says. 0.6 keeps 60 % of the grey untouched and leaves 40 % to the shading as a depth cue. */
@@ -66,6 +76,61 @@ var NMSKRenderStyle = (function(){
     var s = document.documentElement.style;
     if (mode === "colour"){ s.removeProperty("--q301-adj"); return; }
     s.setProperty("--q301-adj", "contrast(" + userContrast.toFixed(2) + ") brightness(" + userBrightness.toFixed(2) + ")" + (userInvert ? " invert(1)" : ""));
+  }
+  /* Q318: where AUTO puts the picture. The one thing every source agrees on about radiographic technique is
+     that kVp sets the SCALE OF CONTRAST: a low-kVp film is short-scale -- high contrast, few greys, the
+     skeleton against a dark field -- and a high-kVp film is long-scale, low contrast, many greys, which is
+     what separates soft tissues of similar density. So each step keeps the SAME robust quantiles of the
+     measured picture and differs in where it puts them: Bone spends the whole range (short scale), Soft
+     tissue compresses into the middle (long scale), Combined sits between.
+     [lowQuantile, highQuantile, lowTarget, highTarget], all 0..1 of the display range. The quantiles and
+     targets are OUR DISPLAY CONVENTION; what is measured is the histogram they are read from. This is a
+     tone scale, not CT window/level: those are defined on the CT attenuation scale, which a plain film has
+     no equivalent of, so the CT presets do not transfer here and their vocabulary is not borrowed. */
+  var AUTO_T = {
+    xray: [[0.02, 0.98, 0.20, 0.82],       /* Soft tissue: long scale, low contrast, many greys */
+           [0.02, 0.98, 0.08, 0.94],       /* Combined: both, so neither gets the whole range */
+           [0.02, 0.98, 0.02, 0.99]],      /* Bone: short scale, the full range, highest contrast */
+    ct:   [[0.02, 0.98, 0.04, 0.96], [0.02, 0.98, 0.04, 0.96], [0.02, 0.98, 0.04, 0.96]],
+    mri:  [[0.02, 0.98, 0.04, 0.96], [0.02, 0.98, 0.04, 0.96], [0.02, 0.98, 0.04, 0.96]]
+  };
+  /* the luminance below which a given share of the drawn pixels falls, read off the sampler's 64 bins */
+  function quant(h, q){
+    var acc = 0, i;
+    for (i = 0; i < h.length; i++){
+      var nxt = acc + h[i];
+      if (nxt >= q && h[i] > 0) return (i + (q - acc) / h[i]) / h.length;
+      acc = nxt;
+    }
+    return 1;
+  }
+  /* The filter is contrast then brightness, so a pixel v becomes ((v - 0.5) * c + 0.5) * b. Asking that lo
+     land on tlo and hi on thi gives c * b directly from the two differences, and b from either equation. */
+  function solveAdj(lo, hi, tlo, thi){
+    if (!(hi - lo > 0.012)) return null;              /* nothing to stretch: a flat picture would blow up */
+    var A = (thi - tlo) / (hi - lo);
+    var b = 2 * (tlo - (lo - 0.5) * A);
+    if (!(b > 0.05)) return null;
+    return {c: A / b, b: b};
+  }
+  function autoAdjust(){
+    if (mode === "colour") return false;
+    var s = null;
+    try { s = sampler ? sampler(2) : null; } catch (e){ s = null; }
+    if (!s || !s.n || !s.h64){ say("AUTO needs to read the picture back, and this view would not give it up. The two sliders still work."); return false; }
+    var T4 = (AUTO_T[mode] || AUTO_T.ct)[step[mode]] || AUTO_T.ct[0];
+    /* The readback is the drawing buffer, which the filter never touched -- a CSS filter is applied by the
+       compositor on the way to the screen. So this measures the picture as drawn, whatever adjustment is
+       on, and pressing Auto twice lands in the same place. */
+    var lo0 = quant(s.h64, T4[0]), hi0 = quant(s.h64, T4[1]);
+    var sol = solveAdj(lo0, hi0, T4[2], T4[3]);
+    if (!sol){ say("The picture is too flat to set an exposure from. Try another step, or the sliders."); return false; }
+    var c = Math.max(0.4, Math.min(2.5, sol.c)), b = Math.max(0.4, Math.min(2.0, sol.b));
+    var clipped = Math.abs(c - sol.c) > 1e-6 || Math.abs(b - sol.b) > 1e-6;
+    setAdj(c, b, userInvert);
+    if (hist && hist.schedule) hist.schedule();
+    say("Exposure set from the picture itself" + (clipped ? ", as far as the sliders go." : ".") + " Both sliders still move by hand.");
+    return true;
   }
   function setAdj(c, b, inv){
     userContrast = c; userBrightness = b; userInvert = !!inv;
@@ -148,6 +213,11 @@ var NMSKRenderStyle = (function(){
       }
     });
     if (cbRow) cbRow.hidden = mode === "colour";
+    if (aboutEl){                                     /* on the screen: the project's rule is not to hide a reason in a tooltip */
+      var ab = mode === "xray" ? XW_ABOUT[step.xray] : "";
+      aboutEl.textContent = ab || "";
+      aboutEl.hidden = !ab;
+    }
     if (!stepRow) return;
     var w = stepsFor(mode);
     stepRow.hidden = !w.length;
@@ -157,7 +227,7 @@ var NMSKRenderStyle = (function(){
         b.textContent = w[i];
         var hot = step[mode] === i;
         b.setAttribute("aria-pressed", String(hot)); b.classList.toggle("on", hot);
-        b.title = mode === "xray" ? "Which tissues the film records, as a window on each tissue's own attenuation (the window itself is our convention): " + w[i]
+        b.title = mode === "xray" ? (XW_ABOUT[i] || w[i])
                 : mode === "ct" ? "CT window " + w[i] : "MR sequence " + w[i];
       }
     });
@@ -170,6 +240,7 @@ var NMSKRenderStyle = (function(){
       hist = opt.history || window.NMSKHistory || null;
       T = opt.tissue || window.NMSKTissue || null;
       if (opt.xrayStep != null) baseD0 = Math.max(0, Math.min(D0.length - 1, opt.xrayStep | 0));   /* the exposure, per engine by measurement; the step is now the tissue window */
+      sampler = typeof opt.sample === "function" ? opt.sample : null;                               /* Q318: how AUTO reads the frame back */
       box = document.createElement("div");
       box.id = "rs-box"; box.className = "rs-box";
       box.setAttribute("role", "group"); box.setAttribute("aria-label", "How the model itself is drawn");
@@ -195,6 +266,8 @@ var NMSKRenderStyle = (function(){
         stepRow.appendChild(sb); stepBtns.push(sb);
       }
       box.appendChild(stepRow);
+      aboutEl = document.createElement("p"); aboutEl.className = "rs-about"; aboutEl.id = "rs-about"; aboutEl.hidden = true;
+      box.appendChild(aboutEl);
       /* Q317: contrast, brightness, a negative, and the way back to the style's own exposure. Hidden in Colour. */
       cbRow = document.createElement("div"); cbRow.className = "rs-row rs-cb"; cbRow.hidden = true;
       function mkSl(label, mn, mx, stp, val, fn){
@@ -209,6 +282,11 @@ var NMSKRenderStyle = (function(){
       cSl = mkSl("Contrast", 0.4, 2.5, 0.05, 1.0, function(v){ userContrast = v; });
       bSl = mkSl("Brightness", 0.4, 2.0, 0.05, 1.0, function(v){ userBrightness = v; });
       cbRow.appendChild(cSl.w); cbRow.appendChild(bSl.w);
+      autoBtn = document.createElement("button");
+      autoBtn.type = "button"; autoBtn.className = "rs-s q301-b"; autoBtn.id = "rs-auto"; autoBtn.textContent = "Auto";
+      autoBtn.title = "Set the brightness and contrast from the picture on the screen, for the step that is chosen";
+      autoBtn.addEventListener("click", function(e){ e.stopPropagation(); autoAdjust(); });
+      cbRow.appendChild(autoBtn);
       invBtn = document.createElement("button");
       invBtn.type = "button"; invBtn.className = "rs-s q301-b"; invBtn.id = "rs-invert"; invBtn.textContent = "Invert";
       invBtn.title = "Show the picture as a negative, the whole view at once, the way a film is read";
@@ -250,7 +328,8 @@ var NMSKRenderStyle = (function(){
       if (hist && hist.schedule) hist.schedule();
       return api;
     },
-    state:function(){ return {on:on, mode:mode, step:step[mode] == null ? 0 : step[mode], stepWord:stepsFor(mode)[step[mode]] || null, tissue:!!(T && T.ready()), contrast:userContrast, brightness:userBrightness, invert:userInvert}; }
+    auto:autoAdjust,
+    state:function(){ return {on:on, mode:mode, step:step[mode] == null ? 0 : step[mode], stepWord:stepsFor(mode)[step[mode]] || null, tissue:!!(T && T.ready()), contrast:userContrast, brightness:userBrightness, invert:userInvert, canAuto:!!sampler}; }
   };
   return api;
 })();

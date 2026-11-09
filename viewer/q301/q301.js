@@ -171,7 +171,8 @@ var NMSKQ301 = (function(){
       if (opt.fat && window.NMSKFat) NMSKFat.start(opt.fat, {history:hist, showall:sa});
       if (opt.peel && window.NMSKPeel) NMSKPeel.start(opt.peel, {history:hist, showall:sa});
       if (window.NMSKFavorites) NMSKFavorites.start({history:hist});          /* Q318: named set-ups, before the bar is built */
-      if (opt.render && window.NMSKRenderStyle) NMSKRenderStyle.start(opt.render, {history:hist, showall:sa, xrayStep:opt.xrayStep});
+      if (opt.render && window.NMSKRenderStyle) NMSKRenderStyle.start(opt.render, {history:hist, showall:sa, xrayStep:opt.xrayStep,
+        sample:function(st){ return api.pixels(st); }});      /* Q318: AUTO measures the frame, it does not guess it */
       if (window.NMSKGroups) NMSKGroups.start({anchor:opt.anchor, history:hist, modelreset:opt.modelreset || window.NMSKModelReset,
         info:window.NMSKInfo, combos:window.NMSKCombos, groups:(opt.groups || defaultGroups()).concat(opt.extraGroups || [])});
       if (window.NMSKTips && NMSKTips.fold) { try { NMSKTips.fold(); } catch (e){} }   /* the modules' own nmsk-tip notes get folded behind the small "i", as every panel's do */
@@ -214,6 +215,8 @@ var NMSKQ301 = (function(){
         return false;
       }
       var s = Math.max(1, step | 0 || 2), n = 0, lum = 0, sat = 0, grey = 0, hist = [0,0,0,0,0,0,0,0], lum2 = 0;
+      var h64 = new Float64Array(64), k64;                 /* Q318: finer bins, for AUTO's percentiles. The eight-bin
+                                                              hist above is untouched -- the verify scripts read it. */
       for (var y = 0; y < h; y += s) for (var x = 0; x < w; x += s){
         var o = (y * w + x) * 4, r = buf[o], g = buf[o+1], b = buf[o+2], a = buf[o+3];
         if (isField(r, g, b, a)) continue;
@@ -221,10 +224,12 @@ var NMSKQ301 = (function(){
         n++; lum += l; lum2 += l * l; sat += (mx - mn);
         if (mx - mn <= 6) grey++;
         hist[Math.min(7, Math.floor(l / 32))]++;
+        h64[Math.min(63, Math.floor(l / 4))]++;
       }
       if (!n) return {n:0};
+      for (k64 = 0; k64 < 64; k64++) h64[k64] /= n;
       return {n:n, w:w, h:h, field:C[0], lum:lum / n, sd:Math.sqrt(Math.max(0, lum2 / n - (lum / n) * (lum / n))),
-        sat:sat / n, greyFrac:grey / n, hist:hist.map(function(v){ return v / n; })};
+        sat:sat / n, greyFrac:grey / n, hist:hist.map(function(v){ return v / n; }), h64:h64};
     },
     state:function(){ return {on:on, tissue:loaded,
       groups:window.NMSKGroups ? NMSKGroups.state() : null,
