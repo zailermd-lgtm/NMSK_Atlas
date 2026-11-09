@@ -382,9 +382,13 @@ def test_the_groups_are_the_families_the_owner_named():
     # Q318 renamed them to the words the owner used, and promoted Pose and Needle out of the entries
     # they were buried in. The keys are unchanged where another module adds to them by key.
     for key, label in (("mark", "Search"), ("systems", "Systems"), ("imaging", "Imaging"), ("cut", "Dissection"),
-                       ("pose", "Pose"), ("measure", "Measure"), ("needle", "Needle"),
-                       ("view", "Navigate"), ("learn", "Learn")):
+                       ("pose", "Pose"), ("measure", "Measure"), ("needle", "Needle")):
         assert f'key:"{key}", label:"{label}"' in q, key
+    # Navigate asks for the second row, beside undo / redo / the resets -- it is how the model is MOVED,
+    # not one of the things done to it. Learn folded into Search, where the owner put it.
+    assert 'key:"view", label:"Navigate", row2:true' in q
+    assert 'label:"Learn"' not in q
+    assert "row2" in (Q301 / "groups.js").read_text(encoding="utf-8"), "groups.js has to honour the flag"
     # imaging really holds the radiographic styles (x-ray / CT / MRI) and the mode button.
     # Q318: the LEGACY btn-xray left this entry -- it was a transparency preset standing beside the
     # real radiographic styles, and the bar had to carry a note explaining it was not a radiograph.

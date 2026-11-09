@@ -4,9 +4,11 @@
    The two patterns the market agrees on (docs/research/Q301_controls_and_render_styles.md 1): BioDigital moved "the
    exploration tools ... into a single menu" and moved "Undo and Redo ... to their own toolbar"; Visible Body puts the
    History button -- undo, redo and back-to-original in one place -- in the bottom menu bar. So:
-     row 1  the groups: View | Layers | Imaging | Cut | Mark | Learn | Measure | Needle  (accordion: one open at a time)
+     row 1  the groups: Search | Systems | Dissection | Imaging | Pose | Measure | Needle | Favorites
+             (accordion: one open at a time -- Q318 renamed these to the owner's own words)
      row 2  the control itself: Undo  Redo  Reset module  Reset model  i      -- always there, with WORDS, never folded
-             (a destructive action must not hide behind progressive disclosure)
+             (a destructive action must not hide behind progressive disclosure), plus any group that asks
+             for this row with row2 (Navigate, which is how the model is moved rather than what is done to it)
    It ADOPTS the engines' existing buttons by moving the real DOM nodes into the group sheet: same ids, same listeners,
    no second copy of any behaviour, and the old crowded bars empty themselves. A group shows a dot while anything in it
    is active, and each member is decorated from NMSKCombos: co-active members get a +, incompatible ones are disabled
@@ -209,6 +211,15 @@ var NMSKGroups = (function(){
       bar = el("div", "qg-bar"); bar.id = "q301-bar";
       bar.setAttribute("role", "group"); bar.setAttribute("aria-label", "The controls: groups of tools, and undo / redo / reset");
       gRow = el("div", "qg-groups"); gRow.id = "q301-groups";
+      bar.appendChild(gRow);
+      hRow = el("div", "qg-hist"); hRow.id = "q301-hist";
+      hRow.setAttribute("role", "group"); hRow.setAttribute("aria-label", "Undo, redo, the two resets, and how the model is moved");
+      bar.appendChild(hRow);
+      /* Q318: a group may ask for the SECOND row with row2, beside undo / redo / the resets. Navigate asks
+         for it, because it is how you move the model rather than something you do to it; it opens the same
+         sheet as any other group. Those buttons go in after the control itself has mounted, so the words
+         the owner asked to leave in place stay first. */
+      var row2 = [];
       G.forEach(function(g){
         var b = el("button", "qg-g");
         b.type = "button"; b.id = "qg-" + g.key;
@@ -217,12 +228,9 @@ var NMSKGroups = (function(){
         var t = el("span", "qg-gl", g.label); b.appendChild(t);
         var d = el("span", "qg-dot"); d.hidden = true; d.setAttribute("aria-hidden", "true"); b.appendChild(d);
         b.addEventListener("click", function(ev){ ev.stopPropagation(); openSheet(g.key); });
-        gRow.appendChild(b); gBtns[g.key] = b;
+        if (g.row2) row2.push(b); else gRow.appendChild(b);
+        gBtns[g.key] = b;
       });
-      bar.appendChild(gRow);
-      hRow = el("div", "qg-hist"); hRow.id = "q301-hist";
-      hRow.setAttribute("role", "group"); hRow.setAttribute("aria-label", "Undo, redo and the two resets");
-      bar.appendChild(hRow);
       document.body.appendChild(bar);
       park = el("div", "qg-park"); park.id = "q301-park"; park.hidden = true;
       document.body.appendChild(park);
@@ -245,6 +253,7 @@ var NMSKGroups = (function(){
       if (opt.info && opt.info.newButton){
         var ib = opt.info.newButton("qi-inbar"); ib.id = "q301-info-btn"; hRow.appendChild(ib);
       }
+      row2.forEach(function(b){ hRow.appendChild(b); });                  /* Q318: after the words, never before */
       document.body.classList.add("q301-on");
       window.addEventListener("resize", place); setInterval(place, 700); setTimeout(place, 0);
       if (combos && combos.onChange) combos.onChange(paint);

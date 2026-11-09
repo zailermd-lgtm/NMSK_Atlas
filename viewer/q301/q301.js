@@ -101,12 +101,15 @@ var NMSKQ301 = (function(){
     return [
       /* Q318: the order is the owner's own list. Search first, because finding a structure is where
          almost every session starts, and the colour of what is selected belongs with it. */
-      {key:"mark", label:"Search", title:"Find a structure by any of its names, mark it, and isolate it", members:[
+      {key:"mark", label:"Search", title:"Find a structure by any of its names, mark it, isolate it, and label it", members:[
         {adopt:["t-iso", "t-only", "t-invert", "t-mark"]},
         {combo:"marktap", adopt:["sel-markmode"]},
         {adopt:["sel-markcur", "sel-clear", "ss-q-all", "sel-p-isolate", "sel-p-fadeoth", "sel-p-hidesel"]},
         {combo:"highlight", adopt:["sel-p-hlsel"]},
-        {adopt:["box-clear"]}
+        {adopt:["box-clear"]},
+        /* Q318, owner's choice: Learn folds in here. Labels, the quick view and the legend all say something
+           about the structure you have just found, so they belong with finding it. */
+        {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
       ]},
       {key:"systems", label:"Systems", title:"Which systems are shown, how deep to peel into them, and the fat", members:[
         {el:P && P.state().on ? document.getElementById("pl-box") : null, combo:"peel"},
@@ -140,13 +143,12 @@ var NMSKQ301 = (function(){
       {key:"needle", label:"Needle", title:"Plan an injection: entry, target, direction, and what the path crosses", members:[
         {adopt:["t-needle"]}
       ]},
-      {key:"view", label:"Navigate", title:"Where you look from, and how the screen is laid out", members:[
+      /* Q318: the second row, with undo / redo / the resets -- moving the model is not one of the eight
+         things you DO to it, and this is the row that will also carry the navigation-tool picker. */
+      {key:"view", label:"Navigate", row2:true, title:"Where you look from, and how the screen is laid out", members:[
         {adopt:"foot"},                                  /* the Z engine's front / side / back / move / spin / reset row */
         {adopt:["t-reset", "t-lay3", "t-layout", "sym-select"]},
         {combo:"spin", adopt:"btn-spin"}
-      ]},
-      {key:"learn", label:"Learn", title:"Learn, labels, quick view and the groups", members:[
-        {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
       ]}
     ].map(function(g){ g.members = g.members.filter(function(m){ return m.el || m.adopt || m.label; }); return g; });
   }

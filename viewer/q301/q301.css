@@ -11,6 +11,9 @@
   background:rgba(14,18,22,.90);box-shadow:0 2px 14px rgba(0,0,0,.42);backdrop-filter:blur(5px);font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box}
 .qg-groups,.qg-hist{display:flex;flex-wrap:wrap;gap:3px;align-items:stretch;justify-content:center}
 .qg-hist{border-top:1px solid rgba(255,255,255,.14);padding-top:3px}
+/* Q318: a group that asked for the second row sits beside the words, sized to its own label rather
+   than stretching across whatever the undo / redo / reset buttons leave over. */
+.qg-hist .qg-g{flex:0 0 auto}
 .qg-g{position:relative;min-height:36px;min-width:60px;flex:1 1 auto;padding:4px 8px;border:1px solid rgba(255,255,255,.17);border-radius:9px;
   background:rgba(255,255,255,.055);color:#E6EDF3;font:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
 .qg-g:hover{background:rgba(255,255,255,.12)}
