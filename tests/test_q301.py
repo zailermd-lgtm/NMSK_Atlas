@@ -379,11 +379,17 @@ def test_the_old_floating_group_is_not_shown_twice():
 
 def test_the_groups_are_the_families_the_owner_named():
     q = (Q301 / "q301.js").read_text(encoding="utf-8")
-    for key, label in (("view", "View"), ("layers", "Layers"), ("imaging", "Imaging"), ("cut", "Cut"),
-                       ("mark", "Mark"), ("learn", "Learn"), ("measure", "Measure")):
+    # Q318 renamed them to the words the owner used, and promoted Pose and Needle out of the entries
+    # they were buried in. The keys are unchanged where another module adds to them by key.
+    for key, label in (("mark", "Search"), ("systems", "Systems"), ("imaging", "Imaging"), ("cut", "Dissection"),
+                       ("pose", "Pose"), ("measure", "Measure"), ("needle", "Needle"),
+                       ("view", "Navigate"), ("learn", "Learn")):
         assert f'key:"{key}", label:"{label}"' in q, key
-    # imaging really holds x-ray / CT / MRI, and the ultrasound / reference-image mode button
-    assert "rs-box" in q and "t-mode" in q and "btn-xray" in q
+    # imaging really holds the radiographic styles (x-ray / CT / MRI) and the mode button.
+    # Q318: the LEGACY btn-xray left this entry -- it was a transparency preset standing beside the
+    # real radiographic styles, and the bar had to carry a note explaining it was not a radiograph.
+    assert "rs-box" in q and "t-mode" in q
+    assert "btn-xray" not in q, "the old transparency preset does not belong beside the real styles"
 
 
 def test_a_group_adopts_the_real_buttons_rather_than_copying_them():

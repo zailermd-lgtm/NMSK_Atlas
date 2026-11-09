@@ -106,10 +106,14 @@ def test_the_engines_own_reset_also_puts_the_systems_back(tpl):
 
 
 # ---------------------------------------------------------------- the UI rules -------------------------------------
-def test_the_controls_go_into_q301s_existing_layers_group_not_a_new_top_level_button():
+def test_the_controls_go_into_q301s_existing_systems_group_not_a_new_top_level_button():
+    """Q318 renamed that group from Layers to Systems; the rule it carries is unchanged -- these two
+    controls join a group q301 already defines, they never become top-level buttons of their own."""
     s = (Q309 / "q309.js").read_text(encoding="utf-8")
-    assert s.count('G.addTo("layers"') == 2
+    assert s.count('G.addTo("systems"') == 2
     assert "NMSKGroups" in s and "document.body.appendChild" not in s
+    q = (REPO / "viewer" / "q301" / "q301.js").read_text(encoding="utf-8")
+    assert 'key:"systems"' in q, "the group they are added to has to be one q301 actually defines"
 
 
 def test_the_depth_control_is_taps_and_not_a_slider():

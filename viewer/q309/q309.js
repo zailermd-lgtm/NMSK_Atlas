@@ -6,7 +6,8 @@
      * NMSKSysToggle -- one plain on/off button per system, with its own structure count.   (request 1)
      * the whole-body peel is Q301's NMSKPeel, UNTOUCHED. This round drives it; it does not rebuild it.   (request 2)
      * NMSKSysPeel -- the same taps with a SCOPE: one system, or exactly the systems switched on.   (request 3)
-   Both new controls go into Q301's EXISTING "Layers" group through NMSKGroups.addTo, not as new top-level buttons.
+   Both new controls go into Q301's EXISTING group through NMSKGroups.addTo, not as new top-level buttons (Q318
+   renamed that group from "Layers" to "Systems", which is what the owner calls it and what it holds).
    The whole round is ONE history provider, so any change is ONE undo step; it registers two paths with Q300's
    "Show everything"; and the model reset returns it because the provider has a reset() of its own.
      NMSKQ309.start({engine:E, anchor, history, showall, peel})
@@ -100,8 +101,8 @@ var NMSKQ309 = (function(){
       /* into Q301's OWN "Layers" group: short menus, progressive disclosure, no new top-level button */
       var G = window.NMSKGroups;
       if (G && G.addTo){
-        if (window.NMSKSysToggle && NMSKSysToggle.element()) G.addTo("layers", {el:NMSKSysToggle.element()});
-        if (window.NMSKSysPeel && NMSKSysPeel.element()) G.addTo("layers", {el:NMSKSysPeel.element()});
+        if (window.NMSKSysToggle && NMSKSysToggle.element()) G.addTo("systems", {el:NMSKSysToggle.element()});   /* Q318: the group is "systems" now, which is what it always was */
+        if (window.NMSKSysPeel && NMSKSysPeel.element()) G.addTo("systems", {el:NMSKSysPeel.element()});
       }
       infoSection();
       if (window.NMSKTips && NMSKTips.fold){ try { NMSKTips.fold(); } catch (err){} }

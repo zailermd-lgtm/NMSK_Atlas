@@ -99,12 +99,16 @@ var NMSKQ301 = (function(){
   function defaultGroups(){
     var R = window.NMSKRenderStyle, P = window.NMSKPeel, F = window.NMSKFat;
     return [
-      {key:"view", label:"View", title:"Where you look from, and how the screen is laid out", members:[
-        {adopt:"foot"},                                  /* the Z engine's front / side / back / move / spin / reset row */
-        {adopt:["t-reset", "t-lay3", "t-layout", "sym-select", "btn-pose"]},
-        {combo:"spin", adopt:"btn-spin"}
+      /* Q318: the order is the owner's own list. Search first, because finding a structure is where
+         almost every session starts, and the colour of what is selected belongs with it. */
+      {key:"mark", label:"Search", title:"Find a structure by any of its names, mark it, and isolate it", members:[
+        {adopt:["t-iso", "t-only", "t-invert", "t-mark"]},
+        {combo:"marktap", adopt:["sel-markmode"]},
+        {adopt:["sel-markcur", "sel-clear", "ss-q-all", "sel-p-isolate", "sel-p-fadeoth", "sel-p-hidesel"]},
+        {combo:"highlight", adopt:["sel-p-hlsel"]},
+        {adopt:["box-clear"]}
       ]},
-      {key:"layers", label:"Layers", title:"Which tissues are shown, how deep to peel, and the fat", members:[
+      {key:"systems", label:"Systems", title:"Which systems are shown, how deep to peel into them, and the fat", members:[
         {el:P && P.state().on ? document.getElementById("pl-box") : null, combo:"peel"},
         {el:F && F.state().on ? document.getElementById("ft-box") : null, combo:"fat"},
         {adopt:["btn-panel"], label2:"The full tissue-layer table, with its own opacity and solo controls, opens in the side panel."},
@@ -112,29 +116,37 @@ var NMSKQ301 = (function(){
         {adopt:"sides"},
         {combo:"srccolour", adopt:["src-colour"]}       /* the toggle lives here; its per-structure list stays in the i */
       ]},
-      {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
-        {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
-        {combo:"boneread", adopt:"br-box"},
-        {adopt:["btn-xray", "t-xray"], label2:"The older X-ray is a transparency preset, not a radiographic picture."},
-        {adopt:["t-mode"]}
-      ]},
-      {key:"cut", label:"Cut", title:"Cut the model, and the cross-sections", members:[
+      {key:"cut", label:"Dissection", title:"Dissect the model, and the cross-sections", members:[
         {combo:"cut", adopt:["t-cut"]},
         {adopt:["cut-exit", "cut-place", "cut-reset", "cut-flip"]},
         {adopt:["t-slices", "lab-cutfill"]}
       ]},
-      {key:"mark", label:"Mark", title:"Find, mark and isolate structures", members:[
-        {adopt:["t-iso", "t-only", "t-invert", "t-mark"]},
-        {combo:"marktap", adopt:["sel-markmode"]},
-        {adopt:["sel-markcur", "sel-clear", "ss-q-all", "sel-p-isolate", "sel-p-fadeoth", "sel-p-hidesel"]},
-        {combo:"highlight", adopt:["sel-p-hlsel"]},
-        {adopt:["box-clear"]}
+      /* Q318: the older X-ray left this entry. It was a transparency preset sitting beside the real
+         radiographic styles, and its own note had to say so -- exactly the kind of button the owner
+         meant. It stays on the page where it was defined; it is simply no longer offered here. */
+      {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
+        {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
+        {combo:"boneread", adopt:"br-box"},
+        {adopt:["t-mode"]}
       ]},
-      {key:"learn", label:"Learn", title:"Learn, labels, quick view and the groups", members:[
-        {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
+      {key:"pose", label:"Pose", title:"Move the joints, each only through its own normal range", members:[
+        {adopt:["btn-pose"]}
       ]},
       {key:"measure", label:"Measure", title:"Measure on the model", members:[
         {combo:"measure", adopt:["t-measure"]}
+      ]},
+      /* adopted once the private add-on has put its button on the page; the sheet is painted again
+         after that, and a member whose id is not there yet is simply not shown */
+      {key:"needle", label:"Needle", title:"Plan an injection: entry, target, direction, and what the path crosses", members:[
+        {adopt:["t-needle"]}
+      ]},
+      {key:"view", label:"Navigate", title:"Where you look from, and how the screen is laid out", members:[
+        {adopt:"foot"},                                  /* the Z engine's front / side / back / move / spin / reset row */
+        {adopt:["t-reset", "t-lay3", "t-layout", "sym-select"]},
+        {combo:"spin", adopt:"btn-spin"}
+      ]},
+      {key:"learn", label:"Learn", title:"Learn, labels, quick view and the groups", members:[
+        {adopt:["t-learn", "t-labels", "t-quick", "t-nervegroups", "t-parts", "lab-legend-btn"]}
       ]}
     ].map(function(g){ g.members = g.members.filter(function(m){ return m.el || m.adopt || m.label; }); return g; });
   }
