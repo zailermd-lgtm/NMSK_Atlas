@@ -141,6 +141,15 @@
       if (r.aniso) { A.aOn[i] = 1; A.aTh[i] = r.aniso.theta_deg * DEG; A.aFl[i] = r.aniso.floor; A.aMin[i] = r.aniso.min_elong; }
     });
     A.airId = C.ids.air; A.fatId = C.ids.fat; A.gelZ = US.global.gel.z_mrayl; A.airFillMm = US.global.air_pocket_fill_mm || 12;
+    /* Q317: an instrument is not a tissue and is not in C.T.classes, so it takes one of the ids those leave
+       free (0-32 are the tissues, 255 is the gel) and is filled here by hand from the table's own block. */
+    var ins = US.instruments && US.instruments.needle_steel;
+    if (ins && ins.id > 32 && ins.id < 255) {
+      var q = ins.id;
+      A.z[q] = ins.z; A.logz[q] = Math.log(ins.z); A.alpha[q] = ins.alpha; A.bs[q] = bs0 * Math.pow(10, ins.bs_db / 10);
+      A.speck[q] = ins.speck; A.sig[q] = ins.spec_sigma_deg * DEG; A.diff[q] = ins.diffuse; A.keys[q] = "needle_steel";
+      A.needleId = q; A.needleElevHalf = ins.elev_half_mm;
+    }
     return A;
   }
 
@@ -1675,21 +1684,70 @@
         return v.hiM;
       });
     }
+    /* Q317: the needle in the image. It is painted into a COPY of the anatomy labels, never into the cached
+       raster itself -- computeFrame hands a previous frame's label buffer on by reference when the plane has
+       not moved, and an instrument painted into that buffer would leak into every later frame. */
+    var needle = null;
+    function setNeedle(n) {
+      needle = (n && n.A && n.B) ? {A: n.A.slice(), B: n.B.slice(), r: Math.max(0.05, +n.r_mm || 0.4)} : null;
+      refresh(true);
+      return !!needle;
+    }
+    function needleSig() {
+      return needle ? needle.A.concat(needle.B).map(function (v) { return v.toFixed(2); }).join(",") + "," + needle.r.toFixed(2) : "";
+    }
+    function paintNeedle(fr) {
+      var lab = fr.labA, nid = AC && AC.needleId;
+      if (!needle || !lab || !nid) return lab;
+      var pl = fr.plan, px = pl.px, W = pl.W, H = pl.H, O = fr.O, u = fr.pf.u, b = fr.pf.b, ev = fr.pf.e;
+      function d3(P, k) { return (P[0] - O[0]) * k[0] + (P[1] - O[1]) * k[1] + (P[2] - O[2]) * k[2]; }
+      var ax = d3(needle.A, u), ay = d3(needle.A, b), ae = d3(needle.A, ev);
+      var bx = d3(needle.B, u), by = d3(needle.B, b), be = d3(needle.B, ev);
+      /* Out of the scan plane the needle is not seen -- which is exactly why the in-plane approach is the one
+         taught. Keep only the part of the shaft within elev_half_mm of the plane. */
+      var half = (AC.needleElevHalf == null ? 0.6 : AC.needleElevHalf) + needle.r;
+      var t0 = 0, t1 = 1, de = be - ae;
+      if (Math.abs(de) < 1e-6) { if (Math.abs(ae) > half) return lab; }
+      else {
+        var ta = (-half - ae) / de, tb = (half - ae) / de;
+        t0 = Math.max(0, Math.min(ta, tb)); t1 = Math.min(1, Math.max(ta, tb));
+        if (t1 <= t0) return lab;
+      }
+      var x0 = ax + (bx - ax) * t0, y0 = ay + (by - ay) * t0, x1 = ax + (bx - ax) * t1, y1 = ay + (by - ay) * t1;
+      var r = needle.r, ix0 = Math.floor((Math.min(x0, x1) - r - pl.xr0) / px), ix1 = Math.ceil((Math.max(x0, x1) + r - pl.xr0) / px);
+      var iy0 = Math.floor((Math.min(y0, y1) - r - pl.yr0) / px), iy1 = Math.ceil((Math.max(y0, y1) + r - pl.yr0) / px);
+      if (ix1 < 0 || iy1 < 0 || ix0 >= W || iy0 >= H) return lab;
+      ix0 = Math.max(0, ix0); iy0 = Math.max(0, iy0); ix1 = Math.min(W - 1, ix1); iy1 = Math.min(H - 1, iy1);
+      var out = new Uint8Array(lab);                                      // copy-on-write: the cache keeps the pristine raster
+      var vx = x1 - x0, vy = y1 - y0, vv = vx * vx + vy * vy, rr = r * r, iy, ix;
+      for (iy = iy0; iy <= iy1; iy++) {
+        var py = pl.yr0 + (iy + 0.5) * px, row = iy * W;
+        for (ix = ix0; ix <= ix1; ix++) {
+          var pxx = pl.xr0 + (ix + 0.5) * px, wx = pxx - x0, wy = py - y0;
+          var s = vv > 1e-9 ? Math.max(0, Math.min(1, (wx * vx + wy * vy) / vv)) : 0;
+          var dx = wx - vx * s, dy = wy - vy * s;
+          if (dx * dx + dy * dy <= rr) out[row + ix] = nid;
+        }
+      }
+      fr.needlePainted = true;
+      return out;
+    }
     function computeFrame(spec, q, prev) {                                    // -> Promise(frame)
       var pose = poseOf(spec), geom = curGeom(), plan = LIB.planRaster(geom, q.maxDim, {maxLines: q.maxLines});
-      var fr = {spec: spec, pf: pose.pf, O: pose.O, shift: pose.shift, geom: geom, plan: plan, lab: null, sid: null, rk: rasterKey(spec, q), sim: null, ms: 0, kms: 0};
-      fr.sig = [S.freq, S.depthCm, S.tgc, S.focusCm, S.speckle, S.textures, S.reverb, S.noise, S.seed, S.mode].join("|");
+      var fr = {spec: spec, pf: pose.pf, O: pose.O, shift: pose.shift, geom: geom, plan: plan, lab: null, labA: null, sid: null, rk: rasterKey(spec, q), sim: null, ms: 0, kms: 0};
+      fr.sig = [S.freq, S.depthCm, S.tgc, S.focusCm, S.speckle, S.textures, S.reverb, S.noise, S.seed, S.mode, needleSig()].join("|");
       if (prev && prev.sim && prev.rk === fr.rk && prev.sig === fr.sig) return Promise.resolve(prev);
       var t0 = Date.now(), pr;
-      if (prev && prev.rk === fr.rk && prev.lab) { fr.lab = prev.lab; fr.sid = prev.sid; pr = Promise.resolve(); }
+      if (prev && prev.rk === fr.rk && prev.labA) { fr.labA = prev.labA; fr.sid = prev.sid; pr = Promise.resolve(); }
       else {
         var u = pose.pf.u, v = pose.pf.N, n = LIB.cross(u, v);
         var R = {key: "us" + (++keySeq), W: plan.W, H: plan.H, O: pose.O, u: u, v: v, n: n, u0: plan.xr0, v0: -plan.yr0, px: plan.px, smin: 0, smax: 0, s: 0, wantSid: true,
           skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true, sheetMm: sheetMm()};
-        pr = sh.runSlice(R).then(function (r) { fr.lab = r.lab; fr.sid = r.sid; fr.kms = r.ms; });
+        pr = sh.runSlice(R).then(function (r) { fr.labA = r.lab; fr.sid = r.sid; fr.kms = r.ms; });
       }
       return pr.then(function () {
         var tS = Date.now();
+        fr.lab = paintNeedle(fr);                                             // Q317: the same buffer when there is no needle
         fr.sim = LIB.simulate(simOpts(fr)); fr.simMs = Date.now() - tS; fr.ms = Date.now() - t0;
         return fr;
       });
@@ -2914,6 +2972,11 @@
       /* place the probe where a ray from `from` along `dir` first meets the skin (atlas mm); returns {P, N} or null */
       placeRay: function (from, dir) { var h = placeRay(from, dir, true); if (h) { S.sel = 0; if (ui.modeBtn1) syncUi(); refresh(true); } return h ? {P: S.P.slice(), N: S.N.slice(), struct: h.struct} : null; },
       geo: function () { return geo; }, C: function () { return C; }, table: function () { return US; }, AC: function () { return AC; },
+      /* Q317: put a needle in the image, or take it out. A and B are its two ends in the same atlas mm the
+         meshes use (A the hub side, B the tip); r_mm is its shaft radius. Returns whether one is now set. */
+      setNeedle: function (n) { return setNeedle(n); },
+      clearNeedle: function () { return setNeedle(null); },
+      needle: function () { return needle ? {A: needle.A.slice(), B: needle.B.slice(), r_mm: needle.r} : null; },
       idle: function () { return new Promise(function (res) { var t0 = Date.now(), t = setInterval(function () { if (!busy && !pumpPending && frames.length && Date.now() - t0 > 150) { clearInterval(t); res(true); } if (Date.now() - t0 > 120000) { clearInterval(t); res(false); } }, 60); }); },
       frames: function () { return frames; }, views: function () { return views; }, perf: function () { return perf; },
       /* Q294 test hooks: the zoom re-simulation and the depth profile of an image column (dB), at 1x (the frame) or in the zoom window */
