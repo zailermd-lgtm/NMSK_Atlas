@@ -137,7 +137,7 @@
       var r = US.classes[cl.key]; if (!r) { r = fb; A.missing.push(cl.key); }
       A.keys[i] = cl.key; A.z[i] = r.z; A.alpha[i] = r.alpha; A.bs[i] = bs0 * Math.pow(10, r.bs_db / 10); A.speck[i] = r.speck;
       A.sig[i] = r.spec_sigma_deg * DEG; A.diff[i] = r.diffuse; A.logz[i] = Math.log(r.z);
-      A.tex[i] = r.texture === "muscle" ? 1 : r.texture === "tendon" ? 2 : 0;
+      A.tex[i] = r.texture === "muscle" ? 1 : r.texture === "tendon" ? 2 : r.texture === "nerve" ? 3 : 0;
       if (r.aniso) { A.aOn[i] = 1; A.aTh[i] = r.aniso.theta_deg * DEG; A.aFl[i] = r.aniso.floor; A.aMin[i] = r.aniso.min_elong; }
     });
     A.airId = C.ids.air; A.fatId = C.ids.fat; A.gelZ = US.global.gel.z_mrayl; A.airFillMm = US.global.air_pocket_fill_mm || 12;
@@ -298,7 +298,8 @@
                   var a = axs ? axs.a : arc.a;
                   if (arc && AC.tex[cls] === 1) { a = fibreAt(arc, wx, wy, wz); if (arc._sep > 0.01) { m *= 1 + arc.gain * arc._sep; nStats.sepSamples++; } nStats.archSamples++; }   // Q289: the local fibre direction (pennation) + documented septa
                   var e1 = Math.abs(a[1]) < 0.9 ? unit(cross(a, [0, 1, 0])) : unit(cross(a, [1, 0, 0])), e2 = cross(a, e1);
-                  var tp1 = AC.tex[cls] === 1 ? tp.muscle : tp.tendon, cell = AC.tex[cls] === 1 ? tp1.cell_mm : tp1.fib_mm * 5, lw = AC.tex[cls] === 1 ? tp1.line_mm : tp1.fib_mm * 0.5;
+                  var tp1 = AC.tex[cls] === 2 ? tp.tendon : AC.tex[cls] === 3 ? tp.nerve : tp.muscle;        // Q317: 3 = nerve, on the muscle's cell/boundary construction
+                  var cell = AC.tex[cls] === 2 ? tp1.fib_mm * 5 : tp1.cell_mm, lw = AC.tex[cls] === 2 ? tp1.fib_mm * 0.5 : tp1.line_mm;
                   worley((wx * e1[0] + wy * e1[1] + wz * e1[2]) / cell, (wx * e2[0] + wy * e2[1] + wz * e2[2]) / cell, 5);
                   var dd = (WF2 - WF1) * cell / lw; m *= 1 + tp1.gain * Math.exp(-dd * dd); nStats.texSamples++;
                 }
