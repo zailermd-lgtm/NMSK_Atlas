@@ -14,6 +14,20 @@
 /* Q318: a group that asked for the second row sits beside the words, sized to its own label rather
    than stretching across whatever the undo / redo / reset buttons leave over. */
 .qg-hist .qg-g{flex:0 0 auto}
+/* Q318: the saved set-ups. Lives inside a group sheet, so it inherits the sheet's own colours. */
+.fv-box{display:flex;flex-direction:column;gap:5px;width:100%}
+.fv-top{display:flex;gap:4px;align-items:center}
+.fv-name{flex:1 1 auto;min-width:0;font:inherit;font-size:12px;padding:5px 7px;border-radius:6px;
+  border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.22);color:inherit}
+.fv-name::placeholder{color:rgba(255,255,255,.55)}
+.fv-add{flex:0 0 auto}
+.fv-list{display:flex;flex-direction:column;gap:3px;max-height:210px;overflow-y:auto;overscroll-behavior:contain}
+.fv-row{display:flex;align-items:center;gap:4px}
+.fv-open{flex:1 1 auto;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fv-when{flex:0 0 auto;font-size:11px;opacity:.75;min-width:52px;text-align:right}
+.fv-x{flex:0 0 auto;min-width:30px}
+.fv-msg{margin:0;font-size:11.5px;opacity:.9}
+.fv-none,.fv-note{margin:0;font-size:11.5px;opacity:.75;line-height:1.45}
 .qg-g{position:relative;min-height:36px;min-width:60px;flex:1 1 auto;padding:4px 8px;border:1px solid rgba(255,255,255,.17);border-radius:9px;
   background:rgba(255,255,255,.055);color:#E6EDF3;font:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px}
 .qg-g:hover{background:rgba(255,255,255,.12)}

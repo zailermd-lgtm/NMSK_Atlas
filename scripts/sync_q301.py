@@ -19,7 +19,7 @@ REPO = Path(__file__).resolve().parent.parent
 TEMPLATES = [REPO / "viewer" / "atlas_viewer.template.html", REPO / "viewer" / "zan_atlas.template.html"]
 D = REPO / "viewer" / "q301"
 # load order matters: tissue and combos hold no DOM, info/groups are mounted by q301.js last
-JS = ["tissue.js", "combos.js", "info.js", "render.js", "peel.js", "fat.js", "groups.js", "q301.js"]
+JS = ["tissue.js", "combos.js", "info.js", "render.js", "peel.js", "fat.js", "favorites.js", "groups.js", "q301.js"]
 BEGIN, END = "<!-- Q301 html begin -->", "<!-- Q301 html end -->"
 
 

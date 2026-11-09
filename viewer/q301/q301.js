@@ -143,6 +143,9 @@ var NMSKQ301 = (function(){
       {key:"needle", label:"Needle", title:"Plan an injection: entry, target, direction, and what the path crosses", members:[
         {adopt:["t-needle"]}
       ]},
+      {key:"favorites", label:"Favorites", title:"Keep the way the model is set up now, under a name, and come back to it", members:[
+        {el:window.NMSKFavorites ? NMSKFavorites.element() : null}
+      ]},
       /* Q318: the second row, with undo / redo / the resets -- moving the model is not one of the eight
          things you DO to it, and this is the row that will also carry the navigation-tool picker. */
       {key:"view", label:"Navigate", row2:true, title:"Where you look from, and how the screen is laid out", members:[
@@ -167,6 +170,7 @@ var NMSKQ301 = (function(){
       });
       if (opt.fat && window.NMSKFat) NMSKFat.start(opt.fat, {history:hist, showall:sa});
       if (opt.peel && window.NMSKPeel) NMSKPeel.start(opt.peel, {history:hist, showall:sa});
+      if (window.NMSKFavorites) NMSKFavorites.start({history:hist});          /* Q318: named set-ups, before the bar is built */
       if (opt.render && window.NMSKRenderStyle) NMSKRenderStyle.start(opt.render, {history:hist, showall:sa, xrayStep:opt.xrayStep});
       if (window.NMSKGroups) NMSKGroups.start({anchor:opt.anchor, history:hist, modelreset:opt.modelreset || window.NMSKModelReset,
         info:window.NMSKInfo, combos:window.NMSKCombos, groups:(opt.groups || defaultGroups()).concat(opt.extraGroups || [])});
