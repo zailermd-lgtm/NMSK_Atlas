@@ -21,6 +21,14 @@ poseCtl = NMSKPose({
     draw();
   },
   parts:function(){ return partsCtl; },
+  /* Q318: where a point of the model lands on the screen, for the rings (model frame, as everything here is) */
+  toScreen:function(p){
+    var v = root.localToWorld(new THREE.Vector3(p[0], p[1], p[2])).project(camera);
+    if (v.z > 1) return null;
+    var r = renderer.domElement.getBoundingClientRect();
+    return [r.left + (v.x + 1) / 2 * r.width, r.top + (1 - v.y) / 2 * r.height];
+  },
+  canvasRect:function(){ return renderer.domElement.getBoundingClientRect(); },
   toolbar:document.getElementById("tools"), toolClass:"tool",
   isPhone:function(){ return !!app && app.classList.contains("phone"); }
 });

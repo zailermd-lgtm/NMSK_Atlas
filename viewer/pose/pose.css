@@ -59,3 +59,23 @@
 }
 
 html.pose-on #pm-layer{display:none!important}
+
+/* Q318: the rings on the model. An SVG over the canvas -- nothing enters either engine's 3D scene -- so it must
+   not swallow the pointer anywhere except on the part of a ring that can actually be dragged. */
+#pz-rings{position:fixed;inset:0;width:100%;height:100%;z-index:34;pointer-events:none;overflow:visible}
+#pz-rings .pz-ring{fill:none;stroke-width:1.1;opacity:.3}
+#pz-rings .pz-rom{fill:none;stroke-width:2.6;opacity:.95;stroke-linecap:round}
+#pz-rings .pz-grab{fill:none;stroke-width:16;stroke-opacity:0;pointer-events:stroke;cursor:grab;touch-action:none}
+#pz-rings .pz-grab:active{cursor:grabbing}
+#pz-rings .pz-spoke{stroke-width:1.4;opacity:.85}
+#pz-rings .pz-hub{fill:#fff;stroke:#1c2430;stroke-width:1.2}
+#pz-rings .pz-rlab,#pz-rings .pz-jlab{font:11px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;paint-order:stroke;stroke:rgba(255,255,255,.85);stroke-width:2.6px;stroke-linejoin:round}
+#pz-rings .pz-jlab{fill:#1c2430;font-weight:600}
+#pose-panel .pz-head .pz-hsp{flex:1 1 auto}
+#pose-panel .pz-head #pz-rings-btn{font-size:11px;min-height:24px;min-width:0;padding:2px 7px;border:1px solid #8a93a0;border-radius:6px}
+#pose-panel .pz-head #pz-rings-btn[aria-pressed="true"]{background:#2f7fd1;border-color:#2f7fd1;color:#fff}
+@media (prefers-color-scheme:dark){
+  #pz-rings .pz-rlab,#pz-rings .pz-jlab{stroke:rgba(12,16,22,.85)}
+  #pz-rings .pz-jlab{fill:#eef2f7}
+  #pz-rings .pz-hub{fill:#0c1016;stroke:#eef2f7}
+}

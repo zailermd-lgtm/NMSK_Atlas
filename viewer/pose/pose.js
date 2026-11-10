@@ -483,13 +483,208 @@ function NMSKPose(E){
     if (panel){ panel.hidden = !st.open; panel.classList.toggle("pz-phone", !!(E.isPhone && E.isPhone())); }
     if (btn) btn.setAttribute("aria-expanded", String(st.open));
     if (st.open && !body.firstChild && st.ready) buildBody();
+    /* Q318: pressing Pose is what "marking POSE" means, so the rings come on with it -- and STAY on when the
+       panel is closed again, which is the owner's "with or without the detailed window". */
+    if (st.open && st.ready) ringsOn(true);
   }
+  /* ---------------------------------------------------------------- Q318: the rings, on the model itself */
+  /* Owner: "if I have marked POSE then moving over a joint should mark the 3 axis rings on that joint, and if I
+     click on them, allow changing it graphically on the model itself, with or without the detailed window."
+     One SVG over the canvas; nothing is added to either engine's 3D scene, so neither shader, picking pass nor
+     draw order is touched. A joint's centre and the world direction of each of its axes are read from the SAME
+     forward kinematics that moved the geometry (st.M), so a ring cannot point somewhere the bone is not.
+     Each axis is drawn twice: the whole circle faint, and the part of it this joint is ALLOWED to turn through
+     solid -- the normal range becomes something you can see rather than a number to read -- with a tick where
+     it stands now. Dragging a ring turns that one axis through setJoint(), the same door the slider uses, so
+     the clamp to the range and the left/right link apply identically and the panel cannot disagree with it. */
+  var RCOL = ["#d6453c", "#2f9e44", "#2f7fd1"], RPX = [52, 68, 84], I3R = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+  var rg = {on:false, svg:null, jid:null, drag:null, raf:0, sig:""};
+  function m12p(m, v){ return [m[0]*v[0] + m[1]*v[1] + m[2]*v[2] + m[3], m[4]*v[0] + m[5]*v[1] + m[6]*v[2] + m[7], m[8]*v[0] + m[9]*v[1] + m[10]*v[2] + m[11]]; }
+  function m12r(m, v){ return [m[0]*v[0] + m[1]*v[1] + m[2]*v[2], m[4]*v[0] + m[5]*v[1] + m[6]*v[2], m[8]*v[0] + m[9]*v[1] + m[10]*v[2]]; }
+  function unit(a){ var n = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/n, a[1]/n, a[2]/n]; }
+  function cross(a, b){ return [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]]; }
+  /* the joint in the world the geometry is in: its centre, and the instantaneous axis of each of its dofs
+     (dof k turns about its own axis carried by the dofs before it, which is how fk composes them) */
+  function jointFrame(j){
+    if (!st.ready || !j || j.driven || !j.dof || !j.dof.length) return null;
+    var par = st.rig.segs[j.seg][1];
+    if (par < 0 || !st.M[par]) return null;
+    var fm = j.ref >= 0 && st.M[j.ref] ? st.M[j.ref] : st.M[par];
+    var q = st.pose.j[j.id], R = I3R, ax = [], k;
+    for (k = 0; k < j.dof.length; k++){
+      ax.push(unit(m12r(fm, C.mv3(R, j.dof[k].a))));
+      R = C.mul3(R, C.rotM(j.dof[k].a, q[k]));
+    }
+    return {c:m12p(st.M[par], j.c), ax:ax};
+  }
+  /* a basis of the ring's plane. u is the direction the current value is drawn at, so a value v sits at the
+     plane angle (v - now) degrees and the allowed band needs no second convention. */
+  function basis(z){
+    var t = Math.abs(z[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0], u = unit(cross(z, t));
+    return {z:z, u:u, v:cross(z, u)};
+  }
+  function scr(p){ try { return E.toScreen ? E.toScreen(p) : null; } catch (e){ return null; } }
+  function mmPerPx(c, u){
+    var a = scr(c), b = scr([c[0] + u[0]*10, c[1] + u[1]*10, c[2] + u[2]*10]);
+    if (!a || !b) return null;
+    var d = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    return d > 0.05 ? 10 / d : null;
+  }
+  function svgEl(tag, at){
+    var e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+    for (var k in at) if (at[k] != null) e.setAttribute(k, at[k]);
+    return e;
+  }
+  function ringSvg(){
+    if (rg.svg) return rg.svg;
+    rg.svg = svgEl("svg", {id:"pz-rings", "aria-hidden":"true"});
+    document.body.appendChild(rg.svg);
+    return rg.svg;
+  }
+  function hideRings(){
+    rg.jid = null; rg.sig = "";
+    if (rg.raf){ cancelAnimationFrame(rg.raf); rg.raf = 0; }
+    if (rg.svg) rg.svg.textContent = "";
+  }
+  /* The joint the pointer is over: the nearest projected joint centre within reach of its own rings. The one
+     already showing its rings KEEPS them while the pointer is anywhere inside them -- without that, reaching
+     for a ring 84 px out from the shoulder handed the rings to the elbow on the way, and the drag then
+     started on a joint that was no longer the one under the rings. */
+  var REACH = RPX[RPX.length - 1] + 26;
+  function jointNear(x, y){
+    if (!st.ready || !E.toScreen) return null;
+    var best = null, bd = 1e9, cur = rg.jid ? jointOf(rg.jid) : null;
+    if (cur){
+      var cf = jointFrame(cur), ca = cf ? scr(cf.c) : null;
+      if (ca && Math.hypot(ca[0] - x, ca[1] - y) <= REACH) return cur;
+    }
+    st.rig.joints.forEach(function(j){
+      if (j.driven || !j.dof || !j.dof.length) return;
+      var f = jointFrame(j); if (!f) return;
+      var a = scr(f.c); if (!a) return;
+      var d = Math.hypot(a[0] - x, a[1] - y);
+      if (d < bd){ bd = d; best = j; }
+    });
+    return bd <= REACH ? best : null;
+  }
+  function drawRings(){
+    rg.raf = 0;
+    var j = rg.jid ? jointOf(rg.jid) : null, f = j ? jointFrame(j) : null, c0 = f ? scr(f.c) : null;
+    if (!rg.on || !c0){ if (rg.svg) rg.svg.textContent = ""; return; }
+    var mpp = mmPerPx(f.c, f.ax[0].length ? basis(f.ax[0]).u : [1, 0, 0]);
+    if (!mpp){ rg.svg.textContent = ""; return; }
+    var q = st.pose.j[j.id];
+    var sig = [Math.round(c0[0]), Math.round(c0[1]), Math.round(1000 * mpp), rg.jid].concat(q.map(function(v){ return Math.round(v * 10); })).join(",");
+    if (sig === rg.sig) return;                   /* the camera has not moved and nothing has turned */
+    rg.sig = sig;
+    var svg = ringSvg();
+    svg.textContent = "";
+    var n = Math.min(3, j.dof.length), k, i;
+    for (k = 0; k < n; k++){
+      var d = j.dof[k], B = basis(f.ax[k]), r = RPX[k] * mpp, pts = [], arc = [];
+      var at = function(deg){
+        var t = deg * Math.PI / 180, w = [f.c[0] + r*(B.u[0]*Math.cos(t) + B.v[0]*Math.sin(t)),
+                                          f.c[1] + r*(B.u[1]*Math.cos(t) + B.v[1]*Math.sin(t)),
+                                          f.c[2] + r*(B.u[2]*Math.cos(t) + B.v[2]*Math.sin(t))];
+        return scr(w);
+      };
+      for (i = 0; i <= 64; i++){ var pp = at(i * 360 / 64); if (pp) pts.push(pp[0].toFixed(1) + "," + pp[1].toFixed(1)); }
+      var lo = d.lo - q[k], hi = d.hi - q[k], steps = Math.max(2, Math.round(Math.abs(hi - lo) / 4));
+      for (i = 0; i <= steps; i++){ var ap = at(lo + (hi - lo) * i / steps); if (ap) arc.push(ap[0].toFixed(1) + "," + ap[1].toFixed(1)); }
+      if (pts.length < 8) continue;
+      svg.appendChild(svgEl("polyline", {points:pts.join(" "), class:"pz-ring", stroke:RCOL[k]}));
+      if (arc.length > 1) svg.appendChild(svgEl("polyline", {points:arc.join(" "), class:"pz-rom", stroke:RCOL[k]}));
+      /* the grab line is the allowed part only: you cannot start a turn from outside the range */
+      var grab = svgEl("polyline", {points:(arc.length > 1 ? arc : pts).join(" "), class:"pz-grab", stroke:RCOL[k]});
+      grab.dataset.k = k; grab.dataset.j = j.id;        /* the drag starts on the joint these rings were DRAWN for */
+      grab.addEventListener("pointerdown", startDrag);
+      svg.appendChild(grab);
+      var now = at(0);
+      if (now){
+        svg.appendChild(svgEl("line", {x1:c0[0].toFixed(1), y1:c0[1].toFixed(1), x2:now[0].toFixed(1), y2:now[1].toFixed(1), class:"pz-spoke", stroke:RCOL[k]}));
+        var tx = svgEl("text", {x:(now[0] + 6).toFixed(1), y:(now[1] - 4).toFixed(1), class:"pz-rlab", fill:RCOL[k]});
+        tx.textContent = (d.l || d.k) + " " + Math.round(q[k]) + "°";
+        svg.appendChild(tx);
+      }
+    }
+    svg.appendChild(svgEl("circle", {cx:c0[0].toFixed(1), cy:c0[1].toFixed(1), r:3.2, class:"pz-hub"}));
+    var nm = svgEl("text", {x:(c0[0] + 7).toFixed(1), y:(c0[1] + 14).toFixed(1), class:"pz-jlab"});
+    nm.textContent = j.name + (j.side === "l" || j.side === "r" ? " (" + j.side.toUpperCase() + ")" : "");
+    svg.appendChild(nm);
+  }
+  function needDraw(){ if (rg.on && rg.jid && !rg.raf) rg.raf = requestAnimationFrame(drawRings); }
+  function startDrag(e){
+    var jid = e.currentTarget.dataset.j || rg.jid;
+    if (jid !== rg.jid){ rg.jid = jid; rg.sig = ""; }
+    var j = jid ? jointOf(jid) : null, f = j ? jointFrame(j) : null;
+    if (!f) return;
+    var k = +e.currentTarget.dataset.k, d = j.dof[k];
+    if (!d) return;
+    e.preventDefault(); e.stopPropagation();
+    var B = basis(f.ax[k]), mpp = mmPerPx(f.c, B.u);
+    if (!mpp) return;
+    var r = RPX[k] * mpp, a0 = plane(f.c, B, r, e.clientX, e.clientY);
+    if (a0 == null) return;
+    rg.drag = {id:j.id, k:k, key:d.k, c:f.c, B:B, r:r, a0:a0, q0:st.pose.j[j.id][k]};
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (err){}
+    status("Turning " + (d.l || d.k) + " of " + j.name + " on the model. " + d.lo + "° to " + d.hi + "°.");
+  }
+  /* where the pointer is, as an angle in the ring's own plane: the two in-plane directions are projected and
+     the screen offset is solved in that 2x2 basis, so it reads correctly however the ring is foreshortened */
+  function plane(c, B, r, x, y){
+    var o = scr(c), pu = scr([c[0] + B.u[0]*r, c[1] + B.u[1]*r, c[2] + B.u[2]*r]), pv = scr([c[0] + B.v[0]*r, c[1] + B.v[1]*r, c[2] + B.v[2]*r]);
+    if (!o || !pu || !pv) return null;
+    var e1x = pu[0] - o[0], e1y = pu[1] - o[1], e2x = pv[0] - o[0], e2y = pv[1] - o[1];
+    var det = e1x * e2y - e1y * e2x;
+    if (Math.abs(det) < 1e-6) return null;        /* the ring is edge-on: there is no angle to read */
+    var dx = x - o[0], dy = y - o[1];
+    return Math.atan2((-dx * e1y + dy * e1x) / det, (dx * e2y - dy * e2x) / det) * 180 / Math.PI;
+  }
+  function moveDrag(e){
+    var D = rg.drag; if (!D) return;
+    var a = plane(D.c, D.B, D.r, e.clientX, e.clientY);
+    if (a == null) return;
+    var dd = a - D.a0;
+    while (dd > 180) dd -= 360;
+    while (dd < -180) dd += 360;
+    setJoint(D.id, D.key, D.q0 + dd);
+    rg.sig = "";
+    needDraw();
+  }
+  function endDrag(){
+    if (!rg.drag) return;
+    rg.drag = null; flush();
+    if (statusEl) statusEl.dataset.msg = "";
+    chrome();
+  }
+  function ringsOn(on){
+    rg.on = on == null ? !rg.on : !!on;
+    var b = $("pz-rings-btn");
+    if (b) b.setAttribute("aria-pressed", String(rg.on));
+    if (!rg.on) hideRings(); else needDraw();
+    return rg.on;
+  }
+  window.addEventListener("pointermove", function(e){
+    if (rg.drag){ moveDrag(e); return; }
+    if (!rg.on || !st.ready) return;
+    if (e.target && e.target.closest && e.target.closest("#pz-rings")) return;      /* reaching for a ring must not hand the rings to a neighbour */
+    if (e.target && e.target.closest && e.target.closest("#pose-panel,#q301-bar,#q301-sheet,.overlay,#tools,#topright")) return;
+    var j = jointNear(e.clientX, e.clientY), id = j ? j.id : null;
+    if (id !== rg.jid){ rg.jid = id; rg.sig = ""; if (!id) hideRings(); }
+    needDraw();
+  }, {passive:true});
+  window.addEventListener("pointerup", endDrag);
+  window.addEventListener("pointercancel", endDrag);
+  setInterval(function(){ if (rg.on && rg.jid && !rg.drag) needDraw(); }, 120);   /* follow the camera and any pose change from elsewhere */
+
   function ui(){
     if (E.toolbar){
       btn = el("button", (E.toolClass || "") + " pz-btn-tool", "Pose"); btn.type = "button"; btn.id = "btn-pose"; btn.setAttribute("aria-expanded", "false"); btn.disabled = true;
       btn.title = "Joint pose controls (kinematic preview, normal range of motion)"; E.toolbar.appendChild(btn);
       btn.addEventListener("click", function(){ open(); });
     }
+    var rb = $("pz-rings-btn");
+    if (rb) rb.addEventListener("click", function(){ ringsOn(); });
     var x = $("pz-close"); if (x) x.addEventListener("click", function(){ open(false); });
     var ph = panel && panel.querySelector(".pz-head"); if (ph && window.nmskDrag) nmskDrag(panel, ph);
     var bo = $("pose-banner-reset"); if (bo) bo.addEventListener("click", reset);
@@ -502,7 +697,21 @@ function NMSKPose(E){
     pose:function(){ return JSON.parse(JSON.stringify(st.pose)); }, restPose:function(){ return JSON.parse(JSON.stringify(st.rest)); }, isRest:function(){ return st.ready ? isRest() : true; },
     rig:function(){ return st.rig; }, matrices:function(){ return st.M.map(function(m){ return Array.prototype.slice.call(m); }); },
     stats:function(){ return {ready:st.ready, ms:st.ms, changed:st.lastChanged, updates:st.updates, rigidVerts:st.verts.rigid, skinVerts:st.verts.skin, skinned:st.skins.length, failed:st.failed}; },
-    setLink:function(on){ st.link = !!on; }
+    setLink:function(on){ st.link = !!on; },
+    /* Q318, for the browser check as much as for the page: the rings' own state, and the two steps a drag is */
+    rings:ringsOn, screen:function(p){ return scr(p); },
+    ringState:function(){
+      var j = rg.jid ? jointOf(rg.jid) : null, f = j ? jointFrame(j) : null;
+      return {on:rg.on, joint:rg.jid, dragging:!!rg.drag, paths:rg.svg ? rg.svg.querySelectorAll(".pz-grab").length : 0,
+              centre:f && E.toScreen ? scr(f.c) : null, axes:f ? f.ax.length : 0,
+              range:j ? j.dof.map(function(d){ return [d.k, d.lo, d.hi]; }) : null};
+    },
+    ringHover:function(x, y){ var j = jointNear(x, y); rg.jid = j ? j.id : null; rg.sig = ""; if (rg.jid) drawRings(); else hideRings(); return rg.jid; },
+    ringTurn:function(k, deg){        /* what a drag does, without a pointer: the same clamp, the same door */
+      var j = rg.jid ? jointOf(rg.jid) : null; if (!j || !j.dof[k]) return false;
+      var ok = setJoint(j.id, j.dof[k].k, st.pose.j[j.id][k] + deg);
+      flush(); rg.sig = ""; drawRings(); return ok;
+    }
   };
   load().then(function(ok){
     if (ok){ if (btn) btn.disabled = false; if (E.ready) E.ready(api); }

@@ -46,6 +46,16 @@ poseCtl = NMSKPose({
     need = true;
   },
   parts:function(){ return partsCtl; },
+  /* Q318: where a point of the model lands on the screen, for the rings. The same model->clip matrix the
+     labels are placed with, so a ring and a label of the same structure cannot disagree. */
+  toScreen:function(p){
+    if (!lastMVP) return null;
+    var m = lastMVP, w = m[3]*p[0] + m[7]*p[1] + m[11]*p[2] + m[15];
+    if (!(w > 1e-6)) return null;
+    var cx = m[0]*p[0] + m[4]*p[1] + m[8]*p[2] + m[12], cy = m[1]*p[0] + m[5]*p[1] + m[9]*p[2] + m[13], r = canvas.getBoundingClientRect();
+    return [r.left + (cx / w * 0.5 + 0.5) * r.width, r.top + (1 - (cy / w * 0.5 + 0.5)) * r.height];
+  },
+  canvasRect:function(){ return canvas.getBoundingClientRect(); },
   toolbar:document.getElementById("topright"), toolClass:"pill",
   isPhone:function(){ return window.innerWidth <= 900; }
 });
