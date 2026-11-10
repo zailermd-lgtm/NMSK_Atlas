@@ -14215,6 +14215,37 @@ pointless step in between"; "MULTISLICES does not work."
    built page slicing along the Cut plane: 5 faces, 5 planes, no message.
 - `scripts/anatomy/q318/verify_toprow_q318.py` holds both halves in a browser, plus the layout.
 
+### Pose rings on the model (DONE). Commit ef962d9.
+- `viewer/pose/pose.js` gained a ring controller: one SVG over the canvas, nothing in either 3D scene.
+  Each engine answers one new question through `E.toScreen(p)` -- the Z engine with the same model-to-clip
+  matrix the labels use, three.js through its camera. The joint's centre and each axis direction come from
+  the SAME segment matrices (`st.M`) that carried the vertices, and dof k turns about its own axis carried
+  by the dofs before it, as `fk` composes them, so a ring cannot point where the bone is not.
+- Each axis: the whole circle faint, the ALLOWED part solid with a tick at the current value, and only the
+  allowed part is grabbable. A drag goes through `setJoint()`, so the range clamp and the left/right link
+  are the slider's, not a second implementation. `#pz-rings-btn` in the panel head switches them; pressing
+  Pose turns them on and closing the panel leaves them on ("with or without the detailed window").
+- Measured and fixed: the shoulder's outer ring is 84 px out and reaching for it passed within range of the
+  elbow, so the rings jumped joint on the way and the drag turned nothing. A pointer over the rings no
+  longer re-picks, the joint showing its rings keeps them while the pointer is inside them, and a drag
+  takes its joint from the ring it started on.
+- `scripts/anatomy/q318/verify_rings_q318.py` drives a real pointer drag in headless Chromium on both
+  engines: shoulder flexion 0.9 -> 40 degrees, one axis moved and nothing else, 369 structures carried up
+  to 413 mm over twelve updates, a turn past the range stops at the range, Reset puts it back.
+
+### POSE WAS BROKEN ON ALL FOUR Z PAGES (fixed, same commit)
+- Moving any joint threw `Cannot read properties of undefined (reading 'pb')`. A structure whose system is
+  not one of the engine's fourteen layers (`LK`) was filed in `perLayer` under its own key, which the
+  batching loop -- which walks `LK` -- never visits: never uploaded, never drawn, and the first pose that
+  touched it threw on its missing batch and took the whole update down.
+- Four structures were in that state on every Z page: the knee's anterolateral ligament and the
+  coracoacromial ligament, both sides, system `ligament`. The page's own `nmsk-q309-layers` table already
+  groups `ligament` WITH `joint` in the "Joint capsules & ligaments" stratum, so `SYS_LAYER` maps it there
+  while the structure keeps its own `sys` for its card and the search. Anything still unknown is drawn as
+  bone, counted in `UNKNOWN_SYS`, and reported by `window.__layerAudit()`.
+- Reproduced on the PUBLISHED build (`build/q309`) before any Q318 change, so it was not introduced here.
+  The own-engine pages were never affected (175 structures moved there all along).
+
 ### Still open from the owner's Q318 list
 - Search behind an icon; colour change for the selected (all, or only from now on).
 - Systems: select all / none, show / hide / **FADE**, by concentric layers, slicer layers, the
@@ -14222,9 +14253,7 @@ pointless step in between"; "MULTISLICES does not work."
   functional group. Owner answered "2+3" when asked which layering was meant: both.
 - Measure: `viewer/q294/measure.js` already has distance, 3-point and 2-line angle and Cobb;
   circumference, area, volume and the expected imaging value per pixel are not written.
-- Pose rings: 3 rotation rings on the joint under the pointer, clickable to drag on the model
-  itself, within ROM. The rig exposes `j.dof` as `{k, l, lo, hi, q0}` and `jointR(j, q)`; there is
-  no gizmo code anywhere yet, so this is wholly new.
+- (Pose rings: DONE, see above.)
 - REFERENCE IMAGES button and a navigation-tool picker (joystick / rings) in the second row.
 - Carry-over from Q317-E: pose-aware ultrasound, then the injection clip with the needle visible in
   the image. Posed vertices are already CPU-side via `window.__poseLive(i)`; the worker needs an
