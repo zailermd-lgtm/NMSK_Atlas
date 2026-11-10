@@ -486,3 +486,21 @@ def test_the_cross_section_rebuild_cannot_be_starved_by_the_render_loop_poll():
         sched = body[k:body.index("\n  }", k) + 4]
         assert "clearTimeout" not in sched, f"{scope}: a pending rebuild must not be cleared and restarted: {sched!r}"
         assert "if (st.timer) return" in sched or "if (st.timer){" in sched, f"{scope}: {sched!r}"
+
+
+def test_the_slice_builder_can_see_the_minimum_band_width_from_both_callers():
+    """Q318: the other half of "MULTISLICES does not work". `BAND_FRAC` / `BAND_MAX` -- Q299's minimum drawn
+       width for a thin section -- were declared inside NMSKCap, but the slice stack in NMSKCrossSection
+       passes them to the same NMSKCapCore.build(). Every build there threw "BAND_FRAC is not defined", so
+       the stack came back with nothing in it and that message where the slices should have been. Measured
+       on a built page after the fix: 5 faces and 5 planes, no message."""
+    src = CAP.read_text(encoding="utf-8")
+    assert "var NMSK_BAND = {" in src, "the minimum band width belongs beside both callers, not inside one"
+    i = src.index("var NMSK_BAND = {")
+    assert i < src.index("function NMSKCap(E)"), "it must be declared before either controller"
+    for scope in ("function NMSKCap(E)", "function NMSKCrossSection(E)"):
+        j = src.index(scope)
+        end = src.index("function NMSKCrossSection(E)", j + 1) if scope.endswith("Cap(E)") else len(src)
+        body = src[j:end]
+        assert "BAND_FRAC" in body, scope
+        assert "var BAND_FRAC = NMSK_BAND.frac" in body, f"{scope} must take it from the shared declaration"

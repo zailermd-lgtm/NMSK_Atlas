@@ -13025,12 +13025,17 @@ var NMSKCapCore = (function(){
    cut() -> {on, kn, c, th} (the kept part is 0 <= kn.p + c <= th, th = 0: whole rest)   items() -> the VISIBLE structures [{key, name, cat, rgb, alpha, geom}]
    upload(face, res | null)  face 0 = the cut plane, 1 = the far face of a slice; res = NMSKCapCore.build() output after recolor() (null removes it)
    show(face, bool) hides / shows an uploaded face   lookAt(dirFromTarget, target, extent, free)   bounds() -> {min,max}   canvasRect()   redraw() */
+/* Q299: a thin section gets a minimum DRAWN width so a 1 mm nerve or a 0.9 mm fascial sheet is visible at all. The
+   minimum is 1/500 of the section's own extent (about 2 screen px on a 900 px canvas, so it scales with what is on
+   screen) capped at 2.5 mm; the structure's own measured section width stays on record (res.items[].width_mm).
+   Q318: THIS WAS WHY MULTISLICES DREW NOTHING. The pair used to be declared inside NMSKCap below, but the slice
+   stack in NMSKCrossSection passes it to the same core builder -- so every build there threw "BAND_FRAC is not
+   defined" and the stack came back empty with that message where the slices should have been. It belongs to the
+   builder, not to one of its two callers, so it sits beside them both. */
+var NMSK_BAND = {frac:1 / 500, max:2.5};
 function NMSKCap(E){
   "use strict";
-  /* Q299: a thin section gets a minimum DRAWN width so a 1 mm nerve or a 0.9 mm fascial sheet is visible at all. The
-     minimum is 1/500 of the section's own extent (about 2 screen px on a 900 px canvas, so it scales with what is on
-     screen) capped at 2.5 mm; the structure's own measured section width stays on record (res.items[].width_mm). */
-  var BAND_FRAC = 1 / 500, BAND_MAX = 2.5;
+  var BAND_FRAC = NMSK_BAND.frac, BAND_MAX = NMSK_BAND.max;
   var $ = function(id){ return document.getElementById(id); };
   var btn = $("cut-fill"), look = $("cut-look"), info = $("cut-capinfo");
   var st = {on:false, res:[null, null], planeSig:"", itemsSig:"", palSig:"", timer:0, dirty:false, busy:false, builds:0, recolors:0, ms:0, msTotal:0, stats:null, showing:false};
@@ -13276,6 +13281,7 @@ function NMSKCrossSection(E){
   var $ = function(id){ return document.getElementById(id); };
   var btn = $("xsec-on"), body = $("xsec-body"), info = $("xsec-info"), nInp = $("xsec-n"), spInp = $("xsec-sp"), thInp = $("xsec-th"), steps = $("xsec-steps");
   var FACE_BASE = 900, PART_MAX = 80;  // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
+  var BAND_FRAC = NMSK_BAND.frac, BAND_MAX = NMSK_BAND.max;   /* Q318: the slice builder needs these too -- see NMSK_BAND above */
   var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0, sig:"",
             mode:"plane", part:null, pLabel:"", pTh:1, pInt:10, gap:1, scope:"around", planes:[], ax:null, msg:"", faces:[]};
   var KEY = "nmsk-xsec-v1";
