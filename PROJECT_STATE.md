@@ -14246,6 +14246,13 @@ pointless step in between"; "MULTISLICES does not work."
 - Reproduced on the PUBLISHED build (`build/q309`) before any Q318 change, so it was not introduced here.
   The own-engine pages were never affected (175 structures moved there all along).
 
+### Published (all six pages, after the full regeneration)
+Base M v86 · Base F v81 · Combined M v87 · Combined F v100 · Imaging-based M v165 · Imaging-based F
+v155. Only the page and the files the regeneration changed were sent; the geometry sidecars were left
+as they are. `REGEN_TEMPLATE_ONLY_OK`: six pages identical to `build/q309` in data blocks, siblings
+and titles. Browser checks on the regenerated pages, both engines: `Q318_TOPROW_OK` and
+`Q318_RINGS_OK`.
+
 ### Still open from the owner's Q318 list
 - Search behind an icon; colour change for the selected (all, or only from now on).
 - Systems: select all / none, show / hide / **FADE**, by concentric layers, slicer layers, the
