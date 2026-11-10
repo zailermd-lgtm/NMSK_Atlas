@@ -2736,6 +2736,7 @@
       var im = document.getElementById("t-imaging"), cut = document.getElementById("t-cut"), ref = im && im.parentNode === host ? im : cut;
       if (ref && ref.parentNode === host) host.insertBefore(b, ref.nextSibling); else host.appendChild(b);
       b.className = ref && ref.parentNode === host ? ref.className : (api.kind === "webgl" ? "pill" : "tool");
+      b.classList.add("q301-scan");            /* Q318: how the public Imaging entry claims this button without naming it */
       if (api.kind === "webgl") b.textContent = "ultrasound";
       ui.btn = b;
     }

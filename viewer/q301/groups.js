@@ -25,10 +25,19 @@ var NMSKGroups = (function(){
   /* would this group render anything AT ALL right now? A member's node can come and go with the engine's own layout
      (the own engine's phone layout does not offer Measure), and a group button that opens an empty sheet is worse than
      no button, so it is hidden instead. Resolved at paint time, not once at start. */
+  /* The nodes a member adopts. `adopt` names them by id; `adoptSel` is a CSS selector, which is how a
+     member reaches a button the public page is not allowed to name by id -- the private add-ons put a class
+     on theirs. Both are resolved when they are needed, never cached, because the add-ons mount late. */
+  function nodesOf(m){
+    var out = [];
+    if (m.adopt) [].concat(m.adopt).forEach(function(id){ var e = document.getElementById(id); if (e && out.indexOf(e) < 0) out.push(e); });
+    if (m.adoptSel) Array.prototype.forEach.call(document.querySelectorAll(m.adoptSel), function(e){ if (out.indexOf(e) < 0) out.push(e); });
+    return out;
+  }
   function anyMembers(g){
     return (g.members || []).some(function(m){
       if (m.el) return true;
-      if (m.adopt) return [].concat(m.adopt).some(function(id){ return !!document.getElementById(id); });
+      if (m.adopt || m.adoptSel) return nodesOf(m).length > 0;
       return !!m.label;
     });
   }
@@ -46,10 +55,9 @@ var NMSKGroups = (function(){
     if (!park) return;
     G.forEach(function(g){
       (g.members || []).forEach(function(m){
-        if (!m.adopt) return;
-        [].concat(m.adopt).forEach(function(id){
-          var e = document.getElementById(id);
-          if (!e || park.contains(e) || (sheet && sheet.contains(e)) || (bar && bar.contains(e))) return;
+        if (!m.adopt && !m.adoptSel) return;
+        nodesOf(m).forEach(function(e){
+          if (park.contains(e) || (sheet && sheet.contains(e)) || (bar && bar.contains(e))) return;
           var par = e.parentNode;
           if (par && par.nodeType === 1 && par !== document.body && par !== park && emptied.indexOf(par) < 0) emptied.push(par);
           e.classList.add("qg-adopted");
@@ -95,12 +103,12 @@ var NMSKGroups = (function(){
      that button, so pressing the group presses it. The node has already been moved into the sheet, and its
      own listeners came with it, so this reaches exactly what a tap on the sheet would have reached. */
   function soleButton(g){
-    var ms = (g.members || []).filter(function(m){ return m.el || m.adopt; });
-    if (ms.length !== 1 || !ms[0].adopt) return null;
-    var ids = [].concat(ms[0].adopt);
-    if (ids.length !== 1) return null;
-    var e = document.getElementById(ids[0]);
-    return (e && e.tagName === "BUTTON" && !e.disabled) ? e : null;
+    var ms = (g.members || []).filter(function(m){ return m.el || m.adopt || m.adoptSel; });
+    if (ms.length !== 1 || !(ms[0].adopt || ms[0].adoptSel)) return null;
+    var ns = nodesOf(ms[0]);
+    if (ns.length !== 1) return null;
+    var e = ns[0];
+    return (e.tagName === "BUTTON" && !e.disabled) ? e : null;
   }
   function openSheet(key){
     var g = null;
@@ -117,11 +125,9 @@ var NMSKGroups = (function(){
     (g.members || []).forEach(function(m){
       var row = el("div", "qg-m");
       if (m.el){ m.el.classList.add("qg-keep"); row.appendChild(m.el); }
-      else if (m.adopt){
-        var ids = [].concat(m.adopt), got = 0;
-        ids.forEach(function(id){
-          var e = document.getElementById(id);
-          if (!e) return;
+      else if (m.adopt || m.adoptSel){
+        var got = 0;
+        nodesOf(m).forEach(function(e){
           e.classList.add("qg-adopted"); e.removeAttribute("hidden"); e.hidden = false;
           row.appendChild(e); got++;
         });

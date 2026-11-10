@@ -1641,6 +1641,7 @@
       var cut = document.getElementById("t-cut");
       if (cut && cut.parentNode === host) host.insertBefore(btn, cut.nextSibling); else host.appendChild(btn);
       btn.className = cut && host === api.toolbar ? cut.className : (api.kind === "webgl" ? "pill" : "tool");
+      btn.classList.add("q301-scan");          /* Q318: claimed by the public Imaging entry by class, not by id */
       if (api.kind === "webgl") btn.textContent = "ct / mri";
       ui.btn = btn; setDiag();
     }
@@ -1732,6 +1733,7 @@
       var host = shared.toolbarHost(), cut = document.getElementById("t-imaging") || document.getElementById("t-cut"), b = document.createElement("button");
       b.type = "button"; b.id = "t-ultrasound"; b.textContent = shared.kind === "webgl" ? "ultrasound" : "Ultrasound"; b.title = text;
       b.className = cut && cut.parentNode === host ? cut.className : (shared.kind === "webgl" ? "pill" : "tool");
+      b.classList.add("q301-scan");            /* Q318: claimed by the public Imaging entry by class, not by id */
       if (cut && cut.parentNode === host) host.insertBefore(b, cut.nextSibling); else host.appendChild(b);
       b.style.opacity = "0.7"; b.setAttribute("data-diag", "bad");
       b.addEventListener("click", function () { shared.toast(text, 12000); });

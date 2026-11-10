@@ -124,16 +124,17 @@ var NMSKQ301 = (function(){
         {adopt:["cut-exit", "cut-place", "cut-reset", "cut-flip"]},
         {adopt:["t-slices", "lab-cutfill"]}
       ]},
-      /* Q318, owner: "IMAGING, which will include XRAY, CT, MRI, US". The render styles are the model's own
-         drawing; `t-imaging` and `t-ultrasound` are the clinical add-ons' panels, which is where CT, MRI and
-         the scanned views themselves live, so the entry carries both. They are created by the add-on after
-         the page has loaded; a member whose id is not there yet is simply not shown, and it is adopted on a
-         later paint. `t-xray` is the OLDER entry -- a transparency preset, not a radiograph -- and it is kept
-         with that said plainly rather than left behind on a bar this row has replaced. */
+      /* Q318, owner: "IMAGING, which will include XRAY, CT, MRI, US". The render styles above are the model's
+         own drawing; the private add-ons' own panels are where the scanned views live, and this entry carries
+         them too. They mount after the page has loaded, and they are claimed BY CLASS, not by id, because a
+         public page of this project does not name the private modalities -- the add-on puts `q301-scan` on
+         each of its buttons. A member whose node is not there yet is simply not shown, and it is adopted on
+         a later paint. `t-xray` is the OLDER entry -- a transparency preset, not a radiograph -- and it is
+         kept with that said plainly rather than left behind on a bar this row has replaced. */
       {key:"imaging", label:"Imaging", title:"How the model itself is drawn, and the scanned views", members:[
         {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
         {combo:"boneread", adopt:"br-box"},
-        {adopt:["t-imaging", "t-ultrasound"]},
+        {adoptSel:".q301-scan"},
         {adopt:["t-xray"], label2:"X-ray here is the older see-through preset, not a radiograph: it makes the model transparent. The radiographic styles above are the ones measured from tissue."}
       ]},
       {key:"pose", label:"Pose", title:"Move the joints, each only through its own normal range", members:[
