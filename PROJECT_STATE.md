@@ -14161,3 +14161,76 @@ pose" -- a posed simulation must not imply the measurements still hold.
 out of date: `sync_hub_link_q251`, `sync_learn_q283`, `sync_modes_q272`, `sync_q309` (and
 `sync_pose_q241`, fixed here). Same class as the Q316 mistake -- fragments edited in the templates
 instead of in `viewer/<module>/`. Worth a clean-up round of its own.
+
+## Q318 -- the top row the owner asked for, AUTO exposure, Favorites, and two real bugs
+
+Owner, in order: regroup the crowded top bar into named entries (Search, Systems, Dissection,
+Imaging, Pose, Measure, Needle, Favorites) leaving module / model / Undo / Redo in place; "the
+x-ray is good at its base, it just needs adapting -- where it is meant for bone, where for soft
+tissue, and then what you can see... a press on an AUTO that controls brightness and contrast,
+after which it should still be possible to set them by hand"; "the SEARCH, SYSTEMS and so on row is
+supposed to replace the whole top row of HUB, mode, SOURCES and so on"; "POSE -- if there is only
+one tile that opens and it then opens the window that matters, do that at once and skip the
+pointless step in between"; "MULTISLICES does not work."
+
+### The bar (DONE). Commits fea3b6e, 702be24, e66ac87.
+- `defaultGroups()` in `viewer/q301/q301.js` is the whole table: `mark` (Search, with Learn folded
+  in), `systems`, `cut` (Dissection), `imaging`, `pose`, `measure`, `needle`, `favorites`, and in
+  the second row `page` and `view` (Navigate). Adoption MOVES the real node into the sheet, so
+  every button keeps its own listeners and exists exactly once in the document -- checked.
+- The bar is at the TOP of the view now and the sheet unfolds downward from under it. The `page`
+  entry adopts the workspace-mode button, the hub link and Sources, which empties `#topright`; the
+  corner then stops reserving space and `#brand` steps down to the opposite corner. Q300's chip bar
+  and Q294's notice are bottom-anchored, so `--q301-bar-h` is now 0 -- the variable stays because
+  both engines' stylesheets read it.
+- A group whose whole content is one adopted button presses that button instead of unfolding a
+  sheet (`soleButton()`): Pose opens the pose panel directly.
+
+### AUTO exposure (DONE). Commit 37c4a1c.
+- Automatic exposure control MEASURES. `q301.pixels()` gained a 64-bin histogram (`h64`) beside the
+  eight-bin one the older verify scripts read, and q301 hands the sampler to `NMSKRenderStyle`, so
+  `R.auto()` reads back the frame that is on the screen, takes the 2nd..98th percentile span, and
+  solves the contrast/brightness pair that lands that span on the step's target window. Per X-ray
+  step those targets differ the way kVp does: Soft tissue long-scale, Bone short-scale.
+- CSS filters are applied by the COMPOSITOR, so `gl.readPixels` never sees them -- which is why the
+  measurement is of the raw buffer and needs no inverse transform. Sliders stay live; Reset returns
+  to 1/1. `scripts/anatomy/q318/verify_auto_q318.py` checks it per step on a built page.
+
+### Favorites (DONE). Commit a8c7469.
+- `viewer/q301/favorites.js`, built on `NMSKHistory.snapshot()`/`restore()`; up to 40 set-ups under
+  `nmsk.favorites.v1`. The panel says plainly that the viewpoint is NOT kept and that favorites
+  live in this browser only.
+
+### MULTISLICES -- two separate bugs, both now fixed. Commits e66ac87, 379c628.
+1. **Starvation.** The engines poll `xsecCtl.itemsChanged()` from the render loop (~6 calls/s on a
+   built page) and the debounce behind it cleared the pending rebuild and started another 90 ms one
+   on every call: a debounce with no ceiling, so the rebuild never ran, `builds` stayed 0, and the
+   panel sat at "0 slices" with no message, because only a build writes one. A pending rebuild is
+   left alone now (what the cap controller beside it already did) and a `stackSig()` decides whether
+   a run is worth doing. Measured: `builds` 1 across 5 s while `itemsChanged` reaches 27.
+2. **Scope.** `BAND_FRAC` / `BAND_MAX` (Q299's minimum drawn width for a thin section) were declared
+   inside `NMSKCap`, but the slice stack in `NMSKCrossSection` passes them to the same
+   `NMSKCapCore.build()`. Every build there threw "BAND_FRAC is not defined", in both engines, for
+   as long as the stack has existed. Hoisted to `NMSK_BAND` beside both controllers. Measured on a
+   built page slicing along the Cut plane: 5 faces, 5 planes, no message.
+- `scripts/anatomy/q318/verify_toprow_q318.py` holds both halves in a browser, plus the layout.
+
+### Still open from the owner's Q318 list
+- Search behind an icon; colour change for the selected (all, or only from now on).
+- Systems: select all / none, show / hide / **FADE**, by concentric layers, slicer layers, the
+  classical anatomical layers (skin -> subcutaneous -> fascia -> superficial -> deep -> bone) and by
+  functional group. Owner answered "2+3" when asked which layering was meant: both.
+- Measure: `viewer/q294/measure.js` already has distance, 3-point and 2-line angle and Cobb;
+  circumference, area, volume and the expected imaging value per pixel are not written.
+- Pose rings: 3 rotation rings on the joint under the pointer, clickable to drag on the model
+  itself, within ROM. The rig exposes `j.dof` as `{k, l, lo, hi, q0}` and `jointR(j, q)`; there is
+  no gizmo code anywhere yet, so this is wholly new.
+- REFERENCE IMAGES button and a navigation-tool picker (joystick / rings) in the second row.
+- Carry-over from Q317-E: pose-aware ultrasound, then the injection clip with the needle visible in
+  the image. Posed vertices are already CPU-side via `window.__poseLive(i)`; the worker needs an
+  `update` message, a pose term in `rasterKey`, and the caches cleared.
+
+### Pre-existing failures at HEAD, NOT caused by Q318
+Everything in the Q317 list above, plus `test_motor_points_q187[zan_f]` (`mp.supinator_l.1` falls
+outside its muscle) -- that one reads built geometry and the motor-point map, neither of which Q318
+touches.
