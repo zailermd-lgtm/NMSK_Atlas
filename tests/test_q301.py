@@ -691,24 +691,53 @@ def test_no_q301_edit_appends_a_line_comment_mid_line():
 
 
 # ---------------------------------------------------------------- nothing of Q300's may cover the new control -----
-def test_the_lift_given_to_q300s_chip_bar_covers_an_open_group_not_just_the_bar():
-    """Q300's chip bar is `z-index: 2147482000` in the same bottom corner. Q301 lifts it with a transform by
-       `--q301-bar-h`. Twice on a 390 px phone that lift was too small: first it did not exist and the bar sat on
-       Redo, then it was the control bar's own height alone and the bar sat on the OPEN GROUP'S SHEET, swallowing the
-       fat toggle and two of six taps on the depth peel. The published height must include the open sheet."""
+def test_the_bar_is_the_top_row_and_covers_nothing_that_was_there():
+    """Q318, owner: "the SEARCH, SYSTEMS and so on row is supposed to replace the whole top row of HUB,
+       mode, SOURCES and so on."
+
+       This used to guard the opposite arrangement: the bar sat in the BOTTOM corner, where Q300's chip bar
+       also lives, and twice on a 390 px phone the lift given to that chip bar was too small -- first it did
+       not exist and the bar sat on Redo, then it was the control bar's own height alone and the bar sat on
+       the OPEN SHEET, swallowing the fat toggle and two of six taps on the depth peel.
+
+       The bar is at the top now, so the bottom corner is clear and that lift is genuinely zero. The risk it
+       protected against has moved with it: what the bar can cover now is the page title and the old
+       top-right corner, so those are what is checked."""
     js = (Q301 / "groups.js").read_text(encoding="utf-8")
     css = (Q301 / "q301.css").read_text(encoding="utf-8")
-    assert "--q301-bar-h" in css and "translateY" in css, "the stylesheet must lift Q300's bar by the variable"
+
+    # the bar is measured from the TOP of the view, and the sheet unfolds downward from under it
+    assert re.search(r"var\s+top\s*=\s*Math\.round\(Math\.max\(4,\s*r\.top", js), \
+        "the bar must be placed from the top of the view"
+    assert "r.bottom - bar.offsetHeight" not in js, "the bar must no longer hang off the bottom"
+    assert re.search(r"sheet\.style\.top\s*=\s*\(top\s*\+", js), "the sheet must open below the bar"
+
+    # nothing is left at the bottom to clear, and the variable both stylesheets read still exists
+    assert "--q301-bar-h" in css, "both engines' stylesheets read the variable, so it must still be published"
     m = re.search(r'setProperty\("--q301-bar-h",([^;]+)\);', js)
     assert m, "groups.js must publish --q301-bar-h"
-    expr = m.group(1)
-    assert "open" in expr, f"the lift must add the open sheet's height, not the bar's alone: {expr.strip()}"
-    # and `open` must be the sheet's measured height, set inside the !sheet.hidden branch
-    assert re.search(r"open\s*=\s*\(?sheet\.offsetHeight", js), "the sheet's own offsetHeight must feed the lift"
-    assert re.search(r"var\s+open\s*=\s*0", js), "the lift must fall back to 0 while no group is open"
-    # the lift has to be recomputed when a group closes as well as when one opens
-    close = js[js.index("function closeSheet"):js.index("function openSheet")]
-    assert "place()" in close, "closing a group must recompute the lift in the same frame"
+    assert '"0px"' in m.group(1), f"with the bar at the top the lift is zero: {m.group(1).strip()}"
+
+    # and what the bar would otherwise sit on top of gets out of its way
+    assert "body.q301-on #brand{top:auto;bottom:" in css, "the page title must step down out of the bar's row"
+    assert "body.q301-on #topright{display:none}" in css, "the corner the bar replaced must not reserve space"
+
+    # the placement still has to be recomputed when a group closes, as when one opens
+    close = js[js.index("function closeSheet"):js.index("function soleButton")]
+    assert "place()" in close, "closing a group must reposition in the same frame"
+
+
+def test_a_group_that_is_one_button_runs_it_instead_of_opening_a_sheet():
+    """Q318, owner: "if there is only one tile that opens, and it then opens the window that matters, do
+       that at once and skip the pointless step in between." Pose was exactly that: one entry holding one
+       button that opens the pose panel."""
+    js = (Q301 / "groups.js").read_text(encoding="utf-8")
+    assert "function soleButton(" in js
+    assert re.search(r"var\s+only\s*=\s*soleButton\(g\);", js), "openSheet must consult it before unfolding"
+    assert re.search(r"if\s*\(only\)\{\s*closeSheet\(\);\s*try\s*\{\s*only\.click\(\)", js), \
+        "and press that button rather than showing it in a sheet"
+    q = (Q301 / "q301.js").read_text(encoding="utf-8")
+    assert re.search(r'key:"pose".*?adopt:\["btn-pose"\]', q, re.S), "Pose is the entry this was asked for"
 
 
 def test_the_browser_check_refuses_a_tap_that_lands_on_something_else():

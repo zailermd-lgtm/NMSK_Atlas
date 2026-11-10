@@ -14,6 +14,11 @@
 /* Q318: a group that asked for the second row sits beside the words, sized to its own label rather
    than stretching across whatever the undo / redo / reset buttons leave over. */
 .qg-hist .qg-g{flex:0 0 auto}
+/* Q318: the bar is the top row now, so the page title steps down to the opposite corner rather than
+   being covered by it, and the emptied top-right corner stops reserving space. */
+body.q301-on #brand{top:auto;bottom:calc(.75rem + var(--safe-b));font-size:12px;opacity:.75;max-width:46vw}
+body.q301-on #brand h1{font-size:13px}
+body.q301-on #topright{display:none}
 /* Q318: the saved set-ups. Lives inside a group sheet, so it inherits the sheet's own colours. */
 .fv-box{display:flex;flex-direction:column;gap:5px;width:100%}
 .fv-top{display:flex;gap:4px;align-items:center}

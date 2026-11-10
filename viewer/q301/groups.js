@@ -55,11 +55,25 @@ var NMSKGroups = (function(){
     Object.keys(gBtns).forEach(function(k){ gBtns[k].setAttribute("aria-expanded", "false"); gBtns[k].classList.remove("open"); });
     place(); paint();                 /* drop the chip bar's lift back to the bar's own height in the same frame */
   }
+  /* Q318, owner: "if there is only one tile that opens, and it then opens the window that matters, do that
+     at once and skip the pointless step in between." A group whose whole content is one adopted button IS
+     that button, so pressing the group presses it. The node has already been moved into the sheet, and its
+     own listeners came with it, so this reaches exactly what a tap on the sheet would have reached. */
+  function soleButton(g){
+    var ms = (g.members || []).filter(function(m){ return m.el || m.adopt; });
+    if (ms.length !== 1 || !ms[0].adopt) return null;
+    var ids = [].concat(ms[0].adopt);
+    if (ids.length !== 1) return null;
+    var e = document.getElementById(ids[0]);
+    return (e && e.tagName === "BUTTON" && !e.disabled) ? e : null;
+  }
   function openSheet(key){
     var g = null;
     G.forEach(function(q){ if (q.key === key) g = q; });
     if (!g) return false;
     if (cur === key){ closeSheet(); return false; }
+    var only = soleButton(g);
+    if (only){ closeSheet(); try { only.click(); } catch (e){} return true; }
     cur = key;
     stash();
     sheetDragged = false;
@@ -165,22 +179,20 @@ var NMSKGroups = (function(){
     var w = Math.max(220, Math.min(r.width - 16, 760));
     bar.style.width = w + "px";
     bar.style.left = Math.round(r.left + (r.width - w) / 2) + "px";
-    bar.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 6)) + "px";
-    var open = 0;
-    if (sheet && !sheet.hidden){
-      if (!sheetDragged){
-        sheet.style.width = w + "px";
-        sheet.style.left = bar.style.left;
-        sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.45)) + "px";
-        sheet.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 10 - sheet.offsetHeight)) + "px";
-      }
-      open = (sheet.offsetHeight || 0) + 6;
+    /* Q318: the top of the view. The owner asked for this row to BE the top row, in place of the hub /
+       mode / sources corner it has now absorbed, so the sheet unfolds downward from under it. */
+    var top = Math.round(Math.max(4, r.top + 6));
+    bar.style.top = top + "px";
+    if (sheet && !sheet.hidden && !sheetDragged){
+      sheet.style.width = w + "px";
+      sheet.style.left = bar.style.left;
+      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.55)) + "px";
+      sheet.style.top = (top + (bar.offsetHeight || 0) + 4) + "px";
     }
-    /* Q300's chip bar and Q294's notice share this corner and sit above us in the stack: tell the stylesheet how far
-       to lift them so they never cover Undo / Redo -- NOR an open group's buttons. Both happened on a 390 px phone:
-       first the chip bar sat on Redo, then, once it was lifted by the bar's height alone, it sat on the open sheet and
-       swallowed the fat toggle and two of six taps on the depth peel. The lift is the whole occluded height. */
-    document.documentElement.style.setProperty("--q301-bar-h", (bar.offsetHeight || 96) + 4 + open + "px");
+    /* Q300's chip bar and Q294's notice are anchored to the BOTTOM, which the bar no longer occupies, so
+       there is nothing left for them to clear. The variable stays, at zero, because the stylesheets of both
+       engines read it. */
+    document.documentElement.style.setProperty("--q301-bar-h", "0px");
   }
   function dressHistory(){            /* the icons the Q294 / Q300 modules mount get a WORD under them: that is the point */
     Object.keys(WORD).forEach(function(id){

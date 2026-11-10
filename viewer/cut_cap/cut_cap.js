@@ -618,7 +618,7 @@ function NMSKCrossSection(E){
   var $ = function(id){ return document.getElementById(id); };
   var btn = $("xsec-on"), body = $("xsec-body"), info = $("xsec-info"), nInp = $("xsec-n"), spInp = $("xsec-sp"), thInp = $("xsec-th"), steps = $("xsec-steps");
   var FACE_BASE = 900, PART_MAX = 80;  // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
-  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0,
+  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0, sig:"",
             mode:"plane", part:null, pLabel:"", pTh:1, pInt:10, gap:1, scope:"around", planes:[], ax:null, msg:"", faces:[]};
   var KEY = "nmsk-xsec-v1";
   function loadPref(){ try { var p = JSON.parse(localStorage.getItem(KEY) || "null"); if (p){ if (p.n >= 3 && p.n <= 12) st.n = p.n; if (p.spacing > 0) st.spacing = p.spacing; if (p.thickness >= 0) st.thickness = p.thickness; } } catch (err){} }
@@ -708,11 +708,27 @@ function NMSKCrossSection(E){
     st.planes = planes.map(function(p){ return {t:r2(-p.c), d:r2(p.near.d), far:p.far ? r2(p.far.d) : null, n:p.near.n.map(function(x){ return Math.round(x * 1e5) / 1e5; })}; });
     upload(faces, NMSKCrossSectionCore.spreadOffsets(planes.map(function(p){ return -p.c; }), st.gap));
   }
+  /* what the stack is actually made of: the shown items, the settings and, in plane mode, the plane. The
+     poll fires whether or not anything moved, so without this the stack was rebuilt several times a second
+     once the starvation above was fixed. */
+  function stackSig(){
+    var out = st.mode + "|" + st.n + "," + st.spacing + "," + st.thickness + "," + st.gap + "|" +
+      (st.part || []).join(",") + "|" + st.pTh + "," + st.pInt + "," + st.scope + "|";
+    var c = E.cut(); out += c && c.on ? c.kn.map(r2).join(",") + "@" + r2(c.c) : "-";
+    var it = E.items() || [];
+    for (var i = 0; i < it.length; i++) out += ";" + it[i].key;
+    return out;
+  }
   function rebuild(){
     st.timer = 0;
     if (E.onTop) E.onTop(st.on && (st.mode === "part" || st.gap > 1));
-    if (!st.on || (st.mode === "part" && !(st.part && st.part.length))){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
-    if (st.mode === "plane"){ var c = E.cut(); if (!c || !c.on){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; } }
+    if (!st.on || (st.mode === "part" && !(st.part && st.part.length))){ st.sig = ""; clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    if (st.mode === "plane"){ var c0 = E.cut(); if (!c0 || !c0.on){ st.sig = ""; clearSlots(); ui(); if (E.redraw) E.redraw(); return; } }
+    /* The poll calls itemsChanged() whether or not anything moved, so the signature -- not the dirty flag --
+       is what decides. Without this the stack was rebuilt several times a second once the starvation was fixed. */
+    var sig = stackSig();
+    if (st.builds && sig === st.sig) return;
+    st.sig = sig;
     st.busy = true; ui();
     var t0 = Date.now();
     try { if (st.mode === "part") rebuildPart(); else rebuildPlane(); }
@@ -720,7 +736,18 @@ function NMSKCrossSection(E){
     finally { st.builds++; st.ms = Date.now() - t0; st.busy = false; ui(); }
     if (E.redraw) E.redraw();
   }
-  function schedule(delay){ if (st.timer) clearTimeout(st.timer); st.timer = setTimeout(rebuild, delay == null ? 90 : delay); }
+  /* Q318: THE SLICE STACK NEVER APPEARED, and this is why. The engines poll itemsChanged() from the render
+     loop -- about six calls a second on a built page -- and this used to clear the pending timer and start
+     another 90 ms one on every call. Under a busy main thread that is a debounce with no ceiling: the
+     rebuild was pushed back for ever, builds stayed at 0, the panel sat at "0 slices", and even the message
+     that would have explained it ("the chosen part is not shown") was never written, because it is only
+     written when a build runs.
+     A pending rebuild is now left alone -- the extra call only marks the state dirty -- which is exactly
+     what the cap controller above this one already does, and it cannot be starved by any rate of calls. */
+  function schedule(delay){
+    if (st.timer) return;                       /* leave the pending rebuild alone: it reads the state when it runs */
+    st.timer = setTimeout(rebuild, delay == null ? 90 : delay);
+  }
   function setN(v){ var nv = Math.max(3, Math.min(12, Math.round(+v) || st.n)); if (nv === st.n) return; st.n = nv; savePref(); schedule(); ui(); }
   function setSpacing(v){ var sv = Math.max(0.5, Math.min(200, +v || st.spacing)); if (sv === st.spacing) return; st.spacing = Math.round(sv * 10) / 10; savePref(); schedule(); ui(); }
   function setThickness(v){ var tv = Math.max(0, Math.min(100, +v || 0)); if (tv === st.thickness) return; st.thickness = tv; savePref(); schedule(); ui(); }

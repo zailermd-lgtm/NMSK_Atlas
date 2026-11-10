@@ -129,8 +129,7 @@ var NMSKQ301 = (function(){
          meant. It stays on the page where it was defined; it is simply no longer offered here. */
       {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
         {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
-        {combo:"boneread", adopt:"br-box"},
-        {adopt:["t-mode"]}
+        {combo:"boneread", adopt:"br-box"}
       ]},
       {key:"pose", label:"Pose", title:"Move the joints, each only through its own normal range", members:[
         {adopt:["btn-pose"]}
@@ -148,6 +147,12 @@ var NMSKQ301 = (function(){
       ]},
       /* Q318: the second row, with undo / redo / the resets -- moving the model is not one of the eight
          things you DO to it, and this is the row that will also carry the navigation-tool picker. */
+      /* Q318: the corner this row replaces. Adopting them empties #topright, the same way every other
+         adoption empties the bar it came from, so nothing is drawn twice. */
+      {key:"page", label:"Page", row2:true, title:"The other models, this one's sources, and which workspace is open", members:[
+        {adopt:["t-mode"]},
+        {adopt:["t-hub", "about-btn"]}
+      ]},
       {key:"view", label:"Navigate", row2:true, title:"Where you look from, and how the screen is laid out", members:[
         {adopt:"foot"},                                  /* the Z engine's front / side / back / move / spin / reset row */
         {adopt:["t-reset", "t-lay3", "t-layout", "sym-select"]},

@@ -460,3 +460,29 @@ def test_regenerated_page_has_the_blocks_and_identical_geometry(name):
             raise AssertionError(g.name)
     v = json.loads((REPO / "build" / "q227" / "_verify" / f"{name}.json").read_text())
     assert v["OK"] and v["geo_identical"] and v["literals_identical"] and v["new_equals_current_template_plus_same_data"]
+
+
+# ---------------------------------------------------------------- Q318: the slice stack must not be starved ---------
+def test_the_cross_section_rebuild_cannot_be_starved_by_the_render_loop_poll():
+    """Q318, owner: "MULTISLICES does not work."
+
+       It did not. The engines call `xsecCtl.itemsChanged()` from the render loop -- about six times a
+       second on a built page -- and the debounce behind it used to `clearTimeout` the pending rebuild and
+       start a fresh 90 ms one on every single call. That is a debounce with no ceiling: the rebuild was
+       pushed back for ever, `builds` stayed at 0, the panel sat at "0 slices", and even the message that
+       would have explained an empty stack was never written, because it is only written by a build.
+
+       Both controllers in this file must therefore LEAVE a pending timer alone, and the cross-section one
+       must additionally decide by a signature of the stack, so that six harmless polls a second do not turn
+       into six rebuilds a second."""
+    src = CAP.read_text(encoding="utf-8")
+    assert "function stackSig(" in src, "the cross-section rebuild must compare a signature of the stack"
+    assert "if (st.builds && sig === st.sig) return;" in src, "and skip the rebuild when nothing in it moved"
+    for scope in ("function NMSKCap(E)", "function NMSKCrossSection(E)"):
+        i = src.index(scope)
+        j = src.index("function NMSKCrossSection(E)", i + 1) if scope.endswith("Cap(E)") else len(src)
+        body = src[i:j]
+        k = body.index("function schedule(")
+        sched = body[k:body.index("\n  }", k) + 4]
+        assert "clearTimeout" not in sched, f"{scope}: a pending rebuild must not be cleared and restarted: {sched!r}"
+        assert "if (st.timer) return" in sched or "if (st.timer){" in sched, f"{scope}: {sched!r}"

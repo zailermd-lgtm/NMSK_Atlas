@@ -2612,6 +2612,11 @@ var NMSKBoneRead = (function(){
 /* Q318: a group that asked for the second row sits beside the words, sized to its own label rather
    than stretching across whatever the undo / redo / reset buttons leave over. */
 .qg-hist .qg-g{flex:0 0 auto}
+/* Q318: the bar is the top row now, so the page title steps down to the opposite corner rather than
+   being covered by it, and the emptied top-right corner stops reserving space. */
+body.q301-on #brand{top:auto;bottom:calc(.75rem + var(--safe-b));font-size:12px;opacity:.75;max-width:46vw}
+body.q301-on #brand h1{font-size:13px}
+body.q301-on #topright{display:none}
 /* Q318: the saved set-ups. Lives inside a group sheet, so it inherits the sheet's own colours. */
 .fv-box{display:flex;flex-direction:column;gap:5px;width:100%}
 .fv-top{display:flex;gap:4px;align-items:center}
@@ -3826,11 +3831,25 @@ var NMSKGroups = (function(){
     Object.keys(gBtns).forEach(function(k){ gBtns[k].setAttribute("aria-expanded", "false"); gBtns[k].classList.remove("open"); });
     place(); paint();                 /* drop the chip bar's lift back to the bar's own height in the same frame */
   }
+  /* Q318, owner: "if there is only one tile that opens, and it then opens the window that matters, do that
+     at once and skip the pointless step in between." A group whose whole content is one adopted button IS
+     that button, so pressing the group presses it. The node has already been moved into the sheet, and its
+     own listeners came with it, so this reaches exactly what a tap on the sheet would have reached. */
+  function soleButton(g){
+    var ms = (g.members || []).filter(function(m){ return m.el || m.adopt; });
+    if (ms.length !== 1 || !ms[0].adopt) return null;
+    var ids = [].concat(ms[0].adopt);
+    if (ids.length !== 1) return null;
+    var e = document.getElementById(ids[0]);
+    return (e && e.tagName === "BUTTON" && !e.disabled) ? e : null;
+  }
   function openSheet(key){
     var g = null;
     G.forEach(function(q){ if (q.key === key) g = q; });
     if (!g) return false;
     if (cur === key){ closeSheet(); return false; }
+    var only = soleButton(g);
+    if (only){ closeSheet(); try { only.click(); } catch (e){} return true; }
     cur = key;
     stash();
     sheetDragged = false;
@@ -3936,22 +3955,20 @@ var NMSKGroups = (function(){
     var w = Math.max(220, Math.min(r.width - 16, 760));
     bar.style.width = w + "px";
     bar.style.left = Math.round(r.left + (r.width - w) / 2) + "px";
-    bar.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 6)) + "px";
-    var open = 0;
-    if (sheet && !sheet.hidden){
-      if (!sheetDragged){
-        sheet.style.width = w + "px";
-        sheet.style.left = bar.style.left;
-        sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.45)) + "px";
-        sheet.style.top = Math.round(Math.max(4, r.bottom - bar.offsetHeight - 10 - sheet.offsetHeight)) + "px";
-      }
-      open = (sheet.offsetHeight || 0) + 6;
+    /* Q318: the top of the view. The owner asked for this row to BE the top row, in place of the hub /
+       mode / sources corner it has now absorbed, so the sheet unfolds downward from under it. */
+    var top = Math.round(Math.max(4, r.top + 6));
+    bar.style.top = top + "px";
+    if (sheet && !sheet.hidden && !sheetDragged){
+      sheet.style.width = w + "px";
+      sheet.style.left = bar.style.left;
+      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.55)) + "px";
+      sheet.style.top = (top + (bar.offsetHeight || 0) + 4) + "px";
     }
-    /* Q300's chip bar and Q294's notice share this corner and sit above us in the stack: tell the stylesheet how far
-       to lift them so they never cover Undo / Redo -- NOR an open group's buttons. Both happened on a 390 px phone:
-       first the chip bar sat on Redo, then, once it was lifted by the bar's height alone, it sat on the open sheet and
-       swallowed the fat toggle and two of six taps on the depth peel. The lift is the whole occluded height. */
-    document.documentElement.style.setProperty("--q301-bar-h", (bar.offsetHeight || 96) + 4 + open + "px");
+    /* Q300's chip bar and Q294's notice are anchored to the BOTTOM, which the bar no longer occupies, so
+       there is nothing left for them to clear. The variable stays, at zero, because the stylesheets of both
+       engines read it. */
+    document.documentElement.style.setProperty("--q301-bar-h", "0px");
   }
   function dressHistory(){            /* the icons the Q294 / Q300 modules mount get a WORD under them: that is the point */
     Object.keys(WORD).forEach(function(id){
@@ -4186,8 +4203,7 @@ var NMSKQ301 = (function(){
          meant. It stays on the page where it was defined; it is simply no longer offered here. */
       {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
         {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
-        {combo:"boneread", adopt:"br-box"},
-        {adopt:["t-mode"]}
+        {combo:"boneread", adopt:"br-box"}
       ]},
       {key:"pose", label:"Pose", title:"Move the joints, each only through its own normal range", members:[
         {adopt:["btn-pose"]}
@@ -4205,6 +4221,12 @@ var NMSKQ301 = (function(){
       ]},
       /* Q318: the second row, with undo / redo / the resets -- moving the model is not one of the eight
          things you DO to it, and this is the row that will also carry the navigation-tool picker. */
+      /* Q318: the corner this row replaces. Adopting them empties #topright, the same way every other
+         adoption empties the bar it came from, so nothing is drawn twice. */
+      {key:"page", label:"Page", row2:true, title:"The other models, this one's sources, and which workspace is open", members:[
+        {adopt:["t-mode"]},
+        {adopt:["t-hub", "about-btn"]}
+      ]},
       {key:"view", label:"Navigate", row2:true, title:"Where you look from, and how the screen is laid out", members:[
         {adopt:"foot"},                                  /* the Z engine's front / side / back / move / spin / reset row */
         {adopt:["t-reset", "t-lay3", "t-layout", "sym-select"]},
@@ -13254,7 +13276,7 @@ function NMSKCrossSection(E){
   var $ = function(id){ return document.getElementById(id); };
   var btn = $("xsec-on"), body = $("xsec-body"), info = $("xsec-info"), nInp = $("xsec-n"), spInp = $("xsec-sp"), thInp = $("xsec-th"), steps = $("xsec-steps");
   var FACE_BASE = 900, PART_MAX = 80;  // this module's own slot namespace in the engine's shared cap-face pool (Cut mode itself uses faces 0 / 1)
-  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0,
+  var st = {on:false, n:5, spacing:12, thickness:0, slots:0, timer:0, busy:false, builds:0, ms:0, sig:"",
             mode:"plane", part:null, pLabel:"", pTh:1, pInt:10, gap:1, scope:"around", planes:[], ax:null, msg:"", faces:[]};
   var KEY = "nmsk-xsec-v1";
   function loadPref(){ try { var p = JSON.parse(localStorage.getItem(KEY) || "null"); if (p){ if (p.n >= 3 && p.n <= 12) st.n = p.n; if (p.spacing > 0) st.spacing = p.spacing; if (p.thickness >= 0) st.thickness = p.thickness; } } catch (err){} }
@@ -13344,11 +13366,27 @@ function NMSKCrossSection(E){
     st.planes = planes.map(function(p){ return {t:r2(-p.c), d:r2(p.near.d), far:p.far ? r2(p.far.d) : null, n:p.near.n.map(function(x){ return Math.round(x * 1e5) / 1e5; })}; });
     upload(faces, NMSKCrossSectionCore.spreadOffsets(planes.map(function(p){ return -p.c; }), st.gap));
   }
+  /* what the stack is actually made of: the shown items, the settings and, in plane mode, the plane. The
+     poll fires whether or not anything moved, so without this the stack was rebuilt several times a second
+     once the starvation above was fixed. */
+  function stackSig(){
+    var out = st.mode + "|" + st.n + "," + st.spacing + "," + st.thickness + "," + st.gap + "|" +
+      (st.part || []).join(",") + "|" + st.pTh + "," + st.pInt + "," + st.scope + "|";
+    var c = E.cut(); out += c && c.on ? c.kn.map(r2).join(",") + "@" + r2(c.c) : "-";
+    var it = E.items() || [];
+    for (var i = 0; i < it.length; i++) out += ";" + it[i].key;
+    return out;
+  }
   function rebuild(){
     st.timer = 0;
     if (E.onTop) E.onTop(st.on && (st.mode === "part" || st.gap > 1));
-    if (!st.on || (st.mode === "part" && !(st.part && st.part.length))){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
-    if (st.mode === "plane"){ var c = E.cut(); if (!c || !c.on){ clearSlots(); ui(); if (E.redraw) E.redraw(); return; } }
+    if (!st.on || (st.mode === "part" && !(st.part && st.part.length))){ st.sig = ""; clearSlots(); ui(); if (E.redraw) E.redraw(); return; }
+    if (st.mode === "plane"){ var c0 = E.cut(); if (!c0 || !c0.on){ st.sig = ""; clearSlots(); ui(); if (E.redraw) E.redraw(); return; } }
+    /* The poll calls itemsChanged() whether or not anything moved, so the signature -- not the dirty flag --
+       is what decides. Without this the stack was rebuilt several times a second once the starvation was fixed. */
+    var sig = stackSig();
+    if (st.builds && sig === st.sig) return;
+    st.sig = sig;
     st.busy = true; ui();
     var t0 = Date.now();
     try { if (st.mode === "part") rebuildPart(); else rebuildPlane(); }
@@ -13356,7 +13394,18 @@ function NMSKCrossSection(E){
     finally { st.builds++; st.ms = Date.now() - t0; st.busy = false; ui(); }
     if (E.redraw) E.redraw();
   }
-  function schedule(delay){ if (st.timer) clearTimeout(st.timer); st.timer = setTimeout(rebuild, delay == null ? 90 : delay); }
+  /* Q318: THE SLICE STACK NEVER APPEARED, and this is why. The engines poll itemsChanged() from the render
+     loop -- about six calls a second on a built page -- and this used to clear the pending timer and start
+     another 90 ms one on every call. Under a busy main thread that is a debounce with no ceiling: the
+     rebuild was pushed back for ever, builds stayed at 0, the panel sat at "0 slices", and even the message
+     that would have explained it ("the chosen part is not shown") was never written, because it is only
+     written when a build runs.
+     A pending rebuild is now left alone -- the extra call only marks the state dirty -- which is exactly
+     what the cap controller above this one already does, and it cannot be starved by any rate of calls. */
+  function schedule(delay){
+    if (st.timer) return;                       /* leave the pending rebuild alone: it reads the state when it runs */
+    st.timer = setTimeout(rebuild, delay == null ? 90 : delay);
+  }
   function setN(v){ var nv = Math.max(3, Math.min(12, Math.round(+v) || st.n)); if (nv === st.n) return; st.n = nv; savePref(); schedule(); ui(); }
   function setSpacing(v){ var sv = Math.max(0.5, Math.min(200, +v || st.spacing)); if (sv === st.spacing) return; st.spacing = Math.round(sv * 10) / 10; savePref(); schedule(); ui(); }
   function setThickness(v){ var tv = Math.max(0, Math.min(100, +v || 0)); if (tv === st.thickness) return; st.thickness = tv; savePref(); schedule(); ui(); }
