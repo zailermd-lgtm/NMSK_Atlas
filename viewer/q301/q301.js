@@ -124,12 +124,17 @@ var NMSKQ301 = (function(){
         {adopt:["cut-exit", "cut-place", "cut-reset", "cut-flip"]},
         {adopt:["t-slices", "lab-cutfill"]}
       ]},
-      /* Q318: the older X-ray left this entry. It was a transparency preset sitting beside the real
-         radiographic styles, and its own note had to say so -- exactly the kind of button the owner
-         meant. It stays on the page where it was defined; it is simply no longer offered here. */
-      {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
+      /* Q318, owner: "IMAGING, which will include XRAY, CT, MRI, US". The render styles are the model's own
+         drawing; `t-imaging` and `t-ultrasound` are the clinical add-ons' panels, which is where CT, MRI and
+         the scanned views themselves live, so the entry carries both. They are created by the add-on after
+         the page has loaded; a member whose id is not there yet is simply not shown, and it is adopted on a
+         later paint. `t-xray` is the OLDER entry -- a transparency preset, not a radiograph -- and it is kept
+         with that said plainly rather than left behind on a bar this row has replaced. */
+      {key:"imaging", label:"Imaging", title:"How the model itself is drawn, and the scanned views", members:[
         {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
-        {combo:"boneread", adopt:"br-box"}
+        {combo:"boneread", adopt:"br-box"},
+        {adopt:["t-imaging", "t-ultrasound"]},
+        {adopt:["t-xray"], label2:"X-ray here is the older see-through preset, not a radiograph: it makes the model transparent. The radiographic styles above are the ones measured from tissue."}
       ]},
       {key:"pose", label:"Pose", title:"Move the joints, each only through its own normal range", members:[
         {adopt:["btn-pose"]}
@@ -149,6 +154,11 @@ var NMSKQ301 = (function(){
          things you DO to it, and this is the row that will also carry the navigation-tool picker. */
       /* Q318: the corner this row replaces. Adopting them empties #topright, the same way every other
          adoption empties the bar it came from, so nothing is drawn twice. */
+      /* Q318, owner: "in this row you can also put a REFERENCE IMAGES button". One button, so pressing the
+         entry opens the panel itself -- there is no sheet in between. */
+      {key:"ref", label:"Reference", row2:true, title:"Open a reference image or video beside the model", members:[
+        {adopt:["t-reference"]}
+      ]},
       {key:"page", label:"Page", row2:true, title:"The other models, this one's sources, and which workspace is open", members:[
         {adopt:["t-mode"]},
         {adopt:["t-hub", "about-btn"]}

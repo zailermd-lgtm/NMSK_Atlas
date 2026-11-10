@@ -18,7 +18,8 @@
    being covered by it, and the emptied top-right corner stops reserving space. */
 body.q301-on #brand{top:auto;bottom:calc(.75rem + var(--safe-b));font-size:12px;opacity:.75;max-width:46vw}
 body.q301-on #brand h1{font-size:13px}
-body.q301-on #topright{display:none}
+/* the corner itself is not hidden here: groups.js hides whichever engine bar it has emptied, and shows it
+   again if the engine ever puts something there that no entry claims, so nothing can be lost behind it. */
 /* Q318: the saved set-ups. Lives inside a group sheet, so it inherits the sheet's own colours. */
 .fv-box{display:flex;flex-direction:column;gap:5px;width:100%}
 .fv-top{display:flex;gap:4px;align-items:center}

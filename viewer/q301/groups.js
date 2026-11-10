@@ -32,6 +32,41 @@ var NMSKGroups = (function(){
       return !!m.label;
     });
   }
+  /* Q318, owner: "the SEARCH, SYSTEMS and so on row is supposed to replace the whole top row of HUB, mode,
+     SOURCES and so on." Adoption used to happen the first time a group was opened, so until then every adopted
+     button was still sitting -- and still drawn -- in the engine's own bar. On the Z pages that bar is #topright,
+     which the stylesheet hides; on the own-engine pages it is #tools, a full-width row that the control bar now
+     lands on top of, so Imaging, Needle, Pose and Measure were drawn twice and overlapping.
+     So every adopted node is moved into the hidden parking node AT ONCE, which is what empties the engine's bar,
+     and the sheet takes it from there. It runs again on each paint because a button the engine creates later
+     (the own engine builds its Measure button only on a wide layout) must be adopted the moment it appears.
+     Whatever is left in the engine's own bar afterwards is, by construction, exactly what no group claims. */
+  var emptied = [];                   /* the engine bars this control has taken buttons out of */
+  function adoptAll(){
+    if (!park) return;
+    G.forEach(function(g){
+      (g.members || []).forEach(function(m){
+        if (!m.adopt) return;
+        [].concat(m.adopt).forEach(function(id){
+          var e = document.getElementById(id);
+          if (!e || park.contains(e) || (sheet && sheet.contains(e)) || (bar && bar.contains(e))) return;
+          var par = e.parentNode;
+          if (par && par.nodeType === 1 && par !== document.body && par !== park && emptied.indexOf(par) < 0) emptied.push(par);
+          e.classList.add("qg-adopted");
+          park.appendChild(e);
+        });
+      });
+    });
+    /* A bar with nothing left in it must not go on reserving a row of the screen -- on the own-engine pages
+       #tools is a full-width strip the control bar would otherwise sit on top of. It is decided afresh every
+       time rather than once, so a button the engine adds to that bar later, which no group claims, brings the
+       bar back instead of being lost behind a hidden parent. */
+    for (var i = 0; i < emptied.length; i++){
+      var b = emptied[i];
+      if (!b.isConnected) continue;
+      b.hidden = b.children.length === 0;
+    }
+  }
   function anyActive(g){
     return (g.members || []).some(function(m){
       if (typeof m.active === "function"){ try { return !!m.active(); } catch (e){ return false; } }
@@ -118,6 +153,7 @@ var NMSKGroups = (function(){
   }
   /* the combo decoration: a dot on the group, a + on a co-active member, disabled + reason on an incompatible one */
   function paint(){
+    adoptAll();
     G.forEach(function(g){
       var b = gBtns[g.key]; if (!b) return;
       var has = anyMembers(g);
@@ -270,6 +306,7 @@ var NMSKGroups = (function(){
       window.addEventListener("resize", place); setInterval(place, 700); setTimeout(place, 0);
       if (combos && combos.onChange) combos.onChange(paint);
       setInterval(paint, 500);
+      adoptAll();                       /* Q318: empty the engine's own bar now, not at the first open */
       on = true; paint();
       return api;
     },

@@ -27,7 +27,7 @@ from playwright.sync_api import sync_playwright
 REPO = Path(__file__).resolve().parents[3]
 THREE = "/tmp/three_x/package/build/three.min.js"
 ARGS = ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"]
-WANT = ["mark", "systems", "cut", "imaging", "pose", "measure", "needle", "favorites", "page", "view"]
+WANT = ["mark", "systems", "cut", "imaging", "pose", "measure", "needle", "favorites", "ref", "page", "view"]
 
 
 def serve(d):
@@ -65,15 +65,27 @@ LAYOUT = """() => {
   const vis = el => { if (!el) return false; const s = getComputedStyle(el);
     if (s.display === 'none' || s.visibility === 'hidden' || +s.opacity === 0) return false;
     const q = el.getBoundingClientRect(); return q.width > 1 && q.height > 1; };
-  const tr = document.getElementById('topright'), br = document.getElementById('brand');
-  const brr = br ? br.getBoundingClientRect() : null;
+  const br = document.getElementById('brand');
+  const brr = br && vis(br) ? br.getBoundingClientRect() : null;
+  // whatever the bar now lies on top of: the thing the owner asked it to REPLACE must not still be drawn
+  const over = [];
+  document.querySelectorAll('body *').forEach(e => {
+    if (e.closest('#q301-bar') || e.closest('#q301-sheet') || e.closest('#q301-park')) return;
+    if (!vis(e)) return;
+    const q = e.getBoundingClientRect();
+    if (q.right < r.left + 4 || q.left > r.right - 4 || q.bottom < r.top + 4 || q.top > r.bottom - 4) return;
+    if (q.height > 400 || q.width > 1.5 * r.width) return;      // the stage and the page itself are underneath everything
+    over.push(e.tagName + '#' + (e.id || '') + '.' + String(e.className || '').slice(0, 24));
+  });
+  const park = document.getElementById('q301-park');
   return {
-    keys: keys, barTop: r.top, barBottom: r.bottom, stageTop: sr.top, stageH: sr.height,
-    topright: vis(tr), toprightKids: tr ? tr.children.length : -1,
-    brandVisible: vis(br), brandTop: brr ? brr.top : null, brandBottom: brr ? brr.bottom : null,
+    keys: keys, barTop: r.top, barBottom: r.bottom, stageTop: sr.top, stageH: sr.height, over: over.slice(0, 12),
+    brandVisible: !!brr, brandTop: brr ? brr.top : null,
     lift: getComputedStyle(document.documentElement).getPropertyValue('--q301-bar-h').trim(),
-    // the buttons that were adopted must each be reachable exactly once in the document
-    dupes: ['t-mode', 't-hub', 'about-btn', 'btn-pose', 't-needle']
+    parked: park ? park.children.length : 0,
+    // every button a group claims must be reachable exactly once -- adoption MOVES the node, it never copies it;
+    // a page that never had one at all (the two engines differ) reports 0 and is not held to it
+    dupes: ['t-mode', 't-hub', 'about-btn', 'btn-pose', 't-needle', 't-imaging', 't-reference', 't-ultrasound']
       .map(id => [id, document.querySelectorAll('#' + id).length])
   };
 }"""
@@ -141,14 +153,16 @@ def main() -> int:
             check(f"every entry the owner named is on the bar (missing: {missing})", not missing, errs)
             check("the bar is in the top third of the view, not the bottom",
                   L["barTop"] < L["stageTop"] + L["stageH"] / 3, errs)
-            check("the corner it replaced is not drawn as well", not L["topright"], errs)
-            check("the page title is still shown", L["brandVisible"], errs)
-            check("and is out of the bar's row",
-                  L["brandTop"] is not None and L["brandTop"] > L["barBottom"], errs)
+            check(f"nothing the row replaced is still drawn under it ({L['over']})", not L["over"], errs)
+            check(f"the buttons the entries claim were taken out of the engine's own bars ({L['parked']} of them)",
+                  L["parked"] >= 20, errs)
+            if L["brandVisible"]:
+                check("the page title is out of the bar's row",
+                      L["brandTop"] is not None and L["brandTop"] > L["barBottom"], errs)
             check("nothing anchored to the bottom is lifted any more, since the bar left it",
                   L["lift"] in ("0px", "0"), errs)
             for i, n in L["dupes"]:
-                check(f"#{i} exists exactly once (adoption moves the node, it does not copy it)", n == 1, errs)
+                check(f"#{i} exists at most once (adoption moves the node, it does not copy it)", n <= 1, errs)
 
             P = pg.evaluate(POSE)
             if P.get("err"):

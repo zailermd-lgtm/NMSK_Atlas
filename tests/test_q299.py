@@ -225,7 +225,11 @@ def test_the_cut_face_fill_has_a_minimum_drawn_width():
     src = CUTCAP.read_text(encoding="utf-8")
     assert "function strokeItem(" in src and "function contourLen(" in src
     assert "bandFrac" in src and "bandMax" in src
-    assert "var BAND_FRAC = 1 / 500, BAND_MAX = 2.5;" in src, "the controller must pass a minimum drawn width"
+    # Q318 moved the pair out to file scope: the slice stack calls the same builder, and while the pair was
+    # declared inside NMSKCap every build in the stack threw "BAND_FRAC is not defined".
+    assert "var NMSK_BAND = {frac:1 / 500, max:2.5};" in src, "the minimum drawn width must be declared once"
+    assert src.count("var BAND_FRAC = NMSK_BAND.frac, BAND_MAX = NMSK_BAND.max;") == 2, \
+        "and both controllers that pass it to the builder must take it from there"
     assert src.count("bandFrac:BAND_FRAC") >= 4, "every build call of the controller must pass it"
 
 

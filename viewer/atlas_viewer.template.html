@@ -2514,7 +2514,8 @@ var NMSKBoneRead = (function(){
    being covered by it, and the emptied top-right corner stops reserving space. */
 body.q301-on #brand{top:auto;bottom:calc(.75rem + var(--safe-b));font-size:12px;opacity:.75;max-width:46vw}
 body.q301-on #brand h1{font-size:13px}
-body.q301-on #topright{display:none}
+/* the corner itself is not hidden here: groups.js hides whichever engine bar it has emptied, and shows it
+   again if the engine ever puts something there that no entry claims, so nothing can be lost behind it. */
 /* Q318: the saved set-ups. Lives inside a group sheet, so it inherits the sheet's own colours. */
 .fv-box{display:flex;flex-direction:column;gap:5px;width:100%}
 .fv-top{display:flex;gap:4px;align-items:center}
@@ -3706,6 +3707,41 @@ var NMSKGroups = (function(){
       return !!m.label;
     });
   }
+  /* Q318, owner: "the SEARCH, SYSTEMS and so on row is supposed to replace the whole top row of HUB, mode,
+     SOURCES and so on." Adoption used to happen the first time a group was opened, so until then every adopted
+     button was still sitting -- and still drawn -- in the engine's own bar. On the Z pages that bar is #topright,
+     which the stylesheet hides; on the own-engine pages it is #tools, a full-width row that the control bar now
+     lands on top of, so Imaging, Needle, Pose and Measure were drawn twice and overlapping.
+     So every adopted node is moved into the hidden parking node AT ONCE, which is what empties the engine's bar,
+     and the sheet takes it from there. It runs again on each paint because a button the engine creates later
+     (the own engine builds its Measure button only on a wide layout) must be adopted the moment it appears.
+     Whatever is left in the engine's own bar afterwards is, by construction, exactly what no group claims. */
+  var emptied = [];                   /* the engine bars this control has taken buttons out of */
+  function adoptAll(){
+    if (!park) return;
+    G.forEach(function(g){
+      (g.members || []).forEach(function(m){
+        if (!m.adopt) return;
+        [].concat(m.adopt).forEach(function(id){
+          var e = document.getElementById(id);
+          if (!e || park.contains(e) || (sheet && sheet.contains(e)) || (bar && bar.contains(e))) return;
+          var par = e.parentNode;
+          if (par && par.nodeType === 1 && par !== document.body && par !== park && emptied.indexOf(par) < 0) emptied.push(par);
+          e.classList.add("qg-adopted");
+          park.appendChild(e);
+        });
+      });
+    });
+    /* A bar with nothing left in it must not go on reserving a row of the screen -- on the own-engine pages
+       #tools is a full-width strip the control bar would otherwise sit on top of. It is decided afresh every
+       time rather than once, so a button the engine adds to that bar later, which no group claims, brings the
+       bar back instead of being lost behind a hidden parent. */
+    for (var i = 0; i < emptied.length; i++){
+      var b = emptied[i];
+      if (!b.isConnected) continue;
+      b.hidden = b.children.length === 0;
+    }
+  }
   function anyActive(g){
     return (g.members || []).some(function(m){
       if (typeof m.active === "function"){ try { return !!m.active(); } catch (e){ return false; } }
@@ -3792,6 +3828,7 @@ var NMSKGroups = (function(){
   }
   /* the combo decoration: a dot on the group, a + on a co-active member, disabled + reason on an incompatible one */
   function paint(){
+    adoptAll();
     G.forEach(function(g){
       var b = gBtns[g.key]; if (!b) return;
       var has = anyMembers(g);
@@ -3944,6 +3981,7 @@ var NMSKGroups = (function(){
       window.addEventListener("resize", place); setInterval(place, 700); setTimeout(place, 0);
       if (combos && combos.onChange) combos.onChange(paint);
       setInterval(paint, 500);
+      adoptAll();                       /* Q318: empty the engine's own bar now, not at the first open */
       on = true; paint();
       return api;
     },
@@ -4096,12 +4134,17 @@ var NMSKQ301 = (function(){
         {adopt:["cut-exit", "cut-place", "cut-reset", "cut-flip"]},
         {adopt:["t-slices", "lab-cutfill"]}
       ]},
-      /* Q318: the older X-ray left this entry. It was a transparency preset sitting beside the real
-         radiographic styles, and its own note had to say so -- exactly the kind of button the owner
-         meant. It stays on the page where it was defined; it is simply no longer offered here. */
-      {key:"imaging", label:"Imaging", title:"How the model itself is drawn: colour, X-ray, CT, MRI", members:[
+      /* Q318, owner: "IMAGING, which will include XRAY, CT, MRI, US". The render styles are the model's own
+         drawing; `t-imaging` and `t-ultrasound` are the clinical add-ons' panels, which is where CT, MRI and
+         the scanned views themselves live, so the entry carries both. They are created by the add-on after
+         the page has loaded; a member whose id is not there yet is simply not shown, and it is adopted on a
+         later paint. `t-xray` is the OLDER entry -- a transparency preset, not a radiograph -- and it is kept
+         with that said plainly rather than left behind on a bar this row has replaced. */
+      {key:"imaging", label:"Imaging", title:"How the model itself is drawn, and the scanned views", members:[
         {el:R && R.state().on ? document.getElementById("rs-box") : null, combo:"imaging"},
-        {combo:"boneread", adopt:"br-box"}
+        {combo:"boneread", adopt:"br-box"},
+        {adopt:["t-imaging", "t-ultrasound"]},
+        {adopt:["t-xray"], label2:"X-ray here is the older see-through preset, not a radiograph: it makes the model transparent. The radiographic styles above are the ones measured from tissue."}
       ]},
       {key:"pose", label:"Pose", title:"Move the joints, each only through its own normal range", members:[
         {adopt:["btn-pose"]}
@@ -4121,6 +4164,11 @@ var NMSKQ301 = (function(){
          things you DO to it, and this is the row that will also carry the navigation-tool picker. */
       /* Q318: the corner this row replaces. Adopting them empties #topright, the same way every other
          adoption empties the bar it came from, so nothing is drawn twice. */
+      /* Q318, owner: "in this row you can also put a REFERENCE IMAGES button". One button, so pressing the
+         entry opens the panel itself -- there is no sheet in between. */
+      {key:"ref", label:"Reference", row2:true, title:"Open a reference image or video beside the model", members:[
+        {adopt:["t-reference"]}
+      ]},
       {key:"page", label:"Page", row2:true, title:"The other models, this one's sources, and which workspace is open", members:[
         {adopt:["t-mode"]},
         {adopt:["t-hub", "about-btn"]}

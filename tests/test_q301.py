@@ -720,7 +720,17 @@ def test_the_bar_is_the_top_row_and_covers_nothing_that_was_there():
 
     # and what the bar would otherwise sit on top of gets out of its way
     assert "body.q301-on #brand{top:auto;bottom:" in css, "the page title must step down out of the bar's row"
-    assert "body.q301-on #topright{display:none}" in css, "the corner the bar replaced must not reserve space"
+
+    # the corner is emptied, not hidden by a rule naming it: every adopted button is moved into the parking
+    # node at once (not at the first open, which left them drawn in the engine's bar under the new row), and
+    # a bar left with nothing in it stops reserving its row -- reversibly, so a later unclaimed button is not
+    # lost behind a hidden parent. Measured: own engine 39 buttons taken, #tools collapses to 0 px, nothing
+    # visible overlaps the bar on either engine.
+    assert "function adoptAll(" in js, "adoption must happen at start, not at the first open"
+    assert re.search(r"var\s+emptied\s*=\s*\[\]", js), "groups.js must remember the bars it emptied"
+    assert "b.hidden = b.children.length === 0;" in js, \
+        "an emptied bar must stop reserving its row, and come back if something unclaimed appears in it"
+    assert "#topright{display:none}" not in css, "that is the JS mechanism's job now, reversibly"
 
     # the placement still has to be recomputed when a group closes, as when one opens
     close = js[js.index("function closeSheet"):js.index("function soleButton")]
