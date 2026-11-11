@@ -44,8 +44,13 @@ THRESHOLDS (every one is the project's own; none is invented here)
   in_bone_pct 8 / 20 / 40 (>3 mm)   Q198 meta.thresholds.inside_bone_pct_with_>3mm_depth; Q237 fill.BELLY_IN_BONE_MAX = 8
   bone_deepest_mm 5                 scripts/anatomy/q237/fill.BONE_DEPTH_MAX_MM ("Q204 counts > 5 mm as a defect")
   overlap_muscle_pct 40 / 60        Q198 meta.thresholds.muscle_overlap_pct; Q237 fill.OVERLAP_MAX = 60
-  largest_component_frac 0.94       the figure the project itself accepted for a shipped muscle
-                                    (docs/MUSCLE_GAPS.md, ECRL "94.6 % in one component ... comparable to ...61 %")
+  pieces vs the record             a mesh may be in as many pieces as its record names functional compartments
+                                    (heads / fibre groups), plus one for a midline muscle Z-Anatomy ships as two
+                                    mirror halves; more than that is unexplained. A piece whose centroid is more
+                                    than 2x the largest piece's own diagonal away is in the wrong part of the body.
+                                    (The 0.94 figure of docs/MUSCLE_GAPS.md -- the ECRL ship, "94.6 % in one
+                                    component" -- is reported as largest_component_frac but no longer flagged on
+                                    its own, because a two-headed muscle legitimately sits near 0.5.)
   mean_dihedral_deg 27.6-31.7       the CVH reference band quoted in docs/GEOMETRY_SOURCES.md
   vol_ratio_lit / acsa_ratio_lit    NO project threshold exists. Reported as a number only; the doc states the
                                     band it reads them against and says it is this round's assumption.
@@ -232,7 +237,30 @@ def topology(v, f):
             n1 = nrm[t1[good]] / ln[t1[good]][:, None]
             ang = np.degrees(np.arccos(np.clip(np.einsum("ij,ij->i", n0, n1), -1, 1)))
             mean_dih = float(ang.mean())
+    # where the pieces are: a muscle with several HEADS has its pieces touching; a mesh that carries a lump from
+    # somewhere else in the body has one far away. Measured as the spread of the component centroids against the
+    # diagonal of the largest component, so the test does not depend on the muscle's absolute size.
+    cents, diags = [], {}
+    for l in sizes:
+        k = lab == l
+        cv = v[f[k]].reshape(-1, 3)
+        cents.append(cv.mean(0))
+        diags[int(l)] = float(np.linalg.norm(cv.max(0) - cv.min(0)))
+    big = max(sizes, key=lambda x: sizes[x])
+    spread = 0.0
+    for i in range(len(cents)):
+        for j in range(i + 1, len(cents)):
+            spread = max(spread, float(np.linalg.norm(cents[i] - cents[j])))
+    # two near-equal mirror halves of a MIDLINE muscle: same y/z centroid, opposite x
+    mirror_halves = False
+    if len(cents) == 2 and abs(sizes[list(sizes)[0]] - sizes[list(sizes)[1]]) / max(tot, 1e-9) < 0.05:
+        d = cents[0] - cents[1]
+        mirror_halves = bool(abs(d[0]) > 2 * max(abs(d[1]), abs(d[2])))
     return dict(n_components=len(sizes), largest_component_frac=round(float(largest), 4),
+                component_centroid_spread_mm=round(spread, 1),
+                largest_component_diag_mm=round(diags[int(big)], 1),
+                spread_over_diag=(round(spread / diags[int(big)], 2) if diags[int(big)] > 0 else None),
+                two_mirror_halves=mirror_halves,
                 open_edge_frac=round(open_edge_frac, 5), degenerate_tri_frac=round(degen, 6),
                 mean_dihedral_deg=(None if mean_dih is None else round(mean_dih, 2)))
 
@@ -326,20 +354,27 @@ def resolve_bone(bid, bone_ids):
 # A belly does not have to touch the bone its record names when the record itself says the attachment is made by
 # a tendon / aponeurosis, or that the skeletal element is not modelled on this page. Flagging those would invent
 # defects, so the gap is still MEASURED and reported, but marked not-applicable with the reason.
-NO_DIRECT = re.compile(r"tendon|aponeuro|not modeled as skeletal|not modelled as skeletal|retinacul|via the", re.I)
+NO_DIRECT = re.compile(
+    r"tendon|aponeuro|retinacul|via the|raphe|linea alba|septum|sheath|capsule|"            # soft-tissue attachment
+    r"fascia|\bskin\b|mucosa|ligament|cartilage|perineal body|\bdermis\b|sclera|"          # ditto
+    r"not mode?ll?ed as skeletal|named only because|the schema takes|midline structure",     # the record's own caveat
+    re.I)
 
 # A mesh that ships ONE solid for a serially repeating muscle (one mesh, many bellies) cannot be compared with an
 # architecture record measured on ONE unit, and its mesh is MEANT to be in many pieces.
-SERIAL = re.compile(r"^(levatores_costarum|interspinales|intertransversarii|rotatores|multifidus|semispinalis_"
-                    r"\w+|lumbricals_\w+|dorsal_interossei_\w+|palmar_interossei|plantar_interossei|"
-                    r"external_intercostals|internal_intercostals|innermost_intercostals|subcostales|"
-                    r"transversus_thoracis|iliocostalis|longissimus_\w+|spinalis_\w+|erector_spinae)(_[lr])?$")
+# matched ANYWHERE in the id, because the Z-Anatomy names wrap the same group ("zan_dorsal_parts_of_lateral_
+# intertransversarii_lumborum_muscles_l"). A serial muscle's pieces are MEANT to sit at different levels of the
+# body, so neither the piece count nor the spread of the pieces is evidence against it.
+SERIAL = re.compile(r"levatores_costarum|interspinal|intertransversarii|rotatores|multifidus|semispinalis|"
+                    r"lumbrical|interossei|intercostal|subcostales|transversus_thoracis|iliocostalis|"
+                    r"longissimus|spinalis|erector_spinae|parts_of|_of_digit|_muscles(_|$)|"
+                    r"fibrous_sheath|fibrous_digital")
 SERIAL_TEXT = re.compile(r"repeating unit|the rib below|directly above|each origin|per digit|each rib|"
                          r"vertebral levels above", re.I)
 
 
 def serial_mesh(mid, e):
-    if SERIAL.match(mid):
+    if SERIAL.search(mid):
         return True, "id names a serially repeating muscle (one mesh, many bellies)"
     if re.search(r"(^|_)(muscles)(_|$)", mid):
         return True, "id names a GROUP of muscles shipped as one mesh"
@@ -485,6 +520,10 @@ def audit_page(key, page_dir, stem, src_note, cap, verbose=True):
         lit = lit_architecture(e) if e else None
         acsa = (vol * 1000.0 / L) if L > 0 else None
         is_serial, serial_why = serial_mesh(mid, e)
+        # how many pieces this mesh is ENTITLED to: one per functional compartment the record names (heads /
+        # fibre groups), and two if it is a midline muscle Z-Anatomy ships as left and right halves
+        ncomp_rec = max(1, len(((e or {}).get("functional_compartments") or [])))
+        expected_pieces = ncomp_rec + (1 if m["side"] == "m" else 0)
         for which in ("origin", "insertion"):
             app, whyg = gap_applicable(e, which)
             gaps[which + "_gap_applicable"] = bool(app and gaps.get(which + "_gap_mm") is not None)
@@ -506,6 +545,7 @@ def audit_page(key, page_dir, stem, src_note, cap, verbose=True):
             solid_ok=bool(ok), solid_voxels=int(me.sum()), shell_voxels=int(shell.sum()),
             coarse_voxel_estimate=bool(me.sum() < 200),
             serial_or_group_mesh=is_serial, serial_or_group_because=serial_why,
+            compartments_in_record=ncomp_rec, expected_pieces=expected_pieces,
             lit_ratio_applicable=bool(lit is not None and not is_serial),
             **gaps, **top)
         if verbose and (n + 1) % 50 == 0:
@@ -551,8 +591,12 @@ def flags(r):
     if (r["in_bone_pct"] > TH["in_bone_pct"][0] and r["bone_deepest_mm"] > 3.0
             and not r.get("coarse_voxel_estimate")):
         out.append(f"in bone {r['in_bone_pct']} % / {r['bone_deepest_mm']} mm")
-    if r["largest_component_frac"] < TH["largest_component_frac"] and not r.get("serial_or_group_mesh"):
-        out.append(f"{r['n_components']} pieces, largest {r['largest_component_frac']}")
+    sd = r.get("spread_over_diag")
+    if sd is not None and sd > 2.0 and not r.get("serial_or_group_mesh"):
+        out.append(f"a piece {r['component_centroid_spread_mm']} mm away ({sd}x its own diagonal)")
+    elif (r["n_components"] > (r.get("expected_pieces") or 1) and not r.get("serial_or_group_mesh")
+          and not r.get("two_mirror_halves")):
+        out.append(f"{r['n_components']} pieces, record allows {r.get('expected_pieces')}")
     if r.get("lit_ratio_applicable"):
         v = r.get("vol_ratio_lit")
         if v is not None and (v < 0.5 or v > 2.0):
