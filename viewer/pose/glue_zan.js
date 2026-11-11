@@ -21,6 +21,13 @@ function poseRestOfZ(i){
   return poseRestZ[i] = {pos:pos, nrm:nrm};
 }
 window.__poseLive = function(i){ return poseLiveZ[i] ? poseLiveZ[i].pos : null; };
+/* Q319 test hook: id -> index and layer. __poseDebug reports how far each structure moved, keyed by id,
+   but reading a structure's SHAPE back needs its index for __poseLive, and OBJ is not global. */
+window.__poseIndex = function(){
+  var out = {};
+  OBJ.forEach(function(o, i){ out[o.id] = {id:o.id, index:i, layer:o.layer}; });
+  return out;
+};
 poseCtl = NMSKPose({
   page:function(){ return "zan:" + ((MAN && MAN.variant) || "base_male") + ":" + OBJ.length; },
   count:function(){ return OBJ.length; },

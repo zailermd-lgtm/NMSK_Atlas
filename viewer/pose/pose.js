@@ -40,11 +40,33 @@ var NMSKPoseCore = (function(){
     var v = mv3(jointR(j, q), j.down), d = j.down;
     return Math.acos(Math.max(-1, Math.min(1, v[0]*d[0] + v[1]*d[1] + v[2]*d[2]))) / D2R;
   }
+  /* Q319: `l` is the per-LEVEL offset. Owner: "in POSE the spine also needs movement in the relevant
+     regions. Bear in mind this is sometimes more challenging, because one joint's movement is usually
+     small and the movement is made of several vertebrae moving together. Allow moving either a specific
+     joint or a segment."
+     The segment half already existed: `r` is the regional angle, which fk shares out over the levels by
+     the documented weights. This adds the other half -- a single vertebra -- as an offset ON TOP of its
+     share, so the two compose instead of fighting: move the segment and every vertebra follows its share;
+     move one vertebra and only it leaves that share. Zero everywhere = the spine as built. */
   function defaultPose(P){
-    var o = {j:{}, r:{}};
+    var o = {j:{}, r:{}, l:{}};
     P.rig.joints.forEach(function(j){ o.j[j.id] = j.dof.map(function(d){ return d.q0; }); });
-    P.rig.regions.forEach(function(r){ o.r[r.id] = r.dof.map(function(){ return 0; }); });
+    P.rig.regions.forEach(function(r){
+      o.r[r.id] = r.dof.map(function(){ return 0; });
+      o.l[r.id] = r.levels.map(function(){ return r.dof.map(function(){ return 0; }); });
+    });
     return o;
+  }
+  /* What ONE level may do: its share of the regional range, which is the meaning the weights already
+     carry -- so no range is invented here. The share is of the whole arc, lo..hi, and the level's total
+     (its share of the regional angle, plus its own offset) is held inside it. */
+  function levelRange(r, lv, d){
+    var w = r.dof[d].w && r.dof[d].w[lv] != null ? r.dof[d].w[lv] : 1 / Math.max(1, r.levels.length);
+    return [r.dof[d].lo * w, r.dof[d].hi * w, w];
+  }
+  function levelTotal(pose, r, lv, d){
+    var off = pose.l && pose.l[r.id] && pose.l[r.id][lv] ? (pose.l[r.id][lv][d] || 0) : 0;
+    return pose.r[r.id][d] * levelRange(r, lv, d)[2] + off;
   }
   function clamp(v, lo, hi){ return v < lo ? lo : v > hi ? hi : v; }
   function anatomicalPose(P){
@@ -66,8 +88,10 @@ var NMSKPoseCore = (function(){
       var lv = P.lev[i], c, dR, R, t;
       if (lv){
         var reg = rig.regions[lv[0]], L = reg.levels[lv[1]], th = pose.r[reg.id];
+        var lof = pose.l && pose.l[reg.id] && pose.l[reg.id][lv[1]] ? pose.l[reg.id][lv[1]] : null;
         dR = I3;
-        for (var d = 0; d < reg.dof.length; d++) dR = mul3(dR, rotM(reg.dof[d].a, th[d] * reg.dof[d].w[lv[1]]));
+        /* Q319: the level's share of the regional angle, plus whatever that one vertebra was moved by. */
+        for (var d = 0; d < reg.dof.length; d++) dR = mul3(dR, rotM(reg.dof[d].a, th[d] * reg.dof[d].w[lv[1]] + (lof ? (lof[d] || 0) : 0)));
         c = L.c;
       } else {
         var ji = P.byseg[i];
@@ -191,7 +215,7 @@ var NMSKPoseCore = (function(){
     o.idx = I; o.w = Wb; o.k = 3; o.ready = true; o.blob = null;
   }
 
-  return {decodeSkin:decodeSkin, rotM:rotM, mul3:mul3, tr3:tr3, mv3:mv3, prepare:prepare, jointR:jointR, elevation:elevation, defaultPose:defaultPose, anatomicalPose:anatomicalPose, fk:fk, sameM:sameM, rigid:rigid, skin:skin, clamp:clamp};
+  return {decodeSkin:decodeSkin, rotM:rotM, mul3:mul3, tr3:tr3, mv3:mv3, prepare:prepare, jointR:jointR, elevation:elevation, defaultPose:defaultPose, anatomicalPose:anatomicalPose, fk:fk, sameM:sameM, rigid:rigid, skin:skin, clamp:clamp, levelRange:levelRange, levelTotal:levelTotal};
 })();
 
 /* Q316, owner: "RENDER and other panels should be movable on screen too". Left alone on a narrow screen, where the
@@ -267,6 +291,8 @@ function NMSKPose(E){
     var rj = st.rest.j, pj = st.pose.j, k, x;
     for (k in rj){ for (x = 0; x < rj[k].length; x++) if (Math.abs(rj[k][x] - pj[k][x]) > 1e-6) return false; }
     for (k in st.rest.r){ for (x = 0; x < st.rest.r[k].length; x++) if (Math.abs(st.rest.r[k][x] - st.pose.r[k][x]) > 1e-6) return false; }
+    var rl = st.rest.l || {}, pl = st.pose.l || {}, v;
+    for (k in rl){ for (v = 0; v < rl[k].length; v++) for (x = 0; x < rl[k][v].length; x++) if (Math.abs(rl[k][v][x] - ((pl[k] && pl[k][v]) ? pl[k][v][x] : 0)) > 1e-6) return false; }
     return true;
   }
   function update(){
@@ -321,6 +347,31 @@ function NMSKPose(E){
     for (var x = 0; x < r.dof.length; x++) if (r.dof[x].k === k){ st.pose.r[id][x] = C.clamp(+v, r.dof[x].lo, r.dof[x].hi); sync(); schedule(); return true; }
     return false;
   }
+  function regionOf(id){ return st.P.rig.regions.filter(function(g){ return g.id === id; })[0] || null; }
+  /* Q319: ONE vertebra. `v` is the angle that level should end up at in total, not the offset -- the
+     caller should not have to know how the regional angle is shared out. It is held inside that level's
+     own share of the regional range, so a vertebra can never be driven past what the region allows it. */
+  function setLevel(id, lv, k, v){
+    var r = regionOf(id); if (!r || !r.levels[lv] || !st.pose.l[id]) return false;
+    for (var x = 0; x < r.dof.length; x++) if (r.dof[x].k === k){
+      var R = C.levelRange(r, lv, x);
+      st.pose.l[id][lv][x] = C.clamp(+v, R[0], R[1]) - st.pose.r[id][x] * R[2];
+      sync(); schedule(); return true;
+    }
+    return false;
+  }
+  /* what the UI and the browser check both read: per level, its label and, per dof, where it stands,
+     what its own share permits, and how much of that is the segment's doing rather than its own */
+  function levelsOf(id){
+    var r = regionOf(id); if (!r) return null;
+    return r.levels.map(function(L, lv){
+      return {label:L.label, seg:L.seg, dof:r.dof.map(function(d, x){
+        var R = C.levelRange(r, lv, x);
+        return {k:d.k, l:d.l, value:C.levelTotal(st.pose, r, lv, x), lo:R[0], hi:R[1], share:R[2],
+                fromSegment:st.pose.r[id][x] * R[2], own:st.pose.l[id][lv][x]};
+      })};
+    });
+  }
   function copySide(from){
     var to = from === "r" ? "l" : "r";
     st.rig.joints.forEach(function(j){
@@ -346,7 +397,7 @@ function NMSKPose(E){
   function reset(){ st.pose = JSON.parse(JSON.stringify(st.rest)); sync(); schedule(); }
   function anatomical(){ st.pose = C.anatomicalPose(st.P); sync(); schedule(); }
   function save(){
-    try { localStorage.setItem(KEY, JSON.stringify({v:1, j:st.pose.j, r:st.pose.r, t:Date.now()})); status("Pose saved in this browser."); return true; } catch (err){ status("Could not save (browser storage is blocked)."); return false; }
+    try { localStorage.setItem(KEY, JSON.stringify({v:1, j:st.pose.j, r:st.pose.r, l:st.pose.l, t:Date.now()})); status("Pose saved in this browser."); return true; } catch (err){ status("Could not save (browser storage is blocked)."); return false; }
   }
   function loadSaved(){
     var d = null;
@@ -357,7 +408,20 @@ function NMSKPose(E){
   function apply(d){
     var P = JSON.parse(JSON.stringify(st.rest));
     st.rig.joints.forEach(function(j){ if (j.driven) return; var v = d.j && d.j[j.id]; if (v && v.length === j.dof.length) P.j[j.id] = j.dof.map(function(x, i){ var n = +v[i]; return isFinite(n) ? C.clamp(n, x.lo, x.hi) : x.q0; }); });
-    st.rig.regions.forEach(function(r){ var v = d.r && d.r[r.id]; if (v && v.length === r.dof.length) P.r[r.id] = r.dof.map(function(x, i){ var n = +v[i]; return isFinite(n) ? C.clamp(n, x.lo, x.hi) : 0; }); });
+    st.rig.regions.forEach(function(r){
+      var v = d.r && d.r[r.id];
+      if (v && v.length === r.dof.length) P.r[r.id] = r.dof.map(function(x, i){ var n = +v[i]; return isFinite(n) ? C.clamp(n, x.lo, x.hi) : 0; });
+      /* Q319: a pose saved before the per-vertebra offsets existed simply has none -- it stays at its
+         regional shares, which is exactly what it meant when it was saved. */
+      var L = d.l && d.l[r.id];
+      if (L && L.length === r.levels.length) P.l[r.id] = r.levels.map(function(_, lv){
+        return r.dof.map(function(_d, i){
+          var n = +((L[lv] || [])[i]); if (!isFinite(n)) return 0;
+          var R = C.levelRange(r, lv, i), tot = C.clamp(P.r[r.id][i] * R[2] + n, R[0], R[1]);
+          return tot - P.r[r.id][i] * R[2];
+        });
+      });
+    });
     st.pose = P; sync(); schedule();
   }
 
@@ -389,6 +453,26 @@ function NMSKPose(E){
     cells.push({j:j.id, x:x, rg:rg, nm:nm, lo:d.lo, hi:d.hi});
     return c;
   }
+  /* Q319: one vertebra, one degree of freedom. The slider's ends ARE the level's share of the region's
+     range -- the same numbers levelRange() gives setLevel -- so the control cannot ask for a motion the
+     region does not allow that level, and the band drawn behind it is that share rather than a guess. */
+  function levCell(r, lv, x){
+    var d = r.dof[x], R = C.levelRange(r, lv, x);
+    var c = el("div", "pz-cell"), w = el("div", "pz-sl"), band = el("i", "pz-band"), mk = el("i", "pz-q0");
+    band.style.left = "0%"; band.style.width = "100%";
+    mk.style.left = pct(0, R[0], R[1]); mk.title = "the spine as built";
+    var rg = el("input"); rg.type = "range"; rg.min = R[0]; rg.max = R[1]; rg.step = 0.5;
+    rg.value = C.levelTotal(st.pose, r, lv, x);
+    rg.setAttribute("aria-label", r.levels[lv].label + " " + d.l);
+    var nm = el("input", "pz-num"); nm.type = "number"; nm.min = R[0]; nm.max = R[1]; nm.step = 0.5;
+    nm.value = Math.round(rg.value);
+    w.appendChild(band); w.appendChild(mk); w.appendChild(rg);
+    c.appendChild(el("span", "pz-sd", "")); c.appendChild(w); c.appendChild(nm); c.appendChild(el("span", "pz-deg", "\u00b0"));
+    rg.addEventListener("input", function(){ setLevel(r.id, lv, d.k, rg.value); });
+    nm.addEventListener("change", function(){ setLevel(r.id, lv, d.k, nm.value); });
+    cells.push({reg:r, lv:lv, x:x, rg:rg, nm:nm, lo:R[0], hi:R[1]});
+    return c;
+  }
   function regCell(r, x){
     var d = r.dof[x], a = d.lo, b = d.hi, c = el("div", "pz-cell"), w = el("div", "pz-sl"), band = el("i", "pz-band"), mk = el("i", "pz-q0");
     band.style.left = "0%"; band.style.width = "100%"; mk.style.left = pct(0, a, b); mk.title = "model pose (as built) = 0";
@@ -402,7 +486,11 @@ function NMSKPose(E){
   }
   function sync(){
     cells.forEach(function(c){
-      var v = c.j ? st.pose.j[c.j][c.x] : st.pose.r[c.r][c.x];
+      /* Q319: a per-vertebra cell shows the level's TOTAL -- its share of the segment plus its own
+         offset -- because that is the angle the vertebra is actually at, and the only number a reader
+         can check against the model. Moving the segment therefore moves all of these too. */
+      var v = c.reg ? C.levelTotal(st.pose, c.reg, c.lv, c.x)
+                    : c.j ? st.pose.j[c.j][c.x] : st.pose.r[c.r][c.x];
       c.rg.value = v; c.nm.value = Math.round(v);
     });
     chrome();
@@ -461,6 +549,28 @@ function NMSKPose(E){
       var rows = el("div", "pz-rows"); rows.hidden = true; hb.addEventListener("click", function(){ var o = rows.hidden; rows.hidden = !o; hb.setAttribute("aria-expanded", String(o)); });
       h.appendChild(hb); sec.appendChild(h);
       r.dof.forEach(function(d, x){ var row = el("div", "pz-row"), lab = el("div", "pz-lab", d.l); var rm = rig.rom && d.rk && rig.rom[d.rk] ? rig.rom[d.rk][3] : ""; lab.title = (d.lo + " to " + d.hi + "°. " + rm + "  " + (r.note || "")).trim(); row.appendChild(lab); var cs = el("div", "pz-cells pz-one"); cs.appendChild(regCell(r, x)); row.appendChild(cs); rows.appendChild(row); });
+      /* Q319, owner: "allow performing a movement either of a specific joint or of a segment." The
+         sliders above are the segment -- one angle shared over the levels by the documented weights.
+         This is the same region one vertebra at a time, folded away because it is the longer way round
+         and most poses do not need it. Each row shows where that vertebra stands in total, so moving the
+         segment above moves every row here with it. */
+      if (r.levels && r.levels.length > 1){
+        var det = el("details", "pz-help"), sum = el("summary", null, "One vertebra at a time (" + r.levels.length + ")");
+        det.appendChild(sum);
+        var note = el("p", "pz-lab", "Each vertebra may move through its own share of the range above -- " +
+          r.levels.map(function(L, i){ var w = r.dof[0].w && r.dof[0].w[i] != null ? r.dof[0].w[i] : 1 / r.levels.length;
+                                       return L.label + " " + Math.round(w * 100) + "%"; }).join(", ") +
+          " of it for " + (r.dof[0].l || "the first") + ". " + (r.note || ""));
+        det.appendChild(note);
+        r.levels.forEach(function(L, lv){
+          var lrow = el("div", "pz-row"), llab = el("div", "pz-lab", L.label);
+          lrow.appendChild(llab);
+          var lcs = el("div", "pz-cells" + (r.dof.length === 1 ? " pz-one" : ""));
+          r.dof.forEach(function(d2, x2){ lcs.appendChild(levCell(r, lv, x2)); });
+          lrow.appendChild(lcs); det.appendChild(lrow);
+        });
+        rows.appendChild(det);
+      }
       sec.appendChild(rows); body.appendChild(sec);
     });
     var help = el("details", "pz-help"), sm = el("summary", "", "Ranges of motion, method and limits");
@@ -694,6 +804,8 @@ function NMSKPose(E){
   var api = {
     ready:function(){ return st.ready; }, failed:function(){ return st.failed; }, open:open, update:flush, reset:reset, anatomical:anatomical, symmetric:symmetric, save:save, load:loadSaved, apply:apply,
     set:function(id, k, v){ var ok = setJoint(id, k, v); flush(); return ok; }, setRegion:function(id, k, v){ var ok = setRegion(id, k, v); flush(); return ok; },
+    /* Q319: the spine, one vertebra at a time -- the other half of "either a specific joint or a segment" */
+    setLevel:function(id, lv, k, v){ var ok = setLevel(id, lv, k, v); flush(); return ok; }, levels:levelsOf,
     pose:function(){ return JSON.parse(JSON.stringify(st.pose)); }, restPose:function(){ return JSON.parse(JSON.stringify(st.rest)); }, isRest:function(){ return st.ready ? isRest() : true; },
     rig:function(){ return st.rig; }, matrices:function(){ return st.M.map(function(m){ return Array.prototype.slice.call(m); }); },
     stats:function(){ return {ready:st.ready, ms:st.ms, changed:st.lastChanged, updates:st.updates, rigidVerts:st.verts.rigid, skinVerts:st.verts.skin, skinned:st.skins.length, failed:st.failed}; },

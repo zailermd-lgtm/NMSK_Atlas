@@ -505,11 +505,14 @@ def classify(r):
 
 
 # ================================================================= one page
-def audit_page(key, page_dir, stem, src_note, cap, verbose=True):
+def audit_page(key, page_dir, stem, src_note, cap, verbose=True, man_blob=None):
+    """`man_blob` lets a caller audit an IN-MEMORY page (manifest, blob) instead of one on disk -- used by
+    scripts/anatomy/q319/repair_q319.py to measure a repaired page with exactly these metrics, so the
+    before/after numbers come from one implementation and not two."""
     t0 = time.time()
     import audit297 as A  # the Q297 provenance rule, reused rather than re-derived
 
-    man, blob = read_page(page_dir, stem)
+    man, blob = man_blob if man_blob is not None else read_page(page_dir, stem)
     M = man["meshes"]
     by_id = {m["id"]: m for m in M}
     bone_ids = [m["id"] for m in M if m["sys"] == "bone"]
@@ -546,10 +549,10 @@ def audit_page(key, page_dir, stem, src_note, cap, verbose=True):
         cls, src_name, why = A.classify(st, "zan", {})
         badge = rec.get("procedural_badge") or ""
         # a finer provenance than Q297's three classes: what the badge says this mesh IS
-        if re.search(r"^MIRROR IMAGE", badge):
-            prov = "mirror_fill"
+        if re.search(r"^MIRROR IMAGE|contralateral repair.*replaced by the mirror", badge):
+            prov = "mirror_fill"                 # GENERATED HERE: this side is a mirror of the other
         elif re.search(r"^RULE-BASED", badge):
-            prov = "rule_based"
+            prov = "rule_based"                  # GENERATED HERE: built from a documented rule
         elif re.search(r"REAL SEGMENTATION OF ANOTHER PERSON", badge):
             prov = "other_person_registered"
         elif re.search(r"IMPORTED REAL MESH", badge):
@@ -557,7 +560,13 @@ def audit_page(key, page_dir, stem, src_note, cap, verbose=True):
         elif re.search(r"^Q213:", badge):
             prov = "z_split"
         elif re.search(r"Z-Anatomy geometry fitted onto", badge):
-            prov = "z_fitted"
+            prov = "z_fitted"                    # Combined pages: Z mesh fitted per bone onto this body
+        elif re.search(r"^Q250 female skeleton", badge):
+            prov = "z_tps_female"                # Base F: the Z mesh carried by the bone-anchored TPS
+        elif re.search(r"^Q162 gap closure", badge):
+            prov = "z_raw_gap_closed"            # Base pages: the Z mesh's own shape, nudged out along its normals
+        elif not badge or re.search(r"^Q186:", badge):
+            prov = "z_raw"                       # Base pages: a plain Z-Anatomy mesh (page-level attribution)
         else:
             prov = "other"
         fit_err = None
@@ -747,6 +756,8 @@ def main(argv=None):
     ap.add_argument("--pages", default="comb_m,comb_f")
     ap.add_argument("--cap", type=int, default=250000, help="max surface samples per voxelisation (Q237 uses 250000)")
     ap.add_argument("--json", default=str(OUT))
+    ap.add_argument("--merge", action="store_true",
+                    help="keep the pages already in the output file and add/replace only the ones audited now")
     a = ap.parse_args(argv)
 
     explicit = {}
@@ -802,6 +813,18 @@ def main(argv=None):
     print(txt)
     out = Path(a.json)
     out.parent.mkdir(parents=True, exist_ok=True)
+    if a.merge and out.exists():
+        # keep every page already on file (the rule and the thresholds are the same, so the figures stay
+        # comparable); add or replace only the ones audited in this run.
+        prev = json.loads(out.read_text(encoding="utf-8"))
+        kept = [k for k in (prev.get("pages") or {}) if k not in rep["pages"]]
+        merged = dict(prev)
+        merged.update({k: v for k, v in rep.items() if k != "pages"})
+        merged["pages"] = {**(prev.get("pages") or {}), **rep["pages"]}
+        merged["merged_note"] = ("pages audited in separate runs of the same script, same rule and same "
+                                 "thresholds; kept from the previous file: " + (", ".join(kept) or "none"))
+        rep = merged
+        print("merged: kept %s, wrote %s" % (", ".join(kept) or "none", ", ".join(a.pages.split(","))))
     out.write_text(json.dumps(rep, indent=1), encoding="utf-8")
     print("\nwritten " + str(out))
     return 0

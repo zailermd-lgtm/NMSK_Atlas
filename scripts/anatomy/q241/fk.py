@@ -13,8 +13,11 @@ def joint_R(j, q):
 
 
 def default_pose(rig):
+    # Q319: "levels" holds, per region, one offset per dof per vertebra -- the per-level half of the
+    # spine's motion. Absent in an older pose, which then simply keeps every level at its share.
     return {"joints": {j["id"]: [d["q0"] for d in j["dof"]] for j in rig["joints"]},
-            "regions": {r["id"]: [0.0 for _ in r["dof"]] for r in rig["regions"]}}
+            "regions": {r["id"]: [0.0 for _ in r["dof"]] for r in rig["regions"]},
+            "levels": {r["id"]: [[0.0 for _ in r["dof"]] for _ in r["levels"]] for r in rig["regions"]}}
 
 
 def anatomical_pose(rig):
@@ -48,9 +51,13 @@ def fk(rig, pose):
         if i in lev:
             r, k, L = lev[i]
             th = pose["regions"][r["id"]]
+            # Q319: the level's share of the regional angle, plus that one vertebra's own offset, exactly as
+            # NMSKPoseCore.fk composes them in viewer/pose/pose.js. `levels` is absent from an older pose.
+            lof = (pose.get("levels") or {}).get(r["id"])
+            off = lof[k] if lof and k < len(lof) else None
             R = np.eye(3)
-            for d, t in zip(r["dof"], th):
-                R = R @ rot(d["a"], t * d["w"][k])
+            for di, (d, t) in enumerate(zip(r["dof"], th)):
+                R = R @ rot(d["a"], t * d["w"][k] + (off[di] if off and di < len(off) else 0.0))
             M[i] = M[par] @ about(R, np.array(L["c"]))
             continue
         j = byseg.get(i)
