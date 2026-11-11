@@ -195,7 +195,7 @@ var NMSKNerves = (function(){
       box.appendChild(seg);
       note = document.createElement("p"); note.className = "nv-note"; box.appendChild(note);
       var tip = document.createElement("p"); tip.className = "nmsk-tip";
-      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. It is the same idea as Q299's minimum section width and Q300's bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
+      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. Each dot has a thin dark rim (1 px) so the yellow still reads on pale bone, fat and fascia; the rim is drawn only while the emphasis is on and the nerve's own width is not changed by it. It is the same idea as Q299's minimum section width and Q300's bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
       box.appendChild(tip);
       if (opt.toolbar) opt.toolbar.appendChild(box);
       if (hist && hist.register) hist.register("q303nerves", provider());
@@ -207,6 +207,10 @@ var NMSKNerves = (function(){
     },
     element:function(){ return box; },
     set:function(i, quiet){
+      /* Q319: start() may never have been called -- the own-engine pages do not pass a `nerves` adaptor to
+         NMSKQ303.start at all, so this module sits on the page unstarted. Every member below assumes E, so
+         without this the first set() threw "Cannot read properties of null" instead of saying it is off. */
+      if (!E) return false;
       i = Math.max(0, Math.min(STEP.length - 1, i | 0));
       if (i === lvl){ ui(); return false; }
       if (!quiet && hist && hist.commit) hist.commit();
@@ -229,7 +233,9 @@ var NMSKNerves = (function(){
       idx.forEach(function(i){ var r = withD[i]; if (r) out.push(Object.assign({name:r.name, level:r.level}, widthOf(r.id))); });
       return out;
     },
-    state:function(){ return {on:on, level:lvl, step:STEP[lvl], census:census(), absent:absent(), notCovered:left,
+    /* Q319: `started` separates "the emphasis is off" from "this page does not offer it at all" -- which is
+       the case on the own-engine pages, and a caller that cannot tell the two apart reports the wrong thing. */
+    state:function(){ return {started:!!E, on:on, level:lvl, step:STEP[lvl], census:census(), absent:absent(), notCovered:left,
                               haveCalibre:haveCal, motorPoints:!!document.getElementById("ncl-mp-on"), mpTouched:mpTouched}; }
   };
   return api;

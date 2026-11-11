@@ -48,6 +48,7 @@ var NMSKNervePass = (function(){
     "  if (dot(d, d) > 0.25) discard;\n" +
     "  gl_FragColor = vec4(uColor, uAlpha);\n" +
     "}\n";
+  var RING_CSS = 1, CASING = [0.063, 0.059, 0.051];
   var api = {
     vs:function(){ return VS; },
     fs:function(){ return FS; },
@@ -56,6 +57,16 @@ var NMSKNervePass = (function(){
       var truePx = (dia_mm != null && mmPerPx > 0) ? dia_mm / mmPerPx : 0;
       return Math.max(wmin_px || 0, truePx) * (dpr || 1);
     },
+    /* Q319: the CASING. Nerve yellow (--t-nerve) is bright, so on bone, fascia, fat and cartilage it differs in
+       luminance by 1.06-1.2 : 1 (WCAG ratio, from the page's own colour tokens) and a dot of it is lost however wide
+       it is drawn. So each nerve is drawn TWICE, both times by the shader above and both times as round dots: first
+       every nerve at its core width plus a rim of RING_CSS css pixels each side in a near-black, then every nerve's
+       core on top in the nerve colour. Drawn as two passes and not as a ring inside one sprite, because a nerve is
+       a dense line of overlapping dots and each dot's ring would paint over its neighbours' cores (measured: the
+       one-sprite version came out entirely dark). The core is still exactly width(); the rim exists only while
+       the emphasis is on. */
+    ring:function(dpr){ return RING_CSS * (dpr || 1); },
+    casing:function(){ return CASING.slice(); },
     /* the near/far split and the two clip planes, in the shader's own sign convention */
     frame:function(eye, tgt, c1, c2){
       var f = [tgt[0] - eye[0], tgt[1] - eye[1], tgt[2] - eye[2]], l = Math.hypot(f[0], f[1], f[2]) || 1;

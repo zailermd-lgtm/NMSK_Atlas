@@ -4751,6 +4751,7 @@ var NMSKNervePass = (function(){
     "  if (dot(d, d) > 0.25) discard;\n" +
     "  gl_FragColor = vec4(uColor, uAlpha);\n" +
     "}\n";
+  var RING_CSS = 1, CASING = [0.063, 0.059, 0.051];
   var api = {
     vs:function(){ return VS; },
     fs:function(){ return FS; },
@@ -4759,6 +4760,16 @@ var NMSKNervePass = (function(){
       var truePx = (dia_mm != null && mmPerPx > 0) ? dia_mm / mmPerPx : 0;
       return Math.max(wmin_px || 0, truePx) * (dpr || 1);
     },
+    /* Q319: the CASING. Nerve yellow (--t-nerve) is bright, so on bone, fascia, fat and cartilage it differs in
+       luminance by 1.06-1.2 : 1 (WCAG ratio, from the page's own colour tokens) and a dot of it is lost however wide
+       it is drawn. So each nerve is drawn TWICE, both times by the shader above and both times as round dots: first
+       every nerve at its core width plus a rim of RING_CSS css pixels each side in a near-black, then every nerve's
+       core on top in the nerve colour. Drawn as two passes and not as a ring inside one sprite, because a nerve is
+       a dense line of overlapping dots and each dot's ring would paint over its neighbours' cores (measured: the
+       one-sprite version came out entirely dark). The core is still exactly width(); the rim exists only while
+       the emphasis is on. */
+    ring:function(dpr){ return RING_CSS * (dpr || 1); },
+    casing:function(){ return CASING.slice(); },
     /* the near/far split and the two clip planes, in the shader's own sign convention */
     frame:function(eye, tgt, c1, c2){
       var f = [tgt[0] - eye[0], tgt[1] - eye[1], tgt[2] - eye[2]], l = Math.hypot(f[0], f[1], f[2]) || 1;
@@ -5873,7 +5884,7 @@ var NMSKNerves = (function(){
       box.appendChild(seg);
       note = document.createElement("p"); note.className = "nv-note"; box.appendChild(note);
       var tip = document.createElement("p"); tip.className = "nmsk-tip";
-      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. It is the same idea as Q299's minimum section width and Q300's bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
+      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. Each dot has a thin dark rim (1 px) so the yellow still reads on pale bone, fat and fascia; the rim is drawn only while the emphasis is on and the nerve's own width is not changed by it. It is the same idea as Q299's minimum section width and Q300's bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
       box.appendChild(tip);
       if (opt.toolbar) opt.toolbar.appendChild(box);
       if (hist && hist.register) hist.register("q303nerves", provider());
@@ -5885,6 +5896,10 @@ var NMSKNerves = (function(){
     },
     element:function(){ return box; },
     set:function(i, quiet){
+      /* Q319: start() may never have been called -- the own-engine pages do not pass a `nerves` adaptor to
+         NMSKQ303.start at all, so this module sits on the page unstarted. Every member below assumes E, so
+         without this the first set() threw "Cannot read properties of null" instead of saying it is off. */
+      if (!E) return false;
       i = Math.max(0, Math.min(STEP.length - 1, i | 0));
       if (i === lvl){ ui(); return false; }
       if (!quiet && hist && hist.commit) hist.commit();
@@ -5907,7 +5922,9 @@ var NMSKNerves = (function(){
       idx.forEach(function(i){ var r = withD[i]; if (r) out.push(Object.assign({name:r.name, level:r.level}, widthOf(r.id))); });
       return out;
     },
-    state:function(){ return {on:on, level:lvl, step:STEP[lvl], census:census(), absent:absent(), notCovered:left,
+    /* Q319: `started` separates "the emphasis is off" from "this page does not offer it at all" -- which is
+       the case on the own-engine pages, and a caller that cannot tell the two apart reports the wrong thing. */
+    state:function(){ return {started:!!E, on:on, level:lvl, step:STEP[lvl], census:census(), absent:absent(), notCovered:left,
                               haveCalibre:haveCal, motorPoints:!!document.getElementById("ncl-mp-on"), mpTouched:mpTouched}; }
   };
   return api;
@@ -15833,18 +15850,23 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
           gl.uniform4f(U3.uC2, F.c2[0], F.c2[1], F.c2[2], F.c2[3]);
           gl.uniform3f(U3.uCtr, F.ctr[0], F.ctr[1], F.ctr[2]);
           gl.uniform3f(U3.uFwd, F.fwd[0], F.fwd[1], F.fwd[2]);
-          gl.uniform3f(U3.uColor, col[0], col[1], col[2]);
           gl.uniform1f(U3.uAlpha, spec.alpha);
           gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
           gl.disable(gl.DEPTH_TEST); gl.depthMask(false);
           gl.enableVertexAttribArray(aPos);
-          objs.forEach(function(o){
-            if (!o.batch || !vis(o)) return;
-            gl.uniform1f(U3.uPt, NMSKNervePass.width(spec.dia[o.id || o.name], mm, spec.wmin, dpr));
-            gl.bindBuffer(gl.ARRAY_BUFFER, o.batch.pb);
-            gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
-            gl.drawArrays(gl.POINTS, o.vOff, o.vc);
-            drew++; npts += o.vc;
+          /* Q319: two sweeps over the same dots. First every nerve's CASING (core + one css pixel each side, near-black),
+             then every nerve's core on top in the nerve colour. The core's width is width() exactly. */
+          var cs = NMSKNervePass.casing(), rim = 2 * NMSKNervePass.ring(dpr);
+          [0, 1].forEach(function(sweep){
+            if (sweep === 0) gl.uniform3f(U3.uColor, cs[0], cs[1], cs[2]); else gl.uniform3f(U3.uColor, col[0], col[1], col[2]);
+            objs.forEach(function(o){
+              if (!o.batch || !vis(o)) return;
+              gl.uniform1f(U3.uPt, NMSKNervePass.width(spec.dia[o.id || o.name], mm, spec.wmin, dpr) + (sweep === 0 ? rim : 0));
+              gl.bindBuffer(gl.ARRAY_BUFFER, o.batch.pb);
+              gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
+              gl.drawArrays(gl.POINTS, o.vOff, o.vc);
+              if (sweep === 1){ drew++; npts += o.vc; }
+            });
           });
           gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
         }
