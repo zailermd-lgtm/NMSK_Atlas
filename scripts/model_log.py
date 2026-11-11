@@ -209,22 +209,35 @@ def cmd_summary(a) -> int:
         return 0
 
     print(f"=== {len(es)} entries" + ("" if a.all else f" in the last {a.days} days") + " ===")
+    # Only `delta` entries may be ADDED UP. A `session_cumulative` entry already contains every delta
+    # recorded after it, so adding the two together counts the same tokens twice -- which the first
+    # summary of this log did, reporting a session's whole history as the cost of one afternoon.
     by_model: dict[str, dict] = {}
-    unknown = 0
+    unknown = cumulative = 0
     for e in es:
         m = f"{e.get('model') or '?'} / {e.get('effort') or '-'}"
         b = by_model.setdefault(m, {"n": 0, "cost": 0.0, "minutes": 0.0,
                                     **{k: 0 for k in TOKEN_KEYS}})
         b["n"] += 1
         b["minutes"] += float(e.get("minutes") or 0)
-        if e.get("token_scope") in ("delta", "session_cumulative"):
+        if e.get("token_scope") == "delta":
             b["cost"] += float(e.get("cost_usd") or 0)
             for k in TOKEN_KEYS:
                 b[k] += int((e.get("tokens") or {}).get(k, 0))
+        elif e.get("token_scope") == "session_cumulative":
+            cumulative += 1
         else:
             unknown += 1
     for m, b in sorted(by_model.items()):
         print(f"  {m:<34} {b['n']:>3} entr. {b['minutes']:>7.0f} min  ${b['cost']:>10.2f}  {fmt_tok(b)}")
+    print("  (the sums are of measured deltas only)")
+    if cumulative:
+        print(f"  ({cumulative} entr. hold a whole session's cumulative counters, which already contain the "
+              f"deltas above -- listed below, never added in)")
+        for e in es:
+            if e.get("token_scope") == "session_cumulative":
+                t = e.get("tokens") or {}
+                print(f"      {e['ts'][:10]} {e.get('model')}: ${float(e.get('cost_usd') or 0):,.2f}  {fmt_tok(t)}")
     if unknown:
         print(f"  ({unknown} entr. with no measured counters -- not in the sums above)")
 
