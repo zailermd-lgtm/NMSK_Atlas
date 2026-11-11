@@ -54,6 +54,18 @@ THRESHOLDS (every one is the project's own; none is invented here)
   mean_dihedral_deg 27.6-31.7       the CVH reference band quoted in docs/GEOMETRY_SOURCES.md
   vol_ratio_lit / acsa_ratio_lit    NO project threshold exists. Reported as a number only; the doc states the
                                     band it reads them against and says it is this round's assumption.
+
+THE THREE BUCKETS are computed here, not transcribed (see BUCKET_RULE, severities(), classify()), and written
+into every muscle record as `bucket` + `bucket_because` and into every page object as `bucket_counts`:
+  defensible      no geometric check above severity 1
+  repairable      one or more severity-2/3 geometric checks, but not two severity-3 ones
+  not defensible  two or more independent severity-3 geometric checks; OR the mesh was generated here
+                  (rule_based / mirror_fill) and fails even one severity-3 check, because then there is no real
+                  source behind it to fall back on
+Only the GEOMETRIC checks decide a bucket, because only they have a threshold the project already set. The
+architecture ratios are carried in bucket_because.architecture_evidence and decide nothing. Every level is read
+out of TH, so moving a threshold moves the buckets, and `bucket_because.checks` names each check that fired so a
+reader never has to re-derive the verdict. There is deliberately only ONE copy of this rule in the file.
 """
 from __future__ import annotations
 
@@ -94,7 +106,26 @@ TH = {
     "overlap_muscle_pct": [40.0, 60.0],       # Q198 muscle_overlap_pct / Q237 fill.OVERLAP_MAX
     "largest_component_frac": 0.94,           # docs/MUSCLE_GAPS.md, the ECRL ship
     "mean_dihedral_deg_ref": [27.6, 31.7],    # docs/GEOMETRY_SOURCES.md, the CVH references
+    # How far OUTSIDE the lr_vol_ratio band counts as severity 2 / 3. Expressed as a factor on the band itself
+    # (f = max(ratio / hi, lo / ratio); f <= 1 is inside the band), so moving the band moves these with it.
+    "lr_outside_factor_sev2": 1.2,            # = 1.5 / 1.25, the ratio at which Q237 would not mirror-fill either way
+    "lr_outside_factor_sev3": 4.0 / 3.0,      # = 1.667 / 1.25, a side half again the size of the other
+    "spread_over_diag_sev3": 2.0,             # a piece further than 2x the largest piece's own diagonal
+    "coarse_solid_voxels": 200,               # below this the 2 mm voxel share is too coarse to flag
 }
+
+# the three buckets, and the rule, in one place. Named here so the document and the JSON cannot drift.
+BUCKET_RULE = {
+    "defensible": "no geometric check above severity 1",
+    "repairable": "one or more severity-2/3 geometric checks, but not two severity-3 ones",
+    "not_defensible": ("two or more independent severity-3 geometric checks; OR the mesh was generated here "
+                       "(rule_based / mirror_fill) and fails even one severity-3 check, because then there is no "
+                       "real source behind it to fall back on"),
+    "note": ("Only GEOMETRIC checks -- the ones with a threshold the project already set -- decide a bucket. The "
+             "architecture ratios (vol_ratio_lit / acsa_ratio_lit) have no project threshold and are recorded as "
+             "supporting evidence only, in bucket_because.architecture_evidence."),
+}
+GENERATED_HERE = ("rule_based", "mirror_fill")
 PITCH = 2.0                                    # mm, the Q204 / Q237 lattice
 
 
@@ -393,6 +424,86 @@ def gap_applicable(e, which):
     return True, None
 
 
+# ================================================================= the severity ladder and the three buckets
+def severities(r):
+    """[(level, check, text)] -- ONLY the checks that have a project threshold (see THRESHOLDS).
+
+    Every level comes from TH, so changing a threshold moves the buckets. A check whose number was measured but
+    marked not-applicable (see the qualifiers above) contributes nothing."""
+    out = []
+    g1, g2, g3 = TH["attachment_mm"]
+    for w in ("origin", "insertion"):
+        g = r.get(w + "_gap_mm")
+        if r.get(w + "_gap_applicable") and g is not None:
+            lvl = 3 if g > g3 else 2 if g > g2 else 1 if g > g1 else 0
+            if lvl:
+                out.append((lvl, w + "_gap", f"{w} gap {g} mm"))
+    o1, o2 = TH["overlap_muscle_pct"]
+    ov = r["overlap_muscle_pct"]
+    if ov > o2:
+        out.append((3, "overlap_muscle", f"overlap {ov} %"))
+    elif ov > o1:
+        out.append((2, "overlap_muscle", f"overlap {ov} %"))
+    b1, b2, b3 = TH["in_bone_pct"]
+    if not r.get("coarse_voxel_estimate") and r["bone_deepest_mm"] > 3.0:
+        ib = r["in_bone_pct"]
+        lvl = 3 if ib > b3 else 2 if ib > b2 else 1 if ib > b1 else 0
+        if lvl:
+            out.append((lvl, "in_bone", f"in bone {ib} % / {r['bone_deepest_mm']} mm"))
+    lo, hi = TH["lr_vol_ratio_ok"]
+    x = r.get("lr_vol_ratio_r_over_l")
+    if x:
+        f = max(x / hi, lo / x)
+        if f > 1.0:
+            lvl = 3 if f > TH["lr_outside_factor_sev3"] else 2 if f > TH["lr_outside_factor_sev2"] else 1
+            out.append((lvl, "lr_vol_ratio", f"R/L volume {x} (band {lo}-{hi})"))
+    sd = r.get("spread_over_diag")
+    if sd is not None and sd > TH["spread_over_diag_sev3"] and not r.get("serial_or_group_mesh"):
+        out.append((3, "piece_in_the_wrong_place",
+                    f"a piece {r['component_centroid_spread_mm']} mm away ({sd}x its own diagonal)"))
+    elif (r["n_components"] > (r.get("expected_pieces") or 1) and not r.get("serial_or_group_mesh")
+          and not r.get("two_mirror_halves")):
+        out.append((2, "unexplained_pieces",
+                    f"{r['n_components']} pieces, its record allows {r.get('expected_pieces')}"))
+    if not r["solid_ok"]:
+        out.append((3, "no_solid", "the surface does not enclose a solid"))
+    return out
+
+
+def arch_evidence(r):
+    """Supporting evidence only: the architecture ratios have NO project threshold and decide no bucket."""
+    out = []
+    if r.get("lit_ratio_applicable"):
+        v, a = r.get("vol_ratio_lit"), r.get("acsa_ratio_lit")
+        if v is not None and (v < 0.5 or v > 2.0):
+            out.append(f"volume {v}x the volume its own architecture record implies")
+        if a is not None and a < 0.5:
+            out.append(f"cross-section {a}x the one its own architecture record implies")
+    return out
+
+
+def classify(r):
+    """-> (bucket, bucket_because).  The rule is BUCKET_RULE, applied to severities() only."""
+    sev = severities(r)
+    s3 = [t for l, _, t in sev if l == 3]
+    s2 = [t for l, _, t in sev if l == 2]
+    s1 = [t for l, _, t in sev if l == 1]
+    gen = r["provenance"] in GENERATED_HERE
+    if gen and s3:
+        b, why = "not_defensible", ("generated here (%s) and fails a severity-3 geometric check, so there is no "
+                                   "real source behind it to fall back on" % r["provenance"])
+    elif len(s3) >= 2:
+        b, why = "not_defensible", "fails %d independent severity-3 geometric checks" % len(s3)
+    elif s3 or s2:
+        b, why = "repairable", "%d severity-3 and %d severity-2 geometric checks" % (len(s3), len(s2))
+    else:
+        b, why = "defensible", "no geometric check above severity 1"
+    return b, dict(verdict=why, rule=BUCKET_RULE[b], generated_here=gen,
+                   severity_3=s3, severity_2=s2, severity_1=s1,
+                   checks=[dict(level=l, check=c, text=t) for l, c, t in sev],
+                   architecture_evidence=arch_evidence(r))
+
+
 # ================================================================= one page
 def audit_page(key, page_dir, stem, src_note, cap, verbose=True):
     t0 = time.time()
@@ -571,59 +682,58 @@ def audit_page(key, page_dir, stem, src_note, cap, verbose=True):
             r["lr_vol_ratio_r_over_l"] = None
             r["lr_length_ratio_r_over_l"] = None
 
+    # ---- the three buckets, computed here (never transcribed) so re-running reproduces them and a change to a
+    # threshold in TH moves them. Runs AFTER the left/right pairing, because lr_vol_ratio is one of the checks.
+    counts = collections.Counter()
+    for r in rows.values():
+        b, because = classify(r)
+        r["bucket"], r["bucket_because"] = b, because
+        counts[b] += 1
+
     return dict(page=key, label=LABEL[key], source=src_note, n_meshes=len(M), n_muscle_meshes=len(mus),
-                seconds=round(time.time() - t0, 1), muscles=rows)
+                seconds=round(time.time() - t0, 1),
+                bucket_counts={k: counts.get(k, 0) for k in ("defensible", "repairable", "not_defensible")},
+                muscles=rows)
 
 
-# ================================================================= flags and the summary table
-def flags(r):
-    out = []
-    lo, hi = TH["lr_vol_ratio_ok"]
-    x = r.get("lr_vol_ratio_r_over_l")
-    if x is not None and not (lo <= x <= hi):
-        out.append(f"asym R/L {x}")
-    for w in ("origin", "insertion"):
-        g = r.get(w + "_gap_mm")
-        if g is not None and r.get(w + "_gap_applicable") and g > TH["attachment_mm"][1]:
-            out.append(f"{w} gap {g} mm")
-    if r["overlap_muscle_pct"] > TH["overlap_muscle_pct"][1]:
-        out.append(f"overlap {r['overlap_muscle_pct']} %")
-    if (r["in_bone_pct"] > TH["in_bone_pct"][0] and r["bone_deepest_mm"] > 3.0
-            and not r.get("coarse_voxel_estimate")):
-        out.append(f"in bone {r['in_bone_pct']} % / {r['bone_deepest_mm']} mm")
-    sd = r.get("spread_over_diag")
-    if sd is not None and sd > 2.0 and not r.get("serial_or_group_mesh"):
-        out.append(f"a piece {r['component_centroid_spread_mm']} mm away ({sd}x its own diagonal)")
-    elif (r["n_components"] > (r.get("expected_pieces") or 1) and not r.get("serial_or_group_mesh")
-          and not r.get("two_mirror_halves")):
-        out.append(f"{r['n_components']} pieces, record allows {r.get('expected_pieces')}")
-    if r.get("lit_ratio_applicable"):
-        v = r.get("vol_ratio_lit")
-        if v is not None and (v < 0.5 or v > 2.0):
-            out.append(f"vol/lit {v}")
-        a = r.get("acsa_ratio_lit")
-        if a is not None and a < 0.5:
-            out.append(f"ACSA/lit {a}")
-    return out
-
-
+# ================================================================= the summary table
 def summary(rep):
     lines = []
     for key, pg in rep["pages"].items():
         R = pg["muscles"]
-        lines.append(f"\n=== {pg['label']}  ({pg['n_muscle_meshes']} muscle meshes of {pg['n_meshes']})  src: {pg['source']}")
+        bc = pg["bucket_counts"]
+        lines.append(f"\n=== {pg['label']}  ({pg['n_muscle_meshes']} muscle meshes of {pg['n_meshes']})")
+        lines.append(f"    source: {pg['source']}")
         prov = collections.Counter(r["provenance"] for r in R.values())
         lines.append("  provenance: " + ", ".join(f"{k} {v}" for k, v in prov.most_common()))
-        cls = collections.Counter(r["q297_class"] for r in R.values())
-        lines.append("  Q297 class: " + ", ".join(f"{k} {v}" for k, v in cls.most_common()))
-        bad = sorted(((len(flags(r)), mid, r) for mid, r in R.items() if flags(r)), reverse=True)
-        lines.append(f"  muscles with at least one threshold exceeded: {len(bad)} / {len(R)}")
-        lines.append(f"  {'id':52s} {'vol cm3':>8s} {'/lit':>6s} {'ACSA/lit':>8s} {'R/L':>6s} {'ovl%':>6s} {'bone%':>6s} {'ori':>6s} {'ins':>6s}  flags")
-        for _, mid, r in bad[:40]:
-            lines.append("  %-52s %8.2f %6s %8s %6s %6.1f %6.2f %6s %6s  %s" % (
-                mid[:52], r["volume_cm3"], r["vol_ratio_lit"], r["acsa_ratio_lit"], r["lr_vol_ratio_r_over_l"],
-                r["overlap_muscle_pct"], r["in_bone_pct"], r["origin_gap_mm"], r["insertion_gap_mm"],
-                "; ".join(flags(r))))
+        lines.append("  Q297 class: " + ", ".join(f"{k} {v}" for k, v in
+                                                  collections.Counter(r["q297_class"] for r in R.values()).most_common()))
+        lines.append("  BUCKETS: defensible %d | repairable %d | NOT DEFENSIBLE %d  (of %d)"
+                     % (bc["defensible"], bc["repairable"], bc["not_defensible"], len(R)))
+
+        def sev_total(r):
+            return sum(l for l, _, _ in severities(r))
+
+        for want, title in (("not_defensible", "NOT DEFENSIBLE -- the deletion candidates"),
+                            ("repairable", "REPAIRABLE -- the 15 worst by total severity")):
+            sel = sorted(((sev_total(r), mid, r) for mid, r in R.items() if r["bucket"] == want), reverse=True)
+            if want == "repairable":
+                sel = sel[:15]
+            lines.append(f"\n  {title} ({len([1 for r in R.values() if r['bucket'] == want])})")
+            lines.append("  %-50s %8s %6s %8s %6s %6s %6s %6s %6s  %s"
+                         % ("id", "vol cm3", "/lit", "ACSA/lit", "R/L", "ovl%", "bone%", "ori", "ins", "why"))
+            for _, mid, r in sel:
+                lines.append("  %-50s %8.2f %6s %8s %6s %6.1f %6.2f %6s %6s  %s" % (
+                    mid[:50], r["volume_cm3"], r["vol_ratio_lit"], r["acsa_ratio_lit"],
+                    r["lr_vol_ratio_r_over_l"], r["overlap_muscle_pct"], r["in_bone_pct"],
+                    r["origin_gap_mm"] if r["origin_gap_applicable"] else "n/a",
+                    r["insertion_gap_mm"] if r["insertion_gap_applicable"] else "n/a",
+                    "; ".join(r["bucket_because"]["severity_3"] + r["bucket_because"]["severity_2"])))
+    lines.append("\n--- bucket counts, for comparison with docs/Q319_reconstructed_muscles.md section 4 ---")
+    for key, pg in rep["pages"].items():
+        bc = pg["bucket_counts"]
+        lines.append("  %-20s %d muscle meshes = %d defensible / %d repairable / %d not defensible"
+                     % (pg["label"], pg["n_muscle_meshes"], bc["defensible"], bc["repairable"], bc["not_defensible"]))
     return "\n".join(lines)
 
 
@@ -659,6 +769,7 @@ def main(argv=None):
            "generated": time.strftime("%Y-%m-%d"),
            "what": "every muscle mesh of the named pages, measured off the SHIPPED geometry; read-only",
            "thresholds": TH,
+           "bucket_rule": BUCKET_RULE,
            "threshold_provenance": {
                "lr_vol_ratio_ok": "data/derived/Q241_pose_asymmetry.md s2 (the Q237 flags)",
                "attachment_mm": "data/derived/Q198_anatomy_audit.json meta.thresholds.attachment_distance_mm",

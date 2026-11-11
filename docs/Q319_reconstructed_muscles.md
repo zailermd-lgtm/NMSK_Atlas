@@ -228,7 +228,14 @@ reported as supporting evidence and never decide a bucket.
 | **Combined · Male** (430) | **176** | **242** | **12** |
 | **Combined · Female** (441) | **182** | **251** | **8** |
 
-Per-muscle numbers for all 871 muscle meshes are in `data/derived/Q319_reconstructed_muscle_audit.json`.
+**The rule lives in the script, not in this prose.** `BUCKET_RULE`, `severities()` and `classify()` in
+`scripts/anatomy/q319/audit_reconstructed_muscles_q319.py` are the single copy of it; every severity level is read
+out of `TH`, so moving a threshold moves the buckets. Each of the 871 muscle records in
+`data/derived/Q319_reconstructed_muscle_audit.json` carries its own `bucket` and a `bucket_because` giving the
+verdict, the rule applied, and every named check that fired at severity 3 / 2 / 1 plus the architecture evidence
+that deliberately did **not** count; each page object carries `bucket_counts`. Re-running the script reproduces
+the three tables below — the counts in it and the counts here were checked against each other and agree
+(176 / 242 / 12 and 182 / 251 / 8), as does the membership of both not-defensible lists.
 
 ### 4.1 Not defensible — the deletion candidates
 
