@@ -24,3 +24,15 @@ Drop: abandoned exploration paths, repeated logs, resolved discussions.
 # Session state
 At major milestones, update PROJECT_STATE.md (decisions, files changed, open
 issues, next action) so a fresh session can resume from it after /clear.
+
+# Model routing
+- Before dispatching a subagent, or choosing how to run a stretch of work, follow
+  `docs/MODEL_GUIDANCE.md`: it names the model and effort per kind of task here, and the
+  token-saving rules that were measured, not guessed.
+- Never run this project on Opus 5 — Opus 5.5 is newer and cheaper on every axis, cache reads
+  included, and cache reads dominate this project's bill.
+- Record each stretch of work in the log: `python3 scripts/model_log.py append ...`
+  (`docs/model_usage/README.md`). The `rework_of` field is what tells a later review whether a
+  cheap choice was really cheap.
+- A review every three days compares the log with the guidance and rewrites the guidance from what
+  the log shows. Do not edit the routing table from opinion between reviews.
