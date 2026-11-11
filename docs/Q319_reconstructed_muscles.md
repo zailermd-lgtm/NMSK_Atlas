@@ -597,3 +597,29 @@ fascia, ligament, cartilage, skin or retinaculum, so the distance is reported bu
 | `pronator_quadratus_r` | 5.21 | 0.08 | 0.08 | 1.408 | 68.5 | 20.5 / 4.5 | 1 of 1 | volume 2.316x architecture |
 | `longus_colli_r` | 7.36 | 0.14 | 0.14 | 0.561 | 27.4 | 10.9 / 4.0 | 3 of 1 | — |
 | `flexor_digitorum_superficialis_l` | 16.96 | 29.32 | 70.56 (n/a) | 0.784 | 42.8 | 2.5 / 2.8 | 1 of 4 | — |
+
+---
+
+## Parked by the owner, 2026-11-11
+
+The owner stopped this line of work as soon as he had read the audit, and said why:
+
+> "At this first stage the most important part is the base models and not the reconstructed ones. In
+> the future we will go deeper into the reconstructed ones, and then we will also look for mismatches
+> in order to warn of possible problems in the specimen. But not now."
+
+So nothing here was acted on. The two Combined pages keep the geometry this document measured, the
+twenty not-defensible meshes were **not** deleted, and the five repair routes in section 4.2 were not
+taken. That is a decision, not an omission.
+
+Two things are worth carrying forward to the round that does pick this up:
+
+- The audit is reproducible. `python3 scripts/anatomy/q319/audit_reconstructed_muscles_q319.py`
+  re-derives every number and every bucket from the published pages; a changed threshold moves the
+  buckets with it. Nothing needs re-deriving by hand.
+- The owner named a second use for it that this round did not serve: **mismatches as a warning about
+  the specimen itself.** A muscle that will not fit its own skeleton may be telling us something
+  about the body it was fitted to rather than about the fit. The measurements that would support
+  that reading are already in the JSON -- the attachment gaps against the bone the record names, and
+  the left/right volume ratios -- but this document reads every one of them as a fault in the fit.
+  That reading is the thing to revisit, not the numbers.
