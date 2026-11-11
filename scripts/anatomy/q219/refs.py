@@ -1,15 +1,17 @@
 """Q219 reference registry for data/anatomy/structure_parts.json.
 
 Every entry was checked against PubMed (title, authors, journal, year, volume, pages, DOI/PMID as returned by the
-PubMed record) on 2026-10-11, except the entries with kind == 'textbook' which are NOT page-verified (they are used
+PubMed record) on the date in its own `verified` field (2026-10-11 for the original registry, 2026-11-11 for the
+entries added in the Q319 round), except the entries with kind == 'textbook' which are NOT page-verified (they are used
 only by rows marked verification == 'unverified').  Nothing is invented: when PubMed has no DOI the field is None.
 """
 V = "pubmed-2026-10-11"
+V2 = "pubmed-2026-11-11"     # Q319: entries added in the Q319 round, checked against PubMed on that date
 
 
-def J(key, authors, title, journal, year, vol, pages, doi, pmid, abstract_basis):
+def J(key, authors, title, journal, year, vol, pages, doi, pmid, abstract_basis, verified=V):
     cite = f"{authors} {title} {journal} {year};{vol}:{pages}"
-    return key, dict(kind="journal", citation=cite, doi=doi, pmid=pmid, verified=V, basis=abstract_basis)
+    return key, dict(kind="journal", citation=cite, doi=doi, pmid=pmid, verified=verified, basis=abstract_basis)
 
 
 _R = [
@@ -181,6 +183,10 @@ _R = [
       "10.1016/j.jhsa.2012.06.024", "22939823", "abstract: 18 UCL + 18 RCL proper collateral ligaments; origin and insertion measured to bony landmarks"),
     J("patel2019", "Patel NA, Lin CC, Itami Y, McGarry MH, Shin SS, Lee TQ.", "Kinematics of thumb ulnar collateral ligament repair with suture tape augmentation.", "J Hand Surg Am", 2019, "45(2)", "117-122",
       "10.1016/j.jhsa.2019.09.005", "31727379", "abstract: complete UCL tear = proper and accessory ligaments"),
+    J("sircar2024", "Sircar K, Hagermann C, Scaal M, Muller LP, Dargel J, Wegmann K.", "Thumb metacarpophalangeal joint kinematics and elongation of the ulnar collateral ligament.", "J Hand Surg Am", 2024, "49(1)", "8-14",
+      "10.1016/j.jhsa.2023.10.001", "37978963", "abstract: 28 thumbs; dorsal proper UCL and accessory UCL measured separately; rotational axis at 29-40 % of metacarpal head height and 86-96 % of metacarpal length; maximum elongation 111 % of the dorsal proper UCL at 40 deg flexion in flat joints, 117 % of the accessory UCL at 60 deg in round joints", verified=V2),
+    J("dong1995", "Dong PR, Seeger LL, Shapiro MS, Levere SM.", "Fractures of the sesamoid bones of the thumb.", "Am J Sports Med", 1995, "23(3)", "336-339",
+      "10.1177/036354659502300315", "7661263", "abstract: thumb metacarpophalangeal stability is provided by the collateral ligament proper, the accessory collateral ligament, the proximal and distal palmar ligaments and the palmar plate", verified=V2),
     J("doyle1988", "Doyle JR.", "Anatomy of the finger flexor tendon sheath and pulley system.", "J Hand Surg Am", 1988, "13(4)", "473-484",
       "10.1016/s0363-5023(88)80082-0", "3418049", "abstract: 61 fingers; palmar aponeurosis pulley, five annular pulleys, three cruciform pulleys"),
     J("zafonte2014", "Zafonte B, Rendulic D, Szabo RM.", "Flexor pulley system: anatomy, injury, and management.", "J Hand Surg Am", 2014, "39(12)", "2525-2532",

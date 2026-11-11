@@ -1,7 +1,7 @@
 {
  "schema": "nmsk.structure_parts.v1",
  "schema_doc": "data/anatomy/parts_schema.md",
- "generated": "2026-11-10",
+ "generated": "2026-11-11",
  "license": "Anatomy layer: CC BY-SA 4.0 compatible (facts with citations; no clinical content, no geometry).",
  "ambiguity_recorded": "Owner wrote 'ברקטום' (rectum or rectus). Both are covered: rectus abdominis tendinous intersections + rectus sheath + linea alba (abdominal wall) and rectum / anorectal passages (lateral ligament, Denonvilliers and rectosacral fascia, puborectalis sling, pudendal canal).",
  "part_types": [
@@ -556,6 +556,14 @@
    "pmid": "12684970",
    "verified": "pubmed-2026-10-12",
    "basis": "abstract: disc somewhat biconcave, thicker in the anterior and posterior bands and thinner in the intermediate zone; collagen mainly anteroposterior in the intermediate zone and ring-like at the periphery"
+  },
+  "dong1995": {
+   "kind": "journal",
+   "citation": "Dong PR, Seeger LL, Shapiro MS, Levere SM. Fractures of the sesamoid bones of the thumb. Am J Sports Med 1995;23(3):336-339",
+   "doi": "10.1177/036354659502300315",
+   "pmid": "7661263",
+   "verified": "pubmed-2026-11-11",
+   "basis": "abstract: thumb metacarpophalangeal stability is provided by the collateral ligament proper, the accessory collateral ligament, the proximal and distal palmar ligaments and the palmar plate"
   },
   "doyle1988": {
    "kind": "journal",
@@ -1572,6 +1580,14 @@
    "pmid": "14977657",
    "verified": "pubmed-2026-10-11",
    "basis": "abstract: POL and semimembranosus capsular attachment injuries"
+  },
+  "sircar2024": {
+   "kind": "journal",
+   "citation": "Sircar K, Hagermann C, Scaal M, Muller LP, Dargel J, Wegmann K. Thumb metacarpophalangeal joint kinematics and elongation of the ulnar collateral ligament. J Hand Surg Am 2024;49(1):8-14",
+   "doi": "10.1016/j.jhsa.2023.10.001",
+   "pmid": "37978963",
+   "verified": "pubmed-2026-11-11",
+   "basis": "abstract: 28 thumbs; dorsal proper UCL and accessory UCL measured separately; rotational axis at 29-40 % of metacarpal head height and 86-96 % of metacarpal length; maximum elongation 111 % of the dorsal proper UCL at 40 deg flexion in flat joints, 117 % of the accessory UCL at 60 deg in round joints"
   },
   "smigielski2015": {
    "kind": "journal",
@@ -18235,21 +18251,40 @@
    "structure_class": "ligament",
    "part_type": "ligament_component",
    "name": "Thumb MCP ulnar collateral ligament: proper",
-   "description": "Origin centre 4.2 mm from the dorsal surface and 5.3 mm from the articular surface of the metacarpal head; phalangeal insertion centre 2.8 mm from the volar surface and 3.4 mm from the articular surface (n=18).",
+   "description": "The dorsal of the two bands, running dorsal-proximal to volar-distal and inserting on the phalanx itself. Origin centre 4.2 mm from the dorsal surface and 5.3 mm from the articular surface of the metacarpal head (dorsal edge of the origin footprint 2.1 mm from the dorsal edge of the metacarpal); phalangeal insertion centre 2.8 mm from the volar surface and 3.4 mm from the articular surface (n=18). Taut in flexion: the dorsal proper UCL elongates most (111 % of its neutral length) at 40 deg of flexion in flat MCP joints (n=28).",
    "refs": [
-    "carlson2012"
+    "carlson2012",
+    "sircar2024"
    ],
-   "evidence": "cadaver n=18 UCL",
+   "evidence": "cadaver n=18 UCL; radiographic kinematics n=28",
    "verification": "verified",
    "variability": null,
    "anchor": null,
-   "geometry": null,
+   "geometry": {
+    "rule": "collateral_layer_split",
+    "pool": "collateral_metacarpophalangeal_ligaments",
+    "prox_bone": "first_metacarpal_bone",
+    "dist_bone": "proximal_phalanx_of_first_finger_of_hand",
+    "transverse_bone": "second_metacarpal_bone",
+    "volar_ref": "tendon_sheath_of_flexor_pollicis_longus",
+    "dorsal_ref": "zan_extensor_pollicis_longus",
+    "band": "ulnar",
+    "layer": "proper",
+    "proper": {
+     "origin_from_dorsal_mm": 4.2,
+     "origin_from_articular_mm": 5.3,
+     "insertion_from_volar_mm": 2.8,
+     "insertion_from_articular_mm": 3.4,
+     "footprint_half_mm": 2.1,
+     "ref": "carlson2012"
+    }
+   },
    "set_id": "thumb_ucl.parts",
    "passes": null,
    "related_structure_ids": [],
    "note": null,
    "added_in": "Q219",
-   "citation": "Carlson MG et al. 2012 J Hand Surg Am 37(10):2021-2026 doi:10.1016/j.jhsa.2012.06.024 PMID:22939823",
+   "citation": "Carlson MG et al. 2012 J Hand Surg Am 37(10):2021-2026 doi:10.1016/j.jhsa.2012.06.024 PMID:22939823; Sircar K et al. 2024 J Hand Surg Am 49(1):8-14 doi:10.1016/j.jhsa.2023.10.001 PMID:37978963",
    "maps_to": {
     "structure_ids": {
      "vhm": [],
@@ -18269,7 +18304,7 @@
    ],
    "has_own_part_mesh": false,
    "has_z_part_mesh": false,
-   "geometry_rule": null
+   "geometry_rule": "collateral_layer_split"
   },
   {
    "id": "thumb_mcp_ucl.accessory_collateral",
@@ -18277,21 +18312,41 @@
    "structure_class": "ligament",
    "part_type": "ligament_component",
    "name": "Thumb MCP ulnar collateral ligament: accessory",
-   "description": "A complete UCL tear involves both the proper and the accessory ligaments.",
+   "description": "The volar of the two bands, lying palmar to the proper ligament and attaching to the palmar (volar) plate and the ulnar sesamoid rather than to the phalanx; taut in extension. A complete UCL tear involves both the proper and the accessory ligaments. The accessory UCL elongates most (117 % of its neutral length) at 60 deg of flexion in round MCP joints (n=28).",
    "refs": [
-    "patel2019"
+    "patel2019",
+    "sircar2024",
+    "dong1995"
    ],
-   "evidence": "biomechanics n=8",
+   "evidence": "biomechanics n=8; radiographic kinematics n=28; clinical series n=8 sesamoid fractures",
    "verification": "verified",
    "variability": null,
    "anchor": null,
-   "geometry": null,
+   "geometry": {
+    "rule": "collateral_layer_split",
+    "pool": "collateral_metacarpophalangeal_ligaments",
+    "prox_bone": "first_metacarpal_bone",
+    "dist_bone": "proximal_phalanx_of_first_finger_of_hand",
+    "transverse_bone": "second_metacarpal_bone",
+    "volar_ref": "tendon_sheath_of_flexor_pollicis_longus",
+    "dorsal_ref": "zan_extensor_pollicis_longus",
+    "band": "ulnar",
+    "layer": "accessory",
+    "proper": {
+     "origin_from_dorsal_mm": 4.2,
+     "origin_from_articular_mm": 5.3,
+     "insertion_from_volar_mm": 2.8,
+     "insertion_from_articular_mm": 3.4,
+     "footprint_half_mm": 2.1,
+     "ref": "carlson2012"
+    }
+   },
    "set_id": "thumb_ucl.parts",
    "passes": null,
    "related_structure_ids": [],
    "note": null,
    "added_in": "Q219",
-   "citation": "Patel NA et al. 2019 J Hand Surg Am 45(2):117-122 doi:10.1016/j.jhsa.2019.09.005 PMID:31727379",
+   "citation": "Patel NA et al. 2019 J Hand Surg Am 45(2):117-122 doi:10.1016/j.jhsa.2019.09.005 PMID:31727379; Sircar K et al. 2024 J Hand Surg Am 49(1):8-14 doi:10.1016/j.jhsa.2023.10.001 PMID:37978963; Dong PR et al. 1995 Am J Sports Med 23(3):336-339 doi:10.1177/036354659502300315 PMID:7661263",
    "maps_to": {
     "structure_ids": {
      "vhm": [],
@@ -18311,7 +18366,7 @@
    ],
    "has_own_part_mesh": false,
    "has_z_part_mesh": false,
-   "geometry_rule": null
+   "geometry_rule": "collateral_layer_split"
   },
   {
    "id": "thumb_mcp_rcl.proper_collateral",
@@ -18319,21 +18374,40 @@
    "structure_class": "ligament",
    "part_type": "ligament_component",
    "name": "Thumb MCP radial collateral ligament: proper",
-   "description": "Origin centre 3.5 mm from the dorsal surface and 3.3 mm from the articular surface; insertion 2.8 mm from the volar surface, 2.6 mm from the articular surface (n=18).",
+   "description": "The dorsal of the two bands (Carlson dissected 18 radial collaterals and isolated their proper part; Dong names a proper and an accessory collateral at this joint without separating radial from ulnar, and the radial accessory band is not recorded here as a part of its own). Origin centre 3.5 mm from the dorsal surface and 3.3 mm from the articular surface (dorsal edge of the origin footprint 1.5 mm from the dorsal edge of the metacarpal); insertion 2.8 mm from the volar surface, 2.6 mm from the articular surface (n=18).",
    "refs": [
-    "carlson2012"
+    "carlson2012",
+    "dong1995"
    ],
    "evidence": "cadaver n=18 RCL",
    "verification": "verified",
    "variability": null,
    "anchor": null,
-   "geometry": null,
+   "geometry": {
+    "rule": "collateral_layer_split",
+    "pool": "collateral_metacarpophalangeal_ligaments",
+    "prox_bone": "first_metacarpal_bone",
+    "dist_bone": "proximal_phalanx_of_first_finger_of_hand",
+    "transverse_bone": "second_metacarpal_bone",
+    "volar_ref": "tendon_sheath_of_flexor_pollicis_longus",
+    "dorsal_ref": "zan_extensor_pollicis_longus",
+    "band": "radial",
+    "layer": "proper",
+    "proper": {
+     "origin_from_dorsal_mm": 3.5,
+     "origin_from_articular_mm": 3.3,
+     "insertion_from_volar_mm": 2.8,
+     "insertion_from_articular_mm": 2.6,
+     "footprint_half_mm": 2.0,
+     "ref": "carlson2012"
+    }
+   },
    "set_id": null,
    "passes": null,
    "related_structure_ids": [],
    "note": null,
    "added_in": "Q219",
-   "citation": "Carlson MG et al. 2012 J Hand Surg Am 37(10):2021-2026 doi:10.1016/j.jhsa.2012.06.024 PMID:22939823",
+   "citation": "Carlson MG et al. 2012 J Hand Surg Am 37(10):2021-2026 doi:10.1016/j.jhsa.2012.06.024 PMID:22939823; Dong PR et al. 1995 Am J Sports Med 23(3):336-339 doi:10.1177/036354659502300315 PMID:7661263",
    "maps_to": {
     "structure_ids": {
      "vhm": [],
@@ -18353,7 +18427,7 @@
    ],
    "has_own_part_mesh": false,
    "has_z_part_mesh": false,
-   "geometry_rule": null
+   "geometry_rule": "collateral_layer_split"
   },
   {
    "id": "flexor_tendon_pulley_system_hand.palmar_aponeurosis_pulley",
@@ -43990,6 +44064,6 @@
    "unverified": 248
   },
   "structures": 226,
-  "references": 246
+  "references": 248
  }
 }

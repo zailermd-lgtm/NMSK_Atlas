@@ -14270,3 +14270,77 @@ and titles. Browser checks on the regenerated pages, both engines: `Q318_TOPROW_
 Everything in the Q317 list above, plus `test_motor_points_q187[zan_f]` (`mp.supinator_l.1` falls
 outside its muscle) -- that one reads built geometry and the motor-point map, neither of which Q318
 touches.
+
+## Q319.4.iii -- a ligament's sub-ligaments are now MARKED, not only recorded
+
+Owner: *"various ligaments divide into several sub-ligaments -- e.g. PROPER + ACCESSORY in the ulnar
+collateral ligament of MCP1. Learn from studies and comparable models and make sure they really are
+marked that way."*
+
+**The state found.** `data/anatomy/structure_parts.json` already recorded 36 `ligament_component`
+part sets (137 member sub-ligaments, every set cited), the owner's own example included
+(`thumb_ucl.parts`, n=2 by Patel 2019, "proper + accessory"). Marking is a different file, and there
+the owner's example was **absent**: `thumb_mcp_ucl.proper_collateral`,
+`thumb_mcp_ucl.accessory_collateral` and `thumb_mcp_rcl.proper_collateral` all sat in `text_only`
+with "no geometry rule defined for this part". Their parent ligament's own `origin_q256` /
+`insertion_q256` rows were text-only too -- not for lack of a rule but because `thumb_mcp_ucl` has
+no mesh of its own on any body and Z has no `metacarpals` / `phalanges_hand` aggregate meshes, so
+`end_snap_bone` had nothing to snap. Nothing of the thumb MCP collaterals was offered on any page.
+
+**What the literature says.** The thumb MCP collateral is two bands. The PROPER band is dorsal,
+runs dorsal-proximal to volar-distal and inserts on the phalanx; the ACCESSORY band is volar to it
+and attaches to the palmar plate and the sesamoid, not the phalanx. Carlson 2012 (PMID 22939823,
+n=18 UCL + 18 RCL) isolated the proper bands and measured them in mm from the bone surfaces:
+UCL origin centre 4.2 mm volar of the dorsal surface and 5.3 mm proximal of the articular surface of
+the metacarpal (dorsal edge of the footprint 2.1 mm from the dorsal edge), insertion centre 2.8 mm
+dorsal of the volar surface and 3.4 mm distal of the articular surface of the phalanx; RCL 3.5 / 3.3
+and 2.8 / 2.6, dorsal edge 1.5 mm. Sircar 2024 (PMID 37978963, n=28), added to the registry this
+round, measures the dorsal proper and the accessory UCL separately through flexion: the proper peaks
+at 111 % of neutral length at 40 deg in flat joints, the accessory at 117 % at 60 deg in round ones.
+Dong 1995 (PMID 7661263), also added, names the proper collateral, the accessory collateral, the
+proximal and distal palmar ligaments and the palmar plate as the joint's stabilisers.
+
+**The rule.** `collateral_layer_split` (`scripts/anatomy/q219/build_geometry.py`). Z-Anatomy ships
+one pooled mesh of ALL metacarpophalangeal collaterals per hand, which happens to be ten
+disconnected bands = five joints x two sides, so a connected component IS one anatomical band. The
+rule builds a joint frame from the body's own bones (long axis metacarpal centroid -> phalanx
+centroid; joint centre from the two bones' facing fifths; transverse axis towards the second
+metacarpal; dorsal axis their cross product, its SIGN fixed by the flexor pollicis longus tendon
+sheath, which is palmar to the joint by definition, and cross-checked against the extensor tendon --
+both offsets recorded in every placement), picks the band nearest the joint centre on the named
+side, builds Carlson's origin and insertion centres on this body's own bone surfaces, and takes the
+PROPER layer as the band vertex nearest the midpoint of that line and the ACCESSORY layer as the
+band volar of it. Every placement is `rule_based` with a dorso-volar error bound of
+sqrt(reference distance^2 + half the published footprint height^2 + half the layer's own thickness^2
++ 1 mm grid^2) = 2.8-3.2 mm; the layer's much larger extent along the ligament is recorded
+separately, as the band's length rather than a positional error. Nothing is measured on this body.
+
+**Counts.** `ligament_component` members placed, before -> after: Base male (`zbase_m`) 53 -> 59
+(27 -> 30 parts), Base female (`zbase_f`) 53 -> 59 (27 -> 30). Six new `collateral_layer_split`
+placements per body (thumb UCL proper + accessory, thumb RCL proper, both sides). The same re-run
+also recovered four `end_snap_bone` placements (coracoacromial ligament origin and insertion, both
+sides) that the 2026-10-18 files had dropped: those files were derived on `build/q218` and
+`build/q292`, pages this container no longer has, and the re-run used the restored
+`build/q309` pages. Nothing was lost.
+
+**Verified on a page.** `scripts/anatomy/q319/verify_subligaments_q319.py` -> `Q319_SUBLIGAMENTS_OK`
+on `build/q309/viewer_zan_atlas` and `build/q309/viewer_base_female`: selecting the pooled collateral
+mesh through the page's own search and list shows both components as `ligament_component` rows with
+the marker badge and live PubMed links, the page's own marker records call both `rule_based` with an
+error bound on both sides, and the proper marker is dorsal to the accessory one (0.5-2.6 mm) along
+two dorso-volar axes rebuilt from the page's own geometry by a construction the rule does not use
+(extensor minus flexor pollicis longus, and brevis, with the metacarpal shaft component removed).
+
+### Open, Q319.4.iii
+- The thumb MCP **radial accessory** band is not recorded as a part at all. It is real (Dong 1995
+  names it at joint level), but adding a part row makes `test_q222`'s per-body coverage assertion
+  fail for `vhm`, `vhf`, `zan_m` and `zan_f`, whose geometry files cannot be re-derived in this
+  checkout (their pages are absent from the gitignored `build/`). Add the row together with a run
+  of all six bodies, not before. Its description is already carried on the RCL proper row.
+- The finger MCP and the interphalangeal (PIP / DIP) collaterals of the hand keep their recorded
+  proper / accessory / volar-plate rows but stay `text_only` for marking: Z pools them in one mesh
+  per hand and no published dorso-volar footprint was found to split them by. Carlson's millimetres
+  are thumb-MCP measurements and were not extrapolated to the other joints.
+- The four non-Z-base geometry files still carry the 2026-10-18 placements. They need a re-run on
+  restored pages, which `build_geometry.py --page-dir BODY=DIR` (added this round) now allows for
+  any body whose page is back.

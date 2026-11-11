@@ -273,8 +273,169 @@ def rule_passage_contact(body, part, s):
                 error_bound_mm=round(float(near.std(axis=0).max() * 2 + 3.0), 1), error_basis="2 x contact spread + 3 mm threshold (a nerve running in contact along a muscle has an extended contact, the point is its centroid)"), None
 
 
+def _components(V, F):
+    """Vertex -> connected-component label of a mesh (duplicate vertices welded first; the Z pooled ligament meshes ship
+    one disconnected band per joint side, so a component IS one anatomical band)."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    _, inv = np.unique(np.round(V, 3), axis=0, return_inverse=True)
+    e = inv[np.vstack([F[:, [0, 1]], F[:, [1, 2]], F[:, [2, 0]]])]
+    n = int(inv.max()) + 1
+    k, lab = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(n, n)), directed=False)
+    return lab[inv], k
+
+
+def rule_collateral_layer_split(body, part, s):
+    """A metacarpophalangeal collateral ligament is two bands: a DORSAL proper band that inserts on the phalanx and a
+    VOLAR accessory band that inserts on the palmar plate / sesamoid.  Z-Anatomy ships one pooled band per joint side,
+    so the two are separated here by the published dorso-volar geometry of the PROPER band (Carlson 2012, measured in mm
+    from the bone surfaces this body also has), on a joint frame built from this body's own bones:
+
+      a  proximal -> distal, from the proximal bone's centroid to the distal bone's centroid;
+      jc joint centre, the midpoint of (centroid of the proximal bone's distal 15 %, centroid of the distal bone's proximal 15 %);
+      u  transverse, towards the next metacarpal (orthogonalised against a) -- the ulnar direction at the thumb;
+      d  dorsal, a x u, its sign fixed by a volar reference structure of this body (the flexor tendon sheath lies palmar
+         to the joint) and cross-checked against a dorsal one (the extensor tendon), both recorded in the placement.
+
+    The band is the connected component of the pooled mesh nearest jc on the requested side.  Carlson's origin centre
+    (so many mm volar of the metacarpal's dorsal surface, so many mm proximal of its articular surface) and insertion
+    centre (so many mm dorsal of the phalanx's volar surface, so many mm distal of its articular surface) are built on
+    this body's own bone surfaces; the PROPER layer's point is the band vertex nearest the midpoint of that
+    origin-insertion line, and the ACCESSORY layer is everything on the band volar of it, its point being the band
+    vertex nearest that layer's own centroid.  Nothing is measured on this body: the split is a published footprint
+    applied to this body's mesh, and the placement is rule_based with the error bound below."""
+    g = part["geometry"]
+    pr = g["proper"]
+    layer = g["layer"]
+    pool = f"zan_{g['pool']}_{s}"
+    if pool not in body.m:
+        return None, f"pooled collateral mesh {pool} absent"
+    need = {}
+    for key in ("prox_bone", "dist_bone", "transverse_bone", "volar_ref"):
+        ids = body.ids_for(g[key], s)
+        if not ids:
+            return None, f"{g[key]} absent on side {s}"
+        need[key] = ids
+    P, _ = body.mesh(need["prox_bone"])
+    Dd, _ = body.mesh(need["dist_bone"])
+    T, _ = body.mesh(need["transverse_bone"])
+    a = G.unit(Dd.mean(axis=0) - P.mean(axis=0))
+    tp = (P - P.mean(axis=0)) @ a
+    td = (Dd - Dd.mean(axis=0)) @ a
+    pd = P[tp >= tp.max() - 0.15 * (tp.max() - tp.min())]
+    dp = Dd[td <= td.min() + 0.15 * (td.max() - td.min())]
+    jc = (pd.mean(axis=0) + dp.mean(axis=0)) / 2
+    u = T.mean(axis=0) - P.mean(axis=0)
+    u = G.unit(u - (u @ a) * a)
+    d = G.unit(np.cross(a, u))
+    SV, _ = body.mesh(need["volar_ref"])
+    loc = SV[np.linalg.norm(SV - jc, axis=1) <= 25.0]
+    if len(loc) < 5:
+        return None, f"the volar reference {g['volar_ref']} does not reach within 25 mm of the joint centre"
+    if d @ (jc - loc.mean(axis=0)) < 0:
+        d = -d
+    volar_ref_mm = round(float(d @ (loc.mean(axis=0) - jc)), 1)
+    dorsal_ref_mm = None
+    dref = g.get("dorsal_ref")
+    if dref:
+        for c in (f"{dref}_{s}", dref):
+            if c in body.m:
+                RV = body.m[c]["v"]
+                RV = RV[np.linalg.norm(RV - jc, axis=1) <= 30.0]
+                if len(RV) >= 5:
+                    dorsal_ref_mm = round(float(d @ (RV.mean(axis=0) - jc)), 1)
+                break
+    if dorsal_ref_mm is not None and dorsal_ref_mm <= 0:
+        return None, (f"the dorsal reference {dref} lies {dorsal_ref_mm:.1f} mm on the volar side of the frame's dorsal "
+                      "axis: the joint frame is not trustworthy on this body")
+    # ---- the band of this joint, on the requested side
+    V, F = body.mesh([pool])
+    lab, k = _components(V, F)
+    sgn = 1.0 if g["band"] == "ulnar" else -1.0
+    pick, best = None, None
+    for c in range(k):
+        Q = V[lab == c]
+        if len(Q) < 10:
+            continue
+        cen = Q.mean(axis=0)
+        dist = float(np.linalg.norm(cen - jc))
+        if dist > 20.0 or sgn * float(u @ (cen - jc)) <= 0:
+            continue
+        if best is None or dist < best:
+            best, pick = dist, Q
+    if pick is None:
+        return None, f"no band of {pool} (of {k} bands) lies within 20 mm of the joint centre on its {g['band']} side"
+    Q = pick
+    cu = (Q - jc) @ u
+    cd = (Q - jc) @ d
+    ca = (Q - jc) @ a
+    ub = float(cu.mean())
+    # ---- Carlson's origin and insertion centres, built on this body's own bone surfaces
+    head = P[(np.linalg.norm(P - jc, axis=1) <= 12.0) & (sgn * ((P - jc) @ u) >= -1.0)]
+    base = Dd[(np.linalg.norm(Dd - jc, axis=1) <= 12.0) & (sgn * ((Dd - jc) @ u) >= -1.0)]
+    if len(head) < 10 or len(base) < 10:
+        return None, "the metacarpal head / phalangeal base is not resolved within 12 mm of the joint centre on this side"
+    o_d = float(((head - jc) @ d).max()) - pr["origin_from_dorsal_mm"]
+    o_a = float(((head - jc) @ a).max()) - pr["origin_from_articular_mm"]
+    i_d = float(((base - jc) @ d).min()) + pr["insertion_from_volar_mm"]
+    i_a = float(((base - jc) @ a).min()) + pr["insertion_from_articular_mm"]
+    O = jc + ub * u + o_d * d + o_a * a
+    I = jc + ub * u + i_d * d + i_a * a
+    mid = (O + I) / 2
+    j = int(np.argmin(np.linalg.norm(Q - mid, axis=1)))
+    proper = Q[j]
+    d_ref = float(np.linalg.norm(proper - mid))
+    cut = float((proper - jc) @ d)
+    if layer == "proper":
+        L = Q[cd >= cut]
+    else:
+        L = Q[cd < cut]
+        if len(L) < 5:
+            return None, (f"only {len(L)} of the band's {len(Q)} vertices lie volar of the measured proper footprint: "
+                          "this body's band carries no separable accessory layer")
+    cen = L.mean(axis=0)
+    pos = L[int(np.argmin(np.linalg.norm(L - cen, axis=1)))] if layer != "proper" else proper
+    if layer != "proper":
+        d_ref = float(np.linalg.norm(pos - cen))
+        if float((pos - jc) @ d) >= cut:
+            return None, "the accessory layer's point is not volar of the proper layer's: the split did not separate them"
+    rad = float(np.linalg.norm(L - cen, axis=1).max())
+    hh = float(pr["footprint_half_mm"])
+    ldv = float(((L - jc) @ d).max() - ((L - jc) @ d).min())
+    # the rule's claim is WHICH layer of the band this is, so its error is dorso-volar: the published footprint's own
+    # half-height, half the layer's own dorso-volar thickness, the distance to the reference point and the vertex grid.
+    # The layer's much larger proximo-distal extent is the ligament's own length, not an error; it is recorded separately
+    # (layer_radius_mm, bbox_mm) so the marker is read as one point standing for a band of that size.
+    err = float(np.sqrt(d_ref ** 2 + hh ** 2 + (ldv / 2) ** 2 + 1.0))
+    which = "dorsal (proper)" if layer == "proper" else "volar (accessory)"
+    return dict(position_mm=R(pos),
+                method=(f"collateral_layer_split: the {which} layer of this body's own {g['band']} collateral band at the joint, "
+                        f"split at the dorso-volar level of the measured proper footprint (Carlson 2012: origin centre "
+                        f"{pr['origin_from_dorsal_mm']:g} mm volar of the dorsal surface and {pr['origin_from_articular_mm']:g} mm "
+                        f"proximal of the articular surface of the metacarpal, insertion centre {pr['insertion_from_volar_mm']:g} mm "
+                        f"dorsal of the volar surface and {pr['insertion_from_articular_mm']:g} mm distal of the articular surface of "
+                        f"the phalanx); joint frame from this body's own bones, dorsal sense fixed by {g['volar_ref']}"),
+                source_class="rule_based", parent_source_class=body.parent_class([pool]), mesh_ids=[pool],
+                landmark_meshes=need["prox_bone"] + need["dist_bone"] + need["transverse_bone"],
+                band_vertices=int(len(Q)), band_of=f"{g['band']} collateral band, {k} bands in {pool}",
+                layer=layer, layer_vertices=int(len(L)), layer_radius_mm=round(rad, 2),
+                bbox_mm=[R(L.min(axis=0)), R(L.max(axis=0))], layer_dorsovolar_mm=round(ldv, 2),
+                split_level_mm=round(cut, 2), band_dorsovolar_mm=[round(float(cd.min()), 2), round(float(cd.max()), 2)],
+                carlson_midpoint_offset_mm=round(d_ref, 2), joint_centre_mm=R(jc),
+                volar_ref_offset_mm=volar_ref_mm, dorsal_ref_offset_mm=dorsal_ref_mm,
+                error_bound_mm=round(err, 2),
+                error_basis=(f"sqrt(d^2 + h^2 + r^2 + 1): d = {d_ref:.2f} mm, "
+                             + ("the distance from Carlson 2012's origin-insertion midpoint to the band vertex used"
+                                if layer == "proper" else "the distance from this layer's centroid to the band vertex used")
+                             + f"; h = {hh:g} mm, half the measured dorso-volar height of the proper footprint "
+                             f"(Carlson 2012); r = {ldv / 2:.2f} mm, half the dorso-volar thickness of this layer on this body; "
+                             f"1 mm vertex grid. The layer's own extent along the ligament ({rad:.1f} mm radius about its centroid) "
+                             "is the band's length, not a positional error. Fitted from the literature, not measured on this body")), None
+
+
 RULES = dict(z_part_mesh=rule_z_part_mesh, end_snap_bone=rule_end_snap_bone, cc_ligament_ratio=rule_cc_ligament_ratio, mtj_by_distance_from_origin=rule_mtj_by_distance,
-             mtj_interface=rule_mtj_interface, passage_contact=rule_passage_contact)
+             mtj_interface=rule_mtj_interface, passage_contact=rule_passage_contact,
+             collateral_layer_split=rule_collateral_layer_split)
 
 
 def validate_rules(bodies, parts):
@@ -339,7 +500,19 @@ def main():
     ap.add_argument("--bodies", default="vhm,vhf,zan_m,zan_f")
     ap.add_argument("--out", default="data/derived/Q219_parts_{k}.json", help="output path template (Q220 runs the same rules on the unfitted Z bodies: data/derived/Q220_parts_{k}.json)")
     ap.add_argument("--skip-validation", action="store_true", help="do not rewrite Q219_rule_validation.json (needs the fitted Z bodies)")
+    ap.add_argument("--page-dir", action="append", default=[], metavar="BODY=DIR",
+                    help="read one body's meshes from a built page in DIR instead of geomlib's recorded path (build/ is gitignored, so a "
+                         "restored container has the pages back under a different round's directory; repeatable)")
     a = ap.parse_args()
+    for spec in a.page_dir:
+        k, _, dv = spec.partition("=")
+        if k not in G.BODIES:
+            ap.error(f"--page-dir: unknown body {k!r}")
+        d = Path(dv) if Path(dv).is_absolute() else REPO / dv
+        pages = sorted(d.glob("atlas_viewer*.html")) if d.is_dir() else []
+        if not pages:
+            ap.error(f"--page-dir {k}: no atlas_viewer*.html in {d}")
+        G.BODIES[k] = dict(G.BODIES[k], path=pages[0])
     table = json.loads(TABLE.read_text())
     parts = table["parts"]
     # attach the Z part-mesh patterns (rows carry them in maps_to only as resolved ids -> re-derive the patterns from the module rows)

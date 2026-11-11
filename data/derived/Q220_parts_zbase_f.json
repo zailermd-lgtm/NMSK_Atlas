@@ -2,9 +2,9 @@
  "schema": "nmsk.parts_geometry.v1",
  "body": "zbase_f",
  "label": "Z-Anatomy generic body, female variant, unfitted (base female page)",
- "generated": "2026-10-28",
+ "generated": "2026-11-11",
  "frame": "atlas mm (+X right, +Y superior, +Z anterior)",
- "source": "build/q292/viewer_base_female/atlas_viewer_base_female.html",
+ "source": "build/q309/viewer_base_female/atlas_viewer_base_female.html",
  "source_classes": {
   "rule_based": "rule applied to this body's own mesh by a documented rule with a published or measured error",
   "z_fill": "position of a dedicated Z-Anatomy part mesh as fitted to this body (not segmented from the person)",
@@ -12,20 +12,21 @@
   "measured": "never used: no part boundary is measured from the person's own labelled evidence"
  },
  "counts": {
-  "placed": 234,
-  "parts_with_a_placement": 120,
-  "text_only": 623,
+  "placed": 244,
+  "parts_with_a_placement": 125,
+  "text_only": 618,
   "placed_by_rule": {
    "z_part_mesh": 71,
-   "end_snap_bone": 141,
+   "end_snap_bone": 145,
    "cc_ligament_ratio": 4,
    "mtj_by_distance_from_origin": 4,
+   "collateral_layer_split": 6,
    "passage_contact": 12,
    "mtj_interface": 2
   },
   "placed_by_class": {
    "z_fill": 83,
-   "rule_based": 151
+   "rule_based": 161
   }
  },
  "placed": [
@@ -3458,6 +3459,348 @@
   },
   {
    "position_mm": [
+    286.91,
+    35.02,
+    43.28
+   ],
+   "method": "collateral_layer_split: the dorsal (proper) layer of this body's own ulnar collateral band at the joint, split at the dorso-volar level of the measured proper footprint (Carlson 2012: origin centre 4.2 mm volar of the dorsal surface and 5.3 mm proximal of the articular surface of the metacarpal, insertion centre 2.8 mm dorsal of the volar surface and 3.4 mm distal of the articular surface of the phalanx); joint frame from this body's own bones, dorsal sense fixed by tendon_sheath_of_flexor_pollicis_longus",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_collateral_metacarpophalangeal_ligaments_r"
+   ],
+   "landmark_meshes": [
+    "zan_first_metacarpal_bone_r",
+    "zan_proximal_phalanx_of_first_finger_of_hand_r",
+    "zan_second_metacarpal_bone_r"
+   ],
+   "band_vertices": 50,
+   "band_of": "ulnar collateral band, 10 bands in zan_collateral_metacarpophalangeal_ligaments_r",
+   "layer": "proper",
+   "layer_vertices": 32,
+   "layer_radius_mm": 11.21,
+   "bbox_mm": [
+    [
+     284.5,
+     29.14,
+     37.57
+    ],
+    [
+     292.81,
+     43.6,
+     46.81
+    ]
+   ],
+   "layer_dorsovolar_mm": 3.88,
+   "split_level_mm": 1.5,
+   "band_dorsovolar_mm": [
+    -1.0,
+    5.38
+   ],
+   "carlson_midpoint_offset_mm": 0.93,
+   "joint_centre_mm": [
+    291.04,
+    39.52,
+    47.68
+   ],
+   "volar_ref_offset_mm": -3.4,
+   "dorsal_ref_offset_mm": 7.5,
+   "error_bound_mm": 3.17,
+   "error_basis": "sqrt(d^2 + h^2 + r^2 + 1): d = 0.93 mm, the distance from Carlson 2012's origin-insertion midpoint to the band vertex used; h = 2.1 mm, half the measured dorso-volar height of the proper footprint (Carlson 2012); r = 1.94 mm, half the dorso-volar thickness of this layer on this body; 1 mm vertex grid. The layer's own extent along the ligament (11.2 mm radius about its centroid) is the band's length, not a positional error. Fitted from the literature, not measured on this body",
+   "part_id": "thumb_mcp_ucl.proper_collateral",
+   "structure_id": "thumb_mcp_ucl",
+   "side": "r",
+   "rule": "collateral_layer_split",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -286.91,
+    35.02,
+    43.28
+   ],
+   "method": "collateral_layer_split: the dorsal (proper) layer of this body's own ulnar collateral band at the joint, split at the dorso-volar level of the measured proper footprint (Carlson 2012: origin centre 4.2 mm volar of the dorsal surface and 5.3 mm proximal of the articular surface of the metacarpal, insertion centre 2.8 mm dorsal of the volar surface and 3.4 mm distal of the articular surface of the phalanx); joint frame from this body's own bones, dorsal sense fixed by tendon_sheath_of_flexor_pollicis_longus",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_collateral_metacarpophalangeal_ligaments_l"
+   ],
+   "landmark_meshes": [
+    "zan_first_metacarpal_bone_l",
+    "zan_proximal_phalanx_of_first_finger_of_hand_l",
+    "zan_second_metacarpal_bone_l"
+   ],
+   "band_vertices": 50,
+   "band_of": "ulnar collateral band, 10 bands in zan_collateral_metacarpophalangeal_ligaments_l",
+   "layer": "proper",
+   "layer_vertices": 30,
+   "layer_radius_mm": 11.13,
+   "bbox_mm": [
+    [
+     -292.81,
+     29.14,
+     37.57
+    ],
+    [
+     -284.5,
+     43.6,
+     46.81
+    ]
+   ],
+   "layer_dorsovolar_mm": 3.88,
+   "split_level_mm": 1.5,
+   "band_dorsovolar_mm": [
+    -0.99,
+    5.38
+   ],
+   "carlson_midpoint_offset_mm": 0.89,
+   "joint_centre_mm": [
+    -291.04,
+    39.52,
+    47.68
+   ],
+   "volar_ref_offset_mm": -3.4,
+   "dorsal_ref_offset_mm": 7.5,
+   "error_bound_mm": 3.16,
+   "error_basis": "sqrt(d^2 + h^2 + r^2 + 1): d = 0.89 mm, the distance from Carlson 2012's origin-insertion midpoint to the band vertex used; h = 2.1 mm, half the measured dorso-volar height of the proper footprint (Carlson 2012); r = 1.94 mm, half the dorso-volar thickness of this layer on this body; 1 mm vertex grid. The layer's own extent along the ligament (11.1 mm radius about its centroid) is the band's length, not a positional error. Fitted from the literature, not measured on this body",
+   "part_id": "thumb_mcp_ucl.proper_collateral",
+   "structure_id": "thumb_mcp_ucl",
+   "side": "l",
+   "rule": "collateral_layer_split",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    288.23,
+    32.28,
+    45.09
+   ],
+   "method": "collateral_layer_split: the volar (accessory) layer of this body's own ulnar collateral band at the joint, split at the dorso-volar level of the measured proper footprint (Carlson 2012: origin centre 4.2 mm volar of the dorsal surface and 5.3 mm proximal of the articular surface of the metacarpal, insertion centre 2.8 mm dorsal of the volar surface and 3.4 mm distal of the articular surface of the phalanx); joint frame from this body's own bones, dorsal sense fixed by tendon_sheath_of_flexor_pollicis_longus",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_collateral_metacarpophalangeal_ligaments_r"
+   ],
+   "landmark_meshes": [
+    "zan_first_metacarpal_bone_r",
+    "zan_proximal_phalanx_of_first_finger_of_hand_r",
+    "zan_second_metacarpal_bone_r"
+   ],
+   "band_vertices": 50,
+   "band_of": "ulnar collateral band, 10 bands in zan_collateral_metacarpophalangeal_ligaments_r",
+   "layer": "accessory",
+   "layer_vertices": 18,
+   "layer_radius_mm": 8.75,
+   "bbox_mm": [
+    [
+     284.29,
+     29.08,
+     41.62
+    ],
+    [
+     290.73,
+     40.14,
+     48.61
+    ]
+   ],
+   "layer_dorsovolar_mm": 2.07,
+   "split_level_mm": 1.5,
+   "band_dorsovolar_mm": [
+    -1.0,
+    5.38
+   ],
+   "carlson_midpoint_offset_mm": 1.16,
+   "joint_centre_mm": [
+    291.04,
+    39.52,
+    47.68
+   ],
+   "volar_ref_offset_mm": -3.4,
+   "dorsal_ref_offset_mm": 7.5,
+   "error_bound_mm": 2.8,
+   "error_basis": "sqrt(d^2 + h^2 + r^2 + 1): d = 1.16 mm, the distance from this layer's centroid to the band vertex used; h = 2.1 mm, half the measured dorso-volar height of the proper footprint (Carlson 2012); r = 1.04 mm, half the dorso-volar thickness of this layer on this body; 1 mm vertex grid. The layer's own extent along the ligament (8.8 mm radius about its centroid) is the band's length, not a positional error. Fitted from the literature, not measured on this body",
+   "part_id": "thumb_mcp_ucl.accessory_collateral",
+   "structure_id": "thumb_mcp_ucl",
+   "side": "r",
+   "rule": "collateral_layer_split",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -286.67,
+    32.24,
+    46.29
+   ],
+   "method": "collateral_layer_split: the volar (accessory) layer of this body's own ulnar collateral band at the joint, split at the dorso-volar level of the measured proper footprint (Carlson 2012: origin centre 4.2 mm volar of the dorsal surface and 5.3 mm proximal of the articular surface of the metacarpal, insertion centre 2.8 mm dorsal of the volar surface and 3.4 mm distal of the articular surface of the phalanx); joint frame from this body's own bones, dorsal sense fixed by tendon_sheath_of_flexor_pollicis_longus",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_collateral_metacarpophalangeal_ligaments_l"
+   ],
+   "landmark_meshes": [
+    "zan_first_metacarpal_bone_l",
+    "zan_proximal_phalanx_of_first_finger_of_hand_l",
+    "zan_second_metacarpal_bone_l"
+   ],
+   "band_vertices": 50,
+   "band_of": "ulnar collateral band, 10 bands in zan_collateral_metacarpophalangeal_ligaments_l",
+   "layer": "accessory",
+   "layer_vertices": 20,
+   "layer_radius_mm": 7.8,
+   "bbox_mm": [
+    [
+     -290.73,
+     29.08,
+     42.35
+    ],
+    [
+     -283.55,
+     39.65,
+     48.61
+    ]
+   ],
+   "layer_dorsovolar_mm": 2.07,
+   "split_level_mm": 1.5,
+   "band_dorsovolar_mm": [
+    -0.99,
+    5.38
+   ],
+   "carlson_midpoint_offset_mm": 1.38,
+   "joint_centre_mm": [
+    -291.04,
+    39.52,
+    47.68
+   ],
+   "volar_ref_offset_mm": -3.4,
+   "dorsal_ref_offset_mm": 7.5,
+   "error_bound_mm": 2.9,
+   "error_basis": "sqrt(d^2 + h^2 + r^2 + 1): d = 1.38 mm, the distance from this layer's centroid to the band vertex used; h = 2.1 mm, half the measured dorso-volar height of the proper footprint (Carlson 2012); r = 1.04 mm, half the dorso-volar thickness of this layer on this body; 1 mm vertex grid. The layer's own extent along the ligament (7.8 mm radius about its centroid) is the band's length, not a positional error. Fitted from the literature, not measured on this body",
+   "part_id": "thumb_mcp_ucl.accessory_collateral",
+   "structure_id": "thumb_mcp_ucl",
+   "side": "l",
+   "rule": "collateral_layer_split",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    298.24,
+    43.16,
+    51.17
+   ],
+   "method": "collateral_layer_split: the dorsal (proper) layer of this body's own radial collateral band at the joint, split at the dorso-volar level of the measured proper footprint (Carlson 2012: origin centre 3.5 mm volar of the dorsal surface and 3.3 mm proximal of the articular surface of the metacarpal, insertion centre 2.8 mm dorsal of the volar surface and 2.6 mm distal of the articular surface of the phalanx); joint frame from this body's own bones, dorsal sense fixed by tendon_sheath_of_flexor_pollicis_longus",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_collateral_metacarpophalangeal_ligaments_r"
+   ],
+   "landmark_meshes": [
+    "zan_first_metacarpal_bone_r",
+    "zan_proximal_phalanx_of_first_finger_of_hand_r",
+    "zan_second_metacarpal_bone_r"
+   ],
+   "band_vertices": 50,
+   "band_of": "radial collateral band, 10 bands in zan_collateral_metacarpophalangeal_ligaments_r",
+   "layer": "proper",
+   "layer_vertices": 26,
+   "layer_radius_mm": 10.45,
+   "bbox_mm": [
+    [
+     294.66,
+     35.3,
+     45.7
+    ],
+    [
+     301.77,
+     51.72,
+     53.15
+    ]
+   ],
+   "layer_dorsovolar_mm": 2.52,
+   "split_level_mm": 1.08,
+   "band_dorsovolar_mm": [
+    -1.45,
+    3.68
+   ],
+   "carlson_midpoint_offset_mm": 1.56,
+   "joint_centre_mm": [
+    291.04,
+    39.52,
+    47.68
+   ],
+   "volar_ref_offset_mm": -3.4,
+   "dorsal_ref_offset_mm": 7.5,
+   "error_bound_mm": 3.0,
+   "error_basis": "sqrt(d^2 + h^2 + r^2 + 1): d = 1.56 mm, the distance from Carlson 2012's origin-insertion midpoint to the band vertex used; h = 2 mm, half the measured dorso-volar height of the proper footprint (Carlson 2012); r = 1.26 mm, half the dorso-volar thickness of this layer on this body; 1 mm vertex grid. The layer's own extent along the ligament (10.5 mm radius about its centroid) is the band's length, not a positional error. Fitted from the literature, not measured on this body",
+   "part_id": "thumb_mcp_rcl.proper_collateral",
+   "structure_id": "thumb_mcp_rcl",
+   "side": "r",
+   "rule": "collateral_layer_split",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -298.24,
+    43.16,
+    51.17
+   ],
+   "method": "collateral_layer_split: the dorsal (proper) layer of this body's own radial collateral band at the joint, split at the dorso-volar level of the measured proper footprint (Carlson 2012: origin centre 3.5 mm volar of the dorsal surface and 3.3 mm proximal of the articular surface of the metacarpal, insertion centre 2.8 mm dorsal of the volar surface and 2.6 mm distal of the articular surface of the phalanx); joint frame from this body's own bones, dorsal sense fixed by tendon_sheath_of_flexor_pollicis_longus",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_collateral_metacarpophalangeal_ligaments_l"
+   ],
+   "landmark_meshes": [
+    "zan_first_metacarpal_bone_l",
+    "zan_proximal_phalanx_of_first_finger_of_hand_l",
+    "zan_second_metacarpal_bone_l"
+   ],
+   "band_vertices": 50,
+   "band_of": "radial collateral band, 10 bands in zan_collateral_metacarpophalangeal_ligaments_l",
+   "layer": "proper",
+   "layer_vertices": 27,
+   "layer_radius_mm": 10.37,
+   "bbox_mm": [
+    [
+     -301.77,
+     35.3,
+     45.7
+    ],
+    [
+     -294.66,
+     51.72,
+     53.15
+    ]
+   ],
+   "layer_dorsovolar_mm": 2.59,
+   "split_level_mm": 1.08,
+   "band_dorsovolar_mm": [
+    -1.45,
+    3.68
+   ],
+   "carlson_midpoint_offset_mm": 1.56,
+   "joint_centre_mm": [
+    -291.04,
+    39.52,
+    47.68
+   ],
+   "volar_ref_offset_mm": -3.4,
+   "dorsal_ref_offset_mm": 7.5,
+   "error_bound_mm": 3.02,
+   "error_basis": "sqrt(d^2 + h^2 + r^2 + 1): d = 1.56 mm, the distance from Carlson 2012's origin-insertion midpoint to the band vertex used; h = 2 mm, half the measured dorso-volar height of the proper footprint (Carlson 2012); r = 1.30 mm, half the dorso-volar thickness of this layer on this body; 1 mm vertex grid. The layer's own extent along the ligament (10.4 mm radius about its centroid) is the band's length, not a positional error. Fitted from the literature, not measured on this body",
+   "part_id": "thumb_mcp_rcl.proper_collateral",
+   "structure_id": "thumb_mcp_rcl",
+   "side": "l",
+   "rule": "collateral_layer_split",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
     230.67,
     259.99,
     -24.24
@@ -4133,6 +4476,110 @@
    "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
    "part_id": "anterior_cruciate_ligament.insertion_q256",
    "structure_id": "anterior_cruciate_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    152.33,
+    587.07,
+    -25.68
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracoacromial_ligament_r",
+    "scapula_r"
+   ],
+   "bone_mesh": "scapula_r",
+   "n_patch_vertices": 37,
+   "gap_mm": 0.0,
+   "patch_radius_mm": 8.6,
+   "error_bound_mm": 9.6,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoacromial_ligament.origin_q256",
+   "structure_id": "coracoacromial_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -152.36,
+    587.07,
+    -25.67
+   ],
+   "method": "end_snap_bone: the proximal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracoacromial_ligament_l",
+    "scapula_l"
+   ],
+   "bone_mesh": "scapula_l",
+   "n_patch_vertices": 37,
+   "gap_mm": 0.0,
+   "patch_radius_mm": 8.6,
+   "error_bound_mm": 9.6,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoacromial_ligament.origin_q256",
+   "structure_id": "coracoacromial_ligament",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "origin_part",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    152.33,
+    587.07,
+    -25.68
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracoacromial_ligament_r",
+    "scapula_r"
+   ],
+   "bone_mesh": "scapula_r",
+   "n_patch_vertices": 37,
+   "gap_mm": 0.0,
+   "patch_radius_mm": 8.6,
+   "error_bound_mm": 9.6,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoacromial_ligament.insertion_q256",
+   "structure_id": "coracoacromial_ligament",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "unverified"
+  },
+  {
+   "position_mm": [
+    -152.36,
+    587.07,
+    -25.67
+   ],
+   "method": "end_snap_bone: the distal end of the structure's own mesh (axis PCA, 12 % cap) touches the scapula mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "coracoacromial_ligament_l",
+    "scapula_l"
+   ],
+   "bone_mesh": "scapula_l",
+   "n_patch_vertices": 37,
+   "gap_mm": 0.0,
+   "patch_radius_mm": 8.6,
+   "error_bound_mm": 9.6,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "coracoacromial_ligament.insertion_q256",
+   "structure_id": "coracoacromial_ligament",
    "side": "l",
    "rule": "end_snap_bone",
    "part_type": "insertion_point",
@@ -7622,18 +8069,6 @@
    "reason": "no geometry rule defined for this part (text-only part)"
   },
   {
-   "part_id": "thumb_mcp_ucl.proper_collateral",
-   "reason": "no geometry rule defined for this part (text-only part)"
-  },
-  {
-   "part_id": "thumb_mcp_ucl.accessory_collateral",
-   "reason": "no geometry rule defined for this part (text-only part)"
-  },
-  {
-   "part_id": "thumb_mcp_rcl.proper_collateral",
-   "reason": "no geometry rule defined for this part (text-only part)"
-  },
-  {
    "part_id": "flexor_tendon_pulley_system_hand.palmar_aponeurosis_pulley",
    "reason": "no geometry rule defined for this part (text-only part)"
   },
@@ -7950,16 +8385,6 @@
   {
    "part_id": "arcuate_pubic_ligament.insertion_q256",
    "reason": "no geometry rule defined for this part (text-only part)"
-  },
-  {
-   "part_id": "coracoacromial_ligament.origin_q256",
-   "reason": "r: structure coracoacromial_ligament absent on side r; l: structure coracoacromial_ligament absent on side l",
-   "rule_tried": "end_snap_bone"
-  },
-  {
-   "part_id": "coracoacromial_ligament.insertion_q256",
-   "reason": "r: structure coracoacromial_ligament absent on side r; l: structure coracoacromial_ligament absent on side l",
-   "rule_tried": "end_snap_bone"
   },
   {
    "part_id": "costal_ligament_complex.origin_q256",
