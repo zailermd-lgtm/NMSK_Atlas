@@ -74,13 +74,18 @@
         var o = new THREE.Points(m.geometry, mat());
         o.frustumCulled = false; o.renderOrder = 998; o.visible = false;
         o.userData = {of:m};                      /* no `id`, so the label / pick ID passes skip it exactly as they skip Q300's bone twins */
-        root.add(o); twins.push({pt:o, of:m, id:s.id});
+        root.add(o);
+        /* Q319: the casing -- the same dots, a rim wider, near-black, drawn BEFORE every core (renderOrder 997 < 998) */
+        var rm = new THREE.Points(m.geometry, mat());
+        rm.frustumCulled = false; rm.renderOrder = 997; rm.visible = false;
+        rm.userData = {of:m};
+        root.add(rm); twins.push({pt:o, rim:rm, of:m, id:s.id});
       });
     }
     var sigLast = "";
     function tick(){
       raf = 0;
-      if (!spec || !spec.on){ twins.forEach(function(t){ t.pt.visible = false; }); sigLast = ""; return; }
+      if (!spec || !spec.on){ twins.forEach(function(t){ t.pt.visible = false; t.rim.visible = false; }); sigLast = ""; return; }
       /* The uniforms follow the camera (the near/far split and the millimetres per pixel), so they are refreshed on a
          frame loop -- but a REDRAW only happens when something they depend on actually moved. The first draft redrew
          the whole scene every frame while the emphasis was on, which under software rendering pins the CPU and never
@@ -96,7 +101,7 @@
       drew = 0; npts = 0;
       twins.forEach(function(t){
         var u = t.pt.material.uniforms, live = !!t.of.visible;
-        t.pt.visible = live;
+        t.pt.visible = live; t.rim.visible = live;
         if (!live) return;
         u.uC1.value.set(F.c1[0], F.c1[1], F.c1[2], F.c1[3]);
         u.uC2.value.set(F.c2[0], F.c2[1], F.c2[2], F.c2[3]);
@@ -106,6 +111,10 @@
         var col = t.of.material && t.of.material.color ? t.of.material.color : null;
         if (col) u.uColor.value.set(col.r, col.g, col.b);
         u.uPt.value = NMSKNervePass.width(spec.dia[t.id], mm, spec.wmin, d);
+        var ur = t.rim.material.uniforms, cs = NMSKNervePass.casing();      /* Q319: the casing, core + one css pixel each side */
+        ur.uC1.value.copy(u.uC1.value); ur.uC2.value.copy(u.uC2.value); ur.uCtr.value.copy(u.uCtr.value); ur.uFwd.value.copy(u.uFwd.value);
+        ur.uAlpha.value = spec.alpha; ur.uColor.value.set(cs[0], cs[1], cs[2]);
+        ur.uPt.value = u.uPt.value + 2 * NMSKNervePass.ring(d);
         drew++; npts += (t.of.geometry.attributes.position.count || 0);
       });
       draw();

@@ -74,18 +74,23 @@
           gl.uniform4f(U3.uC2, F.c2[0], F.c2[1], F.c2[2], F.c2[3]);
           gl.uniform3f(U3.uCtr, F.ctr[0], F.ctr[1], F.ctr[2]);
           gl.uniform3f(U3.uFwd, F.fwd[0], F.fwd[1], F.fwd[2]);
-          gl.uniform3f(U3.uColor, col[0], col[1], col[2]);
           gl.uniform1f(U3.uAlpha, spec.alpha);
           gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
           gl.disable(gl.DEPTH_TEST); gl.depthMask(false);
           gl.enableVertexAttribArray(aPos);
-          objs.forEach(function(o){
-            if (!o.batch || !vis(o)) return;
-            gl.uniform1f(U3.uPt, NMSKNervePass.width(spec.dia[o.id || o.name], mm, spec.wmin, dpr));
-            gl.bindBuffer(gl.ARRAY_BUFFER, o.batch.pb);
-            gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
-            gl.drawArrays(gl.POINTS, o.vOff, o.vc);
-            drew++; npts += o.vc;
+          /* Q319: two sweeps over the same dots. First every nerve's CASING (core + one css pixel each side, near-black),
+             then every nerve's core on top in the nerve colour. The core's width is width() exactly. */
+          var cs = NMSKNervePass.casing(), rim = 2 * NMSKNervePass.ring(dpr);
+          [0, 1].forEach(function(sweep){
+            if (sweep === 0) gl.uniform3f(U3.uColor, cs[0], cs[1], cs[2]); else gl.uniform3f(U3.uColor, col[0], col[1], col[2]);
+            objs.forEach(function(o){
+              if (!o.batch || !vis(o)) return;
+              gl.uniform1f(U3.uPt, NMSKNervePass.width(spec.dia[o.id || o.name], mm, spec.wmin, dpr) + (sweep === 0 ? rim : 0));
+              gl.bindBuffer(gl.ARRAY_BUFFER, o.batch.pb);
+              gl.vertexAttribPointer(aPos, 3, gl.FLOAT, false, 0, 0);
+              gl.drawArrays(gl.POINTS, o.vOff, o.vc);
+              if (sweep === 1){ drew++; npts += o.vc; }
+            });
           });
           gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
         }
