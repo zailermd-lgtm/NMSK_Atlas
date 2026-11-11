@@ -112,6 +112,19 @@ TH = {
     "lr_outside_factor_sev3": 4.0 / 3.0,      # = 1.667 / 1.25, a side half again the size of the other
     "spread_over_diag_sev3": 2.0,             # a piece further than 2x the largest piece's own diagonal
     "coarse_solid_voxels": 200,               # below this the 2 mm voxel share is too coarse to flag
+    # THE IN-BONE SHARE IS A VERTEX SHARE, not a volume share -- that is the project's own definition:
+    #   scripts/anatomy/q237/fill.BELLY_IN_BONE_MAX = 8.0  "% of VERTICES inside any bone (Q216 gate)"
+    #   fill.guards() -> g["in_bone_pct"] = 100 * ib.mean() over the vertices
+    # The overlap gate, by contrast, IS a volume share (fill.overlap_pct, 2 mm voxels, "as the Q204 audit"), so
+    # the two are measured differently on purpose. This round first measured BOTH on the 2 mm lattice, which
+    # inflates in-bone by 3-6x for a thin structure lying flush against bone: the solid is the surface shell
+    # dilated by one voxel and eroded back, so two surfaces closer together than the lattice can resolve give
+    # overlapping solids even when neither penetrates the other. Measured case: rectus_femoris_reflected_head_l
+    # on Base M, 32.2 % of its 676-voxel solid inside hip_bone_l and 0.0 % of its vertices inside it -- the
+    # reflected head lies ON the acetabular rim, which is where it belongs.
+    # So: the voxel share is now only the cheap PRE-FILTER that decides who enters the exact pass, and the
+    # severity is read off the VERTEX share, as the project defines it.
+    "in_bone_prefilter_voxel_pct": 8.0,
 }
 
 # the three buckets, and the rule, in one place. Named here so the document and the JSON cannot drift.
@@ -446,10 +459,21 @@ def severities(r):
         out.append((2, "overlap_muscle", f"overlap {ov} %"))
     b1, b2, b3 = TH["in_bone_pct"]
     if not r.get("coarse_voxel_estimate") and r["bone_deepest_mm"] > 3.0:
-        ib = r["in_bone_pct"]
-        lvl = 3 if ib > b3 else 2 if ib > b2 else 1 if ib > b1 else 0
-        if lvl:
-            out.append((lvl, "in_bone", f"in bone {ib} % / {r['bone_deepest_mm']} mm"))
+        vx, ib = r.get("in_bone_vertex_pct"), r["in_bone_pct"]
+        if vx is not None:
+            # the project's own measure: the share of VERTICES inside bone (fill.BELLY_IN_BONE_MAX)
+            lvl = 3 if vx > b3 else 2 if vx > b2 else 1 if vx > b1 else 0
+            if lvl:
+                out.append((lvl, "in_bone",
+                            f"in bone {vx} % of its vertices, deepest {r['bone_deepest_mm']} mm "
+                            f"(2 mm voxel solid share {ib} %)"))
+        else:
+            # the exact pass did not run for this one: fall back to the voxel share and say so
+            lvl = 3 if ib > b3 else 2 if ib > b2 else 1 if ib > b1 else 0
+            if lvl:
+                out.append((min(lvl, 1) if lvl >= 2 else lvl, "in_bone",
+                            f"in bone {ib} % of its 2 mm voxel solid / {r['bone_deepest_mm']} mm -- NOT "
+                            f"corroborated by the exact vertex test, so capped at severity 1"))
     lo, hi = TH["lr_vol_ratio_ok"]
     x = r.get("lr_vol_ratio_r_over_l")
     if x:
@@ -690,6 +714,68 @@ def audit_page(key, page_dir, stem, src_note, cap, verbose=True, man_blob=None):
         else:
             r["lr_vol_ratio_r_over_l"] = None
             r["lr_length_ratio_r_over_l"] = None
+
+    # ---- the in-bone share, measured the way the project defines it: the share of VERTICES inside bone
+    # (scripts/anatomy/q237/fill.BELLY_IN_BONE_MAX, "% of vertices"). The 2 mm voxel share computed above is only
+    # the cheap pre-filter that decides who enters this exact pass -- see TH["in_bone_prefilter_voxel_pct"].
+    need = [mid for mid, r in rows.items()
+            if (not r.get("coarse_voxel_estimate") and r["bone_deepest_mm"] > 3.0
+                and r["in_bone_pct"] > TH["in_bone_prefilter_voxel_pct"])]
+    for r in rows.values():
+        r["in_bone_vertex_pct"] = None
+        r["bone_deepest_vertex_mm"] = None
+        r["in_bone_vertex_note"] = ("not in the exact pass: the 2 mm voxel pre-filter put it under "
+                                     "%.0f %%, so it cannot reach the in-bone gate" % TH["in_bone_prefilter_voxel_pct"])
+    if need:
+        try:
+            import trimesh                                     # the containment test of q213_inbone.BoneField
+            if verbose:
+                print(f"    {LABEL[key]}: exact in-bone vertex test on {len(need)} structures ...", file=sys.stderr)
+            # One array of every candidate vertex, so each bone's ray intersector is built ONCE and used on one
+            # batch instead of once per (muscle, bone) pair. Same trimesh containment as
+            # scripts/transfer/q213_inbone.BoneField.inside, two orders of magnitude fewer calls.
+            segs, P = [], []
+            at = 0
+            for mid in need:
+                v, _ = G(mid)
+                P.append(np.asarray(v, float))
+                segs.append((mid, at, at + len(v)))
+                at += len(v)
+            P = np.vstack(P)
+            inside = np.zeros(len(P), bool)
+            depth = np.zeros(len(P))
+            for b in bone_ids:
+                vb, fb = G(b)
+                if len(fb) <= 20:
+                    continue
+                lo_b, hi_b = vb.min(0) - 1.0, vb.max(0) + 1.0
+                sel = np.flatnonzero(np.all((P >= lo_b) & (P <= hi_b), axis=1))
+                if not len(sel):
+                    continue
+                tm = trimesh.Trimesh(vb, fb, process=False)
+                c = tm.contains(P[sel])
+                hit = sel[c]
+                if not len(hit):
+                    continue
+                inside[hit] = True
+                _, d, _ = trimesh.proximity.closest_point(tm, P[hit])
+                depth[hit] = np.maximum(depth[hit], d)           # deepest embedding in any bone
+            for mid, a, b2 in segs:
+                m_in = inside[a:b2]
+                rows[mid]["in_bone_vertex_pct"] = round(100.0 * float(m_in.mean()), 2)
+                rows[mid]["bone_deepest_vertex_mm"] = round(float(depth[a:b2].max()), 2)
+                rows[mid]["in_bone_vertex_note"] = ("share of this mesh's VERTICES inside a bone of this page, by "
+                                                    "exact containment (the test of q213_inbone.BoneField.inside, "
+                                                    "batched per bone); this is the measure the project's own "
+                                                    "in-bone gate is defined on (fill.BELLY_IN_BONE_MAX)")
+        except Exception as e:                                  # trimesh / rtree absent, or a mesh it refuses
+            for mid in need:
+                rows[mid]["in_bone_vertex_note"] = ("the exact vertex test could not run (%s: %s); the in-bone "
+                                                    "finding rests on the 2 mm voxel share alone, which over-reads "
+                                                    "for a thin structure lying flush against bone, so it is "
+                                                    "capped at severity 1" % (type(e).__name__, e))
+            if verbose:
+                print(f"    {LABEL[key]}: exact in-bone pass unavailable ({e})", file=sys.stderr)
 
     # ---- the three buckets, computed here (never transcribed) so re-running reproduces them and a change to a
     # threshold in TH moves them. Runs AFTER the left/right pairing, because lr_vol_ratio is one of the checks.

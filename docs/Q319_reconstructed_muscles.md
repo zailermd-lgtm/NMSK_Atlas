@@ -9,6 +9,17 @@ Owner's request (Q319.4.v), verbatim:
 **This round is read-only. No mesh, page, build directory or data file was changed or deleted.** The two files it
 produced are `data/derived/Q319_reconstructed_muscle_audit.json` and this document.
 
+> **CORRECTION, added after the Base-page round (Q319.5).** One metric in this document was wrong in a way that
+> inflated the in-bone findings on all four pages, and the figures here are superseded wherever they differ from
+> `docs/Q319_base_muscles.md` §2. In short: the project's own in-bone gate is a share of **vertices** inside bone
+> (`scripts/anatomy/q237/fill.BELLY_IN_BONE_MAX`, "% of vertices"), while this round measured a share of the 2 mm
+> **voxel solid**, which over-reads by 3–6× for a thin structure lying flush against bone. The audit now reads the
+> in-bone severity off the exact vertex test and keeps the voxel share only as the cheap pre-filter. The shared
+> JSON `data/derived/Q319_reconstructed_muscle_audit.json` holds the corrected figures for all four pages; the
+> bucket tables in §4 below are the uncorrected ones. Everything else in this document — the attachment gaps, the
+> overlap figures, the left/right asymmetry, the piece-in-the-wrong-place findings and the whole deletion-cost
+> analysis — is unaffected.
+
 ---
 
 ## 0. Where the numbers come from, and the one thing that was missing
