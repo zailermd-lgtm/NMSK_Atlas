@@ -147,3 +147,19 @@ body.mode-on .qg-bar,body.mode-on .qg-sheet,body.mode-on .qi-wrap,body.mode-on .
   .qi-wrap{right:8px;bottom:8px;width:calc(100vw - 16px)}
 }
 @media (prefers-reduced-motion:no-preference){.qg-sheet{transition:opacity .12s}}
+/* Q319: the Search sheet. The search block (label, field, Q298's result row, the list) and the colour control are whole nodes
+   moved in, so each takes the full row; the list is capped so the colour control and the tools below it stay in reach. */
+.qg-sbody .qg-keep{flex:1 1 100%;min-width:0;box-sizing:border-box}
+.qg-sbody input[type="search"]{width:100%;box-sizing:border-box;min-height:40px;padding:6px 10px;border:1px solid rgba(255,255,255,.3);border-radius:8px;
+  background:rgba(255,255,255,.09);color:#E6EDF3;font:inherit;font-size:15px}
+.qg-sbody input[type="search"]:focus{outline:2px solid #2E89AC;outline-offset:1px}
+.qg-sbody #list{max-height:30vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.qg-sbody .lbl,.qg-sbody .eyebrow{margin:0 0 4px;font-size:11px;opacity:.75}
+.ss-col{display:flex;flex-direction:column;gap:5px;padding:6px 0 2px;border-top:1px solid rgba(255,255,255,.14)}
+.ss-col-h{margin:0;font-size:12px;opacity:.85}
+.ss-col-mode,.ss-col-sw{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.ss-col-m,.ss-col-own{min-height:36px;padding:5px 10px}
+.qg-sbody .ss-col-s{width:34px;min-width:34px;min-height:34px;padding:0;border:2px solid rgba(255,255,255,.35);border-radius:50%}
+.qg-sbody .ss-col-s:hover{border-color:#fff}
+.ss-col-c{width:40px;height:34px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:none}
+.ss-col-note{margin:0;font-size:11.5px;opacity:.8;line-height:1.4}

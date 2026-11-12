@@ -155,6 +155,12 @@ var NMSKGroups = (function(){
     });
     if (window.NMSKTips && NMSKTips.fold){ try { NMSKTips.fold(sheet); } catch (e3){} }   /* the sheet's own hint notes fold behind the small "i" at once, not on the observer's next tick */
     place(); paint();
+    /* Q319: a group may name the field the cursor belongs in (Search: the search box), so one press opens the group AND
+       puts the cursor there. */
+    if (g.focus){
+      var ff = sBody.querySelector(g.focus);
+      if (ff){ try { ff.focus(); } catch (e4){} }
+    }
     return true;
   }
   /* the combo decoration: a dot on the group, a + on a co-active member, disabled + reason on an incompatible one */

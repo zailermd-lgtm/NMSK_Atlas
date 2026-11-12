@@ -31,6 +31,13 @@ function NMSKSelect(E){
   var sec = $("sel-sec"), fadeEl = $("sel-fade"), fadeVEl = $("sel-fade-v"), hlEl = $("sel-hl"), tintEl = $("sel-tint"), invNoteEl = $("sel-invnote"), chipsEl = $("sel-chips"), cntEl = $("sel-count"), statusEl = $("sel-status"), nameEl = $("sel-name"), setsEl = $("sel-sets"),
       ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember"), undoEl = $("sel-undo");
   var tbMark = null, tbOnly = null, tbInv = null;
+  /* Q319, owner: "it also opens the option of changing the colour of the selected -- all of them, or only from now on."
+     ucol is the user's own colour per structure ({id:"#rrggbb"}); ucolNext is the colour a structure receives AT THE MOMENT it is
+     marked ("from now on", null = none). It lives here, beside the marks, because the page-wide undo already snapshots this controller:
+     Undo puts the colours back with everything else. The engines read it through userHex(id) inside their own colour function, so it
+     composes with the highlight (which wins), the amber tint (which a user colour replaces) and the radiographic styles (which are
+     applied after, and win). */
+  var ucol = {}, ucolNext = null, UCOL_RE = /^#[0-9a-f]{6}$/i;
 
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function has(id){ return Object.prototype.hasOwnProperty.call(names, id); }
@@ -83,7 +90,7 @@ function NMSKSelect(E){
   function ghosting(){ return marks.length > 0 && (ss === "ghost" || os === "ghost"); }
   function translucent(){ return marks.length > 0 && [ss, os].some(function(s){ return s === "fade" || s === "ghost" || s === "xray"; }); }
   function activeState(){ return marks.length > 0 || ss !== "show" || os !== "show" || ghostPref; }
-  function tinted(id){ return tintOn && !inv && ss === "show" && set[id] === 1; }          // no amber tint while inverted: the marked set is the whole rest of the body
+  function tinted(id){ return tintOn && !inv && ss === "show" && set[id] === 1 && !ucol[id]; }          // no amber tint while inverted: the marked set is the whole rest of the body
   function hlHex(){ return parseInt(hl.slice(1), 16); }
   function fixStates(){
     if (!STATES[ss]) ss = "show";
@@ -159,13 +166,15 @@ function NMSKSelect(E){
     beginChange(); ss = os = "show"; ghostPref = false; say("Everything drawn normally (the marks stay)."); changed();
   }
   /* Q294: the full state for the page-wide undo / redo (NMSKHistory) */
-  function snapshot(){ return {marks:marks.slice(), inv:inv ? baseIds() : null, ss:ss, os:os, fade:Math.round(fade * 1000) / 1000, hl:hl, tint:tintOn, ghost:ghostPref, markMode:markMode}; }
+  function snapshot(){ return {marks:marks.slice(), inv:inv ? baseIds() : null, ss:ss, os:os, fade:Math.round(fade * 1000) / 1000, hl:hl, tint:tintOn, ghost:ghostPref, markMode:markMode, ucol:JSON.parse(JSON.stringify(ucol)), ucolNext:ucolNext}; }
   function restore(o){
     if (!o) return;
     marks = []; set = {};
     (o.marks || []).forEach(function(id){ if (has(id) && set[id] !== 1){ set[id] = 1; marks.push(id); } });
     inv = null; if (o.inv && marks.length){ inv = {}; o.inv.forEach(function(id){ inv[id] = 1; }); }
     ss = STATES[o.ss] ? o.ss : "show"; os = STATES[o.os] && o.os !== "hl" ? o.os : "show";
+    ucol = {}; if (o.ucol) Object.keys(o.ucol).forEach(function(k){ if (has(k) && UCOL_RE.test(o.ucol[k])) ucol[k] = o.ucol[k]; });
+    ucolNext = UCOL_RE.test(o.ucolNext || "") ? o.ucolNext : null;
     if (typeof o.fade === "number") fade = o.fade; if (typeof o.hl === "string") hl = o.hl; tintOn = o.tint !== false; ghostPref = !!o.ghost; markMode = !!o.markMode;
     if (modeOf() === "only" && E.reveal) E.reveal(marks);
     changed();
@@ -195,7 +204,7 @@ function NMSKSelect(E){
     if (!has(id)) return false;
     var is = set[id] === 1;
     if (on === undefined) on = !is;
-    if (on && !is){ set[id] = 1; marks.push(id); if (inv) delete inv[id]; }
+    if (on && !is){ set[id] = 1; marks.push(id); if (inv) delete inv[id]; if (ucolNext) ucol[id] = ucolNext; }
     else if (!on && is){ delete set[id]; marks.splice(marks.indexOf(id), 1); if (inv) inv[id] = 1; }
     else return false;
     if (!marks.length){ ss = os = "show"; ghostPref = false; inv = null; }
@@ -266,6 +275,63 @@ function NMSKSelect(E){
   }
   function setHl(c){ if (/^#[0-9a-f]{6}$/i.test(c)){ hl = c.toLowerCase(); changed(); } }
   function setTint(v){ tintOn = !!v; changed(); }
+  /* Q319: the colour of the selected. scope "all" = every structure marked NOW (the rest keep theirs); scope "next" = the colour that
+     structures marked AFTER this point receive, those already marked are left alone. hex = null puts back the structure's own colour. */
+  function userHex(id){ return ucol[id] ? parseInt(ucol[id].slice(1), 16) : null; }
+  function setUserColour(hex, scope){
+    if (hex != null){ hex = String(hex).toLowerCase(); if (!UCOL_RE.test(hex)) return false; }
+    if (scope === "next"){
+      ucolNext = hex;
+      say(hex ? "Structures you mark from now on will be coloured " + hex + "." : "Structures you mark from now on keep their own colour.");
+    } else {
+      if (!marks.length){ say("Mark at least one structure first."); changed(); return false; }
+      marks.forEach(function(id){ if (hex) ucol[id] = hex; else delete ucol[id]; });
+      say(marks.length + (marks.length === 1 ? " selected structure" : " selected structures") + (hex ? " coloured " + hex + "." : " back to their own colour."));
+    }
+    changed();
+    return true;
+  }
+  function colourState(){ return {next:ucolNext, own:Object.keys(ucol).length, ids:JSON.parse(JSON.stringify(ucol))}; }
+  var PALETTE = [["Red", "#d64545"], ["Orange", "#e8892b"], ["Yellow", "#e8c32b"], ["Green", "#4ca65a"], ["Teal", "#2ba3a3"],
+                 ["Blue", "#3f7fd6"], ["Purple", "#8e5bc9"], ["Pink", "#e36fa6"], ["Grey", "#9aa3ab"], ["White", "#f2f2f2"]];
+  /* the control: built here, mounted by the Search group of the top row. Two modes, a small palette, a free colour, and a reset. */
+  function colourBox(){
+    var mode = "all", box = document.createElement("div");
+    box.className = "ss-col"; box.id = "ss-col";
+    function b(txt, cls, title){ var e = document.createElement("button"); e.type = "button"; e.className = cls + " q301-b"; e.textContent = txt; if (title) e.title = title; return e; }
+    var h = document.createElement("p"); h.className = "ss-col-h"; h.textContent = "Colour of the selected"; box.appendChild(h);
+    var mrow = document.createElement("div"); mrow.className = "ss-col-mode"; mrow.setAttribute("role", "group"); mrow.setAttribute("aria-label", "Which structures get the colour");
+    var bAll = b("All selected", "ss-col-m", "Recolour every structure that is marked now"), bNext = b("From now on", "ss-col-m", "Structures marked after this point get the colour; the ones already marked keep theirs");
+    bAll.id = "ss-col-all"; bNext.id = "ss-col-next"; bAll.setAttribute("data-m", "all"); bNext.setAttribute("data-m", "next");
+    mrow.appendChild(bAll); mrow.appendChild(bNext); box.appendChild(mrow);
+    var sw = document.createElement("div"); sw.className = "ss-col-sw";
+    PALETTE.forEach(function(p){
+      var e = b("", "ss-col-s", p[0]); e.setAttribute("data-hex", p[1]); e.setAttribute("aria-label", p[0]); e.style.background = p[1];
+      sw.appendChild(e);
+    });
+    var cu = document.createElement("input"); cu.type = "color"; cu.id = "ss-col-custom"; cu.value = "#d64545"; cu.className = "ss-col-c"; cu.setAttribute("aria-label", "Any other colour");
+    sw.appendChild(cu);
+    var own = b("Own colour", "ss-col-own", "Put the structure's own colour back"); own.id = "ss-col-own"; sw.appendChild(own);
+    box.appendChild(sw);
+    var note = document.createElement("p"); note.className = "ss-col-note"; note.setAttribute("aria-live", "polite"); box.appendChild(note);
+    function paint(){
+      bAll.setAttribute("aria-pressed", String(mode === "all")); bNext.setAttribute("aria-pressed", String(mode === "next"));
+      var n = marks.length;
+      note.textContent = (mode === "all" ? (n ? "Applies to the " + n + " selected now." : "Nothing is selected yet: mark a structure first.")
+                                         : "Applies to what you mark next; the ones already marked keep theirs.") +
+        (ucolNext ? " From now on: " + ucolNext + "." : "");
+    }
+    mrow.addEventListener("click", function(ev){ var t = ev.target.closest ? ev.target.closest("[data-m]") : null; if (t){ mode = t.getAttribute("data-m"); paint(); } });
+    sw.addEventListener("click", function(ev){
+      var t = ev.target.closest ? ev.target.closest("button") : null; if (!t) return;
+      if (t === own) setUserColour(null, mode); else if (t.getAttribute("data-hex")) setUserColour(t.getAttribute("data-hex"), mode);
+      paint();
+    });
+    cu.addEventListener("change", function(){ setUserColour(cu.value, mode); paint(); });
+    setInterval(paint, 600);
+    paint();
+    return box;
+  }
   /* Invert: the marked set becomes everything else that is eligible (layers, hidden flags, source facet, side filter); Invert again swaps back */
   function eligibleIds(){
     var ids = E.eligible ? E.eligible() : order;
@@ -316,7 +382,7 @@ function NMSKSelect(E){
   function clearMarks(){ beginChange(); marks = []; set = {}; ss = os = "show"; ghostPref = false; inv = null; say("Marks cleared."); changed(); }
   function resetAll(){
     beginChange();
-    marks = []; set = {}; ss = os = "show"; ghostPref = false; markMode = false; inv = null;
+    marks = []; set = {}; ss = os = "show"; ghostPref = false; markMode = false; inv = null; ucol = {}; ucolNext = null;
     if (E.select) E.select(null);
     if (E.clearHover) E.clearHover();
     if (E.resetEngine) E.resetEngine();
@@ -577,7 +643,7 @@ function NMSKSelect(E){
     else if (data.remember && data.last && data.last.ids && (data.last.ids.length || data.last.inv)){ applyPack(data.last); restored = "Restored your last selection: " + marks.length + " marked" + (modeOf() === "all" ? "." : modeOf() === "only" ? ", showing only those." : ", hidden."); }
   } catch (err){}
   if (restored){ say(restored); changed(); } else storeNote();
-  return {
+  var api = {
     rule:rule, look:stateOf, isMarked:function(id){ return set[id] === 1; }, tinted:tinted, ghosting:ghosting, translucent:translucent, active:activeState,
     fadeAlpha:function(cls){ return Math.max(fade, (cls && FADE_FLOOR[cls]) || 0); },   // Q300: cls = the tissue class, so bone keeps a floor
     fadeFloor:function(){ return JSON.parse(JSON.stringify(FADE_FLOOR)); }, hlHex:hlHex, markButton:function(id){
@@ -589,9 +655,12 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
+    userHex:userHex, setUserColour:setUserColour, colourState:colourState, colourBox:colourBox,
     snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
     state:function(){ return {marks:marks.slice(), mode:modeOf(), ghost:ghostOf(), sel:ss, oth:os, fade:fade, hl:hl, inverted:!!inv, left:baseIds(), tint:tintOn, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
   };
+  try { window.NMSKSelectCtl = api; } catch (e2){}          // Q319: the Search group of the top row mounts the colour control from it
+  return api;
 }

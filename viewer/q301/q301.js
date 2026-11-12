@@ -96,12 +96,22 @@ var NMSKQ301 = (function(){
      and its listeners intact, which is why no behaviour is duplicated and the old crowded bars empty themselves.
      Long tables (the tissue-layer rows with their own sliders and solo buttons) are NOT moved in: the project's rule is
      short menus, so the group offers the button that opens that panel instead. */
+  function searchBlock(){
+    var f = document.getElementById("search") || document.getElementById("q");
+    return f && f.parentNode && f.parentNode !== document.body ? f.parentNode : null;
+  }
   function defaultGroups(){
     var R = window.NMSKRenderStyle, P = window.NMSKPeel, F = window.NMSKFat;
     return [
       /* Q318: the order is the owner's own list. Search first, because finding a structure is where
          almost every session starts, and the colour of what is selected belongs with it. */
-      {key:"mark", label:"Search", title:"Find a structure by any of its names, mark it, isolate it, and label it", members:[
+      /* Q319, owner: "a search field that opens on a press of the icon, and it also opens the option of changing the colour of
+         the selected." The structure search is a field inside the side panel, which is hidden in the Model-only layout, so
+         the whole block -- label, field, Q298's result row and the list -- moves into this sheet as one node, and the group
+         puts the cursor in the field (`focus`). The colour control comes from the selection controller that owns the marks. */
+      {key:"mark", label:"Search", focus:"#search, #q", title:"Search a structure by any of its names, mark it, colour it, isolate it, and label it", members:[
+        {el:searchBlock()},
+        {el:window.NMSKSelectCtl && NMSKSelectCtl.colourBox ? NMSKSelectCtl.colourBox() : null},
         {adopt:["t-iso", "t-only", "t-invert", "t-mark"]},
         {combo:"marktap", adopt:["sel-markmode"]},
         {adopt:["sel-markcur", "sel-clear", "ss-q-all", "sel-p-isolate", "sel-p-fadeoth", "sel-p-hidesel"]},
