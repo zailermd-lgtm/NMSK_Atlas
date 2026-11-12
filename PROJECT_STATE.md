@@ -14344,3 +14344,28 @@ two dorso-volar axes rebuilt from the page's own geometry by a construction the 
 - The four non-Z-base geometry files still carry the 2026-10-18 placements. They need a re-run on
   restored pages, which `build_geometry.py --page-dir BODY=DIR` (added this round) now allows for
   any body whose page is back.
+
+
+## Q319 -- published 2026-11-12
+
+All six pages republished in one regeneration (REGEN_TEMPLATE_ONLY_OK 6/6, every verifier `_OK` on both
+engines): Base M v87, Base F v82, Combined M v88, Combined F v101, Imaging M v166, Imaging F v156. In it:
+spine by vertebra and by segment (`setLevel`, `tests/test_q319_spine.py`), the nerve casing, the thumb
+MCP proper/accessory collaterals marked on the Base bodies, Search opening from its icon with the two
+selection-colour modes, and the Base muscle repairs.
+
+Base repairs shipped (`a9ffce0`): the opponens digiti minimi split on both Base pages (3262->3264,
+3298->3300 meshes; foot pieces appended) and the in-bone conforms that are a Pareto improvement across
+the whole page -- 8 of 16 on Base M, 3 of 18 on Base F; held ones and the structure they would harm are
+in `data/derived/Q319_ship_report.json`. The `.q318` backups beside each replaced file in
+`build/q309/viewer_zan_atlas` and `viewer_base_female` make it reversible file by file.
+
+Open decisions for the owner: bulging from muscle contraction (simulation, not kinematics); the four
+give-up structures per Base page (recommendation: keep and accept); the abbreviation builder labels the
+hand opponens `ODM-L.2` and the foot piece `ODM-L` (live on Combined F since Q213). Open work: nerve
+emphasis is not wired on the two own-engine pages; the radial accessory band needs a six-body run;
+finger/IP collaterals stay text-only for want of a published footprint; Measure (circumference, area,
+volume, pixel value) and pose-aware ultrasound with the injection clip are not started.
+
+`build/` is gitignored and vanishes with the container: restore pages from their artifacts with
+`Artifact read paths=[...]` then `scripts/restore_built_page.py`.
