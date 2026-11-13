@@ -1,6 +1,6 @@
 /* Q241 Pose, three.js engine. The posed geometry is BAKED into each mesh's own position / normal attributes (rest copies are made lazily the first time a structure moves), so everything that
    reads the geometry follows the pose with no extra code: picking (raycast), the Cut mode clipping, the filled cut face, the label anchors, the Symmetric view copies (they share the geometry).
-   After a pose change the bounding boxes / spheres are recomputed, the labels are told, and the filled cut face is rebuilt (debounced). Part markers and the clinical add-on tools use the rest-pose data (reset the pose before using them). */
+   After a pose change the bounding boxes / spheres are recomputed, the labels are told, and the filled cut face is rebuilt (debounced). Part markers use the rest-pose data; add-ons can follow the pose through window.__poseRev / __poseLive / __poseRestPos (Q320). */
 var poseCtl = null, poseRestG = {}, poseCapT = 0;
 function poseRestOf(i){
   var r = poseRestG[i];
@@ -33,6 +33,9 @@ poseCtl = NMSKPose({
   isPhone:function(){ return !!app && app.classList.contains("phone"); }
 });
 window.__poseApi = poseCtl;
+/* Q320: the posed / rest vertices of a structure the pose has touched (null for one it never moved), same contract as the WebGL engine */
+window.__poseLive = function(i){ return poseRestG[i] ? meshes[i].geometry.attributes.position.array : null; };
+window.__poseRestPos = function(i){ return poseRestG[i] ? poseRestG[i].pos : null; };
 window.__poseDebug = function(){      /* test hook: per structure how far it moved from its rest position (max |dx| in mm), only structures the pose has touched */
   var out = {touched:0, moved:{}, bad:0};
   meshes.forEach(function(m, i){

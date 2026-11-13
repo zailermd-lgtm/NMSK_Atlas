@@ -36,6 +36,38 @@
       for (i = 0; i < n; i++) if (g.kind[i] === 1) pcaAxis(i);          // long bones: centroid, axis, length
       return {n: n, maxNV: maxNV};
     }
+    /* Q320: the POSED geometry, for a caller that asks for it per slice (R.posed; the probe tool does, CT / MR do not). setPose() stores the
+       posed vertices of the structures that moved (and their rest copy); slice() swaps the wanted set into the package before it rasterises,
+       so a slice at rest reads exactly the rest vertices again. Only the moved structures are copied, never the whole body. */
+    var poseRest = {}, poseLive = {}, poseApplied = false, poseOwn = false;
+    function boxOf(s) {
+      var p = Gm.pos, a = Gm.vStart[s], b = Gm.vStart[s + 1], k, lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30];
+      for (k = a; k < b; k++) for (var c = 0; c < 3; c++) { var v = p[3 * k + c]; if (v < lo[c]) lo[c] = v; if (v > hi[c]) hi[c] = v; }
+      if (b > a) Gm.bbox.set([lo[0], lo[1], lo[2], hi[0], hi[1], hi[2]], s * 6);
+    }
+    function poseWrite(want) {
+      for (var k in poseLive) {
+        var s = +k, src = want ? poseLive[k] : poseRest[k]; if (!src) continue;
+        Gm.pos.set(src, Gm.vStart[s] * 3); boxOf(s); if (Gm.kind[s] === 1) pcaAxis(s);
+      }
+      poseApplied = want; cacheKey = null;
+    }
+    function setPose(m, copy) {                                          // m: {ids, live[] (posed vertices), rest[] (rest vertices or null)}; copy: the package is shared with the page (main-thread kernel)
+      if (!Gm) return;
+      if (copy && !poseOwn) { Gm = Object.assign({}, Gm, {pos: new Float32Array(Gm.pos), bbox: new Float32Array(Gm.bbox)}); }
+      poseOwn = true;
+      if (poseApplied) poseWrite(false);
+      for (var i = 0; i < m.ids.length; i++) {
+        var s = m.ids[i], a = Gm.vStart[s] * 3, b = Gm.vStart[s + 1] * 3, L = m.live[i], Rr = m.rest && m.rest[i];
+        if (!L || L.length !== b - a) continue;
+        if (!poseRest[s]) {
+          if (Rr && Rr.length === b - a) { poseRest[s] = new Float32Array(Rr); Gm.pos.set(poseRest[s], a); boxOf(s); if (Gm.kind[s] === 1) pcaAxis(s); }
+          else poseRest[s] = Gm.pos.slice(a, b);
+        }
+        poseLive[s] = new Float32Array(L);
+      }
+      cacheKey = null;
+    }
     function pcaAxis(s) {
       var p = Gm.pos, a = Gm.vStart[s], b = Gm.vStart[s + 1], nv = b - a, step = Math.max(1, Math.floor(nv / 4000)), k, cx = 0, cy = 0, cz = 0, m = 0;
       for (k = a; k < b; k += step) { cx += p[3 * k]; cy += p[3 * k + 1]; cz += p[3 * k + 2]; m++; }
@@ -244,6 +276,7 @@
      * R: {key, W, H, O[3], u[3], v[3], n[3], u0, v0, px, s (offset), wantSid, skinMm, ids{air,fat,skin,cort,canc,marrow}, bone{kind->params}} */
     function slice(R) {
       /* Q246: R.ss > 1 rasterises at ss x the pixel resolution (same plane, same window): `fine` = that label image (area coverage = partial volume), `lab` / `sid` = its centre samples */
+      if (!!R.posed !== poseApplied) poseWrite(!!R.posed);                // Q320
       var t0 = Date.now(), g = Gm, ss = R.ss > 1 ? Math.min(4, R.ss | 0) : 1, Wc = R.W, Hc = R.H, W = Wc * ss, H = Hc * ss, N = W * H, px = R.px / ss, s = R.s, i, j, k;
       parityBad = 0; repaired = 0; triCount = 0;
       if (R.key !== cacheKey) {                                             // vertex pass once per plane / window
@@ -428,7 +461,7 @@
         }
       }
     }
-    return {setGeometry: setGeometry, slice: slice};
+    return {setGeometry: setGeometry, slice: slice, setPose: setPose};
   }
 
   /* ========================================================================================================
@@ -766,7 +799,7 @@
           resolve();
         }
         try {
-          var src = "var K=(" + KERNEL_FACTORY.toString() + ")();onmessage=function(e){var m=e.data;if(m.type==='init'){K.setGeometry(m.g);postMessage({type:'ready'});}else if(m.type==='slice'){var r;try{r=K.slice(m.R);}catch(err){postMessage({type:'error',id:m.id,msg:String(err&&err.stack||err)});return;}var tr=[r.lab.buffer];if(r.sid)tr.push(r.sid.buffer);if(r.fine)tr.push(r.fine.buffer);postMessage({type:'slice',id:m.id,r:r},tr);}};";
+          var src = "var K=(" + KERNEL_FACTORY.toString() + ")();onmessage=function(e){var m=e.data;if(m.type==='init'){K.setGeometry(m.g);postMessage({type:'ready'});}else if(m.type==='pose'){K.setPose(m.m);}else if(m.type==='slice'){var r;try{r=K.slice(m.R);}catch(err){postMessage({type:'error',id:m.id,msg:String(err&&err.stack||err)});return;}var tr=[r.lab.buffer];if(r.sid)tr.push(r.sid.buffer);if(r.fine)tr.push(r.fine.buffer);postMessage({type:'slice',id:m.id,r:r},tr);}};";
           var url = URL.createObjectURL(new Blob([src], {type: "application/javascript"}));
           worker = new Worker(url);
           var t = setTimeout(function () { if (!worker) return; try { worker.terminate(); } catch (e) {} local(); }, 8000);
@@ -783,6 +816,14 @@
     var sliceChain = Promise.resolve();
     function runSlice(R) {                                                  // -> Promise(result); serialised (the worker has one job slot; Q228 companions share it)
       var p = sliceChain.then(function () { return runSliceRaw(R); });
+      sliceChain = p.then(function () {}, function () {});
+      return p;
+    }
+    function setPose(m) {                                                   // Q320: posed vertices for R.posed slices; queued behind the slices already asked for
+      var p = sliceChain.then(function () {
+        if (worker && workerOk) worker.postMessage({type: "pose", m: m});
+        else if (kernelLocal) kernelLocal.setPose(m, true);
+      });
       sliceChain = p.then(function () {}, function () {});
       return p;
     }
@@ -1694,7 +1735,7 @@
       loadJson: fetchJson, inline: inlineText, toast: toast, toolbarHost: function () { return api.toolbar || floatBar(); }, kind: api.kind,
       setUsDiag: function (ok, text, extra) { DIAG.ultrasound = Object.assign({ok: ok, text: text}, extra || {}); setBtnTip(document.getElementById("t-ultrasound"), US_TIP, ok, text); },
       ensure: function (progress) { return tablePromise.then(function () { if (tableErr || !C) throw new Error(tableErr || "tissue table missing"); return buildGeometry(progress); }).then(function () { return {geo: geo, C: C, T: T}; }); },
-      runSlice: runSlice, boneParams: boneParams,
+      runSlice: runSlice, setPose: setPose, boneParams: boneParams,
       /* Q301: the model-wide render styles (X-ray / CT / MRI drawn on the 3-D model itself) are a companion that lives
          in the PUBLIC viewer layer, which by the Q226 boundary may hold no tissue number, no table filename and no
          sequence name of its own. So the private layer hands those over: the table it has already loaded (one fetch,

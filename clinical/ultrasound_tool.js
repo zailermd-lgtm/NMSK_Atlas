@@ -1256,7 +1256,7 @@
       if (loadPromise) return loadPromise;
       loadPromise = acousticTable()
         .then(function (t) { US = t; return sh.ensure(function (m) { setStatus(m); }); })
-        .then(function (x) { geo = x.geo; C = x.C; T = x.T; AC = LIB.compileAcoustics(US, C); if (S.P == null) defaultPlacement(); })
+        .then(function (x) { geo = geoR = x.geo; C = x.C; T = x.T; AC = LIB.compileAcoustics(US, C); syncPose(); if (S.P == null) defaultPlacement(); })
         .catch(function (e) { loadErr = String(e && e.message || e); console.error("ultrasound:", e); })
         .then(function () { setDiag(); });
       return loadPromise;
@@ -1367,6 +1367,94 @@
       var sep = ar.sheets.length ? "; septa: " + ar.row.septa.map(function (x) { return x.name + " (" + x.refs.map(function (k) { return (A.references[k] || {}).pmid ? "PMID " + A.references[k].pmid : k; }).join(", ") + ")"; }).join("; ") : "";
       var bun = ar.bundle ? "; bundle: " + ar.bundle + " " + Math.round(ar.p / DEG * 10) / 10 + "°, axis " + ar.src : ar.bands && ar.bands[0].a ? "; " + ar.bands.length + " bundles, each with its own axis (" + ar.bands[0].src + ") and pennation" : "";   // Q294
       return " | fibres: " + (r.t || "?") + " " + (ar.bundle ? Math.round(ar.p / DEG * 10) / 10 : r.p0 != null ? r.p0 + "→" + r.p1 : r.p) + "° (" + src + ")" + sep + bun + " -- RULE-BASED layout in this mesh";
+    }
+    /* ---------- Q320: follow the joint pose ----------
+       The page's pose controller bumps window.__poseRev (event "nmsk-pose-rev", the changed structure indices) and exposes the posed /
+       rest vertices of every structure it moved (__poseLive(i) / __poseRestPos(i), null for one it never moved). This tool then reads a
+       private copy of the package (`geo`, the rest package `geoR` stays untouched for the CT / MR tool) with the moved structures written in,
+       sends only those structures to the slicing worker (sh.setPose) and asks for the posed set per slice (R.posed). The raster key carries
+       the pose revision; at the model pose the term is empty and the rest vertices are written back, so the rest image is reproduced exactly.
+       Per-structure caches (long axis, fibre architecture) are dropped for the moved structures. bodyBox stays the rest one (a reference
+       frame for the default seat and the trunk point, not anatomy).
+       PROBE: a probe on skin that moved rides with that skin patch (mean displacement of the skin vertices within 25 mm of the seat), then
+       is re-seated on the posed skin along the patch's new normal, so it never ends up inside the moved limb. Its in-plane orientation is
+       recomputed from the new normal exactly as for a fresh seat. The seat it had at rest is remembered and restored exactly when the pose
+       returns to rest, unless the probe was moved by hand meanwhile. */
+    var geoR = null, poseU = {seen: 0, rev: 0, posed: false, all: true, dirty: {}, view: null, restSent: {}, restPlace: null, fP: null, fP2: null};
+    G.addEventListener && G.addEventListener("nmsk-pose-rev", function (e) {
+      var ids = (e && e.detail && e.detail.ids) || [], k; for (k = 0; k < ids.length; k++) poseU.dirty[ids[k]] = 1;
+      if (geoR && S.open) refresh();
+    });
+    function poseTerm() { return poseU.posed ? "pose" + poseU.rev : ""; }
+    function boxInto(V, s) {
+      var p = V.pos, a = V.vStart[s], b = V.vStart[s + 1], k, c, lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30];
+      for (k = a; k < b; k++) for (c = 0; c < 3; c++) { var v = p[3 * k + c]; if (v < lo[c]) lo[c] = v; if (v > hi[c]) hi[c] = v; }
+      if (b > a) V.bbox.set([lo[0], lo[1], lo[2], hi[0], hi[1], hi[2]], s * 6);
+    }
+    function patchOf(P, ids) {                                               // the skin vertices of moved structures within 25 mm of P (indices)
+      if (!P) return null;
+      var out = [], R = 25, i, k;
+      for (i = 0; i < ids.length; i++) {
+        var s = ids[i]; if (!geo.skin[s]) continue;
+        var b = s * 6; if (P[0] < geo.bbox[b] - R || P[0] > geo.bbox[b + 3] + R || P[1] < geo.bbox[b + 1] - R || P[1] > geo.bbox[b + 4] + R || P[2] < geo.bbox[b + 2] - R || P[2] > geo.bbox[b + 5] + R) continue;
+        for (k = geo.vStart[s]; k < geo.vStart[s + 1]; k++) if (Math.hypot(geo.pos[3 * k] - P[0], geo.pos[3 * k + 1] - P[1], geo.pos[3 * k + 2] - P[2]) <= R) out.push(k);
+      }
+      if (!out.length) return null;
+      var c0 = [0, 0, 0]; out.forEach(function (k2) { c0[0] += geo.pos[3 * k2]; c0[1] += geo.pos[3 * k2 + 1]; c0[2] += geo.pos[3 * k2 + 2]; });
+      return {k: out, c: [c0[0] / out.length, c0[1] / out.length, c0[2] / out.length]};
+    }
+    function rideSeat(P, N, pt) {                                             // -> {P, N, struct} on the posed skin, or null
+      var c1 = [0, 0, 0]; pt.k.forEach(function (k2) { c1[0] += geo.pos[3 * k2]; c1[1] += geo.pos[3 * k2 + 1]; c1[2] += geo.pos[3 * k2 + 2]; });
+      var n = pt.k.length, d = [c1[0] / n - pt.c[0], c1[1] / n - pt.c[1], c1[2] / n - pt.c[2]];
+      if (Math.hypot(d[0], d[1], d[2]) < 1e-6) return null;
+      var P1 = [P[0] + d[0], P[1] + d[1], P[2] + d[2]], N1 = LIB.smoothNormal(geo, P1, 15, N);
+      if (!N1 || !(Math.hypot(N1[0], N1[1], N1[2]) > 0.5)) N1 = N;
+      if (LIB.dot(N1, N) < 0) N1 = [-N1[0], -N1[1], -N1[2]];
+      var h = LIB.skinHit(geo, [P1[0] + N1[0] * 40, P1[1] + N1[1] * 40, P1[2] + N1[2] * 40], [-N1[0], -N1[1], -N1[2]], null);
+      if (!h || h.t > 80) return {P: P1, N: N1, struct: -1};
+      var N2 = LIB.smoothNormal(geo, h.point, 15, N1); if (LIB.dot(N2, N1) < 0) N2 = [-N2[0], -N2[1], -N2[2]];
+      return {P: h.point, N: N2, struct: h.struct};
+    }
+    function syncPose() {                                                     // -> true when the geometry changed
+      var rev = G.__poseRev | 0, liveF = G.__poseLive, restF = G.__poseRestPos;
+      if (!geoR || rev === poseU.seen || typeof liveF !== "function") return false;
+      var atRest = !!G.__poseAtRest, ids = [], i;
+      if (poseU.all) { for (i = 0; i < geoR.n; i++) if (liveF(i)) ids.push(i); poseU.all = false; }
+      else ids = Object.keys(poseU.dirty).map(Number);
+      poseU.dirty = {}; poseU.seen = rev;
+      if (!ids.length) return false;
+      if (!poseU.view) { poseU.view = Object.assign({}, geoR, {pos: new Float32Array(geoR.pos), bbox: new Float32Array(geoR.bbox)}); geo = poseU.view; }
+      var V = poseU.view, wasPosed = poseU.posed;
+      if (!wasPosed && !atRest) poseU.restPlace = S.P ? {P: S.P, N: S.N, st: S.skinStruct, P2: S.P2, N2: S.N2, st2: S.skinStruct2} : null;
+      if (poseU.restPlace && ((poseU.fP && S.P !== poseU.fP) || (poseU.fP2 && S.P2 !== poseU.fP2))) poseU.restPlace = null;   // moved by hand while posed
+      var pA = patchOf(S.P, ids), pB = S.ab ? patchOf(S.P2, ids) : null, sent = [], live = [], rest = [];
+      ids.forEach(function (s) {
+        var L = liveF(s), Rr = restF ? restF(s) : null, a = V.vStart[s] * 3, b = V.vStart[s + 1] * 3;
+        if (!L || L.length !== b - a) return;
+        var first = !poseU.restSent[s];
+        if (first) {                                                          // the package's own vertices ARE the rest unless it was read while posed (three.js engine)
+          var g0 = geoR.pos.subarray(a, b), useR = false, k;
+          if (Rr && Rr.length === b - a) for (k = 0; k < g0.length; k++) if (Math.abs(Rr[k] - g0[k]) > 1e-3) { useR = true; break; }
+          poseU.restSent[s] = useR ? Rr : 1;
+        }
+        var rs = poseU.restSent[s] === 1 ? geoR.pos.subarray(a, b) : poseU.restSent[s];
+        V.pos.set(atRest ? rs : L, a); boxInto(V, s);
+        sent.push(s); live.push(new Float32Array(L)); rest.push(first && rs !== 1 && poseU.restSent[s] !== 1 ? new Float32Array(rs) : null);
+        delete axisCache[s]; delete archCache[s]; delete genCache[s];
+      });
+      if (sent.length && sh.setPose) sh.setPose({ids: sent, live: live, rest: rest});
+      poseU.posed = !atRest; poseU.rev = rev; axisCache.__follow = null; lastOverlayKey = "";
+      if (atRest && poseU.restPlace) {                                        // back at the model pose: the seat it had there, exactly
+        var rp = poseU.restPlace; S.P = rp.P; S.N = rp.N; S.skinStruct = rp.st; if (rp.P2) { S.P2 = rp.P2; S.N2 = rp.N2; S.skinStruct2 = rp.st2; }
+        poseU.restPlace = null; poseU.fP = poseU.fP2 = null;
+      } else {
+        var sa = pA && rideSeat(S.P, S.N, pA), sb = pB && rideSeat(S.P2, S.N2, pB);
+        if (sa) { S.P = sa.P; S.N = sa.N; if (sa.struct >= 0) S.skinStruct = sa.struct; }
+        if (sb) { S.P2 = sb.P; S.N2 = sb.N; if (sb.struct >= 0) S.skinStruct2 = sb.struct; }
+        poseU.fP = S.P; poseU.fP2 = S.P2;
+        if (atRest) poseU.restPlace = null;
+      }
+      return true;
     }
     function axisOf(sid) {
       if (sid < 0 || sid >= geo.n) return null;
@@ -1628,7 +1716,7 @@
         speckle: S.speckle, textures: S.textures, reverb: S.reverb, noise: S.noise, seed: S.seed,        // Q246: ONE seed for every frame: the speckle belongs to the body, not to the frame
         elevMm: S.mode === "star" ? 0 : fr.spec.off, frame: {O: fr.O, u: fr.pf.u, b: fr.pf.b, e: fr.pf.e, zoff: 0}, ref: refFrame(fr.spec), axisOf: axisOf, archOf: archOf}, extra || {});
     }
-    function rasterKey(spec, q) { var P0 = spec.P || S.P, N0 = spec.N || S.N; return [S.probe, probeW(), S.depthCm, P0.map(function (x) { return x.toFixed(2); }).join(), N0.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0, starBase() ? S.mTilt + "@" + S.mTiltDir : ""].join("|"); }
+    function rasterKey(spec, q) { var P0 = spec.P || S.P, N0 = spec.N || S.N; return [S.probe, probeW(), S.depthCm, P0.map(function (x) { return x.toFixed(2); }).join(), N0.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0, starBase() ? S.mTilt + "@" + S.mTiltDir : "", poseTerm()].join("|"); }
     /* Q294: fascia and the other thin sheets (septa, aponeuroses, retinacula, capsules, dura) are drawn with their typical PHYSICAL
        thickness (ultrasound_tissues.json "sheet_thickness", cited per rule) instead of one raster pixel, so a sheet keeps the same
        thickness in millimetres at every pixel size -- the 1x image, a re-simulated zoom, the live CINE tier. */
@@ -1669,7 +1757,7 @@
       var zp = LIB.zoomPlan(fr.geom, pl, [xa, ya, xb, yb], px1); if (!zp) { hideHi(v); return Promise.resolve(null); }
       var gen0 = (v.hiGen = (v.hiGen || 0) + 1), t0 = Date.now(), u = fr.pf.u, vv = fr.pf.N, n = LIB.cross(u, vv);
       var R = {key: "usz" + (++keySeq), W: zp.W, H: zp.H, O: fr.O, u: u, v: vv, n: n, u0: zp.xr0, v0: -zp.yr0, px: zp.px, smin: 0, smax: 0, s: 0, wantSid: true,
-        skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true, sheetMm: sheetMm()};
+        skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true, sheetMm: sheetMm(), posed: poseU.posed ? 1 : 0};
       return sh.runSlice(R).then(function (res) {
         if (gen0 !== v.hiGen || frames[v.idx] !== fr) return null;
         var zf = {spec: fr.spec, pf: fr.pf, O: fr.O, geom: fr.geom, plan: zp, lab: res.lab, sid: res.sid};
@@ -1742,7 +1830,7 @@
       else {
         var u = pose.pf.u, v = pose.pf.N, n = LIB.cross(u, v);
         var R = {key: "us" + (++keySeq), W: plan.W, H: plan.H, O: pose.O, u: u, v: v, n: n, u0: plan.xr0, v0: -plan.yr0, px: plan.px, smin: 0, smax: 0, s: 0, wantSid: true,
-          skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true, sheetMm: sheetMm()};
+          skinMm: T.bone_model.skin_thickness_mm, ids: C.ids, bone: sh.boneParams(), mask: S.hidden ? visMask() : null, extTop: true, sheetMm: sheetMm(), posed: poseU.posed ? 1 : 0};
         pr = sh.runSlice(R).then(function (r) { fr.labA = r.lab; fr.sid = r.sid; fr.kms = r.ms; });
       }
       return pr.then(function () {
@@ -1761,6 +1849,7 @@
       pumpPending = false;
       if (!S.open || !AC || !S.P || contState.active) return;                 // Q257: continuous cine owns frames[S.sel] directly; the step pipeline stays out of its way while it plays
 
+      syncPose();                                                            // Q320: before the specs, so a probe riding the pose is placed first
       var my = ++gen, specs = frameSpecs(), order = [], i, tAll = Date.now();
       ensureViews(specs);
       for (i = 0; i < specs.length; i++) order.push(i);

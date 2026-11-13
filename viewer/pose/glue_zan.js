@@ -1,8 +1,8 @@
 /* Q241 Pose, WebGL engine. The posed geometry is BAKED into the batch vertex buffers (gl.bufferSubData of the moved structures only: positions and normals), so the shaders, the picking /
    depth passes, the CUT clipping (uClip / uClip2 work on the posed positions), selection and the Symmetric view (the shader mirrors the posed vertices) need no change. Rest positions /
    normals are decoded lazily from the quantised blob when a structure first moves (nothing is kept for a structure that never moves). After a pose change: bounding boxes / centres
-   (cut, isolation box, label anchors, the mirrored copies), the cut-cap cache and the labels are refreshed. Part markers and the clinical add-on tools use the
-   rest-pose data (reset the pose before using them). */
+   (cut, isolation box, label anchors, the mirrored copies), the cut-cap cache and the labels are refreshed. Part markers use the
+   rest-pose data; add-ons can follow the pose through window.__poseRev / __poseLive / __poseRestPos (Q320). */
 var poseCtl = null, poseRestZ = {}, poseLiveZ = {}, poseCapT = 0;
 function poseRestOfZ(i){
   var r = poseRestZ[i];
@@ -21,6 +21,7 @@ function poseRestOfZ(i){
   return poseRestZ[i] = {pos:pos, nrm:nrm};
 }
 window.__poseLive = function(i){ return poseLiveZ[i] ? poseLiveZ[i].pos : null; };
+window.__poseRestPos = function(i){ return poseLiveZ[i] && poseRestZ[i] ? poseRestZ[i].pos : null; };      /* Q320: the rest vertices of a moved structure */
 /* Q319 test hook: id -> index and layer. __poseDebug reports how far each structure moved, keyed by id,
    but reading a structure's SHAPE back needs its index for __poseLive, and OBJ is not global. */
 window.__poseIndex = function(){

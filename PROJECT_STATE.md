@@ -14391,3 +14391,20 @@ nerve emphasis on the own-engine pages, the Combined muscle repairs, the radial 
 six-body run (re-scope it to the two Base bodies if it is wanted). Still open, Base only: Measure
 (circumference, area, volume, expected pixel value), pose-aware ultrasound and the injection clip, the
 owner's three decisions listed above.
+
+## Q320 -- pose-aware probe image (agent; NOT regenerated, NOT published, NOT committed)
+- **Mechanism.** `viewer/pose/pose.js` bumps a neutral `window.__poseRev` / `__poseAtRest` and fires `nmsk-pose-rev`
+  {rev, ids, rest} after every geometry change; both glues expose `__poseLive(i)` / `__poseRestPos(i)` (null for an
+  untouched structure; own engine gained both, Z gained `__poseRestPos`). `clinical/imaging_tool.js` kernel: `setPose({ids,
+  live, rest})` (only moved structures; main-thread fallback copies the package first) and `R.posed` per slice swaps the
+  posed / rest vertices in (bbox + long-bone axis recomputed), so CT/MR (no `posed`) stay rest. `clinical/ultrasound_tool.js`
+  `syncPose()` (start of `pump`, and on load): private copy of the package with moved structures written in, ids sent to
+  the worker, axis / arch / generic-arch caches dropped per moved structure, `rasterKey` + `poseTerm()` (`pose<rev>`, empty
+  at rest). Probe rides its skin patch (mean displacement of skin vertices within 25 mm, re-seated along the new normal);
+  its rest seat is restored exactly back at rest unless moved by hand meanwhile. bodyBox stays the rest one.
+- **Verified** (patched copies in /dev/shm of build/q309 Base M + Base F -- BOTH are the Z engine; the own-engine glue is
+  untested, its only pages are the frozen Imaging ones): image differs posed vs rest, key carries the pose, rest image /
+  labels / key / probe seat byte-identical after reset, probe in skin contact, 0 page errors. Needle (`setNeedle`) painted
+  in the posed image (959 px). Test `tests/test_q320_pose_follow.py`.
+- **Open:** the injection clip itself (needle tool -> probe image link) is not built; the needle tool still measures rest
+  geometry, so a needle planned there would be in rest coordinates in a posed image.

@@ -321,7 +321,14 @@ function NMSKPose(E){
     }
     for (s = 0; s < n; s++) if (dirty[s]) st.last[s].set(st.M[s]);
     st.ms = performance.now() - t0; st.lastChanged = changed.length; st.updates++;
-    if (changed.length) E.commit(changed, isRest());
+    if (changed.length){
+      var atRest = isRest();
+      E.commit(changed, atRest);
+      /* Q320: a neutral pose revision for optional add-ons that read the posed vertices (window.__poseLive / __poseRestPos): bumped on every
+         geometry change, with the changed structure indices and whether the pose is the model pose again */
+      window.__poseRev = (window.__poseRev || 0) + 1; window.__poseAtRest = atRest;
+      try { window.dispatchEvent(new CustomEvent("nmsk-pose-rev", {detail:{rev:window.__poseRev, ids:changed.slice(), rest:atRest}})); } catch (e) {}
+    }
     chrome();
   }
   function schedule(){
