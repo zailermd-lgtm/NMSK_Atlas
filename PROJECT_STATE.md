@@ -14369,3 +14369,25 @@ volume, pixel value) and pose-aware ultrasound with the injection clip are not s
 
 `build/` is gitignored and vanishes with the container: restore pages from their artifacts with
 `Artifact read paths=[...]` then `scripts/restore_built_page.py`.
+
+
+## FREEZE -- 2026-11-13: only the two Base models move on
+
+Owner: "the imaging-based models took the most resources and are still in very bad shape; since the
+plan is to use them only later, from now on freeze them without changing anything. The same for the
+combined models. Progress only on the 2 base models."
+
+Frozen record (the published versions, which stay exactly as they are):
+| page | artifact | version | version id |
+|---|---|---|---|
+| Combined · Male | FeFFPVVTEnPkDm2r7TyDFz | 88 | 1794506453-082f |
+| Combined · Female | 1GEpFSCZexGZ1GnM1pXxuP | 101 | 1794506463-e3ab |
+| Imaging-based · Male | RRkf5ELjmk6E8iHdgfbTtq | 166 | 1794506473-5050 |
+| Imaging-based · Female | 1nFD1WUQ7jyovz9vx9pn77 | 156 | 1794506483-8313 |
+
+Enforced in `scripts/regen_template_only.py` (FROZEN; `all` = base_m base_f; `--allow-frozen` only on
+his word) and stated in CLAUDE.md. Dropped from the open list because they concern frozen models only:
+nerve emphasis on the own-engine pages, the Combined muscle repairs, the radial accessory band's
+six-body run (re-scope it to the two Base bodies if it is wanted). Still open, Base only: Measure
+(circumference, area, volume, expected pixel value), pose-aware ultrasound and the injection clip, the
+owner's three decisions listed above.

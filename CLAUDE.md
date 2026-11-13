@@ -36,3 +36,13 @@ issues, next action) so a fresh session can resume from it after /clear.
   cheap choice was really cheap.
 - A review every three days compares the log with the guidance and rewrites the guidance from what
   the log shows. Do not edit the routing table from opinion between reviews.
+
+# Scope: only the two Base models move
+- Owner, 2026-11-13: the imaging-based and the combined models are FROZEN, "without changing
+  anything", until he says otherwise. Work, verify and publish only Base · Male and Base · Female.
+- Frozen at their published versions: Combined · Male v88, Combined · Female v101, Imaging-based ·
+  Male v166, Imaging-based · Female v156. Never republish them; `regen_template_only.py all` now
+  builds only `base_m base_f` and refuses a frozen page without `--allow-frozen`.
+- Shared viewer code is still synced into both templates (the sync tests require it), but no work is
+  done for the own engine's sake and nothing is verified on a frozen page. When a model is unfrozen,
+  check it from scratch: shared changes made during the freeze were never tested on it.

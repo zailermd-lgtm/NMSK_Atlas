@@ -92,6 +92,12 @@ Measured in the Q318 round. Each of these cost real tokens before it was fixed.
 
 ---
 
+## 3a. Scope of every task: the two Base models only (owner, 2026-11-13)
+
+The imaging-based and combined models are frozen. Brief every agent to verify on
+`build/q309/viewer_zan_atlas` and `build/q309/viewer_base_female` only, to regenerate only
+`base_m base_f`, and never to publish a frozen page. Verifying on a frozen page is wasted tokens.
+
 ## 4. How to dispatch an agent under this file
 
 When starting a subagent, state in its prompt: the goal, what has already been ruled out, the files

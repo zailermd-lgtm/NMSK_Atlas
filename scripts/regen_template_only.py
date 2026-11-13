@@ -53,6 +53,13 @@ import rebuild_html_from_built as rz  # noqa: E402  (the Z pages' data-literal r
 import set_titles_q231 as titles  # noqa: E402
 
 PAGES = ["own_m", "own_f", "zan_m", "zan_f", "base_f", "base_m"]
+# Owner, 2026-11-13: "the imaging-based models took the most resources and are still in very bad shape;
+# since the plan is to use them only later, from now on freeze them without changing anything. The same
+# for the combined models. Progress only on the 2 base models." Their published versions are the frozen
+# record (PROJECT_STATE.md, Q319 freeze). `all` therefore means the pages that are NOT frozen, and naming
+# a frozen page needs --allow-frozen, so that no regeneration -- a later session's, an agent's, a
+# scheduled review's -- can rebuild one by accident.
+FROZEN = {"own_m", "own_f", "zan_m", "zan_f"}
 DIR = {"own_m": "viewer_m_hr", "own_f": "viewer_f_hr", "zan_m": "viewer_zan_vhm", "zan_f": "viewer_zan_female",
        "base_f": "viewer_base_female", "base_m": "viewer_zan_atlas"}
 SYM_KEY = {"own_m": "own_m", "own_f": "own_f", "zan_m": "comb_m", "zan_f": "comb_f", "base_f": "base_f", "base_m": "base_m"}  # q237 core.PAGES keys
@@ -192,12 +199,17 @@ def main(argv=None) -> int:
     ap.add_argument("--ref", help="root of the reference page dirs to verify against (default: --src)")
     ap.add_argument("--expect-changed", action="append", default=[], help="sibling names / block ids allowed to differ (comma-separated or repeated); index.html = the page's non-data lines")
     ap.add_argument("--allow-disk", action="store_true")
+    ap.add_argument("--allow-frozen", action="store_true",
+                    help="regenerate a frozen page -- only on the owner's explicit instruction")
     ap.add_argument("--verify-only", action="store_true", help="skip the build, verify an existing --out")
     a = ap.parse_args(argv)
-    pages = PAGES if a.pages == ["all"] else a.pages
+    pages = [p for p in PAGES if p not in FROZEN] if a.pages == ["all"] else a.pages
     for p in pages:
         if p not in DIR:
             ap.error(f"unknown page '{p}' ({' '.join(PAGES)} | all)")
+        if p in FROZEN and not a.allow_frozen:
+            ap.error(f"'{p}' is frozen by the owner (2026-11-13: only the two base models move on); "
+                     f"pass --allow-frozen only on his explicit instruction")
     out = Path(a.out).resolve()
     if not a.allow_disk and not str(out).startswith("/dev/shm/"):
         ap.error(f"--out {out} is not under /dev/shm (pass --allow-disk to build on disk)")
