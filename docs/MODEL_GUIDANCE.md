@@ -27,7 +27,7 @@ that table in a review rather than trusting the copy below.
 | Opus 5.5 | `claude-opus-5-5` | $4 | $20 | $0.20 | 1M |
 | Opus 5 | `claude-opus-5` | $5 | $25 | ~$0.50 | 1M |
 | Sonnet 5.5 | `claude-sonnet-5-5` | $2 | $10 | $0.10 | 1M |
-| Haiku 5.5 | `claude-haiku-5-5` | $0.10 | $0.50 | — | 1M |
+| Haiku 5.5 | `claude-haiku-5-5` | $0.10 | $0.50 | — | 1M (prompts >100K: $0.50 / $2.50) |
 | Fable 5.2 | `claude-fable-5-2` | $8 | $40 | $0.20 | 1M |
 
 **The cache-read column is the one that decides the bill here.** Measured on this project's own
@@ -109,6 +109,9 @@ worth reading **by path**, and the scope boundary. The prompt is the only contex
   diffs, not the logs.
 - A check it could run in three tool calls is not worth an agent. Run it inline.
 - Never let two agents edit the same file.
+- **Log every agent stretch with its model, its effort, and the completion notice's
+  `subagent_tokens` and tool-use count in `--notes`.** `get_session` sees only the main thread, so
+  without this a subagent entry is blind (review 2026-11-13: 3 of 8 entries were).
 
 ### The project rules every agent inherits
 
@@ -147,3 +150,6 @@ information or new models worth taking into account"*). The procedure:
 5. Write the review to `docs/model_usage/reviews/<date>.md`, update this file, and commit both.
 
 A review that changes nothing is a real outcome and is still written down.
+
+Reviews so far: `reviews/2026-11-13.md` — no routing row changed; subagent logging made mandatory;
+watch items: run-and-report inline vs Haiku, cache-write cost after restarts.
