@@ -14392,7 +14392,7 @@ six-body run (re-scope it to the two Base bodies if it is wanted). Still open, B
 (circumference, area, volume, expected pixel value), pose-aware ultrasound and the injection clip, the
 owner's three decisions listed above.
 
-## Q320 -- pose-aware probe image (agent; NOT regenerated, NOT published, NOT committed)
+## Q320 -- pose-aware probe image + Measure extensions (published 2026-11-13: Base·M v88, Base·F v83)
 - **Mechanism.** `viewer/pose/pose.js` bumps a neutral `window.__poseRev` / `__poseAtRest` and fires `nmsk-pose-rev`
   {rev, ids, rest} after every geometry change; both glues expose `__poseLive(i)` / `__poseRestPos(i)` (null for an
   untouched structure; own engine gained both, Z gained `__poseRestPos`). `clinical/imaging_tool.js` kernel: `setPose({ids,
@@ -14408,3 +14408,9 @@ owner's three decisions listed above.
   in the posed image (959 px). Test `tests/test_q320_pose_follow.py`.
 - **Open:** the injection clip itself (needle tool -> probe image link) is not built; the needle tool still measures rest
   geometry, so a needle planned there would be in rest coordinates in a posed image.
+
+### Q320 -- Measure extensions and ship (main session, 2026-11-13)
+- `viewer/q294/measure.js`: new kinds `circ` (mesh-section loop length), `area` (that loop's shoelace area), `surf` (sum of triangle areas), `vol` (signed-tetra sum; refused unless closed, manifold, consistently wound), `pix` (CT value only when the reference entry is verified/derived/secondary_checked, via `NMSKTissue`; else "No sourced value"). Plane = cut plane if on, else normal to the structure's principal axis. Units 1:1 mm. Posed geometry used. Test `tests/test_q294_measure_mesh.py` (7).
+- Correction: **both Base pages run the Z engine** (Base·F is not the own engine). Own-engine pose hooks added in `glue_own.js` are untested in a browser (only frozen pages use that engine).
+- One regen (`all` = base_m base_f) -> /dev/shm/q320; browser: every Measure verdict PASS vs trimesh, pose-scan posed-differs/rest-reproduced/probe-on-skin PASS, Q318_TOPROW / Q319_SPINE / SEARCH / NERVES OK, on both. Published Base·M v88 (1794533229-1657), Base·F v83 (1794533232-7eaa): index.html, clinical_imaging_tool.js, clinical_ultrasound_tool.js, parts_data.json, symmetry_q237.json.
+- Open: injection clip (needle tool -> scan `setNeedle` link + play control; needle tool still plans on rest geometry); five extra Measure buttons not checked at phone width; pre-existing failures test_q255_us_rotation_thickness, test_q272_modes x2.
