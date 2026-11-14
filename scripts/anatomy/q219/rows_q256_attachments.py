@@ -98,8 +98,8 @@ for sid, rec in sorted(lig.items()):
     note = ("Ligaments have no muscle-style directional pull: by THIS PROJECT'S OWN CONVENTION (not a TA distinction), the first-listed "
             f"bone attachment is called 'origin' and the second 'insertion', purely for consistency with the muscle markers. Source "
             f"(verbatim, from data/ligaments/*.json): {source}")
-    geom_a = dict(rule="end_snap_bone", end="proximal", bone=ba, tol_mm=10) if lig_sided[sid] else None
-    geom_b = dict(rule="end_snap_bone", end="distal", bone=bb, tol_mm=10) if lig_sided[sid] else None
+    geom_a = dict(rule="end_snap_bone", end="proximal", bone=ba, other_bone=bb, tol_mm=10) if lig_sided[sid] else None   # Q323: other_bone -> two-bone end assignment
+    geom_b = dict(rule="end_snap_bone", end="distal", bone=bb, other_bone=ba, tol_mm=10) if lig_sided[sid] else None
     nm = rec.get("name_common", sid)
     P(sid, "origin_q256", "origin_part", f"Origin (by convention): {la or ba}", f"{nm}: attachment onto the {ba.replace('_', ' ')} ({la}).", refs, cls="ligament",
       ver="unverified", ev="textbook", anchor=dict(bone=ba, landmark=la), geom=geom_a, note=note)
@@ -125,13 +125,13 @@ for sid, rec in sorted(ten.items()):
           ver="unverified", ev="textbook", anchor=dict(bone=None, landmark=prox.get("landmark")), geom=geom, note=note)
     elif prox.get("type") == "bone" and prox.get("ref"):
         bone_base = strip_side(prox["ref"])
-        geom = dict(rule="end_snap_bone", end="proximal", bone=bone_base, tol_mm=10) if ten_sided[sid] else None
+        geom = dict(rule="end_snap_bone", end="proximal", bone=bone_base, other_bone=None, tol_mm=10) if ten_sided[sid] else None   # Q323: new end_snap branch (bone groups, ambiguity check)
         P(sid, "origin_q256", "origin_part", f"Origin: {prox.get('landmark', bone_base)}",
           f"{nm}: attachment onto the {bone_base.replace('_', ' ')} ({prox.get('landmark', '')}).", refs,
           cls="tendon", ver="unverified", ev="textbook", anchor=dict(bone=bone_base, landmark=prox.get("landmark")), geom=geom, note=note)
     if dist.get("type") == "bone" and dist.get("ref"):
         bone_base = strip_side(dist["ref"])
-        geom = dict(rule="end_snap_bone", end="distal", bone=bone_base, tol_mm=10) if ten_sided[sid] else None
+        geom = dict(rule="end_snap_bone", end="distal", bone=bone_base, other_bone=None, tol_mm=10) if ten_sided[sid] else None   # Q323: new end_snap branch (bone groups, ambiguity check)
         P(sid, "insertion_q256", "insertion_point", f"Insertion: {dist.get('landmark', bone_base)}",
           f"{nm}: attachment onto the {bone_base.replace('_', ' ')} ({dist.get('landmark', '')}).", refs,
           cls="tendon", ver="unverified", ev="textbook", anchor=dict(bone=bone_base, landmark=dist.get("landmark")), geom=geom, note=note)
@@ -155,8 +155,11 @@ for sid, rec in sorted(fas.items()):
     note = ("Fascia sheets rarely have a muscle-style origin/insertion; this one is offered a pair ONLY because it lists exactly two "
             f"bony attachments. By THIS PROJECT'S OWN CONVENTION the first-listed is called 'origin', the second 'insertion'. Source "
             f"(verbatim, from data/fascia/*.json): {source}")
-    geom_a = dict(rule="end_snap_bone", end="proximal", bone=ba, tol_mm=12) if fas_sided[sid] else None
-    geom_b = dict(rule="end_snap_bone", end="distal", bone=bb, tol_mm=12) if fas_sided[sid] else None
+    # Q323: a retinaculum is a band between its two bones (two-bone end assignment); a fascial SHEET may meet both its bones along one
+    # margin (deltoid fascia: clavicle + scapula at the top), so each of its bones takes the mesh end nearest to it (ambiguity-checked)
+    ob_a, ob_b = (bb, ba) if "retinac" in sid else (None, None)
+    geom_a = dict(rule="end_snap_bone", end="proximal", bone=ba, other_bone=ob_a, tol_mm=12) if fas_sided[sid] else None
+    geom_b = dict(rule="end_snap_bone", end="distal", bone=bb, other_bone=ob_b, tol_mm=12) if fas_sided[sid] else None
     nm = rec.get("name", sid)
     P(sid, "origin_q256", "origin_part", f"Origin (by convention): {a.get('landmark', ba)}", f"{nm}: one of its two listed bony attachments, onto the {ba.replace('_', ' ')} ({a.get('landmark', '')}).", refs, cls="fascia",
       ver="unverified", ev="textbook", anchor=dict(bone=ba, landmark=a.get("landmark")), geom=geom_a, note=note)

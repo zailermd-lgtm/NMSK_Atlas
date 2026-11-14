@@ -17,6 +17,7 @@ import refs_q222  # noqa: F401  (Q222: extends refs.REFS)
 import importlib, pkgutil
 for _m in sorted(m.name for m in pkgutil.iter_modules([str(HERE)]) if m.name.startswith('rows_q222_')):
     importlib.import_module(_m)  # Q222 row modules fill rows_common.ROWS / SETS
+import rows_q323_muscle_attachments  # noqa: F401,E402  (Q323: muscle-level origin/insertion from data/muscles; LAST: it skips structures already placed)
 from refs import REFS
 
 BODIES = ["vhm", "vhf", "zan_m", "zan_f"]

@@ -115,9 +115,100 @@ def muscle_union(body, structure, s, part):
     return [p.replace("{s}", s) for p in part["_structure_zpats"] if p.replace("{s}", s) in body.m]
 
 
+# Q323: a record may name a bone GROUP (data/muscles|ligaments|fascia use 'ribs', 'carpals', 'phalanges_hand' ...) where the Z bodies
+# carry one mesh per bone; the group resolves to its members on this side (+ midline members). Members only, by TA definition of the group.
+BONE_GROUPS = {
+    "ribs": r"zan_\w+_rib_{s}", "costal_cartilages": r"costal_cartilage_{s}",
+    "cervical_vertebrae": r"zan_(?:atlas_c1|axis_c2|vertebra_c[3-7])", "thoracic_vertebrae": r"zan_vertebra_t\d+",
+    "lumbar_vertebrae": r"zan_vertebra_l[1-5]", "vertebrae": r"zan_(?:atlas_c1|axis_c2|vertebra_[ctl]\d+)",
+    "carpals": r"zan_(?:capitate|hamate|lunate|pisiform|scaphoid|trapezium|trapezoid|triquetrum)_bone_{s}",
+    "metacarpals": r"zan_\w+_metacarpal_bone_{s}", "metacarpal_1": r"zan_first_metacarpal_bone_{s}",
+    "phalanges_hand": r"zan_\w+_phalanx_of_\w+_finger_of_hand_{s}", "phalanges_foot": r"zan_\w+_phalanx_of_\w+_finger_of_foot_{s}",
+    "tarsals": r"(?:calcaneus|talus|navicular|cuboid|cuneiform_\w+)_{s}", "metatarsals": r"zan_\w+_metatarsal_bone_{s}",
+    "sternum": r"(?:sternum|zan_xiphoid_process)",
+}
+
+
+def bone_ids(body, name, s):
+    """Mesh ids of a named bone on side s: the bone itself (sided or midline), else the members of its group."""
+    for c in (f"{name}_{s}", name):
+        if c in body.m and name not in BONE_GROUPS:
+            return [c]
+    pat = BONE_GROUPS.get(name)
+    if not pat:
+        return []
+    rx = re.compile("^" + pat.replace("{s}", s) + "$")
+    return sorted(i for i in body.m if rx.match(i) and body.m[i].get("cat", "bone") in ("bone", "cartilage"))
+
+
+def _two_bone_end(body, part, s, ids):
+    """Q323 variant of end_snap_bone, used when the row names the structure's OTHER attachment bone too (geometry.other_bone).
+    The two mesh ends (axis PCA, 12 % cap) are assigned to the two named bones by the lower total gap; the assignment must win by
+    >= 3 mm (else both ends are equally near: ambiguous, skipped). Same bone at both ends -> always ambiguous. No proximal/distal
+    convention is used. Bounds: the chosen end touches its bone within tol_mm; the snapped point lies within tol_mm + 2 mm of that
+    end's own vertices; the error bound (patch radius or median gap, + 1 mm) is <= max_err_mm."""
+    g = part["geometry"]
+    bones = bone_ids(body, g["bone"], s)
+    if not bones:
+        return None, f"bone mesh {g['bone']} absent"
+    others = bone_ids(body, g["other_bone"], s) if g.get("other_bone") else []
+    V, F = body.mesh(ids); BV, BF = body.mesh(bones)
+    c, u = pca_axis(V)
+    t = (V - c) @ u
+    lo, hi = t.min(), t.max(); rng = hi - lo
+    ends = [V[t <= lo + 0.12 * rng], V[t >= hi - 0.12 * rng]]
+    bt = body.tree("|".join(bones), BV, BF)
+    dists = [bt.query(e)[0] for e in ends]
+    gO = [float(d.min()) for d in dists]
+    tol = float(g.get("tol_mm", 8)); margin = 3.0
+    if others and set(others) & set(bones):
+        return None, f"both attachments name the {g['bone']} (or overlapping bone groups): the two mesh ends cannot be told apart by bone"
+    if others:
+        OV, OF = body.mesh(others)
+        gX = [float(body.tree("|".join(others), OV, OF).query(e)[0].min()) for e in ends]
+        cost = [gO[0] + gX[1], gO[1] + gX[0]]
+        k = int(np.argmin(cost))
+        if abs(cost[0] - cost[1]) < margin:
+            return None, f"ambiguous mesh ends: assigning the two ends to {g['bone']} / {g['other_bone']} differs by {abs(cost[0]-cost[1]):.1f} mm (< {margin:g} mm)"
+        basis = f"two-bone assignment against the {g['other_bone']} attachment (total gaps {cost[k]:.1f} vs {cost[1-k]:.1f} mm)"
+    else:
+        k = int(np.argmin(gO))
+        if abs(gO[0] - gO[1]) < margin:
+            return None, f"ambiguous mesh ends: both ends lie within {margin:g} mm of each other's gap to the {g['bone']} ({gO[0]:.1f} / {gO[1]:.1f} mm)" + \
+                (f"; the other attachment's bone {g['other_bone']} is absent on this body" if g.get("other_bone") else "")
+        basis = f"nearest end ({gO[k]:.1f} vs {gO[1-k]:.1f} mm)" + (f"; the {g['other_bone']} is absent on this body" if g.get("other_bone") else "")
+    E, d = ends[k], dists[k]
+    if gO[k] > tol:
+        return None, f"the structure's mesh end assigned to the {g['bone']} is {gO[k]:.1f} mm from it (> tolerance {tol:g} mm); tendon/continuation not modelled"
+    patch = E[d <= tol]
+    pc = patch.mean(axis=0)
+    dist, q = G.tri_nearest(pc[None], BV, BF)
+    off = float(np.linalg.norm(E - q[0], axis=1).min())
+    if off > tol + 2.0:
+        return None, f"the snapped point lies {off:.1f} mm from the structure's own end (> {tol + 2:g} mm): curved footprint, centre not on the bone"
+    rad = float(np.linalg.norm(patch - pc, axis=1).max())
+    err = float(max(rad, np.median(d[d <= tol])) + 1.0)
+    mx = float(g.get("max_err_mm", 1e9))
+    if err > mx:
+        return None, f"contact footprint too broad for one point (error bound {err:.0f} mm > {mx:g} mm)"
+    hit = bones[0]
+    if len(bones) > 1:
+        hit = min(bones, key=lambda b: float(G.tri_nearest(q, *body.mesh([b]))[0][0]))
+    return dict(position_mm=R(q[0]), method=f"end_snap_bone: the end of the structure's own mesh (axis PCA, 12 % cap) assigned to the {g['bone']} ({basis}) touches it within {tol:g} mm; point = nearest bone-surface point to the centroid of the contact patch (footprint centre)",
+                source_class="rule_based", parent_source_class=body.parent_class(ids), mesh_ids=ids + [hit], bone_mesh=hit, n_patch_vertices=int(len(patch)),
+                gap_mm=round(gO[k], 2), patch_radius_mm=round(rad, 2), end_offset_mm=round(off, 2), error_bound_mm=round(err, 2),
+                error_basis="max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved"), None
+
+
 def rule_end_snap_bone(body, part, s):
     g = part["geometry"]; st = part["structure_id"]
-    ids = muscle_union(body, st, s, part)
+    ids = body.ids_for(g["mesh"], s) if g.get("mesh") else muscle_union(body, st, s, part)
+    if "other_bone" in g and not g.get("muscle_part"):
+        if not ids:
+            return None, f"structure {g.get('mesh') or st} absent on side {s}"
+        if not ids[0].endswith("_" + s):
+            return None, f"only a midline mesh {ids[0]} on this body: a sided record is not placed on it (would duplicate one point as r and l)"
+        return _two_bone_end(body, part, s, ids)
     if g.get("muscle_part"):
         if body.kind == "own":
             return None, "single muscle mesh on this body: the part cannot be separated (the sector rule is not validated)"
@@ -522,6 +613,7 @@ def main():
     import importlib, pkgutil
     for _m in sorted(m.name for m in pkgutil.iter_modules([str(HERE)]) if m.name.startswith('rows_q222_')):
         importlib.import_module(_m)   # Q222 rows (z_part_ids / geometry requests)
+    import rows_q323_muscle_attachments  # noqa: F401  (Q323: muscle-level origin/insertion, imported last as in build_parts.py)
     pats = {r["id"]: r["z_part_ids"] for r in rows_common.ROWS}
     struct_pats = defaultdict(list)
     for r in rows_common.ROWS:
@@ -553,7 +645,7 @@ def main():
                 text_only.append(dict(part_id=p["id"], reason="no validated sector rule (Z-Anatomy has no separate gastrocnemius head meshes to validate against)"))
                 continue
             if not rule:
-                text_only.append(dict(part_id=p["id"], reason="no geometry rule defined for this part (text-only part)" if True else ""))
+                text_only.append(dict(part_id=p["id"], reason=(g or {}).get("why") or "no geometry rule defined for this part (text-only part)"))
                 continue
             if rule == "z_part_mesh" and body.kind == "own":
                 text_only.append(dict(part_id=p["id"], reason="Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"))
