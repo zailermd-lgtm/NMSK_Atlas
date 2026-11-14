@@ -76,7 +76,7 @@ def test_known_and_derived_abbreviations(name, side, expected):
 def test_look_alike_names_do_not_get_a_wrong_established_abbreviation(name):
     ab, gen, _short = build1(name, "m")
     assert gen == 1
-    base = re.sub(r"(-[RL])?(\.\d+)?$", "", ab).lower()
+    base = re.sub(r"(-[RL])?(\.\d+)?( \([a-z]+\))?$", "", ab).lower()
     assert base not in {v.lower() for v in abbrev.KNOWN.values()} | {v.lower() for v in abbrev.RESERVED}
 
 
@@ -113,6 +113,32 @@ def test_sides_and_same_name_ids():
     assert t["m"][1] == 1 and t["a_r"][1] == 0
 
 
+def test_same_name_in_different_regions_is_tagged_not_numbered():
+    t = abbrev.build([{"id": "dorsal_interossei_hand_l", "name": "Dorsal interossei (hand)", "side": "l"}, {"id": "dorsal_interossei_foot_l", "name": "Dorsal interossei (foot)", "side": "l"},
+                      {"id": "opponens_digiti_minimi_l", "name": "Opponens digiti minimi", "side": "l"}, {"id": "opponens_digiti_minimi_foot_l", "name": "Opponens digiti minimi (foot)", "side": "l"},
+                      {"id": "flexor_retinaculum_r", "name": "Flexor retinaculum (transverse carpal ligament)", "side": "r"}, {"id": "flexor_retinaculum_ankle_r", "name": "Flexor retinaculum (of the ankle)", "side": "r"},
+                      {"id": "interosseous_membrane_leg_r", "name": "Interosseous membrane (leg)", "side": "r"}, {"id": "interosseous_membrane_forearm_r", "name": "Interosseous membrane (forearm)", "side": "r"},
+                      {"id": "solo_l", "name": "Rectus femoris", "side": "l"}])
+    assert t["dorsal_interossei_hand_l"][0] == "DI-L (hand)" and t["dorsal_interossei_foot_l"][0] == "DI-L (foot)"
+    assert t["dorsal_interossei_hand_l"][2] == "Dorsal interossei (hand)"
+    assert t["opponens_digiti_minimi_l"][0] == "ODM-L (hand)" and t["opponens_digiti_minimi_foot_l"][0] == "ODM-L (foot)"      # the id without a region word takes the partner's opposite
+    assert t["flexor_retinaculum_r"][0].endswith("-R (wrist)") and t["flexor_retinaculum_ankle_r"][0] == t["flexor_retinaculum_r"][0].replace("(wrist)", "(ankle)")
+    assert t["interosseous_membrane_leg_r"][0].endswith("-R (leg)") and t["interosseous_membrane_forearm_r"][0] == t["interosseous_membrane_leg_r"][0].replace("(leg)", "(forearm)")
+    assert t["solo_l"][0] == "RF-L"                                                                 # no clash: unchanged
+    assert not any(".2" in v[0] for v in t.values())
+
+
+def test_pieces_of_one_structure_still_get_dot_2():
+    t = abbrev.build([{"id": "zan_middle_cerebral_artery_m1_segment_l", "name": "Middle cerebral artery (M1-segment)", "side": "l"},
+                      {"id": "zan_middle_cerebral_artery_m3_segment_l", "name": "Middle cerebral artery (M3 segment)", "side": "l"},
+                      {"id": "zan_cingulate_gyrus_and_sulcus_middle_anterior_part_l", "name": "Cingulate gyrus and sulcus (Middle anterior part)", "side": "l"},
+                      {"id": "zan_cingulate_gyrus_and_sulcus_middle_posterior_part_l", "name": "Cingulate gyrus and sulcus (Middle posterior part)", "side": "l"}])
+    assert t["zan_middle_cerebral_artery_m1_segment_l"][0].endswith("-L")
+    assert t["zan_middle_cerebral_artery_m3_segment_l"][0] == t["zan_middle_cerebral_artery_m1_segment_l"][0] + ".2"
+    assert t["zan_cingulate_gyrus_and_sulcus_middle_posterior_part_l"][0] == t["zan_cingulate_gyrus_and_sulcus_middle_anterior_part_l"][0] + ".2"
+    assert all("(" not in v[0] for v in t.values())
+
+
 def committed():
     if not DATA.exists():
         pytest.skip("data/anatomy/abbreviations.json not generated")
@@ -129,7 +155,7 @@ def test_committed_table_is_unique_per_page_and_never_misuses_a_known_abbreviati
         lows = [v[0].lower() for v in m.values()]
         assert len(set(lows)) == len(lows), (page, [x for x in set(lows) if lows.count(x) > 1][:5])
         for sid, (ab, g) in m.items():
-            base = re.sub(r"(-[RL])?(\.\d+)?$", "", ab).lower()
+            base = re.sub(r"(-[RL])?(\.\d+)?( \([a-z]+\))?$", "", ab).lower()
             if g:
                 assert base not in known_vals, (page, sid, ab)          # a generated one never equals an established one
             else:

@@ -11,7 +11,12 @@ Convention (also printed in the legend window):
     such as RA / LV): every generated member of the group is lengthened (two letters of each of the first four words: 'BiFe'; one more
     letter for single words), up to level 3; what is still equal gets a numeric suffix by sorted id. Known entries never change.
   * Ids with the same cleaned name and side (several meshes of one entity) share their abbreviation; different ids with the same cleaned name
-    and side get the numeric suffix.
+    and side get the numeric suffix '.2' ONLY when they are pieces of ONE structure ('Cingulate gyrus and sulcus' middle anterior / posterior part).
+  * Structures of different body regions that merely share a name ('Dorsal interossei' of the hand and of the foot) are NOT one entity: when the ids of
+    one (name, side) belong to different regions, each gets the region as a tag after the side: 'DI-L (hand)', 'DI-L (foot)'; the short name gets it too
+    ('Dorsal interossei (hand)'). The region of an id is the REGION_TOKENS word found in its id or its atlas name (hand, foot, forearm, leg, wrist, ankle,
+    arm, thigh); an id with no such word takes the opposite of its partner (hand<->foot, forearm<->leg, wrist<->ankle, arm<->thigh) when exactly one
+    other region is present in the entity; otherwise nothing is split. Structures without a clash are unchanged.
 Output of build(structs): {id: [abbr, generated(0|1), short_name]}.
 """
 from __future__ import annotations
@@ -63,6 +68,18 @@ RESERVED = {"RA", "LA", "RV", "LV", "RCA", "LCA", "CNS", "PNS", "CSF", "MRI", "C
 
 STOP = {"of", "the", "and", "to", "for", "in", "on", "with", "from", "a", "an", "at", "by", "or", "its", "into", "between", "without", "via"}
 SIDE_WORDS = re.compile(r"\b(left|right)\b", re.I)
+
+
+# region word -> its counterpart (used for the one id of a clash that carries no region word of its own)
+REGION_OPPOSITE = {"hand": "foot", "foot": "hand", "forearm": "leg", "leg": "forearm", "wrist": "ankle", "ankle": "wrist", "arm": "thigh", "thigh": "arm"}
+REGION_TOKENS = tuple(REGION_OPPOSITE)
+
+
+def region_of(sid: str, name: str) -> str | None:
+    """Region word found as a whole word in the id (split at '_') or in the atlas name; None if there is none or if it is ambiguous."""
+    found = {w for w in re.findall(r"[a-z]+", (sid or "").lower()) if w in REGION_OPPOSITE}
+    found |= {w for w in re.findall(r"[a-z]+", (name or "").lower()) if w in REGION_OPPOSITE}
+    return next(iter(found)) if len(found) == 1 else None
 
 
 def side_letter(side) -> str:
@@ -163,6 +180,25 @@ def build(structs: list[dict]) -> dict[str, list]:
         k = (base.lower(), side_letter(s.get("side")))
         if s["id"] not in info:
             ent[k].append(s["id"]); info[s["id"]] = (base, emb, k, qual)
+    # 1b) one (name, side) whose ids lie in different body regions is several entities, one per region (never a '.2')
+    names = {s["id"]: (s.get("name") or s["id"]) for s in structs}
+    regions: dict[str, str] = {}
+    for k, ids in list(ent.items()):
+        reg = {sid: region_of(sid, names[sid]) for sid in ids}
+        known = {r for r in reg.values() if r}
+        if len(ids) < 2 or not known:
+            continue
+        if None in reg.values():
+            if len(known) != 1 or next(iter(known)) not in REGION_OPPOSITE:
+                continue                                                      # cannot be decided deterministically: leave as it was
+            opp = REGION_OPPOSITE[next(iter(known))]
+            reg = {sid: (r or opp) for sid, r in reg.items()}
+            known = set(reg.values())
+        if len(known) < 2:
+            continue
+        del ent[k]
+        for sid in ids:
+            ent[k + (reg[sid],)].append(sid); regions[sid] = reg[sid]
     # 2) bases: one per cleaned name (both sides share it)
     bases: dict[str, dict] = {}
     for sid, (base, emb, k, qual) in sorted(info.items()):
@@ -199,7 +235,9 @@ def build(structs: list[dict]) -> dict[str, list]:
     out: dict[str, list] = {}
     for k, ids in sorted(ent.items()):
         b = bases[k[0]]
+        reg = k[2] if len(k) > 2 else ""
         a = final_base[k[0]] + ("-" + k[1] if k[1] else "")
+        tag = f" ({reg})" if reg else ""
         for i, sid in enumerate(sorted(ids)):
-            out[sid] = [a if i == 0 else f"{a}.{i + 1}", 0 if b["fixed"] else 1, b["base"]]
+            out[sid] = [(a if i == 0 else f"{a}.{i + 1}") + tag, 0 if b["fixed"] else 1, b["base"] + tag]
     return out
