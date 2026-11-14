@@ -72,7 +72,10 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - **Q321 click card** (agent): on every pick a compact card with the name + Hide · Fade · Show only ·
   Select (+ Zoom to, Colour, More…), sized to content, placed beside the model with a leader line;
   plus a size audit of every box that opens. Verifier `scripts/anatomy/q321/verify_quickcard_q321.py`.
-- **Q321 abbreviation clash** (decision 6.3).
+- **Q321 abbreviation clash: done in source** (`abbrev.py` region split; 28 structures per Base page,
+  e.g. `DI-L (hand)` / `DI-L (foot)`); reaches the pages at the next regen. Same structure from two
+  sources on Base·F (urinary bladder, internal iliac / pudendal veins) keeps `.2` — decided: one
+  structure, so `.2` fits the rule.
 
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
