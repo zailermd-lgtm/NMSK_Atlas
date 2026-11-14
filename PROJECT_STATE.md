@@ -69,9 +69,14 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
      second piece of one structure, never a different structure in another region.
 
 ## 7. In progress
-- **Q321 click card** (agent): on every pick a compact card with the name + Hide · Fade · Show only ·
-  Select (+ Zoom to, Colour, More…), sized to content, placed beside the model with a leader line;
-  plus a size audit of every box that opens. Verifier `scripts/anatomy/q321/verify_quickcard_q321.py`.
+- **Q321 click card: built, committed, verifying.** `viewer/quickcard` (sync `scripts/sync_quickcard_q321.py`,
+  engine glue `scripts/anatomy/q321/patch_q321.py`). Cause found: on desktop `body.lay-model` hid `#info`,
+  so a click showed nothing. Card: name · layer · side + Hide/Fade/Show only/Select/Zoom to/More…
+  (More reveals #info via `body.qc-more`); placed beside the model's screen box, leader line; no Colour
+  button (the colour control recolours all marked, not one structure). Base·F 1400×900: 14 OK so far.
+  Regen done to /dev/shm/q321r (includes the abbreviation fix); background run of verifier on both pages
+  × both sizes + `audit_boxes_q321.py` + Q318/Q319 verifiers → scratchpad `v321.txt`. Size-audit CSS
+  fixes not yet made.
 - **Q321 abbreviation clash: done in source** (`abbrev.py` region split; 28 structures per Base page,
   e.g. `DI-L (hand)` / `DI-L (foot)`); reaches the pages at the next regen. Same structure from two
   sources on Base·F (urinary bladder, internal iliac / pudendal veins) keeps `.2` — decided: one
