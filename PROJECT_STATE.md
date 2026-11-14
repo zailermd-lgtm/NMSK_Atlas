@@ -85,10 +85,13 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   `data/anatomy/innervation_q322.json` (60 muscles, 94 IZ bands, 51 landmarks, 49 sources reviewed),
   private `clinical/data/innervation_injection_q322.json`, `docs/Q322_innervation_sources.md`, builders
   `scripts/anatomy/q322/build_q322.py` + `scripts/clinical/build_innervation_private_q322.py`, test (10).
-  Step 3 (agent): mode `inn` in viewer/modes + new `viewer/innervation`, IZ rings placed from landmarks
-  by `scripts/anatomy/q322/place_iz_q322.py` (rule-based, badged). Flagged repo data to check:
-  triceps lateral/medial head IZ looks swapped (data/muscles/upper_limb/triceps_brachii_*), gastrocnemius
-  75/80% likely from the wrong end; `median_n` trunk missing on Base pages.
+  **Step 3 DONE (committed):** mode `inn` (viewer/innervation + viewer/modes tile), colour by trunk / root,
+  root or nerve → its muscles, panel follows the selection; IZ rings placed by
+  `scripts/anatomy/q322/place_iz_q322.py` (46/46 landmarks, 174/188 bands; 8 latissimus/teres bands
+  unplaced — skin line misses the muscle; proposed rule: project onto the muscle along the outward normal,
+  badged — not done yet). Sidecar `innervation_q322.json` built at regen (add to --expect-changed).
+  Verifier `scripts/anatomy/q322/verify_innervation_q322.py`. Triceps/gastrocnemius suspicious values
+  are not displayed anywhere. Open: `#pl-box #rs-box #sa-bar` hidden only in mode-inn (should be all modes).
 - **Q323 insertions view: fixed (committed, verifier OK on both Base pages × both sizes).** Cause: the
   preset only changed layer opacities; 0 of 244 placed points were drawn. Now `btn-insert` → parts_ui
   attachments view: origin red / insertion blue, class checkboxes with counts, all / selected only.
@@ -110,6 +113,11 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
+Regen of base_m base_f DONE → /dev/shm/q325 (adds innervation_q322.json to --expect-changed). Verifiers
+running (scratchpad v325.txt). Then publish both Base pages: index.html, clinical_imaging_tool.js,
+clinical_ultrasound_tool.js, parts_data.json, symmetry_q237.json, innervation_q322.json.
+
+(Older note:)
 When the Q321 agents report: check sync (`--check`), commit by filename, one regen of base_m base_f,
 verify (Q318/Q319 verifiers + Q321 quickcard), publish both Base pages, log the stretch, update §3/§7
 here and move Q321's detail to the history file.
