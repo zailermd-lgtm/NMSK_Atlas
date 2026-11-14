@@ -69,14 +69,12 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
      second piece of one structure, never a different structure in another region.
 
 ## 7. In progress
-- **Q321 click card: built, committed, verifying.** `viewer/quickcard` (sync `scripts/sync_quickcard_q321.py`,
-  engine glue `scripts/anatomy/q321/patch_q321.py`). Cause found: on desktop `body.lay-model` hid `#info`,
-  so a click showed nothing. Card: name · layer · side + Hide/Fade/Show only/Select/Zoom to/More…
-  (More reveals #info via `body.qc-more`); placed beside the model's screen box, leader line; no Colour
-  button (the colour control recolours all marked, not one structure). Base·F 1400×900: 14 OK so far.
-  Regen done to /dev/shm/q321r (includes the abbreviation fix); background run of verifier on both pages
-  × both sizes + `audit_boxes_q321.py` + Q318/Q319 verifiers → scratchpad `v321.txt`. Size-audit CSS
-  fixes not yet made.
+- **Q321 click card: done (committed).** `viewer/quickcard` + `scripts/anatomy/q321/patch_q321.py`. Cause of
+  "nothing opens": on desktop `body.lay-model` hid `#info`. Card: name · layer · side + Hide/Fade/Show only/
+  Select/Zoom to/More…, beside the model with a leader line; on phone below the top bar / above the title.
+  Verifier `Q321_QUICKCARD_OK`: Base·F 1400 (35), Base·M 1400, Base·M 390 (33). Toolbar sheets now
+  content-width (Search 760→574, Dissection →336, Imaging →220, Page →220; Systems/Navigate/Favorites stay).
+  Ships at the next regen.
 - **Q321 abbreviation clash: done in source** (`abbrev.py` region split; 28 structures per Base page,
   e.g. `DI-L (hand)` / `DI-L (foot)`); reaches the pages at the next regen. Same structure from two
   sources on Base·F (urinary bladder, internal iliac / pudendal veins) keeps `.2` — decided: one
@@ -101,7 +99,6 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
   geometry (scan already shows a needle placed in a posed state).
-- Q321 click card FAILS at 390x844 on Base·Male (tap does not open it) — to diagnose.
 - Toolbar at phone width with the five new Measure buttons (covered by the Q321 size audit).
 - Pre-existing test failures, not caused by recent work: `test_q255_us_rotation_thickness`,
   `test_q272_modes` ×2.
