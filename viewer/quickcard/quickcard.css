@@ -1,0 +1,26 @@
+/* Q321: the quick card. Opens on every successful click on a structure: its name, then Hide / Fade / Show only / Select
+   (+ Zoom to, More). Sized to its own content (max-content, capped, wrapping only when the viewport forces it) and placed
+   in the free margin around the model by quickcard.js, never on it. */
+.qc{position:fixed;z-index:64;left:0;top:0;box-sizing:border-box;width:max-content;max-width:min(420px,calc(100vw - 16px));
+  display:flex;flex-direction:column;gap:5px;padding:6px 7px 7px;border-radius:11px;color:#E6EDF3;
+  background:rgba(14,18,22,.94);box-shadow:0 2px 16px rgba(0,0,0,.5);backdrop-filter:blur(5px);
+  font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qc[hidden],.qc-lead[hidden]{display:none !important}
+.qc-head{display:flex;align-items:flex-start;gap:8px}
+.qc-t{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 auto}
+.qc-name{font-size:13px;font-weight:650;line-height:1.2;overflow-wrap:anywhere}
+.qc-sub{font:500 10px/1.1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.qc .qc-x{flex:0 0 auto;min-width:24px;min-height:24px;padding:0;border:0;border-radius:6px;background:rgba(255,255,255,.09);color:inherit;font-size:16px;line-height:1;cursor:pointer}
+.qc-row{display:flex;flex-wrap:wrap;gap:4px}
+.qc .qc-b{flex:0 0 auto;width:auto;min-width:0;min-height:34px;padding:4px 9px;border:1px solid rgba(255,255,255,.18);border-radius:8px;
+  background:rgba(255,255,255,.06);color:#E6EDF3;font:inherit;line-height:1.1;cursor:pointer;white-space:nowrap}
+.qc .qc-b:hover{background:rgba(255,255,255,.14)}
+.qc .qc-b[aria-pressed="true"]{background:#D9A227;border-color:#D9A227;color:#1b1b1b}
+.qc .qc-more,.qc .qc-zoom{background:transparent;border-style:dashed}
+.qc-lead{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:63;pointer-events:none;overflow:visible}
+.qc-lead line{stroke:rgba(230,237,243,.85);stroke-width:1.2}
+.qc-lead circle{fill:#D9A227;stroke:#14181c;stroke-width:1.5}
+@media (pointer:coarse){.qc .qc-b{min-height:40px}.qc .qc-x{min-width:32px;min-height:32px}}
+/* the full card is a second step: until "More" is pressed the quick card is what a click opens */
+body.qc-on:not(.qc-more) #info:not(.hidden){display:none !important}
+body.qc-on.qc-more #info:not(.hidden){display:block !important}
