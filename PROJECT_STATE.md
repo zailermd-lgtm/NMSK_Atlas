@@ -82,12 +82,15 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   sources on Base·F (urinary bladder, internal iliac / pudendal veins) keeps `.2` — decided: one
   structure, so `.2` fits the rule.
 
-- **Q322 MUSCLE INNERVATION mode** (owner 2026-11-14). Source: Güvener et al., EUR J PRM 2026;62(5):441-59,
-  DOI 10.23736/S1973-9087.26.09497-9 (CC BY-NC-ND: facts only, PDF not in repo). Step 1–2 (agent):
-  extract Tables I/II (innervation zones as % along bony reference lines) + nerves/roots, enrich and
-  validate with other sources → `data/anatomy/innervation_q322.json`, `docs/Q322_innervation_sources.md`.
-  Step 3 (next agent): the mode itself, IZ markers placed from landmarks = rule-based, badged, cited.
-
+- **Q322 MUSCLE INNERVATION mode.** Source: Güvener et al., EUR J PRM 2026;62(5):441-59, DOI
+  10.23736/S1973-9087.26.09497-9 (CC BY-NC-ND: facts only, PDF not in repo). Steps 1–2 DONE (committed):
+  `data/anatomy/innervation_q322.json` (60 muscles, 94 IZ bands, 51 landmarks, 49 sources reviewed),
+  private `clinical/data/innervation_injection_q322.json`, `docs/Q322_innervation_sources.md`, builders
+  `scripts/anatomy/q322/build_q322.py` + `scripts/clinical/build_innervation_private_q322.py`, test (10).
+  Step 3 (agent): mode `inn` in viewer/modes + new `viewer/innervation`, IZ rings placed from landmarks
+  by `scripts/anatomy/q322/place_iz_q322.py` (rule-based, badged). Flagged repo data to check:
+  triceps lateral/medial head IZ looks swapped (data/muscles/upper_limb/triceps_brachii_*), gastrocnemius
+  75/80% likely from the wrong end; `median_n` trunk missing on Base pages.
 - **Q323 insertions view** (owner 2026-11-14): verify the `btn-insert` preset really shows muscle/tendon
   origins AND insertions; add a choice of tissue classes (ligaments, fasciae, capsules, retinacula…) and
   selected-only vs all; real data only (footprints / Q220 rule-based markers). Agent; verifier
@@ -96,6 +99,7 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
   geometry (scan already shows a needle placed in a posed state).
+- Q321 click card FAILS at 390x844 on Base·Male (tap does not open it) — to diagnose.
 - Toolbar at phone width with the five new Measure buttons (covered by the Q321 size audit).
 - Pre-existing test failures, not caused by recent work: `test_q255_us_rotation_thickness`,
   `test_q272_modes` ×2.
