@@ -91,10 +91,12 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   by `scripts/anatomy/q322/place_iz_q322.py` (rule-based, badged). Flagged repo data to check:
   triceps lateral/medial head IZ looks swapped (data/muscles/upper_limb/triceps_brachii_*), gastrocnemius
   75/80% likely from the wrong end; `median_n` trunk missing on Base pages.
-- **Q323 insertions view** (owner 2026-11-14): verify the `btn-insert` preset really shows muscle/tendon
-  origins AND insertions; add a choice of tissue classes (ligaments, fasciae, capsules, retinacula…) and
-  selected-only vs all; real data only (footprints / Q220 rule-based markers). Agent; verifier
-  `scripts/anatomy/q323/verify_insertions_q323.py`.
+- **Q323 insertions view: fixed (committed, verifier OK on both Base pages × both sizes).** Cause: the
+  preset only changed layer opacities; 0 of 244 placed points were drawn. Now `btn-insert` → parts_ui
+  attachments view: origin red / insertion blue, class checkboxes with counts, all / selected only.
+  Template glue `scripts/anatomy/q323/patch_q323.py`; `parts_data.json` rows gain `sc` (class) at regen.
+  Coverage gap: Base·M only 17/222 muscles, 22/174 ligaments placed → **Q324 agent placing the rest**
+  (same `end_snap_bone` method; skip with a reason, never guess).
 
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
