@@ -1,5 +1,5 @@
 /* Q272 clinical WORKSPACE MODES -- the shared controller (viewer/modes/modes.js, synced into both templates).
-   Generic by design: this public template never names a private clinical tool. A mode is a key ("inj" / "us" / "cmp") whose
+   Generic by design: this public template never names a private clinical tool. A mode is a key ("inj" / "us" / "cmp" / "inn") whose
    PROVIDER an optional add-on registers at attach time (NMSKModes.register(key, {title, short, build, enter, exit})); the add-on
    keeps its own logic and only re-skins it here. Entering a mode: snapshot the anatomy screen (camera, selection, marks, categories,
    parts markers, phone sheets), add body.mode-on + body.mode-<key> (CSS hides the chrome, nothing is destroyed), show the mode bar and
@@ -9,7 +9,7 @@
    from a #mode=<key> hash (or a ?mode=<key> query, Q273). */
 var NMSKModes = (function(){
   var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null;
-  var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp"];
+  var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp", "inn"];
   function $(id){ return document.getElementById(id); }
   function el(tag, attrs, kids){
     var e = document.createElement(tag);
@@ -177,11 +177,11 @@ var NMSKModes = (function(){
     }
     var tb = host.toolbar;
     if (tb){
-      var b = el("button", {type:"button", id:"t-mode", class:host.toolClass, title:"מצב עבודה: אנטומיה / תכנון הזרקה / US אבחנתי / השוואת דימות", text:"מצב", onclick:function(){ showSwitcher(); }});
+      var b = el("button", {type:"button", id:"t-mode", class:host.toolClass, title:"מצב עבודה: אנטומיה / תכנון הזרקה / US אבחנתי / השוואת דימות / עצבוב שרירים", text:"מצב", onclick:function(){ showSwitcher(); }});
       var hub = $("t-hub"); if (hub && hub.parentNode === tb) tb.insertBefore(b, hub.nextSibling); else tb.insertBefore(b, tb.firstChild);
     }
     window.addEventListener("resize", placeAll);
-    var m = /[#&]mode=(inj|us|cmp|anat)\b/.exec(location.hash || "") || /[?&]mode=(inj|us|cmp|anat)\b/.exec(location.search || ""), choice = m ? m[1] : remembered();   /* Q273: ?mode= as well as #mode= */
+    var m = /[#&]mode=(inj|us|cmp|inn|anat)\b/.exec(location.hash || "") || /[?&]mode=(inj|us|cmp|inn|anat)\b/.exec(location.search || ""), choice = m ? m[1] : remembered();   /* Q273: ?mode= as well as #mode= */
     if (!choice){ var t0 = Date.now(), w = setInterval(function(){ if (host.ready() || Date.now() - t0 > 90000){ clearInterval(w); if (!cur) showSwitcher(); } }, 200); }
     else if (choice !== "anat"){ queued = choice; waitReady(); }
     syncTiles();

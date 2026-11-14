@@ -133,3 +133,130 @@ def test_ids_exist_on_base_pages(d, page):
                 assert s + "_l" in ids and s + "_r" in ids, (k, s)
         for s in m["nerve_structures_on_page"][page]:
             assert s in ids, (k, s)
+
+# ---------------------------------------------------------------------------------------------------------------------------
+# Q322 step 3: the mode itself (viewer/innervation/) and the rule-based IZ band placement (scripts/anatomy/q322/place_iz_q322.py).
+# The browser run is scripts/anatomy/q322/verify_innervation_q322.py.
+import importlib.util  # noqa: E402
+import subprocess  # noqa: E402
+import sys  # noqa: E402
+
+D = REPO / "viewer" / "innervation"
+JS = (D / "innervation.js").read_text(encoding="utf-8")
+CSS = (D / "innervation.css").read_text(encoding="utf-8")
+ZAN = (REPO / "viewer" / "zan_atlas.template.html").read_text(encoding="utf-8")
+OWN = (REPO / "viewer" / "atlas_viewer.template.html").read_text(encoding="utf-8")
+MODES_JS = (REPO / "viewer" / "modes" / "modes.js").read_text(encoding="utf-8")
+MODES_HTML = (REPO / "viewer" / "modes" / "modes.html").read_text(encoding="utf-8")
+PLACE = REPO / "scripts" / "anatomy" / "q322" / "place_iz_q322.py"
+SIDECAR = REPO / "scripts" / "anatomy" / "q322" / "build_sidecar_q322.py"
+DATA_PUB = json.loads((REPO / "data" / "anatomy" / "innervation_q322.json").read_text(encoding="utf-8"))
+INJ = re.compile(r"inject|needle|botul|toxin|\bdose|motor.point", re.I)
+MODE_PAGES = ("base_m", "base_f")
+
+
+def _load(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    return m
+
+
+def iz_bands(page):
+    return json.loads((REPO / "data" / "derived" / f"Q322_iz_bands_{page}.json").read_text(encoding="utf-8"))
+
+
+def test_mode_registered_through_the_shared_controller():
+    assert 'NMSKModes.register("inn", provider)' in JS
+    assert '"inj", "us", "cmp", "inn"' in MODES_JS and "inj|us|cmp|inn|anat" in MODES_JS
+    assert 'data-mode="inn"' in MODES_HTML
+    # marking and colour go through the selection controller's public API, never a parallel state
+    for call in ("markIds(", 'setGroup("oth", "fade", true)', ".snapshot()", ".restore("):
+        assert call in JS, call
+    assert "NMSKQuickCard" not in JS and "NMSKQuick." not in JS           # the quick card is not touched; the panel follows the selection
+    assert "onAfterDraw" in JS and "toScreen" in JS                        # markers through the engine's public add-on hooks
+
+
+def test_templates_in_sync():
+    for s in ("scripts/sync_innervation_q322.py", "scripts/sync_modes_q272.py"):
+        r = subprocess.run([sys.executable, str(REPO / s), "--check"], capture_output=True, text=True)
+        assert r.returncode == 0, s + ": " + r.stdout + r.stderr
+    for t in (ZAN, OWN):
+        assert t.count("<!-- Q322 html begin -->") == 1 and t.index("<!-- Q321 html end -->") < t.index("<!-- Q322 html begin -->")
+
+
+def test_public_text_is_clean():
+    for name, t in (("js", JS), ("css", CSS), ("zan", ZAN), ("own", OWN)):
+        low = t.lower()
+        for w in FORBIDDEN:
+            assert w not in low, (name, w)
+    for name, t in (("js", JS), ("css", CSS)):
+        assert not INJ.search(t), (name, INJ.search(t).group(0))
+    for f in (PLACE, SIDECAR, D / "innervation.js"):
+        src = f.read_text(encoding="utf-8")
+        assert "clinical/data" not in src and 'REPO / "clinical"' not in src, f      # never reads the private layer
+        assert not re.search(r"opus|sonnet|haiku|claude-", src, re.I), f
+
+
+@pytest.mark.parametrize("page", MODE_PAGES)
+def test_sidecar_is_public_and_complete(page):
+    sc = _load("sc322", SIDECAR)
+    res = sc.build(page)                       # raises on a banned or injection term
+    txt = json.dumps(res, ensure_ascii=False)
+    assert not INJ.search(txt) and not any(w in txt.lower() for w in FORBIDDEN)
+    assert all("citation" not in s for s in res["sources"].values())          # titles are not shipped
+    assert set(res["muscles"]) == set(DATA_PUB["muscles"])
+    for k, m in res["muscles"].items():
+        assert m["nerve"] and m["trunks"], k                                   # every record has a nerve and a colour key
+        assert m["roots"]["adopted"] == DATA_PUB["muscles"][k]["roots"]["adopted"]
+        assert len(m["iz"]) == len(DATA_PUB["muscles"][k]["iz"])
+
+
+@pytest.mark.parametrize("page", MODE_PAGES)
+def test_band_placement_rules(page):
+    b = iz_bands(page)
+    assert b["page"] == page and b["fail_mm"] == 5.0
+    assert not b["landmark_failures"]
+    lines = DATA_PUB["lines"]
+    placed = [x for x in b["bands"] if x["status"] == "placed"]
+    assert len(placed) >= 150
+    for x in placed:
+        assert x["dot_inside"], (x["muscle"], x["part"], x["side"])           # every dot inside its muscle mesh
+        assert x["rings"] and all(len(r) >= 3 for r in x["rings"])
+        if lines[x["line"]]["mode"] == "level" and "shifted_mm" not in x:
+            pct = sum(x["pct"]) / 2 if isinstance(x["pct"], list) else x["pct"]
+            assert abs(x["level_pct"] - pct) / 100 * x["line_len_mm"] <= 1.0, (x["muscle"], x["part"])   # band level within 1 mm
+    # both sides placed (or both not): the rule does not depend on the side
+    st = {}
+    for x in b["bands"]:
+        st.setdefault((x["muscle"], x["iz"]), {})[x["side"]] = x["status"]
+    for k, v in st.items():
+        assert v.get("l") == v.get("r"), k
+    for x in b["bands"]:
+        if x["status"] == "failed":
+            assert x["reason"]
+    # every band of the json appears once per side
+    assert len(b["bands"]) == 2 * sum(len(m["iz"]) for m in DATA_PUB["muscles"].values())
+
+
+@pytest.mark.parametrize("page", MODE_PAGES)
+def test_dots_inside_by_winding_number(page):
+    html = _load("piz", PLACE).PAGES[page]
+    if not html.exists():
+        pytest.skip("build page not present (build/ is not in git)")
+    sys.path.insert(0, str(REPO / "scripts" / "anatomy" / "q219"))
+    import numpy as np
+    import geomlib as G
+    body = G.load_zan(html)
+    for x in iz_bands(page)["bands"]:
+        if x["status"] != "placed":
+            continue
+        vs, fs, o = [], [], 0
+        for i in x["structures"]:
+            vs.append(body[i]["v"]); fs.append(body[i]["f"] + o); o += len(body[i]["v"])
+        V, F = np.vstack(vs), np.vstack(fs)
+        assert G.inside(np.array([x["dot"]]), V, F)[0], (x["muscle"], x["part"], x["side"])
+
+
+def test_regen_ships_the_sidecar_on_base_pages_only():
+    src = (REPO / "scripts" / "regen_template_only.py").read_text(encoding="utf-8")
+    assert 'if p in ("base_m", "base_f"):' in src and "scripts/anatomy/q322/build_sidecar_q322.py" in src

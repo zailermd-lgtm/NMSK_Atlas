@@ -449,7 +449,7 @@ html.pose-on #pm-layer{display:none!important}
 }
 /* POSE css end */
 /* PARTS-UI css begin */
-#pm-layer,#pm-card,#pm-panel,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
+#pm-layer,#pm-card,#pm-panel,#pm-att,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
 #pm-layer{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:21;overflow:hidden}
 #pm-layer .pm{position:absolute;left:0;top:0;width:0;height:0;padding:0;margin:0;border:0;background:none;pointer-events:none;overflow:visible;font:600 11px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--pm-ink)}
 #pm-layer .pm[hidden]{display:none}
@@ -540,6 +540,42 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 #pm-panel .pp-hint:empty{display:none}
 #pm-panel .pp-help{margin:5px 0 0;font-size:10.5px;line-height:1.4;color:var(--pm-dim)}
 @media (hover:none){#pm-panel .pp-seg button{min-height:38px;font-size:13px}#pm-panel input[type=range]{height:34px}}
+/* Q323 the attachments view (the "insertions" preset): origin / insertion colours, its panel sized to its content */
+#pm-layer,#pm-att{--pm-ori:#dc2626;--pm-ins:#1d4ed8}
+#pm-layer .pm.pm-ao .pm-ring{border-color:var(--pm-ori);opacity:.9}
+#pm-layer .pm.pm-ai .pm-ring{border-color:var(--pm-ins);opacity:.9}
+#pm-layer .pm.pm-ao.pm-behind .pm-ring{box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-ori)}
+#pm-layer .pm.pm-ai.pm-behind .pm-ring{box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-ins)}
+#pm-att{position:fixed;left:12px;top:60px;z-index:47;box-sizing:border-box;width:max-content;max-width:min(300px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:7px 9px 8px;border-radius:9px;
+  background:var(--pm-bg);color:var(--pm-ink);border:1px solid var(--pm-line);box-shadow:0 8px 24px rgba(0,0,0,.22);font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto}
+#pm-att[hidden]{display:none}
+#pm-att .pp-h{display:flex;align-items:center;gap:6px}
+#pm-att .pp-h b{font-size:13px}
+#pm-att .pp-st{flex:1;color:var(--pm-dim);font-size:11px;text-align:right;white-space:nowrap}
+#pm-att .pp-x{border:0;background:none;color:var(--pm-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#pm-att .pp-l{margin:6px 0 2px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pm-dim)}
+#pm-att i.pa-o,#pm-att i.pa-i{display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid var(--pm-ori);box-sizing:border-box;margin:0 3px 0 0;vertical-align:-1px}
+#pm-att i.pa-i{border-color:var(--pm-ins)}
+#pm-att .pa-lg{display:flex;gap:10px;align-items:center;font-size:11px;margin-top:2px}
+#pm-att .pa-rb{margin-left:auto;padding:0 6px;border-radius:99px;background:var(--pm-rule);font-size:10px;font-weight:700}
+#pm-att .pa-r{margin:2px 0 3px}
+#pm-att .pp-c{display:flex;align-items:center;gap:6px;margin:0;font-size:11.5px;cursor:pointer}
+#pm-att .pp-c input{width:15px;height:15px;margin:0;accent-color:var(--pm-accent)}
+#pm-att .pp-c input:disabled+.pa-nm{color:var(--pm-dim)}
+#pm-att .pa-nm{flex:1}
+#pm-att .pa-ct{font-variant-numeric:tabular-nums;font-size:11px;color:var(--pm-ink);white-space:nowrap;padding-left:8px}
+#pm-att .pa-sub{margin:0 0 0 21px;font-size:10px;line-height:1.3;color:var(--pm-dim);max-width:250px}
+#pm-att .pp-seg{display:flex;gap:4px;margin-top:6px}
+#pm-att .pp-seg button{flex:1 1 auto;font:inherit;font-size:11.5px;color:var(--pm-ink);background:transparent;border:1px solid var(--pm-line);border-radius:6px;padding:3px 8px;min-height:28px;cursor:pointer;touch-action:manipulation}
+#pm-att .pp-seg button[aria-pressed="true"]{background:var(--pm-accent);color:#fff;border-color:var(--pm-accent)}
+#pm-att .pa-hint{margin:4px 0 0;font-size:11px;font-weight:600;color:var(--pm-accent);max-width:260px}
+#pm-att .pa-hint:empty{display:none}
+#pm-att .pa-more{margin-top:4px;font-size:10.5px;color:var(--pm-dim)}
+#pm-att .pa-more summary{cursor:pointer}
+#pm-att .pa-help{margin:3px 0 0;line-height:1.4;max-width:260px}
+@media (hover:none){#pm-att .pp-seg button{min-height:34px;font-size:12.5px}#pm-att .pp-c input{width:18px;height:18px}}
+#pm-att .pa-cls{display:none}
+@media (max-width:559px){#pm-att .pa-sub{display:none}#pm-att .pa-cls{display:block;margin:3px 0 0;line-height:1.35}#pm-att .pa-r{margin:1px 0}}
 /* PARTS-UI css end */
 /* LABELS css begin */
 #lab-panel,#lab-legend,#lab-layer{--lb-bg:#fff;--lb-ink:#111;--lb-dim:#667;--lb-line:#ccd;--lb-accent:#0a6e8e;--lb-accent-ink:#fff;--lb-sunk:#eef1f4;--lb-shadow:0 8px 24px rgba(0,0,0,.18);--lb-halo:rgba(255,255,255,.88)}
@@ -789,7 +825,7 @@ body.mode-us #mode-back,body.mode-cmp #mode-back{display:block}
 .mw-close{margin-inline-start:auto;width:44px;height:44px;border-radius:50%;border:1px solid #5B6472;color:#fff;display:flex;align-items:center;justify-content:center}
 .mw-body{flex:1 1 0;padding:56px 96px;display:flex;flex-direction:column;gap:28px;justify-content:center}
 .mw-q{margin:0;font-size:34px;font-weight:800}
-.mw-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.mw-tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
 .mw-tile{min-height:300px;padding:28px;border-radius:18px;border:2px solid #E4E1D8;background:#fff;color:#20242B;text-align:right;display:flex;flex-direction:column;gap:14px;cursor:pointer}
 .mw-tile:hover{box-shadow:0 10px 30px rgba(32,36,43,.12)}
 .mw-tile[disabled]{opacity:.45;cursor:default;box-shadow:none}
@@ -801,6 +837,7 @@ body.mode-us #mode-back,body.mode-cmp #mode-back{display:block}
 .mw-tile[data-mode=inj]{border-color:#0E7C86}.mw-tile[data-mode=inj] .mw-ic{background:#E3F2F1;color:#0E7C86}.mw-tile[data-mode=inj] .mw-t{color:#0E7C86}
 .mw-tile[data-mode=us]{border-color:#2B6CB0}.mw-tile[data-mode=us] .mw-ic{background:#E8F1FA;color:#2B6CB0}.mw-tile[data-mode=us] .mw-t{color:#2B6CB0}
 .mw-tile[data-mode=cmp]{border-color:#B5651D}.mw-tile[data-mode=cmp] .mw-ic{background:#FBEEE0;color:#B5651D}.mw-tile[data-mode=cmp] .mw-t{color:#B5651D}
+.mw-tile[data-mode=inn]{border-color:#6B46C1}.mw-tile[data-mode=inn] .mw-ic{background:#EFE9FB;color:#6B46C1}.mw-tile[data-mode=inn] .mw-t{color:#6B46C1}   /* Q322 muscle innervation */
 .mw-note{margin:0;font-size:14px;color:#5B6472}
 /* ---- the mode shell: bar + main + pills ---- */
 #mode-shell{position:fixed;inset:0;z-index:95;pointer-events:none;--mode-c:#0E7C86;--mode-soft:#E3F2F1}
@@ -1270,6 +1307,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 <div id="pm-layer" aria-hidden="false"></div>
 <div id="pm-card" role="dialog" aria-label="Part marker" hidden></div>
 <div id="pm-panel" role="group" aria-label="Part markers" hidden></div>
+<div id="pm-att" role="group" aria-label="Attachments: origins and insertions" hidden></div>
 <!-- PARTS-UI html end -->
     <!-- LABELS html begin -->
 <svg id="lab-layer" aria-hidden="true"></svg>
@@ -8059,6 +8097,11 @@ var NMSKQuickCard = (function(){
       }
       if (!pos){            // no free margin: the canvas edge farthest from the click
         var cand = [{x:V.l, y:V.t}, {x:V.r - w, y:V.t}, {x:V.l, y:V.b - h}, {x:V.r - w, y:V.b - h}, {x:(V.l + V.r - w) / 2, y:V.t}, {x:(V.l + V.r - w) / 2, y:V.b - h}];
+        /* phone: the top bar and the bottom title/foot fill the canvas edges, so also try just below everything that hangs from
+           the top and just above everything that stands on the bottom */
+        var topB = V.t, botT = V.b, mY = (V.t + V.b) / 2;
+        O.forEach(function(o){ if (o.b < mY) topB = Math.max(topB, o.b + 4); else if (o.t > mY) botT = Math.min(botT, o.t - 4); });
+        [V.l, V.r - w, (V.l + V.r - w) / 2].forEach(function(x){ cand.push({x:x, y:topB}); cand.push({x:x, y:botT - h}); });
         cand.sort(function(a, b){ return Math.hypot(b.x + w / 2 - px, b.y + h / 2 - py) - Math.hypot(a.x + w / 2 - px, a.y + h / 2 - py); });
         for (var k2 = 0; k2 < cand.length && !pos; k2++){ var r = {l:cand[k2].x, t:cand[k2].y, r:cand[k2].x + w, b:cand[k2].y + h}; if (!hit(r, P, 10)){ var clear = true; for (var q = 0; q < O.length; q++) if (hit(r, O[q], 4)) clear = false; if (clear) pos = cand[k2]; } }
         if (!pos){ for (var k3 = 0; k3 < cand.length && !pos; k3++){ var r3 = {l:cand[k3].x, t:cand[k3].y, r:cand[k3].x + w, b:cand[k3].y + h}; if (!hit(r3, P, 10)) pos = cand[k3]; } }
@@ -8101,6 +8144,464 @@ var NMSKQuickCard = (function(){
 })();
 </script>
 <!-- Q321 html end -->
+<!-- Q322 html begin -->
+<style>
+/* Q322: the MUSCLE INNERVATION mode (viewer/innervation/, synced into both templates by scripts/sync_innervation_q322.py).
+   The model is docked into .inn-slot; the controls and the muscle panel sit BESIDE it (desktop: a column on the right; phone: under
+   the model), each card as tall as its content. Mode colour violet #6B46C1. */
+.inn-fill{position:absolute;inset:0;display:flex;flex-direction:row;gap:12px;padding:12px;direction:ltr}
+.inn-stage{flex:1 1 0;position:relative;min-width:0;min-height:0}
+.inn-slot{position:absolute;inset:0}
+.inn-side{flex:0 0 344px;width:344px;display:flex;flex-direction:column;gap:10px;min-height:0;max-height:100%;overflow:auto;align-self:flex-start;
+  font:14px/1.4 Heebo,"Segoe UI",system-ui,Arial,sans-serif;color:#20242B;text-align:left}
+.inn-card{padding:12px 14px;border-radius:14px;background:#fff;border:1px solid #E4E1D8;display:flex;flex-direction:column;gap:8px;flex:0 0 auto}
+.inn-card h3{margin:0;font-size:15px;font-weight:800;line-height:1.25}
+.inn-card h4{margin:2px 0 0;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5B6472}
+.inn-sub{font-size:12px;color:#5B6472}
+.inn-seg{display:flex;gap:6px;flex-wrap:wrap}
+.inn-seg button{height:32px;padding:0 12px;border-radius:999px;border:1px solid #C9CDD3;background:#fff;font-size:13px;font-weight:500;white-space:nowrap}
+.inn-seg button[aria-pressed=true]{background:#6B46C1;border-color:#6B46C1;color:#fff;font-weight:700}
+.inn-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.inn-lb{font-size:12px;color:#5B6472;white-space:nowrap}
+.inn-legend{display:flex;flex-wrap:wrap;gap:4px}
+.inn-chip{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 8px 0 5px;border-radius:999px;border:1px solid #D7DAE0;background:#fff;font-size:12px;white-space:nowrap;max-width:100%}
+.inn-chip i{width:12px;height:12px;border-radius:3px;flex:0 0 auto;display:inline-block}
+.inn-chip b{font-weight:500;overflow:hidden;text-overflow:ellipsis}
+.inn-chip small{color:#5B6472;font-size:11px}
+.inn-chip[aria-pressed=true]{border-color:#20242B;box-shadow:inset 0 0 0 1px #20242B;font-weight:700}
+.inn-chip[aria-pressed=true] b{font-weight:700}
+.inn-rule{margin:0;font-size:11.5px;color:#5B6472;line-height:1.35}
+.inn-hint{margin:0;font-size:13px;color:#5B6472}
+.inn-kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px;align-items:baseline}
+.inn-kv dt{color:#5B6472;font-size:12px;white-space:nowrap}
+.inn-kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.inn-tags{display:flex;flex-wrap:wrap;gap:4px}
+.inn-tag{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:6px;background:#F1F2F4;font-size:12px;white-space:nowrap}
+.inn-tag.lv{color:#fff;font-weight:700}
+.inn-band{border-top:1px solid #EEF0F2;padding-top:6px;display:flex;flex-direction:column;gap:3px;font-size:13px}
+.inn-band .t{font-weight:700}
+.inn-badge{display:inline-flex;align-items:center;height:20px;padding:0 6px;border-radius:5px;background:#FFF4D6;color:#7A4E00;font-size:11px;font-weight:700;white-space:nowrap}
+.inn-badge.fail{background:#FDE8E8;color:#9B1C1C}
+.inn-badge.q{background:#EEF0F2;color:#5B6472}
+.inn-ag{font-size:11px;font-weight:700;padding:0 5px;border-radius:4px}
+.inn-ag.agree{background:#E3F4E8;color:#1F6B3A}.inn-ag.near{background:#EEF6E0;color:#4D6B1F}
+.inn-ag.conflict{background:#FDE8E8;color:#9B1C1C}.inn-ag.second_zone{background:#FFF4D6;color:#7A4E00}.inn-ag.not_comparable{background:#EEF0F2;color:#5B6472}
+.inn-cite{font-size:11.5px;color:#5B6472}
+.inn-cite a{color:#4B3A8F}
+.inn-list{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none;font-size:13px}
+.inn-list button{text-align:left;padding:2px 0;color:#4B3A8F;text-decoration:underline;text-underline-offset:2px}
+.inn-card details{font-size:12.5px}
+.inn-card summary{cursor:pointer;color:#4B3A8F}
+.inn-conf{margin:0;padding-left:16px;font-size:12px;color:#5B3A0E}
+.inn-mk{position:fixed;z-index:66;transform:translate(8px,-50%);height:18px;padding:0 6px;border-radius:5px;background:rgba(20,22,28,.86);color:#FFE14D;
+  font:700 10.5px/18px system-ui,-apple-system,"Segoe UI",sans-serif;white-space:nowrap;pointer-events:auto;cursor:help}
+body.mode-inn #mode-shell{--mode-c:#6B46C1;--mode-soft:#EFE9FB}
+/* page chrome the shared mode CSS does not list yet (the layout / render-style boxes, the "what is hidden" bar): in this mode it would sit
+   on the model and on the quick card */
+body.mode-inn #pl-box,body.mode-inn #rs-box,body.mode-inn #sa-bar{display:none!important}
+@media (max-width:760px){
+  .inn-fill{flex-direction:column;gap:0;padding:0}
+  .inn-stage{flex:0 0 50%}
+  .inn-side{flex:1 1 0;width:auto;align-self:stretch;max-height:none;padding:8px 10px 12px;gap:8px;background:#ECEFF2}
+  .inn-card{padding:10px 12px}
+  .inn-legend{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior:contain;scrollbar-width:none;padding-bottom:2px}
+  .inn-legend::-webkit-scrollbar{display:none}
+  .inn-chip{flex:0 0 auto}
+}
+</style>
+<script>
+/* Q322: the MUSCLE INNERVATION mode (viewer/innervation/, synced into both templates by scripts/sync_innervation_q322.py).
+   A provider of the shared workspace-modes controller (viewer/modes/modes.js): it registers as "inn" once the page's sidecar
+   innervation_q322.json has loaded (public anatomy layer, built by scripts/anatomy/q322/build_sidecar_q322.py from
+   data/anatomy/innervation_q322.json + this page's rule-based band placement); no sidecar = no mode on that page.
+   - Colour by nerve trunk or by root level: the selection controller's own per-structure colours (window.NMSKSelectCtl
+     snapshot / restore), put back exactly on exit.
+   - A nerve (clicked on the model), a trunk chip or a root chip MARKS its muscles through the same controller (markIds, the
+     rest faded): no parallel selection state.
+   - The panel follows the page's selection (the quick card still opens on every click; this mode never touches it).
+   - IZ bands are RULE-BASED markers (ring = the muscle's section at the stated level, dot = its inside centre), drawn from the
+     sidecar through the engine's after-draw hook; nothing is measured in the browser. */
+var NMSKInnervation = (function(){
+  "use strict";
+  var URL = "innervation_q322.json", D = null, ctx = null, api = null, on = false, IX = null, hooked = false;
+  var st = {by:"nerve", iz:"sel", pick:null, view:null, lastSel:undefined, saved:null};
+  var ui = {}, GL = null, drawn = {bands:0, rings:0, dots:0}, mk = [], mkBox = null;
+  var GREY = "#9aa3ab", KEEP = {bone:1, cartilage:1, muscle:1, insertion:1, nerve:1};
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;"}[c]; }); }
+  function sel(){ try { return (api && api.selection && api.selection()) || window.NMSKSelectCtl || null; } catch (e){ return window.NMSKSelectCtl || null; } }
+  function sideOf(id){ var m = /_([lr])$/.exec(id || ""); return m ? m[1] : null; }
+  function base(id){ return String(id || "").replace(/_[lr]$/, ""); }
+  function pretty(s){ s = String(s || "").replace(/_/g, " "); return s.charAt(0).toUpperCase() + s.slice(1); }
+  function pctText(p){ return Array.isArray(p) ? p[0] + "–" + p[1] + " %" : p == null ? "site only" : p + " %"; }
+  /* ---------- indexes over the sidecar and this page's structures ---------- */
+  function index(){
+    if (IX) return IX;
+    var byId = {}, s2m = {}, nerveIds = {}, chainSet = {}, lab = {}, bm = {}, tk = {}, rc = {};
+    (api.list() || []).forEach(function(r){ byId[r.id] = r; });
+    Object.keys(D.muscles).forEach(function(k){
+      var m = D.muscles[k];
+      m.structures.forEach(function(id){ s2m[id] = k; });
+      m.nerve_structures.forEach(function(id){ nerveIds[id] = 1; });
+      m.nerve.forEach(function(n){ lab[n.id] = n.label; });
+      m.chain.forEach(function(c){ (chainSet[c] = chainSet[c] || []).push(k); });
+    });
+    D.bands.forEach(function(b, i){ b.i = i; var key = b.m + "|" + b.s; (bm[key] = bm[key] || []).push(b); });
+    D.trunks.forEach(function(t){ tk[t.key] = t; });
+    D.roots.forEach(function(r){ rc[r.level] = r.colour; });
+    IX = {byId:byId, s2m:s2m, nerveIds:nerveIds, chainSet:chainSet, lab:lab, bm:bm, tk:tk, rc:rc};
+    return IX;
+  }
+  function present(ids){ return ids.filter(function(id){ return !!IX.byId[id]; }); }
+  function onSide(ids, s){ return s ? ids.filter(function(id){ return sideOf(id) === s; }) : ids; }
+  function midRoot(lv){ return lv && lv.length ? lv[(lv.length - 1) >> 1] : null; }
+  function srcLabel(k){ var s = D.sources[k]; return s ? s.label : k; }
+  function srcLink(k){
+    var s = D.sources[k]; if (!s) return esc(k);
+    var href = s.doi ? "https://doi.org/" + s.doi : s.pmid ? "https://pubmed.ncbi.nlm.nih.gov/" + s.pmid + "/" : null;
+    return href ? '<a href="' + esc(href) + '" target="_blank" rel="noopener">' + esc(s.label) + "</a>" : esc(s.label);
+  }
+  function trunkMuscles(key){ return Object.keys(D.muscles).filter(function(k){ return D.muscles[k].trunks.indexOf(key) >= 0; }); }
+  function rootMuscles(lv){ return Object.keys(D.muscles).filter(function(k){ return D.muscles[k].roots.adopted.indexOf(lv) >= 0; }); }
+  function nerveMuscles(id){
+    var out = {}, b = base(id);
+    Object.keys(D.muscles).forEach(function(k){ if (D.muscles[k].nerve_structures.indexOf(id) >= 0) out[k] = 1; });
+    (IX.chainSet[b] || []).forEach(function(k){ out[k] = 1; });
+    return Object.keys(out);
+  }
+  /* ---------- colour (the controller's own per-structure colours) ---------- */
+  function colourMap(){
+    var map = {};
+    Object.keys(IX.byId).forEach(function(id){ if (IX.byId[id].cat === "muscle") map[id] = GREY; });
+    Object.keys(D.muscles).forEach(function(k){
+      var m = D.muscles[k], hex = st.by === "nerve" ? (IX.tk[m.trunks[0]] || {}).colour : IX.rc[midRoot(m.roots.adopted)];
+      if (hex) present(m.structures).forEach(function(id){ map[id] = hex.toLowerCase(); });
+    });
+    return map;
+  }
+  function applyColours(){ var c = sel(); if (!c || !c.snapshot) return; var s = c.snapshot(); s.ucol = colourMap(); s.ucolNext = null; c.restore(s); }
+  /* ---------- marking (the controller's marks, the rest faded) ---------- */
+  function markMuscles(keys, side, extra, pick){
+    var c = sel(); if (!c) return 0;
+    var ids = [];
+    keys.forEach(function(k){ ids = ids.concat(onSide(present(D.muscles[k].structures), side)); });
+    ids = ids.concat(present(extra || []));
+    var n = c.markIds(ids, true, true, true);
+    if (n) c.setGroup("oth", "fade", true);
+    st.pick = n ? pick : null;
+    return n;
+  }
+  function clearPick(){ var c = sel(); if (c && st.pick) c.markIds([], true, true, true); st.pick = null; }
+  function pickTrunk(key){
+    if (st.pick && st.pick.kind === "trunk" && st.pick.key === key){ clearPick(); render(); return; }
+    var ms = trunkMuscles(key), t = IX.tk[key], nerves = [];
+    ms.forEach(function(k){
+      var m = D.muscles[k];
+      m.nerve_structures.forEach(function(id){
+        var b = base(id), mine = m.trunks.length === 1 || t.nerves.indexOf(b) >= 0 || b.indexOf(key) >= 0;
+        if (mine && nerves.indexOf(id) < 0) nerves.push(id);
+      });
+    });
+    markMuscles(ms, null, nerves, {kind:"trunk", key:key, muscles:ms});
+    st.view = st.view && st.view.kind === "muscle" ? st.view : null; render();
+  }
+  function pickRoot(lv){
+    if (st.pick && st.pick.kind === "root" && st.pick.key === lv){ clearPick(); render(); return; }
+    var ms = rootMuscles(lv);
+    markMuscles(ms, null, [], {kind:"root", key:lv, muscles:ms});
+    st.view = st.view && st.view.kind === "muscle" ? st.view : null; render();
+  }
+  function pickNerve(id){
+    var ms = nerveMuscles(id);
+    markMuscles(ms, sideOf(id), [id], {kind:"nerve", key:id, muscles:ms});
+    st.view = {kind:"nerve", id:id, muscles:ms};
+  }
+  /* ---------- the page's selection drives the panel ---------- */
+  function follow(){
+    var id = null; try { id = ctx.selectedId(); } catch (e){ id = null; }
+    if (id === st.lastSel) return;
+    st.lastSel = id;
+    if (!id){ render(); return; }
+    if (IX.s2m[id]) st.view = {kind:"muscle", key:IX.s2m[id], id:id, side:sideOf(id)};
+    else if (IX.nerveIds[id] || IX.chainSet[base(id)]) pickNerve(id);
+    else st.view = {kind:"other", id:id};
+    render();
+    if (api && api.redraw) api.redraw();
+  }
+  /* ---------- the panel ---------- */
+  function lineText(lineId){
+    var L = D.lines[lineId]; if (!L) return lineId;
+    var px = [L.from, L.to].filter(function(k){ return D.landmarks[k] && D.landmarks[k].kind === "soft_tissue"; });
+    return esc(L.label) + (px.length ? ' <span class="inn-badge q" title="' + esc(px.map(function(k){ return D.landmarks[k].label + ": " + D.landmarks[k].proxy; }).join(" | ")) + '">proxy</span>' : "");
+  }
+  function badgeText(m, iz, b){
+    var L = D.lines[iz.line] || {}, src = (iz.src || []).map(srcLabel).join(", ");
+    var t = "Innervation zone — rule-based. Level = " + pctText(iz.pct) + " of " + (L.label || iz.line) + " (" + src + (iz.cite ? ", " + iz.cite : "") +
+            "), measured on this body's own bones.";
+    if (b && b.proxy) t += " Proxy landmark: " + b.proxy.map(function(k){ return (D.landmarks[k] || {}).label + " (" + ((D.landmarks[k] || {}).proxy || "") + ")"; }).join("; ") + ".";
+    if (iz.note) t += " Note: " + iz.note + ".";
+    return t;
+  }
+  function bandOf(key, i, s){ return (IX.bm[key + "|" + s] || []).filter(function(b){ return b.iz === i; })[0] || null; }
+  function rootTags(lv){ return lv.map(function(r){ return '<span class="inn-tag lv" style="background:' + esc(IX.rc[r] || "#888") + '">' + esc(r) + "</span>"; }).join(""); }
+  function muscleHtml(v){
+    var k = v.key, m = D.muscles[k], s = v.side, R = m.roots, h = [];
+    var tcol = m.trunks.map(function(t){ var T = IX.tk[t]; return T ? '<span class="inn-tag"><i style="display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;background:' + esc(T.colour) + '"></i>' + esc(T.label) + "</span>" : ""; }).join("");
+    h.push('<h3 data-inn="muscle-name">' + esc(m.name) + (s ? ' <span class="inn-sub">(' + (s === "r" ? "right" : "left") + ")</span>" : "") + "</h3>");
+    if (v.id && (IX.byId[v.id] || {}).name && IX.byId[v.id].name !== m.name) h.push('<div class="inn-sub">' + esc(IX.byId[v.id].name) + "</div>");
+    h.push('<dl class="inn-kv"><dt>Nerve</dt><dd data-inn="nerve">' + esc(m.nerve.map(function(n){ return n.label; }).join(" + ")) + "</dd>");
+    if (m.branch) h.push("<dt>Branch</dt><dd>" + esc(m.branch) + "</dd>");
+    var pn = m.parts.filter(function(p){ return p.nerve; });
+    if (pn.length) h.push('<dt>Part nerves</dt><dd data-inn="parts">' + pn.map(function(p){ return esc(pretty(p.id)) + ": " + esc(IX.lab[p.nerve] || pretty(p.nerve)); }).join("<br>") + "</dd>");
+    h.push('<dt>Trunk</dt><dd class="inn-tags">' + tcol + "</dd>");
+    h.push('<dt>Roots</dt><dd><span class="inn-tags" data-inn="roots">' + rootTags(R.adopted) + '</span><div class="inn-sub" data-inn="range">adopted ' + esc(R.text || R.adopted.join("-")) +
+           " · range across sources " + esc(R.range || "") + "</div></dd></dl>");
+    if (R.per_source && R.per_source.length) h.push("<details><summary>Roots by source (" + R.per_source.length + ")</summary><ul class=\"inn-list\">" + R.per_source.map(function(p){
+      return '<li title="' + esc(p.note) + '">' + srcLink(p.src) + ": " + esc(p.levels.join(", ")) + (p.note ? ' <span class="inn-sub">— ' + esc(p.note) + "</span>" : "") + "</li>"; }).join("") + "</ul>" +
+      (R.rule ? '<p class="inn-rule">' + esc(R.rule) + "</p>" : "") + "</details>");
+    if (R.conflict && R.conflict.length) h.push('<ul class="inn-conf">' + R.conflict.map(function(c){ return "<li>" + esc(typeof c === "string" ? c : JSON.stringify(c)) + "</li>"; }).join("") + "</ul>");
+    h.push("<h4>Innervation zones (" + m.iz.length + ")</h4>");
+    if (!m.iz.length) h.push('<p class="inn-hint">' + esc(m.iz_decision || "No innervation-zone level in the sources used.") + "</p>");
+    m.iz.forEach(function(iz, i){
+      var b = s ? bandOf(k, i, s) : null, stt = b ? b.st : "";
+      var badge = stt === "placed" ? '<span class="inn-badge" title="' + esc(badgeText(m, iz, b)) + '">rule-based</span>' :
+                  stt === "failed" ? '<span class="inn-badge fail" title="' + esc(b.reason || "") + '">not placed</span>' :
+                  stt === "qualitative" ? '<span class="inn-badge q">site only</span>' : "";
+      h.push('<div class="inn-band" data-inn-band="' + i + '"><div><span class="t">' + esc(pretty(iz.part)) + "</span> · " + esc(pctText(iz.pct)) + " " + badge + "</div>" +
+             '<div class="inn-sub">' + lineText(iz.line) + "</div>" +
+             (stt === "failed" ? '<div class="inn-sub">Not placed on this body: ' + esc(b.reason) + "</div>" : "") +
+             (b && b.note ? '<div class="inn-sub">' + esc(b.note) + "</div>" : "") +
+             (iz.note ? '<div class="inn-sub">' + esc(iz.note) + "</div>" : "") +
+             '<div class="inn-cite">' + (iz.src || []).map(srcLink).join(", ") + (iz.cite ? " · " + esc(iz.cite) : "") + "</div></div>");
+    });
+    var same = m.iz_other.filter(function(o){ return o.agreement !== "not_comparable"; }), diff = m.iz_other.filter(function(o){ return o.agreement === "not_comparable"; });
+    function oRow(o){ return "<li>" + srcLink(o.src) + ": " + esc(pctText(o.pct)) + (o.line ? " of " + esc((D.lines[o.line] || {}).label || o.line) : "") + " · " + esc(o.kind || "") +
+      (o.part ? " (" + esc(pretty(o.part)) + ")" : "") + ' <span class="inn-ag ' + esc(o.agreement) + '">' + esc(pretty(o.agreement)) + "</span>" + (o.note ? '<br><span class="inn-sub">' + esc(o.note) + "</span>" : "") + "</li>"; }
+    if (same.length) h.push('<h4>Other sources, same line</h4><ul class="inn-list" data-inn="agree">' + same.map(oRow).join("") + "</ul>");
+    if (diff.length) h.push("<details><summary>Other sources, different lines (" + diff.length + ")</summary><ul class=\"inn-list\">" + diff.map(oRow).join("") + "</ul></details>");
+    if (m.iz_decision && m.iz.length) h.push('<p class="inn-rule">' + esc(m.iz_decision) + "</p>");
+    if (m.conflicts && m.conflicts.length) h.push('<h4>Conflicts</h4><ul class="inn-conf" data-inn="conflicts">' + m.conflicts.map(function(c){ return "<li>" + esc(c) + "</li>"; }).join("") + "</ul>");
+    if (window.__poseAtRest === false) h.push('<p class="inn-hint">The IZ markers are drawn on the rest pose only.</p>');
+    return h.join("");
+  }
+  function listHtml(title, keys, side){
+    var h = ["<h3>" + title + "</h3>"];
+    if (!keys.length){ h.push('<p class="inn-hint">None of the ' + Object.keys(D.muscles).length + " muscles in this mode is supplied by it.</p>"); return h.join(""); }
+    h.push('<div class="inn-sub">' + keys.length + " muscle" + (keys.length === 1 ? "" : "s") + " marked, the rest faded. Pick one:</div>");
+    h.push('<ul class="inn-list" data-inn="mlist">' + keys.map(function(k){
+      var id = onSide(present(D.muscles[k].structures), side || "r")[0] || present(D.muscles[k].structures)[0];
+      return id ? '<li><button type="button" data-sel="' + esc(id) + '">' + esc(D.muscles[k].name) + "</button></li>" : "";
+    }).join("") + "</ul>");
+    return h.join("");
+  }
+  function render(){
+    if (!on || !ui.panel) return;
+    var v = st.view, p = st.pick, h;
+    if (v && v.kind === "muscle") h = muscleHtml(v);
+    else if (v && v.kind === "nerve") h = listHtml(esc((IX.byId[v.id] || {}).name || pretty(base(v.id))) + ' <span class="inn-sub">(nerve)</span>', v.muscles, sideOf(v.id));
+    else if (p && p.kind === "trunk") h = listHtml(esc(IX.tk[p.key].label), p.muscles);
+    else if (p && p.kind === "root") h = listHtml("Root " + esc(p.key), p.muscles);
+    else h = (v && v.kind === "other" ? "<h3>" + esc((IX.byId[v.id] || {}).name || v.id) + '</h3><p class="inn-hint">Not one of the ' + Object.keys(D.muscles).length + " limb muscles with an innervation record.</p>" : "") +
+             '<p class="inn-hint">Click a muscle for its nerve, roots and innervation zones. Click a nerve on the model, or a chip above, to mark the muscles it supplies.</p>';
+    ui.panel.innerHTML = h;
+    syncCtl();
+    /* the panel follows the selection: if its top is out of the side column's view (phone: the column sits under the model), bring it in */
+    var sd = ui.side;
+    var top = ui.panel.offsetTop - sd.offsetTop;     // both measured from the same offset parent
+    var phone = ctx && ctx.isPhone && ctx.isPhone();
+    if (sd && (v || p) && top > sd.scrollTop + (phone ? 8 : sd.clientHeight - 48)) sd.scrollTop = top - 6;
+  }
+  function syncCtl(){
+    if (!ui.ctl) return;
+    Array.prototype.forEach.call(ui.ctl.querySelectorAll("[data-by]"), function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-by") === st.by)); });
+    Array.prototype.forEach.call(ui.ctl.querySelectorAll("[data-iz]"), function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-iz") === st.iz)); });
+    Array.prototype.forEach.call(ui.legend.querySelectorAll(".inn-chip"), function(b){
+      var k = b.getAttribute("data-key"), kind = b.getAttribute("data-kind");
+      b.setAttribute("aria-pressed", String(!!(st.pick && st.pick.kind === kind && st.pick.key === k)));
+    });
+  }
+  function legend(){
+    var h = [];
+    if (st.by === "nerve"){
+      D.trunks.forEach(function(t){ var n = trunkMuscles(t.key).length; if (!n) return;
+        h.push('<button type="button" class="inn-chip" data-kind="trunk" data-key="' + esc(t.key) + '" title="Mark the ' + n + " muscles of the " + esc(t.label) + '"><i style="background:' + esc(t.colour) + '"></i><b>' + esc(t.label) + "</b><small>" + n + "</small></button>"); });
+      h.push('<span class="inn-chip" style="border-style:dashed" title="Muscles without an innervation record in this mode"><i style="background:' + GREY + '"></i><b>no record</b></span>');
+    } else {
+      D.roots.forEach(function(r){ var n = rootMuscles(r.level).length;
+        h.push('<button type="button" class="inn-chip" data-kind="root" data-key="' + esc(r.level) + '" title="Mark the ' + n + " muscles that " + esc(r.level) + ' supplies"><i style="background:' + esc(r.colour) + '"></i><b>' + esc(r.level) + "</b><small>" + n + "</small></button>"); });
+    }
+    ui.legend.innerHTML = h.join("");
+    ui.rule.textContent = D.colour_rules[st.by] + " IZ markers are rule-based (hover a marker for its rule and source).";
+    ui.rule.title = D.rule;
+    syncCtl();
+  }
+  function setBy(by){ if (by !== "nerve" && by !== "root") return; if (st.by !== by){ st.by = by; clearPick(); applyColours(); } legend(); render(); }
+  function setIz(v){ st.iz = v; syncCtl(); if (api && api.redraw) api.redraw(); }
+  /* ---------- the IZ markers (rule-based), WebGL after-draw pass ---------- */
+  var VS = "attribute vec3 aP;uniform mat4 uM;uniform vec3 uEye;uniform float uPt;varying vec3 vW;" +
+           "void main(){vW=aP;vec3 d=uEye-aP;float l=length(d);vec3 p=aP+(l>0.0?d/l*1.5:vec3(0.0));gl_Position=uM*vec4(p,1.0);gl_PointSize=uPt;}";
+  var FS = "precision mediump float;uniform vec4 uC;uniform vec4 uClip;uniform vec4 uClip2;uniform float uRound;varying vec3 vW;" +
+           "void main(){if(dot(vW,uClip.xyz)+uClip.w>0.0||dot(vW,uClip2.xyz)+uClip2.w>0.0)discard;" +
+           "if(uRound>0.5){vec2 q=gl_PointCoord-0.5;if(dot(q,q)>0.25)discard;}gl_FragColor=uC;}";
+  function glInit(gl){
+    if (GL && GL.gl === gl) return GL;
+    function sh(t, s){ var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; }
+    var p = gl.createProgram(); gl.attachShader(p, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, FS));
+    gl.bindAttribLocation(p, 0, "aP"); gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    var U = {}; ["uM", "uEye", "uPt", "uC", "uClip", "uClip2", "uRound"].forEach(function(n){ U[n] = gl.getUniformLocation(p, n); });
+    GL = {gl:gl, p:p, U:U, buf:gl.createBuffer(), sig:"", rings:[], dots:[], lines:[], nv:0};
+    return GL;
+  }
+  function wanted(){
+    var out = [];
+    if (!on || st.iz === "off" || window.__poseAtRest === false) return out;
+    var vis = {}, recs = api.list() || [];
+    function visible(k, s){
+      var key = k + "|" + s; if (key in vis) return vis[key];
+      var ok = false; onSide(present(D.muscles[k].structures), s).forEach(function(id){ var r = IX.byId[id]; if (r && api.visible(r.i)) ok = true; });
+      return (vis[key] = ok);
+    }
+    var v = st.view;
+    D.bands.forEach(function(b){
+      if ((b.st !== "placed" && b.st !== "qualitative") || b.same_as != null) return;
+      var mine = v && v.kind === "muscle" && v.key === b.m && (!v.side || v.side === b.s);
+      if (st.iz === "sel" && !mine) return;
+      if (visible(b.m, b.s)) out.push(b);
+    });
+    return out;
+  }
+  function fill(G, bands){
+    var sig = bands.map(function(b){ return b.i; }).join(",");
+    if (sig === G.sig) return;
+    var arr = [], rings = [], dots = [], lines = [];
+    function push(p){ arr.push(p[0], p[1], p[2]); return arr.length / 3 - 1; }
+    bands.forEach(function(b){
+      if (b.st === "qualitative"){
+        var a = b.from_pt, c = b.to_pt, i0 = push(a); push(c); lines.push([i0, 2]);
+        var t0 = arr.length / 3; [1 / 3, 2 / 3].forEach(function(f){ push([a[0] + (c[0] - a[0]) * f, a[1] + (c[1] - a[1]) * f, a[2] + (c[2] - a[2]) * f]); });
+        dots.push([t0, 2, "tick"]); return;
+      }
+      (b.rings || []).forEach(function(r){ var s0 = arr.length / 3; r.forEach(push); rings.push([s0, r.length]); });
+      dots.push([push(b.dot), 1, "dot"]);
+    });
+    var gl = G.gl; gl.bindBuffer(gl.ARRAY_BUFFER, G.buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.DYNAMIC_DRAW);
+    G.sig = sig; G.rings = rings; G.dots = dots; G.lines = lines; G.nv = arr.length / 3;
+  }
+  function draw(g){
+    drawn = {bands:0, rings:0, dots:0};
+    if (!on){ tags([]); return; }
+    var bands = wanted();
+    if (!bands.length){ tags([]); return; }
+    var gl = g.gl, G = glInit(gl), U = G.U, dpr = window.devicePixelRatio || 1;
+    fill(G, bands);
+    gl.useProgram(G.p);
+    gl.bindBuffer(gl.ARRAY_BUFFER, G.buf); gl.enableVertexAttribArray(0); gl.disableVertexAttribArray(1); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+    gl.uniformMatrix4fv(U.uM, false, g.mvp); gl.uniform3f(U.uEye, g.eye[0], g.eye[1], g.eye[2]);
+    var c1 = g.clip || [0, 0, 0, -1], c2 = g.clip2 || [0, 0, 0, -1];
+    gl.uniform4f(U.uClip, c1[0], c1[1], c1[2], c1[3]); gl.uniform4f(U.uClip2, c2[0], c2[1], c2[2], c2[3]);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
+    function rings(pt, col){
+      gl.uniform4f(U.uC, col[0], col[1], col[2], col[3]);
+      G.rings.forEach(function(r){ gl.uniform1f(U.uRound, 0); gl.drawArrays(gl.LINE_LOOP, r[0], r[1]); gl.uniform1f(U.uPt, pt * dpr); gl.uniform1f(U.uRound, 1); gl.drawArrays(gl.POINTS, r[0], r[1]); });
+      G.lines.forEach(function(l){ gl.uniform1f(U.uRound, 0); gl.drawArrays(gl.LINES, l[0], l[1]); });
+    }
+    gl.disable(gl.DEPTH_TEST); rings(2.5, [1, 0.88, 0.3, 0.35]);                 // the part of a ring behind the muscle, faint
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL); rings(3.5, [1, 0.85, 0.2, 1]);   // the visible part
+    gl.disable(gl.DEPTH_TEST); gl.uniform1f(U.uRound, 1);
+    G.dots.forEach(function(d){                                                    // the dot (inside the muscle) is always on top
+      gl.uniform1f(U.uPt, (d[2] === "dot" ? 12 : 8) * dpr); gl.uniform4f(U.uC, 0.08, 0.08, 0.1, 0.9); gl.drawArrays(gl.POINTS, d[0], d[1]);
+      gl.uniform1f(U.uPt, (d[2] === "dot" ? 7 : 4.5) * dpr); gl.uniform4f(U.uC, 1, 0.92, 0.35, 1); gl.drawArrays(gl.POINTS, d[0], d[1]);
+    });
+    gl.depthMask(true);
+    drawn = {bands:bands.length, rings:G.rings.length, dots:G.dots.length};
+    tags(bands);
+  }
+  /* the on-model badge: "IZ · rule-based" beside each dot of the selected muscle, the citation in its tooltip */
+  function tags(bands){
+    if (!mkBox){ mkBox = document.createElement("div"); mkBox.className = "inn-mks"; document.body.appendChild(mkBox); }
+    var list = st.iz === "all" && bands.length > 8 ? [] : bands.filter(function(b){ return b.st === "placed"; });
+    while (mk.length < list.length){ var e = document.createElement("div"); e.className = "inn-mk"; mkBox.appendChild(e); mk.push(e); }
+    var placed = [];
+    mk.forEach(function(e, i){
+      var b = list[i], p = b && api && api.toScreen ? api.toScreen(b.dot) : null;
+      if (!b || !p){ e.hidden = true; e.style.display = "none"; return; }
+      var m = D.muscles[b.m], iz = m.iz[b.iz], x = Math.round(p[0]), y = Math.round(p[1]);
+      placed.forEach(function(q){ if (Math.abs(q[0] - x) < 130 && Math.abs(q[1] - y) < 19) y = q[1] + 19; });   // two dots close together: stack the badges
+      placed.push([x, y]);
+      e.hidden = false; e.style.display = ""; e.style.left = x + "px"; e.style.top = y + "px";
+      e.textContent = "IZ " + pctText(iz.pct) + " · rule-based"; e.title = badgeText(m, iz, b);
+    });
+  }
+  /* ---------- the provider ---------- */
+  function build(c){
+    ctx = c; api = c.api; index();
+    var fill = c.el("div", {class:"inn-fill"}), stage = c.el("div", {class:"inn-stage"}), slot = c.el("div", {class:"mslot inn-slot"});
+    var side = c.el("aside", {class:"inn-side mi", dir:"ltr", "aria-label":"Muscle innervation"});
+    stage.appendChild(slot);
+    var ctl = c.el("section", {class:"inn-card inn-ctl"});
+    ctl.innerHTML = '<div class="inn-row"><span class="inn-lb">Colour by</span><div class="inn-seg" role="group"><button type="button" data-by="nerve">Nerve</button><button type="button" data-by="root">Root level</button></div></div>' +
+      '<div class="inn-legend"></div><div class="inn-row"><span class="inn-lb">IZ markers</span><div class="inn-seg" role="group"><button type="button" data-iz="sel">Selected</button><button type="button" data-iz="all">All</button><button type="button" data-iz="off">Off</button></div></div>' +
+      '<p class="inn-rule"></p>';
+    var panel = c.el("section", {class:"inn-card inn-panel", "aria-live":"polite"});
+    side.appendChild(ctl); side.appendChild(panel); fill.appendChild(stage); fill.appendChild(side); c.main.appendChild(fill);
+    ui = {fill:fill, slot:slot, side:side, ctl:ctl, panel:panel, legend:ctl.querySelector(".inn-legend"), rule:ctl.querySelector(".inn-rule")};
+    ctl.addEventListener("click", function(e){
+      var b = e.target.closest("button"); if (!b) return;
+      if (b.hasAttribute("data-by")) setBy(b.getAttribute("data-by"));
+      else if (b.hasAttribute("data-iz")) setIz(b.getAttribute("data-iz"));
+      else if (b.getAttribute("data-kind") === "trunk") pickTrunk(b.getAttribute("data-key"));
+      else if (b.getAttribute("data-kind") === "root") pickRoot(b.getAttribute("data-key"));
+    });
+    panel.addEventListener("click", function(e){ var b = e.target.closest("button[data-sel]"); if (b) ctx.select(b.getAttribute("data-sel")); });
+  }
+  function enter(c){
+    on = true;
+    c.modelDock([ui.slot], 62);              // below the quick card (z 64), which still opens on a click
+    var C = sel();
+    st.saved = C && C.snapshot ? C.snapshot() : null;
+    try { var seen = {}; (api.list() || []).forEach(function(r){ if (r.cat && !seen[r.cat]){ seen[r.cat] = 1; var want = !!KEEP[r.cat]; if (!!api.categoryOn(r.cat) !== want) api.setCategoryOn(r.cat, want); } }); } catch (e){}
+    if (C){ C.markIds([], true, true, true); }
+    st.pick = null; st.view = null; st.lastSel = undefined;
+    applyColours(); legend(); render(); follow();
+    if (!hooked && api.webgl && api.webgl.onAfterDraw){ api.webgl.onAfterDraw(function(g){ try { draw(g); } catch (e){ on = false; console.error("innervation markers:", e); } }); hooked = true; }
+    if (api.redraw) api.redraw();
+  }
+  function exit(){
+    on = false; tags([]);
+    var C = sel();
+    if (C && st.saved) C.restore(st.saved);   // the user's own colours and marks back (the controller then restores the rest)
+    st.saved = null; st.pick = null; st.view = null; ui = {};
+    if (api && api.redraw) api.redraw();
+  }
+  function reset(){ st.by = "nerve"; st.iz = "sel"; clearPick(); st.view = null; applyColours(); legend(); render(); }
+  var provider = {title:"Muscle innervation", short:"Innervation", build:build, enter:enter, exit:exit, refresh:function(){ if (on) follow(); }, reset:reset};
+  function boot(){
+    if (!window.NMSKModes || !window.fetch) { if (window.fetch) setTimeout(boot, 300); return; }
+    fetch(URL).then(function(r){ if (!r.ok) throw new Error("no " + URL); return r.json(); }).then(function(j){
+      if (!j || j.schema !== "nmsk.innervation.page.v1") return;
+      D = j; NMSKModes.register("inn", provider);
+    }).catch(function(){});
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else setTimeout(boot, 0);
+  window.__innState = function(){
+    return {loaded:!!D, on:on, by:st.by, iz:st.iz, pick:st.pick ? {kind:st.pick.kind, key:st.pick.key, n:st.pick.muscles.length} : null,
+            view:st.view ? {kind:st.view.kind, key:st.view.key || st.view.id, side:st.view.side || null} : null, drawn:drawn,
+            tags:mk.filter(function(e){ return !e.hidden; }).length, counts:D ? D.counts : null};
+  };
+  /* test / harness hooks: the screen point of a structure (its mesh centre, projected) and the page's own select (as the panel's list uses) */
+  function screenOf(id){
+    if (!api || !IX || !IX.byId[id]) return null;
+    var r = IX.byId[id], g = null, p;
+    try { g = api.geometry ? api.geometry(r.i) : null; } catch (e){ g = null; }
+    if (g && g.pos && g.pos.length){ var n = g.pos.length / 3, s = [0, 0, 0]; for (var i = 0; i < g.pos.length; i += 3){ s[0] += g.pos[i]; s[1] += g.pos[i + 1]; s[2] += g.pos[i + 2]; } p = [s[0] / n, s[1] / n, s[2] / n]; }
+    else p = [(r.bmin[0] + r.bmax[0]) / 2, (r.bmin[1] + r.bmax[1]) / 2, (r.bmin[2] + r.bmax[2]) / 2];
+    return api.toScreen ? api.toScreen(p) : null;
+  }
+  return {data:function(){ return D; }, pickTrunk:pickTrunk, pickRoot:pickRoot, setBy:setBy, setIz:setIz, screenOf:screenOf,
+          select:function(id){ if (on && ctx) ctx.select(id); }};
+})();
+</script>
+<!-- Q322 html end -->
 <!-- Q298 html begin -->
 <style>
 /* Q298: the search / multi-select / expansion bar. Phone first: short rows that wrap, nothing shown until it has
@@ -8944,6 +9445,7 @@ var NMSKQ298 = (function(){
       <button type="button" class="mw-tile" data-mode="inj" title="מטרה ← מסלול ← מרחק מכלי-דם ועצבים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20l9-9M13 11l4-4M17 7l3-3M15 5l4 4"/><circle cx="7" cy="17" r="1.5"/></svg></span><span class="mw-t">תכנון הזרקה</span><span class="mw-d">מטרה ← מסלול ← מרחק מכלי-דם ועצבים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
       <button type="button" class="mw-tile" data-mode="us" title="סריקה דינמית, CINE, השוואת צדדים"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 4h10l-2 5H9zM9 9q3 6 6 0"/><circle cx="16" cy="17" r="4"/><path d="M15 15l3 2-3 2z" fill="currentColor" stroke="none"/></svg></span><span class="mw-t">US אבחנתי</span><span class="mw-d">סריקה דינמית, CINE, השוואת צדדים</span><span class="mw-na">לא זמין בעמוד זה</span></button>
       <button type="button" class="mw-tile" data-mode="cmp" title="דימות המטופל מול האטלס, סימון פגיעה"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="8" height="14" rx="1.5"/><rect x="13" y="5" width="8" height="14" rx="1.5"/><path d="M12 9v6"/></svg></span><span class="mw-t">השוואת דימות</span><span class="mw-d">דימות המטופל מול האטלס, סימון פגיעה</span><span class="mw-na">לא זמין בעמוד זה</span></button>
+      <button type="button" class="mw-tile" data-mode="inn" title="עצב, שורשים ואזורי עצבוב לכל שריר"><span class="mw-ic"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4c4 2 5 6 8 8s4 6 8 8"/><path d="M8 7l-3 3M13 12l-3 3M17 16l-3 3"/></svg></span><span class="mw-t">עצבוב שרירים</span><span class="mw-d">עצב, שורשים ואזורי עצבוב לכל שריר</span><span class="mw-na">לא זמין בעמוד זה</span></button>
     </div>
     <p class="mw-note">כל מצב פותח מסך משלו. תמיד אפשר לחזור לכאן מהכפתור בפינה.</p>
   </div>
@@ -11257,6 +11759,34 @@ function NMSKParts(E){
     if (rs && typeof rs === "object"){ if (MODES[rs.mode] && (canCull || rs.mode !== "near")) P.mode = rs.mode; var bn = Number(rs.band); if (isFinite(bn)) P.band = Math.max(10, Math.min(100, Math.round(bn))); if (typeof rs.hid === "boolean") P.hid = rs.hid; } } catch (err){}
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
   var cull = {fails:0, cand:-1, sig:"", last:0, ms:0, n:0, avg:0, timer:0, dirty:true, img:null, near:0, far:0, cnt:{shown:0, occ:0, far:0, behind:0}};
+  /* Q323 ATTACHMENTS VIEW (the "insertions" preset). Before Q323 that preset only set layer opacities: the "insertion" layer holds four
+     tendon meshes per Base body and the part markers stayed Off, so no origin or insertion was ever shown. The view now draws the placed
+     origin_part / insertion_point markers of this page's parts data (rule-based, cited, error bound on the card), origin and insertion in
+     two colours, per tissue class by choice, for all structures or the selected ones only. A class without placed points says so with its
+     counts; nothing is drawn that the data does not place. Classes: the part's structure_class (sidecar "sc"), retinacula and capsules by name. */
+  var AKEY = "nmsk.att.v1", ACLS = [["mt", "Muscles & tendons"], ["lig", "Ligaments"], ["fas", "Fasciae & aponeuroses"], ["cap", "Joint capsules"], ["ret", "Retinacula"], ["oth", "Other"]];
+  var A = {on:false, scope:"all", cls:{mt:true, lig:false, fas:false, cap:false, ret:false, oth:false}}, AC = null, apanel = null, ashown = {o:0, i:0};
+  try { var ra = JSON.parse(localStorage.getItem(AKEY) || "null");
+    if (ra && typeof ra === "object"){ if (ra.scope === "sel" || ra.scope === "all") A.scope = ra.scope; if (ra.cls) ACLS.forEach(function(c){ if (typeof ra.cls[c[0]] === "boolean") A.cls[c[0]] = ra.cls[c[0]]; }); } } catch (err){}
+  function apersist(){ try { localStorage.setItem(AKEY, JSON.stringify({scope:A.scope, cls:A.cls})); } catch (err){} }
+  var DOTA = {o:[0.86, 0.15, 0.15], i:[0.11, 0.30, 0.85]};
+  function attRole(p){ return p.ty === "origin_part" ? "o" : p.ty === "insertion_point" ? "i" : null; }
+  function attClass(p){
+    var st = String(p.st || ""), sc = p.sc || "";
+    if (/retinac/.test(st)) return "ret";
+    if (/capsul/.test(st) || sc === "joint") return "cap";
+    if (sc === "muscle" || sc === "tendon") return "mt";
+    if (sc === "ligament") return "lig";
+    if (sc === "fascia") return "fas";
+    return "oth";
+  }
+  /* the structures of this body by class, from the engine's list (optional adaptor member structs() -> [{n, l: layer, t: has origin/insertion wording}]) */
+  function structClass(s){
+    var n = String(s.n || "").toLowerCase();
+    if (s.l === "muscle" || s.l === "insertion") return "mt";
+    if (s.l === "joint" || s.l === "fascia"){ if (/retinac/.test(n)) return "ret"; if (/capsul/.test(n)) return "cap"; return s.l === "joint" ? "lig" : "fas"; }
+    return null;
+  }
   var DOT = {rule_based:[0.91, 0.63, 0.09], z_fill:[0.18, 0.56, 0.88]};
   var CLS = {rule_based:"Rule-based", z_fill:"Z-Anatomy fill"};
   var TYPES = {head_belly:"head", origin_part:"origin", insertion_point:"insertion", ligament_component:"ligament component",
@@ -11419,10 +11949,12 @@ function NMSKParts(E){
   /* called by the engine before it renders: decides which markers are drawn and hands the solid dots over */
   function update(){
     if (!D || !M.length) return;
-    var dots = [], fk = forcedMap(), cn = {shown:0, occ:0, far:0, behind:0}, culling = canCull && P.mode !== "off", cand = 0;
+    var dots = [], fk = forcedMap(), cn = {shown:0, occ:0, far:0, behind:0}, culling = canCull && (P.mode !== "off" || A.on), cand = 0, att = A.on;
+    ashown = {o:0, i:0};
     M.forEach(function(mk){
       var why = "", pinned = mk.j === focusI || mk.j === pinI, byTissue = fk[mk.pi + "|" + mk.s] === 1, c = culling ? mk.cull | 0 : 0;
-      var want = P.mode === "near" || P.mode === "all" || pinned || (P.mode === "sel" && byTissue);
+      var want = att ? (pinned || (!!mk.ar && A.cls[mk.ac] === true && (A.scope === "all" || byTissue)))
+                     : (P.mode === "near" || P.mode === "all" || pinned || (P.mode === "sel" && byTissue));
       mk.behind = false;
       if (!want) why = "off";
       else if (!kept(mk.xyz)) why = "cut";
@@ -11430,15 +11962,17 @@ function NMSKParts(E){
       else { cand++; }
       if (why === "" && c){
         if (pinned || (byTissue && P.hid)) mk.behind = (c & 1) === 1;
-        else if (P.mode === "all") mk.behind = (c & 1) === 1;
+        else if (P.mode === "all" || att) mk.behind = (c & 1) === 1;
         else why = (c & 1) ? "occ" : "far";
       }
       mk.vis = why === ""; mk.why = why; mk.forced = byTissue || pinned;
-      if (mk.vis){ cn.shown++; if (mk.behind) cn.behind++; dots.push({p:mk.xyz, c:DOT[mk.c] || DOT.rule_based, big:mk.j === focusI || mk.j === hoverI || mk.j === pinI}); }
+      if (mk.vis){ cn.shown++; if (mk.behind) cn.behind++; if (att && mk.ar) ashown[mk.ar]++;
+        dots.push({p:mk.xyz, c:(att && mk.ar) ? DOTA[mk.ar] : (DOT[mk.c] || DOT.rule_based), big:mk.j === focusI || mk.j === hoverI || mk.j === pinI}); }
       else if (why === "occ") cn.occ++; else if (why === "far") cn.far++;
     });
     cull.cnt = cn; cull.cand = cand;
     E.setDots(dots);
+    if (att) asyncPanel();
   }
   /* ---------- view-dependent culling (Q240) ---------- */
   function nowMs(){ return (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now(); }
@@ -11448,7 +11982,7 @@ function NMSKParts(E){
     var c = E.cut(); if (c) s += "|c" + c.kn.map(function(v){ return v.toFixed(4); }).join(",") + "," + c.c.toFixed(2) + "," + (c.th || 0);
     return s;
   }
-  function needCull(){ return canCull && !!D && M.length > 0 && P.mode !== "off" && !(P.mode === "sel" && !P.hid) && cull.cand !== 0; }        // no marker passes the cut / layer checks: no image needed
+  function needCull(){ return canCull && !!D && M.length > 0 && (A.on || (P.mode !== "off" && !(P.mode === "sel" && !P.hid))) && cull.cand !== 0; }        // no marker passes the cut / layer checks: no image needed
   function capture(sig){
     var t0 = nowMs(), r = E.canvasRect(), bw = Math.max(240, Math.min(560, Math.round(r.width * 0.5)));
     var zb = null;
@@ -11520,6 +12054,7 @@ function NMSKParts(E){
   function overlay(){
     if (!D || !layer || !M.length) return;
     cullStep();
+    if (A.on && apanel && !apanel.hidden){ var tn = nowMs(); if (tn - aPlaced > 400){ aPlaced = tn; placeAtt(); } }
     var r = E.canvasRect();
     layer.style.clipPath = "inset(" + Math.max(0, r.top) + "px " + Math.max(0, document.documentElement.clientWidth - r.right) + "px " +
       Math.max(0, document.documentElement.clientHeight - r.bottom) + "px " + Math.max(0, r.left) + "px)";
@@ -11538,6 +12073,8 @@ function NMSKParts(E){
       mk.el.classList.toggle("pm-behind", !!mk.behind);
       mk.el.classList.toggle("pm-focus", mk.j === focusI || mk.j === pinI);
       mk.el.classList.toggle("pm-lab-on", inSel(mk) || mk.j === act);
+      mk.el.classList.toggle("pm-ao", A.on && mk.ar === "o");
+      mk.el.classList.toggle("pm-ai", A.on && mk.ar === "i");
     });
     var a = act >= 0 ? M[act] : null;
     if (a && a.vis && !a.el.hidden && a.e != null){
@@ -11621,8 +12158,10 @@ function NMSKParts(E){
       });
       ring.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); ring.click(); } });
       layer.appendChild(el);
-      M.push({j:j, pi:g.p, s:g.s, xyz:g.xyz, c:g.c, e:g.e, ext:g.ext, rule:g.rule, mt:g.mt, eb:g.eb, car:g.car, el:el, vis:false, why:"off", sx:null, sy:null});
+      M.push({j:j, pi:g.p, s:g.s, xyz:g.xyz, c:g.c, e:g.e, ext:g.ext, rule:g.rule, mt:g.mt, eb:g.eb, car:g.car, el:el, vis:false, why:"off", sx:null, sy:null,
+              ar:attRole(p), ac:attClass(p)});
     });
+    attCounts();
     if (M.length && E.toolbar && !btn){
       btn = document.createElement("button");
       btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
@@ -11631,7 +12170,7 @@ function NMSKParts(E){
       btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
       E.toolbar.appendChild(btn);
     }
-    buildPanel();
+    buildPanel(); buildAtt();
   }
   /* ---------- the Parts markers panel (Q240) ---------- */
   function panelOpen(){ return !!panel && !panel.hidden; }
@@ -11703,9 +12242,120 @@ function NMSKParts(E){
     var had = !!(D && hoverMesh && D.mesh_parts[hoverMesh]), has = !!(D && h && D.mesh_parts[h]);
     hoverMesh = h;
     if (had || has) cull.dirty = true;
-    if (M.length && P.mode !== "off" && (had || has)) E.redraw();          // only a structure with parts changes what is shown
+    if (M.length && (P.mode !== "off" || A.on) && (had || has)) E.redraw();          // only a structure with parts changes what is shown
+  }
+
+  /* ---------- Q323 the attachments view: counts per class, its panel, on / off from the engine's "insertions" preset ---------- */
+  function attCounts(){
+    AC = {}; ACLS.forEach(function(c){ AC[c[0]] = {st:{}, stp:{}, o:0, i:0, txt:0, sc:{}, n:null, t:null}; });
+    var placedPi = {};
+    D.parts.forEach(function(p){ var k = attClass(p); if (k === "oth" && p.sc) AC.oth.sc[p.sc] = 1; if (attRole(p)) AC[k].st[p.st] = 1; });
+    M.forEach(function(mk){ if (!mk.ar) return; var a = AC[mk.ac]; a[mk.ar]++; a.stp[D.parts[mk.pi].st] = 1; placedPi[mk.pi] = 1; });
+    D.parts.forEach(function(p, pi){ if (attRole(p) && !placedPi[pi]) AC[attClass(p)].txt++; });
+    if (E.structs){
+      try { var seen = {};
+        (E.structs() || []).forEach(function(s){ var k = structClass(s); if (!k) return; var key = k + "|" + s.n; if (seen[key]) return; seen[key] = 1;
+          var a = AC[k]; a.n = (a.n || 0) + 1; if (s.t) a.t = (a.t || 0) + 1; });
+      } catch (err){}
+    }
+  }
+  function attSummary(){
+    var out = {};
+    ACLS.forEach(function(c){ var a = AC && AC[c[0]]; if (!a) return;
+      out[c[0]] = {label:c[1], o:a.o, i:a.i, structuresPlaced:Object.keys(a.stp).length, structuresInData:Object.keys(a.st).length, textOnly:a.txt, onBody:a.n, withText:a.t}; });
+    return out;
+  }
+  function $a(s){ return apanel ? apanel.querySelector(s) : null; }
+  function buildAtt(){
+    apanel = document.getElementById("pm-att"); if (!apanel || !AC) return;
+    var oth = Object.keys(AC.oth.sc).sort(), rows = "", subs = "";
+    ACLS.forEach(function(c){
+      var k = c[0], a = AC[k];
+      if (k === "oth" && !oth.length && !(a.o + a.i + a.txt)) return;        // the data has no other class on this body: no row
+      var nm = k === "oth" && oth.length ? "Other (" + oth.join(", ") + ")" : c[1], has = a.o + a.i > 0, nst = Object.keys(a.stp).length;
+      var sub = has ? nst + (a.n != null ? " of " + a.n : "") + (nst === 1 ? " structure" : " structures") + " with placed points"
+                    : "no placed attachment on this body" + (a.n != null ? " (" + a.n + " structures)" : "");
+      if (a.txt) sub += " &middot; " + a.txt + " more described in text only";
+      rows += '<div class="pa-r" data-k="' + k + '"><label class="pp-c"><input type="checkbox"' + (has ? "" : " disabled") + '> <span class="pa-nm">' + esc(nm) + '</span>' +
+        '<span class="pa-ct" title="placed points on this body (both sides): origins / insertions">' + (has ? '<i class="pa-o"></i>' + a.o + ' <i class="pa-i"></i>' + a.i : "&ndash;") + '</span></label>' +
+        '<div class="pa-sub">' + sub + '</div></div>';
+      subs += '<span class="pa-cls"><b>' + esc(nm) + ':</b> ' + sub + '.</span>';
+    });
+    var tt = 0; ACLS.forEach(function(c){ tt += AC[c[0]].t || 0; });
+    apanel.innerHTML = '<div class="pp-h"><b>Attachments</b><span class="pp-st" aria-live="polite"></span><button type="button" class="pp-x" aria-label="Close the attachments view" title="Close">&times;</button></div>' +
+      '<div class="pa-lg"><span><i class="pa-o"></i>origin</span><span><i class="pa-i"></i>insertion</span><span class="pa-rb">rule-based</span></div>' +
+      '<div class="pp-l">Show attachments of</div>' + rows +
+      '<div class="pp-seg" role="group" aria-label="Which structures"><button type="button" data-s="all">All</button><button type="button" data-s="sel">Selected only</button></div>' +
+      '<p class="pa-hint"></p>' +
+      '<details class="pa-more"><summary>About these points</summary>' + subs + '<p class="pa-help">Each point is a position derived on this body by a stated rule from the cited description of the attachment (rule-based, not a measured footprint); hover or tap it for its error bound and citations. ' +
+      'Only attachments that the parts table places on this body are drawn' + (tt ? '; the origin / insertion wording of ' + tt + ' structures is on their cards (text, not drawn)' : "") + '.</p></details>';
+    apanel.querySelector(".pp-x").addEventListener("click", function(){ attach(false); });
+    apanel.addEventListener("change", function(e){
+      var r = e.target.closest && e.target.closest(".pa-r"); if (!r) return;
+      A.cls[r.getAttribute("data-k")] = !!e.target.checked; apersist(); cull.dirty = true; asyncPanel(true); E.redraw();
+    });
+    apanel.querySelector(".pp-seg").addEventListener("click", function(e){
+      var b = e.target.closest && e.target.closest("button"); if (!b) return;
+      A.scope = b.getAttribute("data-s") === "sel" ? "sel" : "all"; apersist(); cull.dirty = true; asyncPanel(true); E.redraw();
+    });
+    apanel.hidden = !A.on;
+    asyncPanel(true); if (A.on) placeAtt();
+    attTimer();
+  }
+  var aSig = "";
+  function asyncPanel(force){
+    if (!apanel || !AC) return;
+    var on = 0; ACLS.forEach(function(c){ if (A.cls[c[0]] && AC[c[0]].o + AC[c[0]].i > 0) on++; });
+    var hint = !on ? "Tick a class to show its attachments." :
+      (ashown.o + ashown.i) ? "" :
+      (A.scope === "sel" ? (sel || (E.marked && (E.marked() || []).length) ? "The selected structure has no placed origin or insertion in the ticked classes." : "Select or mark a structure to see its attachments.")
+                         : "None in view: their structures are hidden or cut away.");
+    var sig = A.scope + "|" + JSON.stringify(A.cls) + "|" + ashown.o + "|" + ashown.i + "|" + hint;
+    if (!force && sig === aSig) return;
+    aSig = sig;
+    Array.prototype.forEach.call(apanel.querySelectorAll(".pa-r"), function(r){ var cb = r.querySelector("input"); cb.checked = !cb.disabled && A.cls[r.getAttribute("data-k")] === true; });
+    Array.prototype.forEach.call(apanel.querySelectorAll(".pp-seg button"), function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === A.scope)); });
+    var st = $a(".pp-st"); if (st) st.innerHTML = '<i class="pa-o"></i>' + ashown.o + ' <i class="pa-i"></i>' + ashown.i + ' shown';
+    var ht = $a(".pa-hint"); if (ht) ht.textContent = hint;
+  }
+  /* phone: at the bottom, above the page's bottom chips (hidden paths / Show everything / measure bar); desktop: top right, under the toolbar */
+  var aPlaced = 0, aTimer = 0;
+  function attTimer(){ clearInterval(aTimer); aTimer = A.on ? setInterval(placeAtt, 700) : 0; }        // the bottom chips come and go without a redraw
+  function placeAtt(){
+    if (!apanel || apanel.hidden) return;
+    var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight, w = apanel.offsetWidth || 290, lo = vh - 8;
+    Array.prototype.forEach.call(document.querySelectorAll(".sa-bar, #sa-all, #ms-bar"), function(e){
+      if (e.hidden) return; var r = e.getBoundingClientRect(); if (r.height > 0 && r.width > 0 && r.top > vh * 0.5) lo = Math.min(lo, r.top - 6);
+    });
+    apanel.style.maxHeight = "";
+    var h = apanel.offsetHeight || 300, top;
+    if (vw < 560){ top = Math.max(8, lo - h); apanel.style.left = "8px"; }
+    else {
+      var x0 = Math.max(8, vw - w - 12); top = 60;
+      [E.toolbar, document.getElementById("q301-bar")].forEach(function(e){        // below whatever top bar it would sit on
+        var r = e && e.getBoundingClientRect ? e.getBoundingClientRect() : null;
+        if (r && r.height > 0 && r.bottom < vh * 0.4 && r.right > x0 && r.left < x0 + w) top = Math.max(top, Math.round(r.bottom + 8));
+      });
+      apanel.style.left = x0 + "px";
+    }
+    apanel.style.top = top + "px"; apanel.style.maxHeight = Math.max(120, lo - top) + "px";
+  }
+  function attach(on){
+    on = !!on;
+    if (on === A.on && (!on || !apanel || !apanel.hidden)) return;
+    A.on = on; cull.dirty = true;
+    if (!on && pinI >= 0) closeCard();
+    if (apanel){ apanel.hidden = !on; if (on){ asyncPanel(true); placeAtt(); } }
+    attTimer(); E.redraw();
+  }
+  function attSet(o){
+    if (!o) return;
+    if (o.scope === "sel" || o.scope === "all") A.scope = o.scope;
+    if (o.cls) ACLS.forEach(function(c){ if (typeof o.cls[c[0]] === "boolean") A.cls[c[0]] = o.cls[c[0]]; });
+    apersist(); cull.dirty = true; asyncPanel(true); E.redraw();
   }
   function dirty(){ cull.dirty = true; }
+  window.addEventListener("resize", function(){ placeAtt(); });
   document.addEventListener("pointerdown", function(e){
     if (!card || card.hidden || pinI < 0) return;
     if (card.contains(e.target) || (e.target.closest && e.target.closest(".pm-ring, .pm-row"))) return;
@@ -11727,7 +12377,7 @@ function NMSKParts(E){
   }
   return {
     load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll, focusById:focusById, partsFor:partsFor,
-    hover:hover, dirty:dirty, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
+    hover:hover, dirty:dirty, attach:attach, attSet:attSet, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
     /* Q294: the placed markers of one structure key ("deltoid", "pectoralis_major") on one side, with their part type and text -- the
        bundle fibre axes of the image tools run from a bundle's origin marker to its insertion marker. null until the data is loaded. */
     anchors:function(st, side){
@@ -11738,9 +12388,10 @@ function NMSKParts(E){
     cullNow:function(){ if (needCull()){ capture(viewSig()); E.redraw(); } },
     /* read-only view for tests / debugging */
     state:function(){
-      return {loaded:!!D, parts:D ? D.parts.length : 0, placements:M.length, showAll:P.mode === "all", mode:P.mode, band:P.band, hid:P.hid, canCull:canCull, panel:panelOpen(), cull:{n:cull.n, ms:Math.round(cull.ms * 10) / 10, avgMs:Math.round(cull.avg * 10) / 10, near:Math.round(cull.near), far:Math.round(cull.far), img:cull.img ? cull.img.w + "x" + cull.img.h : null, cnt:cull.cnt}, focus:focusI, pinned:pinI,
+      return {att:{on:A.on, scope:A.scope, cls:JSON.parse(JSON.stringify(A.cls)), shown:{o:ashown.o, i:ashown.i}, panel:!!apanel && !apanel.hidden, classes:AC ? attSummary() : null},
+              loaded:!!D, parts:D ? D.parts.length : 0, placements:M.length, showAll:P.mode === "all", mode:P.mode, band:P.band, hid:P.hid, canCull:canCull, panel:panelOpen(), cull:{n:cull.n, ms:Math.round(cull.ms * 10) / 10, avgMs:Math.round(cull.avg * 10) / 10, near:Math.round(cull.near), far:Math.round(cull.far), img:cull.img ? cull.img.w + "x" + cull.img.h : null, cnt:cull.cnt}, focus:focusI, pinned:pinI,
               sel:sel ? {mesh:sel.mesh, side:sel.s, n:sel.list.length} : null,
-              markers:M.map(function(mk){ return {j:mk.j, part:D.parts[mk.pi].id, side:mk.s, xyz:mk.xyz, cls:mk.c, e:mk.e, vis:mk.vis, why:mk.why, sx:mk.sx, sy:mk.sy, shown:!mk.el.hidden, cull:mk.cull | 0, behind:!!mk.behind, forced:!!mk.forced, dm:mk.dm == null ? null : Math.round(mk.dm), z:mk.zmin == null || mk.zmin === Infinity ? null : Math.round(mk.zmin)}; })};
+              markers:M.map(function(mk){ return {j:mk.j, part:D.parts[mk.pi].id, role:mk.ar, ac:mk.ac, side:mk.s, xyz:mk.xyz, cls:mk.c, e:mk.e, vis:mk.vis, why:mk.why, sx:mk.sx, sy:mk.sy, shown:!mk.el.hidden, cull:mk.cull | 0, behind:!!mk.behind, forced:!!mk.forced, dm:mk.dm == null ? null : Math.round(mk.dm), z:mk.zmin == null || mk.zmin === Infinity ? null : Math.round(mk.zmin)}; })};
     }
   };
 }
@@ -13625,7 +14276,7 @@ function NMSKNerveGroups(E){
 /* NERVE-GROUPS js end */
 /* MODES js begin */
 /* Q272 clinical WORKSPACE MODES -- the shared controller (viewer/modes/modes.js, synced into both templates).
-   Generic by design: this public template never names a private clinical tool. A mode is a key ("inj" / "us" / "cmp") whose
+   Generic by design: this public template never names a private clinical tool. A mode is a key ("inj" / "us" / "cmp" / "inn") whose
    PROVIDER an optional add-on registers at attach time (NMSKModes.register(key, {title, short, build, enter, exit})); the add-on
    keeps its own logic and only re-skins it here. Entering a mode: snapshot the anatomy screen (camera, selection, marks, categories,
    parts markers, phone sheets), add body.mode-on + body.mode-<key> (CSS hides the chrome, nothing is destroyed), show the mode bar and
@@ -13635,7 +14286,7 @@ function NMSKNerveGroups(E){
    from a #mode=<key> hash (or a ?mode=<key> query, Q273). */
 var NMSKModes = (function(){
   var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null;
-  var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp"];
+  var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp", "inn"];
   function $(id){ return document.getElementById(id); }
   function el(tag, attrs, kids){
     var e = document.createElement(tag);
@@ -13803,11 +14454,11 @@ var NMSKModes = (function(){
     }
     var tb = host.toolbar;
     if (tb){
-      var b = el("button", {type:"button", id:"t-mode", class:"pill", title:"מצב עבודה: אנטומיה / תכנון הזרקה / US אבחנתי / השוואת דימות", text:"מצב", onclick:function(){ showSwitcher(); }});
-      var tr = $("topright"); if (tr){ var hub = $("t-hub"); if (hub && hub.parentNode === tr) tr.insertBefore(b, hub.nextSibling); else tr.appendChild(b); }
+      var b = el("button", {type:"button", id:"t-mode", class:host.toolClass, title:"מצב עבודה: אנטומיה / תכנון הזרקה / US אבחנתי / השוואת דימות / עצבוב שרירים", text:"מצב", onclick:function(){ showSwitcher(); }});
+      var hub = $("t-hub"); if (hub && hub.parentNode === tb) tb.insertBefore(b, hub.nextSibling); else tb.insertBefore(b, tb.firstChild);
     }
     window.addEventListener("resize", placeAll);
-    var m = /[#&]mode=(inj|us|cmp|anat)\b/.exec(location.hash || "") || /[?&]mode=(inj|us|cmp|anat)\b/.exec(location.search || ""), choice = m ? m[1] : remembered();   /* Q273: ?mode= as well as #mode= */
+    var m = /[#&]mode=(inj|us|cmp|inn|anat)\b/.exec(location.hash || "") || /[?&]mode=(inj|us|cmp|inn|anat)\b/.exec(location.search || ""), choice = m ? m[1] : remembered();   /* Q273: ?mode= as well as #mode= */
     if (!choice){ var t0 = Date.now(), w = setInterval(function(){ if (host.ready() || Date.now() - t0 > 90000){ clearInterval(w); if (!cur) showSwitcher(); } }, 200); }
     else if (choice !== "anat"){ queued = choice; waitReady(); }
     syncTiles();

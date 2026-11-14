@@ -15,12 +15,13 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q306/build_search_q306.py --inject  the search COVERAGE layer: group names, concepts, new synonyms (committed data)
     scripts/anatomy/q237/build_sidecar.py            symmetry_q237.json
     scripts/anatomy/q256/build_plexus_sidecar.py     plexus_groups.json
+    scripts/anatomy/q322/build_sidecar_q322.py       innervation_q322.json   (Base pages only)
     index.html = the page
 
 and then VERIFIES the output against a reference page dir (default: the source dir, i.e. the previous build; `--ref` a dir of downloaded
 live pages): every `<script id="nmsk-*">` block, the own pages' `bundle-json` / `bundle-b64` blocks and the Z pages' `window.__ANATOMY_*__`
 literals must be byte-identical (the reference page may carry the artifact service's document skeleton, it is removed first); every sibling
-file (geo txt, clinical_*, parts_data.json, plexus_groups.json, symmetry_q237.json) must be byte-identical unless named in `--expect-changed`;
+file (geo txt, clinical_*, parts_data.json, plexus_groups.json, symmetry_q237.json, innervation_q322.json) must be byte-identical unless named in `--expect-changed`;
 the page's <title> / h1 must carry the Q231 unified name; index.html must equal the page. Also checks that no tracked data/ file changed
 (the make_abbrevs / make_calibre default actions rebuild tracked tables -- the Q264 / Q267 `--help` accident). Exit 1 with a diff summary otherwise.
 
@@ -120,6 +121,8 @@ def build(p: str, src_root: Path, out: Path):
     html = page_html(dst)
     run(["python3", "scripts/anatomy/q237/build_sidecar.py", SYM_KEY[p], str(dst), "-o", str(dst / "symmetry_q237.json")])
     run(["python3", "scripts/anatomy/q256/build_plexus_sidecar.py", "--html", str(html), "-o", str(dst / "plexus_groups.json")])
+    if p in ("base_m", "base_f"):   # Q322: the innervation mode's sidecar (committed data + committed band placement, no recompute)
+        run(["python3", "scripts/anatomy/q322/build_sidecar_q322.py", p, str(dst)])
     (dst / "index.html").write_bytes(html.read_bytes())
     after = tracked_data_status()
     if after != before:

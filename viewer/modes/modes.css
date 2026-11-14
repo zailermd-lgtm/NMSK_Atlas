@@ -30,7 +30,7 @@ body.mode-us #mode-back,body.mode-cmp #mode-back{display:block}
 .mw-close{margin-inline-start:auto;width:44px;height:44px;border-radius:50%;border:1px solid #5B6472;color:#fff;display:flex;align-items:center;justify-content:center}
 .mw-body{flex:1 1 0;padding:56px 96px;display:flex;flex-direction:column;gap:28px;justify-content:center}
 .mw-q{margin:0;font-size:34px;font-weight:800}
-.mw-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.mw-tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:24px}
 .mw-tile{min-height:300px;padding:28px;border-radius:18px;border:2px solid #E4E1D8;background:#fff;color:#20242B;text-align:right;display:flex;flex-direction:column;gap:14px;cursor:pointer}
 .mw-tile:hover{box-shadow:0 10px 30px rgba(32,36,43,.12)}
 .mw-tile[disabled]{opacity:.45;cursor:default;box-shadow:none}
@@ -42,6 +42,7 @@ body.mode-us #mode-back,body.mode-cmp #mode-back{display:block}
 .mw-tile[data-mode=inj]{border-color:#0E7C86}.mw-tile[data-mode=inj] .mw-ic{background:#E3F2F1;color:#0E7C86}.mw-tile[data-mode=inj] .mw-t{color:#0E7C86}
 .mw-tile[data-mode=us]{border-color:#2B6CB0}.mw-tile[data-mode=us] .mw-ic{background:#E8F1FA;color:#2B6CB0}.mw-tile[data-mode=us] .mw-t{color:#2B6CB0}
 .mw-tile[data-mode=cmp]{border-color:#B5651D}.mw-tile[data-mode=cmp] .mw-ic{background:#FBEEE0;color:#B5651D}.mw-tile[data-mode=cmp] .mw-t{color:#B5651D}
+.mw-tile[data-mode=inn]{border-color:#6B46C1}.mw-tile[data-mode=inn] .mw-ic{background:#EFE9FB;color:#6B46C1}.mw-tile[data-mode=inn] .mw-t{color:#6B46C1}   /* Q322 muscle innervation */
 .mw-note{margin:0;font-size:14px;color:#5B6472}
 /* ---- the mode shell: bar + main + pills ---- */
 #mode-shell{position:fixed;inset:0;z-index:95;pointer-events:none;--mode-c:#0E7C86;--mode-soft:#E3F2F1}
