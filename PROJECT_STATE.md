@@ -82,6 +82,12 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   sources on Base·F (urinary bladder, internal iliac / pudendal veins) keeps `.2` — decided: one
   structure, so `.2` fits the rule.
 
+- **Q322 MUSCLE INNERVATION mode** (owner 2026-11-14). Source: Güvener et al., EUR J PRM 2026;62(5):441-59,
+  DOI 10.23736/S1973-9087.26.09497-9 (CC BY-NC-ND: facts only, PDF not in repo). Step 1–2 (agent):
+  extract Tables I/II (innervation zones as % along bony reference lines) + nerves/roots, enrich and
+  validate with other sources → `data/anatomy/innervation_q322.json`, `docs/Q322_innervation_sources.md`.
+  Step 3 (next agent): the mode itself, IZ markers placed from landmarks = rule-based, badged, cited.
+
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
   geometry (scan already shows a needle placed in a posed state).
