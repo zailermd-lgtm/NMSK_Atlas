@@ -23,7 +23,8 @@ OUT = REPO / "data/anatomy/abbreviations.json"
 SRC_ROOTS = ["build/q236", "build/q235", "build/q234", "build/q233"]        # first dir that has the page wins
 BEGIN, END = "<!-- NMSK-ABBREV begin -->", "<!-- NMSK-ABBREV end -->"
 CONVENTION = ("BASE[-R|-L]: side suffix from the structure's side. Established abbreviations only from KNOWN (each a standard published one); everything else is generated "
-              "(g=1): initials of the content words, or the first three letters of a single word; collisions lengthen the generated ones, never the known ones.")
+              "(g=1): initials of the content words, or the first three letters of a single word; collisions lengthen the generated ones, never the known ones. "
+              "A '.2' only ever means a second piece of ONE structure; structures of different body regions that share a name are told apart by a region tag: 'DI-L (hand)' / 'DI-L (foot)'.")
 
 
 def page_path(d: str) -> Path | None:
