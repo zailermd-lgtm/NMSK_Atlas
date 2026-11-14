@@ -169,6 +169,8 @@ def build(html: Path, body: str, geo_dir: Path | None = None, check: bool = True
         for k in p["refs"]:
             used_refs[k] = None
         row = {"id": p["id"], "st": p["structure_id"], "ty": p["part_type"], "n": p["name"], "d": p["description"], "r": p["refs"]}
+        if p.get("structure_class"):
+            row["sc"] = p["structure_class"]          # Q323: the tissue class of the structure (muscle / tendon / ligament / fascia ...) for the attachments view
         if p["verification"] != "verified":
             row["u"] = 1
         for key, f in (("an", "anchor"), ("var", "variability"), ("ev", "evidence"), ("note", "note"), ("set", "set_id")):

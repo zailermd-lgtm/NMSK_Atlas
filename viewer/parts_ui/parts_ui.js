@@ -27,6 +27,34 @@ function NMSKParts(E){
     if (rs && typeof rs === "object"){ if (MODES[rs.mode] && (canCull || rs.mode !== "near")) P.mode = rs.mode; var bn = Number(rs.band); if (isFinite(bn)) P.band = Math.max(10, Math.min(100, Math.round(bn))); if (typeof rs.hid === "boolean") P.hid = rs.hid; } } catch (err){}
   function persist(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
   var cull = {fails:0, cand:-1, sig:"", last:0, ms:0, n:0, avg:0, timer:0, dirty:true, img:null, near:0, far:0, cnt:{shown:0, occ:0, far:0, behind:0}};
+  /* Q323 ATTACHMENTS VIEW (the "insertions" preset). Before Q323 that preset only set layer opacities: the "insertion" layer holds four
+     tendon meshes per Base body and the part markers stayed Off, so no origin or insertion was ever shown. The view now draws the placed
+     origin_part / insertion_point markers of this page's parts data (rule-based, cited, error bound on the card), origin and insertion in
+     two colours, per tissue class by choice, for all structures or the selected ones only. A class without placed points says so with its
+     counts; nothing is drawn that the data does not place. Classes: the part's structure_class (sidecar "sc"), retinacula and capsules by name. */
+  var AKEY = "nmsk.att.v1", ACLS = [["mt", "Muscles & tendons"], ["lig", "Ligaments"], ["fas", "Fasciae & aponeuroses"], ["cap", "Joint capsules"], ["ret", "Retinacula"], ["oth", "Other"]];
+  var A = {on:false, scope:"all", cls:{mt:true, lig:false, fas:false, cap:false, ret:false, oth:false}}, AC = null, apanel = null, ashown = {o:0, i:0};
+  try { var ra = JSON.parse(localStorage.getItem(AKEY) || "null");
+    if (ra && typeof ra === "object"){ if (ra.scope === "sel" || ra.scope === "all") A.scope = ra.scope; if (ra.cls) ACLS.forEach(function(c){ if (typeof ra.cls[c[0]] === "boolean") A.cls[c[0]] = ra.cls[c[0]]; }); } } catch (err){}
+  function apersist(){ try { localStorage.setItem(AKEY, JSON.stringify({scope:A.scope, cls:A.cls})); } catch (err){} }
+  var DOTA = {o:[0.86, 0.15, 0.15], i:[0.11, 0.30, 0.85]};
+  function attRole(p){ return p.ty === "origin_part" ? "o" : p.ty === "insertion_point" ? "i" : null; }
+  function attClass(p){
+    var st = String(p.st || ""), sc = p.sc || "";
+    if (/retinac/.test(st)) return "ret";
+    if (/capsul/.test(st) || sc === "joint") return "cap";
+    if (sc === "muscle" || sc === "tendon") return "mt";
+    if (sc === "ligament") return "lig";
+    if (sc === "fascia") return "fas";
+    return "oth";
+  }
+  /* the structures of this body by class, from the engine's list (optional adaptor member structs() -> [{n, l: layer, t: has origin/insertion wording}]) */
+  function structClass(s){
+    var n = String(s.n || "").toLowerCase();
+    if (s.l === "muscle" || s.l === "insertion") return "mt";
+    if (s.l === "joint" || s.l === "fascia"){ if (/retinac/.test(n)) return "ret"; if (/capsul/.test(n)) return "cap"; return s.l === "joint" ? "lig" : "fas"; }
+    return null;
+  }
   var DOT = {rule_based:[0.91, 0.63, 0.09], z_fill:[0.18, 0.56, 0.88]};
   var CLS = {rule_based:"Rule-based", z_fill:"Z-Anatomy fill"};
   var TYPES = {head_belly:"head", origin_part:"origin", insertion_point:"insertion", ligament_component:"ligament component",
@@ -189,10 +217,12 @@ function NMSKParts(E){
   /* called by the engine before it renders: decides which markers are drawn and hands the solid dots over */
   function update(){
     if (!D || !M.length) return;
-    var dots = [], fk = forcedMap(), cn = {shown:0, occ:0, far:0, behind:0}, culling = canCull && P.mode !== "off", cand = 0;
+    var dots = [], fk = forcedMap(), cn = {shown:0, occ:0, far:0, behind:0}, culling = canCull && (P.mode !== "off" || A.on), cand = 0, att = A.on;
+    ashown = {o:0, i:0};
     M.forEach(function(mk){
       var why = "", pinned = mk.j === focusI || mk.j === pinI, byTissue = fk[mk.pi + "|" + mk.s] === 1, c = culling ? mk.cull | 0 : 0;
-      var want = P.mode === "near" || P.mode === "all" || pinned || (P.mode === "sel" && byTissue);
+      var want = att ? (pinned || (!!mk.ar && A.cls[mk.ac] === true && (A.scope === "all" || byTissue)))
+                     : (P.mode === "near" || P.mode === "all" || pinned || (P.mode === "sel" && byTissue));
       mk.behind = false;
       if (!want) why = "off";
       else if (!kept(mk.xyz)) why = "cut";
@@ -200,15 +230,17 @@ function NMSKParts(E){
       else { cand++; }
       if (why === "" && c){
         if (pinned || (byTissue && P.hid)) mk.behind = (c & 1) === 1;
-        else if (P.mode === "all") mk.behind = (c & 1) === 1;
+        else if (P.mode === "all" || att) mk.behind = (c & 1) === 1;
         else why = (c & 1) ? "occ" : "far";
       }
       mk.vis = why === ""; mk.why = why; mk.forced = byTissue || pinned;
-      if (mk.vis){ cn.shown++; if (mk.behind) cn.behind++; dots.push({p:mk.xyz, c:DOT[mk.c] || DOT.rule_based, big:mk.j === focusI || mk.j === hoverI || mk.j === pinI}); }
+      if (mk.vis){ cn.shown++; if (mk.behind) cn.behind++; if (att && mk.ar) ashown[mk.ar]++;
+        dots.push({p:mk.xyz, c:(att && mk.ar) ? DOTA[mk.ar] : (DOT[mk.c] || DOT.rule_based), big:mk.j === focusI || mk.j === hoverI || mk.j === pinI}); }
       else if (why === "occ") cn.occ++; else if (why === "far") cn.far++;
     });
     cull.cnt = cn; cull.cand = cand;
     E.setDots(dots);
+    if (att) asyncPanel();
   }
   /* ---------- view-dependent culling (Q240) ---------- */
   function nowMs(){ return (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now(); }
@@ -218,7 +250,7 @@ function NMSKParts(E){
     var c = E.cut(); if (c) s += "|c" + c.kn.map(function(v){ return v.toFixed(4); }).join(",") + "," + c.c.toFixed(2) + "," + (c.th || 0);
     return s;
   }
-  function needCull(){ return canCull && !!D && M.length > 0 && P.mode !== "off" && !(P.mode === "sel" && !P.hid) && cull.cand !== 0; }        // no marker passes the cut / layer checks: no image needed
+  function needCull(){ return canCull && !!D && M.length > 0 && (A.on || (P.mode !== "off" && !(P.mode === "sel" && !P.hid))) && cull.cand !== 0; }        // no marker passes the cut / layer checks: no image needed
   function capture(sig){
     var t0 = nowMs(), r = E.canvasRect(), bw = Math.max(240, Math.min(560, Math.round(r.width * 0.5)));
     var zb = null;
@@ -290,6 +322,7 @@ function NMSKParts(E){
   function overlay(){
     if (!D || !layer || !M.length) return;
     cullStep();
+    if (A.on && apanel && !apanel.hidden){ var tn = nowMs(); if (tn - aPlaced > 400){ aPlaced = tn; placeAtt(); } }
     var r = E.canvasRect();
     layer.style.clipPath = "inset(" + Math.max(0, r.top) + "px " + Math.max(0, document.documentElement.clientWidth - r.right) + "px " +
       Math.max(0, document.documentElement.clientHeight - r.bottom) + "px " + Math.max(0, r.left) + "px)";
@@ -308,6 +341,8 @@ function NMSKParts(E){
       mk.el.classList.toggle("pm-behind", !!mk.behind);
       mk.el.classList.toggle("pm-focus", mk.j === focusI || mk.j === pinI);
       mk.el.classList.toggle("pm-lab-on", inSel(mk) || mk.j === act);
+      mk.el.classList.toggle("pm-ao", A.on && mk.ar === "o");
+      mk.el.classList.toggle("pm-ai", A.on && mk.ar === "i");
     });
     var a = act >= 0 ? M[act] : null;
     if (a && a.vis && !a.el.hidden && a.e != null){
@@ -391,8 +426,10 @@ function NMSKParts(E){
       });
       ring.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); ring.click(); } });
       layer.appendChild(el);
-      M.push({j:j, pi:g.p, s:g.s, xyz:g.xyz, c:g.c, e:g.e, ext:g.ext, rule:g.rule, mt:g.mt, eb:g.eb, car:g.car, el:el, vis:false, why:"off", sx:null, sy:null});
+      M.push({j:j, pi:g.p, s:g.s, xyz:g.xyz, c:g.c, e:g.e, ext:g.ext, rule:g.rule, mt:g.mt, eb:g.eb, car:g.car, el:el, vis:false, why:"off", sx:null, sy:null,
+              ar:attRole(p), ac:attClass(p)});
     });
+    attCounts();
     if (M.length && E.toolbar && !btn){
       btn = document.createElement("button");
       btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-haspopup", "true");
@@ -401,7 +438,7 @@ function NMSKParts(E){
       btn.addEventListener("click", function(){ openPanel(!panelOpen()); });
       E.toolbar.appendChild(btn);
     }
-    buildPanel();
+    buildPanel(); buildAtt();
   }
   /* ---------- the Parts markers panel (Q240) ---------- */
   function panelOpen(){ return !!panel && !panel.hidden; }
@@ -473,9 +510,120 @@ function NMSKParts(E){
     var had = !!(D && hoverMesh && D.mesh_parts[hoverMesh]), has = !!(D && h && D.mesh_parts[h]);
     hoverMesh = h;
     if (had || has) cull.dirty = true;
-    if (M.length && P.mode !== "off" && (had || has)) E.redraw();          // only a structure with parts changes what is shown
+    if (M.length && (P.mode !== "off" || A.on) && (had || has)) E.redraw();          // only a structure with parts changes what is shown
+  }
+
+  /* ---------- Q323 the attachments view: counts per class, its panel, on / off from the engine's "insertions" preset ---------- */
+  function attCounts(){
+    AC = {}; ACLS.forEach(function(c){ AC[c[0]] = {st:{}, stp:{}, o:0, i:0, txt:0, sc:{}, n:null, t:null}; });
+    var placedPi = {};
+    D.parts.forEach(function(p){ var k = attClass(p); if (k === "oth" && p.sc) AC.oth.sc[p.sc] = 1; if (attRole(p)) AC[k].st[p.st] = 1; });
+    M.forEach(function(mk){ if (!mk.ar) return; var a = AC[mk.ac]; a[mk.ar]++; a.stp[D.parts[mk.pi].st] = 1; placedPi[mk.pi] = 1; });
+    D.parts.forEach(function(p, pi){ if (attRole(p) && !placedPi[pi]) AC[attClass(p)].txt++; });
+    if (E.structs){
+      try { var seen = {};
+        (E.structs() || []).forEach(function(s){ var k = structClass(s); if (!k) return; var key = k + "|" + s.n; if (seen[key]) return; seen[key] = 1;
+          var a = AC[k]; a.n = (a.n || 0) + 1; if (s.t) a.t = (a.t || 0) + 1; });
+      } catch (err){}
+    }
+  }
+  function attSummary(){
+    var out = {};
+    ACLS.forEach(function(c){ var a = AC && AC[c[0]]; if (!a) return;
+      out[c[0]] = {label:c[1], o:a.o, i:a.i, structuresPlaced:Object.keys(a.stp).length, structuresInData:Object.keys(a.st).length, textOnly:a.txt, onBody:a.n, withText:a.t}; });
+    return out;
+  }
+  function $a(s){ return apanel ? apanel.querySelector(s) : null; }
+  function buildAtt(){
+    apanel = document.getElementById("pm-att"); if (!apanel || !AC) return;
+    var oth = Object.keys(AC.oth.sc).sort(), rows = "", subs = "";
+    ACLS.forEach(function(c){
+      var k = c[0], a = AC[k];
+      if (k === "oth" && !oth.length && !(a.o + a.i + a.txt)) return;        // the data has no other class on this body: no row
+      var nm = k === "oth" && oth.length ? "Other (" + oth.join(", ") + ")" : c[1], has = a.o + a.i > 0, nst = Object.keys(a.stp).length;
+      var sub = has ? nst + (a.n != null ? " of " + a.n : "") + (nst === 1 ? " structure" : " structures") + " with placed points"
+                    : "no placed attachment on this body" + (a.n != null ? " (" + a.n + " structures)" : "");
+      if (a.txt) sub += " &middot; " + a.txt + " more described in text only";
+      rows += '<div class="pa-r" data-k="' + k + '"><label class="pp-c"><input type="checkbox"' + (has ? "" : " disabled") + '> <span class="pa-nm">' + esc(nm) + '</span>' +
+        '<span class="pa-ct" title="placed points on this body (both sides): origins / insertions">' + (has ? '<i class="pa-o"></i>' + a.o + ' <i class="pa-i"></i>' + a.i : "&ndash;") + '</span></label>' +
+        '<div class="pa-sub">' + sub + '</div></div>';
+      subs += '<span class="pa-cls"><b>' + esc(nm) + ':</b> ' + sub + '.</span>';
+    });
+    var tt = 0; ACLS.forEach(function(c){ tt += AC[c[0]].t || 0; });
+    apanel.innerHTML = '<div class="pp-h"><b>Attachments</b><span class="pp-st" aria-live="polite"></span><button type="button" class="pp-x" aria-label="Close the attachments view" title="Close">&times;</button></div>' +
+      '<div class="pa-lg"><span><i class="pa-o"></i>origin</span><span><i class="pa-i"></i>insertion</span><span class="pa-rb">rule-based</span></div>' +
+      '<div class="pp-l">Show attachments of</div>' + rows +
+      '<div class="pp-seg" role="group" aria-label="Which structures"><button type="button" data-s="all">All</button><button type="button" data-s="sel">Selected only</button></div>' +
+      '<p class="pa-hint"></p>' +
+      '<details class="pa-more"><summary>About these points</summary>' + subs + '<p class="pa-help">Each point is a position derived on this body by a stated rule from the cited description of the attachment (rule-based, not a measured footprint); hover or tap it for its error bound and citations. ' +
+      'Only attachments that the parts table places on this body are drawn' + (tt ? '; the origin / insertion wording of ' + tt + ' structures is on their cards (text, not drawn)' : "") + '.</p></details>';
+    apanel.querySelector(".pp-x").addEventListener("click", function(){ attach(false); });
+    apanel.addEventListener("change", function(e){
+      var r = e.target.closest && e.target.closest(".pa-r"); if (!r) return;
+      A.cls[r.getAttribute("data-k")] = !!e.target.checked; apersist(); cull.dirty = true; asyncPanel(true); E.redraw();
+    });
+    apanel.querySelector(".pp-seg").addEventListener("click", function(e){
+      var b = e.target.closest && e.target.closest("button"); if (!b) return;
+      A.scope = b.getAttribute("data-s") === "sel" ? "sel" : "all"; apersist(); cull.dirty = true; asyncPanel(true); E.redraw();
+    });
+    apanel.hidden = !A.on;
+    asyncPanel(true); if (A.on) placeAtt();
+    attTimer();
+  }
+  var aSig = "";
+  function asyncPanel(force){
+    if (!apanel || !AC) return;
+    var on = 0; ACLS.forEach(function(c){ if (A.cls[c[0]] && AC[c[0]].o + AC[c[0]].i > 0) on++; });
+    var hint = !on ? "Tick a class to show its attachments." :
+      (ashown.o + ashown.i) ? "" :
+      (A.scope === "sel" ? (sel || (E.marked && (E.marked() || []).length) ? "The selected structure has no placed origin or insertion in the ticked classes." : "Select or mark a structure to see its attachments.")
+                         : "None in view: their structures are hidden or cut away.");
+    var sig = A.scope + "|" + JSON.stringify(A.cls) + "|" + ashown.o + "|" + ashown.i + "|" + hint;
+    if (!force && sig === aSig) return;
+    aSig = sig;
+    Array.prototype.forEach.call(apanel.querySelectorAll(".pa-r"), function(r){ var cb = r.querySelector("input"); cb.checked = !cb.disabled && A.cls[r.getAttribute("data-k")] === true; });
+    Array.prototype.forEach.call(apanel.querySelectorAll(".pp-seg button"), function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-s") === A.scope)); });
+    var st = $a(".pp-st"); if (st) st.innerHTML = '<i class="pa-o"></i>' + ashown.o + ' <i class="pa-i"></i>' + ashown.i + ' shown';
+    var ht = $a(".pa-hint"); if (ht) ht.textContent = hint;
+  }
+  /* phone: at the bottom, above the page's bottom chips (hidden paths / Show everything / measure bar); desktop: top right, under the toolbar */
+  var aPlaced = 0, aTimer = 0;
+  function attTimer(){ clearInterval(aTimer); aTimer = A.on ? setInterval(placeAtt, 700) : 0; }        // the bottom chips come and go without a redraw
+  function placeAtt(){
+    if (!apanel || apanel.hidden) return;
+    var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight, w = apanel.offsetWidth || 290, lo = vh - 8;
+    Array.prototype.forEach.call(document.querySelectorAll(".sa-bar, #sa-all, #ms-bar"), function(e){
+      if (e.hidden) return; var r = e.getBoundingClientRect(); if (r.height > 0 && r.width > 0 && r.top > vh * 0.5) lo = Math.min(lo, r.top - 6);
+    });
+    apanel.style.maxHeight = "";
+    var h = apanel.offsetHeight || 300, top;
+    if (vw < 560){ top = Math.max(8, lo - h); apanel.style.left = "8px"; }
+    else {
+      var x0 = Math.max(8, vw - w - 12); top = 60;
+      [E.toolbar, document.getElementById("q301-bar")].forEach(function(e){        // below whatever top bar it would sit on
+        var r = e && e.getBoundingClientRect ? e.getBoundingClientRect() : null;
+        if (r && r.height > 0 && r.bottom < vh * 0.4 && r.right > x0 && r.left < x0 + w) top = Math.max(top, Math.round(r.bottom + 8));
+      });
+      apanel.style.left = x0 + "px";
+    }
+    apanel.style.top = top + "px"; apanel.style.maxHeight = Math.max(120, lo - top) + "px";
+  }
+  function attach(on){
+    on = !!on;
+    if (on === A.on && (!on || !apanel || !apanel.hidden)) return;
+    A.on = on; cull.dirty = true;
+    if (!on && pinI >= 0) closeCard();
+    if (apanel){ apanel.hidden = !on; if (on){ asyncPanel(true); placeAtt(); } }
+    attTimer(); E.redraw();
+  }
+  function attSet(o){
+    if (!o) return;
+    if (o.scope === "sel" || o.scope === "all") A.scope = o.scope;
+    if (o.cls) ACLS.forEach(function(c){ if (typeof o.cls[c[0]] === "boolean") A.cls[c[0]] = o.cls[c[0]]; });
+    apersist(); cull.dirty = true; asyncPanel(true); E.redraw();
   }
   function dirty(){ cull.dirty = true; }
+  window.addEventListener("resize", function(){ placeAtt(); });
   document.addEventListener("pointerdown", function(e){
     if (!card || card.hidden || pinI < 0) return;
     if (card.contains(e.target) || (e.target.closest && e.target.closest(".pm-ring, .pm-row"))) return;
@@ -497,7 +645,7 @@ function NMSKParts(E){
   }
   return {
     load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll, focusById:focusById, partsFor:partsFor,
-    hover:hover, dirty:dirty, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
+    hover:hover, dirty:dirty, attach:attach, attSet:attSet, setMode:setMode, setBand:setBand, openPanel:openPanel, settings:function(){ return JSON.parse(JSON.stringify(P)); },
     /* Q294: the placed markers of one structure key ("deltoid", "pectoralis_major") on one side, with their part type and text -- the
        bundle fibre axes of the image tools run from a bundle's origin marker to its insertion marker. null until the data is loaded. */
     anchors:function(st, side){
@@ -508,9 +656,10 @@ function NMSKParts(E){
     cullNow:function(){ if (needCull()){ capture(viewSig()); E.redraw(); } },
     /* read-only view for tests / debugging */
     state:function(){
-      return {loaded:!!D, parts:D ? D.parts.length : 0, placements:M.length, showAll:P.mode === "all", mode:P.mode, band:P.band, hid:P.hid, canCull:canCull, panel:panelOpen(), cull:{n:cull.n, ms:Math.round(cull.ms * 10) / 10, avgMs:Math.round(cull.avg * 10) / 10, near:Math.round(cull.near), far:Math.round(cull.far), img:cull.img ? cull.img.w + "x" + cull.img.h : null, cnt:cull.cnt}, focus:focusI, pinned:pinI,
+      return {att:{on:A.on, scope:A.scope, cls:JSON.parse(JSON.stringify(A.cls)), shown:{o:ashown.o, i:ashown.i}, panel:!!apanel && !apanel.hidden, classes:AC ? attSummary() : null},
+              loaded:!!D, parts:D ? D.parts.length : 0, placements:M.length, showAll:P.mode === "all", mode:P.mode, band:P.band, hid:P.hid, canCull:canCull, panel:panelOpen(), cull:{n:cull.n, ms:Math.round(cull.ms * 10) / 10, avgMs:Math.round(cull.avg * 10) / 10, near:Math.round(cull.near), far:Math.round(cull.far), img:cull.img ? cull.img.w + "x" + cull.img.h : null, cnt:cull.cnt}, focus:focusI, pinned:pinI,
               sel:sel ? {mesh:sel.mesh, side:sel.s, n:sel.list.length} : null,
-              markers:M.map(function(mk){ return {j:mk.j, part:D.parts[mk.pi].id, side:mk.s, xyz:mk.xyz, cls:mk.c, e:mk.e, vis:mk.vis, why:mk.why, sx:mk.sx, sy:mk.sy, shown:!mk.el.hidden, cull:mk.cull | 0, behind:!!mk.behind, forced:!!mk.forced, dm:mk.dm == null ? null : Math.round(mk.dm), z:mk.zmin == null || mk.zmin === Infinity ? null : Math.round(mk.zmin)}; })};
+              markers:M.map(function(mk){ return {j:mk.j, part:D.parts[mk.pi].id, role:mk.ar, ac:mk.ac, side:mk.s, xyz:mk.xyz, cls:mk.c, e:mk.e, vis:mk.vis, why:mk.why, sx:mk.sx, sy:mk.sy, shown:!mk.el.hidden, cull:mk.cull | 0, behind:!!mk.behind, forced:!!mk.forced, dm:mk.dm == null ? null : Math.round(mk.dm), z:mk.zmin == null || mk.zmin === Infinity ? null : Math.round(mk.zmin)}; })};
     }
   };
 }

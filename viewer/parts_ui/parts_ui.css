@@ -1,4 +1,4 @@
-#pm-layer,#pm-card,#pm-panel,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
+#pm-layer,#pm-card,#pm-panel,#pm-att,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
 #pm-layer{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:21;overflow:hidden}
 #pm-layer .pm{position:absolute;left:0;top:0;width:0;height:0;padding:0;margin:0;border:0;background:none;pointer-events:none;overflow:visible;font:600 11px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--pm-ink)}
 #pm-layer .pm[hidden]{display:none}
@@ -89,3 +89,39 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 #pm-panel .pp-hint:empty{display:none}
 #pm-panel .pp-help{margin:5px 0 0;font-size:10.5px;line-height:1.4;color:var(--pm-dim)}
 @media (hover:none){#pm-panel .pp-seg button{min-height:38px;font-size:13px}#pm-panel input[type=range]{height:34px}}
+/* Q323 the attachments view (the "insertions" preset): origin / insertion colours, its panel sized to its content */
+#pm-layer,#pm-att{--pm-ori:#dc2626;--pm-ins:#1d4ed8}
+#pm-layer .pm.pm-ao .pm-ring{border-color:var(--pm-ori);opacity:.9}
+#pm-layer .pm.pm-ai .pm-ring{border-color:var(--pm-ins);opacity:.9}
+#pm-layer .pm.pm-ao.pm-behind .pm-ring{box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-ori)}
+#pm-layer .pm.pm-ai.pm-behind .pm-ring{box-shadow:0 0 0 3px rgba(255,255,255,.7),0 0 10px 4px var(--pm-ins)}
+#pm-att{position:fixed;left:12px;top:60px;z-index:47;box-sizing:border-box;width:max-content;max-width:min(300px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:7px 9px 8px;border-radius:9px;
+  background:var(--pm-bg);color:var(--pm-ink);border:1px solid var(--pm-line);box-shadow:0 8px 24px rgba(0,0,0,.22);font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto}
+#pm-att[hidden]{display:none}
+#pm-att .pp-h{display:flex;align-items:center;gap:6px}
+#pm-att .pp-h b{font-size:13px}
+#pm-att .pp-st{flex:1;color:var(--pm-dim);font-size:11px;text-align:right;white-space:nowrap}
+#pm-att .pp-x{border:0;background:none;color:var(--pm-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#pm-att .pp-l{margin:6px 0 2px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--pm-dim)}
+#pm-att i.pa-o,#pm-att i.pa-i{display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid var(--pm-ori);box-sizing:border-box;margin:0 3px 0 0;vertical-align:-1px}
+#pm-att i.pa-i{border-color:var(--pm-ins)}
+#pm-att .pa-lg{display:flex;gap:10px;align-items:center;font-size:11px;margin-top:2px}
+#pm-att .pa-rb{margin-left:auto;padding:0 6px;border-radius:99px;background:var(--pm-rule);font-size:10px;font-weight:700}
+#pm-att .pa-r{margin:2px 0 3px}
+#pm-att .pp-c{display:flex;align-items:center;gap:6px;margin:0;font-size:11.5px;cursor:pointer}
+#pm-att .pp-c input{width:15px;height:15px;margin:0;accent-color:var(--pm-accent)}
+#pm-att .pp-c input:disabled+.pa-nm{color:var(--pm-dim)}
+#pm-att .pa-nm{flex:1}
+#pm-att .pa-ct{font-variant-numeric:tabular-nums;font-size:11px;color:var(--pm-ink);white-space:nowrap;padding-left:8px}
+#pm-att .pa-sub{margin:0 0 0 21px;font-size:10px;line-height:1.3;color:var(--pm-dim);max-width:250px}
+#pm-att .pp-seg{display:flex;gap:4px;margin-top:6px}
+#pm-att .pp-seg button{flex:1 1 auto;font:inherit;font-size:11.5px;color:var(--pm-ink);background:transparent;border:1px solid var(--pm-line);border-radius:6px;padding:3px 8px;min-height:28px;cursor:pointer;touch-action:manipulation}
+#pm-att .pp-seg button[aria-pressed="true"]{background:var(--pm-accent);color:#fff;border-color:var(--pm-accent)}
+#pm-att .pa-hint{margin:4px 0 0;font-size:11px;font-weight:600;color:var(--pm-accent);max-width:260px}
+#pm-att .pa-hint:empty{display:none}
+#pm-att .pa-more{margin-top:4px;font-size:10.5px;color:var(--pm-dim)}
+#pm-att .pa-more summary{cursor:pointer}
+#pm-att .pa-help{margin:3px 0 0;line-height:1.4;max-width:260px}
+@media (hover:none){#pm-att .pp-seg button{min-height:34px;font-size:12.5px}#pm-att .pp-c input{width:18px;height:18px}}
+#pm-att .pa-cls{display:none}
+@media (max-width:559px){#pm-att .pa-sub{display:none}#pm-att .pa-cls{display:block;margin:3px 0 0;line-height:1.35}#pm-att .pa-r{margin:1px 0}}
