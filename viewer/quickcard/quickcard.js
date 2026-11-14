@@ -83,6 +83,11 @@ var NMSKQuickCard = (function(){
       }
       if (!pos){            // no free margin: the canvas edge farthest from the click
         var cand = [{x:V.l, y:V.t}, {x:V.r - w, y:V.t}, {x:V.l, y:V.b - h}, {x:V.r - w, y:V.b - h}, {x:(V.l + V.r - w) / 2, y:V.t}, {x:(V.l + V.r - w) / 2, y:V.b - h}];
+        /* phone: the top bar and the bottom title/foot fill the canvas edges, so also try just below everything that hangs from
+           the top and just above everything that stands on the bottom */
+        var topB = V.t, botT = V.b, mY = (V.t + V.b) / 2;
+        O.forEach(function(o){ if (o.b < mY) topB = Math.max(topB, o.b + 4); else if (o.t > mY) botT = Math.min(botT, o.t - 4); });
+        [V.l, V.r - w, (V.l + V.r - w) / 2].forEach(function(x){ cand.push({x:x, y:topB}); cand.push({x:x, y:botT - h}); });
         cand.sort(function(a, b){ return Math.hypot(b.x + w / 2 - px, b.y + h / 2 - py) - Math.hypot(a.x + w / 2 - px, a.y + h / 2 - py); });
         for (var k2 = 0; k2 < cand.length && !pos; k2++){ var r = {l:cand[k2].x, t:cand[k2].y, r:cand[k2].x + w, b:cand[k2].y + h}; if (!hit(r, P, 10)){ var clear = true; for (var q = 0; q < O.length; q++) if (hit(r, O[q], 4)) clear = false; if (clear) pos = cand[k2]; } }
         if (!pos){ for (var k3 = 0; k3 < cand.length && !pos; k3++){ var r3 = {l:cand[k3].x, t:cand[k3].y, r:cand[k3].x + w, b:cand[k3].y + h}; if (!hit(r3, P, 10)) pos = cand[k3]; } }
