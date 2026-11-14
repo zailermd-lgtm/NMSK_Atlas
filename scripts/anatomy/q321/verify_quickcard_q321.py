@@ -88,7 +88,7 @@ def scan(pg, rx, only_layer=None, grid=26):
     for iy in range(grid):
         for ix in range(grid):
             x = l + (r - l) * (ix + 0.5) / grid; y = t + (bt - t) * (iy + 0.5) / grid
-            pg.mouse.click(x, y); pg.wait_for_timeout(35)
+            pg.mouse.click(x, y); pg.wait_for_timeout(35 if pg.viewport_size["width"] >= 1000 else 450)   # phone: taps closer than the double-tap window read as a double-tap (reset view)
             c = card_info(pg)
             if c and re.search(rx, c["name"], re.I) and (not only_layer or c["sub"].lower().startswith(only_layer)):
                 return x, y, c

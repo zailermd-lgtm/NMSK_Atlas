@@ -232,7 +232,11 @@ var NMSKGroups = (function(){
     var top = Math.round(Math.max(4, r.top + 6));
     bar.style.top = top + "px";
     if (sheet && !sheet.hidden && !sheetDragged){
-      sheet.style.width = w + "px";
+      /* Q321: a sheet is as wide as what it holds, never wider than the bar (owner: boxes that open must not be
+         longer or wider than their buttons and text). max-content gives the width of the widest row unwrapped. */
+      sheet.style.width = "max-content";
+      var sw = Math.max(220, Math.min(w, Math.ceil(sheet.getBoundingClientRect().width) + 2));
+      sheet.style.width = sw + "px";
       sheet.style.left = bar.style.left;
       sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.55)) + "px";
       sheet.style.top = (top + (bar.offsetHeight || 0) + 4) + "px";
