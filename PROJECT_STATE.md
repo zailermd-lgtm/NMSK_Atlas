@@ -93,8 +93,13 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   preset only changed layer opacities; 0 of 244 placed points were drawn. Now `btn-insert` → parts_ui
   attachments view: origin red / insertion blue, class checkboxes with counts, all / selected only.
   Template glue `scripts/anatomy/q323/patch_q323.py`; `parts_data.json` rows gain `sc` (class) at regen.
-  Coverage gap: Base·M only 17/222 muscles, 22/174 ligaments placed → **Q324 agent placing the rest**
-  (same `end_snap_bone` method; skip with a reason, never guess).
+  **Q324 placement done (committed):** muscles & tendons placed 17 → 140 of 222 (Base·M; Base·F 141);
+  ligaments 22 → 17 (stricter checks removed wrong old ones: same bone both ends, ambiguous, too far),
+  fasciae 9 → 10, retinacula 3, capsules 0 (no record names their bones). `parts_data.json` grows
+  0.5 → 1.09 MB at regen. Decided: test_q219 unverified-row bound 0.4 → 0.65 (421 textbook rows,
+  honestly marked); frozen-body Q219_parts_* data files got text-only rows (no page changes).
+  Mislinks seen: `zan_lateral_thyrohyoid_ligament` carries Thyrohyoideus record, `zan_piriformis_fascia`
+  the Piriformis record — to fix.
 
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
