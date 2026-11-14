@@ -88,6 +88,11 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   validate with other sources → `data/anatomy/innervation_q322.json`, `docs/Q322_innervation_sources.md`.
   Step 3 (next agent): the mode itself, IZ markers placed from landmarks = rule-based, badged, cited.
 
+- **Q323 insertions view** (owner 2026-11-14): verify the `btn-insert` preset really shows muscle/tendon
+  origins AND insertions; add a choice of tissue classes (ligaments, fasciae, capsules, retinacula…) and
+  selected-only vs all; real data only (footprints / Q220 rule-based markers). Agent; verifier
+  `scripts/anatomy/q323/verify_insertions_q323.py`.
+
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
   geometry (scan already shows a needle placed in a posed state).
