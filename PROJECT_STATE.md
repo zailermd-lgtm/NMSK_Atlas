@@ -2,7 +2,7 @@
 
 Read this first in a fresh session instead of the conversation. Keep it short (target < 200 lines):
 it holds only what is true NOW. When a round closes, move its detail to `docs/PROJECT_HISTORY.md`
-(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-14.
+(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-14 (after the Q321–Q324 publish).
 
 ## 1. Standing rules (owner)
 - Real sources only; never present fabricated or sculpted geometry as real. Anything fitted from the
@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v88 (Q320) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v83 (Q320) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v89 (Q321–Q324) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v84 (Q321–Q324) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -68,41 +68,17 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   3. **Abbreviation clash (hand vs foot / forearm vs leg names → "X-L.2"): fix** — a ".2" must mean a
      second piece of one structure, never a different structure in another region.
 
-## 7. In progress
-- **Q321 click card: done (committed).** `viewer/quickcard` + `scripts/anatomy/q321/patch_q321.py`. Cause of
-  "nothing opens": on desktop `body.lay-model` hid `#info`. Card: name · layer · side + Hide/Fade/Show only/
-  Select/Zoom to/More…, beside the model with a leader line; on phone below the top bar / above the title.
-  Verifier `Q321_QUICKCARD_OK`: Base·F 1400 (35), Base·M 1400, Base·M 390 (33). Toolbar sheets now
-  content-width (Search 760→574, Dissection →336, Imaging →220, Page →220; Systems/Navigate/Favorites stay).
-  Ships at the next regen.
-- **Q321 abbreviation clash: done in source** (`abbrev.py` region split; 28 structures per Base page,
-  e.g. `DI-L (hand)` / `DI-L (foot)`); reaches the pages at the next regen. Same structure from two
-  sources on Base·F (urinary bladder, internal iliac / pudendal veins) keeps `.2` — decided: one
-  structure, so `.2` fits the rule.
-
-- **Q322 MUSCLE INNERVATION mode.** Source: Güvener et al., EUR J PRM 2026;62(5):441-59, DOI
-  10.23736/S1973-9087.26.09497-9 (CC BY-NC-ND: facts only, PDF not in repo). Steps 1–2 DONE (committed):
-  `data/anatomy/innervation_q322.json` (60 muscles, 94 IZ bands, 51 landmarks, 49 sources reviewed),
-  private `clinical/data/innervation_injection_q322.json`, `docs/Q322_innervation_sources.md`, builders
-  `scripts/anatomy/q322/build_q322.py` + `scripts/clinical/build_innervation_private_q322.py`, test (10).
-  **Step 3 DONE (committed):** mode `inn` (viewer/innervation + viewer/modes tile), colour by trunk / root,
-  root or nerve → its muscles, panel follows the selection; IZ rings placed by
-  `scripts/anatomy/q322/place_iz_q322.py` (46/46 landmarks, 174/188 bands; 8 latissimus/teres bands
-  unplaced — skin line misses the muscle; proposed rule: project onto the muscle along the outward normal,
-  badged — not done yet). Sidecar `innervation_q322.json` built at regen (add to --expect-changed).
-  Verifier `scripts/anatomy/q322/verify_innervation_q322.py`. Triceps/gastrocnemius suspicious values
-  are not displayed anywhere. Open: `#pl-box #rs-box #sa-bar` hidden only in mode-inn (should be all modes).
-- **Q323 insertions view: fixed (committed, verifier OK on both Base pages × both sizes).** Cause: the
-  preset only changed layer opacities; 0 of 244 placed points were drawn. Now `btn-insert` → parts_ui
-  attachments view: origin red / insertion blue, class checkboxes with counts, all / selected only.
-  Template glue `scripts/anatomy/q323/patch_q323.py`; `parts_data.json` rows gain `sc` (class) at regen.
-  **Q324 placement done (committed):** muscles & tendons placed 17 → 140 of 222 (Base·M; Base·F 141);
-  ligaments 22 → 17 (stricter checks removed wrong old ones: same bone both ends, ambiguous, too far),
-  fasciae 9 → 10, retinacula 3, capsules 0 (no record names their bones). `parts_data.json` grows
-  0.5 → 1.09 MB at regen. Decided: test_q219 unverified-row bound 0.4 → 0.65 (421 textbook rows,
-  honestly marked); frozen-body Q219_parts_* data files got text-only rows (no page changes).
-  Mislinks seen: `zan_lateral_thyrohyoid_ligament` carries Thyrohyoideus record, `zan_piriformis_fascia`
-  the Piriformis record — to fix.
+## 7. Shipped 2026-11-14 (Base·M v89, Base·F v84) — detail in the history file when archived
+- **Q321** click card on every pick (name + Hide/Fade/Show only/Select/Zoom to/More…), beside the model;
+  toolbar sheets content-width; abbreviations `X-L (hand)` / `X-L (foot)` instead of `.2`.
+- **Q322** Muscle innervation mode (`inn`): data `data/anatomy/innervation_q322.json` (60 muscles, 49 sources
+  reviewed), IZ rings from landmarks (174/188 bands; 8 latissimus/teres unplaced), sidecar
+  `innervation_q322.json`.
+- **Q323** insertions view draws origins (red) / insertions (blue) by tissue class, all / selected only.
+- **Q324** attachment points placed for 140/222 muscles (was 17), stricter checks on ligaments/fasciae.
+- All verifiers OK on /dev/shm/q325 (Q318 toprow, Q319 spine/search/nerves, Q321, Q322, Q323; both pages,
+  desktop + phone for Q321/Q322/Q323).
+- Regen `--expect-changed` list now also needs `innervation_q322.json`.
 
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
@@ -113,11 +89,7 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-Regen of base_m base_f DONE → /dev/shm/q325 (adds innervation_q322.json to --expect-changed). Verifiers
-running (scratchpad v325.txt). Then publish both Base pages: index.html, clinical_imaging_tool.js,
-clinical_ultrasound_tool.js, parts_data.json, symmetry_q237.json, innervation_q322.json.
-
-(Older note:)
-When the Q321 agents report: check sync (`--check`), commit by filename, one regen of base_m base_f,
-verify (Q318/Q319 verifiers + Q321 quickcard), publish both Base pages, log the stretch, update §3/§7
-here and move Q321's detail to the history file.
+Nothing in flight. Candidates, in order: (1) latissimus/teres IZ bands — project the skin-line point onto
+the muscle along the outward normal, badged; (2) hide `#pl-box #rs-box #sa-bar` in every mode, not only
+`inn` (check inj/us/cmp); (3) record mislinks `zan_lateral_thyrohyoid_ligament`, `zan_piriformis_fascia`;
+(4) injection clip (§8); (5) mode-colour leftover after Undo (edge case).

@@ -14415,3 +14415,41 @@ owner's three decisions listed above.
 - Correction: **both Base pages run the Z engine** (Base·F is not the own engine). Own-engine pose hooks added in `glue_own.js` are untested in a browser (only frozen pages use that engine).
 - One regen (`all` = base_m base_f) -> /dev/shm/q320; browser: every Measure verdict PASS vs trimesh, pose-scan posed-differs/rest-reproduced/probe-on-skin PASS, Q318_TOPROW / Q319_SPINE / SEARCH / NERVES OK, on both. Published Base·M v88 (1794533229-1657), Base·F v83 (1794533232-7eaa): index.html, clinical_imaging_tool.js, clinical_ultrasound_tool.js, parts_data.json, symmetry_q237.json.
 - Open: injection clip (needle tool -> scan `setNeedle` link + play control; needle tool still plans on rest geometry); five extra Measure buttons not checked at phone width; pre-existing failures test_q255_us_rotation_thickness, test_q272_modes x2.
+
+## Q321–Q324 (2026-11-14) — moved from PROJECT_STATE §7 at publish (Base·M v89, Base·F v84)
+
+- **Q321 click card: done (committed).** `viewer/quickcard` + `scripts/anatomy/q321/patch_q321.py`. Cause of
+  "nothing opens": on desktop `body.lay-model` hid `#info`. Card: name · layer · side + Hide/Fade/Show only/
+  Select/Zoom to/More…, beside the model with a leader line; on phone below the top bar / above the title.
+  Verifier `Q321_QUICKCARD_OK`: Base·F 1400 (35), Base·M 1400, Base·M 390 (33). Toolbar sheets now
+  content-width (Search 760→574, Dissection →336, Imaging →220, Page →220; Systems/Navigate/Favorites stay).
+  Ships at the next regen.
+- **Q321 abbreviation clash: done in source** (`abbrev.py` region split; 28 structures per Base page,
+  e.g. `DI-L (hand)` / `DI-L (foot)`); reaches the pages at the next regen. Same structure from two
+  sources on Base·F (urinary bladder, internal iliac / pudendal veins) keeps `.2` — decided: one
+  structure, so `.2` fits the rule.
+
+- **Q322 MUSCLE INNERVATION mode.** Source: Güvener et al., EUR J PRM 2026;62(5):441-59, DOI
+  10.23736/S1973-9087.26.09497-9 (CC BY-NC-ND: facts only, PDF not in repo). Steps 1–2 DONE (committed):
+  `data/anatomy/innervation_q322.json` (60 muscles, 94 IZ bands, 51 landmarks, 49 sources reviewed),
+  private `clinical/data/innervation_injection_q322.json`, `docs/Q322_innervation_sources.md`, builders
+  `scripts/anatomy/q322/build_q322.py` + `scripts/clinical/build_innervation_private_q322.py`, test (10).
+  **Step 3 DONE (committed):** mode `inn` (viewer/innervation + viewer/modes tile), colour by trunk / root,
+  root or nerve → its muscles, panel follows the selection; IZ rings placed by
+  `scripts/anatomy/q322/place_iz_q322.py` (46/46 landmarks, 174/188 bands; 8 latissimus/teres bands
+  unplaced — skin line misses the muscle; proposed rule: project onto the muscle along the outward normal,
+  badged — not done yet). Sidecar `innervation_q322.json` built at regen (add to --expect-changed).
+  Verifier `scripts/anatomy/q322/verify_innervation_q322.py`. Triceps/gastrocnemius suspicious values
+  are not displayed anywhere. Open: `#pl-box #rs-box #sa-bar` hidden only in mode-inn (should be all modes).
+- **Q323 insertions view: fixed (committed, verifier OK on both Base pages × both sizes).** Cause: the
+  preset only changed layer opacities; 0 of 244 placed points were drawn. Now `btn-insert` → parts_ui
+  attachments view: origin red / insertion blue, class checkboxes with counts, all / selected only.
+  Template glue `scripts/anatomy/q323/patch_q323.py`; `parts_data.json` rows gain `sc` (class) at regen.
+  **Q324 placement done (committed):** muscles & tendons placed 17 → 140 of 222 (Base·M; Base·F 141);
+  ligaments 22 → 17 (stricter checks removed wrong old ones: same bone both ends, ambiguous, too far),
+  fasciae 9 → 10, retinacula 3, capsules 0 (no record names their bones). `parts_data.json` grows
+  0.5 → 1.09 MB at regen. Decided: test_q219 unverified-row bound 0.4 → 0.65 (421 textbook rows,
+  honestly marked); frozen-body Q219_parts_* data files got text-only rows (no page changes).
+  Mislinks seen: `zan_lateral_thyrohyoid_ligament` carries Thyrohyoideus record, `zan_piriformis_fascia`
+  the Piriformis record — to fix.
+
