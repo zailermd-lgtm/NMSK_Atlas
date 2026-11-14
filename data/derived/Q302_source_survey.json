@@ -1,0 +1,393 @@
+{
+ "sparc": {
+  "api": "https://api.pennsieve.io/discover/datasets",
+  "published_datasets_total": 615,
+  "organizations": {
+   "SPARC": 217,
+   "Pennsieve Discover": 2,
+   "NIH PRECISION Human Pain Network": 17,
+   "Penn CNT": 119,
+   "Publishing Collections": 10,
+   "RE-JOIN": 6,
+   "SPARC Consortium": 203,
+   "Pennsieve Prod Test": 2,
+   "Wanunu Lab": 2,
+   "Publishing Code Repos": 1,
+   "Niedre Lab - Northeastern University": 5,
+   "Penn Immune Health": 3,
+   "HEAL PRECISION": 1,
+   "Stacey Lab": 6,
+   "NIH Intramural Research": 1,
+   "IT'IS Foundation": 10,
+   "Pennsieve Test": 1,
+   "Gaunt Lab": 1,
+   "Northeastern University": 1,
+   "Blackfynn": 2,
+   "Clark Lab": 1,
+   "Mayo": 4
+  },
+  "limb_pelvic_keyword_hits": 37,
+  "limb_pelvic_human_hits": [
+   {
+    "id": 135,
+    "doi": "10.26275/r4zj-yyzw",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Computational analysis of the human sinus node action potential - Model development and effects of mutations"
+   },
+   {
+    "id": 157,
+    "doi": "10.26275/lj3f-erhp",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Fabbri-based composite SAN model"
+   },
+   {
+    "id": 206,
+    "doi": "10.26275/kkmb-vun5",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Recording of electrically evoked neural activity and bladder pressure responses in awake rats chronically implanted with a pelvic nerve array"
+   },
+   {
+    "id": 289,
+    "doi": "10.26275/bcrr-uenq",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Defining neuromechanical mechanisms of Achilles tendinopathy progression- healthy human subjects (pilot)"
+   },
+   {
+    "id": 452,
+    "doi": "10.26275/pc8r-r3iu",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Human pudendal nerve mapping dataset"
+   },
+   {
+    "id": 481,
+    "doi": "10.26275/z4o7-q22u",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Ultra-high resolution multi-modal imaging dataset of human cadaveric lumbosacral spinal cord - MRI-CT-DTI"
+   },
+   {
+    "id": 529,
+    "doi": "10.26275/kvbv-lbq7",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Mapping neurons in the human inferior hypogastric plexus using large volume imaging"
+   },
+   {
+    "id": 692,
+    "doi": "10.26275/1jdc-qiiv",
+    "license": "Creative Commons Attribution",
+    "human": true,
+    "name": "Mapping the fascicular morphology and organization of the human sciatic nerve via high-resolution microCT imaging"
+   }
+  ]
+ },
+ "sparc_692": {
+  "doi": "10.26275/1jdc-qiiv",
+  "license_spdx": "CC-BY-4.0",
+  "license_api": "Creative Commons Attribution",
+  "version": 1,
+  "file_count": 116,
+  "size_bytes": 369737939477,
+  "subject": {
+   "id": "sub-SC001",
+   "age_years": 41,
+   "sex": "Male",
+   "species": "Homo sapiens",
+   "state": "embalmed cadaver"
+  },
+  "voxel_um": 11.4,
+  "samples": [
+   "SCL2",
+   "SCL3",
+   "SCL4",
+   "SCR2",
+   "SCR3",
+   "SCR4"
+  ],
+  "sample_length_cm_nominal": 9,
+  "scl2_centerline": {
+   "points": 7465,
+   "axial_span_mm": 84.76,
+   "lateral_span_axis1_mm": 1.0,
+   "lateral_span_axis2_mm": 1.32,
+   "arc_length_mm": 85.09
+  },
+  "scl2_eq_diameter_mm": {
+   "n": 7308,
+   "min": 5.83,
+   "max": 7.31,
+   "mean": 6.45
+  },
+  "branches_annotated": [
+   "long head of biceps femoris",
+   "semitendinosus A",
+   "semitendinosus B",
+   "semimembranosus",
+   "adductor magnus"
+  ],
+  "common_fibular_branch_present": false,
+  "excised_and_straightened": true
+ },
+ "bodyparts3d": {
+  "download_page": "https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html",
+  "reachable": true,
+  "release": "4.0 (3D data updated 2013-06-19)",
+  "doi": "10.18908/lsdba.nbdc00837-000",
+  "license": "CC BY 4.0 International",
+  "license_page_last_updated": "2025-02-27",
+  "license_change_note": "relicensed from CC BY-SA 2.1 Japan to CC BY 4.0 International on 2025-02-27 per the official Update History",
+  "required_attribution": "BodyParts3D, (c) The Database Center for Life Science licensed under CC Attribution 4.0 International",
+  "subject": "one adult human male, whole body",
+  "parts_isa": 2905,
+  "parts_partof": 1368,
+  "mesh_downloads": {
+   "isa_BP3D_4.0_obj_99.zip": "136 MB",
+   "partof_BP3D_4.0_obj_99.zip": "62 MB",
+   "polygon_reduction_rate": "99%"
+  },
+  "nerve_entries_total": 55,
+  "nerve_entries_peripheral_limb": [],
+  "nerve_entries_sample": [
+   "anterior ethmoidal nerve",
+   "branch of cranial nerve",
+   "branch of frontal nerve",
+   "branch of nasociliary nerve",
+   "branch of oculomotor nerve",
+   "branch of ophthalmic nerve",
+   "branch of trigeminal nerve",
+   "communicating branch of left nasociliary nerve with left ciliary ganglion",
+   "communicating branch of nasociliary nerve with ciliary ganglion",
+   "communicating branch of right nasociliary nerve with right ciliary ganglion",
+   "cranial nerve",
+   "frontal nerve"
+  ],
+  "nail_entries": [],
+  "breast_entries": [],
+  "delta_vs_our_zanatomy_pin": {
+   "mons pubis": [
+    "partof",
+    "FMA20218",
+    "BP9719"
+   ],
+   "perineum": [
+    "partof",
+    "FMA9579",
+    "BP10063"
+   ],
+   "anal part of perineum": [
+    "partof",
+    "FMA20347",
+    "BP10062"
+   ]
+  },
+  "already_in_zanatomy_despite_name_difference": [
+   "levator ani",
+   "pubococcygeus",
+   "iliococcygeus",
+   "coccygeus",
+   "tendinous arch of levator ani"
+  ],
+  "measured_obj_download": {
+   "archive": "partof_BP3D_4.0_obj_99.zip",
+   "bytes": 64888505,
+   "obj_files": 1258,
+   "filename_namespace": "element-part ids (FJxxxx); a named structure is a composition defined in partof_element_parts.txt",
+   "mons pubis": {
+    "fma": "FMA20218",
+    "elements": [
+     "FJ2815"
+    ],
+    "verts": 5523,
+    "faces": 2960,
+    "bbox_mm": [
+     121.8,
+     37.4,
+     63.6
+    ]
+   },
+   "perineum": {
+    "fma": "FMA9579",
+    "elements": [
+     "FJ1450",
+     "FJ1450M",
+     "FJ2543",
+     "FJ2548"
+    ],
+    "faces_each": 368,
+    "verts_each": 250,
+    "bbox_mm": [
+     11.5,
+     21.8,
+     21.3
+    ],
+    "verdict": "a ~2 cm region marker, not a perineal skin surface; FJ1450M is a mirror of FJ1450"
+   },
+   "right femur_reference": {
+    "fma": "FMA24474",
+    "elements": [
+     "FJ3365"
+    ],
+    "verts": 1574,
+    "faces": 3102,
+    "bbox_mm": [
+     118.2,
+     62.7,
+     466.1
+    ],
+    "note": "shows the 99% reduction: too coarse for this atlas"
+   },
+   "skin_whole_body": {
+    "fma": "FMA7163",
+    "elements": [
+     "FJ2810"
+    ],
+    "verts": 102467,
+    "faces": 203382,
+    "bbox_mm": [
+     666.9,
+     292.0,
+     1719.5
+    ],
+    "note": "the one part kept at full resolution"
+   }
+  }
+ },
+ "zanatomy_head": {
+  "repo": "https://github.com/Z-Anatomy/Models-of-human-anatomy",
+  "head_commit": "7b9197672eea2ed44ae238d3cfbf38e39b7586a9",
+  "head_commit_date": "2026-11-02 00:33:44 +0100",
+  "our_pin": "6c7f9016bd5899ac8edafd31b9900c151df42ed6",
+  "license": "CC BY-SA 4.0",
+  "attribution_required": [
+   "BodyParts3D - The Database Center for Life Science - CC-BY-SA 2.1 Japan (stale: BodyParts3D is CC BY 4.0 since 2025-02-27)",
+   "Z-Anatomy - The libre 3D atlas of anatomy - CC-BY-SA 4.0"
+  ],
+  "non_free_components_declared": [
+   "Anatomy of the Inner Ear - University of Dundee School of Medicine - CC-BY-NC-SA 4.0",
+   "Kidney - Lissie Cowley - CC-BY-NC 4.0"
+  ],
+  "blend_object_datablocks": 7374,
+  "blend_mesh_datablocks": 3549,
+  "female_model_status": "TO DO List still lists CREATE A FEMALE HUMAN MODEL under MIDTERM (not done)",
+  "text_only_terms_no_OB_or_ME_datablock": [
+   "Mons pubis",
+   "Nipple",
+   "Areola",
+   "Nail bed",
+   "Digital pulp",
+   "Clitoris",
+   "Labium",
+   "Vagina",
+   "Uterus",
+   "Ovary",
+   "Cooper's ligaments"
+  ],
+  "nail_objects": [
+   "Nail plate (foot).l",
+   "Nail plate (foot).r",
+   "Nail plate.l",
+   "Nail plate.r"
+  ],
+  "fibular_nerve_objects_sample": [
+   "Common fibular nerve.l",
+   "Common fibular nerve.r",
+   "Deep fibular nerve.l",
+   "Deep fibular nerve.r",
+   "Dorsal digital branches of deep fibular nerve.l",
+   "Dorsal digital branches of deep fibular nerve.r",
+   "Dorsal digital branches of superficial fibular nerve.l",
+   "Dorsal digital branches of superficial fibular nerve.r"
+  ],
+  "new_vs_pin_in_gap_categories": {
+   "nerve": 0,
+   "female_perineum": 0,
+   "nail_pulp": 0,
+   "breast": 0,
+   "bursa": 0
+  }
+ },
+ "scaffolds": {
+  "sparc_445": {
+   "doi": "10.26275/s0po-usdk",
+   "license": "CC-BY (SPARC)",
+   "size_mb": 12.3,
+   "ships": [
+    "spinalNervesHuman_zinc_graphics.stl (5.2 MB)",
+    "spinalNervesHuman_root.vtk (2.0 MB)"
+   ],
+   "provenance_quote": "The generic scaffold is not subject/sample specific but represents an average human spinal nerves.",
+   "physiome_mirror": "https://models.physiomeproject.org/e/d71 (workspace d48, changeset 39e222b0835ba9c9f20f52aebf4218b90fe0608e) - provenance file only, no geometry"
+  },
+  "sparc_307": {
+   "doi": "10.26275/bbvg-gj86",
+   "license": "CC-BY (SPARC)",
+   "size_mb": 381.7,
+   "provenance_quote": "The fiducials for the nerves are placed by best guess into the human body using literature to check and verify the location.",
+   "vasculature_source": "Anatomography (= BodyParts3D), already held by this project"
+  }
+ },
+ "zygote": {
+  "reachable": true,
+  "license": "proprietary, all rights reserved (Zygote Media Group, Inc.); product terms accompany the file and are not published",
+  "website_terms_quote": "solely for your own informational, non-commercial use",
+  "products": {
+   "3D Female Integumentary System": {
+    "price_usd": 690,
+    "tris": 128380,
+    "provenance_quote": "generated from laser scans of live models"
+   },
+   "3D Female Reproductive System": {
+    "price_usd": 1050,
+    "tris": 134444,
+    "provenance_quote": "carefully developed from photographic and illustrative atlases"
+   },
+   "3D Female Nervous System": {
+    "price_usd": 3230,
+    "tris": 1171150,
+    "provenance_quote": "digitized from physical models"
+   }
+  }
+ },
+ "biodigital": {
+  "reachable": true,
+  "offering": [
+   "Viewer API",
+   "Content API",
+   "iOS SDK",
+   "Android SDK"
+  ],
+  "quote": "Embed immersive 3D experiences in your application with our Javascript API.",
+  "mesh_files_delivered": false
+ },
+ "biorxiv": {
+  "url": "https://www.biorxiv.org/content/10.64898/2026.03.18.712572v1",
+  "http_status_every_attempt": 429,
+  "attempts": 4,
+  "webfetch": "DNS-blocked (ENOTFOUND www.biorxiv.org)",
+  "doi_org": "CONNECT 403 through the proxy",
+  "crossref_api": "CONNECT 403 through the proxy",
+  "biorxiv_api": "CONNECT 403 through the proxy",
+  "prefix_10_64898_is_real_biorxiv_prefix": true,
+  "evidence_prefix_real": "a live sibling DOI 10.64898/2026.03.02.709006 was returned by web search",
+  "this_article_id_found": false,
+  "conclusion": "could not be resolved or verified from this sandbox; no title, authors, licence or data-availability statement established; no citation given and nothing attributed to it"
+ },
+ "verdict": {
+  "imported": "nothing",
+  "reason": "no source among the eight both satisfies the real-sources rule and closes one of the seven gaps",
+  "gaps_closed": [],
+  "published": "nothing"
+ },
+ "gap1_reverified_by_q303": {
+  "fibular_peroneal_mesh_ids_imaging_pages": 0,
+  "fibular_peroneal_mesh_ids_each_z_page": 24,
+  "source": "the pages' own calibre.json, re-verified in Q303 section E",
+  "note": "supersedes the figure 18 quoted in the Q302 round brief",
+  "lower_limb_nerves_missing_total": 71
+ }
+}

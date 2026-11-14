@@ -1,0 +1,4811 @@
+{
+ "schema": "nmsk.imaging_tissue_verification.v1",
+ "task": "Q229",
+ "date": "2026-10-12",
+ "table": "clinical/data/imaging_tissues.json",
+ "method": "Each numeric table value (CT HU; MRI PD, T1, T2, T2* at 1.5 T) was looked up in PubMed abstracts, open PMC full-text paragraphs and the Consensus abstract index. 'verified' = the number (mean / median / range) is printed in an abstract or full-text paragraph that was read; the viewer uses the statistic named in 'statistic'. Table cells of the key papers (Gold 2004, Stanisz 2005, Bottomley 1984, de Bazelaire 1.5 T, Lamba 2014, IT'IS database reference PDFs) could not be opened (no egress to the publishers/PMC/IT'IS pages from the sandbox; the full-text tool drops tables), so those values stay unverified.",
+ "definitions": "verified = number (or its mean/median/range) read in an accessible PubMed abstract or open full-text prose this session; derived = computed from verified numbers; secondary_checked = seen only in a secondary compilation / search excerpt; assumption = modelling choice; recalled_unverified = value kept from Q226, NOT re-read",
+ "totals": {
+  "numeric_values": 165,
+  "verified": 32,
+  "derived": 12,
+  "secondary_checked": 5,
+  "assumption": 75,
+  "recalled_unverified": 41,
+  "still_unverified": 121,
+  "verified_or_derived": 44,
+  "changed_gt_10pct": 11
+ },
+ "changed_gt_10pct": [
+  {
+   "tissue": "fat",
+   "part": "mri",
+   "field": "t2",
+   "previous": 85,
+   "value": 74,
+   "change_pct": -12.94
+  },
+  {
+   "tissue": "muscle",
+   "part": "ct",
+   "field": "hu",
+   "previous": 52,
+   "value": 45.5,
+   "change_pct": -12.5
+  },
+  {
+   "tissue": "spleen",
+   "part": "mri",
+   "field": "t2",
+   "previous": 79,
+   "value": 66,
+   "change_pct": -16.46
+  },
+  {
+   "tissue": "thyroid",
+   "part": "ct",
+   "field": "hu",
+   "previous": 85,
+   "value": 104.5,
+   "change_pct": 22.94
+  },
+  {
+   "tissue": "lung",
+   "part": "mri",
+   "field": "t2s",
+   "previous": 2,
+   "value": 1.4,
+   "change_pct": -30.0
+  },
+  {
+   "tissue": "brain_wm",
+   "part": "ct",
+   "field": "hu",
+   "previous": 28,
+   "value": 33.0,
+   "change_pct": 17.86
+  },
+  {
+   "tissue": "brain_gm",
+   "part": "mri",
+   "field": "t1",
+   "previous": 998,
+   "value": 1098,
+   "change_pct": 10.02
+  },
+  {
+   "tissue": "brain",
+   "part": "ct",
+   "field": "hu",
+   "previous": 33,
+   "value": 36.5,
+   "change_pct": 10.61
+  },
+  {
+   "tissue": "fluid_free",
+   "part": "ct",
+   "field": "hu",
+   "previous": 5,
+   "value": 6.2,
+   "change_pct": 24.0
+  },
+  {
+   "tissue": "blood_vein",
+   "part": "mri",
+   "field": "t2s",
+   "previous": 100,
+   "value": 42,
+   "change_pct": -58.0
+  },
+  {
+   "tissue": "blood_artery",
+   "part": "mri",
+   "field": "t2s",
+   "previous": 150,
+   "value": 254,
+   "change_pct": 69.33
+  }
+ ],
+ "tissues": [
+  {
+   "key": "air",
+   "label": "Air (outside the body)",
+   "ct_status": "verified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 1,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": -1000,
+     "value": -1000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "scale fixed point (air = -1000 HU)",
+     "range": [
+      -1000,
+      -1000
+     ],
+     "sources": [
+      {
+       "key": "lamba2014",
+       "pmid": "25341139",
+       "doi": "10.2214/AJR.12.10037",
+       "pmcid": "PMC5015439",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "hounsfield1973",
+       "pmid": "4757352",
+       "doi": null,
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Lamba 2014 full text (HU scale fixed points), Hounsfield 1973 definition"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.0,
+     "value": 0.0,
+     "change_pct": null,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1000,
+     "value": 1000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 1,
+     "value": 1,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 1,
+     "value": 1,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "fat",
+   "label": "Fat (subcutaneous / intermuscular baseline)",
+   "ct_status": "verified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 2,
+    "derived": 1,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": -100,
+     "value": -106,
+     "change_pct": -6.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "midpoint of the 95% reference interval",
+     "range": [
+      -123,
+      -89
+     ],
+     "sources": [
+      {
+       "key": "pop2023",
+       "pmid": "37296765",
+       "doi": "10.3390/diagnostics13111913",
+       "pmcid": "PMC10252728",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Pop 2023 abstract: total abdominal fat 95% RI -123..-89 HU (4000 samples, indirect method); only the interval is stated, the viewer uses its midpoint; subcutaneous vs visceral differ by 3.82 HU"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.9,
+     "value": 0.9,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 270,
+     "value": 284,
+     "change_pct": 5.19,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "n-weighted mean of 20 obese (275 +- 14) and 10 lean (301 +- 12) subcutaneous-fat groups = 283.7 (range = group means)",
+     "range": [
+      275,
+      301
+     ],
+     "sources": [
+      {
+       "key": "garnov2014",
+       "pmid": "25066754",
+       "doi": "10.1002/nbm.3166",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Garnov 2014 abstract: 1.5 T STIR-SE, 30 subjects; the 3 T value 382 +- 13 ms (de Bazelaire) is NOT used"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 85,
+     "value": 74,
+     "change_pct": -12.94,
+     "changed_gt_10pct": true,
+     "status": "derived",
+     "statistic": "3 T subcutaneous-fat T2 68 +- 4 ms scaled by the abstract's average 3 T/1.5 T T2 ratio (-8%): 68/0.92 = 74",
+     "range": [
+      68,
+      74
+     ],
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "johnson1985",
+       "pmid": "2991980",
+       "doi": "10.1148/radiology.156.3.2991980",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "de Bazelaire abstract: T2 8% shorter at 3 T for liver, spleen and fat (average over the three, not fat alone); Johnson 1985 abstract: T2 independent of field (dogs); fast-SE T2 of fat is longer in practice (J-coupling), not simulated"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 55,
+     "value": 55,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "skin",
+   "label": "Skin",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 4
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 50,
+     "value": 50,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      30,
+      70
+     ],
+     "sources": [
+      {
+       "key": "schneider2000",
+       "pmid": "10701515",
+       "doi": "10.1088/0031-9155/45/2/314",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: no unenhanced CT attenuation of skin found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.7,
+     "value": 0.7,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 850,
+     "value": 850,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: no skin T1/T2 at 1.5 T found"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 55,
+     "value": 55,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: no skin T1/T2 at 1.5 T found"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 30,
+     "value": 30,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "synovial",
+   "label": "Synovial fluid / bursa / tendon sheath",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 4
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 10,
+     "value": 10,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      0,
+      20
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no synovial-fluid HU found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.95,
+     "value": 0.95,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 3000,
+     "value": 3000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: Gold 2004 synovial-fluid table not readable"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 500,
+     "value": 500,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: Gold 2004 synovial-fluid table not readable"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 300,
+     "value": 300,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "tendon_ligament",
+   "label": "Tendon / ligament / fascia / capsule (dense fibrous)",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 4
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 70,
+     "value": 70,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      50,
+      100
+     ],
+     "sources": [
+      {
+       "key": "schneider2000",
+       "pmid": "10701515",
+       "doi": "10.1088/0031-9155/45/2/314",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no unenhanced CT attenuation of tendon / ligament found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.6,
+     "value": 0.6,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 600,
+     "value": 600,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: only qualitative UTE statements found (short T2*); no 1.5 T T1/T2 number"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 6,
+     "value": 6,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: only qualitative UTE statements found (short T2*); no 1.5 T T1/T2 number"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 2,
+     "value": 2,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "muscle",
+   "label": "Skeletal muscle",
+   "ct_status": "verified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 1,
+    "derived": 0,
+    "secondary_checked": 2,
+    "assumption": 1,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 52,
+     "value": 45.5,
+     "change_pct": -12.5,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "mean of the two sex-specific global means (47.4 men, 43.6 women)",
+     "range": [
+      43.6,
+      47.4
+     ],
+     "sources": [
+      {
+       "key": "ju2025",
+       "pmid": "40334088",
+       "doi": "10.2214/AJR.25.32781",
+       "pmcid": "PMC13019695",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Ju 2025 abstract: meta-analysis, L3 skeletal muscle density, healthy adults 18-45 y (7 studies, 11,175 persons); muscle mask includes intramuscular fat; contrast status not stated in the abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.79,
+     "value": 0.79,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1008,
+     "value": 1008,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "secondary_checked",
+     "statistic": "single value, 1.5 T",
+     "range": null,
+     "sources": [
+      {
+       "key": "baselice2014",
+       "pmid": null,
+       "doi": null,
+       "pmcid": "PMC3958261",
+       "opened": null
+      }
+     ],
+     "detail": "Sensors 2014 Table 3 row 'skeletal muscle' 1008 ms seen only in a search excerpt; primary table (Gold 2004 / de Bazelaire 2004) not read"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 44,
+     "value": 44,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "secondary_checked",
+     "statistic": "single value, 1.5 T",
+     "range": null,
+     "sources": [
+      {
+       "key": "baselice2014",
+       "pmid": null,
+       "doi": null,
+       "pmcid": "PMC3958261",
+       "opened": null
+      }
+     ],
+     "detail": "Sensors 2014 Table 3 muscle 44 ms (excerpt); the 3 T paravertebral muscle value 29 +- 4 ms is in the de Bazelaire abstract and T2 is nearly field independent, so 44 ms may be high"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 30,
+     "value": 30,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "nerve",
+   "label": "Peripheral nerve",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 0,
+    "derived": 1,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 3
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 30,
+     "value": 30,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      20,
+      40
+     ],
+     "sources": [
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: no peripheral-nerve HU found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.7,
+     "value": 0.7,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1100,
+     "value": 1100,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: Stanisz 2005 (3 T, ex vivo) table not readable; no 1.5 T in-vivo abstract value found"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 60,
+     "value": 64.5,
+     "change_pct": 7.5,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "3 T sciatic-nerve mean 64.54 ms (n=21; range = +- 1 SD 8.2), T2 taken as field independent",
+     "range": [
+      56.3,
+      72.7
+     ],
+     "sources": [
+      {
+       "key": "preisner2021",
+       "pmid": "34104997",
+       "doi": "10.1007/s00330-021-08072-9",
+       "pmcid": "PMC8589742",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "johnson1985",
+       "pmid": "2991980",
+       "doi": "10.1148/radiology.156.3.2991980",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Preisner 2021 abstract (3 T); Johnson 1985 abstract: T2 independent of field; T1 of nerve stays unverified"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 35,
+     "value": 35,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "liver",
+   "label": "Liver",
+   "ct_status": "verified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 2,
+    "derived": 0,
+    "secondary_checked": 1,
+    "assumption": 1,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 60,
+     "value": 59.4,
+     "change_pct": -1.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "median (range = IQR 55.00-66.06)",
+     "range": [
+      55.0,
+      66.1
+     ],
+     "sources": [
+      {
+       "key": "kirshenboim2022",
+       "pmid": "35675689",
+       "doi": "10.1097/RCT.0000000000001340",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Kirshenboim 2022 abstract: unenhanced normal-dose chest CT, n=72, liver median 59.38 HU"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.75,
+     "value": 0.75,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 586,
+     "value": 557,
+     "change_pct": -4.95,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean of 38 healthy subjects (557 +- 47, MOLLI 1.5 T); range = normal limits of Meloni 2023 (n=100)",
+     "range": [
+      442,
+      705
+     ],
+     "sources": [
+      {
+       "key": "damlin2024",
+       "pmid": "39332708",
+       "doi": "10.1016/j.jocmr.2024.101104",
+       "pmcid": "PMC11647495",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "meloni2023",
+       "pmid": "38019376",
+       "doi": "10.1007/s10334-023-01135-6",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Damlin 2024 abstract; Gilligan 2019 children 581 +- 64 and the Sensors-table 576 agree within 5%; MOLLI-type mapping, not spin-echo inversion recovery"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 46,
+     "value": 46,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "secondary_checked",
+     "statistic": "single value; verified normal range 35-54 ms (men) / 39-54 ms (women), midpoint ~45.5",
+     "range": [
+      35,
+      54
+     ],
+     "sources": [
+      {
+       "key": "meloni2023",
+       "pmid": "38019376",
+       "doi": "10.1007/s10334-023-01135-6",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "baselice2014",
+       "pmid": null,
+       "doi": null,
+       "pmcid": "PMC3958261",
+       "opened": null
+      }
+     ],
+     "detail": "Meloni 2023 abstract gives only the range (1.5 T, n=100); 46 ms (Sensors-table excerpt / de Bazelaire 1.5 T via secondary) lies inside it"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 28,
+     "value": 28,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "spleen",
+   "label": "Spleen",
+   "ct_status": "derived",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 1,
+    "derived": 2,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 48,
+     "value": 50,
+     "change_pct": 4.17,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "liver 59.4 HU minus the midpoint (9.5 HU) of the liver-minus-spleen reference range 1-18 HU",
+     "range": [
+      41,
+      58
+     ],
+     "sources": [
+      {
+       "key": "kirshenboim2022",
+       "pmid": "35675689",
+       "doi": "10.1097/RCT.0000000000001340",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "park2011",
+       "pmid": "21212369",
+       "doi": "10.1148/radiol.10101233",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Park 2011 abstract: n=96 biopsy-proven non-steatotic livers, CT(L-S) = 1-18 HU; no absolute spleen mean was found in an abstract, so this is derived (range = liver - 18 .. liver - 1)"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.8,
+     "value": 0.8,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1057,
+     "value": 1132,
+     "change_pct": 7.1,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean of 38 healthy subjects (1132 +- 70, MOLLI 1.5 T); range = mean +- 1 SD",
+     "range": [
+      1062,
+      1202
+     ],
+     "sources": [
+      {
+       "key": "damlin2024",
+       "pmid": "39332708",
+       "doi": "10.1016/j.jocmr.2024.101104",
+       "pmcid": "PMC11647495",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gilligan2019",
+       "pmid": "31049609",
+       "doi": "10.1007/s00247-019-04411-7",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Damlin 2024 abstract; children (Gilligan 2019) 1172 +- 71"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 79,
+     "value": 66,
+     "change_pct": -16.46,
+     "changed_gt_10pct": true,
+     "status": "derived",
+     "statistic": "3 T spleen T2 61 +- 9 ms scaled by the average 3 T/1.5 T T2 ratio (-8%): 61/0.92 = 66",
+     "range": [
+      61,
+      79
+     ],
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "johnson1985",
+       "pmid": "2991980",
+       "doi": "10.1148/radiology.156.3.2991980",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "supersedes the Q226 value 79 ms (secondary table, not re-read); range = 3 T measurement .. old value"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 40,
+     "value": 40,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "kidney",
+   "label": "Kidney parenchyma",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 1,
+    "derived": 1,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 2
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 32,
+     "value": 32,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      28,
+      36
+     ],
+     "sources": [
+      {
+       "key": "lamba2014",
+       "pmid": "25341139",
+       "doi": "10.2214/AJR.12.10037",
+       "pmcid": "PMC5015439",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: only the Lamba 2014 table (unreadable here) lists unenhanced renal cortex HU; contrast studies found are not applicable"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.8,
+     "value": 0.8,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1000,
+     "value": 1056,
+     "change_pct": 5.6,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "renal CORTEX mean of 38 healthy subjects (1056 +- 59, MOLLI 1.5 T); range = cortex .. medulla (1514 +- 81)",
+     "range": [
+      1056,
+      1514
+     ],
+     "sources": [
+      {
+       "key": "damlin2024",
+       "pmid": "39332708",
+       "doi": "10.1016/j.jocmr.2024.101104",
+       "pmcid": "PMC11647495",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "the model has one kidney class: the viewer uses the cortex value; the cortex-to-medulla split is not modelled. Lunzer 2026 cortex 1054 +- 53 (n=65) agrees"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 78,
+     "value": 78,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "mean of 3 T cortex 76 +- 7 and medulla 81 +- 8 ms (T2 taken as field independent)",
+     "range": [
+      76,
+      81
+     ],
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "johnson1985",
+       "pmid": "2991980",
+       "doi": "10.1148/radiology.156.3.2991980",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "de Bazelaire abstract (3 T) + field independence of T2 (Johnson 1985, Stanisz 2005 abstract); no 1.5 T abstract value"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 50,
+     "value": 50,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "solid_organ",
+   "label": "Other solid organ / gland (pancreas, adrenal, prostate, uterus, salivary ...)",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 3,
+    "recalled_unverified": 2
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 45,
+     "value": 45,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      30,
+      60
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: organ-specific unenhanced HU (pancreas, adrenal, prostate, uterus ...) not found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.78,
+     "value": 0.78,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 900,
+     "value": 900,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "generic blend",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "NOT a verified 1.5 T value: blend of 3 T numbers (pancreas 725, prostate 1597, myometrium 1514 ms; de Bazelaire abstract); paediatric 1.5 T pancreas is 576 +- 55 ms (Gilligan 2019), so organ-specific values differ strongly"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 60,
+     "value": 60,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "generic blend",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "blend of 3 T T2 (pancreas 43, prostate 74, myometrium 79 ms); T2 is nearly field independent but the blend itself is a choice"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 35,
+     "value": 35,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "thyroid",
+   "label": "Thyroid (iodine-rich)",
+   "ct_status": "verified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 1,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 85,
+     "value": 104.5,
+     "change_pct": 22.94,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "mean (range = mean +- 1 SD, SD 21.0)",
+     "range": [
+      83.5,
+      125.5
+     ],
+     "sources": [
+      {
+       "key": "barnes1981",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": "https://consensus.app/papers/details/883376f8c03e58e2b29520ef6be2ee93/ (abstract text)"
+      }
+     ],
+     "detail": "Barnes 1981 abstract (Consensus index; not in PubMed): 20 lobes, GE 8800, US population, 104.5 +- 21.0 HU unenhanced"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.78,
+     "value": 0.78,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 900,
+     "value": 900,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 70,
+     "value": 70,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 40,
+     "value": 40,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "gi_tract",
+   "label": "GI tract (wall + content)",
+   "ct_status": "assumption",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 5,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 35,
+     "value": 35,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": [
+      10,
+      50
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "wall and content are not separated in the meshes; gas pockets and oral contrast are not modelled"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.8,
+     "value": 0.8,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1100,
+     "value": 1100,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 80,
+     "value": 80,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 40,
+     "value": 40,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "heart",
+   "label": "Heart (myocardium + chambers as one mesh)",
+   "ct_status": "recalled_unverified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 2,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 2,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 45,
+     "value": 45,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      35,
+      55
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: the myocardial HU found (92-103 HU) are contrast-enhanced; no unenhanced myocardium mean found"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.78,
+     "value": 0.78,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1000,
+     "value": 992,
+     "change_pct": -0.8,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "unweighted mean of three MOLLI-family 1.5 T cohort means 1006 / 1025 / 944.2 (Shaw: mean of FA 35 and 50); range = min..max",
+     "range": [
+      942,
+      1025
+     ],
+     "sources": [
+      {
+       "key": "damlin2024",
+       "pmid": "39332708",
+       "doi": "10.1016/j.jocmr.2024.101104",
+       "pmcid": "PMC11647495",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "rosmini2018",
+       "pmid": "29617988",
+       "doi": "10.1093/ehjci/jey034",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "shaw2022",
+       "pmid": "36434341",
+       "doi": "10.1007/s10554-022-02648-2",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "ShMOLLI reads lower (957-962 ms; Rosmini 2018, Piechnik 2013) and SASHA higher (1144 ms); MOLLI-type mapping is precise but not an absolute T1"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 50,
+     "value": 46,
+     "change_pct": -8.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean of the two flip-angle settings (45.67 / 45.61 ms; SD 1.4)",
+     "range": [
+      44.3,
+      47.1
+     ],
+     "sources": [
+      {
+       "key": "shaw2022",
+       "pmid": "36434341",
+       "doi": "10.1007/s10554-022-02648-2",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Shaw 2022 abstract: 1.5 T hybrid gradient-and-spin-echo T2 mapping, 50 healthy volunteers (mean age 34)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 30,
+     "value": 30,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "lung",
+   "label": "Lung parenchyma (inflated)",
+   "ct_status": "verified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 2,
+    "derived": 1,
+    "secondary_checked": 0,
+    "assumption": 2,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": -800,
+     "value": -844,
+     "change_pct": -5.5,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "median (range = IQR -853..-830.8)",
+     "range": [
+      -853,
+      -831
+     ],
+     "sources": [
+      {
+       "key": "wu2021",
+       "pmid": "34679488",
+       "doi": "10.3390/diagnostics11101791",
+       "pmcid": "PMC8534441",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Wu 2021 full text (PMC8534441): 65 healthy adults, normal PFT, full inspiration, 120 kV: inspiratory mean lung density median -843.8 HU; expiration -689.9 HU (value depends on inflation)"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.25,
+     "value": 0.23,
+     "change_pct": -8.0,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "0.29 +- 0.08 relative to chest-wall muscle x model muscle PD 0.79 = 0.23",
+     "range": [
+      0.17,
+      0.36
+     ],
+     "sources": [
+      {
+       "key": "hatabu1999",
+       "pmid": "10399610",
+       "doi": "10.1016/s0720-048x(98)00169-7",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Hatabu 1999 abstract: proton density relative to chest-wall muscle; the muscle PD of this table (0.79) is itself not verified"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1100,
+     "value": 1100,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 30,
+     "value": 30,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 2,
+     "value": 1.4,
+     "change_pct": -30.0,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "mean of 6 volunteers 1.43 +- 0.41 ms (range = individual min..max)",
+     "range": [
+      0.89,
+      2.18
+     ],
+     "sources": [
+      {
+       "key": "hatabu1999",
+       "pmid": "10399610",
+       "doi": "10.1016/s0720-048x(98)00169-7",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Hatabu 1999 abstract, 1.5 T, submillisecond-TE GRE, breath-hold (level of inflation affects the signal)"
+    }
+   ]
+  },
+  {
+   "key": "air_lumen",
+   "label": "Air in airways",
+   "ct_status": "verified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 1,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": -1000,
+     "value": -1000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "scale fixed point (air = -1000 HU)",
+     "range": [
+      -1000,
+      -1000
+     ],
+     "sources": [
+      {
+       "key": "lamba2014",
+       "pmid": "25341139",
+       "doi": "10.2214/AJR.12.10037",
+       "pmcid": "PMC5015439",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Lamba 2014 full text (HU scale fixed points), Hounsfield 1973 definition"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.0,
+     "value": 0.0,
+     "change_pct": null,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1000,
+     "value": 1000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 1,
+     "value": 1,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 1,
+     "value": 1,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "brain_wm",
+   "label": "Brain white matter",
+   "ct_status": "verified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 3,
+    "derived": 0,
+    "secondary_checked": 1,
+    "assumption": 1,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 28,
+     "value": 33.0,
+     "change_pct": 17.86,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "unweighted mean of three cohort means 28.25 / 37.4 / 33.4 (range = min..max)",
+     "range": [
+      28.3,
+      37.4
+     ],
+     "sources": [
+      {
+       "key": "mishra2016",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": "https://consensus.app/papers/details/a7ebaf1bda1b52f187d648958e8bd9b8/ (abstract text)"
+      },
+      {
+       "key": "stein2025",
+       "pmid": "40592542",
+       "doi": "10.3174/ajnr.A8910",
+       "pmcid": "PMC12723697",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Mishra 2016 (16-row MDCT, n=72) 28.25; Stein 2025 EID-CT (n=329) 37.4 and PCD-CT (n=180) 33.4 HU; scanner offset of several HU, so the mean of cohorts is used"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.7,
+     "value": 0.71,
+     "change_pct": 1.43,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean water content 0.71 (SD 0.01) g/ml, used as PD relative to pure water",
+     "range": null,
+     "sources": [
+      {
+       "key": "whittall1997",
+       "pmid": "8978630",
+       "doi": "10.1002/mrm.1910370107",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Whittall 1997 abstract (12 volunteers)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 681,
+     "value": 664,
+     "change_pct": -2.5,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "unweighted mean of Wright 2008 MPRAGE 646 +- 32 ms (n=4) and the Rooney 2007 formula at 1.5 T (681 ms)",
+     "range": [
+      646,
+      681
+     ],
+     "sources": [
+      {
+       "key": "wright2008",
+       "pmid": "18259791",
+       "doi": "10.1007/s10334-008-0104-8",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "both read in their PubMed abstracts"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 72,
+     "value": 72,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "secondary_checked",
+     "statistic": "single value; verified range 70-86 ms (main-peak geometric mean, WM and GM structures pooled)",
+     "range": [
+      70,
+      86
+     ],
+     "sources": [
+      {
+       "key": "baselice2014",
+       "pmid": null,
+       "doi": null,
+       "pmcid": "PMC3958261",
+       "opened": null
+      },
+      {
+       "key": "whittall1997",
+       "pmid": "8978630",
+       "doi": "10.1002/mrm.1910370107",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "72 ms (Sensors-table excerpt) lies inside the Whittall 1997 range; the abstract does not separate WM from GM and excludes the short myelin-water component"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 50,
+     "value": 50,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "wansapura1999",
+       "pmid": "10232510",
+       "doi": "10.1002/(SICI)1522-2586(199904)9:4<531::AID-JMRI4>3.0.CO;2-L",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "brain_gm",
+   "label": "Brain gray matter",
+   "ct_status": "verified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 3,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 38,
+     "value": 40.0,
+     "change_pct": 5.26,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "unweighted mean of three cohort means 34.54 / 45.1 / 40.4 (range = min..max)",
+     "range": [
+      34.5,
+      45.1
+     ],
+     "sources": [
+      {
+       "key": "mishra2016",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": "https://consensus.app/papers/details/a7ebaf1bda1b52f187d648958e8bd9b8/ (abstract text)"
+      },
+      {
+       "key": "stein2025",
+       "pmid": "40592542",
+       "doi": "10.3174/ajnr.A8910",
+       "pmcid": "PMC12723697",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Mishra 2016 34.54; Stein 2025 EID-CT 45.1 and PCD-CT 40.4 HU (Kim 2019 bins: normal 31-35 GM / 26-30 WM)"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.8,
+     "value": 0.83,
+     "change_pct": 3.75,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean water content 0.83 (SD 0.03) g/ml, used as PD relative to pure water",
+     "range": null,
+     "sources": [
+      {
+       "key": "whittall1997",
+       "pmid": "8978630",
+       "doi": "10.1002/mrm.1910370107",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Whittall 1997 abstract (12 volunteers)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 998,
+     "value": 1098,
+     "change_pct": 10.02,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "unweighted mean of Wright 2008 cortical gray matter 1197 +- 134 ms (MPRAGE, n=4) and the Rooney 2007 internal-gray-matter formula at 1.5 T (998 ms)",
+     "range": [
+      998,
+      1197
+     ],
+     "sources": [
+      {
+       "key": "wright2008",
+       "pmid": "18259791",
+       "doi": "10.1007/s10334-008-0104-8",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "cortical and deep gray matter differ; the mesh class mixes both"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 95,
+     "value": 95,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "baselice2014",
+       "pmid": null,
+       "doi": null,
+       "pmcid": "PMC3958261",
+       "opened": null
+      }
+     ],
+     "detail": "not verified: 95 ms (Sensors-table excerpt) is ABOVE the Whittall 1997 main-peak range 70-86 ms; no primary value found, kept as is"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 55,
+     "value": 55,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "wansapura1999",
+       "pmid": "10232510",
+       "doi": "10.1002/(SICI)1522-2586(199904)9:4<531::AID-JMRI4>3.0.CO;2-L",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "brain",
+   "label": "Brain (gray + white not separated)",
+   "ct_status": "derived",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 3,
+    "secondary_checked": 0,
+    "assumption": 2,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 33,
+     "value": 36.5,
+     "change_pct": 10.61,
+     "changed_gt_10pct": true,
+     "status": "derived",
+     "statistic": "mean of the white-matter and gray-matter values above",
+     "range": [
+      28.3,
+      45.1
+     ],
+     "sources": [
+      {
+       "key": "mishra2016",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": "https://consensus.app/papers/details/a7ebaf1bda1b52f187d648958e8bd9b8/ (abstract text)"
+      },
+      {
+       "key": "stein2025",
+       "pmid": "40592542",
+       "doi": "10.3174/ajnr.A8910",
+       "pmcid": "PMC12723697",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "derived: (33.0 + 40.0) / 2"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.75,
+     "value": 0.77,
+     "change_pct": 2.67,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "mean of white (0.71) and gray (0.83) water content",
+     "range": null,
+     "sources": [
+      {
+       "key": "whittall1997",
+       "pmid": "8978630",
+       "doi": "10.1002/mrm.1910370107",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "derived"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 830,
+     "value": 881,
+     "change_pct": 6.14,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "mean of white (664) and gray (1098) matter T1",
+     "range": [
+      664,
+      1098
+     ],
+     "sources": [
+      {
+       "key": "wright2008",
+       "pmid": "18259791",
+       "doi": "10.1007/s10334-008-0104-8",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "derived (equal volume weights assumed)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 82,
+     "value": 82,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 52,
+     "value": 52,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "spinal_cord",
+   "label": "Spinal cord",
+   "ct_status": "recalled_unverified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 1,
+    "secondary_checked": 0,
+    "assumption": 3,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 32,
+     "value": 32,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      25,
+      40
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no cord HU found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.72,
+     "value": 0.72,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 750,
+     "value": 750,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 75,
+     "value": 74.5,
+     "change_pct": -0.67,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "mean of 3 T cervical-cord white matter 73 +- 6 and gray matter 76 +- 3 ms (T2 taken as field independent)",
+     "range": [
+      73,
+      76
+     ],
+     "sources": [
+      {
+       "key": "smith2008",
+       "pmid": "18581383",
+       "doi": "10.1002/mrm.21596",
+       "pmcid": "PMC2887301",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "johnson1985",
+       "pmid": "2991980",
+       "doi": "10.1148/radiology.156.3.2991980",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Smith 2008 abstract (3 T); T1 (field dependent) and T2* are NOT taken from 3 T"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 45,
+     "value": 45,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "fluid_free",
+   "label": "Free fluid (CSF, urine, bile, vitreous)",
+   "ct_status": "verified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 3,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 2,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 5,
+     "value": 6.2,
+     "change_pct": 24.0,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "unweighted mean of three reported means 5.2 / 6.43 / 7.04 (range = Vigo-Prieto min..max)",
+     "range": [
+      -1,
+      12
+     ],
+     "sources": [
+      {
+       "key": "vigo2025",
+       "pmid": "40755717",
+       "doi": "10.7759/cureus.87154",
+       "pmcid": "PMC12315049",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "asan2023",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": "https://consensus.app/papers/details/d59ae0d0495556c09e9b4f8e69dec448/ (abstract text)"
+      }
+     ],
+     "detail": "CSF only: Vigo-Prieto 2025 (lateral-ventricle atrium, n=34) 5.2 HU; Asan 2023 (Consensus index) lateral ventricle 6.43, fourth ventricle 7.04 HU; urine, bile and vitreous are NOT covered"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 1.0,
+     "value": 1.0,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "definition (CSF = reference water, PD 1)",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "normalisation choice"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 4300,
+     "value": 4300,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "in vivo lateral ventricle, 4.3 s, no field dependence (6.25-60.1 MHz)",
+     "range": null,
+     "sources": [
+      {
+       "key": "hopkins1986",
+       "pmid": "3713494",
+       "doi": "10.1002/mrm.1910030214",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Hopkins 1986 abstract; Jiang 2023 (3 T) subarachnoid 4309 +- 147 ms agrees"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 2000,
+     "value": 2000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "Hopkins 2 s; range = Jiang 2023 subarachnoid 1885.5 .. frontal horns 2372.9 ms (3 T, T2 field independent)",
+     "range": [
+      1886,
+      2373
+     ],
+     "sources": [
+      {
+       "key": "hopkins1986",
+       "pmid": "3713494",
+       "doi": "10.1002/mrm.1910030214",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "jiang2023",
+       "pmid": "37582262",
+       "doi": "10.1002/mrm.29829",
+       "pmcid": "PMC10696635",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Hopkins 1986 abstract"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 1500,
+     "value": 1500,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "lymph_node",
+   "label": "Lymph node / tonsil / small lymph vessel",
+   "ct_status": "recalled_unverified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 40,
+     "value": 40,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      30,
+      55
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no unenhanced normal lymph-node HU found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.85,
+     "value": 0.85,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 900,
+     "value": 900,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 80,
+     "value": 80,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 45,
+     "value": 45,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "cartilage",
+   "label": "Hyaline cartilage",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 1,
+    "assumption": 1,
+    "recalled_unverified": 3
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 100,
+     "value": 100,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      60,
+      130
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no CT attenuation of hyaline cartilage found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.75,
+     "value": 0.75,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1000,
+     "value": 1000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: Gold 2004 table not readable; the Sensors-table excerpt gives 1038/44 ms (not opened), conflicting with 1000/35 here"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 35,
+     "value": 35,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "secondary_checked",
+     "statistic": "single value 35 ms kept; verified range 30.1-45.2 ms (3 T MESE, regional / depth means of normal knee cartilage)",
+     "range": [
+      30.1,
+      45.2
+     ],
+     "sources": [
+      {
+       "key": "delattre2026",
+       "pmid": "42147918",
+       "doi": "10.21037/qims-2025-1-2462",
+       "pmcid": "PMC13178380",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "baselice2014",
+       "pmid": null,
+       "doi": null,
+       "pmcid": "PMC3958261",
+       "opened": null
+      }
+     ],
+     "detail": "35 ms lies inside the Delattre 2026 range; the Sensors-table excerpt (1.5 T) gives 44 ms and no single mean could be read, so the value stays secondary_checked"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 20,
+     "value": 20,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "fibrocartilage",
+   "label": "Fibrocartilage (meniscus, labrum, annulus)",
+   "ct_status": "recalled_unverified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 90,
+     "value": 90,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      60,
+      120
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no CT attenuation of meniscus / annulus found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.6,
+     "value": 0.6,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 800,
+     "value": 800,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 12,
+     "value": 12,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 6,
+     "value": 6,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "disc",
+   "label": "Intervertebral disc nucleus",
+   "ct_status": "recalled_unverified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 90,
+     "value": 90,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      70,
+      110
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no CT attenuation of the disc nucleus found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.88,
+     "value": 0.88,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1100,
+     "value": 1100,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no 1.5 T disc-nucleus T1/T2 found (reported T2 mapping values are 3 T or paediatric)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 90,
+     "value": 90,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no 1.5 T disc-nucleus T1/T2 found (reported T2 mapping values are 3 T or paediatric)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 50,
+     "value": 50,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "woodard1986",
+       "pmid": "3801800",
+       "doi": "10.1259/0007-1285-59-708-1209",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "bone_cancellous",
+   "label": "Cancellous bone + red/mixed marrow",
+   "ct_status": "assumption",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 5,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 190,
+     "value": 190,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "model choice inside a verified scale",
+     "range": [
+      100,
+      300
+     ],
+     "sources": [
+      {
+       "key": "pickhardt2013",
+       "pmid": "23588747",
+       "doi": "10.7326/0003-4819-158-8-201304160-00003",
+       "pmcid": "PMC3736840",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "schreiber2011",
+       "pmid": "21655899",
+       "doi": "10.2106/JBJS.J.00160",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Pickhardt 2013 abstract: L1 trabecular HU thresholds 110 (osteoporosis, >90% specific), 145, 160 (90% sensitive), 200 (NPV 99% above); 190 is a young-adult choice inside that scale, not a measured mean"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.5,
+     "value": 0.5,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 270,
+     "value": 270,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 85,
+     "value": 85,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 12,
+     "value": 12,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "debazelaire2004",
+       "pmid": "14990831",
+       "doi": "10.1148/radiol.2303021331",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "marrow_yellow",
+   "label": "Medullary canal (yellow marrow)",
+   "ct_status": "recalled_unverified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 4
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": -50,
+     "value": -50,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      -100,
+      0
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no yellow-marrow HU found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.85,
+     "value": 0.85,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 300,
+     "value": 300,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: Gold 2004 marrow row not readable; yellow marrow behaves like fat (T1 ~ 284 ms, Garnov 2014) but that is an inference"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 100,
+     "value": 100,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: Gold 2004 marrow row not readable; yellow marrow behaves like fat (T1 ~ 284 ms, Garnov 2014) but that is an inference"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 25,
+     "value": 25,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "gold2004",
+       "pmid": "15269023",
+       "doi": "10.2214/ajr.183.2.1830343",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "bone_cortical",
+   "label": "Cortical bone",
+   "ct_status": "recalled_unverified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 1300,
+     "value": 1300,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      800,
+      1800
+     ],
+     "sources": [
+      {
+       "key": "schneider2000",
+       "pmid": "10701515",
+       "doi": "10.1088/0031-9155/45/2/314",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "schreiber2011",
+       "pmid": "21655899",
+       "doi": "10.2106/JBJS.J.00160",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: only cone-beam CT jaw values (1068-1874, uncalibrated) were found; no calibrated MDCT cortical-bone mean"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.03,
+     "value": 0.03,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 300,
+     "value": 300,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: in-vivo cortical bone UTE values are 3 T (water-pool R1 8.9 s^-1, i.e. T1 ~ 112 ms, Ma 2018); signal void on every conventional sequence either way"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 0.4,
+     "value": 0.4,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: in-vivo cortical bone UTE values are 3 T (water-pool R1 8.9 s^-1, i.e. T1 ~ 112 ms, Ma 2018); signal void on every conventional sequence either way"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 0.3,
+     "value": 0.3,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "bottomley1984",
+       "pmid": "6482839",
+       "doi": "10.1118/1.595535",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "tooth",
+   "label": "Tooth (enamel + dentine)",
+   "ct_status": "recalled_unverified",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 4,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 1800,
+     "value": 1800,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": [
+      1200,
+      2500
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "not verified: no enamel/dentine HU found in an accessible abstract"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.02,
+     "value": 0.02,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 300,
+     "value": 300,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 0.3,
+     "value": 0.3,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 0.3,
+     "value": 0.3,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "blood_vein",
+   "label": "Blood in veins",
+   "ct_status": "verified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 4,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 0,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 45,
+     "value": 45.0,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "pulmonary-artery value in non-anaemic adults (range: anaemic aortic arch 33.4 .. paediatric venous-sinus controls 48.9)",
+     "range": [
+      33.4,
+      48.9
+     ],
+     "sources": [
+      {
+       "key": "damodaran2025",
+       "pmid": "40951139",
+       "doi": "10.7759/cureus.89901",
+       "pmcid": "PMC12426566",
+       "opened": "PubMed record"
+      },
+      {
+       "key": "delavega2018",
+       "pmid": "30327829",
+       "doi": "10.1007/s00247-018-4273-y",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Damodaran Kumar 2025 abstract: unenhanced chest CT, non-anaemic pulmonary artery 45.0 HU; blood HU falls with haemoglobin (anaemic 33-36 HU); de la Vega Muns 2018 paediatric sinus controls 48.9 +- 3.1"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.85,
+     "value": 0.85,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1549,
+     "value": 1549,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "Rooney 2007 blood formula 1.35 B0^0.340 s at 1.5 T = 1549 ms; range: Barth 1997 in vitro arterial 1434 (23 degC) .. Damlin 2024 LV blood 1576 +- 100",
+     "range": [
+      1434,
+      1576
+     ],
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "damlin2024",
+       "pmid": "39332708",
+       "doi": "10.1016/j.jocmr.2024.101104",
+       "pmcid": "PMC11647495",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Rooney abstract; Damlin 2024 healthy LV blood 1576 +- 100 ms (MOLLI 1.5 T) agrees within 2%"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 180,
+     "value": 181,
+     "change_pct": 0.56,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean of venous samples 181 +- 23 ms (range = +- 1 SD)",
+     "range": [
+      158,
+      204
+     ],
+     "sources": [
+      {
+       "key": "barth1997",
+       "pmid": "9298600",
+       "doi": null,
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Barth 1997 abstract: in vitro, 1.5 T, 23 degC (37 degC and oxygenation differences not modelled)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 100,
+     "value": 42,
+     "change_pct": -58.0,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "mean venous T2* 42 +- 2.8 ms (B0-inhomogeneity corrected, in vitro)",
+     "range": [
+      39.2,
+      44.8
+     ],
+     "sources": [
+      {
+       "key": "barth1997",
+       "pmid": "9298600",
+       "doi": null,
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Barth 1997 abstract; intrinsic value, vessel-geometry susceptibility effects are not modelled"
+    }
+   ]
+  },
+  {
+   "key": "blood_artery",
+   "label": "Blood in arteries",
+   "ct_status": "verified",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 4,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 0,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 45,
+     "value": 44.9,
+     "change_pct": -0.22,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean of the four non-anaemic sites 45.2 / 45.1 / 44.2 / 45.0",
+     "range": [
+      33.4,
+      48.9
+     ],
+     "sources": [
+      {
+       "key": "damodaran2025",
+       "pmid": "40951139",
+       "doi": "10.7759/cureus.89901",
+       "pmcid": "PMC12426566",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Damodaran Kumar 2025 abstract: non-anaemic aortic arch, ascending, descending aorta, pulmonary artery"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.85,
+     "value": 0.85,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "stanisz2005",
+       "pmid": "16086319",
+       "doi": "10.1002/mrm.20605",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1549,
+     "value": 1549,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "same as venous blood (formula + Damlin LV blood)",
+     "range": [
+      1434,
+      1576
+     ],
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "damlin2024",
+       "pmid": "39332708",
+       "doi": "10.1016/j.jocmr.2024.101104",
+       "pmcid": "PMC11647495",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Rooney abstract"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 250,
+     "value": 254,
+     "change_pct": 1.6,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "mean arterial 254 +- 26 ms (range = +- 1 SD)",
+     "range": [
+      228,
+      280
+     ],
+     "sources": [
+      {
+       "key": "barth1997",
+       "pmid": "9298600",
+       "doi": null,
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Barth 1997 abstract: in vitro, 1.5 T, 23 degC"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 150,
+     "value": 254,
+     "change_pct": 69.33,
+     "changed_gt_10pct": true,
+     "status": "verified",
+     "statistic": "mean arterial T2* 254 +- 32 ms (B0-corrected, in vitro)",
+     "range": [
+      222,
+      286
+     ],
+     "sources": [
+      {
+       "key": "barth1997",
+       "pmid": "9298600",
+       "doi": null,
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Barth 1997 abstract"
+    }
+   ]
+  },
+  {
+   "key": "blood_chamber",
+   "label": "Blood in heart chambers / great vessels (pooled)",
+   "ct_status": "derived",
+   "mri_status": "recalled_unverified",
+   "counts": {
+    "verified": 1,
+    "derived": 2,
+    "secondary_checked": 0,
+    "assumption": 1,
+    "recalled_unverified": 1
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 45,
+     "value": 45.0,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "mean of the arterial (44.9) and venous (45.0) values",
+     "range": [
+      33.4,
+      48.9
+     ],
+     "sources": [
+      {
+       "key": "damodaran2025",
+       "pmid": "40951139",
+       "doi": "10.7759/cureus.89901",
+       "pmcid": "PMC12426566",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "derived; pooled chamber blood"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.85,
+     "value": 0.85,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "recalled_unverified",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "not verified: water-fraction PD from Woodard & White 1986 (abstract has no numbers) / assumption"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1549,
+     "value": 1549,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "verified",
+     "statistic": "as for blood above",
+     "range": [
+      1434,
+      1576
+     ],
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      },
+      {
+       "key": "damlin2024",
+       "pmid": "39332708",
+       "doi": "10.1016/j.jocmr.2024.101104",
+       "pmcid": "PMC11647495",
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "Rooney abstract"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 220,
+     "value": 218,
+     "change_pct": -0.91,
+     "changed_gt_10pct": false,
+     "status": "derived",
+     "statistic": "mean of venous (181) and arterial (254) T2 for pooled chamber blood",
+     "range": [
+      181,
+      254
+     ],
+     "sources": [
+      {
+       "key": "barth1997",
+       "pmid": "9298600",
+       "doi": null,
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "derived"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 120,
+     "value": 120,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "rooney2007",
+       "pmid": "17260370",
+       "doi": "10.1002/mrm.21122",
+       "pmcid": null,
+       "opened": "PubMed record"
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  },
+  {
+   "key": "soft_unassigned",
+   "label": "Soft tissue (unassigned)",
+   "ct_status": "assumption",
+   "mri_status": "assumption",
+   "counts": {
+    "verified": 0,
+    "derived": 0,
+    "secondary_checked": 0,
+    "assumption": 5,
+    "recalled_unverified": 0
+   },
+   "values": [
+    {
+     "part": "ct",
+     "field": "hu",
+     "unit": "HU",
+     "previous": 40,
+     "value": 40,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": [
+      20,
+      60
+     ],
+     "sources": [
+      {
+       "key": "textbook_ct",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "any structure no rule claims is drawn as generic soft tissue and listed in the mapping report"
+    },
+    {
+     "part": "mri",
+     "field": "pd",
+     "unit": "relative PD",
+     "previous": 0.75,
+     "value": 0.75,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no PD source (modelling choice)"
+    },
+    {
+     "part": "mri",
+     "field": "t1",
+     "unit": "ms",
+     "previous": 1000,
+     "value": 1000,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2",
+     "unit": "ms",
+     "previous": 60,
+     "value": 60,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: modelling choice (no single source)"
+    },
+    {
+     "part": "mri",
+     "field": "t2s",
+     "unit": "ms",
+     "previous": 35,
+     "value": 35,
+     "change_pct": 0.0,
+     "changed_gt_10pct": false,
+     "status": "assumption",
+     "statistic": "single value",
+     "range": null,
+     "sources": [
+      {
+       "key": "textbook_mr",
+       "pmid": null,
+       "doi": null,
+       "pmcid": null,
+       "opened": null
+      }
+     ],
+     "detail": "assumption: no T2* literature value used (modelling choice)"
+    }
+   ]
+  }
+ ]
+}

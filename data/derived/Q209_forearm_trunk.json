@@ -1,0 +1,252 @@
+{
+ "page": "build/q208/viewer_zan_vhm",
+ "n_skin_patches": 250,
+ "n_forearm_elbow_patches": 18,
+ "crossings_page_decode": {
+  "candidates": 71,
+  "face_pairs": 10697,
+  "deep_gt2": 3732,
+  "deep_gt4": 1807,
+  "by_category_deep_gt2": {
+   "fore_fore": 705,
+   "fore_vs_arm_hand": 412,
+   "fore_vs_trunk_thigh": 1083,
+   "other": 1532
+  }
+ },
+ "forearm_vs_trunk": {
+  "deep_pairs_gt2": 1083,
+  "depth_mm": {
+   "median": 5.04,
+   "p90": 9.56,
+   "max": 17.21
+  },
+  "deep_gt4": 748,
+  "deep_gt8": 208,
+  "deep_gt12": 31,
+  "patch_pairs": [
+   {
+    "pair": [
+     "anterior_region_of_forearm_r",
+     "lateral_region_of_abdomen_r"
+    ],
+    "n": 251,
+    "max_mm": 15.52,
+    "median_mm": 4.81
+   },
+   {
+    "pair": [
+     "anterior_region_of_forearm_l",
+     "lateral_region_of_abdomen_l"
+    ],
+    "n": 187,
+    "max_mm": 11.07,
+    "median_mm": 5.08
+   },
+   {
+    "pair": [
+     "anterior_region_of_forearm_r",
+     "anterior_region_of_thigh_r"
+    ],
+    "n": 148,
+    "max_mm": 14.84,
+    "median_mm": 3.92
+   },
+   {
+    "pair": [
+     "anterior_region_of_forearm_l",
+     "anterior_region_of_thigh_l"
+    ],
+    "n": 112,
+    "max_mm": 12.03,
+    "median_mm": 5.87
+   },
+   {
+    "pair": [
+     "lateral_region_of_abdomen_l",
+     "posterior_region_of_forearm_l"
+    ],
+    "n": 99,
+    "max_mm": 8.22,
+    "median_mm": 4.11
+   },
+   {
+    "pair": [
+     "anterior_region_of_thigh_l",
+     "posterior_region_of_forearm_l"
+    ],
+    "n": 80,
+    "max_mm": 11.8,
+    "median_mm": 8.17
+   },
+   {
+    "pair": [
+     "anterior_region_of_forearm_r",
+     "inguinal_region_r"
+    ],
+    "n": 57,
+    "max_mm": 9.41,
+    "median_mm": 4.59
+   },
+   {
+    "pair": [
+     "anterior_region_of_thigh_r",
+     "medial_border_of_forearm_r"
+    ],
+    "n": 32,
+    "max_mm": 14.99,
+    "median_mm": 8.93
+   },
+   {
+    "pair": [
+     "lateral_region_of_abdomen_r",
+     "posterior_region_of_forearm_r"
+    ],
+    "n": 30,
+    "max_mm": 12.54,
+    "median_mm": 9.02
+   },
+   {
+    "pair": [
+     "lateral_region_of_abdomen_r",
+     "medial_border_of_forearm_r"
+    ],
+    "n": 23,
+    "max_mm": 13.66,
+    "median_mm": 9.19
+   },
+   {
+    "pair": [
+     "lateral_region_of_abdomen_l",
+     "medial_border_of_forearm_l"
+    ],
+    "n": 21,
+    "max_mm": 8.22,
+    "median_mm": 4.37
+   },
+   {
+    "pair": [
+     "anterior_region_of_thigh_r",
+     "posterior_region_of_forearm_r"
+    ],
+    "n": 19,
+    "max_mm": 9.39,
+    "median_mm": 4.07
+   },
+   {
+    "pair": [
+     "anterior_region_of_thigh_l",
+     "medial_border_of_forearm_l"
+    ],
+    "n": 18,
+    "max_mm": 11.58,
+    "median_mm": 7.73
+   },
+   {
+    "pair": [
+     "anterior_region_of_wrist_r",
+     "inguinal_region_r"
+    ],
+    "n": 6,
+    "max_mm": 17.21,
+    "median_mm": 9.18
+   }
+  ],
+  "footprint_mm2": {
+   "trunk_thigh_faces": 215,
+   "trunk_thigh_area": 42811.19,
+   "forearm_faces": 456,
+   "forearm_area": 24895.36
+  },
+  "centroid_of_contact_mm": [
+   5.51,
+   166.03,
+   34.12
+  ]
+ },
+ "tube_depth_of_trunk_skin_by_side": {
+  "l": {
+   "axis_len_mm": 284.07,
+   "forearm_outer_radius_median_mm": 36.5,
+   "trunk_skin_vertices_inside_forearm_tube": 45,
+   "gt5mm": 42,
+   "gt10mm": 30,
+   "gt15mm": 20,
+   "depth_mm": {
+    "median": 14.18,
+    "p90": 27.14,
+    "max": 37.85
+   },
+   "by_patch": {
+    "zan_skin_anterior_region_of_thigh_l": 9,
+    "zan_skin_lateral_region_of_abdomen_l": 36
+   }
+  },
+  "r": {
+   "axis_len_mm": 286.09,
+   "forearm_outer_radius_median_mm": 39.12,
+   "trunk_skin_vertices_inside_forearm_tube": 62,
+   "gt5mm": 46,
+   "gt10mm": 33,
+   "gt15mm": 25,
+   "depth_mm": {
+    "median": 11.49,
+    "p90": 28.12,
+    "max": 41.55
+   },
+   "by_patch": {
+    "zan_skin_anterior_region_of_thigh_r": 28,
+    "zan_skin_inguinal_region_r": 2,
+    "zan_skin_lateral_region_of_abdomen_r": 32
+   }
+  }
+ },
+ "deep_tissue_by_side": {
+  "l": {
+   "n_forearm_structures": 26,
+   "n_trunk_thigh_structures": 101,
+   "deep_overlap_mm3": 0,
+   "forearm_structures_in_trunk_tissue": {},
+   "trunk_structures_in_forearm_tissue": {},
+   "min_surface_gap_forearm_to_trunk_tissue_mm": 22.91,
+   "forearm_deep_points_within_5mm_of_trunk_tissue": 0,
+   "of": 58886,
+   "trunk_skin_over_tissue_margin_mm": {
+    "median": 36.8,
+    "p10": 17.75,
+    "min": 11.92,
+    "needed_median_to_clear": 14.18,
+    "needed_p90": 27.14
+   },
+   "forearm_skin_over_tissue_margin_mm": {
+    "n": 312,
+    "median": 26.08,
+    "p10": 12.48,
+    "min": 4.22
+   }
+  },
+  "r": {
+   "n_forearm_structures": 27,
+   "n_trunk_thigh_structures": 101,
+   "deep_overlap_mm3": 0,
+   "forearm_structures_in_trunk_tissue": {},
+   "trunk_structures_in_forearm_tissue": {},
+   "min_surface_gap_forearm_to_trunk_tissue_mm": 24.99,
+   "forearm_deep_points_within_5mm_of_trunk_tissue": 0,
+   "of": 56445,
+   "trunk_skin_over_tissue_margin_mm": {
+    "median": 43.08,
+    "p10": 18.72,
+    "min": 17.19,
+    "needed_median_to_clear": 11.49,
+    "needed_p90": 28.12
+   },
+   "forearm_skin_over_tissue_margin_mm": {
+    "n": 515,
+    "median": 14.36,
+    "p10": 7.96,
+    "min": 2.71
+   }
+  }
+ }
+}

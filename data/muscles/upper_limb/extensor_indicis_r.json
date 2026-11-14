@@ -1,0 +1,112 @@
+{
+  "id": "extensor_indicis_r",
+  "name_ta": "Extensor indicis",
+  "name_common": "Extensor indicis",
+  "side": "right",
+  "region": "upper_limb",
+  "overall_architecture_type": "unipennate",
+  "attachments": {
+    "origin_bone": "ulna_r",
+    "origin_landmark": "posterior ulna, interosseous membrane",
+    "insertion_bone": "phalanges_hand_r",
+    "insertion_landmark": "extensor expansion, index finger",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "posterior_interosseous_n",
+    "root_levels": "C7-C8"
+  },
+  "actions": [
+    "extends index finger independently"
+  ],
+  "functional_compartments": [
+    {
+      "id": "extensor_indicis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 8,
+        "optimal_fascicle_length_mm": 40,
+        "physiological_cross_section_area_mm2": 30,
+        "max_isometric_force_N": 6.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          5,
+          -220,
+          -15
+        ],
+        [
+          15,
+          -260,
+          -10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Analogous to extensor digiti minimi -- an accessory tendon allowing independent extension of one finger (the index) distinct from extensor digitorum's shared slip.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "trigger_points": [
+    {
+      "location_description": "Belly in the distal third of the dorsal forearm over the ulna, roughly a hand's breadth proximal to the wrist, palpated between extensor digitorum and extensor carpi ulnaris while the index finger is extended.",
+      "referred_pain_pattern": "Radial side of the dorsum of the hand and wrist over the 2nd metacarpal base and scaphotrapezial region, less strongly into the index finger; often mistaken for a wrist sprain or dorsal ganglion.",
+      "activation_perpetuating_factors": "Repetitive pointing or clicking with the wrist extended (mouse, keyboard, sewing), gripping with finger extension.",
+      "notes": "Non-myofascial differential: dorsal wrist ganglion, scapholunate injury, STT arthritis, intersection syndrome, extensor digitorum brevis manus, C6-C7 radiculopathy.",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 35; Donnelly et al. (2019) 3rd ed., ch. 35 -- as cited in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Independent extension of the index finger (pointing), with EDC [1, 5]. Minor: Weak wrist extension and slight adduction of the index finger [1, 6]. Importance: The standard expendable donor: EI-to-EPL transfer after EPL rupture, and EI opponensplasty, with negligible loss of index extension when the juncturae are preserved [4].",
+      "adjacent_structures": "Bursae / sheaths: 4th compartment synovial sheath [1]. Coupled structures: EDC index tendon, terminal PIN on the compartment floor, extensor retinaculum [1].",
+      "trigger_points": [
+        {
+          "location": "Belly in the distal third of the dorsal forearm over the ulna, roughly a hand's breadth proximal to the wrist, palpated between EDC and ECU while the index finger is extended [2, 3].",
+          "referred_pain": "Radial side of the dorsum of the hand and wrist over the 2nd metacarpal base and scaphotrapezial region, less strongly into the index finger; often mistaken for a wrist sprain or dorsal ganglion [2, 3].",
+          "activation_perpetuating_factors": "Repetitive pointing or clicking with the wrist extended (mouse, keyboard, sewing), gripping with finger extension [2, 3].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "ECRL",
+        "brachioradialis",
+        "supinator",
+        "scalenes",
+        "subscapularis",
+        "infraspinatus",
+        "first dorsal interosseous [2, 3]."
+      ],
+      "pain_referred_into_territory": "Pain referred into EI territory (radial dorsal hand)",
+      "non_myofascial_differential": "Dorsal wrist ganglion, scapholunate injury, STT arthritis, intersection syndrome, extensor digitorum brevis manus, C6–C7 radiculopathy.",
+      "notes": "Its distal muscle belly can produce 4th compartment tenosynovitis; extensor digitorum brevis manus presents as a firm dorsal wrist mass that tightens with index extension; the terminal PIN in the compartment floor is the target of denervation for dorsal wrist pain [4].",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50–51 [1].",
+        "Simons, Travell & Simons 1999, 2e, ch. 35 [2]; Donnelly et al. 2019, 3e, ch. 35 [3].",
+        "Abrams et al. 1997 [28]; Green's 8e [4]; Neumann 2017 [5]; Kendall et al. 2005 [6]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[6] Kendall FP, McCreary EK, Provance PG, Rodgers MM, Romani WA. Muscles: Testing and Function with Posture and Pain. 5th ed. Lippincott Williams & Wilkins; 2005.",
+        "[28] Abrams RA, Ziets RJ, Lieber RL, Botte MJ. Anatomy of the radial nerve motor branches in the forearm. J Hand Surg Am. 1997;22(2):232-237. PMID 9195420."
+      ]
+    }
+  ]
+}

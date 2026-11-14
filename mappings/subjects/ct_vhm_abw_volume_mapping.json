@@ -1,0 +1,92 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhm_abw",
+  "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz",
+  "label_map": "vhm_abdominal_wall",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "rectus_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "rectus_abdominis_r",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "external_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "external_oblique_r",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "internal_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "internal_oblique_r",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "transversus_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "transversus_abdominis_r",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "rectus_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "rectus_abdominis_l",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    },
+    {
+      "label": 6,
+      "source_structure": "external_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "external_oblique_l",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    },
+    {
+      "label": 7,
+      "source_structure": "internal_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "internal_oblique_l",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    },
+    {
+      "label": 8,
+      "source_structure": "transversus_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "transversus_abdominis_l",
+      "relationship": "exact",
+      "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing.",
+      "candidates": []
+    }
+  ]
+}

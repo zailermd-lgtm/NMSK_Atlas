@@ -1,0 +1,62 @@
+{
+ "anococcygeal_ligament_cvh": {
+  "gates": {
+   "vertices": 2408,
+   "pushed_out_of_bone": 36,
+   "pushed_fraction": 0.015,
+   "max_push_mm": 3.88,
+   "skin_min_depth_mm": 8.4,
+   "soft_overlap": {
+    "muscle_fraction_deeper_6mm": 0.004,
+    "organ_fraction_deeper_3mm": 0.0,
+    "top": {
+     "coccygeus_r": 6,
+     "gluteus_maximus_r": 4
+    },
+    "z_filled_estimates_not_gated": {
+     "levator_ani_r_zfill212": 1998,
+     "coccygeus_r_zfill203s": 1080,
+     "levator_ani_l_zfill212": 759
+    }
+   },
+   "volume_cm3": null,
+   "watertight": false
+  },
+  "held": [],
+  "status": "ship",
+  "name": "Anococcygeal ligament (Chinese Visible Human)",
+  "latin": "Ligamentum anococcygeum"
+ },
+ "pubovesical_ligament_cvh": {
+  "gates": {
+   "vertices": 239,
+   "pushed_out_of_bone": 0,
+   "pushed_fraction": 0.0,
+   "max_push_mm": 0.0,
+   "skin_min_depth_mm": 60.5,
+   "soft_overlap": {
+    "muscle_fraction_deeper_6mm": 0.297,
+    "organ_fraction_deeper_3mm": 0.72,
+    "top": {
+     "vestibular_bulb_r": 148,
+     "urethral_sphincter_raphe_cvh": 71,
+     "urethra_female_lumen": 31
+    },
+    "z_filled_estimates_not_gated": {
+     "levator_ani_r_zfill212": 10,
+     "levator_ani_l_zfill212": 5
+    }
+   },
+   "min_distance_to_pubis_mm": 4.6,
+   "volume_cm3": 0.285,
+   "watertight": true
+  },
+  "held": [
+   "> 25 % of the vertices deeper than 6 mm inside a muscle",
+   "> 10 % of the vertices deeper than 3 mm inside an organ"
+  ],
+  "status": "held",
+  "name": "Pubovesical ligament (Chinese Visible Human)",
+  "latin": "Ligamentum pubovesicale"
+ }
+}

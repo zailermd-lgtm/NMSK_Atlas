@@ -1,0 +1,114 @@
+{
+ "cc_ligament_ratio_vs_Z_ligament_mesh": {
+  "note": "distance from the rule's clavicle point to the nearest vertex of the Z-Anatomy conoid/trapezoid ligament mesh fitted to the same clavicle (Z is not truth; a consistency check)",
+  "cases": [
+   {
+    "body": "zan_m",
+    "side": "r",
+    "component": "conoid",
+    "distance_to_Z_ligament_mesh_mm": 10.1
+   },
+   {
+    "body": "zan_m",
+    "side": "r",
+    "component": "trapezoid",
+    "distance_to_Z_ligament_mesh_mm": 17.4
+   },
+   {
+    "body": "zan_m",
+    "side": "l",
+    "component": "conoid",
+    "distance_to_Z_ligament_mesh_mm": 14.3
+   },
+   {
+    "body": "zan_m",
+    "side": "l",
+    "component": "trapezoid",
+    "distance_to_Z_ligament_mesh_mm": 20.1
+   },
+   {
+    "body": "zan_f",
+    "side": "r",
+    "component": "conoid",
+    "distance_to_Z_ligament_mesh_mm": 10.5
+   },
+   {
+    "body": "zan_f",
+    "side": "r",
+    "component": "trapezoid",
+    "distance_to_Z_ligament_mesh_mm": 20.2
+   },
+   {
+    "body": "zan_f",
+    "side": "l",
+    "component": "conoid",
+    "distance_to_Z_ligament_mesh_mm": 7.2
+   },
+   {
+    "body": "zan_f",
+    "side": "l",
+    "component": "trapezoid",
+    "distance_to_Z_ligament_mesh_mm": 11.6
+   }
+  ],
+  "median_mm": 12.9
+ },
+ "deltoid_sector_azimuth_rule_vs_Z_parts": {
+  "note": "Rule: azimuth about the vertical axis through the humeral head centre, two thresholds. Leave-one-body-out against the Z-Anatomy deltoid part meshes. Centroid errors of 6-40 mm are larger than the parts are thick -> the rule is NOT used to place deltoid parts on the two own bodies (single mesh) -> text only.",
+  "cases": [
+   {
+    "body_side": "zan_m_r",
+    "leave_one_out_thresholds_deg": [
+     42.0,
+     -4.0
+    ],
+    "vertex_accuracy": 0.748,
+    "centroid_error_mm": {
+     "clavicular": 15.5,
+     "acromial": 26.1,
+     "spinal": 11.0
+    }
+   },
+   {
+    "body_side": "zan_m_l",
+    "leave_one_out_thresholds_deg": [
+     46.0,
+     -4.0
+    ],
+    "vertex_accuracy": 0.672,
+    "centroid_error_mm": {
+     "clavicular": 19.0,
+     "acromial": 27.8,
+     "spinal": 15.3
+    }
+   },
+   {
+    "body_side": "zan_f_r",
+    "leave_one_out_thresholds_deg": [
+     38.0,
+     -20.0
+    ],
+    "vertex_accuracy": 0.722,
+    "centroid_error_mm": {
+     "clavicular": 9.1,
+     "acromial": 39.0,
+     "spinal": 30.4
+    }
+   },
+   {
+    "body_side": "zan_f_l",
+    "leave_one_out_thresholds_deg": [
+     38.0,
+     -20.0
+    ],
+    "vertex_accuracy": 0.723,
+    "centroid_error_mm": {
+     "clavicular": 6.3,
+     "acromial": 40.0,
+     "spinal": 31.7
+    }
+   }
+  ],
+  "max_centroid_error_mm": 40.0
+ }
+}

@@ -1,0 +1,247 @@
+{
+ "evidence_voxels": 68187,
+ "evidence_before": {
+  "hand": {
+   "evidence_within_1.5mm_of_a_Z_bone_pct": 48.8,
+   "evidence_within_3mm_pct": 60.2,
+   "Z_bone_volume_within_1.5mm_of_evidence_pct": 48.6,
+   "median_Z_to_evidence_mm": 1.59,
+   "median_evidence_to_Z_mm": 1.66
+  }
+ },
+ "bone_evidence_score_before": {
+  "scaphoid_bone_l": 1.18,
+  "lunate_bone_l": 3.04,
+  "triquetrum_bone_l": 0.97,
+  "pisiform_bone_l": 2.48,
+  "trapezium_bone_l": 2.73,
+  "trapezoid_bone_l": 1.56,
+  "capitate_bone_l": 2.07,
+  "hamate_bone_l": 1.68,
+  "first_metacarpal_bone_l": 2.66,
+  "second_metacarpal_bone_l": 1.85,
+  "third_metacarpal_bone_l": 2.09,
+  "fourth_metacarpal_bone_l": 2.06,
+  "fifth_metacarpal_bone_l": 1.57,
+  "proximal_phalanx_of_first_finger_of_hand_l": 4.0,
+  "distal_phalanx_of_first_finger_of_hand_l": 4.0,
+  "proximal_phalanx_of_second_finger_of_hand_l": 2.51,
+  "middle_phalanx_of_second_finger_of_hand_l": 1.94,
+  "distal_phalanx_of_second_finger_of_hand_l": 1.26,
+  "proximal_phalanx_of_third_finger_of_hand_l": 1.76,
+  "middle_phalanx_of_third_finger_of_hand_l": 2.04,
+  "distal_phalanx_of_third_finger_of_hand_l": 2.78,
+  "proximal_phalanx_of_fourth_finger_of_hand_l": 1.14,
+  "middle_phalanx_of_fourth_finger_of_hand_l": 0.99,
+  "distal_phalanx_of_fourth_finger_of_hand_l": 1.52,
+  "proximal_phalanx_of_fifth_finger_of_hand_l": 1.05,
+  "middle_phalanx_of_fifth_finger_of_hand_l": 0.85,
+  "distal_phalanx_of_fifth_finger_of_hand_l": 1.53
+ },
+ "forearm_given": {
+  "forearm_similarity_scale": 1.0297
+ },
+ "hand_block": {
+  "J_forearm_given": 11.984,
+  "J": 2.806,
+  "turn_deg": 20.0,
+  "shift_mm": [
+   6.0,
+   2.4,
+   0.9
+  ],
+  "scale": 0.9792,
+  "next_distinct_optimum_J_and_turn_difference_deg": null,
+  "wrist_centre": [
+   -164.7,
+   91.5,
+   109.9
+  ]
+ },
+ "reseat_thumb": {
+  "gap_before_mm": 0.21,
+  "gap_after_mm": 0.21
+ },
+ "rays": {
+  "fifth": {
+   "kept": "refit",
+   "evidence_score": [
+    2.23,
+    1.12
+   ],
+   "metacarpal": {
+    "J_before": 2.634,
+    "J_after": 1.884,
+    "turn_deg": 8.8,
+    "rotvec": [
+     0.15104458602802337,
+     0.02536809771189862,
+     0.010359821237684596
+    ]
+   },
+   "chain": {
+    "J": 1.565,
+    "flexion_sign": 1,
+    "angles_deg": {
+     "mcp_flex": -15.3,
+     "mcp_abd": 13.5,
+     "pip": 14.5,
+     "dip": -5.7
+    },
+    "next_distinct_optimum_J_and_shift_mm": [
+     3.691,
+     3.0
+    ],
+    "evidence_voxels_in_reach": 3597
+   }
+  },
+  "fourth": {
+   "kept": "refit",
+   "evidence_score": [
+    2.34,
+    0.97
+   ],
+   "metacarpal": {
+    "J_before": 1.65,
+    "J_after": 1.487,
+    "turn_deg": 3.5,
+    "rotvec": [
+     0.05091677745329061,
+     0.030673259031892705,
+     -0.014096102938094376
+    ]
+   },
+   "chain": {
+    "J": 1.921,
+    "flexion_sign": 1,
+    "angles_deg": {
+     "mcp_flex": 1.3,
+     "mcp_abd": 9.2,
+     "pip": 8.1,
+     "dip": -5.7
+    },
+    "next_distinct_optimum_J_and_shift_mm": [
+     33.81,
+     68.0
+    ],
+    "evidence_voxels_in_reach": 5898
+   }
+  },
+  "third": {
+   "kept": "refit",
+   "evidence_score": [
+    2.39,
+    0.77
+   ],
+   "metacarpal": {
+    "J_before": 1.423,
+    "J_after": 1.334,
+    "turn_deg": 2.5,
+    "rotvec": [
+     -0.009311766623301038,
+     -0.032142702499416434,
+     -0.026630685915796645
+    ]
+   },
+   "chain": {
+    "J": 2.076,
+    "flexion_sign": 1,
+    "angles_deg": {
+     "mcp_flex": 13.8,
+     "mcp_abd": 0.0,
+     "pip": 17.5,
+     "dip": -5.7
+    },
+    "next_distinct_optimum_J_and_shift_mm": null,
+    "evidence_voxels_in_reach": 6074
+   }
+  },
+  "second": {
+   "kept": "refit",
+   "evidence_score": [
+    3.15,
+    1.09
+   ],
+   "metacarpal": {
+    "J_before": 1.848,
+    "J_after": 1.682,
+    "turn_deg": 4.5,
+    "rotvec": [
+     -0.046401845654236995,
+     0.021378552486911777,
+     0.05963053135926032
+    ]
+   },
+   "chain": {
+    "J": 1.955,
+    "flexion_sign": -1,
+    "angles_deg": {
+     "mcp_flex": -17.2,
+     "mcp_abd": 24.2,
+     "pip": -4.2,
+     "dip": 15.0
+    },
+    "next_distinct_optimum_J_and_shift_mm": [
+     6.281,
+     39.4
+    ],
+    "evidence_voxels_in_reach": 3790
+   }
+  }
+ },
+ "thumb": {
+  "cost": 10.998,
+  "joint_rotation_deg": [
+   91.6,
+   20.1,
+   3.4
+  ],
+  "evidence_voxels_free": 13631,
+  "thumb_bones_evidence_score": {
+   "first_metacarpal_bone": 2.79,
+   "proximal_phalanx_of_first_finger_of_hand": 4.0,
+   "distal_phalanx_of_first_finger_of_hand": 4.0
+  }
+ },
+ "nudged_inside_his_skin": {},
+ "evidence_after": {
+  "hand": {
+   "evidence_within_1.5mm_of_a_Z_bone_pct": 78.1,
+   "evidence_within_3mm_pct": 87.0,
+   "Z_bone_volume_within_1.5mm_of_evidence_pct": 74.2,
+   "median_Z_to_evidence_mm": 0.64,
+   "median_evidence_to_Z_mm": 0.5
+  }
+ },
+ "bone_evidence_score_after": {
+  "scaphoid_bone_l": 0.91,
+  "lunate_bone_l": 1.24,
+  "triquetrum_bone_l": 1.71,
+  "pisiform_bone_l": 3.99,
+  "trapezium_bone_l": 0.96,
+  "trapezoid_bone_l": 0.65,
+  "capitate_bone_l": 0.54,
+  "hamate_bone_l": 0.83,
+  "first_metacarpal_bone_l": 2.64,
+  "second_metacarpal_bone_l": 1.02,
+  "third_metacarpal_bone_l": 0.6,
+  "fourth_metacarpal_bone_l": 0.81,
+  "fifth_metacarpal_bone_l": 1.12,
+  "proximal_phalanx_of_first_finger_of_hand_l": 4.0,
+  "distal_phalanx_of_first_finger_of_hand_l": 4.0,
+  "proximal_phalanx_of_second_finger_of_hand_l": 1.74,
+  "middle_phalanx_of_second_finger_of_hand_l": 0.82,
+  "distal_phalanx_of_second_finger_of_hand_l": 0.79,
+  "proximal_phalanx_of_third_finger_of_hand_l": 0.73,
+  "middle_phalanx_of_third_finger_of_hand_l": 0.67,
+  "distal_phalanx_of_third_finger_of_hand_l": 1.08,
+  "proximal_phalanx_of_fourth_finger_of_hand_l": 0.78,
+  "middle_phalanx_of_fourth_finger_of_hand_l": 0.94,
+  "distal_phalanx_of_fourth_finger_of_hand_l": 1.34,
+  "proximal_phalanx_of_fifth_finger_of_hand_l": 1.22,
+  "middle_phalanx_of_fifth_finger_of_hand_l": 0.72,
+  "distal_phalanx_of_fifth_finger_of_hand_l": 1.42
+ },
+ "thumb_gap_after_mm": 0.104,
+ "seconds": 1113
+}

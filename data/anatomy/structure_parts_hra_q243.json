@@ -1,0 +1,350 @@
+{
+ "schema": "nmsk.structure_parts.hra.v1",
+ "generated": "2026-10-15",
+ "license": "CC BY 4.0 (HRA 3D Reference Object Library) -> anatomy layer, CC BY-SA 4.0 compatible",
+ "about": "Q243 (2): sub-part nodes of the uterus and the uterine tubes of the HRA United Female v1.10 (CC BY 4.0) as selectable PARTS (parts layer, Q219 / Q220) of the structures that are already on the pages",
+ "part_types": {
+  "organ part": "a named sub-part (region) of an organ in a reference atlas (not a muscle head / attachment): wall, segment, os, ostium, fimbriae ..."
+ },
+ "references": {
+  "hra_united_female_v110": {
+   "kind": "database",
+   "t": "HuBMAP Human Reference Atlas 3D Reference Object Library, 3D Reference Organ Set for United Female v1.10 (2026-06-09), Browne K, Schlehlein H; CC BY 4.0",
+   "doi": "10.48539/HBM637.DWBM.744",
+   "pmid": null
+  }
+ },
+ "parts": [
+  {
+   "id": "uterus.fundus",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Fundus of the uterus",
+   "description": "HRA node `VH_F_fundus_of_uterus` (FMA:17561, 'Fundus of uterus'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 3062 triangles, spans about 41 x 21 x 22 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:17561",
+   "hra_node": "VH_F_fundus_of_uterus",
+   "hra_triangles": 3062,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.body",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Body of the uterus",
+   "description": "HRA node `VH_F_body_of_uterus` (UBERON:0009853, 'body of uterus'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 5344 triangles, spans about 43 x 30 x 28 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "UBERON:0009853",
+   "hra_node": "VH_F_body_of_uterus",
+   "hra_triangles": 5344,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.cervix",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Cervix of the uterus",
+   "description": "HRA node `VH_F_cervix` (UBERON:0000002, 'uterine cervix'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 3508 triangles, spans about 27 x 29 x 24 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "UBERON:0000002",
+   "hra_node": "VH_F_cervix",
+   "hra_triangles": 3508,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.external_os",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "External cervical os",
+   "description": "HRA node `VH_F_external_cervical_os` (UBERON:0013760, 'external cervical os'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 270 triangles, spans about 7 x 7 x 6 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "UBERON:0013760",
+   "hra_node": "VH_F_external_cervical_os",
+   "hra_triangles": 270,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.internal_os",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Internal cervical os",
+   "description": "HRA node `VH_F_internal_cervical_os` (UBERON:0013759, 'internal cervical os'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 216 triangles, spans about 3 x 4 x 4 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "UBERON:0013759",
+   "hra_node": "VH_F_internal_cervical_os",
+   "hra_triangles": 216,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.anterior_wall",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Anterior wall of the uterus",
+   "description": "HRA node `VH_F_anterior_wall_of_uterus` (FMA:224876, 'Anterior wall of uterus'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); closed surface of 10148 triangles, spans about 43 x 25 x 36 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:224876",
+   "hra_node": "VH_F_anterior_wall_of_uterus",
+   "hra_triangles": 10148,
+   "hra_closed": true,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.posterior_wall",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Posterior wall of the uterus",
+   "description": "HRA node `VH_F_posterior_wall_of_uterus` (FMA:224878, 'Posterior wall of uterus'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); closed surface of 12022 triangles, spans about 43 x 26 x 34 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:224878",
+   "hra_node": "VH_F_posterior_wall_of_uterus",
+   "hra_triangles": 12022,
+   "hra_closed": true,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.lower_segment",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Lower uterine segment",
+   "description": "HRA node `VH_F_lower_uterine_segment` (FMA:17752, 'Lower uterine segment'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 1408 triangles, spans about 18 x 20 x 15 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:17752",
+   "hra_node": "VH_F_lower_uterine_segment",
+   "hra_triangles": 1408,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.cornua",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Uterine cornua",
+   "description": "HRA node `VH_F_cornua` (no ontology id in the library): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 660 triangles, spans about 52 x 9 x 10 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": null,
+   "hra_node": "VH_F_cornua",
+   "hra_triangles": 660,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterus.tubal_ostium",
+   "structure_id": "uterus",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Abdominal ostium of the uterine tube",
+   "description": "HRA node `VH_F_abdominal_ostium_of_uterine_tube` (FMA:77049, 'Abdominal ostium of uterine tube'): a named sub-part of the uterus in the HRA 3D Reference Object Library (united-female v1.10); open surface of 546 triangles, spans about 52 x 4 x 2 mm in the HRA frame. The uterus of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:77049",
+   "hra_node": "VH_F_abdominal_ostium_of_uterine_tube",
+   "hra_triangles": 546,
+   "hra_closed": false,
+   "side": null,
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.ampulla_l",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Ampulla of the uterine tube (left)",
+   "description": "HRA node `VH_F_ampulla_of_uterine_tube_L` (FMA:18492, 'Ampulla of left uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 11424 triangles, spans about 29 x 43 x 15 mm in the HRA frame. The left uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18492",
+   "hra_node": "VH_F_ampulla_of_uterine_tube_L",
+   "hra_triangles": 11424,
+   "hra_closed": false,
+   "side": "left",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.ampulla_r",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Ampulla of the uterine tube (right)",
+   "description": "HRA node `VH_F_ampulla_of_uterine_tube_R` (FMA:18491, 'Ampulla of right uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 10440 triangles, spans about 27 x 42 x 15 mm in the HRA frame. The right uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18491",
+   "hra_node": "VH_F_ampulla_of_uterine_tube_R",
+   "hra_triangles": 10440,
+   "hra_closed": false,
+   "side": "right",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.isthmus_l",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Isthmus of the uterine tube (left)",
+   "description": "HRA node `VH_F_isthmus_of_fallopian_tube_L` (FMA:18494, 'Isthmus of left uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 1870 triangles, spans about 10 x 4 x 4 mm in the HRA frame. The left uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18494",
+   "hra_node": "VH_F_isthmus_of_fallopian_tube_L",
+   "hra_triangles": 1870,
+   "hra_closed": false,
+   "side": "left",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.isthmus_r",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Isthmus of the uterine tube (right)",
+   "description": "HRA node `VH_F_isthmus_of_fallopian_tube_R` (FMA:18493, 'Isthmus of right uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 1600 triangles, spans about 9 x 5 x 4 mm in the HRA frame. The right uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18493",
+   "hra_node": "VH_F_isthmus_of_fallopian_tube_R",
+   "hra_triangles": 1600,
+   "hra_closed": false,
+   "side": "right",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.infundibulum_l",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Infundibulum of the uterine tube (left)",
+   "description": "HRA node `VH_F_uterine_tube_infundibulum_L` (FMA:18490, 'Infundibulum of left uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 2116 triangles, spans about 8 x 11 x 8 mm in the HRA frame. The left uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18490",
+   "hra_node": "VH_F_uterine_tube_infundibulum_L",
+   "hra_triangles": 2116,
+   "hra_closed": false,
+   "side": "left",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.infundibulum_r",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Infundibulum of the uterine tube (right)",
+   "description": "HRA node `VH_F_uterine_tube_infundibulum_R` (FMA:18489, 'Infundibulum of right uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 2200 triangles, spans about 8 x 11 x 7 mm in the HRA frame. The right uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18489",
+   "hra_node": "VH_F_uterine_tube_infundibulum_R",
+   "hra_triangles": 2200,
+   "hra_closed": false,
+   "side": "right",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.fimbriae_l",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Fimbriae of the uterine tube (left)",
+   "description": "HRA node `VH_F_fibria_of_uterine_tube_L` (FMA:18498, 'Fimbria of left uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 2871 triangles, spans about 7 x 5 x 8 mm in the HRA frame. The left uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18498",
+   "hra_node": "VH_F_fibria_of_uterine_tube_L",
+   "hra_triangles": 2871,
+   "hra_closed": false,
+   "side": "left",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  },
+  {
+   "id": "uterine_tube.fimbriae_r",
+   "structure_id": "uterine_tube",
+   "structure_class": "organ",
+   "part_type": "organ part",
+   "name": "Fimbriae of the uterine tube (right)",
+   "description": "HRA node `VH_F_fibria_of_uterine_tube_R` (FMA:18497, 'Fimbria of right uterine tube'): a named sub-part of the uterine tube in the HRA 3D Reference Object Library (united-female v1.10); open surface of 3530 triangles, spans about 7 x 4 x 6 mm in the HRA frame. The right uterine tube of this page is the HRA one (Q233), so the part is a region of shipped geometry; no new surface is drawn, the marker is the point of the registered sub-part surface nearest to its area centroid.",
+   "ontology": "FMA:18497",
+   "hra_node": "VH_F_fibria_of_uterine_tube_R",
+   "hra_triangles": 3530,
+   "hra_closed": false,
+   "side": "right",
+   "refs": [
+    "hra_united_female_v110"
+   ],
+   "verification": "verified",
+   "note": "Verified against the library itself (node name, ontology id, geometry read from the GLB on 2026-10-15); the library gives no description of how the sub-parts were delineated."
+  }
+ ],
+ "not_added": {
+  "urinary_bladder": "dome, base, neck muscle, trigone, ureteral orifices (HRA): the bladder on every page is a CT segmentation (own pages) or a Z-Anatomy fit, not the HRA bladder (HRA 13 cm3 vs 44 cm3 on her CT, Q233), so these sub-parts are not parts of shipped geometry"
+ },
+ "counts": {
+  "parts": 18,
+  "structures": 2
+ }
+}

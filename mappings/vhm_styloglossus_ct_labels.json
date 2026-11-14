@@ -1,0 +1,34 @@
+{
+  "_README": [
+    "Label id -> structure name for the male styloglossus (intralingual portion only) derived directly from",
+    "his OWN CT tongue label (head_muscles.nii.gz label 9, TotalSegmentator), not cryo, via",
+    "scripts/cryo/vhm_styloglossus_from_ct.py. Replicates the geometric core of",
+    "scripts/cryo/vhf_hyoid_muscles_from_cryo.py's tongue_rules() (lateral posterior fan dxT >= 15 mm of the",
+    "tongue label's own per-slice centroid, gT (AP fraction within the tongue mask, per column) > 0.55, at or",
+    "above 0.5 of the tongue's own height, below the dorsum's top 8 mm, excluding the already-shipped",
+    "genioglossus and a hyoglossus-shaped exclusion zone) directly in native CT voxel space -- no cryo",
+    "texture needed for this split. Does NOT include the extralingual (styloid-to-tongue corridor) portion",
+    "of styloglossus, which needs cryo texture to separate from parapharyngeal fat -- see the script's",
+    "docstring; the female's own data shows that portion is a small fraction of her total shipped volume, so",
+    "this is a representative (not a token) fraction of the muscle, same style of partial-but-honest ship as",
+    "Q91's genioglossus (which also excludes its floor-of-mouth extension)."
+  ],
+  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `head_muscles` (tongue) label, cross-checked against the already-shipped ct_vhm_ggl genioglossus mask for zero overlap. Rule adapted from scripts/cryo/vhf_hyoid_muscles_from_cryo.py's tongue_rules(), itself from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 30 'Oral cavity'. Derived data (scripts/cryo/vhm_styloglossus_from_ct.py), rule-based.",
+  "task": "vhm_styloglossus_ct",
+  "labels": {
+    "1": "styloglossus_right",
+    "2": "styloglossus_left"
+  },
+  "atlas": {
+    "styloglossus_right": {
+      "atlas_id": "styloglossus_r",
+      "relationship": "exact",
+      "note": "0.75 cm3; rule-based from his own CT tongue label (intralingual portion only); replaces the cross-body-transferred xfer_vhf2vhm_neck copy."
+    },
+    "styloglossus_left": {
+      "atlas_id": "styloglossus_l",
+      "relationship": "exact",
+      "note": "1.41 cm3; rule-based from his own CT tongue label (intralingual portion only); replaces the cross-body-transferred xfer_vhf2vhm_neck copy."
+    }
+  }
+}

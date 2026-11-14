@@ -1,0 +1,42 @@
+{
+ "page": "zan_m",
+ "viewport": "1366x768",
+ "steps": 8,
+ "renderer": "chromium swiftshader (software GL)",
+ "modes": {
+  "off": {
+   "mean_ms": 822,
+   "median_ms": 842,
+   "max_ms": 917,
+   "heavy_refreshes_during_orbit": 0,
+   "id_pass_ms": 0,
+   "refresh_ms": 0,
+   "layout_ms": 0,
+   "labelled": 0
+  },
+  "vis": {
+   "mean_ms": 1113,
+   "median_ms": 827,
+   "max_ms": 3115,
+   "heavy_refreshes_during_orbit": 3,
+   "id_pass_ms": 1123.6,
+   "refresh_ms": 1129.4,
+   "layout_ms": 4.6,
+   "labelled": 24
+  },
+  "all": {
+   "mean_ms": 1343,
+   "median_ms": 901,
+   "max_ms": 3330,
+   "heavy_refreshes_during_orbit": 4,
+   "id_pass_ms": 1151.2,
+   "refresh_ms": 1164.3,
+   "layout_ms": 36.8,
+   "labelled": 67
+  }
+ },
+ "overhead_pct": {
+  "vis": 35,
+  "all": 63
+ }
+}

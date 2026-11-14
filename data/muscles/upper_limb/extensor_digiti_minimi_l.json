@@ -1,0 +1,162 @@
+{
+  "id": "extensor_digiti_minimi_l",
+  "name_ta": "Extensor digiti minimi",
+  "name_common": "Extensor digiti minimi",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "humerus_l",
+    "origin_landmark": "lateral epicondyle (via common extensor)",
+    "insertion_bone": "phalanges_hand_l",
+    "insertion_landmark": "extensor expansion, digit 5",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "posterior_interosseous_n",
+    "root_levels": "C7-C8"
+  },
+  "actions": [
+    "extends little finger"
+  ],
+  "functional_compartments": [
+    {
+      "id": "extensor_digiti_minimi_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 20,
+        "max_isometric_force_N": 4.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -20,
+          -330,
+          5
+        ],
+        [
+          -15,
+          -260,
+          -10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Slender accessory tendon to extensor digitorum's digit-5 slip, allowing independent little-finger extension.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Probe placed longitudinally (long axis) over the slender extensor digiti minimi belly on the dorso-ulnar aspect of the mid-forearm, between ECU and EDC, localized by palpation distal to the lateral epicondyle while the patient extends the little finger in isolation.",
+    "depth_layer": "Superficial extensor compartment; narrow accessory slip lying between EDC (radial side) and ECU (ulnar side).",
+    "identification_cues": "Selectively contracts with isolated little-finger extension (unlike EDC digit-5 slip, which co-activates with the other fingers); small cross-sectional area relative to its neighbors on ultrasound.",
+    "notes": "One of four muscles injected under ultrasound guidance (10-30 U incobotulinumtoxinA/muscle) in a clinical series treating chronic lateral epicondylitis; injections were placed at the muscle's motor end plate region under long-axis probe view. This is a pain/overuse-treatment context rather than post-stroke spasticity, but the sonographic localization technique is the same.",
+    "source": "Galvan Ruiz A, Vergara Diaz G, Rendon Fernandez B, Echevarria Ruiz de Vargas C, 'Effects of Ultrasound-Guided Administration of Botulinum Toxin (IncobotulinumtoxinA) in Patients with Lateral Epicondylitis', Toxins 11(1):46 (2019), doi:10.3390/toxins11010046 (https://doi.org/10.3390/toxins11010046) -- retrieved via PubMed"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Not separately illustrated by Travell and Simons; the muscle is treated together with the finger extensors in the same chapter. By extrapolation, a taut band is inferred within the EDC/EDM extensor mass on the ulnar dorsal forearm.",
+      "referred_pain_pattern": "By extrapolation from the finger-extensor pattern: dorsal ulnar wrist and hand and along the little finger. [clinical reasoning -- Travell & Simons do not illustrate a separate EDM pattern]",
+      "notes": "The source document states verbatim: \"Travell and Simons do not illustrate a separate EDM pattern; the muscle is treated with the finger extensors (chapter 35)... a taut band in EDM refers to the dorsal ulnar wrist and hand and along the little finger [clinical reasoning].\" Non-myofascial differential: DRUJ arthritis or instability, extensor tenosynovitis, ulnar head attrition, dorsal ulnar sensory neuritis, C8 radiculopathy.",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 35; Donnelly et al. (2019) 3rd ed., ch. 35 -- no distinct EDM figure exists in either edition; pattern is an extrapolation labelled [clinical reasoning] in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "Extends the little finger at the MCP joint (and IP joints through the extensor mechanism), allowing independent little-finger extension; it assists wrist extension and ulnar deviation minimally. Its elbow moment is negligible; its relevance to the elbow is its shared origin in the common extensor tendon, so it participates in lateral epicondylar loading and can be tender with the group.",
+      "adjacent_structures": "Adjacent bursae: None. Adjacent structures and relations: Extensor digitorum radially, ECU ulnarly; the tendon overlies the dorsal capsule of the DRUJ and the ulnar head (landmark for DRUJ arthrotomy and arthroscopic portals; first tendon to rupture in Vaughan-Jackson syndrome).",
+      "trigger_points": [
+        {
+          "location": "Not mapped as a separate muscle by Travell & Simons; it is examined with the finger extensors, in the proximal third of the ulnar part of the extensor mass.",
+          "referred_pain": "not separately described in Travell & Simons (2nd or 3rd ed.). By analogy with the adjacent finger extensors a dorsal-ulnar forearm to little-finger pattern is expected; treat this as unverified.",
+          "notes": "Symptoms / mimics: With ED involvement: dorsal wrist pain, little-finger stiffness; the 5th compartment is a site of tenosynovitis after distal radius fracture. Entrapment: None. Associated TrPs: Extensor digitorum, ECU.",
+          "source": "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 35 (finger extensors; EDM not separately mapped). Donnelly JM, et al., 3rd ed., 2019."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "ECU (dorsal-ulnar wrist)",
+        "extensor digitorum",
+        "triceps TrP3/TrP5 (4th–5th fingers)",
+        "latissimus dorsi",
+        "pectoralis minor and serratus posterior superior (ulnar hand)",
+        "C8 radiculopathy",
+        "ulnar neuropathy",
+        "DRUJ and TFCC pathology."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO the dorsal-ulnar wrist / little finger from elsewhere",
+      "notes": "The 5th compartment is the standard landmark for DRUJ exposure and the 6-R/6-U arthroscopic portals; EDM rupture with intact ED4–5 is the earliest sign of caput ulnae syndrome.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Gray's Anatomy, 42nd ed., 2021: extensor digiti minimi; extensor retinaculum compartments.",
+        "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 35 (finger extensors; EDM not separately mapped). Donnelly JM, et al., 3rd ed., 2019.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+      ],
+      "tests": [
+        {
+          "name": "Mill's test",
+          "performance": "Passive stretch: elbow extended, forearm pronated, wrist fully flexed",
+          "positive_finding": "Lateral epicondylar pain",
+          "structures_loaded": "Common extensor origin (stretch)",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No adequate accuracy data (Zwerus 2018)",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    },
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Independent extension of the little finger, essential because the EDC tendon to that finger is often deficient [1, 5]. Minor: Assists wrist extension and slight ulnar deviation; abducts the little finger [1, 6]. Small PCSA; kinesiologically minor at the wrist [9]. Importance: Surgical landmark: the 5th compartment is the approach to the DRUJ and ulnar head (Darrach, Sauvé-Kapandji, arthroplasty); occasionally used as a transfer donor [4].",
+      "adjacent_structures": "Bursae / sheaths: 5th compartment synovial sheath; its floor is the DRUJ capsule, so synovitis of the DRUJ or a prominent eroded ulnar head abrades the tendon [41]. Coupled structures: Ulnar head and DRUJ, dorsal branch of the ulnar nerve, EDC little-finger tendon and junctura [1, 41].",
+      "trigger_points": [
+        {
+          "referred_pain": "Travell and Simons do not illustrate a separate EDM pattern; the muscle is treated with the finger extensors (chapter 35). By extrapolation a taut band in EDM refers to the dorsal ulnar wrist and hand and along the little finger [clinical reasoning] [2, 3].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Latissimus dorsi",
+        "serratus posterior superior (entire little finger)",
+        "triceps medial head (4th–5th fingers)",
+        "pectoralis minor (palmar side)",
+        "pronator quadratus (5th finger) [2, 3, 50]."
+      ],
+      "pain_referred_into_territory": "Pain referred into EDM territory (ulnar dorsal hand, little finger)",
+      "non_myofascial_differential": "DRUJ arthritis or instability, extensor tenosynovitis, ulnar head attrition, dorsal ulnar sensory neuritis, C8 radiculopathy.",
+      "notes": "EDM is the first tendon to rupture by attrition over the eroded ulnar head in rheumatoid disease (Vaughan-Jackson syndrome), followed by the EDC tendons of the little and ring fingers; an inability to extend the little finger at the MCP joint with an intact EDC junctura may hide the rupture [41]. 5th compartment tenosynovitis and ganglia occur.",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50–51 [1].",
+        "Donnelly et al. 2019, 3e, ch. 35 [3]; Simons, Travell & Simons 1999, ch. 35 [2].",
+        "Vaughan-Jackson 1948 [41]; Lieber et al. 1992 [9]; Green's 8e [4]; Neumann 2017 [5]; Kendall et al. 2005 [6]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[6] Kendall FP, McCreary EK, Provance PG, Rodgers MM, Romani WA. Muscles: Testing and Function with Posture and Pain. 5th ed. Lippincott Williams & Wilkins; 2005.",
+        "[9] Lieber RL, Jacobson MD, Fazeli BM, Abrams RA, Botte MJ. Architecture of selected muscles of the arm and forearm: anatomy and implications for tendon transfer. J Hand Surg Am. 1992;17(5):787-798. PMID 1401782.",
+        "[41] Vaughan-Jackson OJ. Rupture of extensor tendons by attrition at the inferior radio-ulnar joint. J Bone Joint Surg Br. 1948;30B(3):528-530.",
+        "[50] Hwang M, Kang YK, Kim DH. Referred pain pattern of the pronator quadratus muscle. Pain. 2005;116(3):238-242. PMID 15964683."
+      ]
+    }
+  ]
+}

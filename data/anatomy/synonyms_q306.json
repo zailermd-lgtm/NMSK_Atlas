@@ -1,0 +1,3636 @@
+{
+ "schema": "nmsk.synonyms.v1",
+ "round": "Q306",
+ "merges_with": "data/anatomy/synonyms_q298.json",
+ "merge_rule": "An entry whose canon already exists in synonyms_q298.json and carries extends_q298=1 ADDS its abbr / syn / he forms to that entry instead of making a second one; every other entry is new. A form that Q298 already carries is a no-op, never a conflict, because both files resolve to the same targets.",
+ "doc": "Q306: data/anatomy/synonyms_q306.json -- the ADDITIONS to Q298's synonym layer. A separate file rather than a rewrite of data/anatomy/synonyms_q298.json: the schema is the same, the provenance stays per round, and scripts/anatomy/q298/build_search_q298.py merges the two. Everything here was measured against the shipped pages first (docs/research/Q306_search_coverage_audit.md); no target is listed unless it resolves on at least one page, and anything that resolves nowhere is in `cited_but_not_shipped` with the reason instead.",
+ "sources": {
+  "gray": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell), Elsevier 2019.",
+  "moore": "Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed., Wolters Kluwer 2018.",
+  "ta": "Terminologia Anatomica, FICAT 1998.",
+  "project": "This project's own cited data: data/anatomy/abbreviations.json (99 published abbreviations, Q236), data/anatomy/muscle_heads_q293.json (Q293), data/anatomy/muscle_actions_q283.json (Q283), data/derived/zanatomy_inventory.json (the pinned upstream catalogue), data/derived/Q304_nerve_transfer.json (Q304).",
+  "q302": "docs/research/Q302_source_survey.md + data/derived/Q302_source_survey.json (eight-source survey).",
+  "q297": "docs/research/Q297_provenance_audit.md (the round that removed invented tissue).",
+  "raja2026": "Raja B, Kulkarni MM, Vaishnani H. Cureus 2026;18(6):e111450. doi:10.7759/cureus.111450 (PMID 42502531).",
+  "patra2024": "Patra A, Asghar A, Pushpa NB, et al. Folia Morphol 2024;83(4):886-892. doi:10.5603/fm.99128 (PMID 38619066).",
+  "he": "HEBREW IS A PROJECT-SUPPLIED TRANSLATION, NOT A PUBLISHED TERMINOLOGY. The same declaration data/anatomy/synonyms_q298.json carries in sources.he applies to every Hebrew string here."
+ },
+ "entries": [
+  {
+   "canon": "Abductor digiti minimi",
+   "targets": [
+    "abductor digiti minimi hand",
+    "abductor digiti minimi foot"
+   ],
+   "abbr": [
+    "ADM"
+   ],
+   "syn": [
+    "abductor digiti minimi",
+    "abductor of the little finger",
+    "abductor of the little toe"
+   ],
+   "he": [
+    "מרחיק הזרת",
+    "מרחיק האצבע הקטנה"
+   ],
+   "src": "project,gray",
+   "ambiguous": 1,
+   "note": "ADM is used for BOTH the hand and the foot muscle; the pages ship them as 'Abductor digiti minimi (hand)' and 'Abductor digiti minimi (foot)' and both are offered."
+  },
+  {
+   "canon": "Extensor digiti minimi",
+   "targets": [
+    "extensor digiti minimi"
+   ],
+   "abbr": [
+    "EDM"
+   ],
+   "syn": [
+    "extensor digiti minimi",
+    "extensor digiti minimi manus",
+    "little finger extensor"
+   ],
+   "he": [
+    "פושט הזרת"
+   ],
+   "src": "project,gray"
+  },
+  {
+   "canon": "Flexor pollicis brevis",
+   "targets": [
+    "flexor pollicis brevis"
+   ],
+   "abbr": [
+    "FPB"
+   ],
+   "syn": [
+    "flexor pollicis brevis",
+    "short flexor of the thumb"
+   ],
+   "he": [
+    "כופף האגודל הקצר"
+   ],
+   "src": "project,gray"
+  },
+  {
+   "canon": "Adductor pollicis",
+   "targets": [
+    "adductor pollicis"
+   ],
+   "abbr": [
+    "AP"
+   ],
+   "syn": [
+    "adductor pollicis",
+    "thumb adductor"
+   ],
+   "he": [
+    "מקרב האגודל"
+   ],
+   "src": "project,gray",
+   "ambiguous": 1,
+   "note": "AP is also used clinically for 'anteroposterior' (a radiographic projection); here it resolves only to the muscle, because that is the structure the pages ship."
+  },
+  {
+   "canon": "Brachioradialis",
+   "targets": [
+    "brachioradialis"
+   ],
+   "abbr": [
+    "BR"
+   ],
+   "syn": [
+    "brachioradialis",
+    "musculus brachioradialis"
+   ],
+   "he": [
+    "ברכיורדיאליס",
+    "שריר הזרוע-חישורי"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Palmaris longus",
+   "targets": [
+    "palmaris longus"
+   ],
+   "abbr": [
+    "PL"
+   ],
+   "syn": [
+    "palmaris longus",
+    "musculus palmaris longus"
+   ],
+   "he": [
+    "פלמריס לונגוס",
+    "כף היד הארוך"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Opponens pollicis",
+   "targets": [
+    "opponens pollicis"
+   ],
+   "abbr": [
+    "OP"
+   ],
+   "syn": [
+    "opponens pollicis",
+    "thumb opposer"
+   ],
+   "he": [
+    "מנגיד האגודל"
+   ],
+   "src": "project,gray"
+  },
+  {
+   "canon": "Extensor indicis",
+   "targets": [
+    "extensor indicis"
+   ],
+   "abbr": [
+    "EI"
+   ],
+   "syn": [
+    "extensor indicis",
+    "extensor indicis proprius",
+    "index extensor"
+   ],
+   "he": [
+    "פושט האצבע המורה"
+   ],
+   "src": "project,gray"
+  },
+  {
+   "canon": "Extensor digitorum",
+   "targets": [
+    "extensor digitorum"
+   ],
+   "abbr": [
+    "ED"
+   ],
+   "syn": [
+    "extensor digitorum",
+    "extensor digitorum communis",
+    "finger extensor"
+   ],
+   "he": [
+    "פושט האצבעות"
+   ],
+   "src": "project,gray",
+   "ambiguous": 1,
+   "note": "ED is used for extensor digitorum of the FOREARM; extensor digitorum longus / brevis of the leg and foot keep EDL / EDB."
+  },
+  {
+   "canon": "Levator scapulae",
+   "targets": [
+    "levator scapulae"
+   ],
+   "abbr": [
+    "LS"
+   ],
+   "syn": [
+    "levator scapulae",
+    "musculus levator scapulae"
+   ],
+   "he": [
+    "מרים השכמה"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Anterior interosseous nerve",
+   "targets": [
+    "anterior interosseous nerve"
+   ],
+   "abbr": [
+    "AIN"
+   ],
+   "syn": [
+    "anterior interosseous nerve",
+    "nervus interosseus antebrachii anterior"
+   ],
+   "he": [
+    "העצב הבין-עצמי הקדמי"
+   ],
+   "src": "project,gray"
+  },
+  {
+   "canon": "Posterior interosseous nerve",
+   "targets": [
+    "posterior interosseous nerve"
+   ],
+   "abbr": [
+    "PIN"
+   ],
+   "syn": [
+    "posterior interosseous nerve",
+    "nervus interosseus antebrachii posterior",
+    "deep radial nerve"
+   ],
+   "he": [
+    "העצב הבין-עצמי האחורי"
+   ],
+   "src": "project,gray"
+  },
+  {
+   "canon": "Internal carotid artery",
+   "targets": [
+    "internal carotid artery"
+   ],
+   "abbr": [
+    "ICA"
+   ],
+   "syn": [
+    "internal carotid artery",
+    "arteria carotis interna"
+   ],
+   "he": [
+    "עורק הצוואר הפנימי"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "External carotid artery",
+   "targets": [
+    "external carotid artery"
+   ],
+   "abbr": [
+    "ECA"
+   ],
+   "syn": [
+    "external carotid artery",
+    "arteria carotis externa"
+   ],
+   "he": [
+    "עורק הצוואר החיצוני"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Internal jugular vein",
+   "targets": [
+    "internal jugular vein"
+   ],
+   "abbr": [
+    "IJV"
+   ],
+   "syn": [
+    "internal jugular vein",
+    "vena jugularis interna"
+   ],
+   "he": [
+    "הווריד הצווארי הפנימי"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "External jugular vein",
+   "targets": [
+    "external jugular vein"
+   ],
+   "abbr": [
+    "EJV"
+   ],
+   "syn": [
+    "external jugular vein",
+    "vena jugularis externa"
+   ],
+   "he": [
+    "הווריד הצווארי החיצוני"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Middle cerebral artery",
+   "targets": [
+    "middle cerebral artery"
+   ],
+   "abbr": [
+    "MCA"
+   ],
+   "syn": [
+    "middle cerebral artery",
+    "arteria cerebri media"
+   ],
+   "he": [
+    "העורק המוחי התיכון"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Anterior cerebral artery",
+   "targets": [
+    "anterior cerebral artery"
+   ],
+   "abbr": [
+    "ACA"
+   ],
+   "syn": [
+    "anterior cerebral artery",
+    "arteria cerebri anterior"
+   ],
+   "he": [
+    "העורק המוחי הקדמי"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Posterior cerebral artery",
+   "targets": [
+    "posterior cerebral artery"
+   ],
+   "abbr": [
+    "PCA"
+   ],
+   "syn": [
+    "posterior cerebral artery",
+    "arteria cerebri posterior"
+   ],
+   "he": [
+    "העורק המוחי האחורי"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Posterior inferior cerebellar artery",
+   "targets": [
+    "posterior inferior cerebellar artery"
+   ],
+   "abbr": [
+    "PICA"
+   ],
+   "syn": [
+    "posterior inferior cerebellar artery"
+   ],
+   "he": [
+    "העורק הצרבלרי התחתון-אחורי"
+   ],
+   "src": "project,gray"
+  },
+  {
+   "canon": "Right coronary artery",
+   "targets": [
+    "right coronary artery"
+   ],
+   "abbr": [
+    "RCA"
+   ],
+   "syn": [
+    "right coronary artery",
+    "arteria coronaria dextra"
+   ],
+   "he": [
+    "העורק הכלילי הימני"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Anterior interventricular artery",
+   "targets": [
+    "anterior interventricular artery"
+   ],
+   "abbr": [
+    "LAD"
+   ],
+   "syn": [
+    "left anterior descending artery",
+    "LAD artery",
+    "anterior interventricular branch",
+    "arteria interventricularis anterior"
+   ],
+   "he": [
+    "העורק הבין-חדרי הקדמי",
+    "ל.א.ד."
+   ],
+   "src": "project,gray,ta",
+   "note": "Clinically LAD; Terminologia Anatomica calls it the anterior interventricular artery, which is the name the pages carry."
+  },
+  {
+   "canon": "Left atrium",
+   "targets": [
+    "left atrium"
+   ],
+   "abbr": [
+    "LA"
+   ],
+   "syn": [
+    "left atrium",
+    "atrium sinistrum"
+   ],
+   "he": [
+    "העלייה השמאלית"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Left ventricle",
+   "targets": [
+    "left ventricle"
+   ],
+   "abbr": [
+    "LV"
+   ],
+   "syn": [
+    "left ventricle",
+    "ventriculus sinister"
+   ],
+   "he": [
+    "החדר השמאלי"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Right ventricle",
+   "targets": [
+    "right ventricle"
+   ],
+   "abbr": [
+    "RV"
+   ],
+   "syn": [
+    "right ventricle",
+    "ventriculus dexter"
+   ],
+   "he": [
+    "החדר הימני"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Superior mesenteric artery",
+   "targets": [
+    "superior mesenteric artery"
+   ],
+   "abbr": [
+    "SMA"
+   ],
+   "syn": [
+    "superior mesenteric artery",
+    "arteria mesenterica superior"
+   ],
+   "he": [
+    "העורק המזנטרי העליון"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Inferior mesenteric artery",
+   "targets": [
+    "inferior mesenteric artery"
+   ],
+   "abbr": [
+    "IMA"
+   ],
+   "syn": [
+    "inferior mesenteric artery",
+    "arteria mesenterica inferior"
+   ],
+   "he": [
+    "העורק המזנטרי התחתון"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Superior mesenteric vein",
+   "targets": [
+    "superior mesenteric vein"
+   ],
+   "abbr": [
+    "SMV"
+   ],
+   "syn": [
+    "superior mesenteric vein",
+    "vena mesenterica superior"
+   ],
+   "he": [
+    "הווריד המזנטרי העליון"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Small saphenous vein",
+   "targets": [
+    "small saphenous vein"
+   ],
+   "abbr": [
+    "SSV"
+   ],
+   "syn": [
+    "small saphenous vein",
+    "short saphenous vein",
+    "vena saphena parva"
+   ],
+   "he": [
+    "הווריד הספני הקטן"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Anterior talofibular ligament",
+   "targets": [
+    "anterior talofibular ligament"
+   ],
+   "abbr": [
+    "ATFL"
+   ],
+   "syn": [
+    "anterior talofibular ligament",
+    "ligamentum talofibulare anterius"
+   ],
+   "he": [
+    "הרצועה הטלופיבולרית הקדמית"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Posterior talofibular ligament",
+   "targets": [
+    "posterior talofibular ligament"
+   ],
+   "abbr": [
+    "PTFL"
+   ],
+   "syn": [
+    "posterior talofibular ligament",
+    "ligamentum talofibulare posterius"
+   ],
+   "he": [
+    "הרצועה הטלופיבולרית האחורית"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Calcaneofibular ligament",
+   "targets": [
+    "calcaneofibular ligament"
+   ],
+   "abbr": [
+    "CFL"
+   ],
+   "syn": [
+    "calcaneofibular ligament",
+    "ligamentum calcaneofibulare"
+   ],
+   "he": [
+    "הרצועה הקלקנאופיבולרית"
+   ],
+   "src": "project,gray,ta"
+  },
+  {
+   "canon": "Ulnar collateral ligament",
+   "targets": [
+    "ulnar collateral ligament",
+    "ulnar collateral ligament of wrist joint"
+   ],
+   "abbr": [
+    "UCL"
+   ],
+   "syn": [
+    "ulnar collateral ligament",
+    "medial collateral ligament of the elbow",
+    "ligamentum collaterale ulnare"
+   ],
+   "he": [
+    "הרצועה הקולטרלית האולנרית"
+   ],
+   "src": "project,gray,ta",
+   "ambiguous": 1,
+   "note": "The pages ship an ulnar collateral ligament at the ELBOW and another at the WRIST; both are offered. The thumb UCL is not shipped separately."
+  },
+  {
+   "canon": "Anterior tibiofibular ligament",
+   "targets": [
+    "anterior tibiofibular ligament"
+   ],
+   "abbr": [
+    "AITFL"
+   ],
+   "syn": [
+    "anterior inferior tibiofibular ligament",
+    "anterior tibiofibular ligament",
+    "anterior syndesmotic ligament"
+   ],
+   "he": [
+    "הרצועה הטיביופיבולרית הקדמית"
+   ],
+   "src": "project,gray",
+   "note": "The page name omits 'inferior'. MEASURED on the shipped geometry: this ligament sits at the ANKLE (z 73.8-100.3 mm in the Z-Anatomy frame) while the superior tibiofibular joint capsule sits at the KNEE (z 392.2-419.2 mm), so the shipped ligament is the inferior (syndesmotic) one."
+  },
+  {
+   "canon": "Posterior tibiofibular ligament",
+   "targets": [
+    "posterior tibiofibular ligament"
+   ],
+   "abbr": [
+    "PITFL"
+   ],
+   "syn": [
+    "posterior inferior tibiofibular ligament",
+    "posterior tibiofibular ligament",
+    "posterior syndesmotic ligament"
+   ],
+   "he": [
+    "הרצועה הטיביופיבולרית האחורית"
+   ],
+   "src": "project,gray",
+   "note": "As AITFL: measured at the ankle (z 83.5-103.9 mm), so the inferior (syndesmotic) ligament."
+  },
+  {
+   "canon": "Biceps brachii (heads)",
+   "targets": [
+    "biceps brachii"
+   ],
+   "abbr": [
+    "LHBT",
+    "LHB",
+    "SHB"
+   ],
+   "syn": [
+    "long head of biceps brachii",
+    "long head of the biceps",
+    "long head of biceps",
+    "LHB tendon",
+    "biceps long head",
+    "short head of biceps brachii",
+    "short head of the biceps",
+    "short head of biceps",
+    "biceps short head"
+   ],
+   "he": [
+    "ראש ארוך של הביצפס",
+    "ראש קצר של הביצפס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE biceps brachii mesh; its long and short heads are compartments of the Q283 action data and rows of data/anatomy/muscle_heads_q293.json, listed on the Learn card. Searching a head reaches the whole muscle and the card names the head."
+  },
+  {
+   "canon": "Biceps femoris (heads)",
+   "targets": [
+    "biceps femoris"
+   ],
+   "abbr": [
+    "BFLH",
+    "BFSH"
+   ],
+   "syn": [
+    "long head of biceps femoris",
+    "short head of biceps femoris",
+    "biceps femoris long head",
+    "biceps femoris short head"
+   ],
+   "he": [
+    "ראש ארוך של הביצפס פמוריס",
+    "ראש קצר של הביצפס פמוריס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Gastrocnemius (heads)",
+   "targets": [
+    "gastrocnemius"
+   ],
+   "abbr": [
+    "MG",
+    "LG"
+   ],
+   "syn": [
+    "medial head of gastrocnemius",
+    "lateral head of gastrocnemius",
+    "medial gastrocnemius",
+    "lateral gastrocnemius",
+    "medial gastroc",
+    "lateral gastroc"
+   ],
+   "he": [
+    "ראש מדיאלי של התאומים",
+    "ראש לטרלי של התאומים"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Sternocleidomastoid (heads)",
+   "targets": [
+    "sternocleidomastoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "sternal head of sternocleidomastoid",
+    "clavicular head of sternocleidomastoid",
+    "sternal head of SCM",
+    "clavicular head of SCM"
+   ],
+   "he": [
+    "ראש סטרנלי של הסטרנוקלידומסטואיד",
+    "ראש קלביקולרי של הסטרנוקלידומסטואיד"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Pronator teres (heads)",
+   "targets": [
+    "pronator teres"
+   ],
+   "abbr": [],
+   "syn": [
+    "humeral head of pronator teres",
+    "ulnar head of pronator teres"
+   ],
+   "he": [
+    "ראש הומרלי של הפרונטור טרס",
+    "ראש אולנרי של הפרונטור טרס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Flexor carpi ulnaris (heads)",
+   "targets": [
+    "flexor carpi ulnaris"
+   ],
+   "abbr": [],
+   "syn": [
+    "humeral head of flexor carpi ulnaris",
+    "ulnar head of flexor carpi ulnaris"
+   ],
+   "he": [
+    "ראש הומרלי של ה-FCU",
+    "ראש אולנרי של ה-FCU"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Extensor carpi ulnaris (heads)",
+   "targets": [
+    "extensor carpi ulnaris"
+   ],
+   "abbr": [],
+   "syn": [
+    "humeral head of extensor carpi ulnaris",
+    "ulnar head of extensor carpi ulnaris"
+   ],
+   "he": [
+    "ראש הומרלי של ה-ECU",
+    "ראש אולנרי של ה-ECU"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Flexor digitorum superficialis (heads)",
+   "targets": [
+    "flexor digitorum superficialis"
+   ],
+   "abbr": [],
+   "syn": [
+    "radial head of flexor digitorum superficialis"
+   ],
+   "he": [
+    "ראש רדיאלי של ה-FDS"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Adductor magnus (heads)",
+   "targets": [
+    "adductor magnus"
+   ],
+   "abbr": [],
+   "syn": [
+    "adductor part of adductor magnus",
+    "hamstring part of adductor magnus",
+    "adductor magnus hamstring part",
+    "ischiocondylar part of adductor magnus"
+   ],
+   "he": [
+    "החלק האדוקטורי של האדוקטור מגנוס",
+    "החלק ההמסטרינגי של האדוקטור מגנוס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Soleus (heads)",
+   "targets": [
+    "soleus"
+   ],
+   "abbr": [],
+   "syn": [
+    "fibular origin of soleus",
+    "tibial origin of soleus",
+    "soleal line origin of soleus"
+   ],
+   "he": [
+    "מקור פיבולרי של הסוליאוס",
+    "מקור טיביאלי של הסוליאוס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Iliopsoas (heads)",
+   "targets": [
+    "iliopsoas",
+    "iliopsoas iliacus psoas major"
+   ],
+   "abbr": [],
+   "syn": [
+    "psoas major part of iliopsoas",
+    "iliacus part of iliopsoas",
+    "iliopsoas complex"
+   ],
+   "he": [
+    "החלק של הפסואס מייג'ור",
+    "החלק של האיליאקוס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Adductor pollicis heads (heads)",
+   "targets": [
+    "adductor pollicis"
+   ],
+   "abbr": [],
+   "syn": [
+    "oblique head of adductor pollicis",
+    "transverse head of adductor pollicis"
+   ],
+   "he": [
+    "ראש אלכסוני של מקרב האגודל",
+    "ראש רוחבי של מקרב האגודל"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Flexor pollicis brevis heads (heads)",
+   "targets": [
+    "flexor pollicis brevis"
+   ],
+   "abbr": [],
+   "syn": [
+    "superficial head of flexor pollicis brevis",
+    "deep head of flexor pollicis brevis"
+   ],
+   "he": [
+    "ראש שטחי של כופף האגודל הקצר",
+    "ראש עמוק של כופף האגודל הקצר"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Medial pterygoid (heads)",
+   "targets": [
+    "medial pterygoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "deep head of medial pterygoid",
+    "superficial head of medial pterygoid"
+   ],
+   "he": [
+    "ראש עמוק של הפטריגואיד המדיאלי"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Lateral pterygoid (heads)",
+   "targets": [
+    "lateral pterygoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "superior head of lateral pterygoid",
+    "inferior head of lateral pterygoid"
+   ],
+   "he": [
+    "ראש עליון של הפטריגואיד הלטרלי"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Quadratus plantae (heads)",
+   "targets": [
+    "quadratus plantae"
+   ],
+   "abbr": [],
+   "syn": [
+    "medial head of quadratus plantae",
+    "lateral head of quadratus plantae"
+   ],
+   "he": [
+    "ראש מדיאלי של הקוודרטוס פלנטה"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Adductor hallucis (heads)",
+   "targets": [
+    "adductor hallucis"
+   ],
+   "abbr": [],
+   "syn": [
+    "oblique head of adductor hallucis",
+    "transverse head of adductor hallucis"
+   ],
+   "he": [
+    "ראש אלכסוני של מקרב הבוהן"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Digastric (heads)",
+   "targets": [
+    "digastric"
+   ],
+   "abbr": [],
+   "syn": [
+    "anterior belly of digastric",
+    "posterior belly of digastric"
+   ],
+   "he": [
+    "בטן קדמית של הדיגסטריקוס",
+    "בטן אחורית של הדיגסטריקוס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Omohyoid (heads)",
+   "targets": [
+    "omohyoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "superior belly of omohyoid",
+    "inferior belly of omohyoid"
+   ],
+   "he": [
+    "בטן עליונה של האומוהיואיד",
+    "בטן תחתונה של האומוהיואיד"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "The pages ship ONE mesh for this muscle; its heads / parts / bellies are compartments of the cited action data (data/anatomy/muscle_actions_q283.json) and rows of data/anatomy/muscle_heads_q293.json, and are listed on the Learn card. Searching a head reaches the whole muscle, and the card names the head."
+  },
+  {
+   "canon": "Rectus femoris heads (heads)",
+   "targets": [
+    "rectus femoris"
+   ],
+   "abbr": [],
+   "syn": [
+    "straight head of rectus femoris",
+    "direct head of rectus femoris",
+    "reflected head of rectus femoris",
+    "indirect head of rectus femoris"
+   ],
+   "he": [
+    "ראש ישר של הרקטוס פמוריס",
+    "ראש מוחזר של הרקטוס פמוריס"
+   ],
+   "src": "project,gray,moore",
+   "kind_hint": "part",
+   "note": "Q293 BUILT the reflected head as a separate rule-based mesh on all six pages (data/derived/Q293_rf_reflected_head.json), badged rule-based on its card; the straight head is the page's own rectus femoris mesh."
+  },
+  {
+   "canon": "Deltoid (parts)",
+   "targets": [
+    "deltoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "anterior deltoid",
+    "posterior deltoid",
+    "middle deltoid",
+    "lateral deltoid",
+    "clavicular part of deltoid",
+    "acromial part of deltoid",
+    "spinal part of deltoid"
+   ],
+   "he": [
+    "דלתא קדמי",
+    "דלתא אחורי",
+    "דלתא אמצעי"
+   ],
+   "src": "project,gray",
+   "kind_hint": "part",
+   "note": "The pages ship the three parts as their own meshes: 'Clavicular part of deltoid muscle' (= anterior), 'Acromial part of deltoid muscle' (= middle / lateral) and 'Scapular spinal part of deltoid muscle' (= posterior). The clinical short names are added here; the equivalence is Gray's."
+  },
+  {
+   "canon": "Triceps brachii (heads)",
+   "targets": [
+    "triceps brachii"
+   ],
+   "abbr": [],
+   "syn": [
+    "long head of triceps brachii",
+    "lateral head of triceps brachii",
+    "medial head of triceps brachii",
+    "triceps long head",
+    "triceps lateral head",
+    "triceps medial head"
+   ],
+   "he": [
+    "ראש ארוך של הטריצפס",
+    "ראש לטרלי של הטריצפס",
+    "ראש מדיאלי של הטריצפס"
+   ],
+   "src": "project,gray",
+   "kind_hint": "part",
+   "note": "All three heads ship as their own meshes on the four Z pages."
+  },
+  {
+   "canon": "Pectoralis major (heads)",
+   "targets": [
+    "pectoralis major"
+   ],
+   "abbr": [],
+   "syn": [
+    "clavicular head of pectoralis major",
+    "sternocostal head of pectoralis major",
+    "abdominal part of pectoralis major",
+    "abdominal head of pectoralis major",
+    "upper pec",
+    "lower pec"
+   ],
+   "he": [
+    "ראש קלביקולרי של הפקטורליס מייג'ור",
+    "ראש סטרנוקוסטלי של הפקטורליס מייג'ור"
+   ],
+   "src": "project,gray",
+   "kind_hint": "part",
+   "note": "The clavicular and sternocostal heads and the abdominal part ship as their own meshes on the four Z pages; the abdominal part's page name is written in parentheses."
+  },
+  {
+   "canon": "Common fibular nerve",
+   "targets": [
+    "common fibular nerve"
+   ],
+   "abbr": [
+    "CPN",
+    "CFN"
+   ],
+   "syn": [
+    "common peroneal nerve",
+    "common fibular nerve",
+    "nervus fibularis communis",
+    "nervus peroneus communis",
+    "lateral popliteal nerve",
+    "peroneal nerve"
+   ],
+   "he": [
+    "העצב הפיבולרי המשותף",
+    "העצב הפרונאלי המשותף",
+    "העצב הפרונאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "Terminologia Anatomica says FIBULAR; the clinical name in daily use is PERONEAL, and the page name carries both. Both reach it, in Hebrew too. This is the nerve the owner could not find.",
+   "extends_q298": 1
+  },
+  {
+   "canon": "Deep fibular nerve",
+   "targets": [
+    "deep fibular nerve"
+   ],
+   "abbr": [
+    "DPN",
+    "DFN"
+   ],
+   "syn": [
+    "deep peroneal nerve",
+    "deep fibular nerve",
+    "nervus fibularis profundus",
+    "anterior tibial nerve"
+   ],
+   "he": [
+    "העצב הפיבולרי העמוק",
+    "העצב הפרונאלי העמוק"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "Terminologia Anatomica says FIBULAR; the clinical name in daily use is PERONEAL, and the page name carries both. Both reach it, in Hebrew too. This is the nerve the owner could not find."
+  },
+  {
+   "canon": "Superficial fibular nerve",
+   "targets": [
+    "superficial fibular nerve"
+   ],
+   "abbr": [
+    "SPN",
+    "SFN"
+   ],
+   "syn": [
+    "superficial peroneal nerve",
+    "superficial fibular nerve",
+    "nervus fibularis superficialis"
+   ],
+   "he": [
+    "העצב הפיבולרי השטחי",
+    "העצב הפרונאלי השטחי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "Terminologia Anatomica says FIBULAR; the clinical name in daily use is PERONEAL, and the page name carries both. Both reach it, in Hebrew too. This is the nerve the owner could not find."
+  },
+  {
+   "canon": "Tibial nerve",
+   "targets": [
+    "tibial nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "tibial nerve",
+    "posterior tibial nerve",
+    "medial popliteal nerve",
+    "nervus tibialis"
+   ],
+   "he": [
+    "העצב הטיביאלי",
+    "העצב השוקי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Sciatic nerve",
+   "targets": [
+    "sciatic nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "sciatic nerve",
+    "nervus ischiadicus",
+    "ischiadic nerve"
+   ],
+   "he": [
+    "עצב השת",
+    "העצב הסיאטי",
+    "העצב האיסכיאדי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Femoral nerve",
+   "targets": [
+    "femoral nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral nerve",
+    "nervus femoralis"
+   ],
+   "he": [
+    "העצב הפמורלי",
+    "עצב הירך"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Obturator nerve",
+   "targets": [
+    "obturator nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "obturator nerve",
+    "nervus obturatorius"
+   ],
+   "he": [
+    "העצב האובטורטורי",
+    "העצב החוסם"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Saphenous nerve",
+   "targets": [
+    "saphenous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "saphenous nerve",
+    "nervus saphenus"
+   ],
+   "he": [
+    "העצב הספני"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Sural nerve",
+   "targets": [
+    "sural nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "sural nerve",
+    "nervus suralis"
+   ],
+   "he": [
+    "העצב הסורלי",
+    "עצב השוק"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Medial plantar nerve",
+   "targets": [
+    "medial plantar nerve"
+   ],
+   "abbr": [
+    "MPN"
+   ],
+   "syn": [
+    "medial plantar nerve",
+    "nervus plantaris medialis"
+   ],
+   "he": [
+    "העצב הפלנטרי המדיאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Lateral plantar nerve",
+   "targets": [
+    "lateral plantar nerve"
+   ],
+   "abbr": [
+    "LPN"
+   ],
+   "syn": [
+    "lateral plantar nerve",
+    "nervus plantaris lateralis"
+   ],
+   "he": [
+    "העצב הפלנטרי הלטרלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Superior gluteal nerve",
+   "targets": [
+    "superior gluteal nerve"
+   ],
+   "abbr": [
+    "SGN"
+   ],
+   "syn": [
+    "superior gluteal nerve",
+    "nervus gluteus superior"
+   ],
+   "he": [
+    "העצב הגלוטאלי העליון"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Anterior cutaneous branches of the femoral nerve",
+   "targets": [
+    "anterior cutaneous branches of the femoral nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "anterior cutaneous branches of the femoral nerve",
+    "anterior femoral cutaneous nerves",
+    "intermediate femoral cutaneous nerve",
+    "medial femoral cutaneous nerve"
+   ],
+   "he": [
+    "הענפים העוריים הקדמיים של עצב הירך"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Femoral nerve branch to iliacus",
+   "targets": [
+    "femoral nerve branch to iliacus"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral nerve branch to iliacus",
+    "nerve to iliacus",
+    "branch to iliacus"
+   ],
+   "he": [
+    "ענף עצב הירך לאיליאקוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Femoral nerve branch to pectineus",
+   "targets": [
+    "femoral nerve branch to pectineus"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral nerve branch to pectineus",
+    "nerve to pectineus",
+    "branch to pectineus"
+   ],
+   "he": [
+    "ענף עצב הירך לפקטינאוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Femoral nerve branch to rectus femoris",
+   "targets": [
+    "femoral nerve branch to rectus femoris"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral nerve branch to rectus femoris",
+    "nerve to rectus femoris",
+    "branch to rectus femoris"
+   ],
+   "he": [
+    "ענף עצב הירך לרקטוס פמוריס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Femoral nerve branch to sartorius",
+   "targets": [
+    "femoral nerve branch to sartorius"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral nerve branch to sartorius",
+    "nerve to sartorius",
+    "branch to sartorius"
+   ],
+   "he": [
+    "ענף עצב הירך לסרטוריוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Femoral nerve branch to vastus intermedius",
+   "targets": [
+    "femoral nerve branch to vastus intermedius"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral nerve branch to vastus intermedius",
+    "nerve to vastus intermedius"
+   ],
+   "he": [
+    "ענף עצב הירך לווסטוס אינטרמדיוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Femoral nerve branch to vastus lateralis",
+   "targets": [
+    "femoral nerve branch to vastus lateralis"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral nerve branch to vastus lateralis",
+    "nerve to vastus lateralis"
+   ],
+   "he": [
+    "ענף עצב הירך לווסטוס לטרליס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Infrapatellar branch of the saphenous nerve",
+   "targets": [
+    "infrapatellar branch of the saphenous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "infrapatellar branch of the saphenous nerve",
+    "infrapatellar branch",
+    "infrapatellar nerve"
+   ],
+   "he": [
+    "הענף התת-פיקתי של העצב הספני"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Medial crural cutaneous branches of the saphenous nerve",
+   "targets": [
+    "medial crural cutaneous branches of the saphenous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "medial crural cutaneous branches of the saphenous nerve",
+    "medial crural cutaneous nerves",
+    "medial crural branches"
+   ],
+   "he": [
+    "הענפים העוריים המדיאליים של השוק"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Sciatic nerve branch to adductor magnus (hamstring part)",
+   "targets": [
+    "sciatic nerve branch to adductor magnus hamstring part"
+   ],
+   "abbr": [],
+   "syn": [
+    "sciatic nerve branch to adductor magnus",
+    "nerve to adductor magnus",
+    "branch to adductor magnus"
+   ],
+   "he": [
+    "ענף עצב השת לאדוקטור מגנוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Sciatic nerve branch to semimembranosus",
+   "targets": [
+    "sciatic nerve branch to semimembranosus"
+   ],
+   "abbr": [],
+   "syn": [
+    "sciatic nerve branch to semimembranosus",
+    "nerve to semimembranosus",
+    "branch to semimembranosus"
+   ],
+   "he": [
+    "ענף עצב השת לסמיממברנוזוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Sciatic nerve branch to semitendinosus",
+   "targets": [
+    "sciatic nerve branch to semitendinosus"
+   ],
+   "abbr": [],
+   "syn": [
+    "sciatic nerve branch to semitendinosus",
+    "nerve to semitendinosus",
+    "branch to semitendinosus"
+   ],
+   "he": [
+    "ענף עצב השת לסמיטנדינוזוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Intermediate dorsal cutaneous nerve of the foot",
+   "targets": [
+    "intermediate dorsal cutaneous nerve of the foot"
+   ],
+   "abbr": [],
+   "syn": [
+    "intermediate dorsal cutaneous nerve",
+    "intermediate dorsal cutaneous nerve of the foot",
+    "nervus cutaneus dorsalis intermedius"
+   ],
+   "he": [
+    "העצב העורי הגבי האמצעי של כף הרגל"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Medial dorsal cutaneous nerve of the foot",
+   "targets": [
+    "medial dorsal cutaneous nerve of the foot"
+   ],
+   "abbr": [],
+   "syn": [
+    "medial dorsal cutaneous nerve",
+    "medial dorsal cutaneous nerve of the foot",
+    "nervus cutaneus dorsalis medialis"
+   ],
+   "he": [
+    "העצב העורי הגבי המדיאלי של כף הרגל"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Tibial nerve branch to gastrocnemius",
+   "targets": [
+    "tibial nerve branch to gastrocnemius"
+   ],
+   "abbr": [],
+   "syn": [
+    "tibial nerve branch to gastrocnemius",
+    "nerve to gastrocnemius",
+    "branch to gastrocnemius"
+   ],
+   "he": [
+    "ענף העצב הטיביאלי לתאומי השוק"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Tibial nerve branch to popliteus",
+   "targets": [
+    "tibial nerve branch to popliteus"
+   ],
+   "abbr": [],
+   "syn": [
+    "tibial nerve branch to popliteus",
+    "nerve to popliteus",
+    "branch to popliteus"
+   ],
+   "he": [
+    "ענף העצב הטיביאלי לפופליטאוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Tibial nerve branch to soleus",
+   "targets": [
+    "tibial nerve branch to soleus"
+   ],
+   "abbr": [],
+   "syn": [
+    "tibial nerve branch to soleus",
+    "nerve to soleus",
+    "branch to soleus"
+   ],
+   "he": [
+    "ענף העצב הטיביאלי לסוליאוס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Medial sural cutaneous nerve",
+   "targets": [
+    "medial sural cutaneous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "medial sural cutaneous nerve",
+    "nervus cutaneus surae medialis"
+   ],
+   "he": [
+    "העצב העורי הסורלי המדיאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Common plantar digital branches of lateral plantar nerve",
+   "targets": [
+    "common plantar digital branches of lateral plantar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "common plantar digital branches of lateral plantar nerve",
+    "common plantar digital nerves"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלנטריים המשותפים של העצב הפלנטרי הלטרלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Common plantar digital branches of medial plantar nerve",
+   "targets": [
+    "common plantar digital branches of medial plantar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "common plantar digital branches of medial plantar nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלנטריים המשותפים של העצב הפלנטרי המדיאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Proper plantar digital branches of lateral plantar nerve",
+   "targets": [
+    "proper plantar digital branches of lateral plantar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "proper plantar digital branches of lateral plantar nerve",
+    "proper plantar digital nerves"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלנטריים העצמיים של העצב הפלנטרי הלטרלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Proper plantar digital branches of medial plantar nerve",
+   "targets": [
+    "proper plantar digital branches of medial plantar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "proper plantar digital branches of medial plantar nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלנטריים העצמיים של העצב הפלנטרי המדיאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Dorsal digital branches of deep fibular nerve",
+   "targets": [
+    "dorsal digital branches of deep fibular nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "dorsal digital branches of deep fibular nerve",
+    "dorsal digital branches of deep peroneal nerve",
+    "dorsal digital nerves of the foot"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הגביים של העצב הפיבולרי העמוק"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Dorsal digital branches of superficial fibular nerve",
+   "targets": [
+    "dorsal digital branches of superficial fibular nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "dorsal digital branches of superficial fibular nerve",
+    "dorsal digital branches of superficial peroneal nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הגביים של העצב הפיבולרי השטחי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Muscular branches of deep fibular nerve",
+   "targets": [
+    "muscular branches of deep fibular nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "muscular branches of deep fibular nerve",
+    "muscular branches of deep peroneal nerve"
+   ],
+   "he": [
+    "הענפים השריריים של העצב הפיבולרי העמוק"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Sural communicating branch of common fibular nerve",
+   "targets": [
+    "sural communicating branch of common fibular nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "sural communicating branch",
+    "sural communicating branch of common fibular nerve",
+    "sural communicating branch of common peroneal nerve",
+    "lateral sural cutaneous nerve"
+   ],
+   "he": [
+    "הענף המקשר הסורלי של העצב הפיבולרי המשותף"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Femoral branch of genitofemoral nerve",
+   "targets": [
+    "femoral branch of genitofemoral nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "femoral branch of genitofemoral nerve",
+    "lumboinguinal nerve"
+   ],
+   "he": [
+    "הענף הפמורלי של העצב הגניטופמורלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "One of the 39 lower-limb nerves Q304 carried from the Combined page onto the Imaging page of the same body (data/derived/Q304_nerve_transfer.json, 71 meshes per page). Before Q306 it was reachable only by typing its page name exactly."
+  },
+  {
+   "canon": "Lateral antebrachial cutaneous nerve",
+   "targets": [
+    "lateral antebrachial cutaneous nerve"
+   ],
+   "abbr": [
+    "LABCN",
+    "LACN",
+    "LCNF"
+   ],
+   "syn": [
+    "lateral antebrachial cutaneous nerve",
+    "lateral cutaneous nerve of the forearm",
+    "lateral antebrachial cutaneous nerve of the forearm",
+    "nervus cutaneus antebrachii lateralis",
+    "lateral forearm cutaneous nerve",
+    "musculocutaneous sensory branch",
+    "terminal sensory branch of the musculocutaneous nerve"
+   ],
+   "he": [
+    "העצב העורי הלטרלי של האמה",
+    "העצב העורי החיצוני של האמה",
+    "הענף התחושתי של העצב המוסקולוקוטני"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "The owner's own nerve. Q307 placed and validated it against Qawasmi et al. 2024 (J Hand Surg Am, PMID 38934998, doi:10.1016/j.jhsa.2024.04.018; 28 fresh cadaveric upper extremities) -- see data/derived/Q307_lacn_measurements.json. It is the sensory continuation of the musculocutaneous nerve, which is why that is offered beside it. Clinically it is written LABCN, LACN or LCNF, and older texts call it the lateral cutaneous nerve of the forearm."
+  },
+  {
+   "canon": "Medial antebrachial cutaneous nerve",
+   "targets": [
+    "medial antebrachial cutaneous nerve"
+   ],
+   "abbr": [
+    "MABCN",
+    "MACN"
+   ],
+   "syn": [
+    "medial antebrachial cutaneous nerve",
+    "medial cutaneous nerve of the forearm",
+    "nervus cutaneus antebrachii medialis"
+   ],
+   "he": [
+    "העצב העורי המדיאלי של האמה",
+    "העצב העורי הפנימי של האמה"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Anterior branch of medial antebrachial cutaneous nerve",
+   "targets": [
+    "anterior branch of medial antebrachial cutaneous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "anterior branch of medial antebrachial cutaneous nerve",
+    "anterior branch of the MACN",
+    "volar branch of the medial antebrachial cutaneous nerve"
+   ],
+   "he": [
+    "הענף הקדמי של העצב העורי המדיאלי של האמה"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Posterior branch of medial antebrachial cutaneous nerve",
+   "targets": [
+    "posterior branch of medial antebrachial cutaneous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "posterior branch of medial antebrachial cutaneous nerve",
+    "posterior branch of the MACN",
+    "ulnar branch of the medial antebrachial cutaneous nerve"
+   ],
+   "he": [
+    "הענף האחורי של העצב העורי המדיאלי של האמה"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Medial brachial cutaneous nerve",
+   "targets": [
+    "medial brachial cutaneous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "medial brachial cutaneous nerve",
+    "medial cutaneous nerve of the arm",
+    "nervus cutaneus brachii medialis"
+   ],
+   "he": [
+    "העצב העורי המדיאלי של הזרוע"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Superior lateral brachial cutaneous nerve",
+   "targets": [
+    "superior lateral brachial cutaneous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "superior lateral brachial cutaneous nerve",
+    "upper lateral cutaneous nerve of the arm",
+    "nervus cutaneus brachii lateralis superior"
+   ],
+   "he": [
+    "העצב העורי הלטרלי העליון של הזרוע"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Inferior lateral brachial cutaneous nerve",
+   "targets": [
+    "inferior lateral brachial cutaneous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "inferior lateral brachial cutaneous nerve",
+    "lower lateral cutaneous nerve of the arm",
+    "nervus cutaneus brachii lateralis inferior"
+   ],
+   "he": [
+    "העצב העורי הלטרלי התחתון של הזרוע"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Musculocutaneous nerve",
+   "targets": [
+    "musculocutaneous nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "musculocutaneous nerve",
+    "nervus musculocutaneus"
+   ],
+   "he": [
+    "העצב המוסקולוקוטני",
+    "העצב השרירי-עורי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Axillary nerve",
+   "targets": [
+    "axillary nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "axillary nerve",
+    "circumflex nerve",
+    "nervus axillaris"
+   ],
+   "he": [
+    "העצב האקסילרי",
+    "עצב בית השחי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Suprascapular nerve",
+   "targets": [
+    "suprascapular nerve"
+   ],
+   "abbr": [
+    "SSN"
+   ],
+   "syn": [
+    "suprascapular nerve",
+    "nervus suprascapularis"
+   ],
+   "he": [
+    "העצב הסופרה-סקפולרי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Dorsal scapular nerve",
+   "targets": [
+    "dorsal scapular nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "dorsal scapular nerve",
+    "dorsal scapular nerve of the rhomboids",
+    "nerve to the rhomboids",
+    "nervus dorsalis scapulae"
+   ],
+   "he": [
+    "העצב הסקפולרי הגבי",
+    "העצב לשרירי הרומבואיד"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "Terminologia Anatomica's DORSAL scapular nerve. The clinical literature usually writes DORSAL SCAPULAR NERVE for the nerve to the rhomboids and keeps 'dorsal scapular artery' separate; both forms reach this mesh."
+  },
+  {
+   "canon": "Long thoracic nerve",
+   "targets": [
+    "long thoracic nerve"
+   ],
+   "abbr": [
+    "LTN"
+   ],
+   "syn": [
+    "long thoracic nerve",
+    "nerve to serratus anterior",
+    "nerve of Bell",
+    "nervus thoracicus longus"
+   ],
+   "he": [
+    "העצב התורקלי הארוך",
+    "העצב לסרטוס אנטריור"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Thoracodorsal nerve",
+   "targets": [
+    "thoracodorsal nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "thoracodorsal nerve",
+    "nerve to latissimus dorsi",
+    "middle subscapular nerve",
+    "nervus thoracodorsalis"
+   ],
+   "he": [
+    "העצב התורקודורסלי",
+    "העצב ללטיסימוס דורסי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Lateral pectoral nerve",
+   "targets": [
+    "lateral pectoral nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "lateral pectoral nerve",
+    "nervus pectoralis lateralis"
+   ],
+   "he": [
+    "העצב הפקטורלי הלטרלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Medial pectoral nerve",
+   "targets": [
+    "medial pectoral nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "medial pectoral nerve",
+    "nervus pectoralis medialis"
+   ],
+   "he": [
+    "העצב הפקטורלי המדיאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Superior subscapular nerve",
+   "targets": [
+    "superior subscapular nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "superior subscapular nerve",
+    "upper subscapular nerve",
+    "nervus subscapularis superior"
+   ],
+   "he": [
+    "העצב התת-שכמי העליון"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Inferior subscapular nerve",
+   "targets": [
+    "inferior subscapular nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "inferior subscapular nerve",
+    "lower subscapular nerve",
+    "nervus subscapularis inferior"
+   ],
+   "he": [
+    "העצב התת-שכמי התחתון"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Subclavian nerve",
+   "targets": [
+    "subclavian nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "subclavian nerve",
+    "nerve to subclavius",
+    "nervus subclavius"
+   ],
+   "he": [
+    "העצב התת-בריחי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Roots of brachial plexus",
+   "targets": [
+    "roots of brachial plexus"
+   ],
+   "abbr": [],
+   "syn": [
+    "roots of brachial plexus",
+    "brachial plexus roots",
+    "brachial plexus",
+    "radices plexus brachialis"
+   ],
+   "he": [
+    "שורשי המקלעת הברכיאלית",
+    "המקלעת הברכיאלית"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Deep branch of ulnar nerve",
+   "targets": [
+    "deep branch of ulnar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "deep branch of ulnar nerve",
+    "deep motor branch of the ulnar nerve",
+    "ramus profundus nervi ulnaris"
+   ],
+   "he": [
+    "הענף העמוק של העצב האולנרי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Dorsal branch of ulnar nerve",
+   "targets": [
+    "dorsal branch of ulnar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "dorsal branch of ulnar nerve",
+    "dorsal cutaneous branch of the ulnar nerve",
+    "ramus dorsalis nervi ulnaris"
+   ],
+   "he": [
+    "הענף הגבי של העצב האולנרי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Muscular branches of ulnar nerve",
+   "targets": [
+    "muscular branches of ulnar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "muscular branches of ulnar nerve",
+    "ulnar nerve muscular branches"
+   ],
+   "he": [
+    "הענפים השריריים של העצב האולנרי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Common palmar digital branches of ulnar nerve",
+   "targets": [
+    "common palmar digital branches of ulnar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "common palmar digital branches of ulnar nerve",
+    "common palmar digital nerves of the ulnar nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלמריים המשותפים של העצב האולנרי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Proper palmar digital branches of ulnar nerve",
+   "targets": [
+    "proper palmar digital branches of ulnar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "proper palmar digital branches of ulnar nerve",
+    "proper palmar digital nerves of the ulnar nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלמריים העצמיים של העצב האולנרי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Dorsal digital branches of ulnar nerve",
+   "targets": [
+    "dorsal digital branches of ulnar nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "dorsal digital branches of ulnar nerve",
+    "dorsal digital nerves of the ulnar nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הגביים של העצב האולנרי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Muscular branches of median nerve",
+   "targets": [
+    "muscular branches of median nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "muscular branches of median nerve",
+    "median nerve muscular branches"
+   ],
+   "he": [
+    "הענפים השריריים של העצב המדיאני"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Common palmar digital branches of median nerve",
+   "targets": [
+    "common palmar digital branches of median nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "common palmar digital branches of median nerve",
+    "common palmar digital nerves of the median nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלמריים המשותפים של העצב המדיאני"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Proper palmar digital branches of median nerve",
+   "targets": [
+    "proper palmar digital branches of median nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "proper palmar digital branches of median nerve",
+    "proper palmar digital nerves of the median nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הפלמריים העצמיים של העצב המדיאני"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Recurrent (thenar) branch of the median nerve",
+   "targets": [
+    "recurrent thenar branch of the median nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "recurrent branch of the median nerve",
+    "thenar motor branch",
+    "recurrent thenar branch",
+    "motor branch of the median nerve"
+   ],
+   "he": [
+    "הענף החוזר (התנרי) של העצב המדיאני"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Superficial branch of radial nerve",
+   "targets": [
+    "superficial branch of radial nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "superficial branch of radial nerve",
+    "superficial radial nerve",
+    "ramus superficialis nervi radialis",
+    "Wartenberg nerve"
+   ],
+   "he": [
+    "הענף השטחי של העצב הרדיאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "Compression of this branch is called Wartenberg's syndrome, which is why the eponym reaches it."
+  },
+  {
+   "canon": "Posterior interosseous nerve of the forearm",
+   "targets": [
+    "posterior interosseous nerve of forearm"
+   ],
+   "abbr": [],
+   "syn": [
+    "posterior interosseous nerve of the forearm",
+    "posterior interosseous nerve",
+    "PIN",
+    "deep branch of the radial nerve",
+    "nervus interosseus antebrachii posterior"
+   ],
+   "he": [
+    "העצב הבין-עצמי האחורי של האמה"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "The pages ship this under two names -- 'Posterior interosseous nerve (deep branch of radial n.)' and 'Posterior interosseous nerve of forearm' -- and both resolve."
+  },
+  {
+   "canon": "Dorsal digital branches of radial nerve",
+   "targets": [
+    "dorsal digital branches of radial nerve"
+   ],
+   "abbr": [],
+   "syn": [
+    "dorsal digital branches of radial nerve",
+    "dorsal digital nerves of the radial nerve"
+   ],
+   "he": [
+    "הענפים הדיגיטליים הגביים של העצב הרדיאלי"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Coccyx",
+   "targets": [
+    "coccyx"
+   ],
+   "abbr": [],
+   "syn": [
+    "tailbone",
+    "tail bone",
+    "coccygeal bone",
+    "os coccygis"
+   ],
+   "he": [
+    "עצם הזנב",
+    "הקוקסיקס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Thyroid cartilage",
+   "targets": [
+    "thyroid cartilage"
+   ],
+   "abbr": [],
+   "syn": [
+    "Adam's apple",
+    "Adams apple",
+    "voice box",
+    "larynx prominence"
+   ],
+   "he": [
+    "תפוח אדם",
+    "סחוס התריס"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Trachea",
+   "targets": [
+    "trachea"
+   ],
+   "abbr": [],
+   "syn": [
+    "windpipe",
+    "wind pipe",
+    "airway"
+   ],
+   "he": [
+    "קנה הנשימה",
+    "הטרכאה"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Zygomatic bone",
+   "targets": [
+    "zygomatic bone"
+   ],
+   "abbr": [],
+   "syn": [
+    "cheekbone",
+    "cheek bone",
+    "malar bone",
+    "os zygomaticum"
+   ],
+   "he": [
+    "עצם הלחי",
+    "עצם הזיגומה"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Acetabular labrum / acetabulum",
+   "targets": [
+    "acetabular labrum",
+    "transverse acetabular ligament",
+    "hip bone"
+   ],
+   "abbr": [],
+   "syn": [
+    "hip socket",
+    "socket of the hip",
+    "cup of the hip",
+    "acetabulum",
+    "acetabular rim"
+   ],
+   "he": [
+    "שקע מפרק הירך",
+    "האצטבולום",
+    "לברום של מפרק הירך"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Tympanic membrane",
+   "targets": [
+    "tympanic membrane"
+   ],
+   "abbr": [],
+   "syn": [
+    "eardrum",
+    "ear drum",
+    "membrana tympanica"
+   ],
+   "he": [
+    "עור התוף",
+    "קרום התוף"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Plantar aponeurosis",
+   "targets": [
+    "plantar aponeurosis"
+   ],
+   "abbr": [],
+   "syn": [
+    "arch of the foot",
+    "longitudinal arch",
+    "plantar fascia",
+    "foot arch"
+   ],
+   "he": [
+    "קמרון כף הרגל",
+    "הפאסיה הפלנטרית"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Metacarpal bones",
+   "targets": [
+    "first metacarpal bone",
+    "second metacarpal bone",
+    "third metacarpal bone",
+    "fourth metacarpal bone",
+    "fifth metacarpal bone",
+    "metacarpals 5",
+    "1st metacarpal thumb"
+   ],
+   "abbr": [],
+   "syn": [
+    "knuckle",
+    "knuckles",
+    "metacarpal",
+    "metacarpal bones",
+    "back of the hand bones"
+   ],
+   "he": [
+    "פרקי האצבעות",
+    "עצמות המסרק"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Axillary region",
+   "targets": [
+    "axillary artery",
+    "axillary vein"
+   ],
+   "abbr": [],
+   "syn": [
+    "armpit",
+    "arm pit",
+    "oxter"
+   ],
+   "he": [
+    "בית השחי",
+    "הפיט"
+   ],
+   "src": "gray",
+   "kind_hint": "lay",
+   "note": "The pages ship no mesh named 'axilla': the region is offered through the structures that bound and fill it. The concept entry 'axilla' names them all."
+  },
+  {
+   "canon": "Vertebral column",
+   "targets": [
+    "vertebral column",
+    "lumbar vertebrae",
+    "thoracic vertebrae",
+    "cervical vertebrae"
+   ],
+   "abbr": [],
+   "syn": [
+    "spine",
+    "backbone",
+    "back bone",
+    "spinal column",
+    "columna vertebralis"
+   ],
+   "he": [
+    "עמוד השדרה",
+    "חוליות"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Rib cage",
+   "targets": [
+    "sternum",
+    "ribs",
+    "rib"
+   ],
+   "abbr": [],
+   "syn": [
+    "rib cage",
+    "ribcage",
+    "thoracic cage",
+    "chest wall bones",
+    "cavea thoracis"
+   ],
+   "he": [
+    "בית החזה",
+    "כלוב הצלעות"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Molar teeth",
+   "targets": [
+    "upper first molar tooth",
+    "upper second molar tooth",
+    "lower first molar tooth",
+    "lower second molar tooth"
+   ],
+   "abbr": [],
+   "syn": [
+    "wisdom tooth",
+    "wisdom teeth",
+    "third molar",
+    "molar",
+    "molar tooth"
+   ],
+   "he": [
+    "שן בינה",
+    "טוחנת"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "lay",
+   "note": "The pages ship the FIRST and SECOND molars, upper and lower. There is no third molar (wisdom tooth) mesh on any page, so a search for it reaches the molars that exist and the card says which."
+  },
+  {
+   "canon": "Tarsal bones (instep)",
+   "targets": [
+    "navicular",
+    "intermediate cuneiform",
+    "medial cuneiform",
+    "lateral cuneiform"
+   ],
+   "abbr": [],
+   "syn": [
+    "instep",
+    "dorsum of the foot",
+    "midfoot"
+   ],
+   "he": [
+    "גב כף הרגל",
+    "אמצע כף הרגל"
+   ],
+   "src": "gray",
+   "kind_hint": "lay"
+  },
+  {
+   "canon": "Plantar calcaneonavicular ligament",
+   "targets": [
+    "plantar calcaneonavicular ligament"
+   ],
+   "abbr": [],
+   "syn": [
+    "spring ligament",
+    "plantar calcaneonavicular ligament",
+    "ligamentum calcaneonaviculare plantare"
+   ],
+   "he": [
+    "רצועת הקפיץ"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Medial collateral ligament of the ankle (deltoid ligament)",
+   "targets": [
+    "tibiocalcaneal ligament"
+   ],
+   "abbr": [],
+   "syn": [
+    "deltoid ligament",
+    "medial collateral ligament of the ankle",
+    "medial ankle ligament",
+    "ligamentum collaterale mediale"
+   ],
+   "he": [
+    "הרצועה הדלתואידית של הקרסול"
+   ],
+   "src": "gray",
+   "kind_hint": "syn",
+   "note": "The deltoid ligament is a COMPLEX of four parts. The pages ship the tibiocalcaneal part as its own mesh and not the complex as one structure, so the search offers that part and says so."
+  },
+  {
+   "canon": "Subacromial-subdeltoid bursa",
+   "targets": [
+    "subacromial subdeltoid bursa"
+   ],
+   "abbr": [],
+   "syn": [
+    "subacromial bursa",
+    "subdeltoid bursa",
+    "subacromial-subdeltoid bursa",
+    "SASD bursa"
+   ],
+   "he": [
+    "הבורסה התת-אקרומיאלית"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Sacro-iliac joint",
+   "targets": [
+    "anterior sacro iliac ligament",
+    "posterior sacro iliac ligament",
+    "interosseous sacro iliac ligament"
+   ],
+   "abbr": [
+    "SIJ",
+    "SI joint"
+   ],
+   "syn": [
+    "sacroiliac joint",
+    "sacro-iliac joint",
+    "SI joint",
+    "articulatio sacroiliaca"
+   ],
+   "he": [
+    "מפרק הסקרואיליאק"
+   ],
+   "src": "gray,ta",
+   "multi_part": 1,
+   "note": "Q298 already marks SIJ multi_part: the pages ship the three sacro-iliac LIGAMENTS, not a joint mesh. The spellings 'sacroiliac joint' and 'SI joint' are added here.",
+   "extends_q298": 1
+  },
+  {
+   "canon": "Subtalar (talocalcaneal) joint",
+   "targets": [
+    "talocalcaneal interosseous ligament",
+    "anterior talocalcaneal ligament",
+    "medial talocalcaneal ligament",
+    "lateral talocalcaneal ligament",
+    "posterior talocalcaneal ligament"
+   ],
+   "abbr": [],
+   "syn": [
+    "subtalar joint",
+    "talocalcaneal joint",
+    "articulatio subtalaris"
+   ],
+   "he": [
+    "המפרק התת-טלרי"
+   ],
+   "src": "gray,ta",
+   "multi_part": 1,
+   "note": "No page ships a mesh called a joint here; the search offers the talus, the calcaneus and the talocalcaneal ligaments, by the same rule data/anatomy/relations_q298.json states for joints."
+  },
+  {
+   "canon": "Talocrural (ankle) joint",
+   "targets": [
+    "anterior talofibular ligament",
+    "posterior talofibular ligament",
+    "calcaneofibular ligament",
+    "tibiocalcaneal ligament"
+   ],
+   "abbr": [],
+   "syn": [
+    "ankle joint",
+    "talocrural joint",
+    "articulatio talocruralis"
+   ],
+   "he": [
+    "מפרק הקרסול"
+   ],
+   "src": "gray,ta",
+   "multi_part": 1,
+   "note": "As the subtalar joint: no joint mesh, so the bones and the ankle ligaments are offered."
+  },
+  {
+   "canon": "Metatarsophalangeal joints",
+   "targets": [
+    "articular capsules of metatarsophalangeal joints",
+    "collateral metatarsophalangeal ligaments",
+    "plantar metatarsophalangeal ligaments"
+   ],
+   "abbr": [
+    "MTP",
+    "1st MTP"
+   ],
+   "syn": [
+    "first metatarsophalangeal joint",
+    "metatarsophalangeal joint",
+    "great toe joint",
+    "hallux MTP joint",
+    "bunion joint"
+   ],
+   "he": [
+    "המפרק המטטרסופלנגיאלי",
+    "מפרק הבוהן"
+   ],
+   "src": "gray,ta",
+   "multi_part": 1,
+   "note": "The pages ship the metatarsophalangeal joint CAPSULES and ligaments as one mesh each, not a separate first MTP joint, so the search offers those and the great toe's own bones."
+  },
+  {
+   "canon": "Suspensory ligaments of the breast",
+   "targets": [
+    "suspensory ligaments of the breast"
+   ],
+   "abbr": [],
+   "syn": [
+    "Cooper's ligaments",
+    "Coopers ligaments",
+    "Cooper ligaments",
+    "Cooper's ligament",
+    "suspensory ligaments of the breast",
+    "retinacula cutis of the breast"
+   ],
+   "he": [
+    "רצועות קופר",
+    "רצועות התלייה של השד"
+   ],
+   "src": "project,gray",
+   "kind_hint": "eponym",
+   "note": "Shipped on the THREE FEMALE pages only. Q298 carried the singular 'Cooper's ligament'; the plural, which is how it is normally written, is added here. The OTHER Cooper eponym -- the pectineal ligament of the pelvis -- is not shipped and returns an explanation."
+  },
+  {
+   "canon": "Nail plate",
+   "targets": [
+    "nail plate",
+    "nail plate foot"
+   ],
+   "abbr": [],
+   "syn": [
+    "nail",
+    "nails",
+    "fingernail",
+    "toenail",
+    "nail plate",
+    "unguis",
+    "lamina unguis"
+   ],
+   "he": [
+    "ציפורן",
+    "לוחית הציפורן"
+   ],
+   "src": "project,ta",
+   "kind_hint": "syn",
+   "note": "The Z pages ship 'Nail plate' (hand) and 'Nail plate (foot)'. The nail BED, the matrix and the digital pulp are not shipped and return an explanation (Q302)."
+  },
+  {
+   "canon": "Nipple",
+   "targets": [
+    "nipple"
+   ],
+   "abbr": [],
+   "syn": [
+    "nipple",
+    "papilla mammaria",
+    "mammary papilla",
+    "teat"
+   ],
+   "he": [
+    "פטמה",
+    "פטמת השד"
+   ],
+   "src": "project,ta",
+   "kind_hint": "syn",
+   "note": "MEASURED, and it corrects an out-of-date gap list: the nipple DOES ship, as 'Nipple (left)' and 'Nipple (right)' with the TA Latin 'Papilla mammaria', on the THREE FEMALE pages (Imaging F, Base F, Combined F). The three male pages ship no nipple and no areola -- they carry only 'Mammary region (skin)' and 'Inframammary region (skin)' -- so on a male page the search says so instead of returning nothing. Q302's gap 5 listed nipple and areola as absent; that is no longer true for the female pages."
+  },
+  {
+   "canon": "Areola",
+   "targets": [
+    "areola"
+   ],
+   "abbr": [
+    "NAC"
+   ],
+   "syn": [
+    "areola",
+    "areola mammae",
+    "nipple areolar complex",
+    "areolar complex"
+   ],
+   "he": [
+    "עטרת הפטמה",
+    "אראולה"
+   ],
+   "src": "project,ta",
+   "kind_hint": "syn",
+   "note": "As the nipple: shipped on the three FEMALE pages as 'Areola (left)' / 'Areola (right)' with the TA Latin 'Areola mammae'; absent on the three male pages."
+  },
+  {
+   "canon": "Breast",
+   "targets": [
+    "breast left from her ct",
+    "breast right from her ct",
+    "breast fibroglandular tissue left from her ct",
+    "breast fat pad left"
+   ],
+   "abbr": [],
+   "syn": [
+    "breast",
+    "mamma",
+    "mammary gland",
+    "breast tissue"
+   ],
+   "he": [
+    "שד",
+    "רקמת השד"
+   ],
+   "src": "project",
+   "kind_hint": "syn",
+   "note": "Q285/Q287 built these from HER OWN CT, which is why the page names say so. The male pages carry only the mammary and inframammary skin regions."
+  },
+  {
+   "canon": "Ligamenta flava",
+   "targets": [
+    "ligamenta flava"
+   ],
+   "abbr": [],
+   "syn": [
+    "ligamentum flavum",
+    "ligamenta flava",
+    "yellow ligament",
+    "flaval ligament"
+   ],
+   "he": [
+    "הרצועה הצהובה",
+    "הרצועות הצהובות"
+   ],
+   "src": "project,gray,ta",
+   "kind_hint": "syn",
+   "note": "Shipped on the FOUR Z PAGES as one mesh under the plural Latin name 'Ligamenta flava', which is why the singular English 'ligamentum flavum' reached nothing before Q306. The two Imaging pages ship no ligamentum flavum, and there the search says so."
+  },
+  {
+   "canon": "Fibular artery",
+   "targets": [
+    "fibular artery"
+   ],
+   "abbr": [],
+   "syn": [
+    "peroneal artery",
+    "fibular artery",
+    "arteria fibularis",
+    "arteria peronea"
+   ],
+   "he": [
+    "העורק הפיבולרי",
+    "העורק הפרונאלי"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn",
+   "note": "Terminologia Anatomica says fibular; the clinical name in daily use is peroneal."
+  },
+  {
+   "canon": "Deep femoral artery",
+   "targets": [
+    "deep femoral artery"
+   ],
+   "abbr": [],
+   "syn": [
+    "profunda femoris",
+    "profunda femoris artery",
+    "deep femoral artery",
+    "arteria profunda femoris"
+   ],
+   "he": [
+    "העורק הפמורלי העמוק"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn"
+  },
+  {
+   "canon": "Flexor retinaculum",
+   "targets": [
+    "flexor retinaculum transverse carpal ligament",
+    "flexor retinaculum of the ankle forms the tarsal tunnel",
+    "flexor retinaculum of ankle"
+   ],
+   "abbr": [
+    "TCL"
+   ],
+   "syn": [
+    "flexor retinaculum",
+    "transverse carpal ligament",
+    "retinaculum musculorum flexorum",
+    "laciniate ligament"
+   ],
+   "he": [
+    "הרטינקולום הכופף",
+    "הרצועה הקרפלית הרוחבית"
+   ],
+   "src": "gray,ta",
+   "ambiguous": 1,
+   "note": "The pages ship TWO flexor retinacula -- the WRIST one, whose page name is 'Flexor retinaculum (transverse carpal ligament)', and the ANKLE one, 'Flexor retinaculum (of the ankle, forms the tarsal tunnel)'. Both are offered and each is named."
+  },
+  {
+   "canon": "Ulnar nerve at the elbow",
+   "targets": [
+    "ulnar nerve",
+    "humerus"
+   ],
+   "abbr": [],
+   "syn": [
+    "funny bone",
+    "funnybone",
+    "ulnar nerve at the elbow",
+    "medial epicondyle"
+   ],
+   "he": [
+    "העצב האולנרי במרפק"
+   ],
+   "src": "gray",
+   "kind_hint": "lay",
+   "note": "'Funny bone' is the ulnar nerve where it crosses behind the medial epicondyle of the humerus; neither the epicondyle nor the groove ships as its own mesh, so the nerve and the humerus are offered."
+  },
+  {
+   "canon": "Scapula",
+   "targets": [
+    "scapula shoulder blade"
+   ],
+   "abbr": [],
+   "syn": [
+    "scapula",
+    "shoulder blade",
+    "shoulder-blade",
+    "wing bone"
+   ],
+   "he": [
+    "שכמה",
+    "עצם השכמה",
+    "הסקפולה"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn",
+   "note": "The page name already carries the lay term in parentheses; the short Hebrew form was missing."
+  },
+  {
+   "canon": "Deltoid",
+   "targets": [
+    "deltoid"
+   ],
+   "abbr": [],
+   "syn": [
+    "deltoid",
+    "deltoid muscle",
+    "shoulder muscle",
+    "musculus deltoideus"
+   ],
+   "he": [
+    "שריר הכתף",
+    "הדלתא",
+    "השריר הדלתואידי"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn",
+   "note": "The short Hebrew forms were missing; Q298 carried the entry without them."
+  },
+  {
+   "canon": "Hamstrings (the three muscles)",
+   "targets": [
+    "biceps femoris",
+    "semitendinosus",
+    "semimembranosus"
+   ],
+   "abbr": [],
+   "syn": [
+    "hamstring muscles",
+    "posterior thigh muscles"
+   ],
+   "he": [
+    "שריר הירך האחורי",
+    "שרירי הירך האחוריים",
+    "המסטרינג"
+   ],
+   "src": "gray",
+   "kind_hint": "syn",
+   "note": "The named group 'hamstrings' already existed; these are the short singular forms a clinician types."
+  },
+  {
+   "canon": "Pelvis (the bones)",
+   "targets": [
+    "hip bone",
+    "sacrum",
+    "coccyx"
+   ],
+   "abbr": [],
+   "syn": [
+    "pelvis",
+    "pelvic bones",
+    "bony pelvis",
+    "pelvic girdle"
+   ],
+   "he": [
+    "אגן",
+    "אגן הירכיים",
+    "עצמות האגן",
+    "חגורת האגן"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn",
+   "note": "No page ships one mesh called a pelvis; the hip bones, the sacrum and the coccyx are offered."
+  },
+  {
+   "canon": "Foot (the bones)",
+   "targets": [
+    "calcaneus",
+    "navicular",
+    "talus",
+    "medial cuneiform",
+    "metatarsals 5"
+   ],
+   "abbr": [],
+   "syn": [
+    "foot",
+    "foot bones",
+    "tarsus",
+    "midfoot",
+    "hindfoot",
+    "forefoot"
+   ],
+   "he": [
+    "כף הרגל",
+    "עצמות כף הרגל"
+   ],
+   "src": "gray,ta",
+   "kind_hint": "syn",
+   "note": "No page ships one mesh called a foot; its own bones are offered."
+  },
+  {
+   "canon": "Interpubic fibrocartilaginous disc (pubic symphysis)",
+   "targets": [
+    "Interpubic fibrocartilaginous disc"
+   ],
+   "abbr": [],
+   "syn": [
+    "pubic symphysis",
+    "symphysis pubis",
+    "symphysis pubica",
+    "pubic joint",
+    "interpubic disc",
+    "interpubic fibrocartilaginous disc",
+    "discus interpubicus",
+    "symphysial surface"
+   ],
+   "he": [
+    "סימפיזה פובית",
+    "מפרק החיבור הקדמי של האגן",
+    "הדיסק הבין-פובי"
+   ],
+   "src": "project,ta",
+   "note": "Q308 CORRECTION. Q306 recorded the pubic symphysis as not shipped. Measured against the six pages' own structure lists: the four Z pages DO ship it, as `pubic_symphysis_disc`, named `Interpubic fibrocartilaginous disc` with the TA Latin `Discus interpubicus` -- which is the fibrocartilage OF the symphysis. Q306's guard could not see this because it tested whether the query RESOLVED through the alias table, not whether the structure was PRESENT, and no alias connected the clinical name to the TA one. The two Imaging pages genuinely do not ship it, and there the explanation still shows."
+  },
+  {
+   "canon": "Subtendinous calcaneal bursa (retrocalcaneal bursa)",
+   "targets": [
+    "Subtendinous calcaneal bursa"
+   ],
+   "abbr": [],
+   "syn": [
+    "retrocalcaneal bursa",
+    "bursa tendinis calcanei",
+    "bursa subtendinea calcanei",
+    "subtendinous bursa of the calcaneal tendon",
+    "subtendinous calcaneal bursa",
+    "pre-Achilles bursa",
+    "retro-Achilles bursa"
+   ],
+   "he": [
+    "בורסה רטרוקלקנאלית",
+    "הבורסה שמאחורי עצם העקב"
+   ],
+   "src": "project,ta",
+   "note": "Q308 CORRECTION. Q306 recorded the retrocalcaneal bursa as not shipped and as having no source we hold. Measured: the four Z pages DO ship it as `zan_subtendinous_calcaneal_bursa_l/r` -- TA's `bursa subtendinea calcanei` IS the retrocalcaneal bursa -- and the pinned Z-Anatomy catalogue holds 39 bursae including both the subtendinous and the subcutaneous calcaneal. A naming gap, not a geometry gap: the same failure mode as `ligamenta flava` in Q306 section 0."
+  },
+  {
+   "canon": "Articular disc of the distal radio-ulnar joint (TFCC)",
+   "targets": [
+    "Articular disc of distal radio-ulnar joint",
+    "Dorsal ulnocarpal ligament"
+   ],
+   "abbr": [
+    "TFCC"
+   ],
+   "syn": [
+    "TFCC",
+    "triangular fibrocartilage",
+    "triangular fibrocartilage complex",
+    "ulnocarpal complex",
+    "articular disc of the wrist",
+    "articular disc of distal radioulnar joint",
+    "discus articularis",
+    "ulnar-sided wrist complex"
+   ],
+   "he": [
+    "קומפלקס הסחוס המשולש",
+    "TFCC",
+    "הדיסק המפרקי של שורש כף היד"
+   ],
+   "src": "project,ta,palmer",
+   "note": "Q308 CORRECTION. Q306 recorded the TFCC as not shipped. Measured: the four Z pages ship its PRINCIPAL component, the central articular disc, as `zan_articular_disc_of_distal_radio_ulnar_joint_l/r`, plus `zan_dorsal_ulnocarpal_ligament_l/r`. The project also already holds a cited registry entry for it (`data/cartilage/tfcc_disc.json`, Palmer & Werner 1981; Bednar 1991 for the vascular zonation). What genuinely does NOT ship is the meniscus homologue and the volar/dorsal radioulnar ligaments as separate meshes, and the card says so."
+  }
+ ],
+ "families": [
+  {
+   "canon": "Intervertebral discs",
+   "re": "intervertebral disc",
+   "abbr": [
+    "IVD"
+   ],
+   "syn": [
+    "intervertebral disc",
+    "intervertebral discs",
+    "disc",
+    "discs",
+    "disk",
+    "spinal disc",
+    "discus intervertebralis",
+    "slipped disc",
+    "herniated disc"
+   ],
+   "he": [
+    "דיסק בין-חולייתי",
+    "דיסקים",
+    "דיסק"
+   ],
+   "src": "gray,ta",
+   "group_like": true,
+   "note": "No page ships one mesh called an intervertebral disc: every level is its own mesh, written 'C2-C3 intervertebral disc' on all six pages and also 'Intervertebral disc T12-L1' on the four Z pages, which is why a single target cannot reach them and a regular expression can. A herniated or slipped disc is a DIAGNOSIS; the atlas ships this body's own discs and no herniation."
+  },
+  {
+   "canon": "Metatarsal bones",
+   "re": "^(first|second|third|fourth|fifth|1st|2nd|3rd|4th|5th)?\\s*metatarsal",
+   "abbr": [],
+   "syn": [
+    "metatarsal",
+    "metatarsals",
+    "metatarsal bone",
+    "metatarsal bones",
+    "ossa metatarsi"
+   ],
+   "he": [
+    "עצמות המסרק של הרגל",
+    "מטטרסלים"
+   ],
+   "src": "gray,ta",
+   "group_like": true,
+   "note": "Shipped as separate bones per ray."
+  },
+  {
+   "canon": "Ribs",
+   "re": "\\brib\\b",
+   "abbr": [],
+   "syn": [
+    "rib",
+    "ribs",
+    "costa",
+    "costae",
+    "first rib",
+    "twelfth rib"
+   ],
+   "he": [
+    "צלע",
+    "צלעות"
+   ],
+   "src": "gray,ta",
+   "group_like": true,
+   "note": "Shipped per rib."
+  }
+ ],
+ "cited_but_not_shipped": [
+  {
+   "name": "Psoas minor",
+   "canon": "Psoas minor (musculus psoas minor)",
+   "syn": [
+    "psoas minor",
+    "musculus psoas minor",
+    "m. psoas minor",
+    "PMi",
+    "lesser psoas"
+   ],
+   "he": [
+    "פסואס מינור",
+    "השריר הכליתי הקטן",
+    "פסואס קטן"
+   ],
+   "src": "raja2026,patra2024,gray,ta",
+   "why": "Q308 BUILT IT. The psoas minor is no longer absent: Q308 built it rule-based on each page's own T12 and L1 bodies and its own pecten pubis (Raja 2026 doi:10.7759/cureus.111450; Patra 2024 doi:10.5603/fm.99128), and it ships on the four Z pages -- HIDDEN BY DEFAULT and labelled 'not demonstrated on this body', because it is absent in 40-50 % of people and a visible mesh would be a claim about that body. It is NOT shipped on the two Imaging pages, where this explanation still shows: that engine has no hidden-by-default flag, and shipping it visible there would make exactly the claim the hiding avoids. The prevalence and the morphometry below remain accurate and are also on its card.",
+   "offer": [
+    "psoas major",
+    "iliacus",
+    "iliopsoas",
+    "iliopsoas fascia",
+    "iliopsoas tendon",
+    "iliopsoas bursa",
+    "hip bone",
+    "lumbar vertebrae"
+   ],
+   "why_was": "NO PAGE SHIPS IT, and no source this project holds contains it. Verified three ways: (1) all six pages' own structure lists contain no psoas minor -- only Iliopsoas / Iliopsoas tendon on the two Imaging pages and Psoas major / Iliacus / Iliopsoas fascia / Iliopsoas bursa on the four Z pages; (2) the pinned upstream Z-Anatomy catalogue (data/derived/zanatomy_inventory.json, commit 6c7f9016) has 3,572 named objects and none of them is a psoas minor; (3) the string does not occur anywhere in this repository. This is also the EXPECTED finding: the psoas minor is absent in a large share of people. Raja 2026 (Cureus 18(6):e111450, doi:10.7759/cureus.111450): \"The psoas minor is a slender, inconstantly present vestigial muscle of the posterior abdominal wall. Classical texts report its presence in 40-50% of individuals\" -- and in their own 30 cadavers it was found in 2 (6.67%; 3 of 60 sides, 5.00%), arising from the bodies of T12 and L1 and inserting by a long slender tendon into the pecten pubis and the iliopubic eminence (belly 4.57 +/- 0.46 cm, tendon 17.17 +/- 0.85 cm, total 21.73 +/- 0.45 cm). Patra 2024 (Folia Morphol 83(4):886-892, doi:10.5603/fm.99128) calls it \"the most unstable muscle of the psoas group\", found it in 12 of 30 cadavers, and notes that \"the muscle's distal attachment to the iliac fascia may partially control the position and mechanical stability of the underlying iliopsoas\". So its absence on these two bodies is a real anatomical possibility and not a segmentation failure -- but nothing here can prove it for THIS body either, because neither CT was read for it. Before Q306 the four Z pages answered this query with Psoas major at rank 1 and no note at all, which is a wrong answer rather than an honest absence.",
+   "shipped_as": [
+    "Psoas minor"
+   ],
+   "corrected_by": "Q308",
+   "built_by": "Q308"
+  },
+  {
+   "name": "Pubic symphysis",
+   "canon": "Pubic symphysis (symphysis pubica)",
+   "syn": [
+    "pubic symphysis",
+    "symphysis pubis",
+    "symphysis pubica",
+    "pubic joint"
+   ],
+   "he": [
+    "סימפיזה פובית",
+    "מפרק החיבור הקדמי של האגן"
+   ],
+   "src": "project,gray,ta",
+   "why": "Q308 CORRECTED. The four Z pages DO ship the symphysis's fibrocartilage as `Interpubic fibrocartilaginous disc` (`pubic_symphysis_disc`, TA `Discus interpubicus`); Q306's claim that no page ships it was wrong and is withdrawn. This explanation now appears ONLY on the two Imaging pages, which genuinely do not ship it -- there the pubic bones are part of the hip bone label and the joint between them has no separate geometry.",
+   "offer": [
+    "hip bone",
+    "sacrum",
+    "coccyx"
+   ],
+   "why_was": "Verified absent: no page ships a pubic symphysis mesh (the only 'symphysis' on any page is the sacrococcygeal symphysis). The pubic bones themselves are part of the hip bone mesh, so the joint between them has no separate geometry. Found while validating the pelvic-tilt concept entry.",
+   "corrected_by": "Q308",
+   "shipped_as": [
+    "Interpubic fibrocartilaginous disc"
+   ]
+  },
+  {
+   "name": "Coracoacromial ligament",
+   "canon": "Coracoacromial ligament (ligamentum coracoacromiale)",
+   "syn": [
+    "coracoacromial ligament",
+    "ligamentum coracoacromiale",
+    "coracoacromial arch"
+   ],
+   "he": [
+    "הרצועה הקוראקואקרומיאלית"
+   ],
+   "src": "project,gray,ta",
+   "why": "Q308 BUILT IT. The coracoacromial ligament is no longer absent: Q308 built it rule-based between the coracoid's lateral border and the acromion's anterior undersurface, both found by a geometric rule on each page's own scapula (von Schroeder 2001 doi:10.1097/00003086-200102000-00015; Hu 2009 PMID 20073313; Nicholson 1996 doi:10.1016/s1058-2746(96)80024-3). It ships on five of the six pages. On Imaging M it was REFUSED on both sides, and this explanation still shows there: no coracoid/acromion pair on that page's own CT-segmented scapula gives a span inside the literature band of 17.0-40.3 mm, and a ligament shipped on one side only would tell the reader the other shoulder has none.",
+   "offer": [
+    "scapula",
+    "humerus",
+    "supraspinatus",
+    "subacromial subdeltoid bursa"
+   ],
+   "why_was": "Verified absent on all six pages. It is the roof of the subacromial space, so the subacromial impingement concept entry names this gap rather than filling it.",
+   "shipped_as": [
+    "Coracoacromial ligament"
+   ],
+   "corrected_by": "Q308",
+   "built_by": "Q308"
+  },
+  {
+   "name": "Retrocalcaneal bursa",
+   "canon": "Retrocalcaneal bursa (bursa tendinis calcanei)",
+   "syn": [
+    "retrocalcaneal bursa",
+    "bursa tendinis calcanei",
+    "subtendinous bursa of the calcaneal tendon"
+   ],
+   "he": [
+    "הבורסה הרטרוקלקנאלית"
+   ],
+   "src": "project,gray,ta",
+   "why": "Q308 CORRECTED. The four Z pages DO ship it as `Subtendinous calcaneal bursa` (TA `bursa subtendinea calcanei`); Q306's claim that it is absent from every page and from every source we hold was wrong and is withdrawn -- the pinned Z-Anatomy catalogue holds 39 bursae including this one. This explanation now appears only on the two Imaging pages, which do not ship it.",
+   "offer": [
+    "calcaneal tendon",
+    "calcaneus",
+    "soleus",
+    "gastrocnemius"
+   ],
+   "why_was": "Verified absent on all six pages, although the pages do ship many other bursae (the bursa data is in data/bursae/). Recorded as a gap, not filled.",
+   "corrected_by": "Q308",
+   "shipped_as": [
+    "Subtendinous calcaneal bursa"
+   ]
+  },
+  {
+   "name": "Anterolateral ligament of the knee",
+   "canon": "Anterolateral ligament (ALL)",
+   "syn": [
+    "anterolateral ligament",
+    "ALL of the knee",
+    "anterolateral ligament of the knee"
+   ],
+   "he": [
+    "הרצועה האנטרולטרלית של הברך"
+   ],
+   "src": "project,gray",
+   "why": "Q308 BUILT IT, AND MARKED IT CONTESTED. The ALL is no longer absent: Q308 built it rule-based from the centre of each page's own lateral femoral epicondyle -- the resolution Kosy 2016's own full text offers for its disagreement with Rustagi 2019 -- to 59.5 % of the way from that page's own Gerdy's tubercle to its fibular head (Kosy 2016 doi:10.1007/s10195-016-0392-0; Rustagi 2019 doi:10.4103/ortho.IJOrtho_137_17). It ships on all six pages with three live disagreements on its card. AND NOTE: HRA / CCF v1.10 (CC BY 4.0) holds this ligament as a real closed mesh on the same two Visible Human donors as the Imaging pages, so the rule-based one should give way to it -- an owner decision, recorded in docs/research/Q308_built_structures_and_validation.md.",
+   "offer": [
+    "fibular collateral ligament",
+    "iliotibial tract",
+    "femur",
+    "tibia",
+    "anterior cruciate ligament"
+   ],
+   "why_was": "Verified absent on all six pages. Its existence as a discrete ligament is itself debated in the literature, so nothing is inferred here; the search offers the lateral structures the pages do ship.",
+   "shipped_as": [
+    "Anterolateral ligament of the knee"
+   ],
+   "corrected_by": "Q308",
+   "built_by": "Q308"
+  },
+  {
+   "name": "Zygapophysial (facet) joint",
+   "canon": "Zygapophysial joint (articulatio zygapophysialis)",
+   "syn": [
+    "facet joint",
+    "zygapophysial joint",
+    "zygapophyseal joint",
+    "apophyseal joint",
+    "articulatio zygapophysialis",
+    "z-joint"
+   ],
+   "he": [
+    "מפרק הפאסט",
+    "המפרק הזיגאפופיזיאלי"
+   ],
+   "src": "project,gray,ta",
+   "why": "Verified absent on all six pages: no mesh is named for the joint between two vertebral articular processes, although the pages do ship the intervertebral discs and the vertebrae themselves. This is the same rule data/anatomy/relations_q298.json already states for joints -- where no joint mesh exists, the search offers the bones and the ligaments that make it.",
+   "offer": [
+    "cervical vertebrae",
+    "thoracic vertebrae",
+    "lumbar vertebrae"
+   ]
+  },
+  {
+   "name": "Triangular fibrocartilage complex",
+   "canon": "Triangular fibrocartilage complex (TFCC)",
+   "syn": [
+    "triangular fibrocartilage",
+    "triangular fibrocartilage complex",
+    "TFCC",
+    "ulnocarpal complex"
+   ],
+   "he": [
+    "קומפלקס הסחוס המשולש"
+   ],
+   "src": "project,gray",
+   "why": "Q308 CORRECTED. The four Z pages DO ship the TFCC's central articular disc (`Articular disc of distal radio-ulnar joint`) and the dorsal ulnocarpal ligament; Q306's claim that the whole complex is absent was wrong and is withdrawn. What is genuinely absent is the meniscus homologue and the volar / dorsal radioulnar ligaments as separate meshes. On the two Imaging pages nothing of the complex ships.",
+   "offer": [
+    "ulnar collateral ligament of wrist joint",
+    "ulna",
+    "radius",
+    "lunate bone",
+    "pisiform bone"
+   ],
+   "why_was": "Verified absent on all six pages. The ulnar side of the wrist ships the ulnar collateral ligament of the wrist joint and the carpal bones, but no TFCC.",
+   "corrected_by": "Q308",
+   "shipped_as": [
+    "Articular disc of distal radio-ulnar joint",
+    "Dorsal ulnocarpal ligament"
+   ]
+  },
+  {
+   "name": "Anterior superior iliac spine",
+   "canon": "Anterior superior iliac spine (ASIS)",
+   "syn": [
+    "anterior superior iliac spine",
+    "ASIS",
+    "spina iliaca anterior superior"
+   ],
+   "he": [
+    "הקוץ האיליאקי הקדמי-עליון"
+   ],
+   "src": "project,gray,ta",
+   "why": "A bone LANDMARK on the hip bone, not a structure: no page ships a mesh for any iliac spine. It is where sartorius and the inguinal ligament attach, and where the Q angle and most pelvic-tilt measurements are taken from. The search offers the hip bone and the muscles that attach there.",
+   "offer": [
+    "hip bone",
+    "sacrum",
+    "sartorius",
+    "rectus femoris",
+    "inguinal ligament"
+   ]
+  },
+  {
+   "name": "Anterior inferior iliac spine",
+   "canon": "Anterior inferior iliac spine (AIIS)",
+   "syn": [
+    "anterior inferior iliac spine",
+    "AIIS",
+    "spina iliaca anterior inferior"
+   ],
+   "he": [
+    "הקוץ האיליאקי הקדמי-תחתון"
+   ],
+   "src": "project,gray,ta",
+   "why": "A bone LANDMARK, not a structure. It is the origin of the straight head of rectus femoris, which Q293 measured and which the reflected head was built relative to.",
+   "offer": [
+    "hip bone",
+    "sacrum",
+    "sartorius",
+    "rectus femoris",
+    "inguinal ligament"
+   ]
+  },
+  {
+   "name": "Posterior superior iliac spine",
+   "canon": "Posterior superior iliac spine (PSIS)",
+   "syn": [
+    "posterior superior iliac spine",
+    "PSIS",
+    "spina iliaca posterior superior"
+   ],
+   "he": [
+    "הקוץ האיליאקי האחורי-עליון"
+   ],
+   "src": "project,gray,ta",
+   "why": "A bone LANDMARK, not a structure. With the ASIS it defines the sagittal pelvic-tilt measurement.",
+   "offer": [
+    "hip bone",
+    "sacrum",
+    "sartorius",
+    "rectus femoris",
+    "inguinal ligament"
+   ]
+  },
+  {
+   "name": "Posterior inferior iliac spine",
+   "canon": "Posterior inferior iliac spine (PIIS)",
+   "syn": [
+    "posterior inferior iliac spine",
+    "PIIS",
+    "spina iliaca posterior inferior"
+   ],
+   "he": [
+    "הקוץ האיליאקי האחורי-תחתון"
+   ],
+   "src": "project,gray,ta",
+   "why": "A bone LANDMARK, not a structure.",
+   "offer": [
+    "hip bone",
+    "sacrum",
+    "sartorius",
+    "rectus femoris",
+    "inguinal ligament"
+   ]
+  },
+  {
+   "name": "Nail bed",
+   "canon": "Nail bed (matrix unguis)",
+   "syn": [
+    "nail bed",
+    "nail matrix",
+    "matrix unguis",
+    "germinal matrix"
+   ],
+   "he": [
+    "מיטת הציפורן",
+    "מטריצת הציפורן"
+   ],
+   "src": "project,q302,q297,gray",
+   "why": "Q302: Z-Anatomy ships a nail PLATE only (Nail plate.l/.r and Nail plate (foot).l/.r) and no bed or matrix. The search offers the nail plate and the distal phalanx.",
+   "offer": [
+    "nail plate",
+    "finger thumb phalanges 14 thumb x2 fingers x3 each",
+    "toe phalanges 14"
+   ]
+  },
+  {
+   "name": "Digital pulp",
+   "canon": "Digital pulp (pulpa digiti)",
+   "syn": [
+    "digital pulp",
+    "finger pad",
+    "fingertip pulp",
+    "pulp space",
+    "pulpa digiti"
+   ],
+   "he": [
+    "כרית האצבע",
+    "פולפה של האצבע"
+   ],
+   "src": "project,q302,q297,gray",
+   "why": "Q302 gap 3: not shipped. Q297 measured the fingertips of these models at under 1 mm of soft tissue where 3-8 mm is expected, and no source this project holds closes it.",
+   "offer": [
+    "nail plate",
+    "finger thumb phalanges 14 thumb x2 fingers x3 each"
+   ]
+  },
+  {
+   "name": "Female perineal skin",
+   "canon": "Female perineal skin",
+   "syn": [
+    "female perineal skin",
+    "perineal skin",
+    "perineum skin",
+    "female perineum"
+   ],
+   "he": [
+    "עור הפרינאום הנשי"
+   ],
+   "src": "project,q302,q297,gray",
+   "why": "Q297 REMOVED a generated perineal surface because it was not real tissue, and the region is shown open. Q302 surveyed eight sources and found nothing that closes it: BodyParts3D's 'perineum' is a 368-face region marker from a MALE body, not a skin surface. This is a recorded gap and an owner decision, not an oversight.",
+   "offer": [
+    "levator ani",
+    "external anal sphincter",
+    "ischiocavernosus",
+    "bulbospongiosus"
+   ]
+  },
+  {
+   "name": "Camper's fascia",
+   "canon": "Fatty layer of the subcutaneous tissue of the abdomen",
+   "syn": [
+    "Camper's fascia",
+    "Campers fascia",
+    "fascia of Camper",
+    "fatty layer of subcutaneous abdominal tissue"
+   ],
+   "he": [
+    "הפאסציה של קמפר"
+   ],
+   "src": "project,q302,q297,gray",
+   "why": "Not shipped as a separate mesh. The abdominal wall on these pages carries the subcutaneous fat and the investing abdominal fascia, not a named fatty layer; its deep companion, Scarpa's fascia, is already recorded by Q298 as cited but not shipped.",
+   "offer": [
+    "investing abdominal fascia",
+    "subcutaneous fat abdomen",
+    "rectus abdominis",
+    "external oblique"
+   ]
+  }
+ ],
+ "q308_correction": {
+  "doc": "Q308 measured all 19 cited_but_not_shipped entries (15 here, 4 in synonyms_q298.json) against the six pages' own structure lists -- name, Latin AND id -- instead of against the alias table. Three of the 15 were DENYING a structure that is on screen: the pubic symphysis, the retrocalcaneal bursa and the TFCC. All three ship on the four Z pages under their TA names, which no alias connected to the clinical query, so the guard that was supposed to catch exactly this could not see it. The three clinical names are now aliases onto the shipping meshes, which also makes the builder's own per-page guard withdraw the explanation automatically wherever the structure is present. The other 16 entries are genuinely absent, and there is no fifth.",
+  "tool": "scripts/anatomy/q308/absence308.py",
+  "entries_corrected": [
+   "Anterolateral ligament of the knee",
+   "Coracoacromial ligament",
+   "Psoas minor",
+   "Pubic symphysis",
+   "Retrocalcaneal bursa",
+   "Triangular fibrocartilage complex"
+  ],
+  "entries_verified_still_absent": 16,
+  "shipped_as_doc": "Each corrected entry now names, in `shipped_as`, the page name under which the structure REALLY ships. The builder's own per-page guard resolves a term against the page's own NAMES (build_search_q298._hit_targets, three explicit rules), not against the compiled alias table -- so adding the clinical name as an alias was not enough to make the guard fire, and the explanation stayed on pages that ship the structure. With `shipped_as` the guard resolves and the explanation is withdrawn exactly where the mesh is present, which is the four Z pages, and kept on the two Imaging pages, where all three genuinely are absent.",
+  "entries_built_this_round": [
+   "Anterolateral ligament of the knee",
+   "Coracoacromial ligament",
+   "Psoas minor"
+  ],
+  "built_doc": "Three further entries stopped being true because THIS ROUND BUILT THEM. A round that builds a structure must also stop the page saying it is missing, and the presence guard (tests/test_q308.py::test_no_absence_entry_denies_a_structure_that_is_on_the_page) caught all three the moment the new baseline landed -- which is the guard doing exactly the job the three Q306 entries showed it had to do. Each now names what it ships as, and each says where it is still genuinely absent: psoas minor on the two Imaging pages (no hidden-by-default flag in that engine), the coracoacromial ligament on Imaging M (refused by the literature-band gate on both sides)."
+ }
+}

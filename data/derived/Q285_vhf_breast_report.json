@@ -1,0 +1,161 @@
+{
+ "_README": [
+  "Q285: her breasts from TotalSegmentator `breasts` on her own CT. Derived data; see the script docstring for the method and gates."
+ ],
+ "source": {
+  "segmentation": "TotalSegmentator v2.18.0 task `breasts` (Apache-2.0), class 1 `breast`, run on CPU in one z-chunk (z 450-680) by scripts/run_totalsegmentator_chunked.py; a first 3-chunk run showed an 11 % step in the per-slice area at the chunk stitch, so the single-chunk run is the one used",
+  "ct": "NLM Visible Human Project female CT (public domain), IDC series b9cf8e7a-2505-4137-9ae3-f8d0cf756c13, 0.9375 mm grid"
+ },
+ "midline": "midline at X=2.2 mm from the sternum; 1175315 voxels right, 1027895 left",
+ "origin_atlas_mm": [
+  7.769,
+  -885.229,
+  14.137
+ ],
+ "gates": {
+  "max_outside_skin_gt1mm_frac": 0.0,
+  "max_in_bone_frac": 0.05,
+  "min_largest_share": 0.85,
+  "volume_tol": 0.03
+ },
+ "references": [
+  {
+   "what": "MRI volumetry, 22 women",
+   "left_ml": 771.0,
+   "right_ml": 763.9,
+   "cite": "Behrens AS, Huebner H, Haeberle L, et al. Comparative assessment of breast volume using a smartphone device versus MRI. Breast Cancer 2025;32:166-176",
+   "doi": "10.1007/s12282-024-01647-6",
+   "pmid": "39546156"
+  },
+  {
+   "what": "VECTRA 3-D surface imaging, 100 healthy participants; mean relative left/right difference 16.0 % (SD 12.7)",
+   "left_ml": 636.8,
+   "right_ml": 664.8,
+   "asym_mean_pct": 16.0,
+   "asym_sd_pct": 12.7,
+   "cite": "Killaars RC, Janssen DGE, Piatkowski de Grzymala AA. Breast Volume Measurements and Objectivations for Determination of Symmetry. Aesthetic Plast Surg 2026",
+   "doi": "10.1007/s00266-026-06058-w",
+   "pmid": "42384061"
+  }
+ ],
+ "sides": {
+  "right": {
+   "label_voxel_cm3": 1033.0,
+   "clipped_to_silhouette_cm3": 29.08,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "kept_voxel_cm3": 1003.9,
+   "edge_touch": [],
+   "voxel_extent_ijk": [
+    [
+     57,
+     131,
+     483
+    ],
+    [
+     244,
+     261,
+     646
+    ]
+   ],
+   "hu": {
+    "p01": -167.0,
+    "median": -105.0,
+    "p99": 20.0,
+    "fat_frac_-190_-30": 0.948,
+    "soft_frac_-30_100": 0.0507
+   },
+   "overlap_muscle_labels": {
+    "pectoralis_major_right": 0.0076,
+    "serratus_anterior_right": 0.0016
+   },
+   "overlap_total_labels_frac": 0.0,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 1003.59,
+   "mesh_vs_label": 0.9997,
+   "specks_dropped_cm3": [],
+   "full_triangles": 210224,
+   "shipped_triangles": 7998,
+   "shipped_vs_label": 0.9992,
+   "outside_skin_frac": 0.0002,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": 0.05,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     3.0,
+     345.7,
+     -19.3
+    ],
+    [
+     179.3,
+     509.7,
+     103.5
+    ]
+   ]
+  },
+  "left": {
+   "label_voxel_cm3": 903.4,
+   "clipped_to_silhouette_cm3": 27.26,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [
+    0.0
+   ],
+   "kept_voxel_cm3": 876.2,
+   "edge_touch": [],
+   "voxel_extent_ijk": [
+    [
+     278,
+     132,
+     495
+    ],
+    [
+     455,
+     269,
+     640
+    ]
+   ],
+   "hu": {
+    "p01": -175.0,
+    "median": -107.0,
+    "p99": 20.0,
+    "fat_frac_-190_-30": 0.9447,
+    "soft_frac_-30_100": 0.0524
+   },
+   "overlap_muscle_labels": {
+    "pectoralis_major_left": 0.0045,
+    "serratus_anterior_left": 0.0004
+   },
+   "overlap_total_labels_frac": 0.0,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 875.8,
+   "mesh_vs_label": 0.9995,
+   "specks_dropped_cm3": [],
+   "full_triangles": 195256,
+   "shipped_triangles": 7998,
+   "shipped_vs_label": 0.9991,
+   "outside_skin_frac": 0.001,
+   "outside_skin_gt1mm_frac": 0.0,
+   "outside_skin_max_mm": 0.31,
+   "in_bone_gt1mm_frac": 0.0,
+   "bbox_atlas_mm": [
+    [
+     -195.0,
+     357.6,
+     -26.8
+    ],
+    [
+     -27.9,
+     503.7,
+     102.6
+    ]
+   ]
+  }
+ },
+ "shipped": [
+  "breast_ct_r",
+  "breast_ct_l"
+ ],
+ "held": {},
+ "asymmetry_pct_of_mean": 13.6
+}

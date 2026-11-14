@@ -1,0 +1,344 @@
+{
+ "cmd": "foreign",
+ "body": "vhm",
+ "bundle": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q183/before_m",
+ "gates": {
+  "rib_end_touch_min": 8,
+  "sternum_min_mm": 1.0,
+  "outside_skin_frac": 0.0,
+  "volume_ratio": [
+   0.85,
+   1.1
+  ]
+ },
+ "foreign": {
+  "quadratus_lumborum_r": {
+   "subject": "ct_s1159_abd",
+   "nv": 1777,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.0743,
+   "should_touch": {
+    "rib_right_12": 22.9,
+    "hip_right": 0.1,
+    "iliopsoas_right": 8.0,
+    "autochthon_right": 0.0
+   }
+  },
+  "quadratus_lumborum_l": {
+   "subject": "ct_s1159_abd",
+   "nv": 1792,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.0636,
+   "should_touch": {
+    "rib_left_12": 30.2,
+    "hip_left": 0.1,
+    "iliopsoas_left": 11.5,
+    "autochthon_left": 0.0
+   }
+  },
+  "aortic_arch_and_great_vessels": {
+   "subject": "ct_s1159",
+   "nv": 751,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.241,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "aorta": 2.1,
+    "trachea": 17.2,
+    "esophagus": 0.3
+   },
+   "his_own_label": {
+    "name": "aorta",
+    "voxels": 23843,
+    "mesh_to_label_median_mm": 21.0,
+    "label_within_5mm_of_mesh_frac": 0.014
+   }
+  },
+  "descending_thoracic_aorta": {
+   "subject": "ct_s1159",
+   "nv": 742,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.2062,
+   "in_his_bone_frac": 0.0404,
+   "should_touch": {
+    "aorta": 2.9,
+    "vertebrae_T12": 0.5,
+    "vertebrae_T11": 0.3,
+    "vertebrae_T10": 1.7,
+    "vertebrae_T9": 3.7,
+    "vertebrae_T8": 4.9,
+    "vertebrae_T7": 6.3,
+    "vertebrae_T6": 11.9,
+    "vertebrae_T5": 27.5,
+    "vertebrae_T4": 47.6
+   },
+   "his_own_label": {
+    "name": "aorta",
+    "voxels": 23843,
+    "mesh_to_label_median_mm": 32.8,
+    "label_within_5mm_of_mesh_frac": 0.007
+   }
+  },
+  "abdominal_aorta": {
+   "subject": "ct_s1159",
+   "nv": 751,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.5087,
+   "should_touch": {
+    "aorta": 18.2,
+    "vertebrae_L5": 15.0,
+    "vertebrae_L4": 0.1,
+    "vertebrae_L3": 0.1,
+    "vertebrae_L2": 0.2,
+    "vertebrae_L1": 7.0
+   },
+   "his_own_label": {
+    "name": "aorta",
+    "voxels": 23843,
+    "mesh_to_label_median_mm": 59.2,
+    "label_within_5mm_of_mesh_frac": 0.0
+   }
+  },
+  "brachiocephalic_trunk_r": {
+   "subject": "ct_s1159",
+   "nv": 648,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "brachiocephalic_trunk": 37.0,
+    "trachea": 0.6
+   },
+   "his_own_label": {
+    "name": "brachiocephalic_trunk",
+    "voxels": 36,
+    "mesh_to_label_median_mm": 51.1,
+    "label_within_5mm_of_mesh_frac": 0.0
+   }
+  },
+  "subclavian_a_r": {
+   "subject": "ct_s1159",
+   "nv": 751,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.723,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "subclavian_artery_right": 35.5,
+    "rib_right_1": 40.0
+   },
+   "his_own_label": {
+    "name": "subclavian_artery_right",
+    "voxels": 1840,
+    "mesh_to_label_median_mm": 48.3,
+    "label_within_5mm_of_mesh_frac": 0.0
+   }
+  },
+  "subclavian_a_l": {
+   "subject": "ct_s1159",
+   "nv": 746,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.567,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "subclavian_artery_left": 42.3,
+    "rib_left_1": 38.9
+   },
+   "his_own_label": {
+    "name": "subclavian_artery_left",
+    "voxels": 2117,
+    "mesh_to_label_median_mm": 53.0,
+    "label_within_5mm_of_mesh_frac": 0.0
+   }
+  },
+  "common_carotid_a_r": {
+   "subject": "ct_s1159",
+   "nv": 737,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.4939,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "common_carotid_artery_right": 18.5,
+    "trachea": 0.2,
+    "thyroid_gland": 24.5
+   },
+   "his_own_label": {
+    "name": "common_carotid_artery_right",
+    "voxels": 193,
+    "mesh_to_label_median_mm": 28.2,
+    "label_within_5mm_of_mesh_frac": 0.0
+   }
+  },
+  "common_carotid_a_l": {
+   "subject": "ct_s1159",
+   "nv": 743,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.0027,
+   "should_touch": {
+    "common_carotid_artery_left": 0.7,
+    "trachea": 2.6,
+    "thyroid_gland": 20.7
+   },
+   "his_own_label": {
+    "name": "common_carotid_artery_left",
+    "voxels": 4480,
+    "mesh_to_label_median_mm": 14.5,
+    "label_within_5mm_of_mesh_frac": 0.074
+   }
+  },
+  "brachiocephalic_v_l": {
+   "subject": "ct_s1159",
+   "nv": 750,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "brachiocephalic_vein_left": 16.0
+   },
+   "his_own_label": {
+    "name": "brachiocephalic_vein_left",
+    "voxels": 11756,
+    "mesh_to_label_median_mm": 37.2,
+    "label_within_5mm_of_mesh_frac": 0.0
+   }
+  },
+  "brachiocephalic_v_r": {
+   "subject": "ct_s1159",
+   "nv": 736,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0041,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "brachiocephalic_vein_right": 17.5
+   },
+   "his_own_label": {
+    "name": "brachiocephalic_vein_right",
+    "voxels": 7681,
+    "mesh_to_label_median_mm": 35.9,
+    "label_within_5mm_of_mesh_frac": 0.0
+   }
+  },
+  "superior_vena_cava": {
+   "subject": "ct_s1159",
+   "nv": 744,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.1694,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {
+    "superior_vena_cava": 0.1,
+    "heart": 0.2
+   },
+   "his_own_label": {
+    "name": "superior_vena_cava",
+    "voxels": 19849,
+    "mesh_to_label_median_mm": 25.5,
+    "label_within_5mm_of_mesh_frac": 0.04
+   }
+  },
+  "inferior_vena_cava": {
+   "subject": "ct_s1159",
+   "nv": 740,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0027,
+   "in_his_bone_frac": 0.2189,
+   "should_touch": {
+    "inferior_vena_cava": 0.2,
+    "liver": 0.2,
+    "heart": 41.7
+   },
+   "his_own_label": {
+    "name": "inferior_vena_cava",
+    "voxels": 65973,
+    "mesh_to_label_median_mm": 17.0,
+    "label_within_5mm_of_mesh_frac": 0.104
+   }
+  },
+  "common_iliac_a_l": {
+   "subject": "ct_s1159",
+   "nv": 731,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.1696,
+   "should_touch": {
+    "iliac_artery_left": 1.6,
+    "vertebrae_L5": 0.2
+   },
+   "his_own_label": {
+    "name": "iliac_artery_left",
+    "voxels": 2389,
+    "mesh_to_label_median_mm": 25.0,
+    "label_within_5mm_of_mesh_frac": 0.133
+   }
+  },
+  "common_iliac_a_r": {
+   "subject": "ct_s1159",
+   "nv": 717,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.1339,
+   "should_touch": {
+    "iliac_artery_right": 3.3,
+    "vertebrae_L5": 0.1
+   },
+   "his_own_label": {
+    "name": "iliac_artery_right",
+    "voxels": 2208,
+    "mesh_to_label_median_mm": 25.9,
+    "label_within_5mm_of_mesh_frac": 0.062
+   }
+  },
+  "common_iliac_v_l": {
+   "subject": "ct_s1159",
+   "nv": 738,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.2398,
+   "should_touch": {
+    "iliac_vena_left": 0.2,
+    "vertebrae_L5": 0.0
+   },
+   "his_own_label": {
+    "name": "iliac_vena_left",
+    "voxels": 9608,
+    "mesh_to_label_median_mm": 11.0,
+    "label_within_5mm_of_mesh_frac": 0.602
+   }
+  },
+  "common_iliac_v_r": {
+   "subject": "ct_s1159",
+   "nv": 727,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0,
+   "in_his_bone_frac": 0.0206,
+   "should_touch": {
+    "iliac_vena_right": 0.3,
+    "vertebrae_L5": 0.2
+   },
+   "his_own_label": {
+    "name": "iliac_vena_right",
+    "voxels": 4736,
+    "mesh_to_label_median_mm": 12.9,
+    "label_within_5mm_of_mesh_frac": 0.302
+   }
+  },
+  "costal_cartilage_r": {
+   "subject": "ct_s1159",
+   "nv": 554,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0614,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {}
+  },
+  "costal_cartilage_l": {
+   "subject": "ct_s1159",
+   "nv": 580,
+   "outside_skin_frac": 0.0,
+   "in_his_lung_frac": 0.0138,
+   "in_his_bone_frac": 0.0,
+   "should_touch": {}
+  }
+ }
+}

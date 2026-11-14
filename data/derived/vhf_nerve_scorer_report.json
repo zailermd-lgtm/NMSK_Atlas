@@ -1,0 +1,16 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution via the NCI Imaging Data Commons; classifier trained on this atlas's own verified sciatic track (scripts/cryo/vhf_nerve_scorer.py). Derived data.",
+ "n_train_patches": 4753,
+ "n_train_augmented": 38024,
+ "n_val_patches": 1174,
+ "val_levels_held_out": 67,
+ "val_auc": 0.9982,
+ "val_average_precision": 0.9972,
+ "val_recall_at_0.5": 0.981,
+ "val_false_positive_rate_at_0.5": {
+  "hard": 0.019,
+  "corridor": 0.024,
+  "random": 0.005
+ },
+ "features": 155
+}

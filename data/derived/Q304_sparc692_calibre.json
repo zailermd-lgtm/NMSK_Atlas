@@ -1,0 +1,523 @@
+{
+ "dataset": {
+  "id": 692,
+  "version": 1,
+  "doi": "10.26275/1jdc-qiiv",
+  "license": "CC BY 4.0",
+  "name": "Mapping the fascicular morphology and organization of the human sciatic nerve via high-resolution microCT imaging",
+  "subject": "sub-SC001 (Homo sapiens, male, 41 years, embalmed cadaver)",
+  "voxel_um": 11.4,
+  "bucket": "https://sparc-prod-aod-discover-publish50-use1.s3.amazonaws.com/692"
+ },
+ "files": [
+  {
+   "path": "files/README.md",
+   "bytes": 5048,
+   "sha256": "b47f930dec618e6da2f2c5472480c3c6f1813b7f196502fe7d86f370c161f917"
+  },
+  {
+   "path": "files/dataset_description.xlsx",
+   "bytes": 16223,
+   "sha256": "ea2e4b0d09b4a141a6c1991f0067f8205800458ececc67f015fda0c46fdd6bd2"
+  },
+  {
+   "path": "files/samples.xlsx",
+   "bytes": 7237,
+   "sha256": "56d7b0af99915d11241d5b5f0df03e6ac07d97762d9919de1cd0130602d7069b"
+  },
+  {
+   "path": "files/subjects.xlsx",
+   "bytes": 6914,
+   "sha256": "528b791120aab8b32cf809d5fc337da1192c9e4bd92f0af2d166820f86e43dbe"
+  },
+  {
+   "path": "manifest.json",
+   "bytes": 50954,
+   "sha256": "4ffdd222c788eb26cbd32adb8d757d2b034f400eb03e73c246f51e90585671eb"
+  },
+  {
+   "path": "files/derivative/sub-SC001/NerveMorphology/SC001-SciaticTrunks/SC001-left_sciatic_nerve/SC001-SCL2-left_sciatic_nerve-NerveMorphology.csv",
+   "bytes": 1019952,
+   "sha256": "a61584fd53e49a3605d9b20cbecb3d7b29080ceea41c94cd171a60a31a9645d8"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCL2/SC001-SCL2-Annotations/SC001-SCL2-sciatic_levels.csv",
+   "bytes": 255,
+   "sha256": "e78c517029c462a13ef72ee17f53dfcadab47925374f7a6f94a67c36d1b85c4b"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCL2/SC001-SCL2-Annotations/SC001-SCL2-left_sciatic_nerve.csv",
+   "bytes": 452375,
+   "sha256": "e89f49834b3e7741a761bd37cd5fae327433cb4d7075f590ab4533a6afd53946"
+  },
+  {
+   "path": "files/derivative/sub-SC001/NerveMorphology/SC001-SciaticTrunks/SC001-left_sciatic_nerve/SC001-SCL3-left_sciatic_nerve-NerveMorphology.csv",
+   "bytes": 1057033,
+   "sha256": "6a15552c61a2a241a4679f5a90c172987b695aa6774c8e83cacb82bdcc3abb90"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCL3/SC001-SCL3-Annotations/SC001-SCL3-sciatic_levels.csv",
+   "bytes": 289,
+   "sha256": "371db48fbbda23553da780c241bfe5f8718c2a6dc586002a826938ec4570523d"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCL3/SC001-SCL3-Annotations/SC001-SCL3-left_sciatic_nerve.csv",
+   "bytes": 470389,
+   "sha256": "b62c3c2d70ae775ac143c8e9e36a93f99ad91f301ce448fc98ddb87d437b134a"
+  },
+  {
+   "path": "files/derivative/sub-SC001/NerveMorphology/SC001-SciaticTrunks/SC001-left_sciatic_nerve/SC001-SCL4-left_sciatic_nerve-NerveMorphology.csv",
+   "bytes": 1001716,
+   "sha256": "9b184a2a2c002a5e34636d8b5359efb23e4bab68aad61f498477cf2aa3fbf796"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCL4/SC001-SCL4-Annotations/SC001-SCL4-sciatic_levels.csv",
+   "bytes": 157,
+   "sha256": "6869f89cc76e362619ef8460cc8778f13a4eaec75fe57630f98469ef35788872"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCL4/SC001-SCL4-Annotations/SC001-SCL4-left_sciatic_nerve.csv",
+   "bytes": 453519,
+   "sha256": "2710e62a8c238e7e37fcc1ad93ddfec111a8db22b351e609df939e56c14a7045"
+  },
+  {
+   "path": "files/derivative/sub-SC001/NerveMorphology/SC001-SciaticTrunks/SC001-right_sciatic_nerve/SC001-SCR2-right_sciatic_nerve-NerveMorphology.csv",
+   "bytes": 996896,
+   "sha256": "447a692da758f744361908a0d459842026af8de0d4ef612f91f40ad55c569cb0"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCR2/SC001-SCR2-Annotations/SC001-SCR2-sciatic_levels.csv",
+   "bytes": 253,
+   "sha256": "7d2b3d060ed33d2d9fbe6b929b346bd294f295c858352a7132458b85d227ef7d"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCR2/SC001-SCR2-Annotations/SC001-SCR2-right_sciatic_nerve.csv",
+   "bytes": 456710,
+   "sha256": "b228ee0241d6c774ac05303c1c58057025596372b61781002ffc16354191d07c"
+  },
+  {
+   "path": "files/derivative/sub-SC001/NerveMorphology/SC001-SciaticTrunks/SC001-right_sciatic_nerve/SC001-SCR3-right_sciatic_nerve-NerveMorphology.csv",
+   "bytes": 1047707,
+   "sha256": "5207c089dfdf5b83c4ac87c1af7482e5acefaab5ed0a7a5e888cfbfa4bab9475"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCR3/SC001-SCR3-Annotations/SC001-SCR3-sciatic_levels.csv",
+   "bytes": 290,
+   "sha256": "42ff158a57c5517e5485ad707083f19a28073861c62755b1b104be0c487ad8d8"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCR3/SC001-SCR3-Annotations/SC001-SCR3-right_sciatic_nerve.csv",
+   "bytes": 454512,
+   "sha256": "d88f72ee459348328f67649f082a424f5c76419231c07629c1b9e8931b6704e1"
+  },
+  {
+   "path": "files/derivative/sub-SC001/NerveMorphology/SC001-SciaticTrunks/SC001-right_sciatic_nerve/SC001-SCR4-right_sciatic_nerve-NerveMorphology.csv",
+   "bytes": 993413,
+   "sha256": "ecd8d4fb1af7a22be2d7b36cf0ab7f2c96491f15142e212f8ae03205ebd07624"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCR4/SC001-SCR4-Annotations/SC001-SCR4-sciatic_levels.csv",
+   "bytes": 159,
+   "sha256": "34d127d681ba5bd75a25c4440a7cda4594be39eca010244134bf5f0911327865"
+  },
+  {
+   "path": "files/primary/sub-SC001/sam-SC001-SCR4/SC001-SCR4-Annotations/SC001-SCR4-right_sciatic_nerve.csv",
+   "bytes": 470202,
+   "sha256": "9166ad840576ba840486027aaae22d8b5be597b3586aa55b644e1f25408b1adf"
+  }
+ ],
+ "samples": {
+  "SCL2": {
+   "side": "left",
+   "n_slices": 7308,
+   "columns": [
+    "index",
+    "area",
+    "perimeter",
+    "eq_diameter",
+    "center_x",
+    "center_y",
+    "major_axis",
+    "minor_axis",
+    "angle"
+   ],
+   "eq_diameter_mm": {
+    "min": 5.827,
+    "max": 7.314,
+    "mean": 6.45,
+    "median": 6.242,
+    "p05": 5.861,
+    "p95": 7.208,
+    "sd": 0.522
+   },
+   "area_mm2": {
+    "mean": 32.884,
+    "median": 30.597
+   },
+   "slice_range": [
+    0.0,
+    7307.0
+   ],
+   "levels": [
+    {
+     "name": "left level of formation of sciatic nerve from sacral roots",
+     "axis-0": "358.91026179517877",
+     "axis-1": "1145.5150598103203",
+     "axis-2": "1514.9799226785406"
+    },
+    {
+     "name": "left level of lesser trochanter of femur on sciatic nerve",
+     "axis-0": "2285.1328899170608",
+     "axis-1": "1139.8100145069618",
+     "axis-2": "1525.28313892052"
+    }
+   ],
+   "note": "the NerveMorphology columns are in VOXELS of the 11.4 um isotropic scan; every value here is converted with 0.0114 mm per voxel"
+  },
+  "SCL3": {
+   "side": "left",
+   "n_slices": 7572,
+   "columns": [
+    "index",
+    "area",
+    "perimeter",
+    "eq_diameter",
+    "center_x",
+    "center_y",
+    "major_axis",
+    "minor_axis",
+    "angle"
+   ],
+   "eq_diameter_mm": {
+    "min": 6.512,
+    "max": 7.174,
+    "mean": 6.766,
+    "median": 6.736,
+    "p05": 6.603,
+    "p95": 6.983,
+    "sd": 0.128
+   },
+   "area_mm2": {
+    "mean": 35.963,
+    "median": 35.64
+   },
+   "slice_range": [
+    0.0,
+    7571.0
+   ],
+   "levels": [
+    {
+     "name": "left level of 7 cm inferior to lesser trochanter of femur on sciatic nerve",
+     "axis-0": "243.6780009642775",
+     "axis-1": "1135.4896542081763",
+     "axis-2": "1482.7753409773989"
+    },
+    {
+     "name": "left level of 14 cm inferior to lesser trochanter of femur on sciatic nerve",
+     "axis-0": "6490.762906483661",
+     "axis-1": "1185.2330754138009",
+     "axis-2": "1528.3765770610953"
+    }
+   ],
+   "note": "the NerveMorphology columns are in VOXELS of the 11.4 um isotropic scan; every value here is converted with 0.0114 mm per voxel"
+  },
+  "SCL4": {
+   "side": "left",
+   "n_slices": 7192,
+   "columns": [
+    "index",
+    "area",
+    "perimeter",
+    "eq_diameter",
+    "center_x",
+    "center_y",
+    "major_axis",
+    "minor_axis",
+    "angle"
+   ],
+   "eq_diameter_mm": {
+    "min": 5.842,
+    "max": 6.943,
+    "mean": 6.151,
+    "median": 6.105,
+    "p05": 5.886,
+    "p95": 6.491,
+    "sd": 0.216
+   },
+   "area_mm2": {
+    "mean": 29.748,
+    "median": 29.273
+   },
+   "slice_range": [
+    0.0,
+    7191.0
+   ],
+   "levels": [
+    {
+     "name": "left level of 21 cm inferior to lesser trochanter of femur on sciatic nerve",
+     "axis-0": "4340.142652916999",
+     "axis-1": "872.2810984973378",
+     "axis-2": "1551.0955043604777"
+    }
+   ],
+   "note": "the NerveMorphology columns are in VOXELS of the 11.4 um isotropic scan; every value here is converted with 0.0114 mm per voxel"
+  },
+  "SCR2": {
+   "side": "right",
+   "n_slices": 7165,
+   "columns": [
+    "index",
+    "area",
+    "perimeter",
+    "eq_diameter",
+    "center_x",
+    "center_y",
+    "major_axis",
+    "minor_axis",
+    "angle"
+   ],
+   "eq_diameter_mm": {
+    "min": 6.048,
+    "max": 7.558,
+    "mean": 6.553,
+    "median": 6.423,
+    "p05": 6.088,
+    "p95": 7.385,
+    "sd": 0.397
+   },
+   "area_mm2": {
+    "mean": 33.846,
+    "median": 32.399
+   },
+   "slice_range": [
+    0.0,
+    7164.0
+   ],
+   "levels": [
+    {
+     "name": "right level of formation of sciatic nerve from sacral roots",
+     "axis-0": "162.11460876464844",
+     "axis-1": "501.5638122558594",
+     "axis-2": "1539.9228515625"
+    },
+    {
+     "name": "right level of lesser trochanter of femur on sciatic nerve",
+     "axis-0": "3243.340549577738",
+     "axis-1": "866.4223802389972",
+     "axis-2": "1516.2244541210155"
+    }
+   ],
+   "note": "the NerveMorphology columns are in VOXELS of the 11.4 um isotropic scan; every value here is converted with 0.0114 mm per voxel"
+  },
+  "SCR3": {
+   "side": "right",
+   "n_slices": 7480,
+   "columns": [
+    "index",
+    "area",
+    "perimeter",
+    "eq_diameter",
+    "center_x",
+    "center_y",
+    "major_axis",
+    "minor_axis",
+    "angle"
+   ],
+   "eq_diameter_mm": {
+    "min": 6.759,
+    "max": 7.522,
+    "mean": 7.079,
+    "median": 7.041,
+    "p05": 6.821,
+    "p95": 7.411,
+    "sd": 0.167
+   },
+   "area_mm2": {
+    "mean": 39.383,
+    "median": 38.938
+   },
+   "slice_range": [
+    0.0,
+    7479.0
+   ],
+   "levels": [
+    {
+     "name": "right level of 7 cm inferior to lesser trochanter of femur on sciatic nerve",
+     "axis-0": "1309.441739774249",
+     "axis-1": "963.1825859877041",
+     "axis-2": "1471.3482651594327"
+    },
+    {
+     "name": "right level of 14 cm inferior to lesser trochanter of femur on sciatic nerve",
+     "axis-0": "7347.419752236733",
+     "axis-1": "1105.8743440201022",
+     "axis-2": "1894.6779313681768"
+    }
+   ],
+   "note": "the NerveMorphology columns are in VOXELS of the 11.4 um isotropic scan; every value here is converted with 0.0114 mm per voxel"
+  },
+  "SCR4": {
+   "side": "right",
+   "n_slices": 7112,
+   "columns": [
+    "index",
+    "area",
+    "perimeter",
+    "eq_diameter",
+    "center_x",
+    "center_y",
+    "major_axis",
+    "minor_axis",
+    "angle"
+   ],
+   "eq_diameter_mm": {
+    "min": 6.251,
+    "max": 7.615,
+    "mean": 6.682,
+    "median": 6.67,
+    "p05": 6.298,
+    "p95": 7.326,
+    "sd": 0.266
+   },
+   "area_mm2": {
+    "mean": 35.118,
+    "median": 34.942
+   },
+   "slice_range": [
+    0.0,
+    7111.0
+   ],
+   "levels": [
+    {
+     "name": "right level of 21 cm inferior to lesser trochanter of femur on sciatic nerve",
+     "axis-0": "5663.860474123244",
+     "axis-1": "1066.4205986630598",
+     "axis-2": "1663.6728010099944"
+    }
+   ],
+   "note": "the NerveMorphology columns are in VOXELS of the 11.4 um isotropic scan; every value here is converted with 0.0114 mm per voxel"
+  }
+ },
+ "levels": {
+  "left": {
+   "formation": {
+    "sample": "SCL2",
+    "slice": 358.91026179517877,
+    "nearest_slice": 359.0,
+    "eq_diameter_mm": 6.574,
+    "eq_diameter_window_mean_mm": 6.61,
+    "eq_diameter_window_sd_mm": 0.109,
+    "area_mm2": 33.938,
+    "window_slices": 350,
+    "annotation": "left level of formation of sciatic nerve from sacral roots"
+   },
+   "lesser_trochanter": {
+    "sample": "SCL2",
+    "slice": 2285.1328899170608,
+    "nearest_slice": 2285.0,
+    "eq_diameter_mm": 5.883,
+    "eq_diameter_window_mean_mm": 5.878,
+    "eq_diameter_window_sd_mm": 0.034,
+    "area_mm2": 27.179,
+    "window_slices": 350,
+    "annotation": "left level of lesser trochanter of femur on sciatic nerve"
+   },
+   "lt+7cm": {
+    "sample": "SCL3",
+    "slice": 243.6780009642775,
+    "nearest_slice": 244.0,
+    "eq_diameter_mm": 6.831,
+    "eq_diameter_window_mean_mm": 6.807,
+    "eq_diameter_window_sd_mm": 0.045,
+    "area_mm2": 36.653,
+    "window_slices": 292,
+    "annotation": "left level of 7 cm inferior to lesser trochanter of femur on sciatic nerve"
+   },
+   "lt+14cm": {
+    "sample": "SCL3",
+    "slice": 6490.762906483661,
+    "nearest_slice": 6491.0,
+    "eq_diameter_mm": 6.674,
+    "eq_diameter_window_mean_mm": 6.657,
+    "eq_diameter_window_sd_mm": 0.032,
+    "area_mm2": 34.988,
+    "window_slices": 350,
+    "annotation": "left level of 14 cm inferior to lesser trochanter of femur on sciatic nerve"
+   },
+   "lt+21cm": {
+    "sample": "SCL4",
+    "slice": 4340.142652916999,
+    "nearest_slice": 4340.0,
+    "eq_diameter_mm": 5.923,
+    "eq_diameter_window_mean_mm": 5.901,
+    "eq_diameter_window_sd_mm": 0.034,
+    "area_mm2": 27.549,
+    "window_slices": 350,
+    "annotation": "left level of 21 cm inferior to lesser trochanter of femur on sciatic nerve"
+   }
+  },
+  "right": {
+   "formation": {
+    "sample": "SCR2",
+    "slice": 162.11460876464844,
+    "nearest_slice": 221.0,
+    "eq_diameter_mm": 7.518,
+    "eq_diameter_window_mean_mm": 7.526,
+    "eq_diameter_window_sd_mm": 0.02,
+    "area_mm2": 44.389,
+    "window_slices": 117,
+    "annotation": "right level of formation of sciatic nerve from sacral roots"
+   },
+   "lesser_trochanter": {
+    "sample": "SCR2",
+    "slice": 3243.340549577738,
+    "nearest_slice": 3243.0,
+    "eq_diameter_mm": 6.124,
+    "eq_diameter_window_mean_mm": 6.109,
+    "eq_diameter_window_sd_mm": 0.026,
+    "area_mm2": 29.459,
+    "window_slices": 350,
+    "annotation": "right level of lesser trochanter of femur on sciatic nerve"
+   },
+   "lt+7cm": {
+    "sample": "SCR3",
+    "slice": 1309.441739774249,
+    "nearest_slice": 1309.0,
+    "eq_diameter_mm": 6.851,
+    "eq_diameter_window_mean_mm": 6.862,
+    "eq_diameter_window_sd_mm": 0.028,
+    "area_mm2": 36.866,
+    "window_slices": 350,
+    "annotation": "right level of 7 cm inferior to lesser trochanter of femur on sciatic nerve"
+   },
+   "lt+14cm": {
+    "sample": "SCR3",
+    "slice": 7347.419752236733,
+    "nearest_slice": 7347.0,
+    "eq_diameter_mm": 7.441,
+    "eq_diameter_window_mean_mm": 7.386,
+    "eq_diameter_window_sd_mm": 0.043,
+    "area_mm2": 43.484,
+    "window_slices": 350,
+    "annotation": "right level of 14 cm inferior to lesser trochanter of femur on sciatic nerve"
+   },
+   "lt+21cm": {
+    "sample": "SCR4",
+    "slice": 5663.860474123244,
+    "nearest_slice": 5664.0,
+    "eq_diameter_mm": 6.645,
+    "eq_diameter_window_mean_mm": 6.657,
+    "eq_diameter_window_sd_mm": 0.036,
+    "area_mm2": 34.678,
+    "window_slices": 350,
+    "annotation": "right level of 21 cm inferior to lesser trochanter of femur on sciatic nerve"
+   }
+  }
+ },
+ "pooled": {
+  "n_samples": 6,
+  "mean_of_sample_means_mm": 6.614,
+  "min_sample_mean_mm": 6.151,
+  "max_sample_mean_mm": 7.079
+ }
+}

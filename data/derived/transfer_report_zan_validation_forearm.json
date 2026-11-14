@@ -1,0 +1,128 @@
+{
+ "source": "Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike). Derived data (scripts/transfer/cross_subject_transfer.py).",
+ "direction": "zan2f",
+ "bulk_transverse": {
+  "lower_limb": 1.0,
+  "default": 1.0
+ },
+ "fill_correction": {},
+ "fill_detail": {},
+ "n": 6,
+ "not_transferred": {},
+ "rows": [
+  {
+   "atlas_id": "flexor_digitorum_profundus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "zanatomy",
+   "source_trust": "Z-Anatomy (CC BY-SA 4.0), a GENERIC body model -- not segmented from this specimen",
+   "region": "upper_limb",
+   "driving_bones": {
+    "ulna_r": 0.504,
+    "radius_r": 0.465,
+    "humerus_r": 0.031
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 60.9,
+   "volume_out_cm3": 21.3,
+   "displacement_mm_median": 742.4
+  },
+  {
+   "atlas_id": "abductor_pollicis_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "zanatomy",
+   "source_trust": "Z-Anatomy (CC BY-SA 4.0), a GENERIC body model -- not segmented from this specimen",
+   "region": "upper_limb",
+   "driving_bones": {
+    "radius_r": 0.637,
+    "ulna_r": 0.354,
+    "humerus_r": 0.009
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 18.0,
+   "volume_out_cm3": 14.1,
+   "displacement_mm_median": 743.8
+  },
+  {
+   "atlas_id": "brachioradialis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "zanatomy",
+   "source_trust": "Z-Anatomy (CC BY-SA 4.0), a GENERIC body model -- not segmented from this specimen",
+   "region": "upper_limb",
+   "driving_bones": {
+    "radius_r": 0.533,
+    "humerus_r": 0.298,
+    "ulna_r": 0.169
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 87.6,
+   "volume_out_cm3": 21.4,
+   "displacement_mm_median": 763.6
+  },
+  {
+   "atlas_id": "extensor_carpi_ulnaris_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "zanatomy",
+   "source_trust": "Z-Anatomy (CC BY-SA 4.0), a GENERIC body model -- not segmented from this specimen",
+   "region": "upper_limb",
+   "driving_bones": {
+    "ulna_r": 0.718,
+    "radius_r": 0.218,
+    "humerus_r": 0.064
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 16.6,
+   "volume_out_cm3": 9.6,
+   "displacement_mm_median": 766.1
+  },
+  {
+   "atlas_id": "extensor_carpi_radialis_brevis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "zanatomy",
+   "source_trust": "Z-Anatomy (CC BY-SA 4.0), a GENERIC body model -- not segmented from this specimen",
+   "region": "upper_limb",
+   "driving_bones": {
+    "radius_r": 0.628,
+    "ulna_r": 0.227,
+    "humerus_r": 0.145
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 22.1,
+   "volume_out_cm3": 14.4,
+   "displacement_mm_median": 743.6
+  },
+  {
+   "atlas_id": "extensor_carpi_radialis_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "zanatomy",
+   "source_trust": "Z-Anatomy (CC BY-SA 4.0), a GENERIC body model -- not segmented from this specimen",
+   "region": "upper_limb",
+   "driving_bones": {
+    "radius_r": 0.554,
+    "humerus_r": 0.271,
+    "ulna_r": 0.175
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 28.2,
+   "volume_out_cm3": 10.0,
+   "displacement_mm_median": 758.9
+  }
+ ]
+}

@@ -1,0 +1,246 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'procedural_badge' is stamped onto the converted manifest by vhm_forearm_seeded_q180.py --stamp."
+  ],
+  "subject": "ct_vhm_forearm_seeded",
+  "source_volume": "data/ct_sources/task_outputs/vhm_forearm_muscles_seeded.nii.gz",
+  "label_map": "vhm_forearm_muscles_seeded",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "pronator_teres",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "pronator_teres_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: arises above his radial-head plane (segment top): only its forearm part is segmented."
+    },
+    {
+      "label": 2,
+      "source_structure": "flexor_carpi_radialis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_carpi_radialis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 114.9 cm3 = 4.69 x expected 24.5."
+    },
+    {
+      "label": 3,
+      "source_structure": "palmaris_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "palmaris_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 23.4 cm3 = 4.81 x expected 4.9."
+    },
+    {
+      "label": 4,
+      "source_structure": "flexor_carpi_ulnaris",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_carpi_ulnaris_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 107.5 cm3 = 2.36 x expected 45.5."
+    },
+    {
+      "label": 5,
+      "source_structure": "flexor_digitorum_superficialis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_digitorum_superficialis_r"
+      ],
+      "status": "curated",
+      "atlas_id": "flexor_digitorum_superficialis_r",
+      "procedural_badge": "Seeded by Claude from the photographs, not by an anatomist; owner review pending. Method: Claude placed one seed per visible belly on 5 cross-sections of his cryosection photographs (15-85 % of the radius, seeds on L1, L2, L3, L4, L5, confidence low/medium/medium/medium/low/medium/low); each seed was grown inside the photographed muscle colour class between the photographed septum lines (Q166) by a 2-D then 3-D compact marker watershed on the pale septa. Seed-jitter stability (every seed moved 1.5 mm in 4 directions): Dice >= 0.91. Median 62 % of its outline per section lies on a photographed pale septum or non-muscle (chance 21 %); where it touches another muscle 41 %. Volume 90.3 cm3 vs reference 77.9 cm3 (repository architecture volume 28.9 cm3 x 2.70, his upper-arm ratio; Holzbaur 2007's per-muscle table not accessible). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; SHIPPED: passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected."
+    },
+    {
+      "label": 6,
+      "source_structure": "flexor_digitorum_profundus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_digitorum_profundus_r"
+      ],
+      "status": "curated",
+      "atlas_id": "flexor_digitorum_profundus_r",
+      "procedural_badge": "Seeded by Claude from the photographs, not by an anatomist; owner review pending. Method: Claude placed one seed per visible belly on 5 cross-sections of his cryosection photographs (15-85 % of the radius, seeds on L1, L2, L3, L4, L5, confidence low/medium/medium/medium/medium); each seed was grown inside the photographed muscle colour class between the photographed septum lines (Q166) by a 2-D then 3-D compact marker watershed on the pale septa. Seed-jitter stability (every seed moved 1.5 mm in 4 directions): Dice >= 0.90. Median 61 % of its outline per section lies on a photographed pale septum or non-muscle (chance 21 %); where it touches another muscle 40 %. Volume 108.6 cm3 vs reference 109.4 cm3 (repository architecture volume 40.6 cm3 x 2.70, his upper-arm ratio; Holzbaur 2007's per-muscle table not accessible). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; SHIPPED: passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected."
+    },
+    {
+      "label": 7,
+      "source_structure": "flexor_pollicis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "flexor_pollicis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 50.9 cm3 = 2.58 x expected 19.7."
+    },
+    {
+      "label": 8,
+      "source_structure": "pronator_quadratus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "pronator_quadratus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 13.1 cm3 = 2.16 x expected 6.1."
+    },
+    {
+      "label": 9,
+      "source_structure": "brachioradialis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "brachioradialis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: arises above his radial-head plane (segment top): only its forearm part is segmented."
+    },
+    {
+      "label": 10,
+      "source_structure": "extensor_carpi_radialis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_carpi_radialis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: arises above his radial-head plane (segment top): only its forearm part is segmented."
+    },
+    {
+      "label": 11,
+      "source_structure": "extensor_carpi_radialis_brevis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_carpi_radialis_brevis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 93.7 cm3 = 3.02 x expected 31.1."
+    },
+    {
+      "label": 12,
+      "source_structure": "extensor_digitorum",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_digitorum_r"
+      ],
+      "status": "curated",
+      "atlas_id": "extensor_digitorum_r",
+      "procedural_badge": "Seeded by Claude from the photographs, not by an anatomist; owner review pending. Method: Claude placed one seed per visible belly on 5 cross-sections of his cryosection photographs (15-85 % of the radius, seeds on L1, L2, L3, L4, confidence medium/low/low/low); each seed was grown inside the photographed muscle colour class between the photographed septum lines (Q166) by a 2-D then 3-D compact marker watershed on the pale septa. Seed-jitter stability (every seed moved 1.5 mm in 4 directions): Dice >= 0.96. Median 62 % of its outline per section lies on a photographed pale septum or non-muscle (chance 21 %); where it touches another muscle 35 %. Volume 56.2 cm3 vs reference 58.5 cm3 (repository architecture volume 21.7 cm3 x 2.70, his upper-arm ratio; Holzbaur 2007's per-muscle table not accessible). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; SHIPPED: passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected."
+    },
+    {
+      "label": 13,
+      "source_structure": "extensor_digiti_minimi",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_digiti_minimi_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 19.1 cm3 = 5.89 x expected 3.2."
+    },
+    {
+      "label": 14,
+      "source_structure": "extensor_carpi_ulnaris",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_carpi_ulnaris_r"
+      ],
+      "status": "curated",
+      "atlas_id": "extensor_carpi_ulnaris_r",
+      "procedural_badge": "Seeded by Claude from the photographs, not by an anatomist; owner review pending. Method: Claude placed one seed per visible belly on 5 cross-sections of his cryosection photographs (15-85 % of the radius, seeds on L1, L2, L3, L4, L5, confidence low/low/low/medium/low); each seed was grown inside the photographed muscle colour class between the photographed septum lines (Q166) by a 2-D then 3-D compact marker watershed on the pale septa. Seed-jitter stability (every seed moved 1.5 mm in 4 directions): Dice >= 0.96. Median 80 % of its outline per section lies on a photographed pale septum or non-muscle (chance 21 %); where it touches another muscle 48 %. Volume 38.1 cm3 vs reference 32.9 cm3 (repository architecture volume 12.2 cm3 x 2.70, his upper-arm ratio; Holzbaur 2007's per-muscle table not accessible). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; SHIPPED: passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected."
+    },
+    {
+      "label": 16,
+      "source_structure": "supinator",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "supinator_r"
+      ],
+      "status": "curated",
+      "atlas_id": "supinator_r",
+      "procedural_badge": "Seeded by Claude from the photographs, not by an anatomist; owner review pending. Method: Claude placed one seed per visible belly on 5 cross-sections of his cryosection photographs (15-85 % of the radius, seeds on L1, L2, confidence medium/low); each seed was grown inside the photographed muscle colour class between the photographed septum lines (Q166) by a 2-D then 3-D compact marker watershed on the pale septa. Seed-jitter stability (every seed moved 1.5 mm in 4 directions): Dice >= 0.99. Median 70 % of its outline per section lies on a photographed pale septum or non-muscle (chance 21 %); where it touches another muscle 50 %. Volume 14.0 cm3 vs reference 25.7 cm3 (repository architecture volume 9.5 cm3 x 2.70, his upper-arm ratio; Holzbaur 2007's per-muscle table not accessible). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; SHIPPED: passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected."
+    },
+    {
+      "label": 17,
+      "source_structure": "abductor_pollicis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "abductor_pollicis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: seed-jitter Dice 0.698 < 0.8."
+    },
+    {
+      "label": 18,
+      "source_structure": "extensor_pollicis_brevis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_pollicis_brevis_r"
+      ],
+      "status": "curated",
+      "atlas_id": "extensor_pollicis_brevis_r",
+      "procedural_badge": "Seeded by Claude from the photographs, not by an anatomist; owner review pending. Method: Claude placed one seed per visible belly on 5 cross-sections of his cryosection photographs (15-85 % of the radius, seeds on L4, L5, confidence low/low); each seed was grown inside the photographed muscle colour class between the photographed septum lines (Q166) by a 2-D then 3-D compact marker watershed on the pale septa. Seed-jitter stability (every seed moved 1.5 mm in 4 directions): Dice >= 0.82. Median 91 % of its outline per section lies on a photographed pale septum or non-muscle (chance 21 %); where it touches another muscle 33 %. Volume 7.4 cm3 vs reference 4.4 cm3 (repository architecture volume 1.6 cm3 x 2.70, his upper-arm ratio; Holzbaur 2007's per-muscle table not accessible). Only the part between his radial-head and distal-radius planes is segmented.",
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; SHIPPED: passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected."
+    },
+    {
+      "label": 19,
+      "source_structure": "extensor_pollicis_longus",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_pollicis_longus_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 21.3 cm3 = 2.23 x expected 9.6."
+    },
+    {
+      "label": 20,
+      "source_structure": "extensor_indicis",
+      "side": "right",
+      "relationship": "exact",
+      "candidates": [
+        "extensor_indicis_r"
+      ],
+      "status": "review",
+      "atlas_id": null,
+      "note": "seeded by Claude from the photographs, not by an anatomist; owner review pending; NOT SHIPPED: volume 13.1 cm3 = 4.01 x expected 3.3."
+    }
+  ]
+}

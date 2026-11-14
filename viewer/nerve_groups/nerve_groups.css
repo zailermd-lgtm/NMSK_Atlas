@@ -1,0 +1,41 @@
+/* Q262: the "Nerve groups" button itself now lives inside the Nerves system row (host markup, see sync_nerve_groups_q256.py's
+   glue files), not the top toolbar, so it needs its own small, in-row style instead of the toolbar's "tool"/"pill" classes.
+   Falls back to the host's own --accent/--line tokens (both templates define these at :root) rather than the --ng-* ones
+   above, which are scoped to #ng-panel's own subtree and are not in scope out at the system row. */
+.ng-sysbtn{flex:0 0 auto;font:inherit;font-size:10.5px;font-weight:600;padding:3px 8px;min-height:24px;border:1px solid var(--line,#ccd);border-radius:12px;background:transparent;color:inherit;cursor:pointer;white-space:nowrap}
+.ng-sysbtn:hover{border-color:var(--accent,#0a6e8e)}
+.ng-sysbtn[aria-pressed="true"]{background:var(--accent,#0a6e8e);color:var(--accent-ink,#fff);border-color:var(--accent,#0a6e8e)}
+.ss-phone .ng-sysbtn{min-height:26px}
+/* Deliberately no (hover:none) touch bump here: the Z-engine's own .layer-head row (.solo, .sys-exp) stays at this
+   same compact fixed size on touch too, and growing just this one button risks wrapping that cramped row (item 5). */
+#ng-panel{--ng-bg:#fff;--ng-ink:#111;--ng-dim:#667;--ng-line:#ccd;--ng-accent:#0a6e8e;--ng-sunk:#eef1f4;--ng-warn:#b3400c;
+  position:fixed;left:12px;top:60px;z-index:47;box-sizing:border-box;width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:8px 10px 9px;border-radius:9px;
+  background:var(--ng-bg);color:var(--ng-ink);border:1px solid var(--ng-line);box-shadow:0 8px 24px rgba(0,0,0,.22);font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto}
+#ng-panel[hidden]{display:none}
+#ng-panel .ng-h{display:flex;align-items:center;gap:6px;margin-bottom:2px}
+#ng-panel .ng-h b{font-size:13px}
+#ng-panel .ng-st{flex:1;color:var(--ng-dim);font-size:11px;text-align:right}
+#ng-panel .ng-x{border:0;background:none;color:var(--ng-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#ng-panel .ng-l{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ng-dim)}
+#ng-panel .ng-seg{display:flex;gap:4px;flex-wrap:wrap}
+#ng-panel .ng-seg button{flex:1 1 auto;font:inherit;font-size:11.5px;color:var(--ng-ink);background:transparent;border:1px solid var(--ng-line);border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#ng-panel .ng-seg button[hidden]{display:none}
+#ng-panel .ng-seg button[aria-pressed="true"]{background:var(--ng-accent);color:#fff;border-color:var(--ng-accent)}
+#ng-panel .ng-search{display:block;width:100%;box-sizing:border-box;margin:2px 0 4px;padding:5px 7px;border:1px solid var(--ng-line);border-radius:6px;font:inherit;background:var(--ng-bg);color:var(--ng-ink)}
+#ng-panel .ng-list{max-height:40vh;overflow-y:auto;border:1px solid var(--ng-line);border-radius:7px}
+#ng-panel .ng-lvl{padding:3px 8px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ng-dim);background:var(--ng-sunk);position:sticky;top:0}
+#ng-panel .ng-row{display:flex;gap:6px;align-items:baseline;padding:6px 8px;cursor:pointer;border-top:1px solid var(--ng-line)}
+#ng-panel .ng-row:first-child{border-top:0}
+#ng-panel .ng-row:hover{background:var(--ng-sunk)}
+#ng-panel .ng-row.ng-on{box-shadow:inset 3px 0 0 var(--ng-accent);background:var(--ng-sunk)}
+#ng-panel .ng-row .ng-nm{flex:1;font-weight:600;overflow-wrap:anywhere}
+#ng-panel .ng-row .ng-cnt{flex:none;font-size:10.5px;color:var(--ng-dim);white-space:nowrap}
+#ng-panel .ng-empty{padding:12px 8px;color:var(--ng-dim);font-size:11.5px;text-align:center}
+#ng-panel .ng-hint{margin:5px 0 0;font-size:11px;font-weight:600;color:var(--ng-accent)}
+#ng-panel .ng-hint:empty{display:none}
+#ng-panel .ng-help{margin:6px 0 0;padding:5px 7px;border-left:3px solid var(--ng-warn);background:var(--ng-sunk);font-size:10.5px;line-height:1.4;color:var(--ng-dim)}
+#ng-panel .ng-actions{display:flex;gap:6px;margin-top:6px}
+#ng-panel .ng-actions button{flex:1;font:inherit;font-size:11.5px;color:var(--ng-ink);background:transparent;border:1px solid var(--ng-line);border-radius:6px;padding:5px 8px;min-height:30px;cursor:pointer}
+#ng-panel .ng-actions button:hover{border-color:var(--ng-accent)}
+@media (hover:none){#ng-panel .ng-seg button,#ng-panel .ng-actions button{min-height:38px;font-size:13px}#ng-panel .ng-row{padding:9px 8px}}
+@media (max-width:560px){#t-nervegroups .ng-more{display:none}}

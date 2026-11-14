@@ -1,0 +1,410 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_popliteal_track.py).",
+ "badge": "rule-based",
+ "task": "Q56 popliteal artery and vein with the tibial nerve (VH female cryosections, 0.33 mm)",
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volume_cm3": {
+  "popliteal_a_r": 1.3,
+  "popliteal_v_r": 1.34,
+  "tibial_n": 0.94
+ },
+ "volume_tracks": {},
+ "expected_diameter_mm": {
+  "artery": [
+   5.0,
+   8.0
+  ],
+  "vein": [
+   7.0,
+   11.0
+  ],
+  "tibial_n": [
+   4.0,
+   14.0
+  ],
+  "common_fibular_n": [
+   2.0,
+   9.0
+  ]
+ },
+ "cleaning_band_mm": {
+  "artery": [
+   4.0,
+   9.0
+  ],
+  "vein": [
+   3.0,
+   12.0
+  ],
+  "tibial_n": [
+   3.0,
+   15.0
+  ],
+  "common_fibular_n": [
+   2.0,
+   10.0
+  ]
+ },
+ "structures": {
+  "artery:right": {
+   "atlas_id": "popliteal_a_r",
+   "shipped": true,
+   "y_top": -307,
+   "y_bottom": -386,
+   "levels": 80,
+   "tracked_levels": 70,
+   "gaps_filled": 10,
+   "levels_dropped_by_cleaning": 2,
+   "diameter_mm": {
+    "median": 4.3,
+    "p10": 3.7,
+    "p90": 5.3,
+    "inscribed_median": 3.6
+   },
+   "diameter_by_level": {
+    "-307": 5.2,
+    "-308": 5.2,
+    "-309": 5.3,
+    "-311": 4.8,
+    "-312": 4.8,
+    "-313": 4.1,
+    "-314": 4.2,
+    "-315": 4.2,
+    "-316": 4.2,
+    "-317": 3.9,
+    "-318": 4.3,
+    "-323": 4.1,
+    "-324": 3.9,
+    "-325": 4.0,
+    "-326": 4.0,
+    "-327": 3.9,
+    "-328": 3.9,
+    "-329": 3.7,
+    "-330": 4.1,
+    "-331": 3.9,
+    "-332": 3.8,
+    "-333": 4.6,
+    "-334": 4.5,
+    "-335": 4.8,
+    "-336": 4.5,
+    "-337": 4.6,
+    "-338": 4.8,
+    "-339": 4.8,
+    "-340": 4.8,
+    "-344": 4.3,
+    "-345": 4.5,
+    "-346": 4.6,
+    "-347": 3.2,
+    "-348": 4.9,
+    "-349": 5.3,
+    "-350": 5.9,
+    "-351": 5.9,
+    "-352": 5.8,
+    "-353": 5.5,
+    "-354": 5.0,
+    "-355": 5.1,
+    "-356": 5.3,
+    "-357": 5.3,
+    "-358": 5.1,
+    "-359": 4.8,
+    "-360": 4.8,
+    "-361": 4.5,
+    "-362": 4.2,
+    "-363": 4.6,
+    "-364": 4.8,
+    "-365": 5.2,
+    "-366": 4.3,
+    "-367": 4.0,
+    "-368": 3.8,
+    "-369": 3.7,
+    "-370": 3.6,
+    "-371": 3.7,
+    "-372": 3.6,
+    "-373": 4.5,
+    "-374": 3.7,
+    "-376": 3.7,
+    "-378": 4.1,
+    "-379": 4.2,
+    "-380": 4.2,
+    "-381": 3.9,
+    "-382": 4.3,
+    "-383": 4.3,
+    "-384": 4.2,
+    "-385": 4.4,
+    "-386": 4.1
+   },
+   "seed": {
+    "y": -347,
+    "femur_popliteal_surface": {
+     "x": 86.2,
+     "z": -31.2
+    },
+    "rule": "deepest pair of lumina behind the posterior cortex of the femur; the ANTERIOR member is the artery (it lies on the popliteal surface), the POSTERIOR member the vein",
+    "structure": "artery"
+   },
+   "popliteus_lower_border_y": -490.0
+  },
+  "vein:right": {
+   "atlas_id": "popliteal_v_r",
+   "shipped": true,
+   "y_top": -305,
+   "y_bottom": -360,
+   "levels": 56,
+   "tracked_levels": 52,
+   "gaps_filled": 4,
+   "levels_dropped_by_cleaning": 3,
+   "diameter_mm": {
+    "median": 5.5,
+    "p10": 3.7,
+    "p90": 6.2,
+    "inscribed_median": 4.7
+   },
+   "diameter_by_level": {
+    "-305": 5.6,
+    "-306": 5.6,
+    "-307": 5.5,
+    "-308": 5.7,
+    "-309": 5.5,
+    "-310": 5.6,
+    "-311": 5.6,
+    "-312": 5.6,
+    "-313": 5.6,
+    "-314": 5.7,
+    "-315": 5.8,
+    "-316": 5.9,
+    "-317": 6.4,
+    "-318": 6.1,
+    "-323": 6.2,
+    "-324": 6.3,
+    "-325": 5.5,
+    "-326": 5.5,
+    "-327": 5.4,
+    "-328": 5.5,
+    "-329": 5.6,
+    "-330": 5.5,
+    "-331": 5.4,
+    "-332": 5.5,
+    "-333": 5.2,
+    "-334": 5.4,
+    "-335": 5.3,
+    "-336": 5.5,
+    "-337": 5.4,
+    "-338": 5.3,
+    "-339": 5.1,
+    "-340": 5.1,
+    "-341": 7.1,
+    "-342": 6.9,
+    "-343": 6.9,
+    "-344": 5.6,
+    "-345": 5.3,
+    "-346": 5.1,
+    "-347": 5.3,
+    "-348": 4.7,
+    "-349": 4.8,
+    "-350": 4.4,
+    "-351": 4.2,
+    "-352": 4.1,
+    "-353": 3.9,
+    "-354": 3.7,
+    "-355": 3.8,
+    "-356": 3.5,
+    "-357": 2.8,
+    "-358": 2.7,
+    "-359": 2.4,
+    "-360": 2.3
+   },
+   "seed": {
+    "y": -347,
+    "femur_popliteal_surface": {
+     "x": 86.2,
+     "z": -31.2
+    },
+    "rule": "deepest pair of lumina behind the posterior cortex of the femur; the ANTERIOR member is the artery (it lies on the popliteal surface), the POSTERIOR member the vein",
+    "structure": "vein"
+   },
+   "popliteus_lower_border_y": -490.0
+  },
+  "tibial_n:right": {
+   "atlas_id": "tibial_n",
+   "shipped": true,
+   "y_top": -340,
+   "y_bottom": -374,
+   "levels": 32,
+   "tracked_levels": 21,
+   "gaps_filled": 11,
+   "levels_dropped_by_cleaning": 0,
+   "diameter_mm": {
+    "median": 5.6,
+    "p10": 4.6,
+    "p90": 6.4,
+    "inscribed_median": 4.0
+   },
+   "diameter_by_level": {
+    "-340": 4.6,
+    "-344": 4.6,
+    "-347": 5.6,
+    "-348": 6.4,
+    "-349": 6.2,
+    "-350": 5.9,
+    "-351": 5.5,
+    "-352": 6.0,
+    "-353": 5.9,
+    "-354": 6.3,
+    "-355": 5.7,
+    "-356": 5.6,
+    "-357": 5.2,
+    "-358": 4.8,
+    "-359": 5.0,
+    "-360": 5.6,
+    "-361": 5.1,
+    "-364": 4.3,
+    "-367": 6.9,
+    "-369": 7.9,
+    "-374": 4.8
+   },
+   "seed": {
+    "y": -347,
+    "femur_popliteal_surface": {
+     "x": 86.2,
+     "z": -31.2
+    },
+    "rule": "deepest pair of lumina behind the posterior cortex of the femur; the ANTERIOR member is the artery (it lies on the popliteal surface), the POSTERIOR member the vein",
+    "structure": "tibial_n"
+   },
+   "popliteus_lower_border_y": -490.0
+  },
+  "common_fibular_n:right": {
+   "atlas_id": "common_fibular_n",
+   "shipped": false,
+   "y_top": -328,
+   "y_bottom": -359,
+   "levels": 25,
+   "tracked_levels": 13,
+   "gaps_filled": 12,
+   "levels_dropped_by_cleaning": 0,
+   "diameter_mm": {
+    "median": 4.6,
+    "p10": 4.2,
+    "p90": 4.9,
+    "inscribed_median": 3.4
+   },
+   "diameter_by_level": {
+    "-328": 4.8,
+    "-331": 4.9,
+    "-332": 4.5,
+    "-333": 4.4,
+    "-337": 4.6,
+    "-338": 4.4,
+    "-339": 4.6,
+    "-344": 4.8,
+    "-349": 4.9,
+    "-353": 4.2,
+    "-354": 4.9,
+    "-355": 5.1,
+    "-359": 4.2
+   },
+   "seed": {
+    "y": -347,
+    "femur_popliteal_surface": {
+     "x": 86.2,
+     "z": -31.2
+    },
+    "rule": "deepest pair of lumina behind the posterior cortex of the femur; the ANTERIOR member is the artery (it lies on the popliteal surface), the POSTERIOR member the vein",
+    "structure": "common_fibular_n"
+   },
+   "popliteus_lower_border_y": -490.0
+  }
+ },
+ "nulled": {
+  "common_fibular_n:right": "too short and too broken to ship under this name: only 13 verified levels (< 20)"
+ },
+ "limits": [
+  "Right side only; the left popliteal fossa was not run.",
+  "The popliteal ARTERY is shipped from y = -307 (just below the adductor hiatus at the lower border of her adductor magnus, y = -305) to y = -386, about 11 mm past the knee joint line (femur ends at y = -401, tibia starts at -394). Its division at the lower border of popliteus (y = -490) is NOT covered: below y ~ -390 the paired walk could not be verified on the montage - the lumina lie deep between the heads of gastrocnemius and the masks ran into muscle.",
+  "The popliteal VEIN is shipped only to y = -360; between -360 and -386 every level failed the cleaning gate (ragged or out-of-band), so the vein of the distal fossa is not covered.",
+  "Diameters are LUMEN diameters (the dark clotted blood), not vessel calibre: the artery measures a median 4.3 mm against a textbook 5-8 mm (post-mortem contraction of the muscular wall plus the mask stopping at the dark core), and the vein 5.5 mm against 7-11 mm (a cadaveric vein carries no pressure and is collapsed). Both are reported as measured, not forced to the textbook band.",
+  "The TIBIAL NERVE is shipped over y -340 .. -374 only (21 verified levels). It is not a duplicate of the shipped sciatic track (vhf_nerves_cryo.nii.gz ends at y = -235). Above y = -340 the fascicle detector fired on 2 levels only, and those two were discarded.",
+  "The COMMON FIBULAR NERVE was attempted and is not shipped: 13 of 32 levels over 31 mm, which is not unambiguous.",
+  "The corridor and the landmarks (femur popliteal surface, adductor magnus lower border, popliteus lower border) come from TRANSFERRED meshes, so they are approximate; the corridor only rejects far-away blobs.",
+  "Nothing here is a segmentation of the vessel wall or of the epineurium."
+ ],
+ "montage": "data/ct_sources/task_outputs/vhf_popliteal_cryo_right.png",
+ "verification": {
+  "tibial_nerve_relation": {
+   "tibial_n_vs_artery": {
+    "levels": 21,
+    "y_top": -340,
+    "y_bottom": -374,
+    "posterior_offset_mm": {
+     "median": 19.9,
+     "min": 15.7,
+     "max": 24.2
+    },
+    "lateral_offset_mm": {
+     "median": 15.9,
+     "min": 8.6,
+     "max": 16.3
+    },
+    "levels_with_the_nerve_superficial": 21
+   },
+   "tibial_n_vs_vein": {
+    "levels": 16,
+    "y_top": -340,
+    "y_bottom": -360,
+    "posterior_offset_mm": {
+     "median": 15.4,
+     "min": 14.4,
+     "max": 21.8
+    },
+    "lateral_offset_mm": {
+     "median": 13.2,
+     "min": 11.6,
+     "max": 13.8
+    },
+    "levels_with_the_nerve_superficial": 16
+   }
+  },
+  "depth_order_mean_atlas_z_per_10mm_band": {
+   "-310..-300": {
+    "popliteal_a_r": -28.9,
+    "popliteal_v_r": -30.8
+   },
+   "-320..-310": {
+    "popliteal_a_r": -30.6,
+    "popliteal_v_r": -32.4
+   },
+   "-330..-320": {
+    "popliteal_a_r": -33.5,
+    "popliteal_v_r": -35.2
+   },
+   "-340..-330": {
+    "popliteal_a_r": -37.2,
+    "popliteal_v_r": -39.4
+   },
+   "-350..-340": {
+    "popliteal_a_r": -41.7,
+    "popliteal_v_r": -43.9,
+    "tibial_n": -63.7
+   },
+   "-360..-350": {
+    "popliteal_a_r": -45.4,
+    "popliteal_v_r": -50.0,
+    "tibial_n": -65.4
+   },
+   "-370..-360": {
+    "popliteal_a_r": -51.4,
+    "popliteal_v_r": -53.9,
+    "tibial_n": -69.2
+   },
+   "-380..-370": {
+    "popliteal_a_r": -55.8,
+    "tibial_n": -71.0
+   }
+  },
+  "depth_rule": "+Z is anterior: the popliteal artery (deepest, on the femur and the knee capsule) must have the largest mean z, then the popliteal vein, then the tibial nerve (most superficial)."
+ }
+}

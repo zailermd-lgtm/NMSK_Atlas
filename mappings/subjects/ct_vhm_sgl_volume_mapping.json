@@ -1,0 +1,32 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhm_sgl",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_styloglossus_ct.nii.gz",
+  "label_map": "vhm_styloglossus_ct",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "styloglossus_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "styloglossus_r",
+      "relationship": "exact",
+      "note": "0.75 cm3; rule-based from his own CT tongue label (intralingual portion only).",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "styloglossus_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "styloglossus_l",
+      "relationship": "exact",
+      "note": "1.41 cm3; rule-based from his own CT tongue label (intralingual portion only).",
+      "candidates": []
+    }
+  ]
+}

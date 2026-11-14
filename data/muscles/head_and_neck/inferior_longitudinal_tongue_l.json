@@ -1,0 +1,67 @@
+{
+  "id": "inferior_longitudinal_tongue_l",
+  "name_ta": "Longitudinalis inferior linguae",
+  "name_common": "Longitudinalis inferior linguae",
+  "side": "left",
+  "region": "head",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hyoid",
+    "origin_landmark": "root of the tongue and the body of the hyoid",
+    "insertion_bone": "mandible",
+    "insertion_landmark": "apex of the tongue",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "hypoglossal_n",
+    "root_levels": "CN XII"
+  },
+  "actions": [
+    "shortens the tongue",
+    "turns the tip downwards, making the dorsum convex"
+  ],
+  "functional_compartments": [
+    {
+      "id": "inferior_longitudinal_tongue_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 50,
+        "physiological_cross_section_area_mm2": 30,
+        "max_isometric_force_N": 6.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -6,
+          -6,
+          -18
+        ],
+        [
+          -6,
+          -4,
+          24
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "hypoglossal_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Not an ultrasound-guided technique -- injected directly, via an intraoral needle approach, under EMG guidance. Approached either from the dorsum of the tongue or, more easily given the muscle's position near the inferior surface, from the ventral/inferior lingual surface. Used for the curling-down subtype and as part of the laterotrusion subtype of lingual dystonia (injected on the deviated side).",
+    "depth_layer": "10-15 mm depth if approached from the dorsum; more easily reached at only ~5 mm depth from the inferior surface of the tongue, since the muscle runs close to the ventral mucosa between genioglossus and hyoglossus.",
+    "identification_cues": "EMG confirmation of recruitment during the dystonic curling-down or laterotrusion movement.",
+    "notes": "Only described as one component of an individualized, EMG-mapped injection plan for lingual dystonia, not as a standalone BoNT indication. In the laterotrusion subtype, dosing is asymmetric: more BoNT is given on the side opposite the deviation than on the deviated side itself. Total lingual-muscle dose per session for this subtype averaged 10-40 U across the targeted muscles.",
+    "source": "Yoshida K, 'Botulinum Neurotoxin Therapy for Lingual Dystonia Using an Individualized Injection Method Based on Clinical Features', Toxins (Basel) 11(1):51 (2019), doi:10.3390/toxins11010051 -- retrieved via PubMed."
+  }
+}

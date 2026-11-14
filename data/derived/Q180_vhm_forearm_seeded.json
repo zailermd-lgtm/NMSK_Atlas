@@ -1,0 +1,1380 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): male cryosection photographs at full resolution (0.33 mm, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, instances 1575-1819) and his CT radius/ulna labels (data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz) for registration. Derived data (scripts/cryo/vhm_forearm_seeded_q180.py): one seed per visible muscle belly on five cross-sections placed by Claude from the photographs (seeded by Claude from the photographs, not by an anatomist; owner review pending), flooded inside the photographed muscle colour class between the Q166 septum lines (2-D then 3-D compact marker watershed). Expectations: repository architecture volumes (Holzbaur, Murray & Delp 2005 Ann Biomed Eng 33:829) scaled by his own upper-arm muscle volumes.",
+ "badge": "seeded by Claude from the photographs, not by an anatomist; owner review pending",
+ "task": "Q180",
+ "script": "scripts/cryo/vhm_forearm_seeded_q180.py",
+ "subject": "ct_vhm_forearm_seeded",
+ "seeds": {
+  "file": "data/derived/Q180_forearm_seeds.json",
+  "page_store_file": "data/derived/Q180_forearm_seeds_page.json",
+  "placed": 63,
+  "placed_primary": 61,
+  "extra_bellies": 2,
+  "absent": 19,
+  "confidence": {
+   "high": 2,
+   "medium": 23,
+   "low": 38
+  },
+  "agree_with_q165_rule": 43
+ },
+ "method": {
+  "plane": "2-D compact marker watershed per seeded plane inside muscle class AND NOT Q166 septum line; seed disk 1 mm, seed settles to the lowest elevation within 1 mm",
+  "propagation": "3-D compact marker watershed through the Q164 frame (1 mm x 0.5 mm) on elevation 0.8 x paleness ridge (residual/0.15) + 0.2 x closeness to non-muscle, Q166 lines = 1, inside the Q165 muscle class (specks < 4 mm2 dropped); the 5 plane labellings are the markers",
+  "compactness": 0.005,
+  "extent": "proximal: segment top (his radial-head plane) or the plane where the muscle was marked absent; distal beyond L5: max(last seeded plane, Q165 rule label's last slice with >= 10 mm2) + 10 mm",
+  "attempts": [
+   {
+    "n": 1,
+    "compactness": 0.0,
+    "seed_settle_mm": 0.0,
+    "result": "seeds on slightly pale spots were starved (L3 FCR 8 mm2 on its plane); jitter min Dice 0.34; ship set FDS, FDP",
+    "file": "scratchpad q180/work/flood_result_attempt1.json"
+   },
+   {
+    "n": 2,
+    "compactness": 0.005,
+    "seed_settle_mm": 1.0,
+    "result": "this report"
+   }
+  ]
+ },
+ "reference_volumes": {
+  "note": "Holzbaur KR, Murray WM, Gold GE, Delp SL. Upper limb muscle volumes in adult subjects. J Biomech 2007;40(4):742-749 (PubMed 17241636): the per-muscle table is not readable here (no PubMed Central full text, checked 2026-09-30), so the reference per muscle is the repository architecture volume (PCSA x optimal fascicle length / cos pennation, Holzbaur 2005) x ONE factor = his own biceps+brachialis+triceps volume / theirs (as Q165).",
+  "factor": 2.6977,
+  "his_upper_arm": {
+   "brachialis": [
+    162.9,
+    "ct_vhm_armm_contfix_mesh"
+   ],
+   "triceps_brachii": [
+    450.6,
+    "ct_vhm_armm_contfix_mesh"
+   ],
+   "biceps_brachii": [
+    375.3,
+    "ct_vhm_armm_contfix"
+   ]
+  },
+  "architecture_upper_arm_cm3": {
+   "biceps_brachii": 129.6,
+   "brachialis": 63.24,
+   "triceps_brachii": 173.69
+  }
+ },
+ "septum_metric": {
+  "definition": "per slice, share of a muscle's boundary pixels within 1 px of a non-muscle or pale (paleness residual >= 0.10) pixel; median over slices (Q165 metric); contact = boundary against another muscle only",
+  "chance_baseline": 0.214,
+  "q165_contact_range": [
+   0.21,
+   0.53
+  ]
+ },
+ "tissue": {
+  "muscle_class_cm3": 969.5,
+  "labelled_cm3": 962.1,
+  "cut_by_extent_cm3": 7.0
+ },
+ "gate": "main 26-connected piece >= 0.95; seed-jitter Dice (1.5 mm x 4 directions) >= 0.8 in every direction; volume 0.5-2.0 x reference; PT/BR/ECRL/anconeus out of range (arise above the radial-head plane, Q165 rule)",
+ "muscles": {
+  "pronator_teres": {
+   "atlas_id": "pronator_teres_r",
+   "label": 1,
+   "volume_cm3": 66.0,
+   "expected_cm3": 58.9,
+   "ratio": 1.12,
+   "architecture_volume_cm3": 21.83,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.822,
+   "contact_boundary_on_septum_median": 0.514,
+   "jitter_dice": {
+    "+x": 1.0,
+    "-x": 1.0,
+    "+y": 1.0,
+    "-y": 1.0
+   },
+   "jitter_dice_min": 1.0,
+   "slices": [
+    61,
+    157
+   ],
+   "u_mm": [
+    -89.0,
+    7.0
+   ],
+   "area_at_segment_top_mm2": 927.8,
+   "frame_edge_voxels": 1998,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136
+    ],
+    "rule_extent_i": [
+     61,
+     194
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "arises above his radial-head plane (segment top): only its forearm part is segmented",
+   "volume_ras_cm3": 66.0
+  },
+  "flexor_carpi_radialis": {
+   "atlas_id": "flexor_carpi_radialis_r",
+   "label": 2,
+   "volume_cm3": 114.9,
+   "expected_cm3": 24.5,
+   "ratio": 4.69,
+   "architecture_volume_cm3": 9.09,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.691,
+   "contact_boundary_on_septum_median": 0.402,
+   "jitter_dice": {
+    "+x": 0.97,
+    "-x": 0.967,
+    "+y": 0.925,
+    "-y": 0.98
+   },
+   "jitter_dice_min": 0.925,
+   "slices": [
+    61,
+    268
+   ],
+   "u_mm": [
+    -89.0,
+    118.0
+   ],
+   "area_at_segment_top_mm2": 403.2,
+   "frame_edge_voxels": 1253,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177,
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     61,
+     223
+    ],
+    "allowed_i": [
+     61,
+     268
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 114.9 cm3 = 4.69 x expected 24.5",
+   "volume_ras_cm3": 115.0
+  },
+  "palmaris_longus": {
+   "atlas_id": "palmaris_longus_r",
+   "label": 3,
+   "volume_cm3": 23.4,
+   "expected_cm3": 4.9,
+   "ratio": 4.81,
+   "architecture_volume_cm3": 1.8,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.473,
+   "contact_boundary_on_septum_median": 0.213,
+   "jitter_dice": {
+    "+x": 0.92,
+    "-x": 0.916,
+    "+y": 0.939,
+    "-y": 0.966
+   },
+   "jitter_dice_min": 0.916,
+   "slices": [
+    61,
+    160
+   ],
+   "u_mm": [
+    -89.0,
+    10.0
+   ],
+   "area_at_segment_top_mm2": 147.8,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136
+    ],
+    "rule_extent_i": [
+     61,
+     198
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 23.4 cm3 = 4.81 x expected 4.9",
+   "volume_ras_cm3": 23.4
+  },
+  "flexor_carpi_ulnaris": {
+   "atlas_id": "flexor_carpi_ulnaris_r",
+   "label": 4,
+   "volume_cm3": 107.5,
+   "expected_cm3": 45.5,
+   "ratio": 2.36,
+   "architecture_volume_cm3": 16.87,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.774,
+   "contact_boundary_on_septum_median": 0.323,
+   "jitter_dice": {
+    "+x": 0.961,
+    "-x": 0.969,
+    "+y": 0.972,
+    "-y": 0.97
+   },
+   "jitter_dice_min": 0.961,
+   "slices": [
+    61,
+    293
+   ],
+   "u_mm": [
+    -89.0,
+    143.0
+   ],
+   "area_at_segment_top_mm2": 242.2,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177,
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     61,
+     293
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "high",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "high",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 107.5 cm3 = 2.36 x expected 45.5",
+   "volume_ras_cm3": 107.4
+  },
+  "flexor_digitorum_superficialis": {
+   "atlas_id": "flexor_digitorum_superficialis_r",
+   "label": 5,
+   "volume_cm3": 90.4,
+   "expected_cm3": 77.9,
+   "ratio": 1.16,
+   "architecture_volume_cm3": 28.89,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.617,
+   "contact_boundary_on_septum_median": 0.407,
+   "jitter_dice": {
+    "+x": 0.95,
+    "-x": 0.981,
+    "+y": 0.907,
+    "-y": 0.99
+   },
+   "jitter_dice_min": 0.907,
+   "slices": [
+    61,
+    268
+   ],
+   "u_mm": [
+    -89.0,
+    118.0
+   ],
+   "area_at_segment_top_mm2": 97.8,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177,
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     61,
+     243
+    ],
+    "allowed_i": [
+     61,
+     268
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": true
+    },
+    {
+     "section": "L5",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "low",
+     "extra_belly": true
+    }
+   ],
+   "ship": true,
+   "reason": "passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected",
+   "volume_ras_cm3": 90.3
+  },
+  "flexor_digitorum_profundus": {
+   "atlas_id": "flexor_digitorum_profundus_r",
+   "label": 6,
+   "volume_cm3": 108.6,
+   "expected_cm3": 109.4,
+   "ratio": 0.99,
+   "architecture_volume_cm3": 40.57,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.607,
+   "contact_boundary_on_septum_median": 0.403,
+   "jitter_dice": {
+    "+x": 0.899,
+    "-x": 0.948,
+    "+y": 0.953,
+    "-y": 0.929
+   },
+   "jitter_dice_min": 0.899,
+   "slices": [
+    61,
+    293
+   ],
+   "u_mm": [
+    -89.0,
+    143.0
+   ],
+   "area_at_segment_top_mm2": 202.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177,
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     61,
+     293
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "medium",
+     "extra_belly": false
+    }
+   ],
+   "ship": true,
+   "reason": "passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected",
+   "volume_ras_cm3": 108.6
+  },
+  "flexor_pollicis_longus": {
+   "atlas_id": "flexor_pollicis_longus_r",
+   "label": 7,
+   "volume_cm3": 50.9,
+   "expected_cm3": 19.7,
+   "ratio": 2.58,
+   "architecture_volume_cm3": 7.31,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.696,
+   "contact_boundary_on_septum_median": 0.364,
+   "jitter_dice": {
+    "+x": 0.888,
+    "-x": 0.942,
+    "+y": 0.947,
+    "-y": 0.89
+   },
+   "jitter_dice_min": 0.888,
+   "slices": [
+    110,
+    293
+   ],
+   "u_mm": [
+    -40.0,
+    143.0
+   ],
+   "area_at_segment_top_mm2": 0.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     136,
+     177,
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     86,
+     293
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "medium",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 50.9 cm3 = 2.58 x expected 19.7",
+   "volume_ras_cm3": 50.9
+  },
+  "pronator_quadratus": {
+   "atlas_id": "pronator_quadratus_r",
+   "label": 8,
+   "volume_cm3": 13.1,
+   "expected_cm3": 6.1,
+   "ratio": 2.16,
+   "architecture_volume_cm3": 2.25,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.822,
+   "contact_boundary_on_septum_median": 0.45,
+   "jitter_dice": {
+    "+x": 1.0,
+    "-x": 1.0,
+    "+y": 1.0,
+    "-y": 1.0
+   },
+   "jitter_dice_min": 1.0,
+   "slices": [
+    236,
+    293
+   ],
+   "u_mm": [
+    86.0,
+    143.0
+   ],
+   "area_at_segment_top_mm2": 0.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     258
+    ],
+    "rule_extent_i": [
+     242,
+     293
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L5",
+     "confidence": "medium",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 13.1 cm3 = 2.16 x expected 6.1",
+   "volume_ras_cm3": 13.1
+  },
+  "brachioradialis": {
+   "atlas_id": "brachioradialis_r",
+   "label": 9,
+   "volume_cm3": 79.1,
+   "expected_cm3": 64.7,
+   "ratio": 1.22,
+   "architecture_volume_cm3": 24.0,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.751,
+   "contact_boundary_on_septum_median": 0.412,
+   "jitter_dice": {
+    "+x": 0.985,
+    "-x": 0.978,
+    "+y": 0.985,
+    "-y": 0.992
+   },
+   "jitter_dice_min": 0.978,
+   "slices": [
+    61,
+    204
+   ],
+   "u_mm": [
+    -89.0,
+    54.0
+   ],
+   "area_at_segment_top_mm2": 680.5,
+   "frame_edge_voxels": 3516,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177
+    ],
+    "rule_extent_i": [
+     61,
+     205
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "medium",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "arises above his radial-head plane (segment top): only its forearm part is segmented",
+   "volume_ras_cm3": 79.2
+  },
+  "extensor_carpi_radialis_longus": {
+   "atlas_id": "extensor_carpi_radialis_longus_r",
+   "label": 10,
+   "volume_cm3": 32.7,
+   "expected_cm3": 42.5,
+   "ratio": 0.77,
+   "architecture_volume_cm3": 15.75,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.259,
+   "contact_boundary_on_septum_median": 0.197,
+   "jitter_dice": {
+    "+x": 0.97,
+    "-x": 0.974,
+    "+y": 0.972,
+    "-y": 0.961
+   },
+   "jitter_dice_min": 0.961,
+   "slices": [
+    61,
+    162
+   ],
+   "u_mm": [
+    -89.0,
+    12.0
+   ],
+   "area_at_segment_top_mm2": 339.2,
+   "frame_edge_voxels": 3076,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136
+    ],
+    "rule_extent_i": [
+     61,
+     215
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "arises above his radial-head plane (segment top): only its forearm part is segmented",
+   "volume_ras_cm3": 32.7
+  },
+  "extensor_carpi_radialis_brevis": {
+   "atlas_id": "extensor_carpi_radialis_brevis_r",
+   "label": 11,
+   "volume_cm3": 93.7,
+   "expected_cm3": 31.1,
+   "ratio": 3.02,
+   "architecture_volume_cm3": 11.51,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.724,
+   "contact_boundary_on_septum_median": 0.5,
+   "jitter_dice": {
+    "+x": 0.991,
+    "-x": 0.981,
+    "+y": 0.999,
+    "-y": 0.988
+   },
+   "jitter_dice_min": 0.981,
+   "slices": [
+    61,
+    202
+   ],
+   "u_mm": [
+    -89.0,
+    52.0
+   ],
+   "area_at_segment_top_mm2": 728.0,
+   "frame_edge_voxels": 1,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177
+    ],
+    "rule_extent_i": [
+     86,
+     236
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "medium",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 93.7 cm3 = 3.02 x expected 31.1",
+   "volume_ras_cm3": 93.7
+  },
+  "extensor_digitorum": {
+   "atlas_id": "extensor_digitorum_r",
+   "label": 12,
+   "volume_cm3": 56.2,
+   "expected_cm3": 58.5,
+   "ratio": 0.96,
+   "architecture_volume_cm3": 21.68,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.621,
+   "contact_boundary_on_septum_median": 0.354,
+   "jitter_dice": {
+    "+x": 0.99,
+    "-x": 0.958,
+    "+y": 0.996,
+    "-y": 0.957
+   },
+   "jitter_dice_min": 0.957,
+   "slices": [
+    61,
+    240
+   ],
+   "u_mm": [
+    -89.0,
+    90.0
+   ],
+   "area_at_segment_top_mm2": 193.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177,
+     218
+    ],
+    "rule_extent_i": [
+     76,
+     250
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": true,
+   "reason": "passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected",
+   "volume_ras_cm3": 56.2
+  },
+  "extensor_digiti_minimi": {
+   "atlas_id": "extensor_digiti_minimi_r",
+   "label": 13,
+   "volume_cm3": 19.1,
+   "expected_cm3": 3.2,
+   "ratio": 5.89,
+   "architecture_volume_cm3": 1.2,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.544,
+   "contact_boundary_on_septum_median": 0.359,
+   "jitter_dice": {
+    "+x": 0.887,
+    "-x": 0.972,
+    "+y": 0.897,
+    "-y": 0.912
+   },
+   "jitter_dice_min": 0.887,
+   "slices": [
+    61,
+    240
+   ],
+   "u_mm": [
+    -89.0,
+    90.0
+   ],
+   "area_at_segment_top_mm2": 44.2,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177,
+     218
+    ],
+    "rule_extent_i": [
+     77,
+     225
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 19.1 cm3 = 5.89 x expected 3.2",
+   "volume_ras_cm3": 19.0
+  },
+  "extensor_carpi_ulnaris": {
+   "atlas_id": "extensor_carpi_ulnaris_r",
+   "label": 14,
+   "volume_cm3": 38.1,
+   "expected_cm3": 32.9,
+   "ratio": 1.16,
+   "architecture_volume_cm3": 12.19,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.797,
+   "contact_boundary_on_septum_median": 0.481,
+   "jitter_dice": {
+    "+x": 0.977,
+    "-x": 0.997,
+    "+y": 0.975,
+    "-y": 0.962
+   },
+   "jitter_dice_min": 0.962,
+   "slices": [
+    61,
+    293
+   ],
+   "u_mm": [
+    -89.0,
+    143.0
+   ],
+   "area_at_segment_top_mm2": 360.2,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136,
+     177,
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     61,
+     289
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L3",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": true,
+   "reason": "passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected",
+   "volume_ras_cm3": 38.1
+  },
+  "supinator": {
+   "atlas_id": "supinator_r",
+   "label": 16,
+   "volume_cm3": 14.1,
+   "expected_cm3": 25.7,
+   "ratio": 0.55,
+   "architecture_volume_cm3": 9.52,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.702,
+   "contact_boundary_on_septum_median": 0.5,
+   "jitter_dice": {
+    "+x": 0.999,
+    "-x": 0.998,
+    "+y": 0.994,
+    "-y": 0.998
+   },
+   "jitter_dice_min": 0.994,
+   "slices": [
+    67,
+    157
+   ],
+   "u_mm": [
+    -83.0,
+    7.0
+   ],
+   "area_at_segment_top_mm2": 0.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     96,
+     136
+    ],
+    "rule_extent_i": [
+     61,
+     146
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L1",
+     "confidence": "medium",
+     "extra_belly": false
+    },
+    {
+     "section": "L2",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": true,
+   "reason": "passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected",
+   "volume_ras_cm3": 14.0
+  },
+  "abductor_pollicis_longus": {
+   "atlas_id": "abductor_pollicis_longus_r",
+   "label": 17,
+   "volume_cm3": 12.5,
+   "expected_cm3": 15.4,
+   "ratio": 0.81,
+   "architecture_volume_cm3": 5.69,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.549,
+   "contact_boundary_on_septum_median": 0.349,
+   "jitter_dice": {
+    "+x": 0.97,
+    "-x": 0.698,
+    "+y": 0.926,
+    "-y": 0.792
+   },
+   "jitter_dice_min": 0.698,
+   "slices": [
+    153,
+    240
+   ],
+   "u_mm": [
+    3.0,
+    90.0
+   ],
+   "area_at_segment_top_mm2": 0.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     177,
+     218
+    ],
+    "rule_extent_i": [
+     157,
+     255
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L3",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "seed-jitter Dice 0.698 < 0.8",
+   "volume_ras_cm3": 12.5
+  },
+  "extensor_pollicis_brevis": {
+   "atlas_id": "extensor_pollicis_brevis_r",
+   "label": 18,
+   "volume_cm3": 7.4,
+   "expected_cm3": 4.4,
+   "ratio": 1.7,
+   "architecture_volume_cm3": 1.62,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.906,
+   "contact_boundary_on_septum_median": 0.328,
+   "jitter_dice": {
+    "+x": 0.959,
+    "-x": 0.96,
+    "+y": 0.875,
+    "-y": 0.82
+   },
+   "jitter_dice_min": 0.82,
+   "slices": [
+    196,
+    288
+   ],
+   "u_mm": [
+    46.0,
+    138.0
+   ],
+   "area_at_segment_top_mm2": 0.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     179,
+     286
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": true,
+   "reason": "passes: main piece >= 0.95, jitter Dice >= 0.8, volume 0.5-2.0 x expected",
+   "volume_ras_cm3": 7.4
+  },
+  "extensor_pollicis_longus": {
+   "atlas_id": "extensor_pollicis_longus_r",
+   "label": 19,
+   "volume_cm3": 21.3,
+   "expected_cm3": 9.6,
+   "ratio": 2.23,
+   "architecture_volume_cm3": 3.55,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.482,
+   "contact_boundary_on_septum_median": 0.281,
+   "jitter_dice": {
+    "+x": 0.956,
+    "-x": 0.905,
+    "+y": 0.918,
+    "-y": 0.928
+   },
+   "jitter_dice_min": 0.905,
+   "slices": [
+    151,
+    277
+   ],
+   "u_mm": [
+    1.0,
+    127.0
+   ],
+   "area_at_segment_top_mm2": 0.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     177,
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     133,
+     267
+    ],
+    "allowed_i": [
+     61,
+     277
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L3",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 21.3 cm3 = 2.23 x expected 9.6",
+   "volume_ras_cm3": 21.3
+  },
+  "extensor_indicis": {
+   "atlas_id": "extensor_indicis_r",
+   "label": 20,
+   "volume_cm3": 13.1,
+   "expected_cm3": 3.3,
+   "ratio": 4.01,
+   "architecture_volume_cm3": 1.21,
+   "components_26": 1,
+   "main_component_fraction": 1.0,
+   "overlap_ct_radius_ulna_vox": 0,
+   "overlap_photographed_bone_class_vox": 0,
+   "boundary_on_septum_or_nonmuscle_median": 0.598,
+   "contact_boundary_on_septum_median": 0.359,
+   "jitter_dice": {
+    "+x": 0.929,
+    "-x": 0.913,
+    "+y": 0.927,
+    "-y": 0.979
+   },
+   "jitter_dice_min": 0.913,
+   "slices": [
+    196,
+    291
+   ],
+   "u_mm": [
+    46.0,
+    141.0
+   ],
+   "area_at_segment_top_mm2": 0.0,
+   "frame_edge_voxels": 0,
+   "extent": {
+    "seeded_planes_i": [
+     218,
+     258
+    ],
+    "rule_extent_i": [
+     189,
+     293
+    ],
+    "allowed_i": [
+     61,
+     293
+    ]
+   },
+   "seeds": [
+    {
+     "section": "L4",
+     "confidence": "low",
+     "extra_belly": false
+    },
+    {
+     "section": "L5",
+     "confidence": "low",
+     "extra_belly": false
+    }
+   ],
+   "ship": false,
+   "reason": "volume 13.1 cm3 = 4.01 x expected 3.3",
+   "volume_ras_cm3": 13.1
+  }
+ },
+ "shipped": [
+  "flexor_digitorum_superficialis_r",
+  "flexor_digitorum_profundus_r",
+  "extensor_digitorum_r",
+  "extensor_carpi_ulnaris_r",
+  "supinator_r",
+  "extensor_pollicis_brevis_r"
+ ],
+ "label_volume": "data/ct_sources/task_outputs/vhm_forearm_muscles_seeded.nii.gz",
+ "mapping": "mappings/subjects/ct_vhm_forearm_seeded_volume_mapping.json",
+ "montage": "scratchpad q180/montage_seeded.png"
+}

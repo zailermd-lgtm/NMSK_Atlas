@@ -1,0 +1,27 @@
+<div id="qv-panel" hidden role="group" aria-label="Quick view">
+  <div class="qv-head"><b>Quick view</b><span class="qv-sp"></span><button type="button" id="qv-close" aria-label="Close the quick view panel" title="Close">&times;</button></div>
+  <div class="qv-body">
+    <p class="qv-hint">Search a structure, then focus / mark &amp; highlight it, put a cross-section through it, or (where this body has the data) show its motor point -- all from here instead of four separate panels.</p>
+    <input id="qv-q" type="search" placeholder="Search a structure" autocomplete="off" aria-label="Search a structure">
+    <div class="qv-res" id="qv-res"></div>
+    <div id="qv-sel" class="qv-sel" hidden>
+      <p class="qv-name" id="qv-name"></p>
+      <div class="qv-row">
+        <button type="button" id="qv-focus" title="Move the camera to this structure">Focus</button>
+        <button type="button" id="qv-mark" title="Mark it and colour it in the highlight colour (Q227/Q232, reused as-is)">Mark &amp; highlight</button>
+        <button type="button" id="qv-learn" title="Open it in the Learn panel: highlight, rotate, simulate its cited action (Q283)">Learn</button>
+      </div>
+      <button type="button" id="qv-mp" hidden title="Show this structure's motor point(s) (needs the clinical layer and motor-point data for it)">Show its motor point</button>
+      <p id="qv-mp-msg" class="qv-hint"></p>
+      <div class="qv-lbl">Cross-section through it</div>
+      <div class="qv-row" id="qv-ax">
+        <button type="button" data-ax="x" title="Plane normal along the body's left-right axis, centred on this structure">sagittal</button>
+        <button type="button" data-ax="y" title="Plane normal along the head-to-foot axis, centred on this structure">axial</button>
+        <button type="button" data-ax="z" title="Plane normal along the front-to-back axis, centred on this structure">coronal</button>
+      </div>
+      <p id="qv-xs-msg" class="qv-hint"></p>
+      <label class="qv-chk"><input type="checkbox" id="qv-abbr"> Abbreviated labels</label>
+    </div>
+    <p id="qv-msg" class="qv-hint" aria-live="polite"></p>
+  </div>
+</div>

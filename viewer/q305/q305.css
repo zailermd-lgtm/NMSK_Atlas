@@ -1,0 +1,66 @@
+/* Q305: the boxes on the screen can be moved where the user wants them.
+   Owner (translated from Hebrew): "let the various boxes on the screen be moved around."
+   The grab affordance is a SMALL GRIP, never the box's body and never its title bar: every gesture this page already
+   has starts on a surface or on a row -- the model is dragged to orbit, Q290 pinches and two-finger-pans every canvas
+   and image pane, Q294 drags the probe over the skin, Q294/Q298 long-press a list row for a range -- so a
+   box that moved when its body was dragged would take one of them away. The project's own precedent is the imaging
+   reference window, whose `.ref-head` is `cursor:move`; the title bars of these boxes are packed with controls (the cut
+   panel's head carries two buttons, the group sheet's a close), so the grip is its own 44 px target instead.
+   Sizes: 26 px drawn on a desktop, 34 px drawn where the pointer is coarse, and in both cases a hit area padded out to
+   at least 44 px -- the project's touch-target rule. */
+.nm-grip[hidden],.nm-note[hidden],.nm-slot[hidden]{display:none !important}
+.nm-grip{position:absolute;z-index:6;width:26px;height:26px;padding:0;box-sizing:border-box;
+  border:1px solid rgba(255,255,255,.22);border-radius:8px;background:rgba(40,46,54,.72);color:#E6EDF3;
+  cursor:grab;touch-action:none;display:flex;align-items:center;justify-content:center;line-height:1;
+  font:13px/1 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.78}
+/* THE HIT AREA IS PADDED INWARD ONLY, and that is a measured fix, not a preference. The first draft padded it 9 px in
+   every direction to reach the project's 44 px touch target without drawing 44 px of chrome -- so the area stuck a few
+   pixels OUT of the box, onto the 3-D canvas, and Chromium's touch adjustment then snapped a finger 7 px clear of the
+   panel to the handle. The harness reported it as "the model no longer orbits" on the phone, which is exactly what the
+   owner would have seen. Padded towards the box's own middle instead, the handle can never reach past its box. */
+.nm-grip::before{content:"";position:absolute;inset:0}
+.nm-grip[data-nm-at="tl"]::before{inset:0 calc(-1 * var(--nm-pad,18px)) calc(-1 * var(--nm-pad,18px)) 0}
+.nm-grip[data-nm-at="tr"]::before{inset:0 0 calc(-1 * var(--nm-pad,18px)) calc(-1 * var(--nm-pad,18px))}
+.nm-grip[data-nm-at="bl"]::before{inset:calc(-1 * var(--nm-pad,18px)) calc(-1 * var(--nm-pad,18px)) 0 0}
+.nm-grip[data-nm-at="br"]::before{inset:calc(-1 * var(--nm-pad,18px)) 0 0 calc(-1 * var(--nm-pad,18px))}
+.nm-grip:hover,.nm-grip:focus-visible{opacity:1;background:rgba(56,66,78,.92)}
+.nm-grip:active{cursor:grabbing}
+.nm-grip.nm-on{opacity:1;border-color:#4FA3C7;background:#1E5F7A}
+.nm-grip svg{pointer-events:none}
+@media (pointer:coarse){.nm-grip{width:34px;height:34px;--nm-pad:10px}}
+/* a light box on a light panel (the Z rail and card, the own engine's inspector) */
+.nm-grip.nm-light{background:rgba(255,255,255,.86);border-color:rgba(20,20,19,.22);color:#141413}
+.nm-grip.nm-light:hover,.nm-grip.nm-light:focus-visible{background:#fff}
+.nm-grip.nm-light.nm-on{background:#1E5F7A;color:#fff;border-color:#2E89AC}
+.nm-box-drag{outline:2px solid #4FA3C7;outline-offset:1px}
+/* the slots a phone drag snaps to, drawn only while a drag is running */
+.nm-slot{position:fixed;z-index:2147482600;pointer-events:none;border:1.5px dashed rgba(79,163,199,.9);border-radius:12px;
+  background:rgba(79,163,199,.10)}
+.nm-slot.nm-near{border-style:solid;background:rgba(79,163,199,.22)}
+/* one line, in the same place and the same shape as Q294's notice */
+/* `pointer-events:none`, and it is not a detail: the first real-page run at 390x844 caught this one line of ours
+   sitting on Q300's "Show everything" button -- the third time in three rounds that a floating scrap of chrome took a
+   control away. A notice nobody can tap cannot do it again. */
+.nm-note{pointer-events:none;position:fixed;left:50%;transform:translateX(-50%);z-index:2147482700;max-width:min(86vw,460px);
+  padding:6px 11px;border-radius:9px;background:rgba(14,18,22,.94);color:#E6EDF3;box-shadow:0 2px 14px rgba(0,0,0,.42);
+  font:12.5px/1.35 system-ui,-apple-system,"Segoe UI",sans-serif;text-align:center}
+/* the control bar's handle is one more button in its lower row, beside Undo and Redo: the bar is full of controls and a
+   handle hanging over any of them is exactly the collision this round exists to prevent */
+.qg-bar .nm-grip.nm-inline{position:static;width:44px;min-width:44px;height:44px;border-radius:9px;opacity:.9;
+  background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.17)}
+.qg-bar .nm-grip.nm-inline:hover{background:rgba(255,255,255,.13);opacity:1}
+.qg-bar .nm-grip.nm-inline::before{inset:0}
+.qg-bar .nm-grip.nm-inline.nm-on{background:#1E5F7A;border-color:#2E89AC}
+/* Restore layout, in the i's own section: the View group's sheet scrolls, so the i is the one that is always reachable */
+.qi-body .nm-rb{min-height:36px;padding:5px 11px;margin-inline-start:4px;border:1px solid rgba(255,255,255,.22);
+  border-radius:8px;background:rgba(255,255,255,.08);color:inherit;font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer}
+.qi-body .nm-rb:hover{background:rgba(255,255,255,.18)}
+/* ---- the inherited #foot defect, fixed here and not in Q301's block ----
+   Q301's View group adopts the Z engine's bottom pill row `#foot` into its sheet, and `.qg-sbody .qg-adopted`
+   (two classes, specificity 0,0,2,0) cannot beat `#foot{position:fixed}` (one id, 0,1,0,0), so the adopted row
+   stayed fixed at the bottom of the viewport and PAINTED OVER every member listed after it -- measured with
+   `elementFromPoint` at the centre of `#q305-restore`, which returned `DIV#foot` instead of the button.
+   This one declaration is specific enough (`.qg-sbody #foot` is 0,1,1,0) and it lives in Q305's own block, so
+   Q301's block comes out of the regen byte-identical and the defect still goes away. It is scoped to the sheet, so
+   `#foot` in its own place -- Q270's pill band, and its phone override -- is untouched. */
+.qg-sbody #foot{position:static}

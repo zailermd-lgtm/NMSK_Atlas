@@ -1,0 +1,111 @@
+Q297 browser verification -- real Chromium (swiftshader), desktop 1400x900 real clicks + phone 390x844 real touch.
+Final state: 60 OK, 0 FAIL, 0 page errors over the six pages
+  = run 1 Base F 14 OK + run 2 Base M / Combined M / Combined F 34 OK + run 3 Imaging M / Imaging F 12 OK.
+Run 2 also exercised the two Imaging pages and reported 8 FAILs there; those were defects in THIS verify script, not in
+the pages -- (i) the own-page engine names the structure-search box #q, not #search, so the script never reached the list
+and read an empty card; (ii) the assertion 'the card no longer says "Measured on this body"' matched the NEW
+SUBJECT_LABELS text, which quotes that phrase on purpose to record what Q297 fixed. Both were fixed in the script (the
+second now reads the one-line source-class statement #i-src instead of the whole card) and run 3 is the result.
+
+=== run 1: Base F (14 OK, 0 FAIL) ===
+ok
+== build/q297/viewer_base_female
+  OK   base_f_1400: A the generated perineal surface closure is absent from the page (3288 meshes)
+  OK   base_f_1400: A every real (CVH) perineal structure is still on the page (6/6)
+  OK   base_f_1400: A all 6 of them have real geometry on the page (6)
+  OK   base_f_1400: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   base_f_1400: B that card no longer claims the geometry is Z-Anatomy's
+  OK   base_f_1400: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   base_f_1400: D no page errors ([])
+  OK   base_f_390: A the generated perineal surface closure is absent from the page (3288 meshes)
+  OK   base_f_390: A every real (CVH) perineal structure is still on the page (6/6)
+  OK   base_f_390: A all 6 of them have real geometry on the page (6)
+  OK   base_f_390: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   base_f_390: B that card no longer claims the geometry is Z-Anatomy's
+  OK   base_f_390: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   base_f_390: D no page errors ([])
+
+Q297 VERIFY: OK
+
+[exited with code 0]
+
+=== run 2: Base M, Combined M, Combined F (34 OK) -- the 8 FAILs here are the verify script's own stale own-page selector, fixed and re-run below ===
+== build/q297/viewer_zan_atlas
+  OK   base_m_1400: A the generated perineal surface closure is absent from the page (3252 meshes)
+  OK   base_m_1400: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   base_m_1400: B that card no longer claims the geometry is Z-Anatomy's
+  OK   base_m_1400: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   base_m_1400: D no page errors ([])
+  OK   base_m_390: A the generated perineal surface closure is absent from the page (3252 meshes)
+  OK   base_m_390: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   base_m_390: B that card no longer claims the geometry is Z-Anatomy's
+  OK   base_m_390: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   base_m_390: D no page errors ([])
+== build/q297/viewer_zan_vhm
+  OK   comb_m_1400: A the generated perineal surface closure is absent from the page (3254 meshes)
+  OK   comb_m_1400: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   comb_m_1400: B that card no longer claims the geometry is Z-Anatomy's
+  OK   comb_m_1400: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   comb_m_1400: D no page errors ([])
+  OK   comb_m_390: A the generated perineal surface closure is absent from the page (3254 meshes)
+  OK   comb_m_390: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   comb_m_390: B that card no longer claims the geometry is Z-Anatomy's
+  OK   comb_m_390: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   comb_m_390: D no page errors ([])
+== build/q297/viewer_zan_female
+  OK   comb_f_1400: A the generated perineal surface closure is absent from the page (3304 meshes)
+  OK   comb_f_1400: A every real (CVH) perineal structure is still on the page (6/6)
+  OK   comb_f_1400: A all 6 of them have real geometry on the page (6)
+  OK   comb_f_1400: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   comb_f_1400: B that card no longer claims the geometry is Z-Anatomy's
+  OK   comb_f_1400: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   comb_f_1400: D no page errors ([])
+  OK   comb_f_390: A the generated perineal surface closure is absent from the page (3304 meshes)
+  OK   comb_f_390: A every real (CVH) perineal structure is still on the page (6/6)
+  OK   comb_f_390: A all 6 of them have real geometry on the page (6)
+  OK   comb_f_390: B the lateral cord's card shows the rule-based badge with a volume ('−\n×\nNERVE\nLateral cord\n\n600 tris · left\n\nhide\nfade\n✓\nisolate')
+  OK   comb_f_390: B that card no longer claims the geometry is Z-Anatomy's
+  OK   comb_f_390: D the middle-finger distal phalanx card carries the Q297 fingertip measurement
+  OK   comb_f_390: D no page errors ([])
+== build/q297/viewer_m_hr
+  FAIL own_m_1400: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_m_1400: C it no longer prints 'Measured on this body'
+  OK   own_m_1400: D no page errors ([])
+  FAIL own_m_390: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_m_390: C it no longer prints 'Measured on this body'
+  OK   own_m_390: D no page errors ([])
+== build/q297/viewer_f_hr
+  FAIL own_f_1400: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_f_1400: C it no longer prints 'Measured on this body'
+  OK   own_f_1400: D no page errors ([])
+  FAIL own_f_390: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_f_390: C it no longer prints 'Measured on this body'
+  OK   own_f_390: D no page errors ([])
+
+Q297 VERIFY: FAIL 8
+  FAIL own_m_1400: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_m_1400: C it no longer prints 'Measured on this body'
+  FAIL own_m_390: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_m_390: C it no longer prints 'Measured on this body'
+  FAIL own_f_1400: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_f_1400: C it no longer prints 'Measured on this body'
+  FAIL own_f_390: C the rule-built brachial plexus card prints the RULE-BASED source line ('')
+  FAIL own_f_390: C it no longer prints 'Measured on this body'
+
+=== run 3: Imaging M + Imaging F, after the two verify-script fixes (12 OK, 0 FAIL) ===
+== build/q297/viewer_f_hr
+  OK   own_f_1400: C the rule-built brachial plexus card prints the RULE-BASED source line ("Rule-based on this body's own data — derived by rule from its CT or cr")
+  OK   own_f_1400: C the source line no longer says 'Measured on this body' ("Rule-based on this body's own data — derived by rule from it")
+  OK   own_f_1400: D no page errors ([])
+  OK   own_f_390: C the rule-built brachial plexus card prints the RULE-BASED source line ("Rule-based on this body's own data — derived by rule from its CT or cr")
+  OK   own_f_390: C the source line no longer says 'Measured on this body' ("Rule-based on this body's own data — derived by rule from it")
+  OK   own_f_390: D no page errors ([])
+== build/q297/viewer_m_hr
+  OK   own_m_1400: C the rule-built brachial plexus card prints the RULE-BASED source line ("Rule-based on this body's own data — derived by rule from its CT or cr")
+  OK   own_m_1400: C the source line no longer says 'Measured on this body' ("Rule-based on this body's own data — derived by rule from it")
+  OK   own_m_1400: D no page errors ([])
+  OK   own_m_390: C the rule-built brachial plexus card prints the RULE-BASED source line ("Rule-based on this body's own data — derived by rule from its CT or cr")
+  OK   own_m_390: C the source line no longer says 'Measured on this body' ("Rule-based on this body's own data — derived by rule from it")
+  OK   own_m_390: D no page errors ([])
+
+Q297 VERIFY: OK

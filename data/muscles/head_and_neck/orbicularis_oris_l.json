@@ -1,0 +1,70 @@
+{
+  "id": "orbicularis_oris_l",
+  "name_ta": "Orbicularis oris",
+  "name_common": "Orbicularis oris",
+  "side": "left",
+  "region": "head",
+  "overall_architecture_type": "circular",
+  "attachments": {
+    "origin_bone": "maxilla_l",
+    "origin_landmark": "perioral modiolus fibers, drawn in part from the buccinator and other perioral muscles converging at the modiolus",
+    "insertion_bone": "maxilla_l",
+    "insertion_landmark": "circumferential around the mouth (dermal)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "facial_n_buccal_branch",
+    "root_levels": "CN VII"
+  },
+  "actions": [
+    "closes/purses lips"
+  ],
+  "functional_compartments": [
+    {
+      "id": "orbicularis_oris_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "circular",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 40,
+        "physiological_cross_section_area_mm2": 80,
+        "max_isometric_force_N": 18.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -25,
+          -10,
+          55
+        ],
+        [
+          -10,
+          -15,
+          65
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Unlike most named muscles, has no true bony origin at all -- it is composed largely of fibers from other perioral muscles (buccinator and others) that converge and interdigitate at the modiolus, a fibromuscular node lateral to the mouth.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "facial_n_buccal_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Not typically ultrasound-guided in practice; the published 'lip flip' technique instead uses superficial landmark injection along the upper vermilion border, 1 unit per site, avoiding the oral commissures.",
+    "depth_layer": "Very superficial -- BoNT-A is placed just beneath the vermilion border to weaken the pars marginalis (the marginal fibers bordering the vermilion) without affecting the deeper pars peripheralis, sparing overall sphincter function needed for speech and oral competence.",
+    "identification_cues": "Ask the patient to purse the lips; injection is confined to the upper lip vermilion border for the common 'lip flip' indication (subtle eversion, reduction of vertical rhytides) rather than the full circumferential muscle.",
+    "structures_at_risk": [
+      "oral commissures/modiolus -- injection here risks drooling or asymmetric smile and is specifically avoided",
+      "deeper orbicularis oris fibers and minor salivary/labial glands -- over-deep injection is linked to transient numbness or functional limitation (e.g. difficulty whistling or drinking through a straw)"
+    ],
+    "notes": "Typical dosing in published case series/reviews is 4-6 U of onabotulinumtoxinA (or equivalent) reconstituted to a dilute concentration (e.g. 4 U/0.1 mL) placed superficially along the upper vermilion border; effects are described as modest, transient (resolving within about 30 days for any numbness) and volumetrically neutral (lip height increases without added lip volume).",
+    "source": "Bohorquez JMC, Wan J, Wong IKJ, Green JB, Rappl T, Kim JH, Yi KH, JPRAS Open 51:165-168 (2026), doi:10.1016/j.jpra.2026.05.041 (https://doi.org/10.1016/j.jpra.2026.05.041) -- retrieved via PubMed; Pitchford CA, Desrosiers AS, Tolkachjov SN, Arch Dermatol Res 317(1):765 (2025), doi:10.1007/s00403-025-04265-0 (https://doi.org/10.1007/s00403-025-04265-0) -- systematic review, retrieved via PubMed"
+  }
+}

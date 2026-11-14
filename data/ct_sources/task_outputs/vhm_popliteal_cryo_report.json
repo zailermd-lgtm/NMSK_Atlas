@@ -1,0 +1,71 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons, re-streamed by scripts/cryo/vhm_stream_leg_crops.py and read through the Q173 photograph-to-atlas registration. Derived data (scripts/cryo/vhm_femoral_popliteal_track.py).",
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volume_cm3": {
+  "popliteal_v_l": 1.79,
+  "popliteal_v_r": 2.35,
+  "tibial_n": 1.39
+ },
+ "tracks": {
+  "popliteal_v_r:right": {
+   "levels": 76,
+   "y_top": -380,
+   "y_bottom": -455,
+   "tracked_levels": 70,
+   "seed": {
+    "y": -406,
+    "femur_popliteal_surface": {
+     "x": 128.9,
+     "z": -20.9
+    },
+    "artery": {
+     "x": 132.6,
+     "z": -34.5
+    },
+    "vein": {
+     "x": 134.5,
+     "z": -38.3
+    },
+    "rule": "first level with a pair of lumina behind the posterior cortex of his femur; the ANTERIOR (deep) member is the artery, the POSTERIOR the vein (her Q56 rule)"
+   },
+   "section_mm2_median": 30.0
+  },
+  "popliteal_v_l:left": {
+   "levels": 52,
+   "y_top": -395,
+   "y_bottom": -446,
+   "tracked_levels": 46,
+   "seed": {
+    "y": -398,
+    "femur_popliteal_surface": {
+     "x": -118.3,
+     "z": -30.8
+    },
+    "artery": {
+     "x": -110.3,
+     "z": -37.4
+    },
+    "vein": {
+     "x": -116.1,
+     "z": -41.6
+    },
+    "rule": "first level with a pair of lumina behind the posterior cortex of his femur; the ANTERIOR (deep) member is the artery, the POSTERIOR the vein (her Q56 rule)"
+   },
+   "section_mm2_median": 33.5
+  },
+  "tibial_n:left": {
+   "levels": 37,
+   "y_top": -393,
+   "y_bottom": -429,
+   "tracked_levels": 33,
+   "seed": {
+    "rule": "fascicle-texture blob posterior to his tracked popliteal vein, 5-30 mm from it, <= 10 mm medial of it (her Q56 walk_nerve, vein as reference)"
+   },
+   "section_mm2_median": 39.2
+  }
+ }
+}

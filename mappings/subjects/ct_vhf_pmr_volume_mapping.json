@@ -1,0 +1,52 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_pmr",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pecminor_rhomboids_cryo.nii.gz",
+  "label_map": "vhf_pecminor_rhomboids",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "pecminor_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "pectoralis_minor_r",
+      "relationship": "exact",
+      "note": "Rule-based; over-inclusive (see README).",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "pecminor_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "pectoralis_minor_l",
+      "relationship": "exact",
+      "note": "Rule-based; over-inclusive (see README).",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "rhomboid_right",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "On her the rhomboid rule finds 49 / 32 cm3 of patches (female 70-110), paraspinal rather than the sheet; not shipped (2026-09-12).",
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "rhomboid_left",
+      "side": "left",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "On her the rhomboid rule finds 49 / 32 cm3 of patches (female 70-110), paraspinal rather than the sheet; not shipped (2026-09-12).",
+      "candidates": []
+    }
+  ]
+}

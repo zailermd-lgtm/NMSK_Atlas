@@ -1,0 +1,910 @@
+{
+ "source": "Q186c3 (2026-10-05): trunkfix3 = trunkfix2 (new posterior/shoulder/gluteal field) with the v5 field blended into the anterior sector; build dir build/viewer_zan_female_trunkfix3 (--trunk-refit --anterior-v5); not published",
+ "reason": "trunkfix2 regressed the front: crease/fold along the costal margin below the breast (inframammary patches 51 % / 39 % of edges > 40 deg vs v5 36 % / 27 %), displaced lighter patch, slivers hanging at the hip",
+ "fix": [
+  "blend weight b = (1 - smoothstep((|theta|-55)/40)) * smoothstep((y+60)/50): v5 result in front (|theta| < 55 deg around her trunk axis, groin to shoulders), new field behind/lateral (> 95 deg) and below the crotch; both continuous maps, so the blend is continuous; v5 field = scripts/zanatomy/trunk_refit_q186c_v5.py run on a copy of the bone-refit state",
+  "clamp onto her skin extended to far-out vertices (rho > 120 mm of her trunk axis were skipped when > 45 mm from her skin), limit 30 -> 150 mm: 0 vertices left outside (trunkfix2 left 40 posterior femoral cutaneous nerve vertices)"
+ ],
+ "front_crease_skin_front_chest_abdomen_dihedral_edges": {
+  "v5": {
+   "patches": 8,
+   "edges": 3336,
+   "p99_deg": 129.0,
+   "frac_gt_40deg": 0.1918,
+   "frac_gt_60deg": 0.1622
+  },
+  "trunkfix2": {
+   "patches": 11,
+   "edges": 3378,
+   "p99_deg": 139.2,
+   "frac_gt_40deg": 0.2131,
+   "frac_gt_60deg": 0.1797
+  },
+  "trunkfix3": {
+   "patches": 8,
+   "edges": 3336,
+   "p99_deg": 129.7,
+   "frac_gt_40deg": 0.1915,
+   "frac_gt_60deg": 0.1628
+  }
+ },
+ "worst_front_patches": {
+  "v5": {
+   "zan_skin_inframammary_region_l": {
+    "edges": 138,
+    "p99_deg": 137.6,
+    "frac_gt_40deg": 0.3551
+   },
+   "zan_skin_inframammary_region_r": {
+    "edges": 138,
+    "p99_deg": 115.4,
+    "frac_gt_40deg": 0.2681
+   },
+   "zan_skin_pectoral_region_r": {
+    "edges": 774,
+    "p99_deg": 128.3,
+    "frac_gt_40deg": 0.2016
+   },
+   "zan_skin_epigastric_region_l": {
+    "edges": 276,
+    "p99_deg": 116.0,
+    "frac_gt_40deg": 0.192
+   },
+   "zan_skin_pectoral_region_l": {
+    "edges": 774,
+    "p99_deg": 130.0,
+    "frac_gt_40deg": 0.1899
+   },
+   "zan_skin_epigastric_region_r": {
+    "edges": 276,
+    "p99_deg": 116.8,
+    "frac_gt_40deg": 0.1848
+   }
+  },
+  "trunkfix2": {
+   "zan_skin_inframammary_region_l": {
+    "edges": 138,
+    "p99_deg": 153.9,
+    "frac_gt_40deg": 0.5072
+   },
+   "zan_skin_inframammary_region_r": {
+    "edges": 138,
+    "p99_deg": 159.4,
+    "frac_gt_40deg": 0.3913
+   },
+   "zan_skin_umbilicus_l": {
+    "edges": 60,
+    "p99_deg": 115.1,
+    "frac_gt_40deg": 0.3333
+   },
+   "zan_skin_umbilicus_r": {
+    "edges": 60,
+    "p99_deg": 114.0,
+    "frac_gt_40deg": 0.3333
+   },
+   "zan_skin_epigastric_region_l": {
+    "edges": 276,
+    "p99_deg": 155.0,
+    "frac_gt_40deg": 0.308
+   },
+   "zan_skin_epigastric_region_r": {
+    "edges": 276,
+    "p99_deg": 153.5,
+    "frac_gt_40deg": 0.2138
+   }
+  },
+  "trunkfix3": {
+   "zan_skin_inframammary_region_l": {
+    "edges": 138,
+    "p99_deg": 137.6,
+    "frac_gt_40deg": 0.3551
+   },
+   "zan_skin_inframammary_region_r": {
+    "edges": 138,
+    "p99_deg": 114.6,
+    "frac_gt_40deg": 0.2681
+   },
+   "zan_skin_pectoral_region_r": {
+    "edges": 774,
+    "p99_deg": 128.3,
+    "frac_gt_40deg": 0.2016
+   },
+   "zan_skin_epigastric_region_l": {
+    "edges": 276,
+    "p99_deg": 116.0,
+    "frac_gt_40deg": 0.192
+   },
+   "zan_skin_pectoral_region_l": {
+    "edges": 774,
+    "p99_deg": 131.4,
+    "frac_gt_40deg": 0.1899
+   },
+   "zan_skin_epigastric_region_r": {
+    "edges": 276,
+    "p99_deg": 117.0,
+    "frac_gt_40deg": 0.1812
+   }
+  }
+ },
+ "back_gains_kept": {
+  "skin_by_group": {
+   "shoulder skin (deltoid, scapular, supra/infraclavicular, deltopectoral)": {
+    "v5": [
+     14.0,
+     52.2,
+     0.0071
+    ],
+    "v3": [
+     13.1,
+     49.0,
+     0.0
+    ]
+   },
+   "lumbar + sacral skin": {
+    "v5": [
+     6.6,
+     33.6,
+     0.019
+    ],
+    "v3": [
+     7.2,
+     14.9,
+     0.0
+    ]
+   },
+   "gluteal + hip skin": {
+    "v5": [
+     6.5,
+     25.2,
+     0.1165
+    ],
+    "v3": [
+     7.4,
+     13.3,
+     0.0
+    ]
+   },
+   "chest + abdomen front skin": {
+    "v5": [
+     5.3,
+     33.9,
+     0.0283
+    ],
+    "v3": [
+     5.3,
+     33.5,
+     0.0
+    ]
+   },
+   "flank skin": {
+    "v5": [
+     25.6,
+     101.7,
+     0.0247
+    ],
+    "v3": [
+     22.8,
+     85.1,
+     0.0
+    ]
+   }
+  },
+  "posterior_contour": {
+   "-80": {
+    "median_abs_gap_before": 4.9,
+    "median_abs_gap_after": 4.8,
+    "max_protrusion_behind_her_back_before": 24.0,
+    "max_protrusion_behind_her_back_after": -0.5
+   },
+   "0": {
+    "median_abs_gap_before": 4.2,
+    "median_abs_gap_after": 6.1,
+    "max_protrusion_behind_her_back_before": -0.5,
+    "max_protrusion_behind_her_back_after": -2.5
+   },
+   "80": {
+    "median_abs_gap_before": 6.2,
+    "median_abs_gap_after": 5.5,
+    "max_protrusion_behind_her_back_before": 8.9,
+    "max_protrusion_behind_her_back_after": -0.7
+   }
+  },
+  "zones": {
+   "v5": {
+    "abdomen/lower thorax (110-430)": {
+     "vessel": {
+      "structures": 140,
+      "outside_skin_frac": 0.0019,
+      "in_bone_frac": 0.0266,
+      "in_lung_frac": 0.0669,
+      "in_organ_frac": 0.2167
+     },
+     "muscle": {
+      "structures": 62,
+      "outside_skin_frac": 0.0069,
+      "in_bone_frac": 0.039,
+      "in_lung_frac": 0.0089,
+      "in_organ_frac": 0.0463
+     },
+     "joint": {
+      "structures": 40,
+      "outside_skin_frac": 0.0094,
+      "in_bone_frac": 0.1111,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0043
+     },
+     "fascia": {
+      "structures": 18,
+      "outside_skin_frac": 0.0221,
+      "in_bone_frac": 0.0109,
+      "in_lung_frac": 0.0048,
+      "in_organ_frac": 0.0579
+     },
+     "nerve": {
+      "structures": 46,
+      "outside_skin_frac": 0.0103,
+      "in_bone_frac": 0.0151,
+      "in_lung_frac": 0.005,
+      "in_organ_frac": 0.3809
+     },
+     "bursa": {
+      "structures": 11,
+      "outside_skin_frac": 0.1519,
+      "in_bone_frac": 0.0108,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "cartilage": {
+      "structures": 19,
+      "outside_skin_frac": 0.0042,
+      "in_bone_frac": 0.1139,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0049
+     },
+     "viscera": {
+      "structures": 45,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0074,
+      "in_lung_frac": 0.1298,
+      "in_organ_frac": 0.3562
+     },
+     "cns": {
+      "structures": 5,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0182,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.8288
+     },
+     "lymph": {
+      "structures": 39,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0,
+      "in_lung_frac": 0.0141,
+      "in_organ_frac": 0.3101
+     },
+     "skin": {
+      "structures": 36,
+      "outside_skin_frac": 0.0575,
+      "in_bone_frac": 0.0013,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    },
+    "pelvis/buttock (y<110)": {
+     "cartilage": {
+      "structures": 7,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.3629,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0056
+     },
+     "muscle": {
+      "structures": 43,
+      "outside_skin_frac": 0.0011,
+      "in_bone_frac": 0.0905,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0038
+     },
+     "joint": {
+      "structures": 38,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.2691,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0011
+     },
+     "fascia": {
+      "structures": 9,
+      "outside_skin_frac": 0.0305,
+      "in_bone_frac": 0.022,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0026
+     },
+     "nerve": {
+      "structures": 26,
+      "outside_skin_frac": 0.0542,
+      "in_bone_frac": 0.0732,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0347
+     },
+     "bursa": {
+      "structures": 25,
+      "outside_skin_frac": 0.0002,
+      "in_bone_frac": 0.1949,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "vessel": {
+      "structures": 55,
+      "outside_skin_frac": 0.0233,
+      "in_bone_frac": 0.0917,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0084
+     },
+     "lymph": {
+      "structures": 38,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0435,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0364
+     },
+     "viscera": {
+      "structures": 3,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0281,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.1985
+     },
+     "skin": {
+      "structures": 18,
+      "outside_skin_frac": 0.272,
+      "in_bone_frac": 0.0023,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    },
+    "shoulder": {
+     "joint": {
+      "structures": 14,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.2712,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "nerve": {
+      "structures": 10,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0715,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "muscle": {
+      "structures": 20,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.1164,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "fascia": {
+      "structures": 3,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0317,
+      "in_lung_frac": 0.0003,
+      "in_organ_frac": 0.0
+     },
+     "cartilage": {
+      "structures": 4,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.335,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "bursa": {
+      "structures": 12,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.5411,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "lymph": {
+      "structures": 12,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "vessel": {
+      "structures": 24,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.2024,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "skin": {
+      "structures": 6,
+      "outside_skin_frac": 0.0092,
+      "in_bone_frac": 0.0007,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    },
+    "upper thorax": {
+     "vessel": {
+      "structures": 113,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0236,
+      "in_lung_frac": 0.2779,
+      "in_organ_frac": 0.0952
+     },
+     "muscle": {
+      "structures": 84,
+      "outside_skin_frac": 0.0033,
+      "in_bone_frac": 0.0498,
+      "in_lung_frac": 0.0005,
+      "in_organ_frac": 0.0031
+     },
+     "nerve": {
+      "structures": 70,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.019,
+      "in_lung_frac": 0.0003,
+      "in_organ_frac": 0.5686
+     },
+     "fascia": {
+      "structures": 5,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0325,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "insertion": {
+      "structures": 2,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "joint": {
+      "structures": 38,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.1234,
+      "in_lung_frac": 0.0037,
+      "in_organ_frac": 0.0016
+     },
+     "cartilage": {
+      "structures": 15,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.1831,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0002
+     },
+     "lymph": {
+      "structures": 38,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0261,
+      "in_lung_frac": 0.0306,
+      "in_organ_frac": 0.0188
+     },
+     "cns": {
+      "structures": 1,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0025,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.9741
+     },
+     "viscera": {
+      "structures": 29,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0056,
+      "in_lung_frac": 0.4291,
+      "in_organ_frac": 0.0599
+     },
+     "bursa": {
+      "structures": 2,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0807,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "skin": {
+      "structures": 28,
+      "outside_skin_frac": 0.0219,
+      "in_bone_frac": 0.0041,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    }
+   },
+   "v3": {
+    "abdomen/lower thorax (110-430)": {
+     "vessel": {
+      "structures": 146,
+      "outside_skin_frac": 0.0016,
+      "in_bone_frac": 0.024,
+      "in_lung_frac": 0.0844,
+      "in_organ_frac": 0.2324
+     },
+     "muscle": {
+      "structures": 62,
+      "outside_skin_frac": 0.0063,
+      "in_bone_frac": 0.0411,
+      "in_lung_frac": 0.0067,
+      "in_organ_frac": 0.0447
+     },
+     "joint": {
+      "structures": 41,
+      "outside_skin_frac": 0.0089,
+      "in_bone_frac": 0.0972,
+      "in_lung_frac": 0.0001,
+      "in_organ_frac": 0.0041
+     },
+     "fascia": {
+      "structures": 18,
+      "outside_skin_frac": 0.0164,
+      "in_bone_frac": 0.0135,
+      "in_lung_frac": 0.0042,
+      "in_organ_frac": 0.0607
+     },
+     "nerve": {
+      "structures": 47,
+      "outside_skin_frac": 0.0103,
+      "in_bone_frac": 0.0105,
+      "in_lung_frac": 0.0037,
+      "in_organ_frac": 0.3963
+     },
+     "bursa": {
+      "structures": 11,
+      "outside_skin_frac": 0.1519,
+      "in_bone_frac": 0.0108,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "cartilage": {
+      "structures": 19,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.1083,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0047
+     },
+     "viscera": {
+      "structures": 44,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0057,
+      "in_lung_frac": 0.1216,
+      "in_organ_frac": 0.4572
+     },
+     "cns": {
+      "structures": 6,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0134,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.8684
+     },
+     "lymph": {
+      "structures": 39,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0,
+      "in_lung_frac": 0.0142,
+      "in_organ_frac": 0.373
+     },
+     "skin": {
+      "structures": 36,
+      "outside_skin_frac": 0.0005,
+      "in_bone_frac": 0.0013,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    },
+    "pelvis/buttock (y<110)": {
+     "cartilage": {
+      "structures": 7,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.3585,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0056
+     },
+     "muscle": {
+      "structures": 43,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.1086,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0028
+     },
+     "joint": {
+      "structures": 38,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.2422,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0011
+     },
+     "fascia": {
+      "structures": 9,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0209,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0029
+     },
+     "nerve": {
+      "structures": 26,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0575,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0327
+     },
+     "bursa": {
+      "structures": 25,
+      "outside_skin_frac": 0.0002,
+      "in_bone_frac": 0.1713,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "vessel": {
+      "structures": 55,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0321,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0129
+     },
+     "lymph": {
+      "structures": 38,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0203,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0594
+     },
+     "viscera": {
+      "structures": 4,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0233,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.1574
+     },
+     "skin": {
+      "structures": 18,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0013,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    },
+    "shoulder": {
+     "joint": {
+      "structures": 14,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.2608,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "nerve": {
+      "structures": 10,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0119,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "muscle": {
+      "structures": 21,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.1096,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "fascia": {
+      "structures": 3,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0332,
+      "in_lung_frac": 0.0003,
+      "in_organ_frac": 0.0
+     },
+     "cartilage": {
+      "structures": 4,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.3521,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "bursa": {
+      "structures": 12,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.451,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "lymph": {
+      "structures": 12,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0106,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "vessel": {
+      "structures": 24,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.182,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "skin": {
+      "structures": 4,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    },
+    "upper thorax": {
+     "vessel": {
+      "structures": 107,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0274,
+      "in_lung_frac": 0.2813,
+      "in_organ_frac": 0.0898
+     },
+     "muscle": {
+      "structures": 83,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0451,
+      "in_lung_frac": 0.0004,
+      "in_organ_frac": 0.0029
+     },
+     "nerve": {
+      "structures": 69,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0118,
+      "in_lung_frac": 0.0004,
+      "in_organ_frac": 0.5517
+     },
+     "fascia": {
+      "structures": 5,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0387,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "insertion": {
+      "structures": 2,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "joint": {
+      "structures": 37,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.108,
+      "in_lung_frac": 0.0038,
+      "in_organ_frac": 0.0004
+     },
+     "cartilage": {
+      "structures": 15,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.1656,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "lymph": {
+      "structures": 38,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0219,
+      "in_lung_frac": 0.0327,
+      "in_organ_frac": 0.0118
+     },
+     "viscera": {
+      "structures": 29,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.003,
+      "in_lung_frac": 0.4554,
+      "in_organ_frac": 0.0374
+     },
+     "bursa": {
+      "structures": 2,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0555,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     },
+     "skin": {
+      "structures": 30,
+      "outside_skin_frac": 0.0,
+      "in_bone_frac": 0.0019,
+      "in_lung_frac": 0.0,
+      "in_organ_frac": 0.0
+     }
+    }
+   }
+  },
+  "skin_patches_outside_her_skin": {
+   "v5": {
+    "n": 52,
+    "outside_her_skin_frac": 0.0371
+   },
+   "v3": {
+    "n": 52,
+    "outside_her_skin_frac": 0.0
+   }
+  },
+  "trunk_muscles_vs_her_own_mesh_mm": {
+   "v5": {
+    "n": 56,
+    "her_mesh_to_Z_median": 10.5,
+    "Z_to_her_mesh_median": 11.5
+   },
+   "v3": {
+    "n": 56,
+    "her_mesh_to_Z_median": 9.4,
+    "Z_to_her_mesh_median": 10.6
+   }
+  },
+  "rectus_abdominis_r_vs_her_mesh_mm": {
+   "v5": 16.7,
+   "trunkfix2": 4.6,
+   "v3": 16.7
+  },
+  "gluteus_maximus_r": {
+   "v5": 11.4,
+   "trunkfix2": 9.5,
+   "v3": 9.5
+  }
+ },
+ "mesh_flips_vs_source": {
+  "skin_all_patches": {
+   "structures": 248,
+   "face_weighted_before": 0.0852,
+   "face_weighted_after": 0.0848,
+   "median_before": 0.0,
+   "median_after": 0.0,
+   "p90_before": 0.0175,
+   "p90_after": 0.0258
+  },
+  "skin_trunk_patches": {
+   "structures": 54,
+   "face_weighted_before": 0.0208,
+   "face_weighted_after": 0.0051,
+   "median_before": 0.0,
+   "median_after": 0.0,
+   "p90_before": 0.0867,
+   "p90_after": 0.0105
+  },
+  "muscle": {
+   "structures": 547,
+   "face_weighted_before": 0.0545,
+   "face_weighted_after": 0.0324,
+   "median_before": 0.001,
+   "median_after": 0.0007,
+   "p90_before": 0.0617,
+   "p90_after": 0.0212
+  }
+ },
+ "field_jacobian_new_field_only": {
+  "n": 12123,
+  "min": -1.293,
+  "p01": 0.033,
+  "median": 1.05,
+  "p99": 3.322,
+  "max": 5.262,
+  "frac_below_0.25": 0.02211
+ },
+ "anterior_blend": {
+  "theta_full_deg": 55.0,
+  "theta_zero_deg": 95.0,
+  "y_zero_mm": -60.0,
+  "y_full_mm": -10.0,
+  "structures_blended": 1787,
+  "vertices_mostly_legacy": 1487545,
+  "vertices_total": 3845283
+ },
+ "clamp": {
+  "margin_mm": 0.5,
+  "max_move_mm": 150.0,
+  "vertices_moved": 17959,
+  "vertices_total": 3384910,
+  "structures": 178,
+  "left_over_max": {}
+ },
+ "remaining": [
+  "the anterior front muscles (rectus abdominis 16.7 mm from her mesh) are v5's again, not trunkfix2's 4.6 mm",
+  "thin yellow nerve strands can still show beside the Z flank skin at hip level: the clamp holds them to HER skin, the Z flank skin sits ~20 mm inside her outline (her lateral outline is fused with her arms)",
+  "field Jacobian < 0.25 at 2.2 % of points (posterior field)",
+  "flank skin gap 22.8 mm median",
+  "2 builds used (v3a: clamp skipped far-out vertices -> triangle sliver; v3b final)"
+ ]
+}

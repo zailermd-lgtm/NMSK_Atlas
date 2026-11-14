@@ -1,0 +1,89 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+html,body{margin:0;height:100%;background:#dde4e9;font:12px system-ui;overflow:hidden}
+#cv{position:absolute;left:100px;top:0;width:min(700px,calc(100vw - 100px));height:600px;background:#dde4e9}
+#tools{position:absolute;left:110px;top:8px;display:flex;gap:6px;z-index:30}
+.tool{font:12px system-ui;padding:6px 10px}
+#hud{position:absolute;left:min(700px,calc(100vw - 100px));top:60px;width:90px;height:120px;background:#fff;border:1px solid #999;z-index:30}
+/*CSS*/
+</style></head><body>
+<div id="cv"></div><div id="tools"></div><div id="hud">HUD</div>
+<!--HTML-->
+<script type="application/json" id="nmsk-abbrev">/*ABBREV*/</script>
+<script>/*JS*/</script>
+<script>
+/* A tiny orthographic 3D "engine": spheres, a camera orbiting about Y, a cut plane, an ID image with a z-buffer. */
+var SC = [
+  {id:"body", name:"Body trunk", side:"m", cat:"muscle", c:[0,0,0], r:150, a:1, col:[200,90,80]},
+  {id:"heart", name:"Heart", side:"m", cat:"organ", c:[0,0,0], r:60, a:1, col:[180,30,60]},
+  {id:"arm_l", name:"Arm muscle (left)", side:"l", cat:"muscle", c:[-210,0,0], r:45, a:1, col:[190,80,70]},
+  {id:"arm_r", name:"Arm muscle (right)", side:"r", cat:"muscle", c:[210,0,0], r:45, a:1, col:[190,80,70]},
+  {id:"glass", name:"Glass skin", side:"m", cat:"skin", c:[0,-60,170], r:60, a:0.4, col:[220,200,170]},
+  {id:"behind", name:"Behind glass", side:"m", cat:"bone", c:[0,-60,100], r:50, a:1, col:[230,230,210]},
+  {id:"ghost", name:"Ghost", side:"m", cat:"muscle", c:[0,100,200], r:30, a:0.1, col:[100,100,100]},
+  {id:"hid", name:"Hidden", side:"m", cat:"muscle", c:[0,150,0], r:30, a:0, col:[100,100,100]}
+];
+for (var k = 0; k < 14; k++){ var an = k / 14 * Math.PI * 2; SC.push({id:"s" + k, name:"Small structure " + k, side:k % 2 ? "l" : "r", cat:"vessel", c:[Math.cos(an) * 120, -100 + (k % 5) * 50, Math.sin(an) * 120], r:22, a:1, col:[60 + k * 8, 60, 140]}); }
+for (var k2 = 0; k2 < 40; k2++){ var u = (k2 * 0.618034) % 1, v2 = (k2 * 0.414214) % 1, th = u * Math.PI * 2, ph = Math.acos(1 - 2 * v2), R0 = 150;
+  SC.push({id:"t" + k2, name:"Tiny structure " + k2, side:k2 % 3 ? "l" : (k2 % 3 === 0 ? "r" : "m"), cat:"nerve", c:[R0 * Math.sin(ph) * Math.cos(th), R0 * Math.cos(ph), R0 * Math.sin(ph) * Math.sin(th)], r:14, a:1, col:[40, 120 + k2 * 3, 90]}); }
+var cam = {az:0.4, el:0.1, dist:900}, cutS = {on:false, kn:[1, 0, 0], c:0, th:0}, sel = null, marks = [], rectR = {left:100, top:0, width:700, height:600};
+function basis(){ var ca = Math.cos(cam.az), sa = Math.sin(cam.az), ce = Math.cos(cam.el), se = Math.sin(cam.el);
+  var z = [ce * sa, se, ce * ca], x = [ca, 0, -sa], y = [-se * sa, ce, -se * ca]; return {x:x, y:y, z:z}; }
+function proj3(p){ var b = basis(); return [p[0] * b.x[0] + p[1] * b.x[1] + p[2] * b.x[2], p[0] * b.y[0] + p[1] * b.y[1] + p[2] * b.y[2], p[0] * b.z[0] + p[1] * b.z[1] + p[2] * b.z[2]]; }
+var SCALE = 0.9;      // px per mm
+function scr(p){ var q = proj3(p); return [rectR.left + rectR.width / 2 + q[0] * SCALE, rectR.top + rectR.height / 2 - q[1] * SCALE, q[2]]; }
+function inCut(p){ if (!cutS.on) return true; var s = cutS.kn[0] * p[0] + cutS.kn[1] * p[1] + cutS.kn[2] * p[2] + cutS.c; return s >= 0 && (!(cutS.th > 0) || s <= cutS.th); }
+function view(){
+  var b = basis(), W = rectR.width, H = rectR.height, m = new Array(16).fill(0);
+  // clip x = px*x.x*S/(W/2) ... use w=1
+  m[0] = b.x[0] * SCALE / (W / 2); m[4] = b.x[1] * SCALE / (W / 2); m[8] = b.x[2] * SCALE / (W / 2);
+  m[1] = b.y[0] * SCALE / (H / 2); m[5] = b.y[1] * SCALE / (H / 2); m[9] = b.y[2] * SCALE / (H / 2);
+  m[3] = 0; m[7] = 0; m[11] = 0; m[15] = 1; m[10] = 0.001; m[14] = 0;
+  return {m:m, eye:[b.z[0] * 900, b.z[1] * 900, b.z[2] * 900], rect:rectR};
+}
+function idImage(all, w){
+  var h = Math.round(w * rectR.height / rectR.width), ids = new Uint16Array(w * h), zb = new Float32Array(w * h).fill(-1e9), b = basis();
+  SC.forEach(function(s, i){
+    if (!(s.a >= (all ? 0.2 : 0.6))) return;
+    var cs = scr(s.c), rp = s.r * SCALE;
+    var x0 = Math.max(0, Math.floor((cs[0] - rp - rectR.left) / rectR.width * w)), x1 = Math.min(w, Math.ceil((cs[0] + rp - rectR.left) / rectR.width * w));
+    var y0 = Math.max(0, Math.floor((cs[1] - rp - rectR.top) / rectR.height * h)), y1 = Math.min(h, Math.ceil((cs[1] + rp - rectR.top) / rectR.height * h));
+    for (var y = y0; y < y1; y++) for (var x = x0; x < x1; x++){
+      var X = rectR.left + (x + 0.5) / w * rectR.width, Y = rectR.top + (y + 0.5) / h * rectR.height, ux = (X - cs[0]) / rp, uy = (Y - cs[1]) / rp, q = ux * ux + uy * uy;
+      if (q > 1) continue;
+      var sq = Math.sqrt(1 - q), z = cs[2] + sq * s.r;
+      var P = [s.c[0] + ux * s.r * b.x[0] - uy * s.r * b.y[0] + sq * s.r * b.z[0], s.c[1] + ux * s.r * b.x[1] - uy * s.r * b.y[1] + sq * s.r * b.z[1], s.c[2] + ux * s.r * b.x[2] - uy * s.r * b.y[2] + sq * s.r * b.z[2]];
+      if (!inCut(P)){                                   // front surface clipped away: the back (inside) surface shows, like a double-sided mesh
+        z = cs[2] - sq * s.r; P = [s.c[0] + ux * s.r * b.x[0] - uy * s.r * b.y[0] - sq * s.r * b.z[0], s.c[1] + ux * s.r * b.x[1] - uy * s.r * b.y[1] - sq * s.r * b.z[1], s.c[2] + ux * s.r * b.x[2] - uy * s.r * b.y[2] - sq * s.r * b.z[2]];
+        if (!inCut(P)) continue;
+      }
+      if (z > zb[y * w + x]){ zb[y * w + x] = z; ids[y * w + x] = i + 1; }
+    }
+  });
+  return {w:w, h:h, ids:ids};
+}
+function ray(cx, cy){ var b = basis(), x = (cx - rectR.left - rectR.width / 2) / SCALE, y = -(cy - rectR.top - rectR.height / 2) / SCALE;
+  return {o:[b.x[0] * x + b.y[0] * y + b.z[0] * 900, b.x[1] * x + b.y[1] * y + b.z[1] * 900, b.x[2] * x + b.y[2] * y + b.z[2] * 900], d:[-b.z[0], -b.z[1], -b.z[2]]}; }
+var capOn = false, calls = {draw:0, select:[], redraw:0}, phone = false, hovered = null;
+var E = {
+  modelId:function(){ return "test"; },
+  structures:function(){ return SC.map(function(s){ return {id:s.id, name:s.name, side:s.side, cat:s.cat, bb:[s.c[0] - s.r, s.c[1] - s.r, s.c[2] - s.r, s.c[0] + s.r, s.c[1] + s.r, s.c[2] + s.r]}; }); },
+  alphas:function(){ return Float32Array.from(SC.map(function(s){ return s.a; })); },
+  color:function(i){ return SC[i].col; },
+  geometry:function(i){ var s = SC[i], pos = [], idx = []; for (var k = 0; k < 40; k++){ var a = k * 2.4, z = 1 - 2 * (k + 0.5) / 40, r = Math.sqrt(1 - z * z); pos.push(s.c[0] + s.r * r * Math.cos(a), s.c[1] + s.r * z, s.c[2] + s.r * r * Math.sin(a)); }
+    for (k = 0; k < 38; k++) idx.push(k, k + 1, k + 2); return [{pos:Float32Array.from(pos), idx:Uint16Array.from(idx)}]; },
+  view:view, idImage:idImage, cut:function(){ return cutS.on ? cutS : {on:false}; },
+  capHit:function(o, d){ if (!capOn || !cutS.on) return null; var nd = cutS.kn[0] * d[0] + cutS.kn[1] * d[1] + cutS.kn[2] * d[2]; if (Math.abs(nd) < 1e-9) return null;
+    var t = -(cutS.kn[0] * o[0] + cutS.kn[1] * o[1] + cutS.kn[2] * o[2] + cutS.c) / nd; if (t <= 0) return null; var p = [o[0] + d[0] * t, o[1] + d[1] * t, o[2] + d[2] * t], best = null;
+    SC.forEach(function(s, i){ if (s.a < 0.2) return; var dd = Math.hypot(p[0] - s.c[0], p[1] - s.c[1], p[2] - s.c[2]); if (dd < s.r && (!best || s.r < best.r)) best = {r:s.r, id:s.id}; });
+    return best ? {point:p, item:{key:best.id}} : null; },
+  fillCut:function(){ capOn = true; }, ray:ray,
+  selected:function(){ return sel; }, marked:function(){ return marks; }, select:function(id){ sel = id; calls.select.push(id); },
+  bg:function(){ return [221, 228, 233]; }, obstacles:function(){ return [document.getElementById("hud")]; }, canvasRect:function(){ return rectR; },
+  redraw:function(){ calls.redraw++; frame(); }, toolbar:document.getElementById("tools"), toolClass:"tool", isPhone:function(){ return phone; }
+};
+var L = null;
+function frame(){ calls.draw++; if (L) L.update(); }
+function make(){ L = NMSKLabels(E); window.__L = L; return L; }
+</script></body></html>

@@ -1,0 +1,53 @@
+{
+ "_README": [
+  "Visible Human female diaphragm and intercostal sheets by geometric rules on the `total` labels (scripts/trunk_wall_from_ct.py; rules and thicknesses in its docstring). Rule-based, derived data."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female fresh-cadaver 'Normal' CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` labels.",
+ "badge": "rule-based",
+ "rules_source": "Gray's Anatomy 42nd ed., 'Chest wall and breast' and 'Diaphragm and phrenic nerves'; Moore, Clinically Oriented Anatomy 8th ed., 'Thorax'.",
+ "thickness_assumed_mm": {
+  "diaphragm": "4 (central tendon ~2, muscular periphery 3-5; whole gap taken where lung and liver labels are < 6 mm apart)",
+  "intercostals": "the rib depth (closing of the ribs with a 40 mm ball), ~5-10 mm"
+ },
+ "thickness_measured_mm": {
+  "mean_mm_volume_over_half_area": 1.76,
+  "intercostals_right_mean_mm": 1.45,
+  "intercostals_left_mean_mm": 1.34,
+  "columns_with_no_sheet_under_thorax_frac": 0.079
+ },
+ "hu_gating": "female: intercostal band and crura kept only in the muscle window -30..150 HU",
+ "volumes_cm3": {
+  "diaphragm": 289.7,
+  "intercostals_right": 182.2,
+  "intercostals_left": 172.4
+ },
+ "diaphragm_parts_cm3": {
+  "gap_fill": 48.6,
+  "apposition": 242.2,
+  "lung_base": 14.2,
+  "crura": 30.2
+ },
+ "crura_reach_slices": {
+  "crura_lowest_slice": 8,
+  "L3_bottom_slice": 5,
+  "L2_bottom_slice": 33,
+  "L1_bottom_slice": 72
+ },
+ "literature_comparison": {
+  "diaphragm_mass_g_here": 307.1,
+  "diaphragm_mass_g_literature": "250-350 g adult total (task brief); 2-4 mm thick at end-expiration on ultrasound (Boon AJ et al., Muscle Nerve 2013;47:884-889, PMID 23625789)",
+  "intercostal_mass_g_here": 375.9,
+  "intercostal_mass_g_literature": "200-300 g total (task brief)",
+  "note": "A 4 mm sheet over a 300-400 cm2 dome gives 120-160 cm3 (130-170 g), below the 250-350 g autopsy mass, which weighs the thicker muscular periphery and crura; the sheet is thickness-faithful, not mass-faithful. Values differing from literature by more than 2x are explained in the report text."
+ },
+ "limits": [
+  "Rule-based partition surfaces, not segmentations; steps of a few mm where labelled organs end.",
+  "One intercostal sheet per side stands for external+internal+innermost; transversus thoracis and subcostales not shipped.",
+  "Male: frozen CT, no left kidney and only fragments of the right kidney/adrenals labelled, so his posterior left dome rests on the lung-base rule alone; no HU gating."
+ ],
+ "montages": [
+  "data/ct_sources/task_outputs/vhf_trunk_wall_cor.png",
+  "data/ct_sources/task_outputs/vhf_trunk_wall_sag.png",
+  "data/ct_sources/task_outputs/vhf_trunk_wall_ax.png"
+ ]
+}

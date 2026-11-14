@@ -1,0 +1,506 @@
+{
+ "1440x900": {
+  "geometry_s": 67.41,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "mpr",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "side"
+  },
+  "geo_timing": {
+   "t0": 1791796166248,
+   "read": 0,
+   "pack": 570,
+   "worker": 28403
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    12,
+    13,
+    59
+   ],
+   "axial512_25sub_ms": 900,
+   "coronal512_ms": 204,
+   "sagittal512_ms": 30
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 263,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-side",
+   "scrollW": 1440,
+   "innerW": 1440,
+   "scrollH": 900,
+   "innerH": 900,
+   "panel": [
+    720,
+    0,
+    720,
+    900
+   ],
+   "canvas": [
+    0,
+    135,
+    720,
+    766
+   ],
+   "smallButtons": 0,
+   "buttons": 32,
+   "ctlScrollW": 719,
+   "ctlClientW": 719
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "1024x640": {
+  "geometry_s": 77.47,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "single",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "side"
+  },
+  "geo_timing": {
+   "t0": 1791796284492,
+   "read": 1,
+   "pack": 181,
+   "worker": 22719
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    31,
+    18,
+    148
+   ],
+   "axial512_25sub_ms": 1092,
+   "coronal512_ms": 244,
+   "sagittal512_ms": 284
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 260,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-side",
+   "scrollW": 1024,
+   "innerW": 1024,
+   "scrollH": 640,
+   "innerH": 640,
+   "panel": [
+    512,
+    0,
+    512,
+    640
+   ],
+   "canvas": [
+    0,
+    185,
+    512,
+    455
+   ],
+   "smallButtons": 0,
+   "buttons": 11,
+   "ctlScrollW": 511,
+   "ctlClientW": 511
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "820x1180": {
+  "geometry_s": 80.43,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "mpr",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "stack"
+  },
+  "geo_timing": {
+   "t0": 1791796395068,
+   "read": 2,
+   "pack": 267,
+   "worker": 21847
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    12,
+    32,
+    50
+   ],
+   "axial512_25sub_ms": 832,
+   "coronal512_ms": 65,
+   "sagittal512_ms": 85
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 221,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-stack",
+   "scrollW": 820,
+   "innerW": 820,
+   "scrollH": 1180,
+   "innerH": 1180,
+   "panel": [
+    0,
+    448,
+    820,
+    732
+   ],
+   "canvas": [
+    0,
+    135,
+    820,
+    314
+   ],
+   "smallButtons": 0,
+   "buttons": 11,
+   "ctlScrollW": 820,
+   "ctlClientW": 820
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "1180x820": {
+  "geometry_s": 87.3,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "mpr",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "side"
+  },
+  "geo_timing": {
+   "t0": 1791796506101,
+   "read": 1,
+   "pack": 351,
+   "worker": 24096
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    12,
+    41,
+    21
+   ],
+   "axial512_25sub_ms": 588,
+   "coronal512_ms": 157,
+   "sagittal512_ms": 23
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 201,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-side",
+   "scrollW": 1180,
+   "innerW": 1180,
+   "scrollH": 820,
+   "innerH": 820,
+   "panel": [
+    590,
+    0,
+    590,
+    820
+   ],
+   "canvas": [
+    0,
+    185,
+    590,
+    635
+   ],
+   "smallButtons": 0,
+   "buttons": 11,
+   "ctlScrollW": 589,
+   "ctlClientW": 589
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "390x844": {
+  "geometry_s": 83.59,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "single",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "tab"
+  },
+  "geo_timing": {
+   "t0": 1791796614649,
+   "read": 1,
+   "pack": 424,
+   "worker": 26229
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    17,
+    18,
+    65
+   ],
+   "axial512_25sub_ms": 707,
+   "coronal512_ms": 304,
+   "sagittal512_ms": 47
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 236,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-tab",
+   "scrollW": 390,
+   "innerW": 390,
+   "scrollH": 844,
+   "innerH": 844,
+   "panel": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "canvas": [
+    0,
+    38,
+    390,
+    754
+   ],
+   "smallButtons": 0,
+   "buttons": 12,
+   "ctlScrollW": 390,
+   "ctlClientW": 390
+  },
+  "errors": [],
+  "bad_responses": []
+ },
+ "844x390": {
+  "geometry_s": 67.32,
+  "state": {
+   "open": true,
+   "modality": "ct",
+   "seq": "t1_se",
+   "thick": 5,
+   "slab": "avg",
+   "layout": "single",
+   "active": "cut",
+   "P": [
+    6.5,
+    276.5,
+    24.75
+   ],
+   "fov": {
+    "cut": 450,
+    "ax": 450,
+    "co": 700,
+    "sa": 700
+   },
+   "res": 320,
+   "win": [
+    400,
+    40
+   ],
+   "lay": "tab"
+  },
+  "geo_timing": {
+   "t0": 1791796716560,
+   "read": 1,
+   "pack": 174,
+   "worker": 21021
+  },
+  "perf": {
+   "n": 593,
+   "nv": 1262662,
+   "nt": 2555175,
+   "axial512_ms": [
+    144,
+    75,
+    97
+   ],
+   "axial512_25sub_ms": 610,
+   "coronal512_ms": 191,
+   "sagittal512_ms": 107
+  },
+  "first_slice_ms": [
+   {
+    "view": "cut",
+    "ms": 163,
+    "sub": 6,
+    "W": 320,
+    "tier": 1,
+    "cand": 85,
+    "parityBad": 3
+   }
+  ],
+  "layout": {
+   "cls": "nmsk-img img-tab",
+   "scrollW": 844,
+   "innerW": 844,
+   "scrollH": 624,
+   "innerH": 390,
+   "panel": [
+    0,
+    0,
+    844,
+    390
+   ],
+   "canvas": [
+    200,
+    135,
+    344,
+    426
+   ],
+   "smallButtons": 0,
+   "buttons": 6,
+   "ctlScrollW": 0,
+   "ctlClientW": 0
+  },
+  "errors": [],
+  "bad_responses": []
+ }
+}
