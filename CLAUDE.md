@@ -22,8 +22,10 @@ failing tests with exact errors, commands already run, next actions.
 Drop: abandoned exploration paths, repeated logs, resolved discussions.
 
 # Session state
-At major milestones, update PROJECT_STATE.md (decisions, files changed, open
-issues, next action) so a fresh session can resume from it after /clear.
+PROJECT_STATE.md is the resume point: read it at the start of a session instead of the conversation,
+and update it at every milestone (decisions, open issues, next action). Keep it short — only what is
+true now (target < 200 lines). Detail of a closed round goes to docs/PROJECT_HISTORY.md (the dated
+archive); "see PROJECT_STATE Qnnn" in older comments means that archive.
 
 # Model routing
 - Before dispatching a subagent, or choosing how to run a stretch of work, follow
