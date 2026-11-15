@@ -766,6 +766,7 @@ function Tool(api) {
   this.sugg = {cands: [], shown: [], msg: ""};
   this.gcache = new Map(); this.gverts = 0; this.orient = {};
   this.pgeo = {}; this.restBox = {}; this.poseT = 0;   // Q325: posed geometry views, the rest boxes of moved structures
+  this.mpS = new Map(); this.mpAnc = new Map();          // Q328: a motor point's structure, and its rest-mesh anchor (taken the first time that structure moves)
   this.buildUI();
   this.loadData();
   api.setClickHandler(function (e) { return self.onClick(e); });
@@ -823,10 +824,10 @@ TP.poseBoxes = function (ids) {
   });
 };
 TP.poseKey = function () { return global.__poseAtRest || !global.__poseRev ? "rest" : "rev" + global.__poseRev; };
-TP.anchorPoint = function (pt, s) {          // pt: {p, i, n, ...}; s: the structure to ride (the point's own, else a fallback)
-  if (!pt) return;
-  var g = s != null && s >= 0 ? this.geom(s) : null, a = g ? poseAnchor(g.pos, g.idx, pt.p, pt.n || null) : null;
-  pt._anc = a ? {s: s, a: a, p0: pt.p.slice(), n0: pt.n ? pt.n.slice() : null, key: this.poseKey(), src: pt.p} : {s: -1, src: pt.p};
+TP.anchorPoint = function (pt, s, rest) {    // pt: {p, i, n, ...}; s: the structure to ride (the point's own, else a fallback)
+  if (!pt) return;                           // rest (Q328): pt.p is given in REST coordinates -- anchor on the rest mesh, and it is pt.p exactly at rest
+  var g = s != null && s >= 0 ? (rest ? this.restGeom(s) : this.geom(s)) : null, a = g ? poseAnchor(g.pos, g.idx, pt.p, pt.n || null) : null;
+  pt._anc = a ? {s: s, a: a, p0: pt.p.slice(), n0: pt.n ? pt.n.slice() : null, key: rest ? "rest" : this.poseKey(), src: pt.p} : {s: -1, src: pt.p};
 };
 TP.ensureAnchors = function () {
   var e = this.entry, t = this.target;
@@ -847,9 +848,45 @@ TP.onPose = function (det) {
   var moved = false;
   if (this.entry) moved = this.ridePoint(this.entry) || moved;
   if (this.target && !(this.mode === "dir" && this.entry)) moved = this.ridePoint(this.target) || moved;   // the direction mode derives its tip from the entry
-  if (moved) { this.drawNeedle(); this.api.redraw(); }
+  var ovMoved = this.poseOverlays(ids);   // Q328
+  if (moved) this.drawNeedle();
+  if (moved || ovMoved) this.api.redraw();
   clearTimeout(this.poseT);
-  this.poseT = setTimeout(function () { if (self.entry || self.target) self.update(); else if (self.risk.on) self.refreshHalos(); }, 160);
+  this.poseT = setTimeout(function () {
+    if (self.savedDirty) { self.savedDirty = false; self.renderSavedPoints(); }
+    if (self.entry || self.target) self.update(); else if (self.risk.on) self.refreshHalos();
+  }, 160);
+};
+/* Q328: the overlays ride the pose the same way (anchorPoint / ridePoint above -- no second implementation), and only for
+   the structures in the event's ids. A saved injection point keeps the anchors its entry / target had when it was saved
+   (the structure each was placed on); a motor point -- given in rest coordinates -- rides its muscle, anchored once on the
+   REST mesh the first time that muscle moves, and is its given coordinates again, exactly, at rest. The risk halos need
+   nothing here: each is the structure's own current mesh inflated along its normals (the page draws its posed buffers),
+   and which structures get one is decided on the posed boxes (poseBoxes). Returns whether a shown marker moved. */
+TP.poseOverlays = function (ids) {
+  if (!ids.length) return false;
+  var self = this, mv = {}, shown = false;
+  ids.forEach(function (i) { mv[i] = 1; });
+  function ride(pt) { return !!(pt && pt._anc && pt._anc.s >= 0 && mv[pt._anc.s] === 1 && self.ridePoint(pt)); }
+  this.savedPts.forEach(function (it) {
+    var a = ride(it.entry), b = ride(it.target);
+    if (!a && !b) return;
+    if (it.entry) it.L = dist(it.entry.p, it.target.p);
+    self.drawSavedPoint(it); self.savedDirty = shown = true;
+  });
+  var movedMp = new Set();
+  this.mp.points.forEach(function (p) {
+    var s = self.mpStructure(p); if (s == null || mv[s] !== 1) return;
+    var w = self.mpAnc.get(p);
+    if (!w) { w = {p: p.pos.slice(), i: s}; self.anchorPoint(w, s, true); self.mpAnc.set(p, w); }
+    if (self.ridePoint(w)) { p.pos = w.p; movedMp.add(p); }
+  });
+  if (movedMp.size) {
+    var hit = function (list) { return list.some(function (p) { return movedMp.has(p); }); };
+    if (this.mp.on && hit(this.visibleMpPoints())) { this.refreshMpOverlay(); shown = true; }   // never applyOverride() here (Q281)
+    if (this.plan.zone && hit(this.plan.zone.mps)) { this.drawPlanMp(this.plan.zone.mps); shown = true; }
+  }
+  return shown;
 };
 /* Q325: the planned path for the probe image (clinical/ultrasound_tool.js "Show in scan"): entry -> target in the
    current (posed) model frame, and the needle's radius. null without a complete plan. */
@@ -1128,7 +1165,9 @@ TP.buildUI = function () {
     '<p class="cite">The distance bands, the risk halos and the suggested entries are planning aids of ours. They are labelled where they appear, ' +
     'every parameter is exposed, and none of them is a validated safety distance.</p>' +
     '<p class="cite">The tool measures the current meshes: posed by the pose rig, they are measured as posed, and a placed entry / target rides ' +
-    'the structure it was placed on (its nearest triangle). Motor points are rest-pose data and do not follow the pose.</p></details>';
+    'the structure it was placed on (its nearest triangle). Saved points ride the same way, and so do the motor points: given for the rest ' +
+    'pose, each is anchored to its own muscle\'s nearest triangle and is exactly its given position again at rest. A risk halo is drawn ' +
+    'around the structure\'s current (posed) surface.</p></details>';
   if (api.panelHost) api.panelHost.insertBefore(el, api.panelBefore || null); else document.body.appendChild(el);
   this.el = el;
   var tip = document.createElement("div"); tip.className = "ncl-tip"; tip.hidden = true; document.body.appendChild(tip); this.tip = tip;
@@ -1502,10 +1541,16 @@ TP.renderSearch = function () {
     box.appendChild(b);
   });
 };
-TP.mpStructure = function (p) {
+TP.mpStructure = function (p) {   // Q328: decided once, on the rest data (the point's given coordinates, the rest boxes) -- a posed body cannot change it
+  if (this.mpS.has(p)) return this.mpS.get(p);
   var ids = this.byId[p.structure_id] || this.byId[p.atlas_id] || [], self = this;
-  var inBox = ids.filter(function (i) { var r = self.recs[i]; return p.pos.every(function (c, k) { return c >= r.bmin[k] - 2 && c <= r.bmax[k] + 2; }); });
-  return (inBox.length ? inBox : ids).length ? (inBox.length ? inBox : ids)[0] : null;
+  var inBox = ids.filter(function (i) {
+    var r = self.recs[i], B = self.restBox[i] || [r.bmin, r.bmax];
+    return p.pos.every(function (c, k) { return c >= B[0][k] - 2 && c <= B[1][k] + 2; });
+  });
+  var s = (inBox.length ? inBox : ids).length ? (inBox.length ? inBox : ids)[0] : null;
+  this.mpS.set(p, s);
+  return s;
 };
 TP.useMotorPoint = function (p) {
   this.mp.sel = p;
@@ -1937,7 +1982,7 @@ TP.poseAway = function () {   // the page's pose rig is away from its rest pose 
 TP.renderCorridor = function () {
   var out = this.$("ncl-corr-out"), c = this.corr, self = this;
   if (!this.entry && !this.target) { out.innerHTML = '<p class="ncl-status">Place a point: the distances appear here and update with every change.</p>'; return; }
-  var h = '<p class="ncl-status">Measured: minimum distance from ' + esc(c.what) + " (" + c.ms.toFixed(0) + " ms; decimated viewing meshes, rest pose, hidden structures included; the target's own structure excluded).</p>";
+  var h = '<p class="ncl-status">Measured: minimum distance from ' + esc(c.what) + " (" + c.ms.toFixed(0) + " ms; decimated viewing meshes, " + (this.poseAway() ? "current pose" : "rest pose") + ", hidden structures included; the target's own structure excluded).</p>";
   if (this.poseAway()) h += '<p class="ncl-status">Measured on the posed meshes (the pose rig is away from rest). A kinematic preview: the soft tissue is skinned, not simulated.</p>';
   if (!c.items.length) h += '<p class="ncl-status">No vessel or nerve within R = ' + c.R + " mm.</p>";
   else h += '<ol class="corr-list">' + c.items.slice(0, 12).map(function (it) {
@@ -1968,10 +2013,12 @@ TP.addSavedPoint = function () {
   var nextId = 1; this.savedPts.forEach(function (s) { if (s.id >= nextId) nextId = s.id + 1; });
   var A = this.entry ? this.entry.p : this.target.p, B = this.target.p;
   var res = this.corridorFor(A, B, this.target.i != null ? this.recs[this.target.i].id : null);
+  this.ensureAnchors();   // Q328: a saved point keeps the working point's anchor (Q325), so it rides the pose like the plan does
+  function snap(pt) { var o = {p: pt.p.slice(), i: pt.i}; if (pt._anc && pt._anc.s >= 0) o._anc = Object.assign({}, pt._anc, {src: o.p}); return o; }
   var item = {
     id: nextId,
-    entry: this.entry ? {p: this.entry.p.slice(), i: this.entry.i} : null,
-    target: {p: this.target.p.slice(), i: this.target.i},
+    entry: this.entry ? snap(this.entry) : null,
+    target: snap(this.target),
     targetName: this.target.i != null ? this.name(this.target.i) : (this.target.mp ? this.target.mp.muscle_name + " motor point" : null),
     L: this.entry ? dist(this.entry.p, this.target.p) : 0,
     corr: {items: res.items.slice(0, 8), n: res.n}
