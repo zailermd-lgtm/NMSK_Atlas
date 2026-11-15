@@ -849,13 +849,57 @@ TP.onPose = function (det) {
   if (this.entry) moved = this.ridePoint(this.entry) || moved;
   if (this.target && !(this.mode === "dir" && this.entry)) moved = this.ridePoint(this.target) || moved;   // the direction mode derives its tip from the entry
   var ovMoved = this.poseOverlays(ids);   // Q328
+  this.savedReach(ids);                   // Q332
   if (moved) this.drawNeedle();
   if (moved || ovMoved) this.api.redraw();
   clearTimeout(this.poseT);
   this.poseT = setTimeout(function () {
-    if (self.savedDirty) { self.savedDirty = false; self.renderSavedPoints(); }
-    if (self.entry || self.target) self.update(); else if (self.risk.on) self.refreshHalos();
+    var re = self.remeasureSaved(), dirty = self.savedDirty || re > 0;   // Q332: the saved points' readouts, once per burst
+    if (dirty) { self.savedDirty = false; self.renderSavedPoints(); }
+    if (self.entry || self.target) self.update();
+    else { if (self.risk.on) self.refreshHalos(); if (dirty) { self.notify(); self.api.redraw(); } }
+    self.poseRerun();   // Q332: shown suggestions / safer pathways are measured again on the posed body
   }, 160);
+};
+/* Q332: a saved point's readouts (nearest vessel / nerve, its distance and band colour; its length rides with the points in
+   poseOverlays) are measured again on the current geometry -- the same corridorFor() call, radius and excluded structure the
+   save used -- when a pose event moved the point's own structure (poseOverlays sets reDirty) or a vessel / nerve within the
+   measurement's reach: one that was within R of it, or whose posed box now lies within R. Once per burst (onPose's timer).
+   Back in the pose the point was saved in (rest), the readout is the saved one itself. */
+TP.savedReach = function (ids) {
+  if (!ids.length || !this.savedPts.length) return;
+  var self = this;
+  this.savedPts.forEach(function (it) {
+    if (it.reDirty || !it.corr) return;
+    var A = it.entry ? it.entry.p : it.target.p, B = it.target.p, R = it.R != null ? it.R : self.corr.R, w = it.within || [];
+    it.reDirty = ids.some(function (i) {
+      var r = self.recs[i];
+      return !!r && self.isCorrStruct(i) && r.id !== it.skipId && (w.indexOf(i) >= 0 || boxHitsSegment(r.bmin, r.bmax, A, B, R));
+    });
+  });
+};
+TP.remeasureSaved = function () {
+  var self = this, key = this.poseKey(), n = 0;
+  this.savedPts.forEach(function (it) {
+    if (!it.reDirty) return;
+    it.reDirty = false; n++;
+    if (it.key0 === key && it.corr0) { it.corr = it.corr0; it.within = it.within0; }
+    else {
+      var res = self.corridorFor(it.entry ? it.entry.p : it.target.p, it.target.p, it.skipId, it.R);
+      it.corr = {items: res.items.slice(0, 8), n: res.n}; it.within = res.items.map(function (x) { return x.i; });
+    }
+    it.corrKey = key;
+    self.drawSavedPoint(it);
+  });
+  return n;
+};
+TP.poseRerun = function () {
+  if (!this.target) return;
+  if (this.sugg.cands.length) this.suggest();
+  if (this.risk.safer) {
+    if (this.risk.on) this.runSafer({n: this.risk.safer.N});
+    else { this.risk.safer = null; this.drawSafer(); this.$("ncl-safer-out").innerHTML = ""; }
+  }
 };
 /* Q328: the overlays ride the pose the same way (anchorPoint / ridePoint above -- no second implementation), and only for
    the structures in the event's ids. A saved injection point keeps the anchors its entry / target had when it was saved
@@ -872,6 +916,7 @@ TP.poseOverlays = function (ids) {
     var a = ride(it.entry), b = ride(it.target);
     if (!a && !b) return;
     if (it.entry) it.L = dist(it.entry.p, it.target.p);
+    it.reDirty = true;   // Q332: its readout is measured again (remeasureSaved)
     self.drawSavedPoint(it); self.savedDirty = shown = true;
   });
   var movedMp = new Set();
@@ -1514,7 +1559,8 @@ TP.renderRiskMsg = function () {
 TP.rCal = function (i) {
   var r = this.risk.rcal[this.recs[i].id];
   if (r) return r;
-  var R = this.recs[i], ext = Math.min(R.bmax[0] - R.bmin[0], R.bmax[1] - R.bmin[1], R.bmax[2] - R.bmin[2]);
+  var R = this.recs[i], B = this.restBox[i] || [R.bmin, R.bmax];   // Q332: the calibre is the rest box's, not a posed (rotated) box's
+  var ext = Math.min(B[1][0] - B[0][0], B[1][1] - B[0][1], B[1][2] - B[0][2]);
   return clamp(ext / 2, 0.5, 15);
 };
 
@@ -1718,8 +1764,8 @@ TP.refreshHalos = function () {
    every structure: the outermost surface), a triangle grid of bone, and the
    risk structures' surface vertices thinned to one per 2.5 mm voxel. */
 TP.region = function (T, reach) {
-  var R0 = this.risk.region, tgtId = this.target && this.target.i != null ? this.recs[this.target.i].id : null;
-  if (R0 && R0.reach === reach && dist(R0.T, T) < 1e-6 && R0.P === JSON.stringify(this.P) && R0.tgtId === tgtId) return R0;
+  var R0 = this.risk.region, tgtId = this.target && this.target.i != null ? this.recs[this.target.i].id : null, pk = this.poseKey();
+  if (R0 && R0.reach === reach && dist(R0.T, T) < 1e-6 && R0.P === JSON.stringify(this.P) && R0.tgtId === tgtId && R0.pk === pk) return R0;   // Q332: + the pose (a still target, moved neighbours)
   var t0 = performance.now(), self = this, H = reach + HUB_CLEAR_MM + 8;
   var bmin = [T[0] - H, T[1] - H, T[2] - H], bmax = [T[0] + H, T[1] + H, T[2] + H];
   function gather(idxs) {
@@ -1766,7 +1812,7 @@ TP.region = function (T, reach) {
     if (pts.length > before) sIdx.push({i: i, cls: c, rCal: self.rCal(i)});
   });
   var grid = new PointGrid(new Float32Array(pts), new Int32Array(own), bmin, bmax, 8);
-  var reg = {T: T.slice(), reach: reach, P: JSON.stringify(this.P), tgtId: tgtId, surf: surf, useSkin: useSkin, bone: bone, grid: grid, structs: sIdx,
+  var reg = {T: T.slice(), reach: reach, P: JSON.stringify(this.P), tgtId: tgtId, pk: pk, surf: surf, useSkin: useSkin, bone: bone, grid: grid, structs: sIdx,
              nTris: surf.ntris + bone.ntris, nPts: pts.length / 3, ms: performance.now() - t0, minD: new Float32Array(sIdx.length)};
   this.risk.region = reg;
   return reg;
@@ -1939,8 +1985,9 @@ TP.isCorrStruct = function (i) { return !!CORR_CLASSES[this.cls[i]]; };
 /* minimum distance from segment A-B (A == B: a single point) to the surface of every named vessel / nerve mesh whose bounding
    box lies within R mm of the segment (padded slab test), excluding the target's own structure. Exact closest point against
    the page's own triangles (meshSegDist). Returns {items (nearest first), n (meshes measured), ms}. */
-TP.corridorFor = function (A, B, skipId) {
-  var self = this, R = this.corr.R, t0 = performance.now(), items = [], n = 0;
+TP.corridorFor = function (A, B, skipId, R) {   // R: the radius (default the panel's; a saved point keeps its own, Q332)
+  var self = this, t0 = performance.now(), items = [], n = 0;
+  if (R == null) R = this.corr.R;
   this.recs.forEach(function (r, i) {
     if (!self.isCorrStruct(i) || r.id === skipId || !boxHitsSegment(r.bmin, r.bmax, A, B, R)) return;
     var g = self.geom(i); if (!g) return;
@@ -2011,8 +2058,8 @@ TP.drawCorridor = function () {
 TP.addSavedPoint = function () {
   if (!this.target) return null;
   var nextId = 1; this.savedPts.forEach(function (s) { if (s.id >= nextId) nextId = s.id + 1; });
-  var A = this.entry ? this.entry.p : this.target.p, B = this.target.p;
-  var res = this.corridorFor(A, B, this.target.i != null ? this.recs[this.target.i].id : null);
+  var A = this.entry ? this.entry.p : this.target.p, B = this.target.p, R = this.corr.R, key = this.poseKey();
+  var skipId = this.target.i != null ? this.recs[this.target.i].id : null, res = this.corridorFor(A, B, skipId, R);
   this.ensureAnchors();   // Q328: a saved point keeps the working point's anchor (Q325), so it rides the pose like the plan does
   function snap(pt) { var o = {p: pt.p.slice(), i: pt.i}; if (pt._anc && pt._anc.s >= 0) o._anc = Object.assign({}, pt._anc, {src: o.p}); return o; }
   var item = {
@@ -2021,8 +2068,10 @@ TP.addSavedPoint = function () {
     target: snap(this.target),
     targetName: this.target.i != null ? this.name(this.target.i) : (this.target.mp ? this.target.mp.muscle_name + " motor point" : null),
     L: this.entry ? dist(this.entry.p, this.target.p) : 0,
-    corr: {items: res.items.slice(0, 8), n: res.n}
+    corr: {items: res.items.slice(0, 8), n: res.n},
+    skipId: skipId, R: R, key0: key, corrKey: key, within: res.items.map(function (x) { return x.i; })   // Q332: what a re-measure needs
   };
+  item.corr0 = item.corr; item.within0 = item.within;   // the saved readout, shown again exactly in the pose it was saved in
   this.savedPts.push(item);
   this.drawSavedPoint(item);
   this.renderSavedPoints(); this.notify(); this.api.redraw();
@@ -2060,7 +2109,8 @@ TP.renderSavedPoints = function () {
       (it.entry ? " · " + it.L.toFixed(1) + " mm" : " (target only)") +
       (nearest ? " · nearest " + esc(nearest.name) + ' <span class="rng mono">' + nearest.d.toFixed(1) + " mm</span>" : " · no vessel/nerve within R") +
       ' <button type="button" data-rmsaved="' + it.id + '" title="Remove this saved point">Remove</button></li>';
-  }).join("") + "</ol>";
+  }).join("") + "</ol>" + '<p class="ncl-status" id="ncl-save-pose">Nearest vessel / nerve per point: measured on the ' + (this.poseAway() ? "current pose" : "rest pose") +
+    " (measured again after every pose change).</p>";
   Array.prototype.forEach.call(out.querySelectorAll("[data-rmsaved]"), function (b) { b.onclick = function () { self.removeSavedPoint(+b.dataset.rmsaved); }; });
 };
 
@@ -2520,6 +2570,7 @@ function injectionMode(tool, api) {
         h("button", {type: "button", text: "הסר", title: "הסרת נקודה " + (k + 1), onclick: function () { removeSaved(it.id); }})
       ]));
     });
+    if (tool.savedPts.length) ui.saved.appendChild(h("p", {class: "mc-hint", text: tool.poseAway() ? "המרחקים נמדדו על המודל בתנוחה הנוכחית" : "המרחקים נמדדו בתנוחת המנוחה"}));   // Q332
     ui.savedClear.hidden = !tool.savedPts.length;
     /* distances */
     ui.rows.innerHTML = "";
@@ -2614,7 +2665,11 @@ global.NMSKClinical = {
       clearSavedPoints: function () { tool.clearSavedPoints(); },
       savedPoints: function () {
         return tool.savedPts.map(function (it) {
-          return {id: it.id, target_name: it.targetName, length_mm: it.L, nearest: it.corr.items.length ? {name: it.corr.items[0].name, d_mm: it.corr.items[0].d} : null};
+          return {id: it.id, target_name: it.targetName, length_mm: it.L, nearest: it.corr.items.length ? {name: it.corr.items[0].name, d_mm: it.corr.items[0].d} : null,
+                  /* Q332: the readout as now measured, the saved one, and the pose it was measured in; used by scripts/anatomy/q332 */
+                  items: it.corr.items.map(function (x) { return {id: x.id, i: x.i, d_mm: x.d}; }), n: it.corr.n,
+                  saved_items: it.corr0 ? it.corr0.items.map(function (x) { return {id: x.id, i: x.i, d_mm: x.d}; }) : null,
+                  measured_in: it.corrKey, skip_id: it.skipId, R: it.R, entry: it.entry ? it.entry.p.slice() : null, target: it.target.p.slice()};
         });
       }
     };

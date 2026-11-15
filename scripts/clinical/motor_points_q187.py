@@ -43,15 +43,27 @@ OUT_COVERAGE = REPO / "data" / "derived" / "Q187_motor_points_coverage.json"
 FAIL_MM = 5.0
 UNC_FLOOR_MM = 5.0  # source SDs below this ignore the error of finding the landmark on a mesh
 
+def _page(d, *names):
+    """Q331: the pages moved from build/<dir> to build/q309/<dir>; the first root holding ALL the named files wins
+    (an own page's bundle.bin is not in build/q309, so those keep their old, unbuilt paths)."""
+    for root in (REPO / "build", REPO / "build" / "q309"):
+        if all((root / d / n).exists() for n in names):
+            return [root / d / n for n in names]
+    return [REPO / "build" / d / n for n in names]
+
+
+_VHM = _page("viewer_m_hr", "atlas_viewer_male.html", "bundle.bin")
+_VHF = _page("viewer_f_hr", "atlas_viewer_female.html", "bundle.bin")
 VIEWERS = {
-    "vhm": {"kind": "own", "html": REPO / "build/viewer_m_hr/atlas_viewer_male.html",
-            "bin": REPO / "build/viewer_m_hr/bundle.bin", "label": "own male (Visible Human male)"},
-    "vhf": {"kind": "own", "html": REPO / "build/viewer_f_hr/atlas_viewer_female.html",
-            "bin": REPO / "build/viewer_f_hr/bundle.bin", "label": "own female (Visible Human female)"},
-    "zan_m": {"kind": "zan", "html": REPO / "build/viewer_zan_atlas/atlas_viewer_zan_atlas.html",
+    "vhm": {"kind": "own", "html": _VHM[0], "bin": _VHM[1], "label": "own male (Visible Human male)"},
+    "vhf": {"kind": "own", "html": _VHF[0], "bin": _VHF[1], "label": "own female (Visible Human female)"},
+    "zan_m": {"kind": "zan", "html": _page("viewer_zan_atlas", "atlas_viewer_zan_atlas.html")[0],
               "label": "Z-Anatomy (generic male reference)"},
-    "zan_f": {"kind": "zan", "html": REPO / "build/viewer_zan_female/atlas_viewer_zan_female.html",
+    "zan_f": {"kind": "zan", "html": _page("viewer_zan_female", "atlas_viewer_zan_female.html")[0],
               "label": "Z-Anatomy fitted to the female body"},
+    # Q331: Base . Female = the Z body in its own frame with the male-only structures removed, not fitted (Q196)
+    "base_f": {"kind": "zan", "html": _page("viewer_base_female", "atlas_viewer_base_female.html")[0],
+               "label": "Z-Anatomy base female (generic Z body, male-only structures removed, not fitted)"},
 }
 FRAME = "atlas mm (+X right,+Y superior,+Z anterior)"
 
@@ -1005,8 +1017,18 @@ def main():
     ap.add_argument("--out", default=str(OUT_JSON))
     ap.add_argument("--coverage", default=str(OUT_COVERAGE))
     ap.add_argument("--jobs", type=int, default=4)
+    ap.add_argument("--merge", action="store_true",
+                    help="Q331: keep the other viewers of the existing --out / --coverage files byte-for-byte and replace only "
+                         "the viewers built now (each carries its own 'generated' date; the file's date is kept)")
     a = ap.parse_args()
     out, cov = run(a.viewers.split(","), a.jobs)
+    if a.merge:
+        old, oldc = json.loads(Path(a.out).read_text()), json.loads(Path(a.coverage).read_text())
+        for k in out["viewers"]:
+            out["viewers"][k] = {"generated": out["generated"], **out["viewers"][k]}
+        old["viewers"].update(out["viewers"]); oldc["viewers"].update(cov["viewers"])
+        oldc["sources"], oldc["muscles_without_usable_source"] = cov["sources"], cov["muscles_without_usable_source"]
+        out, cov = old, oldc
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps(out, indent=1, ensure_ascii=False) + "\n")
     Path(a.coverage).write_text(json.dumps(cov, indent=1, ensure_ascii=False) + "\n")

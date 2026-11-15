@@ -26,7 +26,7 @@ def test_schema(mp):
     assert mp["schema"] == "nmsk.motor_points.v1"
     assert mp["licence"].startswith("Private")
     assert re.fullmatch(r"\d{4}-\d\d-\d\d", mp["generated"])
-    assert set(mp["viewers"]) == {"vhm", "vhf", "zan_m", "zan_f"}
+    assert set(mp["viewers"]) == {"vhm", "vhf", "zan_m", "zan_f", "base_f"}   # Q331: Base . Female added
     keys = {"id", "structure_id", "atlas_id", "muscle_name", "side", "kind", "pos", "depth_from_skin_mm",
             "projection_mm", "uncertainty_mm", "nerve", "source", "badge"}
     for vk, v in mp["viewers"].items():
@@ -60,7 +60,7 @@ def test_rules_reference_known_sources():
         assert r["kind"] in ("motor_point", "innervation_zone")
 
 
-@pytest.mark.parametrize("vk", ["vhm", "vhf", "zan_m", "zan_f"])
+@pytest.mark.parametrize("vk", ["vhm", "vhf", "zan_m", "zan_f", "base_f"])
 def test_points_inside_their_muscle(mp, vk):
     vw = dict(M.VIEWERS[vk])
     # Q213: the two female viewers' points are generated on the Q213 pages until the main session publishes them into build/viewer_f_hr / build/viewer_zan_female
