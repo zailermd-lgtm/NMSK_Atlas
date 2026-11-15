@@ -225,6 +225,11 @@ def test_band_placement_rules(page):
         if lines[x["line"]]["mode"] == "level" and "shifted_mm" not in x:
             pct = sum(x["pct"]) / 2 if isinstance(x["pct"], list) else x["pct"]
             assert abs(x["level_pct"] - pct) / 100 * x["line_len_mm"] <= 1.0, (x["muscle"], x["part"])   # band level within 1 mm
+        if "proj" in x:      # projected from a skin line: only skin lines, within the bound, level kept within 1 mm
+            p = x["proj"]
+            assert x["proxy"] and p["method"] == "skin_normal" and p["line_to_muscle_mm"] <= p["bound_mm"] == b["proj_mm"]
+            assert abs(x["level_pct"] - x["pct"]) / 100 * x["line_len_mm"] <= 1.0, (x["muscle"], x["part"])
+    assert sum(1 for x in placed if "proj" in x) == b["counts"]["projected"] >= 4
     # both sides placed (or both not): the rule does not depend on the side
     st = {}
     for x in b["bands"]:

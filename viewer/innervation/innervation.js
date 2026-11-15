@@ -126,6 +126,7 @@ var NMSKInnervation = (function(){
     var t = "Innervation zone — rule-based. Level = " + pctText(iz.pct) + " of " + (L.label || iz.line) + " (" + src + (iz.cite ? ", " + iz.cite : "") +
             "), measured on this body's own bones.";
     if (b && b.proxy) t += " Proxy landmark: " + b.proxy.map(function(k){ return (D.landmarks[k] || {}).label + " (" + ((D.landmarks[k] || {}).proxy || "") + ")"; }).join("; ") + ".";
+    if (b && b.proj) t += " Projected from a skin line (" + b.proj.method + ", bound " + b.proj.bound_mm + " mm): " + b.proj.rule;
     if (iz.note) t += " Note: " + iz.note + ".";
     return t;
   }
@@ -151,7 +152,8 @@ var NMSKInnervation = (function(){
     if (!m.iz.length) h.push('<p class="inn-hint">' + esc(m.iz_decision || "No innervation-zone level in the sources used.") + "</p>");
     m.iz.forEach(function(iz, i){
       var b = s ? bandOf(k, i, s) : null, stt = b ? b.st : "";
-      var badge = stt === "placed" ? '<span class="inn-badge" title="' + esc(badgeText(m, iz, b)) + '">rule-based</span>' :
+      var badge = stt === "placed" && b.proj ? '<span class="inn-badge proj" title="' + esc(badgeText(m, iz, b)) + '">projected from a skin line</span>' :
+                  stt === "placed" ? '<span class="inn-badge" title="' + esc(badgeText(m, iz, b)) + '">rule-based</span>' :
                   stt === "failed" ? '<span class="inn-badge fail" title="' + esc(b.reason || "") + '">not placed</span>' :
                   stt === "qualitative" ? '<span class="inn-badge q">site only</span>' : "";
       h.push('<div class="inn-band" data-inn-band="' + i + '"><div><span class="t">' + esc(pretty(iz.part)) + "</span> · " + esc(pctText(iz.pct)) + " " + badge + "</div>" +
@@ -317,7 +319,7 @@ var NMSKInnervation = (function(){
       placed.forEach(function(q){ if (Math.abs(q[0] - x) < 130 && Math.abs(q[1] - y) < 19) y = q[1] + 19; });   // two dots close together: stack the badges
       placed.push([x, y]);
       e.hidden = false; e.style.display = ""; e.style.left = x + "px"; e.style.top = y + "px";
-      e.textContent = "IZ " + pctText(iz.pct) + " · rule-based"; e.title = badgeText(m, iz, b);
+      e.textContent = "IZ " + pctText(iz.pct) + (b.proj ? " · projected from a skin line" : " · rule-based"); e.title = badgeText(m, iz, b);
     });
   }
   /* ---------- the provider ---------- */

@@ -144,7 +144,7 @@ def build(page: str) -> dict:
     out_bands = []
     for b in bands["bands"]:
         o = {"m": b["muscle"], "iz": b["iz"], "part": b["part"], "s": b["side"], "st": b["status"]}
-        for k in ("dot", "rings", "level_pct", "snap_mm", "shifted_mm", "note", "reason", "same_as", "proxy", "line_len_mm"):
+        for k in ("dot", "rings", "level_pct", "snap_mm", "shifted_mm", "note", "reason", "same_as", "proxy", "line_len_mm", "proj"):
             if k in b:
                 o[k] = b[k]
         if b["status"] == "qualitative":

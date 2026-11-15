@@ -12,6 +12,13 @@ For every band of `data/anatomy/innervation_q322.json` (IZ level = % along a nam
      the plane onto the muscle and records the shift. `point` lines: P is snapped to the nearest point inside the muscle
      (FAILED when that is more than 5 mm away); the ring is the section through that point, perpendicular to the line.
      A qualitative site (no %) stores only the line, drawn in thirds.
+  4. PROJECTED FROM A SKIN LINE (owner-delegated, 2026-11-15): a `point` line with a soft-tissue (skin) landmark is a line the
+     guide draws on the skin, so on a curved surface its straight chord runs inside the body. When its point misses the muscle
+     by more than 5 mm: the skin point over it = the nearest point of the page's own skin meshes in the plane through P
+     perpendicular to the line; from that skin point inward along the skin normal (S - P, in that plane, so the level is kept)
+     the FIRST muscle met must be the named one, and its near surface must lie within PROJ_MM (40 mm) of P along the normal;
+     the dot = the mid-thickness of the muscle on that normal, the ring = the section through the dot perpendicular to the line.
+     Otherwise FAILED with the reason. Badged "projected from a skin line" (band field `proj`: method, bound, depths).
 Bony landmarks are anatomy, not clinical rules; nothing here reads the private clinical layer.
 
     python3 scripts/anatomy/q322/place_iz_q322.py                 # both Base pages -> data/derived/Q322_iz_bands_<page>.json
@@ -39,6 +46,11 @@ OUT = REPO / "data" / "derived" / "Q322_iz_bands_{page}.json"
 PAGES = {"base_m": REPO / "build/q309/viewer_zan_atlas/atlas_viewer_zan_atlas.html",
          "base_f": REPO / "build/q309/viewer_base_female/atlas_viewer_base_female.html"}
 FAIL_MM = 5.0
+# projection bound (the tissue depth the band may move from the guide's straight chord onto the muscle, along the skin normal):
+# the owner's suggested 40 mm. Measured on both Base bodies: the chord point lies 43-56 mm under the skin, latissimus 3-15 mm under
+# it, so the muscle is 31-39 mm from the chord point; 40 mm is about the thickness of the back wall here (subcutis + latissimus +
+# serratus posterior + intercostals), so a muscle further than that from the chord point is not the layer the chord lies under.
+PROJ_MM = 40.0
 RING_PTS = 32
 SIDES = ("l", "r")
 
@@ -67,6 +79,8 @@ class Body:
     def __init__(self, meshes):
         self.m = meshes
         self._c = {}
+        self.bb = {k: (v["v"].min(axis=0), v["v"].max(axis=0)) for k, v in meshes.items()}
+        self.skin = [k for k, v in meshes.items() if v["cat"] == "skin"]
 
     def bone(self, name, s=None):
         cands = [f"{name}_{s}", f"zan_{name}_{s}"] if s else []
@@ -475,6 +489,59 @@ def snap_inside(V, F, P, reach=FAIL_MM):
     return best, float(np.linalg.norm(best - P))
 
 
+def project_from_skin(body, ids, V, F, P, u, step=0.5):
+    """Step 4 of the header: (dot, proj record) of the named muscle under the skin point over P, or LandmarkMissing."""
+    best = (np.inf, None, None)
+    for k in body.skin:
+        lo, hi = body.bb[k]
+        if (lo - 200 > P).any() or (hi + 200 < P).any():
+            continue
+        for l in section_loops(body.m[k]["v"], body.m[k]["f"], P, u)[0]:
+            d = np.linalg.norm(l - P, axis=1); i = int(np.argmin(d))
+            if d[i] < best[0]:
+                best = (float(d[i]), l[i], k)
+    dS, S, region = best
+    if S is None:
+        raise LandmarkMissing("projected from a skin line: no skin of this page in the plane of the line point")
+    n = unit(S - P)
+    t = np.arange(0.0, dS + PROJ_MM + step, step)
+    R = S - np.outer(t, n)                       # from the skin point inward, through P, PROJ_MM beyond it
+    lo, hi = R.min(axis=0) - 1, R.max(axis=0) + 1
+    runs = []
+    for k, (a, c) in body.bb.items():
+        if body.m[k]["cat"] != "muscle" or (a > hi).any() or (c < lo).any():
+            continue
+        w = np.flatnonzero(G.inside(R, body.m[k]["v"], body.m[k]["f"]))
+        if len(w):
+            j = w[: int(np.argmax(np.diff(np.append(w, w[-1] + 2)) > 1)) + 1]      # its first run along the normal
+            runs.append((t[j[0]], t[j[-1]], k))
+    runs.sort()
+
+    def names(k):
+        k = k[4:] if k.startswith("zan_") else k
+        return (k[:-2] if k[-2:] in ("_l", "_r") else k).replace("_", " ")
+    mine = [r for r in runs if r[2] in ids]
+    if not runs or runs[0][2] not in ids:
+        over = f"over {names(runs[0][2])}" if runs else f"over no muscle within {dS + PROJ_MM:.0f} mm"
+        raise LandmarkMissing(f"projected from a skin line: the skin point over the line point ({dS:.1f} mm out along the skin normal) lies "
+                              f"{over}, not {names(ids[0])}" + ("" if not mine else f" (which lies {mine[0][0]:.1f} mm under that skin point, deeper)"))
+    t0, t1, _ = runs[0]
+    gap = 0.0 if t0 <= dS <= t1 else (dS - t1 if t1 < dS else t0 - dS)
+    if gap > PROJ_MM:
+        raise LandmarkMissing(f"projected from a skin line: the muscle lies {gap:.1f} mm from the line point along the skin normal (> {PROJ_MM:g} mm)")
+    dot = S - 0.5 * (t0 + t1) * n
+    if not G.inside(dot[None], V, F)[0]:
+        raise LandmarkMissing("projected from a skin line: the mid-thickness point on the normal is not inside the muscle")
+    rec = {"method": "skin_normal", "bound_mm": PROJ_MM, "skin_pt": r1(S), "skin": region, "normal": [round(float(x), 3) for x in n],
+           "line_to_skin_mm": round(dS, 1), "line_to_muscle_mm": round(gap, 1), "skin_to_muscle_mm": round(float(t0), 1),
+           "thickness_mm": round(float(t1 - t0), 1),
+           "rule": (f"The guide draws this line on the skin; its straight chord runs {dS:.0f} mm under the skin here. The skin point over "
+                    f"the line point is taken along the skin normal (in the plane perpendicular to the line, so the level is kept); the first "
+                    f"muscle under it is {names(ids[0])}, {t0:.0f} mm deep, {gap:.0f} mm from the line point (bound {PROJ_MM:g} mm); "
+                    f"dot = its mid-thickness there.")}
+    return dot, rec
+
+
 # --------------------------------------------------------------------------- placement
 
 def r1(a):
@@ -550,11 +617,20 @@ def place_page(page: str, html: Path, data: dict) -> dict:
                     hint = part_hint(mk, iz["part"])
                     if ln["mode"] == "point":
                         q, dd = snap_inside(V, F, P)
-                        if q is None:
-                            raise LandmarkMissing(f"no point of the muscle within {FAIL_MM:g} mm of the line point ({dd:.1f} mm to its surface)")
-                        b["snap_mm"] = round(dd, 1)
-                        if dd > FAIL_MM:
-                            raise LandmarkMissing(f"the line point is {dd:.1f} mm from the muscle (> {FAIL_MM:g} mm)")
+                        miss = None if q is not None and dd <= FAIL_MM else (
+                            f"no point of the muscle within {FAIL_MM:g} mm of the line point ({dd:.1f} mm to its surface)" if q is None
+                            else f"the line point is {dd:.1f} mm from the muscle (> {FAIL_MM:g} mm)")
+                        if q is not None:
+                            b["snap_mm"] = round(dd, 1)
+                        if miss and proxies:
+                            try:
+                                q, b["proj"] = project_from_skin(body, ids, V, F, P, u)
+                            except LandmarkMissing as e:
+                                raise LandmarkMissing(f"{miss}; {e}")
+                            note.append(f"projected from a skin line: the muscle lies {b['proj']['skin_to_muscle_mm']:g} mm under the skin point, "
+                                        f"{b['proj']['line_to_muscle_mm']:g} mm from the line point along the skin normal")
+                        elif miss:
+                            raise LandmarkMissing(miss)
                         rings, _, n2 = cut(V, F, q, u, sx, None)
                         dot = q
                     else:
@@ -595,10 +671,13 @@ def place_page(page: str, html: Path, data: dict) -> dict:
         "frame": "page mm, +X right, +Y superior, +Z anterior",
         "rule": ("RULE-BASED. Landmarks measured on this body's own bones (soft-tissue points: the proxy in their definition, flagged proxy); "
                  "IZ level = pct along the line from its first landmark; band = the muscle's section by the plane perpendicular to the line "
-                 "at that level (point lines: the nearest inside point); FAILED when the plane / point misses the muscle by more than 5 mm."),
-        "fail_mm": FAIL_MM,
+                 "at that level (point lines: the nearest inside point); FAILED when the plane / point misses the muscle by more than 5 mm. "
+                 "A point line drawn on the skin (soft-tissue landmark) whose point misses: PROJECTED from the skin line -- the first muscle "
+                 "under the skin point over the line point, along the skin normal, must be the named one, within 40 mm of the line point."),
+        "fail_mm": FAIL_MM, "proj_mm": PROJ_MM,
         "landmarks": lm_out, "landmark_failures": lm_fail,
-        "counts": {"bands": len(bands), "placed": n_pl, "qualitative": sum(1 for b in bands if b["status"] == "qualitative"),
+        "counts": {"bands": len(bands), "placed": n_pl, "projected": sum(1 for b in bands if b["status"] == "placed" and "proj" in b),
+                   "qualitative": sum(1 for b in bands if b["status"] == "qualitative"),
                    "failed": sum(1 for b in bands if b["status"] == "failed")},
         "failures": fails,
         "bands": bands,
