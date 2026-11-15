@@ -144,17 +144,20 @@ regen, all verifiers, publish.
   Q340 = conform the three arch meshes into the right layer with a displacement tapered to zero at their
   junctions (project precedent: Q292/Q319 conforms), push the in-bone vessels out of bone, badge with the
   numbers. Not dispatched yet.** Thumb CMC rest pose lies outside its own ROM (slider jump) — open.
-- **USAGE LIMIT hit ~21:50 UTC 2026-11-15** (agent model; resets 23:30 UTC): Q334, Q335, Q336, Q337, Q339
-  agents stopped mid-work with their context saved; a scheduled message at 23:34 UTC resumes them by
-  SendMessage (ids in that message). Their half-done edits are in the working tree, uncommitted — do not
-  regen from the working tree until they finish.
+- **Agent limit reset 23:34 UTC; RESUMED (same agents, context kept):** Q339 mirror fix, Q335 click
+  card/windows (+ the nine phone-screenshot defects), Q334 skin seams, Q336 genital region (told: shared
+  data that depends on unapplied geometry goes behind its apply script). **Q342 data agent dispatched.**
+  HELD to limit memory/limit use: Q337 QA sweep (resume by SendMessage to its paused agent when a slot
+  frees), Q340 palmar arch conform (not dispatched). Half-done edits of the resumed agents are in the
+  working tree, uncommitted — do not regen from the working tree until they report; a clean regen can be
+  made from a git worktree at HEAD (/dev/shm/wt_head) as for the interim publish.
 - **Interim publish DONE 2026-11-15: Base·M v92, Base·F v87** from committed code only (git worktree
   /dev/shm/wt_head at HEAD → regen /dev/shm/q340; 24 verifier verdicts OK): Q331 motor points F, Q332
   readouts, Q333 chest (Base·F geo_00/01/02 republished), Q338 hand rig. Still MIRRORED (Q339 pending).
   The genital agent had overwritten `pose_rig_base_f.json` with a 3301-structure rig (its `skin_vulva_cvh`
   copy); restored to the 3300 splice (its version saved in the scratchpad as
   pose_rig_base_f.with_vulva_skin_3301.json).
-- **Owner requests 2026-11-15 late (TO DISPATCH when the agent limit resets, 23:30 UTC):**
+- **Owner requests 2026-11-15 late (Q342 dispatched 23:36 UTC; the rest after Q335 lands):**
   - **Q342 data (anatomical-fact agent):** (a) fibre groups of large muscles — heads / parts selectable
     instead of the whole muscle (pectoralis major clavicular / sternocostal / abdominal, deltoid anterior /
     middle / posterior, triceps, quadriceps, trapezius, latissimus, gluteus…): inventory which heads are
