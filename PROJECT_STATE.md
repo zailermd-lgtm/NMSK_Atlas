@@ -89,7 +89,10 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-Nothing in flight. Candidates, in order: (1) latissimus/teres IZ bands — project the skin-line point onto
-the muscle along the outward normal, badged; (2) hide `#pl-box #rs-box #sa-bar` in every mode, not only
-`inn` (check inj/us/cmp); (3) record mislinks `zan_lateral_thyrohyoid_ligament`, `zan_piriformis_fascia`;
-(4) injection clip (§8); (5) mode-colour leftover after Undo (edge case).
+In flight (2026-11-15, three agents): (Q326) latissimus/teres IZ bands projected from the skin line onto
+the muscle, badged; (Q327) `#pl-box #rs-box #sa-bar` hidden in every mode where unused + record mislinks
+`zan_lateral_thyrohyoid_ligament` / `zan_piriformis_fascia` fixed at the linker; (Q325) injection clip —
+needle tool plans on posed geometry, "Show in scan" + play control (private, clinical/*.js), verifier
+`scripts/anatomy/q325/verify_needle_clip_q325.py`. Then: commit by filename, one regen of base_m base_f
+(note /dev/shm was cleared), verify all (Q318/Q319/Q321/Q322/Q323 + new), publish. Later: mode-colour
+leftover after Undo (edge case).
