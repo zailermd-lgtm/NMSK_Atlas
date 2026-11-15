@@ -99,7 +99,12 @@ Published 2026-11-15: Base·M v91, Base·F v86 — Q328 saved injection points +
 (halos already did; verifier `scripts/anatomy/q328/verify_overlays_pose_q328.py`), Q329 mode display
 state kept out of Undo (`setModeColours`, NMSKHistory beginScope/endScope; verifier
 `scripts/anatomy/q329/verify_mode_undo_q329.py`). 22 verifier verdicts OK on /dev/shm/q330.
-Nothing in flight. Open: Base·F has no motor-point data (`clinical_motor_points.json` lacks base_f);
+In flight (2026-11-15, owner: "continue"; main thread now on the model the owner selected, agents still
+routed by docs/MODEL_GUIDANCE.md): Q331 agent — `base_f` motor points (builder
+`scripts/clinical/motor_points_q187.py`; `zan_m` key = Base·M) + audit/fix of points outside their muscle;
+Q332 agent — saved points' vessel/nerve readouts re-measured on the posed body (verifier
+`scripts/anatomy/q332/verify_saved_readouts_q332.py`). Then regen (add `clinical_motor_points.json` to
+--expect-changed), verify, publish. Open: Base·F has no motor-point data (`clinical_motor_points.json` lacks base_f);
 Base·M shank motor points 1–11 mm outside their muscle in the source data; saved points' nearest-vessel
 readout not re-measured after a pose change; 82 muscles/body without attachment points; teres major /
 latissimus iliac-line IZ bands unplaced.
