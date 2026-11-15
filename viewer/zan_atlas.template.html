@@ -1768,9 +1768,18 @@ body.mode-on .hist-bar{display:none}
      NMSKHistory.start(opt)                          opt {max, toolbars:[{el, cls}], floating (default true), anchor, resetView()}
      .commit()  .undo()  .redo()  .reset()  .canUndo()  .canRedo()  .snapshot()  .state()  .onReset(fn)  .onChange(fn)
      .restore(obj)  .onRegister(fn)                 (Q300: apply a snapshot without disturbing the history; hear about a late provider)
+     .beginScope()  .endScope()                     (Q329: a workspace mode's session -- see below)
+   Q329, mode sessions: a workspace mode (viewer/modes) sets display state of its own -- layers, marks, a faded rest, part
+   views -- and puts the anatomy screen back when it is left. Entries recorded inside the mode still carry that state, so an
+   Undo after leaving could bring the mode's look back onto the anatomy screen. NMSKModes calls beginScope() on entering (the
+   state before the mode is remembered) and endScope() once the screen is restored: every top-level field of every provider
+   that reads the SAME before entering and after leaving was owned by the mode (it was put back), so each entry recorded in
+   the mode takes that field's before-the-mode value; entries that end up identical collapse. What the user did in the mode
+   and kept (a structure hidden from the click card) stays, step by step; Undo inside the mode is untouched.
    Keys: Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z or Ctrl+Y redo (never while typing in a field). */
 var NMSKHistory = (function(){
   "use strict";
+  var scope = null;                                   // Q329: {base:snapObj() before the mode, lo:the last entry before it}
   var P = [], H = [], idx = -1, MAX = 60, timer = 0, applying = false, on = false, btns = [], resetHooks = [], changeHooks = [], regHooks = [], resetView = null, lastMsg = "";
   function snapObj(){                                   /* Q300: the keys come out in a fixed order, whatever order the
                                                            providers happened to register in -- a snapshot is compared as
@@ -1795,7 +1804,8 @@ var NMSKHistory = (function(){
     var s = snap();
     if (idx >= 0 && H[idx] === s) return false;
     H = H.slice(0, idx + 1); H.push(s);
-    if (H.length > MAX) H.splice(0, H.length - MAX);
+    if (scope && idx < scope.lo) scope.lo = idx;      // Q329: an undo below the mode's start, then a new step: the mode's entries begin here
+    if (H.length > MAX){ var cut = H.length - MAX; H.splice(0, cut); if (scope) scope.lo = Math.max(-1, scope.lo - cut); }
     idx = H.length - 1; ui();
     return true;
   }
@@ -1843,6 +1853,50 @@ var NMSKHistory = (function(){
     var changed = commitNow();
     say(changed ? "Everything in this module is back to its start (Undo brings it back)." : "Already at the start.");
     return changed;
+  }
+  /* Q329: the mode session (see the header) */
+  function canon(v){                                    // key-order-free JSON, to compare entries whose fields were rewritten
+    if (Array.isArray(v)) return "[" + v.map(canon).join(",") + "]";
+    if (v && typeof v === "object") return "{" + Object.keys(v).sort().map(function(k){ return JSON.stringify(k) + ":" + canon(v[k]); }).join(",") + "}";
+    return JSON.stringify(v === undefined ? null : v);
+  }
+  function plain(v){ return !!v && typeof v === "object" && !Array.isArray(v); }
+  function beginScope(){
+    commitNow();
+    scope = {base:snapObj(), lo:on ? idx : -1};
+    return true;
+  }
+  function endScope(){
+    if (!scope) return 0;
+    var b = scope.base, lo = scope.lo; scope = null;
+    if (!on) return 0;
+    commitNow();
+    var ex = snapObj(), owned = {}, n = 0;
+    Object.keys(ex).forEach(function(k){
+      if (!(k in b)) return;                           // a provider that joined during the mode: nothing to compare with
+      if (plain(ex[k]) && plain(b[k])){
+        var f = {}; Object.keys(ex[k]).concat(Object.keys(b[k])).forEach(function(x){ if (canon(ex[k][x]) === canon(b[k][x])) f[x] = 1; });
+        owned[k] = f;
+      } else if (canon(ex[k]) === canon(b[k])) owned[k] = true;
+    });
+    for (var j = Math.max(0, lo + 1); j < H.length; j++){
+      var o; try { o = JSON.parse(H[j]); } catch (err){ continue; }
+      Object.keys(owned).forEach(function(k){
+        if (!(k in o)) return;
+        if (owned[k] === true){ o[k] = JSON.parse(JSON.stringify(b[k])); return; }
+        if (!plain(o[k])) return;
+        Object.keys(owned[k]).forEach(function(x){ if (x in b[k]) o[k][x] = JSON.parse(JSON.stringify(b[k][x])); else delete o[k][x]; });
+      });
+      H[j] = JSON.stringify(o); n++;
+    }
+    var keep = [], nIdx = 0;                            // collapse neighbours that now read the same
+    H.forEach(function(e, i){
+      if (keep.length && i > lo && canon(JSON.parse(e)) === canon(JSON.parse(keep[keep.length - 1]))){ if (i <= idx) nIdx = keep.length - 1; return; }
+      keep.push(e); if (i <= idx) nIdx = keep.length - 1;
+    });
+    H = keep; idx = nIdx; H[idx] = snap();             // the current entry reads exactly what the providers hold (commitNow compares strings)
+    ui();
+    return n;
   }
   function say(m){ lastMsg = m; var e = document.getElementById("hist-msg"); if (e){ e.textContent = m; e.hidden = !m; clearTimeout(say.t); say.t = setTimeout(function(){ e.hidden = true; }, 2200); } }
   function typing(t){ var tag = t && t.tagName; return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable); }
@@ -1911,7 +1965,8 @@ var NMSKHistory = (function(){
     snapshot:function(){ return snapObj(); }, restore:applyObj, keys:function(){ return P.map(function(p){ return p.key; }); },
     state:function(){ return {on:on, idx:idx, len:H.length, max:MAX, canUndo:idx > 0, canRedo:idx < H.length - 1, pending:!!timer, msg:lastMsg}; },
     onReset:function(f){ if (typeof f === "function") resetHooks.push(f); }, onChange:function(f){ if (typeof f === "function") changeHooks.push(f); },
-    applying:function(){ return applying; }
+    applying:function(){ return applying; },
+    beginScope:beginScope, endScope:endScope, inScope:function(){ return !!scope; }
   };
   return api;
 })();
@@ -8319,8 +8374,8 @@ body.mode-inn #pl-box,body.mode-inn #rs-box,body.mode-inn #sa-bar{display:none!i
    A provider of the shared workspace-modes controller (viewer/modes/modes.js): it registers as "inn" once the page's sidecar
    innervation_q322.json has loaded (public anatomy layer, built by scripts/anatomy/q322/build_sidecar_q322.py from
    data/anatomy/innervation_q322.json + this page's rule-based band placement); no sidecar = no mode on that page.
-   - Colour by nerve trunk or by root level: the selection controller's own per-structure colours (window.NMSKSelectCtl
-     snapshot / restore), put back exactly on exit.
+   - Colour by nerve trunk or by root level: the selection controller's MODE colours (setModeColours, Q329) -- drawn in place
+     of the user's own colours, never part of the controller's snapshot, so the page-wide undo never records them; cleared on exit.
    - A nerve (clicked on the model), a trunk chip or a root chip MARKS its muscles through the same controller (markIds, the
      rest faded): no parallel selection state.
    - The panel follows the page's selection (the quick card still opens on every click; this mode never touches it).
@@ -8383,7 +8438,7 @@ var NMSKInnervation = (function(){
     });
     return map;
   }
-  function applyColours(){ var c = sel(); if (!c || !c.snapshot) return; var s = c.snapshot(); s.ucol = colourMap(); s.ucolNext = null; c.restore(s); }
+  function applyColours(){ var c = sel(); if (c && c.setModeColours) c.setModeColours(colourMap()); }
   /* ---------- marking (the controller's marks, the rest faded) ---------- */
   function markMuscles(keys, side, extra, pick){
     var c = sel(); if (!c) return 0;
@@ -8676,7 +8731,8 @@ var NMSKInnervation = (function(){
   function exit(){
     on = false; tags([]);
     var C = sel();
-    if (C && st.saved) C.restore(st.saved);   // the user's own colours and marks back (the controller then restores the rest)
+    if (C && C.setModeColours) C.setModeColours(null);   // Q329: the mode's colours go; the user's own were never touched
+    if (C && st.saved) C.restore(st.saved);   // the user's marks back (the controller then restores the rest)
     st.saved = null; st.pick = null; st.view = null; ui = {};
     if (api && api.redraw) api.redraw();
   }
@@ -13266,6 +13322,12 @@ function NMSKSelect(E){
      composes with the highlight (which wins), the amber tint (which a user colour replaces) and the radiographic styles (which are
      applied after, and win). */
   var ucol = {}, ucolNext = null, UCOL_RE = /^#[0-9a-f]{6}$/i;
+  /* Q329: a workspace mode's own colours (the innervation mode's nerve / root colours) are DISPLAY state of that mode, not the
+     user's: they live in mcol, beside ucol and never inside it. snapshot() / restore() / pack() do not carry mcol, so the
+     page-wide undo can never record them and an Undo can never bring them back after the mode is left. While mcol is set it
+     REPLACES ucol for drawing (what the mode always did); setModeColours(null) puts the user's own colours back as they were. */
+  var mcol = null;
+  function colOf(id){ return mcol ? mcol[id] : ucol[id]; }
 
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function has(id){ return Object.prototype.hasOwnProperty.call(names, id); }
@@ -13318,7 +13380,7 @@ function NMSKSelect(E){
   function ghosting(){ return marks.length > 0 && (ss === "ghost" || os === "ghost"); }
   function translucent(){ return marks.length > 0 && [ss, os].some(function(s){ return s === "fade" || s === "ghost" || s === "xray"; }); }
   function activeState(){ return marks.length > 0 || ss !== "show" || os !== "show" || ghostPref; }
-  function tinted(id){ return tintOn && !inv && ss === "show" && set[id] === 1 && !ucol[id]; }          // no amber tint while inverted: the marked set is the whole rest of the body
+  function tinted(id){ return tintOn && !inv && ss === "show" && set[id] === 1 && !colOf(id); }          // no amber tint while inverted: the marked set is the whole rest of the body
   function hlHex(){ return parseInt(hl.slice(1), 16); }
   function fixStates(){
     if (!STATES[ss]) ss = "show";
@@ -13505,7 +13567,13 @@ function NMSKSelect(E){
   function setTint(v){ tintOn = !!v; changed(); }
   /* Q319: the colour of the selected. scope "all" = every structure marked NOW (the rest keep theirs); scope "next" = the colour that
      structures marked AFTER this point receive, those already marked are left alone. hex = null puts back the structure's own colour. */
-  function userHex(id){ return ucol[id] ? parseInt(ucol[id].slice(1), 16) : null; }
+  function userHex(id){ var c = colOf(id); return c ? parseInt(c.slice(1), 16) : null; }
+  function setModeColours(map){
+    var m = null;
+    if (map){ m = {}; Object.keys(map).forEach(function(k){ var h = String(map[k] || "").toLowerCase(); if (has(k) && UCOL_RE.test(h)) m[k] = h; }); }
+    mcol = m; changed();
+    return m ? Object.keys(m).length : 0;
+  }
   function setUserColour(hex, scope){
     if (hex != null){ hex = String(hex).toLowerCase(); if (!UCOL_RE.test(hex)) return false; }
     if (scope === "next"){
@@ -13519,7 +13587,9 @@ function NMSKSelect(E){
     changed();
     return true;
   }
-  function colourState(){ return {next:ucolNext, own:Object.keys(ucol).length, ids:JSON.parse(JSON.stringify(ucol))}; }
+  function colourState(){       // ids = the per-structure colours DRAWN now (a mode's while it colours, else the user's); user = the user's own
+    return {next:ucolNext, own:Object.keys(ucol).length, ids:JSON.parse(JSON.stringify(mcol || ucol)), user:JSON.parse(JSON.stringify(ucol)), mode:mcol ? Object.keys(mcol).length : 0};
+  }
   var PALETTE = [["Red", "#d64545"], ["Orange", "#e8892b"], ["Yellow", "#e8c32b"], ["Green", "#4ca65a"], ["Teal", "#2ba3a3"],
                  ["Blue", "#3f7fd6"], ["Purple", "#8e5bc9"], ["Pink", "#e36fa6"], ["Grey", "#9aa3ab"], ["White", "#f2f2f2"]];
   /* the control: built here, mounted by the Search group of the top row. Two modes, a small palette, a free colour, and a reset. */
@@ -13883,7 +13953,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    userHex:userHex, setUserColour:setUserColour, colourState:colourState, colourBox:colourBox,
+    userHex:userHex, setUserColour:setUserColour, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
     snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
@@ -14136,6 +14206,7 @@ var NMSKModes = (function(){
     hideSwitcher(); enter(k);
   }
   /* ---------- enter / exit ---------- */
+  function hist(f){ try { var H = window.NMSKHistory; if (H && typeof H[f] === "function") H[f](); } catch (err){ if (window.console) console.error("mode history:", err); } }
   function makeCtx(key, p){
     var shell = $("mode-shell");
     return {
@@ -14160,6 +14231,7 @@ var NMSKModes = (function(){
     if (cur === key) return true;
     if (cur) exit(true);
     queued = null;
+    hist("beginScope");                    // Q329: the page-wide undo remembers the screen before the mode (see viewer/q294/history.js)
     snap = takeSnapshot();
     cur = key; curP = p; ctx = makeCtx(key, p);
     document.body.classList.add("mode-on", "mode-" + key);
@@ -14183,6 +14255,7 @@ var NMSKModes = (function(){
     var shell = $("mode-shell"); shell.hidden = true; $("mode-main").innerHTML = ""; $("mb-chips").innerHTML = ""; $("mode-pills").innerHTML = "";
     cur = null; curP = null; ctx = null;
     restoreSnapshot(snap); snap = null;
+    hist("endScope");                      // Q329: what the mode set and the exit put back leaves the undo history with it
     fireResize();
     if (!silent) remember("anat");
     syncTiles();

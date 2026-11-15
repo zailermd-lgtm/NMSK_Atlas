@@ -2,8 +2,8 @@
    A provider of the shared workspace-modes controller (viewer/modes/modes.js): it registers as "inn" once the page's sidecar
    innervation_q322.json has loaded (public anatomy layer, built by scripts/anatomy/q322/build_sidecar_q322.py from
    data/anatomy/innervation_q322.json + this page's rule-based band placement); no sidecar = no mode on that page.
-   - Colour by nerve trunk or by root level: the selection controller's own per-structure colours (window.NMSKSelectCtl
-     snapshot / restore), put back exactly on exit.
+   - Colour by nerve trunk or by root level: the selection controller's MODE colours (setModeColours, Q329) -- drawn in place
+     of the user's own colours, never part of the controller's snapshot, so the page-wide undo never records them; cleared on exit.
    - A nerve (clicked on the model), a trunk chip or a root chip MARKS its muscles through the same controller (markIds, the
      rest faded): no parallel selection state.
    - The panel follows the page's selection (the quick card still opens on every click; this mode never touches it).
@@ -66,7 +66,7 @@ var NMSKInnervation = (function(){
     });
     return map;
   }
-  function applyColours(){ var c = sel(); if (!c || !c.snapshot) return; var s = c.snapshot(); s.ucol = colourMap(); s.ucolNext = null; c.restore(s); }
+  function applyColours(){ var c = sel(); if (c && c.setModeColours) c.setModeColours(colourMap()); }
   /* ---------- marking (the controller's marks, the rest faded) ---------- */
   function markMuscles(keys, side, extra, pick){
     var c = sel(); if (!c) return 0;
@@ -359,7 +359,8 @@ var NMSKInnervation = (function(){
   function exit(){
     on = false; tags([]);
     var C = sel();
-    if (C && st.saved) C.restore(st.saved);   // the user's own colours and marks back (the controller then restores the rest)
+    if (C && C.setModeColours) C.setModeColours(null);   // Q329: the mode's colours go; the user's own were never touched
+    if (C && st.saved) C.restore(st.saved);   // the user's marks back (the controller then restores the rest)
     st.saved = null; st.pick = null; st.view = null; ui = {};
     if (api && api.redraw) api.redraw();
   }

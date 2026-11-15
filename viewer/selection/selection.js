@@ -38,6 +38,12 @@ function NMSKSelect(E){
      composes with the highlight (which wins), the amber tint (which a user colour replaces) and the radiographic styles (which are
      applied after, and win). */
   var ucol = {}, ucolNext = null, UCOL_RE = /^#[0-9a-f]{6}$/i;
+  /* Q329: a workspace mode's own colours (the innervation mode's nerve / root colours) are DISPLAY state of that mode, not the
+     user's: they live in mcol, beside ucol and never inside it. snapshot() / restore() / pack() do not carry mcol, so the
+     page-wide undo can never record them and an Undo can never bring them back after the mode is left. While mcol is set it
+     REPLACES ucol for drawing (what the mode always did); setModeColours(null) puts the user's own colours back as they were. */
+  var mcol = null;
+  function colOf(id){ return mcol ? mcol[id] : ucol[id]; }
 
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function has(id){ return Object.prototype.hasOwnProperty.call(names, id); }
@@ -90,7 +96,7 @@ function NMSKSelect(E){
   function ghosting(){ return marks.length > 0 && (ss === "ghost" || os === "ghost"); }
   function translucent(){ return marks.length > 0 && [ss, os].some(function(s){ return s === "fade" || s === "ghost" || s === "xray"; }); }
   function activeState(){ return marks.length > 0 || ss !== "show" || os !== "show" || ghostPref; }
-  function tinted(id){ return tintOn && !inv && ss === "show" && set[id] === 1 && !ucol[id]; }          // no amber tint while inverted: the marked set is the whole rest of the body
+  function tinted(id){ return tintOn && !inv && ss === "show" && set[id] === 1 && !colOf(id); }          // no amber tint while inverted: the marked set is the whole rest of the body
   function hlHex(){ return parseInt(hl.slice(1), 16); }
   function fixStates(){
     if (!STATES[ss]) ss = "show";
@@ -277,7 +283,13 @@ function NMSKSelect(E){
   function setTint(v){ tintOn = !!v; changed(); }
   /* Q319: the colour of the selected. scope "all" = every structure marked NOW (the rest keep theirs); scope "next" = the colour that
      structures marked AFTER this point receive, those already marked are left alone. hex = null puts back the structure's own colour. */
-  function userHex(id){ return ucol[id] ? parseInt(ucol[id].slice(1), 16) : null; }
+  function userHex(id){ var c = colOf(id); return c ? parseInt(c.slice(1), 16) : null; }
+  function setModeColours(map){
+    var m = null;
+    if (map){ m = {}; Object.keys(map).forEach(function(k){ var h = String(map[k] || "").toLowerCase(); if (has(k) && UCOL_RE.test(h)) m[k] = h; }); }
+    mcol = m; changed();
+    return m ? Object.keys(m).length : 0;
+  }
   function setUserColour(hex, scope){
     if (hex != null){ hex = String(hex).toLowerCase(); if (!UCOL_RE.test(hex)) return false; }
     if (scope === "next"){
@@ -291,7 +303,9 @@ function NMSKSelect(E){
     changed();
     return true;
   }
-  function colourState(){ return {next:ucolNext, own:Object.keys(ucol).length, ids:JSON.parse(JSON.stringify(ucol))}; }
+  function colourState(){       // ids = the per-structure colours DRAWN now (a mode's while it colours, else the user's); user = the user's own
+    return {next:ucolNext, own:Object.keys(ucol).length, ids:JSON.parse(JSON.stringify(mcol || ucol)), user:JSON.parse(JSON.stringify(ucol)), mode:mcol ? Object.keys(mcol).length : 0};
+  }
   var PALETTE = [["Red", "#d64545"], ["Orange", "#e8892b"], ["Yellow", "#e8c32b"], ["Green", "#4ca65a"], ["Teal", "#2ba3a3"],
                  ["Blue", "#3f7fd6"], ["Purple", "#8e5bc9"], ["Pink", "#e36fa6"], ["Grey", "#9aa3ab"], ["White", "#f2f2f2"]];
   /* the control: built here, mounted by the Search group of the top row. Two modes, a small palette, a free colour, and a reset. */
@@ -655,7 +669,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    userHex:userHex, setUserColour:setUserColour, colourState:colourState, colourBox:colourBox,
+    userHex:userHex, setUserColour:setUserColour, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
     snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,

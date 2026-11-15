@@ -10,9 +10,18 @@
      NMSKHistory.start(opt)                          opt {max, toolbars:[{el, cls}], floating (default true), anchor, resetView()}
      .commit()  .undo()  .redo()  .reset()  .canUndo()  .canRedo()  .snapshot()  .state()  .onReset(fn)  .onChange(fn)
      .restore(obj)  .onRegister(fn)                 (Q300: apply a snapshot without disturbing the history; hear about a late provider)
+     .beginScope()  .endScope()                     (Q329: a workspace mode's session -- see below)
+   Q329, mode sessions: a workspace mode (viewer/modes) sets display state of its own -- layers, marks, a faded rest, part
+   views -- and puts the anatomy screen back when it is left. Entries recorded inside the mode still carry that state, so an
+   Undo after leaving could bring the mode's look back onto the anatomy screen. NMSKModes calls beginScope() on entering (the
+   state before the mode is remembered) and endScope() once the screen is restored: every top-level field of every provider
+   that reads the SAME before entering and after leaving was owned by the mode (it was put back), so each entry recorded in
+   the mode takes that field's before-the-mode value; entries that end up identical collapse. What the user did in the mode
+   and kept (a structure hidden from the click card) stays, step by step; Undo inside the mode is untouched.
    Keys: Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z or Ctrl+Y redo (never while typing in a field). */
 var NMSKHistory = (function(){
   "use strict";
+  var scope = null;                                   // Q329: {base:snapObj() before the mode, lo:the last entry before it}
   var P = [], H = [], idx = -1, MAX = 60, timer = 0, applying = false, on = false, btns = [], resetHooks = [], changeHooks = [], regHooks = [], resetView = null, lastMsg = "";
   function snapObj(){                                   /* Q300: the keys come out in a fixed order, whatever order the
                                                            providers happened to register in -- a snapshot is compared as
@@ -37,7 +46,8 @@ var NMSKHistory = (function(){
     var s = snap();
     if (idx >= 0 && H[idx] === s) return false;
     H = H.slice(0, idx + 1); H.push(s);
-    if (H.length > MAX) H.splice(0, H.length - MAX);
+    if (scope && idx < scope.lo) scope.lo = idx;      // Q329: an undo below the mode's start, then a new step: the mode's entries begin here
+    if (H.length > MAX){ var cut = H.length - MAX; H.splice(0, cut); if (scope) scope.lo = Math.max(-1, scope.lo - cut); }
     idx = H.length - 1; ui();
     return true;
   }
@@ -85,6 +95,50 @@ var NMSKHistory = (function(){
     var changed = commitNow();
     say(changed ? "Everything in this module is back to its start (Undo brings it back)." : "Already at the start.");
     return changed;
+  }
+  /* Q329: the mode session (see the header) */
+  function canon(v){                                    // key-order-free JSON, to compare entries whose fields were rewritten
+    if (Array.isArray(v)) return "[" + v.map(canon).join(",") + "]";
+    if (v && typeof v === "object") return "{" + Object.keys(v).sort().map(function(k){ return JSON.stringify(k) + ":" + canon(v[k]); }).join(",") + "}";
+    return JSON.stringify(v === undefined ? null : v);
+  }
+  function plain(v){ return !!v && typeof v === "object" && !Array.isArray(v); }
+  function beginScope(){
+    commitNow();
+    scope = {base:snapObj(), lo:on ? idx : -1};
+    return true;
+  }
+  function endScope(){
+    if (!scope) return 0;
+    var b = scope.base, lo = scope.lo; scope = null;
+    if (!on) return 0;
+    commitNow();
+    var ex = snapObj(), owned = {}, n = 0;
+    Object.keys(ex).forEach(function(k){
+      if (!(k in b)) return;                           // a provider that joined during the mode: nothing to compare with
+      if (plain(ex[k]) && plain(b[k])){
+        var f = {}; Object.keys(ex[k]).concat(Object.keys(b[k])).forEach(function(x){ if (canon(ex[k][x]) === canon(b[k][x])) f[x] = 1; });
+        owned[k] = f;
+      } else if (canon(ex[k]) === canon(b[k])) owned[k] = true;
+    });
+    for (var j = Math.max(0, lo + 1); j < H.length; j++){
+      var o; try { o = JSON.parse(H[j]); } catch (err){ continue; }
+      Object.keys(owned).forEach(function(k){
+        if (!(k in o)) return;
+        if (owned[k] === true){ o[k] = JSON.parse(JSON.stringify(b[k])); return; }
+        if (!plain(o[k])) return;
+        Object.keys(owned[k]).forEach(function(x){ if (x in b[k]) o[k][x] = JSON.parse(JSON.stringify(b[k][x])); else delete o[k][x]; });
+      });
+      H[j] = JSON.stringify(o); n++;
+    }
+    var keep = [], nIdx = 0;                            // collapse neighbours that now read the same
+    H.forEach(function(e, i){
+      if (keep.length && i > lo && canon(JSON.parse(e)) === canon(JSON.parse(keep[keep.length - 1]))){ if (i <= idx) nIdx = keep.length - 1; return; }
+      keep.push(e); if (i <= idx) nIdx = keep.length - 1;
+    });
+    H = keep; idx = nIdx; H[idx] = snap();             // the current entry reads exactly what the providers hold (commitNow compares strings)
+    ui();
+    return n;
   }
   function say(m){ lastMsg = m; var e = document.getElementById("hist-msg"); if (e){ e.textContent = m; e.hidden = !m; clearTimeout(say.t); say.t = setTimeout(function(){ e.hidden = true; }, 2200); } }
   function typing(t){ var tag = t && t.tagName; return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || (t && t.isContentEditable); }
@@ -153,7 +207,8 @@ var NMSKHistory = (function(){
     snapshot:function(){ return snapObj(); }, restore:applyObj, keys:function(){ return P.map(function(p){ return p.key; }); },
     state:function(){ return {on:on, idx:idx, len:H.length, max:MAX, canUndo:idx > 0, canRedo:idx < H.length - 1, pending:!!timer, msg:lastMsg}; },
     onReset:function(f){ if (typeof f === "function") resetHooks.push(f); }, onChange:function(f){ if (typeof f === "function") changeHooks.push(f); },
-    applying:function(){ return applying; }
+    applying:function(){ return applying; },
+    beginScope:beginScope, endScope:endScope, inScope:function(){ return !!scope; }
   };
   return api;
 })();

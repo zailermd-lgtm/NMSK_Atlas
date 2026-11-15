@@ -103,6 +103,7 @@ var NMSKModes = (function(){
     hideSwitcher(); enter(k);
   }
   /* ---------- enter / exit ---------- */
+  function hist(f){ try { var H = window.NMSKHistory; if (H && typeof H[f] === "function") H[f](); } catch (err){ if (window.console) console.error("mode history:", err); } }
   function makeCtx(key, p){
     var shell = $("mode-shell");
     return {
@@ -127,6 +128,7 @@ var NMSKModes = (function(){
     if (cur === key) return true;
     if (cur) exit(true);
     queued = null;
+    hist("beginScope");                    // Q329: the page-wide undo remembers the screen before the mode (see viewer/q294/history.js)
     snap = takeSnapshot();
     cur = key; curP = p; ctx = makeCtx(key, p);
     document.body.classList.add("mode-on", "mode-" + key);
@@ -150,6 +152,7 @@ var NMSKModes = (function(){
     var shell = $("mode-shell"); shell.hidden = true; $("mode-main").innerHTML = ""; $("mb-chips").innerHTML = ""; $("mode-pills").innerHTML = "";
     cur = null; curP = null; ctx = null;
     restoreSnapshot(snap); snap = null;
+    hist("endScope");                      // Q329: what the mode set and the exit put back leaves the undo history with it
     fireResize();
     if (!silent) remember("anat");
     syncTiles();
