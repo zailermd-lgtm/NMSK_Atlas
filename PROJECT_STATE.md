@@ -2,7 +2,7 @@
 
 Read this first in a fresh session instead of the conversation. Keep it short (target < 200 lines):
 it holds only what is true NOW. When a round closes, move its detail to `docs/PROJECT_HISTORY.md`
-(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-15 (after the Q328–Q329 publish).
+(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-15 22:45 UTC (after the Q331–Q338 interim publish).
 
 ## 1. Standing rules (owner)
 - Real sources only; never present fabricated or sculpted geometry as real. Anything fitted from the
@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v91 (Q328–Q329) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v86 (Q328–Q329) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v92 (Q331–Q338) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v87 (Q331–Q338) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -148,11 +148,12 @@ regen, all verifiers, publish.
   agents stopped mid-work with their context saved; a scheduled message at 23:34 UTC resumes them by
   SendMessage (ids in that message). Their half-done edits are in the working tree, uncommitted — do not
   regen from the working tree until they finish.
-- **Interim publish from committed code only** (git worktree /dev/shm/wt_head at HEAD → regen /dev/shm/q340):
-  Q331 motor points F, Q332 readouts, Q333 chest, Q338 hand rig. Verifiers running (scratchpad v340.txt).
-  Base·F publish must include geo_00/01/02 (Q333). Note: the genital agent had overwritten
-  `pose_rig_base_f.json` with a 3301-structure rig (its `skin_vulva_cvh` copy); restored to the 3300 splice
-  (its version saved in the scratchpad as pose_rig_base_f.with_vulva_skin_3301.json).
+- **Interim publish DONE 2026-11-15: Base·M v92, Base·F v87** from committed code only (git worktree
+  /dev/shm/wt_head at HEAD → regen /dev/shm/q340; 24 verifier verdicts OK): Q331 motor points F, Q332
+  readouts, Q333 chest (Base·F geo_00/01/02 republished), Q338 hand rig. Still MIRRORED (Q339 pending).
+  The genital agent had overwritten `pose_rig_base_f.json` with a 3301-structure rig (its `skin_vulva_cvh`
+  copy); restored to the 3300 splice (its version saved in the scratchpad as
+  pose_rig_base_f.with_vulva_skin_3301.json).
 Open: deltoid middle-belly motor rule fails on Base·F (axillary-level landmark proxy too low); triceps /
 gastrocnemius IZ values in data/muscles/* still suspicious (not displayed); 82 muscles/body without attachment points; teres major /
 latissimus iliac-line IZ bands unplaced.
