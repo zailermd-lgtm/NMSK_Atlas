@@ -95,7 +95,9 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-Nothing in flight. Open, in order: (1) saved injection points, motor points and risk halos do not follow
+In flight (2026-11-15): Q328 agent on item (1) (clinical/needle_tool.js, verifier
+`scripts/anatomy/q328/verify_overlays_pose_q328.py`); Q329 agent on item (2) (verifier
+`scripts/anatomy/q329/verify_mode_undo_q329.py`). Then one regen, verify, publish. Open, in order: (1) saved injection points, motor points and risk halos do not follow
 pose (needle plan does); (2) mode colours can come back after Undo once a mode is left (edge case);
 (3) 82 muscles per Base body without attachment points (reasons in docs/PROJECT_HISTORY.md Q324);
 (4) teres major / latissimus iliac-line IZ bands unplaced (skin point over another muscle).
