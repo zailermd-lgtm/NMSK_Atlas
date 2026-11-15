@@ -99,12 +99,13 @@ Published 2026-11-15: Base·M v91, Base·F v86 — Q328 saved injection points +
 (halos already did; verifier `scripts/anatomy/q328/verify_overlays_pose_q328.py`), Q329 mode display
 state kept out of Undo (`setModeColours`, NMSKHistory beginScope/endScope; verifier
 `scripts/anatomy/q329/verify_mode_undo_q329.py`). 22 verifier verdicts OK on /dev/shm/q330.
-In flight (2026-11-15, owner: "continue"; main thread now on the model the owner selected, agents still
-routed by docs/MODEL_GUIDANCE.md): Q331 agent — `base_f` motor points (builder
-`scripts/clinical/motor_points_q187.py`; `zan_m` key = Base·M) + audit/fix of points outside their muscle;
-Q332 agent — saved points' vessel/nerve readouts re-measured on the posed body (verifier
-`scripts/anatomy/q332/verify_saved_readouts_q332.py`). Then regen (add `clinical_motor_points.json` to
---expect-changed), verify, publish. Owner feedback 2026-11-15 (three more agents, all Base only):
+Done, committed, not yet published: **Q331** Base·F motor points (193, key `base_f`; builder
+`motor_points_q187.py --viewers base_f --merge`); audit found 0 points outside their muscle on either Base
+body (the old "1–11 mm outside" was an unsigned depth — closed). Regen now copies
+`clinical/data/motor_points.json` → `clinical_motor_points.json` (add it to --expect-changed).
+**Q332** saved points' vessel/nerve readouts re-measured on the posed body (verifier
+`scripts/anatomy/q332/verify_saved_readouts_q332.py`); risk region cache keyed by pose.
+Owner feedback 2026-11-15 (three more agents, all Base only):
 - **Q333** something is wrong in the LEFT ANTERIOR CHEST of Base·Female — diagnose (screenshots, left/right
   and male comparison, Q319 repairs as suspects, `*.q318` backups) and fix at the source; script under
   `scripts/anatomy/q333/`, applied to build/ only by the main thread.
@@ -113,7 +114,6 @@ Q332 agent — saved points' vessel/nerve readouts re-measured on the posed body
 - **Q335** click card: default docked top-left, draggable, position remembered; leader line only when the
   structure is not marked in colour (setting); a ⋮ menu beside every window's drag grip; groups /
   adjacent / related chips open under the name or at the very bottom, width = content, never a full row.
-Open: Base·F has no motor-point data (`clinical_motor_points.json` lacks base_f);
-Base·M shank motor points 1–11 mm outside their muscle in the source data; saved points' nearest-vessel
-readout not re-measured after a pose change; 82 muscles/body without attachment points; teres major /
+Open: deltoid middle-belly motor rule fails on Base·F (axillary-level landmark proxy too low); triceps /
+gastrocnemius IZ values in data/muscles/* still suspicious (not displayed); 82 muscles/body without attachment points; teres major /
 latissimus iliac-line IZ bands unplaced.
