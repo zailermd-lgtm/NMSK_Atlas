@@ -95,10 +95,11 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-In flight (2026-11-15): Q328 agent on item (1) (clinical/needle_tool.js, verifier
-`scripts/anatomy/q328/verify_overlays_pose_q328.py`); Q329 agent on item (2) (verifier
-`scripts/anatomy/q329/verify_mode_undo_q329.py`). Then one regen, verify, publish. Open, in order: (1) saved injection points, motor points and risk halos do not follow
-pose (needle plan does); (2) ~~mode colours back after Undo~~ fixed in source as **Q329** (not published): mode colours
-`setModeColours` outside the selection snapshot + history mode session `beginScope/endScope` (verifier
-`scripts/anatomy/q329/verify_mode_undo_q329.py`, OK on /dev/shm/q329 both Base pages); (3) 82 muscles per Base body without attachment points (reasons in docs/PROJECT_HISTORY.md Q324);
-(4) teres major / latissimus iliac-line IZ bands unplaced (skin point over another muscle).
+Q328 (saved injection points + motor points follow Pose; halos already did) and Q329 (mode display state
+never returns through Undo: `setModeColours` outside history + NMSKHistory beginScope/endScope) are
+committed. Regen DONE → /dev/shm/q330; full verifier set + `q328/verify_overlays_pose_q328.py` +
+`q329/verify_mode_undo_q329.py` running (scratchpad v330.txt). Then publish both Base pages.
+Open after this: Base·F has no motor-point data (`clinical_motor_points.json` has no base_f entry);
+many Base·M shank motor points lie 1–11 mm outside their muscle in the source data; saved points'
+nearest-vessel readout not re-measured after a pose change; 82 muscles/body without attachment points;
+teres major / latissimus iliac-line IZ bands unplaced.
