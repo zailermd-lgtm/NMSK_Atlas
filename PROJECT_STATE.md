@@ -2,7 +2,7 @@
 
 Read this first in a fresh session instead of the conversation. Keep it short (target < 200 lines):
 it holds only what is true NOW. When a round closes, move its detail to `docs/PROJECT_HISTORY.md`
-(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-14 (after the Q321–Q324 publish).
+(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-15 (after the Q325–Q327 publish).
 
 ## 1. Standing rules (owner)
 - Real sources only; never present fabricated or sculpted geometry as real. Anything fitted from the
@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v89 (Q321–Q324) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v84 (Q321–Q324) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v90 (Q325–Q327) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v85 (Q325–Q327) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -78,7 +78,13 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - **Q324** attachment points placed for 140/222 muscles (was 17), stricter checks on ligaments/fasciae.
 - All verifiers OK on /dev/shm/q325 (Q318 toprow, Q319 spine/search/nerves, Q321, Q322, Q323; both pages,
   desktop + phone for Q321/Q322/Q323).
-- Regen `--expect-changed` list now also needs `innervation_q322.json`.
+- Regen `--expect-changed` list now also needs `innervation_q322.json`, `clinical_needle_tool.js` (while the
+  needle tool changes) and `__ANATOMY_manifest` (record-link patch, Q327).
+- Shipped 2026-11-15 (Base·M v90, Base·F v85): **Q325** injection clip (needle plans on the posed body,
+  "Show in scan" in/out of plane, play control; verifier `scripts/anatomy/q325/verify_needle_clip_q325.py`);
+  **Q326** latissimus IZ projected from the skin line (178/188 bands); **Q327** `#pl-box #rs-box #sa-bar`
+  hidden in every mode; 10 borrowed records removed (ligament/fascia never take a muscle's or bone's
+  record; `scripts/zanatomy/patch_manifest_records_q327.py` runs in regen). 18 verifier verdicts OK.
 
 ## 8. Open (Base pages)
 - Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
@@ -89,12 +95,7 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-Q325–Q327 all committed. Regen DONE → /dev/shm/q328 (expect-changed now also `clinical_needle_tool.js`
-and `__ANATOMY_manifest`). Full verifier set running (scratchpad v328.txt; incl. new
-`scripts/anatomy/q325/verify_needle_clip_q325.py`). Then publish both Base pages: index.html,
-clinical_imaging_tool.js, clinical_ultrasound_tool.js, clinical_needle_tool.js, parts_data.json,
-symmetry_q237.json, innervation_q322.json (cmp against build/q309 to confirm the list).
-Done this round: Q325 injection clip (needle on posed body, Show in scan, play); Q326 latissimus IZ
-projected from skin line (178/188); Q327 mode chrome hidden in all modes + 10 borrowed records removed.
-Open after this: saved injection points / motor points / risk halos don't follow pose; mode-colour
-leftover after Undo.
+Nothing in flight. Open, in order: (1) saved injection points, motor points and risk halos do not follow
+pose (needle plan does); (2) mode colours can come back after Undo once a mode is left (edge case);
+(3) 82 muscles per Base body without attachment points (reasons in docs/PROJECT_HISTORY.md Q324);
+(4) teres major / latissimus iliac-line IZ bands unplaced (skin point over another muscle).
