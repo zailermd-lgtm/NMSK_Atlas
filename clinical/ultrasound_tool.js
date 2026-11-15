@@ -1664,6 +1664,7 @@
       return {rot: S.rot, sign: S.sign, axis: null};
     }
     function frameSpecs() {
+      if (clip.on) return [{id: 0, tilt: 0, dir: 0, off: 0, label: clip.oop ? "needle, out of plane" : "needle, in plane", short: "needle"}];   // Q325
       if (S.ab) {                                                        // Q267 (5): two independent placements, EVERY other control shared (depth/freq/gain/rotation/tilt/direction -- the same S.rot/S.mTilt/S.mTiltDir sliders the sweep mode already exposes)
         return [{id: 0, tilt: S.mTilt, dir: S.mTiltDir, off: 0, P: S.P, N: S.N, label: "A", short: "A"},
           {id: 1, tilt: S.mTilt, dir: S.mTiltDir, off: 0, P: S.P2 || S.P, N: S.N2 || S.N, label: "B", short: "B"}];
@@ -1784,6 +1785,125 @@
     function needleSig() {
       return needle ? needle.A.concat(needle.B).map(function (v) { return v.toFixed(2); }).join(",") + "," + needle.r.toFixed(2) : "";
     }
+    /* Q325: the injection clip. The needle tool (clinical/needle_tool.js, NMSKClinicalTool.scanPath()) hands over its planned path:
+       entry -> target in the CURRENT model frame (posed when the pose rig has moved the body; the tool's points ride the structures they
+       were placed on). "Show in scan" seats the probe so that the scan plane CONTAINS the path -- in plane: the probe beside the entry
+       (over the target when that lies farther along), its long axis along the needle's projection on the skin, its face rocked only
+       inside that plane -- or, out of plane, crosses it at the target (the probe over the target, its long axis across the needle: the
+       shaft is seen only where it crosses the plane). Then the tip advances entry -> target over clip.dur ms; each frame goes through
+       the same needle painter as setNeedle(), so while the probe stays put the label raster is reused (rasterKey unchanged) and only the
+       needle is re-painted and re-simulated (the frame's sig carries the needle). A new frame is asked for only when the previous one is
+       done: on a slow, software-rendered machine the clip drops frames instead of queueing them, and its last frame is always the tip
+       at the target. While the clip is on, one image is made (the needle plane), not the nine of the tilt star. */
+    var clip = {on: false, oop: false, t: 1, playing: false, dur: 4000, steps: 12, t0: 0, timer: 0, hist: [], saved: null, path: null, tip: null, msg: "", hook: false};
+    function clipPath() { var T = G.NMSKClinicalTool; try { var p = T && T.scanPath ? T.scanPath() : null; return p && p.A && p.B ? p : null; } catch (e) { return null; } }
+    function clipAlign(path) {                                                 // -> true when the probe now looks at the path
+      if (!geo || !path) return false;
+      var E = path.A, Tg = path.B, d = sub(Tg, E), L = len(d); if (!(L > 0.5)) return false; d = mul(d, 1 / L);
+      var hE = LIB.skinHit(geo, add(E, mul(d, -40)), d, null);                   // the skin where the needle goes in (its own skin piece, as placeRay)
+      var N0 = hE && hE.t < 80 ? LIB.smoothNormal(geo, hE.point, 15, null, hE.struct) : null; if (!N0 || !(len(N0) > 0.5)) N0 = mul(d, -1);
+      if (dot(N0, d) > 0) N0 = mul(N0, -1);
+      N0 = LIB.unit(N0);
+      var dt = sub(d, mul(N0, dot(d, N0))), ePl, P;
+      if (len(dt) < 0.05) dt = LIB.probeFrame(N0, orientRef(), 0, 0, 0).u0;   // straight down: any plane through the needle holds it
+      dt = LIB.unit(dt);
+      if (!clip.oop) { ePl = LIB.unit(LIB.cross(dt, N0)); P = add(E, mul(dt, Math.max(dot(sub(Tg, E), dt), probeW() / 2 + 2))); }
+      else { ePl = dt; P = add(Tg, mul(N0, dot(sub(E, Tg), N0))); }
+      var h = LIB.skinHit(geo, add(P, mul(N0, 60)), mul(N0, -1), cutKeep());   // the ray lies in the plane, so the seat does too
+      if (h && Math.abs(h.t - 60) < 40) P = h.point; else h = null;
+      var Np = h ? LIB.smoothNormal(geo, P, 15, null, h.struct) : N0; if (!Np || !(len(Np) > 0.5)) Np = N0;
+      if (dot(Np, N0) < 0) Np = mul(Np, -1);
+      Np = sub(Np, mul(ePl, dot(Np, ePl))); Np = len(Np) > 0.2 ? LIB.unit(Np) : N0;
+      var uW = LIB.unit(LIB.cross(ePl, Np)); if (!clip.oop && dot(uW, dt) < 0) uW = mul(uW, -1);   // frame e = cross(N, u) = the plane's normal
+      var u0 = LIB.probeFrame(Np, orientRef(), 0, 0, 0).u0;
+      if (S.ab) setAb(false);
+      if (S.cine) setCine(false);
+      S.P = P; S.N = Np; if (h) S.skinStruct = h.struct;
+      S.rot = Math.atan2(dot(LIB.cross(u0, uW), Np), dot(u0, uW)) / DEG; S.mTilt = 0; S.mTiltDir = 0; S.mode = "star"; S.view = "single"; S.sel = 0;
+      var depth = dot(sub(P, Tg), Np);
+      S.depthCm = Math.max(2, Math.min(15, Math.ceil((depth + 12) / 5) * 0.5)); S.focusCm = Math.max(0.5, Math.min(S.depthCm, Math.round(depth / 5) * 0.5));
+      axisCache.__follow = null; clip.path = {A: path.A.slice(), B: path.B.slice()}; clip.len = L;
+      return true;
+    }
+    function clipNeedleAt(t) {
+      var path = clipPath(); if (!path) return false;
+      clip.t = Math.max(0, Math.min(1, t));
+      var B = add(path.A, mul(sub(path.B, path.A), clip.t));
+      needle = {A: path.A.slice(), B: B, r: Math.max(0.05, +path.r_mm || 0.4)};
+      clip.tip = B; clip.target = path.B.slice();
+      return true;
+    }
+    function clipSet(t) { if (!clipNeedleAt(t)) { clipStop(); return; } refresh(true); clipUi(); }
+    function clipTick() {
+      clearTimeout(clip.timer);
+      if (!clip.playing || !clip.on) return;
+      if (!S.open) { clip.playing = false; clipUi(); return; }
+      if (busy || pumpPending) { clip.timer = setTimeout(clipTick, 15); return; }   // the previous frame is still being made: never queue
+      var t = Math.min(1, (Date.now() - clip.t0) / clip.dur);
+      clipSet(t);
+      if (t >= 1) { clip.playing = false; clipUi(); return; }
+      clip.timer = setTimeout(clipTick, 15);
+    }
+    function clipPlay(restart) {
+      if (!clip.on) return;
+      if (restart || clip.t >= 1) { clip.t = 0; clip.hist = []; }
+      clip.playing = true; clip.t0 = Date.now() - clip.t * clip.dur;
+      clipSet(clip.t); clipTick();
+    }
+    function clipPause() { clip.playing = false; clearTimeout(clip.timer); clipUi(); }
+    function clipStep(k) { clipPause(); clipSet(Math.round(clip.t * clip.steps + k) / clip.steps); }
+    function clipStop() {
+      clipPause();
+      if (!clip.on) { clipUi(); return; }
+      clip.on = false; needle = null; clip.tip = null; clip.ovk = null;
+      document.body.classList.remove("us-clip-on");
+      var sv = clip.saved; if (sv) { S.mode = sv.mode; S.view = sv.view; S.sel = sv.sel; }
+      frames = []; syncUi(); relayoutViews(); refresh(true);
+    }
+    function clipHook() {                                                      // the needle tool changed its plan (or cleared it)
+      if (!clip.on) { clipUi(); return; }
+      var p = clipPath();
+      if (!p) { clipStop(); return; }
+      var q = clip.path, moved = !q || Math.max(dist3(p.A, q.A), dist3(p.B, q.B)) > 0.01;
+      if (moved && !clip.playing) { clipAlign(p); clipNeedleAt(clip.t); refresh(true); }
+      clipUi();
+    }
+    function clipShow(o) {
+      o = o || {};
+      if (o.oop != null) clip.oop = !!o.oop;
+      if (!clip.hook && G.NMSKClinicalTool && G.NMSKClinicalTool.hooks) { G.NMSKClinicalTool.hooks.push(clipHook); clip.hook = true; }
+      if (!S.open) setOpen(true);
+      return loadTable().then(function () {
+        if (!AC || !geo) return false;
+        syncPose();                                                            // the posed skin, before the probe is seated on it
+        var path = clipPath();
+        if (!path) { clip.msg = "Plan a needle path first (entry and target)."; clipUi(); return false; }
+        if (!clip.on) clip.saved = {mode: S.mode, view: S.view, sel: S.sel};
+        clipPause();
+        if (!clipAlign(path)) { clip.msg = "The planned path is too short to show."; clipUi(); return false; }
+        clip.on = true; clip.msg = ""; clip.hist = []; clip.ovk = null; document.body.classList.add("us-clip-on");
+        frames = []; syncUi(); relayoutViews();
+        clipSet(o.t != null ? o.t : 1);                                        // the whole planned path first
+        if (o.play) clipPlay(true);
+        return true;
+      });
+    }
+    function clipInPlane(fr) {                                                 // signed distance of the path's ends from the frame's plane (mm)
+      if (!fr || !clip.path) return null;
+      var e = fr.pf.e, O = fr.O;
+      return {A: dot(sub(clip.path.A, O), e), B: dot(sub(clip.path.B, O), e)};
+    }
+    function clipUi() {
+      if (!ui.clip) return;
+      var has = !!clipPath(), on = clip.on;
+      ui.clip.hidden = !(has || on);
+      ui.clipRun.forEach(function (b) { b.hidden = !on; });
+      ui.clipShow.textContent = on ? "Re-align" : "Show in scan";
+      ui.clipOop.setAttribute("aria-pressed", String(!!clip.oop));
+      ui.clipPlay.textContent = clip.playing ? "❚❚" : "▶"; ui.clipPlay.title = clip.playing ? "Pause" : "Play: the tip advances from the entry to the target";
+      ui.clipT.value = String(Math.round(clip.t * 1000));
+      ui.clipTxt.textContent = clip.msg || (on ? (clip.oop ? "out of plane" : "in plane") + " · tip " + (clip.len * clip.t).toFixed(1) + " / " + clip.len.toFixed(1) + " mm" : "a planned needle path");
+    }
     function paintNeedle(fr) {
       var lab = fr.labA, nid = AC && AC.needleId;
       if (!needle || !lab || !nid) return lab;
@@ -1807,17 +1927,17 @@
       if (ix1 < 0 || iy1 < 0 || ix0 >= W || iy0 >= H) return lab;
       ix0 = Math.max(0, ix0); iy0 = Math.max(0, iy0); ix1 = Math.min(W - 1, ix1); iy1 = Math.min(H - 1, iy1);
       var out = new Uint8Array(lab);                                      // copy-on-write: the cache keeps the pristine raster
-      var vx = x1 - x0, vy = y1 - y0, vv = vx * vx + vy * vy, rr = r * r, iy, ix;
+      var vx = x1 - x0, vy = y1 - y0, vv = vx * vx + vy * vy, rr = r * r, iy, ix, npx = 0, nin = 0, gm = fr.geom;   // Q325: npx painted, nin of them inside the image's footprint
       for (iy = iy0; iy <= iy1; iy++) {
         var py = pl.yr0 + (iy + 0.5) * px, row = iy * W;
         for (ix = ix0; ix <= ix1; ix++) {
           var pxx = pl.xr0 + (ix + 0.5) * px, wx = pxx - x0, wy = py - y0;
           var s = vv > 1e-9 ? Math.max(0, Math.min(1, (wx * vx + wy * vy) / vv)) : 0;
           var dx = wx - vx * s, dy = wy - vy * s;
-          if (dx * dx + dy * dy <= rr) out[row + ix] = nid;
+          if (dx * dx + dy * dy <= rr) { out[row + ix] = nid; npx++; if (gm && pxx >= gm.bx0 && pxx <= gm.bx1 && py >= Math.max(0, gm.by0) && py <= gm.by1) nin++; }
         }
       }
-      fr.needlePainted = true;
+      fr.needlePainted = true; fr.needlePx = npx; fr.needlePxIn = nin;
       return out;
     }
     function computeFrame(spec, q, prev) {                                    // -> Promise(frame)
@@ -1849,7 +1969,8 @@
       pumpPending = false;
       if (!S.open || !AC || !S.P || contState.active) return;                 // Q257: continuous cine owns frames[S.sel] directly; the step pipeline stays out of its way while it plays
 
-      syncPose();                                                            // Q320: before the specs, so a probe riding the pose is placed first
+      var posedNow = syncPose();                                             // Q320: before the specs, so a probe riding the pose is placed first
+      if (clip.on && posedNow) { var cp = clipPath(); if (cp && clipAlign(cp)) clipNeedleAt(clip.t); }   // Q325: the needle and its plane follow the pose
       var my = ++gen, specs = frameSpecs(), order = [], i, tAll = Date.now();
       ensureViews(specs);
       for (i = 0; i < specs.length; i++) order.push(i);
@@ -1860,8 +1981,12 @@
       (function next() {
         if (my !== gen) return;
         if (k >= order.length) {
-          frames = newFrames; busy = false; if (!drag.on) livePose = null; perf.last = {n: specs.length, ms: Date.now() - tAll, per: newFrames.map(function (f) { return f.ms; })}; perf.hist.push(perf.last); if (perf.hist.length > 40) perf.hist.shift();
-          setStatus(); updateOverlay(); return;
+          frames = newFrames; busy = false; if (!drag.on) livePose = null;
+          if (clip.on && needle && newFrames[0]) { var f0 = newFrames[0]; clip.hist.push({t: clip.t, at: Date.now(), px: f0.needlePainted ? f0.needlePx || 0 : 0, pxIn: f0.needlePainted ? f0.needlePxIn || 0 : 0, tip: needle.B.slice(), ms: Date.now() - tAll, plane: clipInPlane(f0)}); if (clip.hist.length > 400) clip.hist.shift(); }   // Q325 perf.last = {n: specs.length, ms: Date.now() - tAll, per: newFrames.map(function (f) { return f.ms; })}; perf.hist.push(perf.last); if (perf.hist.length > 40) perf.hist.shift();
+          /* Q325: while the clip plays only the needle in the image changes, never the probe: the 3-D overlay (and the 3-D redraw it
+             costs -- the slow part in software rendering) is rebuilt only when the selected frame's probe pose changed */
+          var f0k = clip.on && newFrames[0] ? newFrames[0].rk + "|" + (newFrames[0].sim ? newFrames[0].sim.ysk : 0) : null;
+          setStatus(); if (!f0k || f0k !== clip.ovk) { clip.ovk = f0k; updateOverlay(); } return;
         }
         var idx = order[k++], prev = frames[idx];
         computeFrame(specs[idx], quality(idx), prev && prev.spec.id === specs[idx].id ? prev : null).then(function (fr) {
@@ -2170,6 +2295,10 @@
       /* Q267 (10): a thin, dismissible inline bar -- never a modal */
       ".us-wizard{flex:0 0 auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;background:#1b2a1f;border-bottom:1px solid #3a6a46}",
       ".us-wizard[hidden]{display:none}",
+      ".us-clip{flex:0 0 auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 8px;background:#18222f;border-bottom:1px solid var(--line)}",
+      ".us-clip[hidden],.us-clip [hidden]{display:none}",
+      ".us-clip input[type=range]{flex:1 1 110px;min-width:80px;margin:0}",
+      ".us-clip .us-clip-t{color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}",
       ".us-wizard .wiz-q{font-weight:700;white-space:nowrap}",
       ".us-wizard input{min-width:120px;flex:0 1 160px}",
       ".us-wizard .wiz-res{display:flex;gap:4px;flex-wrap:wrap;max-height:4.6em;overflow:auto}",
@@ -2274,6 +2403,15 @@
         (ui.wizRes = el("span", {class: "wiz-res"})),
         btn("✕", "Dismiss (the depth / dynamic range / CINE already set above stay as they are)", hideWizard, {class: "wiz-x"})
       ]);
+      /* Q325: the injection clip bar -- offered while the needle tool holds a planned path */
+      ui.clipShow = btn("Show in scan", "Seat the probe so that the scan plane holds the planned needle path (in-plane approach)", function () { clipShow({}); });
+      ui.clipOop = btn("out of plane", "Out-of-plane approach: the probe over the target, across the needle -- the shaft shows only where it crosses the plane", function () { clipShow({oop: !clip.oop}); }, {"aria-pressed": "false"});
+      ui.clipPlay = btn("▶", "Play: the tip advances from the entry to the target", function () { if (clip.playing) clipPause(); else clipPlay(false); });
+      ui.clipT = el("input", {type: "range", min: "0", max: "1000", step: "1", value: "1000", "aria-label": "Needle advance, entry to target", oninput: function () { clipPause(); clipSet(+this.value / 1000); }});
+      ui.clipRun = [ui.clipPlay, btn("◀", "Step back", function () { clipStep(-1); }), btn("▶|", "Step forward", function () { clipStep(1); }),
+        btn("↺", "Replay from the entry", function () { clipPlay(true); }), ui.clipT, btn("✕", "Leave the needle clip (the probe stays where it is)", function () { clipStop(); })];
+      ui.clipTxt = el("span", {class: "us-clip-t", text: ""});
+      ui.clip = el("div", {class: "us-clip", role: "group", "aria-label": "Injection clip", hidden: true}, [el("b", {text: "Needle"}), ui.clipShow, ui.clipOop].concat(ui.clipRun.slice(0, 4), [ui.clipT, ui.clipTxt, ui.clipRun[5]]));
       ui.views = el("div", {class: "us-views star"});
       ui.schem = el("canvas", {class: "us-schem", width: "84", height: "84", "aria-hidden": "true"}); ui.views.appendChild(ui.schem);
       /* Q289: the scan-direction arrow, at the edge of the image area (shown while a CINE motion type plays) */
@@ -2295,7 +2433,7 @@
         var up = function () { div.classList.remove("drag"); div.removeEventListener("pointermove", mv); div.removeEventListener("pointerup", up); };
         div.addEventListener("pointermove", mv); div.addEventListener("pointerup", up);
       });
-      [div, head, ui.diag, ui.hint, ui.wizard, ui.info, ui.views, ui.read, ui.thick, ui.ctl].forEach(function (x) { root.appendChild(x); });
+      [div, head, ui.diag, ui.hint, ui.wizard, ui.clip, ui.info, ui.views, ui.read, ui.thick, ui.ctl].forEach(function (x) { root.appendChild(x); });
       document.body.appendChild(root);
       var tabs = el("div", {id: "us-tab3d"}, [el("button", {type: "button", text: "3D", "aria-pressed": "true"}), el("button", {type: "button", text: "Place probe", onclick: function () { S.placing = true; syncUi(); setStatus("Tap the skin to place the probe."); }}),
         el("button", {type: "button", text: "Image ▸", onclick: function () { S.tab = "image"; applyLayout(); relayoutViews(); }})]);
@@ -2458,6 +2596,7 @@
     function totalText() { var sp = spacing(); return "step " + (Math.round(sp * 10) / 10) + " mm · total " + (Math.round(sp * (S.n - 1) * 10) / 10) + " mm"; }
     function syncUi() {
       if (!ui.modeBtn1) return;
+      clipUi();                                                          // Q325
       ui.modeBtn1.setAttribute("aria-pressed", String(S.mode === "star")); ui.modeBtn2.setAttribute("aria-pressed", String(S.mode === "sweep"));
       ["linear", "convex", "sector"].forEach(function (k) { ui.probeBtns[k].setAttribute("aria-pressed", String(S.probe === k)); });
       if (US) {
@@ -3060,12 +3199,25 @@
         refresh(true);
       },
       /* place the probe where a ray from `from` along `dir` first meets the skin (atlas mm); returns {P, N} or null */
-      placeRay: function (from, dir) { var h = placeRay(from, dir, true); if (h) { S.sel = 0; if (ui.modeBtn1) syncUi(); refresh(true); } return h ? {P: S.P.slice(), N: S.N.slice(), struct: h.struct} : null; },
+      placeRay: function (from, dir) {
+        if (clip.on) return S.P ? {P: S.P.slice(), N: S.N.slice(), struct: S.skinStruct} : null;   // Q325: while the needle clip is on, the probe is seated by the clip (the page's auto-centring on opening must not move it off the needle)
+        var h = placeRay(from, dir, true); if (h) { S.sel = 0; if (ui.modeBtn1) syncUi(); refresh(true); } return h ? {P: S.P.slice(), N: S.N.slice(), struct: h.struct} : null; },
       geo: function () { return geo; }, C: function () { return C; }, table: function () { return US; }, AC: function () { return AC; },
       /* Q317: put a needle in the image, or take it out. A and B are its two ends in the same atlas mm the
          meshes use (A the hub side, B the tip); r_mm is its shaft radius. Returns whether one is now set. */
       setNeedle: function (n) { return setNeedle(n); },
       clearNeedle: function () { return setNeedle(null); },
+      /* Q325: the injection clip (see clipShow above). show({oop, t, play}) -> Promise(bool); state() for the checks */
+      needleClip: {
+        show: function (o) { return clipShow(o); }, play: function () { clipPlay(false); }, replay: function () { clipPlay(true); }, pause: function () { clipPause(); },
+        step: function (k) { clipStep(k == null ? 1 : k); }, seek: function (t) { clipPause(); clipSet(+t); }, stop: function () { clipStop(); },
+        config: function (o) { if (o && o.dur > 0) clip.dur = +o.dur; if (o && o.steps > 0) clip.steps = Math.round(o.steps); return {dur: clip.dur, steps: clip.steps}; },
+        state: function () {
+          return {on: clip.on, oop: clip.oop, t: clip.t, playing: clip.playing, dur: clip.dur, steps: clip.steps, len: clip.len || 0, msg: clip.msg, offered: !!(ui.clip && !ui.clip.hidden),
+            tip: clip.tip ? clip.tip.slice() : null, target: clip.target ? clip.target.slice() : null, path: clip.path, plane: clipInPlane(frames[0]), hist: clip.hist.slice(),
+            frames: frames.length, px: frames[0] && frames[0].needlePainted ? frames[0].needlePx || 0 : 0, pxIn: frames[0] && frames[0].needlePainted ? frames[0].needlePxIn || 0 : 0};
+        }
+      },
       needle: function () { return needle ? {A: needle.A.slice(), B: needle.B.slice(), r_mm: needle.r} : null; },
       idle: function () { return new Promise(function (res) { var t0 = Date.now(), t = setInterval(function () { if (!busy && !pumpPending && frames.length && Date.now() - t0 > 150) { clearInterval(t); res(true); } if (Date.now() - t0 > 120000) { clearInterval(t); res(false); } }, 60); }); },
       frames: function () { return frames; }, views: function () { return views; }, perf: function () { return perf; },

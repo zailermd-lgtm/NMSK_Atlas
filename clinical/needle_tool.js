@@ -154,6 +154,45 @@ function closestPtTri(p, a, b, c) {
   return [a[0] + abx * v2 + acx * w3, a[1] + aby * v2 + acy * w3, a[2] + abz * v2 + acz * w3];
 }
 function pointTriDist(p, a, b, c) { var q = closestPtTri(p, a, b, c); return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]); }
+/* Q325: a point kept ON the structure it was placed on while the body is posed. Anchor: the structure's nearest
+   triangle, the point's UNCLAMPED barycentric coordinates in that triangle's plane and its signed height h above it
+   (so p = wA*A + wB*B + wC*C + h*n reproduces the point exactly on the mesh it was taken from, also off the triangle's
+   edges); a direction (the entry's surface normal) is kept in the triangle's own frame. Re-placed on any other vertex
+   set of the same mesh (posed / rest), the point rides the triangle: exact for a rigidly moved part, the local
+   surface's motion for a skinned one. pos: flat xyz; idx: triangle vertex indices; p, n: [x,y,z]. */
+function triFrame(pos, idx, f) {
+  var a = 3 * idx[3 * f], b = 3 * idx[3 * f + 1], c = 3 * idx[3 * f + 2];
+  var A = [pos[a], pos[a + 1], pos[a + 2]], B = [pos[b], pos[b + 1], pos[b + 2]], C = [pos[c], pos[c + 1], pos[c + 2]];
+  var e1 = [B[0] - A[0], B[1] - A[1], B[2] - A[2]], e2 = [C[0] - A[0], C[1] - A[1], C[2] - A[2]];
+  var n = [e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]], l = Math.hypot(n[0], n[1], n[2]), l1 = Math.hypot(e1[0], e1[1], e1[2]);
+  if (!(l > 1e-12) || !(l1 > 1e-12)) return null;
+  n = [n[0] / l, n[1] / l, n[2] / l];
+  var t = [e1[0] / l1, e1[1] / l1, e1[2] / l1], s = [n[1] * t[2] - n[2] * t[1], n[2] * t[0] - n[0] * t[2], n[0] * t[1] - n[1] * t[0]];
+  return {A: A, B: B, C: C, e1: e1, e2: e2, n: n, t: t, s: s};
+}
+function poseAnchor(pos, idx, p, nrm) {
+  var best = Infinity, bf = -1, f, nt = idx.length / 3;
+  for (f = 0; f < nt; f++) {
+    var a = 3 * idx[3 * f], b = 3 * idx[3 * f + 1], c = 3 * idx[3 * f + 2];
+    var q = closestPtTri(p, [pos[a], pos[a + 1], pos[a + 2]], [pos[b], pos[b + 1], pos[b + 2]], [pos[c], pos[c + 1], pos[c + 2]]);
+    var d = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]) + (p[2] - q[2]) * (p[2] - q[2]);
+    if (d < best && triFrame(pos, idx, f)) { best = d; bf = f; }
+  }
+  if (bf < 0) return null;
+  var F = triFrame(pos, idx, bf), w = [p[0] - F.A[0], p[1] - F.A[1], p[2] - F.A[2]];
+  var h = w[0] * F.n[0] + w[1] * F.n[1] + w[2] * F.n[2];
+  var d11 = F.e1[0] * F.e1[0] + F.e1[1] * F.e1[1] + F.e1[2] * F.e1[2], d12 = F.e1[0] * F.e2[0] + F.e1[1] * F.e2[1] + F.e1[2] * F.e2[2], d22 = F.e2[0] * F.e2[0] + F.e2[1] * F.e2[1] + F.e2[2] * F.e2[2];
+  var q1 = w[0] * F.e1[0] + w[1] * F.e1[1] + w[2] * F.e1[2], q2 = w[0] * F.e2[0] + w[1] * F.e2[1] + w[2] * F.e2[2], den = d11 * d22 - d12 * d12;
+  var u = (d22 * q1 - d12 * q2) / den, v = (d11 * q2 - d12 * q1) / den;
+  var nl = nrm ? [nrm[0] * F.t[0] + nrm[1] * F.t[1] + nrm[2] * F.t[2], nrm[0] * F.n[0] + nrm[1] * F.n[1] + nrm[2] * F.n[2], nrm[0] * F.s[0] + nrm[1] * F.s[1] + nrm[2] * F.s[2]] : null;
+  return {f: bf, w: [1 - u - v, u, v], h: h, nl: nl, d: Math.sqrt(best)};
+}
+function poseAnchorPlace(pos, idx, anc) {
+  var F = triFrame(pos, idx, anc.f); if (!F) return null;
+  var w = anc.w, p = [0, 1, 2].map(function (k) { return w[0] * F.A[k] + w[1] * F.B[k] + w[2] * F.C[k] + anc.h * F.n[k]; });
+  var n = anc.nl ? [0, 1, 2].map(function (k) { return anc.nl[0] * F.t[k] + anc.nl[1] * F.n[k] + anc.nl[2] * F.s[k]; }) : null;
+  return {p: p, n: n};
+}
 /* distance between segments p1-q1 and p2-q2 (Ericson 5.1.9, closest points of two segments) */
 function segSegDist(p1, q1, p2, q2) {
   var d1 = [q1[0] - p1[0], q1[1] - p1[1], q1[2] - p1[2]], d2 = [q2[0] - p2[0], q2[1] - p2[1], q2[2] - p2[2]], r = [p1[0] - p2[0], p1[1] - p2[1], p1[2] - p2[2]];
@@ -239,7 +278,7 @@ function coneDirs(u, half, n) {
 var PURE = {RISK_TABLE: RISK_TABLE, HALO_DEFAULTS: HALO_DEFAULTS, TOUCH_MM: TOUCH_MM, classify: classify,
             calibreFactor: calibreFactor, haloRadius: haloRadius, scorePath: scorePath, fibonacciSphere: fibonacciSphere,
             closestPtTri: closestPtTri, pointTriDist: pointTriDist, segSegDist: segSegDist, segCrossesTri: segCrossesTri, segTriDist: segTriDist,
-            meshSegDist: meshSegDist, rankCandidates: rankCandidates, coneDirs: coneDirs};
+            meshSegDist: meshSegDist, rankCandidates: rankCandidates, coneDirs: coneDirs, poseAnchor: poseAnchor, poseAnchorPlace: poseAnchorPlace};
 if (typeof module !== "undefined" && module.exports) { module.exports = PURE; return; }
 
 /* ===================================================================== */
@@ -726,9 +765,11 @@ function Tool(api) {
   this.plan = {i: null, msg: "", posture: "rest", side: "r"};
   this.sugg = {cands: [], shown: [], msg: ""};
   this.gcache = new Map(); this.gverts = 0; this.orient = {};
+  this.pgeo = {}; this.restBox = {}; this.poseT = 0;   // Q325: posed geometry views, the rest boxes of moved structures
   this.buildUI();
   this.loadData();
   api.setClickHandler(function (e) { return self.onClick(e); });
+  if (global.addEventListener) global.addEventListener("nmsk-pose-rev", function (e) { self.onPose(e && e.detail); });   // Q325
   api.onChange(function () { self.onHostChange(); });
   api.canvas.addEventListener("pointermove", function (e) { if (!e.buttons) self.onHover(e); });
   api.canvas.addEventListener("pointerleave", function () { self.tip.hidden = true; });
@@ -740,7 +781,7 @@ function Tool(api) {
 var TP = Tool.prototype;
 
 /* ---------- geometry access ---------- */
-TP.geom = function (i) {
+TP.restGeom = function (i) {
   var g = this.gcache.get(i);
   if (!g) {
     g = this.api.geometry(i); if (!g) return null;
@@ -751,6 +792,70 @@ TP.geom = function (i) {
     this.gcache.set(i, g);
   }
   return g;
+};
+/* Q325: the CURRENT geometry -- the posed vertices once the page's pose rig has moved structure i (the neutral
+   window.__poseLive hook, same vertex order as the rest mesh), else the rest mesh. Every measurement (picking, the
+   path report, the corridor, the halos) reads this, so a plan made in a posed body is made on the posed body. */
+TP.geom = function (i) {
+  var g = this.restGeom(i); if (!g) return null;
+  var L = typeof global.__poseLive === "function" ? global.__poseLive(i) : null;
+  if (!L || L.length !== g.pos.length) return g;
+  var pg = this.pgeo[i];
+  if (!pg || pg.pos !== L || pg.idx !== g.idx) pg = this.pgeo[i] = {pos: L, idx: g.idx};
+  return pg;
+};
+/* Q325: follow the pose. The page bumps window.__poseRev and fires "nmsk-pose-rev" {ids, rest} after every geometry
+   change. Then: (1) the boxes of the moved structures are re-taken from their posed vertices (the rest boxes are
+   kept and restored exactly at rest); (2) the entry and the target ride the structure each was placed on (poseAnchor:
+   nearest triangle + barycentric coordinates + height, taken on the geometry current when the point was placed), and
+   come back to their placed coordinates exactly when the pose returns to the one they were placed in; (3) the needle
+   is redrawn at once and the report / corridor / halos follow shortly after (one update per burst of pose events). */
+TP.poseBoxes = function (ids) {
+  var self = this, live = typeof global.__poseLive === "function" ? global.__poseLive : null;
+  ids.forEach(function (i) {
+    var r = self.recs[i]; if (!r) return;
+    if (!self.restBox[i]) self.restBox[i] = [r.bmin.slice(), r.bmax.slice()];
+    var L = live ? live(i) : null;
+    if (!L || global.__poseAtRest) { r.bmin = self.restBox[i][0].slice(); r.bmax = self.restBox[i][1].slice(); return; }
+    var lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30], k, c;
+    for (k = 0; k < L.length; k += 3) for (c = 0; c < 3; c++) { var v = L[k + c]; if (v < lo[c]) lo[c] = v; if (v > hi[c]) hi[c] = v; }
+    r.bmin = lo; r.bmax = hi;
+  });
+};
+TP.poseKey = function () { return global.__poseAtRest || !global.__poseRev ? "rest" : "rev" + global.__poseRev; };
+TP.anchorPoint = function (pt, s) {          // pt: {p, i, n, ...}; s: the structure to ride (the point's own, else a fallback)
+  if (!pt) return;
+  var g = s != null && s >= 0 ? this.geom(s) : null, a = g ? poseAnchor(g.pos, g.idx, pt.p, pt.n || null) : null;
+  pt._anc = a ? {s: s, a: a, p0: pt.p.slice(), n0: pt.n ? pt.n.slice() : null, key: this.poseKey(), src: pt.p} : {s: -1, src: pt.p};
+};
+TP.ensureAnchors = function () {
+  var e = this.entry, t = this.target;
+  if (e && (!e._anc || e._anc.src !== e.p)) this.anchorPoint(e, e.i != null ? e.i : (t ? t.i : null));
+  if (t && (!t._anc || t._anc.src !== t.p)) this.anchorPoint(t, t.i != null ? t.i : (e ? e.i : null));
+};
+TP.ridePoint = function (pt) {
+  var A = pt && pt._anc; if (!A || A.s < 0) return false;
+  var p, n;
+  if (this.poseKey() === A.key) { p = A.p0.slice(); n = A.n0 ? A.n0.slice() : null; }          // back in the pose it was placed in: exactly there
+  else { var g = this.geom(A.s), q = g ? poseAnchorPlace(g.pos, g.idx, A.a) : null; if (!q) return false; p = q.p; n = q.n; }
+  pt.p = p; if (A.n0) pt.n = n; A.src = pt.p;
+  return true;
+};
+TP.onPose = function (det) {
+  var ids = (det && det.ids) || [], self = this;
+  this.poseBoxes(ids);
+  var moved = false;
+  if (this.entry) moved = this.ridePoint(this.entry) || moved;
+  if (this.target && !(this.mode === "dir" && this.entry)) moved = this.ridePoint(this.target) || moved;   // the direction mode derives its tip from the entry
+  if (moved) { this.drawNeedle(); this.api.redraw(); }
+  clearTimeout(this.poseT);
+  this.poseT = setTimeout(function () { if (self.entry || self.target) self.update(); else if (self.risk.on) self.refreshHalos(); }, 160);
+};
+/* Q325: the planned path for the probe image (clinical/ultrasound_tool.js "Show in scan"): entry -> target in the
+   current (posed) model frame, and the needle's radius. null without a complete plan. */
+TP.scanPath = function () {
+  if (!this.entry || !this.target) return null;
+  return {A: this.entry.p.slice(), B: this.target.p.slice(), r_mm: 0.45, target_id: this.target.i != null ? this.recs[this.target.i].id : null, rev: global.__poseRev | 0};
 };
 /* +1 when the mesh's winding makes its vertex normals point outward (positive
    signed volume), -1 otherwise -- the sign a halo inflates with. */
@@ -988,7 +1093,7 @@ TP.buildUI = function () {
     '<select id="ncl-plan-side"><option value="r">right</option><option value="l">left</option></select>' +
     '<button type="button" id="ncl-plan-pose-go">Apply</button></div>' +
     '<p class="cite" id="ncl-plan-pose-msg">A labelled, illustrative flexion pattern driven only through the page\'s own Q241 pose rig (its joints, its normal ranges); ' +
-    'not the patient\'s posture. The needle tool measures the rest-pose meshes: distances are not valid while the pose is away from rest.</p></details>' +
+    'not the patient\'s posture. The needle tool measures the current (posed) meshes; a placed entry and target ride the structure they were placed on. Motor points stay at their rest positions.</p></details>' +
     '<details id="ncl-mp"><summary title="The motor point(s) of the marked muscles only -- mark one or more muscles first">Motor points</summary>' +
     '<p class="ncl-status" id="ncl-mp-msg"></p>' +
     '<div class="ncl-row"><button type="button" id="ncl-mp-on" aria-pressed="false">Emphasize motor points</button></div>' +
@@ -1022,8 +1127,8 @@ TP.buildUI = function () {
     'patient measurements and carry none of a patient\'s variation.</p>' +
     '<p class="cite">The distance bands, the risk halos and the suggested entries are planning aids of ours. They are labelled where they appear, ' +
     'every parameter is exposed, and none of them is a validated safety distance.</p>' +
-    '<p class="cite">The tool measures the rest-pose meshes. While the pose rig is away from rest, the picture moves but the distances do not ' +
-    'follow it, so they are not valid in that state.</p></details>';
+    '<p class="cite">The tool measures the current meshes: posed by the pose rig, they are measured as posed, and a placed entry / target rides ' +
+    'the structure it was placed on (its nearest triangle). Motor points are rest-pose data and do not follow the pose.</p></details>';
   if (api.panelHost) api.panelHost.insertBefore(el, api.panelBefore || null); else document.body.appendChild(el);
   this.el = el;
   var tip = document.createElement("div"); tip.className = "ncl-tip"; tip.hidden = true; document.body.appendChild(tip); this.tip = tip;
@@ -1237,6 +1342,7 @@ TP.update = function () {
     var u = this.dirVector(), tip = addS(this.entry.p, u, this.len), self = this;
     this.target = {p: tip, i: this.structureAtTip(this.entry.p, tip), n: null, computed: true};
   }
+  this.ensureAnchors();   // Q325: a newly placed point is anchored on the geometry it was placed on
   this.risk.pathEval = null;
   this.drawNeedle();
   if (this.risk.on) { this.refreshHalos(); if (this.entry && this.target) this.evalCurrent(); }
@@ -1824,7 +1930,7 @@ TP.setCorr = function (o) {
   if (redo) this.computeCorridor(); else { this.drawCorridor(); this.renderCorridor(); this.api.redraw(); }
 };
 TP.band = function (d) { return d < this.corr.near ? "n" : (d < this.corr.far ? "m" : "f"); };
-TP.poseAway = function () {   // the page's pose rig is away from its rest pose (the add-on measures rest-pose meshes)
+TP.poseAway = function () {   // the page's pose rig is away from its rest pose (Q325: the add-on now measures the posed meshes)
   var pose = this.api.pose ? this.api.pose() : null;
   try { return !!(pose && pose.ready() && !pose.isRest()); } catch (err) { return false; }
 };
@@ -1832,7 +1938,7 @@ TP.renderCorridor = function () {
   var out = this.$("ncl-corr-out"), c = this.corr, self = this;
   if (!this.entry && !this.target) { out.innerHTML = '<p class="ncl-status">Place a point: the distances appear here and update with every change.</p>'; return; }
   var h = '<p class="ncl-status">Measured: minimum distance from ' + esc(c.what) + " (" + c.ms.toFixed(0) + " ms; decimated viewing meshes, rest pose, hidden structures included; the target's own structure excluded).</p>";
-  if (this.poseAway()) h += '<p class="warn">The pose rig is away from rest: these distances are measured on the rest-pose meshes (a pose-rig limitation) and do not describe the posed body. Reset the pose for valid numbers.</p>';
+  if (this.poseAway()) h += '<p class="ncl-status">Measured on the posed meshes (the pose rig is away from rest). A kinematic preview: the soft tissue is skinned, not simulated.</p>';
   if (!c.items.length) h += '<p class="ncl-status">No vessel or nerve within R = ' + c.R + " mm.</p>";
   else h += '<ol class="corr-list">' + c.items.slice(0, 12).map(function (it) {
     return '<li class="band-' + self.band(it.d) + '"><span class="dot" style="background:' + CLASSES[it.cls].color + '"></span>' + esc(it.name) +
@@ -2124,7 +2230,7 @@ TP.applyPosture = function (key, side) {
   var pose = this.api.pose ? this.api.pose() : null, msg = this.$("ncl-plan-pose-msg"), self = this;
   if (!pose || !pose.ready || !pose.ready()) { msg.innerHTML = '<span class="warn">No pose rig is ready on this page: posture preview unavailable.</span>'; return null; }
   this.plan.posture = key; this.plan.side = side;
-  if (key === "rest" || !POSTURES[key]) { pose.reset(); msg.textContent = "Pose reset to the model's rest pose; the needle tool's distances are valid again."; this.scheduleCorridor(); return {applied: [], skipped: []}; }
+  if (key === "rest" || !POSTURES[key]) { pose.reset(); msg.textContent = "Pose reset to the model's rest pose."; this.scheduleCorridor(); return {applied: [], skipped: []}; }
   var pat = POSTURES[key], P = pose.restPose(), rig = pose.rig(), byId = {}, applied = [], skipped = [];
   rig.joints.forEach(function (j) { byId[j.id] = j; });
   Object.keys(pat.joints).forEach(function (jn) {
@@ -2138,7 +2244,7 @@ TP.applyPosture = function (key, side) {
   pose.apply(P);
   msg.innerHTML = esc(pat.label) + ", " + side + ": " + applied.length + " joint angles applied within this page's normal ranges" +
     (skipped.length ? '; <span class="warn">' + skipped.length + " not in this page's rig (skipped, not invented): " + esc(skipped.join(", ")) + "</span>" : "") +
-    '. <span class="warn">The needle tool measures the rest-pose meshes: distances are not valid while posed.</span>';
+    '. The needle tool measures the posed meshes; the placed path rides the structures it was placed on.';
   setTimeout(function () { self.scheduleCorridor(); }, 50);
   return {applied: applied, skipped: skipped};
 };
@@ -2217,6 +2323,7 @@ function injectionMode(tool, api) {
   /* Q276: 2+ saved points in the same muscle -- "Add point" records the current entry/target (unchanged single working placement)
      instead of it being silently replaced by the next one; each keeps its own marker + distance readout (tool.addSavedPoint() reuses
      corridorFor() verbatim). Not a recommendation of count or spacing -- a recorder, same as the bare tool's own panel. */
+  function showInScan() { var U = global.NMSKUltrasound; if (U && U.needleClip) U.needleClip.show({}); }
   function addPoint() { if (!tool.target) return; tool.addSavedPoint(); refresh(); }
   function removeSaved(id) { tool.removeSavedPoint(id); refresh(); }
   function clearSaved() { tool.clearSavedPoints(); refresh(); }
@@ -2249,7 +2356,10 @@ function injectionMode(tool, api) {
   function build(c) {
     ctx = c;
     if (!document.getElementById("inj-mode-css")) {   // the tool's own panel stays alive (its state, its 3-D overlays) but is not shown in the mode: the cards re-skin it
-      var st = document.createElement("style"); st.id = "inj-mode-css"; st.textContent = "body.mode-inj #needle-panel,body.mode-inj .ncl-tip{display:none!important}"; document.head.appendChild(st);
+      var st = document.createElement("style"); st.id = "inj-mode-css"; st.textContent = "body.mode-inj #needle-panel,body.mode-inj .ncl-tip{display:none!important}" +
+        "body.mode-inj.nmsk-us.us-clip-on .mc-right,body.mode-inj.nmsk-us.us-clip-on .mc-pick{display:none!important}" +
+        "@media (max-width:900px){body.mode-inj.nmsk-us.us-clip-on .mc-left{display:none!important}}";   // Q325: the scan's needle clip takes that side; its ✕ brings the card back
+      document.head.appendChild(st);
     }
     skinCat = tool.recs.some(function (r) { return r.cat === "skin"; }) ? "skin" : null;
     /* bar: the target chip + reset / cancel */
@@ -2281,12 +2391,14 @@ function injectionMode(tool, api) {
     ]);
     ui.step3 = h("div", {class: "mc-step off"}, [h("div", {class: "mc-num", text: "3"}), h("div", {class: "mc-lbl", text: "בדיקת מסלול"})]);
     ui.report = h("div", {class: "mc-hint"});
+    /* Q325: the planned path played in the probe image (the scan tool aligns its plane on the needle) */
+    ui.scanBtn = h("button", {type: "button", class: "mc-sec", text: "הצג בסריקה", title: "Show in scan: the probe image aligned on this needle path, with a play control", onclick: showInScan});
     /* Q276: "הזרקה ל-2+ מקומות באותו שריר" -- save the current point, see every saved point of this session with its own distance readout */
     ui.addPoint = h("button", {type: "button", class: "mc-sec", text: "הוסף נקודה", title: "שמירת נקודת הכניסה/מטרה הנוכחית כאחת מכמה באותו שריר (לא מחליפה אותה)", onclick: addPoint});
     ui.savedTitle = h("div", {class: "mc-lbl", style: "margin-top:4px", text: "נקודות שמורות"});
     ui.saved = h("div", {class: "mc-list"});
     ui.savedClear = h("button", {type: "button", class: "mc-sec", text: "נקה את כל הנקודות השמורות", onclick: clearSaved});
-    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
+    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.scanBtn, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
     /* left: the distance card */
     ui.rows = h("div", {class: "mc-list"});
     ui.near = h("input", {type: "number", min: "0", max: "100", step: "0.5", "aria-label": "סף קרוב (מ\"מ)"}); ui.far = h("input", {type: "number", min: "0", max: "200", step: "0.5", "aria-label": "סף רחוק (מ\"מ)"});
@@ -2346,6 +2458,7 @@ function injectionMode(tool, api) {
         h("button", {type: "button", text: "השתמש", onclick: function () { tool.adoptSuggestion(cd); ui.manualHint = false; refresh(); }})]));
     });
     var rep = hasT && hasE ? tool.report() : null;
+    ui.scanBtn.hidden = !(hasT && hasE && global.NMSKUltrasound && global.NMSKUltrasound.needleClip);
     ui.report.textContent = rep ? "אורך " + fmt(rep.length_mm) + " מ\"מ · חוצה " + rep.crossings.length + " מבנים" + (rep.skin && rep.skin.depth != null ? " · עומק מהעור " + fmt(rep.skin.depth) + " מ\"מ" : "") : "";
     /* Q276: saved points list -- its own marker (drawn by tool.addSavedPoint()) and its own distance readout per row */
     ui.addPoint.disabled = !hasT;
@@ -2369,7 +2482,7 @@ function injectionMode(tool, api) {
     c.items.slice().sort(function (a, b) { return a.d - b.d; }).slice(0, 8).forEach(function (it) {
       ui.rows.appendChild(h("div", {class: "mc-drow band-" + tool.band(it.d)}, [h("div", {class: "bar"}), h("div", {class: "nm", text: it.name}), h("div", {class: "mm", text: fmt(it.d)}), h("div", {class: "un", text: "מ\"מ"})]));
     });
-    if (tool.poseAway && tool.poseAway()) ui.dhint.textContent += " · התנוחה אינה במנוחה: המרחקים נמדדים על רשת המנוחה";
+    if (tool.poseAway && tool.poseAway()) ui.dhint.textContent += " · נמדד על המודל בתנוחה הנוכחית";
     ui.foot.innerHTML = ""; ui.foot.appendChild(document.createTextNode("מדידה בלבד · ספי צבע " + c.near + " / " + c.far + " מ\"מ · "));
     ui.foot.appendChild(h("button", {type: "button", text: "עריכה", onclick: function () { ui.near.value = c.near; ui.far.value = c.far; ui.edit.hidden = !ui.edit.hidden; }}));
     /* pills */
