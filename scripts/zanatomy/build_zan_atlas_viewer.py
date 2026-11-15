@@ -449,10 +449,10 @@ _SHEET_CLASS_RE = re.compile(r"(?<![a-z])(?:ligament|fascia)(?![a-z])")
 
 
 def record_class_clash(name: str, parent_cat: str | None) -> bool:
-    """Q325: a ligament / fascia (by its own Z-Anatomy name, whole word) must never borrow a MUSCLE's atlas record as its
+    """Q325: a ligament / fascia (by its own Z-Anatomy name, whole word) must never borrow a MUSCLE's (or, Q327, a BONE's) atlas record as its
     "part of" parent. The name map matched "Lateral thyrohyoid ligament" -> thyrohyoid and "Piriformis fascia" -> piriformis by
     name substring (system "Muscular" for the fascia); the Q161 rescue then filed them under the muscle's record."""
-    return parent_cat == "muscle" and bool(_SHEET_CLASS_RE.search(name.lower()))
+    return parent_cat in ("muscle", "bone") and bool(_SHEET_CLASS_RE.search(name.lower()))
 
 
 def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dict) -> dict:

@@ -16,6 +16,7 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q237/build_sidecar.py            symmetry_q237.json
     scripts/anatomy/q256/build_plexus_sidecar.py     plexus_groups.json
     scripts/anatomy/q322/build_sidecar_q322.py       innervation_q322.json   (Base pages only)
+    scripts/zanatomy/patch_manifest_records_q327.py  manifest records of 10 ligament/fascia ids (Base pages only)
     index.html = the page
 
 and then VERIFIES the output against a reference page dir (default: the source dir, i.e. the previous build; `--ref` a dir of downloaded
@@ -123,6 +124,8 @@ def build(p: str, src_root: Path, out: Path):
     run(["python3", "scripts/anatomy/q256/build_plexus_sidecar.py", "--html", str(html), "-o", str(dst / "plexus_groups.json")])
     if p in ("base_m", "base_f"):   # Q322: the innervation mode's sidecar (committed data + committed band placement, no recompute)
         run(["python3", "scripts/anatomy/q322/build_sidecar_q322.py", p, str(dst)])
+    if p in ("base_m", "base_f"):   # Q327: a ligament / fascia carries no muscle's or bone's record (the builder rule, applied to the embedded manifest)
+        run(["python3", "scripts/zanatomy/patch_manifest_records_q327.py", str(dst)])
     (dst / "index.html").write_bytes(html.read_bytes())
     after = tracked_data_status()
     if after != before:
