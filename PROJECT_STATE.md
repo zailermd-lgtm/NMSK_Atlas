@@ -154,6 +154,23 @@ regen, all verifiers, publish.
   The genital agent had overwritten `pose_rig_base_f.json` with a 3301-structure rig (its `skin_vulva_cvh`
   copy); restored to the 3300 splice (its version saved in the scratchpad as
   pose_rig_base_f.with_vulva_skin_3301.json).
+- **Owner requests 2026-11-15 late (TO DISPATCH when the agent limit resets, 23:30 UTC):**
+  - **Q342 data (anatomical-fact agent):** (a) fibre groups of large muscles — heads / parts selectable
+    instead of the whole muscle (pectoralis major clavicular / sternocostal / abdominal, deltoid anterior /
+    middle / posterior, triceps, quadriceps, trapezius, latissimus, gluteus…): inventory which heads are
+    separate meshes on the Base bodies (`data/anatomy/muscle_heads_q293.json`, Q220 parts) and, for
+    single-mesh muscles, a rule-based partition from the heads' attachment regions (badged, cited);
+    (b) **myofascial lines ("anatomy trains")** as a group family with sub-choice vertical / horizontal /
+    diagonal-spiral / arm / functional (Myers; evidence per line from Wilke 2016 systematic review —
+    facts only, cite, state evidence level); (c) **innervation groups** with sub-menu: root (myotomes),
+    peripheral nerve, central patterns (spastic postures: flexor / extensor synergies, the arm spasticity
+    patterns, common lower-limb patterns) — sources; extend beyond the 60 muscles of innervation_q322.
+  - **Q343 UI (after Q335 lands):** ONE button "Related structures" on the name card → menu: functional
+    group, adjacent tissues, related, myofascial lines (→ sub-menu), innervation (→ sub-menu root /
+    peripheral / central pattern); a "Parts" chooser on a muscle with heads (whole muscle | head …).
+  - **Q341 UI audit (read-only agent, RUNNING on the cheaper model):** unreadable text in boxes and boxes
+    covering the model → scratchpad `q341_ui_findings.md`; **Q344** = fixes from it (after Q335 lands).
+  - **Q340** palmar arch conform (see Q338).
 Open: deltoid middle-belly motor rule fails on Base·F (axillary-level landmark proxy too low); triceps /
 gastrocnemius IZ values in data/muscles/* still suspicious (not displayed); 82 muscles/body without attachment points; teres major /
 latissimus iliac-line IZ bands unplaced.
