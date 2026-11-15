@@ -1,0 +1,361 @@
+{
+ "schema": "nmsk.q333.chest_wall.v1",
+ "round": "Q333",
+ "generated": "2026-11-15",
+ "page_dir": "build/q309/viewer_base_female",
+ "written": true,
+ "sides": {
+  "r": {
+   "side": "r",
+   "breast_before": {
+    "vertices": 4001,
+    "in_wall_gt0_5mm": 27,
+    "within_wall_gap": 236,
+    "max_inside_mm": 5.66,
+    "volume_cm3": 844.2
+   },
+   "breast_push": {
+    "rounds": 6,
+    "still_violating": 1,
+    "max_inside_mm": -3.62,
+    "moved_gt1mm": 290,
+    "disp_max_mm": 10.0,
+    "disp_p95_mm": 1.62,
+    "volume_after_cm3": 837.0,
+    "fgt_kept_inside": {
+     "iters": 60,
+     "still_violating": 0,
+     "max_inside_mm": -0.44,
+     "moved_gt1mm": 0,
+     "disp_max_mm": 0.51,
+     "disp_p95_mm": 0.06
+    },
+    "fgt_volume_cm3": [
+     15.74,
+     15.48
+    ]
+   },
+   "layers": {
+    "zan_sternocostal_head_of_pectoralis_major_muscle_r": {
+     "vertices_free": 1271,
+     "poke_through_px_before": 124,
+     "poke_through_px_after": 1,
+     "inside_breast_before": 150,
+     "inside_breast_after": 137,
+     "disp_max_mm": 10.22,
+     "disp_p95_mm": 4.79,
+     "volume_cm3": [
+      138.75,
+      116.98
+     ],
+     "push_out": {
+      "iters": 60,
+      "still_violating": 67,
+      "max_inside_mm": 3.84,
+      "moved_gt1mm": 621,
+      "disp_max_mm": 10.0,
+      "disp_p95_mm": 4.97
+     },
+     "compress": {
+      "rounds": 4,
+      "still_inside_breast": 131,
+      "max_inside_mm": 13.21,
+      "in_wall_gt0_5mm": 131,
+      "disp_max_mm": 4.35,
+      "disp_p95_mm": 2.48
+     },
+     "floor_again": {
+      "iters": 60,
+      "still_violating": 56,
+      "max_inside_mm": 1.74,
+      "moved_gt1mm": 219,
+      "disp_max_mm": 2.79,
+      "disp_p95_mm": 2.14
+     },
+     "flipped_pct": 0.28,
+     "stretched_pct": [
+      0.0,
+      1.5
+     ],
+     "ships": true
+    },
+    "zan_abdominal_part_of_pectoralis_major_muscle_r": {
+     "vertices_free": 561,
+     "poke_through_px_before": 6,
+     "poke_through_px_after": 0,
+     "inside_breast_before": 53,
+     "inside_breast_after": 39,
+     "disp_max_mm": 2.32,
+     "disp_p95_mm": 0.99,
+     "volume_cm3": [
+      12.0,
+      10.8
+     ],
+     "push_out": {
+      "iters": 60,
+      "still_violating": 11,
+      "max_inside_mm": 1.2,
+      "moved_gt1mm": 42,
+      "disp_max_mm": 2.2,
+      "disp_p95_mm": 1.02
+     },
+     "compress": {
+      "rounds": 4,
+      "still_inside_breast": 39,
+      "max_inside_mm": 7.46,
+      "in_wall_gt0_5mm": 25,
+      "disp_max_mm": 3.25,
+      "disp_p95_mm": 0.94
+     },
+     "floor_again": {
+      "iters": 60,
+      "still_violating": 10,
+      "max_inside_mm": 1.21,
+      "moved_gt1mm": 5,
+      "disp_max_mm": 1.24,
+      "disp_p95_mm": 0.69
+     },
+     "flipped_pct": 0.13,
+     "stretched_pct": [
+      0.0,
+      0.6
+     ],
+     "ships": true
+    },
+    "external_oblique_r": {
+     "vertices_free": 384,
+     "poke_through_px_before": 158,
+     "poke_through_px_after": 1,
+     "inside_breast_before": 36,
+     "inside_breast_after": 36,
+     "disp_max_mm": 5.92,
+     "disp_p95_mm": 3.32,
+     "volume_cm3": [
+      222.15,
+      215.91
+     ],
+     "push_out": {
+      "iters": 60,
+      "still_violating": 107,
+      "max_inside_mm": 4.07,
+      "moved_gt1mm": 278,
+      "disp_max_mm": 4.96,
+      "disp_p95_mm": 3.19
+     },
+     "compress": {
+      "rounds": 4,
+      "still_inside_breast": 35,
+      "max_inside_mm": 11.88,
+      "in_wall_gt0_5mm": 112,
+      "disp_max_mm": 6.28,
+      "disp_p95_mm": 0.93
+     },
+     "floor_again": {
+      "iters": 60,
+      "still_violating": 88,
+      "max_inside_mm": 4.07,
+      "moved_gt1mm": 72,
+      "disp_max_mm": 3.25,
+      "disp_p95_mm": 0.82
+     },
+     "flipped_pct": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.1
+     ],
+     "ships": true
+    },
+    "rectus_abdominis_r": {
+     "vertices_free": 594,
+     "poke_through_px_before": 190,
+     "poke_through_px_after": 0,
+     "inside_breast_before": 134,
+     "inside_breast_after": 129,
+     "disp_max_mm": 10.51,
+     "disp_p95_mm": 6.6,
+     "volume_cm3": [
+      225.94,
+      216.96
+     ],
+     "push_out": {
+      "iters": 60,
+      "still_violating": 84,
+      "max_inside_mm": 2.87,
+      "moved_gt1mm": 560,
+      "disp_max_mm": 8.44,
+      "disp_p95_mm": 6.24
+     },
+     "compress": {
+      "rounds": 4,
+      "still_inside_breast": 123,
+      "max_inside_mm": 14.45,
+      "in_wall_gt0_5mm": 141,
+      "disp_max_mm": 6.2,
+      "disp_p95_mm": 2.76
+     },
+     "floor_again": {
+      "iters": 60,
+      "still_violating": 38,
+      "max_inside_mm": 2.72,
+      "moved_gt1mm": 260,
+      "disp_max_mm": 3.43,
+      "disp_p95_mm": 2.39
+     },
+     "flipped_pct": 0.44,
+     "stretched_pct": [
+      0.0,
+      1.9
+     ],
+     "ships": true
+    },
+    "serratus_anterior_r": {
+     "vertices_free": 615,
+     "poke_through_px_before": 1065,
+     "poke_through_px_after": 1060,
+     "inside_breast_before": 8,
+     "inside_breast_after": 0,
+     "disp_max_mm": 4.6,
+     "disp_p95_mm": 1.47,
+     "volume_cm3": [
+      170.83,
+      163.31
+     ],
+     "push_out": {
+      "iters": 60,
+      "still_violating": 113,
+      "max_inside_mm": 2.37,
+      "moved_gt1mm": 149,
+      "disp_max_mm": 4.05,
+      "disp_p95_mm": 1.25
+     },
+     "compress": {
+      "rounds": 2,
+      "still_inside_breast": 0,
+      "max_inside_mm": -1.02,
+      "in_wall_gt0_5mm": 60,
+      "disp_max_mm": 3.38,
+      "disp_p95_mm": 0.29
+     },
+     "floor_again": {
+      "iters": 60,
+      "still_violating": 105,
+      "max_inside_mm": 2.37,
+      "moved_gt1mm": 5,
+      "disp_max_mm": 1.64,
+      "disp_p95_mm": 0.27
+     },
+     "flipped_pct": 0.03,
+     "stretched_pct": [
+      0.0,
+      0.1
+     ],
+     "ships": true
+    },
+    "pectoral_fascia_r": {
+     "vertices_free": 610,
+     "poke_through_px_before": 293,
+     "poke_through_px_after": 0,
+     "inside_breast_before": 62,
+     "inside_breast_after": 50,
+     "disp_max_mm": 5.62,
+     "disp_p95_mm": 2.76,
+     "volume_cm3": [
+      -659.4,
+      -660.79
+     ],
+     "push_out": {
+      "iters": 60,
+      "still_violating": 5,
+      "max_inside_mm": 0.05,
+      "moved_gt1mm": 145,
+      "disp_max_mm": 5.42,
+      "disp_p95_mm": 2.92
+     },
+     "compress": {
+      "rounds": 4,
+      "still_inside_breast": 48,
+      "max_inside_mm": 13.22,
+      "in_wall_gt0_5mm": 44,
+      "disp_max_mm": 3.46,
+      "disp_p95_mm": 2.0
+     },
+     "floor_again": {
+      "iters": 60,
+      "still_violating": 3,
+      "max_inside_mm": 0.07,
+      "moved_gt1mm": 87,
+      "disp_max_mm": 2.93,
+      "disp_p95_mm": 1.79
+     },
+     "flipped_pct": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.0
+     ],
+     "ships": true
+    },
+    "zan_investing_abdominal_fascia_r": {
+     "vertices_free": 346,
+     "poke_through_px_before": 4188,
+     "poke_through_px_after": 4174,
+     "inside_breast_before": 18,
+     "inside_breast_after": 16,
+     "disp_max_mm": 3.44,
+     "disp_p95_mm": 0.68,
+     "volume_cm3": [
+      -7861.44,
+      -7863.52
+     ],
+     "push_out": {
+      "iters": 60,
+      "still_violating": 1,
+      "max_inside_mm": -0.24,
+      "moved_gt1mm": 17,
+      "disp_max_mm": 1.23,
+      "disp_p95_mm": 0.56
+     },
+     "compress": {
+      "rounds": 4,
+      "still_inside_breast": 16,
+      "max_inside_mm": 9.76,
+      "in_wall_gt0_5mm": 16,
+      "disp_max_mm": 5.82,
+      "disp_p95_mm": 0.67
+     },
+     "floor_again": {
+      "iters": 60,
+      "still_violating": 3,
+      "max_inside_mm": -0.17,
+      "moved_gt1mm": 30,
+      "disp_max_mm": 2.32,
+      "disp_p95_mm": 0.35
+     },
+     "flipped_pct": 0.0,
+     "stretched_pct": [
+      0.0,
+      0.0
+     ],
+     "ships": true
+    }
+   }
+  }
+ },
+ "geometry_changed": [
+  "breast_ct_r",
+  "breast_fgt_ct_r",
+  "external_oblique_r",
+  "pectoral_fascia_r",
+  "rectus_abdominis_r",
+  "serratus_anterior_r",
+  "zan_abdominal_part_of_pectoralis_major_muscle_r",
+  "zan_investing_abdominal_fascia_r",
+  "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+ ],
+ "files_changed": [
+  "atlas_viewer_base_female_geo_00.txt",
+  "atlas_viewer_base_female_geo_01.txt",
+  "atlas_viewer_base_female_geo_02.txt",
+  "atlas_viewer_base_female.html",
+  "index.html"
+ ]
+}
