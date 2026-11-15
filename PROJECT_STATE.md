@@ -89,10 +89,12 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-In flight (2026-11-15, three agents): (Q326) latissimus/teres IZ bands projected from the skin line onto
-the muscle, badged; (Q327) `#pl-box #rs-box #sa-bar` hidden in every mode where unused + record mislinks
-`zan_lateral_thyrohyoid_ligament` / `zan_piriformis_fascia` fixed at the linker; (Q325) injection clip —
-needle tool plans on posed geometry, "Show in scan" + play control (private, clinical/*.js), verifier
-`scripts/anatomy/q325/verify_needle_clip_q325.py`. Then: commit by filename, one regen of base_m base_f
-(note /dev/shm was cleared), verify all (Q318/Q319/Q321/Q322/Q323 + new), publish. Later: mode-colour
-leftover after Undo (edge case).
+Q325–Q327 all committed. Regen DONE → /dev/shm/q328 (expect-changed now also `clinical_needle_tool.js`
+and `__ANATOMY_manifest`). Full verifier set running (scratchpad v328.txt; incl. new
+`scripts/anatomy/q325/verify_needle_clip_q325.py`). Then publish both Base pages: index.html,
+clinical_imaging_tool.js, clinical_ultrasound_tool.js, clinical_needle_tool.js, parts_data.json,
+symmetry_q237.json, innervation_q322.json (cmp against build/q309 to confirm the list).
+Done this round: Q325 injection clip (needle on posed body, Show in scan, play); Q326 latissimus IZ
+projected from skin line (178/188); Q327 mode chrome hidden in all modes + 10 borrowed records removed.
+Open after this: saved injection points / motor points / risk halos don't follow pose; mode-colour
+leftover after Undo.
