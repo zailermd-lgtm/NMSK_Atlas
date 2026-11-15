@@ -2,7 +2,7 @@
 
 Read this first in a fresh session instead of the conversation. Keep it short (target < 200 lines):
 it holds only what is true NOW. When a round closes, move its detail to `docs/PROJECT_HISTORY.md`
-(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-15 (after the Q325–Q327 publish).
+(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-15 (after the Q328–Q329 publish).
 
 ## 1. Standing rules (owner)
 - Real sources only; never present fabricated or sculpted geometry as real. Anything fitted from the
@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v90 (Q325–Q327) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v85 (Q325–Q327) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v91 (Q328–Q329) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v86 (Q328–Q329) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -95,11 +95,11 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-Q328 (saved injection points + motor points follow Pose; halos already did) and Q329 (mode display state
-never returns through Undo: `setModeColours` outside history + NMSKHistory beginScope/endScope) are
-committed. Regen DONE → /dev/shm/q330; full verifier set + `q328/verify_overlays_pose_q328.py` +
-`q329/verify_mode_undo_q329.py` running (scratchpad v330.txt). Then publish both Base pages.
-Open after this: Base·F has no motor-point data (`clinical_motor_points.json` has no base_f entry);
-many Base·M shank motor points lie 1–11 mm outside their muscle in the source data; saved points'
-nearest-vessel readout not re-measured after a pose change; 82 muscles/body without attachment points;
-teres major / latissimus iliac-line IZ bands unplaced.
+Published 2026-11-15: Base·M v91, Base·F v86 — Q328 saved injection points + motor points follow Pose
+(halos already did; verifier `scripts/anatomy/q328/verify_overlays_pose_q328.py`), Q329 mode display
+state kept out of Undo (`setModeColours`, NMSKHistory beginScope/endScope; verifier
+`scripts/anatomy/q329/verify_mode_undo_q329.py`). 22 verifier verdicts OK on /dev/shm/q330.
+Nothing in flight. Open: Base·F has no motor-point data (`clinical_motor_points.json` lacks base_f);
+Base·M shank motor points 1–11 mm outside their muscle in the source data; saved points' nearest-vessel
+readout not re-measured after a pose change; 82 muscles/body without attachment points; teres major /
+latissimus iliac-line IZ bands unplaced.
