@@ -17,6 +17,7 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q256/build_plexus_sidecar.py     plexus_groups.json
     scripts/anatomy/q322/build_sidecar_q322.py       innervation_q322.json   (Base pages only)
     scripts/zanatomy/patch_manifest_records_q327.py  manifest records of 10 ligament/fascia ids (Base pages only)
+    clinical/data/motor_points.json                  -> clinical_motor_points.json   (Base pages only, Q331)
     index.html = the page
 
 and then VERIFIES the output against a reference page dir (default: the source dir, i.e. the previous build; `--ref` a dir of downloaded
@@ -43,6 +44,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -126,6 +128,10 @@ def build(p: str, src_root: Path, out: Path):
         run(["python3", "scripts/anatomy/q322/build_sidecar_q322.py", p, str(dst)])
     if p in ("base_m", "base_f"):   # Q327: a ligament / fascia carries no muscle's or bone's record (the builder rule, applied to the embedded manifest)
         run(["python3", "scripts/zanatomy/patch_manifest_records_q327.py", str(dst)])
+    if p in ("base_m", "base_f") and (dst / "clinical_motor_points.json").exists():
+        # Q331: the private motor-point layer is committed data (clinical/data/motor_points.json, one file for every body);
+        # the cut regen copies the OLD sibling verbatim, so a page would never get a body added later (Base·F had none).
+        shutil.copyfile(REPO / "clinical/data/motor_points.json", dst / "clinical_motor_points.json")
     (dst / "index.html").write_bytes(html.read_bytes())
     after = tracked_data_status()
     if after != before:
