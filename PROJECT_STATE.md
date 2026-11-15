@@ -104,7 +104,16 @@ routed by docs/MODEL_GUIDANCE.md): Q331 agent — `base_f` motor points (builder
 `scripts/clinical/motor_points_q187.py`; `zan_m` key = Base·M) + audit/fix of points outside their muscle;
 Q332 agent — saved points' vessel/nerve readouts re-measured on the posed body (verifier
 `scripts/anatomy/q332/verify_saved_readouts_q332.py`). Then regen (add `clinical_motor_points.json` to
---expect-changed), verify, publish. Open: Base·F has no motor-point data (`clinical_motor_points.json` lacks base_f);
+--expect-changed), verify, publish. Owner feedback 2026-11-15 (three more agents, all Base only):
+- **Q333** something is wrong in the LEFT ANTERIOR CHEST of Base·Female — diagnose (screenshots, left/right
+  and male comparison, Q319 repairs as suspects, `*.q318` backups) and fix at the source; script under
+  `scripts/anatomy/q333/`, applied to build/ only by the main thread.
+- **Q334** no imaginary seam lines between skin regions (and other split classes): find the cause, fix in
+  the engine or normals; `scripts/anatomy/q334/verify_skin_seams_q334.py`.
+- **Q335** click card: default docked top-left, draggable, position remembered; leader line only when the
+  structure is not marked in colour (setting); a ⋮ menu beside every window's drag grip; groups /
+  adjacent / related chips open under the name or at the very bottom, width = content, never a full row.
+Open: Base·F has no motor-point data (`clinical_motor_points.json` lacks base_f);
 Base·M shank motor points 1–11 mm outside their muscle in the source data; saved points' nearest-vessel
 readout not re-measured after a pose change; 82 muscles/body without attachment points; teres major /
 latissimus iliac-line IZ bands unplaced.
