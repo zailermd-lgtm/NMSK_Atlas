@@ -170,6 +170,14 @@ regen, all verifiers, publish.
     peripheral / central pattern); a "Parts" chooser on a muscle with heads (whole muscle | head …).
   - **Q341 UI audit (read-only agent, RUNNING on the cheaper model):** unreadable text in boxes and boxes
     covering the model → scratchpad `q341_ui_findings.md`; **Q344** = fixes from it (after Q335 lands).
+  - **Owner phone screenshots 2026-11-15 22:36 UTC** (/root/.claude/uploads/c87934a2-ee76-5e9b-b227-2ff779a6e56e/
+    a50cb270-image.jpg and 87282e7f-image.jpg) — concrete defects, to give to the Q335 agent on resume and
+    to Q344: (1) relations chips white-on-white, unreadable; (2) drag grip sits on top of the structure name
+    and on the "hidden: N structures" chip; (3) the relations box prints a long developer explanation
+    (voxel grid, script path) — one user line + ⓘ; (4) stale explanation after selecting another structure;
+    (5) leader line crosses the box and the model; (6) "hidden" chip + "Show everything" + zoom chip
+    overlap the name card (More… hidden) and the page title; (7) top toolbar = 4 rows on a phone → one row
+    + overflow; (8) relations box full width, ~30% height for 3 chips; (9) tendon sheath labelled "BURSA".
   - **Q340** palmar arch conform (see Q338).
 Open: deltoid middle-belly motor rule fails on Base·F (axillary-level landmark proxy too low); triceps /
 gastrocnemius IZ values in data/muscles/* still suspicious (not displayed); 82 muscles/body without attachment points; teres major /
