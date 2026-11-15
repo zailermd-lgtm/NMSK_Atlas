@@ -134,6 +134,25 @@ Owner feedback 2026-11-15 (three more agents, all Base only):
 Owner 2026-11-15: finish to a PUBLISHABLE level soon, work on everything in parallel. Geometry fixes come
 as `--page-dir` scripts; the main thread applies them to build/q309 in order (Q333, Q336, Q338), then one
 regen, all verifiers, publish.
+- **Q338 DONE, committed:** finger skin/nails were bound to the thumb's distal phalanx in the rig, digit
+  tissue to neighbouring fingers, wrist tendons to the forearm → `scripts/anatomy/q241/skin.py` rules +
+  `scripts/anatomy/q338/splice_rig_q338.py base_m base_f` (hand/foot structures only; deterministic);
+  verifier `scripts/anatomy/q338/verify_hand_q338.py`. Z-SOURCE defects reported, not redrawn: superficial
+  palmar arch + common palmar digital arteries + superficial venous arch lie DEEP to the flexor tendons
+  (should be superficial, under the aponeurosis); deep arches / palmar metacarpal arteries up to 4.4 mm
+  inside metacarpals 3–5; digital nerves mid-lateral instead of palmar to the arteries. **Decision (main):
+  Q340 = conform the three arch meshes into the right layer with a displacement tapered to zero at their
+  junctions (project precedent: Q292/Q319 conforms), push the in-bone vessels out of bone, badge with the
+  numbers. Not dispatched yet.** Thumb CMC rest pose lies outside its own ROM (slider jump) — open.
+- **USAGE LIMIT hit ~21:50 UTC 2026-11-15** (agent model; resets 23:30 UTC): Q334, Q335, Q336, Q337, Q339
+  agents stopped mid-work with their context saved; a scheduled message at 23:34 UTC resumes them by
+  SendMessage (ids in that message). Their half-done edits are in the working tree, uncommitted — do not
+  regen from the working tree until they finish.
+- **Interim publish from committed code only** (git worktree /dev/shm/wt_head at HEAD → regen /dev/shm/q340):
+  Q331 motor points F, Q332 readouts, Q333 chest, Q338 hand rig. Verifiers running (scratchpad v340.txt).
+  Base·F publish must include geo_00/01/02 (Q333). Note: the genital agent had overwritten
+  `pose_rig_base_f.json` with a 3301-structure rig (its `skin_vulva_cvh` copy); restored to the 3300 splice
+  (its version saved in the scratchpad as pose_rig_base_f.with_vulva_skin_3301.json).
 Open: deltoid middle-belly motor rule fails on Base·F (axillary-level landmark proxy too low); triceps /
 gastrocnemius IZ values in data/muscles/* still suspicious (not displayed); 82 muscles/body without attachment points; teres major /
 latissimus iliac-line IZ bands unplaced.
