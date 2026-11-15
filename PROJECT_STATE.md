@@ -114,6 +114,19 @@ Owner feedback 2026-11-15 (three more agents, all Base only):
 - **Q335** click card: default docked top-left, draggable, position remembered; leader line only when the
   structure is not marked in colour (setting); a ⋮ menu beside every window's drag grip; groups /
   adjacent / related chips open under the name or at the very bottom, width = content, never a full row.
+  Added by the owner: the leader line must never cross the body; More… expands the SAME window in place
+  (today it swaps to another window elsewhere).
+- **Q336** genital / perineal region "not covered correctly" on the Base bodies — diagnose skin coverage
+  and structures per sex, checklist from Gray's (1918 public-domain edition where reachable) + vetted
+  sources, complete with real geometry only; `scripts/anatomy/q336/`, `docs/Q336_genital_region.md`.
+- **Q337** read-only whole-body QA sweep of both Base bodies → ranked defect list
+  (scratchpad `q337_defects.md`); fixes are dispatched from it.
+- **Q338** hand / fingers: palmar vessels out of place "and more" — check at rest and posed (rig weights),
+  fix rig / records; misplaced source meshes are reported with options, not redrawn;
+  `scripts/anatomy/q338/verify_hand_q338.py`.
+Owner 2026-11-15: finish to a PUBLISHABLE level soon, work on everything in parallel. Geometry fixes come
+as `--page-dir` scripts; the main thread applies them to build/q309 in order (Q333, Q336, Q338), then one
+regen, all verifiers, publish.
 Open: deltoid middle-belly motor rule fails on Base·F (axillary-level landmark proxy too low); triceps /
 gastrocnemius IZ values in data/muscles/* still suspicious (not displayed); 82 muscles/body without attachment points; teres major /
 latissimus iliac-line IZ bands unplaced.
