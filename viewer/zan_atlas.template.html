@@ -835,6 +835,8 @@ body.mode-on #info,body.mode-on #foot,body.mode-on #modal,body.mode-on #cut-pane
 body.mode-on #pm-panel,body.mode-on #ng-panel,body.mode-on #pose-panel,body.mode-on #pose-banner,body.mode-on #sym-banner,
 body.mode-on #sym-panel,body.mode-on #nmsk-clinical-bar,body.mode-on #nmsk-clinical-toast{display:none!important}
 body.mode-on #app{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;min-height:0!important;background:#ECEFF2}
+/* page chrome that no mode uses (peel depth box, render-style box, "what is hidden" bar): they sit on the model and on the click card */
+body.mode-on #pl-box,body.mode-on #rs-box,body.mode-on #sa-bar{display:none!important}
 body.mode-on #app>#stage{grid-column:1!important;grid-row:1!important}
 body.mode-on{overflow:hidden}
 #mode-back{position:fixed;inset:0;z-index:60;background:#ECEFF2;display:none}
@@ -8285,6 +8287,7 @@ var NMSKQuickCard = (function(){
 .inn-badge{display:inline-flex;align-items:center;height:20px;padding:0 6px;border-radius:5px;background:#FFF4D6;color:#7A4E00;font-size:11px;font-weight:700;white-space:nowrap}
 .inn-badge.fail{background:#FDE8E8;color:#9B1C1C}
 .inn-badge.q{background:#EEF0F2;color:#5B6472}
+.inn-badge.proj{background:#E3EEFB;color:#1D4F91}
 .inn-ag{font-size:11px;font-weight:700;padding:0 5px;border-radius:4px}
 .inn-ag.agree{background:#E3F4E8;color:#1F6B3A}.inn-ag.near{background:#EEF6E0;color:#4D6B1F}
 .inn-ag.conflict{background:#FDE8E8;color:#9B1C1C}.inn-ag.second_zone{background:#FFF4D6;color:#7A4E00}.inn-ag.not_comparable{background:#EEF0F2;color:#5B6472}
@@ -8440,6 +8443,7 @@ var NMSKInnervation = (function(){
     var t = "Innervation zone — rule-based. Level = " + pctText(iz.pct) + " of " + (L.label || iz.line) + " (" + src + (iz.cite ? ", " + iz.cite : "") +
             "), measured on this body's own bones.";
     if (b && b.proxy) t += " Proxy landmark: " + b.proxy.map(function(k){ return (D.landmarks[k] || {}).label + " (" + ((D.landmarks[k] || {}).proxy || "") + ")"; }).join("; ") + ".";
+    if (b && b.proj) t += " Projected from a skin line (" + b.proj.method + ", bound " + b.proj.bound_mm + " mm): " + b.proj.rule;
     if (iz.note) t += " Note: " + iz.note + ".";
     return t;
   }
@@ -8465,7 +8469,8 @@ var NMSKInnervation = (function(){
     if (!m.iz.length) h.push('<p class="inn-hint">' + esc(m.iz_decision || "No innervation-zone level in the sources used.") + "</p>");
     m.iz.forEach(function(iz, i){
       var b = s ? bandOf(k, i, s) : null, stt = b ? b.st : "";
-      var badge = stt === "placed" ? '<span class="inn-badge" title="' + esc(badgeText(m, iz, b)) + '">rule-based</span>' :
+      var badge = stt === "placed" && b.proj ? '<span class="inn-badge proj" title="' + esc(badgeText(m, iz, b)) + '">projected from a skin line</span>' :
+                  stt === "placed" ? '<span class="inn-badge" title="' + esc(badgeText(m, iz, b)) + '">rule-based</span>' :
                   stt === "failed" ? '<span class="inn-badge fail" title="' + esc(b.reason || "") + '">not placed</span>' :
                   stt === "qualitative" ? '<span class="inn-badge q">site only</span>' : "";
       h.push('<div class="inn-band" data-inn-band="' + i + '"><div><span class="t">' + esc(pretty(iz.part)) + "</span> · " + esc(pctText(iz.pct)) + " " + badge + "</div>" +
@@ -8631,7 +8636,7 @@ var NMSKInnervation = (function(){
       placed.forEach(function(q){ if (Math.abs(q[0] - x) < 130 && Math.abs(q[1] - y) < 19) y = q[1] + 19; });   // two dots close together: stack the badges
       placed.push([x, y]);
       e.hidden = false; e.style.display = ""; e.style.left = x + "px"; e.style.top = y + "px";
-      e.textContent = "IZ " + pctText(iz.pct) + " · rule-based"; e.title = badgeText(m, iz, b);
+      e.textContent = "IZ " + pctText(iz.pct) + (b.proj ? " · projected from a skin line" : " · rule-based"); e.title = badgeText(m, iz, b);
     });
   }
   /* ---------- the provider ---------- */

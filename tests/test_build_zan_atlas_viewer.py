@@ -362,3 +362,46 @@ def test_atlas_records_ignore_derived_audit_rows():
     rec = load_atlas_records().get("pronator_teres_l")
     assert rec is not None and rec[0] != "derived"
     assert rec[1].get("name_common") == "Pronator teres"
+
+
+def test_ligament_and_fascia_never_take_a_muscles_record():
+    # Q325: "Lateral thyrohyoid ligament" / "Stylohyoid ligament" / "Piriformis fascia" were name-matched to the muscle of the
+    # same stem and, once rescued, carried that muscle's record as "part of". A ligament / fascia ships without a muscle parent.
+    import json
+    from scripts.zanatomy import build_zan_atlas_viewer as B
+    assert B.record_class_clash("Lateral thyrohyoid ligament.l", "muscle")
+    assert B.record_class_clash("Piriformis fascia.r", "muscle")
+    assert not B.record_class_clash("Tensor fasciae latae.l", "muscle")       # a muscle, whole-word rule
+    assert not B.record_class_clash("Piriformis fascia.l", "fascia")          # only a MUSCLE parent clashes
+    assert not B.record_class_clash("Thyrohyoid.l", "muscle")
+    inv = json.loads(Path(DEFAULT_INVENTORY).read_text())
+    nm = json.loads(Path(DEFAULT_NAMEMAP).read_text())
+    out = B.rescue_unshipped(inv, nm, {}, {})
+    cat = {e.entity_id: e.category for e in B.load_full_atlas()}
+    for sid, m in out.items():
+        if m["atlas_id"]:
+            assert not B.record_class_clash(m["mesh_name"], cat.get(m["atlas_id"])), (sid, m["atlas_id"])
+    for sid in ("zan_lateral_thyrohyoid_ligament_l", "zan_lateral_thyrohyoid_ligament_r",
+                "zan_piriformis_fascia_l", "zan_piriformis_fascia_r"):
+        assert sid in out and out[sid]["atlas_id"] is None, sid
+    # a bursa / tendon sheath keeps its muscle link (a relation, not a record of the same class)
+    assert out["zan_bursa_of_piriformis_muscle_l"]["atlas_id"] == "piriformis_l"
+
+
+def test_rescue_changes_only_muscle_ligament_and_fascia_links():
+    import json
+    from scripts.zanatomy import build_zan_atlas_viewer as B
+    inv = json.loads(Path(DEFAULT_INVENTORY).read_text())
+    nm = json.loads(Path(DEFAULT_NAMEMAP).read_text())
+    new = B.rescue_unshipped(inv, nm, {}, {})
+    old_fn = B.record_class_clash
+    try:
+        B.record_class_clash = lambda n, c: False
+        old = B.rescue_unshipped(inv, nm, {}, {})
+    finally:
+        B.record_class_clash = old_fn
+    assert set(new) == set(old)
+    changed = sorted(s for s in new if new[s]["atlas_id"] != old[s]["atlas_id"])
+    assert changed == ["zan_lateral_thyrohyoid_ligament_l", "zan_lateral_thyrohyoid_ligament_r",
+                       "zan_piriformis_fascia_l", "zan_piriformis_fascia_r",
+                       "zan_stylohyoid_ligament_l", "zan_stylohyoid_ligament_r"], changed

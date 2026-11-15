@@ -16,6 +16,8 @@ body.mode-on #info,body.mode-on #foot,body.mode-on #modal,body.mode-on #cut-pane
 body.mode-on #pm-panel,body.mode-on #ng-panel,body.mode-on #pose-panel,body.mode-on #pose-banner,body.mode-on #sym-banner,
 body.mode-on #sym-panel,body.mode-on #nmsk-clinical-bar,body.mode-on #nmsk-clinical-toast{display:none!important}
 body.mode-on #app{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;min-height:0!important;background:#ECEFF2}
+/* page chrome that no mode uses (peel depth box, render-style box, "what is hidden" bar): they sit on the model and on the click card */
+body.mode-on #pl-box,body.mode-on #rs-box,body.mode-on #sa-bar{display:none!important}
 body.mode-on #app>#stage{grid-column:1!important;grid-row:1!important}
 body.mode-on{overflow:hidden}
 #mode-back{position:fixed;inset:0;z-index:60;background:#ECEFF2;display:none}

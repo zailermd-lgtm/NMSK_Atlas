@@ -71,6 +71,7 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import re
 import sys
 from collections import Counter
 from pathlib import Path
@@ -444,6 +445,16 @@ def curate_orphans(orphans: dict, inventory: dict) -> tuple[dict, dict]:
     return final, fixes
 
 
+_SHEET_CLASS_RE = re.compile(r"(?<![a-z])(?:ligament|fascia)(?![a-z])")
+
+
+def record_class_clash(name: str, parent_cat: str | None) -> bool:
+    """Q325: a ligament / fascia (by its own Z-Anatomy name, whole word) must never borrow a MUSCLE's atlas record as its
+    "part of" parent. The name map matched "Lateral thyrohyoid ligament" -> thyrohyoid and "Piriformis fascia" -> piriformis by
+    name substring (system "Muscular" for the fascia); the Q161 rescue then filed them under the muscle's record."""
+    return parent_cat == "muscle" and bool(_SHEET_CLASS_RE.search(name.lower()))
+
+
 def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dict) -> dict:
     """Q161: every Z-Anatomy object the name map matched (exact/confident) but that
     load_source() then rejected -- wrong-system or wrong-side candidate, tiny sub-part
@@ -462,6 +473,7 @@ def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dic
         o = objs_by_name.get(name)
         if o:
             consumed_keys.add((o.get("side"), strip_suffix(name)))
+    id_to_cat = {e.entity_id: e.category for e in load_full_atlas()}
     muscular_bases = {strip_suffix(o["name"]) for o in inventory["objects"] if o["system"] == "Muscular"}
     groups: dict = {}
     for e in namemap["entries"]:
@@ -481,6 +493,8 @@ def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dic
         if aid and aid[-2:] in ("_l", "_r") and o.get("side") in ("left", "right") and \
                 aid[-2:] != {"left": "_l", "right": "_r"}[o["side"]]:
             aid = None  # Q186: a left object name-matched to a RIGHT atlas id must not claim "part of" it
+        if aid and record_class_clash(e["zanatomy_name"], id_to_cat.get(aid)):
+            aid = None  # Q325: a ligament / fascia is shipped, but without a muscle's record
         groups.setdefault(key, []).append((o, aid))
     used = set(orphans)
     out = {}
