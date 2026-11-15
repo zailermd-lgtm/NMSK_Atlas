@@ -3,6 +3,7 @@ Bones: rigid with their segment (ribs: per-vertex by height, they are skinned be
 Soft tissue: weights from the distance of every vertex to the surface of each segment's bones, w_s ~ exp(-(d_s - d_min)/lambda) (smooth falloff near joints, lambda per tissue class),
 top-4 influences, smoothed over the mesh edges.  Nothing is simulated (no collision, no volume preservation)."""
 from __future__ import annotations
+import re
 import numpy as np
 from scipy.spatial import cKDTree
 from scipy import sparse
@@ -13,6 +14,7 @@ from geom import *  # noqa
 LAMBDA = {"cartilage": 3.0, "joint": 4.0, "insertion": 3.0, "ligament": 4.0, "tendon": 5.0, "muscle": 6.0, "fascia": 6.0, "bursa": 6.0, "nerve": 6.0, "vessel": 6.0, "lymph": 8.0,
           "cns": 12.0, "viscera": 15.0, "organ": 15.0, "skin": 16.0, "bone": 3.0}
 TOPK = 4
+LAMBDA_DIGIT = 3.0  # Q338: falloff (mm) for a vertex whose nearest bone is a phalanx: the soft tissue of a finger / toe is tethered to each phalanx and bends at the joint
 SNAP = 0.015       # a structure whose weight outside its dominant segment is below this at (almost) every vertex is attached rigidly
 
 
@@ -118,6 +120,159 @@ def kin_dist(RB):
 
 
 
+def same_limb(mj, cnt, share, limb, par):
+    """Q338: the limb segments that are the nearest segment of >= `share` of a patch's vertices AND hang on the same limb as its majority segment
+    mj (their lowest common ancestor in the kinematic tree is itself a limb segment: the fingers and the thumb meet at the hand, the thigh and the
+    hand only at the trunk).  One Z skin patch covers all five digits (palmar / dorsal surfaces of the digits, the nail plates): the old rule kept
+    only the majority segment and its neighbours, which bound the skin of fingers 2-5 to the thumb.  -> bool mask over the segments."""
+    def chain(a):
+        out = []
+        while a >= 0:
+            out.append(int(a)); a = par[a]
+        return out
+    up = chain(mj)
+    m = np.zeros(len(cnt), bool); m[mj] = True
+    for s_ in np.where(limb & (cnt >= share))[0]:
+        c = chain(s_)
+        lca = next((a for a in c if a in up), -1)
+        if lca >= 0 and limb[lca]:
+            m[s_] = True
+    return m
+
+
+DIGIT_SEG = re.compile(r"^(f\d|th|t\d)_(mc|p|m|d)_(l|r)$")
+
+
+def digit_groups(RB):
+    """Q338: per segment the digit it belongs to (an int per finger / thumb / toe and side, -1 elsewhere) and the hand / foot segment the digit hangs on"""
+    n = len(RB.segs)
+    dg = np.full(n, -1, np.int64); host = np.full(n, -1, np.int64)
+    codes = {}
+    for i, sg in enumerate(RB.segs):
+        m = DIGIT_SEG.match(sg["id"])
+        if not m:
+            continue
+        key = m.group(1) + "_" + m.group(3)
+        dg[i] = codes.setdefault(key, len(codes))
+        h = RB.sid.get(("foot_" if m.group(1).startswith("t") and m.group(1) != "th" else "hand_") + m.group(3))
+        host[i] = h if h is not None else i
+    return dg, host
+
+
+def digit_mask(v, f, idx, w, tree, lab, digit, iters=3):
+    """Q338, after the smoothing: a vertex that lies on a digit keeps only the weights of that digit and of its hand / foot (the smoothing runs
+    over the mesh edges and would carry a neighbouring finger's weight across the interdigital web).  The digit of a vertex is the digit of its
+    nearest bone, then the majority of its mesh neighbours (`iters` rounds), so that a vertex of finger 3's skin tube lying in the narrow gap
+    against finger 4 stays with finger 3 instead of becoming a spike when one finger moves alone.  A vertex with no weight at all on its
+    digit takes that digit's nearest phalanx rigidly; a vertex whose structure is not allowed its nearest digit at all (thigh skin next to the
+    hanging hand) is left as it is."""
+    dg, host = digit
+    _, I = tree.query(v, k=1)
+    near = lab[I]
+    g = dg[near].copy()
+    if not (g >= 0).any():
+        return idx, w
+    allowed_any = (dg[idx] >= 0) & (w > 0)
+    hit = np.zeros(len(v), bool)
+    for c in range(idx.shape[1]):
+        hit |= (dg[idx[:, c]] == g) & (w[:, c] > 0)
+    on = (g >= 0) & allowed_any.any(1)                     # vertices that carry a digit weight at all: the only ones this rule touches
+    G = int(dg.max()) + 1
+    A = laplacian_adj(f, len(v))
+    for _ in range(iters):
+        oh = np.zeros((len(v), G), np.float32)
+        r = np.where(on)[0]
+        oh[r, g[r]] = 1.0
+        cnt = A @ oh + oh
+        best = cnt.argmax(1)
+        ok = on & (cnt.max(1) > 0)
+        g = np.where(ok, best, g)
+    g2host = {}
+    for sgi in np.where(dg >= 0)[0]:
+        g2host[int(dg[sgi])] = int(host[sgi])
+    rows = np.where(on)[0]
+    gr = g[rows]
+    hr = np.array([g2host[int(x)] for x in gr])
+    keep = (dg[idx[rows]] == gr[:, None]) | (idx[rows] == hr[:, None])
+    w = w.copy(); idx = idx.copy()
+    w2 = w[rows] * keep
+    tot = w2.sum(1)
+    good = tot > 1e-6
+    w[rows[good]] = w2[good] / tot[good][:, None]
+    lost = rows[~good]
+    if len(lost):                                          # no weight left on its digit: the nearest bone of that digit, rigidly
+        for gg in np.unique(g[lost]):
+            sel = np.isin(lab, np.where(dg == gg)[0])
+            t2 = cKDTree(tree.data[sel]); l2 = lab[sel]
+            vv = lost[g[lost] == gg]
+            _, I2 = t2.query(v[vv], k=1)
+            idx[vv] = 0; w[vv] = 0
+            idx[vv, 0] = l2[I2]; w[vv, 0] = 1.0
+    return idx, w.astype(np.float32)
+
+
+WRIST_IN, WRIST_OUT = 15.0, 30.0   # Q338: mm distal to the wrist joint centre along the hand: the carpus blends with the forearm, beyond the CMC joints nothing does
+
+
+def wrist_groups(RB, M=None):
+    """Q338: per segment: side code (0 r, 1 l, -1 none), whether it is a hand segment (hand, thumb, fingers), whether it is a forearm segment
+    (radius, ulna), and the wrist joint centre of each side"""
+    n = len(RB.segs)
+    side = np.full(n, -1, np.int64); handseg = np.zeros(n, bool); fore = np.zeros(n, bool)
+    for i, sg in enumerate(RB.segs):
+        m = re.match(r"^(hand|th_\w+|f\d_\w|rad|uln)_(l|r)$", sg["id"])
+        if not m:
+            continue
+        side[i] = 0 if m.group(2) == "r" else 1
+        handseg[i] = not m.group(1) in ("rad", "uln")
+        fore[i] = m.group(1) in ("rad", "uln")
+    wc = {0: None, 1: None}
+    for j in RB.joints:
+        if j["id"] in ("wrist_r", "wrist_l") and M is not None:
+            sd = j["id"][-1]
+            mc = [M.bones()[k]["v"] for k in M.bones() if re.match(r"^(mc_[2-5]|metacarpals?)_%s$" % sd, k)]
+            if mc:
+                c = np.asarray(j["c"], float); d = np.vstack(mc).mean(0) - c
+                wc[0 if sd == "r" else 1] = (c, d / np.linalg.norm(d))
+    return side, handseg, fore, wc
+
+
+def wrist_mask(v, idx, w, tree, lab, wrist):
+    """Q338: a vertex whose nearest bone is a bone of the hand and that lies more than WRIST_IN mm distal to the wrist centre (along the hand,
+    centre -> metacarpals 2-5) loses its forearm (radius / ulna) weight progressively, all of it beyond WRIST_OUT: tendons, sheaths and nerves
+    crossing the wrist bend over the carpus,
+    but distal to the carpometacarpal joints they lie on the hand and follow it (the extensor tendons over the metacarpals, the first
+    dorsal compartment and the superficial radial nerve over the thumb metacarpal lagged the hand by up to ~25 mm at full wrist motion)."""
+    side, handseg, fore, wc = wrist
+    if wc[0] is None and wc[1] is None:
+        return idx, w
+    _, I = tree.query(v, k=1)
+    near = lab[I]
+    rows = np.where(handseg[near])[0]
+    if not len(rows):
+        return idx, w
+    sd = side[near[rows]]
+    C = np.array([wc[int(x)][0] if wc[int(x)] is not None else [np.nan] * 3 for x in sd])
+    D = np.array([wc[int(x)][1] if wc[int(x)] is not None else [np.nan] * 3 for x in sd])
+    dw = np.einsum("ij,ij->i", v[rows] - C, D)
+    fac = np.clip((WRIST_OUT - dw) / (WRIST_OUT - WRIST_IN), 0.0, 1.0)
+    fac[~np.isfinite(fac)] = 1.0
+    sub_i, sub_w = idx[rows], w[rows].copy()
+    isf = fore[sub_i]
+    if not (isf & (sub_w > 0)).any():
+        return idx, w
+    sub_w = np.where(isf, sub_w * fac[:, None], sub_w)
+    tot = sub_w.sum(1)
+    w = w.copy(); idx = idx.copy()
+    ok = tot > 1e-6
+    w[rows[ok]] = sub_w[ok] / tot[ok][:, None]
+    lost = rows[~ok]
+    if len(lost):                                          # all of it was forearm weight: the hand segment of its nearest bone
+        idx[lost] = 0; w[lost] = 0
+        idx[lost, 0] = near[lost]; w[lost, 0] = 1.0
+    return idx, w.astype(np.float32)
+
+
 import re as _re2
 _CANON = _re2.compile(r"_(zfill\w*|q\d+\w*)$")
 
@@ -201,7 +356,7 @@ def prune_islands(best, raw, A, kin, touch=TOUCH_MM, iters=3):
     return best
 
 
-def dist_weights(P, tree, lab, nseg, lam, k=28, topk=TOPK, kin=None, share=0.03, bias=None, P_all=None, limb=None, kind=None, attach_mm=None, attach_share=0.02, A=None, prior=None):
+def dist_weights(P, tree, lab, nseg, lam, k=28, topk=TOPK, kin=None, share=0.03, bias=None, P_all=None, limb=None, kind=None, attach_mm=None, attach_share=0.02, A=None, prior=None, par=None, digit=None):
     """P (n,3) -> (idx (n,topk) int, w (n,topk)); distances to the nearest sample of each segment among the k nearest samples.
     Candidate segments of the structure: those that are the nearest segment of >= `share` of its vertices, plus the segments one joint away from them (parent / children); a segment that is
     nearest only to a few vertices (an arm hanging beside the hip, a stray island of a broken mesh) is not a candidate, so it cannot drag them."""
@@ -235,7 +390,7 @@ def dist_weights(P, tree, lab, nseg, lam, k=28, topk=TOPK, kin=None, share=0.03,
             lm = np.where(limb & (cnt > 0))[0]
             mj = int(lm[cnt[lm].argmax()]) if len(lm) else mj
             majority_limb = True
-            allowed = kin[mj] <= 1
+            allowed = kin[same_limb(mj, cnt, share, limb, par)].min(0) <= 1 if par is not None else kin[mj] <= 1
         else:
             majority_limb = False
             tr = np.where(~limb & (cnt > 0))[0]
@@ -250,8 +405,9 @@ def dist_weights(P, tree, lab, nseg, lam, k=28, topk=TOPK, kin=None, share=0.03,
         allowed = (near >= attach_share) | (np.arange(nseg) == int(cnt.argmax()))
         majority_limb = None
     elif limb is not None and kin is not None and limb[int(cnt.argmax())]:
-        # skin / fascia patch of a limb: only the patch's own segment and its neighbours (an arm lying against the trunk must not attach the arm skin to the ribs)
-        allowed = kin[int(cnt.argmax())] <= 1
+        # skin / fascia patch of a limb: only the patch's own segment(s) and their neighbours (an arm lying against the trunk must not attach the arm skin to the ribs)
+        mj = int(cnt.argmax())
+        allowed = kin[same_limb(mj, cnt, share, limb, par)].min(0) <= 1 if par is not None else kin[mj] <= 1
     trunk_patch = (not prior_on) and (kind == "trunk") or (not prior_on and kind is None and limb is not None and kin is not None and not limb[int(cnt.argmax())] and float(cnt[limb].sum()) < 0.15)     # a sheet spanning trunk and limb (fascia lata) keeps both
     if kin is not None:
         allowed = allowed | ((kin[allowed] <= 1).any(0) if allowed.any() else False)
@@ -284,6 +440,20 @@ def dist_weights(P, tree, lab, nseg, lam, k=28, topk=TOPK, kin=None, share=0.03,
                 best[bad] = bb
             else:
                 best[bad, int(cnt.argmax())] = 1.0
+    if digit is not None:
+        # Q338: a vertex whose nearest bone is a finger / toe phalanx follows THAT digit (and the hand / foot it hangs on), never a
+        # neighbouring digit lying a few mm away -- the fingers touch at rest, but flexing one must not drag its neighbour's tissue
+        dg, host = digit
+        near = best.argmin(1)
+        rows = np.where(dg[near] >= 0)[0]
+        if len(rows):
+            nr = near[rows]
+            keep = (dg[None, :] == dg[nr][:, None]) | (np.arange(nseg)[None, :] == host[nr][:, None])
+            sub = best[rows]
+            sub[~keep] = np.inf
+            best[rows] = sub
+            lam = np.full((n, 1), float(lam), np.float32)
+            lam[rows] = min(float(lam[0, 0]), LAMBDA_DIGIT)      # and changes bone at the joint crease (skin / sheaths held by Cleland's and Grayson's ligaments and the pulleys)
     dmin = best.min(1, keepdims=True)
     w = np.exp(-(best - dmin) / lam)
     w[~np.isfinite(best)] = 0
@@ -324,6 +494,9 @@ def compute(M, RB, verbose=True, only=None, prior=None):
     tree = cKDTree(P)
     kin = kin_dist(RB)
     lbias = limb_bias(RB)
+    par = np.array([sg["par"] for sg in RB.segs], np.int64)
+    digit = digit_groups(RB)
+    wrist = wrist_groups(RB, M)
     bone_of = {}
     for k, b in M.bones().items():
         for i in b["idx"]:
@@ -376,8 +549,11 @@ def compute(M, RB, verbose=True, only=None, prior=None):
                     pm = pm | (kin[pm] <= 1).any(0)          # + the neighbouring segments (smooth falloff at the joints)
                 else:
                     pm = None
-        idx, w = dist_weights(v, tree, lab, nseg, lam, prior=pm, kin=kin, bias=(lbias if x["sys"] == "skin" else None), P_all=P, limb=((lbias > 1) if x["sys"] in ("skin", "fascia") else None), kind=skin_kind(x), attach_mm=(ATTACH_MM if x["sys"] in ATTACH_SYS else None), A=(laplacian_adj(f, nv) if x["sys"] != "cns" else None))
+        idx, w = dist_weights(v, tree, lab, nseg, lam, prior=pm, kin=kin, bias=(lbias if x["sys"] == "skin" else None), P_all=P, limb=((lbias > 1) if x["sys"] in ("skin", "fascia") else None), kind=skin_kind(x), attach_mm=(ATTACH_MM if x["sys"] in ATTACH_SYS else None), A=(laplacian_adj(f, nv) if x["sys"] != "cns" else None),
+                              par=par, digit=digit)
         idx, w = smooth_weights(idx, w, f, nv, nseg, 3)
+        idx, w = digit_mask(v, f, idx, w, tree, lab, digit)
+        idx, w = wrist_mask(v, idx, w, tree, lab, wrist)
         # rigid when practically every vertex belongs to one segment
         am = idx[np.arange(nv), np.argmax(w, 1)]
         dom = np.bincount(am, minlength=nseg).argmax()

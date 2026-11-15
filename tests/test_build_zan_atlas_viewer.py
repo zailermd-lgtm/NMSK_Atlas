@@ -377,6 +377,9 @@ def test_ligament_and_fascia_never_take_a_muscles_record():
     assert not B.record_class_clash("Piriformis fascia.l", "fascia")          # only a MUSCLE / BONE parent clashes
     assert not B.record_class_clash("Femur.l", "bone")
     assert not B.record_class_clash("Thyrohyoid.l", "muscle")
+    assert B.record_class_clash("Collateral interphalangeal ligaments of hand.r", "bone")   # Q338: the plural is a ligament too
+    assert B.record_class_clash("Lumbrical muscles of hand.l", "bone")                      # Q338: a muscle is no part of a bone
+    assert not B.record_class_clash("Lumbrical muscles of hand.l", "muscle")
     inv = json.loads(Path(DEFAULT_INVENTORY).read_text())
     nm = json.loads(Path(DEFAULT_NAMEMAP).read_text())
     out = B.rescue_unshipped(inv, nm, {}, {})
@@ -407,8 +410,11 @@ def test_rescue_changes_only_muscle_ligament_and_fascia_links():
         B.record_class_clash = old_fn
     assert set(new) == set(old)
     changed = sorted(s for s in new if new[s]["atlas_id"] != old[s]["atlas_id"])
-    assert changed == ["zan_dorsal_fascia_of_hand_l", "zan_dorsal_fascia_of_hand_r",
+    # Q338 added the collateral interphalangeal ligaments (plural "ligaments") and the lumbricals (a muscle under the hand BONES' record)
+    assert changed == ["zan_collateral_interphalangeal_ligaments_of_hand_l", "zan_collateral_interphalangeal_ligaments_of_hand_r",
+                       "zan_dorsal_fascia_of_hand_l", "zan_dorsal_fascia_of_hand_r",
                        "zan_lateral_thyrohyoid_ligament_l", "zan_lateral_thyrohyoid_ligament_r",
                        "zan_ligament_of_head_of_femur_l", "zan_ligament_of_head_of_femur_r",
+                       "zan_lumbrical_muscles_of_hand_l", "zan_lumbrical_muscles_of_hand_r",
                        "zan_piriformis_fascia_l", "zan_piriformis_fascia_r",
                        "zan_stylohyoid_ligament_l", "zan_stylohyoid_ligament_r"], changed

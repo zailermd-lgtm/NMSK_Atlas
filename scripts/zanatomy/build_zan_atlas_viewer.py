@@ -445,14 +445,18 @@ def curate_orphans(orphans: dict, inventory: dict) -> tuple[dict, dict]:
     return final, fixes
 
 
-_SHEET_CLASS_RE = re.compile(r"(?<![a-z])(?:ligament|fascia)(?![a-z])")
+_SHEET_CLASS_RE = re.compile(r"(?<![a-z])(?:ligaments?|fascia)(?![a-z])")
+_MUSCLE_NAME_RE = re.compile(r"(?<![a-z])muscles?(?![a-z])")
 
 
 def record_class_clash(name: str, parent_cat: str | None) -> bool:
     """Q325: a ligament / fascia (by its own Z-Anatomy name, whole word) must never borrow a MUSCLE's (or, Q327, a BONE's) atlas record as its
     "part of" parent. The name map matched "Lateral thyrohyoid ligament" -> thyrohyoid and "Piriformis fascia" -> piriformis by
-    name substring (system "Muscular" for the fascia); the Q161 rescue then filed them under the muscle's record."""
-    return parent_cat in ("muscle", "bone") and bool(_SHEET_CLASS_RE.search(name.lower()))
+    name substring (system "Muscular" for the fascia); the Q161 rescue then filed them under the muscle's record.
+    Q338: the plural counts ("Collateral interphalangeal ligaments of hand" carried the hand bones' record), and a structure named a
+    muscle never takes a bone's record either ("Lumbrical muscles of hand" -> "Bones of the hand")."""
+    n = name.lower()
+    return (parent_cat in ("muscle", "bone") and bool(_SHEET_CLASS_RE.search(n))) or (parent_cat == "bone" and bool(_MUSCLE_NAME_RE.search(n)))
 
 
 def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dict) -> dict:

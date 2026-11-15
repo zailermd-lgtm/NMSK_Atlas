@@ -25,6 +25,8 @@ CLASHES = {
     "zan_piriformis_fascia": "piriformis",
     "zan_ligament_of_head_of_femur": "femur",
     "zan_dorsal_fascia_of_hand": "hand",
+    "zan_collateral_interphalangeal_ligaments_of_hand": "hand",   # Q338: plural "ligaments" slipped the rule
+    "zan_lumbrical_muscles_of_hand": "hand",                       # Q338: a muscle under the hand bones' record
 }
 OLD_PARENT = {f"{k}_{s}": f"{v}_{s}" for k, v in CLASHES.items() for s in SIDES}
 

@@ -47,6 +47,42 @@ def control_set(W):
     return ctrl
 
 
+REFINE_ERR, REFINE_ITERS = 0.05, 8
+
+
+def top3(W):
+    """dense weights -> the same matrix keeping each row's 3 largest influences, renormalised (what the viewer can hold per vertex)"""
+    top = np.argsort(-W, axis=1, kind="stable")[:, :3]
+    out = np.zeros_like(W)
+    tw = np.take_along_axis(W, top, 1)
+    np.put_along_axis(out, top, tw / np.maximum(tw.sum(1, keepdims=True), 1e-9), 1)
+    return out
+
+
+def refine_controls(v, W, ctrl):
+    """Q338: add control vertices wherever the viewer's reconstruction (decode_weights: inverse-square average of the KNN nearest control
+    vertices) would miss the computed weights by more than REFINE_ERR (half the L1 distance). The sparse stride alone let a finger's skin
+    vertex take its 4 nearest controls from the NEIGHBOURING finger, a few mm away across the gap, and so follow the wrong finger.
+    The format and the decoder (viewer/pose/pose.js buildSkin) are unchanged; only more vertices carry their own weights."""
+    from scipy.spatial import cKDTree
+    Wn = top3(W)
+    nv = len(v)
+    for _ in range(REFINE_ITERS):
+        cv = np.where(ctrl)[0]
+        k = min(KNN, len(cv))
+        d, nn = cKDTree(v[cv]).query(v, k=k)
+        d = np.maximum(d.reshape(nv, k), 1e-3); nn = nn.reshape(nv, k)
+        ww = 1.0 / (d * d); ww /= ww.sum(1, keepdims=True)
+        R = (Wn[cv][nn] * ww[:, :, None]).sum(1)
+        R[cv] = Wn[cv]
+        err = 0.5 * np.abs(top3(R) - Wn).sum(1)
+        add = (~ctrl) & (err > REFINE_ERR)
+        if not add.any():
+            break
+        ctrl = ctrl | add
+    return ctrl
+
+
 def decode_weights(v, ctrl, pal, ci_idx, ci_w, nseg_unused=None):
     """the viewer's reconstruction (pose.js buildSkin): every vertex takes the inverse-square-distance average of the weights of its KNN nearest control vertices (control vertices keep their own),
     then the 3 largest influences are renormalised.  -> (idx (nv,3) segment index, w (nv,3) uint8-quantised /255)"""
@@ -88,7 +124,7 @@ def encode_weights(M, out, RB):
             continue
         nv = len(o["idx"])
         W = dense_weights(o, nv, nseg)
-        ctrl = control_set(W)
+        ctrl = refine_controls(M.S[i]["v"], W, control_set(W))
         cv = np.where(ctrl)[0]
         Wc = W[cv]
         top = np.argsort(-Wc, axis=1, kind="stable")[:, :3]

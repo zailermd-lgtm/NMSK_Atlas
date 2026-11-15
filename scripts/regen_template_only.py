@@ -16,7 +16,7 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q237/build_sidecar.py            symmetry_q237.json
     scripts/anatomy/q256/build_plexus_sidecar.py     plexus_groups.json
     scripts/anatomy/q322/build_sidecar_q322.py       innervation_q322.json   (Base pages only)
-    scripts/zanatomy/patch_manifest_records_q327.py  manifest records of 10 ligament/fascia ids (Base pages only)
+    scripts/zanatomy/patch_manifest_records_q327.py  manifest records of 14 ligament/fascia/muscle ids (Base pages only; Q338 +4 hand ids)
     clinical/data/motor_points.json                  -> clinical_motor_points.json   (Base pages only, Q331)
     index.html = the page
 
