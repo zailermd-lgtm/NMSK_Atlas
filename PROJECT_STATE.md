@@ -106,9 +106,16 @@ body (the old "1–11 mm outside" was an unsigned depth — closed). Regen now c
 **Q332** saved points' vessel/nerve readouts re-measured on the posed body (verifier
 `scripts/anatomy/q332/verify_saved_readouts_q332.py`); risk region cache keyed by pose.
 Owner feedback 2026-11-15 (three more agents, all Base only):
-- **Q333** something is wrong in the LEFT ANTERIOR CHEST of Base·Female — diagnose (screenshots, left/right
-  and male comparison, Q319 repairs as suspects, `*.q318` backups) and fix at the source; script under
-  `scripts/anatomy/q333/`, applied to build/ only by the main thread.
+- **Q333 DONE, applied to build/q309/viewer_base_female (originals kept as *.q333), committed:** chest wall
+  showed through the pectoralis on the `_r` side — Q292's breast push left 236 vertices in the wall
+  (`lib292.push_dir` bug, still unfixed in lib292). `scripts/anatomy/q333/fix_chest_wall_q333.py`. Changes
+  geo_00/01/02 + index.html of Base·F (publish the three ~14 MB sidecars). Cost: `_r` sternocostal
+  pectoralis thinner (R/L 0.76); option = larger breast gap from her CT pectoralis thickness (owner's call).
+- **Q339 BLOCKER, agent running:** the Z engine draws a MIRROR IMAGE — Front view shows `_r` on the
+  viewer's right (verified by clicks; data frame +X right/+Y sup/+Z ant is left-handed, camera is
+  right-handed). Fix = handedness flip in the projection + winding + re-signed interactions; R/L marker;
+  `scripts/anatomy/q339/patch_mirror_q339.py`, verifier `verify_handedness_q339.py`. The owner's "left
+  chest" was the `_r` side for this reason. Frozen pages have the same defect (not touched).
 - **Q334** no imaginary seam lines between skin regions (and other split classes): find the cause, fix in
   the engine or normals; `scripts/anatomy/q334/verify_skin_seams_q334.py`.
 - **Q335** click card: default docked top-left, draggable, position remembered; leader line only when the
