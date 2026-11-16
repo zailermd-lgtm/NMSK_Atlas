@@ -465,11 +465,13 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
             check(f"{T} after More the window's top-left is unchanged ({before['l']:.0f},{before['t']:.0f})->({after and round(after['l'])},{after and round(after['t'])})",
                   after is not None and abs(after["l"] - before["l"]) < 1.5 and abs(after["t"] - before["t"]) < 1.5)
             check(f"{T} expanded window stays inside the view (bottom {after and round(after['b'])} <= {h})", after is not None and after["b"] <= h + 1)
+            # phone: the window snaps to a slot; a window so tall that every slot lies within 10 px has nowhere to go
+            room = desk or pg.evaluate("() => { const s = NMSKMove.slots('qcard'), o = NMSKMove.off('qcard'); return s.some(q => Math.abs(q.dx - o.ax) + Math.abs(q.dy - o.ay) > 10 && q.dy >= 0); }")
             drag_el(pg, "#nm-g-qcard", 40, 30); a2 = card_info(pg)
             check(f"{T} expanded window is still draggable by its grip ({after and round(after['l'])},{after and round(after['t'])})->({a2 and round(a2['l'])},{a2 and round(a2['t'])})"
-                  + ("" if desk else " (phone: snaps to a slot)"),
+                  + ("" if desk else " (phone: snaps to a slot)" + ("" if room else "; no slot further than 10 px for a window this tall")),
                   a2 is not None and a2["open"] and ((abs(a2["l"] - after["l"] - 40) < 3 and abs(a2["t"] - after["t"] - 30) < 3) if desk
-                                                     else abs(a2["l"] - after["l"]) + abs(a2["t"] - after["t"]) > 10))
+                                                     else (not room or abs(a2["l"] - after["l"]) + abs(a2["t"] - after["t"]) > 10)))
             press("Less"); pg.wait_for_timeout(200)
             l2 = card_info(pg); det2 = pg.evaluate("() => !!document.getElementById('info').closest('.qc')")
             check(f"{T} Less folds the details back (card open={l2 and l2['open']}, details in card={det2})", l2 is not None and not l2["open"] and not det2)
@@ -518,11 +520,17 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
             check(f"{T} 'Top-left' puts it back in the corner, the dragged place kept", c2 is not None and abs(c2["l"] - c0["l"]) < 1.5 and abs(c2["t"] - c0["t"]) < 1.5)
             setp(pg, "pos", "drag"); c3 = card_info(pg)
             check(f"{T} 'Where I dragged it' brings it back to the dragged place", c3 is not None and abs(c3["l"] - c1["l"]) < 1.5 and abs(c3["t"] - c1["t"]) < 1.5)
+            slot1 = pg.evaluate("() => NMSKMove.off('qcard').slot")
             reload(pg)
             r2 = scan(pg, r".", None, grid=12)
             c4 = r2 and card_info(pg)
-            check(f"{T} after a reload the card opens where it was dragged ({c4 and round(c4['l'])},{c4 and round(c4['t'])}), mode '{pg.evaluate('() => NMSKQuick.prefs().pos')}'",
-                  bool(c4) and abs(c4["l"] - c1["l"]) < 2.5 and abs(c4["t"] - c1["t"]) < 2.5)
+            slot4 = pg.evaluate("() => (NMSKMove.off('qcard') || {}).slot")
+            # phone: the place is a slot; another structure's card can be taller, and a centred slot then keeps the
+            # card's middle, not its top -- so the slot and the middle are what must survive the reload
+            mid = lambda c: (c["t"] + c["b"]) / 2
+            check(f"{T} after a reload the card opens where it was dragged ({c4 and round(c4['l'])},{c4 and round(c4['t'])}), mode '{pg.evaluate('() => NMSKQuick.prefs().pos')}'"
+                  + ("" if desk else f", slot '{slot1}'->'{slot4}'"),
+                  bool(c4) and abs(c4["l"] - c1["l"]) < 2.5 and (abs(c4["t"] - c1["t"]) < 2.5 or (not desk and slot1 and slot1 == slot4 and abs(mid(c4) - mid(c1)) < 2.5)))
             mq = menu_of(pg, "qcard")
             check(f"{T} name card ⋮: position / line / groups / buttons items ({mq and len(mq['items'])} items)",
                   mq is not None and all(k in mq["items"] for k in ("pos-tl", "pos-point", "pos-drag", "lead-auto", "lead-always", "lead-never", "chips-card", "chips-bottom", "show-zoom", "size", "close")))
