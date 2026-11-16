@@ -14562,3 +14562,11 @@ Rounds between the two snapshots above, in one line each:
 - Q340 palmar arch and common digital arteries lifted above the flexor tendons (`scripts/anatomy/q340/`).
 - Q341 UI audit → Q344-A/B fixes; Q342 data + Q343 UI for Related structures families.
 - Published: Base·M v90→v94, Base·F v85→v88 (v94 = regen q346).
+
+## 2026-11-16 — v95/v90 (Q347–Q350), superseded by v96/v91
+- Q347 injection guide in the injection mode (sibling `clinical_injection_guide.json`, verifier q347).
+- Q348 book reference pass (`docs/Q348_reference_pass.md`): 18 myofascial lines, root levels, parts.
+- Q349 finger nerve/artery order (Base·M 3/10 finger sides per hand, Base·F 1/10; report in data/derived).
+- Q350 latissimus iliac IZ line at the posterior outer lip of the crest; nerve-record corrections
+  (`scripts/zanatomy/patch_manifest_nerves_q350.py` in regen).
+- Q337 whole-body QA sweep: 3 blockers, 17 should-fix, 14 cosmetic → rounds Q353–Q355.

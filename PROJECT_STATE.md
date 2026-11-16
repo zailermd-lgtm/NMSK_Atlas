@@ -2,7 +2,7 @@
 
 Read this first in a fresh session instead of the conversation. Keep it short (target < 200 lines):
 it holds only what is true NOW. When a round closes, move its detail to `docs/PROJECT_HISTORY.md`
-(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-16 (after the Q347–Q350 publish, all verifiers green).
+(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-16 ~21:00 UTC (after the Q353–Q355 publish).
 
 ## 1. Standing rules (owner)
 - Real sources only; never present fabricated or sculpted geometry as real. Anything fitted from the
@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v95 (Q347–Q350) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v90 (Q347–Q350) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v96 (Q353–Q355) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v91 (Q353–Q355) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -78,50 +78,51 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 
 ## 8. Open (Base pages) — see also "Other open" in §9
 - Pre-existing test failures, not caused by recent work: `test_q255_us_rotation_thickness`,
-  `test_q272_modes` ×2, `test_q298::test_relations_exist…`.
+  `test_q272_modes` ×2, `test_q298::test_relations_exist…`, `test_cut_mode_q197::test_slice_thickness_in_both_engines`,
+  `test_q309::test_the_measured_counts…` (build/q309 has 436 muscular, pin says 434), `test_symmetry::test_every_reference…`.
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
 (Rewritten 2026-11-16 ~14:40 UTC. Detail of closed rounds Q325–Q346: docs/PROJECT_HISTORY.md.)
 
-**Live:** Base·M **v95** (1794834780-112b), Base·F **v90** (1794834787-91e8) = regen /dev/shm/q352 = HEAD
-bb2f681 (scratchpad `pub7/<dir>` holds the files sent; `pub6` the q346 ones). On top of q346 they carry:
-- **Q347** injection guide in the injection mode (points, sites, IZ bands with "Use site N", "Start scan
-  here" on the scan tool's skin, manoeuvre demo that returns to the starting pose, structures at risk with
-  highlight + distances, citation); sibling `clinical_injection_guide.json` built at regen
-  (`scripts/clinical/build_injection_guide_q347.py`); verifier `scripts/anatomy/q347/verify_injection_guide_q347.py`.
-- **Q348** book reference pass (`docs/Q348_reference_pass.md`): 18 myofascial lines, root levels, parts.
-- **Q349** finger nerve/artery order, applied to build/q309 (geo_01, originals `*.q349`): Base·M 3/10 finger
-  sides per hand, Base·F 1/10; the rest and the superficial venous arch failed a guard and were left
-  (`data/derived/Q349_fingers_report.json`).
-- **Q350** latissimus iliac IZ line at the posterior outer lip of the crest (Base·M 180/188 bands, Base·F
-  178); nerve records: serratus posterior superior T2–T5, foot interossei exception, pectoralis minor both
-  pectoral nerves with adopted roots C8–T1 (`scripts/zanatomy/patch_manifest_nerves_q350.py` in regen).
-Verified: q351 queue (scratchpad `v351.txt`: hand, innervation, groups, search, nerves, insertions, q336,
-quick card 390, + unchanged-code set), needle set on q352 (`v352.txt`: q325, q328, q332, q344 clinical,
-q347 at 1400 and 390) and the remainder on q352 (`v352b.txt`: ui 390 both pages, Base·F toprow, rings,
-spine, groups 390, handedness 390) — all verdicts OK. One run of ui 390 on Base·M failed "Labels (compact)
-leaves >= 50% of the model visible" (cov 0.58) while the machine was loaded; the rerun passed 31/31, so it
-is load-sensitive, not a page defect. Every browser run goes through `flock /tmp/nmsk_browser.lock`; a
-background queue dies at 2 h, so split long queues.
+**Live:** Base·M **v96** (1794858900-c663), Base·F **v91** (1794858906-0aa3) = regen /dev/shm/q358 = HEAD
+c21bd4f (scratchpad `pub8/<dir>` holds the files sent). On top of v95/v90 (Q347–Q350, see history) they carry
+the fixes from the **Q337 QA sweep** (report + shots: scratchpad `q337/findings.md`, `q337/shots/`):
+- **Q354** name cards show only a structure's own record (`scripts/zanatomy/card_rules_q354.py`,
+  `patch_manifest_cards_q354.py` runs twice in regen): 137 borrowed records/body → 0, sided nerves list
+  same-side targets, brain/eye/ear parts off the nerve layer, raw ids and build notes off the card, serratus
+  posterior inferior T9–T12, phone card capped at 60%. Left: search + q298 relations keep the old names of
+  44 renamed meshes; one sulcus name is a mechanical expansion (marked in data).
+- **Q355** UI: Anatomy panels parked when a mode is entered and restored on exit, one tool panel at a time
+  on a phone, injection closest-structures names wrap, only placed landmarks offered, insertion rings scale
+  with zoom, measure close button sticky, round ids out of visible text. The hidden-chip naming was reverted
+  (its grip covered the text). Not browser-checked: scan-mode "Nothing to centre" fix, skin-hidden prompt.
+- **Q353** Base·F skin, applied steps `chest_tuck,head` only (`scripts/anatomy/q353/conform_skin_q353.py`,
+  originals `*.q353` in build/): breast fat / ducts / gland / suspensory ligaments, frontalis and platysma
+  under the skin. **Held, do not apply:** `back` and `chest_seams` (leave seam lines on a regenerated page;
+  cause of the back lines not found) and `perineum`.
+Verified on q356 (code) + q358 (Base·F geometry): scratchpad `v356a.txt`, `v356b.txt`, `v358.txt` — all OK
+(q321 1400/390, q344 ui 1400/390 + clinical, q347 390, q322, q343, q323, q329, q319 search/nerves, q336,
+q325). q334 seams: the same 4 FAILs with identical numbers before and after Q353 (trunk ×3, knee) — the
+known trunk seam. Load-sensitive, pass on a quiet rerun: q344 "Labels (compact)" on Base·M 390, q321
+"Undo brings it back" on Base·F 1400.
+**Rules learnt this round:** judge skin/geometry only on a REGENERATED page (build/ pages carry no weld
+block); at most two browser queues at once; a queue dies at 2 h; agents report as text (they cannot write
+report files).
 
-**Q337 QA sweep done** (read-only; report + 454 shots in scratchpad `q337/`, `findings.md`): 3 blockers, 17
-should-fix, 14 cosmetic. Three agents are fixing them in parallel (nothing committed until each reports):
-- **Q353** Base·F skin (geometry, script on a copy in /dev/shm/q353; main thread applies to build/): chest
-  patchwork + breast pads through the skin, ragged/open vulva skin, muscle through scalp skin, scapular hole.
-- **Q354** name-card records (`data/**`, builders, `viewer/quickcard`): 59 non-bones/body with a bone's
-  record, 44 bursae/sheaths with their muscle's attachments, serratus posterior inferior levels, nerve
-  targets on both sides, raw ids / provenance notes / "tris" on cards, sulci classed as nerve.
-- **Q355** UI (`viewer/*` except quickcard, `clinical/*`): panels persisting across modes, truncated names
-  in the injection closest-structures box, insertion rings burying the model on a phone, measure bar wider
-  than a phone, round ids in ⓘ texts, cosmetics.
-**Next:** apply Q353, commit each agent's files by name, one regen, full verifier set (split queues < 2 h),
-publish both Base pages. Then from the sweep, not yet assigned: vessels/nerves inside bone (266 structures
-M / 268 F; worst: testicular veins 8.7 mm in the hip bone, posterior circumflex humeral 7.9 mm, calcaneal
-branches of the fibular artery inside the calcaneus, internal thoracic 6.9 mm in the sternum); skin tears
-in large poses (shoulder abd 126°, hip 66°, knee 84°); skin seams on toes / finger bases / thumb / natal
-cleft; small skin poke-throughs (saphenous veins, supraclavicular n.); Base·F `sternoclavicular_ligament`
-R/L 4.16; thick white retinacula, floating transverse metatarsal ligament, block-shaped pubic disc.
+**Still wrong on the live pages (from the sweep), in priority order:**
+1. Base·F chest: outlines between skin regions (mammary, presternal, inframammary) still visible with
+   opaque skin; purple sliver in the right inframammary fold. The load-time weld smooths the back, not here.
+2. Base·F vulva/perineum: ragged fragments and flap; skin ring open 20–30 mm with no source skin piece —
+   **owner's call** whether to add a rule-based (badged) closing surface.
+3. Face skin seams around mouth / nose / eyes (both bodies); temporoparietalis, orbicularis oris through skin.
+4. Vessels/nerves inside bone: 266 structures M / 268 F (worst: testicular veins 8.7 mm in the hip bone,
+   posterior circumflex humeral 7.9 mm, calcaneal branches of the fibular artery, internal thoracic 6.9 mm).
+5. Skin tears in large poses; seams on toes / finger bases / thumb / natal cleft; two small triangles at
+   the scapulae; small poke-throughs (saphenous veins, supraclavicular n.); Base·F sternoclavicular
+   ligament R/L 4.16; thick white retinacula, floating transverse metatarsal ligament, block pubic disc.
+6. Not covered by the sweep: Base·F per-mode run, pose run, desktop UI walk-through.
+**Next:** (a) unknown-cause debug of 1; (b) guarded conform for 4; then 3 and 5.
 
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
