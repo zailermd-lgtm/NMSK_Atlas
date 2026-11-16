@@ -105,7 +105,23 @@ leaves >= 50% of the model visible" (cov 0.58) while the machine was loaded; the
 is load-sensitive, not a page defect. Every browser run goes through `flock /tmp/nmsk_browser.lock`; a
 background queue dies at 2 h, so split long queues.
 
-**Next:** Q337 whole-body QA sweep as a fresh read-only agent on the live build; then the open list below.
+**Q337 QA sweep done** (read-only; report + 454 shots in scratchpad `q337/`, `findings.md`): 3 blockers, 17
+should-fix, 14 cosmetic. Three agents are fixing them in parallel (nothing committed until each reports):
+- **Q353** Base·F skin (geometry, script on a copy in /dev/shm/q353; main thread applies to build/): chest
+  patchwork + breast pads through the skin, ragged/open vulva skin, muscle through scalp skin, scapular hole.
+- **Q354** name-card records (`data/**`, builders, `viewer/quickcard`): 59 non-bones/body with a bone's
+  record, 44 bursae/sheaths with their muscle's attachments, serratus posterior inferior levels, nerve
+  targets on both sides, raw ids / provenance notes / "tris" on cards, sulci classed as nerve.
+- **Q355** UI (`viewer/*` except quickcard, `clinical/*`): panels persisting across modes, truncated names
+  in the injection closest-structures box, insertion rings burying the model on a phone, measure bar wider
+  than a phone, round ids in ⓘ texts, cosmetics.
+**Next:** apply Q353, commit each agent's files by name, one regen, full verifier set (split queues < 2 h),
+publish both Base pages. Then from the sweep, not yet assigned: vessels/nerves inside bone (266 structures
+M / 268 F; worst: testicular veins 8.7 mm in the hip bone, posterior circumflex humeral 7.9 mm, calcaneal
+branches of the fibular artery inside the calcaneus, internal thoracic 6.9 mm in the sternum); skin tears
+in large poses (shoulder abd 126°, hip 66°, knee 84°); skin seams on toes / finger bases / thumb / natal
+cleft; small skin poke-throughs (saphenous veins, supraclavicular n.); Base·F `sternoclavicular_ligament`
+R/L 4.16; thick white retinacula, floating transverse metatarsal ligament, block-shaped pubic disc.
 
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
