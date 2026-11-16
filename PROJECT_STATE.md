@@ -2,7 +2,7 @@
 
 Read this first in a fresh session instead of the conversation. Keep it short (target < 200 lines):
 it holds only what is true NOW. When a round closes, move its detail to `docs/PROJECT_HISTORY.md`
-(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-15 22:45 UTC (after the Q331–Q338 interim publish).
+(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-16 (after the Q347–Q350 publish, all verifiers green).
 
 ## 1. Standing rules (owner)
 - Real sources only; never present fabricated or sculpted geometry as real. Anything fitted from the
@@ -98,8 +98,12 @@ bb2f681 (scratchpad `pub7/<dir>` holds the files sent; `pub6` the q346 ones). On
   178); nerve records: serratus posterior superior T2–T5, foot interossei exception, pectoralis minor both
   pectoral nerves with adopted roots C8–T1 (`scripts/zanatomy/patch_manifest_nerves_q350.py` in regen).
 Verified: q351 queue (scratchpad `v351.txt`: hand, innervation, groups, search, nerves, insertions, q336,
-quick card 390, + unchanged-code set) and needle set on q352 (`v352.txt`: q325, q328, q332, q344 clinical,
-q347 at 1400 and 390) — all verdicts OK. Every browser run goes through `flock /tmp/nmsk_browser.lock`.
+quick card 390, + unchanged-code set), needle set on q352 (`v352.txt`: q325, q328, q332, q344 clinical,
+q347 at 1400 and 390) and the remainder on q352 (`v352b.txt`: ui 390 both pages, Base·F toprow, rings,
+spine, groups 390, handedness 390) — all verdicts OK. One run of ui 390 on Base·M failed "Labels (compact)
+leaves >= 50% of the model visible" (cov 0.58) while the machine was loaded; the rerun passed 31/31, so it
+is load-sensitive, not a page defect. Every browser run goes through `flock /tmp/nmsk_browser.lock`; a
+background queue dies at 2 h, so split long queues.
 
 **Next:** Q337 whole-body QA sweep as a fresh read-only agent on the live build; then the open list below.
 
