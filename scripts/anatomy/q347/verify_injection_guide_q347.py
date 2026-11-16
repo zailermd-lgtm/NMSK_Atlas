@@ -87,7 +87,8 @@ CASE = r"""async ([key, joint, dof]) => {
     const btn = H.box(key).querySelector('[data-g-use="' + (n + 1) + '"]'); if (!btn) { o.use.push({n: n + 1, err: 'no button'}); continue; }
     btn.click(); await sleep(450);
     const p = T.target.p, d = Math.hypot(p[0] - bd.dot[0], p[1] - bd.dot[1], p[2] - bd.dot[2]);
-    o.use.push({n: n + 1, d, inside: (T.byId[sid] || []).some(i => T.insideMesh(i, p)), surf: H.surf(T.target.i, p), pressed: (H.box(key).querySelector('[data-g-use="' + (n + 1) + '"]') || {}).getAttribute ? H.box(key).querySelector('[data-g-use="' + (n + 1) + '"]').getAttribute('aria-pressed') : null});
+    const wh = H.box(key).querySelector('[data-g-site="' + (n + 1) + '"] [data-g-where]');
+    o.use.push({n: n + 1, d, inside: (T.byId[sid] || []).some(i => T.insideMesh(i, p)), surf: H.surf(T.target.i, p), where: wh ? wh.dataset.gWhere : null, whereTxt: wh ? wh.textContent : '', pressed: (H.box(key).querySelector('[data-g-use="' + (n + 1) + '"]') || {}).getAttribute ? H.box(key).querySelector('[data-g-use="' + (n + 1) + '"]').getAttribute('aria-pressed') : null});
   }
   if (!T.target) return o;
   // risk rows vs the corridor: target point, then a path from a suggested entry
@@ -129,31 +130,59 @@ CASE = r"""async ([key, joint, dof]) => {
 }"""
 
 FHL = r"""async () => {
-  const H = window.__q347, T = window.NMSKClinicalTool, PZ = window.__poseApi, U = window.NMSKUltrasound, sleep = H.sleep, key = 'flexor_hallucis_longus';
+  const H = window.__q347, T = window.NMSKClinicalTool, PZ = window.__poseApi, U = window.NMSKUltrasound, HI = window.NMSKHistory, sleep = H.sleep, key = 'flexor_hallucis_longus';
   const sid = H.rightId(key); if (!sid) return {err: 'no flexor hallucis longus'};
   await H.pick(sid); const b = H.box(key); if (!b) return {err: 'no guide section'};
   if (!b.open) b.open = true;
-  const u = b.querySelector('[data-g-use="1"]'); if (u) { u.click(); await sleep(500); }
+  const u = b.querySelector('[data-g-use="1"]'); if (u) { u.click(); await sleep(600); }
   const o = {};
-  const t0 = T.target ? T.target.p.slice() : null, sh = H.box(key).querySelector('[data-g-show]');
-  o.showBtn = !!sh;
-  if (sh && t0) {
+  // "Show on the model": once from rest, once from a pose the user set (knee 30 deg)
+  async function show(label) {
+    const sh = H.box(key) && H.box(key).querySelector('[data-g-show]'); if (!sh || !T.target) return {label, err: 'no button / target'};
+    if (HI && HI.commit) HI.commit();
+    const P0 = JSON.stringify(PZ.pose()), t0 = T.target.p.slice(), len0 = HI ? HI.state().len : null;
     const moved = new Set(), on = e => ((e.detail && e.detail.ids) || []).forEach(i => moved.add(i)); window.addEventListener('nmsk-pose-rev', on);
-    sh.click(); await sleep(300); o.busy = T.guide.busy;
+    sh.click(); await sleep(300); const busy0 = T.guide.busy;
     for (let k = 0; k < 200 && T.guide.busy; k++) await sleep(100);
-    await sleep(900); window.removeEventListener('nmsk-pose-rev', on);
-    o.show = {busy0: o.busy, moved: moved.size, done: !T.guide.busy, rest: PZ.isRest(), target: T.target.p.every((v, k) => v === t0[k])};
+    await sleep(1200); window.removeEventListener('nmsk-pose-rev', on);
+    const pushed = HI && HI.commit ? HI.commit() : false;
+    return {label, busy0, moved: moved.size, done: !T.guide.busy, pose: JSON.stringify(PZ.pose()) === P0, target: T.target.p.every((v, k) => v === t0[k]),
+            hist: HI ? [len0, HI.state().len, pushed] : null};
   }
-  const sc = H.box(key).querySelector('[data-g-scan="0"]'); o.scanBtn = !!sc;
-  if (sc && U) {
-    sc.click();
-    for (let k = 0; k < 300 && !H.box(key).querySelector('[data-g=scan-msg]'); k++) await sleep(100);
-    const st = U.state(), lm = T.guide.data.muscles[key].scan[0].r;
-    o.scan = {msg: (H.box(key).querySelector('[data-g=scan-msg]') || {}).textContent || '', P: st.P, ref: st.refKey,
-              d: st.P ? Math.hypot(st.P[0] - lm[0], st.P[1] - lm[1], st.P[2] - lm[2]) : null};
-    U.close(); await sleep(400);
+  o.show = [await show('from rest')];
+  PZ.set('knee_r', 'flex', 30); await sleep(1200); if (HI && HI.commit) HI.commit();
+  o.show.push(await show('from a pose (knee 30)'));
+  // "Start scan here": at rest and posed (knee 30, the tibia moves): the probe goes on the skin over the (posed) landmark
+  async function scan(label) {
+    const sc = H.box(key).querySelector('[data-g-scan="0"]'); if (!sc || !U) return {label, err: 'no button'};
+    const g = T.guide.data.muscles[key].scan[0], bi = T.byId[g.bone + '_r'][0], w = {p: g.r.slice(), i: bi, n: null};
+    if (!PZ.isRest()) { T.anchorPoint(w, bi, true); T.ridePoint(w); }
+    Object.keys(T.guide.msg).forEach(k => delete T.guide.msg[k]); T.notify(); await sleep(100);
+    const sc2 = H.box(key).querySelector('[data-g-scan="0"]'); sc2.click();
+    for (let k = 0; k < 400 && !(H.box(key).querySelector('[data-g=scan-msg]')); k++) await sleep(100);
+    const st = U.state();
+    return {label, msg: (H.box(key).querySelector('[data-g=scan-msg]') || {}).textContent || '', ref: st.refKey,
+            d: st.P ? Math.hypot(st.P[0] - w.p[0], st.P[1] - w.p[1], st.P[2] - w.p[2]) : null, lm: w.p.map(x => +x.toFixed(1))};
   }
+  o.scan = [await scan('posed (knee 30)')];
+  U.close(); await sleep(400); PZ.reset(); await sleep(1200);
+  o.scan.push(await scan('rest'));
+  U.close(); await sleep(400);
   return o;
+}"""
+
+MEDIAN = r"""async () => {
+  const H = window.__q347, T = window.NMSKClinicalTool, out = [];
+  for (const key of ['brachialis', 'pronator_teres', 'flexor_digitorum_superficialis']) {
+    const sid = H.rightId(key); if (!sid) continue;
+    await H.pick(sid); const b = H.box(key); if (!b) { out.push({key, err: 'no section'}); continue; }
+    const v = T.guideView(T.plan.i), med = v.risk.find(r => r.name === 'median nerve');
+    const un = Array.from(b.querySelectorAll('[data-g-unmapped]')).map(e => e.dataset.gUnmapped);
+    const hb = b.querySelector('[data-g-risk-on]'); let hlIds = [];
+    if (hb) { hb.click(); await H.sleep(400); hlIds = T.guide.hl ? Object.keys(T.guide.hl.set).map(i => T.recs[+i].id) : []; H.box(key).querySelector('[data-g-risk-on]').click(); await H.sleep(300); }
+    out.push({key, mapped: med ? med.idx.length : -1, listed: un.indexOf('median nerve') >= 0, medianHl: hlIds.filter(id => /median/.test(id)), hl: hlIds.length});
+  }
+  return out;
 }"""
 
 NOT_IN = r"""async (ids) => {
@@ -263,8 +292,9 @@ def main() -> int:
                     if u.get("err"):
                         check(f"{key}: site {u['n']}: {u['err']}", False)
                         continue
-                    check(f"{key}: Use site {u['n']} -> target {u['d']:.3f} mm from the band centroid, inside the muscle ({u['inside']}, {u['surf']:.2f} mm from its surface), button pressed",
-                          u["d"] <= 0.5 and u["inside"] and u["pressed"] == "true")
+                    where = "inside the muscle" if u["inside"] else f"{u['surf']:.2f} mm outside its surface"
+                    check(f"{key}: Use site {u['n']} -> target {u['d']:.3f} mm from the band centroid, {where} (said: {u['whereTxt']!r}), button pressed",
+                          u["d"] <= 0.5 and u["pressed"] == "true" and ((u["inside"] and u["where"] == "in") or (not u["inside"] and u["surf"] <= 0.5 and u["where"] == "surface")))
                 for lab, rows in (("target point", r.get("riskT")), ("suggested path" if r.get("path") else "path (no suggestion)", r.get("riskP"))):
                     if rows is None:
                         continue
@@ -295,19 +325,25 @@ def main() -> int:
                 if r.get("err"):
                     check("flexor hallucis longus: " + r["err"], False)
                 else:
-                    if r.get("show"):
-                        s = r["show"]
-                        check(f"FHL: 'Show on the model' moves the great toe and returns to rest ({s})",
-                              r["busy"] and s["done"] and s["moved"] > 0 and s["rest"] and s["target"])
-                    else:
-                        check("FHL: 'Show on the model' offered", False)
-                    if r.get("scan"):
-                        s = r["scan"]
-                        print(f"     scan start: {s}")
-                        check("FHL: 'Start scan here' seats the probe on the skin over the medial malleolus (< 25 mm), transverse",
-                              s["P"] is not None and s["d"] is not None and s["d"] < 25 and s["ref"] == "trans")
-                    else:
-                        check("FHL: 'Start scan here' offered", False)
+                    for x in r["show"]:
+                        if x.get("err"):
+                            check(f"FHL show ({x['label']}): {x['err']}", False)
+                            continue
+                        check(f"FHL: 'Show on the model' {x['label']}: the toe moves ({x['moved']} structures), it ends, the pose is exactly the one before, target identical, no Undo entry (history {x['hist']})",
+                              x["busy0"] and x["moved"] > 0 and x["done"] and x["pose"] and x["target"] and (x["hist"] is None or (x["hist"][0] == x["hist"][1] and not x["hist"][2])))
+                    for x in r["scan"]:
+                        if x.get("err"):
+                            check(f"FHL scan ({x['label']}): {x['err']}", False)
+                            continue
+                        print(f"     scan start ({x['label']}): {x}")
+                        check(f"FHL: 'Start scan here' {x['label']}: the probe sits on the skin over the medial malleolus ({x['d'] if x['d'] is None else round(x['d'], 1)} mm < 25), transverse",
+                              x["d"] is not None and x["d"] < 25 and x["ref"] == "trans")
+                for x in pg.evaluate(MEDIAN):
+                    if x.get("err"):
+                        check(f"{x['key']}: {x['err']}", False)
+                        continue
+                    check(f"{x['key']}: 'median nerve' listed as no matching structure, nothing mapped, no median branch highlighted ({x['hl']} pieces highlighted)",
+                          x["mapped"] == 0 and x["listed"] and not x["medianHl"])
                 pg.evaluate("() => window.NMSKModes.exit()")
                 pg.wait_for_timeout(1500)
                 r = pg.evaluate(PANEL)

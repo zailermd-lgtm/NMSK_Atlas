@@ -116,3 +116,9 @@ def test_regen_builds_it_for_the_base_pages_and_remove_cleans_it(tmp_path):
     (tmp_path / "clinical_injection_guide.json").write_text("{}")
     scf.remove(tmp_path)
     assert not (tmp_path / "clinical_injection_guide.json").exists()
+
+
+def test_median_nerve_is_never_mapped_to_its_branches(built):
+    _, g = built
+    rows = [r for m in g["muscles"].values() for r in m["risk"] if r["name"] == "median nerve"]
+    assert rows and all(r["stems"] == [] and "trunk" in r["note"] for r in rows)   # the branches on the body are not the trunk

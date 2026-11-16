@@ -2430,7 +2430,8 @@ var GUIDE_TXT = {
   he: {title: "מדריך ההזרקה", count: function (n) { return n == null ? "מספר הנקודות לא צוין" : n === 1 ? "נקודת הזרקה אחת" : n + " נקודות הזרקה"; },
        kPoints: "נקודות הזרקה", kSites: "אתרים", site: "אתר", along: "לאורך", placed: "מוקם על גוף זה", proj: "מוקם על גוף זה, מוקרן מקו על העור",
        rule: "מיקום לפי כלל", unplaced: "לא מוקם על גוף זה", qual: "אתר איכותני בלבד, ללא נקודה", noBand: "אין רצועה בנתונים לצד זה",
-       use: "השתמש באתר", kScan: "תחילת הסריקה", scanGo: "התחל סריקה כאן", scanRule: "הגשש מונח על העור מעל נקודת ציון שנמדדה בעצמות גוף זה",
+       use: "השתמש באתר", tIn: "המטרה בתוך השריר", tSurf: function (d) { return "המטרה על פני השריר (" + d + ' מ"מ מחוץ לו)'; },
+       tOut: function (d) { return "המטרה מחוץ לשריר (" + d + ' מ"מ)'; }, kScan: "תחילת הסריקה", scanGo: "התחל סריקה כאן", scanRule: "הגשש מונח על העור מעל נקודת ציון שנמדדה בעצמות גוף זה",
        scanNo: "טקסט בלבד: נקודת ההתחלה אינה נקודת ציון בנתונים", scanFail: "לא ניתן להניח את הגשש כאן", scanOk: "הגשש הונח",
        kMan: "תמרון דינמי", show: "הצג על המודל (המחשה)", showRule: "המחשה על ריג התנוחה בתוך טווח התנועה; המדריך אינו מציין זוויות",
        kRisk: "מבנים בסיכון", riskOn: "הדגש על המודל", unmapped: "אין מבנה תואם בגוף זה", notMeasured: "לא נמדד: נמדדים רק כלי-דם ועצבים",
@@ -2440,7 +2441,8 @@ var GUIDE_TXT = {
   en: {title: "Injection guide", count: function (n) { return n == null ? "number of points not stated" : n + (n === 1 ? " injection point" : " injection points"); },
        kPoints: "Injection points", kSites: "Sites", site: "Site", along: "along", placed: "placed on this body", proj: "placed on this body, projected from a skin line",
        rule: "rule-based position", unplaced: "not placed on this body", qual: "qualitative site only, no point", noBand: "no band in the data for this side",
-       use: "Use site", kScan: "Scan start", scanGo: "Start scan here", scanRule: "The probe goes on the skin over a landmark measured on this body's bones",
+       use: "Use site", tIn: "the target is inside the muscle", tSurf: function (d) { return "the target is on the muscle surface (" + d + " mm outside)"; },
+       tOut: function (d) { return "the target is outside the muscle (" + d + " mm)"; }, kScan: "Scan start", scanGo: "Start scan here", scanRule: "The probe goes on the skin over a landmark measured on this body's bones",
        scanNo: "Text only: the start is not a landmark in the data", scanFail: "The probe could not be placed here", scanOk: "Probe placed",
        kMan: "Dynamic manoeuvre", show: "Show on the model (illustration)", showRule: "An illustration on the pose rig, inside its range of motion; the guide gives no angles",
        kRisk: "Structures at risk", riskOn: "Highlight on the model", unmapped: "no matching structure on this body", notMeasured: "not measured: only vessels and nerves are",
@@ -2504,7 +2506,10 @@ TP.useGuideSite = function (view, site) {
   if (s == null) s = view.i;
   var w = {p: site.dot.slice(), i: s, n: null};
   if (this.poseKey() !== "rest") { this.anchorPoint(w, s, true); if (!this.ridePoint(w)) return false; }   // the dot is given at rest: ride it to the current pose
-  this.target = {p: w.p, i: s, n: null, site: site.n, gk: view.key};
+  /* where the point lies: the band's dot is the section's inside centre, but on a thin muscle it can sit a fraction of a mm outside
+     the decimated viewing mesh -- said as it is, never moved */
+  var inside = this.insideMesh(s, w.p), g = inside ? null : this.geom(s), off = g ? poseAnchor(g.pos, g.idx, w.p, null).d : 0;
+  this.target = {p: w.p, i: s, n: null, site: site.n, gk: view.key, where: {inside: inside, off: off}};
   this.mp.sel = null;
   if (this.mode === "dir" || (this.mode === "two" && !this.entry)) this.setMode("tfirst", true);
   if (this.mode === "tfirst") this.entry = null;
@@ -2551,53 +2556,88 @@ TP.guideHighlight = function (view, on) {
   this.refreshHalos(); api.redraw(); this.notify();
   return G.hl ? G.hl.n : 0;
 };
-/* "Start scan here": the landmark (rest coordinates, ridden on its bone when the body is posed), the skin vertex nearest to it,
-   and the scan tool's own placeRay() from the landmark towards that vertex; the plane only when the guide states one */
+/* "Start scan here": the landmark (rest coordinates, ridden on its bone when the body is posed), the scan tool's OWN skin (its
+   geometry, after its own pose sync -- the same posed skin its probe rides), the skin vertex nearest to the landmark, and the
+   scan tool's placeRay() from the landmark towards that vertex; the plane only when the guide states one. A scan start whose
+   landmark or bone is not on this page offers no button (guideScanOk). */
+TP.guideScanOk = function (view, sc) {
+  var U = global.NMSKUltrasound;
+  return !!(U && U.placeRay && U.geo && sc && (view.side === "l" ? sc.l : sc.r) && (this.byId[sc.bone + "_" + view.side] || []).length);
+};
 TP.guideScan = function (view, sc) {
   var U = global.NMSKUltrasound, self = this;
-  if (!U || !U.placeRay || !sc) return Promise.resolve(null);
+  if (!this.guideScanOk(view, sc)) return Promise.resolve(null);
   var p = (view.side === "l" ? sc.l : sc.r).slice();
   if (this.poseKey() !== "rest") {
-    var bi = (this.byId[sc.bone + "_" + view.side] || [])[0];
-    if (bi == null) return Promise.resolve(null);
+    var bi = this.byId[sc.bone + "_" + view.side][0];
     var w = {p: p, i: bi, n: null}; this.anchorPoint(w, bi, true); if (!this.ridePoint(w)) return Promise.resolve(null); p = w.p;
   }
-  var best = null, bd = 1e30;
-  this.skin.forEach(function (i) {
-    var g = self.geom(i); if (!g) return;
-    var P = g.pos;
-    for (var k = 0; k < P.length; k += 3) { var dx = P[k] - p[0], dy = P[k + 1] - p[1], dz = P[k + 2] - p[2], d = dx * dx + dy * dy + dz * dz; if (d < bd) { bd = d; best = [P[k], P[k + 1], P[k + 2]]; } }
-  });
-  if (!best || bd < 1e-6) return Promise.resolve(null);
-  var dir = norm(sub(best, p));
   if (U.open) U.open();
   return (U.ready ? U.ready() : Promise.resolve(true)).then(function () {
-    var h = U.placeRay(p, dir); if (!h) return null;
+    if (U.set) U.set({});                                       // one pass of the scan tool's own pump: it takes the current pose first
+    return new Promise(function (res) { setTimeout(res, 80); });
+  }).then(function () {
+    var geo = U.geo(); if (!geo || !geo.skinList || !geo.vStart) return null;
+    var P = geo.pos, best = null, bd = 1e30;
+    for (var si = 0; si < geo.skinList.length; si++) {
+      var st = geo.skinList[si];
+      for (var k = geo.vStart[st] * 3, e = geo.vStart[st + 1] * 3; k < e; k += 3) {
+        var dx = P[k] - p[0], dy = P[k + 1] - p[1], dz = P[k + 2] - p[2], d = dx * dx + dy * dy + dz * dz;
+        if (d < bd) { bd = d; best = [P[k], P[k + 1], P[k + 2]]; }
+      }
+    }
+    if (!best || bd < 1e-6) return null;
+    var h = U.placeRay(p, norm(sub(best, p))); if (!h) return null;
     if (sc.plane) U.set({refKey: sc.plane, rot: 0});
     return {P: h.P, N: h.N, landmark: p, skin_mm: Math.sqrt(bd)};
   }).catch(function () { return null; });
 };
-/* "Show on the model": the json's key frames on the target's side, clamped to the rig's range, then back to the pose it started from */
+/* "Show on the model": the json's key frames on the target's side -- only the joint DOFs they name move (the rig's own set(),
+   inside its range) -- then the user's pose exactly as it was: the rest pose itself when it started there (reset(); the rig's
+   rest holds values outside its ROM that a set / apply would clamp), else each moved DOF set back to its value. It starts after
+   the click's history commit has run and stops (restoring at once) on any user input, so the page-wide Undo never records a
+   demo frame. */
 TP.guideShow = function (view, done) {
   var pose = this.api.pose ? this.api.pose() : null, fr = view && view.m.show, self = this;
-  if (!pose || !pose.ready || !pose.ready() || !fr || this.guide.busy) return false;
-  var P0 = pose.pose(), byId = {};
+  if (!pose || !pose.ready || !pose.ready() || !pose.set || !fr || this.guide.busy) return false;
+  var P0 = pose.pose(), rest0 = pose.isRest(), byId = {}, touched = [], seen = {};
   pose.rig().joints.forEach(function (j) { byId[j.id] = j; });
   var seq = fr.map(function (f) {
-    var P = JSON.parse(JSON.stringify(P0));
+    var out = [];
     Object.keys(f).forEach(function (jn) {
-      var id = jn + "_" + view.side, j = byId[id]; if (!j || j.driven || !P.j[id]) return;
-      Object.keys(f[jn]).forEach(function (k) { var x = j.dof.map(function (d) { return d.k; }).indexOf(k); if (x >= 0) P.j[id][x] = clamp(f[jn][k], j.dof[x].lo, j.dof[x].hi); });
+      var id = jn + "_" + view.side, j = byId[id]; if (!j || j.driven || !P0.j[id]) return;
+      Object.keys(f[jn]).forEach(function (k) {
+        var x = j.dof.map(function (d) { return d.k; }).indexOf(k); if (x < 0) return;
+        out.push([id, k, clamp(f[jn][k], j.dof[x].lo, j.dof[x].hi)]);
+        if (!seen[id + "." + k]) { seen[id + "." + k] = 1; touched.push([id, k, P0.j[id][x], j.dof[x]]); }
+      });
     });
-    return P;
-  });
-  seq.push(P0);
+    return out;
+  }).filter(function (o) { return o.length; });
+  if (!seq.length) return false;
+  var timer = 0, k = 0, ended = false, EV = ["pointerdown", "keydown", "wheel", "touchstart"];
+  function finish() {
+    if (ended) return; ended = true; clearTimeout(timer);
+    EV.forEach(function (t) { global.removeEventListener(t, stop, true); });
+    if (rest0) pose.reset();
+    else touched.forEach(function (t) {
+      if (t[2] >= t[3].lo && t[2] <= t[3].hi) pose.set(t[0], t[1], t[2]);
+      else { pose.reset(); pose.apply(P0); }      // a value outside the range can only be a rest value: as close as the rig allows
+    });
+    self.guide.busy = false; self.notify(); if (done) done();
+  }
+  function stop() { finish(); }
+  function step() {
+    if (ended) return;
+    if (k >= seq.length) { finish(); return; }
+    seq[k++].forEach(function (s) { pose.set(s[0], s[1], s[2]); });
+    timer = setTimeout(step, 800);
+  }
   this.guide.busy = true; this.notify();
-  var k = 0;
-  (function step() {
-    if (k >= seq.length) { self.guide.busy = false; self.notify(); if (done) done(); return; }
-    pose.apply(seq[k++]); setTimeout(step, 800);
-  })();
+  timer = setTimeout(function () {                                 // after the click's own history commit (320 ms)
+    EV.forEach(function (t) { global.addEventListener(t, stop, true); });
+    step();
+  }, 450);
   return true;
 };
 /* the Guide section itself (Hebrew in the injection mode, English in the needle panel); opt: {btn: button class, phone, refresh} */
@@ -2627,18 +2667,22 @@ function guideDom(tool, view, lang, opt) {
     if (s.dot) {
       var cur = !!(tool.target && tool.target.gk === view.key && tool.target.site === s.n);
       box.appendChild(btn([T.use + " " + s.n], function () { tool.useGuideSite(view, s); opt.refresh(); }, {"data-g-use": String(s.n), "aria-pressed": String(cur)}));
+      var wh = cur && tool.target.where;
+      if (wh) box.appendChild(gEl("div", {class: "g-sub", "data-g-where": wh.inside ? "in" : wh.off <= 0.5 ? "surface" : "out", "data-g-off": String(wh.off)},
+        [wh.inside ? T.tIn : wh.off <= 0.5 ? T.tSurf(fmt1(wh.off)) : T.tOut(fmt1(wh.off))]));
     }
     d.appendChild(box);
   });
   if (m.conflict) row(T.conflict, [T.adopted + " ", gBdi(m.conflict.adopted), "; " + T.other + " ", gBdi(m.conflict.other)], "conflict");
   row(T.kScan, [txt(m.scan_start)], "scan");
   var U = global.NMSKUltrasound, smsg = G.msg[okey + ":scan"];
-  if ((m.scan || []).length) {
-    m.scan.forEach(function (sc, n) {
+  var scans = (m.scan || []).filter(function (sc) { return tool.guideScanOk(view, sc); });
+  if (scans.length) {
+    scans.forEach(function (sc, n) {
       d.appendChild(btn([T.scanGo + " · ", gBdi(sc.label)], function () {
         G.msg[okey + ":scan"] = "";
         tool.guideScan(view, sc).then(function (res) { G.msg[okey + ":scan"] = res ? T.scanOk + " · " : T.scanFail; G.msg[okey + ":scanlm"] = res ? sc.label : ""; opt.refresh(); });
-      }, {"data-g-scan": String(n), disabled: U && U.placeRay ? null : "true"}));
+      }, {"data-g-scan": String(n)}));
     });
     d.appendChild(note(T.scanRule));
     if (smsg) d.appendChild(gEl("div", {class: "g-sub", "data-g": "scan-msg"}, [smsg].concat(G.msg[okey + ":scanlm"] ? [gBdi(G.msg[okey + ":scanlm"])] : [])));
@@ -2795,6 +2839,8 @@ function injectionMode(tool, api) {
         "body.mode-inj .mc-search{color:#20242B;background:#fff}body.mode-inj .mc-search::placeholder{color:#5B6472;opacity:1}" +
         "body.mode-inj .mc-step.off{opacity:1}body.mode-inj .mc-step.off .mc-num{background:#5B6472}body.mode-inj .mc-step.off .mc-lbl{color:#4A5361}" +
         "@media (max-width:900px){body.mode-inj.nmsk-us.us-clip-on .mc-left{display:none!important}}" +   // Q325: the scan's needle clip takes that side; its ✕ brings the card back
+        /* Q347: on a phone the step sheet (target, zone, guide, steps) stops at half the screen and scrolls inside, so >= 50 % of the model stays visible */
+        "@media (max-width:760px){body.mode-inj .mc-right{max-height:calc(50% - 32px);box-sizing:border-box}}" +
         /* Q347: the guide section -- sized to its content, one line (its summary) when closed; dark ink on the card's white */
         "body.mode-inj .mc-guide{border:1px solid #E4E1D8;border-radius:12px;padding:8px 10px;color:#20242B;font-size:13px;line-height:1.45;background:#fff}" +
         "body.mode-inj .mc-guide>summary{cursor:pointer;font-weight:700;font-size:14px;color:#20242B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}" +
