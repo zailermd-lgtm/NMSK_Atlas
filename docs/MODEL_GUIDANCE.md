@@ -19,8 +19,8 @@ Read this file before dispatching work. It is compared against the real usage lo
 
 ## 1. The models, and what they cost
 
-Prices per million tokens, from the `claude-api` skill's table (cached 2026‑11‑03). Always re-read
-that table in a review rather than trusting the copy below.
+Prices per million tokens, from the `claude-api` skill's table (cached 2026‑11‑03; re-read
+2026‑11‑16, unchanged). Always re-read that table in a review rather than trusting the copy below.
 
 | Model | id | in | out | cache read | context |
 |---|---|---|---|---|---|
@@ -89,6 +89,16 @@ Measured in the Q318 round. Each of these cost real tokens before it was fixed.
    `viewer/zan_atlas.template.html` is ~15 k lines; a bare `grep` of a common word in it has
    produced a 220 KB tool result in this project.
 8. **Quote paths and line numbers instead of pasting code** into the reply.
+9. **One shared browser, one lock.** Every browser run goes through `flock /tmp/nmsk_browser.lock`;
+   never a sleep-wait loop. The lock does not create capacity: with three agents plus the main thread
+   queued, agents waited ~70–80 min each (Q347, Q354; Q337 134 min wall). Dispatch so that no more
+   than two browser queues compete at once; give the others non-browser work first.
+10. **Background shell commands end at 2 h** (the tool's limit). Split a long verifier queue into
+    runs that each finish well inside it, rather than losing the tail of one long run.
+11. **Verify on a regenerated page, never on `build/` or a raw copy**, whenever the change goes
+    through the builder or touches skin/geometry that the page welds at load time. Q325's fix never
+    reached the pages (builder not in regen); Q353's first rule broke the load-time skin weld only
+    visible after regen.
 
 ---
 
@@ -108,7 +118,16 @@ worth reading **by path**, and the scope boundary. The prompt is the only contex
 - Tell it to return a short report: what changed, what was measured, what is still open. Not the
   diffs, not the logs.
 - A check it could run in three tool calls is not worth an agent. Run it inline.
-- Never let two agents edit the same file.
+- Never let two agents edit the same file — shared data files (`pose_rig_*.json`) included; those
+  are written only through their apply script, never from an agent's private copy (Q336).
+- **Hand back only with its own verdicts**, on both Base pages; a failing or unfinished run is
+  reported as such, not as done (Q321 card agent, Q347 first hand-back: 2 FAIL / 1 crash).
+- Subagents cannot Write report files (the harness refuses); the report comes back as the hand-back
+  text, sent once (Q337, Q344-B).
+- **A Sonnet-row brief that touches mode switching or the regen/build path must say so**, and name
+  the regenerated page as the place to verify. Two of the three Sonnet defects in 2026-11-14…16 sat
+  there (Q325 builder, Q355 mode-switch parking), not inside the pattern; the third was an early
+  hand-back (rule above).
 - **Log every agent stretch with its model, its effort, and the completion notice's
   `subagent_tokens` and tool-use count in `--notes`.** `get_session` sees only the main thread, so
   without this a subagent entry is blind (review 2026-11-13: 3 of 8 entries were).
@@ -153,3 +172,6 @@ A review that changes nothing is a real outcome and is still written down.
 
 Reviews so far: `reviews/2026-11-13.md` — no routing row changed; subagent logging made mandatory;
 watch items: run-and-report inline vs Haiku, cache-write cost after restarts.
+`reviews/2026-11-16.md` — no routing row changed (38 of 40 entries unpriced); operating rules 9–11
+and four dispatch rules added from the log; watch items: Sonnet rows at seams, run-and-report on
+Haiku (never tried), verifier flakes under lock load, cache writes ~20 % of priced cost.
