@@ -32,6 +32,10 @@ var NMSKGuard = (function(){
       if (cs.overflow !== "visible" || cs.overflowY !== "visible" || cs.overflowX !== "visible"){
         var q = n.getBoundingClientRect();
         if (r.bottom <= q.top + 1 || r.top >= q.bottom - 1 || r.right <= q.left + 1 || r.left >= q.right - 1) return true;
+        /* Q335: the phone's one-row control bar scrolls sideways, so its last button can be HALF in view; its centre --
+           the point every reachability test uses -- is then outside the bar, and the user scrolls to it like the rest */
+        var cx = (r.left + r.right) / 2, cy = (r.top + r.bottom) / 2;
+        if (cx <= q.left || cx >= q.right || cy <= q.top || cy >= q.bottom) return true;
       }
       n = n.parentElement;
     }

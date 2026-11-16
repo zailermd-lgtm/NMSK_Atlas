@@ -17,9 +17,9 @@ function NMSKMulti(E, BAR, H){
     var s = sel();
     if (!s){ say("The marked-structures panel is not available on this page."); return 0; }
     var n = s.markIds(ids, true, false, true);
-    say(n + (n === 1 ? " structure" : " structures") + " added from " + what + " — " + ids.length +
-        " offered, " + n + " newly marked. One undo step (Ctrl/Cmd+Z)." +
-        (src ? " Source: " + src + "." : "") + (inferred ? " INFERRED: " + (why || "a rule of this project, not a cited list.") : ""));
+    say(n + (n === 1 ? " structure" : " structures") + " marked from " + what,
+        ids.length + " offered, " + n + " newly marked. One undo step (Ctrl/Cmd+Z)." +
+        (src ? " Source: " + src + "." : "") + (inferred ? " Inferred: " + (why || "a rule of this project, not a cited list.") : ""));
     E.rerender();
     return n;
   }

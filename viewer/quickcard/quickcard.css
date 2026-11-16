@@ -1,26 +1,73 @@
 /* Q321: the quick card. Opens on every successful click on a structure: its name, then Hide / Fade / Show only / Select
-   (+ Zoom to, More). Sized to its own content (max-content, capped, wrapping only when the viewport forces it) and placed
-   in the free margin around the model by quickcard.js, never on it. */
-.qc{position:fixed;z-index:64;left:0;top:0;box-sizing:border-box;width:max-content;max-width:min(420px,calc(100vw - 16px));
+   (+ Zoom to, More). Sized to its own content (max-content, capped, wrapping only when the viewport forces it).
+   Q335: docked in the top-left of the view by default, moved by the grip in its head, set up from its ⋮ menu; More opens
+   the details inside it; the groups / adjacent / related row sits under the buttons. */
+.qc{position:fixed;z-index:64;left:0;top:0;box-sizing:border-box;width:max-content;max-width:min(560px,calc(100vw - 16px));
   display:flex;flex-direction:column;gap:5px;padding:6px 7px 7px;border-radius:11px;color:#E6EDF3;
   background:rgba(14,18,22,.94);box-shadow:0 2px 16px rgba(0,0,0,.5);backdrop-filter:blur(5px);
   font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
 .qc[hidden],.qc-lead[hidden]{display:none !important}
-.qc-head{display:flex;align-items:flex-start;gap:8px}
+.qc-head{display:flex;align-items:flex-start;gap:6px}
 .qc-t{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 auto}
 .qc-name{font-size:13px;font-weight:650;line-height:1.2;overflow-wrap:anywhere}
 .qc-sub{font:500 10px/1.1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.qc-tools{display:flex;gap:3px;flex:0 0 auto;align-items:center}
+.qc-tools:empty{display:none}
+.qc .qc-tools .nm-grip.nm-inline{position:static;width:24px;height:24px;border-radius:6px}
+.qc .qc-tools .nm-grip.nm-inline::before{inset:0}
+.qc .qc-tools .nm-dots.nm-inline{width:18px;height:24px;border-radius:6px}
 .qc .qc-x{flex:0 0 auto;min-width:24px;min-height:24px;padding:0;border:0;border-radius:6px;background:rgba(255,255,255,.09);color:inherit;font-size:16px;line-height:1;cursor:pointer}
 .qc-row{display:flex;flex-wrap:wrap;gap:4px}
 .qc .qc-b{flex:0 0 auto;width:auto;min-width:0;min-height:34px;padding:4px 9px;border:1px solid rgba(255,255,255,.18);border-radius:8px;
   background:rgba(255,255,255,.06);color:#E6EDF3;font:inherit;line-height:1.1;cursor:pointer;white-space:nowrap}
+.qc .qc-b[hidden]{display:none}
 .qc .qc-b:hover{background:rgba(255,255,255,.14)}
 .qc .qc-b[aria-pressed="true"]{background:#D9A227;border-color:#D9A227;color:#1b1b1b}
 .qc .qc-more,.qc .qc-zoom{background:transparent;border-style:dashed}
+.qc.qc-compact .qc-sub{display:none}
+.qc.qc-compact .qc-b{min-height:26px;padding:2px 7px;font-size:11px}
+/* the groups / adjacent / related row, under the buttons: as wide as its own buttons; its menu and status line wrap inside */
+.qc-chips{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.qc-chips:empty{display:none}
+.qc-chips .q8-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.qc-chips .q8-row[hidden],.qc-chips .q8-menu[hidden]{display:none}
+.qc-chips #q8-selname{display:none}
+.qc-chips .q8-b{flex:0 0 auto;min-height:28px;padding:3px 8px;border:1px solid rgba(255,255,255,.16);border-radius:7px;background:rgba(255,255,255,.03);
+  color:#E6EDF3;font:inherit;font-size:11.5px;line-height:1.1;cursor:pointer;white-space:nowrap}
+.qc-chips .q8-b:hover{background:rgba(255,255,255,.12)}
+.qc-chips .q8-b:disabled{color:#a3adba;border-style:dashed;cursor:default}
+/* Q335: on the card the three chips are behind ONE button, "Related structures"; the row itself stays hidden here and
+   only its menu (kinds / groups) and its one-line status show, under the buttons */
+.qc-chips #q8-exp{display:none !important}
+.qc-chips .q8-i{background:rgba(255,255,255,.12)}
+.qc-chips .q8-menu,.qc-chips .q8-status{width:0;min-width:100%;box-sizing:border-box}
+.qc-chips .q8-menu{display:flex;flex-wrap:wrap;gap:4px;padding:4px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.04)}
+.qc-chips .q8-status{margin:0;font-size:11px;line-height:1.35;opacity:.8}
+.qc-chips .q8-status:empty{display:none}
+@media (pointer:coarse){.qc-chips .q8-b{min-height:36px}}
+/* the details (More): the engine's full card, taken into this window; it never widens the window and scrolls inside it */
+.qc-det{display:none;width:0;min-width:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.qc.qc-open .qc-det{display:block}
+.qc-det #info{position:static !important;inset:auto !important;width:auto !important;max-width:none !important;max-height:none !important;
+  overflow:visible !important;translate:none !important;transform:none !important;margin:0 !important;box-shadow:none !important;
+  backdrop-filter:none !important;border-radius:8px !important;z-index:auto !important}
+.qc-det #info .info-drag,.qc-det #info .info-close,.qc-det #info > h2,.qc-det #info > .kind,.qc-det #info > .nm-grip,.qc-det #info > .nm-dots{display:none !important}
 .qc-lead{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:63;pointer-events:none;overflow:visible}
-.qc-lead line{stroke:rgba(230,237,243,.85);stroke-width:1.2}
+.qc-lead line{stroke:rgba(230,237,243,.9);stroke-width:1.6;stroke-linecap:round}
 .qc-lead circle{fill:#D9A227;stroke:#14181c;stroke-width:1.5}
 @media (pointer:coarse){.qc .qc-b{min-height:40px}.qc .qc-x{min-width:32px;min-height:32px}}
-/* the full card is a second step: until "More" is pressed the quick card is what a click opens */
+/* the full card is part of this window: shown only inside it, after More */
 body.qc-on:not(.qc-more) #info:not(.hidden){display:none !important}
 body.qc-on.qc-more #info:not(.hidden){display:block !important}
+/* the "Related structures" menu: as wide as its longest item */
+.qc .qc-relb{border-style:solid}
+.qc-relmenu{position:fixed;z-index:2147482790;display:flex;flex-direction:column;box-sizing:border-box;width:max-content;
+  max-width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:4px;border-radius:9px;
+  background:rgba(14,18,22,.97);color:#E6EDF3;border:1px solid rgba(255,255,255,.14);box-shadow:0 4px 20px rgba(0,0,0,.5);
+  font:500 12.5px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qc-relmenu .qc-rmi{display:block;text-align:start;min-height:32px;padding:6px 12px;border:0;border-radius:6px;background:transparent;
+  color:#E6EDF3;font:inherit;cursor:pointer;white-space:nowrap}
+.qc-relmenu .qc-rmi:hover,.qc-relmenu .qc-rmi:focus-visible{background:rgba(255,255,255,.13);outline:none}
+.qc-relmenu .qc-rmi.qc-off{color:#a3adba;cursor:default}
+.qc-relmenu .qc-rsub{display:flex;flex-direction:column;padding-left:12px}
+@media (pointer:coarse){.qc-relmenu .qc-rmi{min-height:40px}}

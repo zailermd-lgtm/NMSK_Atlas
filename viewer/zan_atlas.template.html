@@ -1450,10 +1450,15 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 
 <div id="info" class="hidden"></div>
 
+<style id="q339-orient-css">
+#q339-orient{position:fixed;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:5;display:flex;align-items:center;gap:4px;padding:2px 7px;border-radius:9px;background:rgba(255,255,255,.62);color:#3a4550;font:600 11px/16px system-ui,sans-serif;letter-spacing:.04em;pointer-events:none;user-select:none;width:max-content}
+#q339-orient .q339-bar{display:inline-block;width:18px;height:1px;background:currentColor;opacity:.55}
+</style>
+<div id="q339-orient" role="img" aria-label="Orientation"><span class="q339-l"></span><span class="q339-bar"></span><span class="q339-r"></span></div>
 <div id="foot">
-  <button class="pill" data-view="front">front</button>
-  <button class="pill" data-view="side">side</button>
-  <button class="pill" data-view="back">back</button>
+  <button class="pill" data-view="front" title="Anterior view: the patient's right is on your left">front</button>
+  <button class="pill" data-view="side" title="Right lateral view: the patient's right side, anterior on your right">side</button>
+  <button class="pill" data-view="back" title="Posterior view: the patient's right is on your right">back</button>
   <button class="pill" id="btn-pan" title="Drag to move the model (or hold Shift / use two fingers)">move</button>
   <button class="pill on" id="btn-spin">spin</button>
   <button class="pill" id="btn-reset">reset</button>
@@ -2609,6 +2614,12 @@ var NMSKPartSlices = (function(){
   border:1px solid rgba(255,255,255,.18);border-radius:8px;min-height:30px;padding:3px 8px;cursor:pointer}
 .br-b[aria-pressed="true"]{background:#ffd23f;color:#141414;border-color:#ffd23f}
 @media (hover:none){ .br-b{min-height:38px;padding:5px 11px} }
+/* Q335: one row on a narrow screen, so it never wraps up over the name card; the page title steps aside while the bar is
+   shown (lifted above it on a desktop, out of the way on a phone, where the browser already names the page) */
+.sa-bar.sa-row{flex-wrap:nowrap}
+.sa-bar.sa-row .sa-chip .sa-t{max-width:34vw}
+body:has(#sa-bar:not([hidden])) #brand{bottom:calc(.75rem + 46px + var(--safe-b,0px))}
+@media (max-width:560px){body:has(#sa-bar:not([hidden])) #brand{display:none}}
 </style>
 <script>
 /* Q300: one guard against "something is hidden and I cannot find the way back".
@@ -2722,6 +2733,23 @@ var NMSKShowAll = (function(){
         bar.style.left = Math.max(4, r.left + 8) + "px";
         bar.style.top = Math.max(4, Math.min(window.innerHeight - h - 4, r.bottom - h - 8)) + "px";
         bar.style.maxWidth = Math.max(120, r.width - 150) + "px";   // never runs under the Q294 undo / redo / reset group at the other corner
+        /* Q335, owner's phone: "hidden: N", "Show everything", the zoom chip and the page title piled up on each other at
+           the bottom. On a narrow screen the bar is ONE row ("Show all"), and it ends before a zoom chip on that row (or
+           sits just above one at its left); the title steps aside in the stylesheet while the bar is shown. */
+        var narrow = window.innerWidth <= 560;
+        if (allBtn){ var lab = narrow ? "Show all" : "Show everything"; if (allBtn.textContent !== lab) allBtn.textContent = lab; }
+        bar.classList.toggle("sa-row", narrow);
+        if (narrow){
+          var top = parseFloat(bar.style.top) || 0, maxW = r.width - 16;
+          [].slice.call(document.querySelectorAll(".pz-chip")).forEach(function(z){
+            if (z.hidden || !z.getClientRects().length || getComputedStyle(z).visibility === "hidden") return;
+            var q = z.getBoundingClientRect();
+            if (q.bottom < top - 2 || q.top > top + h + 2) return;          // not on this row
+            if (q.left > r.left + 140) maxW = Math.min(maxW, q.left - r.left - 16);
+            else top = Math.max(4, q.top - h - 6);
+          });
+          bar.style.top = top + "px"; bar.style.maxWidth = Math.max(120, maxW) + "px";
+        }
       };
       window.addEventListener("resize", place);
       setInterval(place, 700); setTimeout(place, 0);
@@ -3098,6 +3126,18 @@ body.mode-on .qg-bar,body.mode-on .qg-sheet,body.mode-on .qi-wrap,body.mode-on .
 .qg-sbody .ss-col-s:hover{border-color:#fff}
 .ss-col-c{width:40px;height:34px;padding:0;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:none}
 .ss-col-note{margin:0;font-size:11.5px;opacity:.8;line-height:1.4}
+/* Q335, owner's phone: "the top toolbar takes FOUR rows". On a narrow screen the bar is ONE row -- the groups, then the
+   history buttons -- that scrolls sideways, so the model keeps the screen (about 46 px instead of about 200). */
+@media (max-width:560px){
+  .qg-bar{flex-direction:row;align-items:stretch;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+  .qg-bar::-webkit-scrollbar{display:none}
+  .qg-groups,.qg-hist{flex-wrap:nowrap;flex:0 0 auto;justify-content:flex-start}
+  .qg-hist{border-top:0;padding-top:0;border-left:1px solid rgba(255,255,255,.14);padding-left:3px}
+  .qg-g,.qg-hist .qg-g{flex:0 0 auto;min-height:40px}
+  .qg-bar .qg-h,.qg-bar .qg-hb,.qg-bar .qi-btn{min-height:40px}
+  body.q301-on #topright{top:calc(58px + var(--safe-t,0px))}      /* the pill row sits under the one-row bar, not half under it */
+}
 </style>
 <script>
 /* Q301: the tissue reference, taken from the page's OWN clinical layer -- no number is retyped here, and this file
@@ -6553,6 +6593,34 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ303;
    Q301's block comes out of the regen byte-identical and the defect still goes away. It is scoped to the sheet, so
    `#foot` in its own place -- Q270's pill band, and its phone override -- is untouched. */
 .qg-sbody #foot{position:static}
+/* ---- Q335: the three-dots menu beside every grip. Owner (translated): "just as every window has a drag mark, there should
+   also be a three-dots mark that opens a menu relevant to that window." Narrower than the grip, same look; the menu is
+   as wide as its longest item and as tall as its items. */
+.nm-dots{position:absolute;z-index:6;width:18px;height:26px;padding:0;box-sizing:border-box;border:1px solid rgba(255,255,255,.22);
+  border-radius:7px;background:rgba(40,46,54,.72);color:#E6EDF3;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font:700 15px/1 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.78}
+.nm-dots:hover,.nm-dots:focus-visible,.nm-dots[aria-expanded="true"]{opacity:1;background:rgba(56,66,78,.92)}
+.nm-dots.nm-light{background:rgba(255,255,255,.86);border-color:rgba(20,20,19,.22);color:#141413}
+@media (pointer:coarse){.nm-dots{width:24px;height:34px}}
+.nm-dots.nm-inline{position:static;flex:0 0 auto}
+.qg-bar .nm-dots.nm-inline{width:24px;min-width:24px;height:44px;border-radius:9px;opacity:.9;background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.17)}
+.nm-menu{position:fixed;z-index:2147482800;display:flex;flex-direction:column;box-sizing:border-box;width:max-content;
+  max-width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:4px;border-radius:9px;
+  background:rgba(14,18,22,.97);color:#E6EDF3;box-shadow:0 4px 20px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.14);
+  font:500 12.5px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
+.nm-menu .nm-mi{position:relative;display:block;text-align:start;min-height:30px;padding:5px 12px 5px 24px;border:0;border-radius:6px;
+  background:transparent;color:inherit;font:inherit;cursor:pointer;white-space:nowrap}
+.nm-menu .nm-mi:hover,.nm-menu .nm-mi:focus-visible{background:rgba(255,255,255,.13);outline:none}
+.nm-menu .nm-mi[aria-checked="true"]::before{content:"\2713";position:absolute;left:8px;color:#D9A227}
+.nm-menu .nm-mh{padding:7px 10px 2px;margin-top:3px;border-top:1px solid rgba(255,255,255,.12);font-size:10.5px;letter-spacing:.05em;
+  text-transform:uppercase;opacity:.62}
+@media (pointer:coarse){.nm-menu .nm-mi{min-height:40px}}
+/* Q335: a grip that sits IN a row of its box (the hidden bar, a panel's header) takes its own place in that row */
+.nm-grip.nm-inline::before{inset:0}
+.sa-bar .nm-grip.nm-inline,.sa-bar .nm-dots.nm-inline{position:static;align-self:center}
+.pz-head .nm-grip.nm-inline,.pz-head .nm-dots.nm-inline{position:static;flex:0 0 auto;margin-right:4px}
+@media (max-width:560px){.qg-bar .nm-grip.nm-inline,.qg-bar .nm-dots.nm-inline{height:40px;min-height:40px}}
+#topright > .nm-grip.nm-inline,#topright > .nm-dots.nm-inline,.ms-row > .nm-grip.nm-inline,.ms-row > .nm-dots.nm-inline{position:static;align-self:center;flex:0 0 auto}
 </style>
 <script>
 /* Q305: nothing may end up unreachable.
@@ -6589,6 +6657,10 @@ var NMSKGuard = (function(){
       if (cs.overflow !== "visible" || cs.overflowY !== "visible" || cs.overflowX !== "visible"){
         var q = n.getBoundingClientRect();
         if (r.bottom <= q.top + 1 || r.top >= q.bottom - 1 || r.right <= q.left + 1 || r.left >= q.right - 1) return true;
+        /* Q335: the phone's one-row control bar scrolls sideways, so its last button can be HALF in view; its centre --
+           the point every reachability test uses -- is then outside the bar, and the user scrolls to it like the rest */
+        var cx = (r.left + r.right) / 2, cy = (r.top + r.bottom) / 2;
+        if (cx <= q.left || cx >= q.right || cy <= q.top || cy >= q.bottom) return true;
       }
       n = n.parentElement;
     }
@@ -6668,6 +6740,13 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKGuard;
      NMSKMove.add(box)                box := {key, el:"id"|fn, at:"tl"|"tr"|"bl"|"br", label, light, with:[ids], axis}
      NMSKMove.restore()               every box back where it started -- ONE undo step
      NMSKMove.off(key) / .rect(key) / .moved() / .slots(key) / .state() / .refresh()
+     Q335 -- the three-dots menu. Every box that has a grip also gets a "⋮" button beside it, opening a small menu for THAT
+     box: Dock top-left / top-right / bottom-left / bottom-right, Reset position, Compact / Normal size (if the box says it
+     can), Close (if it has a close button or says how), then the box's own items from the registry:
+       NMSKMove.menu(key, {items:fn -> [{head} | {label, run, checked, key}], dock:fn(at) -> true if handled,
+                           reset:fn, compact:fn(v?) getter/setter, close:fn})
+     A box may also carry use() (false: its stored offset is kept but not applied), grab() (called as a drag or an
+     arrow-key move starts) and moved() (called after a drop, a dock or a key move).
    The store is per page, in localStorage, every read and write in try / catch: it can throw (a private window, blocked
    site data) and it can come back empty, and the page must be exactly as usable either way. */
 var NMSKMove = (function(){
@@ -6799,7 +6878,8 @@ var NMSKMove = (function(){
   function apply(b, write){
     var e = el(b); if (!e) return;
     var o;
-    if (phone() && b.slot) o = slotOff(b);
+    if (b.use && !b.use()) o = [0, 0];                 /* Q335: a box whose own mode ignores the offset keeps it stored */
+    else if (phone() && b.slot) o = slotOff(b);
     else o = clamped(b, b.dx || 0, b.dy || 0);
     b._ax = o[0]; b._ay = o[1];
     setOff(e, o[0], o[1]);
@@ -6824,10 +6904,11 @@ var NMSKMove = (function(){
     /* Where the grip goes, decided from the box itself rather than per page. `into` puts it in a row of the box's own
        controls as one more button -- the control bar's lower row, beside Undo and Redo, which is the only place on
        that bar where a handle covers nothing. Every other box gets it inside one of its own corners (see below). */
-    var into = b.into ? document.getElementById(b.into) : null;
+    var into = b.into ? (typeof b.into === "function" ? b.into() : document.getElementById(b.into)) : null;
     if (into){
       g.classList.add("nm-inline"); g.style.position = "relative"; g.style.flex = "0 0 auto";
-      into.appendChild(g);
+      /* Q335: `first` puts it at the start of a header row, before the title, so it has its own space and covers no text */
+      if (b.first) into.insertBefore(g, into.firstChild); else into.appendChild(g);
     } else {
       /* FULLY INSIDE the box, never hanging over its edge. The first draft hung the grip half out of the corner so it
          covered none of the box's own content; the harness showed what that really does -- the overhang lands on
@@ -6842,6 +6923,7 @@ var NMSKMove = (function(){
     }
     b._grip = g;
     bind(g, b);
+    dots(b);
     return g;
   }
 
@@ -6852,6 +6934,7 @@ var NMSKMove = (function(){
     if (at.charAt(0) === "t") st.top = "3px"; else st.bottom = "3px";
     if (at.charAt(1) === "l") st.left = "3px"; else st.right = "3px";
     g.setAttribute("data-nm-at", at);
+    seatDots(g);
   }
   /* WHICH CORNER, decided by measurement and re-decided whenever the page changes. A grip is useless under another box,
      and on a 390 px phone the control bar really does sit over the bottom-right card. So the grip tries the four
@@ -6900,6 +6983,7 @@ var NMSKMove = (function(){
     g.addEventListener("pointerdown", function(e){
       if (Object.keys(LIVE).length > 1){ cancel(); return; }    /* a second finger: this is a pinch, not a move */
       if (e.button != null && e.button !== 0) return;
+      if (b.grab){ try { b.grab(); } catch (err0){} }
       var r = el(b).getBoundingClientRect();
       drag = {b:b, g:g, done:done, id:e.pointerId, x:e.clientX, y:e.clientY, dx:b.dx || 0, dy:b.dy || 0, slot:b.slot || "",
               moved:false, bad0:badNow(), ghosts:null, r0:{left:r.left, top:r.top}};
@@ -6939,7 +7023,7 @@ var NMSKMove = (function(){
         bb.dx = d.dx; bb.dy = d.dy; bb.slot = d.slot;
         apply(bb, true); reverts++;
         say("Not there -- it would cover " + bad[0].label + ". The box is back where it was.");
-      } else if (hist && hist.commit){ hist.commit(); }
+      } else { if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
       if (window.NMSKGroups && NMSKGroups.state) { try { NMSKGroups.state(); } catch (err){} }
     }
     g.addEventListener("pointerup", done);
@@ -6954,8 +7038,9 @@ var NMSKMove = (function(){
     g.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); });
     g.addEventListener("keydown", function(e){
       var k = e.key, d = {ArrowLeft:[-STEP, 0], ArrowRight:[STEP, 0], ArrowUp:[0, -STEP], ArrowDown:[0, STEP]}[k];
-      if (k === "Home"){ b.dx = 0; b.dy = 0; b.slot = ""; apply(b, true); if (hist && hist.commit) hist.commit(); e.preventDefault(); return; }
+      if (k === "Home"){ resetBox(b); e.preventDefault(); return; }
       if (!d) return;
+      if (b.grab){ try { b.grab(); } catch (err0){} }
       if (phone()){
         var s = slotsOf(b), i = 0, j;
         for (j = 0; j < s.length; j++) if (s[j].key === b.slot) i = j;
@@ -6965,7 +7050,7 @@ var NMSKMove = (function(){
       apply(b, true);
       var bad = badNow();
       if (bad.length){ b.dx = keep[0] - d[0]; b.dy = keep[1] - d[1]; apply(b, true); say("Not there -- it would cover " + bad[0].label + "."); }
-      else if (hist && hist.commit) hist.commit();
+      else { if (b.moved){ try { b.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
       e.preventDefault();
     });
   }
@@ -7021,6 +7106,157 @@ var NMSKMove = (function(){
     note.style.bottom = "calc(" + (getComputedStyle(document.documentElement).getPropertyValue("--q301-bar-h") || "100px").trim() + " + 10px)";
     note.hidden = false;
     clearTimeout(say.t); say.t = setTimeout(function(){ note.hidden = true; }, 3400);
+  }
+
+  /* ---- Q335: the three-dots menu ----
+     Owner (translated): "just as every window has a drag mark, there should also be a three-dots mark that opens a menu
+     relevant to that window." One helper, here, because this module owns the grips: a box gets its "⋮" the moment it
+     gets its grip, inline beside an inline grip and in the next corner slot beside a corner grip. */
+  var MENUS = {}, menuEl = null, menuFor = null;
+  function dots(b){
+    var g = b._grip; if (!g) return null;
+    if (b._dots && b._dots.isConnected) return b._dots;
+    var d = document.createElement("button"), lab = b.label || "this box";
+    d.type = "button"; d.className = "nm-dots" + (b.light ? " nm-light" : ""); d.id = "nm-d-" + b.key;
+    d.setAttribute("data-nm", b.key); d.setAttribute("aria-haspopup", "menu"); d.setAttribute("aria-expanded", "false");
+    d.setAttribute("aria-label", "Options for " + lab); d.title = "Options for " + lab + ": dock, reset position, size, close";
+    d.textContent = "⋮";
+    if (g.classList.contains("nm-inline")){ d.classList.add("nm-inline"); g.parentNode.insertBefore(d, g.nextSibling); }
+    else g.parentNode.appendChild(d);
+    g._dots = d; b._dots = d;
+    d.addEventListener("pointerdown", function(e){ e.stopPropagation(); });
+    d.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); if (menuFor === b) closeMenu(true); else openMenu(b); });
+    seatDots(g);
+    return d;
+  }
+  function seatDots(g){
+    var d = g && g._dots; if (!d || d.classList.contains("nm-inline")) return;
+    var at = g.getAttribute("data-nm-at") || "tl", w = g.offsetWidth || 26, st = d.style;
+    st.top = st.bottom = st.left = st.right = "";
+    if (at.charAt(0) === "t") st.top = "3px"; else st.bottom = "3px";
+    if (at.charAt(1) === "l") st.left = (5 + w) + "px"; else st.right = (5 + w) + "px";
+  }
+  function closer(b){
+    var e = el(b), c = null; if (!e) return null;
+    try {
+      c = [].slice.call(e.getElementsByTagName("button")).filter(function(x){
+        return x.offsetParent !== null && /^close\b/i.test(x.getAttribute("aria-label") || x.title || "");
+      })[0] || null;
+    } catch (err){ c = null; }
+    return c ? function(){ c.click(); } : null;
+  }
+  function spec(b){ return MENUS[b.key] || {}; }
+  function itemsOf(b){
+    var S = spec(b), out = [];
+    [["tl", "Dock top-left"], ["tr", "Dock top-right"], ["bl", "Dock bottom-left"], ["br", "Dock bottom-right"]].forEach(function(c){
+      out.push({label:c[1], key:"dock-" + c[0], run:function(){ dock(b, c[0]); }});
+    });
+    out.push({label:"Reset position", key:"reset", run:function(){ resetBox(b); }});
+    if (S.compact){ var on = !!S.compact(); out.push({label:on ? "Normal size" : "Compact size", key:"size", run:function(){ S.compact(!on); }}); }
+    var cl = S.close || closer(b);
+    if (cl) out.push({label:"Close", key:"close", run:cl});
+    var extra = [];
+    try { extra = S.items ? (S.items() || []) : []; } catch (err){ extra = []; }
+    return out.concat(extra);
+  }
+  function openMenu(b){
+    closeMenu(false);
+    var d = b._dots; if (!d || !d.isConnected) return null;
+    var m = document.createElement("div");
+    m.className = "nm-menu"; m.id = "nm-menu"; m.setAttribute("role", "menu"); m.setAttribute("data-nm", b.key);
+    m.setAttribute("aria-label", "Options for " + (b.label || "this box"));
+    itemsOf(b).forEach(function(it){
+      if (it.head){ var h = document.createElement("div"); h.className = "nm-mh"; h.setAttribute("role", "presentation"); h.textContent = it.head; m.appendChild(h); return; }
+      var x = document.createElement("button");
+      x.type = "button"; x.className = "nm-mi"; x.textContent = it.label;
+      x.setAttribute("role", it.checked == null ? "menuitem" : (it.radio ? "menuitemradio" : "menuitemcheckbox"));
+      if (it.checked != null) x.setAttribute("aria-checked", String(!!it.checked));
+      if (it.key) x.setAttribute("data-k", it.key);
+      x.addEventListener("click", function(e){
+        e.preventDefault(); e.stopPropagation();
+        closeMenu(true);
+        try { it.run(); } catch (err){}
+      });
+      m.appendChild(x);
+    });
+    m.addEventListener("keydown", function(e){
+      var xs = [].slice.call(m.getElementsByClassName("nm-mi")), i = xs.indexOf(document.activeElement);
+      if (e.key === "ArrowDown" || e.key === "ArrowUp"){ var n = xs.length; if (!n) return; i = (i + (e.key === "ArrowDown" ? 1 : n - 1) + n) % n; xs[i].focus(); e.preventDefault(); }
+      else if (e.key === "Home" || e.key === "End"){ if (xs.length) xs[e.key === "Home" ? 0 : xs.length - 1].focus(); e.preventDefault(); }
+      else if (e.key === "Tab") closeMenu(false);
+    });
+    document.body.appendChild(m);
+    menuEl = m; menuFor = b; d.setAttribute("aria-expanded", "true");
+    /* sized to its content; under the button, flipped above it or slid left when the viewport says so */
+    var r = d.getBoundingClientRect(), w = m.offsetWidth, h = m.offsetHeight;
+    var x0 = Math.max(8, Math.min(vw() - 8 - w, r.left)), y0 = r.bottom + 4;
+    if (y0 + h > vh() - 8) y0 = Math.max(8, Math.min(vh() - 8 - h, r.top - 4 - h));
+    m.style.left = Math.round(x0) + "px"; m.style.top = Math.round(y0) + "px";
+    var first = m.getElementsByClassName("nm-mi")[0]; if (first){ try { first.focus({preventScroll:true}); } catch (err){} }
+    return m;
+  }
+  function closeMenu(refocus){
+    var b = menuFor, m = menuEl;
+    menuEl = null; menuFor = null;
+    if (m && m.parentNode) m.parentNode.removeChild(m);
+    if (b && b._dots){ b._dots.setAttribute("aria-expanded", "false"); if (refocus && b._dots.isConnected){ try { b._dots.focus({preventScroll:true}); } catch (err){} } }
+    return !!m;
+  }
+  /* registered at load, i.e. before any later block's own Escape handler: an open menu takes the first Escape */
+  window.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && menuEl){ closeMenu(true); e.stopImmediatePropagation(); e.preventDefault(); }
+  }, true);
+  document.addEventListener("pointerdown", function(e){
+    if (!menuEl) return;
+    var t = e.target;
+    if (menuEl.contains(t) || (menuFor && menuFor._dots && menuFor._dots.contains(t))) return;
+    closeMenu(false);
+  }, true);
+  /* rectangles of the OTHER boxes on screen, so a dock does not land on another box's chrome */
+  function others(b){
+    var e = el(b), out = [];
+    B.forEach(function(o){
+      if (o === b) return;
+      var x = el(o); if (!x || !shown(x) || x === e || x.contains(e) || (e && e.contains(x))) return;
+      out.push(x.getBoundingClientRect());
+    });
+    return out;
+  }
+  function dock(b, at){
+    var S = spec(b);
+    if (S.dock){ var done0 = false; try { done0 = !!S.dock(at); } catch (err){ done0 = false; } if (done0) return true; }
+    var e = el(b); if (!e) return false;
+    var keep = [b.dx, b.dy, b.slot], bad0 = badNow().length, ok = false;
+    if (phone()){
+      var s = slotsOf(b), want = [at, at.charAt(0) + "c", "m" + at.charAt(1)], k = "", i, j;
+      for (i = 0; i < want.length && !k; i++) for (j = 0; j < s.length; j++) if (s[j].key === want[i]){ k = s[j].key; break; }
+      b.slot = k; b.dx = 0; b.dy = 0; apply(b, false);
+      ok = badNow().length <= bad0;
+    } else {
+      var r = base(b); if (!r) return false;
+      var top = at.charAt(0) === "t", left = at.charAt(1) === "l";
+      var dx = left ? PAD - r.left : vw() - PAD - r.right, dy = top ? PAD - r.top : vh() - PAD - r.bottom, O = others(b);
+      b.slot = "";
+      /* slide away from the edge, one step at a time, past every protected control and every other box */
+      for (var pass = 0; pass < 2 && !ok; pass++){
+        for (i = 0; i < 48 && !ok; i++){
+          b.dx = dx; b.dy = dy + (top ? i : -i) * STEP; apply(b, false);
+          var q = e.getBoundingClientRect(), clear = true;
+          if (pass === 0) O.forEach(function(o){ if (q.left < o.right && q.right > o.left && q.top < o.bottom && q.bottom > o.top) clear = false; });
+          ok = clear && badNow().length <= bad0;
+        }
+      }
+    }
+    if (!ok){ b.dx = keep[0]; b.dy = keep[1]; b.slot = keep[2]; apply(b, true); say("Not there -- it would cover a control. The box is back where it was."); return false; }
+    apply(b, true);
+    if (b.moved){ try { b.moved(); } catch (err2){} }
+    if (hist && hist.commit) hist.commit();
+    return true;
+  }
+  function resetBox(b){
+    b.dx = 0; b.dy = 0; b.slot = ""; apply(b, true);
+    var S = spec(b); if (S.reset){ try { S.reset(); } catch (err){} }
+    if (hist && hist.commit) hist.commit();
   }
 
   /* ---- restore the layout: every box back where it started, as ONE undo step ---- */
@@ -7080,20 +7316,33 @@ var NMSKMove = (function(){
       if (!b || !b.key || byKey[b.key]) return false;
       b.dx = b.dx || 0; b.dy = b.dy || 0; b.slot = b.slot || "";
       B.push(b); byKey[b.key] = b;
+      if (on){ var v = load()[b.key]; if (v){ if (v.s) b.slot = String(v.s); else { b.dx = +v.x || 0; b.dy = +v.y || 0; } } }
       return true;
     },
     refresh:function(){
       if (!on || drag) return;
       B.forEach(function(b){
         var e = el(b);
+        /* Q335: a box another window has taken in (the full card inside the name card) is that window's, not ours */
+        if (e && e.parentNode && e.parentNode.closest && e.parentNode.closest("[data-nm-hosted]")) return;
         if (!shownBase(b)){ if (b._grip && !e) b._grip = null; return; }
         var fresh = !b._grip || !b._grip.isConnected;
         if (fresh){ b._grip = null; grip(b); }
+        else if (!b._dots || !b._dots.isConnected){ b._dots = null; dots(b); }
         apply(b, false);
         if (!b.into) reseat(b);
       });
     },
     restore:restore,
+    menu:function(k, s){ if (k) MENUS[k] = s || {}; return api; },
+    openMenu:function(k){ var b = byKey[k]; return b ? openMenu(b) : null; },
+    closeMenu:function(){ return closeMenu(false); },
+    menuOpen:function(){ return menuFor ? menuFor.key : null; },
+    items:function(k){ var b = byKey[k]; return b ? itemsOf(b).filter(function(i){ return !i.head; }).map(function(i){ return i.key || i.label; }) : []; },
+    dock:function(k, at){ var b = byKey[k]; return b ? dock(b, at) : false; },
+    reset:function(k){ var b = byKey[k]; if (b) resetBox(b); return !!b; },
+    apply:function(k){ var b = byKey[k]; if (b && el(b)) apply(b, false); },
+    box:function(k){ return byKey[k] || null; },
     off:function(k){ var b = byKey[k]; return b ? {dx:Math.round(b.dx || 0), dy:Math.round(b.dy || 0), slot:b.slot || "", ax:Math.round(b._ax || 0), ay:Math.round(b._ay || 0)} : null; },
     rect:function(k){
       var b = byKey[k]; if (!b) return null;
@@ -7111,7 +7360,7 @@ var NMSKMove = (function(){
       return {on:on, phone:phone(), translate:CAN_T, key:KEY, drops:drops, reverts:reverts, restores:restores,
               boxes:B.map(function(b){
                 var r = api.rect(b.key);
-                return {key:b.key, label:b.label || b.key, present:!!r, rect:r, off:api.off(b.key), grip:!!(b._grip && b._grip.isConnected),
+                return {key:b.key, label:b.label || b.key, present:!!r, rect:r, off:api.off(b.key), grip:!!(b._grip && b._grip.isConnected), dots:!!(b._dots && b._dots.isConnected),
                         slots:(r && phone()) ? slotsOf(b).map(function(s){ return s.key; }) : []};
               })};
     }
@@ -7152,17 +7401,23 @@ var NMSKQ305 = (function(){
   /* key -> the two engines' ids. Both are listed; the one that is not on this page is dropped. */
   var BOXES = [
     {key:"control",  el:"q301-bar",   into:"q301-hist", label:"the control bar",            "with":["q301-sheet"]},
-    {key:"hidden",   el:"sa-bar",     at:"tl", label:"the “what is hidden” bar"},
+    {key:"hidden",   el:"sa-bar",     into:"sa-bar", label:"the “what is hidden” bar"},   /* Q335: in its own row, never over "hidden: N" */
     {key:"info",     el:"q301-info",  at:"tl", label:"the information drawer"},
     {key:"cut",      el:"cut-panel",  at:"tl", label:"the cut / cross-section panel"},
     {key:"card",     el:"info",       at:"tl", label:"the structure card",     light:true},
     {key:"rail",     el:"rail",       at:"tl", label:"the side panel",         light:true},
-    {key:"pills",    el:"topright",   at:"bl", label:"the top row of buttons"},
-    {key:"measure",  el:"ms-bar",     at:"tl", label:"the measurement bar"},
+    {key:"pills",    el:"topright",   into:"topright", first:true, label:"the top row of buttons"},   /* Q335: in the row, not over a pill */
+    {key:"measure",  el:"ms-bar",     first:true, label:"the measurement bar",
+     into:function(){ var b = document.getElementById("ms-bar"); return b ? b.querySelector(".ms-row") : null; }},
     {key:"slices",   el:"xsp-panel",  at:"tl", label:"the part-slices panel"},
     {key:"expand",   el:"q8-float",   at:"tl", label:"the structure-expansion strip"},
     {key:"labels",   el:"lab-panel",  at:"tl", label:"the labels panel",       light:true},
-    {key:"legend",   el:"lab-legend", at:"tl", label:"the labels legend",      light:true}
+    {key:"legend",   el:"lab-legend", at:"tl", label:"the labels legend",      light:true},
+    /* Q335: the floating panels that had no handle yet, so they get the grip and the three-dots menu like the rest */
+    {key:"pose",     el:"pose-panel", first:true, label:"the pose panel",      light:true,
+     into:function(){ var p = document.getElementById("pose-panel"); return p ? p.querySelector(".pz-head") : null; }},
+    {key:"parts",    el:"pm-panel",   at:"tl", label:"the part-markers panel", light:true},
+    {key:"attach",   el:"pm-att",     at:"tl", label:"the attachments panel",  light:true}
   ];
   /* Controls that must stay reachable whatever the user does with the boxes. Everything Q301 lost to an overlap is
      here by name, plus every grip (a box whose handle is covered could never be moved back). */
@@ -7180,6 +7435,7 @@ var NMSKQ305 = (function(){
        overlap whatever any round does. The verify asserts the HARD set is empty on every page and in both viewports,
        and that the SOFT set never grows because of a move. */
     {sel:".nm-grip", label:"a box’s own move handle", soft:true},
+    {sel:".nm-dots", label:"a box’s options button", soft:true},
     {sel:"[data-nmsk-protect]", label:"a control another layer asked us to keep clear"}
   ];
   function pageKey(){
@@ -8144,60 +8400,159 @@ if (typeof module !== "undefined" && module.exports) module.exports = NMSKQ309;
 <!-- Q321 html begin -->
 <style>
 /* Q321: the quick card. Opens on every successful click on a structure: its name, then Hide / Fade / Show only / Select
-   (+ Zoom to, More). Sized to its own content (max-content, capped, wrapping only when the viewport forces it) and placed
-   in the free margin around the model by quickcard.js, never on it. */
-.qc{position:fixed;z-index:64;left:0;top:0;box-sizing:border-box;width:max-content;max-width:min(420px,calc(100vw - 16px));
+   (+ Zoom to, More). Sized to its own content (max-content, capped, wrapping only when the viewport forces it).
+   Q335: docked in the top-left of the view by default, moved by the grip in its head, set up from its ⋮ menu; More opens
+   the details inside it; the groups / adjacent / related row sits under the buttons. */
+.qc{position:fixed;z-index:64;left:0;top:0;box-sizing:border-box;width:max-content;max-width:min(560px,calc(100vw - 16px));
   display:flex;flex-direction:column;gap:5px;padding:6px 7px 7px;border-radius:11px;color:#E6EDF3;
   background:rgba(14,18,22,.94);box-shadow:0 2px 16px rgba(0,0,0,.5);backdrop-filter:blur(5px);
   font:500 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
 .qc[hidden],.qc-lead[hidden]{display:none !important}
-.qc-head{display:flex;align-items:flex-start;gap:8px}
+.qc-head{display:flex;align-items:flex-start;gap:6px}
 .qc-t{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1 1 auto}
 .qc-name{font-size:13px;font-weight:650;line-height:1.2;overflow-wrap:anywhere}
 .qc-sub{font:500 10px/1.1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.qc-tools{display:flex;gap:3px;flex:0 0 auto;align-items:center}
+.qc-tools:empty{display:none}
+.qc .qc-tools .nm-grip.nm-inline{position:static;width:24px;height:24px;border-radius:6px}
+.qc .qc-tools .nm-grip.nm-inline::before{inset:0}
+.qc .qc-tools .nm-dots.nm-inline{width:18px;height:24px;border-radius:6px}
 .qc .qc-x{flex:0 0 auto;min-width:24px;min-height:24px;padding:0;border:0;border-radius:6px;background:rgba(255,255,255,.09);color:inherit;font-size:16px;line-height:1;cursor:pointer}
 .qc-row{display:flex;flex-wrap:wrap;gap:4px}
 .qc .qc-b{flex:0 0 auto;width:auto;min-width:0;min-height:34px;padding:4px 9px;border:1px solid rgba(255,255,255,.18);border-radius:8px;
   background:rgba(255,255,255,.06);color:#E6EDF3;font:inherit;line-height:1.1;cursor:pointer;white-space:nowrap}
+.qc .qc-b[hidden]{display:none}
 .qc .qc-b:hover{background:rgba(255,255,255,.14)}
 .qc .qc-b[aria-pressed="true"]{background:#D9A227;border-color:#D9A227;color:#1b1b1b}
 .qc .qc-more,.qc .qc-zoom{background:transparent;border-style:dashed}
+.qc.qc-compact .qc-sub{display:none}
+.qc.qc-compact .qc-b{min-height:26px;padding:2px 7px;font-size:11px}
+/* the groups / adjacent / related row, under the buttons: as wide as its own buttons; its menu and status line wrap inside */
+.qc-chips{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.qc-chips:empty{display:none}
+.qc-chips .q8-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.qc-chips .q8-row[hidden],.qc-chips .q8-menu[hidden]{display:none}
+.qc-chips #q8-selname{display:none}
+.qc-chips .q8-b{flex:0 0 auto;min-height:28px;padding:3px 8px;border:1px solid rgba(255,255,255,.16);border-radius:7px;background:rgba(255,255,255,.03);
+  color:#E6EDF3;font:inherit;font-size:11.5px;line-height:1.1;cursor:pointer;white-space:nowrap}
+.qc-chips .q8-b:hover{background:rgba(255,255,255,.12)}
+.qc-chips .q8-b:disabled{color:#a3adba;border-style:dashed;cursor:default}
+/* Q335: on the card the three chips are behind ONE button, "Related structures"; the row itself stays hidden here and
+   only its menu (kinds / groups) and its one-line status show, under the buttons */
+.qc-chips #q8-exp{display:none !important}
+.qc-chips .q8-i{background:rgba(255,255,255,.12)}
+.qc-chips .q8-menu,.qc-chips .q8-status{width:0;min-width:100%;box-sizing:border-box}
+.qc-chips .q8-menu{display:flex;flex-wrap:wrap;gap:4px;padding:4px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.04)}
+.qc-chips .q8-status{margin:0;font-size:11px;line-height:1.35;opacity:.8}
+.qc-chips .q8-status:empty{display:none}
+@media (pointer:coarse){.qc-chips .q8-b{min-height:36px}}
+/* the details (More): the engine's full card, taken into this window; it never widens the window and scrolls inside it */
+.qc-det{display:none;width:0;min-width:100%;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.qc.qc-open .qc-det{display:block}
+.qc-det #info{position:static !important;inset:auto !important;width:auto !important;max-width:none !important;max-height:none !important;
+  overflow:visible !important;translate:none !important;transform:none !important;margin:0 !important;box-shadow:none !important;
+  backdrop-filter:none !important;border-radius:8px !important;z-index:auto !important}
+.qc-det #info .info-drag,.qc-det #info .info-close,.qc-det #info > h2,.qc-det #info > .kind,.qc-det #info > .nm-grip,.qc-det #info > .nm-dots{display:none !important}
 .qc-lead{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:63;pointer-events:none;overflow:visible}
-.qc-lead line{stroke:rgba(230,237,243,.85);stroke-width:1.2}
+.qc-lead line{stroke:rgba(230,237,243,.9);stroke-width:1.6;stroke-linecap:round}
 .qc-lead circle{fill:#D9A227;stroke:#14181c;stroke-width:1.5}
 @media (pointer:coarse){.qc .qc-b{min-height:40px}.qc .qc-x{min-width:32px;min-height:32px}}
-/* the full card is a second step: until "More" is pressed the quick card is what a click opens */
+/* the full card is part of this window: shown only inside it, after More */
 body.qc-on:not(.qc-more) #info:not(.hidden){display:none !important}
 body.qc-on.qc-more #info:not(.hidden){display:block !important}
+/* the "Related structures" menu: as wide as its longest item */
+.qc .qc-relb{border-style:solid}
+.qc-relmenu{position:fixed;z-index:2147482790;display:flex;flex-direction:column;box-sizing:border-box;width:max-content;
+  max-width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:4px;border-radius:9px;
+  background:rgba(14,18,22,.97);color:#E6EDF3;border:1px solid rgba(255,255,255,.14);box-shadow:0 4px 20px rgba(0,0,0,.5);
+  font:500 12.5px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qc-relmenu .qc-rmi{display:block;text-align:start;min-height:32px;padding:6px 12px;border:0;border-radius:6px;background:transparent;
+  color:#E6EDF3;font:inherit;cursor:pointer;white-space:nowrap}
+.qc-relmenu .qc-rmi:hover,.qc-relmenu .qc-rmi:focus-visible{background:rgba(255,255,255,.13);outline:none}
+.qc-relmenu .qc-rmi.qc-off{color:#a3adba;cursor:default}
+.qc-relmenu .qc-rsub{display:flex;flex-direction:column;padding-left:12px}
+@media (pointer:coarse){.qc-relmenu .qc-rmi{min-height:40px}}
 </style>
 <script>
 /* Q321: the quick card. Owner: "when clicking an organ or a region, the FIRST thing that must open is the name of what was
    clicked, with hide, fade, show only, or just select ... rows and boxes that open must have a length matching the number
    of buttons and the text in them ... place them around the model and not on top of it."
-   The module owns the DOM, the sizing and the placement; the engine reaches it through one adaptor E:
+   Q335, owner (translated): "its position is not always logical and it cannot be moved. If the structure is marked in colour
+   there is no need to draw a line. The window with the organ's name can sit permanently in the top-left corner. ... The
+   assignment to functional groups / adjacent / related can open next to the organ's name or at the very bottom." And on
+   the live card: "a line that crosses the whole body ... press More, then this window disappears and another one opens".
+   So, by default: docked in the top-left of the view (below the fixed chrome, the same place on every click), moved by the
+   same grip and three-dots menu as every other box (viewer/q305/move.js), no line when the picked structure is drawn in the
+   selection tint, and More opens the details IN this window (Less folds them back). Settings live in its ⋮ menu:
+     position  Top-left (default) | Beside the clicked point | Where I dragged it
+     line      Auto (default: none while the structure is coloured) | Always (a short marker, never across the model) | Never
+     groups    Under the name (default) | At the bottom of the screen
+     buttons   Fade / Show only / Zoom to / More… on or off;  Compact / Normal size
+   stored in localStorage (try/catch; the page works the same without it). The dragged offset is NMSKMove's own store.
+   The engine reaches the module through one adaptor E:
      info(id) -> {name, sub}   state(id) -> {hidden, faded}   toggleHide(id)   toggleFade(id)   zoom(id)   more(id)
+     marked(id) -> is it drawn in the selection tint now   details() -> the engine's full card element
      screenBox() -> {l,t,r,b} client box of everything drawn (null if unknown)   canvasRect()   obstacles() -> [elements]   canvas
    Marking (Select, Show only) goes through the selection controller's public API (window.NMSKSelectCtl), so the pressed state,
    the marks and the page-wide undo are the ones the Selection group already has. The engine calls open(id, clientX, clientY)
    after a click that no tool consumed, and sync(id) from its own select(). */
 var NMSKQuickCard = (function(){
   "use strict";
-  var GAP = 14, MARG = 8, live = null;
+  var GAP = 14, MARG = 8, STUB = 36, DOCKW = 560, live = null, KEY = "nmsk.q321.prefs";
+  var POS = ["tl", "point", "drag"], LEAD = ["auto", "always", "never"], CHIPS = ["card", "bottom"], SHOW = ["fade", "only", "zoom", "more"];
+  /* Q335, owner: the groups / adjacent / related row "becomes ONE button 'Related structures' on the name card that opens a
+     small menu". The menu lists FAMILIES from this registry, in `order`. A family either runs at once (run(id), with a
+     count(id)) or opens a sub-menu (items(id) -> [{label, n, run}]). Functional group / Adjacent / Related are built in;
+     the room after them (order 40, 50) is kept for "Myofascial lines" and "Innervation", which register themselves later:
+       NMSKQuickCard.family({key, label, order, count, run} | {key, label, order, items}) */
+  var FAM = [];
+  function family(f){
+    if (!f || !f.key || !f.label) return false;
+    FAM = FAM.filter(function(x){ return x.key !== f.key; }); FAM.push(f);
+    FAM.sort(function(a, b){ return (a.order || 99) - (b.order || 99); });
+    return true;
+  }
+  function q8(){ return window.NMSKQ298 || null; }
+  function q8n(id, k){ var Q = q8(), c = null; try { c = Q && Q.counts ? Q.counts(id) : null; } catch (err){ c = null; } return c ? (c[k] || 0) : 0; }
+  function q8run(k){ var Q = q8(); if (Q && Q.run) Q.run(k); }
+  family({key:"grp", label:"Functional group", order:10, count:function(id){ return q8n(id, "grp"); }, run:function(){ q8run("grp"); }});
+  family({key:"adj", label:"Adjacent", order:20, count:function(id){ return q8n(id, "adj"); }, run:function(){ q8run("adj"); }});
+  family({key:"rel", label:"Related", order:30, count:function(id){ return q8n(id, "rel"); }, run:function(){ q8run("rel"); }});
+  function prefs(){
+    var p = {pos:"tl", lead:"auto", chips:"card", compact:false, show:{fade:true, only:true, zoom:true, more:true}};
+    try {
+      var j = JSON.parse(localStorage.getItem(KEY) || "null");
+      if (j && typeof j === "object"){
+        if (POS.indexOf(j.pos) >= 0) p.pos = j.pos;
+        if (LEAD.indexOf(j.lead) >= 0) p.lead = j.lead;
+        if (CHIPS.indexOf(j.chips) >= 0) p.chips = j.chips;
+        p.compact = !!j.compact;
+        if (j.show && typeof j.show === "object") SHOW.forEach(function(k){ if (k in j.show) p.show[k] = !!j.show[k]; });
+      }
+    } catch (err){}
+    return p;
+  }
   /* registered when this script loads, so it runs before the page's own Escape handlers (show-all, deselect): the first Escape
      only closes the card, a second one does what it always did */
   window.addEventListener("keydown", function(e){
-    if (e.key === "Escape" && live && live.current() && !e.altKey && !e.ctrlKey && !e.metaKey){ live.close(); e.stopImmediatePropagation(); e.preventDefault(); }
+    if (e.key !== "Escape" || !live || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (live.relClose && live.relClose(true)){ e.stopImmediatePropagation(); e.preventDefault(); return; }      /* an open menu takes the first Escape */
+    if (live.current()){ live.close(); e.stopImmediatePropagation(); e.preventDefault(); }
   }, true);
   function start(E){
-    var card = null, lead = null, cur = null, px = 0, py = 0, rowEl = null, btns = {};
+    var card = null, lead = null, cur = null, px = null, py = null, rowEl = null, chipsEl = null, detEl = null, btns = {};
+    var P = prefs(), open1 = false, stale = false, home = null, QB = null;
+    function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
     function el(tag, cls, txt){ var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
     function ctl(){ return window.NMSKSelectCtl || null; }
+    function M(){ return window.NMSKMove || null; }
     function hist(){ try { var H = window.NMSKHistory; if (H && H.active && H.active()) H.commit(); } catch (err){} }
     function build(){
-      card = el("div", "qc"); card.hidden = true; card.setAttribute("role", "dialog"); card.setAttribute("aria-label", "Quick actions");
-      var head = el("div", "qc-head"), t = el("div", "qc-t"), x = el("button", "qc-x", "×");
+      card = el("div", "qc"); card.hidden = true; card.setAttribute("role", "dialog"); card.setAttribute("aria-label", "Structure");
+      var head = el("div", "qc-head"), t = el("div", "qc-t"), tools = el("div", "qc-tools"), x = el("button", "qc-x", "×");
+      tools.id = "qc-tools";                     /* the grip and the ⋮ button sit here, in the head, never over the name */
       x.type = "button"; x.setAttribute("aria-label", "Close"); x.addEventListener("click", function(){ close(); });
-      t.appendChild(el("span", "qc-name")); t.appendChild(el("span", "qc-sub")); head.appendChild(t); head.appendChild(x);
+      t.appendChild(el("span", "qc-name")); t.appendChild(el("span", "qc-sub")); head.appendChild(t); head.appendChild(tools); head.appendChild(x);
       rowEl = el("div", "qc-row");
       function b(key, label, f, cls){ var e = el("button", "qc-b" + (cls ? " " + cls : ""), label); e.type = "button"; e.setAttribute("data-qc", key);
         e.addEventListener("click", function(ev){ ev.stopPropagation(); if (cur) f(cur); }); btns[key] = e; rowEl.appendChild(e); return e; }
@@ -8209,12 +8564,126 @@ var NMSKQuickCard = (function(){
         hist(); refresh();
       });
       b("sel", "Select", function(id){ var c = ctl(); if (!c) return; c.toggle(id, true); hist(); refresh(); });
-      b("zoom", "Zoom to", function(id){ var i = id; close(); E.zoom(i); }, "qc-zoom");
-      b("more", "More…", function(id){ var i = id; close(true); E.more(i); }, "qc-more");
-      card.appendChild(head); card.appendChild(rowEl);
+      var rb = b("rel", "Related structures \u25be", function(){ if (relEl) relClose(true); else relOpen(); }, "qc-relb");
+      rb.setAttribute("aria-haspopup", "menu"); rb.setAttribute("aria-expanded", "false");
+      b("zoom", "Zoom to", function(id){ if (P.pos === "point"){ close(); E.zoom(id); return; } E.zoom(id); stale = true; leader(); }, "qc-zoom");
+      b("more", "More…", function(id){ if (open1) less(); else more(id); }, "qc-more");
+      chipsEl = el("div", "qc-chips"); chipsEl.id = "qc-chips";
+      detEl = el("div", "qc-det"); detEl.id = "qc-det"; detEl.setAttribute("data-nm-hosted", "");
+      card.appendChild(head); card.appendChild(rowEl); card.appendChild(chipsEl); card.appendChild(detEl);
       lead = document.createElementNS("http://www.w3.org/2000/svg", "svg"); lead.setAttribute("class", "qc-lead"); lead.hidden = true; lead.setAttribute("aria-hidden", "true");
       lead.innerHTML = '<line x1="0" y1="0" x2="0" y2="0"></line><circle r="3.5" cx="0" cy="0"></circle>';
       document.body.appendChild(lead); document.body.appendChild(card);
+      dress();
+      register();
+    }
+    function dress(){
+      if (!card) return;
+      card.classList.toggle("qc-compact", !!P.compact);
+      SHOW.forEach(function(k){ if (btns[k]) btns[k].hidden = !P.show[k]; });
+      if (btns.rel) btns.rel.hidden = P.chips === "bottom";        /* at the bottom the strip carries them instead */
+    }
+    /* ---- the "Related structures" menu ---- */
+    var relEl = null;
+    function relClose(refocus){
+      if (!relEl) return false;
+      if (relEl.parentNode) relEl.parentNode.removeChild(relEl);
+      relEl = null;
+      if (btns.rel){ btns.rel.setAttribute("aria-expanded", "false"); if (refocus){ try { btns.rel.focus({preventScroll:true}); } catch (err){} } }
+      return true;
+    }
+    function relOpen(){
+      relClose(false);
+      var id = cur; if (!id || !btns.rel) return null;
+      var m = el("div", "qc-relmenu"); m.id = "qc-relmenu"; m.setAttribute("role", "menu"); m.setAttribute("aria-label", "Related structures");
+      FAM.forEach(function(f){
+        var subs = null, n = 0;
+        try { subs = f.items ? (f.items(id) || []) : null; n = subs ? subs.length : (f.count ? +f.count(id) || 0 : 0); } catch (err){ subs = null; n = 0; }
+        var x = el("button", "qc-rmi", f.label + (n ? " \u00b7 " + n : "") + (subs ? " \u25b8" : ""));
+        x.type = "button"; x.setAttribute("role", "menuitem"); x.setAttribute("data-fam", f.key);
+        if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data"; }
+        var sub = null;
+        x.addEventListener("click", function(e){
+          e.stopPropagation(); if (!n) return;
+          if (subs){
+            if (sub){ sub.parentNode.removeChild(sub); sub = null; x.setAttribute("aria-expanded", "false"); return; }
+            sub = el("div", "qc-rsub"); sub.setAttribute("role", "group");
+            subs.forEach(function(it){
+              var y = el("button", "qc-rmi qc-rsi", it.label + (it.n ? " \u00b7 " + it.n : "")); y.type = "button"; y.setAttribute("role", "menuitem");
+              y.addEventListener("click", function(e2){ e2.stopPropagation(); relClose(false); try { it.run(id); } catch (err){} after(); });
+              sub.appendChild(y);
+            });
+            x.parentNode.insertBefore(sub, x.nextSibling); x.setAttribute("aria-expanded", "true");
+            return;
+          }
+          relClose(false); try { f.run(id); } catch (err){} after();
+        });
+        if (subs) x.setAttribute("aria-expanded", "false");
+        m.appendChild(x);
+      });
+      m.addEventListener("keydown", function(e){
+        var xs = [].slice.call(m.querySelectorAll(".qc-rmi")), i = xs.indexOf(document.activeElement);
+        if (e.key === "ArrowDown" || e.key === "ArrowUp"){ var k = xs.length; if (!k) return; i = (i + (e.key === "ArrowDown" ? 1 : k - 1) + k) % k; xs[i].focus(); e.preventDefault(); }
+        else if (e.key === "Tab") relClose(false);
+      });
+      document.body.appendChild(m); relEl = m; btns.rel.setAttribute("aria-expanded", "true");
+      var r = btns.rel.getBoundingClientRect(), w = m.offsetWidth, h = m.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+      var x0 = Math.max(8, Math.min(vw - 8 - w, r.left)), y0 = r.bottom + 4;
+      if (y0 + h > vh - 8) y0 = Math.max(8, r.top - 4 - h);
+      m.style.left = Math.round(x0) + "px"; m.style.top = Math.round(y0) + "px";
+      var first = m.querySelector(".qc-rmi:not(.qc-off)") || m.querySelector(".qc-rmi"); if (first){ try { first.focus({preventScroll:true}); } catch (err){} }
+      return m;
+    }
+    function after(){ setTimeout(function(){ rehome(); fit(); leader(); }, 60); }
+    document.addEventListener("pointerdown", function(e){
+      if (!relEl) return;
+      if (relEl.contains(e.target) || (btns.rel && btns.rel.contains(e.target))) return;
+      relClose(false);
+    }, true);
+    /* ---- the window: one grip and one ⋮ like every other box (NMSKMove), the offset applied only in "Where I dragged it" ---- */
+    function register(){
+      var Mv = M(); if (!Mv || QB) return;
+      QB = {key:"qcard", el:function(){ return card; }, into:"qc-tools", label:"the name card",
+            use:function(){ return P.pos === "drag"; },
+            /* a drag that starts from the corner or from beside the point keeps the card where it is and makes that the
+               dragged place, so nothing jumps under the finger */
+            grab:function(){ if (P.pos === "drag" || !card || card.hidden) return; var r0 = card.getBoundingClientRect();
+              P.pos = "drag"; save(); QB.dx = 0; QB.dy = 0; place(); var r1 = card.getBoundingClientRect(); QB.dx = r0.left - r1.left; QB.dy = r0.top - r1.top; Mv.apply("qcard"); },
+            moved:function(){ if (P.pos !== "drag"){ P.pos = "drag"; save(); } fit(); leader(); }};
+      Mv.add(QB);
+      Mv.menu("qcard", {
+        items:function(){
+          function radio(k, v, label){ return {label:label, key:k + "-" + v, radio:true, checked:P[k] === v, run:function(){ set(k, v); }}; }
+          var out = [{head:"Name card position"}, radio("pos", "tl", "Top-left corner"), radio("pos", "point", "Beside the clicked point"), radio("pos", "drag", "Where I dragged it"),
+                     {head:"Line to the clicked point"}, radio("lead", "auto", "Auto: none while it is coloured"), radio("lead", "always", "Always (short marker)"), radio("lead", "never", "Never"),
+                     {head:"Groups / adjacent / related"}, radio("chips", "card", "Under the name"), radio("chips", "bottom", "At the bottom of the screen"),
+                     {head:"Buttons on the card"}];
+          [["fade", "Fade"], ["only", "Show only"], ["zoom", "Zoom to"], ["more", "More… (details)"]].forEach(function(q){
+            out.push({label:q[1], key:"show-" + q[0], checked:!!P.show[q[0]], run:function(){ P.show[q[0]] = !P.show[q[0]]; save(); dress(); place(); }});
+          });
+          return out;
+        },
+        dock:function(at){
+          if (at === "tl"){ set("pos", "tl"); return true; }
+          if (P.pos !== "drag"){ P.pos = "drag"; save(); QB.dx = 0; QB.dy = 0; place(); }   /* the corners are offsets from the docked place */
+          return false;
+        },
+        reset:function(){ set("pos", "tl"); },
+        compact:function(v){ if (v === undefined) return !!P.compact; P.compact = !!v; save(); dress(); place(); return P.compact; },
+        close:function(){ close(); }
+      });
+      /* the strip at the bottom gets the same choice in its own ⋮ */
+      Mv.menu("expand", {items:function(){
+        return [{head:"Groups / adjacent / related"},
+                {label:"Under the name", key:"chips-card", radio:true, checked:P.chips === "card", run:function(){ set("chips", "card"); }},
+                {label:"At the bottom of the screen", key:"chips-bottom", radio:true, checked:P.chips === "bottom", run:function(){ set("chips", "bottom"); }}];
+      }});
+    }
+    function set(k, v){
+      P[k] = v; save();
+      if (k === "pos" && v === "tl" && QB){ var Mv = M(); if (Mv) Mv.apply("qcard"); }
+      if (k === "chips") rehome();
+      dress(); place();
     }
     function isOnly(id){ var c = ctl(), s = c && c.state(); return !!(s && s.mode === "only" && s.marks.length === 1 && s.marks[0] === id && !s.inverted); }
     function refresh(){
@@ -8224,27 +8693,44 @@ var NMSKQuickCard = (function(){
       p("hide", s.hidden, s.hidden ? "Unhide" : "Hide"); p("fade", s.faded, s.faded ? "Unfade" : "Fade");
       p("only", isOnly(cur)); p("sel", st && st.marks.indexOf(cur) >= 0);
       btns.only.disabled = btns.sel.disabled = !c;
+      leader();
     }
     function rects(){
       var out = [], list = [];
       try { list = (E.obstacles ? E.obstacles() : []).concat([].slice.call(document.querySelectorAll(".qg-bar,.qg-sheet"))); } catch (err){}
       list.forEach(function(e){
-        if (!e || e === card || !e.getClientRects || !e.getClientRects().length) return;
+        if (!e || e === card || (card && card.contains(e)) || !e.getClientRects || !e.getClientRects().length) return;
         var cs = getComputedStyle(e); if (cs.display === "none" || cs.visibility === "hidden") return;
         var r = e.getBoundingClientRect(); if (r.width > 2 && r.height > 2) out.push({l:r.left, t:r.top, r:r.right, b:r.bottom});
       });
       return out;
     }
     function hit(a, b, pad){ return a.l < b.r + pad && a.r > b.l - pad && a.t < b.b + pad && a.b > b.t - pad; }
-    /* The rule: the card sits in the free margin on the side of the model nearest the click, level with it (sliding up or down
-       past anything in the way); if that side has no room it tries the other side, then above and below the model; if the
-       model fills the view (phone, zoomed in) it goes to the edge of the canvas farthest from the click. It never covers the
-       clicked point and never sits on the fixed controls. */
-    function place(){
+    function view(){
       var cr = E.canvasRect(), vw = window.innerWidth, vh = window.innerHeight;
-      var V = {l:Math.max(MARG, cr.left + MARG), t:Math.max(MARG, cr.top + MARG), r:Math.min(vw - MARG, cr.right - MARG), b:Math.min(vh - MARG, cr.bottom - MARG)};
-      var w = card.offsetWidth, h = card.offsetHeight, B = E.screenBox ? E.screenBox() : null, O = rects(), P = {l:px, t:py, r:px, b:py};
-      function fits(x, y){ var r = {l:x, t:y, r:x + w, b:y + h}; if (r.l < V.l || r.t < V.t || r.r > V.r || r.b > V.b) return false; if (hit(r, P, 10)) return false; if (B && hit(r, B, 2)) return false; for (var i = 0; i < O.length; i++) if (hit(r, O[i], 4)) return false; return true; }
+      return {l:Math.max(MARG, cr.left + MARG), t:Math.max(MARG, cr.top + MARG), r:Math.min(vw - MARG, cr.right - MARG), b:Math.min(vh - MARG, cr.bottom - MARG)};
+    }
+    /* height of the name and its buttons only: the details and the chips grow downward from a fixed corner */
+    function headH(){ var r = card.getBoundingClientRect(), q = rowEl.getBoundingClientRect(); return Math.max(40, Math.round(q.bottom - r.top + 7)); }
+    /* THE DOCK: the top-left of the view, below or beside every fixed control that lives there. Measured with a nominal
+       width (the card's cap), so a long or a short name lands on the same corner on every click. */
+    function dockTL(){
+      var V = view(), w = Math.min(DOCKW, V.r - V.l), h = headH(), O = rects(), x, y;
+      for (y = V.t; y <= V.b - h; y += 6){
+        for (x = V.l; x <= Math.min(V.l + 240, V.r - w); x += 12){
+          var r = {l:x, t:y, r:x + w, b:y + h}, ok = true;
+          for (var i = 0; i < O.length && ok; i++) if (hit(r, O[i], 4)) ok = false;
+          if (ok) return {x:x, y:y};
+        }
+      }
+      return {x:V.l, y:V.t};
+    }
+    /* "Beside the clicked point" -- the Q321 rule: the free margin on the side of the model nearest the click, level with it;
+       if that side has no room the other side, then above and below the model; if the model fills the view (phone, zoomed
+       in), the edge of the canvas farthest from the click. It never covers the clicked point nor the fixed controls. */
+    function besidePoint(){
+      var V = view(), w = card.offsetWidth, h = open1 ? headH() : card.offsetHeight, B = E.screenBox ? E.screenBox() : null, O = rects(), P0 = {l:px, t:py, r:px, b:py};
+      function fits(x, y){ var r = {l:x, t:y, r:x + w, b:y + h}; if (r.l < V.l || r.t < V.t || r.r > V.r || r.b > V.b) return false; if (hit(r, P0, 10)) return false; if (B && hit(r, B, 2)) return false; for (var i = 0; i < O.length; i++) if (hit(r, O[i], 4)) return false; return true; }
       function slide(x, y0){ var ys = [y0], k; for (k = 1; k < 40; k++){ ys.push(y0 - k * 24, y0 + k * 24); } for (var i = 0; i < ys.length; i++){ var y = Math.max(V.t, Math.min(V.b - h, ys[i])); if (fits(x, y)) return {x:x, y:y}; } return null; }
       function slideX(y, x0){ var xs = [x0], k; for (k = 1; k < 40; k++){ xs.push(x0 - k * 24, x0 + k * 24); } for (var i = 0; i < xs.length; i++){ var x = Math.max(V.l, Math.min(V.r - w, xs[i])); if (fits(x, y)) return {x:x, y:y}; } return null; }
       var pos = null, y0 = py - h / 2;
@@ -8256,50 +8742,124 @@ var NMSKQuickCard = (function(){
       }
       if (!pos){            // no free margin: the canvas edge farthest from the click
         var cand = [{x:V.l, y:V.t}, {x:V.r - w, y:V.t}, {x:V.l, y:V.b - h}, {x:V.r - w, y:V.b - h}, {x:(V.l + V.r - w) / 2, y:V.t}, {x:(V.l + V.r - w) / 2, y:V.b - h}];
-        /* phone: the top bar and the bottom title/foot fill the canvas edges, so also try just below everything that hangs from
-           the top and just above everything that stands on the bottom */
         var topB = V.t, botT = V.b, mY = (V.t + V.b) / 2;
         O.forEach(function(o){ if (o.b < mY) topB = Math.max(topB, o.b + 4); else if (o.t > mY) botT = Math.min(botT, o.t - 4); });
         [V.l, V.r - w, (V.l + V.r - w) / 2].forEach(function(x){ cand.push({x:x, y:topB}); cand.push({x:x, y:botT - h}); });
         cand.sort(function(a, b){ return Math.hypot(b.x + w / 2 - px, b.y + h / 2 - py) - Math.hypot(a.x + w / 2 - px, a.y + h / 2 - py); });
-        for (var k2 = 0; k2 < cand.length && !pos; k2++){ var r = {l:cand[k2].x, t:cand[k2].y, r:cand[k2].x + w, b:cand[k2].y + h}; if (!hit(r, P, 10)){ var clear = true; for (var q = 0; q < O.length; q++) if (hit(r, O[q], 4)) clear = false; if (clear) pos = cand[k2]; } }
-        if (!pos){ for (var k3 = 0; k3 < cand.length && !pos; k3++){ var r3 = {l:cand[k3].x, t:cand[k3].y, r:cand[k3].x + w, b:cand[k3].y + h}; if (!hit(r3, P, 10)) pos = cand[k3]; } }
+        for (var k2 = 0; k2 < cand.length && !pos; k2++){ var r = {l:cand[k2].x, t:cand[k2].y, r:cand[k2].x + w, b:cand[k2].y + h}; if (!hit(r, P0, 10)){ var clear = true; for (var q = 0; q < O.length; q++) if (hit(r, O[q], 4)) clear = false; if (clear) pos = cand[k2]; } }
+        if (!pos){ for (var k3 = 0; k3 < cand.length && !pos; k3++){ var r3 = {l:cand[k3].x, t:cand[k3].y, r:cand[k3].x + w, b:cand[k3].y + h}; if (!hit(r3, P0, 10)) pos = cand[k3]; } }
         if (!pos) pos = cand[0];
       }
+      return pos;
+    }
+    function place(){
+      if (!card || card.hidden) return null;
+      var pos = (P.pos === "point" && px != null) ? besidePoint() : dockTL();
       card.style.left = Math.round(pos.x) + "px"; card.style.top = Math.round(pos.y) + "px";
-      /* the leader: from the card's nearest edge point to the clicked point */
-      var ax = Math.max(pos.x, Math.min(px, pos.x + w)), ay = Math.max(pos.y, Math.min(py, pos.y + h));
+      var Mv = M(); if (Mv && QB){ Mv.apply("qcard"); if (Mv.refresh) Mv.refresh(); }
+      fit();
+      leader();
+      var r = card.getBoundingClientRect();
+      return {x:r.left, y:r.top, w:r.width, h:r.height};
+    }
+    /* the details scroll inside the card, which never runs past the bottom of the view */
+    function fit(){
+      if (!open1 || !detEl) return;
+      var t = detEl.getBoundingClientRect().top;
+      /* at most half the view, so an open window still has room to be moved down */
+      detEl.style.maxHeight = Math.max(120, Math.round(Math.min(window.innerHeight - t - 12, window.innerHeight * 0.5))) + "px";
+    }
+    /* THE LINE. The selection tint already says which structure the card is about, so in "auto" there is no line while the
+       structure is drawn in it; when a line is drawn it is a SHORT marker at the clicked point (at most STUB px, pointing
+       towards the card), never a stroke across the model. A drag of the model makes the point stale: the marker goes. */
+    function leader(){
+      if (!lead) return;
+      var want = !!cur && px != null && !stale && P.lead !== "never" && (P.lead === "always" || !(E.marked && E.marked(cur)));
+      if (!want || card.hidden){ lead.hidden = true; return; }
+      var r = card.getBoundingClientRect();
+      var ax = Math.max(r.left, Math.min(px, r.right)), ay = Math.max(r.top, Math.min(py, r.bottom));
+      var dx = ax - px, dy = ay - py, L = Math.hypot(dx, dy), k = L > STUB ? STUB / L : 1;
       var ln = lead.querySelector("line"), dt = lead.querySelector("circle");
-      ln.setAttribute("x1", ax); ln.setAttribute("y1", ay); ln.setAttribute("x2", px); ln.setAttribute("y2", py); dt.setAttribute("cx", px); dt.setAttribute("cy", py);
+      ln.setAttribute("x1", px + dx * k); ln.setAttribute("y1", py + dy * k); ln.setAttribute("x2", px); ln.setAttribute("y2", py);
+      dt.setAttribute("cx", px); dt.setAttribute("cy", py);
       lead.hidden = false;
-      return {x:pos.x, y:pos.y, w:w, h:h};
+    }
+    /* ---- More / Less: the details open IN this window. The engine's own full card is taken into the card's details slot
+       (and given back on Less / close), so position, grip, ⋮ and drag are the one window's. ---- */
+    function details(){ return (E.details ? E.details() : null) || document.getElementById("info"); }
+    function more(id){
+      var inf = details();
+      E.more(id);
+      if (inf && inf.parentNode !== detEl){ home = {p:inf.parentNode, n:inf.nextSibling}; detEl.appendChild(inf); }
+      open1 = true; card.classList.add("qc-open"); document.body.classList.add("qc-more");
+      btns.more.textContent = "Less"; btns.more.setAttribute("aria-expanded", "true");
+      fit(); leader();
+    }
+    function less(){
+      var inf = details();
+      if (inf && home && inf.parentNode === detEl){ try { home.p.insertBefore(inf, home.n && home.n.parentNode === home.p ? home.n : null); } catch (err){ home.p.appendChild(inf); } }
+      home = null; open1 = false;
+      if (card){ card.classList.remove("qc-open"); detEl.style.maxHeight = ""; }
+      document.body.classList.remove("qc-more");
+      if (btns.more){ btns.more.textContent = "More…"; btns.more.setAttribute("aria-expanded", "false"); }
+    }
+    /* ---- the groups / adjacent / related row: under the name (in this card) or at the bottom of the screen ---- */
+    window.NMSKQ8Host = function(){
+      if (P.chips === "bottom") return "bottom";
+      return card && !card.hidden && cur ? chipsEl : null;
+    };
+    function rehome(){ try { if (window.NMSKQ298 && NMSKQ298.refresh) NMSKQ298.refresh(); } catch (err){} }
+    function show(id){
+      var inf = E.info(id); if (!inf){ close(); return false; }
+      cur = id;
+      card.querySelector(".qc-name").textContent = inf.name; card.querySelector(".qc-sub").textContent = inf.sub || "";
+      if (card.hidden){ card.hidden = false; card.style.left = "0px"; card.style.top = "0px"; }
+      refresh();
+      return true;
     }
     function open(id, cx, cy){
       if (!card) build();
-      document.body.classList.add("qc-on"); document.body.classList.remove("qc-more");
+      register();
+      document.body.classList.add("qc-on");
       if (!id){ close(); return; }
-      var inf = E.info(id); if (!inf){ close(); return; }
-      cur = id; px = cx; py = cy;
-      card.querySelector(".qc-name").textContent = inf.name; card.querySelector(".qc-sub").textContent = inf.sub || "";
-      card.hidden = false; card.style.left = "0px"; card.style.top = "0px"; refresh(); place();
+      px = cx; py = cy; stale = false; relClose(false);
+      if (!show(id)) return;
+      rehome(); place();          /* the row comes in first, so the card is placed at its real height */
     }
-    function close(keepInfo){
+    function close(){
+      relClose(false); less();
       cur = null; if (card) card.hidden = true; if (lead) lead.hidden = true;
-      if (!keepInfo) document.body.classList.remove("qc-more"); else document.body.classList.add("qc-more");
+      rehome();
     }
-    function sync(id){ if (card && !card.hidden && id !== cur) close(); if (!id) document.body.classList.remove("qc-more"); }
+    /* the engine's select(): the docked card stays and follows the selection; "beside the point" closes as before */
+    function sync(id){
+      if (!card || card.hidden){ if (!id) less(); return; }
+      if (!id){ close(); return; }
+      if (id === cur) return;
+      if (P.pos === "point"){ close(); return; }
+      relClose(false); px = null; show(id); rehome(); place();
+    }
     if (E.canvas){
-      E.canvas.addEventListener("pointerdown", function(){ if (card && !card.hidden) close(); }, true);   // a drag or pinch moves the model: the anchor would be stale
-      E.canvas.addEventListener("wheel", function(){ if (card && !card.hidden) close(); }, {passive:true});
+      /* a drag or pinch moves the model: beside the point the anchor would be stale, so the card goes; docked it stays,
+         and only the marker at the old point goes */
+      E.canvas.addEventListener("pointerdown", function(){ if (!card || card.hidden) return; if (P.pos === "point") close(); else { stale = true; leader(); } }, true);
+      E.canvas.addEventListener("wheel", function(){ if (!card || card.hidden) return; if (P.pos === "point") close(); else { stale = true; leader(); } }, {passive:true});
     }
-    window.addEventListener("resize", function(){ if (card && !card.hidden) close(); });
+    window.addEventListener("resize", function(){ if (!card || card.hidden) return; if (P.pos === "point") close(); else { stale = true; place(); } });
     try { if (window.NMSKHistory && NMSKHistory.onChange) NMSKHistory.onChange(function(){ refresh(); }); } catch (err){}
-    var api = {open:open, close:close, sync:sync, refresh:refresh, box:function(){ return E.screenBox ? E.screenBox() : null; }, current:function(){ return card && !card.hidden ? cur : null; },
+    var api = {open:open, close:close, sync:sync, refresh:refresh, place:place, box:function(){ return E.screenBox ? E.screenBox() : null; },
+               current:function(){ return card && !card.hidden ? cur : null; },
+               expanded:function(){ return open1; }, more:function(){ if (cur && !open1) more(cur); return open1; }, less:less,
+               prefs:function(){ return JSON.parse(JSON.stringify(P)); },
+               set:function(k, v){ if (k === "show" || k === "compact"){ if (k === "compact"){ P.compact = !!v; } else { P.show = v; } save(); dress(); place(); } else set(k, v); return api.prefs(); },
+               lead:function(){ if (!lead || lead.hidden) return null; var n = lead.querySelector("line"); var a = ["x1", "y1", "x2", "y2"].map(function(k){ return +n.getAttribute(k); });
+                 return {x1:a[0], y1:a[1], x2:a[2], y2:a[3], len:Math.hypot(a[2] - a[0], a[3] - a[1])}; },
+               relOpen:function(){ return relOpen(); }, relClose:relClose, relMenu:function(){ return relEl; },
                rect:function(){ if (!card || card.hidden) return null; var r = card.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom, w:r.width, h:r.height}; }};
     live = api;
     return api;
   }
-  return {start:start};
+  return {start:start, family:family, families:function(){ return FAM.map(function(f){ return f.key; }); }};
 })();
 </script>
 <!-- Q321 html end -->
@@ -8774,25 +9334,45 @@ var NMSKInnervation = (function(){
 .q8-bar .q8-b,.q8-bar .q8-g{font:inherit;font-size:12px;line-height:1.1;min-height:30px;padding:5px 8px;border-radius:7px;
   border:1px solid var(--line,#38404c);background:var(--panel-2,#1b2026);color:var(--ink,#e8edf4);cursor:pointer}
 .q8-bar .q8-b[aria-pressed="true"],.q8-bar .q8-g[aria-pressed="true"]{background:#ffb000;border-color:#ffb000;color:#17191d;font-weight:600}
-.q8-bar .q8-b:disabled{opacity:.42;cursor:default}
+.q8-bar .q8-b:disabled{opacity:.62;cursor:default}
 .q8-bar .q8-g{border-style:dashed}
 .q8-n{font-size:11px;opacity:.72;font-variant-numeric:tabular-nums}
 .q8-inf{font-size:10px;padding:0 4px;border-radius:5px;background:#5a4a12;color:#ffd978;text-transform:uppercase;letter-spacing:.03em}
 .q8-why{font-size:11px;opacity:.8;color:#ffb000}
 .q8-menu{display:flex;flex-wrap:wrap;gap:4px;padding:5px;border:1px solid var(--line,#38404c);border-radius:8px;
   background:var(--panel,#13171c)}
+.q8-menu[hidden]{display:none}           /* Q335: an empty, hidden menu drew an empty box (its display:flex beat [hidden]) */
 .q8-mh{flex:1 0 100%;margin:0 0 2px;font-size:11px;opacity:.8}
 .q8-note{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.9;border-left:2px solid #ffb000;padding-left:6px}
 .q8-status{margin:2px 0 0;font-size:11px;line-height:1.35;opacity:.8;min-height:1em}
 @media (max-width:420px){.q8-bar .q8-b,.q8-bar .q8-g{font-size:11px;padding:5px 6px}}
 /* the floating strip the expansion row moves to when the panel that holds the search box is off screen (phones) */
-.q8-float{position:fixed;left:8px;right:8px;bottom:calc(68px + env(safe-area-inset-bottom,0px));z-index:45;
+/* Q335: as wide as what it holds (owner: "no reason for it to take more room than the buttons on it, and certainly not a
+   whole row"), centred at the very bottom; the left padding is the room for its move handle and its three-dots button.
+   The status line and a menu never widen it: they wrap inside the width the row of buttons gives. */
+.q8-float{position:fixed;left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:calc(100vw - 16px);box-sizing:border-box;
+  bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:45;align-items:flex-start;
   display:flex;flex-direction:column;gap:4px;max-height:46vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding:6px 8px;border:1px solid var(--line,#38404c);border-radius:10px;
+  padding:6px 8px 6px 56px;border:1px solid var(--line,#38404c);border-radius:10px;
   background:var(--panel,#13171c);box-shadow:0 8px 26px rgba(0,0,0,.35)}
 .q8-float[hidden]{display:none}
 .q8-float .q8-row{flex-wrap:wrap}
-.q8-float .q8-b{min-height:36px;font-size:12.5px}
+.q8-float .q8-status,.q8-float .q8-menu{width:0;min-width:100%;box-sizing:border-box}
+.q8-float .q8-status:empty{display:none}
+@media (pointer:coarse){.q8-float{padding-left:68px}}
+@media (max-width:560px){.q8-float{bottom:calc(68px + env(safe-area-inset-bottom,0px))}}
+/* Q335: the strip's chips carry their own colours (they rendered as white boxes with near-invisible text on a phone, being
+   outside .q8-bar's rules); every state keeps a readable contrast */
+.q8-float .q8-b{min-height:36px;padding:5px 9px;border-radius:7px;border:1px solid #4a5563;background:#1b2026;color:#e8edf4;
+  font:inherit;font-size:12.5px;line-height:1.1;cursor:pointer;white-space:nowrap}
+.q8-float .q8-b:hover{background:#262d36}
+.q8-float .q8-b:disabled{background:#161a1f;color:#a3adba;border-style:dashed;cursor:default}
+.q8-float .q8-b[aria-pressed="true"]{background:#ffb000;border-color:#ffb000;color:#17191d}
+.q8-float{color:#e8edf4;background:#13171c}
+.q8-i{display:inline-flex;align-items:center;justify-content:center;min-width:22px;min-height:22px;padding:0 3px;margin:0;border:0;border-radius:6px;
+  background:rgba(255,255,255,.1);color:inherit;font:inherit;font-size:13px;line-height:1;cursor:pointer;vertical-align:middle}
+.q8-more{display:block;margin-top:3px;opacity:.85}
+.q8-more[hidden]{display:none}
 
 /* touch: every control in the bar is at least 38 px tall, and the expansion row is separated from the structure list
    below it, so a tap meant for "Adjacent" cannot land on the first row of the list */
@@ -9161,22 +9741,37 @@ function NMSKQ298Bar(E, D, H){
     var w = window.innerWidth || 0, h = window.innerHeight || 0;
     return r.bottom <= 8 || r.top >= h - 8 || r.right <= 8 || r.left >= w - 8;
   }
+  /* Q335, owner: "the assignment to functional groups / adjacent / related can open either next to the organ's name or at
+     the very bottom of the screen ... no more room than the buttons on it, and certainly not a whole row." Where it opens
+     is asked of a neutral hook, window.NMSKQ8Host(): an element (the name card's own slot), "bottom" (the strip at the
+     bottom of the screen) or nothing (the old rule: under the search box when that is on screen, else the strip). */
+  function host(){
+    var h = null;
+    try { h = typeof window.NMSKQ8Host === "function" ? window.NMSKQ8Host() : null; } catch (err){ h = null; }
+    return h;
+  }
   function reparent(){
-    var eb = $("q8-exp"), mn = $("q8-menu"), st = $("q8-status"), to = hidden() ? floatBox : root;
+    var dock = hidden() ? floatBox : root, h = host();
+    if (h === "bottom") dock = floatBox;
+    var eb = $("q8-exp"), mn = $("q8-menu"), st = $("q8-status"), to = (h && h.appendChild) ? h : dock;
     if (eb && mn && st && eb.parentNode !== to){ to.appendChild(eb); to.appendChild(mn); to.appendChild(st); }
     /* Q306's lines go with them, and for the same reason: on a phone both engines close the panel that
        holds the search box, so a concept card left in `root` would sit inside a hidden panel exactly when
        the user wants it -- which is the trap Q298 recorded for its own expansion row, and which Q306's
        first browser run fell into (the card's button was never visible and the press timed out). */
     var q6 = $("q8-q306");
-    if (q6 && !q6.hidden && q6.parentNode !== to) to.insertBefore(q6, eb && eb.parentNode === to ? eb : null);
-    floatBox.hidden = to !== floatBox || ((!eb || eb.hidden) && (!q6 || q6.hidden));
+    if (q6 && !q6.hidden && q6.parentNode !== dock) dock.insertBefore(q6, eb && eb.parentNode === dock ? eb : null);
+    floatBox.hidden = dock !== floatBox || ((!eb || eb.hidden || eb.parentNode !== floatBox) && (!q6 || q6.hidden || q6.parentNode !== floatBox));
     /* Q306 reserves the strip's height in the scrolling panel, and the height is only knowable once the
        strip holds what it is going to hold -- so it is measured here, after the move, not in render(). */
     if (window.NMSKQ306 && NMSKQ306.band) NMSKQ306.band();
   }
+  var lastSel = null;
   function selRow(){
     var eb = $("q8-exp"), id = E.selected();
+    /* Q335, owner: "after another structure is selected the box still shows the previous structure's explanation" -- a
+       new selection clears the line and the open menu, which were about the old one */
+    if (id !== lastSel){ lastSel = id; closeMenu(); var st0 = $("q8-status"); if (st0) st0.textContent = ""; }
     if (!id || !EXP){ eb.hidden = true; reparent(); closeMenu(); return; }
     var c = EXP.counts(id);
     eb.hidden = false;
@@ -9222,9 +9817,9 @@ function NMSKMulti(E, BAR, H){
     var s = sel();
     if (!s){ say("The marked-structures panel is not available on this page."); return 0; }
     var n = s.markIds(ids, true, false, true);
-    say(n + (n === 1 ? " structure" : " structures") + " added from " + what + " — " + ids.length +
-        " offered, " + n + " newly marked. One undo step (Ctrl/Cmd+Z)." +
-        (src ? " Source: " + src + "." : "") + (inferred ? " INFERRED: " + (why || "a rule of this project, not a cited list.") : ""));
+    say(n + (n === 1 ? " structure" : " structures") + " marked from " + what,
+        ids.length + " offered, " + n + " newly marked. One undo step (Ctrl/Cmd+Z)." +
+        (src ? " Source: " + src + "." : "") + (inferred ? " Inferred: " + (why || "a rule of this project, not a cited list.") : ""));
     E.rerender();
     return n;
   }
@@ -9405,8 +10000,8 @@ function NMSKExpand(E, BAR, D, H){
       var s = E.sel();
       var n = s ? s.markIds(ids, true, false, true) : 0;
       E.rerender();
-      say(ids.length + " structures neighbour " + nameOf(id) + " on this page's own geometry (" + n + " newly marked, " +
-          "one undo step). MEASURED, not an anatomical claim: " + (D.adj ? D.adj.how : "") );
+      say(ids.length + " adjacent structures marked" + (D.adj && D.adj.th ? " · within " + (+D.adj.th).toFixed(1) + " mm" : ""),
+          "Measured on this page's own geometry, not an anatomical claim (" + n + " newly marked, one undo step). " + (D.adj ? D.adj.how : ""));
       return;
     }
     if (which === "rel"){
@@ -9433,11 +10028,11 @@ function NMSKExpand(E, BAR, D, H){
             var s2 = E.sel();
             var n2 = s2 ? s2.markIds(list, true, false, true) : 0;
             E.rerender();
-            say(list.length + " related to " + nameOf(id) + (k === "*" ? "" : " (" + (K.label || k) + ")") +
-                " offered, " + n2 + " newly marked, one undo step." +
+            say(list.length + " related structures marked" + (k === "*" ? "" : " · " + (K.label || k)),
+                n2 + " newly marked, one undo step." +
                 (k === "*" ? " Mixed sources — open the menu again to see each kind's own source."
                            : (K.src ? " Source: " + K.src + "." : "")) +
-                (k !== "*" && K.inferred ? " INFERRED: " + K.why : ""));
+                (k !== "*" && K.inferred ? " Inferred: " + K.why : ""));
           });
         });
       });
@@ -9462,8 +10057,8 @@ function NMSKExpand(E, BAR, D, H){
     var s = E.sel();
     var n = s ? s.markIds(g.ids, true, false, true) : 0;
     E.rerender();
-    say(g.ids.length + " in the functional group “" + g.name + "” of " + nameOf(id) + " (" + n +
-        " newly marked, one undo step). " + (g.inferred ? "INFERRED: " + g.why : g.why) + (g.src ? " Source: " + g.src + "." : ""));
+    say(g.ids.length + " marked · functional group “" + g.name + "”",
+        n + " newly marked, one undo step. " + (g.inferred ? "Inferred: " + g.why : (g.why || "")) + (g.src ? " Source: " + g.src + "." : ""));
   }
 
   return {run:run, counts:counts, nameOf:nameOf,
@@ -9538,7 +10133,23 @@ var NMSKQ298 = (function(){
            (w.amb ? " — this abbreviation has more than one accepted expansion; all of them are offered." : "");
   }
 
-  function say(m){ var e = $("q8-status"); if (e) e.textContent = m || ""; }
+  /* Q335, owner: the status line printed the method ("surface samples at <= 1.0 mm ... scripts/...py"). It now says ONE
+     short user line; the method, the source and any "inferred" note sit behind an (i) that opens them on request, and a
+     script path never reaches the user. */
+  function plain(t){ return String(t || "").replace(/\s*(?:by|in|from)?\s*scripts\/\S+/g, "").replace(/\s{2,}/g, " ").trim(); }
+  function say(m, more){
+    var e = $("q8-status"); if (!e) return;
+    e.textContent = m || "";
+    more = plain(more);
+    if (m && more){
+      var b = document.createElement("button"), d = document.createElement("span");
+      b.type = "button"; b.className = "q8-i"; b.textContent = "\u24d8"; b.setAttribute("aria-expanded", "false");
+      b.setAttribute("aria-label", "How this was found"); b.title = "How this was found";
+      d.className = "q8-more"; d.hidden = true; d.textContent = more;
+      b.addEventListener("click", function(ev){ ev.stopPropagation(); d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden)); });
+      e.appendChild(document.createTextNode(" ")); e.appendChild(b); e.appendChild(d);
+    }
+  }
 
   function start(cfg){
     if (started) return;
@@ -9563,6 +10174,9 @@ var NMSKQ298 = (function(){
 
   return {start:start, ready:ready, filter:filter, result:result, whySuffix:whySuffix, afterList:afterList,
           data:data, say:say,
+          refresh:function(){ if (bar) bar.refresh(); },      /* Q335: the name card asks the expansion row to re-home at once */
+          run:function(which){ if (expand) expand.run(which); },                                 /* Q335: the card's "Related structures" menu */
+          counts:function(id){ return expand && id ? expand.counts(id) : null; },
           core:function(){ return IX; },
           state:function(){
             var d = data(), sc = E && E.sel ? E.sel() : null, ms = null;
@@ -9759,6 +10373,360 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
 
     boot("Uploading to GPU…", 0.72); await nf();
+    /* Q334 weld begin */
+    /* Q334: NO IMAGINARY LINES BETWEEN THE PIECES OF ONE CONTINUOUS STRUCTURE. The skin comes as ~250 region meshes, each
+       a closed slab ~2.7 mm thick (outer surface, inner surface and a side WALL along its border). Two neighbouring regions
+       share their outer border vertices exactly, and their walls lie face to face inside the skin. Two things drew a line
+       there that is not anatomy: (1) each mesh's vertex normals were averaged over its own faces only, and at the border
+       those include the wall, which stands at ~90 degrees to the surface -- the normal bends ~45 degrees and the shading
+       breaks along every border; (2) the two walls are drawn too, and with the skin translucent (0.3 by default) every
+       border collects extra layers of colour. Fix, at load, per class: the vertices are welded across the pieces of the
+       class (positions within WELD_MM), a seam vertex takes the normal of its dominant smooth group of faces over ALL
+       pieces (the wall is not part of it), and a wall face that lies face to face with the neighbour's wall is drawn only
+       while that neighbour is not drawn (hidden, off, cut away) -- then the region's real boundary shows. Picking, the ID
+       and depth passes, the cut face and the pose use the surface as before; the pose takes the welded rest geometry. */
+    /* Which pieces are ONE continuous structure (a key per piece; only pieces with the same key are joined): the skin regions
+       (not the nail plate, which meets the skin at a real boundary), the cerebral and cerebellar cortex cut into gyri, sulci
+       and lobules (closed slabs ~2.4 mm thick, built like the skin), and a fascia's own left and right halves (same name).
+       Everything else stays as it is: the other shared borders on these pages are between different structures. */
+    var Q334_CORTEX = /gyr|sulc|lobul|pole|cune|operc|insula|uncus/i;
+    var Q334_GROUPS = {
+      skin:function(o){ return /^nail plate/i.test(o.name || "") ? null : "skin"; },
+      cns:function(o){ return Q334_CORTEX.test(o.name || "") ? "cortex" : null; },
+      fascia:function(o){ return o.name || null; }
+    };
+    /* the cortex is drawn opaque (and fascia sheets have no walls): normals and walls only there, no crack closing */
+    var Q334_LIGHT = {cns:1, fascia:1};
+    var Q334_WELD = 0.03, Q334_COS = 0.6, Q334_WALL = 1.5, Q334_SNAP = 1.5, Q334_TJ = 0.8, Q334_RIM = 1.0, q334W = {}, q334Stat = {ms:0, cls:{}};
+    (function(){
+      var t0 = performance.now();
+      Object.keys(Q334_GROUPS).forEach(function(cls){
+        var GR = {};
+        OBJ.forEach(function(o){ if (o.layer !== cls || !o.idx || !o.idx.length) return; var g = Q334_GROUPS[cls](o); if (g != null) (GR[g] || (GR[g] = [])).push(o); });
+        Object.keys(GR).forEach(function(gk){ var L = GR[gk]; if (L.length >= 2) q334Group(cls, L); });
+      });
+      q334Stat.ms = Math.round((performance.now() - t0) * 10) / 10;
+    })();
+    function q334Group(cls, L){
+      {
+        var N = 0, FN = 0, base = [], fbase = [];
+        L.forEach(function(o){ base.push(N); fbase.push(FN); N += o.vc; FN += o.idx.length / 3; });
+        var P = new Float32Array(N * 3), OW = new Int32Array(N), par = new Int32Array(N), i, j, k, m;
+        L.forEach(function(o, mi){ P.set(o.pos, base[mi] * 3); for (var v = 0; v < o.vc; v++) OW[base[mi] + v] = mi; });
+        for (i = 0; i < N; i++) par[i] = i;
+        function root(a){ while (par[a] !== a){ par[a] = par[par[a]]; a = par[a]; } return a; }
+        /* 1. weld across pieces: every vertex against the vertices of other pieces within WELD_MM (a sweep along x) */
+        var seamPairs = 0, tol2 = Q334_WELD * Q334_WELD, all = new Int32Array(N);
+        for (i = 0; i < N; i++) all[i] = i;
+        q334Sweep(P, all, Q334_WELD, function(a, b){
+          if (OW[a] === OW[b]) return;
+          var ex = P[3*a] - P[3*b], ey = P[3*a+1] - P[3*b+1], ez = P[3*a+2] - P[3*b+2];
+          if (ex*ex + ey*ey + ez*ez <= tol2){ var ra = root(a), rb = root(b); if (ra !== rb) par[ra] = rb; seamPairs++; }
+        });
+        all = null;
+        var O = 32768, S = 65536;
+        function key(a, b, c){ return (a + O) + S * ((b + O) + S * (c + O)); }
+        var R = new Int32Array(N), seam = new Uint8Array(N);
+        for (i = 0; i < N; i++) R[i] = root(i);
+        var firstOw = new Int32Array(N).fill(-1);
+        for (i = 0; i < N; i++){ var r0 = R[i]; if (firstOw[r0] < 0) firstOw[r0] = OW[i]; else if (firstOw[r0] !== OW[i]) seam[r0] = 1; }
+        /* 2. face normals (area weighted, from the welded positions P) and the faces round every seam vertex (CSR over the roots) */
+        var FA = new Float32Array(FN * 3), FU = new Float32Array(FN * 3), FV = new Int32Array(FN * 3), FO = new Int32Array(FN);
+        L.forEach(function(o, mi){
+          var ix = o.idx, b = base[mi], fb = fbase[mi];
+          for (var t = 0; t < ix.length / 3; t++){ var f = fb + t; FV[3*f] = b + ix[3*t]; FV[3*f+1] = b + ix[3*t+1]; FV[3*f+2] = b + ix[3*t+2]; FO[f] = mi; }
+        });
+        var cnt, INC, GN = new Float32Array(N * 3), GOK = new Uint8Array(N), FL = null, FAR = new Float32Array(FN);      // FL: the faces near a border (all of them until 1b)
+        function faceNormals(){
+          for (var q = 0, nq = FL ? FL.length : FN; q < nq; q++){ var f = FL ? FL[q] : q;
+            var a = 3*FV[3*f], bb = 3*FV[3*f+1], cc = 3*FV[3*f+2];
+            var e1x = P[bb] - P[a], e1y = P[bb+1] - P[a+1], e1z = P[bb+2] - P[a+2], e2x = P[cc] - P[a], e2y = P[cc+1] - P[a+1], e2z = P[cc+2] - P[a+2];
+            var nx = e1y*e2z - e1z*e2y, ny = e1z*e2x - e1x*e2z, nz = e1x*e2y - e1y*e2x, l = Math.hypot(nx, ny, nz) || 1;
+            FA[3*f] = nx; FA[3*f+1] = ny; FA[3*f+2] = nz; FAR[f] = l; FU[3*f] = nx / l; FU[3*f+1] = ny / l; FU[3*f+2] = nz / l;
+          }
+        }
+        function incidence(){
+          var i;
+          cnt = new Int32Array(N + 1);
+          var nq = FL ? FL.length : FN, q, c3;
+          for (q = 0; q < nq; q++) for (c3 = 0; c3 < 3; c3++){ i = 3 * (FL ? FL[q] : q) + c3; if (seam[R[FV[i]]]) cnt[R[FV[i]] + 1]++; }
+          for (i = 0; i < N; i++) cnt[i + 1] += cnt[i];
+          var fill = cnt.slice(0, N); INC = new Int32Array(cnt[N]);
+          for (q = 0; q < nq; q++) for (c3 = 0; c3 < 3; c3++){ i = 3 * (FL ? FL[q] : q) + c3; var rr = R[FV[i]]; if (seam[rr]) INC[fill[rr]++] = (i / 3) | 0; }
+        }
+        /* 3. a seam vertex's normal: the dominant smooth group of the faces round it, over all pieces (orientation-free:
+              the shader lights both faces, so a piece wound the other way still agrees once its sign is matched) */
+        function seamNormals(){
+          for (var i = 0; i < N; i++){
+            GOK[i] = 0;
+            if (!seam[i] || R[i] !== i) continue;
+            var s0 = cnt[i], s1 = cnt[i + 1], best = -1, bs = -1, a1, a2;
+            for (a1 = s0; a1 < s1; a1++){
+              var f1 = INC[a1], sc = 0;
+              for (a2 = s0; a2 < s1; a2++){ var f2 = INC[a2], d = FU[3*f1]*FU[3*f2] + FU[3*f1+1]*FU[3*f2+1] + FU[3*f1+2]*FU[3*f2+2];
+                if (d > Q334_COS || d < -Q334_COS) sc += FAR[f2]; }
+              if (sc > bs){ bs = sc; best = f1; }
+            }
+            var gx = 0, gy = 0, gz = 0;
+            for (a2 = s0; a2 < s1; a2++){ var g = INC[a2], dd = FU[3*best]*FU[3*g] + FU[3*best+1]*FU[3*g+1] + FU[3*best+2]*FU[3*g+2];
+              if (dd > Q334_COS){ gx += FA[3*g]; gy += FA[3*g+1]; gz += FA[3*g+2]; } else if (dd < -Q334_COS){ gx -= FA[3*g]; gy -= FA[3*g+1]; gz -= FA[3*g+2]; } }
+            var gl2 = Math.hypot(gx, gy, gz); if (!(gl2 > 0)) continue;
+            GN[3*i] = gx / gl2; GN[3*i+1] = gy / gl2; GN[3*i+2] = gz / gl2; GOK[i] = 1;
+          }
+        }
+        faceNormals();
+        /* 1b. borders cut at different vertices: pieces re-meshed on their own (the deformed female trunk) meet their
+               neighbour 0.03-1 mm apart, not vertex for vertex. A RIM vertex (where the piece's own surface turns into its
+               wall: an incident face more than ~45 degrees off the vertex normal) is joined to the mutually nearest rim
+               vertex of another piece within RIM_MM, and never by more than a third of its shortest edge. */
+        var rim = new Uint8Array(N), MEr = new Float64Array(N).fill(1e9), ONr = new Float32Array(N * 3), nRim = 0;
+        L.forEach(function(o, mi){ ONr.set(o.nrm, base[mi] * 3); });
+        for (var fr = 0; fr < FN; fr++) for (k = 0; k < 3; k++){
+          var vr0 = FV[3*fr+k], vr1 = FV[3*fr+(k+1)%3];
+          if (FU[3*fr]*ONr[3*vr0] + FU[3*fr+1]*ONr[3*vr0+1] + FU[3*fr+2]*ONr[3*vr0+2] < 0.7) rim[vr0] = 1;
+          var le = Math.hypot(P[3*vr0] - P[3*vr1], P[3*vr0+1] - P[3*vr1+1], P[3*vr0+2] - P[3*vr1+2]); if (le < MEr[vr0]) MEr[vr0] = le; if (le < MEr[vr1]) MEr[vr1] = le;
+        }
+        var RL = []; if (!Q334_LIGHT[cls]) for (i = 0; i < N; i++) if (rim[i] && !seam[R[i]]) RL.push(i);
+        if (RL.length){
+          RL = Int32Array.from(RL);
+          var rb2 = Q334_RIM * Q334_RIM, NBr = new Int32Array(N).fill(-1), BDr = new Float64Array(N).fill(rb2);
+          q334Sweep(P, RL, Q334_RIM, function(u, v){
+            if (OW[u] === OW[v]) return;
+            var ex = P[3*u] - P[3*v], ey = P[3*u+1] - P[3*v+1], ez = P[3*u+2] - P[3*v+2], dd = ex*ex + ey*ey + ez*ez;
+            if (dd >= rb2 || dd > 0.45 * MEr[u] * MEr[u] || dd > 0.45 * MEr[v] * MEr[v]) return;
+            if (ONr[3*u]*ONr[3*v] + ONr[3*u+1]*ONr[3*v+1] + ONr[3*u+2]*ONr[3*v+2] < 0) return;      // not outer to inner
+            if (dd < BDr[u]){ BDr[u] = dd; NBr[u] = v; }
+            if (dd < BDr[v]){ BDr[v] = dd; NBr[v] = u; }
+          });
+          for (k = 0; k < RL.length; k++){ var ur = RL[k], vrr = NBr[ur]; if (vrr < 0 || NBr[vrr] !== ur || vrr < ur) continue; var ra1 = root(ur), rb1 = root(vrr); if (ra1 !== rb1){ par[ra1] = rb1; nRim++; } }
+          if (nRim){
+            for (i = 0; i < N; i++) R[i] = root(i);
+            firstOw.fill(-1); seam.fill(0);
+            for (i = 0; i < N; i++){ var r3 = R[i]; if (firstOw[r3] < 0) firstOw[r3] = OW[i]; else if (firstOw[r3] !== OW[i]) seam[r3] = 1; }
+            var SXr = new Float64Array(N * 4);
+            for (i = 0; i < N; i++){ var r4 = R[i]; if (!seam[r4]) continue; SXr[4*r4] += P[3*i]; SXr[4*r4+1] += P[3*i+1]; SXr[4*r4+2] += P[3*i+2]; SXr[4*r4+3]++; }
+            for (i = 0; i < N; i++){ var r5 = R[i]; if (!seam[r5]) continue; P[3*i] = SXr[4*r5] / SXr[4*r5+3]; P[3*i+1] = SXr[4*r5+1] / SXr[4*r5+3]; P[3*i+2] = SXr[4*r5+2] / SXr[4*r5+3]; }
+            faceNormals();
+          }
+        }
+        /* from here on only the faces near a border are looked at: those touching a rim or a welded vertex (the rest of a
+           piece -- most of it -- keeps its own normals and is never a wall) */
+        var BFn = 0, BFa = new Int32Array(FN);
+        for (var fb2 = 0; fb2 < FN; fb2++){ var v0 = FV[3*fb2], v1 = FV[3*fb2+1], v2 = FV[3*fb2+2];
+          if (rim[v0] || rim[v1] || rim[v2] || seam[R[v0]] || seam[R[v1]] || seam[R[v2]]) BFa[BFn++] = fb2; }
+        FL = BFa.subarray(0, BFn);
+        rim = MEr = ONr = null;
+        incidence(); seamNormals();
+        var a1;
+        /* 4. walls: a face touching a seam vertex, standing across that vertex's surface normal, with a face of the
+              neighbouring piece parallel to it and within WALL_MM of its centre (the neighbour's wall). A real crease
+              between two pieces has no such twin, so it is never taken for a wall. */
+        var wall = new Int32Array(FN).fill(-1), nWall = 0, nCand = 0, f;
+        function walls(count){      // run again once the borders are closed (4b): a wall at a corner of three pieces finds its twin then
+          for (var q = 0; q < FL.length; q++){ var f = FL[q];
+            if (wall[f] >= 0) continue;
+            var mi0 = FO[f], cxm = 0, cym = 0, czm = 0, cand = false;
+            for (k = 0; k < 3; k++){ var vr = R[FV[3*f+k]]; cxm += P[3*FV[3*f+k]] / 3; cym += P[3*FV[3*f+k]+1] / 3; czm += P[3*FV[3*f+k]+2] / 3;
+              if (seam[vr] && GOK[vr] && Math.abs(FU[3*f]*GN[3*vr] + FU[3*f+1]*GN[3*vr+1] + FU[3*f+2]*GN[3*vr+2]) < 0.5) cand = true; }
+            if (!cand) continue;
+            if (count) nCand++;
+            var bestD = Q334_WALL, nb = -1;
+            for (k = 0; k < 3; k++){
+              var vr2 = R[FV[3*f+k]]; if (!seam[vr2]) continue;
+              for (var a1 = cnt[vr2]; a1 < cnt[vr2 + 1]; a1++){
+                var h = INC[a1]; if (FO[h] === mi0 || wall[h] >= 0 && wall[h] !== mi0) continue;
+                var pd = FU[3*f]*FU[3*h] + FU[3*f+1]*FU[3*h+1] + FU[3*f+2]*FU[3*h+2]; if (pd < 0.6 && pd > -0.6) continue;
+                var dist = q334PtTri(cxm, cym, czm, P, FV[3*h], FV[3*h+1], FV[3*h+2]);
+                if (dist < bestD && (q334In || q334Over(f, h))){ bestD = dist; nb = FO[h]; }      // face to face: over the twin, not beside it
+              }
+            }
+            if (nb >= 0){ wall[f] = nb; nWall++; }
+          }
+        }
+        function q334Over(f, h){      // f and h share an edge and lie on the SAME side of it: they overlap (a twin wall), not continue each other
+          var sa = -1, sb = -1, fo = -1, ho = -1, a, b;
+          for (a = 0; a < 3; a++) for (b = 0; b < 3; b++) if (R[FV[3*f+a]] === R[FV[3*h+b]]){ if (sa < 0) sa = a; else if (sb < 0) sb = a; }
+          if (sb < 0) return false;
+          fo = FV[3*f + (3 - sa - sb)];
+          var e0 = R[FV[3*f+sa]], e1 = R[FV[3*f+sb]];
+          for (b = 0; b < 3; b++){ var rb = R[FV[3*h+b]]; if (rb !== e0 && rb !== e1) ho = FV[3*h+b]; }
+          if (ho < 0) return false;
+          var ex = P[3*e1] - P[3*e0], ey = P[3*e1+1] - P[3*e0+1], ez = P[3*e1+2] - P[3*e0+2], el = ex*ex + ey*ey + ez*ez; if (!(el > 0)) return false;
+          function perp(v){ var wx = P[3*v] - P[3*e0], wy = P[3*v+1] - P[3*e0+1], wz = P[3*v+2] - P[3*e0+2], t = (wx*ex + wy*ey + wz*ez) / el; return [wx - t*ex, wy - t*ey, wz - t*ez]; }
+          var pf = perp(fo), ph = perp(ho);
+          return pf[0]*ph[0] + pf[1]*ph[1] + pf[2]*ph[2] > 0;
+        }
+        walls(true);
+        /* 4b. close the drawn surface. With the walls left out, the border of each piece is an open edge of the drawn surface.
+               Most borders meet the neighbour's vertex for vertex (welded above), but not all: the inner border is cut at
+               other vertices than the neighbour's (the trunk's left and right halves leave up to ~1.2 mm between them), and
+               some outer border vertices miss by tenths of a millimetre or end on the middle of the neighbour's edge -- a
+               crack the background shows through. Every open border vertex is (a) joined to the mutually nearest open border
+               vertex of another piece on the same face of the skin (their normals agree, so never outer to inner, which lie a
+               skin thickness apart) within SNAP_MM, both to their mean; or else (b) moved onto the nearest open edge of
+               another piece within TJ_MM (a T-junction, closed). */
+        var nSnap = 0, nTJ = 0;
+        function openEdges(){      // edges of the drawn (non-wall) faces that no other drawn face shares, as [root a, root b, piece]
+          var KS = new Float64Array(FN * 3), n = 0, f2, k2, ea, eb;
+          for (var q2 = 0; q2 < FL.length; q2++){ f2 = FL[q2]; if (wall[f2] >= 0) continue;
+            for (k2 = 0; k2 < 3; k2++){ ea = R[FV[3*f2+k2]]; eb = R[FV[3*f2+(k2+1)%3]]; if (ea !== eb) KS[n++] = ea < eb ? ea * N + eb : eb * N + ea; } }
+          KS = KS.subarray(0, n).sort();
+          var U = new Set(), RB = new Uint8Array(N);
+          for (var z = 0; z < n; z++) if ((z === 0 || KS[z] !== KS[z-1]) && (z === n - 1 || KS[z] !== KS[z+1])){ U.add(KS[z]); ea = Math.floor(KS[z] / N); RB[ea] = 1; RB[KS[z] - ea * N] = 1; }
+          var out = [];
+          for (var q2 = 0; q2 < FL.length; q2++){ f2 = FL[q2]; if (wall[f2] >= 0) continue;
+            for (k2 = 0; k2 < 3; k2++){ ea = R[FV[3*f2+k2]]; eb = R[FV[3*f2+(k2+1)%3]]; if (ea === eb || !RB[ea] || !RB[eb]) continue;
+              if (U.has(ea < eb ? ea * N + eb : eb * N + ea)) out.push(ea, eb, FO[f2]); } }
+          return out;
+        }
+        function average(){
+          var SX = new Float64Array(N * 4), i2, r2;
+          for (i2 = 0; i2 < N; i2++){ r2 = R[i2]; if (!seam[r2]) continue; SX[4*r2] += P[3*i2]; SX[4*r2+1] += P[3*i2+1]; SX[4*r2+2] += P[3*i2+2]; SX[4*r2+3]++; }
+          for (i2 = 0; i2 < N; i2++){ r2 = R[i2]; if (!seam[r2]) continue; P[3*i2] = SX[4*r2] / SX[4*r2+3]; P[3*i2+1] = SX[4*r2+1] / SX[4*r2+3]; P[3*i2+2] = SX[4*r2+2] / SX[4*r2+3]; }
+        }
+        average();      // the "same" border vertex of two pieces differs by micrometres (each piece quantised over its own box)
+        function closeBorders(){
+        var OE = openEdges(), RN = new Float32Array(N * 3), OWN = new Int32Array(N * 4).fill(-1), isOpen = new Uint8Array(N), OR = [];
+        for (var q3 = 0; q3 < FL.length; q3++){ f = FL[q3]; if (wall[f] >= 0) continue;      // a wall-free normal per border vertex, each piece in its own winding
+          for (k = 0; k < 3; k++){ var rn = R[FV[3*f+k]]; RN[3*rn] += FA[3*f]; RN[3*rn+1] += FA[3*f+1]; RN[3*rn+2] += FA[3*f+2]; } }
+        for (i = 0; i < OE.length; i += 3) for (k = 0; k < 2; k++){      // the pieces whose open edges meet at each open root (up to 4)
+          var ro = OE[i+k], pc = OE[i+2]; if (!isOpen[ro]){ isOpen[ro] = 1; OR.push(ro); }
+          for (var z = 0; z < 4; z++){ if (OWN[4*ro+z] === pc) break; if (OWN[4*ro+z] < 0){ OWN[4*ro+z] = pc; break; } } }
+        function owns(a, pc){ for (var z = 0; z < 4; z++) if (OWN[4*a+z] === pc) return true; return false; }
+        function apart(a, b){ for (var z = 0; z < 4; z++){ var pc = OWN[4*a+z]; if (pc < 0) break; if (owns(b, pc)) return false; } return true; }
+        for (k = 0; k < N; k++){ var lr = Math.hypot(RN[3*k], RN[3*k+1], RN[3*k+2]); if (lr > 0){ RN[3*k] /= lr; RN[3*k+1] /= lr; RN[3*k+2] /= lr; } }
+        function sameFace(a, b){ return (RN[3*a]*RN[3*b] + RN[3*a+1]*RN[3*b+1] + RN[3*a+2]*RN[3*b+2]) > 0.3; }
+        OR = Int32Array.from(OR);
+        /* never move a vertex by more than a third of its shortest drawn edge: a join or a T-junction may close a crack, it
+           must not fold a triangle (the lips, nostrils and ear folds are cut into pieces a millimetre or two across) */
+        var ME = new Float64Array(N).fill(1e9);
+        for (var q4 = 0; q4 < FL.length; q4++){ f = FL[q4]; if (wall[f] >= 0) continue;
+          for (k = 0; k < 3; k++){ var ma = R[FV[3*f+k]], mb = R[FV[3*f+(k+1)%3]]; if (ma === mb) continue;
+            var me = Math.hypot(P[3*ma] - P[3*mb], P[3*ma+1] - P[3*mb+1], P[3*ma+2] - P[3*mb+2]); if (me < ME[ma]) ME[ma] = me; if (me < ME[mb]) ME[mb] = me; } }
+        var s2 = Q334_SNAP * Q334_SNAP, NB = new Int32Array(N).fill(-1), BD = new Float64Array(N).fill(s2), joined = new Uint8Array(N);
+        q334Sweep(P, OR, Q334_SNAP, function(u, v){
+          var ex = P[3*u] - P[3*v], ey = P[3*u+1] - P[3*v+1], ez = P[3*u+2] - P[3*v+2], dd = ex*ex + ey*ey + ez*ez;
+          if (dd >= s2 || (dd >= BD[u] && dd >= BD[v]) || dd > 0.45 * ME[u] * ME[u] || dd > 0.45 * ME[v] * ME[v] || !apart(u, v) || !sameFace(u, v)) return;
+          if (dd < BD[u]){ BD[u] = dd; NB[u] = v; }
+          if (dd < BD[v]){ BD[v] = dd; NB[v] = u; }
+        });
+        for (k = 0; k < OR.length; k++){ var u0 = OR[k], v0 = NB[u0]; if (v0 < 0 || NB[v0] !== u0 || v0 < u0) continue;
+          var ra = root(u0), rb = root(v0); if (ra !== rb){ par[ra] = rb; nSnap++; } joined[u0] = joined[v0] = 1; }
+        for (i = 0; i < N; i++) R[i] = root(i);
+        for (k = 0; k < OR.length; k++) if (joined[OR[k]]) seam[R[OR[k]]] = 1;
+        average();
+        /* (b) T-junctions: an open border vertex still without a partner, onto the nearest open edge of another piece
+               (edges registered in 4 mm cells every 1 mm along them; a vertex looks in the cells within 1 mm of it) */
+        var EH = new Map(), ic = 1 / 4, tj2 = Q334_TJ * Q334_TJ, moved = [];
+        for (i = 0; i < OE.length; i += 3){
+          var e0 = R[OE[i]], e1 = R[OE[i+1]]; if (e0 === e1) continue;
+          var ln = Math.hypot(P[3*e1] - P[3*e0], P[3*e1+1] - P[3*e0+1], P[3*e1+2] - P[3*e0+2]), ns = Math.ceil(ln), lastK = -1;
+          if (ns > 128) continue;
+          for (var sI = 0; sI <= ns; sI++){ var tt = ns ? sI / ns : 0;
+            var kk2 = key(Math.floor((P[3*e0] + tt*(P[3*e1] - P[3*e0])) * ic), Math.floor((P[3*e0+1] + tt*(P[3*e1+1] - P[3*e0+1])) * ic), Math.floor((P[3*e0+2] + tt*(P[3*e1+2] - P[3*e0+2])) * ic));
+            if (kk2 === lastK) continue; lastK = kk2; var a2 = EH.get(kk2); if (a2){ if (a2[a2.length - 1] !== i) a2.push(i); } else EH.set(kk2, [i]); }
+        }
+        for (k = 0; k < OR.length; k++){
+          var u = OR[k]; if (joined[u]) continue;
+          var ru = R[u], px = P[3*ru], py = P[3*ru+1], pz = P[3*ru+2], bd = tj2, bq = null;
+          var x0 = Math.floor((px - 1) * ic), x1 = Math.floor((px + 1) * ic), y0 = Math.floor((py - 1) * ic), y1 = Math.floor((py + 1) * ic), z0 = Math.floor((pz - 1) * ic), z1 = Math.floor((pz + 1) * ic);
+          for (var dx = x0; dx <= x1; dx++) for (var dy = y0; dy <= y1; dy++) for (var dz = z0; dz <= z1; dz++){
+            var c = EH.get(key(dx, dy, dz)); if (!c) continue;
+            for (var q = 0; q < c.length; q++){
+              var e = c[q], a = R[OE[e]], b = R[OE[e+1]]; if (a === ru || b === ru || owns(u, OE[e+2]) || !sameFace(u, OE[e])) continue;
+              var abx = P[3*b] - P[3*a], aby = P[3*b+1] - P[3*a+1], abz = P[3*b+2] - P[3*a+2], ll = abx*abx + aby*aby + abz*abz; if (!(ll > 0)) continue;
+              var t = ((px - P[3*a])*abx + (py - P[3*a+1])*aby + (pz - P[3*a+2])*abz) / ll; if (t <= 0.1 || t >= 0.9) continue;
+              var qx = P[3*a] + t*abx, qy = P[3*a+1] + t*aby, qz = P[3*a+2] + t*abz, dd = (px-qx)*(px-qx) + (py-qy)*(py-qy) + (pz-qz)*(pz-qz);
+              if (dd < bd && dd < 0.1 * ME[ru] * ME[ru] && dd < 0.05 * ll){ bd = dd; bq = [qx, qy, qz]; }
+            }
+          }
+          if (bq) moved.push(ru, bq[0], bq[1], bq[2]);
+        }
+        if (moved.length){
+          var MV = new Float64Array(N * 3), mf = new Uint8Array(N);
+          for (k = 0; k < moved.length; k += 4){ var mr = moved[k]; mf[mr] = 1; seam[mr] = 1; MV[3*mr] = moved[k+1]; MV[3*mr+1] = moved[k+2]; MV[3*mr+2] = moved[k+3]; nTJ++; }
+          for (i = 0; i < N; i++){ var qr = R[i]; if (mf[qr]){ P[3*i] = MV[3*qr]; P[3*i+1] = MV[3*qr+1]; P[3*i+2] = MV[3*qr+2]; } }
+        }
+        OE = EH = NB = BD = OWN = null;
+        }
+        if (!Q334_LIGHT[cls]) closeBorders();
+        if (nSnap || nTJ){ faceNormals(); incidence(); seamNormals();
+          var w0 = nWall; walls(false);
+          if (nWall > w0){ closeBorders(); faceNormals(); incidence(); seamNormals(); }      // walls found only now leave borders of their own to close
+        }
+        if (window.__q334dbgE){      // diagnostics only: edges of the drawn surface that no other drawn face closes
+          var EM = new Map();
+          for (f = 0; f < FN; f++){ if (wall[f] >= 0) continue;
+            for (k = 0; k < 3; k++){ var ea = R[FV[3*f+k]], eb = R[FV[3*f+(k+1)%3]], ek = ea < eb ? ea * N + eb : eb * N + ea; EM.set(ek, (EM.get(ek) || 0) + 1); } }
+          EM.forEach(function(c, ek){ if (c !== 1) return; var ea = Math.floor(ek / N), eb = ek - ea * N;
+            window.__q334dbgE.push([P[3*ea], P[3*ea+1], P[3*ea+2], P[3*eb], P[3*eb+1], P[3*eb+2], !!seam[ea], !!seam[eb]]); });
+        }
+        /* 5. write back: welded normals into the piece's own normals (the batch buffer is built from them next), the
+              wall faces moved out of the drawn index range into per-neighbour groups (uploaded after the batching) */
+        var nSeamV = 0, VN = new Float32Array(N * 3);      // each vertex's own drawn faces, in its piece's winding: the sign of its normal
+        for (var q5 = 0; q5 < FL.length; q5++){ f = FL[q5]; if (wall[f] >= 0) continue; for (k = 0; k < 3; k++){ var vv = FV[3*f+k]; VN[3*vv] += FA[3*f]; VN[3*vv+1] += FA[3*f+1]; VN[3*vv+2] += FA[3*f+2]; } }
+        L.forEach(function(o, mi){
+          var b = base[mi], fb = fbase[mi], nt = o.idx.length / 3, v, t;
+          for (v = 0; v < o.vc; v++){
+            var r1 = R[b + v]; if (!seam[r1]) continue;
+            o.pos[3*v] = P[3*(b + v)]; o.pos[3*v+1] = P[3*(b + v)+1]; o.pos[3*v+2] = P[3*(b + v)+2];
+            if (!GOK[r1]) continue;
+            var sx = GN[3*r1], sy = GN[3*r1+1], sz = GN[3*r1+2];
+            var gv = 3*(b + v), sg = sx*VN[gv] + sy*VN[gv+1] + sz*VN[gv+2];
+            if (sg === 0) sg = sx*o.nrm[3*v] + sy*o.nrm[3*v+1] + sz*o.nrm[3*v+2];
+            if (sg < 0){ sx = -sx; sy = -sy; sz = -sz; }      // the piece's own winding
+            o.nrm[3*v] = sx; o.nrm[3*v+1] = sy; o.nrm[3*v+2] = sz; nSeamV++;
+          }
+          var nk = 0, byNb = null;
+          for (t = 0; t < nt; t++){ var w = wall[fb + t]; if (w < 0) nk++; else (byNb || (byNb = {}))[w] = ((byNb || {})[w] || 0) + 1; }
+          if (byNb){
+            var keep = new Uint16Array(nk * 3), at = 0, gi = {};
+            var groups = Object.keys(byNb).map(function(w){ var g = {nb:L[+w], idx:new Uint16Array(byNb[w] * 3), n:0}; gi[w] = g; return g; });
+            for (t = 0; t < nt; t++){
+              var w2 = wall[fb + t], dst = w2 < 0 ? null : gi[w2];
+              if (!dst){ keep[at++] = o.idx[3*t]; keep[at++] = o.idx[3*t+1]; keep[at++] = o.idx[3*t+2]; }
+              else { dst.idx[dst.n++] = o.idx[3*t]; dst.idx[dst.n++] = o.idx[3*t+1]; dst.idx[dst.n++] = o.idx[3*t+2]; }
+            }
+            o.idx = keep; o.q334w = groups;
+          }
+          q334W[OBJ.indexOf(o)] = {pos:new Float32Array(o.pos), nrm:new Float32Array(o.nrm), walls:o.q334w ? o.q334w.length : 0};
+        });
+        var st = q334Stat.cls[cls] || (q334Stat.cls[cls] = {groups:0, pieces:0, verts:0, faces:0, seamPairs:0, seamVerts:0, wallFaces:0, wallCandidates:0, borderJoins:0, tJunctions:0, rimJoins:0});
+        st.groups++; st.pieces += L.length; st.verts += N; st.faces += FN; st.seamPairs += seamPairs; st.seamVerts += nSeamV;
+        st.wallFaces += nWall; st.wallCandidates += nCand; st.borderJoins += nSnap; st.tJunctions += nTJ; st.rimJoins += nRim;
+      }
+    }
+    function q334Sweep(P, list, tol, fn){      // every pair of the listed vertices closer than tol along one axis (then fn tests the rest)
+      var n = list.length, K = new Float64Array(n), z, a, b;
+      for (z = 0; z < n; z++){ var pz = 3*list[z];      // along a skew axis (the models are mirrored: thousands of vertices sit at x = 0 exactly)
+        K[z] = Math.round((0.5345 * P[pz] + 0.6682 * P[pz+1] + 0.5175 * P[pz+2]) * 1000 + 2e6) * 262144 + z; }      // micrometres, then the slot
+      K.sort();
+      var X = new Float64Array(n), I = new Int32Array(n), lim = tol * 1000 + 1;
+      for (z = 0; z < n; z++){ var sl = K[z] % 262144; I[z] = list[sl]; X[z] = Math.floor(K[z] / 262144); }
+      for (a = 0; a < n; a++) for (b = a + 1; b < n && X[b] - X[a] <= lim; b++) fn(I[a], I[b]);
+    }
+    var q334In = false;      // set by q334PtTri: the closest point lies inside the triangle (not on an edge or a corner)
+    function q334PtTri(px, py, pz, P, ia, ib, ic){      // distance from a point to a triangle (Ericson, closest point)
+      var ax = P[3*ia], ay = P[3*ia+1], az = P[3*ia+2], bx = P[3*ib], by = P[3*ib+1], bz = P[3*ib+2], cx = P[3*ic], cy = P[3*ic+1], cz = P[3*ic+2];
+      var abx = bx-ax, aby = by-ay, abz = bz-az, acx = cx-ax, acy = cy-ay, acz = cz-az, apx = px-ax, apy = py-ay, apz = pz-az;
+      var d1 = abx*apx+aby*apy+abz*apz, d2 = acx*apx+acy*apy+acz*apz, qx, qy, qz; q334In = false;
+      if (d1 <= 0 && d2 <= 0){ qx = ax; qy = ay; qz = az; }
+      else {
+        var bpx = px-bx, bpy = py-by, bpz = pz-bz, d3 = abx*bpx+aby*bpy+abz*bpz, d4 = acx*bpx+acy*bpy+acz*bpz;
+        var cpx = px-cx, cpy = py-cy, cpz = pz-cz, d5 = abx*cpx+aby*cpy+abz*cpz, d6 = acx*cpx+acy*cpy+acz*cpz;
+        var vc = d1*d4 - d3*d2, vb = d5*d2 - d1*d6, va = d3*d6 - d5*d4, t;
+        if (d3 >= 0 && d4 <= d3){ qx = bx; qy = by; qz = bz; }
+        else if (d6 >= 0 && d5 <= d6){ qx = cx; qy = cy; qz = cz; }
+        else if (vc <= 0 && d1 >= 0 && d3 <= 0){ t = d1 / (d1 - d3); qx = ax + t*abx; qy = ay + t*aby; qz = az + t*abz; }
+        else if (vb <= 0 && d2 >= 0 && d6 <= 0){ t = d2 / (d2 - d6); qx = ax + t*acx; qy = ay + t*acy; qz = az + t*acz; }
+        else if (va <= 0 && (d4 - d3) >= 0 && (d5 - d6) >= 0){ t = (d4 - d3) / ((d4 - d3) + (d5 - d6)); qx = bx + t*(cx-bx); qy = by + t*(cy-by); qz = bz + t*(cz-bz); }
+        else { q334In = true; var den = 1 / (va + vb + vc), v2 = vb * den, w2 = vc * den; qx = ax + abx*v2 + acx*w2; qy = ay + aby*v2 + acy*w2; qz = az + abz*v2 + acz*w2; }
+      }
+      return Math.hypot(px-qx, py-qy, pz-qz);
+    }
+    /* the pose decodes its rest geometry itself: hand it the welded rest normals of these pieces */
+    poseRestOfZ = (function(orig){ return function(i){ var r = orig(i), w = q334W[i]; if (w && !r.q334){ r.pos.set(w.pos); r.nrm.set(w.nrm); r.q334 = 1; } return r; }; })(poseRestOfZ);
+    /* Q334 weld end */
 
     // Q161: keep veins contiguous so each batch draws them in one run with the vein colour
     if (perLayer.vessel) perLayer.vessel.sort(function (a, b) { return (a.vt === "v") - (b.vt === "v"); });
@@ -9792,6 +10760,22 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       flush(layer, cur);
     });
     OBJ.forEach(function (o) { o.pos = null; o.nrm = null; o.idx = null; });
+    /* Q334 upload begin */
+    /* Q334: the wall faces moved out of the drawn range (see the weld block) go into one extra index buffer per batch,
+       over the batch's own vertex buffers, in per-neighbour runs: q334Walls() draws a run only while its neighbour is not drawn */
+    BATCHES.forEach(function(B){
+      var tot = 0;
+      B.objs.forEach(function(o){ (o.q334w || []).forEach(function(g){ tot += g.idx.length; }); });
+      if (!tot) return;
+      var ib = new Uint16Array(tot), at = 0;
+      B.objs.forEach(function(o){ (o.q334w || []).forEach(function(g){
+        g.s = at; g.c = g.idx.length;
+        for (var z = 0; z < g.idx.length; z++) ib[at + z] = g.idx[z] + o.vOff;
+        at += g.idx.length; g.idx = null;
+      }); });
+      B.q334ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.q334ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, ib, gl.STATIC_DRAW);
+    });
+    /* Q334 upload end */
     /* nothing may reach this point without a batch: a structure with none is invisible, and the first pose
        that touches it throws. Reported rather than asserted, so a page still opens, but it is visible. */
     var NOBATCH = OBJ.filter(function (o) { return !o.batch; }).map(function (o) { return o.id; });
@@ -9855,6 +10839,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       var z=[e[0]-c[0],e[1]-c[1],e[2]-c[2]];var zl=Math.hypot(z[0],z[1],z[2])||1;z=[z[0]/zl,z[1]/zl,z[2]/zl];
       var x=[u[1]*z[2]-u[2]*z[1],u[2]*z[0]-u[0]*z[2],u[0]*z[1]-u[1]*z[0]];var xl=Math.hypot(x[0],x[1],x[2])||1;x=[x[0]/xl,x[1]/xl,x[2]/xl];
       var y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];
+      x=[-x[0],-x[1],-x[2]];   /* Q339: the model frame is left-handed (+X = the patient's right, +Y superior, +Z anterior); a right-handed
+         look-at drew it as a mirror image. Negating the view's x row (det < 0) makes the screen's right the patient's left in an anterior view. */
       return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,
         -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]),-(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]),-(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]),1]);
     }
@@ -9968,6 +10954,81 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
     // Q188 add-on hook state (inert without the add-on)
     var addonDraw = [], addonClick = null, addonOpacity = null;
+    /* Q334 walls begin */
+    /* Q334: a piece's wall toward a neighbour is drawn only while that neighbour is not drawn (hidden, switched off, cut
+       away, other side): then it is the piece's real boundary. Drawn with the piece's own colour and opacity, after the scene. */
+    function q334Look(o){
+      if (o === selected || o === hovered) return {a:1, hl:selected === o ? 1 : 0.6};
+      if (faded.has(o)) return {a:Math.min(0.18, alphaFor[o.layer]), hl:0};
+      var lk = selLook(o);
+      if (lk === "") return {a:layerAlpha(o.layer), hl:0};
+      if (lk === "hl") return {a:1, hl:0};
+      return {a:selAlpha(lk, o.layer, lk === "ghost" ? alphaFor[o.layer] : layerAlpha(o.layer)), hl:0};
+    }
+    var q334Drawn = 0;
+    addonDraw.push(function q334Walls(){
+      if (q301.mode === "xray") return;
+      var n = 0;
+      BATCHES.forEach(function(B){
+        if (!B.q334ib) return;
+        var bound = false;
+        B.objs.forEach(function(o){
+          if (!o.q334w || !vis(o)) return;
+          var lk = null;
+          o.q334w.forEach(function(g){
+            if (vis(g.nb)) return;
+            if (!bound){
+              gl.useProgram(prog); gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
+              gl.bindBuffer(gl.ARRAY_BUFFER, B.pb); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+              gl.bindBuffer(gl.ARRAY_BUFFER, B.nb); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+              gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.q334ib); bound = true;
+            }
+            if (!lk){
+              lk = q334Look(o); var c = colOf(o);
+              gl.uniform3f(U.uColor, c[0], c[1], c[2]); gl.uniform1f(U.uAlpha, lk.a); gl.uniform1f(U.uHL, lk.hl);
+              gl.uniform1f(U.uMu, q301.mu ? q301.mu(o) : 1);
+              if (lk.a >= 0.999){ gl.disable(gl.BLEND); gl.depthMask(true); }
+              else { gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false); }
+            }
+            gl.drawElements(gl.TRIANGLES, g.c, gl.UNSIGNED_SHORT, g.s * 2); n++;
+          });
+        });
+      });
+      q334Drawn = n;
+      if (n){ gl.depthMask(true); gl.disable(gl.BLEND); }
+    });
+    /* Q334: a translucent class drawn in mesh order blends its far and near layers in a different order from one piece to
+       the next (alpha blending is not commutative), so every piece came out a shade lighter or darker than its neighbour and
+       the border between them drew a line. The pieces of these classes are drawn far to near instead, across all the class's
+       batches at once (the female skin needs two), whatever pass asks: plain, faded, the selection's fade / x-ray / ghost. */
+    var Q334_SORT = {skin:1, fascia:1}, q334Ord = {}, q334Cls = null, q334NoSort = false;
+    function q334Sort(B, test){
+      if (!Q334_SORT[B.layer] || q334NoSort || !lastEye || q301.mode === "xray") return false;      // the DRR paints one colour: order-free
+      if (!q334Cls){ q334Cls = {}; BATCHES.forEach(function(b){ if (Q334_SORT[b.layer]) (q334Cls[b.layer] || (q334Cls[b.layer] = [])).push(b); }); }
+      var cls = B.layer, st = q334Ord[cls], key = drawCount + (symPass ? 0.5 : 0);
+      if (!st || st.key !== key){
+        var e = lastEye, f = lastFwd, L = [];
+        q334Cls[cls].forEach(function(b){ b.objs.forEach(function(o){ var c = o.center; L.push({o:o, b:b, d:(c[0]-e[0])*f[0] + (c[1]-e[1])*f[1] + (c[2]-e[2])*f[2]}); }); });
+        L.sort(function(p, q){ return q.d - p.d; });
+        st = q334Ord[cls] = {key:key, list:L, done:[]};
+      }
+      if (st.done.indexOf(test) >= 0) return true;      // this pass already drew the whole class from its first batch
+      st.done.push(test);
+      var bound = null, lc = null, lm = -2;
+      for (var i = 0; i < st.list.length; i++){
+        var it = st.list[i], o = it.o; if (!test(o)) continue;
+        if (bound !== it.b){ bound = it.b;
+          gl.bindBuffer(gl.ARRAY_BUFFER, bound.pb); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+          gl.bindBuffer(gl.ARRAY_BUFFER, bound.nb); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+          gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, bound.ib); }
+        var c2 = colOf(o), mu = q301.mu ? q301.mu(o) : -1;
+        if (c2 !== lc){ gl.uniform3f(U.uColor, c2[0], c2[1], c2[2]); lc = c2; }
+        if (mu !== lm && q301.mu){ gl.uniform1f(U.uMu, mu); lm = mu; }
+        gl.drawElements(gl.TRIANGLES, o.iCount, gl.UNSIGNED_SHORT, o.iStart * 2);
+      }
+      return true;
+    }
+    /* Q334 walls end */
     function layerAlpha(k) {
       if (q301.mode === "xray") return 0.5;             // Q301: any value in (0.01, 0.999) -- the DRR shader sets the real alpha
       var v = addonOpacity ? addonOpacity(k) : null; return v == null ? alphaFor[k] : Math.min(alphaFor[k], v); }
@@ -9994,6 +11055,17 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     window.addEventListener("orientationchange", function(){ setTimeout(resize,250); });
 
     var lastMVP=null, lastEye=null, lastRight=null, lastUp=null, lastFwd=[0,0,-1];
+    /* Q339: the R / L (A / P on a lateral view) marker: which side of the PATIENT is on each side of the screen, read from the
+       screen's right axis in the model frame (+X right, +Y superior, +Z anterior). Written only when it changes. */
+    var q339O = {el:null, k:""}, Q339W = {R:"the patient's right", L:"the patient's left", A:"anterior", P:"posterior", S:"superior", I:"inferior"};
+    function q339Orient(){
+      var el = q339O.el || (q339O.el = document.getElementById("q339-orient")), r = lastRight; if (!el || !r) return;
+      var a = [Math.abs(r[0]), Math.abs(r[1]), Math.abs(r[2])], i = a[0] >= a[1] && a[0] >= a[2] ? 0 : (a[2] >= a[1] ? 2 : 1), P = [["L","R"],["I","S"],["P","A"]][i];
+      var lt = r[i] > 0 ? P[0] : P[1], rt = r[i] > 0 ? P[1] : P[0];
+      if (lt + rt === q339O.k) return; q339O.k = lt + rt;
+      el.querySelector(".q339-l").textContent = lt; el.querySelector(".q339-r").textContent = rt;
+      var t = "Orientation: " + Q339W[lt] + " on your left, " + Q339W[rt] + " on your right"; el.title = t; el.setAttribute("aria-label", t);
+    }
     var drawCount = 0;
     /* Q303: four panes of the same model, each with its own camera. One scene, four viewports -- every other
        piece of state (selection, marks, hiding, the layers, the peel, the style, the cut) is the engine's
@@ -10034,6 +11106,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
       // Q160: two-sided (no culling) -- open Z-Anatomy tubes and sheets have no "outside"
       gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE);
+      gl.frontFace(gl.CW);      // Q339: the view matrix has det < 0 (see mL), which reverses the winding on screen; gl_FrontFacing must stay true on the outside
 
       var ce=Math.cos(cam.el), se=Math.sin(cam.el);
       var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)];
@@ -10041,6 +11114,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       var mvp=mMul(mP(0.85,q303aspect(),HGT*0.02,HGT*14),view);   /* Q303: the pane's own aspect */
       lastMVP=mvp; lastEye=eye;
       lastRight=[view[0],view[4],view[8]]; lastUp=[view[1],view[5],view[9]]; lastFwd=[-view[2],-view[6],-view[10]];
+      q339Orient();      // Q339
       gl.uniformMatrix4fv(U.uMVP,false,mvp);
       gl.uniformMatrix3fv(U.uN,false,new Float32Array([view[0],view[1],view[2],view[4],view[5],view[6],view[8],view[9],view[10]]));
 
@@ -10069,6 +11143,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       }
       // draw contiguous runs of objects passing `test`
       function runs(B, test) {
+    /* Q334 runs begin */
+        if (q334Sort(B, test)) return;      // Q334: the pieces of one continuous class, far to near
+    /* Q334 runs end */
         var s=-1,c=0,cc=null,mm=-1;
         function fl(){ if(s>=0){ gl.uniform3f(U.uColor,cc[0],cc[1],cc[2]); if(q301.mu) gl.uniform1f(U.uMu,mm); gl.drawElements(gl.TRIANGLES,c,gl.UNSIGNED_SHORT,s*2); } s=-1;c=0;cc=null;mm=-1; }
         for (var i=0;i<B.objs.length;i++) {
@@ -10134,8 +11211,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       }
       scenePass();
       if (sym){
-        gl.uniform1f(U.uSymOn,1); gl.uniform4f(U.uSym,sym.plane.n[0],sym.plane.n[1],sym.plane.n[2],sym.plane.d); gl.frontFace(gl.CW); symPass = true;
-        try { scenePass(); } finally { symPass = false; gl.frontFace(gl.CCW); gl.uniform1f(U.uSymOn,0); }
+        gl.uniform1f(U.uSymOn,1); gl.uniform4f(U.uSym,sym.plane.n[0],sym.plane.n[1],sym.plane.n[2],sym.plane.d); gl.frontFace(gl.CCW); symPass = true;   /* Q339: the reflection reverses the CW winding of the mirrored view once more */
+        try { scenePass(); } finally { symPass = false; gl.frontFace(gl.CW); gl.uniform1f(U.uSymOn,0); }
       }
 
       var hi2 = selected || hovered;
@@ -10163,7 +11240,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     var cutCtl = null, partsCtl = null, selCtl = null, capCtl = null, labelsCtl = null, xsecCtl = null;
     var capPoll=0, xsecPoll=0;
     function loop(){
-      if(spinning){cam.az+=0.0022;need=true;}
+      if(spinning){cam.az-=0.0022;need=true;}   // Q339: same on-screen spin as before the handedness fix
       if(capCtl&&clip.on&&capCtl.isOn()){ var tn=performance.now(); if(tn-capPoll>250){ capPoll=tn; capCtl.itemsChanged(); } }   // Q227: the filled cut face follows layers, isolation, opacity, colours
       if(xsecCtl&&clip.on&&xsecCtl.isOn()){ var tx=performance.now(); if(tx-xsecPoll>250){ xsecPoll=tx; xsecCtl.itemsChanged(); } }   // Q281: ditto, the multi-slice cross-section stack
       if(need){draw();need=false;} requestAnimationFrame(loop);
@@ -16087,7 +17164,7 @@ function NMSKLearn(api){
         if (ext > 0) cam.dist = Math.max(HGT * 0.02, Math.min(HGT * 4, ext * 0.5 / Math.min(tv * fr.h, tw * fr.w) * 1.15));
         var ce = Math.cos(cam.el), z = [ce * Math.sin(cam.az), Math.sin(cam.el), ce * Math.cos(cam.az)], xl = Math.hypot(z[2], z[0]) || 1, x = [z[2] / xl, 0, -z[0] / xl];
         var y = [z[1]*x[2] - z[2]*x[1], z[2]*x[0] - z[0]*x[2], z[0]*x[1] - z[1]*x[0]], hw = 2 * cam.dist * tv, ww = hw * as;      // centre the face in the free part of the canvas
-        for (var k = 0; k < 3; k++) cam.tgt[k] -= x[k] * (fr.cx - 0.5) * ww + y[k] * (0.5 - fr.cy) * hw;
+        for (var k = 0; k < 3; k++) cam.tgt[k] -= -x[k] * (fr.cx - 0.5) * ww + y[k] * (0.5 - fr.cy) * hw;      // Q339: x is the old camera right; the screen's right is -x
         stopSpin(); need = true;
       }
     });
@@ -16192,7 +17269,7 @@ function NMSKLearn(api){
     /* SYMVIEW glue begin */
 /* Q237 Symmetric view, WebGL engine: the main shader reflects the vertex about the midsagittal plane when uSymOn is set (position AND normal; the clip / box tests in the fragment
    shader use the reflected position, so uClip / uClip2 cut the mirrored copy like everything else); draw() paints the scene a second time for the source side with
-   frontFace CW (the reflection reverses the winding); the other side's originals are vetoed in vis(). Nothing is written to the data. */
+   the front-face winding swapped (the reflection reverses it; CCW since Q339's mirrored view uses CW); the other side's originals are vetoed in vis(). Nothing is written to the data. */
 var symCtl = null, sym = null, symPass = false, symIds = null;
 function symApply(spec){ sym = spec || null; need = true; if (capCtl && capCtl.itemsChanged) capCtl.itemsChanged(); }
 function symHide(o){ return !!(sym && sym.hideSet[o.id]); }
@@ -16359,7 +17436,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       canvas:canvas,
       canvasRect:function(){ return canvas.getBoundingClientRect(); },
       info:function(id){ var o = objsById[id] && objsById[id][0]; if (!o) return null;
-        return {name:o.name, sub:o.layer + " \u00b7 " + (o.side === "r" ? "right" : o.side === "l" ? "left" : "midline")}; },
+        var cls = (o.layer === "bursa" && /\b(tendon|synovial|digital|tendinous) sheath\b|\bsheath of\b/i.test(o.name)) ? "tendon sheath" : o.layer;   /* Q335 */
+        return {name:o.name, sub:cls + " \u00b7 " + (o.side === "r" ? "right" : o.side === "l" ? "left" : "midline")}; },
       state:function(id){ var o = objsById[id] && objsById[id][0]; return o ? {hidden:hidden.has(o), faded:faded.has(o)} : {}; },
       toggleHide:function(id){ var o = objsById[id] && objsById[id][0]; if (!o) return;
         if (hidden.has(o)) hidden.delete(o); else { hidden.add(o); faded.delete(o); }
@@ -16369,6 +17447,10 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         if (selected === o) select(o, false); need = true; },
       zoom:function(id){ var o = objsById[id] && objsById[id][0]; if (o) select(o, true); },
       more:function(id){ var o = objsById[id] && objsById[id][0]; if (!o) return; infoMin = false; select(o, false); },
+      /* Q335: drawn in the selection tint right now (the shader mixes the selected structure toward light blue), so the
+         card needs no line to say which structure it is about; and the full card, which More takes into the name card */
+      marked:function(id){ var o = objsById[id] && objsById[id][0]; return !!(o && selected === o && vis(o) && !hidden.has(o)); },
+      details:function(){ return document.getElementById("info"); },
       screenBox:function(){
         if (!lastMVP) return null;
         var r = canvas.getBoundingClientRect(), sx = r.width / W, sy = r.height / H, l = 1e9, t = 1e9, rr = -1e9, b = -1e9;
@@ -16383,7 +17465,8 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         });
         return l < rr ? {l:l, t:t, r:rr, b:b} : null;
       },
-      obstacles:function(){ return ["brand", "topright", "rail", "foot", "cut-panel", "needle-panel", "pm-card", "info"].map(function(id){ return document.getElementById(id); }); }
+      obstacles:function(){ return ["brand", "topright", "rail", "foot", "cut-panel", "needle-panel", "pm-card", "info", "pl-box", "pose-panel", "pm-panel", "pm-att", "ms-bar", "sa-bar"].map(function(id){ return document.getElementById(id); })
+        .concat([].slice.call(document.querySelectorAll(".ft-note,.pl-note,.pz-chip"))); }     /* Q335: the top-left chrome the docked card sits below */
     });
     /* Q321 quick card glue end */
     window.__capState = function(){ return capCtl.state(); };
@@ -16673,7 +17756,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         var dx=e.clientX-pv.x, dy=e.clientY-pv.y;
         moved+=Math.abs(dx)+Math.abs(dy);
         if(panMode) panBy(dx,dy);
-        else { cam.az-=dx*0.0065; cam.el=Math.max(-1.45,Math.min(1.45,cam.el+dy*0.0065)); need=true; }
+        else { cam.az+=dx*0.0065; /* Q339: re-signed for the true (non-mirrored) view, so a drag to the right still carries the surface right */ cam.el=Math.max(-1.45,Math.min(1.45,cam.el+dy*0.0065)); need=true; }
       } else if(ptrs.size===2){
         var p=Array.from(ptrs.values());
         var d=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
@@ -16794,7 +17877,48 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       box:{on:box.on,min:box.min.slice(),max:box.max.slice()},
       hidden:hidden.size, faded:faded.size, solo:soloLayer, side:sideFilter
     }; };
+    /* Q334 hook begin */
+    /* read-only test hook (verify_skin_seams_q334.py): camera, projection, picking and the seam state */
+    var q334A0 = {}, q334On0 = {}; LK.forEach(function(k){ q334A0[k] = alphaFor[k]; q334On0[k] = on[k]; });
+    window.__q334 = {
+      defaults:function(){ LK.forEach(function(k){ alphaFor[k] = q334A0[k]; on[k] = q334On0[k]; }); soloLayer = null; presetName = ""; need = true; },
+      cam:function(c){ if(c){ if(c.az!=null) cam.az=c.az; if(c.el!=null) cam.el=c.el; if(c.dist!=null) cam.dist=c.dist; if(c.tgt) cam.tgt=c.tgt.slice(); stopSpin(); need=true; }
+        return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice(), H:HGT}; },
+      toScreen:function(p){ var s=proj(p); return s ? [s.x/dpr, s.y/dpr, s.w] : null; },
+      pickAt:function(x, y){ var o=pick(x*dpr, y*dpr); return o ? (o.id || o.name) : null; },
+      index:function(id){ for (var i=0;i<OBJ.length;i++) if ((OBJ[i].id||OBJ[i].name)===id) return i; return -1; },
+      hide:function(id, v){ var i=this.index(id); if(i<0) return false; if(v===false) hidden.delete(OBJ[i]); else hidden.add(OBJ[i]); need=true; return true; },
+      select:function(id){ var i=id==null?-1:this.index(id); select(i<0?null:OBJ[i], false); need=true; return i>=0; },
+      hover:function(id){ var i=id==null?-1:this.index(id); hovered=i<0?null:OBJ[i]; need=true; return i>=0; },
+      layer:function(k, a, solo){ if(a!=null){ on[k]=a>0.01; alphaFor[k]=a; } if(solo!==undefined) soloLayer=solo; need=true; return {on:on[k], a:alphaFor[k], solo:soloLayer}; },
+      draws:function(){ return drawCount; },
+      /* the canvas as just drawn: luminance (0..255) at each css-pixel point [x, y]; ids(): the ID pass at the same points */
+      sample:function(pts, rgb){
+        draw(); need = false;
+        var buf = new Uint8Array(W * H * 4); gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+        return pts.map(function(p){ var x = Math.round(p[0] * dpr), y = H - 1 - Math.round(p[1] * dpr); if (x < 0 || y < 0 || x >= W || y >= H) return -1;
+          var k = 4 * (y * W + x); return rgb ? [buf[k], buf[k+1], buf[k+2]] : 0.299 * buf[k] + 0.587 * buf[k+1] + 0.114 * buf[k+2]; });
+      },
+      ids:function(pts, all){
+        draw(); need = false; renderIds(!!all); pickKey = null;
+        var buf = new Uint8Array(W * H * 4); gl.readPixels(0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H);
+        return pts.map(function(p){ var x = Math.round(p[0] * dpr), y = H - 1 - Math.round(p[1] * dpr); if (x < 0 || y < 0 || x >= W || y >= H) return null;
+          var k = 4 * (y * W + x), id = buf[k] | (buf[k+1] << 8) | (buf[k+2] << 16); return id > 0 && id <= OBJ.length ? (OBJ[id-1].id || OBJ[id-1].name) : null; });
+      },
+      sortOff:function(v){ q334NoSort = !!v; need = true; },
+      bench:function(n){ var px = new Uint8Array(4), t0 = performance.now(); for (var i = 0; i < n; i++){ draw(); gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px); } need = false; return (performance.now() - t0) / n; },
+      cut:function(spec){ cutCtl.setFromSpec(spec ? {normal:spec.normal, point:spec.point} : null); need = true; return !!clip.on; },
+      preset:function(id){ var b = document.getElementById(id); if (b) b.click(); need = true; return !!b; },
+      seams:function(){ if (typeof q334W === "undefined") return null; var ks = Object.keys(q334W), pw = null;
+        if (ks.length){ var i0 = +ks[0], r = poseRestOfZ(i0), w = q334W[i0].nrm, d = 0; for (var z = 0; z < w.length; z++) d = Math.max(d, Math.abs(w[z] - r.nrm[z])); pw = d; }
+        return {ms:q334Stat.ms, cls:q334Stat.cls, wallRunsDrawn:q334Drawn, poseRestNrmDiff:pw}; }
+    };
+    /* Q334 hook end */
 
+    window.__q339 = {api:function(){ return anatomyApi(); }, right:function(){ return lastRight ? lastRight.slice() : null; },      // Q339 test hook
+                     orient:function(){ return q339O.k; }, cam:function(){ return {az:cam.az, el:cam.el, dist:cam.dist, tgt:cam.tgt.slice()}; },
+                     pickable:function(i){ return !!(OBJ[i] && pickable(OBJ[i], false)); }};
     // ================= Q188 add-on hook =================
     // Generic, anatomy-only API for an optional add-on loaded from a separate file
     // (window.NMSKClinical). No add-on logic lives here; without the file nothing below runs.
@@ -16846,7 +17970,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
         labels:function(){ return labelsCtl; }, crossSection:function(){ return xsecCtl; },
         /* Q283: the structure whose card is open, and a plain camera azimuth step (radians) for the Learn panel's half / full turn */
         selectedId:function(){ return selected ? (selected.id || null) : null; },
-        orbit:function(d){ cam.az += d; stopSpin(); need=true; },
+        orbit:function(d){ cam.az -= d; stopSpin(); need=true; },      // Q339: a turn step with the same on-screen sense as before the handedness fix
         onChange:function(){},
         catColor:function(k){ var c=(k==="vein"?COL.vein:COL[k])||[0.6,0.6,0.6]; return "rgb("+c.map(function(x){return Math.round(x*255);}).join(",")+")"; },
         showPanel:function(){}, stopMotion:stopSpin,

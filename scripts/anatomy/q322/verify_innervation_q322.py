@@ -158,6 +158,7 @@ def run_size(pl, d: Path, w: int, h: int, tag: str, D: dict):
         check(f"{T} nerve: panel shows its muscles", st(pg)["view"] and st(pg)["view"]["kind"] == "nerve")
         # ---- a real click on a muscle: selection, quick card, panel, IZ markers
         target = "biceps_brachii_r"
+        pg.evaluate("() => { if (window.NMSKQuick) NMSKQuick.close(); }")   # Q335: the docked name card may sit over the arm
         pt = pg.evaluate(f"() => NMSKInnervation.screenOf('{target}')")
         hit = None
         if pt:
@@ -206,6 +207,7 @@ def run_size(pl, d: Path, w: int, h: int, tag: str, D: dict):
             check(f"{T} IZ markers drawn for the placed bands: {s2['drawn']} (expected {expect_drawn} band(s)), {s2['tags']} badge(s)", s2["drawn"]["bands"] == expect_drawn and s2["tags"] == expect_drawn)
             tags = pg.evaluate("() => [...document.querySelectorAll('.inn-mk')].filter(e => e.style.display !== 'none').map(e => ({x: parseFloat(e.style.left), y: parseFloat(e.style.top), t: e.textContent, title: e.title}))")
             if tags:
+                pg.evaluate("() => { if (window.NMSKQuick) NMSKQuick.close(); }"); pg.wait_for_timeout(200)   # Q335: the docked name card may sit over the dot
                 y0 = yellow_near(pg, int(tags[0]["x"]), int(tags[0]["y"]))
                 check(f"{T} marker drawn on the canvas at its dot ({y0} yellow px); badge '{tags[0]['t']}'", y0 >= 6 and "rule-based" in tags[0]["t"])
                 check(f"{T} badge tooltip carries the citation", "Güvener" in tags[0]["title"] and "rule-based" in tags[0]["title"])

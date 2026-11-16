@@ -32,3 +32,9 @@
   border:1px solid rgba(255,255,255,.18);border-radius:8px;min-height:30px;padding:3px 8px;cursor:pointer}
 .br-b[aria-pressed="true"]{background:#ffd23f;color:#141414;border-color:#ffd23f}
 @media (hover:none){ .br-b{min-height:38px;padding:5px 11px} }
+/* Q335: one row on a narrow screen, so it never wraps up over the name card; the page title steps aside while the bar is
+   shown (lifted above it on a desktop, out of the way on a phone, where the browser already names the page) */
+.sa-bar.sa-row{flex-wrap:nowrap}
+.sa-bar.sa-row .sa-chip .sa-t{max-width:34vw}
+body:has(#sa-bar:not([hidden])) #brand{bottom:calc(.75rem + 46px + var(--safe-b,0px))}
+@media (max-width:560px){body:has(#sa-bar:not([hidden])) #brand{display:none}}

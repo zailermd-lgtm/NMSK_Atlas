@@ -117,22 +117,37 @@ function NMSKQ298Bar(E, D, H){
     var w = window.innerWidth || 0, h = window.innerHeight || 0;
     return r.bottom <= 8 || r.top >= h - 8 || r.right <= 8 || r.left >= w - 8;
   }
+  /* Q335, owner: "the assignment to functional groups / adjacent / related can open either next to the organ's name or at
+     the very bottom of the screen ... no more room than the buttons on it, and certainly not a whole row." Where it opens
+     is asked of a neutral hook, window.NMSKQ8Host(): an element (the name card's own slot), "bottom" (the strip at the
+     bottom of the screen) or nothing (the old rule: under the search box when that is on screen, else the strip). */
+  function host(){
+    var h = null;
+    try { h = typeof window.NMSKQ8Host === "function" ? window.NMSKQ8Host() : null; } catch (err){ h = null; }
+    return h;
+  }
   function reparent(){
-    var eb = $("q8-exp"), mn = $("q8-menu"), st = $("q8-status"), to = hidden() ? floatBox : root;
+    var dock = hidden() ? floatBox : root, h = host();
+    if (h === "bottom") dock = floatBox;
+    var eb = $("q8-exp"), mn = $("q8-menu"), st = $("q8-status"), to = (h && h.appendChild) ? h : dock;
     if (eb && mn && st && eb.parentNode !== to){ to.appendChild(eb); to.appendChild(mn); to.appendChild(st); }
     /* Q306's lines go with them, and for the same reason: on a phone both engines close the panel that
        holds the search box, so a concept card left in `root` would sit inside a hidden panel exactly when
        the user wants it -- which is the trap Q298 recorded for its own expansion row, and which Q306's
        first browser run fell into (the card's button was never visible and the press timed out). */
     var q6 = $("q8-q306");
-    if (q6 && !q6.hidden && q6.parentNode !== to) to.insertBefore(q6, eb && eb.parentNode === to ? eb : null);
-    floatBox.hidden = to !== floatBox || ((!eb || eb.hidden) && (!q6 || q6.hidden));
+    if (q6 && !q6.hidden && q6.parentNode !== dock) dock.insertBefore(q6, eb && eb.parentNode === dock ? eb : null);
+    floatBox.hidden = dock !== floatBox || ((!eb || eb.hidden || eb.parentNode !== floatBox) && (!q6 || q6.hidden || q6.parentNode !== floatBox));
     /* Q306 reserves the strip's height in the scrolling panel, and the height is only knowable once the
        strip holds what it is going to hold -- so it is measured here, after the move, not in render(). */
     if (window.NMSKQ306 && NMSKQ306.band) NMSKQ306.band();
   }
+  var lastSel = null;
   function selRow(){
     var eb = $("q8-exp"), id = E.selected();
+    /* Q335, owner: "after another structure is selected the box still shows the previous structure's explanation" -- a
+       new selection clears the line and the open menu, which were about the old one */
+    if (id !== lastSel){ lastSel = id; closeMenu(); var st0 = $("q8-status"); if (st0) st0.textContent = ""; }
     if (!id || !EXP){ eb.hidden = true; reparent(); closeMenu(); return; }
     var c = EXP.counts(id);
     eb.hidden = false;

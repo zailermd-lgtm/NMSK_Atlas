@@ -47,3 +47,67 @@ def test_tools_keep_priority_in_the_click_chain():
     pre = ZAN[i - 400:i]
     for tool in ["measureCtl.consumeClick", "cutCtl.consumeClick", "selCtl.consumeClick", "addonClick(e)"]:
         assert tool in pre, tool
+
+
+def test_q335_defaults_and_settings():
+    """Q335: docked top-left, no line while the structure is coloured, the groups row under the name; all three settable."""
+    assert 'pos:"tl", lead:"auto", chips:"card"' in JS
+    for v in ('"tl", "point", "drag"', '"auto", "always", "never"', '"card", "bottom"'):
+        assert v in JS, v
+    assert "localStorage" in JS and "try {" in JS
+    assert "STUB = 36" in JS            # the marker is never a line across the model
+
+
+def test_q335_one_window_more_expands_in_place():
+    assert "data-nm-hosted" in JS and "detEl.appendChild(inf)" in JS and '"Less"' in JS
+    assert ".qc-det #info{position:static !important" in CSS
+
+
+def test_q335_grip_and_menu_through_the_box_mover():
+    assert 'Mv.add(QB)' in JS and 'Mv.menu("qcard"' in JS and 'into:"qc-tools"' in JS
+    move = (REPO / "viewer" / "q305" / "move.js").read_text(encoding="utf-8")
+    for k in ("function dots(b)", "function openMenu(b)", "function dock(b, at)", "function resetBox(b)", '"Dock top-left"', '"Reset position"'):
+        assert k in move, k
+
+
+def test_q335_engine_adaptor_has_marked_and_details():
+    assert "marked:function(id)" in ZAN and "details:function()" in ZAN
+    assert "marked:function(id)" not in OWN
+
+
+def test_q335_chips_host_hook():
+    bar = (REPO / "viewer" / "q298" / "bar.js").read_text(encoding="utf-8")
+    assert "window.NMSKQ8Host" in bar and "window.NMSKQ8Host = function" in JS
+    css = (REPO / "viewer" / "q298" / "q298.css").read_text(encoding="utf-8")
+    assert "width:max-content" in css[css.index(".q8-float{"):]
+
+
+def test_q335_related_structures_is_one_button_with_a_family_menu():
+    assert '"Related structures \\u25be"' in JS and "function relOpen()" in JS and 'role", "menu"' in JS
+    for k in ('key:"grp"', 'key:"adj"', 'key:"rel"'):
+        assert k in JS, k
+    assert "family:family" in JS and "f.items" in JS        # room for families with a sub-menu (myofascial lines, innervation)
+    assert ".qc-chips #q8-exp{display:none !important}" in CSS
+
+
+def test_q335_status_line_is_short_and_has_no_script_paths():
+    q = (REPO / "viewer" / "q298" / "q298.js").read_text(encoding="utf-8")
+    ex = (REPO / "viewer" / "q298" / "expand.js").read_text(encoding="utf-8")
+    assert "function plain(t)" in q and "scripts\\/" in q and 'className = "q8-i"' in q
+    assert "MEASURED, not an anatomical claim:" not in ex and "adjacent structures marked" in ex
+    bar = (REPO / "viewer" / "q298" / "bar.js").read_text(encoding="utf-8")
+    assert "if (id !== lastSel)" in bar                      # the line follows the selection
+
+
+def test_q335_phone_layout_rules():
+    q301 = (REPO / "viewer" / "q301" / "q301.css").read_text(encoding="utf-8")
+    tail = q301[q301.index("Q335"):]
+    assert "@media (max-width:560px)" in tail and "overflow-x:auto" in tail and "flex-wrap:nowrap" in tail
+    sa = (REPO / "viewer" / "q300" / "showall.js").read_text(encoding="utf-8")
+    assert '"Show all"' in sa and 'classList.toggle("sa-row", narrow)' in sa
+    css = (REPO / "viewer" / "q300" / "q300.css").read_text(encoding="utf-8")
+    assert "body:has(#sa-bar:not([hidden])) #brand" in css
+
+
+def test_q335_tendon_sheath_class_from_the_name():
+    assert '"tendon sheath" : o.layer' in ZAN

@@ -181,7 +181,8 @@ def test_the_handle_never_drags_the_canvas_or_a_list_row(src):
     window -- which is the whole reason the orbit, the pinch, the probe and the long-press ranges are untouched."""
     m = src["move.js"]
     hosts = sorted(set(re.findall(r"(\w+)\.addEventListener\(", m)))
-    assert hosts == ["document", "g", "window"], hosts
+    # Q335 adds the three-dots button (d), its menu (m) and the menu's items (x): our own chrome, never a surface or a row
+    assert hosts == ["d", "document", "g", "m", "window", "x"], hosts
     for bad in ("#view", "#stage", "#list", "touchstart", "querySelectorAll"):
         assert bad not in m, bad
 

@@ -97,8 +97,8 @@ function NMSKExpand(E, BAR, D, H){
       var s = E.sel();
       var n = s ? s.markIds(ids, true, false, true) : 0;
       E.rerender();
-      say(ids.length + " structures neighbour " + nameOf(id) + " on this page's own geometry (" + n + " newly marked, " +
-          "one undo step). MEASURED, not an anatomical claim: " + (D.adj ? D.adj.how : "") );
+      say(ids.length + " adjacent structures marked" + (D.adj && D.adj.th ? " · within " + (+D.adj.th).toFixed(1) + " mm" : ""),
+          "Measured on this page's own geometry, not an anatomical claim (" + n + " newly marked, one undo step). " + (D.adj ? D.adj.how : ""));
       return;
     }
     if (which === "rel"){
@@ -125,11 +125,11 @@ function NMSKExpand(E, BAR, D, H){
             var s2 = E.sel();
             var n2 = s2 ? s2.markIds(list, true, false, true) : 0;
             E.rerender();
-            say(list.length + " related to " + nameOf(id) + (k === "*" ? "" : " (" + (K.label || k) + ")") +
-                " offered, " + n2 + " newly marked, one undo step." +
+            say(list.length + " related structures marked" + (k === "*" ? "" : " · " + (K.label || k)),
+                n2 + " newly marked, one undo step." +
                 (k === "*" ? " Mixed sources — open the menu again to see each kind's own source."
                            : (K.src ? " Source: " + K.src + "." : "")) +
-                (k !== "*" && K.inferred ? " INFERRED: " + K.why : ""));
+                (k !== "*" && K.inferred ? " Inferred: " + K.why : ""));
           });
         });
       });
@@ -154,8 +154,8 @@ function NMSKExpand(E, BAR, D, H){
     var s = E.sel();
     var n = s ? s.markIds(g.ids, true, false, true) : 0;
     E.rerender();
-    say(g.ids.length + " in the functional group “" + g.name + "” of " + nameOf(id) + " (" + n +
-        " newly marked, one undo step). " + (g.inferred ? "INFERRED: " + g.why : g.why) + (g.src ? " Source: " + g.src + "." : ""));
+    say(g.ids.length + " marked · functional group “" + g.name + "”",
+        n + " newly marked, one undo step. " + (g.inferred ? "Inferred: " + g.why : (g.why || "")) + (g.src ? " Source: " + g.src + "." : ""));
   }
 
   return {run:run, counts:counts, nameOf:nameOf,

@@ -52,8 +52,8 @@ EDITS = {
          "      if (!box.on) return true;\n      var bn = o.bmin, bx = o.bmax; if (symPass){ var sb = symBox(o); bn = sb[0]; bx = sb[1]; }      // Q237\n      return !(bx[0] < box.min[0] || bx[1] < box.min[1] || bx[2] < box.min[2] ||\n               bn[0] > box.max[0] || bn[1] > box.max[1] || bn[2] > box.max[2]);\n"),
         ("      var opa=[],tra=[];\n", "      function scenePass(){      // Q237: the whole scene is painted once, and once more (mirrored) when the Symmetric view is on\n      var opa=[],tra=[];\n"),
         ("      gl.depthMask(true); gl.disable(gl.BLEND);\n\n      var hi2 = selected || hovered;\n",
-         "      gl.depthMask(true); gl.disable(gl.BLEND);\n      }\n      scenePass();\n      if (sym){\n        gl.uniform1f(U.uSymOn,1); gl.uniform4f(U.uSym,sym.plane.n[0],sym.plane.n[1],sym.plane.n[2],sym.plane.d); gl.frontFace(gl.CW); symPass = true;\n"
-         "        try { scenePass(); } finally { symPass = false; gl.frontFace(gl.CCW); gl.uniform1f(U.uSymOn,0); }\n      }\n\n      var hi2 = selected || hovered;\n"),
+         "      gl.depthMask(true); gl.disable(gl.BLEND);\n      }\n      scenePass();\n      if (sym){\n        gl.uniform1f(U.uSymOn,1); gl.uniform4f(U.uSym,sym.plane.n[0],sym.plane.n[1],sym.plane.n[2],sym.plane.d); gl.frontFace(gl.CCW); symPass = true;   /* Q339: the reflection reverses the CW winding of the mirrored view once more */\n"
+         "        try { scenePass(); } finally { symPass = false; gl.frontFace(gl.CW); gl.uniform1f(U.uSymOn,0); }\n      }\n\n      var hi2 = selected || hovered;\n"),
         ("          out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});\n        });\n        return out;",
          "          out.push({key:o.id, name:o.name, cat:o.layer, rgb:c, alpha:a, geom:function(){ return capGeom(i, o); }});\n        });\n        symCap(out);          // Q237: mirrored copies of the Symmetric view\n        return out;"),
     ],

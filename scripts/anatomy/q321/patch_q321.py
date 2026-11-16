@@ -19,7 +19,7 @@ SEL_OLD = "    function select(o,focus){\n      selected=o;\n"
 SEL_NEW = "    function select(o,focus){\n      selected=o;\n      if(window.NMSKQuick) NMSKQuick.sync(o?o.id:null);      // Q321: the quick card follows the selection\n"
 
 GLUE_AFTER = "    window.__selState = function(){ return selCtl.state(); };\n"
-GLUE = """    /* Q321 quick card glue begin */
+OLD_GLUE = """    /* Q321 quick card glue begin */
     if (window.NMSKQuickCard) window.NMSKQuick = NMSKQuickCard.start({
       canvas:canvas,
       canvasRect:function(){ return canvas.getBoundingClientRect(); },
@@ -53,14 +53,38 @@ GLUE = """    /* Q321 quick card glue begin */
     /* Q321 quick card glue end */
 """
 
+# Q335: the adaptor grows marked() / details() and the top-left chrome; an already wired page is upgraded in place
+Q335_MORE = ('      more:function(id){ var o = objsById[id] && objsById[id][0]; if (!o) return; infoMin = false; select(o, false); },\n', '      more:function(id){ var o = objsById[id] && objsById[id][0]; if (!o) return; infoMin = false; select(o, false); },\n      /* Q335: drawn in the selection tint right now (the shader mixes the selected structure toward light blue), so the\n         card needs no line to say which structure it is about; and the full card, which More takes into the name card */\n      marked:function(id){ var o = objsById[id] && objsById[id][0]; return !!(o && selected === o && vis(o) && !hidden.has(o)); },\n      details:function(){ return document.getElementById("info"); },\n')
+Q335_OBS = ('      obstacles:function(){ return ["brand", "topright", "rail", "foot", "cut-panel", "needle-panel", "pm-card", "info"].map(function(id){ return document.getElementById(id); }); }\n', '      obstacles:function(){ return ["brand", "topright", "rail", "foot", "cut-panel", "needle-panel", "pm-card", "info", "pl-box", "pose-panel", "pm-panel", "pm-att", "ms-bar"].map(function(id){ return document.getElementById(id); })\n        .concat([].slice.call(document.querySelectorAll(".ft-note,.pl-note"))); }     /* Q335: the top-left chrome the docked card sits below */\n')
+OBS2 = (Q335_OBS[1], Q335_OBS[1].replace('"pm-att", "ms-bar"]', '"pm-att", "ms-bar", "sa-bar"]').replace('".ft-note,.pl-note"', '".ft-note,.pl-note,.pz-chip"'))
+# Q335 (owner's phone): a tendon sheath is shown as "tendon sheath", not by its system ("bursa"). The geometry carries only
+# the system layer; the class comes from the structure's own name, and only where the name says it.
+INFO = ('return {name:o.name, sub:o.layer + " \\u00b7 "',
+        'var cls = (o.layer === "bursa" && /\\b(tendon|synovial|digital|tendinous) sheath\\b|\\bsheath of\\b/i.test(o.name)) ? "tendon sheath" : o.layer;   /* Q335 */\n'
+        '        return {name:o.name, sub:cls + " \\u00b7 "')
+UPGRADES = [Q335_MORE, Q335_OBS, OBS2, INFO]
+GLUE = OLD_GLUE
+for _o, _n in UPGRADES:
+    GLUE = GLUE.replace(_o, _n)
+
 
 def apply(t: str) -> str:
-    if "Q321 quick card glue begin" in t:
+    if "Q321 quick card glue begin" not in t:
+        for old, new in ((CLICK_OLD, CLICK_NEW), (SEL_OLD, SEL_NEW), (GLUE_AFTER, GLUE_AFTER + GLUE)):
+            if t.count(old) != 1:
+                raise SystemExit("Q321 anchor not found exactly once: " + old[:50])
+            t = t.replace(old, new, 1)
         return t
-    for old, new in ((CLICK_OLD, CLICK_NEW), (SEL_OLD, SEL_NEW), (GLUE_AFTER, GLUE_AFTER + GLUE)):
-        if t.count(old) != 1:
-            raise SystemExit("Q321 anchor not found exactly once: " + old[:50])
-        t = t.replace(old, new, 1)
+    # an already wired page: each upgrade once, in order (idempotent)
+    for old, new in UPGRADES:
+        n = t.count(old)
+        if n > 1:
+            raise SystemExit("Q335 anchor found more than once: " + old[:50])
+        if n == 1 and new not in t:
+            t = t.replace(old, new, 1)
+    for _o, new in (Q335_MORE, OBS2, INFO):                  # every stage must have landed, by this run or an earlier one
+        if new not in t:
+            raise SystemExit("Q335 upgrade missing: " + new[:60])
     return t
 
 

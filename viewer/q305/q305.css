@@ -64,3 +64,31 @@
    Q301's block comes out of the regen byte-identical and the defect still goes away. It is scoped to the sheet, so
    `#foot` in its own place -- Q270's pill band, and its phone override -- is untouched. */
 .qg-sbody #foot{position:static}
+/* ---- Q335: the three-dots menu beside every grip. Owner (translated): "just as every window has a drag mark, there should
+   also be a three-dots mark that opens a menu relevant to that window." Narrower than the grip, same look; the menu is
+   as wide as its longest item and as tall as its items. */
+.nm-dots{position:absolute;z-index:6;width:18px;height:26px;padding:0;box-sizing:border-box;border:1px solid rgba(255,255,255,.22);
+  border-radius:7px;background:rgba(40,46,54,.72);color:#E6EDF3;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font:700 15px/1 system-ui,-apple-system,"Segoe UI",sans-serif;opacity:.78}
+.nm-dots:hover,.nm-dots:focus-visible,.nm-dots[aria-expanded="true"]{opacity:1;background:rgba(56,66,78,.92)}
+.nm-dots.nm-light{background:rgba(255,255,255,.86);border-color:rgba(20,20,19,.22);color:#141413}
+@media (pointer:coarse){.nm-dots{width:24px;height:34px}}
+.nm-dots.nm-inline{position:static;flex:0 0 auto}
+.qg-bar .nm-dots.nm-inline{width:24px;min-width:24px;height:44px;border-radius:9px;opacity:.9;background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.17)}
+.nm-menu{position:fixed;z-index:2147482800;display:flex;flex-direction:column;box-sizing:border-box;width:max-content;
+  max-width:min(320px,calc(100vw - 16px));max-height:calc(100vh - 16px);overflow-y:auto;padding:4px;border-radius:9px;
+  background:rgba(14,18,22,.97);color:#E6EDF3;box-shadow:0 4px 20px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.14);
+  font:500 12.5px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif}
+.nm-menu .nm-mi{position:relative;display:block;text-align:start;min-height:30px;padding:5px 12px 5px 24px;border:0;border-radius:6px;
+  background:transparent;color:inherit;font:inherit;cursor:pointer;white-space:nowrap}
+.nm-menu .nm-mi:hover,.nm-menu .nm-mi:focus-visible{background:rgba(255,255,255,.13);outline:none}
+.nm-menu .nm-mi[aria-checked="true"]::before{content:"\2713";position:absolute;left:8px;color:#D9A227}
+.nm-menu .nm-mh{padding:7px 10px 2px;margin-top:3px;border-top:1px solid rgba(255,255,255,.12);font-size:10.5px;letter-spacing:.05em;
+  text-transform:uppercase;opacity:.62}
+@media (pointer:coarse){.nm-menu .nm-mi{min-height:40px}}
+/* Q335: a grip that sits IN a row of its box (the hidden bar, a panel's header) takes its own place in that row */
+.nm-grip.nm-inline::before{inset:0}
+.sa-bar .nm-grip.nm-inline,.sa-bar .nm-dots.nm-inline{position:static;align-self:center}
+.pz-head .nm-grip.nm-inline,.pz-head .nm-dots.nm-inline{position:static;flex:0 0 auto;margin-right:4px}
+@media (max-width:560px){.qg-bar .nm-grip.nm-inline,.qg-bar .nm-dots.nm-inline{height:40px;min-height:40px}}
+#topright > .nm-grip.nm-inline,#topright > .nm-dots.nm-inline,.ms-row > .nm-grip.nm-inline,.ms-row > .nm-dots.nm-inline{position:static;align-self:center;flex:0 0 auto}

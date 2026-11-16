@@ -53,6 +53,7 @@ def enter_inn(pg):
 
 
 def click_muscle(pg, target):
+    pg.evaluate("() => { if (window.NMSKQuick) NMSKQuick.close(); }")   # Q335: the docked name card may sit over the arm
     pt = pg.evaluate(f"() => NMSKInnervation.screenOf('{target}')")
     if not pt:
         return None

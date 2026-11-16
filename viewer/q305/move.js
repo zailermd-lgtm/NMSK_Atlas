@@ -14,6 +14,13 @@
      NMSKMove.add(box)                box := {key, el:"id"|fn, at:"tl"|"tr"|"bl"|"br", label, light, with:[ids], axis}
      NMSKMove.restore()               every box back where it started -- ONE undo step
      NMSKMove.off(key) / .rect(key) / .moved() / .slots(key) / .state() / .refresh()
+     Q335 -- the three-dots menu. Every box that has a grip also gets a "⋮" button beside it, opening a small menu for THAT
+     box: Dock top-left / top-right / bottom-left / bottom-right, Reset position, Compact / Normal size (if the box says it
+     can), Close (if it has a close button or says how), then the box's own items from the registry:
+       NMSKMove.menu(key, {items:fn -> [{head} | {label, run, checked, key}], dock:fn(at) -> true if handled,
+                           reset:fn, compact:fn(v?) getter/setter, close:fn})
+     A box may also carry use() (false: its stored offset is kept but not applied), grab() (called as a drag or an
+     arrow-key move starts) and moved() (called after a drop, a dock or a key move).
    The store is per page, in localStorage, every read and write in try / catch: it can throw (a private window, blocked
    site data) and it can come back empty, and the page must be exactly as usable either way. */
 var NMSKMove = (function(){
@@ -145,7 +152,8 @@ var NMSKMove = (function(){
   function apply(b, write){
     var e = el(b); if (!e) return;
     var o;
-    if (phone() && b.slot) o = slotOff(b);
+    if (b.use && !b.use()) o = [0, 0];                 /* Q335: a box whose own mode ignores the offset keeps it stored */
+    else if (phone() && b.slot) o = slotOff(b);
     else o = clamped(b, b.dx || 0, b.dy || 0);
     b._ax = o[0]; b._ay = o[1];
     setOff(e, o[0], o[1]);
@@ -170,10 +178,11 @@ var NMSKMove = (function(){
     /* Where the grip goes, decided from the box itself rather than per page. `into` puts it in a row of the box's own
        controls as one more button -- the control bar's lower row, beside Undo and Redo, which is the only place on
        that bar where a handle covers nothing. Every other box gets it inside one of its own corners (see below). */
-    var into = b.into ? document.getElementById(b.into) : null;
+    var into = b.into ? (typeof b.into === "function" ? b.into() : document.getElementById(b.into)) : null;
     if (into){
       g.classList.add("nm-inline"); g.style.position = "relative"; g.style.flex = "0 0 auto";
-      into.appendChild(g);
+      /* Q335: `first` puts it at the start of a header row, before the title, so it has its own space and covers no text */
+      if (b.first) into.insertBefore(g, into.firstChild); else into.appendChild(g);
     } else {
       /* FULLY INSIDE the box, never hanging over its edge. The first draft hung the grip half out of the corner so it
          covered none of the box's own content; the harness showed what that really does -- the overhang lands on
@@ -188,6 +197,7 @@ var NMSKMove = (function(){
     }
     b._grip = g;
     bind(g, b);
+    dots(b);
     return g;
   }
 
@@ -198,6 +208,7 @@ var NMSKMove = (function(){
     if (at.charAt(0) === "t") st.top = "3px"; else st.bottom = "3px";
     if (at.charAt(1) === "l") st.left = "3px"; else st.right = "3px";
     g.setAttribute("data-nm-at", at);
+    seatDots(g);
   }
   /* WHICH CORNER, decided by measurement and re-decided whenever the page changes. A grip is useless under another box,
      and on a 390 px phone the control bar really does sit over the bottom-right card. So the grip tries the four
@@ -246,6 +257,7 @@ var NMSKMove = (function(){
     g.addEventListener("pointerdown", function(e){
       if (Object.keys(LIVE).length > 1){ cancel(); return; }    /* a second finger: this is a pinch, not a move */
       if (e.button != null && e.button !== 0) return;
+      if (b.grab){ try { b.grab(); } catch (err0){} }
       var r = el(b).getBoundingClientRect();
       drag = {b:b, g:g, done:done, id:e.pointerId, x:e.clientX, y:e.clientY, dx:b.dx || 0, dy:b.dy || 0, slot:b.slot || "",
               moved:false, bad0:badNow(), ghosts:null, r0:{left:r.left, top:r.top}};
@@ -285,7 +297,7 @@ var NMSKMove = (function(){
         bb.dx = d.dx; bb.dy = d.dy; bb.slot = d.slot;
         apply(bb, true); reverts++;
         say("Not there -- it would cover " + bad[0].label + ". The box is back where it was.");
-      } else if (hist && hist.commit){ hist.commit(); }
+      } else { if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
       if (window.NMSKGroups && NMSKGroups.state) { try { NMSKGroups.state(); } catch (err){} }
     }
     g.addEventListener("pointerup", done);
@@ -300,8 +312,9 @@ var NMSKMove = (function(){
     g.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); });
     g.addEventListener("keydown", function(e){
       var k = e.key, d = {ArrowLeft:[-STEP, 0], ArrowRight:[STEP, 0], ArrowUp:[0, -STEP], ArrowDown:[0, STEP]}[k];
-      if (k === "Home"){ b.dx = 0; b.dy = 0; b.slot = ""; apply(b, true); if (hist && hist.commit) hist.commit(); e.preventDefault(); return; }
+      if (k === "Home"){ resetBox(b); e.preventDefault(); return; }
       if (!d) return;
+      if (b.grab){ try { b.grab(); } catch (err0){} }
       if (phone()){
         var s = slotsOf(b), i = 0, j;
         for (j = 0; j < s.length; j++) if (s[j].key === b.slot) i = j;
@@ -311,7 +324,7 @@ var NMSKMove = (function(){
       apply(b, true);
       var bad = badNow();
       if (bad.length){ b.dx = keep[0] - d[0]; b.dy = keep[1] - d[1]; apply(b, true); say("Not there -- it would cover " + bad[0].label + "."); }
-      else if (hist && hist.commit) hist.commit();
+      else { if (b.moved){ try { b.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
       e.preventDefault();
     });
   }
@@ -367,6 +380,157 @@ var NMSKMove = (function(){
     note.style.bottom = "calc(" + (getComputedStyle(document.documentElement).getPropertyValue("--q301-bar-h") || "100px").trim() + " + 10px)";
     note.hidden = false;
     clearTimeout(say.t); say.t = setTimeout(function(){ note.hidden = true; }, 3400);
+  }
+
+  /* ---- Q335: the three-dots menu ----
+     Owner (translated): "just as every window has a drag mark, there should also be a three-dots mark that opens a menu
+     relevant to that window." One helper, here, because this module owns the grips: a box gets its "⋮" the moment it
+     gets its grip, inline beside an inline grip and in the next corner slot beside a corner grip. */
+  var MENUS = {}, menuEl = null, menuFor = null;
+  function dots(b){
+    var g = b._grip; if (!g) return null;
+    if (b._dots && b._dots.isConnected) return b._dots;
+    var d = document.createElement("button"), lab = b.label || "this box";
+    d.type = "button"; d.className = "nm-dots" + (b.light ? " nm-light" : ""); d.id = "nm-d-" + b.key;
+    d.setAttribute("data-nm", b.key); d.setAttribute("aria-haspopup", "menu"); d.setAttribute("aria-expanded", "false");
+    d.setAttribute("aria-label", "Options for " + lab); d.title = "Options for " + lab + ": dock, reset position, size, close";
+    d.textContent = "⋮";
+    if (g.classList.contains("nm-inline")){ d.classList.add("nm-inline"); g.parentNode.insertBefore(d, g.nextSibling); }
+    else g.parentNode.appendChild(d);
+    g._dots = d; b._dots = d;
+    d.addEventListener("pointerdown", function(e){ e.stopPropagation(); });
+    d.addEventListener("click", function(e){ e.preventDefault(); e.stopPropagation(); if (menuFor === b) closeMenu(true); else openMenu(b); });
+    seatDots(g);
+    return d;
+  }
+  function seatDots(g){
+    var d = g && g._dots; if (!d || d.classList.contains("nm-inline")) return;
+    var at = g.getAttribute("data-nm-at") || "tl", w = g.offsetWidth || 26, st = d.style;
+    st.top = st.bottom = st.left = st.right = "";
+    if (at.charAt(0) === "t") st.top = "3px"; else st.bottom = "3px";
+    if (at.charAt(1) === "l") st.left = (5 + w) + "px"; else st.right = (5 + w) + "px";
+  }
+  function closer(b){
+    var e = el(b), c = null; if (!e) return null;
+    try {
+      c = [].slice.call(e.getElementsByTagName("button")).filter(function(x){
+        return x.offsetParent !== null && /^close\b/i.test(x.getAttribute("aria-label") || x.title || "");
+      })[0] || null;
+    } catch (err){ c = null; }
+    return c ? function(){ c.click(); } : null;
+  }
+  function spec(b){ return MENUS[b.key] || {}; }
+  function itemsOf(b){
+    var S = spec(b), out = [];
+    [["tl", "Dock top-left"], ["tr", "Dock top-right"], ["bl", "Dock bottom-left"], ["br", "Dock bottom-right"]].forEach(function(c){
+      out.push({label:c[1], key:"dock-" + c[0], run:function(){ dock(b, c[0]); }});
+    });
+    out.push({label:"Reset position", key:"reset", run:function(){ resetBox(b); }});
+    if (S.compact){ var on = !!S.compact(); out.push({label:on ? "Normal size" : "Compact size", key:"size", run:function(){ S.compact(!on); }}); }
+    var cl = S.close || closer(b);
+    if (cl) out.push({label:"Close", key:"close", run:cl});
+    var extra = [];
+    try { extra = S.items ? (S.items() || []) : []; } catch (err){ extra = []; }
+    return out.concat(extra);
+  }
+  function openMenu(b){
+    closeMenu(false);
+    var d = b._dots; if (!d || !d.isConnected) return null;
+    var m = document.createElement("div");
+    m.className = "nm-menu"; m.id = "nm-menu"; m.setAttribute("role", "menu"); m.setAttribute("data-nm", b.key);
+    m.setAttribute("aria-label", "Options for " + (b.label || "this box"));
+    itemsOf(b).forEach(function(it){
+      if (it.head){ var h = document.createElement("div"); h.className = "nm-mh"; h.setAttribute("role", "presentation"); h.textContent = it.head; m.appendChild(h); return; }
+      var x = document.createElement("button");
+      x.type = "button"; x.className = "nm-mi"; x.textContent = it.label;
+      x.setAttribute("role", it.checked == null ? "menuitem" : (it.radio ? "menuitemradio" : "menuitemcheckbox"));
+      if (it.checked != null) x.setAttribute("aria-checked", String(!!it.checked));
+      if (it.key) x.setAttribute("data-k", it.key);
+      x.addEventListener("click", function(e){
+        e.preventDefault(); e.stopPropagation();
+        closeMenu(true);
+        try { it.run(); } catch (err){}
+      });
+      m.appendChild(x);
+    });
+    m.addEventListener("keydown", function(e){
+      var xs = [].slice.call(m.getElementsByClassName("nm-mi")), i = xs.indexOf(document.activeElement);
+      if (e.key === "ArrowDown" || e.key === "ArrowUp"){ var n = xs.length; if (!n) return; i = (i + (e.key === "ArrowDown" ? 1 : n - 1) + n) % n; xs[i].focus(); e.preventDefault(); }
+      else if (e.key === "Home" || e.key === "End"){ if (xs.length) xs[e.key === "Home" ? 0 : xs.length - 1].focus(); e.preventDefault(); }
+      else if (e.key === "Tab") closeMenu(false);
+    });
+    document.body.appendChild(m);
+    menuEl = m; menuFor = b; d.setAttribute("aria-expanded", "true");
+    /* sized to its content; under the button, flipped above it or slid left when the viewport says so */
+    var r = d.getBoundingClientRect(), w = m.offsetWidth, h = m.offsetHeight;
+    var x0 = Math.max(8, Math.min(vw() - 8 - w, r.left)), y0 = r.bottom + 4;
+    if (y0 + h > vh() - 8) y0 = Math.max(8, Math.min(vh() - 8 - h, r.top - 4 - h));
+    m.style.left = Math.round(x0) + "px"; m.style.top = Math.round(y0) + "px";
+    var first = m.getElementsByClassName("nm-mi")[0]; if (first){ try { first.focus({preventScroll:true}); } catch (err){} }
+    return m;
+  }
+  function closeMenu(refocus){
+    var b = menuFor, m = menuEl;
+    menuEl = null; menuFor = null;
+    if (m && m.parentNode) m.parentNode.removeChild(m);
+    if (b && b._dots){ b._dots.setAttribute("aria-expanded", "false"); if (refocus && b._dots.isConnected){ try { b._dots.focus({preventScroll:true}); } catch (err){} } }
+    return !!m;
+  }
+  /* registered at load, i.e. before any later block's own Escape handler: an open menu takes the first Escape */
+  window.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && menuEl){ closeMenu(true); e.stopImmediatePropagation(); e.preventDefault(); }
+  }, true);
+  document.addEventListener("pointerdown", function(e){
+    if (!menuEl) return;
+    var t = e.target;
+    if (menuEl.contains(t) || (menuFor && menuFor._dots && menuFor._dots.contains(t))) return;
+    closeMenu(false);
+  }, true);
+  /* rectangles of the OTHER boxes on screen, so a dock does not land on another box's chrome */
+  function others(b){
+    var e = el(b), out = [];
+    B.forEach(function(o){
+      if (o === b) return;
+      var x = el(o); if (!x || !shown(x) || x === e || x.contains(e) || (e && e.contains(x))) return;
+      out.push(x.getBoundingClientRect());
+    });
+    return out;
+  }
+  function dock(b, at){
+    var S = spec(b);
+    if (S.dock){ var done0 = false; try { done0 = !!S.dock(at); } catch (err){ done0 = false; } if (done0) return true; }
+    var e = el(b); if (!e) return false;
+    var keep = [b.dx, b.dy, b.slot], bad0 = badNow().length, ok = false;
+    if (phone()){
+      var s = slotsOf(b), want = [at, at.charAt(0) + "c", "m" + at.charAt(1)], k = "", i, j;
+      for (i = 0; i < want.length && !k; i++) for (j = 0; j < s.length; j++) if (s[j].key === want[i]){ k = s[j].key; break; }
+      b.slot = k; b.dx = 0; b.dy = 0; apply(b, false);
+      ok = badNow().length <= bad0;
+    } else {
+      var r = base(b); if (!r) return false;
+      var top = at.charAt(0) === "t", left = at.charAt(1) === "l";
+      var dx = left ? PAD - r.left : vw() - PAD - r.right, dy = top ? PAD - r.top : vh() - PAD - r.bottom, O = others(b);
+      b.slot = "";
+      /* slide away from the edge, one step at a time, past every protected control and every other box */
+      for (var pass = 0; pass < 2 && !ok; pass++){
+        for (i = 0; i < 48 && !ok; i++){
+          b.dx = dx; b.dy = dy + (top ? i : -i) * STEP; apply(b, false);
+          var q = e.getBoundingClientRect(), clear = true;
+          if (pass === 0) O.forEach(function(o){ if (q.left < o.right && q.right > o.left && q.top < o.bottom && q.bottom > o.top) clear = false; });
+          ok = clear && badNow().length <= bad0;
+        }
+      }
+    }
+    if (!ok){ b.dx = keep[0]; b.dy = keep[1]; b.slot = keep[2]; apply(b, true); say("Not there -- it would cover a control. The box is back where it was."); return false; }
+    apply(b, true);
+    if (b.moved){ try { b.moved(); } catch (err2){} }
+    if (hist && hist.commit) hist.commit();
+    return true;
+  }
+  function resetBox(b){
+    b.dx = 0; b.dy = 0; b.slot = ""; apply(b, true);
+    var S = spec(b); if (S.reset){ try { S.reset(); } catch (err){} }
+    if (hist && hist.commit) hist.commit();
   }
 
   /* ---- restore the layout: every box back where it started, as ONE undo step ---- */
@@ -426,20 +590,33 @@ var NMSKMove = (function(){
       if (!b || !b.key || byKey[b.key]) return false;
       b.dx = b.dx || 0; b.dy = b.dy || 0; b.slot = b.slot || "";
       B.push(b); byKey[b.key] = b;
+      if (on){ var v = load()[b.key]; if (v){ if (v.s) b.slot = String(v.s); else { b.dx = +v.x || 0; b.dy = +v.y || 0; } } }
       return true;
     },
     refresh:function(){
       if (!on || drag) return;
       B.forEach(function(b){
         var e = el(b);
+        /* Q335: a box another window has taken in (the full card inside the name card) is that window's, not ours */
+        if (e && e.parentNode && e.parentNode.closest && e.parentNode.closest("[data-nm-hosted]")) return;
         if (!shownBase(b)){ if (b._grip && !e) b._grip = null; return; }
         var fresh = !b._grip || !b._grip.isConnected;
         if (fresh){ b._grip = null; grip(b); }
+        else if (!b._dots || !b._dots.isConnected){ b._dots = null; dots(b); }
         apply(b, false);
         if (!b.into) reseat(b);
       });
     },
     restore:restore,
+    menu:function(k, s){ if (k) MENUS[k] = s || {}; return api; },
+    openMenu:function(k){ var b = byKey[k]; return b ? openMenu(b) : null; },
+    closeMenu:function(){ return closeMenu(false); },
+    menuOpen:function(){ return menuFor ? menuFor.key : null; },
+    items:function(k){ var b = byKey[k]; return b ? itemsOf(b).filter(function(i){ return !i.head; }).map(function(i){ return i.key || i.label; }) : []; },
+    dock:function(k, at){ var b = byKey[k]; return b ? dock(b, at) : false; },
+    reset:function(k){ var b = byKey[k]; if (b) resetBox(b); return !!b; },
+    apply:function(k){ var b = byKey[k]; if (b && el(b)) apply(b, false); },
+    box:function(k){ return byKey[k] || null; },
     off:function(k){ var b = byKey[k]; return b ? {dx:Math.round(b.dx || 0), dy:Math.round(b.dy || 0), slot:b.slot || "", ax:Math.round(b._ax || 0), ay:Math.round(b._ay || 0)} : null; },
     rect:function(k){
       var b = byKey[k]; if (!b) return null;
@@ -457,7 +634,7 @@ var NMSKMove = (function(){
       return {on:on, phone:phone(), translate:CAN_T, key:KEY, drops:drops, reverts:reverts, restores:restores,
               boxes:B.map(function(b){
                 var r = api.rect(b.key);
-                return {key:b.key, label:b.label || b.key, present:!!r, rect:r, off:api.off(b.key), grip:!!(b._grip && b._grip.isConnected),
+                return {key:b.key, label:b.label || b.key, present:!!r, rect:r, off:api.off(b.key), grip:!!(b._grip && b._grip.isConnected), dots:!!(b._dots && b._dots.isConnected),
                         slots:(r && phone()) ? slotsOf(b).map(function(s){ return s.key; }) : []};
               })};
     }

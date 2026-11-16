@@ -31,17 +31,23 @@ var NMSKQ305 = (function(){
   /* key -> the two engines' ids. Both are listed; the one that is not on this page is dropped. */
   var BOXES = [
     {key:"control",  el:"q301-bar",   into:"q301-hist", label:"the control bar",            "with":["q301-sheet"]},
-    {key:"hidden",   el:"sa-bar",     at:"tl", label:"the “what is hidden” bar"},
+    {key:"hidden",   el:"sa-bar",     into:"sa-bar", label:"the “what is hidden” bar"},   /* Q335: in its own row, never over "hidden: N" */
     {key:"info",     el:"q301-info",  at:"tl", label:"the information drawer"},
     {key:"cut",      el:"cut-panel",  at:"tl", label:"the cut / cross-section panel"},
     {key:"card",     el:"info",       at:"tl", label:"the structure card",     light:true},
     {key:"rail",     el:"rail",       at:"tl", label:"the side panel",         light:true},
-    {key:"pills",    el:"topright",   at:"bl", label:"the top row of buttons"},
-    {key:"measure",  el:"ms-bar",     at:"tl", label:"the measurement bar"},
+    {key:"pills",    el:"topright",   into:"topright", first:true, label:"the top row of buttons"},   /* Q335: in the row, not over a pill */
+    {key:"measure",  el:"ms-bar",     first:true, label:"the measurement bar",
+     into:function(){ var b = document.getElementById("ms-bar"); return b ? b.querySelector(".ms-row") : null; }},
     {key:"slices",   el:"xsp-panel",  at:"tl", label:"the part-slices panel"},
     {key:"expand",   el:"q8-float",   at:"tl", label:"the structure-expansion strip"},
     {key:"labels",   el:"lab-panel",  at:"tl", label:"the labels panel",       light:true},
-    {key:"legend",   el:"lab-legend", at:"tl", label:"the labels legend",      light:true}
+    {key:"legend",   el:"lab-legend", at:"tl", label:"the labels legend",      light:true},
+    /* Q335: the floating panels that had no handle yet, so they get the grip and the three-dots menu like the rest */
+    {key:"pose",     el:"pose-panel", first:true, label:"the pose panel",      light:true,
+     into:function(){ var p = document.getElementById("pose-panel"); return p ? p.querySelector(".pz-head") : null; }},
+    {key:"parts",    el:"pm-panel",   at:"tl", label:"the part-markers panel", light:true},
+    {key:"attach",   el:"pm-att",     at:"tl", label:"the attachments panel",  light:true}
   ];
   /* Controls that must stay reachable whatever the user does with the boxes. Everything Q301 lost to an overlap is
      here by name, plus every grip (a box whose handle is covered could never be moved back). */
@@ -59,6 +65,7 @@ var NMSKQ305 = (function(){
        overlap whatever any round does. The verify asserts the HARD set is empty on every page and in both viewports,
        and that the SOFT set never grows because of a move. */
     {sel:".nm-grip", label:"a box’s own move handle", soft:true},
+    {sel:".nm-dots", label:"a box’s options button", soft:true},
     {sel:"[data-nmsk-protect]", label:"a control another layer asked us to keep clear"}
   ];
   function pageKey(){

@@ -62,7 +62,23 @@ var NMSKQ298 = (function(){
            (w.amb ? " — this abbreviation has more than one accepted expansion; all of them are offered." : "");
   }
 
-  function say(m){ var e = $("q8-status"); if (e) e.textContent = m || ""; }
+  /* Q335, owner: the status line printed the method ("surface samples at <= 1.0 mm ... scripts/...py"). It now says ONE
+     short user line; the method, the source and any "inferred" note sit behind an (i) that opens them on request, and a
+     script path never reaches the user. */
+  function plain(t){ return String(t || "").replace(/\s*(?:by|in|from)?\s*scripts\/\S+/g, "").replace(/\s{2,}/g, " ").trim(); }
+  function say(m, more){
+    var e = $("q8-status"); if (!e) return;
+    e.textContent = m || "";
+    more = plain(more);
+    if (m && more){
+      var b = document.createElement("button"), d = document.createElement("span");
+      b.type = "button"; b.className = "q8-i"; b.textContent = "\u24d8"; b.setAttribute("aria-expanded", "false");
+      b.setAttribute("aria-label", "How this was found"); b.title = "How this was found";
+      d.className = "q8-more"; d.hidden = true; d.textContent = more;
+      b.addEventListener("click", function(ev){ ev.stopPropagation(); d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden)); });
+      e.appendChild(document.createTextNode(" ")); e.appendChild(b); e.appendChild(d);
+    }
+  }
 
   function start(cfg){
     if (started) return;
@@ -87,6 +103,9 @@ var NMSKQ298 = (function(){
 
   return {start:start, ready:ready, filter:filter, result:result, whySuffix:whySuffix, afterList:afterList,
           data:data, say:say,
+          refresh:function(){ if (bar) bar.refresh(); },      /* Q335: the name card asks the expansion row to re-home at once */
+          run:function(which){ if (expand) expand.run(which); },                                 /* Q335: the card's "Related structures" menu */
+          counts:function(id){ return expand && id ? expand.counts(id) : null; },
           core:function(){ return IX; },
           state:function(){
             var d = data(), sc = E && E.sel ? E.sel() : null, ms = null;

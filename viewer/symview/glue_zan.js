@@ -1,6 +1,6 @@
 /* Q237 Symmetric view, WebGL engine: the main shader reflects the vertex about the midsagittal plane when uSymOn is set (position AND normal; the clip / box tests in the fragment
    shader use the reflected position, so uClip / uClip2 cut the mirrored copy like everything else); draw() paints the scene a second time for the source side with
-   frontFace CW (the reflection reverses the winding); the other side's originals are vetoed in vis(). Nothing is written to the data. */
+   the front-face winding swapped (the reflection reverses it; CCW since Q339's mirrored view uses CW); the other side's originals are vetoed in vis(). Nothing is written to the data. */
 var symCtl = null, sym = null, symPass = false, symIds = null;
 function symApply(spec){ sym = spec || null; need = true; if (capCtl && capCtl.itemsChanged) capCtl.itemsChanged(); }
 function symHide(o){ return !!(sym && sym.hideSet[o.id]); }

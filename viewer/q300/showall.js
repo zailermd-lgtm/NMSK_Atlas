@@ -109,6 +109,23 @@ var NMSKShowAll = (function(){
         bar.style.left = Math.max(4, r.left + 8) + "px";
         bar.style.top = Math.max(4, Math.min(window.innerHeight - h - 4, r.bottom - h - 8)) + "px";
         bar.style.maxWidth = Math.max(120, r.width - 150) + "px";   // never runs under the Q294 undo / redo / reset group at the other corner
+        /* Q335, owner's phone: "hidden: N", "Show everything", the zoom chip and the page title piled up on each other at
+           the bottom. On a narrow screen the bar is ONE row ("Show all"), and it ends before a zoom chip on that row (or
+           sits just above one at its left); the title steps aside in the stylesheet while the bar is shown. */
+        var narrow = window.innerWidth <= 560;
+        if (allBtn){ var lab = narrow ? "Show all" : "Show everything"; if (allBtn.textContent !== lab) allBtn.textContent = lab; }
+        bar.classList.toggle("sa-row", narrow);
+        if (narrow){
+          var top = parseFloat(bar.style.top) || 0, maxW = r.width - 16;
+          [].slice.call(document.querySelectorAll(".pz-chip")).forEach(function(z){
+            if (z.hidden || !z.getClientRects().length || getComputedStyle(z).visibility === "hidden") return;
+            var q = z.getBoundingClientRect();
+            if (q.bottom < top - 2 || q.top > top + h + 2) return;          // not on this row
+            if (q.left > r.left + 140) maxW = Math.min(maxW, q.left - r.left - 16);
+            else top = Math.max(4, q.top - h - 6);
+          });
+          bar.style.top = top + "px"; bar.style.maxWidth = Math.max(120, maxW) + "px";
+        }
       };
       window.addEventListener("resize", place);
       setInterval(place, 700); setTimeout(place, 0);
