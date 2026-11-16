@@ -24,7 +24,7 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v93 (Q334–Q339) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v94 (Q340–Q344) |
 | Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v88 (Q334–Q339 + Q336) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
@@ -68,91 +68,69 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
   3. **Abbreviation clash (hand vs foot / forearm vs leg names → "X-L.2"): fix** — a ".2" must mean a
      second piece of one structure, never a different structure in another region.
 
-## 7. Shipped 2026-11-14 (Base·M v89, Base·F v84) — detail in the history file when archived
-- **Q321** click card on every pick (name + Hide/Fade/Show only/Select/Zoom to/More…), beside the model;
-  toolbar sheets content-width; abbreviations `X-L (hand)` / `X-L (foot)` instead of `.2`.
-- **Q322** Muscle innervation mode (`inn`): data `data/anatomy/innervation_q322.json` (60 muscles, 49 sources
-  reviewed), IZ rings from landmarks (174/188 bands; 8 latissimus/teres unplaced), sidecar
-  `innervation_q322.json`.
-- **Q323** insertions view draws origins (red) / insertions (blue) by tissue class, all / selected only.
-- **Q324** attachment points placed for 140/222 muscles (was 17), stricter checks on ligaments/fasciae.
-- All verifiers OK on /dev/shm/q325 (Q318 toprow, Q319 spine/search/nerves, Q321, Q322, Q323; both pages,
-  desktop + phone for Q321/Q322/Q323).
-- Regen `--expect-changed` list now also needs `innervation_q322.json`, `clinical_needle_tool.js` (while the
-  needle tool changes) and `__ANATOMY_manifest` (record-link patch, Q327).
-- Shipped 2026-11-15 (Base·M v90, Base·F v85): **Q325** injection clip (needle plans on the posed body,
-  "Show in scan" in/out of plane, play control; verifier `scripts/anatomy/q325/verify_needle_clip_q325.py`);
-  **Q326** latissimus IZ projected from the skin line (178/188 bands); **Q327** `#pl-box #rs-box #sa-bar`
-  hidden in every mode; 10 borrowed records removed (ligament/fascia never take a muscle's or bone's
-  record; `scripts/zanatomy/patch_manifest_records_q327.py` runs in regen). 18 verifier verdicts OK.
+## 7. On the live Base pages (rounds Q321–Q346; detail in docs/PROJECT_HISTORY.md)
+Name card on every click (docked top-left, draggable, ⋮ menu; Related structures ▾ with adjacent / related /
+functional group / muscle parts / myofascial lines / innervation families) · Muscle innervation mode (60
+muscles, IZ bands 178/188) · Insertions view (origins/insertions by tissue class; 140/222 muscles placed) ·
+injection clip on the posed body, overlays and saved readouts follow the pose · true (non-mirrored) view
+with R/L marker · seamless skin (Base·F trunk line remains) · hand rig re-weighted, palmar arch above the
+flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone one-row toolbar.
 
-## 8. Open (Base pages)
-- Injection clip: link needle tool → scan `setNeedle` + play control; needle tool still plans on rest
-  geometry (scan already shows a needle placed in a posed state).
-- Toolbar at phone width with the five new Measure buttons (covered by the Q321 size audit).
+## 8. Open (Base pages) — see also "Other open" in §9
 - Pre-existing test failures, not caused by recent work: `test_q255_us_rotation_thickness`,
-  `test_q272_modes` ×2.
+  `test_q272_modes` ×2, `test_q298::test_relations_exist…`.
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-(Rewritten 2026-11-16 07:40 UTC after a session restart; detail of Q325–Q338 is in git history and will be
-moved to docs/PROJECT_HISTORY.md.)
+(Rewritten 2026-11-16 ~10:30 UTC. Detail of closed rounds Q325–Q346: docs/PROJECT_HISTORY.md.)
 
-**Live (2026-11-16 ~11:00 UTC):** Base·M **v93**, Base·F **v88** — both from regen /dev/shm/q345: Q339 TRUE
-(non-mirrored) view, Q334 seamless skin, Q335 name card, and on Base·F the Q336 perineal skin (geo_03).
-All q345 verifiers OK on both pages (three Base·F reruns passed once the machine load dropped).
+**Live:** Base·M **v94** (1794823698-de21) = regen /dev/shm/q346, all 17 verifier verdicts OK.
+Base·F **v88** (q345) — q346 verifier run for Base·F still going (scratchpad `v346.txt`); publish
+`pub6/viewer_base_female` (index.html, geo_01, geo_02, clinical tools x3, groups_q342.json) when it ends OK.
+q346 = Q340 palmar arch conform, Q343 Related structures (parts chooser, myofascial lines, innervation
+families), Q344-A/B readability and overlap fixes, move.js drop fix.
 
-**Everything is committed; working tree clean. Regen /dev/shm/q346 = HEAD = adds:**
-- Q340 palmar arch + common digital arteries lifted above the flexor tendons (applied to build/q309 both
-  pages: geo_01/02 change; originals *.q340); superficial venous arch NOT lifted (guard failed); some deep
-  vessels still in bone; finger nerve/artery order unchanged. `scripts/anatomy/q340/conform_palm_q340.py`.
-- Q343 `viewer/groups342`: Related structures → Myofascial lines (class sub-menu, evidence badge;
-  horizontal disabled) and Innervation (root / peripheral / central pattern) + Parts chooser; sidecar
-  `groups_q342.json` built at regen (`scripts/anatomy/q342/build_sidecar_q342.py`).
-- Q344-A `viewer/q344` + parts_ui/q301/q294/q298/pose/q305 UI fixes; Q344-B clinical panels.
-- move.js: a box dropped where the edge held it keeps that place.
-Full verifier set on q346 running in the background (scratchpad `run346.sh` → `v346.txt`; includes
-q343/verify_groups, q344/verify_ui + verify_clinical_ui, hand (now expects Q340), q336, phone runs).
-**Then publish BOTH pages from /dev/shm/q346** — files by cmp against the last publish; expected:
-Base·M index.html, geo_01, geo_02, groups_q342.json, clinical tools ×3, + small jsons;
-Base·F index.html, geo_01, geo_02, geo_03, groups_q342.json, clinical tools ×3, + small jsons
-(Base·F > 64 MB in one publish → send geo files in two publishes to the same url).
+**Committed after q346 was built (needs the next regen):** Q348 reference pass from the owner's books
+(`docs/Q348_reference_pass.md`): 151/214 root levels checked, 18 myofascial lines (3 trunk-rotation slings
+added; "horizontal" stays disabled), 11 muscle parts `verified_book`, perineal checklist + 2 synonyms.
+
+**In flight (agents, Opus 5.5 high, no browser, do not commit):**
+- Q347 injection guide in the injection mode (Guide section, "Use site N", "Start scan here", at-risk
+  highlight) — holds `clinical/needle_tool.js`, `scripts/regen_template_only.py`,
+  `scripts/clinical/stage_clinical_files.py`, `scripts/anatomy/q347/`, `scripts/clinical/build_injection_guide_q347.py`,
+  `tests/test_q347_injection_guide.py`. Its sibling file must be added to `--expect-changed`.
+- Q349 hand: finger nerve/artery order (nerve palmar to artery in the fingers, dorsal in the palm, crossing
+  at the finger root; Mannan pp. 166, 168) + superficial venous arch to the arterial arch depth. Delivers
+  `scripts/anatomy/q349/conform_fingers_q349.py`; the MAIN THREAD applies it to build/q309 (originals `*.q349`).
+- Q350: latissimus iliac IZ line ends at the posterior outer lip of the crest; `iliac_crest_top` level
+  check vs L3/L4; record corrections (serratus posterior superior T2–T5, pectoralis minor both pectoral
+  nerves, foot interossei exception).
+**Then:** commit each agent's files by name → apply Q349 to build/q309 → one regen (worktree of HEAD if an
+agent still holds files) → verifiers (q347, q338 hand, q322 innervation, q343 groups, q321 quickcard,
+q344 clinical UI at least; full set if time) → publish both pages (cmp against /dev/shm/q346 or `pub6`).
+**After that:** restart the Q337 whole-body QA sweep as a fresh read-only agent.
+
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
 clinical_ultrasound_tool.js,clinical_imaging_tool.js,clinical_needle_tool.js,clinical_motor_points.json,
 parts_data.json,symmetry_q237.json,plexus_groups.json,innervation_q322.json,groups_q342.json,
-__ANATOMY_manifest,__ANATOMY_files,atlas_viewer_base_female_geo_03.txt
+__ANATOMY_manifest,__ANATOMY_files,atlas_viewer_base_female_geo_03.txt (+ the Q347 sibling).
 
-**In flight (dispatched 2026-11-16 ~11:20 UTC):** Q347 agent — show the private injection guide data
-(`clinical/data/innervation_injection_q322.json`: points, sites, scan start, manoeuvre, at-risk) in the
-injection mode: Guide section, "Use site N" (target = placed IZ band centroid), "Start scan here",
-at-risk highlight + distances; staged at regen as a clinical sibling; verifier
-`scripts/anatomy/q347/verify_injection_guide_q347.py`. Owner approved.
-**Owner's books in Dropbox `/claude` (added 2026-11-16 09:25 UTC), to use as KNOWLEDGE ONLY (facts +
-page citations; no prose/figures copied; PDFs never in the repo — same rule as Sobotta):** Gray's Atlas of
-Anatomy (45 MB), Lumley Surface Anatomy (41 MB), Mannan's Regional Dissection and Surface Anatomy (74 MB),
-Yogesh Anatomy vol 5–6 (22 MB), Fascia in Sport and Movement (19 MB), Peripheral Nerve Injury — anatomical
-(12 MB), Peripheral Nervous System: Interrelationships and Variations (27 MB), Peripheral Nerves (6.9 MB),
-"Atlas" (16.7 MB = Atlas of Practical Neonatal and Pediatric Procedures — not relevant). Owner set the
-environment's network to UNRESTRICTED (2026-11-16); all nine are downloaded to the scratchpad `refs/`
-(outside the repo; re-download with Dropbox `download_link` + curl after a container rebuild). Three are
-scanned (Gray's Atlas, Lumley, Peripheral Nerves) → OCR or page reading.
-**Q348 reference-pass agent RUNNING:** verify/complete from the books — myofascial line routes and
-"horizontal" (Fascia in Sport and Movement), root levels + variations, palm layer order and finger
-nerve/artery order, perineal checklist, surface landmarks of the IZ lines, muscle-part boundaries;
-corrections through the data generators with book + page citations; `docs/Q348_reference_pass.md`;
-geometry-affecting findings are listed, not applied.
-**Not running:** Q337 whole-body QA sweep (restart as a fresh read-only agent after the q346 publish).
-Scan-mode badge "סימולציה מהמשים" looks like a typo (pinned by two tests) — asked owner.
+**Owner's books** (Dropbox `/claude`, KNOWLEDGE ONLY: facts + page citations; no prose/figures copied; PDFs
+never in the repo): nine PDFs in the scratchpad `refs/` (re-download with Dropbox `download_link` + curl
+after a rebuild; network is unrestricted since 2026-11-16). Never touch other Dropbox folders.
 
 **Decisions taken by the main thread (owner delegated):** vulva skin accepted as an overlapping real
 surface; "horizontal" myofascial class shown disabled (no sourced line); rule-based muscle-part partitions
-are NOT drawn yet (parts without a mesh are listed greyed); palmar conform approved.
-**Owner's open calls:** larger breast gap on Base·F (`_r` pectoralis thin, R/L 0.76); Base·M perineal
-muscles / rectum (only real source is the frozen Imaging·M page → would need a bone TPS transfer); buy/open
-Myers and Schultz & Feitis to verify line routes; unfreeze question for the mirrored frozen pages.
+are NOT drawn (parts without a mesh are listed greyed); palmar conform approved; Q348 geometry findings
+applied through guarded conform scripts (Q349/Q350), a structure whose guard fails is left as is.
+**Owner's open calls:** scan-mode badge "סימולציה מהמשים" (typo? pinned by two tests); larger breast gap on
+Base·F (`_r` pectoralis thin, R/L 0.76); Base·M perineal muscles / rectum (only real source is the frozen
+Imaging·M page); unfreeze question for the mirrored frozen pages; the neonatal-procedures "Atlas" PDF
+(uploaded by mistake?).
 **Do not run** `sync_learn_q283.py` / `sync_hub_link_q251.py`: the template is ahead of their source (Q312
 edits were made in the template); running them reverts Q312.
 **Other open:** Base·F trunk seam (geometry build); deltoid middle-belly motor rule on Base·F; 82
-muscles/body without attachment points; teres major / latissimus iliac IZ bands; thumb CMC rest pose
-outside its ROM; `test_q298::test_relations_exist…` fails (derived relations lack new foot ids).
+muscles/body without attachment points; teres major IZ band (no rule); thumb CMC rest pose outside its
+ROM; 63 muscles' root levels unchecked; `test_q298::test_relations_exist…` fails (derived relations lack
+new foot ids); Q292 `lib292.push_dir` decay bug unfixed in the library.
