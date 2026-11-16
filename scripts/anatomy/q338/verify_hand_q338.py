@@ -43,18 +43,20 @@ WRIST_ZONE = 30.0   # mm distal to the wrist centre along the hand: the carpus a
 EXTRINSIC = re.compile(r"(flexor_digitorum_(superficialis|profundus)|humero_ulnar_head_of_flexor_digitorum|flexor_pollicis_longus|extensor_(digitorum|indicis|digiti_minimi|pollicis_(longus|brevis))|abductor_pollicis_longus|fibrous_sheath_of_digit)")
 # KNOWN source-geometry defects (Z-Anatomy), with the numbers measured on both Base pages (both sides) -- see the Q338 report
 KNOWN = {
-    "palm_depth": "superficial palmar arch, superficial venous palmar arch and common palmar digital arteries lie DEEP to the flexor tendons "
-                  "(arch at +3..+7 mm above the metacarpal plane, FDS +5..+13, palmar aponeurosis +17..+21; 0% of arch points palmar to the "
-                  "tendons, 58% dorsal to them): in the body the arch lies superficial to the tendons, under the aponeurosis",
+    "palm_depth": "superficial venous palmar arch lies DEEP to the flexor tendons (0% of its points palmar to them, ~85% dorsal); Q340 "
+                  "conformed the arterial arch and the common palmar digital arteries (real checks now) but kept the venous arch: its tapered "
+                  "lift drove ~70 vertices per hand into the flexor tendons (dives toward the deep venous arch, held junctions with the ulnar "
+                  "and palmar digital veins) -- data/derived/Q340_palm_report.json",
     "digital_nerve_depth": "proper palmar digital nerves of fingers 2-5 run at the mid-lateral line (median palmar offset -0.7..+1.4 mm), "
                            "3-5 mm dorsal to the arteries (+3..+8); textbook: the nerve lies palmar to the artery in the finger",
     "dorsal_digital_arteries": "dorsal digital arteries / veins of the hand run at the mid-lateral line (median palmar offset -2.1..+2.0 mm) "
                                "instead of dorsolaterally",
     "thumb_radial_artery": "radial proper palmar digital artery of the thumb at the mid-lateral line (median palmar offset -0.1 mm)",
-    "in_bone": "Z meshes dipping into a hand bone by up to 1.9-4.4 mm: deep venous palmar arch 51 vertices (mc 3-5, 4.4 mm), superficial "
-               "venous palmar arch 28 (capitate, mc 2-4, 3.3), palmar metacarpal arteries 23 (mc 2 / 5, 2.5), deep palmar arch 21 (hamate, "
-               "mc 2, 2.7), fibrous sheath of the digits 38 of 1817 (proximal phalanx 3, middle phalanx 4, 2.9), extensor digiti minimi "
-               "sheath 7 (hamate, mc 5, 1.9)",
+    "in_bone": "Z meshes dipping into a hand bone by up to 2.5-4.4 mm, kept by Q340 (its push failed a guard on a side; both hands are kept "
+               "mirror images): deep venous palmar arch on Base M 51 vertices (mc 3-5, 4.4 mm; flipped 0.53 % > 0.5 on the right), palmar "
+               "metacarpal arteries 23 (mc 2 / 5, 2.5; flipped 1.2 %), deep palmar arch 21 (hamate, mc 2, 2.7; pushed into the flexor "
+               "tendons), fibrous sheath of the digits 38 of 1817 (proximal phalanx 3, middle phalanx 4, 2.9; pushed into the tendons / "
+               "digital sheaths) -- data/derived/Q340_palm_report.json",
 }
 ASYM = ("recurrent_branch_of_median_n_r", "zan_common_flexor_tendon_sheath_r")
 KNOWN["asym"] = ("left and mirrored right differ: recurrent branch of the median nerve (Base M) mean 3.0 mm / p95 7.9; common flexor "
@@ -151,7 +153,9 @@ def rest_rules(pg):
                 inside.append((x["id"], n, len(x["v"]), sorted(set(ib[ib != ""]))))
         big = [r for r in inside if r[1] >= max(5, 0.02 * r[2])]
         for r in big:
-            known = re.search(r"palmar_arch|venous_palmar|palmar_metacarpal_arteries|fibrous_sheath_of_digit|extensor_digiti_minimi", r[0]) and r[1] <= 60
+            # Q340 pushed the superficial venous arch and the extensor digiti minimi sheath out of bone (both pages) and the deep venous arch
+            # on Base F: those are real checks now; what Q340 kept (its guards failed) stays KNOWN
+            known = re.search(r"zan_deep_palmar_arch|zan_deep_venous_palmar_arch|palmar_metacarpal_arteries|fibrous_sheath_of_digit", r[0]) and r[1] <= 60
             check("%s: %d of %d vertices > 1.5 mm inside %s" % (r[0], r[1], r[2], ", ".join(r[3])), False, "in_bone" if known else None)
         check("side %s: no other hand soft tissue passes through a bone (%d structures with a few stray vertices, <2%%)" % (s, len(inside) - len(big)), True)
         out[s] = dict(inside=inside)
@@ -182,16 +186,18 @@ def rest_rules(pg):
     # R5 records
     bad = [x["id"] for x in pg.M.S if re.search(r"_(l|r)$", x["id"]) and x["sys"] != "bone" and re.match(r"Bones of the (left|right) hand", (x.get("rec") or {}).get("name", ""))]
     check("no hand soft tissue carries the hand bones' record%s" % ((": " + ", ".join(bad)) if bad else ""), not bad)
-    # palm depth: measured, reported KNOWN
+    # palm depth: the arterial arch and the common palmar digital arteries are a real check since Q340 conformed them (Gray 1918 p. 598:
+    # the arch lies upon the flexor tendons under the palmar aponeurosis); the superficial venous arch is still KNOWN (Q340 kept it)
     for s in "rl":
-        r = palm_depth(pg, s)
-        check("side %s: superficial palmar arch palmar to the flexor tendons (%.0f%% of its points; %.0f%% lie dorsal to them)" % (s, 100 * r[0], 100 * r[1]),
-              r[0] >= 0.5, "palm_depth")
+        for nm, kn in (("zan_superficial_palmar_arch_", None), ("zan_common_palmar_digital_arteries_", None), ("zan_superficial_venous_palmar_arch_", "palm_depth")):
+            r = palm_depth(pg, s, nm)
+            check("side %s: %s%s palmar to the flexor tendons (%.0f%% of its points; %.0f%% lie dorsal to them)" % (s, nm, s, 100 * r[0], 100 * r[1]),
+                  r[0] >= 0.5 and r[1] <= 0.05, kn)
     return out
 
 
-def palm_depth(pg, s):
-    """fraction of superficial-arch points (mid palm) palmar to the flexor tendons in the same 4 mm column, and fraction dorsal to them"""
+def palm_depth(pg, s, name="zan_superficial_palmar_arch_"):
+    """fraction of a vessel's points (mid palm) palmar to the flexor tendons in the same 4 mm column, and fraction dorsal to them"""
     from scipy.spatial import cKDTree
     B = pg.M.bones(); J = {j["id"]: j for j in pg.rig["joints"]}
     w = np.array(J["wrist_" + s]["c"])
@@ -200,7 +206,7 @@ def palm_depth(pg, s):
     tpr = lambda P: np.c_[(P - w) @ d_h, (P - w) @ p, (P - w) @ r]
     fl = np.vstack([pg.byid[n + s]["v"] for n in ("flexor_digitorum_profundus_", "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_", "flexor_pollicis_longus_") if (n + s) in pg.byid])
     F = tpr(fl); tr = cKDTree(F[:, [0, 2]])
-    X = tpr(pg.byid["zan_superficial_palmar_arch_" + s]["v"]); X = X[(X[:, 0] > 15) & (X[:, 0] < 95)]
+    X = tpr(pg.byid[name + s]["v"]); X = X[(X[:, 0] > 15) & (X[:, 0] < 95)]
     above = below = n = 0
     for q in X:
         ii = tr.query_ball_point(q[[0, 2]], 4.0)
