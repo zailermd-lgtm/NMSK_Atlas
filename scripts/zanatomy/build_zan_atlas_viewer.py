@@ -83,6 +83,7 @@ sys.path.insert(0, str(REPO))
 
 from scripts.zanatomy.map_names import load_full_atlas, strip_suffix  # noqa: E402
 from scripts.zanatomy import muscle_gap_closure as gap_closure  # noqa: E402
+from scripts.zanatomy import card_rules_q354 as card_rules  # noqa: E402  (Q354: exact part-of links, layer, names)
 from scripts.zanatomy.zan_source import (  # noqa: E402
     DEFAULT_INVENTORY, DEFAULT_NAMEMAP, DEFAULT_ZAN_DIR, load_extra_links,
     load_source, safe_filename, to_atlas_frame,
@@ -983,8 +984,18 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         bin_chunks.append(packed)
 
         layer = classify_layer(cat, zanatomy_name or display_name)
+        layer = card_rules.layer_fix(zanatomy_name or display_name, layer) or layer      # Q354: brain / eye / middle-ear parts are not nerves
+        display_name = card_rules.display_name(mesh_id, display_name)                     # Q354: no raw Z-Anatomy labels
         counts_by_layer[layer] += 1
         counts_by_category[cat] += 1
+        if rec_override is None and parent_link is not None:
+            # Q354: the name map's substring match lent a parent's record to structures that are not pieces of it ("Middle temporal
+            # gyrus" -> temporal bone, a bursa -> its muscle); only a piece OF the parent keeps the link
+            p_id, p_folder, p_rec = parent_link
+            p_facts = summarise(p_folder, p_rec, {})
+            if not card_rules.part_link_ok(display_name, layer, p_id, p_facts.get("name") or p_id, card_rules.atlas_categories().get(p_id),
+                                           [c.get("id") for c in p_facts.get("compartments") or []]):
+                parent_link = None
 
         entry = {"name": display_name, "id": mesh_id, "side": side_code(side_raw), "sys": layer, **fields}
         if layer == "vessel" and is_vein(zanatomy_name or display_name, mesh_id):
@@ -1315,8 +1326,8 @@ NATIVE_FEMALE_WORDING = [
      "This page therefore DEFORMS that body onto a FEMALE skeleton: the Z-Anatomy bones are warped onto the skeleton of the Visible Human female (U.S. National Library of Medicine; her own CT) &mdash; the pelvis "
      "(hip bones, sacrum, coccyx) by a non-rigid registration onto her pelvis, the rest of the skeleton (skull, spine, ribs, sternum, shoulder girdle, limbs) by her bone sizes and positions &mdash; "
      "in the Z-Anatomy standard anatomical pose (her supine cadaver pose is not copied) and left / right symmetrised. Every other structure (muscles, ligaments, vessels, nerves, organs, fascia, skin) is carried "
-     "along with the bones it attaches to by a smooth bone-anchored thin-plate-spline deformation: origins and insertions stay on the bone surface (within 1 mm); the card of each structure states its displacement, "
-     "area / volume change and any guard correction. The female organs (uterus, both ovaries, both uterine tubes, vagina, the ligaments of the uterus and ovary, the pelvic vessels) are the HuBMAP Human Reference Atlas "
+     "along with the bones it attaches to by a smooth bone-anchored thin-plate-spline deformation: origins and insertions stay on the bone surface (within 1 mm); each structure's displacement, "
+     "area / volume change and any guard correction are kept in the page data (not printed on its card). The female organs (uterus, both ovaries, both uterine tubes, vagina, the ligaments of the uterus and ovary, the pelvic vessels) are the HuBMAP Human Reference Atlas "
      "reference organs of the same donor (CC BY 4.0, Browne and Schlehlein), registered onto this page's new pelvis. "
      "<strong>Since Q292</strong> her OWN breasts (her CT, TotalSegmentator `breasts`) with their fibroglandular tissue (rule-based HU threshold), her own chest skin contour (the Z-Anatomy chest skin patches fitted onto her CT skin), "
      "her own urinary bladder, rectum and pelvic sigmoid colon (her CT) and her own uterus (her colour cryosections) are registered onto this body by its bones; the breasts are REFITTED by stated rules "

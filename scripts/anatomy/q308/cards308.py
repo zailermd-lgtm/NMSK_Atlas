@@ -194,7 +194,7 @@ def psoas_rec(key, side, st):
                 _cite(k) for k in ("raja2026", "patra2024")),
             "origin": "lateral aspect of the bodies of T12 and L1",
             "insertion": "pecten pubis and iliopubic eminence",
-            "nerve": ["lumbar_plexus_L1"],
+            "nerve": ["Lumbar plexus (L1)"],   # Q354: a display name, not a raw id
             "procedural_badge": badge,
             "geom_src": f"RULE-BASED (Q308) on this page's own T12, L1 and hip bone; "
                         f"volume {st['volume_cm3']} cm3; hidden by default"}

@@ -334,7 +334,9 @@ def summarise(folder, rec, anchor_points=None):
     att = rec.get("attachments") or {}
     if att:
         out["origin"] = f"{att.get('origin_bone', '')}: {att.get('origin_landmark', '')}".strip(": ")
-        out["insertion"] = f"{att.get('insertion_bone', '')}: {att.get('insertion_landmark', '')}".strip(": ")
+        # Q354: an eye muscle inserts on the sclera; its insertion_bone is only the rig's anchor proxy, never shown as the insertion
+        ins_bone = "" if "sclera" in (att.get("insertion_landmark") or "").lower() else att.get("insertion_bone", "")
+        out["insertion"] = f"{ins_bone}: {att.get('insertion_landmark', '')}".strip(": ")
         # Text alone left "pes anserinus" naming three different tendons'
         # worth of muscle at the same vague spot. Where the muscle's own
         # bone HAS real measured geometry, the anchor generator already

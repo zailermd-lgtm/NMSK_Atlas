@@ -22,7 +22,7 @@
    after a click that no tool consumed, and sync(id) from its own select(). */
 var NMSKQuickCard = (function(){
   "use strict";
-  var GAP = 14, MARG = 8, STUB = 36, DOCKW = 560, live = null, KEY = "nmsk.q321.prefs";
+  var GAP = 14, MARG = 8, STUB = 36, DOCKW = 560, CAP = 0.6, live = null, KEY = "nmsk.q321.prefs";   /* Q354: CAP = the open card's share of the view */
   var POS = ["tl", "point", "drag"], LEAD = ["auto", "always", "never"], CHIPS = ["card", "bottom"], SHOW = ["fade", "only", "zoom", "more"];
   /* Q335, owner: the groups / adjacent / related row "becomes ONE button 'Related structures' on the name card that opens a
      small menu". The menu lists FAMILIES from this registry, in `order`. A family either runs at once (run(id), with a
@@ -47,6 +47,25 @@ var NMSKQuickCard = (function(){
     ADD.sort(function(x, y){ return (x.order || 99) - (y.order || 99); });
     return true;
   }
+  /* Q354: a bursa / tendon sheath carries no muscle's record any more; the page data names the muscle it belongs with
+     (manifest mesh "rel"), and the card shows it as a link -- "Related: Obturator internus" -- never its attachments */
+  var REL = null;
+  function relOf(id){
+    if (!REL){ REL = {}; try { ((window.__ANATOMY_MANIFEST__ || {}).meshes || []).forEach(function(m){ if (m && m.rel) REL[m.id] = m.rel; }); } catch (err){} }
+    return REL[id] || null;
+  }
+  addon({key:"rel354", order:5, render:function(id, host, card){
+    var rid = relOf(id); if (!rid || !card.engine) return;
+    var E = card.engine(), inf = E && E.info ? E.info(rid) : null; if (!inf) return;
+    var row = document.createElement("div"); row.className = "qc-relto";
+    var lab = document.createElement("span"); lab.textContent = "Related: ";
+    var b = document.createElement("button"); b.type = "button"; b.className = "qc-rellink"; b.setAttribute("data-rel", rid);
+    var sd = / \u00b7 (left|right)$/.exec(inf.sub || "");
+    b.textContent = inf.name + (sd && !/\((?:left|right)\)\s*$/.test(inf.name) ? " (" + sd[1] + ")" : "");
+    b.title = "Open " + inf.name;
+    b.addEventListener("click", function(ev){ ev.stopPropagation(); card.go(rid); });
+    row.appendChild(lab); row.appendChild(b); host.appendChild(row);
+  }});
   function q8(){ return window.NMSKQ298 || null; }
   function q8n(id, k){ var Q = q8(), c = null; try { c = Q && Q.counts ? Q.counts(id) : null; } catch (err){ c = null; } return c ? (c[k] || 0) : 0; }
   function q8run(k){ var Q = q8(); if (Q && Q.run) Q.run(k); }
@@ -119,6 +138,7 @@ var NMSKQuickCard = (function(){
       b("more", "More…", function(id){ if (open1) less(); else more(id); }, "qc-more");
       chipsEl = el("div", "qc-chips"); chipsEl.id = "qc-chips";
       detEl = el("div", "qc-det"); detEl.id = "qc-det"; detEl.setAttribute("data-nm-hosted", "");
+      try { new MutationObserver(function(){ if (open1) tidyDet(); }).observe(detEl, {childList:true, subtree:true}); } catch (err){}
       addEl = el("div", "qc-add"); addEl.id = "qc-add";
       card.appendChild(head); card.appendChild(rowEl); card.appendChild(addEl); card.appendChild(chipsEl); card.appendChild(detEl);
       lead = document.createElementNS("http://www.w3.org/2000/svg", "svg"); lead.setAttribute("class", "qc-lead"); lead.hidden = true; lead.setAttribute("aria-hidden", "true");
@@ -161,10 +181,17 @@ var NMSKQuickCard = (function(){
                 k = subs ? (f.count ? +f.count(id) || 0 : n) : n; } catch (err){ subs = null; n = 0; k = 0; }
           var x = item(f.label + (k ? " \u00b7 " + k : "") + (subs ? " \u25b8" : ""));
           x.setAttribute("data-fam", f.key);
-          if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data"; }
+          if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data";
+                   x.textContent = f.label + " \u00b7 none"; }
           if (subs) x.setAttribute("aria-haspopup", "menu");
+          var why = null;
           x.addEventListener("click", function(e){
-            e.stopPropagation(); if (!n) return;
+            e.stopPropagation();
+            if (!n){              /* Q354: an empty family says why on a tap (it used to do nothing) */
+              if (why){ why.parentNode.removeChild(why); why = null; x.setAttribute("aria-expanded", "false"); return; }
+              why = el("p", "qc-rwhy", "None for this structure in this project's data."); why.setAttribute("role", "note");
+              x.parentNode.insertBefore(why, x.nextSibling); x.setAttribute("aria-expanded", "true"); pos(); return;
+            }
             if (subs){ stack.push({label:f.label, items:subs, key:f.key}); paint(); return; }
             relClose(false); try { f.run(id); } catch (err){} after();
           });
@@ -357,9 +384,25 @@ var NMSKQuickCard = (function(){
     /* the details scroll inside the card, which never runs past the bottom of the view */
     function fit(){
       if (!open1 || !detEl) return;
-      var t = detEl.getBoundingClientRect().top;
-      /* at most half the view, so an open window still has room to be moved down */
-      detEl.style.maxHeight = Math.max(120, Math.round(Math.min(window.innerHeight - t - 12, window.innerHeight * 0.5))) + "px";
+      tidyDet();
+      var vh = window.innerHeight, top = card.getBoundingClientRect().top, t = detEl.getBoundingClientRect().top, cap = Math.round(vh * CAP);
+      /* Q354: the whole open window takes at most ~60% of the view (a phone showed 81%); the details scroll inside it, and if what
+         sits above them is already that tall the window itself scrolls */
+      var room = cap - (t - top) - 10;
+      detEl.style.maxHeight = Math.max(96, Math.round(Math.min(vh - t - 12, room))) + "px";
+      card.style.maxHeight = cap + "px";
+      card.style.overflowY = room < 96 ? "auto" : "";
+    }
+    /* Q354: the triangle count is not anatomy; the engine's full card prints it first ("1,200 tris \u00b7 left"). Inside this
+       window the count goes, and the line with it when the side is all that is left (the head already says the side). */
+    function tidyDet(){
+      if (!detEl) return;
+      [].forEach.call(detEl.querySelectorAll("#info p.sub2"), function(p){
+        var t = p.textContent || "";
+        if (!/^\s*[\d,.\u00a0\u202f\s]+tris\b/.test(t)) return;
+        var rest = t.replace(/^\s*[\d,.\u00a0\u202f\s]+tris\s*\u00b7?\s*/, "").replace(/^(?:left|right|midline)\s*(?:\u00b7\s*)?/, "").trim();
+        if (rest){ p.textContent = rest; } else { p.textContent = ""; p.hidden = true; p.style.display = "none"; }
+      });
     }
     /* THE LINE. The selection tint already says which structure the card is about, so in "auto" there is no line while the
        structure is drawn in it; when a line is drawn it is a SHORT marker at the clicked point (at most STUB px, pointing
@@ -391,7 +434,7 @@ var NMSKQuickCard = (function(){
       var inf = details();
       if (inf && home && inf.parentNode === detEl){ try { home.p.insertBefore(inf, home.n && home.n.parentNode === home.p ? home.n : null); } catch (err){ home.p.appendChild(inf); } }
       home = null; open1 = false;
-      if (card){ card.classList.remove("qc-open"); detEl.style.maxHeight = ""; }
+      if (card){ card.classList.remove("qc-open"); detEl.style.maxHeight = ""; card.style.maxHeight = ""; card.style.overflowY = ""; }
       document.body.classList.remove("qc-more");
       if (btns.more){ btns.more.textContent = "More…"; btns.more.setAttribute("aria-expanded", "false"); }
     }
@@ -421,6 +464,8 @@ var NMSKQuickCard = (function(){
     }
     /* what an add-on may do with the card */
     var cardApi = {setScope:setScope, scope:function(){ return S().slice(); }, current:function(){ return cur; },
+                   engine:function(){ return E; },
+                   go:function(rid){ if (!rid) return; try { E.zoom(rid); } catch (err){} if (!card || card.hidden || cur !== rid) open(rid, null, null); },
                    refresh:function(){ refresh(); }, place:function(){ place(); },
                    redraw:function(){ if (cur && card && !card.hidden){ addons(cur); refresh(); fit(); } }};
     function open(id, cx, cy){

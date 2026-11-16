@@ -483,6 +483,7 @@ html.pose-on #pm-layer{display:none!important}
 #pm-layer .pm.pm-sel .pm-ring{opacity:.95;background:rgba(255,255,255,.18);left:-11px;top:-11px;width:22px;height:22px}
 #pm-layer .pm.pm-focus .pm-ring{opacity:1;border-width:3px;left:-14px;top:-14px;width:28px;height:28px;box-shadow:0 0 0 2px var(--pm-bg)}
 #pm-layer .pm .pm-ring:hover{opacity:1}
+#pm-layer .pm .pm-ring{transform:scale(var(--pmk,1))}#pm-layer .pm.pm-focus .pm-ring{transform:scale(max(var(--pmk,1),.7))}   /* Q355: rings shrink at whole-body zoom */
 #pm-layer .pm .pm-lab{position:absolute;left:15px;top:-9px;white-space:nowrap;padding:1px 5px;border-radius:4px;background:var(--pm-bg);border:1px solid var(--pm-line);color:var(--pm-ink);display:none;pointer-events:none;max-width:240px;overflow:hidden;text-overflow:ellipsis}
 #pm-layer .pm.pm-lab-on .pm-lab{display:block}
 #pm-layer .pm-err{position:absolute;left:0;top:0;border:1.5px dashed var(--pm-rule);border-radius:50%;pointer-events:none;box-sizing:border-box;opacity:.85}
@@ -907,6 +908,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 .mc-primary{height:48px;border-radius:12px;background:var(--mode-c);color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;width:100%}
 .mc-primary[disabled]{opacity:.5;cursor:default}
 .mc-sec{height:44px;border-radius:12px;border:1px solid #C9CDD3;background:#fff;color:#20242B;font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:center;width:100%}
+.mc-list .mc-sec{height:auto;min-height:44px;padding:6px 12px;line-height:1.25;white-space:normal;text-align:center;overflow-wrap:anywhere;flex:0 0 auto}   /* Q355: a long landmark name wraps inside its button */
 .mc-sec[aria-pressed=true]{background:var(--mode-soft);border-color:var(--mode-c);color:var(--mode-c);font-weight:700}
 .mc-hint{font-size:12.5px;color:#5B6472;margin:0}
 .mc-warn{font-size:12.5px;color:#9A5A0E;margin:0}
@@ -1019,7 +1021,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   .mw-models a{height:30px;padding:0 10px;font-size:12px;flex:0 0 auto}
   .mw-body{padding:14px 16px;gap:10px;justify-content:flex-start}.mw-q{font-size:21px;margin-bottom:2px}
   .mw-tiles{grid-template-columns:1fr 1fr;gap:10px}.mw-tile{min-height:0;padding:14px;gap:6px}.mw-tile .mw-t{font-size:16px}
-  .mw-tile .mw-d{font-size:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
+  .mw-tile .mw-d{font-size:12px;line-height:1.35}   /* Q355: the whole description, not one cut line */
   .mw-note{display:none}
   #mode-bar{padding:0 14px;gap:10px}
   .mb-pill{height:32px;padding:0 12px;font-size:14px}.mb-pill .mb-long{display:none}.mb-pill .mb-short{display:inline}
@@ -1030,6 +1032,10 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   .mc-left .mc-title{font-size:12px;color:#5B6472}
   .mc-left .mc-drow{gap:8px}.mc-left .mc-drow .bar{width:5px;height:22px}.mc-left .mc-drow .nm{font-size:13px}.mc-left .mc-drow .mm{font-size:17px}.mc-left .mc-drow .un,.mc-left .mc-foot,.mc-left .mc-edit{display:none}
   .mc-left .mc-drow:nth-child(n+5){display:none}
+  /* Q355: the names are what the box is for -- wrap to two lines, the distance stays at the end of the row */
+  .mc-left .mc-drow .nm{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.2}
+  .mc-left .mc-drow .mm{flex:0 0 auto;text-align:end}
+  .mb-text{white-space:normal;line-height:1.15;font-size:13px;text-align:start;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere}
   .mc-right{left:0;right:0;top:auto;bottom:0;border-radius:20px 20px 0 0;padding:10px 16px 20px;gap:12px;background:rgba(255,255,255,.97);max-height:60%;overflow:auto}
   .mc-handle{display:block;width:44px;height:5px;border-radius:3px;background:#C9CDD3;margin:0 auto}
   .mc-mob{display:flex}
@@ -1186,7 +1192,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
       <button type="button" id="cut-fill" aria-pressed="false" title="Fill the cut surface of every shown structure in its own colour (a cross-section of the meshes; meshes that are not closed get an outline only)">Fill cross-section</button><button type="button" id="cut-look" title="Turn the camera to look straight at the cut face">Look at the cut face</button>
     </div>
     <p id="cut-capinfo" class="cp-hint" aria-live="polite"></p>
-    <div class="cp-lbl">Cross-section (multiple slices, Q281)</div>
+    <div class="cp-lbl">Cross-section (multiple slices)</div>
     <div class="cp-row"><button type="button" id="xsec-on" aria-pressed="false" title="Show 3-12 parallel real cross-sections of the model at once, stepped along this plane's normal (uses this plane's current orientation)">Multi-slice cross-section</button></div>
     <div id="xsec-body" hidden>
       <div class="cp-row xs-nums">
@@ -1216,8 +1222,8 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
       <p class="qv-name" id="qv-name"></p>
       <div class="qv-row">
         <button type="button" id="qv-focus" title="Move the camera to this structure">Focus</button>
-        <button type="button" id="qv-mark" title="Mark it and colour it in the highlight colour (Q227/Q232, reused as-is)">Mark &amp; highlight</button>
-        <button type="button" id="qv-learn" title="Open it in the Learn panel: highlight, rotate, simulate its cited action (Q283)">Learn</button>
+        <button type="button" id="qv-mark" title="Mark it and colour it in the highlight colour">Mark &amp; highlight</button>
+        <button type="button" id="qv-learn" title="Open it in the Learn panel: highlight, rotate, simulate its cited action">Learn</button>
       </div>
       <button type="button" id="qv-mp" hidden title="Show this structure's motor point(s) (needs the clinical layer and motor-point data for it)">Show its motor point</button>
       <p id="qv-mp-msg" class="qv-hint"></p>
@@ -1500,7 +1506,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
     <h3>Corrections applied</h3>
     <p>Where this project's own audit of a Z-Anatomy pathway found a real, cited discrepancy against the literature, the geometry is warped by a small, bounded, declarative correction — never a hand-edit of the mesh. A corrected structure carries a badge in its info card; the correction itself is fully described and cited under <code>data/corrections/zanatomy/</code>:</p>
     <ul>
-      <li><strong>Posterior interosseous nerve</strong> (both sides) — arcade-of-Frohse entry point moved from the measured 27.5&nbsp;mm to 42.55&nbsp;mm distal to the lateral epicondyle, per Aggarwal et al. 2026 (PMID 42556533) and Hazani et al. 2008 (PMID 18668182). See <code>data/corrections/zanatomy/radial_n.json</code> and PROJECT_STATE.md Q144/Q145.</li>
+      <li><strong>Posterior interosseous nerve</strong> (both sides) — arcade-of-Frohse entry point moved from the measured 27.5&nbsp;mm to 42.55&nbsp;mm distal to the lateral epicondyle, per Aggarwal et al. 2026 (PMID 42556533) and Hazani et al. 2008 (PMID 18668182)..</li>
     </ul>
 
     <h3>Biomechanical data</h3>
@@ -1512,7 +1518,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
       <li><strong>Pose</strong> is Z-Anatomy's own neutral stance, not driven by this atlas's own joint ROM data.</li>
       <li><strong>Decimation</strong> softens fine surface detail (small foramina, sharp crests) to keep this one page under 15&nbsp;MB.</li>
       <li><strong>Name matching</strong> between the two datasets is scored, not exact — a few real correspondences are missed, and a few low-confidence ones are deliberately left unmatched (see <code>scripts/zanatomy/map_names.py</code>).</li>
-      <li><strong>Generic body</strong>: this is Z-Anatomy's own internally-consistent model, not registered to either of this project's own Visible Human specimens — that registration was tried and found too inaccurate to ship (PROJECT_STATE.md Q142/Q143).</li>
+      <li><strong>Generic body</strong>: this is Z-Anatomy's own internally-consistent model, not registered to either of this project's own Visible Human specimens — that registration was tried and found too inaccurate to ship.</li>
     </ul>
   </div>
 </div>
@@ -1760,6 +1766,7 @@ body.mode-on .hist-bar{display:none}
 @media (max-width:560px){
   .ms-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .ms-row>button{flex:0 0 auto}
+  .ms-row>#ms-close{position:sticky;inset-inline-end:0;z-index:2;background:#1b2128;box-shadow:-6px 0 6px #1b2128;margin-inline-start:auto}   /* Q355: the close button stays reachable while the row scrolls */
   .ms-res{max-height:38px}
   .ms-msg{max-height:34px;overflow:auto}
 }
@@ -2575,7 +2582,10 @@ var NMSKPartSlices = (function(){
     if (t && t.height > 0){ var top = Math.round(Math.min(window.innerHeight * 0.45, t.bottom + 6)); panel.style.top = top + "px"; panel.style.bottom = "auto"; panel.style.maxHeight = "calc(100vh - " + (top + 10) + "px)"; panel.style.overflowY = "auto"; }
     else { panel.style.top = ""; panel.style.bottom = ""; panel.style.maxHeight = ""; }
   }
-  function open(v){ if (!panel) return; panel.hidden = !v; if (v) fill(); place(); if (tb) tb.setAttribute("aria-pressed", String(!panel.hidden)); }
+  function open(v){
+    if (!panel) return;
+    if (v && panel.hidden && window.innerWidth <= 760){ var ap = document.getElementById("pm-att"), ax = ap && !ap.hidden ? ap.querySelector(".pp-x") : null; if (ax) ax.click(); }   /* Q355: one tool panel at a time on a phone */
+    panel.hidden = !v; if (v) fill(); place(); if (tb) tb.setAttribute("aria-pressed", String(!panel.hidden)); }
   function start(a, x, opt){
     api = a; xs = x; opt = opt || {}; panel = $("xsp-panel"); sel = $("xsp-part");
     if (!panel || !xs) return null;
@@ -3295,7 +3305,7 @@ var NMSKCombos = (function(){
     {a:"imaging",  b:"srccolour",ok:false, why:"A radiographic style replaces the colour, so colour-by-source has nothing left to colour."},
     {a:"imaging",  b:"highlight",ok:false, why:"A highlight colour does not exist in a greyscale picture — use Fade others instead."},
     {a:"imaging",  b:"boneread", ok:"over", over:"imaging",
-     why:"A radiographic style sets the bone's brightness from its own attenuation, so Q300's extra bone pass is paused while a style is on \u2014 it comes back with the colour."},
+     why:"A radiographic style sets the bone's brightness from its own attenuation, so the extra bone pass is paused while a style is on \u2014 it comes back with the colour."},
     {a:"peel",     b:"preset",   ok:false, why:"Both write the same layer table — turning one on turns the other off."},
     {a:"peel",     b:"solo",     ok:false, why:"Both write the same layer table — turning one on turns the other off."},
     {a:"spin",     b:"measure",  ok:false, why:"Stop the spin first, or the model moves while you are placing the point."},
@@ -3985,7 +3995,7 @@ var NMSKFat = (function(){
     cur = v; touched = true; push(); ui();
     if (!quiet){
       if (hist && hist.schedule) hist.schedule();
-      say(cur ? "Fat is shown, faint, as Q295 drew it. It fills the cut faces and the cross-sections either way."
+      say(cur ? "Fat is shown, faint. It fills the cut faces and the cross-sections either way."
               : "Fat is hidden again. It still fills the cut faces and the cross-sections, so a section never reads as hollow.");
       if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
     }
@@ -4006,9 +4016,9 @@ var NMSKFat = (function(){
       btn.addEventListener("click", function(e){ e.stopPropagation(); set(!cur); });
       box.appendChild(btn);
       var note = document.createElement("span"); note.className = "ft-note";
-      note.innerHTML = '<p class="nmsk-tip">Fat and unlabelled soft tissue (Q295) is built from each body\'s own imaging in the space no segmented structure covers. ' +
+      note.innerHTML = '<p class="nmsk-tip">Fat and unlabelled soft tissue is built from each body\'s own imaging in the space no segmented structure covers. ' +
         'It is <b>off at load</b>, as asked, and one tap shows it. Either way it <b>keeps filling the cut faces and the cross-sections</b>, ' +
-        'because a section drawn without it reads as hollow &mdash; which was the whole reason Q295 built it. ' +
+        'because a section drawn without it reads as hollow &mdash; which is why it is built. ' +
         (n ? "This page carries <b>" + n + "</b> such structures; the subcutaneous ones are labelled <i>Panniculus adiposus (tela subcutanea)</i> &mdash; the superficial fascia." : "<b>This page carries none.</b>") + '</p>';
       box.appendChild(note);
       if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);
@@ -4590,7 +4600,7 @@ var NMSKQ301 = (function(){
         "about the order, nothing has to be depth sorted. Each closed surface is crossed twice, front and back, as a real beam does. " +
         "<b>Our convention:</b> <i>d</i>, the path length taken through each crossing &mdash; a surface atlas has no " +
         "thickness along the ray, so the three steps (Soft / Normal / Hard) are a scale we chose, not millimetres we measured. " +
-        "This style does not use Q300's extra bone pass: the bone separates by its own attenuation.</p>" +
+        "This style does not use the extra bone pass: the bone separates by its own attenuation.</p>" +
         "<p><b>CT</b> paints each structure the grey its own HU gives through a real window, " +
         "grey = (HU &minus; (L &minus; W/2)) / W, clipped: " +
         wins.map(function(w){ return "<b>" + esc(w.label) + "</b> W" + w.width + " / L" + w.level + (w.note ? " (" + esc(w.note) + ")" : ""); }).join("; ") +
@@ -4641,10 +4651,10 @@ var NMSKQ301 = (function(){
     }});
     I.add({key:"fat", title:"Fat: off at load, and still filling every cut face", order:60, build:function(){
       var F = window.NMSKFat, st = F && F.state ? F.state() : null;
-      return "<p>Fat and unlabelled soft tissue (Q295) is built from each body's <b>own imaging</b>, in the space no " +
+      return "<p>Fat and unlabelled soft tissue is built from each body's <b>own imaging</b>, in the space no " +
         "segmented structure covers. It is <b>off when the page loads</b>, as asked, and one tap in the Layers group shows it. " +
         "Either way it <b>keeps filling the cut faces and the cross-sections</b>, because a section drawn without it reads " +
-        "as hollow &mdash; which is the whole reason Q295 built it.</p>" +
+        "as hollow &mdash; which is why it is built.</p>" +
         (st ? "<p>This page carries <b>" + st.count + "</b> such structures.</p>" : "");
     }});
   }
@@ -5533,7 +5543,7 @@ var NMSKAutoFocus = (function(){
     last = {ok:!!r, mode:M.key, modeLabel:M.label, kind:t.kind, label:t.label, why:t.why, n:t.n,
             target:v3(t.c), radius:num(t.r), result:r, reason:reason, at:Date.now()};
     log.push(last); if (log.length > 40) log.shift();
-    if (!quiet && r) say("Centred " + r.what + " on " + t.label + " — " + t.why + ".");
+    if (quiet !== true && r) say("Centred " + r.what + " on " + t.label + " — " + t.why + ".");
     else if (!quiet) say("Nothing to centre " + M.label + " on here.");
     return last;
   }
@@ -5548,7 +5558,7 @@ var NMSKAutoFocus = (function(){
       try { now = !!m.probe(); } catch (err){ now = false; }
       var was = !!watch[m.key];
       watch[m.key] = now;
-      if (now && !was && want) focus(m.key);
+      if (now && !was && want) focus(m.key, "auto");   /* Q355: on entering a mode only a success is announced, never "nothing to centre" */
     });
   }
   var api = {
@@ -6314,7 +6324,7 @@ var NMSKNerves = (function(){
       box.appendChild(seg);
       note = document.createElement("p"); note.className = "nv-note"; box.appendChild(note);
       var tip = document.createElement("p"); tip.className = "nmsk-tip";
-      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. Each dot has a thin dark rim (1 px) so the yellow still reads on pale bone, fat and fascia; the rim is drawn only while the emphasis is on and the nerve's own width is not changed by it. It is the same idea as Q299's minimum section width and Q300's bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
+      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. Each dot has a thin dark rim (1 px) so the yellow still reads on pale bone, fat and fascia; the rim is drawn only while the emphasis is on and the nerve's own width is not changed by it. It is the same idea as the minimum section width and the bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
       box.appendChild(tip);
       if (opt.toolbar) opt.toolbar.appendChild(box);
       if (hist && hist.register) hist.register("q303nerves", provider());
@@ -6486,7 +6496,7 @@ var NMSKQ303 = (function(){
       if (!N) return "<p>(not on this page)</p>";
       var st = N.state(), c = st.census, ab = st.absent, sm = N.sample();
       return "<p><b>Why the small ones were invisible, measured and not guessed.</b> This page's own calibre table " +
-        "(<code>nmsk-calibre</code>, Q240 &mdash; diameters measured off the meshes) gives every nerve a real diameter. " +
+        "(<code>nmsk-calibre</code> &mdash; diameters measured off the meshes) gives every nerve a real diameter. " +
         "A whole-body view puts the body's full height into the height of the 3-D view, so at the moment " +
         "<b>1 pixel ≈ " + c.mmPerPx + " mm</b>: of the <b>" + c.n + "</b> nerve structures here, <b>" + c.subPixel +
         "</b> are drawn <b>under one pixel wide</b>. Nothing is wrong with the mesh, the decimation or the draw order &mdash; " +
@@ -6494,7 +6504,7 @@ var NMSKQ303 = (function(){
         "<p><b>What the emphasis does.</b> An extra pass over the nerves' own vertices, drawn after everything, on the " +
         "camera-facing half of the model, each vertex a round dot whose width is " +
         "<code>max(the step's minimum, the nerve's true width in pixels)</code>. A nerve already wider than the minimum " +
-        "is untouched. That is Q299's <i>minimum drawn width</i> for a thin section and Q300's <i>bone drawn once more " +
+        "is untouched. That is the <i>minimum drawn width</i> for a thin section and the <i>bone drawn once more " +
         "after the translucent pass</i>, applied to nerves &mdash; not a third invention. The steps are " +
         N.steps().map(function(s){ return "<b>" + esc(s.label) + "</b>" + (s.w ? " " + s.w + " px" : ""); }).join(" / ") + ".</p>" +
         "<p><b>The honesty rule.</b> No mesh is changed and no geometry is written. The <b>true calibre stays the " +
@@ -6517,7 +6527,7 @@ var NMSKQ303 = (function(){
         "than drawing a second set that could fall out of step &mdash; that toggle is " +
         (st.motorPoints ? "on this page" : "not on the screen until the needle tool is open") + ".</p>" +
         (ab.missing.length ? "<p><b>What this page does not carry at all</b> (emphasis cannot show a nerve that is not " +
-          "here, and Q299 found exactly this on the Imaging pages): " + ab.missing.map(esc).join(", ") + ". The control " +
+          "here, as the Imaging pages showed): " + ab.missing.map(esc).join(", ") + ". The control " +
           "says so on the screen too.</p>" : "<p>Every nerve on our conventional list of the major peripheral nerves is " +
           "present on this page.</p>");
     }});
@@ -7450,7 +7460,8 @@ var NMSKQ305 = (function(){
     {key:"pills",    el:"topright",   into:"topright", first:true, label:"the top row of buttons"},   /* Q335: in the row, not over a pill */
     {key:"measure",  el:"ms-bar",     first:true, label:"the measurement bar",
      into:function(){ var b = document.getElementById("ms-bar"); return b ? b.querySelector(".ms-row") : null; }},
-    {key:"slices",   el:"xsp-panel",  at:"tl", label:"the part-slices panel"},
+    {key:"slices",   el:"xsp-panel",  first:true, label:"the part-slices panel",   /* Q355: in the heading row, not over "Slices" */
+     into:function(){ var p = document.getElementById("xsp-panel"); return p ? p.querySelector(".xsp-head") : null; }},
     {key:"expand",   el:"q8-float",   at:"tl", label:"the structure-expansion strip"},
     /* Q344: the handle goes INTO the panel's heading row, so it never lies on "Labels:" / the legend title */
     {key:"labels",   el:"lab-panel",  first:true, label:"the labels panel",       light:true,
@@ -7461,7 +7472,8 @@ var NMSKQ305 = (function(){
     {key:"pose",     el:"pose-panel", first:true, label:"the pose panel",      light:true,
      into:function(){ var p = document.getElementById("pose-panel"); return p ? p.querySelector(".pz-head") : null; }},
     {key:"parts",    el:"pm-panel",   at:"tl", label:"the part-markers panel", light:true},
-    {key:"attach",   el:"pm-att",     at:"tl", label:"the attachments panel",  light:true}
+    {key:"attach",   el:"pm-att",     first:true, label:"the attachments panel",  light:true,   /* Q355: in the heading row, not over "Attachments" */
+     into:function(){ var p = document.getElementById("pm-att"); return p ? p.querySelector(".pp-h") : null; }}
   ];
   /* Controls that must stay reachable whatever the user does with the boxes. Everything Q301 lost to an overlap is
      here by name, plus every grip (a box whose handle is covered could never be moved back). */
@@ -7797,7 +7809,7 @@ var NMSKQ306 = (function(){
         if (b.getAttribute("data-act") === "mark"){
           var ids = [], dd = API.data();
           for (var n = 0; n < (c.i || []).length; n++){ var s = dd.ids[c.i[n]]; if (s) ids.push(s); }
-          API.markIds(ids, "the concept " + c.label, "Q306 / " + (c.claims && c.claims.length
+          API.markIds(ids, "the concept " + c.label, "" + (c.claims && c.claims.length
                       ? c.claims.length + " cited sources" : "this project's own data"),
                       c.inferred, c.body);
         } else {
@@ -8223,7 +8235,7 @@ var NMSKSysPeel = (function(){
         var b = document.createElement("button");
         b.type = "button"; b.className = "sp-b q301-b"; b.id = "sp-sc-" + s.k; b.textContent = s.l;
         b.setAttribute("aria-pressed", String(scope === s.k));
-        b.title = s.k === "body" ? "Peel the whole body, exactly as it always did (Q301's own control)"
+        b.title = s.k === "body" ? "Peel the whole body, exactly as it always did (the page's own control)"
           : s.k === "one" ? "Peel one chosen system only; every other system is left as it is"
           : "Peel across exactly the systems switched on right now";
         b.addEventListener("click", function(e){ e.stopPropagation(); setScope(s.k); });
@@ -8261,7 +8273,7 @@ var NMSKSysPeel = (function(){
       whyEl = document.createElement("p"); whyEl.id = "sp-why"; whyEl.className = "sp-why"; whyEl.hidden = true;
       box.appendChild(whyEl);
       var n = document.createElement("span"); n.className = "sp-note";
-      n.innerHTML = '<p class="nmsk-tip">The same taps, three <b>scopes</b>. <b>Whole body</b> is Q301’s own control, driven from here, not rebuilt. ' +
+      n.innerHTML = '<p class="nmsk-tip">The same taps, three <b>scopes</b>. <b>Whole body</b> is the page’s own depth control, driven from here, not rebuilt. ' +
         '<b>One system</b> peels one system’s own depth strata and leaves every other system alone. <b>Systems shown</b> peels across exactly the systems switched on. ' +
         'What a layer means inside a system comes from <code>data/anatomy/system_layers_q309.json</code>, resolved against this page: ' +
         peelable().map(function(s){ return "<b>" + s.label + "</b> " + s.strata.map(function(t){ return t.label.toLowerCase() + " (" + t.n + ")"; }).join(" → "); }).join("; ") +
@@ -8339,7 +8351,7 @@ var NMSKQ309 = (function(){
       var out = "<p>This page carries <b>" + M.systems().length + " systems</b>. Each has one <b>on / off</b> button " +
         "with its own structure count, and a system switched off is a veto of its own &mdash; it does not write the " +
         "tissue-layer table, so it combines with the layer rows, the presets and every depth peel.</p>" +
-        "<p>The depth peel has <b>three scopes</b>: the whole body (Q301's own control, driven from the same taps), " +
+        "<p>The depth peel has <b>three scopes</b>: the whole body (the page's own control, driven from the same taps), " +
         "one chosen system, or exactly the systems switched on. " + esc(T.rule_peel_offered || "") + "</p>" +
         "<table><tr><th>system</th><th>on this page</th><th>its layers, outside&nbsp;in</th><th>where the order comes from</th></tr>";
       M.systems().forEach(function(s){
@@ -8526,6 +8538,12 @@ body.qc-on.qc-more #info:not(.hidden){display:block !important}
 /* add-ons (the Parts chooser) sit between the buttons and the related-structures line */
 .qc-add{display:flex;flex-direction:column;gap:4px;width:0;min-width:100%}
 .qc-add:empty{display:none}
+/* Q354: a bursa / tendon sheath names the muscle it belongs with as a link (it carries no record of its own) */
+.qc-relto{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:11.5px;color:#d3dae2}
+.qc .qc-rellink{min-height:28px;padding:3px 8px;border:1px solid rgba(255,255,255,.18);border-radius:7px;background:rgba(255,255,255,.06);
+  color:#E6EDF3;font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.qc .qc-rellink:hover{background:rgba(255,255,255,.14)}
+@media (pointer:coarse){.qc .qc-rellink{min-height:36px}}
 </style>
 <script>
 /* Q321: the quick card. Owner: "when clicking an organ or a region, the FIRST thing that must open is the name of what was
@@ -8552,7 +8570,7 @@ body.qc-on.qc-more #info:not(.hidden){display:block !important}
    after a click that no tool consumed, and sync(id) from its own select(). */
 var NMSKQuickCard = (function(){
   "use strict";
-  var GAP = 14, MARG = 8, STUB = 36, DOCKW = 560, live = null, KEY = "nmsk.q321.prefs";
+  var GAP = 14, MARG = 8, STUB = 36, DOCKW = 560, CAP = 0.6, live = null, KEY = "nmsk.q321.prefs";   /* Q354: CAP = the open card's share of the view */
   var POS = ["tl", "point", "drag"], LEAD = ["auto", "always", "never"], CHIPS = ["card", "bottom"], SHOW = ["fade", "only", "zoom", "more"];
   /* Q335, owner: the groups / adjacent / related row "becomes ONE button 'Related structures' on the name card that opens a
      small menu". The menu lists FAMILIES from this registry, in `order`. A family either runs at once (run(id), with a
@@ -8577,6 +8595,25 @@ var NMSKQuickCard = (function(){
     ADD.sort(function(x, y){ return (x.order || 99) - (y.order || 99); });
     return true;
   }
+  /* Q354: a bursa / tendon sheath carries no muscle's record any more; the page data names the muscle it belongs with
+     (manifest mesh "rel"), and the card shows it as a link -- "Related: Obturator internus" -- never its attachments */
+  var REL = null;
+  function relOf(id){
+    if (!REL){ REL = {}; try { ((window.__ANATOMY_MANIFEST__ || {}).meshes || []).forEach(function(m){ if (m && m.rel) REL[m.id] = m.rel; }); } catch (err){} }
+    return REL[id] || null;
+  }
+  addon({key:"rel354", order:5, render:function(id, host, card){
+    var rid = relOf(id); if (!rid || !card.engine) return;
+    var E = card.engine(), inf = E && E.info ? E.info(rid) : null; if (!inf) return;
+    var row = document.createElement("div"); row.className = "qc-relto";
+    var lab = document.createElement("span"); lab.textContent = "Related: ";
+    var b = document.createElement("button"); b.type = "button"; b.className = "qc-rellink"; b.setAttribute("data-rel", rid);
+    var sd = / \u00b7 (left|right)$/.exec(inf.sub || "");
+    b.textContent = inf.name + (sd && !/\((?:left|right)\)\s*$/.test(inf.name) ? " (" + sd[1] + ")" : "");
+    b.title = "Open " + inf.name;
+    b.addEventListener("click", function(ev){ ev.stopPropagation(); card.go(rid); });
+    row.appendChild(lab); row.appendChild(b); host.appendChild(row);
+  }});
   function q8(){ return window.NMSKQ298 || null; }
   function q8n(id, k){ var Q = q8(), c = null; try { c = Q && Q.counts ? Q.counts(id) : null; } catch (err){ c = null; } return c ? (c[k] || 0) : 0; }
   function q8run(k){ var Q = q8(); if (Q && Q.run) Q.run(k); }
@@ -8649,6 +8686,7 @@ var NMSKQuickCard = (function(){
       b("more", "More…", function(id){ if (open1) less(); else more(id); }, "qc-more");
       chipsEl = el("div", "qc-chips"); chipsEl.id = "qc-chips";
       detEl = el("div", "qc-det"); detEl.id = "qc-det"; detEl.setAttribute("data-nm-hosted", "");
+      try { new MutationObserver(function(){ if (open1) tidyDet(); }).observe(detEl, {childList:true, subtree:true}); } catch (err){}
       addEl = el("div", "qc-add"); addEl.id = "qc-add";
       card.appendChild(head); card.appendChild(rowEl); card.appendChild(addEl); card.appendChild(chipsEl); card.appendChild(detEl);
       lead = document.createElementNS("http://www.w3.org/2000/svg", "svg"); lead.setAttribute("class", "qc-lead"); lead.hidden = true; lead.setAttribute("aria-hidden", "true");
@@ -8691,10 +8729,17 @@ var NMSKQuickCard = (function(){
                 k = subs ? (f.count ? +f.count(id) || 0 : n) : n; } catch (err){ subs = null; n = 0; k = 0; }
           var x = item(f.label + (k ? " \u00b7 " + k : "") + (subs ? " \u25b8" : ""));
           x.setAttribute("data-fam", f.key);
-          if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data"; }
+          if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data";
+                   x.textContent = f.label + " \u00b7 none"; }
           if (subs) x.setAttribute("aria-haspopup", "menu");
+          var why = null;
           x.addEventListener("click", function(e){
-            e.stopPropagation(); if (!n) return;
+            e.stopPropagation();
+            if (!n){              /* Q354: an empty family says why on a tap (it used to do nothing) */
+              if (why){ why.parentNode.removeChild(why); why = null; x.setAttribute("aria-expanded", "false"); return; }
+              why = el("p", "qc-rwhy", "None for this structure in this project's data."); why.setAttribute("role", "note");
+              x.parentNode.insertBefore(why, x.nextSibling); x.setAttribute("aria-expanded", "true"); pos(); return;
+            }
             if (subs){ stack.push({label:f.label, items:subs, key:f.key}); paint(); return; }
             relClose(false); try { f.run(id); } catch (err){} after();
           });
@@ -8887,9 +8932,25 @@ var NMSKQuickCard = (function(){
     /* the details scroll inside the card, which never runs past the bottom of the view */
     function fit(){
       if (!open1 || !detEl) return;
-      var t = detEl.getBoundingClientRect().top;
-      /* at most half the view, so an open window still has room to be moved down */
-      detEl.style.maxHeight = Math.max(120, Math.round(Math.min(window.innerHeight - t - 12, window.innerHeight * 0.5))) + "px";
+      tidyDet();
+      var vh = window.innerHeight, top = card.getBoundingClientRect().top, t = detEl.getBoundingClientRect().top, cap = Math.round(vh * CAP);
+      /* Q354: the whole open window takes at most ~60% of the view (a phone showed 81%); the details scroll inside it, and if what
+         sits above them is already that tall the window itself scrolls */
+      var room = cap - (t - top) - 10;
+      detEl.style.maxHeight = Math.max(96, Math.round(Math.min(vh - t - 12, room))) + "px";
+      card.style.maxHeight = cap + "px";
+      card.style.overflowY = room < 96 ? "auto" : "";
+    }
+    /* Q354: the triangle count is not anatomy; the engine's full card prints it first ("1,200 tris \u00b7 left"). Inside this
+       window the count goes, and the line with it when the side is all that is left (the head already says the side). */
+    function tidyDet(){
+      if (!detEl) return;
+      [].forEach.call(detEl.querySelectorAll("#info p.sub2"), function(p){
+        var t = p.textContent || "";
+        if (!/^\s*[\d,.\u00a0\u202f\s]+tris\b/.test(t)) return;
+        var rest = t.replace(/^\s*[\d,.\u00a0\u202f\s]+tris\s*\u00b7?\s*/, "").replace(/^(?:left|right|midline)\s*(?:\u00b7\s*)?/, "").trim();
+        if (rest){ p.textContent = rest; } else { p.textContent = ""; p.hidden = true; p.style.display = "none"; }
+      });
     }
     /* THE LINE. The selection tint already says which structure the card is about, so in "auto" there is no line while the
        structure is drawn in it; when a line is drawn it is a SHORT marker at the clicked point (at most STUB px, pointing
@@ -8921,7 +8982,7 @@ var NMSKQuickCard = (function(){
       var inf = details();
       if (inf && home && inf.parentNode === detEl){ try { home.p.insertBefore(inf, home.n && home.n.parentNode === home.p ? home.n : null); } catch (err){ home.p.appendChild(inf); } }
       home = null; open1 = false;
-      if (card){ card.classList.remove("qc-open"); detEl.style.maxHeight = ""; }
+      if (card){ card.classList.remove("qc-open"); detEl.style.maxHeight = ""; card.style.maxHeight = ""; card.style.overflowY = ""; }
       document.body.classList.remove("qc-more");
       if (btns.more){ btns.more.textContent = "More…"; btns.more.setAttribute("aria-expanded", "false"); }
     }
@@ -8951,6 +9012,8 @@ var NMSKQuickCard = (function(){
     }
     /* what an add-on may do with the card */
     var cardApi = {setScope:setScope, scope:function(){ return S().slice(); }, current:function(){ return cur; },
+                   engine:function(){ return E; },
+                   go:function(rid){ if (!rid) return; try { E.zoom(rid); } catch (err){} if (!card || card.hidden || cur !== rid) open(rid, null, null); },
                    refresh:function(){ refresh(); }, place:function(){ place(); },
                    redraw:function(){ if (cur && card && !card.hidden){ addons(cur); refresh(); fit(); } }};
     function open(id, cx, cy){
@@ -9383,9 +9446,8 @@ body.mode-inn #pl-box,body.mode-inn #rs-box,body.mode-inn #sa-bar{display:none!i
   .inn-stage{flex:0 0 50%}
   .inn-side{flex:1 1 0;width:auto;align-self:stretch;max-height:none;padding:8px 10px 12px;gap:8px;background:#ECEFF2}
   .inn-card{padding:10px 12px}
-  .inn-legend{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior:contain;scrollbar-width:none;padding-bottom:2px}
-  .inn-legend::-webkit-scrollbar{display:none}
-  .inn-chip{flex:0 0 auto}
+  .inn-legend{flex-wrap:wrap;max-height:84px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:2px}   /* Q355: the chips wrap instead of running off the edge */
+  .inn-chip{flex:0 1 auto}
 }
 </style>
 <script>
@@ -9611,7 +9673,7 @@ var NMSKInnervation = (function(){
         h.push('<button type="button" class="inn-chip" data-kind="root" data-key="' + esc(r.level) + '" title="Mark the ' + n + " muscles that " + esc(r.level) + ' supplies"><i style="background:' + esc(r.colour) + '"></i><b>' + esc(r.level) + "</b><small>" + n + "</small></button>"); });
     }
     ui.legend.innerHTML = h.join("");
-    ui.rule.textContent = D.colour_rules[st.by] + " IZ markers are rule-based (hover a marker for its rule and source).";
+    ui.rule.textContent = D.colour_rules[st.by] + " Innervation-zone (IZ) markers are rule-based (hover a marker for its rule and source).";
     ui.rule.title = D.rule;
     syncCtl();
   }
@@ -9721,7 +9783,7 @@ var NMSKInnervation = (function(){
     stage.appendChild(slot);
     var ctl = c.el("section", {class:"inn-card inn-ctl"});
     ctl.innerHTML = '<div class="inn-row"><span class="inn-lb">Colour by</span><div class="inn-seg" role="group"><button type="button" data-by="nerve">Nerve</button><button type="button" data-by="root">Root level</button></div></div>' +
-      '<div class="inn-legend"></div><div class="inn-row"><span class="inn-lb">IZ markers</span><div class="inn-seg" role="group"><button type="button" data-iz="sel">Selected</button><button type="button" data-iz="all">All</button><button type="button" data-iz="off">Off</button></div></div>' +
+      '<div class="inn-legend"></div><div class="inn-row"><span class="inn-lb">Innervation zone (IZ) markers</span><div class="inn-seg" role="group"><button type="button" data-iz="sel">Selected</button><button type="button" data-iz="all">All</button><button type="button" data-iz="off">Off</button></div></div>' +
       '<p class="inn-rule"></p>';
     var panel = c.el("section", {class:"inn-card inn-panel", "aria-live":"polite"});
     side.appendChild(ctl); side.appendChild(panel); fill.appendChild(stage); fill.appendChild(side); c.main.appendChild(fill);
@@ -13355,7 +13417,7 @@ try { window.NMSKHuman = NMSKHuman; } catch (eh){}          /* the pose panel an
    "Show hidden ones of selected muscles" is off. The depth / ID images are low resolution and throttled (camera settle + a low rate while orbiting). */
 function NMSKParts(E){
   "use strict";
-  var D = null, M = [], sel = null, focusI = -1, hoverI = -1, pinI = -1, hoverMesh = null;
+  var pmK = 1, D = null, M = [], sel = null, focusI = -1, hoverI = -1, pinI = -1, hoverMesh = null;
   var btn = null, layer = null, card = null, errEl = null, panel = null, panelBuilt = false;
   var KEY = "nmsk.parts.v1", MODES = {off:1, near:1, sel:1, all:1}, CARRIER_ALLOW = 45;
   var canCull = !!(E.depthImage && E.idOf);
@@ -13664,6 +13726,15 @@ function NMSKParts(E){
     layer.style.clipPath = "inset(" + Math.max(0, r.top) + "px " + Math.max(0, document.documentElement.clientWidth - r.right) + "px " +
       Math.max(0, document.documentElement.clientHeight - r.bottom) + "px " + Math.max(0, r.left) + "px)";
     var act = pinI >= 0 ? pinI : (hoverI >= 0 ? hoverI : focusI);
+    /* Q355: a ring keeps its size only while the structure it marks is large enough on screen: at whole-body zoom (a phone) a 28 px ring is bigger
+       than the muscle, so it shrinks with the scale (never below 0.3, back to full size once ~30 mm of the body spans a ring's width) */
+    var ks = 1;
+    for (var vi = 0; vi < M.length; vi++) if (M[vi].vis){
+      var s0 = scalePx(M[vi]), d0 = (window.matchMedia && matchMedia("(hover:none)").matches) ? 28 : 16;
+      if (s0 > 0) ks = Math.max(0.3, Math.min(1, 30 * s0 / d0));
+      break;
+    }
+    if (ks !== pmK){ pmK = ks; layer.style.setProperty("--pmk", ks.toFixed(3)); }
     M.forEach(function(mk){
       var q = mk.vis ? E.project(mk.xyz) : null;
       var ok = !!q && q[3] > 0;
@@ -13948,6 +14019,7 @@ function NMSKParts(E){
   function attach(on){
     on = !!on;
     if (on === A.on && (!on || !apanel || !apanel.hidden)) return;
+    if (on && window.innerWidth <= 760){ var sp = document.getElementById("xsp-panel"), sx = sp && !sp.hidden ? document.getElementById("xsp-close") : null; if (sx) sx.click(); }   /* Q355: one tool panel at a time on a phone */
     A.on = on; cull.dirty = true;
     if (!on && pinI >= 0) closeCard();
     if (apanel){ apanel.hidden = !on; if (on){ asyncPanel(true); placeAtt(); } }
@@ -15904,7 +15976,7 @@ function NMSKNerveGroups(E){
    snapshot. The switcher ("מה עושים היום?") shows on the first load of a session (sessionStorage), from the "מצב" toolbar button and
    from a #mode=<key> hash (or a ?mode=<key> query, Q273). */
 var NMSKModes = (function(){
-  var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null;
+  var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null, carry = null;
   var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp", "inn"];
   function $(id){ return document.getElementById(id); }
   function el(tag, attrs, kids){
@@ -16016,6 +16088,19 @@ var NMSKModes = (function(){
       exit:function(){ exit(); }
     };
   }
+  /* Q355: panels opened in Anatomy that no mode shows (the part-slices panel, the attachments panel and its rings) closed through their own
+     close buttons when a mode opens; the ones that were open are reopened through their own public controls on exit */
+  function parkPanels(){
+    var out = {slices:false, att:false}, sp = $("xsp-panel"), ap = $("pm-att"), b;
+    try { if (sp && !sp.hidden){ out.slices = true; b = $("xsp-close"); if (b) b.click(); else sp.hidden = true; } } catch (err){}
+    try { if (ap && !ap.hidden){ out.att = true; b = ap.querySelector(".pp-x"); if (b) b.click(); } } catch (err2){}
+    return out;
+  }
+  function unparkPanels(k){
+    if (!k) return;
+    try { if (k.att){ var a = getApi(), p = a && a.parts ? a.parts() : null; if (p && p.attach) p.attach(true); } } catch (err){}
+    try { if (k.slices){ var t = $("t-slices"); if (t && ($("xsp-panel") || {}).hidden) t.click(); } } catch (err2){}
+  }
   function enter(key){
     if (!host) return false;
     var p = providers[key];
@@ -16025,7 +16110,8 @@ var NMSKModes = (function(){
     if (cur) exit(true);
     queued = null;
     hist("beginScope");                    // Q329: the page-wide undo remembers the screen before the mode (see viewer/q294/history.js)
-    snap = takeSnapshot();
+    var parked = parkPanels(); if (carry){ parked.slices = parked.slices || carry.slices; parked.att = parked.att || carry.att; carry = null; }             // Q355: the Anatomy tools' own panels (Slices, Attachments) close for the mode and come back on exit
+    snap = takeSnapshot(); snap.parked = parked;
     cur = key; curP = p; ctx = makeCtx(key, p);
     document.body.classList.add("mode-on", "mode-" + key);
     var shell = $("mode-shell"); shell.hidden = false;
@@ -16047,7 +16133,7 @@ var NMSKModes = (function(){
     document.body.classList.remove("mode-on", "mode-" + cur, "mode-more");
     var shell = $("mode-shell"); shell.hidden = true; $("mode-main").innerHTML = ""; $("mb-chips").innerHTML = ""; $("mode-pills").innerHTML = "";
     cur = null; curP = null; ctx = null;
-    restoreSnapshot(snap); snap = null;
+    var pk = snap && snap.parked; restoreSnapshot(snap); snap = null; if (silent) carry = pk; else unparkPanels(pk);   // silent = a straight switch to another mode: nothing to put back yet
     hist("endScope");                      // Q329: what the mode set and the exit put back leaves the undo history with it
     fireResize();
     if (!silent) remember("anat");
@@ -18231,7 +18317,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
       items.forEach(function(o){
         var b=document.createElement("button");
         b.className="item"+(o===selected?" sel":"")+(hidden.has(o)?" hid":"");
-        var badge=!o.atlas?'':(o.atlas.part_of_id?'<span class="badge-x" style="opacity:.8" title="Its own mesh; this project keeps it as part of a coarser entity">part of</span>':'<span class="badge-x" title="This structure has a record in this atlas">atlas</span>');
+        var badge=!o.atlas?'':(o.atlas.part_of_id?'<span class="badge-x" style="opacity:.8" title="Its own mesh; this project keeps it as part of a coarser entity">part of</span>':'');   /* Q355: the plain "atlas" tag said nothing (every row has one); only "part of" informs */
         b.innerHTML='<span class="dot" style="background:var(--t-'+o.layer+')"></span><span class="t">'+
           o.name+((nameN[o.name]>1&&(o.side==="r"||o.side==="l"))?' <span class="side-lr" title="'+(o.side==="r"?"right":"left")+' side">'+(o.side==="r"?"R":"L")+'</span>':"")+(q8?NMSKQ298.whySuffix(o.id):"")+'</span>'+badge;
         b.title=o.name+(o.side==="r"?" (right)":o.side==="l"?" (left)":"");
@@ -18853,7 +18939,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
          active:function(){ return !!(selCtl && selCtl.active() && (selCtl.state().sel === "hide" || selCtl.state().oth === "hide")); },
          clear:function(){ selCtl.showAll(); need = true; },
          drive:function(){ var o = q300Any(); if (o){ selCtl.markIds([o.id], true); selCtl.setGroup("oth", "hide", true); need = true; } }},
-        {key:"hideone", label:function(){ return "hidden: " + hidden.size + " structure" + (hidden.size === 1 ? "" : "s"); },
+        {key:"hideone", label:function(){ if (hidden.size > 0 && hidden.size <= 2) return "hidden: " + Array.from(hidden).map(function(o){ return String(o.name || o.id).replace(/_/g, " "); }).join(", "); return "hidden: " + hidden.size + " structure" + (hidden.size === 1 ? "" : "s"); },   /* Q355: one or two hidden structures are named in the chip */
          active:function(){ return hidden.size > 0; },
          clear:function(){ hidden.clear(); if (selected) select(selected, false); need = true; },
          drive:function(){ var o = q300Any(); if (o){ hidden.add(o); need = true; } }},

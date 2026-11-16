@@ -81,3 +81,9 @@ body.qc-on.qc-more #info:not(.hidden){display:block !important}
 /* add-ons (the Parts chooser) sit between the buttons and the related-structures line */
 .qc-add{display:flex;flex-direction:column;gap:4px;width:0;min-width:100%}
 .qc-add:empty{display:none}
+/* Q354: a bursa / tendon sheath names the muscle it belongs with as a link (it carries no record of its own) */
+.qc-relto{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:11.5px;color:#d3dae2}
+.qc .qc-rellink{min-height:28px;padding:3px 8px;border:1px solid rgba(255,255,255,.18);border-radius:7px;background:rgba(255,255,255,.06);
+  color:#E6EDF3;font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.qc .qc-rellink:hover{background:rgba(255,255,255,.14)}
+@media (pointer:coarse){.qc .qc-rellink{min-height:36px}}

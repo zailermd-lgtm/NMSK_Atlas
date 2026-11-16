@@ -19,6 +19,7 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q342/build_sidecar_q342.py       groups_q342.json        (Base pages only, Q343; reads the page's own manifest ids)
     scripts/zanatomy/patch_manifest_records_q327.py  manifest records of 14 ligament/fascia/muscle ids (Base pages only; Q338 +4 hand ids)
     scripts/zanatomy/patch_manifest_nerves_q350.py   nerve fields of 10 manifest records (Base pages only, Q350)
+    scripts/zanatomy/patch_manifest_cards_q354.py    name-card rules on the manifest (Base pages only, Q354; also run once before make_abbrevs)
     clinical/data/motor_points.json                  -> clinical_motor_points.json   (Base pages only, Q331)
     scripts/clinical/build_injection_guide_q347.py   clinical_injection_guide.json   (Base pages only, Q347; private)
     index.html = the page
@@ -116,6 +117,8 @@ def build(p: str, src_root: Path, out: Path):
     run(["bash", "scripts/regen_cut_q218.sh", p], env)
     run(["python3", "scripts/clinical/stage_clinical_files.py", "--ultrasound", str(dst)])
     run(["python3", "scripts/set_titles_q231.py", str(dst)])
+    if p in ("base_m", "base_f"):   # Q354: card rules (exact part-of links, layer, names) before the label / search / sidecar steps read the names
+        run(["python3", "scripts/zanatomy/patch_manifest_cards_q354.py", str(dst)])
     run(["python3", "scripts/anatomy/q236/make_abbrevs.py", "--inject", str(dst)])
     run(["python3", "scripts/anatomy/q240/make_calibre.py", "--inject", str(dst)])
     run(["python3", "scripts/anatomy/q241/make_pose_rig.py", "--inject", str(dst)])
@@ -134,6 +137,7 @@ def build(p: str, src_root: Path, out: Path):
     if p in ("base_m", "base_f"):   # Q327: a ligament / fascia carries no muscle's or bone's record (the builder rule, applied to the embedded manifest)
         run(["python3", "scripts/zanatomy/patch_manifest_records_q327.py", str(dst)])
         run(["python3", "scripts/zanatomy/patch_manifest_nerves_q350.py", str(dst)])   # Q350: three nerve-record corrections reach the page records
+        run(["python3", "scripts/zanatomy/patch_manifest_cards_q354.py", str(dst)])    # Q354: again, so the Q350-recomputed records get the card rules too
     if p in ("base_m", "base_f") and (dst / "clinical_motor_points.json").exists():
         # Q331: the private motor-point layer is committed data (clinical/data/motor_points.json, one file for every body);
         # the cut regen copies the OLD sibling verbatim, so a page would never get a body added later (Base·F had none).
