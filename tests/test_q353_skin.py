@@ -81,12 +81,34 @@ def test_report_guards_hold():
 
 def test_chest_seams_closed():
     r = _rep()
-    s = r["steps"].get("chest", {}).get("seams") or {}
+    s = r["steps"].get("chest_seams", {}).get("seams") or {}
     if not s:
         pytest.skip("chest seams not in this report")
     before = sum(x["border_gap_before_mm"]["over_1_5mm"] for x in s.values())
     after = sum(x["border_gap_after_mm"]["over_1_5mm"] for x in s.values())
     assert after < 0.2 * before, (before, after)
+
+
+def test_no_border_opens():
+    r = _rep()
+    s = r["steps"].get("chest_seams") or {}
+    if not s.get("border_growth_guard"):
+        pytest.skip("chest_seams not in this report")
+    gg = s["border_growth_guard"]
+    assert gg["limit_mm"] == Q.GROW_MAX and gg["grew_over_limit"] == 0 and gg["max_growth_mm"] <= Q.GROW_MAX + 1e-6
+
+
+def test_chest_split_and_strict_tuck():
+    assert "chest" not in Q.STEPS and Q.STEPS["chest_tuck"]["tuck"] == Q.BREAST and Q.STEPS["chest_seams"]["strict"] == Q.BREAST
+
+
+def test_local_revert_restores_near_points():
+    class G: pass
+    g = G(); start = np.c_[np.linspace(0, 40, 41), np.zeros(41), np.zeros(41)]
+    g.cur = {"a": start + [0, 0, 1.0]}
+    Q.local_revert(g, "a", start, [[0.0, 0, 0]])
+    z = g.cur["a"][:, 2]
+    assert np.allclose(z[:int(Q.REVERT_IN) + 1], 0) and np.allclose(z[int(Q.REVERT_OUT) + 1:], 1) and (np.diff(z) >= -1e-12).all()
 
 
 def test_no_banned_words_or_model_ids_in_script():
@@ -105,8 +127,10 @@ def test_page_carries_q353_and_counts_unchanged():
     man0 = json.loads(C.LIT["manifest"].search(t0).group(1))
     assert [(m["id"], m["vc"], m["ic"]) for m in man["meshes"]] == [(m["id"], m["vc"], m["ic"]) for m in man0["meshes"]]
     tagged = [m["id"] for m in man["meshes"] if "Q353 " in ((m.get("rec") or {}).get("procedural_badge") or "")]
-    assert sorted(tagged) == sorted(_rep()["geometry_changed"])
-    low = (PAGE / "index.html").read_text(encoding="utf-8").lower()
+    rep = _rep()
+    if Path(rep["page_dir"]).resolve() != PAGE.resolve():
+        pytest.skip("the report was made on another copy of the page")
+    assert set(rep["geometry_changed"]) <= set(tagged)            # steps run one at a time: the report holds the last run
     for m in man["meshes"]:
         if m["id"] in tagged:
             assert not any(w in m["rec"]["procedural_badge"].lower() for w in BANNED)

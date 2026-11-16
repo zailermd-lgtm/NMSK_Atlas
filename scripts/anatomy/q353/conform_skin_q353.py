@@ -2,7 +2,7 @@
 """Q353: Base · Female skin defects -- seams between the trunk skin regions, breast tissue / facial muscle through the skin,
 and the border of the vulvar skin patch.
 
-    python3 scripts/anatomy/q353/conform_skin_q353.py --page-dir DIR [--steps chest,back,head,perineum]          # dry run
+    python3 scripts/anatomy/q353/conform_skin_q353.py --page-dir DIR [--steps chest_tuck,chest_seams,back,head,perineum]   # dry run
     python3 scripts/anatomy/q353/conform_skin_q353.py --page-dir DIR [--steps ...] --write                       # and write DIR
 
 What is wrong (measured on the page, data/derived/Q353_skin_report.json):
@@ -61,6 +61,10 @@ STEMS = ("atlas_viewer_base_female",)
 
 MATCH, CAP_SEAM, SIG, FALL, SEAM_ROUNDS, RIM_SIG = 8.0, 8.0, 3.0, 25.0, 4, 2.0
 PIN_R = 4.0
+PIN_HOLD, PIN_FADE = 4.0, 10.0   # mm: around a held border nothing moves within PIN_HOLD, full move from PIN_FADE
+ANCHOR_SLACK = 1.0  # mm: a neighbour outside the moved set wins a border vertex when it is at most this much farther
+REVERT_IN, REVERT_OUT = 6.0, 14.0   # mm: a border that would open is put back locally (full / tapered radius)
+GROW_MAX = 0.2      # mm: no border vertex's gap to its nearest neighbour may grow by more than this
 WELD_EPS = 0.03     # mm: the engine's load-time weld (Q334); border vertices this close are already one vertex
 GAP, HIDE, K_ENV, CAP_TUCK, TUCK_ROUNDS = 0.3, 0.5, 0.15, 8.0, 4
 TUCK_TRIES = [("under_inner_sheet", 4.0), ("under_inner_sheet", 10.0), ("under_inner_sheet", 1e6), ("under_outer_surface", 4.0),
@@ -73,12 +77,13 @@ SHEET_MAX = 6.0     # mm: the slab's other sheet lies within this distance behin
 GAIN_TOL = 2
 NEAR = 12.0          # mm: a vertex farther than this from every skin vertex is not tested against the skin
 
-CHEST = ["pectoral_region", "mammary_region", "presternal_region", "inframammary_region", "infraclavicular_fossa",
-         "deltopectoral_triangle", "lateral_region_of_thorax", "epigastric_region", "hypochondriac_region"]
+CHEST = ["pectoral_region", "mammary_region", "presternal_region", "inframammary_region",
+         "lateral_region_of_thorax", "epigastric_region", "hypochondriac_region"]   # not the clavicular border regions (Q353 follow-up: a dark step at the clavicles)
 BACK = ["scapular_region", "interscapular_region", "triangle_of_auscultation", "infrascapular_region", "vertebral_region"]
+BREAST = [f"{m}_{s}" for m in ("breast_fat", "lactiferous_ducts", "mammary_gland", "breast_suspensory_ligaments") for s in "rl"]
 STEPS = {
-    "chest": dict(seam=[f"zan_skin_{c}_{s}" for c in CHEST for s in "rl"],
-                  tuck=["breast_fat_r", "breast_fat_l", "lactiferous_ducts_r", "lactiferous_ducts_l"]),
+    "chest_tuck": dict(seam=[], tuck=BREAST),
+    "chest_seams": dict(seam=[f"zan_skin_{c}_{s}" for c in CHEST for s in "rl"], tuck=[], strict=BREAST),
     "back": dict(seam=[f"zan_skin_{c}_{s}" for c in BACK for s in "rl"], tuck=[]),
     "head": dict(seam=[], tuck=[f"{m}_{s}" for m in ("frontalis", "zan_temporoparietalis_muscle", "orbicularis_oris", "platysma")
                                 for s in "rl"]),
@@ -376,12 +381,18 @@ def rim_targets(g: Geo, movable, anchors, full_snap):
         P = g.cur[k][rv]
         _, J = tree.query(P, k=min(48, len(mid)))
         best_d = np.full(len(P), np.inf); best_q = P.copy(); best_o = np.array([""] * len(P), dtype=object)
+        anc_d = np.full(len(P), np.inf); anc_q = P.copy(); anc_o = best_o.copy()
         for c in range(J.shape[1]):
             j = J[:, c]
             ok = own[j] != k
             Q, d = seg_closest(P, S[j, 0], S[j, 1])
             b = ok & (d < best_d)
             best_d[b] = d[b]; best_q[b] = Q[b]; best_o[b] = own[j][b]
+            a = ok & ~np.isin(own[j], list(order)) & (d < anc_d)
+            anc_d[a] = d[a]; anc_q[a] = Q[a]; anc_o[a] = own[j][a]
+        # a border that also meets a region outside the moved set goes onto THAT region's border (it is never pulled off it)
+        ap = (anc_d < MATCH) & (anc_d <= best_d + ANCHOR_SLACK)
+        best_d[ap] = anc_d[ap]; best_q[ap] = anc_q[ap]; best_o[ap] = anc_o[ap]
         T = P.copy(); hit = best_d < MATCH
         for i in np.where(hit)[0]:
             o = best_o[i]
@@ -393,6 +404,62 @@ def rim_targets(g: Geo, movable, anchors, full_snap):
                 T[i] = best_q[i]
         out[k] = dict(rv=rv, target=T, gap=best_d, partner=best_o, matched=hit)
     return out
+
+
+def border_gaps(g: Geo, pieces):
+    """every outer-border vertex of every piece: distance to the nearest outer border of any other piece of the set"""
+    segs, own = [], []
+    for k in pieces:
+        _, rim_e = g.sheets(k)
+        if len(rim_e):
+            v = g.cur[k]
+            segs.append(np.stack([v[rim_e[:, 0]], v[rim_e[:, 1]]], 1)); own += [k] * len(rim_e)
+    S = np.vstack(segs); own = np.array(own)
+    tree = cKDTree(S.mean(1))
+    out = {}
+    for k in pieces:
+        _, rim_e = g.sheets(k)
+        rv = np.unique(rim_e)
+        if not len(rv):
+            continue
+        P = g.cur[k][rv]
+        _, J = tree.query(P, k=min(48, len(S)))
+        bd = np.full(len(P), np.inf); bo = np.array([""] * len(P), dtype=object)
+        for c in range(J.shape[1]):
+            j = J[:, c]
+            _, d = seg_closest(P, S[j, 0], S[j, 1])
+            b = (own[j] != k) & (d < bd)
+            bd[b] = d[b]; bo[b] = own[j][b]
+        out[k] = (bd, bo)
+    return out
+
+
+def border_pos(g: Geo, pieces):
+    return {k: g.cur[k][np.unique(g.sheets(k)[1])] for k in pieces}
+
+
+def local_revert(g: Geo, k, start, pts, r_in=REVERT_IN, r_out=REVERT_OUT):
+    """put piece k back to its start geometry around the given points (fully within r_in mm, tapering to the move at r_out)"""
+    d, _ = cKDTree(np.asarray(pts)).query(start)
+    w = smoothstep((d - r_in) / (r_out - r_in))          # 0 near the points (reverted), 1 far away (moved)
+    g.cur[k] = start + (g.cur[k] - start) * w[:, None]
+
+
+def border_growth(before, after, movable, pos):
+    """per moved piece: border vertices (its own, or a neighbour's facing it) whose gap grew by more than GROW_MAX"""
+    mv = set(movable); blame = {}
+    for k, (b0, o0) in before.items():
+        b1, o1 = after[k]
+        grew = (b0 < MATCH) & np.isfinite(b1) & (b1 - b0 > GROW_MAX)
+        for i in np.where(grew)[0]:
+            who = k if k in mv else (o1[i] if o1[i] in mv else (o0[i] if o0[i] in mv else None))
+            if who:
+                x = blame.setdefault(who, dict(vertices=0, max_growth_mm=0.0, at=[], points=[]))
+                x["points"].append(pos[k][i])
+                x["vertices"] += 1; x["max_growth_mm"] = round(max(x["max_growth_mm"], float(b1[i] - b0[i])), 2)
+                if len(x["at"]) < 3:
+                    x["at"].append(f"{k[9:]}->{o1[i][9:]}")
+    return blame
 
 
 def run_seams(g: Geo, movable, log):
@@ -425,11 +492,17 @@ def run_seams(g: Geo, movable, log):
             d[dn > CAP_SEAM] = 0.0
             pin = pins[k]
             # matching noise along the border is smoothed out before it is spread (no kinks at the border); lighter in the last round
+            # matching noise along the border is smoothed out before it is spread (no kinks at the border); lighter in the last round
             d = shepard(v[r["rv"]], v[r["rv"]], d, sig=RIM_SIG if not full else RIM_SIG / 2, fall=1e9)
             d[pin | ~(gap0[k] < MATCH)] = 0.0    # nor a border with no neighbour within MATCH (it is not dragged off its own border)
             D = shepard(v, v[r["rv"]], d)
-            if full:
-                D[r["rv"]] = d
+            # a pinned (already welded) stretch keeps its whole slab cross-section: its wall and inner border stay where the
+            # neighbour's are, so the load-time weld still joins them and the walls stay face to face
+            hold = pin | ~(gap0[k] < MATCH)
+            if hold.any():
+                dh, _ = cKDTree(v[r["rv"][hold]]).query(v)
+                D *= smoothstep((dh - PIN_HOLD) / (PIN_FADE - PIN_HOLD))[:, None]
+            D[r["rv"]] = d                       # the border itself takes its own (smoothed) move: a pinned vertex stays put
             g.cur[k] = v + D
     R = rim_targets(g, movable, anchors, True)
     rep = {}
@@ -672,9 +745,24 @@ def run_step1(g: Geo, step, log, variant="both"):
         # move toward a region that then stays put would open a new gap)
         movable = [k for k in cfg["seam"] if k in g.M]
         kept = {}
+        slo = np.min([g.box(k)[0] for k in movable], 0) - MATCH
+        shi = np.max([g.box(k)[1] for k in movable], 0) + MATCH
+        gset = movable + [k for k in g.in_box(slo, shi, sys_=("skin",), exclude=set(movable)) if "nail_plate" not in k]
+        gaps0 = border_gaps(g, gset)
         for it in range(6):
             log(f"  [{step}] seams over {len(movable)} regions (pass {it + 1})")
             seams, anchors, start = run_seams(g, movable, log if it == 0 else (lambda *_: None))
+            # a border vertex whose gap to any neighbour (moved or not) would grow: the move is undone around it, then checked again
+            reverted = {}
+            for _ in range(4):
+                growth = border_growth(gaps0, border_gaps(g, gset), movable, border_pos(g, gset))
+                if not growth:
+                    break
+                for k, x in growth.items():
+                    local_revert(g, k, start[k], x["points"])
+                    reverted[k] = reverted.get(k, 0) + len(x["points"])
+            for x in growth.values():
+                x.pop("points", None)
             guards, fails_now = {}, {}
             for k in movable:
                 fg = face_guards(start[k], g.cur[k], g.F[k], sel=g.sheets(k)[0] == 1)
@@ -686,7 +774,12 @@ def run_step1(g: Geo, step, log, variant="both"):
                 dv = vol_change(fg)
                 if dv is not None and dv > SLAB_VOL_MAX:
                     fails.append(f"slab volume change {dv:.1f} %")
-                guards[k] = dict(fg, displacement=stats(g.cur[k] - start[k]), volume_change_pct=(None if dv is None else round(dv, 2)), fails=fails)
+                if k in growth:
+                    fails.append(f"border gap grows > {GROW_MAX:g} mm at {growth[k]['vertices']} vertices (max {growth[k]['max_growth_mm']} mm, "
+                                 f"{', '.join(growth[k]['at'])})")
+                guards[k] = dict(fg, displacement=stats(g.cur[k] - start[k]), volume_change_pct=(None if dv is None else round(dv, 2)),
+                                 border_growth=growth.get(k, dict(vertices=0, max_growth_mm=0.0)),
+                                 locally_reverted_border_points=reverted.get(k, 0), fails=fails)
                 if fails:
                     fails_now[k] = fails
             if not fails_now:
@@ -701,6 +794,11 @@ def run_step1(g: Geo, step, log, variant="both"):
                 seams, guards = {}, {}
                 break
         rep["seams"], rep["seam_anchors"], rep["seam_guards"], rep["seam_kept"] = seams, anchors, guards, kept
+        g1 = border_gaps(g, gset)
+        allg = np.concatenate([g1[k][0][gaps0[k][0] < MATCH] - gaps0[k][0][gaps0[k][0] < MATCH] for k in gaps0])
+        rep["border_growth_guard"] = dict(limit_mm=GROW_MAX, pieces_checked=len(gset), border_vertices=int(len(allg)),
+                                          grew_over_limit=int((allg > GROW_MAX).sum()), max_growth_mm=round(float(allg.max()), 3),
+                                          closed_by_more_than_limit=int((allg < -GROW_MAX).sum()))
         for k, s in seams.items():
             log(f"    seam {k}: gap median {s['border_gap_before_mm']['median']} -> {s['border_gap_after_mm']['median']} mm, "
                 f">1.5 mm {s['border_gap_before_mm']['over_1_5mm']} -> {s['border_gap_after_mm']['over_1_5mm']}, "
@@ -711,7 +809,10 @@ def run_step1(g: Geo, step, log, variant="both"):
     sk = SkinSet(g, skin_ids)
     bones = Bones(g, lo, hi)
     # structures that gained vertices outside the moved skin are tucked as well (the same guarded rule)
-    gained = [k for k in under if worse_than(pokes0[k], outside_count(g, sk, k))]
+    # the chest_tuck structures must stay under the skin whatever moves after them (strict: no vertex outside)
+    strict = [k for k in cfg.get("strict", []) if k in g.M]
+    gained = [k for k in under if worse_than(pokes0[k], outside_count(g, sk, k))
+              or (k in strict and outside_count(g, sk, k)["outside"] > 0)]
     tl = [k for k in cfg["tuck"] if k in g.M] + [k for k in gained if k not in cfg["tuck"]]
     rep["tuck"] = {}
     if tl:
@@ -757,7 +858,7 @@ def run_step1(g: Geo, step, log, variant="both"):
     worse = {}
     for k in under:
         a = outside_count(g, sk, k)
-        if worse_than(pokes0[k], a):
+        if worse_than(pokes0[k], a) or (k in strict and a["outside"] > 0):
             worse[k] = [pokes0[k]["outside"], a["outside"]]
         elif a["outside"] > pokes0[k]["outside"]:
             rep.setdefault("outside_skin_gained_within_tolerance", {})[k] = [pokes0[k]["outside"], a["outside"]]
@@ -785,7 +886,7 @@ def run_step1(g: Geo, step, log, variant="both"):
 
 
 def note_for(step, k, srep):
-    if step in ("chest", "back") and k in srep.get("seams", {}):
+    if step in ("chest_seams", "back") and k in srep.get("seams", {}):
         s = srep["seam_guards"][k]["displacement"]
         return (f"{tag(step)} border joined to the neighbouring skin regions (this body's regions were refitted one by one and no longer "
                 f"met: a crease and gaps along the border); outer border matched to the neighbours' border, the move spread over "
@@ -842,7 +943,7 @@ def jsonable(o):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--page-dir", required=True)
-    ap.add_argument("--steps", default="chest,back,head,perineum")
+    ap.add_argument("--steps", default="chest_tuck,head")   # chest_seams, back, perineum only when named: on a regenerated page they did not pass review (Q353 follow-up)
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--json", default=str(OUT))
     a = ap.parse_args(argv)
