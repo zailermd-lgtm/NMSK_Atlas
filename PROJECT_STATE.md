@@ -98,43 +98,36 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 (Rewritten 2026-11-16 07:40 UTC after a session restart; detail of Q325–Q338 is in git history and will be
 moved to docs/PROJECT_HISTORY.md.)
 
-**Live:** Base·M v92, Base·F v87 (interim publish 2026-11-15: Q331 motor points F, Q332 readouts, Q333
-chest, Q338 hand rig). Live is still MIRRORED and has the old name card.
+**Live (2026-11-16 ~10:30 UTC):** Base·M **v93** (Q334 seamless skin, Q335 name card, Q339 TRUE view —
+from regen /dev/shm/q345, 14 verifiers OK). Base·F still v87 (mirrored, old card): its q345 checks passed
+except three reruns pending (rings/spine timed out under load → reran OK; quick card desktop Undo-race and
+phone orbit threshold rerunning) — publish Base·F from q345 only if q346 is far from done, else skip to q346.
 
-**Committed, regenerated to /dev/shm/q345, verifiers running (scratchpad v345.txt) → then PUBLISH:**
-- Q339 true (non-mirrored) view: view x row negated, winding CW, orbit re-signed, R/L marker
-  (`scripts/anatomy/q339/patch_mirror_q339.py --check`, verifier `verify_handedness_q339.py`). Frozen pages
-  and the own engine still mirrored (not touched).
-- Q334 seamless skin (engine, load time; `scripts/anatomy/q334/patch_seams_q334.py`; verifier
-  `verify_skin_seams_q334.py` ~40 min/page). Base·M passes; Base·F trunk still shows a line where
-  re-meshed pieces do not share border vertices (needs the female geometry build) — open.
-- Q335 name card docked top-left / draggable / ⋮ menu on every grip / one "Related structures" button
-  (registry `NMSKQuickCard.family`, positions 40/50 reserved) / phone one-row toolbar / no overlaps.
-- Q336 Base·F perineal skin = real CVH vulva surface `skin_vulva_cvh` (applied to build/q309; geo_03 of
-  Base·F changes; rig 3301 entries); text-only records for structures without real geometry. Gray's 1918
-  hosts were blocked then; `www.bartleby.com` and `en.wikisource.org` are NOW allowed in the environment.
-- Q342 data: `data/anatomy/{muscle_parts,myofascial_lines,innervation_groups}_q342.json`,
-  `docs/Q342_groups_sources.md`, generators in scripts/anatomy/q342.
-- Regen --expect-changed now: index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
-  nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,
-  clinical_ultrasound_tissues.json,clinical_ultrasound_tool.js,clinical_imaging_tool.js,
-  clinical_needle_tool.js,clinical_motor_points.json,parts_data.json,symmetry_q237.json,
-  plexus_groups.json,innervation_q322.json,__ANATOMY_manifest,__ANATOMY_files,
-  atlas_viewer_base_female_geo_03.txt
-- Publish list this time — Base·M: index.html (+ any changed sibling by cmp against the last publish);
-  Base·F: index.html, atlas_viewer_base_female_geo_03.txt (+ changed siblings).
+**Everything is committed; working tree clean. Regen /dev/shm/q346 = HEAD = adds:**
+- Q340 palmar arch + common digital arteries lifted above the flexor tendons (applied to build/q309 both
+  pages: geo_01/02 change; originals *.q340); superficial venous arch NOT lifted (guard failed); some deep
+  vessels still in bone; finger nerve/artery order unchanged. `scripts/anatomy/q340/conform_palm_q340.py`.
+- Q343 `viewer/groups342`: Related structures → Myofascial lines (class sub-menu, evidence badge;
+  horizontal disabled) and Innervation (root / peripheral / central pattern) + Parts chooser; sidecar
+  `groups_q342.json` built at regen (`scripts/anatomy/q342/build_sidecar_q342.py`).
+- Q344-A `viewer/q344` + parts_ui/q301/q294/q298/pose/q305 UI fixes; Q344-B clinical panels.
+- move.js: a box dropped where the edge held it keeps that place.
+Full verifier set on q346 running in the background (scratchpad `run346.sh` → `v346.txt`; includes
+q343/verify_groups, q344/verify_ui + verify_clinical_ui, hand (now expects Q340), q336, phone runs).
+**Then publish BOTH pages from /dev/shm/q346** — files by cmp against the last publish; expected:
+Base·M index.html, geo_01, geo_02, groups_q342.json, clinical tools ×3, + small jsons;
+Base·F index.html, geo_01, geo_02, geo_03, groups_q342.json, clinical tools ×3, + small jsons
+(Base·F > 64 MB in one publish → send geo files in two publishes to the same url).
+Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
+nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
+clinical_ultrasound_tool.js,clinical_imaging_tool.js,clinical_needle_tool.js,clinical_motor_points.json,
+parts_data.json,symmetry_q237.json,plexus_groups.json,innervation_q322.json,groups_q342.json,
+__ANATOMY_manifest,__ANATOMY_files,atlas_viewer_base_female_geo_03.txt
 
-**In flight (four agents, dispatched 07:30 UTC):**
-- Q344-A (cheaper model): remaining public UI defects from the audit
-  (scratchpad `q341_ui_findings.md`): blank Navigate/mark buttons, raw ids and round ids in card prose,
-  sheets/panels covering the model, search rows, pose/measure wording; `scripts/anatomy/q344/`.
-- Q344-B (cheaper model): same for clinical/*.js (inj/scan/compare/needle panels).
-- Q343: "Related structures" families Myofascial lines (→ class sub-menu, evidence label) and Innervation
-  (→ root / peripheral / central pattern) + muscle "Parts" chooser (whole | head); new module
-  `viewer/groups342`, sidecar `groups_q342.json` via regen; verifier `scripts/anatomy/q343/`.
-- Q340: palmar arches / common digital arteries conformed into the right layer + vessels pushed out of
-  bone; `scripts/anatomy/q340/conform_palm_q340.py --page-dir` (main thread applies).
-- NOT running: Q337 whole-body QA sweep (stopped at the limit; restart as a fresh read-only agent).
+**Not running / to do next:** Q337 whole-body QA sweep (restart as a fresh read-only agent AFTER the
+publish, on the published state); owner's attached PDF (same guide again, no text) — asked what he
+wants; proposal = surface the private injection fields (points, scan start, manoeuvre, at-risk) in the
+injection mode. Scan-mode badge "סימולציה מהמשים" looks like a typo (pinned by two tests) — asked owner.
 
 **Decisions taken by the main thread (owner delegated):** vulva skin accepted as an overlapping real
 surface; "horizontal" myofascial class shown disabled (no sourced line); rule-based muscle-part partitions
