@@ -112,6 +112,10 @@ DEEP_GAP = 0.3       # mm: deeper structures lie at least the slab thickness + t
 DEEP_HARD = 0.5      # mm: when even that cannot be met, at least this under the outer surface (Q353 HIDE)
 SMOOTH_IT = 1500     # projected SOR rounds of the height field
 COVER_TOL = 0.05     # mm
+TUCK_SLOPES = (0.08, 0.05)   # gentler Lipschitz slopes tried after the Q353 default 0.15 (same guards)
+SMOOTH_REAL = True   # Q358 follow-up: the real surface's staircase facets smoothed (optional step, ON by default)
+SMOOTH_REAL_IT = 6
+CAP_REAL = 1.0       # mm: per-vertex cap of that smoothing (source spacing unknown)
 CAP_ROWS = 4         # rows blended between the anal-region border and the first row of the walls
 TAUBIN_IT = 12       # Taubin smoothing rounds of the rule surface's interior
 EDGE_W = 6.0         # mm: a deeper structure counts as covered by the real surface only this far inside its edge
@@ -327,6 +331,44 @@ def split_counts(poly, total):
     return m
 
 
+def smooth_real(po, pi, fo):
+    """volume-preserving Taubin smoothing (lambda / mu) of the real surface's outer sheet: the source segmentation's facets are a
+    sampling artefact, not anatomy. Border vertices (outer border and the source's own openings) pinned; every vertex's move capped
+    at CAP_REAL; the inner sheet moves with its outer vertex (thickness kept)."""
+    used = np.unique(fo)
+    e = np.concatenate([fo[:, [0, 1]], fo[:, [1, 2]], fo[:, [2, 0]]])
+    key = np.sort(e, axis=1)
+    u, cnt = np.unique(key, axis=0, return_counts=True)
+    pinned = np.zeros(len(po), bool); pinned[np.unique(u[cnt == 1])] = True
+    ue = u
+    A = sparse.coo_matrix((np.ones(2 * len(ue)), (np.r_[ue[:, 0], ue[:, 1]], np.r_[ue[:, 1], ue[:, 0]])), shape=(len(po), len(po))).tocsr()
+    deg = np.asarray(A.sum(1)).ravel()
+    mov = np.zeros(len(po), bool); mov[used] = True; mov &= ~pinned & (deg > 0)
+    X0 = po.copy(); X = po.copy()
+    for _ in range(SMOOTH_REAL_IT):
+        for lam in (0.5, -0.53):
+            L = (A @ X) / np.maximum(deg, 1)[:, None] - X
+            X = np.where(mov[:, None], X + lam * L, X)
+            D = X - X0; n = np.linalg.norm(D, axis=1)
+            over = n > CAP_REAL
+            X[over] = X0[over] + D[over] * (CAP_REAL / n[over])[:, None]
+    D = X - X0; n = np.linalg.norm(D, axis=1)
+    t0 = trimesh.Trimesh(X0, fo, process=False); t1 = trimesh.Trimesh(X, fo, process=False)
+    # volume swept by the outer sheet (signed, + = outwards): the change of the enclosed volume the smoothing makes
+    vn = t0.vertex_normals
+    area_v = np.zeros(len(po)); np.add.at(area_v, fo.ravel(), np.repeat(t0.area_faces / 3.0, 3))
+    swept = float(np.sum(np.einsum("ij,ij->i", D, vn) * area_v))
+    rep = {"method": f"Taubin lambda 0.5 / mu -0.53, {SMOOTH_REAL_IT} rounds, border vertices pinned, per-vertex cap {CAP_REAL:g} mm",
+           "source_spacing": "not recoverable (the source mesh is decimated: vertex coordinates lie on no grid, median edge 5.2 mm); "
+                             "cap 1.0 mm as for an unknown spacing",
+           "vertices_moved": int((n > 1e-6).sum()), "pinned": int(pinned[used].sum()),
+           "move_max_mm": round(float(n.max()), 3), "move_mean_mm": round(float(n[mov].mean()), 3),
+           "outer_area_mm2": [round(float(t0.area), 1), round(float(t1.area), 1)],
+           "volume_swept_by_outer_sheet_mm3": round(swept, 1),
+           "slab_volume_change_pct": round(100.0 * swept / max(t0.area * THICK, 1e-9), 3)}
+    return X, pi + D, rep
+
+
 def domain(P, Q):
     """rows along the two rim rails (left P[0..16], right P[32..16]); row 0 = the anal-region border P0-P35-P34-P33-P32; the last
     row = the apex P16 (mons, midline). Returns the row rails (outer and inner) and the Coons patch of the opening (rows x NF+1)."""
@@ -478,6 +520,10 @@ def build(pg: Page, log=print):
     sel = np.zeros(len(fo), bool); sel[np.flatnonzero(fo_ok)[lab == big]] = True
     other_pieces = [int(s) for c, s in enumerate(np.bincount(lab)) if c != big]
     kept_fo = fo[sel]
+    sm = None
+    if SMOOTH_REAL:
+        po, pi, sm = smooth_real(po, pi, kept_fo)
+        log(f"  real surface smoothed (Taubin, cap {CAP_REAL:g} mm): max {sm['move_max_mm']} / mean {sm['move_mean_mm']} mm")
     Vc, Fc, _ = slab(po, pi, kept_fo)
     cvh_inside = trimesh.Trimesh(po, kept_fo[~beyond[kept_fo].any(1)], process=False)   # the part over the opening: it shapes the rule
     cvh_outer = trimesh.Trimesh(po, kept_fo, process=False)
@@ -497,7 +543,7 @@ def build(pg: Page, log=print):
         "kept": {"outer_triangles": int(len(kept_fo)), "outer_area_mm2": round(float(cvh_outer.area), 1),
                  "slab_vertices": int(len(Vc)), "slab_triangles": int(len(Fc)),
                  "watertight": bool(trimesh.Trimesh(Vc, Fc, process=False).is_watertight)},
-        "vertices_moved": 0}
+        "vertices_moved": 0 if sm is None else sm["vertices_moved"], "staircase_smoothing": sm}
     log(f"  real surface: {len(fo)} -> {len(kept_fo)} outer faces (proud {int((fo_keep & proud[fo].any(1)).sum())}, "
         f"cut-off pieces {other_pieces[:8]}), removed {removed.area:.0f} mm2, kept {cvh_outer.area:.0f} mm2")
 
@@ -735,6 +781,32 @@ def inject(g, k, v, f):
     g._sheet[k] = (cls, np.zeros((0, 2), int))
 
 
+def tuck_side(T, g, k, sk, bones):
+    """the Q353 tuck on one structure: standard tries, then the same tries with gentler envelope slopes (TUCK_SLOPES)"""
+    import functools
+    v0 = g.cur[k].copy()
+    r = T.run_tuck(g, k, sk, bones, lambda *_: None)
+    if r["ships"]:
+        r["envelope_slope"] = T.K_ENV
+        return r
+    orig = T.envelope
+    fails = [dict(envelope_slope=T.K_ENV, reason=r.get("reason"))]
+    try:
+        for kk in TUCK_SLOPES:
+            T.envelope = functools.partial(orig, K=kk)
+            g.cur[k] = v0.copy()
+            r2 = T.run_tuck(g, k, sk, bones, lambda *_: None)
+            if r2["ships"]:
+                r2.update(envelope_slope=kk, earlier=fails)
+                return r2
+            fails.append(dict(envelope_slope=kk, reason=r2.get("reason")))
+    finally:
+        T.envelope = orig
+    g.cur[k] = v0
+    r.update(ships=False, reason="; ".join(f"slope {f['envelope_slope']}: {f['reason']}" for f in fails), per_slope=fails)
+    return r
+
+
 def tuck_round(d: Path, Vc, Fc, Vr, Fr, log=print):
     """structures of the region with vertices outside the closed skin are tucked under it by the Q353 rule (guarded, capped);
     exact mirror twins must pass by the same try on both sides, else both stay (Q353 / Q349). Returns (Geo, report)."""
@@ -784,13 +856,17 @@ def tuck_round(d: Path, Vc, Fc, Vr, Fr, log=print):
                     break
                 g.cur[k], g.cur[o] = v0k.copy(), v0o.copy()
             if not ok:
+                # Q358 follow-up: no common try -- each side on its own, the same guards evaluated per side (moved faces only),
+                # with the standard tries and then a gentler envelope slope (wider, smaller-gradient move; the guards unchanged)
+                g.cur[k], g.cur[o] = v0k.copy(), v0o.copy()
+                rk = tuck_side(T, g, k, sk, bones); ro = tuck_side(T, g, o, sk, bones)
                 for r in (rk, ro):
-                    r.update(ships=False, reason=r.get("reason") or "the twins do not pass by the same try")
+                    r["independent_of_twin"] = True
             for x, r in ((k, rk), (o, ro)):
                 rep["structures"][x] = dict(r, mirror_pair=[k, o])
             done |= {k, o}
         else:
-            rep["structures"][k] = T.run_tuck(g, k, sk, bones, lambda *_: None)
+            rep["structures"][k] = tuck_side(T, g, k, sk, bones)
             done.add(k)
     for x, r in rep["structures"].items():
         b = r["before"]
@@ -843,7 +919,10 @@ def cvh_note(rep):
     return (f"|| {TAG} cleaning: {len(c['loose_pieces_removed'])} loose pieces removed; of the outer surface "
             f"{o['total_outer_faces_removed']} triangles ({o['area_removed_mm2']} mm2) removed -- those more than {TUCK_MM:g} mm past "
             "the border of the opening (they showed as fragments through the neighbouring skin) or rising out of it faster than "
-            f"{RAMP_SLOPE:g} mm per mm (the hanging flap); no vertex moved. The skin ring around it is closed by the rule-based "
+            f"{RAMP_SLOPE:g} mm per mm (the hanging flap). "
+            + (f"{TAG}: staircase facets of the source segmentation smoothed, max {c['staircase_smoothing']['move_max_mm']} mm "
+               f"(cap {CAP_REAL:g} mm, border pinned). " if c.get("staircase_smoothing") else "no vertex moved. ")
+            + "The skin ring around it is closed by the rule-based "
             f"`{NEW_ID}` lying behind it.")
 
 
@@ -893,17 +972,22 @@ def main(argv=None):
     ap.add_argument("--rig-file", default=str(RIG), help="pose rig to splice (default the shared data/anatomy/pose_rig_base_f.json "
                                                          "-- ONLY when applying to the build page it describes; else pass a copy)")
     ap.add_argument("--no-rig", action="store_true")
+    ap.add_argument("--no-smooth-real", action="store_true", help="skip the staircase smoothing of the real surface")
     ap.add_argument("--skip-checks", action="store_true", help="no ring / see-through / outside-skin measurement")
     ap.add_argument("--debug-npz", help="save the new geometry (and the membrane) to this .npz")
     a = ap.parse_args(argv)
     d = Path(a.page_dir)
+    global SMOOTH_REAL
+    SMOOTH_REAL = not a.no_smooth_real
     assert C340.pages_of(d, STEM), f"{d}: no {STEM}.html (Base · Female only)"
     t0 = time.time()
     man, blob, files = read(d)
     ids = [m["id"] for m in man["meshes"]]
     if NEW_ID in ids:
-        print(f"Q358_PERINEUM_ALREADY {d}: {NEW_ID} present -- nothing to do (idempotent)")
-        return 0
+        print(f"Q358_PERINEUM_REFUSED {d}: the page already carries {NEW_ID} (an earlier Q358 result). Re-apply only on the page "
+              f"before Q358: restore every '<file>.q358' beside its file in {d} and the pose rig (git checkout "
+              f"data/anatomy/pose_rig_base_f.json), then run again.")
+        return 3
     assert ids[-1] == CVH_ID, "skin_vulva_cvh is expected as the last mesh (Q336 layout)"
     pg = Page(man, blob)
     print(f"Q358 perineum skin on {d}")
@@ -943,14 +1027,14 @@ def main(argv=None):
     vchk, _ = dec(next(m for m in man_new["meshes"] if m["id"] == CVH_ID), blob_new)
     vpub, _ = pg.V(CVH_ID)
     dmax = float(cKDTree(vpub).query(vchk)[0].max())
-    rep["guards"] = {"real_vertices_unmoved_max_mm": round(dmax, 4),
+    rep["guards"] = {"real_vertices_move_max_mm": round(dmax, 4), "real_move_cap_mm": CAP_REAL if SMOOTH_REAL else 0.05,
                      "rule_watertight": rep["rule_surface"]["watertight"],
                      "rule_winding_consistent": rep["rule_surface"]["winding_consistent"],
                      "rule_folded_faces": rep["rule_surface"]["faces_folded"],
                      "rule_stretch_ok": rep["rule_surface"]["longest_edge_mm"] <= EDGE_MAX,
                      "ring_closed": (not a.skip_checks) and not rep["ring_open_slices_y_mm"]["after"],
                      "no_structure_gains_outside_skin": (not a.skip_checks) and not rep["tuck"]["outside_skin_vertices"]["gained_vs_before"]}
-    ok = (dmax < 0.05 and rep["rule_surface"]["watertight"] and rep["rule_surface"]["winding_consistent"]
+    ok = (dmax <= (CAP_REAL + 0.01 if SMOOTH_REAL else 0.05) and rep["rule_surface"]["watertight"] and rep["rule_surface"]["winding_consistent"]
           and rep["rule_surface"]["folded_area_mm2"] <= FOLD_AREA_MAX and rep["guards"]["rule_stretch_ok"]
           and rep["guards"]["ring_closed"] and rep["guards"]["no_structure_gains_outside_skin"])
     rep["guards"]["pass"] = bool(ok)

@@ -60,14 +60,19 @@ def test_report_guards_and_closure():
     assert r["schema"] == "nmsk.q358.perineum.v1"
     g = r["guards"]
     assert g["pass"] and g["ring_closed"] and g["no_structure_gains_outside_skin"]
-    assert g["real_vertices_unmoved_max_mm"] < 0.05
+    assert g["real_vertices_move_max_mm"] <= g["real_move_cap_mm"] + 0.01
     assert r["ring_open_slices_y_mm"]["after"] == []
     assert r["ring_open_slices_y_mm"]["before"], "the open ring was the defect"
     rs = r["rule_surface"]
     assert rs["id"] == Q.NEW_ID and rs["watertight"] and rs["winding_consistent"]
     assert rs["volume_cm3"] > 0 and rs["outer_area_mm2"] > 0
     c = r["real_surface_cleaning"]
-    assert c["vertices_moved"] == 0 and c["kept"]["outer_area_mm2"] > 0   # (the CVH source has non-manifold edges: not watertight)
+    assert c["kept"]["outer_area_mm2"] > 0   # (the CVH source has non-manifold edges: not watertight)
+    sm = c.get("staircase_smoothing")
+    if sm:   # the optional staircase smoothing: capped, borders pinned
+        assert sm["move_max_mm"] <= Q.CAP_REAL + 1e-6 and sm["pinned"] > 0
+    else:
+        assert c["vertices_moved"] == 0
     assert len(c["loose_pieces_removed"]) >= 1
     for v in r["atlas_facts"].values():
         assert v["cite"]

@@ -49,30 +49,34 @@ Gray's Atlas of Anatomy: the owner's scan has no title / copyright page (edition
 ## 4. Real vs rule-based (numbers: the report)
 - **Real** (`skin_vulva_cvh`, CVH, registered in Q336): outer area 8,396 → 4,549 mm² kept; removed 2 loose pieces (10 + 10
   triangles, 11 + 81 mm²) and 1,075 outer triangles (3,847 mm²: 904 past the rim and not under a neighbour, the rest cut-off
-  pieces); no vertex moved (max 0.001 mm after re-quantisation). Slab 1,784 vertices / 3,620 triangles (the source's 4
+  pieces). Staircase facets of the source segmentation smoothed (Taubin λ 0.5 / μ −0.53, 6 rounds, border pinned, per-vertex
+  cap 1.0 mm — the source spacing is not recoverable, the mesh is decimated): 703 vertices moved, max 1.0 / mean 0.53 mm, outer
+  area 4,549 → 4,304 mm², swept volume −110 mm³ (−0.8 % of the slab). Slab 1,784 vertices / 3,620 triangles (the source's 4
   non-manifold edges remain, so not watertight).
 - **Rule-based** (`skin_perineum_rule_q358`): outer area 7,292 mm², of which ~4,675 mm² not under the real surface; 3 mm slab,
   4,294 vertices / 8,584 triangles, watertight, 21.7 cm³. Under the real surface on 6,539 of 8,427 samples; 268 samples where a
   deeper structure (gracilis, perineal body) lies in front of the real surface win, 110 vertices of the rule surface lie in front
   of the real one. 45 folded sliver faces (36 mm²) at the anal-region notch; longest edge 15.3 mm.
 - **Ring**: open axial slices y −126…−98, −68…−57, −39 → none; rays into the opening meeting no skin 20.4 % → 0 %.
-- **Tuck** (Q353 rule): adductor longus l/r, clitoris (cavernous body), genitofemoral n. l/r, perineal body, external pudendal
-  veins (l), superficial external pudendal artery l/r — max 5.1 mm (cap 8). Kept (guards failed): gracilis l/r (6 / 14 vertices,
-  ≤ 1.3 mm outside, at the anterior-thigh skin border). Region structures with vertices outside the skin: 21 → 2.
+- **Tuck** (Q353 rule and guards, cap 8 mm): adductor longus l/r, clitoris (cavernous body), genitofemoral n. l/r, perineal body,
+  external pudendal veins (l), superficial external pudendal artery l/r — max 5.3 mm. Gracilis l/r (6 / 13 vertices ≤ 1.3 mm out
+  of the anterior-thigh skin at its border) pass only side by side: right by the standard try (flips 0.48 %), left with the gentler
+  envelope slope 0.08 (flips 0.0 %; slope 0.15 gave 0.63 %), max 1.7 / 1.8 mm. Region structures outside the skin: 21 → 0.
 - **Atlas check**: anus skin point (external anal sphincter axis, straight down) z 7.8 mm vs the interischial line z 3.3 mm (atlas:
   just behind the line — here 4.5 mm in front); posterior margin of the vestibule's openings 38–40 mm from the anus (atlas: the
   posterior commissure ~25 mm, the fourchette a little in front of it).
 Full numbers: `data/derived/Q358_perineum_report.json`.
 
 ## 5. Apply
-    python3 scripts/anatomy/q358/perineum_skin_q358.py --page-dir build/q309/viewer_base_female --write
+    python3 scripts/anatomy/q358/perineum_skin_q358.py --page-dir build/q309/viewer_base_female --write && python3 scripts/anatomy/q306/build_search_q306.py --src build/q309 base_m base_f
+    (a page that already carries the Q358 result is refused, exit 3, with the restore instructions)
       -> atlas_viewer_base_female_geo_00..03.txt, atlas_viewer_base_female.html, index.html (*.q358 beside them)
       -> data/anatomy/pose_rig_base_f.json (skin_vulva_cvh vertex count; + skin_perineum_rule_q358 rigid in the pelvis segment)
       -> data/derived/Q358_perineum_report.json
     then the regen with the geo files 00..03, __ANATOMY_manifest, __ANATOMY_files, nmsk-pose-rig in --expect-changed.
 Regen steps that pick the new structure up unchanged: pose rig inject (needs the spliced rig), symmetry sidecar (side m), groups
-sidecar (manifest ids), card rules (Q354), the load-time skin weld (sys skin). The search index (Q306) lists it only after
-`build_search_q306.py --src build/q309 base_m base_f` is re-run (committed data).
+sidecar (manifest ids), card rules (Q354), the load-time skin weld (sys skin). The regen only injects the committed Q306 search
+data, so the apply line re-runs `build_search_q306.py` (as Q336 did).
 
 ## 6. What still differs from the atlases
 See the round report; in short: the Base body's crotch is Z-Anatomy's male-derived shape, so the cleft walls are long (the thighs

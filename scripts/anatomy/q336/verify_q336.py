@@ -46,8 +46,8 @@ def page(pl, d: Path, female: bool):
             man, blob, _ = G.read_page(d)
             m = G.by_id(man)["skin_vulva_cvh"]
             v, f = G.dec(m, blob)
-            check(f"[{tag}] it has geometry ({len(v)} vertices, {len(f)} triangles) and is the last mesh",
-                  len(f) > 1000 and man["meshes"][-1]["id"] == "skin_vulva_cvh")
+            check(f"[{tag}] it has geometry ({len(v)} vertices, {len(f)} triangles) and is the last mesh (or the one before Q358's rule-based closing skin)",
+                  len(f) > 1000 and (man["meshes"][-1]["id"] == "skin_vulva_cvh" or [m["id"] for m in man["meshes"][-2:]] == ["skin_vulva_cvh", "skin_perineum_rule_q358"]))
             rec = m.get("rec") or {}
             check(f"[{tag}] its card carries the registered-other-person badge, the source and the method",
                   "REAL SURFACE OF ANOTHER PERSON" in rec.get("procedural_badge", "") and "e0132226" in rec.get("source", "")
