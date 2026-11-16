@@ -95,98 +95,55 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-Published 2026-11-15: Base·M v91, Base·F v86 — Q328 saved injection points + motor points follow Pose
-(halos already did; verifier `scripts/anatomy/q328/verify_overlays_pose_q328.py`), Q329 mode display
-state kept out of Undo (`setModeColours`, NMSKHistory beginScope/endScope; verifier
-`scripts/anatomy/q329/verify_mode_undo_q329.py`). 22 verifier verdicts OK on /dev/shm/q330.
-Done, committed, not yet published: **Q331** Base·F motor points (193, key `base_f`; builder
-`motor_points_q187.py --viewers base_f --merge`); audit found 0 points outside their muscle on either Base
-body (the old "1–11 mm outside" was an unsigned depth — closed). Regen now copies
-`clinical/data/motor_points.json` → `clinical_motor_points.json` (add it to --expect-changed).
-**Q332** saved points' vessel/nerve readouts re-measured on the posed body (verifier
-`scripts/anatomy/q332/verify_saved_readouts_q332.py`); risk region cache keyed by pose.
-Owner feedback 2026-11-15 (three more agents, all Base only):
-- **Q333 DONE, applied to build/q309/viewer_base_female (originals kept as *.q333), committed:** chest wall
-  showed through the pectoralis on the `_r` side — Q292's breast push left 236 vertices in the wall
-  (`lib292.push_dir` bug, still unfixed in lib292). `scripts/anatomy/q333/fix_chest_wall_q333.py`. Changes
-  geo_00/01/02 + index.html of Base·F (publish the three ~14 MB sidecars). Cost: `_r` sternocostal
-  pectoralis thinner (R/L 0.76); option = larger breast gap from her CT pectoralis thickness (owner's call).
-- **Q339 BLOCKER, agent running:** the Z engine draws a MIRROR IMAGE — Front view shows `_r` on the
-  viewer's right (verified by clicks; data frame +X right/+Y sup/+Z ant is left-handed, camera is
-  right-handed). Fix = handedness flip in the projection + winding + re-signed interactions; R/L marker;
-  `scripts/anatomy/q339/patch_mirror_q339.py`, verifier `verify_handedness_q339.py`. The owner's "left
-  chest" was the `_r` side for this reason. Frozen pages have the same defect (not touched).
-- **Q334** skin seam lines — engine fix in the Z template (load time, no sidecar change; blocks from
-  `scripts/anatomy/q334/patch_seams_q334.py`, flock + `--check`): skin regions are closed ~2.7 mm slabs;
-  lines came from per-piece normals bent by the side walls, the twin walls drawn (2 extra layers at 0.3),
-  and unsorted translucent blending. Now: normals welded across pieces, twin walls drawn only while the
-  neighbour is not, cracks closed, skin/fascia drawn far-to-near; also cortex gyri/sulci and same-name fascia
-  halves. Verifier `verify_skin_seams_q334.py`. Open: Base·F trunk pieces re-meshed by the deformation do
-  not share border vertices (inframammary/epigastric) — residual line, belongs in the female geometry build.
-- **Q335** click card: default docked top-left, draggable, position remembered; leader line only when the
-  structure is not marked in colour (setting); a ⋮ menu beside every window's drag grip; groups /
-  adjacent / related chips open under the name or at the very bottom, width = content, never a full row.
-  Added by the owner: the leader line must never cross the body; More… expands the SAME window in place
-  (today it swaps to another window elsewhere).
-- **Q336** genital / perineal region "not covered correctly" on the Base bodies — diagnose skin coverage
-  and structures per sex, checklist from Gray's (1918 public-domain edition where reachable) + vetted
-  sources, complete with real geometry only; `scripts/anatomy/q336/`, `docs/Q336_genital_region.md`.
-- **Q337** read-only whole-body QA sweep of both Base bodies → ranked defect list
-  (scratchpad `q337_defects.md`); fixes are dispatched from it.
-- **Q338** hand / fingers: palmar vessels out of place "and more" — check at rest and posed (rig weights),
-  fix rig / records; misplaced source meshes are reported with options, not redrawn;
-  `scripts/anatomy/q338/verify_hand_q338.py`.
-Owner 2026-11-15: finish to a PUBLISHABLE level soon, work on everything in parallel. Geometry fixes come
-as `--page-dir` scripts; the main thread applies them to build/q309 in order (Q333, Q336, Q338), then one
-regen, all verifiers, publish.
-- **Q338 DONE, committed:** finger skin/nails were bound to the thumb's distal phalanx in the rig, digit
-  tissue to neighbouring fingers, wrist tendons to the forearm → `scripts/anatomy/q241/skin.py` rules +
-  `scripts/anatomy/q338/splice_rig_q338.py base_m base_f` (hand/foot structures only; deterministic);
-  verifier `scripts/anatomy/q338/verify_hand_q338.py`. Z-SOURCE defects reported, not redrawn: superficial
-  palmar arch + common palmar digital arteries + superficial venous arch lie DEEP to the flexor tendons
-  (should be superficial, under the aponeurosis); deep arches / palmar metacarpal arteries up to 4.4 mm
-  inside metacarpals 3–5; digital nerves mid-lateral instead of palmar to the arteries. **Decision (main):
-  Q340 = conform the three arch meshes into the right layer with a displacement tapered to zero at their
-  junctions (project precedent: Q292/Q319 conforms), push the in-bone vessels out of bone, badge with the
-  numbers. Not dispatched yet.** Thumb CMC rest pose lies outside its own ROM (slider jump) — open.
-- **Agent limit reset 23:34 UTC; RESUMED (same agents, context kept):** Q339 mirror fix, Q335 click
-  card/windows (+ the nine phone-screenshot defects), Q334 skin seams, Q336 genital region (told: shared
-  data that depends on unapplied geometry goes behind its apply script). **Q342 data agent dispatched.**
-  HELD to limit memory/limit use: Q337 QA sweep (resume by SendMessage to its paused agent when a slot
-  frees), Q340 palmar arch conform (not dispatched). Half-done edits of the resumed agents are in the
-  working tree, uncommitted — do not regen from the working tree until they report; a clean regen can be
-  made from a git worktree at HEAD (/dev/shm/wt_head) as for the interim publish.
-- **Interim publish DONE 2026-11-15: Base·M v92, Base·F v87** from committed code only (git worktree
-  /dev/shm/wt_head at HEAD → regen /dev/shm/q340; 24 verifier verdicts OK): Q331 motor points F, Q332
-  readouts, Q333 chest (Base·F geo_00/01/02 republished), Q338 hand rig. Still MIRRORED (Q339 pending).
-  The genital agent had overwritten `pose_rig_base_f.json` with a 3301-structure rig (its `skin_vulva_cvh`
-  copy); restored to the 3300 splice (its version saved in the scratchpad as
-  pose_rig_base_f.with_vulva_skin_3301.json).
-- **Owner requests 2026-11-15 late (Q342 dispatched 23:36 UTC; the rest after Q335 lands):**
-  - **Q342 data (anatomical-fact agent):** (a) fibre groups of large muscles — heads / parts selectable
-    instead of the whole muscle (pectoralis major clavicular / sternocostal / abdominal, deltoid anterior /
-    middle / posterior, triceps, quadriceps, trapezius, latissimus, gluteus…): inventory which heads are
-    separate meshes on the Base bodies (`data/anatomy/muscle_heads_q293.json`, Q220 parts) and, for
-    single-mesh muscles, a rule-based partition from the heads' attachment regions (badged, cited);
-    (b) **myofascial lines ("anatomy trains")** as a group family with sub-choice vertical / horizontal /
-    diagonal-spiral / arm / functional (Myers; evidence per line from Wilke 2016 systematic review —
-    facts only, cite, state evidence level); (c) **innervation groups** with sub-menu: root (myotomes),
-    peripheral nerve, central patterns (spastic postures: flexor / extensor synergies, the arm spasticity
-    patterns, common lower-limb patterns) — sources; extend beyond the 60 muscles of innervation_q322.
-  - **Q343 UI (after Q335 lands):** ONE button "Related structures" on the name card → menu: functional
-    group, adjacent tissues, related, myofascial lines (→ sub-menu), innervation (→ sub-menu root /
-    peripheral / central pattern); a "Parts" chooser on a muscle with heads (whole muscle | head …).
-  - **Q341 UI audit (read-only agent, RUNNING on the cheaper model):** unreadable text in boxes and boxes
-    covering the model → scratchpad `q341_ui_findings.md`; **Q344** = fixes from it (after Q335 lands).
-  - **Owner phone screenshots 2026-11-15 22:36 UTC** (/root/.claude/uploads/c87934a2-ee76-5e9b-b227-2ff779a6e56e/
-    a50cb270-image.jpg and 87282e7f-image.jpg) — concrete defects, to give to the Q335 agent on resume and
-    to Q344: (1) relations chips white-on-white, unreadable; (2) drag grip sits on top of the structure name
-    and on the "hidden: N structures" chip; (3) the relations box prints a long developer explanation
-    (voxel grid, script path) — one user line + ⓘ; (4) stale explanation after selecting another structure;
-    (5) leader line crosses the box and the model; (6) "hidden" chip + "Show everything" + zoom chip
-    overlap the name card (More… hidden) and the page title; (7) top toolbar = 4 rows on a phone → one row
-    + overflow; (8) relations box full width, ~30% height for 3 chips; (9) tendon sheath labelled "BURSA".
-  - **Q340** palmar arch conform (see Q338).
-Open: deltoid middle-belly motor rule fails on Base·F (axillary-level landmark proxy too low); triceps /
-gastrocnemius IZ values in data/muscles/* still suspicious (not displayed); 82 muscles/body without attachment points; teres major /
-latissimus iliac-line IZ bands unplaced.
+(Rewritten 2026-11-16 07:40 UTC after a session restart; detail of Q325–Q338 is in git history and will be
+moved to docs/PROJECT_HISTORY.md.)
+
+**Live:** Base·M v92, Base·F v87 (interim publish 2026-11-15: Q331 motor points F, Q332 readouts, Q333
+chest, Q338 hand rig). Live is still MIRRORED and has the old name card.
+
+**Committed, regenerated to /dev/shm/q345, verifiers running (scratchpad v345.txt) → then PUBLISH:**
+- Q339 true (non-mirrored) view: view x row negated, winding CW, orbit re-signed, R/L marker
+  (`scripts/anatomy/q339/patch_mirror_q339.py --check`, verifier `verify_handedness_q339.py`). Frozen pages
+  and the own engine still mirrored (not touched).
+- Q334 seamless skin (engine, load time; `scripts/anatomy/q334/patch_seams_q334.py`; verifier
+  `verify_skin_seams_q334.py` ~40 min/page). Base·M passes; Base·F trunk still shows a line where
+  re-meshed pieces do not share border vertices (needs the female geometry build) — open.
+- Q335 name card docked top-left / draggable / ⋮ menu on every grip / one "Related structures" button
+  (registry `NMSKQuickCard.family`, positions 40/50 reserved) / phone one-row toolbar / no overlaps.
+- Q336 Base·F perineal skin = real CVH vulva surface `skin_vulva_cvh` (applied to build/q309; geo_03 of
+  Base·F changes; rig 3301 entries); text-only records for structures without real geometry. Gray's 1918
+  hosts were blocked then; `www.bartleby.com` and `en.wikisource.org` are NOW allowed in the environment.
+- Q342 data: `data/anatomy/{muscle_parts,myofascial_lines,innervation_groups}_q342.json`,
+  `docs/Q342_groups_sources.md`, generators in scripts/anatomy/q342.
+- Regen --expect-changed now: index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
+  nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,
+  clinical_ultrasound_tissues.json,clinical_ultrasound_tool.js,clinical_imaging_tool.js,
+  clinical_needle_tool.js,clinical_motor_points.json,parts_data.json,symmetry_q237.json,
+  plexus_groups.json,innervation_q322.json,__ANATOMY_manifest,__ANATOMY_files,
+  atlas_viewer_base_female_geo_03.txt
+- Publish list this time — Base·M: index.html (+ any changed sibling by cmp against the last publish);
+  Base·F: index.html, atlas_viewer_base_female_geo_03.txt (+ changed siblings).
+
+**In flight (four agents, dispatched 07:30 UTC):**
+- Q344-A (cheaper model): remaining public UI defects from the audit
+  (scratchpad `q341_ui_findings.md`): blank Navigate/mark buttons, raw ids and round ids in card prose,
+  sheets/panels covering the model, search rows, pose/measure wording; `scripts/anatomy/q344/`.
+- Q344-B (cheaper model): same for clinical/*.js (inj/scan/compare/needle panels).
+- Q343: "Related structures" families Myofascial lines (→ class sub-menu, evidence label) and Innervation
+  (→ root / peripheral / central pattern) + muscle "Parts" chooser (whole | head); new module
+  `viewer/groups342`, sidecar `groups_q342.json` via regen; verifier `scripts/anatomy/q343/`.
+- Q340: palmar arches / common digital arteries conformed into the right layer + vessels pushed out of
+  bone; `scripts/anatomy/q340/conform_palm_q340.py --page-dir` (main thread applies).
+- NOT running: Q337 whole-body QA sweep (stopped at the limit; restart as a fresh read-only agent).
+
+**Decisions taken by the main thread (owner delegated):** vulva skin accepted as an overlapping real
+surface; "horizontal" myofascial class shown disabled (no sourced line); rule-based muscle-part partitions
+are NOT drawn yet (parts without a mesh are listed greyed); palmar conform approved.
+**Owner's open calls:** larger breast gap on Base·F (`_r` pectoralis thin, R/L 0.76); Base·M perineal
+muscles / rectum (only real source is the frozen Imaging·M page → would need a bone TPS transfer); buy/open
+Myers and Schultz & Feitis to verify line routes; unfreeze question for the mirrored frozen pages.
+**Do not run** `sync_learn_q283.py` / `sync_hub_link_q251.py`: the template is ahead of their source (Q312
+edits were made in the template); running them reverts Q312.
+**Other open:** Base·F trunk seam (geometry build); deltoid middle-belly motor rule on Base·F; 82
+muscles/body without attachment points; teres major / latissimus iliac IZ bands; thumb CMC rest pose
+outside its ROM; `test_q298::test_relations_exist…` fails (derived relations lack new foot ids).
