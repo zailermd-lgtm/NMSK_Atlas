@@ -133,13 +133,15 @@ page citations; no prose/figures copied; PDFs never in the repo — same rule as
 Anatomy (45 MB), Lumley Surface Anatomy (41 MB), Mannan's Regional Dissection and Surface Anatomy (74 MB),
 Yogesh Anatomy vol 5–6 (22 MB), Fascia in Sport and Movement (19 MB), Peripheral Nerve Injury — anatomical
 (12 MB), Peripheral Nervous System: Interrelationships and Variations (27 MB), Peripheral Nerves (6.9 MB),
-"Atlas" (16.7 MB, untitled). **BLOCKED:** the Dropbox text tool reads files ≤ 5 MiB only, and file
-downloads come from random `uc….dl.dropboxusercontent.com` hosts that the network policy refuses (403);
-a wildcard cannot be added from the session. Owner must add `*.dl.dropboxusercontent.com` to the
-environment's allowed hosts in Settings (or upload the PDFs in chat). When readable → Q348 reference pass:
-verify/complete the Q342 `verify_against_book` lines and gaps (Hefter II/V, lower-limb flexion synergy),
-the Q336 perineal checklist, surface landmarks of the IZ lines (posterior axillary fold etc.), the 38
-"not delimitable" muscle parts, finger nerve/artery order; record book + edition + page per fact.
+"Atlas" (16.7 MB = Atlas of Practical Neonatal and Pediatric Procedures — not relevant). Owner set the
+environment's network to UNRESTRICTED (2026-11-16); all nine are downloaded to the scratchpad `refs/`
+(outside the repo; re-download with Dropbox `download_link` + curl after a container rebuild). Three are
+scanned (Gray's Atlas, Lumley, Peripheral Nerves) → OCR or page reading.
+**Q348 reference-pass agent RUNNING:** verify/complete from the books — myofascial line routes and
+"horizontal" (Fascia in Sport and Movement), root levels + variations, palm layer order and finger
+nerve/artery order, perineal checklist, surface landmarks of the IZ lines, muscle-part boundaries;
+corrections through the data generators with book + page citations; `docs/Q348_reference_pass.md`;
+geometry-affecting findings are listed, not applied.
 **Not running:** Q337 whole-body QA sweep (restart as a fresh read-only agent after the q346 publish).
 Scan-mode badge "סימולציה מהמשים" looks like a typo (pinned by two tests) — asked owner.
 
