@@ -1,0 +1,940 @@
+#!/usr/bin/env python3
+"""Q360: Base · Female anterior trunk skin -- one seamless surface, as the back is: the 18 chest skin regions rebuilt from their
+Z-Anatomy source topology by ONE joint deformation onto the current (Q292-fitted) chest surface.
+
+    python3 scripts/anatomy/q360/chest_skin_q360.py --page-dir DIR                       # dry run: build + measure, report only
+    python3 scripts/anatomy/q360/chest_skin_q360.py --page-dir DIR --write               # and write DIR (+ the pose rig, see --rig-file)
+    options: --source-dir DIR (Base · Male page, default <page-dir>/../viewer_zan_atlas), --rig-file FILE, --no-rig, --report FILE
+
+Cause (measured, Q356 + this round): Q292 fitted the chest skin regions onto her CT skin from the Z-Anatomy patches merged with
+`merge_vertices(digits_vertex=3)` -- but those patches were decoded from a page, where every mesh is quantised over its own box,
+so the "same" border vertex of two regions differs by micrometres and was NOT merged; the regions were then subdivided and their
+fit displacement smoothed each over its own mesh. Hence: borders that share 0-15 % of their vertices, rounded rims (no outer-to-wall
+crease), slots up to ~5 mm, overlaps, serrated edges -- and the load-time weld (Q334) finds nothing to join. Every backup beside the
+page files (`*.q318` .. `*.q358`) holds these 18 meshes byte-identical to the current ones: no pre-Q292 copy exists there.
+
+The fix (route A, a joint refit; deterministic, nothing invented, every number into the report):
+  1. SOURCE: the 18 regions' Z-Anatomy slabs as they are on the Base · Male page (the same Z body; every other Base · Female skin
+     region still has their exact topology). Their outer sheets are merged into ONE surface (vertices within the engine's weld
+     distance, 0.03 mm, are one vertex), region label per face. A vertex shared with an unchanged neighbouring region is LOCKED at
+     that neighbour's Base · Female vertex (so those borders stay exact).
+  2. FRAME: the rest is carried into the Base · Female frame by a thin-plate spline through the displacements of the unchanged skin
+     regions and the trunk / shoulder bones (identical topology on both pages: the Q250 female-skeleton deformation, re-measured).
+  3. DENSITY: subdivided as one mesh (conforming longest-edge bisection) to EDGE_MM edges, as Q292 did (borders with unchanged
+     regions are not split, so they keep their exact shared vertices).
+  4. FIT: one smooth displacement field over the whole merged surface (membrane-regularised non-rigid ICP, stiff to soft) onto the
+     CURRENT outer sheets of the 18 regions (their rounded rims left out). Where the current pieces disagree: in a band around their
+     borders the data weight fades, so the surface bridges their steps smoothly; where two pieces overlap (stacked) it follows the
+     outermost (what is seen today); in a slot (no current piece) it is interpolated from both sides.
+  5. SLABS: each region is cut back out of the merged surface by its label, with an inner sheet THICK mm under it (the Z slab
+     thickness, measured) and a wall at every border, so neighbours share their border vertices (outer and inner) and the rim is a
+     crease -- as the back regions are. Vertex counts change; the pose rig follows (weights transferred from the current meshes).
+  6. TUCK: breast tissue (and any other structure that would end outside) is moved under the new skin by Q353's guarded tuck rule.
+Guards: weld % per region (Python copy of the Q334 weld rules) >= WELD_MIN; front / lateral z-buffer holes (a deeper structure seen
+where skin should be) = 0 px in the chest window; deviation from the current outer surface <= DEV_CAP (core) / DEV_CAP_BORDER (band
+of the current borders); breast tissue, muscle and rib: 0 vertices outside the skin; no folded / flipped face; closed, consistently
+wound slabs. Originals kept beside each changed file as `<name>.q360` (never overwritten). A page whose chest regions already carry
+the Q360 sentence is refused (restore the `.q360` copies and the rig to re-apply). Report: data/derived/Q360_chest_skin_report.json.
+"""
+from __future__ import annotations
+
+import argparse
+import base64
+import json
+import re
+import shutil
+import sys
+import time
+import zlib
+from pathlib import Path
+
+import numpy as np
+import trimesh
+from scipy import sparse
+from scipy.interpolate import RBFInterpolator
+from scipy.sparse.linalg import spsolve
+from scipy.spatial import cKDTree
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[2]
+for p in (REPO, REPO / "scripts" / "zanatomy", REPO / "scripts" / "anatomy" / "q340", REPO / "scripts" / "anatomy" / "q353",
+          REPO / "scripts" / "anatomy" / "q241"):
+    sys.path.insert(0, str(p))
+import build_zan_atlas_viewer as B  # noqa: E402  pack_mesh / split_blob
+import conform_palm_q340 as C340    # noqa: E402  page I/O
+import conform_skin_q353 as Q       # noqa: E402  Geo / sheets / SkinSet / run_tuck / outside_count / Bones
+
+STEM = "atlas_viewer_base_female"
+SRC_STEM = "atlas_viewer_zan_atlas"
+TAG = "Q360"
+REPORT = REPO / "data/derived/Q360_chest_skin_report.json"
+RIG = REPO / "data/anatomy/pose_rig_base_f.json"
+LAST_IDS = ("skin_vulva_cvh", "skin_perineum_rule_q358")
+CHEST_RE = re.compile(r"mammary|pectoral_region|presternal|lateral_region_of_thorax|epigastric|infraclavicular|deltopectoral|"
+                      r"hypochondriac")       # the regions Q292 refitted (scripts/anatomy/q292/build_q292.py SKIN_PATCH_RE)
+BREAST = Q.BREAST + ["breast_ct_r", "breast_ct_l", "breast_fgt_ct_r", "breast_fgt_ct_l"]
+
+# ------------------------------------------------------------------ parameters
+WELD_MM = 0.03       # the engine's weld distance (Q334 WELD)
+CRACK_MM = 0.6       # mm: Z source border vertices of two regions this close are one vertex (the engine's rim join reaches 1 mm)
+TJ_MM = 1.0          # mm: a border vertex this close to an unchanged neighbour's edge is a T-junction on that edge
+EDGE_MM = 4.0        # target edge length after subdivision (Q292 SKIN_EDGE)
+RIM_EXCL = 2.0       # mm: current outer-sheet faces this close to their region's rim are the rounded rim, not the surface
+BAND_IN, BAND_OUT = 2.0, 8.0   # mm from a current border: data weight 0 inside BAND_IN, full from BAND_OUT (smoothstep)
+STIFF = (0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0, 10.0)   # data weight (x vertex degree) per ICP round: stiff -> soft
+SAMPLE_MM = 0.5      # target sampling (closest point = nearest sample + projection onto its face plane)
+TANG_MAX = 1.5       # mm: a point farther than this sideways from a piece's surface lies beyond that piece (slot), not over it
+OVL_MM = 8.0         # mm: stacked pieces within this height of the nearest one: the outermost is followed
+PLAUS_MM = 25.0      # mm: in the soft rounds a target farther than this is not trusted
+FACE_COS = 0.3       # a target point whose surface normal is more than ~70 degrees off the vertex normal is not followed
+LOCK_GAP_MAX = 99.0  # mm: a neighbour's border vertex farther than this from the current chest surface is not joined (axilla)
+LOCK_REACH, LOCK_REACH_MIN, LOCK_REACH_MAX = 4.0, 12.0, 40.0   # no data within 4 x the gap (12..40 mm) of a disagreeing locked vertex
+DEV_CAP = 1.5        # mm: max deviation from the current outer surface away from the current borders (core)
+DEV_CAP_BORDER = 6.0 # mm: max deviation within BAND_OUT of a current border (pieces disagree by up to ~10 mm there)
+WELD_MIN = 80.0      # % of rim vertices that must weld (exact or rim-join), per changed region
+FOLD_COS = -0.5      # neighbouring outer faces more than 120 degrees apart = folded
+RBF_N = 6000         # thin-plate spline samples (deterministic stride)
+TUCK_GUARD = ("muscle", "bone", "cartilage")
+CHEST_BOX = (np.array([-220.0, 230.0, -160.0]), np.array([220.0, 700.0, 200.0]))
+PX = 0.5             # mm per pixel of the hole raster
+
+
+# ------------------------------------------------------------------ small helpers
+def smoothstep(x):
+    x = np.clip(x, 0.0, 1.0)
+    return x * x * (3 - 2 * x)
+
+
+def st(x):
+    x = np.asarray(x, float)
+    if not len(x):
+        return None
+    return {"max": round(float(x.max()), 2), "mean": round(float(x.mean()), 2), "p95": round(float(np.percentile(x, 95)), 2),
+            "n": int(len(x))}
+
+
+def edges_of(f):
+    e = np.sort(np.vstack([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), axis=1)
+    return e
+
+
+def vnormals(v, f):
+    """three.js computeVertexNormals: area-weighted sum of the face normals, normalised"""
+    fn = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
+    n = np.zeros_like(v)
+    for k in range(3):
+        np.add.at(n, f[:, k], fn)
+    return n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+
+
+def fnormals(v, f):
+    fn = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
+    return fn / np.maximum(np.linalg.norm(fn, axis=1, keepdims=True), 1e-12)
+
+
+def laplacian(n, f):
+    e = np.unique(edges_of(f), axis=0)
+    A = sparse.coo_matrix((np.ones(2 * len(e)), (np.r_[e[:, 0], e[:, 1]], np.r_[e[:, 1], e[:, 0]])), shape=(n, n)).tocsr()
+    deg = np.asarray(A.sum(1)).ravel()
+    return sparse.diags(deg) - A, deg
+
+
+class UF:
+    def __init__(self, n):
+        self.p = np.arange(n)
+
+    def find(self, a):
+        p = self.p
+        r = a
+        while p[r] != r:
+            r = p[r]
+        while p[a] != r:
+            p[a], a = r, p[a]
+        return r
+
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra != rb:
+            self.p[max(ra, rb)] = min(ra, rb)
+
+    def roots(self):
+        return np.array([self.find(i) for i in range(len(self.p))])
+
+
+# ------------------------------------------------------------------ 1. the Z source surface
+CREASE_COS = 0.5     # a Z slab's sheets meet its wall at a crease sharper than 60 degrees
+
+
+def z_sheets(g, k):
+    """face classes of a Z slab (+1 outer, -1 inner, 0 wall). A Z slab's outer and inner sheets have separate vertices, joined by a
+    wall standing ~90 degrees off them. Per vertex: the area-weighted sign of (face normal . direction away from the nearest bones)
+    over its sheet-like faces (|dot| > 0.5; the wall faces are ~0); a face is a sheet face when its three vertices agree."""
+    v, f = g.V0[k]
+    t = trimesh.Trimesh(v, f, process=False)
+    c = t.triangles_center
+    fn = t.face_normals
+    # sheet face: the slab's other sheet right behind it (Q353's test); a wall face looks along the slab
+    loc, ri, _ = trimesh.ray.ray_triangle.RayMeshIntersector(t).intersects_location(c - fn * 0.02, -fn, multiple_hits=False)
+    hit = np.full(len(f), np.inf)
+    hit[ri] = np.linalg.norm(loc - (c[ri] - fn[ri] * 0.02), axis=1)
+    sheet = (hit > 0.8) & (hit < Q.SHEET_MAX)
+    # outward: horizontally away from the trunk's bone axis at that height (the nearest bones mislead over the abdomen)
+    ax = trunk_axis(g)
+    yy = np.clip(np.round(c[:, 1] / 10.0).astype(int), min(ax), max(ax))
+    a0 = np.array([ax[y] for y in yy])
+    u = c - a0; u[:, 1] = 0
+    u /= np.linalg.norm(u, axis=1, keepdims=True) + 1e-12
+    dot = (fn * u).sum(1)
+    w = t.area_faces * np.sign(dot) * sheet
+    s = np.zeros(len(v))
+    for j in range(3):
+        np.add.at(s, f[:, j], w)
+    vo = s > 0
+    cls = np.where(vo[f].all(1), 1, np.where((~vo[f]).all(1), -1, 0))
+    # the sheets are two connected discs once the wall is left out: each connected piece of sheet faces takes its area majority
+    from scipy.sparse.csgraph import connected_components
+    adj = t.face_adjacency
+    m = (cls[adj[:, 0]] != 0) & (cls[adj[:, 1]] != 0)
+    A = sparse.coo_matrix((np.ones(int(m.sum())), (adj[m, 0], adj[m, 1])), shape=(len(f), len(f)))
+    _, lab = connected_components(A, directed=False)
+    for c_ in np.unique(lab[cls != 0]):
+        s_ = (lab == c_) & (cls != 0)
+        cls[s_] = 1 if (t.area_faces[s_] * cls[s_]).sum() > 0 else -1
+    return cls
+
+
+_AXIS = {}
+
+
+def trunk_axis(g):
+    """per 10 mm of height: the centroid (x, z) of the trunk bones (|x| < 120 mm) -> {y/10: (x, y, z)}"""
+    if id(g) not in _AXIS:
+        P = g.interior[np.abs(g.interior[:, 0]) < 120]
+        out = {}
+        for y in range(int(P[:, 1].min() // 10), int(P[:, 1].max() // 10) + 1):
+            s = np.abs(P[:, 1] - 10 * y) < 25
+            if s.sum() > 50:
+                out[y] = np.array([P[s, 0].mean(), 10.0 * y, P[s, 2].mean()])
+        _AXIS[id(g)] = out
+    return _AXIS[id(g)]
+
+
+def source_surface(gm, gf, chest, log):
+    """merge the outer sheets of the chest regions (Base · Male = Z topology) into one surface; lock the vertices shared with an
+    unchanged region (same vertex count on both pages) at that region's Base · Female vertex"""
+    V, F, L, own = [], [], [], []
+    n0 = 0
+    for i, k in enumerate(chest):
+        cls = z_sheets(gm, k)
+        v, f = gm.V0[k]
+        fo = f[cls == 1]
+        V.append(v); F.append(fo + n0); L.append(np.full(len(fo), i)); own += [i] * len(v); n0 += len(v)
+    V = np.vstack(V); F = np.vstack(F); L = np.concatenate(L); own = np.array(own)
+    uf = UF(len(V))
+    for a, b in sorted(cKDTree(V).query_pairs(WELD_MM)):
+        uf.union(a, b)
+    # the Z source's own cracks: border vertices of two regions up to CRACK_MM apart (the engine's rim join / snap closes these on
+    # the page) are one vertex here -- mutually nearest pairs only
+    r = uf.roots()
+    e0, c0 = np.unique(edges_of(r[F]), axis=0, return_counts=True)
+    bv = np.unique(e0[c0 == 1])
+    bv = bv[np.isin(bv, np.unique(r[F]))]
+    cracks = 0
+    if len(bv):
+        tb = cKDTree(V[bv])
+        d1, j1 = tb.query(V[bv], k=2)
+        for x, (dd, jj) in enumerate(zip(d1[:, 1], j1[:, 1])):
+            if dd <= CRACK_MM and own[bv[x]] != own[bv[jj]] and j1[jj, 1] == x and x < jj:
+                uf.union(int(bv[x]), int(bv[jj])); cracks += 1
+    r = uf.roots()
+    used = np.unique(r[F])
+    remap = -np.ones(len(V), int); remap[used] = np.arange(len(used))
+    Fm = remap[r[F]]
+    ok = (Fm[:, 0] != Fm[:, 1]) & (Fm[:, 1] != Fm[:, 2]) & (Fm[:, 0] != Fm[:, 2])
+    Fm, L = Fm[ok], L[ok]
+    Vm = np.zeros((len(used), 3))
+    s_ = remap[r] >= 0
+    np.add.at(Vm, remap[r][s_], V[s_]); cnt = np.bincount(remap[r][s_], minlength=len(used)); Vm /= cnt[:, None]
+    e, c = np.unique(edges_of(Fm), axis=0, return_counts=True)
+    assert (c <= 2).all(), f"merged Z outer surface is not manifold ({int((c > 2).sum())} edges)"
+    # fixed neighbours: skin regions with identical vertex count on both pages (Z topology kept), not in the chest set
+    fixed = [k for k in gf.M if gf.sys[k] == "skin" and k not in chest and k in gm.M and gm.M[k]["vc"] == gf.M[k]["vc"]]
+    PV, PF, PO = [], [], []
+    EM, EF, EO = [], [], []
+    lo, hi = Vm.min(0) - 2, Vm.max(0) + 2
+    for k in fixed:
+        vm, fk = gm.V0[k]
+        s = np.all((vm >= lo) & (vm <= hi), axis=1)
+        if s.any():
+            PV.append(vm[s]); PF.append(gf.V0[k][0][s]); PO += [k] * int(s.sum())
+            ek = np.unique(edges_of(fk), axis=0)
+            ek = ek[s[ek].any(1)]
+            EM.append(vm[ek]); EF.append(gf.V0[k][0][ek]); EO += [k] * len(ek)
+    PV, PF = np.vstack(PV), np.vstack(PF); PO = np.array(PO)
+    EM, EF, EO = np.vstack(EM), np.vstack(EF), np.array(EO)
+    d, j = cKDTree(PV).query(Vm, distance_upper_bound=WELD_MM)
+    bd = e[c == 1]
+    onb = np.zeros(len(Vm), bool); onb[bd.ravel()] = True
+    lock = np.isfinite(d) & onb          # only the border of the merged surface is shared with a neighbour (an interior vertex that
+    #                                      happens to touch another region -- the arm skin in the axilla -- is not a border)
+    tgt = np.full((len(Vm), 3), np.nan)
+    tl = cKDTree(PV).query_ball_point(Vm[lock], WELD_MM)
+    tgt[lock] = np.array([PF[x].mean(0) for x in tl])
+    neigh = {k for x in tl for k in PO[x]}
+    # a border vertex lying on a neighbour's edge (a T-junction of the Z source, within TJ_MM): locked at the same point of that
+    # edge on the Base · Female page
+    tj = 0
+    for i in np.where(onb & ~lock)[0]:
+        A_, B_ = EM[:, 0], EM[:, 1]
+        ab = B_ - A_
+        t_ = np.clip(((Vm[i] - A_) * ab).sum(1) / np.maximum((ab * ab).sum(1), 1e-12), 0, 1)
+        dd = np.linalg.norm(A_ + t_[:, None] * ab - Vm[i], axis=1)
+        m = int(np.argmin(dd))
+        if dd[m] <= TJ_MM:
+            lock[i] = True; tj += 1
+            tgt[i] = EF[m, 0] + t_[m] * (EF[m, 1] - EF[m, 0]); neigh.add(EO[m])
+    neigh = sorted(neigh)
+    # what is left of the border is a small hole inside the chest set (a Z crack loop): filled with a fan of faces
+    lock_edge = bd[lock[bd[:, 0]] & lock[bd[:, 1]]]
+    free_b = bd[~(lock[bd[:, 0]] & lock[bd[:, 1]])]
+    Fm, L, filled = fill_holes(Vm, Fm, L, free_b, lock)
+    e, c = np.unique(edges_of(Fm), axis=0, return_counts=True)
+    assert (c <= 2).all(), "hole filling made the surface non-manifold"
+    bd2 = e[c == 1]
+    open_free = bd2[~(lock[bd2[:, 0]] & lock[bd2[:, 1]])]
+    log(f"  source: {len(chest)} Z regions -> merged outer surface {len(Vm)} vertices / {len(Fm)} faces ({cracks} Z cracks <= "
+        f"{CRACK_MM} mm joined, {filled} hole faces added); {int(lock.sum())} border vertices locked ({tj} on a neighbour's edge; "
+        f"{len(neigh)} unchanged regions); border {len(bd2)} edges, {len(open_free)} of them not on a neighbour")
+    return dict(V=Vm, F=Fm, L=L, lock=lock, lock_tgt=tgt, lock_edges=lock_edge, fixed=fixed, neighbours=neigh,
+                boundary_edges=int(len(bd2)), open_border_edges=int(len(open_free)), z_cracks_joined=cracks,
+                hole_faces_added=filled, t_junction_locks=tj)
+
+
+def fill_holes(V, F, L, bedges, lock, max_edges=8):
+    """small closed border loops made only of free (not shared) edges: a fan from their centroid vertex-free (ear clipping on
+    the loop itself, no vertex added); the label of the most common neighbouring face"""
+    from collections import defaultdict
+    nb = defaultdict(list)
+    for a, b in bedges.tolist():
+        nb[a].append(b); nb[b].append(a)
+    seen, added = set(), 0
+    Fn, Ln = [F], [L]
+    vf = defaultdict(list)
+    for fi, t in enumerate(F.tolist()):
+        for v in t:
+            vf[v].append(fi)
+    for s in list(nb):
+        if s in seen or len(nb[s]) != 2:
+            continue
+        loop, prev, cur = [s], None, s
+        while True:
+            nx = [x for x in nb[cur] if x != prev]
+            if not nx or len(nb[cur]) != 2:
+                loop = None; break
+            prev, cur = cur, nx[0]
+            if cur == s:
+                break
+            loop.append(cur)
+            if len(loop) > max_edges:
+                loop = None; break
+        if not loop:
+            continue
+        seen.update(loop)
+        if len(loop) < 3:
+            continue
+        # orientation: follow the winding of the face along the first loop edge (the new face runs the edge the other way)
+        a, b = loop[0], loop[1]
+        fa = [fi for fi in vf[a] if b in F[fi]]
+        t = F[fa[0]].tolist(); ia = t.index(a)
+        same = t[(ia + 1) % 3] == b
+        lab = np.bincount(L[[fi for v in loop for fi in vf[v]]]).argmax()
+        ring = loop if not same else loop[::-1]
+        for k in range(1, len(ring) - 1):
+            Fn.append(np.array([[ring[0], ring[k], ring[k + 1]]])); Ln.append(np.array([lab])); added += 1
+    return np.vstack(Fn), np.concatenate(Ln), added
+
+
+def frame_map(gm, gf, S, chest, log):
+    """Base · Male -> Base · Female frame: thin-plate spline through the displacements of the unchanged skin regions and the trunk /
+    shoulder bones (identical topology on both pages) near the chest; locked vertices exactly"""
+    lo, hi = S["V"].min(0) - 120, S["V"].max(0) + 120
+    P, Dd = [], []
+    for k in sorted(gf.M):
+        if k in chest or k not in gm.M or gm.M[k]["vc"] != gf.M[k]["vc"] or gf.sys[k] not in ("skin", "bone", "cartilage"):
+            continue
+        vm, vf = gm.V0[k][0], gf.V0[k][0]
+        s = np.all((vm >= lo) & (vm <= hi), axis=1)
+        if s.sum() < 3:
+            continue
+        P.append(vm[s]); Dd.append(vf[s] - vm[s])
+    P, Dd = np.vstack(P), np.vstack(Dd)
+    # one sample per 4 mm cell (deterministic), then a fixed stride down to RBF_N
+    cell = np.floor(P / 4.0).astype(np.int64)
+    _, first = np.unique(cell, axis=0, return_index=True)
+    first = np.sort(first)
+    if len(first) > RBF_N:
+        first = first[np.linspace(0, len(first) - 1, RBF_N).astype(int)]
+    lk = S["lock"]
+    Ps = np.vstack([P[first], S["V"][lk]]); Ds = np.vstack([Dd[first], S["lock_tgt"][lk] - S["V"][lk]])
+    Ps, ui = np.unique(np.round(Ps, 3), axis=0, return_index=True); Ds = Ds[ui]
+    rbf = RBFInterpolator(Ps, Ds, kernel="thin_plate_spline", smoothing=1.0, degree=1)
+    X = S["V"] + rbf(S["V"])
+    # how well the spline reproduces the locked (exact) vertices; the rest of that residual is spread harmonically over the surface
+    R = S["lock_tgt"][lk] - X[lk]
+    res = np.linalg.norm(R, axis=1)
+    Lp, _ = laplacian(len(X), S["F"])
+    free = ~lk
+    A = Lp.tocsr()
+    Dh = np.zeros_like(X); Dh[lk] = R
+    for c in range(3):
+        Dh[free, c] = spsolve(A[free][:, free].tocsc(), -(A[free][:, lk] @ R[:, c]))
+    X = X + Dh
+    X[lk] = S["lock_tgt"][lk]
+    log(f"  frame: spline through {len(Ps)} samples (of {len(P)} + {int(lk.sum())} locked); at the locked vertices residual median "
+        f"{np.median(res):.2f} / max {res.max():.2f} mm, spread harmonically (max {np.linalg.norm(Dh[free], axis=1).max():.2f} mm)")
+    return X, {"samples": int(len(Ps)), "of": int(len(P)), "locked_residual_mm": st(res)}
+
+
+# ------------------------------------------------------------------ 3. conforming longest-edge bisection
+def refine(V, F, L, lock_edges, hmax=EDGE_MM, iters=12):
+    V = V.copy(); F = F.copy(); L = L.copy()
+    locked = set(map(tuple, np.sort(lock_edges, axis=1).tolist()))
+    for _ in range(iters):
+        E, inv = np.unique(np.sort(np.stack([F[:, [0, 1]], F[:, [1, 2]], F[:, [2, 0]]], 1), axis=2).reshape(-1, 2), axis=0,
+                           return_inverse=True)
+        FE = inv.reshape(-1, 3)
+        ln = np.linalg.norm(V[E[:, 0]] - V[E[:, 1]], axis=1)
+        lk = np.array([tuple(e) in locked for e in E.tolist()]) if locked else np.zeros(len(E), bool)
+        mark = (ln > hmax) & ~lk
+        if not mark.any():
+            break
+        lnu = np.where(lk[FE], -1.0, ln[FE])
+        lu = FE[np.arange(len(F)), lnu.argmax(1)]
+        has_u = lnu.max(1) > 0
+        while True:     # closure: a face with a marked edge has its longest unlocked edge marked
+            need = mark[FE].any(1) & has_u & ~mark[lu]
+            if not need.any():
+                break
+            mark[lu[need]] = True
+        mid = -np.ones(len(E), int)
+        mi = np.where(mark)[0]
+        mid[mi] = len(V) + np.arange(len(mi))
+        V = np.vstack([V, 0.5 * (V[E[mi, 0]] + V[E[mi, 1]])])
+        newF, newL = [], []
+        emid = {}
+        for e_i in mi:
+            emid[(int(E[e_i, 0]), int(E[e_i, 1]))] = int(mid[e_i])
+
+        def m_of(a, b):
+            return emid.get((a, b) if a < b else (b, a))
+
+        def split(tri, lab):
+            a, b, c = tri
+            best, bl = None, -1.0
+            for (x, y, z) in ((a, b, c), (b, c, a), (c, a, b)):
+                m = m_of(x, y)
+                if m is not None:
+                    l2 = float(((V[x] - V[y]) ** 2).sum())
+                    if l2 > bl:
+                        best, bl = (x, y, z, m), l2
+            if best is None:
+                newF.append(tri); newL.append(lab)
+                return
+            x, y, z, m = best
+            split((x, m, z), lab)
+            split((m, y, z), lab)
+        sel = mark[FE].any(1)
+        for t, lab in zip(F[~sel].tolist(), L[~sel].tolist()):
+            newF.append(tuple(t)); newL.append(lab)
+        for t, lab in zip(F[sel].tolist(), L[sel].tolist()):
+            split(tuple(t), lab)
+        F = np.array(newF, int); L = np.array(newL, int)
+    return V, F, L
+
+
+# ------------------------------------------------------------------ 4. the target: the current outer sheets
+class Target:
+    """the current outer sheets of the chest regions, sampled every SAMPLE_MM; per sample: face normal, region, distance from the
+    region's rim (rounded rims are left out of the core)"""
+
+    def __init__(self, g, chest):
+        P, N, O, R, Fc, FD = [], [], [], [], [], []
+        self.rimpts = []
+        self.tri = {}
+        for i, k in enumerate(chest):
+            cls, rim_e = g.sheets(k)
+            v, f = g.V0[k]
+            fo = f[cls == 1]
+            rv = np.unique(rim_e) if len(rim_e) else np.zeros(0, int)
+            self.rimpts.append(v[rv])
+            self.tri[k] = trimesh.Trimesh(v, fo, process=False)
+            fn = fnormals(v, fo)
+            # a face folded against a neighbour (> 90 degrees) is not a surface to follow
+            adj = self.tri[k].face_adjacency
+            dd = (fn[adj[:, 0]] * fn[adj[:, 1]]).sum(1)
+            fold = np.zeros(len(fo), bool); fold[adj[dd < 0].ravel()] = True
+            self.folded = getattr(self, "folded", 0) + int(fold.sum())
+            A, Bv, Cv = v[fo[:, 0]], v[fo[:, 1]], v[fo[:, 2]]
+            lmax = np.max(np.stack([np.linalg.norm(A - Bv, axis=1), np.linalg.norm(Bv - Cv, axis=1),
+                                    np.linalg.norm(Cv - A, axis=1)], 1), 1)
+            nsub = np.clip(np.ceil(lmax / SAMPLE_MM).astype(int), 1, 40)
+            for ns in np.unique(nsub):
+                sel = np.where(nsub == ns)[0]
+                uu, vv = np.meshgrid(np.arange(ns + 1), np.arange(ns + 1))
+                m = (uu + vv) <= ns
+                bu, bv = uu[m] / ns, vv[m] / ns
+                pts = (A[sel, None] * (1 - bu - bv)[None, :, None] + Bv[sel, None] * bu[None, :, None]
+                       + Cv[sel, None] * bv[None, :, None]).reshape(-1, 3)
+                P.append(pts); N.append(np.repeat(fn[sel], len(bu), 0)); O.append(np.full(len(pts), i))
+                Fc.append(np.repeat(sel, len(bu))); FD.append(np.repeat(fold[sel], len(bu)))
+        self.P = np.vstack(P); self.N = np.vstack(N); self.O = np.concatenate(O); self.Fc = np.concatenate(Fc)
+        allrim = np.vstack([r for r in self.rimpts if len(r)])
+        self.drim = cKDTree(allrim).query(self.P)[0]          # distance from ANY current border (for the band weight)
+        own_d = np.full(len(self.P), np.inf)
+        for i, r in enumerate(self.rimpts):
+            s = self.O == i
+            if len(r):
+                own_d[s] = cKDTree(r).query(self.P[s])[0]
+        self.fold = np.concatenate(FD)
+        self.core = (own_d > RIM_EXCL) & ~self.fold
+        self.tree = cKDTree(self.P[self.core])
+        self.ci = np.where(self.core)[0]
+        self.per = {i: (cKDTree(self.P[self.core & (self.O == i)]), np.where(self.core & (self.O == i))[0])
+                    for i in range(len(chest)) if (self.core & (self.O == i)).any()}
+        self.all_tree = cKDTree(self.P)
+
+    def closest(self, X):
+        _, j = self.tree.query(X)
+        j = self.ci[j]
+        n = self.N[j]
+        q = X - ((X - self.P[j]) * n).sum(1)[:, None] * n
+        return q, n, j
+
+    def stacked(self, X, U):
+        """per point: the current pieces it lies over / under (sideways offset < TANG_MAX), their heights along U; the outermost
+        within OVL_MM of the nearest -> target, else nan"""
+        H = np.full((len(X), len(self.per)), np.nan)
+        J = np.full((len(X), len(self.per)), -1)
+        for c, (i, (tr, idx)) in enumerate(sorted(self.per.items())):
+            d, j = tr.query(X, distance_upper_bound=PLAUS_MM)
+            ok = np.isfinite(d)
+            jj = idx[j[ok]]
+            n = self.N[jj]
+            off = X[ok] - self.P[jj]
+            h = (off * n).sum(1)
+            tang = np.linalg.norm(off - h[:, None] * n, axis=1)
+            good = tang < TANG_MAX
+            o = np.where(ok)[0][good]
+            hh = -h[good] / np.maximum((n[good] * U[o]).sum(1), 0.3)    # height of the piece along U above X
+            near = np.abs(hh) <= OVL_MM + 2.0
+            H[o[near], c] = hh[near]
+            J[o[near], c] = jj[good][near]
+        has = np.isfinite(H).any(1)
+        tgt = np.full((len(X), 3), np.nan)
+        nn = np.full((len(X), 3), np.nan)
+        stacked = np.zeros(len(X), bool)
+        for i in np.where(has)[0]:
+            h = H[i]; c = np.where(np.isfinite(h))[0]
+            h0 = h[c][np.argmin(np.abs(h[c]))]
+            win = c[(h[c] >= h0 - 1e-9) & (h[c] <= h0 + OVL_MM)]
+            cc = win[np.argmax(h[win])]
+            stacked[i] = len(c) > 1
+            tgt[i] = X[i] + h[cc] * U[i]
+            nn[i] = self.N[J[i, cc]]
+        return tgt, nn, stacked
+
+    def dist(self, X):
+        """unsigned distance to the current outer sheets (all of them, rims included) and the sideways part of it"""
+        _, j = self.all_tree.query(X)
+        n = self.N[j]
+        off = X - self.P[j]
+        h = (off * n).sum(1)
+        tang = np.linalg.norm(off - h[:, None] * n, axis=1)
+        return np.abs(h), tang, self.drim[j]
+
+
+P2P = 0.05          # share of the point-to-point term next to the point-to-plane one (keeps the system well posed tangentially)
+
+
+def solve_p2plane(Lp, deg, wl, Dt, nq, lock, Dlock, free):
+    """min  sum_edges |D_i - D_j|^2 + sum_i wl_i deg_i [ ((D_i - Dt_i) . n_i)^2 + P2P |D_i - Dt_i|^2 ],  D = Dlock on the locked
+    vertices (3n x 3n sparse system: the displacement is smooth; the data pulls along the target normal, so vertices are not dragged
+    sideways into a concavity)"""
+    n = len(Dt)
+    I3 = sparse.identity(3, format="csr")
+    K = sparse.kron(Lp, I3, format="csr")
+    a = wl * deg
+    rows = np.repeat(np.arange(n) * 3, 9) + np.tile(np.repeat(np.arange(3), 3), n)
+    cols = np.repeat(np.arange(n) * 3, 9) + np.tile(np.tile(np.arange(3), 3), n)
+    blk = a[:, None, None] * (nq[:, :, None] * nq[:, None, :] + P2P * np.eye(3)[None])
+    Wm = sparse.coo_matrix((blk.ravel(), (rows, cols)), shape=(3 * n, 3 * n)).tocsr()
+    rhs = np.einsum("nij,nj->ni", blk, Dt).ravel()
+    A = (K + Wm).tocsr()
+    fi = (np.where(free)[0][:, None] * 3 + np.arange(3)).ravel()
+    li = (np.where(lock)[0][:, None] * 3 + np.arange(3)).ravel()
+    D = np.zeros(3 * n)
+    D[li] = Dlock[lock].ravel()
+    D[fi] = spsolve(A[fi][:, fi].tocsc(), rhs[fi] - A[fi][:, li] @ D[li])
+    return D.reshape(n, 3)
+
+
+def fit(X0, F, lock, tgt_lock, T: Target, log):
+    """membrane-regularised non-rigid ICP: displacement D smooth over the merged surface (graph Laplacian), data term = closest point
+    on the current core sheets (weight faded near the current borders), locked vertices exact; stiff -> soft"""
+    n = len(X0)
+    Lp, deg = laplacian(n, F)
+    X = X0.copy()
+    free = ~lock
+    hist = []
+    snaps = []
+    # where a locked border vertex (an unchanged neighbour's vertex) lies off the current surface, the pieces disagree there: no data
+    # within LOCK_REACH x that gap of it, so the surface bridges from the neighbour to the current surface instead of folding back
+    lock = lock.copy()
+    li = np.where(lock)[0]
+    gap = T.dist(tgt_lock[li])[0] if len(li) else np.zeros(0)
+    rel = li[gap > LOCK_GAP_MAX]           # the pieces disagree too much to join here: the border is left as it is today
+    lock[rel] = False
+    free = ~lock
+    fit.released = rel
+    keep = gap <= LOCK_GAP_MAX
+    li, gap = li[keep], gap[keep]
+    dis = li[gap > 0.5]
+    wl = np.ones(n)
+    if len(dis):
+        dd, jj = cKDTree(X0[dis]).query(X0, k=min(8, len(dis)))
+        dd = dd.reshape(n, -1); jj = jj.reshape(n, -1)
+        reach = np.clip(LOCK_REACH * gap[gap > 0.5][jj], LOCK_REACH_MIN, LOCK_REACH_MAX)
+        wl = np.min(smoothstep(dd / reach), axis=1)
+    fit.lock_gap = gap
+    for r, lam in enumerate(STIFF):
+        U = vnormals(X, F)
+        if r < len(STIFF) - 2:
+            q, nq, j = T.closest(X)
+            w = smoothstep((T.drim[j] - BAND_IN) / (BAND_OUT - BAND_IN))
+            if r >= 3:
+                w = w * (np.linalg.norm(q - X, axis=1) < PLAUS_MM)
+            stacked = np.zeros(n, bool)
+        else:
+            q, nq, stacked = T.stacked(X, U)
+            ok = np.isfinite(q[:, 0])
+            q2, nq2, j = T.closest(X)
+            nq = np.where(ok[:, None], nq, nq2)
+            _, j_all = T.all_tree.query(np.where(ok[:, None], q, q2))
+            w = np.where(ok, smoothstep((T.drim[j_all] - BAND_IN) / (BAND_OUT - BAND_IN)), 0.0)
+            q = np.where(ok[:, None], q, X)
+        w = w * wl * smoothstep(((nq * U).sum(1) - FACE_COS) / 0.2)   # a target facing away (a hook of the current sheet) is not followed
+        Dt = q - X
+        D = solve_p2plane(Lp, deg, lam * w, Dt, nq, lock, tgt_lock - X, free)
+        X = X + D
+        snaps.append(X.copy())
+        res = np.linalg.norm(q - X, axis=1)[w > 0.5]
+        hist.append({"round": r, "data_weight": lam, "move_max_mm": round(float(np.linalg.norm(D, axis=1).max()), 2),
+                     "residual_where_weighted_p95_mm": round(float(np.percentile(res, 95)), 3) if len(res) else None,
+                     "weighted_vertices": int((w > 0.5).sum()), "stacked_vertices": int(stacked.sum())})
+        log(f"    round {r}: weight {lam:g}  move max {hist[-1]['move_max_mm']} mm  residual p95 {hist[-1]['residual_where_weighted_p95_mm']}")
+    fit.snaps = snaps
+    return X, hist, lock
+
+
+# ------------------------------------------------------------------ 5. slabs
+def slab(outer_v, inner_v, fo):
+    """closed slab from an outer sheet (faces fo, outward) and per-vertex inner positions: inner sheet reversed + rim wall
+    (as scripts/anatomy/q358/perineum_skin_q358.py slab)"""
+    used = np.unique(fo)
+    remap = -np.ones(len(outer_v), int); remap[used] = np.arange(len(used))
+    po, pi = outer_v[used], inner_v[used]
+    f = remap[fo]; nv = len(po)
+    e = np.concatenate([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]])
+    key = np.sort(e, axis=1)
+    _, inv, cnt = np.unique(key, axis=0, return_inverse=True, return_counts=True)
+    bd = e[cnt[inv.ravel()] == 1]
+    walls = []
+    for a, b in bd:
+        walls += [[b, a, a + nv], [b, a + nv, b + nv]]
+    Fs = np.vstack([f, f[:, ::-1] + nv] + ([np.array(walls, int)] if walls else []))
+    cls = np.r_[np.ones(len(f), int), -np.ones(len(f), int), np.zeros(len(walls), int)]
+    return np.vstack([po, pi]), Fs, used, cls
+
+
+def z_thickness(gm, chest):
+    out = {}
+    for k in chest:
+        cls = z_sheets(gm, k)
+        v, f = gm.V0[k]
+        to = trimesh.Trimesh(v, f[cls == 1], process=False)
+        vi = np.unique(f[cls == -1])
+        _, d, _ = trimesh.proximity.closest_point(to, v[vi])
+        out[k] = float(np.median(d))
+    return out
+
+
+def inner_of(X, F, lock, S, gf, gm, thick):
+    """inner sheet: THICK under the merged outer surface along its normal; a locked vertex takes the inner border vertex of its
+    unchanged neighbour (the exact partner of the Z slab)"""
+    Nn = vnormals(X, F)
+    Y = X - thick * Nn
+    li = np.where(lock)[0]
+    if len(li):
+        # the unchanged neighbours' inner-sheet vertices near the locked ones
+        PV = []
+        for k in S["neighbours"]:
+            cls, _ = gf.sheets(k)
+            v, f = gf.V0[k]
+            PV.append(v[np.unique(f[cls == -1])])
+        PV = np.vstack(PV)
+        d, j = cKDTree(PV).query(X[li] - thick * Nn[li], distance_upper_bound=thick)
+        ok = np.isfinite(d)
+        Y[li[ok]] = PV[j[ok]]
+        return Y, {"locked": int(len(li)), "inner_partner_found": int(ok.sum()), "partner_offset_mm": st(d[ok])}
+    return Y, {"locked": 0}
+
+
+# ------------------------------------------------------------------ 6. measurements
+def weld_stats(pieces, focus, others_box=None):
+    """Python copy of the Q334 weld rules (viewer/zan_atlas.template.html, Q334 weld): per focus piece, its rim vertices (a vertex
+    with an incident face more than ~45 degrees off its normal) and how many of them are joined to another skin piece -- exactly
+    (within WELD 0.03 mm) or by the rim join (mutually nearest rim vertex of another piece within 1 mm and 0.67 x the shortest edge,
+    normals not opposed)"""
+    ids = list(pieces)
+    P, OW, NR, RIM, ME = [], [], [], [], []
+    for i, k in enumerate(ids):
+        v, f = pieces[k]
+        n = vnormals(v, f)
+        fn = fnormals(v, f)
+        rim = np.zeros(len(v), bool)
+        for c in range(3):
+            d = (fn * n[f[:, c]]).sum(1)
+            rim[f[d < 0.7, c]] = True
+        me = np.full(len(v), 1e9)
+        for a, b in ((0, 1), (1, 2), (2, 0)):
+            le = np.linalg.norm(v[f[:, a]] - v[f[:, b]], axis=1)
+            np.minimum.at(me, f[:, a], le); np.minimum.at(me, f[:, b], le)
+        P.append(v); OW.append(np.full(len(v), i)); NR.append(n); RIM.append(rim); ME.append(me)
+    P = np.vstack(P); OW = np.concatenate(OW); NR = np.vstack(NR); RIM = np.concatenate(RIM); ME = np.concatenate(ME)
+    tr = cKDTree(P)
+    welded = np.zeros(len(P), bool)
+    pr = tr.query_pairs(WELD_MM, output_type="ndarray")
+    if len(pr):
+        x = pr[OW[pr[:, 0]] != OW[pr[:, 1]]]
+        welded[x[:, 0]] = welded[x[:, 1]] = True
+    # rim join among rim vertices not yet welded
+    RL = np.where(RIM & ~welded)[0]
+    rj = np.zeros(len(P), bool)
+    if len(RL):
+        t2 = cKDTree(P[RL])
+        pr = t2.query_pairs(1.0, output_type="ndarray")
+        if len(pr):
+            u, v = RL[pr[:, 0]], RL[pr[:, 1]]
+            dd = ((P[u] - P[v]) ** 2).sum(1)
+            ok = (OW[u] != OW[v]) & (dd < 1.0) & (dd <= 0.45 * ME[u] ** 2) & (dd <= 0.45 * ME[v] ** 2) & ((NR[u] * NR[v]).sum(1) >= 0)
+            u, v, dd = u[ok], v[ok], dd[ok]
+            best = {}
+            for a, b, d_ in zip(u.tolist(), v.tolist(), dd.tolist()):
+                for x, y in ((a, b), (b, a)):
+                    if x not in best or d_ < best[x][1]:
+                        best[x] = (y, d_)
+            for x, (y, _) in best.items():
+                if best.get(y, (None,))[0] == x:
+                    rj[x] = True
+    out = {}
+    base = 0
+    for i, k in enumerate(ids):
+        n = len(pieces[k][0])
+        s = slice(base, base + n); base += n
+        if k in focus:
+            r = RIM[s]
+            out[k] = {"rim_vertices": int(r.sum()), "welded": int((r & welded[s]).sum()), "rim_joined": int((r & rj[s]).sum()),
+                      "pct": round(100.0 * float((r & (welded[s] | rj[s])).sum()) / max(int(r.sum()), 1), 1)}
+    return out
+
+
+def raster(tris, owner, axis, sign, lo, hi, px=PX):
+    """orthographic z-buffer along `axis` (looking from sign * axis): owner index of the frontmost face per pixel (-1 = none)"""
+    a, b = [c for c in range(3) if c != axis]
+    nx, ny = int((hi[a] - lo[a]) / px), int((hi[b] - lo[b]) / px)
+    Zb = np.full((ny, nx), -1e18); O = np.full((ny, nx), -1, np.int32)
+    x = (tris[:, :, a] - lo[a]) / px; y = (tris[:, :, b] - lo[b]) / px; z = sign * tris[:, :, axis]
+    keep = (x.max(1) >= 0) & (x.min(1) < nx) & (y.max(1) >= 0) & (y.min(1) < ny)
+    for fi in np.where(keep)[0]:
+        x0, x1 = int(max(0, np.floor(x[fi].min()))), int(min(nx - 1, np.ceil(x[fi].max())))
+        y0, y1 = int(max(0, np.floor(y[fi].min()))), int(min(ny - 1, np.ceil(y[fi].max())))
+        if x0 > x1 or y0 > y1:
+            continue
+        gx, gy = np.meshgrid(np.arange(x0, x1 + 1) + 0.5, np.arange(y0, y1 + 1) + 0.5)
+        (ax, bx, cx), (ay, by, cy) = x[fi], y[fi]
+        den = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+        if abs(den) < 1e-12:
+            continue
+        l1 = ((by - cy) * (gx - cx) + (cx - bx) * (gy - cy)) / den
+        l2 = ((cy - ay) * (gx - cx) + (ax - cx) * (gy - cy)) / den
+        l3 = 1 - l1 - l2
+        m = (l1 >= -1e-9) & (l2 >= -1e-9) & (l3 >= -1e-9)
+        if not m.any():
+            continue
+        zz = l1 * z[fi, 0] + l2 * z[fi, 1] + l3 * z[fi, 2]
+        sub = Zb[y0:y1 + 1, x0:x1 + 1]; osub = O[y0:y1 + 1, x0:x1 + 1]
+        w = m & (zz > sub)
+        sub[w] = zz[w]; osub[w] = owner[fi]
+    return O
+
+
+def holes(g, chest, extra=None):
+    """front and lateral views of the chest window: pixels where the frontmost structure is NOT skin, although skin lies all around
+    (a deeper structure seen through a slot) -> count; per view"""
+    lo, hi = CHEST_BOX
+    ids = [k for k in g.in_box(lo, hi) if g.sys[k] in ("skin", "muscle", "fat", "bone", "cartilage", "fascia", "viscera", "vessel",
+                                                         "nerve", "lymph") or k in BREAST]
+    T, O, isskin = [], [], []
+    for i, k in enumerate(ids):
+        v, f = (extra[k] if extra and k in extra else (g.cur[k], g.F[k]))
+        c = v[f].mean(1)
+        s = np.all((c >= lo) & (c <= hi), axis=1)
+        T.append(v[f[s]]); O.append(np.full(int(s.sum()), i)); isskin.append(g.sys[k] == "skin")
+    T = np.vstack(T); O = np.concatenate(O); isskin = np.array(isskin)
+    from scipy import ndimage
+    out = {}
+    for name, axis, sign, win in (("front", 2, 1, ((-200, 300), (380, 680))), ("lateral_r", 0, -1, ((-120, 180), (380, 680))),
+                                  ("lateral_l", 0, 1, ((-120, 180), (380, 680)))):
+        lo2, hi2 = lo.copy(), hi.copy()
+        a, b = [c for c in range(3) if c != axis]
+        lo2[a], hi2[a] = win[0]; lo2[b], hi2[b] = win[1]
+        Ob = raster(T, O, axis, sign, lo2, hi2)
+        sk = (Ob >= 0) & isskin[np.maximum(Ob, 0)]
+        other = (Ob >= 0) & ~sk
+        # a hole pixel: a non-skin structure is frontmost and skin surrounds it (enclosed in the skin mask)
+        enclosed = ndimage.binary_fill_holes(sk) & ~sk
+        hp = enclosed & other
+        lab, nl = ndimage.label(hp)
+        who = {}
+        for kk in np.unique(Ob[hp]):
+            who[ids[int(kk)]] = int((Ob[hp] == kk).sum())
+        out[name] = {"hole_px": int(hp.sum()), "pieces": int(nl), "seen_through": dict(sorted(who.items(), key=lambda t: -t[1])[:8]),
+                     "px_mm": PX}
+    return out
+
+
+def outside(g, sk, keys):
+    return {k: Q.outside_count(g, sk, k) for k in keys}
+
+
+# ------------------------------------------------------------------ pose rig
+def rig_decode(src, idx_of, nv_of, positions):
+    """decoded per-vertex (segment idx (nv,3), weight (nv,3)) of skinned structures, as the viewer reconstructs them"""
+    import make_pose_rig as MPR
+    R = src["rig"]
+    blob = zlib.decompress(base64.b64decode(src["weights_zlib_b64"]))
+    ent = {e[0]: e for e in R["skin"]}
+    out = {}
+    for k, i in idx_of.items():
+        if i not in ent:
+            out[k] = None
+            continue
+        _, nv, K, pal, off, nc = ent[i]
+        nb = (nv + 7) // 8
+        ctrl = np.unpackbits(np.frombuffer(blob, np.uint8, nb, off))[:nv].astype(bool)
+        assert int(ctrl.sum()) == nc
+        o = off + nb
+        pi = np.stack([np.frombuffer(blob, np.uint8, nc, o + kk * nc) for kk in range(K)], 1).astype(np.int64)
+        o += K * nc
+        qw = [np.frombuffer(blob, np.uint8, nc, o + kk * nc).astype(np.int64) for kk in range(K - 1)]
+        w = np.zeros((nc, K))
+        w[:, 1:] = np.stack(qw, 1) if qw else w[:, 1:]
+        w[:, 0] = 255 - w[:, 1:].sum(1)
+        out[k] = MPR.decode_weights(positions[k], ctrl, pal, pi, w)
+    return out
+
+
+def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg):
+    """the chest regions' weights carried from the current meshes (as the viewer reconstructs them, all 18 regions pooled) onto the
+    new ones: inverse-square average of the 4 nearest old vertices, top 3; every border vertex stores its own weights (so a vertex
+    shared by two regions gets the same weights in both and the border cannot open when posed); else the Q241/Q338 encoding"""
+    import make_pose_rig as MPR
+    R = json.loads(json.dumps(src["rig"]))
+    ids_old = [m["id"] for m in man_old["meshes"]]; ids_new = [m["id"] for m in man_new["meshes"]]
+    assert ids_old == ids_new, "mesh order must not change"
+    assert R["count"] == len(ids_old) and R["nv"] == [int(m["vc"]) for m in man_old["meshes"]], "rig and page out of step"
+    idx_of = {k: ids_old.index(k) for k in chest}
+    dec = rig_decode(src, idx_of, None, old_pos)
+    rigid_of = {}
+    for s_, lst in R["rigid"]:
+        for i in lst:
+            rigid_of[i] = s_
+    PX_, WX = [], []
+    for k in chest:
+        v = old_pos[k]
+        Wd = np.zeros((len(v), nseg), np.float32)
+        if dec[k] is None:
+            Wd[:, rigid_of[idx_of[k]]] = 1.0
+        else:
+            sg, w = dec[k]
+            for c in range(3):
+                np.add.at(Wd, (np.arange(len(v)), sg[:, c]), w[:, c])
+        PX_.append(v); WX.append(Wd)
+    PX_ = np.vstack(PX_); WX = np.vstack(WX)
+    tr = cKDTree(PX_)
+    blob = zlib.decompress(base64.b64decode(src["weights_zlib_b64"]))
+    ent = {e[0]: e for e in R["skin"]}
+    span = {}
+    offs = sorted(e[4] for e in R["skin"]) + [len(blob)]
+    for e in R["skin"]:
+        span[e[0]] = (e[4], offs[offs.index(e[4]) + 1])
+    new_entries, chunks = {}, {}
+    rep = {}
+    for k in chest:
+        i = idx_of[k]
+        v, f, cls = new_geo[k]
+        d, nn = tr.query(v, k=4)
+        d = np.maximum(d, 1e-3); ww = 1.0 / (d * d); ww /= ww.sum(1, keepdims=True)
+        W = (WX[nn] * ww[:, :, None]).sum(1)
+        bvert = np.zeros(len(v), bool); bvert[np.unique(f[cls == 0])] = True
+        ctrl = MPR.refine_controls(v, W, MPR.control_set(W) | bvert)
+        cv = np.where(ctrl)[0]
+        Wc = W[cv]
+        top = np.argsort(-Wc, axis=1, kind="stable")[:, :3]
+        tw = np.take_along_axis(Wc, top, 1); tw = tw / np.maximum(tw.sum(1, keepdims=True), 1e-9)
+        q = np.round(tw * 255).astype(np.int32); q[:, 0] += 255 - q.sum(1); q = np.clip(q, 0, 255)
+        pal = sorted(int(s_) for s_ in np.unique(top[q > 0]))
+        if len(pal) == 1:      # one segment only: rigid in it
+            new_entries[i] = ("rigid", pal[0])
+            rep[k] = {"kind": "rigid", "segment": pal[0]}
+            continue
+        pm = {s_: n_ for n_, s_ in enumerate(pal)}
+        K = max(1, int((q > 0).any(0).nonzero()[0].max() + 1))
+        pi = np.zeros((len(cv), K), np.uint8)
+        for kk in range(K):
+            pi[:, kk] = [pm.get(int(s_), 0) for s_ in top[:, kk]]
+            if kk:
+                pi[q[:, kk] == 0, kk] = pi[q[:, kk] == 0, 0]
+        b = np.packbits(ctrl).tobytes() + b"".join([pi[:, kk].tobytes() for kk in range(K)] + [q[:, kk].astype(np.uint8).tobytes()
+                                                                                          for kk in range(1, K)])
+        new_entries[i] = ("skin", [i, int(len(v)), K, pal, 0, int(len(cv))])
+        chunks[i] = b
+        sg, wq = MPR.decode_weights(v, ctrl, pal, pi.astype(np.int64), q[:, :K].astype(float))
+        Wr = np.zeros_like(W)
+        for c in range(3):
+            np.add.at(Wr, (np.arange(len(v)), sg[:, c]), wq[:, c])
+        rep[k] = {"kind": "skin", "controls": int(len(cv)), "of": int(len(v)), "segments": pal,
+                  "reconstruction_err_p95": round(float(np.percentile(0.5 * np.abs(Wr - MPR.top3(W)).sum(1), 95)), 3)}
+    # rebuild skin list + blob (every other entry byte for byte)
+    skin, packed = [], bytearray()
+    for e in R["skin"]:
+        if e[0] in new_entries:
+            continue
+        s, t = span[e[0]]
+        e2 = list(e); e2[4] = len(packed); packed.extend(blob[s:t]); skin.append(e2)
+    rigid = {s_: [i for i in lst if i not in new_entries] for s_, lst in R["rigid"]}
+    for i, (kind, val) in sorted(new_entries.items()):
+        if kind == "skin":
+            val[4] = len(packed); packed.extend(chunks[i]); skin.append(val)
+        else:
+            rigid.setdefault(val, []).append(i)
+    skin.sort(key=lambda e: e[0])
+    R["skin"] = skin
+    R["rigid"] = [[s_, sorted(v)] for s_, v in sorted(rigid.items())]
+    R["nv"] = [int(m["vc"]) for m in man_new["meshes"]]
+    R["notes"] = R["notes"] + (f"; {TAG}: the {len(chest)} anterior trunk skin regions rebuilt from their Z source topology (vertex "
+                               "counts changed); their weights carried from the previous meshes (pooled, 4 nearest, top 3), border vertices "
+                               "store their own weights")
+    out = dict(src); out["rig"] = R
+    out["weights_zlib_b64"] = base64.b64encode(zlib.compress(bytes(packed), 9)).decode("ascii")
+    return out, rep
