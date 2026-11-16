@@ -310,16 +310,26 @@ def browser(pg, page_dir):
                 if r.get("err"):
                     check("browser %s: %s" % (name, r["err"]), False); continue
                 Ms = pg.fk(A.pose_for(pg, {(m[0], m[1]): m[2] for m in moves}))
-                worst = 0.0; nmoved = 0
+                worst = 0.0; nmoved = 0; seam_max = 0.0
                 for sid in ids:
                     e = r.get(sid)
                     if not e or e["live"] is None:
                         continue
                     i = pg.byid[sid]["idx"]
                     live = np.array(e["live"]).reshape(-1, 3); rest = np.array(e["rest"]).reshape(-1, 3)
-                    if np.abs(rest - pg.M.S[i]["v"]).max() > 0.01:
-                        check("browser: %s rest vertices equal the python model's" % sid, False); continue
-                    py = pg.posed(i, Ms)
+                    dr = float(np.abs(rest - pg.M.S[i]["v"]).max())
+                    if dr > 0.01:
+                        # Q334: the page welds the border vertices of neighbouring SKIN pieces at load (cracks closed, a vertex moves
+                        # less than a third of its shortest edge). The skin's rest shape in the page is then not the file's, by design;
+                        # the skinning must still be right, so it is replayed here on the page's own rest vertices.
+                        if not (sid.startswith("zan_skin") and dr <= 1.5):
+                            check("browser: %s rest vertices equal the python model's (max %.3f mm)" % (sid, dr), False); continue
+                        seam_max = max(seam_max, dr)
+                        keep = pg.M.S[i]["v"]; pg.M.S[i]["v"] = rest
+                        try: py = pg.posed(i, Ms)
+                        finally: pg.M.S[i]["v"] = keep
+                    else:
+                        py = pg.posed(i, Ms)
                     worst = max(worst, float(np.linalg.norm(live - py, axis=1).max()))
                     nmoved += int((np.linalg.norm(live - rest, axis=1) > 1).sum())
                 check("browser %s: the viewer's live vertices = the python replica (max %.3f mm over %d structures, %d vertices moved)" % (name, worst, len(ids), nmoved), worst <= 0.5 and nmoved > 0)
