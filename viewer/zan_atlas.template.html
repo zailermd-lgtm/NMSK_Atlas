@@ -18939,7 +18939,7 @@ window.__poseDebug = function(){      /* test hook: per structure how far it mov
          active:function(){ return !!(selCtl && selCtl.active() && (selCtl.state().sel === "hide" || selCtl.state().oth === "hide")); },
          clear:function(){ selCtl.showAll(); need = true; },
          drive:function(){ var o = q300Any(); if (o){ selCtl.markIds([o.id], true); selCtl.setGroup("oth", "hide", true); need = true; } }},
-        {key:"hideone", label:function(){ if (hidden.size > 0 && hidden.size <= 2) return "hidden: " + Array.from(hidden).map(function(o){ return String(o.name || o.id).replace(/_/g, " "); }).join(", "); return "hidden: " + hidden.size + " structure" + (hidden.size === 1 ? "" : "s"); },   /* Q355: one or two hidden structures are named in the chip */
+        {key:"hideone", label:function(){ return "hidden: " + hidden.size + " structure" + (hidden.size === 1 ? "" : "s"); },
          active:function(){ return hidden.size > 0; },
          clear:function(){ hidden.clear(); if (selected) select(selected, false); need = true; },
          drive:function(){ var o = q300Any(); if (o){ hidden.add(o); need = true; } }},
