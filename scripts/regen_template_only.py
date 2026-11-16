@@ -18,7 +18,9 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q322/build_sidecar_q322.py       innervation_q322.json   (Base pages only)
     scripts/anatomy/q342/build_sidecar_q342.py       groups_q342.json        (Base pages only, Q343; reads the page's own manifest ids)
     scripts/zanatomy/patch_manifest_records_q327.py  manifest records of 14 ligament/fascia/muscle ids (Base pages only; Q338 +4 hand ids)
+    scripts/zanatomy/patch_manifest_nerves_q350.py   nerve fields of 10 manifest records (Base pages only, Q350)
     clinical/data/motor_points.json                  -> clinical_motor_points.json   (Base pages only, Q331)
+    scripts/clinical/build_injection_guide_q347.py   clinical_injection_guide.json   (Base pages only, Q347; private)
     index.html = the page
 
 and then VERIFIES the output against a reference page dir (default: the source dir, i.e. the previous build; `--ref` a dir of downloaded
@@ -131,10 +133,13 @@ def build(p: str, src_root: Path, out: Path):
         run(["python3", "scripts/anatomy/q342/build_sidecar_q342.py", p, str(dst)])
     if p in ("base_m", "base_f"):   # Q327: a ligament / fascia carries no muscle's or bone's record (the builder rule, applied to the embedded manifest)
         run(["python3", "scripts/zanatomy/patch_manifest_records_q327.py", str(dst)])
+        run(["python3", "scripts/zanatomy/patch_manifest_nerves_q350.py", str(dst)])   # Q350: three nerve-record corrections reach the page records
     if p in ("base_m", "base_f") and (dst / "clinical_motor_points.json").exists():
         # Q331: the private motor-point layer is committed data (clinical/data/motor_points.json, one file for every body);
         # the cut regen copies the OLD sibling verbatim, so a page would never get a body added later (Base·F had none).
         shutil.copyfile(REPO / "clinical/data/motor_points.json", dst / "clinical_motor_points.json")
+    if p in ("base_m", "base_f"):   # Q347: the private injection guide (committed private data + committed mapping tables, no recompute)
+        run(["python3", "scripts/clinical/build_injection_guide_q347.py", p, str(dst)])
     (dst / "index.html").write_bytes(html.read_bytes())
     after = tracked_data_status()
     if after != before:

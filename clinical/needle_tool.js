@@ -712,6 +712,11 @@ var CSS = [
 "@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .ncl .warn{color:#F2A27C}:root:not([data-theme=light]) .ncl .pill-g{color:#5FD08A}:root:not([data-theme=light]) .ncl .pill-a{color:#E8B04A}:root:not([data-theme=light]) .ncl .pill-r{color:#F58A8A}}",
 ":root[data-theme=dark] .ncl .warn{color:#F2A27C}:root[data-theme=dark] .ncl .pill-g{color:#5FD08A}:root[data-theme=dark] .ncl .pill-a{color:#E8B04A}:root[data-theme=dark] .ncl .pill-r{color:#F58A8A}",
 ".ncl .corr-list li{padding-left:4px;border-left:4px solid transparent}.ncl .corr-list li.band-n{border-left-color:#C23232}.ncl .corr-list li.band-m{border-left-color:#B07300}.ncl .corr-list li.band-f{border-left-color:#1E8A4F}",   /* Q268: display bands only */
+/* Q347: the injection guide's section in the needle panel */
+".ncl .ncl-guide .g-row{margin:4px 0 0;overflow-wrap:anywhere}.ncl .ncl-guide .g-k{color:var(--ncl-mut);font-weight:700}.ncl .ncl-guide .g-sub{color:var(--ncl-mut);overflow-wrap:anywhere}",
+".ncl .ncl-guide .g-site{margin-top:4px;padding-top:4px;border-top:1px solid var(--ncl-line)}.ncl .ncl-guide button{margin-top:3px}",
+".ncl .ncl-guide .g-badge{display:inline-block;font-size:11px;font-weight:600;color:#5A3E00;background:#FFF1CC;border-radius:999px;padding:0 6px}",
+".ncl .ncl-guide .g-rrow{padding-left:4px;border-left:4px solid transparent;margin-top:2px}.ncl .ncl-guide .g-rrow.band-n{border-left-color:#C23232}.ncl .ncl-guide .g-rrow.band-m{border-left-color:#B07300}.ncl .ncl-guide .g-rrow.band-f{border-left-color:#1E8A4F}",
 ".ncl select{font-size:12px;max-width:150px;background:var(--ncl-bg);color:var(--ink,#16202a);border:1px solid var(--line-strong,var(--ncl-line));border-radius:4px}",
 ".ncl-tip{position:fixed;z-index:80;pointer-events:none;max-width:280px;padding:5px 8px;border-radius:6px;font-size:11.5px;",
 "  background:var(--surface,var(--panel,#fff));color:var(--ink,#16202a);border:1px solid var(--line,#ccd);box-shadow:0 6px 18px rgba(0,0,0,.18)}"
@@ -778,8 +783,10 @@ function Tool(api) {
   this.gcache = new Map(); this.gverts = 0; this.orient = {};
   this.pgeo = {}; this.restBox = {}; this.poseT = 0;   // Q325: posed geometry views, the rest boxes of moved structures
   this.mpS = new Map(); this.mpAnc = new Map();          // Q328: a motor point's structure, and its rest-mesh anchor (taken the first time that structure moves)
+  this.guide = {data: null, side: null, bm: {}, hl: null, busy: false, open: {}, msg: {}};   // Q347: the injection guide (private) + the public IZ sidecar
   this.buildUI();
   this.loadData();
+  this.loadGuide();
   api.setClickHandler(function (e) { return self.onClick(e); });
   if (global.addEventListener) global.addEventListener("nmsk-pose-rev", function (e) { self.onPose(e && e.detail); });   // Q325
   api.onChange(function () { self.onHostChange(); });
@@ -1182,7 +1189,7 @@ TP.buildUI = function () {
     'shows its origin / insertion markers where the page has them, and arms target-first placement">Injection planning (preset)</summary>' +
     '<input type="search" id="ncl-plan-q" placeholder="Search a muscle or tendon to plan an injection into" autocomplete="off">' +
     '<div class="res" id="ncl-plan-res"></div><p class="ncl-status" id="ncl-plan-msg"></p>' +
-    '<div id="ncl-plan-zone"></div>' +
+    '<div id="ncl-plan-zone"></div><div id="ncl-plan-guide"></div>' +
     '<div class="ncl-row"><button type="button" id="ncl-plan-x" title="Clear the preset\'s selection (marks and fade) and the plan">Release plan</button></div>' +
     '<div class="ncl-row"><span>Posture (pose rig)</span><select id="ncl-plan-pose"><option value="rest">Rest (model pose)</option>' +
     Object.keys(POSTURES).map(function (k) { return '<option value="' + k + '">' + esc(POSTURES[k].label) + "</option>"; }).join("") + "</select>" +
@@ -1777,15 +1784,17 @@ TP.halos = function (on) {
   this.render(); api.redraw();
 };
 TP.refreshHalos = function () {
-  if (!this.risk.on) { this.ov.setHalos([]); this.$("ncl-halo-list").innerHTML = ""; this.api.redraw(); return; }
+  var gh = this.guide && this.guide.hl ? this.guide.hl.set : null;   // Q347: the guide's "structures at risk" get their halo with the risk view off too
+  if (!this.risk.on && !gh) { this.ov.setHalos([]); this.$("ncl-halo-list").innerHTML = ""; this.api.redraw(); return; }
   var self = this, L = this.currentL(), focus = this.target ? this.target.p : (this.entry ? this.entry.p : null);
   var reach = this.len + 60, list = [], rows = [];
   this.recs.forEach(function (r, i) {
+    var g = !!gh && gh[i] === 1; if (!g && !self.risk.on) return;
     var c = self.cls[i]; if (!c || !CLASSES[c].halo || !self.api.visible(i)) return;
     var dmin = 0;
     if (focus) {
       for (var k = 0; k < 3; k++) { var dk = Math.max(r.bmin[k] - focus[k], 0, focus[k] - r.bmax[k]); dmin += dk * dk; }
-      dmin = Math.sqrt(dmin); if (dmin > reach) return;
+      dmin = Math.sqrt(dmin); if (dmin > reach && !g) return;
     }
     var rc = self.rCal(i), h = haloRadius(c, rc, L, self.P);
     list.push({i: i, r: h * self.orientSign(i), color: CLASSES[c].color, alpha: 0.22});
@@ -2249,6 +2258,7 @@ TP.planNeighbours = function (i) {
 };
 TP.planPick = function (i) {
   var r = this.recs[i], api = this.api, self = this, msgs = [];
+  if (this.guide.hl) this.guideHighlight(null, false);   // Q347: the previous target's at-risk marks go
   this.plan.i = i;
   this.$("ncl-plan-q").value = r.name; this.$("ncl-plan-res").innerHTML = "";
   // (b) fade everything except the target and its vessel / nerve neighbours -- through the selection controller's PUBLIC API only
@@ -2290,6 +2300,7 @@ TP.planPick = function (i) {
   this.notify();
 };
 TP.planRelease = function () {
+  if (this.guide.hl) this.guideHighlight(null, false);   // Q347
   var sel = this.api.selection ? this.api.selection() : null;
   if (sel && sel.clear && this.plan.i != null) sel.clear();
   this.plan.i = null; this.plan.msg = ""; this.$("ncl-plan-msg").innerHTML = ""; this.$("ncl-plan-q").value = "";
@@ -2391,7 +2402,7 @@ TP.applyPosture = function (key, side) {
 };
 
 /* Q272: change hooks for the workspace-mode re-skin (viewer/modes/): called after every render that changes what a card shows */
-TP.notify = function () { var hs = this.hooks || []; for (var k = 0; k < hs.length; k++) { try { hs[k](); } catch (e) { console.error(e); } } };
+TP.notify = function () { if (this.guide) this.renderPlanGuide(); var hs = this.hooks || []; for (var k = 0; k < hs.length; k++) { try { hs[k](); } catch (e) { console.error(e); } } };
 /* Q272: a default target point at the structure's vertex centroid (the mode's "as automatic as possible" step: planPick() only arms
    target-first placement; a tap inside the structure replaces this point exactly as before) */
 TP.setTargetAt = function (i) {
@@ -2402,6 +2413,275 @@ TP.setTargetAt = function (i) {
   this.entry = null; this.target = {p: c, i: i, n: null}; this.risk.safer = null;
   this.update();
   return c;
+};
+/* ===================================================================== */
+/* Q347: the INJECTION GUIDE (EURO-MUSCULUS/USPRM spasticity guide, Güvener et al., Eur J Phys Rehabil Med 2026;62(5):441-59,
+   CC BY-NC-ND: facts with citation only) for the planned / targeted muscle -- from the private sibling clinical_injection_guide.json
+   (scripts/clinical/build_injection_guide_q347.py, built at regen) and the PUBLIC sidecar innervation_q322.json (the IZ bands
+   placed on this body). Shown as the json says it; nothing here measures twice:
+   - "Use site N": the target is the band's inside centre (the sidecar's dot, rest coordinates) -- anchored on the rest mesh and
+     ridden to the current pose (anchorPoint / ridePoint, as the motor points, Q328); unplaced bands are listed with the reason.
+   - "Structures at risk": the named structures that exist on this body are marked (selection controller) and haloed
+     (refreshHalos); their distances are the corridor's own items (computeCorridor -> corridorFor), never a second measurement.
+   - "Start scan here": only where the scan start names a landmark of the band placement; the probe goes on the skin over it
+     (the scan tool's own placeRay). "Show on the model": key frames on the page's pose rig, inside its range (an illustration).
+   ===================================================================== */
+var GUIDE_TXT = {
+  he: {title: "מדריך ההזרקה", count: function (n) { return n == null ? "מספר הנקודות לא צוין" : n === 1 ? "נקודת הזרקה אחת" : n + " נקודות הזרקה"; },
+       kPoints: "נקודות הזרקה", kSites: "אתרים", site: "אתר", along: "לאורך", placed: "מוקם על גוף זה", proj: "מוקם על גוף זה, מוקרן מקו על העור",
+       rule: "מיקום לפי כלל", unplaced: "לא מוקם על גוף זה", qual: "אתר איכותני בלבד, ללא נקודה", noBand: "אין רצועה בנתונים לצד זה",
+       use: "השתמש באתר", kScan: "תחילת הסריקה", scanGo: "התחל סריקה כאן", scanRule: "הגשש מונח על העור מעל נקודת ציון שנמדדה בעצמות גוף זה",
+       scanNo: "טקסט בלבד: נקודת ההתחלה אינה נקודת ציון בנתונים", scanFail: "לא ניתן להניח את הגשש כאן", scanOk: "הגשש הונח",
+       kMan: "תמרון דינמי", show: "הצג על המודל (המחשה)", showRule: "המחשה על ריג התנוחה בתוך טווח התנועה; המדריך אינו מציין זוויות",
+       kRisk: "מבנים בסיכון", riskOn: "הדגש על המודל", unmapped: "אין מבנה תואם בגוף זה", notMeasured: "לא נמדד: נמדדים רק כלי-דם ועצבים",
+       beyond: function (R) { return "רחוק מ-" + R + ' מ"מ'; }, noTarget: "המרחק יופיע כשתוצב מטרה", none: "לא צוין במדריך",
+       conflict: "הטבלה והטקסט במדריך אינם תואמים", adopted: "הוצג:", other: "הגרסה האחרת:", cite: "מקור מלא", unit: 'מ"מ',
+       fromPath: "המרחקים מהמסלול", fromTarget: "המרחקים מנקודת המטרה", posed: "נמדד בתנוחה הנוכחית"},
+  en: {title: "Injection guide", count: function (n) { return n == null ? "number of points not stated" : n + (n === 1 ? " injection point" : " injection points"); },
+       kPoints: "Injection points", kSites: "Sites", site: "Site", along: "along", placed: "placed on this body", proj: "placed on this body, projected from a skin line",
+       rule: "rule-based position", unplaced: "not placed on this body", qual: "qualitative site only, no point", noBand: "no band in the data for this side",
+       use: "Use site", kScan: "Scan start", scanGo: "Start scan here", scanRule: "The probe goes on the skin over a landmark measured on this body's bones",
+       scanNo: "Text only: the start is not a landmark in the data", scanFail: "The probe could not be placed here", scanOk: "Probe placed",
+       kMan: "Dynamic manoeuvre", show: "Show on the model (illustration)", showRule: "An illustration on the pose rig, inside its range of motion; the guide gives no angles",
+       kRisk: "Structures at risk", riskOn: "Highlight on the model", unmapped: "no matching structure on this body", notMeasured: "not measured: only vessels and nerves are",
+       beyond: function (R) { return "farther than " + R + " mm"; }, noTarget: "the distance appears once a target is placed", none: "not stated in the guide",
+       conflict: "The guide's table and text disagree", adopted: "shown:", other: "the other:", cite: "Full source", unit: "mm",
+       fromPath: "distances from the path", fromTarget: "distances from the target point", posed: "measured in the current pose"}
+};
+function gEl(tag, a, kids) {
+  var e = document.createElement(tag);
+  if (a) Object.keys(a).forEach(function (k) {
+    var v = a[k]; if (v == null) return;
+    if (k === "text") e.textContent = v; else if (k === "class") e.className = v; else if (k.slice(0, 2) === "on") e[k] = v; else e.setAttribute(k, v);
+  });
+  (kids || []).forEach(function (c) { if (c != null) e.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+  return e;
+}
+function gBdi(t) { return gEl("bdi", {dir: "ltr", text: String(t)}); }
+function gPretty(s) { s = String(s || "").replace(/_/g, " "); return s.charAt(0).toUpperCase() + s.slice(1); }
+TP.loadGuide = function () {
+  var self = this;
+  function get(url) { return fetch(url, {cache: "no-cache"}).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
+  if (typeof fetch !== "function") return;
+  var pub = global.NMSKInnervation && global.NMSKInnervation.data ? global.NMSKInnervation.data() : null;
+  Promise.all([get("clinical_injection_guide.json"), pub ? Promise.resolve(pub) : get("innervation_q322.json")]).then(function (res) {
+    var g = res[0], s = res[1];
+    if (!g || g.schema !== "nmsk.injection_guide.page.v1") return;
+    self.guide.data = g;
+    self.guide.side = s && s.schema === "nmsk.innervation.page.v1" ? s : null;
+    var bm = {};
+    if (self.guide.side) s.bands.forEach(function (b) { (bm[b.m + "|" + b.s] = bm[b.m + "|" + b.s] || []).push(b); });
+    self.guide.bm = bm;
+    self.notify();
+  });
+};
+TP.guideKey = function (r) {   // the guide's muscle key of a structure: the public sidecar's own structure list, else the id without its side
+  var G = this.guide, M = G.data && G.data.muscles, S = G.side && G.side.muscles; if (!r || !M) return null;
+  if (S) for (var k in S) if (M[k] && S[k].structures.indexOf(r.id) >= 0) return k;
+  var b = String(r.id).replace(/_[lr]$/, "");
+  return M[b] ? b : null;
+};
+TP.guideView = function (i) {
+  var r = i != null && i >= 0 ? this.recs[i] : null, k = this.guideKey(r); if (!k) return null;
+  var G = this.guide, m = G.data.muscles[k], S = G.side, pm = S && S.muscles[k], self = this;
+  var s = r.side === "l" || r.side === "left" || /_l$/.test(r.id) ? "l" : "r";
+  var sites = pm ? pm.iz.map(function (iz, n) {
+    var b = (G.bm[k + "|" + s] || []).filter(function (x) { return x.iz === n; })[0] || null, L = S.lines[iz.line] || {};
+    return {n: n + 1, part: iz.part, pct: iz.pct, line: L.label || "", st: b ? b.st : "none", dot: b && b.st === "placed" && b.dot ? b.dot : null,
+            reason: b ? (b.reason || "") : "", proj: !!(b && b.proj)};
+  }) : [];
+  var risk = (m.risk || []).map(function (rk) {
+    var idx = [];
+    rk.stems.forEach(function (st) { [st + "_" + s, st].forEach(function (id) { (self.byId[id] || []).forEach(function (j) { if (idx.indexOf(j) < 0) idx.push(j); }); }); });
+    return {name: rk.name, idx: idx};
+  });
+  return {key: k, i: i, side: s, m: m, sites: sites, risk: risk, src: G.data.source};
+};
+TP.useGuideSite = function (view, site) {
+  if (!view || !site || !site.dot) return false;
+  var self = this, r = this.recs[view.i], ids = this.byId[r.id] || [view.i];
+  var s = ids.filter(function (i) { var R = self.recs[i], B = self.restBox[i] || [R.bmin, R.bmax]; return site.dot.every(function (c, k) { return c >= B[0][k] - 1 && c <= B[1][k] + 1; }); })[0];
+  if (s == null) s = view.i;
+  var w = {p: site.dot.slice(), i: s, n: null};
+  if (this.poseKey() !== "rest") { this.anchorPoint(w, s, true); if (!this.ridePoint(w)) return false; }   // the dot is given at rest: ride it to the current pose
+  this.target = {p: w.p, i: s, n: null, site: site.n, gk: view.key};
+  this.mp.sel = null;
+  if (this.mode === "dir" || (this.mode === "two" && !this.entry)) this.setMode("tfirst", true);
+  if (this.mode === "tfirst") this.entry = null;
+  this.clearSuggestions(); this.risk.safer = null;
+  ["sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x"].forEach(this.ov.remove, this.ov);
+  var so = this.$("ncl-safer-out"); if (so) so.innerHTML = "";
+  this.update();
+  return true;
+};
+/* the at-risk rows: one per modelled structure name, its distance = the corridor's own item (the nearest piece), or none */
+TP.guideRiskRows = function (view) {
+  var self = this, by = {};
+  this.corr.items.forEach(function (it) { if (!by[it.i] || it.d < by[it.i].d) by[it.i] = it; });
+  return view.risk.map(function (rk) {
+    var g = {}, order = [];
+    rk.idx.forEach(function (j) {
+      var nm = self.name(j), o = g[nm];
+      if (!o) { o = g[nm] = {name: nm, ids: [], measured: false, d: null}; order.push(nm); }
+      if (o.ids.indexOf(self.recs[j].id) < 0) o.ids.push(self.recs[j].id);
+      if (self.isCorrStruct(j)) o.measured = true;
+      var it = by[j]; if (it && (o.d == null || it.d < o.d)) o.d = it.d;
+    });
+    return {name: rk.name, mapped: rk.idx.length > 0, rows: order.map(function (n) { return g[n]; })};
+  });
+};
+TP.guideHighlight = function (view, on) {
+  var self = this, G = this.guide, api = this.api, sel = api.selection ? api.selection() : null;
+  if (G.hl) {
+    if (sel && sel.markIds && G.hl.added.length) sel.markIds(G.hl.added, false, false, true);
+    Object.keys(G.hl.cats).forEach(function (c) { api.setCategoryOn(c, false); });
+    G.hl = null;
+  }
+  if (on && view) {
+    var idx = [], ids = [], before = {}, cats = {};
+    view.risk.forEach(function (rk) { rk.idx.forEach(function (j) { if (idx.indexOf(j) < 0) idx.push(j); }); });
+    idx.forEach(function (j) { var id = self.recs[j].id; if (ids.indexOf(id) < 0) ids.push(id); });
+    if (sel && sel.state) { try { (sel.state().marks || []).forEach(function (id) { before[id] = 1; }); } catch (e) {} }
+    idx.forEach(function (j) { var c = self.recs[j].cat; if (c && !cats[c] && !api.categoryOn(c)) { cats[c] = 1; api.setCategoryOn(c, true); } });   // switched on here, off again with the highlight
+    var added = ids.filter(function (id) { return !before[id]; });
+    if (sel && sel.markIds && added.length) sel.markIds(added, true, false, true);
+    G.hl = {key: view.key, side: view.side, set: {}, added: added, cats: cats, n: idx.length};
+    idx.forEach(function (j) { G.hl.set[j] = 1; });
+  }
+  this.refreshHalos(); api.redraw(); this.notify();
+  return G.hl ? G.hl.n : 0;
+};
+/* "Start scan here": the landmark (rest coordinates, ridden on its bone when the body is posed), the skin vertex nearest to it,
+   and the scan tool's own placeRay() from the landmark towards that vertex; the plane only when the guide states one */
+TP.guideScan = function (view, sc) {
+  var U = global.NMSKUltrasound, self = this;
+  if (!U || !U.placeRay || !sc) return Promise.resolve(null);
+  var p = (view.side === "l" ? sc.l : sc.r).slice();
+  if (this.poseKey() !== "rest") {
+    var bi = (this.byId[sc.bone + "_" + view.side] || [])[0];
+    if (bi == null) return Promise.resolve(null);
+    var w = {p: p, i: bi, n: null}; this.anchorPoint(w, bi, true); if (!this.ridePoint(w)) return Promise.resolve(null); p = w.p;
+  }
+  var best = null, bd = 1e30;
+  this.skin.forEach(function (i) {
+    var g = self.geom(i); if (!g) return;
+    var P = g.pos;
+    for (var k = 0; k < P.length; k += 3) { var dx = P[k] - p[0], dy = P[k + 1] - p[1], dz = P[k + 2] - p[2], d = dx * dx + dy * dy + dz * dz; if (d < bd) { bd = d; best = [P[k], P[k + 1], P[k + 2]]; } }
+  });
+  if (!best || bd < 1e-6) return Promise.resolve(null);
+  var dir = norm(sub(best, p));
+  if (U.open) U.open();
+  return (U.ready ? U.ready() : Promise.resolve(true)).then(function () {
+    var h = U.placeRay(p, dir); if (!h) return null;
+    if (sc.plane) U.set({refKey: sc.plane, rot: 0});
+    return {P: h.P, N: h.N, landmark: p, skin_mm: Math.sqrt(bd)};
+  }).catch(function () { return null; });
+};
+/* "Show on the model": the json's key frames on the target's side, clamped to the rig's range, then back to the pose it started from */
+TP.guideShow = function (view, done) {
+  var pose = this.api.pose ? this.api.pose() : null, fr = view && view.m.show, self = this;
+  if (!pose || !pose.ready || !pose.ready() || !fr || this.guide.busy) return false;
+  var P0 = pose.pose(), byId = {};
+  pose.rig().joints.forEach(function (j) { byId[j.id] = j; });
+  var seq = fr.map(function (f) {
+    var P = JSON.parse(JSON.stringify(P0));
+    Object.keys(f).forEach(function (jn) {
+      var id = jn + "_" + view.side, j = byId[id]; if (!j || j.driven || !P.j[id]) return;
+      Object.keys(f[jn]).forEach(function (k) { var x = j.dof.map(function (d) { return d.k; }).indexOf(k); if (x >= 0) P.j[id][x] = clamp(f[jn][k], j.dof[x].lo, j.dof[x].hi); });
+    });
+    return P;
+  });
+  seq.push(P0);
+  this.guide.busy = true; this.notify();
+  var k = 0;
+  (function step() {
+    if (k >= seq.length) { self.guide.busy = false; self.notify(); if (done) done(); return; }
+    pose.apply(seq[k++]); setTimeout(step, 800);
+  })();
+  return true;
+};
+/* the Guide section itself (Hebrew in the injection mode, English in the needle panel); opt: {btn: button class, phone, refresh} */
+function guideDom(tool, view, lang, opt) {
+  var T = GUIDE_TXT[lang], m = view.m, G = tool.guide, he = lang === "he", okey = lang + ":" + view.key + ":" + view.side;
+  var open = G.open[okey] != null ? G.open[okey] : !opt.phone;
+  var d = gEl("details", {class: he ? "mc-guide" : "ncl-guide", "data-guide": view.key, dir: he ? "rtl" : null});
+  if (open) d.open = true;
+  d.addEventListener("toggle", function () { G.open[okey] = d.open; });
+  d.appendChild(gEl("summary", null, [T.title + " · " + T.count(m.injection_points)]));
+  function row(k, kids, g) { var p = gEl("div", {class: "g-row", "data-g": g}, [gEl("span", {class: "g-k", text: k + ": "})].concat(kids)); d.appendChild(p); return p; }
+  function txt(v) { return v == null ? gEl("span", {class: "g-sub", text: T.none}) : gBdi(v); }
+  function btn(kids, fn, a) { var b = gEl("button", {type: "button", class: opt.btn || null}, kids); b.onclick = fn; if (a) Object.keys(a).forEach(function (x) { if (a[x] != null) b.setAttribute(x, a[x]); }); return b; }
+  function note(t, cls) { return gEl("div", {class: cls || "g-sub", text: t}); }
+  row(T.kPoints, [m.injection_points == null ? gEl("span", {class: "g-sub", text: T.none}) : gBdi(m.injection_points)], "points");
+  row(T.kSites, [txt(m.sites)], "sites");
+  view.sites.forEach(function (s) {
+    var box = gEl("div", {class: "g-site", "data-g-site": String(s.n), "data-g-st": s.st});
+    var head = [T.site + " " + s.n];
+    if (s.part && s.part !== "main") head.push(" · ", gBdi(gPretty(s.part)));
+    if (s.pct != null) head.push(" · ", gBdi(s.pct + "%"), " " + T.along + " ", gBdi(s.line));
+    box.appendChild(gEl("div", null, head));
+    var stl = gEl("div", {class: "g-sub"}, [s.st === "placed" ? (s.proj ? T.proj : T.placed) : s.st === "failed" ? T.unplaced : s.st === "qualitative" ? T.qual : T.noBand]);
+    if (s.st === "placed") { stl.appendChild(document.createTextNode(" ")); stl.appendChild(gEl("span", {class: "g-badge", text: T.rule})); }
+    if (s.st === "failed" && s.reason) { stl.appendChild(document.createTextNode(": ")); stl.appendChild(gBdi(s.reason)); }
+    box.appendChild(stl);
+    if (s.dot) {
+      var cur = !!(tool.target && tool.target.gk === view.key && tool.target.site === s.n);
+      box.appendChild(btn([T.use + " " + s.n], function () { tool.useGuideSite(view, s); opt.refresh(); }, {"data-g-use": String(s.n), "aria-pressed": String(cur)}));
+    }
+    d.appendChild(box);
+  });
+  if (m.conflict) row(T.conflict, [T.adopted + " ", gBdi(m.conflict.adopted), "; " + T.other + " ", gBdi(m.conflict.other)], "conflict");
+  row(T.kScan, [txt(m.scan_start)], "scan");
+  var U = global.NMSKUltrasound, smsg = G.msg[okey + ":scan"];
+  if ((m.scan || []).length) {
+    m.scan.forEach(function (sc, n) {
+      d.appendChild(btn([T.scanGo + " · ", gBdi(sc.label)], function () {
+        G.msg[okey + ":scan"] = "";
+        tool.guideScan(view, sc).then(function (res) { G.msg[okey + ":scan"] = res ? T.scanOk + " · " : T.scanFail; G.msg[okey + ":scanlm"] = res ? sc.label : ""; opt.refresh(); });
+      }, {"data-g-scan": String(n), disabled: U && U.placeRay ? null : "true"}));
+    });
+    d.appendChild(note(T.scanRule));
+    if (smsg) d.appendChild(gEl("div", {class: "g-sub", "data-g": "scan-msg"}, [smsg].concat(G.msg[okey + ":scanlm"] ? [gBdi(G.msg[okey + ":scanlm"])] : [])));
+  } else if (m.scan_start != null) d.appendChild(note(T.scanNo));
+  row(T.kMan, [txt(m.manoeuvre)], "manoeuvre");
+  if (m.show) {
+    d.appendChild(btn([T.show], function () { tool.guideShow(view, opt.refresh); opt.refresh(); }, {"data-g-show": "1", disabled: G.busy ? "true" : null}));
+    d.appendChild(note(T.showRule));
+  }
+  row(T.kRisk, [txt(m.at_risk)], "risk");
+  if (view.risk.length) {
+    var hlOn = !!(G.hl && G.hl.key === view.key && G.hl.side === view.side), anyMapped = view.risk.some(function (rk) { return rk.idx.length > 0; });
+    if (anyMapped) d.appendChild(btn([T.riskOn], function () { tool.guideHighlight(view, !hlOn); opt.refresh(); }, {"data-g-risk-on": "1", "aria-pressed": String(hlOn)}));
+    var has = !!(tool.target || tool.entry), list = gEl("div", {class: "g-risk"});
+    if (anyMapped && has) list.appendChild(note((tool.entry ? T.fromPath : T.fromTarget) + (tool.poseAway() ? " · " + T.posed : "")));
+    tool.guideRiskRows(view).forEach(function (g) {
+      if (!g.mapped) { list.appendChild(gEl("div", {class: "g-rrow", "data-g-unmapped": g.name}, [gBdi(g.name), ": " + T.unmapped])); return; }
+      g.rows.forEach(function (o) {
+        var dt = !has ? T.noTarget : !o.measured ? T.notMeasured : o.d == null ? T.beyond(tool.corr.R) : fmt1(o.d) + " " + T.unit;
+        var band = has && o.measured && o.d != null ? tool.band(o.d) : "";
+        list.appendChild(gEl("div", {class: "g-rrow" + (band ? " band-" + band : ""), "data-g-ids": o.ids.join(" "), "data-g-d": o.d == null ? "" : String(o.d)},
+          [gBdi(o.name), " · ", gEl("span", {class: "g-d", text: dt})]));
+      });
+    });
+    d.appendChild(list);
+  }
+  var cite = gEl("div", {class: "g-row g-cite", "data-g": "cite"}, [gBdi(view.src.label), " · ", gBdi(m.cite || "")]);
+  var full = gEl("div", {class: "g-sub g-full", hidden: "hidden"}, [gBdi(view.src.journal), " · ",
+    gEl("a", {href: "https://doi.org/" + view.src.doi, target: "_blank", rel: "noopener", dir: "ltr", text: "doi:" + view.src.doi})]);
+  cite.appendChild(document.createTextNode(" "));
+  cite.appendChild(btn(["ⓘ"], function () { full.hidden = !full.hidden; this.setAttribute("aria-expanded", String(!full.hidden)); }, {class: "g-i", "aria-label": T.cite, title: T.cite, "aria-expanded": "false"}));
+  d.appendChild(cite); d.appendChild(full);
+  return d;
+}
+function fmt1(d) { return (Math.round(d * 10) / 10).toFixed(1); }
+TP.renderPlanGuide = function () {   // the needle panel's own copy (English), for the planned muscle
+  var host = this.$ ? this.$("ncl-plan-guide") : null; if (!host) return;
+  var view = this.plan.i != null && this.guide.data ? this.guideView(this.plan.i) : null;
+  if (!view) { if (host.firstChild) host.innerHTML = ""; return; }
+  if (!this.active || this.el.hidden || document.body.classList.contains("mode-inj")) return;
+  var self = this, phone = global.matchMedia ? global.matchMedia("(max-width:900px)").matches : false;
+  host.innerHTML = "";
+  host.appendChild(guideDom(this, view, "en", {btn: "", phone: phone, refresh: function () { self.renderPlanGuide(); }}));
 };
 /* ---------- Q272: the "תכנון הזרקה" WORKSPACE MODE -- a re-skin of this tool's own Q268 logic (preset, live distance readout,
    suggested entries, halo, posture), hosted by the page's generic mode layer (viewer/modes/, window.NMSKModes). Nothing is
@@ -2514,7 +2794,19 @@ function injectionMode(tool, api) {
         "body.mode-inj .mc-sec[aria-pressed=true]{color:#0A5F68}" +
         "body.mode-inj .mc-search{color:#20242B;background:#fff}body.mode-inj .mc-search::placeholder{color:#5B6472;opacity:1}" +
         "body.mode-inj .mc-step.off{opacity:1}body.mode-inj .mc-step.off .mc-num{background:#5B6472}body.mode-inj .mc-step.off .mc-lbl{color:#4A5361}" +
-        "@media (max-width:900px){body.mode-inj.nmsk-us.us-clip-on .mc-left{display:none!important}}";   // Q325: the scan's needle clip takes that side; its ✕ brings the card back
+        "@media (max-width:900px){body.mode-inj.nmsk-us.us-clip-on .mc-left{display:none!important}}" +   // Q325: the scan's needle clip takes that side; its ✕ brings the card back
+        /* Q347: the guide section -- sized to its content, one line (its summary) when closed; dark ink on the card's white */
+        "body.mode-inj .mc-guide{border:1px solid #E4E1D8;border-radius:12px;padding:8px 10px;color:#20242B;font-size:13px;line-height:1.45;background:#fff}" +
+        "body.mode-inj .mc-guide>summary{cursor:pointer;font-weight:700;font-size:14px;color:#20242B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}" +
+        "body.mode-inj .mc-guide .g-row{margin:6px 0 0;overflow-wrap:anywhere}body.mode-inj .mc-guide .g-k{color:#3F4752;font-weight:700}" +
+        "body.mode-inj .mc-guide .g-sub{color:#4A5361;font-size:12.5px;margin-top:2px;overflow-wrap:anywhere}" +
+        "body.mode-inj .mc-guide .g-site{margin-top:6px;padding-top:6px;border-top:1px solid #EEF0F2;overflow-wrap:anywhere}" +
+        "body.mode-inj .mc-guide .g-badge{display:inline-block;font-size:12px;font-weight:600;color:#5A3E00;background:#FFF1CC;border-radius:999px;padding:0 8px}" +
+        "body.mode-inj .mc-guide .mc-sec{height:auto;min-height:36px;font-size:14px;margin-top:6px;padding:4px 10px}" +
+        "body.mode-inj .mc-guide .g-rrow{font-size:13px;margin-top:3px;padding-inline-start:6px;border-inline-start:4px solid transparent}" +
+        "body.mode-inj .mc-guide .g-rrow.band-n{border-inline-start-color:#C53030}body.mode-inj .mc-guide .g-rrow.band-m{border-inline-start-color:#C97A1A}body.mode-inj .mc-guide .g-rrow.band-f{border-inline-start-color:#2F855A}" +
+        "body.mode-inj .mc-guide .g-i{display:inline-flex;width:28px;height:28px;min-height:0;margin:0;padding:0;border-radius:999px;font-size:15px;vertical-align:middle}" +
+        "body.mode-inj .mc-guide a{color:#0A5F68}";
       document.head.appendChild(st);
     }
     skinCat = tool.recs.some(function (r) { return r.cat === "skin"; }) ? "skin" : null;
@@ -2535,6 +2827,7 @@ function injectionMode(tool, api) {
        read from tool.plan.zone (computed once in planPick(), not recomputed here). */
     ui.zoneTitle = h("div", {class: "mc-lbl", style: "margin-top:4px", text: "אזור ההזרקה הצפוי"});
     ui.zone = h("div", {class: "mc-list"});
+    ui.guide = h("div", {class: "mc-guide-host"});   // Q347: the injection guide for this target (private data), filled in refresh()
     ui.step2 = h("div", {class: "mc-step"}, [h("div", {class: "mc-num", text: "2"}), h("div", {class: "mc-lbl", text: "נקודת כניסה"}), (ui.s2sub = h("div", {class: "mc-sub mc-mob", text: "שלב 2 מתוך 3"}))]);
     ui.primary = h("button", {type: "button", class: "mc-primary", text: "הצע נקודות כניסה", onclick: suggest});
     ui.manual = h("button", {type: "button", class: "mc-sec mc-desk", text: "סמן ידנית על העור", onclick: manualEntry});
@@ -2554,7 +2847,7 @@ function injectionMode(tool, api) {
     ui.savedTitle = h("div", {class: "mc-lbl", style: "margin-top:4px", text: "נקודות שמורות"});
     ui.saved = h("div", {class: "mc-list"});
     ui.savedClear = h("button", {type: "button", class: "mc-sec", text: "נקה את כל הנקודות השמורות", onclick: clearSaved});
-    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.scanBtn, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
+    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.guide, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.scanBtn, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
     /* left: the distance card */
     ui.rows = h("div", {class: "mc-list"});
     ui.near = h("input", {type: "number", min: "0", max: "100", step: "0.5", "aria-label": "סף קרוב (מ\"מ)"}); ui.far = h("input", {type: "number", min: "0", max: "200", step: "0.5", "aria-label": "סף רחוק (מ\"מ)"});
@@ -2598,6 +2891,10 @@ function injectionMode(tool, api) {
           text: (lbl ? lbl + " — צומת עצב-שריר" : "צומת עצב-שריר " + (k + 1) + "/" + zone.mps.length)}));
       }); else ui.zone.appendChild(h("p", {class: "mc-hint", text: "אין נתוני צומת עצב-שריר (NMJ) לשריר זה."}));
     }
+    /* Q347: the guide's section (no section for a muscle the guide does not cover) */
+    var gv = r && tool.guide.data ? tool.guideView(r.i) : null;
+    ui.guide.innerHTML = ""; ui.guide.hidden = !gv;
+    if (gv) ui.guide.appendChild(guideDom(tool, gv, "he", {btn: "mc-sec", phone: ctx.isPhone(), refresh: refresh}));
     ui.step2.classList.toggle("off", !hasT); ui.primary.disabled = !hasT; ui.manual.disabled = !hasT;
     ui.step3.classList.toggle("off", !(hasT && hasE));
     var hint = "";

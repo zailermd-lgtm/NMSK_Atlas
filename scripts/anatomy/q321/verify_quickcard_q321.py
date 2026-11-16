@@ -466,8 +466,9 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
                   after is not None and abs(after["l"] - before["l"]) < 1.5 and abs(after["t"] - before["t"]) < 1.5)
             check(f"{T} expanded window stays inside the view (bottom {after and round(after['b'])} <= {h})", after is not None and after["b"] <= h + 1)
             # phone: the window snaps to a slot; a window so tall that every slot lies within 10 px has nowhere to go
-            room = desk or pg.evaluate("() => { const s = NMSKMove.slots('qcard'), o = NMSKMove.off('qcard'); return s.some(q => Math.abs(q.dx - o.ax) + Math.abs(q.dy - o.ay) > 10 && q.dy >= 0); }")
-            drag_el(pg, "#nm-g-qcard", 40, 30); a2 = card_info(pg)
+            far = None if desk else pg.evaluate("() => { const s = NMSKMove.slots('qcard'), o = NMSKMove.off('qcard'); let b = null; s.forEach(q => { const d = Math.abs(q.dx - o.ax) + Math.abs(q.dy - o.ay); if (q.dy >= 0 && d > 10 && (!b || d > b[2])) b = [q.dx - o.ax, q.dy - o.ay, d]; }); return b; }")
+            room = desk or far is not None
+            drag_el(pg, "#nm-g-qcard", 40 if desk or not far else far[0], 30 if desk or not far else far[1]); a2 = card_info(pg)   # phone: towards the furthest slot (a 30 px pull snaps back to the nearest one)
             check(f"{T} expanded window is still draggable by its grip ({after and round(after['l'])},{after and round(after['t'])})->({a2 and round(a2['l'])},{a2 and round(a2['t'])})"
                   + ("" if desk else " (phone: snaps to a slot)" + ("" if room else "; no slot further than 10 px for a window this tall")),
                   a2 is not None and a2["open"] and ((abs(a2["l"] - after["l"] - 40) < 3 and abs(a2["t"] - after["t"] - 30) < 3) if desk
