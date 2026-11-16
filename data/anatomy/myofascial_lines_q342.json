@@ -1,0 +1,6105 @@
+{
+ "schema": "nmsk.myofascial_lines.v1",
+ "round": "Q342",
+ "generated": "2026-11-15",
+ "scope": "Base · Male (base_m) and Base · Female (base_f)",
+ "doc": {
+  "what": "Myofascial lines (\"Anatomy Trains\", Myers) as a group family, with the evidence each line has from dissection reviews.",
+  "contested": "Myofascial lines are a contested concept. Dissection reviews support continuity for some lines (SBL, BFL, FFL), part of others (Spiral, Lateral), none for the Superficial Front Line; the Deep Front Line, the Ipsilateral Functional Line and Myers' four arm lines were not examined by a systematic review. Continuity is not proof of force transmission or of clinical effect. The UI must show the evidence label next to every line.",
+  "schema": "sub_choices{key: {label, members[] (line ids), ...}}; lines[]: {id, abbr, name, author_family (myers | wilke2019), sub_choices[], composition_refs[], verify_against_book (true: route recorded from the book's standard description without opening the book), crosses_midline, stations[] {station, kind, side (S start side | O opposite | mid | B both), page_bases[], structures {base_m|base_f: {r,l,mid}} or null, on_page, note}, evidence {label strong|moderate|none|not_examined, label_text, wilke2016 {...}, krause2016, refs[]}, note}.",
+  "ui": "Family \"Myofascial lines\" -> sub-choice (vertical / diagonal-spiral / functional / arm; horizontal is shown disabled with its \"why\") -> line list with evidence badges -> selecting a line marks every station's structures. Side: pick the clicked structure's side as S; stations with side O use the other side, mid/B use both lists; when the wanted side list is empty for a body (some midline or one-sided meshes carry an _l/_r suffix) fall back to mid, then to both sides. Bones and fasciae are stations, not the line itself: offer \"muscles only\" (kind contains \"muscle\") as the default view."
+ },
+ "sub_choices": {
+  "vertical": {
+   "label": "Vertical (longitudinal) lines",
+   "members": [
+    "superficial_back_line",
+    "superficial_front_line",
+    "lateral_line",
+    "deep_front_line"
+   ],
+   "source": "Myers groups the cardinal lines (SBL, SFL, LL) and the DFL as longitudinal; book not opened"
+  },
+  "diagonal_spiral": {
+   "label": "Diagonal / spiral lines",
+   "members": [
+    "spiral_line",
+    "back_functional_line",
+    "front_functional_line"
+   ],
+   "source": "Spiral Line and the two contralateral Functional Lines cross the midline"
+  },
+  "functional": {
+   "label": "Functional lines",
+   "members": [
+    "back_functional_line",
+    "front_functional_line",
+    "ipsilateral_functional_line"
+   ],
+   "source": "Myers"
+  },
+  "arm": {
+   "label": "Arm lines",
+   "members": [
+    "superficial_front_arm_line",
+    "deep_front_arm_line",
+    "superficial_back_arm_line",
+    "deep_back_arm_line",
+    "wilke2019_ventral_arm_chain",
+    "wilke2019_lateral_arm_chain",
+    "wilke2019_dorsal_arm_chain"
+   ],
+   "source": "Myers (four lines, not examined by a review) + Wilke & Krause 2019 (three chains, reviewed)"
+  },
+  "horizontal": {
+   "label": "Horizontal bands",
+   "members": [],
+   "status": "not_offered",
+   "why": "No \"horizontal line\" exists among Myers' lines or in the reviews opened. The only sourced horizontal concept found is Schultz & Feitis 1996 \"body retinacula (bands/straps)\" (chest band, inguinal band, ...), seen only as a table of contents; no muscle membership was available. Offer this sub-choice only after the owner decides and a source with members is opened.",
+   "refs": [
+    "schultz1996"
+   ]
+  }
+ },
+ "lines": [
+  {
+   "id": "superficial_back_line",
+   "abbr": "SBL",
+   "name": "Superficial Back Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "vertical"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "plantar surface of the toe phalanges",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "re:^zan_(proximal|middle|distal)_phalanx_of_.*_of_foot_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_distal_phalanx_of_first_finger_of_foot_r",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_distal_phalanx_of_second_finger_of_foot_r",
+        "zan_distal_phalanx_of_third_finger_of_foot_r",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_r",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+        "zan_middle_phalanx_of_second_finger_of_foot_r",
+        "zan_middle_phalanx_of_third_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_first_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_second_finger_of_foot_r",
+        "zan_proximal_phalanx_of_third_finger_of_foot_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_distal_phalanx_of_first_finger_of_foot_l",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_distal_phalanx_of_second_finger_of_foot_l",
+        "zan_distal_phalanx_of_third_finger_of_foot_l",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_l",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+        "zan_middle_phalanx_of_second_finger_of_foot_l",
+        "zan_middle_phalanx_of_third_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_first_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_second_finger_of_foot_l",
+        "zan_proximal_phalanx_of_third_finger_of_foot_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_distal_phalanx_of_first_finger_of_foot_r",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_distal_phalanx_of_second_finger_of_foot_r",
+        "zan_distal_phalanx_of_third_finger_of_foot_r",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_r",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+        "zan_middle_phalanx_of_second_finger_of_foot_r",
+        "zan_middle_phalanx_of_third_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_first_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_second_finger_of_foot_r",
+        "zan_proximal_phalanx_of_third_finger_of_foot_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_distal_phalanx_of_first_finger_of_foot_l",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_distal_phalanx_of_second_finger_of_foot_l",
+        "zan_distal_phalanx_of_third_finger_of_foot_l",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_l",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+        "zan_middle_phalanx_of_second_finger_of_foot_l",
+        "zan_middle_phalanx_of_third_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_first_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_second_finger_of_foot_l",
+        "zan_proximal_phalanx_of_third_finger_of_foot_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "plantar fascia and short toe flexors",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "plantar_aponeurosis",
+      "zan_plantar_aponeurosis",
+      "flexor_digitorum_brevis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "flexor_digitorum_brevis_r",
+        "plantar_aponeurosis_r"
+       ],
+       "l": [
+        "flexor_digitorum_brevis_l",
+        "zan_plantar_aponeurosis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "flexor_digitorum_brevis_r",
+        "plantar_aponeurosis_r"
+       ],
+       "l": [
+        "flexor_digitorum_brevis_l",
+        "zan_plantar_aponeurosis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "calcaneus",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "calcaneus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "calcaneus_r"
+       ],
+       "l": [
+        "calcaneus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "calcaneus_r"
+       ],
+       "l": [
+        "calcaneus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "gastrocnemius / calcaneal (Achilles) tendon",
+     "kind": "muscle+tendon",
+     "side": "S",
+     "page_bases": [
+      "gastrocnemius",
+      "zan_calcaneal_tendon"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "gastrocnemius_r",
+        "zan_calcaneal_tendon_r"
+       ],
+       "l": [
+        "gastrocnemius_l",
+        "zan_calcaneal_tendon_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "gastrocnemius_r",
+        "zan_calcaneal_tendon_r"
+       ],
+       "l": [
+        "gastrocnemius_l",
+        "zan_calcaneal_tendon_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "femoral condyles",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "femur"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "hamstrings",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "biceps_femoris",
+      "semitendinosus",
+      "semimembranosus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "biceps_femoris_r",
+        "semimembranosus_r",
+        "semitendinosus_r"
+       ],
+       "l": [
+        "biceps_femoris_l",
+        "semimembranosus_l",
+        "semitendinosus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "biceps_femoris_r",
+        "semimembranosus_r",
+        "semitendinosus_r"
+       ],
+       "l": [
+        "biceps_femoris_l",
+        "semimembranosus_l",
+        "semitendinosus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "ischial tuberosity",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "hip_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sacrotuberous ligament",
+     "kind": "ligament",
+     "side": "S",
+     "page_bases": [
+      "sacrotuberous_ligament"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "sacrotuberous_ligament_r"
+       ],
+       "l": [
+        "sacrotuberous_ligament_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "sacrotuberous_ligament_r"
+       ],
+       "l": [
+        "sacrotuberous_ligament_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sacrum",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "sacrum"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sacrum"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sacrum"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sacrolumbar fascia / erector spinae",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_posterior_layer_of_thoracolumbar_fascia",
+      "iliocostalis",
+      "zan_iliocostalis_colli_muscle",
+      "longissimus",
+      "zan_longissimus_colli_muscle",
+      "zan_longissimus_capitis_muscle",
+      "spinalis",
+      "zan_spinalis_colli_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "iliocostalis_r",
+        "longissimus_r",
+        "spinalis_r",
+        "zan_iliocostalis_colli_muscle_r",
+        "zan_longissimus_capitis_muscle_r",
+        "zan_longissimus_colli_muscle_r",
+        "zan_spinalis_colli_muscle_r"
+       ],
+       "l": [
+        "iliocostalis_l",
+        "longissimus_l",
+        "spinalis_l",
+        "zan_iliocostalis_colli_muscle_l",
+        "zan_longissimus_capitis_muscle_l",
+        "zan_longissimus_colli_muscle_l",
+        "zan_posterior_layer_of_thoracolumbar_fascia_l",
+        "zan_spinalis_colli_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "iliocostalis_r",
+        "longissimus_r",
+        "spinalis_r",
+        "zan_iliocostalis_colli_muscle_r",
+        "zan_longissimus_capitis_muscle_r",
+        "zan_longissimus_colli_muscle_r",
+        "zan_spinalis_colli_muscle_r"
+       ],
+       "l": [
+        "iliocostalis_l",
+        "longissimus_l",
+        "spinalis_l",
+        "zan_iliocostalis_colli_muscle_l",
+        "zan_longissimus_capitis_muscle_l",
+        "zan_longissimus_colli_muscle_l",
+        "zan_posterior_layer_of_thoracolumbar_fascia_l",
+        "zan_spinalis_colli_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "occipital ridge",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "occipital"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "occipital"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "occipital"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "galea aponeurotica / scalp fascia",
+     "kind": "fascia",
+     "side": "B",
+     "page_bases": [
+      "zan_epicranial_aponeurosis",
+      "zan_occipitalis_muscle",
+      "frontalis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "frontalis_r",
+        "zan_epicranial_aponeurosis_r",
+        "zan_occipitalis_muscle_r"
+       ],
+       "l": [
+        "frontalis_l",
+        "zan_epicranial_aponeurosis_l",
+        "zan_occipitalis_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "frontalis_r",
+        "zan_epicranial_aponeurosis_r",
+        "zan_occipitalis_muscle_r"
+       ],
+       "l": [
+        "frontalis_l",
+        "zan_epicranial_aponeurosis_l",
+        "zan_occipitalis_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "frontal bone, supraorbital ridge",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "frontal"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "frontal"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "frontal"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "strong",
+    "wilke2016": {
+     "examined": true,
+     "transitions_verified": 3,
+     "transitions_total": 3,
+     "studies": 14
+    },
+    "krause2016": "force transfer: moderate evidence at all 3 transitions (6 studies)",
+    "label_text": "strong evidence (dissection: all reviewed transitions verified)",
+    "refs": [
+     "wilke2016",
+     "krause2016",
+     "kalichman2025"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "superficial_front_line",
+   "abbr": "SFL",
+   "name": "Superficial Front Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "vertical"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "dorsal surface of the toe phalanges",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "re:^zan_(proximal|middle|distal)_phalanx_of_.*_of_foot_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_distal_phalanx_of_first_finger_of_foot_r",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_distal_phalanx_of_second_finger_of_foot_r",
+        "zan_distal_phalanx_of_third_finger_of_foot_r",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_r",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+        "zan_middle_phalanx_of_second_finger_of_foot_r",
+        "zan_middle_phalanx_of_third_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_first_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_second_finger_of_foot_r",
+        "zan_proximal_phalanx_of_third_finger_of_foot_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_distal_phalanx_of_first_finger_of_foot_l",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_distal_phalanx_of_second_finger_of_foot_l",
+        "zan_distal_phalanx_of_third_finger_of_foot_l",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_l",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+        "zan_middle_phalanx_of_second_finger_of_foot_l",
+        "zan_middle_phalanx_of_third_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_first_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_second_finger_of_foot_l",
+        "zan_proximal_phalanx_of_third_finger_of_foot_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_distal_phalanx_of_first_finger_of_foot_r",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_distal_phalanx_of_second_finger_of_foot_r",
+        "zan_distal_phalanx_of_third_finger_of_foot_r",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_r",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+        "zan_middle_phalanx_of_second_finger_of_foot_r",
+        "zan_middle_phalanx_of_third_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_first_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_second_finger_of_foot_r",
+        "zan_proximal_phalanx_of_third_finger_of_foot_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_distal_phalanx_of_first_finger_of_foot_l",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_distal_phalanx_of_second_finger_of_foot_l",
+        "zan_distal_phalanx_of_third_finger_of_foot_l",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_l",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+        "zan_middle_phalanx_of_second_finger_of_foot_l",
+        "zan_middle_phalanx_of_third_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_first_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_second_finger_of_foot_l",
+        "zan_proximal_phalanx_of_third_finger_of_foot_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "short and long toe extensors, tibialis anterior, anterior crural compartment",
+     "kind": "muscle+fascia",
+     "side": "S",
+     "page_bases": [
+      "extensor_digitorum_brevis",
+      "extensor_hallucis_brevis",
+      "extensor_digitorum_longus",
+      "extensor_hallucis_longus",
+      "tibialis_anterior",
+      "anterior_intermuscular_septum_leg",
+      "zan_anterior_intermuscular_septum_of_leg"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "anterior_intermuscular_septum_leg_r",
+        "extensor_digitorum_brevis_r",
+        "extensor_digitorum_longus_r",
+        "extensor_hallucis_brevis_r",
+        "extensor_hallucis_longus_r",
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "extensor_digitorum_brevis_l",
+        "extensor_digitorum_longus_l",
+        "extensor_hallucis_brevis_l",
+        "extensor_hallucis_longus_l",
+        "tibialis_anterior_l",
+        "zan_anterior_intermuscular_septum_of_leg_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "anterior_intermuscular_septum_leg_r",
+        "extensor_digitorum_brevis_r",
+        "extensor_digitorum_longus_r",
+        "extensor_hallucis_brevis_r",
+        "extensor_hallucis_longus_r",
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "extensor_digitorum_brevis_l",
+        "extensor_digitorum_longus_l",
+        "extensor_hallucis_brevis_l",
+        "extensor_hallucis_longus_l",
+        "tibialis_anterior_l",
+        "zan_anterior_intermuscular_septum_of_leg_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "tibial tuberosity",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "tibia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "subpatellar tendon (patellar ligament)",
+     "kind": "tendon",
+     "side": "S",
+     "page_bases": [],
+     "structures": null,
+     "on_page": false,
+     "note": "no patellar-ligament mesh on the Base pages"
+    },
+    {
+     "station": "patella",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "patella"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "patella_r"
+       ],
+       "l": [
+        "patella_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "patella_r"
+       ],
+       "l": [
+        "patella_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "rectus femoris / quadriceps",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "rectus_femoris",
+      "vastus_lateralis",
+      "vastus_medialis",
+      "vastus_intermedius"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "rectus_femoris_r",
+        "vastus_intermedius_r",
+        "vastus_lateralis_r",
+        "vastus_medialis_r"
+       ],
+       "l": [
+        "rectus_femoris_l",
+        "vastus_intermedius_l",
+        "vastus_lateralis_l",
+        "vastus_medialis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "rectus_femoris_r",
+        "vastus_intermedius_r",
+        "vastus_lateralis_r",
+        "vastus_medialis_r"
+       ],
+       "l": [
+        "rectus_femoris_l",
+        "vastus_intermedius_l",
+        "vastus_lateralis_l",
+        "vastus_medialis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "anterior inferior iliac spine; pubic tubercle",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "hip_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "rectus abdominis",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "rectus_abdominis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "rectus_abdominis_r"
+       ],
+       "l": [
+        "rectus_abdominis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "rectus_abdominis_r"
+       ],
+       "l": [
+        "rectus_abdominis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "fifth rib",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_fifth_rib"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_fifth_rib_r"
+       ],
+       "l": [
+        "zan_fifth_rib_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_fifth_rib_r"
+       ],
+       "l": [
+        "zan_fifth_rib_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sternalis / sternochondral fascia; manubrium",
+     "kind": "fascia+bone",
+     "side": "mid",
+     "page_bases": [
+      "sternum"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sternum"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sternum"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": "fascia not on the page; sternum stands in"
+    },
+    {
+     "station": "sternocleidomastoid",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "sternocleidomastoid"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "sternocleidomastoid_r"
+       ],
+       "l": [
+        "sternocleidomastoid_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "sternocleidomastoid_r"
+       ],
+       "l": [
+        "sternocleidomastoid_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "mastoid process",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "temporal"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "temporal_r"
+       ],
+       "l": [
+        "temporal_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "temporal_r"
+       ],
+       "l": [
+        "temporal_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "scalp fascia",
+     "kind": "fascia",
+     "side": "B",
+     "page_bases": [
+      "zan_epicranial_aponeurosis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_epicranial_aponeurosis_r"
+       ],
+       "l": [
+        "zan_epicranial_aponeurosis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_epicranial_aponeurosis_r"
+       ],
+       "l": [
+        "zan_epicranial_aponeurosis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "none",
+    "wilke2016": {
+     "examined": true,
+     "transitions_verified": 0,
+     "transitions_total": null,
+     "studies": 7
+    },
+    "krause2016": null,
+    "label_text": "no evidence (no transition verified in dissection studies)",
+    "refs": [
+     "wilke2016",
+     "kalichman2025"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "lateral_line",
+   "abbr": "LL",
+   "name": "Lateral Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "vertical"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "first and fifth metatarsal bases",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_first_metatarsal_bone",
+      "zan_fifth_metatarsal_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_fifth_metatarsal_bone_r",
+        "zan_first_metatarsal_bone_r"
+       ],
+       "l": [
+        "zan_fifth_metatarsal_bone_l",
+        "zan_first_metatarsal_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_fifth_metatarsal_bone_r",
+        "zan_first_metatarsal_bone_r"
+       ],
+       "l": [
+        "zan_fifth_metatarsal_bone_l",
+        "zan_first_metatarsal_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "fibular (peroneal) muscles, lateral crural compartment",
+     "kind": "muscle+fascia",
+     "side": "S",
+     "page_bases": [
+      "fibularis_longus",
+      "fibularis_brevis",
+      "posterior_intermuscular_septum_leg",
+      "zan_posterior_intermuscular_septum_of_leg"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "fibularis_brevis_r",
+        "fibularis_longus_r",
+        "posterior_intermuscular_septum_leg_r",
+        "zan_posterior_intermuscular_septum_of_leg_r"
+       ],
+       "l": [
+        "fibularis_brevis_l",
+        "fibularis_longus_l",
+        "zan_posterior_intermuscular_septum_of_leg_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "fibularis_brevis_r",
+        "fibularis_longus_r",
+        "posterior_intermuscular_septum_leg_r",
+        "zan_posterior_intermuscular_septum_of_leg_r"
+       ],
+       "l": [
+        "fibularis_brevis_l",
+        "fibularis_longus_l",
+        "zan_posterior_intermuscular_septum_of_leg_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "fibular head",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "fibula"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "fibula_r"
+       ],
+       "l": [
+        "fibula_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "fibula_r"
+       ],
+       "l": [
+        "fibula_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "anterior ligament of the fibular head",
+     "kind": "ligament",
+     "side": "S",
+     "page_bases": [
+      "zan_anterior_ligament_of_fibular_head"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_anterior_ligament_of_fibular_head_r"
+       ],
+       "l": [
+        "zan_anterior_ligament_of_fibular_head_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_anterior_ligament_of_fibular_head_r"
+       ],
+       "l": [
+        "zan_anterior_ligament_of_fibular_head_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lateral tibial condyle",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "tibia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "iliotibial tract / abductor muscles (tensor fasciae latae, gluteus maximus)",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "iliotibial_tract",
+      "zan_iliotibial_tract",
+      "tensor_fasciae_latae",
+      "gluteus_maximus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "gluteus_maximus_r",
+        "iliotibial_tract_r",
+        "tensor_fasciae_latae_r"
+       ],
+       "l": [
+        "gluteus_maximus_l",
+        "tensor_fasciae_latae_l",
+        "zan_iliotibial_tract_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "gluteus_maximus_r",
+        "iliotibial_tract_r",
+        "tensor_fasciae_latae_r"
+       ],
+       "l": [
+        "gluteus_maximus_l",
+        "tensor_fasciae_latae_l",
+        "zan_iliotibial_tract_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "iliac crest, ASIS, PSIS",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "hip_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lateral abdominal obliques",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "external_oblique",
+      "internal_oblique"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "external_oblique_r",
+        "internal_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l",
+        "internal_oblique_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "external_oblique_r",
+        "internal_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l",
+        "internal_oblique_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "ribs",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "re:^zan_(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)_rib_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_eighth_rib_r",
+        "zan_eleventh_rib_r",
+        "zan_fifth_rib_r",
+        "zan_first_rib_r",
+        "zan_fourth_rib_r",
+        "zan_ninth_rib_r",
+        "zan_second_rib_r",
+        "zan_seventh_rib_r",
+        "zan_sixth_rib_r",
+        "zan_tenth_rib_r",
+        "zan_third_rib_r",
+        "zan_twelfth_rib_r"
+       ],
+       "l": [
+        "zan_eighth_rib_l",
+        "zan_eleventh_rib_l",
+        "zan_fifth_rib_l",
+        "zan_first_rib_l",
+        "zan_fourth_rib_l",
+        "zan_ninth_rib_l",
+        "zan_second_rib_l",
+        "zan_seventh_rib_l",
+        "zan_sixth_rib_l",
+        "zan_tenth_rib_l",
+        "zan_third_rib_l",
+        "zan_twelfth_rib_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_eighth_rib_r",
+        "zan_eleventh_rib_r",
+        "zan_fifth_rib_r",
+        "zan_first_rib_r",
+        "zan_fourth_rib_r",
+        "zan_ninth_rib_r",
+        "zan_second_rib_r",
+        "zan_seventh_rib_r",
+        "zan_sixth_rib_r",
+        "zan_tenth_rib_r",
+        "zan_third_rib_r",
+        "zan_twelfth_rib_r"
+       ],
+       "l": [
+        "zan_eighth_rib_l",
+        "zan_eleventh_rib_l",
+        "zan_fifth_rib_l",
+        "zan_first_rib_l",
+        "zan_fourth_rib_l",
+        "zan_ninth_rib_l",
+        "zan_second_rib_l",
+        "zan_seventh_rib_l",
+        "zan_sixth_rib_l",
+        "zan_tenth_rib_l",
+        "zan_third_rib_l",
+        "zan_twelfth_rib_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "external and internal intercostals",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_external_intercostal_muscles",
+      "zan_internal_intercostal_muscles"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_external_intercostal_muscles_r",
+        "zan_internal_intercostal_muscles_r"
+       ],
+       "l": [
+        "zan_external_intercostal_muscles_l",
+        "zan_internal_intercostal_muscles_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_external_intercostal_muscles_r",
+        "zan_internal_intercostal_muscles_r"
+       ],
+       "l": [
+        "zan_external_intercostal_muscles_l",
+        "zan_internal_intercostal_muscles_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "first and second ribs",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_first_rib",
+      "zan_second_rib"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_first_rib_r",
+        "zan_second_rib_r"
+       ],
+       "l": [
+        "zan_first_rib_l",
+        "zan_second_rib_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_first_rib_r",
+        "zan_second_rib_r"
+       ],
+       "l": [
+        "zan_first_rib_l",
+        "zan_second_rib_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "splenius capitis / sternocleidomastoid",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "splenius_capitis",
+      "sternocleidomastoid"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "splenius_capitis_r",
+        "sternocleidomastoid_r"
+       ],
+       "l": [
+        "splenius_capitis_l",
+        "sternocleidomastoid_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "splenius_capitis_r",
+        "sternocleidomastoid_r"
+       ],
+       "l": [
+        "splenius_capitis_l",
+        "sternocleidomastoid_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "occipital ridge / mastoid process",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "occipital",
+      "temporal"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "temporal_r"
+       ],
+       "l": [
+        "temporal_l"
+       ],
+       "mid": [
+        "occipital"
+       ]
+      },
+      "base_f": {
+       "r": [
+        "temporal_r"
+       ],
+       "l": [
+        "temporal_l"
+       ],
+       "mid": [
+        "occipital"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "moderate",
+    "wilke2016": {
+     "examined": true,
+     "transitions_verified": 2,
+     "transitions_total": 5,
+     "studies": 10
+    },
+    "krause2016": null,
+    "label_text": "moderate evidence (dissection: some transitions verified)",
+    "refs": [
+     "wilke2016",
+     "kalichman2025"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "spiral_line",
+   "abbr": "SL",
+   "name": "Spiral Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "diagonal_spiral"
+   ],
+   "composition_refs": [
+    "myers_at",
+    "moore2023"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": true,
+   "stations": [
+    {
+     "station": "lateral occipital ridge / mastoid process / atlas-axis transverse processes",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "occipital",
+      "temporal",
+      "zan_atlas_c1",
+      "zan_axis_c2"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "temporal_r"
+       ],
+       "l": [
+        "temporal_l"
+       ],
+       "mid": [
+        "occipital",
+        "zan_atlas_c1",
+        "zan_axis_c2"
+       ]
+      },
+      "base_f": {
+       "r": [
+        "temporal_r"
+       ],
+       "l": [
+        "temporal_l"
+       ],
+       "mid": [
+        "occipital",
+        "zan_atlas_c1",
+        "zan_axis_c2"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "splenius capitis and cervicis",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "splenius_capitis",
+      "zan_splenius_colli_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "splenius_capitis_r",
+        "zan_splenius_colli_muscle_r"
+       ],
+       "l": [
+        "splenius_capitis_l",
+        "zan_splenius_colli_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "splenius_capitis_r",
+        "zan_splenius_colli_muscle_r"
+       ],
+       "l": [
+        "splenius_capitis_l",
+        "zan_splenius_colli_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lower cervical and upper thoracic spinous processes",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "zan_vertebra_c7",
+      "zan_vertebra_t1",
+      "zan_vertebra_t2",
+      "zan_vertebra_t3",
+      "zan_vertebra_t4",
+      "zan_vertebra_t5"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_vertebra_c7",
+        "zan_vertebra_t1",
+        "zan_vertebra_t2",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4",
+        "zan_vertebra_t5"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_vertebra_c7",
+        "zan_vertebra_t1",
+        "zan_vertebra_t2",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4",
+        "zan_vertebra_t5"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "rhomboids major and minor",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "rhomboid_major",
+      "rhomboid_minor"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "rhomboid_major_r",
+        "rhomboid_minor_r"
+       ],
+       "l": [
+        "rhomboid_major_l",
+        "rhomboid_minor_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "rhomboid_major_r",
+        "rhomboid_minor_r"
+       ],
+       "l": [
+        "rhomboid_major_l",
+        "rhomboid_minor_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "medial border of the scapula",
+     "kind": "bone",
+     "side": "O",
+     "page_bases": [
+      "scapula"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "scapula_r"
+       ],
+       "l": [
+        "scapula_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "scapula_r"
+       ],
+       "l": [
+        "scapula_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "serratus anterior",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "serratus_anterior"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "serratus_anterior_r"
+       ],
+       "l": [
+        "serratus_anterior_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "serratus_anterior_r"
+       ],
+       "l": [
+        "serratus_anterior_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lateral ribs",
+     "kind": "bone",
+     "side": "O",
+     "page_bases": [
+      "re:^zan_(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth)_rib_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_eighth_rib_r",
+        "zan_eleventh_rib_r",
+        "zan_fifth_rib_r",
+        "zan_first_rib_r",
+        "zan_fourth_rib_r",
+        "zan_ninth_rib_r",
+        "zan_second_rib_r",
+        "zan_seventh_rib_r",
+        "zan_sixth_rib_r",
+        "zan_tenth_rib_r",
+        "zan_third_rib_r",
+        "zan_twelfth_rib_r"
+       ],
+       "l": [
+        "zan_eighth_rib_l",
+        "zan_eleventh_rib_l",
+        "zan_fifth_rib_l",
+        "zan_first_rib_l",
+        "zan_fourth_rib_l",
+        "zan_ninth_rib_l",
+        "zan_second_rib_l",
+        "zan_seventh_rib_l",
+        "zan_sixth_rib_l",
+        "zan_tenth_rib_l",
+        "zan_third_rib_l",
+        "zan_twelfth_rib_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_eighth_rib_r",
+        "zan_eleventh_rib_r",
+        "zan_fifth_rib_r",
+        "zan_first_rib_r",
+        "zan_fourth_rib_r",
+        "zan_ninth_rib_r",
+        "zan_second_rib_r",
+        "zan_seventh_rib_r",
+        "zan_sixth_rib_r",
+        "zan_tenth_rib_r",
+        "zan_third_rib_r",
+        "zan_twelfth_rib_r"
+       ],
+       "l": [
+        "zan_eighth_rib_l",
+        "zan_eleventh_rib_l",
+        "zan_fifth_rib_l",
+        "zan_first_rib_l",
+        "zan_fourth_rib_l",
+        "zan_ninth_rib_l",
+        "zan_second_rib_l",
+        "zan_seventh_rib_l",
+        "zan_sixth_rib_l",
+        "zan_tenth_rib_l",
+        "zan_third_rib_l",
+        "zan_twelfth_rib_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "external oblique",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "external_oblique"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "external_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "external_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "abdominal aponeurosis, linea alba",
+     "kind": "fascia",
+     "side": "mid",
+     "page_bases": [
+      "linea_alba"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "linea_alba"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "linea_alba"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "internal oblique",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "internal_oblique"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "internal_oblique_r"
+       ],
+       "l": [
+        "internal_oblique_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "internal_oblique_r"
+       ],
+       "l": [
+        "internal_oblique_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "iliac crest / ASIS",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "hip_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "tensor fasciae latae, iliotibial tract",
+     "kind": "muscle+fascia",
+     "side": "S",
+     "page_bases": [
+      "tensor_fasciae_latae",
+      "iliotibial_tract",
+      "zan_iliotibial_tract"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "iliotibial_tract_r",
+        "tensor_fasciae_latae_r"
+       ],
+       "l": [
+        "tensor_fasciae_latae_l",
+        "zan_iliotibial_tract_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "iliotibial_tract_r",
+        "tensor_fasciae_latae_r"
+       ],
+       "l": [
+        "tensor_fasciae_latae_l",
+        "zan_iliotibial_tract_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lateral tibial condyle",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "tibia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "tibialis anterior",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "tibialis_anterior"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "tibialis_anterior_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "tibialis_anterior_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "first metatarsal base",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_first_metatarsal_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_first_metatarsal_bone_r"
+       ],
+       "l": [
+        "zan_first_metatarsal_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_first_metatarsal_bone_r"
+       ],
+       "l": [
+        "zan_first_metatarsal_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "fibularis (peroneus) longus",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "fibularis_longus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "fibularis_longus_r"
+       ],
+       "l": [
+        "fibularis_longus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "fibularis_longus_r"
+       ],
+       "l": [
+        "fibularis_longus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "fibular head",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "fibula"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "fibula_r"
+       ],
+       "l": [
+        "fibula_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "fibula_r"
+       ],
+       "l": [
+        "fibula_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "biceps femoris",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "biceps_femoris"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "biceps_femoris_r"
+       ],
+       "l": [
+        "biceps_femoris_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "biceps_femoris_r"
+       ],
+       "l": [
+        "biceps_femoris_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "ischial tuberosity",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "hip_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sacrotuberous ligament",
+     "kind": "ligament",
+     "side": "S",
+     "page_bases": [
+      "sacrotuberous_ligament"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "sacrotuberous_ligament_r"
+       ],
+       "l": [
+        "sacrotuberous_ligament_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "sacrotuberous_ligament_r"
+       ],
+       "l": [
+        "sacrotuberous_ligament_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sacrum",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "sacrum"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sacrum"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sacrum"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sacrolumbar fascia / erector spinae",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_posterior_layer_of_thoracolumbar_fascia",
+      "iliocostalis",
+      "zan_iliocostalis_colli_muscle",
+      "longissimus",
+      "zan_longissimus_colli_muscle",
+      "zan_longissimus_capitis_muscle",
+      "spinalis",
+      "zan_spinalis_colli_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "iliocostalis_r",
+        "longissimus_r",
+        "spinalis_r",
+        "zan_iliocostalis_colli_muscle_r",
+        "zan_longissimus_capitis_muscle_r",
+        "zan_longissimus_colli_muscle_r",
+        "zan_spinalis_colli_muscle_r"
+       ],
+       "l": [
+        "iliocostalis_l",
+        "longissimus_l",
+        "spinalis_l",
+        "zan_iliocostalis_colli_muscle_l",
+        "zan_longissimus_capitis_muscle_l",
+        "zan_longissimus_colli_muscle_l",
+        "zan_posterior_layer_of_thoracolumbar_fascia_l",
+        "zan_spinalis_colli_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "iliocostalis_r",
+        "longissimus_r",
+        "spinalis_r",
+        "zan_iliocostalis_colli_muscle_r",
+        "zan_longissimus_capitis_muscle_r",
+        "zan_longissimus_colli_muscle_r",
+        "zan_spinalis_colli_muscle_r"
+       ],
+       "l": [
+        "iliocostalis_l",
+        "longissimus_l",
+        "spinalis_l",
+        "zan_iliocostalis_colli_muscle_l",
+        "zan_longissimus_capitis_muscle_l",
+        "zan_longissimus_colli_muscle_l",
+        "zan_posterior_layer_of_thoracolumbar_fascia_l",
+        "zan_spinalis_colli_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "occipital ridge",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "occipital"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "occipital"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "occipital"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "moderate",
+    "wilke2016": {
+     "examined": true,
+     "transitions_verified": 5,
+     "transitions_total": 9,
+     "studies": 21
+    },
+    "krause2016": null,
+    "also": "Moore 2023 (one cadaver) dissected the upper part (splenius -> rhomboids -> serratus anterior -> obliques -> rectus abdominis).",
+    "label_text": "moderate evidence (dissection: some transitions verified)",
+    "refs": [
+     "wilke2016",
+     "moore2023",
+     "kalichman2025"
+    ]
+   },
+   "note": "Side: S = side of the splenius the line starts from; the rhomboids-serratus-external oblique loop is on the opposite side and the line returns to the start side through the internal oblique. Side assignment is part of the book description (verify_against_book)."
+  },
+  {
+   "id": "deep_front_line",
+   "abbr": "DFL",
+   "name": "Deep Front Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "vertical"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "plantar tarsal bones, plantar surface of the toes",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "calcaneus",
+      "talus",
+      "navicular",
+      "cuboid",
+      "cuneiform_medial",
+      "cuneiform_intermediate",
+      "cuneiform_lateral",
+      "re:^zan_(proximal|middle|distal)_phalanx_of_.*_of_foot_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "calcaneus_r",
+        "cuboid_r",
+        "cuneiform_intermediate_r",
+        "cuneiform_lateral_r",
+        "cuneiform_medial_r",
+        "navicular_r",
+        "talus_r",
+        "zan_distal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_distal_phalanx_of_first_finger_of_foot_r",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_distal_phalanx_of_second_finger_of_foot_r",
+        "zan_distal_phalanx_of_third_finger_of_foot_r",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_r",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+        "zan_middle_phalanx_of_second_finger_of_foot_r",
+        "zan_middle_phalanx_of_third_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_first_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_second_finger_of_foot_r",
+        "zan_proximal_phalanx_of_third_finger_of_foot_r"
+       ],
+       "l": [
+        "calcaneus_l",
+        "cuboid_l",
+        "cuneiform_intermediate_l",
+        "cuneiform_lateral_l",
+        "cuneiform_medial_l",
+        "navicular_l",
+        "talus_l",
+        "zan_distal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_distal_phalanx_of_first_finger_of_foot_l",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_distal_phalanx_of_second_finger_of_foot_l",
+        "zan_distal_phalanx_of_third_finger_of_foot_l",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_l",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+        "zan_middle_phalanx_of_second_finger_of_foot_l",
+        "zan_middle_phalanx_of_third_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_first_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_second_finger_of_foot_l",
+        "zan_proximal_phalanx_of_third_finger_of_foot_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "calcaneus_r",
+        "cuboid_r",
+        "cuneiform_intermediate_r",
+        "cuneiform_lateral_r",
+        "cuneiform_medial_r",
+        "navicular_r",
+        "talus_r",
+        "zan_distal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_distal_phalanx_of_first_finger_of_foot_r",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_distal_phalanx_of_second_finger_of_foot_r",
+        "zan_distal_phalanx_of_third_finger_of_foot_r",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_r",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_r",
+        "zan_middle_phalanx_of_second_finger_of_foot_r",
+        "zan_middle_phalanx_of_third_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_first_finger_of_foot_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_r",
+        "zan_proximal_phalanx_of_second_finger_of_foot_r",
+        "zan_proximal_phalanx_of_third_finger_of_foot_r"
+       ],
+       "l": [
+        "calcaneus_l",
+        "cuboid_l",
+        "cuneiform_intermediate_l",
+        "cuneiform_lateral_l",
+        "cuneiform_medial_l",
+        "navicular_l",
+        "talus_l",
+        "zan_distal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_distal_phalanx_of_first_finger_of_foot_l",
+        "zan_distal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_distal_phalanx_of_second_finger_of_foot_l",
+        "zan_distal_phalanx_of_third_finger_of_foot_l",
+        "zan_middle_phalanx_of_fifth_finger_of_foot_l",
+        "zan_middle_phalanx_of_fourth_finger_of_foot_l",
+        "zan_middle_phalanx_of_second_finger_of_foot_l",
+        "zan_middle_phalanx_of_third_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_first_finger_of_foot_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_foot_l",
+        "zan_proximal_phalanx_of_second_finger_of_foot_l",
+        "zan_proximal_phalanx_of_third_finger_of_foot_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "tibialis posterior, long toe flexors",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_tibialis_posterior_muscle",
+      "flexor_digitorum_longus",
+      "flexor_hallucis_longus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "flexor_digitorum_longus_r",
+        "flexor_hallucis_longus_r",
+        "zan_tibialis_posterior_muscle_r"
+       ],
+       "l": [
+        "flexor_digitorum_longus_l",
+        "flexor_hallucis_longus_l",
+        "zan_tibialis_posterior_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "flexor_digitorum_longus_r",
+        "flexor_hallucis_longus_r",
+        "zan_tibialis_posterior_muscle_r"
+       ],
+       "l": [
+        "flexor_digitorum_longus_l",
+        "flexor_hallucis_longus_l",
+        "zan_tibialis_posterior_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "upper posterior tibia / fibula; fascia of popliteus, knee capsule",
+     "kind": "bone+muscle",
+     "side": "S",
+     "page_bases": [
+      "tibia",
+      "fibula",
+      "popliteus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "fibula_r",
+        "popliteus_r",
+        "tibia_r"
+       ],
+       "l": [
+        "fibula_l",
+        "popliteus_l",
+        "tibia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "fibula_r",
+        "popliteus_r",
+        "tibia_r"
+       ],
+       "l": [
+        "fibula_l",
+        "popliteus_l",
+        "tibia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "medial femoral epicondyle",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "femur"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "posterior intermuscular septum; adductor magnus and minimus",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "adductor_magnus",
+      "zan_adductor_minimus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "adductor_magnus_r",
+        "zan_adductor_minimus_r"
+       ],
+       "l": [
+        "adductor_magnus_l",
+        "zan_adductor_minimus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "adductor_magnus_r",
+        "zan_adductor_minimus_r"
+       ],
+       "l": [
+        "adductor_magnus_l",
+        "zan_adductor_minimus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "ischial ramus",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "hip_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "pelvic floor fascia, levator ani, obturator internus fascia",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "levator_ani",
+      "zan_pubococcygeus_muscle",
+      "zan_iliococcygeus_muscle",
+      "zan_pubo_analis_muscle",
+      "obturator_internus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "levator_ani_r",
+        "obturator_internus_r",
+        "zan_iliococcygeus_muscle_r",
+        "zan_pubo_analis_muscle_r",
+        "zan_pubococcygeus_muscle_r"
+       ],
+       "l": [
+        "levator_ani_l",
+        "obturator_internus_l",
+        "zan_iliococcygeus_muscle_l",
+        "zan_pubo_analis_muscle_l",
+        "zan_pubococcygeus_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "levator_ani_r",
+        "obturator_internus_r",
+        "zan_iliococcygeus_muscle_r",
+        "zan_pubo_analis_muscle_r",
+        "zan_pubococcygeus_muscle_r"
+       ],
+       "l": [
+        "levator_ani_l",
+        "obturator_internus_l",
+        "zan_iliococcygeus_muscle_l",
+        "zan_pubo_analis_muscle_l",
+        "zan_pubococcygeus_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "coccyx",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "coccyx"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "coccyx"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "coccyx"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "anterior sacral fascia, anterior longitudinal ligament",
+     "kind": "ligament",
+     "side": "mid",
+     "page_bases": [
+      "anterior_longitudinal_ligament"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "anterior_longitudinal_ligament"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "anterior_longitudinal_ligament"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lumbar vertebral bodies",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "zan_vertebra_l1",
+      "zan_vertebra_l2",
+      "zan_vertebra_l3",
+      "zan_vertebra_l4",
+      "zan_vertebra_l5"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_vertebra_l1",
+        "zan_vertebra_l2",
+        "zan_vertebra_l3",
+        "zan_vertebra_l4",
+        "zan_vertebra_l5"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_vertebra_l1",
+        "zan_vertebra_l2",
+        "zan_vertebra_l3",
+        "zan_vertebra_l4",
+        "zan_vertebra_l5"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "(anterior track) linea aspera; anterior intermuscular septum, adductor brevis and longus; lesser trochanter",
+     "kind": "muscle+bone",
+     "side": "S",
+     "page_bases": [
+      "adductor_brevis",
+      "adductor_longus",
+      "femur"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "adductor_brevis_r",
+        "adductor_longus_r",
+        "femur_r"
+       ],
+       "l": [
+        "adductor_brevis_l",
+        "adductor_longus_l",
+        "femur_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "adductor_brevis_r",
+        "adductor_longus_r",
+        "femur_r"
+       ],
+       "l": [
+        "adductor_brevis_l",
+        "adductor_longus_l",
+        "femur_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "psoas, iliacus, pectineus",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_psoas_major",
+      "zan_iliacus_muscle",
+      "pectineus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "pectineus_r",
+        "zan_iliacus_muscle_r",
+        "zan_psoas_major_r"
+       ],
+       "l": [
+        "pectineus_l",
+        "zan_iliacus_muscle_l",
+        "zan_psoas_major_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "pectineus_r",
+        "zan_iliacus_muscle_r",
+        "zan_psoas_major_r"
+       ],
+       "l": [
+        "pectineus_l",
+        "zan_iliacus_muscle_l",
+        "zan_psoas_major_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "posterior diaphragm, crura, central tendon",
+     "kind": "muscle",
+     "side": "mid",
+     "page_bases": [
+      "diaphragm"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "diaphragm"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "diaphragm"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "pericardium, mediastinum, parietal pleura",
+     "kind": "fascia",
+     "side": "S",
+     "page_bases": [
+      "zan_pleura"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_pleura"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_pleura"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": "only the pleura is on the page"
+    },
+    {
+     "station": "prevertebral fascia, pharyngeal raphe, scalenes, longus colli and capitis",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "scalenus_anterior",
+      "scalenus_medius",
+      "scalenus_posterior",
+      "longus_colli",
+      "longus_capitis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "longus_capitis_r",
+        "longus_colli_r",
+        "scalenus_anterior_r",
+        "scalenus_medius_r",
+        "scalenus_posterior_r"
+       ],
+       "l": [
+        "longus_capitis_l",
+        "longus_colli_l",
+        "scalenus_anterior_l",
+        "scalenus_medius_l",
+        "scalenus_posterior_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "longus_capitis_r",
+        "longus_colli_r",
+        "scalenus_anterior_r",
+        "scalenus_medius_r",
+        "scalenus_posterior_r"
+       ],
+       "l": [
+        "longus_capitis_l",
+        "longus_colli_l",
+        "scalenus_anterior_l",
+        "scalenus_medius_l",
+        "scalenus_posterior_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "basilar part of the occiput",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "occipital"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "occipital"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "occipital"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "(anterior upper track) anterior diaphragm, endothoracic fascia, transversus thoracis",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "diaphragm",
+      "transversus_thoracis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "transversus_thoracis_r"
+       ],
+       "l": [
+        "transversus_thoracis_l"
+       ],
+       "mid": [
+        "diaphragm"
+       ]
+      },
+      "base_f": {
+       "r": [
+        "transversus_thoracis_r"
+       ],
+       "l": [
+        "transversus_thoracis_l"
+       ],
+       "mid": [
+        "diaphragm"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "infrahyoid muscles, pretracheal fascia",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "sternohyoid",
+      "sternothyroid",
+      "omohyoid",
+      "thyrohyoid"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "omohyoid_r",
+        "sternohyoid_r",
+        "sternothyroid_r",
+        "thyrohyoid_r"
+       ],
+       "l": [
+        "omohyoid_l",
+        "sternohyoid_l",
+        "sternothyroid_l",
+        "thyrohyoid_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "omohyoid_r",
+        "sternohyoid_r",
+        "sternothyroid_r",
+        "thyrohyoid_r"
+       ],
+       "l": [
+        "omohyoid_l",
+        "sternohyoid_l",
+        "sternothyroid_l",
+        "thyrohyoid_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "hyoid",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "hyoid"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "hyoid"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "hyoid"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "suprahyoid muscles",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "digastric",
+      "mylohyoid",
+      "geniohyoid",
+      "stylohyoid"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "digastric_r",
+        "geniohyoid_r",
+        "mylohyoid_r",
+        "stylohyoid_r"
+       ],
+       "l": [
+        "digastric_l",
+        "geniohyoid_l",
+        "mylohyoid_l",
+        "stylohyoid_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "digastric_r",
+        "geniohyoid_r",
+        "mylohyoid_r",
+        "stylohyoid_r"
+       ],
+       "l": [
+        "digastric_l",
+        "geniohyoid_l",
+        "mylohyoid_l",
+        "stylohyoid_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "mandible",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "mandible"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "mandible"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "mandible"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Not among the six lines Wilke 2016 reviewed. Petrov 2026 (one cadaver): its muscles could not be separated from visceral structures.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "wilke2016",
+     "petrov2026"
+    ]
+   },
+   "note": "A core line with branching tracks (posterior lower, anterior lower, posterior upper, anterior upper); stations are listed in one order for selection only."
+  },
+  {
+   "id": "superficial_front_arm_line",
+   "abbr": "SFAL",
+   "name": "Superficial Front Arm Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "arm"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "medial clavicle, costal cartilages, thoracolumbar fascia, iliac crest",
+     "kind": "bone+fascia",
+     "side": "S",
+     "page_bases": [
+      "clavicle",
+      "costal_cartilage",
+      "hip_bone",
+      "zan_posterior_layer_of_thoracolumbar_fascia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "clavicle_r",
+        "costal_cartilage_r",
+        "hip_bone_r"
+       ],
+       "l": [
+        "clavicle_l",
+        "costal_cartilage_l",
+        "hip_bone_l",
+        "zan_posterior_layer_of_thoracolumbar_fascia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "clavicle_r",
+        "costal_cartilage_r",
+        "hip_bone_r"
+       ],
+       "l": [
+        "clavicle_l",
+        "costal_cartilage_l",
+        "hip_bone_l",
+        "zan_posterior_layer_of_thoracolumbar_fascia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "pectoralis major, latissimus dorsi",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_clavicular_head_of_pectoralis_major_muscle",
+      "zan_sternocostal_head_of_pectoralis_major_muscle",
+      "zan_abdominal_part_of_pectoralis_major_muscle",
+      "latissimus_dorsi"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "latissimus_dorsi_r",
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_clavicular_head_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l",
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_clavicular_head_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "latissimus_dorsi_r",
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_clavicular_head_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l",
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_clavicular_head_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "medial humeral line; medial intermuscular septum",
+     "kind": "bone+fascia",
+     "side": "S",
+     "page_bases": [
+      "humerus",
+      "medial_intermuscular_septum",
+      "zan_medial_intermuscular_septum_of_arm"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r",
+        "medial_intermuscular_septum_r",
+        "zan_medial_intermuscular_septum_of_arm_r"
+       ],
+       "l": [
+        "humerus_l",
+        "zan_medial_intermuscular_septum_of_arm_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r",
+        "medial_intermuscular_septum_r",
+        "zan_medial_intermuscular_septum_of_arm_r"
+       ],
+       "l": [
+        "humerus_l",
+        "zan_medial_intermuscular_septum_of_arm_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "medial humeral epicondyle",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "humerus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "flexor group",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "flexor_carpi_radialis",
+      "zan_palmaris_longus_muscle",
+      "flexor_carpi_ulnaris",
+      "flexor_digitorum_superficialis",
+      "zan_humero_ulnar_head_of_flexor_digitorum_superficialis",
+      "flexor_digitorum_profundus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "flexor_carpi_radialis_r",
+        "flexor_carpi_ulnaris_r",
+        "flexor_digitorum_profundus_r",
+        "flexor_digitorum_superficialis_r",
+        "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r",
+        "zan_palmaris_longus_muscle_r"
+       ],
+       "l": [
+        "flexor_carpi_radialis_l",
+        "flexor_carpi_ulnaris_l",
+        "flexor_digitorum_profundus_l",
+        "flexor_digitorum_superficialis_l",
+        "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+        "zan_palmaris_longus_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "flexor_carpi_radialis_r",
+        "flexor_carpi_ulnaris_r",
+        "flexor_digitorum_profundus_r",
+        "flexor_digitorum_superficialis_r",
+        "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r",
+        "zan_palmaris_longus_muscle_r"
+       ],
+       "l": [
+        "flexor_carpi_radialis_l",
+        "flexor_carpi_ulnaris_l",
+        "flexor_digitorum_profundus_l",
+        "flexor_digitorum_superficialis_l",
+        "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
+        "zan_palmaris_longus_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "carpal tunnel",
+     "kind": "fascia",
+     "side": "S",
+     "page_bases": [
+      "flexor_retinaculum",
+      "zan_flexor_retinaculum_of_wrist"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "flexor_retinaculum_r"
+       ],
+       "l": [
+        "zan_flexor_retinaculum_of_wrist_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "flexor_retinaculum_r"
+       ],
+       "l": [
+        "zan_flexor_retinaculum_of_wrist_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "palmar surface of the fingers",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "re:^zan_(proximal|middle|distal)_phalanx_of_.*_finger_of_hand_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_distal_phalanx_of_first_finger_of_hand_r",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_distal_phalanx_of_second_finger_of_hand_r",
+        "zan_distal_phalanx_of_third_finger_of_hand_r",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_r",
+        "zan_middle_phalanx_of_second_finger_of_hand_r",
+        "zan_middle_phalanx_of_third_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_first_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_second_finger_of_hand_r",
+        "zan_proximal_phalanx_of_third_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_distal_phalanx_of_first_finger_of_hand_l",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_distal_phalanx_of_second_finger_of_hand_l",
+        "zan_distal_phalanx_of_third_finger_of_hand_l",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_l",
+        "zan_middle_phalanx_of_second_finger_of_hand_l",
+        "zan_middle_phalanx_of_third_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_first_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_second_finger_of_hand_l",
+        "zan_proximal_phalanx_of_third_finger_of_hand_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_distal_phalanx_of_first_finger_of_hand_r",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_distal_phalanx_of_second_finger_of_hand_r",
+        "zan_distal_phalanx_of_third_finger_of_hand_r",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_r",
+        "zan_middle_phalanx_of_second_finger_of_hand_r",
+        "zan_middle_phalanx_of_third_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_first_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_second_finger_of_hand_r",
+        "zan_proximal_phalanx_of_third_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_distal_phalanx_of_first_finger_of_hand_l",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_distal_phalanx_of_second_finger_of_hand_l",
+        "zan_distal_phalanx_of_third_finger_of_hand_l",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_l",
+        "zan_middle_phalanx_of_second_finger_of_hand_l",
+        "zan_middle_phalanx_of_third_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_first_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_second_finger_of_hand_l",
+        "zan_proximal_phalanx_of_third_finger_of_hand_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Myers' four arm lines were not reviewed as defined; Wilke & Krause 2019 found three different arm chains (see the wilke2019_* entries) with good evidence of serial continuity.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "wilke2016",
+     "wilke2019"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "deep_front_arm_line",
+   "abbr": "DFAL",
+   "name": "Deep Front Arm Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "arm"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "third to fifth ribs",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_third_rib",
+      "zan_fourth_rib",
+      "zan_fifth_rib"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_fifth_rib_r",
+        "zan_fourth_rib_r",
+        "zan_third_rib_r"
+       ],
+       "l": [
+        "zan_fifth_rib_l",
+        "zan_fourth_rib_l",
+        "zan_third_rib_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_fifth_rib_r",
+        "zan_fourth_rib_r",
+        "zan_third_rib_r"
+       ],
+       "l": [
+        "zan_fifth_rib_l",
+        "zan_fourth_rib_l",
+        "zan_third_rib_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "pectoralis minor, clavipectoral fascia",
+     "kind": "muscle+fascia",
+     "side": "S",
+     "page_bases": [
+      "pectoralis_minor",
+      "clavipectoral_fascia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "clavipectoral_fascia_r",
+        "pectoralis_minor_r"
+       ],
+       "l": [
+        "pectoralis_minor_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "clavipectoral_fascia_r",
+        "pectoralis_minor_r"
+       ],
+       "l": [
+        "pectoralis_minor_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "coracoid process",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "scapula"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "scapula_r"
+       ],
+       "l": [
+        "scapula_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "scapula_r"
+       ],
+       "l": [
+        "scapula_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "biceps brachii (and coracobrachialis)",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "biceps_brachii",
+      "coracobrachialis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "biceps_brachii_r",
+        "coracobrachialis_r"
+       ],
+       "l": [
+        "biceps_brachii_l",
+        "coracobrachialis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "biceps_brachii_r",
+        "coracobrachialis_r"
+       ],
+       "l": [
+        "biceps_brachii_l",
+        "coracobrachialis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "radial tuberosity; radial periosteum to the styloid process",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "radius"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "radius_r"
+       ],
+       "l": [
+        "radius_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "radius_r"
+       ],
+       "l": [
+        "radius_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "radial collateral ligaments, thenar muscles",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "abductor_pollicis_brevis",
+      "flexor_pollicis_brevis",
+      "opponens_pollicis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "abductor_pollicis_brevis_r",
+        "flexor_pollicis_brevis_r",
+        "opponens_pollicis_r"
+       ],
+       "l": [
+        "abductor_pollicis_brevis_l",
+        "flexor_pollicis_brevis_l",
+        "opponens_pollicis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "abductor_pollicis_brevis_r",
+        "flexor_pollicis_brevis_r",
+        "opponens_pollicis_r"
+       ],
+       "l": [
+        "abductor_pollicis_brevis_l",
+        "flexor_pollicis_brevis_l",
+        "opponens_pollicis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "scaphoid, trapezium",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_scaphoid_bone",
+      "zan_trapezium_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_scaphoid_bone_r",
+        "zan_trapezium_bone_r"
+       ],
+       "l": [
+        "zan_scaphoid_bone_l",
+        "zan_trapezium_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_scaphoid_bone_r",
+        "zan_trapezium_bone_r"
+       ],
+       "l": [
+        "zan_scaphoid_bone_l",
+        "zan_trapezium_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "outside of the thumb",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_first_metacarpal_bone",
+      "re:^zan_(proximal|distal)_phalanx_of_first_finger_of_hand_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_distal_phalanx_of_first_finger_of_hand_r",
+        "zan_first_metacarpal_bone_r",
+        "zan_proximal_phalanx_of_first_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_first_finger_of_hand_l",
+        "zan_first_metacarpal_bone_l",
+        "zan_proximal_phalanx_of_first_finger_of_hand_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_distal_phalanx_of_first_finger_of_hand_r",
+        "zan_first_metacarpal_bone_r",
+        "zan_proximal_phalanx_of_first_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_first_finger_of_hand_l",
+        "zan_first_metacarpal_bone_l",
+        "zan_proximal_phalanx_of_first_finger_of_hand_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Myers' four arm lines were not reviewed as defined; Wilke & Krause 2019 found three different arm chains (see the wilke2019_* entries) with good evidence of serial continuity.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "wilke2016",
+     "wilke2019"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "superficial_back_arm_line",
+   "abbr": "SBAL",
+   "name": "Superficial Back Arm Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "arm"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "occipital ridge, nuchal ligament, thoracic spinous processes",
+     "kind": "bone+ligament",
+     "side": "mid",
+     "page_bases": [
+      "occipital",
+      "nuchal_ligament",
+      "zan_vertebra_t1",
+      "zan_vertebra_t2",
+      "zan_vertebra_t3",
+      "zan_vertebra_t4",
+      "zan_vertebra_t5",
+      "zan_vertebra_t6",
+      "zan_vertebra_t7",
+      "zan_vertebra_t8",
+      "zan_vertebra_t9",
+      "zan_vertebra_t10",
+      "zan_vertebra_t11",
+      "zan_vertebra_t12"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "nuchal_ligament",
+        "occipital",
+        "zan_vertebra_t1",
+        "zan_vertebra_t10",
+        "zan_vertebra_t11",
+        "zan_vertebra_t12",
+        "zan_vertebra_t2",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4",
+        "zan_vertebra_t5",
+        "zan_vertebra_t6",
+        "zan_vertebra_t7",
+        "zan_vertebra_t8",
+        "zan_vertebra_t9"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "nuchal_ligament",
+        "occipital",
+        "zan_vertebra_t1",
+        "zan_vertebra_t10",
+        "zan_vertebra_t11",
+        "zan_vertebra_t12",
+        "zan_vertebra_t2",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4",
+        "zan_vertebra_t5",
+        "zan_vertebra_t6",
+        "zan_vertebra_t7",
+        "zan_vertebra_t8",
+        "zan_vertebra_t9"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "trapezius",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "trapezius"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "trapezius_r"
+       ],
+       "l": [
+        "trapezius_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "trapezius_r"
+       ],
+       "l": [
+        "trapezius_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "spine of scapula, acromion, lateral clavicle",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "scapula",
+      "clavicle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "clavicle_r",
+        "scapula_r"
+       ],
+       "l": [
+        "clavicle_l",
+        "scapula_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "clavicle_r",
+        "scapula_r"
+       ],
+       "l": [
+        "clavicle_l",
+        "scapula_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "deltoid",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_clavicular_part_of_deltoid_muscle",
+      "zan_acromial_part_of_deltoid_muscle",
+      "zan_scapular_spinal_part_of_deltoid_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_acromial_part_of_deltoid_muscle_r",
+        "zan_clavicular_part_of_deltoid_muscle_r",
+        "zan_scapular_spinal_part_of_deltoid_muscle_r"
+       ],
+       "l": [
+        "zan_acromial_part_of_deltoid_muscle_l",
+        "zan_clavicular_part_of_deltoid_muscle_l",
+        "zan_scapular_spinal_part_of_deltoid_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_acromial_part_of_deltoid_muscle_r",
+        "zan_clavicular_part_of_deltoid_muscle_r",
+        "zan_scapular_spinal_part_of_deltoid_muscle_r"
+       ],
+       "l": [
+        "zan_acromial_part_of_deltoid_muscle_l",
+        "zan_clavicular_part_of_deltoid_muscle_l",
+        "zan_scapular_spinal_part_of_deltoid_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "deltoid tuberosity; lateral intermuscular septum",
+     "kind": "bone+fascia",
+     "side": "S",
+     "page_bases": [
+      "humerus",
+      "lateral_intermuscular_septum",
+      "zan_lateral_intermuscular_septum_of_arm"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r",
+        "lateral_intermuscular_septum_r",
+        "zan_lateral_intermuscular_septum_of_arm_r"
+       ],
+       "l": [
+        "humerus_l",
+        "zan_lateral_intermuscular_septum_of_arm_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r",
+        "lateral_intermuscular_septum_r",
+        "zan_lateral_intermuscular_septum_of_arm_r"
+       ],
+       "l": [
+        "humerus_l",
+        "zan_lateral_intermuscular_septum_of_arm_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lateral epicondyle",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "humerus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "extensor group",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "extensor_carpi_radialis_longus",
+      "extensor_carpi_radialis_brevis",
+      "extensor_digitorum",
+      "extensor_digiti_minimi",
+      "extensor_carpi_ulnaris"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "extensor_carpi_radialis_brevis_r",
+        "extensor_carpi_radialis_longus_r",
+        "extensor_carpi_ulnaris_r",
+        "extensor_digiti_minimi_r",
+        "extensor_digitorum_r"
+       ],
+       "l": [
+        "extensor_carpi_radialis_brevis_l",
+        "extensor_carpi_radialis_longus_l",
+        "extensor_carpi_ulnaris_l",
+        "extensor_digiti_minimi_l",
+        "extensor_digitorum_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "extensor_carpi_radialis_brevis_r",
+        "extensor_carpi_radialis_longus_r",
+        "extensor_carpi_ulnaris_r",
+        "extensor_digiti_minimi_r",
+        "extensor_digitorum_r"
+       ],
+       "l": [
+        "extensor_carpi_radialis_brevis_l",
+        "extensor_carpi_radialis_longus_l",
+        "extensor_carpi_ulnaris_l",
+        "extensor_digiti_minimi_l",
+        "extensor_digitorum_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "dorsal surface of the fingers",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "re:^zan_(proximal|middle|distal)_phalanx_of_.*_finger_of_hand_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_distal_phalanx_of_first_finger_of_hand_r",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_distal_phalanx_of_second_finger_of_hand_r",
+        "zan_distal_phalanx_of_third_finger_of_hand_r",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_r",
+        "zan_middle_phalanx_of_second_finger_of_hand_r",
+        "zan_middle_phalanx_of_third_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_first_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_second_finger_of_hand_r",
+        "zan_proximal_phalanx_of_third_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_distal_phalanx_of_first_finger_of_hand_l",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_distal_phalanx_of_second_finger_of_hand_l",
+        "zan_distal_phalanx_of_third_finger_of_hand_l",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_l",
+        "zan_middle_phalanx_of_second_finger_of_hand_l",
+        "zan_middle_phalanx_of_third_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_first_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_second_finger_of_hand_l",
+        "zan_proximal_phalanx_of_third_finger_of_hand_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_distal_phalanx_of_first_finger_of_hand_r",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_distal_phalanx_of_second_finger_of_hand_r",
+        "zan_distal_phalanx_of_third_finger_of_hand_r",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_r",
+        "zan_middle_phalanx_of_second_finger_of_hand_r",
+        "zan_middle_phalanx_of_third_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_first_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_second_finger_of_hand_r",
+        "zan_proximal_phalanx_of_third_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_distal_phalanx_of_first_finger_of_hand_l",
+        "zan_distal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_distal_phalanx_of_second_finger_of_hand_l",
+        "zan_distal_phalanx_of_third_finger_of_hand_l",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+        "zan_middle_phalanx_of_fourth_finger_of_hand_l",
+        "zan_middle_phalanx_of_second_finger_of_hand_l",
+        "zan_middle_phalanx_of_third_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_first_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fourth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_second_finger_of_hand_l",
+        "zan_proximal_phalanx_of_third_finger_of_hand_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Myers' four arm lines were not reviewed as defined; Wilke & Krause 2019 found three different arm chains (see the wilke2019_* entries) with good evidence of serial continuity.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "wilke2016",
+     "wilke2019"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "deep_back_arm_line",
+   "abbr": "DBAL",
+   "name": "Deep Back Arm Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "arm"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "spinous processes of lower cervical / upper thoracic vertebrae; transverse processes C1-C4",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "zan_vertebra_c7",
+      "zan_vertebra_t1",
+      "zan_vertebra_t2",
+      "zan_vertebra_t3",
+      "zan_vertebra_t4",
+      "zan_atlas_c1",
+      "zan_axis_c2",
+      "zan_vertebra_c3",
+      "zan_vertebra_c4"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_atlas_c1",
+        "zan_axis_c2",
+        "zan_vertebra_c3",
+        "zan_vertebra_c4",
+        "zan_vertebra_c7",
+        "zan_vertebra_t1",
+        "zan_vertebra_t2",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "zan_atlas_c1",
+        "zan_axis_c2",
+        "zan_vertebra_c3",
+        "zan_vertebra_c4",
+        "zan_vertebra_c7",
+        "zan_vertebra_t1",
+        "zan_vertebra_t2",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "rhomboids, levator scapulae",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "rhomboid_major",
+      "rhomboid_minor",
+      "levator_scapulae"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "levator_scapulae_r",
+        "rhomboid_major_r",
+        "rhomboid_minor_r"
+       ],
+       "l": [
+        "levator_scapulae_l",
+        "rhomboid_major_l",
+        "rhomboid_minor_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "levator_scapulae_r",
+        "rhomboid_major_r",
+        "rhomboid_minor_r"
+       ],
+       "l": [
+        "levator_scapulae_l",
+        "rhomboid_major_l",
+        "rhomboid_minor_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "medial border of the scapula",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "scapula"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "scapula_r"
+       ],
+       "l": [
+        "scapula_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "scapula_r"
+       ],
+       "l": [
+        "scapula_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "rotator cuff muscles",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "supraspinatus",
+      "infraspinatus",
+      "teres_minor",
+      "subscapularis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "infraspinatus_r",
+        "subscapularis_r",
+        "supraspinatus_r",
+        "teres_minor_r"
+       ],
+       "l": [
+        "infraspinatus_l",
+        "subscapularis_l",
+        "supraspinatus_l",
+        "teres_minor_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "infraspinatus_r",
+        "subscapularis_r",
+        "supraspinatus_r",
+        "teres_minor_r"
+       ],
+       "l": [
+        "infraspinatus_l",
+        "subscapularis_l",
+        "supraspinatus_l",
+        "teres_minor_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "head of the humerus",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "humerus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "triceps brachii",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_long_head_of_triceps_brachii",
+      "zan_lateral_head_of_triceps_brachii",
+      "zan_medial_head_of_triceps_brachii"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_lateral_head_of_triceps_brachii_r",
+        "zan_long_head_of_triceps_brachii_r",
+        "zan_medial_head_of_triceps_brachii_r"
+       ],
+       "l": [
+        "zan_lateral_head_of_triceps_brachii_l",
+        "zan_long_head_of_triceps_brachii_l",
+        "zan_medial_head_of_triceps_brachii_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_lateral_head_of_triceps_brachii_r",
+        "zan_long_head_of_triceps_brachii_r",
+        "zan_medial_head_of_triceps_brachii_r"
+       ],
+       "l": [
+        "zan_lateral_head_of_triceps_brachii_l",
+        "zan_long_head_of_triceps_brachii_l",
+        "zan_medial_head_of_triceps_brachii_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "olecranon; fascia along the ulnar periosteum; ulnar styloid",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "ulna"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "ulna_r"
+       ],
+       "l": [
+        "ulna_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "ulna_r"
+       ],
+       "l": [
+        "ulna_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "ulnar collateral ligaments; triquetrum, hamate",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_triquetrum_bone",
+      "zan_hamate_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_hamate_bone_r",
+        "zan_triquetrum_bone_r"
+       ],
+       "l": [
+        "zan_hamate_bone_l",
+        "zan_triquetrum_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_hamate_bone_r",
+        "zan_triquetrum_bone_r"
+       ],
+       "l": [
+        "zan_hamate_bone_l",
+        "zan_triquetrum_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "hypothenar muscles",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "abductor_digiti_minimi_hand",
+      "flexor_digiti_minimi_brevis_hand",
+      "opponens_digiti_minimi"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "abductor_digiti_minimi_hand_r",
+        "flexor_digiti_minimi_brevis_hand_r",
+        "opponens_digiti_minimi_r"
+       ],
+       "l": [
+        "abductor_digiti_minimi_hand_l",
+        "flexor_digiti_minimi_brevis_hand_l",
+        "opponens_digiti_minimi_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "abductor_digiti_minimi_hand_r",
+        "flexor_digiti_minimi_brevis_hand_r",
+        "opponens_digiti_minimi_r"
+       ],
+       "l": [
+        "abductor_digiti_minimi_hand_l",
+        "flexor_digiti_minimi_brevis_hand_l",
+        "opponens_digiti_minimi_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "outside of the little finger",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_fifth_metacarpal_bone",
+      "re:^zan_(proximal|middle|distal)_phalanx_of_fifth_finger_of_hand_[lr]$"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_fifth_metacarpal_bone_r",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_fifth_metacarpal_bone_l",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_r",
+        "zan_fifth_metacarpal_bone_r",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_r",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_r"
+       ],
+       "l": [
+        "zan_distal_phalanx_of_fifth_finger_of_hand_l",
+        "zan_fifth_metacarpal_bone_l",
+        "zan_middle_phalanx_of_fifth_finger_of_hand_l",
+        "zan_proximal_phalanx_of_fifth_finger_of_hand_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Myers' four arm lines were not reviewed as defined; Wilke & Krause 2019 found three different arm chains (see the wilke2019_* entries) with good evidence of serial continuity.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "wilke2016",
+     "wilke2019"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "wilke2019_ventral_arm_chain",
+   "abbr": null,
+   "name": "Ventral arm chain (Wilke & Krause 2019)",
+   "author_family": "wilke2019",
+   "sub_choices": [
+    "arm"
+   ],
+   "composition_refs": [
+    "wilke2019"
+   ],
+   "verify_against_book": false,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "pectoralis major",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_clavicular_head_of_pectoralis_major_muscle",
+      "zan_sternocostal_head_of_pectoralis_major_muscle",
+      "zan_abdominal_part_of_pectoralis_major_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_clavicular_head_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_clavicular_head_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_clavicular_head_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_clavicular_head_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "brachial fascia / biceps brachii",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "brachial_fascia",
+      "biceps_brachii"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "biceps_brachii_r",
+        "brachial_fascia_r"
+       ],
+       "l": [
+        "biceps_brachii_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "biceps_brachii_r",
+        "brachial_fascia_r"
+       ],
+       "l": [
+        "biceps_brachii_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "flexor carpi ulnaris / brachioradialis / supinator",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "flexor_carpi_ulnaris",
+      "brachioradialis",
+      "supinator"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "brachioradialis_r",
+        "flexor_carpi_ulnaris_r",
+        "supinator_r"
+       ],
+       "l": [
+        "brachioradialis_l",
+        "flexor_carpi_ulnaris_l",
+        "supinator_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "brachioradialis_r",
+        "flexor_carpi_ulnaris_r",
+        "supinator_r"
+       ],
+       "l": [
+        "brachioradialis_l",
+        "flexor_carpi_ulnaris_l",
+        "supinator_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "strong",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "wilke2019": "identified from 13 dissection studies; \"good evidence for direct serial tissue continuity\"; mechanical relevance not established",
+    "label_text": "good evidence of direct serial continuity (wording of Wilke & Krause 2019; one review, 4-6 studies per chain)",
+    "refs": [
+     "wilke2016",
+     "wilke2019"
+    ]
+   },
+   "note": "5 studies."
+  },
+  {
+   "id": "wilke2019_lateral_arm_chain",
+   "abbr": null,
+   "name": "Lateral arm chain (Wilke & Krause 2019)",
+   "author_family": "wilke2019",
+   "sub_choices": [
+    "arm"
+   ],
+   "composition_refs": [
+    "wilke2019"
+   ],
+   "verify_against_book": false,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "trapezius",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "trapezius"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "trapezius_r"
+       ],
+       "l": [
+        "trapezius_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "trapezius_r"
+       ],
+       "l": [
+        "trapezius_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "deltoid",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_clavicular_part_of_deltoid_muscle",
+      "zan_acromial_part_of_deltoid_muscle",
+      "zan_scapular_spinal_part_of_deltoid_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_acromial_part_of_deltoid_muscle_r",
+        "zan_clavicular_part_of_deltoid_muscle_r",
+        "zan_scapular_spinal_part_of_deltoid_muscle_r"
+       ],
+       "l": [
+        "zan_acromial_part_of_deltoid_muscle_l",
+        "zan_clavicular_part_of_deltoid_muscle_l",
+        "zan_scapular_spinal_part_of_deltoid_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_acromial_part_of_deltoid_muscle_r",
+        "zan_clavicular_part_of_deltoid_muscle_r",
+        "zan_scapular_spinal_part_of_deltoid_muscle_r"
+       ],
+       "l": [
+        "zan_acromial_part_of_deltoid_muscle_l",
+        "zan_clavicular_part_of_deltoid_muscle_l",
+        "zan_scapular_spinal_part_of_deltoid_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lateral intermuscular septum / brachialis",
+     "kind": "fascia+muscle",
+     "side": "S",
+     "page_bases": [
+      "lateral_intermuscular_septum",
+      "zan_lateral_intermuscular_septum_of_arm",
+      "brachialis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "brachialis_r",
+        "lateral_intermuscular_septum_r",
+        "zan_lateral_intermuscular_septum_of_arm_r"
+       ],
+       "l": [
+        "brachialis_l",
+        "zan_lateral_intermuscular_septum_of_arm_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "brachialis_r",
+        "lateral_intermuscular_septum_r",
+        "zan_lateral_intermuscular_septum_of_arm_r"
+       ],
+       "l": [
+        "brachialis_l",
+        "zan_lateral_intermuscular_septum_of_arm_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "brachioradialis",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "brachioradialis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "brachioradialis_r"
+       ],
+       "l": [
+        "brachioradialis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "brachioradialis_r"
+       ],
+       "l": [
+        "brachioradialis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "strong",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "wilke2019": "identified from 13 dissection studies; \"good evidence for direct serial tissue continuity\"; mechanical relevance not established",
+    "label_text": "good evidence of direct serial continuity (wording of Wilke & Krause 2019; one review, 4-6 studies per chain)",
+    "refs": [
+     "wilke2016",
+     "wilke2019"
+    ]
+   },
+   "note": "4 studies."
+  },
+  {
+   "id": "wilke2019_dorsal_arm_chain",
+   "abbr": null,
+   "name": "Dorsal arm chain (Wilke & Krause 2019)",
+   "author_family": "wilke2019",
+   "sub_choices": [
+    "arm"
+   ],
+   "composition_refs": [
+    "wilke2019"
+   ],
+   "verify_against_book": false,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "latissimus dorsi / teres minor / infraspinatus",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "latissimus_dorsi",
+      "teres_minor",
+      "infraspinatus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "infraspinatus_r",
+        "latissimus_dorsi_r",
+        "teres_minor_r"
+       ],
+       "l": [
+        "infraspinatus_l",
+        "latissimus_dorsi_l",
+        "teres_minor_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "infraspinatus_r",
+        "latissimus_dorsi_r",
+        "teres_minor_r"
+       ],
+       "l": [
+        "infraspinatus_l",
+        "latissimus_dorsi_l",
+        "teres_minor_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "triceps brachii",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_long_head_of_triceps_brachii",
+      "zan_lateral_head_of_triceps_brachii",
+      "zan_medial_head_of_triceps_brachii"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_lateral_head_of_triceps_brachii_r",
+        "zan_long_head_of_triceps_brachii_r",
+        "zan_medial_head_of_triceps_brachii_r"
+       ],
+       "l": [
+        "zan_lateral_head_of_triceps_brachii_l",
+        "zan_long_head_of_triceps_brachii_l",
+        "zan_medial_head_of_triceps_brachii_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_lateral_head_of_triceps_brachii_r",
+        "zan_long_head_of_triceps_brachii_r",
+        "zan_medial_head_of_triceps_brachii_r"
+       ],
+       "l": [
+        "zan_lateral_head_of_triceps_brachii_l",
+        "zan_long_head_of_triceps_brachii_l",
+        "zan_medial_head_of_triceps_brachii_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "anconeus",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "anconeus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "anconeus_r"
+       ],
+       "l": [
+        "anconeus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "anconeus_r"
+       ],
+       "l": [
+        "anconeus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "extensor carpi ulnaris",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "extensor_carpi_ulnaris"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "extensor_carpi_ulnaris_r"
+       ],
+       "l": [
+        "extensor_carpi_ulnaris_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "extensor_carpi_ulnaris_r"
+       ],
+       "l": [
+        "extensor_carpi_ulnaris_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "strong",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "wilke2019": "identified from 13 dissection studies; \"good evidence for direct serial tissue continuity\"; mechanical relevance not established",
+    "label_text": "good evidence of direct serial continuity (wording of Wilke & Krause 2019; one review, 4-6 studies per chain)",
+    "refs": [
+     "wilke2016",
+     "wilke2019"
+    ]
+   },
+   "note": "6 studies."
+  },
+  {
+   "id": "back_functional_line",
+   "abbr": "BFL",
+   "name": "Back Functional Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "diagonal_spiral",
+    "functional"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": true,
+   "stations": [
+    {
+     "station": "shaft of the humerus",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "humerus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "latissimus dorsi",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "latissimus_dorsi"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "latissimus_dorsi_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "latissimus_dorsi_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "thoracolumbar fascia, sacral fascia",
+     "kind": "fascia",
+     "side": "mid",
+     "page_bases": [
+      "zan_posterior_layer_of_thoracolumbar_fascia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [
+        "zan_posterior_layer_of_thoracolumbar_fascia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [],
+       "l": [
+        "zan_posterior_layer_of_thoracolumbar_fascia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sacrum",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "sacrum"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sacrum"
+       ]
+      },
+      "base_f": {
+       "r": [],
+       "l": [],
+       "mid": [
+        "sacrum"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "gluteus maximus",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "gluteus_maximus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "gluteus_maximus_r"
+       ],
+       "l": [
+        "gluteus_maximus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "gluteus_maximus_r"
+       ],
+       "l": [
+        "gluteus_maximus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "shaft of the femur (gluteal tuberosity)",
+     "kind": "bone",
+     "side": "O",
+     "page_bases": [
+      "femur"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "vastus lateralis",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "vastus_lateralis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "vastus_lateralis_r"
+       ],
+       "l": [
+        "vastus_lateralis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "vastus_lateralis_r"
+       ],
+       "l": [
+        "vastus_lateralis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "patella; subpatellar tendon; tibial tuberosity",
+     "kind": "bone",
+     "side": "O",
+     "page_bases": [
+      "patella",
+      "tibia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "patella_r",
+        "tibia_r"
+       ],
+       "l": [
+        "patella_l",
+        "tibia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "patella_r",
+        "tibia_r"
+       ],
+       "l": [
+        "patella_l",
+        "tibia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "strong",
+    "wilke2016": {
+     "examined": true,
+     "transitions_verified": 3,
+     "transitions_total": 3,
+     "studies": 8
+    },
+    "krause2016": "force transfer: 1 of 2 transitions (3 studies)",
+    "label_text": "strong evidence (dissection: all reviewed transitions verified)",
+    "refs": [
+     "wilke2016",
+     "krause2016",
+     "kalichman2025"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "front_functional_line",
+   "abbr": "FFL",
+   "name": "Front Functional Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "diagonal_spiral",
+    "functional"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": true,
+   "stations": [
+    {
+     "station": "shaft of the humerus",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "humerus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "pectoralis major (lower edge)",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_sternocostal_head_of_pectoralis_major_muscle",
+      "zan_abdominal_part_of_pectoralis_major_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "cartilages of ribs 5 and 6",
+     "kind": "cartilage",
+     "side": "S",
+     "page_bases": [
+      "costal_cartilage"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "costal_cartilage_r"
+       ],
+       "l": [
+        "costal_cartilage_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "costal_cartilage_r"
+       ],
+       "l": [
+        "costal_cartilage_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lateral sheath of rectus abdominis",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "rectus_abdominis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "rectus_abdominis_r"
+       ],
+       "l": [
+        "rectus_abdominis_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "rectus_abdominis_r"
+       ],
+       "l": [
+        "rectus_abdominis_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "pubic tubercle and symphysis",
+     "kind": "bone",
+     "side": "mid",
+     "page_bases": [
+      "hip_bone",
+      "pubic_symphysis_disc"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": [
+        "pubic_symphysis_disc"
+       ]
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": [
+        "pubic_symphysis_disc"
+       ]
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "adductor longus",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "adductor_longus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "adductor_longus_r"
+       ],
+       "l": [
+        "adductor_longus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "adductor_longus_r"
+       ],
+       "l": [
+        "adductor_longus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "linea aspera of the femur",
+     "kind": "bone",
+     "side": "O",
+     "page_bases": [
+      "femur"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "femur_r"
+       ],
+       "l": [
+        "femur_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "strong",
+    "wilke2016": {
+     "examined": true,
+     "transitions_verified": 2,
+     "transitions_total": 2,
+     "studies": 6
+    },
+    "krause2016": "one study: slight, non-significant transfer at one transition",
+    "label_text": "strong evidence (dissection: all reviewed transitions verified)",
+    "refs": [
+     "wilke2016",
+     "krause2016",
+     "kalichman2025"
+    ]
+   },
+   "note": null
+  },
+  {
+   "id": "ipsilateral_functional_line",
+   "abbr": "IFL",
+   "name": "Ipsilateral Functional Line",
+   "author_family": "myers",
+   "sub_choices": [
+    "functional"
+   ],
+   "composition_refs": [
+    "myers_at"
+   ],
+   "verify_against_book": true,
+   "crosses_midline": false,
+   "stations": [
+    {
+     "station": "shaft of the humerus",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "humerus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "humerus_r"
+       ],
+       "l": [
+        "humerus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "latissimus dorsi (outer edge)",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "latissimus_dorsi"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "latissimus_dorsi_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "latissimus_dorsi_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "lower ribs (10-12)",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "zan_tenth_rib",
+      "zan_eleventh_rib",
+      "zan_twelfth_rib"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_eleventh_rib_r",
+        "zan_tenth_rib_r",
+        "zan_twelfth_rib_r"
+       ],
+       "l": [
+        "zan_eleventh_rib_l",
+        "zan_tenth_rib_l",
+        "zan_twelfth_rib_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_eleventh_rib_r",
+        "zan_tenth_rib_r",
+        "zan_twelfth_rib_r"
+       ],
+       "l": [
+        "zan_eleventh_rib_l",
+        "zan_tenth_rib_l",
+        "zan_twelfth_rib_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "external oblique (posterior fibres)",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "external_oblique"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "external_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "external_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "anterior superior iliac spine",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "hip_bone"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "hip_bone_r"
+       ],
+       "l": [
+        "hip_bone_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "sartorius",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "sartorius"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "sartorius_r"
+       ],
+       "l": [
+        "sartorius_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "sartorius_r"
+       ],
+       "l": [
+        "sartorius_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "medial tibial condyle (pes anserinus)",
+     "kind": "bone",
+     "side": "S",
+     "page_bases": [
+      "tibia"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibia_r"
+       ],
+       "l": [
+        "tibia_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "wilke2016"
+    ]
+   },
+   "note": "Recorded from recall with lower confidence than the other routes (added in a later edition of the book); check every station."
+  }
+ ],
+ "references": {
+  "kalichman2025": {
+   "citation": "Kalichman L. Myofascial continuity: Review of anatomical and functional evidence. J Bodyw Mov Ther 2025",
+   "doi": null,
+   "pmid": "41316622",
+   "opened": "abstract via the Consensus search tool (2026-11-15)",
+   "note": "Narrative review: strong anatomical support for SBL, BFL, FFL; moderate for Spiral and Lateral lines; SFL lacks validation."
+  },
+  "krause2016": {
+   "citation": "Krause F, Wilke J, Vogt L, Banzer W. Intermuscular force transmission along myofascial chains: a systematic review. J Anat 2016;228(6):910-918",
+   "doi": "10.1111/joa.12464",
+   "pmid": "27001027",
+   "pmcid": "PMC5341578",
+   "opened": "PubMed abstract (2026-11-15); PMC full text returned empty",
+   "note": "Force transfer (not just continuity): SBL moderate evidence at all 3 transitions (6 studies); BFL 1 of 2 transitions (3 studies); FFL one study, slight non-significant transfer at one transition."
+  },
+  "moore2023": {
+   "citation": "Moore JG et al. Anatomization of the upper spiral line: a cadaveric case study of myofascial continuity. Med Sci Sports Exerc 2023 (conference abstract)",
+   "doi": null,
+   "pmid": null,
+   "opened": "abstract via the Consensus search tool (2026-11-15)",
+   "note": "One embalmed male cadaver: splenius capitis, splenius cervicis, rhomboid major and minor, serratus anterior, external oblique, internal oblique and rectus abdominis linked by fascia as an upper spiral line."
+  },
+  "myers_at": {
+   "citation": "Myers TW. Anatomy Trains: Myofascial Meridians for Manual Therapists and Movement Professionals. Elsevier (1st ed. 2001; 4th ed. 2020)",
+   "doi": null,
+   "pmid": null,
+   "opened": false,
+   "note": "NOT opened in this session (copyrighted book; no accessible copy). The station lists below are the line routes as Myers publishes them, recorded from the standard description; every list carries verify_against_book=true until checked against the book."
+  },
+  "petrov2026": {
+   "citation": "Petrov OV. Anatomical prerequisites for the existence of myofascial lines: a dissection study. Russian Osteopathic Journal 2026",
+   "doi": null,
+   "pmid": null,
+   "opened": "abstract via the Consensus search tool (2026-11-15)",
+   "note": "Single cachectic female cadaver: superficial lines reproducible only by adding adjacent fascial/ligamentous components; joints act as switching zones; deep front line could not be separated from visceral structures; concept \"only partially confirmed\"."
+  },
+  "schultz1996": {
+   "citation": "Schultz RL, Feitis R. The Endless Web: Fascial Anatomy and Physical Reality. North Atlantic Books, 1996",
+   "doi": null,
+   "pmid": null,
+   "opened": false,
+   "note": "NOT opened. A web search (2026-11-15) showed only its table of contents: Part III \"Body retinacula (bands/straps)\" with chapters on a chest band and an inguinal band. No muscle lists were seen."
+  },
+  "wilke2016": {
+   "citation": "Wilke J, Krause F, Vogt L, Banzer W. What Is Evidence-Based About Myofascial Chains: A Systematic Review. Arch Phys Med Rehabil 2016;97(3):454-461",
+   "doi": "10.1016/j.apmr.2015.07.023",
+   "pmid": "26281953",
+   "opened": "PubMed abstract (2026-11-15); full text and its transition table NOT opened (publisher and PDF hosts unreachable from this session)",
+   "note": "62 dissection studies; line-level verdicts from the abstract. Per-transition verdicts are in the full-text table and are not reproduced here."
+  },
+  "wilke2019": {
+   "citation": "Wilke J, Krause F. Myofascial chains of the upper limb: A systematic review of anatomical studies. Clin Anat 2019;32(7):934-940",
+   "doi": "10.1002/ca.23424",
+   "pmid": "31226229",
+   "opened": "PubMed abstract (2026-11-15)",
+   "note": "13 dissection studies; three arm chains with \"good evidence for direct serial tissue continuity\" (composition quoted as facts in the arm-chain entries)."
+  }
+ },
+ "counts": {
+  "lines": 15,
+  "myers_lines": 12,
+  "wilke2019_chains": 3,
+  "stations": 149,
+  "stations_on_page": 148,
+  "stations_missing": [
+   "superficial_front_line: subpatellar tendon (patellar ligament)"
+  ],
+  "by_evidence": {
+   "strong": [
+    "superficial_back_line",
+    "wilke2019_ventral_arm_chain",
+    "wilke2019_lateral_arm_chain",
+    "wilke2019_dorsal_arm_chain",
+    "back_functional_line",
+    "front_functional_line"
+   ],
+   "moderate": [
+    "lateral_line",
+    "spiral_line"
+   ],
+   "none": [
+    "superficial_front_line"
+   ],
+   "not_examined": [
+    "deep_front_line",
+    "superficial_front_arm_line",
+    "deep_front_arm_line",
+    "superficial_back_arm_line",
+    "deep_back_arm_line",
+    "ipsilateral_functional_line"
+   ]
+  }
+ }
+}

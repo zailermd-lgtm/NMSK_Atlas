@@ -116,8 +116,13 @@ Owner feedback 2026-11-15 (three more agents, all Base only):
   right-handed). Fix = handedness flip in the projection + winding + re-signed interactions; R/L marker;
   `scripts/anatomy/q339/patch_mirror_q339.py`, verifier `verify_handedness_q339.py`. The owner's "left
   chest" was the `_r` side for this reason. Frozen pages have the same defect (not touched).
-- **Q334** no imaginary seam lines between skin regions (and other split classes): find the cause, fix in
-  the engine or normals; `scripts/anatomy/q334/verify_skin_seams_q334.py`.
+- **Q334** skin seam lines — engine fix in the Z template (load time, no sidecar change; blocks from
+  `scripts/anatomy/q334/patch_seams_q334.py`, flock + `--check`): skin regions are closed ~2.7 mm slabs;
+  lines came from per-piece normals bent by the side walls, the twin walls drawn (2 extra layers at 0.3),
+  and unsorted translucent blending. Now: normals welded across pieces, twin walls drawn only while the
+  neighbour is not, cracks closed, skin/fascia drawn far-to-near; also cortex gyri/sulci and same-name fascia
+  halves. Verifier `verify_skin_seams_q334.py`. Open: Base·F trunk pieces re-meshed by the deformation do
+  not share border vertices (inframammary/epigastric) — residual line, belongs in the female geometry build.
 - **Q335** click card: default docked top-left, draggable, position remembered; leader line only when the
   structure is not marked in colour (setting); a ⋮ menu beside every window's drag grip; groups /
   adjacent / related chips open under the name or at the very bottom, width = content, never a full row.

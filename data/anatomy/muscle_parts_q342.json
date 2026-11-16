@@ -1,0 +1,4568 @@
+{
+ "schema": "nmsk.muscle_parts.v1",
+ "round": "Q342",
+ "generated": "2026-11-15",
+ "scope": "Base · Male (build/q309/viewer_zan_atlas, key base_m) and Base · Female (build/q309/viewer_base_female, key base_f) only",
+ "doc": {
+  "what": "Selectable parts (heads, parts, fibre groups) of large or multi-part muscles, and how each maps onto the Base pages.",
+  "schema": "muscles[]: {muscle_id (repo record base id, or a group id such as erector_spinae), name, region, whole_muscle_structures (page ids per body and side, or null when the page has only the parts), parts[], contested, note}. parts[]: {id, name, ta_latin (Terminologia Anatomica Latin part name where standard, else null), origin, nerve_supply, nerve_source[], refs[] (keys into references), verification (verified = opened PubMed record; unverified_textbook = textbook, page not checked), note, body}. body: {status, structures {base_m|base_f: {r:[], l:[], mid:[]}}, rule?, reason?, note?}. status: separate_mesh | separate_mesh_rule_based | rule | not_delimitable | missing_on_page. rule.name is a key of rules{}; every rule is a PROPOSAL (validated=false) and must be validated before a part is drawn.",
+  "ui": "Parts chooser: offer \"whole muscle\" + each part. separate_mesh -> select those ids. separate_mesh_rule_based -> select, keep the rule badge. rule -> show greyed with \"rule-based, not validated\" until an implementation passes its validation_plan; then draw with a rule-based badge citing the rule + refs. not_delimitable -> list the part (name, nerve, source) without geometry. Side: use the clicked structure's side; ids are given per side.",
+  "honesty": "No geometry was made here. Rules are written out so an implementer can test them; the project rejected a deltoid sector rule after validation (q219_validation), so none of these rules may be shown as anatomy before it is validated."
+ },
+ "rules": {
+  "separate_mesh": {
+   "label": "Separate structure on the page",
+   "method": "The part is its own mesh on the page (a Z-Anatomy part object, fitted with the body). Select the listed ids; no rule needed.",
+   "validated": true,
+   "error": "as the page mesh (its own fit badge)"
+  },
+  "separate_mesh_rule_based": {
+   "label": "Separate rule-based structure on the page",
+   "method": "The part is its own mesh, but that mesh was itself built by a documented rule (see its badge on the page). Selectable; keep its rule-based badge visible.",
+   "validated": false,
+   "error": "see the structure badge"
+  },
+  "fan_projection_from_insertion": {
+   "label": "Fan projection from the insertion (convergent muscle)",
+   "method": "For a muscle whose fibres converge on a compact insertion: take the centroid I of the insertion footprint (data/derived/Q220_parts_zbase_{m,f}.json insertion placement, else the contact patch on the insertion bone). For every vertex v of the muscle mesh, extend the ray I->v until it meets the origin footprint (the band where the mesh touches its origin bones / fascia). v belongs to the part whose named origin segment that ray reaches. Origin segments are the sourced ones listed in the part rows (e.g. latissimus dorsi: spinous processes T7-T12 + thoracolumbar fascia | iliac crest | lower ribs | inferior angle of scapula). Boundaries between segments are the named bony landmarks on the page (vertebra / rib / iliac-crest / scapula meshes).",
+   "validated": false,
+   "validation_plan": "Leave-one-out against the three Z-Anatomy pectoralis major part meshes (clavicular / sternocostal / abdominal: origin segments clavicle | sternum + costal cartilages | rectus sheath) on both Base bodies; report vertex accuracy and centroid error. The deltoid azimuth rule failed this kind of test (q219_validation); do not display a fan partition until it passes.",
+   "error": "unknown until validated"
+  },
+  "boundary_fibre_plane": {
+   "label": "Boundary-fibre plane (fan with a long insertion)",
+   "method": "Where both origin and insertion are long lines and the parts are defined by consecutive origin segments: the boundary between two parts is the fibre running from the origin boundary landmark O_b to the insertion boundary landmark I_b. The cut is the plane through O_b and I_b that also contains the local surface normal of the muscle sheet at the midpoint (for a back muscle the body's antero-posterior axis). Vertices are assigned by the side of the plane.",
+   "validated": false,
+   "validation_plan": "No Z part meshes exist for trapezius or adductor magnus parts to validate against; show only as an explicitly rule-based overlay, never as anatomy.",
+   "error": "unknown; fibres are not straight lines on a curved sheet"
+  },
+  "two_belly_axial_split": {
+   "label": "Two side-by-side bellies split along the muscle axis",
+   "method": "Fit the principal axis of the muscle mesh (PCA). Cut by the plane that contains this axis and the antero-posterior direction of the limb segment; the named head on each side is the textbook topography (biceps brachii: long head lateral, short head medial; gastrocnemius: medial head medial, lateral head lateral).",
+   "validated": false,
+   "validation_plan": "No Z part meshes for these heads; heads are unequal in size (gastrocnemius medial head larger and longer), so a mid-plane is known to be approximate.",
+   "error": "unknown; heads unequal"
+  },
+  "transverse_level_planes": {
+   "label": "Transverse planes at named levels",
+   "method": "Cut the mesh by planes perpendicular to the body long axis (+Y) at named bony levels given in the part rows.",
+   "validated": false,
+   "validation_plan": "Check against visible tendinous intersections on the mesh if the mesh shows them; otherwise display as rule-based only.",
+   "error": "the textbook levels are typical, not individual"
+  },
+  "nearest_origin_bone_lower_segment": {
+   "label": "Nearest origin bone (only where the heads are still separate)",
+   "method": "For two heads that arise from different bones and fuse further along: within the segment where the heads are separate (between the origin and the point where they meet), each vertex goes to the head whose origin bone contact patch is nearer along the muscle axis. Above the fusion level the vertices are not assigned to a head.",
+   "validated": false,
+   "validation_plan": "No Z part meshes; the fusion level is not sourced numerically -> coverage incomplete by design.",
+   "error": "unknown"
+  },
+  "not_delimitable": {
+   "label": "Not delimitable honestly on this mesh",
+   "method": "The parts are layers (superficial / deep), are defined by fibre direction or by intramuscular septa that the mesh does not show, or the opened sources give no boundary. Listing the part (name, nerve, source) is fine; drawing it would be invented geometry.",
+   "validated": null,
+   "error": null
+  }
+ },
+ "muscles": [
+  {
+   "muscle_id": "pectoralis_major",
+   "name": "Pectoralis major",
+   "region": "upper_limb",
+   "whole_muscle_structures": null,
+   "parts": [
+    {
+     "id": "clavicular_head",
+     "name": "Clavicular head",
+     "ta_latin": "Pars clavicularis",
+     "origin": "anterior surface of the medial half of the clavicle",
+     "nerve_supply": "lateral pectoral n. (C5-C6 fibers)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "fung2009",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_clavicular_head_of_pectoralis_major_muscle_r"
+        ],
+        "l": [
+         "zan_clavicular_head_of_pectoralis_major_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_clavicular_head_of_pectoralis_major_muscle_r"
+        ],
+        "l": [
+         "zan_clavicular_head_of_pectoralis_major_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "sternocostal_head",
+     "name": "Sternocostal head",
+     "ta_latin": "Pars sternocostalis",
+     "origin": "anterior sternum and upper six costal cartilages",
+     "nerve_supply": "lateral + medial pectoral nn. (C7-C8 fibers)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "fung2009",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+        ],
+        "l": [
+         "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+        ],
+        "l": [
+         "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "abdominal_part",
+     "name": "Abdominal part",
+     "ta_latin": "Pars abdominalis",
+     "origin": "aponeurosis of the external oblique / anterior rectus sheath",
+     "nerve_supply": "medial pectoral n. (T1 fibers)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42",
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_abdominal_part_of_pectoralis_major_muscle_r"
+        ],
+        "l": [
+         "zan_abdominal_part_of_pectoralis_major_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_abdominal_part_of_pectoralis_major_muscle_r"
+        ],
+        "l": [
+         "zan_abdominal_part_of_pectoralis_major_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "No whole-muscle mesh on the Base pages: the three Z-Anatomy parts are the muscle. Validation target for the fan-projection rule (three real part meshes)."
+  },
+  {
+   "muscle_id": "deltoid",
+   "name": "Deltoid",
+   "region": "upper_limb",
+   "whole_muscle_structures": null,
+   "parts": [
+    {
+     "id": "clavicular_part",
+     "name": "Clavicular (anterior) part",
+     "ta_latin": "Pars clavicularis",
+     "origin": "lateral third of the clavicle",
+     "nerve_supply": "axillary n., anterior branch (repo record: proximal/mid/distal fascicles)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "rispoli2009",
+      "vohra2024",
+      "sakoma2011"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_clavicular_part_of_deltoid_muscle_r"
+        ],
+        "l": [
+         "zan_clavicular_part_of_deltoid_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_clavicular_part_of_deltoid_muscle_r"
+        ],
+        "l": [
+         "zan_clavicular_part_of_deltoid_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "acromial_part",
+     "name": "Acromial (middle) part",
+     "ta_latin": "Pars acromialis",
+     "origin": "acromion",
+     "nerve_supply": "axillary n., posterior branch, anterior acromial fascicle (and central / posterior acromial fascicles)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "rispoli2009",
+      "vohra2024",
+      "sakoma2011"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_acromial_part_of_deltoid_muscle_r"
+        ],
+        "l": [
+         "zan_acromial_part_of_deltoid_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_acromial_part_of_deltoid_muscle_r"
+        ],
+        "l": [
+         "zan_acromial_part_of_deltoid_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "spinal_part",
+     "name": "Spinal (posterior) part",
+     "ta_latin": "Pars spinalis",
+     "origin": "spine of the scapula",
+     "nerve_supply": "axillary n., posterior branch, spinal fascicle",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "rispoli2009",
+      "vohra2024",
+      "friden2001"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_scapular_spinal_part_of_deltoid_muscle_r"
+        ],
+        "l": [
+         "zan_scapular_spinal_part_of_deltoid_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_scapular_spinal_part_of_deltoid_muscle_r"
+        ],
+        "l": [
+         "zan_scapular_spinal_part_of_deltoid_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    }
+   ],
+   "contested": "Segment count reported 3 or 7 (structure_parts part_set deltoid.heads).",
+   "note": "Sakoma 2011 describes seven segments delimited by intramuscular tendons; the page carries the three classical parts only."
+  },
+  {
+   "muscle_id": "trapezius",
+   "name": "Trapezius",
+   "region": "trunk",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "trapezius_r"
+     ],
+     "l": [
+      "trapezius_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "trapezius_r"
+     ],
+     "l": [
+      "trapezius_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "descending_part",
+     "name": "Descending (upper) part",
+     "ta_latin": "Pars descendens",
+     "origin": "superior nuchal line, external occipital protuberance, ligamentum nuchae",
+     "nerve_supply": "accessory n. (CN XI), spinal root; C3-C4 proprioceptive fibres",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "trapezius_r"
+        ],
+        "l": [
+         "trapezius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "trapezius_r"
+        ],
+        "l": [
+         "trapezius_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "boundary_fibre_plane",
+       "boundary": "descending | transverse",
+       "origin_boundary": "spinous process of C7",
+       "insertion_boundary": "acromioclavicular junction (lateral end of clavicle / acromion)",
+       "page_inputs": [
+        "trapezius",
+        "zan_vertebra_c7",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4",
+        "clavicle",
+        "scapula"
+       ]
+      }
+     }
+    },
+    {
+     "id": "transverse_part",
+     "name": "Transverse (middle) part",
+     "ta_latin": "Pars transversa",
+     "origin": "spinous processes C7-T3",
+     "nerve_supply": "accessory n. (CN XI)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "trapezius_r"
+        ],
+        "l": [
+         "trapezius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "trapezius_r"
+        ],
+        "l": [
+         "trapezius_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "boundary_fibre_plane",
+       "between": [
+        "descending | transverse",
+        "transverse | ascending"
+       ]
+      }
+     }
+    },
+    {
+     "id": "ascending_part",
+     "name": "Ascending (lower) part",
+     "ta_latin": "Pars ascendens",
+     "origin": "spinous processes T4-T12",
+     "nerve_supply": "accessory n. (CN XI)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "trapezius_r"
+        ],
+        "l": [
+         "trapezius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "trapezius_r"
+        ],
+        "l": [
+         "trapezius_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "boundary_fibre_plane",
+       "boundary": "transverse | ascending",
+       "origin_boundary": "between the spinous processes of T3 and T4",
+       "insertion_boundary": "root (medial end) of the spine of the scapula",
+       "page_inputs": [
+        "trapezius",
+        "zan_vertebra_c7",
+        "zan_vertebra_t3",
+        "zan_vertebra_t4",
+        "clavicle",
+        "scapula"
+       ]
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "Single mesh per side. Part definitions are textbook (Gray's 42nd, page not verified in the repo)."
+  },
+  {
+   "muscle_id": "latissimus_dorsi",
+   "name": "Latissimus dorsi",
+   "region": "trunk",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "latissimus_dorsi_r"
+     ],
+     "l": [
+      "latissimus_dorsi_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "latissimus_dorsi_r"
+     ],
+     "l": [
+      "latissimus_dorsi_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "vertebral_part",
+     "name": "Vertebral part (T7-T12 spinous processes, thoracolumbar fascia)",
+     "ta_latin": null,
+     "origin": "spinous processes T7-T12 and thoracolumbar fascia",
+     "nerve_supply": "thoracodorsal n. (whole muscle)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "bhatt2013"
+     ],
+     "verification": "verified",
+     "note": "Origin-defined region, not a separately sheathed head.",
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "fan_projection_from_insertion",
+       "origin_segment": "T7-T12 + thoracolumbar fascia",
+       "insertion": "floor of the intertubercular groove (Q220 insertion placement latissimus_dorsi.insertion_q323)",
+       "page_inputs": [
+        "latissimus_dorsi",
+        "zan_vertebra_t7",
+        "zan_vertebra_t12",
+        "hip_bone",
+        "zan_ninth_rib",
+        "zan_tenth_rib",
+        "zan_eleventh_rib",
+        "zan_twelfth_rib",
+        "scapula",
+        "humerus"
+       ]
+      }
+     }
+    },
+    {
+     "id": "iliac_part",
+     "name": "Iliac part",
+     "ta_latin": null,
+     "origin": "iliac crest",
+     "nerve_supply": "thoracodorsal n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "bhatt2013"
+     ],
+     "verification": "verified",
+     "note": "Origin-defined region.",
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "fan_projection_from_insertion",
+       "origin_segment": "iliac crest",
+       "insertion": "floor of the intertubercular groove (Q220 insertion placement latissimus_dorsi.insertion_q323)",
+       "page_inputs": [
+        "latissimus_dorsi",
+        "zan_vertebra_t7",
+        "zan_vertebra_t12",
+        "hip_bone",
+        "zan_ninth_rib",
+        "zan_tenth_rib",
+        "zan_eleventh_rib",
+        "zan_twelfth_rib",
+        "scapula",
+        "humerus"
+       ]
+      }
+     }
+    },
+    {
+     "id": "costal_part",
+     "name": "Costal part",
+     "ta_latin": null,
+     "origin": "inferior 3 or 4 ribs",
+     "nerve_supply": "thoracodorsal n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "bhatt2013"
+     ],
+     "verification": "verified",
+     "note": "Origin-defined region.",
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "fan_projection_from_insertion",
+       "origin_segment": "lower 3-4 ribs",
+       "insertion": "floor of the intertubercular groove (Q220 insertion placement latissimus_dorsi.insertion_q323)",
+       "page_inputs": [
+        "latissimus_dorsi",
+        "zan_vertebra_t7",
+        "zan_vertebra_t12",
+        "hip_bone",
+        "zan_ninth_rib",
+        "zan_tenth_rib",
+        "zan_eleventh_rib",
+        "zan_twelfth_rib",
+        "scapula",
+        "humerus"
+       ]
+      }
+     }
+    },
+    {
+     "id": "scapular_part",
+     "name": "Scapular part",
+     "ta_latin": null,
+     "origin": "inferior angle of the scapula",
+     "nerve_supply": "thoracodorsal n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "bhatt2013"
+     ],
+     "verification": "verified",
+     "note": "Origin-defined region; inconstant.",
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "latissimus_dorsi_r"
+        ],
+        "l": [
+         "latissimus_dorsi_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "fan_projection_from_insertion",
+       "origin_segment": "inferior angle of scapula",
+       "insertion": "floor of the intertubercular groove (Q220 insertion placement latissimus_dorsi.insertion_q323)",
+       "page_inputs": [
+        "latissimus_dorsi",
+        "zan_vertebra_t7",
+        "zan_vertebra_t12",
+        "hip_bone",
+        "zan_ninth_rib",
+        "zan_tenth_rib",
+        "zan_eleventh_rib",
+        "zan_twelfth_rib",
+        "scapula",
+        "humerus"
+       ]
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "The four regions are named here by their origin as listed in the opened source; the TA does not name latissimus parts."
+  },
+  {
+   "muscle_id": "triceps_brachii",
+   "name": "Triceps brachii",
+   "region": "upper_limb",
+   "whole_muscle_structures": null,
+   "parts": [
+    {
+     "id": "long_head",
+     "name": "Long head",
+     "ta_latin": "Caput longum",
+     "origin": "infraglenoid tubercle",
+     "nerve_supply": "radial n., branch to long head (proximal)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "friden2001",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_long_head_of_triceps_brachii_r"
+        ],
+        "l": [
+         "zan_long_head_of_triceps_brachii_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_long_head_of_triceps_brachii_r"
+        ],
+        "l": [
+         "zan_long_head_of_triceps_brachii_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "lateral_head",
+     "name": "Lateral head",
+     "ta_latin": "Caput laterale",
+     "origin": "posterior humerus above the radial groove",
+     "nerve_supply": "radial n., branch to lateral head (proximal, above spiral groove)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "friden2001",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_lateral_head_of_triceps_brachii_r"
+        ],
+        "l": [
+         "zan_lateral_head_of_triceps_brachii_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_lateral_head_of_triceps_brachii_r"
+        ],
+        "l": [
+         "zan_lateral_head_of_triceps_brachii_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "medial_head",
+     "name": "Medial head",
+     "ta_latin": "Caput mediale",
+     "origin": "posterior humerus below the radial groove",
+     "nerve_supply": "radial n., branch to medial head (distal, below spiral groove)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "friden2001",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_medial_head_of_triceps_brachii_r"
+        ],
+        "l": [
+         "zan_medial_head_of_triceps_brachii_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_medial_head_of_triceps_brachii_r"
+        ],
+        "l": [
+         "zan_medial_head_of_triceps_brachii_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "biceps_brachii",
+   "name": "Biceps brachii",
+   "region": "upper_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "biceps_brachii_r"
+     ],
+     "l": [
+      "biceps_brachii_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "biceps_brachii_r"
+     ],
+     "l": [
+      "biceps_brachii_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "long_head",
+     "name": "Long head",
+     "ta_latin": "Caput longum",
+     "origin": "supraglenoid tubercle (intra-articular tendon)",
+     "nerve_supply": "musculocutaneous n., proximal muscular branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "eames2007",
+      "athwal2007",
+      "vangsness1994",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "biceps_brachii_r"
+        ],
+        "l": [
+         "biceps_brachii_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "biceps_brachii_r"
+        ],
+        "l": [
+         "biceps_brachii_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "two_belly_axial_split",
+       "page_inputs": [
+        "biceps_brachii",
+        "humerus"
+       ],
+       "topography": "long head lateral, short head medial (textbook)",
+       "side": "lateral"
+      }
+     }
+    },
+    {
+     "id": "short_head",
+     "name": "Short head",
+     "ta_latin": "Caput breve",
+     "origin": "tip of the coracoid process",
+     "nerve_supply": "musculocutaneous n., distal muscular branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "eames2007",
+      "athwal2007",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "biceps_brachii_r"
+        ],
+        "l": [
+         "biceps_brachii_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "biceps_brachii_r"
+        ],
+        "l": [
+         "biceps_brachii_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "two_belly_axial_split",
+       "page_inputs": [
+        "biceps_brachii",
+        "humerus"
+       ],
+       "topography": "long head lateral, short head medial (textbook)",
+       "side": "medial"
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "Bellies unite distally; the split is meaningful only proximal to their junction."
+  },
+  {
+   "muscle_id": "brachialis",
+   "name": "Brachialis",
+   "region": "upper_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "brachialis_r"
+     ],
+     "l": [
+      "brachialis_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "brachialis_r"
+     ],
+     "l": [
+      "brachialis_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "superficial_head",
+     "name": "Superficial head",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "leonello2007"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "brachialis_r"
+        ],
+        "l": [
+         "brachialis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "brachialis_r"
+        ],
+        "l": [
+         "brachialis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "layered heads"
+     }
+    },
+    {
+     "id": "deep_head",
+     "name": "Deep head",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "leonello2007"
+     ],
+     "verification": "verified",
+     "note": "Inferolateral fibres supplied by the radial nerve (structure_parts row).",
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "brachialis_r"
+        ],
+        "l": [
+         "brachialis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "brachialis_r"
+        ],
+        "l": [
+         "brachialis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "layered heads"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "rectus_femoris",
+   "name": "Rectus femoris",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "rectus_femoris_r"
+     ],
+     "l": [
+      "rectus_femoris_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "rectus_femoris_r"
+     ],
+     "l": [
+      "rectus_femoris_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "straight_head",
+     "name": "Straight (direct) head",
+     "ta_latin": "Caput rectum",
+     "origin": "anterior inferior iliac spine",
+     "nerve_supply": "femoral n., proximal muscular twig",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "rectus_femoris_r"
+        ],
+        "l": [
+         "rectus_femoris_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "rectus_femoris_r"
+        ],
+        "l": [
+         "rectus_femoris_l"
+        ],
+        "mid": []
+       }
+      },
+      "note": "the whole-muscle mesh; the reflected head is the separate mesh below"
+     }
+    },
+    {
+     "id": "reflected_head",
+     "name": "Reflected (indirect) head",
+     "ta_latin": "Caput reflexum",
+     "origin": "groove above the acetabular rim, hip capsule",
+     "nerve_supply": "femoral n., distal muscular twig",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook",
+      "q293_rf_reflected"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh_rule_based",
+      "structures": {
+       "base_m": {
+        "r": [
+         "rectus_femoris_reflected_head_r"
+        ],
+        "l": [
+         "rectus_femoris_reflected_head_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "rectus_femoris_reflected_head_r"
+        ],
+        "l": [
+         "rectus_femoris_reflected_head_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    }
+   ],
+   "contested": "A third (tendinous) head in 83 % of 96 sides (Tubbs 2006, PMID 17171618, muscle_heads_q293 variants); not modelled.",
+   "note": null
+  },
+  {
+   "muscle_id": "vastus_lateralis",
+   "name": "Vastus lateralis",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "vastus_lateralis_r"
+     ],
+     "l": [
+      "vastus_lateralis_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "vastus_lateralis_r"
+     ],
+     "l": [
+      "vastus_lateralis_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "oblique_head",
+     "name": "Oblique head (VLO)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "waligora2009"
+     ],
+     "verification": "verified",
+     "note": "Distinct in 60 % of 20 limbs.",
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "vastus_lateralis_r"
+        ],
+        "l": [
+         "vastus_lateralis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "vastus_lateralis_r"
+        ],
+        "l": [
+         "vastus_lateralis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "defined by fibre direction and a fat/fascia plane present in 60 % only"
+     }
+    },
+    {
+     "id": "longitudinal_head",
+     "name": "Longitudinal part (VLL)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "waligora2009"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "vastus_lateralis_r"
+        ],
+        "l": [
+         "vastus_lateralis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "vastus_lateralis_r"
+        ],
+        "l": [
+         "vastus_lateralis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "complement of the oblique head"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "vastus_medialis",
+   "name": "Vastus medialis",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "vastus_medialis_r"
+     ],
+     "l": [
+      "vastus_medialis_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "vastus_medialis_r"
+     ],
+     "l": [
+      "vastus_medialis_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "longus_part",
+     "name": "Vastus medialis longus (VML)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "femoral n., proximal muscular twig",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "castanov2019"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "vastus_medialis_r"
+        ],
+        "l": [
+         "vastus_medialis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "vastus_medialis_r"
+        ],
+        "l": [
+         "vastus_medialis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "partition defined by fibre-bundle angle; the mesh has no fibre field"
+     }
+    },
+    {
+     "id": "obliquus_part",
+     "name": "Vastus medialis obliquus (VMO)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "femoral n., distal muscular twig (documented separate terminal branch)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "castanov2019",
+      "waligora2009"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "vastus_medialis_r"
+        ],
+        "l": [
+         "vastus_medialis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "vastus_medialis_r"
+        ],
+        "l": [
+         "vastus_medialis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "partition defined by fibre-bundle angle; the mesh has no fibre field"
+     }
+    }
+   ],
+   "contested": "Waligora 2009 found no distinct VMO in any of 20 limbs; Castanov 2019 describes VMO/VML partitions by architecture.",
+   "note": null
+  },
+  {
+   "muscle_id": "biceps_femoris",
+   "name": "Biceps femoris",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "biceps_femoris_r"
+     ],
+     "l": [
+      "biceps_femoris_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "biceps_femoris_r"
+     ],
+     "l": [
+      "biceps_femoris_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "long_head",
+     "name": "Long head",
+     "ta_latin": "Caput longum",
+     "origin": "ischial tuberosity (with semitendinosus)",
+     "nerve_supply": "tibial division of sciatic n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "terry1996",
+      "miller2007",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "biceps_femoris_r"
+        ],
+        "l": [
+         "biceps_femoris_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "biceps_femoris_r"
+        ],
+        "l": [
+         "biceps_femoris_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "the short head lies deep to the long head along the distal thigh; no surface boundary"
+     }
+    },
+    {
+     "id": "short_head",
+     "name": "Short head",
+     "ta_latin": "Caput breve",
+     "origin": "lateral lip of the linea aspera",
+     "nerve_supply": "common fibular (peroneal) division of sciatic n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "terry1996",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "biceps_femoris_r"
+        ],
+        "l": [
+         "biceps_femoris_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "biceps_femoris_r"
+        ],
+        "l": [
+         "biceps_femoris_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "deep, overlapped by the long head"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "gluteus_maximus",
+   "name": "Gluteus maximus",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "gluteus_maximus_r"
+     ],
+     "l": [
+      "gluteus_maximus_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "gluteus_maximus_r"
+     ],
+     "l": [
+      "gluteus_maximus_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "upper_portion",
+     "name": "Upper portion (UGM)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "inferior gluteal n., superior division",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "grimaldi2009"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "gluteus_maximus_r"
+        ],
+        "l": [
+         "gluteus_maximus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "gluteus_maximus_r"
+        ],
+        "l": [
+         "gluteus_maximus_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "the opened abstract does not state where UGM ends; no sourced boundary"
+     }
+    },
+    {
+     "id": "lower_portion",
+     "name": "Lower portion (LGM)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "inferior gluteal n., inferior division",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "grimaldi2009"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "gluteus_maximus_r"
+        ],
+        "l": [
+         "gluteus_maximus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "gluteus_maximus_r"
+        ],
+        "l": [
+         "gluteus_maximus_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "as above"
+     }
+    }
+   ],
+   "contested": null,
+   "note": "A superficial / deep segmentation is also described (Ramirez 1984) - layers, not drawable."
+  },
+  {
+   "muscle_id": "gluteus_medius",
+   "name": "Gluteus medius",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "gluteus_medius_r"
+     ],
+     "l": [
+      "gluteus_medius_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "gluteus_medius_r"
+     ],
+     "l": [
+      "gluteus_medius_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "anterior",
+     "name": "Anterior part",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "superior gluteal n., anterior branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gottschalk1989",
+      "flack2012"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "gluteus_medius_r"
+        ],
+        "l": [
+         "gluteus_medius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "gluteus_medius_r"
+        ],
+        "l": [
+         "gluteus_medius_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "part boundaries not given in the opened source; compartments not confirmed by the systematic review (flack2012)"
+     }
+    },
+    {
+     "id": "middle",
+     "name": "Middle part",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "superior gluteal n., middle branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gottschalk1989",
+      "flack2012"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "gluteus_medius_r"
+        ],
+        "l": [
+         "gluteus_medius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "gluteus_medius_r"
+        ],
+        "l": [
+         "gluteus_medius_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "part boundaries not given in the opened source; compartments not confirmed by the systematic review (flack2012)"
+     }
+    },
+    {
+     "id": "posterior",
+     "name": "Posterior part",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "superior gluteal n., posterior branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gottschalk1989",
+      "flack2012"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "gluteus_medius_r"
+        ],
+        "l": [
+         "gluteus_medius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "gluteus_medius_r"
+        ],
+        "l": [
+         "gluteus_medius_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "part boundaries not given in the opened source; compartments not confirmed by the systematic review (flack2012)"
+     }
+    }
+   ],
+   "contested": "Gottschalk 1989: three parts; Flack 2012 review: compartments suggested clinically but not confirmed.",
+   "note": null
+  },
+  {
+   "muscle_id": "gluteus_minimus",
+   "name": "Gluteus minimus",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "gluteus_minimus_r"
+     ],
+     "l": [
+      "gluteus_minimus_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "gluteus_minimus_r"
+     ],
+     "l": [
+      "gluteus_minimus_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [],
+   "contested": null,
+   "note": "No named parts in the opened sources: Beck 2000 (abstract) reports that the action depends on \"which part of the muscle is active\" without naming parts. Nothing to select."
+  },
+  {
+   "muscle_id": "adductor_magnus",
+   "name": "Adductor magnus",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "adductor_magnus_r"
+     ],
+     "l": [
+      "adductor_magnus_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "adductor_magnus_r"
+     ],
+     "l": [
+      "adductor_magnus_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "adductor_minimus",
+     "name": "Adductor minimus (APm)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "obturator n., posterior branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "maguchi2026"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_adductor_minimus_r"
+        ],
+        "l": [
+         "zan_adductor_minimus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_adductor_minimus_r"
+        ],
+        "l": [
+         "zan_adductor_minimus_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "adductor_part",
+     "name": "Adductor part (APs + APi)",
+     "ta_latin": null,
+     "origin": "inferior pubic ramus, ischial ramus",
+     "nerve_supply": "obturator n., posterior branch; Takizawa 2014: AM2-AM4 also receive tibial-division branches",
+     "nerve_source": [
+      "repo_record",
+      "takizawa2014"
+     ],
+     "refs": [
+      "maguchi2026",
+      "takizawa2014",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "adductor_magnus_r"
+        ],
+        "l": [
+         "adductor_magnus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "adductor_magnus_r"
+        ],
+        "l": [
+         "adductor_magnus_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "boundary_fibre_plane",
+       "boundary": "adductor part | hamstring part",
+       "origin_boundary": "junction of the ischial ramus and the ischial tuberosity",
+       "insertion_boundary": "upper margin of the adductor hiatus (between the linea-aspera and adductor-tubercle insertions)",
+       "page_inputs": [
+        "adductor_magnus",
+        "hip_bone",
+        "femur"
+       ],
+       "side": "adductor"
+      }
+     }
+    },
+    {
+     "id": "hamstring_part",
+     "name": "Hamstring (ischiocondylar) part",
+     "ta_latin": null,
+     "origin": "ischial tuberosity",
+     "nerve_supply": "tibial division of sciatic n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "maguchi2026",
+      "takizawa2014",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "adductor_magnus_r"
+        ],
+        "l": [
+         "adductor_magnus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "adductor_magnus_r"
+        ],
+        "l": [
+         "adductor_magnus_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "boundary_fibre_plane",
+       "boundary": "adductor part | hamstring part",
+       "origin_boundary": "junction of the ischial ramus and the ischial tuberosity",
+       "insertion_boundary": "upper margin of the adductor hiatus (between the linea-aspera and adductor-tubercle insertions)",
+       "page_inputs": [
+        "adductor_magnus",
+        "hip_bone",
+        "femur"
+       ],
+       "side": "hamstring"
+      }
+     }
+    }
+   ],
+   "contested": "Component count 2 or 4 (structure_parts part_set adductor_magnus.parts).",
+   "note": null
+  },
+  {
+   "muscle_id": "gastrocnemius",
+   "name": "Gastrocnemius",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "gastrocnemius_r"
+     ],
+     "l": [
+      "gastrocnemius_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "gastrocnemius_r"
+     ],
+     "l": [
+      "gastrocnemius_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "medial_head",
+     "name": "Medial head",
+     "ta_latin": "Caput mediale",
+     "origin": "popliteal surface above the medial condyle",
+     "nerve_supply": "tibial n., medial gastrocnemius branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "edama2015",
+      "szaro2009",
+      "delgado2002",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "gastrocnemius_r"
+        ],
+        "l": [
+         "gastrocnemius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "gastrocnemius_r"
+        ],
+        "l": [
+         "gastrocnemius_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "two_belly_axial_split",
+       "page_inputs": [
+        "gastrocnemius",
+        "femur",
+        "tibia"
+       ],
+       "topography": "medial head medial, lateral head lateral",
+       "side": "medial"
+      }
+     }
+    },
+    {
+     "id": "lateral_head",
+     "name": "Lateral head",
+     "ta_latin": "Caput laterale",
+     "origin": "lateral surface of the lateral femoral condyle",
+     "nerve_supply": "tibial n., lateral gastrocnemius branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "edama2015",
+      "szaro2009",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "gastrocnemius_r"
+        ],
+        "l": [
+         "gastrocnemius_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "gastrocnemius_r"
+        ],
+        "l": [
+         "gastrocnemius_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "two_belly_axial_split",
+       "page_inputs": [
+        "gastrocnemius",
+        "femur",
+        "tibia"
+       ],
+       "topography": "medial head medial, lateral head lateral",
+       "side": "lateral"
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "The repo already records a \"gastrocnemius_sector\" rule as text-only for lack of a validation mesh (scripts/anatomy/q219/build_geometry.py)."
+  },
+  {
+   "muscle_id": "soleus",
+   "name": "Soleus",
+   "region": "lower_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "soleus_r"
+     ],
+     "l": [
+      "soleus_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "soleus_r"
+     ],
+     "l": [
+      "soleus_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "fibular_head",
+     "name": "Fibular head",
+     "ta_latin": null,
+     "origin": "posterior head and upper quarter of the fibula",
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "soleus_r"
+        ],
+        "l": [
+         "soleus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "soleus_r"
+        ],
+        "l": [
+         "soleus_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "heads fuse into one sheet below the tendinous arch"
+     }
+    },
+    {
+     "id": "tibial_head",
+     "name": "Tibial head",
+     "ta_latin": null,
+     "origin": "soleal line and medial border of the tibia",
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "soleus_r"
+        ],
+        "l": [
+         "soleus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "soleus_r"
+        ],
+        "l": [
+         "soleus_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "as above"
+     }
+    },
+    {
+     "id": "architectural_parts",
+     "name": "Marginal, posterior and anterior soleus",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "agur2003"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "soleus_r"
+        ],
+        "l": [
+         "soleus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "soleus_r"
+        ],
+        "l": [
+         "soleus_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "internal (anterior bipennate) compartment; not a surface region"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "serratus_anterior",
+   "name": "Serratus anterior",
+   "region": "trunk",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "serratus_anterior_r"
+     ],
+     "l": [
+      "serratus_anterior_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "serratus_anterior_r"
+     ],
+     "l": [
+      "serratus_anterior_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "superior_part",
+     "name": "Superior part (digitations 1-2)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "long thoracic n.",
+     "nerve_source": [
+      "repo_record",
+      "godat2004"
+     ],
+     "refs": [
+      "gray42",
+      "godat2004"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "serratus_anterior_r"
+        ],
+        "l": [
+         "serratus_anterior_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "serratus_anterior_r"
+        ],
+        "l": [
+         "serratus_anterior_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "parts overlap at rib 2 in the textbook definition; a rib-of-origin rule holds near the ribs but not where the slips converge on the medial border"
+     }
+    },
+    {
+     "id": "intermediate_part",
+     "name": "Intermediate part (digitations 2-3)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "long thoracic n.",
+     "nerve_source": [
+      "repo_record",
+      "godat2004"
+     ],
+     "refs": [
+      "gray42",
+      "godat2004"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "serratus_anterior_r"
+        ],
+        "l": [
+         "serratus_anterior_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "serratus_anterior_r"
+        ],
+        "l": [
+         "serratus_anterior_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "parts overlap at rib 2 in the textbook definition; a rib-of-origin rule holds near the ribs but not where the slips converge on the medial border"
+     }
+    },
+    {
+     "id": "inferior_part",
+     "name": "Inferior part (digitations 4-9)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "long thoracic n.",
+     "nerve_source": [
+      "repo_record",
+      "godat2004"
+     ],
+     "refs": [
+      "gray42",
+      "godat2004"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "serratus_anterior_r"
+        ],
+        "l": [
+         "serratus_anterior_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "serratus_anterior_r"
+        ],
+        "l": [
+         "serratus_anterior_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "parts overlap at rib 2 in the textbook definition; a rib-of-origin rule holds near the ribs but not where the slips converge on the medial border"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "rectus_abdominis",
+   "name": "Rectus abdominis",
+   "region": "trunk",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "rectus_abdominis_r"
+     ],
+     "l": [
+      "rectus_abdominis_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "rectus_abdominis_r"
+     ],
+     "l": [
+      "rectus_abdominis_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "segment_1",
+     "name": "Segment 1 (above the 1st tendinous intersection)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "7th thoracoabdominal (intercostal) nerve, T7",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "transverse_level_planes",
+       "planes": [
+        "1st intersection: level of the xiphoid tip (textbook, typical)"
+       ],
+       "page_inputs": [
+        "rectus_abdominis",
+        "sternum"
+       ]
+      }
+     }
+    },
+    {
+     "id": "segment_2",
+     "name": "Segment 2",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "8th-9th thoracoabdominal nerves, T8-T9",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "transverse_level_planes",
+       "planes": [
+        "1st intersection",
+        "2nd intersection: midway xiphoid-umbilicus (typical)"
+       ],
+       "page_inputs": [
+        "rectus_abdominis",
+        "sternum"
+       ]
+      }
+     }
+    },
+    {
+     "id": "segment_3",
+     "name": "Segment 3",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "10th-11th thoracoabdominal nerves, T10-T11",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "transverse_level_planes",
+       "planes": [
+        "2nd intersection",
+        "3rd intersection: level of the umbilicus (typical)"
+       ],
+       "page_inputs": [
+        "rectus_abdominis",
+        "sternum"
+       ]
+      }
+     }
+    },
+    {
+     "id": "segment_4",
+     "name": "Segment 4 (below the umbilical intersection)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "12th thoracoabdominal (subcostal) nerve, T12",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "rectus_abdominis_r"
+        ],
+        "l": [
+         "rectus_abdominis_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "transverse_level_planes",
+       "planes": [
+        "3rd intersection"
+       ],
+       "page_inputs": [
+        "rectus_abdominis",
+        "sternum"
+       ]
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "The umbilicus is not a structure on the page; its level would have to come from a sourced landmark (e.g. L3-L4 disc), which is itself variable -> display as rule-based only."
+  },
+  {
+   "muscle_id": "external_oblique",
+   "name": "External oblique",
+   "region": "trunk",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "external_oblique_r"
+     ],
+     "l": [
+      "external_oblique_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "external_oblique_r"
+     ],
+     "l": [
+      "external_oblique_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "upper_fascicles",
+     "name": "Upper fascicles",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "thoracoabdominal nn. T7-T11, subcostal n. (whole muscle)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "urquhart2005"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "external_oblique_r"
+        ],
+        "l": [
+         "external_oblique_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "external_oblique_r"
+        ],
+        "l": [
+         "external_oblique_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "region boundaries are not given in the opened abstract"
+     }
+    },
+    {
+     "id": "middle_fascicles",
+     "name": "Middle fascicles",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "thoracoabdominal nn. T7-T11, subcostal n. (whole muscle)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "urquhart2005"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "external_oblique_r"
+        ],
+        "l": [
+         "external_oblique_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "external_oblique_r"
+        ],
+        "l": [
+         "external_oblique_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "region boundaries are not given in the opened abstract"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "internal_oblique",
+   "name": "Internal oblique",
+   "region": "trunk",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "internal_oblique_r"
+     ],
+     "l": [
+      "internal_oblique_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "internal_oblique_r"
+     ],
+     "l": [
+      "internal_oblique_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "upper_fascicles",
+     "name": "Upper fascicles",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "thoracoabdominal nerves T7-T12",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "urquhart2005"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "internal_oblique_r"
+        ],
+        "l": [
+         "internal_oblique_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "internal_oblique_r"
+        ],
+        "l": [
+         "internal_oblique_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "region boundaries not given in the opened abstract"
+     }
+    },
+    {
+     "id": "middle_fascicles",
+     "name": "Middle fascicles",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "thoracoabdominal nerves T7-T12",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "urquhart2005"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "internal_oblique_r"
+        ],
+        "l": [
+         "internal_oblique_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "internal_oblique_r"
+        ],
+        "l": [
+         "internal_oblique_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "as above; two layers in this region"
+     }
+    },
+    {
+     "id": "lower_fascicles",
+     "name": "Lower fascicles",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "iliohypogastric_n and ilioinguinal_n, L1",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "urquhart2005"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "internal_oblique_r"
+        ],
+        "l": [
+         "internal_oblique_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "internal_oblique_r"
+        ],
+        "l": [
+         "internal_oblique_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "as above; two layers in this region"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "erector_spinae",
+   "name": "Erector spinae",
+   "region": "trunk",
+   "whole_muscle_structures": null,
+   "parts": [
+    {
+     "id": "iliocostalis",
+     "name": "Iliocostalis column",
+     "ta_latin": "Musculus iliocostalis",
+     "origin": null,
+     "nerve_supply": "dorsal rami, segmental",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "bustami1986",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "iliocostalis_r",
+         "zan_iliocostalis_colli_muscle_r"
+        ],
+        "l": [
+         "iliocostalis_l",
+         "zan_iliocostalis_colli_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "iliocostalis_r",
+         "zan_iliocostalis_colli_muscle_r"
+        ],
+        "l": [
+         "iliocostalis_l",
+         "zan_iliocostalis_colli_muscle_l"
+        ],
+        "mid": []
+       }
+      },
+      "note": "zan_iliocostalis_colli_muscle exists on the left only (Q186)"
+     }
+    },
+    {
+     "id": "longissimus",
+     "name": "Longissimus column",
+     "ta_latin": "Musculus longissimus",
+     "origin": null,
+     "nerve_supply": "dorsal rami, segmental",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "bustami1986",
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "longissimus_r",
+         "zan_longissimus_capitis_muscle_r",
+         "zan_longissimus_colli_muscle_r"
+        ],
+        "l": [
+         "longissimus_l",
+         "zan_longissimus_capitis_muscle_l",
+         "zan_longissimus_colli_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "longissimus_r",
+         "zan_longissimus_capitis_muscle_r",
+         "zan_longissimus_colli_muscle_r"
+        ],
+        "l": [
+         "longissimus_l",
+         "zan_longissimus_capitis_muscle_l",
+         "zan_longissimus_colli_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "spinalis",
+     "name": "Spinalis column",
+     "ta_latin": "Musculus spinalis",
+     "origin": null,
+     "nerve_supply": "dorsal rami, segmental",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "spinalis_r",
+         "zan_spinalis_colli_muscle_r"
+        ],
+        "l": [
+         "spinalis_l",
+         "zan_spinalis_colli_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "spinalis_r",
+         "zan_spinalis_colli_muscle_r"
+        ],
+        "l": [
+         "spinalis_l",
+         "zan_spinalis_colli_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "Erector spinae is a group; each column is its own record and mesh. Bustami 1986 lumbar superficial/deep parts are not drawable (structure_parts rows)."
+  },
+  {
+   "muscle_id": "sternocleidomastoid",
+   "name": "Sternocleidomastoid",
+   "region": "head_neck",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "sternocleidomastoid_r"
+     ],
+     "l": [
+      "sternocleidomastoid_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "sternocleidomastoid_r"
+     ],
+     "l": [
+      "sternocleidomastoid_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "sternal_head",
+     "name": "Sternal head",
+     "ta_latin": "Caput sternale",
+     "origin": "anterior surface of the manubrium",
+     "nerve_supply": "accessory n., main trunk",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "sternocleidomastoid_r"
+        ],
+        "l": [
+         "sternocleidomastoid_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "sternocleidomastoid_r"
+        ],
+        "l": [
+         "sternocleidomastoid_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "nearest_origin_bone_lower_segment",
+       "bones": [
+        "sternum",
+        "clavicle"
+       ],
+       "page_inputs": [
+        "sternocleidomastoid",
+        "sternum",
+        "clavicle"
+       ],
+       "coverage": "lower segment only (below the fusion of the heads); the upper muscle is not assigned",
+       "head": "sternum"
+      }
+     }
+    },
+    {
+     "id": "clavicular_head",
+     "name": "Clavicular head",
+     "ta_latin": "Caput claviculare",
+     "origin": "medial third of the clavicle",
+     "nerve_supply": "accessory n., main trunk",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "rule",
+      "structures": {
+       "base_m": {
+        "r": [
+         "sternocleidomastoid_r"
+        ],
+        "l": [
+         "sternocleidomastoid_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "sternocleidomastoid_r"
+        ],
+        "l": [
+         "sternocleidomastoid_l"
+        ],
+        "mid": []
+       }
+      },
+      "rule": {
+       "name": "nearest_origin_bone_lower_segment",
+       "bones": [
+        "sternum",
+        "clavicle"
+       ],
+       "page_inputs": [
+        "sternocleidomastoid",
+        "sternum",
+        "clavicle"
+       ],
+       "coverage": "lower segment only (below the fusion of the heads); the upper muscle is not assigned",
+       "head": "clavicle"
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "masseter",
+   "name": "Masseter",
+   "region": "head_neck",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "masseter_r"
+     ],
+     "l": [
+      "masseter_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "masseter_r"
+     ],
+     "l": [
+      "masseter_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "superficial_part",
+     "name": "Superficial part",
+     "ta_latin": "Pars superficialis",
+     "origin": null,
+     "nerve_supply": "masseteric nerve, superficial distribution",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "zwijnenburg1999"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "masseter_r"
+        ],
+        "l": [
+         "masseter_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "masseter_r"
+        ],
+        "l": [
+         "masseter_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "layers"
+     }
+    },
+    {
+     "id": "deep_part",
+     "name": "Deep part",
+     "ta_latin": "Pars profunda",
+     "origin": null,
+     "nerve_supply": "masseteric nerve, deep distribution",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "zwijnenburg1999"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "masseter_r"
+        ],
+        "l": [
+         "masseter_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "masseter_r"
+        ],
+        "l": [
+         "masseter_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "layers"
+     }
+    },
+    {
+     "id": "zygomaticomandibularis",
+     "name": "Zygomaticomandibularis (deepest layer)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "hwang2005"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "masseter_r"
+        ],
+        "l": [
+         "masseter_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "masseter_r"
+        ],
+        "l": [
+         "masseter_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "deepest layer, covered by the masseter"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "temporalis",
+   "name": "Temporalis",
+   "region": "head_neck",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "zan_temporalis_muscle_r"
+     ],
+     "l": [
+      "zan_temporalis_muscle_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "zan_temporalis_muscle_r"
+     ],
+     "l": [
+      "zan_temporalis_muscle_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "superficial_part",
+     "name": "Superficial part",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "sedlmayr2009"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_temporalis_muscle_r"
+        ],
+        "l": [
+         "zan_temporalis_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_temporalis_muscle_r"
+        ],
+        "l": [
+         "zan_temporalis_muscle_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "parts are layers / a deep complex; Sedlmayr 2009 treats them as one structural unit"
+     }
+    },
+    {
+     "id": "zygomatic_part",
+     "name": "Zygomatic part",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "sedlmayr2009"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_temporalis_muscle_r"
+        ],
+        "l": [
+         "zan_temporalis_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_temporalis_muscle_r"
+        ],
+        "l": [
+         "zan_temporalis_muscle_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "parts are layers / a deep complex; Sedlmayr 2009 treats them as one structural unit"
+     }
+    },
+    {
+     "id": "deep_part",
+     "name": "Deep part (complex)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "sedlmayr2009"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_temporalis_muscle_r"
+        ],
+        "l": [
+         "zan_temporalis_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_temporalis_muscle_r"
+        ],
+        "l": [
+         "zan_temporalis_muscle_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "parts are layers / a deep complex; Sedlmayr 2009 treats them as one structural unit"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "subscapularis",
+   "name": "Subscapularis",
+   "region": "upper_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "subscapularis_r"
+     ],
+     "l": [
+      "subscapularis_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "subscapularis_r"
+     ],
+     "l": [
+      "subscapularis_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "superior_compartment",
+     "name": "Superior compartment",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "upper subscapular n.",
+     "nerve_source": [
+      "cho2023",
+      "repo_record"
+     ],
+     "refs": [
+      "cho2023"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "subscapularis_r"
+        ],
+        "l": [
+         "subscapularis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "subscapularis_r"
+        ],
+        "l": [
+         "subscapularis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "the dividing fascia is described but its level is not given in the opened abstract"
+     }
+    },
+    {
+     "id": "inferior_compartment",
+     "name": "Inferior compartment",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "lower subscapular n.",
+     "nerve_source": [
+      "cho2023",
+      "repo_record"
+     ],
+     "refs": [
+      "cho2023"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "subscapularis_r"
+        ],
+        "l": [
+         "subscapularis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "subscapularis_r"
+        ],
+        "l": [
+         "subscapularis_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "as above"
+     }
+    }
+   ],
+   "contested": null,
+   "note": "Cho 2023 is open access (PMC10333283); its full text may give the compartment boundary - not opened this round."
+  },
+  {
+   "muscle_id": "supinator",
+   "name": "Supinator",
+   "region": "upper_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "supinator_r"
+     ],
+     "l": [
+      "supinator_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "supinator_r"
+     ],
+     "l": [
+      "supinator_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "superficial_layer",
+     "name": "Superficial layer",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "thomas2000"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "supinator_r"
+        ],
+        "l": [
+         "supinator_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "supinator_r"
+        ],
+        "l": [
+         "supinator_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "layers (two-layer pattern in 29 %)"
+     }
+    },
+    {
+     "id": "deep_layer",
+     "name": "Deep layer",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "thomas2000"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "supinator_r"
+        ],
+        "l": [
+         "supinator_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "supinator_r"
+        ],
+        "l": [
+         "supinator_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "layers"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "flexor_digitorum_superficialis",
+   "name": "Flexor digitorum superficialis",
+   "region": "upper_limb",
+   "whole_muscle_structures": null,
+   "parts": [
+    {
+     "id": "humeroulnar_head",
+     "name": "Humero-ulnar head",
+     "ta_latin": "Caput humeroulnare",
+     "origin": "medial epicondyle, ulnar collateral ligament, coronoid process",
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "gray42",
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+        ],
+        "l": [
+         "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r"
+        ],
+        "l": [
+         "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "radial_head",
+     "name": "Radial head",
+     "ta_latin": "Caput radiale",
+     "origin": "superior half of the anterior border of the radius",
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "gray42",
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "flexor_digitorum_superficialis_r"
+        ],
+        "l": [
+         "flexor_digitorum_superficialis_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "flexor_digitorum_superficialis_r"
+        ],
+        "l": [
+         "flexor_digitorum_superficialis_l"
+        ],
+        "mid": []
+       }
+      },
+      "note": "Z-Anatomy names this mesh only \"Flexor digitorum superficialis\"; it lies along the anterior radius (atlas x 230-262 mm vs radius 227-289 mm, Base-M right) which fits the radial head. Name-level confirmation pending -> label \"probably the radial head\"."
+     }
+    }
+   ],
+   "contested": null,
+   "note": "Per-digit slips (repo record compartments digit2-digit5) are not separate meshes."
+  },
+  {
+   "muscle_id": "flexor_digitorum_profundus",
+   "name": "Flexor digitorum profundus",
+   "region": "upper_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "flexor_digitorum_profundus_r"
+     ],
+     "l": [
+      "flexor_digitorum_profundus_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "flexor_digitorum_profundus_r"
+     ],
+     "l": [
+      "flexor_digitorum_profundus_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "radial_part",
+     "name": "Radial (index) part",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "median n., anterior interosseous branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "flexor_digitorum_profundus_r"
+        ],
+        "l": [
+         "flexor_digitorum_profundus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "flexor_digitorum_profundus_r"
+        ],
+        "l": [
+         "flexor_digitorum_profundus_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "side-by-side bellies without a sourced boundary on the mesh"
+     }
+    },
+    {
+     "id": "ulnar_part",
+     "name": "Ulnar (middle, ring, little) part",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": "ulnar n., muscular branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "flexor_digitorum_profundus_r"
+        ],
+        "l": [
+         "flexor_digitorum_profundus_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "flexor_digitorum_profundus_r"
+        ],
+        "l": [
+         "flexor_digitorum_profundus_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "as above"
+     }
+    }
+   ],
+   "contested": "Accessory (Gantzer) head to FDP in 17 % (asghar2022).",
+   "note": null
+  },
+  {
+   "muscle_id": "pronator_teres",
+   "name": "Pronator teres",
+   "region": "upper_limb",
+   "whole_muscle_structures": {
+    "base_m": {
+     "r": [
+      "pronator_teres_r"
+     ],
+     "l": [
+      "pronator_teres_l"
+     ],
+     "mid": []
+    },
+    "base_f": {
+     "r": [
+      "pronator_teres_r"
+     ],
+     "l": [
+      "pronator_teres_l"
+     ],
+     "mid": []
+    }
+   },
+   "parts": [
+    {
+     "id": "humeral_head",
+     "name": "Humeral head",
+     "ta_latin": "Caput humerale",
+     "origin": "medial epicondyle",
+     "nerve_supply": "median n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42",
+      "hartz1981",
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "pronator_teres_r"
+        ],
+        "l": [
+         "pronator_teres_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "pronator_teres_r"
+        ],
+        "l": [
+         "pronator_teres_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "the ulnar head is small and deep; the median nerve between the heads is the only boundary"
+     }
+    },
+    {
+     "id": "ulnar_head",
+     "name": "Ulnar head",
+     "ta_latin": "Caput ulnare",
+     "origin": "coronoid process of the ulna",
+     "nerve_supply": "median n.",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "gray42",
+      "q293_textbook"
+     ],
+     "verification": "unverified_textbook",
+     "note": null,
+     "body": {
+      "status": "not_delimitable",
+      "structures": {
+       "base_m": {
+        "r": [
+         "pronator_teres_r"
+        ],
+        "l": [
+         "pronator_teres_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "pronator_teres_r"
+        ],
+        "l": [
+         "pronator_teres_l"
+        ],
+        "mid": []
+       }
+      },
+      "reason": "as above"
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "iliopsoas",
+   "name": "Iliopsoas",
+   "region": "lower_limb",
+   "whole_muscle_structures": null,
+   "parts": [
+    {
+     "id": "psoas_major",
+     "name": "Psoas major",
+     "ta_latin": "Musculus psoas major",
+     "origin": "T12-L5 bodies, discs, transverse processes",
+     "nerve_supply": "lumbar plexus, direct branches from L1-L3 ventral rami (proximal to femoral n. formation)",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_psoas_major_r"
+        ],
+        "l": [
+         "zan_psoas_major_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_psoas_major_r"
+        ],
+        "l": [
+         "zan_psoas_major_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "iliacus",
+     "name": "Iliacus",
+     "ta_latin": "Musculus iliacus",
+     "origin": "iliac fossa, iliac crest, ala of sacrum",
+     "nerve_supply": "femoral n., direct muscular branch",
+     "nerve_source": [
+      "repo_record"
+     ],
+     "refs": [
+      "q293_textbook"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_iliacus_muscle_r"
+        ],
+        "l": [
+         "zan_iliacus_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_iliacus_muscle_r"
+        ],
+        "l": [
+         "zan_iliacus_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "psoas_minor",
+     "name": "Psoas minor (inconstant)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "q308_psoas_minor"
+     ],
+     "verification": "verified",
+     "note": "Absent in a large share of people; hidden by default on the page.",
+     "body": {
+      "status": "separate_mesh_rule_based",
+      "structures": {
+       "base_m": {
+        "r": [
+         "psoas_minor_r"
+        ],
+        "l": [
+         "psoas_minor_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "psoas_minor_r"
+        ],
+        "l": [
+         "psoas_minor_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": null
+  },
+  {
+   "muscle_id": "levator_ani",
+   "name": "Levator ani",
+   "region": "trunk",
+   "whole_muscle_structures": null,
+   "parts": [
+    {
+     "id": "pubococcygeus",
+     "name": "Pubococcygeus",
+     "ta_latin": "Musculus pubococcygeus",
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "kearney2004"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_pubococcygeus_muscle_r"
+        ],
+        "l": [
+         "zan_pubococcygeus_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_pubococcygeus_muscle_r"
+        ],
+        "l": [
+         "zan_pubococcygeus_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "puboanal",
+     "name": "Puboanal part (pubo-analis)",
+     "ta_latin": "Musculus puboanalis",
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "kearney2004"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_pubo_analis_muscle_r"
+        ],
+        "l": [
+         "zan_pubo_analis_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_pubo_analis_muscle_r"
+        ],
+        "l": [
+         "zan_pubo_analis_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "iliococcygeus",
+     "name": "Iliococcygeus",
+     "ta_latin": "Musculus iliococcygeus",
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "kearney2004"
+     ],
+     "verification": "verified",
+     "note": null,
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "zan_iliococcygeus_muscle_r"
+        ],
+        "l": [
+         "zan_iliococcygeus_muscle_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "zan_iliococcygeus_muscle_r"
+        ],
+        "l": [
+         "zan_iliococcygeus_muscle_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    },
+    {
+     "id": "levator_ani_remainder",
+     "name": "Levator ani (remaining mesh)",
+     "ta_latin": null,
+     "origin": null,
+     "nerve_supply": null,
+     "nerve_source": null,
+     "refs": [
+      "kearney2004"
+     ],
+     "verification": "verified",
+     "note": "The page also ships a mesh named \"Levator ani\"; which parts it holds is not stated.",
+     "body": {
+      "status": "separate_mesh",
+      "structures": {
+       "base_m": {
+        "r": [
+         "levator_ani_r"
+        ],
+        "l": [
+         "levator_ani_l"
+        ],
+        "mid": []
+       },
+       "base_f": {
+        "r": [
+         "levator_ani_r"
+        ],
+        "l": [
+         "levator_ani_l"
+        ],
+        "mid": []
+       }
+      }
+     }
+    }
+   ],
+   "contested": null,
+   "note": "Kearney 2004 names five origin-insertion pairs (puboperineal, pubovaginal, puboanal, puborectal, iliococcygeal); the page carries Z-Anatomy's pubococcygeus / pubo-analis / iliococcygeus objects."
+  }
+ ],
+ "references": {
+  "agur2003": {
+   "citation": "Agur AM, Ng-Thow-Hing V, Ball KA, Fiume E, McKee NH. Documentation and three-dimensional modelling of human soleus muscle architecture. Clin Anat 2003;16(4):285-293",
+   "doi": "10.1002/ca.10112",
+   "pmid": "12794910",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: fibre bundle length and pennation documented throughout the marginal, posterior and anterior soleus; architecture non-uniform"
+  },
+  "asghar2022": {
+   "citation": "Asghar A, Jha RK, Patra A, Chaudhary B, Singh B. The prevalence and distribution of the variants of Gantzer's muscle: a meta-analysis of cadaveric studies. Anat Cell Biol 2022;55(1):3-13",
+   "doi": "10.5115/acb.21.141",
+   "pmid": "34785621",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: meta-analysis; accessory head of FPL 48 % (59 studies, 5903 limbs), accessory head of FDP 17 % (14 studies, 1627 limbs); Gantzer's muscle in about 2/3 of limbs"
+  },
+  "athwal2007": {
+   "citation": "Athwal GS, Steinmann SP, Rispoli DM. The distal biceps tendon: footprint and relevant clinical anatomy. J Hand Surg Am 2007;32(8):1225-1229",
+   "doi": "10.1016/j.jhsa.2007.05.027",
+   "pmid": "17923307",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 15 arms; long head tendon proximal on tuberosity, short head distal; lacertus fibrosus from short head tendon; footprint 108 mm2"
+  },
+  "beck2000": {
+   "citation": "Beck M, Sledge JB, Gautier E, Dora CF, Ganz R. The anatomy and function of the gluteus minimus muscle. J Bone Joint Surg Br 2000;82(3):358-363",
+   "doi": "10.1302/0301-620x.82b3.10356",
+   "pmid": "10813169",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: 16 hips; action depends on femoral position and \"which part of the muscle is active\"; the parts are not named in the abstract"
+  },
+  "bhatt2013": {
+   "citation": "Bhatt CR, Prajapati B, Patil DS, Patel VD, Singh BGP, Mehta CD. Variation in the insertion of the latissimus dorsi & its clinical importance. J Orthop 2013;10(1):25-28",
+   "doi": "10.1016/j.jor.2013.01.002",
+   "pmid": "24403744",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: origin from spinous processes T7-T12, thoracolumbar fascia, iliac crest, inferior 3 or 4 ribs, inferior angle of scapula; insertion floor of the intertubercular groove"
+  },
+  "bustami1986": {
+   "citation": "Bustami FM. A new description of the lumbar erector spinae muscle in man. J Anat 1986;144:81-91",
+   "doi": null,
+   "pmid": "3693050",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: lumbar erector spinae = superficial (costal) part from the erector spinae aponeurosis to the lower ten ribs + deep (vertebral) part into upper four lumbar and lower eight thoracic vertebrae"
+  },
+  "castanov2019": {
+   "citation": "Castanov V, Hassan SA, Shakeri S, Vienneau M, Zabjek K, Richardson D, McKee NH, Agur AMR. Muscle architecture of vastus medialis obliquus and longus and its functional implications: a three-dimensional investigation. Clin Anat 2019;32(4):515-523",
+   "doi": "10.1002/ca.23344",
+   "pmid": "30701597",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 12 specimens; VM has longus (VML) and obliquus (VMO) partitions, each with superficial and deep parts; VMO superficial part split into superior and inferior partitions"
+  },
+  "cho2023": {
+   "citation": "Cho TH, Hong JE, Yang HM. Neuromuscular compartmentation of the subscapularis muscle [title abridged]. Sci Rep 2023;13(1):11167",
+   "doi": "10.1038/s41598-023-38406-0",
+   "pmid": "37430018",
+   "pmcid": "PMC10333283",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: 10 cadavers; a distinct fascia divides subscapularis into superior and inferior compartments; upper and lower subscapular nerves supply territories mostly matching them; type I fibres 22 % superior vs 81 % inferior"
+  },
+  "delgado2002": {
+   "citation": "Delgado GJ, Chung CB, Lektrakul N, Azocar P, Botte MJ, Coria D, Bosch E, Resnick D. Tennis leg: clinical US study of 141 patients and anatomic investigation of four cadavers with MR imaging and US. Radiology 2002;224(1):112-119",
+   "doi": "10.1148/radiol.2241011067",
+   "pmid": "12091669",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: medial gastrocnemius rupture 66.7 %; fluid between aponeuroses of medial gastrocnemius and soleus"
+  },
+  "eames2007": {
+   "citation": "Eames MH, Bain GI, Fogg QA, van Riet RP. Distal biceps tendon anatomy: a cadaveric study. J Bone Joint Surg Am 2007;89(5):1044-1049",
+   "doi": "10.2106/JBJS.D.02992",
+   "pmid": "17473142",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 17 elbows; two distinct tendon parts (long + short head) in 10; bicipital aponeurosis three layers"
+  },
+  "edama2015": {
+   "citation": "Edama M, Kubo M, Onishi H, Takabayashi T, Inai T, Yokoyama E, Hiroshi W, Satoshi N, Kageyama I. The twisted structure of the human Achilles tendon. Scand J Med Sci Sports 2015;25(5):e497-e503",
+   "doi": "10.1111/sms.12342",
+   "pmid": "25557958",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: fascicles from MG, LG, Sol; three torsion types, 111 legs"
+  },
+  "flack2012": {
+   "citation": "Flack NAMS, Nicholson HD, Woodley SJ. A review of the anatomy of the hip abductor muscles, gluteus medius, gluteus minimus, and tensor fascia lata. Clin Anat 2012;25(6):697-708",
+   "doi": "10.1002/ca.22004",
+   "pmid": "22109658",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: systematic review; possible compartments in gluteus medius/minimus"
+  },
+  "friden2001": {
+   "citation": "Friden J, Lieber RL. Quantitative evaluation of the posterior deltoid to triceps tendon transfer based on muscle architectural properties. J Hand Surg Am 2001;26(1):147-155",
+   "doi": "10.1053/jhsu.2001.20161",
+   "pmid": "11172382",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: architecture of posterior deltoid and the three triceps heads"
+  },
+  "fung2009": {
+   "citation": "Fung L, Wong B, Ravichandiran K, Agur A, Rindlisbacher T, Elmaraghy A. Three-dimensional study of pectoralis major muscle and tendon architecture. Clin Anat 2009;22(4):500-508",
+   "doi": "10.1002/ca.20784",
+   "pmid": "19291757",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: tendon anterior + posterior layers; clavicular head uniform, sternal head 6-7 segments"
+  },
+  "godat2004": {
+   "citation": "Godat DM, Sanger JR, Lifchez SD, et al. Detailed neurovascular anatomy of the serratus anterior muscle: implications for a functional muscle flap with multiple independent force vectors. Plast Reconstr Surg 2004;114(1):21-29",
+   "doi": "10.1097/01.prs.0000129072.11466.c3",
+   "pmid": "15220562",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: slips 5-9 (50 specimens) supplied by one dominant thoracodorsal branch and innervated by the long thoracic nerve; slips separable to the common slip arteries"
+  },
+  "gottschalk1989": {
+   "citation": "Gottschalk F, Kourosh S, Leveau B. The functional anatomy of tensor fasciae latae and gluteus medius and minimus. J Anat 1989;166:179-189",
+   "doi": null,
+   "pmid": "2621137",
+   "pmcid": "PMC1256751",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: gluteus medius \"with its three parts\" and phasic functions"
+  },
+  "gray42": {
+   "citation": "Standring S (ed.). Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. Elsevier, 2020 (section locator in the row; page not verified)",
+   "doi": null,
+   "pmid": null,
+   "opened": "not opened (textbook; page not verified)",
+   "basis": "general textbook statement; not page-checked"
+  },
+  "grimaldi2009": {
+   "citation": "Grimaldi A, Richardson C, Durbridge G, Donnelly W, Darnell R, Hides J. The association between degenerative hip joint pathology and size of the gluteus maximus and tensor fascia lata muscles. Man Ther 2009;14(6):611-617",
+   "doi": "10.1016/j.math.2008.11.002",
+   "pmid": "19121974",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: volumes measured separately for the upper (UGM) and lower (LGM) portions of gluteus maximus; the portions behave differently in hip osteoarthritis (\"functional separation\")"
+  },
+  "hartz1981": {
+   "citation": "Hartz CR, Linscheid RL, Gramse RR, Daube JR. The pronator teres syndrome: compressive neuropathy of the median nerve. J Bone Joint Surg Am 1981;63(6):885-890",
+   "doi": null,
+   "pmid": "7240329",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 39 patients with pronator teres syndrome (clinical series; no head count)"
+  },
+  "hwang2005": {
+   "citation": "Hwang K, Lee DK, Kim HJ, Shin YH, Chung IH. Zygomaticomandibularis muscle. J Craniofac Surg 2005;16(4):655-657",
+   "doi": "10.1097/01.scs.0000168763.54323.21",
+   "pmid": "16077310",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: 15 cadavers dissected + MRI; zygomaticomandibularis fan-shaped, 25.1 mm long, from the deep layer of the deep temporal fascia about 1 cm above the zygomatic arch to the mandible between coronoid process and mandibular notch; the deepest layer of masseter covers it"
+  },
+  "kearney2004": {
+   "citation": "Kearney R, Sawhney R, DeLancey JOL. Levator ani muscle anatomy evaluated by origin-insertion pairs. Obstet Gynecol 2004;104(1):168-173",
+   "doi": "10.1097/01.AOG.0000128906.61529.6b",
+   "pmid": "15229017",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: five origin-insertion pairs: puboperineal, pubovaginal, puboanal, puborectal, iliococcygeal"
+  },
+  "leonello2007": {
+   "citation": "Leonello DT, Galley IJ, Bain GI, Carter CD. Brachialis muscle anatomy. A study in cadavers. J Bone Joint Surg Am 2007;89(6):1293-1297",
+   "doi": "10.2106/JBJS.F.00343",
+   "pmid": "17545433",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 11 limbs; brachialis two heads (superficial -> ulnar tuberosity, deep -> coronoid); radial nerve supplies deep head"
+  },
+  "maguchi2026": {
+   "citation": "Maguchi K, Takafumi O, Imai M, Kawasaki Y, Miyaki T, Tujikawa K, Satoh K, Trejo JAO, Omotehara T, Anetai H, Ichimura K. Anatomical Architecture of the Adductor Magnus: A Cadaveric Study With Clinical Implications for Imaging-Based Diagnosis. Clin Anat 2026;epub-ahead-of-print:n/a",
+   "doi": "10.1002/ca.70157",
+   "pmid": "42237686",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: 9 AMs; four components adductor minimus, superior and inferior parts of the adductor part, hamstring part; minimus and superior part insert on the lateral lip, inferior part on the medial lip and medial supracondylar line; superficial / deep membranous origin tendons, insertion tendons, intramuscular tendinous arches"
+  },
+  "miller2007": {
+   "citation": "Miller SL, Gill J, Webb GR. The proximal origin of the hamstrings and surrounding anatomy encountered during repair. A cadaveric study. J Bone Joint Surg Am 2007;89(1):44-48",
+   "doi": "10.2106/JBJS.F.00094",
+   "pmid": "17200309",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: semitendinosus + biceps femoris common tendon of origin; semimembranosus origin crescent, lateral; MTJs separate at 9.9 cm"
+  },
+  "q293_rf_reflected": {
+   "citation": "Repository Q293 rule-based mesh rectus_femoris_reflected_head_{l,r} (badge on the page): built by rule because no source mesh of the head exists",
+   "doi": null,
+   "pmid": null,
+   "opened": "page manifest badge",
+   "basis": "rule-based geometry, hidden behind its badge"
+  },
+  "q293_textbook": {
+   "citation": "Repository data/anatomy/muscle_heads_q293.json: Gray's Anatomy for Students 4th ed. (Drake, Vogl, Mitchell); Moore's Clinically Oriented Anatomy 8th ed.",
+   "doi": null,
+   "pmid": null,
+   "opened": "repo file (textbook-level; page not verified)",
+   "basis": "heads and their origins as listed in the repo"
+  },
+  "q308_psoas_minor": {
+   "citation": "Repository Q308 rule-based mesh psoas_minor_{l,r}: hidden by default, \"not demonstrated on this body\" (absent in a large share of people)",
+   "doi": null,
+   "pmid": null,
+   "opened": "page manifest badge",
+   "basis": "rule-based geometry"
+  },
+  "ramirez1984": {
+   "citation": "Ramirez OM, Hurwitz DJ, Futrell JW. The expansive gluteus maximus flap. Plast Reconstr Surg 1984;74(6):757-770",
+   "doi": "10.1097/00006534-198412000-00003",
+   "pmid": "6505096",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: superficial and deep segmentation of gluteus maximus"
+  },
+  "repo_record": {
+   "citation": "Repository muscle records data/muscles/<region>/<muscle>_r.json ('functional_compartments[].innervation_branch'); their 'source' field cites Gray's Anatomy for Students 4th ed. and the muscle-specific papers named there",
+   "doi": null,
+   "pmid": null,
+   "opened": "repo file",
+   "basis": "per-compartment nerve branch text"
+  },
+  "rispoli2009": {
+   "citation": "Rispoli DM, Athwal GS, Sperling JW, Cofield RH. The anatomy of the deltoid insertion. J Shoulder Elbow Surg 2009;18(3):386-390",
+   "doi": "10.1016/j.jse.2008.10.012",
+   "pmid": "19186076",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 10 specimens; anterior, middle, posterior head insertions (mean widths 7.3, 4.7, 7.8 mm; lengths 70, 48.4, 63.4 mm); continuity with lateral intermuscular septum and brachialis/deep brachial fascia"
+  },
+  "sakoma2011": {
+   "citation": "Sakoma Y, Sano H, Shinozaki N, Itoigawa Y, Yamamoto N, Ozaki T, Itoi E. Anatomical and functional segments of the deltoid muscle. J Anat 2011;218(2):185-190",
+   "doi": "10.1111/j.1469-7580.2010.01325.x",
+   "pmid": "21118198",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 60 shoulders, three tendinous insertions, seven segments by intramuscular tendons"
+  },
+  "sedlmayr2009": {
+   "citation": "Sedlmayr JC, Kirsch CFE, Wisco JJ. The human temporalis muscle: superficial, deep, and zygomatic parts comprise one structural unit. Clin Anat 2009;22(6):655-664",
+   "doi": "10.1002/ca.20837",
+   "pmid": "19637294",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: 32 specimens from 16 subjects + CT / MR; three parts in all: superficial, zygomatic (zygomatic arch to the superficial part's lateral coronoid insertion) and complex deep part (crests of the temporal fossa to the inner coronoid process and retromolar triangle, interdigitating with buccinator, mylohyoid, superior constrictor)"
+  },
+  "szaro2009": {
+   "citation": "Szaro P, Witkowski G, Smigielski R, Krajewski P, Ciszek B. Fascicles of the adult human Achilles tendon - an anatomical study. Ann Anat 2009;191(6):586-593",
+   "doi": "10.1016/j.aanat.2009.07.006",
+   "pmid": "19734029",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 40 tendons dissected; segments of the Achilles tendon"
+  },
+  "takizawa2014": {
+   "citation": "Takizawa M, Suzuki D, Ito H, Fujimiya M, Uchiyama E. The adductor part of the adductor magnus is innervated by both obturator and sciatic nerves. Clin Anat 2014;27(5):778-782",
+   "doi": "10.1002/ca.22274",
+   "pmid": "23813615",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: 21 limbs; adductor magnus divided into AM1-AM4 by the perforating arteries and adductor hiatus; AM1 obturator only, AM2-AM4 obturator + tibial portion of sciatic (9.5 / 95.2 / 28.6 %); AM1-AM3 = adductor part, AM4 = hamstrings part"
+  },
+  "terry1996": {
+   "citation": "Terry GC, LaPrade RF. The biceps femoris muscle complex at the knee. Its anatomy and injury patterns associated with acute anterolateral-anteromedial rotatory instability. Am J Sports Med 1996;24(1):2-8",
+   "doi": "10.1177/036354659602400102",
+   "pmid": "8638749",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: long head reflected, direct, anterior arms + lateral and anterior aponeurosis; short head capsular, direct, anterior arms, confluens, lateral aponeurosis"
+  },
+  "thomas2000": {
+   "citation": "Thomas SJ, Yakin DE, Parry BR, Lubahn JD. The anatomical relationship between the posterior interosseous nerve and the supinator muscle. J Hand Surg Am 2000;25(5):936-941",
+   "doi": "10.1053/jhsu.2000.16360",
+   "pmid": "11040309",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: 31 specimens of 16 cadavers; supinator one semicircular head/layer in 71 %, two distinct heads/layers in 29 % (superficial to the lateral epicondyle, deep to the ulna below the radial notch); arcade of Frohse membranous 68 %, tendinous 32 %"
+  },
+  "urquhart2005": {
+   "citation": "Urquhart DM, Barker PJ, Hodges PW, Story IH, Briggs CA. Regional morphology of the transversus abdominis and obliquus internus and externus abdominis muscles. Clin Biomech 2005;20(3):233-241",
+   "doi": "10.1016/j.clinbiomech.2004.11.007",
+   "pmid": "15698694",
+   "opened": "PubMed abstract (2026-11-15)",
+   "basis": "abstract: 26 embalmed cadavers; upper, middle and lower fascicles of transversus and obliquus internus, upper and middle fascicles of obliquus externus differ in orientation, thickness and length; obliquus internus separable into two layers in the lower and middle regions"
+  },
+  "vangsness1994": {
+   "citation": "Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL. The origin of the long head of the biceps from the scapula and glenoid labrum. An anatomical study of 100 shoulders. J Bone Joint Surg Br 1994;76(6):951-954",
+   "doi": null,
+   "pmid": "7983126",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: about 50 % of the tendon arises from the superior labrum, rest from the supraglenoid tubercle; four types"
+  },
+  "vohra2024": {
+   "citation": "Vohra A, Paul B, Saunders P, Galal Y, Yao S, Hui C, Lederman E, McKee M, Shah A. Anatomic variations of the deltoid muscle insertion: a cadaveric study. JSES Int 2024;8(3):546-550",
+   "doi": "10.1016/j.jseint.2024.01.013",
+   "pmid": "38707574",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: trisegmented deltoid; 8 shoulders; step-off pattern anterior/middle/posterior tendons superior-medial / on / inferior-lateral to deltoid tuberosity in 2/8"
+  },
+  "waligora2009": {
+   "citation": "Waligora AC, Johanson NA, Hirsch BE. Clinical anatomy of the quadriceps femoris and extensor apparatus of the knee. Clin Orthop Relat Res 2009;467(12):3297-3306",
+   "doi": "10.1007/s11999-009-1052-y",
+   "pmid": "19690926",
+   "opened": "PubMed record, verified by the project 2026-10-11",
+   "basis": "abstract: 20 limbs, only 3 with the classic 3-layer quadriceps tendon; bi-, tri- and tetralaminar patterns; VLO in 60 %"
+  },
+  "zwijnenburg1999": {
+   "citation": "Zwijnenburg AJ, Lobbezoo F, Kroon GW, Naeije M. Mandibular movements in response to electrical stimulation of superficial and deep parts of the human masseter muscle at different jaw positions. Arch Oral Biol 1999;44(5):395-401",
+   "doi": "10.1016/s0003-9969(99)00016-3",
+   "pmid": "10391497",
+   "opened": "PubMed record, verified by the project 2026-10-12",
+   "basis": "abstract: 5 men; electrical stimulation of the deep masseter and the anterior, middle and posterior superficial parts; evidence for a functional subdivision into superficial and deep part, not for a further subdivision of the superficial part"
+  }
+ },
+ "counts": {
+  "muscles": 32,
+  "muscles_with_parts": 31,
+  "parts": 81,
+  "by_status": {
+   "separate_mesh": 22,
+   "rule": 19,
+   "not_delimitable": 38,
+   "separate_mesh_rule_based": 2
+  },
+  "per_body": {
+   "base_m": {
+    "separate_mesh": 22,
+    "separate_mesh_rule_based": 2,
+    "needs_rule": 19,
+    "not_delimitable": 38,
+    "missing_on_page": 0
+   },
+   "base_f": {
+    "separate_mesh": 22,
+    "separate_mesh_rule_based": 2,
+    "needs_rule": 19,
+    "not_delimitable": 38,
+    "missing_on_page": 0
+   }
+  },
+  "rules_used": {
+   "boundary_fibre_plane": 5,
+   "fan_projection_from_insertion": 4,
+   "two_belly_axial_split": 4,
+   "transverse_level_planes": 4,
+   "nearest_origin_bone_lower_segment": 2
+  }
+ }
+}
