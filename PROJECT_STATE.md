@@ -123,10 +123,25 @@ clinical_ultrasound_tool.js,clinical_imaging_tool.js,clinical_needle_tool.js,cli
 parts_data.json,symmetry_q237.json,plexus_groups.json,innervation_q322.json,groups_q342.json,
 __ANATOMY_manifest,__ANATOMY_files,atlas_viewer_base_female_geo_03.txt
 
-**Not running / to do next:** Q337 whole-body QA sweep (restart as a fresh read-only agent AFTER the
-publish, on the published state); owner's attached PDF (same guide again, no text) — asked what he
-wants; proposal = surface the private injection fields (points, scan start, manoeuvre, at-risk) in the
-injection mode. Scan-mode badge "סימולציה מהמשים" looks like a typo (pinned by two tests) — asked owner.
+**In flight (dispatched 2026-11-16 ~11:20 UTC):** Q347 agent — show the private injection guide data
+(`clinical/data/innervation_injection_q322.json`: points, sites, scan start, manoeuvre, at-risk) in the
+injection mode: Guide section, "Use site N" (target = placed IZ band centroid), "Start scan here",
+at-risk highlight + distances; staged at regen as a clinical sibling; verifier
+`scripts/anatomy/q347/verify_injection_guide_q347.py`. Owner approved.
+**Owner's books in Dropbox `/claude` (added 2026-11-16 09:25 UTC), to use as KNOWLEDGE ONLY (facts +
+page citations; no prose/figures copied; PDFs never in the repo — same rule as Sobotta):** Gray's Atlas of
+Anatomy (45 MB), Lumley Surface Anatomy (41 MB), Mannan's Regional Dissection and Surface Anatomy (74 MB),
+Yogesh Anatomy vol 5–6 (22 MB), Fascia in Sport and Movement (19 MB), Peripheral Nerve Injury — anatomical
+(12 MB), Peripheral Nervous System: Interrelationships and Variations (27 MB), Peripheral Nerves (6.9 MB),
+"Atlas" (16.7 MB, untitled). **BLOCKED:** the Dropbox text tool reads files ≤ 5 MiB only, and file
+downloads come from random `uc….dl.dropboxusercontent.com` hosts that the network policy refuses (403);
+a wildcard cannot be added from the session. Owner must add `*.dl.dropboxusercontent.com` to the
+environment's allowed hosts in Settings (or upload the PDFs in chat). When readable → Q348 reference pass:
+verify/complete the Q342 `verify_against_book` lines and gaps (Hefter II/V, lower-limb flexion synergy),
+the Q336 perineal checklist, surface landmarks of the IZ lines (posterior axillary fold etc.), the 38
+"not delimitable" muscle parts, finger nerve/artery order; record book + edition + page per fact.
+**Not running:** Q337 whole-body QA sweep (restart as a fresh read-only agent after the q346 publish).
+Scan-mode badge "סימולציה מהמשים" looks like a typo (pinned by two tests) — asked owner.
 
 **Decisions taken by the main thread (owner delegated):** vulva skin accepted as an overlapping real
 surface; "horizontal" myofascial class shown disabled (no sourced line); rule-based muscle-part partitions
