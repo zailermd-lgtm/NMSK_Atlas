@@ -1744,7 +1744,8 @@
     }
    },
    "nerves": [
-    "lateral_plantar_n_deep_branch"
+    "lateral_plantar_n_deep_branch",
+    "lateral_plantar_n_superficial_branch"
    ],
    "roots_text": "S1-S3",
    "roots_range_across_sources": null,
@@ -7305,7 +7306,8 @@
     }
    },
    "nerves": [
-    "medial_pectoral_n"
+    "medial_pectoral_n",
+    "lateral_pectoral_n"
    ],
    "roots_text": "C8-T1",
    "roots_range_across_sources": "C6-T1 across sources (adopted C8-T1; earlier range C8-T1; Mannan 2017 p. 106: C6-C8)",
@@ -7423,7 +7425,8 @@
     }
    },
    "nerves": [
-    "lateral_plantar_n_deep_branch"
+    "lateral_plantar_n_deep_branch",
+    "lateral_plantar_n_superficial_branch"
    ],
    "roots_text": "S1-S3",
    "roots_range_across_sources": "S1-S3 across sources (adopted S1-S3; Mannan 2017 p. 291: S2-S3)",
@@ -9334,17 +9337,10 @@
     }
    },
    "nerves": [
-    "intercostal_n_t1_muscular",
     "intercostal_n_t2_muscular",
     "intercostal_n_t3_muscular",
     "intercostal_n_t4_muscular",
-    "intercostal_n_t5_muscular",
-    "intercostal_n_t6_muscular",
-    "thoracoabdominal_n_t7_intercostal_muscular",
-    "thoracoabdominal_n_t8_intercostal_muscular",
-    "thoracoabdominal_n_t9_intercostal_muscular",
-    "thoracoabdominal_n_t10_intercostal_muscular",
-    "thoracoabdominal_n_t11_intercostal_muscular"
+    "intercostal_n_t5_muscular"
    ],
    "roots_text": "T2-T5 (2nd-5th intercostal nerves)",
    "roots_range_across_sources": null,
@@ -17633,6 +17629,11 @@
        "role": "motor"
       },
       {
+       "muscle_id": "pectoralis_minor",
+       "via": "lateral_pectoral_n",
+       "role": "motor"
+      },
+      {
        "muscle_id": "pronator_quadratus",
        "via": "anterior_interosseous_n",
        "role": "motor"
@@ -17966,6 +17967,11 @@
        "role": "motor"
       },
       {
+       "muscle_id": "pectoralis_minor",
+       "via": "lateral_pectoral_n",
+       "role": "motor"
+      },
+      {
        "muscle_id": "pronator_quadratus",
        "via": "anterior_interosseous_n",
        "role": "motor"
@@ -18226,6 +18232,11 @@
       },
       {
        "muscle_id": "pectoralis_major",
+       "via": "lateral_pectoral_n",
+       "role": "motor"
+      },
+      {
+       "muscle_id": "pectoralis_minor",
        "via": "lateral_pectoral_n",
        "role": "motor"
       },
@@ -18577,6 +18588,11 @@
       },
       {
        "muscle_id": "pectoralis_major",
+       "via": "lateral_pectoral_n",
+       "role": "motor"
+      },
+      {
+       "muscle_id": "pectoralis_minor",
        "via": "lateral_pectoral_n",
        "role": "motor"
       },
@@ -19851,11 +19867,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "via": "intercostal_n_t1_muscular",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "via": "intercostal_n_t1_muscular",
        "role": "motor"
@@ -19888,10 +19899,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "role": "motor"
       }
@@ -19914,11 +19921,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "intercostal_n_t1_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "intercostal_n_t1_muscular",
        "role": "motor"
       },
@@ -20396,11 +20398,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "via": "intercostal_n_t6_muscular",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "via": "intercostal_n_t6_muscular",
        "role": "motor"
@@ -20433,10 +20430,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "role": "motor"
       }
@@ -20463,11 +20456,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "via": "intercostal_n_t6_muscular",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "via": "intercostal_n_t6_muscular",
        "role": "motor"
@@ -20486,11 +20474,20 @@
       {
        "muscle_id": "pectoralis_major",
        "role": "motor"
+      },
+      {
+       "muscle_id": "pectoralis_minor",
+       "role": "motor"
       }
      ],
      "all_members": [
       {
        "muscle_id": "pectoralis_major",
+       "via": "lateral_pectoral_n",
+       "role": "motor"
+      },
+      {
+       "muscle_id": "pectoralis_minor",
        "via": "lateral_pectoral_n",
        "role": "motor"
       }
@@ -20601,6 +20598,37 @@
       {
        "muscle_id": "plantar_interossei",
        "via": "lateral_plantar_n_deep_branch",
+       "role": "motor"
+      }
+     ],
+     "cranial": false
+    },
+    "lateral_plantar_n_superficial_branch": {
+     "id": "lateral_plantar_n_superficial_branch",
+     "name": "Lateral plantar n., superficial branch",
+     "parent": "lateral_plantar_n",
+     "level": "cutaneous_branch",
+     "plexus": "sacral_plexus",
+     "roots": "S1-S3",
+     "direct_members": [
+      {
+       "muscle_id": "dorsal_interossei_foot",
+       "role": "motor"
+      },
+      {
+       "muscle_id": "plantar_interossei",
+       "role": "motor"
+      }
+     ],
+     "all_members": [
+      {
+       "muscle_id": "dorsal_interossei_foot",
+       "via": "lateral_plantar_n_superficial_branch",
+       "role": "motor"
+      },
+      {
+       "muscle_id": "plantar_interossei",
+       "via": "lateral_plantar_n_superficial_branch",
        "role": "motor"
       }
      ],
@@ -22686,11 +22714,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "via": "thoracoabdominal_n_t10_intercostal_muscular",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_abdominis",
        "via": "thoracoabdominal_n_t10_abdominal_wall_muscular",
        "role": "motor"
@@ -22768,10 +22791,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "role": "motor"
       }
@@ -22794,11 +22813,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t10_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t10_intercostal_muscular",
        "role": "motor"
       },
@@ -22873,11 +22887,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t11_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t11_intercostal_muscular",
        "role": "motor"
       },
@@ -22959,10 +22968,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "role": "motor"
       }
@@ -22985,11 +22990,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t11_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t11_intercostal_muscular",
        "role": "motor"
       },
@@ -23064,11 +23064,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t7_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t7_intercostal_muscular",
        "role": "motor"
       },
@@ -23150,10 +23145,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "role": "motor"
       }
@@ -23176,11 +23167,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t7_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t7_intercostal_muscular",
        "role": "motor"
       },
@@ -23255,11 +23241,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t8_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t8_intercostal_muscular",
        "role": "motor"
       },
@@ -23341,10 +23322,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "role": "motor"
       }
@@ -23367,11 +23344,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t8_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t8_intercostal_muscular",
        "role": "motor"
       },
@@ -23446,11 +23418,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t9_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t9_intercostal_muscular",
        "role": "motor"
       },
@@ -23532,10 +23499,6 @@
        "role": "motor"
       },
       {
-       "muscle_id": "serratus_posterior_superior",
-       "role": "motor"
-      },
-      {
        "muscle_id": "transversus_thoracis",
        "role": "motor"
       }
@@ -23558,11 +23521,6 @@
       },
       {
        "muscle_id": "serratus_posterior_inferior",
-       "via": "thoracoabdominal_n_t9_intercostal_muscular",
-       "role": "motor"
-      },
-      {
-       "muscle_id": "serratus_posterior_superior",
        "via": "thoracoabdominal_n_t9_intercostal_muscular",
        "role": "motor"
       },
@@ -32600,8 +32558,8 @@
   "root_levels_with_members": 30,
   "cranial_groups": 9,
   "muscles_without_parsable_level": 7,
-  "nerves": 142,
-  "nerves_with_direct_members": 109,
+  "nerves": 143,
+  "nerves_with_direct_members": 110,
   "patterns": 23,
   "patterns_ok": 22,
   "pattern_members": 202,

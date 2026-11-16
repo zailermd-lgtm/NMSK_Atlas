@@ -69,8 +69,9 @@ for rid, d in RECS.items():
 # Q348: corrections of the adopted value from an opened book (books_q348.ADOPT), recorded on the muscle
 for mid, a in ADOPT.items():
     m = MUS[mid]
-    assert m['roots_text'].startswith(a['was']), (mid, m['roots_text'])
-    m['corrected_q348'] = dict(was=m['roots_text'], now=a['roots_text'], ref=a['ref'], page=a['page'], why=a['why'])
+    # Q350: the muscle record itself now carries the corrected value (its root_levels = the first word of the adopted text)
+    assert m['roots_text'].startswith((a['was'], a['roots_text'].split(' ')[0])), (mid, m['roots_text'])
+    m['corrected_q348'] = dict(was=a['was'], now=a['roots_text'], ref=a['ref'], page=a['page'], why=a['why'])
     m['roots_text'] = a['roots_text']
     m['sources'] = sorted((set(m['sources']) - {'repo_textbook'}) | {a['ref']})
 for m in MUS.values():

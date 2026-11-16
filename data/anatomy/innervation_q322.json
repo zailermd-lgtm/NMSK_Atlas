@@ -108,6 +108,12 @@
    "kind": "bony_point",
    "definition": "Most superior point of the iliac crest (the guide says only \"iliac crest\")."
   },
+  "iliac_crest_posterior_outer_lip": {
+   "label": "Iliac crest, outer lip, posterior part",
+   "bone": "hip_bone",
+   "kind": "bony_point",
+   "definition": "Latissimus dorsi origin on the crest: the posterior part of its outer lip (Mannan 2017 p. 121). Rule: along the crest from the ASIS (0) to the PSIS (1) by anteroposterior position, \"posterior part\" = the posterior third, taken at its middle (5/6); there the crest = the hip-bone vertices of a 6 mm thick coronal slab within 5 mm of the slab's top, and the outer lip = the one furthest out along the horizontal outward normal of the crest line (ridge tops 10 mm before and after). PSIS = most posterior point of the upper 45 % of the hip bone."
+  },
   "medial_epicondyle": {
    "label": "Medial epicondyle of humerus",
    "bone": "humerus",
@@ -377,7 +383,7 @@
   "coracoid_tip",
   "fibular_head",
   "hook_of_hamate",
-  "iliac_crest_top",
+  "iliac_crest_posterior_outer_lip",
   "inguinal_ligament_mid",
   "interepicondylar_mid",
   "interstyloid_mid",
@@ -432,9 +438,9 @@
   },
   "ld_iliac": {
    "from": "posterior_axillary_fold",
-   "to": "iliac_crest_top",
+   "to": "iliac_crest_posterior_outer_lip",
    "mode": "point",
-   "label": "Axillary fold - iliac crest"
+   "label": "Axillary fold - iliac crest (posterior outer lip)"
   },
   "tm_guide": {
    "from": "scapula_inferior_angle",
@@ -910,6 +916,13 @@
      "label": "Medial pectoral nerve",
      "parent": "brachial_cord_medial",
      "registry_roots": "C8-T1",
+     "in_registry": true
+    },
+    {
+     "id": "lateral_pectoral_n",
+     "label": "Lateral pectoral nerve",
+     "parent": "brachial_cord_lateral",
+     "registry_roots": "C5-C7",
      "in_registry": true
     }
    ],

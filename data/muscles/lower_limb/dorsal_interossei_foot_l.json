@@ -13,8 +13,13 @@
     "via_points": []
   },
   "innervation": {
-    "nerve": "lateral_plantar_n_deep_branch",
-    "root_levels": "S1-S3"
+    "nerve": [
+      "lateral_plantar_n_deep_branch",
+      "lateral_plantar_n_superficial_branch"
+    ],
+    "root_levels": "S1-S3",
+    "note": "Q350: one exception to the deep branch. Mannan 2017 p. 295: the 4th dorsal interosseous by the superficial branch of the lateral plantar nerve, the others by the deep branch. One structure here stands for the whole group, so both branches are listed.",
+    "source": "Noor MA (2017) Mannan's Regional Dissection and Surface Anatomy, 14th ed., Jaypee Brothers Medical Publishers, New Delhi, ISBN 978-93-86322-11-1, p. 295 -- nerve supply (the 4th dorsal interosseous by the superficial branch of the lateral plantar nerve)"
   },
   "actions": [
     "abduct toes away from the axial line (digit 2, the foot's reference axis, unlike the hand's digit 3)"
@@ -51,11 +56,12 @@
       "function_note": "4 separate small bipennate muscles (TA: interossei dorsales pedis I-IV), the foot's structural analog of the hand's dorsal interossei, but referenced to digit 2 rather than digit 3 since the foot's functional axis runs through the 2nd toe.",
       "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
       "innervation_branch_ids": [
-        "lateral_plantar_n_deep_branch"
+        "lateral_plantar_n_deep_branch",
+        "lateral_plantar_n_superficial_branch"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Noor MA (2017) Mannan's Regional Dissection and Surface Anatomy, 14th ed., Jaypee Brothers Medical Publishers, New Delhi, ISBN 978-93-86322-11-1, p. 295 -- nerve supply (deep branch of the lateral plantar nerve; the 4th dorsal interosseous by its superficial branch)",
   "trigger_points": [
     {
       "location_description": "Palpated between the metatarsal shafts on the dorsum of the foot (the instep), in the belly of each dorsal interosseous.",

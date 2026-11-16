@@ -275,3 +275,27 @@ def test_q348_book_pass_keeps_the_reviewed_q322_roots(d):
         b = g[k].get("book_check_q348")
         if b:
             assert all(isinstance(e["page"], int) for e in b["entries"]), k
+
+
+def test_q350_latissimus_iliac_line_ends_on_the_posterior_outer_lip(d):
+    """Q350 (Q348 finding 3.3): latissimus arises from the posterior part of the OUTER lip of the crest (Mannan 2017 p. 121), so the
+    guide's axillary-fold - iliac-crest line ends there, not at the crest's highest point. Rule-based; no acceptance bound loosened."""
+    ln = d["lines"]["ld_iliac"]
+    assert ln["to"] == "iliac_crest_posterior_outer_lip" and ln["mode"] == "point"
+    lm = d["landmarks"]["iliac_crest_posterior_outer_lip"]
+    assert lm["kind"] == "bony_point" and lm["bone"] == "hip_bone" and "p. 121" in lm["definition"]
+    assert "iliac_crest_top" in d["landmarks"]           # still measured (the L3/L4 level check of finding 3.4)
+    for page in MODE_PAGES:
+        b = iz_bands(page)
+        assert b["fail_mm"] == 5.0 and b["proj_mm"] == 40.0
+        for s in ("l", "r"):
+            p, top = b["landmarks"]["iliac_crest_posterior_outer_lip"][s], b["landmarks"]["iliac_crest_top"][s]
+            assert p[2] < top[2] - 15 and p[1] < top[1]          # posterior to and below the highest point
+            assert abs(p[0]) < abs(top[0])                      # the posterior crest curves toward the midline
+        ld = {x["side"]: x for x in b["bands"] if x["line"] == "ld_iliac"}
+        assert set(ld) == {"l", "r"}
+        assert all(x["to_pt"] == b["landmarks"]["iliac_crest_posterior_outer_lip"][s] for s, x in ld.items())
+    # measured result of Q350: Base male places both iliac bands (snap within 5 mm); Base female still misses (rule unchanged)
+    assert {x["status"] for x in iz_bands("base_m")["bands"] if x["line"] == "ld_iliac"} == {"placed"}
+    assert {x["status"] for x in iz_bands("base_f")["bands"] if x["line"] == "ld_iliac"} == {"failed"}
+    assert iz_bands("base_m")["counts"]["placed"] == 180 and iz_bands("base_f")["counts"]["placed"] == 178

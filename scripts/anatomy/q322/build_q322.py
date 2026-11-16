@@ -41,6 +41,7 @@ lm('posterior_axillary_fold', 'Posterior axillary fold', None, S, 'Skin fold ove
 lm('t12_spinous', 'T12 spinous process', 'vertebra_t12', B, 'Tip of the T12 spinous process.')
 lm('l4_spinous', 'L4 spinous process', 'vertebra_l4', B, 'Tip of the L4 spinous process.')
 lm('iliac_crest_top', 'Iliac crest, highest point', 'hip_bone', B, 'Most superior point of the iliac crest (the guide says only "iliac crest").')
+lm('iliac_crest_posterior_outer_lip', 'Iliac crest, outer lip, posterior part', 'hip_bone', B, 'Latissimus dorsi origin on the crest: the posterior part of its outer lip (Mannan 2017 p. 121). Rule: along the crest from the ASIS (0) to the PSIS (1) by anteroposterior position, "posterior part" = the posterior third, taken at its middle (5/6); there the crest = the hip-bone vertices of a 6 mm thick coronal slab within 5 mm of the slab\'s top, and the outer lip = the one furthest out along the horizontal outward normal of the crest line (ridge tops 10 mm before and after). PSIS = most posterior point of the upper 45 % of the hip bone.')
 lm('medial_epicondyle', 'Medial epicondyle of humerus', 'humerus', B, 'Most prominent point of the medial epicondyle.')
 lm('lateral_epicondyle', 'Lateral epicondyle of humerus', 'humerus', B, 'Most prominent point of the lateral epicondyle.')
 lm('interepicondylar_mid', 'Interepicondylar line (midpoint)', 'humerus', D, 'Midpoint of medial_epicondyle and lateral_epicondyle; the line through both is the guide\'s "interepicondylar line".', of=['medial_epicondyle', 'lateral_epicondyle'])
@@ -88,7 +89,7 @@ def line(i, a, b, mode, label):
 line('subscapular_guide', 'subscap_line_lower', 'subscap_line_upper', 'point', 'Mid(inferior angle-acromion tip) to mid(spine medial end-acromion tip)')
 line('ld_t12', 'posterior_axillary_fold', 't12_spinous', 'point', 'Axillary fold - T12')
 line('ld_l4', 'posterior_axillary_fold', 'l4_spinous', 'point', 'Axillary fold - L4')
-line('ld_iliac', 'posterior_axillary_fold', 'iliac_crest_top', 'point', 'Axillary fold - iliac crest')
+line('ld_iliac', 'posterior_axillary_fold', 'iliac_crest_posterior_outer_lip', 'point', 'Axillary fold - iliac crest (posterior outer lip)')   # Q350: was iliac_crest_top
 line('tm_guide', 'scapula_inferior_angle', 'posterior_axillary_fold', 'point', 'Inferior angle of scapula - posterior axillary fold')
 line('fascicle', 'muscle_origin_end', 'muscle_insertion_end', 'level', 'Muscle\'s own fascicle, origin to insertion')
 line('coracoid_me', 'coracoid_tip', 'medial_epicondyle', 'level', 'Coracoid process - medial epicondyle')

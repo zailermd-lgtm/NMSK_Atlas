@@ -208,6 +208,33 @@ class Body:
         v = self.bone("hip_bone", s)
         return v[np.argmax(v[:, 1])]
 
+    def iliac_crest_posterior_outer_lip(self, s, sx):
+        # Q350 (Mannan 2017 p. 121: latissimus arises from the posterior part of the OUTER lip). The rule in the landmark's definition:
+        # posterior part = posterior third of the crest (ASIS -> PSIS by Z), at its middle (5/6); crest = top 5 mm of a 6 mm coronal
+        # slab; outer lip = furthest along the crest line's horizontal outward normal.
+        v = self.bone("hip_bone", s)
+        up = band(v, 1, 0.55, 1.0)
+        za, zp = self.lm("asis", s)[2], up[np.argmin(up[:, 2])][2]
+
+        def slab(z):
+            sl = v[np.abs(v[:, 2] - z) <= 3.0]
+            if len(sl) == 0:
+                raise LandmarkMissing(f"hip bone slab at z={z:.1f}")
+            return sl
+
+        def ridge(z):
+            sl = slab(z)
+            return sl[np.argmax(sl[:, 1])]
+
+        z0 = za + 5.0 / 6.0 * (zp - za)
+        t = ridge(z0 - 10.0) - ridge(z0 + 10.0)
+        nrm = unit(np.array([t[2], 0.0, -t[0]]))          # horizontal, perpendicular to the crest line
+        if sx * nrm[0] < 0:
+            nrm = -nrm                                      # outward = away from the midline
+        sl = slab(z0)
+        crest = sl[sl[:, 1] >= sl[:, 1].max() - 5.0]
+        return crest[np.argmax(crest @ nrm)]
+
     def asis(self, s, sx):
         up = band(self.bone("hip_bone", s), 1, 0.55, 1.0)
         return up[np.argmax(up[:, 2])]
