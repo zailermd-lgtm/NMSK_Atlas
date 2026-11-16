@@ -467,6 +467,24 @@ def count():
     return c
 
 
+# Q348: book facts on parts (books_q348.BOOK_PARTS); verification upgraded where the book confirms the part's attachment / nerve
+from books_q348 import BOOK_PARTS, BOOKS
+_seen = set()
+for m in M:
+    for p in m['parts']:
+        b = BOOK_PARTS.get((m['muscle_id'], p['id']))
+        if not b:
+            continue
+        _seen.add((m['muscle_id'], p['id']))
+        p['book_q348'] = {k: v for k, v in b.items() if k != 'verify'}
+        p['refs'] = p['refs'] + [b['ref']]
+        if b['verify'] and p['verification'] == 'unverified_textbook':
+            p['verification'] = 'verified_book'
+assert _seen == set(BOOK_PARTS), set(BOOK_PARTS) - _seen
+for k in sorted({b['ref'] for b in BOOK_PARTS.values()}):
+    NEW_REFS[k] = {kk: vv for kk, vv in BOOKS[k].items() if kk not in ('kind', 'short')}
+    USED.add(k)
+
 refs = {}
 for k in sorted(USED):
     if k in NEW_REFS:
@@ -485,8 +503,8 @@ out = dict(
         schema=('muscles[]: {muscle_id (repo record base id, or a group id such as erector_spinae), name, region, whole_muscle_structures '
                 '(page ids per body and side, or null when the page has only the parts), parts[], contested, note}. '
                 'parts[]: {id, name, ta_latin (Terminologia Anatomica Latin part name where standard, else null), origin, nerve_supply, '
-                'nerve_source[], refs[] (keys into references), verification (verified = opened PubMed record; unverified_textbook = textbook, '
-                'page not checked), note, body}. body: {status, structures {base_m|base_f: {r:[], l:[], mid:[]}}, rule?, reason?, note?}. '
+                'nerve_source[], refs[] (keys into references), verification (verified = opened PubMed record; verified_book = attachment / nerve '
+                'read in an opened book, Q348; unverified_textbook = textbook, page not checked), note, book_q348 {ref, page, fact, rule_check}?, body}. body: {status, structures {base_m|base_f: {r:[], l:[], mid:[]}}, rule?, reason?, note?}. '
                 'status: separate_mesh | separate_mesh_rule_based | rule | not_delimitable | missing_on_page. '
                 'rule.name is a key of rules{}; every rule is a PROPOSAL (validated=false) and must be validated before a part is drawn.'),
         ui=('Parts chooser: offer "whole muscle" + each part. separate_mesh -> select those ids. separate_mesh_rule_based -> select, keep the '

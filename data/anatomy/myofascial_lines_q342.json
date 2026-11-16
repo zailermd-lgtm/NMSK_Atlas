@@ -6,7 +6,7 @@
  "doc": {
   "what": "Myofascial lines (\"Anatomy Trains\", Myers) as a group family, with the evidence each line has from dissection reviews.",
   "contested": "Myofascial lines are a contested concept. Dissection reviews support continuity for some lines (SBL, BFL, FFL), part of others (Spiral, Lateral), none for the Superficial Front Line; the Deep Front Line, the Ipsilateral Functional Line and Myers' four arm lines were not examined by a systematic review. Continuity is not proof of force transmission or of clinical effect. The UI must show the evidence label next to every line.",
-  "schema": "sub_choices{key: {label, members[] (line ids), ...}}; lines[]: {id, abbr, name, author_family (myers | wilke2019), sub_choices[], composition_refs[], verify_against_book (true: route recorded from the book's standard description without opening the book), crosses_midline, stations[] {station, kind, side (S start side | O opposite | mid | B both), page_bases[], structures {base_m|base_f: {r,l,mid}} or null, on_page, note}, evidence {label strong|moderate|none|not_examined, label_text, wilke2016 {...}, krause2016, refs[]}, note}.",
+  "schema": "sub_choices{key: {label, members[] (line ids), ...}}; lines[]: {id, abbr, name, author_family (myers | wilke2019 | tittel), sub_choices[], composition_refs[], verify_against_book (true: station list recorded from the book's standard description without opening Myers' book), book_check {ref, status partly_confirmed | course_only, pages, confirmed[], still_open} or null (Q348: what Myers' 2015 chapter confirms), crosses_midline, stations[] {station, kind, side (S start side | O opposite | mid | B both), page_bases[], structures {base_m|base_f: {r,l,mid}} or null, on_page, note}, evidence {label strong|moderate|none|not_examined, label_text, wilke2016 {...}, krause2016, refs[]}, note}.",
   "ui": "Family \"Myofascial lines\" -> sub-choice (vertical / diagonal-spiral / functional / arm; horizontal is shown disabled with its \"why\") -> line list with evidence badges -> selecting a line marks every station's structures. Side: pick the clicked structure's side as S; stations with side O use the other side, mid/B use both lists; when the wanted side list is empty for a body (some midline or one-sided meshes carry an _l/_r suffix) fall back to mid, then to both sides. Bones and fasciae are stations, not the line itself: offer \"muscles only\" (kind contains \"muscle\") as the default view."
  },
  "sub_choices": {
@@ -18,16 +18,19 @@
     "lateral_line",
     "deep_front_line"
    ],
-   "source": "Myers groups the cardinal lines (SBL, SFL, LL) and the DFL as longitudinal; book not opened"
+   "source": "Myers' cardinal lines (SBL, SFL, LL) and the DFL run along the body (Myers 2015 figure captions, PDF pp. 94-96, 100)"
   },
   "diagonal_spiral": {
    "label": "Diagonal / spiral lines",
    "members": [
     "spiral_line",
     "back_functional_line",
-    "front_functional_line"
+    "front_functional_line",
+    "tittel_sling_scapula_opposite_leg",
+    "tittel_sling_arm_opposite_leg_anterior",
+    "tittel_sling_arm_opposite_leg_posterior"
    ],
-   "source": "Spiral Line and the two contralateral Functional Lines cross the midline"
+   "source": "Spiral Line and the two contralateral Functional Lines cross the midline; Tittel's three slings in side bending and rotation (Richter 2015, Table 7.1) link a shoulder blade or arm to the opposite leg"
   },
   "functional": {
    "label": "Functional lines",
@@ -55,9 +58,11 @@
    "label": "Horizontal bands",
    "members": [],
    "status": "not_offered",
-   "why": "No \"horizontal line\" exists among Myers' lines or in the reviews opened. The only sourced horizontal concept found is Schultz & Feitis 1996 \"body retinacula (bands/straps)\" (chest band, inguinal band, ...), seen only as a table of contents; no muscle membership was available. Offer this sub-choice only after the owner decides and a source with members is opened.",
+   "why": "No \"horizontal line\" exists among Myers' lines or in the reviews opened. Q348: Fascia in Sport and Movement (2015) does not add one either - Myers' chapter lists 12 longitudinal/spiral/functional/arm lines (PDF p. 93), Richter's chapter has no horizontal sling (Table 7.1), and the limb retinacula are mentioned only as obliquely running fascial bands rich in sensory endings (PDF p. 75), not as a set of bands. The only sourced horizontal concept remains Schultz & Feitis 1996 \"body retinacula (bands/straps)\", seen only as a table of contents without members. Offer this sub-choice only after a source with members is opened.",
    "refs": [
-    "schultz1996"
+    "schultz1996",
+    "myers2015",
+    "richter2015"
    ]
   }
  },
@@ -74,6 +79,16 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "partly_confirmed",
+    "pages": "PDF pp. 93-94, 108",
+    "confirmed": [
+     "course: posterior aspect of the body from the toes to the face (Fig. 6.1 caption, PDF p. 94)",
+     "transition hamstrings -> superficial part of the sacrotuberous ligament -> back myofascia of the thoracolumbar region (PDF p. 108)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -601,6 +616,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 95 (Fig. 6.2 caption)",
+    "confirmed": [
+     "course: anterior surface of the body; trunk flexion with leg extension"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -1091,6 +1115,16 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "partly_confirmed",
+    "pages": "PDF pp. 96, 106",
+    "confirmed": [
+     "course: outer arch of the foot to the ear (Fig. 6.3 caption, PDF p. 96)",
+     "transition fibularis longus -> over the fibular head -> central part of the iliotibial tract -> gluteus medius aponeurosis -> iliac crest (PDF p. 106); the lateral collateral ligament lies deep to the line, not in it"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -1262,24 +1296,27 @@
      "note": null
     },
     {
-     "station": "iliotibial tract / abductor muscles (tensor fasciae latae, gluteus maximus)",
+     "station": "iliotibial tract / abductor muscles (tensor fasciae latae, gluteus maximus; gluteus medius aponeurosis)",
      "kind": "fascia+muscle",
      "side": "S",
      "page_bases": [
       "iliotibial_tract",
       "zan_iliotibial_tract",
       "tensor_fasciae_latae",
-      "gluteus_maximus"
+      "gluteus_maximus",
+      "gluteus_medius"
      ],
      "structures": {
       "base_m": {
        "r": [
         "gluteus_maximus_r",
+        "gluteus_medius_r",
         "iliotibial_tract_r",
         "tensor_fasciae_latae_r"
        ],
        "l": [
         "gluteus_maximus_l",
+        "gluteus_medius_l",
         "tensor_fasciae_latae_l",
         "zan_iliotibial_tract_l"
        ],
@@ -1288,11 +1325,13 @@
       "base_f": {
        "r": [
         "gluteus_maximus_r",
+        "gluteus_medius_r",
         "iliotibial_tract_r",
         "tensor_fasciae_latae_r"
        ],
        "l": [
         "gluteus_maximus_l",
+        "gluteus_medius_l",
         "tensor_fasciae_latae_l",
         "zan_iliotibial_tract_l"
        ],
@@ -1300,7 +1339,7 @@
       }
      },
      "on_page": true,
-     "note": null
+     "note": "Q348: gluteus medius added - Myers 2015 (PDF p. 106) runs the line from the central iliotibial tract through the aponeurosis of gluteus medius to the iliac crest."
     },
     {
      "station": "iliac crest, ASIS, PSIS",
@@ -1612,6 +1651,17 @@
     "moore2023"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "partly_confirmed",
+    "pages": "PDF pp. 97, 101-102, 106",
+    "confirmed": [
+     "transition tibialis anterior -> anterior part of the iliotibial tract -> tensor fasciae latae -> ASIS (PDF p. 106)",
+     "trunk loop: ASIS -> internal oblique of that side -> external oblique and serratus anterior of the other side -> scapula of the other side -> head on the side of the ASIS (PDF pp. 101-102); this matches the S / O sides used here",
+     "the line winds through the three cardinal lines (Fig. 6.4 caption, PDF p. 97)"
+    ],
+    "still_open": "The lower posterior half (fibularis longus -> biceps femoris -> sacrotuberous ligament -> erector spinae) is not described in the chapter."
+   },
    "crosses_midline": true,
    "stations": [
     {
@@ -2439,6 +2489,16 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "partly_confirmed",
+    "pages": "PDF pp. 100, 109",
+    "confirmed": [
+     "course: inner arch of the foot to the underside of the skull; includes the core (Fig. 6.7 caption, PDF p. 100)",
+     "medial knee tissues from the pes anserinus to the medial collateral ligament belong to the line (PDF p. 109)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -2667,6 +2727,36 @@
      },
      "on_page": true,
      "note": null
+    },
+    {
+     "station": "medial knee: tibial (medial) collateral ligament region",
+     "kind": "ligament",
+     "side": "S",
+     "page_bases": [
+      "tibial_collateral_ligament"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibial_collateral_ligament_r"
+       ],
+       "l": [
+        "tibial_collateral_ligament_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibial_collateral_ligament_r"
+       ],
+       "l": [
+        "tibial_collateral_ligament_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": "Q348: Myers 2015 (PDF p. 109) places the Deep Front Line tissues on the inside of the knee, from the pes anserinus to the medial collateral ligament. Not a station in the earlier recorded route; the pes anserinus tendons are not added (the chapter does not assign them to a line)."
     },
     {
      "station": "posterior intermuscular septum; adductor magnus and minimus",
@@ -3286,6 +3376,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 98 (Fig. 6.5 A-D)",
+    "confirmed": [
+     "four arm lines exist (unlabelled drawings; no stations named)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -3640,6 +3739,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 98 (Fig. 6.5 A-D)",
+    "confirmed": [
+     "four arm lines exist (unlabelled drawings; no stations named)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -3952,6 +4060,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 98 (Fig. 6.5 A-D)",
+    "confirmed": [
+     "four arm lines exist (unlabelled drawings; no stations named)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -4352,6 +4469,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 98 (Fig. 6.5 A-D)",
+    "confirmed": [
+     "four arm lines exist (unlabelled drawings; no stations named)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -4765,6 +4891,7 @@
     "wilke2019"
    ],
    "verify_against_book": false,
+   "book_check": null,
    "crosses_midline": false,
    "stations": [
     {
@@ -4908,6 +5035,7 @@
     "wilke2019"
    ],
    "verify_against_book": false,
+   "book_check": null,
    "crosses_midline": false,
    "stations": [
     {
@@ -5076,6 +5204,7 @@
     "wilke2019"
    ],
    "verify_against_book": false,
+   "book_check": null,
    "crosses_midline": false,
    "stations": [
     {
@@ -5247,6 +5376,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 99 (Fig. 6.6 caption)",
+    "confirmed": [
+     "three functional lines exist and link the shoulder to the contralateral leg (two) and to the ipsilateral leg (one)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": true,
    "stations": [
     {
@@ -5518,6 +5656,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 99 (Fig. 6.6 caption)",
+    "confirmed": [
+     "three functional lines exist and link the shoulder to the contralateral leg (two) and to the ipsilateral leg (one)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": true,
    "stations": [
     {
@@ -5771,6 +5918,15 @@
     "myers_at"
    ],
    "verify_against_book": true,
+   "book_check": {
+    "ref": "myers2015",
+    "status": "course_only",
+    "pages": "PDF p. 99 (Fig. 6.6 caption)",
+    "confirmed": [
+     "three functional lines exist and link the shoulder to the contralateral leg (two) and to the ipsilateral leg (one)"
+    ],
+    "still_open": "The chapter does not list the stations; the full station list still needs Myers' Anatomy Trains book."
+   },
    "crosses_midline": false,
    "stations": [
     {
@@ -6005,7 +6161,553 @@
      "wilke2016"
     ]
    },
-   "note": "Recorded from recall with lower confidence than the other routes (added in a later edition of the book); check every station."
+   "note": "The line exists (Myers 2015 names three functional lines, one ipsilateral, PDF p. 99); its stations were recorded from recall with lower confidence than the other routes and are not described in the chapter - check every station."
+  },
+  {
+   "id": "tittel_sling_scapula_opposite_leg",
+   "abbr": "T-a",
+   "name": "Tittel sling: shoulder blade to opposite leg",
+   "author_family": "tittel",
+   "sub_choices": [
+    "diagonal_spiral"
+   ],
+   "composition_refs": [
+    "richter2015"
+   ],
+   "verify_against_book": false,
+   "book_check": null,
+   "crosses_midline": true,
+   "stations": [
+    {
+     "station": "rhomboids",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "rhomboid_major",
+      "rhomboid_minor"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "rhomboid_major_r",
+        "rhomboid_minor_r"
+       ],
+       "l": [
+        "rhomboid_major_l",
+        "rhomboid_minor_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "rhomboid_major_r",
+        "rhomboid_minor_r"
+       ],
+       "l": [
+        "rhomboid_major_l",
+        "rhomboid_minor_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "serratus anterior",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "serratus_anterior"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "serratus_anterior_r"
+       ],
+       "l": [
+        "serratus_anterior_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "serratus_anterior_r"
+       ],
+       "l": [
+        "serratus_anterior_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "external oblique",
+     "kind": "muscle",
+     "side": "B",
+     "page_bases": [
+      "external_oblique"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "external_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "external_oblique_r"
+       ],
+       "l": [
+        "external_oblique_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "adductors of the other side",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "adductor_longus",
+      "adductor_brevis",
+      "adductor_magnus",
+      "zan_adductor_minimus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "adductor_brevis_r",
+        "adductor_longus_r",
+        "adductor_magnus_r",
+        "zan_adductor_minimus_r"
+       ],
+       "l": [
+        "adductor_brevis_l",
+        "adductor_longus_l",
+        "adductor_magnus_l",
+        "zan_adductor_minimus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "adductor_brevis_r",
+        "adductor_longus_r",
+        "adductor_magnus_r",
+        "zan_adductor_minimus_r"
+       ],
+       "l": [
+        "adductor_brevis_l",
+        "adductor_longus_l",
+        "adductor_magnus_l",
+        "zan_adductor_minimus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "biceps femoris (short head)",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "biceps_femoris"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "biceps_femoris_r"
+       ],
+       "l": [
+        "biceps_femoris_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "biceps_femoris_r"
+       ],
+       "l": [
+        "biceps_femoris_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": "the short head is not a separate mesh; the whole biceps femoris is marked"
+    },
+    {
+     "station": "fibular (peroneal) muscles",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "fibularis_longus",
+      "fibularis_brevis"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "fibularis_brevis_r",
+        "fibularis_longus_r"
+       ],
+       "l": [
+        "fibularis_brevis_l",
+        "fibularis_longus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "fibularis_brevis_r",
+        "fibularis_longus_r"
+       ],
+       "l": [
+        "fibularis_brevis_l",
+        "fibularis_longus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Tittel's slings are a textbook model (Richter 2015, Table 7.1); no dissection review of them was opened.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "richter2015"
+    ]
+   },
+   "note": "Side: S = side of the shoulder blade / arm; the leg muscles are on the opposite side (stated in the source); where the line crosses the midline is not stated, so the trunk muscle is marked on both sides (B)."
+  },
+  {
+   "id": "tittel_sling_arm_opposite_leg_anterior",
+   "abbr": "T-b",
+   "name": "Tittel sling: arm to opposite leg (front)",
+   "author_family": "tittel",
+   "sub_choices": [
+    "diagonal_spiral"
+   ],
+   "composition_refs": [
+    "richter2015"
+   ],
+   "verify_against_book": false,
+   "book_check": null,
+   "crosses_midline": true,
+   "stations": [
+    {
+     "station": "pectoralis major",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "zan_clavicular_head_of_pectoralis_major_muscle",
+      "zan_sternocostal_head_of_pectoralis_major_muscle",
+      "zan_abdominal_part_of_pectoralis_major_muscle"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_clavicular_head_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_clavicular_head_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_r",
+        "zan_clavicular_head_of_pectoralis_major_muscle_r",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_r"
+       ],
+       "l": [
+        "zan_abdominal_part_of_pectoralis_major_muscle_l",
+        "zan_clavicular_head_of_pectoralis_major_muscle_l",
+        "zan_sternocostal_head_of_pectoralis_major_muscle_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "internal oblique",
+     "kind": "muscle",
+     "side": "B",
+     "page_bases": [
+      "internal_oblique"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "internal_oblique_r"
+       ],
+       "l": [
+        "internal_oblique_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "internal_oblique_r"
+       ],
+       "l": [
+        "internal_oblique_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "tensor fasciae latae",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "tensor_fasciae_latae"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tensor_fasciae_latae_r"
+       ],
+       "l": [
+        "tensor_fasciae_latae_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tensor_fasciae_latae_r"
+       ],
+       "l": [
+        "tensor_fasciae_latae_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "tibialis anterior",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "tibialis_anterior"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "tibialis_anterior_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "tibialis_anterior_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Tittel's slings are a textbook model (Richter 2015, Table 7.1); no dissection review of them was opened.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "richter2015"
+    ]
+   },
+   "note": "Side: S = side of the shoulder blade / arm; the leg muscles are on the opposite side (stated in the source); where the line crosses the midline is not stated, so the trunk muscle is marked on both sides (B)."
+  },
+  {
+   "id": "tittel_sling_arm_opposite_leg_posterior",
+   "abbr": "T-c",
+   "name": "Tittel sling: arm to opposite leg (back)",
+   "author_family": "tittel",
+   "sub_choices": [
+    "diagonal_spiral"
+   ],
+   "composition_refs": [
+    "richter2015"
+   ],
+   "verify_against_book": false,
+   "book_check": null,
+   "crosses_midline": true,
+   "stations": [
+    {
+     "station": "latissimus dorsi",
+     "kind": "muscle",
+     "side": "S",
+     "page_bases": [
+      "latissimus_dorsi"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "latissimus_dorsi_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "latissimus_dorsi_r"
+       ],
+       "l": [
+        "latissimus_dorsi_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "gluteus maximus",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "gluteus_maximus"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "gluteus_maximus_r"
+       ],
+       "l": [
+        "gluteus_maximus_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "gluteus_maximus_r"
+       ],
+       "l": [
+        "gluteus_maximus_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "iliotibial tract",
+     "kind": "fascia",
+     "side": "O",
+     "page_bases": [
+      "iliotibial_tract",
+      "zan_iliotibial_tract"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "iliotibial_tract_r"
+       ],
+       "l": [
+        "zan_iliotibial_tract_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "iliotibial_tract_r"
+       ],
+       "l": [
+        "zan_iliotibial_tract_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    },
+    {
+     "station": "tibialis anterior",
+     "kind": "muscle",
+     "side": "O",
+     "page_bases": [
+      "tibialis_anterior"
+     ],
+     "structures": {
+      "base_m": {
+       "r": [
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "tibialis_anterior_l"
+       ],
+       "mid": []
+      },
+      "base_f": {
+       "r": [
+        "tibialis_anterior_r"
+       ],
+       "l": [
+        "tibialis_anterior_l"
+       ],
+       "mid": []
+      }
+     },
+     "on_page": true,
+     "note": null
+    }
+   ],
+   "evidence": {
+    "label": "not_examined",
+    "wilke2016": {
+     "examined": false
+    },
+    "krause2016": null,
+    "also": "Tittel's slings are a textbook model (Richter 2015, Table 7.1); no dissection review of them was opened.",
+    "label_text": "not examined by a systematic review (no evidence either way)",
+    "refs": [
+     "richter2015"
+    ]
+   },
+   "note": "Side: S = side of the latissimus dorsi; the leg structures are on the opposite side (stated in the source). The gluteus maximus is taken as part of the opposite leg."
   }
  ],
  "references": {
@@ -6031,6 +6733,13 @@
    "opened": "abstract via the Consensus search tool (2026-11-15)",
    "note": "One embalmed male cadaver: splenius capitis, splenius cervicis, rhomboid major and minor, serratus anterior, external oblique, internal oblique and rectus abdominis linked by fascia as an upper spiral line."
   },
+  "myers2015": {
+   "citation": "Myers T. Anatomy trains in motion. Chapter 6 in: Schleip R, Baker A (eds). Fascia in Sport and Movement. Handspring Publishing, Pencaitland, 1st ed. 2015. ISBN 978-1-909141-07-0",
+   "doi": null,
+   "pmid": null,
+   "opened": "owner-supplied e-book (2026-11-16); the e-book has no printed page numbers, pages are those of the PDF (chapter 6 = PDF pp. 91-111)",
+   "note": "A chapter by Myers, not the Anatomy Trains book. It gives the number of lines (12 meridians of at least three muscles each, PDF p. 93), one figure per line with a caption naming its course or end points (Figs 6.1-6.7, PDF pp. 94-100), and in the text a few named transitions (PDF pp. 101-102, 106, 108-109). It does not list the stations of any line; the figures are unlabelled drawings. Knowledge only: no text or figure reproduced."
+  },
   "myers_at": {
    "citation": "Myers TW. Anatomy Trains: Myofascial Meridians for Manual Therapists and Movement Professionals. Elsevier (1st ed. 2001; 4th ed. 2020)",
    "doi": null,
@@ -6044,6 +6753,13 @@
    "pmid": null,
    "opened": "abstract via the Consensus search tool (2026-11-15)",
    "note": "Single cachectic female cadaver: superficial lines reproducible only by adding adjacent fascial/ligamentous components; joints act as switching zones; deep front line could not be separated from visceral structures; concept \"only partially confirmed\"."
+  },
+  "richter2015": {
+   "citation": "Richter P. Purposeful movements as a result of coordinated myofascial chain activity, represented by the models of Kurt Tittel and Leopold Busquet. Chapter 7 in: Schleip R, Baker A (eds). Fascia in Sport and Movement. Handspring Publishing, 1st ed. 2015. ISBN 978-1-909141-07-0",
+   "doi": null,
+   "pmid": null,
+   "opened": "owner-supplied e-book (2026-11-16); Table 7.1 on PDF pp. 127-128",
+   "note": "Compares Busquet's five myofascial chains with Tittel's muscle slings (Table 7.1). The three Tittel slings \"in side bending and rotation\" are named muscle sequences (used here as lines); the extension/flexion slings name only muscle groups, and the three \"static\" shoulder-girdle slings are listed differently in the table and in the text (PDF p. 128), so neither is used."
   },
   "schultz1996": {
    "citation": "Schultz RL, Feitis R. The Endless Web: Fascial Anatomy and Physical Reality. North Atlantic Books, 1996",
@@ -6068,11 +6784,30 @@
   }
  },
  "counts": {
-  "lines": 15,
+  "lines": 18,
   "myers_lines": 12,
   "wilke2019_chains": 3,
-  "stations": 149,
-  "stations_on_page": 148,
+  "tittel_slings": 3,
+  "book_check": {
+   "partly_confirmed": [
+    "superficial_back_line",
+    "lateral_line",
+    "spiral_line",
+    "deep_front_line"
+   ],
+   "course_only": [
+    "superficial_front_line",
+    "superficial_front_arm_line",
+    "deep_front_arm_line",
+    "superficial_back_arm_line",
+    "deep_back_arm_line",
+    "back_functional_line",
+    "front_functional_line",
+    "ipsilateral_functional_line"
+   ]
+  },
+  "stations": 164,
+  "stations_on_page": 163,
   "stations_missing": [
    "superficial_front_line: subpatellar tendon (patellar ligament)"
   ],
@@ -6098,7 +6833,10 @@
     "deep_front_arm_line",
     "superficial_back_arm_line",
     "deep_back_arm_line",
-    "ipsilateral_functional_line"
+    "ipsilateral_functional_line",
+    "tittel_sling_scapula_opposite_leg",
+    "tittel_sling_arm_opposite_leg_anterior",
+    "tittel_sling_arm_opposite_leg_posterior"
    ]
   }
  }

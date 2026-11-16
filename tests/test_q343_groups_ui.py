@@ -98,7 +98,7 @@ def test_sidecar_page_ids_only_and_clean(page, dirname):
     cls = {c["k"]: c for c in res["lines"]["cls"]}
     assert cls["horizontal"].get("off") and cls["horizontal"]["why"]
     assert all(L["ev"] in ("strong", "moderate", "none", "not_examined") for L in res["lines"]["items"])
-    assert len(res["lines"]["items"]) == 15 and len(res["inn"]["pats"]) == 22
+    assert len(res["lines"]["items"]) == 18 and len(res["inn"]["pats"]) == 22  # Q348: + 3 Tittel slings
     assert all(set(s) <= {"l", "doi", "pmid"} for s in res["src"].values())
     pm = {m["id"]: m for m in res["parts"]}
     assert [p["st"] for p in pm["pectoralis_major"]["p"]] == ["separate_mesh"] * 3

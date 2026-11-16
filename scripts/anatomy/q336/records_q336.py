@@ -34,6 +34,12 @@ SOURCES = {
     "lloyd2005": "Lloyd J, Crouch NS, Minto CL, Liao LM, Creighton SM. Female genital appearance: 'normality' unfolds. BJOG "
                  "2005;112(5):643-6. doi:10.1111/j.1471-0528.2004.00517.x (PMID 15842291).",
     "q336": "docs/Q336_genital_region.md + data/derived/Q336_vulva_skin_report.json (Q336).",
+    "mannan2017": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee Brothers, New Delhi 2017 "
+                  "(ISBN 978-93-86322-11-1), Abdomen: perineum pp. 347-358 (male), 364-368 (female); cremaster p. 321. Owner's copy, "
+                  "read in Q348 (facts only).",
+    "grays_atlas": "Gray's Atlas of Anatomy (Drake RL, Vogl AW, Mitchell AWM et al.; Churchill Livingstone / Elsevier), Pelvis and "
+                   "perineum: 'Deep pouch and perineal membrane' p. 245, perineal vessels and nerves p. 252. Owner's scanned copy "
+                   "(title and edition pages not in the scan), read in Q348 (labels only).",
 }
 
 FEMALE_SURFACE = ("Q336: on Base · Female this is a SURFACE FEATURE of `" + SKIN + "` -- the real vulvar skin of the Chinese Visible "
@@ -71,11 +77,15 @@ ENTRIES = [
      "offer": ["vagina", "vestibular bulb"]},
     {"name": "Perineal membrane", "canon": "Membrana perinei (inferior fascia of the urogenital diaphragm)",
      "syn": ["perineal membrane", "membrana perinei", "inferior fascia of the urogenital diaphragm", "urogenital diaphragm"],
-     "he": ["הממברנה הפרינאלית", "הסרעפת האורוגניטלית"], "src": "gray1918,stein2008,ta",
+     "he": ["הממברנה הפרינאלית", "הסרעפת האורוגניטלית"], "src": "gray1918,stein2008,ta,mannan2017,grays_atlas",
      "why": "Not modelled as a sheet on any Base page: Z-Anatomy and the CVH set have no perineal-membrane object. Stein & DeLancey (2008) "
             "show it is not a simple sheet: a dorsal fibrous part (vagina / perineal body to the ischiopubic ramus) and a ventral part "
             "fused with the compressor urethrae and urethrovaginal sphincter. On Base · Female those CVH muscles and the deep transverse "
-            "perineal muscle mark its ventral part; on Base · Male nothing of the deep pouch is modelled (see 'External urethral sphincter').",
+            "perineal muscle mark its ventral part; on Base · Male nothing of the deep pouch is modelled (see 'External urethral sphincter'). "
+            "'Urogenital diaphragm' (found by this search) is not another name for the membrane: the membrane is the INFERIOR FASCIA of "
+            "the urogenital diaphragm; above it, below the superior fascia, lies the deep perineal pouch with the sphincter urethrae and "
+            "the deep transverse perineal muscle (Mannan 2017, pp. 357-358). The membrane separates the superficial from the deep "
+            "perineal pouch (Mannan p. 357; Gray's Atlas p. 245).",
      "offer": ["deep transverse perineal muscle", "transverse perineal ligament", "levator ani"]},
     {"name": "External urethral sphincter", "canon": "Musculus sphincter urethrae externus",
      "syn": ["external urethral sphincter", "sphincter urethrae", "rhabdosphincter", "urethral sphincter"],
@@ -98,9 +108,9 @@ ENTRIES = [
             "has no object for them.",
      "offer": ["ductus deferens", "testis"]},
     {"name": "Cremaster muscle", "canon": "Musculus cremaster", "syn": ["cremaster", "cremaster muscle", "cremasteric muscle"],
-     "he": ["שריר הקרמסטר"], "src": "gray1918,ta",
+     "he": ["שריר הקרמסטר"], "src": "gray1918,ta,mannan2017",
      "why": "Male only; not modelled on any page (Z-Anatomy has no cremaster object; Q62 never targeted it). Nerve: genital branch of the "
-            "genitofemoral nerve (ships).", "offer": ["testis", "ductus deferens"]},
+            "genitofemoral nerve (ships; L1-L2, Mannan 2017 p. 321).", "offer": ["testis", "ductus deferens"]},
     {"name": "Dartos", "canon": "Tunica dartos (dartos fascia)", "syn": ["dartos", "dartos fascia", "tunica dartos", "dartos muscle"],
      "he": ["דרטוס"], "src": "gray1918,ta",
      "why": "Male only; not modelled: on Base · Male the scrotum is one Z-Anatomy skin patch ('Urogenital region (skin)') with no "
@@ -126,9 +136,11 @@ ENTRIES = [
      "offer": ["external anal sphincter", "levator ani"]},
     {"name": "Perineal nerve", "canon": "Nervus perinealis (perineal branch of the pudendal nerve)",
      "syn": ["perineal nerve", "perineal branch of the pudendal nerve", "posterior labial nerve", "posterior scrotal nerve"],
-     "he": ["העצב הפרינאלי"], "src": "gray1918,ta",
+     "he": ["העצב הפרינאלי"], "src": "gray1918,ta,mannan2017",
      "corrected_by": "Q336", "why": "SHIPS (rule-based) on the Imaging-based pages only. On the four Z pages Q249 built it but Q252 held it back: its rule-based "
-            "course ran 15-37 mm outside the skin of those bodies. Its parent, the pudendal nerve, ships on every page.",
+            "course ran 15-37 mm outside the skin of those bodies. Its parent, the pudendal nerve, ships on every page. The posterior "
+            "scrotal (male) / posterior labial (female) nerves found by this search are not other names for it: they are its "
+            "superficial branches; its other branches are muscular, to the urogenital-triangle muscles (Mannan 2017, p. 348).",
      "offer": ["pudendal nerve", "internal pudendal artery"]},
 ]
 

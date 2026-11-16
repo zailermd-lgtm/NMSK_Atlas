@@ -19,7 +19,9 @@
   "stein2008": "Stein TA, DeLancey JOL. Structure of the perineal membrane in females: gross and microscopic anatomy. Obstet Gynecol 2008;111(3):686-93. doi:10.1097/AOG.0b013e318163a9a5 (PMID 18310372).",
   "oconnell2005": "O'Connell HE, Sanjeevan KV, Hutson JM. Anatomy of the clitoris. J Urol 2005;174(4 Pt 1):1189-95. doi:10.1097/01.ju.0000173639.38898.cd (PMID 16145367).",
   "lloyd2005": "Lloyd J, Crouch NS, Minto CL, Liao LM, Creighton SM. Female genital appearance: 'normality' unfolds. BJOG 2005;112(5):643-6. doi:10.1111/j.1471-0528.2004.00517.x (PMID 15842291).",
-  "q336": "docs/Q336_genital_region.md + data/derived/Q336_vulva_skin_report.json (Q336)."
+  "q336": "docs/Q336_genital_region.md + data/derived/Q336_vulva_skin_report.json (Q336).",
+  "mannan2017": "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee Brothers, New Delhi 2017 (ISBN 978-93-86322-11-1), Abdomen: perineum pp. 347-358 (male), 364-368 (female); cremaster p. 321. Owner's copy, read in Q348 (facts only).",
+  "grays_atlas": "Gray's Atlas of Anatomy (Drake RL, Vogl AW, Mitchell AWM et al.; Churchill Livingstone / Elsevier), Pelvis and perineum: 'Deep pouch and perineal membrane' p. 245, perineal vessels and nerves p. 252. Owner's scanned copy (title and edition pages not in the scan), read in Q348 (labels only)."
  },
  "entries": [
   {
@@ -3775,8 +3777,8 @@
     "הממברנה הפרינאלית",
     "הסרעפת האורוגניטלית"
    ],
-   "src": "gray1918,stein2008,ta",
-   "why": "Not modelled as a sheet on any Base page: Z-Anatomy and the CVH set have no perineal-membrane object. Stein & DeLancey (2008) show it is not a simple sheet: a dorsal fibrous part (vagina / perineal body to the ischiopubic ramus) and a ventral part fused with the compressor urethrae and urethrovaginal sphincter. On Base · Female those CVH muscles and the deep transverse perineal muscle mark its ventral part; on Base · Male nothing of the deep pouch is modelled (see 'External urethral sphincter').",
+   "src": "gray1918,stein2008,ta,mannan2017,grays_atlas",
+   "why": "Not modelled as a sheet on any Base page: Z-Anatomy and the CVH set have no perineal-membrane object. Stein & DeLancey (2008) show it is not a simple sheet: a dorsal fibrous part (vagina / perineal body to the ischiopubic ramus) and a ventral part fused with the compressor urethrae and urethrovaginal sphincter. On Base · Female those CVH muscles and the deep transverse perineal muscle mark its ventral part; on Base · Male nothing of the deep pouch is modelled (see 'External urethral sphincter'). 'Urogenital diaphragm' (found by this search) is not another name for the membrane: the membrane is the INFERIOR FASCIA of the urogenital diaphragm; above it, below the superior fascia, lies the deep perineal pouch with the sphincter urethrae and the deep transverse perineal muscle (Mannan 2017, pp. 357-358). The membrane separates the superficial from the deep perineal pouch (Mannan p. 357; Gray's Atlas p. 245).",
    "offer": [
     "deep transverse perineal muscle",
     "transverse perineal ligament",
@@ -3856,8 +3858,8 @@
    "he": [
     "שריר הקרמסטר"
    ],
-   "src": "gray1918,ta",
-   "why": "Male only; not modelled on any page (Z-Anatomy has no cremaster object; Q62 never targeted it). Nerve: genital branch of the genitofemoral nerve (ships).",
+   "src": "gray1918,ta,mannan2017",
+   "why": "Male only; not modelled on any page (Z-Anatomy has no cremaster object; Q62 never targeted it). Nerve: genital branch of the genitofemoral nerve (ships; L1-L2, Mannan 2017 p. 321).",
    "offer": [
     "testis",
     "ductus deferens"
@@ -3968,9 +3970,9 @@
    "he": [
     "העצב הפרינאלי"
    ],
-   "src": "gray1918,ta",
+   "src": "gray1918,ta,mannan2017",
    "corrected_by": "Q336",
-   "why": "SHIPS (rule-based) on the Imaging-based pages only. On the four Z pages Q249 built it but Q252 held it back: its rule-based course ran 15-37 mm outside the skin of those bodies. Its parent, the pudendal nerve, ships on every page.",
+   "why": "SHIPS (rule-based) on the Imaging-based pages only. On the four Z pages Q249 built it but Q252 held it back: its rule-based course ran 15-37 mm outside the skin of those bodies. Its parent, the pudendal nerve, ships on every page. The posterior scrotal (male) / posterior labial (female) nerves found by this search are not other names for it: they are its superficial branches; its other branches are muscular, to the urogenital-triangle muscles (Mannan 2017, p. 348).",
    "offer": [
     "pudendal nerve",
     "internal pudendal artery"

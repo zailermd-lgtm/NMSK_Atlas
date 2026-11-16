@@ -265,3 +265,13 @@ def test_dots_inside_by_winding_number(page):
 def test_regen_ships_the_sidecar_on_base_pages_only():
     src = (REPO / "scripts" / "regen_template_only.py").read_text(encoding="utf-8")
     assert 'if p in ("base_m", "base_f"):' in src and "scripts/anatomy/q322/build_sidecar_q322.py" in src
+
+
+def test_q348_book_pass_keeps_the_reviewed_q322_roots(d):
+    """Q348 adds book checks to innervation_groups_q342 but never changes a root range Q322 reviewed."""
+    g = json.loads((REPO / "data/anatomy/innervation_groups_q342.json").read_text(encoding="utf-8"))["muscles"]
+    for k, q in d["muscles"].items():
+        assert g[k]["roots_text"] == q["roots"]["adopted_text"], k
+        b = g[k].get("book_check_q348")
+        if b:
+            assert all(isinstance(e["page"], int) for e in b["entries"]), k

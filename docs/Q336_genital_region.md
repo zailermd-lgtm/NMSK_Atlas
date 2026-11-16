@@ -88,6 +88,8 @@ Coverage after Q336 (✓ real geometry, R rule-based, + added this round, T text
 | Ovarian / testicular vessels | – | ✓ Z |
 | Rectum / anal canal | ✓ CT rectum / T | – / T |
 
+**Q348 check (2026-11-16)** against the owner's books — Mannan's Regional Dissection 14th ed. 2017 pp. 347-358 (male), 364-368 (female) and Gray's Atlas of Anatomy pp. 245, 252: every row above is confirmed; additions per sex (superficial / deep pouch contents, perineal body, pudendal canal) and the two record corrections (perineal membrane ≠ urogenital diaphragm; posterior scrotal / labial nerves are branches of the perineal nerve) are in `docs/Q348_reference_pass.md` §2.4.
+
 ## 3. What changed
 
 **(a) Skin — Base · Female** (`scripts/anatomy/q336/vulva_skin_q336.py`): new structure `skin_vulva_cvh`, "Vulva and perineal skin

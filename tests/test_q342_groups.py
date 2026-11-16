@@ -88,7 +88,7 @@ def test_parts_schema_and_sources(parts):
             seen.add(pid)
             assert p["refs"], pid
             assert all(r in parts["references"] for r in p["refs"] + (p.get("nerve_source") or [])), pid
-            assert p["verification"] in ("verified", "unverified_textbook"), pid
+            assert p["verification"] in ("verified", "verified_book", "unverified_textbook"), pid
             body = p["body"]
             assert body["status"] in statuses, pid
             if body["status"] == "rule":
@@ -191,3 +191,14 @@ def test_no_forbidden_terms(path):
     text = path.read_text(encoding="utf-8").lower()
     hits = [w for w in FORBIDDEN if w in text]
     assert not hits, (path.name, hits)
+
+
+def test_q348_lines_and_horizontal():
+    d = json.loads(LINES.read_text(encoding="utf-8"))
+    fam = {l["id"]: l["author_family"] for l in d["lines"]}
+    assert sum(1 for v in fam.values() if v == "myers") == 12 and sum(1 for v in fam.values() if v == "tittel") == 3
+    assert d["sub_choices"]["horizontal"]["status"] == "not_offered"
+    for l in d["lines"]:
+        if l["author_family"] == "tittel":
+            assert "diagonal_spiral" in l["sub_choices"] and l["crosses_midline"]
+            assert {s["side"] for s in l["stations"]} >= {"S", "O"}

@@ -1,6 +1,7 @@
 """Builds data/anatomy/innervation_groups_q342.json (schema nmsk.innervation_groups.v1)."""
 import json, re, glob
 from collections import defaultdict, Counter
+from books_q348 import BOOKS, ROOTS, ADOPT, VARIATIONS
 from common import REPO, TODAY, resolve, empty, load_records, record_structures, scan_banned
 
 RECS = load_records()
@@ -65,12 +66,60 @@ for rid, d in RECS.items():
     MUS[rid] = dict(muscle_id=rid, name=d['name_common'], region=d['region'], repo_record=rid, structures=RSTRUCT.get(rid),
                     nerves=n if isinstance(n, list) else [n], roots_text=d['innervation']['root_levels'],
                     roots_range_across_sources=None, roots_conflict=None, sources=['repo_textbook'], from_=d['_file'])
+# Q348: corrections of the adopted value from an opened book (books_q348.ADOPT), recorded on the muscle
+for mid, a in ADOPT.items():
+    m = MUS[mid]
+    assert m['roots_text'].startswith(a['was']), (mid, m['roots_text'])
+    m['corrected_q348'] = dict(was=m['roots_text'], now=a['roots_text'], ref=a['ref'], page=a['page'], why=a['why'])
+    m['roots_text'] = a['roots_text']
+    m['sources'] = sorted((set(m['sources']) - {'repo_textbook'}) | {a['ref']})
 for m in MUS.values():
     lv, cn, nm, seg = parse_roots(m['roots_text'])
     m.update(motor_levels=lv, cranial_nerves=cn, non_motor_levels=nm or None, segmental=seg,
              on_base_pages=bool(m['structures']) and not empty(m['structures']),
              isncsci_key_muscle_for=ISN_OF.get(m['muscle_id']))
     m['source_of_roots'] = m.pop('from_')
+
+
+def _span(levels):
+    return levels[0] if len(levels) == 1 else f'{levels[0]}-{levels[-1]}' if levels else ''
+
+
+# Q348: book check of every muscle the owner's books describe (books_q348.ROOTS): agrees | differs | nerve_only
+for mid, entries in ROOTS.items():
+    m = MUS[mid]
+    blv, bcn = set(), set()
+    for e in entries:
+        lv, cn, _, _ = parse_roots(e['roots'] or '')
+        e2 = dict(e, levels=_span(lv) or None)
+        blv |= set(lv)
+        bcn |= set(cn)
+        e.update(levels=e2['levels'])
+    mine_lv, mine_cn = set(m['motor_levels']), set(m['cranial_nerves'])
+    if blv and mine_lv:
+        status = 'agrees' if blv == mine_lv else 'differs'
+    elif bcn and mine_cn and not blv:
+        status = 'agrees' if bcn <= mine_cn else 'differs'
+    elif blv or bcn:
+        status = 'differs' if (blv and not mine_lv) or (bcn and not mine_cn) else 'agrees'
+    else:
+        status = 'nerve_only'
+    prev = set(parse_roots(m['roots_range_across_sources'] or '')[0])
+    union = sorted(blv | mine_lv | prev, key=IDX.get)
+    m['book_check_q348'] = dict(status=status, entries=[{k: v for k, v in e.items() if v is not None} for e in entries],
+                                books_levels=_span(sorted(blv, key=IDX.get)) or None)
+    m['sources'] = sorted(set(m['sources']) | {e['ref'] for e in entries})
+    if status == 'differs' and blv:
+        was = f"; earlier range {m['roots_range_across_sources']}" if m['roots_range_across_sources'] else ''
+        m['roots_range_across_sources'] = (f"{_span(union)} across sources (adopted {m['roots_text']}{was}; "
+                                           + '; '.join(f"{BOOKS[e['ref']]['short']} p. {e['page']}: {e['levels']}" for e in entries if e.get('levels')) + ')')
+VAR_OUT = []
+for v in VARIATIONS:
+    for n in v['nerves']:
+        assert n in NERVES or any(n == x for x in NERVES), n
+    for mid in v['muscles']:
+        MUS[mid].setdefault('variation_notes_q348', []).append(v['id'])
+    VAR_OUT.append(dict(v))
 
 # ---------------- root family ----------------
 root_levels = {lv: [] for lv in ORDER}
@@ -339,6 +388,9 @@ REFS = {
     'repo_registry': dict(citation="Repository nerve registry data/nerves/*.json (Gray's Anatomy for Students 4th ed.; Moore 8th ed.; TA) + data/anatomy/nerve_parents_q307.json", doi=None, pmid=None, opened='repo files'),
     'q283_actions': dict(citation='Repository data/anatomy/muscle_actions_q283.json (each row quotes a muscle action from data/muscles records or a cited paper)', doi=None, pmid=None, opened='repo file'),
 }
+for k, b in BOOKS.items():
+    if k == 'carp2015' or any(k in m['sources'] for m in MUS.values()) or any(v['ref'] == k for v in VARIATIONS):
+        REFS[k] = {kk: vv for kk, vv in b.items() if kk != 'kind'}
 for k, s in Q322['sources'].items():
     if k in REFS or not any(k in m['sources'] for m in MUS.values()):
         continue
@@ -352,7 +404,9 @@ out = dict(
         what='Innervation group families for the "Related structures" menu: root (myotome), peripheral nerve, central pattern.',
         schema=('muscles{id: {muscle_id, name, region, repo_record, structures {base_m|base_f: {r,l,mid}}, nerves[], roots_text, motor_levels[], '
                 'cranial_nerves[], non_motor_levels, segmental, roots_range_across_sources, roots_conflict, sources[], source_of_roots, on_base_pages, '
-                'isncsci_key_muscle_for}}. families.root.levels{C5: {members[], isncsci_key_muscles}}; families.root.cranial{CN VII: [...]}. '
+                'isncsci_key_muscle_for, book_check_q348 {status agrees|differs|nerve_only, entries[] {ref, page, nerve, roots, levels, note}, '
+                'books_levels}, corrected_q348 {was, now, ref, page, why}, variation_notes_q348[] (ids in variations_q348)}}. '
+                'variations_q348[] {id, ref, pages[], nerves[], muscles[], fact}. families.root.levels{C5: {members[], isncsci_key_muscles}}; families.root.cranial{CN VII: [...]}. '
                 'families.peripheral.nerves{id: {name, parent, level, plexus, roots, cranial, direct_members[], all_members[] {muscle_id, via, role}}}. '
                 'families.central.patterns[] {id, name, limb, kind synergy|hefter_asp|regional, status, components[] {label, moves [[joint, dof, sign]], '
                 'source, opened}, members[] {muscle_id, part, tier, components[], action_quotes[], structures}}.'),
@@ -363,6 +417,7 @@ out = dict(
         public_content='Anatomy and neurology only: no treatment technique, amounts or approach is recorded here.'),
     muscles=muscles_out,
     families=dict(root=root_family, peripheral=peripheral_family, central=central_family),
+    variations_q348=VAR_OUT,
     references=REFS,
     counts=dict(muscles=len(MUS), muscles_on_base_pages=sum(1 for m in MUS.values() if m['on_base_pages']),
                 from_innervation_q322=sum(1 for m in MUS.values() if m['source_of_roots'] == 'innervation_q322'),
@@ -370,7 +425,11 @@ out = dict(
                 muscles_without_parsable_level=len(root_family['no_level_in_source']),
                 nerves=len(nodes), nerves_with_direct_members=len(direct),
                 patterns=len(P), patterns_ok=sum(1 for p in P if p['status'] == 'ok'),
-                pattern_members=sum(len(p['members']) for p in P)))
+                pattern_members=sum(len(p['members']) for p in P),
+                book_check_q348={k: sum(1 for m in MUS.values() if (m.get('book_check_q348') or {}).get('status') == k) for k in ('agrees', 'differs', 'nerve_only')},
+                book_checked_repo_only=sum(1 for m in MUS.values() if m.get('book_check_q348') and m['source_of_roots'] != 'innervation_q322'),
+                repo_only_unchecked=sorted(k for k, m in MUS.items() if not m.get('book_check_q348') and m['source_of_roots'] != 'innervation_q322'),
+                corrected_q348=sorted(k for k, m in MUS.items() if m.get('corrected_q348')), variations_q348=len(VAR_OUT)))
 bad = scan_banned(out)
 assert not bad, bad
 json.dump(out, open(REPO / 'data/anatomy/innervation_groups_q342.json', 'w'), indent=1, ensure_ascii=False)

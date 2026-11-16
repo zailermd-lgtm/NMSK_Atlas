@@ -5,7 +5,7 @@
  "scope": "Base · Male (build/q309/viewer_zan_atlas, key base_m) and Base · Female (build/q309/viewer_base_female, key base_f) only",
  "doc": {
   "what": "Selectable parts (heads, parts, fibre groups) of large or multi-part muscles, and how each maps onto the Base pages.",
-  "schema": "muscles[]: {muscle_id (repo record base id, or a group id such as erector_spinae), name, region, whole_muscle_structures (page ids per body and side, or null when the page has only the parts), parts[], contested, note}. parts[]: {id, name, ta_latin (Terminologia Anatomica Latin part name where standard, else null), origin, nerve_supply, nerve_source[], refs[] (keys into references), verification (verified = opened PubMed record; unverified_textbook = textbook, page not checked), note, body}. body: {status, structures {base_m|base_f: {r:[], l:[], mid:[]}}, rule?, reason?, note?}. status: separate_mesh | separate_mesh_rule_based | rule | not_delimitable | missing_on_page. rule.name is a key of rules{}; every rule is a PROPOSAL (validated=false) and must be validated before a part is drawn.",
+  "schema": "muscles[]: {muscle_id (repo record base id, or a group id such as erector_spinae), name, region, whole_muscle_structures (page ids per body and side, or null when the page has only the parts), parts[], contested, note}. parts[]: {id, name, ta_latin (Terminologia Anatomica Latin part name where standard, else null), origin, nerve_supply, nerve_source[], refs[] (keys into references), verification (verified = opened PubMed record; verified_book = attachment / nerve read in an opened book, Q348; unverified_textbook = textbook, page not checked), note, book_q348 {ref, page, fact, rule_check}?, body}. body: {status, structures {base_m|base_f: {r:[], l:[], mid:[]}}, rule?, reason?, note?}. status: separate_mesh | separate_mesh_rule_based | rule | not_delimitable | missing_on_page. rule.name is a key of rules{}; every rule is a PROPOSAL (validated=false) and must be validated before a part is drawn.",
   "ui": "Parts chooser: offer \"whole muscle\" + each part. separate_mesh -> select those ids. separate_mesh_rule_based -> select, keep the rule badge. rule -> show greyed with \"rule-based, not validated\" until an implementation passes its validation_plan; then draw with a rule-based badge citing the rule + refs. not_delimitable -> list the part (name, nerve, source) without geometry. Side: use the clicked structure's side; ids are given per side.",
   "honesty": "No geometry was made here. Rules are written out so an implementer can test them; the project rejected a deltoid sector rule after validation (q219_validation), so none of these rules may be shown as anatomy before it is validated."
  },
@@ -357,9 +357,10 @@
       "repo_record"
      ],
      "refs": [
-      "gray42"
+      "gray42",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "rule",
@@ -397,6 +398,12 @@
         "scapula"
        ]
       }
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 92,
+      "fact": "Upper fibres insert on the posterior border of the lateral third of the clavicle; origin listed for the whole muscle only (external occipital protuberance, medial third of the superior nuchal line, ligamentum nuchae, C7 and thoracic spines). Nerve: accessory nerve plus ventral rami of C3-C4.",
+      "rule_check": "insertion boundary of the rule (acromioclavicular junction) agrees; the origin split at C7 is not in the book"
      }
     },
     {
@@ -409,9 +416,10 @@
       "repo_record"
      ],
      "refs": [
-      "gray42"
+      "gray42",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "rule",
@@ -442,6 +450,12 @@
         "transverse | ascending"
        ]
       }
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 92,
+      "fact": "Middle fibres run transversely to the medial margin of the acromion and the upper lip of the crest of the scapular spine.",
+      "rule_check": "insertion boundaries agree; origin levels C7-T3 are not stated in the book"
      }
     },
     {
@@ -454,9 +468,10 @@
       "repo_record"
      ],
      "refs": [
-      "gray42"
+      "gray42",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "rule",
@@ -494,6 +509,12 @@
         "scapula"
        ]
       }
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 92,
+      "fact": "Lower fibres converge upward and laterally to a tendon on the tubercle at the medial end of the scapular spine.",
+      "rule_check": "insertion boundary (root of the spine) agrees; origin levels T4-T12 are not stated in the book"
      }
     }
    ],
@@ -590,7 +611,8 @@
       "repo_record"
      ],
      "refs": [
-      "bhatt2013"
+      "bhatt2013",
+      "mannan2017"
      ],
      "verification": "verified",
      "note": "Origin-defined region.",
@@ -633,6 +655,11 @@
         "humerus"
        ]
       }
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 121,
+      "fact": "Origin from the posterior part of the outer lip of the iliac crest (with the lower six thoracic spines, the posterior layer of the thoracolumbar fascia and the lower 3 or 4 ribs)."
      }
     },
     {
@@ -2154,9 +2181,10 @@
      "nerve_supply": null,
      "nerve_source": null,
      "refs": [
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "not_delimitable",
@@ -2181,6 +2209,11 @@
        }
       },
       "reason": "heads fuse into one sheet below the tendinous arch"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 263,
+      "fact": "From the back of the head of the fibula and the upper quarter of the posterior surface of its shaft."
      }
     },
     {
@@ -2191,9 +2224,10 @@
      "nerve_supply": null,
      "nerve_source": null,
      "refs": [
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "not_delimitable",
@@ -2218,6 +2252,11 @@
        }
       },
       "reason": "as above"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 263,
+      "fact": "From the soleal line and the middle third of the medial border of the tibia; the muscle also arises from the deep transverse fascia."
      }
     },
     {
@@ -2298,7 +2337,8 @@
      ],
      "refs": [
       "gray42",
-      "godat2004"
+      "godat2004",
+      "mannan2017"
      ],
      "verification": "unverified_textbook",
      "note": null,
@@ -2325,6 +2365,11 @@
        }
       },
       "reason": "parts overlap at rib 2 in the textbook definition; a rib-of-origin rule holds near the ribs but not where the slips converge on the medial border"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 121,
+      "fact": "Insertion groups: the 1st digitation to the costal surface of the superior angle; the 2nd-4th along the medial margin; the lower 4 or 5 converge on the inferior angle; origin from the upper 8 or 9 ribs. This grouping (1 / 2-4 / lower 4-5) differs from the part limits recorded here (digitations 1-2 / 2-3 / 4-9)."
      }
     },
     {
@@ -2339,7 +2384,8 @@
      ],
      "refs": [
       "gray42",
-      "godat2004"
+      "godat2004",
+      "mannan2017"
      ],
      "verification": "unverified_textbook",
      "note": null,
@@ -2366,6 +2412,11 @@
        }
       },
       "reason": "parts overlap at rib 2 in the textbook definition; a rib-of-origin rule holds near the ribs but not where the slips converge on the medial border"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 121,
+      "fact": "See superior part: the book's middle group is the 2nd-4th digitations."
      }
     },
     {
@@ -2380,7 +2431,8 @@
      ],
      "refs": [
       "gray42",
-      "godat2004"
+      "godat2004",
+      "mannan2017"
      ],
      "verification": "unverified_textbook",
      "note": null,
@@ -2407,6 +2459,11 @@
        }
       },
       "reason": "parts overlap at rib 2 in the textbook definition; a rib-of-origin rule holds near the ribs but not where the slips converge on the medial border"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 121,
+      "fact": "See superior part: the book's lower group is the lower 4 or 5 digitations."
      }
     }
    ],
@@ -3067,9 +3124,10 @@
       "repo_record"
      ],
      "refs": [
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "rule",
@@ -3107,6 +3165,11 @@
        "coverage": "lower segment only (below the fusion of the heads); the upper muscle is not assigned",
        "head": "sternum"
       }
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 76,
+      "fact": "Medial (sternal) head from the upper lateral part of the anterior surface of the manubrium."
      }
     },
     {
@@ -3119,9 +3182,10 @@
       "repo_record"
      ],
      "refs": [
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "rule",
@@ -3159,6 +3223,11 @@
        "coverage": "lower segment only (below the fusion of the heads); the upper muscle is not assigned",
        "head": "clavicle"
       }
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 77,
+      "fact": "Lateral (clavicular) head from the superior surface of the medial third of the clavicle."
      }
     }
    ],
@@ -3781,9 +3850,10 @@
       "repo_record"
      ],
      "refs": [
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "not_delimitable",
@@ -3808,6 +3878,11 @@
        }
       },
       "reason": "side-by-side bellies without a sourced boundary on the mesh"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 146,
+      "fact": "Lateral half supplied by the anterior interosseous branch of the median nerve (C8, T1). The book divides the muscle in halves by nerve, not by finger."
      }
     },
     {
@@ -3820,9 +3895,10 @@
       "repo_record"
      ],
      "refs": [
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "not_delimitable",
@@ -3847,6 +3923,11 @@
        }
       },
       "reason": "as above"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 146,
+      "fact": "Medial half supplied by the ulnar nerve."
      }
     }
    ],
@@ -3890,9 +3971,10 @@
      "refs": [
       "gray42",
       "hartz1981",
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "not_delimitable",
@@ -3917,6 +3999,11 @@
        }
       },
       "reason": "the ulnar head is small and deep; the median nerve between the heads is the only boundary"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 140,
+      "fact": "Humeral (superficial) head from the front of the medial epicondyle, the common flexor tendon, the intermuscular septum and the antebrachial fascia; the median nerve passes between the two heads."
      }
     },
     {
@@ -3930,9 +4017,10 @@
      ],
      "refs": [
       "gray42",
-      "q293_textbook"
+      "q293_textbook",
+      "mannan2017"
      ],
-     "verification": "unverified_textbook",
+     "verification": "verified_book",
      "note": null,
      "body": {
       "status": "not_delimitable",
@@ -3957,6 +4045,11 @@
        }
       },
       "reason": "as above"
+     },
+     "book_q348": {
+      "ref": "mannan2017",
+      "page": 140,
+      "fact": "Ulnar (deep) head from the medial margin of the coronoid process; it separates the median nerve from the ulnar artery."
      }
     }
    ],
@@ -4403,6 +4496,10 @@
    "pmid": "42237686",
    "opened": "PubMed record, verified by the project 2026-10-12",
    "basis": "abstract: 9 AMs; four components adductor minimus, superior and inferior parts of the adductor part, hamstring part; minimus and superior part insert on the lateral lip, inferior part on the medial lip and medial supracondylar line; superficial / deep membranous origin tendons, insertion tendons, intramuscular tendinous arches"
+  },
+  "mannan2017": {
+   "citation": "Noor MA. Mannan's Regional Dissection and Surface Anatomy. 14th ed. Jaypee Brothers Medical Publishers, New Delhi, 2017. ISBN 978-93-86322-11-1",
+   "opened": "owner-supplied PDF with a text layer (2026-11-16); pages are the printed page numbers"
   },
   "miller2007": {
    "citation": "Miller SL, Gill J, Webb GR. The proximal origin of the hamstrings and surrounding anatomy encountered during repair. A cadaveric study. J Bone Joint Surg Am 2007;89(1):44-48",

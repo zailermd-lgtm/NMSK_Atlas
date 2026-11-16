@@ -101,3 +101,6 @@ seen in a web search); Brunnstrom 1970; Hefter 2012 full text; Gray's Anatomy 42
   the rule-based badge and `components` (with source). Central patterns are one-sided (clicked side).
 - Map a clicked mesh to a muscle id through `muscles[*].structures` (innervation) or the parts/whole lists
   (parts file); several muscles can share a mesh (e.g. iliopsoas parts).
+
+## 5. Q348 update (owner's books, 2026-11-16)
+Myers' chapter in *Fascia in Sport and Movement* (2015) was opened: each Myers line now has `book_check` (what the chapter confirms, PDF pages); it lists no stations, so `verify_against_book` stays true. Lateral Line + gluteus medius, DFL + medial knee station; three Tittel slings added (Richter 2015, Table 7.1) → 18 lines; "horizontal" stays disabled. Innervation: `book_check_q348` per muscle from Mannan 2017 / Sontakke 2023 (printed pages), serratus posterior superior corrected to T2-T5, `variations_q348` from Haviarová 2024. Parts: `book_q348` facts, `verified_book` level. Inputs `ids.json` / `rec2mesh.json` now sit beside the generators. Detail: `docs/Q348_reference_pass.md`.

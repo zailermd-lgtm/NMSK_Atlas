@@ -105,3 +105,11 @@ def test_applied_page_rig_and_cards_agree():
     assert m["sys"] == "skin" and "REAL SURFACE OF ANOTHER PERSON" in m["rec"]["procedural_badge"]
     for x in man["meshes"]:
         assert "perineum of this page is deliberately shown OPEN" not in json.dumps(x.get("rec", {})), x["id"]
+
+
+def test_q348_records_checked_against_the_books():
+    syn = json.loads((REPO / "data/anatomy/synonyms_q306.json").read_text(encoding="utf-8"))
+    rows = {r["name"]: r for r in syn["cited_but_not_shipped"]}
+    for name in ("Perineal membrane", "Perineal nerve", "Cremaster muscle"):
+        assert "mannan2017" in rows[name]["src"].split(","), name
+    assert "mannan2017" in syn["sources"] and "grays_atlas" in syn["sources"]
