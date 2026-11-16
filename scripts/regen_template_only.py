@@ -16,6 +16,7 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/anatomy/q237/build_sidecar.py            symmetry_q237.json
     scripts/anatomy/q256/build_plexus_sidecar.py     plexus_groups.json
     scripts/anatomy/q322/build_sidecar_q322.py       innervation_q322.json   (Base pages only)
+    scripts/anatomy/q342/build_sidecar_q342.py       groups_q342.json        (Base pages only, Q343; reads the page's own manifest ids)
     scripts/zanatomy/patch_manifest_records_q327.py  manifest records of 14 ligament/fascia/muscle ids (Base pages only; Q338 +4 hand ids)
     clinical/data/motor_points.json                  -> clinical_motor_points.json   (Base pages only, Q331)
     index.html = the page
@@ -126,6 +127,8 @@ def build(p: str, src_root: Path, out: Path):
     run(["python3", "scripts/anatomy/q256/build_plexus_sidecar.py", "--html", str(html), "-o", str(dst / "plexus_groups.json")])
     if p in ("base_m", "base_f"):   # Q322: the innervation mode's sidecar (committed data + committed band placement, no recompute)
         run(["python3", "scripts/anatomy/q322/build_sidecar_q322.py", p, str(dst)])
+    if p in ("base_m", "base_f"):   # Q343: the name card's groups (myofascial lines, innervation groups, parts) from the committed Q342 data
+        run(["python3", "scripts/anatomy/q342/build_sidecar_q342.py", p, str(dst)])
     if p in ("base_m", "base_f"):   # Q327: a ligament / fascia carries no muscle's or bone's record (the builder rule, applied to the embedded manifest)
         run(["python3", "scripts/zanatomy/patch_manifest_records_q327.py", str(dst)])
     if p in ("base_m", "base_f") and (dst / "clinical_motor_points.json").exists():

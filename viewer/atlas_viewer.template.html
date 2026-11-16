@@ -576,6 +576,11 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 @media (hover:none){#pm-att .pp-seg button{min-height:34px;font-size:12.5px}#pm-att .pp-c input{width:18px;height:18px}}
 #pm-att .pa-cls{display:none}
 @media (max-width:559px){#pm-att .pa-sub{display:none}#pm-att .pa-cls{display:block;margin:3px 0 0;line-height:1.35}#pm-att .pa-r{margin:1px 0}}
+/* Q344: the long method note sits behind a small (i) */
+.hm-det{display:inline}
+.hm-det>summary{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1px solid currentColor;border-radius:50%;font-size:11px;line-height:1;cursor:pointer;list-style:none;vertical-align:middle;opacity:.85}
+.hm-det>summary::-webkit-details-marker{display:none}
+.hm-det[open]>div{display:block;margin-top:4px;font-weight:400}
 /* PARTS-UI css end */
 /* LABELS css begin */
 #lab-panel,#lab-legend,#lab-layer{--lb-bg:#fff;--lb-ink:#111;--lb-dim:#667;--lb-line:#ccd;--lb-accent:#0a6e8e;--lb-accent-ink:#fff;--lb-sunk:#eef1f4;--lb-shadow:0 8px 24px rgba(0,0,0,.18);--lb-halo:rgba(255,255,255,.88)}
@@ -1643,6 +1648,14 @@ body.mode-on .hist-bar{display:none}
   display:inline-flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;opacity:.75}
 .ms-pane-b:hover{opacity:1}
 @media (hover:none){.ms-pane-b{width:36px;height:36px}}
+/* Q344: the measure bar never grows over the figure: results scroll inside it, and on a phone the buttons are one scrolling row */
+.ms-res{max-height:62px;overflow:auto}
+@media (max-width:560px){
+  .ms-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .ms-row>button{flex:0 0 auto}
+  .ms-res{max-height:38px}
+  .ms-msg{max-height:34px;overflow:auto}
+}
 </style>
 <div id="xsp-panel" class="xsp" hidden role="group" aria-label="Slices of one part">
   <div class="xsp-head"><b>Slices</b><select id="xsp-part" aria-label="The part to slice"><option value="">Choose a part&hellip;</option></select><button type="button" id="xsp-close" aria-label="Close the slices panel" title="Close">&times;</button></div>
@@ -2034,7 +2047,7 @@ var NMSKMeasureCore = (function(){
     var how = pl ? "in the cut plane" : "perpendicular to its long axis", loops = section(pos, idx, n, c);
     if (!loops.length) return {err:(pl ? "the cut plane does not cross this structure" : "no section through this point"), how:how};
     var k = pickLoop(loops, p, n), L = loops[k];
-    if (!L.closed) return {err:"the section is not closed here (the mesh is open) -- not reported", how:how, loops:loops.length, loop:L.pts};
+    if (!L.closed) return {err:"the section is not closed here (the mesh is open), so it is not reported", how:how, loops:loops.length, loop:L.pts};
     return {perim:loopLength(L.pts, true), area:loopArea(L.pts, n), n:n, c:c, how:how, loops:loops.length, closedLoops:loops.filter(function(x){ return x.closed; }).length, loop:L.pts};
   }
   /* the expected CT number of the tapped structure, from the page's own sourced reference (T = its tissue-reference module: classOf / hu /
@@ -2061,7 +2074,7 @@ var NMSKMeasureCore = (function(){
     }
     if (kind === "surf") return {v:r.area / 100, unit:"cm²", mm:r.area, text:"Surface area " + (r.area / 100).toFixed(1) + " cm²" + (r.closed ? "" : " (open mesh)"), note:"whole structure surface, " + r.tris + " triangles"};
     if (kind === "vol"){
-      if (r.volume == null) return {v:null, unit:"", text:"Volume: " + r.why + " -- volume not reported", note:r.why};
+      if (r.volume == null) return {v:null, unit:"", text:/^no triangles/.test(r.why) ? "This structure has no surface, so a volume cannot be given." : /^not consistently/.test(r.why) ? "The mesh surface is not consistently oriented, so a volume cannot be given." : "The mesh is not closed, so a volume cannot be given.", note:r.why};   // Q344: plain wording; the counts stay in the note
       return {v:r.volume / 1000, unit:"cm³", mm:r.volume, text:"Volume " + (r.volume / 1000).toFixed(2) + " cm³", note:"closed surface, " + r.tris + " triangles"};
     }
     return null;
@@ -2289,14 +2302,18 @@ var NMSKMeasure = (function(){
   function place(){                                     // right under the toolbar (phones: the bottom belongs to the structure card / sheets)
     if (!bar || bar.hidden) return;
     var t = tbEl && tbEl.getBoundingClientRect ? tbEl.getBoundingClientRect() : null;
-    if (t && t.height > 0){ bar.style.top = Math.round(Math.min(window.innerHeight * 0.5, t.bottom + 6)) + "px"; bar.style.bottom = "auto"; }   // never over the toolbar
+    var qb = document.getElementById("q301-bar"), qr = qb && qb.getBoundingClientRect ? qb.getBoundingClientRect() : null;       /* Q344: the control row that replaced the corner toolbar */
+    if (qr && !(qr.height > 0)) qr = null;
+    if (qr){ bar.style.top = Math.round(Math.min(window.innerHeight * 0.5, Math.max(t && t.height > 0 ? t.bottom : 0, qr.bottom) + 6)) + "px"; bar.style.bottom = "auto"; }
+    else if (t && t.height > 0){ bar.style.top = Math.round(Math.min(window.innerHeight * 0.5, t.bottom + 6)) + "px"; bar.style.bottom = "auto"; }   // never over the toolbar
     else { bar.style.top = ""; bar.style.bottom = ""; }
     var c = api && api.canvas && api.canvas.getBoundingClientRect ? api.canvas.getBoundingClientRect() : null;   // desktop: at the 3-D view's left edge, so an image pane beside it stays clear
     if (window.innerWidth > 560 && c && c.width > 200){ bar.style.left = Math.round(Math.max(8, c.left + 8)) + "px"; bar.style.transform = "none"; bar.style.maxWidth = Math.round(Math.max(260, c.width - 16)) + "px"; }
     else { bar.style.left = ""; bar.style.transform = ""; bar.style.maxWidth = ""; }
   }
   function open(v){
-    if (!bar) return; bar.hidden = !v; if (!v) arm(null); render(); place();
+    if (!bar) return; bar.hidden = !v; if (!v){ arm(null); if (list.length || pend){ list = []; pend = null; if (window.NMSKHistory && NMSKHistory.active()) NMSKHistory.commit(); kick(); } }   /* Q344: closing Measure takes its pins and labels off the model */
+    render(); place();
   }
   function buildBar(){
     bar = document.createElement("div"); bar.id = "ms-bar"; bar.className = "ms-bar"; bar.hidden = true; bar.setAttribute("role", "toolbar"); bar.setAttribute("aria-label", "Measure");
@@ -4301,8 +4318,28 @@ var NMSKGroups = (function(){
       var sw = Math.max(220, Math.min(w, Math.ceil(sheet.getBoundingClientRect().width) + 2));
       sheet.style.width = sw + "px";
       sheet.style.left = bar.style.left;
-      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.55)) + "px";
       sheet.style.top = (top + (bar.offsetHeight || 0) + 4) + "px";
+      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.55)) + "px";
+      /* Q344: a sheet never sits on the figure. Desktop: it opens beside the model (the wider free margin) and scrolls inside;
+         where no margin is wide enough it overlaps, but at most about a third of the model's box. Phone: capped at 36 % of the
+         screen, the list scrolls inside. */
+      var vw = window.innerWidth, vh = window.innerHeight, phone = vw <= 460, mb = null;
+      try { mb = window.NMSKQuick && NMSKQuick.box && NMSKQuick.box(); } catch (e0){}
+      var topPx = top + (bar.offsetHeight || 0) + 4;
+      if (phone){
+        sheet.style.maxHeight = Math.round(Math.max(150, Math.min(r.height * 0.55, vh * 0.36))) + "px";
+      } else if (mb && mb.r > mb.l){
+        var freeL = mb.l - 16, freeR = vw - mb.r - 16, side = freeL >= freeR ? "l" : "r", free = Math.max(freeL, freeR);
+        if (free >= 300){
+          var bw = Math.max(300, Math.min(sw, free));
+          sheet.style.width = bw + "px";
+          sheet.style.left = (side === "l" ? 8 : vw - 8 - bw) + "px";
+          sheet.style.maxHeight = Math.round(Math.max(160, vh - topPx - 12)) + "px";
+        } else {
+          var ov = Math.max(1, Math.min(sw, vw) - Math.max(0, free)), area = Math.max(1, (mb.r - mb.l) * (mb.b - mb.t));
+          sheet.style.maxHeight = Math.round(Math.max(150, Math.min(r.height * 0.55, 0.34 * area / ov))) + "px";
+        }
+      }
     }
     /* Q300's chip bar and Q294's notice are anchored to the BOTTOM, which the bar no longer occupies, so
        there is nothing left for them to clear. The variable stays, at zero, because the stylesheets of both
@@ -6916,7 +6953,11 @@ var NMSKMove = (function(){
         bb.dx = d.dx; bb.dy = d.dy; bb.slot = d.slot;
         apply(bb, true); reverts++;
         say("Not there -- it would cover " + bad[0].label + ". The box is back where it was.");
-      } else { if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
+      } else {
+        /* Q343: a box dropped where the screen edge HELD it keeps the place the user saw. The raw offset used to stay
+           stored, so a card that was taller at the drop (held higher) reopened lower once it was shorter. */
+        if (!bb.slot && bb._ax != null && (bb._ax !== bb.dx || bb._ay !== bb.dy) && !(bb.use && !bb.use())){ bb.dx = bb._ax; bb.dy = bb._ay; save(); }
+        if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
       if (window.NMSKGroups && NMSKGroups.state) { try { NMSKGroups.state(); } catch (err){} }
     }
     g.addEventListener("pointerup", done);
@@ -7304,8 +7345,11 @@ var NMSKQ305 = (function(){
      into:function(){ var b = document.getElementById("ms-bar"); return b ? b.querySelector(".ms-row") : null; }},
     {key:"slices",   el:"xsp-panel",  at:"tl", label:"the part-slices panel"},
     {key:"expand",   el:"q8-float",   at:"tl", label:"the structure-expansion strip"},
-    {key:"labels",   el:"lab-panel",  at:"tl", label:"the labels panel",       light:true},
-    {key:"legend",   el:"lab-legend", at:"tl", label:"the labels legend",      light:true},
+    /* Q344: the handle goes INTO the panel's heading row, so it never lies on "Labels:" / the legend title */
+    {key:"labels",   el:"lab-panel",  first:true, label:"the labels panel",       light:true,
+     into:function(){ var p = document.getElementById("lab-panel"); return p ? p.querySelector(".lb-head") : null; }},
+    {key:"legend",   el:"lab-legend", first:true, label:"the labels legend",      light:true,
+     into:function(){ var p = document.getElementById("lab-legend"); return p ? p.querySelector(".lg-head") : null; }},
     /* Q335: the floating panels that had no handle yet, so they get the grip and the three-dots menu like the rest */
     {key:"pose",     el:"pose-panel", first:true, label:"the pose panel",      light:true,
      into:function(){ var p = document.getElementById("pose-panel"); return p ? p.querySelector(".pz-head") : null; }},
@@ -8365,6 +8409,16 @@ body.qc-on.qc-more #info:not(.hidden){display:block !important}
 .qc-relmenu .qc-rmi.qc-off{color:#a3adba;cursor:default}
 .qc-relmenu .qc-rsub{display:flex;flex-direction:column;padding-left:12px}
 @media (pointer:coarse){.qc-relmenu .qc-rmi{min-height:40px}}
+/* Q343: a family's sub-menu is a sheet stacked in the same menu: a back row, headings, greyed items that say why on a tap */
+.qc-relmenu .qc-rback{font-weight:650;border-bottom:1px solid rgba(255,255,255,.14);border-radius:6px 6px 0 0;margin-bottom:2px}
+.qc-relmenu .qc-rhead{padding:6px 12px 2px;font-size:10.5px;font-weight:650;letter-spacing:.05em;text-transform:uppercase;color:#b9c3cf}
+.qc-relmenu .qc-rsi.qc-here{box-shadow:inset 3px 0 0 #D9A227}
+.qc-relmenu .qc-rbadge{display:inline-block;margin-left:4px;padding:1px 6px;border-radius:9px;font-size:10.5px;font-weight:600;
+  background:rgba(255,255,255,.12);color:#E6EDF3;vertical-align:1px}
+.qc-relmenu .qc-rwhy{margin:0 8px 4px 12px;max-width:280px;white-space:normal;font-size:11.5px;line-height:1.35;color:#d3dae2}
+/* add-ons (the Parts chooser) sit between the buttons and the related-structures line */
+.qc-add{display:flex;flex-direction:column;gap:4px;width:0;min-width:100%}
+.qc-add:empty{display:none}
 </style>
 <script>
 /* Q321: the quick card. Owner: "when clicking an organ or a region, the FIRST thing that must open is the name of what was
@@ -8405,6 +8459,17 @@ var NMSKQuickCard = (function(){
     FAM.sort(function(a, b){ return (a.order || 99) - (b.order || 99); });
     return true;
   }
+  /* Q343: ADD-ONS draw a small block on the card between its buttons and the related-structures line (the Parts chooser of a
+     muscle with named parts). render(id, host, card) runs on every structure the card shows; card.setScope(ids, label) makes
+     Hide / Fade / Show only / Select act on those ids (a whole muscle, one part) instead of the clicked mesh alone, until
+     the card shows another structure:  NMSKQuickCard.addon({key, order, render}) */
+  var ADD = [];
+  function addon(a){
+    if (!a || !a.key || typeof a.render !== "function") return false;
+    ADD = ADD.filter(function(x){ return x.key !== a.key; }); ADD.push(a);
+    ADD.sort(function(x, y){ return (x.order || 99) - (y.order || 99); });
+    return true;
+  }
   function q8(){ return window.NMSKQ298 || null; }
   function q8n(id, k){ var Q = q8(), c = null; try { c = Q && Q.counts ? Q.counts(id) : null; } catch (err){ c = null; } return c ? (c[k] || 0) : 0; }
   function q8run(k){ var Q = q8(); if (Q && Q.run) Q.run(k); }
@@ -8429,12 +8494,20 @@ var NMSKQuickCard = (function(){
      only closes the card, a second one does what it always did */
   window.addEventListener("keydown", function(e){
     if (e.key !== "Escape" || !live || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (live.relBack && live.relBack()){ e.stopImmediatePropagation(); e.preventDefault(); return; }             /* Q343: a sub-menu sheet goes back first */
     if (live.relClose && live.relClose(true)){ e.stopImmediatePropagation(); e.preventDefault(); return; }      /* an open menu takes the first Escape */
     if (live.current()){ live.close(); e.stopImmediatePropagation(); e.preventDefault(); }
   }, true);
   function start(E){
     var card = null, lead = null, cur = null, px = null, py = null, rowEl = null, chipsEl = null, detEl = null, btns = {};
-    var P = prefs(), open1 = false, stale = false, home = null, QB = null;
+    var P = prefs(), open1 = false, stale = false, home = null, QB = null, addEl = null, scope = null;
+    function S(){ return scope && scope.ids.length ? scope.ids : (cur ? [cur] : []); }
+    function every(ids, f){ for (var i = 0; i < ids.length; i++) if (!f(ids[i])) return false; return ids.length > 0; }
+    function setScope(ids, label){
+      var v = (ids || []).filter(function(x){ return !!x; });
+      scope = v.length && !(v.length === 1 && v[0] === cur) ? {ids:v, label:label || ""} : null;
+      refresh(); return S().slice();
+    }
     function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
     function el(tag, cls, txt){ var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
     function ctl(){ return window.NMSKSelectCtl || null; }
@@ -8449,21 +8522,28 @@ var NMSKQuickCard = (function(){
       rowEl = el("div", "qc-row");
       function b(key, label, f, cls){ var e = el("button", "qc-b" + (cls ? " " + cls : ""), label); e.type = "button"; e.setAttribute("data-qc", key);
         e.addEventListener("click", function(ev){ ev.stopPropagation(); if (cur) f(cur); }); btns[key] = e; rowEl.appendChild(e); return e; }
-      b("hide", "Hide", function(id){ E.toggleHide(id); hist(); refresh(); });
-      b("fade", "Fade", function(id){ E.toggleFade(id); hist(); refresh(); });
-      b("only", "Show only", function(id){
-        var c = ctl(); if (!c) return;
-        if (isOnly(id)) c.setMode("all"); else { c.markIds([id], true, true, true); c.setMode("only"); }
+      /* Q343: each acts on the card's scope -- the clicked mesh, or the whole muscle / part chosen in the Parts chooser */
+      function each(k){ var ids = S(), on = !every(ids, function(i){ return !!(E.state(i) || {})[k === "hide" ? "hidden" : "faded"]; });
+        ids.forEach(function(i){ if (!!(E.state(i) || {})[k === "hide" ? "hidden" : "faded"] !== on){ if (k === "hide") E.toggleHide(i); else E.toggleFade(i); } }); }
+      b("hide", "Hide", function(){ each("hide"); hist(); refresh(); });
+      b("fade", "Fade", function(){ each("fade"); hist(); refresh(); });
+      b("only", "Show only", function(){
+        var c = ctl(), ids = S(); if (!c) return;
+        if (isOnly(ids)) c.setMode("all"); else { c.markIds(ids, true, true, true); c.setMode("only"); }
         hist(); refresh();
       });
-      b("sel", "Select", function(id){ var c = ctl(); if (!c) return; c.toggle(id, true); hist(); refresh(); });
+      b("sel", "Select", function(id){ var c = ctl(), ids = S(); if (!c) return;
+        if (ids.length === 1) c.toggle(ids[0], true);
+        else { var st = c.state(); c.markIds(ids, !every(ids, function(i){ return st.marks.indexOf(i) >= 0; }), false, false); }
+        hist(); refresh(); });
       var rb = b("rel", "Related structures \u25be", function(){ if (relEl) relClose(true); else relOpen(); }, "qc-relb");
       rb.setAttribute("aria-haspopup", "menu"); rb.setAttribute("aria-expanded", "false");
       b("zoom", "Zoom to", function(id){ if (P.pos === "point"){ close(); E.zoom(id); return; } E.zoom(id); stale = true; leader(); }, "qc-zoom");
       b("more", "More…", function(id){ if (open1) less(); else more(id); }, "qc-more");
       chipsEl = el("div", "qc-chips"); chipsEl.id = "qc-chips";
       detEl = el("div", "qc-det"); detEl.id = "qc-det"; detEl.setAttribute("data-nm-hosted", "");
-      card.appendChild(head); card.appendChild(rowEl); card.appendChild(chipsEl); card.appendChild(detEl);
+      addEl = el("div", "qc-add"); addEl.id = "qc-add";
+      card.appendChild(head); card.appendChild(rowEl); card.appendChild(addEl); card.appendChild(chipsEl); card.appendChild(detEl);
       lead = document.createElementNS("http://www.w3.org/2000/svg", "svg"); lead.setAttribute("class", "qc-lead"); lead.hidden = true; lead.setAttribute("aria-hidden", "true");
       lead.innerHTML = '<line x1="0" y1="0" x2="0" y2="0"></line><circle r="3.5" cx="0" cy="0"></circle>';
       document.body.appendChild(lead); document.body.appendChild(card);
@@ -8481,50 +8561,89 @@ var NMSKQuickCard = (function(){
     function relClose(refocus){
       if (!relEl) return false;
       if (relEl.parentNode) relEl.parentNode.removeChild(relEl);
-      relEl = null;
+      relEl = null; relBack = null;
       if (btns.rel){ btns.rel.setAttribute("aria-expanded", "false"); if (refocus){ try { btns.rel.focus({preventScroll:true}); } catch (err){} } }
       return true;
     }
+    /* Q343: a family's sub-menu opens as a SHEET stacked in the same menu (a "\u2039 back" row on top), at every size: so the menu
+       stays as wide as its own items and a phone gets one readable list at a time. An item is
+         {label, n, run} | {label, items:[...]} (a further sheet) | {head:true, label} (a heading) |
+         {label, off:true, why} (shown greyed; a tap or Enter shows why) ; optional badge (short text) and here (true: it
+       concerns the structure on the card). Escape or \u2190 goes back one sheet, then closes. */
+    var relBack = null;
     function relOpen(){
       relClose(false);
       var id = cur; if (!id || !btns.rel) return null;
       var m = el("div", "qc-relmenu"); m.id = "qc-relmenu"; m.setAttribute("role", "menu"); m.setAttribute("aria-label", "Related structures");
-      FAM.forEach(function(f){
-        var subs = null, n = 0;
-        try { subs = f.items ? (f.items(id) || []) : null; n = subs ? subs.length : (f.count ? +f.count(id) || 0 : 0); } catch (err){ subs = null; n = 0; }
-        var x = el("button", "qc-rmi", f.label + (n ? " \u00b7 " + n : "") + (subs ? " \u25b8" : ""));
-        x.type = "button"; x.setAttribute("role", "menuitem"); x.setAttribute("data-fam", f.key);
-        if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data"; }
-        var sub = null;
-        x.addEventListener("click", function(e){
-          e.stopPropagation(); if (!n) return;
-          if (subs){
-            if (sub){ sub.parentNode.removeChild(sub); sub = null; x.setAttribute("aria-expanded", "false"); return; }
-            sub = el("div", "qc-rsub"); sub.setAttribute("role", "group");
-            subs.forEach(function(it){
-              var y = el("button", "qc-rmi qc-rsi", it.label + (it.n ? " \u00b7 " + it.n : "")); y.type = "button"; y.setAttribute("role", "menuitem");
-              y.addEventListener("click", function(e2){ e2.stopPropagation(); relClose(false); try { it.run(id); } catch (err){} after(); });
-              sub.appendChild(y);
-            });
-            x.parentNode.insertBefore(sub, x.nextSibling); x.setAttribute("aria-expanded", "true");
-            return;
-          }
-          relClose(false); try { f.run(id); } catch (err){} after();
+      var stack = [];
+      function item(lab, cls){ var x = el("button", "qc-rmi" + (cls ? " " + cls : ""), lab); x.type = "button"; x.setAttribute("role", "menuitem"); return x; }
+      function fams(){
+        FAM.forEach(function(f){
+          var subs = null, n = 0, k = 0;
+          try { subs = f.items ? (f.items(id) || []) : null; n = subs ? subs.length : (f.count ? +f.count(id) || 0 : 0);
+                k = subs ? (f.count ? +f.count(id) || 0 : n) : n; } catch (err){ subs = null; n = 0; k = 0; }
+          var x = item(f.label + (k ? " \u00b7 " + k : "") + (subs ? " \u25b8" : ""));
+          x.setAttribute("data-fam", f.key);
+          if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data"; }
+          if (subs) x.setAttribute("aria-haspopup", "menu");
+          x.addEventListener("click", function(e){
+            e.stopPropagation(); if (!n) return;
+            if (subs){ stack.push({label:f.label, items:subs, key:f.key}); paint(); return; }
+            relClose(false); try { f.run(id); } catch (err){} after();
+          });
+          m.appendChild(x);
         });
-        if (subs) x.setAttribute("aria-expanded", "false");
-        m.appendChild(x);
-      });
+      }
+      function sheet(S){
+        var bk = item("\u2039 " + S.label, "qc-rback"); bk.setAttribute("aria-label", "Back from " + S.label);
+        bk.addEventListener("click", function(e){ e.stopPropagation(); back(); });
+        m.appendChild(bk); m.setAttribute("data-sheet", S.key || "");
+        S.items.forEach(function(it){
+          if (it.head){ var hd = el("div", "qc-rhead", it.label); hd.setAttribute("role", "presentation"); m.appendChild(hd); return; }
+          var y = item(it.label + (it.n ? " \u00b7 " + it.n : "") + (it.items ? " \u25b8" : ""), "qc-rsi" + (it.here ? " qc-here" : ""));
+          if (it.key) y.setAttribute("data-key", it.key);
+          if (it.badge){ var bd = el("span", "qc-rbadge" + (it.bcls ? " " + it.bcls : ""), it.badge); y.appendChild(document.createTextNode(" ")); y.appendChild(bd); }
+          if (it.title) y.title = it.title;
+          if (it.off){
+            y.setAttribute("aria-disabled", "true"); y.classList.add("qc-off"); if (it.why) y.title = it.why;
+            var why = null;
+            y.addEventListener("click", function(e){
+              e.stopPropagation(); if (!it.why) return;
+              if (why){ why.parentNode.removeChild(why); why = null; y.setAttribute("aria-expanded", "false"); return; }
+              why = el("p", "qc-rwhy", it.why); why.setAttribute("role", "note"); y.parentNode.insertBefore(why, y.nextSibling); y.setAttribute("aria-expanded", "true"); pos();
+            });
+          } else if (it.items){
+            y.setAttribute("aria-haspopup", "menu");
+            y.addEventListener("click", function(e){ e.stopPropagation(); stack.push({label:it.sheet || it.label, items:it.items, key:it.key}); paint(); });
+          } else {
+            y.addEventListener("click", function(e2){ e2.stopPropagation(); relClose(false); try { it.run(id); } catch (err){} after(); });
+          }
+          m.appendChild(y);
+        });
+      }
+      function pos(){
+        var r = btns.rel.getBoundingClientRect(), w = m.offsetWidth, h = m.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+        var x0 = Math.max(8, Math.min(vw - 8 - w, r.left)), y0 = r.bottom + 4;
+        if (y0 + h > vh - 8) y0 = Math.max(8, Math.min(r.top - 4 - h, vh - 8 - h));
+        m.style.left = Math.round(x0) + "px"; m.style.top = Math.round(y0) + "px";
+      }
+      function paint(){
+        while (m.firstChild) m.removeChild(m.firstChild);
+        m.removeAttribute("data-sheet");
+        if (stack.length) sheet(stack[stack.length - 1]); else fams();
+        m.scrollTop = 0; pos();
+        var first = m.querySelector(".qc-rmi:not(.qc-off):not(.qc-rback)") || m.querySelector(".qc-rmi"); if (first){ try { first.focus({preventScroll:true}); } catch (err){} }
+      }
+      function back(){ if (!stack.length) return false; stack.pop(); paint(); return true; }
+      relBack = back;
       m.addEventListener("keydown", function(e){
         var xs = [].slice.call(m.querySelectorAll(".qc-rmi")), i = xs.indexOf(document.activeElement);
         if (e.key === "ArrowDown" || e.key === "ArrowUp"){ var k = xs.length; if (!k) return; i = (i + (e.key === "ArrowDown" ? 1 : k - 1) + k) % k; xs[i].focus(); e.preventDefault(); }
+        else if ((e.key === "ArrowLeft" || e.key === "Backspace") && stack.length){ back(); e.preventDefault(); }
         else if (e.key === "Tab") relClose(false);
       });
       document.body.appendChild(m); relEl = m; btns.rel.setAttribute("aria-expanded", "true");
-      var r = btns.rel.getBoundingClientRect(), w = m.offsetWidth, h = m.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
-      var x0 = Math.max(8, Math.min(vw - 8 - w, r.left)), y0 = r.bottom + 4;
-      if (y0 + h > vh - 8) y0 = Math.max(8, r.top - 4 - h);
-      m.style.left = Math.round(x0) + "px"; m.style.top = Math.round(y0) + "px";
-      var first = m.querySelector(".qc-rmi:not(.qc-off)") || m.querySelector(".qc-rmi"); if (first){ try { first.focus({preventScroll:true}); } catch (err){} }
+      paint();
       return m;
     }
     function after(){ setTimeout(function(){ rehome(); fit(); leader(); }, 60); }
@@ -8578,13 +8697,16 @@ var NMSKQuickCard = (function(){
       if (k === "chips") rehome();
       dress(); place();
     }
-    function isOnly(id){ var c = ctl(), s = c && c.state(); return !!(s && s.mode === "only" && s.marks.length === 1 && s.marks[0] === id && !s.inverted); }
+    function isOnly(ids){ var c = ctl(), s = c && c.state(); if (typeof ids === "string") ids = [ids];
+      return !!(s && s.mode === "only" && !s.inverted && s.marks.length === ids.length && every(ids, function(i){ return s.marks.indexOf(i) >= 0; })); }
     function refresh(){
       if (!card || card.hidden || !cur) return;
-      var s = E.state(cur) || {}, c = ctl(), st = c && c.state();
+      var ids = S(), c = ctl(), st = c && c.state();
+      var hd = every(ids, function(i){ return !!(E.state(i) || {}).hidden; }), fd = every(ids, function(i){ return !!(E.state(i) || {}).faded; });
       function p(k, v, lab){ btns[k].setAttribute("aria-pressed", String(!!v)); if (lab) btns[k].textContent = lab; }
-      p("hide", s.hidden, s.hidden ? "Unhide" : "Hide"); p("fade", s.faded, s.faded ? "Unfade" : "Fade");
-      p("only", isOnly(cur)); p("sel", st && st.marks.indexOf(cur) >= 0);
+      p("hide", hd, hd ? "Unhide" : "Hide"); p("fade", fd, fd ? "Unfade" : "Fade");
+      p("only", isOnly(ids)); p("sel", !!st && every(ids, function(i){ return st.marks.indexOf(i) >= 0; }));
+      card.setAttribute("data-scope", String(ids.length));
       btns.only.disabled = btns.sel.disabled = !c;
       leader();
     }
@@ -8704,12 +8826,26 @@ var NMSKQuickCard = (function(){
     function rehome(){ try { if (window.NMSKQ298 && NMSKQ298.refresh) NMSKQ298.refresh(); } catch (err){} }
     function show(id){
       var inf = E.info(id); if (!inf){ close(); return false; }
-      cur = id;
+      cur = id; scope = null;
       card.querySelector(".qc-name").textContent = inf.name; card.querySelector(".qc-sub").textContent = inf.sub || "";
       if (card.hidden){ card.hidden = false; card.style.left = "0px"; card.style.top = "0px"; }
+      addons(id);
       refresh();
       return true;
     }
+    function addons(id){
+      if (!addEl) return;
+      while (addEl.firstChild) addEl.removeChild(addEl.firstChild);
+      ADD.forEach(function(a){
+        var h = el("div", "qc-addon"); h.setAttribute("data-addon", a.key);
+        try { a.render(id, h, cardApi); } catch (err){}
+        if (h.childNodes.length) addEl.appendChild(h);
+      });
+    }
+    /* what an add-on may do with the card */
+    var cardApi = {setScope:setScope, scope:function(){ return S().slice(); }, current:function(){ return cur; },
+                   refresh:function(){ refresh(); }, place:function(){ place(); },
+                   redraw:function(){ if (cur && card && !card.hidden){ addons(cur); refresh(); fit(); } }};
     function open(id, cx, cy){
       if (!card) build();
       register();
@@ -8748,14 +8884,337 @@ var NMSKQuickCard = (function(){
                lead:function(){ if (!lead || lead.hidden) return null; var n = lead.querySelector("line"); var a = ["x1", "y1", "x2", "y2"].map(function(k){ return +n.getAttribute(k); });
                  return {x1:a[0], y1:a[1], x2:a[2], y2:a[3], len:Math.hypot(a[2] - a[0], a[3] - a[1])}; },
                relOpen:function(){ return relOpen(); }, relClose:relClose, relMenu:function(){ return relEl; },
+               relBack:function(){ return relEl && relBack ? relBack() : false; },
+               scope:function(){ return S().slice(); }, setScope:setScope,
                rect:function(){ if (!card || card.hidden) return null; var r = card.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom, w:r.width, h:r.height}; }};
     live = api;
     return api;
   }
-  return {start:start, family:family, families:function(){ return FAM.map(function(f){ return f.key; }); }};
+  return {start:start, family:family, addon:addon, families:function(){ return FAM.map(function(f){ return f.key; }); },
+          addons:function(){ return ADD.map(function(a){ return a.key; }); }};
 })();
 </script>
 <!-- Q321 html end -->
+<!-- Q343 html begin -->
+<style>
+/* Q343: the Parts chooser on the name card and the group families' status extras (evidence, key muscles, rule-based) */
+.qc-addon[data-addon="parts"]{display:flex;flex-direction:column;gap:4px;padding:5px 6px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:rgba(255,255,255,.04)}
+.g3-ph{font-size:11.5px;line-height:1.3;color:#d3dae2;overflow-wrap:anywhere}
+.g3-ph b{color:#E6EDF3;font-weight:650}
+.g3-prow{display:flex;flex-wrap:wrap;gap:4px}
+.qc .g3-pc{flex:0 0 auto;min-height:30px;padding:3px 8px;border:1px solid rgba(255,255,255,.2);border-radius:7px;background:rgba(255,255,255,.06);
+  color:#E6EDF3;font:inherit;font-size:11.5px;line-height:1.15;cursor:pointer;white-space:nowrap}
+.qc .g3-pc:hover{background:rgba(255,255,255,.14)}
+.qc .g3-pc:focus-visible{outline:2px solid #D9A227;outline-offset:1px}
+.qc .g3-pc[aria-pressed="true"]{background:#D9A227;border-color:#D9A227;color:#1b1b1b}
+.qc .g3-pc.g3-off{color:#b4bdc8;border-style:dashed;background:transparent;cursor:help}
+.g3-rb{display:inline-block;padding:0 5px;border-radius:8px;font-size:10px;background:#c4ccd6;color:#1a1f26;vertical-align:1px}
+.g3-pnote{margin:0;font-size:11px;line-height:1.35;color:#c9d1da}
+.g3-pnote:empty{display:none}
+/* status-line extras (in the card's related-structures line) */
+.g3-tag{display:inline-block;margin:1px 0;padding:1px 7px;border-radius:9px;font-size:10.5px;font-weight:600;line-height:1.4;white-space:normal}
+.qc-relmenu .g3-ev-strong,.g3-ev-strong{background:#8fd19e;color:#10261a}
+.qc-relmenu .g3-ev-moderate,.g3-ev-moderate{background:#f2d27a;color:#2b2205}
+.qc-relmenu .g3-ev-none,.g3-ev-none{background:#f4b0b0;color:#2a0b0b}
+.qc-relmenu .g3-ev-not_examined,.g3-ev-not_examined{background:#c4ccd6;color:#1a1f26}
+.g3-key{background:#a9c8f0;color:#0e1d30}
+.g3-rule{background:#c4ccd6;color:#1a1f26}
+.q8-status .g3-x{min-height:26px;padding:2px 8px;margin:1px 0;border:1px solid rgba(255,255,255,.22);border-radius:7px;background:rgba(255,255,255,.06);
+  color:#E6EDF3;font:inherit;font-size:11px;cursor:pointer;white-space:nowrap}
+@media (pointer:coarse){.qc .g3-pc{min-height:38px}.q8-status .g3-x{min-height:34px}}
+</style>
+<script>
+/* Q343: the name card's group families and its Parts chooser (Base pages; data Q342, docs/Q342_groups_sources.md).
+   Owner (translated): "one should be able to select groups of muscle fibres of the large muscles instead of the whole muscle
+   -- by heads or divisions ... first ONE button 'Related structures'; clicking it opens the options. To those groups add a
+   group of ANATOMY TRAINS -- vertical, horizontal, diagonal etc. Also a group by INNERVATION [root, peripheral, cerebral
+   (e.g. flexor posture)], shown as a further menu."
+   - "Myofascial lines" (order 40): class sheet (Vertical / Diagonal-spiral / Arm / Functional; Horizontal greyed with its
+     reason) -> the lines of that class, those through the structure first, each with its evidence badge -> marks the
+     line's muscle stations in station order on the structure's side (S = this side, O = the other, mid / B = both); the
+     status line names the line and says its evidence plainly; "+ bones, fasciae, ligaments" adds the other stations.
+   - "Innervation" (order 50): By root | By peripheral nerve | By central pattern, the structure's own first; a selected
+     NERVE offers the muscles it supplies. Central patterns are rule-based (sourced posture + sourced muscle actions) and
+     say so; their default marks the two tiers the source supports most directly, "All tiers" adds the rest.
+   - Parts chooser (a card add-on): Whole muscle | each named part. Parts that are separate meshes select that mesh; the
+     others are listed greyed with the reason; nothing rule-based is drawn. The card's Hide / Fade / Show only / Select then
+     act on the chosen scope.
+   Data: the page's sidecar groups_q342.json (scripts/anatomy/q342/build_sidecar_q342.py), fetched on the first card open.
+   Marking goes through the selection controller (window.NMSKSelectCtl.markIds): one undo step per choice. */
+var NMSKGroups342 = (function(){
+  "use strict";
+  var URL = "groups_q342.json", D = null, loading = null, failed = false, X = null, last = null;
+  var EVS = {strong:"strong", moderate:"moderate", none:"no evidence", not_examined:"not examined"};
+  var EVL = {strong:"Evidence: strong", moderate:"Evidence: moderate", none:"No dissection evidence — contested",
+             not_examined:"Not examined by any review — contested"};
+  var TOP = {named_in_guide:1, guide_section_and_action:1};
+  function el(tag, cls, txt){ var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+  function ctl(){ return window.NMSKSelectCtl || null; }
+  function hist(){ try { var H = window.NMSKHistory; if (H && H.active && H.active()) H.commit(); } catch (err){} }
+  function uniq(a){ var s = {}, o = []; a.forEach(function(x){ if (x && !s[x]){ s[x] = 1; o.push(x); } }); return o; }
+  function sideOf(id){ return /_r$/.test(id) ? "r" : /_l$/.test(id) ? "l" : "mid"; }
+  function other(s){ return s === "r" ? "l" : s === "l" ? "r" : "mid"; }
+  function SN(s){ return s === "r" ? "right" : s === "l" ? "left" : "both sides"; }
+  function get(o, ks){ var v = []; ks.forEach(function(k){ if (o && o[k]) v = v.concat(o[k]); }); return v; }
+  /* the contract's side rule: the wanted sides, else mid, else both */
+  function pick(o, ks){ var v = get(o, ks); if (!v.length) v = get(o, ["mid"]); if (!v.length) v = get(o, ["r", "l"]); return v; }
+  function sides(s, both){ return both || s === "mid" ? ["r", "l", "mid"] : [s]; }
+
+  function load(){
+    if (D || failed || !window.fetch) return loading;
+    if (loading) return loading;
+    loading = fetch(URL).then(function(r){ if (!r.ok) throw new Error("no " + URL); return r.json(); }).then(function(j){
+      if (!j || j.schema !== "nmsk.groups.page.v1") throw new Error("schema");
+      D = j; index(); loading = null;
+      try { var Q = window.NMSKQuick; if (Q && Q.relMenu && Q.relMenu()) Q.relOpen(); } catch (err){}
+      return D;
+    }).catch(function(){ failed = true; loading = null; return null; });
+    return loading;
+  }
+  function index(){
+    X = {mus:{}, nerve:{}, part:{}, line:[]};
+    Object.keys(D.m).forEach(function(k){ get(D.m[k], ["r", "l", "mid"]).forEach(function(i){ (X.mus[i] = X.mus[i] || []).push(k); }); });
+    Object.keys(D.inn.nerves).forEach(function(k){ get(D.inn.nerves[k], ["r", "l", "mid"]).forEach(function(i){ (X.nerve[i] = X.nerve[i] || []).push(k); }); });
+    D.parts.forEach(function(mu){
+      get(mu.whole, ["r", "l", "mid"]).forEach(function(i){ if (!X.part[i]) X.part[i] = {mu:mu, part:null}; });
+      mu.p.forEach(function(p){ if (/^separate/.test(p.st)) get(p, ["r", "l", "mid"]).forEach(function(i){ X.part[i] = {mu:mu, part:p}; }); });
+    });
+    D.lines.items.forEach(function(L, n){ var s = {}; L.st.forEach(function(t){ get(t, ["r", "l", "mid"]).forEach(function(i){ s[i] = 1; }); }); X.line[n] = s; });
+  }
+  function name(m){ return D.m[m] ? D.m[m].n : m.replace(/_/g, " "); }
+  function srcText(keys){
+    return uniq(keys || []).map(function(k){ var s = D.src[k]; if (!s) return null;
+      return s.l + (s.doi ? " (doi " + s.doi + ")" : s.pmid ? " (PMID " + s.pmid + ")" : ""); }).filter(Boolean).join("; ");
+  }
+
+  /* ---- the status line: one short line in the card (Q298's), extras after it, the method behind the (i) ---- */
+  function say(text, more, extras){
+    var Q = window.NMSKQ298;
+    if (Q && Q.say) Q.say(text, more);
+    var e = document.getElementById("q8-status"); if (!e) return;
+    var ib = e.querySelector(".q8-i");
+    (extras || []).forEach(function(x){
+      var n;
+      if (x.run){ n = el("button", "q8-b g3-x", x.label); n.type = "button"; n.addEventListener("click", function(ev){ ev.stopPropagation(); x.run(); }); }
+      else { n = el("span", "g3-tag" + (x.cls ? " " + x.cls : ""), x.label); }
+      if (x.key) n.setAttribute("data-g3", x.key);
+      e.insertBefore(document.createTextNode(" "), ib || null); e.insertBefore(n, ib || null);
+    });
+  }
+  function mark(ids, kind, key, side, extra){
+    var c = ctl(); if (!c) return 0;
+    ids = uniq(ids);
+    var n = c.markIds(ids, true, true, true);
+    hist();
+    last = {kind:kind, key:key, side:side, ids:ids, marked:n, extra:extra || null};
+    return n;
+  }
+
+  /* ---------------- Myofascial lines ---------------- */
+  function linesOf(id){ var o = []; D.lines.items.forEach(function(L, n){ if (X.line[n][id]) o.push(L); }); return o; }
+  function lineIds(L, side, all){
+    var out = [];
+    L.st.forEach(function(t){
+      if (!all && t.k.indexOf("muscle") < 0) return;
+      var ks = side === "mid" ? ["r", "l", "mid"] : t.s === "S" ? [side] : t.s === "O" ? [other(side)] : t.s === "mid" ? ["mid"] : ["r", "l", "mid"];
+      out = out.concat(pick(t, ks));
+    });
+    return uniq(out);
+  }
+  function markLine(id, L, all){
+    var s = sideOf(id), ids = lineIds(L, s, all), n = ids.length;
+    mark(ids, "line", L.id, s, {all:!!all});
+    var more = L.evt.charAt(0).toUpperCase() + L.evt.slice(1) + ". " + (L.how ? L.how + " " : "") +
+      (L.book ? "Route as Myers describes it; the book itself was not opened, so the route is to be checked against it. " : "") +
+      D.lines.contested + " Stations " + (all ? "marked: all (muscles, bones, fasciae, ligaments)" : "marked: the muscles; bones, fasciae and ligaments on request") +
+      ", " + (L.x ? "crossing the midline where the line does" : "on the " + SN(s) + " (midline stations on both)") + ". Sources: " + srcText(L.refs) + ".";
+    say((L.abbr ? L.abbr + " · " : "") + L.name + " · " + n + " marked", more,
+        [{label:EVL[L.ev] || L.ev, cls:"g3-ev g3-ev-" + L.ev, key:"ev"},
+         {label:all ? "Muscles only" : "+ bones, fasciae, ligaments", key:"all", run:function(){ markLine(id, L, !all); }}]);
+  }
+  function lineItem(id, L){
+    return {label:(L.abbr ? L.abbr + " · " : "") + L.name, badge:EVS[L.ev] || L.ev, bcls:"g3-ev g3-ev-" + L.ev, here:!!X.line[D.lines.items.indexOf(L)][id],
+            key:"line-" + L.id, title:L.evt, run:function(){ markLine(id, L, false); }};
+  }
+  function lineSheet(id, k){
+    var mine = [], rest = [];
+    D.lines.items.forEach(function(L, n){ if (L.cls.indexOf(k) < 0) return; (X.line[n][id] ? mine : rest).push(L); });
+    var o = [];
+    if (mine.length){ o.push({head:true, label:"Through this structure"}); mine.forEach(function(L){ o.push(lineItem(id, L)); }); }
+    if (rest.length){ if (mine.length) o.push({head:true, label:"Other lines"}); rest.forEach(function(L){ o.push(lineItem(id, L)); }); }
+    return o;
+  }
+  function lineFamily(id){
+    if (!D){ load(); return failed ? [] : [{label:"Loading…", off:true, why:"The line data is still loading; open the menu again in a moment."}]; }
+    var o = [{head:true, label:"Contested concept · evidence on each line"}];
+    D.lines.cls.forEach(function(c){
+      if (c.off){ o.push({label:c.label, off:true, why:c.why, key:"cls-" + c.k, badge:"none sourced"}); return; }
+      var its = lineSheet(id, c.k), here = its.filter(function(x){ return x.here; }).length;
+      o.push({label:c.label, key:"cls-" + c.k, items:its, n:its.filter(function(x){ return !x.head; }).length, here:here > 0, sheet:c.label});
+    });
+    return o;
+  }
+
+  /* ---------------- Innervation ---------------- */
+  function musOf(id){ return (X.mus[id] || []).slice(); }
+  function idsOfMuscles(ms, s, both){ var o = []; ms.forEach(function(m){ if (D.m[m]) o = o.concat(pick(D.m[m], sides(s, both))); }); return uniq(o); }
+  function levelOf(lv){ var a = D.inn.levels.concat(D.inn.cranial); for (var i = 0; i < a.length; i++) if (a[i].lv === lv) return a[i]; return null; }
+  function markRoot(id, lv, both){
+    var L = levelOf(lv); if (!L) return;
+    var s = sideOf(id), ids = idsOfMuscles(L.m, s, both), src = [];
+    L.m.forEach(function(m){ src = src.concat(D.m[m].src || []); });
+    mark(ids, "root", lv, both ? "both" : s, {both:!!both});
+    var ex = [];
+    if (L.key && L.key.m.length) ex.push({label:"Key muscle" + (L.key.m.length > 1 ? "s" : "") + " for " + lv + " (ISNCSCI): " + L.key.f + " — " +
+                                          L.key.m.map(name).join(", "), cls:"g3-key", key:"key"});
+    ex.push({label:both ? "This side only" : "Both sides", key:"both", run:function(){ markRoot(id, lv, !both); }});
+    say(lv + " · " + L.m.length + " muscles marked" + (both || s === "mid" ? "" : " (" + SN(s) + ")"),
+        D.inn.rules.root + " Muscles: " + L.m.map(function(m){ return name(m) + " (" + (D.m[m].rt || "") + ")"; }).join(", ") + ". Sources: " + srcText(src.concat(L.key ? ["isncsci2019"] : [])) + ".", ex);
+  }
+  function rootSheet(id, ms){
+    var own = [];
+    ms.forEach(function(m){ own = own.concat(D.m[m].lv || [], D.m[m].cn || []); });
+    own = uniq(own);
+    function it(L){ var k = L.key && L.key.m.some(function(m){ return ms.indexOf(m) >= 0; });
+      return {label:L.lv, n:L.m.length, here:own.indexOf(L.lv) >= 0, key:"root-" + L.lv, badge:k ? "key muscle" : null,
+              title:L.key ? "ISNCSCI key muscles for " + L.lv + ": " + L.key.f : null, run:function(){ markRoot(id, L.lv, false); }}; }
+    var all = D.inn.levels.concat(D.inn.cranial), o = [];
+    var mine = all.filter(function(L){ return own.indexOf(L.lv) >= 0; });
+    if (mine.length){ o.push({head:true, label:"Roots of " + name(ms[0])}); mine.forEach(function(L){ o.push(it(L)); }); }
+    o.push({head:true, label:"Other levels"});
+    all.forEach(function(L){ if (own.indexOf(L.lv) < 0) o.push(it(L)); });
+    return o;
+  }
+  function nerveIds(nid, s, both){
+    var N = D.inn.nerves[nid], o = get(N, sides(s, both));
+    N.m.forEach(function(x){ var V = x[1] && x[1] !== nid ? D.inn.nerves[x[1]] : null; if (V) o = o.concat(get(V, sides(s, both))); });
+    return uniq(o);
+  }
+  function markNerve(id, nid, both){
+    var N = D.inn.nerves[nid]; if (!N) return;
+    var s = sideOf(id), ms = uniq(N.m.map(function(x){ return x[0]; })), nv = nerveIds(nid, s, both), ids = nv.concat(idsOfMuscles(ms, s, both));
+    mark(ids, "nerve", nid, both ? "both" : s, {both:!!both, nerveMeshes:nv});
+    say(N.n + " · " + ms.length + " muscles" + (nv.length ? " + the nerve" : "") + " marked" + (both || s === "mid" ? "" : " (" + SN(s) + ")"),
+        D.inn.rules.nerve + (N.rt ? " Roots " + N.rt + "." : "") + " Muscles: " + ms.map(function(m){ var v = N.m.filter(function(x){ return x[0] === m; })[0];
+          return name(m) + (v && v[1] && v[1] !== nid && D.inn.nerves[v[1]] ? " (via " + D.inn.nerves[v[1]].n + ")" : ""); }).join(", ") +
+        (nv.length ? "" : ". This nerve has no mesh of its own on this body") + ". Source: " + srcText(["repo_registry"]) + ".",
+        [{label:both ? "This side only" : "Both sides", key:"both", run:function(){ markNerve(id, nid, !both); }}]);
+  }
+  function nerveSheet(id, ms){
+    var own = [];
+    ms.forEach(function(m){ (D.m[m].nv || []).forEach(function(n){ var k = n, g = 0; while (k && D.inn.nerves[k] && g++ < 12){ own.push(k); k = D.inn.nerves[k].p; } }); });
+    own = uniq(own).filter(function(n){ return D.inn.nerves[n] && D.inn.nerves[n].m.length; });
+    function it(n, here){ var N = D.inn.nerves[n]; return {label:N.n, n:uniq(N.m.map(function(x){ return x[0]; })).length, here:here, key:"nerve-" + n, run:function(){ markNerve(id, n, false); }}; }
+    var o = [];
+    if (own.length){ o.push({head:true, label:"Nerve of " + name(ms[0])}); own.forEach(function(n){ o.push(it(n, true)); }); }
+    o.push({head:true, label:"All nerves"});
+    Object.keys(D.inn.nerves).filter(function(n){ return own.indexOf(n) < 0 && D.inn.nerves[n].m.length; })
+      .sort(function(a, b){ return D.inn.nerves[a].n.localeCompare(D.inn.nerves[b].n); }).forEach(function(n){ o.push(it(n, false)); });
+    return o;
+  }
+  function patOf(pid){ for (var i = 0; i < D.inn.pats.length; i++) if (D.inn.pats[i].id === pid) return D.inn.pats[i]; return null; }
+  function markPat(id, P, all){
+    var top = P.m.filter(function(x){ return TOP[x[1]]; }), use = all || !top.length ? P.m : top, s = sideOf(id);
+    var ms = use.map(function(x){ return x[0]; }), ids = idsOfMuscles(ms, s, false);
+    mark(ids, "central", P.id, s, {all:!!(all || !top.length), tiers:use.map(function(x){ return [x[0], x[1]]; })});
+    var by = {};
+    P.m.forEach(function(x){ (by[x[1]] = by[x[1]] || []).push(name(x[0]) + (x[2] ? " (its action opposes another component)" : "")); });
+    var tiers = Object.keys(D.inn.tiers).filter(function(t){ return by[t]; }).map(function(t){ return D.inn.tiers[t] + ": " + by[t].join(", "); }).join(". ");
+    var ex = [{label:"Rule-based from sourced posture + muscle actions", cls:"g3-rule", key:"rule"}];
+    if (top.length && top.length < P.m.length) ex.push({label:all ? "Most direct tiers only" : "All tiers (+" + (P.m.length - top.length) + ")", key:"tiers", run:function(){ markPat(id, P, !all); }});
+    say(P.n + " · " + ms.length + " muscles" + (use === P.m ? "" : " (most direct tiers)") + (s === "mid" ? "" : " · " + SN(s)),
+        D.inn.rules.central + " Posture: " + P.comp.map(function(c){ return c[0] + (c[1] && D.src[c[1]] ? " (" + D.src[c[1]].l + ")" : ""); }).join("; ") +
+        (P.miss.length ? ". Classic components not in the opened sources, not used: " + P.miss.join("; ") : "") + ". Tiers — " + tiers + ". Sources: " + srcText(P.refs) + ".", ex);
+  }
+  function patSheet(id, ms){
+    var o = [{head:true, label:"Rule-based: sourced posture + muscle actions"}], mine = [], rest = [];
+    D.inn.pats.forEach(function(P){ (P.m.some(function(x){ return ms.indexOf(x[0]) >= 0; }) ? mine : rest).push(P); });
+    function it(P, here){ return {label:P.n, n:P.m.length, here:here, key:"pat-" + P.id, run:function(){ markPat(id, P, false); }}; }
+    if (mine.length){ o.push({head:true, label:"Postures that include " + name(ms[0])}); mine.forEach(function(P){ o.push(it(P, true)); }); }
+    if (rest.length){ o.push({head:true, label:mine.length ? "Other patterns" : "Patterns"}); rest.forEach(function(P){ o.push(it(P, false)); }); }
+    return o;
+  }
+  function innFamily(id){
+    if (!D){ load(); return failed ? [] : [{label:"Loading…", off:true, why:"The innervation data is still loading; open the menu again in a moment."}]; }
+    var ms = musOf(id), o = [];
+    if (ms.length){
+      o.push({label:"By root", key:"root", items:rootSheet(id, ms), sheet:"By root"});
+      o.push({label:"By peripheral nerve", key:"nerve", items:nerveSheet(id, ms), sheet:"By peripheral nerve"});
+      o.push({label:"By central pattern", key:"central", items:patSheet(id, ms), sheet:"By central pattern"});
+      return o;
+    }
+    (X.nerve[id] || []).forEach(function(n){
+      var N = D.inn.nerves[n], k = uniq(N.m.map(function(x){ return x[0]; })).length;
+      if (k) o.push({label:"Muscles it supplies" + ((X.nerve[id] || []).length > 1 ? " (" + N.n + ")" : ""), n:k, key:"sup-" + n, run:function(){ markNerve(id, n, false); }});
+    });
+    return o;
+  }
+
+  /* ---------------- Parts chooser (card add-on) ---------------- */
+  function partInfo(id){ return X && X.part[id] ? X.part[id] : null; }
+  function partsView(id, host, card){
+    if (!D){ var p = load(); if (p) p.then(function(){ if (card.current() === id) card.redraw(); }); return; }
+    var I = partInfo(id); if (!I) return;
+    var mu = I.mu, s = sideOf(id), ks = s === "mid" ? ["r", "l", "mid"] : [s];
+    var sep = mu.p.filter(function(p){ return /^separate/.test(p.st); });
+    var whole = uniq(pick(mu.whole, ks).concat([].concat.apply([], sep.map(function(p){ return pick(p, ks); }))));
+    var allMesh = uniq(get(mu.whole, ["r", "l", "mid"]).concat([].concat.apply([], sep.map(function(p){ return get(p, ["r", "l", "mid"]); }))));
+    var hd = el("div", "g3-ph");
+    hd.appendChild(document.createTextNode(I.part ? "Part of " : "Parts of ")); hd.appendChild(el("b", null, mu.n));
+    if (I.part) hd.appendChild(document.createTextNode(" — this is the " + I.part.n.charAt(0).toLowerCase() + I.part.n.slice(1)));
+    var row = el("div", "g3-prow"), note = el("p", "g3-pnote"); row.setAttribute("role", "group"); row.setAttribute("aria-label", "Parts of " + mu.n);
+    note.setAttribute("aria-live", "polite");
+    var bs = [];
+    function chip(label, ids, part){
+      var b = el("button", "g3-pc", label); b.type = "button"; b.setAttribute("data-part", part ? part.id : "whole");
+      b.setAttribute("aria-pressed", "false"); bs.push(b);
+      if (part && part.st === "separate_mesh_rule_based"){ b.appendChild(document.createTextNode(" ")); b.appendChild(el("span", "g3-rb", "rule-based")); b.title = part.why; }
+      b.addEventListener("click", function(e){
+        e.stopPropagation();
+        var c = ctl(); if (!c) return;
+        var keep = c.state().marks.filter(function(m){ return allMesh.indexOf(m) < 0; });
+        c.markIds(keep.concat(ids), true, true, true);
+        card.setScope(ids, label); hist();
+        bs.forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+        note.textContent = (part ? part.n : "Whole " + mu.n.charAt(0).toLowerCase() + mu.n.slice(1)) + " selected (" + ids.length + " mesh" + (ids.length > 1 ? "es" : "") + ")" +
+          (part && part.nerve ? " · " + part.nerve : "") + ". Hide, Fade, Show only and Select now act on it.";
+        last = {kind:"part", key:part ? part.id : "whole", side:s, ids:ids.slice(), muscle:mu.id};
+      });
+      row.appendChild(b); return b;
+    }
+    var wb = chip("Whole muscle", whole, null);
+    if (!I.part && whole.length === 1 && whole[0] === id) wb.setAttribute("aria-pressed", "true");
+    mu.p.forEach(function(p){
+      if (/^separate/.test(p.st)){
+        var ids = pick(p, ks), b = chip(p.n, ids, p);
+        if (I.part === p) b.setAttribute("aria-pressed", "true");
+        return;
+      }
+      var g = el("button", "g3-pc g3-off", p.n); g.type = "button"; g.setAttribute("aria-disabled", "true"); g.setAttribute("data-part", p.id);
+      g.title = p.n + ": " + p.why + (p.why2 ? " (" + p.why2 + ")" : "");
+      g.addEventListener("click", function(e){ e.stopPropagation();
+        note.textContent = p.n + ": " + p.why + (p.why2 ? " (" + p.why2 + ")" : "") + "." + (p.nerve ? " Nerve: " + p.nerve + "." : "") +
+          (p.refs && p.refs.length ? " Source: " + srcText(p.refs) + "." : ""); });
+      row.appendChild(g);
+    });
+    var off = mu.p.filter(function(p){ return !/^separate/.test(p.st); }).length;
+    if (off) note.textContent = "Greyed: " + uniq(mu.p.filter(function(p){ return !/^separate/.test(p.st); }).map(function(p){ return p.why; })).join("; ") + " — tap one for details.";
+    host.appendChild(hd); host.appendChild(row); host.appendChild(note);
+  }
+
+  function boot(){
+    var Q = window.NMSKQuickCard; if (!Q || !Q.family) return false;
+    Q.family({key:"mfl", label:"Myofascial lines", order:40, items:lineFamily, count:function(id){ return D ? linesOf(id).length : 0; }});
+    Q.family({key:"inn", label:"Innervation", order:50, items:innFamily, count:function(){ return 0; }});   /* no number: its entries are kinds, not structures */
+    if (Q.addon) Q.addon({key:"parts", order:10, render:partsView});
+    return true;
+  }
+  boot();
+  return {load:load, data:function(){ return D; }, lineIds:function(id, lid, all){ var L = D && D.lines.items.filter(function(x){ return x.id === lid; })[0]; return L ? lineIds(L, sideOf(id), all) : null; },
+          state:function(){ return {loaded:!!D, failed:failed, last:last ? JSON.parse(JSON.stringify(last)) : null}; }};
+})();
+</script>
+<!-- Q343 html end -->
 <!-- Q322 html begin -->
 <style>
 /* Q322: the MUSCLE INNERVATION mode (viewer/innervation/, synced into both templates by scripts/sync_innervation_q322.py).
@@ -10018,7 +10477,7 @@ var NMSKQ298 = (function(){
   function whySuffix(id){
     if (!last || !last.why || !last.why[id]) return "";
     var w = last.why[id];
-    return ' <span class="q8-why" data-kind="' + esc(w.k) + '" title="' + esc(whyTitle(w)) + '">(' + esc(w.d) + ')</span>';
+    return ' <span class="q8-why" dir="auto" data-kind="' + esc(w.k) + '" title="' + esc(whyTitle(w)) + '">(' + esc(w.d) + ')</span>';
   }
   function whyTitle(w){
     var t = w.k === "abbr" ? "abbreviation" : w.k === "he" ? "Hebrew name" : w.k === "name" ? "name" : "other name";
@@ -10133,6 +10592,191 @@ var NMSKQ298 = (function(){
   <div id="mode-pills" role="group" aria-label="מתגים" hidden></div>
 </div>
 <!-- MODES html end -->
+<!-- Q344 html begin -->
+<style>
+/* Q344: the last readability and screen-area defects of the public viewer (owner: "unintelligible text in certain boxes, and
+   screen-area problems -- they cover the figures"). Loaded after every other block, so a rule here wins on equal weight. */
+
+/* 1. the Navigate sheet's buttons were the page's light pill on the sheet's dark ground: blank. They take the sheet's own button look. */
+.qg-sbody .pill,.qg-sheet .pill{min-height:36px;padding:5px 9px;border:1px solid rgba(255,255,255,.17);border-radius:8px;background:rgba(255,255,255,.075);
+  color:#E6EDF3;font:500 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:0;backdrop-filter:none;cursor:pointer}
+.qg-sbody .pill:hover,.qg-sheet .pill:hover{background:rgba(255,255,255,.15);color:#fff;border-color:#2E89AC}
+.qg-sbody .pill.on,.qg-sbody .pill[aria-pressed="true"]{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-sbody .rs-b,.qg-sbody .pl-b,.qg-sbody .ft-b,.qg-sbody .sy-b{color:#E6EDF3}
+
+/* 2. the info card's "mark" button: a word, not a check glyph that is transparent until pressed */
+#info .act .act-mark{font:11px/1.2 var(--f-mono,monospace);color:var(--ink,#111);min-height:0;padding:.4rem .2rem}
+#info .act .act-mark[aria-pressed="true"]{color:var(--ground,#fff)}
+#info .act button{font-size:11px}
+
+/* 5. controls parked by the control bar are not painted in the page body (they live in the Systems sheet) */
+body.q301-on>.ft-box,body.q301-on>.pl-box,body.q301-on>.rs-row,body.q301-on>.rs-box{display:none !important}
+
+/* 10. developer statistics are not page chrome: they are in the Sources box */
+#stat-line{display:none !important}
+.q344-stats{margin:.4rem 0 .8rem;font:11px/1.4 var(--f-mono,monospace);color:var(--ink-dim,#555)}
+
+/* 6. the info circle in the top-right corner is clear of the pills */
+body.q301-on #topright{right:calc(2.9rem + var(--safe-r,0px))}
+
+/* 7. search rows: two lines instead of an ellipsis nobody can read, a side mark, readable tags, Hebrew glosses in their own direction */
+.item .t{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.25}
+.item .side-lr{display:inline-block;margin-left:.3em;padding:0 .35em;border-radius:3px;font:700 10px/1.5 var(--f-mono,monospace);background:color-mix(in srgb,var(--accent,#0a6e8e) 22%,transparent);color:inherit;vertical-align:baseline}
+.badge-x{font-size:10px;line-height:1.4;padding:.05rem .3rem;color:var(--ink,#111)}
+.q8-why{unicode-bidi:isolate}
+
+/* 8. type floors in the info card and the reference lines */
+#info .kind{font-size:11px;color:var(--ink,#111) !important}
+.inj-lab{font-size:10.5px}
+#stat-line,.pz-status,.qg-t{font-size:10.5px}
+
+/* 4. phone panels start compact (header and the first controls, the rest scrolls inside) and open further on tap */
+.q344-tg{font:600 11px/1 system-ui,-apple-system,"Segoe UI",sans-serif;min-height:26px;padding:3px 9px;border:1px solid currentColor;border-radius:999px;background:transparent;color:inherit;cursor:pointer;flex:0 0 auto;opacity:.9}
+#rail>.q344-tg{position:absolute;top:6px;right:10px;z-index:3;background:var(--panel,#fff)}
+@media (max-width:700px){
+  #pose-panel[data-q344="c"],#lab-panel[data-q344="c"],#rail[data-q344="c"]{max-height:34vh !important;overflow-y:auto}
+  #pose-panel[data-q344="c"] .pz-body{min-height:0}
+  #rail[data-q344="c"]{padding-bottom:calc(3.3rem + env(safe-area-inset-bottom,0px))}
+}
+
+/* the sheets are dark; the page's light list rows, side buttons and tags are re-inked for them */
+.qg-sbody .item,.qg-sbody .item .t{color:#E6EDF3}
+.qg-sbody .item:hover,.qg-sbody .item:focus-visible,.qg-sbody .item.sel{background:rgba(255,255,255,.13);color:#fff}
+.qg-sbody .badge-x{color:#E6EDF3;background:rgba(255,255,255,.14)}
+.qg-sbody #sides button,.qg-sbody #presets button{color:#E6EDF3;background:rgba(255,255,255,.075);border:1px solid rgba(255,255,255,.17);border-radius:6px;padding:5px 10px;font:600 12px/1.1 system-ui,-apple-system,"Segoe UI",sans-serif}
+.qg-sbody #sides button.on,.qg-sbody #sides button[aria-pressed="true"],.qg-sbody #sides button.active,.qg-sbody #presets button.on,.qg-sbody #presets button.active{background:#1E5F7A;border-color:#2E89AC;color:#fff}
+.qg-sbody #sides::before{content:"Side";font:11px/1 system-ui,sans-serif;color:#C9D5DE;align-self:center;margin-right:6px}
+.qg-sbody #sides{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.qg-sbody .none,.qg-sbody .lb-dim{color:#C9D5DE}
+
+/* the labels' status reads in two lines instead of an ellipsis */
+#lab-panel .lb-head .lb-dim{white-space:normal;overflow:visible;text-overflow:clip;font-size:11px;line-height:1.25}
+
+/* the toggle keeps its own look inside the panels' heads */
+#pose-panel .pz-head .q344-tg,#lab-panel .lb-head .q344-tg{font-size:11px;min-height:26px;min-width:0;padding:3px 9px;border:1px solid currentColor;border-radius:999px;background:transparent;line-height:1}
+
+/* a phone panel open at the bottom lifts the chips that sat on it */
+body.q344-lift #sa-bar{bottom:calc(var(--q344-lift,0px) + 8px) !important}
+</style>
+<script>
+/* Q344: layout and wording that the owner's audit found, kept out of the engine. Everything here is optional: a page without
+   one of the elements simply skips it, and nothing writes anything but inline sizes and a class. */
+(function(){
+  "use strict";
+  var PH = 700;
+  function $(s, r){ return (r || document).querySelector(s); }
+  function phone(){ return window.innerWidth <= PH; }
+  function shown(e){
+    if (!e || e.hidden) return false;
+    var s = getComputedStyle(e); if (s.display === "none" || s.visibility === "hidden") return false;
+    var r = e.getBoundingClientRect(); return r.width > 20 && r.height > 20;
+  }
+
+  /* the developer statistics line lives in the Sources box now */
+  function stats(){
+    var s = $("#stat-line"), sh = $("#modal .sheet");
+    if (!s || !sh || !s.textContent.trim()) return;
+    var p = $(".q344-stats", sh);
+    if (!p){ p = document.createElement("p"); p.className = "q344-stats"; var h2 = $("h2", sh); if (h2 && h2.nextSibling) sh.insertBefore(p, h2.nextSibling); else sh.appendChild(p); }
+    if (p.textContent !== s.textContent) p.textContent = s.textContent;
+  }
+
+  /* phone: Pose, Labels and the Layers rail open compact; the toggle in the panel opens them further */
+  var PANELS = [
+    {sel:"#pose-panel", head:".pz-head", open:function(e){ return shown(e); }},
+    {sel:"#lab-panel", head:".lb-head", open:function(e){ return shown(e); }},
+    {sel:"#rail", head:null, open:function(e){ return shown(e) && e.classList.contains("open"); }}
+  ];
+  function compact(){
+    PANELS.forEach(function(P){
+      var e = $(P.sel); if (!e) return;
+      var on = P.open(e) && phone();
+      if (!on){ if (e.hasAttribute("data-q344")){ e.removeAttribute("data-q344"); var t0 = $(".q344-tg", e); if (t0) t0.remove(); } return; }
+      var tg = $(".q344-tg", e);
+      if (!tg){
+        tg = document.createElement("button"); tg.type = "button"; tg.className = "q344-tg";
+        tg.addEventListener("click", function(ev){
+          ev.stopPropagation();
+          var c = e.getAttribute("data-q344") === "c";
+          if (c) e.removeAttribute("data-q344"); else e.setAttribute("data-q344", "c");
+          tg.textContent = c ? "Less" : "More"; tg.setAttribute("aria-expanded", String(c));
+        });
+        var h = P.head ? $(P.head, e) : null;
+        if (h){ var x = h.lastElementChild; if (x && /close|^pz-x|×/.test((x.id || "") + (x.getAttribute("aria-label") || "") + x.textContent)) h.insertBefore(tg, x); else h.appendChild(tg); }
+        else e.insertBefore(tg, e.firstChild);
+        e.setAttribute("data-q344", "c"); tg.textContent = "More"; tg.setAttribute("aria-expanded", "false");
+      }
+    });
+    /* the chips at the bottom edge ride above an open bottom panel instead of sitting on its controls */
+    var lift = 0;
+    if (phone()) PANELS.forEach(function(P){ var e = $(P.sel); if (e && P.open(e)){ var r = e.getBoundingClientRect(); if (r.bottom > window.innerHeight - 4) lift = Math.max(lift, Math.round(window.innerHeight - r.top)); } });
+    document.body.classList.toggle("q344-lift", lift > 0);
+    if (lift > 0) document.body.style.setProperty("--q344-lift", lift + "px"); else document.body.style.removeProperty("--q344-lift");
+  }
+
+  /* desktop: a panel does not start under the control bar */
+  function clear(){
+    if (phone()) return;
+    var bar = $("#q301-bar"); if (!shown(bar)) return;
+    var br = bar.getBoundingClientRect();
+    ["#pose-panel", "#lab-panel"].forEach(function(sel){
+      var e = $(sel); if (!shown(e)) return;
+      var r = e.getBoundingClientRect();
+      if (r.left < br.right - 4 && r.right > br.left + 4 && r.top < br.bottom + 2 && r.top > -1){
+        var top = Math.round(br.bottom + 8);
+        e.style.top = top + "px";
+        e.style.maxHeight = Math.max(200, window.innerHeight - top - 14) + "px";
+      }
+    });
+  }
+
+  /* leaving Measure, or switching module, takes its pins and labels off the model */
+  var lastMode = null;
+  function modeWatch(){
+    var m = document.body.classList.contains("mode-on");
+    if (lastMode !== null && m !== lastMode){ try { if (window.NMSKMeasure && NMSKMeasure.ctl && NMSKMeasure.ctl.open) NMSKMeasure.ctl.open(false); } catch (e){} }
+    lastMode = m;
+  }
+
+  /* a type floor for the panels that carry the owner's reading: nothing under 10 px */
+  var ROOTS = "#info,#q301-sheet,#rail,#pose-panel,#lab-panel,#ms-bar,.qc,#sel-sec,#modal,#q8-float,#sa-bar,#pm-card,#pm-panel,#topright,#foot,#ref-root";
+  function floor(){
+    var roots = document.querySelectorAll(ROOTS), n = 0;
+    for (var i = 0; i < roots.length; i++){
+      var r = roots[i]; if (!shown(r) && r.id !== "modal") continue;
+      var all = r.querySelectorAll("*");
+      for (var j = 0; j < all.length && n < 4000; j++, n++){
+        var e = all[j]; if (e.children.length > 0 && !e.firstChild) continue;
+        if (!/\S/.test(e.textContent || "") || /^(SCRIPT|STYLE|SVG|PATH|CANVAS)$/i.test(e.tagName)) continue;
+        var fs = parseFloat(getComputedStyle(e).fontSize);
+        if (fs && fs < 10 && !e.hasAttribute("data-q344f")){ e.style.fontSize = "10.5px"; e.setAttribute("data-q344f", "1"); }
+      }
+    }
+  }
+
+  /* the card's mark button carries a check glyph that is transparent until pressed: it says "mark" instead */
+  function markWord(){
+    var m = document.getElementById("a-mark");
+    if (m && m.textContent !== "mark" && m.textContent !== "marked ✓"){ m.textContent = "mark"; }
+  }
+
+  var busy = 0;
+  function tick(){
+    try { stats(); compact(); clear(); modeWatch(); markWord(); } catch (e){}
+    if (!busy){ busy = setTimeout(function(){ busy = 0; try { floor(); } catch (e2){} }, 700); }
+  }
+  function start(){
+    tick(); setInterval(tick, 500);
+    window.addEventListener("resize", tick);
+    document.addEventListener("click", function(){ setTimeout(tick, 60); }, true);
+    var inf = document.getElementById("info");
+    if (inf && window.MutationObserver) new MutationObserver(function(){ markWord(); }).observe(inf, {childList:true, subtree:true});
+  }
+  window.NMSKQ344 = {tick:tick, floor:floor};
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
+})();
+</script>
+<!-- Q344 html end -->
 <script src="clinical_imaging_tool.js"></script>   <!-- Q226: second optional private add-on (imaging); chains onto the first -->
 <script id="bundle-json" type="application/json">__BUNDLE_JSON__</script>
 <script id="bundle-b64" type="text/plain">__BUNDLE_B64__</script>
@@ -12099,8 +12743,8 @@ function NMSKPose(E){
           var key = base + "|" + d.k; if (seen[key]) return; seen[key] = 1;
           var jr = jointOf(base + "_r"), jl = jointOf(base + "_l");
           var row = el("div", "pz-row"), lab = el("div", "pz-lab", j.name + " – " + d.l);
-          var rm = (rig.rom && d.rk && rig.rom[d.rk]) ? rig.rom[d.rk][3] : "";
-          lab.title = (d.lo + " to " + d.hi + "°. " + rm + (j.note ? "  " + j.note : "")).trim();
+          var rm = (rig.rom && d.rk && rig.rom[d.rk]) ? rig.rom[d.rk][3] : "", hu = window.NMSKHuman ? NMSKHuman.text : String;      // Q344
+          lab.title = (d.lo + " to " + d.hi + "°. " + hu(rm) + (j.note ? "  " + hu(j.note) : "")).trim();
           row.appendChild(lab);
           var cs = el("div", "pz-cells");
           if (jr) cs.appendChild(cell(jr, x, "r")); if (jl) cs.appendChild(cell(jl, x, "l"));
@@ -12115,7 +12759,7 @@ function NMSKPose(E){
       var sec = el("section", "pz-g"), h = el("h4"), hb = el("button", "pz-gh", r.name); hb.type = "button"; hb.setAttribute("aria-expanded", "false");
       var rows = el("div", "pz-rows"); rows.hidden = true; hb.addEventListener("click", function(){ var o = rows.hidden; rows.hidden = !o; hb.setAttribute("aria-expanded", String(o)); });
       h.appendChild(hb); sec.appendChild(h);
-      r.dof.forEach(function(d, x){ var row = el("div", "pz-row"), lab = el("div", "pz-lab", d.l); var rm = rig.rom && d.rk && rig.rom[d.rk] ? rig.rom[d.rk][3] : ""; lab.title = (d.lo + " to " + d.hi + "°. " + rm + "  " + (r.note || "")).trim(); row.appendChild(lab); var cs = el("div", "pz-cells pz-one"); cs.appendChild(regCell(r, x)); row.appendChild(cs); rows.appendChild(row); });
+      r.dof.forEach(function(d, x){ var row = el("div", "pz-row"), lab = el("div", "pz-lab", d.l); var rm = rig.rom && d.rk && rig.rom[d.rk] ? rig.rom[d.rk][3] : ""; var hu2 = window.NMSKHuman ? NMSKHuman.text : String; lab.title = (d.lo + " to " + d.hi + "°. " + hu2(rm) + "  " + hu2(r.note || "")).trim(); row.appendChild(lab); var cs = el("div", "pz-cells pz-one");   /* Q344 */ cs.appendChild(regCell(r, x)); row.appendChild(cs); rows.appendChild(row); });
       /* Q319, owner: "allow performing a movement either of a specific joint or of a segment." The
          sliders above are the segment -- one angle shared over the levels by the documented weights.
          This is the same region one vertebra at a time, folded away because it is the longer way round
@@ -12140,18 +12784,19 @@ function NMSKPose(E){
       }
       sec.appendChild(rows); body.appendChild(sec);
     });
+    function hum(t){ return window.NMSKHuman ? NMSKHuman.text(t) : String(t == null ? "" : t); }      /* Q344: the rig data carries round numbers and file names; the panel prints plain wording and keeps the citation */
     var help = el("details", "pz-help"), sm = el("summary", "", "Ranges of motion, method and limits");
     help.appendChild(sm);
     var p1 = el("p", "", "Hard bounds of every slider = the NORMAL range of motion (population averages, AAOS / AMA style, e.g. shoulder flexion 180, abduction 180, elbow flexion 150, hip flexion 120, knee flexion 135, ankle dorsiflexion 20 / plantarflexion 50; " +
-      "values quoted from the standard references as remembered, several are assumptions; see docs/pose_rom_table.md). The shaded band on a slider is the normal range, the tick is the model's own pose, the faint line is 0. " +
+      "values quoted from the standard references as remembered, several are assumptions). The shaded band on a slider is the normal range, the tick is the model's own pose, the faint line is 0. " +
       "An individual's range differs with age, sex and method. A model pose outside the normal range (e.g. a slightly hyperextended knee) is shown as it is and can only be moved into the range.");
     var p2 = el("p", "", "How it works: joint centres and axes are fitted to THIS page's own bones (hip and shoulder: femoral / humeral head spheres; elbow and knee: transepicondylar axis; ankle: malleoli; ...). Bones move rigidly with their segment; " +
       "muscles, vessels, nerves, ligaments, organs and skin follow by linear-blend skinning, weights from the distance to each segment's bones (smooth near joints), so a muscle stretches between its origin and insertion on the moving bones. " +
       "Clavicle and scapula follow the shoulder with a fixed 3:1 scapulohumeral rhythm. Pose preview: kinematic approximation, soft tissue not simulated (no collision, no volume preservation) - expect tissue to pass through bone and to stretch or crumple near extreme angles. " +
       "The clinical add-on tools (imaging, needle and the like) use the rest-pose meshes: reset the pose before using them.");
     help.appendChild(p1); help.appendChild(p2);
-    if (rig.rom){ var tb = el("table", "pz-rom"); Object.keys(rig.rom).forEach(function(k){ var r = rig.rom[k], tr = el("tr"); tr.appendChild(el("td", "", r[2])); tr.appendChild(el("td", "", r[0] + " .. " + r[1] + "°")); tr.appendChild(el("td", "", r[3])); tb.appendChild(tr); }); help.appendChild(tb); }
-    if (rig.notes){ var p3 = el("p", "", "Rig for this page: " + rig.notes); help.appendChild(p3); }
+    if (rig.rom){ var tb = el("table", "pz-rom"); Object.keys(rig.rom).forEach(function(k){ var r = rig.rom[k], tr = el("tr"); tr.appendChild(el("td", "", r[2])); tr.appendChild(el("td", "", r[0] + " .. " + r[1] + "°")); tr.appendChild(el("td", "", hum(r[3]))); tb.appendChild(tr); }); help.appendChild(tb); }
+    if (rig.notes){ var p3 = el("p", "", "Rig for this page: " + hum(rig.notes)); help.appendChild(p3); }
     body.appendChild(help);
     sync();
   }
@@ -12400,6 +13045,77 @@ function NMSKPose(E){
 }
 /* POSE js end */
 /* PARTS-UI js begin */
+/* Q344: plain wording for the cards. The atlas data carries developer text (round numbers "Q162", file paths, `snake_case` ids,
+   "median n"); this is applied at RENDER time only, the data files keep their meaning. Names come from the page's own table
+   (__ANATOMY_MANIFEST__.meshes), so "humerus_l" prints as "humerus (left)". `badge()` keeps a long method note behind an (i). */
+var NMSKHuman = (function(){
+  "use strict";
+  var NM = null;
+  var RULE = {end_snap_bone:"snapped to the bone", z_part_mesh:"Z-Anatomy part mesh", passage_contact:"contact along the passage",
+              collateral_layer_split:"split of the collateral layer", cc_ligament_ratio:"coracoclavicular ligament ratio",
+              mtj_by_distance_from_origin:"tendon junction by distance from the origin", mtj_interface:"muscle-tendon interface"};
+  function table(){
+    if (NM) return NM;
+    NM = {};
+    try { ((window.__ANATOMY_MANIFEST__ || {}).meshes || []).forEach(function(m){ if (m && m.id && m.name) NM[m.id] = m.name; }); } catch (e){}
+    return NM;
+  }
+  function low(s){ return /^[A-Z][a-z]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
+  function side(x){ return x === "r" ? " (right)" : x === "l" ? " (left)" : ""; }
+  /* an id such as humerus_l, biceps_femoris_r_long_head, carpals_l -> "humerus (left)", "biceps femoris long head (right)" */
+  function idName(tok){
+    var t = table();
+    if (RULE[tok]) return RULE[tok];
+    if (t[tok]){ var m0 = /_(r|l)$/.exec(tok); return low(t[tok]) + (m0 ? side(m0[1]) : ""); }
+    var s = tok.replace(/_v\d+$/, ""), sd = "", m = /_(r|l)(?=_|$)/.exec(s);
+    if (m){ sd = side(m[1]); s = s.slice(0, m.index) + s.slice(m.index + 2); }
+    return s.replace(/_/g, " ").replace(/\s+/g, " ").trim() + sd;
+  }
+  function cap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+  function text(s){
+    if (s == null) return "";
+    s = String(s);
+    s = s.replace(/\(verbatim,?\s*from\s*[^)]*\)/g, "(verbatim)");
+    s = s.replace(/\b(?:data|scripts|viewer|clinical|build|docs)\/[\w.\/*{}-]+/g, "");
+    s = s.replace(/\b[\w-]+\.(?:json|html|py|js|csv|txt)\b/g, "");
+    s = s.replace(/\(\s*Q\d{2,3}[a-z]?[^)]*\)/g, "").replace(/,?\s*\b(?:generated|made|added|derived|built)\s+(?:in|by)\s+Q\d{2,3}[a-z]?\b/gi, "");
+    s = s.replace(/\b(?:in|by|from|see)\s+Q\d{2,3}[a-z]?\b/gi, "").replace(/\bQ\d{2,3}[a-z]?\b:?\s*/g, "");
+    s = s.replace(/\b[a-z][a-z0-9]*(?:_[a-z0-9]+)+\b/g, idName);
+    s = s.replace(/\b[A-Z]{3,}(?:[ ,]+[A-Z]{3,}){2,}/g, function(m){ return m.toLowerCase().replace(/^./, function(c){ return c.toUpperCase(); }); });
+    s = s.replace(/\s--\s/g, " — ");
+    s = s.replace(/\(\s*\)/g, "").replace(/\s+([,.;:)])/g, "$1").replace(/([(])\s+/g, "$1").replace(/[ \t]{2,}/g, " ").replace(/,\s*,/g, ",").replace(/^[\s,;:.—-]+/, "").trim();
+    return s;
+  }
+  function html(s, esc){ return (esc || function(x){ return x; })(text(s)); }
+  /* "median n" -> "median nerve", "radial nn" -> "radial nerves" */
+  function nerve(s){ return text(String(s || "").replace(/\bnn\b\.?$/, "nerves").replace(/\bn\.?$/, "nerve")); }
+  /* the lists of ids on a nerve card ("Targets", "Supplies") */
+  function list(a){ return (a || []).map(function(x){ return cap(text(x)); }); }
+  /* origin / insertion line: "humerus_l: medial epicondyle" -> "Humerus (left): medial epicondyle" */
+  function line(s){ return cap(text(s)); }
+  var SHORT = [[/^\s*Q162\b/i, "Surface adjusted to meet its neighbouring muscles (gap closure)."],
+               [/^\s*Q304\b/i, "Calibre checked against a real measured human sciatic nerve; geometry unchanged."]];
+  /* a long method / provenance note: one short plain line, the whole text behind an (i) */
+  function badge(s, esc){
+    esc = esc || function(x){ return x; };
+    var full = text(s), short = "";
+    SHORT.forEach(function(r){ if (!short && r[0].test(String(s))) short = r[1]; });
+    if (!short){
+      if (full.length <= 150) return {main:esc(full), more:""};
+      var m = /^(.{40,140}?[.;])(\s|$)/.exec(full);
+      short = m ? m[1] : full.slice(0, 120).replace(/\s+\S*$/, "") + "…";
+    }
+    full = cap(full.replace(/^[a-z ]*calibre validated/i, function(x){ return x; }));
+    return {main:esc(short), more:esc(full)};
+  }
+  function badgeHtml(s, esc, cls){
+    var b = badge(s, esc);
+    return '<div class="' + (cls || "warn") + '">' + b.main + (b.more && b.more !== b.main ? ' <details class="hm-det"><summary title="How this was made">ⓘ</summary><div>' + b.more + "</div></details>" : "") + "</div>";
+  }
+  return {text:text, html:html, idName:idName, nerve:nerve, list:list, line:line, badge:badge, badgeHtml:badgeHtml, cap:cap};
+})();
+try { window.NMSKHuman = NMSKHuman; } catch (eh){}          /* the pose panel and the other blocks read it from window */
+
 /* The sourced PARTS of a structure (Q220, on the Q219 parts model): a Parts list in the structure card and point markers on the model.
    Data = the page's sidecar parts_data.json (public anatomy layer), fetched with a graceful fallback: absent or invalid = no Parts section,
    no toggle, nothing else changes. Engine adaptor E: url, canvasRect(), project(p)->[x,y,z,w] clip coords, cut()->null|{kn,c,th} (the kept
@@ -12482,7 +13198,7 @@ function NMSKParts(E){
       seen[sid] = 1;
       out += '<p class="pm-set"><b>Sources disagree on the count.</b> ' + esc(st.n) + ': ' +
         st.counts.map(function(c){ return '<b>' + esc(c.n) + '</b> (' + esc(c.by.join(", ")) + ')'; }).join(" / ") + '.' +
-        (st.note ? '<details><summary>about this count</summary>' + esc(st.note) + '</details>' : "") + '</p>';
+        (st.note ? '<details><summary>about this count</summary>' + esc(NMSKHuman.text(st.note)) + '</details>' : "") + '</p>';
     });
     return out;
   }
@@ -12509,19 +13225,19 @@ function NMSKParts(E){
       setsHtml(sel.list) + '<div class="pm-list">';
     sel.list.forEach(function(pi){
       var p = D.parts[pi], pl = placedFor(pi).length > 0;
-      h += '<div class="pm-row" data-pi="' + pi + '" tabindex="0" role="button" aria-label="' + esc(p.n) + (pl ? ", has a marker on the model" : ", text only") + '">' +
-        '<div class="pm-r1"><span class="pm-ty pm-ty-' + esc(p.ty) + '">' + esc(TYPES[p.ty] || p.ty) + '</span><span class="pm-nm">' + esc(p.n) + '</span>' +
+      h += '<div class="pm-row" data-pi="' + pi + '" tabindex="0" role="button" aria-label="' + esc(NMSKHuman.text(p.n)) + (pl ? ", has a marker on the model" : ", text only") + '">' +
+        '<div class="pm-r1"><span class="pm-ty pm-ty-' + esc(p.ty) + '">' + esc(TYPES[p.ty] || p.ty) + '</span><span class="pm-nm">' + esc(NMSKHuman.text(p.n)) + '</span>' +
         (p.u ? '<span class="pm-unv" title="Textbook or owner statement only; the page was not checked against a primary source">unverified</span>' : "") +
         (pl ? '<span class="pm-pl" title="This part has a placed marker on this model">marker</span>' : "") + '</div>' +
-        (p.d ? '<div class="pm-d">' + esc(p.d) + '</div>' : "");
+        (p.d ? '<div class="pm-d">' + esc(NMSKHuman.text(p.d)) + '</div>' : "");
       var meta = [];
-      if (p.an) meta.push("Anchor: " + esc(p.an.bone || "") + (p.an.landmark ? ", " + esc(p.an.landmark) : ""));
-      if (p.var) meta.push("Reported in: " + esc(p.var));
-      if (p.ev) meta.push("Evidence: " + esc(p.ev));
+      if (p.an) meta.push("Anchor: " + esc(NMSKHuman.text(p.an.bone || "")) + (p.an.landmark ? ", " + esc(NMSKHuman.text(p.an.landmark)) : ""));
+      if (p.var) meta.push("Reported in: " + esc(NMSKHuman.text(p.var)));
+      if (p.ev) meta.push("Evidence: " + esc(NMSKHuman.text(p.ev)));
       if (p.pass) meta.push("Passes: " + esc(p.pass.traversing_text || p.pass.kind || "") + (p.pass.through ? " through " + esc(p.pass.through) : ""));
       if (meta.length) h += '<div class="pm-meta">' + meta.join(" &middot; ") + '</div>';
       h += '<div class="pm-c">' + refsHtml(p.r) + '</div>';
-      if (p.u && p.note) h += '<div class="pm-un">' + esc(p.note) + '</div>';
+      if (p.u && p.note){ var nb = NMSKHuman.badge(p.note, esc); h += '<div class="pm-un">' + nb.main + (nb.more && nb.more !== nb.main ? ' <details class="hm-det"><summary title="Details">\u24d8</summary><div>' + nb.more + '</div></details>' : "") + '</div>'; }
       h += '<div class="pm-msg" aria-live="polite"></div></div>';
     });
     return h + '</div></details></div>';
@@ -12546,7 +13262,7 @@ function NMSKParts(E){
       focusI = -1; closeCard();
       var why = reasonFor(pi);
       msg.className = "pm-msg pm-t";
-      msg.textContent = "text only (no placement)" + (why ? " — " + why : "");
+      msg.textContent = "text only (no placement)" + (why ? " — " + NMSKHuman.text(why) : "");
       E.redraw(); return;
     }
     var mk = ms[0];
@@ -12778,12 +13494,12 @@ function NMSKParts(E){
     var mk = M[j], p = D.parts[mk.pi];
     var err = mk.e != null ? "&plusmn; " + mmTxt(mk.e) + " mm" :
       "not stated" + (mk.ext ? " <small>(centre of a Z-Anatomy part mesh that spans about " + mk.ext + " mm; no fit to a person)</small>" : "");
-    card.innerHTML = '<div class="pm-ch"><b>' + esc(p.n) + '</b><button type="button" class="pm-x" aria-label="Close">&times;</button></div>' +
+    card.innerHTML = '<div class="pm-ch"><b>' + esc(NMSKHuman.text(p.n)) + '</b><button type="button" class="pm-x" aria-label="Close">&times;</button></div>' +
       '<div class="pm-cs"><span class="pm-cls pm-cls-' + esc(mk.c) + '">' + esc(CLS[mk.c] || mk.c) + '</span> ' + esc(TYPES[p.ty] || p.ty) +
       (p.u ? ' &middot; <span style="color:var(--pm-warn);font-weight:700">unverified</span>' : "") +
       ' &middot; ' + (mk.s === "r" ? "right" : mk.s === "l" ? "left" : "midline") + '</div>' +
       '<dl><dt>Error bound</dt><dd>' + err + (mk.eb ? '<br><small>' + esc(mk.eb) + '</small>' : "") + '</dd>' +
-      '<dt>Method</dt><dd>' + esc(mk.mt) + '</dd>' +
+      '<dt>Method</dt><dd>' + esc(NMSKHuman.text(mk.mt)) + '</dd>' +
       '<dt>Position</dt><dd class="mono">' + mk.xyz.map(mmTxt).join(", ") + ' mm <small>(atlas frame)</small></dd></dl>' +
       '<p class="pm-not">A model position derived on this body by the rule above, not a measurement; the part itself is described by the citation below.</p>' +
       '<div class="pm-c" style="margin-top:6px;font-size:10.5px;color:var(--pm-dim)">' + refsHtml(p.r) + '</div>';
@@ -12817,7 +13533,7 @@ function NMSKParts(E){
     D.placed.forEach(function(g, j){
       var p = D.parts[g.p];
       var el = document.createElement("div"); el.className = "pm" + (g.c === "z_fill" ? " pm-z" : ""); el.hidden = true;
-      el.innerHTML = '<span class="pm-ring" role="button" tabindex="0" aria-label="Part marker: ' + esc(p.n) + '"></span><span class="pm-lab">' + esc(p.n) + '</span>';
+      el.innerHTML = '<span class="pm-ring" role="button" tabindex="0" aria-label="Part marker: ' + esc(NMSKHuman.text(p.n)) + '"></span><span class="pm-lab">' + esc(NMSKHuman.text(p.n)) + '</span>';
       var ring = el.firstChild;
       ring.addEventListener("mouseenter", function(){ if (pinI < 0 && window.matchMedia && matchMedia("(hover:hover)").matches) openCard(j, false); });
       ring.addEventListener("mouseleave", function(){ if (pinI < 0){ hoverI = -1; card.hidden = true; E.redraw(); } });

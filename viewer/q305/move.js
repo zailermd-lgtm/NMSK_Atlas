@@ -297,7 +297,11 @@ var NMSKMove = (function(){
         bb.dx = d.dx; bb.dy = d.dy; bb.slot = d.slot;
         apply(bb, true); reverts++;
         say("Not there -- it would cover " + bad[0].label + ". The box is back where it was.");
-      } else { if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
+      } else {
+        /* Q343: a box dropped where the screen edge HELD it keeps the place the user saw. The raw offset used to stay
+           stored, so a card that was taller at the drop (held higher) reopened lower once it was shorter. */
+        if (!bb.slot && bb._ax != null && (bb._ax !== bb.dx || bb._ay !== bb.dy) && !(bb.use && !bb.use())){ bb.dx = bb._ax; bb.dy = bb._ay; save(); }
+        if (bb.moved){ try { bb.moved(); } catch (err1){} } if (hist && hist.commit) hist.commit(); }
       if (window.NMSKGroups && NMSKGroups.state) { try { NMSKGroups.state(); } catch (err){} }
     }
     g.addEventListener("pointerup", done);

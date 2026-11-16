@@ -36,6 +36,17 @@ var NMSKQuickCard = (function(){
     FAM.sort(function(a, b){ return (a.order || 99) - (b.order || 99); });
     return true;
   }
+  /* Q343: ADD-ONS draw a small block on the card between its buttons and the related-structures line (the Parts chooser of a
+     muscle with named parts). render(id, host, card) runs on every structure the card shows; card.setScope(ids, label) makes
+     Hide / Fade / Show only / Select act on those ids (a whole muscle, one part) instead of the clicked mesh alone, until
+     the card shows another structure:  NMSKQuickCard.addon({key, order, render}) */
+  var ADD = [];
+  function addon(a){
+    if (!a || !a.key || typeof a.render !== "function") return false;
+    ADD = ADD.filter(function(x){ return x.key !== a.key; }); ADD.push(a);
+    ADD.sort(function(x, y){ return (x.order || 99) - (y.order || 99); });
+    return true;
+  }
   function q8(){ return window.NMSKQ298 || null; }
   function q8n(id, k){ var Q = q8(), c = null; try { c = Q && Q.counts ? Q.counts(id) : null; } catch (err){ c = null; } return c ? (c[k] || 0) : 0; }
   function q8run(k){ var Q = q8(); if (Q && Q.run) Q.run(k); }
@@ -60,12 +71,20 @@ var NMSKQuickCard = (function(){
      only closes the card, a second one does what it always did */
   window.addEventListener("keydown", function(e){
     if (e.key !== "Escape" || !live || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (live.relBack && live.relBack()){ e.stopImmediatePropagation(); e.preventDefault(); return; }             /* Q343: a sub-menu sheet goes back first */
     if (live.relClose && live.relClose(true)){ e.stopImmediatePropagation(); e.preventDefault(); return; }      /* an open menu takes the first Escape */
     if (live.current()){ live.close(); e.stopImmediatePropagation(); e.preventDefault(); }
   }, true);
   function start(E){
     var card = null, lead = null, cur = null, px = null, py = null, rowEl = null, chipsEl = null, detEl = null, btns = {};
-    var P = prefs(), open1 = false, stale = false, home = null, QB = null;
+    var P = prefs(), open1 = false, stale = false, home = null, QB = null, addEl = null, scope = null;
+    function S(){ return scope && scope.ids.length ? scope.ids : (cur ? [cur] : []); }
+    function every(ids, f){ for (var i = 0; i < ids.length; i++) if (!f(ids[i])) return false; return ids.length > 0; }
+    function setScope(ids, label){
+      var v = (ids || []).filter(function(x){ return !!x; });
+      scope = v.length && !(v.length === 1 && v[0] === cur) ? {ids:v, label:label || ""} : null;
+      refresh(); return S().slice();
+    }
     function save(){ try { localStorage.setItem(KEY, JSON.stringify(P)); } catch (err){} }
     function el(tag, cls, txt){ var e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
     function ctl(){ return window.NMSKSelectCtl || null; }
@@ -80,21 +99,28 @@ var NMSKQuickCard = (function(){
       rowEl = el("div", "qc-row");
       function b(key, label, f, cls){ var e = el("button", "qc-b" + (cls ? " " + cls : ""), label); e.type = "button"; e.setAttribute("data-qc", key);
         e.addEventListener("click", function(ev){ ev.stopPropagation(); if (cur) f(cur); }); btns[key] = e; rowEl.appendChild(e); return e; }
-      b("hide", "Hide", function(id){ E.toggleHide(id); hist(); refresh(); });
-      b("fade", "Fade", function(id){ E.toggleFade(id); hist(); refresh(); });
-      b("only", "Show only", function(id){
-        var c = ctl(); if (!c) return;
-        if (isOnly(id)) c.setMode("all"); else { c.markIds([id], true, true, true); c.setMode("only"); }
+      /* Q343: each acts on the card's scope -- the clicked mesh, or the whole muscle / part chosen in the Parts chooser */
+      function each(k){ var ids = S(), on = !every(ids, function(i){ return !!(E.state(i) || {})[k === "hide" ? "hidden" : "faded"]; });
+        ids.forEach(function(i){ if (!!(E.state(i) || {})[k === "hide" ? "hidden" : "faded"] !== on){ if (k === "hide") E.toggleHide(i); else E.toggleFade(i); } }); }
+      b("hide", "Hide", function(){ each("hide"); hist(); refresh(); });
+      b("fade", "Fade", function(){ each("fade"); hist(); refresh(); });
+      b("only", "Show only", function(){
+        var c = ctl(), ids = S(); if (!c) return;
+        if (isOnly(ids)) c.setMode("all"); else { c.markIds(ids, true, true, true); c.setMode("only"); }
         hist(); refresh();
       });
-      b("sel", "Select", function(id){ var c = ctl(); if (!c) return; c.toggle(id, true); hist(); refresh(); });
+      b("sel", "Select", function(id){ var c = ctl(), ids = S(); if (!c) return;
+        if (ids.length === 1) c.toggle(ids[0], true);
+        else { var st = c.state(); c.markIds(ids, !every(ids, function(i){ return st.marks.indexOf(i) >= 0; }), false, false); }
+        hist(); refresh(); });
       var rb = b("rel", "Related structures \u25be", function(){ if (relEl) relClose(true); else relOpen(); }, "qc-relb");
       rb.setAttribute("aria-haspopup", "menu"); rb.setAttribute("aria-expanded", "false");
       b("zoom", "Zoom to", function(id){ if (P.pos === "point"){ close(); E.zoom(id); return; } E.zoom(id); stale = true; leader(); }, "qc-zoom");
       b("more", "More…", function(id){ if (open1) less(); else more(id); }, "qc-more");
       chipsEl = el("div", "qc-chips"); chipsEl.id = "qc-chips";
       detEl = el("div", "qc-det"); detEl.id = "qc-det"; detEl.setAttribute("data-nm-hosted", "");
-      card.appendChild(head); card.appendChild(rowEl); card.appendChild(chipsEl); card.appendChild(detEl);
+      addEl = el("div", "qc-add"); addEl.id = "qc-add";
+      card.appendChild(head); card.appendChild(rowEl); card.appendChild(addEl); card.appendChild(chipsEl); card.appendChild(detEl);
       lead = document.createElementNS("http://www.w3.org/2000/svg", "svg"); lead.setAttribute("class", "qc-lead"); lead.hidden = true; lead.setAttribute("aria-hidden", "true");
       lead.innerHTML = '<line x1="0" y1="0" x2="0" y2="0"></line><circle r="3.5" cx="0" cy="0"></circle>';
       document.body.appendChild(lead); document.body.appendChild(card);
@@ -112,50 +138,89 @@ var NMSKQuickCard = (function(){
     function relClose(refocus){
       if (!relEl) return false;
       if (relEl.parentNode) relEl.parentNode.removeChild(relEl);
-      relEl = null;
+      relEl = null; relBack = null;
       if (btns.rel){ btns.rel.setAttribute("aria-expanded", "false"); if (refocus){ try { btns.rel.focus({preventScroll:true}); } catch (err){} } }
       return true;
     }
+    /* Q343: a family's sub-menu opens as a SHEET stacked in the same menu (a "\u2039 back" row on top), at every size: so the menu
+       stays as wide as its own items and a phone gets one readable list at a time. An item is
+         {label, n, run} | {label, items:[...]} (a further sheet) | {head:true, label} (a heading) |
+         {label, off:true, why} (shown greyed; a tap or Enter shows why) ; optional badge (short text) and here (true: it
+       concerns the structure on the card). Escape or \u2190 goes back one sheet, then closes. */
+    var relBack = null;
     function relOpen(){
       relClose(false);
       var id = cur; if (!id || !btns.rel) return null;
       var m = el("div", "qc-relmenu"); m.id = "qc-relmenu"; m.setAttribute("role", "menu"); m.setAttribute("aria-label", "Related structures");
-      FAM.forEach(function(f){
-        var subs = null, n = 0;
-        try { subs = f.items ? (f.items(id) || []) : null; n = subs ? subs.length : (f.count ? +f.count(id) || 0 : 0); } catch (err){ subs = null; n = 0; }
-        var x = el("button", "qc-rmi", f.label + (n ? " \u00b7 " + n : "") + (subs ? " \u25b8" : ""));
-        x.type = "button"; x.setAttribute("role", "menuitem"); x.setAttribute("data-fam", f.key);
-        if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data"; }
-        var sub = null;
-        x.addEventListener("click", function(e){
-          e.stopPropagation(); if (!n) return;
-          if (subs){
-            if (sub){ sub.parentNode.removeChild(sub); sub = null; x.setAttribute("aria-expanded", "false"); return; }
-            sub = el("div", "qc-rsub"); sub.setAttribute("role", "group");
-            subs.forEach(function(it){
-              var y = el("button", "qc-rmi qc-rsi", it.label + (it.n ? " \u00b7 " + it.n : "")); y.type = "button"; y.setAttribute("role", "menuitem");
-              y.addEventListener("click", function(e2){ e2.stopPropagation(); relClose(false); try { it.run(id); } catch (err){} after(); });
-              sub.appendChild(y);
-            });
-            x.parentNode.insertBefore(sub, x.nextSibling); x.setAttribute("aria-expanded", "true");
-            return;
-          }
-          relClose(false); try { f.run(id); } catch (err){} after();
+      var stack = [];
+      function item(lab, cls){ var x = el("button", "qc-rmi" + (cls ? " " + cls : ""), lab); x.type = "button"; x.setAttribute("role", "menuitem"); return x; }
+      function fams(){
+        FAM.forEach(function(f){
+          var subs = null, n = 0, k = 0;
+          try { subs = f.items ? (f.items(id) || []) : null; n = subs ? subs.length : (f.count ? +f.count(id) || 0 : 0);
+                k = subs ? (f.count ? +f.count(id) || 0 : n) : n; } catch (err){ subs = null; n = 0; k = 0; }
+          var x = item(f.label + (k ? " \u00b7 " + k : "") + (subs ? " \u25b8" : ""));
+          x.setAttribute("data-fam", f.key);
+          if (!n){ x.setAttribute("aria-disabled", "true"); x.classList.add("qc-off"); x.title = "None for this structure in this project's data"; }
+          if (subs) x.setAttribute("aria-haspopup", "menu");
+          x.addEventListener("click", function(e){
+            e.stopPropagation(); if (!n) return;
+            if (subs){ stack.push({label:f.label, items:subs, key:f.key}); paint(); return; }
+            relClose(false); try { f.run(id); } catch (err){} after();
+          });
+          m.appendChild(x);
         });
-        if (subs) x.setAttribute("aria-expanded", "false");
-        m.appendChild(x);
-      });
+      }
+      function sheet(S){
+        var bk = item("\u2039 " + S.label, "qc-rback"); bk.setAttribute("aria-label", "Back from " + S.label);
+        bk.addEventListener("click", function(e){ e.stopPropagation(); back(); });
+        m.appendChild(bk); m.setAttribute("data-sheet", S.key || "");
+        S.items.forEach(function(it){
+          if (it.head){ var hd = el("div", "qc-rhead", it.label); hd.setAttribute("role", "presentation"); m.appendChild(hd); return; }
+          var y = item(it.label + (it.n ? " \u00b7 " + it.n : "") + (it.items ? " \u25b8" : ""), "qc-rsi" + (it.here ? " qc-here" : ""));
+          if (it.key) y.setAttribute("data-key", it.key);
+          if (it.badge){ var bd = el("span", "qc-rbadge" + (it.bcls ? " " + it.bcls : ""), it.badge); y.appendChild(document.createTextNode(" ")); y.appendChild(bd); }
+          if (it.title) y.title = it.title;
+          if (it.off){
+            y.setAttribute("aria-disabled", "true"); y.classList.add("qc-off"); if (it.why) y.title = it.why;
+            var why = null;
+            y.addEventListener("click", function(e){
+              e.stopPropagation(); if (!it.why) return;
+              if (why){ why.parentNode.removeChild(why); why = null; y.setAttribute("aria-expanded", "false"); return; }
+              why = el("p", "qc-rwhy", it.why); why.setAttribute("role", "note"); y.parentNode.insertBefore(why, y.nextSibling); y.setAttribute("aria-expanded", "true"); pos();
+            });
+          } else if (it.items){
+            y.setAttribute("aria-haspopup", "menu");
+            y.addEventListener("click", function(e){ e.stopPropagation(); stack.push({label:it.sheet || it.label, items:it.items, key:it.key}); paint(); });
+          } else {
+            y.addEventListener("click", function(e2){ e2.stopPropagation(); relClose(false); try { it.run(id); } catch (err){} after(); });
+          }
+          m.appendChild(y);
+        });
+      }
+      function pos(){
+        var r = btns.rel.getBoundingClientRect(), w = m.offsetWidth, h = m.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
+        var x0 = Math.max(8, Math.min(vw - 8 - w, r.left)), y0 = r.bottom + 4;
+        if (y0 + h > vh - 8) y0 = Math.max(8, Math.min(r.top - 4 - h, vh - 8 - h));
+        m.style.left = Math.round(x0) + "px"; m.style.top = Math.round(y0) + "px";
+      }
+      function paint(){
+        while (m.firstChild) m.removeChild(m.firstChild);
+        m.removeAttribute("data-sheet");
+        if (stack.length) sheet(stack[stack.length - 1]); else fams();
+        m.scrollTop = 0; pos();
+        var first = m.querySelector(".qc-rmi:not(.qc-off):not(.qc-rback)") || m.querySelector(".qc-rmi"); if (first){ try { first.focus({preventScroll:true}); } catch (err){} }
+      }
+      function back(){ if (!stack.length) return false; stack.pop(); paint(); return true; }
+      relBack = back;
       m.addEventListener("keydown", function(e){
         var xs = [].slice.call(m.querySelectorAll(".qc-rmi")), i = xs.indexOf(document.activeElement);
         if (e.key === "ArrowDown" || e.key === "ArrowUp"){ var k = xs.length; if (!k) return; i = (i + (e.key === "ArrowDown" ? 1 : k - 1) + k) % k; xs[i].focus(); e.preventDefault(); }
+        else if ((e.key === "ArrowLeft" || e.key === "Backspace") && stack.length){ back(); e.preventDefault(); }
         else if (e.key === "Tab") relClose(false);
       });
       document.body.appendChild(m); relEl = m; btns.rel.setAttribute("aria-expanded", "true");
-      var r = btns.rel.getBoundingClientRect(), w = m.offsetWidth, h = m.offsetHeight, vw = window.innerWidth, vh = window.innerHeight;
-      var x0 = Math.max(8, Math.min(vw - 8 - w, r.left)), y0 = r.bottom + 4;
-      if (y0 + h > vh - 8) y0 = Math.max(8, r.top - 4 - h);
-      m.style.left = Math.round(x0) + "px"; m.style.top = Math.round(y0) + "px";
-      var first = m.querySelector(".qc-rmi:not(.qc-off)") || m.querySelector(".qc-rmi"); if (first){ try { first.focus({preventScroll:true}); } catch (err){} }
+      paint();
       return m;
     }
     function after(){ setTimeout(function(){ rehome(); fit(); leader(); }, 60); }
@@ -209,13 +274,16 @@ var NMSKQuickCard = (function(){
       if (k === "chips") rehome();
       dress(); place();
     }
-    function isOnly(id){ var c = ctl(), s = c && c.state(); return !!(s && s.mode === "only" && s.marks.length === 1 && s.marks[0] === id && !s.inverted); }
+    function isOnly(ids){ var c = ctl(), s = c && c.state(); if (typeof ids === "string") ids = [ids];
+      return !!(s && s.mode === "only" && !s.inverted && s.marks.length === ids.length && every(ids, function(i){ return s.marks.indexOf(i) >= 0; })); }
     function refresh(){
       if (!card || card.hidden || !cur) return;
-      var s = E.state(cur) || {}, c = ctl(), st = c && c.state();
+      var ids = S(), c = ctl(), st = c && c.state();
+      var hd = every(ids, function(i){ return !!(E.state(i) || {}).hidden; }), fd = every(ids, function(i){ return !!(E.state(i) || {}).faded; });
       function p(k, v, lab){ btns[k].setAttribute("aria-pressed", String(!!v)); if (lab) btns[k].textContent = lab; }
-      p("hide", s.hidden, s.hidden ? "Unhide" : "Hide"); p("fade", s.faded, s.faded ? "Unfade" : "Fade");
-      p("only", isOnly(cur)); p("sel", st && st.marks.indexOf(cur) >= 0);
+      p("hide", hd, hd ? "Unhide" : "Hide"); p("fade", fd, fd ? "Unfade" : "Fade");
+      p("only", isOnly(ids)); p("sel", !!st && every(ids, function(i){ return st.marks.indexOf(i) >= 0; }));
+      card.setAttribute("data-scope", String(ids.length));
       btns.only.disabled = btns.sel.disabled = !c;
       leader();
     }
@@ -335,12 +403,26 @@ var NMSKQuickCard = (function(){
     function rehome(){ try { if (window.NMSKQ298 && NMSKQ298.refresh) NMSKQ298.refresh(); } catch (err){} }
     function show(id){
       var inf = E.info(id); if (!inf){ close(); return false; }
-      cur = id;
+      cur = id; scope = null;
       card.querySelector(".qc-name").textContent = inf.name; card.querySelector(".qc-sub").textContent = inf.sub || "";
       if (card.hidden){ card.hidden = false; card.style.left = "0px"; card.style.top = "0px"; }
+      addons(id);
       refresh();
       return true;
     }
+    function addons(id){
+      if (!addEl) return;
+      while (addEl.firstChild) addEl.removeChild(addEl.firstChild);
+      ADD.forEach(function(a){
+        var h = el("div", "qc-addon"); h.setAttribute("data-addon", a.key);
+        try { a.render(id, h, cardApi); } catch (err){}
+        if (h.childNodes.length) addEl.appendChild(h);
+      });
+    }
+    /* what an add-on may do with the card */
+    var cardApi = {setScope:setScope, scope:function(){ return S().slice(); }, current:function(){ return cur; },
+                   refresh:function(){ refresh(); }, place:function(){ place(); },
+                   redraw:function(){ if (cur && card && !card.hidden){ addons(cur); refresh(); fit(); } }};
     function open(id, cx, cy){
       if (!card) build();
       register();
@@ -379,9 +461,12 @@ var NMSKQuickCard = (function(){
                lead:function(){ if (!lead || lead.hidden) return null; var n = lead.querySelector("line"); var a = ["x1", "y1", "x2", "y2"].map(function(k){ return +n.getAttribute(k); });
                  return {x1:a[0], y1:a[1], x2:a[2], y2:a[3], len:Math.hypot(a[2] - a[0], a[3] - a[1])}; },
                relOpen:function(){ return relOpen(); }, relClose:relClose, relMenu:function(){ return relEl; },
+               relBack:function(){ return relEl && relBack ? relBack() : false; },
+               scope:function(){ return S().slice(); }, setScope:setScope,
                rect:function(){ if (!card || card.hidden) return null; var r = card.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom, w:r.width, h:r.height}; }};
     live = api;
     return api;
   }
-  return {start:start, family:family, families:function(){ return FAM.map(function(f){ return f.key; }); }};
+  return {start:start, family:family, addon:addon, families:function(){ return FAM.map(function(f){ return f.key; }); },
+          addons:function(){ return ADD.map(function(a){ return a.key; }); }};
 })();
