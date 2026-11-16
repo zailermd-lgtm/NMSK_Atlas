@@ -1965,7 +1965,21 @@
     "body.mode-cmp #ref-root .ref-head,body.mode-cmp #ref-root .ref-row{display:none!important}",
     "body.mode-cmp #ref-root.ref-collapsed>*:not(.ref-head){display:flex!important}",
     "body.mode-cmp #img-root .img-head,body.mode-cmp #img-root .img-ctl,body.mode-cmp #img-tab3d{display:none!important}",
-    "body.mode-cmp #img-root{border:0!important}"
+    "body.mode-cmp #img-root{border:0!important}",
+    "#mode-shell .mm-3dm{display:none;position:absolute;left:10px;bottom:10px;z-index:4;height:36px;padding:0 14px;border-radius:999px;background:#1B222C;color:#fff;border:1px solid #6B7686;font-size:13px;font-weight:700}",
+    "#mode-shell .mm-3dm[aria-pressed=true]{background:#fff;color:#20242B;border-color:#20242B}",
+    "@media (max-width:760px){#mode-shell .mm-3dm{display:inline-flex;align-items:center}}",
+    /* Q344: the amber mode colour with white text was 4.3:1 -- a darker amber; the zoom / brightness buttons over the picture were
+       white on the light page colour (1.15:1) until a picture was loaded: they carry their own dark plate; the warm tag and the reference
+       button use a dark amber on their pale amber fill */
+    "html body.mode-cmp #mode-shell{--mode-c:#9C5415;--mode-soft:#FBEEE0}",
+    "#mode-shell .mm-stage .mm-ov button{background:#1B222C;color:#fff;border:1px solid #6B7686}",
+    "#mode-shell .mm-ph .tag.warm{color:#8F4A0E}#mode-shell .mm-foot .mm-ref{color:#8F4A0E}",
+    "body.mode-cmp .mc-pick{background:#fff!important;z-index:6;box-shadow:0 14px 40px rgba(32,36,43,.28)}",
+    "body.mode-cmp .mc-res button{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#20242B}",
+    "body.mode-cmp .mc-res .mc-nm{min-width:0;overflow-wrap:anywhere;text-align:left}",
+    "body.mode-cmp .mc-res .mc-sd{flex:0 0 auto;font-size:12px;font-weight:600;color:#3F4752;background:#EEF0F2;border-radius:999px;padding:2px 10px}",
+    "body.mode-cmp .mc-search{color:#20242B;background:#fff}body.mode-cmp .mc-search::placeholder{color:#5B6472;opacity:1}"
   ].join("\n");
   var DRAWER_HE = {label: "מידע רפרנס — לא אבחנה או המלצת טיפול", "Branch of": "ענף של", "Innervated by": "עצבוב על ידי", "Innervates": "מעצבב", "Supplies": "מספק", "No additional reference data for this structure.": "אין מידע רפרנס נוסף למבנה זה."};   // Q273: the reference drawer's UI labels inside the mode
   function compareMode(api) {
@@ -1977,6 +1991,14 @@
     function rec() { var id = ctx.selectedId(); return id ? ctx.recs().filter(function (r) { return r.id === id; })[0] || null : null; }
     function recLabel(r) { return r ? r.name + (ctx.side(r) ? " · " + ctx.side(r) : "") : "לא נבחר מבנה"; }
     function closePop() { if (popOpen) { popOpen.remove(); popOpen = null; } }
+    /* Q344: a structure's Latin name is its own bidi island (<bdi>) beside the Hebrew side word; a number with a unit / sign is one left-to-right island */
+    function setLabel(node, r, none, tail) {
+      node.textContent = "";
+      if (!r) { node.textContent = none; }
+      else { node.appendChild(h("bdi", {dir: "ltr", text: r.name})); if (ctx.side(r) && tail !== "name") node.appendChild(document.createTextNode(" \u00B7 " + ctx.side(r))); }
+      if (tail && tail !== "name") node.appendChild(document.createTextNode(tail));
+    }
+    function setNum(node, word, val) { node.textContent = word + " "; node.appendChild(h("bdi", {dir: "ltr", text: val})); }
     function xIcon() { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", "16"); s.setAttribute("height", "16"); s.setAttribute("aria-hidden", "true"); s.innerHTML = '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'; return s; }
     function lockIcon() { var s = document.createElementNS("http://www.w3.org/2000/svg", "svg"); s.setAttribute("viewBox", "0 0 24 24"); s.setAttribute("width", "20"); s.setAttribute("height", "20"); s.setAttribute("aria-hidden", "true"); s.innerHTML = '<path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>'; return s; }
     function openPicker() {
@@ -1990,7 +2012,7 @@
       function render() {
         var q = inp.value.trim().toLowerCase(), hits = ctx.recs().filter(function (r) { return !q || (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0; }).slice(0, 40);
         res.innerHTML = "";
-        hits.forEach(function (r) { res.appendChild(h("button", {type: "button", onclick: function () { closePop(); ctx.select(r.id); refreshUi(); }}, [recLabel(r) + " ", h("span", {class: "mono", text: r.id})])); });
+        hits.forEach(function (r) { res.appendChild(h("button", {type: "button", dir: "rtl", title: recLabel(r), onclick: function () { closePop(); ctx.select(r.id); refreshUi(); }}, [h("bdi", {class: "mc-nm", dir: "ltr", text: r.name}), (ctx.side(r) ? h("span", {class: "mc-sd", text: ctx.side(r)}) : null)])); });
       }
       inp.addEventListener("input", render); render();
       ctx.main.appendChild(card); popOpen = card; try { inp.focus(); } catch (e) {}
@@ -2046,11 +2068,13 @@
       /* pane B: the atlas */
       ui.atlasSlot = h("div", {class: "mslot"}); ui.modelSlot = h("div", {class: "mslot"});
       ui.btn3d = h("button", {type: "button", class: "mm-tog", "aria-pressed": "false", text: "תלת-ממד", onclick: toggle3d});
+      /* Q344: on a phone the pane header (with the 3-D button) is not shown; this one-tap switch sits on the pane itself so the 3-D model can take the whole pane */
+      ui.btn3dM = h("button", {type: "button", class: "mm-3dm mi", "aria-pressed": "false", text: "תלת-ממד", onclick: toggle3d});
       ui.atlasTag = h("div", {class: "mm-tagr", text: ""});
       ui.atlasNote = h("div", {class: "mm-empty", text: ""}); ui.atlasNote.hidden = true;
       var paneB = h("div", {class: "mm-pane"}, [
         h("div", {class: "mm-ph mi"}, [h("div", {class: "t", text: "האטלס — חתך תואם"}), h("div", {class: "tag", text: "סימולציה מהמשים"}), ui.btn3d]),
-        h("div", {class: "mm-stage"}, [ui.modelSlot, ui.atlasSlot, ui.atlasTag, ui.atlasNote])
+        h("div", {class: "mm-stage"}, [ui.modelSlot, ui.atlasSlot, ui.atlasTag, ui.atlasNote, ui.btn3dM])
       ]);
       c.main.appendChild(h("div", {class: "mm-fill mm-withfoot"}, [paneA, lock, paneB]));
       /* the injury bar */
@@ -2070,12 +2094,12 @@
       var r = rec(), rs = R() ? R().state() : null;
       Object.keys(ui.mods).forEach(function (k) { ui.mods[k].setAttribute("aria-pressed", String(k === mod)); });
       ui.mods.us.disabled = !U();
-      ui.region.textContent = recLabel(r); ui.structBtn.textContent = (r ? r.name : "בחר מבנה") + " ▾"; ui.atlasTag.textContent = recLabel(r);
-      ui.mobText.textContent = ui.mods[mod].textContent + (r ? " · " + r.name : "");
+      setLabel(ui.region, r, "לא נבחר מבנה"); setLabel(ui.structBtn, r, "בחר מבנה", "name"); ui.structBtn.appendChild(document.createTextNode(" ▾")); setLabel(ui.atlasTag, r, "לא נבחר מבנה");
+      ui.mobText.textContent = ""; ui.mobText.appendChild(document.createTextNode(ui.mods[mod].textContent + " \u00B7 ")); if (r) ui.mobText.appendChild(h("bdi", {dir: "ltr", text: r.name})); else ui.mobText.textContent = ui.mods[mod].textContent;
       ui.empty.hidden = !!(rs && rs.loaded);
-      ui.zoomBtn.textContent = "זום " + (rs ? Math.round(rs.zoom * 100) : 100) + "%"; ui.brightBtn.textContent = "בהירות " + (rs ? rs.bright : 100) + "%";
+      setNum(ui.zoomBtn, "זום", (rs ? Math.round(rs.zoom * 100) : 100) + "%"); setNum(ui.brightBtn, "בהירות", (rs ? rs.bright : 100) + "%");
       ui.lock.setAttribute("aria-pressed", String(locked)); ui.lockLb.innerHTML = locked ? "זום<br>משותף פעיל" : "זום<br>משותף";
-      ui.btn3d.setAttribute("aria-pressed", String(show3d));
+      ui.btn3d.setAttribute("aria-pressed", String(show3d)); ui.btn3dM.setAttribute("aria-pressed", String(show3d)); ui.btn3dM.textContent = show3d ? "חתך הדימות" : "תלת-ממד";
       var t = toolEl();
       if (t) { ctx.setDockHidden(t, show3d); ctx.setDockScale(t, locked && rs ? rs.zoom : 1); }
       var other = mod === "us" ? imgRoot() : usRoot(); if (other) ctx.setDockHidden(other, true);

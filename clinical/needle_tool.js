@@ -656,14 +656,19 @@ var CSS = [
    being misread as "cancel the tool"; see PROJECT_STATE.md Q264). Stopped at this layer so it applies with or without
    a page-root guard. */
 "  overflow-y:auto;overscroll-behavior:contain;z-index:26;border:1px solid var(--ncl-line);border-radius:12px;box-shadow:0 10px 34px rgba(22,32,42,.18)}",
-"@media (max-width:900px){.ncl.ncl-float{left:.6rem;right:.6rem;width:auto;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom,0px));max-height:52vh}}",
+"@media (max-width:900px){.ncl.ncl-float{left:.6rem;right:.6rem;width:auto;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom,0px));max-height:40vh}}",   /* Q344: capped at 40 % of the screen, scrolls inside */
 ".ncl.ncl-stage{position:absolute;left:12px;top:12px;width:330px;max-height:calc(100% - 150px);overflow-y:auto;overscroll-behavior:contain;z-index:5;",
 "  border:1px solid var(--ncl-line);border-radius:10px;box-shadow:0 8px 26px rgba(15,21,26,.16)}",
 /* a clip-path keeps Chromium from leaving the scrolled-out panel content as a hole over the WebGL canvas */
 ".ncl.ncl-stage,.ncl.ncl-float{clip-path:inset(0 round 10px)}",
 "@media (max-width:760px){.ncl.ncl-stage{left:8px;right:8px;width:auto;top:auto;bottom:8px;max-height:46%}}",
 ".ncl h3{margin:0;font-size:13px;font-weight:700}",
-".ncl-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}.ncl-head h3{flex:1}",
+/* Q344: the shared drag grip (viewer/q305, opted in with data-nmsk-move) sits inside the panel's top-left corner, 26 px (34 px on touch)
+   with its ⋮ menu beside it -- the header reserves that room, so the grip covers no title text */
+".ncl-head{display:flex;align-items:center;gap:6px;margin-bottom:6px;min-height:28px;padding-left:64px}.ncl-head h3{flex:1;min-width:0}",
+"@media (pointer:coarse){.ncl-head{min-height:36px;padding-left:82px}}",
+/* Q344: compact state = the header and the current step line only */
+".ncl.ncl-collapsed>#needle-status{display:block;margin:0}",
 /* Q264: compact/minimize toggle -- same small-chevron idiom + visual language as Q262's per-system .sys-exp drill-down
    toggle in the two page templates (small square button, aria-expanded, highlighted in its non-default state), kept
    self-contained here since this file ships its own scoped CSS independent of either template. */
@@ -671,37 +676,43 @@ var CSS = [
 ".ncl-min:hover{border-color:var(--ncl-line);background:var(--ncl-sunk)}",
 ".ncl-min[aria-expanded=false]{background:var(--ncl-sunk);color:var(--ncl-acc)}",
 ".ncl.ncl-collapsed>*:not(.ncl-head){display:none}",
-".ncl button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--ncl-line);background:var(--ncl-sunk);border-radius:5px;padding:3px 8px;font-size:11.5px}",
+".ncl button{font:inherit;color:var(--ink,#16202a);cursor:pointer;border:1px solid var(--ncl-line);background:var(--ncl-sunk);border-radius:5px;padding:3px 8px;font-size:12px}",
 ".ncl button:hover{border-color:var(--ncl-acc)}",
-".ncl button[aria-pressed=true]{background:var(--ncl-acc);color:#fff;border-color:var(--ncl-acc)}",
+".ncl button[aria-pressed=true]{background:#17667f;color:#fff;border-color:#17667f}",   /* Q344: white on the dark theme's light accent was 2.2:1 */
 ".ncl-disc{margin:0 0 8px;padding:6px 8px;border-radius:6px;background:#FFF4DC;color:#6B4A00;font-size:11.5px;border:1px solid #F0D48A}",
 "@media (prefers-color-scheme:dark){.ncl-disc{background:#2E2410;color:#F3D58B;border-color:#5A4718}}",
 ".ncl-modes{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}",
 ".ncl-status{margin:0 0 6px;color:var(--ncl-mut);font-size:12px}",
 ".ncl-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:4px 0}",
 ".ncl-row input[type=range]{flex:1;min-width:90px}",
-".ncl input[type=number]{width:58px;font:inherit;font-size:11.5px;padding:2px 3px;border:1px solid var(--ncl-line);border-radius:4px;background:var(--surface,#fff);color:inherit}",
-".ncl input[type=search]{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--ncl-line);border-radius:5px;background:var(--surface,#fff);color:inherit}",
+/* Q344: a field states its own colours (the theme's ink on the theme's panel): "inherit" on a fixed white fallback was white on white in the dark theme */
+".ncl input[type=number]{width:58px;font:inherit;font-size:12px;padding:2px 3px;border:1px solid var(--line-strong,var(--ncl-line));border-radius:4px;background:var(--ncl-bg);color:var(--ink,#16202a)}",
+".ncl input[type=search]{width:100%;font:inherit;padding:4px 6px;border:1px solid var(--line-strong,var(--ncl-line));border-radius:5px;background:var(--ncl-bg);color:var(--ink,#16202a)}",
+".ncl input::placeholder{color:var(--ncl-mut);opacity:1}",
+".ncl sub,.ncl sup{font-size:10px;line-height:0}",
 ".ncl dl{display:grid;grid-template-columns:82px minmax(0,1fr);gap:2px 8px;margin:6px 0}",
 ".ncl dt{color:var(--ncl-mut)}.ncl dd{margin:0;overflow-wrap:anywhere}",
 ".ncl ol{margin:4px 0 0;padding-left:18px}.ncl ol li{margin:2px 0}",
 ".ncl .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}",
 ".ncl .rng{color:var(--ncl-mut);margin-left:4px;white-space:nowrap}",
 ".ncl .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}",
-".ncl .cite{font-size:11.5px;color:var(--ncl-mut);margin:6px 0 0}",
+".ncl .cite{font-size:12px;color:var(--ncl-mut);margin:6px 0 0}",
 ".ncl details{margin-top:8px;border-top:1px solid var(--ncl-line);padding-top:6px}",
 ".ncl details details{margin-top:6px;border-top:0;padding-top:0}",
 ".ncl details details>summary{font-weight:400;font-size:11.5px;color:var(--ncl-mut)}",
 ".ncl summary{cursor:pointer;font-weight:700;font-size:12px}",
 ".ncl .lg{display:flex;flex-wrap:wrap;gap:4px 10px;margin:4px 0;font-size:11.5px}",
-".ncl .formula{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:var(--ncl-sunk);padding:5px 6px;border-radius:5px;overflow-wrap:anywhere}",
+".ncl .formula{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;background:var(--ncl-sunk);padding:5px 6px;border-radius:5px;overflow-wrap:anywhere}",
 ".ncl .grid2{display:grid;grid-template-columns:repeat(3,auto);gap:3px 8px;align-items:center;font-size:11.5px}",
 ".ncl .res{max-height:170px;overflow-y:auto;overscroll-behavior:contain;margin-top:4px}",
 ".ncl .res button{display:block;width:100%;text-align:left;margin:2px 0;padding:4px 6px}",
 ".ncl .warn{color:var(--risk,#B3400C);font-size:11.5px;margin:4px 0}",
 ".ncl .pill-g{color:#1E8A4F;font-weight:700}.ncl .pill-a{color:#B07300;font-weight:700}.ncl .pill-r{color:#C23232;font-weight:700}",
+/* Q344: the same colours lightened on the dark theme (the light-theme ones are 3:1 on the dark panel) */
+"@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .ncl .warn{color:#F2A27C}:root:not([data-theme=light]) .ncl .pill-g{color:#5FD08A}:root:not([data-theme=light]) .ncl .pill-a{color:#E8B04A}:root:not([data-theme=light]) .ncl .pill-r{color:#F58A8A}}",
+":root[data-theme=dark] .ncl .warn{color:#F2A27C}:root[data-theme=dark] .ncl .pill-g{color:#5FD08A}:root[data-theme=dark] .ncl .pill-a{color:#E8B04A}:root[data-theme=dark] .ncl .pill-r{color:#F58A8A}",
 ".ncl .corr-list li{padding-left:4px;border-left:4px solid transparent}.ncl .corr-list li.band-n{border-left-color:#C23232}.ncl .corr-list li.band-m{border-left-color:#B07300}.ncl .corr-list li.band-f{border-left-color:#1E8A4F}",   /* Q268: display bands only */
-".ncl select{font-size:11.5px;max-width:150px}",
+".ncl select{font-size:12px;max-width:150px;background:var(--ncl-bg);color:var(--ink,#16202a);border:1px solid var(--line-strong,var(--ncl-line));border-radius:4px}",
 ".ncl-tip{position:fixed;z-index:80;pointer-events:none;max-width:280px;padding:5px 8px;border-radius:6px;font-size:11.5px;",
 "  background:var(--surface,var(--panel,#fff));color:var(--ink,#16202a);border:1px solid var(--line,#ccd);box-shadow:0 6px 18px rgba(0,0,0,.18)}"
 ].join("\n");
@@ -1016,6 +1027,8 @@ TP.pickPoint = function (e, skip) {
   return res;
 };
 TP.name = function (i) { return i == null ? "(no modelled structure)" : this.recs[i].name; };
+/* Q344: the side of a structure as a word for the user ("left" / "right"), never the raw "l" / "r" of the id */
+function sideWord(s) { return s === "r" || s === "right" ? "right" : s === "l" || s === "left" ? "left" : ""; }
 
 /* ---------- needle path report (ported from the template's Q58 tool) ---------- */
 TP.needleHits = function (A, B, list) {
@@ -1107,19 +1120,20 @@ TP.buildUI = function () {
   var btn = document.createElement("button");
   btn.id = "t-needle"; btn.type = "button"; btn.className = three ? "tool" : "pill";
   btn.setAttribute("aria-pressed", "false"); btn.textContent = three ? "Needle" : "needle";
-  btn.title = "Needle planning (private add-on): entry/target, direction + length, motor points, risk halos, safer pathways";
+  btn.title = "Needle planning: entry/target, direction + length, motor points, risk halos, safer pathways";
   btn.addEventListener("click", function () { self.toggle(); });
   api.toolbar.insertBefore(btn, api.toolbar.lastElementChild);
   this.btn = btn;
   var el = document.createElement("div");
   el.className = "ncl " + (api.panelHost ? "ncl-stage" : "ncl-float"); el.id = "needle-panel"; el.hidden = true;
+  el.setAttribute("data-nmsk-move", "the needle panel");   /* Q344: opt in to the shared drag grip + menu (viewer/q305 reads this attribute) */
   var legend = HALO_CLASSES.map(function (k) { return '<span><span class="dot" style="background:' + CLASSES[k].color + '"></span>' + esc(CLASSES[k].label) + "</span>"; }).join("");
   var mults = HALO_CLASSES.map(function (k) {
     return "<span>" + esc(CLASSES[k].label.split(" (")[0].split(" /")[0]) + '</span><input type="number" step="0.05" min="0" max="3" data-mult="' + k + '" value="' + self.P.mult[k] + '"><span></span>';
   }).join("");
   el.innerHTML =
     '<div class="ncl-head"><h3>Needle planning</h3>' +
-    '<button type="button" id="ncl-min" class="ncl-min" aria-expanded="true" aria-label="Minimize the needle panel" title="Compact mode: collapse to just the title bar">&#9662;</button>' +
+    '<button type="button" id="ncl-min" class="ncl-min" aria-expanded="true" aria-label="Minimize the needle panel" title="Compact mode: collapse to the title bar and the current step (tap again to expand)">&#9662;</button>' +
     '<button type="button" id="needle-clear">Clear</button>' +
     '<button type="button" id="ncl-close" title="Close the needle tool">&times;</button></div>' +
     '<p class="ncl-disc"><b>Planning / education aid only &mdash; not clinical guidance.</b></p>' +
@@ -1174,7 +1188,7 @@ TP.buildUI = function () {
     Object.keys(POSTURES).map(function (k) { return '<option value="' + k + '">' + esc(POSTURES[k].label) + "</option>"; }).join("") + "</select>" +
     '<select id="ncl-plan-side"><option value="r">right</option><option value="l">left</option></select>' +
     '<button type="button" id="ncl-plan-pose-go">Apply</button></div>' +
-    '<p class="cite" id="ncl-plan-pose-msg">A labelled, illustrative flexion pattern driven only through the page\'s own Q241 pose rig (its joints, its normal ranges); ' +
+    '<p class="cite" id="ncl-plan-pose-msg">A labelled, illustrative flexion pattern driven only through the page\'s own pose rig (its joints, its normal ranges); ' +
     'not the patient\'s posture. The needle tool measures the current (posed) meshes; a placed entry and target ride the structure they were placed on. Motor points stay at their rest positions.</p></details>' +
     '<details id="ncl-mp"><summary title="The motor point(s) of the marked muscles only -- mark one or more muscles first">Motor points</summary>' +
     '<p class="ncl-status" id="ncl-mp-msg"></p>' +
@@ -1220,10 +1234,13 @@ TP.buildUI = function () {
   this.$ = $;
   $("needle-clear").onclick = function () { self.clear(); };
   $("ncl-close").onclick = function () { self.toggle(false); };
-  $("ncl-min").onclick = function () {       // Q264: compact/minimized panel, on request (not forced), off by default
+  $("ncl-min").onclick = function (ev) {       // Q264: compact/minimized panel, on request (not forced), off by default
     var wasOpen = $("ncl-min").getAttribute("aria-expanded") !== "false";
-    $("ncl-min").setAttribute("aria-expanded", String(!wasOpen));
-    el.classList.toggle("ncl-collapsed", wasOpen);
+    /* a person's tap decides; the page's own layout code clicks this button too (it is not a choice) -- and it must not undo the compact start a phone gets */
+    var byPerson = !!(ev && ev.isTrusted);
+    if (!byPerson && !wasOpen && self.autoCompact) return;
+    if (byPerson) { self.userSized = true; self.autoCompact = false; }
+    self.setCompact(wasOpen);
   };
   el.querySelectorAll("#ncl-modes button").forEach(function (b) { b.onclick = function () { self.setMode(b.dataset.mode); }; });
   /* Q317: in the direction mode the entry is fixed and the tip follows the angles, as before. With two placed
@@ -1289,7 +1306,7 @@ TP.renderFormula = function () {
   this.$("ncl-formula").innerHTML = "halo r = clamp( m<sub>type</sub> &times; ( b0 &times; clamp((r<sub>cal</sub>/" + P.rRef + ")<sup>p</sup>, " + P.fMin + ", " + P.fMax +
     ") + k &times; L ), " + P.rMin + ", " + P.rMax + " ) mm<br>b0 = " + P.b0 + ", k = " + P.k + ", p = " + P.p +
     "; L = trajectory length (entry&rarr;target), else the needle length. r<sub>cal</sub> = vessel/nerve/organ calibre radius " +
-    (this.risk.data ? "from clinical_risk.json" : "(approximate: clinical_risk.json not loaded)") + ". Heuristic planning margin.";
+    (this.risk.data ? "from the loaded risk data" : "(approximate: risk data not loaded)") + ". Heuristic planning margin.";
 };
 TP.paramsChanged = function () {
   this.renderFormula(); this.risk.safer = null; this.$("ncl-safer-out").innerHTML = "";
@@ -1301,9 +1318,36 @@ TP.toggle = function (onOff) {
   this.active = onOff == null ? !this.active : !!onOff;
   this.btn.setAttribute("aria-pressed", String(this.active));
   this.el.hidden = !this.active;
-  if (this.active) { this.api.stopMotion(); this.api.showPanel(); this.render(); }
+  if (this.active) {
+    this.api.stopMotion(); this.api.showPanel(); this.render();
+    /* Q344: on a phone the panel opens COMPACT (header + the current step line) so it does not bury the model; one tap on the chevron expands it,
+       and once the user has chosen either way their choice stands */
+    if (!this.userSized && !this.api.panelHost) { try { this.autoCompact = window.matchMedia("(max-width:900px)").matches; this.setCompact(this.autoCompact); } catch (e) {} }
+    this.clearBar();
+  }
   else { this.clear(); if (this.risk.on) this.halos(false); if (this.mp.on) this.emphasize(false); }
   this.api.redraw();
+};
+/* Q344: on a wide screen the floating panel starts below the page's top control bar when that bar reaches over its column (its top-left corner,
+   where the shared grip sits, was under the bar) */
+TP.clearBar = function () {
+  var el = this.el; if (!el || this.api.panelHost || window.innerWidth <= 900) return;
+  try {
+    el.style.top = ""; el.style.maxHeight = "";
+    var bar = document.getElementById("q301-bar"), pr = el.getBoundingClientRect();
+    if (!bar) return;
+    var br = bar.getBoundingClientRect();
+    if (br.width > 0 && br.right > pr.left && br.left < pr.right && br.bottom > pr.top - 2) {
+      var top = Math.ceil(br.bottom) + 8;
+      el.style.top = top + "px"; el.style.maxHeight = Math.max(240, window.innerHeight - top - 12) + "px";
+    }
+  } catch (e) {}
+};
+TP.setCompact = function (on) {
+  var m = this.$("ncl-min"); if (!m) return;
+  this.el.classList.toggle("ncl-collapsed", !!on);
+  m.setAttribute("aria-expanded", String(!on));
+  m.setAttribute("aria-label", on ? "Expand the needle panel" : "Minimize the needle panel");
 };
 TP.cursor = function () { return this.active ? "crosshair" : null; };
 TP.setMode = function (m, quiet) {
@@ -1508,7 +1552,7 @@ TP.render = function () {
     var col = self.api.catColor(self.recs[self.byId[c.id][0]].cat);
     var rng = (c.to_mm - c.from_mm < MINIV) ? '<span class="rng mono">' + c.from_mm.toFixed(1) + " (surface reached)</span>"
       : '<span class="rng mono">' + c.from_mm.toFixed(1) + "&ndash;" + c.to_mm.toFixed(1) + "</span>";
-    return '<li><span class="dot" style="background:' + col + '"></span>' + esc(c.name) + (c.name !== c.id ? ' <span class="ncl-status mono">' + esc(c.id) + "</span>" : "") + rng + "</li>";
+    return '<li><span class="dot" style="background:' + col + '"></span>' + esc(c.name) + (sideWord(self.recs[self.byId[c.id][0]].side) ? ' <span class="ncl-status">(' + sideWord(self.recs[self.byId[c.id][0]].side) + ")</span>" : "") + rng + "</li>";
   }).join("") + "</ol>";
   h += '<p class="cite">Straight-line geometry on the decimated viewing meshes, visible structures only; depths are along the path, ' +
        "not perpendicular to the skin. Not a clinical recommendation.</p>";
@@ -1544,17 +1588,17 @@ TP.loadData = function () {
       var v = mp.viewers[self.viewerKey];
       self.mp.points = v && v.points ? v.points.filter(function (p) { return p.pos && p.pos.length === 3; }) : [];
       self.mp.msg = self.mp.points.length
-        ? self.mp.points.length + " motor points for this body (" + esc(self.viewerKey) + ")" + (mp.licence ? " -- " + esc(mp.licence) : "")
-        : "no motor-point data loaded for this body (" + esc(self.viewerKey) + ")";
-    } else self.mp.msg = "no motor-point data loaded";
+        ? self.mp.points.length + " motor points loaded for this body."
+        : "No motor-point data loaded for this body.";
+    } else self.mp.msg = "No motor-point data loaded.";
     self.renderMp(); self.renderRiskMsg(); self.renderFormula();
   });
 };
 TP.renderRiskMsg = function () {
   var d = this.risk.data, n = this.cls.filter(function (c) { return c && CLASSES[c].halo; }).length;
-  this.$("ncl-risk-msg").innerHTML = n + " risk structures in this model (classification table in the add-on). " +
-    (d ? "Calibre from clinical_risk.json (" + esc(d.viewer) + ", " + esc(d.generated || "") + ")."
-       : '<span class="warn">clinical_risk.json not loaded: calibre approximated from bounding boxes.</span>');
+  this.$("ncl-risk-msg").innerHTML = n + " risk structures in this model. " +
+    (d ? "Vessel and nerve calibre: risk data loaded."
+       : '<span class="warn">Risk data not loaded: calibre approximated from bounding boxes.</span>');
 };
 TP.rCal = function (i) {
   var r = this.risk.rcal[this.recs[i].id];
@@ -2190,7 +2234,7 @@ TP.renderPlanSearch = function () {
   if (!hits.length) { box.innerHTML = '<p class="ncl-status">No muscle or tendon matches.</p>'; return; }
   hits.forEach(function (r) {
     var b = document.createElement("button"); b.type = "button";
-    b.innerHTML = esc(r.name) + (r.side ? " (" + esc(r.side) + ")" : "") + ' <span class="ncl-status mono">' + esc(r.id) + "</span>";
+    b.innerHTML = esc(r.name) + (sideWord(r.side) ? ' <span class="ncl-status">(' + sideWord(r.side) + ")</span>" : "");
     b.onclick = function () { self.planPick(r.i); };
     box.appendChild(b);
   });
@@ -2376,6 +2420,13 @@ function injectionMode(tool, api) {
   function h(tag, a, k) { return ctx.el(tag, a, k); }
   function sideHe(r) { return ctx.side(r); }
   function recLabel(r) { return r ? r.name + (sideHe(r) ? " · " + sideHe(r) : "") : ""; }
+  /* Q344: a structure's Latin name sits in its own bidi island (<bdi>) next to the Hebrew side word, so a mixed Hebrew / English row cannot scramble */
+  function setRecLabel(node, r, none) {
+    node.textContent = "";
+    if (!r) { node.textContent = none; return; }
+    node.appendChild(h("bdi", {dir: "ltr", text: r.name}));
+    if (sideHe(r)) node.appendChild(document.createTextNode(" \u00B7 " + sideHe(r)));
+  }
   function targetRec() { return tool.plan.i != null ? tool.recs[tool.plan.i] : (tool.target && tool.target.i != null && tool.target.i >= 0 ? tool.recs[tool.target.i] : null); }
   function fmt(d) { return (Math.round(d * 10) / 10).toFixed(1); }
   function closePop() { if (popOpen) { popOpen.remove(); popOpen = null; } }
@@ -2399,7 +2450,7 @@ function injectionMode(tool, api) {
       var q = inp.value.trim().toLowerCase(), hits = tool.recs.filter(function (r) { return PLAN_CATS[r.cat] && (!q || (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0); }).slice(0, 40);
       res.innerHTML = "";
       if (!hits.length) { res.appendChild(h("p", {class: "mc-hint", text: "אין שריר או גיד תואם."})); return; }
-      hits.forEach(function (r) { res.appendChild(h("button", {type: "button", onclick: function () { pickTarget(r.i); }}, [recLabel(r) + " ", h("span", {class: "mono", text: r.id})])); });
+      hits.forEach(function (r) { res.appendChild(h("button", {type: "button", dir: "rtl", title: recLabel(r), onclick: function () { pickTarget(r.i); }}, [h("bdi", {class: "mc-nm", dir: "ltr", text: r.name}), (sideHe(r) ? h("span", {class: "mc-sd", text: sideHe(r)}) : null)])); });
     }
     inp.addEventListener("input", render); render();
     ctx.main.appendChild(card); popOpen = card; try { inp.focus(); } catch (e) {}
@@ -2455,6 +2506,14 @@ function injectionMode(tool, api) {
     if (!document.getElementById("inj-mode-css")) {   // the tool's own panel stays alive (its state, its 3-D overlays) but is not shown in the mode: the cards re-skin it
       var st = document.createElement("style"); st.id = "inj-mode-css"; st.textContent = "body.mode-inj #needle-panel,body.mode-inj .ncl-tip{display:none!important}" +
         "body.mode-inj.nmsk-us.us-clip-on .mc-right,body.mode-inj.nmsk-us.us-clip-on .mc-pick{display:none!important}" +
+        /* Q344: the target picker is opaque (the step cards behind it showed through); a row = the name, then the side as its own chip, no id */
+        "body.mode-inj .mc-pick{background:#fff!important;z-index:6;box-shadow:0 14px 40px rgba(32,36,43,.28)}" +
+        "body.mode-inj .mc-res button{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#20242B}" +
+        "body.mode-inj .mc-res .mc-nm{min-width:0;overflow-wrap:anywhere;text-align:left}" +
+        "body.mode-inj .mc-res .mc-sd{flex:0 0 auto;font-size:12px;font-weight:600;color:#3F4752;background:#EEF0F2;border-radius:999px;padding:2px 10px}" +
+        "body.mode-inj .mc-sec[aria-pressed=true]{color:#0A5F68}" +
+        "body.mode-inj .mc-search{color:#20242B;background:#fff}body.mode-inj .mc-search::placeholder{color:#5B6472;opacity:1}" +
+        "body.mode-inj .mc-step.off{opacity:1}body.mode-inj .mc-step.off .mc-num{background:#5B6472}body.mode-inj .mc-step.off .mc-lbl{color:#4A5361}" +
         "@media (max-width:900px){body.mode-inj.nmsk-us.us-clip-on .mc-left{display:none!important}}";   // Q325: the scan's needle clip takes that side; its ✕ brings the card back
       document.head.appendChild(st);
     }
@@ -2517,7 +2576,7 @@ function injectionMode(tool, api) {
   function refresh() {
     if (!ctx) return;
     var r = targetRec(), hasT = !!tool.target, hasE = !!tool.entry, c = tool.corr;
-    ui.chipName.textContent = r ? recLabel(r) : "בחר מטרה…"; ui.mobText.textContent = r ? recLabel(r) : "בחר מטרה…";
+    setRecLabel(ui.chipName, r, "בחר מטרה…"); setRecLabel(ui.mobText, r, "בחר מטרה…");
     ui.s1ok.textContent = r ? "נבחרה ✓" : ""; ui.step1Btn.hidden = !!r; ui.step1.classList.toggle("off", false);
     /* Q281: Hebrew rendering of the same tool.plan.zone object the bare tool's own #ncl-plan-zone shows -- origin /
        insertion / adjacent-tissue parts (grouped by bundle) and motor point(s), computed once in planPick(). */

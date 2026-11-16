@@ -2231,7 +2231,9 @@
       "body.us-stack #us-div{top:-5px;left:0;right:0;height:10px;cursor:row-resize}",
       "body.us-tab #us-div{display:none}",
       "#us-div:hover,#us-div.drag{background:rgba(108,180,255,.35)}",
-      ".us-head{display:flex;align-items:center;gap:6px;padding:6px 8px;border-bottom:1px solid var(--line);flex:0 0 auto;flex-wrap:wrap}",
+      ".us-head{display:flex;align-items:center;gap:6px;padding:6px 8px 6px 64px;border-bottom:1px solid var(--line);flex:0 0 auto;flex-wrap:wrap}",   /* Q344: room for the shared grip + menu dots, so they cover no title */
+      "@media (pointer:coarse){.us-head{padding-left:82px}}",
+      "body.mode-on #nm-g-x-us-root,body.mode-on #nm-d-x-us-root{display:none!important}",   /* docked as a mode's picture it is not draggable */
       ".us-head b{font-size:14px}",
       ".us-badge{background:#3a1f1a;color:var(--warn);border:1px solid #7a3a2f;border-radius:999px;padding:2px 9px;font-weight:700;font-size:11.5px;letter-spacing:.02em}",
       ".us-sp{flex:1 1 8px}",
@@ -2384,7 +2386,7 @@
     function build() {
       if (root) return;
       var st = document.createElement("style"); st.textContent = CSS; document.head.appendChild(st);
-      root = el("div", {id: "us-root", role: "region", "aria-label": "Ultrasound: simulated B-mode"});
+      root = el("div", {id: "us-root", role: "region", "aria-label": "Ultrasound: simulated B-mode", "data-nmsk-move": "the scan panel"});   /* Q344: opts in to the shared drag grip + menu (viewer/q305) */
       var head = el("div", {class: "us-head"}, [
         el("b", {text: "Ultrasound"}), el("span", {class: "us-badge", text: BADGE}), el("span", {class: "us-sp"}),
         (ui.layBtn = el("button", {type: "button", title: "Layout: auto / side by side / stacked / tabs", onclick: cycleLayout, text: "◫"})),
@@ -2472,7 +2474,7 @@
         x.addEventListener("click", function (e) { e.stopPropagation(); stepFreq(d); });
         return x;
       }
-      var minus = b("\u2212", -1), plus = b("+", 1), out = el("output", {class: "fq-v", "data-fqv": "1", "aria-live": "polite"}), rng = null;
+      var minus = b("\u2212", -1), plus = b("+", 1), out = el("output", {class: "fq-v", "data-fqv": "1", "aria-live": "polite", dir: "ltr"}), rng = null;   /* Q344: "10 MHz" is one left-to-right island: in a right-to-left card it read "MHz 10" */
       if (o.range) {
         rng = el("input", {type: "range", class: "fq-r", min: String(r.min), max: String(r.max), step: String(r.step), "aria-label": he ? "תדר (MHz)" : "Frequency (MHz)"});
         rng.addEventListener("input", function () { setFreq(+rng.value); });
@@ -2577,8 +2579,8 @@
       function tog(key, text, title) { return (ui.togs[key] = btn(text, title, function () { S[key] = !S[key]; syncUi(); if (key === "hidden" || key === "speckle" || key === "textures" || key === "reverb" || key === "noise") refresh(true); if (key === "fibres3d") updateOverlay(); })); }
       var im5 = el("div", {class: "us-row"}, [tog("speckle", "speckle", "Synthetic seeded speckle (clearly synthetic; off = smooth tissue levels)"), tog("textures", "muscle / tendon texture", "Documented class textures: muscle septa, tendon fibrils and anisotropy"),
         tog("reverb", "reverberation", "A-line repeats behind air / lung"), tog("noise", "system noise", "Synthetic electronic noise floor (default off)"),
-        tog("fibres3d", "fibre lines (3D)", "Q289: faint fibre lines (pennation from the cited architecture table, rule-based layout in the mesh) and documented septa / aponeuroses as thin sheets, for the muscles the selected image cuts"),
-        tog("thickness", "tissue thickness", "Q267: opt-in, off by default -- a live readout of the contiguous tissue band under the cursor/cross-hair, measured from this tool's own per-pixel tissue classification (no reference range shown: not citable from this project's own sources). A separate toggle from the Q256 source-reliability dots in the main Parts panel.")]);
+        tog("fibres3d", "fibre lines (3D)", "Faint fibre lines (pennation from the cited architecture table, rule-based layout in the mesh) and documented septa / aponeuroses as thin sheets, for the muscles the selected image cuts"),
+        tog("thickness", "tissue thickness", "Opt-in, off by default -- a live readout of the contiguous tissue band under the cursor/cross-hair, measured from this tool's own per-pixel tissue classification (no reference range shown: not citable from this project's own sources). A separate toggle from the source-reliability dots in the main Parts panel.")]);
       var mo1 = el("div", {class: "us-row"}, [tog("hidden", "hidden structures", "Leave out the structures hidden in the 3D view (virtual dissection; skin always stays). Default: the whole body is imaged, as in a real patient."),
         btn("reset", "Back to defaults (probe stays)", function () { resetDefaults(); })]);
       ui.status = el("div", {class: "us-status", text: ""});
@@ -2928,8 +2930,8 @@
         "Tilt = the probe handle leans by the stated angle (rigid rotation about the contact point). 'Away / toward marker' = rocking inside the image plane; 'heel / toe' = fanning (the plane swings sideways). Which heel/toe side faces the examiner depends on where the examiner stands.",
         "Sweep: parallel planes, frame k at k × step along the plane normal (perpendicular to the image plane); 'follow organ' rotates the probe about the skin normal so that this direction lies as close as possible to the PCA long axis of the chosen structure.",
         "Cine: 'step' plays back the already-computed set of frames (the 9 tilt directions / n sweep planes) in place, as a movie. 'continuous' instead genuinely RE-SLICES a new frame at every displayed position as it slides (sweep) or fans (star tilt direction) smoothly through the range -- a real re-slice of the meshes each time, not an interpolation between the step frames -- at a reduced resolution so it keeps up in real time; the fps selector sets the target sweep/fan speed, and the readout next to it shows the actually achieved re-slice rate on this device, which can fall behind the target on a slow machine (shown honestly, not hidden).",
-        "CINE motion types (Q289, continuous re-slicing as above): 'long' slides the probe along the body part -- on a limb the axis and length of the nearest long bone (its own PCA axis and extent), on the trunk the cranio-caudal axis -- re-seated on the real skin at every sample; 'circ' goes round the part at the probe's level (rays from the section centre to the part's own skin); 'rot' turns the probe 180° about its own axis; 'tilt' fans it heel <-> toe by ± the Tilt angle; 'track' follows a chosen structure along its centreline (per-5-mm-slice centroids of its own mesh along its principal axis -- a course that doubles back on that axis is not represented), the probe on the skin straight above it. The face stays at 90° to the smoothed skin normal throughout. One way or back and forth, optionally looped; the full-screen view shows the part in 3-D beside the image, with the scan direction as an arrow.",
-        "Muscle fibres (Q289): inside a muscle the perimysium texture now follows the LOCAL fibre direction -- the mesh's own long axis tilted by the cited pennation angle (unipennate: toward the thickness axis; bipennate: converging on a central sheet; multipennate: alternating between sheets), so a longitudinal plane shows the pennation pattern and a transverse plane cross-cut fascicles, live during CINE. Documented septa / aponeuroses are hyperechoic sheets. Layout inside the mesh is rule-based; see 'Muscle fibres and septa' below.",
+        "CINE motion types (continuous re-slicing as above): 'long' slides the probe along the body part -- on a limb the axis and length of the nearest long bone (its own PCA axis and extent), on the trunk the cranio-caudal axis -- re-seated on the real skin at every sample; 'circ' goes round the part at the probe's level (rays from the section centre to the part's own skin); 'rot' turns the probe 180° about its own axis; 'tilt' fans it heel <-> toe by ± the Tilt angle; 'track' follows a chosen structure along its centreline (per-5-mm-slice centroids of its own mesh along its principal axis -- a course that doubles back on that axis is not represented), the probe on the skin straight above it. The face stays at 90° to the smoothed skin normal throughout. One way or back and forth, optionally looped; the full-screen view shows the part in 3-D beside the image, with the scan direction as an arrow.",
+        "Muscle fibres: inside a muscle the perimysium texture now follows the LOCAL fibre direction -- the mesh's own long axis tilted by the cited pennation angle (unipennate: toward the thickness axis; bipennate: converging on a central sheet; multipennate: alternating between sheets), so a longitudinal plane shows the pennation pattern and a transverse plane cross-cut fascicles, live during CINE. Documented septa / aponeuroses are hyperechoic sheets. Layout inside the mesh is rule-based; see 'Muscle fibres and septa' below.",
         "Model artefacts handled: an air band thinner than " + US.global.air_pocket_fill_mm + " mm along a beam that tissue follows again is treated as fat (the Z pages' skin is a set of overlapping patches; the slice kernel then labels gaps between skin layers as air); thin fascia / septa meshes are drawn one pixel wide and can show as bright lines with a stair-step on oblique planes.",
         "Synthetic parts: speckle (seeded value noise with Rayleigh statistics, attached to the sweep volume), muscle septa / tendon fibril textures, optional system noise: all labelled on the image and switchable off. Not modelled: " + US.artefacts.not_modelled.join("; ") + "."];
       var ul = el("ul"); how.forEach(function (t) { ul.appendChild(el("li", {text: t})); }); box.appendChild(ul);
@@ -2937,7 +2939,7 @@
       var ul2 = el("ul"); US.honesty.forEach(function (t) { ul2.appendChild(el("li", {text: t})); }); box.appendChild(ul2);
       if (US.architecture) {                                                 // Q289: fibre direction + documented septa
         var AR = US.architecture;
-        box.appendChild(el("h3", {text: "Muscle fibres and septa (Q289) -- RULE-BASED layout, cited angles"}));
+        box.appendChild(el("h3", {text: "Muscle fibres and septa -- RULE-BASED layout, cited angles"}));
         var ul3 = el("ul"); AR.honesty.forEach(function (t) { ul3.appendChild(el("li", {text: t})); });
         Object.keys(AR.muscles).filter(function (k) { return AR.muscles[k].septa && AR.muscles[k].septa.length; }).forEach(function (k) {
           AR.muscles[k].septa.forEach(function (sp) { ul3.appendChild(el("li", {text: k.replace(/_/g, " ") + ": " + sp.name + " -- " + sp.rule + " [" + sp.refs.map(function (r) { var x = AR.references[r]; return x ? x.cite + " PMID " + x.pmid + " doi:" + x.doi : r; }).join("; ") + "]"})); });
@@ -3025,6 +3027,16 @@
       "body.mode-us .mm-note:empty{display:none}",
       ".mm-toast{position:fixed;left:50%;bottom:84px;transform:translateX(-50%);z-index:120;background:#1a202c;color:#fff;border-radius:10px;padding:9px 16px;font:600 13px Heebo,system-ui,sans-serif;direction:rtl;box-shadow:0 6px 24px rgba(0,0,0,.25)}",
       ".mm-toast[hidden]{display:none}",
+      /* Q344: the hero chip and the badge sit on top of the scan image: an opaque dark plate keeps them readable on the bright image */
+      "body.mode-us .mm-chip{background:rgba(14,19,26,.9);color:#fff;direction:rtl}body.mode-us .mm-chip b{color:#fff}",
+      "body.mode-us .mm-badge{background:rgba(14,19,26,.92);color:#FFC27A}",
+      /* Q344: the three orientation buttons (long / transverse / rotate) each took the full card width and the other two ran off the left edge of the
+         screen (a white sliver at x = 0): they share the row */
+      "body.mode-us .mc-row>.mm-sec{flex:1 1 0;width:auto;min-width:0;padding:0 6px}",
+      /* Q344: on a phone the 3-D model is a 92 px thumbnail; one tap on this switch gives it the whole picture area (and back) */
+      "body.mode-us .mm-swap-btn{display:none;position:absolute;left:10px;bottom:10px;z-index:7;height:36px;padding:0 14px;border-radius:999px;background:rgba(14,19,26,.92);color:#fff;border:1px solid #6B7686;font:700 13px Heebo,system-ui,sans-serif;direction:rtl;pointer-events:auto}",
+      "@media (max-width:760px){body.mode-us .mm-swap-btn{display:inline-flex;align-items:center}",
+      "body.mode-us .mm-hero.mm-swap .mm-thumb-m{inset:0;right:0;bottom:0;width:auto;height:auto;border:0;border-radius:0;pointer-events:auto;z-index:5}}",
       ".mm-mopop{margin-top:8px;padding:8px 10px;background:#fff;border:1px solid #E2E8F0;border-radius:12px}",
       ".mm-mopop[hidden]{display:none}",
       ".mm-mopop .us-mo button{background:#fff;border:1px solid #CBD5E0;color:#1A202C;cursor:pointer}",
@@ -3093,7 +3105,12 @@
         ui2.heroSlot = h("div", {class: "mslot"});
         ui2.chip = h("div", {class: "mm-chip", text: ""});
         ui2.thumbM = h("div", {class: "mm-thumb-m"}, [(ui2.thumbMSlot = h("div", {class: "mslot", style: "position:absolute;inset:0"}))]);
-        var hero = h("div", {class: "mm-hero"}, [ui2.heroSlot, ui2.chip, h("div", {class: "mm-badge", text: "סימולציה מהמשים – לא אולטרסאונד"}), ui2.thumbM]);
+        ui2.swap = h("button", {type: "button", class: "mm-swap-btn mi", "aria-pressed": "false", text: "הצג מודל תלת-ממד", onclick: function () {
+          var on = !ui2.hero.classList.contains("mm-swap"); ui2.hero.classList.toggle("mm-swap", on);
+          ui2.swap.setAttribute("aria-pressed", String(on)); ui2.swap.textContent = on ? "הצג סריקה" : "הצג מודל תלת-ממד";
+          try { window.dispatchEvent(new Event("resize")); } catch (e) {} setTimeout(function () { try { window.dispatchEvent(new Event("resize")); } catch (e) {} }, 60);
+        }});
+        var hero = ui2.hero = h("div", {class: "mm-hero"}, [ui2.heroSlot, ui2.chip, h("div", {class: "mm-badge", text: "סימולציה מהמשים – לא אולטרסאונד"}), ui2.thumbM, ui2.swap]);
         ui2.play = h("button", {type: "button", class: "mm-play", "aria-label": "הפעל/עצור", onclick: function () { setCine(!S.cine); refreshUi(); }}, [playIcon()]);
         ui2.scrub = h("input", {type: "range", min: "0", max: "8", step: "1", value: "0", "aria-label": "CINE", oninput: function () { G.NMSKUltrasound.set({sel: +this.value}); refreshUi(); }});
         ui2.frame = h("div", {class: "lb fr", text: ""});
@@ -3114,7 +3131,7 @@
         function sl(label, min, max, step, fmtv, get, set) {
           var out = h("span", {text: ""}), inp = h("input", {type: "range", min: String(min), max: String(max), step: String(step), "aria-label": label, oninput: function () { set(+this.value); refreshUi(); }});
           var box = h("div", {class: "mm-sl"}, [h("div", {class: "hd"}, [h("label", {}, [h("b", {text: label})]), out]), inp]);
-          box._sync = function () { var v = get(); inp.value = String(v); out.textContent = fmtv(v); };
+          box._sync = function () { var v = get(), t = fmtv(v); inp.value = String(v); out.textContent = t; out.setAttribute("dir", /[A-Za-z]/.test(t) ? "ltr" : "rtl"); };   /* Q344: a Latin unit ("+0 dB") is its own left-to-right island: sign, digits, unit in that order */
           return box;
         }
         ui2.depth = sl("עומק", 2, 15, 0.5, function (v) { return v.toFixed(1) + " ס\"מ"; }, function () { return S.depthCm; }, function (v) { S.depthCm = v; if (S.focusCm > v) S.focusCm = v * 0.6; syncUi(); refresh(); });
@@ -3126,7 +3143,7 @@
         ui2.rot = h("button", {type: "button", class: "mm-sec", text: "סובב", onclick: function () { S.rot = (S.rot + 15) % 360; syncUi(); refresh(); refreshUi(); }});
         var orRow = h("div", {class: "mc-row m-hide"}, [ui2.orL, ui2.orT, ui2.rot]);
         ui2.ab = h("button", {type: "button", class: "mm-primary", "aria-pressed": "false", text: "השווה לצד הנגדי (A/B)", onclick: function () { setAb(!S.ab); refreshUi(); }});
-        ui2.adv = h("button", {type: "button", class: "mm-sec", "aria-pressed": "false", text: "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)…", onclick: function () { ui.ctlBtn.click(); refreshUi(); }});
+        ui2.adv = h("button", {type: "button", class: "mm-sec", "aria-pressed": "false", text: "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)", onclick: function () { ui.ctlBtn.click(); refreshUi(); }});
         var row2 = h("div", {class: "mm-row2"}, [ui2.ab, ui2.adv]);
         var card = h("div", {class: "mm-card mi"}, [ui2.depth, ui2.freq, ui2.gain, orRow, row2]);
         var side = h("div", {class: "mm-side"}, [thumb, card]);
@@ -3147,7 +3164,9 @@
         var mo = MOTIONS.filter(function (m) { return m[0] === S.motion; })[0];   // Q289
         ui2.moBtn.setAttribute("aria-pressed", String(!!mo)); ui2.moBtn.textContent = mo ? "תנועה: " + mo[1] + " ▾" : "תנועה ▾";
         var pr = {linear: "Linear", convex: "Convex", sector: "Sector"}[S.probe] || S.probe;
-        ui2.chip.innerHTML = ""; ui2.chip.appendChild(document.createTextNode(pr + " " + S.freq + " MHz · " + S.depthCm + " ס\"מ · ")); ui2.chip.appendChild(h("b", {text: cont ? "רציף" : "צעדים"}));
+        ui2.chip.innerHTML = ""; ui2.chip.setAttribute("dir", "rtl");   /* Q344: the probe + frequency and the depth number are each their own bidi island, the mode word its own bold item */
+        ui2.chip.appendChild(h("bdi", {dir: "ltr", text: pr + " " + S.freq + " MHz"})); ui2.chip.appendChild(document.createTextNode(" · "));
+        ui2.chip.appendChild(h("bdi", {dir: "ltr", text: String(S.depthCm)})); ui2.chip.appendChild(document.createTextNode(" ס\"מ · ")); ui2.chip.appendChild(h("b", {text: cont ? "רציף" : "צעדים"}));
         var pd = PRESETS.filter(function (d) { return d.key === S.preset; })[0];
         ui2.mobText.textContent = pd ? pd.label : "";
         Array.prototype.forEach.call(ctx.shell.querySelectorAll("[data-preset]"), function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-preset") === S.preset)); });
@@ -3156,7 +3175,7 @@
         ui2.ab.setAttribute("aria-pressed", String(!!S.ab)); ui2.ab.textContent = S.ab ? "A/B פעיל – חזרה לתצוגה אחת" : "השווה לצד הנגדי (A/B)";
         ui2.note.textContent = S.ab && S.abSnapMm != null && S.abSnapMm > 5 ? "B הוצמד לעור הקרוב בצד הנגדי (" + Math.round(S.abSnapMm) + " מ\"מ מנקודת המראה)" : "";   // Q273
         var advOpen = root && !root.classList.contains("ctl-off");
-        ui2.adv.setAttribute("aria-pressed", String(advOpen)); ui2.adv.textContent = advOpen ? "סגור הגדרות מתקדמות" : "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)…";
+        ui2.adv.setAttribute("aria-pressed", String(advOpen)); ui2.adv.textContent = advOpen ? "סגור הגדרות מתקדמות" : "הגדרות מתקדמות (מתמר, סריקה, ניגודיות)";
       }
       function enter(c) {
         modeCtx = c;                                                     // Q289: the full-screen CINE docks through the mode while it is on
