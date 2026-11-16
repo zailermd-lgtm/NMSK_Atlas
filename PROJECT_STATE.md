@@ -113,8 +113,9 @@ report files).
 **Still wrong on the live pages (from the sweep), in priority order:**
 1. Base·F chest: outlines between skin regions (mammary, presternal, inframammary) still visible with
    opaque skin; purple sliver in the right inframammary fold. The load-time weld smooths the back, not here.
-2. Base·F vulva/perineum: ragged fragments and flap; skin ring open 20–30 mm with no source skin piece —
-   **owner's call** whether to add a rule-based (badged) closing surface.
+2. Base·F vulva/perineum: ragged fragments and flap; skin ring open 20–30 mm with no source skin piece.
+   **Owner, 2026-11-16: fix it according to the atlas figures** → round Q358 (running): real surface kept
+   and cleaned, the missing part added as a separate rule-based (badged, cited) skin structure.
 3. Face skin seams around mouth / nose / eyes (both bodies); temporoparietalis, orbicularis oris through skin.
 4. Vessels/nerves inside bone: 266 structures M / 268 F (worst: testicular veins 8.7 mm in the hip bone,
    posterior circumflex humeral 7.9 mm, calcaneal branches of the fibular artery, internal thoracic 6.9 mm).
@@ -122,7 +123,9 @@ report files).
    the scapulae; small poke-throughs (saphenous veins, supraclavicular n.); Base·F sternoclavicular
    ligament R/L 4.16; thick white retinacula, floating transverse metatarsal ligament, block pubic disc.
 6. Not covered by the sweep: Base·F per-mode run, pose run, desktop UI walk-through.
-**Next:** (a) unknown-cause debug of 1; (b) guarded conform for 4; then 3 and 5.
+**Running (each on its own copy, main thread applies; nothing committed until each reports):** Q356 chest
+outlines (item 1), Q357 vessels/nerves in bone (item 4, with an allow-list of true canals/foramina), Q358
+perineum skin (item 2). **Next:** apply in that order, one regen, full verifier set, publish; then 3 and 5.
 
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
