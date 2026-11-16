@@ -442,6 +442,9 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
                     print("       ", k, str(a_.get(k))[:200], "->", str(b_.get(k))[:200])
             pg.evaluate("() => { window.__qlog = []; const o = NMSKQuick.close; if (!o.__w){ NMSKQuick.close = function(){ window.__qlog.push(new Error().stack.split('\\n').slice(1, 7).join(' | ')); return o.apply(this, arguments); }; NMSKQuick.close.__w = 1; } }")
             undo(); s = state(pg)
+            for _ in range(20):                                   # a loaded machine applies the undo later than 300 ms
+                if s["hidden"] == s0["hidden"]: break
+                pg.wait_for_timeout(250); s = state(pg)
             check(f"{T} Undo brings it back (hidden {s['hidden']}), the card stays (closed by: {pg.evaluate('() => window.__qlog')})", s["hidden"] == s0["hidden"] and card_info(pg) is not None)
             press("Fade"); s = state(pg)
             check(f"{T} Fade fades it (faded {s0['faded']}->{s['faded']}), pressed state shown", s["faded"] == s0["faded"] + 1 and card_info(pg)["pressed"][1] == "true")
