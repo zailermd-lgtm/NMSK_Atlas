@@ -32,7 +32,7 @@ var NMSKQ301 = (function(){
         "about the order, nothing has to be depth sorted. Each closed surface is crossed twice, front and back, as a real beam does. " +
         "<b>Our convention:</b> <i>d</i>, the path length taken through each crossing &mdash; a surface atlas has no " +
         "thickness along the ray, so the three steps (Soft / Normal / Hard) are a scale we chose, not millimetres we measured. " +
-        "This style does not use Q300's extra bone pass: the bone separates by its own attenuation.</p>" +
+        "This style does not use the extra bone pass: the bone separates by its own attenuation.</p>" +
         "<p><b>CT</b> paints each structure the grey its own HU gives through a real window, " +
         "grey = (HU &minus; (L &minus; W/2)) / W, clipped: " +
         wins.map(function(w){ return "<b>" + esc(w.label) + "</b> W" + w.width + " / L" + w.level + (w.note ? " (" + esc(w.note) + ")" : ""); }).join("; ") +
@@ -83,10 +83,10 @@ var NMSKQ301 = (function(){
     }});
     I.add({key:"fat", title:"Fat: off at load, and still filling every cut face", order:60, build:function(){
       var F = window.NMSKFat, st = F && F.state ? F.state() : null;
-      return "<p>Fat and unlabelled soft tissue (Q295) is built from each body's <b>own imaging</b>, in the space no " +
+      return "<p>Fat and unlabelled soft tissue is built from each body's <b>own imaging</b>, in the space no " +
         "segmented structure covers. It is <b>off when the page loads</b>, as asked, and one tap in the Layers group shows it. " +
         "Either way it <b>keeps filling the cut faces and the cross-sections</b>, because a section drawn without it reads " +
-        "as hollow &mdash; which is the whole reason Q295 built it.</p>" +
+        "as hollow &mdash; which is why it is built.</p>" +
         (st ? "<p>This page carries <b>" + st.count + "</b> such structures.</p>" : "");
     }});
   }

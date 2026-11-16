@@ -67,6 +67,7 @@ body.mode-on .hist-bar{display:none}
 @media (max-width:560px){
   .ms-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .ms-row>button{flex:0 0 auto}
+  .ms-row>#ms-close{position:sticky;inset-inline-end:0;z-index:2;background:#1b2128;box-shadow:-6px 0 6px #1b2128;margin-inline-start:auto}   /* Q355: the close button stays reachable while the row scrolls */
   .ms-res{max-height:38px}
   .ms-msg{max-height:34px;overflow:auto}
 }

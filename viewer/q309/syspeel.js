@@ -130,7 +130,7 @@ var NMSKSysPeel = (function(){
         var b = document.createElement("button");
         b.type = "button"; b.className = "sp-b q301-b"; b.id = "sp-sc-" + s.k; b.textContent = s.l;
         b.setAttribute("aria-pressed", String(scope === s.k));
-        b.title = s.k === "body" ? "Peel the whole body, exactly as it always did (Q301's own control)"
+        b.title = s.k === "body" ? "Peel the whole body, exactly as it always did (the page's own control)"
           : s.k === "one" ? "Peel one chosen system only; every other system is left as it is"
           : "Peel across exactly the systems switched on right now";
         b.addEventListener("click", function(e){ e.stopPropagation(); setScope(s.k); });
@@ -168,7 +168,7 @@ var NMSKSysPeel = (function(){
       whyEl = document.createElement("p"); whyEl.id = "sp-why"; whyEl.className = "sp-why"; whyEl.hidden = true;
       box.appendChild(whyEl);
       var n = document.createElement("span"); n.className = "sp-note";
-      n.innerHTML = '<p class="nmsk-tip">The same taps, three <b>scopes</b>. <b>Whole body</b> is Q301’s own control, driven from here, not rebuilt. ' +
+      n.innerHTML = '<p class="nmsk-tip">The same taps, three <b>scopes</b>. <b>Whole body</b> is the page’s own depth control, driven from here, not rebuilt. ' +
         '<b>One system</b> peels one system’s own depth strata and leaves every other system alone. <b>Systems shown</b> peels across exactly the systems switched on. ' +
         'What a layer means inside a system comes from <code>data/anatomy/system_layers_q309.json</code>, resolved against this page: ' +
         peelable().map(function(s){ return "<b>" + s.label + "</b> " + s.strata.map(function(t){ return t.label.toLowerCase() + " (" + t.n + ")"; }).join(" → "); }).join("; ") +

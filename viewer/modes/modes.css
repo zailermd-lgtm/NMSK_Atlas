@@ -83,6 +83,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
 .mc-primary{height:48px;border-radius:12px;background:var(--mode-c);color:#fff;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;width:100%}
 .mc-primary[disabled]{opacity:.5;cursor:default}
 .mc-sec{height:44px;border-radius:12px;border:1px solid #C9CDD3;background:#fff;color:#20242B;font-weight:500;font-size:15px;display:flex;align-items:center;justify-content:center;width:100%}
+.mc-list .mc-sec{height:auto;min-height:44px;padding:6px 12px;line-height:1.25;white-space:normal;text-align:center;overflow-wrap:anywhere;flex:0 0 auto}   /* Q355: a long landmark name wraps inside its button */
 .mc-sec[aria-pressed=true]{background:var(--mode-soft);border-color:var(--mode-c);color:var(--mode-c);font-weight:700}
 .mc-hint{font-size:12.5px;color:#5B6472;margin:0}
 .mc-warn{font-size:12.5px;color:#9A5A0E;margin:0}
@@ -195,7 +196,7 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   .mw-models a{height:30px;padding:0 10px;font-size:12px;flex:0 0 auto}
   .mw-body{padding:14px 16px;gap:10px;justify-content:flex-start}.mw-q{font-size:21px;margin-bottom:2px}
   .mw-tiles{grid-template-columns:1fr 1fr;gap:10px}.mw-tile{min-height:0;padding:14px;gap:6px}.mw-tile .mw-t{font-size:16px}
-  .mw-tile .mw-d{font-size:12px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden}
+  .mw-tile .mw-d{font-size:12px;line-height:1.35}   /* Q355: the whole description, not one cut line */
   .mw-note{display:none}
   #mode-bar{padding:0 14px;gap:10px}
   .mb-pill{height:32px;padding:0 12px;font-size:14px}.mb-pill .mb-long{display:none}.mb-pill .mb-short{display:inline}
@@ -206,6 +207,10 @@ body.mode-cmp #mode-shell{--mode-c:#B5651D;--mode-soft:#FBEEE0}
   .mc-left .mc-title{font-size:12px;color:#5B6472}
   .mc-left .mc-drow{gap:8px}.mc-left .mc-drow .bar{width:5px;height:22px}.mc-left .mc-drow .nm{font-size:13px}.mc-left .mc-drow .mm{font-size:17px}.mc-left .mc-drow .un,.mc-left .mc-foot,.mc-left .mc-edit{display:none}
   .mc-left .mc-drow:nth-child(n+5){display:none}
+  /* Q355: the names are what the box is for -- wrap to two lines, the distance stays at the end of the row */
+  .mc-left .mc-drow .nm{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere;line-height:1.2}
+  .mc-left .mc-drow .mm{flex:0 0 auto;text-align:end}
+  .mb-text{white-space:normal;line-height:1.15;font-size:13px;text-align:start;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow-wrap:anywhere}
   .mc-right{left:0;right:0;top:auto;bottom:0;border-radius:20px 20px 0 0;padding:10px 16px 20px;gap:12px;background:rgba(255,255,255,.97);max-height:60%;overflow:auto}
   .mc-handle{display:block;width:44px;height:5px;border-radius:3px;background:#C9CDD3;margin:0 auto}
   .mc-mob{display:flex}

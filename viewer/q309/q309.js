@@ -37,7 +37,7 @@ var NMSKQ309 = (function(){
       var out = "<p>This page carries <b>" + M.systems().length + " systems</b>. Each has one <b>on / off</b> button " +
         "with its own structure count, and a system switched off is a veto of its own &mdash; it does not write the " +
         "tissue-layer table, so it combines with the layer rows, the presets and every depth peel.</p>" +
-        "<p>The depth peel has <b>three scopes</b>: the whole body (Q301's own control, driven from the same taps), " +
+        "<p>The depth peel has <b>three scopes</b>: the whole body (the page's own control, driven from the same taps), " +
         "one chosen system, or exactly the systems switched on. " + esc(T.rule_peel_offered || "") + "</p>" +
         "<table><tr><th>system</th><th>on this page</th><th>its layers, outside&nbsp;in</th><th>where the order comes from</th></tr>";
       M.systems().forEach(function(s){

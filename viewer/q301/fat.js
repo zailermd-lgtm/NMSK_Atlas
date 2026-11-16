@@ -39,7 +39,7 @@ var NMSKFat = (function(){
     cur = v; touched = true; push(); ui();
     if (!quiet){
       if (hist && hist.schedule) hist.schedule();
-      say(cur ? "Fat is shown, faint, as Q295 drew it. It fills the cut faces and the cross-sections either way."
+      say(cur ? "Fat is shown, faint. It fills the cut faces and the cross-sections either way."
               : "Fat is hidden again. It still fills the cut faces and the cross-sections, so a section never reads as hollow.");
       if (window.NMSKShowAll && NMSKShowAll.refresh) NMSKShowAll.refresh();
     }
@@ -60,9 +60,9 @@ var NMSKFat = (function(){
       btn.addEventListener("click", function(e){ e.stopPropagation(); set(!cur); });
       box.appendChild(btn);
       var note = document.createElement("span"); note.className = "ft-note";
-      note.innerHTML = '<p class="nmsk-tip">Fat and unlabelled soft tissue (Q295) is built from each body\'s own imaging in the space no segmented structure covers. ' +
+      note.innerHTML = '<p class="nmsk-tip">Fat and unlabelled soft tissue is built from each body\'s own imaging in the space no segmented structure covers. ' +
         'It is <b>off at load</b>, as asked, and one tap shows it. Either way it <b>keeps filling the cut faces and the cross-sections</b>, ' +
-        'because a section drawn without it reads as hollow &mdash; which was the whole reason Q295 built it. ' +
+        'because a section drawn without it reads as hollow &mdash; which is why it is built. ' +
         (n ? "This page carries <b>" + n + "</b> such structures; the subcutaneous ones are labelled <i>Panniculus adiposus (tela subcutanea)</i> &mdash; the superficial fascia." : "<b>This page carries none.</b>") + '</p>';
       box.appendChild(note);
       if (opt.toolbar) opt.toolbar.appendChild(box); else document.body.appendChild(box);

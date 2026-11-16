@@ -205,7 +205,7 @@ var NMSKAutoFocus = (function(){
     last = {ok:!!r, mode:M.key, modeLabel:M.label, kind:t.kind, label:t.label, why:t.why, n:t.n,
             target:v3(t.c), radius:num(t.r), result:r, reason:reason, at:Date.now()};
     log.push(last); if (log.length > 40) log.shift();
-    if (!quiet && r) say("Centred " + r.what + " on " + t.label + " — " + t.why + ".");
+    if (quiet !== true && r) say("Centred " + r.what + " on " + t.label + " — " + t.why + ".");
     else if (!quiet) say("Nothing to centre " + M.label + " on here.");
     return last;
   }
@@ -220,7 +220,7 @@ var NMSKAutoFocus = (function(){
       try { now = !!m.probe(); } catch (err){ now = false; }
       var was = !!watch[m.key];
       watch[m.key] = now;
-      if (now && !was && want) focus(m.key);
+      if (now && !was && want) focus(m.key, "auto");   /* Q355: on entering a mode only a success is announced, never "nothing to centre" */
     });
   }
   var api = {

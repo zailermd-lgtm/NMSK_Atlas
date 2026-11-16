@@ -8,7 +8,7 @@
    snapshot. The switcher ("מה עושים היום?") shows on the first load of a session (sessionStorage), from the "מצב" toolbar button and
    from a #mode=<key> hash (or a ?mode=<key> query, Q273). */
 var NMSKModes = (function(){
-  var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null;
+  var host = null, api = null, recsCache = null, providers = {}, cur = null, curP = null, ctx = null, snap = null, queued = null, carry = null;
   var docks = [], tick = 0, pollReady = 0, KEY = "nmsk.mode.v1", MODES = ["inj", "us", "cmp", "inn"];
   function $(id){ return document.getElementById(id); }
   function el(tag, attrs, kids){
@@ -120,6 +120,19 @@ var NMSKModes = (function(){
       exit:function(){ exit(); }
     };
   }
+  /* Q355: panels opened in Anatomy that no mode shows (the part-slices panel, the attachments panel and its rings) closed through their own
+     close buttons when a mode opens; the ones that were open are reopened through their own public controls on exit */
+  function parkPanels(){
+    var out = {slices:false, att:false}, sp = $("xsp-panel"), ap = $("pm-att"), b;
+    try { if (sp && !sp.hidden){ out.slices = true; b = $("xsp-close"); if (b) b.click(); else sp.hidden = true; } } catch (err){}
+    try { if (ap && !ap.hidden){ out.att = true; b = ap.querySelector(".pp-x"); if (b) b.click(); } } catch (err2){}
+    return out;
+  }
+  function unparkPanels(k){
+    if (!k) return;
+    try { if (k.att){ var a = getApi(), p = a && a.parts ? a.parts() : null; if (p && p.attach) p.attach(true); } } catch (err){}
+    try { if (k.slices){ var t = $("t-slices"); if (t && ($("xsp-panel") || {}).hidden) t.click(); } } catch (err2){}
+  }
   function enter(key){
     if (!host) return false;
     var p = providers[key];
@@ -129,7 +142,8 @@ var NMSKModes = (function(){
     if (cur) exit(true);
     queued = null;
     hist("beginScope");                    // Q329: the page-wide undo remembers the screen before the mode (see viewer/q294/history.js)
-    snap = takeSnapshot();
+    var parked = parkPanels(); if (carry){ parked.slices = parked.slices || carry.slices; parked.att = parked.att || carry.att; carry = null; }             // Q355: the Anatomy tools' own panels (Slices, Attachments) close for the mode and come back on exit
+    snap = takeSnapshot(); snap.parked = parked;
     cur = key; curP = p; ctx = makeCtx(key, p);
     document.body.classList.add("mode-on", "mode-" + key);
     var shell = $("mode-shell"); shell.hidden = false;
@@ -151,7 +165,7 @@ var NMSKModes = (function(){
     document.body.classList.remove("mode-on", "mode-" + cur, "mode-more");
     var shell = $("mode-shell"); shell.hidden = true; $("mode-main").innerHTML = ""; $("mb-chips").innerHTML = ""; $("mode-pills").innerHTML = "";
     cur = null; curP = null; ctx = null;
-    restoreSnapshot(snap); snap = null;
+    var pk = snap && snap.parked; restoreSnapshot(snap); snap = null; if (silent) carry = pk; else unparkPanels(pk);   // silent = a straight switch to another mode: nothing to put back yet
     hist("endScope");                      // Q329: what the mode set and the exit put back leaves the undo history with it
     fireResize();
     if (!silent) remember("anat");

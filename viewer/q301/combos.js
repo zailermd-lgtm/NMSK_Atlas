@@ -25,7 +25,7 @@ var NMSKCombos = (function(){
     {a:"imaging",  b:"srccolour",ok:false, why:"A radiographic style replaces the colour, so colour-by-source has nothing left to colour."},
     {a:"imaging",  b:"highlight",ok:false, why:"A highlight colour does not exist in a greyscale picture — use Fade others instead."},
     {a:"imaging",  b:"boneread", ok:"over", over:"imaging",
-     why:"A radiographic style sets the bone's brightness from its own attenuation, so Q300's extra bone pass is paused while a style is on \u2014 it comes back with the colour."},
+     why:"A radiographic style sets the bone's brightness from its own attenuation, so the extra bone pass is paused while a style is on \u2014 it comes back with the colour."},
     {a:"peel",     b:"preset",   ok:false, why:"Both write the same layer table — turning one on turns the other off."},
     {a:"peel",     b:"solo",     ok:false, why:"Both write the same layer table — turning one on turns the other off."},
     {a:"spin",     b:"measure",  ok:false, why:"Stop the spin first, or the model moves while you are placing the point."},

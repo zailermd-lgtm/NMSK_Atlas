@@ -220,7 +220,7 @@ var NMSKInnervation = (function(){
         h.push('<button type="button" class="inn-chip" data-kind="root" data-key="' + esc(r.level) + '" title="Mark the ' + n + " muscles that " + esc(r.level) + ' supplies"><i style="background:' + esc(r.colour) + '"></i><b>' + esc(r.level) + "</b><small>" + n + "</small></button>"); });
     }
     ui.legend.innerHTML = h.join("");
-    ui.rule.textContent = D.colour_rules[st.by] + " IZ markers are rule-based (hover a marker for its rule and source).";
+    ui.rule.textContent = D.colour_rules[st.by] + " Innervation-zone (IZ) markers are rule-based (hover a marker for its rule and source).";
     ui.rule.title = D.rule;
     syncCtl();
   }
@@ -330,7 +330,7 @@ var NMSKInnervation = (function(){
     stage.appendChild(slot);
     var ctl = c.el("section", {class:"inn-card inn-ctl"});
     ctl.innerHTML = '<div class="inn-row"><span class="inn-lb">Colour by</span><div class="inn-seg" role="group"><button type="button" data-by="nerve">Nerve</button><button type="button" data-by="root">Root level</button></div></div>' +
-      '<div class="inn-legend"></div><div class="inn-row"><span class="inn-lb">IZ markers</span><div class="inn-seg" role="group"><button type="button" data-iz="sel">Selected</button><button type="button" data-iz="all">All</button><button type="button" data-iz="off">Off</button></div></div>' +
+      '<div class="inn-legend"></div><div class="inn-row"><span class="inn-lb">Innervation zone (IZ) markers</span><div class="inn-seg" role="group"><button type="button" data-iz="sel">Selected</button><button type="button" data-iz="all">All</button><button type="button" data-iz="off">Off</button></div></div>' +
       '<p class="inn-rule"></p>';
     var panel = c.el("section", {class:"inn-card inn-panel", "aria-live":"polite"});
     side.appendChild(ctl); side.appendChild(panel); fill.appendChild(stage); fill.appendChild(side); c.main.appendChild(fill);

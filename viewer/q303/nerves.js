@@ -195,7 +195,7 @@ var NMSKNerves = (function(){
       box.appendChild(seg);
       note = document.createElement("p"); note.className = "nv-note"; box.appendChild(note);
       var tip = document.createElement("p"); tip.className = "nmsk-tip";
-      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. Each dot has a thin dark rim (1 px) so the yellow still reads on pale bone, fat and fascia; the rim is drawn only while the emphasis is on and the nerve's own width is not changed by it. It is the same idea as Q299's minimum section width and Q300's bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
+      tip.textContent = "The emphasis is an extra pass over the nerves' own vertices, drawn after everything on the camera-facing half of the model, each vertex a round dot at least the step's width across. A nerve already wider than that is untouched. Each dot has a thin dark rim (1 px) so the yellow still reads on pale bone, fat and fascia; the rim is drawn only while the emphasis is on and the nerve's own width is not changed by it. It is the same idea as the minimum section width and the bone-through pass. Motor points / NMJ markers follow the needle tool's own “Emphasize motor points”, which this control switches on with it.";
       box.appendChild(tip);
       if (opt.toolbar) opt.toolbar.appendChild(box);
       if (hist && hist.register) hist.register("q303nerves", provider());

@@ -88,6 +88,10 @@ SMALL = """() => {
 }"""
 
 
+import os
+SHOTS = Path(os.environ["Q355_SHOTS"]) if os.environ.get("Q355_SHOTS") else None
+
+
 def main() -> int:
     d = Path(sys.argv[1])
     w, h = 1400, 900
@@ -256,6 +260,52 @@ def main() -> int:
             vt = pg.evaluate("() => [...document.querySelectorAll('#ms-res .ms-r')].map(e => e.textContent)")
             check("9 no 'non-manifold' / '--' wording in the volume results", not any(re.search(r"non-manifold|--", t) for t in vt), vt[:3])
             pg.evaluate("document.getElementById('ms-close').click()")
+
+            # ---- Q355: 12. the measure bar's close button is reachable; 13. panels and modes; 14. rings; 15. closest structures
+            pg.evaluate("document.getElementById('qg-measure').click()"); pg.wait_for_timeout(700)
+            mb = pg.evaluate("""() => { const x = document.getElementById('ms-close'), r = x.getBoundingClientRect(), bar = document.getElementById('ms-bar').getBoundingClientRect();
+              return {l: r.left, r: r.right, t: r.top, b: r.bottom, vw: innerWidth, vh: innerHeight, barR: bar.right, barL: bar.left, w: r.width}; }""")
+            check("12 the measure bar's close button lies inside the viewport and inside the bar",
+                  mb["l"] >= 0 and mb["r"] <= mb["vw"] + 0.5 and mb["t"] >= 0 and mb["b"] <= mb["vh"] and mb["r"] <= mb["barR"] + 1 and mb["l"] >= mb["barL"] - 1 and mb["w"] > 10, mb)
+            pg.evaluate("document.getElementById('ms-close').click()"); pg.wait_for_timeout(300)
+            vis = "(id) => { const e = document.getElementById(id); return !!e && !e.hidden && getComputedStyle(e).display !== 'none' && e.getBoundingClientRect().width > 4; }"
+            pg.evaluate("() => { const t = document.getElementById('t-slices'); t && t.click(); }"); pg.wait_for_timeout(500)
+            pg.evaluate("() => { const b = document.getElementById('btn-insert'); b && !document.querySelector('#pm-att:not([hidden])') && b.click(); }"); pg.wait_for_timeout(900)
+            both = [pg.evaluate(vis, "xsp-panel"), pg.evaluate(vis, "pm-att")]
+            if phone:
+                check("13 phone: Slices and Attachments are never open together", not (both[0] and both[1]), both)
+            else:
+                pg.evaluate("() => { const t = document.getElementById('t-slices'); t && document.getElementById('xsp-panel').hidden && t.click(); }"); pg.wait_for_timeout(400)
+            pg.evaluate("() => { const t = document.getElementById('t-slices'); t && document.getElementById('xsp-panel').hidden && t.click(); }"); pg.wait_for_timeout(400)
+            pg.evaluate("() => NMSKModes.enter('inj')"); pg.wait_for_function("NMSKModes.current() === 'inj'", timeout=60000); pg.wait_for_timeout(1200)
+            left = [i for i in ("xsp-panel", "pm-att") if pg.evaluate(vis, i)]
+            check("13 Anatomy -> Injection: no Anatomy panel (Slices, Attachments) is visible in the mode", not left, left)
+            pg.evaluate("""async () => { const sleep = ms => new Promise(r => setTimeout(r, ms));
+              const b = document.querySelector('.mb-chip .mb-mini') || document.querySelector('.mb-text'); if (b) b.click(); await sleep(300);
+              const inp = document.querySelector('.mc-pick .mc-search'); if (!inp) return; inp.value = 'biceps_brachii'; inp.dispatchEvent(new Event('input')); await sleep(250);
+              const row = document.querySelector('.mc-pick .mc-res button'); if (row) row.click(); await sleep(2500); }""")
+            tr = pg.evaluate("""() => { const o = []; document.querySelectorAll('.mc-left .mc-drow .nm, .mb-text').forEach(e => { const r = e.getBoundingClientRect(); if (r.width < 2) return;
+                o.push({t: e.textContent.slice(0, 40), cut: e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 1}); }); return o; }""")
+            if phone:
+                check("15 closest-structures names and the header name are not truncated (phone)", tr and not any(x["cut"] for x in tr), tr[:6])
+            pg.screenshot(path=str(SHOTS / f"inj_{w}.png")) if SHOTS else None
+            pg.evaluate("() => NMSKModes.exit()"); pg.wait_for_timeout(1500)
+            back = [pg.evaluate(vis, i) for i in ("xsp-panel", "pm-att")]
+            check("13 leaving the mode brings the panels back (one of them on a phone)", any(back) and (not phone or not all(back)), back)
+            pg.screenshot(path=str(SHOTS / f"anat_back_{w}.png")) if SHOTS else None
+            if phone:
+                pg.evaluate("() => { const x = document.getElementById('xsp-close'); x && x.click(); }")
+            pg.evaluate("() => { const b = document.getElementById('btn-insert'); b && !document.querySelector('#pm-att:not([hidden])') && b.click(); }"); pg.wait_for_timeout(1500)
+            pg.evaluate("document.getElementById('qg-view').click()"); pg.wait_for_timeout(600)
+            pg.evaluate("() => { const b = [...document.querySelectorAll('#q301-sheet .pill')].find(x => /^reset/i.test(x.textContent.trim())); b && b.click(); }"); pg.wait_for_timeout(1500)
+            pg.evaluate("document.getElementById('qg-view').click()"); pg.wait_for_timeout(1200)
+            rg = pg.evaluate("""() => { const q = window.__q, v = document.getElementById('view').getBoundingClientRect(), o = [];
+              document.querySelectorAll('#pm-layer .pm:not([hidden]) .pm-ring').forEach(e => { const r = e.getBoundingClientRect(); o.push(r.width); });
+              return {n: o.length, max: Math.max(0, ...o), vh: v.height, k: getComputedStyle(document.getElementById('pm-layer')).getPropertyValue('--pmk')}; }""")
+            check("14 whole-body zoom: no ring is wider than 2% of the model view's height (+2 px)",
+                  rg["n"] == 0 or rg["max"] <= 0.02 * rg["vh"] + 2, rg)
+            pg.screenshot(path=str(SHOTS / f"rings_{w}.png")) if SHOTS else None
+            pg.evaluate("() => { const x = document.querySelector('#pm-att .pp-x'); x && x.click(); }"); pg.wait_for_timeout(300)
 
             # ---- 11. type floor in the public panels (after everything has been opened once)
             pg.evaluate("document.getElementById('qg-view').click()"); pg.wait_for_timeout(1500)

@@ -124,7 +124,7 @@ var NMSKQ303 = (function(){
       if (!N) return "<p>(not on this page)</p>";
       var st = N.state(), c = st.census, ab = st.absent, sm = N.sample();
       return "<p><b>Why the small ones were invisible, measured and not guessed.</b> This page's own calibre table " +
-        "(<code>nmsk-calibre</code>, Q240 &mdash; diameters measured off the meshes) gives every nerve a real diameter. " +
+        "(<code>nmsk-calibre</code> &mdash; diameters measured off the meshes) gives every nerve a real diameter. " +
         "A whole-body view puts the body's full height into the height of the 3-D view, so at the moment " +
         "<b>1 pixel ≈ " + c.mmPerPx + " mm</b>: of the <b>" + c.n + "</b> nerve structures here, <b>" + c.subPixel +
         "</b> are drawn <b>under one pixel wide</b>. Nothing is wrong with the mesh, the decimation or the draw order &mdash; " +
@@ -132,7 +132,7 @@ var NMSKQ303 = (function(){
         "<p><b>What the emphasis does.</b> An extra pass over the nerves' own vertices, drawn after everything, on the " +
         "camera-facing half of the model, each vertex a round dot whose width is " +
         "<code>max(the step's minimum, the nerve's true width in pixels)</code>. A nerve already wider than the minimum " +
-        "is untouched. That is Q299's <i>minimum drawn width</i> for a thin section and Q300's <i>bone drawn once more " +
+        "is untouched. That is the <i>minimum drawn width</i> for a thin section and the <i>bone drawn once more " +
         "after the translucent pass</i>, applied to nerves &mdash; not a third invention. The steps are " +
         N.steps().map(function(s){ return "<b>" + esc(s.label) + "</b>" + (s.w ? " " + s.w + " px" : ""); }).join(" / ") + ".</p>" +
         "<p><b>The honesty rule.</b> No mesh is changed and no geometry is written. The <b>true calibre stays the " +
@@ -155,7 +155,7 @@ var NMSKQ303 = (function(){
         "than drawing a second set that could fall out of step &mdash; that toggle is " +
         (st.motorPoints ? "on this page" : "not on the screen until the needle tool is open") + ".</p>" +
         (ab.missing.length ? "<p><b>What this page does not carry at all</b> (emphasis cannot show a nerve that is not " +
-          "here, and Q299 found exactly this on the Imaging pages): " + ab.missing.map(esc).join(", ") + ". The control " +
+          "here, as the Imaging pages showed): " + ab.missing.map(esc).join(", ") + ". The control " +
           "says so on the screen too.</p>" : "<p>Every nerve on our conventional list of the major peripheral nerves is " +
           "present on this page.</p>");
     }});

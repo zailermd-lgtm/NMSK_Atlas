@@ -57,7 +57,6 @@ body.mode-inn #pl-box,body.mode-inn #rs-box,body.mode-inn #sa-bar{display:none!i
   .inn-stage{flex:0 0 50%}
   .inn-side{flex:1 1 0;width:auto;align-self:stretch;max-height:none;padding:8px 10px 12px;gap:8px;background:#ECEFF2}
   .inn-card{padding:10px 12px}
-  .inn-legend{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior:contain;scrollbar-width:none;padding-bottom:2px}
-  .inn-legend::-webkit-scrollbar{display:none}
-  .inn-chip{flex:0 0 auto}
+  .inn-legend{flex-wrap:wrap;max-height:84px;overflow-y:auto;overscroll-behavior:contain;padding-bottom:2px}   /* Q355: the chips wrap instead of running off the edge */
+  .inn-chip{flex:0 1 auto}
 }

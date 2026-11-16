@@ -39,7 +39,8 @@ var NMSKQ305 = (function(){
     {key:"pills",    el:"topright",   into:"topright", first:true, label:"the top row of buttons"},   /* Q335: in the row, not over a pill */
     {key:"measure",  el:"ms-bar",     first:true, label:"the measurement bar",
      into:function(){ var b = document.getElementById("ms-bar"); return b ? b.querySelector(".ms-row") : null; }},
-    {key:"slices",   el:"xsp-panel",  at:"tl", label:"the part-slices panel"},
+    {key:"slices",   el:"xsp-panel",  first:true, label:"the part-slices panel",   /* Q355: in the heading row, not over "Slices" */
+     into:function(){ var p = document.getElementById("xsp-panel"); return p ? p.querySelector(".xsp-head") : null; }},
     {key:"expand",   el:"q8-float",   at:"tl", label:"the structure-expansion strip"},
     /* Q344: the handle goes INTO the panel's heading row, so it never lies on "Labels:" / the legend title */
     {key:"labels",   el:"lab-panel",  first:true, label:"the labels panel",       light:true,
@@ -50,7 +51,8 @@ var NMSKQ305 = (function(){
     {key:"pose",     el:"pose-panel", first:true, label:"the pose panel",      light:true,
      into:function(){ var p = document.getElementById("pose-panel"); return p ? p.querySelector(".pz-head") : null; }},
     {key:"parts",    el:"pm-panel",   at:"tl", label:"the part-markers panel", light:true},
-    {key:"attach",   el:"pm-att",     at:"tl", label:"the attachments panel",  light:true}
+    {key:"attach",   el:"pm-att",     first:true, label:"the attachments panel",  light:true,   /* Q355: in the heading row, not over "Attachments" */
+     into:function(){ var p = document.getElementById("pm-att"); return p ? p.querySelector(".pp-h") : null; }}
   ];
   /* Controls that must stay reachable whatever the user does with the boxes. Everything Q301 lost to an overlap is
      here by name, plus every grip (a box whose handle is covered could never be moved back). */

@@ -43,7 +43,7 @@ PAIRS = [
     ("      listEl.innerHTML=\"\";\n      items.forEach(function(o){\n        var b=document.createElement(\"button\");\n        b.className=\"item\"",
      "      listEl.innerHTML=\"\";\n      var nameN={}; items.forEach(function(o){ nameN[o.name]=(nameN[o.name]||0)+1; });      // Q344: rows that share a name get the structure's side\n      items.forEach(function(o){\n        var b=document.createElement(\"button\");\n        b.className=\"item\""),
     ("'<span class=\"badge-x\" style=\"opacity:.65\">part of</span>':'<span class=\"badge-x\">atlas</span>');",
-     "'<span class=\"badge-x\" style=\"opacity:.8\" title=\"Its own mesh; this project keeps it as part of a coarser entity\">part of</span>':'<span class=\"badge-x\" title=\"This structure has a record in this atlas\">atlas</span>');"),
+     "'<span class=\"badge-x\" style=\"opacity:.8\" title=\"Its own mesh; this project keeps it as part of a coarser entity\">part of</span>':'');   /* Q355: the plain \"atlas\" tag said nothing (every row has one); only \"part of\" informs */"),
     ("<span class=\"t\">'+\n          o.name+(q8?NMSKQ298.whySuffix(o.id):\"\")+'</span>'+badge;",
      "<span class=\"t\">'+\n          o.name+((nameN[o.name]>1&&(o.side===\"r\"||o.side===\"l\"))?' <span class=\"side-lr\" title=\"'+(o.side===\"r\"?\"right\":\"left\")+' side\">'+(o.side===\"r\"?\"R\":\"L\")+'</span>':\"\")+(q8?NMSKQ298.whySuffix(o.id):\"\")+'</span>'+badge;\n        b.title=o.name+(o.side===\"r\"?\" (right)\":o.side===\"l\"?\" (left)\":\"\");"),
 ]

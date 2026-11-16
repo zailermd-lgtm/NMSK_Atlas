@@ -47,7 +47,10 @@ var NMSKPartSlices = (function(){
     if (t && t.height > 0){ var top = Math.round(Math.min(window.innerHeight * 0.45, t.bottom + 6)); panel.style.top = top + "px"; panel.style.bottom = "auto"; panel.style.maxHeight = "calc(100vh - " + (top + 10) + "px)"; panel.style.overflowY = "auto"; }
     else { panel.style.top = ""; panel.style.bottom = ""; panel.style.maxHeight = ""; }
   }
-  function open(v){ if (!panel) return; panel.hidden = !v; if (v) fill(); place(); if (tb) tb.setAttribute("aria-pressed", String(!panel.hidden)); }
+  function open(v){
+    if (!panel) return;
+    if (v && panel.hidden && window.innerWidth <= 760){ var ap = document.getElementById("pm-att"), ax = ap && !ap.hidden ? ap.querySelector(".pp-x") : null; if (ax) ax.click(); }   /* Q355: one tool panel at a time on a phone */
+    panel.hidden = !v; if (v) fill(); place(); if (tb) tb.setAttribute("aria-pressed", String(!panel.hidden)); }
   function start(a, x, opt){
     api = a; xs = x; opt = opt || {}; panel = $("xsp-panel"); sel = $("xsp-part");
     if (!panel || !xs) return null;

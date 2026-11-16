@@ -1523,6 +1523,14 @@ TP.render = function () {
   if (m === "dir" && !this.entry) { st.textContent = "Click the entry point on the skin (or the outermost surface). The tip lies along the direction below, at the needle length." + cutHint; return; }
   if (m !== "dir") {
     if (m === "two" && !this.entry) {
+      var skinCatOn = this.recs.some(function (rr) { return rr.cat === "skin"; });   // Q355: the skin exists but is hidden -> say so and offer to show it
+      if (!this.skin.length && skinCatOn && !this.api.categoryOn("skin")) {
+        st.textContent = "The skin is hidden. Show it to enter on it, or click the outermost surface." + cutHint;
+        var sb = document.createElement("button"); sb.type = "button"; sb.textContent = "Show the skin";
+        sb.addEventListener("click", function () { self.api.setCategoryOn("skin", true); self.render(); });
+        rep.appendChild(sb);
+        return;
+      }
       st.textContent = this.skin.length ? "Click the entry point (usually the skin -- switch its system on to show it)." + cutHint
                                         : "Click the entry point (this model has no skin: use the outermost surface)." + cutHint;
       return;
@@ -2922,14 +2930,21 @@ function injectionMode(tool, api) {
     ui.zone.innerHTML = ""; ui.zoneTitle.hidden = !r;
     var zone = tool.plan.zone;
     if (r && zone) {
+      /* Q355: only a landmark that is marked on this body is offered (a button that cannot do anything is not shown); the others are
+         counted in one short line, so a muscle whose listed landmarks are not marked here no longer reads as a wall of disabled options */
+      var unmarked = 0;
       if (zone.groups.length) zone.groups.forEach(function (g) {
+        var ok = g.items.filter(function (it) { return it.placed; });
+        unmarked += g.items.length - ok.length;
+        if (!ok.length) return;
         ui.zone.appendChild(h("p", {class: "mc-hint", style: "margin:4px 0 1px", text: g.name}));
-        g.items.forEach(function (it) {
-          ui.zone.appendChild(h("button", {type: "button", class: "mc-sec", disabled: it.placed ? null : true,
+        ok.forEach(function (it) {
+          ui.zone.appendChild(h("button", {type: "button", class: "mc-sec",
             onclick: function () { var p = api.parts ? api.parts() : null; if (p && p.focusById) p.focusById(it.id); },
-            text: it.name + (it.placed ? "" : " (אין סימון על גוף זה)")}));
+            text: it.name}));
         });
       }); else ui.zone.appendChild(h("p", {class: "mc-hint", text: "אין נתוני מקור/אחיזה/רקמה סמוכה לשריר זה."}));
+      if (unmarked) ui.zone.appendChild(h("p", {class: "mc-hint", text: unmarked === 1 ? "נקודה אחת נוספת מופיעה במקורות אך אינה מסומנת על גוף זה." : unmarked + " נקודות נוספות מופיעות במקורות אך אינן מסומנות על גוף זה."}));
       if (zone.mps.length) zone.mps.forEach(function (p, k) {
         var lbl = mpBundleLabel(p);
         ui.zone.appendChild(h("button", {type: "button", class: "mc-sec",

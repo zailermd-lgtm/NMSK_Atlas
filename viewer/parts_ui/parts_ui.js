@@ -89,7 +89,7 @@ try { window.NMSKHuman = NMSKHuman; } catch (eh){}          /* the pose panel an
    "Show hidden ones of selected muscles" is off. The depth / ID images are low resolution and throttled (camera settle + a low rate while orbiting). */
 function NMSKParts(E){
   "use strict";
-  var D = null, M = [], sel = null, focusI = -1, hoverI = -1, pinI = -1, hoverMesh = null;
+  var pmK = 1, D = null, M = [], sel = null, focusI = -1, hoverI = -1, pinI = -1, hoverMesh = null;
   var btn = null, layer = null, card = null, errEl = null, panel = null, panelBuilt = false;
   var KEY = "nmsk.parts.v1", MODES = {off:1, near:1, sel:1, all:1}, CARRIER_ALLOW = 45;
   var canCull = !!(E.depthImage && E.idOf);
@@ -398,6 +398,15 @@ function NMSKParts(E){
     layer.style.clipPath = "inset(" + Math.max(0, r.top) + "px " + Math.max(0, document.documentElement.clientWidth - r.right) + "px " +
       Math.max(0, document.documentElement.clientHeight - r.bottom) + "px " + Math.max(0, r.left) + "px)";
     var act = pinI >= 0 ? pinI : (hoverI >= 0 ? hoverI : focusI);
+    /* Q355: a ring keeps its size only while the structure it marks is large enough on screen: at whole-body zoom (a phone) a 28 px ring is bigger
+       than the muscle, so it shrinks with the scale (never below 0.3, back to full size once ~30 mm of the body spans a ring's width) */
+    var ks = 1;
+    for (var vi = 0; vi < M.length; vi++) if (M[vi].vis){
+      var s0 = scalePx(M[vi]), d0 = (window.matchMedia && matchMedia("(hover:none)").matches) ? 28 : 16;
+      if (s0 > 0) ks = Math.max(0.3, Math.min(1, 30 * s0 / d0));
+      break;
+    }
+    if (ks !== pmK){ pmK = ks; layer.style.setProperty("--pmk", ks.toFixed(3)); }
     M.forEach(function(mk){
       var q = mk.vis ? E.project(mk.xyz) : null;
       var ok = !!q && q[3] > 0;
@@ -682,6 +691,7 @@ function NMSKParts(E){
   function attach(on){
     on = !!on;
     if (on === A.on && (!on || !apanel || !apanel.hidden)) return;
+    if (on && window.innerWidth <= 760){ var sp = document.getElementById("xsp-panel"), sx = sp && !sp.hidden ? document.getElementById("xsp-close") : null; if (sx) sx.click(); }   /* Q355: one tool panel at a time on a phone */
     A.on = on; cull.dirty = true;
     if (!on && pinI >= 0) closeCard();
     if (apanel){ apanel.hidden = !on; if (on){ asyncPanel(true); placeAtt(); } }

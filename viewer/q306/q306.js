@@ -114,7 +114,7 @@ var NMSKQ306 = (function(){
         if (b.getAttribute("data-act") === "mark"){
           var ids = [], dd = API.data();
           for (var n = 0; n < (c.i || []).length; n++){ var s = dd.ids[c.i[n]]; if (s) ids.push(s); }
-          API.markIds(ids, "the concept " + c.label, "Q306 / " + (c.claims && c.claims.length
+          API.markIds(ids, "the concept " + c.label, "" + (c.claims && c.claims.length
                       ? c.claims.length + " cited sources" : "this project's own data"),
                       c.inferred, c.body);
         } else {
