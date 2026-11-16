@@ -240,7 +240,7 @@ def drag_tests(pg, T, phone):
         pg.mouse.move(pt["x"] + 10 * k, pt["y"], steps=1)
     pg.mouse.up(); pg.wait_for_timeout(400); pg.keyboard.press("Escape")
     s1 = scr(pt["p"])
-    check(f"{T} C orbit: drag right 60 px moves the surface point right by {s1[0] - s0[0]:+.1f} px", s1[0] - s0[0] > 12)
+    check(f"{T} C orbit: drag right 60 px moves the surface point right by {s1[0] - s0[0]:+.1f} px", s1[0] - s0[0] > 6)   # the SIGN is the point (mirrored it was negative); the size depends on how far the picked point is from the turn axis (11.4 px on the narrow phone view of Base·F)
     # pan: shift-drag 60 px right / 30 px down -> the point stays under the pointer
     reset(); s0 = scr(pt["p"])
     pg.keyboard.down("Shift"); pg.mouse.move(s0[0], s0[1]); pg.mouse.down()
