@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v94 (Q340–Q344) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v89 (Q340–Q344) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v95 (Q347–Q350) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v90 (Q347–Q350) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -82,31 +82,26 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-(Rewritten 2026-11-16 ~12:40 UTC. Detail of closed rounds Q325–Q346: docs/PROJECT_HISTORY.md.)
+(Rewritten 2026-11-16 ~14:40 UTC. Detail of closed rounds Q325–Q346: docs/PROJECT_HISTORY.md.)
 
-**Live:** Base·M **v94** (1794823698-de21), Base·F **v89** (1794825894-9bb5) — both = regen q346 (Q340 palmar
-arch, Q343 Related structures families, Q344 readability fixes). All desktop + phone verdicts OK; the two
-phone quick-card FAILs were verifier assumptions (a slot keeps the card's middle; a 30 px pull snaps back),
-fixed in the verifier.
+**Live:** Base·M **v95** (1794834780-112b), Base·F **v90** (1794834787-91e8) = regen /dev/shm/q352 = HEAD
+bb2f681 (scratchpad `pub7/<dir>` holds the files sent; `pub6` the q346 ones). On top of q346 they carry:
+- **Q347** injection guide in the injection mode (points, sites, IZ bands with "Use site N", "Start scan
+  here" on the scan tool's skin, manoeuvre demo that returns to the starting pose, structures at risk with
+  highlight + distances, citation); sibling `clinical_injection_guide.json` built at regen
+  (`scripts/clinical/build_injection_guide_q347.py`); verifier `scripts/anatomy/q347/verify_injection_guide_q347.py`.
+- **Q348** book reference pass (`docs/Q348_reference_pass.md`): 18 myofascial lines, root levels, parts.
+- **Q349** finger nerve/artery order, applied to build/q309 (geo_01, originals `*.q349`): Base·M 3/10 finger
+  sides per hand, Base·F 1/10; the rest and the superficial venous arch failed a guard and were left
+  (`data/derived/Q349_fingers_report.json`).
+- **Q350** latissimus iliac IZ line at the posterior outer lip of the crest (Base·M 180/188 bands, Base·F
+  178); nerve records: serratus posterior superior T2–T5, foot interossei exception, pectoralis minor both
+  pectoral nerves with adopted roots C8–T1 (`scripts/zanatomy/patch_manifest_nerves_q350.py` in regen).
+Verified: q351 queue (scratchpad `v351.txt`: hand, innervation, groups, search, nerves, insertions, q336,
+quick card 390, + unchanged-code set) and needle set on q352 (`v352.txt`: q325, q328, q332, q344 clinical,
+q347 at 1400 and 390) — all verdicts OK. Every browser run goes through `flock /tmp/nmsk_browser.lock`.
 
-**Committed since, NOT published (regen /dev/shm/q351 = HEAD 3e84ea1; /dev/shm is wiped by restarts):**
-- Q348 book reference pass (data + `docs/Q348_reference_pass.md`).
-- Q349 finger nerve/artery order — APPLIED to build/q309 (geo_01, originals `*.q349`): Base·M 3/10 finger
-  sides per hand, Base·F 1/10; the rest and the venous arch failed a guard and were left (report
-  `data/derived/Q349_fingers_report.json`).
-- Q350 latissimus iliac IZ line (Base·M 180/188 bands, Base·F 178), three nerve-record corrections
-  (`scripts/zanatomy/patch_manifest_nerves_q350.py` runs in regen). Pectoralis minor: both pectoral nerves,
-  adopted roots stay C8–T1 (book's C6–C8 recorded as divergent).
-- Q347 injection guide in the injection mode (sibling `clinical_injection_guide.json`, built at regen).
-**Running:** verifier queue on q351 (scratchpad `run351.sh` → `v351.txt`; every browser run goes through
-`flock /tmp/nmsk_browser.lock`); Q347 agent fixing "Start scan here", the FHL pose demo, the 0.5 mm
-target tolerance wording, median-nerve at-risk rows — it holds `clinical/needle_tool.js` and
-`scripts/anatomy/q347/` (uncommitted until it reports).
-**Then:** commit the Q347 fix → regen again (only `clinical_needle_tool.js` / guide json should differ from
-q351) → needle verifiers (q347 ×4 sizes, q325, q328, q332, q344 clinical) → publish both pages: files that
-differ from scratchpad `pub6/<dir>` (expected: index.html, geo_01, clinical_needle_tool.js,
-innervation_q322.json, groups_q342.json, plexus_groups.json, NEW clinical_injection_guide.json).
-**After that:** restart the Q337 whole-body QA sweep as a fresh read-only agent.
+**Next:** Q337 whole-body QA sweep as a fresh read-only agent on the live build; then the open list below.
 
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
@@ -129,6 +124,6 @@ Imaging·M page); unfreeze question for the mirrored frozen pages; the neonatal-
 **Do not run** `sync_learn_q283.py` / `sync_hub_link_q251.py`: the template is ahead of their source (Q312
 edits were made in the template); running them reverts Q312.
 **Other open:** Base·F trunk seam (geometry build); deltoid middle-belly motor rule on Base·F; 82
-muscles/body without attachment points; teres major IZ band (no rule); thumb CMC rest pose outside its
+muscles/body without attachment points; teres major IZ band (no rule); Base·F latissimus iliac IZ bands (7.5 mm from the muscle); 7/10 (M) and 9/10 (F) finger sides keep the nerve dorsal to the artery; superficial venous palmar arch ~9 mm too deep; no median nerve trunk mesh (at-risk rows say so); thumb CMC rest pose outside its
 ROM; 63 muscles' root levels unchecked; `test_q298::test_relations_exist…` fails (derived relations lack
 new foot ids); Q292 `lib292.push_dir` decay bug unfixed in the library.
