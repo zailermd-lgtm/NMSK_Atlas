@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v92 (Q331–Q338) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v87 (Q331–Q338) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v93 (Q334–Q339) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v88 (Q334–Q339 + Q336) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -98,10 +98,9 @@ dist/angles/Cobb/circ/area/surf/vol/pix · `viewer/q303` nerve casing · `viewer
 (Rewritten 2026-11-16 07:40 UTC after a session restart; detail of Q325–Q338 is in git history and will be
 moved to docs/PROJECT_HISTORY.md.)
 
-**Live (2026-11-16 ~10:30 UTC):** Base·M **v93** (Q334 seamless skin, Q335 name card, Q339 TRUE view —
-from regen /dev/shm/q345, 14 verifiers OK). Base·F still v87 (mirrored, old card): its q345 checks passed
-except three reruns pending (rings/spine timed out under load → reran OK; quick card desktop Undo-race and
-phone orbit threshold rerunning) — publish Base·F from q345 only if q346 is far from done, else skip to q346.
+**Live (2026-11-16 ~11:00 UTC):** Base·M **v93**, Base·F **v88** — both from regen /dev/shm/q345: Q339 TRUE
+(non-mirrored) view, Q334 seamless skin, Q335 name card, and on Base·F the Q336 perineal skin (geo_03).
+All q345 verifiers OK on both pages (three Base·F reruns passed once the machine load dropped).
 
 **Everything is committed; working tree clean. Regen /dev/shm/q346 = HEAD = adds:**
 - Q340 palmar arch + common digital arteries lifted above the flexor tendons (applied to build/q309 both
