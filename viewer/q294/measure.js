@@ -164,7 +164,7 @@ var NMSKMeasureCore = (function(){
     var how = pl ? "in the cut plane" : "perpendicular to its long axis", loops = section(pos, idx, n, c);
     if (!loops.length) return {err:(pl ? "the cut plane does not cross this structure" : "no section through this point"), how:how};
     var k = pickLoop(loops, p, n), L = loops[k];
-    if (!L.closed) return {err:"the section is not closed here (the mesh is open) -- not reported", how:how, loops:loops.length, loop:L.pts};
+    if (!L.closed) return {err:"the section is not closed here (the mesh is open), so it is not reported", how:how, loops:loops.length, loop:L.pts};
     return {perim:loopLength(L.pts, true), area:loopArea(L.pts, n), n:n, c:c, how:how, loops:loops.length, closedLoops:loops.filter(function(x){ return x.closed; }).length, loop:L.pts};
   }
   /* the expected CT number of the tapped structure, from the page's own sourced reference (T = its tissue-reference module: classOf / hu /
@@ -191,7 +191,7 @@ var NMSKMeasureCore = (function(){
     }
     if (kind === "surf") return {v:r.area / 100, unit:"cm²", mm:r.area, text:"Surface area " + (r.area / 100).toFixed(1) + " cm²" + (r.closed ? "" : " (open mesh)"), note:"whole structure surface, " + r.tris + " triangles"};
     if (kind === "vol"){
-      if (r.volume == null) return {v:null, unit:"", text:"Volume: " + r.why + " -- volume not reported", note:r.why};
+      if (r.volume == null) return {v:null, unit:"", text:/^no triangles/.test(r.why) ? "This structure has no surface, so a volume cannot be given." : /^not consistently/.test(r.why) ? "The mesh surface is not consistently oriented, so a volume cannot be given." : "The mesh is not closed, so a volume cannot be given.", note:r.why};   // Q344: plain wording; the counts stay in the note
       return {v:r.volume / 1000, unit:"cm³", mm:r.volume, text:"Volume " + (r.volume / 1000).toFixed(2) + " cm³", note:"closed surface, " + r.tris + " triangles"};
     }
     return null;
@@ -419,14 +419,18 @@ var NMSKMeasure = (function(){
   function place(){                                     // right under the toolbar (phones: the bottom belongs to the structure card / sheets)
     if (!bar || bar.hidden) return;
     var t = tbEl && tbEl.getBoundingClientRect ? tbEl.getBoundingClientRect() : null;
-    if (t && t.height > 0){ bar.style.top = Math.round(Math.min(window.innerHeight * 0.5, t.bottom + 6)) + "px"; bar.style.bottom = "auto"; }   // never over the toolbar
+    var qb = document.getElementById("q301-bar"), qr = qb && qb.getBoundingClientRect ? qb.getBoundingClientRect() : null;       /* Q344: the control row that replaced the corner toolbar */
+    if (qr && !(qr.height > 0)) qr = null;
+    if (qr){ bar.style.top = Math.round(Math.min(window.innerHeight * 0.5, Math.max(t && t.height > 0 ? t.bottom : 0, qr.bottom) + 6)) + "px"; bar.style.bottom = "auto"; }
+    else if (t && t.height > 0){ bar.style.top = Math.round(Math.min(window.innerHeight * 0.5, t.bottom + 6)) + "px"; bar.style.bottom = "auto"; }   // never over the toolbar
     else { bar.style.top = ""; bar.style.bottom = ""; }
     var c = api && api.canvas && api.canvas.getBoundingClientRect ? api.canvas.getBoundingClientRect() : null;   // desktop: at the 3-D view's left edge, so an image pane beside it stays clear
     if (window.innerWidth > 560 && c && c.width > 200){ bar.style.left = Math.round(Math.max(8, c.left + 8)) + "px"; bar.style.transform = "none"; bar.style.maxWidth = Math.round(Math.max(260, c.width - 16)) + "px"; }
     else { bar.style.left = ""; bar.style.transform = ""; bar.style.maxWidth = ""; }
   }
   function open(v){
-    if (!bar) return; bar.hidden = !v; if (!v) arm(null); render(); place();
+    if (!bar) return; bar.hidden = !v; if (!v){ arm(null); if (list.length || pend){ list = []; pend = null; if (window.NMSKHistory && NMSKHistory.active()) NMSKHistory.commit(); kick(); } }   /* Q344: closing Measure takes its pins and labels off the model */
+    render(); place();
   }
   function buildBar(){
     bar = document.createElement("div"); bar.id = "ms-bar"; bar.className = "ms-bar"; bar.hidden = true; bar.setAttribute("role", "toolbar"); bar.setAttribute("aria-label", "Measure");

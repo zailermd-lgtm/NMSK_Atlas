@@ -238,8 +238,28 @@ var NMSKGroups = (function(){
       var sw = Math.max(220, Math.min(w, Math.ceil(sheet.getBoundingClientRect().width) + 2));
       sheet.style.width = sw + "px";
       sheet.style.left = bar.style.left;
-      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.55)) + "px";
       sheet.style.top = (top + (bar.offsetHeight || 0) + 4) + "px";
+      sheet.style.maxHeight = Math.round(Math.max(120, r.height * 0.55)) + "px";
+      /* Q344: a sheet never sits on the figure. Desktop: it opens beside the model (the wider free margin) and scrolls inside;
+         where no margin is wide enough it overlaps, but at most about a third of the model's box. Phone: capped at 36 % of the
+         screen, the list scrolls inside. */
+      var vw = window.innerWidth, vh = window.innerHeight, phone = vw <= 460, mb = null;
+      try { mb = window.NMSKQuick && NMSKQuick.box && NMSKQuick.box(); } catch (e0){}
+      var topPx = top + (bar.offsetHeight || 0) + 4;
+      if (phone){
+        sheet.style.maxHeight = Math.round(Math.max(150, Math.min(r.height * 0.55, vh * 0.36))) + "px";
+      } else if (mb && mb.r > mb.l){
+        var freeL = mb.l - 16, freeR = vw - mb.r - 16, side = freeL >= freeR ? "l" : "r", free = Math.max(freeL, freeR);
+        if (free >= 300){
+          var bw = Math.max(300, Math.min(sw, free));
+          sheet.style.width = bw + "px";
+          sheet.style.left = (side === "l" ? 8 : vw - 8 - bw) + "px";
+          sheet.style.maxHeight = Math.round(Math.max(160, vh - topPx - 12)) + "px";
+        } else {
+          var ov = Math.max(1, Math.min(sw, vw) - Math.max(0, free)), area = Math.max(1, (mb.r - mb.l) * (mb.b - mb.t));
+          sheet.style.maxHeight = Math.round(Math.max(150, Math.min(r.height * 0.55, 0.34 * area / ov))) + "px";
+        }
+      }
     }
     /* Q300's chip bar and Q294's notice are anchored to the BOTTOM, which the bar no longer occupies, so
        there is nothing left for them to clear. The variable stays, at zero, because the stylesheets of both

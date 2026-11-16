@@ -539,8 +539,8 @@ function NMSKPose(E){
           var key = base + "|" + d.k; if (seen[key]) return; seen[key] = 1;
           var jr = jointOf(base + "_r"), jl = jointOf(base + "_l");
           var row = el("div", "pz-row"), lab = el("div", "pz-lab", j.name + " – " + d.l);
-          var rm = (rig.rom && d.rk && rig.rom[d.rk]) ? rig.rom[d.rk][3] : "";
-          lab.title = (d.lo + " to " + d.hi + "°. " + rm + (j.note ? "  " + j.note : "")).trim();
+          var rm = (rig.rom && d.rk && rig.rom[d.rk]) ? rig.rom[d.rk][3] : "", hu = window.NMSKHuman ? NMSKHuman.text : String;      // Q344
+          lab.title = (d.lo + " to " + d.hi + "°. " + hu(rm) + (j.note ? "  " + hu(j.note) : "")).trim();
           row.appendChild(lab);
           var cs = el("div", "pz-cells");
           if (jr) cs.appendChild(cell(jr, x, "r")); if (jl) cs.appendChild(cell(jl, x, "l"));
@@ -555,7 +555,7 @@ function NMSKPose(E){
       var sec = el("section", "pz-g"), h = el("h4"), hb = el("button", "pz-gh", r.name); hb.type = "button"; hb.setAttribute("aria-expanded", "false");
       var rows = el("div", "pz-rows"); rows.hidden = true; hb.addEventListener("click", function(){ var o = rows.hidden; rows.hidden = !o; hb.setAttribute("aria-expanded", String(o)); });
       h.appendChild(hb); sec.appendChild(h);
-      r.dof.forEach(function(d, x){ var row = el("div", "pz-row"), lab = el("div", "pz-lab", d.l); var rm = rig.rom && d.rk && rig.rom[d.rk] ? rig.rom[d.rk][3] : ""; lab.title = (d.lo + " to " + d.hi + "°. " + rm + "  " + (r.note || "")).trim(); row.appendChild(lab); var cs = el("div", "pz-cells pz-one"); cs.appendChild(regCell(r, x)); row.appendChild(cs); rows.appendChild(row); });
+      r.dof.forEach(function(d, x){ var row = el("div", "pz-row"), lab = el("div", "pz-lab", d.l); var rm = rig.rom && d.rk && rig.rom[d.rk] ? rig.rom[d.rk][3] : ""; var hu2 = window.NMSKHuman ? NMSKHuman.text : String; lab.title = (d.lo + " to " + d.hi + "°. " + hu2(rm) + "  " + hu2(r.note || "")).trim(); row.appendChild(lab); var cs = el("div", "pz-cells pz-one");   /* Q344 */ cs.appendChild(regCell(r, x)); row.appendChild(cs); rows.appendChild(row); });
       /* Q319, owner: "allow performing a movement either of a specific joint or of a segment." The
          sliders above are the segment -- one angle shared over the levels by the documented weights.
          This is the same region one vertebra at a time, folded away because it is the longer way round
@@ -580,18 +580,19 @@ function NMSKPose(E){
       }
       sec.appendChild(rows); body.appendChild(sec);
     });
+    function hum(t){ return window.NMSKHuman ? NMSKHuman.text(t) : String(t == null ? "" : t); }      /* Q344: the rig data carries round numbers and file names; the panel prints plain wording and keeps the citation */
     var help = el("details", "pz-help"), sm = el("summary", "", "Ranges of motion, method and limits");
     help.appendChild(sm);
     var p1 = el("p", "", "Hard bounds of every slider = the NORMAL range of motion (population averages, AAOS / AMA style, e.g. shoulder flexion 180, abduction 180, elbow flexion 150, hip flexion 120, knee flexion 135, ankle dorsiflexion 20 / plantarflexion 50; " +
-      "values quoted from the standard references as remembered, several are assumptions; see docs/pose_rom_table.md). The shaded band on a slider is the normal range, the tick is the model's own pose, the faint line is 0. " +
+      "values quoted from the standard references as remembered, several are assumptions). The shaded band on a slider is the normal range, the tick is the model's own pose, the faint line is 0. " +
       "An individual's range differs with age, sex and method. A model pose outside the normal range (e.g. a slightly hyperextended knee) is shown as it is and can only be moved into the range.");
     var p2 = el("p", "", "How it works: joint centres and axes are fitted to THIS page's own bones (hip and shoulder: femoral / humeral head spheres; elbow and knee: transepicondylar axis; ankle: malleoli; ...). Bones move rigidly with their segment; " +
       "muscles, vessels, nerves, ligaments, organs and skin follow by linear-blend skinning, weights from the distance to each segment's bones (smooth near joints), so a muscle stretches between its origin and insertion on the moving bones. " +
       "Clavicle and scapula follow the shoulder with a fixed 3:1 scapulohumeral rhythm. Pose preview: kinematic approximation, soft tissue not simulated (no collision, no volume preservation) - expect tissue to pass through bone and to stretch or crumple near extreme angles. " +
       "The clinical add-on tools (imaging, needle and the like) use the rest-pose meshes: reset the pose before using them.");
     help.appendChild(p1); help.appendChild(p2);
-    if (rig.rom){ var tb = el("table", "pz-rom"); Object.keys(rig.rom).forEach(function(k){ var r = rig.rom[k], tr = el("tr"); tr.appendChild(el("td", "", r[2])); tr.appendChild(el("td", "", r[0] + " .. " + r[1] + "°")); tr.appendChild(el("td", "", r[3])); tb.appendChild(tr); }); help.appendChild(tb); }
-    if (rig.notes){ var p3 = el("p", "", "Rig for this page: " + rig.notes); help.appendChild(p3); }
+    if (rig.rom){ var tb = el("table", "pz-rom"); Object.keys(rig.rom).forEach(function(k){ var r = rig.rom[k], tr = el("tr"); tr.appendChild(el("td", "", r[2])); tr.appendChild(el("td", "", r[0] + " .. " + r[1] + "°")); tr.appendChild(el("td", "", hum(r[3]))); tb.appendChild(tr); }); help.appendChild(tb); }
+    if (rig.notes){ var p3 = el("p", "", "Rig for this page: " + hum(rig.notes)); help.appendChild(p3); }
     body.appendChild(help);
     sync();
   }

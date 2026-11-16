@@ -125,3 +125,8 @@ body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
 @media (hover:none){#pm-att .pp-seg button{min-height:34px;font-size:12.5px}#pm-att .pp-c input{width:18px;height:18px}}
 #pm-att .pa-cls{display:none}
 @media (max-width:559px){#pm-att .pa-sub{display:none}#pm-att .pa-cls{display:block;margin:3px 0 0;line-height:1.35}#pm-att .pa-r{margin:1px 0}}
+/* Q344: the long method note sits behind a small (i) */
+.hm-det{display:inline}
+.hm-det>summary{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border:1px solid currentColor;border-radius:50%;font-size:11px;line-height:1;cursor:pointer;list-style:none;vertical-align:middle;opacity:.85}
+.hm-det>summary::-webkit-details-marker{display:none}
+.hm-det[open]>div{display:block;margin-top:4px;font-weight:400}

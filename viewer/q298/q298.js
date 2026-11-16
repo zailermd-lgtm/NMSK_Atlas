@@ -54,7 +54,7 @@ var NMSKQ298 = (function(){
   function whySuffix(id){
     if (!last || !last.why || !last.why[id]) return "";
     var w = last.why[id];
-    return ' <span class="q8-why" data-kind="' + esc(w.k) + '" title="' + esc(whyTitle(w)) + '">(' + esc(w.d) + ')</span>';
+    return ' <span class="q8-why" dir="auto" data-kind="' + esc(w.k) + '" title="' + esc(whyTitle(w)) + '">(' + esc(w.d) + ')</span>';
   }
   function whyTitle(w){
     var t = w.k === "abbr" ? "abbreviation" : w.k === "he" ? "Hebrew name" : w.k === "name" ? "name" : "other name";

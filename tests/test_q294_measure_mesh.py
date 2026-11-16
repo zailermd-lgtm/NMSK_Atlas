@@ -64,7 +64,7 @@ def test_unit_cube_volume_area_and_watertightness():
     assert u["closed"] and u["verts"] == 8 and abs(u["volume"] - 1) < 1e-12        # 36 loose corners weld back into one closed cube
     assert x["closed"] and not x["oriented"] and x["volume"] is None and x["misoriented"] > 0   # one flipped triangle: no number
     assert o["ls"] == "Volume 0.00 cm³"                                             # 1 mm^3 = 0.001 cm^3
-    assert o["lx"]["v"] is None and "not consistently oriented" in o["lx"]["text"] and "volume not reported" in o["lx"]["text"]
+    assert o["lx"]["v"] is None and "not consistently oriented" in o["lx"]["text"] and "volume cannot be given" in o["lx"]["text"]   # Q344: plain wording
     assert o["la"] == "Surface area 0.1 cm²"                                        # 6 mm^2
 
 
@@ -72,7 +72,7 @@ def test_open_mesh_is_refused():
     o = run("""const t=tube(5,40,64,false,false), s=C.solid(t.pos,t.idx); console.log(JSON.stringify({s, l:C.structLabel('vol', s), a:C.structLabel('surf', s)}));""")
     s = o["s"]
     assert not s["closed"] and s["volume"] is None and s["boundary"] == 2 * 64
-    assert o["l"]["v"] is None and o["l"]["text"] == "Volume: not closed (128 boundary edges) -- volume not reported"
+    assert o["l"]["v"] is None and o["l"]["text"] == "The mesh is not closed, so a volume cannot be given." and "128 boundary edges" in o["l"]["note"]   # Q344
     assert abs(s["area"] - poly_perim(5, 64) * 40) < 1e-9                           # the surface area of an open mesh is still a sum of triangles
     assert o["a"]["text"].endswith("(open mesh)")
 

@@ -62,3 +62,11 @@ body.mode-on .hist-bar{display:none}
   display:inline-flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;opacity:.75}
 .ms-pane-b:hover{opacity:1}
 @media (hover:none){.ms-pane-b{width:36px;height:36px}}
+/* Q344: the measure bar never grows over the figure: results scroll inside it, and on a phone the buttons are one scrolling row */
+.ms-res{max-height:62px;overflow:auto}
+@media (max-width:560px){
+  .ms-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .ms-row>button{flex:0 0 auto}
+  .ms-res{max-height:38px}
+  .ms-msg{max-height:34px;overflow:auto}
+}

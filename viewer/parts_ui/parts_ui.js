@@ -1,3 +1,74 @@
+/* Q344: plain wording for the cards. The atlas data carries developer text (round numbers "Q162", file paths, `snake_case` ids,
+   "median n"); this is applied at RENDER time only, the data files keep their meaning. Names come from the page's own table
+   (__ANATOMY_MANIFEST__.meshes), so "humerus_l" prints as "humerus (left)". `badge()` keeps a long method note behind an (i). */
+var NMSKHuman = (function(){
+  "use strict";
+  var NM = null;
+  var RULE = {end_snap_bone:"snapped to the bone", z_part_mesh:"Z-Anatomy part mesh", passage_contact:"contact along the passage",
+              collateral_layer_split:"split of the collateral layer", cc_ligament_ratio:"coracoclavicular ligament ratio",
+              mtj_by_distance_from_origin:"tendon junction by distance from the origin", mtj_interface:"muscle-tendon interface"};
+  function table(){
+    if (NM) return NM;
+    NM = {};
+    try { ((window.__ANATOMY_MANIFEST__ || {}).meshes || []).forEach(function(m){ if (m && m.id && m.name) NM[m.id] = m.name; }); } catch (e){}
+    return NM;
+  }
+  function low(s){ return /^[A-Z][a-z]/.test(s) ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
+  function side(x){ return x === "r" ? " (right)" : x === "l" ? " (left)" : ""; }
+  /* an id such as humerus_l, biceps_femoris_r_long_head, carpals_l -> "humerus (left)", "biceps femoris long head (right)" */
+  function idName(tok){
+    var t = table();
+    if (RULE[tok]) return RULE[tok];
+    if (t[tok]){ var m0 = /_(r|l)$/.exec(tok); return low(t[tok]) + (m0 ? side(m0[1]) : ""); }
+    var s = tok.replace(/_v\d+$/, ""), sd = "", m = /_(r|l)(?=_|$)/.exec(s);
+    if (m){ sd = side(m[1]); s = s.slice(0, m.index) + s.slice(m.index + 2); }
+    return s.replace(/_/g, " ").replace(/\s+/g, " ").trim() + sd;
+  }
+  function cap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+  function text(s){
+    if (s == null) return "";
+    s = String(s);
+    s = s.replace(/\(verbatim,?\s*from\s*[^)]*\)/g, "(verbatim)");
+    s = s.replace(/\b(?:data|scripts|viewer|clinical|build|docs)\/[\w.\/*{}-]+/g, "");
+    s = s.replace(/\b[\w-]+\.(?:json|html|py|js|csv|txt)\b/g, "");
+    s = s.replace(/\(\s*Q\d{2,3}[a-z]?[^)]*\)/g, "").replace(/,?\s*\b(?:generated|made|added|derived|built)\s+(?:in|by)\s+Q\d{2,3}[a-z]?\b/gi, "");
+    s = s.replace(/\b(?:in|by|from|see)\s+Q\d{2,3}[a-z]?\b/gi, "").replace(/\bQ\d{2,3}[a-z]?\b:?\s*/g, "");
+    s = s.replace(/\b[a-z][a-z0-9]*(?:_[a-z0-9]+)+\b/g, idName);
+    s = s.replace(/\b[A-Z]{3,}(?:[ ,]+[A-Z]{3,}){2,}/g, function(m){ return m.toLowerCase().replace(/^./, function(c){ return c.toUpperCase(); }); });
+    s = s.replace(/\s--\s/g, " — ");
+    s = s.replace(/\(\s*\)/g, "").replace(/\s+([,.;:)])/g, "$1").replace(/([(])\s+/g, "$1").replace(/[ \t]{2,}/g, " ").replace(/,\s*,/g, ",").replace(/^[\s,;:.—-]+/, "").trim();
+    return s;
+  }
+  function html(s, esc){ return (esc || function(x){ return x; })(text(s)); }
+  /* "median n" -> "median nerve", "radial nn" -> "radial nerves" */
+  function nerve(s){ return text(String(s || "").replace(/\bnn\b\.?$/, "nerves").replace(/\bn\.?$/, "nerve")); }
+  /* the lists of ids on a nerve card ("Targets", "Supplies") */
+  function list(a){ return (a || []).map(function(x){ return cap(text(x)); }); }
+  /* origin / insertion line: "humerus_l: medial epicondyle" -> "Humerus (left): medial epicondyle" */
+  function line(s){ return cap(text(s)); }
+  var SHORT = [[/^\s*Q162\b/i, "Surface adjusted to meet its neighbouring muscles (gap closure)."],
+               [/^\s*Q304\b/i, "Calibre checked against a real measured human sciatic nerve; geometry unchanged."]];
+  /* a long method / provenance note: one short plain line, the whole text behind an (i) */
+  function badge(s, esc){
+    esc = esc || function(x){ return x; };
+    var full = text(s), short = "";
+    SHORT.forEach(function(r){ if (!short && r[0].test(String(s))) short = r[1]; });
+    if (!short){
+      if (full.length <= 150) return {main:esc(full), more:""};
+      var m = /^(.{40,140}?[.;])(\s|$)/.exec(full);
+      short = m ? m[1] : full.slice(0, 120).replace(/\s+\S*$/, "") + "…";
+    }
+    full = cap(full.replace(/^[a-z ]*calibre validated/i, function(x){ return x; }));
+    return {main:esc(short), more:esc(full)};
+  }
+  function badgeHtml(s, esc, cls){
+    var b = badge(s, esc);
+    return '<div class="' + (cls || "warn") + '">' + b.main + (b.more && b.more !== b.main ? ' <details class="hm-det"><summary title="How this was made">ⓘ</summary><div>' + b.more + "</div></details>" : "") + "</div>";
+  }
+  return {text:text, html:html, idName:idName, nerve:nerve, list:list, line:line, badge:badge, badgeHtml:badgeHtml, cap:cap};
+})();
+try { window.NMSKHuman = NMSKHuman; } catch (eh){}          /* the pose panel and the other blocks read it from window */
+
 /* The sourced PARTS of a structure (Q220, on the Q219 parts model): a Parts list in the structure card and point markers on the model.
    Data = the page's sidecar parts_data.json (public anatomy layer), fetched with a graceful fallback: absent or invalid = no Parts section,
    no toggle, nothing else changes. Engine adaptor E: url, canvasRect(), project(p)->[x,y,z,w] clip coords, cut()->null|{kn,c,th} (the kept
@@ -80,7 +151,7 @@ function NMSKParts(E){
       seen[sid] = 1;
       out += '<p class="pm-set"><b>Sources disagree on the count.</b> ' + esc(st.n) + ': ' +
         st.counts.map(function(c){ return '<b>' + esc(c.n) + '</b> (' + esc(c.by.join(", ")) + ')'; }).join(" / ") + '.' +
-        (st.note ? '<details><summary>about this count</summary>' + esc(st.note) + '</details>' : "") + '</p>';
+        (st.note ? '<details><summary>about this count</summary>' + esc(NMSKHuman.text(st.note)) + '</details>' : "") + '</p>';
     });
     return out;
   }
@@ -107,19 +178,19 @@ function NMSKParts(E){
       setsHtml(sel.list) + '<div class="pm-list">';
     sel.list.forEach(function(pi){
       var p = D.parts[pi], pl = placedFor(pi).length > 0;
-      h += '<div class="pm-row" data-pi="' + pi + '" tabindex="0" role="button" aria-label="' + esc(p.n) + (pl ? ", has a marker on the model" : ", text only") + '">' +
-        '<div class="pm-r1"><span class="pm-ty pm-ty-' + esc(p.ty) + '">' + esc(TYPES[p.ty] || p.ty) + '</span><span class="pm-nm">' + esc(p.n) + '</span>' +
+      h += '<div class="pm-row" data-pi="' + pi + '" tabindex="0" role="button" aria-label="' + esc(NMSKHuman.text(p.n)) + (pl ? ", has a marker on the model" : ", text only") + '">' +
+        '<div class="pm-r1"><span class="pm-ty pm-ty-' + esc(p.ty) + '">' + esc(TYPES[p.ty] || p.ty) + '</span><span class="pm-nm">' + esc(NMSKHuman.text(p.n)) + '</span>' +
         (p.u ? '<span class="pm-unv" title="Textbook or owner statement only; the page was not checked against a primary source">unverified</span>' : "") +
         (pl ? '<span class="pm-pl" title="This part has a placed marker on this model">marker</span>' : "") + '</div>' +
-        (p.d ? '<div class="pm-d">' + esc(p.d) + '</div>' : "");
+        (p.d ? '<div class="pm-d">' + esc(NMSKHuman.text(p.d)) + '</div>' : "");
       var meta = [];
-      if (p.an) meta.push("Anchor: " + esc(p.an.bone || "") + (p.an.landmark ? ", " + esc(p.an.landmark) : ""));
-      if (p.var) meta.push("Reported in: " + esc(p.var));
-      if (p.ev) meta.push("Evidence: " + esc(p.ev));
+      if (p.an) meta.push("Anchor: " + esc(NMSKHuman.text(p.an.bone || "")) + (p.an.landmark ? ", " + esc(NMSKHuman.text(p.an.landmark)) : ""));
+      if (p.var) meta.push("Reported in: " + esc(NMSKHuman.text(p.var)));
+      if (p.ev) meta.push("Evidence: " + esc(NMSKHuman.text(p.ev)));
       if (p.pass) meta.push("Passes: " + esc(p.pass.traversing_text || p.pass.kind || "") + (p.pass.through ? " through " + esc(p.pass.through) : ""));
       if (meta.length) h += '<div class="pm-meta">' + meta.join(" &middot; ") + '</div>';
       h += '<div class="pm-c">' + refsHtml(p.r) + '</div>';
-      if (p.u && p.note) h += '<div class="pm-un">' + esc(p.note) + '</div>';
+      if (p.u && p.note){ var nb = NMSKHuman.badge(p.note, esc); h += '<div class="pm-un">' + nb.main + (nb.more && nb.more !== nb.main ? ' <details class="hm-det"><summary title="Details">\u24d8</summary><div>' + nb.more + '</div></details>' : "") + '</div>'; }
       h += '<div class="pm-msg" aria-live="polite"></div></div>';
     });
     return h + '</div></details></div>';
@@ -144,7 +215,7 @@ function NMSKParts(E){
       focusI = -1; closeCard();
       var why = reasonFor(pi);
       msg.className = "pm-msg pm-t";
-      msg.textContent = "text only (no placement)" + (why ? " — " + why : "");
+      msg.textContent = "text only (no placement)" + (why ? " — " + NMSKHuman.text(why) : "");
       E.redraw(); return;
     }
     var mk = ms[0];
@@ -376,12 +447,12 @@ function NMSKParts(E){
     var mk = M[j], p = D.parts[mk.pi];
     var err = mk.e != null ? "&plusmn; " + mmTxt(mk.e) + " mm" :
       "not stated" + (mk.ext ? " <small>(centre of a Z-Anatomy part mesh that spans about " + mk.ext + " mm; no fit to a person)</small>" : "");
-    card.innerHTML = '<div class="pm-ch"><b>' + esc(p.n) + '</b><button type="button" class="pm-x" aria-label="Close">&times;</button></div>' +
+    card.innerHTML = '<div class="pm-ch"><b>' + esc(NMSKHuman.text(p.n)) + '</b><button type="button" class="pm-x" aria-label="Close">&times;</button></div>' +
       '<div class="pm-cs"><span class="pm-cls pm-cls-' + esc(mk.c) + '">' + esc(CLS[mk.c] || mk.c) + '</span> ' + esc(TYPES[p.ty] || p.ty) +
       (p.u ? ' &middot; <span style="color:var(--pm-warn);font-weight:700">unverified</span>' : "") +
       ' &middot; ' + (mk.s === "r" ? "right" : mk.s === "l" ? "left" : "midline") + '</div>' +
       '<dl><dt>Error bound</dt><dd>' + err + (mk.eb ? '<br><small>' + esc(mk.eb) + '</small>' : "") + '</dd>' +
-      '<dt>Method</dt><dd>' + esc(mk.mt) + '</dd>' +
+      '<dt>Method</dt><dd>' + esc(NMSKHuman.text(mk.mt)) + '</dd>' +
       '<dt>Position</dt><dd class="mono">' + mk.xyz.map(mmTxt).join(", ") + ' mm <small>(atlas frame)</small></dd></dl>' +
       '<p class="pm-not">A model position derived on this body by the rule above, not a measurement; the part itself is described by the citation below.</p>' +
       '<div class="pm-c" style="margin-top:6px;font-size:10.5px;color:var(--pm-dim)">' + refsHtml(p.r) + '</div>';
@@ -415,7 +486,7 @@ function NMSKParts(E){
     D.placed.forEach(function(g, j){
       var p = D.parts[g.p];
       var el = document.createElement("div"); el.className = "pm" + (g.c === "z_fill" ? " pm-z" : ""); el.hidden = true;
-      el.innerHTML = '<span class="pm-ring" role="button" tabindex="0" aria-label="Part marker: ' + esc(p.n) + '"></span><span class="pm-lab">' + esc(p.n) + '</span>';
+      el.innerHTML = '<span class="pm-ring" role="button" tabindex="0" aria-label="Part marker: ' + esc(NMSKHuman.text(p.n)) + '"></span><span class="pm-lab">' + esc(NMSKHuman.text(p.n)) + '</span>';
       var ring = el.firstChild;
       ring.addEventListener("mouseenter", function(){ if (pinI < 0 && window.matchMedia && matchMedia("(hover:hover)").matches) openCard(j, false); });
       ring.addEventListener("mouseleave", function(){ if (pinI < 0){ hoverI = -1; card.hidden = true; E.redraw(); } });

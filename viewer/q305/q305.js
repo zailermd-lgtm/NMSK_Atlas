@@ -41,8 +41,11 @@ var NMSKQ305 = (function(){
      into:function(){ var b = document.getElementById("ms-bar"); return b ? b.querySelector(".ms-row") : null; }},
     {key:"slices",   el:"xsp-panel",  at:"tl", label:"the part-slices panel"},
     {key:"expand",   el:"q8-float",   at:"tl", label:"the structure-expansion strip"},
-    {key:"labels",   el:"lab-panel",  at:"tl", label:"the labels panel",       light:true},
-    {key:"legend",   el:"lab-legend", at:"tl", label:"the labels legend",      light:true},
+    /* Q344: the handle goes INTO the panel's heading row, so it never lies on "Labels:" / the legend title */
+    {key:"labels",   el:"lab-panel",  first:true, label:"the labels panel",       light:true,
+     into:function(){ var p = document.getElementById("lab-panel"); return p ? p.querySelector(".lb-head") : null; }},
+    {key:"legend",   el:"lab-legend", first:true, label:"the labels legend",      light:true,
+     into:function(){ var p = document.getElementById("lab-legend"); return p ? p.querySelector(".lg-head") : null; }},
     /* Q335: the floating panels that had no handle yet, so they get the grip and the three-dots menu like the rest */
     {key:"pose",     el:"pose-panel", first:true, label:"the pose panel",      light:true,
      into:function(){ var p = document.getElementById("pose-panel"); return p ? p.querySelector(".pz-head") : null; }},
