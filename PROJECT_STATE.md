@@ -25,7 +25,7 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
 | Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v94 (Q340–Q344) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v88 (Q334–Q339 + Q336) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v89 (Q340–Q344) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -82,39 +82,37 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-(Rewritten 2026-11-16 ~10:30 UTC. Detail of closed rounds Q325–Q346: docs/PROJECT_HISTORY.md.)
+(Rewritten 2026-11-16 ~12:40 UTC. Detail of closed rounds Q325–Q346: docs/PROJECT_HISTORY.md.)
 
-**Live:** Base·M **v94** (1794823698-de21) = regen /dev/shm/q346, all 17 verifier verdicts OK.
-Base·F **v88** (q345) — q346 verifier run for Base·F still going (scratchpad `v346.txt`); publish
-`pub6/viewer_base_female` (index.html, geo_01, geo_02, clinical tools x3, groups_q342.json) when it ends OK.
-q346 = Q340 palmar arch conform, Q343 Related structures (parts chooser, myofascial lines, innervation
-families), Q344-A/B readability and overlap fixes, move.js drop fix.
+**Live:** Base·M **v94** (1794823698-de21), Base·F **v89** (1794825894-9bb5) — both = regen q346 (Q340 palmar
+arch, Q343 Related structures families, Q344 readability fixes). All desktop + phone verdicts OK; the two
+phone quick-card FAILs were verifier assumptions (a slot keeps the card's middle; a 30 px pull snaps back),
+fixed in the verifier.
 
-**Committed after q346 was built (needs the next regen):** Q348 reference pass from the owner's books
-(`docs/Q348_reference_pass.md`): 151/214 root levels checked, 18 myofascial lines (3 trunk-rotation slings
-added; "horizontal" stays disabled), 11 muscle parts `verified_book`, perineal checklist + 2 synonyms.
-
-**In flight (agents, Opus 5.5 high, no browser, do not commit):**
-- Q347 injection guide in the injection mode (Guide section, "Use site N", "Start scan here", at-risk
-  highlight) — holds `clinical/needle_tool.js`, `scripts/regen_template_only.py`,
-  `scripts/clinical/stage_clinical_files.py`, `scripts/anatomy/q347/`, `scripts/clinical/build_injection_guide_q347.py`,
-  `tests/test_q347_injection_guide.py`. Its sibling file must be added to `--expect-changed`.
-- Q349 hand: finger nerve/artery order (nerve palmar to artery in the fingers, dorsal in the palm, crossing
-  at the finger root; Mannan pp. 166, 168) + superficial venous arch to the arterial arch depth. Delivers
-  `scripts/anatomy/q349/conform_fingers_q349.py`; the MAIN THREAD applies it to build/q309 (originals `*.q349`).
-- Q350: latissimus iliac IZ line ends at the posterior outer lip of the crest; `iliac_crest_top` level
-  check vs L3/L4; record corrections (serratus posterior superior T2–T5, pectoralis minor both pectoral
-  nerves, foot interossei exception).
-**Then:** commit each agent's files by name → apply Q349 to build/q309 → one regen (worktree of HEAD if an
-agent still holds files) → verifiers (q347, q338 hand, q322 innervation, q343 groups, q321 quickcard,
-q344 clinical UI at least; full set if time) → publish both pages (cmp against /dev/shm/q346 or `pub6`).
+**Committed since, NOT published (regen /dev/shm/q351 = HEAD 3e84ea1; /dev/shm is wiped by restarts):**
+- Q348 book reference pass (data + `docs/Q348_reference_pass.md`).
+- Q349 finger nerve/artery order — APPLIED to build/q309 (geo_01, originals `*.q349`): Base·M 3/10 finger
+  sides per hand, Base·F 1/10; the rest and the venous arch failed a guard and were left (report
+  `data/derived/Q349_fingers_report.json`).
+- Q350 latissimus iliac IZ line (Base·M 180/188 bands, Base·F 178), three nerve-record corrections
+  (`scripts/zanatomy/patch_manifest_nerves_q350.py` runs in regen). Pectoralis minor: both pectoral nerves,
+  adopted roots stay C8–T1 (book's C6–C8 recorded as divergent).
+- Q347 injection guide in the injection mode (sibling `clinical_injection_guide.json`, built at regen).
+**Running:** verifier queue on q351 (scratchpad `run351.sh` → `v351.txt`; every browser run goes through
+`flock /tmp/nmsk_browser.lock`); Q347 agent fixing "Start scan here", the FHL pose demo, the 0.5 mm
+target tolerance wording, median-nerve at-risk rows — it holds `clinical/needle_tool.js` and
+`scripts/anatomy/q347/` (uncommitted until it reports).
+**Then:** commit the Q347 fix → regen again (only `clinical_needle_tool.js` / guide json should differ from
+q351) → needle verifiers (q347 ×4 sizes, q325, q328, q332, q344 clinical) → publish both pages: files that
+differ from scratchpad `pub6/<dir>` (expected: index.html, geo_01, clinical_needle_tool.js,
+innervation_q322.json, groups_q342.json, plexus_groups.json, NEW clinical_injection_guide.json).
 **After that:** restart the Q337 whole-body QA sweep as a fresh read-only agent.
 
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
 clinical_ultrasound_tool.js,clinical_imaging_tool.js,clinical_needle_tool.js,clinical_motor_points.json,
 parts_data.json,symmetry_q237.json,plexus_groups.json,innervation_q322.json,groups_q342.json,
-__ANATOMY_manifest,__ANATOMY_files,atlas_viewer_base_female_geo_03.txt (+ the Q347 sibling).
+__ANATOMY_manifest,__ANATOMY_files,atlas_viewer_base_female_geo_03.txt clinical_injection_guide.json.
 
 **Owner's books** (Dropbox `/claude`, KNOWLEDGE ONLY: facts + page citations; no prose/figures copied; PDFs
 never in the repo): nine PDFs in the scratchpad `refs/` (re-download with Dropbox `download_link` + curl
