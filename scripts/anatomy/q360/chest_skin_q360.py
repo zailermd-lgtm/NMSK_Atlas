@@ -90,7 +90,7 @@ PLAUS_MM = 25.0      # mm: in the soft rounds a target farther than this is not 
 RIM_PULL = False     # a released border vertex is fitted like any free border vertex (True: pulled to the current pieces' rim)
 FAR_ROUNDS = 3       # the first (stiff, far) rounds find the surface through Q353's outer-sheet classification
 FACE_COS = 0.8       # a target sample whose face normal is more than ~37 degrees off the vertex normal is not followed
-LOCK_GAP_MAX = 6.0   # mm: a neighbour's border vertex farther than this (a skin thickness) from the current chest surface is not
+LOCK_GAP_MAX = 8.0   # mm: a neighbour's border vertex farther than this (a skin thickness) from the current chest surface is not
 #                      joined: there the chest skin lies over the neighbour's edge (axilla: Q292 pushed it out over her breast)
 LOCK_REACH, LOCK_REACH_MIN, LOCK_REACH_MAX = 4.0, 12.0, 40.0   # no data within 4 x the gap (12..40 mm) of a disagreeing locked vertex
 DEV_CAP = 1.5        # mm: max deviation from the current outer surface away from the current borders (core)
