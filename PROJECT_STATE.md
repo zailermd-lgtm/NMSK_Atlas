@@ -159,11 +159,13 @@ has no real source — Z kidneys are licence-blocked), Base·M rectum / anal can
 Other audit items not yet assigned: pericardium, scrotum, choroid, conjunctiva, ear cartilage, sinuses,
 tongue intrinsic muscles (no real source), jejunum inside-out, ligament of the head of femur L/R.
 **UI redesign (owner, 2026-11-17):** he asked for a dashboard to decide the title tree of all buttons and
-texts, the stage at which each appears and where on screen. Inventory: scratchpad `uimap/inventory.json`
-(agent running); the dashboard is a separate private artifact with a `db` store of his decisions
-(collection `decisions`) — read them with ArtifactData before any UI rework.
-**Verified for v97/v92:** q358, q336, q325 (both), q334 (same 4 known FAILs), q319 nerves/search, q322, q338,
-q347 390, q339, q321 (Base·F passed alone after the verifier was given a 5 s undo wait) — all OK.
+texts, the stage at which each appears and where on screen. **Published: "NMSK Atlas UI Map"**
+https://claude.ai/artifact/ACxx8vDbimhPWdgDJ98gT8 (private; `db` store). His decisions are documents in
+collection `decisions` (id = node id; fields path, text, stage, verdict keep|rename|move|merge|remove|unsure,
+label, labelHe, parentPath, parentId, appears, mode, placeD, placeP, note) and groups he adds are in
+`groups` — **read both with ArtifactData before any UI rework**; this session is NOT woken when he saves.
+Source: `scripts/uimap/` (generator + page template); inventory + shots: scratchpad `uimap/` (1793 items,
+139 stages, Base·M; phone walk of the clinical-mode interiors and the Base·F diff were not captured).
 
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
