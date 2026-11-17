@@ -178,6 +178,14 @@ MARKERS = r"""async () => {
           legend: (document.querySelector('.q367-leg') || {}).textContent || '', mk: window.NMSKPlanMarkers ? window.NMSKPlanMarkers.MK : null};
 }"""
 
+CLIP = r"""async () => {
+  const H = window.__q367, T = window.NMSKClinicalTool, C = window.NMSKUltrasound && window.NMSKUltrasound.needleClip;
+  if (!C) return {err: 'no clip'};
+  C.show({}); for (let k = 0; k < 120 && !(C.state().on && C.state().frames); k++) await H.sleep(150);
+  C.seek(1); await H.sleep(2500);
+  const st = C.state(); return {on: st.on, mk: st.mk};
+}"""
+
 SAFE_SET = r"""async (rules) => {
   const H = window.__q367, T = window.NMSKClinicalTool;
   const b = document.querySelector('.q367-plan [data-q367=safety] button'); if (!document.querySelector('.mc-safe') || document.querySelector('.mc-safe').hidden) b.click();
@@ -422,6 +430,13 @@ def main() -> int:
                 check(f"marker colours apart for normal and colour-deficient vision (CIE76 dE: {', '.join(f'{k} {v:.0f}' for k, v in de.items())}; >= 20 each)", all(v >= 20 for v in de.values()))
             check(f"step-sheet chips use the same pair ({m['chipTip']}, {m['chipEntry']}) and a one-line legend ({m['legend']!r})",
                   m["chipTip"] and m["chipEntry"] and m["chipTip"]["bg"] != m["chipEntry"]["border"] and "קצה המחט" in m["legend"] and "מעבר בעור" in m["legend"])
+
+            if not phone:   # the scan clip draws the same pair
+                c = pg.evaluate(CLIP)
+                shot(pg, "clip_markers")
+                check(f"scan clip: the tip and entry markers drawn in the image ({c.get('mk')})", c.get("on") and c.get("mk") and "tip" in c["mk"] and "entry" in c["mk"])
+                pg.evaluate("() => { const C = window.NMSKUltrasound.needleClip; C.stop(); }")
+                pg.wait_for_timeout(600)
 
             # ---- distance rows show the class
             r = pg.evaluate(ROWS)

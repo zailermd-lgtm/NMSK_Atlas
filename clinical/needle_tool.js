@@ -3297,6 +3297,7 @@ function injectionMode(tool, api) {
     else if (tool.isSacT(i)) tool.plCavity(i);
     else if (tool.isCapsuleT(i) && offers(i).intra) tool.plIntra(i);
     else if (keepE) tool.update();
+    liftOnPhone();
     var parts = api.parts ? api.parts() : null;
     if (parts && parts.setMode && parts.state && !partsOn && parts.state().mode !== "off") { parts.setMode("off"); if (parts.dirty) parts.dirty(); }
     refresh();
@@ -3387,6 +3388,19 @@ function injectionMode(tool, api) {
   function armPeri(i) { arm("peri", function (hit) { disarm(); tool.plPeri(i, hit.p, true); refresh(); }, "הקישו על העצב במקום הרצוי: הקצה יונח לידו."); }
   function armPlaneB(a) { arm("planeB", function (hit) { if (hit.i == null || hit.i === a) return; disarm(); doPlane(a, hit.i); }, "הקישו על המבנה השני של המישור."); }
   function armSnap() { arm("snap", function (hit) { disarm(); tool.plPlaneSnap(hit.p); refresh(); }, "הקישו ליד המקום הרצוי: הקצה יעבור לנקודת המישור הקרובה."); }
+  /* Q367: on a phone the step sheet covers the lower half of the model, so a newly chosen target is brought to the upper visible part
+     (about 28 % down the model area) instead of the centre, where it sat at the sheet's edge */
+  function liftOnPhone() {
+    if (!ctx || !ctx.isPhone() || !tool.target) return;
+    setTimeout(function () {
+      try {
+        var p = tool.target.p, v = api.view(), s0 = api.toScreen(p), s1 = api.toScreen([p[0], p[1] - 10, p[2]]); if (!s0 || !s1 || !v) return;
+        var mm = ctx.main.getBoundingClientRect(), dy = s0[1] - (mm.top + mm.height * 0.28), ppm = (s1[1] - s0[1]) / 10;
+        if (Math.abs(ppm) < 1e-3 || Math.abs(dy) < 8) return;
+        api.focus([v.target[0], v.target[1] - dy / ppm, v.target[2]]); api.redraw();
+      } catch (e) {}
+    }, 120);
+  }
   function doPlane(a, b) {
     closePop();
     var res = tool.plPlane(a, b);
