@@ -299,10 +299,23 @@ def split_build_text(s: str) -> tuple[str, str]:
     return t, " ".join(moved)
 
 
+_Q357 = re.compile(r"Q357: moved out of the (?P<b>.+?), where the source registration left (?P<n>\d+) of its vertices up to "
+                   r"(?P<d>[\d.]+) mm inside the bone \(the (?P<w>nerve|vessel) does not pass through the bone there\); ")
+
+
+def q357_lead(s: str) -> str:
+    """Q365: a Q357 note opens with ONE short sentence. The card shows a badge's first sentence when it is 40-140 characters long,
+    else its first 120 characters -- the Q357 opening sentence ran to 170-260 characters, so the card cut it mid-word
+    ("... inside the bone (the n"). The facts are unchanged, only reordered."""
+    return _Q357.sub(lambda m: (f"Q357: moved out of bone ({m['d']} mm deep: a registration error, not a passage). "
+                                f"Bones: the {m['b']}; the source registration had left {m['n']} of its vertices inside; "), s)
+
+
 def split_badge(s: str) -> tuple[str, str]:
     """(card badge, build-provenance text): the Q250 per-structure deformation numbers are page-wide build provenance."""
     if not s:
         return s, ""
+    s = q357_lead(s)
     moved = [m.group(0).strip() for m in _Q250.finditer(s)]
     return re.sub(r"\s{2,}", " ", _Q250.sub(" ", s)).strip(), " ".join(moved)
 

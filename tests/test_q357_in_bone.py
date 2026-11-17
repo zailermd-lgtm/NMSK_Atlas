@@ -115,7 +115,16 @@ def test_applied_page_keeps_counts(stem):
     m0 = json.loads(lit.search(bak.read_text(encoding="utf-8")).group(1))
     a = {m["id"]: (m["vc"], m["ic"]) for m in m0["meshes"]}
     b = {m["id"]: (m["vc"], m["ic"]) for m in m1["meshes"]}
-    assert a == b
+    # Q357's promise: the structures IT moved keep their vertex / triangle counts, and it removed nothing. Later rounds may add
+    # structures (Q358 the rule-based perineal skin, Q365 nerves) or re-cut one they own (Q358 skin_vulva_cvh, Q365 the maxillary
+    # nerve's split): those are not Q357's and are not compared.
+    assert set(a) <= set(b), sorted(set(a) - set(b))[:5]
+    moved = set(a)
+    if REPORT.exists():
+        rep0 = json.loads(REPORT.read_text(encoding="utf-8"))["pages"].get(stem)
+        if rep0 and rep0.get("written"):
+            moved = set(rep0["geometry_changed"])
+    assert {i: a[i] for i in moved} == {i: b[i] for i in moved}
     noted = {m["id"] for m in m1["meshes"] if "Q357:" in ((m.get("rec") or {}).get("procedural_badge") or "")}
     if REPORT.exists():
         rep = json.loads(REPORT.read_text(encoding="utf-8"))["pages"].get(stem)

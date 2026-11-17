@@ -5,7 +5,7 @@
    "schema": "nmsk.q365.nerves.v1",
    "round": "Q365",
    "generated": "2026-11-17",
-   "page_dir": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/src/viewer_zan_atlas",
+   "page_dir": "src/viewer_zan_atlas",
    "key": "base_m",
    "parameters": {
     "groove_mm": 3.0,
@@ -681,8 +681,8 @@
    "meshes_after": 3272,
    "inserted_at": 3264,
    "rig": {
-    "rig_in": "/home/user/NMSK_Atlas/data/anatomy/pose_rig_base_m.json",
-    "rig_out": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/rig_base_m.json",
+    "rig_in": "data/anatomy/pose_rig_base_m.json",
+    "rig_out": "q365/rig_base_m.json",
     "count_before": 3264,
     "count_after": 3272,
     "added": [
@@ -734,7 +734,7 @@
    "schema": "nmsk.q365.nerves.v1",
    "round": "Q365",
    "generated": "2026-11-17",
-   "page_dir": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/src/viewer_base_female",
+   "page_dir": "src/viewer_base_female",
    "key": "base_f",
    "parameters": {
     "groove_mm": 3.0,
@@ -938,21 +938,21 @@
      "held": [],
      "kind": "rule",
      "report": {
-      "vertices": 552,
-      "triangles": 1100,
+      "vertices": 562,
+      "triangles": 1120,
       "watertight": true,
-      "volume_mm3": 69.0,
-      "volume_cm3": 0.069,
-      "pushed_out_of_bone": 1,
-      "min_signed_distance_mm": -0.32,
+      "volume_mm3": 73.4,
+      "volume_cm3": 0.0734,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": -0.35,
       "vertices_deeper_1mm": 0,
-      "length_mm": 93.6,
+      "length_mm": 100.1,
       "diameter_mm": [
        1.0,
        1.0
       ],
-      "raw_path_fraction_inside_bone": 0.055,
-      "push_out_displacement_max_mm": 2.0,
+      "raw_path_fraction_inside_bone": 0.071,
+      "push_out_displacement_max_mm": 3.1,
       "soft_overlap": {
        "muscle_fraction_deeper_6mm": 0.0,
        "organ_fraction_deeper_3mm": 0.0,
@@ -962,14 +962,19 @@
       "skin_min_depth_mm": 0.1,
       "waypoints": [
        [
-        -38.5,
-        718.3,
-        5.1
+        -46.8,
+        693.9,
+        5.7
        ],
        [
         -56.6,
         710.6,
         19.5
+       ],
+       [
+        -60.7,
+        715.8,
+        35.1
        ],
        [
         -58.5,
@@ -984,18 +989,18 @@
       ],
       "waypoint_error_bound_mm": 10.0
      },
-     "length_mm": 93.6,
+     "length_mm": 100.1,
      "target": [
       "frontalis_l"
      ],
      "q365_guards": {
       "in_bone": {},
       "outside_skin_vertices": 0,
-      "length_mm": 93.6,
-      "other_side_length_mm": 92.5,
-      "length_ratio": 1.01,
+      "length_mm": 100.1,
+      "other_side_length_mm": 99.8,
+      "length_ratio": 1.0,
       "end_to_target_mm": 0.7185347417841306,
-      "kink_deg": 5.3,
+      "kink_deg": 8.3,
       "closed": true,
       "pass": true
      }
@@ -1234,21 +1239,21 @@
      "held": [],
      "kind": "rule",
      "report": {
-      "vertices": 542,
-      "triangles": 1080,
+      "vertices": 562,
+      "triangles": 1120,
       "watertight": true,
-      "volume_mm3": 64.0,
-      "volume_cm3": 0.064,
-      "pushed_out_of_bone": 14,
-      "min_signed_distance_mm": -0.78,
+      "volume_mm3": 73.2,
+      "volume_cm3": 0.0732,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": -0.24,
       "vertices_deeper_1mm": 0,
-      "length_mm": 92.5,
+      "length_mm": 99.8,
       "diameter_mm": [
        1.0,
        1.0
       ],
-      "raw_path_fraction_inside_bone": 0.074,
-      "push_out_displacement_max_mm": 2.5,
+      "raw_path_fraction_inside_bone": 0.071,
+      "push_out_displacement_max_mm": 3.1,
       "soft_overlap": {
        "muscle_fraction_deeper_6mm": 0.0,
        "organ_fraction_deeper_3mm": 0.0,
@@ -1258,14 +1263,19 @@
       "skin_min_depth_mm": 0.1,
       "waypoints": [
        [
-        40.2,
-        720.0,
-        6.7
+        46.7,
+        693.9,
+        5.7
        ],
        [
         56.6,
         710.6,
         19.5
+       ],
+       [
+        60.7,
+        715.8,
+        35.1
        ],
        [
         58.5,
@@ -1280,18 +1290,18 @@
       ],
       "waypoint_error_bound_mm": 10.0
      },
-     "length_mm": 92.5,
+     "length_mm": 99.8,
      "target": [
       "frontalis_r"
      ],
      "q365_guards": {
       "in_bone": {},
       "outside_skin_vertices": 0,
-      "length_mm": 92.5,
-      "other_side_length_mm": 93.6,
-      "length_ratio": 1.01,
+      "length_mm": 99.8,
+      "other_side_length_mm": 100.1,
+      "length_ratio": 1.0,
       "end_to_target_mm": 0.701969743846368,
-      "kink_deg": 5.7,
+      "kink_deg": 8.1,
       "closed": true,
       "pass": true
      }
@@ -1622,8 +1632,8 @@
    "meshes_after": 3313,
    "inserted_at": 3300,
    "rig": {
-    "rig_in": "/home/user/NMSK_Atlas/data/anatomy/pose_rig_base_f.json",
-    "rig_out": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/rig_base_f.json",
+    "rig_in": "data/anatomy/pose_rig_base_f.json",
+    "rig_out": "q365/rig_base_f.json",
     "count_before": 3302,
     "count_after": 3313,
     "added": [
@@ -1681,7 +1691,7 @@
     "index.html"
    ],
    "calibre_rows": 13,
-   "seconds": 187.6
+   "seconds": 177.4
   }
  }
 }

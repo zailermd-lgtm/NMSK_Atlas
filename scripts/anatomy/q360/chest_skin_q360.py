@@ -4,7 +4,8 @@ Z-Anatomy source topology by ONE joint deformation onto the current (Q292-fitted
 
     python3 scripts/anatomy/q360/chest_skin_q360.py --page-dir DIR                       # dry run: build + measure, report only
     python3 scripts/anatomy/q360/chest_skin_q360.py --page-dir DIR --write               # and write DIR (+ the pose rig, see --rig-file)
-    options: --source-dir DIR (Base · Male page, default <page-dir>/../viewer_zan_atlas), --rig-file FILE, --no-rig, --report FILE
+    options: --source-dir DIR (Base · Male page, default <page-dir>/../viewer_zan_atlas), --rig-file FILE (rig read), --rig-out FILE
+             (rig written; default --rig-file -- pass a scratch path for a copy), --no-rig, --report FILE, --backups-dir DIR
 
 Cause (measured, Q356 + this round): Q292 fitted the chest skin regions onto her CT skin from the Z-Anatomy patches merged with
 `merge_vertices(digits_vertex=3)` -- but those patches were decoded from a page, where every mesh is quantised over its own box,
@@ -16,25 +17,32 @@ page files (`*.q318` .. `*.q358`) holds these 18 meshes byte-identical to the cu
 The fix (route A, a joint refit; deterministic, nothing invented, every number into the report):
   1. SOURCE: the 18 regions' Z-Anatomy slabs as they are on the Base · Male page (the same Z body; every other Base · Female skin
      region still has their exact topology). Their outer sheets are merged into ONE surface (vertices within the engine's weld
-     distance, 0.03 mm, are one vertex), region label per face. A vertex shared with an unchanged neighbouring region is LOCKED at
-     that neighbour's Base · Female vertex (so those borders stay exact).
-  2. FRAME: the rest is carried into the Base · Female frame by a thin-plate spline through the displacements of the unchanged skin
-     regions and the trunk / shoulder bones (identical topology on both pages: the Q250 female-skeleton deformation, re-measured).
-  3. DENSITY: subdivided as one mesh (conforming longest-edge bisection) to EDGE_MM edges, as Q292 did (borders with unchanged
-     regions are not split, so they keep their exact shared vertices).
-  4. FIT: one smooth displacement field over the whole merged surface (membrane-regularised non-rigid ICP, stiff to soft) onto the
-     CURRENT outer sheets of the 18 regions (their rounded rims left out). Where the current pieces disagree: in a band around their
-     borders the data weight fades, so the surface bridges their steps smoothly; where two pieces overlap (stacked) it follows the
-     outermost (what is seen today); in a slot (no current piece) it is interpolated from both sides.
+     distance, 0.03 mm, are one vertex; the Z source's own cracks <= CRACK_MM joined, its 2 tiny holes filled), region label per
+     face. A border vertex shared with an unchanged neighbouring region is LOCKED at that neighbour's Base · Female vertex.
+  2. FRAME: carried into the Base · Female frame by a thin-plate spline through the displacements of the unchanged skin regions and
+     the trunk / shoulder bones (identical topology on both pages: the Q250 female-skeleton deformation, re-measured), the residual
+     at the locked vertices spread harmonically.
+  3. DENSITY: subdivided as one mesh (conforming longest-edge bisection, graded near long unsplit borders with unchanged regions,
+     then Lawson edge flips inside each region) to EDGE_MM edges, as Q292 did.
+  4. FIT: one smooth displacement field over the whole merged surface (membrane-regularised point-to-plane non-rigid ICP, stiff to
+     soft) onto the CURRENT chest surface: a vertex follows the nearest current face whose normal agrees with its own (the outer
+     sheet; the inner sheet, walls and rounded rims are not followed). Where the current pieces disagree: in a band around their
+     borders the data weight fades, so the surface bridges their steps; where two pieces are stacked it follows the outermost; in a
+     slot it is interpolated from both sides; near a neighbour that the current pieces do not meet the surface ramps to it.
+     A neighbour vertex more than LOCK_GAP_MAX off the current surface (one: the right axilla, the arm skin's border point 7.6 mm
+     inside her breast) is not pulled to; that one neighbour vertex follows the chest skin instead (neighbour_follow).
   5. SLABS: each region is cut back out of the merged surface by its label, with an inner sheet THICK mm under it (the Z slab
      thickness, measured) and a wall at every border, so neighbours share their border vertices (outer and inner) and the rim is a
-     crease -- as the back regions are. Vertex counts change; the pose rig follows (weights transferred from the current meshes).
+     crease -- as the back regions are. Vertex counts change; the pose rig follows (weights carried from the current meshes and the
+     unchanged neighbours, border vertices store their own weights).
   6. TUCK: breast tissue (and any other structure that would end outside) is moved under the new skin by Q353's guarded tuck rule.
-Guards: weld % per region (Python copy of the Q334 weld rules) >= WELD_MIN; front / lateral z-buffer holes (a deeper structure seen
-where skin should be) = 0 px in the chest window; deviation from the current outer surface <= DEV_CAP (core) / DEV_CAP_BORDER (band
-of the current borders); breast tissue, muscle and rib: 0 vertices outside the skin; no folded / flipped face; closed, consistently
-wound slabs. Originals kept beside each changed file as `<name>.q360` (never overwritten). A page whose chest regions already carry
-the Q360 sentence is refused (restore the `.q360` copies and the rig to re-apply). Report: data/derived/Q360_chest_skin_report.json.
+Guards: weld % per region (Python copy of the Q334 weld rules) >= WELD_MIN; front / lateral see-through pixels (a deeper structure
+frontmost where skin lies all around) not above the current page's in any view and no piece > HOLE_PIECE_MAX; deviation from the
+current outer surface <= DEV_CAP (core) / DEV_CAP_BORDER (band of the current borders) / gap + DEV_CAP near a neighbour the current
+pieces miss; breast tissue: 0 vertices outside the skin; no structure gains vertices outside; folded + flipped faces <= FOLD_MAX_PCT;
+closed, consistently wound slabs; the last two meshes stay last. Originals kept beside each changed file as `<name>.q360` (never
+overwritten). A page whose chest regions already carry the Q360 sentence is refused (restore the `.q360` copies and the rig to
+re-apply). Report: data/derived/Q360_chest_skin_report.json.
 """
 from __future__ import annotations
 
@@ -994,6 +1002,11 @@ def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg, pool_extr
         PX_.append(v); WX.append(Wd)
     PX_ = np.vstack(PX_); WX = np.vstack(WX)
     tr = cKDTree(PX_)
+    # a vertex shared with an unchanged neighbour takes that neighbour's own weights exactly (so the border cannot open when posed)
+    nbk = [k for k in pool if k not in chest]
+    NP_ = np.vstack([old_pos[k] for k in nbk]) if nbk else np.zeros((0, 3))
+    NW_ = WX[len(PX_) - len(NP_):] if nbk else np.zeros((0, nseg))
+    ntr = cKDTree(NP_) if len(NP_) else None
     blob = zlib.decompress(base64.b64decode(src["weights_zlib_b64"]))
     ent = {e[0]: e for e in R["skin"]}
     span = {}
@@ -1008,6 +1021,10 @@ def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg, pool_extr
         d, nn = tr.query(v, k=4)
         d = np.maximum(d, 1e-3); ww = 1.0 / (d * d); ww /= ww.sum(1, keepdims=True)
         W = (WX[nn] * ww[:, :, None]).sum(1)
+        if ntr is not None:
+            dn, jn = ntr.query(v, distance_upper_bound=WELD_MM)
+            sh = np.isfinite(dn)
+            W[sh] = NW_[jn[sh]]
         bvert = np.zeros(len(v), bool); bvert[np.unique(f[cls == 0])] = True
         ctrl = MPR.refine_controls(v, W, MPR.control_set(W) | bvert)
         cv = np.where(ctrl)[0]
@@ -1365,7 +1382,6 @@ def main(argv=None):
         print(f"  weld {k[9:]:32s} {wb[k]['pct']:5.1f} -> {wa[k]['pct']:5.1f} %  (rim {wa[k]['rim_vertices']})")
     # --- holes before (current pieces)
     rep["holes_before"] = holes(gf, chest)
-    old_pos = {k: gf.V0[k][0].copy() for k in gf.M if gf.sys[k] == "skin" and gf.in_box(lo - 60, hi + 60) and k in gf.M}
     old_pos = {k: gf.V0[k][0].copy() for k in skin_pieces(gf, lo - 60, hi + 60)}
     old_geo = {k: (gf.V0[k][0].copy(), gf.F[k].copy()) for k in chest}
     sk_before = Q.SkinSet(gf, [k for k in gf.in_box(lo - 20, hi + 20, sys_=("skin",))])
@@ -1437,9 +1453,9 @@ def main(argv=None):
         if r_.get("found"):
             k = r_["neighbour"]
             rec = C340.badge_add(gf.M[k].get("rec") or {},
-                                 f"{TAG}: one border point of this region (outer {r_['outer_vertex']} and inner {r_['inner_vertex']}: a spike "
-                                 f"left by the Q250 skeleton deformation, lying inside the breast) moved {r_['moved_mm']} mm onto the "
-                                 "rebuilt chest skin, so the two regions share it; nothing else changed.")
+                                 f"{TAG}: one border point of this region (in the axilla; after the Q250 skeleton deformation it lay "
+                                 f"{r_['moved_mm']} mm inside the breast) moved onto the rebuilt lateral thorax skin, so the two regions "
+                                 "share it; nothing else changed.")
             replace[k] = (follow[k], gf.F[k], rec)
     for k, r in tuck.items():
         if r.get("ships"):
@@ -1450,6 +1466,8 @@ def main(argv=None):
     man_new, blob_new = repack(gf.man, gf.blob, replace)
     assert [m["id"] for m in man_new["meshes"]] == [m["id"] for m in gf.man["meshes"]]
     rig_src = json.loads(Path(a.rig_file).read_text(encoding="utf-8"))
+    for k, v in follow.items():      # a neighbour that followed the chest skin: its weights as the viewer rebuilds them at its new rest
+        old_pos[k] = v
     neigh = sorted(set(G["S"]["neighbours"]))
     rig_new, rep["rig_weights"] = rig_transfer(rig_src, gf.man, man_new, chest, old_pos,
                                                {k: new[k] for k in chest}, len(rig_src["rig"]["segs"]), pool_extra=neigh)

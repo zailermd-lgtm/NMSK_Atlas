@@ -62,33 +62,33 @@ scripts `scripts/anatomy/q259/rulenerve.py` and `q261/rule_cranial.py`.
 | V1 frontal, supra-orbital, supratrochlear, lacrimal, nasociliary, anterior ethmoidal, infratrochlear | rule L+R | rule L+R | — | — |
 | V1 long / short ciliary nerves | absent | absent | C | (c) |
 | V2 maxillary | Z | Z | — | — |
-| **V2 infra-orbital** | **absent** | **absent** | **B** | (c): registry `trigeminal_n_v2_infraorbital_branch` and its rule exist (`q261/rule_cranial.py` l.184, anchored to the real infra-orbital artery); never placed on any Z page — rerun dry to read the hold reason (Mannan PDF p. 41; Sontakke PDF p. 352–356) |
+| **V2 infra-orbital** | **absent** | **absent** | **B** | (c): registry `trigeminal_n_v2_infraorbital_branch` and its rule exist (`q261/rule_cranial.py` l.184, anchored to the real infra-orbital artery); never placed on any Z page — rerun dry to read the hold reason (Mannan PDF p. 41; Sontakke PDF p. 352–356) **Q365:** placed on both bodies as `trigeminal_n_v2_infraorbital_branch_l/_r`, Z-Anatomy geometry split from the maxillary nerve object where it enters the groove (not a rule tube; 61 mm M, 59 mm F). |
 | V2 zygomatic, superior alveolar, palatine/nasopalatine | rule L+R | rule L+R | — | — |
 | V2 meningeal branch (`zan_meningeal_branch_of_maxillary_nerve`) | Z, filed **cns** | same | C | reclass → nerve |
 | V3 anterior/posterior divisions, buccal, lingual, inferior alveolar, mental, nerve to mylohyoid | Z L+R | Z L+R | — | `trigeminal_n_v3_mental_branch_r` inside-out: C |
 | V3 masseteric, deep temporal, auriculotemporal | rule L+R | rule L+R | — | — |
 | V3 medial / lateral pterygoid branches | absent | absent | C | (c) rule exists (registry); Combined·M has `trigeminal_n_v3_medial_pterygoid_branch_l` |
-| CN VII trunk | Z L+R | Z L+R; R volume 0.54 × L | S (F) | check R trunk (pre-existing) |
-| **VII temporal branch** | rule L+R | **absent L+R** | **B (F)** | (c) same rule; present on Combined·F; the guard failed on Base·F |
+| CN VII trunk | Z L+R | Z L+R; R volume 0.54 × L | S (F) | check R trunk (pre-existing) **Q365:** diagnosed: same 624 vertices and the same extent as the left side; the right tube is thinner (registration), not truncated -- left as is. |
+| **VII temporal branch** | rule L+R | **absent L+R** | **B (F)** | (c) same rule; present on Combined·F; the guard failed on Base·F **Q365:** placed on Base·F L+R (100 mm): Q261 path crossed the skull before Q353 and the arch outside the skin after it; the rule now follows the books (parotid upper border, across the arch in the subcutaneous plane). |
 | VII zygomatic, buccal, marginal mandibular, posterior auricular, digastric | rule L+R | rule L+R | — | — |
-| VII cervical branch | rule L+R | **L only** | S | (c) rerun rule (present on Combined·F) |
+| VII cervical branch | rule L+R | **L only** | S | (c) rerun rule (present on Combined·F) **Q365:** placed on Base·F R (2.4 mm, the rule as is). |
 | VII chorda tympani | Z L+R | Z L+R | — | — |
-| VII greater petrosal, nerve to stapedius | absent | absent | C | (c) held in Q261 (no anchor) |
+| VII greater petrosal, nerve to stapedius | absent | absent | C | (c) held in Q261 (no anchor) **Q365:** still not placed (no ganglion or canal mesh to anchor to). |
 | CN VIII vestibulocochlear | Z L+R | Z L+R | — | cochlear/vestibular divisions: (a) Z `Cochlear nerve(.l)`, `Vestibular nerve.l/.r` are licence-blocked; registry records exist → (c) |
 | CN IX trunk | Z | Z | — | — |
 | IX tympanic, carotid, stylopharyngeal, tonsillar, lingual | rule L+R | rule L+R | — | lesser petrosal: (c) held |
-| CN X trunk | Z L+R; **left ends at the upper thorax** (y 484 vs 243 mm), L/R volume 0.50 | same (0.60) | S | source mesh; thoracic course of the left vagus: (c) |
+| CN X trunk | Z L+R; **left ends at the upper thorax** (y 484 vs 243 mm), L/R volume 0.50 | same (0.60) | S | source mesh; thoracic course of the left vagus: (c) **Q365:** diagnosed: not truncated -- the left source mesh ends at the arch level and the page continues it with the rule-based oesophageal / abdominal trunks and coeliac branch (continuous at y 485 mm); no change. |
 | X superior laryngeal, recurrent laryngeal, pharyngeal + plexus, cardiac | rule L+R | rule L+R | — | — |
 | CN XI trunk | Z L+R | Z L+R | — | — |
-| XI branch to SCM | **L only** | **L only** | S | (c) rerun rule; Combined pages have R |
+| XI branch to SCM | **L only** | **L only** | S | (c) rerun rule; Combined pages have R **Q365:** still held: the right accessory trunk already lies on sternocleidomastoid (< 2 mm), the rule finds no length for a separate branch. |
 | XI branch to trapezius | rule L+R | rule L+R | — | — |
 | CN XII trunk | Z L+R | Z L+R | — | — |
-| XII lingual branches | **R only** | rule L+R | S (M) | (c) rerun rule; Combined·M has L |
+| XII lingual branches | **R only** | rule L+R | S (M) | (c) rerun rule; Combined·M has L **Q365:** still held on Base·M: the trunk point lies within 3 mm of genioglossus (no length for a separate branch). |
 | Cervical plexus roots C1–C4, ansa cervicalis, phrenic | rule L+R | rule L+R | — | — |
 | Lesser occipital, great auricular, transverse cervical, supraclavicular | rule L+R | rule L+R | — | — |
-| **Greater occipital, third occipital, suboccipital** | **absent** | **absent** | **S** | (c) registry records exist (`data/nerves/dorsal_rami.json`), never built (Mannan PDF p. 106–108; Sontakke PDF p. 234–246) |
+| **Greater occipital, third occipital, suboccipital** | **absent** | **absent** | **S** | (c) registry records exist (`data/nerves/dorsal_rami.json`), never built (Mannan PDF p. 106–108; Sontakke PDF p. 234–246) **Q365:** placed on both bodies (Q365 rule, Mannan pp. 14, 88-90; Sontakke pp. 215-216, 225-227): greater 150 / 143 mm, third 131 / 135 mm, suboccipital 22 / 20 mm (M / F). |
 | Cervical sympathetic trunk + ganglia | Z (one trunk + one "ganglia" mesh per side) | same | C | named superior/middle cervical and stellate ganglia: registry only → (c) |
-| Ciliary, pterygopalatine, otic, submandibular ganglia | absent | absent | S | (c) held in Q261 ("a ganglion is not a tube"); needs a rule-based ellipsoid shape decision (Mannan PDF p. 38, 488–504; Sontakke PDF p. 281–290) |
+| Ciliary, pterygopalatine, otic, submandibular ganglia | absent | absent | S | (c) held in Q261 ("a ganglion is not a tube"); needs a rule-based ellipsoid shape decision (Mannan PDF p. 38, 488–504; Sontakke PDF p. 281–290) **Q365:** still not placed: Q261 held them as no tube shape fits a ganglion; the books give position and size only, the objection stands. |
 
 Not on either frozen imaging page either: their head nerves are the same rule-based tubes (subjects `*_rule_nerve_q259/260/263`).
 So (b) adds nothing for the head nerves.
@@ -152,7 +152,7 @@ So (b) adds nothing for the head nerves.
 
 Brachial plexus (roots, trunks, cords) and the five arm nerves: L+R on both. Lumbar plexus: complete (F has one extra
 left branch). Sacral plexus (sciatic, tibial, common fibular, gluteal, pudendal, posterior femoral cutaneous): L+R.
-Missing compared with the Combined page of the same sex (rule-based branches whose guard failed on Base):
+Missing compared with the Combined page of the same sex (rule-based branches whose guard failed on Base): **Q365:** rerun of the same rules on the current pages: all still held -- the parent trunk already lies on the target muscle (< 2 mm, no length for a branch); anococcygeal ends 37 mm outside the skin; dorsal nerve of the clitoris lies lateral to the pudendal vessel (textbook order violated).
 Base·M — `femoral_n_branch_to_sartorius_l/_r`, `_to_iliacus_l`, `_to_pectineus_r`, `tibial_n_branch_to_popliteus_r`,
 `anococcygeal_n_l`. Base·F — `femoral_n_branch_to_iliacus_l/_r`, `tibial_n_branch_to_popliteus_l`,
 `dorsal_n_clitoris_l/_r`. Severity S; source (c), a rerun of the same rule. Inside-out: `saphenous_n_r`,
@@ -173,7 +173,7 @@ Base·M — `femoral_n_branch_to_sartorius_l/_r`, `_to_iliacus_l`, `_to_pectineu
 - Iliococcygeus and pubococcygeus show the "Levator ani" record (the parent). C.
 - Base·F only: the record name of the three lateral-sulcus rami is still the raw label ("Lat_Fis-ant-Horizont" …), while the
   mesh name was fixed by Q354. C. Fix: apply `card_rules_q354.NAMES` to `rec.name` too.
-- `test_q354_cards.py::test_no_raw_id_tris_or_provenance_in_card_text` fails on both pages (`medial_pectoral_n_l`,
+- **Q365: fixed.** `test_q354_cards.py::test_no_raw_id_tris_or_provenance_in_card_text` fails on both pages (`medial_pectoral_n_l`,
   `superficial_fibular_n_r`: "abbreviated id ('n', 't1', 'main')"); `test_q357_in_bone.py::test_applied_page_keeps_counts`
   fails on Base·F (the Q358 mesh was added after Q357). Pre-existing, not changed here.
 

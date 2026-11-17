@@ -62,7 +62,7 @@ from scipy.spatial import cKDTree
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 for p in ("", "scripts", "scripts/zanatomy", "scripts/anatomy/q340", "scripts/anatomy/q248", "scripts/anatomy/q249",
-          "scripts/anatomy/q259", "scripts/anatomy/q261", "scripts/anatomy/q357", "scripts/anatomy/q240"):
+          "scripts/anatomy/q259", "scripts/anatomy/q261", "scripts/anatomy/q357", "scripts/anatomy/q240", "scripts/anatomy/q349"):
     sys.path.insert(0, str(REPO / p))
 import build_zan_atlas_viewer as BZ   # noqa: E402  pack_mesh / split_blob
 import conform_palm_q340 as C340      # noqa: E402  page I/O
@@ -347,6 +347,16 @@ def temporal_branch(S, B, s):
         B.hold(nid, f"Facial n., temporal branch ({sw})", f"meshes missing on this page: {miss}", side=s); return None
     C = S.centerline(tr, n=40)
     cen = E[fr]["v"].mean(0)
+    # the branch leaves the trunk in the parotid, i.e. AFTER the stylomastoid foramen: only trunk points outside the temporal bone count
+    import conform_fingers_q349 as C349
+    tb = f"temporal_{s}"
+    if tb in E:
+        if abs(C[0][0] - S.xm) > abs(C[-1][0] - S.xm):
+            C = C[::-1]                                                  # medial (brainstem) end first
+        w = np.abs(C349.winding(C, E[tb]["v"], E[tb]["f"]))
+        ins = np.where(w >= 0.5)[0]
+        if len(ins) and ins[-1] + 1 < len(C):
+            C = C[ins[-1] + 1:]                                         # the extracranial run, after its last point in the bone
     origin = C[int(np.argmin(np.linalg.norm(C - cen, axis=1)))]
     pv = E[par]["v"]
     top = pv[pv[:, 1] >= np.percentile(pv[:, 1], 95)]
@@ -363,12 +373,14 @@ def temporal_branch(S, B, s):
     from scipy.spatial import cKDTree as KD
     ds, k = KD(sk_v).query(ap)
     w2 = ap + (sk_v[k] - ap) * 0.5                                      # half way between the arch and the skin
-    e = B.mk(nid, f"Facial n., temporal branch ({sw})", f"Ramus temporalis nervi facialis {lat}", s, [origin, w1, w2, end], 1.0,
+    face_bones = tuple(b for b in (f"temporal_{s}", zy, "mandible", "zan_mandible") if b in E)
+    m1 = subcut_mid(E, w1, w2, bones=face_bones)                        # parotid border -> arch: in the subcutaneous plane
+    e = B.mk(nid, f"Facial n., temporal branch ({sw})", f"Ramus temporalis nervi facialis {lat}", s, [origin, w1, m1, w2, end], 1.0,
              region="head",
              course=(f"Q365 rule (extends Q261's): branch of {tr}; leaves at the point of its own real centreline closest to {fr}, emerges at "
-                     f"the upper border of the parotid gland, passes upward and forward across the zygomatic arch to the side of the head and "
+                     f"the upper border of the parotid gland (it leaves the trunk outside the temporal bone, after the stylomastoid foramen), passes upward and forward across the zygomatic arch to the side of the head and "
                      f"the forehead (Mannan p. 13; Sontakke vol. 5 p. 141) and ends on frontalis' own surface. Waypoints on this page: the trunk "
-                     f"point; the parotid gland's upper border nearest it; half way between the zygomatic arch and the skin ({ds:.1f} mm apart "
+                     f"point; the parotid gland's upper border nearest it; a point in the subcutaneous plane on the way to the arch; half way between the zygomatic arch and the skin ({ds:.1f} mm apart "
                      f"there); frontalis."),
              calibre=RC.CAL, calibre_kind="assumption", source=RC.SOURCE + f" Course: {M17}, p. 13; {Y23}, p. 141.", err_mm=RC.ERR,
              err_text=RC.ERR_TEXT, len_range=(30.0, 165.0))
@@ -583,8 +595,8 @@ class Guarder:
             if (v.min(0) > hi).any() or (v.max(0) < lo).any():
                 continue
             kind, _ = self.allow.classify(sid, re.sub(r"^zan_", "", b))
-            if kind == "allow":
-                continue
+            if kind == "allow" and not (sid.startswith("facial_n_") and b.startswith("temporal")):
+                continue                     # (the facial canal holds the facial trunk, not its terminal branches)
             w = np.abs(self.Q.C349.winding(V, v, self.E[b]["f"]))
             idx = np.where(w > 0.5)[0]
             if not len(idx):
@@ -734,7 +746,7 @@ def splice_rig(rig_src: Path, man_old, man_new, seg_of_new: dict, rig_out: Path 
     if rig_out is not None:
         rig_out.parent.mkdir(parents=True, exist_ok=True)
         rig_out.write_text(json.dumps(out, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
-    return {"rig_in": str(rig_src), "rig_out": str(rig_out) if rig_out else None, "count_before": R["count"], "count_after": R2["count"],
+    return {"rig_in": rel(rig_src), "rig_out": rel(rig_out) if rig_out else None, "count_before": R["count"], "count_after": R2["count"],
             "added": added}
 
 
@@ -751,6 +763,15 @@ def nearest_bone_seg(rig_src: Path, man, E, V):
         if d < best[0]:
             best = (d, rig_of[k])
     return best[1]
+
+
+def rel(p) -> str:
+    """a path as the report keeps it: repo-relative, else only its last two parts (no scratch paths in committed data)"""
+    p = Path(p).resolve()
+    try:
+        return str(p.relative_to(REPO))
+    except ValueError:
+        return "/".join(p.parts[-2:])
 
 
 def jsonable(o):
@@ -847,7 +868,7 @@ def main(argv=None):
         items.append(from_rule(e, target=e.get("q365_target")))
     G = Guarder(d, key, E)
     guard_all(G, E, items)
-    rep = {"schema": "nmsk.q365.nerves.v1", "round": TAG, "generated": time.strftime("%Y-%m-%d"), "page_dir": str(d), "key": key,
+    rep = {"schema": "nmsk.q365.nerves.v1", "round": TAG, "generated": time.strftime("%Y-%m-%d"), "page_dir": rel(d), "key": key,
            "parameters": dict(groove_mm=GROOVE_MM, accomp_mm=ACCOMP_MM, lr_max=LR_MAX, reach_mm=REACH_MM, reach_split_mm=REACH_SPLIT_MM,
                               kink_deg=KINK_DEG, bone_mm=BONE_MM),
            "structures": {it["id"]: jsonable(it) for it in items}}
@@ -897,7 +918,7 @@ def main(argv=None):
     allr["pages"][stem] = rep
     rp.parent.mkdir(parents=True, exist_ok=True)
     rp.write_text(json.dumps(allr, indent=1), encoding="utf-8")
-    print(f"Q365_NERVES_{'WRITTEN' if (a.write and ship) else 'DRY'} {d}: {len(ship)} placed, {len(items) - len(ship)} held -> {rp}")
+    print(f"Q365_NERVES_{'WRITTEN' if (a.write and ship) else 'DRY'} {d}: {len(ship)} placed, {len(items) - len(ship)} held -> {rel(rp)}")
     return 0
 
 

@@ -134,6 +134,7 @@ def patch_manifest(man: dict, cats: dict, muscles: dict) -> dict:
             t, mv = R.split_badge(rec["procedural_badge"])
             if mv:
                 moved.append(mv)
+            if mv or t != rec["procedural_badge"]:          # Q365: also a re-led Q357 note (R.q357_lead)
                 ch["badge"].append(mid)
                 if t:
                     rec["procedural_badge"] = t

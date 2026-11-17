@@ -611,8 +611,8 @@ def note_for(sid, rep):
     who = "nerve" if rep["sys"] == "nerve" else "vessel"
     st = rep["displacement"]
     tail = (" Its passage through the %s is anatomical and was kept." % ", ".join(bone_label(b) for b in kept)) if kept else ""
-    return (f"{TAG} moved out of the {lab}, where the source registration left {n} of its vertices up to {dmax:.1f} mm inside the bone "
-            f"(the {who} does not pass through the bone there); each part moved along the bone's outward normal to {CLEAR:g} mm outside "
+    return (f"{TAG} moved out of bone ({dmax:.1f} mm deep: a registration error, not a passage). Bones: the {lab}; the source registration "
+            f"had left {n} of its vertices inside; each part moved along the bone's outward normal to {CLEAR:g} mm outside "
             f"the surface, cross-sections moved whole and the move fades along the {who} over about {FALL:g} mm; max {st['max_mm']} mm "
             f"(cap {CAP:g} mm), mean {st['mean_moved_mm']} mm; the shape and mesh are the source's (vertex / triangle counts unchanged).{tail}")
 
