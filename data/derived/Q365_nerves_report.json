@@ -1,0 +1,1687 @@
+{
+ "schema": "nmsk.q365.nerves_report.v1",
+ "pages": {
+  "atlas_viewer_zan_atlas": {
+   "schema": "nmsk.q365.nerves.v1",
+   "round": "Q365",
+   "generated": "2026-11-17",
+   "page_dir": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/src/viewer_zan_atlas",
+   "key": "base_m",
+   "parameters": {
+    "groove_mm": 3.0,
+    "accomp_mm": 6.0,
+    "lr_max": 1.6,
+    "reach_mm": 2.0,
+    "reach_split_mm": 8.0,
+    "kink_deg": 75.0,
+    "bone_mm": 1.0
+   },
+   "structures": {
+    "trigeminal_n_v2_infraorbital_branch_l": {
+     "id": "trigeminal_n_v2_infraorbital_branch_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "split",
+     "trunk": "zan_maxillary_nerve_l",
+     "report": {
+      "split_point": [
+       -20.5,
+       719.8,
+       45.0
+      ],
+      "split_index": 25,
+      "centreline_points": 59,
+      "main_tube_pieces_beyond_plane": 1,
+      "face_branch_tubes": 4,
+      "maxilla_distance_at_split_mm": 2.44,
+      "artery_distance_at_split_mm": 10.99,
+      "infraorbital": {
+       "vertices": 459,
+       "triangles": 898,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 61.0,
+       "volume_mm3": 20.3
+      },
+      "maxillary_rest": {
+       "vertices": 163,
+       "triangles": 322,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 47.9
+      },
+      "source_vertices": 610,
+      "source_triangles": 1200
+     },
+     "length_mm": 60.97960389589357,
+     "target": [
+      "levator_labii_superioris_l",
+      "zan_skin_infra_orbital_region_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 61.0,
+      "other_side_length_mm": 61.0,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 0.13398358812756608,
+      "kink_deg": 142.8,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "trigeminal_n_v2_infraorbital_branch_r": {
+     "id": "trigeminal_n_v2_infraorbital_branch_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "split",
+     "trunk": "zan_maxillary_nerve_r",
+     "report": {
+      "split_point": [
+       20.8,
+       719.6,
+       45.3
+      ],
+      "split_index": 25,
+      "centreline_points": 59,
+      "main_tube_pieces_beyond_plane": 1,
+      "face_branch_tubes": 4,
+      "maxilla_distance_at_split_mm": 2.03,
+      "artery_distance_at_split_mm": 10.52,
+      "infraorbital": {
+       "vertices": 447,
+       "triangles": 874,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 61.0,
+       "volume_mm3": 20.0
+      },
+      "maxillary_rest": {
+       "vertices": 179,
+       "triangles": 354,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 48.1
+      },
+      "source_vertices": 610,
+      "source_triangles": 1200
+     },
+     "length_mm": 60.990264955666476,
+     "target": [
+      "levator_labii_superioris_r",
+      "zan_skin_infra_orbital_region_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 61.0,
+      "other_side_length_mm": 61.0,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 0.15726003229715593,
+      "kink_deg": 144.6,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "accessory_n_scm_branch_r": {
+     "id": "accessory_n_scm_branch_r",
+     "side": "r",
+     "status": "held",
+     "held": [
+      "the branch point and the sternocleidomastoid_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "kind": "rule"
+    },
+    "greater_occipital_n_l": {
+     "id": "greater_occipital_n_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 802,
+      "triangles": 1600,
+      "watertight": true,
+      "volume_mm3": 248.9,
+      "volume_cm3": 0.2489,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 0.2,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 150.7,
+      "diameter_mm": [
+       1.5,
+       1.5
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 1.3,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.1,
+      "waypoints": [
+       [
+        -24.5,
+        657.7,
+        -28.6
+       ],
+       [
+        -12.7,
+        655.9,
+        -44.4
+       ],
+       [
+        -25.2,
+        690.1,
+        -58.4
+       ],
+       [
+        -20.1,
+        713.2,
+        -77.7
+       ],
+       [
+        -22.5,
+        724.9,
+        -87.9
+       ],
+       [
+        -24.8,
+        744.6,
+        -94.7
+       ],
+       [
+        -26.0,
+        759.1,
+        -98.2
+       ],
+       [
+        -27.3,
+        768.6,
+        -97.3
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 150.7,
+     "target": [
+      "zan_skin_occipital_region_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 150.7,
+      "other_side_length_mm": 150.7,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 1.9144647683014808,
+      "kink_deg": 14.7,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "third_occipital_n_l": {
+     "id": "third_occipital_n_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 802,
+      "triangles": 1600,
+      "watertight": true,
+      "volume_mm3": 97.2,
+      "volume_cm3": 0.0972,
+      "pushed_out_of_bone": 7,
+      "min_signed_distance_mm": -0.77,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 136.7,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.037,
+      "push_out_displacement_max_mm": 2.9,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.2,
+      "waypoints": [
+       [
+        -13.5,
+        651.9,
+        -22.0
+       ],
+       [
+        -5.3,
+        712.0,
+        -79.3
+       ],
+       [
+        -10.8,
+        726.3,
+        -92.0
+       ],
+       [
+        -15.5,
+        750.7,
+        -97.6
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 136.7,
+     "target": [
+      "zan_skin_occipital_region_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 136.7,
+      "other_side_length_mm": 136.1,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 0.9969641831623475,
+      "kink_deg": 4.4,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "suboccipital_n_l": {
+     "id": "suboccipital_n_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 122,
+      "triangles": 240,
+      "watertight": true,
+      "volume_mm3": 16.0,
+      "volume_cm3": 0.016,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 0.74,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 22.2,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 0.0,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 12.8,
+      "waypoints": [
+       [
+        -24.7,
+        689.8,
+        -19.7
+       ],
+       [
+        -25.7,
+        685.1,
+        -28.0
+       ],
+       [
+        -26.7,
+        680.3,
+        -36.3
+       ],
+       [
+        -27.8,
+        679.6,
+        -35.6
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 22.2,
+     "target": [
+      "rectus_capitis_posterior_major_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 22.2,
+      "other_side_length_mm": 22.5,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.3673800605236145,
+      "kink_deg": 19.0,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "greater_occipital_n_r": {
+     "id": "greater_occipital_n_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 802,
+      "triangles": 1600,
+      "watertight": true,
+      "volume_mm3": 249.1,
+      "volume_cm3": 0.2491,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 0.16,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 150.7,
+      "diameter_mm": [
+       1.5,
+       1.5
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 1.3,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.1,
+      "waypoints": [
+       [
+        24.4,
+        657.8,
+        -28.6
+       ],
+       [
+        12.7,
+        655.9,
+        -44.4
+       ],
+       [
+        25.2,
+        690.1,
+        -58.4
+       ],
+       [
+        20.1,
+        713.2,
+        -77.7
+       ],
+       [
+        22.5,
+        724.9,
+        -87.9
+       ],
+       [
+        24.8,
+        744.6,
+        -94.7
+       ],
+       [
+        25.8,
+        759.1,
+        -98.3
+       ],
+       [
+        27.2,
+        768.7,
+        -97.4
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 150.7,
+     "target": [
+      "zan_skin_occipital_region_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 150.7,
+      "other_side_length_mm": 150.7,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 1.862334198909734,
+      "kink_deg": 14.7,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "third_occipital_n_r": {
+     "id": "third_occipital_n_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 802,
+      "triangles": 1600,
+      "watertight": true,
+      "volume_mm3": 96.3,
+      "volume_cm3": 0.0963,
+      "pushed_out_of_bone": 8,
+      "min_signed_distance_mm": -0.8,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 136.1,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.037,
+      "push_out_displacement_max_mm": 3.1,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.0,
+      "waypoints": [
+       [
+        13.5,
+        651.9,
+        -22.0
+       ],
+       [
+        5.3,
+        712.0,
+        -79.3
+       ],
+       [
+        10.8,
+        726.4,
+        -91.8
+       ],
+       [
+        15.7,
+        750.3,
+        -97.6
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 136.1,
+     "target": [
+      "zan_skin_occipital_region_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 136.1,
+      "other_side_length_mm": 136.7,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 0.9728007960752448,
+      "kink_deg": 4.2,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "suboccipital_n_r": {
+     "id": "suboccipital_n_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 132,
+      "triangles": 260,
+      "watertight": true,
+      "volume_mm3": 16.1,
+      "volume_cm3": 0.0161,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 0.63,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 22.5,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 0.0,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 13.1,
+      "waypoints": [
+       [
+        24.7,
+        689.8,
+        -19.7
+       ],
+       [
+        25.7,
+        685.1,
+        -28.0
+       ],
+       [
+        26.7,
+        680.3,
+        -36.3
+       ],
+       [
+        27.8,
+        679.3,
+        -34.8
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 22.5,
+     "target": [
+      "rectus_capitis_posterior_major_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 22.5,
+      "other_side_length_mm": 22.2,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.3790632945187685,
+      "kink_deg": 26.6,
+      "closed": true,
+      "pass": true
+     }
+    }
+   },
+   "other_sided_branches": {
+    "femoral_n_branch_to_iliacus_l": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the zan_iliacus_muscle_l surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_pectineus_l": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the pectineus_l surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_sartorius_l": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the sartorius_l surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "tibial_n_branch_to_popliteus_l": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the popliteus_l surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_iliacus_r": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the zan_iliacus_muscle_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_pectineus_r": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the pectineus_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_sartorius_r": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the sartorius_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "tibial_n_branch_to_popliteus_r": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the popliteus_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "hypoglossal_n_lingual_branches_l": {
+     "status": "held",
+     "held": [
+      "the branch point and the genioglossus_l surface are within 3 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "hypoglossal_n_lingual_branches_r": {
+     "status": "ship",
+     "held": [],
+     "length_mm": 3.2
+    },
+    "anococcygeal_n_l": {
+     "status": "held",
+     "held": [
+      "closer than 2 mm to / outside the skin (-37.1 mm)"
+     ],
+     "length_mm": 22.0
+    },
+    "anococcygeal_n_r": {
+     "status": "held",
+     "held": [
+      "closer than 2 mm to / outside the skin (-37.0 mm)"
+     ],
+     "length_mm": 22.2
+    }
+   },
+   "meshes_before": 3264,
+   "meshes_after": 3272,
+   "inserted_at": 3264,
+   "rig": {
+    "rig_in": "/home/user/NMSK_Atlas/data/anatomy/pose_rig_base_m.json",
+    "rig_out": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/rig_base_m.json",
+    "count_before": 3264,
+    "count_after": 3272,
+    "added": [
+     [
+      "trigeminal_n_v2_infraorbital_branch_l",
+      "head"
+     ],
+     [
+      "trigeminal_n_v2_infraorbital_branch_r",
+      "head"
+     ],
+     [
+      "greater_occipital_n_l",
+      "head"
+     ],
+     [
+      "third_occipital_n_l",
+      "head"
+     ],
+     [
+      "suboccipital_n_l",
+      "vC1"
+     ],
+     [
+      "greater_occipital_n_r",
+      "head"
+     ],
+     [
+      "third_occipital_n_r",
+      "head"
+     ],
+     [
+      "suboccipital_n_r",
+      "vC1"
+     ]
+    ]
+   },
+   "files_written": [
+    "atlas_viewer_zan_atlas_geo_01.txt",
+    "atlas_viewer_zan_atlas_geo_02.txt",
+    "atlas_viewer_zan_atlas_geo_03.txt",
+    "atlas_viewer_zan_atlas.html",
+    "index.html"
+   ],
+   "calibre_rows": 10,
+   "seconds": 179.6
+  },
+  "atlas_viewer_base_female": {
+   "schema": "nmsk.q365.nerves.v1",
+   "round": "Q365",
+   "generated": "2026-11-17",
+   "page_dir": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/src/viewer_base_female",
+   "key": "base_f",
+   "parameters": {
+    "groove_mm": 3.0,
+    "accomp_mm": 6.0,
+    "lr_max": 1.6,
+    "reach_mm": 2.0,
+    "reach_split_mm": 8.0,
+    "kink_deg": 75.0,
+    "bone_mm": 1.0
+   },
+   "structures": {
+    "trigeminal_n_v2_infraorbital_branch_l": {
+     "id": "trigeminal_n_v2_infraorbital_branch_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "split",
+     "trunk": "zan_maxillary_nerve_l",
+     "report": {
+      "split_point": [
+       -19.3,
+       718.6,
+       42.7
+      ],
+      "split_index": 24,
+      "centreline_points": 59,
+      "main_tube_pieces_beyond_plane": 1,
+      "face_branch_tubes": 4,
+      "maxilla_distance_at_split_mm": 2.85,
+      "artery_distance_at_split_mm": 11.04,
+      "infraorbital": {
+       "vertices": 459,
+       "triangles": 898,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 58.8,
+       "volume_mm3": 18.3
+      },
+      "maxillary_rest": {
+       "vertices": 162,
+       "triangles": 320,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 44.6
+      },
+      "source_vertices": 610,
+      "source_triangles": 1200
+     },
+     "length_mm": 58.77125420028941,
+     "target": [
+      "levator_labii_superioris_l",
+      "zan_skin_infra_orbital_region_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 58.8,
+      "other_side_length_mm": 59.4,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.11749019795699257,
+      "kink_deg": 145.3,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "trigeminal_n_v2_infraorbital_branch_r": {
+     "id": "trigeminal_n_v2_infraorbital_branch_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "split",
+     "trunk": "zan_maxillary_nerve_r",
+     "report": {
+      "split_point": [
+       19.2,
+       718.7,
+       42.6
+      ],
+      "split_index": 25,
+      "centreline_points": 60,
+      "main_tube_pieces_beyond_plane": 1,
+      "face_branch_tubes": 4,
+      "maxilla_distance_at_split_mm": 2.98,
+      "artery_distance_at_split_mm": 11.25,
+      "infraorbital": {
+       "vertices": 450,
+       "triangles": 880,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 59.4,
+       "volume_mm3": 18.0
+      },
+      "maxillary_rest": {
+       "vertices": 171,
+       "triangles": 338,
+       "caps": 1,
+       "watertight": true,
+       "winding_consistent": true,
+       "length_mm": 44.0
+      },
+      "source_vertices": 610,
+      "source_triangles": 1200
+     },
+     "length_mm": 59.40287226880443,
+     "target": [
+      "levator_labii_superioris_r",
+      "zan_skin_infra_orbital_region_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 59.4,
+      "other_side_length_mm": 58.8,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.14283475730250136,
+      "kink_deg": 146.4,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "facial_n_cervical_branch_r": {
+     "id": "facial_n_cervical_branch_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 102,
+      "triangles": 200,
+      "watertight": true,
+      "volume_mm3": 1.7,
+      "volume_cm3": 0.0017,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 4.3,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 2.4,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 0.0,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 1.8,
+      "waypoints": [
+       [
+        44.6,
+        652.4,
+        52.6
+       ],
+       [
+        43.7,
+        652.9,
+        52.0
+       ],
+       [
+        42.8,
+        653.4,
+        51.4
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 2.4,
+     "target": [
+      "platysma_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 2.4,
+      "other_side_length_mm": 2.9,
+      "length_ratio": 1.21,
+      "end_to_target_mm": 0.3486324537558016,
+      "kink_deg": 0.0,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "accessory_n_scm_branch_r": {
+     "id": "accessory_n_scm_branch_r",
+     "side": "r",
+     "status": "held",
+     "held": [
+      "the branch point and the sternocleidomastoid_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "kind": "rule"
+    },
+    "facial_n_temporal_branch_l": {
+     "id": "facial_n_temporal_branch_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 552,
+      "triangles": 1100,
+      "watertight": true,
+      "volume_mm3": 69.0,
+      "volume_cm3": 0.069,
+      "pushed_out_of_bone": 1,
+      "min_signed_distance_mm": -0.32,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 93.6,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.055,
+      "push_out_displacement_max_mm": 2.0,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.1,
+      "waypoints": [
+       [
+        -38.5,
+        718.3,
+        5.1
+       ],
+       [
+        -56.6,
+        710.6,
+        19.5
+       ],
+       [
+        -58.5,
+        715.1,
+        45.7
+       ],
+       [
+        -47.1,
+        745.6,
+        66.0
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 93.6,
+     "target": [
+      "frontalis_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 93.6,
+      "other_side_length_mm": 92.5,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.7185347417841306,
+      "kink_deg": 5.3,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "greater_occipital_n_l": {
+     "id": "greater_occipital_n_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 802,
+      "triangles": 1600,
+      "watertight": true,
+      "volume_mm3": 236.9,
+      "volume_cm3": 0.2369,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 0.22,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 143.4,
+      "diameter_mm": [
+       1.5,
+       1.5
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 1.1,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.2,
+      "waypoints": [
+       [
+        -23.8,
+        652.0,
+        -21.2
+       ],
+       [
+        -12.4,
+        650.9,
+        -36.7
+       ],
+       [
+        -23.7,
+        683.5,
+        -53.1
+       ],
+       [
+        -19.1,
+        702.8,
+        -72.1
+       ],
+       [
+        -21.4,
+        712.9,
+        -82.5
+       ],
+       [
+        -23.7,
+        731.2,
+        -90.3
+       ],
+       [
+        -25.4,
+        747.4,
+        -94.7
+       ],
+       [
+        -26.3,
+        753.7,
+        -94.4
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 143.4,
+     "target": [
+      "zan_skin_occipital_region_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 143.4,
+      "other_side_length_mm": 143.1,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 1.8665271709058686,
+      "kink_deg": 12.3,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "third_occipital_n_l": {
+     "id": "third_occipital_n_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 792,
+      "triangles": 1580,
+      "watertight": true,
+      "volume_mm3": 97.2,
+      "volume_cm3": 0.0972,
+      "pushed_out_of_bone": 14,
+      "min_signed_distance_mm": -0.77,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 135.9,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.051,
+      "push_out_displacement_max_mm": 2.7,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.1,
+      "waypoints": [
+       [
+        -13.9,
+        646.3,
+        -13.6
+       ],
+       [
+        -5.1,
+        701.3,
+        -73.5
+       ],
+       [
+        -10.3,
+        714.0,
+        -86.4
+       ],
+       [
+        -14.8,
+        739.7,
+        -94.1
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 135.9,
+     "target": [
+      "zan_skin_occipital_region_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 135.9,
+      "other_side_length_mm": 135.1,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.9152598418615739,
+      "kink_deg": 4.4,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "suboccipital_n_l": {
+     "id": "suboccipital_n_l",
+     "side": "l",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 122,
+      "triangles": 240,
+      "watertight": true,
+      "volume_mm3": 14.9,
+      "volume_cm3": 0.0149,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 1.15,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 20.4,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 0.0,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 11.7,
+      "waypoints": [
+       [
+        -24.0,
+        683.2,
+        -14.4
+       ],
+       [
+        -24.9,
+        678.5,
+        -22.2
+       ],
+       [
+        -25.7,
+        673.8,
+        -30.1
+       ],
+       [
+        -26.5,
+        672.8,
+        -30.3
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 20.4,
+     "target": [
+      "rectus_capitis_posterior_major_l"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 20.4,
+      "other_side_length_mm": 20.8,
+      "length_ratio": 1.02,
+      "end_to_target_mm": 0.33529873200628363,
+      "kink_deg": 6.9,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "facial_n_temporal_branch_r": {
+     "id": "facial_n_temporal_branch_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 542,
+      "triangles": 1080,
+      "watertight": true,
+      "volume_mm3": 64.0,
+      "volume_cm3": 0.064,
+      "pushed_out_of_bone": 14,
+      "min_signed_distance_mm": -0.78,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 92.5,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.074,
+      "push_out_displacement_max_mm": 2.5,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.1,
+      "waypoints": [
+       [
+        40.2,
+        720.0,
+        6.7
+       ],
+       [
+        56.6,
+        710.6,
+        19.5
+       ],
+       [
+        58.5,
+        715.1,
+        45.7
+       ],
+       [
+        46.6,
+        745.0,
+        66.4
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 92.5,
+     "target": [
+      "frontalis_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 92.5,
+      "other_side_length_mm": 93.6,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.701969743846368,
+      "kink_deg": 5.7,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "greater_occipital_n_r": {
+     "id": "greater_occipital_n_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 802,
+      "triangles": 1600,
+      "watertight": true,
+      "volume_mm3": 236.5,
+      "volume_cm3": 0.2365,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 0.18,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 143.1,
+      "diameter_mm": [
+       1.5,
+       1.5
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 1.7,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.1,
+      "waypoints": [
+       [
+        19.6,
+        652.0,
+        -19.9
+       ],
+       [
+        12.4,
+        650.9,
+        -36.7
+       ],
+       [
+        23.8,
+        683.5,
+        -53.1
+       ],
+       [
+        19.1,
+        702.8,
+        -72.1
+       ],
+       [
+        21.4,
+        718.4,
+        -86.6
+       ],
+       [
+        23.7,
+        731.2,
+        -90.3
+       ],
+       [
+        25.6,
+        752.8,
+        -94.4
+       ],
+       [
+        26.0,
+        753.8,
+        -94.6
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 143.1,
+     "target": [
+      "zan_skin_occipital_region_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 143.1,
+      "other_side_length_mm": 143.4,
+      "length_ratio": 1.0,
+      "end_to_target_mm": 1.7290606960446198,
+      "kink_deg": 10.2,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "third_occipital_n_r": {
+     "id": "third_occipital_n_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 792,
+      "triangles": 1580,
+      "watertight": true,
+      "volume_mm3": 97.0,
+      "volume_cm3": 0.097,
+      "pushed_out_of_bone": 4,
+      "min_signed_distance_mm": -0.76,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 135.1,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.051,
+      "push_out_displacement_max_mm": 3.2,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 0.1,
+      "waypoints": [
+       [
+        13.9,
+        646.3,
+        -13.6
+       ],
+       [
+        5.1,
+        701.3,
+        -73.5
+       ],
+       [
+        10.3,
+        714.1,
+        -86.3
+       ],
+       [
+        14.7,
+        739.4,
+        -94.0
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 135.1,
+     "target": [
+      "zan_skin_occipital_region_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 135.1,
+      "other_side_length_mm": 135.9,
+      "length_ratio": 1.01,
+      "end_to_target_mm": 0.9684164202321243,
+      "kink_deg": 4.3,
+      "closed": true,
+      "pass": true
+     }
+    },
+    "suboccipital_n_r": {
+     "id": "suboccipital_n_r",
+     "side": "r",
+     "status": "ship",
+     "held": [],
+     "kind": "rule",
+     "report": {
+      "vertices": 122,
+      "triangles": 240,
+      "watertight": true,
+      "volume_mm3": 15.2,
+      "volume_cm3": 0.0152,
+      "pushed_out_of_bone": 0,
+      "min_signed_distance_mm": 1.14,
+      "vertices_deeper_1mm": 0,
+      "length_mm": 20.8,
+      "diameter_mm": [
+       1.0,
+       1.0
+      ],
+      "raw_path_fraction_inside_bone": 0.0,
+      "push_out_displacement_max_mm": 0.0,
+      "soft_overlap": {
+       "muscle_fraction_deeper_6mm": 0.0,
+       "organ_fraction_deeper_3mm": 0.0,
+       "top": {},
+       "z_filled_estimates_not_gated": {}
+      },
+      "skin_min_depth_mm": 11.0,
+      "waypoints": [
+       [
+        24.0,
+        683.2,
+        -14.4
+       ],
+       [
+        24.9,
+        678.5,
+        -22.2
+       ],
+       [
+        25.7,
+        673.8,
+        -30.1
+       ],
+       [
+        27.1,
+        672.5,
+        -30.8
+       ]
+      ],
+      "waypoint_error_bound_mm": 10.0
+     },
+     "length_mm": 20.8,
+     "target": [
+      "rectus_capitis_posterior_major_r"
+     ],
+     "q365_guards": {
+      "in_bone": {},
+      "outside_skin_vertices": 0,
+      "length_mm": 20.8,
+      "other_side_length_mm": 20.4,
+      "length_ratio": 1.02,
+      "end_to_target_mm": 0.39003162163188904,
+      "kink_deg": 5.5,
+      "closed": true,
+      "pass": true
+     }
+    }
+   },
+   "other_sided_branches": {
+    "femoral_n_branch_to_iliacus_l": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the zan_iliacus_muscle_l surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_pectineus_l": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the pectineus_l surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_sartorius_l": {
+     "status": "ship",
+     "held": [],
+     "length_mm": 3.3
+    },
+    "tibial_n_branch_to_popliteus_l": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the popliteus_l surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_iliacus_r": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the zan_iliacus_muscle_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_pectineus_r": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the pectineus_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "femoral_n_branch_to_sartorius_r": {
+     "status": "held",
+     "held": [
+      "length 2 mm outside the plausible range 3-160.0 mm"
+     ],
+     "length_mm": 2.2
+    },
+    "tibial_n_branch_to_popliteus_r": {
+     "status": "held",
+     "held": [
+      "the nerve's own centreline and the popliteus_r surface are within 2 mm of each other on this page (no real length for a separate branch)"
+     ],
+     "length_mm": null
+    },
+    "hypoglossal_n_lingual_branches_l": {
+     "status": "ship",
+     "held": [],
+     "length_mm": 3.4
+    },
+    "hypoglossal_n_lingual_branches_r": {
+     "status": "ship",
+     "held": [],
+     "length_mm": 3.6
+    },
+    "dorsal_n_clitoris_l": {
+     "status": "held",
+     "held": [
+      "nerve lies lateral to the pudendal vessel at 71 % of the samples (textbook order violated)"
+     ],
+     "length_mm": 43.1
+    },
+    "anococcygeal_n_l": {
+     "status": "held",
+     "held": [
+      "closer than 2 mm to / outside the skin (-37.0 mm)"
+     ],
+     "length_mm": 23.8
+    },
+    "dorsal_n_clitoris_r": {
+     "status": "held",
+     "held": [
+      "nerve lies lateral to the pudendal vessel at 76 % of the samples (textbook order violated)"
+     ],
+     "length_mm": 43.7
+    },
+    "anococcygeal_n_r": {
+     "status": "held",
+     "held": [
+      "closer than 2 mm to / outside the skin (-36.6 mm)"
+     ],
+     "length_mm": 24.0
+    }
+   },
+   "meshes_before": 3302,
+   "meshes_after": 3313,
+   "inserted_at": 3300,
+   "rig": {
+    "rig_in": "/home/user/NMSK_Atlas/data/anatomy/pose_rig_base_f.json",
+    "rig_out": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q365/rig_base_f.json",
+    "count_before": 3302,
+    "count_after": 3313,
+    "added": [
+     [
+      "trigeminal_n_v2_infraorbital_branch_l",
+      "head"
+     ],
+     [
+      "trigeminal_n_v2_infraorbital_branch_r",
+      "head"
+     ],
+     [
+      "facial_n_cervical_branch_r",
+      "head"
+     ],
+     [
+      "facial_n_temporal_branch_l",
+      "head"
+     ],
+     [
+      "greater_occipital_n_l",
+      "head"
+     ],
+     [
+      "third_occipital_n_l",
+      "head"
+     ],
+     [
+      "suboccipital_n_l",
+      "vC1"
+     ],
+     [
+      "facial_n_temporal_branch_r",
+      "head"
+     ],
+     [
+      "greater_occipital_n_r",
+      "head"
+     ],
+     [
+      "third_occipital_n_r",
+      "head"
+     ],
+     [
+      "suboccipital_n_r",
+      "vC1"
+     ]
+    ]
+   },
+   "files_written": [
+    "atlas_viewer_base_female_geo_01.txt",
+    "atlas_viewer_base_female_geo_02.txt",
+    "atlas_viewer_base_female_geo_03.txt",
+    "atlas_viewer_base_female.html",
+    "index.html"
+   ],
+   "calibre_rows": 13,
+   "seconds": 187.6
+  }
+ }
+}
