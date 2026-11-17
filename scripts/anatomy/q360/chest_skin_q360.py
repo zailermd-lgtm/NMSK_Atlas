@@ -87,6 +87,7 @@ SAMPLE_MM = 0.5      # target sampling (closest point = nearest sample + project
 TANG_MAX = 1.5       # mm: a point farther than this sideways from a piece's surface lies beyond that piece (slot), not over it
 OVL_MM = 8.0         # mm: stacked pieces within this height of the nearest one: the outermost is followed
 PLAUS_MM = 25.0      # mm: in the soft rounds a target farther than this is not trusted
+PRE_RELEASE = False  # True: release before the subdivision (that border is then refined freely); False: in the fit + neighbour follows
 RIM_PULL = False     # a released border vertex is fitted like any free border vertex (True: pulled to the current pieces' rim)
 FAR_ROUNDS = 3       # the first (stiff, far) rounds find the surface through Q353's outer-sheet classification
 FACE_COS = 0.8       # a target sample whose face normal is more than ~37 degrees off the vertex normal is not followed
@@ -101,6 +102,8 @@ RBF_N = 6000         # thin-plate spline samples (deterministic stride)
 TUCK_GUARD = ("muscle", "bone", "cartilage")
 CHEST_BOX = (np.array([-220.0, 230.0, -160.0]), np.array([220.0, 700.0, 200.0]))
 PX = 0.5             # mm per pixel of the hole raster
+FOLD_MAX_PCT = 0.2   # % of the new outer faces that may be folded (> 120 degrees to a neighbour) or have a flipped inner face
+HOLE_PIECE_MAX = 100 # px (25 mm2): no see-through piece larger than this, and no view with more hole pixels than before
 
 
 # ------------------------------------------------------------------ small helpers
@@ -270,13 +273,10 @@ def source_surface(gm, gf, chest, log):
         vm, fk = gm.V0[k]
         s = np.all((vm >= lo) & (vm <= hi), axis=1)
         if s.any():
-            # only the neighbour's OUTER-sheet vertices are a border to share (on the right, the Z lateral thorax touches the arm
-            # skin's INNER sheet at one axillary point)
             outer_v = np.zeros(len(vm), bool); outer_v[np.unique(fk[z_sheets(gm, k) == 1])] = True
-            s = s & outer_v
             PV.append(vm[s]); PF.append(gf.V0[k][0][s]); PO += [k] * int(s.sum())
             ek = np.unique(edges_of(fk), axis=0)
-            ek = ek[s[ek].any(1)]
+            ek = ek[(s & outer_v)[ek].all(1)]          # an outer-sheet edge of the neighbour (T-junctions)
             EM.append(vm[ek]); EF.append(gf.V0[k][0][ek]); EO += [k] * len(ek)
     PV, PF = np.vstack(PV), np.vstack(PF); PO = np.array(PO)
     EM, EF, EO = np.vstack(EM), np.vstack(EF), np.array(EO)
@@ -693,7 +693,12 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
     li = np.where(lock)[0]
     U0 = vnormals(X0, F)
     gap = T.dist(tgt_lock[li], U0[li])[0] if len(li) else np.zeros(0)
-    rel = np.zeros(0, int)
+    rel = li[gap > LOCK_GAP_MAX]           # the pieces disagree too much to join here (the right axilla); the neighbour follows
+    lock[rel] = False                      # the chest skin there instead (neighbour_follow)
+    free = ~lock
+    fit.released = rel
+    keep = gap <= LOCK_GAP_MAX
+    li, gap = li[keep], gap[keep]
     dis = li[gap > 0.5]
     wl = np.ones(n)
     if len(dis):
@@ -1166,7 +1171,7 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     # subdivision, so that border is subdivided and fitted like any free border)
     li = np.where(S["lock"])[0]
     g0 = T.dist(S["lock_tgt"][li], vnormals(X0, S["F"])[li])[0]
-    rel = li[g0 > LOCK_GAP_MAX]
+    rel = li[g0 > LOCK_GAP_MAX] if PRE_RELEASE else np.zeros(0, int)
     if len(rel):
         S["lock"] = S["lock"].copy(); S["lock"][rel] = False
         X0[rel] = X0[rel]          # (its position stays the frame-mapped one; the fit takes it from there)
@@ -1190,7 +1195,9 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     THICK_NOTE = f"{thick:.1f} mm"
     Y, rep["inner"] = inner_of(Xf, F, lock, S, gf, gm, thick)
     rep["thickness_mm"] = {"used": round(thick, 3), "z_source_median_per_region": {k: round(v, 2) for k, v in th.items()}}
-    follow, rep["neighbour_follows"] = {}, []
+    # --- a released border vertex: the neighbour's own vertex there (and its inner partner, if it has one) follows the chest skin, so
+    #     the border stays shared (the right axilla: the arm skin's border point lies 7.6 mm inside her breast, Q250 / Q292)
+    follow, rep["neighbour_follows"] = neighbour_follow(gf, fit.released, tl, Xf, Y, S)
     # --- deviation from the current outer surface, per region
     Uf = vnormals(Xf, F)
     dist, tang, drim = T.dist(Xf, Uf)
@@ -1200,8 +1207,10 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     if len(li):
         gl = T.dist(Xf[li], Uf[li])[0]
         m = gl > 0.5
-        if m.any():
-            dis_tree = (cKDTree(Xf[li[m]]), gl[m])
+        P_ = np.vstack([Xf[li[m]], tl[fit.released]]) if len(fit.released) else Xf[li[m]]
+        G_ = np.r_[gl[m], np.linalg.norm(tl[fit.released] - Xf[fit.released], axis=1)] if len(fit.released) else gl[m]
+        if len(P_):
+            dis_tree = (cKDTree(P_), G_)
     allowed = np.where(drim > BAND_OUT, DEV_CAP, DEV_CAP_BORDER)
     if dis_tree is not None:
         dd, jj = dis_tree[0].query(Xf)
@@ -1233,6 +1242,7 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     rep["folded_pairs_merged_surface"] = folds(Xf, F)
     rep["locks_off_current_surface"] = {"n": int((gap > 0.5).sum()), "gap_mm": st(gap[gap > 0.5]) if (gap > 0.5).any() else None}
     rep["per_region"] = per
+    rep["folded_before_pairs"] = int(sum(folds(gf.V0[k][0], gf.V0[k][1][gf.sheets(k)[0] == 1])[0] for k in chest))
     rep["mirror_median_mm"] = {}
     for k in chest:
         if k.endswith("_r"):
@@ -1385,7 +1395,7 @@ def main(argv=None):
     rep["holes_after"] = holes(gf, chest)
     if a.debug_npz:
         np.savez_compressed(a.debug_npz, Xf=G["Xf"], F=G["F"], L=G["L"],
-                            **{f"tuck__{k}": gf.cur[k] for k in tuck})
+                            **{f"tuck__{k}": gf.cur[k] for k in tuck}, **{f"follow__{k}": v for k, v in follow.items()})
     for v_ in ("front", "lateral_r", "lateral_l"):
         print(f"  holes {v_}: {rep['holes_before'][v_]['hole_px']} -> {rep['holes_after'][v_]['hole_px']} px")
     # --- guards
@@ -1403,7 +1413,17 @@ def main(argv=None):
         "folded_outer_pairs": sum(per[k]["folded_outer_pairs"] for k in chest),
         "mesh_order_last_two": [m["id"] for m in gf.man["meshes"]][-2:],
     }
-    ok = (not guards["weld_below_min"] and not any(guards["holes_after_px"].values()) and not guards["deviation_over_cap_vertices"]
+    hb = {v_: rep["holes_before"][v_]["hole_px"] for v_ in ("front", "lateral_r", "lateral_l")}
+    big = {v_: [w_["px"] for w_ in rep["holes_after"][v_]["largest"] if w_["px"] > HOLE_PIECE_MAX] for v_ in hb}
+    guards["holes_before_px"] = hb
+    guards["hole_pieces_over_max"] = {v_: x for v_, x in big.items() if x}
+    holes_ok = all(guards["holes_after_px"][v_] <= hb[v_] for v_ in hb) and not guards["hole_pieces_over_max"]
+    guards["holes_ok"] = holes_ok
+    nout = sum(int((new[k][2] == 1).sum()) for k in chest)
+    guards["folded_or_flipped_pct_of_outer_faces"] = round(100.0 * (guards["folded_outer_pairs"] + guards["inner_flipped_faces"]) / nout, 3)
+    guards["folded_before_pairs_current_outer"] = rep.get("folded_before_pairs")
+    holes_ok = holes_ok and guards["folded_or_flipped_pct_of_outer_faces"] <= FOLD_MAX_PCT
+    ok = (not guards["weld_below_min"] and holes_ok and not guards["deviation_over_cap_vertices"]
           and not breast_out and not gained and guards["slabs_closed_and_consistent"] and tuple(guards["mesh_order_last_two"]) == LAST_IDS)
     guards["pass"] = bool(ok)
     rep["guards"] = guards

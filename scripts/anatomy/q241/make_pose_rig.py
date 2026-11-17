@@ -221,7 +221,7 @@ def inject(d: Path):
     key = DIRKEY.get(d.name)
     if key is None:
         raise SystemExit("unknown page dir %s (expected one of %s)" % (d.name, sorted(DIRKEY)))
-    f = DATA / ("pose_rig_%s.json" % key)
+    f = Path(os.environ.get("NMSK_POSE_RIG_" + key) or DATA / ("pose_rig_%s.json" % key))   # Q365: a spliced rig of a page COPY can be named
     src = json.loads(f.read_text(encoding="utf-8"))
     payload = src["rig"]
     os.environ["Q241_SRC_" + key] = str(d.resolve())
