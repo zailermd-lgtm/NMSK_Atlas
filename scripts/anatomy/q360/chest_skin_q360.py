@@ -757,7 +757,7 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
 
 
 # ------------------------------------------------------------------ 5. slabs
-def slab(outer_v, inner_v, fo):
+def slab(outer_v, inner_v, fo, diag=None):
     """closed slab from an outer sheet (faces fo, outward) and per-vertex inner positions: inner sheet reversed + rim wall
     (as scripts/anatomy/q358/perineum_skin_q358.py slab)"""
     used = np.unique(fo)
@@ -770,7 +770,14 @@ def slab(outer_v, inner_v, fo):
     bd = e[cnt[inv.ravel()] == 1]
     walls = []
     for a, b in bd:
-        walls += [[b, a, a + nv], [b, a + nv, b + nv]]
+        # the wall quad (a, b, b', a') is cut along the diagonal from the outer end with the smaller SHARED index: the neighbour
+        # cuts its own wall the same way, so the two walls are the same two triangles and the engine's weld finds them face to face
+        # (Q334 twin test; with crossed diagonals the twins were missed and every border was drawn)
+        start = (diag or {}).get((min(used[a], used[b]), max(used[a], used[b])), min(used[a], used[b]))
+        if start == used[a]:
+            walls += [[b, a, b + nv], [b + nv, a, a + nv]]
+        else:
+            walls += [[b, a, a + nv], [b, a + nv, b + nv]]
     Fs = np.vstack([f, f[:, ::-1] + nv] + ([np.array(walls, int)] if walls else []))
     cls = np.r_[np.ones(len(f), int), -np.ones(len(f), int), np.zeros(len(walls), int)]
     return np.vstack([po, pi]), Fs, used, cls
@@ -1215,6 +1222,7 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     # --- a released border vertex: the neighbour's own vertex there (and its inner partner, if it has one) follows the chest skin, so
     #     the border stays shared (the right axilla: the arm skin's border point lies 7.6 mm inside her breast, Q250 / Q292)
     follow, rep["neighbour_follows"] = neighbour_follow(gf, fit.released, tl, Xf, Y, S)
+    diag, rep["walls_matched_to_neighbour"] = neighbour_diagonals(gf, S, Xf, F, lock)
     # --- deviation from the current outer surface, per region
     Uf = vnormals(Xf, F)
     dist, tang, drim = T.dist(Xf, Uf)
@@ -1238,7 +1246,7 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     per = {}
     for i, k in enumerate(chest):
         fo = F[L == i]
-        v, f, used, cls = slab(Xf, Y, fo)
+        v, f, used, cls = slab(Xf, Y, fo, diag)
         new[k] = (v, f, cls)
         vi = used
         t = trimesh.Trimesh(v, f, process=False)
@@ -1267,6 +1275,40 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
             rep["mirror_median_mm"][k[9:-2]] = {"before": mirror_med(gf.V0[k][0], gf.V0[o][0]), "after": mirror_med(new[k][0], new[o][0])}
     log(f"  built {time.time() - t0:.0f} s")
     return dict(gf=gf, gm=gm, chest=chest, new=new, S=S, T=T, Xf=Xf, F=F, L=L, follow=follow), rep
+
+
+def neighbour_diagonals(gf, S, Xf, F, lock):
+    """for a border edge shared with an unchanged neighbour: the diagonal that neighbour's own wall quad uses there (so the two walls
+    are the same triangles and the engine hides them as twins) -> {(i, j): outer vertex the diagonal starts from}"""
+    e, c = np.unique(edges_of(F), axis=0, return_counts=True)
+    be = e[(c == 1) & lock[e[:, 0]] & lock[e[:, 1]]]
+    out, found = {}, 0
+    if not len(be):
+        return out, {"edges": 0, "matched": 0}
+    NB = []
+    for k in S["neighbours"]:
+        v, f = gf.V0[k]
+        NB.append((k, v, f, cKDTree(v)))
+    for a, b in be:
+        for k, v, f, tr in NB:
+            da, ia = tr.query(Xf[a]); db, ib = tr.query(Xf[b])
+            if da > 0.05 or db > 0.05:
+                continue
+            tri = f[(f == ia).any(1) & (f == ib).any(1)]
+            for t in tri:
+                x = [y for y in t if y not in (ia, ib)][0]
+                if np.linalg.norm(v[x] - v[ia]) < 0.5 or np.linalg.norm(v[x] - v[ib]) < 0.5:
+                    continue
+                # x is the inner end; the diagonal starts at the outer vertex NOT above it
+                above_a = np.linalg.norm(v[x] - v[ia]) < np.linalg.norm(v[x] - v[ib])
+                if abs(np.dot(v[x] - v[ia], v[ib] - v[ia])) / max(np.dot(v[ib] - v[ia], v[ib] - v[ia]), 1e-9) > 1.2:
+                    continue
+                out[(int(min(a, b)), int(max(a, b)))] = int(b if above_a else a)
+                found += 1
+                break
+            if (int(min(a, b)), int(max(a, b))) in out:
+                break
+    return out, {"edges": int(len(be)), "matched": int(found)}
 
 
 def neighbour_follow(gf, released, tl, Xf, Y, S):

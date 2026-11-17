@@ -68,6 +68,13 @@ def test_slabs_share_their_border_and_weld_fully():
         assert t.is_watertight and t.is_winding_consistent and t.volume > 0
         assert (cls == 0).any()                               # a wall at the border
         pieces[f"p{i}"] = (v, f)
+    # the two pieces' walls along the shared border are the same triangles (same diagonal), so the engine finds them as twins
+    def wall_tris(k):
+        v, f = pieces[k]; n = len(v) // 2
+        wf = f[((f < n).any(1)) & ((f >= n).any(1))]
+        return {tuple(sorted(map(tuple, np.round(v[t], 4).tolist()))) for t in wf}
+    common = wall_tris("p0") & wall_tris("p1")
+    assert len(common) >= 2 * 4 * 2
     w = X.weld_stats(pieces, {"p0", "p1"})
     # the shared border (outer and inner) welds exactly; the rest of each rim is the free outer border of the plane
     for k in w:
