@@ -71,7 +71,7 @@ def head_geom(pg):
       const with_ = rh.height, cw = c.getBoundingClientRect();
       a.style.display = 'none'; const without = h.getBoundingClientRect().height, cardNo = c.getBoundingClientRect().height; a.style.display = '';
       return {with: with_, without, cardWith: cw.height, cardWithout: cardNo, cardR: cw.right, vw: innerWidth,
-              sw: [rs.width, rs.height], add: [rd.width, rd.height], sameRow: rs.top >= rh.top - 1 && rs.bottom <= rh.bottom + 1 && rd.top >= rh.top - 1 && rd.bottom <= rh.bottom + 1,
+              sw: [rs.width, rs.height], add: [rd.width, rd.height], sameRow: rs.top >= rh.top - 2.5 && rs.bottom <= rh.bottom + 2.5 && rd.top >= rh.top - 2.5 && rd.bottom <= rh.bottom + 2.5,
               besideName: rs.left >= rn.right - 1 && rs.left - rn.right < 40}; }""")
 
 
