@@ -140,9 +140,17 @@ share no vertices, rims are rounded and neighbours do not meet; the load-time we
 Capped conforms (Q353 `chest_seams`, Q356 shingle `scripts/anatomy/q356/zip_skin_q356.py`) leave outlines
 and add dark steps at the clavicles — HELD, do not apply. **Running: Q360** joint refit / re-cut from one
 surface (`scripts/anatomy/q360/chest_skin_q360.py`, work in progress).
-**Next:** apply Q360 when it proves itself on a regenerated page; then a rule-based external-genital skin
-over the coarse real patch (owner's instruction: "according to the atlas figures"; real patch kept as a
-selectable layer); then items 3 and 5.
+**Next (one heavy geometry agent at a time):** apply Q360 when it proves itself on a regenerated page; then
+**Q362 — owner, 2026-11-17: yes, bring real geometry from the frozen imaging-based pages into the Base
+pages** ("interesting solution, may be synergistic with the atlases"): perineal muscles + rectum from
+Imaging·M (`build/q309/viewer_m_hr`, read-only source — the frozen page itself is not changed or
+republished) into Base·M, registered on the Base·M pelvis and checked against the atlases; and check
+whether Imaging·F (`viewer_f_hr`) has a better real vulva/perineal skin than the coarse `skin_vulva_cvh`
+before building any rule-based external-genital surface. Then items 3 and 5.
+**UI redesign (owner, 2026-11-17):** he asked for a dashboard to decide the title tree of all buttons and
+texts, the stage at which each appears and where on screen. Inventory: scratchpad `uimap/inventory.json`
+(agent running); the dashboard is a separate private artifact with a `db` store of his decisions
+(collection `decisions`) — read them with ArtifactData before any UI rework.
 **Verified for v97/v92:** q358, q336, q325 (both), q334 (same 4 known FAILs), q319 nerves/search, q322, q338,
 q347 390, q339, q321 (Base·F passed alone after the verifier was given a 5 s undo wait) — all OK.
 
