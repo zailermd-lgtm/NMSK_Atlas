@@ -452,6 +452,53 @@ def refine(V, F, L, lock_edges, hmax=EDGE_MM, iters=12):
     return V, F, L
 
 
+def delaunay_flips(V, F, L, max_pass=60):
+    """Lawson edge flips (an interior edge whose two opposite angles sum to more than 180 degrees is flipped), never across a region
+    border (the labels keep their outline) and never into a fold: the fans of slivers that a long, unsplit border edge leaves in
+    the bisection become well-shaped triangles (one triangle per such edge keeps it). Vertex positions and count unchanged."""
+    F = F.copy()
+    nflip = 0
+    for _ in range(max_pass):
+        t = trimesh.Trimesh(V, F, process=False)
+        adj = t.face_adjacency
+        if not len(adj):
+            break
+        f0, f1 = adj[:, 0], adj[:, 1]
+        same = L[f0] == L[f1]
+        # face0 written (a, b, o0) with a -> b the shared edge in its winding
+        o0 = np.array([[x for x in F[i] if x not in e][0] if len(set(F[i]) - set(e)) == 1 else -1
+                       for i, e in zip(f0.tolist(), t.face_adjacency_edges.tolist())])
+        o1 = np.array([[x for x in F[i] if x not in e][0] if len(set(F[i]) - set(e)) == 1 else -1
+                       for i, e in zip(f1.tolist(), t.face_adjacency_edges.tolist())])
+        ia = np.argmax(F[f0] == o0[:, None], axis=1)
+        a = F[f0, (ia + 1) % 3]; b = F[f0, (ia + 2) % 3]
+
+        def ang(o, p_, q_):
+            u = V[p_] - V[o]; w = V[q_] - V[o]
+            c = (u * w).sum(1) / np.maximum(np.linalg.norm(u, axis=1) * np.linalg.norm(w, axis=1), 1e-12)
+            return np.arccos(np.clip(c, -1, 1))
+        exc = ang(o0, a, b) + ang(o1, a, b) - np.pi
+        n0 = fnormals(V, np.stack([o0, a, o1], 1)); n1 = fnormals(V, np.stack([o0, o1, b], 1))
+        nold = t.face_normals[f0] + t.face_normals[f1]; nold /= np.maximum(np.linalg.norm(nold, axis=1, keepdims=True), 1e-12)
+        ok = same & (exc > 1e-3) & ((n0 * nold).sum(1) > 0.5) & ((n1 * nold).sum(1) > 0.5) & (o0 >= 0) & (o1 >= 0)
+        if not ok.any():
+            break
+        ex = set(map(tuple, np.sort(edges_of(F), axis=1).tolist()))
+        used = np.zeros(len(F), bool)
+        did = 0
+        for i in np.where(ok)[0][np.argsort(-exc[ok])]:
+            if used[f0[i]] or used[f1[i]] or tuple(sorted((int(o0[i]), int(o1[i])))) in ex:
+                continue
+            F[f0[i]] = [o0[i], a[i], o1[i]]; F[f1[i]] = [o0[i], o1[i], b[i]]
+            used[f0[i]] = used[f1[i]] = True
+            ex.add(tuple(sorted((int(o0[i]), int(o1[i])))))
+            did += 1
+        nflip += did
+        if not did:
+            break
+    return F, nflip
+
+
 # ------------------------------------------------------------------ 4. the target: the current outer sheets
 class Target:
     """the current outer sheets of the chest regions, sampled every SAMPLE_MM; per sample: face normal, region, distance from the
@@ -844,7 +891,7 @@ def rig_decode(src, idx_of, nv_of, positions):
     return out
 
 
-def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg):
+def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg, pool_extra=()):
     """the chest regions' weights carried from the current meshes (as the viewer reconstructs them, all 18 regions pooled) onto the
     new ones: inverse-square average of the 4 nearest old vertices, top 3; every border vertex stores its own weights (so a vertex
     shared by two regions gets the same weights in both and the border cannot open when posed); else the Q241/Q338 encoding"""
@@ -853,21 +900,22 @@ def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg):
     ids_old = [m["id"] for m in man_old["meshes"]]; ids_new = [m["id"] for m in man_new["meshes"]]
     assert ids_old == ids_new, "mesh order must not change"
     assert R["count"] == len(ids_old) and R["nv"] == [int(m["vc"]) for m in man_old["meshes"]], "rig and page out of step"
-    idx_of = {k: ids_old.index(k) for k in chest}
+    pool = list(chest) + [k for k in pool_extra if k not in chest]
+    idx_of = {k: ids_old.index(k) for k in pool}
     dec = rig_decode(src, idx_of, None, old_pos)
     rigid_of = {}
     for s_, lst in R["rigid"]:
         for i in lst:
             rigid_of[i] = s_
     PX_, WX = [], []
-    for k in chest:
+    for k in pool:      # the old chest regions + the unchanged neighbours (a locked border vertex takes its neighbour's weights)
         v = old_pos[k]
         Wd = np.zeros((len(v), nseg), np.float32)
         if dec[k] is None:
             Wd[:, rigid_of[idx_of[k]]] = 1.0
         else:
             sg, w = dec[k]
-            for c in range(3):
+            for c in range(sg.shape[1]):
                 np.add.at(Wd, (np.arange(len(v)), sg[:, c]), w[:, c])
         PX_.append(v); WX.append(Wd)
     PX_ = np.vstack(PX_); WX = np.vstack(WX)
@@ -911,7 +959,7 @@ def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg):
         chunks[i] = b
         sg, wq = MPR.decode_weights(v, ctrl, pal, pi.astype(np.int64), q[:, :K].astype(float))
         Wr = np.zeros_like(W)
-        for c in range(3):
+        for c in range(sg.shape[1]):
             np.add.at(Wr, (np.arange(len(v)), sg[:, c]), wq[:, c])
         rep[k] = {"kind": "skin", "controls": int(len(cv)), "of": int(len(v)), "segments": pal,
                   "reconstruction_err_p95": round(float(np.percentile(0.5 * np.abs(Wr - MPR.top3(W)).sum(1), 95)), 3)}
@@ -938,3 +986,341 @@ def rig_transfer(src, man_old, man_new, chest, old_pos, new_geo, nseg):
     out = dict(src); out["rig"] = R
     out["weights_zlib_b64"] = base64.b64encode(zlib.compress(bytes(packed), 9)).decode("ascii")
     return out, rep
+
+
+# ------------------------------------------------------------------ page I/O (the Q358 layout; originals kept as <name>.q360)
+def repack(man, blob, replace):
+    """replace = {id: (v, f, rec)}: geometry in place, mesh order and every other mesh byte for byte"""
+    meshes, chunks, off = [], [], 0
+    for m in man["meshes"]:
+        n = dict(m)
+        if m["id"] in replace:
+            v, f, rec = replace[m["id"]]
+            fields, packed = B.pack_mesh(np.asarray(v, float), np.asarray(f), off)
+            n.update(fields); n["rec"] = rec
+            chunks.append(packed); off += len(packed)
+        else:
+            pos = blob[m["vo"]: m["vo"] + m["vc"] * 6]; idx = blob[m["io"]: m["io"] + m["ic"] * 6]
+            n["vo"], n["io"] = off, off + len(pos)
+            chunks += [pos, idx]; off += len(pos) + len(idx)
+        meshes.append(n)
+    man2 = dict(man); man2["meshes"] = meshes
+    return man2, b"".join(chunks)
+
+
+def write_page(d: Path, man_old, man_new, blob_new, old_files):
+    pages = C340.pages_of(d, STEM)
+    texts = {p: p.read_text(encoding="utf-8") for p in pages}
+    for p, t in texts.items():
+        assert C340.LIT["manifest"].search(t).group(1) == C340.ser_manifest(man_old), f"{p}: manifest serialisation differs"
+        assert C340.LIT["files"].search(t).group(1) == json.dumps(old_files), f"{p}: file list serialisation differs"
+    chunks = B.split_blob(blob_new, STEM)
+    assert [n for n, _ in chunks] == [f["path"] for f in old_files], "geo file set would change; not handled"
+    files = [{"path": n, "bytes": len(c), "enc": "base64"} for n, c in chunks]
+    changed = []
+    for n, c in chunks:
+        p = d / n; new = base64.b64encode(c)
+        if p.read_bytes() != new:
+            bk = p.with_name(p.name + ".q360")
+            if not bk.exists():
+                shutil.copy2(p, bk)
+            p.write_bytes(new); changed.append(n)
+    for p, t in texts.items():
+        bk = p.with_name(p.name + ".q360")
+        if not bk.exists():
+            shutil.copy2(p, bk)
+        t2 = C340.LIT["manifest"].sub(lambda _m: "window.__ANATOMY_MANIFEST__=" + C340.ser_manifest(man_new) + ";", t, count=1)
+        t2 = C340.LIT["files"].sub(lambda _m: "window.__ANATOMY_BIN_FILES__=" + json.dumps(files) + ";", t2, count=1)
+        p.write_text(t2, encoding="utf-8"); changed.append(p.name)
+    return changed
+
+
+def jsonable(o):
+    if isinstance(o, dict):
+        return {str(k): jsonable(v) for k, v in o.items() if not str(k).startswith("_")}
+    if isinstance(o, (list, tuple)):
+        return [jsonable(v) for v in o]
+    if isinstance(o, np.generic):
+        return o.item()
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    return o
+
+
+# ------------------------------------------------------------------ guards / measurements on a geometry
+def folds(v, f):
+    t = trimesh.Trimesh(v, f, process=False)
+    fn = fnormals(v, f); adj = t.face_adjacency
+    d = (fn[adj[:, 0]] * fn[adj[:, 1]]).sum(1)
+    return int((d < FOLD_COS).sum()), int((d < 0).sum())
+
+
+def mirror_med(a, b):
+    """median distance between region a and region b mirrored in x (not a target: the body is not symmetric -- a sanity figure)"""
+    if a is None or b is None:
+        return None
+    return round(float(np.median(cKDTree(b * np.array([-1, 1, 1])).query(a)[0])), 2)
+
+
+def note_for(k, dv, wb, wa):
+    return (f"{TAG}: rebuilt together with the other anterior trunk skin regions as ONE surface -- this region's Z-Anatomy source "
+            f"(the same body as Base · Male) carried by one smooth deformation onto the previous Q292-fitted chest surface (deviation "
+            f"from it mean {dv['mean']} / p95 {dv['p95']} / max {dv['max']} mm, the larger values only along the old borders where "
+            f"the pieces did not meet), {EDGE_MM:g} mm edges, a {THICK_NOTE} slab with a creased rim; its border vertices are now "
+            f"shared with its neighbours (weld {wb} -> {wa} % of rim vertices), so no seam is drawn between the regions.")
+
+
+THICK_NOTE = "3 mm"
+
+
+def build(d: Path, src: Path, log=print, bk_dir=None):
+    rep = {}
+    t0 = time.time()
+    gf = Q.Geo(d); gm = Q.Geo(src)
+    chest = sorted(k for k in gf.M if gf.sys[k] == "skin" and k.startswith("zan_skin") and CHEST_RE.search(k))
+    assert len(chest) == 18, chest
+    for k in chest:
+        if f"{TAG}:" in ((gf.M[k].get("rec") or {}).get("procedural_badge") or ""):
+            return None, f"{k} already carries the {TAG} sentence"
+    ids = [m["id"] for m in gf.man["meshes"]]
+    assert tuple(ids[-2:]) == LAST_IDS, f"last meshes {ids[-2:]} (expected {LAST_IDS})"
+    rep["regions"] = chest
+    # source checks: the backups beside the page files hold no other version of these meshes
+    rep["originals_beside_page"] = backups_equal(bk_dir or d, chest, gf)
+    S = source_surface(gm, gf, chest, log)
+    rep["source"] = {k: S[k] for k in ("boundary_edges", "open_border_edges", "z_cracks_joined", "hole_faces_added", "t_junction_locks")}
+    rep["source"].update(vertices=int(len(S["V"])), faces=int(len(S["F"])), locked=int(S["lock"].sum()), neighbours=S["neighbours"],
+                         z_vertex_counts={k: int(gm.M[k]["vc"]) for k in chest})
+    X0, rep["frame"] = frame_map(gm, gf, S, chest, log)
+    V, F, L = refine(X0, S["F"], S["L"], S["lock_edges"])
+    F, nfl = delaunay_flips(V, F, L)
+    rep["edge_flips"] = nfl
+    lock = np.zeros(len(V), bool); lock[:len(S["lock"])] = S["lock"]
+    tl = np.full((len(V), 3), np.nan); tl[:len(S["lock"])] = S["lock_tgt"]
+    log(f"  subdivided: {len(V)} vertices / {len(F)} faces")
+    T = Target(gf, chest)
+    Xf, rep["fit_rounds"], lock = fit(V, F, lock, tl, T, log)
+    gap = fit.lock_gap
+    th = z_thickness(gm, chest)
+    thick = float(np.median(list(th.values())))
+    global THICK_NOTE
+    THICK_NOTE = f"{thick:.1f} mm"
+    Y, rep["inner"] = inner_of(Xf, F, lock, S, gf, gm, thick)
+    rep["thickness_mm"] = {"used": round(thick, 3), "z_source_median_per_region": {k: round(v, 2) for k, v in th.items()}}
+    # --- deviation from the current outer surface, per region
+    dist, tang, drim = T.dist(Xf)
+    # the pieces' own disagreement at the current borders: a vertex near a locked neighbour vertex that lies off the current surface
+    li = np.where(lock)[0]
+    dis_tree = None
+    if len(li):
+        gl = T.dist(Xf[li])[0]
+        m = gl > 0.5
+        if m.any():
+            dis_tree = (cKDTree(Xf[li[m]]), gl[m])
+    allowed = np.where(drim > BAND_OUT, DEV_CAP, DEV_CAP_BORDER)
+    if dis_tree is not None:
+        dd, jj = dis_tree[0].query(Xf)
+        reach = np.clip(LOCK_REACH * dis_tree[1][jj], LOCK_REACH_MIN, LOCK_REACH_MAX)
+        allowed = np.maximum(allowed, np.where(dd < reach, dis_tree[1][jj] + DEV_CAP, 0))
+    over = dist > allowed + 1e-6
+    new, pieces_after = {}, {}
+    per = {}
+    for i, k in enumerate(chest):
+        fo = F[L == i]
+        v, f, used, cls = slab(Xf, Y, fo)
+        new[k] = (v, f, cls)
+        vi = used
+        t = trimesh.Trimesh(v, f, process=False)
+        fo_r = f[cls == 1]; fi_r = f[cls == -1]
+        no = fnormals(v, fo_r); ni = fnormals(v, fi_r)
+        per[k] = {"vertices": [int(gf.M[k]["vc"]), int(len(v))], "faces": [int(gf.M[k]["ic"]), int(len(f))],
+                  "deviation_mm": st(dist[vi]), "deviation_core_mm": st(dist[vi][drim[vi] > BAND_OUT]),
+                  "deviation_border_band_mm": st(dist[vi][drim[vi] <= BAND_OUT]),
+                  "over_cap_vertices": int(over[vi].sum()), "over_slot_vertices": int((tang[vi] > TANG_MAX).sum()),
+                  "watertight": bool(t.is_watertight), "winding_consistent": bool(t.is_winding_consistent),
+                  "volume_cm3": round(float(t.volume) / 1000, 2),
+                  "folded_outer_pairs": folds(v, fo_r)[0], "inner_flipped_faces": int(((no * ni).sum(1) > 0).sum()),
+                  "edge_median_mm": round(float(np.median(np.linalg.norm(v[edges_of(fo_r)[:, 0]] - v[edges_of(fo_r)[:, 1]], axis=1))), 2)}
+    rep["deviation_policy"] = {"core_cap_mm": DEV_CAP, "border_band_mm": BAND_OUT, "border_cap_mm": DEV_CAP_BORDER,
+                               "near_a_neighbour_that_did_not_meet": "gap + core cap, within 4 x gap (12..40 mm)",
+                               "over_cap_vertices": int(over.sum()), "of": int(len(Xf))}
+    rep["deviation_all_mm"] = st(dist)
+    rep["folded_pairs_merged_surface"] = folds(Xf, F)
+    rep["locks_off_current_surface"] = {"n": int((gap > 0.5).sum()), "gap_mm": st(gap[gap > 0.5]) if (gap > 0.5).any() else None}
+    rep["per_region"] = per
+    rep["mirror_median_mm"] = {}
+    for k in chest:
+        if k.endswith("_r"):
+            o = k[:-2] + "_l"
+            rep["mirror_median_mm"][k[9:-2]] = {"before": mirror_med(gf.V0[k][0], gf.V0[o][0]), "after": mirror_med(new[k][0], new[o][0])}
+    log(f"  built {time.time() - t0:.0f} s")
+    return dict(gf=gf, gm=gm, chest=chest, new=new, S=S, T=T, Xf=Xf, F=F, L=L), rep
+
+
+def backups_equal(d: Path, chest, gf):
+    """the page's own backups (<file>.qNNN): do any hold another version of the chest regions?"""
+    out = {}
+    tags = sorted({p.suffix for p in d.glob("*.q[0-9][0-9][0-9]")})
+
+    def pick(name, tg):      # the state before round tg: the earliest backup of this file from round tg on, else the file itself
+        for t_ in tags:
+            if t_ >= tg and (d / (name + t_)).exists():
+                return d / (name + t_)
+        return d / name
+    for tg in tags:
+        try:
+            t = pick("index.html", tg).read_text(encoding="utf-8")
+            man = json.loads(C340.LIT["manifest"].search(t).group(1)); files = json.loads(C340.LIT["files"].search(t).group(1))
+            blob = b"".join(base64.b64decode(pick(f["path"], tg).read_bytes()) for f in files)
+            M = {m["id"]: m for m in man["meshes"]}
+            same = all(k in M and M[k]["vc"] == gf.M[k]["vc"] and np.abs(C340.dec(M[k], blob)[0] - gf.V0[k][0]).max() < 0.02 for k in chest)
+            out[tg[1:]] = "identical" if same else "differs"
+        except Exception as e:      # an incomplete backup set (only some files of a round were copied)
+            out[tg[1:]] = f"not readable ({type(e).__name__})"
+    return out
+
+
+def skin_pieces(g, lo, hi, replace=None):
+    out = {}
+    for k in g.in_box(lo, hi, sys_=("skin",)):
+        if replace and k in replace:
+            out[k] = (replace[k][0], replace[k][1])
+        else:
+            out[k] = (g.cur[k], g.F[k])
+    return out
+
+
+def install(g, k, v, f, cls):
+    """put a new mesh into a Q353 Geo (rest geometry, sheet classes known)"""
+    g.V0[k] = (v, f); g.cur[k] = v.copy(); g.F[k] = f
+    g._sheet[k] = (cls, np.zeros((0, 2), int))
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("--page-dir", required=True)
+    ap.add_argument("--source-dir", help="the Base · Male page dir (Z topology); default <page-dir>/../viewer_zan_atlas")
+    ap.add_argument("--write", action="store_true")
+    ap.add_argument("--report", default=str(REPORT))
+    ap.add_argument("--rig-file", default=str(RIG), help="pose rig read (default the shared data/anatomy/pose_rig_base_f.json)")
+    ap.add_argument("--rig-out", help="where the spliced rig is written (default: --rig-file itself -- ONLY when applying to the "
+                                      "build page it describes; for a copy pass a scratch path)")
+    ap.add_argument("--no-rig", action="store_true")
+    ap.add_argument("--backups-dir", help="where the <file>.qNNN backups are looked for (default --page-dir)")
+    ap.add_argument("--debug-npz")
+    a = ap.parse_args(argv)
+    d = Path(a.page_dir)
+    src = Path(a.source_dir) if a.source_dir else d.parent / "viewer_zan_atlas"
+    assert C340.pages_of(d, STEM), f"{d}: no {STEM}.html (Base · Female only)"
+    assert C340.pages_of(src, SRC_STEM), f"{src}: no {SRC_STEM}.html (the Base · Male page is the Z source)"
+    t0 = time.time()
+    print(f"{TAG} chest skin on {d} (Z source {src})")
+    G, rep = build(d, src, bk_dir=Path(a.backups_dir) if a.backups_dir else None)
+    if G is None:
+        print(f"Q360_CHEST_SKIN_REFUSED {d}: {rep}. Re-apply only on the page before Q360: restore every '<file>.q360' beside its "
+              f"file in {d} and the pose rig (git checkout data/anatomy/pose_rig_base_f.json), then run again.")
+        return 3
+    gf, chest, new = G["gf"], G["chest"], G["new"]
+    if a.debug_npz:
+        np.savez_compressed(a.debug_npz, Xf=G["Xf"], F=G["F"], L=G["L"])
+    lo, hi = CHEST_BOX
+    # --- weld (Q334 rules), before / after, chest regions + the back regions as the reference
+    back = [k for k in gf.M if gf.sys[k] == "skin" and re.search(r"scapular|vertebral|auscultation", k)]
+    focus = set(chest) | set(back)
+    wb = weld_stats(skin_pieces(gf, lo - 60, hi + 60), focus)
+    wa = weld_stats(skin_pieces(gf, lo - 60, hi + 60, {k: v for k, v in new.items()}), focus)
+    rep["weld_pct"] = {k: {"before": wb[k]["pct"], "after": wa[k]["pct"], "rim_vertices": [wb[k]["rim_vertices"], wa[k]["rim_vertices"]],
+                           "rim_joined_after": wa[k]["rim_joined"]} for k in sorted(focus) if k in wb and k in wa}
+    for k in chest:
+        print(f"  weld {k[9:]:32s} {wb[k]['pct']:5.1f} -> {wa[k]['pct']:5.1f} %  (rim {wa[k]['rim_vertices']})")
+    # --- holes before (current pieces)
+    rep["holes_before"] = holes(gf, chest)
+    old_pos = {k: gf.V0[k][0].copy() for k in gf.M if gf.sys[k] == "skin" and gf.in_box(lo - 60, hi + 60) and k in gf.M}
+    old_pos = {k: gf.V0[k][0].copy() for k in skin_pieces(gf, lo - 60, hi + 60)}
+    old_geo = {k: (gf.V0[k][0].copy(), gf.F[k].copy()) for k in chest}
+    sk_before = Q.SkinSet(gf, [k for k in gf.in_box(lo - 20, hi + 20, sys_=("skin",))])
+    deep = [k for k in gf.in_box(np.array([-200.0, 280.0, -60.0]), np.array([200.0, 640.0, 200.0]))
+            if gf.sys[k] in TUCK_GUARD or k in BREAST]
+    deep = [k for k in deep if k in gf.M]
+    out_b = outside(gf, sk_before, deep)
+    # --- install the new chest skin, measure, tuck the breast tissue (Q353 rule)
+    for k in chest:
+        install(gf, k, *new[k])
+    sk = Q.SkinSet(gf, [k for k in gf.in_box(lo - 20, hi + 20, sys_=("skin",))])
+    out_a = outside(gf, sk, deep)
+    bones = Q.Bones(gf, lo, hi)
+    tuck = {}
+    for k in [k for k in BREAST if k in gf.M]:
+        if out_a[k]["outside"] > 0 or out_a[k]["in_slab"] > 0:
+            tuck[k] = Q.run_tuck(gf, k, sk, bones, print)
+    out_t = outside(gf, sk, deep)
+    rep["outside_skin"] = {"before": {k: v for k, v in out_b.items() if v["outside"]},
+                           "after_skin": {k: v for k, v in out_a.items() if v["outside"]},
+                           "after_tuck": {k: v for k, v in out_t.items() if v["outside"]}}
+    rep["tuck"] = tuck
+    gained = {k: [out_b[k]["outside"], out_t[k]["outside"]] for k in deep if out_t[k]["outside"] > out_b[k]["outside"]}
+    rep["outside_gained"] = gained
+    rep["holes_after"] = holes(gf, chest)
+    for v_ in ("front", "lateral_r", "lateral_l"):
+        print(f"  holes {v_}: {rep['holes_before'][v_]['hole_px']} -> {rep['holes_after'][v_]['hole_px']} px")
+    # --- guards
+    per = rep["per_region"]
+    breast_out = {k: out_t[k]["outside"] for k in BREAST if k in out_t and out_t[k]["outside"]}
+    guards = {
+        "weld_min_pct": WELD_MIN,
+        "weld_below_min": {k[9:]: wa[k]["pct"] for k in chest if wa[k]["pct"] < WELD_MIN},
+        "holes_after_px": {v_: rep["holes_after"][v_]["hole_px"] for v_ in ("front", "lateral_r", "lateral_l")},
+        "deviation_over_cap_vertices": rep["deviation_policy"]["over_cap_vertices"],
+        "breast_tissue_outside": breast_out,
+        "structures_gaining_outside": gained,
+        "slabs_closed_and_consistent": all(per[k]["watertight"] and per[k]["winding_consistent"] and per[k]["volume_cm3"] > 0 for k in chest),
+        "inner_flipped_faces": sum(per[k]["inner_flipped_faces"] for k in chest),
+        "folded_outer_pairs": sum(per[k]["folded_outer_pairs"] for k in chest),
+        "mesh_order_last_two": [m["id"] for m in gf.man["meshes"]][-2:],
+    }
+    ok = (not guards["weld_below_min"] and not any(guards["holes_after_px"].values()) and not guards["deviation_over_cap_vertices"]
+          and not breast_out and not gained and guards["slabs_closed_and_consistent"] and tuple(guards["mesh_order_last_two"]) == LAST_IDS)
+    guards["pass"] = bool(ok)
+    rep["guards"] = guards
+    # --- page + rig
+    replace = {}
+    for k in chest:
+        dv = per[k]["deviation_mm"]
+        rec = C340.badge_add(gf.M[k].get("rec") or {}, note_for(k, dv, wb[k]["pct"], wa[k]["pct"]))
+        replace[k] = (new[k][0], new[k][1], rec)
+    for k, r in tuck.items():
+        if r.get("ships"):
+            rec = C340.badge_add(gf.M[k].get("rec") or {},
+                                 f"{TAG} tuck: moved under the rebuilt chest skin by the Q353 rule (rule-based; max "
+                                 f"{r['displacement']['max_mm']} mm, cap {Q.CAP_TUCK:g} mm; vertex and triangle counts unchanged).")
+            replace[k] = (gf.cur[k], gf.F[k], rec)
+    man_new, blob_new = repack(gf.man, gf.blob, replace)
+    assert [m["id"] for m in man_new["meshes"]] == [m["id"] for m in gf.man["meshes"]]
+    rig_src = json.loads(Path(a.rig_file).read_text(encoding="utf-8"))
+    neigh = sorted(set(G["S"]["neighbours"]))
+    rig_new, rep["rig_weights"] = rig_transfer(rig_src, gf.man, man_new, chest, old_pos,
+                                               {k: new[k] for k in chest}, len(rig_src["rig"]["segs"]), pool_extra=neigh)
+    rep.update({"schema": "nmsk.q360.chest_skin.v1", "round": TAG, "generated": time.strftime("%Y-%m-%d"), "page_dir": str(d),
+                "source_dir": str(src),
+                "parameters": dict(weld_mm=WELD_MM, crack_mm=CRACK_MM, tj_mm=TJ_MM, edge_mm=EDGE_MM, rim_excl_mm=RIM_EXCL,
+                                   band_mm=[BAND_IN, BAND_OUT], stiffness=list(STIFF), p2p_share=P2P, tang_max_mm=TANG_MAX,
+                                   ovl_mm=OVL_MM, face_cos=FACE_COS, lock_reach=[LOCK_REACH, LOCK_REACH_MIN, LOCK_REACH_MAX],
+                                   dev_cap_mm=DEV_CAP, dev_cap_border_mm=DEV_CAP_BORDER, weld_min_pct=WELD_MIN)})
+    if a.write and ok:
+        rep["files_written"] = write_page(d, gf.man, man_new, blob_new, gf.files)
+        if not a.no_rig:
+            out = Path(a.rig_out or a.rig_file)
+            out.write_text(json.dumps(rig_new, separators=(",", ":"), ensure_ascii=False), encoding="utf-8")
+            rep["rig"] = {"written": str(out), "count": rig_new["rig"]["count"]}
+    else:
+        rep["files_written"] = []
+        rep["rig"] = "dry run" if not a.write else "guards failed: nothing written"
+    rep["seconds"] = round(time.time() - t0, 1)
+    Path(a.report).write_text(json.dumps(jsonable(rep), indent=1), encoding="utf-8")
+    print("  guards:", json.dumps(jsonable(guards))[:1500])
+    print(f"Q360_CHEST_SKIN_{'WRITTEN' if (a.write and ok) else ('GUARD_FAIL' if not ok else 'DRY')} {d}")
+    return 0 if ok else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
