@@ -2846,6 +2846,21 @@
       /* fan outline (faint) */
       ctx.strokeStyle = "rgba(108,180,255,.28)"; ctx.setLineDash([3, 4]); ctx.beginPath();
       fanOutline(g, 24).forEach(function (p, k2) { if (k2 === 0) ctx.moveTo(X(p[0]), Y(p[1])); else ctx.lineTo(X(p[0]), Y(p[1])); }); ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
+      /* Q367: the plan's marker pair, the same as in the 3-D view (clinical/needle_tool.js NMSKPlanMarkers): the needle tip (sky-blue
+         diamond) and the skin entry (orange ring), projected on the image plane; outside the plane (> 3 mm) or outside the image: dashed,
+         at the nearest image edge */
+      var MKS = G.NMSKPlanMarkers;
+      if (clip.on && MKS && clip.path && fr.pf && fr.pf.e) {
+        var mO = fr.O, mu = fr.pf.u, mb = fr.pf.b, me = fr.pf.e, mkd = function (P, k) { return (P[0] - mO[0]) * k[0] + (P[1] - mO[1]) * k[1] + (P[2] - mO[2]) * k[2]; };
+        clip.mk = {};
+        [["entry", clip.path.A], ["tip", clip.target || clip.path.B]].forEach(function (x) {
+          var P = x[1]; if (!P) return;
+          var px = X(mkd(P, mu)), py = Y(mkd(P, mb)), cx = Math.max(box.x + 9, Math.min(box.x + box.w - 9, px)), cy = Math.max(box.y + 9, Math.min(box.y + box.h - 9, py));
+          var dashed = Math.abs(mkd(P, me)) > 3 || Math.abs(cx - px) > 0.5 || Math.abs(cy - py) > 0.5;
+          MKS.draw2d(ctx, x[0], cx, cy, tiny ? 5 : 7, dashed);
+          clip.mk[x[0]] = {x: cx, y: cy, inPlane: !dashed};
+        });
+      }
       /* orientation letters: left = marker side */
       var midY = box.y + box.h * 0.45;
       txt(LIB_dirLabel(fr.pf.u, true), box.x + 6, midY, "left", "#ffd37a"); txt(LIB_dirLabel(fr.pf.u, false), box.x + box.w - 22, midY, "right", "#ffd37a");
@@ -3233,7 +3248,7 @@
         config: function (o) { if (o && o.dur > 0) clip.dur = +o.dur; if (o && o.steps > 0) clip.steps = Math.round(o.steps); return {dur: clip.dur, steps: clip.steps}; },
         state: function () {
           return {on: clip.on, oop: clip.oop, t: clip.t, playing: clip.playing, dur: clip.dur, steps: clip.steps, len: clip.len || 0, msg: clip.msg, offered: !!(ui.clip && !ui.clip.hidden),
-            tip: clip.tip ? clip.tip.slice() : null, target: clip.target ? clip.target.slice() : null, path: clip.path, plane: clipInPlane(frames[0]), hist: clip.hist.slice(),
+            tip: clip.tip ? clip.tip.slice() : null, target: clip.target ? clip.target.slice() : null, path: clip.path, mk: clip.mk || null, plane: clipInPlane(frames[0]), hist: clip.hist.slice(),
             frames: frames.length, px: frames[0] && frames[0].needlePainted ? frames[0].needlePx || 0 : 0, pxIn: frames[0] && frames[0].needlePainted ? frames[0].needlePxIn || 0 : 0};
         }
       },

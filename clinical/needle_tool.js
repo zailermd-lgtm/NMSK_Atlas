@@ -275,10 +275,93 @@ function coneDirs(u, half, n) {
   return out;
 }
 
+/* ===================================================================== */
+/* Q367 pure helpers (also exported for the node tests): the PLANE locus between two structures, the closest point on a mesh,  */
+/* and a structure's size class from its calibre.                                                                                */
+/* ===================================================================== */
+/* nearest point of a mesh to p: {q, f, d} (brute force; a nerve / bursa / capsule mesh is small) */
+function closestOnMesh(pos, idx, p) {
+  var best = Infinity, bq = null, bf = -1, a = [0, 0, 0], b = [0, 0, 0], c = [0, 0, 0];
+  for (var f = 0; f < idx.length; f += 3) {
+    var i0 = idx[f] * 3, i1 = idx[f + 1] * 3, i2 = idx[f + 2] * 3;
+    a[0] = pos[i0]; a[1] = pos[i0 + 1]; a[2] = pos[i0 + 2]; b[0] = pos[i1]; b[1] = pos[i1 + 1]; b[2] = pos[i1 + 2]; c[0] = pos[i2]; c[1] = pos[i2 + 1]; c[2] = pos[i2 + 2];
+    var q = closestPtTri(p, a, b, c), d = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]) + (p[2] - q[2]) * (p[2] - q[2]);
+    if (d < best) { best = d; bq = q; bf = f / 3; }
+  }
+  return {q: bq, f: bf, d: Math.sqrt(best)};
+}
+function meshBox(pos) {
+  var lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30];
+  for (var k = 0; k < pos.length; k += 3) for (var c = 0; c < 3; c++) { var v = pos[k + c]; if (v < lo[c]) lo[c] = v; if (v > hi[c]) hi[c] = v; }
+  return [lo, hi];
+}
+/* a uniform cell hash of a mesh's triangles, for "nearest surface point within maxD" queries */
+function TriHash(pos, idx, cell) {
+  var B = meshBox(pos), m = new Map(), lo = B[0];
+  this.pos = pos; this.idx = idx; this.c = cell; this.lo = lo; this.box = B; this.m = m; this.stamp = new Int32Array(idx.length / 3); this.st = 0;
+  for (var f = 0; f < idx.length; f += 3) {
+    var mn = [1e30, 1e30, 1e30], mx = [-1e30, -1e30, -1e30];
+    for (var j = 0; j < 3; j++) { var o = idx[f + j] * 3; for (var k = 0; k < 3; k++) { var v = pos[o + k]; if (v < mn[k]) mn[k] = v; if (v > mx[k]) mx[k] = v; } }
+    var a0 = Math.floor((mn[0] - lo[0]) / cell), a1 = Math.floor((mx[0] - lo[0]) / cell), b0 = Math.floor((mn[1] - lo[1]) / cell), b1 = Math.floor((mx[1] - lo[1]) / cell);
+    var c0 = Math.floor((mn[2] - lo[2]) / cell), c1 = Math.floor((mx[2] - lo[2]) / cell);
+    for (var x = a0; x <= a1; x++) for (var y = b0; y <= b1; y++) for (var z = c0; z <= c1; z++) {
+      var key = (x * 4096 + y) * 4096 + z, L = m.get(key); if (!L) m.set(key, L = []); L.push(f / 3);
+    }
+  }
+}
+TriHash.prototype.near = function (p, maxD) {   // -> {q, d} or null (nothing within maxD)
+  var c = this.c, lo = this.lo, P = this.pos, I = this.idx, best = maxD * maxD, bq = null, st = ++this.st, S = this.stamp;
+  var a0 = Math.floor((p[0] - maxD - lo[0]) / c), a1 = Math.floor((p[0] + maxD - lo[0]) / c), b0 = Math.floor((p[1] - maxD - lo[1]) / c), b1 = Math.floor((p[1] + maxD - lo[1]) / c);
+  var c0 = Math.floor((p[2] - maxD - lo[2]) / c), c1 = Math.floor((p[2] + maxD - lo[2]) / c);
+  for (var x = a0; x <= a1; x++) for (var y = b0; y <= b1; y++) for (var z = c0; z <= c1; z++) {
+    var L = this.m.get((x * 4096 + y) * 4096 + z); if (!L) continue;
+    for (var k = 0; k < L.length; k++) {
+      var t = L[k]; if (S[t] === st) continue; S[t] = st;
+      var i0 = I[3 * t] * 3, i1 = I[3 * t + 1] * 3, i2 = I[3 * t + 2] * 3;
+      var q = closestPtTri(p, [P[i0], P[i0 + 1], P[i0 + 2]], [P[i1], P[i1 + 1], P[i1 + 2]], [P[i2], P[i2 + 1], P[i2 + 2]]);
+      var d = (p[0] - q[0]) * (p[0] - q[0]) + (p[1] - q[1]) * (p[1] - q[1]) + (p[2] - q[2]) * (p[2] - q[2]);
+      if (d < best) { best = d; bq = q; }
+    }
+  }
+  return bq ? {q: bq, d: Math.sqrt(best)} : null;
+};
+/* Q367 PLANE (the interface between two adjacent structures, for a plane block): every vertex of A (at most maxV, evenly
+   strided) whose nearest point on B's surface lies within `gap` mm, and the same from B to A; each such closest pair gives
+   the MIDPOINT between the two surfaces. The patch = those midpoints (thinned to one per 1 mm voxel, the smaller gap kept);
+   it is empty when the two structures never come within `gap` of each other. keep(p) optionally filters (the joint-space
+   use keeps only points inside the capsule's box). Returns {pts: [{m, g}], minGap}. */
+function planeLocus(posA, idxA, posB, idxB, gap, maxV, keep) {
+  maxV = maxV || 3000;
+  var cell = Math.max(gap, 3), hA = new TriHash(posA, idxA, cell), hB = new TriHash(posB, idxB, cell), vox = new Map(), minGap = Infinity;
+  function side(pos, other) {
+    var n = pos.length / 3, step = Math.max(1, Math.ceil(n / maxV)), lo = other.box[0], hi = other.box[1];
+    for (var v = 0; v < n; v += step) {
+      var p = [pos[3 * v], pos[3 * v + 1], pos[3 * v + 2]];
+      if (p[0] < lo[0] - gap || p[1] < lo[1] - gap || p[2] < lo[2] - gap || p[0] > hi[0] + gap || p[1] > hi[1] + gap || p[2] > hi[2] + gap) continue;
+      var r = other.near(p, gap); if (!r) continue;
+      var m = [(p[0] + r.q[0]) / 2, (p[1] + r.q[1]) / 2, (p[2] + r.q[2]) / 2];
+      if (keep && !keep(m)) continue;
+      if (r.d < minGap) minGap = r.d;
+      var key = Math.round(m[0]) + "," + Math.round(m[1]) + "," + Math.round(m[2]), o = vox.get(key);
+      if (!o || r.d < o.g) vox.set(key, {m: m, g: r.d});
+    }
+  }
+  side(posA, hB); side(posB, hA);
+  return {pts: Array.from(vox.values()), minGap: minGap};
+}
+/* Q367 size class from a calibre: a named main trunk (p) is large whatever its mesh calibre; else by the two thresholds
+   [large >=, medium >=] in mm; no diameter -> null (no class: no rule applies, said so on the panel) */
+function sizeClass(d, p, thr) {
+  if (p) return "L";
+  if (d == null || !isFinite(d)) return null;
+  return d >= thr[0] ? "L" : (d >= thr[1] ? "M" : "S");
+}
+
 var PURE = {RISK_TABLE: RISK_TABLE, HALO_DEFAULTS: HALO_DEFAULTS, TOUCH_MM: TOUCH_MM, classify: classify,
             calibreFactor: calibreFactor, haloRadius: haloRadius, scorePath: scorePath, fibonacciSphere: fibonacciSphere,
             closestPtTri: closestPtTri, pointTriDist: pointTriDist, segSegDist: segSegDist, segCrossesTri: segCrossesTri, segTriDist: segTriDist,
-            meshSegDist: meshSegDist, rankCandidates: rankCandidates, coneDirs: coneDirs, poseAnchor: poseAnchor, poseAnchorPlace: poseAnchorPlace};
+            meshSegDist: meshSegDist, rankCandidates: rankCandidates, coneDirs: coneDirs, poseAnchor: poseAnchor, poseAnchorPlace: poseAnchorPlace,
+            closestOnMesh: closestOnMesh, planeLocus: planeLocus, sizeClass: sizeClass};   // Q367
 if (typeof module !== "undefined" && module.exports) { module.exports = PURE; return; }
 
 /* ===================================================================== */
@@ -564,6 +647,7 @@ function ThreeOverlay(api) {
       if (!keep[k]) { root.remove(halos[k].mesh); halos[k].mesh.material.dispose(); delete halos[k]; }
     });
   };
+  this.halosNow = function () { return Object.keys(halos).map(function (k) { return {i: +k, r: halos[k].u.value, alpha: halos[k].mesh.material.opacity}; }); };   // Q367
 }
 
 function GLOverlay(api) {
@@ -602,6 +686,7 @@ function GLOverlay(api) {
     delete items[name];
   };
   this.setHalos = function (list) { halos = list.map(function (h) { return {i: h.i, r: h.r, rgb: hexRgb(h.color), alpha: h.alpha || 0.2}; }); };
+  this.halosNow = function () { return halos.map(function (h) { return {i: h.i, r: h.r, alpha: h.alpha}; }); };   // Q367: what the halo pass draws (tests)
   function style(rgb, s) {
     gl.uniform3f(U.uColor, rgb[0], rgb[1], rgb[2]); gl.uniform1f(U.uAlpha, s.alpha == null ? 1 : s.alpha);
     gl.uniform1f(U.uLit, s.lit === false ? 0 : 1); gl.uniform1f(U.uShin, s.shin || 40); gl.uniform1f(U.uEmis, s.emis || 0);
@@ -784,9 +869,11 @@ function Tool(api) {
   this.pgeo = {}; this.restBox = {}; this.poseT = 0;   // Q325: posed geometry views, the rest boxes of moved structures
   this.mpS = new Map(); this.mpAnc = new Map();          // Q328: a motor point's structure, and its rest-mesh anchor (taken the first time that structure moves)
   this.guide = {data: null, side: null, bm: {}, hl: null, busy: false, open: {}, msg: {}};   // Q347: the injection guide (private) + the public IZ sidecar
+  this.plInit(); this.safeInit();   // Q367: the plan's refinements and the user's safety rules (stored per browser)
   this.buildUI();
   this.loadData();
   this.loadGuide();
+  this.loadSafety(); this.pinsInit();   // Q367: the vessel calibre sibling; the tip / entry pins over the canvas
   api.setClickHandler(function (e) { return self.onClick(e); });
   if (global.addEventListener) global.addEventListener("nmsk-pose-rev", function (e) { self.onPose(e && e.detail); });   // Q325
   api.onChange(function () { self.onHostChange(); });
@@ -877,6 +964,7 @@ TP.onPose = function (det) {
     if (self.entry || self.target) self.update();
     else { if (self.risk.on) self.refreshHalos(); if (dirty) { self.notify(); self.api.redraw(); } }
     self.poseRerun();   // Q332: shown suggestions / safer pathways are measured again on the posed body
+    self.plPoseRefresh();   // Q367: a plane patch is taken again on the posed meshes
   }, 160);
 };
 /* Q332: a saved point's readouts (nearest vessel / nerve, its distance and band colour; its length rides with the points in
@@ -1368,7 +1456,8 @@ TP.clear = function () {
   ["n-inner", "n-inner-x", "n-outer", "n-hub", "n-tgt", "n-tgt-x", "n-entry", "sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x"].forEach(this.ov.remove, this.ov);
   this.$("ncl-safer-out").innerHTML = "";
   this.clearSuggestions(); this.renderSuggestions(); this.scheduleCorridor();   // Q268
-  if (this.risk.on) this.refreshHalos();
+  this.drawMarkers(); if (this.pl) { this.pl.kind = null; this.plPlaneClear(); }   // Q367
+  if (this.safe) this.safeRun(); else if (this.risk.on) this.refreshHalos();
   this.render(); this.api.redraw();
   this.notify();
 };
@@ -1378,6 +1467,7 @@ TP.onClick = function (e) {
   var mpHit = this.mp.on ? this.markerAt(e) : null;
   if (mpHit) { if (!this.active) this.toggle(true); this.useMotorPoint(mpHit); return true; }
   if (!this.active) return false;
+  if (this.armFn) { var ah = this.pickPoint(e, this.armSkip != null ? this.armSkip : null); if (ah) this.armFn(ah); return true; }   // Q367: the plan panel armed a tap (entry / free tip / plane side / nerve point)
   var sp = this.risk.safer ? this.saferAt(e) : null;
   if (sp) { this.adopt(sp); return true; }
   var sg = this.sugg.shown.length ? this.suggAt(e) : null;   // Q268 (3): an explicit tap on a ghost line adopts it; nothing is ever auto-placed
@@ -1387,7 +1477,8 @@ TP.onClick = function (e) {
     if (!this.entry || this.target) { hit = this.pickPoint(e, null); if (hit) { this.entry = hit; this.target = null; } }
     else { hit = this.pickPoint(e, this.entry.i); if (hit) this.target = hit; }
   } else if (m === "tfirst") {
-    if (!this.target || this.entry) { hit = this.pickPoint(e, null); if (hit) { this.target = hit; this.entry = null; this.risk.safer = null; } }
+    if (!this.target && this.entry) { hit = this.pickPoint(e, null); if (hit) { this.target = hit; this.risk.safer = null; } }   // Q367: entry first, then the tip -- the entry stays
+    else if (!this.target || this.entry) { hit = this.pickPoint(e, null); if (hit) { this.target = hit; this.entry = null; this.risk.safer = null; } }
     else { hit = this.pickPoint(e, null); if (hit) this.entry = hit; }
   } else {
     hit = this.pickPoint(e, null); if (hit) { this.entry = hit; this.dir.src = this.dir.src === "view" ? "view" : this.dir.src; }
@@ -1482,6 +1573,7 @@ TP.update = function () {
   this.drawNeedle();
   if (this.risk.on) { this.refreshHalos(); if (this.entry && this.target) this.evalCurrent(); }
   this.scheduleCorridor();   // Q268 (2): throttled to the placement change, not per frame
+  this.safeSchedule();       // Q367: the user's distance rules, checked on the same placement change
   this.render();
   this.api.redraw();
   this.notify();
@@ -1496,12 +1588,8 @@ TP.onHostChange = function () {
 TP.drawNeedle = function () {
   var ov = this.ov, r = this.rDisp;
   ["n-inner", "n-inner-x", "n-outer", "n-hub", "n-tgt", "n-tgt-x", "n-entry"].forEach(ov.remove, ov);
-  if (this.target) {
-    ov.set("n-tgt", addSphere(new Geo(), this.target.p, r * 1.9), {color: "#E8875A", pass: "opaque", emis: 0.25});
-    ov.set("n-tgt-x", addSphere(new Geo(), this.target.p, r * 1.9), {color: "#E8875A", pass: "xray", alpha: 0.45, emis: 0.3});
-  }
-  if (!this.entry) return;
-  if (!this.target) { ov.set("n-entry", addSphere(new Geo(), this.entry.p, r * 1.7), {color: "#2F7D5B", pass: "opaque"}); return; }
+  this.drawMarkers();   // Q367: the tip (sky-blue diamond) and the skin entry (orange ring) -- one pair everywhere
+  if (!this.entry || !this.target) return;
   var E = this.entry.p, T = this.target.p, L = dist(E, T); if (L < 1e-3) return;
   var u = mul(sub(T, E), 1 / L), exposed = this.mode === "dir" ? 0 : clamp(this.len - L, 0, 200);
   var S0 = addS(E, u, -exposed), hubLen = Math.max(10, 7 * r), rHub = Math.max(2.4, 2.6 * r);
@@ -1793,7 +1881,8 @@ TP.halos = function (on) {
 };
 TP.refreshHalos = function () {
   var gh = this.guide && this.guide.hl ? this.guide.hl.set : null;   // Q347: the guide's "structures at risk" get their halo with the risk view off too
-  if (!this.risk.on && !gh) { this.ov.setHalos([]); this.$("ncl-halo-list").innerHTML = ""; this.api.redraw(); return; }
+  var sh = this.safe && this.safe.halos.length ? this.safeHalos() : null;   // Q367: the user's rule halos (exact rule radius) win over any other halo of the same structure
+  if (!this.risk.on && !gh) { this.ov.setHalos(sh || []); this.$("ncl-halo-list").innerHTML = ""; this.api.redraw(); return; }
   var self = this, L = this.currentL(), focus = this.target ? this.target.p : (this.entry ? this.entry.p : null);
   var reach = this.len + 60, list = [], rows = [];
   this.recs.forEach(function (r, i) {
@@ -1808,6 +1897,7 @@ TP.refreshHalos = function () {
     list.push({i: i, r: h * self.orientSign(i), color: CLASSES[c].color, alpha: 0.22});
     rows.push({i: i, cls: c, rc: rc, h: h, d: dmin});
   });
+  if (sh) { var shI = {}; sh.forEach(function (x) { shI[x.i] = 1; }); list = list.filter(function (x) { return !shI[x.i]; }).concat(sh); }
   this.ov.setHalos(list);
   rows.sort(function (a, b) { return a.d - b.d; });
   this.$("ncl-halo-list").innerHTML = '<p class="ncl-status" style="margin-top:6px">' + list.length + " halos at L = " + L.toFixed(0) + " mm" +
@@ -2139,11 +2229,11 @@ TP.addSavedPoint = function () {
   return item;
 };
 TP.drawSavedPoint = function (item) {
-  var r = this.rDisp || 1, ov = this.ov, band = item.corr.items.length ? this.band(item.corr.items[0].d) : null;
-  var col = band === "n" ? COLOUR.red : band === "m" ? COLOUR.amber : band === "f" ? COLOUR.green : "#5B6472";
-  ov.set("n-tgt-s" + item.id, addSphere(new Geo(), item.target.p, r * 1.9), {color: col, pass: "opaque", emis: 0.25});
-  ov.set("n-tgt-s" + item.id + "-x", addSphere(new Geo(), item.target.p, r * 1.9), {color: col, pass: "xray", alpha: 0.45, emis: 0.3});
-  if (item.entry) ov.set("n-entry-s" + item.id, addSphere(new Geo(), item.entry.p, r * 1.7), {color: col, pass: "opaque"});
+  var r = this.rDisp || 1, ov = this.ov;
+  /* Q367: the same tip / entry pair as the working plan (smaller, translucent); the band colour is the row's in the list */
+  ov.set("n-tgt-s" + item.id, addOcta(new Geo(), item.target.p, r * 2.0), {color: MK.tip.color, pass: "trans", alpha: 0.75, emis: 0.3, order: 4});
+  ov.set("n-tgt-s" + item.id + "-x", addOcta(new Geo(), item.target.p, r * 2.0), {color: MK.tip.color, pass: "xray", alpha: 0.35, emis: 0.3});
+  if (item.entry) ov.set("n-entry-s" + item.id, addRing(new Geo(), item.entry.p, sub(item.target.p, item.entry.p), r * 2.6, r * 0.6), {color: MK.entry.color, pass: "trans", alpha: 0.8, emis: 0.3, order: 4});
 };
 TP.removeSavedPoint = function (id) {
   var idx = -1, k; for (k = 0; k < this.savedPts.length; k++) if (this.savedPts[k].id === id) { idx = k; break; }
@@ -2712,7 +2802,8 @@ function guideDom(tool, view, lang, opt) {
         var dt = !has ? T.noTarget : !o.measured ? T.notMeasured : o.d == null ? T.beyond(tool.corr.R) : fmt1(o.d) + " " + T.unit;
         var band = has && o.measured && o.d != null ? tool.band(o.d) : "";
         list.appendChild(gEl("div", {class: "g-rrow" + (band ? " band-" + band : ""), "data-g-ids": o.ids.join(" "), "data-g-d": o.d == null ? "" : String(o.d)},
-          [gBdi(o.name), " · ", gEl("span", {class: "g-d", text: dt})]));
+          [gBdi(o.name), (function () { var j = (tool.byId[o.ids[0]] || [])[0], l = j != null && tool.sizeLabel ? tool.sizeLabel(j, lang) : ""; return l ? gEl("span", {class: "g-cls", "data-g-cls": "1", text: " (" + l + ")"}) : null; })(),   // Q367: the size class
+           " · ", gEl("span", {class: "g-d", text: dt})]));
       });
     });
     d.appendChild(list);
@@ -2735,6 +2826,437 @@ TP.renderPlanGuide = function () {   // the needle panel's own copy (English), f
   host.innerHTML = "";
   host.appendChild(guideDom(this, view, "en", {btn: "", phone: phone, refresh: function () { self.renderPlanGuide(); }}));
 };
+/* ===================================================================== */
+/* Q367 (owner, 2026-11-17): PLAN-FIRST injection planning, one TIP / ENTRY marker pair, and the SAFETY panel.                */
+/*  - the plan is assembled from elements in any order: the needle tip (a structure, refined where this body has the data:     */
+/*    origin / insertion site, nerve-muscle junction, a PLANE between two structures, perineural, inside a bursa / sheath, the  */
+/*    joint space, a free tapped point) and the skin entry (a tap, or one of the computed suggestions). Every element can be    */
+/*    set, changed or cleared at any time; the path is drawn as soon as both exist. this.target / this.entry stay the ONE       */
+/*    working pair every other part of the tool reads (path, clip, corridor, saved points).                                      */
+/*  - markers: Okabe & Ito's colour-universal pair (Color Universal Design, J*Fly 2002/2008): SKY BLUE tip, ORANGE entry --     */
+/*    the blue / orange axis stays apart in protan, deutan and tritan vision -- AND different shapes (tip: diamond, entry:     */
+/*    ring), each with a dark rim so it reads on skin tones, on muscle red and on the dark scan image. 3-D shapes in the model,  */
+/*    fixed-size 2-D pins over the canvas (readable on a phone at any zoom), the same drawing in the scan clip and in the chips.*/
+/*  - safety: the USER's own minimum distances per class (nerves large / medium / small, arteries large / medium / small, veins  */
+/*    large / medium); empty = rule off (no source the owner's books give states such a figure, so none is pre-filled). Halos   */
+/*    of exactly the rule's radius around the structures within reach; the path checked against every rule that is on.        */
+/* ===================================================================== */
+var MK = {tip: {color: "#56B4E9", edge: "#0B2A3C", he: "קצה המחט", en: "needle tip", shape: "diamond"},
+          entry: {color: "#E69F00", edge: "#2B1A00", he: "מעבר בעור", en: "skin entry", shape: "ring"}};
+var PLAN_GAP0 = 5, PLAN_GAP_MAX = 20, PLAN_PERI0 = 2, PLAN_PATCH_DRAW = 700, PLAN_JOINT_GAP = 10, PLAN_ADJ = 6;
+var SAFE_STORE = "nmsk-inj-safety-v1";
+var SAFE_ROWS = [{k: "nL", kind: "n", c: "L"}, {k: "nM", kind: "n", c: "M"}, {k: "nS", kind: "n", c: "S"},
+                 {k: "aL", kind: "a", c: "L"}, {k: "aM", kind: "a", c: "M"}, {k: "aS", kind: "a", c: "S"},
+                 {k: "vL", kind: "v", c: "L"}, {k: "vM", kind: "v", c: "M"}];
+/* size-class thresholds, mm of calibre: [large >=, medium >=]. A CONVENTION (editable on the panel), not a source figure: the
+   owner's books state no size classes in mm; these are this project's own Q240 calibre levels (vessels: main >= 6, secondary
+   3-6 mm; nerves: trunk >= 4, branches 2-4 mm), so a "large" vessel / nerve here is what the Labels panel already calls level 1. */
+var SAFE_THR0 = {n: [4, 2], a: [6, 3], v: [6, 3]};
+var SAFE_PAD = 15;                       // a structure is "within reach" when its surface lies within (its rule + 15 mm) of the path / tip
+var SAFE_CAP = {desk: 24, phone: 12};    // halos drawn at most (violations first, then the nearest to their rule)
+var SAFE_KIND = {nerve: "n", artery: "a", vein: "v"};
+var SAFE_COL = {n: "#F2C230", a: "#E5483F", v: "#3D7BE8"};
+var SAFE_HE = {n: "עצב", a: "עורק", v: "וריד", L: "גדול", M: "בינוני", S: "קטן"};
+var VIOL_COL = "#D63A3A";
+
+function addOcta(g, c, r) {   // a regular octahedron (the tip's diamond), flat-shaded; its vertex centroid is c
+  var V = [[r, 0, 0], [-r, 0, 0], [0, r, 0], [0, -r, 0], [0, 0, r], [0, 0, -r]];
+  [[0, 2, 4], [2, 1, 4], [1, 3, 4], [3, 0, 4], [2, 0, 5], [1, 2, 5], [3, 1, 5], [0, 3, 5]].forEach(function (f) {
+    var a = V[f[0]], b = V[f[1]], d = V[f[2]], n = norm(cross(sub(b, a), sub(d, a)));
+    g.idx.push(g.v(add(c, a), n), g.v(add(c, b), n), g.v(add(c, d), n));
+  });
+  return g;
+}
+function addRing(g, c, ax, R, rr, seg, sides) {   // a torus around axis ax (the entry's ring), centred on c
+  seg = seg || 36; sides = sides || 10;
+  if (!(len(ax) > 1e-6)) ax = [0, 0, 1];
+  var E = perpBasis(norm(ax)), e1 = E[0], e2 = E[1], u = norm(ax), base = g.count();
+  for (var i = 0; i <= seg; i++) {
+    var th = 2 * Math.PI * i / seg, dc = add(mul(e1, Math.cos(th)), mul(e2, Math.sin(th))), rc = addS(c, dc, R);
+    for (var j = 0; j <= sides; j++) { var ph = 2 * Math.PI * j / sides, n = add(mul(dc, Math.cos(ph)), mul(u, Math.sin(ph))); g.v(addS(rc, n, rr), n); }
+  }
+  for (var a = 0; a < seg; a++) for (var b = 0; b < sides; b++) {
+    var p0 = base + a * (sides + 1) + b, p1 = p0 + sides + 1;
+    g.idx.push(p0, p1, p0 + 1, p0 + 1, p1, p1 + 1);
+  }
+  return g;
+}
+/* the 2-D drawing of a marker (canvas): the step-sheet chips use the same shapes as CSS; the scan clip calls this */
+function drawMk2d(ctx, kind, x, y, s, dashed) {
+  var m = MK[kind]; ctx.save(); ctx.lineJoin = "round";
+  if (dashed) ctx.setLineDash([3, 2]);
+  if (kind === "tip") {
+    ctx.beginPath(); ctx.moveTo(x, y - s); ctx.lineTo(x + s, y); ctx.lineTo(x, y + s); ctx.lineTo(x - s, y); ctx.closePath();
+    ctx.fillStyle = m.color; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = m.edge; ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.arc(x, y, s * 0.78, 0, 6.2832); ctx.lineWidth = s * 0.62; ctx.strokeStyle = m.edge; ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y, s * 0.78, 0, 6.2832); ctx.lineWidth = s * 0.36; ctx.strokeStyle = m.color; ctx.stroke();
+  }
+  ctx.restore();
+}
+function mkSvg(kind, px) {   // the 2-D pin over the 3-D canvas (fixed pixel size)
+  var m = MK[kind], h = px / 2;
+  if (kind === "tip") return '<svg xmlns="http://www.w3.org/2000/svg" width="' + px + '" height="' + px + '" viewBox="0 0 ' + px + " " + px + '"><path d="M' + h + " 2L" + (px - 2) + " " + h + "L" + h + " " + (px - 2) + "L2 " + h + 'Z" fill="' + m.color + '" stroke="' + m.edge + '" stroke-width="2.4" stroke-linejoin="round"/></svg>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="' + px + '" height="' + px + '" viewBox="0 0 ' + px + " " + px + '"><circle cx="' + h + '" cy="' + h + '" r="' + (h - 4.2) + '" fill="none" stroke="' + m.edge + '" stroke-width="7"/><circle cx="' + h + '" cy="' + h + '" r="' + (h - 4.2) + '" fill="none" stroke="' + m.color + '" stroke-width="3.6"/></svg>';
+}
+global.NMSKPlanMarkers = {MK: MK, draw2d: drawMk2d};   // the scan tool's clip draws the same pair (clinical/ultrasound_tool.js)
+
+/* ---------- markers ---------- */
+TP.drawMarkers = function () {
+  var ov = this.ov, r = this.rDisp || 1;
+  ["mk-tip", "mk-tip-x", "mk-entry", "mk-entry-rim", "mk-entry-x"].forEach(ov.remove, ov);
+  if (this.target) {
+    var gt = addOcta(new Geo(), this.target.p, 2.6 * r);
+    ov.set("mk-tip", gt, {color: MK.tip.color, pass: "opaque", emis: 0.35, shin: 60});
+    ov.set("mk-tip-x", gt, {color: MK.tip.color, pass: "xray", alpha: 0.55, emis: 0.5});
+  }
+  if (this.entry) {
+    var ax = this.target && dist(this.entry.p, this.target.p) > 1e-3 ? sub(this.target.p, this.entry.p) : (this.entry.n || [0, 0, 1]);
+    var R = 3.4 * r, gr = addRing(new Geo(), this.entry.p, ax, R, 0.8 * r);
+    ov.set("mk-entry", gr, {color: MK.entry.color, pass: "opaque", emis: 0.3, shin: 50});
+    ov.set("mk-entry-rim", addRing(new Geo(), this.entry.p, ax, R + 1.1 * r, 0.38 * r), {color: MK.entry.edge, pass: "opaque"});
+    ov.set("mk-entry-x", gr, {color: MK.entry.color, pass: "xray", alpha: 0.5, emis: 0.45});
+  }
+  this.pinsPlace();
+};
+TP.pinsInit = function () {
+  if (this.pins || typeof document === "undefined") return;
+  var self = this, host = document.createElement("div"), mk = {};
+  host.id = "q367-pins"; host.setAttribute("aria-hidden", "true");
+  host.style.cssText = "position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:80";
+  ["entry", "tip"].forEach(function (k) {
+    var px = k === "tip" ? 22 : 26, e = document.createElement("div");
+    e.className = "q367-pin q367-pin-" + k; e.dataset.px = px; e.innerHTML = mkSvg(k, px);
+    e.style.cssText = "position:fixed;left:0;top:0;width:" + px + "px;height:" + px + "px;display:none;filter:drop-shadow(0 0 1.5px rgba(255,255,255,.9))";
+    host.appendChild(e); mk[k] = e;
+  });
+  document.body.appendChild(host);
+  this.pins = mk;
+  if (this.api.webgl && this.api.webgl.onAfterDraw) this.api.webgl.onAfterDraw(function () { self.pinsPlace(); });
+};
+/* the pins show in the injection mode only (the needle panel keeps its 3-D markers); off-canvas or behind the eye: hidden */
+TP.pinsPlace = function () {
+  if (!this.pins) return;
+  var on = this.active && document.body.classList.contains("mode-inj"), rc = on ? this.api.canvas.getBoundingClientRect() : null, self = this;
+  [["tip", this.target], ["entry", this.entry]].forEach(function (x) {
+    var e = self.pins[x[0]], s = on && x[1] ? self.api.toScreen(x[1].p) : null, px = +e.dataset.px;
+    if (!s || !isFinite(s[0]) || s[0] < rc.left || s[0] > rc.right || s[1] < rc.top || s[1] > rc.bottom) { if (e.style.display !== "none") e.style.display = "none"; e._xy = null; return; }
+    e.style.display = ""; e.style.transform = "translate(" + (s[0] - px / 2).toFixed(1) + "px," + (s[1] - px / 2).toFixed(1) + "px)"; e._xy = s;
+  });
+};
+
+/* ---------- the plan: tip and entry, in any order ---------- */
+TP.plInit = function () { this.pl = {kind: null, gap: PLAN_GAP0, peri: PLAN_PERI0, plane: null, msg: ""}; };
+TP.plKeep = function (fn) {   // run a tip setter of the older flows (they clear the entry) and keep the entry the user set
+  var e = this.entry; fn.call(this);
+  if (e && !this.entry) { this.entry = e; this.update(); }
+};
+TP.plTipSet = function (pt, kind, extra) {
+  this.target = {p: pt.p.slice(), i: pt.i != null && pt.i >= 0 ? pt.i : null, n: null, kind: kind};
+  if (extra) Object.keys(extra).forEach(function (k) { this.target[k] = extra[k]; }, this);
+  if (pt.ride != null) this.anchorPoint(this.target, pt.ride);   // a tip beside (not in) a structure rides that structure
+  this.mp.sel = null; this.pl.kind = kind;
+  if (this.mode !== "tfirst") this.setMode("tfirst", true);
+  this.clearSuggestions(); this.risk.safer = null;
+  ["sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x"].forEach(this.ov.remove, this.ov);
+  this.update();
+  return this.target;
+};
+TP.plTipClear = function () { this.target = null; this.pl.kind = null; this.plPlaneClear(); this.clearSuggestions(); this.update(); };
+TP.plEntrySet = function (hit) {
+  this.entry = {p: hit.p.slice(), i: hit.i != null && hit.i >= 0 ? hit.i : null, n: hit.n || null};
+  if (this.mode !== "tfirst") this.setMode("tfirst", true);
+  this.clearSuggestions();
+  var t = this.target;
+  if (t && t.kind === "peri" && !t.tapped) { this.plPeri(t.nerve, null, false); return this.entry; }   // the tip goes to the nerve's side the needle comes from
+  this.update();
+  return this.entry;
+};
+TP.plEntryClear = function () { this.entry = null; this.clearSuggestions(); this.update(); };
+TP.plRest = function (xyz, s) {   // a point given in REST coordinates (attachment site), ridden to the current pose on structure s
+  var w = {p: xyz.slice(), i: s, n: null};
+  if (this.poseKey() !== "rest") { this.anchorPoint(w, s, true); if (!this.ridePoint(w)) return null; }
+  return w;
+};
+function vCentroid(pos) { var c = [0, 0, 0], n = pos.length / 3; for (var k = 0; k < pos.length; k += 3) { c[0] += pos[k]; c[1] += pos[k + 1]; c[2] += pos[k + 2]; } return [c[0] / n, c[1] / n, c[2] / n]; }
+TP.isNerveT = function (i) { var r = this.recs[i]; return !!r && this.cls[i] === "nerve" && r.cat === "nerve"; };
+TP.isSacT = function (i) { var r = this.recs[i]; return !!r && (r.cat === "bursa" || /bursa|tendon_sheath|synovial_sheath|sheaths?_of/.test(r.id)) && !/fibrous_sheath|cruciform|annular/.test(r.id); };
+TP.isCapsuleT = function (i) { var r = this.recs[i]; return !!r && /articular_capsule|joint_capsule|(^|_)capsule(_|$)/.test(r.id); };
+TP.isMuscleT = function (i) { var r = this.recs[i]; return !!r && !!PLAN_CATS[r.cat]; };
+/* origin / insertion sites of a muscle: the Insertions data (Q323) placed on this body -- parts.partsFor() names them, parts.anchors()
+   gives their placed coordinates (rest frame) */
+TP.plAttach = function (i, ty) {
+  var parts = this.api.parts ? this.api.parts() : null, r = this.recs[i];
+  if (!r || !parts || !parts.partsFor || !parts.anchors) return [];
+  var want = ty === "origin" ? "origin_part" : "insertion_point", pf = parts.partsFor(r.id).filter(function (p) { return p.ty === want && p.placed; });
+  if (!pf.length) return [];
+  var st = pf[0].id.split(".")[0], side = r.side === "l" || r.side === "r" ? r.side : null, an = parts.anchors(st, side) || [], out = [];
+  pf.forEach(function (p) { an.forEach(function (a) { if (a.id === p.id && a.xyz) out.push({id: p.id, name: p.name, xyz: a.xyz.slice(), side: a.side}); }); });
+  return out;
+};
+TP.plUseAttach = function (i, ty, a) {
+  var w = this.plRest(a.xyz, i); if (!w) return null;
+  return this.plTipSet({p: w.p, i: i}, ty, {ref: a.id, rest: a.xyz.slice(), refName: a.name});
+};
+/* nerve-muscle junction: the muscle's motor point(s) (clinical_motor_points.json) and its placed IZ bands (innervation_q322.json,
+   the same "Use site N" the guide offers); both through their existing setters, the entry kept */
+TP.plNmj = function (i) {
+  var r = this.recs[i], out = {mp: [], iz: []}; if (!r) return out;
+  out.mp = this.planMotorPoints(r);
+  var gv = this.guide && this.guide.data ? this.guideView(i) : null;
+  if (gv) out.iz = gv.sites.filter(function (s) { return s.st === "placed" && s.dot; }).map(function (s) { return {view: gv, site: s}; });
+  return out;
+};
+TP.plUseMp = function (p) { this.plKeep(function () { this.useMotorPoint(p); }); if (this.target) { this.target.kind = "mp"; this.pl.kind = "mp"; } this.notify(); return this.target; };
+TP.plUseIz = function (o) { this.plKeep(function () { this.useGuideSite(o.view, o.site); }); if (this.target) { this.target.kind = "iz"; this.pl.kind = "iz"; } this.notify(); return this.target; };
+TP.plCentre = function (i) { this.plKeep(function () { this.setTargetAt(i); }); if (this.target) { this.target.kind = "centre"; this.pl.kind = "centre"; } this.notify(); return this.target; };
+/* PERINEURAL: the tip beside the nerve, `off` mm from its surface, never inside it: at the nerve's surface point nearest to the
+   reference (a tap on the nerve, else the entry -- the side the needle comes from --, else the nerve's point nearest its own centre),
+   pushed out along the direction to the reference (outside) or the outward face normal */
+TP.plPeri = function (i, ref, tapped) {
+  var g = this.geom(i); if (!g) return null;
+  var off = clamp(+this.pl.peri || PLAN_PERI0, 0.5, 20);
+  if (!ref && this.entry) ref = this.entry.p;
+  if (!ref) ref = closestOnMesh(g.pos, g.idx, vCentroid(g.pos)).q;
+  var cm = closestOnMesh(g.pos, g.idx, ref), q = cm.q, dir = null;
+  if (cm.d > 0.05 && !this.insideMesh(i, ref)) dir = norm(sub(ref, q));
+  else { var F = triFrame(g.pos, g.idx, cm.f); dir = F ? mul(F.n, this.orientSign(i)) : [0, 0, 1]; }
+  var tip = addS(q, dir, off);
+  if (this.insideMesh(i, tip)) tip = addS(q, dir, -off);
+  var host = this.containing(tip, i);
+  return this.plTipSet({p: tip, i: host != null && host >= 0 ? host : null, ride: i}, "peri", {nerve: i, off: off, tapped: !!tapped});
+};
+/* INSIDE A BURSA / TENDON SHEATH: the vertex centre when it lies inside the sac, else the midpoint between the sac's two walls
+   at the wall point nearest that centre (a ray along the inward normal to the opposite wall) */
+TP.plCavity = function (i) {
+  var g = this.geom(i); if (!g) return null;
+  var c = vCentroid(g.pos), p = c;
+  if (!this.insideMesh(i, c)) {
+    var cm = closestOnMesh(g.pos, g.idx, c), F = triFrame(g.pos, g.idx, cm.f), d = F ? mul(F.n, -this.orientSign(i)) : null;
+    var hits = d ? this.rayAll(i, addS(cm.q, d, 0.02), d, 1e-4, 200).sort(function (x, y) { return x.t - y.t; }) : [];
+    if (hits.length) p = addS(cm.q, d, 0.02 + hits[0].t / 2);
+  }
+  return this.plTipSet({p: p, i: i}, "cavity", {inside: this.insideMesh(i, p)});
+};
+/* JOINT SPACE (intra-articular): the two bones the capsule encloses (the bones with the most vertices inside the capsule's box,
+   >= 20 each), the PLANE locus between them (gap <= 10 mm) kept inside the capsule's box, and the locus point nearest the
+   capsule's centre. Cartilage is not modelled as a separate surface here, so the space is bone-to-bone: an approximation. */
+TP.plJointBones = function (i) {
+  var r = this.recs[i], self = this, lo = r.bmin.map(function (v) { return v - 2; }), hi = r.bmax.map(function (v) { return v + 2; }), c = [];
+  this.recs.forEach(function (b, j) {
+    if (b.cat !== "bone" || !boxOverlap(b.bmin, b.bmax, lo, hi)) return;
+    var g = self.geom(j); if (!g) return;
+    var n = 0, P = g.pos;
+    for (var k = 0; k < P.length; k += 3) if (P[k] >= lo[0] && P[k] <= hi[0] && P[k + 1] >= lo[1] && P[k + 1] <= hi[1] && P[k + 2] >= lo[2] && P[k + 2] <= hi[2]) n++;
+    if (n >= 20) c.push({j: j, n: n});
+  });
+  c.sort(function (x, y) { return y.n - x.n; });
+  return c.slice(0, 2).map(function (x) { return x.j; });
+};
+TP.plIntra = function (i) {
+  var bones = this.plJointBones(i); if (bones.length < 2) return null;
+  var r = this.recs[i], lo = r.bmin, hi = r.bmax, ga = this.geom(bones[0]), gb = this.geom(bones[1]);
+  var res = planeLocus(ga.pos, ga.idx, gb.pos, gb.idx, PLAN_JOINT_GAP, 4000, function (m) { return m[0] >= lo[0] && m[0] <= hi[0] && m[1] >= lo[1] && m[1] <= hi[1] && m[2] >= lo[2] && m[2] <= hi[2]; });
+  if (!res.pts.length) return null;
+  var c = [0, 1, 2].map(function (k) { return (lo[k] + hi[k]) / 2; }), best = null, bd = Infinity;
+  res.pts.forEach(function (o) { var d = dist(o.m, c); if (d < bd) { bd = d; best = o; } });
+  this.pl.plane = {a: bones[0], b: bones[1], gap: PLAN_JOINT_GAP, pts: res.pts, minGap: res.minGap, key: this.poseKey(), intra: i};
+  this.drawPatch();
+  return this.plTipSet({p: best.m, i: i}, "intra", {bones: bones.slice(), gapHere: best.g});
+};
+/* PLANE: see planeLocus(). The tip: the patch point nearest the entry when one exists (the side the needle comes from), else the
+   point nearest the patch's centre; a tap on the model then snaps the tip to the nearest patch point. */
+TP.plPlane = function (a, b, gap) {
+  if (gap != null && isFinite(gap)) this.pl.gap = clamp(+gap, 1, PLAN_GAP_MAX);
+  var ga = this.geom(a), gb = this.geom(b); if (!ga || !gb || a === b) return null;
+  var res = planeLocus(ga.pos, ga.idx, gb.pos, gb.idx, this.pl.gap, 3000);
+  this.pl.plane = {a: a, b: b, gap: this.pl.gap, pts: res.pts, minGap: res.minGap, key: this.poseKey()};
+  this.drawPatch();
+  if (!res.pts.length) { this.notify(); this.api.redraw(); return {n: 0, minGap: res.minGap}; }
+  var ref = this.entry ? this.entry.p : vCentroid([].concat.apply([], res.pts.map(function (o) { return o.m; })));
+  this.plPlaneSnap(ref);
+  return {n: res.pts.length, minGap: res.minGap};
+};
+TP.plPlaneSnap = function (p) {
+  var P = this.pl.plane; if (!P || !P.pts.length) return null;
+  var best = null, bd = Infinity;
+  P.pts.forEach(function (o) { var d = dist(o.m, p); if (d < bd) { bd = d; best = o; } });
+  return this.plTipSet({p: best.m, i: P.a}, P.intra != null ? "intra" : "plane", {plane: {a: P.a, b: P.b}, gapHere: best.g});
+};
+TP.plPlaneClear = function () { if (this.pl && this.pl.plane) { this.pl.plane = null; this.drawPatch(); } };
+TP.drawPatch = function () {
+  var ov = this.ov; ov.remove("q367-patch"); ov.remove("q367-patch-x");
+  var P = this.pl.plane; if (!P || !P.pts.length) { this.api.redraw(); return; }
+  var pts = P.pts, step = Math.max(1, Math.ceil(pts.length / PLAN_PATCH_DRAW)), sel = pts.filter(function (o, k) { return k % step === 0; });
+  var g = chunked(sel, function (gg, o) { addSphere(gg, o.m, 0.75, 6, 4); });
+  ov.set("q367-patch", g, {color: "#B79CFF", pass: "trans", alpha: 0.6, emis: 0.5, order: 3});
+  ov.set("q367-patch-x", g, {color: "#B79CFF", pass: "xray", alpha: 0.22, emis: 0.5});
+  this.api.redraw();
+};
+TP.plPoseRefresh = function () {   // the patch follows the pose (the tip itself rides its structure)
+  var P = this.pl && this.pl.plane; if (!P || P.key === this.poseKey()) return;
+  var ga = this.geom(P.a), gb = this.geom(P.b); if (!ga || !gb) return;
+  var lo = P.intra != null ? this.recs[P.intra].bmin : null, hi = P.intra != null ? this.recs[P.intra].bmax : null;
+  var res = planeLocus(ga.pos, ga.idx, gb.pos, gb.idx, P.gap, P.intra != null ? 4000 : 3000, lo ? function (m) { return m[0] >= lo[0] && m[0] <= hi[0] && m[1] >= lo[1] && m[1] <= hi[1] && m[2] >= lo[2] && m[2] <= hi[2]; } : null);
+  P.pts = res.pts; P.minGap = res.minGap; P.key = this.poseKey();
+  this.drawPatch();
+};
+/* adjacent structures for the plane's second side: muscles / tendons / fascia / ligaments whose box overlaps A's box grown by the
+   gap, largest overlap first (a hint list; any structure can be picked) */
+TP.plAdjacent = function (a) {
+  var r = this.recs[a], g = this.pl.gap, lo = r.bmin.map(function (v) { return v - g; }), hi = r.bmax.map(function (v) { return v + g; }), out = [], seen = {};
+  this.recs.forEach(function (s, j) {
+    if (j === a || seen[s.id] || !/^(muscle|insertion|tendon|fascia|ligament|joint)$/.test(s.cat) || !boxOverlap(s.bmin, s.bmax, lo, hi)) return;
+    var v = 1; for (var k = 0; k < 3; k++) v *= Math.max(0, Math.min(hi[k], s.bmax[k]) - Math.max(lo[k], s.bmin[k]));
+    out.push({j: j, v: v}); seen[s.id] = 1;
+  });
+  out.sort(function (x, y) { return y.v - x.v; });
+  return out.slice(0, PLAN_ADJ).map(function (x) { return x.j; });
+};
+/* which refinements this target offers on THIS body (a refinement with no data here is not offered; `missing` names them) */
+TP.plOffers = function (i) {
+  var o = {centre: true, free: true, plane: true, origin: [], insertion: [], mp: [], iz: [], peri: false, cavity: false, intra: false, missing: []};
+  if (i == null || !this.recs[i]) return o;
+  if (this.isMuscleT(i)) {
+    o.origin = this.plAttach(i, "origin"); o.insertion = this.plAttach(i, "insertion");
+    var nm = this.plNmj(i); o.mp = nm.mp; o.iz = nm.iz;
+    if (!o.origin.length) o.missing.push("origin");
+    if (!o.insertion.length) o.missing.push("insertion");
+    if (!o.mp.length && !o.iz.length) o.missing.push("nmj");
+  }
+  o.peri = this.isNerveT(i);
+  o.cavity = this.isSacT(i);
+  if (this.isCapsuleT(i)) { if (this.plIntraOk == null) this.plIntraOk = {}; if (this.plIntraOk[i] == null) this.plIntraOk[i] = this.plJointBones(i).length >= 2; o.intra = this.plIntraOk[i]; if (!o.intra) o.missing.push("intra"); }
+  return o;
+};
+
+/* ---------- safety: the user's own distance rules ---------- */
+TP.safeInit = function () {
+  var S = this.safe = {rules: {}, thr: JSON.parse(JSON.stringify(SAFE_THR0)), rows: [], viol: [], halos: [], segs: [], unk: 0, nOn: 0, seq: 0, timer: 0, stored: false};
+  try {
+    var j = JSON.parse(global.localStorage.getItem(SAFE_STORE) || "null");
+    if (j && j.r) SAFE_ROWS.forEach(function (row) { var v = +j.r[row.k]; if (v > 0 && isFinite(v)) S.rules[row.k] = clamp(v, 0.1, 100); });
+    if (j && j.t) ["n", "a", "v"].forEach(function (k) { var t = j.t[k]; if (t && t.length === 2 && +t[0] >= +t[1] && +t[1] > 0) S.thr[k] = [+t[0], +t[1]]; });
+    S.stored = !!j;
+  } catch (e) {}
+  this.sizeCache = {};
+  this.vcal = null;
+};
+TP.safeSave = function () {
+  try { global.localStorage.setItem(SAFE_STORE, JSON.stringify({r: this.safe.rules, t: this.safe.thr})); this.safe.stored = true; } catch (e) {}
+};
+TP.safeSet = function (o) {   // {rules: {nL: mm|null, ...}, thr: {n: [L, M], ...}} -- partial updates; null / empty / <= 0 = rule off
+  var S = this.safe;
+  if (o.rules) Object.keys(o.rules).forEach(function (k) { var v = o.rules[k]; if (v === "" || v == null || !(+v > 0)) delete S.rules[k]; else S.rules[k] = clamp(+v, 0.1, 100); });
+  if (o.thr) { Object.keys(o.thr).forEach(function (k) { var t = o.thr[k]; if (t && +t[0] > 0 && +t[1] > 0) S.thr[k] = [Math.max(+t[0], +t[1]), Math.min(+t[0], +t[1])]; }); this.sizeCache = {}; }
+  this.safeSave();
+  this.safeRun();
+};
+TP.calNerves = function () {
+  if (this._caln) return this._caln;
+  var c = {};
+  try { var e = document.getElementById("nmsk-calibre"); if (e && e.textContent.trim().length > 2) { var j = JSON.parse(e.textContent); if (j && j.c) c = j.c; } } catch (er) {}
+  return (this._caln = c);
+};
+TP.sizeOf = function (i) {
+  if (this.sizeCache[i] !== undefined) return this.sizeCache[i];
+  var k = SAFE_KIND[this.cls[i]], out = null;
+  if (k) {
+    var id = this.recs[i].id, d = null, p = 0, src = null;
+    if (k === "n") { var e = this.calNerves()[id]; if (e) { d = e[1]; p = e[3] ? 1 : 0; src = "nmsk-calibre"; } }
+    else { var v = this.vcal && this.vcal[id]; if (v) { d = v[0]; p = v[1] ? 1 : 0; src = "mesh"; } }
+    out = {k: k, d: d, p: p, c: sizeClass(d, p, this.safe.thr[k]), src: src};
+  }
+  if (this.vcal || k === "n") this.sizeCache[i] = out;   // vessels are cached once their calibre file has loaded
+  return out;
+};
+TP.sizeLabel = function (i, lang) {
+  var s = this.sizeOf(i); if (!s) return "";
+  if (lang === "en") return ({n: "nerve", a: "artery", v: "vein"})[s.k] + ", " + (s.c ? ({L: "large", M: "medium", S: "small"})[s.c] : "calibre unknown");
+  return SAFE_HE[s.k] + " " + (s.c ? SAFE_HE[s.c] : "· קוטר לא ידוע");
+};
+TP.safeSchedule = function () {
+  var self = this, S = this.safe; if (!S) return;
+  clearTimeout(S.timer); S.timer = setTimeout(function () { S.timer = 0; self.safeRun(); }, 90);
+};
+/* the check: every artery / vein / nerve with a rule ON for its class whose surface lies within (rule + 15 mm) of the planned
+   segment (entry -> tip; the tip or the entry alone before both exist) -- exact distance to the page's own triangles (meshSegDist,
+   the corridor's measurement) on the current (posed) meshes. The target's own structure (a perineural nerve) is not checked. */
+TP.safeRun = function () {
+  var S = this.safe, self = this; if (!S) return;
+  clearTimeout(S.timer); S.timer = 0;
+  var A = this.entry ? this.entry.p : null, B = this.target ? this.target.p : null, t0 = performance.now();
+  S.seq++; S.rows = []; S.viol = []; S.halos = []; S.segs = []; S.unk = 0;
+  S.nOn = SAFE_ROWS.filter(function (r) { return S.rules[r.k] > 0; }).length;
+  if (S.nOn && (A || B)) {
+    if (!A) A = B; if (!B) B = A;
+    var maxR = 0; SAFE_ROWS.forEach(function (r) { if (S.rules[r.k] > maxR) maxR = S.rules[r.k]; });
+    var skip = this.target ? [this.target.i, this.target.nerve] : [];
+    this.recs.forEach(function (r, i) {
+      if (!SAFE_KIND[self.cls[i]] || skip.indexOf(i) >= 0 || !boxHitsSegment(r.bmin, r.bmax, A, B, maxR + SAFE_PAD)) return;
+      var sz = self.sizeOf(i); if (!sz) return;
+      if (!sz.c) { if (S.rules[sz.k + "L"] > 0 || S.rules[sz.k + "M"] > 0 || S.rules[sz.k + "S"] > 0) S.unk++; return; }
+      var rule = S.rules[sz.k + sz.c]; if (!(rule > 0) || !boxHitsSegment(r.bmin, r.bmax, A, B, rule + SAFE_PAD)) return;
+      var g = self.geom(i); if (!g) return;
+      var m = meshSegDist(g.pos, g.idx, A, B, rule + SAFE_PAD + 1e-6); if (!(m.d <= rule + SAFE_PAD)) return;
+      S.rows.push({i: i, id: r.id, name: self.name(i), side: r.side, k: sz.k, c: sz.c, dia: sz.d, p: sz.p, d: m.d, rule: rule, viol: m.d < rule});
+    });
+    S.rows.sort(function (x, y) { return (y.viol - x.viol) || ((x.d - x.rule) - (y.d - y.rule)); });
+    S.viol = S.rows.filter(function (x) { return x.viol; });
+    var phone = global.matchMedia ? global.matchMedia("(max-width:760px)").matches : false, cap = phone ? SAFE_CAP.phone : SAFE_CAP.desk;
+    S.cap = cap; S.halos = S.rows.slice(0, Math.max(cap, 0));
+    /* the offending stretch of the path: 1 mm samples whose own distance to the structure is below its rule */
+    var L = dist(A, B);
+    S.viol.slice(0, 8).forEach(function (v) {
+      var g = self.geom(v.i);
+      if (L < 1e-3) { S.segs.push({a: A, b: A, i: v.i}); return; }
+      var n = Math.max(2, Math.ceil(L)), run = null;
+      for (var s = 0; s <= n; s++) {
+        var P = [A[0] + (B[0] - A[0]) * s / n, A[1] + (B[1] - A[1]) * s / n, A[2] + (B[2] - A[2]) * s / n];
+        var bad = meshSegDist(g.pos, g.idx, P, P, v.rule + 1e-6).d < v.rule;
+        if (bad && !run) run = {a: P, b: P, i: v.i}; else if (bad) run.b = P;
+        if ((!bad || s === n) && run) { S.segs.push(run); run = null; }
+      }
+    });
+  }
+  S.ms = performance.now() - t0;
+  this.drawViolations();
+  this.refreshHalos();
+  this.notify();
+};
+TP.drawViolations = function () {
+  var ov = this.ov, S = this.safe; ov.remove("q367-viol"); ov.remove("q367-viol-x");
+  if (!S || !S.segs.length) return;
+  var g = new Geo(), r = 1.15 * (this.rDisp || 1);
+  S.segs.forEach(function (s) { if (dist(s.a, s.b) < 0.5) addSphere(g, s.a, 2.4 * r, 14, 10); else addTube(g, s.a, s.b, r * 1.25, r * 1.25, 18, {capA: true, capB: true}); });
+  ov.set("q367-viol", g, {color: VIOL_COL, pass: "opaque", emis: 0.45});
+  ov.set("q367-viol-x", g, {color: VIOL_COL, pass: "xray", alpha: 0.7, emis: 0.5});
+};
+/* the rule halos: the structure's own (posed) mesh inflated along its normals by exactly the rule (mm) -- the overlay's halo pass */
+TP.safeHalos = function () {
+  var self = this;
+  return this.safe.halos.map(function (x) { return {i: x.i, r: x.rule * self.orientSign(x.i), color: SAFE_COL[x.k], alpha: x.viol ? 0.42 : 0.16, rule: x.rule, viol: x.viol, safe: true}; });
+};
+TP.loadSafety = function () {
+  var self = this;
+  fetch("clinical_vessel_calibre.json", {cache: "no-cache"}).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }).then(function (j) {
+    self.vcal = j && j.schema === "nmsk.vessel_calibre.v1" && j.c ? j.c : {};
+    self.vcalMeta = j && j.c ? {n: j.n, method: j.method} : null;
+    self.sizeCache = {};
+    if (self.safe.nOn) self.safeRun(); else self.notify();
+  });
+};
+/* test / harness view of the plan and the safety check */
+TP.q367 = function () {
+  var t = this.target, e = this.entry, S = this.safe, P = this.pl.plane, self = this;
+  return {tip: t ? {p: t.p.slice(), i: t.i, kind: t.kind || null, ref: t.ref || null, nerve: t.nerve, off: t.off} : null, entry: e ? {p: e.p.slice(), i: e.i} : null,
+          kind: this.pl.kind, plane: P ? {a: P.a, b: P.b, gap: P.gap, n: P.pts.length, minGap: P.minGap, intra: P.intra} : null,
+          safe: {rules: JSON.parse(JSON.stringify(S.rules)), thr: JSON.parse(JSON.stringify(S.thr)), seq: S.seq, nOn: S.nOn, unk: S.unk, cap: S.cap, ms: S.ms,
+                 rows: S.rows.map(function (x) { return {i: x.i, id: x.id, k: x.k, c: x.c, d: x.d, rule: x.rule, viol: x.viol, dia: x.dia}; }),
+                 halos: S.halos.map(function (x) { return {i: x.i, id: x.id, r: x.rule, viol: x.viol}; }), segs: S.segs.length},
+          pins: this.pins ? {tip: this.pins.tip._xy || null, entry: this.pins.entry._xy || null} : null, sizeOf: function (i) { return self.sizeOf(i); }};
+};
+
 /* ---------- Q272: the "תכנון הזרקה" WORKSPACE MODE -- a re-skin of this tool's own Q268 logic (preset, live distance readout,
    suggested entries, halo, posture), hosted by the page's generic mode layer (viewer/modes/, window.NMSKModes). Nothing is
    re-implemented here: every button calls the same methods the needle panel's own buttons call. RTL Hebrew copy per the owner's
@@ -2763,26 +3285,43 @@ function injectionMode(tool, api) {
   function fmt(d) { return (Math.round(d * 10) / 10).toFixed(1); }
   function closePop() { if (popOpen) { popOpen.remove(); popOpen = null; } }
   function pickTarget(i) {
-    closePop();
+    closePop(); disarm();
+    var keepE = tool.entry;                // Q367: an entry set first stays (the order is the user's)
     tool.planPick(i);
     tool.setTargetAt(i);                 // a default target point at the structure's vertex centroid; a tap inside the structure replaces it
+    if (tool.target) tool.target.kind = "centre";
+    tool.pl.kind = "centre"; ui.rk = null; ui.planeMsg = "";
+    if (keepE) tool.entry = keepE;
+    /* Q367: a nerve is never a tip's inside: perineural by default; a bursa / sheath: inside the sac; a capsule: the joint space */
+    if (tool.isNerveT(i)) { tool.plPeri(i, null, false); ui.rk = "peri"; }
+    else if (tool.isSacT(i)) tool.plCavity(i);
+    else if (tool.isCapsuleT(i) && offers(i).intra) tool.plIntra(i);
+    else if (keepE) tool.update();
     var parts = api.parts ? api.parts() : null;
     if (parts && parts.setMode && parts.state && !partsOn && parts.state().mode !== "off") { parts.setMode("off"); if (parts.dirty) parts.dirty(); }
     refresh();
   }
-  function openPicker() {
+  /* Q367: the picker is the plan's structure chooser -- the needle tip (any structure but the skin: muscle, nerve, joint, bursa,
+     tendon sheath, fascia...; muscles and tendons listed first, an exact id first) or the plane's second side. Without an entry it
+     also offers to start from the skin entry instead (the order is the user's). */
+  function openPicker(role) {
     closePop();
-    var inp, res, card = h("div", {class: "mc mc-pick mi"}, [
+    role = role === "planeB" ? "planeB" : "tip";
+    var planeA = role === "planeB" ? tool.plan.i : null;
+    var inp, res, card = h("div", {class: "mc mc-pick mi", "data-role": role}, [
       h("button", {type: "button", class: "mc-close", "aria-label": "סגור", onclick: closePop}, [xIcon()]),
-      h("div", {class: "mc-title", text: "בחירת מטרה (שריר / גיד)"}),
+      h("div", {class: "mc-title", text: role === "planeB" ? "מישור: המבנה השני" : "קצה המחט: בחירת מבנה (שריר, גיד, עצב, מפרק, בורסה…)"}),
       (inp = h("input", {type: "search", class: "mc-search", placeholder: "חיפוש מבנה…", autocomplete: "off"})),
-      (res = h("div", {class: "mc-res"}))
+      (res = h("div", {class: "mc-res"})),
+      (role === "tip" && !tool.entry ? h("button", {type: "button", class: "mc-sec q367-start-entry", text: "או: התחילו ממעבר בעור", onclick: armEntry}) : null)
     ]);
     function render() {
-      var q = inp.value.trim().toLowerCase(), hits = tool.recs.filter(function (r) { return PLAN_CATS[r.cat] && (!q || (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0); }).slice(0, 40);
+      var q = inp.value.trim().toLowerCase(), pool = tool.recs.filter(function (r) { return r.cat !== "skin" && r.i !== planeA && (role === "planeB" || PLAN_CATS[r.cat] || q) && (!q || (r.name + " " + r.id).toLowerCase().indexOf(q) >= 0); });
+      function rank(r) { return (r.id.toLowerCase() === q || r.id.toLowerCase() === q + "_r" ? 0 : 2) + (PLAN_CATS[r.cat] ? 0 : 1); }
+      var hits = pool.map(function (r, n) { return {r: r, n: n, k: rank(r)}; }).sort(function (a, b) { return a.k - b.k || a.n - b.n; }).slice(0, 40).map(function (x) { return x.r; });
       res.innerHTML = "";
-      if (!hits.length) { res.appendChild(h("p", {class: "mc-hint", text: "אין שריר או גיד תואם."})); return; }
-      hits.forEach(function (r) { res.appendChild(h("button", {type: "button", dir: "rtl", title: recLabel(r), onclick: function () { pickTarget(r.i); }}, [h("bdi", {class: "mc-nm", dir: "ltr", text: r.name}), (sideHe(r) ? h("span", {class: "mc-sd", text: sideHe(r)}) : null)])); });
+      if (!hits.length) { res.appendChild(h("p", {class: "mc-hint", text: q ? "אין מבנה תואם." : "הקלידו שם מבנה."})); return; }
+      hits.forEach(function (r) { res.appendChild(h("button", {type: "button", dir: "rtl", title: recLabel(r), onclick: function () { if (role === "planeB") doPlane(planeA, r.i); else pickTarget(r.i); }}, [h("bdi", {class: "mc-nm", dir: "ltr", text: r.name}), (sideHe(r) ? h("span", {class: "mc-sd", text: sideHe(r)}) : null)])); });
     }
     inp.addEventListener("input", render); render();
     ctx.main.appendChild(card); popOpen = card; try { inp.focus(); } catch (e) {}
@@ -2833,6 +3372,198 @@ function injectionMode(tool, api) {
     ctx.main.appendChild(pop); popOpen = pop;
   }
   function moreToggle() { document.body.classList.toggle("mode-more"); }
+  /* ---------- Q367: the plan panel (the tip and the skin entry, in any order), the marker legend and the Safety card ---------- */
+  var KIND_HE = {centre: "מרכז המבנה", free: "נקודה בהקשה", origin: "מקור (origin)", insertion: "אחיזה (insertion)", nmj: "צומת עצב-שריר",
+                 mp: "צומת עצב-שריר · נקודה מוטורית", iz: "צומת עצב-שריר · רצועת IZ", plane: "מישור (plane block)", peri: "פרינוירלי (ליד העצב)",
+                 cavity: "בתוך הבורסה / הנדן", intra: "תוך-מפרקי (מרווח המפרק)"};
+  var MISSING_HE = {origin: "מקור", insertion: "אחיזה", nmj: "צומת עצב-שריר", intra: "מרווח מפרק"};
+  var offersOf = {};
+  function mkChip(kind) { return h("span", {class: "q367-mk q367-mk-" + kind, "aria-hidden": "true"}); }
+  function qb(text, fn, a) { var b = h("button", {type: "button", class: "q367-btn", text: text, onclick: fn}); if (a) Object.keys(a).forEach(function (k) { if (a[k] != null) b.setAttribute(k, a[k]); }); return b; }
+  function arm(kind, fn, hint, skip) { tool.armFn = fn; tool.armSkip = skip == null ? null : skip; ui.armKind = kind; ui.armText = hint; refresh(); }
+  function disarm() { tool.armFn = null; tool.armSkip = null; ui.armKind = null; ui.armText = ""; }
+  function armEntry() { closePop(); arm("entry", function (hit) { disarm(); tool.plEntrySet(hit); ui.manualHint = false; refresh(); }, "הקישו על העור במודל: שם תיכנס המחט."); }
+  function armFree() { arm("free", function (hit) { disarm(); tool.plTipSet({p: hit.p, i: hit.i}, "free"); ui.rk = "free"; refresh(); }, "הקישו על נקודה במודל (או על פני החתך): שם יהיה קצה המחט."); }
+  function armPeri(i) { arm("peri", function (hit) { disarm(); tool.plPeri(i, hit.p, true); refresh(); }, "הקישו על העצב במקום הרצוי: הקצה יונח לידו."); }
+  function armPlaneB(a) { arm("planeB", function (hit) { if (hit.i == null || hit.i === a) return; disarm(); doPlane(a, hit.i); }, "הקישו על המבנה השני של המישור."); }
+  function armSnap() { arm("snap", function (hit) { disarm(); tool.plPlaneSnap(hit.p); refresh(); }, "הקישו ליד המקום הרצוי: הקצה יעבור לנקודת המישור הקרובה."); }
+  function doPlane(a, b) {
+    closePop();
+    var res = tool.plPlane(a, b);
+    ui.rk = "plane";
+    ui.planeMsg = !res ? "לא ניתן לחשב מישור בין המבנים האלה." : !res.n ? "המבנים אינם מתקרבים זה לזה עד " + tool.pl.gap + ' מ"מ: אין מישור. הגדילו את הפער המרבי או בחרו מבנה סמוך.' : "";
+    refresh();
+  }
+  function tipRec() {
+    var t = tool.target;
+    if (t && t.kind === "peri" && t.nerve != null) return tool.recs[t.nerve];
+    if (t && (t.kind === "plane" || t.kind === "intra") && tool.pl.plane) return tool.recs[t.kind === "intra" ? tool.pl.plane.intra : tool.pl.plane.a];
+    return targetRec();
+  }
+  function offers(i) { var ps = api.parts ? api.parts() : null, k = i + "|" + (ps && ps.state && ps.state().loaded ? 1 : 0) + "|" + (tool.guide.data ? 1 : 0) + "|" + tool.mp.points.length; if (!offersOf[k]) offersOf[k] = tool.plOffers(i); return offersOf[k]; }
+  function setKind(k, i, o) {
+    ui.rk = k;
+    if (k === "centre") tool.plCentre(i);
+    else if (k === "free") armFree();
+    else if ((k === "origin" || k === "insertion") && o[k].length === 1) tool.plUseAttach(i, k, o[k][0]);
+    else if (k === "peri") tool.plPeri(i, null, false);
+    else if (k === "cavity") tool.plCavity(i);
+    else if (k === "intra") { if (!tool.plIntra(i)) ui.planeMsg = "לא נמצא מרווח מפרק בין שתי עצמות בתוך הקופסית."; }
+    refresh();
+  }
+  function buildPlan() {
+    ui.pTipVal = h("span", {class: "q367-val"}); ui.pEntVal = h("span", {class: "q367-val"});
+    ui.pTipPick = qb("בחירה", function () { openPicker("tip"); });
+    ui.pTipClr = qb("ניקוי", function () { disarm(); tool.plTipClear(); ui.rk = null; refresh(); }, {"aria-label": "ניקוי קצה המחט"});
+    ui.pEntTap = qb("הקשה על העור", armEntry);
+    ui.pEntSug = qb("הצעות", function () { disarm(); suggest(); });
+    ui.pEntClr = qb("ניקוי", function () { disarm(); tool.plEntryClear(); refresh(); }, {"aria-label": "ניקוי מעבר בעור"});
+    ui.refine = h("div", {class: "q367-ref"});
+    ui.arm = h("div", {class: "q367-arm", hidden: true});
+    ui.pSafeBtn = qb("בטיחות…", function () { toggleSafe(); });
+    ui.pSafeTxt = h("span", {class: "q367-val"});
+    ui.plan = h("div", {class: "q367-plan", "data-q367": "plan"}, [
+      h("div", {class: "q367-h", text: "תכנון · בכל סדר"}),
+      h("div", {class: "q367-leg"}, [mkChip("tip"), h("span", {text: "קצה המחט (תכלת, מעוין)"}), mkChip("entry"), h("span", {text: "מעבר בעור (כתום, טבעת)"})]),
+      h("div", {class: "q367-row", "data-q367": "tip"}, [mkChip("tip"), h("span", {class: "q367-lab", text: "קצה המחט:"}), ui.pTipVal, ui.pTipPick, ui.pTipClr]),
+      ui.refine,
+      h("div", {class: "q367-row", "data-q367": "entry"}, [mkChip("entry"), h("span", {class: "q367-lab", text: "מעבר בעור:"}), ui.pEntVal, ui.pEntTap, ui.pEntSug, ui.pEntClr]),
+      ui.arm,
+      h("div", {class: "q367-row", "data-q367": "safety"}, [ui.pSafeBtn, ui.pSafeTxt])
+    ]);
+  }
+  function renderPlan() {
+    var t = tool.target, e = tool.entry, r = tipRec(), P = tool.pl.plane;
+    ui.pTipVal.textContent = "";
+    if (!t) ui.pTipVal.textContent = r ? "" : "לא נקבע";
+    if (r && !(t && t.kind === "plane" && P)) ui.pTipVal.appendChild(h("bdi", {dir: "ltr", text: r.name}));
+    if (t && t.kind === "plane" && P) { ui.pTipVal.appendChild(h("bdi", {dir: "ltr", text: tool.name(P.a)})); ui.pTipVal.appendChild(document.createTextNode(" | ")); ui.pTipVal.appendChild(h("bdi", {dir: "ltr", text: tool.name(P.b)})); }
+    if (t && t.kind) ui.pTipVal.appendChild(document.createTextNode(" · " + KIND_HE[t.kind] + (t.kind === "peri" ? " " + fmt(t.off) + ' מ"מ' : "")));
+    else if (r && !t) ui.pTipVal.appendChild(document.createTextNode(" · נקודה טרם נקבעה"));
+    ui.pTipPick.textContent = r ? "שינוי" : "בחירה";
+    ui.pTipClr.hidden = !t;
+    ui.pEntVal.textContent = !e ? "לא נקבע" : (t ? "נקבע · אורך " + fmt(dist(e.p, t.p)) + ' מ"מ' : "נקבע · ממתין לקצה המחט");
+    ui.pEntTap.textContent = e ? "הקשה חדשה" : "הקשה על העור";
+    ui.pEntSug.disabled = !t; ui.pEntSug.title = t ? "נקודות כניסה מחושבות לקצה הזה" : "דרוש קצה מחט";
+    ui.pEntClr.hidden = !e;
+    ui.arm.hidden = !ui.armKind; ui.arm.innerHTML = "";
+    if (ui.armKind) { ui.arm.appendChild(h("span", {text: ui.armText})); ui.arm.appendChild(qb("ביטול", function () { disarm(); refresh(); })); }
+    ui.pTipPick.setAttribute("aria-pressed", "false"); ui.pEntTap.setAttribute("aria-pressed", String(ui.armKind === "entry"));
+    renderRefine(r && r.i != null ? r.i : null);
+    var S = tool.safe;
+    ui.pSafeTxt.textContent = !S.nOn ? "אין כללים פעילים" : S.nOn + (S.nOn === 1 ? " כלל" : " כללים") + " · " + (!(t || e) ? "ממתין לתכנון" : S.viol.length ? S.viol.length + (S.viol.length === 1 ? " הפרה" : " הפרות") : "אין הפרה");
+    ui.pSafeTxt.classList.toggle("q367-bad", !!S.viol.length);
+    ui.pSafeBtn.setAttribute("aria-pressed", String(!!ui.safeOpen));
+  }
+  function renderRefine(i) {
+    var R = ui.refine; R.innerHTML = "";
+    if (i == null) { R.appendChild(h("p", {class: "mc-hint", text: "בחרו מבנה לקצה המחט (חיפוש או הקשה על המודל) או התחילו ממעבר בעור: הסדר שלכם."})); return; }
+    var o = offers(i), cur = ui.rk || (tool.target && tool.target.kind) || null, ks = h("div", {class: "q367-ks", role: "group", "aria-label": "מיקום הקצה במבנה"});
+    if (cur === "mp" || cur === "iz") cur = "nmj";
+    function k(key, on) { if (on) ks.appendChild(qb(KIND_HE[key], function () { setKind(key, i, o); }, {"data-k": key, "aria-pressed": String(cur === key)})); }
+    k("centre", true); k("free", true); k("origin", o.origin.length > 0); k("insertion", o.insertion.length > 0); k("nmj", o.mp.length + o.iz.length > 0);
+    k("plane", true); k("peri", o.peri); k("cavity", o.cavity); k("intra", o.intra);
+    R.appendChild(ks);
+    var sub = h("div", {class: "q367-sub"}), any = false, t = tool.target;
+    if ((cur === "origin" || cur === "insertion") && o[cur].length) {
+      any = true;
+      o[cur].forEach(function (a) { sub.appendChild(qb(a.name, function () { tool.plUseAttach(i, cur, a); refresh(); }, {"data-q367-att": a.id, "aria-pressed": String(!!(t && t.ref === a.id))})); });
+    } else if (cur === "nmj") {
+      any = true;
+      o.mp.forEach(function (p, n) { var lbl = mpBundleLabel(p); sub.appendChild(qb(lbl ? "נקודה מוטורית · " + lbl : "נקודה מוטורית " + (n + 1) + "/" + o.mp.length, function () { tool.plUseMp(p); refresh(); }, {"data-q367-mp": String(n)})); });
+      o.iz.forEach(function (z) { sub.appendChild(qb("רצועת IZ · אתר " + z.site.n, function () { tool.plUseIz(z); refresh(); }, {"data-q367-iz": String(z.site.n)})); });
+    } else if (cur === "plane") {
+      any = true;
+      var P = tool.pl.plane && tool.pl.plane.intra == null && tool.pl.plane.a === i ? tool.pl.plane : null;
+      var bName = h("span", {class: "q367-val"}); if (P) bName.appendChild(h("bdi", {dir: "ltr", text: tool.name(P.b)})); else bName.textContent = "טרם נבחר";
+      sub.appendChild(h("div", {class: "q367-row"}, [h("span", {class: "q367-lab", text: "המבנה השני:"}), bName]));
+      sub.appendChild(h("div", {class: "q367-ks"}, [qb("חיפוש", function () { openPicker("planeB"); }), qb("הקשה במודל", function () { armPlaneB(i); }, {"aria-pressed": String(ui.armKind === "planeB")})]));
+      var adj = tool.plAdjacent(i);
+      if (adj.length) { var al = h("div", {class: "q367-ks"}); adj.forEach(function (j) { al.appendChild(qb(tool.name(j), function () { doPlane(i, j); }, {"data-q367-adj": tool.recs[j].id, dir: "ltr"})); }); sub.appendChild(h("p", {class: "mc-hint", text: "סמוכים:"})); sub.appendChild(al); }
+      var gin = h("input", {type: "number", class: "q367-in", min: "1", max: String(PLAN_GAP_MAX), step: "0.5", value: String(tool.pl.gap), "aria-label": "פער מרבי בין המבנים (מ\"מ)"});
+      gin.addEventListener("change", function () { tool.pl.gap = clamp(+gin.value || PLAN_GAP0, 1, PLAN_GAP_MAX); if (P) doPlane(i, P.b); else refresh(); });
+      sub.appendChild(h("div", {class: "q367-row"}, [h("span", {text: "פער מרבי:"}), gin, h("span", {text: 'מ"מ'})]));
+      sub.appendChild(h("p", {class: "mc-hint", text: "המישור: נקודות האמצע בין שני פני השטח, בכל מקום שבו הם קרובים זה לזה עד הפער המרבי (סגול במודל). הקצה: נקודת המישור הקרובה למעבר בעור, או מרכז המישור."}));
+      if (P) {
+        sub.appendChild(h("p", {class: "mc-hint", "data-q367-plane": String(P.pts.length), text: P.pts.length ? P.pts.length + " נקודות במישור · הפער הקטן " + fmt(P.minGap) + ' מ"מ' + (t && t.gapHere != null ? " · כאן " + fmt(t.gapHere) + ' מ"מ, הקצה באמצע' : "") : (ui.planeMsg || "אין מישור.")}));
+        if (P.pts.length) sub.appendChild(qb("הזזת הקצה בהקשה", armSnap, {"aria-pressed": String(ui.armKind === "snap")}));
+      } else if (ui.planeMsg) sub.appendChild(h("p", {class: "mc-hint", text: ui.planeMsg}));
+    } else if (cur === "peri" && o.peri) {
+      any = true;
+      var pin = h("input", {type: "number", class: "q367-in", min: "0.5", max: "20", step: "0.5", value: String(tool.pl.peri), "aria-label": "מרחק הקצה מפני העצב (מ\"מ)"});
+      pin.addEventListener("change", function () { tool.pl.peri = clamp(+pin.value || PLAN_PERI0, 0.5, 20); tool.plPeri(i, null, false); refresh(); });
+      sub.appendChild(h("div", {class: "q367-row"}, [h("span", {text: "מרחק מפני העצב:"}), pin, h("span", {text: 'מ"מ'})]));
+      sub.appendChild(h("p", {class: "mc-hint", text: "הקצה ליד העצב, לעולם לא בתוכו: בצד שממנו באה המחט (או במקום שתקישו)."}));
+      sub.appendChild(qb("הקשה על העצב", function () { armPeri(i); }, {"aria-pressed": String(ui.armKind === "peri")}));
+    } else if (cur === "intra" && ui.planeMsg) { any = true; sub.appendChild(h("p", {class: "mc-hint", text: ui.planeMsg})); }
+    else if (cur === "intra" && tool.pl.plane && tool.pl.plane.intra === i) {
+      any = true; sub.appendChild(h("p", {class: "mc-hint", text: "מרווח המפרק: נקודות האמצע בין שתי העצמות שבתוך הקופסית (" + tool.name(tool.pl.plane.a) + " / " + tool.name(tool.pl.plane.b) + "); הקצה בנקודה הקרובה למרכז הקופסית."}));
+    } else if (cur === "cavity" && t && t.kind === "cavity") { any = true; sub.appendChild(h("p", {class: "mc-hint", text: t.inside ? "הקצה בתוך השק: מרכזו, או באמצע בין שתי דפנותיו." : "הקצה ליד השק (הרשת אינה סגורה כאן)."})); }
+    if (any) R.appendChild(sub);
+    if (o.missing.length) R.appendChild(h("p", {class: "mc-hint", "data-q367-missing": o.missing.join(" "), text: "אין על גוף זה נתונים ל: " + o.missing.map(function (m) { return MISSING_HE[m]; }).join(", ") + "."}));
+  }
+  function buildSafe() {
+    ui.safeIn = {}; ui.thrIn = {}; ui.thrTxt = {};
+    var grid = h("div", {class: "q367-grid"});
+    SAFE_ROWS.forEach(function (row) {
+      var inp = h("input", {type: "number", class: "q367-in", min: "0", max: "100", step: "0.5", placeholder: "כבוי", "data-rule": row.k, "aria-label": SAFE_HE[row.kind] + " " + SAFE_HE[row.c] + ': מרחק מינימלי (מ"מ)'});
+      inp.addEventListener("change", function () { var o = {}; o[row.k] = inp.value; tool.safeSet({rules: o}); refresh(); });
+      ui.safeIn[row.k] = inp; ui.thrTxt[row.k] = h("span", {class: "q367-thr"});
+      grid.appendChild(h("span", {class: "q367-cls"}, [h("span", {class: "q367-dot", style: "background:" + SAFE_COL[row.kind]}), SAFE_HE[row.kind] + " " + SAFE_HE[row.c] + " ", ui.thrTxt[row.k]]));
+      grid.appendChild(inp); grid.appendChild(h("span", {text: 'מ"מ'}));
+    });
+    var tg = h("div", {class: "q367-grid q367-grid4"});
+    [["n", "עצבים"], ["a", "עורקים"], ["v", "ורידים"]].forEach(function (x) {
+      var a = h("input", {type: "number", class: "q367-in", min: "0.1", max: "50", step: "0.5", "data-thr": x[0] + "L", "aria-label": x[1] + ': גדול מ- (מ"מ)'}), b = h("input", {type: "number", class: "q367-in", min: "0.1", max: "50", step: "0.5", "data-thr": x[0] + "M", "aria-label": x[1] + ': בינוני מ- (מ"מ)'});
+      function ch() { var o = {}; o[x[0]] = [+a.value, +b.value]; tool.safeSet({thr: o}); refresh(); }
+      a.addEventListener("change", ch); b.addEventListener("change", ch);
+      ui.thrIn[x[0]] = [a, b];
+      tg.appendChild(h("span", {class: "q367-lab", text: x[1]})); tg.appendChild(h("span", {text: "גדול ≥"})); tg.appendChild(a); tg.appendChild(h("span", {text: "בינוני ≥"})); tg.appendChild(b);
+    });
+    ui.safeRes = h("div", {class: "q367-res", "aria-live": "polite"});
+    ui.safeHalo = h("p", {class: "mc-hint"});
+    ui.safe = h("div", {class: "mc mc-safe mi", dir: "rtl", hidden: true, "data-q367": "safety-card"}, [
+      h("button", {type: "button", class: "mc-close", "aria-label": "סגור", onclick: function () { toggleSafe(false); }}, [xIcon()]),
+      h("div", {class: "mc-title", text: "בטיחות · כללי מרחק"}),
+      h("p", {class: "q367-own", text: "אלה הכללים שלכם, לא המלצה. שדה ריק = כלל כבוי."}),
+      grid,
+      h("details", {class: "q367-thrbox"}, [h("summary", {text: "ספי גודל לפי קוטר: מוסכמה, ניתנת לעריכה"}), tg,
+        h("p", {class: "mc-hint", text: "לא ממקור: בספרים שבידינו אין ספי גודל במ\"מ. אלה רמות הקוטר של הפרויקט (Q240): כלי-דם ראשי ≥ 6, משני 3–6 מ\"מ; עצב גזע ≥ 4, ענפים 2–4 מ\"מ. גזע בעל שם נחשב גדול."}),
+        h("p", {class: "mc-hint", text: "קוטר העצבים: טבלת הקליבר של העמוד. קוטר כלי-הדם: נמדד מהרשת של כל כלי (קוטר צינור חציוני)."})]),
+      ui.safeRes, ui.safeHalo
+    ]);
+    ctx.main.appendChild(ui.safe);
+  }
+  function toggleSafe(on) {
+    ui.safeOpen = on == null ? !ui.safeOpen : !!on;
+    ui.safe.hidden = !ui.safeOpen; document.body.classList.toggle("inj-safe", ui.safeOpen);
+    if (ui.safeOpen) closePop();
+    refresh();
+  }
+  function renderSafe() {
+    var S = tool.safe, t = tool.target, e = tool.entry;
+    ui.pSafe.setAttribute("aria-pressed", String(!!ui.safeOpen));
+    if (!ui.safeOpen) return;
+    SAFE_ROWS.forEach(function (row) {
+      var inp = ui.safeIn[row.k], thr = S.thr[row.kind];
+      if (document.activeElement !== inp) inp.value = S.rules[row.k] > 0 ? String(S.rules[row.k]) : "";
+      ui.thrTxt[row.k].textContent = row.c === "L" ? "(≥ " + thr[0] + ")" : row.c === "M" ? "(" + thr[1] + "–" + thr[0] + ")" : "(< " + thr[1] + ")";
+    });
+    ["n", "a", "v"].forEach(function (k) { var p = ui.thrIn[k]; if (document.activeElement !== p[0]) p[0].value = S.thr[k][0]; if (document.activeElement !== p[1]) p[1].value = S.thr[k][1]; });
+    var R = ui.safeRes; R.innerHTML = "";
+    if (!S.nOn) R.appendChild(h("p", {class: "mc-hint", text: "אין כללים פעילים: כל השדות ריקים."}));
+    else if (!(t || e)) R.appendChild(h("p", {class: "mc-hint", text: "קבעו קצה מחט או מעבר בעור: המסלול ייבדק מול הכללים."}));
+    else if (S.viol.length) {
+      R.appendChild(h("p", {class: "q367-bad", text: (S.viol.length === 1 ? "הפרה אחת" : S.viol.length + " הפרות") + " (" + (t && e ? "המסלול" : t ? "קצה המחט" : "מעבר בעור") + "):"}));
+      S.viol.forEach(function (v) {
+        R.appendChild(h("div", {class: "q367-v", "data-q367-viol": v.id}, [h("span", {class: "q367-dot", style: "background:" + SAFE_COL[v.k]}), h("bdi", {dir: "ltr", text: v.name}),
+          document.createTextNode(" · " + SAFE_HE[v.k] + " " + SAFE_HE[v.c] + " · " + fmt(v.d) + ' מ"מ < כלל ' + v.rule + ' מ"מ')]));
+      });
+    } else R.appendChild(h("p", {class: "q367-ok", text: "אין הפרה של הכללים שהוגדרו" + (S.rows.length ? " (" + S.rows.length + " מבנים בטווח נבדקו)." : ".")}));
+    if (S.unk) R.appendChild(h("p", {class: "mc-hint", text: S.unk + " מבנים בטווח ללא קוטר ידוע: לא סווגו ולא נבדקו."}));
+    var tg = t && (t.kind === "peri") ? " מבנה המטרה עצמו אינו נבדק." : "";
+    ui.safeHalo.textContent = S.nOn ? "הילה ברדיוס הכלל סביב כל מבנה בטווח (כלל + " + SAFE_PAD + ' מ"מ מהמסלול או מהקצה): ' + S.halos.length + " מוצגות" + (S.rows.length > S.halos.length ? " מתוך " + S.rows.length + " (ההפרות והקרובים לכלל שלהם)" : "") + ", עד " + (S.cap || SAFE_CAP.desk) + "." + tg : "";
+  }
   function build(c) {
     ctx = c;
     if (!document.getElementById("inj-mode-css")) {   // the tool's own panel stays alive (its state, its 3-D overlays) but is not shown in the mode: the cards re-skin it
@@ -2862,6 +3593,42 @@ function injectionMode(tool, api) {
         "body.mode-inj .mc-guide .g-i{display:inline-flex;width:28px;height:28px;min-height:0;margin:0;padding:0;border-radius:999px;font-size:15px;vertical-align:middle}" +
         "body.mode-inj .mc-guide a{color:#0A5F68}";
       document.head.appendChild(st);
+    }
+    if (!document.getElementById("inj-q367-css")) {   // Q367: the plan panel, the marker chips, the Safety card
+      var s3 = document.createElement("style"); s3.id = "inj-q367-css"; s3.textContent =
+        "body.mode-inj .q367-plan{border:1px solid #E4E1D8;border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;gap:7px;color:#20242B;background:#fff;font-size:13px;line-height:1.4}" +
+        "body.mode-inj .q367-h{font-weight:700;font-size:14px}" +
+        "body.mode-inj .q367-leg{font-size:12.5px;color:#3F4752;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}" +
+        "body.mode-inj .q367-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}" +
+        "body.mode-inj .q367-lab{font-weight:700;font-size:13.5px;color:#20242B}" +
+        "body.mode-inj .q367-val{font-size:13px;color:#3F4752;min-width:0;overflow-wrap:anywhere;flex:1 1 110px}" +
+        "body.mode-inj .q367-btn{height:auto;min-height:34px;padding:4px 10px;border-radius:10px;border:1px solid #C9CDD3;background:#fff;color:#20242B;font-size:13px;font-weight:600;line-height:1.25;overflow-wrap:anywhere;max-width:100%}" +
+        "body.mode-inj .q367-btn[aria-pressed=true]{background:#E3F2F1;border-color:#0E7C86;color:#0A5F68}" +
+        "body.mode-inj .q367-btn[disabled]{color:#5B6472;background:#F3F4F6}" +
+        "body.mode-inj .q367-ks{display:flex;flex-wrap:wrap;gap:6px;min-width:0}" +
+        "body.mode-inj .q367-sub{display:flex;flex-direction:column;gap:6px;padding:7px;border-radius:10px;background:#F6F7F8;min-width:0}" +
+        "body.mode-inj .q367-sub .mc-hint{color:#4A5361}" +
+        "body.mode-inj .q367-mk{display:inline-block;flex:0 0 auto;vertical-align:middle;box-sizing:border-box}" +
+        "body.mode-inj .q367-mk-tip{width:13px;height:13px;margin:0 2px;background:" + MK.tip.color + ";border:2px solid " + MK.tip.edge + ";transform:rotate(45deg);border-radius:2px}" +
+        "body.mode-inj .q367-mk-entry{width:17px;height:17px;border-radius:50%;border:4px solid " + MK.entry.color + ";box-shadow:0 0 0 1.5px " + MK.entry.edge + ",inset 0 0 0 1.5px " + MK.entry.edge + "}" +
+        "body.mode-inj .q367-arm{font-size:12.5px;color:#5A3E00;background:#FFF1CC;border-radius:8px;padding:5px 8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}" +
+        "body.mode-inj .q367-in{width:64px;height:34px;border:1px solid #8A929D;border-radius:8px;padding:0 6px;color:#20242B;background:#fff;font-size:14px;direction:ltr}" +
+        "body.mode-inj .q367-in::placeholder{color:#5B6472;opacity:1}" +
+        "body.mode-inj .q367-bad{color:#B42318;font-weight:700}body.mode-inj .q367-ok{color:#1E6B3E;font-weight:700;margin:0;font-size:13px}" +
+        "body.mode-inj .mc-safe{left:20px;top:20px;width:330px;z-index:3;background:#fff;color:#20242B;gap:10px}" +
+        "body.mode-inj.inj-safe .mc-left{display:none!important}" +
+        "body.mode-inj .q367-own{margin:0;font-size:13px;color:#20242B;font-weight:600}" +
+        "body.mode-inj .q367-grid{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 8px;align-items:center;font-size:13px}" +
+        "body.mode-inj .q367-grid4{grid-template-columns:auto auto auto auto auto;gap:6px 6px;font-size:12.5px}" +
+        "body.mode-inj .q367-cls{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}body.mode-inj .q367-thr{color:#4A5361;font-size:12px;direction:ltr;unicode-bidi:isolate}" +
+        "body.mode-inj .q367-dot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:0 0 auto;border:1px solid rgba(0,0,0,.35)}" +
+        "body.mode-inj .q367-thrbox>summary{cursor:pointer;font-weight:600;font-size:13px;color:#20242B}" +
+        "body.mode-inj .q367-res{display:flex;flex-direction:column;gap:4px;font-size:13px}body.mode-inj .q367-v{display:flex;gap:6px;align-items:center;flex-wrap:wrap;overflow-wrap:anywhere}" +
+        "body.mode-inj .mc-drow .q367-cl{display:block;font-size:11.5px;color:#4A5361;font-weight:500}" +
+        "body.mode-inj .g-cls{color:#4A5361;font-size:12px}" +
+        "@media (max-width:760px){body.mode-inj .mc-safe{left:0;right:0;top:auto;bottom:0;width:auto;max-height:calc(50% - 32px);overflow:auto;border-radius:20px 20px 0 0;padding:10px 14px 16px;box-sizing:border-box}" +
+        "body.mode-inj.inj-safe .mc-right{display:none!important}body.mode-inj .q367-grid4{grid-template-columns:auto auto auto auto auto}}";
+      document.head.appendChild(s3);
     }
     skinCat = tool.recs.some(function (r) { return r.cat === "skin"; }) ? "skin" : null;
     /* bar: the target chip + reset / cancel */
@@ -2901,7 +3668,8 @@ function injectionMode(tool, api) {
     ui.savedTitle = h("div", {class: "mc-lbl", style: "margin-top:4px", text: "נקודות שמורות"});
     ui.saved = h("div", {class: "mc-list"});
     ui.savedClear = h("button", {type: "button", class: "mc-sec", text: "נקה את כל הנקודות השמורות", onclick: clearSaved});
-    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.guide, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.scanBtn, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
+    buildPlan();   // Q367
+    c.main.appendChild(h("div", {class: "mc mc-right mi"}, [h("div", {class: "mc-handle"}), ui.plan, ui.step1, ui.step1Btn, ui.zoneTitle, ui.zone, ui.guide, ui.step2, ui.primary, ui.manual, ui.hint, ui.cands, ui.mobRow, ui.step3, ui.report, ui.scanBtn, ui.addPoint, ui.savedTitle, ui.saved, ui.savedClear]));
     /* left: the distance card */
     ui.rows = h("div", {class: "mc-list"});
     ui.near = h("input", {type: "number", min: "0", max: "100", step: "0.5", "aria-label": "סף קרוב (מ\"מ)"}); ui.far = h("input", {type: "number", min: "0", max: "200", step: "0.5", "aria-label": "סף רחוק (מ\"מ)"});
@@ -2915,7 +3683,9 @@ function injectionMode(tool, api) {
     ui.pParts = h("button", {type: "button", class: "mp", text: "אחיזות (O/I)", "aria-pressed": "false", onclick: toggleParts});
     ui.pSkin = h("button", {type: "button", class: "mp", text: "עור", "aria-pressed": "false", onclick: toggleSkin});
     ui.pLayers = h("button", {type: "button", class: "mp", text: "שכבות…", onclick: layersPop});
-    [ui.pHalo, ui.pPost, ui.pParts, ui.pSkin, ui.pLayers].forEach(function (b) { c.pills.appendChild(b); });
+    ui.pSafe = h("button", {type: "button", class: "mp", text: "בטיחות", "aria-pressed": "false", onclick: function () { toggleSafe(); }});   // Q367
+    [ui.pSafe, ui.pHalo, ui.pPost, ui.pParts, ui.pSkin, ui.pLayers].forEach(function (b) { c.pills.appendChild(b); });
+    buildSafe();
     c.pills.hidden = false;
     if (!(api.parts && api.parts())) ui.pParts.disabled = true;
     if (!skinCat) ui.pSkin.hidden = true;
@@ -2995,7 +3765,8 @@ function injectionMode(tool, api) {
     else if (!c.items.length) ui.dhint.textContent = "אין כלי-דם או עצב ברדיוס " + c.R + " מ\"מ.";
     else ui.dhint.textContent = hasE ? "מהמסלול (כניסה ← מטרה)" : "מנקודת המטרה";
     c.items.slice().sort(function (a, b) { return a.d - b.d; }).slice(0, 8).forEach(function (it) {
-      ui.rows.appendChild(h("div", {class: "mc-drow band-" + tool.band(it.d)}, [h("div", {class: "bar"}), h("div", {class: "nm", text: it.name}), h("div", {class: "mm", text: fmt(it.d)}), h("div", {class: "un", text: "מ\"מ"})]));
+      var cl = tool.sizeLabel(it.i, "he");   // Q367: the size class (the Safety panel's) next to the name
+      ui.rows.appendChild(h("div", {class: "mc-drow band-" + tool.band(it.d)}, [h("div", {class: "bar"}), h("div", {class: "nm"}, [it.name, cl ? h("span", {class: "q367-cl", text: cl}) : null]), h("div", {class: "mm", text: fmt(it.d)}), h("div", {class: "un", text: "מ\"מ"})]));
     });
     if (tool.poseAway && tool.poseAway()) ui.dhint.textContent += " · נמדד על המודל בתנוחה הנוכחית";
     ui.foot.innerHTML = ""; ui.foot.appendChild(document.createTextNode("מדידה בלבד · ספי צבע " + c.near + " / " + c.far + " מ\"מ · "));
@@ -3005,6 +3776,7 @@ function injectionMode(tool, api) {
     ui.pPost.setAttribute("aria-pressed", String(posture !== "off")); ui.pPost.textContent = "תנוחה ספסטית" + (ui.postureMsg ? " · " + ui.postureMsg : "");
     ui.pParts.setAttribute("aria-pressed", String(partsOn));
     if (skinCat) ui.pSkin.setAttribute("aria-pressed", String(!!api.categoryOn(skinCat)));
+    renderPlan(); renderSafe();   // Q367
   }
   function enter(c) {
     wasActive = tool.active; partsOn = false; posture = "off"; ui.postureMsg = ""; ui.manualHint = false;
@@ -3013,10 +3785,13 @@ function injectionMode(tool, api) {
     tool.clearSuggestions(); tool.clear();
     if (!hookOn) { tool.hooks.push(refresh); hookOn = true; }
     var sid = c.selectedId(), rec = sid ? tool.recs.filter(function (r) { return r.id === sid && PLAN_CATS[r.cat]; })[0] : null;
-    if (rec) pickTarget(rec.i); else { refresh(); openPicker(); }
+    disarm(); ui.rk = null; ui.planeMsg = "";
+    if (rec) pickTarget(rec.i); else { refresh(); openPicker("tip"); }
+    tool.pinsPlace();
   }
   function exit() {
-    closePop();
+    closePop(); disarm(); if (ui.safeOpen) toggleSafe(false);   // Q367
+    setTimeout(function () { tool.pinsPlace(); }, 0);
     var k = tool.hooks.indexOf(refresh); if (k >= 0) tool.hooks.splice(k, 1); hookOn = false;
     if (posture !== "off") { try { tool.applyPosture("rest", "r"); } catch (e) {} posture = "off"; }
     tool.clearSuggestions(); tool.clear(); tool.planRelease();
@@ -3026,7 +3801,7 @@ function injectionMode(tool, api) {
   /* Q294: Reset (the page-wide history's button) -- back to the start of this mode without leaving it: posture to rest, the path,
      the suggestions and the plan cleared, the target picker reopened (saved injection points are kept: they are the user's record) */
   function reset() {
-    closePop();
+    closePop(); disarm(); ui.rk = null; ui.planeMsg = "";   // Q367
     if (posture !== "off") { try { tool.applyPosture("rest", "r"); } catch (e) {} posture = "off"; }
     tool.clearSuggestions(); tool.clear(); tool.planRelease();
     try { refresh(); } catch (e2) {}

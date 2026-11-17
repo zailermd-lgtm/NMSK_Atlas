@@ -117,7 +117,7 @@ def stage(build_dir: Path, viewer: str | None = None, motor_points: Path | None 
 
 def remove(build_dir: Path) -> list[Path]:
     gone = []
-    for n in NAMES + IMAGING_NAMES + ULTRASOUND_NAMES + ("clinical_injection_guide.json",):   # Q347: built at regen (Base pages)
+    for n in NAMES + IMAGING_NAMES + ULTRASOUND_NAMES + ("clinical_injection_guide.json", "clinical_vessel_calibre.json"):   # Q347 / Q367: built at regen (Base pages)
         p = Path(build_dir) / n
         if p.exists():
             p.unlink()
