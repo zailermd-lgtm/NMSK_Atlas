@@ -306,7 +306,9 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
         check(f"{T} auto line: none while the structure is drawn in the selection tint (line={ld})", ld is None)
         content = max(c["rowRight"], c["chipsRight"]) - c["l"]      # Q368: the name row also carries the swatch + ADD (actsW)
         check(f"{T} width {c['w']:.0f}px = content ({content:.0f}px incl. padding, {c['rows']} row(s), no overflow)",
-              not c["overflow"] and c["w"] <= max(content, c["nameW"] + 90 + c["actsW"]) + 14 and (c["rows"] == 1 or c["w"] >= w - 40))
+              # Q368: with the name sized to its text (.qc-t no longer stretches) nameW is the name's own width, so a card whose
+              # buttons wrap is judged by the second clause alone: it is at the screen cap BECAUSE its row wraps
+              not c["overflow"] and ((c["rows"] == 1 and c["w"] <= max(content, c["nameW"] + 90 + c["actsW"]) + 14) or (c["rows"] > 1 and c["w"] >= w - 40)))
         found2 = scan(pg, r"^(?!" + re.escape(c["name"]) + r"$)", grid=11)
         if found2:
             c2 = found2[2]
