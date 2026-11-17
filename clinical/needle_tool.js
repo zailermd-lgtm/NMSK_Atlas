@@ -1943,7 +1943,10 @@ TP.region = function (T, reach) {
   }
   var all = this.recs.map(function (r) { return r.i; });
   var useSkin = this.skin.length > 0;
-  var surf = gather(useSkin ? this.skin : all);
+  var surf = useSkin ? gather(this.skin) : null;
+  /* Q367: no "skin_" mesh near this target (Base·F's only two are its perineal pieces): the outermost-surface rule, as on a page
+     without skin -- before, Base·F offered no computed entry anywhere but the perineum */
+  if (!surf || !surf.ntris) { useSkin = false; surf = gather(all); }
   var bone = gather(all.filter(function (i) { return self.cls[i] === "bone"; }));
   // the target's own structure (the thing being injected) is excluded from the risk check
   var pts = [], own = [], sIdx = [], seen = new Set();
@@ -3648,6 +3651,8 @@ function injectionMode(tool, api) {
         "body.mode-inj .q367-res{display:flex;flex-direction:column;gap:4px;font-size:13px}body.mode-inj .q367-v{display:flex;gap:6px;align-items:center;flex-wrap:wrap;overflow-wrap:anywhere}" +
         "body.mode-inj .mc-drow .q367-cl{display:block;font-size:11.5px;color:#4A5361;font-weight:500}" +
         "body.mode-inj .g-cls{color:#4A5361;font-size:12px}" +
+        /* phone: the step sheet and the distance card together leave >= 50 % of the model visible while planning */
+        "@media (max-width:760px){body.mode-inj .mc-right{max-height:36%}body.mode-inj .mc-left{max-height:24%;overflow:auto}}" +
         "@media (max-width:760px){body.mode-inj .mc-safe{left:0;right:0;top:auto;bottom:0;width:auto;max-height:calc(50% - 32px);overflow:auto;border-radius:20px 20px 0 0;padding:10px 14px 16px;box-sizing:border-box}" +
         "body.mode-inj.inj-safe .mc-right{display:none!important}body.mode-inj .q367-grid4{grid-template-columns:auto auto auto auto auto}}";
       document.head.appendChild(s3);

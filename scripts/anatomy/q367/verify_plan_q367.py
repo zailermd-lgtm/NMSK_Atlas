@@ -436,7 +436,7 @@ def main() -> int:
                 c = pg.evaluate(CLIP)
                 shot(pg, "clip_markers")
                 check(f"scan clip: the tip and entry markers drawn in the image ({c.get('mk')})", c.get("on") and c.get("mk") and "tip" in c["mk"] and "entry" in c["mk"])
-                pg.evaluate("() => { const C = window.NMSKUltrasound.needleClip; C.stop(); }")
+                pg.evaluate("() => { const C = window.NMSKUltrasound.needleClip; C.stop(); if (window.NMSKUltrasound.close) window.NMSKUltrasound.close(); }")
                 pg.wait_for_timeout(600)
 
             # ---- distance rows show the class

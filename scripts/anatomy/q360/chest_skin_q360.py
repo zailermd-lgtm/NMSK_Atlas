@@ -89,7 +89,7 @@ TJ_MM = 1.0          # mm: a border vertex this close to an unchanged neighbour'
 EDGE_MM = 4.0        # target edge length after subdivision (Q292 SKIN_EDGE)
 GRADE = 0.7          # near a long unsplit border edge the faces may keep edges up to GRADE x its length (graded away from it)
 RIM_EXCL = 2.0       # mm: current outer-sheet faces this close to their region's rim are the rounded rim, not the surface
-BAND_IN, BAND_OUT = 2.0, 8.0   # mm from a current border: data weight 0 inside BAND_IN, full from BAND_OUT (smoothstep)
+BAND_IN, BAND_OUT = 4.0, 12.0   # mm from a current border: data weight 0 inside BAND_IN, full from BAND_OUT (smoothstep)
 STIFF = (0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0, 10.0)   # data weight (x vertex degree) per ICP round: stiff -> soft
 SAMPLE_MM = 0.5      # target sampling (closest point = nearest sample + projection onto its face plane)
 TANG_MAX = 1.5       # mm: a point farther than this sideways from a piece's surface lies beyond that piece (slot), not over it
