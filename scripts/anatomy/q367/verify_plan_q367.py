@@ -304,9 +304,9 @@ def model_pixels(pg, check, label):
     pts = pg.evaluate(MODEL_PX)
     im = Image.open(io.BytesIO(pg.screenshot())).convert("RGB")
     cols = [im.getpixel((x, y)) for x, y in pts if 0 <= x < im.width and 0 <= y < im.height]
-    white = sum(1 for c in cols if min(c) >= 252)
+    white = sum(1 for c in cols if min(c) >= 252 or max(c) <= 3)   # an unpainted layer came out pure white or pure black
     distinct = len({(c[0] // 16, c[1] // 16, c[2] // 16) for c in cols})
-    check(f"{label}: the model shows wherever no card covers it ({len(cols)} samples, {white} pure white, {distinct} colour bins)",
+    check(f"{label}: the model shows wherever no card covers it ({len(cols)} samples, {white} pure white / black, {distinct} colour bins)",
           cols and white <= 0.03 * len(cols) and distinct >= 12)
 
 

@@ -73,6 +73,7 @@ var HALO_DEFAULTS = {b0: 4, rRef: 3, p: 0.5, fMin: 0.5, fMax: 3, k: 0.035, rMin:
                      mult: {artery: 1.0, nerve: 0.9, lung: 1.0, organ: 0.8, vein: 0.6}};
 var TOUCH_MM = 0.75;   // clearance at or below this: the path touches / crosses the structure
 var HUB_CLEAR_MM = 30; // free length needed outside the entry for the hub and the hand
+var SKIN_STACK_MM = 5; // Q367: skin surfaces this close behind one another along a ray are one skin (overlapping pieces, shell meshes)
 
 function clamp(x, a, b) { return x < a ? a : (x > b ? b : x); }
 function classify(rec) {
@@ -1942,10 +1943,12 @@ TP.region = function (T, reach) {
     return new TriGrid(new Float32Array(tris), new Int32Array(owner), bmin, bmax, 10);
   }
   var all = this.recs.map(function (r) { return r.i; });
-  var useSkin = this.skin.length > 0;
-  var surf = useSkin ? gather(this.skin) : null;
-  /* Q367: no "skin_" mesh near this target (Base·F's only two are its perineal pieces): the outermost-surface rule, as on a page
-     without skin -- before, Base·F offered no computed entry anywhere but the perineum */
+  /* Q367: the entry surface is the skin LAYER (Z ids are "zan_skin_..."; only ids starting "skin_" counted before, so Base·M had no
+     skin and took the last surface hit within reach -- on the trunk an organ such as the liver -- and Base·F had only its two perineal
+     pieces, i.e. no computed entry anywhere else). No skin near the target: the outermost-surface rule, as on a page without skin. */
+  if (!this.skinLayer) this.skinLayer = this.recs.filter(function (r) { return r.cat === "skin" || /^skin(_|$)/.test(r.id); }).map(function (r) { return r.i; });
+  var useSkin = this.skinLayer.length > 0;
+  var surf = useSkin ? gather(this.skinLayer) : null;
   if (!surf || !surf.ntris) { useSkin = false; surf = gather(all); }
   var bone = gather(all.filter(function (i) { return self.cls[i] === "bone"; }));
   // the target's own structure (the thing being injected) is excluded from the risk check
@@ -1980,9 +1983,12 @@ TP.entryFor = function (reg, T, u, reach) {
   if (reg.useSkin) {
     var hs = reg.surf.ray(T, u, 0.2, reach + HUB_CLEAR_MM);
     if (!hs.length) return {ok: false, why: "no skin within reach"};
-    var t1 = hs[0].t; if (t1 > reach) return {ok: false, why: "longer than the needle"};
+    /* Q367: skin pieces overlap at their seams and the Base meshes can be shells: skin surfaces within SKIN_STACK_MM of the first
+       are the same skin -- the entry is the outermost of them; another skin surface beyond that, within the hub clearance, obstructs */
+    var k0 = 0; while (k0 + 1 < hs.length && hs[k0 + 1].t <= hs[0].t + SKIN_STACK_MM) k0++;
+    var t1 = hs[k0].t; if (t1 > reach) return {ok: false, why: "longer than the needle"};
     var again = hs.some(function (h) { return h.t > t1 + 0.5 && h.t <= t1 + HUB_CLEAR_MM; });
-    return {ok: true, E: addS(T, u, t1), L: t1, entryI: reg.surf.owner[hs[0].tri], obstructed: again};
+    return {ok: true, E: addS(T, u, t1), L: t1, entryI: reg.surf.owner[hs[k0].tri], obstructed: again};
   }
   var ho = reg.surf.ray(T, u, 0.2, reach + HUB_CLEAR_MM);
   if (!ho.length) return {ok: false, why: "no surface"};
@@ -3640,7 +3646,9 @@ function injectionMode(tool, api) {
         "body.mode-inj .q367-in{width:64px;height:34px;border:1px solid #8A929D;border-radius:8px;padding:0 6px;color:#20242B;background:#fff;font-size:14px;direction:ltr}" +
         "body.mode-inj .q367-in::placeholder{color:#5B6472;opacity:1}" +
         "body.mode-inj .q367-bad{color:#B42318;font-weight:700}body.mode-inj .q367-ok{color:#1E6B3E;font-weight:700;margin:0;font-size:13px}" +
-        "body.mode-inj .mc-safe{left:20px;top:20px;width:330px;z-index:3;background:#fff;color:#20242B;gap:10px}" +
+        /* the card's background is NOT fully opaque: an opaque scrolling card over the WebGL canvas made Chromium draw an unpainted rectangle (white
+           or black, the card's size) over the model on a phone -- an opaque-scroller compositing fault; .97 white (as the step sheet) avoids it */
+        "body.mode-inj .mc-safe{left:20px;top:20px;width:330px;z-index:3;background:rgba(255,255,255,.97)!important;color:#20242B;gap:10px}" +
         "body.mode-inj.inj-safe .mc-left{visibility:hidden!important}" +
         "body.mode-inj .q367-own{margin:0;font-size:13px;color:#20242B;font-weight:600}" +
         "body.mode-inj .q367-grid{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 8px;align-items:center;font-size:13px}" +
