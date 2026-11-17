@@ -110,6 +110,12 @@ def run_size(pl, d: Path, w: int, h: int, tag: str, shots: Path | None):
         check(f"{T} the name row keeps its height with the two buttons ({g['with']:.0f} vs {g['without']:.0f} px; card {g['cardWith']:.0f} vs {g['cardWithout']:.0f})",
               g["with"] <= g["without"] + 0.5 and g["cardWith"] <= g["cardWithout"] + 0.5)
         check(f"{T} card within the screen (right {g['cardR']:.0f} <= {g['vw']})", g["cardR"] <= g["vw"] + 0.5)
+        # a long name: the two buttons take ~80 px of the name row; on a phone such a name may need one more line, never more
+        open_card(pg, "flexor_digitorum_superficialis_l")
+        gl = head_geom(pg)
+        check(f"{T} long name: the name row grows by at most one text line ({gl['with']:.0f} vs {gl['without']:.0f} px), buttons stay on it",
+              gl["with"] <= gl["without"] + 17 and gl["sameRow"] and gl["cardR"] <= gl["vw"] + 0.5)
+        open_card(pg, MUS)
         pg.click('.qc [data-qc="sel"]'); pg.wait_for_timeout(250)
         s1 = sw(pg)
         check(f"{T} marked: swatch shows the mark colour {s1} (own was {s0['hex']})", bool(s1) and s1["src"] == "mark" and s1["hex"] != s0["hex"])

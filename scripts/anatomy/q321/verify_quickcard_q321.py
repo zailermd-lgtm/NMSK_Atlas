@@ -64,7 +64,7 @@ def card_info(pg):
               rowRight: Math.max(...bs.map(b => b.getBoundingClientRect().right)), rows: new Set(bs.map(b => Math.round(b.getBoundingClientRect().top))).size,
               headRight: c.querySelector('.qc-x').getBoundingClientRect().right,
               chipsRight: (() => { const e = c.querySelector('#q8-exp'); if (!e || e.hidden) return 0; return e.getBoundingClientRect().right; })(),
-              nameW: nm.scrollWidth, overflow: c.scrollWidth > c.clientWidth + 1, open: c.classList.contains('qc-open')}; }""")
+              nameW: nm.scrollWidth, actsW: (() => { const a = c.querySelector('.qc-acts'); return a && a.getClientRects().length ? a.getBoundingClientRect().width + 6 : 0; })(), overflow: c.scrollWidth > c.clientWidth + 1, open: c.classList.contains('qc-open')}; }""")
 
 
 def state(pg):
@@ -304,9 +304,9 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
         check(f"{T} card clear of the fixed controls ({len(obs)} measured){' ' + str(hits) if hits else ''}", not hits)
         ld = lead(pg)
         check(f"{T} auto line: none while the structure is drawn in the selection tint (line={ld})", ld is None)
-        content = max(c["rowRight"], c["chipsRight"]) - c["l"]
+        content = max(c["rowRight"], c["chipsRight"]) - c["l"]      # Q368: the name row also carries the swatch + ADD (actsW)
         check(f"{T} width {c['w']:.0f}px = content ({content:.0f}px incl. padding, {c['rows']} row(s), no overflow)",
-              not c["overflow"] and c["w"] <= max(content, c["nameW"] + 90) + 14 and (c["rows"] == 1 or c["w"] >= w - 40))
+              not c["overflow"] and c["w"] <= max(content, c["nameW"] + 90 + c["actsW"]) + 14 and (c["rows"] == 1 or c["w"] >= w - 40))
         found2 = scan(pg, r"^(?!" + re.escape(c["name"]) + r"$)", grid=11)
         if found2:
             c2 = found2[2]
