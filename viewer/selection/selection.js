@@ -290,9 +290,13 @@ function NMSKSelect(E){
     mcol = m; changed();
     return m ? Object.keys(m).length : 0;
   }
-  function setUserColour(hex, scope){
+  function setUserColour(hex, scope, ids){
     if (hex != null){ hex = String(hex).toLowerCase(); if (!UCOL_RE.test(hex)) return false; }
-    if (scope === "next"){
+    if (scope === "ids"){            /* Q368: the name card's swatch colours the structure(s) it shows, marked or not */
+      var L = (ids || []).filter(has); if (!L.length) return false;
+      L.forEach(function(id){ if (hex) ucol[id] = hex; else delete ucol[id]; });
+      say((L.length === 1 ? name(L[0]) : L.length + " structures") + (hex ? " coloured " + hex + "." : " back to " + (L.length === 1 ? "its" : "their") + " own colour."));
+    } else if (scope === "next"){
       ucolNext = hex;
       say(hex ? "Structures you mark from now on will be coloured " + hex + "." : "Structures you mark from now on keep their own colour.");
     } else {
@@ -669,7 +673,7 @@ function NMSKSelect(E){
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, setGroup:setGroup, preset:preset, setFade:setFade, setHl:setHl, setTint:setTint, invert:invert, markVisible:markVisible,
-    userHex:userHex, setUserColour:setUserColour, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
+    userHex:userHex, setUserColour:setUserColour, palette:function(){ return PALETTE.map(function(p){ return p.slice(); }); }, setModeColours:setModeColours, colourState:colourState, colourBox:colourBox,
     snapshot:snapshot, restore:restore, showAll:showAll, scene:scene,
     markCategory:markCategory, markIds:markIds, onKey:onKey, clear:clearMarks, reset:resetAll, undo:undo, canUndo:function(){ return undoStack.length > 0; }, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,

@@ -106,6 +106,11 @@ var NMSKQ298 = (function(){
           refresh:function(){ if (bar) bar.refresh(); },      /* Q335: the name card asks the expansion row to re-home at once */
           run:function(which){ if (expand) expand.run(which); },                                 /* Q335: the card's "Related structures" menu */
           counts:function(id){ return expand && id ? expand.counts(id) : null; },
+          /* Q368: the name card's ADD menu reads the same tables (null until they are inflated) */
+          groups:function(id){ return expand && id && expand.state().relReady ? expand.groupsOf(id) : null; },
+          group:function(gid){ return expand ? expand.groupById(gid) : null; },
+          adjacent:function(id){ return expand && id && expand.state().adjReady ? expand.adjIds(id) : null; },
+          adjThreshold:function(){ var d = data(); return d && d.adj ? d.adj.th : null; },
           core:function(){ return IX; },
           state:function(){
             var d = data(), sc = E && E.sel ? E.sel() : null, ms = null;

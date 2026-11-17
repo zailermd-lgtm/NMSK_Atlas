@@ -87,3 +87,30 @@ body.qc-on.qc-more #info:not(.hidden){display:block !important}
   color:#E6EDF3;font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
 .qc .qc-rellink:hover{background:rgba(255,255,255,.14)}
 @media (pointer:coarse){.qc .qc-rellink{min-height:36px}}
+/* Q368: the swatch (the colour it is drawn in now; press to change it) and ADD, on the name row beside the name. Each is a
+   32 px touch target laid out in 28 px (a -2 px margin top and bottom: the head is 28 px with a mouse, 32 px on a touch
+   screen where the close button is 32 px), so the card does not grow; the menus they open are the card's own menu (.qc-relmenu), never wider than the screen. */
+.qc-head .qc-t{flex:0 1 auto}
+.qc-acts{display:flex;align-items:center;gap:4px;flex:0 0 auto;margin-right:auto}
+.qc .qc-sw{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;min-width:32px;margin:-2px 0;padding:0;border:0;border-radius:8px;
+  background:transparent;cursor:pointer}
+.qc .qc-sw[hidden]{display:none}
+.qc .qc-sw:hover,.qc .qc-sw:focus-visible{background:rgba(255,255,255,.12);outline:none}
+.qc .qc-swc{display:block;width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.85);box-shadow:0 0 0 1px rgba(0,0,0,.6)}
+.qc .qc-addb{min-height:32px;min-width:32px;margin:-2px 0;padding:0 7px;border:1px solid rgba(255,255,255,.22);border-radius:8px;background:rgba(255,255,255,.08);
+  color:#E6EDF3;font:inherit;font-size:11.5px;font-weight:700;letter-spacing:.04em;line-height:1;cursor:pointer;white-space:nowrap}
+.qc .qc-addb:hover,.qc .qc-addb[aria-expanded="true"]{background:rgba(255,255,255,.16)}
+.qc .qc-addb.qc-flash{background:#D9A227;border-color:#D9A227;color:#1b1b1b;letter-spacing:0}
+.qc .qc-addb:disabled{opacity:.5;cursor:default}
+.qc-addmenu .qc-rmi{white-space:normal;max-width:100%}
+.qc-addmenu .qc-rbadge.qc-new{background:#D9A227;color:#1b1b1b}
+.qc-palmenu{padding:6px}
+.qc-palmenu .qc-pgrid{display:grid;grid-template-columns:repeat(5,32px);gap:6px;padding:2px 4px 6px}
+.qc-palmenu .qc-rmi.qc-pc{width:32px;height:32px;min-height:32px;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.35)}
+.qc-palmenu .qc-rmi.qc-pc[aria-pressed="true"]{border-color:#fff;box-shadow:0 0 0 2px #D9A227}
+.qc-palmenu .qc-rmi.qc-pc:hover,.qc-palmenu .qc-rmi.qc-pc:focus-visible{border-color:#fff}
+.qc-palmenu .qc-prow{display:flex;gap:4px;align-items:center;justify-content:space-between}
+.qc-palmenu .qc-pcust{display:inline-flex;align-items:center;gap:4px;padding:4px 8px}
+.qc-palmenu .qc-pin{width:28px;height:24px;padding:0;border:0;background:transparent;cursor:pointer}
+.qc-palmenu .qc-pown{padding:6px 10px}
+.qc.qc-compact .qc-sw,.qc.qc-compact .qc-addb{margin:-4px 0}

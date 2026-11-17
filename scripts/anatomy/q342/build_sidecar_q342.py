@@ -7,6 +7,9 @@ muscle_parts_q342.json; contract in docs/Q342_groups_sources.md) and keeps only 
 exist on THIS page (read from the page's own embedded manifest), short labels, and sources as a short label + DOI / PMID
 (no titles). The private clinical layer is never read. The page fetches the file lazily on the first name-card open
 (viewer/groups342/groups342.js).
+Q368: also carries `ant`, the antagonist table of the functional groups (data/anatomy/antagonist_groups_q368.json) for the
+name card's ADD menu: pairs by Q298 group id, the groups without one (with the reason), the groups that table adds (members
+resolved to THIS page's ids) and the books cited.
 
     python3 scripts/anatomy/q342/build_sidecar_q342.py base_m build/q309/viewer_zan_atlas    # writes <dir>/groups_q342.json
 """
@@ -21,6 +24,7 @@ REPO = Path(__file__).resolve().parents[3]
 DA = REPO / "data" / "anatomy"
 LINES, INN, PARTS = DA / "myofascial_lines_q342.json", DA / "innervation_groups_q342.json", DA / "muscle_parts_q342.json"
 Q322 = DA / "innervation_q322.json"
+ANT = DA / "antagonist_groups_q368.json"
 NAME = "groups_q342.json"
 PAGES = ("base_m", "base_f")
 MAN_RE = re.compile(r"^window\.__ANATOMY_MANIFEST__=(.*);$", re.M)
@@ -235,6 +239,20 @@ def build_parts(C: Ctx) -> list:
     return out
 
 
+def build_ant(C: Ctx) -> dict:
+    """Q368: the antagonist table, page ids only (added groups resolve base -> base_l / base_r / base)."""
+    a = json.loads(ANT.read_text(encoding="utf-8"))
+    add = {}
+    for gid, g in a["added_groups"].items():
+        ids = [x for b in g["members"] for x in (b + "_l", b + "_r", b) if x in C.ids]
+        if len(ids) >= 2:
+            add[gid] = {"n": g["name"], "ids": ids, "r": [[r["book"], r["page"], r["note"]] for r in g["refs"]], "why": g["why"]}
+    pairs = [{"a": p["a"], "b": p["b"], "mv": p["movement"], "r": [[r["book"], r["page"], r["note"]] for r in p["refs"]]}
+             for p in a["pairs"] if (p["a"] in add or not p["a"].startswith("q368_")) and (p["b"] in add or not p["b"].startswith("q368_"))]
+    return {"l": a["labels"], "p": pairs, "none": a["none"], "add": add,
+            "bk": {k: {"s": b["short"], "c": b["citation"]} for k, b in a["books"].items()}}
+
+
 def build(page: str, page_dir: Path) -> dict:
     C = Ctx(page, page_ids(page_dir))
     lines = build_lines(C)
@@ -251,7 +269,7 @@ def build(page: str, page_dir: Path) -> dict:
                     e["pmid"] = str(r["pmid"])
                 srcs[k] = e
     res = {"schema": "nmsk.groups.page.v1", "round": "Q343", "data": "Q342", "page": page,
-           "src": srcs, "m": M, "lines": lines, "inn": inn, "parts": parts}
+           "src": srcs, "m": M, "lines": lines, "inn": inn, "parts": parts, "ant": build_ant(C)}
     txt = json.dumps(res, ensure_ascii=False)
     hit = BAN.search(txt)
     if hit:

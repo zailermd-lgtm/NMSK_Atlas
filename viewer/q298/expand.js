@@ -158,8 +158,16 @@ function NMSKExpand(E, BAR, D, H){
         n + " newly marked, one undo step. " + (g.inferred ? "Inferred: " + g.why : (g.why || "")) + (g.src ? " Source: " + g.src + "." : ""));
   }
 
+  /* Q368: one group by its id (the name card's ADD -> antagonist group resolves the opposing group's members here) */
+  function groupById(gid){
+    if (!REL || !REL.fgroups) return null;
+    for (var k = 0; k < REL.fgroups.length; k++){ var G = REL.fgroups[k];
+      if (G.id === gid) return {id:G.id, name:G.name, src:G.src, inferred:G.inferred, why:G.why, ids:G.i.map(function(j){ return REL.ids[j]; })}; }
+    return null;
+  }
+
   return {run:run, counts:counts, nameOf:nameOf,
-          adjIds:adjIds, relRows:relRows, groupsOf:groupsOf,
+          adjIds:adjIds, relRows:relRows, groupsOf:groupsOf, groupById:groupById,
           state:function(){
             var id = E.selected();
             return {adjReady:!!ADJ, relReady:!!REL, selected:id || null, counts:id ? counts(id) : null,
