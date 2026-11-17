@@ -270,6 +270,10 @@ def source_surface(gm, gf, chest, log):
         vm, fk = gm.V0[k]
         s = np.all((vm >= lo) & (vm <= hi), axis=1)
         if s.any():
+            # only the neighbour's OUTER-sheet vertices are a border to share (on the right, the Z lateral thorax touches the arm
+            # skin's INNER sheet at one axillary point)
+            outer_v = np.zeros(len(vm), bool); outer_v[np.unique(fk[z_sheets(gm, k) == 1])] = True
+            s = s & outer_v
             PV.append(vm[s]); PF.append(gf.V0[k][0][s]); PO += [k] * int(s.sum())
             ek = np.unique(edges_of(fk), axis=0)
             ek = ek[s[ek].any(1)]
@@ -689,12 +693,7 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
     li = np.where(lock)[0]
     U0 = vnormals(X0, F)
     gap = T.dist(tgt_lock[li], U0[li])[0] if len(li) else np.zeros(0)
-    rel = li[gap > LOCK_GAP_MAX]           # the pieces disagree too much to join here: the border is left as it is today
-    lock[rel] = False
-    free = ~lock
-    fit.released = rel
-    keep = gap <= LOCK_GAP_MAX
-    li, gap = li[keep], gap[keep]
+    rel = np.zeros(0, int)
     dis = li[gap > 0.5]
     wl = np.ones(n)
     if len(dis):
@@ -1162,13 +1161,27 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     rep["source"].update(vertices=int(len(S["V"])), faces=int(len(S["F"])), locked=int(S["lock"].sum()), neighbours=S["neighbours"],
                          z_vertex_counts={k: int(gm.M[k]["vc"]) for k in chest})
     X0, rep["frame"] = frame_map(gm, gf, S, chest, log)
+    T = Target(gf, chest)
+    # a neighbour's border vertex lying more than LOCK_GAP_MAX off the current chest surface is not joined (decided before the
+    # subdivision, so that border is subdivided and fitted like any free border)
+    li = np.where(S["lock"])[0]
+    g0 = T.dist(S["lock_tgt"][li], vnormals(X0, S["F"])[li])[0]
+    rel = li[g0 > LOCK_GAP_MAX]
+    if len(rel):
+        S["lock"] = S["lock"].copy(); S["lock"][rel] = False
+        X0[rel] = X0[rel]          # (its position stays the frame-mapped one; the fit takes it from there)
+        e_, c_ = np.unique(edges_of(S["F"]), axis=0, return_counts=True)
+        bd_ = e_[c_ == 1]
+        S["lock_edges"] = bd_[S["lock"][bd_[:, 0]] & S["lock"][bd_[:, 1]]]
+    rep["locks_released"] = [{"at_mm": [round(float(x), 1) for x in S["lock_tgt"][i]], "gap_mm": round(float(gg), 2)}
+                             for i, gg in zip(rel, g0[g0 > LOCK_GAP_MAX])]
+    log(f"  locks: {int(S['lock'].sum())} kept, {len(rel)} released (neighbour > {LOCK_GAP_MAX} mm off the current chest surface)")
     V, F, L = refine(X0, S["F"], S["L"], S["lock_edges"])
     F, nfl = delaunay_flips(V, F, L)
     rep["edge_flips"] = nfl
     lock = np.zeros(len(V), bool); lock[:len(S["lock"])] = S["lock"]
     tl = np.full((len(V), 3), np.nan); tl[:len(S["lock"])] = S["lock_tgt"]
     log(f"  subdivided: {len(V)} vertices / {len(F)} faces")
-    T = Target(gf, chest)
     Xf, rep["fit_rounds"], lock = fit(V, F, lock, tl, T, log)
     gap = fit.lock_gap
     th = z_thickness(gm, chest)
@@ -1177,9 +1190,7 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     THICK_NOTE = f"{thick:.1f} mm"
     Y, rep["inner"] = inner_of(Xf, F, lock, S, gf, gm, thick)
     rep["thickness_mm"] = {"used": round(thick, 3), "z_source_median_per_region": {k: round(v, 2) for k, v in th.items()}}
-    # --- a released border vertex: the neighbour's own vertex there (outer + its inner partner) follows the chest skin, so the border
-    #     stays shared (the right axilla: the arm skin's border point, a spike of the Q250 deformation, lies 7.6 mm inside her breast)
-    follow, rep["neighbour_follows"] = neighbour_follow(gf, fit.released, tl, Xf, Y, S)
+    follow, rep["neighbour_follows"] = {}, []
     # --- deviation from the current outer surface, per region
     Uf = vnormals(Xf, F)
     dist, tang, drim = T.dist(Xf, Uf)

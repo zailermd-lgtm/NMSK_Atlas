@@ -147,6 +147,17 @@ Imaging·M (`build/q309/viewer_m_hr`, read-only source — the frozen page itsel
 republished) into Base·M, registered on the Base·M pelvis and checked against the atlases; and check
 whether Imaging·F (`viewer_f_hr`) has a better real vulva/perineal skin than the coarse `skin_vulva_cvh`
 before building any rule-based external-genital surface. Then items 3 and 5.
+**Owner, 2026-11-17: "eyes are not intact, head nerves are missing; review all organs of the 2 models."**
+→ Q363 audit done: `docs/Q363_organ_audit.md` (8 blockers, 22 should-fix, 18 cosmetic; every missing item has
+a source column: un-exported Z object / frozen imaging page / none → rule-based). No data was lost this week;
+the one regression is from Q354: eye parts moved to the CNS layer, so the globe drew as one lavender ball.
+Running: **Q364** eyes (per-structure colours via `data/anatomy/structure_colours_q364.json` → `nmsk-colours`
+block read by `colOf`; Base·F globes re-placed rigidly from Base·M; right sclera winding) and **Q365** nerves
+(infra-orbital, Base·F facial temporal branches, occipital nerves, one-sided branches — all rule-based,
+badged). **Q362 must also bring from the imaging pages:** ileum (both), kidneys (Imaging·F → Base·F; Base·M
+has no real source — Z kidneys are licence-blocked), Base·M rectum / anal canal / perineal muscles.
+Other audit items not yet assigned: pericardium, scrotum, choroid, conjunctiva, ear cartilage, sinuses,
+tongue intrinsic muscles (no real source), jejunum inside-out, ligament of the head of femur L/R.
 **UI redesign (owner, 2026-11-17):** he asked for a dashboard to decide the title tree of all buttons and
 texts, the stage at which each appears and where on screen. Inventory: scratchpad `uimap/inventory.json`
 (agent running); the dashboard is a separate private artifact with a `db` store of his decisions
