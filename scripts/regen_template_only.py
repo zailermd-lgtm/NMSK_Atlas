@@ -22,6 +22,7 @@ dropped out of the chain between Q264 and Q268. This script runs the whole chain
     scripts/zanatomy/patch_manifest_cards_q354.py    name-card rules on the manifest (Base pages only, Q354; also run once before make_abbrevs)
     clinical/data/motor_points.json                  -> clinical_motor_points.json   (Base pages only, Q331)
     scripts/clinical/build_injection_guide_q347.py   clinical_injection_guide.json   (Base pages only, Q347; private)
+    scripts/anatomy/q364/colours_q364.py --inject    per-structure colours block nmsk-colours (Base pages only, Q364; committed data)
     index.html = the page
 
 and then VERIFIES the output against a reference page dir (default: the source dir, i.e. the previous build; `--ref` a dir of downloaded
@@ -144,6 +145,8 @@ def build(p: str, src_root: Path, out: Path):
         shutil.copyfile(REPO / "clinical/data/motor_points.json", dst / "clinical_motor_points.json")
     if p in ("base_m", "base_f"):   # Q347: the private injection guide (committed private data + committed mapping tables, no recompute)
         run(["python3", "scripts/clinical/build_injection_guide_q347.py", p, str(dst)])
+    if p in ("base_m", "base_f"):   # Q364: per-structure display colours (eye parts, dura...) from committed data, resolved against the page's ids
+        run(["python3", "scripts/anatomy/q364/colours_q364.py", "--inject", str(dst)])
     (dst / "index.html").write_bytes(html.read_bytes())
     after = tracked_data_status()
     if after != before:

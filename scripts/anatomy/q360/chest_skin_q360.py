@@ -87,9 +87,10 @@ SAMPLE_MM = 0.5      # target sampling (closest point = nearest sample + project
 TANG_MAX = 1.5       # mm: a point farther than this sideways from a piece's surface lies beyond that piece (slot), not over it
 OVL_MM = 8.0         # mm: stacked pieces within this height of the nearest one: the outermost is followed
 PLAUS_MM = 25.0      # mm: in the soft rounds a target farther than this is not trusted
+RIM_PULL = False     # a released border vertex is fitted like any free border vertex (True: pulled to the current pieces' rim)
 FAR_ROUNDS = 3       # the first (stiff, far) rounds find the surface through Q353's outer-sheet classification
 FACE_COS = 0.8       # a target sample whose face normal is more than ~37 degrees off the vertex normal is not followed
-LOCK_GAP_MAX = 3.0   # mm: a neighbour's border vertex farther than this (a skin thickness) from the current chest surface is not
+LOCK_GAP_MAX = 6.0   # mm: a neighbour's border vertex farther than this (a skin thickness) from the current chest surface is not
 #                      joined: there the chest skin lies over the neighbour's edge (axilla: Q292 pushed it out over her breast)
 LOCK_REACH, LOCK_REACH_MIN, LOCK_REACH_MAX = 4.0, 12.0, 40.0   # no data within 4 x the gap (12..40 mm) of a disagreeing locked vertex
 DEV_CAP = 1.5        # mm: max deviation from the current outer surface away from the current borders (core)
@@ -702,6 +703,8 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
         reach = np.clip(LOCK_REACH * gap[gap > 0.5][jj], LOCK_REACH_MIN, LOCK_REACH_MAX)
         wl = np.min(smoothstep(dd / reach), axis=1)
     fit.lock_gap = gap
+    rim_all = np.vstack([r_ for r_ in T.rimpts if len(r_)])
+    rim_tree = cKDTree(rim_all)
     for r, lam in enumerate(STIFF):
         U = vnormals(X, F)
         if r < len(STIFF) - 2:
@@ -719,6 +722,14 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
             w = np.where(ok, smoothstep((T.drim[j_all] - BAND_IN) / (BAND_OUT - BAND_IN)), 0.0)
             q = np.where(ok[:, None], q, X)
         w = w * wl
+        if RIM_PULL and len(rel) and r >= FAR_ROUNDS:
+            # a released border vertex (its neighbour lies > LOCK_GAP_MAX off the current surface) goes to the current pieces'
+            # own border there: the chest skin keeps covering what it covers today (it lies over the neighbour's edge)
+            _, jr = rim_tree.query(X[rel])
+            q[rel] = rim_all[jr]
+            dv = q[rel] - X[rel]
+            nq[rel] = dv / np.maximum(np.linalg.norm(dv, axis=1, keepdims=True), 1e-9)
+            w[rel] = 1.0
         Dt = q - X
         D = solve_p2plane(Lp, deg, lam * w, Dt, nq, lock, tgt_lock - X, free)
         X = X + D
@@ -891,11 +902,12 @@ def holes(g, chest, extra=None):
     T = np.vstack(T); O = np.concatenate(O); isskin = np.array(isskin)
     from scipy import ndimage
     out = {}
-    for name, axis, sign, win in (("front", 2, 1, ((-200, 300), (380, 680))), ("lateral_r", 0, -1, ((-120, 180), (380, 680))),
-                                  ("lateral_l", 0, 1, ((-120, 180), (380, 680)))):
+    WIN = {0: (-200, 200), 1: (380, 640), 2: (-120, 180)}      # x, y (height: below the clavicles to the costal margin), z
+    for name, axis, sign in (("front", 2, 1), ("lateral_r", 0, 1), ("lateral_l", 0, -1)):
         lo2, hi2 = lo.copy(), hi.copy()
-        a, b = [c for c in range(3) if c != axis]
-        lo2[a], hi2[a] = win[0]; lo2[b], hi2[b] = win[1]
+        for c in range(3):
+            if c != axis:
+                lo2[c], hi2[c] = WIN[c]
         Ob = raster(T, O, axis, sign, lo2, hi2)
         sk = (Ob >= 0) & isskin[np.maximum(Ob, 0)]
         other = (Ob >= 0) & ~sk
@@ -906,8 +918,15 @@ def holes(g, chest, extra=None):
         who = {}
         for kk in np.unique(Ob[hp]):
             who[ids[int(kk)]] = int((Ob[hp] == kk).sum())
+        a_, b_ = [c for c in range(3) if c != axis]
+        where = []
+        for l_ in range(1, nl + 1):
+            yy, xx = np.where(lab == l_)
+            if len(yy) >= 20:
+                c_ = np.zeros(3); c_[a_] = lo2[a_] + (xx.mean() + 0.5) * PX; c_[b_] = lo2[b_] + (yy.mean() + 0.5) * PX
+                where.append({"px": int(len(yy)), "centre_mm": [round(float(x), 1) if i != axis else None for i, x in enumerate(c_)]})
         out[name] = {"hole_px": int(hp.sum()), "pieces": int(nl), "seen_through": dict(sorted(who.items(), key=lambda t: -t[1])[:8]),
-                     "px_mm": PX}
+                     "largest": sorted(where, key=lambda t: -t["px"])[:6], "px_mm": PX}
     return out
 
 
@@ -1273,8 +1292,6 @@ def main(argv=None):
               f"file in {d} and the pose rig (git checkout data/anatomy/pose_rig_base_f.json), then run again.")
         return 3
     gf, chest, new = G["gf"], G["chest"], G["new"]
-    if a.debug_npz:
-        np.savez_compressed(a.debug_npz, Xf=G["Xf"], F=G["F"], L=G["L"])
     lo, hi = CHEST_BOX
     # --- weld (Q334 rules), before / after, chest regions + the back regions as the reference
     back = [k for k in gf.M if gf.sys[k] == "skin" and re.search(r"scapular|vertebral|auscultation", k)]
@@ -1313,6 +1330,9 @@ def main(argv=None):
     gained = {k: [out_b[k]["outside"], out_t[k]["outside"]] for k in deep if out_t[k]["outside"] > out_b[k]["outside"]}
     rep["outside_gained"] = gained
     rep["holes_after"] = holes(gf, chest)
+    if a.debug_npz:
+        np.savez_compressed(a.debug_npz, Xf=G["Xf"], F=G["F"], L=G["L"],
+                            **{f"tuck__{k}": gf.cur[k] for k in tuck})
     for v_ in ("front", "lateral_r", "lateral_l"):
         print(f"  holes {v_}: {rep['holes_before'][v_]['hole_px']} -> {rep['holes_after'][v_]['hole_px']} px")
     # --- guards

@@ -1,0 +1,1010 @@
+{
+ "schema": "nmsk.q364.eye_report.v1",
+ "pages": {
+  "atlas_viewer_zan_atlas": {
+   "schema": "nmsk.q364.eye.v1",
+   "round": "Q364",
+   "generated": "2026-11-17",
+   "page": "atlas_viewer_zan_atlas",
+   "written": true,
+   "source_page": "atlas_viewer_zan_atlas",
+   "page_is_source": true,
+   "parameters": {
+    "trim_k": 3.0,
+    "trim_min_mm": 0.5,
+    "residual_median_max_mm": 0.6,
+    "keep_min": 0.85,
+    "scale_range": [
+     0.85,
+     1.1
+    ],
+    "diameter_range_mm": [
+     21.0,
+     27.0
+    ],
+    "gap_add_mm": 1.0,
+    "ligament_spike_mm": 1.5,
+    "bone_near_mm": 15.0
+   },
+   "citations": {
+    "size": "Yogesh, Textbook of Human Anatomy vol. 5 (Head, Neck and Face), ch. 37 Eyeball, p. 374 (eye about 25 mm in diameter)",
+    "suspensory_ligament": "Yogesh vol. 5, ch. 25, p. 257 (suspensory ligament of Lockwood: a hammock below the eyeball attached laterally and medially to the check ligaments)"
+   },
+   "eyes": {
+    "r": {
+     "side": "r",
+     "parts": {
+      "zan_sclera_r": {
+       "vertices": 621,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_cornea_r": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_iris_r": {
+       "vertices": 600,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_lens_r": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_retina_r": {
+       "vertices": 601,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_vitreous_body_r": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_zonular_fibres_r": {
+       "vertices": 793,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_anterior_chamber_of_eyeball_r": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_anterior_segment_of_eyeball_r": {
+       "vertices": 600,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_posterior_segment_of_eyeball_r": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      }
+     },
+     "decision": "source page: no placement",
+     "faces_equal_source": {
+      "zan_sclera_r": true,
+      "zan_cornea_r": true,
+      "zan_iris_r": true,
+      "zan_lens_r": true,
+      "zan_retina_r": true,
+      "zan_vitreous_body_r": true,
+      "zan_zonular_fibres_r": true,
+      "zan_anterior_chamber_of_eyeball_r": true,
+      "zan_anterior_segment_of_eyeball_r": true,
+      "zan_posterior_segment_of_eyeball_r": true,
+      "zan_suspensory_ligament_of_eyeball_r": true
+     },
+     "transform": {
+      "scale": 1.0,
+      "rotation_deg": 0.0,
+      "translation_mm": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "residual_median_mm": 0.0,
+      "residual_p95_kept_mm": 0.0,
+      "kept_share": 1.0,
+      "vertices": 6225,
+      "spike_vertices_over_1_5mm": 0,
+      "worst_spike_mm": 0.0
+     },
+     "ligament": {
+      "vs_transformed_source": {
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "moved": false
+     },
+     "sclera_extent_mm": {
+      "before": [
+       24.9,
+       26.2,
+       26.2
+      ],
+      "after": [
+       24.9,
+       26.2,
+       26.2
+      ],
+      "source": [
+       24.9,
+       26.2,
+       26.2
+      ]
+     },
+     "bone": {
+      "inside_before": 0,
+      "inside_after": 0,
+      "bones": []
+     },
+     "bone_ligament": {
+      "inside_before": 129,
+      "inside_after": 129,
+      "bones": [
+       {
+        "bone": "frontal",
+        "before": 2,
+        "after": 2
+       },
+       {
+        "bone": "lacrimal_r",
+        "before": 51,
+        "after": 51
+       },
+       {
+        "bone": "zygomatic_r",
+        "before": 76,
+        "after": 76
+       }
+      ]
+     },
+     "gaps": {
+      "superior_rectus_r": {
+       "before_mm": 0.04,
+       "after_mm": 0.04
+      },
+      "inferior_rectus_r": {
+       "before_mm": 0.04,
+       "after_mm": 0.04
+      },
+      "medial_rectus_r": {
+       "before_mm": 0.02,
+       "after_mm": 0.02
+      },
+      "lateral_rectus_r": {
+       "before_mm": 0.04,
+       "after_mm": 0.04
+      },
+      "superior_oblique_r": {
+       "before_mm": 0.03,
+       "after_mm": 0.03
+      },
+      "inferior_oblique_r": {
+       "before_mm": 0.03,
+       "after_mm": 0.03
+      },
+      "levator_palpebrae_superioris_r": {
+       "before_mm": 1.09,
+       "after_mm": 1.09
+      },
+      "zan_superior_tarsus_r": {
+       "before_mm": 0.54,
+       "after_mm": 0.54
+      },
+      "zan_inferior_tarsus_r": {
+       "before_mm": 0.09,
+       "after_mm": 0.09
+      },
+      "orbicularis_oculi_r": {
+       "before_mm": 0.28,
+       "after_mm": 0.28
+      }
+     },
+     "sclera_diameter_mm": 26.23,
+     "guards_failed": []
+    },
+    "l": {
+     "side": "l",
+     "parts": {
+      "zan_sclera_l": {
+       "vertices": 620,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_cornea_l": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_iris_l": {
+       "vertices": 600,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_lens_l": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_retina_l": {
+       "vertices": 601,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_vitreous_body_l": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_zonular_fibres_l": {
+       "vertices": 793,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_anterior_chamber_of_eyeball_l": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_anterior_segment_of_eyeball_l": {
+       "vertices": 600,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "zan_posterior_segment_of_eyeball_l": {
+       "vertices": 602,
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      }
+     },
+     "decision": "source page: no placement",
+     "faces_equal_source": {
+      "zan_sclera_l": true,
+      "zan_cornea_l": true,
+      "zan_iris_l": true,
+      "zan_lens_l": true,
+      "zan_retina_l": true,
+      "zan_vitreous_body_l": true,
+      "zan_zonular_fibres_l": true,
+      "zan_anterior_chamber_of_eyeball_l": true,
+      "zan_anterior_segment_of_eyeball_l": true,
+      "zan_posterior_segment_of_eyeball_l": true,
+      "zan_suspensory_ligament_of_eyeball_l": true
+     },
+     "transform": {
+      "scale": 1.0,
+      "rotation_deg": 0.0,
+      "translation_mm": [
+       0.0,
+       0.0,
+       0.0
+      ],
+      "residual_median_mm": 0.0,
+      "residual_p95_kept_mm": 0.0,
+      "kept_share": 1.0,
+      "vertices": 6224,
+      "spike_vertices_over_1_5mm": 0,
+      "worst_spike_mm": 0.0
+     },
+     "ligament": {
+      "vs_transformed_source": {
+       "max_mm": 0.0,
+       "mean_mm": 0.0,
+       "p95_mm": 0.0
+      },
+      "moved": false
+     },
+     "sclera_extent_mm": {
+      "before": [
+       25.1,
+       26.3,
+       26.2
+      ],
+      "after": [
+       25.1,
+       26.3,
+       26.2
+      ],
+      "source": [
+       25.1,
+       26.3,
+       26.2
+      ]
+     },
+     "bone": {
+      "inside_before": 0,
+      "inside_after": 0,
+      "bones": []
+     },
+     "bone_ligament": {
+      "inside_before": 128,
+      "inside_after": 128,
+      "bones": [
+       {
+        "bone": "frontal",
+        "before": 1,
+        "after": 1
+       },
+       {
+        "bone": "lacrimal_l",
+        "before": 49,
+        "after": 49
+       },
+       {
+        "bone": "zygomatic_l",
+        "before": 78,
+        "after": 78
+       }
+      ]
+     },
+     "gaps": {
+      "superior_rectus_l": {
+       "before_mm": 0.05,
+       "after_mm": 0.05
+      },
+      "inferior_rectus_l": {
+       "before_mm": 0.03,
+       "after_mm": 0.03
+      },
+      "medial_rectus_l": {
+       "before_mm": 0.05,
+       "after_mm": 0.05
+      },
+      "lateral_rectus_l": {
+       "before_mm": 0.04,
+       "after_mm": 0.04
+      },
+      "superior_oblique_l": {
+       "before_mm": 0.02,
+       "after_mm": 0.02
+      },
+      "inferior_oblique_l": {
+       "before_mm": 0.06,
+       "after_mm": 0.06
+      },
+      "levator_palpebrae_superioris_l": {
+       "before_mm": 1.11,
+       "after_mm": 1.11
+      },
+      "zan_superior_tarsus_l": {
+       "before_mm": 0.56,
+       "after_mm": 0.56
+      },
+      "zan_inferior_tarsus_l": {
+       "before_mm": 0.08,
+       "after_mm": 0.08
+      },
+      "orbicularis_oculi_l": {
+       "before_mm": 0.28,
+       "after_mm": 0.28
+      }
+     },
+     "sclera_diameter_mm": 26.26,
+     "guards_failed": []
+    }
+   },
+   "sclera_winding": {
+    "zan_sclera_r": {
+     "outward_share_before": 0.022,
+     "flipped": true,
+     "outward_share_after": 0.978,
+     "open_borders": [
+      {
+       "edges": 40,
+       "radius_mm": 6.88,
+       "pole": "anterior",
+       "offset_mm": 8.7
+      }
+     ],
+     "non_manifold_edges": 0
+    },
+    "zan_sclera_l": {
+     "outward_share_before": 0.978,
+     "flipped": false,
+     "outward_share_after": 0.978,
+     "open_borders": [
+      {
+       "edges": 39,
+       "radius_mm": 6.98,
+       "pole": "anterior",
+       "offset_mm": 8.7
+      }
+     ],
+     "non_manifold_edges": 0
+    }
+   },
+   "geometry_changed": [
+    "zan_sclera_r"
+   ],
+   "cards": {
+    "zan_sclera_r": "Q364: triangle winding reversed so the outside of the sclera faces outward (it was drawn inside-out: 2% of its surface faced out); positions unchanged. Its openings are anatomical (the corneal aperture in front, the optic-nerve aperture behind)."
+   },
+   "files_changed": [
+    "atlas_viewer_zan_atlas_geo_01.txt",
+    "atlas_viewer_zan_atlas.html",
+    "index.html"
+   ]
+  },
+  "atlas_viewer_base_female": {
+   "schema": "nmsk.q364.eye.v1",
+   "round": "Q364",
+   "generated": "2026-11-17",
+   "page": "atlas_viewer_base_female",
+   "written": true,
+   "source_page": "atlas_viewer_zan_atlas",
+   "page_is_source": false,
+   "parameters": {
+    "trim_k": 3.0,
+    "trim_min_mm": 0.5,
+    "residual_median_max_mm": 0.6,
+    "keep_min": 0.85,
+    "scale_range": [
+     0.85,
+     1.1
+    ],
+    "diameter_range_mm": [
+     21.0,
+     27.0
+    ],
+    "gap_add_mm": 1.0,
+    "ligament_spike_mm": 1.5,
+    "bone_near_mm": 15.0
+   },
+   "citations": {
+    "size": "Yogesh, Textbook of Human Anatomy vol. 5 (Head, Neck and Face), ch. 37 Eyeball, p. 374 (eye about 25 mm in diameter)",
+    "suspensory_ligament": "Yogesh vol. 5, ch. 25, p. 257 (suspensory ligament of Lockwood: a hammock below the eyeball attached laterally and medially to the check ligaments)"
+   },
+   "eyes": {
+    "r": {
+     "side": "r",
+     "parts": {
+      "zan_sclera_r": {
+       "vertices": 621,
+       "max_mm": 6.49,
+       "mean_mm": 0.2,
+       "p95_mm": 0.51
+      },
+      "zan_cornea_r": {
+       "vertices": 602,
+       "max_mm": 3.77,
+       "mean_mm": 0.12,
+       "p95_mm": 0.1
+      },
+      "zan_iris_r": {
+       "vertices": 600,
+       "max_mm": 0.09,
+       "mean_mm": 0.04,
+       "p95_mm": 0.08
+      },
+      "zan_lens_r": {
+       "vertices": 602,
+       "max_mm": 0.08,
+       "mean_mm": 0.05,
+       "p95_mm": 0.07
+      },
+      "zan_retina_r": {
+       "vertices": 601,
+       "max_mm": 6.43,
+       "mean_mm": 0.16,
+       "p95_mm": 0.4
+      },
+      "zan_vitreous_body_r": {
+       "vertices": 602,
+       "max_mm": 1.58,
+       "mean_mm": 0.09,
+       "p95_mm": 0.19
+      },
+      "zan_zonular_fibres_r": {
+       "vertices": 793,
+       "max_mm": 1.78,
+       "mean_mm": 0.1,
+       "p95_mm": 0.1
+      },
+      "zan_anterior_chamber_of_eyeball_r": {
+       "vertices": 602,
+       "max_mm": 3.87,
+       "mean_mm": 0.08,
+       "p95_mm": 0.08
+      },
+      "zan_anterior_segment_of_eyeball_r": {
+       "vertices": 600,
+       "max_mm": 1.89,
+       "mean_mm": 0.12,
+       "p95_mm": 0.16
+      },
+      "zan_posterior_segment_of_eyeball_r": {
+       "vertices": 602,
+       "max_mm": 6.43,
+       "mean_mm": 0.14,
+       "p95_mm": 0.35
+      },
+      "zan_suspensory_ligament_of_eyeball_r": {
+       "vertices": 603,
+       "max_mm": 3.33,
+       "mean_mm": 0.21,
+       "p95_mm": 0.34
+      }
+     },
+     "decision": "placed",
+     "faces_equal_source": {
+      "zan_sclera_r": true,
+      "zan_cornea_r": true,
+      "zan_iris_r": true,
+      "zan_lens_r": true,
+      "zan_retina_r": true,
+      "zan_vitreous_body_r": true,
+      "zan_zonular_fibres_r": true,
+      "zan_anterior_chamber_of_eyeball_r": true,
+      "zan_anterior_segment_of_eyeball_r": true,
+      "zan_posterior_segment_of_eyeball_r": true,
+      "zan_suspensory_ligament_of_eyeball_r": true
+     },
+     "transform": {
+      "scale": 0.9448,
+      "rotation_deg": 4.2,
+      "translation_mm": [
+       4.83,
+       36.25,
+       50.36
+      ],
+      "residual_median_mm": 0.062,
+      "residual_p95_kept_mm": 0.173,
+      "kept_share": 0.979,
+      "vertices": 6225,
+      "spike_vertices_over_1_5mm": 53,
+      "worst_spike_mm": 6.49
+     },
+     "ligament": {
+      "vs_transformed_source": {
+       "max_mm": 3.33,
+       "mean_mm": 0.21,
+       "p95_mm": 0.34
+      },
+      "moved": true
+     },
+     "sclera_extent_mm": {
+      "before": [
+       29.4,
+       26.3,
+       24.7
+      ],
+      "after": [
+       23.6,
+       24.8,
+       24.8
+      ],
+      "source": [
+       24.9,
+       26.2,
+       26.2
+      ]
+     },
+     "bone": {
+      "inside_before": 10,
+      "inside_after": 0,
+      "bones": [
+       {
+        "bone": "frontal",
+        "before": 2,
+        "after": 0
+       },
+       {
+        "bone": "sphenoid",
+        "before": 6,
+        "after": 0
+       },
+       {
+        "bone": "zygomatic_r",
+        "before": 2,
+        "after": 0
+       }
+      ]
+     },
+     "bone_ligament": {
+      "inside_before": 134,
+      "inside_after": 123,
+      "bones": [
+       {
+        "bone": "frontal",
+        "before": 2,
+        "after": 0
+       },
+       {
+        "bone": "lacrimal_r",
+        "before": 51,
+        "after": 50
+       },
+       {
+        "bone": "sphenoid",
+        "before": 3,
+        "after": 0
+       },
+       {
+        "bone": "zygomatic_r",
+        "before": 78,
+        "after": 73
+       }
+      ]
+     },
+     "gaps": {
+      "superior_rectus_r": {
+       "before_mm": 0.06,
+       "after_mm": 0.05
+      },
+      "inferior_rectus_r": {
+       "before_mm": 0.05,
+       "after_mm": 0.05
+      },
+      "medial_rectus_r": {
+       "before_mm": 0.02,
+       "after_mm": 0.03
+      },
+      "lateral_rectus_r": {
+       "before_mm": 0.04,
+       "after_mm": 0.05
+      },
+      "superior_oblique_r": {
+       "before_mm": 0.05,
+       "after_mm": 0.04
+      },
+      "inferior_oblique_r": {
+       "before_mm": 0.06,
+       "after_mm": 0.03
+      },
+      "levator_palpebrae_superioris_r": {
+       "before_mm": 1.03,
+       "after_mm": 1.04
+      },
+      "zan_superior_tarsus_r": {
+       "before_mm": 0.3,
+       "after_mm": 0.29
+      },
+      "zan_inferior_tarsus_r": {
+       "before_mm": 0.1,
+       "after_mm": 0.12
+      },
+      "orbicularis_oculi_r": {
+       "before_mm": 0.2,
+       "after_mm": 0.08
+      }
+     },
+     "sclera_diameter_mm": 24.78,
+     "guards_failed": []
+    },
+    "l": {
+     "side": "l",
+     "parts": {
+      "zan_sclera_l": {
+       "vertices": 620,
+       "max_mm": 6.49,
+       "mean_mm": 0.23,
+       "p95_mm": 0.61
+      },
+      "zan_cornea_l": {
+       "vertices": 602,
+       "max_mm": 4.05,
+       "mean_mm": 0.17,
+       "p95_mm": 0.1
+      },
+      "zan_iris_l": {
+       "vertices": 600,
+       "max_mm": 4.99,
+       "mean_mm": 0.06,
+       "p95_mm": 0.08
+      },
+      "zan_lens_l": {
+       "vertices": 602,
+       "max_mm": 0.08,
+       "mean_mm": 0.04,
+       "p95_mm": 0.07
+      },
+      "zan_retina_l": {
+       "vertices": 601,
+       "max_mm": 6.34,
+       "mean_mm": 0.14,
+       "p95_mm": 0.35
+      },
+      "zan_vitreous_body_l": {
+       "vertices": 602,
+       "max_mm": 2.53,
+       "mean_mm": 0.09,
+       "p95_mm": 0.19
+      },
+      "zan_zonular_fibres_l": {
+       "vertices": 793,
+       "max_mm": 1.31,
+       "mean_mm": 0.06,
+       "p95_mm": 0.09
+      },
+      "zan_anterior_chamber_of_eyeball_l": {
+       "vertices": 602,
+       "max_mm": 3.98,
+       "mean_mm": 0.12,
+       "p95_mm": 0.09
+      },
+      "zan_anterior_segment_of_eyeball_l": {
+       "vertices": 600,
+       "max_mm": 2.12,
+       "mean_mm": 0.09,
+       "p95_mm": 0.14
+      },
+      "zan_posterior_segment_of_eyeball_l": {
+       "vertices": 602,
+       "max_mm": 6.43,
+       "mean_mm": 0.15,
+       "p95_mm": 0.37
+      },
+      "zan_suspensory_ligament_of_eyeball_l": {
+       "vertices": 603,
+       "max_mm": 3.32,
+       "mean_mm": 0.21,
+       "p95_mm": 0.34
+      }
+     },
+     "decision": "placed",
+     "faces_equal_source": {
+      "zan_sclera_l": true,
+      "zan_cornea_l": true,
+      "zan_iris_l": true,
+      "zan_lens_l": true,
+      "zan_retina_l": true,
+      "zan_vitreous_body_l": true,
+      "zan_zonular_fibres_l": true,
+      "zan_anterior_chamber_of_eyeball_l": true,
+      "zan_anterior_segment_of_eyeball_l": true,
+      "zan_posterior_segment_of_eyeball_l": true,
+      "zan_suspensory_ligament_of_eyeball_l": true
+     },
+     "transform": {
+      "scale": 0.9451,
+      "rotation_deg": 4.2,
+      "translation_mm": [
+       -4.79,
+       36.06,
+       50.29
+      ],
+      "residual_median_mm": 0.061,
+      "residual_p95_kept_mm": 0.165,
+      "kept_share": 0.9822,
+      "vertices": 6224,
+      "spike_vertices_over_1_5mm": 63,
+      "worst_spike_mm": 6.49
+     },
+     "ligament": {
+      "vs_transformed_source": {
+       "max_mm": 3.32,
+       "mean_mm": 0.21,
+       "p95_mm": 0.34
+      },
+      "moved": true
+     },
+     "sclera_extent_mm": {
+      "before": [
+       30.0,
+       25.8,
+       24.7
+      ],
+      "after": [
+       23.7,
+       24.8,
+       24.8
+      ],
+      "source": [
+       25.1,
+       26.3,
+       26.2
+      ]
+     },
+     "bone": {
+      "inside_before": 7,
+      "inside_after": 0,
+      "bones": [
+       {
+        "bone": "frontal",
+        "before": 2,
+        "after": 0
+       },
+       {
+        "bone": "sphenoid",
+        "before": 4,
+        "after": 0
+       },
+       {
+        "bone": "zygomatic_l",
+        "before": 1,
+        "after": 0
+       }
+      ]
+     },
+     "bone_ligament": {
+      "inside_before": 134,
+      "inside_after": 123,
+      "bones": [
+       {
+        "bone": "ethmoid",
+        "before": 1,
+        "after": 0
+       },
+       {
+        "bone": "frontal",
+        "before": 1,
+        "after": 0
+       },
+       {
+        "bone": "lacrimal_l",
+        "before": 49,
+        "after": 48
+       },
+       {
+        "bone": "sphenoid",
+        "before": 3,
+        "after": 0
+       },
+       {
+        "bone": "zygomatic_l",
+        "before": 80,
+        "after": 75
+       }
+      ]
+     },
+     "gaps": {
+      "superior_rectus_l": {
+       "before_mm": 0.03,
+       "after_mm": 0.04
+      },
+      "inferior_rectus_l": {
+       "before_mm": 0.07,
+       "after_mm": 0.02
+      },
+      "medial_rectus_l": {
+       "before_mm": 0.04,
+       "after_mm": 0.05
+      },
+      "lateral_rectus_l": {
+       "before_mm": 0.02,
+       "after_mm": 0.03
+      },
+      "superior_oblique_l": {
+       "before_mm": 0.04,
+       "after_mm": 0.05
+      },
+      "inferior_oblique_l": {
+       "before_mm": 0.03,
+       "after_mm": 0.05
+      },
+      "levator_palpebrae_superioris_l": {
+       "before_mm": 1.04,
+       "after_mm": 1.04
+      },
+      "zan_superior_tarsus_l": {
+       "before_mm": 0.32,
+       "after_mm": 0.34
+      },
+      "zan_inferior_tarsus_l": {
+       "before_mm": 0.08,
+       "after_mm": 0.11
+      },
+      "orbicularis_oculi_l": {
+       "before_mm": 0.25,
+       "after_mm": 0.23
+      }
+     },
+     "sclera_diameter_mm": 24.82,
+     "guards_failed": []
+    }
+   },
+   "sclera_winding": {
+    "zan_sclera_r": {
+     "outward_share_before": 0.022,
+     "flipped": true,
+     "outward_share_after": 0.978,
+     "open_borders": [
+      {
+       "edges": 40,
+       "radius_mm": 6.5,
+       "pole": "anterior",
+       "offset_mm": 8.2
+      }
+     ],
+     "non_manifold_edges": 0
+    },
+    "zan_sclera_l": {
+     "outward_share_before": 0.978,
+     "flipped": false,
+     "outward_share_after": 0.978,
+     "open_borders": [
+      {
+       "edges": 39,
+       "radius_mm": 6.6,
+       "pole": "anterior",
+       "offset_mm": 8.2
+      }
+     ],
+     "non_manifold_edges": 0
+    }
+   },
+   "geometry_changed": [
+    "zan_anterior_chamber_of_eyeball_l",
+    "zan_anterior_chamber_of_eyeball_r",
+    "zan_anterior_segment_of_eyeball_l",
+    "zan_anterior_segment_of_eyeball_r",
+    "zan_cornea_l",
+    "zan_cornea_r",
+    "zan_iris_l",
+    "zan_iris_r",
+    "zan_lens_l",
+    "zan_lens_r",
+    "zan_posterior_segment_of_eyeball_l",
+    "zan_posterior_segment_of_eyeball_r",
+    "zan_retina_l",
+    "zan_retina_r",
+    "zan_sclera_l",
+    "zan_sclera_r",
+    "zan_suspensory_ligament_of_eyeball_l",
+    "zan_suspensory_ligament_of_eyeball_r",
+    "zan_vitreous_body_l",
+    "zan_vitreous_body_r",
+    "zan_zonular_fibres_l",
+    "zan_zonular_fibres_r"
+   ],
+   "cards": {
+    "zan_sclera_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 6.5 mm, mean 0.2 mm; nothing was reshaped. Q364: triangle winding reversed so the outside of the sclera faces outward (it was drawn inside-out: 2% of its surface faced out); positions unchanged. Its openings are anatomical (the corneal aperture in front, the optic-nerve aperture behind).",
+    "zan_cornea_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 3.8 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_iris_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 0.1 mm, mean 0.0 mm; nothing was reshaped.",
+    "zan_lens_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 0.1 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_retina_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 6.4 mm, mean 0.2 mm; nothing was reshaped.",
+    "zan_vitreous_body_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 1.6 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_zonular_fibres_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 1.8 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_anterior_chamber_of_eyeball_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 3.9 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_anterior_segment_of_eyeball_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 1.9 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_posterior_segment_of_eyeball_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 6.4 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_suspensory_ligament_of_eyeball_r": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the right eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 3.3 mm, mean 0.2 mm; nothing was reshaped. Its long lateral and medial ends are the source's own shape (the ligament reaches the check ligaments on the lacrimal and zygomatic bones) and were kept.",
+    "zan_sclera_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 6.5 mm, mean 0.2 mm; nothing was reshaped.",
+    "zan_cornea_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 4.0 mm, mean 0.2 mm; nothing was reshaped.",
+    "zan_iris_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 5.0 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_lens_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 0.1 mm, mean 0.0 mm; nothing was reshaped.",
+    "zan_retina_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 6.3 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_vitreous_body_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 2.5 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_zonular_fibres_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 1.3 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_anterior_chamber_of_eyeball_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 4.0 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_anterior_segment_of_eyeball_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 2.1 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_posterior_segment_of_eyeball_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 6.4 mm, mean 0.1 mm; nothing was reshaped.",
+    "zan_suspensory_ligament_of_eyeball_l": "Q364: placed whole with its eye: the body registration that built this page from the Z-Anatomy source had left spikes on the eyeball (up to 6.5 mm); the source eye (same mesh, same vertices) was put back through ONE rigid placement of the left eye (rotation, shift and uniform scale 0.945, fitted to this body's eye with the spikes left out; residual median 0.06 mm); this part moved max 3.3 mm, mean 0.2 mm; nothing was reshaped. Its long lateral and medial ends are the source's own shape (the ligament reaches the check ligaments on the lacrimal and zygomatic bones) and were kept."
+   },
+   "files_changed": [
+    "atlas_viewer_base_female_geo_00.txt",
+    "atlas_viewer_base_female_geo_01.txt",
+    "atlas_viewer_base_female_geo_02.txt",
+    "atlas_viewer_base_female.html",
+    "index.html"
+   ]
+  }
+ }
+}
