@@ -90,7 +90,7 @@ PLAUS_MM = 25.0      # mm: in the soft rounds a target farther than this is not 
 RIM_PULL = False     # a released border vertex is fitted like any free border vertex (True: pulled to the current pieces' rim)
 FAR_ROUNDS = 3       # the first (stiff, far) rounds find the surface through Q353's outer-sheet classification
 FACE_COS = 0.8       # a target sample whose face normal is more than ~37 degrees off the vertex normal is not followed
-LOCK_GAP_MAX = 8.0   # mm: a neighbour's border vertex farther than this (a skin thickness) from the current chest surface is not
+LOCK_GAP_MAX = 6.0   # mm: a neighbour's border vertex farther than this (a skin thickness) from the current chest surface is not
 #                      joined: there the chest skin lies over the neighbour's edge (axilla: Q292 pushed it out over her breast)
 LOCK_REACH, LOCK_REACH_MIN, LOCK_REACH_MAX = 4.0, 12.0, 40.0   # no data within 4 x the gap (12..40 mm) of a disagreeing locked vertex
 DEV_CAP = 1.5        # mm: max deviation from the current outer surface away from the current borders (core)
@@ -1177,6 +1177,9 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     THICK_NOTE = f"{thick:.1f} mm"
     Y, rep["inner"] = inner_of(Xf, F, lock, S, gf, gm, thick)
     rep["thickness_mm"] = {"used": round(thick, 3), "z_source_median_per_region": {k: round(v, 2) for k, v in th.items()}}
+    # --- a released border vertex: the neighbour's own vertex there (outer + its inner partner) follows the chest skin, so the border
+    #     stays shared (the right axilla: the arm skin's border point, a spike of the Q250 deformation, lies 7.6 mm inside her breast)
+    follow, rep["neighbour_follows"] = neighbour_follow(gf, fit.released, tl, Xf, Y, S)
     # --- deviation from the current outer surface, per region
     Uf = vnormals(Xf, F)
     dist, tang, drim = T.dist(Xf, Uf)
@@ -1225,7 +1228,41 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
             o = k[:-2] + "_l"
             rep["mirror_median_mm"][k[9:-2]] = {"before": mirror_med(gf.V0[k][0], gf.V0[o][0]), "after": mirror_med(new[k][0], new[o][0])}
     log(f"  built {time.time() - t0:.0f} s")
-    return dict(gf=gf, gm=gm, chest=chest, new=new, S=S, T=T, Xf=Xf, F=F, L=L), rep
+    return dict(gf=gf, gm=gm, chest=chest, new=new, S=S, T=T, Xf=Xf, F=F, L=L, follow=follow), rep
+
+
+def neighbour_follow(gf, released, tl, Xf, Y, S):
+    """for each released border vertex: the unchanged neighbour's vertex at its lock position (outer) and that vertex's inner partner
+    (the neighbour vertex joined to it by an edge, about a slab thickness away, nearest to it) are moved onto the chest skin's outer /
+    inner vertex. Vertex and face counts of the neighbour unchanged. -> ({id: new positions}, report)"""
+    out, rep = {}, []
+    for vtx in released:
+        p = tl[vtx]
+        best = None
+        for k in S["neighbours"]:
+            v = out.get(k, gf.V0[k][0])
+            d = np.linalg.norm(v - p, axis=1)
+            i = int(np.argmin(d))
+            if d[i] < 0.05:
+                best = (k, i); break
+        if best is None:
+            rep.append({"vertex": int(vtx), "found": False}); continue
+        k, i = best
+        v = out.get(k, gf.V0[k][0]).copy(); f = gf.F[k]
+        e = edges_of(f); nb = np.unique(np.r_[e[e[:, 0] == i, 1], e[e[:, 1] == i, 0]])
+        dn = np.linalg.norm(v[nb] - v[i], axis=1)
+        cand = nb[(dn > 1.5) & (dn < 4.5)]
+        nrm = vnormals(v, f)[i]
+        j = int(cand[np.argmin(np.linalg.norm(v[cand] - (v[i] - 3.0 * nrm), axis=1))]) if len(cand) else None
+        v0 = v.copy()
+        v[i] = Xf[vtx]
+        if j is not None:
+            v[j] = Y[vtx]
+        fl = int((((fnormals(v0, f) * fnormals(v, f)).sum(1)) < 0).sum())
+        out[k] = v
+        rep.append({"vertex": int(vtx), "found": True, "neighbour": k, "outer_vertex": i, "inner_vertex": j,
+                    "moved_mm": round(float(np.linalg.norm(Xf[vtx] - p)), 2), "neighbour_faces_flipped": fl})
+    return out, rep
 
 
 def backups_equal(d: Path, chest, gf):
@@ -1297,7 +1334,10 @@ def main(argv=None):
     back = [k for k in gf.M if gf.sys[k] == "skin" and re.search(r"scapular|vertebral|auscultation", k)]
     focus = set(chest) | set(back)
     wb = weld_stats(skin_pieces(gf, lo - 60, hi + 60), focus)
-    wa = weld_stats(skin_pieces(gf, lo - 60, hi + 60, {k: v for k, v in new.items()}), focus)
+    follow = G["follow"]
+    after_geo = {k: v for k, v in new.items()}
+    after_geo.update({k: (v, gf.F[k]) for k, v in follow.items()})
+    wa = weld_stats(skin_pieces(gf, lo - 60, hi + 60, after_geo), focus)
     rep["weld_pct"] = {k: {"before": wb[k]["pct"], "after": wa[k]["pct"], "rim_vertices": [wb[k]["rim_vertices"], wa[k]["rim_vertices"]],
                            "rim_joined_after": wa[k]["rim_joined"]} for k in sorted(focus) if k in wb and k in wa}
     for k in chest:
@@ -1315,6 +1355,8 @@ def main(argv=None):
     # --- install the new chest skin, measure, tuck the breast tissue (Q353 rule)
     for k in chest:
         install(gf, k, *new[k])
+    for k, v in follow.items():
+        gf.cur[k] = v.copy()
     sk = Q.SkinSet(gf, [k for k in gf.in_box(lo - 20, hi + 20, sys_=("skin",))])
     out_a = outside(gf, sk, deep)
     bones = Q.Bones(gf, lo, hi)
@@ -1360,6 +1402,14 @@ def main(argv=None):
         dv = per[k]["deviation_mm"]
         rec = C340.badge_add(gf.M[k].get("rec") or {}, note_for(k, dv, wb[k]["pct"], wa[k]["pct"]))
         replace[k] = (new[k][0], new[k][1], rec)
+    for r_ in rep["neighbour_follows"]:
+        if r_.get("found"):
+            k = r_["neighbour"]
+            rec = C340.badge_add(gf.M[k].get("rec") or {},
+                                 f"{TAG}: one border point of this region (outer {r_['outer_vertex']} and inner {r_['inner_vertex']}: a spike "
+                                 f"left by the Q250 skeleton deformation, lying inside the breast) moved {r_['moved_mm']} mm onto the "
+                                 "rebuilt chest skin, so the two regions share it; nothing else changed.")
+            replace[k] = (follow[k], gf.F[k], rec)
     for k, r in tuck.items():
         if r.get("ships"):
             rec = C340.badge_add(gf.M[k].get("rec") or {},
