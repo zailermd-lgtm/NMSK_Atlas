@@ -79,6 +79,7 @@ WELD_MM = 0.03       # the engine's weld distance (Q334 WELD)
 CRACK_MM = 0.6       # mm: Z source border vertices of two regions this close are one vertex (the engine's rim join reaches 1 mm)
 TJ_MM = 1.0          # mm: a border vertex this close to an unchanged neighbour's edge is a T-junction on that edge
 EDGE_MM = 4.0        # target edge length after subdivision (Q292 SKIN_EDGE)
+GRADE = 0.7          # near a long unsplit border edge the faces may keep edges up to GRADE x its length (graded away from it)
 RIM_EXCL = 2.0       # mm: current outer-sheet faces this close to their region's rim are the rounded rim, not the surface
 BAND_IN, BAND_OUT = 2.0, 8.0   # mm from a current border: data weight 0 inside BAND_IN, full from BAND_OUT (smoothstep)
 STIFF = (0.01, 0.03, 0.1, 0.3, 1.0, 3.0, 10.0, 10.0)   # data weight (x vertex degree) per ICP round: stiff -> soft
@@ -86,8 +87,10 @@ SAMPLE_MM = 0.5      # target sampling (closest point = nearest sample + project
 TANG_MAX = 1.5       # mm: a point farther than this sideways from a piece's surface lies beyond that piece (slot), not over it
 OVL_MM = 8.0         # mm: stacked pieces within this height of the nearest one: the outermost is followed
 PLAUS_MM = 25.0      # mm: in the soft rounds a target farther than this is not trusted
-FACE_COS = 0.3       # a target point whose surface normal is more than ~70 degrees off the vertex normal is not followed
-LOCK_GAP_MAX = 99.0  # mm: a neighbour's border vertex farther than this from the current chest surface is not joined (axilla)
+FAR_ROUNDS = 3       # the first (stiff, far) rounds find the surface through Q353's outer-sheet classification
+FACE_COS = 0.8       # a target sample whose face normal is more than ~37 degrees off the vertex normal is not followed
+LOCK_GAP_MAX = 3.0   # mm: a neighbour's border vertex farther than this (a skin thickness) from the current chest surface is not
+#                      joined: there the chest skin lies over the neighbour's edge (axilla: Q292 pushed it out over her breast)
 LOCK_REACH, LOCK_REACH_MIN, LOCK_REACH_MAX = 4.0, 12.0, 40.0   # no data within 4 x the gap (12..40 mm) of a disagreeing locked vertex
 DEV_CAP = 1.5        # mm: max deviation from the current outer surface away from the current borders (core)
 DEV_CAP_BORDER = 6.0 # mm: max deviation within BAND_OUT of a current border (pieces disagree by up to ~10 mm there)
@@ -405,7 +408,23 @@ def refine(V, F, L, lock_edges, hmax=EDGE_MM, iters=12):
         FE = inv.reshape(-1, 3)
         ln = np.linalg.norm(V[E[:, 0]] - V[E[:, 1]], axis=1)
         lk = np.array([tuple(e) in locked for e in E.tolist()]) if locked else np.zeros(len(E), bool)
-        mark = (ln > hmax) & ~lk
+        # graded size near a long unsplit (locked) border edge: a face there may keep edges up to ~0.7 x that edge, shrinking by half
+        # a millimetre per millimetre away from it -- else bisection leaves a fan of ever thinner slivers along the edge
+        h = np.full(len(F), float(hmax))
+        if len(lock_edges):
+            Lk = np.linalg.norm(V[lock_edges[:, 0]] - V[lock_edges[:, 1]], axis=1)
+            sel = Lk > hmax
+            if sel.any():
+                A_, B_ = V[lock_edges[sel, 0]], V[lock_edges[sel, 1]]
+                c = V[F].mean(1)
+                for a_, b_, l_ in zip(A_, B_, Lk[sel]):
+                    ab = b_ - a_
+                    t_ = np.clip(((c - a_) @ ab) / (ab @ ab), 0, 1)
+                    dd = np.linalg.norm(a_ + t_[:, None] * ab - c, axis=1)
+                    h = np.maximum(h, GRADE * l_ - 0.5 * dd)
+        hreq = np.full(len(E), np.inf)
+        np.minimum.at(hreq, FE.ravel(), np.repeat(h, 3))
+        mark = (ln > hreq) & ~lk
         if not mark.any():
             break
         lnu = np.where(lk[FE], -1.0, ln[FE])
@@ -479,7 +498,8 @@ def delaunay_flips(V, F, L, max_pass=60):
             return np.arccos(np.clip(c, -1, 1))
         exc = ang(o0, a, b) + ang(o1, a, b) - np.pi
         n0 = fnormals(V, np.stack([o0, a, o1], 1)); n1 = fnormals(V, np.stack([o0, o1, b], 1))
-        nold = t.face_normals[f0] + t.face_normals[f1]; nold /= np.maximum(np.linalg.norm(nold, axis=1, keepdims=True), 1e-12)
+        cr = np.cross(V[F[:, 1]] - V[F[:, 0]], V[F[:, 2]] - V[F[:, 0]])      # area-weighted: a degenerate face does not vote
+        nold = cr[f0] + cr[f1]; nold /= np.maximum(np.linalg.norm(nold, axis=1, keepdims=True), 1e-12)
         ok = same & (exc > 1e-3) & ((n0 * nold).sum(1) > 0.5) & ((n1 * nold).sum(1) > 0.5) & (o0 >= 0) & (o1 >= 0)
         if not ok.any():
             break
@@ -501,27 +521,27 @@ def delaunay_flips(V, F, L, max_pass=60):
 
 # ------------------------------------------------------------------ 4. the target: the current outer sheets
 class Target:
-    """the current outer sheets of the chest regions, sampled every SAMPLE_MM; per sample: face normal, region, distance from the
-    region's rim (rounded rims are left out of the core)"""
+    """the current chest slabs (all their faces), sampled every SAMPLE_MM, with face normals. No sheet classification is trusted
+    (on these refitted slabs the ray / bone classifiers disagree on thousands of faces): a point follows the nearest sample whose
+    face normal agrees with its own (within FACE_COS) -- on a closed, outward-wound slab that is the outer sheet, never the inner
+    sheet (normals opposite) nor the wall / rounded rim (normals turned away). Rim points: vertices where neighbouring faces of a
+    current slab turn by more than 45 degrees (its rounded or creased border)."""
 
     def __init__(self, g, chest):
-        P, N, O, R, Fc, FD = [], [], [], [], [], []
-        self.rimpts = []
+        P, N, O, OU = [], [], [], []
+        rims = []
         self.tri = {}
         for i, k in enumerate(chest):
-            cls, rim_e = g.sheets(k)
             v, f = g.V0[k]
-            fo = f[cls == 1]
-            rv = np.unique(rim_e) if len(rim_e) else np.zeros(0, int)
-            self.rimpts.append(v[rv])
-            self.tri[k] = trimesh.Trimesh(v, fo, process=False)
-            fn = fnormals(v, fo)
-            # a face folded against a neighbour (> 90 degrees) is not a surface to follow
-            adj = self.tri[k].face_adjacency
+            t = trimesh.Trimesh(v, f, process=False)
+            self.tri[k] = t
+            fn = fnormals(v, f)
+            cls, _ = g.sheets(k)        # Q353's classification: only used to find the surface in the first, far rounds
+            adj = t.face_adjacency
             dd = (fn[adj[:, 0]] * fn[adj[:, 1]]).sum(1)
-            fold = np.zeros(len(fo), bool); fold[adj[dd < 0].ravel()] = True
-            self.folded = getattr(self, "folded", 0) + int(fold.sum())
-            A, Bv, Cv = v[fo[:, 0]], v[fo[:, 1]], v[fo[:, 2]]
+            rv = np.unique(t.face_adjacency_edges[dd < np.cos(np.radians(45))])
+            rims.append(v[rv])
+            A, Bv, Cv = v[f[:, 0]], v[f[:, 1]], v[f[:, 2]]
             lmax = np.max(np.stack([np.linalg.norm(A - Bv, axis=1), np.linalg.norm(Bv - Cv, axis=1),
                                     np.linalg.norm(Cv - A, axis=1)], 1), 1)
             nsub = np.clip(np.ceil(lmax / SAMPLE_MM).astype(int), 1, 40)
@@ -532,55 +552,76 @@ class Target:
                 bu, bv = uu[m] / ns, vv[m] / ns
                 pts = (A[sel, None] * (1 - bu - bv)[None, :, None] + Bv[sel, None] * bu[None, :, None]
                        + Cv[sel, None] * bv[None, :, None]).reshape(-1, 3)
-                P.append(pts); N.append(np.repeat(fn[sel], len(bu), 0)); O.append(np.full(len(pts), i))
-                Fc.append(np.repeat(sel, len(bu))); FD.append(np.repeat(fold[sel], len(bu)))
-        self.P = np.vstack(P); self.N = np.vstack(N); self.O = np.concatenate(O); self.Fc = np.concatenate(Fc)
-        allrim = np.vstack([r for r in self.rimpts if len(r)])
-        self.drim = cKDTree(allrim).query(self.P)[0]          # distance from ANY current border (for the band weight)
+                P.append(pts.astype(np.float32)); N.append(np.repeat(fn[sel], len(bu), 0).astype(np.float32))
+                O.append(np.full(len(pts), i, np.int16)); OU.append(np.repeat(cls[sel] == 1, len(bu)))
+        self.outer = np.concatenate(OU)
+        self.P = np.vstack(P).astype(float); self.N = np.vstack(N).astype(float); self.O = np.concatenate(O)
+        self.rimpts = rims
+        allrim = np.vstack([r for r in rims if len(r)])
+        self.drim = cKDTree(allrim).query(self.P)[0]            # distance from ANY current border (for the band weight)
         own_d = np.full(len(self.P), np.inf)
-        for i, r in enumerate(self.rimpts):
-            s = self.O == i
+        for i, r in enumerate(rims):
+            s_ = self.O == i
             if len(r):
-                own_d[s] = cKDTree(r).query(self.P[s])[0]
-        self.fold = np.concatenate(FD)
-        self.core = (own_d > RIM_EXCL) & ~self.fold
-        self.tree = cKDTree(self.P[self.core])
+                own_d[s_] = cKDTree(r).query(self.P[s_])[0]
+        self.core = own_d > RIM_EXCL
         self.ci = np.where(self.core)[0]
+        self.tree = cKDTree(self.P[self.core])
         self.per = {i: (cKDTree(self.P[self.core & (self.O == i)]), np.where(self.core & (self.O == i))[0])
                     for i in range(len(chest)) if (self.core & (self.O == i)).any()}
         self.all_tree = cKDTree(self.P)
+        self.oi = np.where(self.core & self.outer)[0]
+        self.otree = cKDTree(self.P[self.oi])
+        self.folded = 0
+        self.cos = FACE_COS
 
-    def closest(self, X):
-        _, j = self.tree.query(X)
-        j = self.ci[j]
-        n = self.N[j]
-        q = X - ((X - self.P[j]) * n).sum(1)[:, None] * n
-        return q, n, j
+    def _agree(self, tree, idx, X, U, k=32, ub=np.inf):
+        """per point: the nearest sample (of tree / idx) whose normal agrees with U; -1 if none among the k nearest"""
+        d, j = tree.query(X, k=k, distance_upper_bound=ub)
+        okd = np.isfinite(d)
+        jj = np.where(okd, j, 0)
+        g = idx[np.minimum(jj, len(idx) - 1)]
+        agree = okd & ((self.N[g] * U[:, None, :]).sum(2) > self.cos)
+        first = np.where(agree.any(1), agree.argmax(1), -1)
+        out = np.where(first >= 0, g[np.arange(len(X)), np.maximum(first, 0)], -1)
+        return out
+
+    def closest(self, X, U, far=False):
+        if far:          # first rounds: the nearest sample of the (classified) outer sheets, no normal test
+            _, j = self.otree.query(X)
+            j = self.oi[j]
+            n = self.N[j]
+            return X - ((X - self.P[j]) * n).sum(1)[:, None] * n, n, j, np.ones(len(X), bool)
+        j = self._agree(self.tree, self.ci, X, U)
+        ok = j >= 0
+        jj = np.maximum(j, 0)
+        n = self.N[jj]
+        q = X - ((X - self.P[jj]) * n).sum(1)[:, None] * n
+        q[~ok] = X[~ok]
+        return q, n, jj, ok
 
     def stacked(self, X, U):
-        """per point: the current pieces it lies over / under (sideways offset < TANG_MAX), their heights along U; the outermost
-        within OVL_MM of the nearest -> target, else nan"""
-        H = np.full((len(X), len(self.per)), np.nan)
-        J = np.full((len(X), len(self.per)), -1)
-        for c, (i, (tr, idx)) in enumerate(sorted(self.per.items())):
-            d, j = tr.query(X, distance_upper_bound=PLAUS_MM)
-            ok = np.isfinite(d)
-            jj = idx[j[ok]]
+        """per point: the current pieces it lies over / under (sideways offset < TANG_MAX, normal agreeing), their heights along U;
+        the outermost within OVL_MM of the nearest -> target, else nan"""
+        cols = sorted(self.per)
+        H = np.full((len(X), len(cols)), np.nan)
+        J = np.full((len(X), len(cols)), -1)
+        for c, i in enumerate(cols):
+            tr, idx = self.per[i]
+            jj = self._agree(tr, idx, X, U, k=16, ub=PLAUS_MM)
+            o = np.where(jj >= 0)[0]
+            jj = jj[o]
             n = self.N[jj]
-            off = X[ok] - self.P[jj]
+            off = X[o] - self.P[jj]
             h = (off * n).sum(1)
             tang = np.linalg.norm(off - h[:, None] * n, axis=1)
-            good = tang < TANG_MAX
-            o = np.where(ok)[0][good]
-            hh = -h[good] / np.maximum((n[good] * U[o]).sum(1), 0.3)    # height of the piece along U above X
-            near = np.abs(hh) <= OVL_MM + 2.0
-            H[o[near], c] = hh[near]
-            J[o[near], c] = jj[good][near]
-        has = np.isfinite(H).any(1)
+            hh = -h / np.maximum((n * U[o]).sum(1), 0.3)
+            good = (tang < TANG_MAX) & (np.abs(hh) <= OVL_MM + 2.0)
+            H[o[good], c] = hh[good]; J[o[good], c] = jj[good]
         tgt = np.full((len(X), 3), np.nan)
         nn = np.full((len(X), 3), np.nan)
         stacked = np.zeros(len(X), bool)
-        for i in np.where(has)[0]:
+        for i in np.where(np.isfinite(H).any(1))[0]:
             h = H[i]; c = np.where(np.isfinite(h))[0]
             h0 = h[c][np.argmin(np.abs(h[c]))]
             win = c[(h[c] >= h0 - 1e-9) & (h[c] <= h0 + OVL_MM)]
@@ -590,9 +631,16 @@ class Target:
             nn[i] = self.N[J[i, cc]]
         return tgt, nn, stacked
 
-    def dist(self, X):
-        """unsigned distance to the current outer sheets (all of them, rims included) and the sideways part of it"""
-        _, j = self.all_tree.query(X)
+    def dist(self, X, U=None):
+        """distance to the current outer surface: the nearest sample (rims included) whose normal agrees with U (outer-facing), its
+        sideways part, and that sample's distance from a current border"""
+        if U is None:
+            _, j = self.all_tree.query(X)
+        else:
+            j = self._agree(self.all_tree, np.arange(len(self.P)), X, U, k=48)
+            bad = j < 0
+            if bad.any():
+                j[bad] = self.all_tree.query(X[bad])[1]
         n = self.N[j]
         off = X - self.P[j]
         h = (off * n).sum(1)
@@ -638,7 +686,8 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
     # within LOCK_REACH x that gap of it, so the surface bridges from the neighbour to the current surface instead of folding back
     lock = lock.copy()
     li = np.where(lock)[0]
-    gap = T.dist(tgt_lock[li])[0] if len(li) else np.zeros(0)
+    U0 = vnormals(X0, F)
+    gap = T.dist(tgt_lock[li], U0[li])[0] if len(li) else np.zeros(0)
     rel = li[gap > LOCK_GAP_MAX]           # the pieces disagree too much to join here: the border is left as it is today
     lock[rel] = False
     free = ~lock
@@ -656,20 +705,20 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
     for r, lam in enumerate(STIFF):
         U = vnormals(X, F)
         if r < len(STIFF) - 2:
-            q, nq, j = T.closest(X)
-            w = smoothstep((T.drim[j] - BAND_IN) / (BAND_OUT - BAND_IN))
+            q, nq, j, okc = T.closest(X, U, far=r < FAR_ROUNDS)
+            w = smoothstep((T.drim[j] - BAND_IN) / (BAND_OUT - BAND_IN)) * okc
             if r >= 3:
                 w = w * (np.linalg.norm(q - X, axis=1) < PLAUS_MM)
             stacked = np.zeros(n, bool)
         else:
             q, nq, stacked = T.stacked(X, U)
             ok = np.isfinite(q[:, 0])
-            q2, nq2, j = T.closest(X)
+            q2, nq2, j, _ = T.closest(X, U)
             nq = np.where(ok[:, None], nq, nq2)
             _, j_all = T.all_tree.query(np.where(ok[:, None], q, q2))
             w = np.where(ok, smoothstep((T.drim[j_all] - BAND_IN) / (BAND_OUT - BAND_IN)), 0.0)
             q = np.where(ok[:, None], q, X)
-        w = w * wl * smoothstep(((nq * U).sum(1) - FACE_COS) / 0.2)   # a target facing away (a hook of the current sheet) is not followed
+        w = w * wl
         Dt = q - X
         D = solve_p2plane(Lp, deg, lam * w, Dt, nq, lock, tgt_lock - X, free)
         X = X + D
@@ -680,6 +729,7 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
                      "weighted_vertices": int((w > 0.5).sum()), "stacked_vertices": int(stacked.sum())})
         log(f"    round {r}: weight {lam:g}  move max {hist[-1]['move_max_mm']} mm  residual p95 {hist[-1]['residual_where_weighted_p95_mm']}")
     fit.snaps = snaps
+    T.cos = FACE_COS
     return X, hist, lock
 
 
@@ -829,8 +879,9 @@ def holes(g, chest, extra=None):
     """front and lateral views of the chest window: pixels where the frontmost structure is NOT skin, although skin lies all around
     (a deeper structure seen through a slot) -> count; per view"""
     lo, hi = CHEST_BOX
-    ids = [k for k in g.in_box(lo, hi) if g.sys[k] in ("skin", "muscle", "fat", "bone", "cartilage", "fascia", "viscera", "vessel",
-                                                         "nerve", "lymph") or k in BREAST]
+    ids = [k for k in g.in_box(lo, hi) if (g.sys[k] in ("skin", "muscle", "bone", "cartilage", "vessel", "nerve", "lymph") or k in BREAST)
+           and not k.startswith(("fat_subcut", "soft_unlabelled"))]      # the subcutaneous fat / unlabelled soft-tissue layers lie
+    #                                                                       in the skin by construction (hidden by default)
     T, O, isskin = [], [], []
     for i, k in enumerate(ids):
         v, f = (extra[k] if extra and k in extra else (g.cur[k], g.F[k]))
@@ -1108,12 +1159,13 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     Y, rep["inner"] = inner_of(Xf, F, lock, S, gf, gm, thick)
     rep["thickness_mm"] = {"used": round(thick, 3), "z_source_median_per_region": {k: round(v, 2) for k, v in th.items()}}
     # --- deviation from the current outer surface, per region
-    dist, tang, drim = T.dist(Xf)
+    Uf = vnormals(Xf, F)
+    dist, tang, drim = T.dist(Xf, Uf)
     # the pieces' own disagreement at the current borders: a vertex near a locked neighbour vertex that lies off the current surface
     li = np.where(lock)[0]
     dis_tree = None
     if len(li):
-        gl = T.dist(Xf[li])[0]
+        gl = T.dist(Xf[li], Uf[li])[0]
         m = gl > 0.5
         if m.any():
             dis_tree = (cKDTree(Xf[li[m]]), gl[m])
