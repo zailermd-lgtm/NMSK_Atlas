@@ -50,8 +50,9 @@ HELPERS = r"""() => {
   function kind(k) { const b = document.querySelector('.q367-ks [data-k="' + k + '"]'); if (!b) return false; b.click(); return true; }
   function id1(...c) { for (const x of c) if (T.byId[x] && T.byId[x].length) return x; return null; }
   function tapAt(p) { const s = T.api.toScreen(p); if (!s) return null; T.onClick({clientX: s[0], clientY: s[1], button: 0}); return s; }
+  async function entry() { T.suggest(); const c = T.sugg.shown[0] || T.sugg.cands[0]; if (!c) return false; T.adoptSuggestion(c); await settle(); return true; }
   async function reset() { closePick(); T.clear(); T.planRelease(); await settle(); }
-  window.__q367 = {sleep, settle, pick, closePick, kind, id1, tapAt, reset, surf, D};
+  window.__q367 = {sleep, settle, pick, closePick, kind, id1, tapAt, reset, surf, D, entry};
   return !!(T && T.q367 && P.planeLocus);
 }"""
 
@@ -65,8 +66,9 @@ ORDER = r"""async () => {
   const sug = Array.from(document.querySelectorAll('.q367-plan [data-q367=entry] button')).find(b => b.textContent === 'הצעות');
   if (sug) sug.click();
   for (let k = 0; k < 100 && !T.sugg.shown.length && !T.sugg.msg; k++) await H.sleep(100);
-  const use = document.querySelector('.mc-cand button'); if (!use) return Object.assign(o, {err: 'no suggestion: ' + T.sugg.msg});
-  use.click(); await H.settle();
+  const use = document.querySelector('.mc-cand button');
+  if (use) use.click(); else if (T.sugg.cands[0]) T.adoptSuggestion(T.sugg.cands[0]); else return Object.assign(o, {err: 'no candidate: ' + T.sugg.msg});
+  o.viaUse = !!use; await H.settle();
   const A = T.q367(); o.A = {tip: A.tip.p, entry: A.entry.p, len: T.report().length_mm, cross: T.report().crossings.map(c => c.id).join(',')};
   // 2. entry first (the same skin point), then the tip from the picker
   await H.reset();
@@ -125,7 +127,7 @@ REFINE = r"""async () => {
               worstMid: pts.length ? Math.max(...pts.map(x => Math.abs(x[0] - x[1]))) : null, worstSum: pts.length ? Math.max(...pts.map(x => x[0] + x[1])) : null,
               tA, tB, kind: q.tip && q.tip.kind, label: (document.querySelector('[data-q367-plane]') || {}).textContent || ''});
     // the tip follows the entry: with an entry set, the tip is the patch point nearest to it
-    const sug = T.suggest(); if (sug && sug.length) { T.adoptSuggestion(sug[0]); await H.settle(); T.plPlane(ai, bi); await H.settle();
+    if (await H.entry()) { T.plPlane(ai, bi); await H.settle();
       const E = T.entry.p, best = pl ? T.pl.plane.pts.reduce((m, x) => H.D(x.m, E) < H.D(m.m, E) ? x : m) : null;
       out.push({type: 'plane tip nearest the entry', d: best ? H.D(best.m, T.target.p) : null, kind: T.target.kind}); }
   } else out.push({type: 'plane', err: 'biceps_brachii_r / brachialis_r missing'});
@@ -166,7 +168,7 @@ REFINE = r"""async () => {
 MARKERS = r"""async () => {
   const H = window.__q367, T = window.NMSKClinicalTool;
   await H.reset(); await H.pick(H.id1('biceps_brachii_r'));
-  const sug = T.suggest(); if (sug && sug.length) T.adoptSuggestion(sug[0]); await H.settle();
+  await H.entry();
   T.api.focus(T.target.p, 260); T.api.redraw(); await H.sleep(400); T.pinsPlace();
   const pin = k => { const e = document.querySelector('.q367-pin-' + k); if (!e) return null; const r = e.getBoundingClientRect(), s = e.querySelector('svg');
     const shp = s.querySelector('path') ? 'diamond' : (s.querySelector('circle') ? 'ring' : '?');
@@ -198,8 +200,7 @@ SAFE_SET = r"""async (rules) => {
 SAFETY = r"""async () => {
   const H = window.__q367, T = window.NMSKClinicalTool, P = window.NMSKClinical.pure, o = {};
   await H.reset(); await H.pick(H.id1('biceps_brachii_r'));
-  const sug = T.suggest(); if (!sug || !sug.length) return {err: 'no suggestion'};
-  T.adoptSuggestion(sug[0]); await H.settle();
+  if (!(await H.entry())) return {err: 'no entry candidate'};
   // all rules off: no rows
   T.safeSet({rules: {nL: null, nM: null, nS: null, aL: null, aM: null, aS: null, vL: null, vM: null}}); await H.settle();
   o.off = {rows: T.q367().safe.rows.length, halos: T.ov.halosNow().filter(h => h.r !== 0).length};
@@ -264,7 +265,7 @@ LAYOUT = r"""async (label) => {
 ROWS = r"""async () => {
   const H = window.__q367, T = window.NMSKClinicalTool;
   await H.reset(); await H.pick(H.id1('biceps_brachii_r'));
-  const sug = T.suggest(); if (sug && sug.length) T.adoptSuggestion(sug[0]); await H.settle(); await H.sleep(300);
+  await H.entry(); await H.sleep(300);
   const rows = Array.from(document.querySelectorAll('.mc-left .mc-drow .nm'));
   const g = document.querySelector('.mc-guide'); if (g) g.open = true;
   const gc = Array.from(document.querySelectorAll('.mc-guide .g-rrow .g-cls')).map(e => e.textContent);
@@ -483,7 +484,7 @@ def main() -> int:
                 check(f"rules and thresholds persist across a reload ({back['rules']} / {back['thr']['a']})", back["rules"] == want and back["thr"] == thr)
                 pg.evaluate("() => { window.NMSKClinicalTool.safeSet({thr: {a: [6, 3]}, rules: {nL: null, nM: null, nS: null, aL: null, aM: null, aS: null, vL: null, vM: null}}); }")
             pg.evaluate("() => window.__q367.closePick()")
-            pg.evaluate("async () => { const H = window.__q367, T = window.NMSKClinicalTool; await H.pick(H.id1('biceps_brachii_r')); const s = T.suggest(); if (s && s.length) T.adoptSuggestion(s[0]); await H.settle(); }")
+            pg.evaluate("async () => { const H = window.__q367, T = window.NMSKClinicalTool; await H.pick(H.id1('biceps_brachii_r')); await H.entry(); }")
             lay = pg.evaluate(LAYOUT, "plan panel")
             check(f"{'phone' if phone else 'desktop'}, planning: model {lay['visible'] * 100:.0f} % visible (>= 50), nothing wider than the screen ({lay['nWide']} {lay['wide']}, scrollWidth {lay['scrollW']})",
                   lay["visible"] >= 0.5 and lay["nWide"] == 0 and lay["scrollW"] <= W)

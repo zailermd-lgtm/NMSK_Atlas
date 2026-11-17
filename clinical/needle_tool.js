@@ -327,7 +327,9 @@ TriHash.prototype.near = function (p, maxD) {   // -> {q, d} or null (nothing wi
 };
 /* Q367 PLANE (the interface between two adjacent structures, for a plane block): every vertex of A (at most maxV, evenly
    strided) whose nearest point on B's surface lies within `gap` mm, and the same from B to A; each such closest pair gives
-   the MIDPOINT between the two surfaces. The patch = those midpoints (thinned to one per 1 mm voxel, the smaller gap kept);
+   the MIDPOINT between the two surfaces, kept only when it really is midway: its own distances to A and to B (each the nearest
+   surface point) differ by <= 0.5 mm (a midpoint of one pair can lie nearer another part of either surface where they curve or
+   touch). The patch = those midpoints (thinned to one per 1 mm voxel, the smaller gap kept);
    it is empty when the two structures never come within `gap` of each other. keep(p) optionally filters (the joint-space
    use keeps only points inside the capsule's box). Returns {pts: [{m, g}], minGap}. */
 function planeLocus(posA, idxA, posB, idxB, gap, maxV, keep) {
@@ -341,6 +343,8 @@ function planeLocus(posA, idxA, posB, idxB, gap, maxV, keep) {
       var r = other.near(p, gap); if (!r) continue;
       var m = [(p[0] + r.q[0]) / 2, (p[1] + r.q[1]) / 2, (p[2] + r.q[2]) / 2];
       if (keep && !keep(m)) continue;
+      var ma = hA.near(m, gap), mb = hB.near(m, gap);
+      if (!ma || !mb || Math.abs(ma.d - mb.d) > 0.5) continue;
       if (r.d < minGap) minGap = r.d;
       var key = Math.round(m[0]) + "," + Math.round(m[1]) + "," + Math.round(m[2]), o = vox.get(key);
       if (!o || r.d < o.g) vox.set(key, {m: m, g: r.d});
@@ -3038,8 +3042,8 @@ TP.plCavity = function (i) {
   }
   return this.plTipSet({p: p, i: i}, "cavity", {inside: this.insideMesh(i, p)});
 };
-/* JOINT SPACE (intra-articular): the two bones the capsule encloses (the bones with the most vertices inside the capsule's box,
-   >= 20 each), the PLANE locus between them (gap <= 10 mm) kept inside the capsule's box, and the locus point nearest the
+/* JOINT SPACE (intra-articular): the two bones the capsule encloses (of the four bones with the most vertices inside the capsule's
+   box, >= 20 each, the pair with the largest interface inside the box), the PLANE locus between them (gap <= 10 mm) kept inside the capsule's box, and the locus point nearest the
    capsule's centre. Cartilage is not modelled as a separate surface here, so the space is bone-to-bone: an approximation. */
 TP.plJointBones = function (i) {
   var r = this.recs[i], self = this, lo = r.bmin.map(function (v) { return v - 2; }), hi = r.bmax.map(function (v) { return v + 2; }), c = [];
@@ -3051,13 +3055,17 @@ TP.plJointBones = function (i) {
     if (n >= 20) c.push({j: j, n: n});
   });
   c.sort(function (x, y) { return y.n - x.n; });
-  return c.slice(0, 2).map(function (x) { return x.j; });
+  return c.slice(0, 4).map(function (x) { return x.j; });
 };
 TP.plIntra = function (i) {
-  var bones = this.plJointBones(i); if (bones.length < 2) return null;
-  var r = this.recs[i], lo = r.bmin, hi = r.bmax, ga = this.geom(bones[0]), gb = this.geom(bones[1]);
-  var res = planeLocus(ga.pos, ga.idx, gb.pos, gb.idx, PLAN_JOINT_GAP, 4000, function (m) { return m[0] >= lo[0] && m[0] <= hi[0] && m[1] >= lo[1] && m[1] <= hi[1] && m[2] >= lo[2] && m[2] <= hi[2]; });
-  if (!res.pts.length) return null;
+  var cand = this.plJointBones(i); if (cand.length < 2) return null;
+  var r = this.recs[i], lo = r.bmin, hi = r.bmax, self = this, res = null, bones = null;
+  var inBox = function (m) { return m[0] >= lo[0] && m[0] <= hi[0] && m[1] >= lo[1] && m[1] <= hi[1] && m[2] >= lo[2] && m[2] <= hi[2]; };
+  for (var x = 0; x < cand.length; x++) for (var y = x + 1; y < cand.length; y++) {   // the pair (of the 4 bones most inside the box) with the largest interface inside it
+    var ga = self.geom(cand[x]), gb = self.geom(cand[y]), q = planeLocus(ga.pos, ga.idx, gb.pos, gb.idx, PLAN_JOINT_GAP, 4000, inBox);
+    if (!res || q.pts.length > res.pts.length) { res = q; bones = [cand[x], cand[y]]; }
+  }
+  if (!res || !res.pts.length) return null;
   var c = [0, 1, 2].map(function (k) { return (lo[k] + hi[k]) / 2; }), best = null, bd = Infinity;
   res.pts.forEach(function (o) { var d = dist(o.m, c); if (d < bd) { bd = d; best = o; } });
   this.pl.plane = {a: bones[0], b: bones[1], gap: PLAN_JOINT_GAP, pts: res.pts, minGap: res.minGap, key: this.poseKey(), intra: i};
