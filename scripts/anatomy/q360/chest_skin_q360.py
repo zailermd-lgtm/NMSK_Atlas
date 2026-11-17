@@ -96,6 +96,8 @@ TANG_MAX = 1.5       # mm: a point farther than this sideways from a piece's sur
 OVL_MM = 8.0         # mm: stacked pieces within this height of the nearest one: the outermost is followed
 PLAUS_MM = 25.0      # mm: in the soft rounds a target farther than this is not trusted
 PRE_RELEASE = False  # True: release before the subdivision (that border is then refined freely); False: in the fit + neighbour follows
+CHEST_WALLS = False  # walls between two chest regions (owner's choice, Q360: none -- the engine did not hide them as twins; a
+#                      hidden / faded single chest region then shows a 3 mm open edge instead of a wall)
 RIM_PULL = False     # a released border vertex is fitted like any free border vertex (True: pulled to the current pieces' rim)
 FAR_ROUNDS = 3       # the first (stiff, far) rounds find the surface through Q353's outer-sheet classification
 FACE_COS = 0.8       # a target sample whose face normal is more than ~37 degrees off the vertex normal is not followed
@@ -757,7 +759,7 @@ def fit(X0, F, lock, tgt_lock, T: Target, log):
 
 
 # ------------------------------------------------------------------ 5. slabs
-def slab(outer_v, inner_v, fo, diag=None):
+def slab(outer_v, inner_v, fo, diag=None, wall_edges=None):
     """closed slab from an outer sheet (faces fo, outward) and per-vertex inner positions: inner sheet reversed + rim wall
     (as scripts/anatomy/q358/perineum_skin_q358.py slab)"""
     used = np.unique(fo)
@@ -770,6 +772,8 @@ def slab(outer_v, inner_v, fo, diag=None):
     bd = e[cnt[inv.ravel()] == 1]
     walls = []
     for a, b in bd:
+        if wall_edges is not None and (min(used[a], used[b]), max(used[a], used[b])) not in wall_edges:
+            continue          # a border with another chest region: no wall (both regions are one surface; see CHEST_WALLS)
         # the wall quad (a, b, b', a') is cut along the diagonal from the outer end with the smaller SHARED index: the neighbour
         # cuts its own wall the same way, so the two walls are the same two triangles and the engine's weld finds them face to face
         # (Q334 twin test; with crossed diagonals the twins were missed and every border was drawn)
@@ -1244,12 +1248,21 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
     over = dist > allowed + 1e-6
     new, pieces_after = {}, {}
     per = {}
+    e_, c_ = np.unique(edges_of(F), axis=0, return_counts=True)
+    outer_border = set(map(tuple, e_[c_ == 1].tolist()))      # the merged surface's own border: unchanged neighbours / openings
+    new_walled = {}
     for i, k in enumerate(chest):
         fo = F[L == i]
-        v, f, used, cls = slab(Xf, Y, fo, diag)
+        v, f, used, cls = slab(Xf, Y, fo, diag, None if CHEST_WALLS else outer_border)
         new[k] = (v, f, cls)
+        vw, fw, _, cw = slab(Xf, Y, fo, diag)
+        new_walled[k] = (vw, fw, cw)
         vi = used
         t = trimesh.Trimesh(v, f, process=False)
+        ob = boundary_edge_list(f)
+        nopen = int(len(ob))
+        nwall_missing = int((cw == 0).sum() - (cls == 0).sum()) // 2     # chest-chest border edges left without a wall
+        closed_ok = open_edges_ok(f, fw, ob)
         fo_r = f[cls == 1]; fi_r = f[cls == -1]
         no = fnormals(v, fo_r); ni = fnormals(v, fi_r)
         per[k] = {"vertices": [int(gf.M[k]["vc"]), int(len(v))], "faces": [int(gf.M[k]["ic"]), int(len(f))],
@@ -1257,7 +1270,9 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
                   "deviation_border_band_mm": st(dist[vi][drim[vi] <= BAND_OUT]),
                   "over_cap_vertices": int(over[vi].sum()), "over_slot_vertices": int((tang[vi] > TANG_MAX).sum()),
                   "watertight": bool(t.is_watertight), "winding_consistent": bool(t.is_winding_consistent),
-                  "volume_cm3": round(float(t.volume) / 1000, 2),
+                  "open_edges": nopen, "chest_border_edges_without_wall": nwall_missing,
+                  "closed_except_chest_borders": bool(closed_ok),
+                  "volume_cm3": round(float(t.volume) / 1000, 2) if t.is_watertight else None,
                   "folded_outer_pairs": folds(v, fo_r)[0], "inner_flipped_faces": int(((no * ni).sum(1) > 0).sum()),
                   "edge_median_mm": round(float(np.median(np.linalg.norm(v[edges_of(fo_r)[:, 0]] - v[edges_of(fo_r)[:, 1]], axis=1))), 2)}
     rep["deviation_policy"] = {"core_cap_mm": DEV_CAP, "border_band_mm": BAND_OUT, "border_cap_mm": DEV_CAP_BORDER,
@@ -1274,7 +1289,22 @@ def build(d: Path, src: Path, log=print, bk_dir=None):
             o = k[:-2] + "_l"
             rep["mirror_median_mm"][k[9:-2]] = {"before": mirror_med(gf.V0[k][0], gf.V0[o][0]), "after": mirror_med(new[k][0], new[o][0])}
     log(f"  built {time.time() - t0:.0f} s")
-    return dict(gf=gf, gm=gm, chest=chest, new=new, S=S, T=T, Xf=Xf, F=F, L=L, follow=follow), rep
+    rep["chest_walls"] = bool(CHEST_WALLS)
+    return dict(gf=gf, gm=gm, chest=chest, new=new, new_walled=new_walled, S=S, T=T, Xf=Xf, F=F, L=L, follow=follow), rep
+
+
+def open_edges_ok(f, fw, ob):
+    """every open edge of the wall-less slab lies on the vertices of a left-out wall (outer / inner border of a chest-to-chest edge,
+    or the end of a kept wall next to one) -- nothing else is open"""
+    cw = set(map(tuple, np.sort(fw, axis=1).tolist())) - set(map(tuple, np.sort(f, axis=1).tolist()))
+    vs = {x for t in cw for x in t}
+    return all(a in vs and b in vs for a, b in ob.tolist())
+
+
+def boundary_edge_list(f):
+    e = np.sort(np.concatenate([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), axis=1)
+    u, c = np.unique(e, axis=0, return_counts=True)
+    return u[c == 1]
 
 
 def neighbour_diagonals(gf, S, Xf, F, lock):
@@ -1396,8 +1426,11 @@ def main(argv=None):
     ap.add_argument("--no-rig", action="store_true")
     ap.add_argument("--backups-dir", help="where the <file>.qNNN backups are looked for (default --page-dir)")
     ap.add_argument("--debug-npz")
+    ap.add_argument("--chest-walls", action="store_true", help="keep the walls between two chest regions (default: none there)")
     a = ap.parse_args(argv)
     d = Path(a.page_dir)
+    global CHEST_WALLS
+    CHEST_WALLS = bool(a.chest_walls)
     src = Path(a.source_dir) if a.source_dir else d.parent / "viewer_zan_atlas"
     assert C340.pages_of(d, STEM), f"{d}: no {STEM}.html (Base · Female only)"
     assert C340.pages_of(src, SRC_STEM), f"{src}: no {SRC_STEM}.html (the Base · Male page is the Z source)"
@@ -1415,7 +1448,9 @@ def main(argv=None):
     focus = set(chest) | set(back)
     wb = weld_stats(skin_pieces(gf, lo - 60, hi + 60), focus)
     follow = G["follow"]
-    after_geo = {k: v for k, v in new.items()}
+    # the weld measure is taken on the walled slabs (it finds the border through the wall, as the engine does); the shipped
+    # chest-to-chest borders have no wall -- their outer and inner vertices are the same shared vertices
+    after_geo = {k: v for k, v in G["new_walled"].items()}
     after_geo.update({k: (v, gf.F[k]) for k, v in follow.items()})
     wa = weld_stats(skin_pieces(gf, lo - 60, hi + 60, after_geo), focus)
     rep["weld_pct"] = {k: {"before": wb[k]["pct"], "after": wa[k]["pct"], "rim_vertices": [wb[k]["rim_vertices"], wa[k]["rim_vertices"]],
@@ -1466,7 +1501,8 @@ def main(argv=None):
         "deviation_over_cap_vertices": rep["deviation_policy"]["over_cap_vertices"],
         "breast_tissue_outside": breast_out,
         "structures_gaining_outside": gained,
-        "slabs_closed_and_consistent": all(per[k]["watertight"] and per[k]["winding_consistent"] and per[k]["volume_cm3"] > 0 for k in chest),
+        "slabs_closed_and_consistent": all((per[k]["watertight"] or per[k]["closed_except_chest_borders"]) and per[k]["winding_consistent"]
+                                           for k in chest),
         "inner_flipped_faces": sum(per[k]["inner_flipped_faces"] for k in chest),
         "folded_outer_pairs": sum(per[k]["folded_outer_pairs"] for k in chest),
         "mesh_order_last_two": [m["id"] for m in gf.man["meshes"]][-2:],

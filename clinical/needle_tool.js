@@ -3641,7 +3641,7 @@ function injectionMode(tool, api) {
         "body.mode-inj .q367-in::placeholder{color:#5B6472;opacity:1}" +
         "body.mode-inj .q367-bad{color:#B42318;font-weight:700}body.mode-inj .q367-ok{color:#1E6B3E;font-weight:700;margin:0;font-size:13px}" +
         "body.mode-inj .mc-safe{left:20px;top:20px;width:330px;z-index:3;background:#fff;color:#20242B;gap:10px}" +
-        "body.mode-inj.inj-safe .mc-left{display:none!important}" +
+        "body.mode-inj.inj-safe .mc-left{visibility:hidden!important}" +
         "body.mode-inj .q367-own{margin:0;font-size:13px;color:#20242B;font-weight:600}" +
         "body.mode-inj .q367-grid{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 8px;align-items:center;font-size:13px}" +
         "body.mode-inj .q367-grid4{grid-template-columns:auto auto auto auto auto;gap:6px 6px;font-size:12.5px}" +
@@ -3654,7 +3654,7 @@ function injectionMode(tool, api) {
         /* phone: the step sheet and the distance card together leave >= 50 % of the model visible while planning */
         "@media (max-width:760px){body.mode-inj .mc-right{max-height:36%}body.mode-inj .mc-left{max-height:24%;overflow:auto}}" +
         "@media (max-width:760px){body.mode-inj .mc-safe{left:0;right:0;top:auto;bottom:0;width:auto;max-height:calc(50% - 32px);overflow:auto;border-radius:20px 20px 0 0;padding:10px 14px 16px;box-sizing:border-box}" +
-        "body.mode-inj.inj-safe .mc-right{display:none!important}body.mode-inj .q367-grid4{grid-template-columns:auto auto auto auto auto}}";
+        "body.mode-inj.inj-safe .mc-right{visibility:hidden!important}body.mode-inj .q367-grid4{grid-template-columns:auto auto auto auto auto}}";
       document.head.appendChild(s3);
     }
     skinCat = tool.recs.some(function (r) { return r.cat === "skin"; }) ? "skin" : null;

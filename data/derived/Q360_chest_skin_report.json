@@ -103,76 +103,76 @@
   {
    "round": 0,
    "data_weight": 0.01,
-   "move_max_mm": 28.53,
-   "residual_where_weighted_p95_mm": 9.911,
-   "weighted_vertices": 18731,
+   "move_max_mm": 28.13,
+   "residual_where_weighted_p95_mm": 10.008,
+   "weighted_vertices": 15661,
    "stacked_vertices": 0
   },
   {
    "round": 1,
    "data_weight": 0.03,
-   "move_max_mm": 9.1,
-   "residual_where_weighted_p95_mm": 2.315,
-   "weighted_vertices": 20108,
+   "move_max_mm": 9.41,
+   "residual_where_weighted_p95_mm": 2.334,
+   "weighted_vertices": 16576,
    "stacked_vertices": 0
   },
   {
    "round": 2,
    "data_weight": 0.1,
-   "move_max_mm": 4.19,
-   "residual_where_weighted_p95_mm": 0.711,
-   "weighted_vertices": 20228,
+   "move_max_mm": 4.77,
+   "residual_where_weighted_p95_mm": 0.768,
+   "weighted_vertices": 16691,
    "stacked_vertices": 0
   },
   {
    "round": 3,
    "data_weight": 0.3,
-   "move_max_mm": 1.41,
-   "residual_where_weighted_p95_mm": 0.242,
-   "weighted_vertices": 18984,
+   "move_max_mm": 1.35,
+   "residual_where_weighted_p95_mm": 0.247,
+   "weighted_vertices": 15581,
    "stacked_vertices": 0
   },
   {
    "round": 4,
    "data_weight": 1.0,
-   "move_max_mm": 1.25,
-   "residual_where_weighted_p95_mm": 0.1,
-   "weighted_vertices": 19188,
+   "move_max_mm": 1.37,
+   "residual_where_weighted_p95_mm": 0.104,
+   "weighted_vertices": 15742,
    "stacked_vertices": 0
   },
   {
    "round": 5,
    "data_weight": 3.0,
-   "move_max_mm": 1.35,
-   "residual_where_weighted_p95_mm": 0.037,
-   "weighted_vertices": 20152,
+   "move_max_mm": 1.28,
+   "residual_where_weighted_p95_mm": 0.04,
+   "weighted_vertices": 16597,
    "stacked_vertices": 0
   },
   {
    "round": 6,
    "data_weight": 10.0,
-   "move_max_mm": 1.64,
-   "residual_where_weighted_p95_mm": 0.005,
-   "weighted_vertices": 20175,
-   "stacked_vertices": 176
+   "move_max_mm": 1.52,
+   "residual_where_weighted_p95_mm": 0.006,
+   "weighted_vertices": 16652,
+   "stacked_vertices": 161
   },
   {
    "round": 7,
    "data_weight": 10.0,
-   "move_max_mm": 1.58,
-   "residual_where_weighted_p95_mm": 0.001,
-   "weighted_vertices": 20173,
-   "stacked_vertices": 182
+   "move_max_mm": 0.99,
+   "residual_where_weighted_p95_mm": 0.002,
+   "weighted_vertices": 16654,
+   "stacked_vertices": 165
   }
  ],
  "inner": {
   "locked": 161,
-  "inner_partner_found": 146,
+  "inner_partner_found": 152,
   "partner_offset_mm": {
    "max": 2.99,
-   "mean": 1.43,
+   "mean": 1.53,
    "p95": 2.99,
-   "n": 146
+   "n": 152
   }
  },
  "thickness_mm": {
@@ -205,13 +205,17 @@
    "neighbour": "zan_skin_anterior_region_of_arm_r",
    "outer_vertex": 0,
    "inner_vertex": null,
-   "moved_mm": 7.57,
+   "moved_mm": 7.56,
    "neighbour_faces_flipped": 0
   }
  ],
+ "walls_matched_to_neighbour": {
+  "edges": 156,
+  "matched": 154
+ },
  "deviation_policy": {
   "core_cap_mm": 1.5,
-  "border_band_mm": 8.0,
+  "border_band_mm": 12.0,
   "border_cap_mm": 6.0,
   "near_a_neighbour_that_did_not_meet": "gap + core cap, within 4 x gap (12..40 mm)",
   "over_cap_vertices": 0,
@@ -219,13 +223,13 @@
  },
  "deviation_all_mm": {
   "max": 4.92,
-  "mean": 0.04,
-  "p95": 0.29,
+  "mean": 0.11,
+  "p95": 0.68,
   "n": 27356
  },
  "folded_pairs_merged_surface": [
   11,
-  19
+  18
  ],
  "locks_off_current_surface": {
   "n": 9,
@@ -247,31 +251,31 @@
     656
    ],
    "deviation_mm": {
-    "max": 0.75,
-    "mean": 0.06,
-    "p95": 0.44,
+    "max": 0.84,
+    "mean": 0.12,
+    "p95": 0.61,
     "n": 165
    },
    "deviation_core_mm": {
-    "max": 0.01,
+    "max": 0.0,
     "mean": 0.0,
-    "p95": 0.01,
-    "n": 28
+    "p95": 0.0,
+    "n": 1
    },
    "deviation_border_band_mm": {
-    "max": 0.75,
-    "mean": 0.07,
-    "p95": 0.46,
-    "n": 137
+    "max": 0.84,
+    "mean": 0.12,
+    "p95": 0.61,
+    "n": 164
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 3.51,
+   "volume_cm3": 3.62,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 0,
-   "edge_median_mm": 2.92
+   "edge_median_mm": 2.93
   },
   "zan_skin_deltopectoral_triangle_r": {
    "vertices": [
@@ -283,28 +287,28 @@
     656
    ],
    "deviation_mm": {
-    "max": 1.1,
-    "mean": 0.06,
-    "p95": 0.37,
+    "max": 0.98,
+    "mean": 0.1,
+    "p95": 0.53,
     "n": 165
    },
    "deviation_core_mm": {
-    "max": 0.01,
+    "max": 0.0,
     "mean": 0.0,
-    "p95": 0.01,
-    "n": 29
+    "p95": 0.0,
+    "n": 2
    },
    "deviation_border_band_mm": {
-    "max": 1.1,
-    "mean": 0.07,
-    "p95": 0.45,
-    "n": 136
+    "max": 0.98,
+    "mean": 0.11,
+    "p95": 0.53,
+    "n": 163
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 3.64,
+   "volume_cm3": 3.65,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 0,
    "edge_median_mm": 2.9
@@ -319,31 +323,31 @@
     7824
    ],
    "deviation_mm": {
-    "max": 0.85,
-    "mean": 0.01,
-    "p95": 0.05,
+    "max": 0.94,
+    "mean": 0.04,
+    "p95": 0.31,
     "n": 1957
    },
    "deviation_core_mm": {
-    "max": 0.03,
+    "max": 0.02,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 1332
+    "n": 1049
    },
    "deviation_border_band_mm": {
-    "max": 0.85,
-    "mean": 0.04,
-    "p95": 0.24,
-    "n": 625
+    "max": 0.94,
+    "mean": 0.08,
+    "p95": 0.53,
+    "n": 908
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 29.87,
+   "volume_cm3": 29.8,
    "folded_outer_pairs": 0,
-   "inner_flipped_faces": 4,
-   "edge_median_mm": 2.67
+   "inner_flipped_faces": 5,
+   "edge_median_mm": 2.66
   },
   "zan_skin_epigastric_region_r": {
    "vertices": [
@@ -355,28 +359,28 @@
     7868
    ],
    "deviation_mm": {
-    "max": 1.34,
-    "mean": 0.03,
-    "p95": 0.25,
+    "max": 2.72,
+    "mean": 0.08,
+    "p95": 0.56,
     "n": 1968
    },
    "deviation_core_mm": {
-    "max": 0.04,
+    "max": 0.03,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 1261
+    "n": 989
    },
    "deviation_border_band_mm": {
-    "max": 1.34,
-    "mean": 0.09,
-    "p95": 0.51,
-    "n": 707
+    "max": 2.72,
+    "mean": 0.16,
+    "p95": 0.76,
+    "n": 979
    },
    "over_cap_vertices": 0,
-   "over_slot_vertices": 0,
+   "over_slot_vertices": 1,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 30.37,
+   "volume_cm3": 30.28,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 4,
    "edge_median_mm": 2.67
@@ -391,28 +395,28 @@
     6344
    ],
    "deviation_mm": {
-    "max": 0.92,
-    "mean": 0.02,
-    "p95": 0.09,
+    "max": 1.25,
+    "mean": 0.04,
+    "p95": 0.28,
     "n": 1587
    },
    "deviation_core_mm": {
     "max": 0.02,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 1087
+    "n": 848
    },
    "deviation_border_band_mm": {
-    "max": 0.92,
-    "mean": 0.06,
-    "p95": 0.39,
-    "n": 500
+    "max": 1.25,
+    "mean": 0.08,
+    "p95": 0.41,
+    "n": 739
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 26.3,
+   "volume_cm3": 26.26,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 2,
    "edge_median_mm": 2.57
@@ -427,28 +431,28 @@
     6516
    ],
    "deviation_mm": {
-    "max": 1.17,
-    "mean": 0.02,
-    "p95": 0.11,
+    "max": 0.9,
+    "mean": 0.03,
+    "p95": 0.19,
     "n": 1630
    },
    "deviation_core_mm": {
-    "max": 0.06,
+    "max": 0.03,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 1159
+    "n": 918
    },
    "deviation_border_band_mm": {
-    "max": 1.17,
+    "max": 0.9,
     "mean": 0.07,
-    "p95": 0.37,
-    "n": 471
+    "p95": 0.44,
+    "n": 712
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 27.28,
+   "volume_cm3": 27.22,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 2,
    "edge_median_mm": 2.6
@@ -463,22 +467,22 @@
     2824
    ],
    "deviation_mm": {
-    "max": 0.69,
-    "mean": 0.02,
-    "p95": 0.19,
+    "max": 1.07,
+    "mean": 0.09,
+    "p95": 0.6,
     "n": 707
    },
    "deviation_core_mm": {
-    "max": 0.03,
+    "max": 0.01,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 291
+    "n": 94
    },
    "deviation_border_band_mm": {
-    "max": 0.69,
-    "mean": 0.04,
-    "p95": 0.27,
-    "n": 416
+    "max": 1.07,
+    "mean": 0.1,
+    "p95": 0.62,
+    "n": 613
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
@@ -486,8 +490,8 @@
    "winding_consistent": true,
    "volume_cm3": 12.54,
    "folded_outer_pairs": 0,
-   "inner_flipped_faces": 9,
-   "edge_median_mm": 2.62
+   "inner_flipped_faces": 8,
+   "edge_median_mm": 2.63
   },
   "zan_skin_infraclavicular_fossa_r": {
    "vertices": [
@@ -499,31 +503,31 @@
     2892
    ],
    "deviation_mm": {
-    "max": 0.99,
-    "mean": 0.03,
-    "p95": 0.2,
+    "max": 1.06,
+    "mean": 0.07,
+    "p95": 0.48,
     "n": 724
    },
    "deviation_core_mm": {
-    "max": 0.04,
+    "max": 0.01,
     "mean": 0.0,
-    "p95": 0.01,
-    "n": 328
+    "p95": 0.0,
+    "n": 120
    },
    "deviation_border_band_mm": {
-    "max": 0.99,
-    "mean": 0.05,
-    "p95": 0.38,
-    "n": 396
+    "max": 1.06,
+    "mean": 0.08,
+    "p95": 0.53,
+    "n": 604
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 12.71,
+   "volume_cm3": 12.67,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 5,
-   "edge_median_mm": 2.62
+   "edge_median_mm": 2.63
   },
   "zan_skin_inframammary_region_l": {
    "vertices": [
@@ -535,22 +539,17 @@
     2532
    ],
    "deviation_mm": {
-    "max": 1.45,
-    "mean": 0.15,
-    "p95": 0.64,
+    "max": 2.21,
+    "mean": 0.43,
+    "p95": 1.38,
     "n": 634
    },
-   "deviation_core_mm": {
-    "max": 0.01,
-    "mean": 0.0,
-    "p95": 0.0,
-    "n": 45
-   },
+   "deviation_core_mm": null,
    "deviation_border_band_mm": {
-    "max": 1.45,
-    "mean": 0.16,
-    "p95": 0.66,
-    "n": 589
+    "max": 2.21,
+    "mean": 0.43,
+    "p95": 1.38,
+    "n": 634
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
@@ -571,31 +570,31 @@
     2556
    ],
    "deviation_mm": {
-    "max": 1.8,
-    "mean": 0.23,
-    "p95": 1.16,
+    "max": 4.09,
+    "mean": 0.75,
+    "p95": 3.02,
     "n": 640
    },
    "deviation_core_mm": {
-    "max": 0.0,
+    "max": 0.01,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 95
+    "n": 33
    },
    "deviation_border_band_mm": {
-    "max": 1.8,
-    "mean": 0.27,
-    "p95": 1.22,
-    "n": 545
+    "max": 4.09,
+    "mean": 0.79,
+    "p95": 3.05,
+    "n": 607
    },
    "over_cap_vertices": 0,
-   "over_slot_vertices": 0,
+   "over_slot_vertices": 7,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 8.9,
+   "volume_cm3": 8.88,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 0,
-   "edge_median_mm": 2.72
+   "edge_median_mm": 2.71
   },
   "zan_skin_lateral_region_of_thorax_l": {
    "vertices": [
@@ -608,30 +607,30 @@
    ],
    "deviation_mm": {
     "max": 3.99,
-    "mean": 0.05,
-    "p95": 0.3,
+    "mean": 0.11,
+    "p95": 0.73,
     "n": 4889
    },
    "deviation_core_mm": {
-    "max": 2.52,
+    "max": 1.03,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 3034
+    "n": 2249
    },
    "deviation_border_band_mm": {
     "max": 3.99,
-    "mean": 0.12,
-    "p95": 0.69,
-    "n": 1855
+    "mean": 0.21,
+    "p95": 1.02,
+    "n": 2640
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 92.47,
+   "volume_cm3": 92.56,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 7,
-   "edge_median_mm": 2.68
+   "edge_median_mm": 2.67
   },
   "zan_skin_lateral_region_of_thorax_r": {
    "vertices": [
@@ -644,27 +643,27 @@
    ],
    "deviation_mm": {
     "max": 4.92,
-    "mean": 0.05,
-    "p95": 0.31,
+    "mean": 0.12,
+    "p95": 0.81,
     "n": 4088
    },
    "deviation_core_mm": {
-    "max": 1.9,
+    "max": 1.95,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 2858
+    "n": 2297
    },
    "deviation_border_band_mm": {
     "max": 4.92,
-    "mean": 0.17,
-    "p95": 1.0,
-    "n": 1230
+    "mean": 0.27,
+    "p95": 1.37,
+    "n": 1791
    },
    "over_cap_vertices": 0,
-   "over_slot_vertices": 9,
+   "over_slot_vertices": 6,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 95.0,
+   "volume_cm3": 94.84,
    "folded_outer_pairs": 2,
    "inner_flipped_faces": 3,
    "edge_median_mm": 2.7
@@ -679,31 +678,31 @@
     4408
    ],
    "deviation_mm": {
-    "max": 1.25,
-    "mean": 0.03,
-    "p95": 0.16,
+    "max": 1.37,
+    "mean": 0.05,
+    "p95": 0.3,
     "n": 1103
    },
    "deviation_core_mm": {
-    "max": 0.03,
+    "max": 0.02,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 686
+    "n": 470
    },
    "deviation_border_band_mm": {
-    "max": 1.25,
-    "mean": 0.07,
-    "p95": 0.35,
-    "n": 417
+    "max": 1.37,
+    "mean": 0.08,
+    "p95": 0.38,
+    "n": 633
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 1,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 19.75,
+   "volume_cm3": 19.51,
    "folded_outer_pairs": 6,
    "inner_flipped_faces": 0,
-   "edge_median_mm": 2.76
+   "edge_median_mm": 2.75
   },
   "zan_skin_mammary_region_r": {
    "vertices": [
@@ -715,31 +714,31 @@
     3176
    ],
    "deviation_mm": {
-    "max": 1.01,
-    "mean": 0.02,
-    "p95": 0.14,
+    "max": 1.04,
+    "mean": 0.05,
+    "p95": 0.34,
     "n": 795
    },
    "deviation_core_mm": {
-    "max": 0.01,
+    "max": 0.02,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 539
+    "n": 385
    },
    "deviation_border_band_mm": {
-    "max": 1.01,
-    "mean": 0.07,
-    "p95": 0.42,
-    "n": 256
+    "max": 1.04,
+    "mean": 0.09,
+    "p95": 0.5,
+    "n": 410
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 20.13,
+   "volume_cm3": 19.84,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 1,
-   "edge_median_mm": 3.03
+   "edge_median_mm": 3.01
   },
   "zan_skin_pectoral_region_l": {
    "vertices": [
@@ -751,30 +750,30 @@
     12628
    ],
    "deviation_mm": {
-    "max": 2.24,
-    "mean": 0.05,
-    "p95": 0.32,
+    "max": 2.1,
+    "mean": 0.1,
+    "p95": 0.65,
     "n": 3157
    },
    "deviation_core_mm": {
     "max": 0.02,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 1993
+    "n": 1576
    },
    "deviation_border_band_mm": {
-    "max": 2.24,
-    "mean": 0.13,
-    "p95": 0.61,
-    "n": 1164
+    "max": 2.1,
+    "mean": 0.19,
+    "p95": 0.86,
+    "n": 1581
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 1,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 55.72,
+   "volume_cm3": 55.55,
    "folded_outer_pairs": 0,
-   "inner_flipped_faces": 5,
+   "inner_flipped_faces": 4,
    "edge_median_mm": 2.75
   },
   "zan_skin_pectoral_region_r": {
@@ -787,28 +786,28 @@
     10912
    ],
    "deviation_mm": {
-    "max": 2.72,
-    "mean": 0.06,
-    "p95": 0.38,
+    "max": 3.16,
+    "mean": 0.1,
+    "p95": 0.63,
     "n": 2728
    },
    "deviation_core_mm": {
-    "max": 1.46,
+    "max": 0.03,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 1739
+    "n": 1390
    },
    "deviation_border_band_mm": {
-    "max": 2.72,
-    "mean": 0.15,
-    "p95": 0.7,
-    "n": 989
+    "max": 3.16,
+    "mean": 0.21,
+    "p95": 0.85,
+    "n": 1338
    },
    "over_cap_vertices": 0,
-   "over_slot_vertices": 15,
+   "over_slot_vertices": 12,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 58.52,
+   "volume_cm3": 58.15,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 5,
    "edge_median_mm": 2.86
@@ -823,31 +822,26 @@
     2864
    ],
    "deviation_mm": {
-    "max": 1.07,
-    "mean": 0.12,
-    "p95": 0.54,
+    "max": 1.49,
+    "mean": 0.29,
+    "p95": 1.01,
     "n": 717
    },
-   "deviation_core_mm": {
-    "max": 0.0,
-    "mean": 0.0,
-    "p95": 0.0,
-    "n": 50
-   },
+   "deviation_core_mm": null,
    "deviation_border_band_mm": {
-    "max": 1.07,
-    "mean": 0.13,
-    "p95": 0.58,
-    "n": 667
+    "max": 1.49,
+    "mean": 0.29,
+    "p95": 1.01,
+    "n": 717
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 10.74,
+   "volume_cm3": 10.84,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 0,
-   "edge_median_mm": 2.51
+   "edge_median_mm": 2.52
   },
   "zan_skin_presternal_region_r": {
    "vertices": [
@@ -859,70 +853,70 @@
     2784
    ],
    "deviation_mm": {
-    "max": 1.07,
-    "mean": 0.09,
-    "p95": 0.47,
+    "max": 1.49,
+    "mean": 0.22,
+    "p95": 0.95,
     "n": 697
    },
    "deviation_core_mm": {
-    "max": 0.01,
+    "max": 0.0,
     "mean": 0.0,
     "p95": 0.0,
-    "n": 165
+    "n": 3
    },
    "deviation_border_band_mm": {
-    "max": 1.07,
-    "mean": 0.11,
-    "p95": 0.54,
-    "n": 532
+    "max": 1.49,
+    "mean": 0.22,
+    "p95": 0.95,
+    "n": 694
    },
    "over_cap_vertices": 0,
    "over_slot_vertices": 0,
    "watertight": true,
    "winding_consistent": true,
-   "volume_cm3": 11.33,
+   "volume_cm3": 11.42,
    "folded_outer_pairs": 0,
    "inner_flipped_faces": 0,
-   "edge_median_mm": 2.64
+   "edge_median_mm": 2.65
   }
  },
  "folded_before_pairs": 131,
  "mirror_median_mm": {
   "deltopectoral_triangle": {
    "before": 0.34,
-   "after": 0.47
+   "after": 0.49
   },
   "epigastric_region": {
    "before": 1.3,
-   "after": 1.44
+   "after": 1.45
   },
   "hypochondriac_region": {
    "before": 1.08,
-   "after": 1.62
+   "after": 1.63
   },
   "infraclavicular_fossa": {
    "before": 0.36,
-   "after": 0.88
+   "after": 0.91
   },
   "inframammary_region": {
    "before": 2.68,
-   "after": 3.23
+   "after": 3.58
   },
   "lateral_region_of_thorax": {
    "before": 1.25,
-   "after": 1.47
+   "after": 1.48
   },
   "mammary_region": {
    "before": 2.27,
-   "after": 2.02
+   "after": 2.01
   },
   "pectoral_region": {
    "before": 2.82,
-   "after": 2.56
+   "after": 2.59
   },
   "presternal_region": {
    "before": 2.19,
-   "after": 1.77
+   "after": 1.86
   }
  },
  "weld_pct": {
@@ -931,25 +925,25 @@
    "after": 100.0,
    "rim_vertices": [
     137,
-    68
+    67
    ],
    "rim_joined_after": 0
   },
   "zan_skin_deltopectoral_triangle_r": {
    "before": 27.3,
-   "after": 97.1,
+   "after": 96.9,
    "rim_vertices": [
     139,
-    68
+    64
    ],
    "rim_joined_after": 0
   },
   "zan_skin_epigastric_region_l": {
    "before": 30.6,
-   "after": 97.8,
+   "after": 95.8,
    "rim_vertices": [
     359,
-    270
+    285
    ],
    "rim_joined_after": 0
   },
@@ -958,7 +952,7 @@
    "after": 97.8,
    "rim_vertices": [
     364,
-    267
+    278
    ],
    "rim_joined_after": 0
   },
@@ -967,7 +961,7 @@
    "after": 99.1,
    "rim_vertices": [
     325,
-    217
+    225
    ],
    "rim_joined_after": 0
   },
@@ -976,25 +970,25 @@
    "after": 99.1,
    "rim_vertices": [
     333,
-    221
+    216
    ],
    "rim_joined_after": 0
   },
   "zan_skin_infraclavicular_fossa_l": {
    "before": 34.8,
-   "after": 91.1,
+   "after": 92.2,
    "rim_vertices": [
     201,
-    158
+    154
    ],
    "rim_joined_after": 0
   },
   "zan_skin_infraclavicular_fossa_r": {
    "before": 33.0,
-   "after": 92.8,
+   "after": 92.6,
    "rim_vertices": [
     200,
-    152
+    149
    ],
    "rim_joined_after": 0
   },
@@ -1003,7 +997,7 @@
    "after": 100.0,
    "rim_vertices": [
     221,
-    169
+    165
    ],
    "rim_joined_after": 0
   },
@@ -1012,7 +1006,7 @@
    "after": 100.0,
    "rim_vertices": [
     233,
-    169
+    163
    ],
    "rim_joined_after": 0
   },
@@ -1054,28 +1048,28 @@
   },
   "zan_skin_lateral_region_of_thorax_l": {
    "before": 8.0,
-   "after": 82.1,
+   "after": 83.0,
    "rim_vertices": [
     813,
-    425
+    417
    ],
    "rim_joined_after": 0
   },
   "zan_skin_lateral_region_of_thorax_r": {
    "before": 6.7,
-   "after": 83.3,
+   "after": 83.9,
    "rim_vertices": [
     896,
-    354
+    348
    ],
    "rim_joined_after": 0
   },
   "zan_skin_mammary_region_l": {
    "before": 13.3,
-   "after": 96.6,
+   "after": 96.5,
    "rim_vertices": [
     173,
-    177
+    171
    ],
    "rim_joined_after": 0
   },
@@ -1084,25 +1078,25 @@
    "after": 96.5,
    "rim_vertices": [
     170,
-    142
+    141
    ],
    "rim_joined_after": 0
   },
   "zan_skin_pectoral_region_l": {
    "before": 9.7,
-   "after": 97.0,
+   "after": 96.6,
    "rim_vertices": [
     590,
-    541
+    529
    ],
    "rim_joined_after": 0
   },
   "zan_skin_pectoral_region_r": {
    "before": 11.2,
-   "after": 96.5,
+   "after": 96.3,
    "rim_vertices": [
     556,
-    463
+    456
    ],
    "rim_joined_after": 0
   },
@@ -1111,7 +1105,7 @@
    "after": 100.0,
    "rim_vertices": [
     294,
-    212
+    203
    ],
    "rim_joined_after": 0
   },
@@ -1120,7 +1114,7 @@
    "after": 100.0,
    "rim_vertices": [
     230,
-    215
+    197
    ],
    "rim_joined_after": 0
   },
@@ -1534,13 +1528,13 @@
     "outside": 2,
     "in_slab": 9,
     "max_out_mm": 1.59,
-    "beyond_border": 4
+    "beyond_border": 3
    },
    "mandible": {
     "outside": 10,
     "in_slab": 4,
     "max_out_mm": 1.4,
-    "beyond_border": 13
+    "beyond_border": 15
    },
    "mentalis_r": {
     "outside": 2,
@@ -1550,13 +1544,13 @@
    },
    "sternocleidomastoid_l": {
     "outside": 4,
-    "in_slab": 63,
+    "in_slab": 62,
     "max_out_mm": 1.15,
     "beyond_border": 0
    },
    "sternocleidomastoid_r": {
     "outside": 4,
-    "in_slab": 59,
+    "in_slab": 58,
     "max_out_mm": 1.57,
     "beyond_border": 0
    },
@@ -1570,30 +1564,36 @@
     "outside": 20,
     "in_slab": 72,
     "max_out_mm": 1.79,
-    "beyond_border": 2
+    "beyond_border": 3
    },
    "zan_long_head_of_triceps_brachii_r": {
-    "outside": 17,
-    "in_slab": 75,
-    "max_out_mm": 1.5,
+    "outside": 18,
+    "in_slab": 74,
+    "max_out_mm": 1.9,
     "beyond_border": 3
    },
    "breast_fat_l": {
+    "outside": 3,
+    "in_slab": 760,
+    "max_out_mm": 0.29,
+    "beyond_border": 0
+   },
+   "breast_fat_r": {
     "outside": 1,
-    "in_slab": 759,
-    "max_out_mm": 0.05,
+    "in_slab": 655,
+    "max_out_mm": 0.04,
     "beyond_border": 0
    },
    "breast_ct_l": {
-    "outside": 43,
+    "outside": 47,
     "in_slab": 1015,
     "max_out_mm": 2.56,
-    "beyond_border": 0
+    "beyond_border": 4
    },
    "breast_ct_r": {
-    "outside": 52,
-    "in_slab": 884,
-    "max_out_mm": 5.24,
+    "outside": 56,
+    "in_slab": 874,
+    "max_out_mm": 5.33,
     "beyond_border": 1
    }
   },
@@ -1674,13 +1674,13 @@
     "outside": 2,
     "in_slab": 9,
     "max_out_mm": 1.59,
-    "beyond_border": 4
+    "beyond_border": 3
    },
    "mandible": {
     "outside": 10,
     "in_slab": 4,
     "max_out_mm": 1.4,
-    "beyond_border": 13
+    "beyond_border": 15
    },
    "mentalis_r": {
     "outside": 2,
@@ -1690,13 +1690,13 @@
    },
    "sternocleidomastoid_l": {
     "outside": 4,
-    "in_slab": 63,
+    "in_slab": 62,
     "max_out_mm": 1.15,
     "beyond_border": 0
    },
    "sternocleidomastoid_r": {
     "outside": 4,
-    "in_slab": 59,
+    "in_slab": 58,
     "max_out_mm": 1.57,
     "beyond_border": 0
    },
@@ -1710,12 +1710,12 @@
     "outside": 20,
     "in_slab": 72,
     "max_out_mm": 1.79,
-    "beyond_border": 2
+    "beyond_border": 3
    },
    "zan_long_head_of_triceps_brachii_r": {
-    "outside": 17,
-    "in_slab": 75,
-    "max_out_mm": 1.5,
+    "outside": 18,
+    "in_slab": 74,
+    "max_out_mm": 1.9,
     "beyond_border": 3
    }
   }
@@ -1723,9 +1723,9 @@
  "tuck": {
   "breast_fat_r": {
    "before": {
-    "outside": 0,
-    "in_slab": 675,
-    "max_out_mm": 0.0,
+    "outside": 1,
+    "in_slab": 655,
+    "max_out_mm": 0.04,
     "beyond_border": 0
    },
    "tries": [
@@ -1733,9 +1733,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 1225,
-      "max_mm": 3.26,
-      "mean_moved_mm": 1.61
+      "vertices_moved": 1216,
+      "max_mm": 3.33,
+      "mean_moved_mm": 1.62
      },
      "after": {
       "outside": 0,
@@ -1751,40 +1751,7 @@
       ],
       "closed_manifold": true,
       "volume_before_mm3": 275299.8,
-      "volume_after_mm3": 257223.2
-     },
-     "inside_bone": [
-      0,
-      0
-     ],
-     "volume_change_pct": 6.57,
-     "fails": [
-      "volume change 6.6 %"
-     ]
-    },
-    {
-     "mode": "under_inner_sheet",
-     "direction_sigma_mm": 10.0,
-     "displacement": {
-      "vertices_moved": 1225,
-      "max_mm": 3.26,
-      "mean_moved_mm": 1.61
-     },
-     "after": {
-      "outside": 0,
-      "in_slab": 0,
-      "max_out_mm": 0.0,
-      "beyond_border": 0
-     },
-     "guards": {
-      "flipped_pct_moved_faces": 0.074,
-      "stretched_pct": [
-       0.0,
-       0.06
-      ],
-      "closed_manifold": true,
-      "volume_before_mm3": 275299.8,
-      "volume_after_mm3": 257303.5
+      "volume_after_mm3": 257282.1
      },
      "inside_bone": [
       0,
@@ -1797,10 +1764,43 @@
     },
     {
      "mode": "under_inner_sheet",
+     "direction_sigma_mm": 10.0,
+     "displacement": {
+      "vertices_moved": 1216,
+      "max_mm": 3.33,
+      "mean_moved_mm": 1.63
+     },
+     "after": {
+      "outside": 0,
+      "in_slab": 0,
+      "max_out_mm": 0.0,
+      "beyond_border": 0
+     },
+     "guards": {
+      "flipped_pct_moved_faces": 0.074,
+      "stretched_pct": [
+       0.0,
+       0.06
+      ],
+      "closed_manifold": true,
+      "volume_before_mm3": 275299.8,
+      "volume_after_mm3": 257342.8
+     },
+     "inside_bone": [
+      0,
+      0
+     ],
+     "volume_change_pct": 6.52,
+     "fails": [
+      "volume change 6.5 %"
+     ]
+    },
+    {
+     "mode": "under_inner_sheet",
      "direction_sigma_mm": 1000000.0,
      "displacement": {
-      "vertices_moved": 1225,
-      "max_mm": 5.47,
+      "vertices_moved": 1216,
+      "max_mm": 5.7,
       "mean_moved_mm": 1.72
      },
      "after": {
@@ -1810,20 +1810,20 @@
       "beyond_border": 0
      },
      "guards": {
-      "flipped_pct_moved_faces": 0.037,
+      "flipped_pct_moved_faces": 0.074,
       "stretched_pct": [
        0.0,
-       0.15
+       0.12
       ],
       "closed_manifold": true,
       "volume_before_mm3": 275299.8,
-      "volume_after_mm3": 257609.8
+      "volume_after_mm3": 257648.8
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 6.43,
+     "volume_change_pct": 6.41,
      "fails": [
       "2 vertices still in the skin slab",
       "volume change 6.4 %"
@@ -1833,13 +1833,13 @@
      "mode": "under_outer_surface",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 54,
-      "max_mm": 0.46,
-      "mean_moved_mm": 0.05
+      "vertices_moved": 71,
+      "max_mm": 0.54,
+      "mean_moved_mm": 0.09
      },
      "after": {
       "outside": 0,
-      "in_slab": 675,
+      "in_slab": 656,
       "max_out_mm": 0.0,
       "beyond_border": 0
      },
@@ -1851,26 +1851,26 @@
       ],
       "closed_manifold": true,
       "volume_before_mm3": 275299.8,
-      "volume_after_mm3": 275275.7
+      "volume_after_mm3": 275236.3
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 0.01,
+     "volume_change_pct": 0.02,
      "fails": []
     }
    ],
    "ships": true,
    "mode": "under_outer_surface",
    "displacement": {
-    "vertices_moved": 54,
-    "max_mm": 0.46,
-    "mean_moved_mm": 0.05
+    "vertices_moved": 71,
+    "max_mm": 0.54,
+    "mean_moved_mm": 0.09
    },
    "after": {
     "outside": 0,
-    "in_slab": 675,
+    "in_slab": 656,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -1882,19 +1882,19 @@
     ],
     "closed_manifold": true,
     "volume_before_mm3": 275299.8,
-    "volume_after_mm3": 275275.7
+    "volume_after_mm3": 275236.3
    },
    "inside_bone": [
     0,
     0
    ],
-   "volume_change_pct": 0.01
+   "volume_change_pct": 0.02
   },
   "breast_fat_l": {
    "before": {
-    "outside": 1,
-    "in_slab": 759,
-    "max_out_mm": 0.05,
+    "outside": 3,
+    "in_slab": 760,
+    "max_out_mm": 0.29,
     "beyond_border": 0
    },
    "tries": [
@@ -1902,9 +1902,75 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 1887,
-      "max_mm": 3.36,
-      "mean_moved_mm": 1.43
+      "vertices_moved": 1876,
+      "max_mm": 3.57,
+      "mean_moved_mm": 1.46
+     },
+     "after": {
+      "outside": 0,
+      "in_slab": 0,
+      "max_out_mm": 0.0,
+      "beyond_border": 0
+     },
+     "guards": {
+      "flipped_pct_moved_faces": 0.025,
+      "stretched_pct": [
+       0.0,
+       0.01
+      ],
+      "closed_manifold": true,
+      "volume_before_mm3": 211448.8,
+      "volume_after_mm3": 191697.5
+     },
+     "inside_bone": [
+      0,
+      0
+     ],
+     "volume_change_pct": 9.34,
+     "fails": [
+      "volume change 9.3 %"
+     ]
+    },
+    {
+     "mode": "under_inner_sheet",
+     "direction_sigma_mm": 10.0,
+     "displacement": {
+      "vertices_moved": 1876,
+      "max_mm": 3.58,
+      "mean_moved_mm": 1.47
+     },
+     "after": {
+      "outside": 0,
+      "in_slab": 0,
+      "max_out_mm": 0.0,
+      "beyond_border": 0
+     },
+     "guards": {
+      "flipped_pct_moved_faces": 0.025,
+      "stretched_pct": [
+       0.0,
+       0.01
+      ],
+      "closed_manifold": true,
+      "volume_before_mm3": 211448.8,
+      "volume_after_mm3": 191787.5
+     },
+     "inside_bone": [
+      0,
+      0
+     ],
+     "volume_change_pct": 9.3,
+     "fails": [
+      "volume change 9.3 %"
+     ]
+    },
+    {
+     "mode": "under_inner_sheet",
+     "direction_sigma_mm": 1000000.0,
+     "displacement": {
+      "vertices_moved": 1876,
+      "max_mm": 3.71,
+      "mean_moved_mm": 1.5
      },
      "after": {
       "outside": 0,
@@ -1920,79 +1986,13 @@
       ],
       "closed_manifold": true,
       "volume_before_mm3": 211448.8,
-      "volume_after_mm3": 191755.9
+      "volume_after_mm3": 192574.8
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 9.31,
-     "fails": [
-      "volume change 9.3 %"
-     ]
-    },
-    {
-     "mode": "under_inner_sheet",
-     "direction_sigma_mm": 10.0,
-     "displacement": {
-      "vertices_moved": 1887,
-      "max_mm": 3.38,
-      "mean_moved_mm": 1.44
-     },
-     "after": {
-      "outside": 0,
-      "in_slab": 0,
-      "max_out_mm": 0.0,
-      "beyond_border": 0
-     },
-     "guards": {
-      "flipped_pct_moved_faces": 0.025,
-      "stretched_pct": [
-       0.0,
-       0.04
-      ],
-      "closed_manifold": true,
-      "volume_before_mm3": 211448.8,
-      "volume_after_mm3": 191846.1
-     },
-     "inside_bone": [
-      0,
-      0
-     ],
-     "volume_change_pct": 9.27,
-     "fails": [
-      "volume change 9.3 %"
-     ]
-    },
-    {
-     "mode": "under_inner_sheet",
-     "direction_sigma_mm": 1000000.0,
-     "displacement": {
-      "vertices_moved": 1887,
-      "max_mm": 3.53,
-      "mean_moved_mm": 1.47
-     },
-     "after": {
-      "outside": 0,
-      "in_slab": 0,
-      "max_out_mm": 0.0,
-      "beyond_border": 0
-     },
-     "guards": {
-      "flipped_pct_moved_faces": 0.049,
-      "stretched_pct": [
-       0.0,
-       0.06
-      ],
-      "closed_manifold": true,
-      "volume_before_mm3": 211448.8,
-      "volume_after_mm3": 192637.9
-     },
-     "inside_bone": [
-      0,
-      0
-     ],
-     "volume_change_pct": 8.9,
+     "volume_change_pct": 8.93,
      "fails": [
       "volume change 8.9 %"
      ]
@@ -2001,13 +2001,13 @@
      "mode": "under_outer_surface",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 52,
-      "max_mm": 0.55,
-      "mean_moved_mm": 0.06
+      "vertices_moved": 67,
+      "max_mm": 0.79,
+      "mean_moved_mm": 0.12
      },
      "after": {
       "outside": 0,
-      "in_slab": 760,
+      "in_slab": 763,
       "max_out_mm": 0.0,
       "beyond_border": 0
      },
@@ -2019,26 +2019,26 @@
       ],
       "closed_manifold": true,
       "volume_before_mm3": 211448.8,
-      "volume_after_mm3": 211415.7
+      "volume_after_mm3": 211371.2
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 0.02,
+     "volume_change_pct": 0.04,
      "fails": []
     }
    ],
    "ships": true,
    "mode": "under_outer_surface",
    "displacement": {
-    "vertices_moved": 52,
-    "max_mm": 0.55,
-    "mean_moved_mm": 0.06
+    "vertices_moved": 67,
+    "max_mm": 0.79,
+    "mean_moved_mm": 0.12
    },
    "after": {
     "outside": 0,
-    "in_slab": 760,
+    "in_slab": 763,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -2050,18 +2050,18 @@
     ],
     "closed_manifold": true,
     "volume_before_mm3": 211448.8,
-    "volume_after_mm3": 211415.7
+    "volume_after_mm3": 211371.2
    },
    "inside_bone": [
     0,
     0
    ],
-   "volume_change_pct": 0.02
+   "volume_change_pct": 0.04
   },
   "lactiferous_ducts_r": {
    "before": {
     "outside": 0,
-    "in_slab": 63,
+    "in_slab": 60,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -2071,8 +2071,8 @@
      "direction_sigma_mm": 4.0,
      "displacement": {
       "vertices_moved": 260,
-      "max_mm": 0.91,
-      "mean_moved_mm": 0.35
+      "max_mm": 0.87,
+      "mean_moved_mm": 0.34
      },
      "after": {
       "outside": 0,
@@ -2088,7 +2088,7 @@
       ],
       "closed_manifold": false,
       "volume_before_mm3": 398.4,
-      "volume_after_mm3": 380.1
+      "volume_after_mm3": 379.7
      },
      "inside_bone": [
       0,
@@ -2102,8 +2102,8 @@
    "mode": "under_inner_sheet",
    "displacement": {
     "vertices_moved": 260,
-    "max_mm": 0.91,
-    "mean_moved_mm": 0.35
+    "max_mm": 0.87,
+    "mean_moved_mm": 0.34
    },
    "after": {
     "outside": 0,
@@ -2119,7 +2119,7 @@
     ],
     "closed_manifold": false,
     "volume_before_mm3": 398.4,
-    "volume_after_mm3": 380.1
+    "volume_after_mm3": 379.7
    },
    "inside_bone": [
     0,
@@ -2139,8 +2139,8 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 128,
-      "max_mm": 0.8,
+      "vertices_moved": 126,
+      "max_mm": 0.78,
       "mean_moved_mm": 0.26
      },
      "after": {
@@ -2170,8 +2170,8 @@
    "ships": true,
    "mode": "under_inner_sheet",
    "displacement": {
-    "vertices_moved": 128,
-    "max_mm": 0.8,
+    "vertices_moved": 126,
+    "max_mm": 0.78,
     "mean_moved_mm": 0.26
    },
    "after": {
@@ -2199,7 +2199,7 @@
   "mammary_gland_r": {
    "before": {
     "outside": 0,
-    "in_slab": 18,
+    "in_slab": 16,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -2208,9 +2208,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 145,
+      "vertices_moved": 141,
       "max_mm": 0.73,
-      "mean_moved_mm": 0.19
+      "mean_moved_mm": 0.18
      },
      "after": {
       "outside": 0,
@@ -2226,7 +2226,7 @@
       ],
       "closed_manifold": false,
       "volume_before_mm3": 4602.1,
-      "volume_after_mm3": 4544.8
+      "volume_after_mm3": 4545.6
      },
      "inside_bone": [
       0,
@@ -2239,9 +2239,9 @@
    "ships": true,
    "mode": "under_inner_sheet",
    "displacement": {
-    "vertices_moved": 145,
+    "vertices_moved": 141,
     "max_mm": 0.73,
-    "mean_moved_mm": 0.19
+    "mean_moved_mm": 0.18
    },
    "after": {
     "outside": 0,
@@ -2257,7 +2257,7 @@
     ],
     "closed_manifold": false,
     "volume_before_mm3": 4602.1,
-    "volume_after_mm3": 4544.8
+    "volume_after_mm3": 4545.6
    },
    "inside_bone": [
     0,
@@ -2268,7 +2268,7 @@
   "mammary_gland_l": {
    "before": {
     "outside": 0,
-    "in_slab": 14,
+    "in_slab": 13,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -2277,8 +2277,8 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 129,
-      "max_mm": 0.81,
+      "vertices_moved": 135,
+      "max_mm": 0.8,
       "mean_moved_mm": 0.22
      },
      "after": {
@@ -2295,7 +2295,7 @@
       ],
       "closed_manifold": false,
       "volume_before_mm3": 3202.5,
-      "volume_after_mm3": 3159.1
+      "volume_after_mm3": 3157.2
      },
      "inside_bone": [
       0,
@@ -2308,8 +2308,8 @@
    "ships": true,
    "mode": "under_inner_sheet",
    "displacement": {
-    "vertices_moved": 129,
-    "max_mm": 0.81,
+    "vertices_moved": 135,
+    "max_mm": 0.8,
     "mean_moved_mm": 0.22
    },
    "after": {
@@ -2326,7 +2326,7 @@
     ],
     "closed_manifold": false,
     "volume_before_mm3": 3202.5,
-    "volume_after_mm3": 3159.1
+    "volume_after_mm3": 3157.2
    },
    "inside_bone": [
     0,
@@ -2348,7 +2348,7 @@
      "displacement": {
       "vertices_moved": 735,
       "max_mm": 2.83,
-      "mean_moved_mm": 1.34
+      "mean_moved_mm": 1.33
      },
      "after": {
       "outside": 0,
@@ -2381,7 +2381,7 @@
      "displacement": {
       "vertices_moved": 735,
       "max_mm": 2.83,
-      "mean_moved_mm": 1.34
+      "mean_moved_mm": 1.33
      },
      "after": {
       "outside": 0,
@@ -2390,10 +2390,10 @@
       "beyond_border": 0
      },
      "guards": {
-      "flipped_pct_moved_faces": 0.0,
+      "flipped_pct_moved_faces": 0.066,
       "stretched_pct": [
        0.0,
-       0.12
+       0.1
       ],
       "closed_manifold": true,
       "volume_before_mm3": 32.3,
@@ -2413,7 +2413,7 @@
      "direction_sigma_mm": 1000000.0,
      "displacement": {
       "vertices_moved": 735,
-      "max_mm": 2.84,
+      "max_mm": 2.83,
       "mean_moved_mm": 1.34
      },
      "after": {
@@ -2446,7 +2446,7 @@
      "direction_sigma_mm": 4.0,
      "displacement": {
       "vertices_moved": 3,
-      "max_mm": 0.04,
+      "max_mm": 0.03,
       "mean_moved_mm": 0.03
      },
      "after": {
@@ -2477,7 +2477,7 @@
    "mode": "under_outer_surface",
    "displacement": {
     "vertices_moved": 3,
-    "max_mm": 0.04,
+    "max_mm": 0.03,
     "mean_moved_mm": 0.03
    },
    "after": {
@@ -2505,7 +2505,7 @@
   "breast_suspensory_ligaments_l": {
    "before": {
     "outside": 0,
-    "in_slab": 143,
+    "in_slab": 145,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -2514,9 +2514,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 535,
-      "max_mm": 3.14,
-      "mean_moved_mm": 1.72
+      "vertices_moved": 540,
+      "max_mm": 3.27,
+      "mean_moved_mm": 1.73
      },
      "after": {
       "outside": 0,
@@ -2547,9 +2547,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 10.0,
      "displacement": {
-      "vertices_moved": 535,
-      "max_mm": 3.14,
-      "mean_moved_mm": 1.72
+      "vertices_moved": 540,
+      "max_mm": 3.27,
+      "mean_moved_mm": 1.73
      },
      "after": {
       "outside": 0,
@@ -2580,9 +2580,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 1000000.0,
      "displacement": {
-      "vertices_moved": 535,
-      "max_mm": 3.23,
-      "mean_moved_mm": 1.72
+      "vertices_moved": 540,
+      "max_mm": 3.34,
+      "mean_moved_mm": 1.73
      },
      "after": {
       "outside": 0,
@@ -2594,7 +2594,7 @@
       "flipped_pct_moved_faces": 0.0,
       "stretched_pct": [
        0.0,
-       0.0
+       0.02
       ],
       "closed_manifold": true,
       "volume_before_mm3": 45.8,
@@ -2613,13 +2613,13 @@
      "mode": "under_outer_surface",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 29,
-      "max_mm": 0.34,
-      "mean_moved_mm": 0.12
+      "vertices_moved": 40,
+      "max_mm": 0.48,
+      "mean_moved_mm": 0.2
      },
      "after": {
       "outside": 0,
-      "in_slab": 143,
+      "in_slab": 145,
       "max_out_mm": 0.0,
       "beyond_border": 0
      },
@@ -2627,7 +2627,7 @@
       "flipped_pct_moved_faces": 0.0,
       "stretched_pct": [
        0.0,
-       0.0
+       0.04
       ],
       "closed_manifold": true,
       "volume_before_mm3": 45.8,
@@ -2644,13 +2644,13 @@
    "ships": true,
    "mode": "under_outer_surface",
    "displacement": {
-    "vertices_moved": 29,
-    "max_mm": 0.34,
-    "mean_moved_mm": 0.12
+    "vertices_moved": 40,
+    "max_mm": 0.48,
+    "mean_moved_mm": 0.2
    },
    "after": {
     "outside": 0,
-    "in_slab": 143,
+    "in_slab": 145,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -2658,7 +2658,7 @@
     "flipped_pct_moved_faces": 0.0,
     "stretched_pct": [
      0.0,
-     0.0
+     0.04
     ],
     "closed_manifold": true,
     "volume_before_mm3": 45.8,
@@ -2672,9 +2672,9 @@
   },
   "breast_ct_r": {
    "before": {
-    "outside": 52,
-    "in_slab": 884,
-    "max_out_mm": 5.24,
+    "outside": 56,
+    "in_slab": 874,
+    "max_out_mm": 5.33,
     "beyond_border": 1
    },
    "tries": [
@@ -2682,9 +2682,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 1637,
-      "max_mm": 8.33,
-      "mean_moved_mm": 2.15
+      "vertices_moved": 1640,
+      "max_mm": 8.48,
+      "mean_moved_mm": 2.18
      },
      "after": {
       "outside": 0,
@@ -2696,28 +2696,28 @@
       "flipped_pct_moved_faces": 0.174,
       "stretched_pct": [
        0.0,
-       0.48
+       0.47
       ],
       "closed_manifold": true,
       "volume_before_mm3": 837021.2,
-      "volume_after_mm3": 800343.1
+      "volume_after_mm3": 800050.0
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 4.38,
+     "volume_change_pct": 4.42,
      "fails": [
-      "move 8.33 mm > cap 8"
+      "move 8.48 mm > cap 8"
      ]
     },
     {
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 10.0,
      "displacement": {
-      "vertices_moved": 1725,
-      "max_mm": 10.85,
-      "mean_moved_mm": 2.2
+      "vertices_moved": 1735,
+      "max_mm": 8.16,
+      "mean_moved_mm": 2.13
      },
      "after": {
       "outside": 0,
@@ -2726,253 +2726,320 @@
       "beyond_border": 3
      },
      "guards": {
-      "flipped_pct_moved_faces": 0.028,
+      "flipped_pct_moved_faces": 0.027,
       "stretched_pct": [
        0.0,
        0.03
       ],
       "closed_manifold": true,
       "volume_before_mm3": 837021.2,
-      "volume_after_mm3": 800865.7
+      "volume_after_mm3": 800995.8
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 4.32,
+     "volume_change_pct": 4.3,
      "fails": [
-      "move 10.85 mm > cap 8"
+      "move 8.16 mm > cap 8"
      ]
     },
     {
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 1000000.0,
      "displacement": {
-      "vertices_moved": 1725,
-      "max_mm": 10.11,
-      "mean_moved_mm": 2.42
+      "vertices_moved": 1735,
+      "max_mm": 10.44,
+      "mean_moved_mm": 2.43
      },
      "after": {
-      "outside": 1,
+      "outside": 0,
       "in_slab": 0,
-      "max_out_mm": 0.37,
+      "max_out_mm": 0.0,
       "beyond_border": 5
      },
      "guards": {
-      "flipped_pct_moved_faces": 0.028,
+      "flipped_pct_moved_faces": 0.055,
       "stretched_pct": [
        0.0,
-       0.08
+       0.06
       ],
       "closed_manifold": true,
       "volume_before_mm3": 837021.2,
-      "volume_after_mm3": 805504.4
+      "volume_after_mm3": 805348.0
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 3.77,
+     "volume_change_pct": 3.78,
      "fails": [
-      "move 10.11 mm > cap 8",
-      "1 vertices still outside the skin"
+      "move 10.44 mm > cap 8"
      ]
     },
     {
      "mode": "under_outer_surface",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 492,
-      "max_mm": 9.13,
-      "mean_moved_mm": 2.9
+      "vertices_moved": 496,
+      "max_mm": 9.21,
+      "mean_moved_mm": 2.97
      },
      "after": {
       "outside": 0,
-      "in_slab": 835,
+      "in_slab": 819,
       "max_out_mm": 0.0,
-      "beyond_border": 1
+      "beyond_border": 2
      },
      "guards": {
-      "flipped_pct_moved_faces": 0.093,
+      "flipped_pct_moved_faces": 0.091,
       "stretched_pct": [
        0.0,
-       0.08
+       0.09
       ],
       "closed_manifold": true,
       "volume_before_mm3": 837021.2,
-      "volume_after_mm3": 829518.7
+      "volume_after_mm3": 829158.0
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 0.9,
+     "volume_change_pct": 0.94,
      "fails": [
-      "move 9.13 mm > cap 8"
+      "move 9.21 mm > cap 8"
      ]
     },
     {
      "mode": "under_outer_surface",
      "direction_sigma_mm": 10.0,
      "displacement": {
-      "vertices_moved": 523,
-      "max_mm": 9.17,
-      "mean_moved_mm": 2.61
+      "vertices_moved": 528,
+      "max_mm": 7.8,
+      "mean_moved_mm": 2.29
      },
      "after": {
       "outside": 0,
-      "in_slab": 838,
+      "in_slab": 836,
       "max_out_mm": 0.0,
-      "beyond_border": 0
+      "beyond_border": 3
      },
      "guards": {
-      "flipped_pct_moved_faces": 0.087,
+      "flipped_pct_moved_faces": 0.086,
       "stretched_pct": [
        0.0,
        0.01
       ],
       "closed_manifold": true,
       "volume_before_mm3": 837021.2,
-      "volume_after_mm3": 829882.8
+      "volume_after_mm3": 830531.8
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 0.85,
-     "fails": [
-      "move 9.17 mm > cap 8"
-     ]
-    },
-    {
-     "mode": "under_outer_surface",
-     "direction_sigma_mm": 1000000.0,
-     "displacement": {
-      "vertices_moved": 523,
-      "max_mm": 7.91,
-      "mean_moved_mm": 2.24
-     },
-     "after": {
-      "outside": 0,
-      "in_slab": 854,
-      "max_out_mm": 0.0,
-      "beyond_border": 1
-     },
-     "guards": {
-      "flipped_pct_moved_faces": 0.0,
-      "stretched_pct": [
-       0.0,
-       0.01
-      ],
-      "closed_manifold": true,
-      "volume_before_mm3": 837021.2,
-      "volume_after_mm3": 831099.4
-     },
-     "inside_bone": [
-      0,
-      0
-     ],
-     "volume_change_pct": 0.71,
+     "volume_change_pct": 0.78,
      "fails": []
     }
    ],
    "ships": true,
    "mode": "under_outer_surface",
    "displacement": {
-    "vertices_moved": 523,
-    "max_mm": 7.91,
-    "mean_moved_mm": 2.24
+    "vertices_moved": 528,
+    "max_mm": 7.8,
+    "mean_moved_mm": 2.29
    },
    "after": {
     "outside": 0,
-    "in_slab": 854,
+    "in_slab": 836,
     "max_out_mm": 0.0,
-    "beyond_border": 1
+    "beyond_border": 3
    },
    "guards": {
-    "flipped_pct_moved_faces": 0.0,
+    "flipped_pct_moved_faces": 0.086,
     "stretched_pct": [
      0.0,
      0.01
     ],
     "closed_manifold": true,
     "volume_before_mm3": 837021.2,
-    "volume_after_mm3": 831099.4
+    "volume_after_mm3": 830531.8
    },
    "inside_bone": [
     0,
     0
    ],
-   "volume_change_pct": 0.71
+   "volume_change_pct": 0.78
   },
   "breast_ct_l": {
    "before": {
-    "outside": 43,
+    "outside": 47,
     "in_slab": 1015,
     "max_out_mm": 2.56,
-    "beyond_border": 0
+    "beyond_border": 4
    },
    "tries": [
     {
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 1872,
-      "max_mm": 4.44,
-      "mean_moved_mm": 1.59
+      "vertices_moved": 1930,
+      "max_mm": 7.7,
+      "mean_moved_mm": 1.93
      },
      "after": {
       "outside": 0,
-      "in_slab": 0,
+      "in_slab": 2,
       "max_out_mm": 0.0,
       "beyond_border": 0
      },
      "guards": {
-      "flipped_pct_moved_faces": 0.129,
+      "flipped_pct_moved_faces": 0.25,
       "stretched_pct": [
        0.0,
-       0.22
+       0.83
       ],
       "closed_manifold": true,
       "volume_before_mm3": 639206.7,
-      "volume_after_mm3": 607264.6
+      "volume_after_mm3": 605455.3
      },
      "inside_bone": [
       0,
       0
      ],
-     "volume_change_pct": 5.0,
+     "volume_change_pct": 5.28,
+     "fails": [
+      "2 vertices still in the skin slab",
+      "volume change 5.3 %"
+     ]
+    },
+    {
+     "mode": "under_inner_sheet",
+     "direction_sigma_mm": 10.0,
+     "displacement": {
+      "vertices_moved": 1943,
+      "max_mm": 6.63,
+      "mean_moved_mm": 1.85
+     },
+     "after": {
+      "outside": 0,
+      "in_slab": 0,
+      "max_out_mm": 0.0,
+      "beyond_border": 2
+     },
+     "guards": {
+      "flipped_pct_moved_faces": 0.025,
+      "stretched_pct": [
+       0.0,
+       0.06
+      ],
+      "closed_manifold": true,
+      "volume_before_mm3": 639206.7,
+      "volume_after_mm3": 605712.5
+     },
+     "inside_bone": [
+      0,
+      0
+     ],
+     "volume_change_pct": 5.24,
+     "fails": [
+      "volume change 5.2 %"
+     ]
+    },
+    {
+     "mode": "under_inner_sheet",
+     "direction_sigma_mm": 1000000.0,
+     "displacement": {
+      "vertices_moved": 1943,
+      "max_mm": 9.37,
+      "mean_moved_mm": 2.05
+     },
+     "after": {
+      "outside": 0,
+      "in_slab": 4,
+      "max_out_mm": 0.0,
+      "beyond_border": 1
+     },
+     "guards": {
+      "flipped_pct_moved_faces": 0.075,
+      "stretched_pct": [
+       0.0,
+       0.16
+      ],
+      "closed_manifold": true,
+      "volume_before_mm3": 639206.7,
+      "volume_after_mm3": 609220.8
+     },
+     "inside_bone": [
+      0,
+      0
+     ],
+     "volume_change_pct": 4.69,
+     "fails": [
+      "move 9.37 mm > cap 8",
+      "4 vertices still in the skin slab"
+     ]
+    },
+    {
+     "mode": "under_outer_surface",
+     "direction_sigma_mm": 4.0,
+     "displacement": {
+      "vertices_moved": 355,
+      "max_mm": 4.44,
+      "mean_moved_mm": 1.43
+     },
+     "after": {
+      "outside": 0,
+      "in_slab": 1045,
+      "max_out_mm": 0.0,
+      "beyond_border": 2
+     },
+     "guards": {
+      "flipped_pct_moved_faces": 0.0,
+      "stretched_pct": [
+       0.0,
+       0.0
+      ],
+      "closed_manifold": true,
+      "volume_before_mm3": 639206.7,
+      "volume_after_mm3": 637275.4
+     },
+     "inside_bone": [
+      0,
+      0
+     ],
+     "volume_change_pct": 0.3,
      "fails": []
     }
    ],
    "ships": true,
-   "mode": "under_inner_sheet",
+   "mode": "under_outer_surface",
    "displacement": {
-    "vertices_moved": 1872,
+    "vertices_moved": 355,
     "max_mm": 4.44,
-    "mean_moved_mm": 1.59
+    "mean_moved_mm": 1.43
    },
    "after": {
     "outside": 0,
-    "in_slab": 0,
+    "in_slab": 1045,
     "max_out_mm": 0.0,
-    "beyond_border": 0
+    "beyond_border": 2
    },
    "guards": {
-    "flipped_pct_moved_faces": 0.129,
+    "flipped_pct_moved_faces": 0.0,
     "stretched_pct": [
      0.0,
-     0.22
+     0.0
     ],
     "closed_manifold": true,
     "volume_before_mm3": 639206.7,
-    "volume_after_mm3": 607264.6
+    "volume_after_mm3": 637275.4
    },
    "inside_bone": [
     0,
     0
    ],
-   "volume_change_pct": 5.0
+   "volume_change_pct": 0.3
   },
   "breast_fgt_ct_r": {
    "before": {
@@ -2986,9 +3053,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 36,
+      "vertices_moved": 39,
       "max_mm": 0.83,
-      "mean_moved_mm": 0.27
+      "mean_moved_mm": 0.26
      },
      "after": {
       "outside": 0,
@@ -3004,7 +3071,7 @@
       ],
       "closed_manifold": false,
       "volume_before_mm3": 15477.6,
-      "volume_after_mm3": 15443.9
+      "volume_after_mm3": 15440.9
      },
      "inside_bone": [
       0,
@@ -3017,9 +3084,9 @@
    "ships": true,
    "mode": "under_inner_sheet",
    "displacement": {
-    "vertices_moved": 36,
+    "vertices_moved": 39,
     "max_mm": 0.83,
-    "mean_moved_mm": 0.27
+    "mean_moved_mm": 0.26
    },
    "after": {
     "outside": 0,
@@ -3035,7 +3102,7 @@
     ],
     "closed_manifold": false,
     "volume_before_mm3": 15477.6,
-    "volume_after_mm3": 15443.9
+    "volume_after_mm3": 15440.9
    },
    "inside_bone": [
     0,
@@ -3046,7 +3113,7 @@
   "breast_fgt_ct_l": {
    "before": {
     "outside": 0,
-    "in_slab": 36,
+    "in_slab": 37,
     "max_out_mm": 0.0,
     "beyond_border": 0
    },
@@ -3055,9 +3122,9 @@
      "mode": "under_inner_sheet",
      "direction_sigma_mm": 4.0,
      "displacement": {
-      "vertices_moved": 191,
+      "vertices_moved": 207,
       "max_mm": 1.34,
-      "mean_moved_mm": 0.48
+      "mean_moved_mm": 0.45
      },
      "after": {
       "outside": 0,
@@ -3073,7 +3140,7 @@
       ],
       "closed_manifold": false,
       "volume_before_mm3": 11744.0,
-      "volume_after_mm3": 11696.3
+      "volume_after_mm3": 11695.5
      },
      "inside_bone": [
       0,
@@ -3086,9 +3153,9 @@
    "ships": true,
    "mode": "under_inner_sheet",
    "displacement": {
-    "vertices_moved": 191,
+    "vertices_moved": 207,
     "max_mm": 1.34,
-    "mean_moved_mm": 0.48
+    "mean_moved_mm": 0.45
    },
    "after": {
     "outside": 0,
@@ -3104,7 +3171,7 @@
     ],
     "closed_manifold": false,
     "volume_before_mm3": 11744.0,
-    "volume_after_mm3": 11696.3
+    "volume_after_mm3": 11695.5
    },
    "inside_bone": [
     0,
@@ -3116,40 +3183,38 @@
  "outside_gained": {},
  "holes_after": {
   "front": {
-   "hole_px": 7,
-   "pieces": 4,
+   "hole_px": 8,
+   "pieces": 5,
    "seen_through": {
     "clavicle_l": 3,
     "supraclavicular_n_r": 3,
-    "clavicle_r": 1
+    "clavicle_r": 2
    },
    "largest": [],
    "px_mm": 0.5
   },
   "lateral_r": {
-   "hole_px": 96,
+   "hole_px": 76,
    "pieces": 1,
    "seen_through": {
-    "breast_ct_r": 96
+    "breast_ct_r": 76
    },
    "largest": [
     {
-     "px": 96,
+     "px": 76,
      "centre_mm": [
       null,
-      452.1,
-      36.3
+      452.2,
+      37.3
      ]
     }
    ],
    "px_mm": 0.5
   },
   "lateral_l": {
-   "hole_px": 5,
-   "pieces": 5,
-   "seen_through": {
-    "breast_ct_l": 5
-   },
+   "hole_px": 0,
+   "pieces": 0,
+   "seen_through": {},
    "largest": [],
    "px_mm": 0.5
   }
@@ -3158,15 +3223,15 @@
   "weld_min_pct": 80.0,
   "weld_below_min": {},
   "holes_after_px": {
-   "front": 7,
-   "lateral_r": 96,
-   "lateral_l": 5
+   "front": 8,
+   "lateral_r": 76,
+   "lateral_l": 0
   },
   "deviation_over_cap_vertices": 0,
   "breast_tissue_outside": {},
   "structures_gaining_outside": {},
   "slabs_closed_and_consistent": true,
-  "inner_flipped_faces": 47,
+  "inner_flipped_faces": 46,
   "folded_outer_pairs": 8,
   "mesh_order_last_two": [
    "skin_vulva_cvh",
@@ -3179,14 +3244,14 @@
   },
   "hole_pieces_over_max": {},
   "holes_ok": true,
-  "folded_or_flipped_pct_of_outer_faces": 0.101,
+  "folded_or_flipped_pct_of_outer_faces": 0.099,
   "folded_before_pairs_current_outer": 131,
   "pass": true
  },
  "rig_weights": {
   "zan_skin_deltopectoral_triangle_l": {
    "kind": "skin",
-   "controls": 191,
+   "controls": 201,
    "of": 330,
    "segments": [
     13,
@@ -3194,11 +3259,11 @@
     67,
     68
    ],
-   "reconstruction_err_p95": 0.028
+   "reconstruction_err_p95": 0.027
   },
   "zan_skin_deltopectoral_triangle_r": {
    "kind": "skin",
-   "controls": 203,
+   "controls": 208,
    "of": 330,
    "segments": [
     13,
@@ -3207,7 +3272,7 @@
     27,
     28
    ],
-   "reconstruction_err_p95": 0.033
+   "reconstruction_err_p95": 0.032
   },
   "zan_skin_epigastric_region_l": {
    "kind": "skin",
@@ -3224,11 +3289,11 @@
     9,
     13
    ],
-   "reconstruction_err_p95": 0.028
+   "reconstruction_err_p95": 0.029
   },
   "zan_skin_epigastric_region_r": {
    "kind": "skin",
-   "controls": 1761,
+   "controls": 1746,
    "of": 3936,
    "segments": [
     0,
@@ -3242,7 +3307,7 @@
     9,
     13
    ],
-   "reconstruction_err_p95": 0.027
+   "reconstruction_err_p95": 0.028
   },
   "zan_skin_hypochondriac_region_l": {
    "kind": "skin",
@@ -3260,7 +3325,7 @@
   },
   "zan_skin_hypochondriac_region_r": {
    "kind": "skin",
-   "controls": 643,
+   "controls": 631,
    "of": 3260,
    "segments": [
     0,
@@ -3275,7 +3340,7 @@
   },
   "zan_skin_infraclavicular_fossa_l": {
    "kind": "skin",
-   "controls": 567,
+   "controls": 570,
    "of": 1414,
    "segments": [
     13,
@@ -3289,11 +3354,11 @@
     67,
     68
    ],
-   "reconstruction_err_p95": 0.03
+   "reconstruction_err_p95": 0.028
   },
   "zan_skin_infraclavicular_fossa_r": {
    "kind": "skin",
-   "controls": 547,
+   "controls": 548,
    "of": 1448,
    "segments": [
     13,
@@ -3310,7 +3375,7 @@
   },
   "zan_skin_inframammary_region_l": {
    "kind": "skin",
-   "controls": 520,
+   "controls": 524,
    "of": 1268,
    "segments": [
     6,
@@ -3319,11 +3384,11 @@
     9,
     13
    ],
-   "reconstruction_err_p95": 0.032
+   "reconstruction_err_p95": 0.034
   },
   "zan_skin_inframammary_region_r": {
    "kind": "skin",
-   "controls": 553,
+   "controls": 542,
    "of": 1280,
    "segments": [
     6,
@@ -3332,11 +3397,11 @@
     9,
     13
    ],
-   "reconstruction_err_p95": 0.029
+   "reconstruction_err_p95": 0.031
   },
   "zan_skin_lateral_region_of_thorax_l": {
    "kind": "skin",
-   "controls": 4593,
+   "controls": 4595,
    "of": 9778,
    "segments": [
     6,
@@ -3355,7 +3420,7 @@
   },
   "zan_skin_lateral_region_of_thorax_r": {
    "kind": "skin",
-   "controls": 3886,
+   "controls": 3824,
    "of": 8176,
    "segments": [
     6,
@@ -3375,7 +3440,7 @@
   },
   "zan_skin_mammary_region_l": {
    "kind": "skin",
-   "controls": 961,
+   "controls": 998,
    "of": 2206,
    "segments": [
     8,
@@ -3385,11 +3450,11 @@
     12,
     13
    ],
-   "reconstruction_err_p95": 0.034
+   "reconstruction_err_p95": 0.032
   },
   "zan_skin_mammary_region_r": {
    "kind": "skin",
-   "controls": 784,
+   "controls": 778,
    "of": 1590,
    "segments": [
     7,
@@ -3404,7 +3469,7 @@
   },
   "zan_skin_pectoral_region_l": {
    "kind": "skin",
-   "controls": 3317,
+   "controls": 3304,
    "of": 6314,
    "segments": [
     7,
@@ -3419,11 +3484,11 @@
     66,
     67
    ],
-   "reconstruction_err_p95": 0.034
+   "reconstruction_err_p95": 0.035
   },
   "zan_skin_pectoral_region_r": {
    "kind": "skin",
-   "controls": 2836,
+   "controls": 2827,
    "of": 5456,
    "segments": [
     7,
@@ -3438,11 +3503,11 @@
     26,
     27
    ],
-   "reconstruction_err_p95": 0.035
+   "reconstruction_err_p95": 0.034
   },
   "zan_skin_presternal_region_l": {
    "kind": "skin",
-   "controls": 409,
+   "controls": 411,
    "of": 1434,
    "segments": [
     12,
@@ -3451,11 +3516,11 @@
     26,
     66
    ],
-   "reconstruction_err_p95": 0.011
+   "reconstruction_err_p95": 0.012
   },
   "zan_skin_presternal_region_r": {
    "kind": "skin",
-   "controls": 299,
+   "controls": 294,
    "of": 1394,
    "segments": [
     12,
@@ -3464,7 +3529,7 @@
     26,
     66
    ],
-   "reconstruction_err_p95": 0.021
+   "reconstruction_err_p95": 0.023
   }
  },
  "schema": "nmsk.q360.chest_skin.v1",
@@ -3479,8 +3544,8 @@
   "edge_mm": 4.0,
   "rim_excl_mm": 2.0,
   "band_mm": [
-   2.0,
-   8.0
+   4.0,
+   12.0
   ],
   "stiffness": [
    0.01,
@@ -3515,5 +3580,5 @@
   "written": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q360/pose_rig_base_f.q360.json",
   "count": 3313
  },
- "seconds": 464.5
+ "seconds": 445.9
 }

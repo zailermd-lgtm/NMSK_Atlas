@@ -256,7 +256,7 @@ LAYOUT = r"""async (label) => {
     const cs = getComputedStyle(e); if (cs.visibility === 'hidden' || cs.display === 'none') return;
     if (r.right > W + 1 || r.left < -1) wide.push((e.className || e.tagName) + ' ' + Math.round(r.left) + '..' + Math.round(r.right)); });
   const mm = document.getElementById('mode-main').getBoundingClientRect();
-  const cards = Array.from(document.querySelectorAll('#mode-shell .mc')).filter(e => !e.hidden && getComputedStyle(e).display !== 'none').map(e => e.getBoundingClientRect());
+  const cards = Array.from(document.querySelectorAll('#mode-shell .mc')).filter(e => !e.hidden && getComputedStyle(e).display !== 'none' && getComputedStyle(e).visibility !== 'hidden').map(e => e.getBoundingClientRect());
   let tot = 0, free = 0;
   for (let y = mm.top + 2; y < mm.bottom; y += 8) for (let x = mm.left + 2; x < mm.right; x += 8) { tot++; if (!cards.some(r => x >= r.left && x <= r.right && y >= r.top && y <= r.bottom)) free++; }
   return {label, scrollW: document.documentElement.scrollWidth, W, wide: wide.slice(0, 6), nWide: wide.length, visible: free / tot};

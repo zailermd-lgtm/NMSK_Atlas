@@ -83,6 +83,20 @@ def test_slabs_share_their_border_and_weld_fully():
     assert X.weld_stats(shift, {"p0", "p1"})["p1"]["welded"] == 0
 
 
+def test_slab_without_walls_on_shared_borders():
+    V, F, L = _plane()
+    e, c = np.unique(X.edges_of(F), axis=0, return_counts=True)
+    outer = set(map(tuple, e[c == 1].tolist()))
+    Y = V - 3.0 * X.vnormals(V, F)
+    v, f, used, cls = X.slab(V, Y, F[L == 0], wall_edges=outer)
+    vw, fw, _, cw = X.slab(V, Y, F[L == 0])
+    assert len(v) == len(vw) and (cls == 0).sum() < (cw == 0).sum()
+    t = trimesh.Trimesh(v, f, process=False)
+    assert t.is_winding_consistent and not t.is_watertight
+    ob = X.boundary_edge_list(f)
+    assert len(ob) >= 2 * (((cw == 0).sum() - (cls == 0).sum()) // 2) and X.open_edges_ok(f, fw, ob)
+
+
 def test_mirror_and_stats_helpers():
     a = np.array([[1.0, 0, 0], [2, 1, 0]])
     assert X.mirror_med(a, a * [-1, 1, 1]) == 0.0
@@ -98,6 +112,9 @@ def test_report_guards():
     assert g["pass"] is True
     assert not g["weld_below_min"] and not g["breast_tissue_outside"] and not g["structures_gaining_outside"]
     assert g["slabs_closed_and_consistent"] and g["deviation_over_cap_vertices"] == 0
+    for k in r["regions"]:      # walls only where a region meets an unchanged one (Q360 default)
+        p = r["per_region"][k]
+        assert p["watertight"] or p["closed_except_chest_borders"]
     assert g["mesh_order_last_two"] == ["skin_vulva_cvh", "skin_perineum_rule_q358"]
     for v in ("front", "lateral_r", "lateral_l"):
         assert g["holes_after_px"][v] <= g["holes_before_px"][v]
