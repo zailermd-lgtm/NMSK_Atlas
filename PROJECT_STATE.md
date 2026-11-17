@@ -167,6 +167,26 @@ label, labelHe, parentPath, parentId, appears, mode, placeD, placeP, note) and g
 Source: `scripts/uimap/` (generator + page template); inventory + shots: scratchpad `uimap/` (1793 items,
 139 stages, Base·M; phone walk of the clinical-mode interiors and the Base·F diff were not captured).
 
+**Owner, 2026-11-17 (three requests):**
+1. "Complete the mapping of everything" → UI inventory completion agent running (append-only over
+   scratchpad `uimap/inventory.json`: phone deep crawl, click-dependent states, code-only strings, Base·F
+   diff); then rebuild with `scripts/uimap/build_dashboard.py` and republish the dashboard (same URL).
+2. Name card: (a) a small swatch button beside the name showing the colour the structure is marked in;
+   pressing it changes the colour; (b) next to it an "ADD / הוסף" button offering: functional group,
+   ANTAGONIST functional group, adjacent tissues (added to the marked set). → **Q368, not started** (needs
+   an antagonist-group table with sources; owns `viewer/quickcard/*`). Start when Q360 reports.
+3. Injection mode can start from a plan, in the user's order: tip target = structure ± origin / insertion /
+   nerve–muscle junction / PLANE (plane block), skin passage, plus sensible additions; tip and skin entry as
+   two clearly different coloured points; a "בטיחות" panel with the user's own distance rules for nerves
+   large/medium/small, arteries large/medium/small, veins large/medium, drawn as halos and checked against
+   the path. → **Q367 running** (private: `clinical/needle_tool.js`; no invented thresholds — fields start
+   empty; verifier `scripts/anatomy/q367/verify_plan_q367.py`).
+**Applied to build/q309, verification queue running on scratchpad `regen/q366` (v366_f.txt, v366_m.txt), not
+yet published:** Q364 eyes (both pages) and Q365 head nerves (both pages; pose rigs spliced, search rebuilt).
+**Found by Q364, not yet assigned (Q366):** 198 of 778 Base·F head structures carry registration spikes
+> 3 mm against a clean fit from Base·M (orbit muscles, lacrimal gland, optic nerve, orbital skin, temporal
+vessels up to 8.5 mm) — a body-wide guarded de-spike of Base·F, after Q360 and Q362 are applied.
+
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
 nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
 clinical_ultrasound_tool.js,clinical_imaging_tool.js,clinical_needle_tool.js,clinical_motor_points.json,
