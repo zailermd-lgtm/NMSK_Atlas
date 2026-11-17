@@ -273,6 +273,43 @@ ROWS = r"""async () => {
 }"""
 
 
+SKINENTRY = r"""async (ids) => {
+  const H = window.__q367, T = window.NMSKClinicalTool, P = window.NMSKClinical.pure, out = [];
+  for (const id of ids) {
+    if (!T.byId[id]) { out.push({id, err: 'absent'}); continue; }
+    await H.reset(); await H.pick(id);
+    if (!(await H.entry())) { out.push({id, err: 'no computed entry: ' + T.sugg.msg}); continue; }
+    const E = T.entry.p; let best = Infinity, who = null;
+    T.recs.forEach(r => { if (r.cat !== 'skin') return; if (E.some((c, k) => c < r.bmin[k] - 3 || c > r.bmax[k] + 3)) return;
+      const g = T.geom(r.i); const d = P.closestOnMesh(g.pos, g.idx, E).d; if (d < best) { best = d; who = r.id; } });
+    out.push({id, skinD: best, skin: who, on: T.entry.i != null ? T.recs[T.entry.i].id : null, cat: T.entry.i != null ? T.recs[T.entry.i].cat : null});
+  }
+  return out;
+}"""
+
+MODEL_PX = r"""() => {   // the model area not covered by a card, the bar, the pills or a pin: sample points (css px)
+  const mm = document.getElementById('mode-main').getBoundingClientRect(), vis = e => !e.hidden && getComputedStyle(e).display !== 'none' && getComputedStyle(e).visibility !== 'hidden';
+  const cov = Array.from(document.querySelectorAll('#mode-shell .mc, #mode-pills, .q367-pin, #mode-shell .mb-chip')).filter(vis).map(e => e.getBoundingClientRect());
+  const pts = [];
+  for (let y = mm.top + 6; y < mm.bottom - 4; y += 12) for (let x = mm.left + 6; x < mm.right - 4; x += 12)
+    if (!cov.some(r => x >= r.left - 2 && x <= r.right + 2 && y >= r.top - 2 && y <= r.bottom + 2)) pts.push([Math.round(x), Math.round(y)]);
+  return pts;
+}"""
+
+
+def model_pixels(pg, check, label):
+    """Q367: the model's own canvas must show through wherever no card covers it -- no flat white / opaque plateau over it."""
+    import io
+    from PIL import Image
+    pts = pg.evaluate(MODEL_PX)
+    im = Image.open(io.BytesIO(pg.screenshot())).convert("RGB")
+    cols = [im.getpixel((x, y)) for x, y in pts if 0 <= x < im.width and 0 <= y < im.height]
+    white = sum(1 for c in cols if min(c) >= 252)
+    distinct = len({(c[0] // 16, c[1] // 16, c[2] // 16) for c in cols})
+    check(f"{label}: the model shows wherever no card covers it ({len(cols)} samples, {white} pure white, {distinct} colour bins)",
+          cols and white <= 0.03 * len(cols) and distinct >= 12)
+
+
 def srgb_to_lin(c):
     c = c / 255.0
     return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
@@ -473,6 +510,7 @@ def main() -> int:
                     check(f"clean plan (every rule 0.5 mm, nearest structure {c['minAll']:.2f} mm): no violation, the panel says so ({c['txt']!r})", c["nViol"] == 0 and c["txt"] and "אין הפרה" in c["txt"])
                 else:
                     print(f"     clean-plan check skipped: a structure lies {c['minAll']:.2f} mm from the path")
+                model_pixels(pg, check, f"{'phone' if phone else 'desktop'}, Safety card open")
                 lay = pg.evaluate(LAYOUT, "safety card open")
                 check(f"{'phone' if phone else 'desktop'}, Safety card open: model {lay['visible'] * 100:.0f} % visible (>= 50), nothing wider than the screen ({lay['nWide']} {lay['wide']})", lay["visible"] >= 0.5 and lay["nWide"] == 0 and lay["scrollW"] <= W)
                 shot(pg, "safety_card")
@@ -489,6 +527,12 @@ def main() -> int:
             check(f"{'phone' if phone else 'desktop'}, planning: model {lay['visible'] * 100:.0f} % visible (>= 50), nothing wider than the screen ({lay['nWide']} {lay['wide']}, scrollWidth {lay['scrollW']})",
                   lay["visible"] >= 0.5 and lay["nWide"] == 0 and lay["scrollW"] <= W)
             shot(pg, "plan_panel")
+            model_pixels(pg, check, f"{'phone' if phone else 'desktop'}, plan panel open")
+            for x in pg.evaluate(SKINENTRY, ["biceps_brachii_r", "tibialis_anterior_r", "pectoralis_major_r", "rectus_abdominis_r", "latissimus_dorsi_r"]):
+                if x.get("err"):
+                    print(f"     computed entry for {x['id']}: {x['err']}")
+                    continue
+                check(f"computed entry for {x['id']} lies on the outer skin ({x['skinD']:.3f} mm from {x['skin']}; picked on {x['on']})", x["skinD"] <= 1.0)
             pg.evaluate("() => window.NMSKModes.exit()")
             pg.wait_for_timeout(800)
             gone = pg.evaluate("() => Array.from(document.querySelectorAll('.q367-pin')).every(e => getComputedStyle(e).display === 'none') && !document.body.classList.contains('inj-safe')")
