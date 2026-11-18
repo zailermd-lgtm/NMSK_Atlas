@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v100 (Q353–Q368, Q362 relabel) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v95 (Q353–Q368, Q362 relabel) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v101 (… Q368, Q362 relabel, Q372 weld) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v96 (… Q368, Q362 relabel, Q372 weld) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -85,16 +85,19 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v100** (1794985511-af16), Base·F **v95** (1794985515-92bd) = regen of build/q309 at HEAD
-e815400 (scratchpad `regen/q371` on DISK; `pub12/<dir>` = files sent). v100/v95 = v99/v94 + the Q362
-relabel only; checked on q371 (`v371.txt`, `v371/`): q362 cards ×2, q319 search ×2, q321 (M 1400, F 390),
-q368 card M, q344 ui M 1400, q343 F — all OK. The full verdict set of v99/v94 (regen `q370`, commit 9781fca)
-still stands: q367 plan ×3, q368 ×2, q321 ×2, q344 ui 1400/390 + clinical, q347 390, q343, q329, q325, q358,
-q336, q318 rings, q319 spine; q334 keeps its 4 known FAILs (trunk ratios 2.59 / 3.06 / 1.84, knee).
+**Live:** Base·M **v101** (1794991161-ef8e), Base·F **v96** (1794991163-2a8c) = regen of build/q309 at
+commit 6cbcaf2 (scratchpad `regen/q373` on DISK; `pub13/<dir>` = files sent, index.html only). v101/v96 =
+v99/v94 + the Q362 relabel + the Q372 skin wall pass. Checked on q373 (`v373_part1.txt`, `v373.txt`, `v373/`,
+and the agent's logs `q372/v_*.log` on a byte-identical regen): q334 M **Q334_SEAMS_OK**, q334 F its 4 known
+FAILs none worse (trunk 2.58 / 2.94 / 1.84, knee 2.21; face solid 1.26 → 0.81), q358, q318 rings ×2, q336,
+q367 plan (M 1400, F 390), q321 F (198 OK on a quiet rerun; the first run failed under load right after a
+container restart), q344 ui F, q329 F, q325 M, q319 spine M; posed montages read (known pose tears remain).
+Earlier full sets: v99/v94 on regen `q370`, the relabel on `q371`.
 On the live pages since v95/v90: Q354 cards, Q355 UI, Q353 `chest_tuck,head`, Q357 in-bone conform, Q358
 perineal skin, Q364 eye colours + rigid Base·F globes, Q365 head nerves, Q360 seamless Base·F chest skin,
 Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card colour swatch + ADD menu,
-**Q362** the Z mesh labelled "Sigmoid colon" shown as "Rectum and anal canal" (source label on the card).
+**Q362** the Z mesh labelled "Sigmoid colon" shown as "Rectum and anal canal" (source label on the card),
+**Q372** skin wall pass (twin walls, slanted pairs, duplicated surface): face / thumb / neck lines gone.
 
 **How work runs now (learnt the hard way):**
 - Judge geometry/skin only on a REGENERATED page. Regen to DISK: `--allow-disk --out <scratchpad>/regen/<tag>`
@@ -128,17 +131,20 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   works on a private copy (scratchpad `q366/src`), never on build/; it hands back
   `scripts/anatomy/q366/despike_q366.py`, a report, renders and the apply command. Apply only after reading
   its per-region verdicts; then regen + the geometry verifier set + publish.
-- **Q372 engine wall twins (agent running since 2026-11-18 ~06:50 UTC):** the Q334 `walls()` pass misses
-  identical twin wall faces between skin slabs (note: scratchpad `q360/walls_note.md`); Q360 shipped the
-  chest without chest-to-chest walls instead. The fix may remove the face / toe / finger-base seam lines.
-  Work dir scratchpad `q372/`. Both agents share the one browser lock; do not start a third geometry agent.
+- **Q372 — live.** Source `scripts/anatomy/q334/seams_weld_q334.js` (patched into the Z template by
+  `patch_seams_q334.py`); skin only, cortex / fascia keep the old rule; weld +150–195 ms at load. NOT cured:
+  toe-base and finger-base lines (those borders are half welded in the GEOMETRY: 8/16 and 22/49 border
+  vertices, the rest 0.8–0.9 mm apart — needs a geometry round), faint Base·F philtrum / lower-lip / sternum
+  lines. Follow-up worth doing: re-apply Base·F chest WITH walls (`chest_skin_q360.py --chest-walls`, now
+  seamless; hiding a chest region then shows a real edge) — after Q366 is applied, with a rig re-encode.
+  At most one more geometry agent beside Q366 (one browser lock).
 - Small UI leftovers: the ADD button reads "ADD" only (owner wrote "הוסף / ADD"); the adjacent list (82
   rows for biceps) fills a phone screen; joint-space tip target picks the largest bone interface (radiocarpal
   → lunate/hamate); clip-view markers ≈ 7 px; Safety size classes are a stated convention (books give none).
 
 **Still wrong on the live pages:** Base·F chest: soft sternal crease, a step at the right anterior axillary
 fold; Base·F vulva patch coarse and jagged, thin
-gracilis slivers; face skin seams both bodies; pupil has no mesh (lens made clear instead); third occipital
+gracilis slivers; seam lines at toe / finger bases (half-welded borders); pupil has no mesh (lens made clear instead); third occipital
 nerves nearly cross at the nape; nerves held by their rules (XI→SCM R, XII lingual L on M, femoral/tibial
 muscular branches, anococcygeal, dorsal n. of clitoris, cranial ganglia); in-bone leftovers (testicular
 veins, posterior circumflex humeral, calcaneal branches); skin tears in large poses; seams on toes /
