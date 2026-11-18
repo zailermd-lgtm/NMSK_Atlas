@@ -106,12 +106,14 @@ and safety halos, **Q368** name-card colour swatch + ADD menu (antagonist table 
 - Load-sensitive verifier checks pass on a quiet rerun: q344 "Labels (compact)" 390, q347 "FHL scan start".
 
 **Running / queued (owner's requests of 2026-11-17 are marked ★):**
-- ★ **UI map completion** (append-only over scratchpad `uimap/inventory.json`, now 2896 items / 255 stages:
-  phone crawl, interaction states, typed search, the new Q367/Q368 UI on desktop). Agent finishing: phone
-  Q367/Q368 stages, Base·F diff, ~390 code-only strings. When it reports FINAL: copy `uimap/inventory.json`
-  + shots, run `scripts/uimap/build_dashboard.py` (it reads scratchpad `uimap/`, writes `uidash/`), republish
-  to https://claude.ai/artifact/ACxx8vDbimhPWdgDJ98gT8 with the shots as files. The owner's decisions are db
-  documents in collections `decisions` and `groups` — **read them with ArtifactData before any UI rework**.
+- ★ **UI map: complete** (scratchpad `uimap/inventory.json`, FINAL, append-only over `inventory_v1.json`: 3115
+  items, 260 stages — phone crawl, interaction states, typed search, the Q367/Q368 UI, 187 code-only strings,
+  Base·F diff of 398 lines with no control on only one page). Dashboard v2 republished with every old node
+  id kept: https://claude.ai/artifact/ACxx8vDbimhPWdgDJ98gT8 (source `scripts/uimap/`). The owner's decisions
+  are db documents in collections `decisions` and `groups` — none saved yet on 2026-11-18;
+  **read them with ArtifactData before any UI rework** (this session is not woken when he saves).
+  Not in the map: adopted entry candidates / clip view / step sheet, the Learn search box, a loaded patient
+  file, phone passes of the cut / four-view / measure / pose interaction states.
 - **Q362 (owner said yes 2026-11-17):** bring real geometry from the frozen imaging pages (read-only sources
   `build/q309/viewer_m_hr`, `viewer_f_hr`; never republish them) into the Base pages: Base·M rectum, anal
   canal, perineal muscles; ileum (both); kidneys (Imaging·F → Base·F); check whether Imaging·F has a better

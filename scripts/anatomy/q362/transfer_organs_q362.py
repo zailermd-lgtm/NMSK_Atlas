@@ -74,7 +74,8 @@ BONE_MM = 1.0
 NUDGE_CAP = 5.0
 SOLID = ("viscera", "muscle", "cns")   # solid neighbours (fat volumes, open fascial sheets, vessel / nerve / lymph tubes: listed only)
 SOFT_DEPTH = 3.0     # mm: an organ vertex deeper than this inside a solid neighbour counts as a real overlap
-SOFT_FRAC = 0.03     # held when more than this share of the organ's vertices is deeper than SOFT_DEPTH in one solid neighbour
+SOFT_FRAC = 0.03
+NONBLOCKING = ("length",)   # a book check that differs holds the organ, except these (a size is the subject's own)     # held when more than this share of the organ's vertices is deeper than SOFT_DEPTH in one solid neighbour
 DEFAULT_STEPS = {"base_m": ["rectum", "anal", "perineal", "ileum"], "base_f": ["ileum", "kidneys"]}
 ALL_STEPS = {"base_m": ["rectum", "anal", "perineal", "ileum", "kidneys_m"], "base_f": ["ileum", "kidneys"]}
 
@@ -87,20 +88,22 @@ WHO = {"m": ("Visible Human male", "his"), "f": ("Visible Human female", "her")}
 # step, page key, source body, source id, new id, side, sys, region, name, kind, latin, rig segment ("vert" = nearest vertebra / pelvis)
 ORGANS = [
     dict(step="rectum", key="base_m", src="m", sid="rectum", id="rectum_vhm", side="m", sys="viscera", region="pelvis", kind="ct",
-         name="Rectum (Visible Human male CT, registered)", latin="Rectum", folder="viscera", seg="pelvis", subject="ct_vhm_pelvis"),
+         name="Rectum (Visible Human male CT, registered)", latin="Rectum", folder="viscera", seg="pelvis", subject="ct_vhm_pelvis",
+         hide=["zan_sigmoid_colon"]),
     dict(step="anal", key="base_m", src="m", sid="external_anal_sphincter", id="external_anal_sphincter_vhm", side="m", sys="muscle",
          region="pelvis", kind="q172", name="External anal sphincter (Visible Human male, registered)", latin="Musculus sphincter ani externus",
          folder="trunk", seg="pelvis", hide=["external_anal_sphincter"], subject="ct_vhm_pfloor"),
     *[dict(step="perineal", key="base_m", src="m", sid=f"{b}_{s}", id=f"{b}_vhm_{s}", side=s, sys="muscle", region="pelvis", kind="q172",
-           name=f"{n} (Visible Human male, registered)", latin=lat, folder="trunk", seg="pelvis", subject="ct_vhm_pfloor")
+           name=f"{n} (Visible Human male, registered)", latin=lat, folder="trunk", seg="pelvis", subject="ct_vhm_pfloor",
+           allow=(["zan_corpus_spongiosum_of_penis", "zan_corpus_cavernosum_of_penis"] if b != "deep_transverse_perineal" else []))
       for b, n, lat in (("bulbospongiosus", "Bulbospongiosus", "Musculus bulbospongiosus"),
                         ("ischiocavernosus", "Ischiocavernosus", "Musculus ischiocavernosus"),
                         ("deep_transverse_perineal", "Deep transverse perineal muscle", "Musculus transversus perinei profundus"))
       for s in "lr"],
-    dict(step="ileum", key="base_m", src="m", sid="small_bowel", id="small_bowel_vhm", side="m", sys="viscera", region="abdomen", kind="ct",
+    dict(step="ileum", key="base_m", src="m", sid="small_bowel", id="small_bowel_vhm", side="m", sys="viscera", region="abdomen", kind="ct", hide=["zan_jejunum"],
          name="Small bowel: jejunum and ileum (Visible Human male CT, registered)", latin="Intestinum tenue (jejunum et ileum)",
          folder="viscera", seg="vert", subject="ct_vhm_viscera"),
-    dict(step="ileum", key="base_f", src="f", sid="small_bowel", id="small_bowel_vhf", side="m", sys="viscera", region="abdomen", kind="ct",
+    dict(step="ileum", key="base_f", src="f", sid="small_bowel", id="small_bowel_vhf", side="m", sys="viscera", region="abdomen", kind="ct", hide=["zan_jejunum"],
          name="Small bowel: jejunum and ileum (Visible Human female CT, registered)", latin="Intestinum tenue (jejunum et ileum)",
          folder="viscera", seg="vert", subject="ct_vhf_viscera"),
     *[dict(step="kidneys", key="base_f", src="f", sid=f"kidney_{s}", id=f"kidney_vhf_{s}", side=s, sys="viscera", region="kidney", kind="ct",
@@ -499,6 +502,11 @@ def book_checks(o, V, F, E, placed):
                     out.append(chk(f"behind the {E[nb]['name'].lower()}", gap > -8.0,
                                    f"rectum front {gap:+.0f} mm behind the {E[nb]['name'].lower()}'s back (2nd percentile) at its height",
                                    BOOK["rectum_bladder"][1], BOOK["rectum_bladder"][0], f"overlaps by {-gap:.0f} mm"))
+        dco = E.get("zan_descending_colon")
+        if dco is not None:
+            lowp = dco["v"][np.argmin(dco["v"][:, 1])]
+            out.append(dict(check="continuity with the colon above (measured only)", verdict="info",
+                            measured=f"lowest point of the Z-Anatomy descending colon {float(cKDTree(V).query(lowp)[0]):.0f} mm from this rectum"))
         la = [E[k]["v"] for k in ("levator_ani_l", "levator_ani_r") if k in E]
         if la:
             Lv = np.vstack(la); low = V[V[:, 1] < V[:, 1].min() + 40]
@@ -518,8 +526,10 @@ def book_checks(o, V, F, E, placed):
         if sk:
             S = np.vstack(sk)
             dsk = float(cKDTree(S).query(V)[0].min())
-            out.append(chk("reaches the anal skin", dsk < 15, f"nearest anal-region skin {dsk:.0f} mm", "the subcutaneous part lies just under the skin of the anus",
-                           BOOK["eas_parts"][0], f"{dsk:.0f} mm from the skin"))
+            out.append(dict(check="gap to the anal skin (measured only: the source holds the deep part only)", verdict="info",
+                            measured=f"nearest anal-region skin {dsk:.0f} mm; the subcutaneous and superficial parts and the lower anal canal are not "
+                                     f"in the source segmentation (the ring is 10 mm tall at the anorectal junction)",
+                            books=BOOK["eas_parts"][1], citation=BOOK["eas_parts"][0]))
         if "external_anal_sphincter" in E:
             z = E["external_anal_sphincter"]["v"]
             out.append(dict(check="Z-Anatomy sphincter it replaces (measured only)", verdict="info",
@@ -611,7 +621,13 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
         badge += (" It includes the erectile tissue it covers (" + ("bulb of the penis" if o["sid"].startswith("bulbo") else "crus of the penis") +
                   "): erectile tissue photographs as dark as muscle and no septum separates them at 1 mm, so the mass is larger than the muscle alone.")
     if o["step"] == "rectum":
-        badge += " Its lowest part is the upper anal canal (the CT label does not separate them; the internal sphincter is inside this wall)."
+        badge += (" Its lowest part is the upper anal canal (the CT label does not separate them; the internal sphincter is inside this wall;"
+                  " the lower anal canal is not in the source). The Z-Anatomy 'sigmoid colon' of this page, which runs down the sacral hollow"
+                  " where this rectum lies, is hidden by default ('unhide' on its card).")
+    if o["step"] == "anal":
+        badge += (" Only the deep part: a 10 mm ring at the anorectal junction (the source outlined the sphincter only where the CT colon label"
+                  " reaches); the superficial and subcutaneous parts are not in the source. The Z-Anatomy external anal sphincter of this page"
+                  " is hidden by default ('unhide' on its card).")
     if o["step"] == "ileum":
         badge += (" One CT label holds jejunum and ileum (no boundary between them is visible on CT; the change is gradual); "
                   "the Z-Anatomy jejunum of this page is hidden by default ('unhide' on its card).")
@@ -759,7 +775,8 @@ def main(argv=None):
         if np.linalg.det(T[1]) < 0:
             f0 = f0[:, ::-1]
         t1 = time.time()
-        shift, nud = fit.nudge(V)
+        allowed = set(o.get("hide", [])) | set(o.get("allow", []))
+        shift, nud = fit.nudge(V, allowed)
         print(f"    {o['id']}: nudge {nud} ({time.time() - t1:.0f} s)", flush=True)
         it = dict(id=o["id"], step=o["step"], source=dict(page=srcdir[o["src"]].name, id=o["sid"], subject=S["subject"],
                                                            record_name=(S["rec"] or {}).get("name")),
@@ -789,12 +806,21 @@ def main(argv=None):
     others = [(it["id"], it["V"], it["F"], it["o"]["sys"]) for it in items]
     for it in items:
         o = it["o"]
-        skip = set(o.get("hide", [])) | ({"zan_jejunum"} if o["step"] == "ileum" else set())
+        allowed = set(o.get("hide", [])) | set(o.get("allow", []))
         it["overlaps"] = fit.overlaps(o["id"], it["V"], it["F"], others=others, skip=())
-        it["overlaps_hidden_by_this_step"] = [r for r in it["overlaps"] if r["neighbour"] in skip]
+        it["overlaps_allowed"] = {"hidden_by_this_step": sorted(o.get("hide", [])), "by_design": sorted(o.get("allow", []))}
+        lim = SOFT_FRAC * len(it["V"])
+        for r in it["overlaps"]:
+            if r["cls"] == "solid" and r["neighbour"] in E and r["neighbour"] not in allowed and r["organ_vertices_deeper_than_soft_mm"] > lim:
+                it["status"] = "held"
+                it["held"].append(f"overlaps {r['neighbour']}: {r['organ_vertices_deeper_than_soft_mm']} of {len(it['V'])} vertices deeper than "
+                                  f"{SOFT_DEPTH} mm (max {r['organ_depth_max_mm']} mm)")
         it["book_checks"] = book_checks(o, it["V"], it["F"], E, placed)
         dif = [c for c in it["book_checks"] if c["verdict"] == "differs"]
         it["book_differs"] = [c["check"] for c in dif]
+        block = [c["check"] for c in dif if c["check"] not in NONBLOCKING]
+        if block:
+            it["status"] = "held"; it["held"].append(f"contradicts the books: {block}")
         print(f"  {it['id']:34s} {it['status']:5s} vol {it['shape']['before']['volume_cm3']}->{it['shape']['after']['volume_cm3']} "
               f"nudge {it['nudge'].get('mm', 0)} inbone {it['guards']['in_bone']} out {it['guards']['outside_skin_vertices']} "
               f"overlaps {[(r['neighbour'], r['organ_vertices_inside'], r['organ_depth_max_mm'], r['neighbour_vertices_inside']) for r in it['overlaps'][:5]]} "
@@ -817,8 +843,6 @@ def main(argv=None):
         entry = {"name": o["name"], "id": o["id"], "side": o["side"], "sys": o["sys"], "rec": rec}
         insert.append((entry, it["V"], it["F"]))
         hide |= set(o.get("hide", []))
-        if o["step"] == "ileum" and "zan_jejunum" in ids:
-            hide.add("zan_jejunum")
         seg[o["id"]] = seg_for(o, it["V"], E, rig)
     hide &= set(ids)
     rep["hidden_by_default"] = sorted(hide)
