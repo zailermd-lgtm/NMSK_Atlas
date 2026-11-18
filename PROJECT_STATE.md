@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v99 (Q353–Q368) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v94 (Q353–Q368) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v100 (Q353–Q368, Q362 relabel) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v95 (Q353–Q368, Q362 relabel) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -83,16 +83,18 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 - Own-engine pose hooks (`viewer/pose/glue_own.js`) untested in a browser — only frozen pages use them.
 
 ## 9. Next action
-(Rewritten 2026-11-17 ~17:40 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
+(Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v99** (1794964985-0747), Base·F **v94** (1794964990-3a4d) = regen of build/q309 at HEAD
-9781fca (scratchpad `regen/q370` on DISK; `pub11/<dir>` = files sent). All verdicts OK on q370 (`v370a.txt`,
-`v370a2.txt`, `v370b.txt`, `v370/`): q367 plan ×3, q368 card ×2, q321 ×2, q344 ui 1400/390 + clinical,
-q347 390, q343, q329, q325, q358, q336, q318 rings, q319 spine; q334 keeps its 4 known FAILs with lower
-trunk ratios (2.59 / 3.06 / 1.84). Since v95/v90 the live pages gained: Q354 cards, Q355 UI, Q353
-`chest_tuck,head`, Q357 in-bone conform, Q358 perineal skin, Q364 eye colours + rigid Base·F globes, Q365
-head nerves, **Q360** seamless Base·F chest skin, **Q367** plan-first injection mode with tip/entry markers
-and safety halos, **Q368** name-card colour swatch + ADD menu (antagonist table of 54 cited pairs).
+**Live:** Base·M **v100** (1794985511-af16), Base·F **v95** (1794985515-92bd) = regen of build/q309 at HEAD
+e815400 (scratchpad `regen/q371` on DISK; `pub12/<dir>` = files sent). v100/v95 = v99/v94 + the Q362
+relabel only; checked on q371 (`v371.txt`, `v371/`): q362 cards ×2, q319 search ×2, q321 (M 1400, F 390),
+q368 card M, q344 ui M 1400, q343 F — all OK. The full verdict set of v99/v94 (regen `q370`, commit 9781fca)
+still stands: q367 plan ×3, q368 ×2, q321 ×2, q344 ui 1400/390 + clinical, q347 390, q343, q329, q325, q358,
+q336, q318 rings, q319 spine; q334 keeps its 4 known FAILs (trunk ratios 2.59 / 3.06 / 1.84, knee).
+On the live pages since v95/v90: Q354 cards, Q355 UI, Q353 `chest_tuck,head`, Q357 in-bone conform, Q358
+perineal skin, Q364 eye colours + rigid Base·F globes, Q365 head nerves, Q360 seamless Base·F chest skin,
+Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card colour swatch + ADD menu,
+**Q362** the Z mesh labelled "Sigmoid colon" shown as "Rectum and anal canal" (source label on the card).
 
 **How work runs now (learnt the hard way):**
 - Judge geometry/skin only on a REGENERATED page. Regen to DISK: `--allow-disk --out <scratchpad>/regen/<tag>`
@@ -114,15 +116,22 @@ and safety halos, **Q368** name-card colour swatch + ADD menu (antagonist table 
   **read them with ArtifactData before any UI rework** (this session is not woken when he saves).
   Not in the map: adopted entry candidates / clip view / step sheet, the Learn search box, a loaded patient
   file, phone passes of the cut / four-view / measure / pose interaction states.
-- **Q362 (owner said yes 2026-11-17):** bring real geometry from the frozen imaging pages (read-only sources
-  `build/q309/viewer_m_hr`, `viewer_f_hr`; never republish them) into the Base pages: Base·M rectum, anal
-  canal, perineal muscles; ileum (both); kidneys (Imaging·F → Base·F); check whether Imaging·F has a better
-  real vulva/perineal skin than the coarse `skin_vulva_cvh`.
-- **Q366 (not started):** body-wide guarded de-spike of Base·F (198 of 778 head structures carry > 3 mm
-  registration spikes vs a clean fit from Base·M; likely also the cause of the face skin seams).
-- **Engine wall twins (not started):** the Q334 `walls()` pass misses identical twin wall faces between skin
-  slabs (note: scratchpad `q360/walls_note.md`); Q360 shipped the chest without chest-to-chest walls instead.
-  Fixing it may also remove the face / toe / finger-base seam lines.
+- **Q362 — closed 2026-11-18, nothing transferred** (`docs/Q362_imaging_transfer.md`, report
+  `data/derived/Q362_transfer_report.json`): every organ taken from the frozen imaging pages failed its guard
+  or its book check (CT rectum / sphincter ring / perineal muscles / ileum / kidneys); the Z "Sigmoid colon"
+  tube IS the rectum + anal canal (below S3, ends in the external sphincter) → relabelled by data
+  (`data/anatomy/relabels_q362.json`, `scripts/zanatomy/patch_manifest_relabel_q362.py`, a regen step). The
+  transfer steps stay in `scripts/anatomy/q362/transfer_organs_q362.py` as non-default steps. Base·M
+  bulbospongiosus / ischiocavernosus / deep transverse perineal are held (Z prostate ~15 mm low).
+- **Q366 (agent running since 2026-11-18 ~06:50 UTC):** body-wide guarded de-spike of Base·F against a local
+  smooth map from the Base·M meshes (198 of 778 head structures carry > 3 mm registration spikes). The agent
+  works on a private copy (scratchpad `q366/src`), never on build/; it hands back
+  `scripts/anatomy/q366/despike_q366.py`, a report, renders and the apply command. Apply only after reading
+  its per-region verdicts; then regen + the geometry verifier set + publish.
+- **Q372 engine wall twins (agent running since 2026-11-18 ~06:50 UTC):** the Q334 `walls()` pass misses
+  identical twin wall faces between skin slabs (note: scratchpad `q360/walls_note.md`); Q360 shipped the
+  chest without chest-to-chest walls instead. The fix may remove the face / toe / finger-base seam lines.
+  Work dir scratchpad `q372/`. Both agents share the one browser lock; do not start a third geometry agent.
 - Small UI leftovers: the ADD button reads "ADD" only (owner wrote "הוסף / ADD"); the adjacent list (82
   rows for biceps) fills a phone screen; joint-space tip target picks the largest bone interface (radiocarpal
   → lunate/hamate); clip-view markers ≈ 7 px; Safety size classes are a stated convention (books give none).
@@ -133,15 +142,16 @@ gracilis slivers; face skin seams both bodies; pupil has no mesh (lens made clea
 nerves nearly cross at the nape; nerves held by their rules (XI→SCM R, XII lingual L on M, femoral/tibial
 muscular branches, anococcygeal, dorsal n. of clitoris, cranial ganglia); in-bone leftovers (testicular
 veins, posterior circumflex humeral, calcaneal branches); skin tears in large poses; seams on toes /
-finger bases; Base·M kidneys have no real source (**owner's call: rule-based kidneys or none**); the rest of
+finger bases; kidneys (both bodies) and small bowel have no usable real source (owner's call, below); the rest of
 `docs/Q363_organ_audit.md` (pericardium, scrotum, choroid, conjunctiva, sinuses, tongue intrinsics,
 jejunum inside-out); 96–102 single bones show their group record on the card.
 
 Regen --expect-changed (current): index.html,nmsk-ultrasound-inline,nmsk-ultrasound-tissues,
-nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,clinical_ultrasound_tissues.json,
-clinical_ultrasound_tool.js,clinical_imaging_tool.js,clinical_needle_tool.js,clinical_motor_points.json,
-parts_data.json,symmetry_q237.json,plexus_groups.json,innervation_q322.json,groups_q342.json,
-__ANATOMY_manifest,__ANATOMY_files,atlas_viewer_base_female_geo_03.txt clinical_injection_guide.json.
+nmsk-imaging-inline,nmsk-q309-layers,nmsk-pose-rig,nmsk-abbrev,nmsk-q306,nmsk-colours,nmsk-calibre,
+clinical_ultrasound_tissues.json,clinical_ultrasound_tool.js,clinical_imaging_tool.js,clinical_needle_tool.js,
+clinical_motor_points.json,clinical_injection_guide.json,clinical_vessel_calibre.json,parts_data.json,
+symmetry_q237.json,plexus_groups.json,innervation_q322.json,groups_q342.json,__ANATOMY_manifest,
+__ANATOMY_files, and the four `atlas_viewer_<page>_geo_0{0..3}.txt` of both pages.
 
 **Owner's books** (Dropbox `/claude`, KNOWLEDGE ONLY: facts + page citations; no prose/figures copied; PDFs
 never in the repo): nine PDFs in the scratchpad `refs/` (re-download with Dropbox `download_link` + curl
@@ -152,8 +162,9 @@ surface; "horizontal" myofascial class shown disabled (no sourced line); rule-ba
 are NOT drawn (parts without a mesh are listed greyed); palmar conform approved; Q348 geometry findings
 applied through guarded conform scripts (Q349/Q350), a structure whose guard fails is left as is.
 **Owner's open calls:** scan-mode badge "סימולציה מהמשים" (typo? pinned by two tests); larger breast gap on
-Base·F (`_r` pectoralis thin, R/L 0.76); Base·M perineal muscles / rectum (only real source is the frozen
-Imaging·M page); unfreeze question for the mirrored frozen pages; the neonatal-procedures "Atlas" PDF
+Base·F (`_r` pectoralis thin, R/L 0.76); **kidneys, both bodies** (asked 2026-11-18): rule-based from the
+books, or the real CT kidneys moved to the book level T11–L3 with the shift recorded (my recommendation), or
+none; small bowel: rule-based or none; a second browser lock (refused by the permission system); unfreeze question for the mirrored frozen pages; the neonatal-procedures "Atlas" PDF
 (uploaded by mistake?).
 **Do not run** `sync_learn_q283.py` / `sync_hub_link_q251.py`: the template is ahead of their source (Q312
 edits were made in the template); running them reverts Q312.
