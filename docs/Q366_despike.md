@@ -112,3 +112,25 @@ index does not read geometry or card notes: no rebuild.
 * 789 spike seeds frozen by contact / shared borders, 80 over-sized patches, 42 unstable patches, 246 patches that would enter a
   bone, and the 21 held structures.
 * Structures with no same-topology twin (265).
+
+## Verification (private copy, regenerated page)
+
+Applied with `--write` to a private copy of `build/q309`, regenerated with `regen_template_only.py all` →
+`REGEN_TEMPLATE_ONLY_OK`. Before / after renders on the SAME regenerated template (the before page is the regen with the pre-Q366
+geometry spliced back), same cameras, skin / bone / fat hidden:
+
+| region | verdict |
+|---|---|
+| orbit R / L (skull and skin hidden; front, top, side) | spikes gone: levator palpebrae crown, lacrimal gland, superior ophthalmic vein blob, muscle slivers; a few thin slivers left (frozen at the globe contact) |
+| temporal vessels R / L | spikes gone: the triangular "flags" on the superficial temporal / deep temporal branches |
+| face muscles | unchanged to slightly cleaner (temporal fascia edges); the face's roughness is broad, not spikes |
+| pharynx / neck front | spikes gone on the nasopharynx and two vessel flags at the angle of the mandible; rest unchanged |
+| hand L / R, forearm L | small spikes gone on digital vessels / fingers; forearm unchanged |
+| pelvic floor | unchanged to slightly cleaner muscle edges (external anal sphincter held by the size guard) |
+| superior gluteal vessels | the 8-vertex spike per side gone (largest move, 11.5 mm) |
+| knee R | infrapatellar bursa spikes gone |
+| foot L | small dorsal-digital spikes gone |
+| thoracic discs / spine | disc tips slightly reduced; paraspinal muscle roughness unchanged (broad) |
+| whole body front / back | unchanged at body scale |
+
+Nothing looked worse than before in any pair.
