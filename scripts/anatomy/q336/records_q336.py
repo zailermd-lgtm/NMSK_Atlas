@@ -128,12 +128,8 @@ ENTRIES = [
      "he": ["תעלת אלקוק", "התעלה הפודנדלית"], "src": "gray1918,ta",
      "why": "A fascial tunnel in the obturator internus fascia, not modelled as an object on any page; its contents ship: pudendal nerve, "
             "internal pudendal artery and vein.", "offer": ["pudendal nerve", "internal pudendal artery"]},
-    {"name": "Anal canal", "canon": "Canalis analis", "syn": ["anal canal", "canalis analis"],
-     "he": ["תעלת פי הטבעת"], "src": "gray1918,wu2015,ta",
-     "why": "Not modelled as its own object on the Base pages. Base · Female carries her own CT rectum and a rule-based external anal "
-            "sphincter; Base · Male has NO rectum or anal canal at all (Z-Anatomy ships none), and its Z-Anatomy external anal sphincter "
-            "ends 25 mm above the anal-region skin (measured in Q336).",
-     "offer": ["external anal sphincter", "levator ani"]},
+    # "Anal canal": withdrawn by Q362 -- the Z mesh labelled "Sigmoid colon" is the rectum and anal canal and is shown under that name
+    # (data/anatomy/relabels_q362.json; the search alias lives in synonyms_q306.json), so the term is no longer "cited but not shipped".
     {"name": "Perineal nerve", "canon": "Nervus perinealis (perineal branch of the pudendal nerve)",
      "syn": ["perineal nerve", "perineal branch of the pudendal nerve", "posterior labial nerve", "posterior scrotal nerve"],
      "he": ["העצב הפרינאלי"], "src": "gray1918,ta,mannan2017",

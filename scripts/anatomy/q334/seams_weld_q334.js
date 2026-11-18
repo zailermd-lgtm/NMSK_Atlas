@@ -21,7 +21,7 @@
     };
     /* the cortex is drawn opaque (and fascia sheets have no walls): normals and walls only there, no crack closing */
     var Q334_LIGHT = {cns:1, fascia:1};
-    var Q334_WELD = 0.03, Q334_COS = 0.6, Q334_WALL = 1.5, Q334_SNAP = 1.5, Q334_TJ = 0.8, Q334_RIM = 1.0, q334W = {}, q334Stat = {ms:0, cls:{}};
+    var Q334_WELD = 0.03, Q334_COS = 0.6, Q334_WALL = 1.5, Q334_SNAP = 1.5, Q334_TJ = 0.8, Q334_RIM = 1.0, Q334_SLANT = 0.8, Q334_LIE = 0.75, Q334_TWIN = 0.9, q334W = {}, q334Stat = {ms:0, cls:{}};
     (function(){
       var t0 = performance.now();
       Object.keys(Q334_GROUPS).forEach(function(cls){
@@ -60,7 +60,7 @@
           var ix = o.idx, b = base[mi], fb = fbase[mi];
           for (var t = 0; t < ix.length / 3; t++){ var f = fb + t; FV[3*f] = b + ix[3*t]; FV[3*f+1] = b + ix[3*t+1]; FV[3*f+2] = b + ix[3*t+2]; FO[f] = mi; }
         });
-        var cnt, INC, GN = new Float32Array(N * 3), GOK = new Uint8Array(N), FL = null, FAR = new Float32Array(FN);      // FL: the faces near a border (all of them until 1b)
+        var q372 = !Q334_LIGHT[cls], cnt, INC, TW = new Int32Array(FN).fill(-1), GN = new Float32Array(N * 3), GOK = new Uint8Array(N), FL = null, FAR = new Float32Array(FN);      // FL: the faces near a border (all of them until 1b)
         function faceNormals(){
           for (var q = 0, nq = FL ? FL.length : FN; q < nq; q++){ var f = FL ? FL[q] : q;
             var a = 3*FV[3*f], bb = 3*FV[3*f+1], cc = 3*FV[3*f+2];
@@ -84,15 +84,16 @@
           for (var i = 0; i < N; i++){
             GOK[i] = 0;
             if (!seam[i] || R[i] !== i) continue;
-            var s0 = cnt[i], s1 = cnt[i + 1], best = -1, bs = -1, a1, a2;
+            var s0 = cnt[i], s1 = cnt[i + 1], best = -1, bs = -1, a1, a2, ex = 0;
+            for (a1 = s0; a1 < s1; a1++) if (TW[INC[a1]] < 0){ ex = 1; break; }      // twinned faces (walls face to face) out of the vote, unless all are
             for (a1 = s0; a1 < s1; a1++){
-              var f1 = INC[a1], sc = 0;
-              for (a2 = s0; a2 < s1; a2++){ var f2 = INC[a2], d = FU[3*f1]*FU[3*f2] + FU[3*f1+1]*FU[3*f2+1] + FU[3*f1+2]*FU[3*f2+2];
+              var f1 = INC[a1], sc = 0; if (ex && TW[f1] >= 0) continue;
+              for (a2 = s0; a2 < s1; a2++){ var f2 = INC[a2], d = FU[3*f1]*FU[3*f2] + FU[3*f1+1]*FU[3*f2+1] + FU[3*f1+2]*FU[3*f2+2]; if (ex && TW[f2] >= 0) continue;
                 if (d > Q334_COS || d < -Q334_COS) sc += FAR[f2]; }
               if (sc > bs){ bs = sc; best = f1; }
             }
             var gx = 0, gy = 0, gz = 0;
-            for (a2 = s0; a2 < s1; a2++){ var g = INC[a2], dd = FU[3*best]*FU[3*g] + FU[3*best+1]*FU[3*g+1] + FU[3*best+2]*FU[3*g+2];
+            for (a2 = s0; a2 < s1; a2++){ var g = INC[a2]; if (ex && TW[g] >= 0) continue; var dd = FU[3*best]*FU[3*g] + FU[3*best+1]*FU[3*g+1] + FU[3*best+2]*FU[3*g+2];
               if (dd > Q334_COS){ gx += FA[3*g]; gy += FA[3*g+1]; gz += FA[3*g+2]; } else if (dd < -Q334_COS){ gx -= FA[3*g]; gy -= FA[3*g+1]; gz -= FA[3*g+2]; } }
             var gl2 = Math.hypot(gx, gy, gz); if (!(gl2 > 0)) continue;
             GN[3*i] = gx / gl2; GN[3*i+1] = gy / gl2; GN[3*i+2] = gz / gl2; GOK[i] = 1;
@@ -140,31 +141,59 @@
           if (rim[v0] || rim[v1] || rim[v2] || seam[R[v0]] || seam[R[v1]] || seam[R[v2]]) BFa[BFn++] = fb2; }
         FL = BFa.subarray(0, BFn);
         rim = MEr = ONr = null;
-        incidence(); seamNormals();
+        incidence(); twins(); seamNormals();
         var a1;
         /* 4. walls: a face touching a seam vertex, standing across that vertex's surface normal, with a face of the
               neighbouring piece parallel to it and within WALL_MM of its centre (the neighbour's wall). A real crease
-              between two pieces has no such twin, so it is never taken for a wall. */
-        var wall = new Int32Array(FN).fill(-1), nWall = 0, nCand = 0, f;
+              between two pieces has no such twin, so it is never taken for a wall. Q372: (a) a wall standing at a slant
+              (WALL_SLANT, the thin slabs of the fingers and toes) whose twin is a clear wall is one of a PAIR of walls and is
+              hidden with it -- before, only the steeper of the two was, and the other drew a line along the border; (b) a
+              face whose twin is IDENTICAL (the same three welded vertices) but which is not a clear wall (two regions carry
+              the same piece of surface) is drawn ONCE: only the face of the higher-numbered piece is hidden, so nothing
+              opens; (c) the twinned faces stay out of the seam normal's vote (seamNormals), where two coincident walls used
+              to out-vote the surface and bend the normal into the wall (the walls were then taken for surface and drawn, and
+              the seam was shaded with the wall's normal: the dotted light / dark line); (d) a face that lies in the surface at
+              one of its seam vertices (|cos| >= WALL_LIE) over a twin at an angle (|cos| < WALL_TWIN) is the surface folding
+              over a neighbour's wall at a thin tip (toes): never hidden, so no hole opens. (a)-(d) on the skin only (q372);
+              the opaque cortex and the fascia keep the rule as it was. */
+        var wall = new Int32Array(FN).fill(-1), nWall = 0, nCand = 0, nPair = 0, nDup = 0, f;
+        function twinOf(f, skip){      // the nearest twin of f (-1: none); skip: leave out faces already hidden for a third piece
+          var mi0 = FO[f], cxm = 0, cym = 0, czm = 0, bestD = Q334_WALL, nb = -1, k, a1;
+          for (k = 0; k < 3; k++){ cxm += P[3*FV[3*f+k]] / 3; cym += P[3*FV[3*f+k]+1] / 3; czm += P[3*FV[3*f+k]+2] / 3; }
+          for (k = 0; k < 3; k++){
+            var vr2 = R[FV[3*f+k]]; if (!seam[vr2]) continue;
+            for (a1 = cnt[vr2]; a1 < cnt[vr2 + 1]; a1++){
+              var h = INC[a1]; if (FO[h] === mi0 || skip && wall[h] >= 0 && wall[h] !== mi0) continue;
+              var pd = FU[3*f]*FU[3*h] + FU[3*f+1]*FU[3*h+1] + FU[3*f+2]*FU[3*h+2]; if (pd < 0.6 && pd > -0.6) continue;
+              var dist = q334PtTri(cxm, cym, czm, P, FV[3*h], FV[3*h+1], FV[3*h+2]);
+              if (dist < bestD && (q334In || q334Over(f, h))){ bestD = dist; nb = h; }      // face to face: over the twin, not beside it
+            }
+          }
+          return nb;
+        }
+        function twins(){ if (q372) for (var q = 0; q < FL.length; q++) TW[FL[q]] = twinOf(FL[q], false); }      // TW: each border face's nearest twin (-1: none)
+        var acrossMax = 0;
+        function across(f){      // |cos| between f and the surface normal, least over f's seam vertices (2: no seam normal there); acrossMax: the most
+          var m = 2; acrossMax = 0;
+          for (var k = 0; k < 3; k++){ var vr = R[FV[3*f+k]]; if (seam[vr] && GOK[vr]){ var c = Math.abs(FU[3*f]*GN[3*vr] + FU[3*f+1]*GN[3*vr+1] + FU[3*f+2]*GN[3*vr+2]); m = Math.min(m, c); acrossMax = Math.max(acrossMax, c); } }
+          return m;
+        }
+        function same(f, h){ var a = R[FV[3*f]], b = R[FV[3*f+1]], c = R[FV[3*f+2]], x = R[FV[3*h]], y = R[FV[3*h+1]], z = R[FV[3*h+2]];
+          return a !== b && b !== c && a !== c && (a === x || a === y || a === z) && (b === x || b === y || b === z) && (c === x || c === y || c === z); }
         function walls(count){      // run again once the borders are closed (4b): a wall at a corner of three pieces finds its twin then
           for (var q = 0; q < FL.length; q++){ var f = FL[q];
             if (wall[f] >= 0) continue;
-            var mi0 = FO[f], cxm = 0, cym = 0, czm = 0, cand = false;
-            for (k = 0; k < 3; k++){ var vr = R[FV[3*f+k]]; cxm += P[3*FV[3*f+k]] / 3; cym += P[3*FV[3*f+k]+1] / 3; czm += P[3*FV[3*f+k]+2] / 3;
-              if (seam[vr] && GOK[vr] && Math.abs(FU[3*f]*GN[3*vr] + FU[3*f+1]*GN[3*vr+1] + FU[3*f+2]*GN[3*vr+2]) < 0.5) cand = true; }
-            if (!cand) continue;
-            if (count) nCand++;
-            var bestD = Q334_WALL, nb = -1;
-            for (k = 0; k < 3; k++){
-              var vr2 = R[FV[3*f+k]]; if (!seam[vr2]) continue;
-              for (var a1 = cnt[vr2]; a1 < cnt[vr2 + 1]; a1++){
-                var h = INC[a1]; if (FO[h] === mi0 || wall[h] >= 0 && wall[h] !== mi0) continue;
-                var pd = FU[3*f]*FU[3*h] + FU[3*f+1]*FU[3*h+1] + FU[3*f+2]*FU[3*h+2]; if (pd < 0.6 && pd > -0.6) continue;
-                var dist = q334PtTri(cxm, cym, czm, P, FV[3*h], FV[3*h+1], FV[3*h+2]);
-                if (dist < bestD && (q334In || q334Over(f, h))){ bestD = dist; nb = FO[h]; }      // face to face: over the twin, not beside it
-              }
-            }
-            if (nb >= 0){ wall[f] = nb; nWall++; }
+            var af = across(f), am = acrossMax; if (af > 1) continue;
+            if (af < 0.5 && count) nCand++;
+            if (q372 && TW[f] < 0) continue;      // twins() ran on this geometry: no twin at all, so none for twinOf(f, true) either
+            var h = twinOf(f, true); if (h < 0) continue;
+            var pdh = Math.abs(FU[3*f]*FU[3*h] + FU[3*f+1]*FU[3*h+1] + FU[3*f+2]*FU[3*h+2]);
+            if (q372 && am >= Q334_LIE && pdh < Q334_TWIN) continue;      // (d)
+            if (af < 0.5){ wall[f] = FO[h]; nWall++; continue; }
+            if (!q372) continue;
+            var ah = across(h);
+            if (af < Q334_SLANT && ah < 0.5){ wall[f] = FO[h]; nWall++; nPair++; continue; }      // (a)
+            if (FO[f] > FO[h] && wall[h] < 0 && same(f, h)){ wall[f] = FO[h]; nWall++; nDup++; }      // (b)
           }
         }
         function q334Over(f, h){      // f and h share an edge and lie on the SAME side of it: they overlap (a twin wall), not continue each other
@@ -274,9 +303,9 @@
         OE = EH = NB = BD = OWN = null;
         }
         if (!Q334_LIGHT[cls]) closeBorders();
-        if (nSnap || nTJ){ faceNormals(); incidence(); seamNormals();
+        if (nSnap || nTJ){ faceNormals(); incidence(); twins(); seamNormals();
           var w0 = nWall; walls(false);
-          if (nWall > w0){ closeBorders(); faceNormals(); incidence(); seamNormals(); }      // walls found only now leave borders of their own to close
+          if (nWall > w0){ closeBorders(); faceNormals(); incidence(); twins(); seamNormals(); }      // walls found only now leave borders of their own to close
         }
         if (window.__q334dbgE){      // diagnostics only: edges of the drawn surface that no other drawn face closes
           var EM = new Map();
@@ -315,9 +344,9 @@
           }
           q334W[OBJ.indexOf(o)] = {pos:new Float32Array(o.pos), nrm:new Float32Array(o.nrm), walls:o.q334w ? o.q334w.length : 0};
         });
-        var st = q334Stat.cls[cls] || (q334Stat.cls[cls] = {groups:0, pieces:0, verts:0, faces:0, seamPairs:0, seamVerts:0, wallFaces:0, wallCandidates:0, borderJoins:0, tJunctions:0, rimJoins:0});
+        var st = q334Stat.cls[cls] || (q334Stat.cls[cls] = {groups:0, pieces:0, verts:0, faces:0, seamPairs:0, seamVerts:0, wallFaces:0, wallCandidates:0, wallPairs:0, wallDoubled:0, borderJoins:0, tJunctions:0, rimJoins:0});
         st.groups++; st.pieces += L.length; st.verts += N; st.faces += FN; st.seamPairs += seamPairs; st.seamVerts += nSeamV;
-        st.wallFaces += nWall; st.wallCandidates += nCand; st.borderJoins += nSnap; st.tJunctions += nTJ; st.rimJoins += nRim;
+        st.wallFaces += nWall; st.wallCandidates += nCand; st.wallPairs += nPair; st.wallDoubled += nDup; st.borderJoins += nSnap; st.tJunctions += nTJ; st.rimJoins += nRim;
       }
     }
     function q334Sweep(P, list, tol, fn){      // every pair of the listed vertices closer than tol along one axis (then fn tests the rest)

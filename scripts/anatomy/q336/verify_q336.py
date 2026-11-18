@@ -80,8 +80,9 @@ def page(pl, d: Path, female: bool):
             qs = ["labia minora", "bulbourethral gland", "perineal membrane", "anal canal", "testis"]
             r = pg.evaluate(SEARCH, qs)
             for q, n in (("labia minora", "Labia minora"), ("bulbourethral gland", "Bulbourethral gland"),
-                         ("perineal membrane", "Perineal membrane"), ("anal canal", "Anal canal")):
+                         ("perineal membrane", "Perineal membrane")):
                 check(f"[{tag}] '{q}' returns the explanation ({r[q]['notes']})", n in r[q]["notes"])
+            check(f"[{tag}] 'anal canal' finds the relabelled Z mesh (Q362) ({r['anal canal']['ids'][:3]})", "zan_sigmoid_colon" in r["anal canal"]["ids"][:3])
             check(f"[{tag}] 'testis' still finds zan_testis_l/r", any(i.startswith("zan_testis") for i in r["testis"]["ids"]))
     finally:
         b.close(); srv.terminate()
