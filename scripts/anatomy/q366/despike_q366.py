@@ -494,7 +494,6 @@ def main(argv=None):
     tree_all = cKDTree(allP)
     exc_ids = [i for i in ids if (i in excluded and sysof[i] != "bone") or (i in written)]
     exP = np.concatenate([V[i][0] for i in exc_ids]) if exc_ids else np.zeros((0, 3))
-    exO = np.concatenate([np.full(len(V[i][0]), ids.index(i)) for i in exc_ids]) if exc_ids else np.zeros(0, int)
     tree_ex = cKDTree(exP) if len(exP) else None
     bones = BoneSet({i: V[i] for i in ids if sysof[i] == "bone"}, C349)
     print("Q366 %s: %d structures, %d with a same-topology Base·M twin, %d skipped, %d excluded (%.0f s)" % (
