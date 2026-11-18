@@ -98,6 +98,13 @@
             var gl2 = Math.hypot(gx, gy, gz); if (!(gl2 > 0)) continue;
             GN[3*i] = gx / gl2; GN[3*i+1] = gy / gl2; GN[3*i+2] = gz / gl2; GOK[i] = 1;
           }
+          if (!TJ.length) return;
+          var MC = new Int32Array(N); for (var i3 = 0; i3 < N; i3++) MC[R[i3]]++;
+          for (var z7 = 0; z7 < TJ.length; z7 += 4){ var u7 = TJ[z7], r7 = R[u7], r0 = R[TJ[z7+1]], r1 = R[TJ[z7+2]], t7 = TJ[z7+3];
+            if (MC[r7] !== 1 || !GOK[r0] || !GOK[r1]) continue;      // joined to a vertex of its own meanwhile: its own seam normal stands
+            var sg7 = GN[3*r0]*GN[3*r1] + GN[3*r0+1]*GN[3*r1+1] + GN[3*r0+2]*GN[3*r1+2] < 0 ? -1 : 1;
+            var nx7 = (1 - t7)*GN[3*r0] + t7*sg7*GN[3*r1], ny7 = (1 - t7)*GN[3*r0+1] + t7*sg7*GN[3*r1+1], nz7 = (1 - t7)*GN[3*r0+2] + t7*sg7*GN[3*r1+2], l7 = Math.hypot(nx7, ny7, nz7);
+            if (!(l7 > 0)) continue; GN[3*r7] = nx7 / l7; GN[3*r7+1] = ny7 / l7; GN[3*r7+2] = nz7 / l7; GOK[r7] = 1; }
         }
         faceNormals();
         /* 1b. borders cut at different vertices: pieces re-meshed on their own (the deformed female trunk) meet their
@@ -134,6 +141,46 @@
             faceNormals();
           }
         }
+        /* 1c (Q375). T-junctions: the finger and toe slabs carry about twice the border vertices of the palm, the dorsum of the hand
+               and the arches of the foot, and every other one of theirs lies ON the neighbour's border edge (within WELD_MM), not on a
+               vertex: nothing to weld, its walls had no seam vertex to be judged by (drawn), and it kept its own normal, bent by its
+               wall -- the light line at the base of the fingers and toes. Such a border vertex (a rim vertex, or one on the open border
+               of a sheet) is ATTACHED to that edge: it counts as a seam vertex, takes the edge's interpolated seam normal (3), and its
+               wall finds its twin among the faces round the edge's ends (4). Nothing is merged; the move onto the edge is < WELD_MM.
+               The T-junctions closed in 4b take the edge's normal too. Skin only (not the light classes). */
+        var TJ = [], TJI = new Int32Array(N).fill(-1);
+        if (!Q334_LIGHT[cls]){
+          var EHt = new Map(), ict = 0.5, ft, ta, tb, sI2;
+          var OB = new Uint8Array(N), ECt = new Map();      // the open border of a piece that is a sheet, not a closed slab (the dorsum of the toes): an edge of one face only
+          for (ft = 0; ft < FN; ft++) for (k = 0; k < 3; k++){ ta = FV[3*ft+k]; tb = FV[3*ft+(k+1)%3]; var ke = ta < tb ? ta * N + tb : tb * N + ta; ECt.set(ke, (ECt.get(ke) || 0) + 1); }
+          ECt.forEach(function(c, ke){ if (c === 1){ var ea = Math.floor(ke / N); OB[ea] = 1; OB[ke - ea * N] = 1; } }); ECt = null;
+          for (ft = 0; ft < FN; ft++) for (k = 0; k < 3; k++){
+            ta = FV[3*ft+k]; tb = FV[3*ft+(k+1)%3]; if (ta > tb || !rim[ta] || !rim[tb]) continue;
+            if (ONr[3*ta]*ONr[3*tb] + ONr[3*ta+1]*ONr[3*tb+1] + ONr[3*ta+2]*ONr[3*tb+2] < 0.5) continue;      // along the border, not across the wall
+            var lnt = Math.hypot(P[3*tb] - P[3*ta], P[3*tb+1] - P[3*ta+1], P[3*tb+2] - P[3*ta+2]), nst = Math.min(64, Math.ceil(lnt)), lk = -1;
+            for (sI2 = 0; sI2 <= nst; sI2++){ var tq = nst ? sI2 / nst : 0;
+              var kt = key(Math.floor((P[3*ta] + tq*(P[3*tb] - P[3*ta])) * ict), Math.floor((P[3*ta+1] + tq*(P[3*tb+1] - P[3*ta+1])) * ict), Math.floor((P[3*ta+2] + tq*(P[3*tb+2] - P[3*ta+2])) * ict));
+              if (kt === lk) continue; lk = kt; var at2 = EHt.get(kt); if (at2) at2.push(ta, tb); else EHt.set(kt, [ta, tb]); }
+          }
+          for (var u1 = 0; u1 < N; u1++){
+            if (!(rim[u1] || OB[u1]) || seam[R[u1]]) continue;
+            var ux = P[3*u1], uy = P[3*u1+1], uz = P[3*u1+2], bdt = Q334_WELD * Q334_WELD, bt = null;
+            for (var cx = Math.floor((ux - 0.1) * ict); cx <= Math.floor((ux + 0.1) * ict); cx++) for (var cy = Math.floor((uy - 0.1) * ict); cy <= Math.floor((uy + 0.1) * ict); cy++)
+              for (var cz = Math.floor((uz - 0.1) * ict); cz <= Math.floor((uz + 0.1) * ict); cz++){
+                var ce = EHt.get(key(cx, cy, cz)); if (!ce) continue;
+                for (var q6 = 0; q6 < ce.length; q6 += 2){ var ea0 = ce[q6], eb0 = ce[q6+1]; if (OW[ea0] === OW[u1]) continue;
+                  var ex6 = P[3*eb0] - P[3*ea0], ey6 = P[3*eb0+1] - P[3*ea0+1], ez6 = P[3*eb0+2] - P[3*ea0+2], l6 = ex6*ex6 + ey6*ey6 + ez6*ez6; if (!(l6 > 0)) continue;
+                  var t6 = ((ux - P[3*ea0])*ex6 + (uy - P[3*ea0+1])*ey6 + (uz - P[3*ea0+2])*ez6) / l6; if (t6 <= 0.02 || t6 >= 0.98) continue;
+                  var qx6 = P[3*ea0] + t6*ex6 - ux, qy6 = P[3*ea0+1] + t6*ey6 - uy, qz6 = P[3*ea0+2] + t6*ez6 - uz, d6 = qx6*qx6 + qy6*qy6 + qz6*qz6;
+                  if (d6 <= bdt){ bdt = d6; bt = [ea0, eb0, t6]; } }
+              }
+            if (!bt) continue;
+            TJI[u1] = TJ.length; TJ.push(u1, bt[0], bt[1], bt[2]); seam[R[u1]] = 1;
+            P[3*u1] = P[3*bt[0]] + bt[2]*(P[3*bt[1]] - P[3*bt[0]]); P[3*u1+1] = P[3*bt[0]+1] + bt[2]*(P[3*bt[1]+1] - P[3*bt[0]+1]); P[3*u1+2] = P[3*bt[0]+2] + bt[2]*(P[3*bt[1]+2] - P[3*bt[0]+2]);
+          }
+          EHt = null;
+          if (TJ.length) faceNormals();
+        }
         /* from here on only the faces near a border are looked at: those touching a rim or a welded vertex (the rest of a
            piece -- most of it -- keeps its own normals and is never a wall) */
         var BFn = 0, BFa = new Int32Array(FN);
@@ -161,12 +208,15 @@
           var mi0 = FO[f], cxm = 0, cym = 0, czm = 0, bestD = Q334_WALL, nb = -1, k, a1;
           for (k = 0; k < 3; k++){ cxm += P[3*FV[3*f+k]] / 3; cym += P[3*FV[3*f+k]+1] / 3; czm += P[3*FV[3*f+k]+2] / 3; }
           for (k = 0; k < 3; k++){
-            var vr2 = R[FV[3*f+k]]; if (!seam[vr2]) continue;
+            var vk2 = FV[3*f+k], vr3 = R[vk2]; if (!seam[vr3]) continue;
+            var hs2 = TJI[vk2] >= 0 ? [vr3, R[TJ[TJI[vk2]+1]], R[TJ[TJI[vk2]+2]]] : [vr3];
+            for (var hq2 = 0; hq2 < hs2.length; hq2++){ var vr2 = hs2[hq2]; if (!seam[vr2]) continue;
             for (a1 = cnt[vr2]; a1 < cnt[vr2 + 1]; a1++){
               var h = INC[a1]; if (FO[h] === mi0 || skip && wall[h] >= 0 && wall[h] !== mi0) continue;
               var pd = FU[3*f]*FU[3*h] + FU[3*f+1]*FU[3*h+1] + FU[3*f+2]*FU[3*h+2]; if (pd < 0.6 && pd > -0.6) continue;
               var dist = q334PtTri(cxm, cym, czm, P, FV[3*h], FV[3*h+1], FV[3*h+2]);
               if (dist < bestD && (q334In || q334Over(f, h))){ bestD = dist; nb = h; }      // face to face: over the twin, not beside it
+            }
             }
           }
           return nb;
@@ -290,10 +340,11 @@
               var abx = P[3*b] - P[3*a], aby = P[3*b+1] - P[3*a+1], abz = P[3*b+2] - P[3*a+2], ll = abx*abx + aby*aby + abz*abz; if (!(ll > 0)) continue;
               var t = ((px - P[3*a])*abx + (py - P[3*a+1])*aby + (pz - P[3*a+2])*abz) / ll; if (t <= 0.1 || t >= 0.9) continue;
               var qx = P[3*a] + t*abx, qy = P[3*a+1] + t*aby, qz = P[3*a+2] + t*abz, dd = (px-qx)*(px-qx) + (py-qy)*(py-qy) + (pz-qz)*(pz-qz);
-              if (dd < bd && dd < 0.1 * ME[ru] * ME[ru] && dd < 0.05 * ll){ bd = dd; bq = [qx, qy, qz]; }
+              if (dd < bd && dd < 0.1 * ME[ru] * ME[ru] && dd < 0.05 * ll){ bd = dd; bq = [qx, qy, qz, a, b, t]; }
             }
           }
           if (bq) moved.push(ru, bq[0], bq[1], bq[2]);
+          if (bq && !Q334_LIGHT[cls]){ if (TJI[ru] < 0) TJI[ru] = TJ.length; TJ.push(ru, bq[3], bq[4], bq[5]); }      // Q375: its normal from the edge too (1c)
         }
         if (moved.length){
           var MV = new Float64Array(N * 3), mf = new Uint8Array(N);
