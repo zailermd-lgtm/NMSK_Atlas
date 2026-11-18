@@ -2,7 +2,7 @@
 
 Read this first in a fresh session instead of the conversation. Keep it short (target < 200 lines):
 it holds only what is true NOW. When a round closes, move its detail to `docs/PROJECT_HISTORY.md`
-(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-17 ~17:40 UTC (after the Q364/Q365 publish).
+(the dated archive, Q1–Q320) and leave one line here. Last updated: 2026-11-18 ~01:40 UTC (after the Q360/Q367/Q368 publish).
 
 ## 1. Standing rules (owner)
 - Real sources only; never present fabricated or sculpted geometry as real. Anything fitted from the
@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v98 (Q353–Q365) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v93 (Q353–Q365) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v99 (Q353–Q368) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v94 (Q353–Q368) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -85,11 +85,14 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-17 ~17:40 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v98** (1794935913-0324), Base·F **v93** (1794935924-c73b) = regen of build/q309 at HEAD
-b668e9f minus the Q367 work in progress (scratchpad `regen/q366` on DISK; `pub10/<dir>` = files sent). All
-verdicts OK on q366 (`v366_t.txt`, `v366/`): q321 ×2, q344 ui ×2, q319 nerves/search ×2, q347 390 ×2, q325,
-q358, q336. Since v95/v90 the live pages gained: Q354 cards, Q355 UI, Q353 `chest_tuck,head`, Q357 in-bone
-conform, Q358 perineal skin (Base·F), Q364 eye colours + rigid Base·F globes, Q365 head nerves.
+**Live:** Base·M **v99** (1794964985-0747), Base·F **v94** (1794964990-3a4d) = regen of build/q309 at HEAD
+9781fca (scratchpad `regen/q370` on DISK; `pub11/<dir>` = files sent). All verdicts OK on q370 (`v370a.txt`,
+`v370a2.txt`, `v370b.txt`, `v370/`): q367 plan ×3, q368 card ×2, q321 ×2, q344 ui 1400/390 + clinical,
+q347 390, q343, q329, q325, q358, q336, q318 rings, q319 spine; q334 keeps its 4 known FAILs with lower
+trunk ratios (2.59 / 3.06 / 1.84). Since v95/v90 the live pages gained: Q354 cards, Q355 UI, Q353
+`chest_tuck,head`, Q357 in-bone conform, Q358 perineal skin, Q364 eye colours + rigid Base·F globes, Q365
+head nerves, **Q360** seamless Base·F chest skin, **Q367** plan-first injection mode with tip/entry markers
+and safety halos, **Q368** name-card colour swatch + ADD menu (antagonist table of 54 cited pairs).
 
 **How work runs now (learnt the hard way):**
 - Judge geometry/skin only on a REGENERATED page. Regen to DISK: `--allow-disk --out <scratchpad>/regen/<tag>`
@@ -103,29 +106,27 @@ conform, Q358 perineal skin (Base·F), Q364 eye colours + rigid Base·F globes, 
 - Load-sensitive verifier checks pass on a quiet rerun: q344 "Labels (compact)" 390, q347 "FHL scan start".
 
 **Running / queued (owner's requests of 2026-11-17 are marked ★):**
-- **Q360** Base·F chest skin as one surface (joint refit from the Base·M Z topology; cause was Q292 refitting
-  each chest region alone). Script `scripts/anatomy/q360/chest_skin_q360.py`; dry run: weld 82–100 %, holes
-  front 228→7 px, deviation p95 0.29 mm. Agent verifying on a regen copy → then main thread applies.
-  Held and NOT to be applied: Q353 `back`/`chest_seams`, Q356 shingle.
-- ★ **Q367** injection mode: plan-first panel (tip target ± origin / insertion / nerve–muscle junction /
-  PLANE, skin entry, any order), tip vs entry markers of different colour and shape, "בטיחות" panel with the
-  user's own distance rules (nerves L/M/S, arteries L/M/S, veins L/M; fields start empty) drawn as halos and
-  checked against the path. Private code `clinical/needle_tool.js`; verifier `scripts/anatomy/q367/`. Running.
-- ★ **UI map completion** (append-only over scratchpad `uimap/inventory.json`): phone deep crawl, interaction
-  states, ~390 code-only strings, Base·F diff. Running. Then `scripts/uimap/build_dashboard.py` + republish.
-  Dashboard: https://claude.ai/artifact/ACxx8vDbimhPWdgDJ98gT8 — the owner's decisions are db documents in
-  collections `decisions` and `groups`; **read them with ArtifactData before any UI rework** (no wake-up).
-- ★ **Q368 name card (not started):** swatch button beside the name showing the mark colour, press to change
-  it; next to it "ADD / הוסף": functional group, ANTAGONIST functional group (needs a sourced table),
-  adjacent tissues → added to the marked set. Owns `viewer/quickcard/*`. Start when an agent slot frees.
-- **Q362 (not started; owner said yes 2026-11-17):** bring real geometry from the frozen imaging pages
-  (read-only sources `build/q309/viewer_m_hr`, `viewer_f_hr`; never republish them) into the Base pages:
-  Base·M rectum, anal canal, perineal muscles; ileum (both); kidneys (Imaging·F → Base·F); check whether
-  Imaging·F has a better real vulva/perineal skin than the coarse `skin_vulva_cvh`.
+- ★ **UI map completion** (append-only over scratchpad `uimap/inventory.json`, now 2896 items / 255 stages:
+  phone crawl, interaction states, typed search, the new Q367/Q368 UI on desktop). Agent finishing: phone
+  Q367/Q368 stages, Base·F diff, ~390 code-only strings. When it reports FINAL: copy `uimap/inventory.json`
+  + shots, run `scripts/uimap/build_dashboard.py` (it reads scratchpad `uimap/`, writes `uidash/`), republish
+  to https://claude.ai/artifact/ACxx8vDbimhPWdgDJ98gT8 with the shots as files. The owner's decisions are db
+  documents in collections `decisions` and `groups` — **read them with ArtifactData before any UI rework**.
+- **Q362 (owner said yes 2026-11-17):** bring real geometry from the frozen imaging pages (read-only sources
+  `build/q309/viewer_m_hr`, `viewer_f_hr`; never republish them) into the Base pages: Base·M rectum, anal
+  canal, perineal muscles; ileum (both); kidneys (Imaging·F → Base·F); check whether Imaging·F has a better
+  real vulva/perineal skin than the coarse `skin_vulva_cvh`.
 - **Q366 (not started):** body-wide guarded de-spike of Base·F (198 of 778 head structures carry > 3 mm
   registration spikes vs a clean fit from Base·M; likely also the cause of the face skin seams).
+- **Engine wall twins (not started):** the Q334 `walls()` pass misses identical twin wall faces between skin
+  slabs (note: scratchpad `q360/walls_note.md`); Q360 shipped the chest without chest-to-chest walls instead.
+  Fixing it may also remove the face / toe / finger-base seam lines.
+- Small UI leftovers: the ADD button reads "ADD" only (owner wrote "הוסף / ADD"); the adjacent list (82
+  rows for biceps) fills a phone screen; joint-space tip target picks the largest bone interface (radiocarpal
+  → lunate/hamate); clip-view markers ≈ 7 px; Safety size classes are a stated convention (books give none).
 
-**Still wrong on the live pages:** Base·F chest outlines (Q360); Base·F vulva patch coarse and jagged, thin
+**Still wrong on the live pages:** Base·F chest: soft sternal crease, a step at the right anterior axillary
+fold; Base·F vulva patch coarse and jagged, thin
 gracilis slivers; face skin seams both bodies; pupil has no mesh (lens made clear instead); third occipital
 nerves nearly cross at the nape; nerves held by their rules (XI→SCM R, XII lingual L on M, femoral/tibial
 muscular branches, anococcygeal, dorsal n. of clitoris, cranial ganglia); in-bone leftovers (testicular
