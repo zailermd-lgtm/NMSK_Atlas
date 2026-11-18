@@ -4,7 +4,8 @@
     python3 scripts/anatomy/q377/skin_q377.py --page-dir DIR [--src-dir DIR]            # dry run: census + plan, writes nothing
     python3 scripts/anatomy/q377/skin_q377.py --page-dir DIR --write                    # and write the page files + report
     options: --json FILE (report; default data/derived/Q377_skin_report.json, written with --write or when given),
-             --allow-build (permit --write into build/: the main thread's apply step), --no-under (skip the under-skin guard; dev)
+             --allow-build (permit --write into build/: the main thread's apply step), --no-under (skip the under-skin guard; dev),
+             --strict-area (area change <= 2 % only, instead of Q366's size rule)
 
 Every Base·F skin slab (`zan_skin_*`, nail plates out) with a same-topology twin on Base·M carries a per-vertex correspondence x_M -> x_F.
 Q366 excluded the skin (shared borders must stay shared); Q377 measures it as ONE surface:
@@ -22,7 +23,8 @@ Q366 excluded the skin (shared borders must stay shared); Q377 measures it as ON
            coincident pair with no spike goes to the mean of the two local-map predictions (both sides move).  A vertex coincident with a
            slab that has no twin (the Q360 chest, Q358 perineum) is frozen.  Nothing else moves; no smoothing; nothing invented.
   guards   per slab (a failing slab is left exactly as it is, with every vertex tied to it across a border, and listed): no vertex
-           moved > CAP mm; slab area change <= AREA_MAX %; the sheets keep their thickness (a moved vertex's distance to the other sheet
+           moved > CAP mm; slab area: Q366's size rule (change <= AREA_MAX %, or towards the source size -- a spike inflates a
+           small slab -- and never more than 2 points further from it; --strict-area: change <= AREA_MAX % only); the sheets keep their thickness (a moved vertex's distance to the other sheet
            ends within THICK_TOL of Base·M's, scaled, or nearer to it than before); every border of the slab keeps its joined share
            (weld + rim join + T-junction, the engine's rules) or gains; no structure under the skin gains vertices outside it (Q353's
            outside_count, the same test as its tuck guard).
@@ -109,7 +111,9 @@ def group_targets(groups, X0, X1, moved, tol=WELD_MM, pred=None):
     for gi, g in enumerate(groups):
         mv = np.array([moved[m][v] for m, v in g])
         p0 = np.array([X0[m][v] for m, v in g])
-        sep = float(np.linalg.norm(p0 - p0.mean(0), axis=1).max() * 2)
+        dm = np.linalg.norm(p0[:, None] - p0[None], axis=2)
+        ncc, _ = csgraph.connected_components(sparse.csr_matrix(dm <= tol), directed=False)
+        sep = float(dm.max()) if ncc > 1 else 0.0       # the engine welds a chain of pairs within tol: separated = not one chain
         if mv.all():
             t = np.mean([X1[m][v] for m, v in g], 0); rule = "all spikes: mean"
         elif mv.any():
@@ -149,11 +153,41 @@ def thickness(X, pj):
     return t
 
 
-def joined_share(Pa, Fa, Pb, Fb):
-    """border vertices of A that face B and that the engine joins to B: shared (weld), on B's border edge (T-junction, 1c) or an
-    offset pair within the rim join (1b) -> (joined, border)"""
-    c = BC.classify(Pa, Fa, Pb, Fb, offset=RIM_MM)
-    return int(len(c["shared"]) + len(c["tjunction"]) + len(c["offset"])), int(len(c["border"]))
+def export_skin(pieces, prefix):
+    """pieces: [(id, name, P (n,3), F (m,3))] -> <prefix>.json / .bin as weld_roots_q377.js reads them (float32 / uint16, 4-byte aligned)"""
+    hdr, chunks, off = [], [], 0
+    for i, nm, P, F in pieces:
+        b = np.asarray(P, np.float32).tobytes(); hdr.append(dict(id=i, name=nm, vc=int(len(P)), ic=int(len(F)), po=off)); chunks.append(b); off += len(b)
+        b = np.asarray(F, np.uint16).tobytes(); hdr[-1]["io"] = off; chunks.append(b); off += len(b)
+        if off % 4:
+            chunks.append(b"\0" * (4 - off % 4)); off += 4 - off % 4
+    Path(str(prefix) + ".bin").write_bytes(b"".join(chunks))
+    Path(str(prefix) + ".json").write_text(json.dumps(hdr), encoding="utf-8")
+
+
+def weld_roots(pieces, tmp, weld_js=None):
+    """the engine's weld on these pieces (node) -> {id: (root per vertex, seam flag per vertex)}"""
+    import subprocess
+    weld_js = weld_js or str(HERE.parent / "q334" / "seams_weld_q334.js")
+    pre = Path(tmp) / "q377_skin"
+    export_skin(pieces, pre)
+    subprocess.run(["node", str(HERE / "weld_roots_q377.js"), str(pre), weld_js, str(pre) + "_roots.json"], check=True)
+    o = json.loads(Path(str(pre) + "_roots.json").read_text(encoding="utf-8"))["pieces"]
+    return {k: (np.array(v["r"]), np.array(v["s"], bool)) for k, v in o.items()}
+
+
+def joined_share(rimA, PA, PB, rootsA, seamA, rootsB, other_roots, near=1.5):
+    """border vertices of A that face B (rim vertices within `near` mm of a vertex of B) and how many of them the engine joined to B:
+    the same weld root as a vertex of B (weld / rim join), or a seam vertex whose root no other piece shares (attached to a border
+    edge, Q375 1c). -> (joined, border)"""
+    ia = np.where(rimA)[0]
+    if not len(ia) or not len(PB):
+        return 0, 0
+    d, _ = cKDTree(PB).query(PA[ia], distance_upper_bound=near)
+    ia = ia[np.isfinite(d)]
+    sb = set(rootsB.tolist())
+    j = sum(1 for v in ia if rootsA[v] in sb or (seamA[v] and rootsA[v] not in other_roots))
+    return int(j), int(len(ia))
 
 
 # ------------------------------------------------------------------ page
@@ -195,6 +229,7 @@ def main(argv=None):
     ap.add_argument("--write", action="store_true")
     ap.add_argument("--allow-build", action="store_true", help="permit --write into build/ (the main thread's apply step)")
     ap.add_argument("--json", default=None)
+    ap.add_argument("--strict-area", action="store_true", help="area guard: change <= 2 %% only (no allowance for a spike's own area)")
     ap.add_argument("--no-under", action="store_true", help="skip the under-skin guard (development only; never with --write)")
     a = ap.parse_args(argv)
     d = Path(a.page_dir).resolve()
@@ -226,7 +261,6 @@ def main(argv=None):
     ids = sorted(SF)
     twin = [i for i in ids if i in SM and SM[i][0].shape == SF[i][0].shape and np.array_equal(SM[i][1], SF[i][1])]
     other = [i for i in ids if i not in twin]
-    tw = {i: k for k, i in enumerate(twin)}
     print(f"Q377 {stem}: {len(ids)} skin slabs, {len(twin)} with a same-topology Base·M twin, {len(other)} without", flush=True)
 
     # ---- (a) the local map over the whole twin skin
@@ -242,7 +276,7 @@ def main(argv=None):
         frozen |= np.isfinite(dd)
     X1u, flu, r0u, sigu, pu, info = D.despike_structure(UM, UF, UFc, frozen)
     split = lambda u: [u[off[k]:off[k + 1]] for k in range(len(twin))]
-    r0, sig, fl, P1, PR = split(r0u), split(sigu), split(flu), split(X1u), split(pu)
+    r0, fl, P1, PR = split(r0u), split(flu), split(X1u), split(pu)
     lab = split(info.get("label", np.full(len(UF), -1)))
     rim = [BC.rim_vertices(XM[k], FF[k])[0] for k in range(len(twin))]
     print("  local map: %d vertices, residual p50 %.2f p90 %.2f p99 %.2f max %.2f mm; %d spike vertices in %d patches; rejected %s (%.0f s)" % (
@@ -303,7 +337,23 @@ def main(argv=None):
     if not a.no_under:
         import conform_skin_q353 as Q353      # noqa: E402  Geo / SkinSet / outside_count (the tuck guard's test)
         under = Q353
-    held, rep_s = {}, {}
+    held, rep_s, geo, ucache = {}, {}, None, {}
+    import tempfile
+    tmpd = tempfile.mkdtemp(prefix="q377_")
+    allskin = [m["id"] for m in man["meshes"] if m.get("sys") == "skin"]
+    names.update({m["id"]: m.get("name", m["id"]) for m in man["meshes"]})
+    for m in man["meshes"]:
+        if m.get("sys") == "skin" and m["id"] not in SF:
+            SF[m["id"]] = C340.dec(m, blob)          # nail plates: the engine sees them (and leaves them out by name)
+    RIM0 = {i: BC.rim_vertices(*SF[i])[0] for i in allskin}
+    W0 = M0 = None
+
+    def multi(W):
+        cnt = {}
+        for r, _ in W.values():
+            for x in set(r.tolist()):
+                cnt[x] = cnt.get(x, 0) + 1
+        return {x for x, c in cnt.items() if c > 1}
     for it in range(6):
         touched = [k for k in range(len(twin)) if moved[k].any()]
         fails = {}
@@ -312,8 +362,12 @@ def main(argv=None):
             mv = np.linalg.norm(X1[k] - X0[k], axis=1)
             g = {}
             g["cap"] = dict(max_mm=round(float(mv.max()), 2), ok=bool(mv.max() <= CAP))
-            a0, a1 = D.area(X0[k], FF[k]), D.area(X1[k], FF[k])
-            g["area"] = dict(change_pct=round(100 * (a1 - a0) / a0, 3), ok=bool(abs(100 * (a1 - a0) / a0) <= AREA_MAX))
+            # Q366's size rule: change <= 2 %, or else towards the source's size (Base·M through the local maps) and never more than
+            # 2 points further from it -- a spike inflates a small slab's area; taking it out is not a distortion
+            a0, a1, aref = D.area(X0[k], FF[k]), D.area(X1[k], FF[k]), D.area(PR[k], FF[k])
+            g["area"] = D.size_check(a0, a1, aref)
+            if a.strict_area:
+                g["area"]["ok"] = bool(abs(g["area"]["change_pct"]) <= AREA_MAX)
             sm = D.umeyama_scale(XM[k], X0[k])
             tm = thickness(XM[k], PJ[k]) * sm; tb = thickness(X0[k], PJ[k]); ta = thickness(X1[k], PJ[k])
             sel = moved[k].copy()
@@ -326,22 +380,26 @@ def main(argv=None):
                                   worse=int(bad.sum()), ok=bool(not bad.any()))
             fails[k] = [n for n, v in g.items() if not v["ok"]]
             rep_s[i] = dict(guards=g)
-        # border share (python port of the engine's join rules) for every border of a touched slab
+        # every border of a touched slab keeps the share the ENGINE joins at load (its weld run outside the browser, node)
+        cur = {i: SF[i][0] for i in ids}
+        cur.update({twin[k]: X1[k] for k in range(len(twin))})
+        if W0 is None:
+            W0 = weld_roots([(i, names[i], SF[i][0], SF[i][1]) for i in allskin], tmpd)
+            M0 = multi(W0)
+        W1 = weld_roots([(i, names[i], cur.get(i, SF[i][0]), SF[i][1]) for i in allskin], tmpd)
+        M1 = multi(W1)
         for k in touched:
             i = twin[k]
-            nbk = set()
-            for b in bord:
-                if i in b:
-                    nbk.add(b[0] if b[1] == i else b[1])
-            res = {}
-            okb = True
             lo, hi = X0[k].min(0) - 3, X0[k].max(0) + 3
-            for j in sorted(nbk | set(o for o in other if (SF[o][0].min(0) <= hi).all() and (SF[o][0].max(0) >= lo).all())):
-                kj = tw.get(j)
-                Pj0, Fj = SF[j]
-                Pj1 = X1[kj] if kj is not None else Pj0
-                s0 = joined_share(X0[k], FF[k], Pj0, Fj); s1 = joined_share(X1[k], FF[k], Pj1, Fj)
-                t0_ = joined_share(Pj0, Fj, X0[k], FF[k]); t1_ = joined_share(Pj1, Fj, X1[k], FF[k])
+            res, okb = {}, True
+            for j in ids:
+                if j == i or (SF[j][0].min(0) > hi).any() or (SF[j][0].max(0) < lo).any():
+                    continue
+                Pj0, Pj1 = SF[j][0], cur[j]
+                s0 = joined_share(RIM0[i], X0[k], Pj0, *W0[i], W0[j][0], M0)
+                s1 = joined_share(RIM0[i], X1[k], Pj1, *W1[i], W1[j][0], M1)
+                t0_ = joined_share(RIM0[j], Pj0, X0[k], *W0[j], W0[i][0], M0)
+                t1_ = joined_share(RIM0[j], Pj1, X1[k], *W1[j], W1[i][0], M1)
                 if s0[1] + t0_[1] == 0:
                     continue
                 ok = s1[0] >= s0[0] and t1_[0] >= t0_[0]
@@ -351,31 +409,54 @@ def main(argv=None):
             if not okb:
                 fails[k].append("border_share")
         if under is not None and touched:
-            g = under.Geo(d)
-            ids_t = [twin[k] for k in touched]
-            lo = np.min([X0[k].min(0) for k in touched], 0) - 15; hi = np.max([X0[k].max(0) for k in touched], 0) + 15
-            skin_ids = [kk for kk in g.in_box(lo, hi, sys_=("skin",)) if "nail_plate" not in kk]
-            und = [kk for kk in g.in_box(lo, hi, sys_=under.VISIBLE_SYS)]
-            sk0 = under.SkinSet(g, skin_ids)
-            o0 = {kk: under.outside_count(g, sk0, kk)["outside"] for kk in und}
+            if geo is None:
+                geo = under.Geo(d)
+            g = geo
+            # clusters of touched slabs whose boxes (+15 mm) overlap: each is tested on its own skin and structures
+            bx = {k: (X0[k].min(0) - 15, X0[k].max(0) + 15) for k in touched}
+            par = {k: k for k in touched}
+            def rt(k):
+                while par[k] != k:
+                    k = par[k]
+                return k
+            for x in touched:
+                for y in touched:
+                    if x < y and (bx[x][0] <= bx[y][1]).all() and (bx[y][0] <= bx[x][1]).all():
+                        par[rt(x)] = rt(y)
+            clus = {}
             for k in touched:
-                g.cur[twin[k]] = X1[k]
-            sk1 = under.SkinSet(g, skin_ids)
-            o1 = {kk: under.outside_count(g, sk1, kk)["outside"] for kk in und}
-            gained = {kk: (o0[kk], o1[kk]) for kk in und if o1[kk] > o0[kk] + GAIN_TOL}
-            # blame: a slab whose own vertices moved within 15 mm of a structure that gained
-            for k in touched:
-                i = twin[k]
-                mvP = X0[k][moved[k]]
-                near = []
-                for kk, (b0, b1) in gained.items():
-                    if len(mvP) and cKDTree(g.cur[kk]).query(mvP, distance_upper_bound=15.0)[0].min() < 15.0:
-                        near.append(f"{kk} {b0}->{b1}")
-                rep_s[i]["guards"]["under_skin"] = dict(structures=len(und), gained=near, ok=not near)
-                if near:
-                    fails[k].append("under_skin")
-            rep_s["_under_totals"] = dict(structures=len(und), outside_before=int(sum(o0.values())), outside_after=int(sum(o1.values())),
-                                          gained={kk: list(v) for kk, v in gained.items()})
+                clus.setdefault(rt(k), []).append(k)
+            tot = dict(structures=0, outside_before=0, outside_after=0, gained={})
+            for ks in clus.values():
+                lo = np.min([bx[k][0] for k in ks], 0); hi = np.max([bx[k][1] for k in ks], 0)
+                skin_ids = [kk for kk in g.in_box(lo, hi, sys_=("skin",)) if "nail_plate" not in kk]
+                und = [kk for kk in g.in_box(lo, hi, sys_=under.VISIBLE_SYS)]
+                key = tuple(sorted(skin_ids))
+                if key not in ucache:
+                    sk0 = under.SkinSet(g, skin_ids)
+                    ucache[key] = {kk: under.outside_count(g, sk0, kk)["outside"] for kk in und}
+                o0 = ucache[key]
+                for k in ks:
+                    g.cur[twin[k]] = X1[k]
+                sk1 = under.SkinSet(g, skin_ids)
+                o1 = {kk: under.outside_count(g, sk1, kk)["outside"] for kk in und}
+                for k in ks:
+                    g.cur[twin[k]] = X0[k].copy()
+                gained = {kk: (o0[kk], o1[kk]) for kk in und if o1[kk] > o0[kk] + GAIN_TOL}
+                tot["structures"] += len(und); tot["outside_before"] += int(sum(o0.values())); tot["outside_after"] += int(sum(o1.values()))
+                tot["gained"].update({kk: list(v) for kk, v in gained.items()})
+                # blame: a slab whose own vertices moved within 15 mm of a structure that gained
+                for k in ks:
+                    i = twin[k]
+                    mvP = X0[k][moved[k]]
+                    near = []
+                    for kk, (b0, b1) in gained.items():
+                        if len(mvP) and cKDTree(g.cur[kk]).query(mvP, distance_upper_bound=15.0)[0].min() < 15.0:
+                            near.append(f"{kk} {b0}->{b1}")
+                    rep_s[i]["guards"]["under_skin"] = dict(structures=len(und), gained=near, ok=not near)
+                    if near:
+                        fails[k].append("under_skin")
+            rep_s["_under_totals"] = tot
         newly = [k for k in touched if fails[k]]
         if not newly:
             break
