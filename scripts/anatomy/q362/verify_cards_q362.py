@@ -36,10 +36,7 @@ def main(argv=None):
     key = T.DIRKEY[d.name]
     man = P.manifest(d); by = {m["id"]: m for m in man["meshes"]}
     new = [o for o in T.ORGANS if o["key"] == key and o["id"] in by]
-    print(f"Q362 cards on {d}: {[o['id'] for o in new]}")
-    if not new:
-        print("Q362_CARDS_FAIL (no Q362 structure on this page)")
-        return 1
+    print(f"Q362 cards on {d}: {[o['id'] for o in new]} + relabelled Z meshes")
     w, h = (int(x) for x in a.size.split("x"))
     shots = Path(a.shots) if a.shots else None
     if shots:
@@ -55,6 +52,21 @@ def main(argv=None):
                 check(f"{hid}: flagged hidden by default in the manifest (hd)", by[hid].get("hd") == 1)
                 if vis.get(hid) is not None:
                     check(f"{hid}: not visible at load", vis[hid] is False)
+            # the relabelled Z gut meshes (data/anatomy/relabels_q362.json, applied at regen)
+            for zid, want in (("zan_sigmoid_colon", "Rectum and anal canal"), ("zan_descending_colon", "Descending colon")):
+                check(f"{zid}: manifest name '{want}' and not hidden by default on Base·M", by[zid]["name"] == want and (key == "base_f" or not by[zid].get("hd")))
+                pg.evaluate("(id) => { NMSKSelectCtl.markIds([], true, true, true); if (window.__q334) __q334.select(id); NMSKQuick.open(id, null, null); }", zid)
+                pg.wait_for_timeout(400)
+                pg.evaluate("() => { const m = [...document.querySelectorAll('.qc button')].find(b => /^more/i.test(b.textContent.trim())); if (m) m.click(); }")
+                pg.wait_for_timeout(300)
+                txt = pg.evaluate("() => { const c = document.querySelector('.qc'); return c && !c.hidden ? c.innerText : ''; }")
+                check(f"{zid}: card shows '{want}', the source label and the book", want in txt and "source label" in txt and "Mannan" in txt)
+                if shots:
+                    pg.screenshot(path=str(shots / f"card_{key}_{zid}.png"))
+            if key == "base_m":
+                res = pg.evaluate(V.QUERIES % '["rectum", "anal canal", "sigmoid colon"]')
+                for q, r in res.items():
+                    check(f"search '{q}' finds zan_sigmoid_colon (first hits {r['ids'][:3]})", "zan_sigmoid_colon" in r["ids"])
             for o in new:
                 rec = by[o["id"]]["rec"]
                 pg.evaluate("(id) => { NMSKSelectCtl.markIds([], true, true, true); if (window.__q334) __q334.select(id); NMSKQuick.open(id, null, null); }", o["id"])

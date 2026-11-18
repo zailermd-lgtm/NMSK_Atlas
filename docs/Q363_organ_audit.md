@@ -125,8 +125,8 @@ So (b) adds nothing for the head nerves.
 | **Ileum** | **absent** | **absent** | the small bowel stops at the jejunum | **B** | (b) `small_bowel` (jejunum + ileum) from his/her CT on Imaging·M/F; Z has none |
 | Caecum | absent | absent | appendix and colon are present | S | (b) inside Imaging `colon`? (c) otherwise |
 | Colon (ascending, transverse, descending, sigmoid), appendix, taeniae, mesocolon, omenta | present | present (+ her own sigmoid, CT) | — | — | — |
-| **Rectum** | **absent** | `rectum` (her CT) | known | **B (M)** | (b) Imaging·M `rectum` (ct_vhm_pelvis) — Q362 |
-| **Anal canal**, internal anal sphincter | **absent** | absent (external sphincter present, CT) | | **B (M)**, S (F) | (b) Imaging·M/F `external_anal_sphincter` + parts; canal itself (c) |
+| **Rectum** | **absent** | `rectum` (her CT) | known | **B (M)** | (b) Imaging·M `rectum` (ct_vhm_pelvis) — Q362 **Q362: resolved by relabel.** The Z mesh labelled "Sigmoid colon" lies wholly below S3 (top at 0.43 of the sacral height) and ends 26 mm below the coccyx tip inside the Z external anal sphincter: it is this body's rectum + anal canal, now shown as "Rectum and anal canal" with its source label (data/anatomy/relabels_q362.json; Mannan pp. 385, 563). The CT rectum is not shipped (thinner; would leave 7–16 mm and 32 mm gaps). |
+| **Anal canal**, internal anal sphincter | **absent** | absent (external sphincter present, CT) | | **B (M)**, S (F) | (b) Imaging·M/F `external_anal_sphincter` + parts; canal itself (c) **Q362 (M): resolved by the same relabel** (the anal canal is the lowest part of the relabelled Z mesh, inside the Z sphincter, which stays). The VHM sphincter (deep ring only) is not shipped. |
 | Liver (8 segments), gallbladder, bile duct, pancreas + ducts | present | present | `zan_pancreatic_duct` inside-out | C | flip |
 | **Kidneys** | **absent** | **absent** | | **B** | (a) Z `Kidney.l/.r` is CC-BY-NC (licence-blocked, `nc_licensing_note`); (b) Imaging·F `kidney_l/_r` (her CT) for Base·F; Base·M: no real source on any page → (c) or a new real source |
 | Ureters | L+R | L+R | lead to no kidney | (with kidneys) | — |
@@ -146,7 +146,7 @@ So (b) adds nothing for the head nerves.
 | Ovaries, uterine tubes, uterus (+ cervix), vagina, broad/cardinal/uterosacral ligaments | — | present | uterosacral L/R 2.03 | C | — |
 | Vulva: clitoris, vestibular bulbs, Bartholin glands, perineal body, vulvar skin | — | present | known: skin coarse; Bartholin L/R 0.55 (side assigned by registration) | S | Q358 / Q362 |
 | Breast (gland, ducts, fat, suspensory ligaments, nipple, areola) | — | present | gland and ducts fragmented (19 / 44 pieces), L/R 0.65–0.70 | C | known (her CT) |
-| **Perineal muscles** (bulbospongiosus, ischiocavernosus, transverse perinei, external anal sphincter) | **absent**; levator ani parts, coccygeus present | present (CT/CVH) | known | **B (M)** | (b) Imaging·M `bulbospongiosus_l/_r`, `ischiocavernosus_l/_r`, `external_anal_sphincter` + parts (ct_vhm_pfloor) — Q362 |
+| **Perineal muscles** (bulbospongiosus, ischiocavernosus, transverse perinei, external anal sphincter) | **absent**; levator ani parts, coccygeus present | present (CT/CVH) | known | **B (M)** | (b) Imaging·M `bulbospongiosus_l/_r`, `ischiocavernosus_l/_r`, `external_anal_sphincter` + parts (ct_vhm_pfloor) — Q362 **Q362: nothing shipped.** Bulbospongiosus L/R place in the midline on the bulb but lie 22–24 mm from the Z external anal sphincter, so they fail the perineal-body check (Mannan p. 354) and are held; ischiocavernosus is 5.5 mm inside the ramus; deep transverse perineal is 10–11 mm inside the Z prostate, which sits about 15 mm low on this body.  |
 
 ## 7. Peripheral nerves (limbs, trunk) — summary
 

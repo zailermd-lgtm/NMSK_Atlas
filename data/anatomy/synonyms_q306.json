@@ -3193,6 +3193,26 @@
    ],
    "src": "project,ta,palmer",
    "note": "Q308 CORRECTION. Q306 recorded the TFCC as not shipped. Measured: the four Z pages ship its PRINCIPAL component, the central articular disc, as `zan_articular_disc_of_distal_radio_ulnar_joint_l/r`, plus `zan_dorsal_ulnocarpal_ligament_l/r`. The project also already holds a cited registry entry for it (`data/cartilage/tfcc_disc.json`, Palmer & Werner 1981; Bednar 1991 for the vascular zonation). What genuinely does NOT ship is the meniscus homologue and the volar/dorsal radioulnar ligaments as separate meshes, and the card says so."
+  },
+  {
+   "canon": "Rectum and anal canal",
+   "targets": [
+    "sigmoid colon"
+   ],
+   "abbr": [],
+   "syn": [
+    "rectum",
+    "anal canal",
+    "canalis analis",
+    "rectum and anal canal",
+    "sigmoid colon"
+   ],
+   "he": [
+    "חלחולת",
+    "תעלת פי הטבעת"
+   ],
+   "src": "mannan2017",
+   "note": "Q362: the Z-Anatomy mesh labelled 'Sigmoid colon' lies wholly below the third sacral vertebra (where the rectum begins, Mannan 14th ed. pp. 385, 563) and ends inside the external anal sphincter: the card shows it as the rectum and anal canal, with its source label."
   }
  ],
  "families": [
@@ -3939,23 +3959,6 @@
    "offer": [
     "pudendal nerve",
     "internal pudendal artery"
-   ]
-  },
-  {
-   "name": "Anal canal",
-   "canon": "Canalis analis",
-   "syn": [
-    "anal canal",
-    "canalis analis"
-   ],
-   "he": [
-    "תעלת פי הטבעת"
-   ],
-   "src": "gray1918,wu2015,ta",
-   "why": "Not modelled as its own object on the Base pages. Base · Female carries her own CT rectum and a rule-based external anal sphincter. Base · Male (Q362) carries the Visible Human male's own CT rectum, registered by its bones, whose lowest part is the upper anal canal, and his external anal sphincter (deep part only); the lower anal canal is in no source.",
-   "offer": [
-    "external anal sphincter",
-    "levator ani"
    ]
   },
   {

@@ -78,8 +78,11 @@ SOFT_FRAC = 0.03
 SOFT_MAX = 6.0       # mm: ... and deeper than this at its deepest. Shallower overlaps are within the bones' registration error (pelvis median
                      # 3.5 / p90 9.2 mm) and are listed on the card and in the report, not held
 NONBLOCKING = ("length",)   # a book check that differs holds the organ, except these (a size is the subject's own)     # held when more than this share of the organ's vertices is deeper than SOFT_DEPTH in one solid neighbour
-DEFAULT_STEPS = {"base_m": ["rectum", "anal", "perineal", "ileum"], "base_f": ["ileum", "kidneys"]}
-ALL_STEPS = {"base_m": ["rectum", "anal", "perineal", "ileum", "kidneys_m"], "base_f": ["ileum", "kidneys"]}
+# Main thread, Q362 decision: the Z mesh labelled "Sigmoid colon" IS this body's rectum + anal canal (wholly below S3, ending inside the
+# Z external anal sphincter, continuous with the colon) -- it is relabelled at regen (data/anatomy/relabels_q362.json) and stays
+# visible; the CT rectum / VHM sphincter ring are kept here as NON-default steps (record only) and hide nothing.
+DEFAULT_STEPS = {"base_m": ["bulbospongiosus"], "base_f": []}
+ALL_STEPS = {"base_m": ["bulbospongiosus", "rectum", "anal", "perineal", "ileum", "kidneys_m"], "base_f": ["ileum", "kidneys"]}
 
 M17 = "Noor MA. Mannan's Regional Dissection and Surface Anatomy, 14th ed. Jaypee, New Delhi 2017"
 GA = "Drake RL, Vogl AW, Mitchell AWM et al. Gray's Atlas of Anatomy, Churchill Livingstone / Elsevier (edition not in the owner's scan)"
@@ -91,11 +94,11 @@ WHO = {"m": ("Visible Human male", "his"), "f": ("Visible Human female", "her")}
 ORGANS = [
     dict(step="rectum", key="base_m", src="m", sid="rectum", id="rectum_vhm", side="m", sys="viscera", region="pelvis", kind="ct",
          name="Rectum (Visible Human male CT, registered)", latin="Rectum", folder="viscera", seg="pelvis", subject="ct_vhm_pelvis",
-         hide=["zan_sigmoid_colon"]),
+         ),
     dict(step="anal", key="base_m", src="m", sid="external_anal_sphincter", id="external_anal_sphincter_vhm", side="m", sys="muscle",
          region="pelvis", kind="q172", name="External anal sphincter (Visible Human male, registered)", latin="Musculus sphincter ani externus",
-         folder="trunk", seg="pelvis", hide=["external_anal_sphincter"], subject="ct_vhm_pfloor"),
-    *[dict(step="perineal", key="base_m", src="m", sid=f"{b}_{s}", id=f"{b}_vhm_{s}", side=s, sys="muscle", region="pelvis", kind="q172",
+         folder="trunk", seg="pelvis", subject="ct_vhm_pfloor"),
+    *[dict(step="bulbospongiosus" if b == "bulbospongiosus" else "perineal", key="base_m", src="m", sid=f"{b}_{s}", id=f"{b}_vhm_{s}", side=s, sys="muscle", region="pelvis", kind="q172",
            name=f"{n} (Visible Human male, registered)", latin=lat, folder="trunk", seg="pelvis", subject="ct_vhm_pfloor",
            allow=(["zan_corpus_spongiosum_of_penis", "zan_corpus_cavernosum_of_penis"] if b != "deep_transverse_perineal" else []))
       for b, n, lat in (("bulbospongiosus", "Bulbospongiosus", "Musculus bulbospongiosus"),
@@ -552,7 +555,7 @@ def book_checks(o, V, F, E, placed, overlaps=()):
             z = E["external_anal_sphincter"]["v"]
             out.append(dict(check="Z-Anatomy sphincter it replaces (measured only)", verdict="info",
                             measured=f"Z-Anatomy external anal sphincter lowest point {float(z[:, 1].min()):.0f} mm vs this one {float(V[:, 1].min()):.0f} mm"))
-    elif s == "perineal":
+    elif s in ("perineal", "bulbospongiosus"):
         hip = E[f"hip_bone_{o['side']}"]
         ht = trimesh.Trimesh(hip["v"], hip["f"], process=False)
         dmin = float(np.abs(trimesh.proximity.signed_distance(ht, V[::max(1, len(V) // 800)])).min())
@@ -579,7 +582,7 @@ def book_checks(o, V, F, E, placed, overlaps=()):
                            BOOK["deep_transverse"][0], f"{dmin:.0f} mm from the bone"))
             out.append(chk("to the median raphe", medial < 10.0, f"medial end {medial:.1f} mm from the median plane", BOOK["deep_transverse"][1],
                            BOOK["deep_transverse"][0], f"{medial:.0f} mm off the midline"))
-        eas = placed.get("external_anal_sphincter_vhm")
+        eas = placed.get("external_anal_sphincter_vhm") or ((E["external_anal_sphincter"]["v"], None) if "external_anal_sphincter" in E else None)
         if eas is not None and not o["sid"].startswith("ischio"):
             de = float(cKDTree(eas[0]).query(V)[0].min())
             out.append(chk("meets the external sphincter at the perineal body", de < 12.0, f"{de:.1f} mm from the external anal sphincter",
@@ -660,12 +663,10 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
                   "): erectile tissue photographs as dark as muscle and no septum separates them at 1 mm, so the mass is larger than the muscle alone.")
     if o["step"] == "rectum":
         badge += (" Its lowest part is the upper anal canal (the CT label does not separate them; the internal sphincter is inside this wall;"
-                  " the lower anal canal is not in the source). The Z-Anatomy 'sigmoid colon' of this page, which runs down the sacral hollow"
-                  " where this rectum lies, is hidden by default ('unhide' on its card).")
+                  " the lower anal canal is not in the source).")
     if o["step"] == "anal":
         badge += (" Only the deep part: a 10 mm ring at the anorectal junction (the source outlined the sphincter only where the CT colon label"
-                  " reaches); the superficial and subcutaneous parts are not in the source. The Z-Anatomy external anal sphincter of this page"
-                  " is hidden by default ('unhide' on its card).")
+                  " reaches); the superficial and subcutaneous parts are not in the source.")
     if o["step"] == "ileum":
         badge += (" One CT label holds jejunum and ileum (no boundary between them is visible on CT; the change is gradual); "
                   "the Z-Anatomy jejunum of this page is hidden by default ('unhide' on its card).")
@@ -677,8 +678,8 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
              "ileum": [BOOK["ileum"], BOOK["ileocaecal"]],
              "kidneys": [BOOK["kidney_levels"], BOOK["kidney_size"], BOOK["kidney_hilum"], BOOK["kidney_rib12"]]}
     facts["kidneys_m"] = facts["kidneys"]
-    if o["step"] == "perineal":
-        facts["perineal"] = [BOOK[{"b": "bulbospongiosus", "i": "ischiocavernosus", "d": "deep_transverse"}[o["sid"][0]]], BOOK["perineal_body"]]
+    if o["step"] in ("perineal", "bulbospongiosus"):
+        facts[o["step"]] = [BOOK[{"b": "bulbospongiosus", "i": "ischiocavernosus", "d": "deep_transverse"}[o["sid"][0]]], BOOK["perineal_body"]]
     fl = facts[o["step"]]
     short = {M17: "Mannan 14th ed.", GA: "Gray's Atlas"}
 
@@ -689,7 +690,7 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
     notes = " ".join(f"{t[1][0].upper()}{t[1][1:]} ({cshort(t[0])})." for t in fl)
     cites = sorted({t[0].split(",")[0] for t in fl})
     rec = {"name": o["name"], "latin": o["latin"], "folder": o["folder"], "region": {"pelvis": "pelvis", "abdomen": "abdomen", "kidney": "abdomen"}[o["region"]]
-           if o["step"] != "perineal" else "perineum",
+           if o["step"] not in ("perineal", "bulbospongiosus") else "perineum",
            "source": src + " Anatomy: " + cite_merge(fl) + ".",
            "geom_src": f"{who} {'CT' if o['kind'] == 'ct' else 'cryosection photographs (rule-based outline)'} (NLM, public domain), registered "
                        f"onto this body by its bones ({TAG}) -- NOT Z-Anatomy geometry",
@@ -813,6 +814,9 @@ def main(argv=None):
     man, blob, files, E = read_page(d, stem)
     ids = [m["id"] for m in man["meshes"]]
     todo = [o for o in ORGANS if o["key"] == key and o["step"] in steps]
+    if not todo and not a.records_only:
+        print(f"Q362_TRANSFER_NOTHING {d}: no step to run on {key} (default steps here: {DEFAULT_STEPS[key] or 'none'})")
+        return 0
     have = [o["id"] for o in todo if o["id"] in ids]
     if a.records_only:
         return records_only(a, d, key, stem, man, files, todo, have)

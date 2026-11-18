@@ -61,15 +61,20 @@ sacral height (S3), posterior wall 13 mm in front of the sacrum, centre 35 mm in
 sphincter ring axis 1 mm from the canal axis; bulbospongiosus 0–1.2 mm from the midline, 0.5 mm from the bulb, 4–5 mm from the sphincter
 (perineal body). Gap from the ring to the anal skin: 32 mm (the source has no superficial / subcutaneous part).
 
-**Hidden by default on Base·M (`hd`, unhide on the card):** `zan_sigmoid_colon` and the Z `external_anal_sphincter`. Why: the Z
-"sigmoid colon" lies wholly below S3 (its top at 0.43 of the sacral height, i.e. at the rectosigmoid junction of the books) down the
-sacral hollow to y −57 mm, 26 mm below the coccyx tip — it is the rectum's (and anal canal's) place under a sigmoid name; the true
-sigmoid loop is part of the Z "descending colon" mesh, which dips into the pelvis to y +9 mm and ends at S3 on the right
-(15, 59, −32). Kept visible it would show the same gut twice, 7–12 mm apart. With it hidden the default view runs: descending colon
-(with its sigmoid loop) → 16 mm gap from that mesh's end to the rectum top (7 mm from the loop at the same height) → rectum → deep
-sphincter ring; the lower anal canal (~32 mm) is in no source. The Z sphincter encircles the hidden Z "sigmoid" end (axis 7 mm off),
-20 mm behind the rectum's end and 2.3 mm from the new ring — left visible it would be a second sphincter around nothing; it is itself
-25 mm above the anal skin (Q336). So the default view shows only the deep ring, not a complete sphincter.
+**Main-thread decision (after the measurements below): nothing is hidden, the CT rectum and the VHM sphincter ring are NOT shipped
+(non-default steps `rectum`, `anal`, kept for the record), and the Z gut meshes are relabelled instead.** The Z "sigmoid colon" lies
+wholly below S3 (top at 0.43 / 0.50 of the sacral height on Base·M / Base·F) down the sacral hollow to 26 / 46 mm below the coccyx tip,
+ending inside the Z external anal sphincter, and it joins the colon (1.8 / 1.4 mm): it IS this body's rectum + anal canal. The true
+sigmoid loop is part of the Z "descending colon" mesh (dips to the sacral apex, ends at S3). Shipping the CT rectum instead would leave
+gaps of 7–16 mm above and 32 mm below. Relabel: `data/anatomy/relabels_q362.json`, applied at regen by
+`scripts/zanatomy/patch_manifest_relabel_q362.py` (after the Q354 card rules): `zan_sigmoid_colon` -> "Rectum and anal canal" (source
+label kept on the card with the reason and Mannan pp. 385, 563), `zan_descending_colon` keeps its name and gets the sigmoid-loop note;
+ids and geometry unchanged. Search: alias entry "Rectum and anal canal" (rectum / anal canal / sigmoid colon) in
+`data/anatomy/synonyms_q306.json`; the "Anal canal" absence entry is removed. Base·F: the relabelled mesh stays hidden as before
+(her own CT rectum / sigmoid are shown; the Z tube lies a median 10.5 mm from her CT rectum).
+**Bulbospongiosus judged on its own (the only default step):** midline (0–1.2 mm) and on the bulb (0.5 mm) pass, but it lies
+22–24 mm from the Z external anal sphincter, which now stays — the books' perineal body (Mannan p. 354: the sphincter meets the
+bulbospongiosus there) is not formed → **held**. So the default apply ships no mesh on either page.
 Renders: scratchpad `q362/shots/m_bowel_deep_{after,z_only}_{front,lateral_right,inferior}.png`, `m_pelvis_after_*.png`.
 
 ## 4. Checks against the owner's books (knowledge only)
@@ -114,21 +119,10 @@ surface exists on that page. Recommendation: keep `skin_vulva_cvh`; a finer real
 
 ## 7. Apply
 
-Default steps (the run takes ~40 min on Base·M: the group nudge is recomputed each time a member is dropped):
-
     python3 scripts/anatomy/q362/transfer_organs_q362.py --page-dir build/q309/viewer_zan_atlas --write --allow-build \
-        --rig-out data/anatomy/pose_rig_base_m.json
-    python3 scripts/anatomy/q362/transfer_organs_q362.py --page-dir build/q309/viewer_base_female --write --allow-build \
-        --rig-out data/anatomy/pose_rig_base_f.json          # ships nothing today (report entry only)
-    python3 scripts/anatomy/q306/build_search_q306.py --src build/q309 base_m base_f
-    # NOT default, only on the owner's say-so (held by the books today, writes nothing):
-    python3 scripts/anatomy/q362/transfer_organs_q362.py --page-dir build/q309/viewer_zan_atlas --steps kidneys_m --write --allow-build \
-        --rig-out data/anatomy/pose_rig_base_m.json
+        --rig-out data/anatomy/pose_rig_base_m.json     # default = bulbospongiosus: held today, writes nothing (report only)
+    python3 scripts/anatomy/q306/build_search_q306.py --src build/q309 base_m base_f    # the new alias entry
+    # non-default, record only: --steps rectum,anal,perineal,ileum,kidneys_m (Base·M), --steps ileum,kidneys (Base·F)
 
-Writes: page html / index.html / `atlas_viewer_zan_atlas_geo_03.txt` (+ `*.q362` originals), `data/anatomy/pose_rig_base_m.json` (4 meshes
-rigid in the pelvis segment), `data/derived/Q362_transfer_report.json`; the search rebuild writes `data/derived/Q306_search_base_{m,f}.json`.
-`data/anatomy/synonyms_q306.json`: the "Anal canal" explanation now says what Base·M carries. A re-apply is refused
-(Q362_TRANSFER_REFUSED). `--records-only` rewrites only the four card records from the report. Regen picks the meshes up through
-`__ANATOMY_manifest` / `__ANATOMY_files` / the geo file, `nmsk-pose-rig`, `nmsk-q306`, `nmsk-abbrev`, `symmetry_q237.json`
-(bulbospongiosus L/R pair); no colour, calibre, plexus or innervation entry is needed. New `--expect-changed` entry:
-`atlas_viewer_zan_atlas_geo_03.txt` (already covered by "all geo files").
+The relabel needs no apply step: regen runs `patch_manifest_relabel_q362.py` on both Base pages (`__ANATOMY_manifest` changes;
+already in the expect list). `--records-only` rewrites the card records of shipped Q362 meshes from the report.
