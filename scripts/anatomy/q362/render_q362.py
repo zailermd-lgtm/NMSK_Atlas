@@ -21,7 +21,7 @@ sys.path.insert(0, str(HERE))
 import transfer_organs_q362 as T                     # noqa: E402
 
 COL = {"bone": "#d9d2c0", "viscera": "#c98a7a", "muscle": "#b5474a", "vessel": "#a33", "new": "#2a7fd4", "new_m": "#1f9e5a"}
-VIEWS = {"front": (0, -90), "lateral_right": (0, 0), "inferior": (-90, -90)}
+VIEWS = {"front": (0, 90), "back": (0, -90), "lateral_right": (0, 0), "inferior": (-90, 90)}
 
 
 def shade(v, f, rgb):
@@ -40,6 +40,7 @@ def main(argv=None):
     ap.add_argument("--context", default=None, help="extra context ids (comma)")
     ap.add_argument("--box", default=None, help="xmin,xmax,ymin,ymax,zmin,zmax (default: around the new meshes + 60 mm)")
     ap.add_argument("--tag", default="after")
+    ap.add_argument("--bones", default=None, help="only these bone ids (comma; default every bone in the box)")
     ap.add_argument("--name", default=None)
     ap.add_argument("--npz", default=None, help="dir of <id>.npz meshes (a dry run's --dump-dir) shown as the new meshes")
     a = ap.parse_args(argv)
@@ -69,7 +70,8 @@ def main(argv=None):
         for k, e in E.items():
             sys_ = e["sys"]
             isnew = k in new
-            if not isnew and not (sys_ == "bone" or k in ctx):
+            bones_ok = sys_ == "bone" and (a.bones is None or k in a.bones.split(","))
+            if not isnew and not (bones_ok or k in ctx):
                 continue
             v, f = e["v"], e["f"]
             c = v[f].mean(1)

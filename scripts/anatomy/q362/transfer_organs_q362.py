@@ -611,6 +611,10 @@ def book_checks(o, V, F, E, placed, overlaps=()):
 
 
 # ------------------------------------------------------------------ records
+BONE_NAME = {"hip_l": "left hip bone", "hip_r": "right hip bone", "sacrum": "sacrum", "coccyx": "coccyx", "femur_l": "left femur (top)",
+             "femur_r": "right femur (top)", **{f"rib{k}_{s}": f"{'left' if s == 'l' else 'right'} rib {k}" for k in (10, 11, 12) for s in "lr"}}
+
+
 def cite_merge(fl):
     """one citation per book, its pages merged: 'Mannan ..., pp. 351, 385, 563' (fl = [(citation, fact)])"""
     by = {}
@@ -618,7 +622,7 @@ def cite_merge(fl):
         book = M17 if c.startswith(M17) else GA if c.startswith(GA) else c
         for part in c.split("; "):
             if part.startswith(book):
-                pg = re.findall(r"pp?\. ([\d\-, ]+?)(?: \(| and|$|;)", part[len(book):] + ";")
+                pg = re.findall(r"(?<!PDF )pp?\. ([\d\-]+(?:, [\d\-]+)*)", part[len(book):])
                 by.setdefault(book, set()).update(x.strip() for g in pg for x in g.split(",") if x.strip())
             elif part.startswith(GA):
                 by.setdefault(GA, set()).update(x.strip() for x in re.findall(r"pp?\. ([\d\-, ]+)", part)[0].split(","))
@@ -631,7 +635,7 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
     s, Rm, t = T
     deg = RG.rotation_deg(Rm) if not np.isscalar(Rm) else float(Rm)
     res = R["_all"]
-    per = "; ".join(f"{k} {v['median']:.1f}" for k, v in sorted(R.items()) if k != "_all")
+    per = "; ".join(f"{BONE_NAME.get(k, k)} {v['median']:.1f}" for k, v in sorted(R.items()) if k != "_all")
     if o["kind"] == "ct":
         src = (f"{who} ({NLM}), frozen CT; automatic segmentation: {TS}; the organ as shown on the Imaging-based "
                f"{'Male' if o['src'] == 'm' else 'Female'} page, registered onto this body by its bones.")
@@ -645,8 +649,9 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
                f"bounded by {his} CT bone and organ labels, as shown on the Imaging-based Male page; registered onto this body by its bones.")
         lead = (f"Rule-based outline on a real scan, registered: the {who}'s own cryosection photographs, outlined by stated position rules.")
         how = "outlined on the photographs by stated position rules and a watershed (rule-based segmentation, not a dissection)"
-    nud = (f" Rigid nudge {nudge['mm']} mm (to clear bone / skin)." if nudge.get("needed") and not nudge.get("failed") else "")
-    badge = (f"{lead} {how.capitalize()}. Registration: similarity fitted on {o['region']} bones ({', '.join(k for k in sorted(R) if k != '_all')}): "
+    nud = (f" Then one rigid shift of {nudge['mm']} mm, the same for every structure carried with it from this subject's {o['region']}, "
+           f"to keep clear of bone, skin and the solid organs around it." if nudge.get("needed") and not nudge.get("failed") else "")
+    badge = (f"{lead} {how[0].upper() + how[1:]}. Registration: similarity fitted on {o['region']} bones ({', '.join(BONE_NAME.get(k, k) for k in sorted(R) if k != '_all')}): "
              f"uniform scale x{s:.3f}, rotation {deg:.1f} deg; bone residual median {res['median']:.1f} / p90 {res['p90']:.1f} mm "
              f"(per bone median: {per}). No warp: the shape is the source's, only scaled. Volume {before['volume_cm3']} cm3 on the source, "
              f"{after['volume_cm3']} cm3 here.{nud} Not this body's own organ, not Z-Anatomy geometry, not drawn by hand.")
@@ -741,6 +746,34 @@ def seg_for(o, V, E, rig):
     return best[1]
 
 
+def records_only(a, d, key, stem, man, files, todo, have):
+    rp = Path(a.report)
+    rep = json.loads(rp.read_text(encoding="utf-8"))["pages"][stem]
+    man2 = json.loads(json.dumps(man))
+    by = {m["id"]: m for m in man2["meshes"]}
+    n = 0
+    for o in todo:
+        it = rep["structures"].get(o["id"])
+        if o["id"] not in have or not it or it["status"] != "ship":
+            continue
+        r = it["registration"]
+        rec = record(o, r["residual_mm"], (r["scale"], r["rotation_deg"], None), it["shape"]["before"], it["shape"]["after"], None,
+                     it["book_checks"], it["nudge"])
+        by[o["id"]]["rec"] = rec; it["rec"] = rec; n += 1
+    pages = C340.pages_of(d, stem)
+    for p in pages:
+        t = p.read_text(encoding="utf-8")
+        bk = p.with_name(p.name + SUFFIX)
+        if not bk.exists():
+            shutil.copy2(p, bk)
+        t2 = C340.LIT["manifest"].sub(lambda _m: "window.__ANATOMY_MANIFEST__=" + C340.ser_manifest(man2) + ";", t, count=1)
+        p.write_text(t2, encoding="utf-8")
+    allr = json.loads(rp.read_text(encoding="utf-8")); allr["pages"][stem] = rep
+    rp.write_text(json.dumps(allr, indent=1), encoding="utf-8")
+    print(f"Q362_RECORDS_REWRITTEN {d}: {n} records")
+    return 0
+
+
 def rel(p) -> str:
     p = Path(p).resolve()
     try:
@@ -760,6 +793,8 @@ def main(argv=None):
     ap.add_argument("--rig-out", default=None, help="where the spliced rig goes (default <page-dir>/../pose_rig_<key>.q362.json)")
     ap.add_argument("--src-root", default=None, help="dir holding viewer_m_hr / viewer_f_hr (read only; default build/q309)")
     ap.add_argument("--report", default=str(REPORT))
+    ap.add_argument("--records-only", action="store_true",
+                    help="on a page that already carries the Q362 meshes: rewrite only their card records (rec) from the report; geometry untouched")
     ap.add_argument("--dump-dir", default=None, help="also save each placed mesh as <id>.npz here (renders, inspection)")
     a = ap.parse_args(argv)
     d = Path(a.page_dir).resolve()
@@ -779,6 +814,8 @@ def main(argv=None):
     ids = [m["id"] for m in man["meshes"]]
     todo = [o for o in ORGANS if o["key"] == key and o["step"] in steps]
     have = [o["id"] for o in todo if o["id"] in ids]
+    if a.records_only:
+        return records_only(a, d, key, stem, man, files, todo, have)
     if have:
         print(f"Q362_TRANSFER_REFUSED {d}: the page already carries {have} (steps {steps}). Re-apply only on the page before Q362: restore "
               f"every '<file>{SUFFIX}' beside its file in {d} and the pose rig, then run again.")
@@ -952,7 +989,7 @@ def main(argv=None):
         assert ids_new[-len(present):] == present, f"{present} must stay at the end, in this order"
     assert [i for i in ids_new if i in set(ids)] == ids, "existing meshes must keep their order"
     rig_out = Path(a.rig_out).resolve() if a.rig_out else d.parent / f"pose_rig_{key}{SUFFIX}.json"
-    rep["rig"] = splice_rig(rig_src, man, man_new, seg, rig_out if (a.write and ship) else None)
+    rep["rig"] = splice_rig(rig_src, man, man_new, seg, rig_out if (a.write and ship) else None) if ship else {"rig_in": rel(rig_src), "added": []}
     if a.write and ship:
         rep["files_written"] = write_page(d, stem, man, man_new, blob_new, files)
     else:

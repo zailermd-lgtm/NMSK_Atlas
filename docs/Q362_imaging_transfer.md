@@ -43,7 +43,34 @@ Guards: no vertex > 1 mm in bone; none outside the skin (Q357 voxel body + ray f
 neighbour's vertices lie > 3 mm inside the organ; fat volumes, open fascial sheets and vessel / nerve tubes are listed only; any book
 check that differs (except a size) holds the organ.
 
-RESULTS_TABLE
+| organ (page) | outcome | volume source → here (cm³) | nudge | why / overlaps (solid neighbour: organ vertices in, max depth) |
+|---|---|---|---|---|
+| rectum `rectum_vhm` (M) | **shipped** | 42.9 → 29.6 (= 0.884³) | 5.0 mm down, with the group | Z bladder 155 v, 4.8 mm; Z sigmoid 146 v, 1.3 mm (hidden, see below); prostate 18 v, 2.2 mm |
+| external anal sphincter `external_anal_sphincter_vhm` (M) | **shipped** (deep ring only) | 3.27 → 2.26 | same | Z prostate 344 v, 5.6 mm (< 6 mm: within the bone residual) |
+| bulbospongiosus `_vhm_l/_r` (M) | **shipped** | 5.34 / 4.63 → 3.69 / 3.20 | same | Z corpora (by design: the source mass includes the bulb) up to 7.1 mm; prostate ≤ 3.1 mm |
+| ischiocavernosus L/R (M) | held | 5.56 / 6.87 | none fits | 179 / 255 vertices up to 5.1 / 5.5 mm in the ischiopubic ramus |
+| deep transverse perineal L/R (M) | held | 5.94 / 5.60 | tried, also alone | 542 / 682 vertices > 3 mm in the Z prostate, max 10–11 mm |
+| small bowel `small_bowel_vhm` (M) | held | 953 → 683 | 5.0 mm | engulfs left rectus abdominis / internal oblique up to 18–19 mm; 31 mm into the Z stomach |
+| small bowel `small_bowel_vhf` (F) | held | 1110 → 916 | 4.0 mm | engulfs the uterus (1833 of 4502 vertices > 3 mm, max 10 mm), right uterine tube, her cryosection uterus |
+| kidneys `kidney_vhf_l/_r` (F) | held | 206 / 156 → 257 / 194 | — | books: poles L1 → L5 / L4, hilum L3 / L2; psoas 68 v, 9.6 mm |
+| kidneys `kidneys_m` (M, female source, not default) | held | 206 / 156 → 179 / 135 | 4.5 / 5.0 mm alone | books: poles L1 → L4–L5; psoas up to 12.6 mm |
+
+The four shipped meshes moved as ONE rigid group (their relations are his own): 5.0 mm inferior, deviation from the pure similarity
+5.0 mm, shape unchanged (volume ratio = scale³ within 0.1 %). Books checks of the shipped ones all pass: rectum upper end at 0.47 of the
+sacral height (S3), posterior wall 13 mm in front of the sacrum, centre 35 mm in front of the coccyx tip, behind prostate and bladder;
+sphincter ring axis 1 mm from the canal axis; bulbospongiosus 0–1.2 mm from the midline, 0.5 mm from the bulb, 4–5 mm from the sphincter
+(perineal body). Gap from the ring to the anal skin: 32 mm (the source has no superficial / subcutaneous part).
+
+**Hidden by default on Base·M (`hd`, unhide on the card):** `zan_sigmoid_colon` and the Z `external_anal_sphincter`. Why: the Z
+"sigmoid colon" lies wholly below S3 (its top at 0.43 of the sacral height, i.e. at the rectosigmoid junction of the books) down the
+sacral hollow to y −57 mm, 26 mm below the coccyx tip — it is the rectum's (and anal canal's) place under a sigmoid name; the true
+sigmoid loop is part of the Z "descending colon" mesh, which dips into the pelvis to y +9 mm and ends at S3 on the right
+(15, 59, −32). Kept visible it would show the same gut twice, 7–12 mm apart. With it hidden the default view runs: descending colon
+(with its sigmoid loop) → 16 mm gap from that mesh's end to the rectum top (7 mm from the loop at the same height) → rectum → deep
+sphincter ring; the lower anal canal (~32 mm) is in no source. The Z sphincter encircles the hidden Z "sigmoid" end (axis 7 mm off),
+20 mm behind the rectum's end and 2.3 mm from the new ring — left visible it would be a second sphincter around nothing; it is itself
+25 mm above the anal skin (Q336). So the default view shows only the deep ring, not a complete sphincter.
+Renders: scratchpad `q362/shots/m_bowel_deep_{after,z_only}_{front,lateral_right,inferior}.png`, `m_pelvis_after_*.png`.
 
 ## 4. Checks against the owner's books (knowledge only)
 
@@ -87,4 +114,21 @@ surface exists on that page. Recommendation: keep `skin_vulva_cvh`; a finer real
 
 ## 7. Apply
 
-APPLY_BLOCK
+Default steps (the run takes ~40 min on Base·M: the group nudge is recomputed each time a member is dropped):
+
+    python3 scripts/anatomy/q362/transfer_organs_q362.py --page-dir build/q309/viewer_zan_atlas --write --allow-build \
+        --rig-out data/anatomy/pose_rig_base_m.json
+    python3 scripts/anatomy/q362/transfer_organs_q362.py --page-dir build/q309/viewer_base_female --write --allow-build \
+        --rig-out data/anatomy/pose_rig_base_f.json          # ships nothing today (report entry only)
+    python3 scripts/anatomy/q306/build_search_q306.py --src build/q309 base_m base_f
+    # NOT default, only on the owner's say-so (held by the books today, writes nothing):
+    python3 scripts/anatomy/q362/transfer_organs_q362.py --page-dir build/q309/viewer_zan_atlas --steps kidneys_m --write --allow-build \
+        --rig-out data/anatomy/pose_rig_base_m.json
+
+Writes: page html / index.html / `atlas_viewer_zan_atlas_geo_03.txt` (+ `*.q362` originals), `data/anatomy/pose_rig_base_m.json` (4 meshes
+rigid in the pelvis segment), `data/derived/Q362_transfer_report.json`; the search rebuild writes `data/derived/Q306_search_base_{m,f}.json`.
+`data/anatomy/synonyms_q306.json`: the "Anal canal" explanation now says what Base·M carries. A re-apply is refused
+(Q362_TRANSFER_REFUSED). `--records-only` rewrites only the four card records from the report. Regen picks the meshes up through
+`__ANATOMY_manifest` / `__ANATOMY_files` / the geo file, `nmsk-pose-rig`, `nmsk-q306`, `nmsk-abbrev`, `symmetry_q237.json`
+(bulbospongiosus L/R pair); no colour, calibre, plexus or innervation entry is needed. New `--expect-changed` entry:
+`atlas_viewer_zan_atlas_geo_03.txt` (already covered by "all geo files").
