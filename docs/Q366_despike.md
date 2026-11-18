@@ -136,3 +136,22 @@ geometry spliced back), same cameras, skin / bone / fat hidden:
 | whole body front / back | unchanged at body scale |
 
 Nothing looked worse than before in any pair.
+
+Verifiers on the regenerated page (all with the Q372 template):
+
+* `q334/verify_skin_seams_q334.py`: `Q334_SEAMS_FAIL` with the 4 known FAILs only, none worse — trunk solid 2.58, trunk faded
+  2.94, trunk default 1.85 (1.84 before the round: render noise), knee default 2.12 (2.21 before); 33 OK.
+* `q358/verify_q358.py` `Q358_VERIFY_OK` · `q336/verify_q336.py` (regen root) `Q336_VERIFY_OK` ·
+  `q329/verify_mode_undo_q329.py` `Q329_MODEUNDO_OK` · `q325/verify_needle_clip_q325.py --size 1400x900` `Q325_NEEDLECLIP_OK` ·
+  `q367/verify_plan_q367.py` `Q367_PLAN_OK` · `q321/verify_quickcard_q321.py --no-patch` `Q321_QUICKCARD_OK` (198 OK).
+* `tests/test_q366_despike.py`: 9 passed (smooth anisotropic warp recovered < 0.4 mm; a 5 mm single-vertex spike, a 7-vertex
+  and three 12-vertex patches flagged and put back; a frozen vertex left; a tube bent through 2.5 rad not flagged, a spike on it
+  flagged).
+
+## Apply (main thread)
+
+    python3 scripts/anatomy/q366/despike_q366.py --page-dir build/q309/viewer_base_female --write --allow-build
+
+Deterministic: it reproduces the private run (649 structures, 3,421 vertices) and rewrites
+`data/derived/Q366_despike_report.json`. No pose-rig re-encode and no search rebuild follow (counts / order unchanged; the index
+reads neither geometry nor card notes). Then the usual regen + publish of Base·F.
