@@ -121,7 +121,7 @@ So (b) adds nothing for the head nerves.
 | organ | Base·M | Base·F | finding | sev | source / fix |
 |---|---|---|---|---|---|
 | Pharynx, oesophagus, stomach, duodenum | present | present | — | — | — |
-| Jejunum | one mesh, **inside-out** | same | | S | flip winding |
+| Jejunum | one mesh, **inside-out** | same | | S **2026-11-18: not a visible defect** — the engine draws both sides and turns the normal by face orientation (template l. 11760); 185 (M) / 174 (F) closed meshes have a negative signed volume (lungs, frontal, mandible, limb vessels) and render correctly. No winding round. | flip winding |
 | **Ileum** | **absent** | **absent** | the small bowel stops at the jejunum | **B** | (b) `small_bowel` (jejunum + ileum) from his/her CT on Imaging·M/F; Z has none |
 | Caecum | absent | absent | appendix and colon are present | S | (b) inside Imaging `colon`? (c) otherwise |
 | Colon (ascending, transverse, descending, sigmoid), appendix, taeniae, mesocolon, omenta | present | present (+ her own sigmoid, CT) | — | — | — |
