@@ -49,6 +49,30 @@ def components(v, f):
 
 
 # ------------------------------------------------------------------ the bones of each body, by canonical name
+PIECES = {}    # rib level -> number of source pieces of the last side split (a rib broken in the source segmentation has > 1)
+
+
+def broken_ribs(O, region):
+    """the ribs of the landmark set that the source segmentation holds in more than one piece (both sides)."""
+    out = []
+    levels = (11, 12) if region == "kidney" else (10, 11, 12)
+    lev = _levels(O)
+    for s in "lr":
+        PIECES.clear()
+        ribs_by_level(O[f"ribs_{s}"]["v"], O[f"ribs_{s}"]["f"], {k: O[lev[f"T{k}"]] for k in range(1, 13)})
+        out += [f"rib{k}_{s}" for k in levels if PIECES.get(k, 1) > 1]
+        if PIECES.get("orphans"):
+            out.append(f"ribs_{s}: {PIECES['orphans']} piece(s) reaching no rib head")
+    return out
+
+
+def _levels(O):
+    lv = sorted({id(O[k]["v"]): k for k in O if O[k]["id"] == "lumbar_vertebrae"}.values(), key=lambda k: -O[k]["v"][:, 1].mean())
+    tv = sorted({id(O[k]["v"]): k for k in O if O[k]["id"] == "thoracic_vertebrae"}.values(), key=lambda k: -O[k]["v"][:, 1].mean())
+    lev = {f"T{i + 1}": tv[i] for i in range(12)}; lev.update({f"L{i + 1}": lv[i] for i in range(5)})
+    return lev
+
+
 def largest(v, f):
     c = components(v, f)
     return max(c, key=lambda x: len(x[1])) if len(c) > 1 else (v, f)
@@ -122,6 +146,8 @@ def ribs_by_level(v, f, tvert):
             if best[1] is not None:
                 heads[best[1]].append(c); del rest[ci]; changed = True
     out = {}
+    PIECES.update({k: len(parts) for k, parts in heads.items()})
+    PIECES["orphans"] = sum(1 for c in rest if len(c[0]) > 60)      # rib pieces that reach no head (a rib broken in the source)
     for k, parts in heads.items():
         vs, fs, o = [], [], 0
         for pv, pf in parts:

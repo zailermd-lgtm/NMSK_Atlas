@@ -75,6 +75,8 @@ NUDGE_CAP = 5.0
 SOLID = ("viscera", "muscle", "cns")   # solid neighbours (fat volumes, open fascial sheets, vessel / nerve / lymph tubes: listed only)
 SOFT_DEPTH = 3.0     # mm: an organ vertex deeper than this inside a solid neighbour counts as a real overlap
 SOFT_FRAC = 0.03
+SOFT_MAX = 6.0       # mm: ... and deeper than this at its deepest. Shallower overlaps are within the bones' registration error (pelvis median
+                     # 3.5 / p90 9.2 mm) and are listed on the card and in the report, not held
 NONBLOCKING = ("length",)   # a book check that differs holds the organ, except these (a size is the subject's own)     # held when more than this share of the organ's vertices is deeper than SOFT_DEPTH in one solid neighbour
 DEFAULT_STEPS = {"base_m": ["rectum", "anal", "perineal", "ileum"], "base_f": ["ileum", "kidneys"]}
 ALL_STEPS = {"base_m": ["rectum", "anal", "perineal", "ileum", "kidneys_m"], "base_f": ["ileum", "kidneys"]}
@@ -275,13 +277,14 @@ class Fit:
             vs.append(v); fs.append(e["f"] + off); off += len(v)
         return trimesh.Trimesh(np.vstack(vs), np.vstack(fs), process=False) if vs else None
 
-    def solid_grid(self, V, allowed):
-        """depth (mm) inside any SOLID neighbour (viscera / muscle / cns, not `allowed`) on a 1 mm grid around the organ (+ NUDGE_CAP):
-        winding inside mask per neighbour, depth = Euclidean distance transform of the mask.  Used to score nudge candidates."""
-        from scipy import ndimage
+    def solid_grid(self, V, allowed, pitch=2.0):
+        """depth (mm) inside any SOLID neighbour (viscera / muscle / cns, not `allowed`), sampled on a 2 mm grid restricted to a band of
+        NUDGE_CAP + 2 mm around the organ's vertices (winding inside test, depth = distance to that neighbour's surface); 0 elsewhere.
+        Used only to score nudge candidates; the final overlaps are measured exactly."""
         lo = V.min(0) - NUDGE_CAP - 3; hi = V.max(0) + NUDGE_CAP + 3
-        shp = np.ceil(hi - lo).astype(int) + 1
-        g = np.stack(np.meshgrid(*[lo[i] + np.arange(shp[i]) for i in range(3)], indexing="ij"), -1).reshape(-1, 3)
+        shp = np.ceil((hi - lo) / pitch).astype(int) + 1
+        g = np.stack(np.meshgrid(*[lo[i] + pitch * np.arange(shp[i]) for i in range(3)], indexing="ij"), -1).reshape(-1, 3)
+        near = cKDTree(V).query(g, distance_upper_bound=NUDGE_CAP + 2)[0] < np.inf
         dep = np.zeros(len(g))
         for k, e in self.E.items():
             if e["sys"] not in SOLID or k in allowed:
@@ -289,54 +292,65 @@ class Fit:
             v = e["v"]
             if (v.min(0) > hi).any() or (v.max(0) < lo).any():
                 continue
-            m = np.all((g > v.min(0) - 0.5) & (g < v.max(0) + 0.5), axis=1)
+            m = near & np.all((g > v.min(0) - 0.5) & (g < v.max(0) + 0.5), axis=1)
             if not m.any():
                 continue
             idx = np.where(m)[0]
-            ins = np.zeros(len(g), bool); ins[idx[winding_in(g[idx], v, e["f"])]] = True
-            if ins.any():
-                dep = np.maximum(dep, ndimage.distance_transform_edt(ins.reshape(shp)).ravel())
+            j = idx[winding_in(g[idx], v, e["f"])]
+            if len(j):
+                d = trimesh.proximity.closest_point(self.tm(k), g[j])[1]
+                dep[j] = np.maximum(dep[j], d)
         D = dep.reshape(shp)
-        return lambda P: D[tuple(np.clip(np.rint(P - lo).astype(int), 0, shp - 1).T)]
+        return lambda P: D[tuple(np.clip(np.rint((P - lo) / pitch).astype(int), 0, shp - 1).T)]
 
-    def nudge(self, V, allowed=()):
-        """smallest-cost rigid translation (<= NUDGE_CAP mm) that leaves no vertex > BONE_MM in bone and none outside the skin, and puts
-        as few organ vertices as possible deeper than SOFT_DEPTH in a solid neighbour (ties: the smaller move)."""
-        b0, _ = self.in_bone(V); s0, _ = self.outside_skin(V)
-        depth = self.solid_grid(V, set(allowed))
-        c0 = int((depth(V) > SOFT_DEPTH).sum())
-        if not b0 and not s0 and c0 <= SOFT_FRAC * len(V):
+    def nudge(self, parts):
+        """ONE rigid translation (<= NUDGE_CAP mm) for a group of organs of one source region (their relations to each other are the
+        subject's own and are kept): no vertex of any > BONE_MM in bone, none outside the skin, and as few vertices as possible deeper than
+        SOFT_DEPTH in a solid neighbour (each organ with its own allowed set); ties -> the smaller move.  parts = [(V, allowed)]."""
+        b0 = [self.in_bone(V)[0] for V, _ in parts]; s0 = [self.outside_skin(V)[0] for V, _ in parts]
+        if not hasattr(self, "_grid"):
+            self._grid = {}
+        depth = []
+        for V, al in parts:
+            k_ = (V.shape[0], float(V[:, 0].sum()), tuple(sorted(al)))
+            if k_ not in self._grid:
+                self._grid[k_] = self.solid_grid(V, set(al))
+            depth.append(self._grid[k_])
+        cost = lambda t: int(sum((dp(V + t) > SOFT_DEPTH).sum() for dp, (V, _) in zip(depth, parts)))
+        c0 = cost(np.zeros(3))
+        lim = sum(SOFT_FRAC * len(V) for V, _ in parts)
+        if not any(b0) and not any(s0) and c0 <= lim:
             return np.zeros(3), dict(needed=False, deep_solid_vertices=c0)
         dirs = [np.array((x, y, z), float) for x in (-1, 0, 1) for y in (-1, 0, 1) for z in (-1, 0, 1) if (x, y, z) != (0, 0, 0)]
         dirs = [u / np.linalg.norm(u) for u in dirs]
-        if b0:                                       # the bones' outward normal at the offending vertices
-            _, ins = self.in_bone(V)
-            d, i = cKDTree(self.B.P).query(V[ins])
-            n = self.B.N[i].mean(0)
-            if np.linalg.norm(n) > 1e-6:
-                dirs.insert(0, n / np.linalg.norm(n))
-        s0v = int((self.ctx.outside_skin(V) > 0).sum())
-        lo, hi = V.min(0) - NUDGE_CAP - 2, V.max(0) + NUDGE_CAP + 2
+        for (V, _), b in zip(parts, b0):              # the bones' outward normal at the offending vertices
+            if b:
+                _, ins = self.in_bone(V)
+                d, i = cKDTree(self.B.P).query(V[ins])
+                n = self.B.N[i].mean(0)
+                if np.linalg.norm(n) > 1e-6:
+                    dirs.insert(0, n / np.linalg.norm(n))
+        U = np.vstack([V for V, _ in parts])
+        s0v = int((self.ctx.outside_skin(U) > 0).sum())
+        lo, hi = U.min(0) - NUDGE_CAP - 2, U.max(0) + NUDGE_CAP + 2
         bv = self.B.subset([k for k in self.B.names if not (np.any(self.B.T[k].bounds[0] > hi) or np.any(self.B.T[k].bounds[1] < lo))], lo, hi)
-        cands = []
+        cands = [(c0, 0.0, np.zeros(3))] if not any(b0) and not any(s0) else []
         for step in np.arange(0.5, NUDGE_CAP + 1e-9, 0.5):
             for u in dirs:
-                W = V + step * u
-                if (bv.signed(W)[0] > BONE_MM).any():            # fast screens; the exact tests below confirm
+                t = step * u
+                if (bv.signed(U + t)[0] > BONE_MM).any():            # fast screens; the exact tests below confirm
                     continue
-                if (self.ctx.outside_skin(W) > 0).sum() > s0v:
+                if (self.ctx.outside_skin(U + t) > 0).sum() > s0v:
                     continue
-                cands.append((int((depth(W) > SOFT_DEPTH).sum()), float(step), u))
+                cands.append((cost(t), float(step), u))
         cands.sort(key=lambda c: (c[0], c[1]))
-        for c, step, u in cands[:40]:
-            if c >= c0 and not b0 and not s0:
-                break
-            W = V + step * u
-            b, _ = self.in_bone(W); s, _ = self.outside_skin(W)
-            if not b and not s:
-                return step * u, dict(needed=True, mm=round(step, 2), direction=[round(float(x), 3) for x in u],
-                                      before=dict(in_bone=b0, outside_skin=s0, deep_solid_vertices=c0), deep_solid_vertices=c)
-        return None if (b0 or s0) else np.zeros(3), dict(needed=True, failed=True, before=dict(in_bone=b0, outside_skin=s0, deep_solid_vertices=c0))
+        for c, step, u in cands[:15]:
+            t = step * u
+            if all(not self.in_bone(V + t)[0] and not self.outside_skin(V + t)[0] for V, _ in parts):
+                info = dict(needed=step > 0, mm=round(step, 2), direction=[round(float(x), 3) for x in u],
+                            before=dict(in_bone=b0, outside_skin=s0, deep_solid_vertices=c0), deep_solid_vertices=c)
+                return t, info
+        return None, dict(needed=True, failed=True, before=dict(in_bone=b0, outside_skin=s0, deep_solid_vertices=c0))
 
     def overlaps(self, sid, V, F, others=(), skip=()):
         """soft neighbours: (a) the organ's vertices inside a neighbour (winding > 0.5), depth = distance to that neighbour's surface;
@@ -368,6 +382,7 @@ class Fit:
                              organ_vertices_inside=int(a.sum()), organ_vertices_deeper_than_soft_mm=int((da > SOFT_DEPTH).sum()),
                              organ_depth_max_mm=round(float(da.max()), 1) if len(da) else 0.0,
                              neighbour_vertices_inside=int(b.sum()), neighbour_vertices=int(len(v)),
+                             neighbour_vertices_deeper_than_soft_mm=int((db > SOFT_DEPTH).sum()),
                              neighbour_depth_max_mm=round(float(db.max()), 1) if len(db) else 0.0))
         rows.sort(key=lambda r: -(r["organ_vertices_inside"] + r["neighbour_vertices_inside"]))
         return rows
@@ -422,7 +437,7 @@ def chk(name, ok, measured, expected, cite, differs=None):
                 **({"by": differs} if differs and not ok else {}))
 
 
-def book_checks(o, V, F, E, placed):
+def book_checks(o, V, F, E, placed, overlaps=()):
     s = o["step"]
     out = []
     if s in ("kidneys", "kidneys_m"):
@@ -492,16 +507,19 @@ def book_checks(o, V, F, E, placed):
             dz = float(sl[:, 2].mean() - tip[2])
             out.append(chk("bend ~3 cm in front of the coccyx", 15 <= dz <= 50, f"rectum centre {dz:.0f} mm in front of the coccyx tip at its height",
                            BOOK["rectum_bend"][1], BOOK["rectum_bend"][0], f"{dz - 30:+.0f} mm vs 30 mm"))
+        ov = {r["neighbour"]: r for r in overlaps}
         for nb in ("zan_prostate", "zan_urinary_bladder"):
             if nb in E:
                 P = E[nb]["v"]
-                ylo, yhi = P[:, 1].min(), P[:, 1].max()
-                sl = V[(V[:, 1] > ylo) & (V[:, 1] < yhi)]
-                if len(sl):
-                    gap = float(np.percentile(P[:, 2], 2) - sl[:, 2].max())
-                    out.append(chk(f"behind the {E[nb]['name'].lower()}", gap > -8.0,
-                                   f"rectum front {gap:+.0f} mm behind the {E[nb]['name'].lower()}'s back (2nd percentile) at its height",
-                                   BOOK["rectum_bladder"][1], BOOK["rectum_bladder"][0], f"overlaps by {-gap:.0f} mm"))
+                r = ov.get(nb, {})
+                deep = int(r.get("organ_vertices_deeper_than_soft_mm", 0))
+                dz = float(P[:, 2].mean() - V[(V[:, 1] > P[:, 1].min()) & (V[:, 1] < P[:, 1].max())][:, 2].mean()) \
+                    if ((V[:, 1] > P[:, 1].min()) & (V[:, 1] < P[:, 1].max())).any() else float(P[:, 2].mean() - V[:, 2].mean())
+                ok = dz > 0 and (deep <= SOFT_FRAC * len(V) or float(r.get("organ_depth_max_mm", 0)) <= SOFT_MAX)
+                nm = E[nb]["name"].lower()
+                out.append(chk(f"behind the {nm}", ok, f"its centre {dz:.0f} mm in front of the rectum's at that height; {deep} rectum vertices "
+                               f"> {SOFT_DEPTH:.0f} mm inside it (max {r.get('organ_depth_max_mm', 0)} mm)",
+                               BOOK["rectum_bladder"][1], BOOK["rectum_bladder"][0], f"{deep} vertices inside it"))
         dco = E.get("zan_descending_colon")
         if dco is not None:
             lowp = dco["v"][np.argmin(dco["v"][:, 1])]
@@ -593,15 +611,30 @@ def book_checks(o, V, F, E, placed):
 
 
 # ------------------------------------------------------------------ records
+def cite_merge(fl):
+    """one citation per book, its pages merged: 'Mannan ..., pp. 351, 385, 563' (fl = [(citation, fact)])"""
+    by = {}
+    for c, _ in fl:
+        book = M17 if c.startswith(M17) else GA if c.startswith(GA) else c
+        for part in c.split("; "):
+            if part.startswith(book):
+                pg = re.findall(r"pp?\. ([\d\-, ]+?)(?: \(| and|$|;)", part[len(book):] + ";")
+                by.setdefault(book, set()).update(x.strip() for g in pg for x in g.split(",") if x.strip())
+            elif part.startswith(GA):
+                by.setdefault(GA, set()).update(x.strip() for x in re.findall(r"pp?\. ([\d\-, ]+)", part)[0].split(","))
+    key = lambda x: int(re.match(r"\d+", x).group(0))
+    return "; ".join(f"{b}, p{'p' if len(v) > 1 else ''}. {', '.join(sorted(v, key=key))}" for b, v in by.items())
+
+
 def record(o, R, T, before, after, fitrep, checks, nudge):
     who, his = WHO[o["src"]]
     s, Rm, t = T
-    deg = RG.rotation_deg(Rm)
+    deg = RG.rotation_deg(Rm) if not np.isscalar(Rm) else float(Rm)
     res = R["_all"]
     per = "; ".join(f"{k} {v['median']:.1f}" for k, v in sorted(R.items()) if k != "_all")
     if o["kind"] == "ct":
-        src = (f"{who} ({NLM}), frozen CT; automatic segmentation: {TS}; subject {o['subject']} of the Imaging-based "
-               f"{'Male' if o['src'] == 'm' else 'Female'} page. Registered onto this body in {TAG}.")
+        src = (f"{who} ({NLM}), frozen CT; automatic segmentation: {TS}; the organ as shown on the Imaging-based "
+               f"{'Male' if o['src'] == 'm' else 'Female'} page, registered onto this body by its bones.")
         lead = (f"Real organ of another body, registered: the {who}'s own CT {o['sid'].replace('_l', '').replace('_r', '').replace('_', ' ')}, "
                 f"carried onto this body by the bones both have.")
         if o.get("cross_sex"):
@@ -609,7 +642,7 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
         how = "segmented automatically from the CT (not hand-drawn)"
     else:
         src = (f"{who} ({NLM}), {his} 1 mm cryosection photographs; outlined by this project's own position rules + marker watershed, "
-               f"bounded by {his} CT bone and organ labels (subject {o['subject']} of the Imaging-based Male page). Registered onto this body in {TAG}.")
+               f"bounded by {his} CT bone and organ labels, as shown on the Imaging-based Male page; registered onto this body by its bones.")
         lead = (f"Rule-based outline on a real scan, registered: the {who}'s own cryosection photographs, outlined by stated position rules.")
         how = "outlined on the photographs by stated position rules and a watershed (rule-based segmentation, not a dissection)"
     nud = (f" Rigid nudge {nudge['mm']} mm (to clear bone / skin)." if nudge.get("needed") and not nudge.get("failed") else "")
@@ -652,7 +685,7 @@ def record(o, R, T, before, after, fitrep, checks, nudge):
     cites = sorted({t[0].split(",")[0] for t in fl})
     rec = {"name": o["name"], "latin": o["latin"], "folder": o["folder"], "region": {"pelvis": "pelvis", "abdomen": "abdomen", "kidney": "abdomen"}[o["region"]]
            if o["step"] != "perineal" else "perineum",
-           "source": src + " Anatomy: " + "; ".join(sorted({t[0] for t in fl})) + ".",
+           "source": src + " Anatomy: " + cite_merge(fl) + ".",
            "geom_src": f"{who} {'CT' if o['kind'] == 'ct' else 'cryosection photographs (rule-based outline)'} (NLM, public domain), registered "
                        f"onto this body by its bones ({TAG}) -- NOT Z-Anatomy geometry",
            "method": "registered another person's real " + ("organ" if o["kind"] == "ct" else "rule-based segmentation") +
@@ -763,9 +796,14 @@ def main(argv=None):
         O = srcs[o["src"]]
         rk = (o["src"], o["region"])
         if rk not in regs:
-            sb = RG.src_bones(O, o["region"]); db = RG.dst_bones(E, list(sb))
+            sb = RG.src_bones(O, o["region"])
+            broken = RG.broken_ribs(O, o["region"]) if o["region"] in ("kidney", "abdomen") else []
+            if broken:          # a rib broken into pieces in the source segmentation: the whole rib set is left out of the fit
+                sb = {k: v for k, v in sb.items() if not k.startswith("rib")}
+            db = RG.dst_bones(E, list(sb))
             pr = RG.Pairs(sb, db); T = pr.fit()
-            regs[rk] = dict(T=T, residual=pr.residual(lambda X, T=T: RG.apply(T, X)), bones=pr.names)
+            regs[rk] = dict(T=T, residual=pr.residual(lambda X, T=T: RG.apply(T, X)), bones=pr.names,
+                            ribs_left_out=(f"source ribs broken into pieces: {broken}" if broken else None))
             print(f"  registration {rk}: scale {T[0]:.4f} rot {RG.rotation_deg(T[1]):.2f} deg residual {regs[rk]['residual']['_all']}", flush=True)
         T = regs[rk]["T"]
         S = O[o["sid"]]
@@ -774,57 +812,115 @@ def main(argv=None):
         before = mstats(v0, f0)
         if np.linalg.det(T[1]) < 0:
             f0 = f0[:, ::-1]
-        t1 = time.time()
-        allowed = set(o.get("hide", [])) | set(o.get("allow", []))
-        shift, nud = fit.nudge(V, allowed)
-        print(f"    {o['id']}: nudge {nud} ({time.time() - t1:.0f} s)", flush=True)
         it = dict(id=o["id"], step=o["step"], source=dict(page=srcdir[o["src"]].name, id=o["sid"], subject=S["subject"],
                                                            record_name=(S["rec"] or {}).get("name")),
                   registration=dict(region=o["region"], bones=regs[rk]["bones"], scale=round(float(T[0]), 4),
                                     rotation_deg=round(RG.rotation_deg(T[1]), 2), translation_mm=[round(float(x), 1) for x in T[2]],
-                                    residual_mm=regs[rk]["residual"], warp="none"),
-                  nudge=nud, status="ship", held=[])
-        if shift is None:
-            it["status"] = "held"; it["held"].append(f"cannot clear bone / skin with a rigid nudge <= {NUDGE_CAP} mm: {nud['before']}")
-            shift = np.zeros(3)
-        V = V + shift
+                                    residual_mm=regs[rk]["residual"], warp="none", ribs_left_out=regs[rk]["ribs_left_out"]),
+                  status="ship", held=[], before=before, sim=V, V=V, F=f0, o=o, group=rk)
+        items.append(it)
+    # one rigid nudge per (source, region) group (the members' relations to each other are the subject's own). Then every member is
+    # measured (bone, skin, solid overlaps, books); a member held by that is dropped and the group's nudge is recomputed for the rest,
+    # until nothing more is held (at most 4 passes).
+    def evaluate(it):
+        V, f0, o = it["V"], it["F"], it["o"]
+        T = regs[it["group"]]["T"]
         after = mstats(V, f0)
-        sim = RG.apply(T, v0)
-        it["shape"] = dict(before=before, after=after, volume_ratio=round(after["volume_cm3"] / max(before["volume_cm3"], 1e-9), 4),
+        it["shape"] = dict(before=it["before"], after=after, volume_ratio=round(after["volume_cm3"] / max(it["before"]["volume_cm3"], 1e-9), 4),
                            volume_ratio_expected_scale3=round(float(T[0]) ** 3, 4),
-                           deviation_from_similarity_mm=round(float(np.linalg.norm(V - sim, axis=1).max()), 2))
+                           deviation_from_similarity_mm=round(float(np.linalg.norm(V - it["sim"], axis=1).max()), 2))
         ib, _ = fit.in_bone(V); osk, _ = fit.outside_skin(V)
         it["guards"] = dict(in_bone=ib, outside_skin_vertices=osk, closed=after["closed"])
+        held = []
         if ib:
-            it["status"] = "held"; it["held"].append(f"inside bone: {ib}")
+            held.append(f"inside bone: {ib}")
         if osk:
-            it["status"] = "held"; it["held"].append(f"{osk} vertices outside the skin")
-        it["V"], it["F"], it["o"] = V, f0, o
-        placed[o["id"]] = (V, f0)
-        items.append(it)
-    # overlaps (after all are placed, so new-vs-new pairs are measured too) and book checks
-    others = [(it["id"], it["V"], it["F"], it["o"]["sys"]) for it in items]
-    for it in items:
-        o = it["o"]
+            held.append(f"{osk} vertices outside the skin")
         allowed = set(o.get("hide", [])) | set(o.get("allow", []))
-        it["overlaps"] = fit.overlaps(o["id"], it["V"], it["F"], others=others, skip=())
+        others = [(x["id"], x["V"], x["F"], x["o"]["sys"]) for x in items if x["status"] == "ship" or x is it]
+        it["overlaps"] = fit.overlaps(o["id"], V, f0, others=others, skip=())
         it["overlaps_allowed"] = {"hidden_by_this_step": sorted(o.get("hide", [])), "by_design": sorted(o.get("allow", []))}
-        lim = SOFT_FRAC * len(it["V"])
+        lim = SOFT_FRAC * len(V)
         for r in it["overlaps"]:
-            if r["cls"] == "solid" and r["neighbour"] in E and r["neighbour"] not in allowed and r["organ_vertices_deeper_than_soft_mm"] > lim:
-                it["status"] = "held"
-                it["held"].append(f"overlaps {r['neighbour']}: {r['organ_vertices_deeper_than_soft_mm']} of {len(it['V'])} vertices deeper than "
-                                  f"{SOFT_DEPTH} mm (max {r['organ_depth_max_mm']} mm)")
-        it["book_checks"] = book_checks(o, it["V"], it["F"], E, placed)
+            if (r["cls"] == "solid" and r["neighbour"] in E and r["neighbour"] not in allowed and r["organ_vertices_deeper_than_soft_mm"] > lim
+                    and r["organ_depth_max_mm"] > SOFT_MAX):
+                held.append(f"overlaps {r['neighbour']}: {r['organ_vertices_deeper_than_soft_mm']} of {len(V)} vertices deeper than "
+                            f"{SOFT_DEPTH} mm (max {r['organ_depth_max_mm']} mm)")
+            elif (r["cls"] == "solid" and r["neighbour"] in E and r["neighbour"] not in allowed
+                  and r["neighbour_vertices_deeper_than_soft_mm"] > max(10, SOFT_FRAC * r["neighbour_vertices"]) and r["neighbour_depth_max_mm"] > SOFT_MAX):
+                held.append(f"engulfs {r['neighbour']}: {r['neighbour_vertices_deeper_than_soft_mm']} of its {r['neighbour_vertices']} vertices "
+                            f"deeper than {SOFT_DEPTH} mm inside this organ (max {r['neighbour_depth_max_mm']} mm)")
+        placed[o["id"]] = (V, f0)
+        it["book_checks"] = book_checks(o, V, f0, E, {k: v for k, v in placed.items()}, it["overlaps"])
         dif = [c for c in it["book_checks"] if c["verdict"] == "differs"]
         it["book_differs"] = [c["check"] for c in dif]
         block = [c["check"] for c in dif if c["check"] not in NONBLOCKING]
         if block:
-            it["status"] = "held"; it["held"].append(f"contradicts the books: {block}")
+            held.append(f"contradicts the books: {block}")
+        return held
+
+    for rk in dict.fromkeys(it["group"] for it in items):
+        active = [it for it in items if it["group"] == rk]
+        for npass in range(12):
+            mem = list(active)
+            shift = None
+            while mem:
+                t1 = time.time()
+                shift, nud = fit.nudge([(x["sim"], set(x["o"].get("hide", [])) | set(x["o"].get("allow", []))) for x in mem])
+                print(f"    nudge {rk} pass {npass} {[x['id'] for x in mem]}: {nud} ({time.time() - t1:.0f} s)", flush=True)
+                if shift is not None:
+                    break
+                worst = max(range(len(mem)), key=lambda i: (sum(r["vertices"] * r["max_mm"] for r in nud["before"]["in_bone"][i].values())
+                                                           + nud["before"]["outside_skin"][i]))
+                x = mem.pop(worst)
+                x["status"] = "held"; x["V"] = x["sim"]; x["nudge"] = dict(needed=True, failed=True)
+                x["held"] = [f"cannot clear bone / skin with a rigid nudge <= {NUDGE_CAP} mm (as a group with its source neighbours, then "
+                             f"alone): in bone {nud['before']['in_bone'][worst]}, outside skin {nud['before']['outside_skin'][worst]}"]
+                active.remove(x); evaluate(x)
+            for x in mem:
+                x["nudge"] = dict(nud, group=[y["id"] for y in mem], passes=npass + 1); x["V"] = x["sim"] + shift
+            res = {}
+            for x in mem:
+                res[x["id"]] = evaluate(x)
+            bad = [x for x in mem if res[x["id"]]]
+            if not bad:
+                for x in mem:
+                    x["status"] = "ship"; x["held"] = []
+                break
+            # drop the WORST held member (the most vertices deep in solid neighbours, then the most reasons) and redo the nudge for the rest
+            def badness(x):
+                return (sum(r["organ_vertices_deeper_than_soft_mm"] + r["neighbour_vertices_deeper_than_soft_mm"] for r in x["overlaps"]
+                            if r["cls"] == "solid" and r["neighbour"] in E), len(res[x["id"]]))
+            worst = max(bad, key=badness)
+            worst["status"] = "held"; worst["held"] = res[worst["id"]]
+            active.remove(worst)
+            if not active:
+                break
+            if len(bad) == 1:          # the others passed with this nudge already; re-run them without the dropped member
+                pass
+    # a member dropped from its group for a soft overlap / book reason (not bone / skin) gets one nudge of its own
+    for it in items:
+        if it["status"] == "held" and not it["nudge"].get("failed") and len([x for x in items if x["group"] == it["group"]]) > 1:
+            shift, nud = fit.nudge([(it["sim"], set(it["o"].get("hide", [])) | set(it["o"].get("allow", [])))])
+            print(f"    nudge {it['id']} alone: {nud}", flush=True)
+            if shift is None:
+                continue
+            keep = (it["V"], it.get("nudge"), it["held"])
+            it["V"] = it["sim"] + shift; it["nudge"] = dict(nud, group=[it["id"]], alone_after_group=True)
+            h = evaluate(it)
+            if h:
+                it["V"], it["nudge"] = keep[0], keep[1]
+                it["held"] = h + [f"(also tried alone: nudge {nud.get('mm')} mm)"]
+                evaluate(it); it["held"] = h + [f"(also tried alone: nudge {nud.get('mm')} mm)"]
+            else:
+                it["status"] = "ship"; it["held"] = []
+    for it in items:
+        it.pop("before", None)
+        o = it["o"]
         print(f"  {it['id']:34s} {it['status']:5s} vol {it['shape']['before']['volume_cm3']}->{it['shape']['after']['volume_cm3']} "
               f"nudge {it['nudge'].get('mm', 0)} inbone {it['guards']['in_bone']} out {it['guards']['outside_skin_vertices']} "
               f"overlaps {[(r['neighbour'], r['organ_vertices_inside'], r['organ_depth_max_mm'], r['neighbour_vertices_inside']) for r in it['overlaps'][:5]]} "
-              f"books-differ {it['book_differs']} {'; '.join(it['held'])[:200]}", flush=True)
+              f"books-differ {it['book_differs']} {'; '.join(it['held'])[:300]}", flush=True)
         if a.dump_dir:
             Path(a.dump_dir).mkdir(parents=True, exist_ok=True)
             np.savez(Path(a.dump_dir) / f"{it['id']}.npz", v=it["V"], f=it["F"])
@@ -846,7 +942,7 @@ def main(argv=None):
         seg[o["id"]] = seg_for(o, it["V"], E, rig)
     hide &= set(ids)
     rep["hidden_by_default"] = sorted(hide)
-    rep["structures"] = {it["id"]: {k: v for k, v in it.items() if k not in ("V", "F", "o")} for it in items}
+    rep["structures"] = {it["id"]: {k: v for k, v in it.items() if k not in ("V", "F", "o", "sim")} for it in items}
     rep["meshes_before"] = len(ids)
     man_new, blob_new, cut = repack(man, blob, insert, TRAIL, hide)
     ids_new = [m["id"] for m in man_new["meshes"]]

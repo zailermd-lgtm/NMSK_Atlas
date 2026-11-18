@@ -857,6 +857,9 @@
   "coracoacromial_ligament_r",
   "anterolateral_ligament_l",
   "anterolateral_ligament_r",
+  "external_anal_sphincter_vhm",
+  "bulbospongiosus_vhm_l",
+  "bulbospongiosus_vhm_r",
   "zan_investing_abdominal_fascia_l",
   "zan_investing_abdominal_fascia_r",
   "fat_subcut_abdomen",
@@ -1718,6 +1721,9 @@
   1,
   1,
   1,
+  0,
+  0,
+  0,
   0,
   0,
   0,
@@ -31712,7 +31718,7 @@
    "k": "name",
    "c": "Fossa ischioanalis (ischiorectal fossa)",
    "i": [
-    861
+    864
    ],
    "s": "gray1918,ta",
    "r": "Q311"
@@ -31723,7 +31729,7 @@
    "k": "syn",
    "c": "Fossa ischioanalis (ischiorectal fossa)",
    "i": [
-    861
+    864
    ],
    "s": "gray1918,ta",
    "r": "Q311"
@@ -31734,7 +31740,7 @@
    "k": "syn",
    "c": "Fossa ischioanalis (ischiorectal fossa)",
    "i": [
-    861
+    864
    ],
    "s": "gray1918,ta",
    "r": "Q311"
@@ -31745,7 +31751,7 @@
    "k": "syn",
    "c": "Fossa ischioanalis (ischiorectal fossa)",
    "i": [
-    861
+    864
    ],
    "s": "gray1918,ta",
    "r": "Q311"
@@ -31756,7 +31762,7 @@
    "k": "syn",
    "c": "Fossa ischioanalis (ischiorectal fossa)",
    "i": [
-    861
+    864
    ],
    "s": "gray1918,ta",
    "r": "Q311"
@@ -31767,7 +31773,7 @@
    "k": "he",
    "c": "Fossa ischioanalis (ischiorectal fossa)",
    "i": [
-    861
+    864
    ],
    "s": "gray1918,ta",
    "r": "Q311"
@@ -35609,7 +35615,10 @@
    "s": "project,q302,q297,gray,wu2015,q336",
    "offer": [
     729,
-    730
+    730,
+    852,
+    853,
+    854
    ],
    "r": "Q306"
   },
@@ -35631,9 +35640,9 @@
     150,
     151,
     152,
-    852,
-    853,
-    854
+    855,
+    856,
+    857
    ],
    "r": "Q306"
   },
@@ -35761,7 +35770,7 @@
    "offer": [
     729,
     730,
-    855
+    858
    ],
    "r": "Q306"
   },
@@ -35782,7 +35791,7 @@
     170,
     729,
     730,
-    856
+    859
    ],
    "r": "Q306"
   },
@@ -35803,7 +35812,7 @@
    "s": "gray1918,ta",
    "offer": [
     170,
-    856
+    859
    ],
    "r": "Q306"
   },
@@ -35818,10 +35827,10 @@
    "why": "Male only. Its contents ship on the male pages as separate structures (ductus deferens, testicular artery / gonadal artery, testicular vein); its coverings (external / internal spermatic fascia, cremaster) are not modelled: Z-Anatomy has no object for them.",
    "s": "gray1918,ta",
    "offer": [
-    857,
-    858,
-    859,
-    860
+    860,
+    861,
+    862,
+    863
    ],
    "r": "Q306"
   },
@@ -35838,10 +35847,10 @@
    "why": "Male only; not modelled on any page (Z-Anatomy has no cremaster object; Q62 never targeted it). Nerve: genital branch of the genitofemoral nerve (ships; L1-L2, Mannan 2017 p. 321).",
    "s": "gray1918,ta,mannan2017",
    "offer": [
-    857,
-    858,
-    859,
-    860
+    860,
+    861,
+    862,
+    863
    ],
    "r": "Q306"
   },
@@ -35859,8 +35868,8 @@
    "why": "Male only; not modelled: on Base · Male the scrotum is one Z-Anatomy skin patch ('Urogenital region (skin)') with no separate dartos layer.",
    "s": "gray1918,ta",
    "offer": [
-    859,
-    860
+    862,
+    863
    ],
    "r": "Q306"
   },
@@ -35875,8 +35884,8 @@
    "why": "Male only; not modelled (Z-Anatomy has the testis and epididymis but no tunica vaginalis).",
    "s": "gray1918,ta",
    "offer": [
-    859,
-    860
+    862,
+    863
    ],
    "r": "Q306"
   },
@@ -35894,10 +35903,10 @@
    "why": "A fascial tunnel in the obturator internus fascia, not modelled as an object on any page; its contents ship: pudendal nerve, internal pudendal artery and vein.",
    "s": "gray1918,ta",
    "offer": [
-    862,
-    863,
-    864,
-    865
+    865,
+    866,
+    867,
+    868
    ],
    "r": "Q306"
   },
@@ -35909,11 +35918,12 @@
    ],
    "name": "Anal canal",
    "canon": "Canalis analis",
-   "why": "Not modelled as its own object on the Base pages. Base · Female carries her own CT rectum and a rule-based external anal sphincter; Base · Male has NO rectum or anal canal at all (Z-Anatomy ships none), and its Z-Anatomy external anal sphincter ends 25 mm above the anal-region skin (measured in Q336).",
+   "why": "Not modelled as its own object on the Base pages. Base · Female carries her own CT rectum and a rule-based external anal sphincter. Base · Male (Q362) carries the Visible Human male's own CT rectum, registered by its bones, whose lowest part is the upper anal canal, and his external anal sphincter (deep part only); the lower anal canal is in no source.",
    "s": "gray1918,wu2015,ta",
    "offer": [
     729,
-    730
+    730,
+    852
    ],
    "r": "Q306"
   },
@@ -35931,10 +35941,10 @@
    "why": "SHIPS (rule-based) on the Imaging-based pages only. On the four Z pages Q249 built it but Q252 held it back: its rule-based course ran 15-37 mm outside the skin of those bodies. Its parent, the pudendal nerve, ships on every page. The posterior scrotal (male) / posterior labial (female) nerves found by this search are not other names for it: they are its superficial branches; its other branches are muscular, to the urogenital-triangle muscles (Mannan 2017, p. 348).",
    "s": "gray1918,ta,mannan2017",
    "offer": [
-    862,
-    863,
-    864,
-    865
+    865,
+    866,
+    867,
+    868
    ],
    "r": "Q306"
   }
@@ -35992,7 +36002,7 @@
   }
  ],
  "counts": {
-  "structures": 3272,
+  "structures": 3276,
   "alias_forms": 2031,
   "aliased_structures": 748,
   "he_structures": 696,
