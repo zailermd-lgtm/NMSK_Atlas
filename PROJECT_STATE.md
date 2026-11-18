@@ -25,7 +25,7 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
 | Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v101 (… Q368, Q362 relabel, Q372 weld) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v96 (… Q368, Q362 relabel, Q372 weld) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v97 (… Q362 relabel, Q372 weld, Q366 de-spike) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -85,8 +85,12 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v101** (1794991161-ef8e), Base·F **v96** (1794991163-2a8c) = regen of build/q309 at
-commit 6cbcaf2 (scratchpad `regen/q373` on DISK; `pub13/<dir>` = files sent, index.html only). v101/v96 =
+**Live:** Base·M **v101** (1794991161-ef8e) = scratchpad `regen/q373` (commit 6cbcaf2; `pub13`); Base·F **v97**
+(1794994587-6db4) = scratchpad `regen/q374` (commit d91c795, = v96 + the Q366 de-spike; `pub14`: index.html, the
+four geo files, clinical_vessel_calibre.json; its Base·M index is byte-identical to q373). Q366 verdicts on
+q374 / the agent's identical `q366/regen_3` (`v374.txt`, `q366/ver`): q334 4 known FAILs none worse, q358, q336,
+q329, q325, q367 (1400 + 390), q321, q347 390, q322, q323, q338, q343, q344 390, q368 — all OK.
+Before a publish with supporting files, `Artifact list scope=files` on the page (the tool refuses otherwise). v101/v96 =
 v99/v94 + the Q362 relabel + the Q372 skin wall pass. Checked on q373 (`v373_part1.txt`, `v373.txt`, `v373/`,
 and the agent's logs `q372/v_*.log` on a byte-identical regen): q334 M **Q334_SEAMS_OK**, q334 F its 4 known
 FAILs none worse (trunk 2.58 / 2.94 / 1.84, knee 2.21; face solid 1.26 → 0.81), q358, q318 rings ×2, q336,
@@ -126,11 +130,16 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   (`data/anatomy/relabels_q362.json`, `scripts/zanatomy/patch_manifest_relabel_q362.py`, a regen step). The
   transfer steps stay in `scripts/anatomy/q362/transfer_organs_q362.py` as non-default steps. Base·M
   bulbospongiosus / ischiocavernosus / deep transverse perineal are held (Z prostate ~15 mm low).
-- **Q366 (agent running since 2026-11-18 ~06:50 UTC):** body-wide guarded de-spike of Base·F against a local
-  smooth map from the Base·M meshes (198 of 778 head structures carry > 3 mm registration spikes). The agent
-  works on a private copy (scratchpad `q366/src`), never on build/; it hands back
-  `scripts/anatomy/q366/despike_q366.py`, a report, renders and the apply command. Apply only after reading
-  its per-region verdicts; then regen + the geometry verifier set + publish.
+- **Q366 — live on Base·F (v97).** `scripts/anatomy/q366/despike_q366.py`, `docs/Q366_despike.md`, report
+  `data/derived/Q366_despike_report.json`: 649 structures / 3,421 vertices moved to their Base·M position
+  through the local warp (max 11.5 mm, p95 6.3), 21 held by guards; originals beside the build files as
+  `*.q366`. Left by design: broad registration roughness (face, paraspinal, fingers), spikes on excluded
+  structures (skin — up to ~40 mm on `zan_skin_anterior_region_of_arm_r` —, bones, the 194 later-round
+  structures), 789 frozen seeds. The agent also noted the build/ page (no weld block) rendering mirrored
+  against the regen page in a side view — unchecked.
+- **Q375 (agent running since 2026-11-18 ~09:10 UTC):** finger-base and toe-base skin borders are only half
+  welded (0.8–0.9 mm apart) → cause per border, then a guarded sub-mm conform or the smallest engine change;
+  private copy in scratchpad `q375/`, hands back the apply commands for both pages.
 - **Q372 — live.** Source `scripts/anatomy/q334/seams_weld_q334.js` (patched into the Z template by
   `patch_seams_q334.py`); skin only, cortex / fascia keep the old rule; weld +150–195 ms at load. NOT cured:
   toe-base and finger-base lines (those borders are half welded in the GEOMETRY: 8/16 and 22/49 border
