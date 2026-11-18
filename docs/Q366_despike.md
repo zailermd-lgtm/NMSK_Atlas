@@ -115,8 +115,8 @@ index does not read geometry or card notes: no rebuild.
 
 ## Verification (private copy, regenerated page)
 
-Applied with `--write` to a private copy of `build/q309`, regenerated with `regen_template_only.py all` →
-`REGEN_TEMPLATE_ONLY_OK`. Before / after renders on the SAME regenerated template (the before page is the regen with the pre-Q366
+Applied with `--write` to a private copy of `build/q309`, regenerated with `regen_template_only.py all` (template with the Q372
+skin weld) → `REGEN_TEMPLATE_ONLY_OK`. Before / after renders on the SAME regenerated template (the before page is the regen with the pre-Q366
 geometry spliced back), same cameras, skin / bone / fat hidden:
 
 | region | verdict |
@@ -127,7 +127,9 @@ geometry spliced back), same cameras, skin / bone / fat hidden:
 | pharynx / neck front | spikes gone on the nasopharynx and two vessel flags at the angle of the mandible; rest unchanged |
 | hand L / R, forearm L | small spikes gone on digital vessels / fingers; forearm unchanged |
 | pelvic floor | unchanged to slightly cleaner muscle edges (external anal sphincter held by the size guard) |
-| superior gluteal vessels | the 8-vertex spike per side gone (largest move, 11.5 mm) |
+| superior gluteal arteries (largest move, 11.5 mm, 8 vertices per side) | no visible change from back / top / side; the flattened 'fin' where the branches part is broad, not a spike, and stays; nothing worse |
+| intervertebral discs C7–T1, T1–T2 (9.4 / 11.3 mm) | spikes gone: the lateral blade on T1–T2 and the slab edge on C7–T1 |
+| serratus anterior L (8.6 mm, 1 vertex) | unchanged at render scale |
 | knee R | infrapatellar bursa spikes gone |
 | foot L | small dorsal-digital spikes gone |
 | thoracic discs / spine | disc tips slightly reduced; paraspinal muscle roughness unchanged (broad) |
