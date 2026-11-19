@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v103 (… Q372 + Q375 weld, Q378 card undo step) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v99 (… Q366 + Q377 de-spike, Q378 card undo step) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v104 (… Q378 card undo step, Q380 undo step per control) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v100 (… Q377 de-spike, Q378 + Q380 undo steps) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -85,8 +85,11 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v103** (1795082315-b0c6), Base·F **v99** (1795082313-190a) = scratchpad `regen/q378` (regen
-of build/q309 at commit f0ebeda; sent: `pub16/<dir>` — index.html, and Base·F `geo_02`). On top of v102/v98:
+**Live:** Base·M **v104** (1795105750-e3e1), Base·F **v100** (1795105752-01be) = scratchpad `regen/q380` (regen
+of build/q309 at commit 7aef5c2; sent `pub17/<dir>` index.html; = `regen/q378` (v103/v99, `pub16`) + Q380, only
+index.html differs). Q380 verdicts `v380/`: q380, q329, q321, q368 both pages, q344 M, q343 M, q367 F, q347 M;
+q344 F 390 failed 3 of 4 on "Labels (compact)" under three agents' load (passes on q378; the Q380 listener is
+inert before that check — the first real press only sets its target). On top of v102/v98:
 **Q377** Base·F forehead / brow / finger skin de-spike, **Q378** a name-card action is its own undo step.
 Verdicts: the Q378 agent's regen was byte-identical to `regen/q378` (`q378/v/`: q321 both pages both sizes, q368,
 q329, q344); mine (`v378/`): q343 both, q362 cards F, q321 M, q336, pose F; geometry verdicts of Q377 carry
@@ -135,11 +138,10 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   before the click's debounced history commit (320 ms; on these pages still pending 0.7–0.9 s after a click).
   `viewer/quickcard/quickcard.js` `step()`: seal the pending step, act, commit (card buttons, palette, Add).
   `verify_quickcard_q321.py` tests it on 6 named ids; `tests/test_q378_card_step.py`.
-- **Q380 — in progress (main session):** the same fold for any OTHER control pressed after a click (measured:
-  click → "mark current" → Undo deselects and closes the card, up to ~1.5 s after the click). Fix in
-  `viewer/q294/history.js`: a pointerdown on another element seals the pending step; repeated presses on the
-  same control still merge. Verifier `scripts/anatomy/q380/verify_step_q380.py`. Synced to both templates
-  (7aef5c2); regen `regen/q380` → q380 both pages, q329, q321, q343, q344, q368, q347 → publish.
+- **Q380 — live (v104 / v100):** the same fold for any OTHER control pressed after a click (click → "mark
+  current" → Undo deselected and closed the card, up to ~1.5 s after the click). `viewer/q294/history.js`: a
+  pointerdown on another element seals the pending step; repeated presses on the same control still merge.
+  Verifier `scripts/anatomy/q380/verify_step_q380.py`.
 - ★ **Owner's requests of 2026-11-19 (after testing v103), three agents running since ~10:40 UTC** — common
   rules `$S/AGENT_RULES.md`, his screenshot `$S/owner_2026-11-19_plan.webp`:
   **Q381** (planning, `clinical/needle_tool.js`): path must never cross bone; tip marker leaves the muscle in
@@ -151,6 +153,12 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   it; one central menu; image quality (fasciae, muscle architecture) — his reference picture did NOT arrive,
   asked to resend → forward to the Q383 agent with SendMessage.
   On hand-back: commit by file, regen from build, full short queue myself (three rounds meet in one regen).
+  All three were cut by the 5-hour limit at ~11:00 UTC and resumed with SendMessage at 15:45 UTC.
+- ★ **Owner, later on 2026-11-19 — NOT started (launch when one of the three agents ends; brief in
+  `$S/q384/brief.md`): Q384 pose** — hip flexion then knee flexion distorts soft tissue (great saphenous vein
+  badly); tissues must glide over each other and look rounder / straighter; the skin "tears" at a moved joint
+  and must stretch over the tissues; the elbow lacks flexion–extension; a joint picked for moving stays held
+  until a second click on it. **Also asked:** a "clear all selections" button once structures are marked.
 - **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; resets 2026-11-22 13:00 UTC):** join
   the rebuilt Base·F chest to its neighbours. Findings so far (scratchpad `q379/notes.md`): free outer border
   vertices exist only on lateral thorax|posterior arm (L 28, R 20, ≤ 1.02 mm off) + 3 corner vertices; the
