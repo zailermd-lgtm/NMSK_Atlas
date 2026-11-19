@@ -24,8 +24,8 @@ republish. `regen_template_only.py all` builds only `base_m base_f`; frozen page
 ## 3. Pages
 | page | build dir | engine | artifact | live version |
 |---|---|---|---|---|
-| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v102 (… Q362 relabel, Q372 + Q375 weld) |
-| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v98 (… Q372 + Q375 weld, Q366 de-spike) |
+| Base · Male | `build/q309/viewer_zan_atlas` | Z | HdYCRuvGP8ESbggoRWCNBF | v103 (… Q372 + Q375 weld, Q378 card undo step) |
+| Base · Female | `build/q309/viewer_base_female` | **Z** (not the own engine) | TiXsQe3eS5ehzN64Aozyth | v99 (… Q366 + Q377 de-spike, Q378 card undo step) |
 | Combined · M / F (frozen) | viewer_zan_vhm / viewer_zan_female | Z | FeFFPVVTEnPkDm2r7TyDFz / 1GEpFSCZexGZ1GnM1pXxuP | v88 / v101 |
 | Imaging · M / F (frozen) | viewer_m_hr / viewer_f_hr | own | RRkf5ELjmk6E8iHdgfbTtq / 1nFD1WUQ7jyovz9vx9pn77 | v166 / v156 |
 Hub: LyQVpCZcYWXQT5Ek8M984T. All artifact URLs are `https://claude.ai/artifact/<id>`.
@@ -85,14 +85,13 @@ flexor tendons · Base·F: chest wall fix, perineal skin, motor points · phone 
 ## 9. Next action
 (Rewritten 2026-11-18 ~07:10 UTC. Detail of rounds Q353–Q365: docs/PROJECT_HISTORY.md, last section.)
 
-**Live:** Base·M **v102** (1795000437-c7af), Base·F **v98** (1795000439-8d62) = scratchpad `regen/q376` (regen
-of build/q309 at commit 68171ee; `pub15/<dir>` = index.html only; the Base·F geo files of `pub14` stay). On
-top of v99/v94: Q362 relabel, Q372 wall pass, Q366 de-spike (F), Q375 T-junction borders. Verdicts on q376 and
-on the agent's byte-identical `q375/regen_2` (`v376.txt`, `v376/`, `q375/v_*.log`): q334 M **Q334_SEAMS_OK**,
-q334 F its 4 known FAILs none worse (trunk solid 2.58 / faded 2.93 / default 1.84, knee 2.12), q318 rings,
-q338, q367, q325, q321 on both pages; q358 F, q336, q319 spine F, q344 ui M, q368 F, q329 M; posed montages
-read (known pose tears at shoulder / groin / knee remain). Earlier sets: Q366 on `q374` (`v374.txt`: q347,
-q322, q323, q338, q343, q344 390, q368, q367 390), Q372 on `q373` (`v373*.txt`).
+**Live:** Base·M **v103** (1795082315-b0c6), Base·F **v99** (1795082313-190a) = scratchpad `regen/q378` (regen
+of build/q309 at commit f0ebeda; sent: `pub16/<dir>` — index.html, and Base·F `geo_02`). On top of v102/v98:
+**Q377** Base·F forehead / brow / finger skin de-spike, **Q378** a name-card action is its own undo step.
+Verdicts: the Q378 agent's regen was byte-identical to `regen/q378` (`q378/v/`: q321 both pages both sizes, q368,
+q329, q344); mine (`v378/`): q343 both, q362 cards F, q321 M, q336, pose F; geometry verdicts of Q377 carry
+(`q377/v/`: q334 M OK, q334 F its 4 known FAILs unchanged — trunk solid 2.58 / faded 2.93 / default 1.84, knee
+2.12 — q318, q325, q336, q358, q367). Earlier sets: v102/v98 on `q376` (`v376.txt`), Q366 on `q374`, Q372 on `q373`.
 Before a publish with supporting files, `Artifact list scope=files` on the page (the tool refuses otherwise).
 Earlier full sets: v99/v94 on regen `q370`, the relabel on `q371`.
 On the live pages since v95/v90: Q354 cards, Q355 UI, Q353 `chest_tuck,head`, Q357 in-bone conform, Q358
@@ -127,17 +126,20 @@ Q367 plan-first injection mode (tip/entry markers, safety halos), Q368 name-card
   pairs, T-junction borders — source `scripts/anatomy/q334/seams_weld_q334.js`, node harness scratchpad
   `q375/h/`, census `scripts/anatomy/q375/border_census_q375.py`). Left: dorsal toe-base line (faint), faint
   Base·F philtrum / lower-lip lines (lower-face skin slabs are guard-held), chest WITH walls not re-applied.
-- **Q377 — applied to build/q309 Base·F, NOT yet published** (waits for Q378): `scripts/anatomy/q377/skin_q377.py`,
-  `docs/Q377_skin.md`: 10 head / finger skin slabs, 27 vertices de-spiked (forehead streaks gone); 17 slabs
-  held (lower face, nose, ear). The 4 q334 FAILs are NOT movable geometry: the trunk camera frames both hands
-  on Base·F (without hand / wrist borders 1.70 / 1.55 / 0.98), the rebuilt chest's borders (→ Q379), and the
-  knee line is the translucent skin's edge. Axillary step R: 6 arm-skin vertices wrap `breast_ct_r` — needs
-  a re-fit with the chest, not done.
-- **Q378 (agent running since 2026-11-19 ~07:20 UTC, on the escape-hatch model):** REAL defect on the live
-  pages — for some structure / click sequence, Hide → Undo loses the name card (q321 then fails in a cascade;
-  earlier waved off as load). Probes: scratchpad `q378/`, `q377/x/`, `q377/v/q321*`. Hands back a fix in
-  `viewer/quickcard|selection`, a verifier that tests the failing case by id, and a regen `q378/regen_1`
-  (built from build/q309, so it carries Q377) → run a short queue, publish both pages.
+- **Q377 — live (Base·F v99):** `scripts/anatomy/q377/skin_q377.py`, `docs/Q377_skin.md`: 10 head / finger
+  skin slabs, 27 vertices de-spiked (forehead streaks gone); 17 slabs held (lower face, nose, ear). The 4 q334
+  FAILs are NOT movable geometry: the trunk camera frames both hands on Base·F (without hand / wrist borders
+  1.70 / 1.55 / 0.98), the rebuilt chest's borders (→ Q379), and the knee line is the translucent skin's edge.
+  Axillary step R: 6 arm-skin vertices wrap `breast_ct_r` — needs a re-fit with the chest, not done.
+- **Q378 — live (v103 / v99):** Hide → Undo lost the name card for EVERY structure when the button was pressed
+  before the click's debounced history commit (320 ms; on these pages still pending 0.7–0.9 s after a click).
+  `viewer/quickcard/quickcard.js` `step()`: seal the pending step, act, commit (card buttons, palette, Add).
+  `verify_quickcard_q321.py` tests it on 6 named ids; `tests/test_q378_card_step.py`.
+- **Q380 — in progress (main session):** the same fold for any OTHER control pressed after a click (measured:
+  click → "mark current" → Undo deselects and closes the card, up to ~1.5 s after the click). Fix in
+  `viewer/q294/history.js`: a pointerdown on another element seals the pending step; repeated presses on the
+  same control still merge. Verifier `scripts/anatomy/q380/verify_step_q380.py`. Synced to both templates
+  (7aef5c2); regen `regen/q380` → q380 both pages, q329, q321, q343, q344, q368, q347 → publish.
 - **Q379 (STOPPED 2026-11-18 by the weekly limit of the routed model; resets 2026-11-22 13:00 UTC):** join
   the rebuilt Base·F chest to its neighbours. Findings so far (scratchpad `q379/notes.md`): free outer border
   vertices exist only on lateral thorax|posterior arm (L 28, R 20, ≤ 1.02 mm off) + 3 corner vertices; the
