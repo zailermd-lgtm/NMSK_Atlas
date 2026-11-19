@@ -362,7 +362,97 @@ function sizeClass(d, p, thr) {
   return d >= thr[0] ? "L" : (d >= thr[1] ? "M" : "S");
 }
 
-var PURE = {RISK_TABLE: RISK_TABLE, HALO_DEFAULTS: HALO_DEFAULTS, TOUCH_MM: TOUCH_MM, classify: classify,
+/* ===================================================================== */
+/* Q381 pure helpers (node-tested, tests/test_q381_plan.py): the straight path against a mesh, and a point INSIDE a mesh.         */
+/* ===================================================================== */
+/* every crossing of the segment A-B with an indexed triangle mesh, as [{t (mm from A), f}] sorted by t. Two-sided Moller-Trumbore on
+   the segment's own length, so a tip resting ON the surface is reported at t = L (the caller decides what a touch means); a
+   crossing through a shared edge / vertex comes once per triangle (the caller merges equal t). */
+function segMeshHits(pos, idx, A, B) {
+  var dx = B[0] - A[0], dy = B[1] - A[1], dz = B[2] - A[2], L = Math.sqrt(dx * dx + dy * dy + dz * dz), out = [];
+  if (!(L > 1e-9)) return out;
+  var d = [dx / L, dy / L, dz / L], e = 1e-6;
+  var lx = Math.min(A[0], B[0]) - e, hx = Math.max(A[0], B[0]) + e, ly = Math.min(A[1], B[1]) - e, hy = Math.max(A[1], B[1]) + e, lz = Math.min(A[2], B[2]) - e, hz = Math.max(A[2], B[2]) + e;
+  for (var f = 0; f < idx.length; f += 3) {
+    var a = idx[f] * 3, b = idx[f + 1] * 3, c = idx[f + 2] * 3;
+    var ax = pos[a], bx = pos[b], cx = pos[c]; if ((ax < lx && bx < lx && cx < lx) || (ax > hx && bx > hx && cx > hx)) continue;
+    var ay = pos[a + 1], by = pos[b + 1], cy = pos[c + 1]; if ((ay < ly && by < ly && cy < ly) || (ay > hy && by > hy && cy > hy)) continue;
+    var az = pos[a + 2], bz = pos[b + 2], cz = pos[c + 2]; if ((az < lz && bz < lz && cz < lz) || (az > hz && bz > hz && cz > hz)) continue;
+    var t = rayTri(A, d, ax, ay, az, bx, by, bz, cx, cy, cz);
+    if (t >= -1e-9 && t <= L + 1e-9) out.push({t: t < 0 ? 0 : (t > L ? L : t), f: f / 3});
+  }
+  out.sort(function (x, y) { return x.t - y.t; });
+  return out;
+}
+var SKEW_DIR = [0.57735, 0.57736, 0.57734];
+/* is p inside the closed mesh? parity of the crossings along one fixed skew direction (the tool's own inside test) */
+function meshInside(pos, idx, p) {
+  var n = 0;
+  for (var f = 0; f < idx.length; f += 3) {
+    var a = idx[f] * 3, b = idx[f + 1] * 3, c = idx[f + 2] * 3;
+    if (rayTri(p, SKEW_DIR, pos[a], pos[a + 1], pos[a + 2], pos[b], pos[b + 1], pos[b + 2], pos[c], pos[c + 1], pos[c + 2]) >= 1e-5) n++;
+  }
+  return n % 2 === 1;
+}
+/* A point INSIDE a structure, for "the centre of the structure". The mean of the vertices is not such a point: a curved muscle, or a
+   belly with a long tendon, has it outside its own mesh (measured on the Base·Male page, Q381: 73 of 434 muscle / tendon meshes by
+   more than 5 mm, 47 of them inside a bone -- tibialis posterior's lay 19 mm outside it, inside the tibia). Instead:
+     1. c0 = the centre of VOLUME (signed tetrahedra; the area centroid for a mesh that is not a closed solid);
+     2. candidates = the MID-THICKNESS points: from up to K faces (evenly strided) a ray along the inward normal to the opposite
+        wall, the middle of that chord;
+     3. each of the `top` thickest is kept only if it tests inside the mesh (and is not rejected by opt.reject, the tool's "inside a
+        bone" test), with r = its exact distance to the surface (the inscribed radius there);
+     4. of those within `keep` (80 %) of the largest r, the one nearest c0.
+   So: the middle of the structure where it is (nearly) thickest, as near its centre of volume as that allows. Deterministic.
+   Returns {p, r, inside, c0}; inside = false (p = the surface point nearest c0, r = 0) when no interior point was found (open mesh). */
+function meshCentre(pos, idx, opt) {
+  opt = opt || {};
+  var K = opt.K || 400, TOP = opt.top || 40, KEEP = opt.keep || 0.8, nF = idx.length / 3, B = meshBox(pos), o = [(B[0][0] + B[1][0]) / 2, (B[0][1] + B[1][1]) / 2, (B[0][2] + B[1][2]) / 2];
+  var vol = 0, area = 0, cv = [0, 0, 0], ca = [0, 0, 0], f, k;
+  function tri(ff) {
+    var a = idx[3 * ff] * 3, b = idx[3 * ff + 1] * 3, c = idx[3 * ff + 2] * 3;
+    return [[pos[a], pos[a + 1], pos[a + 2]], [pos[b], pos[b + 1], pos[b + 2]], [pos[c], pos[c + 1], pos[c + 2]]];
+  }
+  for (f = 0; f < nF; f++) {
+    var T = tri(f), a = [T[0][0] - o[0], T[0][1] - o[1], T[0][2] - o[2]], b = [T[1][0] - o[0], T[1][1] - o[1], T[1][2] - o[2]], c = [T[2][0] - o[0], T[2][1] - o[1], T[2][2] - o[2]];
+    var bc = [b[1] * c[2] - b[2] * c[1], b[2] * c[0] - b[0] * c[2], b[0] * c[1] - b[1] * c[0]], v = (a[0] * bc[0] + a[1] * bc[1] + a[2] * bc[2]) / 6;
+    var e1 = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], e2 = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+    var ar = Math.hypot(e1[1] * e2[2] - e1[2] * e2[1], e1[2] * e2[0] - e1[0] * e2[2], e1[0] * e2[1] - e1[1] * e2[0]) / 2;
+    vol += v; area += ar;
+    for (k = 0; k < 3; k++) { var s = a[k] + b[k] + c[k]; cv[k] += s / 4 * v; ca[k] += s / 3 * ar; }
+  }
+  var solid = Math.abs(vol) > 1e-6 && Math.abs(vol) >= 0.02 * area, sgn = vol >= 0 ? 1 : -1;
+  var c0 = solid ? [o[0] + cv[0] / vol, o[1] + cv[1] / vol, o[2] + cv[2] / vol] : (area > 0 ? [o[0] + ca[0] / area, o[1] + ca[1] / area, o[2] + ca[2] / area] : o.slice());
+  var cands = [], n = Math.min(K, nF);
+  for (k = 0; k < n; k++) {
+    var T2 = tri(Math.floor(k * nF / n)), u = [T2[1][0] - T2[0][0], T2[1][1] - T2[0][1], T2[1][2] - T2[0][2]], w = [T2[2][0] - T2[0][0], T2[2][1] - T2[0][1], T2[2][2] - T2[0][2]];
+    var nn = [u[1] * w[2] - u[2] * w[1], u[2] * w[0] - u[0] * w[2], u[0] * w[1] - u[1] * w[0]], l = Math.hypot(nn[0], nn[1], nn[2]);
+    if (!(l > 1e-12)) continue;
+    var d = [-nn[0] / l * sgn, -nn[1] / l * sgn, -nn[2] / l * sgn];
+    var g = [(T2[0][0] + T2[1][0] + T2[2][0]) / 3 + d[0] * 1e-3, (T2[0][1] + T2[1][1] + T2[2][1]) / 3 + d[1] * 1e-3, (T2[0][2] + T2[1][2] + T2[2][2]) / 3 + d[2] * 1e-3], t1 = Infinity;
+    for (f = 0; f < idx.length; f += 3) {
+      var i0 = idx[f] * 3, i1 = idx[f + 1] * 3, i2 = idx[f + 2] * 3;
+      var t = rayTri(g, d, pos[i0], pos[i0 + 1], pos[i0 + 2], pos[i1], pos[i1 + 1], pos[i1 + 2], pos[i2], pos[i2 + 1], pos[i2 + 2]);
+      if (t >= 1e-4 && t < t1) t1 = t;
+    }
+    if (t1 < Infinity) cands.push({h: t1 / 2, m: [g[0] + d[0] * t1 / 2, g[1] + d[1] * t1 / 2, g[2] + d[2] * t1 / 2]});
+  }
+  cands.sort(function (x, y) { return y.h - x.h; });
+  var best = [], rmax = 0;
+  for (k = 0; k < cands.length && k < TOP; k++) {
+    var m = cands[k].m;
+    if (!meshInside(pos, idx, m) || (opt.reject && opt.reject(m))) continue;
+    var r = closestOnMesh(pos, idx, m).d;
+    best.push({m: m, r: r, d0: Math.hypot(m[0] - c0[0], m[1] - c0[1], m[2] - c0[2])});
+    if (r > rmax) rmax = r;
+  }
+  if (!best.length) { var q = closestOnMesh(pos, idx, c0); return {p: q.q ? q.q : c0, r: 0, inside: false, c0: c0}; }
+  best = best.filter(function (x) { return x.r >= KEEP * rmax; }).sort(function (x, y) { return x.d0 - y.d0; });
+  return {p: best[0].m, r: best[0].r, inside: true, c0: c0};
+}
+
+var PURE = {segMeshHits: segMeshHits, meshInside: meshInside, meshCentre: meshCentre,   // Q381
+            RISK_TABLE: RISK_TABLE, HALO_DEFAULTS: HALO_DEFAULTS, TOUCH_MM: TOUCH_MM, classify: classify,
             calibreFactor: calibreFactor, haloRadius: haloRadius, scorePath: scorePath, fibonacciSphere: fibonacciSphere,
             closestPtTri: closestPtTri, pointTriDist: pointTriDist, segSegDist: segSegDist, segCrossesTri: segCrossesTri, segTriDist: segTriDist,
             meshSegDist: meshSegDist, rankCandidates: rankCandidates, coneDirs: coneDirs, poseAnchor: poseAnchor, poseAnchorPlace: poseAnchorPlace,
@@ -653,28 +743,30 @@ function ThreeOverlay(api) {
     });
   };
   this.halosNow = function () { return Object.keys(halos).map(function (k) { return {i: +k, r: halos[k].u.value, alpha: halos[k].mesh.material.opacity}; }); };   // Q367
+  this.setGhosts = function () {}; this.ghostsNow = function () { return []; };   // Q381: the silhouette pass exists on the WebGL engine only
 }
 
 function GLOverlay(api) {
-  var gl = api.webgl.gl, items = {}, halos = [], U = {};
+  var gl = api.webgl.gl, items = {}, halos = [], ghosts = [], U = {};
   var VS = "attribute vec3 aPos;attribute vec3 aNrm;uniform mat4 uMVP;uniform float uInflate;varying vec3 vN;varying vec3 vP;" +
            "void main(){vec3 p=aPos+normalize(aNrm)*uInflate;vN=aNrm;vP=p;gl_Position=uMVP*vec4(p,1.0);}";
   var FS = "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n" +
     "varying vec3 vN;varying vec3 vP;uniform vec3 uColor;uniform vec3 uEye;uniform float uAlpha;uniform float uLit;" +
-    "uniform float uShin;uniform float uEmis;uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;" +
+    "uniform float uShin;uniform float uEmis;uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;uniform float uRim;" +
     "void main(){if(uClipOn>0.5&&(dot(vP,uClip.xyz)+uClip.w>0.0||dot(vP,uClip2.xyz)+uClip2.w>0.0))discard;" +
     " vec3 n=normalize(vN);vec3 v=normalize(uEye-vP);if(dot(n,v)<0.0)n=-n;" +
     " vec3 l=normalize(v+vec3(0.3,0.55,0.2));float d=max(dot(n,l),0.0);" +
     " float s=pow(max(dot(n,normalize(l+v)),0.0),uShin);" +
     " vec3 c=uLit>0.5?uColor*(0.30+0.72*d+uEmis)+vec3(s*0.6):uColor;" +
-    " gl_FragColor=vec4(c,uAlpha);}";
+    " float al=uAlpha;if(uRim>0.5){float e=1.0-clamp(dot(n,v),0.0,1.0);al=uAlpha*(0.10+0.90*e*e);}" +   // Q381: a silhouette -- strong at the rim, faint face-on
+    " gl_FragColor=vec4(c,al);}";
   function sh(t, s) { var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o);
     if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; }
   var prog = gl.createProgram();
   gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
   gl.bindAttribLocation(prog, 0, "aPos"); gl.bindAttribLocation(prog, 1, "aNrm"); gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-  ["uMVP", "uInflate", "uColor", "uEye", "uAlpha", "uLit", "uShin", "uEmis", "uClip", "uClip2", "uClipOn"].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
+  ["uMVP", "uInflate", "uColor", "uEye", "uAlpha", "uLit", "uShin", "uEmis", "uClip", "uClip2", "uClipOn", "uRim"].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
   function upload(g) {
     function buf(type, data) { var b = gl.createBuffer(); gl.bindBuffer(type, b); gl.bufferData(type, data, gl.STATIC_DRAW); return b; }
     return {vb: buf(gl.ARRAY_BUFFER, new Float32Array(g.pos)), nb: buf(gl.ARRAY_BUFFER, new Float32Array(g.nrm)),
@@ -692,6 +784,9 @@ function GLOverlay(api) {
   };
   this.setHalos = function (list) { halos = list.map(function (h) { return {i: h.i, r: h.r, rgb: hexRgb(h.color), alpha: h.alpha || 0.2}; }); };
   this.halosNow = function () { return halos.map(function (h) { return {i: h.i, r: h.r, alpha: h.alpha}; }); };   // Q367: what the halo pass draws (tests)
+  /* Q381: structures whose own (posed) surface is drawn THROUGH everything as a rim-lit silhouette (the tip's target structure) */
+  this.setGhosts = function (list) { ghosts = (list || []).map(function (h) { return {i: h.i, rgb: hexRgb(h.color), alpha: h.alpha || 0.3}; }); };
+  this.ghostsNow = function () { return ghosts.map(function (h) { return {i: h.i, alpha: h.alpha}; }); };
   function style(rgb, s) {
     gl.uniform3f(U.uColor, rgb[0], rgb[1], rgb[2]); gl.uniform1f(U.uAlpha, s.alpha == null ? 1 : s.alpha);
     gl.uniform1f(U.uLit, s.lit === false ? 0 : 1); gl.uniform1f(U.uShin, s.shin || 40); gl.uniform1f(U.uEmis, s.emis || 0);
@@ -705,8 +800,9 @@ function GLOverlay(api) {
   api.webgl.onAfterDraw(function (ctx) {
     var all = [];
     Object.keys(items).forEach(function (k) { all = all.concat(items[k]); });
-    if (!all.length && !halos.length) return;
+    if (!all.length && !halos.length && !ghosts.length) return;
     gl.useProgram(prog);
+    gl.uniform1f(U.uRim, 0);
     gl.uniformMatrix4fv(U.uMVP, false, ctx.mvp); gl.uniform3f(U.uEye, ctx.eye[0], ctx.eye[1], ctx.eye[2]);
     gl.uniform1f(U.uInflate, 0); gl.uniform1f(U.uClipOn, 0);
     gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1); gl.disable(gl.CULL_FACE);
@@ -728,6 +824,11 @@ function GLOverlay(api) {
     }
     all.filter(function (b) { return b.spec.pass === "trans"; }).forEach(drawItem);
     gl.disable(gl.DEPTH_TEST);
+    if (ghosts.length) {
+      gl.uniform1f(U.uRim, 1);
+      ghosts.forEach(function (h) { style(h.rgb, {alpha: h.alpha, shin: 8, emis: 0.6}); api.webgl.drawStructure(h.i); });
+      gl.uniform1f(U.uRim, 0);
+    }
     all.filter(function (b) { return b.spec.pass === "xray"; }).forEach(drawItem);
     gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
   });
@@ -875,6 +976,7 @@ function Tool(api) {
   this.mpS = new Map(); this.mpAnc = new Map();          // Q328: a motor point's structure, and its rest-mesh anchor (taken the first time that structure moves)
   this.guide = {data: null, side: null, bm: {}, hl: null, busy: false, open: {}, msg: {}};   // Q347: the injection guide (private) + the public IZ sidecar
   this.plInit(); this.safeInit();   // Q367: the plan's refinements and the user's safety rules (stored per browser)
+  this.blk = null; this.blkIs = null; this.cRest = {}; this.cPose = {}; this.block = null; this.tipF = null;   // Q381: the blocking structures, a structure's inside centre per pose, the path's bone test, the tip's measured facts
   this.buildUI();
   this.loadData();
   this.loadGuide();
@@ -966,6 +1068,8 @@ TP.onPose = function (det) {
   this.poseT = setTimeout(function () {
     var re = self.remeasureSaved(), dirty = self.savedDirty || re > 0;   // Q332: the saved points' readouts, once per burst
     if (dirty) { self.savedDirty = false; self.renderSavedPoints(); }
+    self.cPose = {};                 // Q381: a structure's inside centre is taken on the mesh as it is now
+    self.plCentreFollow();
     if (self.entry || self.target) self.update();
     else { if (self.risk.on) self.refreshHalos(); if (dirty) { self.notify(); self.api.redraw(); } }
     self.poseRerun();   // Q332: shown suggestions / safer pathways are measured again on the posed body
@@ -1458,7 +1562,8 @@ TP.setMode = function (m, quiet) {
 };
 TP.clear = function () {
   this.entry = this.target = null; this.risk.pathEval = null; this.risk.safer = null;
-  ["n-inner", "n-inner-x", "n-outer", "n-hub", "n-tgt", "n-tgt-x", "n-entry", "sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x"].forEach(this.ov.remove, this.ov);
+  clearTimeout(this.blockT); this.block = null; this.tipF = null;   // Q381
+  ["n-inner", "n-inner-x", "n-outer", "n-hub", "n-tgt", "n-tgt-x", "n-entry", "sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x", "q381-blk", "q381-blk-x", "q381-alt", "q381-alt-x"].forEach(this.ov.remove, this.ov);
   this.$("ncl-safer-out").innerHTML = "";
   this.clearSuggestions(); this.renderSuggestions(); this.scheduleCorridor();   // Q268
   this.drawMarkers(); if (this.pl) { this.pl.kind = null; this.plPlaneClear(); }   // Q367
@@ -1472,7 +1577,10 @@ TP.onClick = function (e) {
   var mpHit = this.mp.on ? this.markerAt(e) : null;
   if (mpHit) { if (!this.active) this.toggle(true); this.useMotorPoint(mpHit); return true; }
   if (!this.active) return false;
-  if (this.armFn) { var ah = this.pickPoint(e, this.armSkip != null ? this.armSkip : null); if (ah) this.armFn(ah); return true; }   // Q367: the plan panel armed a tap (entry / free tip / plane side / nerve point)
+  if (this.armFn) {   // Q367: the plan panel armed a tap (entry / free tip / plane side / nerve point); Q381: an ENTRY tap lands on the skin under the pointer, whatever its look
+    var ah = (this.armSkin ? this.pickSkin(e) : null) || this.pickPoint(e, this.armSkip != null ? this.armSkip : null);
+    if (ah) this.armFn(ah); return true;
+  }
   var sp = this.risk.safer ? this.saferAt(e) : null;
   if (sp) { this.adopt(sp); return true; }
   var sg = this.sugg.shown.length ? this.suggAt(e) : null;   // Q268 (3): an explicit tap on a ghost line adopts it; nothing is ever auto-placed
@@ -1484,7 +1592,7 @@ TP.onClick = function (e) {
   } else if (m === "tfirst") {
     if (!this.target && this.entry) { hit = this.pickPoint(e, null); if (hit) { this.target = hit; this.risk.safer = null; } }   // Q367: entry first, then the tip -- the entry stays
     else if (!this.target || this.entry) { hit = this.pickPoint(e, null); if (hit) { this.target = hit; this.entry = null; this.risk.safer = null; } }
-    else { hit = this.pickPoint(e, null); if (hit) this.entry = hit; }
+    else { hit = (this.injOn() ? this.pickSkin(e) : null) || this.pickPoint(e, null); if (hit) this.entry = hit; }   // Q381: in the planning mode the entry is on the skin
   } else {
     hit = this.pickPoint(e, null); if (hit) { this.entry = hit; this.dir.src = this.dir.src === "view" ? "view" : this.dir.src; }
   }
@@ -1575,6 +1683,7 @@ TP.update = function () {
   }
   this.ensureAnchors();   // Q325: a newly placed point is anchored on the geometry it was placed on
   this.risk.pathEval = null;
+  this.blockRun();        // Q381: the straight path against bone, on every placement change
   this.drawNeedle();
   if (this.risk.on) { this.refreshHalos(); if (this.entry && this.target) this.evalCurrent(); }
   this.scheduleCorridor();   // Q268 (2): throttled to the placement change, not per frame
@@ -1594,6 +1703,7 @@ TP.drawNeedle = function () {
   var ov = this.ov, r = this.rDisp;
   ["n-inner", "n-inner-x", "n-outer", "n-hub", "n-tgt", "n-tgt-x", "n-entry"].forEach(ov.remove, ov);
   this.drawMarkers();   // Q367: the tip (sky-blue diamond) and the skin entry (orange ring) -- one pair everywhere
+  this.drawBlock();     // Q381: a path that crosses bone, red from the first bone on; the offered entry
   if (!this.entry || !this.target) return;
   var E = this.entry.p, T = this.target.p, L = dist(E, T); if (L < 1e-3) return;
   var u = mul(sub(T, E), 1 / L), exposed = this.mode === "dir" ? 0 : clamp(this.len - L, 0, 200);
@@ -1946,11 +2056,11 @@ TP.region = function (T, reach) {
   /* Q367: the entry surface is the skin LAYER (Z ids are "zan_skin_..."; only ids starting "skin_" counted before, so Base·M had no
      skin and took the last surface hit within reach -- on the trunk an organ such as the liver -- and Base·F had only its two perineal
      pieces, i.e. no computed entry anywhere else). No skin near the target: the outermost-surface rule, as on a page without skin. */
-  if (!this.skinLayer) this.skinLayer = this.recs.filter(function (r) { return r.cat === "skin" || /^skin(_|$)/.test(r.id); }).map(function (r) { return r.i; });
+  this.skinIdx();
   var useSkin = this.skinLayer.length > 0;
   var surf = useSkin ? gather(this.skinLayer) : null;
   if (!surf || !surf.ntris) { useSkin = false; surf = gather(all); }
-  var bone = gather(all.filter(function (i) { return self.cls[i] === "bone"; }));
+  var bone = gather(this.blockers());   // Q381: bone and hyaline cartilage -- what a straight needle cannot pass
   // the target's own structure (the thing being injected) is excluded from the risk check
   var pts = [], own = [], sIdx = [], seen = new Set();
   all.forEach(function (i) {
@@ -2014,7 +2124,7 @@ TP.evalPath = function (reg, E, T, L, obstructed) {
     minD[s] = 0;
   });
   var u = norm(sub(E, T));
-  var boneHit = reg.bone.ntris ? reg.bone.ray(T, u, 2, Math.max(2, L - 0.5)) : [];
+  var boneHit = this.boneFreeRay(reg, T, u, L) ? [] : [1];   // Q381: the one bone rule (a tip may rest on a bone; nothing is crossed before it)
   var blocked = boneHit.length > 0 || !!obstructed;
   var sc = scorePath(items, L, blocked, P);
   items.sort(function (a, b) { return (a.clear - haloRadius(a.cls, a.rCal, L, P)) - (b.clear - haloRadius(b.cls, b.rCal, L, P)); });
@@ -2134,10 +2244,10 @@ TP.shortestEntry = function () {
   setTimeout(function () {
     var T = self.target.p, reg = self.region(T, self.len), dirs = fibonacciSphere(1200), best = null;
     for (var k = 0; k < 1200; k++) {
-      var en = self.entryFor(reg, T, [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]], self.len);
-      if (en.ok && !en.obstructed && (!best || en.L < best.L)) best = {E: en.E, L: en.L, entryI: en.entryI, u: [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]]};
+      var uk = [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]], en = self.entryFor(reg, T, uk, self.len);
+      if (en.ok && !en.obstructed && (!best || en.L < best.L) && self.boneFreeRay(reg, T, uk, en.L) && !self.boneCheck(en.E, T).blocked) best = {E: en.E, L: en.L, entryI: en.entryI, u: uk};   // Q381: never through bone
     }
-    if (!best) { self.$("needle-status").innerHTML = '<span class="warn">No skin within the ' + self.len + " mm needle length.</span>"; return; }
+    if (!best) { self.$("needle-status").innerHTML = '<span class="warn">No straight bone-free path to the skin within the ' + self.len + " mm needle length.</span>"; return; }
     self.adopt(best);
   }, 0);
 };
@@ -2168,6 +2278,8 @@ TP.scheduleCorridor = function () {
 };
 TP.computeCorridor = function () {
   var A = this.entry ? this.entry.p : null, B = this.target ? this.target.p : null;
+  this.tipF = this.target ? this.tipFacts() : null;                 // Q381: inside / on / outside its structure, the nearest skin
+  this.corr.pass = A && B ? this.passList(A, B) : [];              // Q381: ligaments / membranes / capsules the path crosses (listed, not blocking)
   if (!A && !B) { this.corr.items = []; this.corr.n = 0; this.corr.what = ""; this.corr.seq = (this.corr.seq || 0) + 1; this.drawCorridor(); this.renderCorridor(); this.api.redraw(); return; }
   var seg = !!(A && B); if (!A) A = B; if (!B) B = A;
   var res = this.corrResult = this.corridorFor(A, B, this.target && this.target.i != null ? this.recs[this.target.i].id : null);
@@ -2285,15 +2397,39 @@ TP.suggest = function () {
   var self = this, out = this.$("ncl-sugg-out");
   this.clearSuggestions();
   if (!this.target) { this.sugg.msg = "Set a target first (target-first mode, a cut face, a motor point, or the planning preset)."; this.renderSuggestions(); return null; }
-  var T = this.target.p, reach = this.len, reg = this.region(T, reach), dirs = fibonacciSphere(600), best = null, k;
-  for (k = 0; k < 600; k++) {   // the nearest-skin direction: the shortest unobstructed straight path to the skin within the needle length
+  /* Q381: a suggestion never crosses bone. The nearest-skin direction is the shortest straight path to the skin that is unobstructed
+     AND bone-free (the region's bone grid); every cone candidate is bone-free on the grid and confirmed by the exact test (boneCheck).
+     No such direction: said plainly -- with the shortest bone-free length when only the needle is too short. */
+  var T = this.target.p, reach = this.len, reg = this.region(T, reach), dirs = fibonacciSphere(600), best = null, k, nSkin = 0, nFree = 0;
+  for (k = 0; k < 600; k++) {
     var u0 = [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]], e0 = this.entryFor(reg, T, u0, reach);
-    if (e0.ok && !e0.obstructed && (!best || e0.L < best.L)) best = {u: u0, L: e0.L};
+    if (!e0.ok || e0.obstructed) continue;
+    nSkin++;
+    if (!this.boneFreeRay(reg, T, u0, e0.L)) continue;
+    nFree++;
+    if (!best || e0.L < best.L) best = {u: u0, L: e0.L};
   }
-  if (!best) { this.sugg.msg = "No skin within the " + reach + " mm needle length: no candidate."; this.renderSuggestions(); return null; }
+  this.sugg.nSkin = nSkin; this.sugg.nFree = nFree; this.sugg.none = null; this.sugg.longer = null;
+  if (!best) {
+    this.sugg.none = nSkin ? "bone" : "skin";
+    var longer = null, R2 = 200;
+    if (reach < R2) {   // would a longer needle do? the shortest bone-free straight path within 200 mm
+      var reg2 = this.region(T, R2);
+      for (k = 0; k < 600; k++) {
+        var u2 = [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]], e2 = this.entryFor(reg2, T, u2, R2);
+        if (e2.ok && !e2.obstructed && (!longer || e2.L < longer.L) && this.boneFreeRay(reg2, T, u2, e2.L) && !this.boneCheck(e2.E, T).blocked) longer = {L: e2.L};
+      }
+    }
+    this.sugg.longer = longer ? longer.L : null;
+    this.sugg.msg = (nSkin ? "No straight path to this tip is free of bone within the " + reach + " mm needle length (" + nSkin + " of 600 sampled directions reach the skin, all cross bone)"
+                           : "No skin within the " + reach + " mm needle length") + ": no candidate." +
+                    (longer ? " Shortest bone-free straight path: " + longer.L.toFixed(0) + " mm." : (reach < R2 ? " None within " + R2 + " mm either." : ""));
+    this.renderSuggestions(); return null;
+  }
   var tgtId = this.target.i != null ? this.recs[this.target.i].id : null, cands = [], t0 = performance.now();
   coneDirs(best.u, SUGG_HALF_DEG * Math.PI / 180, SUGG_N).forEach(function (u) {
     var en = self.entryFor(reg, T, u, reach); if (!en.ok || en.obstructed) return;
+    if (!self.boneFreeRay(reg, T, u, en.L) || self.boneCheck(en.E, T).blocked) return;
     var m = self.corridorFor(en.E, T, tgtId);
     cands.push({u: u, E: en.E, L: en.L, entryI: en.entryI, minD: m.min, nearest: m.items[0] || null, n: m.n});
   });
@@ -2304,7 +2440,7 @@ TP.suggest = function () {
   this.drawSuggestions(); this.renderSuggestions(); this.api.redraw();
   return this.sugg.shown;
 };
-TP.clearSuggestions = function () { this.sugg.cands = []; this.sugg.shown = []; this.sugg.msg = ""; ["sg-0", "sg-1", "sg-0-x", "sg-1-x"].forEach(this.ov.remove, this.ov); };
+TP.clearSuggestions = function () { this.sugg.cands = []; this.sugg.shown = []; this.sugg.msg = ""; this.sugg.none = null; this.sugg.longer = null; ["sg-0", "sg-1", "sg-0-x", "sg-1-x"].forEach(this.ov.remove, this.ov); };
 TP.drawSuggestions = function () {
   var ov = this.ov, T = this.target.p, self = this;
   this.sugg.shown.forEach(function (c, k) {   // faint dashed ghost: 2.5 mm dashes, 2 mm gaps
@@ -2517,10 +2653,11 @@ TP.notify = function () { if (this.guide) this.renderPlanGuide(); var hs = this.
 /* Q272: a default target point at the structure's vertex centroid (the mode's "as automatic as possible" step: planPick() only arms
    target-first placement; a tap inside the structure replaces this point exactly as before) */
 TP.setTargetAt = function (i) {
-  var g = this.api.geometry(i); if (!g || !g.pos || !g.pos.length) return null;
-  var p = g.pos, n = p.length / 3, c = [0, 0, 0], k;
-  for (k = 0; k < p.length; k += 3) { c[0] += p[k]; c[1] += p[k + 1]; c[2] += p[k + 2]; }
-  c = [c[0] / n, c[1] / n, c[2] / n];
+  /* Q381: a point INSIDE the structure, on the mesh as it is now (meshCentre: mid-thickness where the structure is thickest, nearest its
+     centre of volume, never inside a bone). It was the mean of the REST vertices: outside the mesh for a curved or tendinous muscle
+     (tibialis posterior: 19 mm outside, inside the tibia), and in a posed body the place the muscle had left. */
+  var cc = this.centreOf(i); if (!cc) return null;
+  var c = cc.p.slice();
   this.entry = null; this.target = {p: c, i: i, n: null}; this.risk.safer = null;
   this.update();
   return c;
@@ -2930,17 +3067,39 @@ TP.drawMarkers = function () {
     ov.set("mk-entry-rim", addRing(new Geo(), this.entry.p, ax, R + 1.1 * r, 0.38 * r), {color: MK.entry.edge, pass: "opaque"});
     ov.set("mk-entry-x", gr, {color: MK.entry.color, pass: "xray", alpha: 0.5, emis: 0.45});
   }
+  /* Q381: in the planning mode the tip's own structure shows through the body as a silhouette in the tip's colour, so a deep tip
+     reads as lying inside THAT structure and not on the surface in front of it */
+  var gi = this.target && this.injOn() ? this.ghostOf() : null;
+  if (ov.setGhosts) ov.setGhosts(gi != null ? [{i: gi, color: MK.tip.color, alpha: GHOST_ALPHA}] : []);
   this.pinsPlace();
+};
+TP.ghostOf = function () {
+  var t = this.target; if (!t) return null;
+  if (t.kind === "peri" && t.nerve != null) return t.nerve;
+  var i = t.i != null && t.i >= 0 ? t.i : (this.plan.i != null ? this.plan.i : null);
+  return i != null && this.skinIdx().indexOf(i) < 0 ? i : null;
 };
 TP.pinsInit = function () {
   if (this.pins || typeof document === "undefined") return;
   var self = this, host = document.createElement("div"), mk = {};
   host.id = "q367-pins"; host.setAttribute("aria-hidden", "true");
   host.style.cssText = "position:fixed;left:0;top:0;width:0;height:0;pointer-events:none;z-index:80";
+  if (!document.getElementById("q381-pin-css")) {   // Q381: the pin's depth tag, its "deep" look, the blocked entry's mark
+    var st = document.createElement("style"); st.id = "q381-pin-css"; st.textContent =
+      ".q367-pin .q381-tag{position:absolute;left:50%;top:100%;transform:translateX(-50%);margin-top:3px;white-space:nowrap;direction:rtl;font:600 11.5px/1.25 system-ui,-apple-system,'Segoe UI',Arial,sans-serif;" +
+      "color:#fff;background:rgba(11,42,60,.88);border-radius:6px;padding:1px 6px;box-shadow:0 0 0 1px rgba(255,255,255,.55)}" +
+      ".q367-pin .q381-tag:empty{display:none}" +
+      ".q367-pin-tip.q381-deep svg path{fill-opacity:.42;stroke-dasharray:3.2 2.2}" +
+      ".q367-pin .q381-x{position:absolute;right:-7px;top:-7px;width:15px;height:15px;border-radius:50%;background:#D63A3A;color:#fff;font:700 11px/15px system-ui,Arial,sans-serif;text-align:center;box-shadow:0 0 0 1.5px #fff;display:none}" +
+      ".q367-pin.q381-blocked .q381-x{display:block}.q367-pin.q381-blocked svg{filter:grayscale(.85)}";
+    document.head.appendChild(st);
+  }
   ["entry", "tip"].forEach(function (k) {
     var px = k === "tip" ? 22 : 26, e = document.createElement("div");
     e.className = "q367-pin q367-pin-" + k; e.dataset.px = px; e.innerHTML = mkSvg(k, px);
     e.style.cssText = "position:fixed;left:0;top:0;width:" + px + "px;height:" + px + "px;display:none;filter:drop-shadow(0 0 1.5px rgba(255,255,255,.9))";
+    var tag = document.createElement("span"); tag.className = "q381-tag"; e.appendChild(tag); e._tag = tag;
+    if (k === "entry") { var x = document.createElement("span"); x.className = "q381-x"; x.textContent = "\u2715"; e.appendChild(x); }
     host.appendChild(e); mk[k] = e;
   });
   document.body.appendChild(host);
@@ -2955,6 +3114,15 @@ TP.pinsPlace = function () {
     var e = self.pins[x[0]], s = on && x[1] ? self.api.toScreen(x[1].p) : null, px = +e.dataset.px;
     if (!s || !isFinite(s[0]) || s[0] < rc.left || s[0] > rc.right || s[1] < rc.top || s[1] > rc.bottom) { if (e.style.display !== "none") e.style.display = "none"; e._xy = null; return; }
     e.style.display = ""; e.style.transform = "translate(" + (s[0] - px / 2).toFixed(1) + "px," + (s[1] - px / 2).toFixed(1) + "px)"; e._xy = s;
+    /* Q381: the tip's pin says how deep the tip lies under the skin along the line of sight (it changes as the model turns), and is
+       drawn hollow and dashed while tissue lies in front of it; the entry's pin is struck out while its path crosses bone */
+    if (x[0] === "tip") {
+      var dep = self.viewDepth(x[1].p), deep = dep != null && dep > 2, txt = deep ? "בעומק " + dep.toFixed(0) + ' מ"מ' : "";
+      e._depth = dep; if (e.classList.contains("q381-deep") !== deep) e.classList.toggle("q381-deep", deep);
+      if (e._tag.textContent !== txt) e._tag.textContent = txt;
+    } else {
+      var blk = self.isBlocked(); if (e.classList.contains("q381-blocked") !== blk) e.classList.toggle("q381-blocked", blk);
+    }
   });
 };
 
@@ -3272,6 +3440,237 @@ TP.q367 = function () {
                  rows: S.rows.map(function (x) { return {i: x.i, id: x.id, k: x.k, c: x.c, d: x.d, rule: x.rule, viol: x.viol, dia: x.dia}; }),
                  halos: S.halos.map(function (x) { return {i: x.i, id: x.id, r: x.rule, viol: x.viol}; }), segs: S.segs.length},
           pins: this.pins ? {tip: this.pins.tip._xy || null, entry: this.pins.entry._xy || null} : null, sizeOf: function (i) { return self.sizeOf(i); }};
+};
+
+/* ===================================================================== */
+/* Q381 (owner, 2026-11-19, after testing the live Base·Male page)                                                              */
+/*  A. "A needle cannot pass through bones": ONE geometric test of the straight path entry -> tip against the page's bone meshes   */
+/*     and hyaline cartilage, in the CURRENT pose (boneCheck), run on every placement change (update(): a suggested entry, a      */
+/*     tapped one, a tip moved afterwards, a pose change afterwards). A path that crosses is BLOCKED: the bone is named, the path */
+/*     is drawn red from the first bone on, it is not played in the scan and not saved, and the nearest valid entry is computed    */
+/*     and offered (entryNear). Suggestions / "shortest entry" / the safer pathways only ever propose bone-free paths (the region's */
+/*     bone grid for the search; every candidate SHOWN is confirmed by boneCheck). When no straight bone-free path exists for a    */
+/*     tip the panel says so. Ligaments, membranes, capsules, fibrocartilage: NO rule (no source at hand says a needle cannot pass */
+/*     them) -- the ones a path crosses are listed on the distance card, nothing more.                                             */
+/*  B. the tip's default point is INSIDE its structure (meshCentre), on the current (posed) mesh; what is true of the tip is       */
+/*     measured and shown (inside / on / outside its structure, its depth below that surface, the nearest skin); the 2-D pin       */
+/*     carries the depth below the skin along the line of sight and a "deep" look, and the target's own silhouette shows through.  */
+/* ===================================================================== */
+/* the cartilage layer's HYALINE pieces: articular and costal cartilage and the triradiate (growth) cartilage. Its intervertebral
+   discs, menisci, labra and the pubic symphysis are fibrocartilage (standard histology, e.g. Gray's Anatomy for Students, ch. 1,
+   "Cartilage"): not blocking. The owner's rule (Q381): bone and hyaline cartilage block. */
+var HYALINE_RE = /articular_cartilage|costal_cartilage|triradiate_cartilage/;
+var TIP_TOUCH_MM = 0.5;    // a tip resting on a bone surface (an attachment site) touches the bone; whatever the path meets earlier than this before the tip is a crossing
+var BONE_CLEAR_MM = 1.0;   // an OFFERED entry keeps its path at least this far from bone until 3 mm before the tip (a convention: the needle's radius and a little)
+var PASS_CATS = {joint: 1, ligament: 1, cartilage: 1};   // crossed -> listed, never blocking
+var GHOST_ALPHA = 0.34;
+TP.blockers = function () {
+  if (!this.blk) {
+    var self = this, b = this.blk = [], is = this.blkIs = {};
+    this.recs.forEach(function (r, i) { if (self.cls[i] === "bone" || (r.cat === "cartilage" && HYALINE_RE.test(r.id))) { b.push(i); is[i] = 1; } });
+  }
+  return this.blk;
+};
+TP.isBlocker = function (i) { this.blockers(); return this.blkIs[i] === 1; };
+/* THE test. A -> B (entry -> tip), current pose: {L, blocked, hits: [{i, id, name, side, t, n}] (first crossing of each blocking
+   structure, mm from A, nearest first), first: {i, t, p}, touch: [i] (met only within TIP_TOUCH_MM of the tip: the tip rests on it)} */
+TP.boneCheck = function (A, B) {
+  var self = this, L = dist(A, B), out = {L: L, blocked: false, hits: [], first: null, touch: []};
+  if (!(L > 1e-6)) return out;
+  this.blockers().forEach(function (i) {
+    var r = self.recs[i]; if (!boxHitsSegment(r.bmin, r.bmax, A, B, 0.05)) return;
+    var g = self.geom(i); if (!g) return;
+    var hs = segMeshHits(g.pos, g.idx, A, B); if (!hs.length) return;
+    var ts = []; hs.forEach(function (h) { if (!ts.length || h.t - ts[ts.length - 1] > 0.02) ts.push(h.t); });   // a shared edge is one crossing
+    var cr = ts.filter(function (t) { return t < L - TIP_TOUCH_MM; });
+    if (cr.length) out.hits.push({i: i, id: r.id, name: self.name(i), side: r.side, t: cr[0], n: cr.length});
+    else out.touch.push(i);
+  });
+  out.hits.sort(function (x, y) { return x.t - y.t; });
+  if (out.hits.length) { var h0 = out.hits[0], u = mul(sub(B, A), 1 / L); out.blocked = true; out.first = {i: h0.i, t: h0.t, p: addS(A, u, h0.t)}; }
+  return out;
+};
+/* the path's clearance from bone over its first L - 3 mm (the last 3 mm belong to the tip, which may rest on a bone) */
+TP.boneClear = function (A, B) {
+  var self = this, L = dist(A, B), best = Infinity; if (L < 3.5) return Infinity;
+  var B2 = addS(A, mul(sub(B, A), 1 / L), L - 3);
+  this.blockers().forEach(function (i) {
+    var r = self.recs[i]; if (!boxHitsSegment(r.bmin, r.bmax, A, B2, BONE_CLEAR_MM + 0.05)) return;
+    var g = self.geom(i); if (!g) return;
+    var m = meshSegDist(g.pos, g.idx, A, B2, Math.min(best, BONE_CLEAR_MM + 0.05)); if (m.d < best) best = m.d;
+  });
+  return best;
+};
+/* a candidate direction's bone test on the region's grid (fast; the search only -- what is shown or offered is confirmed by boneCheck) */
+TP.boneFreeRay = function (reg, T, u, L) { return !reg.bone.ntris || !reg.bone.ray(T, u, TIP_TOUCH_MM, Math.max(TIP_TOUCH_MM, L - 0.05)).length; };
+TP.pathValid = function (E, T) { return !this.boneCheck(E, T).blocked && this.boneClear(E, T) >= BONE_CLEAR_MM; };
+/* the valid entry nearest to E0 (the entry the user chose, whose path is blocked): every skin point reached by a straight bone-free
+   path from the tip, over 1500 directions of the sphere and a 25-degree cone around the chosen direction, nearest to E0 first; the
+   nearest that passes the exact test (boneCheck, >= BONE_CLEAR_MM from bone) is then walked back toward E0 along the arc between the
+   two directions (6 bisections) to the last valid point. {E, entryI, u, L, d} or {none: true, tried, skin, free, reach}. */
+TP.entryNear = function (E0) {
+  var T = this.target.p, L0 = dist(E0, T), reach = Math.ceil(clamp(Math.max(this.len, L0 * 1.25 + 10), 20, 200)), reg = this.region(T, reach), self = this;
+  var u0 = L0 > 1e-6 ? norm(sub(E0, T)) : [0, 0, 1], cands = [], nSkin = 0, nFree = 0, tried = 0;
+  function tryDir(u) {
+    tried++;
+    var en = self.entryFor(reg, T, u, reach); if (!en.ok || en.obstructed) return null;
+    nSkin++;
+    if (!self.boneFreeRay(reg, T, u, en.L)) return null;
+    nFree++;
+    return {E: en.E, entryI: en.entryI, u: u, L: en.L, d: dist(en.E, E0)};
+  }
+  var dirs = fibonacciSphere(1500), k, c;
+  for (k = 0; k < 1500; k++) { c = tryDir([dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]]); if (c) cands.push(c); }
+  coneDirs(u0, 25 * Math.PI / 180, 300).forEach(function (u) { var c2 = tryDir(u); if (c2) cands.push(c2); });
+  cands.sort(function (x, y) { return x.d - y.d; });
+  var best = null;
+  for (k = 0; k < cands.length && k < 60 && !best; k++) if (this.pathValid(cands[k].E, T)) best = cands[k];
+  if (!best) return {none: true, tried: tried, skin: nSkin, free: nFree, reach: reach};
+  var lo = 0, hi = 1;   // m = 0: the chosen (blocked) direction, m = 1: the valid one
+  for (k = 0; k < 6; k++) {
+    var m = (lo + hi) / 2, u = norm(add(mul(u0, 1 - m), mul(best.u, m))), en = this.entryFor(reg, T, u, reach);
+    if (en.ok && !en.obstructed && this.boneFreeRay(reg, T, u, en.L) && this.pathValid(en.E, T)) { hi = m; best = {E: en.E, entryI: en.entryI, u: u, L: en.L, d: dist(en.E, E0)}; }
+    else lo = m;
+  }
+  best.reach = reach;
+  return best;
+};
+TP.blockRun = function () {
+  var e = this.entry, t = this.target, B = this.block = {res: null, alt: undefined, seq: (this.blockSeq = (this.blockSeq || 0) + 1)}, self = this;
+  clearTimeout(this.blockT); this.blockT = 0;
+  if (!e || !t) return;
+  B.res = this.boneCheck(e.p, t.p);
+  if (!B.res.blocked || this.mode === "dir") return;
+  this.blockT = setTimeout(function () {
+    self.blockT = 0;
+    if (self.block !== B || !self.entry || !self.target) return;
+    B.alt = self.entryNear(self.entry.p);
+    self.drawBlock(); self.api.redraw(); self.notify();
+  }, 140);
+};
+TP.injOn = function () { return typeof document !== "undefined" && !!document.body && document.body.classList.contains("mode-inj"); };
+TP.isBlocked = function () { return !!(this.block && this.block.res && this.block.res.blocked && this.entry && this.target); };
+TP.useAltEntry = function () {
+  var a = this.block && this.block.alt; if (!a || !a.E) return false;
+  this.entry = {p: a.E.slice(), i: a.entryI, n: mul(a.u, -1)};
+  this.clearSuggestions(); this.update();
+  return true;
+};
+TP.drawBlock = function () {
+  var ov = this.ov; ["q381-blk", "q381-blk-x", "q381-alt", "q381-alt-x"].forEach(ov.remove, ov);
+  if (!this.isBlocked()) return;
+  var B = this.block, T = this.target.p, f = B.res.first, r = this.rDisp || 1, g = new Geo();
+  addSphere(g, f.p, 2.3 * r, 14, 10);
+  if (dist(f.p, T) > 0.5) addTube(g, f.p, T, r * 1.3, r * 1.3, 14, {capA: true, capB: true});
+  ov.set("q381-blk", g, {color: VIOL_COL, pass: "opaque", emis: 0.45});
+  ov.set("q381-blk-x", g, {color: VIOL_COL, pass: "xray", alpha: 0.75, emis: 0.5});
+  if (B.alt && B.alt.E) {
+    var ga = addRing(new Geo(), B.alt.E, sub(T, B.alt.E), 3.4 * r, 0.6 * r), L = dist(B.alt.E, T), u = norm(sub(T, B.alt.E)), rr = 0.3 * r + 0.12;
+    for (var s = 0; s < L; s += 4.5) addTube(ga, addS(B.alt.E, u, s), addS(B.alt.E, u, Math.min(L, s + 2.5)), rr, rr, 8, {});
+    ov.set("q381-alt", ga, {color: ALT_COL, pass: "trans", alpha: 0.85, emis: 0.45, order: 5});
+    ov.set("q381-alt-x", ga, {color: ALT_COL, pass: "xray", alpha: 0.4, emis: 0.45});
+  }
+};
+var ALT_COL = "#2FA866";
+/* the structures of the "passes through" list: ligaments / membranes / capsules / fibrocartilage a path crosses (not blocking) */
+TP.passList = function (A, B) {
+  var self = this, L = dist(A, B), out = [], skip = this.target ? this.target.i : null; if (!(L > 1e-6)) return out;
+  this.recs.forEach(function (r, i) {
+    if (!PASS_CATS[r.cat] || i === skip || self.isBlocker(i) || !boxHitsSegment(r.bmin, r.bmax, A, B, 0.05)) return;
+    var g = self.geom(i); if (!g) return;
+    var hs = segMeshHits(g.pos, g.idx, A, B).filter(function (h) { return h.t > 0.05 && h.t < L - 0.05; });
+    if (hs.length) out.push({i: i, id: r.id, name: self.name(i), side: r.side, t: hs[0].t});
+  });
+  out.sort(function (x, y) { return x.t - y.t; });
+  return out;
+};
+/* ---- B: a point inside the structure, on the mesh as it is now ---- */
+TP.centreOf = function (i) {
+  var key = this.poseKey(), store = key === "rest" ? this.cRest : this.cPose, c = store[i];
+  if (c && c.key === key) return c;
+  var g = this.geom(i); if (!g) return null;
+  var self = this, r = this.recs[i], near = this.blockers().filter(function (j) { return j !== i && boxOverlap(self.recs[j].bmin, self.recs[j].bmax, r.bmin, r.bmax); });
+  c = meshCentre(g.pos, g.idx, {reject: function (p) {
+    return near.some(function (j) { var b = self.recs[j]; return p[0] >= b.bmin[0] && p[1] >= b.bmin[1] && p[2] >= b.bmin[2] && p[0] <= b.bmax[0] && p[1] <= b.bmax[1] && p[2] <= b.bmax[2] && self.insideMesh(j, p); });
+  }});
+  c.key = key; store[i] = c;
+  return c;
+};
+TP.plCentreFollow = function () {   // after a pose change the centre is taken again on the posed mesh (it rode its anchor during the move)
+  var t = this.target; if (!t || t.kind !== "centre" || t.i == null) return false;
+  var c = this.centreOf(t.i); if (!c || dist(c.p, t.p) < 1e-6) return false;
+  t.p = c.p.slice(); t._anc = null;
+  return true;
+};
+TP.skinIdx = function () {
+  if (!this.skinLayer) this.skinLayer = this.recs.filter(function (r) { return r.cat === "skin" || /^skin(_|$)/.test(r.id); }).map(function (r) { return r.i; });
+  return this.skinLayer;
+};
+TP.raySkin = function (o, d, far) {   // every skin crossing of the ray o + t d, t in (0, far], nearest first: [{t, i, n}]
+  var self = this, B = addS(o, d, far), out = [];
+  this.skinIdx().forEach(function (i) {
+    var r = self.recs[i]; if (!boxHitsSegment(r.bmin, r.bmax, o, B, 0.5)) return;
+    self.rayAll(i, o, d, 1e-4, far).forEach(function (h) { out.push({t: h.t, i: i, n: h.n}); });
+  });
+  out.sort(function (x, y) { return x.t - y.t; });
+  return out;
+};
+/* a tap for the SKIN ENTRY lands on the skin under the pointer -- whatever the skin's look (faded, translucent, hidden): the first
+   skin surface the pointer's ray meets (not in the half a cut removed). null when no skin lies under the pointer. */
+TP.pickSkin = function (e) {
+  var R = this.api.ray(e), cut = this.api.cut(), hs = this.raySkin(R.o, R.d, 5000);
+  for (var k = 0; k < hs.length; k++) {
+    var p = addS(R.o, R.d, hs[k].t); if (cut && dot(cut, p) + cut[3] < -1e-6) continue;
+    var n = hs[k].n; if (n && dot(n, R.d) < 0) n = mul(n, -1);
+    return {i: hs[k].i, p: p, n: n, t: hs[k].t, ray: R.d, skin: true};
+  }
+  return null;
+};
+/* mm of body in front of p along the line of sight: from p toward the eye, the skin over p (skin surfaces within SKIN_STACK_MM of
+   the first are one skin). null when no skin lies between p and the eye. */
+TP.viewDepth = function (p) {
+  var v = this.api.view(); if (!v || !v.eye) return null;
+  var d = sub(v.eye, p), L = len(d); if (L < 1e-6) return null;
+  var key = v.eye.map(function (x) { return x.toFixed(1); }).join(",") + "|" + p.map(function (x) { return x.toFixed(2); }).join(",") + "|" + this.poseKey();
+  if (this.vdKey === key) return this.vdVal;
+  var hs = this.raySkin(p, mul(d, 1 / L), Math.min(L, 3000)), out = null;
+  if (hs.length) { var k0 = 0; while (k0 + 1 < hs.length && hs[k0 + 1].t <= hs[0].t + SKIN_STACK_MM) k0++; out = hs[k0].t; }
+  this.vdKey = key; this.vdVal = out;
+  return out;
+};
+/* what is true of the tip, measured on the current meshes: {host, rel: "in" | "on" | "out" | null, dOwn, dSkin}. rel is given for the
+   kinds that claim a place IN a structure (its centre, a tapped point, a motor point, an IZ band); null for the others. */
+var TIP_IN_KINDS = {centre: 1, free: 1, mp: 1, iz: 1};
+TP.tipFacts = function () {
+  var t = this.target; if (!t) return null;
+  var self = this, p = t.p, f = {host: null, rel: null, dOwn: null, dSkin: null, kind: t.kind || null};
+  var host = t.i != null && t.i >= 0 && (!t.kind || TIP_IN_KINDS[t.kind]) && !t.computed ? t.i : null;
+  if (host != null && this.skinIdx().indexOf(host) < 0) {
+    var g = this.geom(host);
+    if (g) { var cm = closestOnMesh(g.pos, g.idx, p); f.host = host; f.dOwn = cm.d; f.rel = cm.d <= 0.3 ? "on" : (this.insideMesh(host, p) ? "in" : "out"); }
+  }
+  var best = Infinity;
+  this.skinIdx().map(function (i) { var r = self.recs[i], d = 0; for (var k = 0; k < 3; k++) { var dk = Math.max(r.bmin[k] - p[k], 0, p[k] - r.bmax[k]); d += dk * dk; } return {i: i, d: Math.sqrt(d)}; })
+    .sort(function (x, y) { return x.d - y.d; }).some(function (x) {
+      if (x.d >= best) return true;
+      var g2 = self.geom(x.i); if (!g2) return false;
+      var m = meshSegDist(g2.pos, g2.idx, p, p, best); if (m.d < best) best = m.d;
+      return false;
+    });
+  if (best < Infinity) f.dSkin = best;
+  return f;
+};
+/* test / harness view */
+TP.q381 = function () {
+  var B = this.block, R = B && B.res, f = this.tipF, self = this;
+  return {blocked: this.isBlocked(), block: R ? {blocked: R.blocked, L: R.L, first: R.first, touch: R.touch.map(function (i) { return self.recs[i].id; }),
+                                                 hits: R.hits.map(function (h) { return {id: h.id, t: h.t, n: h.n}; })} : null,
+          alt: B ? (B.alt === undefined ? "pending" : B.alt) : null, blockers: this.blockers().length,
+          facts: f ? {host: f.host != null ? this.recs[f.host].id : null, rel: f.rel, dOwn: f.dOwn, dSkin: f.dSkin, kind: f.kind} : null,
+          pass: (this.corr.pass || []).map(function (x) { return {id: x.id, t: x.t}; }),
+          pin: this.pins && this.pins.tip ? {deep: this.pins.tip.classList.contains("q381-deep"), tag: this.pins.tip._tag ? this.pins.tip._tag.textContent : "", depth: this.pins.tip._depth == null ? null : this.pins.tip._depth,
+                                             entryBlocked: this.pins.entry.classList.contains("q381-blocked")} : null,
+          ghosts: this.ov.ghostsNow ? this.ov.ghostsNow() : null, sugg: {none: this.sugg.none || null, skin: this.sugg.nSkin, free: this.sugg.nFree, longer: this.sugg.longer || null}};
 };
 
 /* ---------- Q272: the "תכנון הזרקה" WORKSPACE MODE -- a re-skin of this tool's own Q268 logic (preset, live distance readout,

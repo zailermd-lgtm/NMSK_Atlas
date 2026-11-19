@@ -137,10 +137,21 @@
       var r = US.classes[cl.key]; if (!r) { r = fb; A.missing.push(cl.key); }
       A.keys[i] = cl.key; A.z[i] = r.z; A.alpha[i] = r.alpha; A.bs[i] = bs0 * Math.pow(10, r.bs_db / 10); A.speck[i] = r.speck;
       A.sig[i] = r.spec_sigma_deg * DEG; A.diff[i] = r.diffuse; A.logz[i] = Math.log(r.z);
-      A.tex[i] = r.texture === "muscle" ? 1 : r.texture === "tendon" ? 2 : r.texture === "nerve" ? 3 : 0;
+      A.tex[i] = r.texture === "muscle" ? 1 : r.texture === "tendon" ? 2 : r.texture === "nerve" ? 3 : r.texture === "fat" ? 4 : 0;
       if (r.aniso) { A.aOn[i] = 1; A.aTh[i] = r.aniso.theta_deg * DEG; A.aFl[i] = r.aniso.floor; A.aMin[i] = r.aniso.min_elong; }
     });
     A.airId = C.ids.air; A.fatId = C.ids.fat; A.gelZ = US.global.gel.z_mrayl; A.airFillMm = US.global.air_pocket_fill_mm || 12;
+    /* Q383: the connective-tissue sheath of a structure (epimysium, epineurium, vessel wall). A thin collagen layer is not a class of the
+       raster (it is thinner than a pixel), so it is an INTERFACE: wherever a beam line passes from one structure of the page into
+       another, a sheathed class on either side gives a specular echo R = 2 r^2, r = (Zc - Z) / (Zc + Z) -- the two faces of a layer of
+       collagen impedance Zc (the table's own tendon / ligament row) in tissue of impedance Z, added as intensities. */
+    var shT = US.interfaces && US.interfaces.sheath;
+    A.shR = new Float32Array(n); A.shOn = 0;
+    if (shT && shT.classes) {
+      var zc = US.classes[shT.collagen_class || "tendon_ligament"].z;
+      C.T.classes.forEach(function (cl, i) { if (shT.classes.indexOf(cl.key) >= 0 && US.classes[cl.key]) { var rr = (zc - US.classes[cl.key].z) / (zc + US.classes[cl.key].z); A.shR[i] = 2 * rr * rr; A.shOn = 1; } });
+      A.shSig = (shT.spec_sigma_deg || 18) * DEG; A.shDiff = shT.diffuse == null ? 0.2 : shT.diffuse; A.shGapMm = shT.min_gap_mm || 0.4; A.shMaxR = shT.max_class_r == null ? 0.05 : shT.max_class_r;
+    }
     /* Q317: an instrument is not a tissue and is not in C.T.classes, so it takes one of the ids those leave
        free (0-32 are the tissues, 255 is the gel) and is filled here by hand from the table's own block. */
     var ins = US.instruments && US.instruments.needle_steel;
@@ -174,14 +185,23 @@
     I *= nn; Q *= nn;
     return (I * I + Q * Q) * 0.5;
   }
-  var WF1 = 0, WF2 = 0;
-  function worley(cx, cy, seed) {                                           // F1, F2 (cell units) of a jittered 2-D grid
-    var ix = Math.floor(cx), iy = Math.floor(cy), f1 = 9, f2 = 9, i, j;
+  var WF1 = 0, WF2 = 0, WNX = 0, WNY = 0, WNZ = 0;
+  function worley(cx, cy, seed) {                                           // F1, F2 (cell units) of a jittered 2-D grid; (WNX, WNY) = from the nearest feature point to the second = the normal of the wall between them
+    var ix = Math.floor(cx), iy = Math.floor(cy), f1 = 9, f2 = 9, i, j, x1 = 0, y1 = 0, x2 = 0, y2 = 0;
     for (j = -1; j <= 1; j++) for (i = -1; i <= 1; i++) {
       var h = hash3(ix + i, iy + j, 17, seed), fx = ix + i + (h & 1023) / 1023, fy = iy + j + ((h >>> 10) & 1023) / 1023, d = Math.hypot(cx - fx, cy - fy);
-      if (d < f1) { f2 = f1; f1 = d; } else if (d < f2) f2 = d;
+      if (d < f1) { f2 = f1; x2 = x1; y2 = y1; f1 = d; x1 = fx; y1 = fy; } else if (d < f2) { f2 = d; x2 = fx; y2 = fy; }
     }
-    WF1 = f1; WF2 = f2;
+    WF1 = f1; WF2 = f2; WNX = x2 - x1; WNY = y2 - y1;
+  }
+  function worley3(cx, cy, cz, seed) {                                      // the same in 3-D (27 cells): F1, F2 and the wall normal (WNX, WNY, WNZ), cell units
+    var ix = Math.floor(cx), iy = Math.floor(cy), iz = Math.floor(cz), f1 = 9, f2 = 9, i, j, k, x1 = 0, y1 = 0, z1 = 0, x2 = 0, y2 = 0, z2 = 0;
+    for (k = -1; k <= 1; k++) for (j = -1; j <= 1; j++) for (i = -1; i <= 1; i++) {
+      var h = hash3(ix + i, iy + j, iz + k, seed), fx = ix + i + (h & 1023) / 1023, fy = iy + j + ((h >>> 10) & 1023) / 1023, fz = iz + k + ((h >>> 20) & 1023) / 1023;
+      var d = Math.sqrt((cx - fx) * (cx - fx) + (cy - fy) * (cy - fy) + (cz - fz) * (cz - fz));
+      if (d < f1) { f2 = f1; x2 = x1; y2 = y1; z2 = z1; f1 = d; x1 = fx; y1 = fy; z1 = fz; } else if (d < f2) { f2 = d; x2 = fx; y2 = fy; z2 = fz; }
+    }
+    WF1 = f1; WF2 = f2; WNX = x2 - x1; WNY = y2 - y1; WNZ = z2 - z1;
   }
 
   /* ---- separable box blur x3 (~ gaussian) of a Float32 image, radius r px ---- */
@@ -211,12 +231,30 @@
     /* Q294: a zoom plan (zoomPlan) simulates only the lines L0..L1 of a finer fan (nLt lines in all), down to sMax, for its window */
     var Lo = pl.L0 || 0, nLt = pl.nL, f = o.freq, depth = o.depthMm, lam = 1.54 / f, nL = pl.L1 != null ? pl.L1 - Lo + 1 : nLt, ds = pl.ds, nS = Math.floor(Math.min(depth, pl.sMax || depth) / ds) + 1, i, k, L;
     var axFw = GL.axial_cycles * lam / 2, Dap = Math.min(0.6 * g.w, 25), Fc = Math.max(5, o.focusMm), wF = 1.2 * lam * Fc / Dap, dof = 7 * lam * (Fc / Dap) * (Fc / Dap), wmin = 2.5 * lam + 0.2;
-    function latFw(s) { var q = (s - Fc) / (dof / 2); return Math.min(8, Math.max(wmin, wF * Math.sqrt(1 + q * q))); }
+    /* Q383: the lateral width of an ARRAY. Receive is focused dynamically at every depth (width 1.2 lambda x F-number, the F-number held
+       at beam.rx_fnumber until the aperture Dap is used up, then depth / Dap); transmit has one focus (beam.tx_fnumber) and widens
+       geometrically away from it; the two-way width is the product of the two beams (1 / w^2 adds). Until Q383 the two-way beam was the
+       transmit beam of a FIXED-focus transducer alone (7 lambda F#^2 depth of field): 1.6 mm wide 5 mm off the focus and 8 mm at the
+       skin at 10 MHz, which smeared every interface outside the focal zone into a horizontal band. beam.array = false restores it. */
+    var BM = GL.beam || {}, arrayBeam = BM.array !== false && !!GL.beam, FnR = BM.rx_fnumber || 2, FnT = BM.tx_fnumber || 4;
+    function latFw(s) {
+      if (!arrayBeam) { var q = (s - Fc) / (dof / 2); return Math.min(8, Math.max(wmin, wF * Math.sqrt(1 + q * q))); }
+      var z = s < 1 ? 1 : s, wr = 1.2 * lam * Math.max(FnR, z / Dap), wt = Math.hypot(1.2 * lam * FnT, (z - Fc) / FnT);
+      return Math.min(8, Math.max(wmin, 1 / Math.sqrt(1 / (wr * wr) + 1 / (wt * wt))));
+    }
     var AIR = AC.airId, GEL = 255, Zgel = AC.gelZ, maxGap = AC.gel.max_gap_mm;
     var attStep = new Float32Array(256), c;
     for (c = 0; c < 256; c++) attStep[c] = Math.pow(10, -AC.alpha[c] * f * ds / 100);
     var tgcRef = GL.tgc_alpha_ref_db_cm_mhz, Gt = new Float32Array(nS);
-    for (k = 0; k < nS; k++) { var s0 = k * ds; Gt[k] = Math.pow(10, (2 * tgcRef * f * (s0 / 10) + (o.tgcDb || 0) * (s0 / depth)) / 10); }
+    /* Q383: time-gain compensation that FOLLOWS THE TISSUE (tgc.auto). A sonographer sets the TGC so that like tissue reads alike from
+       top to bottom; the fixed 0.6 dB/cm/MHz curve left muscle (1.0) 8 dB darker per centimetre at 10 MHz and black below 2-3 cm. The
+       gain at a depth is now the round-trip loss of the frame's own unshadowed beam lines there (the mean in dB over the lines that have
+       not met bone, gas or another strong reflector), smoothed over tgc.smooth_mm, never falling, capped at tgc.max_db (beyond it the
+       picture fades, as on a scanner that has run out of gain). Shadows stay (a shadowed line gets the gain of its neighbours) and so
+       does posterior enhancement (a line through fluid has lost less than the mean). The user's "TGC far" slope is added on top.
+       tgc.auto = false, or o.tgcFixed, gives the nominal curve again; a zoom window takes the gain curve of its full frame (o.tgcOf). */
+    var TG = GL.tgc || {}, tgcAuto = !!TG.auto && !o.tgcFixed, tgA = new Float32Array(nS), tgSum = new Float64Array(nS), tgN = new Uint16Array(nS), shadeA = TG.shadow_alpha || 8, shadeR = TG.shadow_r || 0.2;
+    for (k = 0; k < nS; k++) tgA[k] = 2 * tgcRef * f * (k * ds / 10);
     /* smoothed log-impedance for the interface normals */
     var ZS = new Float32Array(W * H), N = W * H;
     for (i = 0; i < N; i++) ZS[i] = AC.logz[lab[i]];
@@ -241,6 +279,11 @@
      * the display raster cannot show a finer grain anyway (the same floor latCell already has laterally, 0.4 mm). */
     var cellAx = Math.max(GL.speckle.cell_ax_wavelengths * lam, 2 * ds), cellZ = GL.speckle.elev_mm, elev = o.elevMm || 0, frame = o.frame, nStats = {specCount: 0, lost: 0, texSamples: 0, archSamples: 0, sepSamples: 0};
     var latCell = new Float32Array(nS), ref = o.ref || null;
+    var shOn = !!(AC.shOn && sid && o.sheath !== false && tex);
+    nStats.sheath = 0; nStats.fatSamples = 0;
+    function shCls(a, b) { var r0 = (AC.z[a] - AC.z[b]) / (AC.z[a] + AC.z[b]); return r0 * r0 <= AC.shMaxR; }   // not at bone, gas or the gel: their own echo is the interface
+    /* Q383: fat lobules -- a frame fixed in the body: the depth direction of the probe's reference frame and two tangents that do not turn with the probe */
+    var fN = ref ? ref.b : frame ? frame.b : [0, 0, 1], fT1 = unit(cross(fN, Math.abs(fN[1]) < 0.9 ? [0, 1, 0] : [1, 0, 0])), fT2 = cross(fN, fT1);
     for (k = 0; k < nS; k++) latCell[k] = Math.max(0.4, latFw(k * ds) * 0.8);
     function latCellAt(y) { return Math.max(0.4, latFw(y < 0 ? 0 : y) * 0.8); }
     var lastSid = -1, lastAxis = null, lastArch = null;
@@ -248,6 +291,7 @@
     for (L = 0; L < nL; L++) {
       var ls = lineStart(g, L + Lo, nLt), x0 = ls[0], y0 = ls[1], dx = ls[2], dy = ls[3];
       var T = 1, prevZ = Zgel, prevCls = GEL, body = false, gap = 0, firstRev = -1, revVal = 0, bd = null, airUntil = -1, airNext = 0, fillK = Math.ceil(AC.airFillMm / ds);
+      var shaded = false, prevQ = -1, prevQc = GEL, lastSh = -1e9;
       if (frame) bd = [frame.u[0] * dx + frame.b[0] * dy, frame.u[1] * dx + frame.b[1] * dy, frame.u[2] * dx + frame.b[2] * dy];
       for (k = 0; k < nS; k++) {
         var s = k * ds, X = x0 + dx * s, Y = y0 + dy * s + ysk;
@@ -286,12 +330,34 @@
               }
             }
             var sp = T * T * R * ang;
-            if (k > 0 && fq < 1) P[(k - 1) * nL + L] += sp * Gt[k - 1] * (1 - fq);
-            P[k * nL + L] += sp * Gt[k] * fq; nStats.specCount++;
+            if (k > 0 && fq < 1) P[(k - 1) * nL + L] += sp * (1 - fq);
+            P[k * nL + L] += sp * fq; nStats.specCount++;
             if (o.reverb && firstRev < 0 && R >= AC.art.reverb.r_min && k > 3) { firstRev = k; revVal = sp; }
             T *= (1 - R);
+            if (R >= shadeR) shaded = true;
           }
           prevZ = Z2; prevCls = cls;
+        }
+        /* Q383: the sheath of a structure (see compileAcoustics): where the beam passes into another structure of the page */
+        if (shOn && pix >= 0 && cls !== GEL) {
+          var qn = sid[pix];
+          if (qn !== prevQ) {
+            if (prevQ >= 0 && body && k > 0 && s - lastSh >= AC.shGapMm) {
+              var Rs = Math.max(AC.shR[cls], prevQc === GEL ? 0 : AC.shR[prevQc]);
+              if (Rs > 0 && (cls === prevQc || shCls(cls, prevQc))) {
+                var an2 = 1, wx2 = 0, wy2 = 0, ii, jj;
+                if (jx >= 3 && jy >= 3 && jx < W - 3 && jy < H - 3) {             // the boundary's normal from the structure raster around the crossing
+                  for (jj = -3; jj <= 3; jj++) for (ii = -3; ii <= 3; ii++) { var qq2 = sid[pix + jj * W + ii]; if (qq2 === qn) { wx2 += ii; wy2 += jj; } else if (qq2 === prevQ) { wx2 -= ii; wy2 -= jj; } }
+                  var wl = Math.hypot(wx2, wy2);
+                  if (wl > 1e-6) { var cs2 = Math.abs(dx * wx2 + dy * wy2) / wl, th3 = Math.acos(Math.min(1, cs2)); an2 = AC.shDiff + (1 - AC.shDiff) * Math.exp(-th3 * th3 / (2 * AC.shSig * AC.shSig)); }
+                }
+                var sp2 = T * T * Rs * an2;
+                P[(k - 1) * nL + L] += sp2 * 0.5; P[k * nL + L] += sp2 * 0.5; nStats.sheath++;
+                T *= (1 - Rs); lastSh = s;
+              }
+            }
+            prevQ = qn; prevQc = cls;
+          }
         }
         if (cls !== GEL) {
           var bsl = AC.bs[cls];
@@ -310,9 +376,24 @@
                   var tp1 = AC.tex[cls] === 2 ? tp.tendon : AC.tex[cls] === 3 ? tp.nerve : tp.muscle;        // Q317: 3 = nerve, on the muscle's cell/boundary construction
                   var cell = AC.tex[cls] === 2 ? tp1.fib_mm * 5 : tp1.cell_mm, lw = AC.tex[cls] === 2 ? tp1.fib_mm * 0.5 : tp1.line_mm;
                   worley((wx * e1[0] + wy * e1[1] + wz * e1[2]) / cell, (wx * e2[0] + wy * e2[1] + wz * e2[2]) / cell, 5);
-                  var dd = (WF2 - WF1) * cell / lw; m *= 1 + tp1.gain * Math.exp(-dd * dd); nStats.texSamples++;
+                  var dd = (WF2 - WF1) * cell / lw, wg = Math.exp(-dd * dd);
+                  if (wg > 0.02 && tp1.wall_sigma_deg && bd) {                       // Q383: a septum is a sheet, a specular reflector: bright where the beam meets it square, faint where it runs along the beam
+                    var nl2 = Math.hypot(WNX, WNY) || 1, nx2 = WNX / nl2, ny2 = WNY / nl2, cw = Math.abs(bd[0] * (e1[0] * nx2 + e2[0] * ny2) + bd[1] * (e1[1] * nx2 + e2[1] * ny2) + bd[2] * (e1[2] * nx2 + e2[2] * ny2));
+                    var tw = Math.acos(cw > 1 ? 1 : cw), sw = tp1.wall_sigma_deg * DEG; wg *= tp1.wall_diffuse + (1 - tp1.wall_diffuse) * Math.exp(-tw * tw / (2 * sw * sw));
+                  }
+                  m *= 1 + tp1.gain * wg; nStats.texSamples++;
                 }
               }
+            }
+            if (tex && AC.tex[cls] === 4 && frame && tp.fat) {                       // Q383: subcutaneous / interstitial fat: dark lobules between thin bright septa that lie mostly along the skin
+              var tf = tp.fat, fx3 = frame.O[0] + frame.u[0] * X + frame.b[0] * Y, fy3 = frame.O[1] + frame.u[1] * X + frame.b[1] * Y, fz3 = frame.O[2] + frame.u[2] * X + frame.b[2] * Y;
+              worley3((fx3 * fT1[0] + fy3 * fT1[1] + fz3 * fT1[2]) / tf.cell_mm, (fx3 * fT2[0] + fy3 * fT2[1] + fz3 * fT2[2]) / tf.cell_mm, (fx3 * fN[0] + fy3 * fN[1] + fz3 * fN[2]) / tf.thick_mm, 11);
+              var d1 = WNX / tf.cell_mm, d2 = WNY / tf.cell_mm, d3 = WNZ / tf.thick_mm, dl = Math.hypot(d1, d2, d3) || 1, ddf = (WF2 - WF1) / (2 * dl * tf.line_mm), wf = Math.exp(-ddf * ddf);   // distance to the wall in mm / line width
+              if (wf > 0.02 && bd) {
+                var cf = Math.abs(bd[0] * (fT1[0] * d1 + fT2[0] * d2 + fN[0] * d3) + bd[1] * (fT1[1] * d1 + fT2[1] * d2 + fN[1] * d3) + bd[2] * (fT1[2] * d1 + fT2[2] * d2 + fN[2] * d3)) / dl;
+                var tf2 = Math.acos(cf > 1 ? 1 : cf), sf = tf.wall_sigma_deg * DEG; wf *= tf.wall_diffuse + (1 - tf.wall_diffuse) * Math.exp(-tf2 * tf2 / (2 * sf * sf));
+              }
+              m *= 1 + tf.gain * wf; nStats.fatSamples++;
             }
             var sc = AC.speck[cls];
             if (spk && sc > 0.01) {
@@ -322,20 +403,34 @@
                 m *= 1 - sc + sc * speckleE(rx / latCellAt(ry), ry / cellAx, rz / cellZ, seed);
               } else m *= 1 - sc + sc * speckleE(X / latCell[k], Y / cellAx, (elev + (frame && frame.zoff || 0)) / cellZ, seed);
             }
-            P[k * nL + L] += bsl * T * T * m * Gt[k];
+            P[k * nL + L] += bsl * T * T * m;
           }
+          if (AC.alpha[cls] >= shadeA) shaded = true;
+          if (!shaded && body) { tgSum[k] += Math.log(T); tgN[k]++; }
           T *= attStep[cls];
           if (T < 1e-13) break;
         }
       }
       if (firstRev > 0) reverb.push(L, firstRev, revVal);
     }
+    if (o.tgcOf && o.tgcOf.A) {                                              // a zoom window: the gain curve of its full frame
+      var tO = o.tgcOf; for (k = 0; k < nS; k++) { var kq = k * ds / tO.ds, k0q = Math.min(tO.A.length - 1, Math.floor(kq)), k1q = Math.min(tO.A.length - 1, k0q + 1); tgA[k] = tO.A[k0q] + (tO.A[k1q] - tO.A[k0q]) * (kq - k0q); }
+    } else if (tgcAuto) {
+      var need = Math.max(3, Math.round(nL * (TG.min_lines_frac || 0.06))), lastA = 0, slope = 2 * tgcRef * f * ds / 10, raw = new Float32Array(nS);
+      for (k = 0; k < nS; k++) { if (tgN[k] >= need) lastA = Math.max(lastA, -8.685889638 * tgSum[k] / tgN[k]); else if (k > 0) lastA += slope; raw[k] = lastA; }   // -20 log10(T): the two-way loss; never falling
+      var rS = Math.max(1, Math.round((TG.smooth_mm || 3) / ds)), accS = 0, cntS = 0, kmax = TG.max_db || 90;
+      for (k = 0; k < nS; k++) {                                              // box smoothing (the gain is a slow curve, like the TGC sliders)
+        accS = 0; cntS = 0; for (i = Math.max(0, k - rS); i <= Math.min(nS - 1, k + rS); i++) { accS += raw[i]; cntS++; }
+        tgA[k] = Math.min(kmax, accS / cntS);
+      }
+    }
+    for (k = 0; k < nS; k++) { Gt[k] = Math.pow(10, (tgA[k] + (o.tgcDb || 0) * (k * ds / depth)) / 10); var rb0 = k * nL, gk = Gt[k]; for (L = 0; L < nL; L++) P[rb0 + L] *= gk; }
     if (reverb.length) {
       var lv = AC.art.reverb.levels_db;
       for (i = 0; i < reverb.length; i += 3) {
         for (var mm = 2; mm <= 3; mm++) {
           var km = reverb[i + 1] * mm; if (km >= nS - 1) break;
-          var amp = reverb[i + 2] * Math.pow(10, lv[mm - 2] / 10) * Gt[km];
+          var amp = reverb[i + 2] * Math.pow(10, lv[mm - 2] / 10) * Gt[km];   // (the first echo was stored before the gain)
           P[km * nL + reverb[i]] += amp; P[(km + 1) * nL + reverb[i]] += amp * 0.5;
         }
       }
@@ -387,7 +482,7 @@
         db[idx] = v > 1e-30 ? 4.342945 * Math.log(v / bs0) : -200;
       }
     }
-    return {db: db, Wo: Wo, Ho: Ho, W: W, H: H, ysk: ysk, contact: contact, nL: nL, nS: nS, ms: Date.now() - t0, stats: nStats, latFw: latFw, axFw: axFw};
+    return {db: db, Wo: Wo, Ho: Ho, W: W, H: H, ysk: ysk, contact: contact, nL: nL, nS: nS, ms: Date.now() - t0, stats: nStats, latFw: latFw, axFw: axFw, tgc: {ds: ds, A: tgA, auto: tgcAuto}};
   }
   /* display mapping: dB re liver -> 0..255 (gain in dB, dynamic range, liver level at displayRef of the range) */
   function toGray(db, ref, gainDb, drDb) {
@@ -1548,45 +1643,129 @@
       var hit;
       if (S.ab && S.placeSlot === "B") {                                 // Q267 (5): "Place on skin" routes to whichever slot is currently armed
         hit = placeRay2(r.o, r.d, "B");
-      } else hit = placeRay(r.o, r.d);
+      } else { histMark(); hit = placeRay(r.o, r.d); if (hit) histNote(false); }   // Q383: a tap that moves the probe is a step of the page history (the click's own commit records it)
       S.placing = !!modeArm; syncUi();
       if (hit) { S.sel = 0; refresh(true); }
       return true;
     }
-    function placeRay2(o, d, slot) {                                     // Q267 (5): same as placeRay(), but writes into the B slot instead of S.P/S.N
+    function placeRay2(o, d, slot, quiet) {                              // Q267 (5): same as placeRay(), but writes into the B slot instead of S.P/S.N
       if (!geo) return null;
       var h = LIB.skinHit(geo, o, LIB.unit(d), cutKeep());
-      if (!h) { setStatus("No skin under that point (the ray misses the body, or the skin there is cut away)."); return null; }
+      if (!h) { if (!quiet) setStatus("No skin under that point (the ray misses the body, or the skin there is cut away)."); return null; }
       var nrm = LIB.smoothNormal(geo, h.point, 15, null, h.struct);
       if (LIB.dot(nrm, d) > 0) nrm = [-nrm[0], -nrm[1], -nrm[2]];
       S.P2 = h.point; S.N2 = nrm; S.skinStruct2 = h.struct;
       return h;
     }
-    /* ---------- Q294: direct probe handling on the 3-D view ----------
-       Grab the probe (a press within ~40 px of it) and drag: it slides over the skin (every move re-seated with placeRay: the surface
-       point under the finger, the axis along the smoothed skin normal), drawn at once while the images follow (throttled). No arming
-       step. A small pad beside the probe: rotate 15 deg either way, tilt 5 deg per tap toward the marker / away / heel / toe, upright.
-       Taps, never a slider (the owner's mobile rule). The pad hides when the probe is off screen or something covers it. */
-    var drag = {on: false, id: null, last: 0, moved: 0, swallow: 0}, livePose = null, hdl = null;
+    /* ---------- Q294 / Q383: direct probe handling on the 3-D view ----------
+       A press that starts ON the drawn transducer and is held drags it over the skin; a press anywhere else is the engine's own
+       (camera / whole scene), exactly as before. No arming step.
+       - "On the transducer" (Q383) is a real hit test: the housing as drawn (every section of probeShape, at the selected frame's pose
+         and seat) is projected to the screen, its convex hull is the target, with a margin for a finger (and a minimum target size
+         when the transducer is only a few pixels long, as in the small 3-D thumbnail). A transducer hidden behind the body is not a
+         target. Q294 tested a 36 / 46 px band along the lowest 30 mm only.
+       - The CONTACT REFERENCE POINT (the centre of the face, where the transducer touches the skin; drawn as a dot, see overlayItems)
+         follows the pointer: every move casts the pointer's ray -- shifted by the offset the press had from the contact point, so the
+         transducer does not jump under the finger -- onto the skin mesh (placeRay: nearest hit, 15 mm area-weighted normal) and
+         re-seats the transducer there. Rotation about the contact normal and the tilt stay as set. A ray that misses the skin
+         changes nothing: the transducer stays at its last valid contact.
+       - The camera and the model never move during such a drag (the events are taken in the capture phase and stopped).
+       - One drag = one step of the page history (provider "us_probe" below).
+       A small pad beside the probe: rotate 15 deg either way, tilt 5 deg per tap toward the marker / away / heel / toe, upright.
+       Taps, never a slider (the owner's mobile rule). The pad hides when the probe is off screen, covered, or being dragged. */
+    var drag = {on: false, id: null, last: 0, moved: 0, swallow: 0, slot: "A", ox: 0, oy: 0}, livePose = null, hdl = null;
     function probeTip() { if (!S.P) return null; var p = api.toScreen(S.P); return p && isFinite(p[0]) ? p : null; }
     function probeGrip() { var fr = frames[S.sel] || frames[0]; if (!fr || !S.P) return null; var p = api.toScreen(toWorld(fr.O, fr.pf, 0, (fr.sim ? fr.sim.ysk : 0) - 30, 0)); return p && isFinite(p[0]) ? p : null; }
-    function nearProbe(x, y, touch) {
-      var R = touch ? 46 : 36, a = probeTip(), b = probeGrip(); if (!a) return false;
-      if (!b) return Math.hypot(x - a[0], y - a[1]) <= R;
-      var dx = b[0] - a[0], dy = b[1] - a[1], L2 = dx * dx + dy * dy, t = L2 > 0 ? Math.max(0, Math.min(1, ((x - a[0]) * dx + (y - a[1]) * dy) / L2)) : 0;
-      return Math.hypot(x - a[0] - dx * t, y - a[1] - dy * t) <= R;
+    function drawnProbes() {                                                   // the transducer(s) as drawn now: the selected frame's pose and seat (both slots in A / B)
+      var out = [], f;
+      if (S.ab) { [0, 1].forEach(function (i) { f = frames[i]; if (f) out.push({slot: i ? "B" : "A", O: f.O, pf: f.pf, geom: f.geom, ysk: f.sim ? f.sim.ysk : 0}); }); return out; }
+      if (livePose) return [{slot: "A", O: livePose.O, pf: livePose.pf, geom: livePose.geom, ysk: 0}];
+      f = frames[S.sel] || frames[0];
+      return f ? [{slot: "A", O: f.O, pf: f.pf, geom: f.geom, ysk: f.sim ? f.sim.ysk : 0}] : [];
     }
+    function contactOf(d) { return toWorld(d.O, d.pf, 0, d.ysk, 0); }          // the contact reference point: the centre of the face at the skin seat
+    function hull2(pts) {                                                      // convex hull (monotone chain) of screen points
+      var p = pts.slice().sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; }), n = p.length, h = [], i, lo;
+      if (n < 3) return p;
+      function cr(o, a, b) { return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]); }
+      for (i = 0; i < n; i++) { while (h.length >= 2 && cr(h[h.length - 2], h[h.length - 1], p[i]) <= 0) h.pop(); h.push(p[i]); }
+      lo = h.length + 1;
+      for (i = n - 2; i >= 0; i--) { while (h.length >= lo && cr(h[h.length - 2], h[h.length - 1], p[i]) <= 0) h.pop(); h.push(p[i]); }
+      h.pop(); return h;
+    }
+    function hullDist(h, x, y) {                                               // 0 inside the polygon, else the distance to its outline (px)
+      var n = h.length, i, inside = n >= 3, best = 1e9;
+      for (i = 0; i < n; i++) {
+        var a = h[i], b = h[(i + 1) % n], ex = b[0] - a[0], ey = b[1] - a[1], L2 = ex * ex + ey * ey, t = L2 > 0 ? Math.max(0, Math.min(1, ((x - a[0]) * ex + (y - a[1]) * ey) / L2)) : 0;
+        best = Math.min(best, Math.hypot(x - a[0] - ex * t, y - a[1] - ey * t));
+        if (ex * (y - a[1]) - ey * (x - a[0]) < 0) inside = false;
+      }
+      return inside ? 0 : best;
+    }
+    function probeOutline(d) {                                                 // -> {hull, tip, w, h}: the drawn housing on screen
+      var sh2 = probeShape(d.geom), pts = [], i, j, K = 10, tip = api.toScreen(contactOf(d));
+      if (!tip || !isFinite(tip[0]) || !isFinite(tip[1])) return null;
+      for (i = 0; i < sh2.st.length; i++) for (j = 0; j < K; j++) {
+        var q = ringPt(sh2.st[i][1], sh2.st[i][2], 2 * Math.PI * j / K), p = api.toScreen(toWorld(d.O, d.pf, q[0], d.ysk - sh2.st[i][0], q[1]));
+        if (p && isFinite(p[0]) && isFinite(p[1])) pts.push([p[0], p[1]]);
+      }
+      if (pts.length < 3) return null;
+      var h = hull2(pts), x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+      h.forEach(function (p2) { x0 = Math.min(x0, p2[0]); x1 = Math.max(x1, p2[0]); y0 = Math.min(y0, p2[1]); y1 = Math.max(y1, p2[1]); });
+      return {hull: h, tip: [tip[0], tip[1]], w: x1 - x0, h: y1 - y0};
+    }
+    function probeHit(x, y, touch) {                                           // -> {slot, dist, tip, margin} when (x, y) is on a drawn transducer, else null
+      var best = null;
+      drawnProbes().forEach(function (d) {
+        var o = probeOutline(d); if (!o) return;
+        var m = touch ? 18 : 7, need = touch ? 48 : 30, small = Math.min(o.w, o.h);
+        if (small + 2 * m < need) m = (need - small) / 2;                      // a transducer of a few pixels still gets a usable target
+        var dist = hullDist(o.hull, x, y); if (dist > m) return;
+        var r = null; try { r = api.ray({clientX: x, clientY: y}); } catch (eR) {}
+        if (r && geo) {                                                        // not a target when the body lies in front of it along this ray
+          var dir = LIB.unit(r.d), tp = LIB.dot(sub(toWorld(d.O, d.pf, 0, d.ysk - 20, 0), r.o), dir), h = LIB.skinHit(geo, r.o, dir, cutKeep());
+          if (h && h.t < tp - 45) return;
+        }
+        if (!best || dist < best.dist) best = {slot: d.slot, dist: dist, tip: o.tip, margin: m};
+      });
+      return best;
+    }
+    function nearProbe(x, y, touch) { return !!probeHit(x, y, touch); }
+    /* Q383: the page history. Only moves made BY HAND (a drag, a tap on the skin, "Screen centre") are steps; the automatic seat on
+       opening, a preset's seat and a seat riding a joint pose are not. The provider reads null while the tool is closed and until the
+       first hand move of a session, and null stands for the seat the transducer had before that move -- so opening the tool adds no
+       step, and a workspace mode that opened the tool owns the field (Q329: its entries fold away when the mode is left). */
+    var histPose = null, histBase = null;
+    function seatNow() { return S.P ? {P: S.P.map(function (v) { return Math.round(v * 1000) / 1000; }), N: S.N.map(function (v) { return Math.round(v * 1e5) / 1e5; }), st: S.skinStruct == null ? -1 : S.skinStruct} : null; }
+    function histMark() { if (!histPose && !histBase) histBase = seatNow(); }  // before a hand move: the seat to come back to
+    function histNote(now) {                                                   // after it
+      var s = seatNow(); if (!s) return;
+      histPose = histBase && JSON.stringify(histBase) === JSON.stringify(s) ? null : s;
+      try { if (now && G.NMSKHistory && G.NMSKHistory.commit) G.NMSKHistory.commit(); } catch (eH) {}
+    }
+    function histApply(v) {
+      if (!S.open) return;
+      var s = v || histBase; if (!s || !s.P) { histPose = null; return; }
+      if (!histBase) histBase = seatNow();
+      S.P = s.P.slice(); S.N = s.N.slice(); S.skinStruct = s.st; axisCache.__follow = null; histPose = v ? s : null;
+      S.sel = S.mode === "star" ? 0 : S.sel; if (ui.modeBtn1) syncUi(); refresh(true); placeHandles();
+    }
+    try { if (G.NMSKHistory && G.NMSKHistory.register) G.NMSKHistory.register("us_probe", {get: function () { return S.open ? histPose : null; }, set: histApply}); } catch (eReg) {}
     function dragTo(e) {
-      var r = api.ray(e), h = S.ab && S.placeSlot === "B" ? placeRay2(r.o, r.d, "B") : placeRay(r.o, r.d, true); if (!h) return false;
-      if (!(S.ab && S.placeSlot === "B")) livePose = {O: S.P.slice(), pf: basedFrame(S.N, S.rot, 0, 0), geom: curGeom()};
+      var r = api.ray({clientX: e.clientX + drag.ox, clientY: e.clientY + drag.oy}), h = drag.slot === "B" ? placeRay2(r.o, r.d, "B", true) : placeRay(r.o, r.d, true); if (!h) return false;
+      if (drag.slot !== "B") livePose = {O: S.P.slice(), pf: basedFrame(S.N, S.rot, S.mode === "star" ? 0 : S.mTilt, S.mTiltDir), geom: curGeom()};
       drag.moved++; updateOverlay(); refresh(); return true;
     }
     function onDragDown(e) {
       if (!S.open || !S.P || !geo || drag.on || e.button > 0 || e.target !== api.canvas || S.pick3d) return;
-      if (!nearProbe(e.clientX, e.clientY, e.pointerType === "touch")) return;
-      drag.on = true; drag.id = e.pointerId; drag.moved = 0; drag.last = 0;
+      var hit = probeHit(e.clientX, e.clientY, e.pointerType === "touch"); if (!hit) return;
+      drag.on = true; drag.id = e.pointerId; drag.moved = 0; drag.last = 0; drag.slot = hit.slot; drag.ox = hit.tip[0] - e.clientX; drag.oy = hit.tip[1] - e.clientY;
+      if (S.ab) { S.placeSlot = hit.slot; syncUi(); }
+      try { if (G.NMSKHistory && G.NMSKHistory.commit) G.NMSKHistory.commit(); } catch (eH) {}   // what was pending is its own step
+      if (drag.slot !== "B") histMark();
       e.preventDefault(); e.stopImmediatePropagation();
       try { api.canvas.setPointerCapture(e.pointerId); } catch (eC) {}
+      if (hdl) hdl.hidden = true;
       setStatus("Sliding the probe over the skin ...");
     }
     function onDragMove(e) {
@@ -1599,6 +1778,8 @@
       e.preventDefault(); e.stopImmediatePropagation();
       if (e.type === "pointerup") dragTo(e);
       drag.on = false; drag.swallow = Date.now(); S.sel = 0; refresh(true); setStatus();
+      if (drag.slot !== "B" && drag.moved) histNote(true);
+      placeHandles();
     }
     function blockTouch(e) { if (drag.on) { e.stopImmediatePropagation(); if (e.cancelable) e.preventDefault(); } }
     document.addEventListener("pointerdown", onDragDown, true);
@@ -1762,7 +1943,7 @@
       return sh.runSlice(R).then(function (res) {
         if (gen0 !== v.hiGen || frames[v.idx] !== fr) return null;
         var zf = {spec: fr.spec, pf: fr.pf, O: fr.O, geom: fr.geom, plan: zp, lab: res.lab, sid: res.sid};
-        var sim = LIB.simulate(simOpts(zf, {seat: {ysk: fr.sim.ysk, contact: fr.sim.contact}}));
+        var sim = LIB.simulate(simOpts(zf, {seat: {ysk: fr.sim.ysk, contact: fr.sim.contact}, tgcOf: fr.sim.tgc || null}));
         if (!v.hi) { v.hi = el("canvas", {class: "us-hi"}); v.wrap.insertBefore(v.hi, v.ann); v.hctx = v.hi.getContext("2d"); }
         v.hi.width = sim.Wo; v.hi.height = sim.Ho;
         var id = v.hctx.createImageData(sim.Wo, sim.Ho), gray = LIB.toGray(sim.db, US.global.display_ref_fraction, S.gain, S.dr), d = id.data, k;
@@ -2012,6 +2193,10 @@
       function pt(p, q) { return [p[0] + (e1[0] * ring[q][0] + e2[0] * ring[q][1]) * r, p[1] + (e1[1] * ring[q][0] + e2[1] * ring[q][1]) * r, p[2] + (e1[2] * ring[q][0] + e2[2] * ring[q][1]) * r]; }
       for (i = 0; i < 4; i++) { var j = (i + 1) % 4, a0 = pt(a, i), a1 = pt(a, j), b0 = pt(b, i), b1 = pt(b, j); g.tri(a0, a1, b0); g.tri(a1, b1, b0); }
     }
+    function ball(g, c, r) {                                                   // a small sphere (8 x 5), for the contact reference point
+      var nU = 8, nV = 5, i, j, pt = function (iu, iv) { var th = Math.PI * iv / nV, ph = 2 * Math.PI * iu / nU, s = Math.sin(th); return [c[0] + r * s * Math.cos(ph), c[1] + r * Math.cos(th), c[2] + r * s * Math.sin(ph)]; };
+      for (j = 0; j < nV; j++) for (i = 0; i < nU; i++) { var a = pt(i, j), b = pt(i + 1, j), d = pt(i, j + 1), e = pt(i + 1, j + 1); if (j > 0) g.tri(a, b, e); if (j < nV - 1) g.tri(a, e, d); }
+    }
     function fanOutline(geom, nArc) {                                         // plane coordinates (x, y) of the image outline
       var pts = [], i, th;
       if (geom.type === "linear") return [[-geom.w / 2, 0], [geom.w / 2, 0], [geom.w / 2, geom.depth], [-geom.w / 2, geom.depth]];
@@ -2088,14 +2273,26 @@
         }
         if (isSel) tube(axisG, toWorld(fr.O, fr.pf, 0, -20 + (fr.sim ? fr.sim.ysk : 0)), toWorld(fr.O, fr.pf, 0, fr.geom.depth + (fr.sim ? fr.sim.ysk : 0)), r * 0.45);
       });
+      /* Q383: the contact reference point -- the centre of the face where the transducer touches the skin, the point a drag moves over
+         the skin. A dot with a dark rim, drawn over everything; its radius is kept near 5 px on screen (1.6 - 16 mm), so it stays
+         readable when the transducer is small in the view. */
+      var cDot = new Geo(), cRim = new Geo();
+      drawnProbes().forEach(function (d) {
+        var c = contactOf(d), a = api.toScreen(c), rt = LIB.cross(vw.dir || sub3(vw.target, vw.eye), [0, 1, 0]), rl = Math.hypot(rt[0], rt[1], rt[2]);
+        rt = rl > 1e-6 ? [rt[0] / rl, rt[1] / rl, rt[2] / rl] : [1, 0, 0];
+        var b2 = api.toScreen([c[0] + rt[0] * 10, c[1] + rt[1] * 10, c[2] + rt[2] * 10]), ppm = a && b2 ? Math.hypot(b2[0] - a[0], b2[1] - a[1]) / 10 : 0;
+        var rad = Math.max(1.6, Math.min(16, ppm > 1e-4 ? 5 / ppm : 3));
+        ball(cRim, c, rad * 1.45); ball(cDot, c, rad);
+      });
       var fibG = new Geo(), sepG = new Geo();
       if (S.fibres3d) { try { fibreGeo(sel, r, fibG, sepG); } catch (eF) { console.error("fibre overlay:", eF); } }   // Q289
       return [["probe", probeG, {color: 0x39424d, alpha: 1, pass: "opaque", lit: true}], ["marker", markG, {color: 0xff5a3c, alpha: 1, pass: "opaque", lit: false}],
         ["fill", fillG, {color: 0x6cb4ff, alpha: 0.28, pass: "trans", lit: false}], ["lines", lineG, {color: 0xffd37a, alpha: 0.8, pass: "xray", lit: false}],
         ["sel", selLine, {color: 0x7fe0a0, alpha: 1, pass: "xray", lit: false}], ["axis", axisG, {color: 0xff9d8a, alpha: 0.9, pass: "xray", lit: false}],
-        ["fibres", fibG, {color: 0xffc4b8, alpha: 0.55, pass: "xray", lit: false}], ["septa", sepG, {color: 0xfff0c0, alpha: 0.35, pass: "xray", lit: false}]];
+        ["fibres", fibG, {color: 0xffc4b8, alpha: 0.55, pass: "xray", lit: false}], ["septa", sepG, {color: 0xfff0c0, alpha: 0.35, pass: "xray", lit: false}],
+        ["contactRim", cRim, {color: 0x0b0f14, alpha: 0.9, pass: "xray", lit: false}], ["contact", cDot, {color: 0xffe14d, alpha: 1, pass: "xray", lit: false}]];
     }
-    var OV_NAMES = ["probe", "marker", "fill", "lines", "sel", "axis", "fibres", "septa"];
+    var OV_NAMES = ["probe", "marker", "fill", "lines", "sel", "axis", "fibres", "septa", "contactRim", "contact"];
     /* Q289: faint fibre lines (+ documented septa as thin sheets) of the muscles the selected image cuts, in the 3-D view: the same
        archFrame / fibreAt the B-mode uses, so both halves show one rule. A muscle without architecture data gets its line of action. */
     var genCache = {};
@@ -2518,7 +2715,7 @@
         return (ui["presetBtn_" + d.key] = btn(d.label, "Depth " + d.depthCm + " cm, dynamic range " + d.dr + " dB, " + d.freq + " MHz, continuous CINE, controls collapsed, centred on a " + d.clsKey.replace("_", "/") + " landmark if one can be found and picked", function () { applyPreset(d.key); }));
       })));
       ui.placeBtn = btn("Place on skin", "Arm, then click / tap the skin in the 3D view", function () { S.placing = !S.placing; syncUi(); setStatus(S.placing ? "Click or tap the skin in the 3D view." : ""); });
-      var r4 = el("div", {class: "us-row"}, [ui.placeBtn, btn("Screen centre", "Put the probe on the skin at the centre of the 3D view", function () { defaultPlacement(true); S.sel = 0; refresh(true); }),
+      var r4 = el("div", {class: "us-row"}, [ui.placeBtn, btn("Screen centre", "Put the probe on the skin at the centre of the 3D view", function () { histMark(); defaultPlacement(true); histNote(false); S.sel = 0; refresh(true); }),
         (ui.orLong = btn("Longitudinal", "Long axis along the body / limb axis, marker cranial (screen left = cranial)", function () { S.refKey = "long"; S.rot = 0; syncUi(); refresh(); })),
         (ui.orTrans = btn("Transverse", "Long axis across, marker to the patient's right (screen left = patient right)", function () { S.refKey = "trans"; S.rot = 0; syncUi(); refresh(); })),
         btn("Zoom to probe", "Move the 3D camera close to the probe", function () { if (S.P) { api.focus(S.P, 420); } })]);
@@ -3142,7 +3339,7 @@
         var col = h("div", {class: "mm-col"}, [hero, cine, ui2.moPop, ui2.chipsM]);
         /* side column */
         ui2.thumbSlot = h("div", {class: "mslot"});
-        var thumb = h("div", {class: "mm-thumb"}, [ui2.thumbSlot, h("div", {class: "mm-cap mi", text: "הקש על העור כדי להזיז את המתמר"})]);
+        var thumb = h("div", {class: "mm-thumb"}, [ui2.thumbSlot, h("div", {class: "mm-cap mi", text: "גרור את המתמר כדי להזיז אותו על העור · הקשה על העור מציבה אותו"})]);
         function sl(label, min, max, step, fmtv, get, set) {
           var out = h("span", {text: ""}), inp = h("input", {type: "range", min: String(min), max: String(max), step: String(step), "aria-label": label, oninput: function () { set(+this.value); refreshUi(); }});
           var box = h("div", {class: "mm-sl"}, [h("div", {class: "hd"}, [h("label", {}, [h("b", {text: label})]), out]), inp]);
@@ -3296,6 +3493,10 @@
         return {st: st, name: geo.names[st], t: tmm, m: m, tris: cnt, dist: best, obl: Math.acos(Math.min(1, Math.sqrt(Math.max(0, 1 - mn * mn)))) / DEG, inPlane: tmm * f, alongBeam: tmm * f / Math.max(1e-3, Math.abs(LIB.dot(mp, fr.pf.b))), mb: mb};
       },
       probeInfo: function (vi) { return probeInfo(vi); },
+      /* Q383 test hooks: the drawn transducer on screen (hull, contact point), the hit test of a press, the history seat */
+      probeTarget: function (slot) { var L = drawnProbes(), d = L.filter(function (q) { return q.slot === (slot || "A"); })[0] || L[0], o = d && probeOutline(d); return o ? {hull: o.hull, tip: o.tip, w: o.w, h: o.h, contact: contactOf(d), slot: d.slot} : null; },
+      probeHit: function (x, y, touch) { return probeHit(x, y, !!touch); },
+      histSeat: function () { return {pose: histPose, base: histBase}; },
       skinAt: function (x, y) { var r = api.ray({clientX: x, clientY: y}), h = r && LIB.skinHit(geo, r.o, LIB.unit(r.d), cutKeep()); return h ? h.point : null; },
       handles: function () { placeHandles(); var h = document.getElementById("us-hdl"), tip = probeTip(), grip = probeGrip(); return {shown: !!h && !h.hidden, tip: tip, grip: grip, tilt: S.mTilt, dir: S.mTiltDir, rot: S.rot, dragging: drag.on, moves: drag.moved}; },
       bundles: function (re) {
