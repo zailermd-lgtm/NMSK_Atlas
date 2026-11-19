@@ -8516,6 +8516,17 @@ var NMSKQuickCard = (function(){
     ADD.sort(function(x, y){ return (x.order || 99) - (y.order || 99); });
     return true;
   }
+  /* Q378: a card action is its OWN undo step. The page history commits a click about 320 ms later (debounced), and on a
+     busy page the overdue timer runs after the next press. An action pressed before that commit was folded into the click's
+     entry, so one Undo took the selection back together with the action: the engine selected nothing (or the structure
+     before) and the card closed or changed -- any structure, either page. So: seal what is pending, act, commit. */
+  function step(H, f){
+    var live = false; try { live = !!(H && H.active && H.active()); } catch (err){}
+    if (live){ try { H.commit(); } catch (err1){} }
+    var r = f();
+    if (live){ try { H.commit(); } catch (err2){} }
+    return r;
+  }
   /* Q354: a bursa / tendon sheath carries no muscle's record any more; the page data names the muscle it belongs with
      (manifest mesh "rel"), and the card shows it as a link -- "Related: Obturator internus" -- never its attachments */
   var REL = null;
@@ -8597,7 +8608,7 @@ var NMSKQuickCard = (function(){
       head.appendChild(tools); head.appendChild(x);
       rowEl = el("div", "qc-row");
       function b(key, label, f, cls){ var e = el("button", "qc-b" + (cls ? " " + cls : ""), label); e.type = "button"; e.setAttribute("data-qc", key);
-        e.addEventListener("click", function(ev){ ev.stopPropagation(); if (cur) f(cur); }); btns[key] = e; rowEl.appendChild(e); return e; }
+        e.addEventListener("click", function(ev){ ev.stopPropagation(); if (cur) step(window.NMSKHistory, function(){ f(cur); }); }); btns[key] = e;   /* Q378 */ rowEl.appendChild(e); return e; }
       /* Q343: each acts on the card's scope -- the clicked mesh, or the whole muscle / part chosen in the Parts chooser */
       function each(k){ var ids = S(), on = !every(ids, function(i){ return !!(E.state(i) || {})[k === "hide" ? "hidden" : "faded"]; });
         ids.forEach(function(i){ if (!!(E.state(i) || {})[k === "hide" ? "hidden" : "faded"] !== on){ if (k === "hide") E.toggleHide(i); else E.toggleFade(i); } }); }
@@ -8784,7 +8795,7 @@ var NMSKQuickCard = (function(){
         m.appendChild(el("div", "qc-rhead", "Colour"));
         function apply(hex){
           var ids = S(); relClose(true);
-          c.setUserColour(hex, "ids", ids); hist(); refresh();
+          hist(); c.setUserColour(hex, "ids", ids); hist(); refresh();   /* Q378: sealed first */
         }
         pal.forEach(function(p){
           var b = C.item("", "qc-pc"); b.setAttribute("data-hex", p[1]); b.setAttribute("aria-label", p[0]); b.title = p[0]; b.style.background = p[1];
@@ -8880,6 +8891,7 @@ var NMSKQuickCard = (function(){
     var lastAdd = null;
     function addIds(ids, what){
       var c = ctl(); if (!c) return 0;
+      hist();                                    /* Q378: sealed first, so Undo takes back the addition alone */
       var n = c.markIds(ids, true, false, true);
       hist(); refresh();
       lastAdd = {n:n, of:ids.length, what:what};
@@ -9157,7 +9169,7 @@ var NMSKQuickCard = (function(){
     live = api;
     return api;
   }
-  return {start:start, family:family, addon:addon, families:function(){ return FAM.map(function(f){ return f.key; }); },
+  return {start:start, family:family, addon:addon, step:step, families:function(){ return FAM.map(function(f){ return f.key; }); },
           addons:function(){ return ADD.map(function(a){ return a.key; }); }};
 })();
 </script>

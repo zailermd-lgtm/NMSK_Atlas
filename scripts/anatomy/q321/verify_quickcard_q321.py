@@ -67,6 +67,49 @@ def card_info(pg):
               nameW: nm.scrollWidth, actsW: (() => { const a = c.querySelector('.qc-acts'); return a && a.getClientRects().length ? a.getBoundingClientRect().width + 6 : 0; })(), overflow: c.scrollWidth > c.clientWidth + 1, open: c.classList.contains('qc-open')}; }""")
 
 
+class CardGone(Exception):
+    """A step needs the open card and there is none: reported as one FAIL with its reason, never as a TypeError."""
+
+
+def open_card(pg, what):
+    c = card_info(pg)
+    if c is None:
+        raise CardGone(f"the card is not open ({what})")
+    return c
+
+
+# Q378: Hide -> Undo, by id, on both Base pages. The scan-driven check below only met the fault when the press happened to
+# beat the history's debounced commit of the click (a busy page, a different structure under the scan). Here the sequence is
+# run in ONE synchronous call, so no timer can fire between the click's selection and the press: "pending" is the sequence
+# that used to lose the card on every structure, "sealed" (a commit between) is the one that always worked.
+HIDE_UNDO_IDS = ["zan_acromial_part_of_deltoid_muscle_r", "zan_tuber_of_vermis", "glossopharyngeal_n_r", "clavicle_r", "abdominal_aorta", "platysma_r"]
+HIDE_UNDO_JS = """([id, sealed]) => { const H = NMSKHistory, hid = () => window.__viewerState().hidden;
+  NMSKQuick.close(); H.commit(); const i0 = H.state().idx, h0 = hid(), sel0 = (H.snapshot().engine || {}).sel;
+  NMSKQuick.open(id, null, null); if (NMSKQuick.current() !== id) { NMSKQuick.close(); return {absent: true}; }
+  NMSKQuick.more();                                  /* the engine selects it, as its own click does; nothing committed yet */
+  const sel = (H.snapshot().engine || {}).sel; if (sealed) H.commit();
+  const b = document.querySelector('.qc-b[data-qc="hide"]'); if (!b) { NMSKQuick.close(); return {nobtn: true}; }
+  b.click(); const i1 = H.state().idx, h1 = hid(); H.undo();
+  const r = {steps: i1 - i0, want: sel === sel0 ? 1 : 2, hid: [h0, h1, hid()], cur: NMSKQuick.current(), sel: [sel, (H.snapshot().engine || {}).sel]};
+  let g = 0; while (H.state().idx > i0 && g++ < 6) H.undo();
+  NMSKQuick.close(); return r; }"""
+
+
+def hide_undo_by_id(pg, T):
+    seen = 0
+    for sid in HIDE_UNDO_IDS:
+        for sealed in (False, True):
+            r = pg.evaluate(HIDE_UNDO_JS, [sid, sealed]); pg.wait_for_timeout(120)
+            if r.get("absent"):
+                break
+            seen += 0 if sealed else 1
+            how = "sealed" if sealed else "pending"
+            ok = (not r.get("nobtn")) and r["cur"] == sid and r["hid"][1] != r["hid"][0] and r["hid"][2] == r["hid"][0] and r["sel"][1] == r["sel"][0] and r["steps"] == r["want"]
+            check(f"{T} Hide -> Undo on '{sid}' ({how} click): the card stays on it, it is back, Undo took the Hide alone "
+                  f"(card {r.get('cur')!r}, hidden {r.get('hid')}, selected {r.get('sel')}, history steps {r.get('steps')} of {r.get('want')})", ok)
+    check(f"{T} Hide -> Undo by id: {seen} of {len(HIDE_UNDO_IDS)} named structures are on this page (>= 3)", seen >= 3)
+
+
 def state(pg):
     return pg.evaluate("""() => { const v = window.__viewerState(), s = window.NMSKSelectCtl.state();
       return {hidden: v.hidden, faded: v.faded, marks: s.marks.slice(), mode: s.mode}; }""")
@@ -413,6 +456,7 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
             clear_card(pg)
         # ---- 5. buttons, on a muscle (all layers back on), each undone with the page's own Undo
         solo_layers(pg, {k for k in pg.evaluate("() => [...document.querySelectorAll('#layers [data-cat]')].map(e => e.getAttribute('data-cat'))")})
+        hide_undo_by_id(pg, T)                              # Q378: by id, whatever the scan below lands on
         m = scan(pg, r".", "muscle", grid=16) or scan(pg, r".", None, grid=14)
         check(f"{T} a structure to press buttons on", m is not None)
         if m:
@@ -423,7 +467,7 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
                 pg.evaluate("() => NMSKHistory.undo()"); pg.wait_for_timeout(300)
             s0 = state(pg)
             press("Hide"); s = state(pg)
-            check(f"{T} Hide removes it (hidden {s0['hidden']}->{s['hidden']}), button reads Unhide, card stays", s["hidden"] == s0["hidden"] + 1 and "Unhide" in card_info(pg)["labels"])
+            check(f"{T} Hide removes it (hidden {s0['hidden']}->{s['hidden']}), button reads Unhide, card stays", s["hidden"] == s0["hidden"] + 1 and "Unhide" in open_card(pg, "after Hide")["labels"])
             ld = lead(pg)
             check(f"{T} auto line once it is no longer coloured: a short marker at the point ({ld and round(ld['len'])} px <= {STUB_CAP})",
                   ld is not None and ld["len"] <= STUB_CAP and abs(ld["x2"] - m[0]) < 1.5 and abs(ld["y2"] - m[1]) < 1.5)
@@ -448,16 +492,17 @@ def run_size(pl, d: Path, w: int, h: int, tag: str):
                 if s["hidden"] == s0["hidden"]: break
                 pg.wait_for_timeout(250); s = state(pg)
             check(f"{T} Undo brings it back (hidden {s['hidden']}), the card stays (closed by: {pg.evaluate('() => window.__qlog')})", s["hidden"] == s0["hidden"] and card_info(pg) is not None)
+            open_card(pg, "after Hide -> Undo; the Fade / Show only / Select / More checks press its buttons")
             press("Fade"); s = state(pg)
-            check(f"{T} Fade fades it (faded {s0['faded']}->{s['faded']}), pressed state shown", s["faded"] == s0["faded"] + 1 and card_info(pg)["pressed"][1] == "true")
+            check(f"{T} Fade fades it (faded {s0['faded']}->{s['faded']}), pressed state shown", s["faded"] == s0["faded"] + 1 and open_card(pg, "after Fade")["pressed"][1] == "true")
             undo(); s = state(pg)
             check(f"{T} Undo reverts the fade (faded {s['faded']})", s["faded"] == s0["faded"])
             press("Show only"); s = state(pg)
-            check(f"{T} Show only isolates it (mode {s['mode']}, marks {len(s['marks'])})", s["mode"] == "only" and len(s["marks"]) == 1 and card_info(pg)["pressed"][2] == "true")
+            check(f"{T} Show only isolates it (mode {s['mode']}, marks {len(s['marks'])})", s["mode"] == "only" and len(s["marks"]) == 1 and open_card(pg, "after Show only")["pressed"][2] == "true")
             undo(); s = state(pg)
             check(f"{T} Undo reverts show-only (mode {s['mode']}, marks {len(s['marks'])})", s["mode"] != "only" and len(s["marks"]) == len(s0["marks"]))
             press("Select"); s = state(pg)
-            check(f"{T} Select marks it (marks {len(s['marks'])}), pressed state shown", len(s["marks"]) == 1 and card_info(pg)["pressed"][3] == "true")
+            check(f"{T} Select marks it (marks {len(s['marks'])}), pressed state shown", len(s["marks"]) == 1 and open_card(pg, "after Select")["pressed"][3] == "true")
             press("Select"); s = state(pg)
             check(f"{T} Select again unmarks it", len(s["marks"]) == 0)
             # More: the details open IN the same window, at the same place, and the window still moves
@@ -610,6 +655,9 @@ def main() -> int:
                 n0 = len(ERRS)
                 try:
                     run_size(pl, d, w, h, src.name)
+                    break
+                except CardGone as e:                      # Q378: said once, as a failure; the rest of this size was not run
+                    check(f"[{src.name} {w}] {e}: the checks after this point were NOT run at this size", False)
                     break
                 except Exception as e:                     # a browser closed from outside (shared machine): run this size again
                     if "closed" not in str(e).lower() or attempt == 2:
